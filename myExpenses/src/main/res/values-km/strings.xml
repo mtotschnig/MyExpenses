@@ -1,419 +1,377 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
 <resources xmlns:tools="http://schemas.android.com/tools">
-  <string name="account">គណនី</string>
-  <!--Label in form for payment method, where user checks for which account types the method is applicable-->
-  <string name="account_type_asset">គណនីទ្រព្យសកម្ម</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_asset_plural">គណនីទ្រព្យសកម្ម</string>
-  <string name="account_type_bank">គណនីធនាគារ</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_bank_plural">គណនីធនាគារ</string>
-  <string name="account_type_cash">គណនីសាច់ប្រាក់</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_cash_plural">គណនីសាច់ប្រាក់</string>
-  <string name="account_type_ccard">កាតឥណទាន</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_ccard_plural">កាតឥណទាន</string>
-  <string name="account_type_liability">គណនីទ្រព្យ​អសកម្ម</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_liability_plural">គណនីអសកម្ម</string>
-  <string name="already_defined">%1$s កំណត់​ហើយ</string>
-  <string name="amount">ចំនួនទឹកប្រាក់</string>
-  <string name="app_name">ការចំណាយរបស់ខ្ញុំ</string>
-  <string name="backup_failure">បម្រុងទុកក្នុង sdcard បានបរាជ័យ។ (%1$s)</string>
-  <string name="backup_success">មូលដ្ឋានទិន្នន័យ និងចំណង់ចំណូលចិត្ត​ បានស្តុក ដោយជោគជ័យទៅ sdcard ។ (%1$s)</string>
-  <string name="category">ចំណាត់ថ្នាក់</string>
-  <string name="color">ពណ៌</string>
-  <string name="comment">សម្គាល់</string>
-  <string name="confirmation_dialog_dont_show_again">សូម​កុំ​បង្ហាញ​ម្តង​ទៀត</string>
-  <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">ចំនួន​គណនី​គ្មាន​ដែន​កំណត់</string>
-  <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">ចំនួន​ផែនការគ្មានដែន​កំណត់​</string>
-  <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">ប្រអប់​ធាតុពុម្ព</string>
-  <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
-  <string name="contrib_key_requires">ត្រូវការកម្មវិធី %s.</string>
-  <string name="currency">រូបិយប័ណ្ណ</string>
-  <string name="current_balance">សមតុល្យ​បច្ចុប្បន្ន</string>
-  <string name="date">កាលបរិច្ឆេទ</string>
-  <string name="date_format">ទ្រង់ទ្រាយ​កាល​បរិច្ឆេទ</string>
-  <string name="date_format_illegal">ខុសទ្រង់ទ្រាយ​កាល​បរិច្ឆេទ</string>
-  <string name="decimal_separator">កាត់ខ្ទង់ទសភាគ</string>
-  <string name="description">ការពិពណ៌នា</string>
-  <string name="dialog_balance_delete">លុបប្រតិបត្តិការផ្សះផ្សា</string>
-  <string name="dialog_command_disabled_balance">គ្មានប្រតិបត្តិការបោសសំអាតឱ្យស្រុះស្រួល។</string>
-  <string name="dialog_command_disabled_reset_account">គ្មាន​ប្រតិបត្តិការ​ណា​នាំយកចេញ​ឡើយ។</string>
-  <string name="dialog_command_disabled_distribution">គ្មាន​ប្រតិបត្តិការ​ណា​ បានភ្ជាប់​ នឹង​ថ្នាក់​ណាមួយ​ ក្នុង​គណនីនេះទេ។</string>
-  <!--Button for accessing trial of premium feature-->
-  <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
-  <string name="dialog_contrib_premium_feature">%1$s គឺជា​លក្ខណៈពិសេស​ដែល​តម្រូវ​បង់​ប្រាក់។ (%2$s)</string>
-  <string name="dialog_export_delete">លុបចោលប្រតិបតិ្តការដែលបាននាំចេញ</string>
-  <string name="dialog_export_not_yet_exported">នាំចេញតែប្រតិបត្តិការណាដែលមិនទាន់បាននាំចេញនៅឡើយ</string>
-  <string name="dialog_password_activate_protection">ធ្វើឱ្យសកម្មនូវការពារពាក្យសម្ងាត់</string>
-  <string name="dialog_password_change_password">ផ្លាស់ប្តូរពាក្យសម្ងាត់</string>
-  <string name="dialog_password_new_password">ពាក្យសម្ងាត់ថ្មី</string>
-  <string name="dialog_password_new_password_confirmation">ពាក្យសម្ងាត់ថ្មី (ការអះអាង)</string>
-  <string name="dialog_remind_later">លើកក្រោយ</string>
-  <string name="dialog_remind_no">ទេ, សូមអរគុណ</string>
-  <string name="dialog_remind_rate_1">សូម​យក​ឱកាស​នេះ​ ដើម្បី​​ផ្តល់​ការ​វាយ​តម្លៃ ​និង​មតិដល់ {app_name}។</string>
-  <string name="dialog_remind_rate_2">យោបល់​របស់​អ្នក​អនុញ្ញាត​ឲ្យ​ខ្ញុំ​ នៅ​បន្ត​ការ​កែ​លម្អ​បន្ថែម ​និងធ្វើអោយ​ភាព​ប្រសើរ​ឡើង​ទៀត។</string>
-  <string name="dialog_remind_rate_yes">វាយតម្លៃឥលូវ</string>
-  <string name="dialog_security_answer">ចម្លើយ</string>
-  <string name="dialog_security_question">សំនួរ</string>
-  <string name="dialog_title_attention">ប្រុង​ប្រយ័ត្ន</string>
-  <string name="dialog_title_information">ព័ត៌មាន</string>
-  <!--%1$s is replace with account label-->
-  <string name="dialog_title_balance_account">សមតុល្យ %1$s</string>
-  <string name="dialog_title_contrib_feature">លក្ខណៈពិសេសល្អជាងគេ</string>
-  <string name="dialog_title_warning_delete_template">លុប​ទិន្នន័យ​គំរូ?</string>
-  <string name="dialog_title_warning_delete_transaction">លុប​ប្រតិបត្តិ​ការ?</string>
-  <string name="expense">ចំណាយ</string>
-  <string name="export_expenses">នាំយកទិន្នន័យ​ចំណាយចេញ</string>
-  <!--1$s is replaced with path to file, 2$s with error message-->
-  <string name="export_sdcard_failure">នាំយកទិន្នន័យ​ចំណាយចេញ​ទៅ sdcard អត់បាន %1$s: %2$s</string>
-  <!--1$s is replaced with path to file-->
-  <string name="export_sdcard_success">ទិន្នន័យ​ចំណាយបានបញ្ចូលទៅឯកសារ %1$s</string>
-  <string name="external_storage_unavailable">ការផ្ទុកខាងក្រៅ (sdកាត) មិនអាចទៅរួច</string>
-  <string name="feedback">ផ្តល់មតិ</string>
-  <string name="ftp_uri_malformed">URI មិនត្រឹមត្រូវ %1$s</string>
-  <string name="grisbi_import_categories_loading">ផ្ទុកចំណាត់ថ្នាក់ពី %1$s</string>
-  <string name="grisbi_import_parties_loading">ផ្ទុកទិន្នន័យ​ភាគី​ពី %1$s បាន</string>
-  <string name="grouping_day">ថ្ងៃ</string>
-  <string name="grouping_last_week">សប្តាហ៍ក្រោយ</string>
-  <string name="grouping_month">ខែ</string>
-  <string name="grouping_none">បំបែក​ក្រុម</string>
-  <string name="grouping_this_week">សប្តាហ៍នេះ</string>
-  <string name="grouping_today">ថ្ងៃនេះ</string>
-  <string name="grouping_week">សប្តាហ៍</string>
-  <string name="grouping_year">ឆ្នាំ</string>
-  <string name="grouping_yesterday">ម្សិលម៉ិញ</string>
-  <string name="help_button_rate">វាយ​តម្លៃ ឬ​មតិ</string>
-  <string name="help_heading_credits">ក្រេឌីត</string>
-  <string name="help_heading_license">អាជ្ញាបណ្ណ</string>
-  <string name="help_heading_whats_new">អ្វីៗថ្មីៗ</string>
-  <string name="important_upgrade_information_heading">ព័ត៌​មាន​សំខាន់</string>
-  <string name="import_select_transactions">ប្រតិបត្តិការ</string>
-  <string name="income">ចំណូល</string>
-  <string name="invalid_number_format">ទម្រង់​ទសភាគ អត់​ស្គាល់តាមការកំណត់ភាសា​របស់​អ្នកទេ។ សូម​ប្រើ %1$s</string>
-  <string name="label">ស្លាក</string>
-  <string name="licence_validation_failure">មិនអាចបញ្ជាក់សុពលភាពអាជ្ញាប័ណ្ណ</string>
-  <string name="menu_aggregates">សរុប</string>
-  <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
-  <string name="menu_apply_template">ដាក់ទៅ</string>
-  <string name="menu_back">ត្រឡប់​ក្រោយ</string>
-  <string name="menu_backup">ការ​បម្រុង​ទុក</string>
-  <!--Balance: compare cleared balance in app with balance on statement received from bank-->
-  <string name="menu_balance">គណនីសមតុល្យ</string>
-  <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
-  <string name="menu_cancel_plan_instance">បោះបង់</string>
-  <string name="menu_clone_transaction">ក្លូន</string>
-  <string name="menu_contrib">រួមចំណែក</string>
-  <string name="menu_create_account">គណនីថ្មី</string>
-  <string name="menu_create_instance_edit">ដាក់​យក និង​កែ</string>
-  <string name="menu_create_instance_save">ដាក់​យក​ និង​រក្សាទុក</string>
-  <string name="menu_create_main_cat">ចំណាត់ថ្នាក់​ចម្បងថ្មី</string>
-  <string name="menu_create_method">វិធីទូទាត់ថ្មី</string>
-  <string name="menu_create_party">ភាគី​​ថ្មី</string>
-  <string name="menu_create_split">ការញែក​​ថ្មី</string>
-  <string name="menu_create_split_part_category">ចំណាត់ថ្នាក់​ថ្មី​បែង​ចែក​ជាផ្នែក</string>
-  <string name="menu_create_split_part_transfer">ផ្នែក​ញែក​​ការផ្ទេរ​ថ្មី</string>
-  <string name="menu_create_sub_cat">ចំណាត់ថ្នាក់រងថ្មី</string>
-  <string name="menu_create_template">ពុម្ពថ្មី</string>
-  <string name="menu_create_template_from_transaction">រក្សាទុក​ជាពុម្ព</string>
-  <string name="menu_create_template_for_transaction">ពុម្ពប្រតិបត្តិការថ្មី</string>
-  <string name="menu_create_template_for_transfer">ពុម្ពផ្ទេរថ្មី</string>
-  <string name="menu_create_transaction">ប្រតិបត្តិការថ្មី</string>
-  <string name="menu_create_transfer">ផ្ទេរថ្មី</string>
-  <string name="menu_delete">លុប</string>
-  <string name="menu_distribution">ការចែកចាយ</string>
-  <string name="menu_edit">កែសម្រួល</string>
-  <string name="menu_edit_account">កែគណនី</string>
-  <string name="menu_edit_cat">កែ​ចំណាត់ថ្នាក់</string>
-  <string name="menu_edit_method">កែ​វិធីសាស្ត្រ​ទូទាត់ប្រាក់</string>
-  <string name="menu_edit_party">កែ​ភាគី</string>
-  <string name="menu_edit_plan_instance">កែសម្រួលផែនការកើតឡើងតែមួយ</string>
-  <string name="menu_edit_split">កែការញែក</string>
-  <string name="menu_edit_split_part_category">កែចំណាត់ថ្នាក់​​បែង​ចែក​ជាផ្នែក</string>
-  <string name="menu_edit_split_part_transfer">កែ​ផ្នែក​ញែក​​ការផ្ទេរ​</string>
-  <string name="menu_edit_template">កែសម្រួលទិន្នន័យគំរូ</string>
-  <string name="menu_edit_transaction">កែសម្រួលប្រតិបត្តិការ</string>
-  <string name="menu_edit_transfer">កែការផ្ទេរ</string>
-  <string name="menu_forward">ទៅមុខ</string>
-  <string name="menu_grouping">ដាក់​ជាក្រុម</string>
-  <string name="menu_help">ជំនួយ</string>
-  <!--This command inverts the direction of a transfer-->
-  <string name="menu_invert_transfer">ត្រឡប់មកវិញ</string>
-  <string name="menu_manage_plans">ទិន្នន័យ​គំរូ និងផែនការ</string>
-  <!--Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application-->
-  <string name="menu_open">បើក</string>
-  <string name="menu_import">នាំចូល</string>
-  <string name="menu_print">ព្រីន</string>
-  <string name="menu_reset">ការនាំចេញនិងការកំណត់ឡើងវិញ</string>
-  <string name="menu_reset_all">ការនាំចេញនិងការកំណត់ឡើងវិញទាំងអស់</string>
-  <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
-  <string name="menu_reset_plan_instance">សារដើម</string>
-  <string name="menu_save">រក្សាទុក</string>
-  <string name="menu_save_and_new">រក្សាទុក និងថ្មី</string>
-  <string name="menu_search">ស្វែងរក</string>
-  <string name="menu_settings">ការកំណត់</string>
-  <string name="menu_share">ប្រាប់​មិត្តម្នាក់</string>
-  <string name="method">វិធី​សា​ស្រ្ត​ទូទាត់</string>
-  <string name="no_amount_given">អ្នកមិនបានបញ្ចូលចំនួនទឹកប្រាក់ណាមួយឡើយ។</string>
-  <string name="no_app_handling_email_available">គ្មាន​កម្មវិធី​ដំណើការ​អ៊ីម៉ែល​ទេ</string>
-  <string name="no_app_handling_ftp_available">គ្មាន​កម្មវិធី​សម្រាប់ ftp ទេ។ សូម​បញ្ចូល​កម្មវិធី <i>Send With FTP</i>?</string>
-  <string name="no_categories">គ្មាន​ចំណាត់ថ្នាក់​កំណត់។</string>
-  <string name="no_expenses">គ្មាន​ទិន្នន័យចំណាយ​នៅឡើយទេ។</string>
-  <string name="no_exportable_expenses">មិនមានប្រតិបត្តិការដែលមិនទាន់ត្រូវបាននាំចេញទេ។</string>
-  <string name="no_filemanager_installed">គ្មាន​កម្មវិធី​គ្រប់គ្រងឯកសារបញ្ចូលទេ</string>
-  <string name="no_mapped_transactions">គ្មាន​ប្រតិបត្តិ​ការ​ណាមួយ​ត្រូវបាន​ភ្ជាប់ទៅ​ចំណាត់ថ្នាក់ណា​ក្នុង​រយៈពេលនេះទេ</string>
-  <string name="no_methods">គ្មានវិធីសាស្ត្រទូទាត់​ប្រាក់</string>
-  <string name="no_parties">គ្មានទិន្នន័យភាគីទេ។</string>
-  <string name="no_split_parts">គ្មាន​ផ្នែក​ណា​​ត្រូវបាន​​ញែកទេ។</string>
-  <string name="no_templates">គ្មានពុម្ពគំរូទេ។</string>
-  <string name="no_title_given">អ្នកមិនបានបញ្ចូលចំណងជើងណាមួយឡើយ។</string>
-  <plurals name="not_deletable_mapped_transactions">
-    <item quantity="other">%1$d ធាតុ​ត្រូវ​បាន​ផ្គូផ្គងទៅ​ប្រតិបត្តិការ និង​មិន​អាច​លុប​បានទេ។</item>
-  </plurals>
-  <plurals name="not_deletable_mapped_templates">
-    <item quantity="other">%1$d ធាតុ​ត្រូវ​បាន​ផ្គូផ្គងទៅ​ពុម្ព និង​មិន​អាច​លុប​បានទេ។</item>
-  </plurals>
-  <string name="numbered">ជាលេខ</string>
-  <string name="opening_balance">បើក​សមតុល្យ</string>
-  <string name="parse_error_file_not_found">មិនអាច​រកឯកសារ %1$s ឃើញទេ</string>
-  <string name="parse_error_grisbi_version_not_supported">មិនគាំទ្រ ឯកសារ Grisbi កំណែ៖ %1$s</string>
-  <string name="parse_error_no_data_found">គ្មានទិន្នន័យសំខាន់​ក្នុងឯកសារទេ។</string>
-  <string name="parse_error_other_exception">មានកំហុស​កើតឡើង៖ %1$s</string>
-  <string name="parse_error_parse_exception">មិនអាចអាន​ញែកឯកសារនេះទេ។</string>
-  <string name="password_disabled_reenable">ការការពារពាក្យ​សម្ងាត់ត្រូវ​បានបិទ។ អ្នកអាចបើក​វានៅក្នុងការកំណត់។</string>
-  <string name="password_lost">បាត់ពាក្យសម្ងាត់</string>
-  <string name="password_not_valid">ពាក្យសម្ងាត់មិនត្រឹមត្រូវ ។ សូមព្យាយាមម្តងទៀត​ !</string>
-  <string name="password_prompt">បញ្ចូលលេខពាក្យសម្ងាត់របស់អ្នក</string>
-  <string name="password_security_answer_not_valid">ចម្លើយខុស។ សូមព្យាយាមម្តងទៀត!</string>
-  <string name="payee">អ្នកទទួលប្រាក់</string>
-  <string name="payer">អ្នកចេញការចំណាយ</string>
-  <string name="payer_or_payee">អ្នក​ទទួល/អ្នក​បង់ប្រាក់</string>
-  <!--Plan for future and recurring transactions-->
-  <string name="plan">ផែនការ</string>
-  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance-->
-  <string name="plan_automatic">ដោយ​ស្វ័យ​ប្រវត្តិ</string>
-  <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">កម្មវិធី​ផែនការរបស់ {app_name}</string>
-  <string name="planner_notification_channel_name">កម្មវិធី​ផែនការរបស់</string>
-  <string name="plan_event_deleted">គម្រោងនេះ​ភ្ជាប់នឹង​ពុម្ពនេះ​ ត្រូវបាន​លុបចេញ​ពី​ប្រតិទិន</string>
-  <!--This message is shown, after a user decides to not apply a manual plan-->
-  <string name="plan_execution_canceled">គម្រោង​ដំណើរការ​បាន​​បោះបង់ហើយ</string>
-  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance)-->
-  <string name="plan_manual">សៀវភៅតូច</string>
-  <string name="planner_create_calendar_failure">មិន​អាច​​បង្កើត​​ប្រតិទិន​​ផែនការ​មូលដ្ឋាន​ទេ</string>
-  <string name="planner_create_calendar_success">ប្រតិទិន​ផែនការ​មូលដ្ឋាន​បាន​បង្កើត​ដោយជោគជ័យ</string>
-  <!--payment methods-->
-  <string name="pm_cheque">មូលប្បទានប័ត្រ</string>
-  <string name="pm_creditcard">កាតឥណទាន</string>
-  <string name="pm_deposit">ប្រាក់បញ្ញើ</string>
-  <string name="pm_directdebit">ឥណពន្ធផ្ទាល់</string>
-  <string name="pm_type_credit">ឥណទាន</string>
-  <string name="pm_type_debit">ឥណពន្ធ</string>
-  <string name="pm_type_neutral">អព្យាក្រឹត</string>
-  <string name="pref_app_dir_title">ថត​សម្រាប់​ឯកសារ​ដែល​រក្សាទុក និង​ដែលនាំចេញ</string>
-  <string name="pref_backup_summary">បង្កើតការបម្រុងទុក នៃមូលដ្ឋានទិន្នន័យ និងចំណង់​ចំណូល​ចិត្ត លើ sdcard នេះ។</string>
-  <string name="pref_sort_order_usages">រាប់នៃការប្រើប្រាស់</string>
-  <string name="pref_category_title_export">នាំចេញ</string>
-  <string name="pref_category_title_import">នាំចូល</string>
-  <string name="pref_category_title_manage">គ្រប់គ្រង</string>
-  <string name="pref_category_title_more_information">ព័ត៌មានបន្ថែម</string>
-  <string name="pref_category_title_security">សន្តិសុខ</string>
-  <string name="pref_category_title_ui">User Interface</string>
-  <string name="pref_checkbox_enabled">បើក</string>
-  <string name="pref_checkbox_disabled">បិទ</string>
-  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
-  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
-  <string name="pref_export_format_title">ទ្រង់ទ្រាយទិន្នន័យ</string>
-  <string name="pref_import_from_grisbi_title">នាំចូលពី Grisbi</string>
-  <!--%s is replaced with QIF or CSV-->
-  <!--%s is replaced with QIF or CSV-->
-  <string name="pref_manage_accounts_title">គណនី</string>
-  <string name="pref_manage_categories_summary">បញ្ចូល កែ លុប​ចំណាត់ថ្នាក់។</string>
-  <string name="pref_manage_categories_title">ចំណាត់ថ្នាក់</string>
-  <string name="pref_manage_methods_summary">បង្កើត និង​កែ​​វិធីសាស្ត្រទូទាត់​ប្រាក់ និងភ្ជាប់ទៅកាន់​ប្រភេទ​គណនី។</string>
-  <string name="pref_manage_methods_title">វិធីសាស្ត្រទូទាត់​ប្រាក់</string>
-  <string name="pref_manage_parties_summary">បញ្ចូល កែ លុប ភាគី (អ្នក​បង់​ចំណាយ និង​អ្នក​ទទួល)។</string>
-  <string name="pref_manage_parties_title">ភាគី</string>
-  <string name="pref_manage_sync_backends_title">ផ្នែកខាងក្រោយធ្វើសមកាលកម្ម</string>
-  <!--%s will be replaced with list of backends-->
-  <string name="pref_more_info_dialog_title">អាជ្ញាប័ណ្ណ &amp; ក្រេឌីត</string>
-  <string name="pref_password_not_equal">ពាក្យសម្ងាត់មិនត្រូវគ្នា</string>
-  <string name="pref_perform_share_title">ការចែករំលែកឯកសារនាំចេញ</string>
-  <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
-  <string name="pref_planning_calendar_create_local">បង្កើតប្រតិទិន​ផែន​ការ​​មូលដ្ឋាន​ថ្មី</string>
-  <string name="pref_planning_calendar_summary">ជ្រើស​រើស​ប្រតិទិន​ ដែល​មាន​ផែនការអនាគត និង​មាន​ប្រតិបត្តិការវិលជុំ ត្រូវបាន​ផ្ទុក</string>
-  <string name="pref_planning_calendar_title">​ប្រតិទិនផែនការ</string>
-  <string name="pref_protection_delay_seconds_summary">ប៉ុន្មាននាទីមុនពេលកម្មវិធីទំនេរ​ នឹងត្រូវបានចាក់សោដោយពាក្យសម្ងាត់។</string>
-  <string name="pref_protection_delay_seconds_title">ពន្យាពេលរហូតដល់ការការពារ</string>
-  <string name="pref_protection_enable_data_entry_from_widget_summary_on">អនុញ្ញាតិ​ដោយ​មិនបាច់​មាន​ពាក្យសម្ងាត់។</string>
-  <string name="pref_protection_enable_data_entry_from_widget_summary_off">ពាក្យ​សម្ងាត់​ត្រូវការជានិច្ច</string>
-  <string name="pref_qif_export_file_encoding_title">ការអ៊ិនកូដតួអក្សរ</string>
-  <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
-  <string name="pref_restore_title">ស្តារ</string>
-  <string name="pref_security_question_summary">អនុញ្ញាតឲ្យអ្នកដោះសោរកម្មវិធីនេះ ប្រសិនបើអ្នកភ្លេចពាក្យសម្ងាត់របស់អ្នក ។ តម្រូវឲ្យមាន ការចំណាយរបស់ខ្ញុំ</string>
-  <string name="pref_security_question_title">សំនួរសន្តិសុខ</string>
-  <string name="pref_send_feedback_title">ផ្ញើមតិយោបល់អ្នកប្រើ</string>
-  <string name="pref_share_target_summary">ទុកឱ្យទទេ ប្រសិនបើអ្នកចង់ជ្រើស រវាងកម្មវិធី ដែលសមស្រប (Email, Dropbox, Google Docs, …)​ ឬផ្តល់នូវ URL មួយ​ដែល​មាន​ក្នុងគម្រោងគាំទ្រ</string>
-  <string name="pref_share_target_title">URL ផ្ទុកឡើង</string>
-  <string name="pref_shortcut_added">Shortcut បាន​ដាក់​នៅផ្ទាំងខាងមុខ​ហើយ</string>
-  <string name="pref_shortcut_summary">ដាក់ shortcut ទៅ​ផ្ទាំងខាងមុខ</string>
-  <string name="pref_ui_fontsize_title"> បន្ថែម​ទំហំ​ពុម្ពអក្សរ​</string>
-  <string name="pref_ui_home_screen_shortcuts">ផ្លូវកាត់​លើទំព័រ​ដើម</string>
-  <string name="pref_ui_language_default">លំនាំដើមរបស់ប្រព័ន្ធ</string>
-  <!--Title of the preference for selecting the UI language-->
-  <string name="pref_ui_language_title">ភាសា</string>
-  <string name="pref_ui_theme_dark">ងងឹត</string>
-  <string name="pref_ui_theme_light">ភ្លឺ</string>
-  <string name="pref_ui_theme_title">ប្រធានបទ</string>
-  <string name="pref_visit_website_summary">ការផ្លាស់ប្ដូរ និងសំណួរ​គេសួរ​ញឹក​ញាប់</string>
-  <string name="pref_visit_website_title">សូមចូលទស្សនាគេហទំព័រ</string>
-  <string name="progress_dialog_deleting">កំពុងលុប​អ្វីផ្សេងៗ</string>
-  <string name="progress_dialog_loading">ផ្ទុកវត្ថុពីមូលដ្ឋានទិន្នន័យ</string>
-  <string name="progress_dialog_saving">កំពុង​ផ្ទុក​ទៅមូលដ្ឋាន​ទិន្នន័យ​</string>
-  <string name="reference_number">លេខ​យោង</string>
-  <string name="restore_db_failure">ការ​ restore មូលដ្ឋានទិន្នន័យមិនបានសំរេច</string>
-  <string name="restore_db_success">មូលដ្ឋានទិន្នន័យត្រូវបានស្តារឡើងវិញពីការបម្រុងទុក។</string>
-  <string name="restore_no_backup_found">គ្មាន​អ្វីដែល​រក្សាទុករកឃើញទេ។</string>
-  <string name="restore_preferences_failure">ការស្តារចំណង់ចំណូលចិត្តបានបរាជ័យ</string>
-  <string name="restore_backup_file_not_found">គ្មាន​ឯកសារ %1$s នៅក្នុងថត \"%2$s\" ទេ</string>
-  <string name="restore_preferences_success">ចំណង់ចំណូលចិត្តត្រូវបានស្តារឡើងវិញពីការបម្រុងទុក។</string>
-  <string name="save_transaction_and_new_success">រក្សាទុក​ដោយជោគជ័យ</string>
-  <string name="save_transaction_error">មិន​អាច​រក្សា​ទុក​ ប្រតិបត្តិការ​ថ្មី​យក​ចេញ​ពី​ពុម្ព​បានទេ</string>
-  <plurals name="save_transaction_from_template_success">
-    <item quantity="other">%1$d ប្រតិបត្តិការ​ថ្មីៗ​បាន​រក្សាទុក​ពី​ពុម្ព​គំរូ​ដោយ​ជោគជ័យ</item>
-  </plurals>
-  <string name="save_transaction_template_deleted">ទិន្ន​ន័យ​គំរូ​ត្រូវ​បាន​លុបហើយ</string>
-  <string name="select">ជ្រើសរើស</string>
-  <string name="select_category">ជ្រើសរើស​ចំណាត់ថ្នាក់</string>
-  <string name="share_scheme_not_supported">គ្រោងការណ៍ %1$s មិន​ត្រូវបាន​គាំទ្រ</string>
-  <string name="share_sending">ផ្ញើឯកសារនាំចេញ</string>
-  <string name="split_parts_heading">ញែក​ផ្នែក</string>
-  <string name="split_transaction">ញែក​​ប្រតិបត្តិការ</string>
-  <string name="status">ស្ថានភាព</string>
-  <string name="status_cleared">ជម្រះ</string>
-  <string name="status_reconciled">ស្រុះស្រួល</string>
-  <string name="status_uncreconciled">មិន​ស្រុះស្រួល</string>
-  <string name="subcategory">ចំណាត់ថ្នាក់រង</string>
-  <string name="sum_expenses">ចំណាយ</string>
-  <string name="sum_income">ចំណូល</string>
-  <string name="sum_transfer">ការបញ្ជូនចេញ</string>
-  <!--platform is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">{app_name}, កម្មវិធី​គ្រប់គ្រង​ហិរញ្ញវត្ថុផ្ទាល់ខ្លួន​ សម្រាប់​ប្រព័ន្ធ​​ប្រតិបត្តិការ {platform}, {website}</string>
-  <string name="thank_you">សូមអរគុណសម្រាប់ការគាំទ្ររបស់អ្នក!</string>
-  <string name="time">ពេលវេលា</string>
-  <string name="title">ចំណងជើង</string>
-  <string name="total_cleared">គិតបញ្ជីចេញសរុប</string>
-  <string name="transaction">ប្រតិបត្តិការ</string>
-  <string name="transfer">ការបញ្ជូនចេញ</string>
-  <string name="transfer_from_account">ពី</string>
-  <string name="transfer_to_account">ទៅ</string>
-  <!--Type refers to the type of an account, eg. Cash account, bank account-->
-  <string name="type">ប្រភេទ</string>
-  <string name="unsplit_amount">មិនបំបែក​ចំនួន​ទឹក​ប្រាក់</string>
-  <string name="unsplit_amount_greater_than_zero">នៅ​មាន​ចំនួន​​ទឹក​ប្រាក់​​ខ្លះ​​ស្ថិត​នៅ​ភាព​​មិនបំបែក</string>
-  <string name="warning_backup">មូលដ្ឋានទិន្នន័យនិងចំណង់ចំណូលចិត្តនឹងត្រូវបានរក្សាទុកទៅ sdកាត ។ (%1$s)</string>
-  <string name="continue_confirmation">អ្នកចង់បន្តឬ?</string>
-  <string name="warning_delete_account">គណនី \"%1$s\" នឹង​ត្រូវ​លុប​ចេញ​ជាមួយនឹង​ប្រតិបត្តិការ​ទាំងអស់ផងដែរ។</string>
-  <plurals name="warning_delete_template">
-    <item quantity="other">%1$d ធាតុ​នេះ​នឹង​ត្រូវ​លុបចេញ។</item>
-  </plurals>
-  <plurals name="warning_delete_transaction">
-    <item quantity="other">%1$d ប្រតិបត្តិការនេះ​នឹង​ត្រូវ​លុបចេញ។</item>
-  </plurals>
-  <string name="warning_password_protected">កម្មវិធីនេះ ការពារដោយ​ពាក្យសម្ងាត់</string>
-  <string name="warning_password_contrib">ការកំណត់សំណួរសន្តិសុខអនុញ្ញាតឱ្យអ្នកដើម្បីដោះសោកម្មវិធីនេះក្នុងករណីដែលអ្នកភ្លេចពាក្យសម្ងាត់របស់អ្នក។</string>
-  <string name="warning_reset_account">ប្រសិនបើអ្នកបន្ត រាល់ប្រតិបត្តិការទាំងអស់របស់គណនីនេះ នឹងត្រូវបានលុបចេញពីមូលដ្ឋានទិន្នន័យ និងមិនអាចត្រូវបានស្ដារឡើងវិញឡើយ។</string>
-  <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
-  <string name="warning_reset_account_all">បើ​អ្នក​បាន​ដំណើរការហើយ សម្រាប់​គណនី​ %1$s ប្រតិបត្តិការ​ទាំង​អស់ នឹង​ត្រូវបាន​លុប​ចេញពី​មូលដ្ឋាន​ទិន្នន័យ និង​មិន​អាច​យក​មកវិញ​បាន​ទេ។</string>
-  <string name="warning_restore">មូលដ្ឋានទិន្នន័យ និងចំណង់ចំណូលចិត្ត នឹងត្រូវបានស្ដារឡើងវិញពីការបម្រុងទុក។ (%1$s) ទិន្នន័យបច្ចុប្បន្ន នឹងត្រូវបានលុប។</string>
-  <string name="warning_splitpartcategory_context">ការផ្លាស់ប្តូរដែលជាផ្នែកមួយ នៃការបំបែកអាចត្រូវបាន កែសម្រួល បានតែនៅក្នុងបរិបទនេះទេ។</string>
-  <string name="import_categories_success">%1$s ចំណាត់ថ្នាក់ បាន​នាំចូល​ដោយជោគជ័យ</string>
-  <string name="import_parties_success">%1$s ភាគី​បាន​នាំចូល​ដោយជោគជ័យ</string>
-  <string name="import_accounts_none">គ្មាន​គណនី​នាំចូលទេ</string>
-  <string name="import_categories_none">គ្មាន​ចំណាត់ថ្នាក់​កំណត់នាំចូលទេ</string>
-  <string name="import_parties_none">គ្មានចំណាត់​ផ្នែកនាំចូលទេ</string>
-  <string name="import_transactions_none">គ្មាន​ប្រតិបត្តិការ​ណា​នាំចូល​ទៅគណនី %1$s</string>
-  <string name="import_source_select_error">សូមផ្តល់​ឯកសារមួយ​ក្នុងប្រភេទ %1$s</string>
-  <string name="menu_categories_setup_default">ដាក់ប្រភេទលំនាំដើម</string>
-  <string name="menu_create_folder">ថត​ថ្មី</string>
-  <!--This string is used for navigating up in the folder browser-->
-  <string name="menu_up">ទៅលើ</string>
-  <string name="create_new_folder_fail">បរាជ័យ​ក្នុង​ការបង្កើតថតនេះ</string>
-  <string name="widget_title_accounts">គណនីរបស់ខ្ញុំ</string>
-  <string name="widget_title_templates">ពុម្ព​របស់ខ្ញុំ</string>
-  <string name="search_amount">ស្វែង​រក​ទឹកប្រាក់</string>
-  <string name="search_category">ស្វែងរក​ចំណាត់ថ្នាក់</string>
-  <string name="search_comment">ស្វែងរក​កំណត់ហេតុ</string>
-  <string name="search_status">ស្វែងរកតាមស្ថានភាព</string>
-  <string name="search_payee">ស្វែងរក​អ្នកទទួល/អ្នក​បង់ប្រាក់</string>
-  <string name="search_method">ស្វែងរកតាមវិធីសាស្ត្រ</string>
-  <string name="and">និង</string>
-  <string name="between_and">រវាង %1$s និង %2$s</string>
-  <string name="comparison_operator_equal">ស្មើនឹង</string>
-  <string name="comparison_operator_greater_than">ច្រើនជាង</string>
-  <string name="comparison_operator_lesser_than">តិចជាង</string>
-  <string name="comparison_operator_between">រវាង</string>
-  <!--Label for column where user can check rows to be discarded from import-->
-  <string name="switch_on_text">បើក</string>
-  <string name="switch_off_text">បិទ</string>
-  <string name="menu_move">រំកិល</string>
-  <string name="preferences_week_start_day_title">សប្ដាហ៍​ចាប់ផ្ដើម​នៅ</string>
-  <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
-  <string name="content_description_calculator">ម៉ាស៊ីនគិតលេខ</string>
-  <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
-  <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
-  <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
-  <!--Sort plans (recurring transactions) by the next instance-->
-  <string name="template">ទិន្ន​ន័យ​គំរូ</string>
-  <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">ធ្វើសមកាលកម្មពពក</string>
-  <!--button leading user to purchase flow for licence keys-->
-  <!--During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed-->
-  <!--%1$s date, %2$s price-->
-  <!--A label indicating the color for the sum of expenses-->
-  <!--A label indicating the color for the sum of income-->
-  <!--This is the label for the action that breaks up a split transaction into its parts.-->
-  <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
-  <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
-  <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
-  <!--Content description for accessibility on image that allows to collapse content-->
-  <!--Content description for accessibility on image that allows to expand content-->
-  <!--Short label for the amount input where user can set either saving goal or credit limit-->
-  <!--Description for button that allows to clear the selected method-->
-  <!--Description for button that allows to clear the selected category-->
-  <!--In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
-    to search for transactions without category, payee or method. The UI allows selection of multiple items,
-    but we warn the user if he includes this special item in the selection.-->
-  <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
-  <!--Action of closing an account. A closed account does not allow any modifications on its data.-->
-  <!--Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data.-->
-  <!--Menu entry for opening a list of all hidden accounts.-->
-  <!--Action of showing an account again that had previously been hidden.-->
-  <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
-  <string name="content_description_encrypted">បានអ៊ិនគ្រីប</string>
-  <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
-  <!--This message is shwon when we highlight the income / expense toogle, to make user aware of this feature-->
-  <!--This message is shwon when we highlight the dropdown for switching from normal transaction to transfer or split transaction,to make user aware of this feature-->
-  <!--Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list.-->
-  <!--Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method"-->
-  <!--If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
-        because no payment method is configured for all of the given account types.-->
-  <!--The label for the button, where user confirms that he wants to clone the selected transactions and then remap them.-->
-  <!--The summary of a preference toggle. If switched on cloned transactions have the date set to the current date-->
-  <!--The summary of a preference toggle. If switched off cloned transactions keep the original date-->
-  <!--This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction-->
-  <!--%s will be replaced with the labels of all tags that user has selected.-->
-  <!--Title for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
-  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
-  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application)-->
-  <!--Title in Settings screen, and title of dynamically loaded feature module-->
-  <!--If this mode is active, the action button will open the camera for scanning a receipt-->
-  <!--Button that triggers the scan operation-->
-  <!--Title for a preference that allows user to decide if all transactions of the current day should be considered as past (future begins at end of day), or if the exact current time divides between past and future-->
-  <!--Option for a preference that allows to decide that all transactions until end of day are considered past transactions-->
-  <!--Option for a preference that allows to decide that only transactions before current time are considered past transactions-->
-  <!--Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)-->
-  <string name="pref_category_title_features">លក្ខណៈសំខាន់</string>
-  <!--Toast message shown if user clicks on Upgrade button before having selected a licence-->
-</resources>
+    <string name="account">គណនី</string>
+    <string name="account_type_asset">គណនីទ្រព្យសកម្ម</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_asset_plural">គណនីទ្រព្យសកម្ម</string>
+    <string name="account_type_bank">គណនីធនាគារ</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_bank_plural">គណនីធនាគារ</string>
+    <string name="account_type_cash">គណនីសាច់ប្រាក់</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_cash_plural">គណនីសាច់ប្រាក់</string>
+    <string name="account_type_ccard">កាតឥណទាន</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_ccard_plural">កាតឥណទាន</string>
+    <string name="account_type_liability">គណនីទ្រព្យ​អសកម្ម</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_liability_plural">គណនីអសកម្ម</string>
+    <string name="already_defined">%1$s កំណត់​ហើយ</string>
+    <string name="amount">ចំនួនទឹកប្រាក់</string>
+    <string name="app_name">ការចំណាយរបស់ខ្ញុំ</string>
+    <string name="backup_failure">បម្រុងទុកក្នុង sdcard បានបរាជ័យ។ (%1$s)</string>
+    <string name="backup_success">មូលដ្ឋានទិន្នន័យ និងចំណង់ចំណូលចិត្ត​ បានស្តុក ដោយជោគជ័យទៅ sdcard ។ (%1$s)</string>
+    <string name="category">ចំណាត់ថ្នាក់</string>
+    <string name="color">ពណ៌</string>
+    <string name="comment">សម្គាល់</string>
+    <string name="confirmation_dialog_dont_show_again">សូម​កុំ​បង្ហាញ​ម្តង​ទៀត</string>
+    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">ចំនួន​គណនី​គ្មាន​ដែន​កំណត់</string>
+    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">ចំនួន​ផែនការគ្មានដែន​កំណត់​</string>
+    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">ប្រអប់​ធាតុពុម្ព</string>
+    <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
+    <string name="contrib_key_requires">ត្រូវការកម្មវិធី %s.</string>
+    <string name="currency">រូបិយប័ណ្ណ</string>
+    <string name="current_balance">សមតុល្យ​បច្ចុប្បន្ន</string>
+    <string name="date">កាលបរិច្ឆេទ</string>
+    <string name="date_format">ទ្រង់ទ្រាយ​កាល​បរិច្ឆេទ</string>
+    <string name="date_format_illegal">ខុសទ្រង់ទ្រាយ​កាល​បរិច្ឆេទ</string>
+    <string name="decimal_separator">កាត់ខ្ទង់ទសភាគ</string>
+    <string name="description">ការពិពណ៌នា</string>
+    <string name="dialog_balance_delete">លុបប្រតិបត្តិការផ្សះផ្សា</string>
+    <string name="dialog_command_disabled_balance">គ្មានប្រតិបត្តិការបោសសំអាតឱ្យស្រុះស្រួល។</string>
+    <string name="dialog_command_disabled_reset_account">គ្មាន​ប្រតិបត្តិការ​ណា​នាំយកចេញ​ឡើយ។</string>
+    <string name="dialog_command_disabled_distribution">គ្មាន​ប្រតិបត្តិការ​ណា​ បានភ្ជាប់​ នឹង​ថ្នាក់​ណាមួយ​ ក្នុង​គណនីនេះទេ។</string>
+    <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
+    <string name="dialog_contrib_premium_feature">%1$s គឺជា​លក្ខណៈពិសេស​ដែល​តម្រូវ​បង់​ប្រាក់។ (%2$s)</string>
+    <string name="dialog_export_delete">លុបចោលប្រតិបតិ្តការដែលបាននាំចេញ</string>
+    <string name="dialog_export_not_yet_exported">នាំចេញតែប្រតិបត្តិការណាដែលមិនទាន់បាននាំចេញនៅឡើយ</string>
+    <string name="dialog_password_activate_protection">ធ្វើឱ្យសកម្មនូវការពារពាក្យសម្ងាត់</string>
+    <string name="dialog_password_change_password">ផ្លាស់ប្តូរពាក្យសម្ងាត់</string>
+    <string name="dialog_password_new_password">ពាក្យសម្ងាត់ថ្មី</string>
+    <string name="dialog_password_new_password_confirmation">ពាក្យសម្ងាត់ថ្មី (ការអះអាង)</string>
+    <string name="dialog_remind_later">លើកក្រោយ</string>
+    <string name="dialog_remind_no">ទេ, សូមអរគុណ</string>
+    <string name="dialog_remind_rate_1">សូម​យក​ឱកាស​នេះ​ ដើម្បី​​ផ្តល់​ការ​វាយ​តម្លៃ ​និង​មតិដល់ {app_name}។</string>
+    <string name="dialog_remind_rate_2">យោបល់​របស់​អ្នក​អនុញ្ញាត​ឲ្យ​ខ្ញុំ​ នៅ​បន្ត​ការ​កែ​លម្អ​បន្ថែម ​និងធ្វើអោយ​ភាព​ប្រសើរ​ឡើង​ទៀត។</string>
+    <string name="dialog_remind_rate_yes">វាយតម្លៃឥលូវ</string>
+    <string name="dialog_security_answer">ចម្លើយ</string>
+    <string name="dialog_security_question">សំនួរ</string>
+    <string name="dialog_title_attention">ប្រុង​ប្រយ័ត្ន</string>
+    <string name="dialog_title_information">ព័ត៌មាន</string>
+    <!-- %1$s is replace with account label -->
+    <string name="dialog_title_balance_account">សមតុល្យ %1$s</string>
+    <string name="dialog_title_contrib_feature">លក្ខណៈពិសេសល្អជាងគេ</string>
+    <string name="dialog_title_warning_delete_template">លុប​ទិន្នន័យ​គំរូ?</string>
+    <string name="dialog_title_warning_delete_transaction">លុប​ប្រតិបត្តិ​ការ?</string>
+    <string name="expense">ចំណាយ</string>
+    <string name="export_expenses">នាំយកទិន្នន័យ​ចំណាយចេញ</string>
+    <!-- 1$s is replaced with path to file, 2$s with error message -->
+    <string name="export_sdcard_failure">នាំយកទិន្នន័យ​ចំណាយចេញ​ទៅ sdcard អត់បាន %1$s: %2$s</string>
+    <!-- 1$s is replaced with path to file -->
+    <string name="export_sdcard_success">ទិន្នន័យ​ចំណាយបានបញ្ចូលទៅឯកសារ %1$s</string>
+    <string name="external_storage_unavailable">ការផ្ទុកខាងក្រៅ (sdកាត) មិនអាចទៅរួច</string>
+    <string name="feedback">ផ្តល់មតិ</string>
+    <string name="ftp_uri_malformed">URI មិនត្រឹមត្រូវ %1$s</string>
+    <string name="grisbi_import_categories_loading">ផ្ទុកចំណាត់ថ្នាក់ពី %1$s</string>
+    <string name="grisbi_import_parties_loading">ផ្ទុកទិន្នន័យ​ភាគី​ពី %1$s បាន</string>
+    <string name="grouping_day">ថ្ងៃ</string>
+    <string name="grouping_last_week">សប្តាហ៍ក្រោយ</string>
+    <string name="grouping_month">ខែ</string>
+    <string name="grouping_none">បំបែក​ក្រុម</string>
+    <string name="grouping_this_week">សប្តាហ៍នេះ</string>
+    <string name="grouping_today">ថ្ងៃនេះ</string>
+    <string name="grouping_week">សប្តាហ៍</string>
+    <string name="grouping_year">ឆ្នាំ</string>
+    <string name="grouping_yesterday">ម្សិលម៉ិញ</string>
+    <string name="help_button_rate">វាយ​តម្លៃ ឬ​មតិ</string>
+    <string name="help_heading_credits">ក្រេឌីត</string>
+    <string name="help_heading_license">អាជ្ញាបណ្ណ</string>
+    <string name="help_heading_whats_new">អ្វីៗថ្មីៗ</string>
+    <string name="important_upgrade_information_heading">ព័ត៌​មាន​សំខាន់</string>
+    <string name="import_select_transactions">ប្រតិបត្តិការ</string>
+    <string name="income">ចំណូល</string>
+    <string name="invalid_number_format">ទម្រង់​ទសភាគ អត់​ស្គាល់តាមការកំណត់ភាសា​របស់​អ្នកទេ។ សូម​ប្រើ %1$s</string>
+    <string name="label">ស្លាក</string>
+    <string name="licence_validation_failure">មិនអាចបញ្ជាក់សុពលភាពអាជ្ញាប័ណ្ណ</string>
+    <string name="menu_aggregates">សរុប</string>
+    <!-- Shown in a notification; allows to apply a template (instantiate a new transaction from it) -->
+    <string name="menu_apply_template">ដាក់ទៅ</string>
+    <string name="menu_back">ត្រឡប់​ក្រោយ</string>
+    <string name="menu_backup">ការ​បម្រុង​ទុក</string>
+    <!-- Balance: compare cleared balance in app with balance on statement received from bank -->
+    <string name="menu_balance">គណនីសមតុល្យ</string>
+    <!-- Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction -->
+    <string name="menu_cancel_plan_instance">បោះបង់</string>
+    <string name="menu_clone_transaction">ក្លូន</string>
+    <string name="menu_contrib">រួមចំណែក</string>
+    <string name="menu_create_account">គណនីថ្មី</string>
+    <string name="menu_create_instance_edit">ដាក់​យក និង​កែ</string>
+    <string name="menu_create_instance_save">ដាក់​យក​ និង​រក្សាទុក</string>
+    <string name="menu_create_main_cat">ចំណាត់ថ្នាក់​ចម្បងថ្មី</string>
+    <string name="menu_create_method">វិធីទូទាត់ថ្មី</string>
+    <string name="menu_create_party">ភាគី​​ថ្មី</string>
+    <string name="menu_create_split">ការញែក​​ថ្មី</string>
+    <string name="menu_create_split_part_category">ចំណាត់ថ្នាក់​ថ្មី​បែង​ចែក​ជាផ្នែក</string>
+    <string name="menu_create_split_part_transfer">ផ្នែក​ញែក​​ការផ្ទេរ​ថ្មី</string>
+    <string name="menu_create_sub_cat">ចំណាត់ថ្នាក់រងថ្មី</string>
+    <string name="menu_create_template">ពុម្ពថ្មី</string>
+    <string name="menu_create_template_from_transaction">រក្សាទុក​ជាពុម្ព</string>
+    <string name="menu_create_template_for_transaction">ពុម្ពប្រតិបត្តិការថ្មី</string>
+    <string name="menu_create_template_for_transfer">ពុម្ពផ្ទេរថ្មី</string>
+    <string name="menu_create_transaction">ប្រតិបត្តិការថ្មី</string>
+    <string name="menu_create_transfer">ផ្ទេរថ្មី</string>
+    <string name="menu_delete">លុប</string>
+    <string name="menu_distribution">ការចែកចាយ</string>
+    <string name="menu_edit">កែសម្រួល</string>
+    <string name="menu_edit_account">កែគណនី</string>
+    <string name="menu_edit_cat">កែ​ចំណាត់ថ្នាក់</string>
+    <string name="menu_edit_method">កែ​វិធីសាស្ត្រ​ទូទាត់ប្រាក់</string>
+    <string name="menu_edit_party">កែ​ភាគី</string>
+    <string name="menu_edit_plan_instance">កែសម្រួលផែនការកើតឡើងតែមួយ</string>
+    <string name="menu_edit_split">កែការញែក</string>
+    <string name="menu_edit_split_part_category">កែចំណាត់ថ្នាក់​​បែង​ចែក​ជាផ្នែក</string>
+    <string name="menu_edit_split_part_transfer">កែ​ផ្នែក​ញែក​​ការផ្ទេរ​</string>
+    <string name="menu_edit_template">កែសម្រួលទិន្នន័យគំរូ</string>
+    <string name="menu_edit_transaction">កែសម្រួលប្រតិបត្តិការ</string>
+    <string name="menu_edit_transfer">កែការផ្ទេរ</string>
+    <string name="menu_forward">ទៅមុខ</string>
+    <string name="menu_grouping">ដាក់​ជាក្រុម</string>
+    <string name="menu_help">ជំនួយ</string>
+    <!-- This command inverts the direction of a transfer -->
+    <string name="menu_invert_transfer">ត្រឡប់មកវិញ</string>
+    <string name="menu_manage_plans">ទិន្នន័យ​គំរូ និងផែនការ</string>
+    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
+    <string name="menu_open">បើក</string>
+    <string name="menu_import">នាំចូល</string>
+    <string name="menu_print">ព្រីន</string>
+    <string name="menu_reset">ការនាំចេញនិងការកំណត់ឡើងវិញ</string>
+    <string name="menu_reset_all">ការនាំចេញនិងការកំណត់ឡើងវិញទាំងអស់</string>
+    <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
+    <string name="menu_reset_plan_instance">សារដើម</string>
+    <string name="menu_save">រក្សាទុក</string>
+    <string name="menu_save_and_new">រក្សាទុក និងថ្មី</string>
+    <string name="menu_search">ស្វែងរក</string>
+    <string name="menu_settings">ការកំណត់</string>
+    <string name="menu_share">ប្រាប់​មិត្តម្នាក់</string>
+    <string name="method">វិធី​សា​ស្រ្ត​ទូទាត់</string>
+    <string name="no_amount_given">អ្នកមិនបានបញ្ចូលចំនួនទឹកប្រាក់ណាមួយឡើយ។</string>
+    <string name="no_app_handling_email_available">គ្មាន​កម្មវិធី​ដំណើការ​អ៊ីម៉ែល​ទេ</string>
+    <string name="no_app_handling_ftp_available">គ្មាន​កម្មវិធី​សម្រាប់ ftp ទេ។ សូម​បញ្ចូល​កម្មវិធី <i>Send With FTP</i>?</string>
+    <string name="no_categories">គ្មាន​ចំណាត់ថ្នាក់​កំណត់។</string>
+    <string name="no_expenses">គ្មាន​ទិន្នន័យចំណាយ​នៅឡើយទេ។</string>
+    <string name="no_exportable_expenses">មិនមានប្រតិបត្តិការដែលមិនទាន់ត្រូវបាននាំចេញទេ។</string>
+    <string name="no_filemanager_installed">គ្មាន​កម្មវិធី​គ្រប់គ្រងឯកសារបញ្ចូលទេ</string>
+    <string name="no_mapped_transactions">គ្មាន​ប្រតិបត្តិ​ការ​ណាមួយ​ត្រូវបាន​ភ្ជាប់ទៅ​ចំណាត់ថ្នាក់ណា​ក្នុង​រយៈពេលនេះទេ</string>
+    <string name="no_methods">គ្មានវិធីសាស្ត្រទូទាត់​ប្រាក់</string>
+    <string name="no_parties">គ្មានទិន្នន័យភាគីទេ។</string>
+    <string name="no_split_parts">គ្មាន​ផ្នែក​ណា​​ត្រូវបាន​​ញែកទេ។</string>
+    <string name="no_templates">គ្មានពុម្ពគំរូទេ។</string>
+    <string name="no_title_given">អ្នកមិនបានបញ្ចូលចំណងជើងណាមួយឡើយ។</string>
+    <plurals name="not_deletable_mapped_transactions">
+        <item quantity="other">%1$d ធាតុ​ត្រូវ​បាន​ផ្គូផ្គងទៅ​ប្រតិបត្តិការ និង​មិន​អាច​លុប​បានទេ។</item>
+    </plurals>
+    <plurals name="not_deletable_mapped_templates">
+        <item quantity="other">%1$d ធាតុ​ត្រូវ​បាន​ផ្គូផ្គងទៅ​ពុម្ព និង​មិន​អាច​លុប​បានទេ។</item>
+    </plurals>
+    <string name="numbered">ជាលេខ</string>
+    <string name="opening_balance">បើក​សមតុល្យ</string>
+    <string name="parse_error_file_not_found">មិនអាច​រកឯកសារ %1$s ឃើញទេ</string>
+    <string name="parse_error_grisbi_version_not_supported">មិនគាំទ្រ ឯកសារ Grisbi កំណែ៖ %1$s</string>
+    <string name="parse_error_no_data_found">គ្មានទិន្នន័យសំខាន់​ក្នុងឯកសារទេ។</string>
+    <string name="parse_error_other_exception">មានកំហុស​កើតឡើង៖ %1$s</string>
+    <string name="parse_error_parse_exception">មិនអាចអាន​ញែកឯកសារនេះទេ។</string>
+    <string name="password_disabled_reenable">ការការពារពាក្យ​សម្ងាត់ត្រូវ​បានបិទ។ អ្នកអាចបើក​វានៅក្នុងការកំណត់។</string>
+    <string name="password_lost">បាត់ពាក្យសម្ងាត់</string>
+    <string name="password_not_valid">ពាក្យសម្ងាត់មិនត្រឹមត្រូវ ។ សូមព្យាយាមម្តងទៀត​ !</string>
+    <string name="password_prompt">បញ្ចូលលេខពាក្យសម្ងាត់របស់អ្នក</string>
+    <string name="password_security_answer_not_valid">ចម្លើយខុស។ សូមព្យាយាមម្តងទៀត!</string>
+    <string name="payee">អ្នកទទួលប្រាក់</string>
+    <string name="payer">អ្នកចេញការចំណាយ</string>
+    <string name="payer_or_payee">អ្នក​ទទួល/អ្នក​បង់ប្រាក់</string>
+    <!-- Plan for future and recurring transactions -->
+    <string name="plan">ផែនការ</string>
+    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
+    <string name="plan_automatic">ដោយ​ស្វ័យ​ប្រវត្តិ</string>
+    <!-- this is the label for the calendar where plans for future and recurrent transactions are stored -->
+    <string name="plan_calendar_name">កម្មវិធី​ផែនការរបស់ {app_name}</string>
+    <string name="planner_notification_channel_name">កម្មវិធី​ផែនការរបស់</string>
+    <string name="plan_event_deleted">គម្រោងនេះ​ភ្ជាប់នឹង​ពុម្ពនេះ​ ត្រូវបាន​លុបចេញ​ពី​ប្រតិទិន</string>
+    <!-- This message is shown, after a user decides to not apply a manual plan -->
+    <string name="plan_execution_canceled">គម្រោង​ដំណើរការ​បាន​​បោះបង់ហើយ</string>
+    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
+    <string name="plan_manual">សៀវភៅតូច</string>
+    <string name="planner_create_calendar_failure">មិន​អាច​​បង្កើត​​ប្រតិទិន​​ផែនការ​មូលដ្ឋាន​ទេ</string>
+    <string name="planner_create_calendar_success">ប្រតិទិន​ផែនការ​មូលដ្ឋាន​បាន​បង្កើត​ដោយជោគជ័យ</string>
+    <!-- payment methods -->
+    <string name="pm_cheque">មូលប្បទានប័ត្រ</string>
+    <string name="pm_creditcard">កាតឥណទាន</string>
+    <string name="pm_deposit">ប្រាក់បញ្ញើ</string>
+    <string name="pm_directdebit">ឥណពន្ធផ្ទាល់</string>
+    <string name="pm_type_credit">ឥណទាន</string>
+    <string name="pm_type_debit">ឥណពន្ធ</string>
+    <string name="pm_type_neutral">អព្យាក្រឹត</string>
+    <string name="pref_app_dir_title">ថត​សម្រាប់​ឯកសារ​ដែល​រក្សាទុក និង​ដែលនាំចេញ</string>
+    <string name="pref_backup_summary">បង្កើតការបម្រុងទុក នៃមូលដ្ឋានទិន្នន័យ និងចំណង់​ចំណូល​ចិត្ត លើ sdcard នេះ។</string>
+    <string name="pref_sort_order_usages">រាប់នៃការប្រើប្រាស់</string>
+    <string name="pref_category_title_export">នាំចេញ</string>
+    <string name="pref_category_title_import">នាំចូល</string>
+    <string name="pref_category_title_manage">គ្រប់គ្រង</string>
+    <string name="pref_category_title_more_information">ព័ត៌មានបន្ថែម</string>
+    <string name="pref_category_title_security">សន្តិសុខ</string>
+    <string name="pref_category_title_ui">User Interface</string>
+    <string name="pref_checkbox_enabled">បើក</string>
+    <string name="pref_checkbox_disabled">បិទ</string>
+    <string name="pref_export_format_title">ទ្រង់ទ្រាយទិន្នន័យ</string>
+    <string name="pref_import_from_grisbi_title">នាំចូលពី Grisbi</string>
+    <string name="pref_manage_accounts_title">គណនី</string>
+    <string name="pref_manage_categories_summary">បញ្ចូល កែ លុប​ចំណាត់ថ្នាក់។</string>
+    <string name="pref_manage_categories_title">ចំណាត់ថ្នាក់</string>
+    <string name="pref_manage_methods_summary">បង្កើត និង​កែ​​វិធីសាស្ត្រទូទាត់​ប្រាក់ និងភ្ជាប់ទៅកាន់​ប្រភេទ​គណនី។</string>
+    <string name="pref_manage_methods_title">វិធីសាស្ត្រទូទាត់​ប្រាក់</string>
+    <string name="pref_manage_parties_summary">បញ្ចូល កែ លុប ភាគី (អ្នក​បង់​ចំណាយ និង​អ្នក​ទទួល)។</string>
+    <string name="pref_manage_parties_title">ភាគី</string>
+    <string name="pref_manage_sync_backends_title">ផ្នែកខាងក្រោយធ្វើសមកាលកម្ម</string>
+    <string name="pref_more_info_dialog_title">អាជ្ញាប័ណ្ណ &amp; ក្រេឌីត</string>
+    <string name="pref_password_not_equal">ពាក្យសម្ងាត់មិនត្រូវគ្នា</string>
+    <string name="pref_perform_share_title">ការចែករំលែកឯកសារនាំចេញ</string>
+    <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
+    <string name="pref_planning_calendar_create_local">បង្កើតប្រតិទិន​ផែន​ការ​​មូលដ្ឋាន​ថ្មី</string>
+    <string name="pref_planning_calendar_summary">ជ្រើស​រើស​ប្រតិទិន​ ដែល​មាន​ផែនការអនាគត និង​មាន​ប្រតិបត្តិការវិលជុំ ត្រូវបាន​ផ្ទុក</string>
+    <string name="pref_planning_calendar_title">​ប្រតិទិនផែនការ</string>
+    <string name="pref_protection_delay_seconds_summary">ប៉ុន្មាននាទីមុនពេលកម្មវិធីទំនេរ​ នឹងត្រូវបានចាក់សោដោយពាក្យសម្ងាត់។</string>
+    <string name="pref_protection_delay_seconds_title">ពន្យាពេលរហូតដល់ការការពារ</string>
+    <string name="pref_protection_enable_data_entry_from_widget_summary_on">អនុញ្ញាតិ​ដោយ​មិនបាច់​មាន​ពាក្យសម្ងាត់។</string>
+    <string name="pref_protection_enable_data_entry_from_widget_summary_off">ពាក្យ​សម្ងាត់​ត្រូវការជានិច្ច</string>
+    <string name="pref_qif_export_file_encoding_title">ការអ៊ិនកូដតួអក្សរ</string>
+    <string name="pref_restore_title">ស្តារ</string>
+    <string name="pref_security_question_summary">អនុញ្ញាតឲ្យអ្នកដោះសោរកម្មវិធីនេះ ប្រសិនបើអ្នកភ្លេចពាក្យសម្ងាត់របស់អ្នក ។ តម្រូវឲ្យមាន ការចំណាយរបស់ខ្ញុំ</string>
+    <string name="pref_security_question_title">សំនួរសន្តិសុខ</string>
+    <string name="pref_send_feedback_title">ផ្ញើមតិយោបល់អ្នកប្រើ</string>
+    <string name="pref_share_target_summary">ទុកឱ្យទទេ ប្រសិនបើអ្នកចង់ជ្រើស រវាងកម្មវិធី ដែលសមស្រប (Email, Dropbox, Google Docs, …)​ ឬផ្តល់នូវ URL មួយ​ដែល​មាន​ក្នុងគម្រោងគាំទ្រ</string>
+    <string name="pref_share_target_title">URL ផ្ទុកឡើង</string>
+    <string name="pref_shortcut_added">Shortcut បាន​ដាក់​នៅផ្ទាំងខាងមុខ​ហើយ</string>
+    <string name="pref_shortcut_summary">ដាក់ shortcut ទៅ​ផ្ទាំងខាងមុខ</string>
+    <string name="pref_ui_fontsize_title"> បន្ថែម​ទំហំ​ពុម្ពអក្សរ​</string>
+    <string name="pref_ui_home_screen_shortcuts">ផ្លូវកាត់​លើទំព័រ​ដើម</string>
+    <string name="pref_ui_language_default">លំនាំដើមរបស់ប្រព័ន្ធ</string>
+    <!-- Title of the preference for selecting the UI language -->
+    <string name="pref_ui_language_title">ភាសា</string>
+    <string name="pref_ui_theme_dark">ងងឹត</string>
+    <string name="pref_ui_theme_light">ភ្លឺ</string>
+    <string name="pref_ui_theme_title">ប្រធានបទ</string>
+    <string name="pref_visit_website_summary">ការផ្លាស់ប្ដូរ និងសំណួរ​គេសួរ​ញឹក​ញាប់</string>
+    <string name="pref_visit_website_title">សូមចូលទស្សនាគេហទំព័រ</string>
+    <string name="progress_dialog_deleting">កំពុងលុប​អ្វីផ្សេងៗ</string>
+    <string name="progress_dialog_loading">ផ្ទុកវត្ថុពីមូលដ្ឋានទិន្នន័យ</string>
+    <string name="progress_dialog_saving">កំពុង​ផ្ទុក​ទៅមូលដ្ឋាន​ទិន្នន័យ​</string>
+    <string name="reference_number">លេខ​យោង</string>
+    <string name="restore_db_failure">ការ​ restore មូលដ្ឋានទិន្នន័យមិនបានសំរេច</string>
+    <string name="restore_db_success">មូលដ្ឋានទិន្នន័យត្រូវបានស្តារឡើងវិញពីការបម្រុងទុក។</string>
+    <string name="restore_no_backup_found">គ្មាន​អ្វីដែល​រក្សាទុករកឃើញទេ។</string>
+    <string name="restore_preferences_failure">ការស្តារចំណង់ចំណូលចិត្តបានបរាជ័យ</string>
+    <string name="restore_backup_file_not_found">គ្មាន​ឯកសារ %1$s នៅក្នុងថត \"%2$s\" ទេ</string>
+    <string name="restore_preferences_success">ចំណង់ចំណូលចិត្តត្រូវបានស្តារឡើងវិញពីការបម្រុងទុក។</string>
+    <string name="save_transaction_and_new_success">រក្សាទុក​ដោយជោគជ័យ</string>
+    <string name="save_transaction_error">មិន​អាច​រក្សា​ទុក​ ប្រតិបត្តិការ​ថ្មី​យក​ចេញ​ពី​ពុម្ព​បានទេ</string>
+    <plurals name="save_transaction_from_template_success">
+        <item quantity="other">%1$d ប្រតិបត្តិការ​ថ្មីៗ​បាន​រក្សាទុក​ពី​ពុម្ព​គំរូ​ដោយ​ជោគជ័យ</item>
+    </plurals>
+    <string name="save_transaction_template_deleted">ទិន្ន​ន័យ​គំរូ​ត្រូវ​បាន​លុបហើយ</string>
+    <string name="select">ជ្រើសរើស</string>
+    <string name="select_category">ជ្រើសរើស​ចំណាត់ថ្នាក់</string>
+    <string name="share_scheme_not_supported">គ្រោងការណ៍ %1$s មិន​ត្រូវបាន​គាំទ្រ</string>
+    <string name="share_sending">ផ្ញើឯកសារនាំចេញ</string>
+    <string name="split_parts_heading">ញែក​ផ្នែក</string>
+    <string name="split_transaction">ញែក​​ប្រតិបត្តិការ</string>
+    <string name="status">ស្ថានភាព</string>
+    <string name="status_cleared">ជម្រះ</string>
+    <string name="status_reconciled">ស្រុះស្រួល</string>
+    <string name="status_uncreconciled">មិន​ស្រុះស្រួល</string>
+    <string name="subcategory">ចំណាត់ថ្នាក់រង</string>
+    <string name="sum_expenses">ចំណាយ</string>
+    <string name="sum_income">ចំណូល</string>
+    <string name="sum_transfer">ការបញ្ជូនចេញ</string>
+    <!-- platform is replaced with Android or Blackberry -->
+    <string name="tell_a_friend_message">{app_name}, កម្មវិធី​គ្រប់គ្រង​ហិរញ្ញវត្ថុផ្ទាល់ខ្លួន​ សម្រាប់​ប្រព័ន្ធ​​ប្រតិបត្តិការ {platform}, {website}</string>
+    <string name="thank_you">សូមអរគុណសម្រាប់ការគាំទ្ររបស់អ្នក!</string>
+    <string name="time">ពេលវេលា</string>
+    <string name="title">ចំណងជើង</string>
+    <string name="total_cleared">គិតបញ្ជីចេញសរុប</string>
+    <string name="transaction">ប្រតិបត្តិការ</string>
+    <string name="transfer">ការបញ្ជូនចេញ</string>
+    <string name="transfer_from_account">ពី</string>
+    <string name="transfer_to_account">ទៅ</string>
+    <!-- Type refers to the type of an account, eg. Cash account, bank account -->
+    <string name="type">ប្រភេទ</string>
+    <string name="unsplit_amount">មិនបំបែក​ចំនួន​ទឹក​ប្រាក់</string>
+    <string name="unsplit_amount_greater_than_zero">នៅ​មាន​ចំនួន​​ទឹក​ប្រាក់​​ខ្លះ​​ស្ថិត​នៅ​ភាព​​មិនបំបែក</string>
+    <string name="warning_backup">មូលដ្ឋានទិន្នន័យនិងចំណង់ចំណូលចិត្តនឹងត្រូវបានរក្សាទុកទៅ sdកាត ។ (%1$s)</string>
+    <string name="continue_confirmation">អ្នកចង់បន្តឬ?</string>
+    <string name="warning_delete_account">គណនី \"%1$s\" នឹង​ត្រូវ​លុប​ចេញ​ជាមួយនឹង​ប្រតិបត្តិការ​ទាំងអស់ផងដែរ។</string>
+    <plurals name="warning_delete_template">
+        <item quantity="other">%1$d ធាតុ​នេះ​នឹង​ត្រូវ​លុបចេញ។</item>
+    </plurals>
+    <plurals name="warning_delete_transaction">
+        <item quantity="other">%1$d ប្រតិបត្តិការនេះ​នឹង​ត្រូវ​លុបចេញ។</item>
+    </plurals>
+    <string name="warning_password_protected">កម្មវិធីនេះ ការពារដោយ​ពាក្យសម្ងាត់</string>
+    <string name="warning_password_contrib">ការកំណត់សំណួរសន្តិសុខអនុញ្ញាតឱ្យអ្នកដើម្បីដោះសោកម្មវិធីនេះក្នុងករណីដែលអ្នកភ្លេចពាក្យសម្ងាត់របស់អ្នក។</string>
+    <string name="warning_reset_account">ប្រសិនបើអ្នកបន្ត រាល់ប្រតិបត្តិការទាំងអស់របស់គណនីនេះ នឹងត្រូវបានលុបចេញពីមូលដ្ឋានទិន្នន័យ និងមិនអាចត្រូវបានស្ដារឡើងវិញឡើយ។</string>
+    <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
+    <string name="warning_reset_account_all">បើ​អ្នក​បាន​ដំណើរការហើយ សម្រាប់​គណនី​ %1$s ប្រតិបត្តិការ​ទាំង​អស់ នឹង​ត្រូវបាន​លុប​ចេញពី​មូលដ្ឋាន​ទិន្នន័យ និង​មិន​អាច​យក​មកវិញ​បាន​ទេ។</string>
+    <string name="warning_restore">មូលដ្ឋានទិន្នន័យ និងចំណង់ចំណូលចិត្ត នឹងត្រូវបានស្ដារឡើងវិញពីការបម្រុងទុក។ (%1$s) ទិន្នន័យបច្ចុប្បន្ន នឹងត្រូវបានលុប។</string>
+    <string name="warning_splitpartcategory_context">ការផ្លាស់ប្តូរដែលជាផ្នែកមួយ នៃការបំបែកអាចត្រូវបាន កែសម្រួល បានតែនៅក្នុងបរិបទនេះទេ។</string>
+    <string name="import_categories_success">%1$s ចំណាត់ថ្នាក់ បាន​នាំចូល​ដោយជោគជ័យ</string>
+    <string name="import_parties_success">%1$s ភាគី​បាន​នាំចូល​ដោយជោគជ័យ</string>
+    <string name="import_accounts_none">គ្មាន​គណនី​នាំចូលទេ</string>
+    <string name="import_categories_none">គ្មាន​ចំណាត់ថ្នាក់​កំណត់នាំចូលទេ</string>
+    <string name="import_parties_none">គ្មានចំណាត់​ផ្នែកនាំចូលទេ</string>
+    <string name="import_transactions_none">គ្មាន​ប្រតិបត្តិការ​ណា​នាំចូល​ទៅគណនី %1$s</string>
+    <string name="import_source_select_error">សូមផ្តល់​ឯកសារមួយ​ក្នុងប្រភេទ %1$s</string>
+    <string name="menu_categories_setup_default">ដាក់ប្រភេទលំនាំដើម</string>
+    <string name="menu_create_folder">ថត​ថ្មី</string>
+    <!-- This string is used for navigating up in the folder browser -->
+    <string name="menu_up">ទៅលើ</string>
+    <string name="create_new_folder_fail">បរាជ័យ​ក្នុង​ការបង្កើតថតនេះ</string>
+    <string name="widget_title_accounts">គណនីរបស់ខ្ញុំ</string>
+    <string name="widget_title_templates">ពុម្ព​របស់ខ្ញុំ</string>
+    <string name="search_amount">ស្វែង​រក​ទឹកប្រាក់</string>
+    <string name="search_category">ស្វែងរក​ចំណាត់ថ្នាក់</string>
+    <string name="search_comment">ស្វែងរក​កំណត់ហេតុ</string>
+    <string name="search_status">ស្វែងរកតាមស្ថានភាព</string>
+    <string name="search_payee">ស្វែងរក​អ្នកទទួល/អ្នក​បង់ប្រាក់</string>
+    <string name="search_method">ស្វែងរកតាមវិធីសាស្ត្រ</string>
+    <string name="and">និង</string>
+    <string name="between_and">រវាង %1$s និង %2$s</string>
+    <string name="comparison_operator_equal">ស្មើនឹង</string>
+    <string name="comparison_operator_greater_than">ច្រើនជាង</string>
+    <string name="comparison_operator_lesser_than">តិចជាង</string>
+    <string name="comparison_operator_between">រវាង</string>
+    <string name="switch_on_text">បើក</string>
+    <string name="switch_off_text">បិទ</string>
+    <string name="menu_move">រំកិល</string>
+    <string name="preferences_week_start_day_title">សប្ដាហ៍​ចាប់ផ្ដើម​នៅ</string>
+    <string name="content_description_calculator">ម៉ាស៊ីនគិតលេខ</string>
+    <string name="template">ទិន្ន​ន័យ​គំរូ</string>
+    <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">ធ្វើសមកាលកម្មពពក</string>
+    <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
+    <string name="content_description_encrypted">បានអ៊ិនគ្រីប</string>
+    <string name="budget_duration_from">ពី</string>
+    <string name="budget_duration_to">ទៅ</string>
+    <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
+    <string name="pref_category_title_features">លក្ខណៈសំខាន់</string>
+    </resources>

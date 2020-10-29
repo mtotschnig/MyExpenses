@@ -1,414 +1,364 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
 <resources xmlns:tools="http://schemas.android.com/tools">
-  <string name="account">ගිණුම </string>
-  <!--Label in form for payment method, where user checks for which account types the method is applicable-->
-  <string name="account_type_asset">වත්කම් ගිණුම </string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_bank">බැංකු ගිණුම </string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_cash">මුදල් ගිණුම   </string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_ccard">ණය කාඩ් පත </string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_liability">වගකීම් ගිණුම </string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="already_defined">%1$s මුලින්ම අර්ථ දක්වා ඇත </string>
-  <string name="amount">ප්‍රමානය </string>
-  <string name="app_name">මගේ වියදම් </string>
-  <string name="backup_failure"> \"%1$s\"ට උපස්ථ කිරීම අසමත් වෙයි</string>
-  <string name="backup_success">පරිගණක දත්ත ගබඩාව සහ අභිමත සාර්ථක ලෙස  \"%1$s\" ට ලියන ලදී </string>
-  <string name="category">ප්‍රබේදය </string>
-  <string name="color">පාට </string>
-  <string name="comment">සටහන් </string>
-  <string name="confirmation_dialog_dont_show_again">නැවත පෙන්වන්න එපා </string>
-  <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">සීමා රහිත ගිණුම් ගණනක්</string>
-  <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">සීමා රහිත ක්‍රම ගණනක්</string>
-  <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">විජට් අච්චුව </string>
-  <string name="contrib_key">කොන්ට්‍රිබ් යතුර </string>
-  <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
-  <string name="contrib_key_requires">මයි එක්ස්පෙන්සස් %s අවශ්‍ය වේ </string>
-  <string name="currency">මුදල් </string>
-  <string name="current_balance">දැනට පවතින ශේෂය </string>
-  <string name="date">දිනය </string>
-  <string name="date_format">දින ආකෘතිය </string>
-  <string name="date_format_illegal">නීතිමය නොවන දින ආකෘතිය </string>
-  <string name="decimal_separator">දශම ස්ථාන වෙන්කිර්මේ උපකරණය </string>
-  <string name="description">විස්තරය </string>
-  <string name="dialog_command_disabled_reset_account">අපනයන සදහා ගනුදෙනු නොමැත </string>
-  <string name="dialog_command_disabled_distribution">ප්‍රබේධ සදහා වෙන්කළ ගනුදෙනු මෙම ගිණුමෙහි නොමැත </string>
-  <!--Button for accessing trial of premium feature-->
-  <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
-  <string name="dialog_contrib_premium_feature">%1$s පාරිතෝෂික අංගයකි (%2$s)</string>
-  <string name="dialog_export_delete">අපනයනය කල ගනුදෙනු මකාදමන ලදී </string>
-  <string name="dialog_export_not_yet_exported">අපනයන නොකළ ගනුදෙනු සියල්ල අපනයන කරන්න </string>
-  <string name="dialog_password_activate_protection">මුරපද ආරක්ෂාව ක්‍රියාත්මක කරන්න </string>
-  <string name="dialog_password_change_password">මුරපදය වෙනස් කරන්න </string>
-  <string name="dialog_password_new_password">අලුත් මුරපදය </string>
-  <string name="dialog_password_new_password_confirmation">අලුත් මුරපදය(තහවුරු කරන්න) </string>
-  <string name="dialog_remind_later">පසුව </string>
-  <string name="dialog_remind_no">අවශ්‍ය නැත </string>
-  <string name="dialog_remind_rate_yes">වටිනාකම නියම කිරන්න </string>
-  <string name="dialog_security_answer">පිළිතුර </string>
-  <string name="dialog_security_question">ප්‍රශ්නය </string>
-  <string name="dialog_title_attention">අවධානයයි </string>
-  <!--%1$s is replace with account label-->
-  <string name="dialog_title_contrib_feature">පාරිතෝෂික අංග </string>
-  <string name="dialog_title_warning_delete_template">අච්චුව මකාදමන්න?</string>
-  <string name="dialog_title_warning_delete_transaction">ගනුදෙනුව   මකාදමන්න?</string>
-  <string name="expense">වියදම් </string>
-  <string name="export_expenses">වියදම් අපනයන </string>
-  <!--1$s is replaced with path to file, 2$s with error message-->
-  <string name="export_sdcard_failure"> \"%1$s\"ට  වියදම් අපනයන අසමත් විය: %2$s</string>
-  <!--1$s is replaced with path to file-->
-  <string name="export_sdcard_success">\"%1$s\" ලිපි ගොනුවට වියදම් අපනයන කරන ලදී </string>
-  <string name="external_storage_unavailable">පිටත ගබඩාව නොතිබේ (එස් ඩි කාඩ් පත)</string>
-  <string name="feedback">ප්‍රතිචාරය </string>
-  <string name="ftp_uri_malformed">වැරදුනු යු ආර් අයි %1$s</string>
-  <string name="grisbi_import_categories_loading">%1$s න්  වර්ග පැටවීම </string>
-  <string name="grisbi_import_parties_loading">%1$s න් කොටස් පැටවීම් </string>
-  <string name="grouping_day">දවස </string>
-  <string name="grouping_last_week">පසුගීය  සතියේ </string>
-  <string name="grouping_month">මාසය </string>
-  <string name="grouping_none">කණ්ඩායම ඉවත් කර ඇත </string>
-  <string name="grouping_this_week">මෙම සතියේ </string>
-  <string name="grouping_today">අද </string>
-  <string name="grouping_week">සතිය </string>
-  <string name="grouping_year">අවුරුද්ද </string>
-  <string name="grouping_yesterday">ඊයෙ </string>
-  <string name="help_button_rate">තරාතිරම හෝ නැවත විචාරීම </string>
-  <string name="help_heading_credits">ස්තුති  ප්‍රකාශ කිරම් </string>
-  <string name="help_heading_license">බලපත්‍රය </string>
-  <string name="help_heading_whats_new">කුමක්ද අලුත් </string>
-  <string name="important_upgrade_information_heading">වැදගත් තොරතුරු </string>
-  <string name="import_select_transactions">ගනුදෙනු </string>
-  <string name="income">ආදායම</string>
-  <string name="invalid_number_format">ලෝකලයට දශම අකාරය හඳුනාගත නොහැක. කරුණාකර  %1$s පාවිච්චි කරන්න </string>
-  <string name="label">ලේබලය </string>
-  <string name="licence_validation_failure">අවසර යතුර වලංගු කිරීමට නොහැකියි </string>
-  <string name="licence_validation_success">බලපත්‍ර යතුර සාර්ථක ලෙස වලංගු කළේය. </string>
-  <string name="licence_validation_premium">උසස් දීමනා ලබා දී තිබේ.</string>
-  <string name="menu_aggregates">මුළු එකතුව </string>
-  <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
-  <string name="menu_apply_template">යොමු කරනවා</string>
-  <string name="menu_back">පිටුපස </string>
-  <string name="menu_backup">උපස්ථ </string>
-  <!--Balance: compare cleared balance in app with balance on statement received from bank-->
-  <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
-  <string name="menu_cancel_plan_instance">අවලංගු කරනවා</string>
-  <string name="menu_clone_transaction">ක්ලෝනය</string>
-  <string name="menu_contrib">දායක වීම </string>
-  <string name="menu_create_account">නව ගිණුම </string>
-  <string name="menu_create_instance_edit">ඉල්ලුම් කිරම සහ සංස්කරණය </string>
-  <string name="menu_create_instance_save">ඉල්ලුම් කිරම සහ සුරැකීම </string>
-  <string name="menu_create_main_cat">නව ප්‍රධාන ප්‍රබේධය   </string>
-  <string name="menu_create_method">නව මිලදී ගැනීමේ ක්‍රමය </string>
-  <string name="menu_create_party">අලුත් පක්ෂය </string>
-  <string name="menu_create_split">නව බෙදීම </string>
-  <string name="menu_create_split_part_category">නව ප්‍රබේධ කොටස් බෙදීම </string>
-  <string name="menu_create_split_part_transfer">නව හුවමාරු කොටස් බෙදීම </string>
-  <string name="menu_create_sub_cat">නව උප ප්‍රබේධය  </string>
-  <string name="menu_create_template">නව අච්චුව </string>
-  <string name="menu_create_template_from_transaction">අච්චුවක් ලෙස සුරැකීම </string>
-  <string name="menu_create_template_for_transaction">නව ගනුදෙනු අච්චුව </string>
-  <string name="menu_create_template_for_transfer">නව හුවමාරු අච්චුව q</string>
-  <string name="menu_create_transaction">නව ගනුදෙනුව </string>
-  <string name="menu_create_transfer">නව හුවමාරුව </string>
-  <string name="menu_delete">මකා දමනවා </string>
-  <string name="menu_distribution">බෙදාහැරිම </string>
-  <string name="menu_edit">සංස්කරණය </string>
-  <string name="menu_edit_account">ගිණුම සංස්කරණය කිරීම </string>
-  <string name="menu_edit_cat">ප්‍රබේදය සංස්කරනය කරන්න </string>
-  <string name="menu_edit_method">මිලදී ගන්නා ක්‍රමය සන්ස්කරණය කරන්න </string>
-  <string name="menu_edit_party">පක්ෂය සංස්කරණය කිරීම </string>
-  <string name="menu_edit_plan_instance">එක් සැලසුමක් සිදුවීම සංස්කරණය කරන්න </string>
-  <string name="menu_edit_split">බෙදීම සංස්කරණය කරන්න </string>
-  <string name="menu_edit_split_part_category">ප්‍රබේධ කොටස් බෙදීම සංස්කරණය කරන්න </string>
-  <string name="menu_edit_split_part_transfer">හුවමාරු කොටස් බෙදීම සංස්කරණය කරන්න </string>
-  <string name="menu_edit_template">අච්චුව සංස්කරණය කරන්න </string>
-  <string name="menu_edit_transaction">ගනුදෙනුව සංස්කරණය කරන්න </string>
-  <string name="menu_edit_transfer">හුවමාරුව  සංස්කරනය කරන්න </string>
-  <string name="menu_forward">ඉදිරිපස </string>
-  <string name="menu_grouping">කණ්ඩායම් කිරම </string>
-  <string name="menu_help">උදව් </string>
-  <!--This command inverts the direction of a transfer-->
-  <string name="menu_invert_transfer">යටිකුරු කරනවා</string>
-  <string name="menu_manage_plans">අච්චු සහ සැලසුම් </string>
-  <!--Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application-->
-  <string name="menu_import">ආනයනය </string>
-  <string name="menu_reset">අපනයන සහ යලිපිහිටුවීම </string>
-  <string name="menu_reset_all">සියල්ල අපනයන කර නැවත පිහිටුවන්න </string>
-  <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
-  <string name="menu_reset_plan_instance">ප්‍රත්‍යාරම්භ කරනවා</string>
-  <string name="menu_save">සුරකින්න</string>
-  <string name="menu_save_and_new">සුරකින්න සහ නව </string>
-  <string name="menu_settings">කට්ටල අංග </string>
-  <string name="menu_share">යහළුවකුට පවසන්න </string>
-  <string name="method">ගෙවීමේ ක්රමය</string>
-  <string name="no_amount_given">ඔබ කිසිදු අගයක් ඇතුලත් කර නැත </string>
-  <string name="no_app_handling_email_available"> නියැලුම් පරිහරණය කිරීමේ විද්‍යුත් ලිපිනයක් නොමැත.</string>
-  <string name="no_app_handling_ftp_available"> ඇප් පාලනය කල නොහැකි ftp තිබේ.පිහිටුවන්න <i>ftp සමග යවන්න</i>?</string>
-  <string name="no_categories">වර්ග නැත </string>
-  <string name="no_expenses">තවම වියදම් නැත </string>
-  <string name="no_exportable_expenses">අපනයන නොකළ ගනුදෙනු නොමැත </string>
-  <string name="no_filemanager_installed">ලිපිගොනු කළමනාකරණයක් පිහිටුවා නොමැත </string>
-  <string name="no_mapped_transactions">මෙම කාලපරාසය තුල කිසම ගනුදෙනුවක් ප්‍රබේධ තුලට වෙන්  කොට නැත </string>
-  <string name="no_methods">මිලදී ගැනීමේ ක්‍රමයක් නැත </string>
-  <string name="no_parties">කණ්ඩායම් නැත </string>
-  <string name="no_split_parts">කොටස් බෙදීම් නොමැත </string>
-  <string name="no_templates">අච්චු නැත </string>
-  <string name="no_title_given">ඔබ කිසිදු මාතෘකාවක් ඇතුලත් කරන නොමැත </string>
-  <plurals name="not_deletable_mapped_transactions">
-    <item quantity="one">තෝරාගත් අවයවය  ගනුදෙනු තුලට වෙන් කොට ඇති අතර මකා දැමිය නොහැක </item>
-    <item quantity="other">%1$d අවයව ගනුදෙනු තුලට වෙන් කොට ඇති අතර මකා දැමිය නොහැක </item>
-  </plurals>
-  <plurals name="not_deletable_mapped_templates">
-    <item quantity="one">තෝරාගත් අවයවය  අච්චු  තුලට වෙන් කොට ඇති අතර මකා දැමිය නොහැක </item>
-    <item quantity="other">%1$d  අවයව  අච්චු  තුලට වෙන් කොට ඇති අතර මකා දැමිය නොහැක</item>
-  </plurals>
-  <string name="numbered">අංකනය </string>
-  <string name="opening_balance">ආරම්භක ශේෂය </string>
-  <string name="parse_error_file_not_found">ලිපිගොනුව සොයගත නොහැක %1$s</string>
-  <string name="parse_error_grisbi_version_not_supported">සහාය නොමැති ග්රිස්බි ලිපිගොනු වර්ගයක් %1$s</string>
-  <string name="parse_error_no_data_found">ආනයනය කළහැකි දත්ත ලිපිගොනුවේ සොයාගත නොහැක </string>
-  <string name="parse_error_other_exception">වරදක් හටගන්නා ලදී %1$s</string>
-  <string name="parse_error_parse_exception">ලිපිගොනුවෙහි ව්‍යාකරණ විග්‍රහය කිරමට නොහැකි විය </string>
-  <string name="password_disabled_reenable">මුරපද ආරක්ෂාව අක්‍රිය කර ඇත.ඔබට එය නැවත කට්ටල අංග තුලින් සක්‍රිය කල හැක </string>
-  <string name="password_lost">නැතිවූ මුරපදය </string>
-  <string name="password_not_valid">ඔබගේ මුරපදය වැරදි.නැවත අතුලත් කරන්න </string>
-  <string name="password_prompt">ඔබගේ මුරපදය ඇතුලත් කරන්න </string>
-  <string name="password_security_answer_not_valid">වැරදි පිළිතුරකි.නැවත උත්සහ කරන්න </string>
-  <string name="payee">අදායකයා </string>
-  <string name="payer">ගෙවන්නා </string>
-  <!--Plan for future and recurring transactions-->
-  <string name="plan">සැලැස්ම</string>
-  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance-->
-  <string name="plan_automatic">ස්වයංක්‍රිය</string>
-  <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_event_deleted">මෙම අච්චුව සමග සම්බන්ද වී තිබු සැලසුම දිනදර්ශනයෙන් ඉවත් කර ඇත </string>
-  <!--This message is shown, after a user decides to not apply a manual plan-->
-  <string name="plan_execution_canceled">සැලසුම ක්‍රියාවෙහි යෙදවීම අසාර්තකයි </string>
-  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance)-->
-  <string name="plan_manual">කාර්ය සංග්‍රහය</string>
-  <string name="planner_create_calendar_failure">පරිස්ථානීය සැලසුම් කිරීමේ දිනදර්ශනයක් නිර්මාණය කිරිමට නොහැකි විය </string>
-  <string name="planner_create_calendar_success">පරිස්ථානීය සැලසුම්  දින දර්ශනයක් නිර්මාණය කිරීම සාර්ථකයි </string>
-  <!--payment methods-->
-  <string name="pm_cheque">චෙක් පත </string>
-  <string name="pm_creditcard">ණය කාඩ් පත </string>
-  <string name="pm_deposit">තැන්පතු </string>
-  <string name="pm_directdebit">කෙලින්ම හර කිරීම් </string>
-  <string name="pm_type_credit">බැර </string>
-  <string name="pm_type_debit">හර </string>
-  <string name="pm_type_neutral">මධ්‍යස්ත </string>
-  <string name="pref_app_dir_title">අපනයන සහ උපස්ටහ සදහාවූ ගොනුව </string>
-  <string name="pref_backup_summary">දත්ත ගබඩාවෙහි සහ මනාප හි උපස්තයක් නිර්මාණය කරන්න </string>
-  <string name="pref_sort_order_usages">පාවිච්චි කල ගනන </string>
-  <string name="pref_category_title_export">අපනයනය </string>
-  <string name="pref_category_title_import">ආනයනය </string>
-  <string name="pref_category_title_manage">කලමනාකරණය </string>
-  <string name="pref_category_title_more_information">තවත් විස්තර</string>
-  <string name="pref_category_title_security">ආරක්ෂණය</string>
-  <string name="pref_category_title_ui">පාවිච්චි කරන්නාගේ අතුරු මුහුණත </string>
-  <string name="pref_checkbox_enabled">පවරනවා</string>
-  <string name="pref_checkbox_disabled">අබල කරනවා</string>
-  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
-  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
-  <string name="pref_enter_licence_title" tools:ignore="UnusedResources">යතුර ඇතුළු කරන්න </string>
-  <string name="pref_export_format_title">දත්ත ආකෘතිය</string>
-  <string name="pref_import_from_grisbi_summary">පක්ෂ සහ වර්ග ග්රිස්බි හි  XML ලිපිගොනුවෙන් ආනයනය කරන්න </string>
-  <string name="pref_import_from_grisbi_title">ග්රිස්බි වලින් අපනයනය කරන්න </string>
-  <!--%s is replaced with QIF or CSV-->
-  <string name="pref_import_summary">ගනුදෙනු,ප්‍රබේධ සහ පක්ෂ %s ගොනුවෙන් ආනයනය කරන්න </string>
-  <!--%s is replaced with QIF or CSV-->
-  <string name="pref_import_title">%s ආනයනය </string>
-  <string name="pref_manage_accounts_title">ගිණුම් </string>
-  <string name="pref_manage_categories_summary">වර්ග එකතු කරන්න, සංස්කරණය කරන්න, මකා දමන්න  </string>
-  <string name="pref_manage_categories_title">වර්ග </string>
-  <string name="pref_manage_methods_summary">මිලදී ගැනීමේ ක්‍රම නිර්මාණය කිරීම හා සංස්කරණය කිරීම සහ ගිණුම් වර්ග සමග එකතු කිරීම  </string>
-  <string name="pref_manage_methods_title">මුදල් ගෙවීමේ ක්‍රම </string>
-  <string name="pref_manage_parties_summary">පක්ෂ එකතු කිරීම, සංස්කරණය කිරම, මකා දැමීම (ගෙවන්නා  සහ ආදායකයා)</string>
-  <string name="pref_manage_parties_title">පක්ෂ </string>
-  <string name="pref_manage_sync_backends_title">සමමුහුර්ත පසුබිම්</string>
-  <!--%s will be replaced with list of backends-->
-  <string name="pref_more_info_dialog_title">බලපත්‍ර සහ amp ; ස්තූති කිරීම් </string>
-  <string name="pref_password_not_equal">මුර පද නොගැලපේ </string>
-  <string name="pref_perform_share_title">අපනයන සහ උපස්ථා බෙදා හරින්න </string>
-  <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
-  <string name="pref_planning_calendar_create_local">නව පරිස්ථානීය සැලසුම්  දින දර්ශනයක් නිර්මාණය කරන්න  </string>
-  <string name="pref_planning_calendar_summary">අනාගත සැලසුම් සහ නැවත ඇතිවන ගනුදෙනු තැන්පත් කිරීම සදහා දින දර්ශනයක් තෝරාගන්න </string>
-  <string name="pref_planning_calendar_title">දින දර්ශනයක් සැලසුම් කිරීම </string>
-  <string name="pref_protection_delay_seconds_summary">අක්‍රිය තත්පර ගණනකට  පෙර  ඇපය මුරපදයෙන් හිරවෙ </string>
-  <string name="pref_protection_delay_seconds_title">ආරක්ෂාව එනතුරු පරක්කු කරන්න </string>
-  <string name="pref_protection_enable_data_entry_from_widget_title">විජටයන්ගෙන් දත්ත ඇතුලත් කිරීම </string>
-  <string name="pref_protection_enable_data_entry_from_widget_summary_on">මුරපදයක් නොමැතිව අනුමත කරනවා </string>
-  <string name="pref_protection_enable_data_entry_from_widget_summary_off">මුරපදයක් අවශ්‍යයි </string>
-  <string name="pref_qif_export_file_encoding_title">අක්ෂර කේතාංකනය කිරීම</string>
-  <string name="pref_request_licence_title">යතුර ඉල්ලන්න </string>
-  <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
-  <string name="pref_restore_summary">දත්ත ගබඩාව සහ මනාප නැවත  පිහිටුවීම  සදහා  උපස්තයක් තෝරන්න </string>
-  <string name="pref_restore_title">නැවත පිහිටුවන්න </string>
-  <string name="pref_security_question_summary">ඔබට මුරපදය අමතක වූයේනම්.නැවත ඇපය ක්‍රියාත්මක කිරීමට උදව් වේ </string>
-  <string name="pref_security_question_title">සුරක්ෂිතතාවය සඳහා ප්‍රශ්නය</string>
-  <string name="pref_send_feedback_title">ප්‍රතිචාරය යවන්න </string>
-  <string name="pref_share_target_summary"> ඔබට සුදුසු ඇප්ස් අතරින්  තෝරාගැනීමට අවශ්‍යනම් හිස්ව තබන්න(Email, Dropbox, Google Docs, …) හෝ උදව් ලබාගතහැකි ක්‍රමයන්හි  URL ය ලබාදෙන්න </string>
-  <string name="pref_share_target_title">සම්ප්‍රේෂණ URL ය </string>
-  <string name="pref_shortcut_added">ප්‍රධාන තිරයට කෙටිමරගයක් ඇතුලත් කරන ලදී </string>
-  <string name="pref_shortcut_not_added">කෙටිමාර්ග භාවිතා කළහැකි  ප්‍රධාන තිර නොමැත </string>
-  <string name="pref_shortcut_summary">ප්‍රධාන තිරයට කෙටිමරගයක් ඇතුලත් කරන්න </string>
-  <string name="pref_ui_fontsize_title">මුද්‍රණ අකුරුවර්ගයේ ප්‍රමාණය වැඩි කරන්න </string>
-  <string name="pref_ui_home_screen_shortcuts">ප්‍රධාන තිර කෙටිමාර්ග </string>
-  <string name="pref_ui_language_default">මුල් පද්ධතිය </string>
-  <!--Title of the preference for selecting the UI language-->
-  <string name="pref_ui_language_title">භාෂාව</string>
-  <string name="pref_ui_theme_dark">අඳුරු </string>
-  <string name="pref_ui_theme_light">එලිය </string>
-  <string name="pref_ui_theme_title">තේමාව </string>
-  <string name="pref_visit_website_summary">වෙනස්වන ලොගය සහ නිතරම අසන ප්‍රශ්න </string>
-  <string name="pref_visit_website_title">වෙබ් අඩවිය සදහා පිවිසෙන්න </string>
-  <string name="progress_dialog_deleting">අවයව මකාදැමීම </string>
-  <string name="progress_dialog_loading">දත්ත ගබඩාවෙන් අවයව ප්‍රවේශනය වේ </string>
-  <string name="qif_parse_result">ව්‍යාකරණ විග්‍රහ කිරීම: ගිණුම් %1$s; ප්‍රබේධ  %2$s සහ  පක්ෂ %3$s</string>
-  <string name="qif_parse_failure_found_multiple_accounts">QIF ලිපිගොනුවෙන් බහු ගිණුම් සමු විය </string>
-  <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">දැනට පවතින ගිණුමට එකතු කල නොහැකිය </string>
-  <string name="reference_number">යොමු අංකය </string>
-  <string name="restore_db_failure">දත්ත ගබඩාව නැවත පිහිටුවීම අසාර්කයි </string>
-  <string name="restore_db_success">දත්ත ගබඩාව උපස්ථය උපයෝගී කරගෙන  නැවත පිහිටුවන ලදී </string>
-  <string name="restore_no_backup_found">උපස්තයක් සමුවුයේ නැත </string>
-  <string name="restore_preferences_failure">මනාප නැවත පිහිටුවීම අසාර්ථකයි </string>
-  <string name="restore_backup_archive_not_valid">%1$s ලේකනාගාරය වලංගු නැත </string>
-  <string name="restore_backup_file_not_found"> \"%2$s\" ලේඛනාගාරයෙන් ලිපිගොනු %1$s සොයාගත නොහැකි විය </string>
-  <string name="restore_preferences_success">උපස්ථා වලින් මනාප නැවත පිහිටුවන ලදී </string>
-  <string name="save_transaction_and_new_success">සාර්ථකව සුරකින ලදී </string>
-  <string name="save_transaction_error">අච්චුවෙන් අලුත් ගනුදෙනුව සුරැකීමට නොහැකි විය.</string>
-  <plurals name="save_transaction_from_template_success">
-    <item quantity="one">නව ගනුදෙනුව  සාර්ථකව අච්චු තුලට සුරැකිය  </item>
-    <item quantity="other">%1$d නව ගනුදෙනු සාර්ථකව අච්චු තුලට සුරැකිය  </item>
-  </plurals>
-  <string name="save_transaction_template_deleted">අච්චුව මකා දමන ලදී </string>
-  <string name="select">තෝරන්න </string>
-  <string name="select_category">වර්ගය තෝරාගන්න </string>
-  <string name="share_scheme_not_supported">%1$s ක්‍රමය තහවුරු නොකරයි </string>
-  <string name="share_sending">අපනයනය කල ලිපි ගොනුව යවන්න </string>
-  <string name="split_parts_heading">කොටස් බෙදන්න </string>
-  <string name="split_transaction">විභේදනය වූ ගනුදෙනු</string>
-  <string name="status">තත්වය </string>
-  <string name="status_cleared">හිස් කරා </string>
-  <string name="status_reconciled">සාමාධානය කරනවා</string>
-  <string name="status_uncreconciled">අසමගි කරනවා </string>
-  <string name="subcategory">අනු ප්‍රබේධ </string>
-  <string name="sum_expenses">වියදම් </string>
-  <string name="sum_income">ආදායම</string>
-  <string name="sum_transfer">මාරු කිරීම් </string>
-  <!--platform is replaced with Android or Blackberry-->
-  <string name="thank_you">ඔබගේ සහයෝගයට ස්තුතියි!</string>
-  <string name="time">කාලය </string>
-  <string name="title">මාතෘකාව </string>
-  <string name="transaction">ගනුදෙනුව </string>
-  <string name="transfer">මාරු කිරීම</string>
-  <string name="transfer_from_account">සිට</string>
-  <string name="transfer_to_account">දක්වා</string>
-  <!--Type refers to the type of an account, eg. Cash account, bank account-->
-  <string name="type">වර්ගය </string>
-  <string name="unsplit_amount">නොබෙදූ අගය </string>
-  <string name="unsplit_amount_greater_than_zero">එහි තවමත් නොබෙදූ අගයෙන් කොටසක් ඇත </string>
-  <string name="warning_backup">දත්ත ගබඩාව සහ මනාප \"%1$s\" තුලට සුරැකි.</string>
-  <string name="continue_confirmation"> ඔබට ඉදිරයට යාමට අවශ්‍යද?</string>
-  <string name="warning_delete_account">\"%1$s\" ගිණුම එහි ගනුදෙනු සමග මකා දමයි </string>
-  <plurals name="warning_delete_main_category">
-    <item quantity="one">තෝරාගත් ප්‍රබෙධයහි අනු ප්‍රබෙධද මකා දැමෙයි </item>
-    <item quantity="other">තෝරාගත් %1$d ප්‍රබෙධයන්හි අනු ප්‍රබෙධද මකා දැමෙයි </item>
-  </plurals>
-  <plurals name="warning_delete_template">
-    <item quantity="one">තෝරාගත් අච්චුව   මකා දමයි </item>
-    <item quantity="other">තෝරාගත් අච්චු %1$d   මකා දමයි </item>
-  </plurals>
-  <plurals name="warning_delete_transaction">
-    <item quantity="one">තෝරාගත් ගනුදෙනුව මකා දමයි </item>
-    <item quantity="other">තෝරාගත් ගනුදෙනු %1$d මකා දමයි </item>
-  </plurals>
-  <string name="warning_password_protected">ඇපය මුරපදයකින් ආරක්ෂා කර ඇත</string>
-  <string name="warning_widget_disabled">ඇපයේ කට්ටල අංග තුලින් මෙම විජටය ක්‍රියාත්මක කල යුතුය </string>
-  <string name="warning_instantiate_template_from_widget_password_protected">මෙම විජටයේ අච්චු ක්‍රියාත්මක වන්නේ ඔබ මුරපදයක් නොමැතිව දත්ත විජටයට යාමට සලසුවොත් පමණි </string>
-  <string name="warning_password_contrib">ආරක්ෂක ප්‍රශ්නයක් පිහිටුවෙමෙන් ඔබට මුරපදය අම්තකවුවත් ඇපය යලි ක්‍රියාත්මක කල හැක.</string>
-  <string name="warning_reset_account">ඔබ ඉදිරියට ගියහොත් මෙම ගිණුමෙහි ඇති  දත්ත ගබඩාවේ සියලුම ගනුදෙනු මකා  දැමෙන අතර නැවත පිහිටුවීමට නොහැකිය.</string>
-  <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
-  <string name="warning_reset_account_all">ඔබ ඉදිරියට ගියහොත් සියලුම ගිණුම්%1$s ,ඇති  දත්ත ගබඩාවේ සියලුම ගනුදෙනු මකා  දැමෙන අතර නැවත පිහිටුවීමට නොහැකිය.</string>
-  <string name="warning_restore">\"%1$s\" ලිපිගොනුවෙන් මනාප සහ දත්ත ගබඩාව නැවත පිහිටුවන අතර. දැනට පවතින දත්ත සියල්ල මකා දැමේ.</string>
-  <string name="warning_splitpartcategory_context">බෙදිමක කොටස් වන ගනුදෙනු සංස්කරණය කල හැක්කේ බෙදීමෙහි සම්බන්දයක් ඇත්නම් පමණි </string>
-  <string name="import_categories_success">ප්‍රබේධ %1$s සාර්ථකල ලෙස ආනයනය කරන ලදී </string>
-  <string name="import_parties_success">පක්ෂ %1$s සාර්ථකල ලෙස ආනයනය කරන ලදී </string>
-  <string name="import_accounts_success">ගිණුම් %1$s  සාර්ථකල ලෙස ආනයනය කරන ලදී </string>
-  <string name="import_transactions_success" tools:ignore="PluralsCandidate">ගනුදෙනු %1$d සාර්ථකල ලෙස %2$s ගිණුමට ආනයනය කරන ලදී </string>
-  <string name="import_accounts_none">ගිණුම් ආනයන කරේ නැත </string>
-  <string name="import_categories_none">ප්‍රබේධ  ආනයන කරේ නැත </string>
-  <string name="import_parties_none">පක්ෂ ආනයන කරේ නැත </string>
-  <string name="import_transactions_none">කිසම ගනුදෙනුවක්  %1$s ගිණුමට ආනයනය කලේ නැත </string>
-  <string name="import_source_select_error">කරුණකර  %1$s ලිපිගොනු වර්ගයක් යොදන්න </string>
-  <string name="menu_categories_setup_default">මුල් ප්‍රබේධ පිහිටුවන්න </string>
-  <string name="menu_create_folder">නව ගොනුව </string>
-  <!--This string is used for navigating up in the folder browser-->
-  <string name="menu_up">ඉහල </string>
-  <string name="create_new_folder_fail">ගොනුව නිර්මාණය  කිරීම අසාර්ථකයි </string>
-  <string name="widget_title_accounts">මගේ ගිණුම් </string>
-  <string name="widget_title_templates">මගේ අච්චු </string>
-  <!--Label for column where user can check rows to be discarded from import-->
-  <string name="switch_on_text">සක්‍රියයි</string>
-  <string name="switch_off_text">අක්‍රියයි</string>
-  <string name="preferences_week_start_day_title">සතිය ආරම්භ වන්නේ</string>
-  <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
-  <string name="content_description_calculator">ගණකයන්ත්‍රය</string>
-  <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
-  <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
-  <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
-  <!--Sort plans (recurring transactions) by the next instance-->
-  <string name="template">අච්චුව </string>
-  <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">වලාකුළු සමමුහුර්තකරණය</string>
-  <!--button leading user to purchase flow for licence keys-->
-  <!--During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed-->
-  <!--%1$s date, %2$s price-->
-  <!--A label indicating the color for the sum of expenses-->
-  <!--A label indicating the color for the sum of income-->
-  <!--This is the label for the action that breaks up a split transaction into its parts.-->
-  <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
-  <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
-  <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
-  <!--Content description for accessibility on image that allows to collapse content-->
-  <!--Content description for accessibility on image that allows to expand content-->
-  <!--Short label for the amount input where user can set either saving goal or credit limit-->
-  <!--Description for button that allows to clear the selected method-->
-  <!--Description for button that allows to clear the selected category-->
-  <!--In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
-    to search for transactions without category, payee or method. The UI allows selection of multiple items,
-    but we warn the user if he includes this special item in the selection.-->
-  <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
-  <!--Action of closing an account. A closed account does not allow any modifications on its data.-->
-  <!--Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data.-->
-  <!--Menu entry for opening a list of all hidden accounts.-->
-  <!--Action of showing an account again that had previously been hidden.-->
-  <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
-  <string name="content_description_encrypted">සංකේතනය කර ඇත</string>
-  <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
-  <string name="translated_by">පරිවර්තනය</string>
-  <!--This message is shwon when we highlight the income / expense toogle, to make user aware of this feature-->
-  <!--This message is shwon when we highlight the dropdown for switching from normal transaction to transfer or split transaction,to make user aware of this feature-->
-  <!--Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list.-->
-  <!--Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method"-->
-  <!--If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
-        because no payment method is configured for all of the given account types.-->
-  <!--The label for the button, where user confirms that he wants to clone the selected transactions and then remap them.-->
-  <!--The summary of a preference toggle. If switched on cloned transactions have the date set to the current date-->
-  <!--The summary of a preference toggle. If switched off cloned transactions keep the original date-->
-  <!--This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction-->
-  <!--%s will be replaced with the labels of all tags that user has selected.-->
-  <!--Title for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
-  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
-  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application)-->
-  <!--Title in Settings screen, and title of dynamically loaded feature module-->
-  <!--If this mode is active, the action button will open the camera for scanning a receipt-->
-  <!--Button that triggers the scan operation-->
-  <!--Title for a preference that allows user to decide if all transactions of the current day should be considered as past (future begins at end of day), or if the exact current time divides between past and future-->
-  <!--Option for a preference that allows to decide that all transactions until end of day are considered past transactions-->
-  <!--Option for a preference that allows to decide that only transactions before current time are considered past transactions-->
-  <!--Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)-->
-  <string name="pref_category_title_features">ලක්ෂණ</string>
-  <!--Toast message shown if user clicks on Upgrade button before having selected a licence-->
-</resources>
+    <string name="account">ගිණුම </string>
+    <string name="account_type_asset">වත්කම් ගිණුම </string>
+    <string name="account_type_bank">බැංකු ගිණුම </string>
+    <string name="account_type_cash">මුදල් ගිණුම   </string>
+    <string name="account_type_ccard">ණය කාඩ් පත </string>
+    <string name="account_type_liability">වගකීම් ගිණුම </string>
+    <string name="already_defined">%1$s මුලින්ම අර්ථ දක්වා ඇත </string>
+    <string name="amount">ප්‍රමානය </string>
+    <string name="app_name">මගේ වියදම් </string>
+    <string name="backup_failure"> \"%1$s\"ට උපස්ථ කිරීම අසමත් වෙයි</string>
+    <string name="backup_success">පරිගණක දත්ත ගබඩාව සහ අභිමත සාර්ථක ලෙස  \"%1$s\" ට ලියන ලදී </string>
+    <string name="category">ප්‍රබේදය </string>
+    <string name="color">පාට </string>
+    <string name="comment">සටහන් </string>
+    <string name="confirmation_dialog_dont_show_again">නැවත පෙන්වන්න එපා </string>
+    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">සීමා රහිත ගිණුම් ගණනක්</string>
+    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">සීමා රහිත ක්‍රම ගණනක්</string>
+    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">විජට් අච්චුව </string>
+    <string name="contrib_key">කොන්ට්‍රිබ් යතුර </string>
+    <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
+    <string name="contrib_key_requires">මයි එක්ස්පෙන්සස් %s අවශ්‍ය වේ </string>
+    <string name="currency">මුදල් </string>
+    <string name="current_balance">දැනට පවතින ශේෂය </string>
+    <string name="date">දිනය </string>
+    <string name="date_format">දින ආකෘතිය </string>
+    <string name="date_format_illegal">නීතිමය නොවන දින ආකෘතිය </string>
+    <string name="decimal_separator">දශම ස්ථාන වෙන්කිර්මේ උපකරණය </string>
+    <string name="description">විස්තරය </string>
+    <string name="dialog_command_disabled_reset_account">අපනයන සදහා ගනුදෙනු නොමැත </string>
+    <string name="dialog_command_disabled_distribution">ප්‍රබේධ සදහා වෙන්කළ ගනුදෙනු මෙම ගිණුමෙහි නොමැත </string>
+    <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
+    <string name="dialog_contrib_premium_feature">%1$s පාරිතෝෂික අංගයකි (%2$s)</string>
+    <string name="dialog_export_delete">අපනයනය කල ගනුදෙනු මකාදමන ලදී </string>
+    <string name="dialog_export_not_yet_exported">අපනයන නොකළ ගනුදෙනු සියල්ල අපනයන කරන්න </string>
+    <string name="dialog_password_activate_protection">මුරපද ආරක්ෂාව ක්‍රියාත්මක කරන්න </string>
+    <string name="dialog_password_change_password">මුරපදය වෙනස් කරන්න </string>
+    <string name="dialog_password_new_password">අලුත් මුරපදය </string>
+    <string name="dialog_password_new_password_confirmation">අලුත් මුරපදය(තහවුරු කරන්න) </string>
+    <string name="dialog_remind_later">පසුව </string>
+    <string name="dialog_remind_no">අවශ්‍ය නැත </string>
+    <string name="dialog_remind_rate_yes">වටිනාකම නියම කිරන්න </string>
+    <string name="dialog_security_answer">පිළිතුර </string>
+    <string name="dialog_security_question">ප්‍රශ්නය </string>
+    <string name="dialog_title_attention">අවධානයයි </string>
+    <string name="dialog_title_contrib_feature">පාරිතෝෂික අංග </string>
+    <string name="dialog_title_warning_delete_template">අච්චුව මකාදමන්න?</string>
+    <string name="dialog_title_warning_delete_transaction">ගනුදෙනුව   මකාදමන්න?</string>
+    <string name="expense">වියදම් </string>
+    <string name="export_expenses">වියදම් අපනයන </string>
+    <!-- 1$s is replaced with path to file, 2$s with error message -->
+    <string name="export_sdcard_failure"> \"%1$s\"ට  වියදම් අපනයන අසමත් විය: %2$s</string>
+    <!-- 1$s is replaced with path to file -->
+    <string name="export_sdcard_success">\"%1$s\" ලිපි ගොනුවට වියදම් අපනයන කරන ලදී </string>
+    <string name="external_storage_unavailable">පිටත ගබඩාව නොතිබේ (එස් ඩි කාඩ් පත)</string>
+    <string name="feedback">ප්‍රතිචාරය </string>
+    <string name="ftp_uri_malformed">වැරදුනු යු ආර් අයි %1$s</string>
+    <string name="grisbi_import_categories_loading">%1$s න්  වර්ග පැටවීම </string>
+    <string name="grisbi_import_parties_loading">%1$s න් කොටස් පැටවීම් </string>
+    <string name="grouping_day">දවස </string>
+    <string name="grouping_last_week">පසුගීය  සතියේ </string>
+    <string name="grouping_month">මාසය </string>
+    <string name="grouping_none">කණ්ඩායම ඉවත් කර ඇත </string>
+    <string name="grouping_this_week">මෙම සතියේ </string>
+    <string name="grouping_today">අද </string>
+    <string name="grouping_week">සතිය </string>
+    <string name="grouping_year">අවුරුද්ද </string>
+    <string name="grouping_yesterday">ඊයෙ </string>
+    <string name="help_button_rate">තරාතිරම හෝ නැවත විචාරීම </string>
+    <string name="help_heading_credits">ස්තුති  ප්‍රකාශ කිරම් </string>
+    <string name="help_heading_license">බලපත්‍රය </string>
+    <string name="help_heading_whats_new">කුමක්ද අලුත් </string>
+    <string name="important_upgrade_information_heading">වැදගත් තොරතුරු </string>
+    <string name="import_select_transactions">ගනුදෙනු </string>
+    <string name="income">ආදායම</string>
+    <string name="invalid_number_format">ලෝකලයට දශම අකාරය හඳුනාගත නොහැක. කරුණාකර  %1$s පාවිච්චි කරන්න </string>
+    <string name="label">ලේබලය </string>
+    <string name="licence_validation_failure">අවසර යතුර වලංගු කිරීමට නොහැකියි </string>
+    <string name="licence_validation_success">බලපත්‍ර යතුර සාර්ථක ලෙස වලංගු කළේය. </string>
+    <string name="licence_validation_premium">උසස් දීමනා ලබා දී තිබේ.</string>
+    <string name="menu_aggregates">මුළු එකතුව </string>
+    <!-- Shown in a notification; allows to apply a template (instantiate a new transaction from it) -->
+    <string name="menu_apply_template">යොමු කරනවා</string>
+    <string name="menu_back">පිටුපස </string>
+    <string name="menu_backup">උපස්ථ </string>
+    <!-- Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction -->
+    <string name="menu_cancel_plan_instance">අවලංගු කරනවා</string>
+    <string name="menu_clone_transaction">ක්ලෝනය</string>
+    <string name="menu_contrib">දායක වීම </string>
+    <string name="menu_create_account">නව ගිණුම </string>
+    <string name="menu_create_instance_edit">ඉල්ලුම් කිරම සහ සංස්කරණය </string>
+    <string name="menu_create_instance_save">ඉල්ලුම් කිරම සහ සුරැකීම </string>
+    <string name="menu_create_main_cat">නව ප්‍රධාන ප්‍රබේධය   </string>
+    <string name="menu_create_method">නව මිලදී ගැනීමේ ක්‍රමය </string>
+    <string name="menu_create_party">අලුත් පක්ෂය </string>
+    <string name="menu_create_split">නව බෙදීම </string>
+    <string name="menu_create_split_part_category">නව ප්‍රබේධ කොටස් බෙදීම </string>
+    <string name="menu_create_split_part_transfer">නව හුවමාරු කොටස් බෙදීම </string>
+    <string name="menu_create_sub_cat">නව උප ප්‍රබේධය  </string>
+    <string name="menu_create_template">නව අච්චුව </string>
+    <string name="menu_create_template_from_transaction">අච්චුවක් ලෙස සුරැකීම </string>
+    <string name="menu_create_template_for_transaction">නව ගනුදෙනු අච්චුව </string>
+    <string name="menu_create_template_for_transfer">නව හුවමාරු අච්චුව q</string>
+    <string name="menu_create_transaction">නව ගනුදෙනුව </string>
+    <string name="menu_create_transfer">නව හුවමාරුව </string>
+    <string name="menu_delete">මකා දමනවා </string>
+    <string name="menu_distribution">බෙදාහැරිම </string>
+    <string name="menu_edit">සංස්කරණය </string>
+    <string name="menu_edit_account">ගිණුම සංස්කරණය කිරීම </string>
+    <string name="menu_edit_cat">ප්‍රබේදය සංස්කරනය කරන්න </string>
+    <string name="menu_edit_method">මිලදී ගන්නා ක්‍රමය සන්ස්කරණය කරන්න </string>
+    <string name="menu_edit_party">පක්ෂය සංස්කරණය කිරීම </string>
+    <string name="menu_edit_plan_instance">එක් සැලසුමක් සිදුවීම සංස්කරණය කරන්න </string>
+    <string name="menu_edit_split">බෙදීම සංස්කරණය කරන්න </string>
+    <string name="menu_edit_split_part_category">ප්‍රබේධ කොටස් බෙදීම සංස්කරණය කරන්න </string>
+    <string name="menu_edit_split_part_transfer">හුවමාරු කොටස් බෙදීම සංස්කරණය කරන්න </string>
+    <string name="menu_edit_template">අච්චුව සංස්කරණය කරන්න </string>
+    <string name="menu_edit_transaction">ගනුදෙනුව සංස්කරණය කරන්න </string>
+    <string name="menu_edit_transfer">හුවමාරුව  සංස්කරනය කරන්න </string>
+    <string name="menu_forward">ඉදිරිපස </string>
+    <string name="menu_grouping">කණ්ඩායම් කිරම </string>
+    <string name="menu_help">උදව් </string>
+    <!-- This command inverts the direction of a transfer -->
+    <string name="menu_invert_transfer">යටිකුරු කරනවා</string>
+    <string name="menu_manage_plans">අච්චු සහ සැලසුම් </string>
+    <string name="menu_import">ආනයනය </string>
+    <string name="menu_reset">අපනයන සහ යලිපිහිටුවීම </string>
+    <string name="menu_reset_all">සියල්ල අපනයන කර නැවත පිහිටුවන්න </string>
+    <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
+    <string name="menu_reset_plan_instance">ප්‍රත්‍යාරම්භ කරනවා</string>
+    <string name="menu_save">සුරකින්න</string>
+    <string name="menu_save_and_new">සුරකින්න සහ නව </string>
+    <string name="menu_settings">කට්ටල අංග </string>
+    <string name="menu_share">යහළුවකුට පවසන්න </string>
+    <string name="method">ගෙවීමේ ක්රමය</string>
+    <string name="no_amount_given">ඔබ කිසිදු අගයක් ඇතුලත් කර නැත </string>
+    <string name="no_app_handling_email_available"> නියැලුම් පරිහරණය කිරීමේ විද්‍යුත් ලිපිනයක් නොමැත.</string>
+    <string name="no_app_handling_ftp_available"> ඇප් පාලනය කල නොහැකි ftp තිබේ.පිහිටුවන්න <i>ftp සමග යවන්න</i>?</string>
+    <string name="no_categories">වර්ග නැත </string>
+    <string name="no_expenses">තවම වියදම් නැත </string>
+    <string name="no_exportable_expenses">අපනයන නොකළ ගනුදෙනු නොමැත </string>
+    <string name="no_filemanager_installed">ලිපිගොනු කළමනාකරණයක් පිහිටුවා නොමැත </string>
+    <string name="no_mapped_transactions">මෙම කාලපරාසය තුල කිසම ගනුදෙනුවක් ප්‍රබේධ තුලට වෙන්  කොට නැත </string>
+    <string name="no_methods">මිලදී ගැනීමේ ක්‍රමයක් නැත </string>
+    <string name="no_parties">කණ්ඩායම් නැත </string>
+    <string name="no_split_parts">කොටස් බෙදීම් නොමැත </string>
+    <string name="no_templates">අච්චු නැත </string>
+    <string name="no_title_given">ඔබ කිසිදු මාතෘකාවක් ඇතුලත් කරන නොමැත </string>
+    <plurals name="not_deletable_mapped_transactions">
+        <item quantity="one">තෝරාගත් අවයවය  ගනුදෙනු තුලට වෙන් කොට ඇති අතර මකා දැමිය නොහැක </item>
+        <item quantity="other">%1$d අවයව ගනුදෙනු තුලට වෙන් කොට ඇති අතර මකා දැමිය නොහැක </item>
+    </plurals>
+    <plurals name="not_deletable_mapped_templates">
+        <item quantity="one">තෝරාගත් අවයවය  අච්චු  තුලට වෙන් කොට ඇති අතර මකා දැමිය නොහැක </item>
+        <item quantity="other">%1$d  අවයව  අච්චු  තුලට වෙන් කොට ඇති අතර මකා දැමිය නොහැක</item>
+    </plurals>
+    <string name="numbered">අංකනය </string>
+    <string name="opening_balance">ආරම්භක ශේෂය </string>
+    <string name="parse_error_file_not_found">ලිපිගොනුව සොයගත නොහැක %1$s</string>
+    <string name="parse_error_grisbi_version_not_supported">සහාය නොමැති ග්රිස්බි ලිපිගොනු වර්ගයක් %1$s</string>
+    <string name="parse_error_no_data_found">ආනයනය කළහැකි දත්ත ලිපිගොනුවේ සොයාගත නොහැක </string>
+    <string name="parse_error_other_exception">වරදක් හටගන්නා ලදී %1$s</string>
+    <string name="parse_error_parse_exception">ලිපිගොනුවෙහි ව්‍යාකරණ විග්‍රහය කිරමට නොහැකි විය </string>
+    <string name="password_disabled_reenable">මුරපද ආරක්ෂාව අක්‍රිය කර ඇත.ඔබට එය නැවත කට්ටල අංග තුලින් සක්‍රිය කල හැක </string>
+    <string name="password_lost">නැතිවූ මුරපදය </string>
+    <string name="password_not_valid">ඔබගේ මුරපදය වැරදි.නැවත අතුලත් කරන්න </string>
+    <string name="password_prompt">ඔබගේ මුරපදය ඇතුලත් කරන්න </string>
+    <string name="password_security_answer_not_valid">වැරදි පිළිතුරකි.නැවත උත්සහ කරන්න </string>
+    <string name="payee">අදායකයා </string>
+    <string name="payer">ගෙවන්නා </string>
+    <!-- Plan for future and recurring transactions -->
+    <string name="plan">සැලැස්ම</string>
+    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
+    <string name="plan_automatic">ස්වයංක්‍රිය</string>
+    <string name="plan_event_deleted">මෙම අච්චුව සමග සම්බන්ද වී තිබු සැලසුම දිනදර්ශනයෙන් ඉවත් කර ඇත </string>
+    <!-- This message is shown, after a user decides to not apply a manual plan -->
+    <string name="plan_execution_canceled">සැලසුම ක්‍රියාවෙහි යෙදවීම අසාර්තකයි </string>
+    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
+    <string name="plan_manual">කාර්ය සංග්‍රහය</string>
+    <string name="planner_create_calendar_failure">පරිස්ථානීය සැලසුම් කිරීමේ දිනදර්ශනයක් නිර්මාණය කිරිමට නොහැකි විය </string>
+    <string name="planner_create_calendar_success">පරිස්ථානීය සැලසුම්  දින දර්ශනයක් නිර්මාණය කිරීම සාර්ථකයි </string>
+    <!-- payment methods -->
+    <string name="pm_cheque">චෙක් පත </string>
+    <string name="pm_creditcard">ණය කාඩ් පත </string>
+    <string name="pm_deposit">තැන්පතු </string>
+    <string name="pm_directdebit">කෙලින්ම හර කිරීම් </string>
+    <string name="pm_type_credit">බැර </string>
+    <string name="pm_type_debit">හර </string>
+    <string name="pm_type_neutral">මධ්‍යස්ත </string>
+    <string name="pref_app_dir_title">අපනයන සහ උපස්ටහ සදහාවූ ගොනුව </string>
+    <string name="pref_backup_summary">දත්ත ගබඩාවෙහි සහ මනාප හි උපස්තයක් නිර්මාණය කරන්න </string>
+    <string name="pref_sort_order_usages">පාවිච්චි කල ගනන </string>
+    <string name="pref_category_title_export">අපනයනය </string>
+    <string name="pref_category_title_import">ආනයනය </string>
+    <string name="pref_category_title_manage">කලමනාකරණය </string>
+    <string name="pref_category_title_more_information">තවත් විස්තර</string>
+    <string name="pref_category_title_security">ආරක්ෂණය</string>
+    <string name="pref_category_title_ui">පාවිච්චි කරන්නාගේ අතුරු මුහුණත </string>
+    <string name="pref_checkbox_enabled">පවරනවා</string>
+    <string name="pref_checkbox_disabled">අබල කරනවා</string>
+    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">යතුර ඇතුළු කරන්න </string>
+    <string name="pref_export_format_title">දත්ත ආකෘතිය</string>
+    <string name="pref_import_from_grisbi_summary">පක්ෂ සහ වර්ග ග්රිස්බි හි  XML ලිපිගොනුවෙන් ආනයනය කරන්න </string>
+    <string name="pref_import_from_grisbi_title">ග්රිස්බි වලින් අපනයනය කරන්න </string>
+    <!-- %s is replaced with QIF or CSV -->
+    <string name="pref_import_summary">ගනුදෙනු,ප්‍රබේධ සහ පක්ෂ %s ගොනුවෙන් ආනයනය කරන්න </string>
+    <!-- %s is replaced with QIF or CSV -->
+    <string name="pref_import_title">%s ආනයනය </string>
+    <string name="pref_manage_accounts_title">ගිණුම් </string>
+    <string name="pref_manage_categories_summary">වර්ග එකතු කරන්න, සංස්කරණය කරන්න, මකා දමන්න  </string>
+    <string name="pref_manage_categories_title">වර්ග </string>
+    <string name="pref_manage_methods_summary">මිලදී ගැනීමේ ක්‍රම නිර්මාණය කිරීම හා සංස්කරණය කිරීම සහ ගිණුම් වර්ග සමග එකතු කිරීම  </string>
+    <string name="pref_manage_methods_title">මුදල් ගෙවීමේ ක්‍රම </string>
+    <string name="pref_manage_parties_summary">පක්ෂ එකතු කිරීම, සංස්කරණය කිරම, මකා දැමීම (ගෙවන්නා  සහ ආදායකයා)</string>
+    <string name="pref_manage_parties_title">පක්ෂ </string>
+    <string name="pref_manage_sync_backends_title">සමමුහුර්ත පසුබිම්</string>
+    <string name="pref_more_info_dialog_title">බලපත්‍ර සහ amp ; ස්තූති කිරීම් </string>
+    <string name="pref_password_not_equal">මුර පද නොගැලපේ </string>
+    <string name="pref_perform_share_title">අපනයන සහ උපස්ථා බෙදා හරින්න </string>
+    <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
+    <string name="pref_planning_calendar_create_local">නව පරිස්ථානීය සැලසුම්  දින දර්ශනයක් නිර්මාණය කරන්න  </string>
+    <string name="pref_planning_calendar_summary">අනාගත සැලසුම් සහ නැවත ඇතිවන ගනුදෙනු තැන්පත් කිරීම සදහා දින දර්ශනයක් තෝරාගන්න </string>
+    <string name="pref_planning_calendar_title">දින දර්ශනයක් සැලසුම් කිරීම </string>
+    <string name="pref_protection_delay_seconds_summary">අක්‍රිය තත්පර ගණනකට  පෙර  ඇපය මුරපදයෙන් හිරවෙ </string>
+    <string name="pref_protection_delay_seconds_title">ආරක්ෂාව එනතුරු පරක්කු කරන්න </string>
+    <string name="pref_protection_enable_data_entry_from_widget_title">විජටයන්ගෙන් දත්ත ඇතුලත් කිරීම </string>
+    <string name="pref_protection_enable_data_entry_from_widget_summary_on">මුරපදයක් නොමැතිව අනුමත කරනවා </string>
+    <string name="pref_protection_enable_data_entry_from_widget_summary_off">මුරපදයක් අවශ්‍යයි </string>
+    <string name="pref_qif_export_file_encoding_title">අක්ෂර කේතාංකනය කිරීම</string>
+    <string name="pref_request_licence_title">යතුර ඉල්ලන්න </string>
+    <string name="pref_restore_summary">දත්ත ගබඩාව සහ මනාප නැවත  පිහිටුවීම  සදහා  උපස්තයක් තෝරන්න </string>
+    <string name="pref_restore_title">නැවත පිහිටුවන්න </string>
+    <string name="pref_security_question_summary">ඔබට මුරපදය අමතක වූයේනම්.නැවත ඇපය ක්‍රියාත්මක කිරීමට උදව් වේ </string>
+    <string name="pref_security_question_title">සුරක්ෂිතතාවය සඳහා ප්‍රශ්නය</string>
+    <string name="pref_send_feedback_title">ප්‍රතිචාරය යවන්න </string>
+    <string name="pref_share_target_summary"> ඔබට සුදුසු ඇප්ස් අතරින්  තෝරාගැනීමට අවශ්‍යනම් හිස්ව තබන්න(Email, Dropbox, Google Docs, …) හෝ උදව් ලබාගතහැකි ක්‍රමයන්හි  URL ය ලබාදෙන්න </string>
+    <string name="pref_share_target_title">සම්ප්‍රේෂණ URL ය </string>
+    <string name="pref_shortcut_added">ප්‍රධාන තිරයට කෙටිමරගයක් ඇතුලත් කරන ලදී </string>
+    <string name="pref_shortcut_not_added">කෙටිමාර්ග භාවිතා කළහැකි  ප්‍රධාන තිර නොමැත </string>
+    <string name="pref_shortcut_summary">ප්‍රධාන තිරයට කෙටිමරගයක් ඇතුලත් කරන්න </string>
+    <string name="pref_ui_fontsize_title">මුද්‍රණ අකුරුවර්ගයේ ප්‍රමාණය වැඩි කරන්න </string>
+    <string name="pref_ui_home_screen_shortcuts">ප්‍රධාන තිර කෙටිමාර්ග </string>
+    <string name="pref_ui_language_default">මුල් පද්ධතිය </string>
+    <!-- Title of the preference for selecting the UI language -->
+    <string name="pref_ui_language_title">භාෂාව</string>
+    <string name="pref_ui_theme_dark">අඳුරු </string>
+    <string name="pref_ui_theme_light">එලිය </string>
+    <string name="pref_ui_theme_title">තේමාව </string>
+    <string name="pref_visit_website_summary">වෙනස්වන ලොගය සහ නිතරම අසන ප්‍රශ්න </string>
+    <string name="pref_visit_website_title">වෙබ් අඩවිය සදහා පිවිසෙන්න </string>
+    <string name="progress_dialog_deleting">අවයව මකාදැමීම </string>
+    <string name="progress_dialog_loading">දත්ත ගබඩාවෙන් අවයව ප්‍රවේශනය වේ </string>
+    <string name="qif_parse_result">ව්‍යාකරණ විග්‍රහ කිරීම: ගිණුම් %1$s; ප්‍රබේධ  %2$s සහ  පක්ෂ %3$s</string>
+    <string name="qif_parse_failure_found_multiple_accounts">QIF ලිපිගොනුවෙන් බහු ගිණුම් සමු විය </string>
+    <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">දැනට පවතින ගිණුමට එකතු කල නොහැකිය </string>
+    <string name="reference_number">යොමු අංකය </string>
+    <string name="restore_db_failure">දත්ත ගබඩාව නැවත පිහිටුවීම අසාර්කයි </string>
+    <string name="restore_db_success">දත්ත ගබඩාව උපස්ථය උපයෝගී කරගෙන  නැවත පිහිටුවන ලදී </string>
+    <string name="restore_no_backup_found">උපස්තයක් සමුවුයේ නැත </string>
+    <string name="restore_preferences_failure">මනාප නැවත පිහිටුවීම අසාර්ථකයි </string>
+    <string name="restore_backup_archive_not_valid">%1$s ලේකනාගාරය වලංගු නැත </string>
+    <string name="restore_backup_file_not_found"> \"%2$s\" ලේඛනාගාරයෙන් ලිපිගොනු %1$s සොයාගත නොහැකි විය </string>
+    <string name="restore_preferences_success">උපස්ථා වලින් මනාප නැවත පිහිටුවන ලදී </string>
+    <string name="save_transaction_and_new_success">සාර්ථකව සුරකින ලදී </string>
+    <string name="save_transaction_error">අච්චුවෙන් අලුත් ගනුදෙනුව සුරැකීමට නොහැකි විය.</string>
+    <plurals name="save_transaction_from_template_success">
+        <item quantity="one">නව ගනුදෙනුව  සාර්ථකව අච්චු තුලට සුරැකිය  </item>
+        <item quantity="other">%1$d නව ගනුදෙනු සාර්ථකව අච්චු තුලට සුරැකිය  </item>
+    </plurals>
+    <string name="save_transaction_template_deleted">අච්චුව මකා දමන ලදී </string>
+    <string name="select">තෝරන්න </string>
+    <string name="select_category">වර්ගය තෝරාගන්න </string>
+    <string name="share_scheme_not_supported">%1$s ක්‍රමය තහවුරු නොකරයි </string>
+    <string name="share_sending">අපනයනය කල ලිපි ගොනුව යවන්න </string>
+    <string name="split_parts_heading">කොටස් බෙදන්න </string>
+    <string name="split_transaction">විභේදනය වූ ගනුදෙනු</string>
+    <string name="status">තත්වය </string>
+    <string name="status_cleared">හිස් කරා </string>
+    <string name="status_reconciled">සාමාධානය කරනවා</string>
+    <string name="status_uncreconciled">අසමගි කරනවා </string>
+    <string name="subcategory">අනු ප්‍රබේධ </string>
+    <string name="sum_expenses">වියදම් </string>
+    <string name="sum_income">ආදායම</string>
+    <string name="sum_transfer">මාරු කිරීම් </string>
+    <string name="thank_you">ඔබගේ සහයෝගයට ස්තුතියි!</string>
+    <string name="time">කාලය </string>
+    <string name="title">මාතෘකාව </string>
+    <string name="transaction">ගනුදෙනුව </string>
+    <string name="transfer">මාරු කිරීම</string>
+    <string name="transfer_from_account">සිට</string>
+    <string name="transfer_to_account">දක්වා</string>
+    <!-- Type refers to the type of an account, eg. Cash account, bank account -->
+    <string name="type">වර්ගය </string>
+    <string name="unsplit_amount">නොබෙදූ අගය </string>
+    <string name="unsplit_amount_greater_than_zero">එහි තවමත් නොබෙදූ අගයෙන් කොටසක් ඇත </string>
+    <string name="warning_backup">දත්ත ගබඩාව සහ මනාප \"%1$s\" තුලට සුරැකි.</string>
+    <string name="continue_confirmation"> ඔබට ඉදිරයට යාමට අවශ්‍යද?</string>
+    <string name="warning_delete_account">\"%1$s\" ගිණුම එහි ගනුදෙනු සමග මකා දමයි </string>
+    <plurals name="warning_delete_main_category">
+        <item quantity="one">තෝරාගත් ප්‍රබෙධයහි අනු ප්‍රබෙධද මකා දැමෙයි </item>
+        <item quantity="other">තෝරාගත් %1$d ප්‍රබෙධයන්හි අනු ප්‍රබෙධද මකා දැමෙයි </item>
+    </plurals>
+    <plurals name="warning_delete_template">
+        <item quantity="one">තෝරාගත් අච්චුව   මකා දමයි </item>
+        <item quantity="other">තෝරාගත් අච්චු %1$d   මකා දමයි </item>
+    </plurals>
+    <plurals name="warning_delete_transaction">
+        <item quantity="one">තෝරාගත් ගනුදෙනුව මකා දමයි </item>
+        <item quantity="other">තෝරාගත් ගනුදෙනු %1$d මකා දමයි </item>
+    </plurals>
+    <string name="warning_password_protected">ඇපය මුරපදයකින් ආරක්ෂා කර ඇත</string>
+    <string name="warning_widget_disabled">ඇපයේ කට්ටල අංග තුලින් මෙම විජටය ක්‍රියාත්මක කල යුතුය </string>
+    <string name="warning_instantiate_template_from_widget_password_protected">මෙම විජටයේ අච්චු ක්‍රියාත්මක වන්නේ ඔබ මුරපදයක් නොමැතිව දත්ත විජටයට යාමට සලසුවොත් පමණි </string>
+    <string name="warning_password_contrib">ආරක්ෂක ප්‍රශ්නයක් පිහිටුවෙමෙන් ඔබට මුරපදය අම්තකවුවත් ඇපය යලි ක්‍රියාත්මක කල හැක.</string>
+    <string name="warning_reset_account">ඔබ ඉදිරියට ගියහොත් මෙම ගිණුමෙහි ඇති  දත්ත ගබඩාවේ සියලුම ගනුදෙනු මකා  දැමෙන අතර නැවත පිහිටුවීමට නොහැකිය.</string>
+    <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
+    <string name="warning_reset_account_all">ඔබ ඉදිරියට ගියහොත් සියලුම ගිණුම්%1$s ,ඇති  දත්ත ගබඩාවේ සියලුම ගනුදෙනු මකා  දැමෙන අතර නැවත පිහිටුවීමට නොහැකිය.</string>
+    <string name="warning_restore">\"%1$s\" ලිපිගොනුවෙන් මනාප සහ දත්ත ගබඩාව නැවත පිහිටුවන අතර. දැනට පවතින දත්ත සියල්ල මකා දැමේ.</string>
+    <string name="warning_splitpartcategory_context">බෙදිමක කොටස් වන ගනුදෙනු සංස්කරණය කල හැක්කේ බෙදීමෙහි සම්බන්දයක් ඇත්නම් පමණි </string>
+    <string name="import_categories_success">ප්‍රබේධ %1$s සාර්ථකල ලෙස ආනයනය කරන ලදී </string>
+    <string name="import_parties_success">පක්ෂ %1$s සාර්ථකල ලෙස ආනයනය කරන ලදී </string>
+    <string name="import_accounts_success">ගිණුම් %1$s  සාර්ථකල ලෙස ආනයනය කරන ලදී </string>
+    <string name="import_transactions_success" tools:ignore="PluralsCandidate">ගනුදෙනු %1$d සාර්ථකල ලෙස %2$s ගිණුමට ආනයනය කරන ලදී </string>
+    <string name="import_accounts_none">ගිණුම් ආනයන කරේ නැත </string>
+    <string name="import_categories_none">ප්‍රබේධ  ආනයන කරේ නැත </string>
+    <string name="import_parties_none">පක්ෂ ආනයන කරේ නැත </string>
+    <string name="import_transactions_none">කිසම ගනුදෙනුවක්  %1$s ගිණුමට ආනයනය කලේ නැත </string>
+    <string name="import_source_select_error">කරුණකර  %1$s ලිපිගොනු වර්ගයක් යොදන්න </string>
+    <string name="menu_categories_setup_default">මුල් ප්‍රබේධ පිහිටුවන්න </string>
+    <string name="menu_create_folder">නව ගොනුව </string>
+    <!-- This string is used for navigating up in the folder browser -->
+    <string name="menu_up">ඉහල </string>
+    <string name="create_new_folder_fail">ගොනුව නිර්මාණය  කිරීම අසාර්ථකයි </string>
+    <string name="widget_title_accounts">මගේ ගිණුම් </string>
+    <string name="widget_title_templates">මගේ අච්චු </string>
+    <string name="switch_on_text">සක්‍රියයි</string>
+    <string name="switch_off_text">අක්‍රියයි</string>
+    <string name="preferences_week_start_day_title">සතිය ආරම්භ වන්නේ</string>
+    <string name="content_description_calculator">ගණකයන්ත්‍රය</string>
+    <string name="template">අච්චුව </string>
+    <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">වලාකුළු සමමුහුර්තකරණය</string>
+    <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
+    <string name="content_description_encrypted">සංකේතනය කර ඇත</string>
+    <string name="translated_by">පරිවර්තනය</string>
+    <string name="budget_duration_from">සිට</string>
+    <string name="budget_duration_to">දක්වා</string>
+    <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
+    <string name="pref_category_title_features">ලක්ෂණ</string>
+    </resources>

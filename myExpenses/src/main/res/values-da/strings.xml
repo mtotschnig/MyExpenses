@@ -1,530 +1,492 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
 <resources xmlns:tools="http://schemas.android.com/tools">
-  <string name="account">Konto</string>
-  <!--Label in form for payment method, where user checks for which account types the method is applicable-->
-  <string name="account_type_asset">Anlægskonto</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_asset_plural">Anlægskonti</string>
-  <string name="account_type_bank">Bankkonto</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_bank_plural">Bankkonti</string>
-  <string name="account_type_cash">Kontanter</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_cash_plural">Kontanter</string>
-  <string name="account_type_ccard">Kreditkort</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_ccard_plural">Kreditkort</string>
-  <string name="account_type_liability">Gæld</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_liability_plural">Gæld</string>
-  <string name="already_defined">%1$s findes allerede</string>
-  <string name="amount">Beløb</string>
-  <string name="app_name">Mine udgifter</string>
-  <string name="backup_failure">Sikkerhedskopieringen til \"%1$s\" mislykkedes.</string>
-  <string name="backup_success">Databasen og indstillinger blev gemt på \"%1$s\".</string>
-  <string name="category">Kategori</string>
-  <string name="color">Farve</string>
-  <string name="comment">Noter</string>
-  <string name="confirmation_dialog_dont_show_again">Vis ikke igen</string>
-  <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Ingen annoncer</string>
-  <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Ubegrænset antal konti</string>
-  <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Vedhæft et billede til postering</string>
-  <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Ubegrænset antal planer</string>
-  <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Udskriv posteringer som PDF</string>
-  <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Skabelon widget</string>
-  <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV import</string>
-  <string name="contrib_key">Contrib Nøgle</string>
-  <string name="extended_key">Nøgle til udvidet version</string>
-  <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
-  <string name="contrib_key_requires">Kræver %s.</string>
-  <string name="currency">Valuta</string>
-  <string name="current_balance">Aktuel saldo</string>
-  <string name="date">Dato</string>
-  <string name="date_format">Datoformat</string>
-  <string name="date_format_illegal">Ugyldigt datoformat</string>
-  <string name="decimal_separator">Decimalkomma</string>
-  <string name="default_account_name">Budgetbog</string>
-  <string name="description">Beskrivelse</string>
-  <string name="dialog_balance_delete">Slet afstemte posteringer</string>
-  <string name="dialog_command_disabled_balance">Ingen afregnede posteringer der skal afstemmes.</string>
-  <string name="dialog_command_disabled_reset_account">Ingen Posteringer der kan eksporteres.</string>
-  <string name="dialog_command_disabled_distribution">På denne konto blev ingen posteringer henført til kategorier.</string>
-  <!--Button for accessing trial of premium feature-->
-  <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
-  <string name="dialog_contrib_premium_feature">%1$s er en premium funktion (%2$s).</string>
-  <string name="dialog_contrib_text_1"><i>{app_name}</i> er tilbudt open source.</string>
-  <string name="dialog_export_delete">Slet eksporterede posteringer</string>
-  <string name="dialog_export_not_yet_exported">Eksporter kun posteringer der ikke blev eksporteret endnu</string>
-  <string name="dialog_password_activate_protection">Aktivere beskyttelse med adgangskode</string>
-  <string name="dialog_password_change_password">Skift adgangskode</string>
-  <string name="dialog_password_new_password">Ny adgangskode</string>
-  <string name="dialog_password_new_password_confirmation">Bekræftelse af ny adgangskode</string>
-  <string name="dialog_remind_later">Senere</string>
-  <string name="dialog_remind_no">Nej tak</string>
-  <string name="dialog_remind_rate_how_many_stars">Hvor mange stjerner vil du give til {app_name}?</string>
-  <string name="dialog_remind_rate_1">Tag venligst et øjeblik til at anmelde {app_name}.</string>
-  <string name="dialog_remind_rate_2">Dine kommentarer hjælper os til at tilføje løbende forbedringer.</string>
-  <string name="dialog_remind_rate_1_suggest_improvement">Tag venligst et øjeblik til at sende os dine forslag til forbedringer.</string>
-  <string name="dialog_remind_rate_yes">Anmeld nu</string>
-  <string name="dialog_security_answer">Svar</string>
-  <string name="dialog_security_question">Spørgsmål</string>
-  <string name="dialog_title_attention">OBS!</string>
-  <string name="dialog_title_information">Information</string>
-  <!--%1$s is replace with account label-->
-  <string name="dialog_title_balance_account">Balance %1$s</string>
-  <string name="dialog_title_contrib_feature">Premiumfunktion</string>
-  <string name="dialog_title_warning_delete_template">Slet skabelonen?</string>
-  <string name="dialog_title_warning_delete_transaction">Slet transaktionen?</string>
-  <string name="expense">Udgift</string>
-  <string name="export_expenses">Eksport af udgifter</string>
-  <!--1$s is replaced with path to file, 2$s with error message-->
-  <string name="export_sdcard_failure">Fejl ved eksport til filen \"%1$s\": %2$s</string>
-  <!--1$s is replaced with path to file-->
-  <string name="export_sdcard_success">Data blev eksporteret til filen \"%1$s\"</string>
-  <string name="external_storage_unavailable">Ekstern storage (sdcard) ikke tilgængelige</string>
-  <string name="feedback">Feedback</string>
-  <string name="ftp_uri_malformed">Ugyldig URI %1$s</string>
-  <string name="grisbi_import_categories_loading">Kategorier indlæses fra %1$s</string>
-  <string name="grisbi_import_parties_loading">Parter indlæses fra %1$s</string>
-  <string name="grouping_day">Dag</string>
-  <string name="grouping_last_week">Sidste uge</string>
-  <string name="grouping_month">Måned</string>
-  <string name="grouping_none">Ikke grupperet</string>
-  <string name="grouping_this_week">Denne uge</string>
-  <string name="grouping_today">I dag</string>
-  <string name="grouping_week">Uge</string>
-  <string name="grouping_year">År</string>
-  <string name="grouping_yesterday">I går</string>
-  <string name="help_button_rate">Anmelde</string>
-  <string name="help_heading_credits">Credits</string>
-  <string name="help_heading_license">Licens</string>
-  <string name="help_heading_whats_new">Hvad er nyt</string>
-  <string name="important_upgrade_information_heading">Vigtige oplysninger</string>
-  <string name="import_select_transactions">Posteringer</string>
-  <string name="income">Indkomst</string>
-  <string name="invalid_number_format">Tal format understøttes ikke af din landestandard/lokalinstillinger. Brug venligst %1$s</string>
-  <string name="label">Betegnelse</string>
-  <string name="licence_validation_failure">Licensnøglen kan ikke valideres.</string>
-  <string name="licence_validation_success">Licensnøglen er valideret:</string>
-  <string name="licence_validation_premium">Premium funktoner er låst op</string>
-  <string name="menu_aggregates">I alt</string>
-  <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
-  <string name="menu_apply_template">Anvende</string>
-  <string name="menu_back">Tilbage</string>
-  <string name="menu_backup">Backup</string>
-  <!--Balance: compare cleared balance in app with balance on statement received from bank-->
-  <string name="menu_balance">Saldo</string>
-  <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
-  <string name="menu_cancel_plan_instance">Annuller</string>
-  <string name="menu_clone_transaction">Klon</string>
-  <string name="menu_contrib">Bidrage</string>
-  <string name="menu_create_account">Ny konto</string>
-  <string name="menu_create_instance_edit">Anvend og rediger</string>
-  <string name="menu_create_instance_save">Anvend og gem</string>
-  <string name="menu_create_main_cat">Ny Hovedkategori</string>
-  <string name="menu_create_method">Ny betalingsmetode</string>
-  <string name="menu_create_party">Ny part</string>
-  <string name="menu_create_split">Ny splitning</string>
-  <string name="menu_create_split_part_category">Ny kategori splittet part</string>
-  <string name="menu_create_split_part_transfer">Ny overførsel splittet part</string>
-  <string name="menu_create_sub_cat">Ny underkategori</string>
-  <string name="menu_create_template">Ny skabelon</string>
-  <string name="menu_create_template_from_transaction">Gem som skabelon</string>
-  <string name="menu_create_template_for_transaction">Ny transaktion skabelon</string>
-  <string name="menu_create_template_for_transfer">Ny overførsel skabelon</string>
-  <string name="menu_create_transaction">Ny postering</string>
-  <string name="menu_create_transfer">Ny overførsel</string>
-  <string name="menu_delete">Slet</string>
-  <string name="menu_distribution">Distribution</string>
-  <string name="menu_edit">Rediger</string>
-  <string name="menu_edit_account">Rediger konto</string>
-  <string name="menu_edit_cat">Redigere kategori</string>
-  <string name="menu_edit_method">Rediger betalingsmetoden</string>
-  <string name="menu_edit_party">Rediger part</string>
-  <string name="menu_edit_plan_instance">Rediger enkelt hændelse</string>
-  <string name="menu_edit_split">Rediger splitpostering</string>
-  <string name="menu_edit_split_part_category">Rediger splittet delbeløb (kategori)</string>
-  <string name="menu_edit_split_part_transfer">Rediger splittet delbeløb (overførsel)</string>
-  <string name="menu_edit_template">Rediger skabelon</string>
-  <string name="menu_edit_transaction">Rediger postering</string>
-  <string name="menu_edit_transfer">Rediger overførsel</string>
-  <string name="menu_exclude_from_totals">Ekskluder fra totaler</string>
-  <string name="menu_forward">Frem</string>
-  <string name="menu_grouping">Gruppering</string>
-  <string name="menu_help">Hjælp</string>
-  <!--This command inverts the direction of a transfer-->
-  <string name="menu_invert_transfer">Inverter</string>
-  <string name="menu_manage_plans">Skabeloner og planer</string>
-  <!--Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application-->
-  <string name="menu_open">Åbn</string>
-  <string name="menu_import">Import</string>
-  <string name="menu_print">Udskriv</string>
-  <string name="menu_reset">Eksporter og nulstil</string>
-  <string name="menu_reset_all">Eksporter alle og nulstil</string>
-  <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
-  <string name="menu_reset_plan_instance">Nulstil</string>
-  <string name="menu_save">Gem</string>
-  <string name="menu_save_and_new">Gem og ny</string>
-  <string name="menu_search">Søg</string>
-  <string name="menu_settings">Indstillinger</string>
-  <string name="menu_share">Fortæl en ven</string>
-  <string name="menu_split_transaction">Opsplit</string>
-  <string name="method">Betalingsmetode</string>
-  <string name="no_amount_given">Du har ikke angivet noget beløb.</string>
-  <string name="no_app_handling_email_available">Der findes ingen app til håndtering af e-mail.</string>
-  <string name="no_app_handling_ftp_available">Der findes ingen app til håndtering af ftp. Installer <i>Send via FTP</i>?</string>
-  <string name="no_app_handling_pdf_available">Der findes Ingen app til håndtering af PDF-filer.</string>
-  <string name="no_categories">Ingen kategorier.</string>
-  <string name="no_expenses">Der findes endnu ingen udgifter!</string>
-  <string name="no_exportable_expenses">Der findes ingen posteringer, der ikke allerede blev eksporteret.</string>
-  <string name="no_filemanager_installed">Ingen filemanager installeret</string>
-  <string name="no_mapped_transactions">Der blev ingen posteringer knyttet til kategorier i denne periode.</string>
-  <string name="no_methods">Ingen betalingsmetoder.</string>
-  <string name="no_parties">Ingen parter.</string>
-  <string name="no_split_parts">Ingen split dele.</string>
-  <string name="no_templates">Ingen skabeloner.</string>
-  <string name="no_title_given">Du har ikke angivet nogen titel.</string>
-  <plurals name="not_deletable_mapped_transactions">
-    <item quantity="one">Det markerede objekt er knyttet til en transaktion og kan ikke slettes.</item>
-    <item quantity="other">%1$d valgte objekter er knyttet til posteringer og kan ikke slettes.</item>
-  </plurals>
-  <plurals name="not_deletable_mapped_templates">
-    <item quantity="one">Det markerede objekt er knyttet til en skabelon og kan ikke slettes.</item>
-    <item quantity="other">%1$d valgte objekter er knyttet til skabeloner og kan ikke slettes.</item>
-  </plurals>
-  <string name="numbered">nummereret</string>
-  <string name="opening_balance">Åbningsbalancen</string>
-  <string name="parse_error_file_not_found">Kunne ikke finde filen %1$s</string>
-  <string name="parse_error_grisbi_version_not_supported">Ikke understøttet Grisbi filversion: %1$s</string>
-  <string name="parse_error_no_data_found">Der findes ingen data i filen der kan importeres.</string>
-  <string name="parse_error_other_exception">Der opstod en fejl: %1$s</string>
-  <string name="parse_error_parse_exception">Kunne ikke parse fil</string>
-  <string name="password_disabled_reenable">Password-beskyttelse er deaktiveret. Du kan genaktivere den i indstillingerne.</string>
-  <string name="password_lost">Glemt adgangskode</string>
-  <string name="password_not_valid">Ugyldig adgangskode. Prøv igen!</string>
-  <string name="password_prompt">Indtast din adgangskode</string>
-  <string name="password_security_answer_not_valid">Forkert svar. Prøv igen!</string>
-  <string name="payee">Modtager</string>
-  <string name="payer">Betaler</string>
-  <string name="payer_or_payee">Modtager/betaler</string>
-  <!--Plan for future and recurring transactions-->
-  <string name="plan">Plan</string>
-  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance-->
-  <string name="plan_automatic">automatisk</string>
-  <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">{app_name} planner</string>
-  <string name="planner_notification_channel_name">Planner</string>
-  <string name="plan_event_deleted">Planen der var knyttet til denne skabelon er blevet slettet fra kalenderen.</string>
-  <!--This message is shown, after a user decides to not apply a manual plan-->
-  <string name="plan_execution_canceled">Udførelsen af planen annulleret</string>
-  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance)-->
-  <string name="plan_manual">manuel</string>
-  <string name="planner_create_calendar_failure">Lokal kalender kunne ikke oprettes</string>
-  <string name="planner_create_calendar_success">Lokal kalender oprettet</string>
-  <!--payment methods-->
-  <string name="pm_cheque">Check</string>
-  <string name="pm_creditcard">Kreditkort</string>
-  <string name="pm_deposit">Depositum</string>
-  <string name="pm_directdebit">Direkte debitering</string>
-  <string name="pm_type_credit">Indtægter</string>
-  <string name="pm_type_debit">Udgifter</string>
-  <string name="pm_type_neutral">Neutral</string>
-  <string name="pref_app_dir_title">Mappen til sikkerhedskopier og eksport</string>
-  <string name="pref_auto_fill_title">AutoFyld</string>
-  <string name="pref_backup_summary">Opret en sikkerhedskopi af databasen og indstillingerne.</string>
-  <string name="pref_category_title_advanced">Avanceret</string>
-  <string name="pref_category_title_export">Eksporter</string>
-  <string name="pref_category_title_import">Importer</string>
-  <string name="pref_category_title_manage">Administrer</string>
-  <string name="pref_category_title_more_information">Flere oplysninger</string>
-  <string name="pref_category_title_security">Sikkerhed</string>
-  <string name="pref_category_title_ui">Brugergrænseflade</string>
-  <string name="pref_checkbox_enabled">Aktiveret</string>
-  <string name="pref_checkbox_disabled">Deaktiveret</string>
-  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
-  <string name="pref_contrib_purchase_summary">Køb adgang til premium funktioner.</string>
-  <string name="pref_contrib_purchase_title">Køb nøgle</string>
-  <string name="pref_contrib_purchase_title_upgrade">Opgrader produktnøglen</string>
-  <string name="pref_contrib_purchase_title_in_app">In-app-betaling</string>
-  <string name="pref_custom_currency_title">Ændre valutaer</string>
-  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
-  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Hvis du har modtaget en nøgle, kan du få adgang til premium funktionerne.</string>
-  <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Indtast nøgle</string>
-  <string name="pref_export_format_title">Dataformat</string>
-  <string name="pref_import_from_grisbi_summary">Importere kategorier og parterne fra Grisbi XML fil</string>
-  <string name="pref_import_from_grisbi_title">Import fra Grisbi</string>
-  <!--%s is replaced with QIF or CSV-->
-  <string name="pref_import_summary">Importer posteringer, kategorier og parter fra %s fil</string>
-  <!--%s is replaced with QIF or CSV-->
-  <string name="pref_import_title">%s import</string>
-  <string name="pref_like_facebook_title">Like os på Facebook</string>
-  <string name="pref_manage_accounts_title">Konti</string>
-  <string name="pref_manage_categories_summary">Tilføj, rediger, slet kategorier.</string>
-  <string name="pref_manage_categories_title">Kategorier</string>
-  <string name="pref_manage_methods_summary">Opret og Rediger betalingsmetoder og knytte dem til kontotyper.</string>
-  <string name="pref_manage_methods_title">Betalingsmetoder</string>
-  <string name="pref_manage_parties_summary">Tilføj, rediger, slet parter (betalere og modtagere).</string>
-  <string name="pref_manage_parties_title">Parter</string>
-  <string name="pref_manage_sync_backends_title">Synkronisering backends</string>
-  <!--%s will be replaced with list of backends-->
-  <string name="pref_more_info_dialog_title">Licens &amp; Credits</string>
-  <string name="pref_password_not_equal">Adgangskoderne er ikke ens</string>
-  <string name="pref_perform_share_title">Del eksport og backup</string>
-  <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
-  <string name="pref_planning_calendar_create_local">Opret ny lokal kalender</string>
-  <string name="pref_planning_calendar_summary">Vælg den kalender, hvor der skal gemmes planer for tilbagevendende posteringer der skal bruges i fremtiden</string>
-  <string name="pref_planning_calendar_title">Planner</string>
-  <string name="pref_protection_delay_seconds_summary">Antal sekunder før app\'en vil være sikret med password.</string>
-  <string name="pref_protection_delay_seconds_title">Ventetid indtil beskyttelse virker</string>
-  <string name="pref_protection_enable_data_entry_from_widget_title">Data fra widgets og genveje</string>
-  <string name="pref_protection_enable_data_entry_from_widget_summary_on">Adgang uden adgangskode.</string>
-  <string name="pref_protection_enable_data_entry_from_widget_summary_off">Adgangskode er påkrævet.</string>
-  <string name="pref_qif_export_file_encoding_title">Tegnsæt</string>
-  <string name="pref_request_licence_title">Anmode om at få tilsendt en nøgle</string>
-  <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
-  <string name="pref_restore_alternative">Alternativ</string>
-  <string name="pref_restore_alternative_summary">Brug denne alternative metode, hvis der ikke er nogen fil manager installeret på enheden.</string>
-  <string name="pref_restore_summary">Vælg en sikkerhedskopi for at genoprette databasen og indstillingerne.</string>
-  <string name="pref_restore_title">Gendan</string>
-  <string name="pref_security_question_summary">Giver dig mulighed for at oplåse app\'en, hvis du har glemt din adgangskode.</string>
-  <string name="pref_security_question_title">Sikkerhedsspørgsmål</string>
-  <string name="pref_send_feedback_title">Send feedback</string>
-  <string name="pref_share_target_summary">Den skal være tomt, hvis du vil vælge mellem passende apps (E-mail, Dropbox, Google Docs, …), eller du kan indsæt URL i en af de understøttede skemaer</string>
-  <string name="pref_share_target_title">Upload URL</string>
-  <string name="pref_shortcut_added">Genvej til startskærmen blev tilføjet </string>
-  <string name="pref_shortcut_not_added">Ingen Startskærm tilgængelig der accepterer genveje.</string>
-  <string name="pref_shortcut_summary">Tilføj genvej til startskærm.</string>
-  <string name="pref_template_click_default_summary">Ved at klikke på et navn i listen af skabeloner</string>
-  <string name="pref_ui_fontsize_title">Forøg skriftstørrelsen</string>
-  <string name="pref_ui_home_screen_shortcuts">Genvej til Startskærm</string>
-  <string name="pref_ui_language_default">Systemstandard</string>
-  <!--Title of the preference for selecting the UI language-->
-  <string name="pref_ui_language_title">Sprog</string>
-  <string name="pref_ui_theme_dark">Mørk</string>
-  <string name="pref_ui_theme_light">Lys</string>
-  <string name="pref_ui_theme_title">Stil</string>
-  <string name="pref_visit_website_summary">Ændringer og FAQ</string>
-  <string name="pref_visit_website_title">Besøg hjemmeside</string>
-  <string name="progress_dialog_deleting">Objekter slettes</string>
-  <string name="progress_dialog_loading">Lastning objekt fra database</string>
-  <string name="progress_dialog_printing">Generating PDF</string>
-  <string name="progress_dialog_saving">Gemmer objektet til database</string>
-  <string name="qif_parse_result">Fundet: %1$s regnskaber; %2$s kategorier og %3$s parter</string>
-  <string name="qif_parse_failure_found_multiple_accounts">Der findes flere konti i QIF filen.</string>
-  <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Matcher ikke eksisterende konto.</string>
-  <string name="reference_number">Referencenummer</string>
-  <string name="restore_db_failure">Gendannelse af databasen mislykkedes.</string>
-  <string name="restore_db_success">Databasen blev gendannet fra backup.</string>
-  <string name="restore_no_backup_found">Ingen backup fundet.</string>
-  <string name="restore_preferences_failure">Gendannelse af indstillinger mislykkedes</string>
-  <string name="restore_backup_archive_not_valid">Arkiv %1$s er ikke gyldigt</string>
-  <string name="restore_backup_file_not_found">Der findes ingen fil %1$s i arkivet \"%2$s\"</string>
-  <string name="restore_preferences_success">Indstillingerne blev gendannet fra backup.</string>
-  <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d planer blev gendannet fra backup</string>
-  <string name="save_transaction_and_new_success">Gemt</string>
-  <string name="save_transaction_error">Kunne ikke gemme nye postering fra skabelonen.</string>
-  <plurals name="save_transaction_from_template_success">
-    <item quantity="one">Ny transaktion gemt fra skabelonen.</item>
-    <item quantity="other">%1$d nye transaktioner blev gemt fra skabeloner.</item>
-  </plurals>
-  <string name="save_transaction_template_deleted">Skabelonen blev slettet</string>
-  <string name="select">Vælg</string>
-  <string name="select_category">Vælg kategori</string>
-  <string name="share_scheme_not_supported">Skema %1$s understøttes ikke</string>
-  <string name="share_sending">Send eksportfilen</string>
-  <string name="split_parts_heading">Splittede delbeløb</string>
-  <string name="split_transaction">Splittede postering</string>
-  <string name="status">Status</string>
-  <string name="status_cleared">afregnet</string>
-  <string name="status_reconciled">afstemt</string>
-  <string name="status_uncreconciled">ikke afstemt</string>
-  <string name="status_void">ugyldig</string>
-  <string name="subcategory">Underkategori</string>
-  <string name="sum_expenses">Udgifter</string>
-  <string name="sum_income">Indkomst</string>
-  <string name="sum_transfer">Overførsler</string>
-  <!--platform is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">Tjek {app_name}, Personal Finance Manager for {platform}, fra {website}</string>
-  <string name="thank_you">Tak for din støtte!</string>
-  <string name="time">Tid</string>
-  <string name="title">Titel</string>
-  <string name="total_cleared">I alt afregnet</string>
-  <string name="total_reconciled">i alt afstemt</string>
-  <string name="transaction">Postering</string>
-  <string name="transfer">Overførsel</string>
-  <string name="transfer_from_account">Fra</string>
-  <string name="transfer_to_account">Til</string>
-  <!--Type refers to the type of an account, eg. Cash account, bank account-->
-  <string name="type">Type</string>
-  <string name="unsplit_amount">Ikke splittede beløb</string>
-  <string name="unsplit_amount_greater_than_zero">Der er stadig nogle beløb der ikke blev splitted</string>
-  <string name="warning_backup">Databasen og indstillingerne gemmes \"%1$s\".</string>
-  <string name="continue_confirmation">Vil du fortsætte?</string>
-  <string name="warning_delete_account">Kontoen \"%1$s\" vil blive slettet med alle posteringer.</string>
-  <plurals name="warning_delete_main_category">
-    <item quantity="one">Valgte kategori har underkategorier, der vil blive slettet så godt.</item>
-    <item quantity="other">%1$d valgt kategorier har underkategorier, der også vil blive slettet.</item>
-  </plurals>
-  <plurals name="warning_delete_template">
-    <item quantity="one">Den valgte skabelon vil blive slettet.</item>
-    <item quantity="other">%1$d valgte skabeloner vil blive slettet.</item>
-  </plurals>
-  <plurals name="warning_delete_transaction">
-    <item quantity="one">Den valgte transaktion vil blive slettet.</item>
-    <item quantity="other">%1$d valgte posteringer vil blive slettet.</item>
-  </plurals>
-  <string name="warning_delete_reconciled">Hvis du sletter afstemte posteringer kan din bogføring afvige fra bankens kontoudtog.</string>
-  <string name="warning_balance_account">Sammenlign I alt afregnet med Saldo i dit kontoudtog. Hvis du fortsætter vil afregnede posteringer blive markeret som afstemt.</string>
-  <string name="warning_password_protected">App er beskyttet med adgangskode.</string>
-  <string name="warning_widget_disabled">Du skal aktivere denne widget i indstillingerne i appen.</string>
-  <string name="warning_instantiate_template_from_widget_password_protected">Hurtig anvendelse af skabeloner fra denne widget virker kun hvis du i indstillingerne i appen tillader at der hentes af data fra widget uden adgangskode.</string>
-  <string name="warning_password_contrib">Angive et sikkerhedsspørgsmål du kan app\'en låse op med, hvis du glemmer din adgangskode.</string>
-  <string name="warning_reset_account">Hvis du fortsætter, slettet alle posteringer på denne konto fra databasen og kan ikke gendannes.</string>
-  <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
-  <string name="warning_reset_account_all">Hvis du fortsætter, slettes alle posteringer i alle konti %1$s fra databasen og kan ikke gendannes.</string>
-  <string name="warning_reset_account_matched">Hvis du fortsætter, slettes alle posteringer fra databasen der svarer til det aktuelle filter og de kan ikke gendannes.</string>
-  <string name="warning_restore">Databasen og indstillinger gendannes fra filen \"%1$s\". De aktuelle data slettes.</string>
-  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Den aktuelt valgte mappe til sikkerhedskopier og eksport slettes automatisk af Android, hvis du fjerner {app_name}. Du kan forhindre dette i at ske ved at vælge en anden mappe i skærmbilledet indstillinger.</string>
-  <string name="warning_splitpartcategory_context">Overførsler, der er del af en splittet postering kan kun redigeres i forbindelse med opsplitningen.</string>
-  <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Angiv et tal mellem %1$d og %2$d</string>
-  <string name="import_categories_success">%1$s kategorier importeret</string>
-  <string name="import_parties_success">%1$s parter importeret</string>
-  <string name="import_accounts_success">%1$s regnskaber importeret</string>
-  <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d posteringer importeret i konto %2$s</string>
-  <string name="import_accounts_none">Ingen konti importeret</string>
-  <string name="import_categories_none">Ingen kategorier importeret</string>
-  <string name="import_parties_none">Ingen parter importeret</string>
-  <string name="import_transactions_none">Ingen posteringer importeret i konto %1$s</string>
-  <string name="import_source_select_error">Angiv en fil af typen %1$s</string>
-  <string name="menu_categories_setup_default">Opret standardkategorier</string>
-  <string name="menu_create_folder">Ny mappe</string>
-  <!--This string is used for navigating up in the folder browser-->
-  <string name="menu_up">Op</string>
-  <string name="create_new_folder_fail">Kunne ikke oprette mappen</string>
-  <string name="widget_title_accounts">Mine konti</string>
-  <string name="widget_title_templates">Mine skabeloner</string>
-  <string name="search_amount">Find beløb</string>
-  <string name="search_category">Søg efter kategori</string>
-  <string name="search_comment">Søg efter noter</string>
-  <string name="search_date">Søg efter dato</string>
-  <string name="search_status">Søg efter status</string>
-  <string name="search_payee">Søg efter betalingsmodtager/betaler</string>
-  <string name="search_method">Søg efter metode</string>
-  <string name="and">og</string>
-  <string name="between_and">mellem %1$s og %2$s</string>
-  <string name="before">før %s</string>
-  <string name="after">efter %s</string>
-  <string name="comparison_operator_equal">lige med</string>
-  <string name="comparison_operator_greater_than">større end</string>
-  <string name="comparison_operator_lesser_than">mindre end</string>
-  <string name="comparison_operator_between">mellem</string>
-  <string name="comparison_operator_date_before">før</string>
-  <string name="comparison_operator_date_after">efter</string>
-  <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Køb mislykkedes eller annulleret.</string>
-  <string name="yes">Ja</string>
-  <string name="no">Nej</string>
-  <string name="hint_template_click">Anvend en skabelon ved at vælge en ud af listen ved at trykke på den. Den gemmes med det samme eller du kan rediger den før den gemmes. Du kan altid få adgang til begge aktioner og ændre standard indstillingerne ved at trykke på den og holder trykt.</string>
-  <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d konti med valuta %2$s opdateret.</string>
-  <string name="learn_more">Læs mere</string>
-  <string name="import_source_file">Fil</string>
-  <string name="restore_calendar_handling">Kalender datahåndtering</string>
-  <string name="restore_calendar_handling_configured">Planer gemmes i den aktuelt konfigurerede kalender</string>
-  <string name="restore_calendar_handling_backup">Planer gemmes i den i sikkerhedskopieringen oprettede kalender, hvis den er tilgængelig.</string>
-  <string name="restore_calendar_handling_ignore">Gendan ikke planer</string>
-  <string name="restore_not_possible_target_calendar_missing">Den i sikkerhedkopien valgte Kalender %s findes ikke i lokalindstillingerne. Systemgendannelse afbrudt.</string>
-  <string name="restore_not_possible_local_calendar_missing">Den aktuelle planlægning kalender er ikke tilgængelig.</string>
-  <string name="menu_view_picture">Se billede</string>
-  <string name="menu_delete_picture">Slet billede</string>
-  <string name="menu_change_picture">Vedhæft forskellige billeder</string>
-  <string name="menu_distribution_show_pie_char">Vis cirkeldiagram</string>
-  <string name="menu_distribution_aggreate">Samlede udgifter og indtægter</string>
-  <string name="pref_manage_stale_images_title">Gamle billeder</string>
-  <string name="pref_manage_stale_images_summary">Administrer billeder fra slettede posteringer</string>
-  <string name="image_deleted">Billedet slettet</string>
-  <string name="dialog_export_applied_to_filter">Der medtages kun posteringer der svarer til den aktuelle filter.</string>
-  <string name="export_handle_deleted_create_helper">Opret postering til en hjælpekonto</string>
-  <string name="export_handle_deleted_update_balance">Opdater primosaldo</string>
-  <string name="file_name">Filnavn</string>
-  <string name="folder_name">Mappenavn</string>
-  <string name="mark_void_instead_of_delete">Slet ikke postering, marker den i stedet som ugyldige.</string>
-  <string name="menu_undelete_transaction">Gendan</string>
-  <string name="slash_forbidden_in_filename">/ tegnet er ugyldigt i filnavn</string>
-  <string name="io_error_unable_to_create_file">Fil %1$s kunne ikke oprettes i mappen %2$s</string>
-  <string name="menu_categories_export">Eksporter til QIF</string>
-  <string name="pref_csv_import_delimiter">Adskillelsestegn</string>
-  <string name="csv_import_preview">Preview</string>
-  <string name="menu_parse">Analyser</string>
-  <!--Label for column where user can check rows to be discarded from import-->
-  <string name="cvs_import_discard">Forkast</string>
-  <string name="csv_import_field_mapped_more_than_once">%s er tilknyttet til flere.</string>
-  <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d dataposter kunne ikke importeres</string>
-  <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d dataposter ignoreret</string>
-  <string name="csv_import_subcategory_requires_category">Hvis du tilknytter en underkategori skal du også  tilknytte kategorien.</string>
-  <string name="cvs_import_set_first_line_as_header">Skal den første linje bruges som kolonneoverskrift?</string>
-  <string name="csv_import_delimiter_comma">Komma</string>
-  <string name="csv_import_delimiter_semicolon">Semikolon</string>
-  <string name="csv_import_delimiter_tab">Tabulator</string>
-  <string name="csv_import_no_mapping_found_for_amount">Du skal en kolonne tilknytte enten til beløb, indkomst eller udgifter</string>
-  <string name="menu_show_transactions">Vis posterings</string>
-  <string name="switch_on_text">Til</string>
-  <string name="switch_off_text">Fra</string>
-  <string name="preferences_week_start_day_title">Ugen starter</string>
-  <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
-  <string name="content_description_calculator">Lommeregner</string>
-  <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
-  <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
-  <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
-  <!--Sort plans (recurring transactions) by the next instance-->
-  <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Cloud synkronisering</string>
-  <!--button leading user to purchase flow for licence keys-->
-  <!--During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed-->
-  <!--%1$s date, %2$s price-->
-  <!--A label indicating the color for the sum of expenses-->
-  <!--A label indicating the color for the sum of income-->
-  <!--This is the label for the action that breaks up a split transaction into its parts.-->
-  <string name="split_transaction_one_error">Denne postering kunne ikke splittes.</string>
-  <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
-  <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
-  <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
-  <!--Content description for accessibility on image that allows to collapse content-->
-  <!--Content description for accessibility on image that allows to expand content-->
-  <!--Short label for the amount input where user can set either saving goal or credit limit-->
-  <!--Description for button that allows to clear the selected method-->
-  <!--Description for button that allows to clear the selected category-->
-  <!--In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
-    to search for transactions without category, payee or method. The UI allows selection of multiple items,
-    but we warn the user if he includes this special item in the selection.-->
-  <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
-  <!--Action of closing an account. A closed account does not allow any modifications on its data.-->
-  <!--Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data.-->
-  <!--Menu entry for opening a list of all hidden accounts.-->
-  <!--Action of showing an account again that had previously been hidden.-->
-  <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
-  <string name="content_description_encrypted">Krypteret</string>
-  <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
-  <!--This message is shwon when we highlight the income / expense toogle, to make user aware of this feature-->
-  <!--This message is shwon when we highlight the dropdown for switching from normal transaction to transfer or split transaction,to make user aware of this feature-->
-  <string name="budget_duration_from">Fra</string>
-  <string name="budget_duration_to">Til</string>
-  <!--Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list.-->
-  <!--Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method"-->
-  <!--If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
-        because no payment method is configured for all of the given account types.-->
-  <!--The label for the button, where user confirms that he wants to clone the selected transactions and then remap them.-->
-  <!--The summary of a preference toggle. If switched on cloned transactions have the date set to the current date-->
-  <!--The summary of a preference toggle. If switched off cloned transactions keep the original date-->
-  <!--This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction-->
-  <!--%s will be replaced with the labels of all tags that user has selected.-->
-  <!--Title for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
-  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
-  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application)-->
-  <!--Title in Settings screen, and title of dynamically loaded feature module-->
-  <!--If this mode is active, the action button will open the camera for scanning a receipt-->
-  <!--Button that triggers the scan operation-->
-  <!--Title for a preference that allows user to decide if all transactions of the current day should be considered as past (future begins at end of day), or if the exact current time divides between past and future-->
-  <!--Option for a preference that allows to decide that all transactions until end of day are considered past transactions-->
-  <!--Option for a preference that allows to decide that only transactions before current time are considered past transactions-->
-  <!--Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)-->
-  <string name="pref_category_title_features">Funktioner</string>
-  <!--Toast message shown if user clicks on Upgrade button before having selected a licence-->
-</resources>
+    <string name="account">Konto</string>
+    <string name="account_type_asset">Anlægskonto</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_asset_plural">Anlægskonti</string>
+    <string name="account_type_bank">Bankkonto</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_bank_plural">Bankkonti</string>
+    <string name="account_type_cash">Kontanter</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_cash_plural">Kontanter</string>
+    <string name="account_type_ccard">Kreditkort</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_ccard_plural">Kreditkort</string>
+    <string name="account_type_liability">Gæld</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_liability_plural">Gæld</string>
+    <string name="already_defined">%1$s findes allerede</string>
+    <string name="amount">Beløb</string>
+    <string name="app_name">Mine udgifter</string>
+    <string name="backup_failure">Sikkerhedskopieringen til \"%1$s\" mislykkedes.</string>
+    <string name="backup_success">Databasen og indstillinger blev gemt på \"%1$s\".</string>
+    <string name="category">Kategori</string>
+    <string name="color">Farve</string>
+    <string name="comment">Noter</string>
+    <string name="confirmation_dialog_dont_show_again">Vis ikke igen</string>
+    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Ingen annoncer</string>
+    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Ubegrænset antal konti</string>
+    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Vedhæft et billede til postering</string>
+    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Ubegrænset antal planer</string>
+    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Udskriv posteringer som PDF</string>
+    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Skabelon widget</string>
+    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV import</string>
+    <string name="contrib_key">Contrib Nøgle</string>
+    <string name="extended_key">Nøgle til udvidet version</string>
+    <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
+    <string name="contrib_key_requires">Kræver %s.</string>
+    <string name="currency">Valuta</string>
+    <string name="current_balance">Aktuel saldo</string>
+    <string name="date">Dato</string>
+    <string name="date_format">Datoformat</string>
+    <string name="date_format_illegal">Ugyldigt datoformat</string>
+    <string name="decimal_separator">Decimalkomma</string>
+    <string name="default_account_name">Budgetbog</string>
+    <string name="description">Beskrivelse</string>
+    <string name="dialog_balance_delete">Slet afstemte posteringer</string>
+    <string name="dialog_command_disabled_balance">Ingen afregnede posteringer der skal afstemmes.</string>
+    <string name="dialog_command_disabled_reset_account">Ingen Posteringer der kan eksporteres.</string>
+    <string name="dialog_command_disabled_distribution">På denne konto blev ingen posteringer henført til kategorier.</string>
+    <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
+    <string name="dialog_contrib_premium_feature">%1$s er en premium funktion (%2$s).</string>
+    <string name="dialog_contrib_text_1"><i>{app_name}</i> er tilbudt open source.</string>
+    <string name="dialog_export_delete">Slet eksporterede posteringer</string>
+    <string name="dialog_export_not_yet_exported">Eksporter kun posteringer der ikke blev eksporteret endnu</string>
+    <string name="dialog_password_activate_protection">Aktivere beskyttelse med adgangskode</string>
+    <string name="dialog_password_change_password">Skift adgangskode</string>
+    <string name="dialog_password_new_password">Ny adgangskode</string>
+    <string name="dialog_password_new_password_confirmation">Bekræftelse af ny adgangskode</string>
+    <string name="dialog_remind_later">Senere</string>
+    <string name="dialog_remind_no">Nej tak</string>
+    <string name="dialog_remind_rate_how_many_stars">Hvor mange stjerner vil du give til {app_name}?</string>
+    <string name="dialog_remind_rate_1">Tag venligst et øjeblik til at anmelde {app_name}.</string>
+    <string name="dialog_remind_rate_2">Dine kommentarer hjælper os til at tilføje løbende forbedringer.</string>
+    <string name="dialog_remind_rate_1_suggest_improvement">Tag venligst et øjeblik til at sende os dine forslag til forbedringer.</string>
+    <string name="dialog_remind_rate_yes">Anmeld nu</string>
+    <string name="dialog_security_answer">Svar</string>
+    <string name="dialog_security_question">Spørgsmål</string>
+    <string name="dialog_title_attention">OBS!</string>
+    <string name="dialog_title_information">Information</string>
+    <!-- %1$s is replace with account label -->
+    <string name="dialog_title_balance_account">Balance %1$s</string>
+    <string name="dialog_title_contrib_feature">Premiumfunktion</string>
+    <string name="dialog_title_warning_delete_template">Slet skabelonen?</string>
+    <string name="dialog_title_warning_delete_transaction">Slet transaktionen?</string>
+    <string name="expense">Udgift</string>
+    <string name="export_expenses">Eksport af udgifter</string>
+    <!-- 1$s is replaced with path to file, 2$s with error message -->
+    <string name="export_sdcard_failure">Fejl ved eksport til filen \"%1$s\": %2$s</string>
+    <!-- 1$s is replaced with path to file -->
+    <string name="export_sdcard_success">Data blev eksporteret til filen \"%1$s\"</string>
+    <string name="external_storage_unavailable">Ekstern storage (sdcard) ikke tilgængelige</string>
+    <string name="feedback">Feedback</string>
+    <string name="ftp_uri_malformed">Ugyldig URI %1$s</string>
+    <string name="grisbi_import_categories_loading">Kategorier indlæses fra %1$s</string>
+    <string name="grisbi_import_parties_loading">Parter indlæses fra %1$s</string>
+    <string name="grouping_day">Dag</string>
+    <string name="grouping_last_week">Sidste uge</string>
+    <string name="grouping_month">Måned</string>
+    <string name="grouping_none">Ikke grupperet</string>
+    <string name="grouping_this_week">Denne uge</string>
+    <string name="grouping_today">I dag</string>
+    <string name="grouping_week">Uge</string>
+    <string name="grouping_year">År</string>
+    <string name="grouping_yesterday">I går</string>
+    <string name="help_button_rate">Anmelde</string>
+    <string name="help_heading_credits">Credits</string>
+    <string name="help_heading_license">Licens</string>
+    <string name="help_heading_whats_new">Hvad er nyt</string>
+    <string name="important_upgrade_information_heading">Vigtige oplysninger</string>
+    <string name="import_select_transactions">Posteringer</string>
+    <string name="income">Indkomst</string>
+    <string name="invalid_number_format">Tal format understøttes ikke af din landestandard/lokalinstillinger. Brug venligst %1$s</string>
+    <string name="label">Betegnelse</string>
+    <string name="licence_validation_failure">Licensnøglen kan ikke valideres.</string>
+    <string name="licence_validation_success">Licensnøglen er valideret:</string>
+    <string name="licence_validation_premium">Premium funktoner er låst op</string>
+    <string name="menu_aggregates">I alt</string>
+    <!-- Shown in a notification; allows to apply a template (instantiate a new transaction from it) -->
+    <string name="menu_apply_template">Anvende</string>
+    <string name="menu_back">Tilbage</string>
+    <string name="menu_backup">Backup</string>
+    <!-- Balance: compare cleared balance in app with balance on statement received from bank -->
+    <string name="menu_balance">Saldo</string>
+    <!-- Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction -->
+    <string name="menu_cancel_plan_instance">Annuller</string>
+    <string name="menu_clone_transaction">Klon</string>
+    <string name="menu_contrib">Bidrage</string>
+    <string name="menu_create_account">Ny konto</string>
+    <string name="menu_create_instance_edit">Anvend og rediger</string>
+    <string name="menu_create_instance_save">Anvend og gem</string>
+    <string name="menu_create_main_cat">Ny Hovedkategori</string>
+    <string name="menu_create_method">Ny betalingsmetode</string>
+    <string name="menu_create_party">Ny part</string>
+    <string name="menu_create_split">Ny splitning</string>
+    <string name="menu_create_split_part_category">Ny kategori splittet part</string>
+    <string name="menu_create_split_part_transfer">Ny overførsel splittet part</string>
+    <string name="menu_create_sub_cat">Ny underkategori</string>
+    <string name="menu_create_template">Ny skabelon</string>
+    <string name="menu_create_template_from_transaction">Gem som skabelon</string>
+    <string name="menu_create_template_for_transaction">Ny transaktion skabelon</string>
+    <string name="menu_create_template_for_transfer">Ny overførsel skabelon</string>
+    <string name="menu_create_transaction">Ny postering</string>
+    <string name="menu_create_transfer">Ny overførsel</string>
+    <string name="menu_delete">Slet</string>
+    <string name="menu_distribution">Distribution</string>
+    <string name="menu_edit">Rediger</string>
+    <string name="menu_edit_account">Rediger konto</string>
+    <string name="menu_edit_cat">Redigere kategori</string>
+    <string name="menu_edit_method">Rediger betalingsmetoden</string>
+    <string name="menu_edit_party">Rediger part</string>
+    <string name="menu_edit_plan_instance">Rediger enkelt hændelse</string>
+    <string name="menu_edit_split">Rediger splitpostering</string>
+    <string name="menu_edit_split_part_category">Rediger splittet delbeløb (kategori)</string>
+    <string name="menu_edit_split_part_transfer">Rediger splittet delbeløb (overførsel)</string>
+    <string name="menu_edit_template">Rediger skabelon</string>
+    <string name="menu_edit_transaction">Rediger postering</string>
+    <string name="menu_edit_transfer">Rediger overførsel</string>
+    <string name="menu_exclude_from_totals">Ekskluder fra totaler</string>
+    <string name="menu_forward">Frem</string>
+    <string name="menu_grouping">Gruppering</string>
+    <string name="menu_help">Hjælp</string>
+    <!-- This command inverts the direction of a transfer -->
+    <string name="menu_invert_transfer">Inverter</string>
+    <string name="menu_manage_plans">Skabeloner og planer</string>
+    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
+    <string name="menu_open">Åbn</string>
+    <string name="menu_import">Import</string>
+    <string name="menu_print">Udskriv</string>
+    <string name="menu_reset">Eksporter og nulstil</string>
+    <string name="menu_reset_all">Eksporter alle og nulstil</string>
+    <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
+    <string name="menu_reset_plan_instance">Nulstil</string>
+    <string name="menu_save">Gem</string>
+    <string name="menu_save_and_new">Gem og ny</string>
+    <string name="menu_search">Søg</string>
+    <string name="menu_settings">Indstillinger</string>
+    <string name="menu_share">Fortæl en ven</string>
+    <string name="menu_split_transaction">Opsplit</string>
+    <string name="method">Betalingsmetode</string>
+    <string name="no_amount_given">Du har ikke angivet noget beløb.</string>
+    <string name="no_app_handling_email_available">Der findes ingen app til håndtering af e-mail.</string>
+    <string name="no_app_handling_ftp_available">Der findes ingen app til håndtering af ftp. Installer <i>Send via FTP</i>?</string>
+    <string name="no_app_handling_pdf_available">Der findes Ingen app til håndtering af PDF-filer.</string>
+    <string name="no_categories">Ingen kategorier.</string>
+    <string name="no_expenses">Der findes endnu ingen udgifter!</string>
+    <string name="no_exportable_expenses">Der findes ingen posteringer, der ikke allerede blev eksporteret.</string>
+    <string name="no_filemanager_installed">Ingen filemanager installeret</string>
+    <string name="no_mapped_transactions">Der blev ingen posteringer knyttet til kategorier i denne periode.</string>
+    <string name="no_methods">Ingen betalingsmetoder.</string>
+    <string name="no_parties">Ingen parter.</string>
+    <string name="no_split_parts">Ingen split dele.</string>
+    <string name="no_templates">Ingen skabeloner.</string>
+    <string name="no_title_given">Du har ikke angivet nogen titel.</string>
+    <plurals name="not_deletable_mapped_transactions">
+        <item quantity="one">Det markerede objekt er knyttet til en transaktion og kan ikke slettes.</item>
+        <item quantity="other">%1$d valgte objekter er knyttet til posteringer og kan ikke slettes.</item>
+    </plurals>
+    <plurals name="not_deletable_mapped_templates">
+        <item quantity="one">Det markerede objekt er knyttet til en skabelon og kan ikke slettes.</item>
+        <item quantity="other">%1$d valgte objekter er knyttet til skabeloner og kan ikke slettes.</item>
+    </plurals>
+    <string name="numbered">nummereret</string>
+    <string name="opening_balance">Åbningsbalancen</string>
+    <string name="parse_error_file_not_found">Kunne ikke finde filen %1$s</string>
+    <string name="parse_error_grisbi_version_not_supported">Ikke understøttet Grisbi filversion: %1$s</string>
+    <string name="parse_error_no_data_found">Der findes ingen data i filen der kan importeres.</string>
+    <string name="parse_error_other_exception">Der opstod en fejl: %1$s</string>
+    <string name="parse_error_parse_exception">Kunne ikke parse fil</string>
+    <string name="password_disabled_reenable">Password-beskyttelse er deaktiveret. Du kan genaktivere den i indstillingerne.</string>
+    <string name="password_lost">Glemt adgangskode</string>
+    <string name="password_not_valid">Ugyldig adgangskode. Prøv igen!</string>
+    <string name="password_prompt">Indtast din adgangskode</string>
+    <string name="password_security_answer_not_valid">Forkert svar. Prøv igen!</string>
+    <string name="payee">Modtager</string>
+    <string name="payer">Betaler</string>
+    <string name="payer_or_payee">Modtager/betaler</string>
+    <!-- Plan for future and recurring transactions -->
+    <string name="plan">Plan</string>
+    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
+    <string name="plan_automatic">automatisk</string>
+    <!-- this is the label for the calendar where plans for future and recurrent transactions are stored -->
+    <string name="plan_calendar_name">{app_name} planner</string>
+    <string name="planner_notification_channel_name">Planner</string>
+    <string name="plan_event_deleted">Planen der var knyttet til denne skabelon er blevet slettet fra kalenderen.</string>
+    <!-- This message is shown, after a user decides to not apply a manual plan -->
+    <string name="plan_execution_canceled">Udførelsen af planen annulleret</string>
+    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
+    <string name="plan_manual">manuel</string>
+    <string name="planner_create_calendar_failure">Lokal kalender kunne ikke oprettes</string>
+    <string name="planner_create_calendar_success">Lokal kalender oprettet</string>
+    <!-- payment methods -->
+    <string name="pm_cheque">Check</string>
+    <string name="pm_creditcard">Kreditkort</string>
+    <string name="pm_deposit">Depositum</string>
+    <string name="pm_directdebit">Direkte debitering</string>
+    <string name="pm_type_credit">Indtægter</string>
+    <string name="pm_type_debit">Udgifter</string>
+    <string name="pm_type_neutral">Neutral</string>
+    <string name="pref_app_dir_title">Mappen til sikkerhedskopier og eksport</string>
+    <string name="pref_auto_fill_title">AutoFyld</string>
+    <string name="pref_backup_summary">Opret en sikkerhedskopi af databasen og indstillingerne.</string>
+    <string name="pref_category_title_advanced">Avanceret</string>
+    <string name="pref_category_title_export">Eksporter</string>
+    <string name="pref_category_title_import">Importer</string>
+    <string name="pref_category_title_manage">Administrer</string>
+    <string name="pref_category_title_more_information">Flere oplysninger</string>
+    <string name="pref_category_title_security">Sikkerhed</string>
+    <string name="pref_category_title_ui">Brugergrænseflade</string>
+    <string name="pref_checkbox_enabled">Aktiveret</string>
+    <string name="pref_checkbox_disabled">Deaktiveret</string>
+    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
+    <string name="pref_contrib_purchase_summary">Køb adgang til premium funktioner.</string>
+    <string name="pref_contrib_purchase_title">Køb nøgle</string>
+    <string name="pref_contrib_purchase_title_upgrade">Opgrader produktnøglen</string>
+    <string name="pref_contrib_purchase_title_in_app">In-app-betaling</string>
+    <string name="pref_custom_currency_title">Ændre valutaer</string>
+    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
+    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Hvis du har modtaget en nøgle, kan du få adgang til premium funktionerne.</string>
+    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Indtast nøgle</string>
+    <string name="pref_export_format_title">Dataformat</string>
+    <string name="pref_import_from_grisbi_summary">Importere kategorier og parterne fra Grisbi XML fil</string>
+    <string name="pref_import_from_grisbi_title">Import fra Grisbi</string>
+    <!-- %s is replaced with QIF or CSV -->
+    <string name="pref_import_summary">Importer posteringer, kategorier og parter fra %s fil</string>
+    <!-- %s is replaced with QIF or CSV -->
+    <string name="pref_import_title">%s import</string>
+    <string name="pref_like_facebook_title">Like os på Facebook</string>
+    <string name="pref_manage_accounts_title">Konti</string>
+    <string name="pref_manage_categories_summary">Tilføj, rediger, slet kategorier.</string>
+    <string name="pref_manage_categories_title">Kategorier</string>
+    <string name="pref_manage_methods_summary">Opret og Rediger betalingsmetoder og knytte dem til kontotyper.</string>
+    <string name="pref_manage_methods_title">Betalingsmetoder</string>
+    <string name="pref_manage_parties_summary">Tilføj, rediger, slet parter (betalere og modtagere).</string>
+    <string name="pref_manage_parties_title">Parter</string>
+    <string name="pref_manage_sync_backends_title">Synkronisering backends</string>
+    <string name="pref_more_info_dialog_title">Licens &amp; Credits</string>
+    <string name="pref_password_not_equal">Adgangskoderne er ikke ens</string>
+    <string name="pref_perform_share_title">Del eksport og backup</string>
+    <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
+    <string name="pref_planning_calendar_create_local">Opret ny lokal kalender</string>
+    <string name="pref_planning_calendar_summary">Vælg den kalender, hvor der skal gemmes planer for tilbagevendende posteringer der skal bruges i fremtiden</string>
+    <string name="pref_planning_calendar_title">Planner</string>
+    <string name="pref_protection_delay_seconds_summary">Antal sekunder før app\'en vil være sikret med password.</string>
+    <string name="pref_protection_delay_seconds_title">Ventetid indtil beskyttelse virker</string>
+    <string name="pref_protection_enable_data_entry_from_widget_title">Data fra widgets og genveje</string>
+    <string name="pref_protection_enable_data_entry_from_widget_summary_on">Adgang uden adgangskode.</string>
+    <string name="pref_protection_enable_data_entry_from_widget_summary_off">Adgangskode er påkrævet.</string>
+    <string name="pref_qif_export_file_encoding_title">Tegnsæt</string>
+    <string name="pref_request_licence_title">Anmode om at få tilsendt en nøgle</string>
+    <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
+    <string name="pref_restore_alternative">Alternativ</string>
+    <string name="pref_restore_alternative_summary">Brug denne alternative metode, hvis der ikke er nogen fil manager installeret på enheden.</string>
+    <string name="pref_restore_summary">Vælg en sikkerhedskopi for at genoprette databasen og indstillingerne.</string>
+    <string name="pref_restore_title">Gendan</string>
+    <string name="pref_security_question_summary">Giver dig mulighed for at oplåse app\'en, hvis du har glemt din adgangskode.</string>
+    <string name="pref_security_question_title">Sikkerhedsspørgsmål</string>
+    <string name="pref_send_feedback_title">Send feedback</string>
+    <string name="pref_share_target_summary">Den skal være tomt, hvis du vil vælge mellem passende apps (E-mail, Dropbox, Google Docs, …), eller du kan indsæt URL i en af de understøttede skemaer</string>
+    <string name="pref_share_target_title">Upload URL</string>
+    <string name="pref_shortcut_added">Genvej til startskærmen blev tilføjet </string>
+    <string name="pref_shortcut_not_added">Ingen Startskærm tilgængelig der accepterer genveje.</string>
+    <string name="pref_shortcut_summary">Tilføj genvej til startskærm.</string>
+    <string name="pref_template_click_default_summary">Ved at klikke på et navn i listen af skabeloner</string>
+    <string name="pref_ui_fontsize_title">Forøg skriftstørrelsen</string>
+    <string name="pref_ui_home_screen_shortcuts">Genvej til Startskærm</string>
+    <string name="pref_ui_language_default">Systemstandard</string>
+    <!-- Title of the preference for selecting the UI language -->
+    <string name="pref_ui_language_title">Sprog</string>
+    <string name="pref_ui_theme_dark">Mørk</string>
+    <string name="pref_ui_theme_light">Lys</string>
+    <string name="pref_ui_theme_title">Stil</string>
+    <string name="pref_visit_website_summary">Ændringer og FAQ</string>
+    <string name="pref_visit_website_title">Besøg hjemmeside</string>
+    <string name="progress_dialog_deleting">Objekter slettes</string>
+    <string name="progress_dialog_loading">Lastning objekt fra database</string>
+    <string name="progress_dialog_printing">Generating PDF</string>
+    <string name="progress_dialog_saving">Gemmer objektet til database</string>
+    <string name="qif_parse_result">Fundet: %1$s regnskaber; %2$s kategorier og %3$s parter</string>
+    <string name="qif_parse_failure_found_multiple_accounts">Der findes flere konti i QIF filen.</string>
+    <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Matcher ikke eksisterende konto.</string>
+    <string name="reference_number">Referencenummer</string>
+    <string name="restore_db_failure">Gendannelse af databasen mislykkedes.</string>
+    <string name="restore_db_success">Databasen blev gendannet fra backup.</string>
+    <string name="restore_no_backup_found">Ingen backup fundet.</string>
+    <string name="restore_preferences_failure">Gendannelse af indstillinger mislykkedes</string>
+    <string name="restore_backup_archive_not_valid">Arkiv %1$s er ikke gyldigt</string>
+    <string name="restore_backup_file_not_found">Der findes ingen fil %1$s i arkivet \"%2$s\"</string>
+    <string name="restore_preferences_success">Indstillingerne blev gendannet fra backup.</string>
+    <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d planer blev gendannet fra backup</string>
+    <string name="save_transaction_and_new_success">Gemt</string>
+    <string name="save_transaction_error">Kunne ikke gemme nye postering fra skabelonen.</string>
+    <plurals name="save_transaction_from_template_success">
+        <item quantity="one">Ny transaktion gemt fra skabelonen.</item>
+        <item quantity="other">%1$d nye transaktioner blev gemt fra skabeloner.</item>
+    </plurals>
+    <string name="save_transaction_template_deleted">Skabelonen blev slettet</string>
+    <string name="select">Vælg</string>
+    <string name="select_category">Vælg kategori</string>
+    <string name="share_scheme_not_supported">Skema %1$s understøttes ikke</string>
+    <string name="share_sending">Send eksportfilen</string>
+    <string name="split_parts_heading">Splittede delbeløb</string>
+    <string name="split_transaction">Splittede postering</string>
+    <string name="status">Status</string>
+    <string name="status_cleared">afregnet</string>
+    <string name="status_reconciled">afstemt</string>
+    <string name="status_uncreconciled">ikke afstemt</string>
+    <string name="status_void">ugyldig</string>
+    <string name="subcategory">Underkategori</string>
+    <string name="sum_expenses">Udgifter</string>
+    <string name="sum_income">Indkomst</string>
+    <string name="sum_transfer">Overførsler</string>
+    <!-- platform is replaced with Android or Blackberry -->
+    <string name="tell_a_friend_message">Tjek {app_name}, Personal Finance Manager for {platform}, fra {website}</string>
+    <string name="thank_you">Tak for din støtte!</string>
+    <string name="time">Tid</string>
+    <string name="title">Titel</string>
+    <string name="total_cleared">I alt afregnet</string>
+    <string name="total_reconciled">i alt afstemt</string>
+    <string name="transaction">Postering</string>
+    <string name="transfer">Overførsel</string>
+    <string name="transfer_from_account">Fra</string>
+    <string name="transfer_to_account">Til</string>
+    <!-- Type refers to the type of an account, eg. Cash account, bank account -->
+    <string name="type">Type</string>
+    <string name="unsplit_amount">Ikke splittede beløb</string>
+    <string name="unsplit_amount_greater_than_zero">Der er stadig nogle beløb der ikke blev splitted</string>
+    <string name="warning_backup">Databasen og indstillingerne gemmes \"%1$s\".</string>
+    <string name="continue_confirmation">Vil du fortsætte?</string>
+    <string name="warning_delete_account">Kontoen \"%1$s\" vil blive slettet med alle posteringer.</string>
+    <plurals name="warning_delete_main_category">
+        <item quantity="one">Valgte kategori har underkategorier, der vil blive slettet så godt.</item>
+        <item quantity="other">%1$d valgt kategorier har underkategorier, der også vil blive slettet.</item>
+    </plurals>
+    <plurals name="warning_delete_template">
+        <item quantity="one">Den valgte skabelon vil blive slettet.</item>
+        <item quantity="other">%1$d valgte skabeloner vil blive slettet.</item>
+    </plurals>
+    <plurals name="warning_delete_transaction">
+        <item quantity="one">Den valgte transaktion vil blive slettet.</item>
+        <item quantity="other">%1$d valgte posteringer vil blive slettet.</item>
+    </plurals>
+    <string name="warning_delete_reconciled">Hvis du sletter afstemte posteringer kan din bogføring afvige fra bankens kontoudtog.</string>
+    <string name="warning_balance_account">Sammenlign I alt afregnet med Saldo i dit kontoudtog. Hvis du fortsætter vil afregnede posteringer blive markeret som afstemt.</string>
+    <string name="warning_password_protected">App er beskyttet med adgangskode.</string>
+    <string name="warning_widget_disabled">Du skal aktivere denne widget i indstillingerne i appen.</string>
+    <string name="warning_instantiate_template_from_widget_password_protected">Hurtig anvendelse af skabeloner fra denne widget virker kun hvis du i indstillingerne i appen tillader at der hentes af data fra widget uden adgangskode.</string>
+    <string name="warning_password_contrib">Angive et sikkerhedsspørgsmål du kan app\'en låse op med, hvis du glemmer din adgangskode.</string>
+    <string name="warning_reset_account">Hvis du fortsætter, slettet alle posteringer på denne konto fra databasen og kan ikke gendannes.</string>
+    <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
+    <string name="warning_reset_account_all">Hvis du fortsætter, slettes alle posteringer i alle konti %1$s fra databasen og kan ikke gendannes.</string>
+    <string name="warning_reset_account_matched">Hvis du fortsætter, slettes alle posteringer fra databasen der svarer til det aktuelle filter og de kan ikke gendannes.</string>
+    <string name="warning_restore">Databasen og indstillinger gendannes fra filen \"%1$s\". De aktuelle data slettes.</string>
+    <string name="warning_app_folder_will_be_deleted_upon_uninstall">Den aktuelt valgte mappe til sikkerhedskopier og eksport slettes automatisk af Android, hvis du fjerner {app_name}. Du kan forhindre dette i at ske ved at vælge en anden mappe i skærmbilledet indstillinger.</string>
+    <string name="warning_splitpartcategory_context">Overførsler, der er del af en splittet postering kan kun redigeres i forbindelse med opsplitningen.</string>
+    <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Angiv et tal mellem %1$d og %2$d</string>
+    <string name="import_categories_success">%1$s kategorier importeret</string>
+    <string name="import_parties_success">%1$s parter importeret</string>
+    <string name="import_accounts_success">%1$s regnskaber importeret</string>
+    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d posteringer importeret i konto %2$s</string>
+    <string name="import_accounts_none">Ingen konti importeret</string>
+    <string name="import_categories_none">Ingen kategorier importeret</string>
+    <string name="import_parties_none">Ingen parter importeret</string>
+    <string name="import_transactions_none">Ingen posteringer importeret i konto %1$s</string>
+    <string name="import_source_select_error">Angiv en fil af typen %1$s</string>
+    <string name="menu_categories_setup_default">Opret standardkategorier</string>
+    <string name="menu_create_folder">Ny mappe</string>
+    <!-- This string is used for navigating up in the folder browser -->
+    <string name="menu_up">Op</string>
+    <string name="create_new_folder_fail">Kunne ikke oprette mappen</string>
+    <string name="widget_title_accounts">Mine konti</string>
+    <string name="widget_title_templates">Mine skabeloner</string>
+    <string name="search_amount">Find beløb</string>
+    <string name="search_category">Søg efter kategori</string>
+    <string name="search_comment">Søg efter noter</string>
+    <string name="search_date">Søg efter dato</string>
+    <string name="search_status">Søg efter status</string>
+    <string name="search_payee">Søg efter betalingsmodtager/betaler</string>
+    <string name="search_method">Søg efter metode</string>
+    <string name="and">og</string>
+    <string name="between_and">mellem %1$s og %2$s</string>
+    <string name="before">før %s</string>
+    <string name="after">efter %s</string>
+    <string name="comparison_operator_equal">lige med</string>
+    <string name="comparison_operator_greater_than">større end</string>
+    <string name="comparison_operator_lesser_than">mindre end</string>
+    <string name="comparison_operator_between">mellem</string>
+    <string name="comparison_operator_date_before">før</string>
+    <string name="comparison_operator_date_after">efter</string>
+    <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Køb mislykkedes eller annulleret.</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nej</string>
+    <string name="hint_template_click">Anvend en skabelon ved at vælge en ud af listen ved at trykke på den. Den gemmes med det samme eller du kan rediger den før den gemmes. Du kan altid få adgang til begge aktioner og ændre standard indstillingerne ved at trykke på den og holder trykt.</string>
+    <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d konti med valuta %2$s opdateret.</string>
+    <string name="learn_more">Læs mere</string>
+    <string name="import_source_file">Fil</string>
+    <string name="restore_calendar_handling">Kalender datahåndtering</string>
+    <string name="restore_calendar_handling_configured">Planer gemmes i den aktuelt konfigurerede kalender</string>
+    <string name="restore_calendar_handling_backup">Planer gemmes i den i sikkerhedskopieringen oprettede kalender, hvis den er tilgængelig.</string>
+    <string name="restore_calendar_handling_ignore">Gendan ikke planer</string>
+    <string name="restore_not_possible_target_calendar_missing">Den i sikkerhedkopien valgte Kalender %s findes ikke i lokalindstillingerne. Systemgendannelse afbrudt.</string>
+    <string name="restore_not_possible_local_calendar_missing">Den aktuelle planlægning kalender er ikke tilgængelig.</string>
+    <string name="menu_view_picture">Se billede</string>
+    <string name="menu_delete_picture">Slet billede</string>
+    <string name="menu_change_picture">Vedhæft forskellige billeder</string>
+    <string name="menu_distribution_show_pie_char">Vis cirkeldiagram</string>
+    <string name="menu_distribution_aggreate">Samlede udgifter og indtægter</string>
+    <string name="pref_manage_stale_images_title">Gamle billeder</string>
+    <string name="pref_manage_stale_images_summary">Administrer billeder fra slettede posteringer</string>
+    <string name="image_deleted">Billedet slettet</string>
+    <string name="dialog_export_applied_to_filter">Der medtages kun posteringer der svarer til den aktuelle filter.</string>
+    <string name="export_handle_deleted_create_helper">Opret postering til en hjælpekonto</string>
+    <string name="export_handle_deleted_update_balance">Opdater primosaldo</string>
+    <string name="file_name">Filnavn</string>
+    <string name="folder_name">Mappenavn</string>
+    <string name="mark_void_instead_of_delete">Slet ikke postering, marker den i stedet som ugyldige.</string>
+    <string name="menu_undelete_transaction">Gendan</string>
+    <string name="slash_forbidden_in_filename">/ tegnet er ugyldigt i filnavn</string>
+    <string name="io_error_unable_to_create_file">Fil %1$s kunne ikke oprettes i mappen %2$s</string>
+    <string name="menu_categories_export">Eksporter til QIF</string>
+    <string name="pref_csv_import_delimiter">Adskillelsestegn</string>
+    <string name="csv_import_preview">Preview</string>
+    <string name="menu_parse">Analyser</string>
+    <!-- Label for column where user can check rows to be discarded from import -->
+    <string name="cvs_import_discard">Forkast</string>
+    <string name="csv_import_field_mapped_more_than_once">%s er tilknyttet til flere.</string>
+    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d dataposter kunne ikke importeres</string>
+    <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d dataposter ignoreret</string>
+    <string name="csv_import_subcategory_requires_category">Hvis du tilknytter en underkategori skal du også  tilknytte kategorien.</string>
+    <string name="cvs_import_set_first_line_as_header">Skal den første linje bruges som kolonneoverskrift?</string>
+    <string name="csv_import_delimiter_comma">Komma</string>
+    <string name="csv_import_delimiter_semicolon">Semikolon</string>
+    <string name="csv_import_delimiter_tab">Tabulator</string>
+    <string name="csv_import_no_mapping_found_for_amount">Du skal en kolonne tilknytte enten til beløb, indkomst eller udgifter</string>
+    <string name="menu_show_transactions">Vis posterings</string>
+    <string name="switch_on_text">Til</string>
+    <string name="switch_off_text">Fra</string>
+    <string name="preferences_week_start_day_title">Ugen starter</string>
+    <string name="content_description_calculator">Lommeregner</string>
+    <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Cloud synkronisering</string>
+    <string name="split_transaction_one_error">Denne postering kunne ikke splittes.</string>
+    <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
+    <string name="content_description_encrypted">Krypteret</string>
+    <string name="budget_duration_from">Fra</string>
+    <string name="budget_duration_to">Til</string>
+    <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
+    <string name="pref_category_title_features">Funktioner</string>
+    </resources>

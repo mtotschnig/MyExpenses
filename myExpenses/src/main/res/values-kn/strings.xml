@@ -1,909 +1,913 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
 <resources xmlns:tools="http://schemas.android.com/tools">
-  <string name="account">ಖಾತೆ</string>
-  <!--Label in form for payment method, where user checks for which account types the method is applicable-->
-  <string name="account_types">ಖಾತೆ ಪ್ರಕಾರಗಳು</string>
-  <string name="account_type_asset">ಆಸ್ತಿ ಖಾತೆ</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_asset_plural">ಆಸ್ತಿ ಖಾತೆಗಳು</string>
-  <string name="account_type_bank">ಬ್ಯಾಂಕ್ ಖಾತೆ</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_bank_plural">ಬ್ಯಾಂಕ್ ಖಾತೆಗಳು</string>
-  <string name="account_type_cash">ನಗದು ಖಾತೆ</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_cash_plural">ನಗದು ಖಾತೆಗಳು</string>
-  <string name="account_type_ccard">ಕ್ರೆಡಿಟ್ ಕಾರ್ಡ್</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_ccard_plural">ಕ್ರೆಡಿಟ್ ಕಾರ್ಡ್‌ಗಳು</string>
-  <string name="account_type_liability">ಹೊಣೆಗಾರಿಕೆಗಳ ಖಾತೆ</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_liability_plural">ಹೊಣೆಗಾರಿಕೆಗಳ ಖಾತೆಗಳು</string>
-  <string name="already_defined">%1$s ಅನ್ನು ಈಗಾಗಲೇ ವ್ಯಾಖ್ಯಾನಿಸಲಾಗಿದೆ</string>
-  <string name="amount">ಮೊತ್ತ</string>
-  <string name="app_name">ಮೈ ಎಕ್ಸಪೆನ್ಸಸ್</string>
-  <string name="backup_failure">\"%1$s\" ಗೆ ಬ್ಯಾಕಪ್ ವಿಫಲವಾಗಿದೆ.</string>
-  <string name="backup_success">ಡೇಟಾಬೇಸ್ ಮತ್ತು ಪ್ರಾಶಸ್ತ್ಯಗಳನ್ನು \"%1$s\" ಗೆ ಯಶಸ್ವಿಯಾಗಿ ಬರೆಯಲಾಗಿದೆ.</string>
-  <string name="category">ವರ್ಗ</string>
-  <string name="color">ಬಣ್ಣ</string>
-  <string name="comment">ಟಿಪ್ಪಣಿಗಳು</string>
-  <string name="confirmation_dialog_dont_show_again">ಮತ್ತೆ ತೋರಿಸಬೇಡ</string>
-  <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">ಜಾಹೀರಾತುಗಳಿಲ್ಲ</string>
-  <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">ಅನಿಯಮಿತ ಸಂಖ್ಯೆಯ ಖಾತೆಗಳು</string>
-  <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">ವ್ಯವಹಾರಕ್ಕೆ ಚಿತ್ರವನ್ನು ಲಗತ್ತಿಸಿ</string>
-  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">ಪೈ ಚಾರ್ಟ್ (ಪ್ರತಿ ವರ್ಗಕ್ಕೆ ವಿತರಣೆ)</string>
-  <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">ಅನಿಯಮಿತ ಸಂಖ್ಯೆಯ ಯೋಜನೆಗಳು</string>
-  <string name="contrib_feature_print_label" tools:ignore="UnusedResources">ವಹಿವಾಟಿನ ಪಟ್ಟಿಯನ್ನು ಪಿಡಿಎಫ್‌ಗೆ ರಫ್ತು ಮಾಡಿ</string>
-  <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">ಟೆಂಪ್ಲೇಟು ವಿಜೆಟ್</string>
-  <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">ಸಿಎಸ್ವಿ ಆಮದು</string>
-  <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">ವಿಭಜಿತ ಟೆಂಪ್ಲೆಟ್ಗಳ ಅನಿಯಮಿತ ಸಂಖ್ಯೆ</string>
-  <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources">2 ವ್ಯವಹಾರ ದಿನಗಳಲ್ಲಿ ಖಾತರಿಯ ಪ್ರತಿಕ್ರಿಯೆಯೊಂದಿಗೆ <b>ಇಮೇಲ್ ಬೆಂಬಲ</b></string>
-  <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources"><b>ಅಭಿವೃದ್ಧಿ ಮಾರ್ಗಸೂಚಿಯಲ್ಲಿ</b> ಮತದಾನ</string>
-  <string name="contrib_feature_history_label" tools:ignore="UnusedResources">ಇತಿಹಾಸ ಚಾರ್ಟ್ (ನಗದು ಹರಿವು)</string>
-  <string name="licence_status_free">ಉಚಿತ</string>
-  <string name="contrib_key">ಕೊಡುಗೆ ಕೀ</string>
-  <string name="extended_key">ವಿಸ್ತೃತ ಕೀ</string>
-  <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
-  <string name="contrib_key_requires">%1$s ಅಗತ್ಯವಿದೆ.</string>
-  <string name="currency">currency</string>
-  <string name="current_balance">ಪ್ರಸ್ತುತ ಬಾಕಿ</string>
-  <string name="date">ದಿನಾಂಕ</string>
-  <string name="date_format">ದಿನಾಂಕ ಸ್ವರೂಪ</string>
-  <string name="date_format_illegal">ಅಕ್ರಮ ದಿನಾಂಕ ಸ್ವರೂಪ</string>
-  <string name="number_format_illegal">ಅಕ್ರಮ ಸಂಖ್ಯೆ ಸ್ವರೂಪ</string>
-  <string name="decimal_separator">ದಶಮಾಂಶ ವಿಭಜಕ</string>
-  <string name="default_account_name">ಬಜೆಟ್ ಪುಸ್ತಕ</string>
-  <string name="description">ವಿವರಣೆ</string>
-  <string name="dialog_balance_delete">ರಾಜಿ ಮಾಡಿಕೊಂಡ ವಹಿವಾಟುಗಳನ್ನು ಅಳಿಸಿ</string>
-  <string name="dialog_confirm_discard_changes">ಬದಲಾವಣೆಗಳನ್ನು ತ್ಯಜಿಸುತ್ತದೆ?</string>
-  <string name="dialog_confirm_discard_new_transaction">ಹೊಸ ವಹಿವಾಟನ್ನು ತ್ಯಜಿಸುವುದೇ?</string>
-  <string name="dialog_confirm_discard_new_template">ಹೊಸ ಟೆಂಪ್ಲೇಟ್ ಅನ್ನು ತ್ಯಜಿಸುವುದೇ?</string>
-  <string name="dialog_confirm_discard_new_account">ಹೊಸ ಖಾತೆಯನ್ನು ತ್ಯಜಿಸುವುದೇ?</string>
-  <string name="dialog_confirm_discard_new_method">ಹೊಸ ಪಾವತಿ ವಿಧಾನವನ್ನು ತ್ಯಜಿಸುವುದೇ?</string>
-  <string name="dialog_command_disabled_balance">ಯಾವುದೇ ತೆರವುಗೊಳಿಸಿದ ವಹಿವಾಟುಗಳನ್ನು ರಾಜಿ ಮಾಡಿಕೊಳ್ಳಲಾಗುವುದಿಲ್ಲ.</string>
-  <string name="dialog_command_disabled_insert_transfer">ವರ್ಗಾವಣೆ ವಹಿವಾಟುಗಳಿಗೆ ಎರಡನೇ ಖಾತೆಯ ಅಗತ್ಯವಿದೆ.</string>
-  <string name="dialog_command_disabled_reset_account">ರಫ್ತು ಮಾಡಲು ಯಾವುದೇ ವಹಿವಾಟು ಇಲ್ಲ.</string>
-  <string name="dialog_command_disabled_distribution">ಈ ಖಾತೆಯಲ್ಲಿನ ವರ್ಗಗಳಿಗೆ ಯಾವುದೇ ವಹಿವಾಟುಗಳನ್ನು ಮ್ಯಾಪ್ ಮಾಡಲಾಗಿಲ್ಲ.</string>
-  <!--Button for accessing trial of premium feature-->
-  <string name="dialog_contrib_no">ಪ್ರಯತ್ನಿಸಿ</string>
-  <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
-  <string name="dialog_contrib_premium_feature">%1$s ಪ್ರೀಮಿಯಂ ವೈಶಿಷ್ಟ್ಯವಾಗಿದೆ (%2$s).</string>
-  <string name="dialog_contrib_reminder_remove_limitation"><i>{app_name}</i> ಅನ್ನು ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡುವ ಮೂಲಕ ಈ ಮಿತಿಯನ್ನು ತೆಗೆದುಹಾಕಿ ಮತ್ತು ಹೆಚ್ಚಿನ ವೈಶಿಷ್ಟ್ಯಗಳನ್ನು ಪ್ರವೇಶಿಸಿ.</string>
-  <string name="dialog_contrib_text_1"><i>{app_name}</i> ಅನ್ನು ಮುಕ್ತ ಮೂಲವಾಗಿ ನೀಡಲಾಗುತ್ತದೆ.</string>
-  <string name="dialog_contrib_text_2">ದಯವಿಟ್ಟು <i>{app_name} ಅನ್ನು</i> ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡುವ ಮೂಲಕ ಕೊಡುಗೆ ನೀಡಿ ಮತ್ತು ಈ ಕೆಳಗಿನ ವೈಶಿಷ್ಟ್ಯಗಳಿಗೆ ಅನಿಯಂತ್ರಿತ ಪ್ರವೇಶವನ್ನು ಪಡೆಯಿರಿ:</string>
-  <string name="dialog_contrib_usage_count">ಉಚಿತ ಬಳಕೆಗಳು ಉಳಿದಿವೆ</string>
-  <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">ನಿಮ್ಮ ಪ್ರಸ್ತುತ ಪರವಾನಗಿ ಸ್ಥಿತಿಯೊಂದಿಗೆ (%2$s) ನೀವು ಇದನ್ನು %1$d ಬಾರಿ ಬಳಸಬಹುದು.</string>
-  <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">ನಿಮ್ಮ ಪ್ರಸ್ತುತ ಪರವಾನಗಿ ಸ್ಥಿತಿಯೊಂದಿಗೆ (%2$s) ನೀವು ಇದನ್ನು %1$d ದಿನಗಳವರೆಗೆ ಬಳಸಬಹುದು.</string>
-  <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">ನಿಮ್ಮ ಪ್ರಸ್ತುತ ಪರವಾನಗಿ ಸ್ಥಿತಿ (%2$s) %1$d ಖಾತೆಗಳನ್ನು ರಚಿಸಲು ನಿಮಗೆ ಅನುಮತಿಸುತ್ತದೆ.</string>
-  <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">ನಿಮ್ಮ ಪ್ರಸ್ತುತ ಪರವಾನಗಿ ಸ್ಥಿತಿ (%2$s) %1$d ಯೋಜನೆಗಳನ್ನು ರಚಿಸಲು ನಿಮಗೆ ಅನುಮತಿಸುತ್ತದೆ.</string>
-  <string name="dialog_contrib_usage_limit_split_templates">ನಿಮ್ಮ ಪ್ರಸ್ತುತ ಪರವಾನಗಿ ಸ್ಥಿತಿ (%1$s) 1 ವಿಭಜಿತ ಟೆಂಪ್ಲೇಟ್ ರಚಿಸಲು ನಿಮಗೆ ಅನುಮತಿಸುತ್ತದೆ.</string>
-  <string name="dialog_export_delete">ರಫ್ತು ಮಾಡಿದ ವ್ಯವಹಾರಗಳನ್ನು ಅಳಿಸಿ</string>
-  <string name="dialog_export_not_yet_exported">ಇನ್ನೂ ರಫ್ತು ಮಾಡದ ವ್ಯವಹಾರಗಳನ್ನು ಮಾತ್ರ ರಫ್ತು ಮಾಡಿ</string>
-  <string name="dialog_password_activate_protection">ಪಾಸ್ವರ್ಡ್ ರಕ್ಷಣೆಯನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ</string>
-  <string name="dialog_password_change_password">ಗುಪ್ತಪದವನ್ನು ಬದಲಿಸಿ</string>
-  <string name="dialog_password_new_password">ಹೊಸ ಪಾಸ್‌ವರ್ಡ್</string>
-  <string name="dialog_password_new_password_confirmation">ಹೊಸ ಪಾಸ್‌ವರ್ಡ್ (ದೃಢೀಕರಣ)</string>
-  <string name="dialog_remind_later">ನಂತರ</string>
-  <string name="dialog_remind_no">ಬೇಡ, ಧನ್ಯವಾದಗಳು</string>
-  <string name="dialog_remind_rate_how_many_stars">{app_name} ಗೆ ನೀವು ಎಷ್ಟು ನಕ್ಷತ್ರಗಳನ್ನು ನೀಡುತ್ತೀರಿ?</string>
-  <string name="dialog_remind_rate_1"> ದಯವಿಟ್ಟು {app_name}  ಅನ್ನು ರೇಟ್ ಮಾಡಲು ಮತ್ತು ವಿಮರ್ಶಿಸಲು ಸ್ವಲ್ಪ ಸಮಯ ತೆಗೆದುಕೊಳ್ಳಿ.</string>
-  <string name="dialog_remind_rate_2">ಸುಧಾರಣೆಗಳು ಮತ್ತು ವರ್ಧನೆಗಳನ್ನು ನಿರಂತರವಾಗಿ ಸೇರಿಸಲು ನಿಮ್ಮ ಕಾಮೆಂಟ್‌ಗಳು ನಮಗೆ ಅವಕಾಶ ಮಾಡಿಕೊಡುತ್ತವೆ.</string>
-  <string name="dialog_remind_rate_1_suggest_improvement">ಸುಧಾರಣೆಗಳಿಗಾಗಿ ನಿಮ್ಮ ಸಲಹೆಗಳನ್ನು ನಮಗೆ ಕಳುಹಿಸಲು ಸ್ವಲ್ಪ ಸಮಯ ತೆಗೆದುಕೊಳ್ಳಿ.</string>
-  <string name="dialog_remind_rate_yes">ರೇಟ್ ಮಾಡಿ</string>
-  <string name="dialog_security_answer">ಉತ್ತರ</string>
-  <string name="dialog_security_question">ಪ್ರಶ್ನೆ</string>
-  <string name="dialog_title_attention">ಗಮನ</string>
-  <string name="dialog_title_information">ಮಾಹಿತಿ</string>
-  <!--%1$s is replace with account label-->
-  <string name="dialog_title_balance_account">ಬಾಕಿ ಮೊತ್ತ %1$s</string>
-  <string name="dialog_title_contrib_feature">ಪ್ರೀಮಿಯಂ ವೈಶಿಷ್ಟ್ಯ</string>
-  <plurals name="dialog_title_warning_delete_account">
-    <item quantity="one">ಖಾತೆಯನ್ನು ಅಳಿಸುವುದೇ?</item>
-    <item quantity="other">%1$d ಖಾತೆಗಳನ್ನು ಅಳಿಸುವುದೇ?</item>
-  </plurals>
-  <string name="dialog_title_warning_delete_category">ವರ್ಗವನ್ನು ಅಳಿಸುವುದೇ?</string>
-  <string name="dialog_title_warning_delete_template">ಟೆಂಪ್ಲೇಟ್ ಅನ್ನು ಅಳಿಸುವುದೇ?</string>
-  <string name="dialog_title_warning_delete_transaction">ವಹಿವಾಟನ್ನು ಅಳಿಸುವುದೇ?</string>
-  <string name="expense">ಖರ್ಚು</string>
-  <string name="export_expenses">ರಫ್ತು ವೆಚ್ಚಗಳು</string>
-  <!--1$s is replaced with path to file, 2$s with error message-->
-  <string name="export_sdcard_failure">\"%1$s\" ಫೈಲ್ಗೆ ರಫ್ತು ವಿಫಲವಾಗಿದೆ: %2$s</string>
-  <!--1$s is replaced with path to file-->
-  <string name="export_sdcard_success">\"%1$s\" ಫೈಲ್ ಮಾಡಲು ಡೇಟಾವನ್ನು ಯಶಸ್ವಿಯಾಗಿ ರಫ್ತು ಮಾಡಲಾಗಿದೆ</string>
-  <string name="external_storage_unavailable">ಬಾಹ್ಯ ಸಂಗ್ರಹಣೆ (sdcard) ಲಭ್ಯವಿಲ್ಲ</string>
-  <string name="feedback">ಪ್ರತಿಕ್ರಿಯೆ</string>
-  <string name="ftp_uri_malformed">ದೋಷಪೂರಿತ URI %1$s</string>
-  <string name="grisbi_import_categories_loading">%1$s ನಿಂದ ವಿಭಾಗಗಳನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ</string>
-  <string name="grisbi_import_parties_loading">%1$s ನಿಂದ ಪಕ್ಷಗಳನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ</string>
-  <string name="grouping_day">ದಿನ</string>
-  <string name="grouping_last_week">ಕಳೆದ ವಾರ</string>
-  <string name="grouping_month">ತಿಂಗಳು</string>
-  <string name="grouping_none">ಗುಂಪು ಮಾಡದ</string>
-  <string name="grouping_this_week">ಈ ವಾರ</string>
-  <string name="grouping_today">ಇಂದು</string>
-  <string name="grouping_week">ವಾರ</string>
-  <string name="grouping_year">ವರ್ಷ</string>
-  <string name="grouping_yesterday">ನಿನ್ನೆ</string>
-  <string name="help_button_rate">ದರ ಅಥವಾ ವಿಮರ್ಶೆ</string>
-  <string name="help_heading_credits">ಸಾಲಗಳು</string>
-  <string name="help_heading_license">ಲೈಸೆನ್ಸ್</string>
-  <string name="help_heading_whats_new">ಹೊಸತೇನಿದೆ</string>
-  <string name="important_upgrade_information_heading">ಪ್ರಮುಖ ಮಾಹಿತಿ</string>
-  <string name="import_select_transactions">ವ್ಯವಹಾರಗಳು</string>
-  <string name="income">ಆದಾಯ</string>
-  <string name="invalid_number_format">ನಿಮ್ಮ ಸ್ಥಳದಿಂದ ದಶಮಾಂಶ ಸ್ವರೂಪವನ್ನು ಗುರುತಿಸಲಾಗಿಲ್ಲ. ದಯವಿಟ್ಟು %1$s ಬಳಸಿ</string>
-  <string name="label">ಲೇಬಲ್</string>
-  <string name="licence_validation_failure">ಲೈಸೆನ್ಸ್ ಕೀಲಿಯನ್ನು ಮೌಲ್ಯೀಕರಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ.</string>
-  <string name="licence_validation_success">ಲೈಸೆನ್ಸ್ ಕೀ ಯಶಸ್ವಿಯಾಗಿ ಮೌಲ್ಯೀಕರಿಸಲಾಗಿದೆ:</string>
-  <string name="licence_validation_premium">ಪ್ರೀಮಿಯಂ ವೈಶಿಷ್ಟ್ಯಗಳನ್ನು ಅನ್‌ಲಾಕ್ ಮಾಡಲಾಗಿದೆ.</string>
-  <string name="menu_aggregates">ಒಟ್ಟು</string>
-  <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
-  <string name="menu_apply_template">ಅನ್ವಯಿಸು</string>
-  <string name="menu_back">ಹಿಂದೆ</string>
-  <string name="menu_backup">ಬ್ಯಾಕಪ್</string>
-  <!--Balance: compare cleared balance in app with balance on statement received from bank-->
-  <string name="menu_balance">ಬಾಕಿ ಮೊತ್ತ ಖಾತೆ</string>
-  <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
-  <string name="menu_cancel_plan_instance">ರದ್ದುಮಾಡಿ</string>
-  <string name="menu_clone_transaction">ಕ್ಲೋನ್</string>
-  <string name="menu_contrib">ಕೊಡುಗೆ ನೀಡಿ</string>
-  <string name="menu_create_account">ಹೊಸ ಖಾತೆ</string>
-  <string name="menu_create_instance_edit">ಅನ್ವಯಿಸಿ ಮತ್ತು ಸಂಪಾದಿಸಿ</string>
-  <string name="menu_create_instance_save">ಅನ್ವಯಿಸಿ ಮತ್ತು ಉಳಿಸಿ</string>
-  <string name="menu_create_main_cat">ಹೊಸ ಮುಖ್ಯ ವರ್ಗ</string>
-  <string name="menu_create_method">ಹೊಸ ಪಾವತಿ ವಿಧಾನ</string>
-  <string name="menu_create_party">ಹೊಸ ಪಕ್ಷ</string>
-  <string name="menu_create_split">ಹೊಸ ವಿಭಜನೆ</string>
-  <string name="menu_create_split_part_category">ಹೊಸ ವರ್ಗ ವಿಭಜಿತ ಭಾಗ</string>
-  <string name="menu_create_split_part_transfer">ಹೊಸ ವರ್ಗಾವಣೆ ವಿಭಜಿತ ಭಾಗ</string>
-  <string name="menu_create_sub_cat">ಹೊಸ ಉಪ ವರ್ಗ</string>
-  <string name="menu_create_template">ಹೊಸ ಟೆಂಪ್ಲೇಟ್</string>
-  <string name="menu_create_template_from_transaction">ಟೆಂಪ್ಲೇಟ್ ಆಗಿ ಉಳಿಸಿ</string>
-  <string name="menu_create_template_for_transaction">ಹೊಸ ವಹಿವಾಟು ಟೆಂಪ್ಲೇಟ್</string>
-  <string name="menu_create_template_for_transfer">ಹೊಸ ವರ್ಗಾವಣೆ ಟೆಂಪ್ಲೇಟ್</string>
-  <string name="menu_create_transaction">ಹೊಸ ವ್ಯವಹಾರ</string>
-  <string name="menu_create_transfer">ಹೊಸ ವರ್ಗಾವಣೆ</string>
-  <string name="menu_delete">ಅಳಿಸಿ</string>
-  <string name="menu_distribution">ವಿತರಣೆ</string>
-  <string name="menu_edit">ತಿದ್ದು</string>
-  <string name="menu_edit_account">ಖಾತೆಯನ್ನು ಸಂಪಾದಿಸಿ</string>
-  <string name="menu_edit_cat">ವರ್ಗವನ್ನು ಸಂಪಾದಿಸಿ</string>
-  <string name="menu_edit_method">ಪಾವತಿ ವಿಧಾನವನ್ನು ಸಂಪಾದಿಸಿ</string>
-  <string name="menu_edit_party">ಪಕ್ಷವನ್ನು ಸಂಪಾದಿಸಿ</string>
-  <string name="menu_edit_plan_instance">ಒಂದೇ ಯೋಜನೆ ಸಂಭವಿಸುವಿಕೆಯನ್ನು ಸಂಪಾದಿಸಿ</string>
-  <string name="menu_edit_split">ವಿಭಜನೆಯನ್ನು ಸಂಪಾದಿಸಿ</string>
-  <string name="menu_edit_split_part_category">ವರ್ಗ ವಿಭಜಿತ ಭಾಗವನ್ನು ಸಂಪಾದಿಸಿ</string>
-  <string name="menu_edit_split_part_transfer">ವರ್ಗಾವಣೆ ವಿಭಜಿತ ಭಾಗವನ್ನು ಸಂಪಾದಿಸಿ</string>
-  <string name="menu_edit_template">ಟೆಂಪ್ಲೇಟು ಸಂಪಾದಿಸಿ</string>
-  <string name="menu_edit_transaction">ವಹಿವಾಟನ್ನು ಸಂಪಾದಿಸಿ</string>
-  <string name="menu_edit_transfer">ವರ್ಗಾವಣೆಯನ್ನು ಸಂಪಾದಿಸಿ</string>
-  <string name="menu_exclude_from_totals">ಮೊತ್ತದಿಂದ ಹೊರಗಿಡಿ</string>
-  <string name="menu_forward">ಮುಂದೆ</string>
-  <string name="menu_grouping">ಗುಂಪುಗಾರಿಕೆ</string>
-  <string name="menu_help">ಸಹಾಯ</string>
-  <!--This command inverts the direction of a transfer-->
-  <string name="menu_invert_transfer">ತಲೆಕೆಳಗು</string>
-  <string name="menu_manage_plans">ಟೆಂಪ್ಲೇಟ್‌ಗಳು ಮತ್ತು ಯೋಜನೆಗಳು</string>
-  <!--Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application-->
-  <string name="menu_open">ತೆರೆಯಿರಿ</string>
-  <string name="menu_import">ಆಮದು</string>
-  <string name="menu_print">ಮುದ್ರಿಸಿ</string>
-  <string name="menu_reset">ರಫ್ತು ಮತ್ತು ಮರುಹೊಂದಿಸಿ</string>
-  <string name="menu_reset_all">ಎಲ್ಲವನ್ನೂ ರಫ್ತು ಮಾಡಿ ಮತ್ತು ಮರುಹೊಂದಿಸಿ</string>
-  <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
-  <string name="menu_reset_plan_instance">ಮರುಹೊಂದಿಸಿ</string>
-  <string name="menu_save">ಉಳಿಸಿ</string>
-  <string name="menu_save_and_new">ಉಳಿಸಿ ಮತ್ತು ಹೊಸದು</string>
-  <string name="menu_search">ಹುಡುಕಿ</string>
-  <string name="menu_settings">ಸೆಟ್ಟಿಂಗ್ಸ್</string>
-  <string name="menu_share">ಗೆಳೆಯನಿಗೆ ಹೇಳು</string>
-  <string name="button_label_share_file">ಹಂಚಿಕೊಳ್ಳಿ</string>
-  <string name="button_label_close">ಮುಚ್ಚಿ</string>
-  <string name="menu_split_transaction">ವಿಭಜನೆಗೆ ರೂಪಾಂತರ</string>
-  <string name="method">ಪಾವತಿ ವಿಧಾನ</string>
-  <string name="no_amount_given">ನೀವು ಯಾವುದೇ ಮೊತ್ತವನ್ನು ನಮೂದಿಸಿಲ್ಲ.</string>
-  <string name="no_app_handling_email_available">ಯಾವುದೇ ಅಪ್ಲಿಕೇಶನ್ ನಿರ್ವಹಣಾ ಇಮೇಲ್ ಲಭ್ಯವಿಲ್ಲ.</string>
-  <string name="no_app_handling_ftp_available">ಯಾವುದೇ ಅಪ್ಲಿಕೇಶನ್ ಹ್ಯಾಂಡ್ಲಿಂಗ್ ftp ಲಭ್ಯವಿಲ್ಲ. <i>FTP</i> ಯೊಂದಿಗೆ <i>ಕಳುಹಿಸುವುದನ್ನು</i> ಸ್ಥಾಪಿಸುವುದೇ?</string>
-  <string name="no_app_handling_pdf_available">ಪಿಡಿಎಫ್ ಫೈಲ್‌ಗಳನ್ನು ನಿರ್ವಹಿಸುವ ಯಾವುದೇ ಅಪ್ಲಿಕೇಶನ್ ಲಭ್ಯವಿಲ್ಲ.</string>
-  <string name="no_categories">ಯಾವುದೇ ವರ್ಗಗಳಿಲ್ಲ.</string>
-  <string name="no_expenses">ಇನ್ನೂ ವೆಚ್ಚಗಳಿಲ್ಲ!</string>
-  <string name="no_exportable_expenses">ಇನ್ನೂ ರಫ್ತು ಮಾಡದ ಯಾವುದೇ ವಹಿವಾಟುಗಳಿಲ್ಲ.</string>
-  <string name="no_filemanager_installed">ಯಾವುದೇ ಫೈಲ್ ಮ್ಯಾನೇಜರ್ ಅನ್ನು ಸ್ಥಾಪಿಸಲಾಗಿಲ್ಲ</string>
-  <string name="no_calendar_app_installed">ಕ್ಯಾಲೆಂಡರ್ ಈವೆಂಟ್ ಸಂಪಾದಿಸಲು ಯಾವುದೇ ಅಪ್ಲಿಕೇಶನ್ ಕಂಡುಬಂದಿಲ್ಲ.</string>
-  <string name="no_mapped_transactions">ಈ ಅವಧಿಯಲ್ಲಿ ಯಾವುದೇ ವಹಿವಾಟುಗಳನ್ನು ವರ್ಗಗಳಿಗೆ ಮ್ಯಾಪ್ ಮಾಡಲಾಗಿಲ್ಲ.</string>
-  <string name="no_methods">ಪಾವತಿ ವಿಧಾನಗಳಿಲ್ಲ.</string>
-  <string name="no_parties">ಯಾವುದೇ ಪಕ್ಷಗಳಿಲ್ಲ.</string>
-  <string name="no_split_parts">ವಿಭಜಿತ ಭಾಗಗಳಿಲ್ಲ.</string>
-  <string name="no_templates">ಟೆಂಪ್ಲೆಟ್ಗಳಿಲ್ಲ.</string>
-  <string name="no_accounts">ಖಾತೆಗಳಿಲ್ಲ.</string>
-  <string name="no_title_given">ನೀವು ಯಾವುದೇ ಶೀರ್ಷಿಕೆಯನ್ನು ನಮೂದಿಸಿಲ್ಲ.</string>
-  <plurals name="not_deletable_mapped_transactions">
-    <item quantity="one">ಆಯ್ದ ವಸ್ತುವನ್ನು ವ್ಯವಹಾರಕ್ಕೆ ಮ್ಯಾಪ್ ಮಾಡಲಾಗಿದೆ ಮತ್ತು ಅದನ್ನು ಅಳಿಸಲಾಗುವುದಿಲ್ಲ.</item>
-    <item quantity="other">%1$d ವಸ್ತುಗಳನ್ನು ವಹಿವಾಟಿಗೆ ಮ್ಯಾಪ್ ಮಾಡಲಾಗಿದೆ ಮತ್ತು ಅಳಿಸಲಾಗುವುದಿಲ್ಲ.</item>
-  </plurals>
-  <plurals name="not_deletable_mapped_templates">
-    <item quantity="one">ಆಯ್ದ ವಸ್ತುವನ್ನು ಟೆಂಪ್ಲೇಟ್‌ಗೆ ಮ್ಯಾಪ್ ಮಾಡಲಾಗಿದೆ ಮತ್ತು ಅದನ್ನು ಅಳಿಸಲಾಗುವುದಿಲ್ಲ.</item>
-    <item quantity="other">%1$d ವಸ್ತುಗಳನ್ನು ಟೆಂಪ್ಲೇಟ್‌ಗಳಿಗೆ ಮ್ಯಾಪ್ ಮಾಡಲಾಗಿದೆ ಮತ್ತು ಅಳಿಸಲಾಗುವುದಿಲ್ಲ.</item>
-  </plurals>
-  <string name="numbered">ಸಂಖ್ಯೆಯ</string>
-  <string name="opening_balance">ಆರಂಭ ಶಿಲ್ಕು</string>
-  <string name="parse_error_file_not_found">%1$s ಫೈಲ್ ಅನ್ನು ಕಂಡುಹಿಡಿಯಲಾಗಲಿಲ್ಲ</string>
-  <string name="parse_error_grisbi_version_not_supported">ಬೆಂಬಲಿಸದ ಗ್ರಿಸ್ಬಿ ಫೈಲ್ ಆವೃತ್ತಿ: %1$s</string>
-  <string name="parse_error_no_data_found">ಫೈಲ್‌ನಲ್ಲಿ ಯಾವುದೇ ಆಮದು ಮಾಡಬಹುದಾದ ಡೇಟಾ ಕಂಡುಬಂದಿಲ್ಲ.</string>
-  <string name="parse_error_other_exception">ದೋಷ ಸಂಭವಿಸಿದೆ: %1$s</string>
-  <string name="parse_error_parse_exception">ಫೈಲ್ ಅನ್ನು ಪಾರ್ಸ್ ಮಾಡಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ</string>
-  <string name="password_disabled_reenable">ಪಾಸ್ವರ್ಡ್ ರಕ್ಷಣೆಯನ್ನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ. ನೀವು ಅದನ್ನು ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ಪುನಃ ಸಕ್ರಿಯಗೊಳಿಸಬಹುದು.</string>
-  <string name="password_lost">ಪಾಸ್ವರ್ಡ್ ಕಳೆದುಹೋಗಿದೆ</string>
-  <string name="password_not_valid">ಪಾಸ್ವರ್ಡ್ ಅಮಾನ್ಯವಾಗಿದೆ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸು!</string>
-  <string name="password_prompt">ನಿಮ್ಮ ಪಾಸ್‌ವರ್ಡ್ ನಮೂದಿಸಿ</string>
-  <string name="password_security_answer_not_valid">ತಪ್ಪು ಉತ್ತರ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ!</string>
-  <string name="payee">ಪಾವತಿಸುವವರು</string>
-  <string name="payer">ಪಾವತಿಸುವವರು</string>
-  <string name="payer_or_payee">ಪಾವತಿಸುವವರು / ಪಾವತಿಸುವವರು</string>
-  <!--Plan for future and recurring transactions-->
-  <string name="plan">ಯೋಜನೆ</string>
-  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance-->
-  <string name="plan_automatic">ಸ್ವಯಂಚಾಲಿತ</string>
-  <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">{app_name} ಯೋಜಕ</string>
-  <string name="planner_notification_channel_name">ಯೋಜಕ</string>
-  <string name="plan_event_deleted">ಈ ಟೆಂಪ್ಲೇಟ್‌ಗೆ ಸಂಬಂಧಿಸಿದ ಯೋಜನೆಯನ್ನು ಕ್ಯಾಲೆಂಡರ್‌ನಿಂದ ಅಳಿಸಲಾಗಿದೆ.</string>
-  <!--This message is shown, after a user decides to not apply a manual plan-->
-  <string name="plan_execution_canceled">ಯೋಜನೆ ಕಾರ್ಯಗತಗೊಳಿಸುವಿಕೆಯನ್ನು ರದ್ದುಪಡಿಸಲಾಗಿದೆ</string>
-  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance)-->
-  <string name="plan_manual">ಕೈಪಿಡಿ</string>
-  <string name="planner_create_calendar_failure">ಸ್ಥಳೀಯ ಯೋಜಕ ಕ್ಯಾಲೆಂಡರ್ ರಚಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ</string>
-  <string name="planner_create_calendar_success">ಸ್ಥಳೀಯ ಯೋಜಕ ಕ್ಯಾಲೆಂಡರ್ ಅನ್ನು ಯಶಸ್ವಿಯಾಗಿ ರಚಿಸಲಾಗಿದೆ</string>
-  <!--payment methods-->
-  <string name="pm_cheque">ಪರಿಶೀಲಿಸಿ</string>
-  <string name="pm_creditcard">ಕ್ರೆಡಿಟ್ ಕಾರ್ಡ್</string>
-  <string name="pm_deposit">ಠೇವಣಿ</string>
-  <string name="pm_directdebit">ನೇರ ಖರ್ಚು</string>
-  <string name="pm_type_credit">ಕ್ರೆಡಿಟ್</string>
-  <string name="pm_type_debit">ಡೆಬಿಟ್</string>
-  <string name="pm_type_neutral">ತಟಸ್ಥ</string>
-  <string name="pref_app_dir_title">ಬ್ಯಾಕಪ್‌ಗಳು ಮತ್ತು ರಫ್ತುಗಳಿಗಾಗಿ ಫೋಲ್ಡರ್</string>
-  <string name="pref_auto_fill_title">ಆಟೋಫಿಲ್ ವ್ಯವಹಾರಗಳು</string>
-  <string name="pref_auto_fill_summary">ಅದೇ ಪಾವತಿದಾರ / ಪಾವತಿಸುವವರಿಗೆ ಕೊನೆಯ ವಹಿವಾಟಿನಿಂದ ಡೇಟಾವನ್ನು ಭರ್ತಿ ಮಾಡಿ</string>
-  <string name="pref_backup_summary">ಡೇಟಾಬೇಸ್ ಮತ್ತು ಆದ್ಯತೆಗಳ ಬ್ಯಾಕಪ್ ರಚಿಸಿ.</string>
-  <string name="pref_sort_order_usages">ಬಳಕೆಗಳ ಎಣಿಕೆ</string>
-  <string name="pref_category_title_advanced">ಸುಧಾರಿತ</string>
-  <string name="pref_category_title_export">ರಫ್ತು ಮಾಡಿ</string>
-  <string name="pref_category_title_import">ಆಮದು</string>
-  <string name="pref_category_title_manage">ನಿರ್ವಹಿಸು</string>
-  <string name="pref_category_title_more_information">ಹೆಚ್ಚಿನ ಮಾಹಿತಿ</string>
-  <string name="pref_category_title_security">ಭದ್ರತೆ</string>
-  <string name="pref_category_title_ui">ಬಳಕೆದಾರ ಇಂಟರ್ಫೇಸ್</string>
-  <string name="pref_checkbox_enabled">ಸಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ</string>
-  <string name="pref_checkbox_disabled">ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ</string>
-  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
-  <string name="pref_contrib_purchase_summary">ಪ್ರೀಮಿಯಂ ವೈಶಿಷ್ಟ್ಯಗಳಿಗೆ ಪ್ರವೇಶವನ್ನು ಖರೀದಿಸಿ.</string>
-  <string name="pref_contrib_purchase_title">ಕೀಲಿಯನ್ನು ಖರೀದಿಸಿ</string>
-  <string name="pref_contrib_purchase_title_upgrade">ಕೀಲಿಯನ್ನು ನವೀಕರಿಸಿ</string>
-  <string name="pref_contrib_purchase_title_in_app">ಅಪ್ಲಿಕೇಶನ್‌ನಲ್ಲಿ ಪಾವತಿ</string>
-  <string name="pref_custom_currency_title">ಕರೆನ್ಸಿಗಳನ್ನು ಕಸ್ಟಮೈಸ್ ಮಾಡಿ</string>
-  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
-  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">ನೀವು ಕೀಲಿಯನ್ನು ಸ್ವೀಕರಿಸಿದ್ದರೆ, ಪ್ರೀಮಿಯಂ ವೈಶಿಷ್ಟ್ಯಗಳಿಗೆ ಪ್ರವೇಶವನ್ನು ಪಡೆಯಿರಿ.</string>
-  <string name="pref_enter_licence_title" tools:ignore="UnusedResources">ಕೀಲಿಯನ್ನು ನಮೂದಿಸಿ</string>
-  <string name="pref_export_format_title">ಡೇಟಾ ಸ್ವರೂಪ</string>
-  <string name="pref_import_from_grisbi_summary">ಗ್ರಿಸ್ಬಿ ಎಕ್ಸ್‌ಎಂಎಲ್ ಫೈಲ್‌ನಿಂದ ವಿಭಾಗಗಳು ಮತ್ತು ಪಕ್ಷಗಳನ್ನು ಆಮದು ಮಾಡಿ</string>
-  <string name="pref_import_from_grisbi_title">ಗ್ರಿಸ್ಬಿಯಿಂದ ಆಮದು ಮಾಡಿ</string>
-  <!--%s is replaced with QIF or CSV-->
-  <string name="pref_import_summary">%s ಫೈಲ್‌ನಿಂದ ವ್ಯವಹಾರಗಳು, ವಿಭಾಗಗಳು ಮತ್ತು ಪಕ್ಷಗಳನ್ನು ಆಮದು ಮಾಡಿ</string>
-  <!--%s is replaced with QIF or CSV-->
-  <string name="pref_import_title">%s ಆಮದು</string>
-  <string name="pref_like_facebook_title">ಫೇಸ್ಬುಕ್ ನಲ್ಲಿ ನಮಗೆ ಲೈಕ್ ಕೊಡಿ</string>
-  <string name="pref_manage_accounts_title">ಖಾತೆಗಳು</string>
-  <string name="pref_manage_categories_summary">ವರ್ಗಗಳನ್ನು ಸೇರಿಸಿ, ಸಂಪಾದಿಸಿ, ಅಳಿಸಿ.</string>
-  <string name="pref_manage_categories_title">ವರ್ಗಗಳು</string>
-  <string name="pref_manage_methods_summary">ಪಾವತಿ ವಿಧಾನಗಳನ್ನು ರಚಿಸಿ ಮತ್ತು ಸಂಪಾದಿಸಿ ಮತ್ತು ಅವುಗಳನ್ನು ಖಾತೆ ಪ್ರಕಾರಗಳೊಂದಿಗೆ ಸಂಯೋಜಿಸಿ.</string>
-  <string name="pref_manage_methods_title">ಪಾವತಿ ವಿಧಾನಗಳು</string>
-  <string name="pref_manage_parties_summary">ಪಕ್ಷಗಳನ್ನು ಸೇರಿಸಿ, ಸಂಪಾದಿಸಿ, ಅಳಿಸಿ (ಪಾವತಿಸುವವರು ಮತ್ತು ಪಾವತಿಸುವವರು).</string>
-  <string name="pref_manage_parties_title">ಪಕ್ಷಗಳು</string>
-  <string name="pref_manage_sync_backends_title">ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಬ್ಯಾಕೆಂಡ್ಗಳು</string>
-  <!--%s will be replaced with list of backends-->
-  <string name="pref_manage_sync_backends_summary">ಖಾತೆಗಳನ್ನು ಸಿಂಕ್ರೊನೈಸ್ ಮಾಡಲು ಬ್ಯಾಕೆಂಡ್‌ಗಳನ್ನು ಸೇರಿಸಿ (%s).</string>
-  <string name="pref_more_info_dialog_title">ಪರವಾನಗಿ ಮತ್ತು ಸಾಲಗಳು</string>
-  <string name="pref_password_not_equal">ಗುಪ್ತಪದಗಳುತಾಳೆಯಾಗುತ್ತಿಲ್ಲ</string>
-  <string name="pref_perform_protection_title">ರಕ್ಷಣೆ</string>
-  <string name="pref_perform_share_title">ರಫ್ತು ಮತ್ತು ಬ್ಯಾಕಪ್‌ಗಳನ್ನು ಹಂಚಿಕೊಳ್ಳಿ</string>
-  <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
-  <string name="pref_planning_calendar_create_local">ಹೊಸ ಸ್ಥಳೀಯ ಯೋಜನೆ ಕ್ಯಾಲೆಂಡರ್ ರಚಿಸಿ</string>
-  <string name="pref_planning_calendar_summary">ಭವಿಷ್ಯದ ಮತ್ತು ಮರುಕಳಿಸುವ ವಹಿವಾಟಿನ ಯೋಜನೆಗಳನ್ನು ಸಂಗ್ರಹಿಸಿರುವ ಕ್ಯಾಲೆಂಡರ್ ಆಯ್ಕೆಮಾಡಿ</string>
-  <string name="pref_planning_calendar_title">ಯೋಜನೆ ಕ್ಯಾಲೆಂಡರ್</string>
-  <string name="pref_protection_delay_seconds_summary">ಪಾಸ್ವರ್ಡ್ ಮೂಲಕ ಅಪ್ಲಿಕೇಶನ್ ಲಾಕ್ ಆಗುವ ಮೊದಲು ನಿಷ್ಕ್ರಿಯ ಸೆಕೆಂಡುಗಳು.</string>
-  <string name="pref_protection_delay_seconds_title">ರಕ್ಷಣೆಯವರೆಗೆ ವಿಳಂಬ</string>
-  <string name="pref_protection_enable_data_entry_from_widget_title">ವಿಜೆಟ್‌ಗಳು ಮತ್ತು ಶಾರ್ಟ್‌ಕಟ್‌ಗಳಿಂದ ಡೇಟಾ ನಮೂದು</string>
-  <string name="pref_protection_enable_data_entry_from_widget_summary_on">ಪಾಸ್ವರ್ಡ್ ಇಲ್ಲದೆ ಅನುಮತಿಸಲಾಗಿದೆ.</string>
-  <string name="pref_protection_enable_data_entry_from_widget_summary_off">ಗುಪ್ತಪದದ ಅಗತ್ಯವಿದೆ.</string>
-  <string name="pref_qif_export_file_encoding_title">ಅಕ್ಷರ ಎನ್‌ಕೋಡಿಂಗ್</string>
-  <string name="pref_request_licence_title">ಕೀಲಿಯನ್ನು ವಿನಂತಿಸಿ</string>
-  <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
-  <string name="pref_restore_alternative">ಪರ್ಯಾಯ</string>
-  <string name="pref_restore_alternative_summary">ಸಾಧನದಲ್ಲಿ ಯಾವುದೇ ಫೈಲ್ ಮ್ಯಾನೇಜರ್ ಸ್ಥಾಪಿಸದಿದ್ದರೆ ಈ ಪರ್ಯಾಯ ವಿಧಾನವನ್ನು ಬಳಸಿ.</string>
-  <string name="pref_restore_summary">ಡೇಟಾಬೇಸ್ ಮತ್ತು ಆದ್ಯತೆಗಳನ್ನು ಮರುಸ್ಥಾಪಿಸಲು ಬ್ಯಾಕಪ್ ಆಯ್ಕೆಮಾಡಿ.</string>
-  <string name="pref_restore_title">ಮರುಸ್ಥಾಪಿಸಿ</string>
-  <string name="pref_security_question_summary">ನಿಮ್ಮ ಪಾಸ್‌ವರ್ಡ್ ಅನ್ನು ನೀವು ಮರೆತಿದ್ದರೆ ಅಪ್ಲಿಕೇಶನ್ ಅನ್ನು ಅನ್‌ಲಾಕ್ ಮಾಡಲು ನಿಮಗೆ ಅನುಮತಿಸುತ್ತದೆ.</string>
-  <string name="pref_security_question_title">ಭದ್ರತಾ ಪ್ರಶ್ನೆ</string>
-  <string name="pref_send_feedback_title">ಪ್ರತಿಕ್ರಿಯೆ ಕಳುಹಿಸಿ</string>
-  <string name="pref_share_target_summary">ನೀವು ಸೂಕ್ತವಾದ ಅಪ್ಲಿಕೇಶನ್‌ಗಳ ನಡುವೆ ಆಯ್ಕೆ ಮಾಡಲು ಬಯಸಿದರೆ ಖಾಲಿ ಬಿಡಿ (ಇಮೇಲ್, ಡ್ರಾಪ್‌ಬಾಕ್ಸ್, ಗೂಗಲ್ ಡಾಕ್ಸ್,…), ಅಥವಾ ಬೆಂಬಲಿತ ಸ್ಕೀಮ್‌ಗಳಲ್ಲಿ URL ಅನ್ನು ಒದಗಿಸಿ</string>
-  <string name="pref_share_target_title">URL ಅನ್ನು ಅಪ್‌ಲೋಡ್ ಮಾಡಿ</string>
-  <string name="pref_shortcut_added">ಶಾರ್ಟ್ಕಟ್ ಅನ್ನು ಹೋಮ್ ಸ್ಕ್ರೀನ್ಗೆ ಸೇರಿಸಲಾಗಿದೆ</string>
-  <string name="pref_shortcut_not_added">ಶಾರ್ಟ್‌ಕಟ್‌ಗಳನ್ನು ಸ್ವೀಕರಿಸುವ ಯಾವುದೇ ಹೋಮ್ ಸ್ಕ್ರೀನ್ ಲಭ್ಯವಿಲ್ಲ.</string>
-  <string name="pref_shortcut_summary">ಮುಖಪುಟಕ್ಕೆ ಶಾರ್ಟ್‌ಕಟ್ ಸೇರಿಸಿ.</string>
-  <string name="pref_template_click_default_summary">ಟೆಂಪ್ಲೇಟ್ ಪಟ್ಟಿಯಲ್ಲಿ ಪ್ರವೇಶದ ಮೇಲೆ ಸಣ್ಣ ಟ್ಯಾಪ್ ಮಾಡಿದ ನಂತರ</string>
-  <string name="pref_ui_fontsize_title">ಅಕ್ಷರ ಗಾತ್ರ</string>
-  <string name="pref_ui_home_screen_shortcuts">ಮುಖಪುಟ ಪರದೆಯ ಶಾರ್ಟ್‌ಕಟ್‌ಗಳು</string>
-  <string name="pref_ui_language_default">ಸಿಸ್ಟಮ್ ಡೀಫಾಲ್ಟ್</string>
-  <!--Title of the preference for selecting the UI language-->
-  <string name="pref_ui_language_title">ಭಾಷೆ</string>
-  <string name="pref_ui_theme_dark">ಕಪ್ಪು</string>
-  <string name="pref_ui_theme_light">ಬಿಳಿ</string>
-  <string name="pref_ui_theme_title">ಥೀಮ್</string>
-  <string name="pref_visit_website_summary">ಚೇಂಜ್ಲಾಗ್ ಮತ್ತು FAQ</string>
-  <string name="pref_visit_website_title">ವೆಬ್‌ಸೈಟ್‌ಗೆ ಭೇಟಿ ನೀಡಿ</string>
-  <string name="progress_dialog_deleting">ವಸ್ತುಗಳನ್ನು ಅಳಿಸಲಾಗುತ್ತಿದೆ</string>
-  <string name="progress_dialog_loading">ಡೇಟಾಬೇಸ್‌ನಿಂದ ವಸ್ತುವನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ</string>
-  <string name="progress_dialog_printing">ಪಿಡಿಎಫ್ ರಚಿಸಲಾಗುತ್ತಿದೆ</string>
-  <string name="progress_dialog_saving">ಡೇಟಾಬೇಸ್‌ಗೆ ವಸ್ತುವನ್ನು ಉಳಿಸಲಾಗುತ್ತಿದೆ</string>
-  <string name="qif_parse_result">ಪಾರ್ಸ್ ಮಾಡಲಾಗಿದೆ: %1$s ಖಾತೆಗಳು; %2$s ವಿಭಾಗಗಳು ಮತ್ತು %3$s ಪಕ್ಷಗಳು</string>
-  <string name="qif_parse_failure_found_multiple_accounts">QIF ಫೈಲ್‌ನಲ್ಲಿ ಬಹು ಖಾತೆಗಳು ಕಂಡುಬರುತ್ತವೆ.</string>
-  <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">ಅವುಗಳನ್ನು ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ಖಾತೆಗೆ ವಿಲೀನಗೊಳಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ.</string>
-  <string name="reference_number">ರೆಫ಼ರೆನ್ಸ್ ಸಂಖ್ಯೆ</string>
-  <string name="restore_db_failure">ಡೇಟಾಬೇಸ್ ಮರುಸ್ಥಾಪನೆ ವಿಫಲವಾಗಿದೆ.</string>
-  <string name="restore_db_success">ಡೇಟಾಬೇಸ್ ಅನ್ನು ಬ್ಯಾಕಪ್‌ನಿಂದ ಮರುಸ್ಥಾಪಿಸಲಾಗಿದೆ.</string>
-  <string name="restore_no_backup_found">ಯಾವುದೇ ಬ್ಯಾಕಪ್ ಕಂಡುಬಂದಿಲ್ಲ.</string>
-  <string name="restore_preferences_failure">ಆದ್ಯತೆಗಳ ಮರುಸ್ಥಾಪನೆ ವಿಫಲವಾಗಿದೆ</string>
-  <string name="restore_backup_archive_not_valid">ಆರ್ಕೈವ್ %1$s ಮಾನ್ಯವಾಗಿಲ್ಲ</string>
-  <string name="restore_backup_file_not_found">"%2$s" ಆರ್ಕೈವ್‌ನಲ್ಲಿ %1$s ಫೈಲ್ ಕಂಡುಬಂದಿಲ್ಲ</string>
-  <string name="restore_preferences_success">ಆದ್ಯತೆಗಳನ್ನು ಬ್ಯಾಕಪ್‌ನಿಂದ ಮರುಸ್ಥಾಪಿಸಲಾಗಿದೆ.</string>
-  <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d ಯೋಜನೆಗಳನ್ನು ಬ್ಯಾಕಪ್‌ನಿಂದ ಮರುಸ್ಥಾಪಿಸಲಾಗಿದೆ</string>
-  <string name="save_transaction_and_new_success">ಯಶಸ್ವಿಯಾಗಿ ಉಳಿಸಲಾಗಿದೆ</string>
-  <string name="save_transaction_error">ಟೆಂಪ್ಲೇಟ್‌ನಿಂದ ಹೊಸ ವಹಿವಾಟನ್ನು ಉಳಿಸಲಾಗಲಿಲ್ಲ.</string>
-  <plurals name="save_transaction_from_template_success">
-    <item quantity="one">ಹೊಸ ವಹಿವಾಟನ್ನು ಟೆಂಪ್ಲೇಟ್‌ನಿಂದ ಯಶಸ್ವಿಯಾಗಿ ಉಳಿಸಲಾಗಿದೆ.</item>
-    <item quantity="other">%1$d ಹೊಸ ವಹಿವಾಟುಗಳನ್ನು ಟೆಂಪ್ಲೆಟ್ಗಳಿಂದ ಯಶಸ್ವಿಯಾಗಿ ಉಳಿಸಲಾಗಿದೆ.</item>
-  </plurals>
-  <string name="save_transaction_template_deleted">ಟೆಂಪ್ಲೇಟ್ ಅನ್ನು ಅಳಿಸಲಾಗಿದೆ</string>
-  <string name="select">ಆಯ್ಕೆ ಮಾಡಿ</string>
-  <string name="select_category">ವರ್ಗವನ್ನು ಆಯ್ಕೆಮಾಡಿ</string>
-  <string name="select_payee">ಪಾವತಿಸುವವರು / ಪಾವತಿಸುವವರನ್ನು ಆಯ್ಕೆಮಾಡಿ</string>
-  <string name="share_scheme_not_supported">ಸ್ಕೀಮ್ %1$s ಬೆಂಬಲಿಸುವುದಿಲ್ಲ</string>
-  <string name="share_sending">ರಫ್ತು ಫೈಲ್ ಕಳುಹಿಸಿ</string>
-  <string name="split_parts_heading">ಭಾಗಗಳನ್ನು ವಿಭಜಿಸಿ</string>
-  <string name="split_transaction">ವಿಭಜಿತ ವಹಿವಾಟು</string>
-  <string name="status">ಸ್ಥಿತಿ</string>
-  <string name="status_cleared">ತೆರವುಗೊಳಿಸಲಾಗಿದೆ</string>
-  <string name="status_reconciled">ರಾಜಿ</string>
-  <string name="status_uncreconciled">ಹೊಂದಾಣಿಕೆ ಮಾಡಿಕೊಂಡಿಲ್ಲ</string>
-  <string name="status_void">ಅನೂರ್ಜಿತ</string>
-  <string name="subcategory">ಉಪವರ್ಗ</string>
-  <string name="sum_expenses">ವೆಚ್ಚಗಳು</string>
-  <string name="sum_income">ಆದಾಯ</string>
-  <string name="sum_transfer">ವರ್ಗಾವಣೆಗಳು</string>
-  <!--platform is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">{website} ನಿಂದ {platform} ಗಾಗಿ {app_name} - ವೈಯಕ್ತಿಕ ಹಣಕಾಸು ವ್ಯವಸ್ಥಾಪಕ ಪರಿಶೀಲಿಸಿ</string>
-  <string name="thank_you">ನಿಮ್ಮ ಸಹಕಾರಕ್ಕೆ ಧನ್ಯವಾದಗಳು!</string>
-  <string name="time">ಸಮಯ</string>
-  <string name="title">ಶೀರ್ಷಿಕೆ</string>
-  <string name="total_cleared">ಒಟ್ಟು ತೆರವುಗೊಳಿಸಲಾಗಿದೆ</string>
-  <string name="total_reconciled">ಒಟ್ಟು ಹೊಂದಾಣಿಕೆ</string>
-  <string name="transaction">ವ್ಯವಹಾರ</string>
-  <string name="transfer">ವರ್ಗಾವಣೆ</string>
-  <string name="transfer_from_account">ಇಂದ</string>
-  <string name="transfer_to_account">ಗೆ</string>
-  <!--Type refers to the type of an account, eg. Cash account, bank account-->
-  <string name="type">ಮಾದರಿ</string>
-  <string name="unsplit_amount">ಬೇರ್ಪಡಿಸದ ಮೊತ್ತ</string>
-  <string name="unsplit_amount_greater_than_zero">ಇನ್ನೂ ಕೆಲವು ಮೊತ್ತವನ್ನು ಬಿಚ್ಚಿಡಲಾಗಿದೆ.</string>
-  <string name="warning_backup">ಡೇಟಾಬೇಸ್ ಮತ್ತು ಪ್ರಾಶಸ್ತ್ಯಗಳನ್ನು \"%1$s\" ಗೆ ಉಳಿಸಲಾಗುತ್ತದೆ.</string>
-  <string name="continue_confirmation">ನೀವು ಮುಂದುವರಿಸಲು ಬಯಸುತ್ತೀರಾ?</string>
-  <string name="warning_delete_account">%1$s\" ಖಾತೆಯನ್ನು  ಅದರ ಎಲ್ಲಾ ವಹಿವಾಟುಗಳೊಂದಿಗೆ ಅಳಿಸಲಾಗುತ್ತದೆ.</string>
-  <plurals name="warning_delete_main_category">
-    <item quantity="one">ಒಂದು ಆಯ್ದ ವರ್ಗವು ಉಪವರ್ಗಗಳನ್ನು ಹೊಂದಿದೆ, ಅದನ್ನು ಸಹ ಅಳಿಸಲಾಗುತ್ತದೆ.</item>
-    <item quantity="other">%1$d ಆಯ್ದ ವಿಭಾಗಗಳು ಉಪವರ್ಗಗಳನ್ನು ಹೊಂದಿವೆ, ಅದನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.</item>
-  </plurals>
-  <string name="warning_delete_category_with_budget">ಕನಿಷ್ಠ ಒಂದು ಆಯ್ದ ವರ್ಗಕ್ಕೆ, ಬಜೆಟ್ ಹಂಚಿಕೆಗಳಿವೆ, ಅದನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.</string>
-  <plurals name="warning_delete_template">
-    <item quantity="one">ಆಯ್ದ ಟೆಂಪ್ಲೇಟ್ ಅನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.</item>
-    <item quantity="other">%1$d ಆಯ್ದ ಟೆಂಪ್ಲೆಟ್ಗಳನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.</item>
-  </plurals>
-  <plurals name="warning_delete_transaction">
-    <item quantity="one">ಆಯ್ದ ವಹಿವಾಟನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.</item>
-    <item quantity="other">%1$d ಆಯ್ದ ವಹಿವಾಟುಗಳನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.</item>
-  </plurals>
-  <plurals name="move_category_success">
-    <item quantity="one">ಒಂದು ವರ್ಗವನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಸರಿಸಲಾಗಿದೆ.</item>
-    <item quantity="other">%d ವಿಭಾಗಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಸರಿಸಲಾಗಿದೆ.</item>
-  </plurals>
-  <plurals name="move_category_failure">
-    <item quantity="one">ಒಂದು ವರ್ಗವನ್ನು ಸರಿಸಲಾಗಿಲ್ಲ, ಏಕೆಂದರೆ ಅದೇ ಲೇಬಲ್ ಈಗಾಗಲೇ ಗುರಿಯಲ್ಲಿದೆ.</item>
-    <item quantity="other">%d ವಿಭಾಗಗಳನ್ನು ಸರಿಸಲಾಗಿಲ್ಲ, ಏಕೆಂದರೆ ಅದೇ ಲೇಬಲ್ ಈಗಾಗಲೇ ಗುರಿಯಲ್ಲಿದೆ.</item>
-  </plurals>
-  <string name="warning_delete_reconciled">ರಾಜಿ ಮಾಡಿಕೊಂಡ ವಹಿವಾಟುಗಳನ್ನು ಅಳಿಸುವುದರಿಂದ ನಿಮ್ಮ ದಾಖಲೆಗಳು ಬ್ಯಾಂಕ್ ಹೇಳಿಕೆಯಿಂದ ಭಿನ್ನವಾಗುತ್ತವೆ.</string>
-  <string name="warning_balance_account">ದಯವಿಟ್ಟು ತೆರವುಗೊಳಿಸಿದ ಮೊತ್ತವನ್ನು ನಿಮ್ಮ ಬ್ಯಾಂಕ್ ಸ್ಟೇಟ್‌ಮೆಂಟ್‌ನಲ್ಲಿ ಕೊನೆಗೊಳ್ಳುವ ಬ್ಯಾಲೆನ್ಸ್‌ನೊಂದಿಗೆ ಹೋಲಿಕೆ ಮಾಡಿ. ನೀವು ಮುಂದುವರಿದರೆ, ತೆರವುಗೊಳಿಸಿದ ವಹಿವಾಟುಗಳನ್ನು ರಾಜಿ ಎಂದು ಗುರುತಿಸಲಾಗುತ್ತದೆ.</string>
-  <string name="warning_password_protected">ಅಪ್ಲಿಕೇಶನ್ ಪಾಸ್‌ವರ್ಡ್ ರಕ್ಷಿತವಾಗಿದೆ.</string>
-  <string name="warning_widget_disabled">ಅಪ್ಲಿಕೇಶನ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ನೀವು ಈ ವಿಜೆಟ್ ಅನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಬೇಕಾಗಿದೆ.</string>
-  <string name="warning_instantiate_template_from_widget_password_protected">ಅಪ್ಲಿಕೇಶನ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ಪಾಸ್‌ವರ್ಡ್ ಇಲ್ಲದೆ ವಿಜೆಟ್‌ಗಳಿಂದ ಡೇಟಾ ನಮೂದನ್ನು ನೀವು ಅನುಮತಿಸಿದರೆ ಮಾತ್ರ ಈ ವಿಜೆಟ್‌ನಿಂದ ಟೆಂಪ್ಲೆಟ್ಗಳ ತ್ವರಿತ ಇನ್ಸ್ಟಾಂಟೇಶನ್ ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತದೆ.</string>
-  <string name="warning_password_contrib">ನಿಮ್ಮ ಪಾಸ್‌ವರ್ಡ್ ಅನ್ನು ನೀವು ಮರೆತಿದ್ದರೆ, ಸುರಕ್ಷತಾ ಪ್ರಶ್ನೆಯನ್ನು ಹೊಂದಿಸುವುದರಿಂದ ಅಪ್ಲಿಕೇಶನ್ ಅನ್ನು ಅನ್ಲಾಕ್ ಮಾಡಲು ಅನುಮತಿಸುತ್ತದೆ.</string>
-  <string name="warning_reset_account">ನೀವು ಮುಂದುವರಿದರೆ, ಈ ಖಾತೆಯ ಎಲ್ಲಾ ವಹಿವಾಟುಗಳನ್ನು ಡೇಟಾಬೇಸ್‌ನಿಂದ ಅಳಿಸಲಾಗುತ್ತದೆ ಮತ್ತು ಅದನ್ನು ಮರುಸ್ಥಾಪಿಸಲಾಗುವುದಿಲ್ಲ.</string>
-  <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
-  <string name="warning_reset_account_all">ನೀವು ಮುಂದುವರಿದರೆ, ಎಲ್ಲಾ ಖಾತೆಗಳಿಗೆ%1$s, ವ್ಯವಹಾರಗಳನ್ನು ಡೇಟಾಬೇಸ್‌ನಿಂದ ಅಳಿಸಲಾಗುತ್ತದೆ ಮತ್ತು ಅದನ್ನು ಮರುಸ್ಥಾಪಿಸಲಾಗುವುದಿಲ್ಲ.</string>
-  <string name="warning_reset_account_matched">ನೀವು ಮುಂದುವರಿದರೆ, ಪ್ರಸ್ತುತ ಫಿಲ್ಟರ್‌ಗೆ ಹೊಂದಿಕೆಯಾಗುವ ವಹಿವಾಟುಗಳನ್ನು ಡೇಟಾಬೇಸ್‌ನಿಂದ ಅಳಿಸಲಾಗುತ್ತದೆ ಮತ್ತು ಅದನ್ನು ಮರುಸ್ಥಾಪಿಸಲಾಗುವುದಿಲ್ಲ.</string>
-  <string name="warning_restore">ಡೇಟಾಬೇಸ್ ಮತ್ತು ಆದ್ಯತೆಗಳನ್ನು \"%1$s\" ಫೈಲ್‌ನಿಂದ ಮರುಸ್ಥಾಪಿಸಲಾಗುತ್ತದೆ. ಪ್ರಸ್ತುತ ಡೇಟಾವನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.</string>
-  <string name="warning_app_folder_will_be_deleted_upon_uninstall">ನೀವು {app_name} ಅನ್ನು ಅಸ್ಥಾಪಿಸಿದರೆ ಬ್ಯಾಕ್‌ಅಪ್‌ಗಳು ಮತ್ತು ರಫ್ತುಗಳಿಗಾಗಿ ಪ್ರಸ್ತುತ ಆಯ್ಕೆ ಮಾಡಲಾದ ಫೋಲ್ಡರ್ ಆಂಡ್ರಾಯ್ಡ್‌ನಿಂದ ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಅಳಿಸಲ್ಪಡುತ್ತದೆ. ಸೆಟ್ಟಿಂಗ್‌ಗಳ ಪರದೆಯಿಂದ ಬೇರೆ ಫೋಲ್ಡರ್ ಆಯ್ಕೆ ಮಾಡುವ ಮೂಲಕ ನೀವು ಇದನ್ನು ತಡೆಯಬಹುದು.</string>
-  <string name="warning_splitpartcategory_context">ವಿಭಜನೆಯ ಭಾಗವಾಗಿರುವ ವರ್ಗಾವಣೆಗಳನ್ನು ವಿಭಜನೆಯ ಸಂದರ್ಭದಲ್ಲಿ ಮಾತ್ರ ಸಂಪಾದಿಸಬಹುದು.</string>
-  <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">ದಯವಿಟ್ಟು %1$d ಮತ್ತು %2$d ನಡುವೆ ಸಂಖ್ಯೆಯನ್ನು ಹೊಂದಿಸಿ</string>
-  <string name="warning_change_fraction_digits_1">ಹೊಸ ಸಂಖ್ಯೆಯ ಭಿನ್ನರಾಶಿ ಅಂಕೆಗಳಿಗೆ ಹೊಂದಿಕೆಯಾಗಲು ಡೇಟಾಬೇಸ್‌ನಲ್ಲಿನ ಮೊತ್ತವನ್ನು ನವೀಕರಿಸಬೇಕಾಗಿದೆ.</string>
-  <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">ಮೊತ್ತವನ್ನು ನವೀಕರಿಸದಿದ್ದರೆ, ಬದಲಾವಣೆಯ ನಂತರ ಅವುಗಳನ್ನು %d ನಿಂದ ಗುಣಿಸಿದಾಗ ಪ್ರದರ್ಶಿಸಲಾಗುತ್ತದೆ.</string>
-  <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">ಮೊತ್ತವನ್ನು ನವೀಕರಿಸದಿದ್ದರೆ, ಬದಲಾವಣೆಯ ನಂತರ ಅವುಗಳನ್ನು %d ನಿಂದ ಭಾಗಿಸಿದಂತೆ ಪ್ರದರ್ಶಿಸಲಾಗುತ್ತದೆ.</string>
-  <string name="warning_change_fraction_digits_3">ಮೊತ್ತವನ್ನು ನವೀಕರಿಸಿದರೆ, ಅವುಗಳ ಭಾಗಶಃ ಮಾಹಿತಿಯನ್ನು ನೀವು ಕಳೆದುಕೊಳ್ಳುತ್ತೀರಿ.</string>
-  <string name="warning_change_fraction_digits_checkbox_label">ಡೇಟಾಬೇಸ್‌ನಲ್ಲಿ ಮೊತ್ತವನ್ನು ನವೀಕರಿಸಿ</string>
-  <string name="import_categories_success">%1$s ವಿಭಾಗಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಆಮದು ಮಾಡಲಾಗಿದೆ</string>
-  <string name="import_parties_success">%1$s ಪಕ್ಷಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಆಮದು ಮಾಡಲಾಗಿದೆ</string>
-  <string name="import_accounts_success">%1$s ಖಾತೆಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಆಮದು ಮಾಡಲಾಗಿದೆ</string>
-  <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d ವಹಿವಾಟುಗಳನ್ನು %2$s ಖಾತೆಗೆ ಯಶಸ್ವಿಯಾಗಿ ಆಮದು ಮಾಡಲಾಗಿದೆ</string>
-  <string name="import_accounts_none">ಯಾವುದೇ ಖಾತೆಗಳನ್ನು ಆಮದು ಮಾಡಿಕೊಳ್ಳಲಾಗಿಲ್ಲ</string>
-  <string name="import_categories_none">ಯಾವುದೇ ವರ್ಗಗಳನ್ನು ಆಮದು ಮಾಡಿಕೊಳ್ಳಲಾಗಿಲ್ಲ</string>
-  <string name="import_parties_none">ಯಾವುದೇ ಪಕ್ಷಗಳನ್ನು ಆಮದು ಮಾಡಿಕೊಂಡಿಲ್ಲ</string>
-  <string name="import_transactions_none">%1$s ಖಾತೆಗೆ ಯಾವುದೇ ವಹಿವಾಟುಗಳನ್ನು ಆಮದು ಮಾಡಿಕೊಳ್ಳಲಾಗಿಲ್ಲ</string>
-  <string name="import_source_select_error">ದಯವಿಟ್ಟು %1$s ಪ್ರಕಾರದ ಫೈಲ್ ಅನ್ನು ಒದಗಿಸಿ</string>
-  <string name="menu_categories_setup_default">ಡೀಫಾಲ್ಟ್ ವಿಭಾಗಗಳನ್ನು ಹೊಂದಿಸಿ</string>
-  <string name="menu_create_folder">ಹೊಸ ಫೋಲ್ಡರ್</string>
-  <!--This string is used for navigating up in the folder browser-->
-  <string name="menu_up">ಅಪ್</string>
-  <string name="create_new_folder_fail">ಫೋಲ್ಡರ್ ರಚಿಸಲು ವಿಫಲವಾಗಿದೆ</string>
-  <string name="widget_title_accounts">ನನ್ನ ಖಾತೆಗಳು</string>
-  <string name="widget_title_templates">ನನ್ನ ಟೆಂಪ್ಲೇಟ್‌ಗಳು</string>
-  <string name="app_dir_not_accessible">ಬ್ಯಾಕಪ್‌ಗಳು ಮತ್ತು ರಫ್ತುಗಳಿಗಾಗಿ ಪ್ರಸ್ತುತ ಆಯ್ಕೆ ಮಾಡಲಾದ ಫೋಲ್ಡರ್ (%1$s) ಪ್ರವೇಶಿಸಲಾಗುವುದಿಲ್ಲ. ದಯವಿಟ್ಟು ಬೇರೆ ಒಂದನ್ನು ಆರಿಸಿ.</string>
-  <string name="app_dir_not_compatible_with_nougat">ಆಂಡ್ರಾಯ್ಡ್ ನೌಗಾಟ್ ಅಡಿಯಲ್ಲಿ ಬ್ಯಾಕಪ್ ಮತ್ತು ರಫ್ತುಗಳಿಗಾಗಿ ಪ್ರಸ್ತುತ ಕಾನ್ಫಿಗರ್ ಮಾಡಲಾದ ಯುಆರ್ಐ (%1$s) ಬೆಂಬಲಿಸುವುದಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಫೋಲ್ಡರ್ ಆಯ್ಕೆಮಾಡಿ.</string>
-  <string name="search_amount">ಮೊತ್ತಕ್ಕಾಗಿ ಹುಡುಕಿ</string>
-  <string name="search_category">ವರ್ಗಕ್ಕಾಗಿ ಹುಡುಕಿ</string>
-  <string name="search_comment">ಟಿಪ್ಪಣಿಗಳಿಗಾಗಿ ಹುಡುಕಿ</string>
-  <string name="search_date">ದಿನಾಂಕಕ್ಕಾಗಿ ಹುಡುಕಿ</string>
-  <string name="search_status">ಸ್ಥಿತಿಗಾಗಿ ಹುಡುಕಿ</string>
-  <string name="search_payee">ಪಾವತಿಸುವವರು / ಪಾವತಿಸುವವರಿಗಾಗಿ ಹುಡುಕಿ</string>
-  <string name="search_method">ವಿಧಾನಕ್ಕಾಗಿ ಹುಡುಕಿ</string>
-  <string name="search_tag">ಟ್ಯಾಗ್‌ಗಾಗಿ ಹುಡುಕಿ</string>
-  <string name="and">ಮತ್ತು</string>
-  <string name="between_and">%1$s ಮತ್ತು %2$s ನಡುವೆ</string>
-  <string name="before">%s ಮೊದಲು</string>
-  <string name="after">%s ನಂತರ</string>
-  <string name="comparison_operator_equal">ಸಮಾನವಾಗಿರುತ್ತದೆ</string>
-  <string name="comparison_operator_greater_than">ಅದಕ್ಕಿಂತ ಹೆಚ್ಚು</string>
-  <string name="comparison_operator_lesser_than">ಗಿಂತ ಕಡಿಮೆ</string>
-  <string name="comparison_operator_between">ನಡುವೆ</string>
-  <string name="comparison_operator_date_before">ಮೊದಲು</string>
-  <string name="comparison_operator_date_after">ನಂತರ</string>
-  <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">ಖರೀದಿ ವಿಫಲವಾಗಿದೆ ಅಥವಾ ರದ್ದುಗೊಂಡಿದೆ.</string>
-  <string name="hint_auto_fill">ಅದೇ ಪಾವತಿದಾರ / ಪಾವತಿಸುವವರಿಗೆ ಕೊನೆಯ ವಹಿವಾಟಿನಿಂದ ಡೇಟಾವನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಭರ್ತಿ ಮಾಡಬೇಕೇ? ನೀವು ಯಾವಾಗಲೂ ಈ ನಡವಳಿಕೆಯನ್ನು ಸೆಟ್ಟಿಂಗ್‌ಗಳಿಂದ ಬದಲಾಯಿಸಬಹುದು.</string>
-  <string name="yes">ಹೌದು</string>
-  <string name="no">ಇಲ್ಲ</string>
-  <string name="hint_template_click">ಈ ಪಟ್ಟಿಯಲ್ಲಿನ ನಮೂದನ್ನು ಸಣ್ಣ ಟ್ಯಾಪ್ ಮಾಡುವುದರಿಂದ ಟೆಂಪ್ಲೇಟ್ ಅನ್ನು ತ್ವರಿತಗೊಳಿಸುತ್ತದೆ ಮತ್ತು ಅದನ್ನು ತಕ್ಷಣವೇ ಉಳಿಸಿ ಅಥವಾ ಅದರ ಸಂಪಾದನೆ ಫಾರ್ಮ್ ಅನ್ನು ನಮೂದಿಸಿ ಅಲ್ಲಿ ಉಳಿಸುವ ಮೊದಲು ನೀವು ಅದನ್ನು ಮಾರ್ಪಡಿಸಬಹುದು. ಸುದೀರ್ಘ ಟ್ಯಾಪ್ ಮೂಲಕ ನೀವು ಯಾವಾಗಲೂ ಎರಡೂ ಕ್ರಿಯೆಗಳನ್ನು ಪ್ರವೇಶಿಸಬಹುದು ಮತ್ತು ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ಡೀಫಾಲ್ಟ್ ಅನ್ನು ಬದಲಾಯಿಸಬಹುದು.</string>
-  <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d ಕರೆನ್ಸಿ %2$s ಹೊಂದಿರುವ ಖಾತೆಗಳನ್ನು ನವೀಕರಿಸಲಾಗಿದೆ.</string>
-  <string name="learn_more">ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ</string>
-  <string name="import_source_file">ಫೈಲ್</string>
-  <string name="restore_calendar_handling">ಕ್ಯಾಲೆಂಡರ್ ಡೇಟಾ ನಿರ್ವಹಣೆ</string>
-  <string name="restore_calendar_handling_configured">ಪ್ರಸ್ತುತ ಕಾನ್ಫಿಗರ್ ಮಾಡಿದ ಕ್ಯಾಲೆಂಡರ್‌ಗೆ ಯೋಜನೆಗಳನ್ನು ಮರುಸ್ಥಾಪಿಸಿ</string>
-  <string name="restore_calendar_handling_backup">ಲಭ್ಯವಿದ್ದರೆ ಬ್ಯಾಕಪ್‌ನಲ್ಲಿ ಹೊಂದಿಸಲಾದ ಕ್ಯಾಲೆಂಡರ್ ಯೋಜನೆಗಳನ್ನು ಮರುಸ್ಥಾಪಿಸಿ</string>
-  <string name="restore_calendar_handling_ignore">ಯೋಜನೆಗಳನ್ನು ಮರುಸ್ಥಾಪಿಸಬೇಡಿ</string>
-  <string name="restore_not_possible_target_calendar_missing">ಬ್ಯಾಕಪ್ ಆರ್ಕೈವ್‌ನಲ್ಲಿ ಹೊಂದಿಸಲಾದ ಕ್ಯಾಲೆಂಡರ್ %s ಸ್ಥಳೀಯವಾಗಿ ಅಸ್ತಿತ್ವದಲ್ಲಿಲ್ಲ. ಮರುಸ್ಥಾಪನೆಯನ್ನು ಸ್ಥಗಿತಗೊಳಿಸಲಾಗಿದೆ.</string>
-  <string name="restore_not_possible_local_calendar_missing">ಪ್ರಸ್ತುತ ಯೋಜನೆ ಕ್ಯಾಲೆಂಡರ್ ಲಭ್ಯವಿಲ್ಲ.</string>
-  <string name="menu_view_picture">ಚಿತ್ರವನ್ನು ವೀಕ್ಷಿಸಿ</string>
-  <string name="menu_delete_picture">ಚಿತ್ರವನ್ನು ಅಳಿಸಿ</string>
-  <string name="menu_change_picture">ವಿಭಿನ್ನ ಚಿತ್ರವನ್ನು ಲಗತ್ತಿಸಿ</string>
-  <string name="menu_distribution_show_pie_char">ಪೈ ಚಾರ್ಟ್ ತೋರಿಸಿ</string>
-  <string name="menu_distribution_aggreate">ಒಟ್ಟು ವೆಚ್ಚಗಳು ಮತ್ತು ಆದಾಯ</string>
-  <string name="pref_manage_stale_images_title">ಹಳೆಯ ಚಿತ್ರಗಳು</string>
-  <string name="pref_manage_stale_images_summary">ಅಳಿಸಿದ ವಹಿವಾಟಿನಿಂದ ಉಳಿದಿರುವ ಚಿತ್ರಗಳನ್ನು ನಿರ್ವಹಿಸಿ</string>
-  <string name="image_deleted">ಚಿತ್ರವನ್ನು ಅಳಿಸಲಾಗಿದೆ</string>
-  <string name="transaction_deleted">ವಹಿವಾಟನ್ನು ಅಳಿಸಲಾಗಿದೆ</string>
-  <string name="dialog_export_applied_to_filter">ಪ್ರಸ್ತುತ ಫಿಲ್ಟರ್‌ಗೆ ಹೊಂದಿಕೆಯಾಗುವ ವಹಿವಾಟುಗಳನ್ನು ಮಾತ್ರ ಪರಿಗಣಿಸಲಾಗುತ್ತದೆ.</string>
-  <string name="export_handle_deleted_create_helper">ಸಹಾಯಕ ವ್ಯವಹಾರವನ್ನು ರಚಿಸಿ</string>
-  <string name="export_handle_deleted_update_balance">ಆರಂಭ ಶಿಲ್ಕುವನ್ನು ನವೀಕರಿಸಿ</string>
-  <string name="file_name">ಕಡತದ ಹೆಸರು</string>
-  <string name="folder_name">ಫೋಲ್ಡರ್ ಹೆಸರು</string>
-  <string name="mark_void_instead_of_delete">ವಹಿವಾಟನ್ನು ಅಳಿಸಬೇಡಿ, ಬದಲಿಗೆ ಅನೂರ್ಜಿತ ಎಂದು ಗುರುತಿಸಿ.</string>
-  <string name="menu_undelete_transaction">ಅಳಿಸಬೇಡಿ</string>
-  <string name="slash_forbidden_in_filename">ಫೈಲ್ ಹೆಸರುಗಳಲ್ಲಿ / ಅಕ್ಷರವನ್ನು ಅನುಮತಿಸಲಾಗುವುದಿಲ್ಲ</string>
-  <string name="io_error_unable_to_create_file">%2$s ಫೋಲ್ಡರ್‌ನಲ್ಲಿ %1$s ಫೈಲ್ ಅನ್ನು ರಚಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ</string>
-  <string name="menu_categories_export">QIF ಗೆ ರಫ್ತು ಮಾಡಿ</string>
-  <string name="pref_csv_import_delimiter">ಡಿಲಿಮಿಟರ್</string>
-  <string name="csv_import_preview">ಮುನ್ನೋಟ</string>
-  <string name="menu_parse">ಪಾರ್ಸ್</string>
-  <!--Label for column where user can check rows to be discarded from import-->
-  <string name="cvs_import_discard">ತ್ಯಜಿಸಿ</string>
-  <string name="csv_import_field_mapped_more_than_once">%s ಅನ್ನು ಒಂದಕ್ಕಿಂತ ಹೆಚ್ಚು ಬಾರಿ ಮ್ಯಾಪ್ ಮಾಡಲಾಗಿದೆ.</string>
-  <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d ದಾಖಲೆಗಳನ್ನು ಆಮದು ಮಾಡಲಾಗಲಿಲ್ಲ.</string>
-  <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d ದಾಖಲೆಗಳನ್ನು ತ್ಯಜಿಸಲಾಗಿದೆ.</string>
-  <string name="csv_import_subcategory_requires_category">ನೀವು ಉಪವರ್ಗವನ್ನು ನಕ್ಷೆ ಮಾಡಿದರೆ, ನೀವು ವರ್ಗವನ್ನು ಸಹ ನಕ್ಷೆ ಮಾಡಬೇಕು.</string>
-  <string name="cvs_import_set_first_line_as_header">ಮೊದಲ ಸಾಲನ್ನು ಹೆಡರ್ ಲೈನ್ ಎಂದು ಪರಿಗಣಿಸಬೇಕೇ?</string>
-  <string name="csv_import_delimiter_comma">ಅಲ್ಪವಿರಾಮ</string>
-  <string name="csv_import_delimiter_semicolon">ಸೆಮಿಕೋಲನ್</string>
-  <string name="csv_import_delimiter_tab">ಟ್ಯಾಬ್</string>
-  <string name="csv_import_no_mapping_found_for_amount">ಮೊತ್ತ, ಆದಾಯ ಅಥವಾ ಖರ್ಚಿಗೆ ದಯವಿಟ್ಟು ಒಂದು ಕಾಲಮ್ ಅನ್ನು ನಕ್ಷೆ ಮಾಡಿ.</string>
-  <string name="menu_show_transactions">ವಹಿವಾಟುಗಳನ್ನು ತೋರಿಸಿ</string>
-  <string name="pref_custom_decimal_format_title">ಸಂಖ್ಯೆ ಸ್ವರೂಪ</string>
-  <string name="pref_custom_decimal_format_summary">ನಿಮ್ಮ ಸ್ಥಳಕ್ಕಾಗಿ ಡೀಫಾಲ್ಟ್ ಸ್ವರೂಪದಲ್ಲಿ ನೀವು ತೃಪ್ತರಾಗದಿದ್ದರೆ, ಅದನ್ನು ನಿಮ್ಮ ಅಗತ್ಯಗಳಿಗೆ ಹೊಂದಿಕೊಳ್ಳಿ. ಡೀಫಾಲ್ಟ್ ಸ್ವರೂಪವನ್ನು ಪುನಃಸ್ಥಾಪಿಸಲು ಖಾಲಿ ಬಿಡಿ.</string>
-  <string name="pref_auto_backup_title">ಸ್ವಯಂ ಬ್ಯಾಕಪ್</string>
-  <string name="pref_auto_backup_summary">ನಿಗದಿತ ಸಮಯದಲ್ಲಿ ಪ್ರತಿದಿನ ಬ್ಯಾಕಪ್ ಡೇಟಾಬೇಸ್ (ಡೇಟಾ ಬದಲಾದರೆ ಮಾತ್ರ).</string>
-  <string name="pref_auto_backup_time_title">ಸ್ವಯಂ-ಬ್ಯಾಕಪ್ ಸಮಯ</string>
-  <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">%d ಯಶಸ್ವಿ ಸ್ವಯಂಚಾಲಿತ ಬ್ಯಾಕಪ್‌ಗಳ ನಂತರ, ಸ್ವಯಂ-ಬ್ಯಾಕಪ್ ಅನ್ನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗುತ್ತದೆ.</string>
-  <string name="calendar_permission_required">ಭವಿಷ್ಯದ ಮತ್ತು ಮರುಕಳಿಸುವ ವಹಿವಾಟುಗಳ ಯೋಜನೆಗಳನ್ನು ರಚಿಸಲು <i>{app_name}</i> ಗೆ ನಿಮ್ಮ ಕ್ಯಾಲೆಂಡರ್ ಪ್ರವೇಶಿಸಲು ಅನುಮತಿ ಅಗತ್ಯವಿದೆ.</string>
-  <string name="button_request_calendar_access" tools:ignore="UnusedResources">ಪ್ರವೇಶವನ್ನು ನೀಡಿ</string>
-  <string name="switch_on_text">ಆನ್</string>
-  <string name="switch_off_text">ಆರಿಸಿ</string>
-  <string name="menu_move">ಸರಿಸಿ</string>
-  <string name="dialog_title_select_target">ಗುರಿ ಆಯ್ಕೆಮಾಡಿ</string>
-  <string name="transform_subcategory_to_main">ಮುಖ್ಯ ವರ್ಗಕ್ಕೆ ಪರಿವರ್ತನೆ</string>
-  <string name="preferences_week_start_day_title">ವಾರ ಪ್ರಾರಂಭವಾಗುತ್ತದೆ</string>
-  <string name="preferences_month_start_date_title">ತಿಂಗಳು ಪ್ರಾರಂಭವಾಗುತ್ತದೆ</string>
-  <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
-  <string name="pref_grouping_periods">ಗುಂಪು ಅವಧಿಗಳು</string>
-  <string name="exchange_rate">ವಿನಿಮಯ ದರ</string>
-  <string name="date_format_hour">ಗಂಟೆ</string>
-  <string name="date_format_minute">ನಿಮಿಷ</string>
-  <string name="copied_to_clipboard">ಕ್ಲಿಪ್‌ಬೋರ್ಡ್‌ಗೆ ನಕಲಿಸಲಾಗಿದೆ</string>
-  <string name="menu_sort">ವಿಂಗಡಿಸು</string>
-  <string name="pref_sort_order_last_used">ಕೊನೆಯದಾಗಿ ಉಪಯೋಗಿಸಿದ</string>
-  <string name="pref_sort_order_custom">ಕಸ್ಟಮ್</string>
-  <string name="content_description_calculator">ಕ್ಯಾಲ್ಕುಲೇಟರ್</string>
-  <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
-  <string name="plan_instance_state_open">ತೆರೆದಿರುತ್ತದೆ</string>
-  <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
-  <string name="plan_instance_state_cancelled">ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ</string>
-  <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
-  <string name="plan_instance_state_applied">ಅನ್ವಯಿಸಲಾಗಿದೆ</string>
-  <string name="progress_dialog_updating_split_parts">ವಿಭಜಿತ ಭಾಗಗಳನ್ನು ನವೀಕರಿಸಲಾಗುತ್ತಿದೆ</string>
-  <string name="warning_cannot_move_split_transaction">ಈ ವಿಭಜಿತ ವಹಿವಾಟನ್ನು %1$s ಖಾತೆಗೆ ಸರಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ ಏಕೆಂದರೆ ಈ ಖಾತೆಯನ್ನು ಉಲ್ಲೇಖಿಸುವ ವರ್ಗಾವಣೆ ಭಾಗಗಳಿವೆ.</string>
-  <string name="content_description_calculator_clear_button">ಎಲ್ಲಾ ಮರುಹೊಂದಿಸಿ</string>
-  <string name="content_description_calculator_delete_button">ಕೊನೆಯ ಅಂಕಿಯನ್ನು ಅಳಿಸಿ</string>
-  <string name="paypal_callback_info">ನಿಮ್ಮ ವಹಿವಾಟು ಪೂರ್ಣಗೊಂಡಿದೆ, ಮತ್ತು ನಿಮ್ಮ ಖರೀದಿಗೆ ರಶೀದಿಯನ್ನು ನಿಮಗೆ ಇಮೇಲ್ ಮಾಡಲಾಗಿದೆ. ಈ ವಹಿವಾಟಿನ ವಿವರಗಳನ್ನು ವೀಕ್ಷಿಸಲು ನೀವು www.paypal.com ನಲ್ಲಿ ನಿಮ್ಮ ಖಾತೆಗೆ ಲಾಗ್ ಇನ್ ಮಾಡಬಹುದು.</string>
-  <string name="search_transfer">ವರ್ಗಾವಣೆಗಾಗಿ ಹುಡುಕಿ</string>
-  <!--Sort plans (recurring transactions) by the next instance-->
-  <string name="pref_sort_order_next_instance">ಮುಂದಿನ ನಿದರ್ಶನ</string>
-  <string name="crash_dialog_title">{app_name} ಕ್ರ್ಯಾಶ್ ಆಗಿದೆ</string>
-  <string name="crash_dialog_text">ಅಪ್ಲಿಕೇಶನ್ ಅನ್ನು ನಿಲ್ಲಿಸುವಂತೆ ಒತ್ತಾಯಿಸಿ ಅನಿರೀಕ್ಷಿತ ದೋಷ ಸಂಭವಿಸಿದೆ. ದೋಷ ಡೇಟಾವನ್ನು ಕಳುಹಿಸುವ ಮೂಲಕ ದಯವಿಟ್ಟು ಇದನ್ನು ಸರಿಪಡಿಸಲು ನಮಗೆ ಸಹಾಯ ಮಾಡಿ, ನೀವು ಮಾಡಬೇಕಾಗಿರುವುದು ಸರಿ ಕ್ಲಿಕ್ ಮಾಡಿ.</string>
-  <string name="crash_dialog_comment_prompt">ಕೆಳಗಿನ ಸಮಸ್ಯೆಯ ಕುರಿತು ನಿಮ್ಮ ಕಾಮೆಂಟ್‌ಗಳನ್ನು ನೀವು ಸೇರಿಸಬಹುದು:</string>
-  <string name="synchronization">ಸಿಂಕ್ರೊನೈಸೇಶನ್</string>
-  <string name="synchronization_none">ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಇಲ್ಲ</string>
-  <string name="hint_url">URL</string>
-  <string name="description_webdav_url">ದಯವಿಟ್ಟು ನಿಮ್ಮ ವೆಬ್‌ಡ್ಯಾವ್ ಸರ್ವರ್‌ನಲ್ಲಿ ವಿಶೇಷ ಫೋಲ್ಡರ್‌ಗೆ URL ಅನ್ನು ನಮೂದಿಸಿ. {app_name} ತನ್ನ ಡೇಟಾವನ್ನು ಈ ಫೋಲ್ಡರ್ ಒಳಗೆ ಸಂಗ್ರಹಿಸುತ್ತದೆ, ಅದು ಅದರ ಹೊರಗೆ ಯಾವುದನ್ನೂ ಮುಟ್ಟುವುದಿಲ್ಲ.</string>
-  <string name="description_webdav_trust_certificate">ವೆಬ್‌ಸೈಟ್ ಪ್ರಮಾಣಪತ್ರವನ್ನು ಬಳಸುತ್ತದೆ, ಅದನ್ನು ಆಂಡ್ರಾಯ್ಡ್ ನಂಬುವುದಿಲ್ಲ.</string>
-  <string name="hint_user_name">ಬಳಕೆದಾರ ಹೆಸರು</string>
-  <string name="hint_password">ಗುಪ್ತಪದ</string>
-  <string name="label_trust_certificate">ಈ ಪ್ರಮಾಣಪತ್ರವನ್ನು ನಂಬಿರಿ</string>
-  <string name="no_sync_backends">ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಬ್ಯಾಕೆಂಡ್‌ಗಳು ಇಲ್ಲ</string>
-  <string name="menu_create_sync_backend">ಹೊಸ ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಬ್ಯಾಕೆಂಡ್</string>
-  <string name="validate_error_not_empty">ಖಾಲಿಯಾಗಿರಬಾರದು</string>
-  <string name="validate_error_webdav_invalid_certificate">ಪ್ರಮಾಣಪತ್ರವನ್ನು ನಂಬಲಾಗಲಿಲ್ಲ. ಇದು ಅಮಾನ್ಯವಾಗಿದೆ ಎಂದು ತೋರುತ್ತದೆ.</string>
-  <string name="validate_error_webdav_not_compliant">ವೆಬ್‌ಡಿಎವಿ ಸಂಪನ್ಮೂಲವನ್ನು URL ಸೂಚಿಸುವುದಿಲ್ಲ.</string>
-  <string name="validate_error_webdav_404">ಸರ್ವರ್‌ನಲ್ಲಿ URL ಅಸ್ತಿತ್ವದಲ್ಲಿಲ್ಲ.</string>
-  <string name="url_not_valid">URL ಮಾನ್ಯವಾಗಿಲ್ಲ</string>
-  <string name="menu_sync_unlink">ಸಿಂಕ್ ಮಾಡುವುದನ್ನು ನಿಲ್ಲಿಸಿ</string>
-  <string name="menu_sync_link">ಸಿಂಕ್ ಮಾಡಲು ಪ್ರಾರಂಭಿಸಿ</string>
-  <string name="menu_sync_download">ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ ಮತ್ತು ಸಿಂಕ್ ಮಾಡಿ</string>
-  <string name="menu_sync_now">ಈಗ ಸಿಂಕ್ ಮಾಡಿ</string>
-  <string name="pref_sync_frequency_title">ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಆವರ್ತನ</string>
-  <string name="pref_sync_frequency_summary">ಡೇಟಾವನ್ನು ಎಷ್ಟು ಬಾರಿ ಸಿಂಕ್ರೊನೈಸ್ ಮಾಡಬೇಕು (ಗಂಟೆಗಳಲ್ಲಿ)</string>
-  <string name="dialog_confirm_sync_unlink">ನೀವು ಈ ಖಾತೆಯನ್ನು %s ನಿಂದ ಅನ್ಲಿಂಕ್ ಮಾಡಿದರೆ, ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಸ್ಥಿತಿ ಕಳೆದುಹೋಗುತ್ತದೆ. ನಂತರ ಅವುಗಳನ್ನು ಮತ್ತೆ ಲಿಂಕ್ ಮಾಡಲು, ಪೂರ್ಣ ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಅನ್ನು ಮತ್ತೆ ಕಾರ್ಯಗತಗೊಳಿಸುವ ಅಗತ್ಯವಿದೆ.</string>
-  <string name="dialog_sync_link">uuid %s ಯೊಂದಿಗಿನ ಖಾತೆಯು ಸ್ಥಳೀಯ ಡೇಟಾಬೇಸ್‌ನಲ್ಲಿ ಮತ್ತು ದೂರಸ್ಥ ಬ್ಯಾಕೆಂಡ್‌ನಲ್ಲಿ ಅಸ್ತಿತ್ವದಲ್ಲಿದೆ. ನೀವು ಎರಡನ್ನೂ ಲಿಂಕ್ ಮಾಡಿದಾಗ, ಆರಂಭದಲ್ಲಿ, ನೀವು ಸ್ಥಳೀಯ ಡೇಟಾವನ್ನು ರಿಮೋಟ್ ಬ್ಯಾಕೆಂಡ್‌ಗೆ ಅಪ್‌ಲೋಡ್ ಮಾಡಲು ಅಥವಾ ಸ್ಥಳೀಯ ಡೇಟಾಬೇಸ್‌ಗೆ ರಿಮೋಟ್ ಡೇಟಾವನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಲು ನೀವು ನಿರ್ಧರಿಸಬೇಕು.</string>
-  <string name="dialog_command_sync_link_remote">ರಿಮೋಟ್‌ನಿಂದ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ</string>
-  <string name="dialog_command_sync_link_local">ಸ್ಥಳೀಯದಿಂದ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ</string>
-  <string name="dialog_synced_to_other">ಸ್ಥಳೀಯ ಡೇಟಾಬೇಸ್‌ನಲ್ಲಿ uuid %s ನೊಂದಿಗೆ ಖಾತೆಯು ಈಗಾಗಲೇ ಅಸ್ತಿತ್ವದಲ್ಲಿದೆ ಮತ್ತು ಅದನ್ನು ಬೇರೆ ರಿಮೋಟ್ ಬ್ಯಾಕೆಂಡ್‌ಗೆ ಲಿಂಕ್ ಮಾಡಲಾಗಿದೆ.</string>
-  <string name="menu_remove">ತೆಗೆದುಹಾಕಿ</string>
-  <string name="dialog_confirm_sync_remove_backend">ರಿಮೋಟ್ ಬ್ಯಾಕೆಂಡ್ %s ಅನ್ನು ತೆಗೆದುಹಾಕಲಾಗುತ್ತದೆ. ಇದು ಸ್ಥಳೀಯವಾಗಿ ಅಥವಾ ದೂರದಿಂದಲೇ ಸಂಗ್ರಹವಾಗಿರುವ ಡೇಟಾದ ಮೇಲೆ ಪರಿಣಾಮ ಬೀರುವುದಿಲ್ಲ, ಆದರೆ ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಸ್ಥಿತಿ ಕಳೆದುಹೋಗುತ್ತದೆ.</string>
-  <string name="dialog_confirm_sync_link_local">ಈ ಖಾತೆಯ ರಿಮೋಟ್ ಡೇಟಾವನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ. ಬೇರೆ ಯಾವುದೇ ಸಾಧನಗಳು ಇದಕ್ಕೆ ಲಿಂಕ್ ಆಗಿಲ್ಲ ಎಂದು ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಿ.</string>
-  <string name="dialog_confirm_sync_link_remote">ಈ ಖಾತೆಯ ಸ್ಥಳೀಯ ಡೇಟಾವನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.</string>
-  <string name="warning_limited_trial">%1$s ವೈಶಿಷ್ಟ್ಯವನ್ನು %2$s ರವರೆಗೆ ಪರೀಕ್ಷಿಸಬಹುದು.</string>
-  <string name="warning_trial_limit_reached">ವೈಶಿಷ್ಟ್ಯವನ್ನು ಪರೀಕ್ಷಿಸುವ ಪ್ರಾಯೋಗಿಕ ಅವಧಿ %s ಕೊನೆಗೊಂಡಿದೆ.</string>
-  <string name="warning_synchronization_folder_usage">ವಿಭಿನ್ನ ಸಾಧನಗಳಲ್ಲಿ {app_name} ನ ಸ್ಥಾಪನೆಗಳ ನಡುವೆ ಡೇಟಾವನ್ನು ಸಿಂಕ್ರೊನೈಸ್ ಮಾಡಲು ಈ ಫೋಲ್ಡರ್ ಅನ್ನು ಬಳಸಲಾಗುತ್ತದೆ. ದಯವಿಟ್ಟು ಅದರ ಯಾವುದೇ ವಿಷಯಗಳನ್ನು ಹಸ್ತಚಾಲಿತವಾಗಿ ಮಾರ್ಪಡಿಸಬೇಡಿ.</string>
-  <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">ನೀವು ಆಯ್ಕೆ ಮಾಡಿದ ಫೋಲ್ಡರ್ ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ಬ್ಯಾಕೆಂಡ್‌ನ ಒಂದು ಖಾತೆಗೆ ಅನುರೂಪವಾಗಿದೆ. ಈ ಬ್ಯಾಕೆಂಡ್ ಅನ್ನು ಮರುಬಳಕೆ ಮಾಡಲು ನೀವು ಅದರ ಮೂಲ ಫೋಲ್ಡರ್ ಅನ್ನು ಆರಿಸಬೇಕಾಗುತ್ತದೆ.</string>
-  <string name="select_unsynced_accounts">ಈ ಬ್ಯಾಕೆಂಡ್‌ಗೆ ಸಿಂಕ್ ಮಾಡಲು ಖಾತೆಗಳನ್ನು ಆಯ್ಕೆಮಾಡಿ</string>
-  <string name="link_account_success" tools:ignore="PluralsCandidate">%d ಖಾತೆಗಳನ್ನು ಬ್ಯಾಕೆಂಡ್‌ನೊಂದಿಗೆ ಸಿಂಕ್ ಮಾಡಲು ಕಾನ್ಫಿಗರ್ ಮಾಡಲಾಗಿದೆ.</string>
-  <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d ಖಾತೆಗಳನ್ನು ಬ್ಯಾಕೆಂಡ್‌ನೊಂದಿಗೆ ಸಿಂಕ್ ಮಾಡಲು ಕಾನ್ಫಿಗರ್ ಮಾಡಲಾಗಲಿಲ್ಲ.</string>
-  <string name="link_account_failure_2">ರಿಮೋಟ್ ಬ್ಯಾಕೆಂಡ್‌ನಲ್ಲಿ ಅದೇ ಯುಯಿಡ್ ಹೊಂದಿರುವ ಖಾತೆ ಈಗಾಗಲೇ ಅಸ್ತಿತ್ವದಲ್ಲಿದೆ.</string>
-  <string name="link_account_failure_3">ಪ್ರವೇಶದ ಸಂದರ್ಭ ಮೆನುವಿನಿಂದ ಸಂಘರ್ಷವನ್ನು ಹಸ್ತಚಾಲಿತವಾಗಿ ಪರಿಹರಿಸಬಹುದು.</string>
-  <string name="progress_dialog_checking_sync_backend">ಬ್ಯಾಕೆಂಡ್ ಅನ್ನು ಪರಿಶೀಲಿಸಲಾಗುತ್ತಿದೆ</string>
-  <string name="template">ಟೆಂಪ್ಲೇಟು</string>
-  <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">ಮೇಘ ಸಿಂಕ್ರೊನೈಸೇಶನ್</string>
-  <string name="all_contrib_key_features">ಕೊಡುಗೆ ಕೀಲಿಯ ಎಲ್ಲಾ ವೈಶಿಷ್ಟ್ಯಗಳು</string>
-  <string name="all_extended_key_features">ವಿಸ್ತೃತ ಕೀಲಿಯ ಎಲ್ಲಾ ವೈಶಿಷ್ಟ್ಯಗಳು</string>
-  <!--button leading user to purchase flow for licence keys-->
-  <string name="upgrade_now">ನವೀಕರಿಸಿ</string>
-  <string name="pref_backup_cloud_title">ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಬ್ಯಾಕೆಂಡ್‌ನಲ್ಲಿ ಸಂಗ್ರಹಿಸಿ</string>
-  <string name="pref_backup_cloud_summary">ಸಾಧನದಲ್ಲಿನ ಸ್ಥಳೀಯ ಸಂಗ್ರಹಣೆಯ ಜೊತೆಗೆ, ಬ್ಯಾಕಪ್ ಫೈಲ್ ಅನ್ನು ದೂರಸ್ಥ ಬ್ಯಾಕೆಂಡ್‌ಗೆ ನಕಲಿಸಬಹುದು.</string>
-  <string name="auto_backup_cloud_create_backend">ಮುಖ್ಯ ಸೆಟ್ಟಿಂಗ್‌ಗಳ ಪರದೆಯಿಂದ ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಬ್ಯಾಕೆಂಡ್ ರಚಿಸಿ.</string>
-  <string name="auto_backup_cloud_failure">ಬ್ಯಾಕೆಂಡ್ %2$s ನಲ್ಲಿ ಬ್ಯಾಕಪ್ ಫೈಲ್ %1$s ಅನ್ನು ಸಂಗ್ರಹಿಸಲು ಪ್ರಯತ್ನಿಸುವಾಗ ದೋಷ ಸಂಭವಿಸಿದೆ:</string>
-  <string name="auto_backup_cloud_success">ಬ್ಯಾಕಪ್ ಫೈಲ್ %1$s ಅನ್ನು ಬ್ಯಾಕೆಂಡ್ %2$s ನಲ್ಲಿ ಯಶಸ್ವಿಯಾಗಿ ಸಂಗ್ರಹಿಸಲಾಗಿದೆ.</string>
-  <string name="home_screen_shortcuts_nougate_info">ಹೋಮ್ ಸ್ಕ್ರೀನ್‌ನಲ್ಲಿ ಅಪ್ಲಿಕೇಶನ್ ಐಕಾನ್ ಅನ್ನು ದೀರ್ಘ-ಟ್ಯಾಪ್ ಮಾಡುವ ಮೂಲಕ ಶಾರ್ಟ್‌ಕಟ್‌ಗಳನ್ನು ಸೇರಿಸಬಹುದು.</string>
-  <string name="currency_symbol">ಕರೆನ್ಸಿ ಚಿಹ್ನೆ</string>
-  <string name="number_of_fraction_digits">ಭಿನ್ನರಾಶಿ ಅಂಕೆಗಳ ಸಂಖ್ಯೆ</string>
-  <string name="warning_auto_backup_deactivated">ಸ್ವಯಂ-ಬ್ಯಾಕಪ್ ಅನ್ನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ. ಸಮಸ್ಯೆಯನ್ನು ಪರಿಹರಿಸಿದ ನಂತರ ನೀವು ಅದನ್ನು ಸೆಟ್ಟಿಂಗ್‌ಗಳಿಂದ ಮತ್ತೆ ಆನ್ ಮಾಡಬಹುದು (ಉದಾ. ಬ್ಯಾಕಪ್‌ಗಳಿಗಾಗಿ ಬೇರೆ ಫೋಲ್ಡರ್ ಆಯ್ಕೆ ಮಾಡುವುದು).</string>
-  <string name="pref_tracking_summary">ಸುಧಾರಣೆಗಳನ್ನು ಯೋಜಿಸಲು ನಮಗೆ ಸಹಾಯ ಮಾಡುವ ಬಳಕೆಯ ಮಾದರಿಗಳ ಬಗ್ಗೆ ಅನಾಮಧೇಯ ಡೇಟಾವನ್ನು ಸಂಗ್ರಹಿಸಲು ನಮಗೆ ಅನುಮತಿಸಿ.</string>
-  <string name="pref_tracking_title">ಡೇಟಾ ಸಂಗ್ರಹಣೆ</string>
-  <string name="sync_database_error">ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಸಮಯದಲ್ಲಿ ಡೇಟಾಬೇಸ್ ದೋಷ ಸಂಭವಿಸಿದೆ.</string>
-  <string name="sync_io_error_cannot_connect">ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಬ್ಯಾಕೆಂಡ್‌ಗೆ ಸಂಪರ್ಕಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ.</string>
-  <string name="sync_error_will_try_again_later">ನಂತರ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸುತ್ತೇವೆ.</string>
-  <string name="sync_io_exception_reset_account_data">ದೂರಸ್ಥ ಖಾತೆಯನ್ನು ಮರುಹೊಂದಿಸುವಾಗ ದೋಷ.</string>
-  <string name="sync_success_reset_account_data">%s ಖಾತೆಯ ದೂರಸ್ಥ ಡೇಟಾವನ್ನು ಅಳಿಸಲಾಗಿದೆ.</string>
-  <string name="sync_io_exception_setup_remote_account">ದೂರಸ್ಥ ಖಾತೆಯನ್ನು ಹೊಂದಿಸುವಾಗ ದೋಷ.</string>
-  <string name="sync_io_exception_syncing">ಬದಲಾವಣೆಗಳನ್ನು ಸರ್ವರ್‌ನೊಂದಿಗೆ ಸಿಂಕ್ ಮಾಡುವಾಗ ದೋಷ.</string>
-  <string name="sync_io_exception_unlocking">ರಿಮೋಟ್ ಬ್ಯಾಕೆಂಡ್‌ನಿಂದ ಲಾಕ್ ತೆಗೆದುಹಾಕುವಾಗ ದೋಷ.</string>
-  <string name="sync_io_exception_locking">ರಿಮೋಟ್ ಬ್ಯಾಕೆಂಡ್ ಲಾಕ್ ಆಗಿದೆ ಅಥವಾ ಲಾಕ್ ಮಾಡಲಾಗುವುದಿಲ್ಲ.</string>
-  <string name="synchronization_start">%s ಖಾತೆಗಾಗಿ ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಪ್ರಾರಂಭಿಸಲಾಗುತ್ತಿದೆ.</string>
-  <string name="synchronization_end_success">%1$d ದೂರಸ್ಥ ಬದಲಾವಣೆಗಳನ್ನು ಸ್ಥಳೀಯ ಡೇಟಾಬೇಸ್‌ಗೆ ಬರೆಯಲಾಗಿದೆ. %2$d ಸ್ಥಳೀಯ ಬದಲಾವಣೆಗಳನ್ನು ದೂರಸ್ಥ ಬ್ಯಾಕೆಂಡ್‌ಗೆ ಬರೆಯಲಾಗಿದೆ.</string>
-  <string name="synchronization_end_success_none">ಸಿಂಕ್ರೊನೈಸ್ ಮಾಡಲು ಯಾವುದೇ ಬದಲಾವಣೆಗಳಿಲ್ಲ.</string>
-  <string name="pref_webdav_timeout_title">ವೆಬ್‌ಡ್ಯಾವ್ ಕಾಲಾವಧಿ (ಸೆಕೆಂಡುಗಳಲ್ಲಿ)</string>
-  <string name="sync_state_restored">%d ಖಾತೆಗಳಿಗಾಗಿ ಸಿಂಕ್ ಸ್ಥಿತಿಯನ್ನು ಮರುಸ್ಥಾಪಿಸಲಾಗಿದೆ.</string>
-  <string name="sync_state_could_not_be_restored">%d ಖಾತೆಗಳಿಗಾಗಿ ಸಿಂಕ್ ಸ್ಥಿತಿಯನ್ನು ಮರುಸ್ಥಾಪಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ.</string>
-  <string name="onboarding_ui_title">{app_name} ನಿಮ್ಮ ಆದ್ಯತೆಗೆ ಹೊಂದಿಕೊಳ್ಳುತ್ತದೆ</string>
-  <string name="onboarding_data_title">ನಿಮ್ಮ ಮೊದಲ ಖಾತೆಯನ್ನು ಹೊಂದಿಸೋಣ</string>
-  <string name="onboarding_get_started">ಪ್ರಾರಂಭಿಸಿ</string>
-  <string name="onboarding_more_options">ಹೆಚ್ಚಿನ ಆಯ್ಕೆಗಳು</string>
-  <string name="onboarding_restore_from_cloud">ಮೋಡದ ಸಿಂಕ್ರೊನೈಸೇಶನ್‌ನಿಂದ ಮರುಸ್ಥಾಪಿಸಿ</string>
-  <!--During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed-->
-  <string name="onboarding_restore_from_cloud_backup">ಬ್ಯಾಕಪ್‌ಗಳು</string>
-  <string name="onboarding_restore_from_local">ಸ್ಥಳೀಯ ಬ್ಯಾಕಪ್ ಫೈಲ್ ಅನ್ನು ಮರುಸ್ಥಾಪಿಸಿ</string>
-  <string name="dialog_button_add">ಸೇರಿಸಿ</string>
-  <string name="template_create_error">ಟೆಂಪ್ಲೇಟ್ ಉಳಿಸುವಾಗ ದೋಷ</string>
-  <string name="contributed_by">%s ಕೊಡುಗೆ ನೀಡಿದೆ</string>
-  <string name="pref_sync_notification_summary">ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಪ್ರಗತಿಯ ಬಗ್ಗೆ ತಿಳಿಸಿ</string>
-  <string name="pref_debug_logging_summary">ಡೀಬಗ್ ಮಾಡುವ ಮಾಹಿತಿಯನ್ನು ಸಿಸ್ಟಮ್ ಲಾಗ್‌ಗೆ ಬರೆಯಿರಿ</string>
-  <string name="plan_custom_recurrence_info">ದಯವಿಟ್ಟು ಮೊದಲು ಟೆಂಪ್ಲೇಟ್ ಅನ್ನು ಉಳಿಸಿ. ನಂತರ ಕ್ಯಾಲೆಂಡರ್ ಅಪ್ಲಿಕೇಶನ್‌ನಲ್ಲಿ ಯೋಜನೆಯನ್ನು ತೆರೆಯಲಾಗುತ್ತದೆ, ಅಲ್ಲಿ ನೀವು ಕಸ್ಟಮ್ ಮರುಕಳಿಕೆಯನ್ನು ಹೊಂದಿಸಬಹುದು.</string>
-  <string name="storage_permission_required">ಬಾಹ್ಯ ಸಂಗ್ರಹಣೆಯಿಂದ ಓದಲು ನೀವು ಅನುಮತಿ ನೀಡಿದರೆ ಮಾತ್ರ ನೀವು ಆಯ್ಕೆ ಮಾಡಿದ ಮೂಲವನ್ನು ಓದಬಹುದು.</string>
-  <string name="picture">ಚಿತ್ರ</string>
-  <string name="menu_create_template_for_split">ಹೊಸ ವಿಭಜಿತ ಟೆಂಪ್ಲೇಟ್</string>
-  <string name="progress_validating_licence">ಪರವಾನಗಿ ಮೌಲ್ಯೀಕರಿಸಲಾಗುತ್ತಿದೆ</string>
-  <string name="licence_validation_error_expired">ಪರವಾನಗಿ ಅವಧಿ ಮೀರಿದೆ</string>
-  <string name="licence_validation_error_device_limit_exceeded">ಸಾಧನದ ಮಿತಿಯನ್ನು ಮೀರಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೊಂದು ಸಾಧನದಿಂದ ಪರವಾನಗಿ ತೆಗೆದುಹಾಕಿ.</string>
-  <string name="error">ದೋಷ (%s)</string>
-  <string name="button_validate">ಮೌಲ್ಯೀಕರಿಸಿ</string>
-  <string name="licence_key">ಪರವಾನಗಿ ಕೀ</string>
-  <string name="licence_removal_information">ಈ ಸಾಧನದಲ್ಲಿ ನಿಮಗೆ ಇನ್ನು ಮುಂದೆ ಪ್ರೀಮಿಯಂ ಕ್ರಿಯಾತ್ಮಕತೆಯ ಅಗತ್ಯವಿಲ್ಲದಿದ್ದರೆ, ನೀವು ಪರವಾನಗಿ ಕೀಲಿಯನ್ನು ತೆಗೆದುಹಾಕಬಹುದು. ಇದು ಮತ್ತೊಂದು ಸಾಧನದಲ್ಲಿ ಸಕ್ರಿಯಗೊಳಿಸುವ ಕೀಲಿಯನ್ನು ಮುಕ್ತಗೊಳಿಸುತ್ತದೆ. ಕೀಲಿಯನ್ನು %d ಸಾಧನಗಳಲ್ಲಿ ಸಕ್ರಿಯಗೊಳಿಸಬಹುದು.</string>
-  <string name="progress_removing_licence">ಪರವಾನಗಿ ತೆಗೆದುಹಾಕಲಾಗುತ್ತಿದೆ</string>
-  <string name="licence_removal_success">ಈ ಸಾಧನದಿಂದ ಪರವಾನಗಿ ಕೀಲಿಯನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಬಿಡುಗಡೆ ಮಾಡಲಾಗಿದೆ.</string>
-  <string name="professional_key">ವೃತ್ತಿಪರ ಕೀ</string>
-  <string name="n_months">%d ತಿಂಗಳುಗಳು</string>
-  <string name="eu_vat_info">ಪ್ರದರ್ಶಿಸಲಾದ ಯುರೋಪಿಯನ್ ಯೂನಿಯನ್ ಬೆಲೆಗಳ ನಿವಾಸಿಗಳಿಗೆ ವ್ಯಾಟ್ ಅನ್ನು ಒಳಗೊಂಡಿಲ್ಲ.</string>
-  <string name="licence_migration_info">{app_name} ಹೊಸ ಪರವಾನಗಿ ಮೌಲ್ಯಮಾಪನ ಕಾರ್ಯವಿಧಾನವನ್ನು ಕಾರ್ಯಗತಗೊಳಿಸುತ್ತದೆ. ದಯವಿಟ್ಟು ಹೊಸ ಕೀಲಿಯನ್ನು ವಿನಂತಿಸಿ.</string>
-  <string name="valid_until">%s ರವರೆಗೆ</string>
-  <!--%1$s date, %2$s price-->
-  <string name="extend_until">%2$s ಗಾಗಿ %1$s ವರೆಗೆ ವಿಸ್ತರಿಸಿ</string>
-  <string name="extended_upgrade_goodie_github">ವಿಸ್ತೃತ ಲೈಸೆನ್ಸ್ಯನ್ನು ಈಗಾಗಲೇ ಹೊಂದಿರುವ ಬಳಕೆದಾರರಿಗೆ ಹೆಚ್ಚುವರಿ %d ತಿಂಗಳುಗಳನ್ನು ಒಮ್ಮೆ ನೀಡಲಾಗುತ್ತದೆ</string>
-  <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">ಈಗಾಗಲೇ ವಿಸ್ತೃತ ಪರವಾನಗಿ ಹೊಂದಿರುವ ಬಳಕೆದಾರರು ಮೊದಲ ವರ್ಷದಲ್ಲಿ ನಿಯಮಿತ ಬೆಲೆಯ 50%% ಅನ್ನು ಪಾವತಿಸುತ್ತಾರೆ (%s).</string>
-  <string name="extended_upgrade_goodie_subscription_amazon" tools:ignore="UnusedResources">ಈಗಾಗಲೇ ವಿಸ್ತೃತ ಲೈಸೆನ್ಸ್ಯನ್ನು ಹೊಂದಿರುವ ಬಳಕೆದಾರರು ವಾರ್ಷಿಕ ಚಂದಾದಾರಿಕೆಯ ನಿಯಮಿತ ಬೆಲೆಯಿಂದ (%2$s) %1$d%% ಕಡಿತಕ್ಕೆ ಅರ್ಹರಾಗಿರುತ್ತಾರೆ.</string>
-  <string name="switch_to_yearly" tools:ignore="UnusedResources">ವಾರ್ಷಿಕ ಚಂದಾದಾರಿಕೆಗೆ ಬದಲಿಸಿ</string>
-  <string name="switch_to_monthly" tools:ignore="UnusedResources">ಮಾಸಿಕ ಚಂದಾದಾರಿಕೆಗೆ ಬದಲಿಸಿ</string>
-  <string name="extend_validity">ಸಿಂಧುತ್ವವನ್ನು ವಿಸ್ತರಿಸಿ</string>
-  <string name="progress_dialog_fetching_data_from_sync_backend">ರಿಮೋಟ್ ಬ್ಯಾಕೆಂಡ್‌ನಿಂದ ಡೇಟಾವನ್ನು ಪಡೆಯಲಾಗುತ್ತಿದೆ. ಇದಕ್ಕೆ ಸ್ವಲ್ಪ ಸಮಯ ತೆಗೆದುಕೊಳ್ಳಬಹುದು.</string>
-  <string name="donate_button_invoice">ಸರಕುಪಟ್ಟಿ</string>
-  <string name="menu_sort_direction">ವಿಂಗಡಣೆ ನಿರ್ದೇಶನ</string>
-  <string name="sort_direction_ascending">ಆರೋಹಣ</string>
-  <string name="sort_direction_descending">ಅವರೋಹಣ</string>
-  <string name="never">ಎಂದಿಗೂ</string>
-  <string name="always">ಯಾವಾಗಲೂ</string>
-  <string name="auto_fill_account_from_aggregate_only">ಒಟ್ಟು ಖಾತೆಯಿಂದ ಪ್ರಾರಂಭಿಸಿದಾಗ ಮಾತ್ರ.</string>
-  <string name="sync_auth_exception_login_again">ಅಧಿಕಾರ ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಲಾಗ್ ಇನ್ ಮಾಡಿ.</string>
-  <string name="sync_loading_accounts_from_backend">ಲಭ್ಯವಿರುವ ಖಾತೆಗಳನ್ನು ಬ್ಯಾಕೆಂಡ್‌ನಿಂದ ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ.</string>
-  <plurals name="delete_success">
-    <item quantity="one">ಒಂದು ವಸ್ತುವನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಅಳಿಸಲಾಗಿದೆ.</item>
-    <item quantity="other">%d ವಸ್ತುಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಅಳಿಸಲಾಗಿದೆ.</item>
-  </plurals>
-  <string name="feature_deprecated">ಅಸಮ್ಮತಿಸಲಾಗಿದೆ</string>
-  <string name="pref_protection_device_lock_screen_title">ಸಾಧನ ಲಾಕ್ ಪರದೆ</string>
-  <string name="pref_warning_only_one_protection">ನೀವು %1$s ಮೂಲಕ ರಕ್ಷಣೆಯನ್ನು ಬಳಸುವ ಮೊದಲು, ನೀವು %2$s ಮೂಲಕ ರಕ್ಷಣೆಯನ್ನು ಆಫ್ ಮಾಡಬೇಕು.</string>
-  <string name="warning_device_lock_screen_not_set_up_1">ಸುರಕ್ಷಿತ ಸಾಧನ ಲಾಕ್ ಪರದೆಯನ್ನು ಹೊಂದಿಸಲಾಗಿಲ್ಲ.</string>
-  <string name="warning_device_lock_screen_not_set_up_2">ಲಾಕ್ ಪರದೆಯನ್ನು ಹೊಂದಿಸಲು \'ಸೆಟ್ಟಿಂಗ್‌ಗಳು -&gt; ಭದ್ರತೆ -&gt; ಸ್ಕ್ರೀನ್‌ಲಾಕ್\' ಗೆ ಹೋಗಿ.</string>
-  <string name="snackbar_dismiss">ವಜಾಗೊಳಿಸಿ</string>
-  <string name="menu_history_show_balance">ಬಾಕಿ ಮೊತ್ತ ತೋರಿಸಿ</string>
-  <string name="menu_history_transfers">ವರ್ಗಾವಣೆಗಳನ್ನು ಸೇರಿಸಿ</string>
-  <string name="menu_history">ಇತಿಹಾಸ</string>
-  <!--A label indicating the color for the sum of expenses-->
-  <string name="history_chart_out_label">ವೆಚ್ಚ</string>
-  <!--A label indicating the color for the sum of income-->
-  <string name="history_chart_in_label">ಆದಾಯ</string>
-  <string name="menu_history_totals">ಮೊತ್ತವನ್ನು ತೋರಿಸಿ</string>
-  <string name="pref_home_currency_title">ಮನೆ ಕರೆನ್ಸಿ</string>
-  <string name="grand_total">ಒಟ್ಟು ಒಟ್ಟು</string>
-  <string name="menu_original_amount">ಮೂಲ ಮೊತ್ತ</string>
-  <string name="menu_equivalent_amount">ಸಮಾನ ಮೊತ್ತ</string>
-  <string name="home_currency_change_warning">ನಿಮ್ಮ ಮನೆಯ ಕರೆನ್ಸಿಯನ್ನು ನೀವು ಬದಲಾಯಿಸಿದರೆ, ಸಮಾನ ಮೊತ್ತ ಮತ್ತು ವಿನಿಮಯ ದರಗಳು ಕಳೆದುಹೋಗುತ್ತವೆ, ಮತ್ತು ಅದನ್ನು ಮತ್ತೆ ವ್ಯಾಖ್ಯಾನಿಸಬೇಕಾಗುತ್ತದೆ.</string>
-  <string name="warning_split_transactions">ಆಯ್ದ ವಹಿವಾಟುಗಳನ್ನು ಒಂದು ವಿಭಜಿತ ವಹಿವಾಟಾಗಿ ವರ್ಗೀಕರಿಸಲಾಗುತ್ತದೆ. ಅವರ ದಿನಾಂಕದ ಮಾಹಿತಿಯು ಕಳೆದುಹೋಗುತ್ತದೆ, ಅಂದರೆ ಅವುಗಳ ಸರಾಸರಿಯಿಂದ ಬದಲಾಯಿಸಲಾಗುತ್ತದೆ.</string>
-  <string name="warning_ungroup_split_transactions">ಆಯ್ದ ವಿಭಜಿತ ವಹಿವಾಟುಗಳನ್ನು ಗುಂಪು ಮಾಡಲಾಗುವುದಿಲ್ಲ, ಅಂದರೆ ಅವುಗಳ ವಿಭಜಿತ ಭಾಗಗಳು ಸಾಮಾನ್ಯ ವಹಿವಾಟುಗಳಾಗಿ ಮಾರ್ಪಡುತ್ತವೆ.</string>
-  <!--This is the label for the action that breaks up a split transaction into its parts.-->
-  <string name="menu_ungroup_split_transaction">ಗುಂಪು ವಿಭಜನೆ</string>
-  <plurals name="ungroup_split_transaction_success">
-    <item quantity="one">ಸ್ಪ್ಲಿಟ್ ವಹಿವಾಟನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಗುಂಪು ಮಾಡಲಾಗಿಲ್ಲ.</item>
-    <item quantity="other">%1$d ವಿಭಜಿತ ವಹಿವಾಟುಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಗುಂಪು ಮಾಡಲಾಗಿಲ್ಲ.</item>
-  </plurals>
-  <string name="ungroup_split_transaction_failure">ವಿಭಜಿತ ವಹಿವಾಟುಗಳನ್ನು ಗುಂಪು ಮಾಡದಿದ್ದಾಗ, %2$d ರಲ್ಲಿ %1$d ವಿಫಲವಾಗಿದೆ.</string>
-  <string name="split_transaction_one_success">ವಹಿವಾಟು ಯಶಸ್ವಿಯಾಗಿ ವಿಭಜನೆಯಾಗಿ ರೂಪಾಂತರಗೊಂಡಿದೆ.</string>
-  <string name="split_transaction_one_error">ವಹಿವಾಟನ್ನು ವಿಭಜನೆಗೆ ಪರಿವರ್ತಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ.</string>
-  <string name="split_transaction_group_success">%1$d ವಹಿವಾಟುಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಒಂದು ವಿಭಜಿತ ವಹಿವಾಟಾಗಿ ವರ್ಗೀಕರಿಸಲಾಗಿದೆ.</string>
-  <string name="split_transaction_group_error">ವಹಿವಾಟುಗಳನ್ನು ವಿಭಜಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ.</string>
-  <string name="split_transaction_not_possible">ಒಂದೇ ಖಾತೆ, ಪಾವತಿಸುವವರು ಮತ್ತು ಸ್ಥಿತಿಯನ್ನು ಹೊಂದಿರುವ ವಹಿವಾಟುಗಳನ್ನು ಮಾತ್ರ ಒಂದು ವಿಭಜಿತ ವಹಿವಾಟಾಗಿ ವರ್ಗೀಕರಿಸಬಹುದು.</string>
-  <string name="pref_transaction_time_summary">ನಿಖರವಾದ ವಹಿವಾಟು ಸಮಯವನ್ನು ಹೊಂದಿಸಲು ಅನುಮತಿಸಿ.</string>
-  <string name="pref_value_date_summary">ಬುಕಿಂಗ್ ದಿನಾಂಕದ ಜೊತೆಗೆ ಮೌಲ್ಯ ದಿನಾಂಕವನ್ನು ಹೊಂದಿಸಲು ಅನುಮತಿಸಿ. ವಹಿವಾಟಿನ ಸಮಯವನ್ನು ಮರೆಮಾಡಲಾಗುತ್ತದೆ. ಈ ಸೆಟ್ಟಿಂಗ್ ಅನ್ನು ನಗದು ಖಾತೆಗಳಿಗೆ ಅನ್ವಯಿಸಲಾಗುವುದಿಲ್ಲ.</string>
-  <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
-  <string name="booking_date">ಬುಕಿಂಗ್ ದಿನಾಂಕ</string>
-  <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
-  <string name="value_date">ಮೌಲ್ಯ ದಿನಾಂಕ</string>
-  <string name="licence_expires_n_days">ನಿಮ್ಮ ವೃತ್ತಿಪರ ಕೀ %d ದಿನಗಳಲ್ಲಿ ಮುಕ್ತಾಯಗೊಳ್ಳುತ್ತದೆ.</string>
-  <string name="licence_expires_tomorrow">ನಿಮ್ಮ ವೃತ್ತಿಪರ ಕೀಲಿ ನಾಳೆ ಮುಕ್ತಾಯಗೊಳ್ಳುತ್ತದೆ.</string>
-  <string name="licence_expires_today">ನಿಮ್ಮ ವೃತ್ತಿಪರ ಕೀಲಿಯು ಇಂದು ಮುಕ್ತಾಯಗೊಳ್ಳುತ್ತದೆ.</string>
-  <string name="licence_expired_yesterday">ನಿಮ್ಮ ವೃತ್ತಿಪರ ಕೀ ನಿನ್ನೆ ಅವಧಿ ಮೀರಿದೆ.</string>
-  <string name="licence_has_expired_n_days">ನಿಮ್ಮ ವೃತ್ತಿಪರ ಕೀಲಿಯು %d ದಿನಗಳ ಹಿಂದೆ ಅವಧಿ ಮೀರಿದೆ.</string>
-  <string name="pref_category_title_privacy">ಗೌಪ್ಯತೆ</string>
-  <string name="pref_ad_consent_title">ವೈಯಕ್ತಿಕಗೊಳಿಸಿದ ಜಾಹೀರಾತುಗಳು</string>
-  <string name="ad_consent_non_personalized">ವೈಯಕ್ತೀಕರಿಸದ ಜಾಹೀರಾತುಗಳು</string>
-  <string name="gdpr_consent_message">ನಿಮಗೆ ಜಾಹೀರಾತುಗಳನ್ನು ತೋರಿಸುವ ಮೂಲಕ {app_name} ನ ಬೆಂಬಲ, ನಿರ್ವಹಣೆ ಮತ್ತು ಅಭಿವೃದ್ಧಿಯನ್ನು ಉಳಿಸಿಕೊಳ್ಳಲು ನಾವು {ad_provider} ನೊಂದಿಗೆ ಪಾಲುದಾರರಾಗಿದ್ದೇವೆ. ನಿಮ್ಮ ಒಪ್ಪಿಗೆ ಕೇಳಲು ನಾವು ಬಯಸುತ್ತೇವೆ. ನೀವು ಯಾವುದೇ ಜಾಹೀರಾತುಗಳನ್ನು ನೋಡದಿರಲು ಬಯಸಿದರೆ, ದಯವಿಟ್ಟು ಜಾಹೀರಾತು-ಮುಕ್ತ ಆವೃತ್ತಿಗೆ ಪಾವತಿಸಿ.</string>
-  <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">ಹೌದು, ಜಾಹೀರಾತುಗಳನ್ನು ನೋಡುವುದನ್ನು ಮುಂದುವರಿಸಿ</string>
-  <string name="gdpr_consent_button_no">ಜಾಹೀರಾತು-ಮುಕ್ತ ಆವೃತ್ತಿಗೆ ಪಾವತಿಸಿ</string>
-  <string name="sort_order">ವಿಂಗಡಣೆ ಆದೇಶ</string>
-  <string name="navigation_drawer_accounts_title">ಖಾತೆಗಳನ್ನು ನಿರ್ವಹಿಸಿ</string>
-  <string name="pref_sync_wifi_only_summary">ವೈ-ಫೈನಲ್ಲಿರುವಾಗ ಮಾತ್ರ ಸಿಂಕ್ ಮಾಡಿ</string>
-  <string name="pref_sync_changes_immediately_summary">ಸ್ಥಳೀಯ ಬದಲಾವಣೆಗಳನ್ನು ತಕ್ಷಣ ಬ್ಯಾಕೆಂಡ್‌ಗೆ ಬರೆಯಿರಿ</string>
-  <string name="wifi_not_connected">ಸಾಧನವು Wi-Fi ಗೆ ಸಂಪರ್ಕಗೊಂಡಿಲ್ಲ. ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಮುಂದೂಡಲ್ಪಟ್ಟಿದೆ.</string>
-  <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
-  <string name="pref_translation_title">ಅನುವಾದ</string>
-  <!--Content description for accessibility on image that allows to collapse content-->
-  <string name="content_description_collapse">ಕುಗ್ಗಿಸು</string>
-  <!--Content description for accessibility on image that allows to expand content-->
-  <string name="content_description_expand">ವಿಸ್ತರಿಸಲು</string>
-  <!--Short label for the amount input where user can set either saving goal or credit limit-->
-  <string name="goal_or_limit">ಗುರಿ / ಮಿತಿ</string>
-  <string name="saving_goal">ಗುರಿ ಉಳಿಸಲಾಗುತ್ತಿದೆ</string>
-  <string name="credit_limit">ಸಾಲದ ಮಿತಿ</string>
-  <string name="clear_all_filters">ಎಲ್ಲಾ ಫಿಲ್ಟರ್‌ಗಳನ್ನು ತೆರವುಗೊಳಿಸಿ</string>
-  <string name="pref_scroll_to_current_date_summary">ಅಪ್ಲಿಕೇಶನ್ ಪ್ರಾರಂಭವಾದ ನಂತರ, ವ್ಯವಹಾರ ಪಟ್ಟಿಯನ್ನು ಪ್ರಸ್ತುತ ದಿನಾಂಕಕ್ಕೆ ಸ್ಕ್ರಾಲ್ ಮಾಡಿ</string>
-  <string name="professional_key_fallback_info">ವೃತ್ತಿಪರ ಕೀಗೆ ಚಂದಾದಾರಿಕೆ ಕನಿಷ್ಠ ಒಂದು ವರ್ಷ ಸಕ್ರಿಯವಾಗಿದೆ ಮತ್ತು ನವೀಕರಿಸಲಾಗಿಲ್ಲ, ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಅನಿಯಮಿತ ವಿಸ್ತೃತ ಕೀ ಆಗಿ ಪರಿವರ್ತನೆಗೊಳ್ಳುತ್ತದೆ.</string>
-  <string name="menu_budget">ಬಜೆಟ್</string>
-  <string name="dialog_title_edit_budget">ಬಜೆಟ್ ಸಂಪಾದಿಸಿ</string>
-  <string name="budget_table_header_budgeted">ಬಜೆಟ್ ಮಾಡಲಾಗಿದೆ</string>
-  <string name="budget_table_header_allocated">ಹಂಚಿಕೆ</string>
-  <string name="budget_table_header_spent">ಖರ್ಚು ಮಾಡಿದೆ</string>
-  <string name="budget_table_header_remainder">ಉಳಿದ</string>
-  <string name="budget_allocated_amount">ನಿಗದಿಪಡಿಸಿದ ಮೊತ್ತ</string>
-  <string name="budget_exceeded_error_1_1">ನಿಮ್ಮ ಬಜೆಟ್‌ನ %s ಹೊರತುಪಡಿಸಿ ಉಳಿದೆಲ್ಲವನ್ನು ಇತರ ವರ್ಗಗಳಿಗೆ ಹಂಚಲಾಗಿದೆ.</string>
-  <string name="budget_exceeded_error_1_2">ನಿಮ್ಮ ಎಲ್ಲಾ ಬಜೆಟ್ ಅನ್ನು ಇತರ ವರ್ಗಗಳಿಗೆ ನಿಗದಿಪಡಿಸಲಾಗಿದೆ.</string>
-  <string name="budget_exceeded_error_2">ಬಜೆಟ್ ಮೊತ್ತವನ್ನು ಹೆಚ್ಚಿಸಿ, ಅಥವಾ ಇತರ ವರ್ಗಗಳಿಂದ ಹಣವನ್ನು ತೆಗೆದುಹಾಕಿ.</string>
-  <string name="budget_under_allocated_error">%s ಅನ್ನು ಈಗಾಗಲೇ ವರ್ಗಗಳಿಗೆ ಹಂಚಲಾಗಿದೆ. ನೀವು ಅವರಿಂದ ಹಣವನ್ನು ತೆಗೆದುಹಾಕದ ಹೊರತು, ನೀವು ಕನಿಷ್ಟ ಆ ಮೊತ್ತವನ್ನು ಬಜೆಟ್ ಮಾಡಬೇಕು.</string>
-  <string name="sub_budget_exceeded_error_1_1">ಮುಖ್ಯ ವರ್ಗಕ್ಕೆ ನಿಗದಿಪಡಿಸಿದ ಮೊತ್ತದ %s ಹೊರತುಪಡಿಸಿ ಉಳಿದೆಲ್ಲವನ್ನು ಇತರ ಉಪ-ವರ್ಗಗಳಿಗೆ ಹಂಚಲಾಗಿದೆ.</string>
-  <string name="sub_budget_exceeded_error_1_2">ಮುಖ್ಯ ವರ್ಗಕ್ಕೆ ನಿಗದಿಪಡಿಸಿದ ಎಲ್ಲಾ ಮೊತ್ತವನ್ನು ಇತರ ಉಪ-ವರ್ಗಗಳಿಗೆ ನಿಗದಿಪಡಿಸಲಾಗಿದೆ.</string>
-  <string name="sub_budget_exceeded_error_2">ಮುಖ್ಯ ವರ್ಗಕ್ಕೆ ನಿಗದಿಪಡಿಸಿದ ಮೊತ್ತವನ್ನು ಹೆಚ್ಚಿಸಿ, ಅಥವಾ ಇತರ ಉಪ-ವರ್ಗಗಳಿಂದ ಹಣವನ್ನು ತೆಗೆದುಹಾಕಿ.</string>
-  <string name="sub_budget_under_allocated_error">%s ಅನ್ನು ಈಗಾಗಲೇ ಉಪ-ವರ್ಗಗಳಿಗೆ ಹಂಚಲಾಗಿದೆ. ನೀವು ಅವರಿಂದ ಹಣವನ್ನು ತೆಗೆದುಹಾಕದ ಹೊರತು, ನೀವು ಕನಿಷ್ಟ ಆ ಮೊತ್ತವನ್ನು ಮುಖ್ಯ ವರ್ಗಕ್ಕೆ ನಿಯೋಜಿಸಬೇಕು.</string>
-  <!--Description for button that allows to clear the selected method-->
-  <string name="content_description_clear_method">ವಿಧಾನವನ್ನು ತೆರವುಗೊಳಿಸಿ</string>
-  <!--Description for button that allows to clear the selected category-->
-  <string name="content_description_clear_category">ವರ್ಗವನ್ನು ತೆರವುಗೊಳಿಸಿ</string>
-  <string name="currency_code">ಕೋಡ್</string>
-  <string name="dialog_title_new_currency">ಹೊಸ ಕರೆನ್ಸಿ</string>
-  <string name="currency_code_already_definded">ಕರೆನ್ಸಿ ಕೋಡ್ ಅನ್ನು ಈಗಾಗಲೇ ವ್ಯಾಖ್ಯಾನಿಸಲಾಗಿದೆ.</string>
-  <string name="currency_still_used">ಕರೆನ್ಸಿ ಬಳಕೆಯಲ್ಲಿದೆ, ಅಳಿಸಲಾಗುವುದಿಲ್ಲ.</string>
-  <string name="unmapped">ಅನ್‌ಮ್ಯಾಪ್ ಮಾಡಲಾಗಿದೆ</string>
-  <!--In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
+    <string name="account">ಖಾತೆ</string>
+    <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
+    <string name="account_types">ಖಾತೆ ಪ್ರಕಾರಗಳು</string>
+    <string name="account_type_asset">ಆಸ್ತಿ ಖಾತೆ</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_asset_plural">ಆಸ್ತಿ ಖಾತೆಗಳು</string>
+    <string name="account_type_bank">ಬ್ಯಾಂಕ್ ಖಾತೆ</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_bank_plural">ಬ್ಯಾಂಕ್ ಖಾತೆಗಳು</string>
+    <string name="account_type_cash">ನಗದು ಖಾತೆ</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_cash_plural">ನಗದು ಖಾತೆಗಳು</string>
+    <string name="account_type_ccard">ಕ್ರೆಡಿಟ್ ಕಾರ್ಡ್</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_ccard_plural">ಕ್ರೆಡಿಟ್ ಕಾರ್ಡ್‌ಗಳು</string>
+    <string name="account_type_liability">ಹೊಣೆಗಾರಿಕೆಗಳ ಖಾತೆ</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_liability_plural">ಹೊಣೆಗಾರಿಕೆಗಳ ಖಾತೆಗಳು</string>
+    <string name="already_defined">%1$s ಅನ್ನು ಈಗಾಗಲೇ ವ್ಯಾಖ್ಯಾನಿಸಲಾಗಿದೆ</string>
+    <string name="amount">ಮೊತ್ತ</string>
+    <string name="app_name">ಮೈ ಎಕ್ಸಪೆನ್ಸಸ್</string>
+    <string name="backup_failure">\"%1$s\" ಗೆ ಬ್ಯಾಕಪ್ ವಿಫಲವಾಗಿದೆ.</string>
+    <string name="backup_success">ಡೇಟಾಬೇಸ್ ಮತ್ತು ಪ್ರಾಶಸ್ತ್ಯಗಳನ್ನು \"%1$s\" ಗೆ ಯಶಸ್ವಿಯಾಗಿ ಬರೆಯಲಾಗಿದೆ.</string>
+    <string name="category">ವರ್ಗ</string>
+    <string name="color">ಬಣ್ಣ</string>
+    <string name="comment">ಟಿಪ್ಪಣಿಗಳು</string>
+    <string name="confirmation_dialog_dont_show_again">ಮತ್ತೆ ತೋರಿಸಬೇಡ</string>
+    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">ಜಾಹೀರಾತುಗಳಿಲ್ಲ</string>
+    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">ಅನಿಯಮಿತ ಸಂಖ್ಯೆಯ ಖಾತೆಗಳು</string>
+    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">ವ್ಯವಹಾರಕ್ಕೆ ಚಿತ್ರವನ್ನು ಲಗತ್ತಿಸಿ</string>
+    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">ಪೈ ಚಾರ್ಟ್ (ಪ್ರತಿ ವರ್ಗಕ್ಕೆ ವಿತರಣೆ)</string>
+    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">ಅನಿಯಮಿತ ಸಂಖ್ಯೆಯ ಯೋಜನೆಗಳು</string>
+    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">ವಹಿವಾಟಿನ ಪಟ್ಟಿಯನ್ನು ಪಿಡಿಎಫ್‌ಗೆ ರಫ್ತು ಮಾಡಿ</string>
+    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">ಟೆಂಪ್ಲೇಟು ವಿಜೆಟ್</string>
+    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">ಸಿಎಸ್ವಿ ಆಮದು</string>
+    <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">ವಿಭಜಿತ ಟೆಂಪ್ಲೆಟ್ಗಳ ಅನಿಯಮಿತ ಸಂಖ್ಯೆ</string>
+    <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources">2 ವ್ಯವಹಾರ ದಿನಗಳಲ್ಲಿ ಖಾತರಿಯ ಪ್ರತಿಕ್ರಿಯೆಯೊಂದಿಗೆ <b>ಇಮೇಲ್ ಬೆಂಬಲ</b></string>
+    <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources"><b>ಅಭಿವೃದ್ಧಿ ಮಾರ್ಗಸೂಚಿಯಲ್ಲಿ</b> ಮತದಾನ</string>
+    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">ಇತಿಹಾಸ ಚಾರ್ಟ್ (ನಗದು ಹರಿವು)</string>
+    <string name="licence_status_free">ಉಚಿತ</string>
+    <string name="contrib_key">ಕೊಡುಗೆ ಕೀ</string>
+    <string name="extended_key">ವಿಸ್ತೃತ ಕೀ</string>
+    <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
+    <string name="contrib_key_requires">%1$s ಅಗತ್ಯವಿದೆ.</string>
+    <string name="currency">currency</string>
+    <string name="current_balance">ಪ್ರಸ್ತುತ ಬಾಕಿ</string>
+    <string name="date">ದಿನಾಂಕ</string>
+    <string name="date_format">ದಿನಾಂಕ ಸ್ವರೂಪ</string>
+    <string name="date_format_illegal">ಅಕ್ರಮ ದಿನಾಂಕ ಸ್ವರೂಪ</string>
+    <string name="number_format_illegal">ಅಕ್ರಮ ಸಂಖ್ಯೆ ಸ್ವರೂಪ</string>
+    <string name="decimal_separator">ದಶಮಾಂಶ ವಿಭಜಕ</string>
+    <string name="default_account_name">ಬಜೆಟ್ ಪುಸ್ತಕ</string>
+    <string name="description">ವಿವರಣೆ</string>
+    <string name="dialog_balance_delete">ರಾಜಿ ಮಾಡಿಕೊಂಡ ವಹಿವಾಟುಗಳನ್ನು ಅಳಿಸಿ</string>
+    <string name="dialog_confirm_discard_changes">ಬದಲಾವಣೆಗಳನ್ನು ತ್ಯಜಿಸುತ್ತದೆ?</string>
+    <string name="dialog_confirm_discard_new_transaction">ಹೊಸ ವಹಿವಾಟನ್ನು ತ್ಯಜಿಸುವುದೇ?</string>
+    <string name="dialog_confirm_discard_new_template">ಹೊಸ ಟೆಂಪ್ಲೇಟ್ ಅನ್ನು ತ್ಯಜಿಸುವುದೇ?</string>
+    <string name="dialog_confirm_discard_new_account">ಹೊಸ ಖಾತೆಯನ್ನು ತ್ಯಜಿಸುವುದೇ?</string>
+    <string name="dialog_confirm_discard_new_method">ಹೊಸ ಪಾವತಿ ವಿಧಾನವನ್ನು ತ್ಯಜಿಸುವುದೇ?</string>
+    <string name="dialog_command_disabled_balance">ಯಾವುದೇ ತೆರವುಗೊಳಿಸಿದ ವಹಿವಾಟುಗಳನ್ನು ರಾಜಿ ಮಾಡಿಕೊಳ್ಳಲಾಗುವುದಿಲ್ಲ.</string>
+    <string name="dialog_command_disabled_insert_transfer">ವರ್ಗಾವಣೆ ವಹಿವಾಟುಗಳಿಗೆ ಎರಡನೇ ಖಾತೆಯ ಅಗತ್ಯವಿದೆ.</string>
+    <string name="dialog_command_disabled_reset_account">ರಫ್ತು ಮಾಡಲು ಯಾವುದೇ ವಹಿವಾಟು ಇಲ್ಲ.</string>
+    <string name="dialog_command_disabled_distribution">ಈ ಖಾತೆಯಲ್ಲಿನ ವರ್ಗಗಳಿಗೆ ಯಾವುದೇ ವಹಿವಾಟುಗಳನ್ನು ಮ್ಯಾಪ್ ಮಾಡಲಾಗಿಲ್ಲ.</string>
+    <!-- Button for accessing trial of premium feature -->
+    <string name="dialog_contrib_no">ಪ್ರಯತ್ನಿಸಿ</string>
+    <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
+    <string name="dialog_contrib_premium_feature">%1$s ಪ್ರೀಮಿಯಂ ವೈಶಿಷ್ಟ್ಯವಾಗಿದೆ (%2$s).</string>
+    <string name="dialog_contrib_reminder_remove_limitation"><i>{app_name}</i> ಅನ್ನು ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡುವ ಮೂಲಕ ಈ ಮಿತಿಯನ್ನು ತೆಗೆದುಹಾಕಿ ಮತ್ತು ಹೆಚ್ಚಿನ ವೈಶಿಷ್ಟ್ಯಗಳನ್ನು ಪ್ರವೇಶಿಸಿ.</string>
+    <string name="dialog_contrib_text_1"><i>{app_name}</i> ಅನ್ನು ಮುಕ್ತ ಮೂಲವಾಗಿ ನೀಡಲಾಗುತ್ತದೆ.</string>
+    <string name="dialog_contrib_text_2">ದಯವಿಟ್ಟು <i>{app_name} ಅನ್ನು</i> ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡುವ ಮೂಲಕ ಕೊಡುಗೆ ನೀಡಿ ಮತ್ತು ಈ ಕೆಳಗಿನ ವೈಶಿಷ್ಟ್ಯಗಳಿಗೆ ಅನಿಯಂತ್ರಿತ ಪ್ರವೇಶವನ್ನು ಪಡೆಯಿರಿ:</string>
+    <string name="dialog_contrib_usage_count">ಉಚಿತ ಬಳಕೆಗಳು ಉಳಿದಿವೆ</string>
+    <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">ನಿಮ್ಮ ಪ್ರಸ್ತುತ ಪರವಾನಗಿ ಸ್ಥಿತಿಯೊಂದಿಗೆ (%2$s) ನೀವು ಇದನ್ನು %1$d ಬಾರಿ ಬಳಸಬಹುದು.</string>
+    <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">ನಿಮ್ಮ ಪ್ರಸ್ತುತ ಪರವಾನಗಿ ಸ್ಥಿತಿಯೊಂದಿಗೆ (%2$s) ನೀವು ಇದನ್ನು %1$d ದಿನಗಳವರೆಗೆ ಬಳಸಬಹುದು.</string>
+    <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">ನಿಮ್ಮ ಪ್ರಸ್ತುತ ಪರವಾನಗಿ ಸ್ಥಿತಿ (%2$s) %1$d ಖಾತೆಗಳನ್ನು ರಚಿಸಲು ನಿಮಗೆ ಅನುಮತಿಸುತ್ತದೆ.</string>
+    <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">ನಿಮ್ಮ ಪ್ರಸ್ತುತ ಪರವಾನಗಿ ಸ್ಥಿತಿ (%2$s) %1$d ಯೋಜನೆಗಳನ್ನು ರಚಿಸಲು ನಿಮಗೆ ಅನುಮತಿಸುತ್ತದೆ.</string>
+    <string name="dialog_contrib_usage_limit_split_templates">ನಿಮ್ಮ ಪ್ರಸ್ತುತ ಪರವಾನಗಿ ಸ್ಥಿತಿ (%1$s) 1 ವಿಭಜಿತ ಟೆಂಪ್ಲೇಟ್ ರಚಿಸಲು ನಿಮಗೆ ಅನುಮತಿಸುತ್ತದೆ.</string>
+    <string name="dialog_export_delete">ರಫ್ತು ಮಾಡಿದ ವ್ಯವಹಾರಗಳನ್ನು ಅಳಿಸಿ</string>
+    <string name="dialog_export_not_yet_exported">ಇನ್ನೂ ರಫ್ತು ಮಾಡದ ವ್ಯವಹಾರಗಳನ್ನು ಮಾತ್ರ ರಫ್ತು ಮಾಡಿ</string>
+    <string name="dialog_password_activate_protection">ಪಾಸ್ವರ್ಡ್ ರಕ್ಷಣೆಯನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ</string>
+    <string name="dialog_password_change_password">ಗುಪ್ತಪದವನ್ನು ಬದಲಿಸಿ</string>
+    <string name="dialog_password_new_password">ಹೊಸ ಪಾಸ್‌ವರ್ಡ್</string>
+    <string name="dialog_password_new_password_confirmation">ಹೊಸ ಪಾಸ್‌ವರ್ಡ್ (ದೃಢೀಕರಣ)</string>
+    <string name="dialog_remind_later">ನಂತರ</string>
+    <string name="dialog_remind_no">ಬೇಡ, ಧನ್ಯವಾದಗಳು</string>
+    <string name="dialog_remind_rate_how_many_stars">{app_name} ಗೆ ನೀವು ಎಷ್ಟು ನಕ್ಷತ್ರಗಳನ್ನು ನೀಡುತ್ತೀರಿ?</string>
+    <string name="dialog_remind_rate_1"> ದಯವಿಟ್ಟು {app_name}  ಅನ್ನು ರೇಟ್ ಮಾಡಲು ಮತ್ತು ವಿಮರ್ಶಿಸಲು ಸ್ವಲ್ಪ ಸಮಯ ತೆಗೆದುಕೊಳ್ಳಿ.</string>
+    <string name="dialog_remind_rate_2">ಸುಧಾರಣೆಗಳು ಮತ್ತು ವರ್ಧನೆಗಳನ್ನು ನಿರಂತರವಾಗಿ ಸೇರಿಸಲು ನಿಮ್ಮ ಕಾಮೆಂಟ್‌ಗಳು ನಮಗೆ ಅವಕಾಶ ಮಾಡಿಕೊಡುತ್ತವೆ.</string>
+    <string name="dialog_remind_rate_1_suggest_improvement">ಸುಧಾರಣೆಗಳಿಗಾಗಿ ನಿಮ್ಮ ಸಲಹೆಗಳನ್ನು ನಮಗೆ ಕಳುಹಿಸಲು ಸ್ವಲ್ಪ ಸಮಯ ತೆಗೆದುಕೊಳ್ಳಿ.</string>
+    <string name="dialog_remind_rate_yes">ರೇಟ್ ಮಾಡಿ</string>
+    <string name="dialog_security_answer">ಉತ್ತರ</string>
+    <string name="dialog_security_question">ಪ್ರಶ್ನೆ</string>
+    <string name="dialog_title_attention">ಗಮನ</string>
+    <string name="dialog_title_information">ಮಾಹಿತಿ</string>
+    <!-- %1$s is replace with account label -->
+    <string name="dialog_title_balance_account">ಬಾಕಿ ಮೊತ್ತ %1$s</string>
+    <string name="dialog_title_contrib_feature">ಪ್ರೀಮಿಯಂ ವೈಶಿಷ್ಟ್ಯ</string>
+    <plurals name="dialog_title_warning_delete_account">
+        <item quantity="one">ಖಾತೆಯನ್ನು ಅಳಿಸುವುದೇ?</item>
+        <item quantity="other">%1$d ಖಾತೆಗಳನ್ನು ಅಳಿಸುವುದೇ?</item>
+    </plurals>
+    <string name="dialog_title_warning_delete_category">ವರ್ಗವನ್ನು ಅಳಿಸುವುದೇ?</string>
+    <string name="dialog_title_warning_delete_template">ಟೆಂಪ್ಲೇಟ್ ಅನ್ನು ಅಳಿಸುವುದೇ?</string>
+    <string name="dialog_title_warning_delete_transaction">ವಹಿವಾಟನ್ನು ಅಳಿಸುವುದೇ?</string>
+    <string name="expense">ಖರ್ಚು</string>
+    <string name="export_expenses">ರಫ್ತು ವೆಚ್ಚಗಳು</string>
+    <!-- 1$s is replaced with path to file, 2$s with error message -->
+    <string name="export_sdcard_failure">\"%1$s\" ಫೈಲ್ಗೆ ರಫ್ತು ವಿಫಲವಾಗಿದೆ: %2$s</string>
+    <!-- 1$s is replaced with path to file -->
+    <string name="export_sdcard_success">\"%1$s\" ಫೈಲ್ ಮಾಡಲು ಡೇಟಾವನ್ನು ಯಶಸ್ವಿಯಾಗಿ ರಫ್ತು ಮಾಡಲಾಗಿದೆ</string>
+    <string name="external_storage_unavailable">ಬಾಹ್ಯ ಸಂಗ್ರಹಣೆ (sdcard) ಲಭ್ಯವಿಲ್ಲ</string>
+    <string name="feedback">ಪ್ರತಿಕ್ರಿಯೆ</string>
+    <string name="ftp_uri_malformed">ದೋಷಪೂರಿತ URI %1$s</string>
+    <string name="grisbi_import_categories_loading">%1$s ನಿಂದ ವಿಭಾಗಗಳನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ</string>
+    <string name="grisbi_import_parties_loading">%1$s ನಿಂದ ಪಕ್ಷಗಳನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ</string>
+    <string name="grouping_day">ದಿನ</string>
+    <string name="grouping_last_week">ಕಳೆದ ವಾರ</string>
+    <string name="grouping_month">ತಿಂಗಳು</string>
+    <string name="grouping_none">ಗುಂಪು ಮಾಡದ</string>
+    <string name="grouping_this_week">ಈ ವಾರ</string>
+    <string name="grouping_today">ಇಂದು</string>
+    <string name="grouping_week">ವಾರ</string>
+    <string name="grouping_year">ವರ್ಷ</string>
+    <string name="grouping_yesterday">ನಿನ್ನೆ</string>
+    <string name="help_button_rate">ದರ ಅಥವಾ ವಿಮರ್ಶೆ</string>
+    <string name="help_heading_credits">ಸಾಲಗಳು</string>
+    <string name="help_heading_license">ಲೈಸೆನ್ಸ್</string>
+    <string name="help_heading_whats_new">ಹೊಸತೇನಿದೆ</string>
+    <string name="important_upgrade_information_heading">ಪ್ರಮುಖ ಮಾಹಿತಿ</string>
+    <string name="import_select_transactions">ವ್ಯವಹಾರಗಳು</string>
+    <string name="income">ಆದಾಯ</string>
+    <string name="invalid_number_format">ನಿಮ್ಮ ಸ್ಥಳದಿಂದ ದಶಮಾಂಶ ಸ್ವರೂಪವನ್ನು ಗುರುತಿಸಲಾಗಿಲ್ಲ. ದಯವಿಟ್ಟು %1$s ಬಳಸಿ</string>
+    <string name="label">ಲೇಬಲ್</string>
+    <string name="licence_validation_failure">ಲೈಸೆನ್ಸ್ ಕೀಲಿಯನ್ನು ಮೌಲ್ಯೀಕರಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ.</string>
+    <string name="licence_validation_success">ಲೈಸೆನ್ಸ್ ಕೀ ಯಶಸ್ವಿಯಾಗಿ ಮೌಲ್ಯೀಕರಿಸಲಾಗಿದೆ:</string>
+    <string name="licence_validation_premium">ಪ್ರೀಮಿಯಂ ವೈಶಿಷ್ಟ್ಯಗಳನ್ನು ಅನ್‌ಲಾಕ್ ಮಾಡಲಾಗಿದೆ.</string>
+    <string name="menu_aggregates">ಒಟ್ಟು</string>
+    <!-- Shown in a notification; allows to apply a template (instantiate a new transaction from it) -->
+    <string name="menu_apply_template">ಅನ್ವಯಿಸು</string>
+    <string name="menu_back">ಹಿಂದೆ</string>
+    <string name="menu_backup">ಬ್ಯಾಕಪ್</string>
+    <!-- Balance: compare cleared balance in app with balance on statement received from bank -->
+    <string name="menu_balance">ಬಾಕಿ ಮೊತ್ತ ಖಾತೆ</string>
+    <!-- Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction -->
+    <string name="menu_cancel_plan_instance">ರದ್ದುಮಾಡಿ</string>
+    <string name="menu_clone_transaction">ಕ್ಲೋನ್</string>
+    <string name="menu_contrib">ಕೊಡುಗೆ ನೀಡಿ</string>
+    <string name="menu_create_account">ಹೊಸ ಖಾತೆ</string>
+    <string name="menu_create_instance_edit">ಅನ್ವಯಿಸಿ ಮತ್ತು ಸಂಪಾದಿಸಿ</string>
+    <string name="menu_create_instance_save">ಅನ್ವಯಿಸಿ ಮತ್ತು ಉಳಿಸಿ</string>
+    <string name="menu_create_main_cat">ಹೊಸ ಮುಖ್ಯ ವರ್ಗ</string>
+    <string name="menu_create_method">ಹೊಸ ಪಾವತಿ ವಿಧಾನ</string>
+    <string name="menu_create_party">ಹೊಸ ಪಕ್ಷ</string>
+    <string name="menu_create_split">ಹೊಸ ವಿಭಜನೆ</string>
+    <string name="menu_create_split_part_category">ಹೊಸ ವರ್ಗ ವಿಭಜಿತ ಭಾಗ</string>
+    <string name="menu_create_split_part_transfer">ಹೊಸ ವರ್ಗಾವಣೆ ವಿಭಜಿತ ಭಾಗ</string>
+    <string name="menu_create_sub_cat">ಹೊಸ ಉಪ ವರ್ಗ</string>
+    <string name="menu_create_template">ಹೊಸ ಟೆಂಪ್ಲೇಟ್</string>
+    <string name="menu_create_template_from_transaction">ಟೆಂಪ್ಲೇಟ್ ಆಗಿ ಉಳಿಸಿ</string>
+    <string name="menu_create_template_for_transaction">ಹೊಸ ವಹಿವಾಟು ಟೆಂಪ್ಲೇಟ್</string>
+    <string name="menu_create_template_for_transfer">ಹೊಸ ವರ್ಗಾವಣೆ ಟೆಂಪ್ಲೇಟ್</string>
+    <string name="menu_create_transaction">ಹೊಸ ವ್ಯವಹಾರ</string>
+    <string name="menu_create_transfer">ಹೊಸ ವರ್ಗಾವಣೆ</string>
+    <string name="menu_delete">ಅಳಿಸಿ</string>
+    <string name="menu_distribution">ವಿತರಣೆ</string>
+    <string name="menu_edit">ತಿದ್ದು</string>
+    <string name="menu_edit_account">ಖಾತೆಯನ್ನು ಸಂಪಾದಿಸಿ</string>
+    <string name="menu_edit_cat">ವರ್ಗವನ್ನು ಸಂಪಾದಿಸಿ</string>
+    <string name="menu_edit_method">ಪಾವತಿ ವಿಧಾನವನ್ನು ಸಂಪಾದಿಸಿ</string>
+    <string name="menu_edit_party">ಪಕ್ಷವನ್ನು ಸಂಪಾದಿಸಿ</string>
+    <string name="menu_edit_plan_instance">ಒಂದೇ ಯೋಜನೆ ಸಂಭವಿಸುವಿಕೆಯನ್ನು ಸಂಪಾದಿಸಿ</string>
+    <string name="menu_edit_split">ವಿಭಜನೆಯನ್ನು ಸಂಪಾದಿಸಿ</string>
+    <string name="menu_edit_split_part_category">ವರ್ಗ ವಿಭಜಿತ ಭಾಗವನ್ನು ಸಂಪಾದಿಸಿ</string>
+    <string name="menu_edit_split_part_transfer">ವರ್ಗಾವಣೆ ವಿಭಜಿತ ಭಾಗವನ್ನು ಸಂಪಾದಿಸಿ</string>
+    <string name="menu_edit_template">ಟೆಂಪ್ಲೇಟು ಸಂಪಾದಿಸಿ</string>
+    <string name="menu_edit_transaction">ವಹಿವಾಟನ್ನು ಸಂಪಾದಿಸಿ</string>
+    <string name="menu_edit_transfer">ವರ್ಗಾವಣೆಯನ್ನು ಸಂಪಾದಿಸಿ</string>
+    <string name="menu_exclude_from_totals">ಮೊತ್ತದಿಂದ ಹೊರಗಿಡಿ</string>
+    <string name="menu_forward">ಮುಂದೆ</string>
+    <string name="menu_grouping">ಗುಂಪುಗಾರಿಕೆ</string>
+    <string name="menu_help">ಸಹಾಯ</string>
+    <!-- This command inverts the direction of a transfer -->
+    <string name="menu_invert_transfer">ತಲೆಕೆಳಗು</string>
+    <string name="menu_manage_plans">ಟೆಂಪ್ಲೇಟ್‌ಗಳು ಮತ್ತು ಯೋಜನೆಗಳು</string>
+    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
+    <string name="menu_open">ತೆರೆಯಿರಿ</string>
+    <string name="menu_import">ಆಮದು</string>
+    <string name="menu_print">ಮುದ್ರಿಸಿ</string>
+    <string name="menu_reset">ರಫ್ತು ಮತ್ತು ಮರುಹೊಂದಿಸಿ</string>
+    <string name="menu_reset_all">ಎಲ್ಲವನ್ನೂ ರಫ್ತು ಮಾಡಿ ಮತ್ತು ಮರುಹೊಂದಿಸಿ</string>
+    <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
+    <string name="menu_reset_plan_instance">ಮರುಹೊಂದಿಸಿ</string>
+    <string name="menu_save">ಉಳಿಸಿ</string>
+    <string name="menu_save_and_new">ಉಳಿಸಿ ಮತ್ತು ಹೊಸದು</string>
+    <string name="menu_search">ಹುಡುಕಿ</string>
+    <string name="menu_settings">ಸೆಟ್ಟಿಂಗ್ಸ್</string>
+    <string name="menu_share">ಗೆಳೆಯನಿಗೆ ಹೇಳು</string>
+    <string name="button_label_share_file">ಹಂಚಿಕೊಳ್ಳಿ</string>
+    <string name="button_label_close">ಮುಚ್ಚಿ</string>
+    <string name="menu_split_transaction">ವಿಭಜನೆಗೆ ರೂಪಾಂತರ</string>
+    <string name="method">ಪಾವತಿ ವಿಧಾನ</string>
+    <string name="no_amount_given">ನೀವು ಯಾವುದೇ ಮೊತ್ತವನ್ನು ನಮೂದಿಸಿಲ್ಲ.</string>
+    <string name="no_app_handling_email_available">ಯಾವುದೇ ಅಪ್ಲಿಕೇಶನ್ ನಿರ್ವಹಣಾ ಇಮೇಲ್ ಲಭ್ಯವಿಲ್ಲ.</string>
+    <string name="no_app_handling_ftp_available">ಯಾವುದೇ ಅಪ್ಲಿಕೇಶನ್ ಹ್ಯಾಂಡ್ಲಿಂಗ್ ftp ಲಭ್ಯವಿಲ್ಲ. <i>FTP</i> ಯೊಂದಿಗೆ <i>ಕಳುಹಿಸುವುದನ್ನು</i> ಸ್ಥಾಪಿಸುವುದೇ?</string>
+    <string name="no_app_handling_pdf_available">ಪಿಡಿಎಫ್ ಫೈಲ್‌ಗಳನ್ನು ನಿರ್ವಹಿಸುವ ಯಾವುದೇ ಅಪ್ಲಿಕೇಶನ್ ಲಭ್ಯವಿಲ್ಲ.</string>
+    <string name="no_categories">ಯಾವುದೇ ವರ್ಗಗಳಿಲ್ಲ.</string>
+    <string name="no_expenses">ಇನ್ನೂ ವೆಚ್ಚಗಳಿಲ್ಲ!</string>
+    <string name="no_exportable_expenses">ಇನ್ನೂ ರಫ್ತು ಮಾಡದ ಯಾವುದೇ ವಹಿವಾಟುಗಳಿಲ್ಲ.</string>
+    <string name="no_filemanager_installed">ಯಾವುದೇ ಫೈಲ್ ಮ್ಯಾನೇಜರ್ ಅನ್ನು ಸ್ಥಾಪಿಸಲಾಗಿಲ್ಲ</string>
+    <string name="no_calendar_app_installed">ಕ್ಯಾಲೆಂಡರ್ ಈವೆಂಟ್ ಸಂಪಾದಿಸಲು ಯಾವುದೇ ಅಪ್ಲಿಕೇಶನ್ ಕಂಡುಬಂದಿಲ್ಲ.</string>
+    <string name="no_mapped_transactions">ಈ ಅವಧಿಯಲ್ಲಿ ಯಾವುದೇ ವಹಿವಾಟುಗಳನ್ನು ವರ್ಗಗಳಿಗೆ ಮ್ಯಾಪ್ ಮಾಡಲಾಗಿಲ್ಲ.</string>
+    <string name="no_methods">ಪಾವತಿ ವಿಧಾನಗಳಿಲ್ಲ.</string>
+    <string name="no_parties">ಯಾವುದೇ ಪಕ್ಷಗಳಿಲ್ಲ.</string>
+    <string name="no_split_parts">ವಿಭಜಿತ ಭಾಗಗಳಿಲ್ಲ.</string>
+    <string name="no_templates">ಟೆಂಪ್ಲೆಟ್ಗಳಿಲ್ಲ.</string>
+    <string name="no_accounts">ಖಾತೆಗಳಿಲ್ಲ.</string>
+    <string name="no_title_given">ನೀವು ಯಾವುದೇ ಶೀರ್ಷಿಕೆಯನ್ನು ನಮೂದಿಸಿಲ್ಲ.</string>
+    <plurals name="not_deletable_mapped_transactions">
+        <item quantity="one">ಆಯ್ದ ವಸ್ತುವನ್ನು ವ್ಯವಹಾರಕ್ಕೆ ಮ್ಯಾಪ್ ಮಾಡಲಾಗಿದೆ ಮತ್ತು ಅದನ್ನು ಅಳಿಸಲಾಗುವುದಿಲ್ಲ.</item>
+        <item quantity="other">%1$d ವಸ್ತುಗಳನ್ನು ವಹಿವಾಟಿಗೆ ಮ್ಯಾಪ್ ಮಾಡಲಾಗಿದೆ ಮತ್ತು ಅಳಿಸಲಾಗುವುದಿಲ್ಲ.</item>
+    </plurals>
+    <plurals name="not_deletable_mapped_templates">
+        <item quantity="one">ಆಯ್ದ ವಸ್ತುವನ್ನು ಟೆಂಪ್ಲೇಟ್‌ಗೆ ಮ್ಯಾಪ್ ಮಾಡಲಾಗಿದೆ ಮತ್ತು ಅದನ್ನು ಅಳಿಸಲಾಗುವುದಿಲ್ಲ.</item>
+        <item quantity="other">%1$d ವಸ್ತುಗಳನ್ನು ಟೆಂಪ್ಲೇಟ್‌ಗಳಿಗೆ ಮ್ಯಾಪ್ ಮಾಡಲಾಗಿದೆ ಮತ್ತು ಅಳಿಸಲಾಗುವುದಿಲ್ಲ.</item>
+    </plurals>
+    <string name="numbered">ಸಂಖ್ಯೆಯ</string>
+    <string name="opening_balance">ಆರಂಭ ಶಿಲ್ಕು</string>
+    <string name="parse_error_file_not_found">%1$s ಫೈಲ್ ಅನ್ನು ಕಂಡುಹಿಡಿಯಲಾಗಲಿಲ್ಲ</string>
+    <string name="parse_error_grisbi_version_not_supported">ಬೆಂಬಲಿಸದ ಗ್ರಿಸ್ಬಿ ಫೈಲ್ ಆವೃತ್ತಿ: %1$s</string>
+    <string name="parse_error_no_data_found">ಫೈಲ್‌ನಲ್ಲಿ ಯಾವುದೇ ಆಮದು ಮಾಡಬಹುದಾದ ಡೇಟಾ ಕಂಡುಬಂದಿಲ್ಲ.</string>
+    <string name="parse_error_other_exception">ದೋಷ ಸಂಭವಿಸಿದೆ: %1$s</string>
+    <string name="parse_error_parse_exception">ಫೈಲ್ ಅನ್ನು ಪಾರ್ಸ್ ಮಾಡಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ</string>
+    <string name="password_disabled_reenable">ಪಾಸ್ವರ್ಡ್ ರಕ್ಷಣೆಯನ್ನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ. ನೀವು ಅದನ್ನು ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ಪುನಃ ಸಕ್ರಿಯಗೊಳಿಸಬಹುದು.</string>
+    <string name="password_lost">ಪಾಸ್ವರ್ಡ್ ಕಳೆದುಹೋಗಿದೆ</string>
+    <string name="password_not_valid">ಪಾಸ್ವರ್ಡ್ ಅಮಾನ್ಯವಾಗಿದೆ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸು!</string>
+    <string name="password_prompt">ನಿಮ್ಮ ಪಾಸ್‌ವರ್ಡ್ ನಮೂದಿಸಿ</string>
+    <string name="password_security_answer_not_valid">ತಪ್ಪು ಉತ್ತರ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ!</string>
+    <string name="payee">ಪಾವತಿಸುವವರು</string>
+    <string name="payer">ಪಾವತಿಸುವವರು</string>
+    <string name="payer_or_payee">ಪಾವತಿಸುವವರು / ಪಾವತಿಸುವವರು</string>
+    <!-- Plan for future and recurring transactions -->
+    <string name="plan">ಯೋಜನೆ</string>
+    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
+    <string name="plan_automatic">ಸ್ವಯಂಚಾಲಿತ</string>
+    <!-- this is the label for the calendar where plans for future and recurrent transactions are stored -->
+    <string name="plan_calendar_name">{app_name} ಯೋಜಕ</string>
+    <string name="planner_notification_channel_name">ಯೋಜಕ</string>
+    <string name="plan_event_deleted">ಈ ಟೆಂಪ್ಲೇಟ್‌ಗೆ ಸಂಬಂಧಿಸಿದ ಯೋಜನೆಯನ್ನು ಕ್ಯಾಲೆಂಡರ್‌ನಿಂದ ಅಳಿಸಲಾಗಿದೆ.</string>
+    <!-- This message is shown, after a user decides to not apply a manual plan -->
+    <string name="plan_execution_canceled">ಯೋಜನೆ ಕಾರ್ಯಗತಗೊಳಿಸುವಿಕೆಯನ್ನು ರದ್ದುಪಡಿಸಲಾಗಿದೆ</string>
+    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
+    <string name="plan_manual">ಕೈಪಿಡಿ</string>
+    <string name="planner_create_calendar_failure">ಸ್ಥಳೀಯ ಯೋಜಕ ಕ್ಯಾಲೆಂಡರ್ ರಚಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ</string>
+    <string name="planner_create_calendar_success">ಸ್ಥಳೀಯ ಯೋಜಕ ಕ್ಯಾಲೆಂಡರ್ ಅನ್ನು ಯಶಸ್ವಿಯಾಗಿ ರಚಿಸಲಾಗಿದೆ</string>
+    <!-- payment methods -->
+    <string name="pm_cheque">ಪರಿಶೀಲಿಸಿ</string>
+    <string name="pm_creditcard">ಕ್ರೆಡಿಟ್ ಕಾರ್ಡ್</string>
+    <string name="pm_deposit">ಠೇವಣಿ</string>
+    <string name="pm_directdebit">ನೇರ ಖರ್ಚು</string>
+    <string name="pm_type_credit">ಕ್ರೆಡಿಟ್</string>
+    <string name="pm_type_debit">ಡೆಬಿಟ್</string>
+    <string name="pm_type_neutral">ತಟಸ್ಥ</string>
+    <string name="pref_app_dir_title">ಬ್ಯಾಕಪ್‌ಗಳು ಮತ್ತು ರಫ್ತುಗಳಿಗಾಗಿ ಫೋಲ್ಡರ್</string>
+    <string name="pref_auto_fill_title">ಆಟೋಫಿಲ್ ವ್ಯವಹಾರಗಳು</string>
+    <string name="pref_auto_fill_summary">ಅದೇ ಪಾವತಿದಾರ / ಪಾವತಿಸುವವರಿಗೆ ಕೊನೆಯ ವಹಿವಾಟಿನಿಂದ ಡೇಟಾವನ್ನು ಭರ್ತಿ ಮಾಡಿ</string>
+    <string name="pref_backup_summary">ಡೇಟಾಬೇಸ್ ಮತ್ತು ಆದ್ಯತೆಗಳ ಬ್ಯಾಕಪ್ ರಚಿಸಿ.</string>
+    <string name="pref_sort_order_usages">ಬಳಕೆಗಳ ಎಣಿಕೆ</string>
+    <string name="pref_category_title_advanced">ಸುಧಾರಿತ</string>
+    <string name="pref_category_title_export">ರಫ್ತು ಮಾಡಿ</string>
+    <string name="pref_category_title_import">ಆಮದು</string>
+    <string name="pref_category_title_manage">ನಿರ್ವಹಿಸು</string>
+    <string name="pref_category_title_more_information">ಹೆಚ್ಚಿನ ಮಾಹಿತಿ</string>
+    <string name="pref_category_title_security">ಭದ್ರತೆ</string>
+    <string name="pref_category_title_ui">ಬಳಕೆದಾರ ಇಂಟರ್ಫೇಸ್</string>
+    <string name="pref_checkbox_enabled">ಸಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ</string>
+    <string name="pref_checkbox_disabled">ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ</string>
+    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
+    <string name="pref_contrib_purchase_summary">ಪ್ರೀಮಿಯಂ ವೈಶಿಷ್ಟ್ಯಗಳಿಗೆ ಪ್ರವೇಶವನ್ನು ಖರೀದಿಸಿ.</string>
+    <string name="pref_contrib_purchase_title">ಕೀಲಿಯನ್ನು ಖರೀದಿಸಿ</string>
+    <string name="pref_contrib_purchase_title_upgrade">ಕೀಲಿಯನ್ನು ನವೀಕರಿಸಿ</string>
+    <string name="pref_contrib_purchase_title_in_app">ಅಪ್ಲಿಕೇಶನ್‌ನಲ್ಲಿ ಪಾವತಿ</string>
+    <string name="pref_custom_currency_title">ಕರೆನ್ಸಿಗಳನ್ನು ಕಸ್ಟಮೈಸ್ ಮಾಡಿ</string>
+    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
+    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">ನೀವು ಕೀಲಿಯನ್ನು ಸ್ವೀಕರಿಸಿದ್ದರೆ, ಪ್ರೀಮಿಯಂ ವೈಶಿಷ್ಟ್ಯಗಳಿಗೆ ಪ್ರವೇಶವನ್ನು ಪಡೆಯಿರಿ.</string>
+    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">ಕೀಲಿಯನ್ನು ನಮೂದಿಸಿ</string>
+    <string name="pref_export_format_title">ಡೇಟಾ ಸ್ವರೂಪ</string>
+    <string name="pref_import_from_grisbi_summary">ಗ್ರಿಸ್ಬಿ ಎಕ್ಸ್‌ಎಂಎಲ್ ಫೈಲ್‌ನಿಂದ ವಿಭಾಗಗಳು ಮತ್ತು ಪಕ್ಷಗಳನ್ನು ಆಮದು ಮಾಡಿ</string>
+    <string name="pref_import_from_grisbi_title">ಗ್ರಿಸ್ಬಿಯಿಂದ ಆಮದು ಮಾಡಿ</string>
+    <!-- %s is replaced with QIF or CSV -->
+    <string name="pref_import_summary">%s ಫೈಲ್‌ನಿಂದ ವ್ಯವಹಾರಗಳು, ವಿಭಾಗಗಳು ಮತ್ತು ಪಕ್ಷಗಳನ್ನು ಆಮದು ಮಾಡಿ</string>
+    <!-- %s is replaced with QIF or CSV -->
+    <string name="pref_import_title">%s ಆಮದು</string>
+    <string name="pref_like_facebook_title">ಫೇಸ್ಬುಕ್ ನಲ್ಲಿ ನಮಗೆ ಲೈಕ್ ಕೊಡಿ</string>
+    <string name="pref_manage_accounts_title">ಖಾತೆಗಳು</string>
+    <string name="pref_manage_categories_summary">ವರ್ಗಗಳನ್ನು ಸೇರಿಸಿ, ಸಂಪಾದಿಸಿ, ಅಳಿಸಿ.</string>
+    <string name="pref_manage_categories_title">ವರ್ಗಗಳು</string>
+    <string name="pref_manage_methods_summary">ಪಾವತಿ ವಿಧಾನಗಳನ್ನು ರಚಿಸಿ ಮತ್ತು ಸಂಪಾದಿಸಿ ಮತ್ತು ಅವುಗಳನ್ನು ಖಾತೆ ಪ್ರಕಾರಗಳೊಂದಿಗೆ ಸಂಯೋಜಿಸಿ.</string>
+    <string name="pref_manage_methods_title">ಪಾವತಿ ವಿಧಾನಗಳು</string>
+    <string name="pref_manage_parties_summary">ಪಕ್ಷಗಳನ್ನು ಸೇರಿಸಿ, ಸಂಪಾದಿಸಿ, ಅಳಿಸಿ (ಪಾವತಿಸುವವರು ಮತ್ತು ಪಾವತಿಸುವವರು).</string>
+    <string name="pref_manage_parties_title">ಪಕ್ಷಗಳು</string>
+    <string name="pref_manage_sync_backends_title">ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಬ್ಯಾಕೆಂಡ್ಗಳು</string>
+    <!-- %s will be replaced with list of backends -->
+    <string name="pref_manage_sync_backends_summary">ಖಾತೆಗಳನ್ನು ಸಿಂಕ್ರೊನೈಸ್ ಮಾಡಲು ಬ್ಯಾಕೆಂಡ್‌ಗಳನ್ನು ಸೇರಿಸಿ (%s).</string>
+    <string name="pref_more_info_dialog_title">ಪರವಾನಗಿ ಮತ್ತು ಸಾಲಗಳು</string>
+    <string name="pref_password_not_equal">ಗುಪ್ತಪದಗಳುತಾಳೆಯಾಗುತ್ತಿಲ್ಲ</string>
+    <string name="pref_perform_protection_title">ರಕ್ಷಣೆ</string>
+    <string name="pref_perform_share_title">ರಫ್ತು ಮತ್ತು ಬ್ಯಾಕಪ್‌ಗಳನ್ನು ಹಂಚಿಕೊಳ್ಳಿ</string>
+    <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
+    <string name="pref_planning_calendar_create_local">ಹೊಸ ಸ್ಥಳೀಯ ಯೋಜನೆ ಕ್ಯಾಲೆಂಡರ್ ರಚಿಸಿ</string>
+    <string name="pref_planning_calendar_summary">ಭವಿಷ್ಯದ ಮತ್ತು ಮರುಕಳಿಸುವ ವಹಿವಾಟಿನ ಯೋಜನೆಗಳನ್ನು ಸಂಗ್ರಹಿಸಿರುವ ಕ್ಯಾಲೆಂಡರ್ ಆಯ್ಕೆಮಾಡಿ</string>
+    <string name="pref_planning_calendar_title">ಯೋಜನೆ ಕ್ಯಾಲೆಂಡರ್</string>
+    <string name="pref_protection_delay_seconds_summary">ಪಾಸ್ವರ್ಡ್ ಮೂಲಕ ಅಪ್ಲಿಕೇಶನ್ ಲಾಕ್ ಆಗುವ ಮೊದಲು ನಿಷ್ಕ್ರಿಯ ಸೆಕೆಂಡುಗಳು.</string>
+    <string name="pref_protection_delay_seconds_title">ರಕ್ಷಣೆಯವರೆಗೆ ವಿಳಂಬ</string>
+    <string name="pref_protection_enable_data_entry_from_widget_title">ವಿಜೆಟ್‌ಗಳು ಮತ್ತು ಶಾರ್ಟ್‌ಕಟ್‌ಗಳಿಂದ ಡೇಟಾ ನಮೂದು</string>
+    <string name="pref_protection_enable_data_entry_from_widget_summary_on">ಪಾಸ್ವರ್ಡ್ ಇಲ್ಲದೆ ಅನುಮತಿಸಲಾಗಿದೆ.</string>
+    <string name="pref_protection_enable_data_entry_from_widget_summary_off">ಗುಪ್ತಪದದ ಅಗತ್ಯವಿದೆ.</string>
+    <string name="pref_qif_export_file_encoding_title">ಅಕ್ಷರ ಎನ್‌ಕೋಡಿಂಗ್</string>
+    <string name="pref_request_licence_title">ಕೀಲಿಯನ್ನು ವಿನಂತಿಸಿ</string>
+    <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
+    <string name="pref_restore_alternative">ಪರ್ಯಾಯ</string>
+    <string name="pref_restore_alternative_summary">ಸಾಧನದಲ್ಲಿ ಯಾವುದೇ ಫೈಲ್ ಮ್ಯಾನೇಜರ್ ಸ್ಥಾಪಿಸದಿದ್ದರೆ ಈ ಪರ್ಯಾಯ ವಿಧಾನವನ್ನು ಬಳಸಿ.</string>
+    <string name="pref_restore_summary">ಡೇಟಾಬೇಸ್ ಮತ್ತು ಆದ್ಯತೆಗಳನ್ನು ಮರುಸ್ಥಾಪಿಸಲು ಬ್ಯಾಕಪ್ ಆಯ್ಕೆಮಾಡಿ.</string>
+    <string name="pref_restore_title">ಮರುಸ್ಥಾಪಿಸಿ</string>
+    <string name="pref_security_question_summary">ನಿಮ್ಮ ಪಾಸ್‌ವರ್ಡ್ ಅನ್ನು ನೀವು ಮರೆತಿದ್ದರೆ ಅಪ್ಲಿಕೇಶನ್ ಅನ್ನು ಅನ್‌ಲಾಕ್ ಮಾಡಲು ನಿಮಗೆ ಅನುಮತಿಸುತ್ತದೆ.</string>
+    <string name="pref_security_question_title">ಭದ್ರತಾ ಪ್ರಶ್ನೆ</string>
+    <string name="pref_send_feedback_title">ಪ್ರತಿಕ್ರಿಯೆ ಕಳುಹಿಸಿ</string>
+    <string name="pref_share_target_summary">ನೀವು ಸೂಕ್ತವಾದ ಅಪ್ಲಿಕೇಶನ್‌ಗಳ ನಡುವೆ ಆಯ್ಕೆ ಮಾಡಲು ಬಯಸಿದರೆ ಖಾಲಿ ಬಿಡಿ (ಇಮೇಲ್, ಡ್ರಾಪ್‌ಬಾಕ್ಸ್, ಗೂಗಲ್ ಡಾಕ್ಸ್,…), ಅಥವಾ ಬೆಂಬಲಿತ ಸ್ಕೀಮ್‌ಗಳಲ್ಲಿ URL ಅನ್ನು ಒದಗಿಸಿ</string>
+    <string name="pref_share_target_title">URL ಅನ್ನು ಅಪ್‌ಲೋಡ್ ಮಾಡಿ</string>
+    <string name="pref_shortcut_added">ಶಾರ್ಟ್ಕಟ್ ಅನ್ನು ಹೋಮ್ ಸ್ಕ್ರೀನ್ಗೆ ಸೇರಿಸಲಾಗಿದೆ</string>
+    <string name="pref_shortcut_not_added">ಶಾರ್ಟ್‌ಕಟ್‌ಗಳನ್ನು ಸ್ವೀಕರಿಸುವ ಯಾವುದೇ ಹೋಮ್ ಸ್ಕ್ರೀನ್ ಲಭ್ಯವಿಲ್ಲ.</string>
+    <string name="pref_shortcut_summary">ಮುಖಪುಟಕ್ಕೆ ಶಾರ್ಟ್‌ಕಟ್ ಸೇರಿಸಿ.</string>
+    <string name="pref_template_click_default_summary">ಟೆಂಪ್ಲೇಟ್ ಪಟ್ಟಿಯಲ್ಲಿ ಪ್ರವೇಶದ ಮೇಲೆ ಸಣ್ಣ ಟ್ಯಾಪ್ ಮಾಡಿದ ನಂತರ</string>
+    <string name="pref_ui_fontsize_title">ಅಕ್ಷರ ಗಾತ್ರ</string>
+    <string name="pref_ui_home_screen_shortcuts">ಮುಖಪುಟ ಪರದೆಯ ಶಾರ್ಟ್‌ಕಟ್‌ಗಳು</string>
+    <string name="pref_ui_language_default">ಸಿಸ್ಟಮ್ ಡೀಫಾಲ್ಟ್</string>
+    <!-- Title of the preference for selecting the UI language -->
+    <string name="pref_ui_language_title">ಭಾಷೆ</string>
+    <string name="pref_ui_theme_dark">ಕಪ್ಪು</string>
+    <string name="pref_ui_theme_light">ಬಿಳಿ</string>
+    <string name="pref_ui_theme_title">ಥೀಮ್</string>
+    <string name="pref_visit_website_summary">ಚೇಂಜ್ಲಾಗ್ ಮತ್ತು FAQ</string>
+    <string name="pref_visit_website_title">ವೆಬ್‌ಸೈಟ್‌ಗೆ ಭೇಟಿ ನೀಡಿ</string>
+    <string name="progress_dialog_deleting">ವಸ್ತುಗಳನ್ನು ಅಳಿಸಲಾಗುತ್ತಿದೆ</string>
+    <string name="progress_dialog_loading">ಡೇಟಾಬೇಸ್‌ನಿಂದ ವಸ್ತುವನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ</string>
+    <string name="progress_dialog_printing">ಪಿಡಿಎಫ್ ರಚಿಸಲಾಗುತ್ತಿದೆ</string>
+    <string name="progress_dialog_saving">ಡೇಟಾಬೇಸ್‌ಗೆ ವಸ್ತುವನ್ನು ಉಳಿಸಲಾಗುತ್ತಿದೆ</string>
+    <string name="qif_parse_result">ಪಾರ್ಸ್ ಮಾಡಲಾಗಿದೆ: %1$s ಖಾತೆಗಳು; %2$s ವಿಭಾಗಗಳು ಮತ್ತು %3$s ಪಕ್ಷಗಳು</string>
+    <string name="qif_parse_failure_found_multiple_accounts">QIF ಫೈಲ್‌ನಲ್ಲಿ ಬಹು ಖಾತೆಗಳು ಕಂಡುಬರುತ್ತವೆ.</string>
+    <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">ಅವುಗಳನ್ನು ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ಖಾತೆಗೆ ವಿಲೀನಗೊಳಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ.</string>
+    <string name="reference_number">ರೆಫ಼ರೆನ್ಸ್ ಸಂಖ್ಯೆ</string>
+    <string name="restore_db_failure">ಡೇಟಾಬೇಸ್ ಮರುಸ್ಥಾಪನೆ ವಿಫಲವಾಗಿದೆ.</string>
+    <string name="restore_db_success">ಡೇಟಾಬೇಸ್ ಅನ್ನು ಬ್ಯಾಕಪ್‌ನಿಂದ ಮರುಸ್ಥಾಪಿಸಲಾಗಿದೆ.</string>
+    <string name="restore_no_backup_found">ಯಾವುದೇ ಬ್ಯಾಕಪ್ ಕಂಡುಬಂದಿಲ್ಲ.</string>
+    <string name="restore_preferences_failure">ಆದ್ಯತೆಗಳ ಮರುಸ್ಥಾಪನೆ ವಿಫಲವಾಗಿದೆ</string>
+    <string name="restore_backup_archive_not_valid">ಆರ್ಕೈವ್ %1$s ಮಾನ್ಯವಾಗಿಲ್ಲ</string>
+    <string name="restore_backup_file_not_found">"%2$s" ಆರ್ಕೈವ್‌ನಲ್ಲಿ %1$s ಫೈಲ್ ಕಂಡುಬಂದಿಲ್ಲ</string>
+    <string name="restore_preferences_success">ಆದ್ಯತೆಗಳನ್ನು ಬ್ಯಾಕಪ್‌ನಿಂದ ಮರುಸ್ಥಾಪಿಸಲಾಗಿದೆ.</string>
+    <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d ಯೋಜನೆಗಳನ್ನು ಬ್ಯಾಕಪ್‌ನಿಂದ ಮರುಸ್ಥಾಪಿಸಲಾಗಿದೆ</string>
+    <string name="save_transaction_and_new_success">ಯಶಸ್ವಿಯಾಗಿ ಉಳಿಸಲಾಗಿದೆ</string>
+    <string name="save_transaction_error">ಟೆಂಪ್ಲೇಟ್‌ನಿಂದ ಹೊಸ ವಹಿವಾಟನ್ನು ಉಳಿಸಲಾಗಲಿಲ್ಲ.</string>
+    <plurals name="save_transaction_from_template_success">
+        <item quantity="one">ಹೊಸ ವಹಿವಾಟನ್ನು ಟೆಂಪ್ಲೇಟ್‌ನಿಂದ ಯಶಸ್ವಿಯಾಗಿ ಉಳಿಸಲಾಗಿದೆ.</item>
+        <item quantity="other">%1$d ಹೊಸ ವಹಿವಾಟುಗಳನ್ನು ಟೆಂಪ್ಲೆಟ್ಗಳಿಂದ ಯಶಸ್ವಿಯಾಗಿ ಉಳಿಸಲಾಗಿದೆ.</item>
+    </plurals>
+    <string name="save_transaction_template_deleted">ಟೆಂಪ್ಲೇಟ್ ಅನ್ನು ಅಳಿಸಲಾಗಿದೆ</string>
+    <string name="select">ಆಯ್ಕೆ ಮಾಡಿ</string>
+    <string name="select_category">ವರ್ಗವನ್ನು ಆಯ್ಕೆಮಾಡಿ</string>
+    <string name="select_payee">ಪಾವತಿಸುವವರು / ಪಾವತಿಸುವವರನ್ನು ಆಯ್ಕೆಮಾಡಿ</string>
+    <string name="share_scheme_not_supported">ಸ್ಕೀಮ್ %1$s ಬೆಂಬಲಿಸುವುದಿಲ್ಲ</string>
+    <string name="share_sending">ರಫ್ತು ಫೈಲ್ ಕಳುಹಿಸಿ</string>
+    <string name="split_parts_heading">ಭಾಗಗಳನ್ನು ವಿಭಜಿಸಿ</string>
+    <string name="split_transaction">ವಿಭಜಿತ ವಹಿವಾಟು</string>
+    <string name="status">ಸ್ಥಿತಿ</string>
+    <string name="status_cleared">ತೆರವುಗೊಳಿಸಲಾಗಿದೆ</string>
+    <string name="status_reconciled">ರಾಜಿ</string>
+    <string name="status_uncreconciled">ಹೊಂದಾಣಿಕೆ ಮಾಡಿಕೊಂಡಿಲ್ಲ</string>
+    <string name="status_void">ಅನೂರ್ಜಿತ</string>
+    <string name="subcategory">ಉಪವರ್ಗ</string>
+    <string name="sum_expenses">ವೆಚ್ಚಗಳು</string>
+    <string name="sum_income">ಆದಾಯ</string>
+    <string name="sum_transfer">ವರ್ಗಾವಣೆಗಳು</string>
+    <!-- platform is replaced with Android or Blackberry -->
+    <string name="tell_a_friend_message">{website} ನಿಂದ {platform} ಗಾಗಿ {app_name} - ವೈಯಕ್ತಿಕ ಹಣಕಾಸು ವ್ಯವಸ್ಥಾಪಕ ಪರಿಶೀಲಿಸಿ</string>
+    <string name="thank_you">ನಿಮ್ಮ ಸಹಕಾರಕ್ಕೆ ಧನ್ಯವಾದಗಳು!</string>
+    <string name="time">ಸಮಯ</string>
+    <string name="title">ಶೀರ್ಷಿಕೆ</string>
+    <string name="total_cleared">ಒಟ್ಟು ತೆರವುಗೊಳಿಸಲಾಗಿದೆ</string>
+    <string name="total_reconciled">ಒಟ್ಟು ಹೊಂದಾಣಿಕೆ</string>
+    <string name="transaction">ವ್ಯವಹಾರ</string>
+    <string name="transfer">ವರ್ಗಾವಣೆ</string>
+    <string name="transfer_from_account">ಇಂದ</string>
+    <string name="transfer_to_account">ಗೆ</string>
+    <!-- Type refers to the type of an account, eg. Cash account, bank account -->
+    <string name="type">ಮಾದರಿ</string>
+    <string name="unsplit_amount">ಬೇರ್ಪಡಿಸದ ಮೊತ್ತ</string>
+    <string name="unsplit_amount_greater_than_zero">ಇನ್ನೂ ಕೆಲವು ಮೊತ್ತವನ್ನು ಬಿಚ್ಚಿಡಲಾಗಿದೆ.</string>
+    <string name="warning_backup">ಡೇಟಾಬೇಸ್ ಮತ್ತು ಪ್ರಾಶಸ್ತ್ಯಗಳನ್ನು \"%1$s\" ಗೆ ಉಳಿಸಲಾಗುತ್ತದೆ.</string>
+    <string name="continue_confirmation">ನೀವು ಮುಂದುವರಿಸಲು ಬಯಸುತ್ತೀರಾ?</string>
+    <string name="warning_delete_account">%1$s\" ಖಾತೆಯನ್ನು  ಅದರ ಎಲ್ಲಾ ವಹಿವಾಟುಗಳೊಂದಿಗೆ ಅಳಿಸಲಾಗುತ್ತದೆ.</string>
+    <plurals name="warning_delete_main_category">
+        <item quantity="one">ಒಂದು ಆಯ್ದ ವರ್ಗವು ಉಪವರ್ಗಗಳನ್ನು ಹೊಂದಿದೆ, ಅದನ್ನು ಸಹ ಅಳಿಸಲಾಗುತ್ತದೆ.</item>
+        <item quantity="other">%1$d ಆಯ್ದ ವಿಭಾಗಗಳು ಉಪವರ್ಗಗಳನ್ನು ಹೊಂದಿವೆ, ಅದನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.</item>
+    </plurals>
+    <string name="warning_delete_category_with_budget">ಕನಿಷ್ಠ ಒಂದು ಆಯ್ದ ವರ್ಗಕ್ಕೆ, ಬಜೆಟ್ ಹಂಚಿಕೆಗಳಿವೆ, ಅದನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.</string>
+    <plurals name="warning_delete_template">
+        <item quantity="one">ಆಯ್ದ ಟೆಂಪ್ಲೇಟ್ ಅನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.</item>
+        <item quantity="other">%1$d ಆಯ್ದ ಟೆಂಪ್ಲೆಟ್ಗಳನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.</item>
+    </plurals>
+    <plurals name="warning_delete_transaction">
+        <item quantity="one">ಆಯ್ದ ವಹಿವಾಟನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.</item>
+        <item quantity="other">%1$d ಆಯ್ದ ವಹಿವಾಟುಗಳನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.</item>
+    </plurals>
+    <plurals name="move_category_success">
+        <item quantity="one">ಒಂದು ವರ್ಗವನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಸರಿಸಲಾಗಿದೆ.</item>
+        <item quantity="other">%d ವಿಭಾಗಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಸರಿಸಲಾಗಿದೆ.</item>
+    </plurals>
+    <plurals name="move_category_failure">
+        <item quantity="one">ಒಂದು ವರ್ಗವನ್ನು ಸರಿಸಲಾಗಿಲ್ಲ, ಏಕೆಂದರೆ ಅದೇ ಲೇಬಲ್ ಈಗಾಗಲೇ ಗುರಿಯಲ್ಲಿದೆ.</item>
+        <item quantity="other">%d ವಿಭಾಗಗಳನ್ನು ಸರಿಸಲಾಗಿಲ್ಲ, ಏಕೆಂದರೆ ಅದೇ ಲೇಬಲ್ ಈಗಾಗಲೇ ಗುರಿಯಲ್ಲಿದೆ.</item>
+    </plurals>
+    <string name="warning_delete_reconciled">ರಾಜಿ ಮಾಡಿಕೊಂಡ ವಹಿವಾಟುಗಳನ್ನು ಅಳಿಸುವುದರಿಂದ ನಿಮ್ಮ ದಾಖಲೆಗಳು ಬ್ಯಾಂಕ್ ಹೇಳಿಕೆಯಿಂದ ಭಿನ್ನವಾಗುತ್ತವೆ.</string>
+    <string name="warning_balance_account">ದಯವಿಟ್ಟು ತೆರವುಗೊಳಿಸಿದ ಮೊತ್ತವನ್ನು ನಿಮ್ಮ ಬ್ಯಾಂಕ್ ಸ್ಟೇಟ್‌ಮೆಂಟ್‌ನಲ್ಲಿ ಕೊನೆಗೊಳ್ಳುವ ಬ್ಯಾಲೆನ್ಸ್‌ನೊಂದಿಗೆ ಹೋಲಿಕೆ ಮಾಡಿ. ನೀವು ಮುಂದುವರಿದರೆ, ತೆರವುಗೊಳಿಸಿದ ವಹಿವಾಟುಗಳನ್ನು ರಾಜಿ ಎಂದು ಗುರುತಿಸಲಾಗುತ್ತದೆ.</string>
+    <string name="warning_password_protected">ಅಪ್ಲಿಕೇಶನ್ ಪಾಸ್‌ವರ್ಡ್ ರಕ್ಷಿತವಾಗಿದೆ.</string>
+    <string name="warning_widget_disabled">ಅಪ್ಲಿಕೇಶನ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ನೀವು ಈ ವಿಜೆಟ್ ಅನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಬೇಕಾಗಿದೆ.</string>
+    <string name="warning_instantiate_template_from_widget_password_protected">ಅಪ್ಲಿಕೇಶನ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ಪಾಸ್‌ವರ್ಡ್ ಇಲ್ಲದೆ ವಿಜೆಟ್‌ಗಳಿಂದ ಡೇಟಾ ನಮೂದನ್ನು ನೀವು ಅನುಮತಿಸಿದರೆ ಮಾತ್ರ ಈ ವಿಜೆಟ್‌ನಿಂದ ಟೆಂಪ್ಲೆಟ್ಗಳ ತ್ವರಿತ ಇನ್ಸ್ಟಾಂಟೇಶನ್ ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತದೆ.</string>
+    <string name="warning_password_contrib">ನಿಮ್ಮ ಪಾಸ್‌ವರ್ಡ್ ಅನ್ನು ನೀವು ಮರೆತಿದ್ದರೆ, ಸುರಕ್ಷತಾ ಪ್ರಶ್ನೆಯನ್ನು ಹೊಂದಿಸುವುದರಿಂದ ಅಪ್ಲಿಕೇಶನ್ ಅನ್ನು ಅನ್ಲಾಕ್ ಮಾಡಲು ಅನುಮತಿಸುತ್ತದೆ.</string>
+    <string name="warning_reset_account">ನೀವು ಮುಂದುವರಿದರೆ, ಈ ಖಾತೆಯ ಎಲ್ಲಾ ವಹಿವಾಟುಗಳನ್ನು ಡೇಟಾಬೇಸ್‌ನಿಂದ ಅಳಿಸಲಾಗುತ್ತದೆ ಮತ್ತು ಅದನ್ನು ಮರುಸ್ಥಾಪಿಸಲಾಗುವುದಿಲ್ಲ.</string>
+    <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
+    <string name="warning_reset_account_all">ನೀವು ಮುಂದುವರಿದರೆ, ಎಲ್ಲಾ ಖಾತೆಗಳಿಗೆ%1$s, ವ್ಯವಹಾರಗಳನ್ನು ಡೇಟಾಬೇಸ್‌ನಿಂದ ಅಳಿಸಲಾಗುತ್ತದೆ ಮತ್ತು ಅದನ್ನು ಮರುಸ್ಥಾಪಿಸಲಾಗುವುದಿಲ್ಲ.</string>
+    <string name="warning_reset_account_matched">ನೀವು ಮುಂದುವರಿದರೆ, ಪ್ರಸ್ತುತ ಫಿಲ್ಟರ್‌ಗೆ ಹೊಂದಿಕೆಯಾಗುವ ವಹಿವಾಟುಗಳನ್ನು ಡೇಟಾಬೇಸ್‌ನಿಂದ ಅಳಿಸಲಾಗುತ್ತದೆ ಮತ್ತು ಅದನ್ನು ಮರುಸ್ಥಾಪಿಸಲಾಗುವುದಿಲ್ಲ.</string>
+    <string name="warning_restore">ಡೇಟಾಬೇಸ್ ಮತ್ತು ಆದ್ಯತೆಗಳನ್ನು \"%1$s\" ಫೈಲ್‌ನಿಂದ ಮರುಸ್ಥಾಪಿಸಲಾಗುತ್ತದೆ. ಪ್ರಸ್ತುತ ಡೇಟಾವನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.</string>
+    <string name="warning_app_folder_will_be_deleted_upon_uninstall">ನೀವು {app_name} ಅನ್ನು ಅಸ್ಥಾಪಿಸಿದರೆ ಬ್ಯಾಕ್‌ಅಪ್‌ಗಳು ಮತ್ತು ರಫ್ತುಗಳಿಗಾಗಿ ಪ್ರಸ್ತುತ ಆಯ್ಕೆ ಮಾಡಲಾದ ಫೋಲ್ಡರ್ ಆಂಡ್ರಾಯ್ಡ್‌ನಿಂದ ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಅಳಿಸಲ್ಪಡುತ್ತದೆ. ಸೆಟ್ಟಿಂಗ್‌ಗಳ ಪರದೆಯಿಂದ ಬೇರೆ ಫೋಲ್ಡರ್ ಆಯ್ಕೆ ಮಾಡುವ ಮೂಲಕ ನೀವು ಇದನ್ನು ತಡೆಯಬಹುದು.</string>
+    <string name="warning_splitpartcategory_context">ವಿಭಜನೆಯ ಭಾಗವಾಗಿರುವ ವರ್ಗಾವಣೆಗಳನ್ನು ವಿಭಜನೆಯ ಸಂದರ್ಭದಲ್ಲಿ ಮಾತ್ರ ಸಂಪಾದಿಸಬಹುದು.</string>
+    <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">ದಯವಿಟ್ಟು %1$d ಮತ್ತು %2$d ನಡುವೆ ಸಂಖ್ಯೆಯನ್ನು ಹೊಂದಿಸಿ</string>
+    <string name="warning_change_fraction_digits_1">ಹೊಸ ಸಂಖ್ಯೆಯ ಭಿನ್ನರಾಶಿ ಅಂಕೆಗಳಿಗೆ ಹೊಂದಿಕೆಯಾಗಲು ಡೇಟಾಬೇಸ್‌ನಲ್ಲಿನ ಮೊತ್ತವನ್ನು ನವೀಕರಿಸಬೇಕಾಗಿದೆ.</string>
+    <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">ಮೊತ್ತವನ್ನು ನವೀಕರಿಸದಿದ್ದರೆ, ಬದಲಾವಣೆಯ ನಂತರ ಅವುಗಳನ್ನು %d ನಿಂದ ಗುಣಿಸಿದಾಗ ಪ್ರದರ್ಶಿಸಲಾಗುತ್ತದೆ.</string>
+    <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">ಮೊತ್ತವನ್ನು ನವೀಕರಿಸದಿದ್ದರೆ, ಬದಲಾವಣೆಯ ನಂತರ ಅವುಗಳನ್ನು %d ನಿಂದ ಭಾಗಿಸಿದಂತೆ ಪ್ರದರ್ಶಿಸಲಾಗುತ್ತದೆ.</string>
+    <string name="warning_change_fraction_digits_3">ಮೊತ್ತವನ್ನು ನವೀಕರಿಸಿದರೆ, ಅವುಗಳ ಭಾಗಶಃ ಮಾಹಿತಿಯನ್ನು ನೀವು ಕಳೆದುಕೊಳ್ಳುತ್ತೀರಿ.</string>
+    <string name="warning_change_fraction_digits_checkbox_label">ಡೇಟಾಬೇಸ್‌ನಲ್ಲಿ ಮೊತ್ತವನ್ನು ನವೀಕರಿಸಿ</string>
+    <string name="import_categories_success">%1$s ವಿಭಾಗಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಆಮದು ಮಾಡಲಾಗಿದೆ</string>
+    <string name="import_parties_success">%1$s ಪಕ್ಷಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಆಮದು ಮಾಡಲಾಗಿದೆ</string>
+    <string name="import_accounts_success">%1$s ಖಾತೆಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಆಮದು ಮಾಡಲಾಗಿದೆ</string>
+    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d ವಹಿವಾಟುಗಳನ್ನು %2$s ಖಾತೆಗೆ ಯಶಸ್ವಿಯಾಗಿ ಆಮದು ಮಾಡಲಾಗಿದೆ</string>
+    <string name="import_accounts_none">ಯಾವುದೇ ಖಾತೆಗಳನ್ನು ಆಮದು ಮಾಡಿಕೊಳ್ಳಲಾಗಿಲ್ಲ</string>
+    <string name="import_categories_none">ಯಾವುದೇ ವರ್ಗಗಳನ್ನು ಆಮದು ಮಾಡಿಕೊಳ್ಳಲಾಗಿಲ್ಲ</string>
+    <string name="import_parties_none">ಯಾವುದೇ ಪಕ್ಷಗಳನ್ನು ಆಮದು ಮಾಡಿಕೊಂಡಿಲ್ಲ</string>
+    <string name="import_transactions_none">%1$s ಖಾತೆಗೆ ಯಾವುದೇ ವಹಿವಾಟುಗಳನ್ನು ಆಮದು ಮಾಡಿಕೊಳ್ಳಲಾಗಿಲ್ಲ</string>
+    <string name="import_source_select_error">ದಯವಿಟ್ಟು %1$s ಪ್ರಕಾರದ ಫೈಲ್ ಅನ್ನು ಒದಗಿಸಿ</string>
+    <string name="menu_categories_setup_default">ಡೀಫಾಲ್ಟ್ ವಿಭಾಗಗಳನ್ನು ಹೊಂದಿಸಿ</string>
+    <string name="menu_create_folder">ಹೊಸ ಫೋಲ್ಡರ್</string>
+    <!-- This string is used for navigating up in the folder browser -->
+    <string name="menu_up">ಅಪ್</string>
+    <string name="create_new_folder_fail">ಫೋಲ್ಡರ್ ರಚಿಸಲು ವಿಫಲವಾಗಿದೆ</string>
+    <string name="widget_title_accounts">ನನ್ನ ಖಾತೆಗಳು</string>
+    <string name="widget_title_templates">ನನ್ನ ಟೆಂಪ್ಲೇಟ್‌ಗಳು</string>
+    <string name="app_dir_not_accessible">ಬ್ಯಾಕಪ್‌ಗಳು ಮತ್ತು ರಫ್ತುಗಳಿಗಾಗಿ ಪ್ರಸ್ತುತ ಆಯ್ಕೆ ಮಾಡಲಾದ ಫೋಲ್ಡರ್ (%1$s) ಪ್ರವೇಶಿಸಲಾಗುವುದಿಲ್ಲ. ದಯವಿಟ್ಟು ಬೇರೆ ಒಂದನ್ನು ಆರಿಸಿ.</string>
+    <string name="app_dir_not_compatible_with_nougat">ಆಂಡ್ರಾಯ್ಡ್ ನೌಗಾಟ್ ಅಡಿಯಲ್ಲಿ ಬ್ಯಾಕಪ್ ಮತ್ತು ರಫ್ತುಗಳಿಗಾಗಿ ಪ್ರಸ್ತುತ ಕಾನ್ಫಿಗರ್ ಮಾಡಲಾದ ಯುಆರ್ಐ (%1$s) ಬೆಂಬಲಿಸುವುದಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಫೋಲ್ಡರ್ ಆಯ್ಕೆಮಾಡಿ.</string>
+    <string name="search_amount">ಮೊತ್ತಕ್ಕಾಗಿ ಹುಡುಕಿ</string>
+    <string name="search_category">ವರ್ಗಕ್ಕಾಗಿ ಹುಡುಕಿ</string>
+    <string name="search_comment">ಟಿಪ್ಪಣಿಗಳಿಗಾಗಿ ಹುಡುಕಿ</string>
+    <string name="search_date">ದಿನಾಂಕಕ್ಕಾಗಿ ಹುಡುಕಿ</string>
+    <string name="search_status">ಸ್ಥಿತಿಗಾಗಿ ಹುಡುಕಿ</string>
+    <string name="search_payee">ಪಾವತಿಸುವವರು / ಪಾವತಿಸುವವರಿಗಾಗಿ ಹುಡುಕಿ</string>
+    <string name="search_method">ವಿಧಾನಕ್ಕಾಗಿ ಹುಡುಕಿ</string>
+    <string name="search_tag">ಟ್ಯಾಗ್‌ಗಾಗಿ ಹುಡುಕಿ</string>
+    <string name="and">ಮತ್ತು</string>
+    <string name="between_and">%1$s ಮತ್ತು %2$s ನಡುವೆ</string>
+    <string name="before">%s ಮೊದಲು</string>
+    <string name="after">%s ನಂತರ</string>
+    <string name="comparison_operator_equal">ಸಮಾನವಾಗಿರುತ್ತದೆ</string>
+    <string name="comparison_operator_greater_than">ಅದಕ್ಕಿಂತ ಹೆಚ್ಚು</string>
+    <string name="comparison_operator_lesser_than">ಗಿಂತ ಕಡಿಮೆ</string>
+    <string name="comparison_operator_between">ನಡುವೆ</string>
+    <string name="comparison_operator_date_before">ಮೊದಲು</string>
+    <string name="comparison_operator_date_after">ನಂತರ</string>
+    <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">ಖರೀದಿ ವಿಫಲವಾಗಿದೆ ಅಥವಾ ರದ್ದುಗೊಂಡಿದೆ.</string>
+    <string name="hint_auto_fill">ಅದೇ ಪಾವತಿದಾರ / ಪಾವತಿಸುವವರಿಗೆ ಕೊನೆಯ ವಹಿವಾಟಿನಿಂದ ಡೇಟಾವನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಭರ್ತಿ ಮಾಡಬೇಕೇ? ನೀವು ಯಾವಾಗಲೂ ಈ ನಡವಳಿಕೆಯನ್ನು ಸೆಟ್ಟಿಂಗ್‌ಗಳಿಂದ ಬದಲಾಯಿಸಬಹುದು.</string>
+    <string name="yes">ಹೌದು</string>
+    <string name="no">ಇಲ್ಲ</string>
+    <string name="hint_template_click">ಈ ಪಟ್ಟಿಯಲ್ಲಿನ ನಮೂದನ್ನು ಸಣ್ಣ ಟ್ಯಾಪ್ ಮಾಡುವುದರಿಂದ ಟೆಂಪ್ಲೇಟ್ ಅನ್ನು ತ್ವರಿತಗೊಳಿಸುತ್ತದೆ ಮತ್ತು ಅದನ್ನು ತಕ್ಷಣವೇ ಉಳಿಸಿ ಅಥವಾ ಅದರ ಸಂಪಾದನೆ ಫಾರ್ಮ್ ಅನ್ನು ನಮೂದಿಸಿ ಅಲ್ಲಿ ಉಳಿಸುವ ಮೊದಲು ನೀವು ಅದನ್ನು ಮಾರ್ಪಡಿಸಬಹುದು. ಸುದೀರ್ಘ ಟ್ಯಾಪ್ ಮೂಲಕ ನೀವು ಯಾವಾಗಲೂ ಎರಡೂ ಕ್ರಿಯೆಗಳನ್ನು ಪ್ರವೇಶಿಸಬಹುದು ಮತ್ತು ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ಡೀಫಾಲ್ಟ್ ಅನ್ನು ಬದಲಾಯಿಸಬಹುದು.</string>
+    <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d ಕರೆನ್ಸಿ %2$s ಹೊಂದಿರುವ ಖಾತೆಗಳನ್ನು ನವೀಕರಿಸಲಾಗಿದೆ.</string>
+    <string name="learn_more">ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ</string>
+    <string name="import_source_file">ಫೈಲ್</string>
+    <string name="restore_calendar_handling">ಕ್ಯಾಲೆಂಡರ್ ಡೇಟಾ ನಿರ್ವಹಣೆ</string>
+    <string name="restore_calendar_handling_configured">ಪ್ರಸ್ತುತ ಕಾನ್ಫಿಗರ್ ಮಾಡಿದ ಕ್ಯಾಲೆಂಡರ್‌ಗೆ ಯೋಜನೆಗಳನ್ನು ಮರುಸ್ಥಾಪಿಸಿ</string>
+    <string name="restore_calendar_handling_backup">ಲಭ್ಯವಿದ್ದರೆ ಬ್ಯಾಕಪ್‌ನಲ್ಲಿ ಹೊಂದಿಸಲಾದ ಕ್ಯಾಲೆಂಡರ್ ಯೋಜನೆಗಳನ್ನು ಮರುಸ್ಥಾಪಿಸಿ</string>
+    <string name="restore_calendar_handling_ignore">ಯೋಜನೆಗಳನ್ನು ಮರುಸ್ಥಾಪಿಸಬೇಡಿ</string>
+    <string name="restore_not_possible_target_calendar_missing">ಬ್ಯಾಕಪ್ ಆರ್ಕೈವ್‌ನಲ್ಲಿ ಹೊಂದಿಸಲಾದ ಕ್ಯಾಲೆಂಡರ್ %s ಸ್ಥಳೀಯವಾಗಿ ಅಸ್ತಿತ್ವದಲ್ಲಿಲ್ಲ. ಮರುಸ್ಥಾಪನೆಯನ್ನು ಸ್ಥಗಿತಗೊಳಿಸಲಾಗಿದೆ.</string>
+    <string name="restore_not_possible_local_calendar_missing">ಪ್ರಸ್ತುತ ಯೋಜನೆ ಕ್ಯಾಲೆಂಡರ್ ಲಭ್ಯವಿಲ್ಲ.</string>
+    <string name="menu_view_picture">ಚಿತ್ರವನ್ನು ವೀಕ್ಷಿಸಿ</string>
+    <string name="menu_delete_picture">ಚಿತ್ರವನ್ನು ಅಳಿಸಿ</string>
+    <string name="menu_change_picture">ವಿಭಿನ್ನ ಚಿತ್ರವನ್ನು ಲಗತ್ತಿಸಿ</string>
+    <string name="menu_distribution_show_pie_char">ಪೈ ಚಾರ್ಟ್ ತೋರಿಸಿ</string>
+    <string name="menu_distribution_aggreate">ಒಟ್ಟು ವೆಚ್ಚಗಳು ಮತ್ತು ಆದಾಯ</string>
+    <string name="pref_manage_stale_images_title">ಹಳೆಯ ಚಿತ್ರಗಳು</string>
+    <string name="pref_manage_stale_images_summary">ಅಳಿಸಿದ ವಹಿವಾಟಿನಿಂದ ಉಳಿದಿರುವ ಚಿತ್ರಗಳನ್ನು ನಿರ್ವಹಿಸಿ</string>
+    <string name="image_deleted">ಚಿತ್ರವನ್ನು ಅಳಿಸಲಾಗಿದೆ</string>
+    <string name="transaction_deleted">ವಹಿವಾಟನ್ನು ಅಳಿಸಲಾಗಿದೆ</string>
+    <string name="dialog_export_applied_to_filter">ಪ್ರಸ್ತುತ ಫಿಲ್ಟರ್‌ಗೆ ಹೊಂದಿಕೆಯಾಗುವ ವಹಿವಾಟುಗಳನ್ನು ಮಾತ್ರ ಪರಿಗಣಿಸಲಾಗುತ್ತದೆ.</string>
+    <string name="export_handle_deleted_create_helper">ಸಹಾಯಕ ವ್ಯವಹಾರವನ್ನು ರಚಿಸಿ</string>
+    <string name="export_handle_deleted_update_balance">ಆರಂಭ ಶಿಲ್ಕುವನ್ನು ನವೀಕರಿಸಿ</string>
+    <string name="file_name">ಕಡತದ ಹೆಸರು</string>
+    <string name="folder_name">ಫೋಲ್ಡರ್ ಹೆಸರು</string>
+    <string name="mark_void_instead_of_delete">ವಹಿವಾಟನ್ನು ಅಳಿಸಬೇಡಿ, ಬದಲಿಗೆ ಅನೂರ್ಜಿತ ಎಂದು ಗುರುತಿಸಿ.</string>
+    <string name="menu_undelete_transaction">ಅಳಿಸಬೇಡಿ</string>
+    <string name="slash_forbidden_in_filename">ಫೈಲ್ ಹೆಸರುಗಳಲ್ಲಿ / ಅಕ್ಷರವನ್ನು ಅನುಮತಿಸಲಾಗುವುದಿಲ್ಲ</string>
+    <string name="io_error_unable_to_create_file">%2$s ಫೋಲ್ಡರ್‌ನಲ್ಲಿ %1$s ಫೈಲ್ ಅನ್ನು ರಚಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ</string>
+    <string name="menu_categories_export">QIF ಗೆ ರಫ್ತು ಮಾಡಿ</string>
+    <string name="pref_csv_import_delimiter">ಡಿಲಿಮಿಟರ್</string>
+    <string name="csv_import_preview">ಮುನ್ನೋಟ</string>
+    <string name="menu_parse">ಪಾರ್ಸ್</string>
+    <!-- Label for column where user can check rows to be discarded from import -->
+    <string name="cvs_import_discard">ತ್ಯಜಿಸಿ</string>
+    <string name="csv_import_field_mapped_more_than_once">%s ಅನ್ನು ಒಂದಕ್ಕಿಂತ ಹೆಚ್ಚು ಬಾರಿ ಮ್ಯಾಪ್ ಮಾಡಲಾಗಿದೆ.</string>
+    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d ದಾಖಲೆಗಳನ್ನು ಆಮದು ಮಾಡಲಾಗಲಿಲ್ಲ.</string>
+    <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d ದಾಖಲೆಗಳನ್ನು ತ್ಯಜಿಸಲಾಗಿದೆ.</string>
+    <string name="csv_import_subcategory_requires_category">ನೀವು ಉಪವರ್ಗವನ್ನು ನಕ್ಷೆ ಮಾಡಿದರೆ, ನೀವು ವರ್ಗವನ್ನು ಸಹ ನಕ್ಷೆ ಮಾಡಬೇಕು.</string>
+    <string name="cvs_import_set_first_line_as_header">ಮೊದಲ ಸಾಲನ್ನು ಹೆಡರ್ ಲೈನ್ ಎಂದು ಪರಿಗಣಿಸಬೇಕೇ?</string>
+    <string name="csv_import_delimiter_comma">ಅಲ್ಪವಿರಾಮ</string>
+    <string name="csv_import_delimiter_semicolon">ಸೆಮಿಕೋಲನ್</string>
+    <string name="csv_import_delimiter_tab">ಟ್ಯಾಬ್</string>
+    <string name="csv_import_no_mapping_found_for_amount">ಮೊತ್ತ, ಆದಾಯ ಅಥವಾ ಖರ್ಚಿಗೆ ದಯವಿಟ್ಟು ಒಂದು ಕಾಲಮ್ ಅನ್ನು ನಕ್ಷೆ ಮಾಡಿ.</string>
+    <string name="menu_show_transactions">ವಹಿವಾಟುಗಳನ್ನು ತೋರಿಸಿ</string>
+    <string name="pref_custom_decimal_format_title">ಸಂಖ್ಯೆ ಸ್ವರೂಪ</string>
+    <string name="pref_custom_decimal_format_summary">ನಿಮ್ಮ ಸ್ಥಳಕ್ಕಾಗಿ ಡೀಫಾಲ್ಟ್ ಸ್ವರೂಪದಲ್ಲಿ ನೀವು ತೃಪ್ತರಾಗದಿದ್ದರೆ, ಅದನ್ನು ನಿಮ್ಮ ಅಗತ್ಯಗಳಿಗೆ ಹೊಂದಿಕೊಳ್ಳಿ. ಡೀಫಾಲ್ಟ್ ಸ್ವರೂಪವನ್ನು ಪುನಃಸ್ಥಾಪಿಸಲು ಖಾಲಿ ಬಿಡಿ.</string>
+    <string name="pref_auto_backup_title">ಸ್ವಯಂ ಬ್ಯಾಕಪ್</string>
+    <string name="pref_auto_backup_summary">ನಿಗದಿತ ಸಮಯದಲ್ಲಿ ಪ್ರತಿದಿನ ಬ್ಯಾಕಪ್ ಡೇಟಾಬೇಸ್ (ಡೇಟಾ ಬದಲಾದರೆ ಮಾತ್ರ).</string>
+    <string name="pref_auto_backup_time_title">ಸ್ವಯಂ-ಬ್ಯಾಕಪ್ ಸಮಯ</string>
+    <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">%d ಯಶಸ್ವಿ ಸ್ವಯಂಚಾಲಿತ ಬ್ಯಾಕಪ್‌ಗಳ ನಂತರ, ಸ್ವಯಂ-ಬ್ಯಾಕಪ್ ಅನ್ನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗುತ್ತದೆ.</string>
+    <string name="calendar_permission_required">ಭವಿಷ್ಯದ ಮತ್ತು ಮರುಕಳಿಸುವ ವಹಿವಾಟುಗಳ ಯೋಜನೆಗಳನ್ನು ರಚಿಸಲು <i>{app_name}</i> ಗೆ ನಿಮ್ಮ ಕ್ಯಾಲೆಂಡರ್ ಪ್ರವೇಶಿಸಲು ಅನುಮತಿ ಅಗತ್ಯವಿದೆ.</string>
+    <string name="button_request_calendar_access" tools:ignore="UnusedResources">ಪ್ರವೇಶವನ್ನು ನೀಡಿ</string>
+    <string name="switch_on_text">ಆನ್</string>
+    <string name="switch_off_text">ಆರಿಸಿ</string>
+    <string name="menu_move">ಸರಿಸಿ</string>
+    <string name="dialog_title_select_target">ಗುರಿ ಆಯ್ಕೆಮಾಡಿ</string>
+    <string name="transform_subcategory_to_main">ಮುಖ್ಯ ವರ್ಗಕ್ಕೆ ಪರಿವರ್ತನೆ</string>
+    <string name="preferences_week_start_day_title">ವಾರ ಪ್ರಾರಂಭವಾಗುತ್ತದೆ</string>
+    <string name="preferences_month_start_date_title">ತಿಂಗಳು ಪ್ರಾರಂಭವಾಗುತ್ತದೆ</string>
+    <!-- this is the title of the section in the preferences, where user can set start day for weekly and monthly groups -->
+    <string name="pref_grouping_periods">ಗುಂಪು ಅವಧಿಗಳು</string>
+    <string name="exchange_rate">ವಿನಿಮಯ ದರ</string>
+    <string name="date_format_hour">ಗಂಟೆ</string>
+    <string name="date_format_minute">ನಿಮಿಷ</string>
+    <string name="copied_to_clipboard">ಕ್ಲಿಪ್‌ಬೋರ್ಡ್‌ಗೆ ನಕಲಿಸಲಾಗಿದೆ</string>
+    <string name="menu_sort">ವಿಂಗಡಿಸು</string>
+    <string name="pref_sort_order_last_used">ಕೊನೆಯದಾಗಿ ಉಪಯೋಗಿಸಿದ</string>
+    <string name="pref_sort_order_custom">ಕಸ್ಟಮ್</string>
+    <string name="content_description_calculator">ಕ್ಯಾಲ್ಕುಲೇಟರ್</string>
+    <!-- describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list. -->
+    <string name="plan_instance_state_open">ತೆರೆದಿರುತ್ತದೆ</string>
+    <!-- describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list. -->
+    <string name="plan_instance_state_cancelled">ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ</string>
+    <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
+    <string name="plan_instance_state_applied">ಅನ್ವಯಿಸಲಾಗಿದೆ</string>
+    <string name="progress_dialog_updating_split_parts">ವಿಭಜಿತ ಭಾಗಗಳನ್ನು ನವೀಕರಿಸಲಾಗುತ್ತಿದೆ</string>
+    <string name="warning_cannot_move_split_transaction">ಈ ವಿಭಜಿತ ವಹಿವಾಟನ್ನು %1$s ಖಾತೆಗೆ ಸರಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ ಏಕೆಂದರೆ ಈ ಖಾತೆಯನ್ನು ಉಲ್ಲೇಖಿಸುವ ವರ್ಗಾವಣೆ ಭಾಗಗಳಿವೆ.</string>
+    <string name="content_description_calculator_clear_button">ಎಲ್ಲಾ ಮರುಹೊಂದಿಸಿ</string>
+    <string name="content_description_calculator_delete_button">ಕೊನೆಯ ಅಂಕಿಯನ್ನು ಅಳಿಸಿ</string>
+    <string name="paypal_callback_info">ನಿಮ್ಮ ವಹಿವಾಟು ಪೂರ್ಣಗೊಂಡಿದೆ, ಮತ್ತು ನಿಮ್ಮ ಖರೀದಿಗೆ ರಶೀದಿಯನ್ನು ನಿಮಗೆ ಇಮೇಲ್ ಮಾಡಲಾಗಿದೆ. ಈ ವಹಿವಾಟಿನ ವಿವರಗಳನ್ನು ವೀಕ್ಷಿಸಲು ನೀವು www.paypal.com ನಲ್ಲಿ ನಿಮ್ಮ ಖಾತೆಗೆ ಲಾಗ್ ಇನ್ ಮಾಡಬಹುದು.</string>
+    <string name="search_transfer">ವರ್ಗಾವಣೆಗಾಗಿ ಹುಡುಕಿ</string>
+    <!-- Sort plans (recurring transactions) by the next instance  -->
+    <string name="pref_sort_order_next_instance">ಮುಂದಿನ ನಿದರ್ಶನ</string>
+    <string name="crash_dialog_title">{app_name} ಕ್ರ್ಯಾಶ್ ಆಗಿದೆ</string>
+    <string name="crash_dialog_text">ಅಪ್ಲಿಕೇಶನ್ ಅನ್ನು ನಿಲ್ಲಿಸುವಂತೆ ಒತ್ತಾಯಿಸಿ ಅನಿರೀಕ್ಷಿತ ದೋಷ ಸಂಭವಿಸಿದೆ. ದೋಷ ಡೇಟಾವನ್ನು ಕಳುಹಿಸುವ ಮೂಲಕ ದಯವಿಟ್ಟು ಇದನ್ನು ಸರಿಪಡಿಸಲು ನಮಗೆ ಸಹಾಯ ಮಾಡಿ, ನೀವು ಮಾಡಬೇಕಾಗಿರುವುದು ಸರಿ ಕ್ಲಿಕ್ ಮಾಡಿ.</string>
+    <string name="crash_dialog_comment_prompt">ಕೆಳಗಿನ ಸಮಸ್ಯೆಯ ಕುರಿತು ನಿಮ್ಮ ಕಾಮೆಂಟ್‌ಗಳನ್ನು ನೀವು ಸೇರಿಸಬಹುದು:</string>
+    <string name="synchronization">ಸಿಂಕ್ರೊನೈಸೇಶನ್</string>
+    <string name="synchronization_none">ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಇಲ್ಲ</string>
+    <string name="hint_url">URL</string>
+    <string name="description_webdav_url">ದಯವಿಟ್ಟು ನಿಮ್ಮ ವೆಬ್‌ಡ್ಯಾವ್ ಸರ್ವರ್‌ನಲ್ಲಿ ವಿಶೇಷ ಫೋಲ್ಡರ್‌ಗೆ URL ಅನ್ನು ನಮೂದಿಸಿ. {app_name} ತನ್ನ ಡೇಟಾವನ್ನು ಈ ಫೋಲ್ಡರ್ ಒಳಗೆ ಸಂಗ್ರಹಿಸುತ್ತದೆ, ಅದು ಅದರ ಹೊರಗೆ ಯಾವುದನ್ನೂ ಮುಟ್ಟುವುದಿಲ್ಲ.</string>
+    <string name="description_webdav_trust_certificate">ವೆಬ್‌ಸೈಟ್ ಪ್ರಮಾಣಪತ್ರವನ್ನು ಬಳಸುತ್ತದೆ, ಅದನ್ನು ಆಂಡ್ರಾಯ್ಡ್ ನಂಬುವುದಿಲ್ಲ.</string>
+    <string name="hint_user_name">ಬಳಕೆದಾರ ಹೆಸರು</string>
+    <string name="hint_password">ಗುಪ್ತಪದ</string>
+    <string name="label_trust_certificate">ಈ ಪ್ರಮಾಣಪತ್ರವನ್ನು ನಂಬಿರಿ</string>
+    <string name="no_sync_backends">ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಬ್ಯಾಕೆಂಡ್‌ಗಳು ಇಲ್ಲ</string>
+    <string name="menu_create_sync_backend">ಹೊಸ ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಬ್ಯಾಕೆಂಡ್</string>
+    <string name="validate_error_not_empty">ಖಾಲಿಯಾಗಿರಬಾರದು</string>
+    <string name="validate_error_webdav_invalid_certificate">ಪ್ರಮಾಣಪತ್ರವನ್ನು ನಂಬಲಾಗಲಿಲ್ಲ. ಇದು ಅಮಾನ್ಯವಾಗಿದೆ ಎಂದು ತೋರುತ್ತದೆ.</string>
+    <string name="validate_error_webdav_not_compliant">ವೆಬ್‌ಡಿಎವಿ ಸಂಪನ್ಮೂಲವನ್ನು URL ಸೂಚಿಸುವುದಿಲ್ಲ.</string>
+    <string name="validate_error_webdav_404">ಸರ್ವರ್‌ನಲ್ಲಿ URL ಅಸ್ತಿತ್ವದಲ್ಲಿಲ್ಲ.</string>
+    <string name="url_not_valid">URL ಮಾನ್ಯವಾಗಿಲ್ಲ</string>
+    <string name="menu_sync_unlink">ಸಿಂಕ್ ಮಾಡುವುದನ್ನು ನಿಲ್ಲಿಸಿ</string>
+    <string name="menu_sync_link">ಸಿಂಕ್ ಮಾಡಲು ಪ್ರಾರಂಭಿಸಿ</string>
+    <string name="menu_sync_download">ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ ಮತ್ತು ಸಿಂಕ್ ಮಾಡಿ</string>
+    <string name="menu_sync_now">ಈಗ ಸಿಂಕ್ ಮಾಡಿ</string>
+    <string name="pref_sync_frequency_title">ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಆವರ್ತನ</string>
+    <string name="pref_sync_frequency_summary">ಡೇಟಾವನ್ನು ಎಷ್ಟು ಬಾರಿ ಸಿಂಕ್ರೊನೈಸ್ ಮಾಡಬೇಕು (ಗಂಟೆಗಳಲ್ಲಿ)</string>
+    <string name="dialog_confirm_sync_unlink">ನೀವು ಈ ಖಾತೆಯನ್ನು %s ನಿಂದ ಅನ್ಲಿಂಕ್ ಮಾಡಿದರೆ, ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಸ್ಥಿತಿ ಕಳೆದುಹೋಗುತ್ತದೆ. ನಂತರ ಅವುಗಳನ್ನು ಮತ್ತೆ ಲಿಂಕ್ ಮಾಡಲು, ಪೂರ್ಣ ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಅನ್ನು ಮತ್ತೆ ಕಾರ್ಯಗತಗೊಳಿಸುವ ಅಗತ್ಯವಿದೆ.</string>
+    <string name="dialog_sync_link">uuid %s ಯೊಂದಿಗಿನ ಖಾತೆಯು ಸ್ಥಳೀಯ ಡೇಟಾಬೇಸ್‌ನಲ್ಲಿ ಮತ್ತು ದೂರಸ್ಥ ಬ್ಯಾಕೆಂಡ್‌ನಲ್ಲಿ ಅಸ್ತಿತ್ವದಲ್ಲಿದೆ. ನೀವು ಎರಡನ್ನೂ ಲಿಂಕ್ ಮಾಡಿದಾಗ, ಆರಂಭದಲ್ಲಿ, ನೀವು ಸ್ಥಳೀಯ ಡೇಟಾವನ್ನು ರಿಮೋಟ್ ಬ್ಯಾಕೆಂಡ್‌ಗೆ ಅಪ್‌ಲೋಡ್ ಮಾಡಲು ಅಥವಾ ಸ್ಥಳೀಯ ಡೇಟಾಬೇಸ್‌ಗೆ ರಿಮೋಟ್ ಡೇಟಾವನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಲು ನೀವು ನಿರ್ಧರಿಸಬೇಕು.</string>
+    <string name="dialog_command_sync_link_remote">ರಿಮೋಟ್‌ನಿಂದ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ</string>
+    <string name="dialog_command_sync_link_local">ಸ್ಥಳೀಯದಿಂದ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ</string>
+    <string name="dialog_synced_to_other">ಸ್ಥಳೀಯ ಡೇಟಾಬೇಸ್‌ನಲ್ಲಿ uuid %s ನೊಂದಿಗೆ ಖಾತೆಯು ಈಗಾಗಲೇ ಅಸ್ತಿತ್ವದಲ್ಲಿದೆ ಮತ್ತು ಅದನ್ನು ಬೇರೆ ರಿಮೋಟ್ ಬ್ಯಾಕೆಂಡ್‌ಗೆ ಲಿಂಕ್ ಮಾಡಲಾಗಿದೆ.</string>
+    <string name="menu_remove">ತೆಗೆದುಹಾಕಿ</string>
+    <string name="dialog_confirm_sync_remove_backend">ರಿಮೋಟ್ ಬ್ಯಾಕೆಂಡ್ %s ಅನ್ನು ತೆಗೆದುಹಾಕಲಾಗುತ್ತದೆ. ಇದು ಸ್ಥಳೀಯವಾಗಿ ಅಥವಾ ದೂರದಿಂದಲೇ ಸಂಗ್ರಹವಾಗಿರುವ ಡೇಟಾದ ಮೇಲೆ ಪರಿಣಾಮ ಬೀರುವುದಿಲ್ಲ, ಆದರೆ ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಸ್ಥಿತಿ ಕಳೆದುಹೋಗುತ್ತದೆ.</string>
+    <string name="dialog_confirm_sync_link_local">ಈ ಖಾತೆಯ ರಿಮೋಟ್ ಡೇಟಾವನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ. ಬೇರೆ ಯಾವುದೇ ಸಾಧನಗಳು ಇದಕ್ಕೆ ಲಿಂಕ್ ಆಗಿಲ್ಲ ಎಂದು ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಿ.</string>
+    <string name="dialog_confirm_sync_link_remote">ಈ ಖಾತೆಯ ಸ್ಥಳೀಯ ಡೇಟಾವನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.</string>
+    <string name="warning_limited_trial">%1$s ವೈಶಿಷ್ಟ್ಯವನ್ನು %2$s ರವರೆಗೆ ಪರೀಕ್ಷಿಸಬಹುದು.</string>
+    <string name="warning_trial_limit_reached">ವೈಶಿಷ್ಟ್ಯವನ್ನು ಪರೀಕ್ಷಿಸುವ ಪ್ರಾಯೋಗಿಕ ಅವಧಿ %s ಕೊನೆಗೊಂಡಿದೆ.</string>
+    <string name="warning_synchronization_folder_usage">ವಿಭಿನ್ನ ಸಾಧನಗಳಲ್ಲಿ {app_name} ನ ಸ್ಥಾಪನೆಗಳ ನಡುವೆ ಡೇಟಾವನ್ನು ಸಿಂಕ್ರೊನೈಸ್ ಮಾಡಲು ಈ ಫೋಲ್ಡರ್ ಅನ್ನು ಬಳಸಲಾಗುತ್ತದೆ. ದಯವಿಟ್ಟು ಅದರ ಯಾವುದೇ ವಿಷಯಗಳನ್ನು ಹಸ್ತಚಾಲಿತವಾಗಿ ಮಾರ್ಪಡಿಸಬೇಡಿ.</string>
+    <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">ನೀವು ಆಯ್ಕೆ ಮಾಡಿದ ಫೋಲ್ಡರ್ ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ಬ್ಯಾಕೆಂಡ್‌ನ ಒಂದು ಖಾತೆಗೆ ಅನುರೂಪವಾಗಿದೆ. ಈ ಬ್ಯಾಕೆಂಡ್ ಅನ್ನು ಮರುಬಳಕೆ ಮಾಡಲು ನೀವು ಅದರ ಮೂಲ ಫೋಲ್ಡರ್ ಅನ್ನು ಆರಿಸಬೇಕಾಗುತ್ತದೆ.</string>
+    <string name="select_unsynced_accounts">ಈ ಬ್ಯಾಕೆಂಡ್‌ಗೆ ಸಿಂಕ್ ಮಾಡಲು ಖಾತೆಗಳನ್ನು ಆಯ್ಕೆಮಾಡಿ</string>
+    <string name="link_account_success" tools:ignore="PluralsCandidate">%d ಖಾತೆಗಳನ್ನು ಬ್ಯಾಕೆಂಡ್‌ನೊಂದಿಗೆ ಸಿಂಕ್ ಮಾಡಲು ಕಾನ್ಫಿಗರ್ ಮಾಡಲಾಗಿದೆ.</string>
+    <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d ಖಾತೆಗಳನ್ನು ಬ್ಯಾಕೆಂಡ್‌ನೊಂದಿಗೆ ಸಿಂಕ್ ಮಾಡಲು ಕಾನ್ಫಿಗರ್ ಮಾಡಲಾಗಲಿಲ್ಲ.</string>
+    <string name="link_account_failure_2">ರಿಮೋಟ್ ಬ್ಯಾಕೆಂಡ್‌ನಲ್ಲಿ ಅದೇ ಯುಯಿಡ್ ಹೊಂದಿರುವ ಖಾತೆ ಈಗಾಗಲೇ ಅಸ್ತಿತ್ವದಲ್ಲಿದೆ.</string>
+    <string name="link_account_failure_3">ಪ್ರವೇಶದ ಸಂದರ್ಭ ಮೆನುವಿನಿಂದ ಸಂಘರ್ಷವನ್ನು ಹಸ್ತಚಾಲಿತವಾಗಿ ಪರಿಹರಿಸಬಹುದು.</string>
+    <string name="progress_dialog_checking_sync_backend">ಬ್ಯಾಕೆಂಡ್ ಅನ್ನು ಪರಿಶೀಲಿಸಲಾಗುತ್ತಿದೆ</string>
+    <string name="template">ಟೆಂಪ್ಲೇಟು</string>
+    <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">ಮೇಘ ಸಿಂಕ್ರೊನೈಸೇಶನ್</string>
+    <string name="all_contrib_key_features">ಕೊಡುಗೆ ಕೀಲಿಯ ಎಲ್ಲಾ ವೈಶಿಷ್ಟ್ಯಗಳು</string>
+    <string name="all_extended_key_features">ವಿಸ್ತೃತ ಕೀಲಿಯ ಎಲ್ಲಾ ವೈಶಿಷ್ಟ್ಯಗಳು</string>
+    <!-- button leading user to purchase flow for licence keys -->
+    <string name="upgrade_now">ನವೀಕರಿಸಿ</string>
+    <string name="pref_backup_cloud_title">ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಬ್ಯಾಕೆಂಡ್‌ನಲ್ಲಿ ಸಂಗ್ರಹಿಸಿ</string>
+    <string name="pref_backup_cloud_summary">ಸಾಧನದಲ್ಲಿನ ಸ್ಥಳೀಯ ಸಂಗ್ರಹಣೆಯ ಜೊತೆಗೆ, ಬ್ಯಾಕಪ್ ಫೈಲ್ ಅನ್ನು ದೂರಸ್ಥ ಬ್ಯಾಕೆಂಡ್‌ಗೆ ನಕಲಿಸಬಹುದು.</string>
+    <string name="auto_backup_cloud_create_backend">ಮುಖ್ಯ ಸೆಟ್ಟಿಂಗ್‌ಗಳ ಪರದೆಯಿಂದ ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಬ್ಯಾಕೆಂಡ್ ರಚಿಸಿ.</string>
+    <string name="auto_backup_cloud_failure">ಬ್ಯಾಕೆಂಡ್ %2$s ನಲ್ಲಿ ಬ್ಯಾಕಪ್ ಫೈಲ್ %1$s ಅನ್ನು ಸಂಗ್ರಹಿಸಲು ಪ್ರಯತ್ನಿಸುವಾಗ ದೋಷ ಸಂಭವಿಸಿದೆ:</string>
+    <string name="auto_backup_cloud_success">ಬ್ಯಾಕಪ್ ಫೈಲ್ %1$s ಅನ್ನು ಬ್ಯಾಕೆಂಡ್ %2$s ನಲ್ಲಿ ಯಶಸ್ವಿಯಾಗಿ ಸಂಗ್ರಹಿಸಲಾಗಿದೆ.</string>
+    <string name="home_screen_shortcuts_nougate_info">ಹೋಮ್ ಸ್ಕ್ರೀನ್‌ನಲ್ಲಿ ಅಪ್ಲಿಕೇಶನ್ ಐಕಾನ್ ಅನ್ನು ದೀರ್ಘ-ಟ್ಯಾಪ್ ಮಾಡುವ ಮೂಲಕ ಶಾರ್ಟ್‌ಕಟ್‌ಗಳನ್ನು ಸೇರಿಸಬಹುದು.</string>
+    <string name="currency_symbol">ಕರೆನ್ಸಿ ಚಿಹ್ನೆ</string>
+    <string name="number_of_fraction_digits">ಭಿನ್ನರಾಶಿ ಅಂಕೆಗಳ ಸಂಖ್ಯೆ</string>
+    <string name="warning_auto_backup_deactivated">ಸ್ವಯಂ-ಬ್ಯಾಕಪ್ ಅನ್ನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ. ಸಮಸ್ಯೆಯನ್ನು ಪರಿಹರಿಸಿದ ನಂತರ ನೀವು ಅದನ್ನು ಸೆಟ್ಟಿಂಗ್‌ಗಳಿಂದ ಮತ್ತೆ ಆನ್ ಮಾಡಬಹುದು (ಉದಾ. ಬ್ಯಾಕಪ್‌ಗಳಿಗಾಗಿ ಬೇರೆ ಫೋಲ್ಡರ್ ಆಯ್ಕೆ ಮಾಡುವುದು).</string>
+    <string name="pref_tracking_summary">ಸುಧಾರಣೆಗಳನ್ನು ಯೋಜಿಸಲು ನಮಗೆ ಸಹಾಯ ಮಾಡುವ ಬಳಕೆಯ ಮಾದರಿಗಳ ಬಗ್ಗೆ ಅನಾಮಧೇಯ ಡೇಟಾವನ್ನು ಸಂಗ್ರಹಿಸಲು ನಮಗೆ ಅನುಮತಿಸಿ.</string>
+    <string name="pref_tracking_title">ಡೇಟಾ ಸಂಗ್ರಹಣೆ</string>
+    <string name="sync_database_error">ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಸಮಯದಲ್ಲಿ ಡೇಟಾಬೇಸ್ ದೋಷ ಸಂಭವಿಸಿದೆ.</string>
+    <string name="sync_io_error_cannot_connect">ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಬ್ಯಾಕೆಂಡ್‌ಗೆ ಸಂಪರ್ಕಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ.</string>
+    <string name="sync_error_will_try_again_later">ನಂತರ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸುತ್ತೇವೆ.</string>
+    <string name="sync_io_exception_reset_account_data">ದೂರಸ್ಥ ಖಾತೆಯನ್ನು ಮರುಹೊಂದಿಸುವಾಗ ದೋಷ.</string>
+    <string name="sync_success_reset_account_data">%s ಖಾತೆಯ ದೂರಸ್ಥ ಡೇಟಾವನ್ನು ಅಳಿಸಲಾಗಿದೆ.</string>
+    <string name="sync_io_exception_setup_remote_account">ದೂರಸ್ಥ ಖಾತೆಯನ್ನು ಹೊಂದಿಸುವಾಗ ದೋಷ.</string>
+    <string name="sync_io_exception_syncing">ಬದಲಾವಣೆಗಳನ್ನು ಸರ್ವರ್‌ನೊಂದಿಗೆ ಸಿಂಕ್ ಮಾಡುವಾಗ ದೋಷ.</string>
+    <string name="sync_io_exception_unlocking">ರಿಮೋಟ್ ಬ್ಯಾಕೆಂಡ್‌ನಿಂದ ಲಾಕ್ ತೆಗೆದುಹಾಕುವಾಗ ದೋಷ.</string>
+    <string name="sync_io_exception_locking">ರಿಮೋಟ್ ಬ್ಯಾಕೆಂಡ್ ಲಾಕ್ ಆಗಿದೆ ಅಥವಾ ಲಾಕ್ ಮಾಡಲಾಗುವುದಿಲ್ಲ.</string>
+    <string name="synchronization_start">%s ಖಾತೆಗಾಗಿ ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಪ್ರಾರಂಭಿಸಲಾಗುತ್ತಿದೆ.</string>
+    <string name="synchronization_end_success">%1$d ದೂರಸ್ಥ ಬದಲಾವಣೆಗಳನ್ನು ಸ್ಥಳೀಯ ಡೇಟಾಬೇಸ್‌ಗೆ ಬರೆಯಲಾಗಿದೆ. %2$d ಸ್ಥಳೀಯ ಬದಲಾವಣೆಗಳನ್ನು ದೂರಸ್ಥ ಬ್ಯಾಕೆಂಡ್‌ಗೆ ಬರೆಯಲಾಗಿದೆ.</string>
+    <string name="synchronization_end_success_none">ಸಿಂಕ್ರೊನೈಸ್ ಮಾಡಲು ಯಾವುದೇ ಬದಲಾವಣೆಗಳಿಲ್ಲ.</string>
+    <string name="pref_webdav_timeout_title">ವೆಬ್‌ಡ್ಯಾವ್ ಕಾಲಾವಧಿ (ಸೆಕೆಂಡುಗಳಲ್ಲಿ)</string>
+    <string name="sync_state_restored">%d ಖಾತೆಗಳಿಗಾಗಿ ಸಿಂಕ್ ಸ್ಥಿತಿಯನ್ನು ಮರುಸ್ಥಾಪಿಸಲಾಗಿದೆ.</string>
+    <string name="sync_state_could_not_be_restored">%d ಖಾತೆಗಳಿಗಾಗಿ ಸಿಂಕ್ ಸ್ಥಿತಿಯನ್ನು ಮರುಸ್ಥಾಪಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ.</string>
+    <string name="onboarding_ui_title">{app_name} ನಿಮ್ಮ ಆದ್ಯತೆಗೆ ಹೊಂದಿಕೊಳ್ಳುತ್ತದೆ</string>
+    <string name="onboarding_data_title">ನಿಮ್ಮ ಮೊದಲ ಖಾತೆಯನ್ನು ಹೊಂದಿಸೋಣ</string>
+    <string name="onboarding_get_started">ಪ್ರಾರಂಭಿಸಿ</string>
+    <string name="onboarding_more_options">ಹೆಚ್ಚಿನ ಆಯ್ಕೆಗಳು</string>
+    <string name="onboarding_restore_from_cloud">ಮೋಡದ ಸಿಂಕ್ರೊನೈಸೇಶನ್‌ನಿಂದ ಮರುಸ್ಥಾಪಿಸಿ</string>
+    <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
+    <string name="onboarding_restore_from_cloud_backup">ಬ್ಯಾಕಪ್‌ಗಳು</string>
+    <string name="onboarding_restore_from_local">ಸ್ಥಳೀಯ ಬ್ಯಾಕಪ್ ಫೈಲ್ ಅನ್ನು ಮರುಸ್ಥಾಪಿಸಿ</string>
+    <string name="dialog_button_add">ಸೇರಿಸಿ</string>
+    <string name="template_create_error">ಟೆಂಪ್ಲೇಟ್ ಉಳಿಸುವಾಗ ದೋಷ</string>
+    <string name="contributed_by">%s ಕೊಡುಗೆ ನೀಡಿದೆ</string>
+    <string name="pref_sync_notification_summary">ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಪ್ರಗತಿಯ ಬಗ್ಗೆ ತಿಳಿಸಿ</string>
+    <string name="pref_debug_logging_summary">ಡೀಬಗ್ ಮಾಡುವ ಮಾಹಿತಿಯನ್ನು ಸಿಸ್ಟಮ್ ಲಾಗ್‌ಗೆ ಬರೆಯಿರಿ</string>
+    <string name="plan_custom_recurrence_info">ದಯವಿಟ್ಟು ಮೊದಲು ಟೆಂಪ್ಲೇಟ್ ಅನ್ನು ಉಳಿಸಿ. ನಂತರ ಕ್ಯಾಲೆಂಡರ್ ಅಪ್ಲಿಕೇಶನ್‌ನಲ್ಲಿ ಯೋಜನೆಯನ್ನು ತೆರೆಯಲಾಗುತ್ತದೆ, ಅಲ್ಲಿ ನೀವು ಕಸ್ಟಮ್ ಮರುಕಳಿಕೆಯನ್ನು ಹೊಂದಿಸಬಹುದು.</string>
+    <string name="storage_permission_required">ಬಾಹ್ಯ ಸಂಗ್ರಹಣೆಯಿಂದ ಓದಲು ನೀವು ಅನುಮತಿ ನೀಡಿದರೆ ಮಾತ್ರ ನೀವು ಆಯ್ಕೆ ಮಾಡಿದ ಮೂಲವನ್ನು ಓದಬಹುದು.</string>
+    <string name="picture">ಚಿತ್ರ</string>
+    <string name="menu_create_template_for_split">ಹೊಸ ವಿಭಜಿತ ಟೆಂಪ್ಲೇಟ್</string>
+    <string name="progress_validating_licence">ಪರವಾನಗಿ ಮೌಲ್ಯೀಕರಿಸಲಾಗುತ್ತಿದೆ</string>
+    <string name="licence_validation_error_expired">ಪರವಾನಗಿ ಅವಧಿ ಮೀರಿದೆ</string>
+    <string name="licence_validation_error_device_limit_exceeded">ಸಾಧನದ ಮಿತಿಯನ್ನು ಮೀರಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೊಂದು ಸಾಧನದಿಂದ ಪರವಾನಗಿ ತೆಗೆದುಹಾಕಿ.</string>
+    <string name="error">ದೋಷ (%s)</string>
+    <string name="button_validate">ಮೌಲ್ಯೀಕರಿಸಿ</string>
+    <string name="licence_key">ಪರವಾನಗಿ ಕೀ</string>
+    <string name="licence_removal_information">ಈ ಸಾಧನದಲ್ಲಿ ನಿಮಗೆ ಇನ್ನು ಮುಂದೆ ಪ್ರೀಮಿಯಂ ಕ್ರಿಯಾತ್ಮಕತೆಯ ಅಗತ್ಯವಿಲ್ಲದಿದ್ದರೆ, ನೀವು ಪರವಾನಗಿ ಕೀಲಿಯನ್ನು ತೆಗೆದುಹಾಕಬಹುದು. ಇದು ಮತ್ತೊಂದು ಸಾಧನದಲ್ಲಿ ಸಕ್ರಿಯಗೊಳಿಸುವ ಕೀಲಿಯನ್ನು ಮುಕ್ತಗೊಳಿಸುತ್ತದೆ. ಕೀಲಿಯನ್ನು %d ಸಾಧನಗಳಲ್ಲಿ ಸಕ್ರಿಯಗೊಳಿಸಬಹುದು.</string>
+    <string name="progress_removing_licence">ಪರವಾನಗಿ ತೆಗೆದುಹಾಕಲಾಗುತ್ತಿದೆ</string>
+    <string name="licence_removal_success">ಈ ಸಾಧನದಿಂದ ಪರವಾನಗಿ ಕೀಲಿಯನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಬಿಡುಗಡೆ ಮಾಡಲಾಗಿದೆ.</string>
+    <string name="professional_key">ವೃತ್ತಿಪರ ಕೀ</string>
+    <string name="n_months">%d ತಿಂಗಳುಗಳು</string>
+    <string name="eu_vat_info">ಪ್ರದರ್ಶಿಸಲಾದ ಯುರೋಪಿಯನ್ ಯೂನಿಯನ್ ಬೆಲೆಗಳ ನಿವಾಸಿಗಳಿಗೆ ವ್ಯಾಟ್ ಅನ್ನು ಒಳಗೊಂಡಿಲ್ಲ.</string>
+    <string name="licence_migration_info">{app_name} ಹೊಸ ಪರವಾನಗಿ ಮೌಲ್ಯಮಾಪನ ಕಾರ್ಯವಿಧಾನವನ್ನು ಕಾರ್ಯಗತಗೊಳಿಸುತ್ತದೆ. ದಯವಿಟ್ಟು ಹೊಸ ಕೀಲಿಯನ್ನು ವಿನಂತಿಸಿ.</string>
+    <string name="valid_until">%s ರವರೆಗೆ</string>
+    <!-- %1$s date, %2$s price  -->
+    <string name="extend_until">%2$s ಗಾಗಿ %1$s ವರೆಗೆ ವಿಸ್ತರಿಸಿ</string>
+    <string name="extended_upgrade_goodie_github">ವಿಸ್ತೃತ ಲೈಸೆನ್ಸ್ಯನ್ನು ಈಗಾಗಲೇ ಹೊಂದಿರುವ ಬಳಕೆದಾರರಿಗೆ ಹೆಚ್ಚುವರಿ %d ತಿಂಗಳುಗಳನ್ನು ಒಮ್ಮೆ ನೀಡಲಾಗುತ್ತದೆ</string>
+    <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">ಈಗಾಗಲೇ ವಿಸ್ತೃತ ಪರವಾನಗಿ ಹೊಂದಿರುವ ಬಳಕೆದಾರರು ಮೊದಲ ವರ್ಷದಲ್ಲಿ ನಿಯಮಿತ ಬೆಲೆಯ 50%% ಅನ್ನು ಪಾವತಿಸುತ್ತಾರೆ (%s).</string>
+    <string name="extended_upgrade_goodie_subscription_amazon" tools:ignore="UnusedResources">ಈಗಾಗಲೇ ವಿಸ್ತೃತ ಲೈಸೆನ್ಸ್ಯನ್ನು ಹೊಂದಿರುವ ಬಳಕೆದಾರರು ವಾರ್ಷಿಕ ಚಂದಾದಾರಿಕೆಯ ನಿಯಮಿತ ಬೆಲೆಯಿಂದ (%2$s) %1$d%% ಕಡಿತಕ್ಕೆ ಅರ್ಹರಾಗಿರುತ್ತಾರೆ.</string>
+    <string name="switch_to_yearly" tools:ignore="UnusedResources">ವಾರ್ಷಿಕ ಚಂದಾದಾರಿಕೆಗೆ ಬದಲಿಸಿ</string>
+    <string name="switch_to_monthly" tools:ignore="UnusedResources">ಮಾಸಿಕ ಚಂದಾದಾರಿಕೆಗೆ ಬದಲಿಸಿ</string>
+    <string name="extend_validity">ಸಿಂಧುತ್ವವನ್ನು ವಿಸ್ತರಿಸಿ</string>
+    <string name="progress_dialog_fetching_data_from_sync_backend">ರಿಮೋಟ್ ಬ್ಯಾಕೆಂಡ್‌ನಿಂದ ಡೇಟಾವನ್ನು ಪಡೆಯಲಾಗುತ್ತಿದೆ. ಇದಕ್ಕೆ ಸ್ವಲ್ಪ ಸಮಯ ತೆಗೆದುಕೊಳ್ಳಬಹುದು.</string>
+    <string name="donate_button_invoice">ಸರಕುಪಟ್ಟಿ</string>
+    <string name="menu_sort_direction">ವಿಂಗಡಣೆ ನಿರ್ದೇಶನ</string>
+    <string name="sort_direction_ascending">ಆರೋಹಣ</string>
+    <string name="sort_direction_descending">ಅವರೋಹಣ</string>
+    <string name="never">ಎಂದಿಗೂ</string>
+    <string name="always">ಯಾವಾಗಲೂ</string>
+    <string name="auto_fill_account_from_aggregate_only">ಒಟ್ಟು ಖಾತೆಯಿಂದ ಪ್ರಾರಂಭಿಸಿದಾಗ ಮಾತ್ರ.</string>
+    <string name="sync_auth_exception_login_again">ಅಧಿಕಾರ ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಲಾಗ್ ಇನ್ ಮಾಡಿ.</string>
+    <string name="sync_loading_accounts_from_backend">ಲಭ್ಯವಿರುವ ಖಾತೆಗಳನ್ನು ಬ್ಯಾಕೆಂಡ್‌ನಿಂದ ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ.</string>
+    <plurals name="delete_success">
+        <item quantity="one">ಒಂದು ವಸ್ತುವನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಅಳಿಸಲಾಗಿದೆ.</item>
+        <item quantity="other">%d ವಸ್ತುಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಅಳಿಸಲಾಗಿದೆ.</item>
+    </plurals>
+    <string name="feature_deprecated">ಅಸಮ್ಮತಿಸಲಾಗಿದೆ</string>
+    <string name="pref_protection_device_lock_screen_title">ಸಾಧನ ಲಾಕ್ ಪರದೆ</string>
+    <string name="pref_warning_only_one_protection">ನೀವು %1$s ಮೂಲಕ ರಕ್ಷಣೆಯನ್ನು ಬಳಸುವ ಮೊದಲು, ನೀವು %2$s ಮೂಲಕ ರಕ್ಷಣೆಯನ್ನು ಆಫ್ ಮಾಡಬೇಕು.</string>
+    <string name="warning_device_lock_screen_not_set_up_1">ಸುರಕ್ಷಿತ ಸಾಧನ ಲಾಕ್ ಪರದೆಯನ್ನು ಹೊಂದಿಸಲಾಗಿಲ್ಲ.</string>
+    <string name="warning_device_lock_screen_not_set_up_2">ಲಾಕ್ ಪರದೆಯನ್ನು ಹೊಂದಿಸಲು \'ಸೆಟ್ಟಿಂಗ್‌ಗಳು -&gt; ಭದ್ರತೆ -&gt; ಸ್ಕ್ರೀನ್‌ಲಾಕ್\' ಗೆ ಹೋಗಿ.</string>
+    <string name="snackbar_dismiss">ವಜಾಗೊಳಿಸಿ</string>
+    <string name="menu_history_show_balance">ಬಾಕಿ ಮೊತ್ತ ತೋರಿಸಿ</string>
+    <string name="menu_history_transfers">ವರ್ಗಾವಣೆಗಳನ್ನು ಸೇರಿಸಿ</string>
+    <string name="menu_history">ಇತಿಹಾಸ</string>
+    <!-- A label indicating the color for the sum of expenses -->
+    <string name="history_chart_out_label">ವೆಚ್ಚ</string>
+    <!-- A label indicating the color for the sum of income -->
+    <string name="history_chart_in_label">ಆದಾಯ</string>
+    <string name="menu_history_totals">ಮೊತ್ತವನ್ನು ತೋರಿಸಿ</string>
+    <string name="pref_home_currency_title">ಮನೆ ಕರೆನ್ಸಿ</string>
+    <string name="grand_total">ಒಟ್ಟು ಒಟ್ಟು</string>
+    <string name="menu_original_amount">ಮೂಲ ಮೊತ್ತ</string>
+    <string name="menu_equivalent_amount">ಸಮಾನ ಮೊತ್ತ</string>
+    <string name="home_currency_change_warning">ನಿಮ್ಮ ಮನೆಯ ಕರೆನ್ಸಿಯನ್ನು ನೀವು ಬದಲಾಯಿಸಿದರೆ, ಸಮಾನ ಮೊತ್ತ ಮತ್ತು ವಿನಿಮಯ ದರಗಳು ಕಳೆದುಹೋಗುತ್ತವೆ, ಮತ್ತು ಅದನ್ನು ಮತ್ತೆ ವ್ಯಾಖ್ಯಾನಿಸಬೇಕಾಗುತ್ತದೆ.</string>
+    <string name="warning_split_transactions">ಆಯ್ದ ವಹಿವಾಟುಗಳನ್ನು ಒಂದು ವಿಭಜಿತ ವಹಿವಾಟಾಗಿ ವರ್ಗೀಕರಿಸಲಾಗುತ್ತದೆ. ಅವರ ದಿನಾಂಕದ ಮಾಹಿತಿಯು ಕಳೆದುಹೋಗುತ್ತದೆ, ಅಂದರೆ ಅವುಗಳ ಸರಾಸರಿಯಿಂದ ಬದಲಾಯಿಸಲಾಗುತ್ತದೆ.</string>
+    <string name="warning_ungroup_split_transactions">ಆಯ್ದ ವಿಭಜಿತ ವಹಿವಾಟುಗಳನ್ನು ಗುಂಪು ಮಾಡಲಾಗುವುದಿಲ್ಲ, ಅಂದರೆ ಅವುಗಳ ವಿಭಜಿತ ಭಾಗಗಳು ಸಾಮಾನ್ಯ ವಹಿವಾಟುಗಳಾಗಿ ಮಾರ್ಪಡುತ್ತವೆ.</string>
+    <!-- This is the label for the action that breaks up a split transaction into its parts. -->
+    <string name="menu_ungroup_split_transaction">ಗುಂಪು ವಿಭಜನೆ</string>
+    <plurals name="ungroup_split_transaction_success">
+        <item quantity="one">ಸ್ಪ್ಲಿಟ್ ವಹಿವಾಟನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಗುಂಪು ಮಾಡಲಾಗಿಲ್ಲ.</item>
+        <item quantity="other">%1$d ವಿಭಜಿತ ವಹಿವಾಟುಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಗುಂಪು ಮಾಡಲಾಗಿಲ್ಲ.</item>
+    </plurals>
+    <string name="ungroup_split_transaction_failure">ವಿಭಜಿತ ವಹಿವಾಟುಗಳನ್ನು ಗುಂಪು ಮಾಡದಿದ್ದಾಗ, %2$d ರಲ್ಲಿ %1$d ವಿಫಲವಾಗಿದೆ.</string>
+    <string name="split_transaction_one_success">ವಹಿವಾಟು ಯಶಸ್ವಿಯಾಗಿ ವಿಭಜನೆಯಾಗಿ ರೂಪಾಂತರಗೊಂಡಿದೆ.</string>
+    <string name="split_transaction_one_error">ವಹಿವಾಟನ್ನು ವಿಭಜನೆಗೆ ಪರಿವರ್ತಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ.</string>
+    <string name="split_transaction_group_success">%1$d ವಹಿವಾಟುಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಒಂದು ವಿಭಜಿತ ವಹಿವಾಟಾಗಿ ವರ್ಗೀಕರಿಸಲಾಗಿದೆ.</string>
+    <string name="split_transaction_group_error">ವಹಿವಾಟುಗಳನ್ನು ವಿಭಜಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ.</string>
+    <string name="split_transaction_not_possible">ಒಂದೇ ಖಾತೆ, ಪಾವತಿಸುವವರು ಮತ್ತು ಸ್ಥಿತಿಯನ್ನು ಹೊಂದಿರುವ ವಹಿವಾಟುಗಳನ್ನು ಮಾತ್ರ ಒಂದು ವಿಭಜಿತ ವಹಿವಾಟಾಗಿ ವರ್ಗೀಕರಿಸಬಹುದು.</string>
+    <string name="pref_transaction_time_summary">ನಿಖರವಾದ ವಹಿವಾಟು ಸಮಯವನ್ನು ಹೊಂದಿಸಲು ಅನುಮತಿಸಿ.</string>
+    <string name="pref_value_date_summary">ಬುಕಿಂಗ್ ದಿನಾಂಕದ ಜೊತೆಗೆ ಮೌಲ್ಯ ದಿನಾಂಕವನ್ನು ಹೊಂದಿಸಲು ಅನುಮತಿಸಿ. ವಹಿವಾಟಿನ ಸಮಯವನ್ನು ಮರೆಮಾಡಲಾಗುತ್ತದೆ. ಈ ಸೆಟ್ಟಿಂಗ್ ಅನ್ನು ನಗದು ಖಾತೆಗಳಿಗೆ ಅನ್ವಯಿಸಲಾಗುವುದಿಲ್ಲ.</string>
+    <!-- the date on which the transaction took place, aka transaction date, as opposed to value date -->
+    <string name="booking_date">ಬುಕಿಂಗ್ ದಿನಾಂಕ</string>
+    <!-- the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date -->
+    <string name="value_date">ಮೌಲ್ಯ ದಿನಾಂಕ</string>
+    <string name="licence_expires_n_days">ನಿಮ್ಮ ವೃತ್ತಿಪರ ಕೀ %d ದಿನಗಳಲ್ಲಿ ಮುಕ್ತಾಯಗೊಳ್ಳುತ್ತದೆ.</string>
+    <string name="licence_expires_tomorrow">ನಿಮ್ಮ ವೃತ್ತಿಪರ ಕೀಲಿ ನಾಳೆ ಮುಕ್ತಾಯಗೊಳ್ಳುತ್ತದೆ.</string>
+    <string name="licence_expires_today">ನಿಮ್ಮ ವೃತ್ತಿಪರ ಕೀಲಿಯು ಇಂದು ಮುಕ್ತಾಯಗೊಳ್ಳುತ್ತದೆ.</string>
+    <string name="licence_expired_yesterday">ನಿಮ್ಮ ವೃತ್ತಿಪರ ಕೀ ನಿನ್ನೆ ಅವಧಿ ಮೀರಿದೆ.</string>
+    <string name="licence_has_expired_n_days">ನಿಮ್ಮ ವೃತ್ತಿಪರ ಕೀಲಿಯು %d ದಿನಗಳ ಹಿಂದೆ ಅವಧಿ ಮೀರಿದೆ.</string>
+    <string name="pref_category_title_privacy">ಗೌಪ್ಯತೆ</string>
+    <string name="pref_ad_consent_title">ವೈಯಕ್ತಿಕಗೊಳಿಸಿದ ಜಾಹೀರಾತುಗಳು</string>
+    <string name="ad_consent_non_personalized">ವೈಯಕ್ತೀಕರಿಸದ ಜಾಹೀರಾತುಗಳು</string>
+    <string name="gdpr_consent_message">ನಿಮಗೆ ಜಾಹೀರಾತುಗಳನ್ನು ತೋರಿಸುವ ಮೂಲಕ {app_name} ನ ಬೆಂಬಲ, ನಿರ್ವಹಣೆ ಮತ್ತು ಅಭಿವೃದ್ಧಿಯನ್ನು ಉಳಿಸಿಕೊಳ್ಳಲು ನಾವು {ad_provider} ನೊಂದಿಗೆ ಪಾಲುದಾರರಾಗಿದ್ದೇವೆ. ನಿಮ್ಮ ಒಪ್ಪಿಗೆ ಕೇಳಲು ನಾವು ಬಯಸುತ್ತೇವೆ. ನೀವು ಯಾವುದೇ ಜಾಹೀರಾತುಗಳನ್ನು ನೋಡದಿರಲು ಬಯಸಿದರೆ, ದಯವಿಟ್ಟು ಜಾಹೀರಾತು-ಮುಕ್ತ ಆವೃತ್ತಿಗೆ ಪಾವತಿಸಿ.</string>
+    <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">ಹೌದು, ಜಾಹೀರಾತುಗಳನ್ನು ನೋಡುವುದನ್ನು ಮುಂದುವರಿಸಿ</string>
+    <string name="gdpr_consent_button_no">ಜಾಹೀರಾತು-ಮುಕ್ತ ಆವೃತ್ತಿಗೆ ಪಾವತಿಸಿ</string>
+    <string name="sort_order">ವಿಂಗಡಣೆ ಆದೇಶ</string>
+    <string name="navigation_drawer_accounts_title">ಖಾತೆಗಳನ್ನು ನಿರ್ವಹಿಸಿ</string>
+    <string name="pref_sync_wifi_only_summary">ವೈ-ಫೈನಲ್ಲಿರುವಾಗ ಮಾತ್ರ ಸಿಂಕ್ ಮಾಡಿ</string>
+    <string name="pref_sync_changes_immediately_summary">ಸ್ಥಳೀಯ ಬದಲಾವಣೆಗಳನ್ನು ತಕ್ಷಣ ಬ್ಯಾಕೆಂಡ್‌ಗೆ ಬರೆಯಿರಿ</string>
+    <string name="wifi_not_connected">ಸಾಧನವು Wi-Fi ಗೆ ಸಂಪರ್ಕಗೊಂಡಿಲ್ಲ. ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಮುಂದೂಡಲ್ಪಟ್ಟಿದೆ.</string>
+    <!-- title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project -->
+    <string name="pref_translation_title">ಅನುವಾದ</string>
+    <!-- Content description for accessibility on image that allows to collapse content  -->
+    <string name="content_description_collapse">ಕುಗ್ಗಿಸು</string>
+    <!-- Content description for accessibility on image that allows to expand content  -->
+    <string name="content_description_expand">ವಿಸ್ತರಿಸಲು</string>
+    <!-- Short label for the amount input where user can set either saving goal or credit limit -->
+    <string name="goal_or_limit">ಗುರಿ / ಮಿತಿ</string>
+    <string name="saving_goal">ಗುರಿ ಉಳಿಸಲಾಗುತ್ತಿದೆ</string>
+    <string name="credit_limit">ಸಾಲದ ಮಿತಿ</string>
+    <string name="clear_all_filters">ಎಲ್ಲಾ ಫಿಲ್ಟರ್‌ಗಳನ್ನು ತೆರವುಗೊಳಿಸಿ</string>
+    <string name="pref_scroll_to_current_date_summary">ಅಪ್ಲಿಕೇಶನ್ ಪ್ರಾರಂಭವಾದ ನಂತರ, ವ್ಯವಹಾರ ಪಟ್ಟಿಯನ್ನು ಪ್ರಸ್ತುತ ದಿನಾಂಕಕ್ಕೆ ಸ್ಕ್ರಾಲ್ ಮಾಡಿ</string>
+    <string name="professional_key_fallback_info">ವೃತ್ತಿಪರ ಕೀಗೆ ಚಂದಾದಾರಿಕೆ ಕನಿಷ್ಠ ಒಂದು ವರ್ಷ ಸಕ್ರಿಯವಾಗಿದೆ ಮತ್ತು ನವೀಕರಿಸಲಾಗಿಲ್ಲ, ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಅನಿಯಮಿತ ವಿಸ್ತೃತ ಕೀ ಆಗಿ ಪರಿವರ್ತನೆಗೊಳ್ಳುತ್ತದೆ.</string>
+    <string name="menu_budget">ಬಜೆಟ್</string>
+    <string name="dialog_title_edit_budget">ಬಜೆಟ್ ಸಂಪಾದಿಸಿ</string>
+    <string name="budget_table_header_budgeted">ಬಜೆಟ್ ಮಾಡಲಾಗಿದೆ</string>
+    <string name="budget_table_header_allocated">ಹಂಚಿಕೆ</string>
+    <string name="budget_table_header_spent">ಖರ್ಚು ಮಾಡಿದೆ</string>
+    <string name="budget_table_header_remainder">ಉಳಿದ</string>
+    <string name="budget_allocated_amount">ನಿಗದಿಪಡಿಸಿದ ಮೊತ್ತ</string>
+    <string name="budget_exceeded_error_1_1">ನಿಮ್ಮ ಬಜೆಟ್‌ನ %s ಹೊರತುಪಡಿಸಿ ಉಳಿದೆಲ್ಲವನ್ನು ಇತರ ವರ್ಗಗಳಿಗೆ ಹಂಚಲಾಗಿದೆ.</string>
+    <string name="budget_exceeded_error_1_2">ನಿಮ್ಮ ಎಲ್ಲಾ ಬಜೆಟ್ ಅನ್ನು ಇತರ ವರ್ಗಗಳಿಗೆ ನಿಗದಿಪಡಿಸಲಾಗಿದೆ.</string>
+    <string name="budget_exceeded_error_2">ಬಜೆಟ್ ಮೊತ್ತವನ್ನು ಹೆಚ್ಚಿಸಿ, ಅಥವಾ ಇತರ ವರ್ಗಗಳಿಂದ ಹಣವನ್ನು ತೆಗೆದುಹಾಕಿ.</string>
+    <string name="budget_under_allocated_error">%s ಅನ್ನು ಈಗಾಗಲೇ ವರ್ಗಗಳಿಗೆ ಹಂಚಲಾಗಿದೆ. ನೀವು ಅವರಿಂದ ಹಣವನ್ನು ತೆಗೆದುಹಾಕದ ಹೊರತು, ನೀವು ಕನಿಷ್ಟ ಆ ಮೊತ್ತವನ್ನು ಬಜೆಟ್ ಮಾಡಬೇಕು.</string>
+    <string name="sub_budget_exceeded_error_1_1">ಮುಖ್ಯ ವರ್ಗಕ್ಕೆ ನಿಗದಿಪಡಿಸಿದ ಮೊತ್ತದ %s ಹೊರತುಪಡಿಸಿ ಉಳಿದೆಲ್ಲವನ್ನು ಇತರ ಉಪ-ವರ್ಗಗಳಿಗೆ ಹಂಚಲಾಗಿದೆ.</string>
+    <string name="sub_budget_exceeded_error_1_2">ಮುಖ್ಯ ವರ್ಗಕ್ಕೆ ನಿಗದಿಪಡಿಸಿದ ಎಲ್ಲಾ ಮೊತ್ತವನ್ನು ಇತರ ಉಪ-ವರ್ಗಗಳಿಗೆ ನಿಗದಿಪಡಿಸಲಾಗಿದೆ.</string>
+    <string name="sub_budget_exceeded_error_2">ಮುಖ್ಯ ವರ್ಗಕ್ಕೆ ನಿಗದಿಪಡಿಸಿದ ಮೊತ್ತವನ್ನು ಹೆಚ್ಚಿಸಿ, ಅಥವಾ ಇತರ ಉಪ-ವರ್ಗಗಳಿಂದ ಹಣವನ್ನು ತೆಗೆದುಹಾಕಿ.</string>
+    <string name="sub_budget_under_allocated_error">%s ಅನ್ನು ಈಗಾಗಲೇ ಉಪ-ವರ್ಗಗಳಿಗೆ ಹಂಚಲಾಗಿದೆ. ನೀವು ಅವರಿಂದ ಹಣವನ್ನು ತೆಗೆದುಹಾಕದ ಹೊರತು, ನೀವು ಕನಿಷ್ಟ ಆ ಮೊತ್ತವನ್ನು ಮುಖ್ಯ ವರ್ಗಕ್ಕೆ ನಿಯೋಜಿಸಬೇಕು.</string>
+    <!-- Description for button that allows to clear the selected method -->
+    <string name="content_description_clear_method">ವಿಧಾನವನ್ನು ತೆರವುಗೊಳಿಸಿ</string>
+    <!-- Description for button that allows to clear the selected category -->
+    <string name="content_description_clear_category">ವರ್ಗವನ್ನು ತೆರವುಗೊಳಿಸಿ</string>
+    <string name="currency_code">ಕೋಡ್</string>
+    <string name="dialog_title_new_currency">ಹೊಸ ಕರೆನ್ಸಿ</string>
+    <string name="currency_code_already_definded">ಕರೆನ್ಸಿ ಕೋಡ್ ಅನ್ನು ಈಗಾಗಲೇ ವ್ಯಾಖ್ಯಾನಿಸಲಾಗಿದೆ.</string>
+    <string name="currency_still_used">ಕರೆನ್ಸಿ ಬಳಕೆಯಲ್ಲಿದೆ, ಅಳಿಸಲಾಗುವುದಿಲ್ಲ.</string>
+    <string name="unmapped">ಅನ್‌ಮ್ಯಾಪ್ ಮಾಡಲಾಗಿದೆ</string>
+    <!-- In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
-    but we warn the user if he includes this special item in the selection.-->
-  <string name="unmapped_filter_only_single">\'ಅನ್ಮ್ಯಾಪ್ಡ್\' ಫಿಲ್ಟರ್ ಅನ್ನು ಬಹು ಆಯ್ಕೆಯಲ್ಲಿ ಸೇರಿಸಲಾಗುವುದಿಲ್ಲ</string>
-  <string name="upgrade_information_cloud_sync_storage_format">ಆವೃತ್ತಿ 2.9.8 ರೊಂದಿಗೆ, ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಬ್ಯಾಕೆಂಡ್‌ಗಳಲ್ಲಿ ಡೇಟಾವನ್ನು ಸಂಗ್ರಹಿಸುವ ವಿಧಾನವು ಬದಲಾಗಿದೆ. ಯಾವುದೇ ಹೊಸ ದಾಖಲೆಗಳನ್ನು ನಮೂದಿಸುವ ಮೊದಲು ದಯವಿಟ್ಟು ಎಲ್ಲಾ ಸಿಂಕ್ ಮಾಡಿದ ಸಾಧನಗಳಲ್ಲಿ ಈ ಆವೃತ್ತಿಗೆ ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡಿ.</string>
-  <string name="pref_security_export_passphrase_title">ಬ್ಯಾಕಪ್‌ಗಳಿಗಾಗಿ ಪಾಸ್‌ಫ್ರೇಸ್</string>
-  <string name="pref_security_export_passphrase_summary">ಈ ಪಾಸ್‌ಫ್ರೇಸ್‌ನೊಂದಿಗೆ ಬ್ಯಾಕಪ್‌ಗಳನ್ನು ಎನ್‌ಕ್ರಿಪ್ಟ್ ಮಾಡಲಾಗುತ್ತದೆ</string>
-  <string name="backup_is_encrypted">ಬ್ಯಾಕಪ್ ಫೈಲ್ ಅನ್ನು ಎನ್‌ಕ್ರಿಪ್ಟ್ ಮಾಡಲಾಗಿದೆ. ಅದನ್ನು ಡೀಕ್ರಿಪ್ಟ್ ಮಾಡಲು, ನೀವು ಅದರ ಪಾಸ್‌ಫ್ರೇಸ್ ಅನ್ನು ನಿರ್ದಿಷ್ಟಪಡಿಸಬೇಕು.</string>
-  <string name="backup_wrong_password">ಬ್ಯಾಕಪ್ ಫೈಲ್ ಬೇರೆ ಪಾಸ್‌ಫ್ರೇಸ್‌ನೊಂದಿಗೆ ಎನ್‌ಕ್ರಿಪ್ಟ್ ಮಾಡಲಾಗಿದೆ.</string>
-  <string name="passphrase_for_synchronization">ಈ ಬ್ಯಾಕೆಂಡ್‌ನಲ್ಲಿ ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಡೇಟಾವನ್ನು ಎನ್‌ಕ್ರಿಪ್ಟ್ ಮಾಡಲು ನೀವು ಬಯಸಿದರೆ ಪಾಸ್‌ಫ್ರೇಸ್ ಅನ್ನು ನಮೂದಿಸಿ.</string>
-  <string name="sync_backend_is_encrypted">ರಿಮೋಟ್ ಬ್ಯಾಕೆಂಡ್ ಅನ್ನು ಎನ್‌ಕ್ರಿಪ್ಟ್ ಮಾಡಲಾಗಿದೆ. ನೀವು ಪಾಸ್ಫ್ರೇಸ್ ಅನ್ನು ನಿರ್ದಿಷ್ಟಪಡಿಸಬೇಕು.</string>
-  <string name="sync_backend_wrong_passphrase">ರಿಮೋಟ್ ಬ್ಯಾಕೆಂಡ್ ಬೇರೆ ಪಾಸ್‌ಫ್ರೇಸ್‌ನೊಂದಿಗೆ ಎನ್‌ಕ್ರಿಪ್ಟ್ ಮಾಡಲಾಗಿದೆ.</string>
-  <string name="sync_backend_is_not_encrypted">ರಿಮೋಟ್ ಬ್ಯಾಕೆಂಡ್ ಅನ್ನು ಎನ್‌ಕ್ರಿಪ್ಟ್ ಮಾಡಲಾಗಿಲ್ಲ.</string>
-  <string name="warning_backup_protected">ನಿಮ್ಮ ಪಾಸ್‌ಫ್ರೇಸ್‌ನಿಂದ ಆರ್ಕೈವ್ ಅನ್ನು ರಕ್ಷಿಸಲಾಗುತ್ತದೆ.</string>
-  <string name="dialog_title_backup_protected">ಬ್ಯಾಕಪ್ (ಎನ್‌ಕ್ರಿಪ್ಟ್ ಮಾಡಲಾಗಿದೆ)</string>
-  <string name="input_label_passphrase">ಪಾಸ್ಫ್ರೇಸ್</string>
-  <string name="button_label_no_encryption">ಗೂ ry ಲಿಪೀಕರಣವಿಲ್ಲದೆ</string>
-  <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
-  <string name="joining_or">ಅಥವಾ</string>
-  <string name="pref_account_list_fast_scroll_summary">ಖಾತೆ ಪಟ್ಟಿಗಾಗಿ ವೇಗದ ಸ್ಕ್ರಾಲ್ ಅನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ. ಕೆಲವು ಸಾಧನಗಳಲ್ಲಿ ತಪ್ಪಾದ ಪ್ರದರ್ಶನಕ್ಕೆ ಕಾರಣವಾಗಬಹುದು</string>
-  <string name="menu_hide">ಮರೆಮಾಡಿ</string>
-  <!--Action of closing an account. A closed account does not allow any modifications on its data.-->
-  <string name="menu_close">ಮುಚ್ಚಿ</string>
-  <!--Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data.-->
-  <string name="menu_reopen">ಮತ್ತೆ ತೆರೆಯಿರಿ</string>
-  <!--Menu entry for opening a list of all hidden accounts.-->
-  <string name="menu_hidden_accounts">ಗುಪ್ತ ಖಾತೆಗಳು</string>
-  <!--Action of showing an account again that had previously been hidden.-->
-  <string name="button_label_show">ತೋರಿಸು</string>
-  <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
-  <string name="content_description_encrypted">ಎನ್‌ಕ್ರಿಪ್ಟ್ ಮಾಡಲಾಗಿದೆ</string>
-  <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
-  <string name="content_description_closed">ಮುಚ್ಚಲಾಗಿದೆ</string>
-  <string name="warning_synced_account_cannot_be_closed">ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಬ್ಯಾಕೆಂಡ್‌ಗೆ ಲಿಂಕ್ ಮಾಡಲಾದ ಖಾತೆಯನ್ನು ಮುಚ್ಚಲಾಗುವುದಿಲ್ಲ</string>
-  <string name="translated_by">ಅನುವಾದಿಸಿದ್ದಾರೆ</string>
-  <string name="warning_no_account">ಹೊಸ ವಹಿವಾಟುಗಳನ್ನು ರಚಿಸಲು ಕನಿಷ್ಠ ಒಂದು ಖಾತೆಯಾದರೂ ಗೋಚರಿಸಬೇಕು ಮತ್ತು ತೆರೆಯಬೇಕು.</string>
-  <string name="content_description_dates_are_linked">ಬುಕಿಂಗ್ ದಿನಾಂಕ ಮತ್ತು ಮೌಲ್ಯದ ದಿನಾಂಕವನ್ನು ಒಟ್ಟಿಗೆ ನವೀಕರಿಸಲಾಗುತ್ತದೆ</string>
-  <string name="content_description_dates_are_not_linked">ಬುಕಿಂಗ್ ದಿನಾಂಕ ಮತ್ತು ಮೌಲ್ಯದ ದಿನಾಂಕವನ್ನು ಒಟ್ಟಿಗೆ ನವೀಕರಿಸಲಾಗುವುದಿಲ್ಲ</string>
-  <string name="icon">ಐಕಾನ್</string>
-  <string name="pref_debug_title">ಡೀಬಗ್ ಮಾಡಿ</string>
-  <string name="roadmap_vote">ಮಾರ್ಗಸೂಚಿ ಮತ</string>
-  <string name="warning_account_for_transaction_is_closed">ಆಯ್ದ ವಹಿವಾಟುಗಳಲ್ಲಿ ಒಂದನ್ನು ಸಂಪಾದಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ:</string>
-  <string name="object_sealed">ವಸ್ತು ಮುಚ್ಚಿದ ಖಾತೆಯನ್ನು ಸೂಚಿಸುತ್ತದೆ.</string>
-  <string name="content_description_download_exchange_rate">ವಿನಿಮಯ ದರವನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ</string>
-  <string name="exchange_rate_not_supported">ಕಾನ್ಫಿಗರ್ ಮಾಡಿದ ವಿನಿಮಯ ದರ ಒದಗಿಸುವವರು %1$s: %2$s ದರವನ್ನು ಒದಗಿಸುವುದಿಲ್ಲ. ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ನೀವು ಬೇರೆಯದನ್ನು ಆಯ್ಕೆ ಮಾಡಲು ಪ್ರಯತ್ನಿಸಬಹುದು.</string>
-  <string name="pref_category_exchange_rates">ವಿನಿಮಯ ದರಗಳು</string>
-  <string name="pref_exchange_rate_provider_summary">ವಿನಿಮಯ ದರಗಳನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಲು ಒದಗಿಸುವವರನ್ನು ಆಯ್ಕೆಮಾಡಿ</string>
-  <string name="pref_exchange_rate_provider_title">ವಿನಿಮಯ ದರ ಒದಗಿಸುವವರು</string>
-  <string name="pref_openexchangerates_app_id_summary">ದಯವಿಟ್ಟು ಓಪನ್ ಎಕ್ಸ್ಚೇಂಜ್ ದರಗಳಲ್ಲಿ ಉಚಿತ ಖಾತೆಯನ್ನು ನೋಂದಾಯಿಸಿ ಮತ್ತು ನಿಮ್ಮ ಅಪ್ಲಿಕೇಶನ್ ಐಡಿ ಒದಗಿಸಿ</string>
-  <string name="pref_plan_executor_time_title">ಯೋಜಕರ ಅಧಿಸೂಚನೆ ಸಮಯ</string>
-  <string name="synchronization_select_folder_dialog_title">ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ಫೋಲ್ಡರ್ ಆಯ್ಕೆಮಾಡಿ ಅಥವಾ ಹೊಸದನ್ನು ರಚಿಸಿ</string>
-  <!--This message is shwon when we highlight the income / expense toogle, to make user aware of this feature-->
-  <string name="discover_feature_expense_income_switch">ಆದಾಯವನ್ನು ದಾಖಲಿಸಲು ಈ ಸ್ವಿಚ್ ಬಟನ್ ಬಳಸಿ.</string>
-  <string name="menu_create_budget">ಹೊಸ ಬಜೆಟ್</string>
-  <string name="budget_onetime">ಒಂದು ಬಾರಿ</string>
-  <string name="dialog_confirm_discard_new_budget">ಹೊಸ ಬಜೆಟ್ ಅನ್ನು ತ್ಯಜಿಸುವುದೇ?</string>
-  <string name="budget_duration_from">ಇಂದ</string>
-  <string name="budget_duration_to">ಗೆ</string>
-  <string name="no_budgets">+ ಬಟನ್ ಟ್ಯಾಪ್ ಮಾಡುವ ಮೂಲಕ ನಿಮ್ಮ ಮೊದಲ ಬಜೆಟ್ ಅನ್ನು ವಿವರಿಸಿ.</string>
-  <string name="budget_date_end_after_start">ಬಜೆಟ್ನ ಅಂತಿಮ ದಿನಾಂಕವು ಅದರ ಪ್ರಾರಂಭದ ದಿನಾಂಕದ ನಂತರ ಬರಬೇಕು.</string>
-  <string name="menu_budget_allocated_only">ಹಂಚಿಕೆಯೊಂದಿಗೆ ವರ್ಗಗಳನ್ನು ಮಾತ್ರ ತೋರಿಸಿ</string>
-  <string name="budget_filter_all_categories">ಎಲ್ಲಾ ವಿಭಾಗಗಳು</string>
-  <string name="budget_filter_all_parties">ಎಲ್ಲಾ ಪಕ್ಷಗಳು</string>
-  <string name="budget_filter_all_methods">ಎಲ್ಲಾ ವಿಧಾನಗಳು</string>
-  <string name="budget_filter_all_states">ಎಲ್ಲಾ ಸ್ಥಿತಿ</string>
-  <string name="budget_filter_all_tags">ಎಲ್ಲಾ ಟ್ಯಾಗ್‌ಗಳು</string>
-  <string name="budget_form_label_filter">ಫಿಲ್ಟರ್ ಮಾಡಿ</string>
-  <string name="dialog_title_warning_delete_budget">ಬಜೆಟ್ ಅಳಿಸುವುದೇ?</string>
-  <string name="warning_delete_budget">ಬಜೆಟ್ \"%1$s\" ಅನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.</string>
-  <string name="menu_edit_budget">ಬಜೆಟ್ ಸಂಪಾದಿಸಿ</string>
-  <string name="onboarding_privacy_title">ನಿಮ್ಮ ಡೇಟಾ ನಿಮ್ಮ ಕೈಯಲ್ಲಿರುತ್ತದೆ</string>
-  <string name="onboarding_privacy_intro">ನಿಮ್ಮ ಹಣಕಾಸಿನ ಡೇಟಾವನ್ನು ಯಾವುದೇ ಸರ್ವರ್‌ಗೆ ಕಳುಹಿಸಲಾಗುವುದಿಲ್ಲ, ನಮ್ಮಿಂದ ಅಥವಾ ಯಾವುದೇ ಮೂರನೇ ವ್ಯಕ್ತಿಯಿಂದ ನಿರ್ವಹಿಸುವುದಿಲ್ಲ.</string>
-  <string name="app_restart_required">ಹೊಸ ಕಾನ್ಫಿಗರೇಶನ್ ಕಾರ್ಯಗತಗೊಳ್ಳಲು ಅಪ್ಲಿಕೇಶನ್ ಮರುಪ್ರಾರಂಭದ ಅಗತ್ಯವಿದೆ.</string>
-  <!--Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list.-->
-  <string name="checkbox_is_default">ಡೀಫಾಲ್ಟ್</string>
-  <!--Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method"-->
-  <string name="menu_remap">ರೀಮ್ಯಾಪ್</string>
-  <string name="dialog_title_confirm_remap">ಮ್ಯಾಪಿಂಗ್ ಅನ್ನು ಬದಲಾಯಿಸಿ (%s)?</string>
-  <string name="remap_category">ಎಲ್ಲಾ ಆಯ್ದ ವಹಿವಾಟುಗಳನ್ನು %s ವರ್ಗಕ್ಕೆ ಮ್ಯಾಪ್ ಮಾಡಲಾಗುತ್ತದೆ.</string>
-  <string name="remap_payee">ಎಲ್ಲಾ ಆಯ್ದ ವಹಿವಾಟುಗಳನ್ನು ಪಾವತಿಸುವವರು / ಪಾವತಿಸುವವರು %s ಗೆ ಮ್ಯಾಪ್ ಮಾಡಲಾಗುತ್ತದೆ.</string>
-  <string name="remap_method">ಎಲ್ಲಾ ಆಯ್ದ ವಹಿವಾಟುಗಳನ್ನು %s ವಿಧಾನಕ್ಕೆ ಮ್ಯಾಪ್ ಮಾಡಲಾಗುತ್ತದೆ.</string>
-  <string name="remap_account">ಎಲ್ಲಾ ಆಯ್ದ ವಹಿವಾಟುಗಳನ್ನು %s ಖಾತೆಗೆ ಮ್ಯಾಪ್ ಮಾಡಲಾಗುತ್ತದೆ.</string>
-  <string name="remapping_result">ಆಯ್ದ ವಹಿವಾಟುಗಳನ್ನು ಮರುರೂಪಿಸಲಾಯಿತು.</string>
-  <string name="clone_and_remap_result">ಆಯ್ದ ವಹಿವಾಟುಗಳನ್ನು ಅಬೀಜ ಸಂತಾನೋತ್ಪತ್ತಿ ಮಾಡಲಾಯಿತು.</string>
-  <!--If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
+    but we warn the user if he includes this special item in the selection.   -->
+    <string name="unmapped_filter_only_single">\'ಅನ್ಮ್ಯಾಪ್ಡ್\' ಫಿಲ್ಟರ್ ಅನ್ನು ಬಹು ಆಯ್ಕೆಯಲ್ಲಿ ಸೇರಿಸಲಾಗುವುದಿಲ್ಲ</string>
+    <string name="upgrade_information_cloud_sync_storage_format">ಆವೃತ್ತಿ 2.9.8 ರೊಂದಿಗೆ, ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಬ್ಯಾಕೆಂಡ್‌ಗಳಲ್ಲಿ ಡೇಟಾವನ್ನು ಸಂಗ್ರಹಿಸುವ ವಿಧಾನವು ಬದಲಾಗಿದೆ. ಯಾವುದೇ ಹೊಸ ದಾಖಲೆಗಳನ್ನು ನಮೂದಿಸುವ ಮೊದಲು ದಯವಿಟ್ಟು ಎಲ್ಲಾ ಸಿಂಕ್ ಮಾಡಿದ ಸಾಧನಗಳಲ್ಲಿ ಈ ಆವೃತ್ತಿಗೆ ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡಿ.</string>
+    <string name="pref_security_export_passphrase_title">ಬ್ಯಾಕಪ್‌ಗಳಿಗಾಗಿ ಪಾಸ್‌ಫ್ರೇಸ್</string>
+    <string name="pref_security_export_passphrase_summary">ಈ ಪಾಸ್‌ಫ್ರೇಸ್‌ನೊಂದಿಗೆ ಬ್ಯಾಕಪ್‌ಗಳನ್ನು ಎನ್‌ಕ್ರಿಪ್ಟ್ ಮಾಡಲಾಗುತ್ತದೆ</string>
+    <string name="backup_is_encrypted">ಬ್ಯಾಕಪ್ ಫೈಲ್ ಅನ್ನು ಎನ್‌ಕ್ರಿಪ್ಟ್ ಮಾಡಲಾಗಿದೆ. ಅದನ್ನು ಡೀಕ್ರಿಪ್ಟ್ ಮಾಡಲು, ನೀವು ಅದರ ಪಾಸ್‌ಫ್ರೇಸ್ ಅನ್ನು ನಿರ್ದಿಷ್ಟಪಡಿಸಬೇಕು.</string>
+    <string name="backup_wrong_password">ಬ್ಯಾಕಪ್ ಫೈಲ್ ಬೇರೆ ಪಾಸ್‌ಫ್ರೇಸ್‌ನೊಂದಿಗೆ ಎನ್‌ಕ್ರಿಪ್ಟ್ ಮಾಡಲಾಗಿದೆ.</string>
+    <string name="passphrase_for_synchronization">ಈ ಬ್ಯಾಕೆಂಡ್‌ನಲ್ಲಿ ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಡೇಟಾವನ್ನು ಎನ್‌ಕ್ರಿಪ್ಟ್ ಮಾಡಲು ನೀವು ಬಯಸಿದರೆ ಪಾಸ್‌ಫ್ರೇಸ್ ಅನ್ನು ನಮೂದಿಸಿ.</string>
+    <string name="sync_backend_is_encrypted">ರಿಮೋಟ್ ಬ್ಯಾಕೆಂಡ್ ಅನ್ನು ಎನ್‌ಕ್ರಿಪ್ಟ್ ಮಾಡಲಾಗಿದೆ. ನೀವು ಪಾಸ್ಫ್ರೇಸ್ ಅನ್ನು ನಿರ್ದಿಷ್ಟಪಡಿಸಬೇಕು.</string>
+    <string name="sync_backend_wrong_passphrase">ರಿಮೋಟ್ ಬ್ಯಾಕೆಂಡ್ ಬೇರೆ ಪಾಸ್‌ಫ್ರೇಸ್‌ನೊಂದಿಗೆ ಎನ್‌ಕ್ರಿಪ್ಟ್ ಮಾಡಲಾಗಿದೆ.</string>
+    <string name="sync_backend_is_not_encrypted">ರಿಮೋಟ್ ಬ್ಯಾಕೆಂಡ್ ಅನ್ನು ಎನ್‌ಕ್ರಿಪ್ಟ್ ಮಾಡಲಾಗಿಲ್ಲ.</string>
+    <string name="warning_backup_protected">ನಿಮ್ಮ ಪಾಸ್‌ಫ್ರೇಸ್‌ನಿಂದ ಆರ್ಕೈವ್ ಅನ್ನು ರಕ್ಷಿಸಲಾಗುತ್ತದೆ.</string>
+    <string name="dialog_title_backup_protected">ಬ್ಯಾಕಪ್ (ಎನ್‌ಕ್ರಿಪ್ಟ್ ಮಾಡಲಾಗಿದೆ)</string>
+    <string name="input_label_passphrase">ಪಾಸ್ಫ್ರೇಸ್</string>
+    <string name="button_label_no_encryption">ಗೂ ry ಲಿಪೀಕರಣವಿಲ್ಲದೆ</string>
+    <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->
+    <string name="joining_or">ಅಥವಾ</string>
+    <string name="pref_account_list_fast_scroll_summary">ಖಾತೆ ಪಟ್ಟಿಗಾಗಿ ವೇಗದ ಸ್ಕ್ರಾಲ್ ಅನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ. ಕೆಲವು ಸಾಧನಗಳಲ್ಲಿ ತಪ್ಪಾದ ಪ್ರದರ್ಶನಕ್ಕೆ ಕಾರಣವಾಗಬಹುದು</string>
+    <string name="menu_hide">ಮರೆಮಾಡಿ</string>
+    <!-- Action of closing an account. A closed account does not allow any modifications on its data. -->
+    <string name="menu_close">ಮುಚ್ಚಿ</string>
+    <!-- Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data. -->
+    <string name="menu_reopen">ಮತ್ತೆ ತೆರೆಯಿರಿ</string>
+    <!-- Menu entry for opening a list of all hidden accounts. -->
+    <string name="menu_hidden_accounts">ಗುಪ್ತ ಖಾತೆಗಳು</string>
+    <!-- Action of showing an account again that had previously been hidden. -->
+    <string name="button_label_show">ತೋರಿಸು</string>
+    <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
+    <string name="content_description_encrypted">ಎನ್‌ಕ್ರಿಪ್ಟ್ ಮಾಡಲಾಗಿದೆ</string>
+    <!-- Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data. -->
+    <string name="content_description_closed">ಮುಚ್ಚಲಾಗಿದೆ</string>
+    <string name="warning_synced_account_cannot_be_closed">ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಬ್ಯಾಕೆಂಡ್‌ಗೆ ಲಿಂಕ್ ಮಾಡಲಾದ ಖಾತೆಯನ್ನು ಮುಚ್ಚಲಾಗುವುದಿಲ್ಲ</string>
+    <string name="translated_by">ಅನುವಾದಿಸಿದ್ದಾರೆ</string>
+    <string name="warning_no_account">ಹೊಸ ವಹಿವಾಟುಗಳನ್ನು ರಚಿಸಲು ಕನಿಷ್ಠ ಒಂದು ಖಾತೆಯಾದರೂ ಗೋಚರಿಸಬೇಕು ಮತ್ತು ತೆರೆಯಬೇಕು.</string>
+    <string name="content_description_dates_are_linked">ಬುಕಿಂಗ್ ದಿನಾಂಕ ಮತ್ತು ಮೌಲ್ಯದ ದಿನಾಂಕವನ್ನು ಒಟ್ಟಿಗೆ ನವೀಕರಿಸಲಾಗುತ್ತದೆ</string>
+    <string name="content_description_dates_are_not_linked">ಬುಕಿಂಗ್ ದಿನಾಂಕ ಮತ್ತು ಮೌಲ್ಯದ ದಿನಾಂಕವನ್ನು ಒಟ್ಟಿಗೆ ನವೀಕರಿಸಲಾಗುವುದಿಲ್ಲ</string>
+    <string name="icon">ಐಕಾನ್</string>
+    <string name="pref_debug_title">ಡೀಬಗ್ ಮಾಡಿ</string>
+    <string name="roadmap_vote">ಮಾರ್ಗಸೂಚಿ ಮತ</string>
+    <string name="warning_account_for_transaction_is_closed">ಆಯ್ದ ವಹಿವಾಟುಗಳಲ್ಲಿ ಒಂದನ್ನು ಸಂಪಾದಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ:</string>
+    <string name="object_sealed">ವಸ್ತು ಮುಚ್ಚಿದ ಖಾತೆಯನ್ನು ಸೂಚಿಸುತ್ತದೆ.</string>
+    <string name="content_description_download_exchange_rate">ವಿನಿಮಯ ದರವನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ</string>
+    <string name="exchange_rate_not_supported">ಕಾನ್ಫಿಗರ್ ಮಾಡಿದ ವಿನಿಮಯ ದರ ಒದಗಿಸುವವರು %1$s: %2$s ದರವನ್ನು ಒದಗಿಸುವುದಿಲ್ಲ. ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ನೀವು ಬೇರೆಯದನ್ನು ಆಯ್ಕೆ ಮಾಡಲು ಪ್ರಯತ್ನಿಸಬಹುದು.</string>
+    <string name="pref_category_exchange_rates">ವಿನಿಮಯ ದರಗಳು</string>
+    <string name="pref_exchange_rate_provider_summary">ವಿನಿಮಯ ದರಗಳನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಲು ಒದಗಿಸುವವರನ್ನು ಆಯ್ಕೆಮಾಡಿ</string>
+    <string name="pref_exchange_rate_provider_title">ವಿನಿಮಯ ದರ ಒದಗಿಸುವವರು</string>
+    <string name="pref_openexchangerates_app_id_summary">ದಯವಿಟ್ಟು ಓಪನ್ ಎಕ್ಸ್ಚೇಂಜ್ ದರಗಳಲ್ಲಿ ಉಚಿತ ಖಾತೆಯನ್ನು ನೋಂದಾಯಿಸಿ ಮತ್ತು ನಿಮ್ಮ ಅಪ್ಲಿಕೇಶನ್ ಐಡಿ ಒದಗಿಸಿ</string>
+    <string name="pref_plan_executor_time_title">ಯೋಜಕರ ಅಧಿಸೂಚನೆ ಸಮಯ</string>
+    <string name="synchronization_select_folder_dialog_title">ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ಫೋಲ್ಡರ್ ಆಯ್ಕೆಮಾಡಿ ಅಥವಾ ಹೊಸದನ್ನು ರಚಿಸಿ</string>
+    <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->
+    <string name="discover_feature_expense_income_switch">ಆದಾಯವನ್ನು ದಾಖಲಿಸಲು ಈ ಸ್ವಿಚ್ ಬಟನ್ ಬಳಸಿ.</string>
+    <string name="menu_create_budget">ಹೊಸ ಬಜೆಟ್</string>
+    <string name="budget_onetime">ಒಂದು ಬಾರಿ</string>
+    <string name="dialog_confirm_discard_new_budget">ಹೊಸ ಬಜೆಟ್ ಅನ್ನು ತ್ಯಜಿಸುವುದೇ?</string>
+    <string name="budget_duration_from">ಇಂದ</string>
+    <string name="budget_duration_to">ಗೆ</string>
+    <string name="no_budgets">+ ಬಟನ್ ಟ್ಯಾಪ್ ಮಾಡುವ ಮೂಲಕ ನಿಮ್ಮ ಮೊದಲ ಬಜೆಟ್ ಅನ್ನು ವಿವರಿಸಿ.</string>
+    <string name="budget_date_end_after_start">ಬಜೆಟ್ನ ಅಂತಿಮ ದಿನಾಂಕವು ಅದರ ಪ್ರಾರಂಭದ ದಿನಾಂಕದ ನಂತರ ಬರಬೇಕು.</string>
+    <string name="menu_budget_allocated_only">ಹಂಚಿಕೆಯೊಂದಿಗೆ ವರ್ಗಗಳನ್ನು ಮಾತ್ರ ತೋರಿಸಿ</string>
+    <string name="budget_filter_all_categories">ಎಲ್ಲಾ ವಿಭಾಗಗಳು</string>
+    <string name="budget_filter_all_parties">ಎಲ್ಲಾ ಪಕ್ಷಗಳು</string>
+    <string name="budget_filter_all_methods">ಎಲ್ಲಾ ವಿಧಾನಗಳು</string>
+    <string name="budget_filter_all_states">ಎಲ್ಲಾ ಸ್ಥಿತಿ</string>
+    <string name="budget_filter_all_tags">ಎಲ್ಲಾ ಟ್ಯಾಗ್‌ಗಳು</string>
+    <string name="budget_form_label_filter">ಫಿಲ್ಟರ್ ಮಾಡಿ</string>
+    <string name="dialog_title_warning_delete_budget">ಬಜೆಟ್ ಅಳಿಸುವುದೇ?</string>
+    <string name="warning_delete_budget">ಬಜೆಟ್ \"%1$s\" ಅನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.</string>
+    <string name="menu_edit_budget">ಬಜೆಟ್ ಸಂಪಾದಿಸಿ</string>
+    <string name="onboarding_privacy_title">ನಿಮ್ಮ ಡೇಟಾ ನಿಮ್ಮ ಕೈಯಲ್ಲಿರುತ್ತದೆ</string>
+    <string name="onboarding_privacy_intro">ನಿಮ್ಮ ಹಣಕಾಸಿನ ಡೇಟಾವನ್ನು ಯಾವುದೇ ಸರ್ವರ್‌ಗೆ ಕಳುಹಿಸಲಾಗುವುದಿಲ್ಲ, ನಮ್ಮಿಂದ ಅಥವಾ ಯಾವುದೇ ಮೂರನೇ ವ್ಯಕ್ತಿಯಿಂದ ನಿರ್ವಹಿಸುವುದಿಲ್ಲ.</string>
+    <string name="app_restart_required">ಹೊಸ ಕಾನ್ಫಿಗರೇಶನ್ ಕಾರ್ಯಗತಗೊಳ್ಳಲು ಅಪ್ಲಿಕೇಶನ್ ಮರುಪ್ರಾರಂಭದ ಅಗತ್ಯವಿದೆ.</string>
+    <!-- Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list. -->
+    <string name="checkbox_is_default">ಡೀಫಾಲ್ಟ್</string>
+    <!-- Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method" -->
+    <string name="menu_remap">ರೀಮ್ಯಾಪ್</string>
+    <string name="dialog_title_confirm_remap">ಮ್ಯಾಪಿಂಗ್ ಅನ್ನು ಬದಲಾಯಿಸಿ (%s)?</string>
+    <string name="remap_category">ಎಲ್ಲಾ ಆಯ್ದ ವಹಿವಾಟುಗಳನ್ನು %s ವರ್ಗಕ್ಕೆ ಮ್ಯಾಪ್ ಮಾಡಲಾಗುತ್ತದೆ.</string>
+    <string name="remap_payee">ಎಲ್ಲಾ ಆಯ್ದ ವಹಿವಾಟುಗಳನ್ನು ಪಾವತಿಸುವವರು / ಪಾವತಿಸುವವರು %s ಗೆ ಮ್ಯಾಪ್ ಮಾಡಲಾಗುತ್ತದೆ.</string>
+    <string name="remap_method">ಎಲ್ಲಾ ಆಯ್ದ ವಹಿವಾಟುಗಳನ್ನು %s ವಿಧಾನಕ್ಕೆ ಮ್ಯಾಪ್ ಮಾಡಲಾಗುತ್ತದೆ.</string>
+    <string name="remap_account">ಎಲ್ಲಾ ಆಯ್ದ ವಹಿವಾಟುಗಳನ್ನು %s ಖಾತೆಗೆ ಮ್ಯಾಪ್ ಮಾಡಲಾಗುತ್ತದೆ.</string>
+    <string name="remapping_result">ಆಯ್ದ ವಹಿವಾಟುಗಳನ್ನು ಮರುರೂಪಿಸಲಾಯಿತು.</string>
+    <string name="clone_and_remap_result">ಆಯ್ದ ವಹಿವಾಟುಗಳನ್ನು ಅಬೀಜ ಸಂತಾನೋತ್ಪತ್ತಿ ಮಾಡಲಾಯಿತು.</string>
+    <!-- If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
         because no payment method is configured for all of the given account types.-->
-  <string name="remap_empty_list">ಯಾವುದೇ ಐಟಂ ಕಂಡುಬಂದಿಲ್ಲ, ಅದನ್ನು ಆಯ್ದ ಎಲ್ಲಾ ವಹಿವಾಟುಗಳಿಗೆ ಮ್ಯಾಪ್ ಮಾಡಬಹುದು.</string>
-  <!--The label for the button, where user confirms that he wants to clone the selected transactions and then remap them.-->
-  <string name="button_label_clone_and_remap">ಕ್ಲೋನ್ ಮತ್ತು ರೀಮ್ಯಾಪ್</string>
-  <!--The summary of a preference toggle. If switched on cloned transactions have the date set to the current date-->
-  <string name="pref_clone_with_current_date_summary_on">ಅಬೀಜ ವಹಿವಾಟುಗಳು ಪ್ರಸ್ತುತ ದಿನಾಂಕವನ್ನು ಹೊಂದಿವೆ</string>
-  <!--The summary of a preference toggle. If switched off cloned transactions keep the original date-->
-  <string name="pref_clone_with_current_date_summary_off">ಅಬೀಜ ವಹಿವಾಟುಗಳು ಮೂಲ ದಿನಾಂಕವನ್ನು ಇಡುತ್ತವೆ</string>
-  <string name="pref_protection_screenshot_information">ಸಾಧನ ರಕ್ಷಣೆಯನ್ನು ಸಕ್ರಿಯಗೊಳಿಸುವ ಮೂಲಕ, ಸ್ಕ್ರೀನ್‌ಶಾಟ್ ಸೆರೆಹಿಡಿಯುವಿಕೆಯನ್ನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ.</string>
-  <string name="tags_create_or_select">ಟ್ಯಾಗ್‌ಗಳನ್ನು ರಚಿಸಿ ಅಥವಾ ಆಯ್ಕೆಮಾಡಿ</string>
-  <string name="content_description_tags_confirm">ದೃಢೀಕರಿಸಿ</string>
-  <string name="tags">ಟ್ಯಾಗ್ಗಳು</string>
-  <string name="pref_manage_tags_summary">ಟ್ಯಾಗ್‌ಗಳನ್ನು ಸೇರಿಸಿ, ಸಂಪಾದಿಸಿ, ಅಳಿಸಿ.</string>
-  <string name="dialog_title_warning_delete_tag">ಟ್ಯಾಗ್ ಅಳಿಸುವುದೇ?</string>
-  <string name="menu_edit_tag">ಟ್ಯಾಗ್ ಸಂಪಾದಿಸಿ</string>
-  <!--This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction-->
-  <string name="menu_tag">ಟ್ಯಾಗ್</string>
-  <!--%s will be replaced with the labels of all tags that user has selected.-->
-  <string name="dialog_multi_tag">ಎಲ್ಲಾ ಆಯ್ದ ವಹಿವಾಟುಗಳನ್ನು %s ನೊಂದಿಗೆ ಟ್ಯಾಗ್ ಮಾಡಲಾಗುತ್ತದೆ.</string>
-  <string name="dialog_multi_tag_clear">ಆಯ್ದ ವಹಿವಾಟಿನಿಂದ ಎಲ್ಲಾ ಟ್ಯಾಗ್‌ಗಳನ್ನು ತೆಗೆದುಹಾಕಲಾಗುತ್ತದೆ.</string>
-  <plurals name="warning_delete_tag">
-    <item quantity="one">ಟ್ಯಾಗ್ %1$s ಅನ್ನು ಒಂದು ವಹಿವಾಟಿಗೆ ಮ್ಯಾಪ್ ಮಾಡಲಾಗಿದೆ. ಅದನ್ನು ಅಳಿಸಬೇಕೇ?</item>
-    <item quantity="other">ಟ್ಯಾಗ್ %1$s ಅನ್ನು %2$d ವಹಿವಾಟುಗಳಿಗೆ ಮ್ಯಾಪ್ ಮಾಡಲಾಗಿದೆ. ಅದನ್ನು ಅಳಿಸಬೇಕೇ?</item>
-  </plurals>
-  <string name="dialog_multi_tag_append">ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ಟ್ಯಾಗ್‌ಗಳಿಗೆ ಹೊಸ ಟ್ಯಾಗ್‌ಗಳನ್ನು ಸೇರಿಸಿ</string>
-  <string name="dialog_multi_tag_replace">ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ಟ್ಯಾಗ್‌ಗಳನ್ನು ಹೊಸ ಟ್ಯಾಗ್‌ಗಳಿಂದ ಬದಲಾಯಿಸಿ</string>
-  <string name="new_tag_hint">ಹೊಸ ಟ್ಯಾಗ್ ನಮೂದಿಸಿ</string>
-  <string name="language_download_requested">%s ಭಾಷೆಯ ಅನುವಾದಗಳನ್ನು ಪ್ಲೇ ಸ್ಟೋರ್‌ನಿಂದ ವಿನಂತಿಸಲಾಗಿದೆ</string>
-  <!--Title for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
-  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
-  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application)-->
-  <!--Title in Settings screen, and title of dynamically loaded feature module-->
-  <!--If this mode is active, the action button will open the camera for scanning a receipt-->
-  <!--Button that triggers the scan operation-->
-  <!--Title for a preference that allows user to decide if all transactions of the current day should be considered as past (future begins at end of day), or if the exact current time divides between past and future-->
-  <!--Option for a preference that allows to decide that all transactions until end of day are considered past transactions-->
-  <!--Option for a preference that allows to decide that only transactions before current time are considered past transactions-->
-  <!--Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)-->
-  <string name="pref_category_title_features">ವೈಶಿಷ್ಟ್ಯಗಳು</string>
-  <!--Toast message shown if user clicks on Upgrade button before having selected a licence-->
-</resources>
+    <string name="remap_empty_list">ಯಾವುದೇ ಐಟಂ ಕಂಡುಬಂದಿಲ್ಲ, ಅದನ್ನು ಆಯ್ದ ಎಲ್ಲಾ ವಹಿವಾಟುಗಳಿಗೆ ಮ್ಯಾಪ್ ಮಾಡಬಹುದು.</string>
+    <!-- The label for the button, where user confirms that he wants to clone the selected transactions and then remap them. -->
+    <string name="button_label_clone_and_remap">ಕ್ಲೋನ್ ಮತ್ತು ರೀಮ್ಯಾಪ್</string>
+    <!-- The summary of a preference toggle. If switched on cloned transactions have the date set to the current date -->
+    <string name="pref_clone_with_current_date_summary_on">ಅಬೀಜ ವಹಿವಾಟುಗಳು ಪ್ರಸ್ತುತ ದಿನಾಂಕವನ್ನು ಹೊಂದಿವೆ</string>
+    <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
+    <string name="pref_clone_with_current_date_summary_off">ಅಬೀಜ ವಹಿವಾಟುಗಳು ಮೂಲ ದಿನಾಂಕವನ್ನು ಇಡುತ್ತವೆ</string>
+    <string name="pref_protection_screenshot_information">ಸಾಧನ ರಕ್ಷಣೆಯನ್ನು ಸಕ್ರಿಯಗೊಳಿಸುವ ಮೂಲಕ, ಸ್ಕ್ರೀನ್‌ಶಾಟ್ ಸೆರೆಹಿಡಿಯುವಿಕೆಯನ್ನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ.</string>
+    <string name="tags_create_or_select">ಟ್ಯಾಗ್‌ಗಳನ್ನು ರಚಿಸಿ ಅಥವಾ ಆಯ್ಕೆಮಾಡಿ</string>
+    <string name="content_description_tags_confirm">ದೃಢೀಕರಿಸಿ</string>
+    <string name="tags">ಟ್ಯಾಗ್ಗಳು</string>
+    <string name="pref_manage_tags_summary">ಟ್ಯಾಗ್‌ಗಳನ್ನು ಸೇರಿಸಿ, ಸಂಪಾದಿಸಿ, ಅಳಿಸಿ.</string>
+    <string name="dialog_title_warning_delete_tag">ಟ್ಯಾಗ್ ಅಳಿಸುವುದೇ?</string>
+    <string name="menu_edit_tag">ಟ್ಯಾಗ್ ಸಂಪಾದಿಸಿ</string>
+    <!-- This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction -->
+    <string name="menu_tag">ಟ್ಯಾಗ್</string>
+    <!-- %s will be replaced with the labels of all tags that user has selected. -->
+    <string name="dialog_multi_tag">ಎಲ್ಲಾ ಆಯ್ದ ವಹಿವಾಟುಗಳನ್ನು %s ನೊಂದಿಗೆ ಟ್ಯಾಗ್ ಮಾಡಲಾಗುತ್ತದೆ.</string>
+    <string name="dialog_multi_tag_clear">ಆಯ್ದ ವಹಿವಾಟಿನಿಂದ ಎಲ್ಲಾ ಟ್ಯಾಗ್‌ಗಳನ್ನು ತೆಗೆದುಹಾಕಲಾಗುತ್ತದೆ.</string>
+    <plurals name="warning_delete_tag">
+        <item quantity="one">ಟ್ಯಾಗ್ %1$s ಅನ್ನು ಒಂದು ವಹಿವಾಟಿಗೆ ಮ್ಯಾಪ್ ಮಾಡಲಾಗಿದೆ. ಅದನ್ನು ಅಳಿಸಬೇಕೇ?</item>
+        <item quantity="other">ಟ್ಯಾಗ್ %1$s ಅನ್ನು %2$d ವಹಿವಾಟುಗಳಿಗೆ ಮ್ಯಾಪ್ ಮಾಡಲಾಗಿದೆ. ಅದನ್ನು ಅಳಿಸಬೇಕೇ?</item>
+    </plurals>
+    <string name="dialog_multi_tag_append">ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ಟ್ಯಾಗ್‌ಗಳಿಗೆ ಹೊಸ ಟ್ಯಾಗ್‌ಗಳನ್ನು ಸೇರಿಸಿ</string>
+    <string name="dialog_multi_tag_replace">ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ಟ್ಯಾಗ್‌ಗಳನ್ನು ಹೊಸ ಟ್ಯಾಗ್‌ಗಳಿಂದ ಬದಲಾಯಿಸಿ</string>
+    <string name="new_tag_hint">ಹೊಸ ಟ್ಯಾಗ್ ನಮೂದಿಸಿ</string>
+    <string name="language_download_requested">%s ಭಾಷೆಯ ಅನುವಾದಗಳನ್ನು ಪ್ಲೇ ಸ್ಟೋರ್‌ನಿಂದ ವಿನಂತಿಸಲಾಗಿದೆ</string>
+    <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
+    <string name="pref_category_title_features">ವೈಶಿಷ್ಟ್ಯಗಳು</string>
+    </resources>

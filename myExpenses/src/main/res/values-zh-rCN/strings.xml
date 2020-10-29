@@ -1,506 +1,468 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
 <resources xmlns:tools="http://schemas.android.com/tools">
-  <string name="account">帐户</string>
-  <!--Label in form for payment method, where user checks for which account types the method is applicable-->
-  <string name="account_types">账户类型</string>
-  <string name="account_type_asset">资产帐户</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_asset_plural">资产帐户</string>
-  <string name="account_type_bank">银行帐户</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_bank_plural">银行帐户</string>
-  <string name="account_type_cash">现金帐户</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_cash_plural">现金帐户</string>
-  <string name="account_type_ccard">信用卡</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_ccard_plural">信用卡</string>
-  <string name="account_type_liability">负债账户</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_liability_plural">负债账户</string>
-  <string name="already_defined">%1$s 已被定义</string>
-  <string name="amount">金额</string>
-  <string name="app_name">开支助手</string>
-  <string name="backup_failure">备份到\"%1$s\"失败.</string>
-  <string name="backup_success">数据库及喜好设置成功写入到\"%1$s\".</string>
-  <string name="category">类别</string>
-  <string name="color">颜色</string>
-  <string name="comment">附注</string>
-  <string name="confirmation_dialog_dont_show_again">不再显示</string>
-  <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">无广告</string>
-  <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">帐户数量不限</string>
-  <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">将图像附加到交易项目</string>
-  <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">计划数量不限</string>
-  <string name="contrib_feature_print_label" tools:ignore="UnusedResources">导出交易记录清单成PDF</string>
-  <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">模板插件</string>
-  <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">从CSV导入</string>
-  <string name="contrib_key">贡献密钥</string>
-  <string name="extended_key">扩展密钥</string>
-  <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
-  <string name="contrib_key_requires">需要 %1$s.</string>
-  <string name="currency">货币</string>
-  <string name="current_balance">当前余额</string>
-  <string name="date">日期</string>
-  <string name="date_format">日期格式</string>
-  <string name="date_format_illegal">日期格式错误</string>
-  <string name="number_format_illegal">非法数字格式</string>
-  <string name="decimal_separator">十进制分割符</string>
-  <string name="default_account_name">预算册</string>
-  <string name="description">描述</string>
-  <string name="dialog_balance_delete">删除已校对的交易</string>
-  <string name="dialog_confirm_discard_changes">丢弃改变?</string>
-  <string name="dialog_confirm_discard_new_transaction">丢弃新交易?</string>
-  <string name="dialog_confirm_discard_new_template">丢弃新模板?</string>
-  <string name="dialog_confirm_discard_new_account">丢弃新账户?</string>
-  <string name="dialog_confirm_discard_new_method">丢弃新付款方法?</string>
-  <string name="dialog_command_disabled_balance">没有透明交易需要被校对</string>
-  <string name="dialog_command_disabled_insert_transfer">转换交易需要第二个账户</string>
-  <string name="dialog_command_disabled_reset_account">没有交易可被导出.</string>
-  <string name="dialog_command_disabled_distribution">在此帐户,没有交易被对应到类别中.</string>
-  <!--Button for accessing trial of premium feature-->
-  <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
-  <string name="dialog_contrib_premium_feature">%1$s 是一项高级功能 (%2$s).</string>
-  <string name="dialog_contrib_text_1"><i>{app_name}</i>是开源的。</string>
-  <string name="dialog_export_delete">删除已导出的交易</string>
-  <string name="dialog_export_not_yet_exported">只导出尚未导出的交易</string>
-  <string name="dialog_password_activate_protection">启用密码保护</string>
-  <string name="dialog_password_change_password">更改密码</string>
-  <string name="dialog_password_new_password">新密码</string>
-  <string name="dialog_password_new_password_confirmation">新密码 (再确认)</string>
-  <string name="dialog_remind_later">以后来说</string>
-  <string name="dialog_remind_no">不用感谢</string>
-  <string name="dialog_remind_rate_how_many_stars">你会给{app_name}打多少分?</string>
-  <string name="dialog_remind_rate_1">请大家花点时间来评价{app_name}.</string>
-  <string name="dialog_remind_rate_2">你的意见将不断鼓励我改进此工具.</string>
-  <string name="dialog_remind_rate_1_suggest_improvement">请花一点时间发送给我们您的改进建议</string>
-  <string name="dialog_remind_rate_yes">现在评分</string>
-  <string name="dialog_security_answer">答案</string>
-  <string name="dialog_security_question">问题</string>
-  <string name="dialog_title_attention">注意</string>
-  <string name="dialog_title_information">信息</string>
-  <!--%1$s is replace with account label-->
-  <string name="dialog_title_balance_account">余额 %1$s</string>
-  <string name="dialog_title_contrib_feature">高级功能</string>
-  <string name="dialog_title_warning_delete_template">要删除模板?</string>
-  <string name="dialog_title_warning_delete_transaction">删除交易吗?</string>
-  <string name="expense">支出</string>
-  <string name="export_expenses">导出开支</string>
-  <!--1$s is replaced with path to file, 2$s with error message-->
-  <string name="export_sdcard_failure">开支导出到文件 %1$s 失败: %2$s</string>
-  <!--1$s is replaced with path to file-->
-  <string name="export_sdcard_success">导出开支到文件 %1$s</string>
-  <string name="external_storage_unavailable">外部储存 (SD卡) 不可用</string>
-  <string name="feedback">意见反馈</string>
-  <string name="ftp_uri_malformed">异常URI %1$s</string>
-  <string name="grisbi_import_categories_loading">从 %1$s 载入类别</string>
-  <string name="grisbi_import_parties_loading">由 %1$s 载入部分</string>
-  <string name="grouping_day">日</string>
-  <string name="grouping_last_week">上星期</string>
-  <string name="grouping_month">月</string>
-  <string name="grouping_none">未被设定类别的</string>
-  <string name="grouping_this_week">这星期</string>
-  <string name="grouping_today">今天</string>
-  <string name="grouping_week">星期</string>
-  <string name="grouping_year">年</string>
-  <string name="grouping_yesterday">昨日</string>
-  <string name="help_button_rate">评分 或 发表评论</string>
-  <string name="help_heading_credits">信用</string>
-  <string name="help_heading_license">许可</string>
-  <string name="help_heading_whats_new">最新消息</string>
-  <string name="important_upgrade_information_heading">重要资讯</string>
-  <string name="import_select_transactions">交易</string>
-  <string name="income">收入</string>
-  <string name="invalid_number_format">十进制格式不能被辨认.请使用 %1$s</string>
-  <string name="label">标签</string>
-  <string name="licence_validation_failure">无法验证许可密钥.</string>
-  <string name="licence_validation_success">授权密钥验证成功</string>
-  <string name="licence_validation_premium">高级功能已经解锁</string>
-  <string name="menu_aggregates">总金额</string>
-  <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
-  <string name="menu_apply_template">应用</string>
-  <string name="menu_back">上一步</string>
-  <string name="menu_backup">备份</string>
-  <!--Balance: compare cleared balance in app with balance on statement received from bank-->
-  <string name="menu_balance">余额账户</string>
-  <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
-  <string name="menu_cancel_plan_instance">取消</string>
-  <string name="menu_clone_transaction">复制</string>
-  <string name="menu_contrib">贡献</string>
-  <string name="menu_create_account">新增账户</string>
-  <string name="menu_create_instance_edit">应用并编辑</string>
-  <string name="menu_create_instance_save">应用并保存</string>
-  <string name="menu_create_main_cat">新增主要类别</string>
-  <string name="menu_create_method">新增付款方法</string>
-  <string name="menu_create_party">新增贸易伙伴</string>
-  <string name="menu_create_split">新增分割</string>
-  <string name="menu_create_split_part_category">新增类别分割部分</string>
-  <string name="menu_create_split_part_transfer">新增转移分割部分</string>
-  <string name="menu_create_sub_cat">新增子类别</string>
-  <string name="menu_create_template">新增模板</string>
-  <string name="menu_create_template_from_transaction">保存为模板</string>
-  <string name="menu_create_template_for_transaction">新增模板</string>
-  <string name="menu_create_template_for_transfer">新增转移模板</string>
-  <string name="menu_create_transaction">新增交易</string>
-  <string name="menu_create_transfer">新增转移</string>
-  <string name="menu_delete">删除</string>
-  <string name="menu_distribution">发行版</string>
-  <string name="menu_edit">编辑</string>
-  <string name="menu_edit_account">编辑帐户</string>
-  <string name="menu_edit_cat">编辑类别</string>
-  <string name="menu_edit_method">修改付款方法</string>
-  <string name="menu_edit_party">编辑贸易伙伴</string>
-  <string name="menu_edit_plan_instance">编辑单个计划实例</string>
-  <string name="menu_edit_split">编辑分割</string>
-  <string name="menu_edit_split_part_category">编辑已分割类别的部分</string>
-  <string name="menu_edit_split_part_transfer">编辑已分割的转移部分</string>
-  <string name="menu_edit_template">编辑模板</string>
-  <string name="menu_edit_transaction">编辑交易</string>
-  <string name="menu_edit_transfer">编辑转移</string>
-  <string name="menu_exclude_from_totals">从总量中排除</string>
-  <string name="menu_forward">下一步</string>
-  <string name="menu_grouping">分组</string>
-  <string name="menu_help">帮助</string>
-  <!--This command inverts the direction of a transfer-->
-  <string name="menu_invert_transfer">倒置</string>
-  <string name="menu_manage_plans">模板与计划</string>
-  <!--Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application-->
-  <string name="menu_open">打开</string>
-  <string name="menu_import">导入</string>
-  <string name="menu_print">打印</string>
-  <string name="menu_reset">导出和重设</string>
-  <string name="menu_reset_all">导出和重设所有</string>
-  <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
-  <string name="menu_reset_plan_instance">重置</string>
-  <string name="menu_save">保存</string>
-  <string name="menu_save_and_new">保存并新增</string>
-  <string name="menu_search">搜索</string>
-  <string name="menu_settings">设置</string>
-  <string name="menu_share">分享给朋友</string>
-  <string name="menu_split_transaction">转换为分割</string>
-  <string name="method">付款方法</string>
-  <string name="no_amount_given">你未输入任何金额.</string>
-  <string name="no_app_handling_email_available">没有可用的应用程序电子邮件.</string>
-  <string name="no_app_handling_ftp_available">没有被应用程序处理的ftp可用.安装 <i>使用FTP发送</i> ?</string>
-  <string name="no_categories">没有类别.</string>
-  <string name="no_expenses">未有开支!</string>
-  <string name="no_exportable_expenses">没有交易未被导出</string>
-  <string name="no_filemanager_installed">未安装文件管理程式</string>
-  <string name="no_mapped_transactions">在此期间,任何交易已被对应到类别中.</string>
-  <string name="no_methods">没有付款方法</string>
-  <string name="no_parties">没有贸易伙伴.</string>
-  <string name="no_split_parts">没有分割部分.</string>
-  <string name="no_templates">没有模板</string>
-  <string name="no_title_given">你未输入任何文字.</string>
-  <string name="numbered">编号</string>
-  <string name="opening_balance">金额</string>
-  <string name="parse_error_file_not_found">未能找到文件 %1$s</string>
-  <string name="parse_error_grisbi_version_not_supported">不支援 Grisbi 文档版本: %1$s</string>
-  <string name="parse_error_no_data_found">文件中没有可导入的数据.</string>
-  <string name="parse_error_other_exception">遇到错误: %1$s</string>
-  <string name="parse_error_parse_exception">无法分析的文件</string>
-  <string name="password_disabled_reenable">密码保护已被停用.您可以在设置中重新启用它.</string>
-  <string name="password_lost">忘记密码</string>
-  <string name="password_not_valid">密码无效.请再试一次!</string>
-  <string name="password_prompt">输入你的密码</string>
-  <string name="password_security_answer_not_valid">答案错误.请再试一次!</string>
-  <string name="payee">收款人</string>
-  <string name="payer">付款人</string>
-  <string name="payer_or_payee">收款人/付款人</string>
-  <!--Plan for future and recurring transactions-->
-  <string name="plan">计划</string>
-  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance-->
-  <string name="plan_automatic">自动</string>
-  <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">{app_name} 规划</string>
-  <string name="planner_notification_channel_name">规划</string>
-  <!--This message is shown, after a user decides to not apply a manual plan-->
-  <string name="plan_execution_canceled">计划执行已取消</string>
-  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance)-->
-  <string name="plan_manual">手动</string>
-  <string name="planner_create_calendar_failure">无法建立本机日历</string>
-  <string name="planner_create_calendar_success">本机计划日历被成功新增</string>
-  <!--payment methods-->
-  <string name="pm_cheque">支票</string>
-  <string name="pm_creditcard">信用卡</string>
-  <string name="pm_deposit">存款</string>
-  <string name="pm_directdebit">直接付款</string>
-  <string name="pm_type_credit">信用</string>
-  <string name="pm_type_debit">借记</string>
-  <string name="pm_type_neutral">中性</string>
-  <string name="pref_app_dir_title">备份和导出的文件夹</string>
-  <string name="pref_auto_fill_title">自动填充交易</string>
-  <string name="pref_backup_summary">在SD卡上建立资料库备份和喜好设置档.</string>
-  <string name="pref_sort_order_usages">使用量计数</string>
-  <string name="pref_category_title_advanced">高级设置</string>
-  <string name="pref_category_title_export">导出</string>
-  <string name="pref_category_title_import">导入</string>
-  <string name="pref_category_title_manage">管理</string>
-  <string name="pref_category_title_more_information">更多资讯</string>
-  <string name="pref_category_title_security">安全</string>
-  <string name="pref_category_title_ui">用户界面</string>
-  <string name="pref_checkbox_enabled">启用</string>
-  <string name="pref_checkbox_disabled">已禁用</string>
-  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
-  <string name="pref_contrib_purchase_title">购买密钥</string>
-  <string name="pref_contrib_purchase_title_upgrade">升级密钥</string>
-  <string name="pref_custom_currency_title">自定义货币</string>
-  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
-  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">如果你收到密钥,获取高级或扩展功能</string>
-  <string name="pref_enter_licence_title" tools:ignore="UnusedResources">输入密钥</string>
-  <string name="pref_export_format_title">日期格式</string>
-  <string name="pref_import_from_grisbi_summary">导入类别 和贸易伙伴.</string>
-  <string name="pref_import_from_grisbi_title">由Grisbi导入</string>
-  <!--%s is replaced with QIF or CSV-->
-  <string name="pref_import_summary">从 %s 文件里面导入交易,类别和交易伙伴</string>
-  <!--%s is replaced with QIF or CSV-->
-  <string name="pref_import_title">导入 %s</string>
-  <string name="pref_manage_accounts_title">账户</string>
-  <string name="pref_manage_categories_summary">新增,编辑,移除类别.</string>
-  <string name="pref_manage_categories_title">类别</string>
-  <string name="pref_manage_methods_summary">建立和编辑付款方法,关联它们的帐户类型.</string>
-  <string name="pref_manage_methods_title">付款方法</string>
-  <string name="pref_manage_parties_summary">新增、编辑、删除贸易伙伴 (付款人和收款人) .</string>
-  <string name="pref_manage_parties_title">贸易伙伴</string>
-  <!--%s will be replaced with list of backends-->
-  <string name="pref_more_info_dialog_title">许可 &amp; 信用</string>
-  <string name="pref_password_not_equal">密码不相符</string>
-  <string name="pref_perform_share_title">分享导出文件</string>
-  <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
-  <string name="pref_planning_calendar_create_local">建立新的本机计划日历</string>
-  <string name="pref_planning_calendar_summary">选取一个日历用于计划将来和记录经常性交易</string>
-  <string name="pref_planning_calendar_title">计划日历</string>
-  <string name="pref_protection_delay_seconds_summary">閒置秒数将被密码锁定.</string>
-  <string name="pref_protection_delay_seconds_title">剩时保护</string>
-  <string name="pref_protection_enable_data_entry_from_widget_summary_on">允许不设置密码</string>
-  <string name="pref_protection_enable_data_entry_from_widget_summary_off">需要密码</string>
-  <string name="pref_qif_export_file_encoding_title">字符编码</string>
-  <string name="pref_request_licence_title">请求密钥</string>
-  <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
-  <string name="pref_restore_alternative">可选项</string>
-  <string name="pref_restore_title">恢复</string>
-  <string name="pref_security_question_summary">如果你忘记了你的密码,贡献 开支助手 可助你解锁你的应用程式.</string>
-  <string name="pref_security_question_title">安全问题</string>
-  <string name="pref_send_feedback_title">反馈意见</string>
-  <string name="pref_share_target_summary">必需留空,若果你想选择合适应用程式 (电邮、Dropbox、Google Docs …),或者提供一个支援上载的URL地址.</string>
-  <string name="pref_share_target_title">上载 URL</string>
-  <string name="pref_shortcut_added">快捷方式已被添加到主画面</string>
-  <string name="pref_shortcut_not_added">主屏幕没有空间接收快捷方式</string>
-  <string name="pref_shortcut_summary">新增快捷方式到主画面.</string>
-  <string name="pref_ui_fontsize_title">介面字体大小</string>
-  <string name="pref_ui_home_screen_shortcuts">主屏快捷方式</string>
-  <string name="pref_ui_language_default">系统默认</string>
-  <!--Title of the preference for selecting the UI language-->
-  <string name="pref_ui_language_title">语言</string>
-  <string name="pref_ui_theme_dark">黑</string>
-  <string name="pref_ui_theme_light">白</string>
-  <string name="pref_ui_theme_title">界面主题</string>
-  <string name="pref_visit_website_summary">活动日志和常见问题</string>
-  <string name="pref_visit_website_title">浏览官方网站</string>
-  <string name="progress_dialog_deleting">删除对象</string>
-  <string name="progress_dialog_loading">从数据库载入物件</string>
-  <string name="progress_dialog_printing">生成PDF</string>
-  <string name="progress_dialog_saving">保存对象到数据库</string>
-  <string name="reference_number">参考编号</string>
-  <string name="restore_db_failure">数据库恢复失败.</string>
-  <string name="restore_db_success">数据库已从备份恢复过来.</string>
-  <string name="restore_no_backup_found">没有找到备份</string>
-  <string name="restore_preferences_failure">喜好设置恢复失败</string>
-  <string name="restore_backup_file_not_found">在压缩包 \"%2$s\" 中没有找到 %1$s </string>
-  <string name="restore_preferences_success">喜好设置已经从备份恢复过来.</string>
-  <string name="restore_calendar_success" tools:ignore="PluralsCandidate">已从备份中恢复 %d 个计划</string>
-  <string name="save_transaction_and_new_success">成功保存</string>
-  <string name="save_transaction_error">无法从模板储存新的交易</string>
-  <string name="save_transaction_template_deleted">模板已被移除</string>
-  <string name="select">选取</string>
-  <string name="select_category">选取类别</string>
-  <string name="share_scheme_not_supported">不支持方桉 %1$s</string>
-  <string name="share_sending">发送导出文件</string>
-  <string name="split_parts_heading">分割部分</string>
-  <string name="split_transaction">分割交易</string>
-  <string name="status">状态</string>
-  <string name="status_cleared">已结清</string>
-  <string name="status_reconciled">已对账</string>
-  <string name="status_uncreconciled">未对账</string>
-  <string name="status_void">空</string>
-  <string name="subcategory">子类别</string>
-  <string name="sum_expenses">支出</string>
-  <string name="sum_income">收入</string>
-  <string name="sum_transfer">转移</string>
-  <!--platform is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">{app_name}, 个人理财工具 {platform}版, {website}</string>
-  <string name="thank_you">感谢你的支持!</string>
-  <string name="time">时间</string>
-  <string name="title">名称</string>
-  <string name="total_cleared">已结清总账</string>
-  <string name="total_reconciled">已对账总账</string>
-  <string name="transaction">交易</string>
-  <string name="transfer">转移</string>
-  <string name="transfer_from_account">由</string>
-  <string name="transfer_to_account">至</string>
-  <!--Type refers to the type of an account, eg. Cash account, bank account-->
-  <string name="type">类型</string>
-  <string name="unsplit_amount">未分割数量</string>
-  <string name="unsplit_amount_greater_than_zero">还有一些金额未分割.</string>
-  <string name="warning_backup">数据库和喜好设置将被储存到SD卡 %1$s.</string>
-  <string name="continue_confirmation">你要继续吗?</string>
-  <string name="warning_delete_account">此帐户将与它的所有交易将被删除 (%1$s).</string>
-  <string name="warning_password_protected">应用被密码保护</string>
-  <string name="warning_widget_disabled">你需要在应用设置里面启用这个挂件</string>
-  <string name="warning_password_contrib">若果您忘记了密码,设置一个安全问题可让你再次解锁此应用.</string>
-  <string name="warning_reset_account">如果你继续,这个帐户的所有交易都从数据库中被删除且无法恢复.</string>
-  <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
-  <string name="warning_reset_account_all">如果你继续,所有帐户%1$s和当中的所有交易都从数据库中被删除且无法恢复.</string>
-  <string name="warning_restore">数据库和喜好设置将会从备份中被恢复过来 (%1$s).当前的数据会被删除.</string>
-  <string name="warning_splitpartcategory_context">转移是分割的一部分,它只能在有分割的情况下被编辑或删除.</string>
-  <string name="warning_change_fraction_digits_checkbox_label">更新数据库中的数量</string>
-  <string name="import_categories_success">%1$s 类别  被导入成功</string>
-  <string name="import_parties_success">%1$s 贸易伙伴被导入成功</string>
-  <string name="import_accounts_success">%1$s 账号导入成功</string>
-  <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d 交易被导入账户 %2$s</string>
-  <string name="import_accounts_none">没有账号被导入</string>
-  <string name="import_categories_none">没有类别被导入</string>
-  <string name="import_parties_none">没有贸易伙伴被导入</string>
-  <string name="import_transactions_none">没有交易被导入账户 %1$s</string>
-  <string name="import_source_select_error">请提供文件类型 %1$s</string>
-  <string name="menu_categories_setup_default">设置默认类别</string>
-  <string name="menu_create_folder">新建文件夹</string>
-  <!--This string is used for navigating up in the folder browser-->
-  <string name="create_new_folder_fail">目录建立失败</string>
-  <string name="widget_title_accounts">我的账户</string>
-  <string name="widget_title_templates">我的模板</string>
-  <string name="app_dir_not_accessible">所选文件夹(%1$s)不可访问,请选择其他</string>
-  <string name="search_amount">搜索账户</string>
-  <string name="search_category">搜索类别</string>
-  <string name="search_comment">搜索备注</string>
-  <string name="search_date">搜索日期</string>
-  <string name="search_status">搜索状态</string>
-  <string name="search_payee">搜索收付人</string>
-  <string name="search_method">搜索交易方法</string>
-  <string name="and">和</string>
-  <string name="between_and">在 %1$s 和 %2$s 之间</string>
-  <string name="before">在 %s 之前</string>
-  <string name="after">%s 之后</string>
-  <string name="comparison_operator_equal">等于</string>
-  <string name="comparison_operator_greater_than">大于</string>
-  <string name="comparison_operator_lesser_than">小于</string>
-  <string name="comparison_operator_date_before">前</string>
-  <string name="comparison_operator_date_after">后</string>
-  <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">购买失败或取消</string>
-  <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate"> %2$s 货币 %1$d 账户已经被更新了.</string>
-  <string name="learn_more">了解更多</string>
-  <string name="import_source_file">文件</string>
-  <string name="restore_calendar_handling_ignore">不要恢复计划</string>
-  <string name="restore_not_possible_target_calendar_missing">备份中的日历 %s 本地不存在.恢复已中止</string>
-  <string name="restore_not_possible_local_calendar_missing">当前计划日历不可用</string>
-  <string name="menu_view_picture">查看图片</string>
-  <string name="menu_delete_picture">删除图片</string>
-  <string name="menu_change_picture">附加不同图片</string>
-  <string name="menu_distribution_show_pie_char">显示饼状图</string>
-  <string name="menu_distribution_aggreate">集合消费和收入</string>
-  <string name="image_deleted">图片被删除</string>
-  <string name="dialog_export_applied_to_filter">只有被当前过滤器匹配的交易才会被考虑</string>
-  <string name="export_handle_deleted_create_helper">创建交易助手</string>
-  <string name="export_handle_deleted_update_balance">更新打开余额</string>
-  <string name="file_name">文件名</string>
-  <string name="folder_name">文件夹名</string>
-  <string name="mark_void_instead_of_delete">不要删除交易,应标记为空</string>
-  <string name="menu_undelete_transaction">取消删除</string>
-  <string name="slash_forbidden_in_filename">/ 符号不允许作为文件名</string>
-  <string name="io_error_unable_to_create_file">不能在 %2$s 里面创建文件 %1$s</string>
-  <string name="menu_categories_export">导出到 QIF</string>
-  <string name="pref_csv_import_delimiter">分隔符</string>
-  <string name="csv_import_preview">预览</string>
-  <string name="menu_parse">粘贴</string>
-  <!--Label for column where user can check rows to be discarded from import-->
-  <string name="cvs_import_discard">丢弃</string>
-  <string name="csv_import_field_mapped_more_than_once">%s 被映射超过一次.</string>
-  <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d 个记录不能被导入</string>
-  <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d 个记录被丢弃.</string>
-  <string name="csv_import_subcategory_requires_category">如果你映射子类别,你必须映射主类别</string>
-  <string name="cvs_import_set_first_line_as_header">是否把第一行当作标题行</string>
-  <string name="csv_import_delimiter_comma">逗号</string>
-  <string name="csv_import_delimiter_semicolon">分号</string>
-  <string name="csv_import_delimiter_tab">制表符</string>
-  <string name="csv_import_no_mapping_found_for_amount">请映射列到账户、收入或支出.</string>
-  <string name="menu_show_transactions">展示交易</string>
-  <string name="pref_custom_decimal_format_title">数字格式</string>
-  <string name="pref_auto_backup_title">启用自动备份</string>
-  <string name="pref_auto_backup_summary">每日在指定时间备份资料库 (仅当数据已经改变)</string>
-  <string name="pref_auto_backup_time_title">自动备份时间</string>
-  <string name="calendar_permission_required"><i>{app_name}</i> 需要访问您的日历权限,以创建未来计划和循环交易</string>
-  <string name="button_request_calendar_access" tools:ignore="UnusedResources">授权访问</string>
-  <string name="switch_on_text">开启</string>
-  <string name="switch_off_text">关闭</string>
-  <string name="menu_move">移动</string>
-  <string name="dialog_title_select_target">选择目标</string>
-  <string name="transform_subcategory_to_main">转换为主类别</string>
-  <string name="preferences_week_start_day_title">一周起始日</string>
-  <string name="preferences_month_start_date_title">月份开始于</string>
-  <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
-  <string name="exchange_rate">改变汇率</string>
-  <string name="date_format_hour">时</string>
-  <string name="date_format_minute">分</string>
-  <string name="copied_to_clipboard">复制到剪切板</string>
-  <string name="menu_sort">排序</string>
-  <string name="pref_sort_order_custom">自定义</string>
-  <string name="content_description_calculator">计算器</string>
-  <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
-  <string name="plan_instance_state_open">打开</string>
-  <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
-  <string name="plan_instance_state_cancelled">已取消</string>
-  <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
-  <string name="plan_instance_state_applied">已应用</string>
-  <string name="content_description_calculator_clear_button">重置所有</string>
-  <string name="content_description_calculator_delete_button">删除上一个数字</string>
-  <!--Sort plans (recurring transactions) by the next instance-->
-  <!--button leading user to purchase flow for licence keys-->
-  <!--During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed-->
-  <!--%1$s date, %2$s price-->
-  <!--A label indicating the color for the sum of expenses-->
-  <!--A label indicating the color for the sum of income-->
-  <!--This is the label for the action that breaks up a split transaction into its parts.-->
-  <string name="split_transaction_one_error">不能转换交易到分割</string>
-  <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
-  <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
-  <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
-  <!--Content description for accessibility on image that allows to collapse content-->
-  <!--Content description for accessibility on image that allows to expand content-->
-  <!--Short label for the amount input where user can set either saving goal or credit limit-->
-  <!--Description for button that allows to clear the selected method-->
-  <!--Description for button that allows to clear the selected category-->
-  <!--In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
-    to search for transactions without category, payee or method. The UI allows selection of multiple items,
-    but we warn the user if he includes this special item in the selection.-->
-  <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
-  <!--Action of closing an account. A closed account does not allow any modifications on its data.-->
-  <!--Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data.-->
-  <!--Menu entry for opening a list of all hidden accounts.-->
-  <!--Action of showing an account again that had previously been hidden.-->
-  <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
-  <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
-  <string name="pref_category_exchange_rates">汇率</string>
-  <!--This message is shwon when we highlight the income / expense toogle, to make user aware of this feature-->
-  <!--This message is shwon when we highlight the dropdown for switching from normal transaction to transfer or split transaction,to make user aware of this feature-->
-  <string name="budget_duration_from">从</string>
-  <string name="budget_duration_to">到</string>
-  <!--Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list.-->
-  <!--Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method"-->
-  <!--If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
-        because no payment method is configured for all of the given account types.-->
-  <!--The label for the button, where user confirms that he wants to clone the selected transactions and then remap them.-->
-  <!--The summary of a preference toggle. If switched on cloned transactions have the date set to the current date-->
-  <!--The summary of a preference toggle. If switched off cloned transactions keep the original date-->
-  <!--This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction-->
-  <!--%s will be replaced with the labels of all tags that user has selected.-->
-  <!--Title for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
-  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
-  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application)-->
-  <!--Title in Settings screen, and title of dynamically loaded feature module-->
-  <!--If this mode is active, the action button will open the camera for scanning a receipt-->
-  <!--Button that triggers the scan operation-->
-  <!--Title for a preference that allows user to decide if all transactions of the current day should be considered as past (future begins at end of day), or if the exact current time divides between past and future-->
-  <!--Option for a preference that allows to decide that all transactions until end of day are considered past transactions-->
-  <!--Option for a preference that allows to decide that only transactions before current time are considered past transactions-->
-  <!--Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)-->
-  <!--Toast message shown if user clicks on Upgrade button before having selected a licence-->
-</resources>
+    <string name="account">帐户</string>
+    <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
+    <string name="account_types">账户类型</string>
+    <string name="account_type_asset">资产帐户</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_asset_plural">资产帐户</string>
+    <string name="account_type_bank">银行帐户</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_bank_plural">银行帐户</string>
+    <string name="account_type_cash">现金帐户</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_cash_plural">现金帐户</string>
+    <string name="account_type_ccard">信用卡</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_ccard_plural">信用卡</string>
+    <string name="account_type_liability">负债账户</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_liability_plural">负债账户</string>
+    <string name="already_defined">%1$s 已被定义</string>
+    <string name="amount">金额</string>
+    <string name="app_name">开支助手</string>
+    <string name="backup_failure">备份到\"%1$s\"失败.</string>
+    <string name="backup_success">数据库及喜好设置成功写入到\"%1$s\".</string>
+    <string name="category">类别</string>
+    <string name="color">颜色</string>
+    <string name="comment">附注</string>
+    <string name="confirmation_dialog_dont_show_again">不再显示</string>
+    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">无广告</string>
+    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">帐户数量不限</string>
+    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">将图像附加到交易项目</string>
+    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">计划数量不限</string>
+    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">导出交易记录清单成PDF</string>
+    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">模板插件</string>
+    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">从CSV导入</string>
+    <string name="contrib_key">贡献密钥</string>
+    <string name="extended_key">扩展密钥</string>
+    <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
+    <string name="contrib_key_requires">需要 %1$s.</string>
+    <string name="currency">货币</string>
+    <string name="current_balance">当前余额</string>
+    <string name="date">日期</string>
+    <string name="date_format">日期格式</string>
+    <string name="date_format_illegal">日期格式错误</string>
+    <string name="number_format_illegal">非法数字格式</string>
+    <string name="decimal_separator">十进制分割符</string>
+    <string name="default_account_name">预算册</string>
+    <string name="description">描述</string>
+    <string name="dialog_balance_delete">删除已校对的交易</string>
+    <string name="dialog_confirm_discard_changes">丢弃改变?</string>
+    <string name="dialog_confirm_discard_new_transaction">丢弃新交易?</string>
+    <string name="dialog_confirm_discard_new_template">丢弃新模板?</string>
+    <string name="dialog_confirm_discard_new_account">丢弃新账户?</string>
+    <string name="dialog_confirm_discard_new_method">丢弃新付款方法?</string>
+    <string name="dialog_command_disabled_balance">没有透明交易需要被校对</string>
+    <string name="dialog_command_disabled_insert_transfer">转换交易需要第二个账户</string>
+    <string name="dialog_command_disabled_reset_account">没有交易可被导出.</string>
+    <string name="dialog_command_disabled_distribution">在此帐户,没有交易被对应到类别中.</string>
+    <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
+    <string name="dialog_contrib_premium_feature">%1$s 是一项高级功能 (%2$s).</string>
+    <string name="dialog_contrib_text_1"><i>{app_name}</i>是开源的。</string>
+    <string name="dialog_export_delete">删除已导出的交易</string>
+    <string name="dialog_export_not_yet_exported">只导出尚未导出的交易</string>
+    <string name="dialog_password_activate_protection">启用密码保护</string>
+    <string name="dialog_password_change_password">更改密码</string>
+    <string name="dialog_password_new_password">新密码</string>
+    <string name="dialog_password_new_password_confirmation">新密码 (再确认)</string>
+    <string name="dialog_remind_later">以后来说</string>
+    <string name="dialog_remind_no">不用感谢</string>
+    <string name="dialog_remind_rate_how_many_stars">你会给{app_name}打多少分?</string>
+    <string name="dialog_remind_rate_1">请大家花点时间来评价{app_name}.</string>
+    <string name="dialog_remind_rate_2">你的意见将不断鼓励我改进此工具.</string>
+    <string name="dialog_remind_rate_1_suggest_improvement">请花一点时间发送给我们您的改进建议</string>
+    <string name="dialog_remind_rate_yes">现在评分</string>
+    <string name="dialog_security_answer">答案</string>
+    <string name="dialog_security_question">问题</string>
+    <string name="dialog_title_attention">注意</string>
+    <string name="dialog_title_information">信息</string>
+    <!-- %1$s is replace with account label -->
+    <string name="dialog_title_balance_account">余额 %1$s</string>
+    <string name="dialog_title_contrib_feature">高级功能</string>
+    <string name="dialog_title_warning_delete_template">要删除模板?</string>
+    <string name="dialog_title_warning_delete_transaction">删除交易吗?</string>
+    <string name="expense">支出</string>
+    <string name="export_expenses">导出开支</string>
+    <!-- 1$s is replaced with path to file, 2$s with error message -->
+    <string name="export_sdcard_failure">开支导出到文件 %1$s 失败: %2$s</string>
+    <!-- 1$s is replaced with path to file -->
+    <string name="export_sdcard_success">导出开支到文件 %1$s</string>
+    <string name="external_storage_unavailable">外部储存 (SD卡) 不可用</string>
+    <string name="feedback">意见反馈</string>
+    <string name="ftp_uri_malformed">异常URI %1$s</string>
+    <string name="grisbi_import_categories_loading">从 %1$s 载入类别</string>
+    <string name="grisbi_import_parties_loading">由 %1$s 载入部分</string>
+    <string name="grouping_day">日</string>
+    <string name="grouping_last_week">上星期</string>
+    <string name="grouping_month">月</string>
+    <string name="grouping_none">未被设定类别的</string>
+    <string name="grouping_this_week">这星期</string>
+    <string name="grouping_today">今天</string>
+    <string name="grouping_week">星期</string>
+    <string name="grouping_year">年</string>
+    <string name="grouping_yesterday">昨日</string>
+    <string name="help_button_rate">评分 或 发表评论</string>
+    <string name="help_heading_credits">信用</string>
+    <string name="help_heading_license">许可</string>
+    <string name="help_heading_whats_new">最新消息</string>
+    <string name="important_upgrade_information_heading">重要资讯</string>
+    <string name="import_select_transactions">交易</string>
+    <string name="income">收入</string>
+    <string name="invalid_number_format">十进制格式不能被辨认.请使用 %1$s</string>
+    <string name="label">标签</string>
+    <string name="licence_validation_failure">无法验证许可密钥.</string>
+    <string name="licence_validation_success">授权密钥验证成功</string>
+    <string name="licence_validation_premium">高级功能已经解锁</string>
+    <string name="menu_aggregates">总金额</string>
+    <!-- Shown in a notification; allows to apply a template (instantiate a new transaction from it) -->
+    <string name="menu_apply_template">应用</string>
+    <string name="menu_back">上一步</string>
+    <string name="menu_backup">备份</string>
+    <!-- Balance: compare cleared balance in app with balance on statement received from bank -->
+    <string name="menu_balance">余额账户</string>
+    <!-- Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction -->
+    <string name="menu_cancel_plan_instance">取消</string>
+    <string name="menu_clone_transaction">复制</string>
+    <string name="menu_contrib">贡献</string>
+    <string name="menu_create_account">新增账户</string>
+    <string name="menu_create_instance_edit">应用并编辑</string>
+    <string name="menu_create_instance_save">应用并保存</string>
+    <string name="menu_create_main_cat">新增主要类别</string>
+    <string name="menu_create_method">新增付款方法</string>
+    <string name="menu_create_party">新增贸易伙伴</string>
+    <string name="menu_create_split">新增分割</string>
+    <string name="menu_create_split_part_category">新增类别分割部分</string>
+    <string name="menu_create_split_part_transfer">新增转移分割部分</string>
+    <string name="menu_create_sub_cat">新增子类别</string>
+    <string name="menu_create_template">新增模板</string>
+    <string name="menu_create_template_from_transaction">保存为模板</string>
+    <string name="menu_create_template_for_transaction">新增模板</string>
+    <string name="menu_create_template_for_transfer">新增转移模板</string>
+    <string name="menu_create_transaction">新增交易</string>
+    <string name="menu_create_transfer">新增转移</string>
+    <string name="menu_delete">删除</string>
+    <string name="menu_distribution">发行版</string>
+    <string name="menu_edit">编辑</string>
+    <string name="menu_edit_account">编辑帐户</string>
+    <string name="menu_edit_cat">编辑类别</string>
+    <string name="menu_edit_method">修改付款方法</string>
+    <string name="menu_edit_party">编辑贸易伙伴</string>
+    <string name="menu_edit_plan_instance">编辑单个计划实例</string>
+    <string name="menu_edit_split">编辑分割</string>
+    <string name="menu_edit_split_part_category">编辑已分割类别的部分</string>
+    <string name="menu_edit_split_part_transfer">编辑已分割的转移部分</string>
+    <string name="menu_edit_template">编辑模板</string>
+    <string name="menu_edit_transaction">编辑交易</string>
+    <string name="menu_edit_transfer">编辑转移</string>
+    <string name="menu_exclude_from_totals">从总量中排除</string>
+    <string name="menu_forward">下一步</string>
+    <string name="menu_grouping">分组</string>
+    <string name="menu_help">帮助</string>
+    <!-- This command inverts the direction of a transfer -->
+    <string name="menu_invert_transfer">倒置</string>
+    <string name="menu_manage_plans">模板与计划</string>
+    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
+    <string name="menu_open">打开</string>
+    <string name="menu_import">导入</string>
+    <string name="menu_print">打印</string>
+    <string name="menu_reset">导出和重设</string>
+    <string name="menu_reset_all">导出和重设所有</string>
+    <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
+    <string name="menu_reset_plan_instance">重置</string>
+    <string name="menu_save">保存</string>
+    <string name="menu_save_and_new">保存并新增</string>
+    <string name="menu_search">搜索</string>
+    <string name="menu_settings">设置</string>
+    <string name="menu_share">分享给朋友</string>
+    <string name="menu_split_transaction">转换为分割</string>
+    <string name="method">付款方法</string>
+    <string name="no_amount_given">你未输入任何金额.</string>
+    <string name="no_app_handling_email_available">没有可用的应用程序电子邮件.</string>
+    <string name="no_app_handling_ftp_available">没有被应用程序处理的ftp可用.安装 <i>使用FTP发送</i> ?</string>
+    <string name="no_categories">没有类别.</string>
+    <string name="no_expenses">未有开支!</string>
+    <string name="no_exportable_expenses">没有交易未被导出</string>
+    <string name="no_filemanager_installed">未安装文件管理程式</string>
+    <string name="no_mapped_transactions">在此期间,任何交易已被对应到类别中.</string>
+    <string name="no_methods">没有付款方法</string>
+    <string name="no_parties">没有贸易伙伴.</string>
+    <string name="no_split_parts">没有分割部分.</string>
+    <string name="no_templates">没有模板</string>
+    <string name="no_title_given">你未输入任何文字.</string>
+    <string name="numbered">编号</string>
+    <string name="opening_balance">金额</string>
+    <string name="parse_error_file_not_found">未能找到文件 %1$s</string>
+    <string name="parse_error_grisbi_version_not_supported">不支援 Grisbi 文档版本: %1$s</string>
+    <string name="parse_error_no_data_found">文件中没有可导入的数据.</string>
+    <string name="parse_error_other_exception">遇到错误: %1$s</string>
+    <string name="parse_error_parse_exception">无法分析的文件</string>
+    <string name="password_disabled_reenable">密码保护已被停用.您可以在设置中重新启用它.</string>
+    <string name="password_lost">忘记密码</string>
+    <string name="password_not_valid">密码无效.请再试一次!</string>
+    <string name="password_prompt">输入你的密码</string>
+    <string name="password_security_answer_not_valid">答案错误.请再试一次!</string>
+    <string name="payee">收款人</string>
+    <string name="payer">付款人</string>
+    <string name="payer_or_payee">收款人/付款人</string>
+    <!-- Plan for future and recurring transactions -->
+    <string name="plan">计划</string>
+    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
+    <string name="plan_automatic">自动</string>
+    <!-- this is the label for the calendar where plans for future and recurrent transactions are stored -->
+    <string name="plan_calendar_name">{app_name} 规划</string>
+    <string name="planner_notification_channel_name">规划</string>
+    <!-- This message is shown, after a user decides to not apply a manual plan -->
+    <string name="plan_execution_canceled">计划执行已取消</string>
+    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
+    <string name="plan_manual">手动</string>
+    <string name="planner_create_calendar_failure">无法建立本机日历</string>
+    <string name="planner_create_calendar_success">本机计划日历被成功新增</string>
+    <!-- payment methods -->
+    <string name="pm_cheque">支票</string>
+    <string name="pm_creditcard">信用卡</string>
+    <string name="pm_deposit">存款</string>
+    <string name="pm_directdebit">直接付款</string>
+    <string name="pm_type_credit">信用</string>
+    <string name="pm_type_debit">借记</string>
+    <string name="pm_type_neutral">中性</string>
+    <string name="pref_app_dir_title">备份和导出的文件夹</string>
+    <string name="pref_auto_fill_title">自动填充交易</string>
+    <string name="pref_backup_summary">在SD卡上建立资料库备份和喜好设置档.</string>
+    <string name="pref_sort_order_usages">使用量计数</string>
+    <string name="pref_category_title_advanced">高级设置</string>
+    <string name="pref_category_title_export">导出</string>
+    <string name="pref_category_title_import">导入</string>
+    <string name="pref_category_title_manage">管理</string>
+    <string name="pref_category_title_more_information">更多资讯</string>
+    <string name="pref_category_title_security">安全</string>
+    <string name="pref_category_title_ui">用户界面</string>
+    <string name="pref_checkbox_enabled">启用</string>
+    <string name="pref_checkbox_disabled">已禁用</string>
+    <string name="pref_contrib_purchase_title">购买密钥</string>
+    <string name="pref_contrib_purchase_title_upgrade">升级密钥</string>
+    <string name="pref_custom_currency_title">自定义货币</string>
+    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
+    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">如果你收到密钥,获取高级或扩展功能</string>
+    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">输入密钥</string>
+    <string name="pref_export_format_title">日期格式</string>
+    <string name="pref_import_from_grisbi_summary">导入类别 和贸易伙伴.</string>
+    <string name="pref_import_from_grisbi_title">由Grisbi导入</string>
+    <!-- %s is replaced with QIF or CSV -->
+    <string name="pref_import_summary">从 %s 文件里面导入交易,类别和交易伙伴</string>
+    <!-- %s is replaced with QIF or CSV -->
+    <string name="pref_import_title">导入 %s</string>
+    <string name="pref_manage_accounts_title">账户</string>
+    <string name="pref_manage_categories_summary">新增,编辑,移除类别.</string>
+    <string name="pref_manage_categories_title">类别</string>
+    <string name="pref_manage_methods_summary">建立和编辑付款方法,关联它们的帐户类型.</string>
+    <string name="pref_manage_methods_title">付款方法</string>
+    <string name="pref_manage_parties_summary">新增、编辑、删除贸易伙伴 (付款人和收款人) .</string>
+    <string name="pref_manage_parties_title">贸易伙伴</string>
+    <string name="pref_more_info_dialog_title">许可 &amp; 信用</string>
+    <string name="pref_password_not_equal">密码不相符</string>
+    <string name="pref_perform_share_title">分享导出文件</string>
+    <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
+    <string name="pref_planning_calendar_create_local">建立新的本机计划日历</string>
+    <string name="pref_planning_calendar_summary">选取一个日历用于计划将来和记录经常性交易</string>
+    <string name="pref_planning_calendar_title">计划日历</string>
+    <string name="pref_protection_delay_seconds_summary">閒置秒数将被密码锁定.</string>
+    <string name="pref_protection_delay_seconds_title">剩时保护</string>
+    <string name="pref_protection_enable_data_entry_from_widget_summary_on">允许不设置密码</string>
+    <string name="pref_protection_enable_data_entry_from_widget_summary_off">需要密码</string>
+    <string name="pref_qif_export_file_encoding_title">字符编码</string>
+    <string name="pref_request_licence_title">请求密钥</string>
+    <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
+    <string name="pref_restore_alternative">可选项</string>
+    <string name="pref_restore_title">恢复</string>
+    <string name="pref_security_question_summary">如果你忘记了你的密码,贡献 开支助手 可助你解锁你的应用程式.</string>
+    <string name="pref_security_question_title">安全问题</string>
+    <string name="pref_send_feedback_title">反馈意见</string>
+    <string name="pref_share_target_summary">必需留空,若果你想选择合适应用程式 (电邮、Dropbox、Google Docs …),或者提供一个支援上载的URL地址.</string>
+    <string name="pref_share_target_title">上载 URL</string>
+    <string name="pref_shortcut_added">快捷方式已被添加到主画面</string>
+    <string name="pref_shortcut_not_added">主屏幕没有空间接收快捷方式</string>
+    <string name="pref_shortcut_summary">新增快捷方式到主画面.</string>
+    <string name="pref_ui_fontsize_title">介面字体大小</string>
+    <string name="pref_ui_home_screen_shortcuts">主屏快捷方式</string>
+    <string name="pref_ui_language_default">系统默认</string>
+    <!-- Title of the preference for selecting the UI language -->
+    <string name="pref_ui_language_title">语言</string>
+    <string name="pref_ui_theme_dark">黑</string>
+    <string name="pref_ui_theme_light">白</string>
+    <string name="pref_ui_theme_title">界面主题</string>
+    <string name="pref_visit_website_summary">活动日志和常见问题</string>
+    <string name="pref_visit_website_title">浏览官方网站</string>
+    <string name="progress_dialog_deleting">删除对象</string>
+    <string name="progress_dialog_loading">从数据库载入物件</string>
+    <string name="progress_dialog_printing">生成PDF</string>
+    <string name="progress_dialog_saving">保存对象到数据库</string>
+    <string name="reference_number">参考编号</string>
+    <string name="restore_db_failure">数据库恢复失败.</string>
+    <string name="restore_db_success">数据库已从备份恢复过来.</string>
+    <string name="restore_no_backup_found">没有找到备份</string>
+    <string name="restore_preferences_failure">喜好设置恢复失败</string>
+    <string name="restore_backup_file_not_found">在压缩包 \"%2$s\" 中没有找到 %1$s </string>
+    <string name="restore_preferences_success">喜好设置已经从备份恢复过来.</string>
+    <string name="restore_calendar_success" tools:ignore="PluralsCandidate">已从备份中恢复 %d 个计划</string>
+    <string name="save_transaction_and_new_success">成功保存</string>
+    <string name="save_transaction_error">无法从模板储存新的交易</string>
+    <string name="save_transaction_template_deleted">模板已被移除</string>
+    <string name="select">选取</string>
+    <string name="select_category">选取类别</string>
+    <string name="share_scheme_not_supported">不支持方桉 %1$s</string>
+    <string name="share_sending">发送导出文件</string>
+    <string name="split_parts_heading">分割部分</string>
+    <string name="split_transaction">分割交易</string>
+    <string name="status">状态</string>
+    <string name="status_cleared">已结清</string>
+    <string name="status_reconciled">已对账</string>
+    <string name="status_uncreconciled">未对账</string>
+    <string name="status_void">空</string>
+    <string name="subcategory">子类别</string>
+    <string name="sum_expenses">支出</string>
+    <string name="sum_income">收入</string>
+    <string name="sum_transfer">转移</string>
+    <!-- platform is replaced with Android or Blackberry -->
+    <string name="tell_a_friend_message">{app_name}, 个人理财工具 {platform}版, {website}</string>
+    <string name="thank_you">感谢你的支持!</string>
+    <string name="time">时间</string>
+    <string name="title">名称</string>
+    <string name="total_cleared">已结清总账</string>
+    <string name="total_reconciled">已对账总账</string>
+    <string name="transaction">交易</string>
+    <string name="transfer">转移</string>
+    <string name="transfer_from_account">由</string>
+    <string name="transfer_to_account">至</string>
+    <!-- Type refers to the type of an account, eg. Cash account, bank account -->
+    <string name="type">类型</string>
+    <string name="unsplit_amount">未分割数量</string>
+    <string name="unsplit_amount_greater_than_zero">还有一些金额未分割.</string>
+    <string name="warning_backup">数据库和喜好设置将被储存到SD卡 %1$s.</string>
+    <string name="continue_confirmation">你要继续吗?</string>
+    <string name="warning_delete_account">此帐户将与它的所有交易将被删除 (%1$s).</string>
+    <string name="warning_password_protected">应用被密码保护</string>
+    <string name="warning_widget_disabled">你需要在应用设置里面启用这个挂件</string>
+    <string name="warning_password_contrib">若果您忘记了密码,设置一个安全问题可让你再次解锁此应用.</string>
+    <string name="warning_reset_account">如果你继续,这个帐户的所有交易都从数据库中被删除且无法恢复.</string>
+    <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
+    <string name="warning_reset_account_all">如果你继续,所有帐户%1$s和当中的所有交易都从数据库中被删除且无法恢复.</string>
+    <string name="warning_restore">数据库和喜好设置将会从备份中被恢复过来 (%1$s).当前的数据会被删除.</string>
+    <string name="warning_splitpartcategory_context">转移是分割的一部分,它只能在有分割的情况下被编辑或删除.</string>
+    <string name="warning_change_fraction_digits_checkbox_label">更新数据库中的数量</string>
+    <string name="import_categories_success">%1$s 类别  被导入成功</string>
+    <string name="import_parties_success">%1$s 贸易伙伴被导入成功</string>
+    <string name="import_accounts_success">%1$s 账号导入成功</string>
+    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d 交易被导入账户 %2$s</string>
+    <string name="import_accounts_none">没有账号被导入</string>
+    <string name="import_categories_none">没有类别被导入</string>
+    <string name="import_parties_none">没有贸易伙伴被导入</string>
+    <string name="import_transactions_none">没有交易被导入账户 %1$s</string>
+    <string name="import_source_select_error">请提供文件类型 %1$s</string>
+    <string name="menu_categories_setup_default">设置默认类别</string>
+    <string name="menu_create_folder">新建文件夹</string>
+    <string name="create_new_folder_fail">目录建立失败</string>
+    <string name="widget_title_accounts">我的账户</string>
+    <string name="widget_title_templates">我的模板</string>
+    <string name="app_dir_not_accessible">所选文件夹(%1$s)不可访问,请选择其他</string>
+    <string name="search_amount">搜索账户</string>
+    <string name="search_category">搜索类别</string>
+    <string name="search_comment">搜索备注</string>
+    <string name="search_date">搜索日期</string>
+    <string name="search_status">搜索状态</string>
+    <string name="search_payee">搜索收付人</string>
+    <string name="search_method">搜索交易方法</string>
+    <string name="and">和</string>
+    <string name="between_and">在 %1$s 和 %2$s 之间</string>
+    <string name="before">在 %s 之前</string>
+    <string name="after">%s 之后</string>
+    <string name="comparison_operator_equal">等于</string>
+    <string name="comparison_operator_greater_than">大于</string>
+    <string name="comparison_operator_lesser_than">小于</string>
+    <string name="comparison_operator_date_before">前</string>
+    <string name="comparison_operator_date_after">后</string>
+    <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">购买失败或取消</string>
+    <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate"> %2$s 货币 %1$d 账户已经被更新了.</string>
+    <string name="learn_more">了解更多</string>
+    <string name="import_source_file">文件</string>
+    <string name="restore_calendar_handling_ignore">不要恢复计划</string>
+    <string name="restore_not_possible_target_calendar_missing">备份中的日历 %s 本地不存在.恢复已中止</string>
+    <string name="restore_not_possible_local_calendar_missing">当前计划日历不可用</string>
+    <string name="menu_view_picture">查看图片</string>
+    <string name="menu_delete_picture">删除图片</string>
+    <string name="menu_change_picture">附加不同图片</string>
+    <string name="menu_distribution_show_pie_char">显示饼状图</string>
+    <string name="menu_distribution_aggreate">集合消费和收入</string>
+    <string name="image_deleted">图片被删除</string>
+    <string name="dialog_export_applied_to_filter">只有被当前过滤器匹配的交易才会被考虑</string>
+    <string name="export_handle_deleted_create_helper">创建交易助手</string>
+    <string name="export_handle_deleted_update_balance">更新打开余额</string>
+    <string name="file_name">文件名</string>
+    <string name="folder_name">文件夹名</string>
+    <string name="mark_void_instead_of_delete">不要删除交易,应标记为空</string>
+    <string name="menu_undelete_transaction">取消删除</string>
+    <string name="slash_forbidden_in_filename">/ 符号不允许作为文件名</string>
+    <string name="io_error_unable_to_create_file">不能在 %2$s 里面创建文件 %1$s</string>
+    <string name="menu_categories_export">导出到 QIF</string>
+    <string name="pref_csv_import_delimiter">分隔符</string>
+    <string name="csv_import_preview">预览</string>
+    <string name="menu_parse">粘贴</string>
+    <!-- Label for column where user can check rows to be discarded from import -->
+    <string name="cvs_import_discard">丢弃</string>
+    <string name="csv_import_field_mapped_more_than_once">%s 被映射超过一次.</string>
+    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d 个记录不能被导入</string>
+    <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d 个记录被丢弃.</string>
+    <string name="csv_import_subcategory_requires_category">如果你映射子类别,你必须映射主类别</string>
+    <string name="cvs_import_set_first_line_as_header">是否把第一行当作标题行</string>
+    <string name="csv_import_delimiter_comma">逗号</string>
+    <string name="csv_import_delimiter_semicolon">分号</string>
+    <string name="csv_import_delimiter_tab">制表符</string>
+    <string name="csv_import_no_mapping_found_for_amount">请映射列到账户、收入或支出.</string>
+    <string name="menu_show_transactions">展示交易</string>
+    <string name="pref_custom_decimal_format_title">数字格式</string>
+    <string name="pref_auto_backup_title">启用自动备份</string>
+    <string name="pref_auto_backup_summary">每日在指定时间备份资料库 (仅当数据已经改变)</string>
+    <string name="pref_auto_backup_time_title">自动备份时间</string>
+    <string name="calendar_permission_required"><i>{app_name}</i> 需要访问您的日历权限,以创建未来计划和循环交易</string>
+    <string name="button_request_calendar_access" tools:ignore="UnusedResources">授权访问</string>
+    <string name="switch_on_text">开启</string>
+    <string name="switch_off_text">关闭</string>
+    <string name="menu_move">移动</string>
+    <string name="dialog_title_select_target">选择目标</string>
+    <string name="transform_subcategory_to_main">转换为主类别</string>
+    <string name="preferences_week_start_day_title">一周起始日</string>
+    <string name="preferences_month_start_date_title">月份开始于</string>
+    <string name="exchange_rate">改变汇率</string>
+    <string name="date_format_hour">时</string>
+    <string name="date_format_minute">分</string>
+    <string name="copied_to_clipboard">复制到剪切板</string>
+    <string name="menu_sort">排序</string>
+    <string name="pref_sort_order_custom">自定义</string>
+    <string name="content_description_calculator">计算器</string>
+    <!-- describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list. -->
+    <string name="plan_instance_state_open">打开</string>
+    <!-- describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list. -->
+    <string name="plan_instance_state_cancelled">已取消</string>
+    <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
+    <string name="plan_instance_state_applied">已应用</string>
+    <string name="content_description_calculator_clear_button">重置所有</string>
+    <string name="content_description_calculator_delete_button">删除上一个数字</string>
+    <string name="split_transaction_one_error">不能转换交易到分割</string>
+    <string name="pref_category_exchange_rates">汇率</string>
+    <string name="budget_duration_from">从</string>
+    <string name="budget_duration_to">到</string>
+    </resources>

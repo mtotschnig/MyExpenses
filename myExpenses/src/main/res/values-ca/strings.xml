@@ -1,389 +1,343 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
 <resources xmlns:tools="http://schemas.android.com/tools">
-  <string name="account">Compte</string>
-  <!--Label in form for payment method, where user checks for which account types the method is applicable-->
-  <string name="account_type_asset">Compte d\'actiu</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_asset_plural">Comptes d\'actius</string>
-  <string name="account_type_bank">Compte bancari</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_bank_plural">Comptes bancaris</string>
-  <string name="account_type_cash">Compte de caixa</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_cash_plural">Comptes de caixa</string>
-  <string name="account_type_ccard">Targeta de crèdit</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_ccard_plural">Targetes de crèdit</string>
-  <string name="account_type_liability">Compte de passiu</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_liability_plural">Compte de passiu</string>
-  <string name="already_defined">%1$s ja existeix.</string>
-  <string name="amount">Import</string>
-  <string name="app_name">Les meves despeses</string>
-  <string name="backup_failure">Hi ha hagut un error en fer la còpia de seguretat a \"%1$s\".</string>
-  <string name="backup_success">La base de dades i les preferències s\'han desat a \"%1$s\".</string>
-  <string name="category">Categoria</string>
-  <string name="color">Color</string>
-  <string name="comment">Notes</string>
-  <string name="confirmation_dialog_dont_show_again">No ho tornis a mostrar</string>
-  <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Nombre il·limitat de comptes</string>
-  <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Nombre de planificacions il·limitat</string>
-  <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Exporta la llista de transaccions en PDF</string>
-  <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Widget de plantilla</string>
-  <string name="contrib_key">Clau del Contribuïdor</string>
-  <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
-  <string name="contrib_key_requires">Requereix %s.</string>
-  <string name="currency">Moneda</string>
-  <string name="current_balance">Saldo actual</string>
-  <string name="date">Data</string>
-  <string name="date_format">Format de la data</string>
-  <string name="date_format_illegal">El format de data no és vàlid</string>
-  <string name="decimal_separator">Separador decimal</string>
-  <string name="description">Descripció</string>
-  <string name="dialog_balance_delete">Elimina les transaccions conciliades</string>
-  <string name="dialog_command_disabled_balance">No hi ha operacions eliminades a reconciliar .</string>
-  <string name="dialog_command_disabled_reset_account">No hi ha cap operació per a exportar.</string>
-  <string name="dialog_command_disabled_distribution">En aquest compte no hi ha cap operació assignada a cap categoria.</string>
-  <!--Button for accessing trial of premium feature-->
-  <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
-  <string name="dialog_contrib_premium_feature">%1$s és una característica premium  (%2$s).</string>
-  <string name="dialog_contrib_text_1"><i>{app_name}</i> és de codi obert.</string>
-  <string name="dialog_export_delete">Suprimeix les operacions exportades</string>
-  <string name="dialog_export_not_yet_exported">Exporta només les operacions que encara no s\'han exportat</string>
-  <string name="dialog_password_activate_protection">Activa la protecció amb contrasenya</string>
-  <string name="dialog_password_change_password">Canvia la contrasenya</string>
-  <string name="dialog_password_new_password">Nova contrasenya</string>
-  <string name="dialog_password_new_password_confirmation">Nova contrasenya (confirmació)</string>
-  <string name="dialog_remind_later">Més endavant</string>
-  <string name="dialog_remind_no">No, gràcies</string>
-  <string name="dialog_remind_rate_how_many_stars">Quants estels donaries a {app_name}?</string>
-  <string name="dialog_remind_rate_1">Si us plau prengueu-vos un moment per valorar i comentar {app_name}.</string>
-  <string name="dialog_remind_rate_2">Els vostres comentaris ens permeten afegir millores contínuament.</string>
-  <string name="dialog_remind_rate_yes">Valoreu-ho ara</string>
-  <string name="dialog_security_answer">Resposta</string>
-  <string name="dialog_security_question">Pregunta</string>
-  <string name="dialog_title_attention">Atenció</string>
-  <string name="dialog_title_information">Informació</string>
-  <!--%1$s is replace with account label-->
-  <string name="dialog_title_balance_account">Balanç %1$s</string>
-  <string name="dialog_title_contrib_feature">Característica premium</string>
-  <string name="dialog_title_warning_delete_template">Voleu suprimir la plantilla?</string>
-  <string name="dialog_title_warning_delete_transaction">Voleu suprimir l\'operació?</string>
-  <string name="expense">Despesa</string>
-  <string name="export_expenses">Exporteu les despeses</string>
-  <!--1$s is replaced with path to file, 2$s with error message-->
-  <string name="export_sdcard_failure">Hi ha hagut un error en exportar les despeses a \"%1$s\": %2$s</string>
-  <!--1$s is replaced with path to file-->
-  <string name="export_sdcard_success">Les despses s\'han exportat al fitxer %1$s.</string>
-  <string name="external_storage_unavailable">La memòria externa (tarja SD) no està disponible.</string>
-  <string name="feedback">Comentaris</string>
-  <string name="ftp_uri_malformed">URI %1$s no és vàlid</string>
-  <string name="grisbi_import_categories_loading">Les categories es carreguen des de %1$s</string>
-  <string name="grisbi_import_parties_loading">S\'està carregant els tercers des de %1$s</string>
-  <string name="grouping_day">Dia</string>
-  <string name="grouping_last_week">Darrera setmana</string>
-  <string name="grouping_month">Mes</string>
-  <string name="grouping_none">No agrupat</string>
-  <string name="grouping_this_week">Aquesta setmana</string>
-  <string name="grouping_today">Avui</string>
-  <string name="grouping_week">Setmana</string>
-  <string name="grouping_year">Any</string>
-  <string name="grouping_yesterday">Ahir</string>
-  <string name="help_button_rate">Doneu la vostra opinió</string>
-  <string name="help_heading_credits">Crèdits</string>
-  <string name="help_heading_license">Llicència</string>
-  <string name="help_heading_whats_new">Novetats</string>
-  <string name="important_upgrade_information_heading">Informació important</string>
-  <string name="import_select_transactions">Transaccions</string>
-  <string name="income">ingrés</string>
-  <string name="invalid_number_format">El format dels decimals no es compatible amb les vostra configuració regional. Si us plau, feu servir %1$s</string>
-  <string name="label">Etiqueta</string>
-  <string name="licence_validation_failure">No es pot validar la clau de llicència.</string>
-  <string name="licence_validation_success">La clau de llicència s\'ha validat:</string>
-  <string name="licence_validation_premium">S\'han afegit les característiques Premium.</string>
-  <string name="menu_aggregates">Total</string>
-  <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
-  <string name="menu_apply_template">Aplica</string>
-  <string name="menu_back">Torna</string>
-  <string name="menu_backup">Còpia de seguretat</string>
-  <!--Balance: compare cleared balance in app with balance on statement received from bank-->
-  <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
-  <string name="menu_cancel_plan_instance">Anul·la</string>
-  <string name="menu_clone_transaction">Clona</string>
-  <string name="menu_contrib">Contribuïu</string>
-  <string name="menu_create_account">Nou compte</string>
-  <string name="menu_create_instance_edit">Aplica i modifica</string>
-  <string name="menu_create_instance_save">Aplica i desa</string>
-  <string name="menu_create_main_cat">Nova categoria principal</string>
-  <string name="menu_create_method">Nova forma de pagament</string>
-  <string name="menu_create_party">Nou tercer</string>
-  <string name="menu_create_split">Nou repartiment</string>
-  <string name="menu_create_split_part_category">Nova partició de la categoria</string>
-  <string name="menu_create_split_part_transfer">Nova partició de la transferència</string>
-  <string name="menu_create_sub_cat">Nova sub-categoria</string>
-  <string name="menu_create_template">Nova plantilla</string>
-  <string name="menu_create_template_from_transaction">Anomena i desa la plantilla</string>
-  <string name="menu_create_template_for_transaction">Nova plantilla d\'operació</string>
-  <string name="menu_create_template_for_transfer">Nova plantilla de transferència</string>
-  <string name="menu_create_transaction">Nova operació</string>
-  <string name="menu_create_transfer">Nova transferència</string>
-  <string name="menu_delete">Suprimeix</string>
-  <string name="menu_distribution">Per categories</string>
-  <string name="menu_edit">Modifica</string>
-  <string name="menu_edit_account">Modifica el compte</string>
-  <string name="menu_edit_cat">Modifica la categoria</string>
-  <string name="menu_edit_method">Edita la forma de pagament</string>
-  <string name="menu_edit_party">Modifica el tercer</string>
-  <string name="menu_edit_plan_instance">Edita aquest element de la planificació</string>
-  <string name="menu_edit_split">Edita el repartiment</string>
-  <string name="menu_edit_split_part_category">Edita la partició de la categoria</string>
-  <string name="menu_edit_split_part_transfer">Modifica la partició de la transferència</string>
-  <string name="menu_edit_template">Modifica la plantilla</string>
-  <string name="menu_edit_transaction">Modifica l\'operació</string>
-  <string name="menu_edit_transfer">Modifica la transferència</string>
-  <string name="menu_forward">Endavant</string>
-  <string name="menu_grouping">Agrupat</string>
-  <string name="menu_help">Ajuda</string>
-  <!--This command inverts the direction of a transfer-->
-  <string name="menu_invert_transfer">Inverteix</string>
-  <string name="menu_manage_plans">Plantilles i planificacions</string>
-  <!--Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application-->
-  <string name="menu_import">Importació</string>
-  <string name="menu_reset">Exporta i reinicia</string>
-  <string name="menu_reset_all">Exporta i reinicia-ho tot</string>
-  <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
-  <string name="menu_reset_plan_instance">Reinicia</string>
-  <string name="menu_save">Desa</string>
-  <string name="menu_save_and_new">Desa i nova</string>
-  <string name="menu_settings">Preferències</string>
-  <string name="menu_share">Digueu-ho a un amic</string>
-  <string name="button_label_close">Tanca</string>
-  <string name="method">Forme de pagament</string>
-  <string name="no_amount_given">No heu indicat cap import.</string>
-  <string name="no_app_handling_email_available">No s\'ha trobat l\'aplicació del correu electrónic.</string>
-  <string name="no_app_handling_ftp_available">No s\'ha trobat cap aplicació de ftp. Voleu instal·lar <i>Envia amb FTP</i>?</string>
-  <string name="no_categories">Encara no hi ha categories.</string>
-  <string name="no_expenses">Encara no hi ha cap despesa!</string>
-  <string name="no_exportable_expenses">No hi ha operacions que encara no hagin estat exportades.</string>
-  <string name="no_filemanager_installed">No hi ha instal·lat cap administrador d\'arxius</string>
-  <string name="no_mapped_transactions">No s\'ha assignat cap operació a cap categoria durant aquest període.</string>
-  <string name="no_methods">Cap forma de pagament.</string>
-  <string name="no_parties">No hi ha cap tercer</string>
-  <string name="no_split_parts">No hi ha cap partició.</string>
-  <string name="no_templates">No hi ha cap plantilla</string>
-  <string name="no_title_given">No heu afegit cap títol.</string>
-  <string name="numbered">numerat</string>
-  <string name="opening_balance">Saldo inicial</string>
-  <string name="parse_error_file_not_found">No ha estat possible trobar el fitxer %1$s</string>
-  <string name="parse_error_grisbi_version_not_supported">La versió  %1$s del fitxer Grisbi no està permesa</string>
-  <string name="parse_error_no_data_found">No hi ha dades importables en el fitxer.</string>
-  <string name="parse_error_other_exception">S\'ha produït un error: %1$s</string>
-  <string name="parse_error_parse_exception">No ha estat possible analitzar el fitxer.</string>
-  <string name="password_disabled_reenable">La protecció per contrasenya ha estat desactivada. Podeu tornar-la a activar a la configuració.</string>
-  <string name="password_lost">He oblidat la contrasenya</string>
-  <string name="password_not_valid">La contrasenya no és vàlida. Torneu-hi!</string>
-  <string name="password_prompt">Introduïu la vostra contrasenya</string>
-  <string name="password_security_answer_not_valid">Resposta incorrecta. Torneu-hi!</string>
-  <string name="payee">Beneficiari</string>
-  <string name="payer">Pagador</string>
-  <!--Plan for future and recurring transactions-->
-  <string name="plan">Planificació</string>
-  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance-->
-  <string name="plan_automatic">automàtic</string>
-  <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">Planificador {app_name}</string>
-  <string name="planner_notification_channel_name">Planificador</string>
-  <string name="plan_event_deleted">S\'ha suprimit la planificació del calendari associada amb aquesta plantilla.</string>
-  <!--This message is shown, after a user decides to not apply a manual plan-->
-  <string name="plan_execution_canceled">S\'ha anul·lat la planificació</string>
-  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance)-->
-  <string name="plan_manual">manual</string>
-  <string name="planner_create_calendar_failure">No ha estat possible generar l\'agenda de planificació local</string>
-  <string name="planner_create_calendar_success">L\'agenda  de planificació s\'ha generat correctament</string>
-  <!--payment methods-->
-  <string name="pm_cheque">Xec</string>
-  <string name="pm_creditcard">Targeta de crèdit</string>
-  <string name="pm_deposit">Dipòsit</string>
-  <string name="pm_directdebit">Càrrec</string>
-  <string name="pm_type_credit">Crèdit</string>
-  <string name="pm_type_debit">Dèbit</string>
-  <string name="pm_type_neutral">Neutral</string>
-  <string name="pref_backup_summary">Feu una còpia de seguretat de la base de dades i de les preferències.</string>
-  <string name="pref_sort_order_usages">Freqüència d\'ús</string>
-  <string name="pref_category_title_export">Exportació</string>
-  <string name="pref_category_title_import">Importació</string>
-  <string name="pref_category_title_manage">Personalitza</string>
-  <string name="pref_category_title_more_information">Més informació</string>
-  <string name="pref_category_title_security">Seguretat</string>
-  <string name="pref_category_title_ui">Interfície d\'usuari</string>
-  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
-  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
-  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Si heu rebut una clau, podeu accedir a les funcions avançades.</string>
-  <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Entreu la clau</string>
-  <string name="pref_export_format_title">Format de les dades</string>
-  <string name="pref_import_from_grisbi_summary">Importeu les categories i els tercers de Grisbi XML.</string>
-  <string name="pref_import_from_grisbi_title">Importeu de Grisbi</string>
-  <!--%s is replaced with QIF or CSV-->
-  <!--%s is replaced with QIF or CSV-->
-  <string name="pref_manage_accounts_title">Comptes</string>
-  <string name="pref_manage_categories_summary">Afegiu, modifiqueu i suprimiu categories.</string>
-  <string name="pref_manage_categories_title">Categories</string>
-  <string name="pref_manage_methods_summary">Entreu, editeu formes de pagament i associeu-les amb els tipus de compte.</string>
-  <string name="pref_manage_methods_title">Formes de pagament</string>
-  <string name="pref_manage_parties_summary">Afegiu, modifiqueu i suprimiu tercers (pagadors i beneficiaris)</string>
-  <string name="pref_manage_parties_title">Tercers</string>
-  <string name="pref_manage_sync_backends_title">Backends de sincronització</string>
-  <!--%s will be replaced with list of backends-->
-  <string name="pref_more_info_dialog_title">Llicència i Crèdits</string>
-  <string name="pref_password_not_equal">Les contrasenyes no coincideixen</string>
-  <string name="pref_perform_share_title">Envia l\'exportació</string>
-  <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
-  <string name="pref_planning_calendar_create_local">Nova agenda de planificació local</string>
-  <string name="pref_planning_calendar_summary">Trieu el calendari per desar les planificacions d\'operacions futures i recurrents</string>
-  <string name="pref_planning_calendar_title">Agenda</string>
-  <string name="pref_protection_delay_seconds_summary">Els segons d\'inactivitat que hauran de transcorre abans que l\'aplicació sigui blocada amb la contrasenya.</string>
-  <string name="pref_protection_delay_seconds_title">Retard de la protecció</string>
-  <string name="pref_qif_export_file_encoding_title">Codificació de caràcters</string>
-  <string name="pref_request_licence_title">Demaneu una clau</string>
-  <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
-  <string name="pref_restore_summary">Seleccioneu una còpia de seguretat per restaurar la base de dades i preferències.</string>
-  <string name="pref_restore_title">Restauració</string>
-  <string name="pref_security_question_summary">Us permet desblocar l\'aplicació, si heu oblidat la vostra contrasenya.</string>
-  <string name="pref_security_question_title">Pregunta de seguretat</string>
-  <string name="pref_send_feedback_title">Envieu comentaris</string>
-  <string name="pref_share_target_summary">Podeu deixar-ho en blanc, si voleu triar entre les aplicacions adequades (correu electrònic, Dropbox, Google Docs, …), o indicar una URL en un dels esquemes permesos</string>
-  <string name="pref_share_target_title">Puja el fitxer (a una URL)</string>
-  <string name="pref_shortcut_added">S\'ha afegit la drecera a la pantalla Inicial</string>
-  <string name="pref_shortcut_summary">Afegiu la drecera a la pantalla Inicial.</string>
-  <string name="pref_ui_fontsize_title">Augmenta la mida de la lletra</string>
-  <string name="pref_ui_language_default">Per omissió del sistema</string>
-  <!--Title of the preference for selecting the UI language-->
-  <string name="pref_ui_language_title">Idioma</string>
-  <string name="pref_ui_theme_dark">Fosc</string>
-  <string name="pref_ui_theme_light">Clar</string>
-  <string name="pref_ui_theme_title">Tema</string>
-  <string name="pref_visit_website_summary">Registre de canvis i preguntes més freqüents</string>
-  <string name="pref_visit_website_title">Visiteu el lloc web</string>
-  <string name="progress_dialog_deleting">S\'estàn suprimint els objectes</string>
-  <string name="progress_dialog_loading">S\'està carregant l\'objecte de la base de dades</string>
-  <string name="reference_number">Número de referència</string>
-  <string name="restore_db_failure">No ha estat possible restaurar la base de dades.</string>
-  <string name="restore_db_success">S\'ha restaurat la base de dades des de la còpia de seguretat.</string>
-  <string name="restore_no_backup_found">No s\'ha trobat la còpia de seguretat.</string>
-  <string name="restore_preferences_failure">No ha estat possible restaurar les Preferències</string>
-  <string name="restore_preferences_success">S\'han restaurat les preferències des de la còpia de seguretat.</string>
-  <string name="save_transaction_and_new_success">S\'ha desat correctament</string>
-  <string name="save_transaction_error">No ha estat possible desar la nova traducció de la plantilla.</string>
-  <string name="save_transaction_template_deleted">S\'ha suprimit la plantilla</string>
-  <string name="select">Trieu</string>
-  <string name="select_category">Trieu una categoria</string>
-  <string name="share_scheme_not_supported">L\'esquema %1$s no està permés.</string>
-  <string name="share_sending">Envia el fitxer</string>
-  <string name="split_parts_heading">Particions</string>
-  <string name="split_transaction">Operació repartida</string>
-  <string name="status">Estat</string>
-  <string name="status_cleared">aprovada</string>
-  <string name="status_reconciled">reconciliat</string>
-  <string name="status_uncreconciled">sense reconciliar</string>
-  <string name="subcategory">Subcategoria</string>
-  <string name="sum_expenses">Despeses</string>
-  <string name="sum_income">Ingressos</string>
-  <string name="sum_transfer">Transferèncias</string>
-  <!--platform is replaced with Android or Blackberry-->
-  <string name="thank_you">Gràcies pel vostre suport!</string>
-  <string name="time">Hora</string>
-  <string name="title">Títol</string>
-  <string name="total_cleared">Total eliminat</string>
-  <string name="total_reconciled">Total reconciliat</string>
-  <string name="transaction">Operació</string>
-  <string name="transfer">Transferència a un altre compte</string>
-  <string name="transfer_from_account">Origen</string>
-  <string name="transfer_to_account">Destí</string>
-  <!--Type refers to the type of an account, eg. Cash account, bank account-->
-  <string name="type">Tipus</string>
-  <string name="unsplit_amount">Import abans de repartir</string>
-  <string name="unsplit_amount_greater_than_zero">Encara hi ha cert import per repartir.</string>
-  <string name="warning_backup">La base de dades i les preferències es desaran a \"%1$s\".</string>
-  <string name="continue_confirmation">Voleu continuar?</string>
-  <string name="warning_password_contrib">Configura una pregunta de seguretat per desblocar l\'aplicació, en cas que oblideu la vostra contrasenya.</string>
-  <string name="warning_reset_account">Si continueu, totes les operacions d\'aquest compte s\'eliminaran de la base de dades i no es podran restaurar.</string>
-  <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
-  <string name="warning_reset_account_all">Si continueu, per tots els comptes%1$s, les operacions s\'eliminaran de la base de dades i no es podran restaurar.</string>
-  <string name="warning_restore">La base de dades i les preferències es restauraran des de la còpia de seguretat (%1$s). S\'esborraran les dades actuals.</string>
-  <string name="warning_splitpartcategory_context">Transferències que formen part d\'una transacció dividida només es poden editar en el marc de la divisió.</string>
-  <string name="import_categories_success">%1$s categories s\'han importat correctament.</string>
-  <string name="import_parties_success">%1$s tercers s\'han importat correctament.</string>
-  <string name="import_accounts_none">No s\'ha importat cap compte!</string>
-  <!--This string is used for navigating up in the folder browser-->
-  <string name="create_new_folder_fail">No s\'ha pogut crear la carpeta</string>
-  <string name="learn_more">Més informació</string>
-  <!--Label for column where user can check rows to be discarded from import-->
-  <string name="pref_auto_backup_title">Permetre còpia de seguretat automàtica</string>
-  <string name="pref_auto_backup_summary">Còpia de seguretat de base de dades diària a l\'hora especificada (només si les dades han canviat)</string>
-  <string name="pref_auto_backup_time_title">Hora de còpia de seguretat automàtica</string>
-  <string name="switch_on_text">Activat</string>
-  <string name="switch_off_text">Desactivat</string>
-  <string name="menu_move">Mou</string>
-  <string name="preferences_week_start_day_title">La setmana comença el</string>
-  <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
-  <string name="content_description_calculator">Calculadora</string>
-  <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
-  <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
-  <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
-  <!--Sort plans (recurring transactions) by the next instance-->
-  <string name="template">Plantilla</string>
-  <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sincronització del núvol</string>
-  <!--button leading user to purchase flow for licence keys-->
-  <!--During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed-->
-  <!--%1$s date, %2$s price-->
-  <!--A label indicating the color for the sum of expenses-->
-  <!--A label indicating the color for the sum of income-->
-  <!--This is the label for the action that breaks up a split transaction into its parts.-->
-  <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
-  <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
-  <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
-  <!--Content description for accessibility on image that allows to collapse content-->
-  <!--Content description for accessibility on image that allows to expand content-->
-  <!--Short label for the amount input where user can set either saving goal or credit limit-->
-  <!--Description for button that allows to clear the selected method-->
-  <!--Description for button that allows to clear the selected category-->
-  <!--In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
-    to search for transactions without category, payee or method. The UI allows selection of multiple items,
-    but we warn the user if he includes this special item in the selection.-->
-  <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
-  <!--Action of closing an account. A closed account does not allow any modifications on its data.-->
-  <string name="menu_close">Tanca</string>
-  <!--Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data.-->
-  <!--Menu entry for opening a list of all hidden accounts.-->
-  <!--Action of showing an account again that had previously been hidden.-->
-  <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
-  <string name="content_description_encrypted">Xifrat</string>
-  <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
-  <string name="translated_by">Traducció de </string>
-  <string name="pref_category_exchange_rates">Taxes de canvi</string>
-  <!--This message is shwon when we highlight the income / expense toogle, to make user aware of this feature-->
-  <!--This message is shwon when we highlight the dropdown for switching from normal transaction to transfer or split transaction,to make user aware of this feature-->
-  <string name="budget_duration_from">Des de</string>
-  <string name="budget_duration_to">Al</string>
-  <!--Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list.-->
-  <!--Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method"-->
-  <!--If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
-        because no payment method is configured for all of the given account types.-->
-  <!--The label for the button, where user confirms that he wants to clone the selected transactions and then remap them.-->
-  <!--The summary of a preference toggle. If switched on cloned transactions have the date set to the current date-->
-  <!--The summary of a preference toggle. If switched off cloned transactions keep the original date-->
-  <!--This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction-->
-  <!--%s will be replaced with the labels of all tags that user has selected.-->
-  <!--Title for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
-  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
-  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application)-->
-  <!--Title in Settings screen, and title of dynamically loaded feature module-->
-  <!--If this mode is active, the action button will open the camera for scanning a receipt-->
-  <!--Button that triggers the scan operation-->
-  <!--Title for a preference that allows user to decide if all transactions of the current day should be considered as past (future begins at end of day), or if the exact current time divides between past and future-->
-  <!--Option for a preference that allows to decide that all transactions until end of day are considered past transactions-->
-  <!--Option for a preference that allows to decide that only transactions before current time are considered past transactions-->
-  <!--Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)-->
-  <string name="pref_category_title_features">Característiques</string>
-  <!--Toast message shown if user clicks on Upgrade button before having selected a licence-->
-</resources>
+    <string name="account">Compte</string>
+    <string name="account_type_asset">Compte d\'actiu</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_asset_plural">Comptes d\'actius</string>
+    <string name="account_type_bank">Compte bancari</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_bank_plural">Comptes bancaris</string>
+    <string name="account_type_cash">Compte de caixa</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_cash_plural">Comptes de caixa</string>
+    <string name="account_type_ccard">Targeta de crèdit</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_ccard_plural">Targetes de crèdit</string>
+    <string name="account_type_liability">Compte de passiu</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_liability_plural">Compte de passiu</string>
+    <string name="already_defined">%1$s ja existeix.</string>
+    <string name="amount">Import</string>
+    <string name="app_name">Les meves despeses</string>
+    <string name="backup_failure">Hi ha hagut un error en fer la còpia de seguretat a \"%1$s\".</string>
+    <string name="backup_success">La base de dades i les preferències s\'han desat a \"%1$s\".</string>
+    <string name="category">Categoria</string>
+    <string name="color">Color</string>
+    <string name="comment">Notes</string>
+    <string name="confirmation_dialog_dont_show_again">No ho tornis a mostrar</string>
+    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Nombre il·limitat de comptes</string>
+    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Nombre de planificacions il·limitat</string>
+    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Exporta la llista de transaccions en PDF</string>
+    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Widget de plantilla</string>
+    <string name="contrib_key">Clau del Contribuïdor</string>
+    <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
+    <string name="contrib_key_requires">Requereix %s.</string>
+    <string name="currency">Moneda</string>
+    <string name="current_balance">Saldo actual</string>
+    <string name="date">Data</string>
+    <string name="date_format">Format de la data</string>
+    <string name="date_format_illegal">El format de data no és vàlid</string>
+    <string name="decimal_separator">Separador decimal</string>
+    <string name="description">Descripció</string>
+    <string name="dialog_balance_delete">Elimina les transaccions conciliades</string>
+    <string name="dialog_command_disabled_balance">No hi ha operacions eliminades a reconciliar .</string>
+    <string name="dialog_command_disabled_reset_account">No hi ha cap operació per a exportar.</string>
+    <string name="dialog_command_disabled_distribution">En aquest compte no hi ha cap operació assignada a cap categoria.</string>
+    <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
+    <string name="dialog_contrib_premium_feature">%1$s és una característica premium  (%2$s).</string>
+    <string name="dialog_contrib_text_1"><i>{app_name}</i> és de codi obert.</string>
+    <string name="dialog_export_delete">Suprimeix les operacions exportades</string>
+    <string name="dialog_export_not_yet_exported">Exporta només les operacions que encara no s\'han exportat</string>
+    <string name="dialog_password_activate_protection">Activa la protecció amb contrasenya</string>
+    <string name="dialog_password_change_password">Canvia la contrasenya</string>
+    <string name="dialog_password_new_password">Nova contrasenya</string>
+    <string name="dialog_password_new_password_confirmation">Nova contrasenya (confirmació)</string>
+    <string name="dialog_remind_later">Més endavant</string>
+    <string name="dialog_remind_no">No, gràcies</string>
+    <string name="dialog_remind_rate_how_many_stars">Quants estels donaries a {app_name}?</string>
+    <string name="dialog_remind_rate_1">Si us plau prengueu-vos un moment per valorar i comentar {app_name}.</string>
+    <string name="dialog_remind_rate_2">Els vostres comentaris ens permeten afegir millores contínuament.</string>
+    <string name="dialog_remind_rate_yes">Valoreu-ho ara</string>
+    <string name="dialog_security_answer">Resposta</string>
+    <string name="dialog_security_question">Pregunta</string>
+    <string name="dialog_title_attention">Atenció</string>
+    <string name="dialog_title_information">Informació</string>
+    <!-- %1$s is replace with account label -->
+    <string name="dialog_title_balance_account">Balanç %1$s</string>
+    <string name="dialog_title_contrib_feature">Característica premium</string>
+    <string name="dialog_title_warning_delete_template">Voleu suprimir la plantilla?</string>
+    <string name="dialog_title_warning_delete_transaction">Voleu suprimir l\'operació?</string>
+    <string name="expense">Despesa</string>
+    <string name="export_expenses">Exporteu les despeses</string>
+    <!-- 1$s is replaced with path to file, 2$s with error message -->
+    <string name="export_sdcard_failure">Hi ha hagut un error en exportar les despeses a \"%1$s\": %2$s</string>
+    <!-- 1$s is replaced with path to file -->
+    <string name="export_sdcard_success">Les despses s\'han exportat al fitxer %1$s.</string>
+    <string name="external_storage_unavailable">La memòria externa (tarja SD) no està disponible.</string>
+    <string name="feedback">Comentaris</string>
+    <string name="ftp_uri_malformed">URI %1$s no és vàlid</string>
+    <string name="grisbi_import_categories_loading">Les categories es carreguen des de %1$s</string>
+    <string name="grisbi_import_parties_loading">S\'està carregant els tercers des de %1$s</string>
+    <string name="grouping_day">Dia</string>
+    <string name="grouping_last_week">Darrera setmana</string>
+    <string name="grouping_month">Mes</string>
+    <string name="grouping_none">No agrupat</string>
+    <string name="grouping_this_week">Aquesta setmana</string>
+    <string name="grouping_today">Avui</string>
+    <string name="grouping_week">Setmana</string>
+    <string name="grouping_year">Any</string>
+    <string name="grouping_yesterday">Ahir</string>
+    <string name="help_button_rate">Doneu la vostra opinió</string>
+    <string name="help_heading_credits">Crèdits</string>
+    <string name="help_heading_license">Llicència</string>
+    <string name="help_heading_whats_new">Novetats</string>
+    <string name="important_upgrade_information_heading">Informació important</string>
+    <string name="import_select_transactions">Transaccions</string>
+    <string name="income">ingrés</string>
+    <string name="invalid_number_format">El format dels decimals no es compatible amb les vostra configuració regional. Si us plau, feu servir %1$s</string>
+    <string name="label">Etiqueta</string>
+    <string name="licence_validation_failure">No es pot validar la clau de llicència.</string>
+    <string name="licence_validation_success">La clau de llicència s\'ha validat:</string>
+    <string name="licence_validation_premium">S\'han afegit les característiques Premium.</string>
+    <string name="menu_aggregates">Total</string>
+    <!-- Shown in a notification; allows to apply a template (instantiate a new transaction from it) -->
+    <string name="menu_apply_template">Aplica</string>
+    <string name="menu_back">Torna</string>
+    <string name="menu_backup">Còpia de seguretat</string>
+    <!-- Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction -->
+    <string name="menu_cancel_plan_instance">Anul·la</string>
+    <string name="menu_clone_transaction">Clona</string>
+    <string name="menu_contrib">Contribuïu</string>
+    <string name="menu_create_account">Nou compte</string>
+    <string name="menu_create_instance_edit">Aplica i modifica</string>
+    <string name="menu_create_instance_save">Aplica i desa</string>
+    <string name="menu_create_main_cat">Nova categoria principal</string>
+    <string name="menu_create_method">Nova forma de pagament</string>
+    <string name="menu_create_party">Nou tercer</string>
+    <string name="menu_create_split">Nou repartiment</string>
+    <string name="menu_create_split_part_category">Nova partició de la categoria</string>
+    <string name="menu_create_split_part_transfer">Nova partició de la transferència</string>
+    <string name="menu_create_sub_cat">Nova sub-categoria</string>
+    <string name="menu_create_template">Nova plantilla</string>
+    <string name="menu_create_template_from_transaction">Anomena i desa la plantilla</string>
+    <string name="menu_create_template_for_transaction">Nova plantilla d\'operació</string>
+    <string name="menu_create_template_for_transfer">Nova plantilla de transferència</string>
+    <string name="menu_create_transaction">Nova operació</string>
+    <string name="menu_create_transfer">Nova transferència</string>
+    <string name="menu_delete">Suprimeix</string>
+    <string name="menu_distribution">Per categories</string>
+    <string name="menu_edit">Modifica</string>
+    <string name="menu_edit_account">Modifica el compte</string>
+    <string name="menu_edit_cat">Modifica la categoria</string>
+    <string name="menu_edit_method">Edita la forma de pagament</string>
+    <string name="menu_edit_party">Modifica el tercer</string>
+    <string name="menu_edit_plan_instance">Edita aquest element de la planificació</string>
+    <string name="menu_edit_split">Edita el repartiment</string>
+    <string name="menu_edit_split_part_category">Edita la partició de la categoria</string>
+    <string name="menu_edit_split_part_transfer">Modifica la partició de la transferència</string>
+    <string name="menu_edit_template">Modifica la plantilla</string>
+    <string name="menu_edit_transaction">Modifica l\'operació</string>
+    <string name="menu_edit_transfer">Modifica la transferència</string>
+    <string name="menu_forward">Endavant</string>
+    <string name="menu_grouping">Agrupat</string>
+    <string name="menu_help">Ajuda</string>
+    <!-- This command inverts the direction of a transfer -->
+    <string name="menu_invert_transfer">Inverteix</string>
+    <string name="menu_manage_plans">Plantilles i planificacions</string>
+    <string name="menu_import">Importació</string>
+    <string name="menu_reset">Exporta i reinicia</string>
+    <string name="menu_reset_all">Exporta i reinicia-ho tot</string>
+    <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
+    <string name="menu_reset_plan_instance">Reinicia</string>
+    <string name="menu_save">Desa</string>
+    <string name="menu_save_and_new">Desa i nova</string>
+    <string name="menu_settings">Preferències</string>
+    <string name="menu_share">Digueu-ho a un amic</string>
+    <string name="button_label_close">Tanca</string>
+    <string name="method">Forme de pagament</string>
+    <string name="no_amount_given">No heu indicat cap import.</string>
+    <string name="no_app_handling_email_available">No s\'ha trobat l\'aplicació del correu electrónic.</string>
+    <string name="no_app_handling_ftp_available">No s\'ha trobat cap aplicació de ftp. Voleu instal·lar <i>Envia amb FTP</i>?</string>
+    <string name="no_categories">Encara no hi ha categories.</string>
+    <string name="no_expenses">Encara no hi ha cap despesa!</string>
+    <string name="no_exportable_expenses">No hi ha operacions que encara no hagin estat exportades.</string>
+    <string name="no_filemanager_installed">No hi ha instal·lat cap administrador d\'arxius</string>
+    <string name="no_mapped_transactions">No s\'ha assignat cap operació a cap categoria durant aquest període.</string>
+    <string name="no_methods">Cap forma de pagament.</string>
+    <string name="no_parties">No hi ha cap tercer</string>
+    <string name="no_split_parts">No hi ha cap partició.</string>
+    <string name="no_templates">No hi ha cap plantilla</string>
+    <string name="no_title_given">No heu afegit cap títol.</string>
+    <string name="numbered">numerat</string>
+    <string name="opening_balance">Saldo inicial</string>
+    <string name="parse_error_file_not_found">No ha estat possible trobar el fitxer %1$s</string>
+    <string name="parse_error_grisbi_version_not_supported">La versió  %1$s del fitxer Grisbi no està permesa</string>
+    <string name="parse_error_no_data_found">No hi ha dades importables en el fitxer.</string>
+    <string name="parse_error_other_exception">S\'ha produït un error: %1$s</string>
+    <string name="parse_error_parse_exception">No ha estat possible analitzar el fitxer.</string>
+    <string name="password_disabled_reenable">La protecció per contrasenya ha estat desactivada. Podeu tornar-la a activar a la configuració.</string>
+    <string name="password_lost">He oblidat la contrasenya</string>
+    <string name="password_not_valid">La contrasenya no és vàlida. Torneu-hi!</string>
+    <string name="password_prompt">Introduïu la vostra contrasenya</string>
+    <string name="password_security_answer_not_valid">Resposta incorrecta. Torneu-hi!</string>
+    <string name="payee">Beneficiari</string>
+    <string name="payer">Pagador</string>
+    <!-- Plan for future and recurring transactions -->
+    <string name="plan">Planificació</string>
+    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
+    <string name="plan_automatic">automàtic</string>
+    <!-- this is the label for the calendar where plans for future and recurrent transactions are stored -->
+    <string name="plan_calendar_name">Planificador {app_name}</string>
+    <string name="planner_notification_channel_name">Planificador</string>
+    <string name="plan_event_deleted">S\'ha suprimit la planificació del calendari associada amb aquesta plantilla.</string>
+    <!-- This message is shown, after a user decides to not apply a manual plan -->
+    <string name="plan_execution_canceled">S\'ha anul·lat la planificació</string>
+    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
+    <string name="plan_manual">manual</string>
+    <string name="planner_create_calendar_failure">No ha estat possible generar l\'agenda de planificació local</string>
+    <string name="planner_create_calendar_success">L\'agenda  de planificació s\'ha generat correctament</string>
+    <!-- payment methods -->
+    <string name="pm_cheque">Xec</string>
+    <string name="pm_creditcard">Targeta de crèdit</string>
+    <string name="pm_deposit">Dipòsit</string>
+    <string name="pm_directdebit">Càrrec</string>
+    <string name="pm_type_credit">Crèdit</string>
+    <string name="pm_type_debit">Dèbit</string>
+    <string name="pm_type_neutral">Neutral</string>
+    <string name="pref_backup_summary">Feu una còpia de seguretat de la base de dades i de les preferències.</string>
+    <string name="pref_sort_order_usages">Freqüència d\'ús</string>
+    <string name="pref_category_title_export">Exportació</string>
+    <string name="pref_category_title_import">Importació</string>
+    <string name="pref_category_title_manage">Personalitza</string>
+    <string name="pref_category_title_more_information">Més informació</string>
+    <string name="pref_category_title_security">Seguretat</string>
+    <string name="pref_category_title_ui">Interfície d\'usuari</string>
+    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
+    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Si heu rebut una clau, podeu accedir a les funcions avançades.</string>
+    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Entreu la clau</string>
+    <string name="pref_export_format_title">Format de les dades</string>
+    <string name="pref_import_from_grisbi_summary">Importeu les categories i els tercers de Grisbi XML.</string>
+    <string name="pref_import_from_grisbi_title">Importeu de Grisbi</string>
+    <string name="pref_manage_accounts_title">Comptes</string>
+    <string name="pref_manage_categories_summary">Afegiu, modifiqueu i suprimiu categories.</string>
+    <string name="pref_manage_categories_title">Categories</string>
+    <string name="pref_manage_methods_summary">Entreu, editeu formes de pagament i associeu-les amb els tipus de compte.</string>
+    <string name="pref_manage_methods_title">Formes de pagament</string>
+    <string name="pref_manage_parties_summary">Afegiu, modifiqueu i suprimiu tercers (pagadors i beneficiaris)</string>
+    <string name="pref_manage_parties_title">Tercers</string>
+    <string name="pref_manage_sync_backends_title">Backends de sincronització</string>
+    <string name="pref_more_info_dialog_title">Llicència i Crèdits</string>
+    <string name="pref_password_not_equal">Les contrasenyes no coincideixen</string>
+    <string name="pref_perform_share_title">Envia l\'exportació</string>
+    <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
+    <string name="pref_planning_calendar_create_local">Nova agenda de planificació local</string>
+    <string name="pref_planning_calendar_summary">Trieu el calendari per desar les planificacions d\'operacions futures i recurrents</string>
+    <string name="pref_planning_calendar_title">Agenda</string>
+    <string name="pref_protection_delay_seconds_summary">Els segons d\'inactivitat que hauran de transcorre abans que l\'aplicació sigui blocada amb la contrasenya.</string>
+    <string name="pref_protection_delay_seconds_title">Retard de la protecció</string>
+    <string name="pref_qif_export_file_encoding_title">Codificació de caràcters</string>
+    <string name="pref_request_licence_title">Demaneu una clau</string>
+    <string name="pref_restore_summary">Seleccioneu una còpia de seguretat per restaurar la base de dades i preferències.</string>
+    <string name="pref_restore_title">Restauració</string>
+    <string name="pref_security_question_summary">Us permet desblocar l\'aplicació, si heu oblidat la vostra contrasenya.</string>
+    <string name="pref_security_question_title">Pregunta de seguretat</string>
+    <string name="pref_send_feedback_title">Envieu comentaris</string>
+    <string name="pref_share_target_summary">Podeu deixar-ho en blanc, si voleu triar entre les aplicacions adequades (correu electrònic, Dropbox, Google Docs, …), o indicar una URL en un dels esquemes permesos</string>
+    <string name="pref_share_target_title">Puja el fitxer (a una URL)</string>
+    <string name="pref_shortcut_added">S\'ha afegit la drecera a la pantalla Inicial</string>
+    <string name="pref_shortcut_summary">Afegiu la drecera a la pantalla Inicial.</string>
+    <string name="pref_ui_fontsize_title">Augmenta la mida de la lletra</string>
+    <string name="pref_ui_language_default">Per omissió del sistema</string>
+    <!-- Title of the preference for selecting the UI language -->
+    <string name="pref_ui_language_title">Idioma</string>
+    <string name="pref_ui_theme_dark">Fosc</string>
+    <string name="pref_ui_theme_light">Clar</string>
+    <string name="pref_ui_theme_title">Tema</string>
+    <string name="pref_visit_website_summary">Registre de canvis i preguntes més freqüents</string>
+    <string name="pref_visit_website_title">Visiteu el lloc web</string>
+    <string name="progress_dialog_deleting">S\'estàn suprimint els objectes</string>
+    <string name="progress_dialog_loading">S\'està carregant l\'objecte de la base de dades</string>
+    <string name="reference_number">Número de referència</string>
+    <string name="restore_db_failure">No ha estat possible restaurar la base de dades.</string>
+    <string name="restore_db_success">S\'ha restaurat la base de dades des de la còpia de seguretat.</string>
+    <string name="restore_no_backup_found">No s\'ha trobat la còpia de seguretat.</string>
+    <string name="restore_preferences_failure">No ha estat possible restaurar les Preferències</string>
+    <string name="restore_preferences_success">S\'han restaurat les preferències des de la còpia de seguretat.</string>
+    <string name="save_transaction_and_new_success">S\'ha desat correctament</string>
+    <string name="save_transaction_error">No ha estat possible desar la nova traducció de la plantilla.</string>
+    <string name="save_transaction_template_deleted">S\'ha suprimit la plantilla</string>
+    <string name="select">Trieu</string>
+    <string name="select_category">Trieu una categoria</string>
+    <string name="share_scheme_not_supported">L\'esquema %1$s no està permés.</string>
+    <string name="share_sending">Envia el fitxer</string>
+    <string name="split_parts_heading">Particions</string>
+    <string name="split_transaction">Operació repartida</string>
+    <string name="status">Estat</string>
+    <string name="status_cleared">aprovada</string>
+    <string name="status_reconciled">reconciliat</string>
+    <string name="status_uncreconciled">sense reconciliar</string>
+    <string name="subcategory">Subcategoria</string>
+    <string name="sum_expenses">Despeses</string>
+    <string name="sum_income">Ingressos</string>
+    <string name="sum_transfer">Transferèncias</string>
+    <string name="thank_you">Gràcies pel vostre suport!</string>
+    <string name="time">Hora</string>
+    <string name="title">Títol</string>
+    <string name="total_cleared">Total eliminat</string>
+    <string name="total_reconciled">Total reconciliat</string>
+    <string name="transaction">Operació</string>
+    <string name="transfer">Transferència a un altre compte</string>
+    <string name="transfer_from_account">Origen</string>
+    <string name="transfer_to_account">Destí</string>
+    <!-- Type refers to the type of an account, eg. Cash account, bank account -->
+    <string name="type">Tipus</string>
+    <string name="unsplit_amount">Import abans de repartir</string>
+    <string name="unsplit_amount_greater_than_zero">Encara hi ha cert import per repartir.</string>
+    <string name="warning_backup">La base de dades i les preferències es desaran a \"%1$s\".</string>
+    <string name="continue_confirmation">Voleu continuar?</string>
+    <string name="warning_password_contrib">Configura una pregunta de seguretat per desblocar l\'aplicació, en cas que oblideu la vostra contrasenya.</string>
+    <string name="warning_reset_account">Si continueu, totes les operacions d\'aquest compte s\'eliminaran de la base de dades i no es podran restaurar.</string>
+    <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
+    <string name="warning_reset_account_all">Si continueu, per tots els comptes%1$s, les operacions s\'eliminaran de la base de dades i no es podran restaurar.</string>
+    <string name="warning_restore">La base de dades i les preferències es restauraran des de la còpia de seguretat (%1$s). S\'esborraran les dades actuals.</string>
+    <string name="warning_splitpartcategory_context">Transferències que formen part d\'una transacció dividida només es poden editar en el marc de la divisió.</string>
+    <string name="import_categories_success">%1$s categories s\'han importat correctament.</string>
+    <string name="import_parties_success">%1$s tercers s\'han importat correctament.</string>
+    <string name="import_accounts_none">No s\'ha importat cap compte!</string>
+    <string name="create_new_folder_fail">No s\'ha pogut crear la carpeta</string>
+    <string name="learn_more">Més informació</string>
+    <string name="pref_auto_backup_title">Permetre còpia de seguretat automàtica</string>
+    <string name="pref_auto_backup_summary">Còpia de seguretat de base de dades diària a l\'hora especificada (només si les dades han canviat)</string>
+    <string name="pref_auto_backup_time_title">Hora de còpia de seguretat automàtica</string>
+    <string name="switch_on_text">Activat</string>
+    <string name="switch_off_text">Desactivat</string>
+    <string name="menu_move">Mou</string>
+    <string name="preferences_week_start_day_title">La setmana comença el</string>
+    <string name="content_description_calculator">Calculadora</string>
+    <string name="template">Plantilla</string>
+    <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sincronització del núvol</string>
+    <!-- Action of closing an account. A closed account does not allow any modifications on its data. -->
+    <string name="menu_close">Tanca</string>
+    <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
+    <string name="content_description_encrypted">Xifrat</string>
+    <string name="translated_by">Traducció de </string>
+    <string name="pref_category_exchange_rates">Taxes de canvi</string>
+    <string name="budget_duration_from">Des de</string>
+    <string name="budget_duration_to">Al</string>
+    <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
+    <string name="pref_category_title_features">Característiques</string>
+    </resources>

@@ -1,389 +1,343 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
 <resources xmlns:tools="http://schemas.android.com/tools">
-  <string name="account">Účet</string>
-  <!--Label in form for payment method, where user checks for which account types the method is applicable-->
-  <string name="account_types">Typy účtů</string>
-  <string name="account_type_asset">Účet aktiv</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_bank">Bankovní účet</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_bank_plural">Bankovní účty</string>
-  <string name="account_type_cash">Peněžní účet</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_cash_plural">Peněžní účty</string>
-  <string name="account_type_ccard">Kreditní karta</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_ccard_plural">Kreditní karty</string>
-  <string name="account_type_liability">Účet závazků</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_liability_plural">Účty závazků</string>
-  <string name="already_defined">%1$s již definován.</string>
-  <string name="amount">Částka</string>
-  <string name="app_name">Moje výdaje</string>
-  <string name="backup_failure">Záloha na \"%1$s\" se nezdařila.</string>
-  <string name="backup_success">Databáze a předvolby úspěšně zapsány do \"%1$s\".</string>
-  <string name="category">Kategorie</string>
-  <string name="color">Barva</string>
-  <string name="comment">Poznámky</string>
-  <string name="confirmation_dialog_dont_show_again">Znovu již nezobrazit</string>
-  <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Bez reklam</string>
-  <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Neomezený počet účtů</string>
-  <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Připojte obrázek k transakci</string>
-  <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Neomezený počet plánů</string>
-  <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Export seznamu transakcí do PDF</string>
-  <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Šablona widget</string>
-  <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Import CSV souboru</string>
-  <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Emailová podpora</b> s garantovanou odpovědí během 2 pracovních dnů</string>
-  <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Graf historie (Hotovost)</string>
-  <string name="licence_status_free">Zdarma</string>
-  <string name="contrib_key">Klíč Contrib</string>
-  <string name="extended_key">Rozšířený klíč</string>
-  <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
-  <string name="contrib_key_requires">Vyžaduje %1$s.</string>
-  <string name="currency">Měna</string>
-  <string name="current_balance">Aktuální zůstatek</string>
-  <string name="date">Datum</string>
-  <string name="date_format">Formát datumu</string>
-  <string name="date_format_illegal">Neplatný formát data</string>
-  <string name="number_format_illegal">Neplatný formát čísla</string>
-  <string name="decimal_separator">Oddělovač čísel</string>
-  <string name="default_account_name">Kniha rozpočtu</string>
-  <string name="description">Popis</string>
-  <string name="dialog_confirm_discard_changes">Zrušit změny?</string>
-  <string name="dialog_confirm_discard_new_transaction">Zrušit novou transakci?</string>
-  <string name="dialog_confirm_discard_new_template">Zrušit novou šablonu?</string>
-  <string name="dialog_confirm_discard_new_account">Zrušit nový účet?</string>
-  <string name="dialog_confirm_discard_new_method">Zrušit novou platební metodu?</string>
-  <string name="dialog_command_disabled_insert_transfer">Odeslání transakce vyžaduje druhý účet.</string>
-  <string name="dialog_command_disabled_reset_account">Žádné transakce k export.</string>
-  <string name="dialog_command_disabled_distribution">Transakce na tomto účtu nebyly přiřazené do kategorií.</string>
-  <!--Button for accessing trial of premium feature-->
-  <string name="dialog_contrib_no">Vyzkoušet</string>
-  <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
-  <string name="dialog_contrib_premium_feature">%1$s je prémiová funkce  (%2$s).</string>
-  <string name="dialog_contrib_reminder_remove_limitation">Užívejte více funkcí a bez omezení. Stačí provést upgrade <i>{app_name}</i>.</string>
-  <string name="dialog_contrib_text_1"><i>{app_name}</i> je nabízena jako open source software.</string>
-  <string name="dialog_contrib_text_2">Proveďte upgrade aplikace <i>{app_name}</i> a získejte neomezený přístup k následujícím funkcím:</string>
-  <string name="dialog_export_delete">Odstranit exportované transakce</string>
-  <string name="dialog_export_not_yet_exported">Exportovat pouze transakce, které ještě nebyly exportovány.</string>
-  <string name="dialog_password_activate_protection">Aktivovat ochranu heslem</string>
-  <string name="dialog_password_change_password">Změnit heslo</string>
-  <string name="dialog_password_new_password">Nové heslo</string>
-  <string name="dialog_password_new_password_confirmation">Nové heslo (potvrzení)</string>
-  <string name="dialog_remind_later">Později</string>
-  <string name="dialog_remind_no">Ne, děkuji</string>
-  <string name="dialog_remind_rate_1">Prosím věnujte chvílí hodnocení a recenzi aplikace {app_name}.</string>
-  <string name="dialog_remind_rate_2">Vaše komentáře nám pomáhají k neustálému zlepšování aplikace.</string>
-  <string name="dialog_remind_rate_yes">Ohodnoťte nyní</string>
-  <string name="dialog_security_answer">Odpověď</string>
-  <string name="dialog_security_question">Otázka</string>
-  <!--%1$s is replace with account label-->
-  <string name="dialog_title_contrib_feature">Prémiové funkce</string>
-  <string name="dialog_title_warning_delete_template">Odstranit šablonu?</string>
-  <string name="dialog_title_warning_delete_transaction">Odstranit transakci?</string>
-  <string name="expense">Výdaj</string>
-  <string name="export_expenses">Export výdajů</string>
-  <!--1$s is replaced with path to file, 2$s with error message-->
-  <string name="export_sdcard_failure">Export výdajů na sdkartu se nezdařil %1$s: %2$s</string>
-  <!--1$s is replaced with path to file-->
-  <string name="export_sdcard_success">Výdaje vyexportovány do souboru %1$s</string>
-  <string name="external_storage_unavailable">Externí úložiště (paměťová karta) není k dispozici.</string>
-  <string name="feedback">Zpětná vazba</string>
-  <string name="ftp_uri_malformed">Chybné URI %1$s</string>
-  <string name="grisbi_import_categories_loading">Načítání kategorií z %1$s</string>
-  <string name="grisbi_import_parties_loading">Načítání stran z %1$s</string>
-  <string name="grouping_day">Den</string>
-  <string name="grouping_last_week">Minulý týden</string>
-  <string name="grouping_month">Měsíc</string>
-  <string name="grouping_none">Rozloženo</string>
-  <string name="grouping_this_week">Tento týden</string>
-  <string name="grouping_today">Dnes</string>
-  <string name="grouping_week">Týden</string>
-  <string name="grouping_year">Rok</string>
-  <string name="grouping_yesterday">Včera</string>
-  <string name="help_button_rate">Ohodnoťte nebo zrecenzujte</string>
-  <string name="help_heading_credits">Na vývoji se podíleli</string>
-  <string name="help_heading_license">Licence</string>
-  <string name="help_heading_whats_new">Co je nového</string>
-  <string name="important_upgrade_information_heading">Důležité informace</string>
-  <string name="income">Příjem</string>
-  <string name="invalid_number_format">Desítkový formát není rozpoznatelný vaším místním. Použijte %1$s</string>
-  <string name="label">Popisek</string>
-  <string name="licence_validation_failure">Nelze ověřit licenční klíč.</string>
-  <string name="licence_validation_success">Licenční klíč úspěšně ověřen:</string>
-  <string name="licence_validation_premium">Prémiové funkce byly odemčené.</string>
-  <string name="menu_aggregates">Celkem</string>
-  <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
-  <string name="menu_apply_template">Použít</string>
-  <string name="menu_back">Zpět</string>
-  <string name="menu_backup">Zálohování</string>
-  <!--Balance: compare cleared balance in app with balance on statement received from bank-->
-  <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
-  <string name="menu_cancel_plan_instance">Storno</string>
-  <string name="menu_clone_transaction">Klon</string>
-  <string name="menu_contrib">Přispět</string>
-  <string name="menu_create_account">Nový účet</string>
-  <string name="menu_create_instance_edit">Použít a upravit</string>
-  <string name="menu_create_instance_save">Použít a uložit</string>
-  <string name="menu_create_main_cat">Nová hlavní kategorie</string>
-  <string name="menu_create_method">Nový způsob platby</string>
-  <string name="menu_create_party">Nová strana</string>
-  <string name="menu_create_split">Nové rozdělení</string>
-  <string name="menu_create_split_part_category">Nová kategorie rozdělení.</string>
-  <string name="menu_create_split_part_transfer">Nový převod rozdělený na část</string>
-  <string name="menu_create_sub_cat">Nová dílčí kategorie</string>
-  <string name="menu_create_template">Nová šablona</string>
-  <string name="menu_create_template_for_transaction">Nová transakční šablona</string>
-  <string name="menu_create_template_for_transfer">Nová šablona převodu</string>
-  <string name="menu_create_transaction">Nová transakce</string>
-  <string name="menu_create_transfer">Nový převod</string>
-  <string name="menu_delete">Smazat</string>
-  <string name="menu_distribution">Distribuce</string>
-  <string name="menu_edit">Upravit</string>
-  <string name="menu_edit_account">Upravit účet</string>
-  <string name="menu_edit_cat">Upravit kategorii</string>
-  <string name="menu_edit_method">Upravit způsob platby</string>
-  <string name="menu_edit_party">Upravit stranu</string>
-  <string name="menu_edit_split">Editovat rozdělení</string>
-  <string name="menu_edit_split_part_category">Upravit kategorie rozdělení</string>
-  <string name="menu_edit_split_part_transfer">Úprava převodu rozdělit část</string>
-  <string name="menu_edit_template">Upravit šablonu</string>
-  <string name="menu_edit_transaction">Upravit transakci</string>
-  <string name="menu_edit_transfer">Úprava převodu</string>
-  <string name="menu_forward">Dopředu</string>
-  <string name="menu_grouping">Seskupování</string>
-  <string name="menu_help">Nápověda</string>
-  <!--This command inverts the direction of a transfer-->
-  <string name="menu_invert_transfer">Invertovat</string>
-  <string name="menu_manage_plans">Šablony a plány</string>
-  <!--Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application-->
-  <string name="menu_import">Importovat</string>
-  <string name="menu_reset">Exportovat a resetovat</string>
-  <string name="menu_reset_all">Exportovat a obnovit vše</string>
-  <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
-  <string name="menu_reset_plan_instance">Obnovit</string>
-  <string name="menu_save">Uložit</string>
-  <string name="menu_save_and_new">Uložit a nový</string>
-  <string name="menu_settings">Nastavení</string>
-  <string name="method">Způsob platby</string>
-  <string name="no_amount_given">Nezadali jste žádnou částku.</string>
-  <string name="no_app_handling_email_available">Žádná aplikace pro zpracování e-mailu k dispozici.</string>
-  <string name="no_app_handling_ftp_available">Žádná aplikace umožňující zpracovat ftp není dostupná. Instalace <i>Odeslat přes FTP</i>?</string>
-  <string name="no_categories">Žádné kategorie.</string>
-  <string name="no_expenses">Doposud žádné výdaje!</string>
-  <string name="no_exportable_expenses">Neexistují žádné transakce, které ještě nebyly exportovány.</string>
-  <string name="no_filemanager_installed">Není nainstalován žádný souborový manažer</string>
-  <string name="no_mapped_transactions">Během tohoto období nebyly namapovány žádné transakce do kategorií.</string>
-  <string name="no_parties">Žádné oddíly.</string>
-  <string name="no_split_parts">Žádné rozdělené oddíly.</string>
-  <string name="no_templates">Nebyly nalezeny žádné šablony.</string>
-  <string name="no_title_given">Nezadali jste název.</string>
-  <string name="numbered">číslování</string>
-  <string name="opening_balance">Počáteční zůstatek</string>
-  <string name="parse_error_file_not_found">Nelze najít soubor %1$s</string>
-  <string name="parse_error_grisbi_version_not_supported">Nepodporovaná verze Grisbi souboru: %1$s</string>
-  <string name="parse_error_no_data_found">V souboru nebyla nalezena žádná importovatelná data .</string>
-  <string name="parse_error_other_exception">Došlo k chybě: %1$s</string>
-  <string name="parse_error_parse_exception">Nelze analyzovat soubor</string>
-  <string name="password_disabled_reenable">Ochrana heslem je vypnuta. Můžete ji povolit v nastavení.</string>
-  <string name="password_lost">Zapomenuté heslo</string>
-  <string name="password_not_valid">Heslo není platné. Zkuste to znovu!</string>
-  <string name="password_prompt">Zadejte své heslo</string>
-  <string name="password_security_answer_not_valid">Špatná odpověď. Zkuste to znovu!</string>
-  <string name="payee">Příjemce</string>
-  <string name="payer">Plátce</string>
-  <!--Plan for future and recurring transactions-->
-  <string name="plan">Plán</string>
-  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance-->
-  <string name="plan_automatic">Automatický</string>
-  <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">{app_name} plánovač</string>
-  <string name="planner_notification_channel_name">Plánovač</string>
-  <string name="plan_event_deleted">Plán spojený s touto předlohou byl odstraněn z kalendáře.</string>
-  <!--This message is shown, after a user decides to not apply a manual plan-->
-  <string name="plan_execution_canceled">Plán vykonání zrušeno</string>
-  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance)-->
-  <string name="plan_manual">manuálně</string>
-  <string name="planner_create_calendar_failure">Nelze vytvořit místní plánovací kalendář</string>
-  <string name="planner_create_calendar_success">Místní plánovací kalendář byl úspěšně vytvořen</string>
-  <!--payment methods-->
-  <string name="pm_cheque">Šek</string>
-  <string name="pm_creditcard">Kreditní karta</string>
-  <string name="pm_deposit">Vklad</string>
-  <string name="pm_directdebit">Přímý zůstatek</string>
-  <string name="pm_type_credit">Kredit</string>
-  <string name="pm_type_debit">Má dáti</string>
-  <string name="pm_type_neutral">Neutrální</string>
-  <string name="pref_backup_summary">Vytvořte zálohu databáze a preferencí na paměťovou kartu.</string>
-  <string name="pref_sort_order_usages">Počet použití</string>
-  <string name="pref_category_title_export">Exportovat</string>
-  <string name="pref_category_title_import">Importovat</string>
-  <string name="pref_category_title_manage">Správa</string>
-  <string name="pref_category_title_more_information">Více informací</string>
-  <string name="pref_category_title_security">Bezpečnost</string>
-  <string name="pref_category_title_ui">Uživatelské rozhraní</string>
-  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
-  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
-  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Pokud jste obdrželi klíč, získejte přístup k nadstandardním funkcím.</string>
-  <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Vložte klíč</string>
-  <string name="pref_export_format_title">Formát dat</string>
-  <string name="pref_import_from_grisbi_summary">Import kategorií a stran Grisbi XML</string>
-  <string name="pref_import_from_grisbi_title">Importovat z Grisbi</string>
-  <!--%s is replaced with QIF or CSV-->
-  <!--%s is replaced with QIF or CSV-->
-  <string name="pref_manage_accounts_title">Účty</string>
-  <string name="pref_manage_categories_summary">Přidání, úprava a odstranění kategorií.</string>
-  <string name="pref_manage_categories_title">Kategorie</string>
-  <string name="pref_manage_methods_summary">Vytvořit a upravovat způsoby plateb a spojit je s typy účtů.</string>
-  <string name="pref_manage_methods_title">Způsoby plateb</string>
-  <string name="pref_manage_parties_summary">Přidání, úprava, odstranění strany (plátci a příjemci).</string>
-  <string name="pref_manage_parties_title">Oddíly</string>
-  <string name="pref_manage_sync_backends_title">Synchronizace backendů</string>
-  <!--%s will be replaced with list of backends-->
-  <string name="pref_more_info_dialog_title">Licence a kredity</string>
-  <string name="pref_password_not_equal">Hesla si neodpovídají.</string>
-  <string name="pref_perform_share_title">Sdílet soubor pro export</string>
-  <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
-  <string name="pref_planning_calendar_create_local">Vytvoření nového místního plánovacího kalendáře</string>
-  <string name="pref_planning_calendar_summary">Vyberte kalendář, kde jsou uloženy plány pro budoucí a opakované transakce</string>
-  <string name="pref_planning_calendar_title">Plánovací kalendář</string>
-  <string name="pref_protection_delay_seconds_summary">Doba nečinnosti v sekundá než bude aplikace uzamčena heslem.</string>
-  <string name="pref_protection_delay_seconds_title">Odložit do ochránění</string>
-  <string name="pref_qif_export_file_encoding_title">Kódování znaků</string>
-  <string name="pref_request_licence_title">Zažádejte klíč</string>
-  <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
-  <string name="pref_restore_title">Obnovit</string>
-  <string name="pref_security_question_summary">Umožňuje odemknout aplikaci, pokud jste zapomněli vaše heslo.</string>
-  <string name="pref_security_question_title">Bezpečnostní otázka</string>
-  <string name="pref_send_feedback_title">Odeslat názor</string>
-  <string name="pref_share_target_summary">Ponechte prázdné, pokud si chcete vybrat mezi vhodnými aplikacemi (E-mail, Dropbox, Google Docs, …), nebo poskytněte URL v jednom z podporovaných schémat</string>
-  <string name="pref_share_target_title">Odeslat URL</string>
-  <string name="pref_shortcut_added">Zástupce byl přidán do výchozí obrazovky</string>
-  <string name="pref_shortcut_summary">Přidání zástupce do výchozí obrazovky.</string>
-  <string name="pref_ui_fontsize_title">Zvětšit velikost písma</string>
-  <string name="pref_ui_language_default">Výchozí systémové nastavení</string>
-  <!--Title of the preference for selecting the UI language-->
-  <string name="pref_ui_language_title">Jazyk</string>
-  <string name="pref_ui_theme_dark">Tmavý</string>
-  <string name="pref_ui_theme_light">Světlý</string>
-  <string name="pref_ui_theme_title">Motiv</string>
-  <string name="pref_visit_website_summary">Seznam změn a FAQ</string>
-  <string name="pref_visit_website_title">Navštivte webové stránky</string>
-  <string name="progress_dialog_loading">Načítání objektů z databáze</string>
-  <string name="reference_number">Referenční číslo</string>
-  <string name="restore_db_failure">Obnovení databáze se nezdařilo.</string>
-  <string name="restore_db_success">Databáze byla obnovena ze zálohy.</string>
-  <string name="restore_preferences_failure">Nastavení obnovení se nezdařilo.</string>
-  <string name="restore_preferences_success">Preference byly obnoveny ze zálohy.</string>
-  <string name="save_transaction_and_new_success">Úspěšně uloženo</string>
-  <string name="save_transaction_error">Nelze uložit novou transakci ze šablony</string>
-  <string name="save_transaction_template_deleted">Šablona byla odstraněna</string>
-  <string name="select">Vybrat</string>
-  <string name="select_category">Vybrat kategorii</string>
-  <string name="share_scheme_not_supported">Schéma %1$s není podporováno</string>
-  <string name="share_sending">Odeslat soubor exportu</string>
-  <string name="split_parts_heading">Rozdělení stran</string>
-  <string name="split_transaction">Rozdělení transakce</string>
-  <string name="status">Stav</string>
-  <string name="status_cleared">zrušeno</string>
-  <string name="status_reconciled">odsouhlasen</string>
-  <string name="status_uncreconciled">neodsouhlasené</string>
-  <string name="subcategory">Podkategorie</string>
-  <string name="sum_expenses">Výdaje</string>
-  <string name="sum_income">Příjem</string>
-  <string name="sum_transfer">Převody</string>
-  <!--platform is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">{app_name}, Správa osobních výdajů pro {platform}, {website}</string>
-  <string name="thank_you">Děkujeme vám za vaši podporu!</string>
-  <string name="time">Čas</string>
-  <string name="title">Titul</string>
-  <string name="transaction">Transakce</string>
-  <string name="transfer">Převod</string>
-  <string name="transfer_from_account">Od</string>
-  <string name="transfer_to_account">Do</string>
-  <!--Type refers to the type of an account, eg. Cash account, bank account-->
-  <string name="type">Typ</string>
-  <string name="unsplit_amount">Nerozdělená částka</string>
-  <string name="unsplit_amount_greater_than_zero">Zůstala nějaká nerozdělená částka.</string>
-  <string name="warning_backup">Databáze a nastavení předvoleb bude uloženo na paměťovou kartu %1$s.</string>
-  <string name="continue_confirmation">Přejete si pokračovat?</string>
-  <string name="warning_delete_account">Tento účet (%1$s) bude smazán i s jeho transakcemi.</string>
-  <string name="warning_password_contrib">Nastavení bezpečnostní otázky umožňuje odemknout aplikaci i v případě, že zapomenete heslo.</string>
-  <string name="warning_reset_account">Pokud budete pokračovat všechny transakce tohoto účtu budou odstraněny z databáze a nepůjde je obnovit.</string>
-  <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
-  <string name="warning_reset_account_all">Budete-li pokračovat, pro všechny účty %1$s, budou transakce odstraněny z databáze a nepůjde je obnovit.</string>
-  <string name="warning_restore">Databáze a předvolby budou obnoveny ze zálohy (%1$s). Aktuální data budou odstraněna.</string>
-  <string name="warning_splitpartcategory_context">Převody, které jsou součástí rozdělení, lze pouze upravovat nebo odstranit v souvislosti s rozdělením.</string>
-  <string name="import_categories_success">%1$s kategorie byly úspěšně naimportovány.</string>
-  <string name="import_parties_success">%1$s strany byly úspěšně naimportovány.</string>
-  <!--This string is used for navigating up in the folder browser-->
-  <string name="create_new_folder_fail">Vytvoření složky selhalo</string>
-  <!--Label for column where user can check rows to be discarded from import-->
-  <string name="pref_auto_backup_title">Povolit automatickou zálohu</string>
-  <string name="pref_auto_backup_summary">Zálohovat databázi denně v určený čas (pouze tehdy, pokud data byla změněna)</string>
-  <string name="pref_auto_backup_time_title">Čas automatické zálohy</string>
-  <string name="switch_on_text">Zapnuto</string>
-  <string name="switch_off_text">Vypnuto</string>
-  <string name="menu_move">Přesun</string>
-  <string name="preferences_week_start_day_title">Začátek týdne</string>
-  <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
-  <string name="content_description_calculator">Kalkulačka</string>
-  <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
-  <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
-  <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
-  <!--Sort plans (recurring transactions) by the next instance-->
-  <string name="template">Šablona</string>
-  <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Cloudová synchronizace</string>
-  <!--button leading user to purchase flow for licence keys-->
-  <!--During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed-->
-  <!--%1$s date, %2$s price-->
-  <!--A label indicating the color for the sum of expenses-->
-  <!--A label indicating the color for the sum of income-->
-  <!--This is the label for the action that breaks up a split transaction into its parts.-->
-  <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
-  <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
-  <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
-  <!--Content description for accessibility on image that allows to collapse content-->
-  <!--Content description for accessibility on image that allows to expand content-->
-  <!--Short label for the amount input where user can set either saving goal or credit limit-->
-  <!--Description for button that allows to clear the selected method-->
-  <!--Description for button that allows to clear the selected category-->
-  <!--In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
-    to search for transactions without category, payee or method. The UI allows selection of multiple items,
-    but we warn the user if he includes this special item in the selection.-->
-  <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
-  <!--Action of closing an account. A closed account does not allow any modifications on its data.-->
-  <!--Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data.-->
-  <!--Menu entry for opening a list of all hidden accounts.-->
-  <!--Action of showing an account again that had previously been hidden.-->
-  <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
-  <string name="content_description_encrypted">Šifrováno</string>
-  <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
-  <string name="translated_by">Přeložil</string>
-  <string name="pref_category_exchange_rates">Směnné kurzy</string>
-  <!--This message is shwon when we highlight the income / expense toogle, to make user aware of this feature-->
-  <!--This message is shwon when we highlight the dropdown for switching from normal transaction to transfer or split transaction,to make user aware of this feature-->
-  <string name="budget_duration_from">Od</string>
-  <string name="budget_duration_to">Do</string>
-  <!--Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list.-->
-  <!--Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method"-->
-  <!--If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
-        because no payment method is configured for all of the given account types.-->
-  <!--The label for the button, where user confirms that he wants to clone the selected transactions and then remap them.-->
-  <!--The summary of a preference toggle. If switched on cloned transactions have the date set to the current date-->
-  <!--The summary of a preference toggle. If switched off cloned transactions keep the original date-->
-  <!--This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction-->
-  <!--%s will be replaced with the labels of all tags that user has selected.-->
-  <!--Title for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
-  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
-  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application)-->
-  <!--Title in Settings screen, and title of dynamically loaded feature module-->
-  <!--If this mode is active, the action button will open the camera for scanning a receipt-->
-  <!--Button that triggers the scan operation-->
-  <!--Title for a preference that allows user to decide if all transactions of the current day should be considered as past (future begins at end of day), or if the exact current time divides between past and future-->
-  <!--Option for a preference that allows to decide that all transactions until end of day are considered past transactions-->
-  <!--Option for a preference that allows to decide that only transactions before current time are considered past transactions-->
-  <!--Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)-->
-  <string name="pref_category_title_features">Funkce</string>
-  <!--Toast message shown if user clicks on Upgrade button before having selected a licence-->
-</resources>
+    <string name="account">Účet</string>
+    <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
+    <string name="account_types">Typy účtů</string>
+    <string name="account_type_asset">Účet aktiv</string>
+    <string name="account_type_bank">Bankovní účet</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_bank_plural">Bankovní účty</string>
+    <string name="account_type_cash">Peněžní účet</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_cash_plural">Peněžní účty</string>
+    <string name="account_type_ccard">Kreditní karta</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_ccard_plural">Kreditní karty</string>
+    <string name="account_type_liability">Účet závazků</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_liability_plural">Účty závazků</string>
+    <string name="already_defined">%1$s již definován.</string>
+    <string name="amount">Částka</string>
+    <string name="app_name">Moje výdaje</string>
+    <string name="backup_failure">Záloha na \"%1$s\" se nezdařila.</string>
+    <string name="backup_success">Databáze a předvolby úspěšně zapsány do \"%1$s\".</string>
+    <string name="category">Kategorie</string>
+    <string name="color">Barva</string>
+    <string name="comment">Poznámky</string>
+    <string name="confirmation_dialog_dont_show_again">Znovu již nezobrazit</string>
+    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Bez reklam</string>
+    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Neomezený počet účtů</string>
+    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Připojte obrázek k transakci</string>
+    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Neomezený počet plánů</string>
+    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Export seznamu transakcí do PDF</string>
+    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Šablona widget</string>
+    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Import CSV souboru</string>
+    <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Emailová podpora</b> s garantovanou odpovědí během 2 pracovních dnů</string>
+    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Graf historie (Hotovost)</string>
+    <string name="licence_status_free">Zdarma</string>
+    <string name="contrib_key">Klíč Contrib</string>
+    <string name="extended_key">Rozšířený klíč</string>
+    <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
+    <string name="contrib_key_requires">Vyžaduje %1$s.</string>
+    <string name="currency">Měna</string>
+    <string name="current_balance">Aktuální zůstatek</string>
+    <string name="date">Datum</string>
+    <string name="date_format">Formát datumu</string>
+    <string name="date_format_illegal">Neplatný formát data</string>
+    <string name="number_format_illegal">Neplatný formát čísla</string>
+    <string name="decimal_separator">Oddělovač čísel</string>
+    <string name="default_account_name">Kniha rozpočtu</string>
+    <string name="description">Popis</string>
+    <string name="dialog_confirm_discard_changes">Zrušit změny?</string>
+    <string name="dialog_confirm_discard_new_transaction">Zrušit novou transakci?</string>
+    <string name="dialog_confirm_discard_new_template">Zrušit novou šablonu?</string>
+    <string name="dialog_confirm_discard_new_account">Zrušit nový účet?</string>
+    <string name="dialog_confirm_discard_new_method">Zrušit novou platební metodu?</string>
+    <string name="dialog_command_disabled_insert_transfer">Odeslání transakce vyžaduje druhý účet.</string>
+    <string name="dialog_command_disabled_reset_account">Žádné transakce k export.</string>
+    <string name="dialog_command_disabled_distribution">Transakce na tomto účtu nebyly přiřazené do kategorií.</string>
+    <!-- Button for accessing trial of premium feature -->
+    <string name="dialog_contrib_no">Vyzkoušet</string>
+    <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
+    <string name="dialog_contrib_premium_feature">%1$s je prémiová funkce  (%2$s).</string>
+    <string name="dialog_contrib_reminder_remove_limitation">Užívejte více funkcí a bez omezení. Stačí provést upgrade <i>{app_name}</i>.</string>
+    <string name="dialog_contrib_text_1"><i>{app_name}</i> je nabízena jako open source software.</string>
+    <string name="dialog_contrib_text_2">Proveďte upgrade aplikace <i>{app_name}</i> a získejte neomezený přístup k následujícím funkcím:</string>
+    <string name="dialog_export_delete">Odstranit exportované transakce</string>
+    <string name="dialog_export_not_yet_exported">Exportovat pouze transakce, které ještě nebyly exportovány.</string>
+    <string name="dialog_password_activate_protection">Aktivovat ochranu heslem</string>
+    <string name="dialog_password_change_password">Změnit heslo</string>
+    <string name="dialog_password_new_password">Nové heslo</string>
+    <string name="dialog_password_new_password_confirmation">Nové heslo (potvrzení)</string>
+    <string name="dialog_remind_later">Později</string>
+    <string name="dialog_remind_no">Ne, děkuji</string>
+    <string name="dialog_remind_rate_1">Prosím věnujte chvílí hodnocení a recenzi aplikace {app_name}.</string>
+    <string name="dialog_remind_rate_2">Vaše komentáře nám pomáhají k neustálému zlepšování aplikace.</string>
+    <string name="dialog_remind_rate_yes">Ohodnoťte nyní</string>
+    <string name="dialog_security_answer">Odpověď</string>
+    <string name="dialog_security_question">Otázka</string>
+    <string name="dialog_title_contrib_feature">Prémiové funkce</string>
+    <string name="dialog_title_warning_delete_template">Odstranit šablonu?</string>
+    <string name="dialog_title_warning_delete_transaction">Odstranit transakci?</string>
+    <string name="expense">Výdaj</string>
+    <string name="export_expenses">Export výdajů</string>
+    <!-- 1$s is replaced with path to file, 2$s with error message -->
+    <string name="export_sdcard_failure">Export výdajů na sdkartu se nezdařil %1$s: %2$s</string>
+    <!-- 1$s is replaced with path to file -->
+    <string name="export_sdcard_success">Výdaje vyexportovány do souboru %1$s</string>
+    <string name="external_storage_unavailable">Externí úložiště (paměťová karta) není k dispozici.</string>
+    <string name="feedback">Zpětná vazba</string>
+    <string name="ftp_uri_malformed">Chybné URI %1$s</string>
+    <string name="grisbi_import_categories_loading">Načítání kategorií z %1$s</string>
+    <string name="grisbi_import_parties_loading">Načítání stran z %1$s</string>
+    <string name="grouping_day">Den</string>
+    <string name="grouping_last_week">Minulý týden</string>
+    <string name="grouping_month">Měsíc</string>
+    <string name="grouping_none">Rozloženo</string>
+    <string name="grouping_this_week">Tento týden</string>
+    <string name="grouping_today">Dnes</string>
+    <string name="grouping_week">Týden</string>
+    <string name="grouping_year">Rok</string>
+    <string name="grouping_yesterday">Včera</string>
+    <string name="help_button_rate">Ohodnoťte nebo zrecenzujte</string>
+    <string name="help_heading_credits">Na vývoji se podíleli</string>
+    <string name="help_heading_license">Licence</string>
+    <string name="help_heading_whats_new">Co je nového</string>
+    <string name="important_upgrade_information_heading">Důležité informace</string>
+    <string name="income">Příjem</string>
+    <string name="invalid_number_format">Desítkový formát není rozpoznatelný vaším místním. Použijte %1$s</string>
+    <string name="label">Popisek</string>
+    <string name="licence_validation_failure">Nelze ověřit licenční klíč.</string>
+    <string name="licence_validation_success">Licenční klíč úspěšně ověřen:</string>
+    <string name="licence_validation_premium">Prémiové funkce byly odemčené.</string>
+    <string name="menu_aggregates">Celkem</string>
+    <!-- Shown in a notification; allows to apply a template (instantiate a new transaction from it) -->
+    <string name="menu_apply_template">Použít</string>
+    <string name="menu_back">Zpět</string>
+    <string name="menu_backup">Zálohování</string>
+    <!-- Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction -->
+    <string name="menu_cancel_plan_instance">Storno</string>
+    <string name="menu_clone_transaction">Klon</string>
+    <string name="menu_contrib">Přispět</string>
+    <string name="menu_create_account">Nový účet</string>
+    <string name="menu_create_instance_edit">Použít a upravit</string>
+    <string name="menu_create_instance_save">Použít a uložit</string>
+    <string name="menu_create_main_cat">Nová hlavní kategorie</string>
+    <string name="menu_create_method">Nový způsob platby</string>
+    <string name="menu_create_party">Nová strana</string>
+    <string name="menu_create_split">Nové rozdělení</string>
+    <string name="menu_create_split_part_category">Nová kategorie rozdělení.</string>
+    <string name="menu_create_split_part_transfer">Nový převod rozdělený na část</string>
+    <string name="menu_create_sub_cat">Nová dílčí kategorie</string>
+    <string name="menu_create_template">Nová šablona</string>
+    <string name="menu_create_template_for_transaction">Nová transakční šablona</string>
+    <string name="menu_create_template_for_transfer">Nová šablona převodu</string>
+    <string name="menu_create_transaction">Nová transakce</string>
+    <string name="menu_create_transfer">Nový převod</string>
+    <string name="menu_delete">Smazat</string>
+    <string name="menu_distribution">Distribuce</string>
+    <string name="menu_edit">Upravit</string>
+    <string name="menu_edit_account">Upravit účet</string>
+    <string name="menu_edit_cat">Upravit kategorii</string>
+    <string name="menu_edit_method">Upravit způsob platby</string>
+    <string name="menu_edit_party">Upravit stranu</string>
+    <string name="menu_edit_split">Editovat rozdělení</string>
+    <string name="menu_edit_split_part_category">Upravit kategorie rozdělení</string>
+    <string name="menu_edit_split_part_transfer">Úprava převodu rozdělit část</string>
+    <string name="menu_edit_template">Upravit šablonu</string>
+    <string name="menu_edit_transaction">Upravit transakci</string>
+    <string name="menu_edit_transfer">Úprava převodu</string>
+    <string name="menu_forward">Dopředu</string>
+    <string name="menu_grouping">Seskupování</string>
+    <string name="menu_help">Nápověda</string>
+    <!-- This command inverts the direction of a transfer -->
+    <string name="menu_invert_transfer">Invertovat</string>
+    <string name="menu_manage_plans">Šablony a plány</string>
+    <string name="menu_import">Importovat</string>
+    <string name="menu_reset">Exportovat a resetovat</string>
+    <string name="menu_reset_all">Exportovat a obnovit vše</string>
+    <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
+    <string name="menu_reset_plan_instance">Obnovit</string>
+    <string name="menu_save">Uložit</string>
+    <string name="menu_save_and_new">Uložit a nový</string>
+    <string name="menu_settings">Nastavení</string>
+    <string name="method">Způsob platby</string>
+    <string name="no_amount_given">Nezadali jste žádnou částku.</string>
+    <string name="no_app_handling_email_available">Žádná aplikace pro zpracování e-mailu k dispozici.</string>
+    <string name="no_app_handling_ftp_available">Žádná aplikace umožňující zpracovat ftp není dostupná. Instalace <i>Odeslat přes FTP</i>?</string>
+    <string name="no_categories">Žádné kategorie.</string>
+    <string name="no_expenses">Doposud žádné výdaje!</string>
+    <string name="no_exportable_expenses">Neexistují žádné transakce, které ještě nebyly exportovány.</string>
+    <string name="no_filemanager_installed">Není nainstalován žádný souborový manažer</string>
+    <string name="no_mapped_transactions">Během tohoto období nebyly namapovány žádné transakce do kategorií.</string>
+    <string name="no_parties">Žádné oddíly.</string>
+    <string name="no_split_parts">Žádné rozdělené oddíly.</string>
+    <string name="no_templates">Nebyly nalezeny žádné šablony.</string>
+    <string name="no_title_given">Nezadali jste název.</string>
+    <string name="numbered">číslování</string>
+    <string name="opening_balance">Počáteční zůstatek</string>
+    <string name="parse_error_file_not_found">Nelze najít soubor %1$s</string>
+    <string name="parse_error_grisbi_version_not_supported">Nepodporovaná verze Grisbi souboru: %1$s</string>
+    <string name="parse_error_no_data_found">V souboru nebyla nalezena žádná importovatelná data .</string>
+    <string name="parse_error_other_exception">Došlo k chybě: %1$s</string>
+    <string name="parse_error_parse_exception">Nelze analyzovat soubor</string>
+    <string name="password_disabled_reenable">Ochrana heslem je vypnuta. Můžete ji povolit v nastavení.</string>
+    <string name="password_lost">Zapomenuté heslo</string>
+    <string name="password_not_valid">Heslo není platné. Zkuste to znovu!</string>
+    <string name="password_prompt">Zadejte své heslo</string>
+    <string name="password_security_answer_not_valid">Špatná odpověď. Zkuste to znovu!</string>
+    <string name="payee">Příjemce</string>
+    <string name="payer">Plátce</string>
+    <!-- Plan for future and recurring transactions -->
+    <string name="plan">Plán</string>
+    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
+    <string name="plan_automatic">Automatický</string>
+    <!-- this is the label for the calendar where plans for future and recurrent transactions are stored -->
+    <string name="plan_calendar_name">{app_name} plánovač</string>
+    <string name="planner_notification_channel_name">Plánovač</string>
+    <string name="plan_event_deleted">Plán spojený s touto předlohou byl odstraněn z kalendáře.</string>
+    <!-- This message is shown, after a user decides to not apply a manual plan -->
+    <string name="plan_execution_canceled">Plán vykonání zrušeno</string>
+    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
+    <string name="plan_manual">manuálně</string>
+    <string name="planner_create_calendar_failure">Nelze vytvořit místní plánovací kalendář</string>
+    <string name="planner_create_calendar_success">Místní plánovací kalendář byl úspěšně vytvořen</string>
+    <!-- payment methods -->
+    <string name="pm_cheque">Šek</string>
+    <string name="pm_creditcard">Kreditní karta</string>
+    <string name="pm_deposit">Vklad</string>
+    <string name="pm_directdebit">Přímý zůstatek</string>
+    <string name="pm_type_credit">Kredit</string>
+    <string name="pm_type_debit">Má dáti</string>
+    <string name="pm_type_neutral">Neutrální</string>
+    <string name="pref_backup_summary">Vytvořte zálohu databáze a preferencí na paměťovou kartu.</string>
+    <string name="pref_sort_order_usages">Počet použití</string>
+    <string name="pref_category_title_export">Exportovat</string>
+    <string name="pref_category_title_import">Importovat</string>
+    <string name="pref_category_title_manage">Správa</string>
+    <string name="pref_category_title_more_information">Více informací</string>
+    <string name="pref_category_title_security">Bezpečnost</string>
+    <string name="pref_category_title_ui">Uživatelské rozhraní</string>
+    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
+    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Pokud jste obdrželi klíč, získejte přístup k nadstandardním funkcím.</string>
+    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Vložte klíč</string>
+    <string name="pref_export_format_title">Formát dat</string>
+    <string name="pref_import_from_grisbi_summary">Import kategorií a stran Grisbi XML</string>
+    <string name="pref_import_from_grisbi_title">Importovat z Grisbi</string>
+    <string name="pref_manage_accounts_title">Účty</string>
+    <string name="pref_manage_categories_summary">Přidání, úprava a odstranění kategorií.</string>
+    <string name="pref_manage_categories_title">Kategorie</string>
+    <string name="pref_manage_methods_summary">Vytvořit a upravovat způsoby plateb a spojit je s typy účtů.</string>
+    <string name="pref_manage_methods_title">Způsoby plateb</string>
+    <string name="pref_manage_parties_summary">Přidání, úprava, odstranění strany (plátci a příjemci).</string>
+    <string name="pref_manage_parties_title">Oddíly</string>
+    <string name="pref_manage_sync_backends_title">Synchronizace backendů</string>
+    <string name="pref_more_info_dialog_title">Licence a kredity</string>
+    <string name="pref_password_not_equal">Hesla si neodpovídají.</string>
+    <string name="pref_perform_share_title">Sdílet soubor pro export</string>
+    <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
+    <string name="pref_planning_calendar_create_local">Vytvoření nového místního plánovacího kalendáře</string>
+    <string name="pref_planning_calendar_summary">Vyberte kalendář, kde jsou uloženy plány pro budoucí a opakované transakce</string>
+    <string name="pref_planning_calendar_title">Plánovací kalendář</string>
+    <string name="pref_protection_delay_seconds_summary">Doba nečinnosti v sekundá než bude aplikace uzamčena heslem.</string>
+    <string name="pref_protection_delay_seconds_title">Odložit do ochránění</string>
+    <string name="pref_qif_export_file_encoding_title">Kódování znaků</string>
+    <string name="pref_request_licence_title">Zažádejte klíč</string>
+    <string name="pref_restore_title">Obnovit</string>
+    <string name="pref_security_question_summary">Umožňuje odemknout aplikaci, pokud jste zapomněli vaše heslo.</string>
+    <string name="pref_security_question_title">Bezpečnostní otázka</string>
+    <string name="pref_send_feedback_title">Odeslat názor</string>
+    <string name="pref_share_target_summary">Ponechte prázdné, pokud si chcete vybrat mezi vhodnými aplikacemi (E-mail, Dropbox, Google Docs, …), nebo poskytněte URL v jednom z podporovaných schémat</string>
+    <string name="pref_share_target_title">Odeslat URL</string>
+    <string name="pref_shortcut_added">Zástupce byl přidán do výchozí obrazovky</string>
+    <string name="pref_shortcut_summary">Přidání zástupce do výchozí obrazovky.</string>
+    <string name="pref_ui_fontsize_title">Zvětšit velikost písma</string>
+    <string name="pref_ui_language_default">Výchozí systémové nastavení</string>
+    <!-- Title of the preference for selecting the UI language -->
+    <string name="pref_ui_language_title">Jazyk</string>
+    <string name="pref_ui_theme_dark">Tmavý</string>
+    <string name="pref_ui_theme_light">Světlý</string>
+    <string name="pref_ui_theme_title">Motiv</string>
+    <string name="pref_visit_website_summary">Seznam změn a FAQ</string>
+    <string name="pref_visit_website_title">Navštivte webové stránky</string>
+    <string name="progress_dialog_loading">Načítání objektů z databáze</string>
+    <string name="reference_number">Referenční číslo</string>
+    <string name="restore_db_failure">Obnovení databáze se nezdařilo.</string>
+    <string name="restore_db_success">Databáze byla obnovena ze zálohy.</string>
+    <string name="restore_preferences_failure">Nastavení obnovení se nezdařilo.</string>
+    <string name="restore_preferences_success">Preference byly obnoveny ze zálohy.</string>
+    <string name="save_transaction_and_new_success">Úspěšně uloženo</string>
+    <string name="save_transaction_error">Nelze uložit novou transakci ze šablony</string>
+    <string name="save_transaction_template_deleted">Šablona byla odstraněna</string>
+    <string name="select">Vybrat</string>
+    <string name="select_category">Vybrat kategorii</string>
+    <string name="share_scheme_not_supported">Schéma %1$s není podporováno</string>
+    <string name="share_sending">Odeslat soubor exportu</string>
+    <string name="split_parts_heading">Rozdělení stran</string>
+    <string name="split_transaction">Rozdělení transakce</string>
+    <string name="status">Stav</string>
+    <string name="status_cleared">zrušeno</string>
+    <string name="status_reconciled">odsouhlasen</string>
+    <string name="status_uncreconciled">neodsouhlasené</string>
+    <string name="subcategory">Podkategorie</string>
+    <string name="sum_expenses">Výdaje</string>
+    <string name="sum_income">Příjem</string>
+    <string name="sum_transfer">Převody</string>
+    <!-- platform is replaced with Android or Blackberry -->
+    <string name="tell_a_friend_message">{app_name}, Správa osobních výdajů pro {platform}, {website}</string>
+    <string name="thank_you">Děkujeme vám za vaši podporu!</string>
+    <string name="time">Čas</string>
+    <string name="title">Titul</string>
+    <string name="transaction">Transakce</string>
+    <string name="transfer">Převod</string>
+    <string name="transfer_from_account">Od</string>
+    <string name="transfer_to_account">Do</string>
+    <!-- Type refers to the type of an account, eg. Cash account, bank account -->
+    <string name="type">Typ</string>
+    <string name="unsplit_amount">Nerozdělená částka</string>
+    <string name="unsplit_amount_greater_than_zero">Zůstala nějaká nerozdělená částka.</string>
+    <string name="warning_backup">Databáze a nastavení předvoleb bude uloženo na paměťovou kartu %1$s.</string>
+    <string name="continue_confirmation">Přejete si pokračovat?</string>
+    <string name="warning_delete_account">Tento účet (%1$s) bude smazán i s jeho transakcemi.</string>
+    <string name="warning_password_contrib">Nastavení bezpečnostní otázky umožňuje odemknout aplikaci i v případě, že zapomenete heslo.</string>
+    <string name="warning_reset_account">Pokud budete pokračovat všechny transakce tohoto účtu budou odstraněny z databáze a nepůjde je obnovit.</string>
+    <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
+    <string name="warning_reset_account_all">Budete-li pokračovat, pro všechny účty %1$s, budou transakce odstraněny z databáze a nepůjde je obnovit.</string>
+    <string name="warning_restore">Databáze a předvolby budou obnoveny ze zálohy (%1$s). Aktuální data budou odstraněna.</string>
+    <string name="warning_splitpartcategory_context">Převody, které jsou součástí rozdělení, lze pouze upravovat nebo odstranit v souvislosti s rozdělením.</string>
+    <string name="import_categories_success">%1$s kategorie byly úspěšně naimportovány.</string>
+    <string name="import_parties_success">%1$s strany byly úspěšně naimportovány.</string>
+    <string name="create_new_folder_fail">Vytvoření složky selhalo</string>
+    <string name="pref_auto_backup_title">Povolit automatickou zálohu</string>
+    <string name="pref_auto_backup_summary">Zálohovat databázi denně v určený čas (pouze tehdy, pokud data byla změněna)</string>
+    <string name="pref_auto_backup_time_title">Čas automatické zálohy</string>
+    <string name="switch_on_text">Zapnuto</string>
+    <string name="switch_off_text">Vypnuto</string>
+    <string name="menu_move">Přesun</string>
+    <string name="preferences_week_start_day_title">Začátek týdne</string>
+    <string name="content_description_calculator">Kalkulačka</string>
+    <string name="template">Šablona</string>
+    <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Cloudová synchronizace</string>
+    <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
+    <string name="content_description_encrypted">Šifrováno</string>
+    <string name="translated_by">Přeložil</string>
+    <string name="pref_category_exchange_rates">Směnné kurzy</string>
+    <string name="budget_duration_from">Od</string>
+    <string name="budget_duration_to">Do</string>
+    <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
+    <string name="pref_category_title_features">Funkce</string>
+    </resources>

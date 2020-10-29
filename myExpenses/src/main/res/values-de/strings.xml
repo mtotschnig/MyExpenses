@@ -1,934 +1,948 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
 <resources xmlns:tools="http://schemas.android.com/tools">
-  <string name="account">Konto</string>
-  <!--Label in form for payment method, where user checks for which account types the method is applicable-->
-  <string name="account_types">Kontotypen</string>
-  <string name="account_type_asset">Anlagekonto</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_asset_plural">Anlagekonten</string>
-  <string name="account_type_bank">Bankkonto</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_bank_plural">Bankkonten</string>
-  <string name="account_type_cash">Bargeldkonto</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_cash_plural">Bargeldkonten</string>
-  <string name="account_type_ccard">Kreditkarte</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_ccard_plural">Kreditkarten</string>
-  <string name="account_type_liability">Kreditkonto</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_liability_plural">Kreditkonten</string>
-  <string name="already_defined">%1$s existiert bereits</string>
-  <string name="amount">Betrag</string>
-  <string name="app_name">Meine Ausgaben</string>
-  <string name="backup_failure">Das Backup nach \"%1$s\" ist gescheitert.</string>
-  <string name="backup_success">Die Datenbank und die Einstellungen wurden erfolgreich nach \"%1$s\" gesichert.</string>
-  <string name="category">Kategorie</string>
-  <string name="color">Farbe</string>
-  <string name="comment">Notizen</string>
-  <string name="confirmation_dialog_dont_show_again">Nicht mehr anzeigen</string>
-  <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Ohne Werbung</string>
-  <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Unbegrenzte Anzahl von Konten</string>
-  <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Bildanhang für Buchung</string>
-  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Kreisdiagramm (Verteilung pro Kategorie)</string>
-  <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Unbegrenzte Anzahl von Plänen</string>
-  <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Buchungsliste als PDF-Datei drucken</string>
-  <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Vorlagen Widget</string>
-  <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV import</string>
-  <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Unbegrenzte Anzahl an Vorlagen für mehrteilige Buchungen</string>
-  <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>E-Mail-Support</b> mit garantierter Antwort innerhalb von 2 Werktagen</string>
-  <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Stimmrecht zum <b>Entwicklungsfahrplan</b></string>
-  <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Verlaufsdiagramm (Cashflow)</string>
-  <string name="licence_status_free">Gratis</string>
-  <string name="contrib_key">Contrib-Schlüssel</string>
-  <string name="extended_key">Erweiterungsschlüssel</string>
-  <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
-  <string name="contrib_key_requires">Benötigt %s.</string>
-  <string name="currency">Währung</string>
-  <string name="current_balance">Aktueller Saldo</string>
-  <string name="date">Datum</string>
-  <string name="date_format">Datumsformat</string>
-  <string name="date_format_illegal">Unzulässiges Datumsformat</string>
-  <string name="number_format_illegal">Ungültiges Zahlenformat</string>
-  <string name="decimal_separator">Dezimaltrennzeichen</string>
-  <string name="default_account_name">Haushaltsbuch</string>
-  <string name="description">Beschreibung</string>
-  <string name="dialog_balance_delete">Abgestimmte Buchungen löschen</string>
-  <string name="dialog_confirm_discard_changes">Änderungen verwerfen?</string>
-  <string name="dialog_confirm_discard_new_transaction">Neue Buchung verwerfen?</string>
-  <string name="dialog_confirm_discard_new_template">Neue Vorlage verwerfen?</string>
-  <string name="dialog_confirm_discard_new_account">Neues Konto verwerfen?</string>
-  <string name="dialog_confirm_discard_new_method">Neue Zahlungsweise verwerfen?</string>
-  <string name="dialog_command_disabled_balance">Keine verrechneten Buchungen zum Abstimmen.</string>
-  <string name="dialog_command_disabled_insert_transfer">Umbuchungen benötigen ein zweites Konto.</string>
-  <string name="dialog_command_disabled_reset_account">Keine exportierbaren Buchungen vorhanden.</string>
-  <string name="dialog_command_disabled_distribution">In diesem Konto wurden keine Buchungen Kategorien zugeordnet.</string>
-  <!--Button for accessing trial of premium feature-->
-  <string name="dialog_contrib_no">Ausprobieren</string>
-  <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
-  <string name="dialog_contrib_premium_feature">%1$s ist eine Premium-Funktion (%2$s).</string>
-  <string name="dialog_contrib_reminder_remove_limitation">Entfernen Sie diese Einschränkung und erhalten Sie Zugriff auf mehr Funktionen, indem Sie <i>{app_name}</i> upgraden.</string>
-  <string name="dialog_contrib_text_1"><i>{app_name}</i> wird Ihnen mit offenem Quellcode angeboten.</string>
-  <string name="dialog_contrib_text_2">Bitte leisten Sie einen Beitrag durch ein Upgrade von <i>{app_name}</i> und erhalten Sie uneingeschränkten Zugriff auf die folgenden Funktionen:</string>
-  <string name="dialog_contrib_usage_count">Verbleibende Gratis Nutzungen</string>
-  <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">Mit Ihrem aktuellen Lizenzstatus (%2$s) können Sie es %1$d mal verwenden.</string>
-  <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Mit Ihrem aktuellen Lizenzstatus (%2$s) können Sie es %1$d Tage lang verwenden.</string>
-  <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Mit Ihrem aktuellen Lizenzstatus (%2$s) können Sie %1$d Konten anlegen.</string>
-  <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Mit Ihrem aktuellen Lizenzstatus (%2$s) können Sie %1$d Pläne anlegen.</string>
-  <string name="dialog_contrib_usage_limit_split_templates">Mit Ihrem aktuellen Lizenzstatus (%1$s) können Sie eine Vorlage für mehrteilige Buchungen erstellen.</string>
-  <string name="dialog_export_delete">Buchungen nach dem Exportieren löschen</string>
-  <string name="dialog_export_not_yet_exported">Nur Buchungen exportieren, die noch nicht exportiert wurden</string>
-  <string name="dialog_password_activate_protection">Passwort-Schutz aktivieren</string>
-  <string name="dialog_password_change_password">Passwort ändern</string>
-  <string name="dialog_password_new_password">Neues Passwort</string>
-  <string name="dialog_password_new_password_confirmation">Neues Passwort (Bestätigung)</string>
-  <string name="dialog_remind_later">Später</string>
-  <string name="dialog_remind_no">Nein danke</string>
-  <string name="dialog_remind_rate_how_many_stars">Wie viele Sterne würden Sie für {app_name} vergeben?</string>
-  <string name="dialog_remind_rate_1">Bitte nehmen Sie sich einen Augenblick Zeit, um {app_name} zu bewerten und zu rezensieren.</string>
-  <string name="dialog_remind_rate_2">Ihre Kommentare ermöglichen uns regelmäßige Verbesserungen und Erweiterungen.</string>
-  <string name="dialog_remind_rate_1_suggest_improvement">Bitte nehmen Sie sich einen Augenblick Zeit, uns Ihre Verbesserungsvorschläge mitzuteilen.</string>
-  <string name="dialog_remind_rate_yes">Jetzt bewerten</string>
-  <string name="dialog_security_answer">Antwort</string>
-  <string name="dialog_security_question">Frage</string>
-  <string name="dialog_title_attention">Achtung</string>
-  <string name="dialog_title_information">Informationen</string>
-  <!--%1$s is replace with account label-->
-  <string name="dialog_title_balance_account">%1$s abstimmen</string>
-  <string name="dialog_title_contrib_feature">Premium-Funktion</string>
-  <plurals name="dialog_title_warning_delete_account">
-    <item quantity="one">Konto löschen?</item>
-    <item quantity="other">%1$d Konten löschen?</item>
-  </plurals>
-  <string name="dialog_title_warning_delete_category">Kategorie löschen?</string>
-  <string name="dialog_title_warning_delete_template">Vorlage löschen?</string>
-  <string name="dialog_title_warning_delete_transaction">Buchung löschen?</string>
-  <string name="expense">Ausgabe</string>
-  <string name="export_expenses">Ausgaben-Export</string>
-  <!--1$s is replaced with path to file, 2$s with error message-->
-  <string name="export_sdcard_failure">Fehler beim Export nach \"%1$s\": %2$s</string>
-  <!--1$s is replaced with path to file-->
-  <string name="export_sdcard_success">Daten in Datei \"%1$s\" exportiert</string>
-  <string name="external_storage_unavailable">Externer Speicher (SD Karte) ist nicht verfügbar</string>
-  <string name="feedback">Feedback</string>
-  <string name="ftp_uri_malformed">Ungültige URI %1$s</string>
-  <string name="grisbi_import_categories_loading">Kategorien werden von %1$s geladen</string>
-  <string name="grisbi_import_parties_loading">Parteien werden von %1$s geladen</string>
-  <string name="grouping_day">Tag</string>
-  <string name="grouping_last_week">Letzte Woche</string>
-  <string name="grouping_month">Monat</string>
-  <string name="grouping_none">Nicht gruppiert</string>
-  <string name="grouping_this_week">Diese Woche</string>
-  <string name="grouping_today">Heute</string>
-  <string name="grouping_week">Woche</string>
-  <string name="grouping_year">Jahr</string>
-  <string name="grouping_yesterday">Gestern</string>
-  <string name="help_button_rate">Bewerten</string>
-  <string name="help_heading_credits">Abspann</string>
-  <string name="help_heading_license">Lizenz</string>
-  <string name="help_heading_whats_new">Neue Funktionen</string>
-  <string name="important_upgrade_information_heading">Wichtige Information</string>
-  <string name="import_select_transactions">Buchungen</string>
-  <string name="income">Einnahme</string>
-  <string name="invalid_number_format">Zahlenformat wird von Ihrer Locale nicht unterstützt. Bitte verwenden Sie %1$s</string>
-  <string name="label">Bezeichnung</string>
-  <string name="licence_validation_failure">Lizenz-Schlüssel konnte nicht validiert werden.</string>
-  <string name="licence_validation_success">Lizenz-Schlüssel wurde erfolgreich validiert: </string>
-  <string name="licence_validation_premium">Premium-Funktionen wurden entsperrt.</string>
-  <string name="menu_aggregates">Gesamt</string>
-  <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
-  <string name="menu_apply_template">Anwenden</string>
-  <string name="menu_back">Zurück</string>
-  <string name="menu_backup">Sicherungskopie</string>
-  <!--Balance: compare cleared balance in app with balance on statement received from bank-->
-  <string name="menu_balance">Konto abstimmen</string>
-  <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
-  <string name="menu_cancel_plan_instance">Annullieren</string>
-  <string name="menu_clone_transaction">Klonen</string>
-  <string name="menu_contrib">Beitragen</string>
-  <string name="menu_create_account">Neues Konto</string>
-  <string name="menu_create_instance_edit">Anwenden und verändern</string>
-  <string name="menu_create_instance_save">Anwenden und speichern</string>
-  <string name="menu_create_main_cat">Neue Hauptkategorie</string>
-  <string name="menu_create_method">Neue Zahlungsweise</string>
-  <string name="menu_create_party">Neue Partei</string>
-  <string name="menu_create_split">Neue mehrteilige Buchung</string>
-  <string name="menu_create_split_part_category">Neuer Teilbetrag - Kategorie</string>
-  <string name="menu_create_split_part_transfer">Neuer Teilbetrag - Umbuchung</string>
-  <string name="menu_create_sub_cat">Neue Unterkategorie</string>
-  <string name="menu_create_template">Neue Vorlage</string>
-  <string name="menu_create_template_from_transaction">Als Vorlage speichern</string>
-  <string name="menu_create_template_for_transaction">Neue Vorlage (Buchung)</string>
-  <string name="menu_create_template_for_transfer">Neue Vorlage (Umbuchung)</string>
-  <string name="menu_create_transaction">Neue Buchung</string>
-  <string name="menu_create_transfer">Neue Umbuchung</string>
-  <string name="menu_delete">Löschen</string>
-  <string name="menu_distribution">Verteilung</string>
-  <string name="menu_edit">Bearbeiten</string>
-  <string name="menu_edit_account">Konto verändern</string>
-  <string name="menu_edit_cat">Kategorie verändern</string>
-  <string name="menu_edit_method">Zahlungsweise verändern</string>
-  <string name="menu_edit_party">Partei verändern</string>
-  <string name="menu_edit_plan_instance">Einzelnes Ereignis verändern</string>
-  <string name="menu_edit_split">Mehrteilige Buchung verändern</string>
-  <string name="menu_edit_split_part_category">Teilbetrag - Kategorie verändern</string>
-  <string name="menu_edit_split_part_transfer">Teilbetrag - Umbuchung verändern</string>
-  <string name="menu_edit_template">Vorlage verändern</string>
-  <string name="menu_edit_transaction">Buchung verändern</string>
-  <string name="menu_edit_transfer">Umbuchung verändern</string>
-  <string name="menu_exclude_from_totals">Ausschließen von Summen</string>
-  <string name="menu_forward">Weiter</string>
-  <string name="menu_grouping">Gruppierung</string>
-  <string name="menu_help">Hilfe</string>
-  <!--This command inverts the direction of a transfer-->
-  <string name="menu_invert_transfer">Umkehren</string>
-  <string name="menu_manage_plans">Vorlagen und Pläne</string>
-  <!--Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application-->
-  <string name="menu_open">Öffnen</string>
-  <string name="menu_import">Import</string>
-  <string name="menu_print">Drucken</string>
-  <string name="menu_reset">Exportieren und zurücksetzen</string>
-  <string name="menu_reset_all">Alle exportieren und zurücksetzen</string>
-  <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
-  <string name="menu_reset_plan_instance">Zurücksetzen</string>
-  <string name="menu_save">Speichern</string>
-  <string name="menu_save_and_new">Speichern und neu</string>
-  <string name="menu_search">Suche</string>
-  <string name="menu_settings">Einstellungen</string>
-  <string name="menu_share">Weiterempfehlen</string>
-  <string name="button_label_share_file">Teilen</string>
-  <string name="button_label_close">Schließen</string>
-  <string name="menu_split_transaction">Splitten</string>
-  <string name="method">Zahlungsweise</string>
-  <string name="no_amount_given">Sie haben keinen Betrag eingegeben.</string>
-  <string name="no_app_handling_email_available">Keine App für das Versenden von Email gefunden.</string>
-  <string name="no_app_handling_ftp_available">Keine App für FTP gefunden. <i>Mit FTP Senden</i> installieren?</string>
-  <string name="no_app_handling_pdf_available">Keine App für das Öffnen von PDF Dateien gefunden.</string>
-  <string name="no_categories">Noch keine Kategorien vorhanden.</string>
-  <string name="no_expenses">Noch keine Ausgaben!</string>
-  <string name="no_exportable_expenses">Es gibt keine Buchungen, die noch nicht exportiert wurden.</string>
-  <string name="no_filemanager_installed">Kein Dateimanager installiert</string>
-  <string name="no_calendar_app_installed">Keine App für die Bearbeitung des Kalenderereignisses gefunden.</string>
-  <string name="no_mapped_transactions">In diesem Zeitraum wurden keine Buchungen Kategorien zugeordnet.</string>
-  <string name="no_methods">Keine Zahlungsweisen.</string>
-  <string name="no_parties">Keine Parteien.</string>
-  <string name="no_split_parts">Keine Teilbeträge.</string>
-  <string name="no_templates">Keine Vorlagen.</string>
-  <string name="no_accounts">Keine Konten.</string>
-  <string name="no_title_given">Sie haben keinen Titel eingegeben.</string>
-  <plurals name="not_deletable_mapped_transactions">
-    <item quantity="one">Das ausgewählte Objekt ist mit einer Buchung verknüpft und kann nicht gelöscht werden.</item>
-    <item quantity="other">%1$d ausgewählte Objekte sind mit Buchungen verknüpft und können nicht gelöscht werden.</item>
-  </plurals>
-  <plurals name="not_deletable_mapped_templates">
-    <item quantity="one">Das ausgewählte Objekt ist mit einer Vorlage verknüpft und kann nicht gelöscht werden.</item>
-    <item quantity="other">%1$d ausgewählte Objekte sind mit Vorlagen verknüpft und können nicht gelöscht werden.</item>
-  </plurals>
-  <string name="numbered">nummeriert</string>
-  <string name="opening_balance">Anfangssaldo</string>
-  <string name="parse_error_file_not_found">Konnte Datei %1$s nicht finden</string>
-  <string name="parse_error_grisbi_version_not_supported">Grisbi Datei Version %1$s wird nicht unterstützt</string>
-  <string name="parse_error_no_data_found">Keine importierbaren Daten in der Datei gefunden.</string>
-  <string name="parse_error_other_exception">Ein Fehler ist aufgetreten: %1$s</string>
-  <string name="parse_error_parse_exception">Konnte Datei nicht analysieren</string>
-  <string name="password_disabled_reenable">Passwort-Schutz wurde aufgehoben. Sie können diesen in den Einstellungen wieder aktivieren.</string>
-  <string name="password_lost">Passwort vergessen</string>
-  <string name="password_not_valid">Passwort ungültig. Versuchen Sie es erneut!</string>
-  <string name="password_prompt">Geben Sie Ihr Passwort ein</string>
-  <string name="password_security_answer_not_valid">Falsche Antwort. Versuchen Sie es erneut!</string>
-  <string name="payee">Empfänger</string>
-  <string name="payer">Zahler</string>
-  <string name="payer_or_payee">Empfänger/Zahler</string>
-  <!--Plan for future and recurring transactions-->
-  <string name="plan">Plan</string>
-  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance-->
-  <string name="plan_automatic">automatisch</string>
-  <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">{app_name} Planer</string>
-  <string name="planner_notification_channel_name">Planer</string>
-  <string name="plan_event_deleted">Der mit dieser Vorlage verknüpfte Plan wurde aus dem Kalender gelöscht.</string>
-  <!--This message is shown, after a user decides to not apply a manual plan-->
-  <string name="plan_execution_canceled">Durchführung des Plans abgebrochen</string>
-  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance)-->
-  <string name="plan_manual">manuell</string>
-  <string name="planner_create_calendar_failure">Lokaler Kalender konnte nicht angelegt werden</string>
-  <string name="planner_create_calendar_success">Lokaler Kalender erfolgreich angelegt</string>
-  <!--payment methods-->
-  <string name="pm_cheque">Scheck</string>
-  <string name="pm_creditcard">Kreditkarte</string>
-  <string name="pm_deposit">Einzahlung</string>
-  <string name="pm_directdebit">Abbuchung</string>
-  <string name="pm_type_credit">Einnahmen</string>
-  <string name="pm_type_debit">Ausgaben</string>
-  <string name="pm_type_neutral">Neutral</string>
-  <string name="pref_app_dir_title">Ordner für Backups und Exports</string>
-  <string name="pref_auto_fill_title">Automatisches Ausfüllen</string>
-  <string name="pref_auto_fill_summary">Daten von der letzten Buchung für denselben Empfänger/Zahler ausfüllen</string>
-  <string name="pref_backup_summary">Erzeugt ein Backup der Datenbank und der Einstellungen</string>
-  <string name="pref_sort_order_usages">Häufigkeit der Benutzung</string>
-  <string name="pref_category_title_advanced">Erweitert</string>
-  <string name="pref_category_title_export">Export</string>
-  <string name="pref_category_title_import">Import</string>
-  <string name="pref_category_title_manage">Verwalten</string>
-  <string name="pref_category_title_more_information">Mehr Information</string>
-  <string name="pref_category_title_security">Sicherheit</string>
-  <string name="pref_category_title_ui">Benutzerschnittstelle</string>
-  <string name="pref_checkbox_enabled">Freigegeben</string>
-  <string name="pref_checkbox_disabled">Deaktiviert</string>
-  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
-  <string name="pref_contrib_purchase_summary">Zugriff auf Premium-Funktionen erwerben.</string>
-  <string name="pref_contrib_purchase_title">Schlüssel kaufen</string>
-  <string name="pref_contrib_purchase_title_upgrade">Schlüssel erweitern</string>
-  <string name="pref_contrib_purchase_title_in_app">In-App Bezahlung</string>
-  <string name="pref_custom_currency_title">Anpassen von Währungen</string>
-  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
-  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Wenn Sie einen Schlüssel erhalten haben, können Sie hier Premium-Funktionen freischalten.</string>
-  <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Schlüssel eingeben</string>
-  <string name="pref_export_format_title">Datenformat</string>
-  <string name="pref_import_from_grisbi_summary">Kategorien und Parteien aus Grisbi XML importieren.</string>
-  <string name="pref_import_from_grisbi_title">Import aus Grisbi</string>
-  <!--%s is replaced with QIF or CSV-->
-  <string name="pref_import_summary">Buchungen, Kategorien und Parteien aus %s Datei importieren</string>
-  <!--%s is replaced with QIF or CSV-->
-  <string name="pref_import_title">%s Import</string>
-  <string name="pref_like_facebook_title">Empfehlen Sie uns auf Facebook</string>
-  <string name="pref_manage_accounts_title">Konten</string>
-  <string name="pref_manage_categories_summary">Hinzufügen, Editieren und Löschen von Kategorien.</string>
-  <string name="pref_manage_categories_title">Kategorien</string>
-  <string name="pref_manage_methods_summary">Zahlungsweisen hinzufügen und verändern, und diese mit Kontotypen verknüpfen.</string>
-  <string name="pref_manage_methods_title">Zahlungsweisen</string>
-  <string name="pref_manage_parties_summary">Parteien (Zahler und Empfänger) hinzufügen, editieren und löschen.</string>
-  <string name="pref_manage_parties_title">Parteien</string>
-  <string name="pref_manage_sync_backends_title">Synchronisierung Backends</string>
-  <!--%s will be replaced with list of backends-->
-  <string name="pref_manage_sync_backends_summary">Backends für die Synchronisierung der Konten (%s) hinzufügen.</string>
-  <string name="pref_more_info_dialog_title">Lizenz &amp; Abspann</string>
-  <string name="pref_password_not_equal">Passwörter stimmen nicht überein</string>
-  <string name="pref_perform_protection_title">Schutz</string>
-  <string name="pref_perform_share_title">Export und Sicherheitskopie versenden</string>
-  <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
-  <string name="pref_planning_calendar_create_local">Neuen lokalen Planer anlegen</string>
-  <string name="pref_planning_calendar_summary">Wählen Sie den Kalender aus, in dem Pläne für zukünftige und wiederkehrende Buchungen gespeichert werden sollen.</string>
-  <string name="pref_planning_calendar_title">Planer</string>
-  <string name="pref_protection_delay_seconds_summary">Anzahl untätiger Sekunden, bevor die App durch ein Passwort geschützt wird.</string>
-  <string name="pref_protection_delay_seconds_title">Wartezeit für Passwortschutz</string>
-  <string name="pref_protection_enable_data_entry_from_widget_title">Dateneingabe über Widgets und Verknüpfungen</string>
-  <string name="pref_protection_enable_data_entry_from_widget_summary_on">Ohne Passwort erlaubt.</string>
-  <string name="pref_protection_enable_data_entry_from_widget_summary_off">Passwort wird benötigt.</string>
-  <string name="pref_qif_export_file_encoding_title">Zeichenkodierung</string>
-  <string name="pref_request_licence_title">Schlüssel beantragen</string>
-  <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
-  <string name="pref_restore_alternative">Alternativ</string>
-  <string name="pref_restore_alternative_summary">Verwenden Sie diese alternative Methode, wenn kein Datei-Manager auf dem Gerät installiert ist.</string>
-  <string name="pref_restore_summary">Wählen Sie die Sicherheitskopie aus, die wiederhergestellt werden soll.</string>
-  <string name="pref_restore_title">Wiederherstellung</string>
-  <string name="pref_security_question_summary">Erlaubt den Passwortschutz aufzuheben, sollten Sie das Passwort vergessen.</string>
-  <string name="pref_security_question_title">Sicherheitsfrage</string>
-  <string name="pref_send_feedback_title">Feedback senden</string>
-  <string name="pref_share_target_summary">Sie können dies leer lassen, wenn Sie zwischen passenden Apps wählen wollen (Email, Dropbox, Google Docs, …) oder eine URL in einer der unterstützten Schemen angeben</string>
-  <string name="pref_share_target_title">Upload URL</string>
-  <string name="pref_shortcut_added">Verknüpfung dem Start-Bildschirm hinzugefügt</string>
-  <string name="pref_shortcut_not_added">Es steht kein Start-Bildschirm zur Verfügung, der Verknüpfungen akzeptiert.</string>
-  <string name="pref_shortcut_summary">Fügt die Verknüpfung dem Start-Bildschirm hinzu.</string>
-  <string name="pref_template_click_default_summary">Beim kurzen Tippen auf Eintrag in der Vorlagenliste</string>
-  <string name="pref_ui_fontsize_title">Schriftgröße</string>
-  <string name="pref_ui_home_screen_shortcuts">Verknüpfungen für den Start-Bildschirm</string>
-  <string name="pref_ui_language_default">System-Standard</string>
-  <!--Title of the preference for selecting the UI language-->
-  <string name="pref_ui_language_title">Sprache</string>
-  <string name="pref_ui_theme_dark">Dunkel</string>
-  <string name="pref_ui_theme_light">Hell</string>
-  <string name="pref_ui_theme_title">Stil</string>
-  <string name="pref_visit_website_summary">Änderungsprotokoll und FAQ</string>
-  <string name="pref_visit_website_title">Website besuchen</string>
-  <string name="progress_dialog_deleting">Objekte werden gelöscht</string>
-  <string name="progress_dialog_loading">Buchung wird von Datenbank geladen</string>
-  <string name="progress_dialog_printing">Generierung von PDF</string>
-  <string name="progress_dialog_saving">Objekt wird in Datenbank gespeichert</string>
-  <string name="qif_parse_result">Gefunden: %1$s Konten, %2$s Kategorien und %3$s parteien.</string>
-  <string name="qif_parse_failure_found_multiple_accounts">In der QIF Datei wurden mehrere Konten gefunden.</string>
-  <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Diese konten nicht mit einem bestehendes Konto zusammengefügt werden.</string>
-  <string name="reference_number">Referenznummer</string>
-  <string name="restore_db_failure">Fehler bei der Wiederherstellung der Datenbank.</string>
-  <string name="restore_db_success">Die Datenbank wurde aus dem Backup wiederhergestellt.</string>
-  <string name="restore_no_backup_found">Keine Backup-Datei gefunden.</string>
-  <string name="restore_preferences_failure">Fehler bei der Wiederherstellung der Einstellungen</string>
-  <string name="restore_backup_archive_not_valid">Archiv %1$s ist nicht gültig</string>
-  <string name="restore_backup_file_not_found">Keine Datei %1$s im Archiv \"%2$s\" gefunden.</string>
-  <string name="restore_preferences_success">Die Einstellungen wurden aus dem Backup wiederhergestellt.</string>
-  <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d Pläne wurden aus dem Backup wiederhergestellt.</string>
-  <string name="save_transaction_and_new_success">Erfolgreich gespeichert</string>
-  <string name="save_transaction_error">Neue Buchung aus Vorlage konnte nicht gespeichert werden.</string>
-  <plurals name="save_transaction_from_template_success">
-    <item quantity="one">Neue Buchung wurde erfolgreich aus der Vorlage gespeichert.</item>
-    <item quantity="other">%1$d neue Buchungen wurden erfolgreich aus Vorlagen gespeichert.</item>
-  </plurals>
-  <string name="save_transaction_template_deleted">Vorlage wurde gelöscht</string>
-  <string name="select">Auswählen</string>
-  <string name="select_category">Kategorie auswählen</string>
-  <string name="select_payee">Empfänger/Zahler auswählen</string>
-  <string name="share_scheme_not_supported">Schema %1$s nicht unterstützt </string>
-  <string name="share_sending">Export Datei senden</string>
-  <string name="split_parts_heading">Teilbeträge</string>
-  <string name="split_transaction">Mehrteilige Buchung</string>
-  <string name="status">Status</string>
-  <string name="status_cleared">verrechnet</string>
-  <string name="status_reconciled">abgestimmt</string>
-  <string name="status_uncreconciled">nicht abgestimmt</string>
-  <string name="status_void">ungültig</string>
-  <string name="subcategory">Unterkategorie</string>
-  <string name="sum_expenses">Ausgaben</string>
-  <string name="sum_income">Einnahmen</string>
-  <string name="sum_transfer">Umbuchungen</string>
-  <!--platform is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">Probiere {app_name}, Persönliches Finanz-Management für {platform}, von {website}</string>
-  <string name="thank_you">Danke für Ihre Unterstützung!</string>
-  <string name="time">Zeit</string>
-  <string name="title">Titel</string>
-  <string name="total_cleared">Verrechnete Summe</string>
-  <string name="total_reconciled">Abgestimmte Summe</string>
-  <string name="transaction">Buchung</string>
-  <string name="transfer">Umbuchung</string>
-  <string name="transfer_from_account">Von</string>
-  <string name="transfer_to_account">Nach</string>
-  <!--Type refers to the type of an account, eg. Cash account, bank account-->
-  <string name="type">Typ</string>
-  <string name="unsplit_amount">Ungesplitteter Betrag</string>
-  <string name="unsplit_amount_greater_than_zero">Es wurde noch nicht der gesamte Betrag aufgesplittet.</string>
-  <string name="warning_backup">Die Datenbank und die Einstellungen werden nach \"%1$s\" gesichert.</string>
-  <string name="continue_confirmation">Möchten Sie fortfahren?</string>
-  <string name="warning_delete_account">Konto \"%1$s\" wird mit all seinen Buchungen gelöscht.</string>
-  <plurals name="warning_delete_main_category">
-    <item quantity="one">Die ausgewählte Kategorie hat Unterkategorien. Diese werden ebenfalls gelöscht.</item>
-    <item quantity="other">%1$d ausgewählte Kategorien haben Unterkategorien. Diese werden ebenfalls gelöscht.</item>
-  </plurals>
-  <string name="warning_delete_category_with_budget">Für mindestens eine ausgewählte Kategorie gibt es Budgetzuweisungen, die ebenfalls gelöscht werden.</string>
-  <plurals name="warning_delete_template">
-    <item quantity="one">Die ausgewählte Vorlage wird gelöscht.</item>
-    <item quantity="other">%1$d ausgewählte Vorlagen werden gelöscht.</item>
-  </plurals>
-  <plurals name="warning_delete_transaction">
-    <item quantity="one">Die ausgewählte Buchung wird gelöscht.</item>
-    <item quantity="other">%1$d ausgewählte Buchungen werden gelöscht.</item>
-  </plurals>
-  <plurals name="move_category_success">
-    <item quantity="one">Eine Kategorie wurde erfolgreich verschoben.</item>
-    <item quantity="other">%d Kategorien wurden erfolgreich verschoben.</item>
-  </plurals>
-  <plurals name="move_category_failure">
-    <item quantity="one">Eine Kategorie wurde nicht verschoben, da die gleiche Bezeichnung bereits am Ziel vorhanden ist.</item>
-    <item quantity="other">%d Kategorien wurden nicht verschoben, da die gleiche Bezeichnung bereits am Ziel vorhanden ist.</item>
-  </plurals>
-  <string name="warning_delete_reconciled">Wenn Sie abgestimmte Buchungen löschen, können Ihre Aufzeichnungen von Ihrem Kontoauszug abweichen.</string>
-  <string name="warning_balance_account">Bitte vergleichen Sie die verrechnete Summe mit dem Kontostand Ihres Kontoauszuges. Wenn Sie fortfahren, werden verrechnete Buchungen als abgestimmt markiert.</string>
-  <string name="warning_password_protected">App ist durch Passwort geschützt.</string>
-  <string name="warning_widget_disabled">Sie müssen dieses Widget in den App Einstellungen aktivieren.</string>
-  <string name="warning_instantiate_template_from_widget_password_protected">Die schnelle Anwendung von Vorlagen über dieses Widget funktioniert nur, wenn Sie in den App-Einstellungen Dateneingabe über Widgets ohne Passwort erlauben.</string>
-  <string name="warning_password_contrib">Durch das Setzen einer Sicherheitsfrage können Sie den Passwortschutz aufheben, sollten Sie das Passwort vergessen.</string>
-  <string name="warning_reset_account">Wenn Sie fortfahren, werden alle Transaktionen dieses Kontos von der Datenbank gelöscht.	Dies kann nicht rückgängig gemacht werden.</string>
-  <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
-  <string name="warning_reset_account_all">Wenn Sie fortfahren, werden alle Buchungen aller Konten%1$s aus der Datenbank gelöscht. Dies kann nicht rückgängig gemacht werden.</string>
-  <string name="warning_reset_account_matched">Wenn Sie fortfahren, werden alle mit dem aktuellen Suchfilter übereinstimmenden Buchungen aus der Datenbank gelöscht. Dies kann nicht rückgängig gemacht werden.</string>
-  <string name="warning_restore">Datenbank und Einstellungen werden aus dem Backup (%1$s) wiederhergestellt. Aktuelle Daten werden gelöscht.</string>
-  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Der aktuell ausgewählte Ordner für Sicherungskopien und Exporte wird von Android automatisch gelöscht wenn Sie {app_name} deinstallieren. Sie können dies verhindern, indem Sie einen anderen Ordner in den Einstellungen auswählen.</string>
-  <string name="warning_splitpartcategory_context">Umbuchungen, die Teil einer mehrteiligen Buchung sind, können nur im Kontext der mehrteiligen Buchung geändert werden.</string>
-  <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Bitte eine Zahl zwischen %1$d und %2$d angeben</string>
-  <string name="warning_change_fraction_digits_1">Beträge in der Datenbank müssen aktualisiert werden, um mit der neuen Anzahl der Nachkommastellen übereinzustimmen.</string>
-  <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Wenn Beträge nicht aktualisiert werden, erscheinen diese nach der Änderung als multipliziert mit %d.</string>
-  <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Wenn Beträge nicht aktualisiert werden, erscheinen diese nach der Änderung als dividiert durch %d.</string>
-  <string name="warning_change_fraction_digits_3">Wenn Beträge aktualisiert werden, verlieren Sie die Information über deren Bruchteil.</string>
-  <string name="warning_change_fraction_digits_checkbox_label">Beträge in der Datenbank aktualisieren</string>
-  <string name="import_categories_success">%1$s Kategorien erfolgreich importiert</string>
-  <string name="import_parties_success">%1$s Parteien erfolgreich importiert</string>
-  <string name="import_accounts_success">%1$s Konten erfolgreich importiert</string>
-  <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d Buchungen erfolgreich in das Konto %2$s importiert</string>
-  <string name="import_accounts_none">Keine Konten importiert</string>
-  <string name="import_categories_none">Keine Kategorien importiert</string>
-  <string name="import_parties_none">Keine Parteien importiert</string>
-  <string name="import_transactions_none">Keine Buchungen in das Konto %1$s importiert</string>
-  <string name="import_source_select_error">Bitte wählen Sie eine Datei des Typs %1$s</string>
-  <string name="menu_categories_setup_default">Standard Kategorien einrichten</string>
-  <string name="menu_create_folder">Neuer Ordner</string>
-  <!--This string is used for navigating up in the folder browser-->
-  <string name="menu_up">Nach oben</string>
-  <string name="create_new_folder_fail">Erstellen des Ordners fehlgeschlagen</string>
-  <string name="widget_title_accounts">Meine Konten</string>
-  <string name="widget_title_templates">Meine Vorlagen</string>
-  <string name="app_dir_not_accessible">Der aktuell ausgewählte Ordner für Sicherungen und Exporte (%1$s) ist nicht zugänglich. Bitte wählen Sie einen anderen.</string>
-  <string name="app_dir_not_compatible_with_nougat">Die aktuell konfigurierte URI für Backups und Exporte (%1$s) wird unter Android Nougat nicht unterstützt. Bitte wählen Sie erneut einen Ordner aus.</string>
-  <string name="search_amount">Suche nach Betrag</string>
-  <string name="search_category">Suche nach Kategorie</string>
-  <string name="search_comment">Suche nach Notizen</string>
-  <string name="search_date">Suche nach Datum</string>
-  <string name="search_status">Suche nach Status</string>
-  <string name="search_payee">Suche nach Empfänger/Zahler</string>
-  <string name="search_method">Suche nach Zahlungsweise</string>
-  <string name="search_tag">Suche nach Markierung</string>
-  <string name="and">und</string>
-  <string name="between_and">zwischen %1$s und %2$s</string>
-  <string name="before">vor %s</string>
-  <string name="after">nach %s</string>
-  <string name="comparison_operator_equal">gleich</string>
-  <string name="comparison_operator_greater_than">größer als</string>
-  <string name="comparison_operator_lesser_than">kleiner als</string>
-  <string name="comparison_operator_between">zwischen</string>
-  <string name="comparison_operator_date_before">vor</string>
-  <string name="comparison_operator_date_after">nach</string>
-  <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Einkauf ist gescheitert oder abgebrochen.</string>
-  <string name="hint_auto_fill">Sollen Daten automatisch auf Basis der letzten Buchung für denselben Empfänger/Zahler ausgefüllt werden? Sie können dieses Verhalten jederzeit in den Einstellungen ändern.</string>
-  <string name="yes">Ja</string>
-  <string name="no">Nein</string>
-  <string name="hint_template_click">Ein kurzes Tippen auf einen Eintrag in dieser Liste wendet die Vorlage an. Entweder diese wird unmittelbar gespeichert, oder das Eingabeformular wird geöffnet, wo diese vor dem Speichern verändert werden kann. Sie können immer auf beide Aktionen über ein langes Tippen zugreifen und die Standardeinstellung in den Einstellungen ändern. </string>
-  <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d Konten mit Währung %2$s wurden aktualisiert.</string>
-  <string name="learn_more">Mehr erfahren</string>
-  <string name="import_source_file">Datei</string>
-  <string name="restore_calendar_handling">Verarbeitung der Kalender-Daten</string>
-  <string name="restore_calendar_handling_configured">Pläne werden in dem aktuell konfigurierten Kalender gespeichert</string>
-  <string name="restore_calendar_handling_backup">Pläne werden in dem im Backup festgelegten Kalender gespeichert, falls dieser verfügbar ist</string>
-  <string name="restore_calendar_handling_ignore">Pläne nicht wiederherstellen</string>
-  <string name="restore_not_possible_target_calendar_missing">Der im Backup festgelegte Kalender %s ist nicht lokal vorhanden. Wiederherstellung wurde abgebrochen.</string>
-  <string name="restore_not_possible_local_calendar_missing">Der aktuell konfigurierte Kalender ist nicht vorhanden.</string>
-  <string name="menu_view_picture">Bild anzeigen</string>
-  <string name="menu_delete_picture">Bild löschen</string>
-  <string name="menu_change_picture">Anderes Bild anfügen</string>
-  <string name="menu_distribution_show_pie_char">Tortendiagramm anzeigen</string>
-  <string name="menu_distribution_aggreate">Ausgaben und Einnahmen zusammen zählen</string>
-  <string name="pref_manage_stale_images_title">Veraltete Bilder</string>
-  <string name="pref_manage_stale_images_summary">Verwalten Sie Bilder aus gelöschten Buchungen</string>
-  <string name="image_deleted">Bild wurde gelöscht</string>
-  <string name="transaction_deleted">Buchung wurde gelöscht</string>
-  <string name="dialog_export_applied_to_filter">Nur Buchungen, die mit dem aktuellen Suchfilter übereinstimmen, werden berücksichtigt.</string>
-  <string name="export_handle_deleted_create_helper">Hilfsbuchung erstellen</string>
-  <string name="export_handle_deleted_update_balance">Anfangssaldo aktualisieren</string>
-  <string name="file_name">Dateiname</string>
-  <string name="folder_name">Ordnername</string>
-  <string name="mark_void_instead_of_delete">Buchung nicht löschen, stattdessen als ungültig kennzeichnen.</string>
-  <string name="menu_undelete_transaction">Das Löschen rückgängig machen</string>
-  <string name="slash_forbidden_in_filename">Das Zeichen / ist in Dateinamen nicht zulässig</string>
-  <string name="io_error_unable_to_create_file">Konnte Datei %1$s im Ordner %2$s nicht erstellen</string>
-  <string name="menu_categories_export">Export nach QIF</string>
-  <string name="pref_csv_import_delimiter">Trennzeichen</string>
-  <string name="csv_import_preview">Vorschau</string>
-  <string name="menu_parse">Analysieren</string>
-  <!--Label for column where user can check rows to be discarded from import-->
-  <string name="cvs_import_discard">Verwerfen</string>
-  <string name="csv_import_field_mapped_more_than_once">%s wird mehr als einmal zugeordnet.</string>
-  <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d Einträge konnten nicht importiert werden.</string>
-  <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d Einträge wurden verworfen.</string>
-  <string name="csv_import_subcategory_requires_category">Wenn Sie Unterkategorie zuordnen, müssen Sie auch die Kategorie zuordnen.</string>
-  <string name="cvs_import_set_first_line_as_header">Soll die erste Zeile als Kopfzeile behandelt werden?</string>
-  <string name="csv_import_delimiter_comma">Komma</string>
-  <string name="csv_import_delimiter_semicolon">Semikolon</string>
-  <string name="csv_import_delimiter_tab">Tabulator</string>
-  <string name="csv_import_no_mapping_found_for_amount">Bitte ordnen Sie eine Spalte entweder, Betrag, Einnahme oder Ausgabe zu.</string>
-  <string name="menu_show_transactions">Buchungen anzeigen</string>
-  <string name="pref_custom_decimal_format_title">Zahlenformat</string>
-  <string name="pref_custom_decimal_format_summary">Wenn Sie mit dem Standardformat für Ihr Gebietsschema nicht zufrieden sind, können Sie es an Ihre Bedürfnisse anpassen. Leer lassen, um das Standardformat wiederherzustellen. </string>
-  <string name="pref_auto_backup_title">Automatisches Backup</string>
-  <string name="pref_auto_backup_summary">Sichere Datenbank täglich zur angegebenen Zeit (nur wenn sich die Daten verändert haben)</string>
-  <string name="pref_auto_backup_time_title">Zeit für automatische Sicherung</string>
-  <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Nach %d erfolgreichen automatischen Sicherungen wird automatische Sicherung deaktiviert werden.</string>
-  <string name="calendar_permission_required"><i>{app_name}</i> benötigt die Berechtigung, auf Ihren Kalender zugreifen, um Pläne für zukünftige und wiederkehrende Buchungen zu erstellen.</string>
-  <string name="button_request_calendar_access" tools:ignore="UnusedResources">Zugriff gewähren</string>
-  <string name="switch_on_text">An</string>
-  <string name="switch_off_text">Aus</string>
-  <string name="menu_move">Verschieben</string>
-  <string name="dialog_title_select_target">Ziel auswählen</string>
-  <string name="transform_subcategory_to_main">In eine Hauptkategorie umwandeln</string>
-  <string name="preferences_week_start_day_title">Woche beginnt am</string>
-  <string name="preferences_month_start_date_title">Monat beginnt am</string>
-  <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
-  <string name="pref_grouping_periods">Zeiträume für Gruppierungen</string>
-  <string name="exchange_rate">Wechselkurs</string>
-  <string name="date_format_hour">Stunde</string>
-  <string name="date_format_minute">Minute</string>
-  <string name="copied_to_clipboard">In Zwischenablage kopiert</string>
-  <string name="menu_sort">Sortieren nach</string>
-  <string name="pref_sort_order_last_used">Zuletzt verwendet</string>
-  <string name="pref_sort_order_custom">Benutzerdefiniert</string>
-  <string name="content_description_calculator">Taschenrechner</string>
-  <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
-  <string name="plan_instance_state_open">offen</string>
-  <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
-  <string name="plan_instance_state_cancelled">annulliert</string>
-  <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
-  <string name="plan_instance_state_applied">angewendet</string>
-  <string name="progress_dialog_updating_split_parts">Teilbeträge werden aktualisiert</string>
-  <string name="warning_cannot_move_split_transaction">Diese mehrteilige Buchung kann nicht nach %1$s verschoben werden, denn es gibt Teilbeträge, die auf dieses Konto verweisen.</string>
-  <string name="content_description_calculator_clear_button">Alle zurücksetzen</string>
-  <string name="content_description_calculator_delete_button">Letzte Ziffer löschen</string>
-  <string name="paypal_callback_info">Danke für Ihre Zahlung. Ihre Transaktion wurde abgeschlossen und Sie erhalten per E-Mail eine Bestätigung für Ihren Kauf. Sie können sich unter www.paypal.de in Ihr Konto einloggen, um die Transaktionsdetails anzuzeigen.</string>
-  <string name="search_transfer">Suche nach Umbuchung</string>
-  <!--Sort plans (recurring transactions) by the next instance-->
-  <string name="pref_sort_order_next_instance">Nächstes Vorkommen</string>
-  <string name="crash_dialog_title">{app_name} ist abgestürzt</string>
-  <string name="crash_dialog_text">Ein unerwarteter Fehler ist aufgetreten ist und hat zum Absturz der Anwendung geführt. Bitte helfen Sie uns, dieses Problem zu beheben, indem Sie uns Fehlerdaten senden. Alles, was Sie tun müssen, ist auf \"OK\" zu klicken.</string>
-  <string name="crash_dialog_comment_prompt">Sie können Ihre Anmerkungen zum Problem unten hinzufügen:</string>
-  <string name="synchronization">Synchronisierung</string>
-  <string name="synchronization_none">Keine Synchronisierung</string>
-  <string name="hint_url">URL</string>
-  <string name="description_webdav_url">Bitte geben Sie die URL für einen speziellen Ordner auf Ihrem WebDAV-Server an. {app_name} speichert seine Daten in diesem Ordner, es greift auf keine Daten außerhalb davon zu.</string>
-  <string name="description_webdav_trust_certificate">Die Website verwendet ein Zertifikat, das von Android als nicht vertrauenswürdig eingestuft wird.</string>
-  <string name="hint_user_name">Benutzername</string>
-  <string name="hint_password">Passwort</string>
-  <string name="label_trust_certificate">Diesem Zertifikat vertrauen</string>
-  <string name="no_sync_backends">Keine Synchronisierung Backends</string>
-  <string name="menu_create_sync_backend">Neues Synchronisierung Backend</string>
-  <string name="validate_error_not_empty">Darf nicht leer sein</string>
-  <string name="validate_error_webdav_invalid_certificate">Dem Zertifikat konnte nicht vertraut werden. Es scheint ungültig.</string>
-  <string name="validate_error_webdav_not_compliant">Die URL verweist nicht auf eine WebDAV-Ressource.</string>
-  <string name="validate_error_webdav_404">Die URL existiert nicht auf dem Server.</string>
-  <string name="url_not_valid">URL nicht gültig</string>
-  <string name="menu_sync_unlink">Synchronisierung stoppen</string>
-  <string name="menu_sync_link">Synchronisierung starten</string>
-  <string name="menu_sync_download">Herunterladen und synchronisieren</string>
-  <string name="menu_sync_now">Jetzt synchronisieren</string>
-  <string name="pref_sync_frequency_title">Häufigkeit der Synchronisierung</string>
-  <string name="pref_sync_frequency_summary">Wie oft sollten die Daten synchronisiert werden (in Stunden)</string>
-  <string name="dialog_confirm_sync_unlink">Wenn Sie dieses Konto von %s entkoppeln, geht der Status der Synchronisierung verloren. Wenn Sie die Verknüpfung später wiederherstellen, erfordert dies eine erneute vollständige Synchronisierung.</string>
-  <string name="dialog_sync_link">Ein Konto mit UUID %s existiert sowohl in der lokalen Datenbank als auch auf dem entfernten Backend. Wenn Sie beide verknüpfen, müssen Sie entscheiden, ob zunächst lokale Daten auf das Backend hochgeladen werden sollen, oder entfernte Daten in die lokale Datenbank geschrieben werden sollen.</string>
-  <string name="dialog_command_sync_link_remote">Herunterladen von Entfernt</string>
-  <string name="dialog_command_sync_link_local">Hochladen von Lokal</string>
-  <string name="dialog_synced_to_other">Ein Konto mit UUID %s existiert bereits in der lokalen Datenbank und ist mit einem anderen Backend verbunden.</string>
-  <string name="menu_remove">Entfernen</string>
-  <string name="dialog_confirm_sync_remove_backend">Das entfernte Backend %s wird entfernt. Dadurch werden lokal und entfernt gespeicherte Daten nicht berührt, aber der Status der Synchronisation geht verloren.</string>
-  <string name="dialog_confirm_sync_link_local">Entfernte Daten für dieses Konto werden gelöscht. Achten Sie darauf, dass keine anderen Geräte mit diesem verbunden sind.</string>
-  <string name="dialog_confirm_sync_link_remote">Lokale Daten für dieses Konto werden gelöscht.</string>
-  <string name="warning_limited_trial">Die Funktion %1$s kann bis %2$s getestet werden.</string>
-  <string name="warning_trial_limit_reached">Die Probezeit für die Funktion %s ist abgelaufen.</string>
-  <string name="warning_synchronization_folder_usage">Dieser Ordner wird für die Synchronisierung von Daten zwischen den Installationen von {app_name} auf verschiedenen Geräten verwendet. Bitte ändern Sie dessen Inhalt nicht manuell.</string>
-  <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Der Ordner, den Sie ausgewählt haben, entspricht einem Konto eines bestehenden Backends. Sie müssen den übergeordneten Ordner auswählen, um dieses Backend wiederzuverwenden.</string>
-  <string name="select_unsynced_accounts">Wählen Sie die Konten aus, die mit diesem Backend synchronisiert werden sollen.</string>
-  <string name="link_account_success" tools:ignore="PluralsCandidate">%d Konten wurden konfiguriert, um mit dem Backend synchronisiert zu werden.</string>
-  <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d Konten konnten nicht für die Synchronisierung mit dem Backend konfiguriert werden.</string>
-  <string name="link_account_failure_2">Ein Konto mit der gleichen UUID existiert bereits auf dem entfernten Backend.</string>
-  <string name="link_account_failure_3">Der Konflikt kann über den Eintrag im Kontextmenü manuell aufgelöst werden.</string>
-  <string name="progress_dialog_checking_sync_backend">Backend wird überprüft</string>
-  <string name="template">Vorlage</string>
-  <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Cloud-Synchronisierung</string>
-  <string name="all_contrib_key_features">Alle Funktionen des Contrib Schlüssels</string>
-  <string name="all_extended_key_features">Alle Funktionen des erweiterten Schlüssels</string>
-  <!--button leading user to purchase flow for licence keys-->
-  <string name="upgrade_now">Upgrade</string>
-  <string name="pref_backup_cloud_title">Auf Synchronisierung-Backend speichern</string>
-  <string name="pref_backup_cloud_summary">Zusätzlich zur lokalen Speicherung auf dem Gerät kann die Sicherungsdatei auf ein entferntes Backend kopiert werden.</string>
-  <string name="auto_backup_cloud_create_backend">Erstellen Sie eine Synchronisierung Backend vom Hauptbildschirm der Einstellungen.</string>
-  <string name="auto_backup_cloud_failure">Beim Versuch, Backup-Datei %1$s auf Backend %2$s zu speichern, ist ein Fehler aufgetreten:</string>
-  <string name="auto_backup_cloud_success">Die Sicherungsdatei %1$s wurde erfolgreich im Backend %2$s gespeichert.</string>
-  <string name="home_screen_shortcuts_nougate_info">Verknüfpungen können durch langes Antippen des App-Icons auf dem Start-Bildschirm hinzugefügt werden.</string>
-  <string name="currency_symbol">Währungssymbol</string>
-  <string name="number_of_fraction_digits">Nachkommastellen</string>
-  <string name="warning_auto_backup_deactivated">Die automatische Sicherung wurde deaktiviert. Sie können sie in den Einstellungen wieder einschalten, nachdem Sie das Problem gelöst haben (z. B. Auswählen eines anderen Ordners für Sicherungen).</string>
-  <string name="pref_tracking_summary">Erlauben Sie uns, anonyme Daten über Gebrauchsmuster zu sammeln, die uns helfen, Verbesserungen zu planen.</string>
-  <string name="pref_tracking_title">Gebrauchsdatenerfassung</string>
-  <string name="sync_database_error">Während der Synchronisation ist ein Datenbankfehler aufgetreten.</string>
-  <string name="sync_io_error_cannot_connect">Kann keine Verbindung zum Synchronisations-Backend herstellen.</string>
-  <string name="sync_error_will_try_again_later">Werde es später noch einmal versuchen.</string>
-  <string name="sync_io_exception_reset_account_data">Fehler beim Zurücksetzen des entfernten Kontos</string>
-  <string name="sync_success_reset_account_data">Daten am Backend für Konto %s wurden gelöscht.</string>
-  <string name="sync_io_exception_setup_remote_account">Fehler beim Einrichten des entfernten Kontos.</string>
-  <string name="sync_io_exception_syncing">Fehler beim Synchronisieren von Änderungen mit dem Server.</string>
-  <string name="sync_io_exception_unlocking">Fehler beim Entfernen der Sperre vom entfernten Backend.</string>
-  <string name="sync_io_exception_locking">Das entfernte Backend ist gesperrt oder kann nicht gesperrt werden.</string>
-  <string name="synchronization_start">Synchronisierung für das Konto %s wird gestartet.</string>
-  <string name="synchronization_end_success">%1$d entfernte Änderungen wurden in die lokale Datenbank geschrieben. %2$d lokale Änderungen wurden in das entfernte Backend geschrieben.</string>
-  <string name="synchronization_end_success_none">Keine Änderungen zum Synchronisieren.</string>
-  <string name="pref_webdav_timeout_title">WebDAV Zeitüberschreitung (in Sekunden)</string>
-  <string name="sync_state_restored">Sync-Status wurde für %d Konten wiederhergestellt.</string>
-  <string name="sync_state_could_not_be_restored">Sync-Status konnte für %d Konten nicht wiederhergestellt werden.</string>
-  <string name="onboarding_ui_title">{app_name} passt sich Ihren Vorlieben an</string>
-  <string name="onboarding_data_title">Lassen Sie uns Ihr erstes Konto einrichten</string>
-  <string name="onboarding_get_started">Los geht\'s</string>
-  <string name="onboarding_more_options">Mehr Optionen</string>
-  <string name="onboarding_restore_from_cloud">Wiederherstellung von Cloud-Synchronisation</string>
-  <!--During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed-->
-  <string name="onboarding_restore_from_cloud_backup">Backups</string>
-  <string name="onboarding_restore_from_local">Wiederherstellung einer lokalen Sicherungsdatei</string>
-  <string name="dialog_button_add">Hinzufügen</string>
-  <string name="template_create_error">Fehler beim Speichern der Vorlage</string>
-  <string name="contributed_by">Beigetragen von %s</string>
-  <string name="pref_sync_notification_summary">Über Fortschritt der Synchronisierung benachrichtigen</string>
-  <string name="pref_debug_logging_summary">Debugging-Informationen in das Systemprotokoll schreiben</string>
-  <string name="plan_custom_recurrence_info">Bitte speichern Sie zunächst die Vorlage. Der Plan wird dann in der Kalender-App geöffnet, wo Sie eine benutzerdefinierte Wiederholung einstellen können.</string>
-  <string name="storage_permission_required">Die von Ihnen ausgewählte Quelle kann nur gelesen werden, wenn Sie die Berechtigung zum Lesen aus dem externen Speicher erteilen.</string>
-  <string name="picture">Bild</string>
-  <string name="menu_create_template_for_split">Neue geteilte Vorlage</string>
-  <string name="progress_validating_licence">Lizenz wird validiert</string>
-  <string name="licence_validation_error_expired">Lizenz ist abgelaufen</string>
-  <string name="licence_validation_error_device_limit_exceeded">Geräte-Limit überschritten. Bitte entfernen Sie die Lizenz von einem anderen Gerät.</string>
-  <string name="error">Fehler (%s)</string>
-  <string name="button_validate">Validieren</string>
-  <string name="licence_key">Lizenzschlüssel</string>
-  <string name="licence_removal_information">Wenn Sie auf diesem Gerät keine Premiumfunktionen mehr benötigen, können Sie den Lizenzschlüssel entfernen. Dies gibt den Schlüssel für die Aktivierung auf einem anderen Gerät frei. Der Schlüssel kann an bis zu %d Geräten aktiviert werden.</string>
-  <string name="progress_removing_licence">Lizenz wird entfernt</string>
-  <string name="licence_removal_success">Der Lizenzschlüssel wurde erfolgreich von diesem Gerät freigegeben.</string>
-  <string name="professional_key">Professioneller Schlüssel</string>
-  <string name="n_months">%d Monate</string>
-  <string name="eu_vat_info">Die Preise für die in der Europäischen Union ansässigen Personen verstehen sich ohne Mehrwertsteuer.</string>
-  <string name="licence_migration_info">{app_name} implementiert einen neuen Lizenzvalidierungsmechanismus. Bitte fordern Sie einen neuen Schlüssel an.</string>
-  <string name="valid_until">Bis %s</string>
-  <!--%1$s date, %2$s price-->
-  <string name="extend_until">Verlängern bis %1$s für %2$s</string>
-  <string name="extended_upgrade_goodie_github">Weitere %d Monate werden einmal für Benutzer gewährt, die bereits die Erweiterte Lizenz besitzen</string>
-  <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">Benutzer, die bereits die erweiterte Lizenz besitzen, zahlen im ersten Jahr 50%% des regulären Preises (%s).</string>
-  <string name="extended_upgrade_goodie_subscription_amazon" tools:ignore="UnusedResources">Benutzer, die bereits die erweiterte Lizenz besitzen, haben Anspruch auf eine %1$d%%  Ermäßigung vom regulären Preis (%2$s) des Jahresabonnements.</string>
-  <string name="switch_to_yearly" tools:ignore="UnusedResources">Zum Jahresabo wechseln</string>
-  <string name="switch_to_monthly" tools:ignore="UnusedResources">Zum Monatsabo wechseln</string>
-  <string name="extend_validity">Gültigkeit verlängern</string>
-  <string name="progress_dialog_fetching_data_from_sync_backend">Daten werden vom entfernten Backend geladen. Dies könnte eine Weile dauern.</string>
-  <string name="donate_button_invoice">Rechnung</string>
-  <string name="menu_sort_direction">Sortierrichtung</string>
-  <string name="sort_direction_ascending">aufsteigend</string>
-  <string name="sort_direction_descending">absteigend</string>
-  <string name="never">nie</string>
-  <string name="always">immer</string>
-  <string name="auto_fill_account_from_aggregate_only">Nur wenn vom Gesamtkonto gestartet.</string>
-  <string name="sync_auth_exception_login_again">Autorisation fehlgeschlagen. Bitte melden Sie sich erneut an.</string>
-  <string name="sync_loading_accounts_from_backend">Verfügbare Konten werden vom Backend geladen.</string>
-  <plurals name="delete_success">
-    <item quantity="one">Ein Objekt wurde erfolgreich gelöscht.</item>
-    <item quantity="other">%d Objekte wurden erfolgreich gelöscht.</item>
-  </plurals>
-  <string name="feature_deprecated">Veraltet</string>
-  <string name="pref_protection_device_lock_screen_title">Gerätesperrbildschirm</string>
-  <string name="pref_warning_only_one_protection">Bevor Sie den Schutz durch %1$s verwenden können, müssen Sie den Schutz durch %2$s ausschalten.</string>
-  <string name="warning_device_lock_screen_not_set_up_1">Der sichere Gerätesperrbildschirm wurde nicht eingerichtet.</string>
-  <string name="warning_device_lock_screen_not_set_up_2">Gehen Sie zu \'Einstellungen -&gt; Sicherheit -&gt; Bildschirmsperre\', um einen Sperrbildschirm einzurichten.</string>
-  <string name="snackbar_dismiss">Verwerfen</string>
-  <string name="menu_history_show_balance">Saldo anzeigen</string>
-  <string name="menu_history_transfers">Umbuchungen einschließen</string>
-  <string name="menu_history">Verlauf</string>
-  <!--A label indicating the color for the sum of expenses-->
-  <string name="history_chart_out_label">Ausgaben</string>
-  <!--A label indicating the color for the sum of income-->
-  <string name="history_chart_in_label">Einnahmen</string>
-  <string name="menu_history_totals">Summen anzeigen</string>
-  <string name="pref_home_currency_title">Heimatwährung</string>
-  <string name="grand_total">Gesamtsumme</string>
-  <string name="menu_original_amount">Originalbetrag</string>
-  <string name="menu_equivalent_amount">Gleichwertiger Betrag</string>
-  <string name="home_currency_change_warning">Wenn Sie Ihre Heimatwährung ändern, gehen gleichwertige Beträge und Wechselkurse verloren und müssen erneut definiert werden.</string>
-  <string name="warning_split_transactions">Die ausgewählten Buchungen werden in einer mehrteiligen Buchung zusammengefasst. Ihre Datumsinformation wird verloren gehen, d. H. durch ihren Durchschnitt ersetzt werden.</string>
-  <string name="warning_ungroup_split_transactions">Die Gruppierung der ausgewählten mehrteiligen Buchungen wird aufgelöst, d.h. ihre Teile werden zu normale Buchungen.</string>
-  <!--This is the label for the action that breaks up a split transaction into its parts.-->
-  <string name="menu_ungroup_split_transaction">Gruppierung auflösen</string>
-  <plurals name="ungroup_split_transaction_success">
-    <item quantity="one">Split-Transaktion wurde erfolgreich aufgehoben.</item>
-    <item quantity="other">Die Gruppierung von %1$d mehrteiligen Buchungen wurde erfolgreich aufgelöst.</item>
-  </plurals>
-  <string name="ungroup_split_transaction_failure">Das Aufheben der Gruppierung von mehrteiligen Buchungen ist in %1$d von %2$d Fällen fehlgeschlagen.</string>
-  <string name="split_transaction_one_success">Die Buchung wurde erfolgreich in mehrteilige Buchung umgewandelt.</string>
-  <string name="split_transaction_one_error">Die Buchung konnte nicht gesplittet werden. </string>
-  <string name="split_transaction_group_success">%1$d Buchungen wurden erfolgreich in einer mehrteiligen Buchung zusammengefasst.</string>
-  <string name="split_transaction_group_error">Buchungen konnten nicht in eine mehrteilige Buchung zusammengefasst werden.</string>
-  <string name="split_transaction_not_possible">Nur Buchungen, die dasselbe Konto, denselben Empfänger und denselben Status haben, können in einer mehrteiligen Buchung zusammengefasst werden.</string>
-  <string name="pref_transaction_time_summary">Buchungen können mit genauer Zeitangabe erfasst werden.</string>
-  <string name="pref_value_date_summary">Zusätzlich zum Buchungsdatum kann auch Wertstellung erfasst werden. Die Zeitangabe wird versteckt. Diese Einstellung wird nicht auf Barkonten angewendet.</string>
-  <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
-  <string name="booking_date">Buchungsdatum</string>
-  <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
-  <string name="value_date">Wertstellung</string>
-  <string name="licence_expires_n_days">Ihr professioneller Schlüssel wird in %d Tagen ablaufen.</string>
-  <string name="licence_expires_tomorrow">Ihr professioneller Schlüssel läuft morgen ab.</string>
-  <string name="licence_expires_today">Ihr professioneller Schlüssel läuft heute ab.</string>
-  <string name="licence_expired_yesterday">Ihr professioneller Schlüssel ist gestern abgelaufen.</string>
-  <string name="licence_has_expired_n_days">Ihr professioneller Schlüssel ist vor %d Tagen abgelaufen.</string>
-  <string name="pref_category_title_privacy">Privatsphäre</string>
-  <string name="pref_ad_consent_title">Personalisierte Werbung</string>
-  <string name="ad_consent_non_personalized">Nicht personalisierte Werbung</string>
-  <string name="gdpr_consent_message">Wir arbeiten mit {ad_provider} zusammen, um den Support, die Wartung und die Entwicklung von {app_name} durch das Anzeigen von Werbung zu unterstützen. Wir möchten um Ihre Zustimmung bitten. Wenn Sie keine Anzeigen sehen möchten, zahlen Sie bitte für die werbefreie Version.</string>
-  <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">Ja, weiterhin Werbung anzeigen</string>
-  <string name="gdpr_consent_button_no">Für die werbefreie Version bezahlen</string>
-  <string name="sort_order">Sortierreihenfolge</string>
-  <string name="navigation_drawer_accounts_title">Konten verwalten</string>
-  <string name="pref_sync_wifi_only_summary">Synchronisierung nur bei WLAN</string>
-  <string name="pref_sync_changes_immediately_summary">Lokale Änderungen werden sofort in das Backend geschrieben</string>
-  <string name="wifi_not_connected">Gerät ist nicht mit WLAN verbunden. Die Synchronisation wird verschoben.</string>
-  <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
-  <string name="pref_translation_title">Übersetzung</string>
-  <!--Content description for accessibility on image that allows to collapse content-->
-  <string name="content_description_collapse">Zuklappen</string>
-  <!--Content description for accessibility on image that allows to expand content-->
-  <string name="content_description_expand">Aufklappen</string>
-  <!--Short label for the amount input where user can set either saving goal or credit limit-->
-  <string name="goal_or_limit">Ziel / Limit</string>
-  <string name="saving_goal">Sparziel</string>
-  <string name="credit_limit">Kreditlimit</string>
-  <string name="clear_all_filters">Alle Filter löschen</string>
-  <string name="pref_scroll_to_current_date_summary">Beim Starten der App die Transaktionsliste zum aktuellen Datum scrollen</string>
-  <string name="professional_key_fallback_info">Ein Abonnement für den Professionellen Schlüssel, das seit mindestens einem Jahr aktiv ist und nicht erneuert wird, wird automatisch in einen unbegrenzten Erweiterten Schlüssel umgewandelt.</string>
-  <string name="menu_budget">Budgetierung</string>
-  <string name="dialog_title_edit_budget">Budget bearbeiten</string>
-  <string name="budget_table_header_budgeted">Budgetiert</string>
-  <string name="budget_table_header_allocated">Zugewiesen</string>
-  <string name="budget_table_header_spent">Ausgegeben</string>
-  <string name="budget_table_header_remainder">Rest</string>
-  <string name="budget_allocated_amount">Zugewiesener Betrag</string>
-  <string name="budget_exceeded_error_1_1">Alles bis auf %s Ihres Budgets wurde anderen Kategorien zugewiesen.</string>
-  <string name="budget_exceeded_error_1_2">Ihr gesamtes Budget wurde anderen Kategorien zugewiesen.</string>
-  <string name="budget_exceeded_error_2">Erhöhen Sie den budgetierten Betrag oder entfernen Sie Geld von anderen Kategorien.</string>
-  <string name="budget_under_allocated_error">%s wurde bereits Kategorien zugeordnet. Wenn Sie kein Geld von diesen entfernen, müssen Sie mindestens diesen Betrag budgetieren.</string>
-  <string name="sub_budget_exceeded_error_1_1">Alles bis auf %s des der Hauptkategorie zugewiesenen Betrages wurde anderen Unterkategorien zugewiesen.</string>
-  <string name="sub_budget_exceeded_error_1_2">Der gesamte der Hauptkategorie zugewiesene Betrag wurde anderen Unterkategorien zugewiesen.</string>
-  <string name="sub_budget_exceeded_error_2">Erhöhen Sie den der Hauptkategorie zugewiesenen Betrag, oder entfernen Sie Geld von anderen Unterkategorien.</string>
-  <string name="sub_budget_under_allocated_error">%s wurde bereits Unterkategorien zugeordnet. Wenn Sie kein Geld von diesen entfernen, müssen Sie mindestens diesen Betrag der Hauptkategorie zuordnen.</string>
-  <!--Description for button that allows to clear the selected method-->
-  <string name="content_description_clear_method">Methode löschen</string>
-  <!--Description for button that allows to clear the selected category-->
-  <string name="content_description_clear_category">Kategorie löschen</string>
-  <string name="currency_code">Code</string>
-  <string name="dialog_title_new_currency">Neue Währung</string>
-  <string name="currency_code_already_definded">Währungscode ist bereits definiert.</string>
-  <string name="currency_still_used">Die Währung wird verwendet und kann nicht gelöscht werden.</string>
-  <string name="unmapped">Nicht zugeordnet</string>
-  <!--In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
+    <string name="account">Konto</string>
+    <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
+    <string name="account_types">Kontotypen</string>
+    <string name="account_type_asset">Anlagekonto</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_asset_plural">Anlagekonten</string>
+    <string name="account_type_bank">Bankkonto</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_bank_plural">Bankkonten</string>
+    <string name="account_type_cash">Bargeldkonto</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_cash_plural">Bargeldkonten</string>
+    <string name="account_type_ccard">Kreditkarte</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_ccard_plural">Kreditkarten</string>
+    <string name="account_type_liability">Kreditkonto</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_liability_plural">Kreditkonten</string>
+    <string name="already_defined">%1$s existiert bereits</string>
+    <string name="amount">Betrag</string>
+    <string name="app_name">Meine Ausgaben</string>
+    <string name="backup_failure">Das Backup nach \"%1$s\" ist gescheitert.</string>
+    <string name="backup_success">Die Datenbank und die Einstellungen wurden erfolgreich nach \"%1$s\" gesichert.</string>
+    <string name="category">Kategorie</string>
+    <string name="color">Farbe</string>
+    <string name="comment">Notizen</string>
+    <string name="confirmation_dialog_dont_show_again">Nicht mehr anzeigen</string>
+    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Ohne Werbung</string>
+    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Unbegrenzte Anzahl von Konten</string>
+    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Bildanhang für Buchung</string>
+    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Kreisdiagramm (Verteilung pro Kategorie)</string>
+    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Unbegrenzte Anzahl von Plänen</string>
+    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Buchungsliste als PDF-Datei drucken</string>
+    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Vorlagen Widget</string>
+    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV import</string>
+    <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Unbegrenzte Anzahl an Vorlagen für mehrteilige Buchungen</string>
+    <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>E-Mail-Support</b> mit garantierter Antwort innerhalb von 2 Werktagen</string>
+    <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Stimmrecht zum <b>Entwicklungsfahrplan</b></string>
+    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Verlaufsdiagramm (Cashflow)</string>
+    <string name="licence_status_free">Gratis</string>
+    <string name="contrib_key">Contrib-Schlüssel</string>
+    <string name="extended_key">Erweiterungsschlüssel</string>
+    <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
+    <string name="contrib_key_requires">Benötigt %s.</string>
+    <string name="currency">Währung</string>
+    <string name="current_balance">Aktueller Saldo</string>
+    <string name="date">Datum</string>
+    <string name="date_format">Datumsformat</string>
+    <string name="date_format_illegal">Unzulässiges Datumsformat</string>
+    <string name="number_format_illegal">Ungültiges Zahlenformat</string>
+    <string name="decimal_separator">Dezimaltrennzeichen</string>
+    <string name="default_account_name">Haushaltsbuch</string>
+    <string name="description">Beschreibung</string>
+    <string name="dialog_balance_delete">Abgestimmte Buchungen löschen</string>
+    <string name="dialog_confirm_discard_changes">Änderungen verwerfen?</string>
+    <string name="dialog_confirm_discard_new_transaction">Neue Buchung verwerfen?</string>
+    <string name="dialog_confirm_discard_new_template">Neue Vorlage verwerfen?</string>
+    <string name="dialog_confirm_discard_new_account">Neues Konto verwerfen?</string>
+    <string name="dialog_confirm_discard_new_method">Neue Zahlungsweise verwerfen?</string>
+    <string name="dialog_command_disabled_balance">Keine verrechneten Buchungen zum Abstimmen.</string>
+    <string name="dialog_command_disabled_insert_transfer">Umbuchungen benötigen ein zweites Konto.</string>
+    <string name="dialog_command_disabled_reset_account">Keine exportierbaren Buchungen vorhanden.</string>
+    <string name="dialog_command_disabled_distribution">In diesem Konto wurden keine Buchungen Kategorien zugeordnet.</string>
+    <!-- Button for accessing trial of premium feature -->
+    <string name="dialog_contrib_no">Ausprobieren</string>
+    <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
+    <string name="dialog_contrib_premium_feature">%1$s ist eine Premium-Funktion (%2$s).</string>
+    <string name="dialog_contrib_reminder_remove_limitation">Entfernen Sie diese Einschränkung und erhalten Sie Zugriff auf mehr Funktionen, indem Sie <i>{app_name}</i> upgraden.</string>
+    <string name="dialog_contrib_text_1"><i>{app_name}</i> wird Ihnen mit offenem Quellcode angeboten.</string>
+    <string name="dialog_contrib_text_2">Bitte leisten Sie einen Beitrag durch ein Upgrade von <i>{app_name}</i> und erhalten Sie uneingeschränkten Zugriff auf die folgenden Funktionen:</string>
+    <string name="dialog_contrib_usage_count">Verbleibende Gratis Nutzungen</string>
+    <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">Mit Ihrem aktuellen Lizenzstatus (%2$s) können Sie es %1$d mal verwenden.</string>
+    <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Mit Ihrem aktuellen Lizenzstatus (%2$s) können Sie es %1$d Tage lang verwenden.</string>
+    <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Mit Ihrem aktuellen Lizenzstatus (%2$s) können Sie %1$d Konten anlegen.</string>
+    <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Mit Ihrem aktuellen Lizenzstatus (%2$s) können Sie %1$d Pläne anlegen.</string>
+    <string name="dialog_contrib_usage_limit_split_templates">Mit Ihrem aktuellen Lizenzstatus (%1$s) können Sie eine Vorlage für mehrteilige Buchungen erstellen.</string>
+    <string name="dialog_export_delete">Buchungen nach dem Exportieren löschen</string>
+    <string name="dialog_export_not_yet_exported">Nur Buchungen exportieren, die noch nicht exportiert wurden</string>
+    <string name="dialog_password_activate_protection">Passwort-Schutz aktivieren</string>
+    <string name="dialog_password_change_password">Passwort ändern</string>
+    <string name="dialog_password_new_password">Neues Passwort</string>
+    <string name="dialog_password_new_password_confirmation">Neues Passwort (Bestätigung)</string>
+    <string name="dialog_remind_later">Später</string>
+    <string name="dialog_remind_no">Nein danke</string>
+    <string name="dialog_remind_rate_how_many_stars">Wie viele Sterne würden Sie für {app_name} vergeben?</string>
+    <string name="dialog_remind_rate_1">Bitte nehmen Sie sich einen Augenblick Zeit, um {app_name} zu bewerten und zu rezensieren.</string>
+    <string name="dialog_remind_rate_2">Ihre Kommentare ermöglichen uns regelmäßige Verbesserungen und Erweiterungen.</string>
+    <string name="dialog_remind_rate_1_suggest_improvement">Bitte nehmen Sie sich einen Augenblick Zeit, uns Ihre Verbesserungsvorschläge mitzuteilen.</string>
+    <string name="dialog_remind_rate_yes">Jetzt bewerten</string>
+    <string name="dialog_security_answer">Antwort</string>
+    <string name="dialog_security_question">Frage</string>
+    <string name="dialog_title_attention">Achtung</string>
+    <string name="dialog_title_information">Informationen</string>
+    <!-- %1$s is replace with account label -->
+    <string name="dialog_title_balance_account">%1$s abstimmen</string>
+    <string name="dialog_title_contrib_feature">Premium-Funktion</string>
+    <plurals name="dialog_title_warning_delete_account">
+        <item quantity="one">Konto löschen?</item>
+        <item quantity="other">%1$d Konten löschen?</item>
+    </plurals>
+    <string name="dialog_title_warning_delete_category">Kategorie löschen?</string>
+    <string name="dialog_title_warning_delete_template">Vorlage löschen?</string>
+    <string name="dialog_title_warning_delete_transaction">Buchung löschen?</string>
+    <string name="expense">Ausgabe</string>
+    <string name="export_expenses">Ausgaben-Export</string>
+    <!-- 1$s is replaced with path to file, 2$s with error message -->
+    <string name="export_sdcard_failure">Fehler beim Export nach \"%1$s\": %2$s</string>
+    <!-- 1$s is replaced with path to file -->
+    <string name="export_sdcard_success">Daten in Datei \"%1$s\" exportiert</string>
+    <string name="external_storage_unavailable">Externer Speicher (SD Karte) ist nicht verfügbar</string>
+    <string name="feedback">Feedback</string>
+    <string name="ftp_uri_malformed">Ungültige URI %1$s</string>
+    <string name="grisbi_import_categories_loading">Kategorien werden von %1$s geladen</string>
+    <string name="grisbi_import_parties_loading">Parteien werden von %1$s geladen</string>
+    <string name="grouping_day">Tag</string>
+    <string name="grouping_last_week">Letzte Woche</string>
+    <string name="grouping_month">Monat</string>
+    <string name="grouping_none">Nicht gruppiert</string>
+    <string name="grouping_this_week">Diese Woche</string>
+    <string name="grouping_today">Heute</string>
+    <string name="grouping_week">Woche</string>
+    <string name="grouping_year">Jahr</string>
+    <string name="grouping_yesterday">Gestern</string>
+    <string name="help_button_rate">Bewerten</string>
+    <string name="help_heading_credits">Abspann</string>
+    <string name="help_heading_license">Lizenz</string>
+    <string name="help_heading_whats_new">Neue Funktionen</string>
+    <string name="important_upgrade_information_heading">Wichtige Information</string>
+    <string name="import_select_transactions">Buchungen</string>
+    <string name="income">Einnahme</string>
+    <string name="invalid_number_format">Zahlenformat wird von Ihrer Locale nicht unterstützt. Bitte verwenden Sie %1$s</string>
+    <string name="label">Bezeichnung</string>
+    <string name="licence_validation_failure">Lizenz-Schlüssel konnte nicht validiert werden.</string>
+    <string name="licence_validation_success">Lizenz-Schlüssel wurde erfolgreich validiert: </string>
+    <string name="licence_validation_premium">Premium-Funktionen wurden entsperrt.</string>
+    <string name="menu_aggregates">Gesamt</string>
+    <!-- Shown in a notification; allows to apply a template (instantiate a new transaction from it) -->
+    <string name="menu_apply_template">Anwenden</string>
+    <string name="menu_back">Zurück</string>
+    <string name="menu_backup">Sicherungskopie</string>
+    <!-- Balance: compare cleared balance in app with balance on statement received from bank -->
+    <string name="menu_balance">Konto abstimmen</string>
+    <!-- Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction -->
+    <string name="menu_cancel_plan_instance">Annullieren</string>
+    <string name="menu_clone_transaction">Klonen</string>
+    <string name="menu_contrib">Beitragen</string>
+    <string name="menu_create_account">Neues Konto</string>
+    <string name="menu_create_instance_edit">Anwenden und verändern</string>
+    <string name="menu_create_instance_save">Anwenden und speichern</string>
+    <string name="menu_create_main_cat">Neue Hauptkategorie</string>
+    <string name="menu_create_method">Neue Zahlungsweise</string>
+    <string name="menu_create_party">Neue Partei</string>
+    <string name="menu_create_split">Neue mehrteilige Buchung</string>
+    <string name="menu_create_split_part_category">Neuer Teilbetrag - Kategorie</string>
+    <string name="menu_create_split_part_transfer">Neuer Teilbetrag - Umbuchung</string>
+    <string name="menu_create_sub_cat">Neue Unterkategorie</string>
+    <string name="menu_create_template">Neue Vorlage</string>
+    <string name="menu_create_template_from_transaction">Als Vorlage speichern</string>
+    <string name="menu_create_template_for_transaction">Neue Vorlage (Buchung)</string>
+    <string name="menu_create_template_for_transfer">Neue Vorlage (Umbuchung)</string>
+    <string name="menu_create_transaction">Neue Buchung</string>
+    <string name="menu_create_transfer">Neue Umbuchung</string>
+    <string name="menu_delete">Löschen</string>
+    <string name="menu_distribution">Verteilung</string>
+    <string name="menu_edit">Bearbeiten</string>
+    <string name="menu_edit_account">Konto verändern</string>
+    <string name="menu_edit_cat">Kategorie verändern</string>
+    <string name="menu_edit_method">Zahlungsweise verändern</string>
+    <string name="menu_edit_party">Partei verändern</string>
+    <string name="menu_edit_plan_instance">Einzelnes Ereignis verändern</string>
+    <string name="menu_edit_split">Mehrteilige Buchung verändern</string>
+    <string name="menu_edit_split_part_category">Teilbetrag - Kategorie verändern</string>
+    <string name="menu_edit_split_part_transfer">Teilbetrag - Umbuchung verändern</string>
+    <string name="menu_edit_template">Vorlage verändern</string>
+    <string name="menu_edit_transaction">Buchung verändern</string>
+    <string name="menu_edit_transfer">Umbuchung verändern</string>
+    <string name="menu_exclude_from_totals">Ausschließen von Summen</string>
+    <string name="menu_forward">Weiter</string>
+    <string name="menu_grouping">Gruppierung</string>
+    <string name="menu_help">Hilfe</string>
+    <!-- This command inverts the direction of a transfer -->
+    <string name="menu_invert_transfer">Umkehren</string>
+    <string name="menu_manage_plans">Vorlagen und Pläne</string>
+    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
+    <string name="menu_open">Öffnen</string>
+    <string name="menu_import">Import</string>
+    <string name="menu_print">Drucken</string>
+    <string name="menu_reset">Exportieren und zurücksetzen</string>
+    <string name="menu_reset_all">Alle exportieren und zurücksetzen</string>
+    <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
+    <string name="menu_reset_plan_instance">Zurücksetzen</string>
+    <string name="menu_save">Speichern</string>
+    <string name="menu_save_and_new">Speichern und neu</string>
+    <string name="menu_search">Suche</string>
+    <string name="menu_settings">Einstellungen</string>
+    <string name="menu_share">Weiterempfehlen</string>
+    <string name="button_label_share_file">Teilen</string>
+    <string name="button_label_close">Schließen</string>
+    <string name="menu_split_transaction">Splitten</string>
+    <string name="method">Zahlungsweise</string>
+    <string name="no_amount_given">Sie haben keinen Betrag eingegeben.</string>
+    <string name="no_app_handling_email_available">Keine App für das Versenden von Email gefunden.</string>
+    <string name="no_app_handling_ftp_available">Keine App für FTP gefunden. <i>Mit FTP Senden</i> installieren?</string>
+    <string name="no_app_handling_pdf_available">Keine App für das Öffnen von PDF Dateien gefunden.</string>
+    <string name="no_categories">Noch keine Kategorien vorhanden.</string>
+    <string name="no_expenses">Noch keine Ausgaben!</string>
+    <string name="no_exportable_expenses">Es gibt keine Buchungen, die noch nicht exportiert wurden.</string>
+    <string name="no_filemanager_installed">Kein Dateimanager installiert</string>
+    <string name="no_calendar_app_installed">Keine App für die Bearbeitung des Kalenderereignisses gefunden.</string>
+    <string name="no_mapped_transactions">In diesem Zeitraum wurden keine Buchungen Kategorien zugeordnet.</string>
+    <string name="no_methods">Keine Zahlungsweisen.</string>
+    <string name="no_parties">Keine Parteien.</string>
+    <string name="no_split_parts">Keine Teilbeträge.</string>
+    <string name="no_templates">Keine Vorlagen.</string>
+    <string name="no_accounts">Keine Konten.</string>
+    <string name="no_title_given">Sie haben keinen Titel eingegeben.</string>
+    <plurals name="not_deletable_mapped_transactions">
+        <item quantity="one">Das ausgewählte Objekt ist mit einer Buchung verknüpft und kann nicht gelöscht werden.</item>
+        <item quantity="other">%1$d ausgewählte Objekte sind mit Buchungen verknüpft und können nicht gelöscht werden.</item>
+    </plurals>
+    <plurals name="not_deletable_mapped_templates">
+        <item quantity="one">Das ausgewählte Objekt ist mit einer Vorlage verknüpft und kann nicht gelöscht werden.</item>
+        <item quantity="other">%1$d ausgewählte Objekte sind mit Vorlagen verknüpft und können nicht gelöscht werden.</item>
+    </plurals>
+    <string name="numbered">nummeriert</string>
+    <string name="opening_balance">Anfangssaldo</string>
+    <string name="parse_error_file_not_found">Konnte Datei %1$s nicht finden</string>
+    <string name="parse_error_grisbi_version_not_supported">Grisbi Datei Version %1$s wird nicht unterstützt</string>
+    <string name="parse_error_no_data_found">Keine importierbaren Daten in der Datei gefunden.</string>
+    <string name="parse_error_other_exception">Ein Fehler ist aufgetreten: %1$s</string>
+    <string name="parse_error_parse_exception">Konnte Datei nicht analysieren</string>
+    <string name="password_disabled_reenable">Passwort-Schutz wurde aufgehoben. Sie können diesen in den Einstellungen wieder aktivieren.</string>
+    <string name="password_lost">Passwort vergessen</string>
+    <string name="password_not_valid">Passwort ungültig. Versuchen Sie es erneut!</string>
+    <string name="password_prompt">Geben Sie Ihr Passwort ein</string>
+    <string name="password_security_answer_not_valid">Falsche Antwort. Versuchen Sie es erneut!</string>
+    <string name="payee">Empfänger</string>
+    <string name="payer">Zahler</string>
+    <string name="payer_or_payee">Empfänger/Zahler</string>
+    <!-- Plan for future and recurring transactions -->
+    <string name="plan">Plan</string>
+    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
+    <string name="plan_automatic">automatisch</string>
+    <!-- this is the label for the calendar where plans for future and recurrent transactions are stored -->
+    <string name="plan_calendar_name">{app_name} Planer</string>
+    <string name="planner_notification_channel_name">Planer</string>
+    <string name="plan_event_deleted">Der mit dieser Vorlage verknüpfte Plan wurde aus dem Kalender gelöscht.</string>
+    <!-- This message is shown, after a user decides to not apply a manual plan -->
+    <string name="plan_execution_canceled">Durchführung des Plans abgebrochen</string>
+    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
+    <string name="plan_manual">manuell</string>
+    <string name="planner_create_calendar_failure">Lokaler Kalender konnte nicht angelegt werden</string>
+    <string name="planner_create_calendar_success">Lokaler Kalender erfolgreich angelegt</string>
+    <!-- payment methods -->
+    <string name="pm_cheque">Scheck</string>
+    <string name="pm_creditcard">Kreditkarte</string>
+    <string name="pm_deposit">Einzahlung</string>
+    <string name="pm_directdebit">Abbuchung</string>
+    <string name="pm_type_credit">Einnahmen</string>
+    <string name="pm_type_debit">Ausgaben</string>
+    <string name="pm_type_neutral">Neutral</string>
+    <string name="pref_app_dir_title">Ordner für Backups und Exports</string>
+    <string name="pref_auto_fill_title">Automatisches Ausfüllen</string>
+    <string name="pref_auto_fill_summary">Daten von der letzten Buchung für denselben Empfänger/Zahler ausfüllen</string>
+    <string name="pref_backup_summary">Erzeugt ein Backup der Datenbank und der Einstellungen</string>
+    <string name="pref_sort_order_usages">Häufigkeit der Benutzung</string>
+    <string name="pref_category_title_advanced">Erweitert</string>
+    <string name="pref_category_title_export">Export</string>
+    <string name="pref_category_title_import">Import</string>
+    <string name="pref_category_title_manage">Verwalten</string>
+    <string name="pref_category_title_more_information">Mehr Information</string>
+    <string name="pref_category_title_security">Sicherheit</string>
+    <string name="pref_category_title_ui">Benutzerschnittstelle</string>
+    <string name="pref_checkbox_enabled">Freigegeben</string>
+    <string name="pref_checkbox_disabled">Deaktiviert</string>
+    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
+    <string name="pref_contrib_purchase_summary">Zugriff auf Premium-Funktionen erwerben.</string>
+    <string name="pref_contrib_purchase_title">Schlüssel kaufen</string>
+    <string name="pref_contrib_purchase_title_upgrade">Schlüssel erweitern</string>
+    <string name="pref_contrib_purchase_title_in_app">In-App Bezahlung</string>
+    <string name="pref_custom_currency_title">Anpassen von Währungen</string>
+    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
+    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Wenn Sie einen Schlüssel erhalten haben, können Sie hier Premium-Funktionen freischalten.</string>
+    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Schlüssel eingeben</string>
+    <string name="pref_export_format_title">Datenformat</string>
+    <string name="pref_import_from_grisbi_summary">Kategorien und Parteien aus Grisbi XML importieren.</string>
+    <string name="pref_import_from_grisbi_title">Import aus Grisbi</string>
+    <!-- %s is replaced with QIF or CSV -->
+    <string name="pref_import_summary">Buchungen, Kategorien und Parteien aus %s Datei importieren</string>
+    <!-- %s is replaced with QIF or CSV -->
+    <string name="pref_import_title">%s Import</string>
+    <string name="pref_like_facebook_title">Empfehlen Sie uns auf Facebook</string>
+    <string name="pref_manage_accounts_title">Konten</string>
+    <string name="pref_manage_categories_summary">Hinzufügen, Editieren und Löschen von Kategorien.</string>
+    <string name="pref_manage_categories_title">Kategorien</string>
+    <string name="pref_manage_methods_summary">Zahlungsweisen hinzufügen und verändern, und diese mit Kontotypen verknüpfen.</string>
+    <string name="pref_manage_methods_title">Zahlungsweisen</string>
+    <string name="pref_manage_parties_summary">Parteien (Zahler und Empfänger) hinzufügen, editieren und löschen.</string>
+    <string name="pref_manage_parties_title">Parteien</string>
+    <string name="pref_manage_sync_backends_title">Synchronisierung Backends</string>
+    <!-- %s will be replaced with list of backends -->
+    <string name="pref_manage_sync_backends_summary">Backends für die Synchronisierung der Konten (%s) hinzufügen.</string>
+    <string name="pref_more_info_dialog_title">Lizenz &amp; Abspann</string>
+    <string name="pref_password_not_equal">Passwörter stimmen nicht überein</string>
+    <string name="pref_perform_protection_title">Schutz</string>
+    <string name="pref_perform_share_title">Export und Sicherheitskopie versenden</string>
+    <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
+    <string name="pref_planning_calendar_create_local">Neuen lokalen Planer anlegen</string>
+    <string name="pref_planning_calendar_summary">Wählen Sie den Kalender aus, in dem Pläne für zukünftige und wiederkehrende Buchungen gespeichert werden sollen.</string>
+    <string name="pref_planning_calendar_title">Planer</string>
+    <string name="pref_protection_delay_seconds_summary">Anzahl untätiger Sekunden, bevor die App durch ein Passwort geschützt wird.</string>
+    <string name="pref_protection_delay_seconds_title">Wartezeit für Passwortschutz</string>
+    <string name="pref_protection_enable_data_entry_from_widget_title">Dateneingabe über Widgets und Verknüpfungen</string>
+    <string name="pref_protection_enable_data_entry_from_widget_summary_on">Ohne Passwort erlaubt.</string>
+    <string name="pref_protection_enable_data_entry_from_widget_summary_off">Passwort wird benötigt.</string>
+    <string name="pref_qif_export_file_encoding_title">Zeichenkodierung</string>
+    <string name="pref_request_licence_title">Schlüssel beantragen</string>
+    <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
+    <string name="pref_restore_alternative">Alternativ</string>
+    <string name="pref_restore_alternative_summary">Verwenden Sie diese alternative Methode, wenn kein Datei-Manager auf dem Gerät installiert ist.</string>
+    <string name="pref_restore_summary">Wählen Sie die Sicherheitskopie aus, die wiederhergestellt werden soll.</string>
+    <string name="pref_restore_title">Wiederherstellung</string>
+    <string name="pref_security_question_summary">Erlaubt den Passwortschutz aufzuheben, sollten Sie das Passwort vergessen.</string>
+    <string name="pref_security_question_title">Sicherheitsfrage</string>
+    <string name="pref_send_feedback_title">Feedback senden</string>
+    <string name="pref_share_target_summary">Sie können dies leer lassen, wenn Sie zwischen passenden Apps wählen wollen (Email, Dropbox, Google Docs, …) oder eine URL in einer der unterstützten Schemen angeben</string>
+    <string name="pref_share_target_title">Upload URL</string>
+    <string name="pref_shortcut_added">Verknüpfung dem Start-Bildschirm hinzugefügt</string>
+    <string name="pref_shortcut_not_added">Es steht kein Start-Bildschirm zur Verfügung, der Verknüpfungen akzeptiert.</string>
+    <string name="pref_shortcut_summary">Fügt die Verknüpfung dem Start-Bildschirm hinzu.</string>
+    <string name="pref_template_click_default_summary">Beim kurzen Tippen auf Eintrag in der Vorlagenliste</string>
+    <string name="pref_ui_fontsize_title">Schriftgröße</string>
+    <string name="pref_ui_home_screen_shortcuts">Verknüpfungen für den Start-Bildschirm</string>
+    <string name="pref_ui_language_default">System-Standard</string>
+    <!-- Title of the preference for selecting the UI language -->
+    <string name="pref_ui_language_title">Sprache</string>
+    <string name="pref_ui_theme_dark">Dunkel</string>
+    <string name="pref_ui_theme_light">Hell</string>
+    <string name="pref_ui_theme_title">Stil</string>
+    <string name="pref_visit_website_summary">Änderungsprotokoll und FAQ</string>
+    <string name="pref_visit_website_title">Website besuchen</string>
+    <string name="progress_dialog_deleting">Objekte werden gelöscht</string>
+    <string name="progress_dialog_loading">Buchung wird von Datenbank geladen</string>
+    <string name="progress_dialog_printing">Generierung von PDF</string>
+    <string name="progress_dialog_saving">Objekt wird in Datenbank gespeichert</string>
+    <string name="qif_parse_result">Gefunden: %1$s Konten, %2$s Kategorien und %3$s parteien.</string>
+    <string name="qif_parse_failure_found_multiple_accounts">In der QIF Datei wurden mehrere Konten gefunden.</string>
+    <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Diese konten nicht mit einem bestehendes Konto zusammengefügt werden.</string>
+    <string name="reference_number">Referenznummer</string>
+    <string name="restore_db_failure">Fehler bei der Wiederherstellung der Datenbank.</string>
+    <string name="restore_db_success">Die Datenbank wurde aus dem Backup wiederhergestellt.</string>
+    <string name="restore_no_backup_found">Keine Backup-Datei gefunden.</string>
+    <string name="restore_preferences_failure">Fehler bei der Wiederherstellung der Einstellungen</string>
+    <string name="restore_backup_archive_not_valid">Archiv %1$s ist nicht gültig</string>
+    <string name="restore_backup_file_not_found">Keine Datei %1$s im Archiv \"%2$s\" gefunden.</string>
+    <string name="restore_preferences_success">Die Einstellungen wurden aus dem Backup wiederhergestellt.</string>
+    <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d Pläne wurden aus dem Backup wiederhergestellt.</string>
+    <string name="save_transaction_and_new_success">Erfolgreich gespeichert</string>
+    <string name="save_transaction_error">Neue Buchung aus Vorlage konnte nicht gespeichert werden.</string>
+    <plurals name="save_transaction_from_template_success">
+        <item quantity="one">Neue Buchung wurde erfolgreich aus der Vorlage gespeichert.</item>
+        <item quantity="other">%1$d neue Buchungen wurden erfolgreich aus Vorlagen gespeichert.</item>
+    </plurals>
+    <string name="save_transaction_template_deleted">Vorlage wurde gelöscht</string>
+    <string name="select">Auswählen</string>
+    <string name="select_category">Kategorie auswählen</string>
+    <string name="select_payee">Empfänger/Zahler auswählen</string>
+    <string name="share_scheme_not_supported">Schema %1$s nicht unterstützt </string>
+    <string name="share_sending">Export Datei senden</string>
+    <string name="split_parts_heading">Teilbeträge</string>
+    <string name="split_transaction">Mehrteilige Buchung</string>
+    <string name="status">Status</string>
+    <string name="status_cleared">verrechnet</string>
+    <string name="status_reconciled">abgestimmt</string>
+    <string name="status_uncreconciled">nicht abgestimmt</string>
+    <string name="status_void">ungültig</string>
+    <string name="subcategory">Unterkategorie</string>
+    <string name="sum_expenses">Ausgaben</string>
+    <string name="sum_income">Einnahmen</string>
+    <string name="sum_transfer">Umbuchungen</string>
+    <!-- platform is replaced with Android or Blackberry -->
+    <string name="tell_a_friend_message">Probiere {app_name}, Persönliches Finanz-Management für {platform}, von {website}</string>
+    <string name="thank_you">Danke für Ihre Unterstützung!</string>
+    <string name="time">Zeit</string>
+    <string name="title">Titel</string>
+    <string name="total_cleared">Verrechnete Summe</string>
+    <string name="total_reconciled">Abgestimmte Summe</string>
+    <string name="transaction">Buchung</string>
+    <string name="transfer">Umbuchung</string>
+    <string name="transfer_from_account">Von</string>
+    <string name="transfer_to_account">Nach</string>
+    <!-- Type refers to the type of an account, eg. Cash account, bank account -->
+    <string name="type">Typ</string>
+    <string name="unsplit_amount">Ungesplitteter Betrag</string>
+    <string name="unsplit_amount_greater_than_zero">Es wurde noch nicht der gesamte Betrag aufgesplittet.</string>
+    <string name="warning_backup">Die Datenbank und die Einstellungen werden nach \"%1$s\" gesichert.</string>
+    <string name="continue_confirmation">Möchten Sie fortfahren?</string>
+    <string name="warning_delete_account">Konto \"%1$s\" wird mit all seinen Buchungen gelöscht.</string>
+    <plurals name="warning_delete_main_category">
+        <item quantity="one">Die ausgewählte Kategorie hat Unterkategorien. Diese werden ebenfalls gelöscht.</item>
+        <item quantity="other">%1$d ausgewählte Kategorien haben Unterkategorien. Diese werden ebenfalls gelöscht.</item>
+    </plurals>
+    <string name="warning_delete_category_with_budget">Für mindestens eine ausgewählte Kategorie gibt es Budgetzuweisungen, die ebenfalls gelöscht werden.</string>
+    <plurals name="warning_delete_template">
+        <item quantity="one">Die ausgewählte Vorlage wird gelöscht.</item>
+        <item quantity="other">%1$d ausgewählte Vorlagen werden gelöscht.</item>
+    </plurals>
+    <plurals name="warning_delete_transaction">
+        <item quantity="one">Die ausgewählte Buchung wird gelöscht.</item>
+        <item quantity="other">%1$d ausgewählte Buchungen werden gelöscht.</item>
+    </plurals>
+    <plurals name="move_category_success">
+        <item quantity="one">Eine Kategorie wurde erfolgreich verschoben.</item>
+        <item quantity="other">%d Kategorien wurden erfolgreich verschoben.</item>
+    </plurals>
+    <plurals name="move_category_failure">
+        <item quantity="one">Eine Kategorie wurde nicht verschoben, da die gleiche Bezeichnung bereits am Ziel vorhanden ist.</item>
+        <item quantity="other">%d Kategorien wurden nicht verschoben, da die gleiche Bezeichnung bereits am Ziel vorhanden ist.</item>
+    </plurals>
+    <string name="warning_delete_reconciled">Wenn Sie abgestimmte Buchungen löschen, können Ihre Aufzeichnungen von Ihrem Kontoauszug abweichen.</string>
+    <string name="warning_balance_account">Bitte vergleichen Sie die verrechnete Summe mit dem Kontostand Ihres Kontoauszuges. Wenn Sie fortfahren, werden verrechnete Buchungen als abgestimmt markiert.</string>
+    <string name="warning_password_protected">App ist durch Passwort geschützt.</string>
+    <string name="warning_widget_disabled">Sie müssen dieses Widget in den App Einstellungen aktivieren.</string>
+    <string name="warning_instantiate_template_from_widget_password_protected">Die schnelle Anwendung von Vorlagen über dieses Widget funktioniert nur, wenn Sie in den App-Einstellungen Dateneingabe über Widgets ohne Passwort erlauben.</string>
+    <string name="warning_password_contrib">Durch das Setzen einer Sicherheitsfrage können Sie den Passwortschutz aufheben, sollten Sie das Passwort vergessen.</string>
+    <string name="warning_reset_account">Wenn Sie fortfahren, werden alle Transaktionen dieses Kontos von der Datenbank gelöscht.	Dies kann nicht rückgängig gemacht werden.</string>
+    <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
+    <string name="warning_reset_account_all">Wenn Sie fortfahren, werden alle Buchungen aller Konten%1$s aus der Datenbank gelöscht. Dies kann nicht rückgängig gemacht werden.</string>
+    <string name="warning_reset_account_matched">Wenn Sie fortfahren, werden alle mit dem aktuellen Suchfilter übereinstimmenden Buchungen aus der Datenbank gelöscht. Dies kann nicht rückgängig gemacht werden.</string>
+    <string name="warning_restore">Datenbank und Einstellungen werden aus dem Backup (%1$s) wiederhergestellt. Aktuelle Daten werden gelöscht.</string>
+    <string name="warning_app_folder_will_be_deleted_upon_uninstall">Der aktuell ausgewählte Ordner für Sicherungskopien und Exporte wird von Android automatisch gelöscht wenn Sie {app_name} deinstallieren. Sie können dies verhindern, indem Sie einen anderen Ordner in den Einstellungen auswählen.</string>
+    <string name="warning_splitpartcategory_context">Umbuchungen, die Teil einer mehrteiligen Buchung sind, können nur im Kontext der mehrteiligen Buchung geändert werden.</string>
+    <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Bitte eine Zahl zwischen %1$d und %2$d angeben</string>
+    <string name="warning_change_fraction_digits_1">Beträge in der Datenbank müssen aktualisiert werden, um mit der neuen Anzahl der Nachkommastellen übereinzustimmen.</string>
+    <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Wenn Beträge nicht aktualisiert werden, erscheinen diese nach der Änderung als multipliziert mit %d.</string>
+    <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Wenn Beträge nicht aktualisiert werden, erscheinen diese nach der Änderung als dividiert durch %d.</string>
+    <string name="warning_change_fraction_digits_3">Wenn Beträge aktualisiert werden, verlieren Sie die Information über deren Bruchteil.</string>
+    <string name="warning_change_fraction_digits_checkbox_label">Beträge in der Datenbank aktualisieren</string>
+    <string name="import_categories_success">%1$s Kategorien erfolgreich importiert</string>
+    <string name="import_parties_success">%1$s Parteien erfolgreich importiert</string>
+    <string name="import_accounts_success">%1$s Konten erfolgreich importiert</string>
+    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d Buchungen erfolgreich in das Konto %2$s importiert</string>
+    <string name="import_accounts_none">Keine Konten importiert</string>
+    <string name="import_categories_none">Keine Kategorien importiert</string>
+    <string name="import_parties_none">Keine Parteien importiert</string>
+    <string name="import_transactions_none">Keine Buchungen in das Konto %1$s importiert</string>
+    <string name="import_source_select_error">Bitte wählen Sie eine Datei des Typs %1$s</string>
+    <string name="menu_categories_setup_default">Standard Kategorien einrichten</string>
+    <string name="menu_create_folder">Neuer Ordner</string>
+    <!-- This string is used for navigating up in the folder browser -->
+    <string name="menu_up">Nach oben</string>
+    <string name="create_new_folder_fail">Erstellen des Ordners fehlgeschlagen</string>
+    <string name="widget_title_accounts">Meine Konten</string>
+    <string name="widget_title_templates">Meine Vorlagen</string>
+    <string name="app_dir_not_accessible">Der aktuell ausgewählte Ordner für Sicherungen und Exporte (%1$s) ist nicht zugänglich. Bitte wählen Sie einen anderen.</string>
+    <string name="app_dir_not_compatible_with_nougat">Die aktuell konfigurierte URI für Backups und Exporte (%1$s) wird unter Android Nougat nicht unterstützt. Bitte wählen Sie erneut einen Ordner aus.</string>
+    <string name="search_amount">Suche nach Betrag</string>
+    <string name="search_category">Suche nach Kategorie</string>
+    <string name="search_comment">Suche nach Notizen</string>
+    <string name="search_date">Suche nach Datum</string>
+    <string name="search_status">Suche nach Status</string>
+    <string name="search_payee">Suche nach Empfänger/Zahler</string>
+    <string name="search_method">Suche nach Zahlungsweise</string>
+    <string name="search_tag">Suche nach Markierung</string>
+    <string name="and">und</string>
+    <string name="between_and">zwischen %1$s und %2$s</string>
+    <string name="before">vor %s</string>
+    <string name="after">nach %s</string>
+    <string name="comparison_operator_equal">gleich</string>
+    <string name="comparison_operator_greater_than">größer als</string>
+    <string name="comparison_operator_lesser_than">kleiner als</string>
+    <string name="comparison_operator_between">zwischen</string>
+    <string name="comparison_operator_date_before">vor</string>
+    <string name="comparison_operator_date_after">nach</string>
+    <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Einkauf ist gescheitert oder abgebrochen.</string>
+    <string name="hint_auto_fill">Sollen Daten automatisch auf Basis der letzten Buchung für denselben Empfänger/Zahler ausgefüllt werden? Sie können dieses Verhalten jederzeit in den Einstellungen ändern.</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
+    <string name="hint_template_click">Ein kurzes Tippen auf einen Eintrag in dieser Liste wendet die Vorlage an. Entweder diese wird unmittelbar gespeichert, oder das Eingabeformular wird geöffnet, wo diese vor dem Speichern verändert werden kann. Sie können immer auf beide Aktionen über ein langes Tippen zugreifen und die Standardeinstellung in den Einstellungen ändern. </string>
+    <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d Konten mit Währung %2$s wurden aktualisiert.</string>
+    <string name="learn_more">Mehr erfahren</string>
+    <string name="import_source_file">Datei</string>
+    <string name="restore_calendar_handling">Verarbeitung der Kalender-Daten</string>
+    <string name="restore_calendar_handling_configured">Pläne werden in dem aktuell konfigurierten Kalender gespeichert</string>
+    <string name="restore_calendar_handling_backup">Pläne werden in dem im Backup festgelegten Kalender gespeichert, falls dieser verfügbar ist</string>
+    <string name="restore_calendar_handling_ignore">Pläne nicht wiederherstellen</string>
+    <string name="restore_not_possible_target_calendar_missing">Der im Backup festgelegte Kalender %s ist nicht lokal vorhanden. Wiederherstellung wurde abgebrochen.</string>
+    <string name="restore_not_possible_local_calendar_missing">Der aktuell konfigurierte Kalender ist nicht vorhanden.</string>
+    <string name="menu_view_picture">Bild anzeigen</string>
+    <string name="menu_delete_picture">Bild löschen</string>
+    <string name="menu_change_picture">Anderes Bild anfügen</string>
+    <string name="menu_distribution_show_pie_char">Tortendiagramm anzeigen</string>
+    <string name="menu_distribution_aggreate">Ausgaben und Einnahmen zusammen zählen</string>
+    <string name="pref_manage_stale_images_title">Veraltete Bilder</string>
+    <string name="pref_manage_stale_images_summary">Verwalten Sie Bilder aus gelöschten Buchungen</string>
+    <string name="image_deleted">Bild wurde gelöscht</string>
+    <string name="transaction_deleted">Buchung wurde gelöscht</string>
+    <string name="dialog_export_applied_to_filter">Nur Buchungen, die mit dem aktuellen Suchfilter übereinstimmen, werden berücksichtigt.</string>
+    <string name="export_handle_deleted_create_helper">Hilfsbuchung erstellen</string>
+    <string name="export_handle_deleted_update_balance">Anfangssaldo aktualisieren</string>
+    <string name="file_name">Dateiname</string>
+    <string name="folder_name">Ordnername</string>
+    <string name="mark_void_instead_of_delete">Buchung nicht löschen, stattdessen als ungültig kennzeichnen.</string>
+    <string name="menu_undelete_transaction">Das Löschen rückgängig machen</string>
+    <string name="slash_forbidden_in_filename">Das Zeichen / ist in Dateinamen nicht zulässig</string>
+    <string name="io_error_unable_to_create_file">Konnte Datei %1$s im Ordner %2$s nicht erstellen</string>
+    <string name="menu_categories_export">Export nach QIF</string>
+    <string name="pref_csv_import_delimiter">Trennzeichen</string>
+    <string name="csv_import_preview">Vorschau</string>
+    <string name="menu_parse">Analysieren</string>
+    <!-- Label for column where user can check rows to be discarded from import -->
+    <string name="cvs_import_discard">Verwerfen</string>
+    <string name="csv_import_field_mapped_more_than_once">%s wird mehr als einmal zugeordnet.</string>
+    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d Einträge konnten nicht importiert werden.</string>
+    <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d Einträge wurden verworfen.</string>
+    <string name="csv_import_subcategory_requires_category">Wenn Sie Unterkategorie zuordnen, müssen Sie auch die Kategorie zuordnen.</string>
+    <string name="cvs_import_set_first_line_as_header">Soll die erste Zeile als Kopfzeile behandelt werden?</string>
+    <string name="csv_import_delimiter_comma">Komma</string>
+    <string name="csv_import_delimiter_semicolon">Semikolon</string>
+    <string name="csv_import_delimiter_tab">Tabulator</string>
+    <string name="csv_import_no_mapping_found_for_amount">Bitte ordnen Sie eine Spalte entweder, Betrag, Einnahme oder Ausgabe zu.</string>
+    <string name="menu_show_transactions">Buchungen anzeigen</string>
+    <string name="pref_custom_decimal_format_title">Zahlenformat</string>
+    <string name="pref_custom_decimal_format_summary">Wenn Sie mit dem Standardformat für Ihr Gebietsschema nicht zufrieden sind, können Sie es an Ihre Bedürfnisse anpassen. Leer lassen, um das Standardformat wiederherzustellen. </string>
+    <string name="pref_auto_backup_title">Automatisches Backup</string>
+    <string name="pref_auto_backup_summary">Sichere Datenbank täglich zur angegebenen Zeit (nur wenn sich die Daten verändert haben)</string>
+    <string name="pref_auto_backup_time_title">Zeit für automatische Sicherung</string>
+    <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Nach %d erfolgreichen automatischen Sicherungen wird automatische Sicherung deaktiviert werden.</string>
+    <string name="calendar_permission_required"><i>{app_name}</i> benötigt die Berechtigung, auf Ihren Kalender zugreifen, um Pläne für zukünftige und wiederkehrende Buchungen zu erstellen.</string>
+    <string name="button_request_calendar_access" tools:ignore="UnusedResources">Zugriff gewähren</string>
+    <string name="switch_on_text">An</string>
+    <string name="switch_off_text">Aus</string>
+    <string name="menu_move">Verschieben</string>
+    <string name="dialog_title_select_target">Ziel auswählen</string>
+    <string name="transform_subcategory_to_main">In eine Hauptkategorie umwandeln</string>
+    <string name="preferences_week_start_day_title">Woche beginnt am</string>
+    <string name="preferences_month_start_date_title">Monat beginnt am</string>
+    <!-- this is the title of the section in the preferences, where user can set start day for weekly and monthly groups -->
+    <string name="pref_grouping_periods">Zeiträume für Gruppierungen</string>
+    <string name="exchange_rate">Wechselkurs</string>
+    <string name="date_format_hour">Stunde</string>
+    <string name="date_format_minute">Minute</string>
+    <string name="copied_to_clipboard">In Zwischenablage kopiert</string>
+    <string name="menu_sort">Sortieren nach</string>
+    <string name="pref_sort_order_last_used">Zuletzt verwendet</string>
+    <string name="pref_sort_order_custom">Benutzerdefiniert</string>
+    <string name="content_description_calculator">Taschenrechner</string>
+    <!-- describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list. -->
+    <string name="plan_instance_state_open">offen</string>
+    <!-- describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list. -->
+    <string name="plan_instance_state_cancelled">annulliert</string>
+    <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
+    <string name="plan_instance_state_applied">angewendet</string>
+    <string name="progress_dialog_updating_split_parts">Teilbeträge werden aktualisiert</string>
+    <string name="warning_cannot_move_split_transaction">Diese mehrteilige Buchung kann nicht nach %1$s verschoben werden, denn es gibt Teilbeträge, die auf dieses Konto verweisen.</string>
+    <string name="content_description_calculator_clear_button">Alle zurücksetzen</string>
+    <string name="content_description_calculator_delete_button">Letzte Ziffer löschen</string>
+    <string name="paypal_callback_info">Danke für Ihre Zahlung. Ihre Transaktion wurde abgeschlossen und Sie erhalten per E-Mail eine Bestätigung für Ihren Kauf. Sie können sich unter www.paypal.de in Ihr Konto einloggen, um die Transaktionsdetails anzuzeigen.</string>
+    <string name="search_transfer">Suche nach Umbuchung</string>
+    <!-- Sort plans (recurring transactions) by the next instance  -->
+    <string name="pref_sort_order_next_instance">Nächstes Vorkommen</string>
+    <string name="crash_dialog_title">{app_name} ist abgestürzt</string>
+    <string name="crash_dialog_text">Ein unerwarteter Fehler ist aufgetreten ist und hat zum Absturz der Anwendung geführt. Bitte helfen Sie uns, dieses Problem zu beheben, indem Sie uns Fehlerdaten senden. Alles, was Sie tun müssen, ist auf \"OK\" zu klicken.</string>
+    <string name="crash_dialog_comment_prompt">Sie können Ihre Anmerkungen zum Problem unten hinzufügen:</string>
+    <string name="synchronization">Synchronisierung</string>
+    <string name="synchronization_none">Keine Synchronisierung</string>
+    <string name="hint_url">URL</string>
+    <string name="description_webdav_url">Bitte geben Sie die URL für einen speziellen Ordner auf Ihrem WebDAV-Server an. {app_name} speichert seine Daten in diesem Ordner, es greift auf keine Daten außerhalb davon zu.</string>
+    <string name="description_webdav_trust_certificate">Die Website verwendet ein Zertifikat, das von Android als nicht vertrauenswürdig eingestuft wird.</string>
+    <string name="hint_user_name">Benutzername</string>
+    <string name="hint_password">Passwort</string>
+    <string name="label_trust_certificate">Diesem Zertifikat vertrauen</string>
+    <string name="no_sync_backends">Keine Synchronisierung Backends</string>
+    <string name="menu_create_sync_backend">Neues Synchronisierung Backend</string>
+    <string name="validate_error_not_empty">Darf nicht leer sein</string>
+    <string name="validate_error_webdav_invalid_certificate">Dem Zertifikat konnte nicht vertraut werden. Es scheint ungültig.</string>
+    <string name="validate_error_webdav_not_compliant">Die URL verweist nicht auf eine WebDAV-Ressource.</string>
+    <string name="validate_error_webdav_404">Die URL existiert nicht auf dem Server.</string>
+    <string name="url_not_valid">URL nicht gültig</string>
+    <string name="menu_sync_unlink">Synchronisierung stoppen</string>
+    <string name="menu_sync_link">Synchronisierung starten</string>
+    <string name="menu_sync_download">Herunterladen und synchronisieren</string>
+    <string name="menu_sync_now">Jetzt synchronisieren</string>
+    <string name="pref_sync_frequency_title">Häufigkeit der Synchronisierung</string>
+    <string name="pref_sync_frequency_summary">Wie oft sollten die Daten synchronisiert werden (in Stunden)</string>
+    <string name="dialog_confirm_sync_unlink">Wenn Sie dieses Konto von %s entkoppeln, geht der Status der Synchronisierung verloren. Wenn Sie die Verknüpfung später wiederherstellen, erfordert dies eine erneute vollständige Synchronisierung.</string>
+    <string name="dialog_sync_link">Ein Konto mit UUID %s existiert sowohl in der lokalen Datenbank als auch auf dem entfernten Backend. Wenn Sie beide verknüpfen, müssen Sie entscheiden, ob zunächst lokale Daten auf das Backend hochgeladen werden sollen, oder entfernte Daten in die lokale Datenbank geschrieben werden sollen.</string>
+    <string name="dialog_command_sync_link_remote">Herunterladen von Entfernt</string>
+    <string name="dialog_command_sync_link_local">Hochladen von Lokal</string>
+    <string name="dialog_synced_to_other">Ein Konto mit UUID %s existiert bereits in der lokalen Datenbank und ist mit einem anderen Backend verbunden.</string>
+    <string name="menu_remove">Entfernen</string>
+    <string name="dialog_confirm_sync_remove_backend">Das entfernte Backend %s wird entfernt. Dadurch werden lokal und entfernt gespeicherte Daten nicht berührt, aber der Status der Synchronisation geht verloren.</string>
+    <string name="dialog_confirm_sync_link_local">Entfernte Daten für dieses Konto werden gelöscht. Achten Sie darauf, dass keine anderen Geräte mit diesem verbunden sind.</string>
+    <string name="dialog_confirm_sync_link_remote">Lokale Daten für dieses Konto werden gelöscht.</string>
+    <string name="warning_limited_trial">Die Funktion %1$s kann bis %2$s getestet werden.</string>
+    <string name="warning_trial_limit_reached">Die Probezeit für die Funktion %s ist abgelaufen.</string>
+    <string name="warning_synchronization_folder_usage">Dieser Ordner wird für die Synchronisierung von Daten zwischen den Installationen von {app_name} auf verschiedenen Geräten verwendet. Bitte ändern Sie dessen Inhalt nicht manuell.</string>
+    <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Der Ordner, den Sie ausgewählt haben, entspricht einem Konto eines bestehenden Backends. Sie müssen den übergeordneten Ordner auswählen, um dieses Backend wiederzuverwenden.</string>
+    <string name="select_unsynced_accounts">Wählen Sie die Konten aus, die mit diesem Backend synchronisiert werden sollen.</string>
+    <string name="link_account_success" tools:ignore="PluralsCandidate">%d Konten wurden konfiguriert, um mit dem Backend synchronisiert zu werden.</string>
+    <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d Konten konnten nicht für die Synchronisierung mit dem Backend konfiguriert werden.</string>
+    <string name="link_account_failure_2">Ein Konto mit der gleichen UUID existiert bereits auf dem entfernten Backend.</string>
+    <string name="link_account_failure_3">Der Konflikt kann über den Eintrag im Kontextmenü manuell aufgelöst werden.</string>
+    <string name="progress_dialog_checking_sync_backend">Backend wird überprüft</string>
+    <string name="template">Vorlage</string>
+    <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Cloud-Synchronisierung</string>
+    <string name="all_contrib_key_features">Alle Funktionen des Contrib Schlüssels</string>
+    <string name="all_extended_key_features">Alle Funktionen des erweiterten Schlüssels</string>
+    <!-- button leading user to purchase flow for licence keys -->
+    <string name="upgrade_now">Upgrade</string>
+    <string name="pref_backup_cloud_title">Auf Synchronisierung-Backend speichern</string>
+    <string name="pref_backup_cloud_summary">Zusätzlich zur lokalen Speicherung auf dem Gerät kann die Sicherungsdatei auf ein entferntes Backend kopiert werden.</string>
+    <string name="auto_backup_cloud_create_backend">Erstellen Sie eine Synchronisierung Backend vom Hauptbildschirm der Einstellungen.</string>
+    <string name="auto_backup_cloud_failure">Beim Versuch, Backup-Datei %1$s auf Backend %2$s zu speichern, ist ein Fehler aufgetreten:</string>
+    <string name="auto_backup_cloud_success">Die Sicherungsdatei %1$s wurde erfolgreich im Backend %2$s gespeichert.</string>
+    <string name="home_screen_shortcuts_nougate_info">Verknüfpungen können durch langes Antippen des App-Icons auf dem Start-Bildschirm hinzugefügt werden.</string>
+    <string name="currency_symbol">Währungssymbol</string>
+    <string name="number_of_fraction_digits">Nachkommastellen</string>
+    <string name="warning_auto_backup_deactivated">Die automatische Sicherung wurde deaktiviert. Sie können sie in den Einstellungen wieder einschalten, nachdem Sie das Problem gelöst haben (z. B. Auswählen eines anderen Ordners für Sicherungen).</string>
+    <string name="pref_tracking_summary">Erlauben Sie uns, anonyme Daten über Gebrauchsmuster zu sammeln, die uns helfen, Verbesserungen zu planen.</string>
+    <string name="pref_tracking_title">Gebrauchsdatenerfassung</string>
+    <string name="sync_database_error">Während der Synchronisation ist ein Datenbankfehler aufgetreten.</string>
+    <string name="sync_io_error_cannot_connect">Kann keine Verbindung zum Synchronisations-Backend herstellen.</string>
+    <string name="sync_error_will_try_again_later">Werde es später noch einmal versuchen.</string>
+    <string name="sync_io_exception_reset_account_data">Fehler beim Zurücksetzen des entfernten Kontos</string>
+    <string name="sync_success_reset_account_data">Daten am Backend für Konto %s wurden gelöscht.</string>
+    <string name="sync_io_exception_setup_remote_account">Fehler beim Einrichten des entfernten Kontos.</string>
+    <string name="sync_io_exception_syncing">Fehler beim Synchronisieren von Änderungen mit dem Server.</string>
+    <string name="sync_io_exception_unlocking">Fehler beim Entfernen der Sperre vom entfernten Backend.</string>
+    <string name="sync_io_exception_locking">Das entfernte Backend ist gesperrt oder kann nicht gesperrt werden.</string>
+    <string name="synchronization_start">Synchronisierung für das Konto %s wird gestartet.</string>
+    <string name="synchronization_end_success">%1$d entfernte Änderungen wurden in die lokale Datenbank geschrieben. %2$d lokale Änderungen wurden in das entfernte Backend geschrieben.</string>
+    <string name="synchronization_end_success_none">Keine Änderungen zum Synchronisieren.</string>
+    <string name="pref_webdav_timeout_title">WebDAV Zeitüberschreitung (in Sekunden)</string>
+    <string name="sync_state_restored">Sync-Status wurde für %d Konten wiederhergestellt.</string>
+    <string name="sync_state_could_not_be_restored">Sync-Status konnte für %d Konten nicht wiederhergestellt werden.</string>
+    <string name="onboarding_ui_title">{app_name} passt sich Ihren Vorlieben an</string>
+    <string name="onboarding_data_title">Lassen Sie uns Ihr erstes Konto einrichten</string>
+    <string name="onboarding_get_started">Los geht\'s</string>
+    <string name="onboarding_more_options">Mehr Optionen</string>
+    <string name="onboarding_restore_from_cloud">Wiederherstellung von Cloud-Synchronisation</string>
+    <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
+    <string name="onboarding_restore_from_cloud_backup">Backups</string>
+    <string name="onboarding_restore_from_local">Wiederherstellung einer lokalen Sicherungsdatei</string>
+    <string name="dialog_button_add">Hinzufügen</string>
+    <string name="template_create_error">Fehler beim Speichern der Vorlage</string>
+    <string name="contributed_by">Beigetragen von %s</string>
+    <string name="pref_sync_notification_summary">Über Fortschritt der Synchronisierung benachrichtigen</string>
+    <string name="pref_debug_logging_summary">Debugging-Informationen in das Systemprotokoll schreiben</string>
+    <string name="plan_custom_recurrence_info">Bitte speichern Sie zunächst die Vorlage. Der Plan wird dann in der Kalender-App geöffnet, wo Sie eine benutzerdefinierte Wiederholung einstellen können.</string>
+    <string name="storage_permission_required">Die von Ihnen ausgewählte Quelle kann nur gelesen werden, wenn Sie die Berechtigung zum Lesen aus dem externen Speicher erteilen.</string>
+    <string name="picture">Bild</string>
+    <string name="menu_create_template_for_split">Neue geteilte Vorlage</string>
+    <string name="progress_validating_licence">Lizenz wird validiert</string>
+    <string name="licence_validation_error_expired">Lizenz ist abgelaufen</string>
+    <string name="licence_validation_error_device_limit_exceeded">Geräte-Limit überschritten. Bitte entfernen Sie die Lizenz von einem anderen Gerät.</string>
+    <string name="error">Fehler (%s)</string>
+    <string name="button_validate">Validieren</string>
+    <string name="licence_key">Lizenzschlüssel</string>
+    <string name="licence_removal_information">Wenn Sie auf diesem Gerät keine Premiumfunktionen mehr benötigen, können Sie den Lizenzschlüssel entfernen. Dies gibt den Schlüssel für die Aktivierung auf einem anderen Gerät frei. Der Schlüssel kann an bis zu %d Geräten aktiviert werden.</string>
+    <string name="progress_removing_licence">Lizenz wird entfernt</string>
+    <string name="licence_removal_success">Der Lizenzschlüssel wurde erfolgreich von diesem Gerät freigegeben.</string>
+    <string name="professional_key">Professioneller Schlüssel</string>
+    <string name="n_months">%d Monate</string>
+    <string name="eu_vat_info">Die Preise für die in der Europäischen Union ansässigen Personen verstehen sich ohne Mehrwertsteuer.</string>
+    <string name="licence_migration_info">{app_name} implementiert einen neuen Lizenzvalidierungsmechanismus. Bitte fordern Sie einen neuen Schlüssel an.</string>
+    <string name="valid_until">Bis %s</string>
+    <!-- %1$s date, %2$s price  -->
+    <string name="extend_until">Verlängern bis %1$s für %2$s</string>
+    <string name="extended_upgrade_goodie_github">Weitere %d Monate werden einmal für Benutzer gewährt, die bereits die Erweiterte Lizenz besitzen</string>
+    <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">Benutzer, die bereits die erweiterte Lizenz besitzen, zahlen im ersten Jahr 50%% des regulären Preises (%s).</string>
+    <string name="extended_upgrade_goodie_subscription_amazon" tools:ignore="UnusedResources">Benutzer, die bereits die erweiterte Lizenz besitzen, haben Anspruch auf eine %1$d%%  Ermäßigung vom regulären Preis (%2$s) des Jahresabonnements.</string>
+    <string name="switch_to_yearly" tools:ignore="UnusedResources">Zum Jahresabo wechseln</string>
+    <string name="switch_to_monthly" tools:ignore="UnusedResources">Zum Monatsabo wechseln</string>
+    <string name="extend_validity">Gültigkeit verlängern</string>
+    <string name="progress_dialog_fetching_data_from_sync_backend">Daten werden vom entfernten Backend geladen. Dies könnte eine Weile dauern.</string>
+    <string name="donate_button_invoice">Rechnung</string>
+    <string name="menu_sort_direction">Sortierrichtung</string>
+    <string name="sort_direction_ascending">aufsteigend</string>
+    <string name="sort_direction_descending">absteigend</string>
+    <string name="never">nie</string>
+    <string name="always">immer</string>
+    <string name="auto_fill_account_from_aggregate_only">Nur wenn vom Gesamtkonto gestartet.</string>
+    <string name="sync_auth_exception_login_again">Autorisation fehlgeschlagen. Bitte melden Sie sich erneut an.</string>
+    <string name="sync_loading_accounts_from_backend">Verfügbare Konten werden vom Backend geladen.</string>
+    <plurals name="delete_success">
+        <item quantity="one">Ein Objekt wurde erfolgreich gelöscht.</item>
+        <item quantity="other">%d Objekte wurden erfolgreich gelöscht.</item>
+    </plurals>
+    <string name="feature_deprecated">Veraltet</string>
+    <string name="pref_protection_device_lock_screen_title">Gerätesperrbildschirm</string>
+    <string name="pref_warning_only_one_protection">Bevor Sie den Schutz durch %1$s verwenden können, müssen Sie den Schutz durch %2$s ausschalten.</string>
+    <string name="warning_device_lock_screen_not_set_up_1">Der sichere Gerätesperrbildschirm wurde nicht eingerichtet.</string>
+    <string name="warning_device_lock_screen_not_set_up_2">Gehen Sie zu \'Einstellungen -&gt; Sicherheit -&gt; Bildschirmsperre\', um einen Sperrbildschirm einzurichten.</string>
+    <string name="snackbar_dismiss">Verwerfen</string>
+    <string name="menu_history_show_balance">Saldo anzeigen</string>
+    <string name="menu_history_transfers">Umbuchungen einschließen</string>
+    <string name="menu_history">Verlauf</string>
+    <!-- A label indicating the color for the sum of expenses -->
+    <string name="history_chart_out_label">Ausgaben</string>
+    <!-- A label indicating the color for the sum of income -->
+    <string name="history_chart_in_label">Einnahmen</string>
+    <string name="menu_history_totals">Summen anzeigen</string>
+    <string name="pref_home_currency_title">Heimatwährung</string>
+    <string name="grand_total">Gesamtsumme</string>
+    <string name="menu_original_amount">Originalbetrag</string>
+    <string name="menu_equivalent_amount">Gleichwertiger Betrag</string>
+    <string name="home_currency_change_warning">Wenn Sie Ihre Heimatwährung ändern, gehen gleichwertige Beträge und Wechselkurse verloren und müssen erneut definiert werden.</string>
+    <string name="warning_split_transactions">Die ausgewählten Buchungen werden in einer mehrteiligen Buchung zusammengefasst. Ihre Datumsinformation wird verloren gehen, d. H. durch ihren Durchschnitt ersetzt werden.</string>
+    <string name="warning_ungroup_split_transactions">Die Gruppierung der ausgewählten mehrteiligen Buchungen wird aufgelöst, d.h. ihre Teile werden zu normale Buchungen.</string>
+    <!-- This is the label for the action that breaks up a split transaction into its parts. -->
+    <string name="menu_ungroup_split_transaction">Gruppierung auflösen</string>
+    <plurals name="ungroup_split_transaction_success">
+        <item quantity="one">Split-Transaktion wurde erfolgreich aufgehoben.</item>
+        <item quantity="other">Die Gruppierung von %1$d mehrteiligen Buchungen wurde erfolgreich aufgelöst.</item>
+    </plurals>
+    <string name="ungroup_split_transaction_failure">Das Aufheben der Gruppierung von mehrteiligen Buchungen ist in %1$d von %2$d Fällen fehlgeschlagen.</string>
+    <string name="split_transaction_one_success">Die Buchung wurde erfolgreich in mehrteilige Buchung umgewandelt.</string>
+    <string name="split_transaction_one_error">Die Buchung konnte nicht gesplittet werden. </string>
+    <string name="split_transaction_group_success">%1$d Buchungen wurden erfolgreich in einer mehrteiligen Buchung zusammengefasst.</string>
+    <string name="split_transaction_group_error">Buchungen konnten nicht in eine mehrteilige Buchung zusammengefasst werden.</string>
+    <string name="split_transaction_not_possible">Nur Buchungen, die dasselbe Konto, denselben Empfänger und denselben Status haben, können in einer mehrteiligen Buchung zusammengefasst werden.</string>
+    <string name="pref_transaction_time_summary">Buchungen können mit genauer Zeitangabe erfasst werden.</string>
+    <string name="pref_value_date_summary">Zusätzlich zum Buchungsdatum kann auch Wertstellung erfasst werden. Die Zeitangabe wird versteckt. Diese Einstellung wird nicht auf Barkonten angewendet.</string>
+    <!-- the date on which the transaction took place, aka transaction date, as opposed to value date -->
+    <string name="booking_date">Buchungsdatum</string>
+    <!-- the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date -->
+    <string name="value_date">Wertstellung</string>
+    <string name="licence_expires_n_days">Ihr professioneller Schlüssel wird in %d Tagen ablaufen.</string>
+    <string name="licence_expires_tomorrow">Ihr professioneller Schlüssel läuft morgen ab.</string>
+    <string name="licence_expires_today">Ihr professioneller Schlüssel läuft heute ab.</string>
+    <string name="licence_expired_yesterday">Ihr professioneller Schlüssel ist gestern abgelaufen.</string>
+    <string name="licence_has_expired_n_days">Ihr professioneller Schlüssel ist vor %d Tagen abgelaufen.</string>
+    <string name="pref_category_title_privacy">Privatsphäre</string>
+    <string name="pref_ad_consent_title">Personalisierte Werbung</string>
+    <string name="ad_consent_non_personalized">Nicht personalisierte Werbung</string>
+    <string name="gdpr_consent_message">Wir arbeiten mit {ad_provider} zusammen, um den Support, die Wartung und die Entwicklung von {app_name} durch das Anzeigen von Werbung zu unterstützen. Wir möchten um Ihre Zustimmung bitten. Wenn Sie keine Anzeigen sehen möchten, zahlen Sie bitte für die werbefreie Version.</string>
+    <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">Ja, weiterhin Werbung anzeigen</string>
+    <string name="gdpr_consent_button_no">Für die werbefreie Version bezahlen</string>
+    <string name="sort_order">Sortierreihenfolge</string>
+    <string name="navigation_drawer_accounts_title">Konten verwalten</string>
+    <string name="pref_sync_wifi_only_summary">Synchronisierung nur bei WLAN</string>
+    <string name="pref_sync_changes_immediately_summary">Lokale Änderungen werden sofort in das Backend geschrieben</string>
+    <string name="wifi_not_connected">Gerät ist nicht mit WLAN verbunden. Die Synchronisation wird verschoben.</string>
+    <!-- title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project -->
+    <string name="pref_translation_title">Übersetzung</string>
+    <!-- Content description for accessibility on image that allows to collapse content  -->
+    <string name="content_description_collapse">Zuklappen</string>
+    <!-- Content description for accessibility on image that allows to expand content  -->
+    <string name="content_description_expand">Aufklappen</string>
+    <!-- Short label for the amount input where user can set either saving goal or credit limit -->
+    <string name="goal_or_limit">Ziel / Limit</string>
+    <string name="saving_goal">Sparziel</string>
+    <string name="credit_limit">Kreditlimit</string>
+    <string name="clear_all_filters">Alle Filter löschen</string>
+    <string name="pref_scroll_to_current_date_summary">Beim Starten der App die Transaktionsliste zum aktuellen Datum scrollen</string>
+    <string name="professional_key_fallback_info">Ein Abonnement für den Professionellen Schlüssel, das seit mindestens einem Jahr aktiv ist und nicht erneuert wird, wird automatisch in einen unbegrenzten Erweiterten Schlüssel umgewandelt.</string>
+    <string name="menu_budget">Budgetierung</string>
+    <string name="dialog_title_edit_budget">Budget bearbeiten</string>
+    <string name="budget_table_header_budgeted">Budgetiert</string>
+    <string name="budget_table_header_allocated">Zugewiesen</string>
+    <string name="budget_table_header_spent">Ausgegeben</string>
+    <string name="budget_table_header_remainder">Rest</string>
+    <string name="budget_allocated_amount">Zugewiesener Betrag</string>
+    <string name="budget_exceeded_error_1_1">Alles bis auf %s Ihres Budgets wurde anderen Kategorien zugewiesen.</string>
+    <string name="budget_exceeded_error_1_2">Ihr gesamtes Budget wurde anderen Kategorien zugewiesen.</string>
+    <string name="budget_exceeded_error_2">Erhöhen Sie den budgetierten Betrag oder entfernen Sie Geld von anderen Kategorien.</string>
+    <string name="budget_under_allocated_error">%s wurde bereits Kategorien zugeordnet. Wenn Sie kein Geld von diesen entfernen, müssen Sie mindestens diesen Betrag budgetieren.</string>
+    <string name="sub_budget_exceeded_error_1_1">Alles bis auf %s des der Hauptkategorie zugewiesenen Betrages wurde anderen Unterkategorien zugewiesen.</string>
+    <string name="sub_budget_exceeded_error_1_2">Der gesamte der Hauptkategorie zugewiesene Betrag wurde anderen Unterkategorien zugewiesen.</string>
+    <string name="sub_budget_exceeded_error_2">Erhöhen Sie den der Hauptkategorie zugewiesenen Betrag, oder entfernen Sie Geld von anderen Unterkategorien.</string>
+    <string name="sub_budget_under_allocated_error">%s wurde bereits Unterkategorien zugeordnet. Wenn Sie kein Geld von diesen entfernen, müssen Sie mindestens diesen Betrag der Hauptkategorie zuordnen.</string>
+    <!-- Description for button that allows to clear the selected method -->
+    <string name="content_description_clear_method">Methode löschen</string>
+    <!-- Description for button that allows to clear the selected category -->
+    <string name="content_description_clear_category">Kategorie löschen</string>
+    <string name="currency_code">Code</string>
+    <string name="dialog_title_new_currency">Neue Währung</string>
+    <string name="currency_code_already_definded">Währungscode ist bereits definiert.</string>
+    <string name="currency_still_used">Die Währung wird verwendet und kann nicht gelöscht werden.</string>
+    <string name="unmapped">Nicht zugeordnet</string>
+    <!-- In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
-    but we warn the user if he includes this special item in the selection.-->
-  <string name="unmapped_filter_only_single">Der Filter \"Nicht zugeordnet\" kann nicht in die Mehrfachauswahl aufgenommen werden</string>
-  <string name="upgrade_information_cloud_sync_storage_format">Mit der Version 2.9.8 hat sich die Art und Weise geändert, wie Daten auf Synchronisations-Backends gespeichert werden. Aktualisieren Sie diese Version auf allen synchronisierten Geräten, bevor Sie neue Datensätze eingeben.</string>
-  <string name="pref_security_export_passphrase_title">Passphrase für Backups</string>
-  <string name="pref_security_export_passphrase_summary">Sicherungsdateien werden mit dieser Passphrase verschlüsselt</string>
-  <string name="backup_is_encrypted">Die Sicherungsdatei ist verschlüsselt. Um diese zu entschlüsseln, müssen Sie deren Passphrase angeben.</string>
-  <string name="backup_wrong_password">Die Sicherungsdatei scheint mit einer anderen Passphrase verschlüsselt zu sein.</string>
-  <string name="passphrase_for_synchronization">Geben Sie eine Passphrase ein, wenn die Synchronisationsdaten in diesem Backend verschlüsselt werden sollen.</string>
-  <string name="sync_backend_is_encrypted">Das Backend ist verschlüsselt. Sie müssen eine Passphrase angeben.</string>
-  <string name="sync_backend_wrong_passphrase">Das Backend scheint mit einer anderen Passphrase verschlüsselt zu sein.</string>
-  <string name="sync_backend_is_not_encrypted">Das Backend ist nicht verschlüsselt.</string>
-  <string name="warning_backup_protected">Das Archiv wird durch Ihre Passphrase geschützt.</string>
-  <string name="dialog_title_backup_protected">Backup (verschlüsselt)</string>
-  <string name="input_label_passphrase">Passphrase</string>
-  <string name="button_label_no_encryption">Ohne Verschlüsselung</string>
-  <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
-  <string name="joining_or">oder</string>
-  <string name="pref_account_list_fast_scroll_summary">Aktivieren Sie das schnelle Scrollen für die Kontoliste. Kann bei manchen Geräten zu einer falschen Anzeige führen</string>
-  <string name="menu_hide">Verbergen</string>
-  <!--Action of closing an account. A closed account does not allow any modifications on its data.-->
-  <string name="menu_close">Schließen</string>
-  <!--Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data.-->
-  <string name="menu_reopen">Erneut öffnen</string>
-  <!--Menu entry for opening a list of all hidden accounts.-->
-  <string name="menu_hidden_accounts">Verborgene Konten</string>
-  <!--Action of showing an account again that had previously been hidden.-->
-  <string name="button_label_show">Zeigen</string>
-  <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
-  <string name="content_description_encrypted">Verschlüsselt</string>
-  <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
-  <string name="content_description_closed">Geschlossen</string>
-  <string name="warning_synced_account_cannot_be_closed">Ein Konto, das mit einem Synchronisations-Backend verknüpft ist, kann nicht geschlossen werden</string>
-  <string name="translated_by">Übersetzt von</string>
-  <string name="warning_no_account">Mindestens ein Konto muss sichtbar und offen sein, um neue Buchungen erstellen zu können.</string>
-  <string name="content_description_dates_are_linked">Buchungsdatum und Wertstellung werden zusammen aktualisiert</string>
-  <string name="content_description_dates_are_not_linked">Buchungsdatum und Wertstellung werden nicht zusammen aktualisiert</string>
-  <string name="icon">Symbol</string>
-  <string name="pref_debug_title">Debuggen</string>
-  <string name="roadmap_vote">Entwicklungsplan-Abstimmung </string>
-  <string name="warning_account_for_transaction_is_closed">Mindestens eine der ausgewählten Transaktionen kann nicht bearbeitet werden:</string>
-  <string name="object_sealed">Objekt bezieht sich auf ein geschlossenes Konto.</string>
-  <string name="content_description_download_exchange_rate">Wechselkurs herunterladen</string>
-  <string name="exchange_rate_not_supported">Der konfigurierte Wechselkursanbieter bietet nicht den Kurs %1$s: %2$s an. Sie können versuchen, in den Einstellungen einen anderen auszuwählen.</string>
-  <string name="pref_category_exchange_rates">Wechselkurse</string>
-  <string name="pref_exchange_rate_provider_summary">Wählen Sie den Anbieter für Wechselkurse aus</string>
-  <string name="pref_exchange_rate_provider_title">Anbieter für Wechselkurse</string>
-  <string name="pref_openexchangerates_app_id_summary">Bitte registrieren Sie ein kostenloses Konto bei OpenExchangeRates und geben Sie Ihre App-ID an</string>
-  <string name="pref_plan_executor_time_title">Planer Benachrichtigungszeit</string>
-  <string name="synchronization_select_folder_dialog_title">Wählen Sie einen vorhandenen Ordner aus oder erstellen Sie einen neuen</string>
-  <!--This message is shwon when we highlight the income / expense toogle, to make user aware of this feature-->
-  <string name="discover_feature_expense_income_switch">Verwenden Sie diesen Schalter, um Einnahmen zu erfassen.</string>
-  <string name="menu_create_budget">Neues Budget</string>
-  <string name="budget_onetime">Einmalig</string>
-  <string name="dialog_confirm_discard_new_budget">Neues Budget verwerfen?</string>
-  <string name="budget_duration_from">Von</string>
-  <string name="budget_duration_to">Bis</string>
-  <string name="no_budgets">Definieren Sie Ihr erstes Budget, indem Sie auf die Schaltfläche + tippen.</string>
-  <string name="budget_date_end_after_start">Das Enddatum des Budgets muss nach dem Startdatum liegen.</string>
-  <string name="menu_budget_allocated_only">Nur Kategorien mit Zuordnung anzeigen</string>
-  <string name="budget_filter_all_categories">Alle Kategorien</string>
-  <string name="budget_filter_all_parties">Alle Parteien</string>
-  <string name="budget_filter_all_methods">Alle Zahlungsweisen</string>
-  <string name="budget_filter_all_states">Alle Status</string>
-  <string name="budget_filter_all_tags">Alle Markierungen</string>
-  <string name="budget_form_label_filter">Filter</string>
-  <string name="dialog_title_warning_delete_budget">Budget löschen?</string>
-  <string name="warning_delete_budget">Budget \"%1$s\" wird gelöscht.</string>
-  <string name="menu_edit_budget">Budget bearbeiten</string>
-  <string name="onboarding_privacy_title">Ihre Daten bleiben in Ihren Händen</string>
-  <string name="onboarding_privacy_intro">Ihre Finanzdaten werden an keine Server gesendet, weder von uns noch von Dritten betrieben.</string>
-  <string name="app_restart_required">Die neue Konfiguration erfordert einen Neustart der App, um wirksam zu werden.</string>
-  <!--Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list.-->
-  <string name="checkbox_is_default">Standard</string>
-  <!--Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method"-->
-  <string name="menu_remap">Neu zuordnen</string>
-  <string name="dialog_title_confirm_remap">Zuordnung ändern (%s)?</string>
-  <string name="remap_category">Alle ausgewählten Buchungen werden der Kategorie %s zugeordnet.</string>
-  <string name="remap_payee">Alle ausgewählten Buchungen werden dem Zahler / Empfänger %s zugeordnet.</string>
-  <string name="remap_method">Alle ausgewählten Buchungen werden der Methode %s zugeordnet.</string>
-  <string name="remap_account">Alle ausgewählten Buchungen werden dem Konto %s zugeordnet.</string>
-  <string name="remapping_result">Die ausgewählten Buchungen wurden neu zugeordnet.</string>
-  <string name="clone_and_remap_result">Die ausgewählten Transaktionen wurden geklont und neu zugeordnet.</string>
-  <!--If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
+    but we warn the user if he includes this special item in the selection.   -->
+    <string name="unmapped_filter_only_single">Der Filter \"Nicht zugeordnet\" kann nicht in die Mehrfachauswahl aufgenommen werden</string>
+    <string name="upgrade_information_cloud_sync_storage_format">Mit der Version 2.9.8 hat sich die Art und Weise geändert, wie Daten auf Synchronisations-Backends gespeichert werden. Aktualisieren Sie diese Version auf allen synchronisierten Geräten, bevor Sie neue Datensätze eingeben.</string>
+    <string name="pref_security_export_passphrase_title">Passphrase für Backups</string>
+    <string name="pref_security_export_passphrase_summary">Sicherungsdateien werden mit dieser Passphrase verschlüsselt</string>
+    <string name="backup_is_encrypted">Die Sicherungsdatei ist verschlüsselt. Um diese zu entschlüsseln, müssen Sie deren Passphrase angeben.</string>
+    <string name="backup_wrong_password">Die Sicherungsdatei scheint mit einer anderen Passphrase verschlüsselt zu sein.</string>
+    <string name="passphrase_for_synchronization">Geben Sie eine Passphrase ein, wenn die Synchronisationsdaten in diesem Backend verschlüsselt werden sollen.</string>
+    <string name="sync_backend_is_encrypted">Das Backend ist verschlüsselt. Sie müssen eine Passphrase angeben.</string>
+    <string name="sync_backend_wrong_passphrase">Das Backend scheint mit einer anderen Passphrase verschlüsselt zu sein.</string>
+    <string name="sync_backend_is_not_encrypted">Das Backend ist nicht verschlüsselt.</string>
+    <string name="warning_backup_protected">Das Archiv wird durch Ihre Passphrase geschützt.</string>
+    <string name="dialog_title_backup_protected">Backup (verschlüsselt)</string>
+    <string name="input_label_passphrase">Passphrase</string>
+    <string name="button_label_no_encryption">Ohne Verschlüsselung</string>
+    <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->
+    <string name="joining_or">oder</string>
+    <string name="pref_account_list_fast_scroll_summary">Aktivieren Sie das schnelle Scrollen für die Kontoliste. Kann bei manchen Geräten zu einer falschen Anzeige führen</string>
+    <string name="menu_hide">Verbergen</string>
+    <!-- Action of closing an account. A closed account does not allow any modifications on its data. -->
+    <string name="menu_close">Schließen</string>
+    <!-- Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data. -->
+    <string name="menu_reopen">Erneut öffnen</string>
+    <!-- Menu entry for opening a list of all hidden accounts. -->
+    <string name="menu_hidden_accounts">Verborgene Konten</string>
+    <!-- Action of showing an account again that had previously been hidden. -->
+    <string name="button_label_show">Zeigen</string>
+    <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
+    <string name="content_description_encrypted">Verschlüsselt</string>
+    <!-- Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data. -->
+    <string name="content_description_closed">Geschlossen</string>
+    <string name="warning_synced_account_cannot_be_closed">Ein Konto, das mit einem Synchronisations-Backend verknüpft ist, kann nicht geschlossen werden</string>
+    <string name="translated_by">Übersetzt von</string>
+    <string name="warning_no_account">Mindestens ein Konto muss sichtbar und offen sein, um neue Buchungen erstellen zu können.</string>
+    <string name="content_description_dates_are_linked">Buchungsdatum und Wertstellung werden zusammen aktualisiert</string>
+    <string name="content_description_dates_are_not_linked">Buchungsdatum und Wertstellung werden nicht zusammen aktualisiert</string>
+    <string name="icon">Symbol</string>
+    <string name="pref_debug_title">Debuggen</string>
+    <string name="roadmap_vote">Entwicklungsplan-Abstimmung </string>
+    <string name="warning_account_for_transaction_is_closed">Mindestens eine der ausgewählten Transaktionen kann nicht bearbeitet werden:</string>
+    <string name="object_sealed">Objekt bezieht sich auf ein geschlossenes Konto.</string>
+    <string name="content_description_download_exchange_rate">Wechselkurs herunterladen</string>
+    <string name="exchange_rate_not_supported">Der konfigurierte Wechselkursanbieter bietet nicht den Kurs %1$s: %2$s an. Sie können versuchen, in den Einstellungen einen anderen auszuwählen.</string>
+    <string name="pref_category_exchange_rates">Wechselkurse</string>
+    <string name="pref_exchange_rate_provider_summary">Wählen Sie den Anbieter für Wechselkurse aus</string>
+    <string name="pref_exchange_rate_provider_title">Anbieter für Wechselkurse</string>
+    <string name="pref_openexchangerates_app_id_summary">Bitte registrieren Sie ein kostenloses Konto bei OpenExchangeRates und geben Sie Ihre App-ID an</string>
+    <string name="pref_plan_executor_time_title">Planer Benachrichtigungszeit</string>
+    <string name="synchronization_select_folder_dialog_title">Wählen Sie einen vorhandenen Ordner aus oder erstellen Sie einen neuen</string>
+    <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->
+    <string name="discover_feature_expense_income_switch">Verwenden Sie diesen Schalter, um Einnahmen zu erfassen.</string>
+    <string name="menu_create_budget">Neues Budget</string>
+    <string name="budget_onetime">Einmalig</string>
+    <string name="dialog_confirm_discard_new_budget">Neues Budget verwerfen?</string>
+    <string name="budget_duration_from">Von</string>
+    <string name="budget_duration_to">Bis</string>
+    <string name="no_budgets">Definieren Sie Ihr erstes Budget, indem Sie auf die Schaltfläche + tippen.</string>
+    <string name="budget_date_end_after_start">Das Enddatum des Budgets muss nach dem Startdatum liegen.</string>
+    <string name="menu_budget_allocated_only">Nur Kategorien mit Zuordnung anzeigen</string>
+    <string name="budget_filter_all_categories">Alle Kategorien</string>
+    <string name="budget_filter_all_parties">Alle Parteien</string>
+    <string name="budget_filter_all_methods">Alle Zahlungsweisen</string>
+    <string name="budget_filter_all_states">Alle Status</string>
+    <string name="budget_filter_all_tags">Alle Markierungen</string>
+    <string name="budget_form_label_filter">Filter</string>
+    <string name="dialog_title_warning_delete_budget">Budget löschen?</string>
+    <string name="warning_delete_budget">Budget \"%1$s\" wird gelöscht.</string>
+    <string name="menu_edit_budget">Budget bearbeiten</string>
+    <string name="onboarding_privacy_title">Ihre Daten bleiben in Ihren Händen</string>
+    <string name="onboarding_privacy_intro">Ihre Finanzdaten werden an keine Server gesendet, weder von uns noch von Dritten betrieben.</string>
+    <string name="app_restart_required">Die neue Konfiguration erfordert einen Neustart der App, um wirksam zu werden.</string>
+    <!-- Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list. -->
+    <string name="checkbox_is_default">Standard</string>
+    <!-- Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method" -->
+    <string name="menu_remap">Neu zuordnen</string>
+    <string name="dialog_title_confirm_remap">Zuordnung ändern (%s)?</string>
+    <string name="remap_category">Alle ausgewählten Buchungen werden der Kategorie %s zugeordnet.</string>
+    <string name="remap_payee">Alle ausgewählten Buchungen werden dem Zahler / Empfänger %s zugeordnet.</string>
+    <string name="remap_method">Alle ausgewählten Buchungen werden der Methode %s zugeordnet.</string>
+    <string name="remap_account">Alle ausgewählten Buchungen werden dem Konto %s zugeordnet.</string>
+    <string name="remapping_result">Die ausgewählten Buchungen wurden neu zugeordnet.</string>
+    <string name="clone_and_remap_result">Die ausgewählten Transaktionen wurden geklont und neu zugeordnet.</string>
+    <!-- If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
         because no payment method is configured for all of the given account types.-->
-  <string name="remap_empty_list">Es wurde kein Eintrag gefunden, der allen ausgewählten Buchungen zugeordnet werden kann.</string>
-  <!--The label for the button, where user confirms that he wants to clone the selected transactions and then remap them.-->
-  <string name="button_label_clone_and_remap">Klonen und neu zuordnen</string>
-  <!--The summary of a preference toggle. If switched on cloned transactions have the date set to the current date-->
-  <string name="pref_clone_with_current_date_summary_on">Geklonte Transaktionen haben das aktuelle Datum</string>
-  <!--The summary of a preference toggle. If switched off cloned transactions keep the original date-->
-  <string name="pref_clone_with_current_date_summary_off">Geklonte Transaktionen behalten das ursprüngliche Datum</string>
-  <string name="pref_protection_screenshot_information">Durch Aktivieren des Geräteschutzes wird die Screenshot-Aufnahme deaktiviert.</string>
-  <string name="tags_create_or_select">Markierungen erstellen oder auswählen</string>
-  <string name="content_description_tags_confirm">Bestätigen</string>
-  <string name="tags">Markierungen</string>
-  <string name="pref_manage_tags_summary">Markierungen hinzufügen, bearbeiten, löschen.</string>
-  <string name="dialog_title_warning_delete_tag">Markierung löschen?</string>
-  <string name="menu_edit_tag">Markierung bearbeiten</string>
-  <!--This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction-->
-  <string name="menu_tag">Markieren</string>
-  <!--%s will be replaced with the labels of all tags that user has selected.-->
-  <string name="dialog_multi_tag">Alle ausgewählten Buchungen werden mit %s markiert.</string>
-  <string name="dialog_multi_tag_clear">Alle Markierungen werden von den ausgewählten Buchungen entfernt.</string>
-  <plurals name="warning_delete_tag">
-    <item quantity="one">Die Markierung %1$s ist einer Buchung zugeordnet. Soll sie gelöscht werden?</item>
-    <item quantity="other">Die Markierung %1$s ist %2$d Buchungen zugeordnet. Soll sie gelöscht werden?</item>
-  </plurals>
-  <string name="dialog_multi_tag_append">Die neuen Markierungen werden zu den bestehenden hinzugefügt</string>
-  <string name="dialog_multi_tag_replace">Die neuen Markierungen ersetzen die bestehenden</string>
-  <string name="new_tag_hint">Neue Markierung eingeben</string>
-  <string name="language_download_requested">Übersetzungen für die Sprache %s werden vom Play Store angefordert</string>
-  <!--Title for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
-  <string name="pref_planner_manual_time_title">Zeit für manuell angewendete geplante Buchung</string>
-  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
-  <string name="pref_planner_manual_time_noon">12 Uhr (Mittag)</string>
-  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application)-->
-  <string name="pref_planner_manual_time_current">Zeit der Anwendung</string>
-  <!--Title in Settings screen, and title of dynamically loaded feature module-->
-  <string name="title_scan_receipt_feature">Quittung scannen</string>
-  <string name="feature_download_requested">Funktion %s wird von Play Store angefordert.</string>
-  <string name="feature_downloaded">Funktion %s wurde installiert.</string>
-  <!--If this mode is active, the action button will open the camera for scanning a receipt-->
-  <string name="menu_scan_mode">Scanmodus</string>
-  <!--Button that triggers the scan operation-->
-  <string name="button_scan">Scan</string>
-  <string name="pref_ocr_total_indicators_title">Anzeiger für Gesamtbetrag</string>
-  <string name="pref_ocr_total_indicators_summary">Eine Liste von Zeichenketten, welche den Gesamtbetrag in einer Quittung bezeichnen. Nutzen Sie für jeden Betrag eine neue Zeile. Leer lassen, um den Standardbetrag wiederherzustellen.</string>
-  <string name="pref_ocr_date_formats_title">Datumsformate</string>
-  <string name="pref_ocr_time_formats_title">Zeitformate</string>
-  <!--Title for a preference that allows user to decide if all transactions of the current day should be considered as past (future begins at end of day), or if the exact current time divides between past and future-->
-  <string name="pref_criterion_futur_title">Kriterium für zukünftige Buchungen</string>
-  <!--Option for a preference that allows to decide that all transactions until end of day are considered past transactions-->
-  <string name="pref_criterion_future_end_of_day">Tagesende</string>
-  <!--Option for a preference that allows to decide that only transactions before current time are considered past transactions-->
-  <string name="pref_criterion_future_current">Aktuelle Zeit</string>
-  <!--Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)-->
-  <string name="pref_category_title_features">Funktionen</string>
-  <string name="scan_result_no_data">Keine Daten</string>
-  <string name="scan_result_multiple_candidates_dialog_title">Mehrere Kandidaten gefunden. Bitte wählen:</string>
-  <string name="scan_result_no_amount">Keinen Betrag gefunden</string>
-  <string name="scan_result_no_date">Kein Datum gefunden</string>
-  <string name="scan_result_no_payee">Keinen Empfänger gefunden</string>
-  <string name="button_download">Herunterladen</string>
-  <string name="pref_feature_uninstall_title">Fordern Sie die Deinstallation von Funktionen und Sprachen an</string>
-  <string name="pref_feature_uninstall_summary">Play Store versucht schließlich, diese Module im Hintergrund zu entfernen.</string>
-  <string name="pref_feature_uninstall_languages_title">Sprachen</string>
-  <!--Toast message shown if user clicks on Upgrade button before having selected a licence-->
-  <string name="select_package">Bitte wählen Sie ein Lizenzpaket aus.</string>
-</resources>
+    <string name="remap_empty_list">Es wurde kein Eintrag gefunden, der allen ausgewählten Buchungen zugeordnet werden kann.</string>
+    <!-- The label for the button, where user confirms that he wants to clone the selected transactions and then remap them. -->
+    <string name="button_label_clone_and_remap">Klonen und neu zuordnen</string>
+    <!-- The summary of a preference toggle. If switched on cloned transactions have the date set to the current date -->
+    <string name="pref_clone_with_current_date_summary_on">Geklonte Transaktionen haben das aktuelle Datum</string>
+    <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
+    <string name="pref_clone_with_current_date_summary_off">Geklonte Transaktionen behalten das ursprüngliche Datum</string>
+    <string name="pref_protection_screenshot_information">Durch Aktivieren des Geräteschutzes wird die Screenshot-Aufnahme deaktiviert.</string>
+    <string name="tags_create_or_select">Markierungen erstellen oder auswählen</string>
+    <string name="content_description_tags_confirm">Bestätigen</string>
+    <string name="tags">Markierungen</string>
+    <string name="pref_manage_tags_summary">Markierungen hinzufügen, bearbeiten, löschen.</string>
+    <string name="dialog_title_warning_delete_tag">Markierung löschen?</string>
+    <string name="menu_edit_tag">Markierung bearbeiten</string>
+    <!-- This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction -->
+    <string name="menu_tag">Markieren</string>
+    <!-- %s will be replaced with the labels of all tags that user has selected. -->
+    <string name="dialog_multi_tag">Alle ausgewählten Buchungen werden mit %s markiert.</string>
+    <string name="dialog_multi_tag_clear">Alle Markierungen werden von den ausgewählten Buchungen entfernt.</string>
+    <plurals name="warning_delete_tag">
+        <item quantity="one">Die Markierung %1$s ist einer Buchung zugeordnet. Soll sie gelöscht werden?</item>
+        <item quantity="other">Die Markierung %1$s ist %2$d Buchungen zugeordnet. Soll sie gelöscht werden?</item>
+    </plurals>
+    <string name="dialog_multi_tag_append">Die neuen Markierungen werden zu den bestehenden hinzugefügt</string>
+    <string name="dialog_multi_tag_replace">Die neuen Markierungen ersetzen die bestehenden</string>
+    <string name="new_tag_hint">Neue Markierung eingeben</string>
+    <string name="language_download_requested">Übersetzungen für die Sprache %s werden vom Play Store angefordert</string>
+    <!-- Title for a preference that allows to decide how the time will be set for a new instance of a recurring transaction -->
+    <string name="pref_planner_manual_time_title">Zeit für manuell angewendete geplante Buchung</string>
+    <!-- Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction -->
+    <string name="pref_planner_manual_time_noon">12 Uhr (Mittag)</string>
+    <!-- Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application) -->
+    <string name="pref_planner_manual_time_current">Zeit der Anwendung</string>
+    <!-- Title in Settings screen, and title of dynamically loaded feature module -->
+    <string name="title_scan_receipt_feature">Quittung scannen</string>
+    <string name="feature_download_requested">Funktion %s wird von Play Store angefordert.</string>
+    <string name="feature_downloaded">Funktion %s wurde installiert.</string>
+    <!-- If this mode is active, the action button will open the camera for scanning a receipt  -->
+    <string name="menu_scan_mode">Scanmodus</string>
+    <!-- Button that triggers the scan operation -->
+    <string name="button_scan">Scan</string>
+    <string name="pref_ocr_total_indicators_title">Anzeiger für Gesamtbetrag</string>
+    <string name="pref_ocr_total_indicators_summary">Eine Liste von Zeichenketten, welche den Gesamtbetrag in einer Quittung bezeichnen. Nutzen Sie für jeden Betrag eine neue Zeile. Leer lassen, um den Standardbetrag wiederherzustellen.</string>
+    <string name="pref_ocr_date_formats_title">Datumsformate</string>
+    <string name="pref_ocr_time_formats_title">Zeitformate</string>
+    <!-- Title for a preference that allows user to decide if all transactions of the current day should be considered as past (future begins at end of day), or if the exact current time divides between past and future  -->
+    <string name="pref_criterion_futur_title">Kriterium für zukünftige Buchungen</string>
+    <!-- Option for a preference that allows to decide that all transactions until end of day are considered past transactions -->
+    <string name="pref_criterion_future_end_of_day">Tagesende</string>
+    <!-- Option for a preference that allows to decide that only transactions before current time are considered past transactions -->
+    <string name="pref_criterion_future_current">Aktuelle Zeit</string>
+    <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
+    <string name="pref_category_title_features">Funktionen</string>
+    <string name="scan_result_no_data">Keine Daten</string>
+    <string name="scan_result_multiple_candidates_dialog_title">Mehrere Kandidaten gefunden. Bitte wählen:</string>
+    <string name="scan_result_no_amount">Keinen Betrag gefunden</string>
+    <string name="scan_result_no_date">Kein Datum gefunden</string>
+    <string name="scan_result_no_payee">Keinen Empfänger gefunden</string>
+    <string name="button_download">Herunterladen</string>
+    <string name="pref_feature_uninstall_title">Fordern Sie die Deinstallation von Funktionen und Sprachen an</string>
+    <string name="pref_feature_uninstall_summary">Play Store versucht schließlich, diese Module im Hintergrund zu entfernen.</string>
+    <string name="pref_feature_uninstall_languages_title">Sprachen</string>
+    <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
+    <string name="select_package">Bitte wählen Sie ein Lizenzpaket aus.</string>
+    </resources>

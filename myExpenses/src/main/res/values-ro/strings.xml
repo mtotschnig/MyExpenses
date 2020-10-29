@@ -1,564 +1,533 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
 <resources xmlns:tools="http://schemas.android.com/tools">
-  <string name="account">Cont</string>
-  <!--Label in form for payment method, where user checks for which account types the method is applicable-->
-  <string name="account_types">Tipuri cont</string>
-  <string name="account_type_asset">Cont activ</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_asset_plural">Conturi activ</string>
-  <string name="account_type_bank">Cont bancar</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_bank_plural">Conturi bancare</string>
-  <string name="account_type_cash">Cont numerar</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_cash_plural">Conturi numerar</string>
-  <string name="account_type_ccard">Carte de credit</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_ccard_plural">Cărţi de credit</string>
-  <string name="account_type_liability">Cont pasiv</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_liability_plural">Conturi pasiv</string>
-  <string name="already_defined">%1$s deja există</string>
-  <string name="amount">Valoare</string>
-  <string name="app_name">Cheltuielile Mele</string>
-  <string name="backup_failure">Backup la \"%1$s\" eşuat.</string>
-  <string name="backup_success">Preferinţele şi baza de date au fost salvate la \"%1$s\".</string>
-  <string name="category">Categorie</string>
-  <string name="color">Culoare</string>
-  <string name="comment">Note</string>
-  <string name="confirmation_dialog_dont_show_again">Nu arăta din nou</string>
-  <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Fără reclame</string>
-  <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Număr nelimitat de conturi</string>
-  <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Ataseaza imagine la tranzactie</string>
-  <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Număr nelimitat de scadenţe</string>
-  <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Export listă tranzacţii în PDF</string>
-  <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Şablon widget</string>
-  <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV import</string>
-  <string name="licence_status_free">Gratuit</string>
-  <string name="contrib_key">Cheie Contrib</string>
-  <string name="extended_key">Cheie Extinse</string>
-  <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
-  <string name="contrib_key_requires">Necesită %s.</string>
-  <string name="currency">Moneda</string>
-  <string name="current_balance">Sold curent</string>
-  <string name="date">Data</string>
-  <string name="date_format">Format date</string>
-  <string name="date_format_illegal">Format date incorect</string>
-  <string name="number_format_illegal">Format numar incorect</string>
-  <string name="decimal_separator">Separator zecimal</string>
-  <string name="default_account_name">Carte Buget</string>
-  <string name="description">Descriere</string>
-  <string name="dialog_balance_delete">Şterge tranzacţiile decontate</string>
-  <string name="dialog_confirm_discard_changes">Renunțați la modificări?</string>
-  <string name="dialog_command_disabled_balance">Nici o tranzacţie procesată de decontat</string>
-  <string name="dialog_command_disabled_reset_account">Nici o tranzacţie de exportat</string>
-  <string name="dialog_command_disabled_distribution">Nici o tranzacţie nu a fost atribuită în categoriile acestui cont</string>
-  <!--Button for accessing trial of premium feature-->
-  <string name="dialog_contrib_no">Încearcă</string>
-  <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
-  <string name="dialog_contrib_premium_feature">%1$s  este o funcţionalitate premium (%2$s).</string>
-  <string name="dialog_contrib_text_1"><i>{app_name}</i> este oferit open source.</string>
-  <string name="dialog_contrib_usage_count">Utilizări gratuite rămase.</string>
-  <string name="dialog_export_delete">Şterge tranzacţiile exportate</string>
-  <string name="dialog_export_not_yet_exported">Exportă numai tranzacţiile neexportate </string>
-  <string name="dialog_password_activate_protection">Activare protecţie prin parolă</string>
-  <string name="dialog_password_change_password">Schimbă parola</string>
-  <string name="dialog_password_new_password">Parolă nouă</string>
-  <string name="dialog_password_new_password_confirmation">Parolă nouă (confirmare)</string>
-  <string name="dialog_remind_later">Mai târziu</string>
-  <string name="dialog_remind_no">Nu mulţumesc</string>
-  <string name="dialog_remind_rate_how_many_stars">Câte stele ai da la {app_name}?</string>
-  <string name="dialog_remind_rate_1">Vă rugăm să evaluaţi şi revizuiţi {app_name}.</string>
-  <string name="dialog_remind_rate_2">Comentariile dvs ne permit să adăugăm permanent  îmbunătăţiri şi perfecţionări.</string>
-  <string name="dialog_remind_rate_1_suggest_improvement">Vă rugăm să ne  trimiteţi  sugestiile voastre pentru îmbunătăţiri.</string>
-  <string name="dialog_remind_rate_yes">De acord</string>
-  <string name="dialog_security_answer">Răspuns</string>
-  <string name="dialog_security_question">Întrebare</string>
-  <string name="dialog_title_attention">Atenţie</string>
-  <string name="dialog_title_information">Informare</string>
-  <!--%1$s is replace with account label-->
-  <string name="dialog_title_balance_account">Sold  %1$s</string>
-  <string name="dialog_title_contrib_feature">Funcţionaliate premium</string>
-  <plurals name="dialog_title_warning_delete_account">
-    <item quantity="one">Șterge cont?</item>
-    <item quantity="few">Ștergeți conturile %1$d?</item>
-    <item quantity="other">Ștergeți conturile %1$d?</item>
-  </plurals>
-  <string name="dialog_title_warning_delete_template">Şterg şablon?</string>
-  <string name="dialog_title_warning_delete_transaction">Şterg  tranzacţie?</string>
-  <string name="expense">Cheltuială</string>
-  <string name="export_expenses">Export cheltuieli</string>
-  <!--1$s is replaced with path to file, 2$s with error message-->
-  <string name="export_sdcard_failure">Export cheltuieli în %1$s\" eşuat:  %2$s</string>
-  <!--1$s is replaced with path to file-->
-  <string name="export_sdcard_success">Export cheltuieli în fişierul %1$s\"</string>
-  <string name="external_storage_unavailable">Stocare externă(sdcard) nedisponibilă</string>
-  <string name="feedback">Feedback</string>
-  <string name="ftp_uri_malformed">Sintaxă eronată URI %1$s </string>
-  <string name="grisbi_import_categories_loading">Încărcare categorii de la %1$s</string>
-  <string name="grisbi_import_parties_loading">Încărcare terţi de la %1$s</string>
-  <string name="grouping_day">Zi</string>
-  <string name="grouping_last_week">Ultima săptămână</string>
-  <string name="grouping_month">Luna</string>
-  <string name="grouping_none">Negrupate</string>
-  <string name="grouping_this_week">Această săptămână</string>
-  <string name="grouping_today">Astăzi</string>
-  <string name="grouping_week">Săptămână</string>
-  <string name="grouping_year">An</string>
-  <string name="grouping_yesterday">Ieri</string>
-  <string name="help_button_rate">Rata sau revizuirea</string>
-  <string name="help_heading_credits">Generic</string>
-  <string name="help_heading_license">Licenţă</string>
-  <string name="help_heading_whats_new">Noutăţi</string>
-  <string name="important_upgrade_information_heading">Informaţii importante</string>
-  <string name="import_select_transactions">Tranzacţii</string>
-  <string name="income">Venituri</string>
-  <string name="invalid_number_format">Format zecimal necunoscut de localizarea dvs. Utilizaţi %1$s</string>
-  <string name="label">Eticheta</string>
-  <string name="licence_validation_failure">Validare imposibilă a Chei licenţei.</string>
-  <string name="licence_validation_success">Cheie Licenţă validată:</string>
-  <string name="licence_validation_premium">Funcţionalităţile Premium au fost deblocate.</string>
-  <string name="menu_aggregates">Total</string>
-  <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
-  <string name="menu_apply_template">Aplică</string>
-  <string name="menu_back">Înapoi</string>
-  <string name="menu_backup">Backup</string>
-  <!--Balance: compare cleared balance in app with balance on statement received from bank-->
-  <string name="menu_balance">Sold acont</string>
-  <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
-  <string name="menu_cancel_plan_instance">Anulează</string>
-  <string name="menu_clone_transaction">Clonează</string>
-  <string name="menu_contrib">Contribuie</string>
-  <string name="menu_create_account">Cont nou</string>
-  <string name="menu_create_instance_edit">Aplică şi editează</string>
-  <string name="menu_create_instance_save">Aplică şi salvează</string>
-  <string name="menu_create_main_cat">Categorie principală nouă</string>
-  <string name="menu_create_method">Metodă plată nouă</string>
-  <string name="menu_create_party">Terţ nou</string>
-  <string name="menu_create_split">Repartizare nouă</string>
-  <string name="menu_create_split_part_category">Categorie nouă repartizare</string>
-  <string name="menu_create_split_part_transfer">Transfer nou repartizare</string>
-  <string name="menu_create_sub_cat">Subcategorie nouă</string>
-  <string name="menu_create_template">Şablon nou</string>
-  <string name="menu_create_template_from_transaction">Salvează ca şablon</string>
-  <string name="menu_create_template_for_transaction">Şablon tranzacţie nou</string>
-  <string name="menu_create_template_for_transfer">Şablon transfer nou</string>
-  <string name="menu_create_transaction">Tranzacţie nouă</string>
-  <string name="menu_create_transfer">Transfer nou</string>
-  <string name="menu_delete">Şterge</string>
-  <string name="menu_distribution">Distribuire</string>
-  <string name="menu_edit">Editează</string>
-  <string name="menu_edit_account">Editează cont</string>
-  <string name="menu_edit_cat">Editează categorie</string>
-  <string name="menu_edit_method">Editează metodă plată</string>
-  <string name="menu_edit_party">Editează terţ</string>
-  <string name="menu_edit_plan_instance">Editează scadenţa</string>
-  <string name="menu_edit_split">Editează repartizare</string>
-  <string name="menu_edit_split_part_category">Editează categoria repartizare</string>
-  <string name="menu_edit_split_part_transfer">Editează transfer repartizare</string>
-  <string name="menu_edit_template">Editează şablon</string>
-  <string name="menu_edit_transaction">Editează tranzacţie</string>
-  <string name="menu_edit_transfer">Editează transfer</string>
-  <string name="menu_exclude_from_totals">Exclude din totaluri</string>
-  <string name="menu_forward">Următor</string>
-  <string name="menu_grouping">Grupare</string>
-  <string name="menu_help">Ajutor</string>
-  <!--This command inverts the direction of a transfer-->
-  <string name="menu_invert_transfer">Inversează</string>
-  <string name="menu_manage_plans">Şabloane şi scadenţe</string>
-  <!--Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application-->
-  <string name="menu_open">Deschis</string>
-  <string name="menu_import">Import</string>
-  <string name="menu_print">Printează</string>
-  <string name="menu_reset">Export şi resetare</string>
-  <string name="menu_reset_all">Export şi a resetează toate</string>
-  <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
-  <string name="menu_reset_plan_instance">Resetare</string>
-  <string name="menu_save">Salvează</string>
-  <string name="menu_save_and_new">Salvează și nou</string>
-  <string name="menu_search">Căutare</string>
-  <string name="menu_settings">Setări</string>
-  <string name="menu_share">Recomandă</string>
-  <string name="button_label_close">Închide</string>
-  <string name="menu_split_transaction">Transformă in repartizare</string>
-  <string name="method">Modalitate de plată</string>
-  <string name="no_amount_given">Nu aţi introdus nici o valoare.</string>
-  <string name="no_app_handling_email_available">Nici o aplicaţie disponibilă pentru trimitere email.</string>
-  <string name="no_app_handling_ftp_available">Nici o aplicaţie disponibilă pentru ftp.Instalez <i>Trimit prinFTP</i>?</string>
-  <string name="no_app_handling_pdf_available">Nici o aplicaţie disponibilă pentru fişiere PDF</string>
-  <string name="no_categories">Nici o categorie.</string>
-  <string name="no_expenses">Nici o cheltuială încă!</string>
-  <string name="no_exportable_expenses">Nici o tranzacţie ce nu a fost exportată.</string>
-  <string name="no_filemanager_installed">Nici un manager de fişiere instalat</string>
-  <string name="no_mapped_transactions">Nici o tranzacţie nu a fost mapată la această categorie în această perioadă.</string>
-  <string name="no_methods">Nici o metodă de plată.</string>
-  <string name="no_parties">Nici un terţ.</string>
-  <string name="no_split_parts">Nici o repartizare</string>
-  <string name="no_templates">Nici un şablon.</string>
-  <string name="no_title_given">Nu aţi introdus nici un titlu.</string>
-  <plurals name="not_deletable_mapped_transactions">
-    <item quantity="one">Obiectul selectat este mapat la o tranzacţie şi nu poate fi şters.</item>
-    <item quantity="few">%1$d  obiecte sunt mapate la tranzacţii şi nu pot fi şterse.</item>
-    <item quantity="other">%1$d  obiecte sunt mapate la tranzacţii şi nu pot fi şterse.</item>
-  </plurals>
-  <plurals name="not_deletable_mapped_templates">
-    <item quantity="one">Obiectul selectat este mapat la un şablon şi nu poate fi şters.</item>
-    <item quantity="few">%1$d obiecte sunt mapate la şabloane şi nu pot fi şterse.</item>
-    <item quantity="other">%1$d obiecte sunt mapate la şabloane şi nu pot fi şterse.</item>
-  </plurals>
-  <string name="numbered">numerotate</string>
-  <string name="opening_balance">Sold deschidere</string>
-  <string name="parse_error_file_not_found">Fişierul %1$s nu există</string>
-  <string name="parse_error_grisbi_version_not_supported">Versiunea de fișier Grisbi neacceptat : %1$s</string>
-  <string name="parse_error_no_data_found">Fişierul nu detine date importabile.</string>
-  <string name="parse_error_other_exception">O eroare a apărut: %1$s</string>
-  <string name="parse_error_parse_exception">Fişierul nu poate fi analizat</string>
-  <string name="password_disabled_reenable">Protecţia prin parolă a fost dezactivată. O puteţi rreactiva în setări.</string>
-  <string name="password_lost">Parolă pierdută</string>
-  <string name="password_not_valid">Parolă invalidă. Încearcă din nou!</string>
-  <string name="password_prompt">Introduceţi parola</string>
-  <string name="password_security_answer_not_valid">Răspuns greşit. Încearcă din nou!</string>
-  <string name="payee">Beneficiar</string>
-  <string name="payer">Plătitor</string>
-  <string name="payer_or_payee">Beneficiar/Plătitor</string>
-  <!--Plan for future and recurring transactions-->
-  <string name="plan">Scadenţă</string>
-  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance-->
-  <string name="plan_automatic">automatic</string>
-  <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">Scadenţar {app_name}</string>
-  <string name="planner_notification_channel_name">Scadenţar</string>
-  <string name="plan_event_deleted">Scadenţa asociată acestui șablon a fost şters din calendar.</string>
-  <!--This message is shown, after a user decides to not apply a manual plan-->
-  <string name="plan_execution_canceled">Executarea planului anulată</string>
-  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance)-->
-  <string name="plan_manual">manual</string>
-  <string name="planner_create_calendar_failure">Imposibil de creat calendar local scadenţă </string>
-  <string name="planner_create_calendar_success">Calendar local scadenţă creat </string>
-  <!--payment methods-->
-  <string name="pm_cheque">Cec</string>
-  <string name="pm_creditcard">Carte de credit</string>
-  <string name="pm_deposit">Depozit</string>
-  <string name="pm_directdebit">Direct debit</string>
-  <string name="pm_type_credit">Credit</string>
-  <string name="pm_type_debit">Debit</string>
-  <string name="pm_type_neutral">Neutru</string>
-  <string name="pref_app_dir_title">Folder pentru backup-uri si exporturi</string>
-  <string name="pref_auto_fill_title">Tranzacţii completate automat</string>
-  <string name="pref_backup_summary">Creaţi un backup al bazei de date si preferinţelor.</string>
-  <string name="pref_sort_order_usages">Numarul utilizarilor</string>
-  <string name="pref_category_title_advanced">Avansat</string>
-  <string name="pref_category_title_export">Export</string>
-  <string name="pref_category_title_import">Import</string>
-  <string name="pref_category_title_manage">Gestionează</string>
-  <string name="pref_category_title_more_information">Mai multe informaţii</string>
-  <string name="pref_category_title_security">Securitate</string>
-  <string name="pref_category_title_ui">Interfaţa utilizator</string>
-  <string name="pref_checkbox_enabled">Activat</string>
-  <string name="pref_checkbox_disabled">Dezactivat</string>
-  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
-  <string name="pref_contrib_purchase_title">Cumpăraţi Cheie</string>
-  <string name="pref_contrib_purchase_title_upgrade">Actualizează cheia</string>
-  <string name="pref_contrib_purchase_title_in_app">In-App plată</string>
-  <string name="pref_custom_currency_title">Personalizează valutele</string>
-  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
-  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Dacă aţi primit o cheie, veţi avea acces la funcţionalităţile premium.</string>
-  <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Introduceţi cheia</string>
-  <string name="pref_export_format_title">Format date</string>
-  <string name="pref_import_from_grisbi_summary">Import categorii şi terţi din fişier Grisbi XML</string>
-  <string name="pref_import_from_grisbi_title">Import din Grisbi</string>
-  <!--%s is replaced with QIF or CSV-->
-  <string name="pref_import_summary">Import tranzacţii, categorii şi terţi din fişier %s</string>
-  <!--%s is replaced with QIF or CSV-->
-  <string name="pref_import_title">Import %s</string>
-  <string name="pref_like_facebook_title">Like us pe Facebook</string>
-  <string name="pref_manage_accounts_title">Conturi</string>
-  <string name="pref_manage_categories_summary">Adaugă, editează, şterge categorii</string>
-  <string name="pref_manage_categories_title">Categorii</string>
-  <string name="pref_manage_methods_summary">Creaţi şi editaţi metode de plată şi asociaţi-le la tipurile de conturi.</string>
-  <string name="pref_manage_methods_title">Metode de plată</string>
-  <string name="pref_manage_parties_summary">Adaugă, editează, şterge terţi ( plătitori si beneficiari )</string>
-  <string name="pref_manage_parties_title">Terţi</string>
-  <string name="pref_manage_sync_backends_title">Backenduri de sincronizare</string>
-  <!--%s will be replaced with list of backends-->
-  <string name="pref_more_info_dialog_title">Licență &amp; Credite</string>
-  <string name="pref_password_not_equal">Parolele nu se potrivesc</string>
-  <string name="pref_perform_protection_title">Protecţie</string>
-  <string name="pref_perform_share_title">Partajaţi exporturile şi backup-urile</string>
-  <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
-  <string name="pref_planning_calendar_create_local">Creare calendar scadenţar local nou</string>
-  <string name="pref_planning_calendar_summary">Selectaţi calendarul unde scadenţele pentru tranzacţiile viitoare si periodice sunt memorate</string>
-  <string name="pref_planning_calendar_title">Calendar scadenţar</string>
-  <string name="pref_protection_delay_seconds_summary">Durata în secunde de inactivitate înaintea protejării app prin parolă.</string>
-  <string name="pref_protection_delay_seconds_title">Întârziere până la protecţie</string>
-  <string name="pref_protection_enable_data_entry_from_widget_title">Introducere date din widget-uri şi shortcut-uri</string>
-  <string name="pref_protection_enable_data_entry_from_widget_summary_on">Permis fără parolă.</string>
-  <string name="pref_protection_enable_data_entry_from_widget_summary_off">Parola este necesară.</string>
-  <string name="pref_qif_export_file_encoding_title">Codificare caractere</string>
-  <string name="pref_request_licence_title">Solicită o cheie</string>
-  <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
-  <string name="pref_restore_alternative">Alternativă</string>
-  <string name="pref_restore_summary">Selectaţi un backup pentru restaurarea bazei de date şi preferinţe.</string>
-  <string name="pref_restore_title">Restaurare</string>
-  <string name="pref_security_question_summary">Vă permite să deblocaţi app, dacă aţi uitat parola.</string>
-  <string name="pref_security_question_title">Întrebare securitate</string>
-  <string name="pref_send_feedback_title">Trimiteţi feedback</string>
-  <string name="pref_share_target_summary">Lăsaţi necompletat dacă doriţi să alegeţi dintre aplicaţiile adecvate (E-mail, Dropbox, Google Docs, …) sau furnizaţi URL într-una din schemele acceptate</string>
-  <string name="pref_share_target_title">Upload URL</string>
-  <string name="pref_shortcut_added">Shortcut-ul a fost adăugată la Ecranul Home </string>
-  <string name="pref_shortcut_not_added">Niciun Ecran Home disponibil care acceptă shortcut-uri.</string>
-  <string name="pref_shortcut_summary">Adăugă shortcut la Ecranul Home .</string>
-  <string name="pref_template_click_default_summary">La click scurt pe intrarea din lista şabloanelor</string>
-  <string name="pref_ui_fontsize_title">Măriți dimensiunea fontului</string>
-  <string name="pref_ui_home_screen_shortcuts">Shortcut-uri ecran Home</string>
-  <string name="pref_ui_language_default">Sistem implicit</string>
-  <!--Title of the preference for selecting the UI language-->
-  <string name="pref_ui_language_title">Limba</string>
-  <string name="pref_ui_theme_dark">Închis</string>
-  <string name="pref_ui_theme_light">Deschis</string>
-  <string name="pref_ui_theme_title">Temă</string>
-  <string name="pref_visit_website_summary">Jurnal modificări şi FAQ</string>
-  <string name="pref_visit_website_title">Vizitează site web</string>
-  <string name="progress_dialog_deleting">Ştergere obiecte</string>
-  <string name="progress_dialog_loading">Încărcare obiect din baza de date</string>
-  <string name="progress_dialog_printing">Generare PDF</string>
-  <string name="progress_dialog_saving">Salvare obiect în baza de date</string>
-  <string name="qif_parse_result">Analizat: %1$s conturi; %2$s categorii şi %3$s terţi</string>
-  <string name="qif_parse_failure_found_multiple_accounts">Multiple conturi găsite în  fişierul QIF .</string>
-  <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Nu se pot imbina în contul existent.</string>
-  <string name="reference_number">Număr referință</string>
-  <string name="restore_db_failure">Restaurare  baze de date eşuată.</string>
-  <string name="restore_db_success">Baza de date a fost restaurată din backup.</string>
-  <string name="restore_no_backup_found">Nici un backup găsit.</string>
-  <string name="restore_preferences_failure">Restaurare preferinţe eşuată</string>
-  <string name="restore_backup_archive_not_valid">Arhiva %1$s nu este validă</string>
-  <string name="restore_backup_file_not_found">Nici un fişier %1$s  găsit în arhiva \"%2$s\"</string>
-  <string name="restore_preferences_success">Preferinţele au fost restaurate din backup.</string>
-  <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d  scadenţe au fost restaurate din backup</string>
-  <string name="save_transaction_and_new_success">Salvată</string>
-  <string name="save_transaction_error">Noua tranzacţia din şablon nu afost salvată</string>
-  <plurals name="save_transaction_from_template_success">
-    <item quantity="one">Tranzacţie nouă salvată din şablon</item>
-    <item quantity="few">%1$d tranzacţii noi au fost salvate din şabloane</item>
-    <item quantity="other">%1$d tranzacţii noi au fost salvate din şabloane</item>
-  </plurals>
-  <string name="save_transaction_template_deleted">Şablonul a fost şters</string>
-  <string name="select">Selectează </string>
-  <string name="select_category">Selectează categorie</string>
-  <string name="share_scheme_not_supported">Schema %1$s nesuportată</string>
-  <string name="share_sending">Trimite fişier export</string>
-  <string name="split_parts_heading">Repartizări</string>
-  <string name="split_transaction">Tranzacţie repartizată</string>
-  <string name="status">Status</string>
-  <string name="status_cleared">procesată</string>
-  <string name="status_reconciled">decontată</string>
-  <string name="status_uncreconciled">nedecontată</string>
-  <string name="status_void">gol</string>
-  <string name="subcategory">Subcategorie</string>
-  <string name="sum_expenses">Cheltuieli</string>
-  <string name="sum_income">Venituri</string>
-  <string name="sum_transfer">Transferuri</string>
-  <!--platform is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">Check out {app_name}, Manager Finanţe  Personale pentru {platform}, de la {website}</string>
-  <string name="thank_you">Mulţumim pentru suportul dvs!</string>
-  <string name="time">Timp</string>
-  <string name="title">Titlu</string>
-  <string name="total_cleared">Total procesate</string>
-  <string name="total_reconciled">Total Decontate</string>
-  <string name="transaction">Tranzacţie</string>
-  <string name="transfer">Transfer</string>
-  <string name="transfer_from_account">De la</string>
-  <string name="transfer_to_account">La</string>
-  <!--Type refers to the type of an account, eg. Cash account, bank account-->
-  <string name="type">Tip</string>
-  <string name="unsplit_amount">Valoare nerepartizată</string>
-  <string name="unsplit_amount_greater_than_zero">Există încă unele valori nerepartizate</string>
-  <string name="warning_backup">Baza de date si preferinţele vor fi salvate în \"%1$s\".</string>
-  <string name="continue_confirmation">Doriţi să continuaţi?</string>
-  <string name="warning_delete_account">Contul \"%1$s\" va fi şters cu toate tranzacţiile sale.</string>
-  <plurals name="warning_delete_main_category">
-    <item quantity="one">O categorie selectată are subcategorii, care vor fi şterse de asemenea.</item>
-    <item quantity="few">%1$d  categorii selectate  au subcategorii, care vor fi şterse de asemenea.</item>
-    <item quantity="other">%1$d  categorii selectate  au subcategorii, care vor fi şterse de asemenea.</item>
-  </plurals>
-  <plurals name="warning_delete_template">
-    <item quantity="one">Șablonul selectat va fi şters.</item>
-    <item quantity="few">%1$d  şabloanel selectate vor fi şterse.</item>
-    <item quantity="other">%1$d  şabloanel selectate vor fi şterse.</item>
-  </plurals>
-  <plurals name="warning_delete_transaction">
-    <item quantity="one">Tranzacţia selectată va fi ştearsă.</item>
-    <item quantity="few">%1$d  tranzacţii selectate vor fi şterse.</item>
-    <item quantity="other">%1$d  tranzacţii selectate vor fi şterse.</item>
-  </plurals>
-  <string name="warning_delete_reconciled">Ştergerea tranzacţiilor decontate va determina ca înregistrările dumneavoastră să difere de cele din extrasul bancar.</string>
-  <string name="warning_balance_account">Comparaţi totalul procesat cu soldul final din extrasul dvs bancar. Dacă veţi continua, tranzacţiile procesate vor fi marcate ca decontate.</string>
-  <string name="warning_password_protected">App este protejată prin parolă.</string>
-  <string name="warning_widget_disabled">Trebuie să activaţi acest widget în setările app.</string>
-  <string name="warning_instantiate_template_from_widget_password_protected">Instanţierea rapidă a şabloanelor din acest widget funcţionează numai dacă permiteţi introducerea datelor din  widget-uri fără parolă în setările app.</string>
-  <string name="warning_password_contrib">Setarea unei întrebări de securitate vă permite să deblocaţi app, în cazul în care uitaţi parola.</string>
-  <string name="warning_reset_account">Dacă veţi continua, toate tranzacţiile din acest cont vor fi şterse din baza de date şi nu se vor putea restaura.</string>
-  <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
-  <string name="warning_reset_account_all">Dacă veţi continua, pentru toate conturile%1$s, tranzacţiile vor fi şterse din baza de date şi nu se vor putea restaura.</string>
-  <string name="warning_restore">Baza de date si preferinţele  vor fi restaurate din fişierul \"%1$s\". Datele actuale vor fi şterse.</string>
-  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Folderul selectat pentru backup-uri şi exporturile vor fi şterse automat de Android dacă dezinstalați {app_name}.  Puteţi preveni acest lucru selectând un alt folder din ecranul Setări.</string>
-  <string name="warning_splitpartcategory_context">Transferurile care fac parte dintr-o repartizare pot fi editate numai în contextul repartizării.</string>
-  <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Setează un număr între %1$d şi %2$d, te rog</string>
-  <string name="warning_change_fraction_digits_checkbox_label">Actualizarea sumelor în baza de date</string>
-  <string name="import_categories_success">%1$s categorii importate</string>
-  <string name="import_parties_success">%1$s  terţi importaţi</string>
-  <string name="import_accounts_success">%1$s conturi importate</string>
-  <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d tranzacţii importate în contul %2$s</string>
-  <string name="import_accounts_none">Nici un cont importat</string>
-  <string name="import_categories_none">Nici o categorie importată</string>
-  <string name="import_parties_none">Nici un terţ importat</string>
-  <string name="import_transactions_none">Nici o tranzacţie importată in contul %1$s </string>
-  <string name="import_source_select_error">Furnizaţi vă rog un fişier de tip %1$s</string>
-  <string name="menu_categories_setup_default">Setare categorii implicite</string>
-  <string name="menu_create_folder">Folder nou</string>
-  <!--This string is used for navigating up in the folder browser-->
-  <string name="menu_up">Sus</string>
-  <string name="create_new_folder_fail">Eşec la crearea folderului</string>
-  <string name="widget_title_accounts">Conturile mele</string>
-  <string name="widget_title_templates">Şabloanele mele</string>
-  <string name="search_amount">Caută o valoare</string>
-  <string name="search_category">Caută o categorie</string>
-  <string name="search_comment">Caută o notă</string>
-  <string name="search_date">Căutați data</string>
-  <string name="search_status">Caută un status</string>
-  <string name="search_payee">Caută un terţ</string>
-  <string name="search_method">Caută o metodă</string>
-  <string name="and">şi</string>
-  <string name="between_and">între %1$s şi %2$s</string>
-  <string name="before">înainte %s</string>
-  <string name="after">după %s</string>
-  <string name="comparison_operator_equal">egal cu</string>
-  <string name="comparison_operator_greater_than">mai mare decât</string>
-  <string name="comparison_operator_lesser_than">mai mic decât</string>
-  <string name="comparison_operator_between">între</string>
-  <string name="comparison_operator_date_before">înainte </string>
-  <string name="comparison_operator_date_after">după</string>
-  <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Cumpărare eşuată sau anulată.</string>
-  <string name="yes">Da</string>
-  <string name="no">Nu</string>
-  <string name="hint_template_click">Un click scurt pe o intrare în această listă va instanţia şablonul şi  fie salvaţi-l imediat sau introduceţi-l  în forma de editare unde se poate modifica înainte de salvare. Întotdeauna puteţi accesa ambele acţiuni printr-un click lung, şi schimba setările implicite.</string>
-  <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d  conturi cu moneda %2$s au fost actualizate.</string>
-  <string name="learn_more">Învaţă mai mult</string>
-  <string name="import_source_file">Fişier</string>
-  <string name="restore_calendar_handling">Manipulare date calendar</string>
-  <string name="restore_calendar_handling_configured">Restaurează scadenţe în calendarul curent configurat</string>
-  <string name="restore_calendar_handling_backup">Restaurează scadenţe în calendar din backup dacă-i disponibil</string>
-  <string name="restore_calendar_handling_ignore">Nu restaura scadenţe</string>
-  <string name="restore_not_possible_target_calendar_missing">Calendarul  %s setat în arhiva de backup nu există la nivel local. Restaurare a fost abandonată.</string>
-  <string name="restore_not_possible_local_calendar_missing">Calendarul curent de scadenţe nu este disponibil.</string>
-  <string name="menu_view_picture">Vezi imagine</string>
-  <string name="menu_delete_picture">Şterge imagine</string>
-  <string name="menu_change_picture">Atașați o imagine diferită</string>
-  <string name="menu_distribution_show_pie_char">Afiseaza grafic pie</string>
-  <string name="pref_manage_stale_images_summary">Gestionați imaginile rămase din tranzacțiile șterse</string>
-  <string name="image_deleted">Poza a fost ștearsă</string>
-  <string name="transaction_deleted">Tranzacția a fost ștearsă</string>
-  <string name="export_handle_deleted_update_balance">Actualizați soldul de deschidere</string>
-  <string name="file_name">Nume fişier</string>
-  <string name="folder_name">Numele folder</string>
-  <string name="menu_categories_export">Export ca QIF</string>
-  <string name="pref_csv_import_delimiter">Delimitator</string>
-  <string name="csv_import_preview">Preview</string>
-  <!--Label for column where user can check rows to be discarded from import-->
-  <string name="cvs_import_discard">Inlatura</string>
-  <string name="csv_import_field_mapped_more_than_once">%s este mapat de mai multe ori.</string>
-  <string name="csv_import_delimiter_comma">Virgula</string>
-  <string name="csv_import_delimiter_semicolon">Punct si virgula</string>
-  <string name="csv_import_delimiter_tab">Tab</string>
-  <string name="menu_show_transactions">Arata Tranzacţia</string>
-  <string name="pref_custom_decimal_format_title">Format numar</string>
-  <string name="pref_auto_backup_title">Activează auto-backup</string>
-  <string name="pref_auto_backup_summary">Backup bază de date zilnic la timpul specificat</string>
-  <string name="pref_auto_backup_time_title">Timp auto-backup</string>
-  <string name="button_request_calendar_access" tools:ignore="UnusedResources">Acordare acces</string>
-  <string name="switch_on_text">Activat</string>
-  <string name="switch_off_text">Dezactivat</string>
-  <string name="menu_move">Muta</string>
-  <string name="dialog_title_select_target">Selectează  targhet</string>
-  <string name="transform_subcategory_to_main">Transformă in categorie principala</string>
-  <string name="preferences_week_start_day_title">Săptămâna începe</string>
-  <string name="preferences_month_start_date_title">Luna începe pe</string>
-  <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
-  <string name="pref_grouping_periods">Perioadele de grupare</string>
-  <string name="exchange_rate">Rata de schimb</string>
-  <string name="date_format_hour">Ora</string>
-  <string name="date_format_minute">Minutul</string>
-  <string name="copied_to_clipboard">Copiat în clipboard</string>
-  <string name="menu_sort">Setează dupa</string>
-  <string name="pref_sort_order_last_used">Ultima utilizate</string>
-  <string name="pref_sort_order_custom">Custom</string>
-  <string name="content_description_calculator">Calculator</string>
-  <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
-  <string name="plan_instance_state_open">deschis</string>
-  <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
-  <string name="plan_instance_state_cancelled">Anulat</string>
-  <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
-  <string name="plan_instance_state_applied">aplicat</string>
-  <!--Sort plans (recurring transactions) by the next instance-->
-  <string name="pref_sort_order_next_instance">Instanță următoare</string>
-  <string name="synchronization">Sincronizare</string>
-  <string name="synchronization_none">Fără sincronizare</string>
-  <string name="hint_url">URL</string>
-  <string name="template">Şablon</string>
-  <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sincronizare în cloud</string>
-  <!--button leading user to purchase flow for licence keys-->
-  <!--During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed-->
-  <string name="professional_key">Cheie profesională</string>
-  <!--%1$s date, %2$s price-->
-  <!--A label indicating the color for the sum of expenses-->
-  <!--A label indicating the color for the sum of income-->
-  <!--This is the label for the action that breaks up a split transaction into its parts.-->
-  <string name="split_transaction_one_error">Imposibil de transformat tranzacţia în repartizare.</string>
-  <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
-  <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
-  <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
-  <!--Content description for accessibility on image that allows to collapse content-->
-  <!--Content description for accessibility on image that allows to expand content-->
-  <!--Short label for the amount input where user can set either saving goal or credit limit-->
-  <!--Description for button that allows to clear the selected method-->
-  <!--Description for button that allows to clear the selected category-->
-  <!--In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
-    to search for transactions without category, payee or method. The UI allows selection of multiple items,
-    but we warn the user if he includes this special item in the selection.-->
-  <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
-  <!--Action of closing an account. A closed account does not allow any modifications on its data.-->
-  <string name="menu_close">Închide</string>
-  <!--Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data.-->
-  <!--Menu entry for opening a list of all hidden accounts.-->
-  <!--Action of showing an account again that had previously been hidden.-->
-  <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
-  <string name="content_description_encrypted">criptat</string>
-  <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
-  <string name="translated_by">Tradus de</string>
-  <string name="pref_category_exchange_rates">Cursuri de schim</string>
-  <!--This message is shwon when we highlight the income / expense toogle, to make user aware of this feature-->
-  <!--This message is shwon when we highlight the dropdown for switching from normal transaction to transfer or split transaction,to make user aware of this feature-->
-  <string name="budget_duration_from">De la</string>
-  <string name="budget_duration_to">Până la</string>
-  <!--Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list.-->
-  <!--Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method"-->
-  <!--If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
-        because no payment method is configured for all of the given account types.-->
-  <!--The label for the button, where user confirms that he wants to clone the selected transactions and then remap them.-->
-  <!--The summary of a preference toggle. If switched on cloned transactions have the date set to the current date-->
-  <!--The summary of a preference toggle. If switched off cloned transactions keep the original date-->
-  <!--This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction-->
-  <!--%s will be replaced with the labels of all tags that user has selected.-->
-  <!--Title for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
-  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
-  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application)-->
-  <!--Title in Settings screen, and title of dynamically loaded feature module-->
-  <!--If this mode is active, the action button will open the camera for scanning a receipt-->
-  <!--Button that triggers the scan operation-->
-  <!--Title for a preference that allows user to decide if all transactions of the current day should be considered as past (future begins at end of day), or if the exact current time divides between past and future-->
-  <!--Option for a preference that allows to decide that all transactions until end of day are considered past transactions-->
-  <!--Option for a preference that allows to decide that only transactions before current time are considered past transactions-->
-  <!--Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)-->
-  <string name="pref_category_title_features">Funcţionalităţi</string>
-  <!--Toast message shown if user clicks on Upgrade button before having selected a licence-->
-</resources>
+    <string name="account">Cont</string>
+    <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
+    <string name="account_types">Tipuri cont</string>
+    <string name="account_type_asset">Cont activ</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_asset_plural">Conturi activ</string>
+    <string name="account_type_bank">Cont bancar</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_bank_plural">Conturi bancare</string>
+    <string name="account_type_cash">Cont numerar</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_cash_plural">Conturi numerar</string>
+    <string name="account_type_ccard">Carte de credit</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_ccard_plural">Cărţi de credit</string>
+    <string name="account_type_liability">Cont pasiv</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_liability_plural">Conturi pasiv</string>
+    <string name="already_defined">%1$s deja există</string>
+    <string name="amount">Valoare</string>
+    <string name="app_name">Cheltuielile Mele</string>
+    <string name="backup_failure">Backup la \"%1$s\" eşuat.</string>
+    <string name="backup_success">Preferinţele şi baza de date au fost salvate la \"%1$s\".</string>
+    <string name="category">Categorie</string>
+    <string name="color">Culoare</string>
+    <string name="comment">Note</string>
+    <string name="confirmation_dialog_dont_show_again">Nu arăta din nou</string>
+    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Fără reclame</string>
+    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Număr nelimitat de conturi</string>
+    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Ataseaza imagine la tranzactie</string>
+    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Număr nelimitat de scadenţe</string>
+    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Export listă tranzacţii în PDF</string>
+    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Şablon widget</string>
+    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV import</string>
+    <string name="licence_status_free">Gratuit</string>
+    <string name="contrib_key">Cheie Contrib</string>
+    <string name="extended_key">Cheie Extinse</string>
+    <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
+    <string name="contrib_key_requires">Necesită %s.</string>
+    <string name="currency">Moneda</string>
+    <string name="current_balance">Sold curent</string>
+    <string name="date">Data</string>
+    <string name="date_format">Format date</string>
+    <string name="date_format_illegal">Format date incorect</string>
+    <string name="number_format_illegal">Format numar incorect</string>
+    <string name="decimal_separator">Separator zecimal</string>
+    <string name="default_account_name">Carte Buget</string>
+    <string name="description">Descriere</string>
+    <string name="dialog_balance_delete">Şterge tranzacţiile decontate</string>
+    <string name="dialog_confirm_discard_changes">Renunțați la modificări?</string>
+    <string name="dialog_command_disabled_balance">Nici o tranzacţie procesată de decontat</string>
+    <string name="dialog_command_disabled_reset_account">Nici o tranzacţie de exportat</string>
+    <string name="dialog_command_disabled_distribution">Nici o tranzacţie nu a fost atribuită în categoriile acestui cont</string>
+    <!-- Button for accessing trial of premium feature -->
+    <string name="dialog_contrib_no">Încearcă</string>
+    <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
+    <string name="dialog_contrib_premium_feature">%1$s  este o funcţionalitate premium (%2$s).</string>
+    <string name="dialog_contrib_text_1"><i>{app_name}</i> este oferit open source.</string>
+    <string name="dialog_contrib_usage_count">Utilizări gratuite rămase.</string>
+    <string name="dialog_export_delete">Şterge tranzacţiile exportate</string>
+    <string name="dialog_export_not_yet_exported">Exportă numai tranzacţiile neexportate </string>
+    <string name="dialog_password_activate_protection">Activare protecţie prin parolă</string>
+    <string name="dialog_password_change_password">Schimbă parola</string>
+    <string name="dialog_password_new_password">Parolă nouă</string>
+    <string name="dialog_password_new_password_confirmation">Parolă nouă (confirmare)</string>
+    <string name="dialog_remind_later">Mai târziu</string>
+    <string name="dialog_remind_no">Nu mulţumesc</string>
+    <string name="dialog_remind_rate_how_many_stars">Câte stele ai da la {app_name}?</string>
+    <string name="dialog_remind_rate_1">Vă rugăm să evaluaţi şi revizuiţi {app_name}.</string>
+    <string name="dialog_remind_rate_2">Comentariile dvs ne permit să adăugăm permanent  îmbunătăţiri şi perfecţionări.</string>
+    <string name="dialog_remind_rate_1_suggest_improvement">Vă rugăm să ne  trimiteţi  sugestiile voastre pentru îmbunătăţiri.</string>
+    <string name="dialog_remind_rate_yes">De acord</string>
+    <string name="dialog_security_answer">Răspuns</string>
+    <string name="dialog_security_question">Întrebare</string>
+    <string name="dialog_title_attention">Atenţie</string>
+    <string name="dialog_title_information">Informare</string>
+    <!-- %1$s is replace with account label -->
+    <string name="dialog_title_balance_account">Sold  %1$s</string>
+    <string name="dialog_title_contrib_feature">Funcţionaliate premium</string>
+    <plurals name="dialog_title_warning_delete_account">
+        <item quantity="one">Șterge cont?</item>
+        <item quantity="few">Ștergeți conturile %1$d?</item>
+        <item quantity="other">Ștergeți conturile %1$d?</item>
+    </plurals>
+    <string name="dialog_title_warning_delete_template">Şterg şablon?</string>
+    <string name="dialog_title_warning_delete_transaction">Şterg  tranzacţie?</string>
+    <string name="expense">Cheltuială</string>
+    <string name="export_expenses">Export cheltuieli</string>
+    <!-- 1$s is replaced with path to file, 2$s with error message -->
+    <string name="export_sdcard_failure">Export cheltuieli în %1$s\" eşuat:  %2$s</string>
+    <!-- 1$s is replaced with path to file -->
+    <string name="export_sdcard_success">Export cheltuieli în fişierul %1$s\"</string>
+    <string name="external_storage_unavailable">Stocare externă(sdcard) nedisponibilă</string>
+    <string name="feedback">Feedback</string>
+    <string name="ftp_uri_malformed">Sintaxă eronată URI %1$s </string>
+    <string name="grisbi_import_categories_loading">Încărcare categorii de la %1$s</string>
+    <string name="grisbi_import_parties_loading">Încărcare terţi de la %1$s</string>
+    <string name="grouping_day">Zi</string>
+    <string name="grouping_last_week">Ultima săptămână</string>
+    <string name="grouping_month">Luna</string>
+    <string name="grouping_none">Negrupate</string>
+    <string name="grouping_this_week">Această săptămână</string>
+    <string name="grouping_today">Astăzi</string>
+    <string name="grouping_week">Săptămână</string>
+    <string name="grouping_year">An</string>
+    <string name="grouping_yesterday">Ieri</string>
+    <string name="help_button_rate">Rata sau revizuirea</string>
+    <string name="help_heading_credits">Generic</string>
+    <string name="help_heading_license">Licenţă</string>
+    <string name="help_heading_whats_new">Noutăţi</string>
+    <string name="important_upgrade_information_heading">Informaţii importante</string>
+    <string name="import_select_transactions">Tranzacţii</string>
+    <string name="income">Venituri</string>
+    <string name="invalid_number_format">Format zecimal necunoscut de localizarea dvs. Utilizaţi %1$s</string>
+    <string name="label">Eticheta</string>
+    <string name="licence_validation_failure">Validare imposibilă a Chei licenţei.</string>
+    <string name="licence_validation_success">Cheie Licenţă validată:</string>
+    <string name="licence_validation_premium">Funcţionalităţile Premium au fost deblocate.</string>
+    <string name="menu_aggregates">Total</string>
+    <!-- Shown in a notification; allows to apply a template (instantiate a new transaction from it) -->
+    <string name="menu_apply_template">Aplică</string>
+    <string name="menu_back">Înapoi</string>
+    <string name="menu_backup">Backup</string>
+    <!-- Balance: compare cleared balance in app with balance on statement received from bank -->
+    <string name="menu_balance">Sold acont</string>
+    <!-- Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction -->
+    <string name="menu_cancel_plan_instance">Anulează</string>
+    <string name="menu_clone_transaction">Clonează</string>
+    <string name="menu_contrib">Contribuie</string>
+    <string name="menu_create_account">Cont nou</string>
+    <string name="menu_create_instance_edit">Aplică şi editează</string>
+    <string name="menu_create_instance_save">Aplică şi salvează</string>
+    <string name="menu_create_main_cat">Categorie principală nouă</string>
+    <string name="menu_create_method">Metodă plată nouă</string>
+    <string name="menu_create_party">Terţ nou</string>
+    <string name="menu_create_split">Repartizare nouă</string>
+    <string name="menu_create_split_part_category">Categorie nouă repartizare</string>
+    <string name="menu_create_split_part_transfer">Transfer nou repartizare</string>
+    <string name="menu_create_sub_cat">Subcategorie nouă</string>
+    <string name="menu_create_template">Şablon nou</string>
+    <string name="menu_create_template_from_transaction">Salvează ca şablon</string>
+    <string name="menu_create_template_for_transaction">Şablon tranzacţie nou</string>
+    <string name="menu_create_template_for_transfer">Şablon transfer nou</string>
+    <string name="menu_create_transaction">Tranzacţie nouă</string>
+    <string name="menu_create_transfer">Transfer nou</string>
+    <string name="menu_delete">Şterge</string>
+    <string name="menu_distribution">Distribuire</string>
+    <string name="menu_edit">Editează</string>
+    <string name="menu_edit_account">Editează cont</string>
+    <string name="menu_edit_cat">Editează categorie</string>
+    <string name="menu_edit_method">Editează metodă plată</string>
+    <string name="menu_edit_party">Editează terţ</string>
+    <string name="menu_edit_plan_instance">Editează scadenţa</string>
+    <string name="menu_edit_split">Editează repartizare</string>
+    <string name="menu_edit_split_part_category">Editează categoria repartizare</string>
+    <string name="menu_edit_split_part_transfer">Editează transfer repartizare</string>
+    <string name="menu_edit_template">Editează şablon</string>
+    <string name="menu_edit_transaction">Editează tranzacţie</string>
+    <string name="menu_edit_transfer">Editează transfer</string>
+    <string name="menu_exclude_from_totals">Exclude din totaluri</string>
+    <string name="menu_forward">Următor</string>
+    <string name="menu_grouping">Grupare</string>
+    <string name="menu_help">Ajutor</string>
+    <!-- This command inverts the direction of a transfer -->
+    <string name="menu_invert_transfer">Inversează</string>
+    <string name="menu_manage_plans">Şabloane şi scadenţe</string>
+    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
+    <string name="menu_open">Deschis</string>
+    <string name="menu_import">Import</string>
+    <string name="menu_print">Printează</string>
+    <string name="menu_reset">Export şi resetare</string>
+    <string name="menu_reset_all">Export şi a resetează toate</string>
+    <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
+    <string name="menu_reset_plan_instance">Resetare</string>
+    <string name="menu_save">Salvează</string>
+    <string name="menu_save_and_new">Salvează și nou</string>
+    <string name="menu_search">Căutare</string>
+    <string name="menu_settings">Setări</string>
+    <string name="menu_share">Recomandă</string>
+    <string name="button_label_close">Închide</string>
+    <string name="menu_split_transaction">Transformă in repartizare</string>
+    <string name="method">Modalitate de plată</string>
+    <string name="no_amount_given">Nu aţi introdus nici o valoare.</string>
+    <string name="no_app_handling_email_available">Nici o aplicaţie disponibilă pentru trimitere email.</string>
+    <string name="no_app_handling_ftp_available">Nici o aplicaţie disponibilă pentru ftp.Instalez <i>Trimit prinFTP</i>?</string>
+    <string name="no_app_handling_pdf_available">Nici o aplicaţie disponibilă pentru fişiere PDF</string>
+    <string name="no_categories">Nici o categorie.</string>
+    <string name="no_expenses">Nici o cheltuială încă!</string>
+    <string name="no_exportable_expenses">Nici o tranzacţie ce nu a fost exportată.</string>
+    <string name="no_filemanager_installed">Nici un manager de fişiere instalat</string>
+    <string name="no_mapped_transactions">Nici o tranzacţie nu a fost mapată la această categorie în această perioadă.</string>
+    <string name="no_methods">Nici o metodă de plată.</string>
+    <string name="no_parties">Nici un terţ.</string>
+    <string name="no_split_parts">Nici o repartizare</string>
+    <string name="no_templates">Nici un şablon.</string>
+    <string name="no_title_given">Nu aţi introdus nici un titlu.</string>
+    <plurals name="not_deletable_mapped_transactions">
+        <item quantity="one">Obiectul selectat este mapat la o tranzacţie şi nu poate fi şters.</item>
+        <item quantity="few">%1$d  obiecte sunt mapate la tranzacţii şi nu pot fi şterse.</item>
+        <item quantity="other">%1$d  obiecte sunt mapate la tranzacţii şi nu pot fi şterse.</item>
+    </plurals>
+    <plurals name="not_deletable_mapped_templates">
+        <item quantity="one">Obiectul selectat este mapat la un şablon şi nu poate fi şters.</item>
+        <item quantity="few">%1$d obiecte sunt mapate la şabloane şi nu pot fi şterse.</item>
+        <item quantity="other">%1$d obiecte sunt mapate la şabloane şi nu pot fi şterse.</item>
+    </plurals>
+    <string name="numbered">numerotate</string>
+    <string name="opening_balance">Sold deschidere</string>
+    <string name="parse_error_file_not_found">Fişierul %1$s nu există</string>
+    <string name="parse_error_grisbi_version_not_supported">Versiunea de fișier Grisbi neacceptat : %1$s</string>
+    <string name="parse_error_no_data_found">Fişierul nu detine date importabile.</string>
+    <string name="parse_error_other_exception">O eroare a apărut: %1$s</string>
+    <string name="parse_error_parse_exception">Fişierul nu poate fi analizat</string>
+    <string name="password_disabled_reenable">Protecţia prin parolă a fost dezactivată. O puteţi rreactiva în setări.</string>
+    <string name="password_lost">Parolă pierdută</string>
+    <string name="password_not_valid">Parolă invalidă. Încearcă din nou!</string>
+    <string name="password_prompt">Introduceţi parola</string>
+    <string name="password_security_answer_not_valid">Răspuns greşit. Încearcă din nou!</string>
+    <string name="payee">Beneficiar</string>
+    <string name="payer">Plătitor</string>
+    <string name="payer_or_payee">Beneficiar/Plătitor</string>
+    <!-- Plan for future and recurring transactions -->
+    <string name="plan">Scadenţă</string>
+    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
+    <string name="plan_automatic">automatic</string>
+    <!-- this is the label for the calendar where plans for future and recurrent transactions are stored -->
+    <string name="plan_calendar_name">Scadenţar {app_name}</string>
+    <string name="planner_notification_channel_name">Scadenţar</string>
+    <string name="plan_event_deleted">Scadenţa asociată acestui șablon a fost şters din calendar.</string>
+    <!-- This message is shown, after a user decides to not apply a manual plan -->
+    <string name="plan_execution_canceled">Executarea planului anulată</string>
+    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
+    <string name="plan_manual">manual</string>
+    <string name="planner_create_calendar_failure">Imposibil de creat calendar local scadenţă </string>
+    <string name="planner_create_calendar_success">Calendar local scadenţă creat </string>
+    <!-- payment methods -->
+    <string name="pm_cheque">Cec</string>
+    <string name="pm_creditcard">Carte de credit</string>
+    <string name="pm_deposit">Depozit</string>
+    <string name="pm_directdebit">Direct debit</string>
+    <string name="pm_type_credit">Credit</string>
+    <string name="pm_type_debit">Debit</string>
+    <string name="pm_type_neutral">Neutru</string>
+    <string name="pref_app_dir_title">Folder pentru backup-uri si exporturi</string>
+    <string name="pref_auto_fill_title">Tranzacţii completate automat</string>
+    <string name="pref_backup_summary">Creaţi un backup al bazei de date si preferinţelor.</string>
+    <string name="pref_sort_order_usages">Numarul utilizarilor</string>
+    <string name="pref_category_title_advanced">Avansat</string>
+    <string name="pref_category_title_export">Export</string>
+    <string name="pref_category_title_import">Import</string>
+    <string name="pref_category_title_manage">Gestionează</string>
+    <string name="pref_category_title_more_information">Mai multe informaţii</string>
+    <string name="pref_category_title_security">Securitate</string>
+    <string name="pref_category_title_ui">Interfaţa utilizator</string>
+    <string name="pref_checkbox_enabled">Activat</string>
+    <string name="pref_checkbox_disabled">Dezactivat</string>
+    <string name="pref_contrib_purchase_title">Cumpăraţi Cheie</string>
+    <string name="pref_contrib_purchase_title_upgrade">Actualizează cheia</string>
+    <string name="pref_contrib_purchase_title_in_app">In-App plată</string>
+    <string name="pref_custom_currency_title">Personalizează valutele</string>
+    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
+    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Dacă aţi primit o cheie, veţi avea acces la funcţionalităţile premium.</string>
+    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Introduceţi cheia</string>
+    <string name="pref_export_format_title">Format date</string>
+    <string name="pref_import_from_grisbi_summary">Import categorii şi terţi din fişier Grisbi XML</string>
+    <string name="pref_import_from_grisbi_title">Import din Grisbi</string>
+    <!-- %s is replaced with QIF or CSV -->
+    <string name="pref_import_summary">Import tranzacţii, categorii şi terţi din fişier %s</string>
+    <!-- %s is replaced with QIF or CSV -->
+    <string name="pref_import_title">Import %s</string>
+    <string name="pref_like_facebook_title">Like us pe Facebook</string>
+    <string name="pref_manage_accounts_title">Conturi</string>
+    <string name="pref_manage_categories_summary">Adaugă, editează, şterge categorii</string>
+    <string name="pref_manage_categories_title">Categorii</string>
+    <string name="pref_manage_methods_summary">Creaţi şi editaţi metode de plată şi asociaţi-le la tipurile de conturi.</string>
+    <string name="pref_manage_methods_title">Metode de plată</string>
+    <string name="pref_manage_parties_summary">Adaugă, editează, şterge terţi ( plătitori si beneficiari )</string>
+    <string name="pref_manage_parties_title">Terţi</string>
+    <string name="pref_manage_sync_backends_title">Backenduri de sincronizare</string>
+    <string name="pref_more_info_dialog_title">Licență &amp; Credite</string>
+    <string name="pref_password_not_equal">Parolele nu se potrivesc</string>
+    <string name="pref_perform_protection_title">Protecţie</string>
+    <string name="pref_perform_share_title">Partajaţi exporturile şi backup-urile</string>
+    <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
+    <string name="pref_planning_calendar_create_local">Creare calendar scadenţar local nou</string>
+    <string name="pref_planning_calendar_summary">Selectaţi calendarul unde scadenţele pentru tranzacţiile viitoare si periodice sunt memorate</string>
+    <string name="pref_planning_calendar_title">Calendar scadenţar</string>
+    <string name="pref_protection_delay_seconds_summary">Durata în secunde de inactivitate înaintea protejării app prin parolă.</string>
+    <string name="pref_protection_delay_seconds_title">Întârziere până la protecţie</string>
+    <string name="pref_protection_enable_data_entry_from_widget_title">Introducere date din widget-uri şi shortcut-uri</string>
+    <string name="pref_protection_enable_data_entry_from_widget_summary_on">Permis fără parolă.</string>
+    <string name="pref_protection_enable_data_entry_from_widget_summary_off">Parola este necesară.</string>
+    <string name="pref_qif_export_file_encoding_title">Codificare caractere</string>
+    <string name="pref_request_licence_title">Solicită o cheie</string>
+    <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
+    <string name="pref_restore_alternative">Alternativă</string>
+    <string name="pref_restore_summary">Selectaţi un backup pentru restaurarea bazei de date şi preferinţe.</string>
+    <string name="pref_restore_title">Restaurare</string>
+    <string name="pref_security_question_summary">Vă permite să deblocaţi app, dacă aţi uitat parola.</string>
+    <string name="pref_security_question_title">Întrebare securitate</string>
+    <string name="pref_send_feedback_title">Trimiteţi feedback</string>
+    <string name="pref_share_target_summary">Lăsaţi necompletat dacă doriţi să alegeţi dintre aplicaţiile adecvate (E-mail, Dropbox, Google Docs, …) sau furnizaţi URL într-una din schemele acceptate</string>
+    <string name="pref_share_target_title">Upload URL</string>
+    <string name="pref_shortcut_added">Shortcut-ul a fost adăugată la Ecranul Home </string>
+    <string name="pref_shortcut_not_added">Niciun Ecran Home disponibil care acceptă shortcut-uri.</string>
+    <string name="pref_shortcut_summary">Adăugă shortcut la Ecranul Home .</string>
+    <string name="pref_template_click_default_summary">La click scurt pe intrarea din lista şabloanelor</string>
+    <string name="pref_ui_fontsize_title">Măriți dimensiunea fontului</string>
+    <string name="pref_ui_home_screen_shortcuts">Shortcut-uri ecran Home</string>
+    <string name="pref_ui_language_default">Sistem implicit</string>
+    <!-- Title of the preference for selecting the UI language -->
+    <string name="pref_ui_language_title">Limba</string>
+    <string name="pref_ui_theme_dark">Închis</string>
+    <string name="pref_ui_theme_light">Deschis</string>
+    <string name="pref_ui_theme_title">Temă</string>
+    <string name="pref_visit_website_summary">Jurnal modificări şi FAQ</string>
+    <string name="pref_visit_website_title">Vizitează site web</string>
+    <string name="progress_dialog_deleting">Ştergere obiecte</string>
+    <string name="progress_dialog_loading">Încărcare obiect din baza de date</string>
+    <string name="progress_dialog_printing">Generare PDF</string>
+    <string name="progress_dialog_saving">Salvare obiect în baza de date</string>
+    <string name="qif_parse_result">Analizat: %1$s conturi; %2$s categorii şi %3$s terţi</string>
+    <string name="qif_parse_failure_found_multiple_accounts">Multiple conturi găsite în  fişierul QIF .</string>
+    <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Nu se pot imbina în contul existent.</string>
+    <string name="reference_number">Număr referință</string>
+    <string name="restore_db_failure">Restaurare  baze de date eşuată.</string>
+    <string name="restore_db_success">Baza de date a fost restaurată din backup.</string>
+    <string name="restore_no_backup_found">Nici un backup găsit.</string>
+    <string name="restore_preferences_failure">Restaurare preferinţe eşuată</string>
+    <string name="restore_backup_archive_not_valid">Arhiva %1$s nu este validă</string>
+    <string name="restore_backup_file_not_found">Nici un fişier %1$s  găsit în arhiva \"%2$s\"</string>
+    <string name="restore_preferences_success">Preferinţele au fost restaurate din backup.</string>
+    <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d  scadenţe au fost restaurate din backup</string>
+    <string name="save_transaction_and_new_success">Salvată</string>
+    <string name="save_transaction_error">Noua tranzacţia din şablon nu afost salvată</string>
+    <plurals name="save_transaction_from_template_success">
+        <item quantity="one">Tranzacţie nouă salvată din şablon</item>
+        <item quantity="few">%1$d tranzacţii noi au fost salvate din şabloane</item>
+        <item quantity="other">%1$d tranzacţii noi au fost salvate din şabloane</item>
+    </plurals>
+    <string name="save_transaction_template_deleted">Şablonul a fost şters</string>
+    <string name="select">Selectează </string>
+    <string name="select_category">Selectează categorie</string>
+    <string name="share_scheme_not_supported">Schema %1$s nesuportată</string>
+    <string name="share_sending">Trimite fişier export</string>
+    <string name="split_parts_heading">Repartizări</string>
+    <string name="split_transaction">Tranzacţie repartizată</string>
+    <string name="status">Status</string>
+    <string name="status_cleared">procesată</string>
+    <string name="status_reconciled">decontată</string>
+    <string name="status_uncreconciled">nedecontată</string>
+    <string name="status_void">gol</string>
+    <string name="subcategory">Subcategorie</string>
+    <string name="sum_expenses">Cheltuieli</string>
+    <string name="sum_income">Venituri</string>
+    <string name="sum_transfer">Transferuri</string>
+    <!-- platform is replaced with Android or Blackberry -->
+    <string name="tell_a_friend_message">Check out {app_name}, Manager Finanţe  Personale pentru {platform}, de la {website}</string>
+    <string name="thank_you">Mulţumim pentru suportul dvs!</string>
+    <string name="time">Timp</string>
+    <string name="title">Titlu</string>
+    <string name="total_cleared">Total procesate</string>
+    <string name="total_reconciled">Total Decontate</string>
+    <string name="transaction">Tranzacţie</string>
+    <string name="transfer">Transfer</string>
+    <string name="transfer_from_account">De la</string>
+    <string name="transfer_to_account">La</string>
+    <!-- Type refers to the type of an account, eg. Cash account, bank account -->
+    <string name="type">Tip</string>
+    <string name="unsplit_amount">Valoare nerepartizată</string>
+    <string name="unsplit_amount_greater_than_zero">Există încă unele valori nerepartizate</string>
+    <string name="warning_backup">Baza de date si preferinţele vor fi salvate în \"%1$s\".</string>
+    <string name="continue_confirmation">Doriţi să continuaţi?</string>
+    <string name="warning_delete_account">Contul \"%1$s\" va fi şters cu toate tranzacţiile sale.</string>
+    <plurals name="warning_delete_main_category">
+        <item quantity="one">O categorie selectată are subcategorii, care vor fi şterse de asemenea.</item>
+        <item quantity="few">%1$d  categorii selectate  au subcategorii, care vor fi şterse de asemenea.</item>
+        <item quantity="other">%1$d  categorii selectate  au subcategorii, care vor fi şterse de asemenea.</item>
+    </plurals>
+    <plurals name="warning_delete_template">
+        <item quantity="one">Șablonul selectat va fi şters.</item>
+        <item quantity="few">%1$d  şabloanel selectate vor fi şterse.</item>
+        <item quantity="other">%1$d  şabloanel selectate vor fi şterse.</item>
+    </plurals>
+    <plurals name="warning_delete_transaction">
+        <item quantity="one">Tranzacţia selectată va fi ştearsă.</item>
+        <item quantity="few">%1$d  tranzacţii selectate vor fi şterse.</item>
+        <item quantity="other">%1$d  tranzacţii selectate vor fi şterse.</item>
+    </plurals>
+    <string name="warning_delete_reconciled">Ştergerea tranzacţiilor decontate va determina ca înregistrările dumneavoastră să difere de cele din extrasul bancar.</string>
+    <string name="warning_balance_account">Comparaţi totalul procesat cu soldul final din extrasul dvs bancar. Dacă veţi continua, tranzacţiile procesate vor fi marcate ca decontate.</string>
+    <string name="warning_password_protected">App este protejată prin parolă.</string>
+    <string name="warning_widget_disabled">Trebuie să activaţi acest widget în setările app.</string>
+    <string name="warning_instantiate_template_from_widget_password_protected">Instanţierea rapidă a şabloanelor din acest widget funcţionează numai dacă permiteţi introducerea datelor din  widget-uri fără parolă în setările app.</string>
+    <string name="warning_password_contrib">Setarea unei întrebări de securitate vă permite să deblocaţi app, în cazul în care uitaţi parola.</string>
+    <string name="warning_reset_account">Dacă veţi continua, toate tranzacţiile din acest cont vor fi şterse din baza de date şi nu se vor putea restaura.</string>
+    <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
+    <string name="warning_reset_account_all">Dacă veţi continua, pentru toate conturile%1$s, tranzacţiile vor fi şterse din baza de date şi nu se vor putea restaura.</string>
+    <string name="warning_restore">Baza de date si preferinţele  vor fi restaurate din fişierul \"%1$s\". Datele actuale vor fi şterse.</string>
+    <string name="warning_app_folder_will_be_deleted_upon_uninstall">Folderul selectat pentru backup-uri şi exporturile vor fi şterse automat de Android dacă dezinstalați {app_name}.  Puteţi preveni acest lucru selectând un alt folder din ecranul Setări.</string>
+    <string name="warning_splitpartcategory_context">Transferurile care fac parte dintr-o repartizare pot fi editate numai în contextul repartizării.</string>
+    <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Setează un număr între %1$d şi %2$d, te rog</string>
+    <string name="warning_change_fraction_digits_checkbox_label">Actualizarea sumelor în baza de date</string>
+    <string name="import_categories_success">%1$s categorii importate</string>
+    <string name="import_parties_success">%1$s  terţi importaţi</string>
+    <string name="import_accounts_success">%1$s conturi importate</string>
+    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d tranzacţii importate în contul %2$s</string>
+    <string name="import_accounts_none">Nici un cont importat</string>
+    <string name="import_categories_none">Nici o categorie importată</string>
+    <string name="import_parties_none">Nici un terţ importat</string>
+    <string name="import_transactions_none">Nici o tranzacţie importată in contul %1$s </string>
+    <string name="import_source_select_error">Furnizaţi vă rog un fişier de tip %1$s</string>
+    <string name="menu_categories_setup_default">Setare categorii implicite</string>
+    <string name="menu_create_folder">Folder nou</string>
+    <!-- This string is used for navigating up in the folder browser -->
+    <string name="menu_up">Sus</string>
+    <string name="create_new_folder_fail">Eşec la crearea folderului</string>
+    <string name="widget_title_accounts">Conturile mele</string>
+    <string name="widget_title_templates">Şabloanele mele</string>
+    <string name="search_amount">Caută o valoare</string>
+    <string name="search_category">Caută o categorie</string>
+    <string name="search_comment">Caută o notă</string>
+    <string name="search_date">Căutați data</string>
+    <string name="search_status">Caută un status</string>
+    <string name="search_payee">Caută un terţ</string>
+    <string name="search_method">Caută o metodă</string>
+    <string name="and">şi</string>
+    <string name="between_and">între %1$s şi %2$s</string>
+    <string name="before">înainte %s</string>
+    <string name="after">după %s</string>
+    <string name="comparison_operator_equal">egal cu</string>
+    <string name="comparison_operator_greater_than">mai mare decât</string>
+    <string name="comparison_operator_lesser_than">mai mic decât</string>
+    <string name="comparison_operator_between">între</string>
+    <string name="comparison_operator_date_before">înainte </string>
+    <string name="comparison_operator_date_after">după</string>
+    <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Cumpărare eşuată sau anulată.</string>
+    <string name="yes">Da</string>
+    <string name="no">Nu</string>
+    <string name="hint_template_click">Un click scurt pe o intrare în această listă va instanţia şablonul şi  fie salvaţi-l imediat sau introduceţi-l  în forma de editare unde se poate modifica înainte de salvare. Întotdeauna puteţi accesa ambele acţiuni printr-un click lung, şi schimba setările implicite.</string>
+    <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d  conturi cu moneda %2$s au fost actualizate.</string>
+    <string name="learn_more">Învaţă mai mult</string>
+    <string name="import_source_file">Fişier</string>
+    <string name="restore_calendar_handling">Manipulare date calendar</string>
+    <string name="restore_calendar_handling_configured">Restaurează scadenţe în calendarul curent configurat</string>
+    <string name="restore_calendar_handling_backup">Restaurează scadenţe în calendar din backup dacă-i disponibil</string>
+    <string name="restore_calendar_handling_ignore">Nu restaura scadenţe</string>
+    <string name="restore_not_possible_target_calendar_missing">Calendarul  %s setat în arhiva de backup nu există la nivel local. Restaurare a fost abandonată.</string>
+    <string name="restore_not_possible_local_calendar_missing">Calendarul curent de scadenţe nu este disponibil.</string>
+    <string name="menu_view_picture">Vezi imagine</string>
+    <string name="menu_delete_picture">Şterge imagine</string>
+    <string name="menu_change_picture">Atașați o imagine diferită</string>
+    <string name="menu_distribution_show_pie_char">Afiseaza grafic pie</string>
+    <string name="pref_manage_stale_images_summary">Gestionați imaginile rămase din tranzacțiile șterse</string>
+    <string name="image_deleted">Poza a fost ștearsă</string>
+    <string name="transaction_deleted">Tranzacția a fost ștearsă</string>
+    <string name="export_handle_deleted_update_balance">Actualizați soldul de deschidere</string>
+    <string name="file_name">Nume fişier</string>
+    <string name="folder_name">Numele folder</string>
+    <string name="menu_categories_export">Export ca QIF</string>
+    <string name="pref_csv_import_delimiter">Delimitator</string>
+    <string name="csv_import_preview">Preview</string>
+    <!-- Label for column where user can check rows to be discarded from import -->
+    <string name="cvs_import_discard">Inlatura</string>
+    <string name="csv_import_field_mapped_more_than_once">%s este mapat de mai multe ori.</string>
+    <string name="csv_import_delimiter_comma">Virgula</string>
+    <string name="csv_import_delimiter_semicolon">Punct si virgula</string>
+    <string name="csv_import_delimiter_tab">Tab</string>
+    <string name="menu_show_transactions">Arata Tranzacţia</string>
+    <string name="pref_custom_decimal_format_title">Format numar</string>
+    <string name="pref_auto_backup_title">Activează auto-backup</string>
+    <string name="pref_auto_backup_summary">Backup bază de date zilnic la timpul specificat</string>
+    <string name="pref_auto_backup_time_title">Timp auto-backup</string>
+    <string name="button_request_calendar_access" tools:ignore="UnusedResources">Acordare acces</string>
+    <string name="switch_on_text">Activat</string>
+    <string name="switch_off_text">Dezactivat</string>
+    <string name="menu_move">Muta</string>
+    <string name="dialog_title_select_target">Selectează  targhet</string>
+    <string name="transform_subcategory_to_main">Transformă in categorie principala</string>
+    <string name="preferences_week_start_day_title">Săptămâna începe</string>
+    <string name="preferences_month_start_date_title">Luna începe pe</string>
+    <!-- this is the title of the section in the preferences, where user can set start day for weekly and monthly groups -->
+    <string name="pref_grouping_periods">Perioadele de grupare</string>
+    <string name="exchange_rate">Rata de schimb</string>
+    <string name="date_format_hour">Ora</string>
+    <string name="date_format_minute">Minutul</string>
+    <string name="copied_to_clipboard">Copiat în clipboard</string>
+    <string name="menu_sort">Setează dupa</string>
+    <string name="pref_sort_order_last_used">Ultima utilizate</string>
+    <string name="pref_sort_order_custom">Custom</string>
+    <string name="content_description_calculator">Calculator</string>
+    <!-- describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list. -->
+    <string name="plan_instance_state_open">deschis</string>
+    <!-- describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list. -->
+    <string name="plan_instance_state_cancelled">Anulat</string>
+    <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
+    <string name="plan_instance_state_applied">aplicat</string>
+    <!-- Sort plans (recurring transactions) by the next instance  -->
+    <string name="pref_sort_order_next_instance">Instanță următoare</string>
+    <string name="synchronization">Sincronizare</string>
+    <string name="synchronization_none">Fără sincronizare</string>
+    <string name="hint_url">URL</string>
+    <string name="template">Şablon</string>
+    <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sincronizare în cloud</string>
+    <string name="professional_key">Cheie profesională</string>
+    <string name="split_transaction_one_error">Imposibil de transformat tranzacţia în repartizare.</string>
+    <!-- Action of closing an account. A closed account does not allow any modifications on its data. -->
+    <string name="menu_close">Închide</string>
+    <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
+    <string name="content_description_encrypted">criptat</string>
+    <string name="translated_by">Tradus de</string>
+    <string name="pref_category_exchange_rates">Cursuri de schim</string>
+    <string name="budget_duration_from">De la</string>
+    <string name="budget_duration_to">Până la</string>
+    <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
+    <string name="pref_category_title_features">Funcţionalităţi</string>
+    </resources>

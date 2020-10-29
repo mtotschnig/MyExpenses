@@ -1,479 +1,443 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
 <resources xmlns:tools="http://schemas.android.com/tools">
-  <string name="account">الحساب</string>
-  <!--Label in form for payment method, where user checks for which account types the method is applicable-->
-  <string name="account_types">أنواع الحسابات</string>
-  <string name="account_type_asset">حساب الاصول</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_asset_plural">حسابات الاصول</string>
-  <string name="account_type_bank">حساب البنك</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_bank_plural">حسابات البنك</string>
-  <string name="account_type_cash">حساب النقد</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_cash_plural">الحسابات النقدية</string>
-  <string name="account_type_ccard">بطاقة ائتمانية</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_ccard_plural">بطاقات الإتمان</string>
-  <string name="account_type_liability">حساب الالتزامات</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_liability_plural">حسابات الالتزامات</string>
-  <string name="already_defined">%1$s معرّف مسبقاً</string>
-  <string name="amount">القيمة</string>
-  <string name="app_name">مصروفاتي</string>
-  <string name="backup_failure">فشلت عملية النسخ الاحتياطي للذاكرة (%1$s).</string>
-  <string name="backup_success">تم حفظ قاعدة البيانات والتفضيلات في الذاكرة بنجاح (%1$s).</string>
-  <string name="category">التصنيف</string>
-  <string name="color">اللون</string>
-  <string name="comment">ملاحظات</string>
-  <string name="confirmation_dialog_dont_show_again">لا تظهر مرة أخرى</string>
-  <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">بدون إعلانات</string>
-  <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">عدد حسابات غير محدود</string>
-  <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">إرفاق صورة إلى عملية</string>
-  <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">عدد غير محدود من الخطط</string>
-  <string name="contrib_feature_print_label" tools:ignore="UnusedResources">تصدير قائمة العمليات إلى PDF</string>
-  <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">إستيراد ملف CSV</string>
-  <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>دعم البريد الإلكتروني</b> مع استجابة مضمونة في غضون يومي عمل</string>
-  <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">حق التصويت على <b> مخططات التنمية</b></string>
-  <string name="contrib_feature_history_label" tools:ignore="UnusedResources">مخطط زمني (التدفق النقدي)</string>
-  <string name="licence_status_free">خالي</string>
-  <string name="contrib_key">مفتاح المساهمة</string>
-  <string name="extended_key">مفتاح موسع</string>
-  <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
-  <string name="currency">العملة</string>
-  <string name="current_balance">الرصيد الحالي</string>
-  <string name="date">التاريخ</string>
-  <string name="date_format">صيغة التاريخ</string>
-  <string name="date_format_illegal">تنسيق التاريخ غير صحيح</string>
-  <string name="decimal_separator">فاصلة عشرية</string>
-  <string name="description">الوصف</string>
-  <string name="dialog_confirm_discard_changes">تجاهل التغييرات؟</string>
-  <string name="dialog_confirm_discard_new_method">هل تريد الغاء طريقة الدفع الجديدة؟</string>
-  <string name="dialog_command_disabled_reset_account">لا يوجد عمليات لتصديرها.</string>
-  <string name="dialog_command_disabled_distribution">لا يوجد عمليات معينة للتصنيفات لهذا الحساب.</string>
-  <!--Button for accessing trial of premium feature-->
-  <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
-  <string name="dialog_contrib_premium_feature">%1$s هذه الخاصية تتطلب ميزات كاملة (%2$s).</string>
-  <string name="dialog_contrib_text_2">يرجى المساهمة بترقية <i>{app_name}</i> والحصول على وصول غير مقيد إلى الميزات التالية:</string>
-  <string name="dialog_export_delete">حذف العمليات المصدّرة</string>
-  <string name="dialog_export_not_yet_exported">تصدير العمليات التي لم تصدّر بعد</string>
-  <string name="dialog_password_activate_protection">تفعيل حماية كلمة المرور</string>
-  <string name="dialog_password_change_password">تغيير كلمة المرور</string>
-  <string name="dialog_password_new_password">كلمة مرور الجديدة</string>
-  <string name="dialog_password_new_password_confirmation">كلمة المرور الجديدة (للتأكيد)</string>
-  <string name="dialog_remind_later">لاحقاً</string>
-  <string name="dialog_remind_no">لا شكراً</string>
-  <string name="dialog_remind_rate_1">فضلا قم بتقييم {app_name}.</string>
-  <string name="dialog_remind_rate_2">تعليقاتكم تسمح لنا بالاستمرار في تحسين و ترقية البرنامج .</string>
-  <string name="dialog_remind_rate_yes">تقييم الآن</string>
-  <string name="dialog_security_answer">الإجابة</string>
-  <string name="dialog_security_question">السؤال</string>
-  <string name="dialog_title_attention">تحذير</string>
-  <string name="dialog_title_information">معلومات</string>
-  <!--%1$s is replace with account label-->
-  <string name="dialog_title_balance_account">رصيد %1$s</string>
-  <string name="dialog_title_contrib_feature">المميزات الكاملة</string>
-  <string name="dialog_title_warning_delete_template">حذف نموذج؟</string>
-  <string name="dialog_title_warning_delete_transaction">حذف عملية؟</string>
-  <string name="expense">الصرف</string>
-  <string name="export_expenses">تصدير المصروفات</string>
-  <!--1$s is replaced with path to file, 2$s with error message-->
-  <string name="export_sdcard_failure">فشلت عملية تصدير المصروفات للذاكرة %1$s:  %2$s</string>
-  <!--1$s is replaced with path to file-->
-  <string name="export_sdcard_success">تم تصدير المصروفات إلى ملف %1$s</string>
-  <string name="external_storage_unavailable">لا يوجد ذاكرة خارجية (sdcard)</string>
-  <string name="feedback">التقييم</string>
-  <string name="ftp_uri_malformed">خطأ في العنوان %1$s</string>
-  <string name="grisbi_import_categories_loading">جاري تحميل التصنيفات من %1$s</string>
-  <string name="grisbi_import_parties_loading">جاري تحميل الاطراف من %1$s</string>
-  <string name="grouping_day">يوم</string>
-  <string name="grouping_last_week">نهاية الاسبوع</string>
-  <string name="grouping_month">شهر</string>
-  <string name="grouping_none">منفردة</string>
-  <string name="grouping_this_week">هذا الأسبوع</string>
-  <string name="grouping_today">اليوم</string>
-  <string name="grouping_week">الأسبوع</string>
-  <string name="grouping_year">السنة</string>
-  <string name="grouping_yesterday">أمس</string>
-  <string name="help_button_rate">تقييم أو تعليق</string>
-  <string name="help_heading_credits">النقاط</string>
-  <string name="help_heading_license">الترخيص</string>
-  <string name="help_heading_whats_new">آخر الاخبار</string>
-  <string name="important_upgrade_information_heading">معلومات مهمة</string>
-  <string name="import_select_transactions">العمليات</string>
-  <string name="income">الدخل</string>
-  <string name="invalid_number_format">لا يمكن استخدام الاعداد العشرية. فضلا استخدم %1$s</string>
-  <string name="label">عبارة توضيحية</string>
-  <string name="licence_validation_failure">تعذر التحقق من صحة مفتاح الترخيص.</string>
-  <string name="menu_aggregates">المجموع</string>
-  <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
-  <string name="menu_apply_template">تطبيق</string>
-  <string name="menu_back">رجوع</string>
-  <string name="menu_backup">نسخة احتياطية</string>
-  <!--Balance: compare cleared balance in app with balance on statement received from bank-->
-  <string name="menu_balance">رصيد الحساب</string>
-  <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
-  <string name="menu_cancel_plan_instance">إلغاء</string>
-  <string name="menu_clone_transaction">استنساخ</string>
-  <string name="menu_contrib">المساهمة</string>
-  <string name="menu_create_account">حساب جديد</string>
-  <string name="menu_create_instance_edit">تطبيق وتعديل</string>
-  <string name="menu_create_instance_save">تطبيق وحفظ</string>
-  <string name="menu_create_main_cat">تصنيف أساسي جديد</string>
-  <string name="menu_create_method">طريقة دفع جديدة</string>
-  <string name="menu_create_party">طرف جديد</string>
-  <string name="menu_create_split">تقسيم جديد</string>
-  <string name="menu_create_split_part_category">تقسيم تصنيف جديد</string>
-  <string name="menu_create_split_part_transfer">تقسيم تحويل جديد</string>
-  <string name="menu_create_sub_cat">تصنيف فرعي جديد</string>
-  <string name="menu_create_template">نموذج جديد</string>
-  <string name="menu_create_template_from_transaction">حفظ كنموذج</string>
-  <string name="menu_create_template_for_transaction">نموذج عملية جديد</string>
-  <string name="menu_create_template_for_transfer">نموذج تحويل جديد</string>
-  <string name="menu_create_transaction">عملية جديدة</string>
-  <string name="menu_create_transfer">تحويل جديد</string>
-  <string name="menu_delete">حذف</string>
-  <string name="menu_distribution">توزيع</string>
-  <string name="menu_edit">تعديل</string>
-  <string name="menu_edit_account">تعديل الحساب</string>
-  <string name="menu_edit_cat">تعديل تصنيف</string>
-  <string name="menu_edit_method">تعديل طريقة الدفع</string>
-  <string name="menu_edit_party">تعديل طرف</string>
-  <string name="menu_edit_split">تعديل تقسيم</string>
-  <string name="menu_edit_split_part_category">تعديل تقسيم تصنيف</string>
-  <string name="menu_edit_split_part_transfer">تعديل تقسيم تحويل</string>
-  <string name="menu_edit_template">تعديل نموذج</string>
-  <string name="menu_edit_transaction">تعديل عملية</string>
-  <string name="menu_edit_transfer">تعديل تحويل</string>
-  <string name="menu_forward">تقدم</string>
-  <string name="menu_grouping">تجميع</string>
-  <string name="menu_help">مساعدة</string>
-  <!--This command inverts the direction of a transfer-->
-  <string name="menu_invert_transfer">عكس</string>
-  <string name="menu_manage_plans">النماذج والخطط</string>
-  <!--Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application-->
-  <string name="menu_import">استيراد</string>
-  <string name="menu_print">طباعة</string>
-  <string name="menu_reset">تصدير وإعادة تعيين</string>
-  <string name="menu_reset_all">تصدير وإعادة تعيين الكل</string>
-  <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
-  <string name="menu_reset_plan_instance">إعادة تعيين</string>
-  <string name="menu_save">حفظ</string>
-  <string name="menu_save_and_new">حفظ وجديد</string>
-  <string name="menu_settings">الاعدادات</string>
-  <string name="menu_share">اخبر صديق</string>
-  <string name="method">طريقة الدفع او السداد</string>
-  <string name="no_amount_given">لم تقم بإدخال قيمة.</string>
-  <string name="no_app_handling_email_available">لا يوجد تطبيق للبريد الالكتروني.</string>
-  <string name="no_app_handling_ftp_available">لا يوجد تطبيق لـ ftp. تثبيت <i>Send With FTP</i>؟</string>
-  <string name="no_app_handling_pdf_available">لا يوجد تطبيق لمعاينة ملفات الPDF </string>
-  <string name="no_categories">لا يوجد تصنيفات.</string>
-  <string name="no_expenses">لا يوجد مصروفات حتى الأن!</string>
-  <string name="no_exportable_expenses">لا يوجد عمليات لم يتم تصديرها بعد.</string>
-  <string name="no_filemanager_installed">لم يتم تثبيت مدير ملفات</string>
-  <string name="no_mapped_transactions">لا يوجد عمليات لهذا التصنيف خلال هذه الفترة.</string>
-  <string name="no_methods">لا يوجد طرق دفع.</string>
-  <string name="no_parties">لا يوجد أطراف.</string>
-  <string name="no_split_parts">لا يوجد تقسيمات</string>
-  <string name="no_templates">لا يوجد نماذج.</string>
-  <string name="no_title_given">لم تقم بإدخال عنوان.</string>
-  <string name="numbered">مرقم</string>
-  <string name="opening_balance">الرصيد الافتتاحي</string>
-  <string name="parse_error_file_not_found">لم يتم العثور على الملف %1$s</string>
-  <string name="parse_error_grisbi_version_not_supported">نسخة ملف Grisbi غير مدعومة: %1$s</string>
-  <string name="parse_error_no_data_found">لا يوجد بيانات قابلة للاستيراد في الملف.</string>
-  <string name="parse_error_other_exception">خطأ: %1$s</string>
-  <string name="parse_error_parse_exception">لا يمكن فتح الملف</string>
-  <string name="password_disabled_reenable">تم تعطيل كلمة المرور. يمكنك تمكينه من جديد عن طريق الاعدادات.</string>
-  <string name="password_lost">نسيت كلمة المرور</string>
-  <string name="password_not_valid">كلمة المرور غير صحيحة. حاول مجددا!</string>
-  <string name="password_prompt">ادخل كلمة المرور</string>
-  <string name="password_security_answer_not_valid">إجابة خاطئة. حاول مرة أخرى!</string>
-  <string name="payee">المستفيد</string>
-  <string name="payer">المشتري</string>
-  <!--Plan for future and recurring transactions-->
-  <string name="plan">خطة</string>
-  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance-->
-  <string name="plan_automatic">تلقائي</string>
-  <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">مخطط {app_name}</string>
-  <string name="planner_notification_channel_name">مخطط</string>
-  <string name="plan_event_deleted">تم حذف الخطة المتعلقة بهذا النموذج من التقويم.</string>
-  <!--This message is shown, after a user decides to not apply a manual plan-->
-  <string name="plan_execution_canceled">تم إلغاء تنفيذ الخطة</string>
-  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance)-->
-  <string name="plan_manual">يدوية</string>
-  <string name="planner_create_calendar_failure">غير قادر على انشاء مخطِط تقويم محلي</string>
-  <string name="planner_create_calendar_success">تم انشاء مخطِط تقويم محلي بنجاح</string>
-  <!--payment methods-->
-  <string name="pm_cheque">شيك</string>
-  <string name="pm_creditcard">بطاقة ائتمانية</string>
-  <string name="pm_deposit">إيداع</string>
-  <string name="pm_directdebit">أمر مستديم</string>
-  <string name="pm_type_credit">Credit</string>
-  <string name="pm_type_debit">مدين</string>
-  <string name="pm_type_neutral">محايد</string>
-  <string name="pref_app_dir_title">مجلد للنسخ الاحتياطية والتصديرات</string>
-  <string name="pref_backup_summary">حفظ نسخة احتياطية لقاعدة البيانات والتفضيلات في الذاكرة.</string>
-  <string name="pref_sort_order_usages">عدد مرات الاستعمال</string>
-  <string name="pref_category_title_advanced">متقدم</string>
-  <string name="pref_category_title_export">تصدير</string>
-  <string name="pref_category_title_import">استيراد</string>
-  <string name="pref_category_title_manage">إدارة</string>
-  <string name="pref_category_title_more_information">المزيد من المعلومات</string>
-  <string name="pref_category_title_security">الأمان</string>
-  <string name="pref_category_title_ui">واجهة المستخدم</string>
-  <string name="pref_checkbox_enabled">مفعل</string>
-  <string name="pref_checkbox_disabled">معطل</string>
-  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
-  <string name="pref_contrib_purchase_title">مفتاح الشراء</string>
-  <string name="pref_contrib_purchase_title_upgrade">مفتاح الترقية </string>
-  <string name="pref_contrib_purchase_title_in_app">الشراء داخل التطبيق</string>
-  <string name="pref_custom_currency_title">تخصيص العملات</string>
-  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
-  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">إذا حصلت على المفتاح, يمكنك الحصول على الميزات الكاملة </string>
-  <string name="pref_enter_licence_title" tools:ignore="UnusedResources">أدخل المفتاح</string>
-  <string name="pref_export_format_title">تنسيق البيانات</string>
-  <string name="pref_import_from_grisbi_summary">استيراد التصنيفات والأطراف  Grisbi XML </string>
-  <string name="pref_import_from_grisbi_title">استيراد من Grisbi</string>
-  <!--%s is replaced with QIF or CSV-->
-  <string name="pref_import_summary">استيراد العمليات والتصنيفات والحفلات من الملف %s</string>
-  <!--%s is replaced with QIF or CSV-->
-  <string name="pref_import_title">استيراد %s</string>
-  <string name="pref_like_facebook_title">الإعجاب بصفحتنا في الفيسبوك</string>
-  <string name="pref_manage_accounts_title">الحسابات</string>
-  <string name="pref_manage_categories_summary">إضافة، تعديل، حذف التصنيفات.</string>
-  <string name="pref_manage_categories_title">التصنيفات</string>
-  <string name="pref_manage_methods_summary">إضافة وتعديل طرق الدفع وربطها مع أنواع الحسابات.</string>
-  <string name="pref_manage_methods_title">طرق الدفع</string>
-  <string name="pref_manage_parties_summary">إضافة، تعديل، حذف الأطراف (المشترين والمستفيدين)</string>
-  <string name="pref_manage_parties_title">الأطراف</string>
-  <string name="pref_manage_sync_backends_title">الخلفية المزامنة</string>
-  <!--%s will be replaced with list of backends-->
-  <string name="pref_more_info_dialog_title">الرخصة &amp; الشكر</string>
-  <string name="pref_password_not_equal">كلمات المرور لا تتطابق</string>
-  <string name="pref_perform_share_title">مشاركة النسخ الاحتياطية والملفات المصدّرة</string>
-  <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
-  <string name="pref_planning_calendar_create_local">انشاء مخطِط تقويم محلي جديد</string>
-  <string name="pref_planning_calendar_summary">حدد التقويم الذي تم تخزين الخطط المستقبلية والمعاملات المتكررة فيه</string>
-  <string name="pref_planning_calendar_title">تخطيط تقويم</string>
-  <string name="pref_protection_delay_seconds_summary">عند الخمول، عدد الثواني قبل طلب الباسوورد</string>
-  <string name="pref_protection_delay_seconds_title">مهلة الحماية</string>
-  <string name="pref_protection_enable_data_entry_from_widget_summary_on">بدون باسوورد.</string>
-  <string name="pref_protection_enable_data_entry_from_widget_summary_off">يتطلب كلمة مرور.</string>
-  <string name="pref_qif_export_file_encoding_title">ترميز الحروف</string>
-  <string name="pref_request_licence_title">اطلب مفتاح</string>
-  <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
-  <string name="pref_restore_alternative">بديل</string>
-  <string name="pref_restore_alternative_summary">استخدم هذه الطريقة البديلة إذا لم يكن مدير ملفات مثبتا على الجهاز</string>
-  <string name="pref_restore_summary">اختر نسخة احتياطية لاسترجاع قاعدة البيانات والتفضيلات</string>
-  <string name="pref_restore_title">استعادة</string>
-  <string name="pref_security_question_summary">تسمح لك بفتح قفل التطبيق، إذا كنت قد نسيت كلمة المرور.</string>
-  <string name="pref_security_question_title">السؤال السري</string>
-  <string name="pref_send_feedback_title">ارسال ملاحظة أو تقييم</string>
-  <string name="pref_share_target_summary">اتركه فارغا إذا أردت الاختيار بين التطبيقات المناسبة (البريد الالكتروني، دروب بوكس، مستندات قوقل، …) أو قم بإدخل رابط كأحد الطرق المدعومة</string>
-  <string name="pref_share_target_title">رابط الرفع</string>
-  <string name="pref_shortcut_added">تمت إضافة اختصار للشاشة الرئيسية.</string>
-  <string name="pref_shortcut_not_added">لا يوجد مكان للاختصار في الشاشة الرئيسية.</string>
-  <string name="pref_shortcut_summary">إضافة اختصار للشاشة الرئيسية.</string>
-  <string name="pref_ui_fontsize_title">زيادة حجم الخط</string>
-  <string name="pref_ui_home_screen_shortcuts">اختصارات الشاشة الرئيسية</string>
-  <string name="pref_ui_language_default">افتراضي</string>
-  <!--Title of the preference for selecting the UI language-->
-  <string name="pref_ui_language_title">اللغة</string>
-  <string name="pref_ui_theme_dark">غامق</string>
-  <string name="pref_ui_theme_light">فاتح</string>
-  <string name="pref_ui_theme_title">المظهر</string>
-  <string name="pref_visit_website_summary">التغييرات والاسئلة المتكررة</string>
-  <string name="pref_visit_website_title">زيارة الموقع</string>
-  <string name="progress_dialog_loading">جاري التحميل من قاعدة البيانات</string>
-  <string name="progress_dialog_printing">انشاء ملف PDF</string>
-  <string name="qif_parse_result">تم إيجاد: %1$s حسابات; %2$s تصنيفات و %3$s أطراف</string>
-  <string name="qif_parse_failure_found_multiple_accounts">تم العثور على أكثر من حساب في ملف QIF.</string>
-  <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">لا يمكن دمجهم لحساب موجود. </string>
-  <string name="reference_number">رقم المرجع</string>
-  <string name="restore_db_failure">فشلت عملية استعادة قاعدة البيانات.</string>
-  <string name="restore_db_success">تم استعادة قاعدة البيانات من النسخة الاحتياطية.</string>
-  <string name="restore_no_backup_found">لا يوجد نسخة احتياطية.</string>
-  <string name="restore_preferences_failure">فشلت عملية استعادة التفضيلات.</string>
-  <string name="restore_backup_archive_not_valid">الأرشيف %1$s غير صالح</string>
-  <string name="restore_backup_file_not_found">لم يتم إيجاد الملف %1$s في أرشيف \"%2$s\"</string>
-  <string name="restore_preferences_success">تم استعادة التفضيلات من النسخة الاحتياطية.</string>
-  <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d خطط تم استعادتها من النسخة الإحتياطية</string>
-  <string name="save_transaction_and_new_success">تم حفظ العملية بنجاح</string>
-  <string name="save_transaction_error">لا يمكن حفظ عملية جديدة من نموذج</string>
-  <string name="save_transaction_template_deleted">تم حذف النموذج</string>
-  <string name="select">اختر</string>
-  <string name="select_category">اختر تصنيف</string>
-  <string name="share_scheme_not_supported">الطريقة %1$s غير مدعومة</string>
-  <string name="share_sending">ارسال الملف المصدّر</string>
-  <string name="split_parts_heading">تقسيم</string>
-  <string name="split_transaction">تقسيم العمليات</string>
-  <string name="status">الحالات.</string>
-  <string name="subcategory">التصنيفات الفرعية</string>
-  <string name="sum_expenses">المصاريف</string>
-  <string name="sum_income">الدخل</string>
-  <string name="sum_transfer">التحويلات</string>
-  <!--platform is replaced with Android or Blackberry-->
-  <string name="thank_you">شكراً لدعمك!</string>
-  <string name="time">الوقت</string>
-  <string name="title">العنوان</string>
-  <string name="transaction">العملية</string>
-  <string name="transfer">التحويل</string>
-  <string name="transfer_from_account">من</string>
-  <string name="transfer_to_account">إلى</string>
-  <!--Type refers to the type of an account, eg. Cash account, bank account-->
-  <string name="type">النوع</string>
-  <string name="unsplit_amount">توحيد قيمة</string>
-  <string name="unsplit_amount_greater_than_zero">لا يزال هناك بعض القيم لم توحد.</string>
-  <string name="warning_backup">سيتم حفظ قاعدة البينات والتفضيلات في الذاكرة %1$s.</string>
-  <string name="continue_confirmation">هل تريد الاستمرار ؟</string>
-  <string name="warning_delete_account">سيتم حذف هذا الحساب مع كامل العمليات المتعلقة به (%1$s).</string>
-  <string name="warning_password_protected">تم حماية التطبيق بكلمة مرور.</string>
-  <string name="warning_widget_disabled">يجب تمكين هذا الويدجت من إعدادات التطبيق.</string>
-  <string name="warning_password_contrib">اعداد سؤال الامان يمكنك من إلغاء قفل التطبيق، في حال نسيت كلمة المرور.</string>
-  <string name="warning_reset_account">إذا قمت بالمتابعة ، كل العمليات الخاصة بهذا الحساب سيتم حذفها من قاعدة البيانات ولا يمكنك استرجاعها لاحقاً.</string>
-  <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
-  <string name="warning_reset_account_all">إذا قمت بالمتابعة ، كل الحسابات والعمليات%1$s سيتم حذفها من قاعدة البيانات ولا يمكنك استرجاعها لاحقاً.</string>
-  <string name="warning_restore">سيتم استرجاع قاعدة البيانات والتفضيلات من النسخة احتياطية %1$s. سيتم حذف البيانات الحالية.</string>
-  <string name="warning_splitpartcategory_context">لا يمكن تعديل أو حذف التحويلات التي تكون جزء من تقسيم إلا إذا كانت في سياق التقسيم.</string>
-  <string name="import_accounts_none">لا يوجد حسابات مستوردة</string>
-  <string name="menu_create_folder">مجلد جديد</string>
-  <!--This string is used for navigating up in the folder browser-->
-  <string name="menu_up">أعلى</string>
-  <string name="create_new_folder_fail">فشل في انشاء المجلد</string>
-  <string name="widget_title_accounts">حساباتي</string>
-  <string name="widget_title_templates">نماذجي</string>
-  <string name="search_category">ابحث عن تصنيف</string>
-  <string name="search_comment">ابحث عن ملاحظة</string>
-  <string name="search_date">ابحث عن تاريخ</string>
-  <string name="search_status">ابحث عن حالة</string>
-  <string name="and">و</string>
-  <string name="between_and">بين %1$s و %2$s</string>
-  <string name="before">قبل %s</string>
-  <string name="after">بعد %s</string>
-  <string name="comparison_operator_equal">مساوي لـ</string>
-  <string name="comparison_operator_greater_than">أكبر من</string>
-  <string name="comparison_operator_lesser_than">أقل من</string>
-  <string name="comparison_operator_between">بين</string>
-  <string name="comparison_operator_date_before">قبل</string>
-  <string name="comparison_operator_date_after">بعد</string>
-  <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">.عملية الشراء فشلت أو ألغيت</string>
-  <string name="yes">نعم</string>
-  <string name="no">لا</string>
-  <string name="import_source_file">ملف</string>
-  <string name="restore_calendar_handling_ignore">لا تستعيد الخطط</string>
-  <string name="menu_view_picture">أعرض الصورة</string>
-  <string name="menu_delete_picture">احذف الصورة</string>
-  <string name="menu_change_picture">أرفق صورة أخرى</string>
-  <string name="menu_distribution_show_pie_char">أظهر التخطيط البياني</string>
-  <string name="menu_distribution_aggreate">مجموع المصروفات والدخل</string>
-  <string name="image_deleted">تم حدذف الصورة</string>
-  <string name="export_handle_deleted_update_balance">حدث الرصيد الافتتاحي</string>
-  <string name="file_name">اسم الملف</string>
-  <string name="folder_name">اسم المجلد</string>
-  <string name="menu_undelete_transaction">تراجع عن الحذف</string>
-  <string name="slash_forbidden_in_filename">/ رمز غير مسموح به في اسماء الملفات</string>
-  <string name="io_error_unable_to_create_file">غير قادر على إنشاء الملف %1$s في المجلد %2$s</string>
-  <string name="menu_categories_export">تصدير لصيغة QIF</string>
-  <string name="csv_import_preview">معاينة</string>
-  <!--Label for column where user can check rows to be discarded from import-->
-  <string name="cvs_import_discard">تجاهل</string>
-  <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d غير قادر على استيراد التسجيلات</string>
-  <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d التسجيلات تم تجاهلها</string>
-  <string name="cvs_import_set_first_line_as_header">هل يتوجب التعامل مع السطر الأول كرأس للجدول؟</string>
-  <string name="csv_import_delimiter_comma">فاصلة</string>
-  <string name="csv_import_delimiter_semicolon">نقطة وفاصلة</string>
-  <string name="menu_show_transactions">أظهر العمليات</string>
-  <string name="pref_custom_decimal_format_title">تنسيق الرقم</string>
-  <string name="pref_custom_decimal_format_summary">إذا لم تكن راضي مع التنسيق الافتراضي لجهازك، حوله لما يناسبك. اتركه فارغا لتستعيد التنسيق الافتراضي.</string>
-  <string name="pref_auto_backup_title">نسخ احتياطي آلي</string>
-  <string name="pref_auto_backup_summary">نسخ احتياطي لقاعدة البيانات يوميا في وقت محدد (فقط في حالة تغير البيانات)</string>
-  <string name="pref_auto_backup_time_title">وقت النسخ الاحتياطي الآلي</string>
-  <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">بعد %d نسخ احتياطي آلي ناجح، سيتم إيقاف النسخ الاحتياطي الآلي.</string>
-  <string name="switch_on_text">تشغيل</string>
-  <string name="switch_off_text">إيقاف</string>
-  <string name="menu_move">تحريك</string>
-  <string name="dialog_title_select_target">حدد هدف</string>
-  <string name="preferences_week_start_day_title">يبدأ الأسبوع يوم</string>
-  <string name="preferences_month_start_date_title">الشهر يبدأ من</string>
-  <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
-  <string name="exchange_rate">معدل الصرف</string>
-  <string name="date_format_hour">ساعة</string>
-  <string name="date_format_minute">دقيقة</string>
-  <string name="copied_to_clipboard">تم النسخ للحافظة</string>
-  <string name="menu_sort">رتب بواسطة</string>
-  <string name="pref_sort_order_last_used">آخر استخدام</string>
-  <string name="pref_sort_order_custom">تخصيص</string>
-  <string name="content_description_calculator">الحاسبة</string>
-  <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
-  <string name="plan_instance_state_open">فتح</string>
-  <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
-  <string name="plan_instance_state_cancelled">تم الإلغاء</string>
-  <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
-  <string name="plan_instance_state_applied">تم التطبيق</string>
-  <!--Sort plans (recurring transactions) by the next instance-->
-  <string name="validate_error_not_empty">لا يجب أن تكون فارغة </string>
-  <string name="url_not_valid">الرابط غير صحيح</string>
-  <string name="menu_sync_unlink">أوقف المزامنة</string>
-  <string name="menu_sync_link">إبدأ المزامنة</string>
-  <string name="menu_sync_download">تحميل و منزامنة</string>
-  <string name="template">نموذج</string>
-  <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">تزامن سحابي</string>
-  <string name="all_contrib_key_features">جميع ميزات مفتاح المساهمة</string>
-  <string name="all_extended_key_features">جميع ميزات Extended Key</string>
-  <!--button leading user to purchase flow for licence keys-->
-  <string name="home_screen_shortcuts_nougate_info">يمكن إضافة إختصار عن طريق الضغط الطويل على الايقونة في الشاشة الرئيسية</string>
-  <string name="currency_symbol">رمز العملة</string>
-  <string name="sync_error_will_try_again_later">سوف أحاول مرة أخرى لاحقا</string>
-  <!--During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed-->
-  <string name="professional_key">المفتاح شامل</string>
-  <!--%1$s date, %2$s price-->
-  <string name="extend_validity">مدد الصلاحية</string>
-  <!--A label indicating the color for the sum of expenses-->
-  <!--A label indicating the color for the sum of income-->
-  <!--This is the label for the action that breaks up a split transaction into its parts.-->
-  <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
-  <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
-  <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
-  <!--Content description for accessibility on image that allows to collapse content-->
-  <!--Content description for accessibility on image that allows to expand content-->
-  <!--Short label for the amount input where user can set either saving goal or credit limit-->
-  <!--Description for button that allows to clear the selected method-->
-  <!--Description for button that allows to clear the selected category-->
-  <!--In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
-    to search for transactions without category, payee or method. The UI allows selection of multiple items,
-    but we warn the user if he includes this special item in the selection.-->
-  <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
-  <!--Action of closing an account. A closed account does not allow any modifications on its data.-->
-  <!--Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data.-->
-  <!--Menu entry for opening a list of all hidden accounts.-->
-  <!--Action of showing an account again that had previously been hidden.-->
-  <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
-  <string name="content_description_encrypted">مشفر</string>
-  <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
-  <string name="translated_by">مت الترجمة بواسطة</string>
-  <!--This message is shwon when we highlight the income / expense toogle, to make user aware of this feature-->
-  <!--This message is shwon when we highlight the dropdown for switching from normal transaction to transfer or split transaction,to make user aware of this feature-->
-  <!--Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list.-->
-  <!--Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method"-->
-  <!--If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
-        because no payment method is configured for all of the given account types.-->
-  <!--The label for the button, where user confirms that he wants to clone the selected transactions and then remap them.-->
-  <!--The summary of a preference toggle. If switched on cloned transactions have the date set to the current date-->
-  <!--The summary of a preference toggle. If switched off cloned transactions keep the original date-->
-  <!--This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction-->
-  <!--%s will be replaced with the labels of all tags that user has selected.-->
-  <!--Title for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
-  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
-  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application)-->
-  <!--Title in Settings screen, and title of dynamically loaded feature module-->
-  <!--If this mode is active, the action button will open the camera for scanning a receipt-->
-  <!--Button that triggers the scan operation-->
-  <!--Title for a preference that allows user to decide if all transactions of the current day should be considered as past (future begins at end of day), or if the exact current time divides between past and future-->
-  <!--Option for a preference that allows to decide that all transactions until end of day are considered past transactions-->
-  <!--Option for a preference that allows to decide that only transactions before current time are considered past transactions-->
-  <!--Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)-->
-  <string name="pref_category_title_features">الخصائص</string>
-  <!--Toast message shown if user clicks on Upgrade button before having selected a licence-->
-</resources>
+    <string name="account">الحساب</string>
+    <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
+    <string name="account_types">أنواع الحسابات</string>
+    <string name="account_type_asset">حساب الاصول</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_asset_plural">حسابات الاصول</string>
+    <string name="account_type_bank">حساب البنك</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_bank_plural">حسابات البنك</string>
+    <string name="account_type_cash">حساب النقد</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_cash_plural">الحسابات النقدية</string>
+    <string name="account_type_ccard">بطاقة ائتمانية</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_ccard_plural">بطاقات الإتمان</string>
+    <string name="account_type_liability">حساب الالتزامات</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_liability_plural">حسابات الالتزامات</string>
+    <string name="already_defined">%1$s معرّف مسبقاً</string>
+    <string name="amount">القيمة</string>
+    <string name="app_name">مصروفاتي</string>
+    <string name="backup_failure">فشلت عملية النسخ الاحتياطي للذاكرة (%1$s).</string>
+    <string name="backup_success">تم حفظ قاعدة البيانات والتفضيلات في الذاكرة بنجاح (%1$s).</string>
+    <string name="category">التصنيف</string>
+    <string name="color">اللون</string>
+    <string name="comment">ملاحظات</string>
+    <string name="confirmation_dialog_dont_show_again">لا تظهر مرة أخرى</string>
+    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">بدون إعلانات</string>
+    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">عدد حسابات غير محدود</string>
+    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">إرفاق صورة إلى عملية</string>
+    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">عدد غير محدود من الخطط</string>
+    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">تصدير قائمة العمليات إلى PDF</string>
+    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">إستيراد ملف CSV</string>
+    <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>دعم البريد الإلكتروني</b> مع استجابة مضمونة في غضون يومي عمل</string>
+    <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">حق التصويت على <b> مخططات التنمية</b></string>
+    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">مخطط زمني (التدفق النقدي)</string>
+    <string name="licence_status_free">خالي</string>
+    <string name="contrib_key">مفتاح المساهمة</string>
+    <string name="extended_key">مفتاح موسع</string>
+    <string name="currency">العملة</string>
+    <string name="current_balance">الرصيد الحالي</string>
+    <string name="date">التاريخ</string>
+    <string name="date_format">صيغة التاريخ</string>
+    <string name="date_format_illegal">تنسيق التاريخ غير صحيح</string>
+    <string name="decimal_separator">فاصلة عشرية</string>
+    <string name="description">الوصف</string>
+    <string name="dialog_confirm_discard_changes">تجاهل التغييرات؟</string>
+    <string name="dialog_confirm_discard_new_method">هل تريد الغاء طريقة الدفع الجديدة؟</string>
+    <string name="dialog_command_disabled_reset_account">لا يوجد عمليات لتصديرها.</string>
+    <string name="dialog_command_disabled_distribution">لا يوجد عمليات معينة للتصنيفات لهذا الحساب.</string>
+    <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
+    <string name="dialog_contrib_premium_feature">%1$s هذه الخاصية تتطلب ميزات كاملة (%2$s).</string>
+    <string name="dialog_contrib_text_2">يرجى المساهمة بترقية <i>{app_name}</i> والحصول على وصول غير مقيد إلى الميزات التالية:</string>
+    <string name="dialog_export_delete">حذف العمليات المصدّرة</string>
+    <string name="dialog_export_not_yet_exported">تصدير العمليات التي لم تصدّر بعد</string>
+    <string name="dialog_password_activate_protection">تفعيل حماية كلمة المرور</string>
+    <string name="dialog_password_change_password">تغيير كلمة المرور</string>
+    <string name="dialog_password_new_password">كلمة مرور الجديدة</string>
+    <string name="dialog_password_new_password_confirmation">كلمة المرور الجديدة (للتأكيد)</string>
+    <string name="dialog_remind_later">لاحقاً</string>
+    <string name="dialog_remind_no">لا شكراً</string>
+    <string name="dialog_remind_rate_1">فضلا قم بتقييم {app_name}.</string>
+    <string name="dialog_remind_rate_2">تعليقاتكم تسمح لنا بالاستمرار في تحسين و ترقية البرنامج .</string>
+    <string name="dialog_remind_rate_yes">تقييم الآن</string>
+    <string name="dialog_security_answer">الإجابة</string>
+    <string name="dialog_security_question">السؤال</string>
+    <string name="dialog_title_attention">تحذير</string>
+    <string name="dialog_title_information">معلومات</string>
+    <!-- %1$s is replace with account label -->
+    <string name="dialog_title_balance_account">رصيد %1$s</string>
+    <string name="dialog_title_contrib_feature">المميزات الكاملة</string>
+    <string name="dialog_title_warning_delete_template">حذف نموذج؟</string>
+    <string name="dialog_title_warning_delete_transaction">حذف عملية؟</string>
+    <string name="expense">الصرف</string>
+    <string name="export_expenses">تصدير المصروفات</string>
+    <!-- 1$s is replaced with path to file, 2$s with error message -->
+    <string name="export_sdcard_failure">فشلت عملية تصدير المصروفات للذاكرة %1$s:  %2$s</string>
+    <!-- 1$s is replaced with path to file -->
+    <string name="export_sdcard_success">تم تصدير المصروفات إلى ملف %1$s</string>
+    <string name="external_storage_unavailable">لا يوجد ذاكرة خارجية (sdcard)</string>
+    <string name="feedback">التقييم</string>
+    <string name="ftp_uri_malformed">خطأ في العنوان %1$s</string>
+    <string name="grisbi_import_categories_loading">جاري تحميل التصنيفات من %1$s</string>
+    <string name="grisbi_import_parties_loading">جاري تحميل الاطراف من %1$s</string>
+    <string name="grouping_day">يوم</string>
+    <string name="grouping_last_week">نهاية الاسبوع</string>
+    <string name="grouping_month">شهر</string>
+    <string name="grouping_none">منفردة</string>
+    <string name="grouping_this_week">هذا الأسبوع</string>
+    <string name="grouping_today">اليوم</string>
+    <string name="grouping_week">الأسبوع</string>
+    <string name="grouping_year">السنة</string>
+    <string name="grouping_yesterday">أمس</string>
+    <string name="help_button_rate">تقييم أو تعليق</string>
+    <string name="help_heading_credits">النقاط</string>
+    <string name="help_heading_license">الترخيص</string>
+    <string name="help_heading_whats_new">آخر الاخبار</string>
+    <string name="important_upgrade_information_heading">معلومات مهمة</string>
+    <string name="import_select_transactions">العمليات</string>
+    <string name="income">الدخل</string>
+    <string name="invalid_number_format">لا يمكن استخدام الاعداد العشرية. فضلا استخدم %1$s</string>
+    <string name="label">عبارة توضيحية</string>
+    <string name="licence_validation_failure">تعذر التحقق من صحة مفتاح الترخيص.</string>
+    <string name="menu_aggregates">المجموع</string>
+    <!-- Shown in a notification; allows to apply a template (instantiate a new transaction from it) -->
+    <string name="menu_apply_template">تطبيق</string>
+    <string name="menu_back">رجوع</string>
+    <string name="menu_backup">نسخة احتياطية</string>
+    <!-- Balance: compare cleared balance in app with balance on statement received from bank -->
+    <string name="menu_balance">رصيد الحساب</string>
+    <!-- Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction -->
+    <string name="menu_cancel_plan_instance">إلغاء</string>
+    <string name="menu_clone_transaction">استنساخ</string>
+    <string name="menu_contrib">المساهمة</string>
+    <string name="menu_create_account">حساب جديد</string>
+    <string name="menu_create_instance_edit">تطبيق وتعديل</string>
+    <string name="menu_create_instance_save">تطبيق وحفظ</string>
+    <string name="menu_create_main_cat">تصنيف أساسي جديد</string>
+    <string name="menu_create_method">طريقة دفع جديدة</string>
+    <string name="menu_create_party">طرف جديد</string>
+    <string name="menu_create_split">تقسيم جديد</string>
+    <string name="menu_create_split_part_category">تقسيم تصنيف جديد</string>
+    <string name="menu_create_split_part_transfer">تقسيم تحويل جديد</string>
+    <string name="menu_create_sub_cat">تصنيف فرعي جديد</string>
+    <string name="menu_create_template">نموذج جديد</string>
+    <string name="menu_create_template_from_transaction">حفظ كنموذج</string>
+    <string name="menu_create_template_for_transaction">نموذج عملية جديد</string>
+    <string name="menu_create_template_for_transfer">نموذج تحويل جديد</string>
+    <string name="menu_create_transaction">عملية جديدة</string>
+    <string name="menu_create_transfer">تحويل جديد</string>
+    <string name="menu_delete">حذف</string>
+    <string name="menu_distribution">توزيع</string>
+    <string name="menu_edit">تعديل</string>
+    <string name="menu_edit_account">تعديل الحساب</string>
+    <string name="menu_edit_cat">تعديل تصنيف</string>
+    <string name="menu_edit_method">تعديل طريقة الدفع</string>
+    <string name="menu_edit_party">تعديل طرف</string>
+    <string name="menu_edit_split">تعديل تقسيم</string>
+    <string name="menu_edit_split_part_category">تعديل تقسيم تصنيف</string>
+    <string name="menu_edit_split_part_transfer">تعديل تقسيم تحويل</string>
+    <string name="menu_edit_template">تعديل نموذج</string>
+    <string name="menu_edit_transaction">تعديل عملية</string>
+    <string name="menu_edit_transfer">تعديل تحويل</string>
+    <string name="menu_forward">تقدم</string>
+    <string name="menu_grouping">تجميع</string>
+    <string name="menu_help">مساعدة</string>
+    <!-- This command inverts the direction of a transfer -->
+    <string name="menu_invert_transfer">عكس</string>
+    <string name="menu_manage_plans">النماذج والخطط</string>
+    <string name="menu_import">استيراد</string>
+    <string name="menu_print">طباعة</string>
+    <string name="menu_reset">تصدير وإعادة تعيين</string>
+    <string name="menu_reset_all">تصدير وإعادة تعيين الكل</string>
+    <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
+    <string name="menu_reset_plan_instance">إعادة تعيين</string>
+    <string name="menu_save">حفظ</string>
+    <string name="menu_save_and_new">حفظ وجديد</string>
+    <string name="menu_settings">الاعدادات</string>
+    <string name="menu_share">اخبر صديق</string>
+    <string name="method">طريقة الدفع او السداد</string>
+    <string name="no_amount_given">لم تقم بإدخال قيمة.</string>
+    <string name="no_app_handling_email_available">لا يوجد تطبيق للبريد الالكتروني.</string>
+    <string name="no_app_handling_ftp_available">لا يوجد تطبيق لـ ftp. تثبيت <i>Send With FTP</i>؟</string>
+    <string name="no_app_handling_pdf_available">لا يوجد تطبيق لمعاينة ملفات الPDF </string>
+    <string name="no_categories">لا يوجد تصنيفات.</string>
+    <string name="no_expenses">لا يوجد مصروفات حتى الأن!</string>
+    <string name="no_exportable_expenses">لا يوجد عمليات لم يتم تصديرها بعد.</string>
+    <string name="no_filemanager_installed">لم يتم تثبيت مدير ملفات</string>
+    <string name="no_mapped_transactions">لا يوجد عمليات لهذا التصنيف خلال هذه الفترة.</string>
+    <string name="no_methods">لا يوجد طرق دفع.</string>
+    <string name="no_parties">لا يوجد أطراف.</string>
+    <string name="no_split_parts">لا يوجد تقسيمات</string>
+    <string name="no_templates">لا يوجد نماذج.</string>
+    <string name="no_title_given">لم تقم بإدخال عنوان.</string>
+    <string name="numbered">مرقم</string>
+    <string name="opening_balance">الرصيد الافتتاحي</string>
+    <string name="parse_error_file_not_found">لم يتم العثور على الملف %1$s</string>
+    <string name="parse_error_grisbi_version_not_supported">نسخة ملف Grisbi غير مدعومة: %1$s</string>
+    <string name="parse_error_no_data_found">لا يوجد بيانات قابلة للاستيراد في الملف.</string>
+    <string name="parse_error_other_exception">خطأ: %1$s</string>
+    <string name="parse_error_parse_exception">لا يمكن فتح الملف</string>
+    <string name="password_disabled_reenable">تم تعطيل كلمة المرور. يمكنك تمكينه من جديد عن طريق الاعدادات.</string>
+    <string name="password_lost">نسيت كلمة المرور</string>
+    <string name="password_not_valid">كلمة المرور غير صحيحة. حاول مجددا!</string>
+    <string name="password_prompt">ادخل كلمة المرور</string>
+    <string name="password_security_answer_not_valid">إجابة خاطئة. حاول مرة أخرى!</string>
+    <string name="payee">المستفيد</string>
+    <string name="payer">المشتري</string>
+    <!-- Plan for future and recurring transactions -->
+    <string name="plan">خطة</string>
+    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
+    <string name="plan_automatic">تلقائي</string>
+    <!-- this is the label for the calendar where plans for future and recurrent transactions are stored -->
+    <string name="plan_calendar_name">مخطط {app_name}</string>
+    <string name="planner_notification_channel_name">مخطط</string>
+    <string name="plan_event_deleted">تم حذف الخطة المتعلقة بهذا النموذج من التقويم.</string>
+    <!-- This message is shown, after a user decides to not apply a manual plan -->
+    <string name="plan_execution_canceled">تم إلغاء تنفيذ الخطة</string>
+    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
+    <string name="plan_manual">يدوية</string>
+    <string name="planner_create_calendar_failure">غير قادر على انشاء مخطِط تقويم محلي</string>
+    <string name="planner_create_calendar_success">تم انشاء مخطِط تقويم محلي بنجاح</string>
+    <!-- payment methods -->
+    <string name="pm_cheque">شيك</string>
+    <string name="pm_creditcard">بطاقة ائتمانية</string>
+    <string name="pm_deposit">إيداع</string>
+    <string name="pm_directdebit">أمر مستديم</string>
+    <string name="pm_type_credit">Credit</string>
+    <string name="pm_type_debit">مدين</string>
+    <string name="pm_type_neutral">محايد</string>
+    <string name="pref_app_dir_title">مجلد للنسخ الاحتياطية والتصديرات</string>
+    <string name="pref_backup_summary">حفظ نسخة احتياطية لقاعدة البيانات والتفضيلات في الذاكرة.</string>
+    <string name="pref_sort_order_usages">عدد مرات الاستعمال</string>
+    <string name="pref_category_title_advanced">متقدم</string>
+    <string name="pref_category_title_export">تصدير</string>
+    <string name="pref_category_title_import">استيراد</string>
+    <string name="pref_category_title_manage">إدارة</string>
+    <string name="pref_category_title_more_information">المزيد من المعلومات</string>
+    <string name="pref_category_title_security">الأمان</string>
+    <string name="pref_category_title_ui">واجهة المستخدم</string>
+    <string name="pref_checkbox_enabled">مفعل</string>
+    <string name="pref_checkbox_disabled">معطل</string>
+    <string name="pref_contrib_purchase_title">مفتاح الشراء</string>
+    <string name="pref_contrib_purchase_title_upgrade">مفتاح الترقية </string>
+    <string name="pref_contrib_purchase_title_in_app">الشراء داخل التطبيق</string>
+    <string name="pref_custom_currency_title">تخصيص العملات</string>
+    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
+    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">إذا حصلت على المفتاح, يمكنك الحصول على الميزات الكاملة </string>
+    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">أدخل المفتاح</string>
+    <string name="pref_export_format_title">تنسيق البيانات</string>
+    <string name="pref_import_from_grisbi_summary">استيراد التصنيفات والأطراف  Grisbi XML </string>
+    <string name="pref_import_from_grisbi_title">استيراد من Grisbi</string>
+    <!-- %s is replaced with QIF or CSV -->
+    <string name="pref_import_summary">استيراد العمليات والتصنيفات والحفلات من الملف %s</string>
+    <!-- %s is replaced with QIF or CSV -->
+    <string name="pref_import_title">استيراد %s</string>
+    <string name="pref_like_facebook_title">الإعجاب بصفحتنا في الفيسبوك</string>
+    <string name="pref_manage_accounts_title">الحسابات</string>
+    <string name="pref_manage_categories_summary">إضافة، تعديل، حذف التصنيفات.</string>
+    <string name="pref_manage_categories_title">التصنيفات</string>
+    <string name="pref_manage_methods_summary">إضافة وتعديل طرق الدفع وربطها مع أنواع الحسابات.</string>
+    <string name="pref_manage_methods_title">طرق الدفع</string>
+    <string name="pref_manage_parties_summary">إضافة، تعديل، حذف الأطراف (المشترين والمستفيدين)</string>
+    <string name="pref_manage_parties_title">الأطراف</string>
+    <string name="pref_manage_sync_backends_title">الخلفية المزامنة</string>
+    <string name="pref_more_info_dialog_title">الرخصة &amp; الشكر</string>
+    <string name="pref_password_not_equal">كلمات المرور لا تتطابق</string>
+    <string name="pref_perform_share_title">مشاركة النسخ الاحتياطية والملفات المصدّرة</string>
+    <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
+    <string name="pref_planning_calendar_create_local">انشاء مخطِط تقويم محلي جديد</string>
+    <string name="pref_planning_calendar_summary">حدد التقويم الذي تم تخزين الخطط المستقبلية والمعاملات المتكررة فيه</string>
+    <string name="pref_planning_calendar_title">تخطيط تقويم</string>
+    <string name="pref_protection_delay_seconds_summary">عند الخمول، عدد الثواني قبل طلب الباسوورد</string>
+    <string name="pref_protection_delay_seconds_title">مهلة الحماية</string>
+    <string name="pref_protection_enable_data_entry_from_widget_summary_on">بدون باسوورد.</string>
+    <string name="pref_protection_enable_data_entry_from_widget_summary_off">يتطلب كلمة مرور.</string>
+    <string name="pref_qif_export_file_encoding_title">ترميز الحروف</string>
+    <string name="pref_request_licence_title">اطلب مفتاح</string>
+    <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
+    <string name="pref_restore_alternative">بديل</string>
+    <string name="pref_restore_alternative_summary">استخدم هذه الطريقة البديلة إذا لم يكن مدير ملفات مثبتا على الجهاز</string>
+    <string name="pref_restore_summary">اختر نسخة احتياطية لاسترجاع قاعدة البيانات والتفضيلات</string>
+    <string name="pref_restore_title">استعادة</string>
+    <string name="pref_security_question_summary">تسمح لك بفتح قفل التطبيق، إذا كنت قد نسيت كلمة المرور.</string>
+    <string name="pref_security_question_title">السؤال السري</string>
+    <string name="pref_send_feedback_title">ارسال ملاحظة أو تقييم</string>
+    <string name="pref_share_target_summary">اتركه فارغا إذا أردت الاختيار بين التطبيقات المناسبة (البريد الالكتروني، دروب بوكس، مستندات قوقل، …) أو قم بإدخل رابط كأحد الطرق المدعومة</string>
+    <string name="pref_share_target_title">رابط الرفع</string>
+    <string name="pref_shortcut_added">تمت إضافة اختصار للشاشة الرئيسية.</string>
+    <string name="pref_shortcut_not_added">لا يوجد مكان للاختصار في الشاشة الرئيسية.</string>
+    <string name="pref_shortcut_summary">إضافة اختصار للشاشة الرئيسية.</string>
+    <string name="pref_ui_fontsize_title">زيادة حجم الخط</string>
+    <string name="pref_ui_home_screen_shortcuts">اختصارات الشاشة الرئيسية</string>
+    <string name="pref_ui_language_default">افتراضي</string>
+    <!-- Title of the preference for selecting the UI language -->
+    <string name="pref_ui_language_title">اللغة</string>
+    <string name="pref_ui_theme_dark">غامق</string>
+    <string name="pref_ui_theme_light">فاتح</string>
+    <string name="pref_ui_theme_title">المظهر</string>
+    <string name="pref_visit_website_summary">التغييرات والاسئلة المتكررة</string>
+    <string name="pref_visit_website_title">زيارة الموقع</string>
+    <string name="progress_dialog_loading">جاري التحميل من قاعدة البيانات</string>
+    <string name="progress_dialog_printing">انشاء ملف PDF</string>
+    <string name="qif_parse_result">تم إيجاد: %1$s حسابات; %2$s تصنيفات و %3$s أطراف</string>
+    <string name="qif_parse_failure_found_multiple_accounts">تم العثور على أكثر من حساب في ملف QIF.</string>
+    <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">لا يمكن دمجهم لحساب موجود. </string>
+    <string name="reference_number">رقم المرجع</string>
+    <string name="restore_db_failure">فشلت عملية استعادة قاعدة البيانات.</string>
+    <string name="restore_db_success">تم استعادة قاعدة البيانات من النسخة الاحتياطية.</string>
+    <string name="restore_no_backup_found">لا يوجد نسخة احتياطية.</string>
+    <string name="restore_preferences_failure">فشلت عملية استعادة التفضيلات.</string>
+    <string name="restore_backup_archive_not_valid">الأرشيف %1$s غير صالح</string>
+    <string name="restore_backup_file_not_found">لم يتم إيجاد الملف %1$s في أرشيف \"%2$s\"</string>
+    <string name="restore_preferences_success">تم استعادة التفضيلات من النسخة الاحتياطية.</string>
+    <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d خطط تم استعادتها من النسخة الإحتياطية</string>
+    <string name="save_transaction_and_new_success">تم حفظ العملية بنجاح</string>
+    <string name="save_transaction_error">لا يمكن حفظ عملية جديدة من نموذج</string>
+    <string name="save_transaction_template_deleted">تم حذف النموذج</string>
+    <string name="select">اختر</string>
+    <string name="select_category">اختر تصنيف</string>
+    <string name="share_scheme_not_supported">الطريقة %1$s غير مدعومة</string>
+    <string name="share_sending">ارسال الملف المصدّر</string>
+    <string name="split_parts_heading">تقسيم</string>
+    <string name="split_transaction">تقسيم العمليات</string>
+    <string name="status">الحالات.</string>
+    <string name="subcategory">التصنيفات الفرعية</string>
+    <string name="sum_expenses">المصاريف</string>
+    <string name="sum_income">الدخل</string>
+    <string name="sum_transfer">التحويلات</string>
+    <string name="thank_you">شكراً لدعمك!</string>
+    <string name="time">الوقت</string>
+    <string name="title">العنوان</string>
+    <string name="transaction">العملية</string>
+    <string name="transfer">التحويل</string>
+    <string name="transfer_from_account">من</string>
+    <string name="transfer_to_account">إلى</string>
+    <!-- Type refers to the type of an account, eg. Cash account, bank account -->
+    <string name="type">النوع</string>
+    <string name="unsplit_amount">توحيد قيمة</string>
+    <string name="unsplit_amount_greater_than_zero">لا يزال هناك بعض القيم لم توحد.</string>
+    <string name="warning_backup">سيتم حفظ قاعدة البينات والتفضيلات في الذاكرة %1$s.</string>
+    <string name="continue_confirmation">هل تريد الاستمرار ؟</string>
+    <string name="warning_delete_account">سيتم حذف هذا الحساب مع كامل العمليات المتعلقة به (%1$s).</string>
+    <string name="warning_password_protected">تم حماية التطبيق بكلمة مرور.</string>
+    <string name="warning_widget_disabled">يجب تمكين هذا الويدجت من إعدادات التطبيق.</string>
+    <string name="warning_password_contrib">اعداد سؤال الامان يمكنك من إلغاء قفل التطبيق، في حال نسيت كلمة المرور.</string>
+    <string name="warning_reset_account">إذا قمت بالمتابعة ، كل العمليات الخاصة بهذا الحساب سيتم حذفها من قاعدة البيانات ولا يمكنك استرجاعها لاحقاً.</string>
+    <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
+    <string name="warning_reset_account_all">إذا قمت بالمتابعة ، كل الحسابات والعمليات%1$s سيتم حذفها من قاعدة البيانات ولا يمكنك استرجاعها لاحقاً.</string>
+    <string name="warning_restore">سيتم استرجاع قاعدة البيانات والتفضيلات من النسخة احتياطية %1$s. سيتم حذف البيانات الحالية.</string>
+    <string name="warning_splitpartcategory_context">لا يمكن تعديل أو حذف التحويلات التي تكون جزء من تقسيم إلا إذا كانت في سياق التقسيم.</string>
+    <string name="import_accounts_none">لا يوجد حسابات مستوردة</string>
+    <string name="menu_create_folder">مجلد جديد</string>
+    <!-- This string is used for navigating up in the folder browser -->
+    <string name="menu_up">أعلى</string>
+    <string name="create_new_folder_fail">فشل في انشاء المجلد</string>
+    <string name="widget_title_accounts">حساباتي</string>
+    <string name="widget_title_templates">نماذجي</string>
+    <string name="search_category">ابحث عن تصنيف</string>
+    <string name="search_comment">ابحث عن ملاحظة</string>
+    <string name="search_date">ابحث عن تاريخ</string>
+    <string name="search_status">ابحث عن حالة</string>
+    <string name="and">و</string>
+    <string name="between_and">بين %1$s و %2$s</string>
+    <string name="before">قبل %s</string>
+    <string name="after">بعد %s</string>
+    <string name="comparison_operator_equal">مساوي لـ</string>
+    <string name="comparison_operator_greater_than">أكبر من</string>
+    <string name="comparison_operator_lesser_than">أقل من</string>
+    <string name="comparison_operator_between">بين</string>
+    <string name="comparison_operator_date_before">قبل</string>
+    <string name="comparison_operator_date_after">بعد</string>
+    <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">.عملية الشراء فشلت أو ألغيت</string>
+    <string name="yes">نعم</string>
+    <string name="no">لا</string>
+    <string name="import_source_file">ملف</string>
+    <string name="restore_calendar_handling_ignore">لا تستعيد الخطط</string>
+    <string name="menu_view_picture">أعرض الصورة</string>
+    <string name="menu_delete_picture">احذف الصورة</string>
+    <string name="menu_change_picture">أرفق صورة أخرى</string>
+    <string name="menu_distribution_show_pie_char">أظهر التخطيط البياني</string>
+    <string name="menu_distribution_aggreate">مجموع المصروفات والدخل</string>
+    <string name="image_deleted">تم حدذف الصورة</string>
+    <string name="export_handle_deleted_update_balance">حدث الرصيد الافتتاحي</string>
+    <string name="file_name">اسم الملف</string>
+    <string name="folder_name">اسم المجلد</string>
+    <string name="menu_undelete_transaction">تراجع عن الحذف</string>
+    <string name="slash_forbidden_in_filename">/ رمز غير مسموح به في اسماء الملفات</string>
+    <string name="io_error_unable_to_create_file">غير قادر على إنشاء الملف %1$s في المجلد %2$s</string>
+    <string name="menu_categories_export">تصدير لصيغة QIF</string>
+    <string name="csv_import_preview">معاينة</string>
+    <!-- Label for column where user can check rows to be discarded from import -->
+    <string name="cvs_import_discard">تجاهل</string>
+    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d غير قادر على استيراد التسجيلات</string>
+    <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d التسجيلات تم تجاهلها</string>
+    <string name="cvs_import_set_first_line_as_header">هل يتوجب التعامل مع السطر الأول كرأس للجدول؟</string>
+    <string name="csv_import_delimiter_comma">فاصلة</string>
+    <string name="csv_import_delimiter_semicolon">نقطة وفاصلة</string>
+    <string name="menu_show_transactions">أظهر العمليات</string>
+    <string name="pref_custom_decimal_format_title">تنسيق الرقم</string>
+    <string name="pref_custom_decimal_format_summary">إذا لم تكن راضي مع التنسيق الافتراضي لجهازك، حوله لما يناسبك. اتركه فارغا لتستعيد التنسيق الافتراضي.</string>
+    <string name="pref_auto_backup_title">نسخ احتياطي آلي</string>
+    <string name="pref_auto_backup_summary">نسخ احتياطي لقاعدة البيانات يوميا في وقت محدد (فقط في حالة تغير البيانات)</string>
+    <string name="pref_auto_backup_time_title">وقت النسخ الاحتياطي الآلي</string>
+    <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">بعد %d نسخ احتياطي آلي ناجح، سيتم إيقاف النسخ الاحتياطي الآلي.</string>
+    <string name="switch_on_text">تشغيل</string>
+    <string name="switch_off_text">إيقاف</string>
+    <string name="menu_move">تحريك</string>
+    <string name="dialog_title_select_target">حدد هدف</string>
+    <string name="preferences_week_start_day_title">يبدأ الأسبوع يوم</string>
+    <string name="preferences_month_start_date_title">الشهر يبدأ من</string>
+    <string name="exchange_rate">معدل الصرف</string>
+    <string name="date_format_hour">ساعة</string>
+    <string name="date_format_minute">دقيقة</string>
+    <string name="copied_to_clipboard">تم النسخ للحافظة</string>
+    <string name="menu_sort">رتب بواسطة</string>
+    <string name="pref_sort_order_last_used">آخر استخدام</string>
+    <string name="pref_sort_order_custom">تخصيص</string>
+    <string name="content_description_calculator">الحاسبة</string>
+    <!-- describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list. -->
+    <string name="plan_instance_state_open">فتح</string>
+    <!-- describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list. -->
+    <string name="plan_instance_state_cancelled">تم الإلغاء</string>
+    <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
+    <string name="plan_instance_state_applied">تم التطبيق</string>
+    <string name="validate_error_not_empty">لا يجب أن تكون فارغة </string>
+    <string name="url_not_valid">الرابط غير صحيح</string>
+    <string name="menu_sync_unlink">أوقف المزامنة</string>
+    <string name="menu_sync_link">إبدأ المزامنة</string>
+    <string name="menu_sync_download">تحميل و منزامنة</string>
+    <string name="template">نموذج</string>
+    <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">تزامن سحابي</string>
+    <string name="all_contrib_key_features">جميع ميزات مفتاح المساهمة</string>
+    <string name="all_extended_key_features">جميع ميزات Extended Key</string>
+    <string name="home_screen_shortcuts_nougate_info">يمكن إضافة إختصار عن طريق الضغط الطويل على الايقونة في الشاشة الرئيسية</string>
+    <string name="currency_symbol">رمز العملة</string>
+    <string name="sync_error_will_try_again_later">سوف أحاول مرة أخرى لاحقا</string>
+    <string name="professional_key">المفتاح شامل</string>
+    <string name="extend_validity">مدد الصلاحية</string>
+    <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
+    <string name="content_description_encrypted">مشفر</string>
+    <string name="translated_by">مت الترجمة بواسطة</string>
+    <string name="budget_duration_from">من</string>
+    <string name="budget_duration_to">إلى</string>
+    <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
+    <string name="pref_category_title_features">الخصائص</string>
+    </resources>

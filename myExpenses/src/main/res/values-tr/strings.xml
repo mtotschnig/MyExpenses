@@ -1,934 +1,948 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
 <resources xmlns:tools="http://schemas.android.com/tools">
-  <string name="account">Hesap</string>
-  <!--Label in form for payment method, where user checks for which account types the method is applicable-->
-  <string name="account_types">Hesap türleri</string>
-  <string name="account_type_asset">Aktif hesabı</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_asset_plural">Aktif hesapları</string>
-  <string name="account_type_bank">Banka hesabı</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_bank_plural">Banka hesapları</string>
-  <string name="account_type_cash">Nakit hesabı</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_cash_plural">Nakit hesapları</string>
-  <string name="account_type_ccard">Kredi kartı</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_ccard_plural">Kredi kartları</string>
-  <string name="account_type_liability">Borç hesabı</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_liability_plural">Borç hesapları</string>
-  <string name="already_defined">%1$s zaten tanımlanmış</string>
-  <string name="amount">Miktar</string>
-  <string name="app_name">Harcamalarım</string>
-  <string name="backup_failure">SD kartına yedekleme başarısız oldu (%1$s).</string>
-  <string name="backup_success">Veritabanı ve tercihler SD karta başarılı bir şekilde yazıldı (%1$s).</string>
-  <string name="category">Kategori</string>
-  <string name="color">Renk</string>
-  <string name="comment">Notlar</string>
-  <string name="confirmation_dialog_dont_show_again">Bir daha gösterme</string>
-  <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Reklamsız</string>
-  <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Sınırsız sayıda hesap</string>
-  <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Muameleye resim ekle</string>
-  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Dilim grafik (kategori başına dağılım)</string>
-  <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Sınırsız plan sayısı</string>
-  <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Muamele listesini PDF dosyasına aktar</string>
-  <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Şablon widget\'i</string>
-  <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV içe aktar</string>
-  <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Sınırsız sayıda bölünmüş şablonlar</string>
-  <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources">2 iş günü sonrasında cevap garantili <b>e-posta desteği</b></string>
-  <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources"><b>Geliştirme yol haritası</b> hakkında oy verme hakkı</string>
-  <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Tarihçe grafiği (Nakit akışı)</string>
-  <string name="licence_status_free">Ücretsiz</string>
-  <string name="contrib_key">Katkı Anahtarı</string>
-  <string name="extended_key">Genişletilmiş Anahtarı</string>
-  <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
-  <string name="contrib_key_requires">%s gerektirir.</string>
-  <string name="currency">Döviz</string>
-  <string name="current_balance">Güncel bakiye</string>
-  <string name="date">Tarih</string>
-  <string name="date_format">Tarih biçimi</string>
-  <string name="date_format_illegal">Geçersiz tarih biçimi</string>
-  <string name="number_format_illegal">İllegal sayı biçimi</string>
-  <string name="decimal_separator">Ondalık ayırıcı</string>
-  <string name="default_account_name">Bütçe defteri</string>
-  <string name="description">Açıklama</string>
-  <string name="dialog_balance_delete">Uzlaşmış muameleleri sil</string>
-  <string name="dialog_confirm_discard_changes">Değişiklikler gözardı edilsin mi?</string>
-  <string name="dialog_confirm_discard_new_transaction">Yeni muamele gözardı edilsin mi?</string>
-  <string name="dialog_confirm_discard_new_template">Yeni şablon gözardı edilsin mi?</string>
-  <string name="dialog_confirm_discard_new_account">Yeni hesap gözardı edilsin mi?</string>
-  <string name="dialog_confirm_discard_new_method">Yeni ödeme metodu gözardı edilsin mi?</string>
-  <string name="dialog_command_disabled_balance">Uzlaştırılacak hiçbir çözümlenmiş muamele yok.</string>
-  <string name="dialog_command_disabled_insert_transfer">Transfer muameleleri ikinci bir hesap gerektirir.</string>
-  <string name="dialog_command_disabled_reset_account">Dışa aktarılacak hiçbir muamele yok.</string>
-  <string name="dialog_command_disabled_distribution">Bu hesapta hiçbir muamele kategorilendirilmemiştir.</string>
-  <!--Button for accessing trial of premium feature-->
-  <string name="dialog_contrib_no">Dene</string>
-  <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
-  <string name="dialog_contrib_premium_feature">%1$s katkı işlevidir (%2$s).</string>
-  <string name="dialog_contrib_reminder_remove_limitation">Bu sınırlamayı kaldırıp daha fazla işleve erişmek için <i>{app_name}</i>\'ı yükseltin.</string>
-  <string name="dialog_contrib_text_1"><i>{app_name}</i> açık kaynak olarak sunulmuştur.</string>
-  <string name="dialog_contrib_text_2">Lütfen <i>{app_name}</i>\'ı yükselterek katkıda bulunun ve aşağıdaki işlevlere sınırsız erişim elde edin:</string>
-  <string name="dialog_contrib_usage_count">Kalan ücretsiz kullanım</string>
-  <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">Güncel lisans durumunuz (%2$s) ile bunu %1$d defa kullanabilirsiniz.</string>
-  <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Güncel lisans durumunuz (%2$s) ile bunu %1$d gün kullanabilirsiniz.</string>
-  <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Güncel lisans durumunuz (%2$s) %1$d hesap oluşturmanıza izin vermektedir.</string>
-  <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Güncel lisans durumunuz (%2$s) %1$d planlama oluşturmanıza izin vermektedir.</string>
-  <string name="dialog_contrib_usage_limit_split_templates">Güncel lisans durumunuz (%1$s) 1 bölünmüş şablon oluşturmanıza izin vermektedir.</string>
-  <string name="dialog_export_delete">Dışa aktarılan muameleleri sil</string>
-  <string name="dialog_export_not_yet_exported">Sadece henüz dışa aktarılmamış muameleleri aktar</string>
-  <string name="dialog_password_activate_protection">Parola ile korumayı etkinleştir</string>
-  <string name="dialog_password_change_password">Parolayı değiştir</string>
-  <string name="dialog_password_new_password">Yeni parola</string>
-  <string name="dialog_password_new_password_confirmation">Yeni parola (teyit)</string>
-  <string name="dialog_remind_later">Daha sonra</string>
-  <string name="dialog_remind_no">Hayır teşekkürler</string>
-  <string name="dialog_remind_rate_how_many_stars">{app_name}\'a kaç yıldız verirsiniz?</string>
-  <string name="dialog_remind_rate_1">{app_name}\'ı yorumlamak ve puan vermek için lütfen bir dakikanızı ayrınız.</string>
-  <string name="dialog_remind_rate_2">Yorumlarınız devamlı olarak geliştirme ve iyileştirmeler eklememize imkân vermektedir.</string>
-  <string name="dialog_remind_rate_1_suggest_improvement">Bize geliştirme için tavsiyelerinizi yollamak için lütfen bir dakikanızı ayırınız.</string>
-  <string name="dialog_remind_rate_yes">Şimdi not ver</string>
-  <string name="dialog_security_answer">Cevap</string>
-  <string name="dialog_security_question">Soru</string>
-  <string name="dialog_title_attention">Dikkat</string>
-  <string name="dialog_title_information">Bilgi</string>
-  <!--%1$s is replace with account label-->
-  <string name="dialog_title_balance_account">%1$s unsurunu uzlaştır</string>
-  <string name="dialog_title_contrib_feature">Ücretli işlev</string>
-  <plurals name="dialog_title_warning_delete_account">
-    <item quantity="one">Kategori silinsin mi?</item>
-    <item quantity="other">%1$d hesap silinsin mi?</item>
-  </plurals>
-  <string name="dialog_title_warning_delete_category">Kategori silinsin mi?</string>
-  <string name="dialog_title_warning_delete_template">Şablon silinsin mi?</string>
-  <string name="dialog_title_warning_delete_transaction">Muamele silinsin mi?</string>
-  <string name="expense">gider</string>
-  <string name="export_expenses">Giderleri dışa aktar</string>
-  <!--1$s is replaced with path to file, 2$s with error message-->
-  <string name="export_sdcard_failure">\"%1$s\" dosyasına dışa aktarma başarısız oldu: %2$s</string>
-  <!--1$s is replaced with path to file-->
-  <string name="export_sdcard_success">Veriler başarıyla \"%1$s\" dosyasına aktarıldı</string>
-  <string name="external_storage_unavailable">Harici depolama (SD kartı) mevcut değil</string>
-  <string name="feedback">Geri bildirim</string>
-  <string name="ftp_uri_malformed">Yanlış yapılandırılmış URI %1$s</string>
-  <string name="grisbi_import_categories_loading">%1$s konumundan kategoriler yükleniyor</string>
-  <string name="grisbi_import_parties_loading">%1$s konumunundan bölümler yükleniyor</string>
-  <string name="grouping_day">Gün</string>
-  <string name="grouping_last_week">Geçen hafta</string>
-  <string name="grouping_month">Ay</string>
-  <string name="grouping_none">Grupsuz</string>
-  <string name="grouping_this_week">Bu hafta</string>
-  <string name="grouping_today">Bugün</string>
-  <string name="grouping_week">Hafta</string>
-  <string name="grouping_year">Sene</string>
-  <string name="grouping_yesterday">Dün</string>
-  <string name="help_button_rate">Not ver veya değerlendir</string>
-  <string name="help_heading_credits">Hazırlayanlar</string>
-  <string name="help_heading_license">Lisans</string>
-  <string name="help_heading_whats_new">Yenilikler</string>
-  <string name="important_upgrade_information_heading">Önemli bilgi</string>
-  <string name="import_select_transactions">Muameleler</string>
-  <string name="income">gelirler</string>
-  <string name="invalid_number_format">Yerel ayarlarınız ondalık biçimi tanımıyor. Lütfen şunu kullanınız: %1$s</string>
-  <string name="label">Etiket</string>
-  <string name="licence_validation_failure">Lisans anahtarı doğrulanamadı.</string>
-  <string name="licence_validation_success">Lisans anahtarı başarıyla doğrulandı:</string>
-  <string name="licence_validation_premium">Ödemeli işlevlerin kilidi açılmıştır.</string>
-  <string name="menu_aggregates">Toplam</string>
-  <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
-  <string name="menu_apply_template">Uygula</string>
-  <string name="menu_back">Önceki</string>
-  <string name="menu_backup">Yedekleme</string>
-  <!--Balance: compare cleared balance in app with balance on statement received from bank-->
-  <string name="menu_balance">Hesabı uzlaştır</string>
-  <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
-  <string name="menu_cancel_plan_instance">İptal et</string>
-  <string name="menu_clone_transaction">Klonla</string>
-  <string name="menu_contrib">Katkıda bulun</string>
-  <string name="menu_create_account">Yeni hesap oluştur</string>
-  <string name="menu_create_instance_edit">Uygula ve düzenle</string>
-  <string name="menu_create_instance_save">Uygula ve kaydet</string>
-  <string name="menu_create_main_cat">Yeni ana kategori oluştur</string>
-  <string name="menu_create_method">Yeni ödeme metodu oluştur</string>
-  <string name="menu_create_party">Yeni borçlu/alacaklı</string>
-  <string name="menu_create_split">Yeni bölünmüş muamele</string>
-  <string name="menu_create_split_part_category">Yeni bölünmüş alt muamele (kategori)</string>
-  <string name="menu_create_split_part_transfer">Yeni bölünmüş alt muamele (transfer)</string>
-  <string name="menu_create_sub_cat">Yeni alt kategori oluştur</string>
-  <string name="menu_create_template">Şablon oluştur</string>
-  <string name="menu_create_template_from_transaction">Şablon olarak kaydet</string>
-  <string name="menu_create_template_for_transaction">Yeni muamele şablonu</string>
-  <string name="menu_create_template_for_transfer">Yeni transfer şablonu</string>
-  <string name="menu_create_transaction">Muamele ekle</string>
-  <string name="menu_create_transfer">Virman ekle</string>
-  <string name="menu_delete">Sil</string>
-  <string name="menu_distribution">Dağılım</string>
-  <string name="menu_edit">Düzenle</string>
-  <string name="menu_edit_account">Hesabı düzenle</string>
-  <string name="menu_edit_cat">Kategori düzenle</string>
-  <string name="menu_edit_method">Ödeme metodunu düzenle</string>
-  <string name="menu_edit_party">Borçlu/alacaklıyı düzenle</string>
-  <string name="menu_edit_plan_instance">Planlamanın tek oluşumunu düzenle</string>
-  <string name="menu_edit_split">Bölünmeyi düzenle</string>
-  <string name="menu_edit_split_part_category">Bölünmüş alt muameleyi düzenle (kategori)</string>
-  <string name="menu_edit_split_part_transfer">Bölünmüş alt muameleyi düzenle (transfer)</string>
-  <string name="menu_edit_template">Şablonu düzenle</string>
-  <string name="menu_edit_transaction">Muameleyi düzenle</string>
-  <string name="menu_edit_transfer">Virmanı düzenle</string>
-  <string name="menu_exclude_from_totals">Toplamlardan dışla</string>
-  <string name="menu_forward">Sonraki</string>
-  <string name="menu_grouping">Gruplandırma</string>
-  <string name="menu_help">Yardım</string>
-  <!--This command inverts the direction of a transfer-->
-  <string name="menu_invert_transfer">Ters Çevir</string>
-  <string name="menu_manage_plans">Şablonlar ve planlar</string>
-  <!--Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application-->
-  <string name="menu_open">Aç</string>
-  <string name="menu_import">İçe aktar</string>
-  <string name="menu_print">Yazdır</string>
-  <string name="menu_reset">Dışa aktar ve sıfırla</string>
-  <string name="menu_reset_all">Tümünü dışa aktar ve sıfırla</string>
-  <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
-  <string name="menu_reset_plan_instance">Sıfırla</string>
-  <string name="menu_save">Kaydet</string>
-  <string name="menu_save_and_new">Kaydet ve yenisini aç</string>
-  <string name="menu_search">Ara</string>
-  <string name="menu_settings">Ayarlar</string>
-  <string name="menu_share">Bir arkadaşa bahset</string>
-  <string name="button_label_share_file">Paylaş</string>
-  <string name="button_label_close">Kapat</string>
-  <string name="menu_split_transaction">Bölünmüşe dönüştür</string>
-  <string name="method">Ödeme metodu</string>
-  <string name="no_amount_given">Hiçbir meblağ girmediniz.</string>
-  <string name="no_app_handling_email_available">E-postayı yöneten bir uygulama yok.</string>
-  <string name="no_app_handling_ftp_available">FTP yöneten bir uygulama yok. <i>Send With FTP</i> indirilsin mi?</string>
-  <string name="no_app_handling_pdf_available">PDF dosyalarını yönetecek hiçbir uygulama yok.</string>
-  <string name="no_categories">Kategori yok.</string>
-  <string name="no_expenses">Henüz hiçbir harcama yok!</string>
-  <string name="no_exportable_expenses">Henüz dışa aktarılmamış hiçbir muamele yok.</string>
-  <string name="no_filemanager_installed">Hiçbir dosya yöneticisi kurulu değil</string>
-  <string name="no_calendar_app_installed">Takvim olayını düzenlemek için hiçbir uygulama bulunamadı.</string>
-  <string name="no_mapped_transactions">Bu zaman aralığında hiçbir muamele kategoriler ile ilişkilendirilmemiştir.</string>
-  <string name="no_methods">Hiçbir ödeme metodu yok.</string>
-  <string name="no_parties">Bölüm yok.</string>
-  <string name="no_split_parts">Hiçbir alt muamele yok.</string>
-  <string name="no_templates">Şablon yok.</string>
-  <string name="no_accounts">Hesap yok.</string>
-  <string name="no_title_given">Hiçbir metin girmediniz.</string>
-  <plurals name="not_deletable_mapped_transactions">
-    <item quantity="one">Seçilen unsur bir muameleyle ilişkilidir ve silinemez.</item>
-    <item quantity="other">%1$d unsur muamelelerle ilişkilidir ve silinemez.</item>
-  </plurals>
-  <plurals name="not_deletable_mapped_templates">
-    <item quantity="one">Seçilen unsur bir şablonla ilişkilidir ve silinemez.</item>
-    <item quantity="other">%1$d unsur şablonlarla ilişkilidir ve silinemez.</item>
-  </plurals>
-  <string name="numbered">sayılı</string>
-  <string name="opening_balance">Açılış bakiyesi</string>
-  <string name="parse_error_file_not_found">%1$s dosyası bulunamadı</string>
-  <string name="parse_error_grisbi_version_not_supported">Desteklenmeyen Grisbi dosya sürümü: %1$s</string>
-  <string name="parse_error_no_data_found">Dosyada içe aktarılabilecek hiçbir veri bulunamadı.</string>
-  <string name="parse_error_other_exception">Bir hata meydana geldi: %1$s</string>
-  <string name="parse_error_parse_exception">Dosya ayrıştırılamadı</string>
-  <string name="password_disabled_reenable">Parola ile koruma devre dışı bırakıldı. Ayarlarda tekrar etkinleştirebilirsiniz.</string>
-  <string name="password_lost">Unutulmuş parola</string>
-  <string name="password_not_valid">Geçersiz parola. Tekrar deneyin!</string>
-  <string name="password_prompt">Parolanızı giriniz</string>
-  <string name="password_security_answer_not_valid">Yanlış cevap. Yeniden deneyin!</string>
-  <string name="payee">Alacaklı</string>
-  <string name="payer">Ödeyen</string>
-  <string name="payer_or_payee">Alacaklı/Mükellef</string>
-  <!--Plan for future and recurring transactions-->
-  <string name="plan">Planla</string>
-  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance-->
-  <string name="plan_automatic">otomatik</string>
-  <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">{app_name} planlayıcısı</string>
-  <string name="planner_notification_channel_name">Planlayıcı</string>
-  <string name="plan_event_deleted">Bu şablonla ilişkili planlama takvimden silindi.</string>
-  <!--This message is shown, after a user decides to not apply a manual plan-->
-  <string name="plan_execution_canceled">Planı yürütme iptal edildi</string>
-  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance)-->
-  <string name="plan_manual">el ile</string>
-  <string name="planner_create_calendar_failure">Yerel planlama takvimi oluşturulamadı</string>
-  <string name="planner_create_calendar_success">Yerel planlama takvimi başarıyla oluşturuldu</string>
-  <!--payment methods-->
-  <string name="pm_cheque">Çek</string>
-  <string name="pm_creditcard">Kredi kartı</string>
-  <string name="pm_deposit">Mevduat</string>
-  <string name="pm_directdebit">Doğrudan gider</string>
-  <string name="pm_type_credit">Gelir</string>
-  <string name="pm_type_debit">Gider</string>
-  <string name="pm_type_neutral">Nötr</string>
-  <string name="pref_app_dir_title">Yedekleme ve dışa aktarmalar için klasör</string>
-  <string name="pref_auto_fill_title">Muameleleri otomatik doldur</string>
-  <string name="pref_auto_fill_summary">Aynı alacaklı/ödeyici için verileri son muameleden doldur</string>
-  <string name="pref_backup_summary">SD kartına veritabanı ve tercihlerin bir yedeklemesini yap.</string>
-  <string name="pref_sort_order_usages">Kullanım sayacı</string>
-  <string name="pref_category_title_advanced">Gelişmiş</string>
-  <string name="pref_category_title_export">Dışa aktar</string>
-  <string name="pref_category_title_import">İçe aktar</string>
-  <string name="pref_category_title_manage">Yönet</string>
-  <string name="pref_category_title_more_information">İlâve bilgi</string>
-  <string name="pref_category_title_security">Güvenlik</string>
-  <string name="pref_category_title_ui">Kullanıcı arayüzü</string>
-  <string name="pref_checkbox_enabled">Etkinleştirilmiş</string>
-  <string name="pref_checkbox_disabled">Devre dışı</string>
-  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
-  <string name="pref_contrib_purchase_summary">Premium (ödemeli) işlevlere erişim satın al.</string>
-  <string name="pref_contrib_purchase_title">Anahtarını Satın Al</string>
-  <string name="pref_contrib_purchase_title_upgrade">Yükseltme anahtarı</string>
-  <string name="pref_contrib_purchase_title_in_app">Uygulama içi ödeme</string>
-  <string name="pref_custom_currency_title">Para birimlerini kişiselleştir</string>
-  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
-  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Eğer anahtarı aldıysanız tüm işlevlere erişim kazanın.</string>
-  <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Anahtarını gir</string>
-  <string name="pref_export_format_title">Veri biçimi</string>
-  <string name="pref_import_from_grisbi_summary">Kategori (ve bölüm) içeri aktar Grisbi XML.</string>
-  <string name="pref_import_from_grisbi_title">Grisbi\'den içeri aktar</string>
-  <!--%s is replaced with QIF or CSV-->
-  <string name="pref_import_summary">Muameleleri, kategorileri ve parçaları %s dosyasından içe aktar</string>
-  <!--%s is replaced with QIF or CSV-->
-  <string name="pref_import_title">%s içe aktar</string>
-  <string name="pref_like_facebook_title">Bizi Facebook\'ta beğenin</string>
-  <string name="pref_manage_accounts_title">Hesaplar</string>
-  <string name="pref_manage_categories_summary">Kategori ekle, düzenle ve sil.</string>
-  <string name="pref_manage_categories_title">Kategoriler</string>
-  <string name="pref_manage_methods_summary">Ödeme metotları oluştur, düzenle ve hesap türleri ile ilişkilendir.</string>
-  <string name="pref_manage_methods_title">Ödeme metotları</string>
-  <string name="pref_manage_parties_summary">Borçlu/alacaklı ekle, düzenle veya sil.</string>
-  <string name="pref_manage_parties_title">Bölümler</string>
-  <string name="pref_manage_sync_backends_title">Eşleşme arka ucu</string>
-  <!--%s will be replaced with list of backends-->
-  <string name="pref_manage_sync_backends_summary">Hesapları eşleştirmek için arka uç ekle (%s).</string>
-  <string name="pref_more_info_dialog_title">Lisans &amp; Hazırlayanlar</string>
-  <string name="pref_password_not_equal">Parolalar eşleşmedi</string>
-  <string name="pref_perform_protection_title">Koruma</string>
-  <string name="pref_perform_share_title">Dışa aktarmaları ve yedeklemeleri paylaş</string>
-  <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
-  <string name="pref_planning_calendar_create_local">Yeni yerel planlama takvimi oluştur</string>
-  <string name="pref_planning_calendar_summary">Gelecekteki ve tekrar eden muamelelerin saklanacağı takvimi seç</string>
-  <string name="pref_planning_calendar_title">Planlama takvimi</string>
-  <string name="pref_protection_delay_seconds_summary">Uygulamanın parola ile kilitlenmesinden önce beklenecek saniye sayısı</string>
-  <string name="pref_protection_delay_seconds_title">Korumanın başlamasından önceki süre</string>
-  <string name="pref_protection_enable_data_entry_from_widget_title">Kısayollar ve wigdet\'lardan veri girişi</string>
-  <string name="pref_protection_enable_data_entry_from_widget_summary_on">Parola olmasa da izinli.</string>
-  <string name="pref_protection_enable_data_entry_from_widget_summary_off">Parola gerekli.</string>
-  <string name="pref_qif_export_file_encoding_title">Karakter kodlaması</string>
-  <string name="pref_request_licence_title">Anahtarı talep et</string>
-  <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
-  <string name="pref_restore_alternative">Alternatif</string>
-  <string name="pref_restore_alternative_summary">Eğer cihazınızda kurulu bir dosya yöneticisi yoksa istiyorsanız bu alternatif metodu kullanınız.</string>
-  <string name="pref_restore_summary">Veritabanı ve tercihlerin geri alınacağı yedeklemeyi seç</string>
-  <string name="pref_restore_title">Geri al</string>
-  <string name="pref_security_question_summary">Parolanızı unuttuysanız uygulamanın kilidini açmanıza izin verir.</string>
-  <string name="pref_security_question_title">Güvenlik sorusu</string>
-  <string name="pref_send_feedback_title">Geri bildirim gönder</string>
-  <string name="pref_share_target_summary">Uygulamalar (e-posta, Dropbox, Google Docs, …) arası seçim yapmak istiyorsanız boş bırakın, yoksa desteklenen şemada bir URL girin.</string>
-  <string name="pref_share_target_title">Yükleme adresi</string>
-  <string name="pref_shortcut_added">Ana ekrana kısayol eklenmiştir</string>
-  <string name="pref_shortcut_not_added">Kısayolları kabul edecek ana ekran mevcut değil.</string>
-  <string name="pref_shortcut_summary">Ana ekrana kısayol ekle.</string>
-  <string name="pref_template_click_default_summary">Şablon listesinde unsura kısa dokunulduğunda</string>
-  <string name="pref_ui_fontsize_title">Yazı boyutu arttır</string>
-  <string name="pref_ui_home_screen_shortcuts">Ana Ekran Kısayolları</string>
-  <string name="pref_ui_language_default">Sistem varsayılanı</string>
-  <!--Title of the preference for selecting the UI language-->
-  <string name="pref_ui_language_title">Dil</string>
-  <string name="pref_ui_theme_dark">Karanlık</string>
-  <string name="pref_ui_theme_light">Aydınlık</string>
-  <string name="pref_ui_theme_title">Tema</string>
-  <string name="pref_visit_website_summary">Değişiklikler ve SSS</string>
-  <string name="pref_visit_website_title">Siteyi ziyaret et</string>
-  <string name="progress_dialog_deleting">Nesneler siliniyor</string>
-  <string name="progress_dialog_loading">Veritabanından nesne yükleniyor</string>
-  <string name="progress_dialog_printing">PDF oluşturuluyor</string>
-  <string name="progress_dialog_saving">Nesne veritabanına kaydediliyor</string>
-  <string name="qif_parse_result">Ayrıştırıldı:  %1$s hesap,  %2$s kategori ve %3$s kişi</string>
-  <string name="qif_parse_failure_found_multiple_accounts">QIF dosyasında birden çok hesap bulundu.</string>
-  <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Bunlar mevcut bir hesapla birleştirilemez.</string>
-  <string name="reference_number">Referans sayısı</string>
-  <string name="restore_db_failure">Veritabanının yüklenmesi başarısız oldu</string>
-  <string name="restore_db_success">Veritabanı yedeklemeden restore edilmiştir.</string>
-  <string name="restore_no_backup_found">Yedek bulunamadı.</string>
-  <string name="restore_preferences_failure">Tercihlerin yüklenmesi başarısız oldu</string>
-  <string name="restore_backup_archive_not_valid">%1$s arşivi geçerli bir arşiv değildir</string>
-  <string name="restore_backup_file_not_found">\"%2$s\" arşivinde %1$s dosyası bulunamadı</string>
-  <string name="restore_preferences_success">Tercihler yedeklemeden restore edilmiştir.</string>
-  <string name="restore_calendar_success" tools:ignore="PluralsCandidate">Yedeklemeden %d planlama geri alınmıştır</string>
-  <string name="save_transaction_and_new_success">Başarıyla kaydedildi</string>
-  <string name="save_transaction_error">Şablondan muamele kaydedilemedi.</string>
-  <plurals name="save_transaction_from_template_success">
-    <item quantity="one">Yeni muamele şablondan başarıyla kaydedildi.</item>
-    <item quantity="other">%1$d yeni muamele şablonlardan başarıyla kaydedilmiştir.</item>
-  </plurals>
-  <string name="save_transaction_template_deleted">Şablon silinmiştir</string>
-  <string name="select">Seç</string>
-  <string name="select_category">Kategori seç</string>
-  <string name="select_payee">Ödeyen/alacaklı seçin</string>
-  <string name="share_scheme_not_supported">%1$s şeması desteklenmemektedir</string>
-  <string name="share_sending">Dışa aktarım dosyasını gönder</string>
-  <string name="split_parts_heading">Bölünmüş alt muameleler</string>
-  <string name="split_transaction">Bölünmüş muamele</string>
-  <string name="status">Durum</string>
-  <string name="status_cleared">temizlendi</string>
-  <string name="status_reconciled">uzlaşmış</string>
-  <string name="status_uncreconciled">uzlaşmamış</string>
-  <string name="status_void">hükümsüz</string>
-  <string name="subcategory">Alt kategori</string>
-  <string name="sum_expenses">Harcamalar</string>
-  <string name="sum_income">Gelirler</string>
-  <string name="sum_transfer">Transferler</string>
-  <!--platform is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">{platform} için kişisel finans yöneticisi olan {app_name}\'a {website} adresinde göz atın</string>
-  <string name="thank_you">Desteğiniz için teşekkür ederiz!</string>
-  <string name="time">Zaman</string>
-  <string name="title">Başlık</string>
-  <string name="total_cleared">Çözümlenmiş toplam</string>
-  <string name="total_reconciled">Uzlaşmış toplam</string>
-  <string name="transaction">Muamele</string>
-  <string name="transfer">Transfer</string>
-  <string name="transfer_from_account">Buradan</string>
-  <string name="transfer_to_account">Buraya</string>
-  <!--Type refers to the type of an account, eg. Cash account, bank account-->
-  <string name="type">Tip</string>
-  <string name="unsplit_amount">Atanmamış meblağ</string>
-  <string name="unsplit_amount_greater_than_zero">Hala atanmamış bir miktar var.</string>
-  <string name="warning_backup">Veritabanı ve tercihler \"%1$s\" konumuna yazılacaktır.</string>
-  <string name="continue_confirmation">Devam etmek istiyor musunuz?</string>
-  <string name="warning_delete_account">\"%1$s\" hesabı tüm muameleleriyle silinecektir.</string>
-  <plurals name="warning_delete_main_category">
-    <item quantity="one">Seçili kategorinin alt kategorileri bulunmaktadır ve bunlar da silinecektir.</item>
-    <item quantity="other">Seçilen %1$d kategorinin alt kategorileri bulunmaktadır ve bunlar da silinecektir.</item>
-  </plurals>
-  <string name="warning_delete_category_with_budget">Seçilen en az bir kategori için, silinecek bütçe tahsisleri de vardır.</string>
-  <plurals name="warning_delete_template">
-    <item quantity="one">Seçilen şablon silinecektir.</item>
-    <item quantity="other">Seçilen %1$d şablon silinecektir.</item>
-  </plurals>
-  <plurals name="warning_delete_transaction">
-    <item quantity="one">Seçilen muamele silinecektir.</item>
-    <item quantity="other">Seçilen %1$d muamele silinecektir.</item>
-  </plurals>
-  <plurals name="move_category_success">
-    <item quantity="one">Bir kategori başarılı bir şekilde taşındı.</item>
-    <item quantity="other">%d kategori başarılı bir şekilde taşındı.</item>
-  </plurals>
-  <plurals name="move_category_failure">
-    <item quantity="one">Bir kategori taşınmadı, çünkü aynı etiket hedefte zaten mevcut.</item>
-    <item quantity="other">%d kategori taşınmadı, çünkü aynı etiket hedefte zaten mevcut.</item>
-  </plurals>
-  <string name="warning_delete_reconciled">Uzlaşmış muameleleri silmeniz kayıtlarınızın banka kayıtlarından farklı olmasına yol açar.</string>
-  <string name="warning_balance_account">Lütfen çözümlenmiş toplamı banka ekstresindeki bakiye ile karşılaştırın. Devam ederseniz çözümlenmiş muameleler uzlaşmış olarak işaretlenecektir.</string>
-  <string name="warning_password_protected">Uygulama parola ile koruludur.</string>
-  <string name="warning_widget_disabled">Bu widget\'i uygulama ayarlarında etkinleştirmeniz gerekir.</string>
-  <string name="warning_instantiate_template_from_widget_password_protected">Şablonların bu widget\'ten hızlı örneklenmeleri sadece uygulama ayarlarında widget\'lerden parola olmadan veri girilmesine izin verdiyseniz mümkündür.</string>
-  <string name="warning_password_contrib">Bir güvenlik sorusu ayarlamanız parolanızı unutursanız uygulamanın kilidini açmanıza imkân sağlar.</string>
-  <string name="warning_reset_account">Devam ederseniz bu hesabın tüm muameleleri veritabanından silinecek ve bu geri alınamayacaktır.</string>
-  <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
-  <string name="warning_reset_account_all">Devam ederseniz, tüm hesaplar%1$s için muameleler veritabanından silinecek ve bu geri alınamayacaktır.</string>
-  <string name="warning_reset_account_matched">Eğer devam ederseniz, güncel filtre ile eşleşen muameleler veritabanından silinecek ve bu geri alınamayacaktır.</string>
-  <string name="warning_restore">Veritabanı ve tercihler \"%1$s\" yedekleme dosyasından yüklenecektir. Güncel veriler silinecektir.</string>
-  <string name="warning_app_folder_will_be_deleted_upon_uninstall">Eğer {app_name}\'ı kaldırırsanız şu anda seçili olan dışa aktarmalar ve yedeklemeler klasörü Android tarafından otomatik olarak silinecektir. Buna mani olmak için Ayarlar ekranından başka bir klasör seçebilirsiniz.</string>
-  <string name="warning_splitpartcategory_context">Bölünmüş muamelelerin bir parçası olan transferler sadece bu bölünmüş muamele bağlamında düzenlenebilirler.</string>
-  <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">%1$d ilâ %2$d arası bir sayı ayarlayınız</string>
-  <string name="warning_change_fraction_digits_1">Yeni kesir basamak sayısıyla eşleşmesi için veritabanındaki meblağların güncellenmesi gerekmektedir.</string>
-  <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Eğer meblağlar güncellenmezse, değişiklikten sonra %d ile çarpılmış olarak gösterileceklerdir.</string>
-  <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Eğer meblağlar güncellenmezse, değişiklikten sonra %d ile bölünmüş olarak gösterileceklerdir.</string>
-  <string name="warning_change_fraction_digits_3">Eğer meblağlar güncellenirse, onların kesirli bölümü hakkında bilgi kaybedersiniz.</string>
-  <string name="warning_change_fraction_digits_checkbox_label">Veritabanındaki meblağları güncelle</string>
-  <string name="import_categories_success">%1$s kategori başarıyla içe aktarıldı</string>
-  <string name="import_parties_success">%1$s bölüm başarıyla içe aktarıldı</string>
-  <string name="import_accounts_success">%1$s hesap başarılı bir şekilde içe aktarıldı</string>
-  <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d muamele başarılı bir şekilde %2$s hesabına aktarıldı</string>
-  <string name="import_accounts_none">İçe aktarılan hesap yok</string>
-  <string name="import_categories_none">İçe aktarılan kategori yok</string>
-  <string name="import_parties_none">İçe aktarılan bölüm yok</string>
-  <string name="import_transactions_none">Hiçbir muamele %1$s hesabına aktarılmadı</string>
-  <string name="import_source_select_error">Lütfen %1$s tipinde bir dosya verin</string>
-  <string name="menu_categories_setup_default">Varsayılan kategorileri kur</string>
-  <string name="menu_create_folder">Yeni klasör</string>
-  <!--This string is used for navigating up in the folder browser-->
-  <string name="menu_up">Yukarı</string>
-  <string name="create_new_folder_fail">Klasör oluşturulamadı</string>
-  <string name="widget_title_accounts">Hesaplarım</string>
-  <string name="widget_title_templates">Şablonlarım</string>
-  <string name="app_dir_not_accessible">Yedeklemeler ve dışa aktarmalar için güncel olarak seçilmiş klasöre (%1$s) erişilemiyor. Lütfen başka bir klasör seçin.</string>
-  <string name="app_dir_not_compatible_with_nougat">Yedeklemeler ve dışa aktarmalar için güncel olarak yapılandırılmış URI (%1$s) Android Nougat tarafından desteklenmemektedir. Lütfen bir defa daha bir klasör seçin.</string>
-  <string name="search_amount">Meblağ ara</string>
-  <string name="search_category">Kategori ara</string>
-  <string name="search_comment">Not ara</string>
-  <string name="search_date">Tarih ara</string>
-  <string name="search_status">Durum ara</string>
-  <string name="search_payee">Alacaklı/mükellef ara</string>
-  <string name="search_method">Metot ara</string>
-  <string name="search_tag">Etiket ara</string>
-  <string name="and">ve</string>
-  <string name="between_and">%1$s ilâ %2$s arasında</string>
-  <string name="before">şundan önce: %s</string>
-  <string name="after">şundan sonra: %s</string>
-  <string name="comparison_operator_equal">şuna eşit</string>
-  <string name="comparison_operator_greater_than">şundan büyük</string>
-  <string name="comparison_operator_lesser_than">şundan küçük</string>
-  <string name="comparison_operator_between">arasında</string>
-  <string name="comparison_operator_date_before">önce</string>
-  <string name="comparison_operator_date_after">sonra</string>
-  <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Satın alma başarısız oldu veya iptal edildi.</string>
-  <string name="hint_auto_fill">Aynı alacaklı/ödeyici için veriler son muameleden doldurulsun mu? Bu davranışı ayarlardan değiştirmeniz mümkündür.</string>
-  <string name="yes">Evet</string>
-  <string name="no">Hayır</string>
-  <string name="hint_template_click">Bu listedeki bir unsura kısa bir dokunuş şablonu örneklendirecek ve onu ya derhal kaydedecek ya da kaydetmeden önce değiştirmenize izin verecek düzenleme formuna girecektir. Her iki etkinliği de uzun bir dokunuş ile elde edebilir ve varsayılan değeri ayarlarda değiştirebilirsiniz.</string>
-  <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%2$s para birimini kullanan %1$d hesap güncellendi.</string>
-  <string name="learn_more">Dahasını öğrenin</string>
-  <string name="import_source_file">Dosya</string>
-  <string name="restore_calendar_handling">Takvim veri yönetimi</string>
-  <string name="restore_calendar_handling_configured">Planlamaları güncel yapılandırılmış takvime geri al</string>
-  <string name="restore_calendar_handling_backup">Planlamaları mevcutsa yedeklemedeki takvim setine geri al</string>
-  <string name="restore_calendar_handling_ignore">Planlamaları geri alma</string>
-  <string name="restore_not_possible_target_calendar_missing">Yedekleme arşivindeki %s takvim seti yerel olarak mevcut değildir. Geri alma iptal edilmiştir.</string>
-  <string name="restore_not_possible_local_calendar_missing">Güncel planlama takvimi mevcut değildir.</string>
-  <string name="menu_view_picture">Resmi görüntüle</string>
-  <string name="menu_delete_picture">Resmi sil</string>
-  <string name="menu_change_picture">Değişik bir resim ekle</string>
-  <string name="menu_distribution_show_pie_char">Grafiği göster</string>
-  <string name="menu_distribution_aggreate">Gelir ve harcamaları beraberleştir</string>
-  <string name="pref_manage_stale_images_title">Eski resimler</string>
-  <string name="pref_manage_stale_images_summary">Silinmiş muamelelerden kalan resimleri yönet</string>
-  <string name="image_deleted">Resim silinmiştir</string>
-  <string name="transaction_deleted">Muamele silinmiştir</string>
-  <string name="dialog_export_applied_to_filter">Sadece güncel filtre ile eşleşen muameleler dikkate alınacaktır.</string>
-  <string name="export_handle_deleted_create_helper">Yardımcı muamele oluştur</string>
-  <string name="export_handle_deleted_update_balance">Açılış bakiyesini güncelle</string>
-  <string name="file_name">Dosya ismi</string>
-  <string name="folder_name">Klasör ismi</string>
-  <string name="mark_void_instead_of_delete">Muameleyi silme, bunun yerine hükümsüz olarak işaretle.</string>
-  <string name="menu_undelete_transaction">Silmeyi geri al</string>
-  <string name="slash_forbidden_in_filename">/ karakterine dosya isimlerinde müsaade edilmez</string>
-  <string name="io_error_unable_to_create_file">%2$s klasöründe %1$s dosyası oluşturulamadı</string>
-  <string name="menu_categories_export">QIF olarak dışa aktar</string>
-  <string name="pref_csv_import_delimiter">Sınırlayıcı</string>
-  <string name="csv_import_preview">Önizle</string>
-  <string name="menu_parse">Çözümle</string>
-  <!--Label for column where user can check rows to be discarded from import-->
-  <string name="cvs_import_discard">At</string>
-  <string name="csv_import_field_mapped_more_than_once">%s bir kereden fazla haritalanmıştır.</string>
-  <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d kayıt içe aktarılamadı.</string>
-  <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d kayıt atılmıştır.</string>
-  <string name="csv_import_subcategory_requires_category">Alt kategoriyi haritalarsanız, kategoriyi de haritalamanız gerekir.</string>
-  <string name="cvs_import_set_first_line_as_header">İlk satır başlık satırı olarak kabul edilmeli mi?</string>
-  <string name="csv_import_delimiter_comma">Virgül</string>
-  <string name="csv_import_delimiter_semicolon">Noktalı virgül</string>
-  <string name="csv_import_delimiter_tab">Sekme</string>
-  <string name="csv_import_no_mapping_found_for_amount">Lütfen bir sütunu ya bir meblağa, gelire ya da harcamaya haritalayın.</string>
-  <string name="menu_show_transactions">Muameleleri göster</string>
-  <string name="pref_custom_decimal_format_title">Sayı biçimi</string>
-  <string name="pref_custom_decimal_format_summary">Eğer tercümenin varsayılan biçiminden memnun değilseniz, ihtiyacınıza göre uyarlayın. Varsayılan biçimi geri getirmek için boş bırakın.</string>
-  <string name="pref_auto_backup_title">Otomatik yedekleme</string>
-  <string name="pref_auto_backup_summary">Veritabanını belirtilen zamanda (sadece verilerde değişiklik varsa) her gün yedekle.</string>
-  <string name="pref_auto_backup_time_title">Otomatik yedekleme zamanı</string>
-  <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">%d başarılı otomatik yedekleme ardından otomatik yedekleme devre dışı bırakılacaktır.</string>
-  <string name="calendar_permission_required">Gelecek ve tekrar eden muameleler oluşturabilmek amacıyla <i>{app_name}</i>\'ın takviminize erişmek için müsaadeye ihtiyacı vardır. </string>
-  <string name="button_request_calendar_access" tools:ignore="UnusedResources">İzin ver</string>
-  <string name="switch_on_text">Açık</string>
-  <string name="switch_off_text">Kapalı</string>
-  <string name="menu_move">Taşı</string>
-  <string name="dialog_title_select_target">Hedef seç</string>
-  <string name="transform_subcategory_to_main">Ana kategoriye dönüştür</string>
-  <string name="preferences_week_start_day_title">Haftanın ilk günü</string>
-  <string name="preferences_month_start_date_title">Ay şu gün başlar:</string>
-  <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
-  <string name="pref_grouping_periods">Gruplandırma periyotları</string>
-  <string name="exchange_rate">Döviz kuru</string>
-  <string name="date_format_hour">Saat</string>
-  <string name="date_format_minute">Dakika</string>
-  <string name="copied_to_clipboard">Panoya kopyalandı</string>
-  <string name="menu_sort">Şuna göre sırala</string>
-  <string name="pref_sort_order_last_used">Son kullanıldığı</string>
-  <string name="pref_sort_order_custom">Özel</string>
-  <string name="content_description_calculator">Hesap makinesi</string>
-  <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
-  <string name="plan_instance_state_open">açık</string>
-  <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
-  <string name="plan_instance_state_cancelled">iptal edildi</string>
-  <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
-  <string name="plan_instance_state_applied">uygulandı</string>
-  <string name="progress_dialog_updating_split_parts">Bölünmüş parçalar güncelleniyor</string>
-  <string name="warning_cannot_move_split_transaction">Bu bölünmüş muamele %1$s hesabına taşınamaz çünkü bu hesapla ilişkili transfer parçaları bulunmaktadır.</string>
-  <string name="content_description_calculator_clear_button">Sıfırla tümünü</string>
-  <string name="content_description_calculator_delete_button">Son rakamı sil</string>
-  <string name="paypal_callback_info">Muameleniz tamamlanmış ve alışverişiniz hakkında bir makbuz e-posta ile size gönderilmiştir. Bu muamelenin ayrıntılarını görüntülemek için hesabınıza www.paypal.com adresinde bağlanabilirsiniz.</string>
-  <string name="search_transfer">Transfer için ara</string>
-  <!--Sort plans (recurring transactions) by the next instance-->
-  <string name="pref_sort_order_next_instance">Sonraki örnekleme</string>
-  <string name="crash_dialog_title">{app_name} çöktü</string>
-  <string name="crash_dialog_text">Uygulamanın çıkmasının zorlanması sırasında beklenmeyen bir hata meydana geldi. Lütfen bu hatayı düzeltmemize kullanıcı verileri yollayarak yardımcı olun, tüm yapmanız gereken Tamam\'a dokunmaktır.</string>
-  <string name="crash_dialog_comment_prompt">Problemle ilgili yorumlarınızı aşağıda ekleyebilirsiniz:</string>
-  <string name="synchronization">Eşleşmeli</string>
-  <string name="synchronization_none">Eşleşmesiz</string>
-  <string name="hint_url">Bağlantı</string>
-  <string name="description_webdav_url">Lütfen WebDAV sunucunuzdaki özel bir klasör için bağlantı girin. {app_name} verilerini bu klasör içinde saklayacak ve dışında hiçbir şeye dokunmayacaktır.</string>
-  <string name="description_webdav_trust_certificate">Ağ sitesi Android tarafından güvenilmeyen bir sertifika kullanmaktadır.</string>
-  <string name="hint_user_name">Kullanıcı ismi</string>
-  <string name="hint_password">Parola</string>
-  <string name="label_trust_certificate">Bu sertifikaya güven</string>
-  <string name="no_sync_backends">Hiçbir eşleşme arka ucu yok</string>
-  <string name="menu_create_sync_backend">Yeni eşleşme arka ucu</string>
-  <string name="validate_error_not_empty">Boş olmamalı</string>
-  <string name="validate_error_webdav_invalid_certificate">Bu sertifikaya güvenilemedi. Geçersiz gibi görünüyor.</string>
-  <string name="validate_error_webdav_not_compliant">Bağlantı bir WebDAV kaynağına işaret etmemektedir.</string>
-  <string name="validate_error_webdav_404">Bağlantı (URL) sunucuda mevcut değildir.</string>
-  <string name="url_not_valid">Geçersiz bağlantı</string>
-  <string name="menu_sync_unlink">Eşleşmeyi durdur</string>
-  <string name="menu_sync_link">Eşleşmeyi başlat</string>
-  <string name="menu_sync_download">İndir ve eşleştir</string>
-  <string name="menu_sync_now">Şimdi eşleştir</string>
-  <string name="pref_sync_frequency_title">Eşleştirme sıklığı</string>
-  <string name="pref_sync_frequency_summary">Verilerin hangi sıklıkla eşleştirilecekleri (saat olarak)</string>
-  <string name="dialog_confirm_sync_unlink">Bu hesabın %s ile bağlantısını kaldırırsanız, eşleşme durumu kaybolur. Daha sonra bağlantıyı tekrar kurmak tam bir eşleşmenin tekrar yapılmasını gerektirir.</string>
-  <string name="dialog_sync_link">uuid %s ile bir hesap hem yerel veritabanında hem de uzaktaki arka uçta mevcuttur. Bu ikisini ilişkilendirdiğinizde, ilk olarak yerel verileri uzaktaki arka uca mı yükleyeceğinize ya da uzaktan yerel veritabanına mı indireceğinize karar vermeniz gerekir.</string>
-  <string name="dialog_command_sync_link_remote">Uzaktan indir</string>
-  <string name="dialog_command_sync_link_local">Yerelden gönder</string>
-  <string name="dialog_synced_to_other">uuid %s ile bir hesap zaten yerel veritabanında mevcuttur ve uzaktaki  başka bir arka uca bağlıdır.</string>
-  <string name="menu_remove">Kaldır</string>
-  <string name="dialog_confirm_sync_remove_backend">Uzaktaki %s arka ucu kaldırılacaktır. Bu, yerel verileri ve uzaktaki verileri etkilemez, ancak eşleşme durumu kaybolacaktır.</string>
-  <string name="dialog_confirm_sync_link_local">Bu hesap için uzaktaki veriler silinecektir. Başka hiçbir cihazın ona bağlı olmadığından emin olun.</string>
-  <string name="dialog_confirm_sync_link_remote">Bu hesabın yerel verileri silinecektir.</string>
-  <string name="warning_limited_trial">%1$s işlevi %2$s tarihine dek denenebilir.</string>
-  <string name="warning_trial_limit_reached">%s işlevini deneme periyotu sona ermiştir.</string>
-  <string name="warning_synchronization_folder_usage">Bu klasör, {app_name}\'ın değişik cihazlardaki kurulumları arasında eşleştirme yapmak için kullanılır. Lütfen içeriğini elle değiştirmeyin.</string>
-  <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Seçtiğiniz klasör mevcut arka ucun bir hesabına denk gelmektedir. Bu arka ucu kullanmak için bir üst klasörü seçmeniz gerekir.</string>
-  <string name="select_unsynced_accounts">Bu arka uçla eşleştirilecek hesapları seç</string>
-  <string name="link_account_success" tools:ignore="PluralsCandidate">%d hesap arka uçla eşleştirmek için yapılandırıldı.</string>
-  <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d hesap arka uçla eşleştirmek için yapılandırılamadı.</string>
-  <string name="link_account_failure_2">Aynı uuid ile bir hesap zaten uzaktaki arka uçta mevcuttur.</string>
-  <string name="link_account_failure_3">Çakışma elle unsurun bağlam menüsünden giderilebilir.</string>
-  <string name="progress_dialog_checking_sync_backend">Arka ucu kontrol et</string>
-  <string name="template">Şablon</string>
-  <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Bulut eşleşmesi</string>
-  <string name="all_contrib_key_features">Katkı Anahtarının tüm işlevleri</string>
-  <string name="all_extended_key_features">Genişletilmiş Anahtar\'ın tüm işlevleri</string>
-  <!--button leading user to purchase flow for licence keys-->
-  <string name="upgrade_now">Yükselt</string>
-  <string name="pref_backup_cloud_title">Eşleşme arka ucunda sakla</string>
-  <string name="pref_backup_cloud_summary">Cihazdaki yerel stoklamaya ek olarak, yedekleme dosyası uzaktaki bir arka uca kopyalanabilir.</string>
-  <string name="auto_backup_cloud_create_backend">Ana ayarlar ekranından bir eşleşme arka ucu oluştur.</string>
-  <string name="auto_backup_cloud_failure">%1$s dosyasının %2$s arka ucuna kaydedilmesi sırasında bir hata meydana geldi:</string>
-  <string name="auto_backup_cloud_success">%1$s yedekleme dosyası başarılı bir şekilde %2$s arka ucunda kaydedildi.</string>
-  <string name="home_screen_shortcuts_nougate_info">Kısayollar ana ekrandaki uygulama ikonuna uzunca dokunarak eklenebilir.</string>
-  <string name="currency_symbol">Para birimi sembolü</string>
-  <string name="number_of_fraction_digits">Kesir basamakları sayısı</string>
-  <string name="warning_auto_backup_deactivated">Otomatik yedekleme devre dışıdır. Problemi çözdükten sonra (yani yedeklemeler için yeni bir klasör seçtikten sonra) onu ayarlarda tekrar etkinleştirebilirsiniz.</string>
-  <string name="pref_tracking_summary">Geliştirme planlamamıza yardımcı olan kullanım modelleri hakkında anonim veriler toplamamıza izin verin.</string>
-  <string name="pref_tracking_title">Kullanım hakkında veri toplama</string>
-  <string name="sync_database_error">Eşleşme sırasında bir veritabanı hatası meydana geldi.</string>
-  <string name="sync_io_error_cannot_connect">Eşleşme arka ucuna bağlanılamadı.</string>
-  <string name="sync_error_will_try_again_later">Daha sonra tekrar denenecektir.</string>
-  <string name="sync_io_exception_reset_account_data">Uzaktaki hesabın sıfırlanması sırasında hata.</string>
-  <string name="sync_success_reset_account_data">%s hesabı için uzaktaki veriler silindi.</string>
-  <string name="sync_io_exception_setup_remote_account">Uzaktaki hesabın ayarlanması sırasında hata.</string>
-  <string name="sync_io_exception_syncing">Sunucu ile değişiklikler eşleştirilirken hata oluştu.</string>
-  <string name="sync_io_exception_unlocking">Uzaktaki arka uçtan kilit kaldırılırken hata oluştu.</string>
-  <string name="sync_io_exception_locking">Uzaktaki arka uç kilitli ya da kilitlenemez.</string>
-  <string name="synchronization_start">%s hesabı için eşleştirme başlatılıyor.</string>
-  <string name="synchronization_end_success">Uzaktaki %1$d değişiklik yerel veritabanına yazıldı. Yerel %2$d değişiklik uzaktaki arka uca yazıldı.</string>
-  <string name="synchronization_end_success_none">Eşleştirilecek hiçbir değişiklik yok.</string>
-  <string name="pref_webdav_timeout_title">WebDAV Zaman Aşımı (saniye olarak)</string>
-  <string name="sync_state_restored">%d hesap için eşleştirme durumu geri getirildi.</string>
-  <string name="sync_state_could_not_be_restored">%d hesap için eşleştirme durumu geri getirilemedi.</string>
-  <string name="onboarding_ui_title">{app_name} tercihinize uyum sağlar</string>
-  <string name="onboarding_data_title">İlk hesabınızı kuralım</string>
-  <string name="onboarding_get_started">Başlarken</string>
-  <string name="onboarding_more_options">Daha fazla seçenek</string>
-  <string name="onboarding_restore_from_cloud">Bulut eşleşmesinden geri getir</string>
-  <!--During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed-->
-  <string name="onboarding_restore_from_cloud_backup">Yedeklemeler</string>
-  <string name="onboarding_restore_from_local">Yerel yedekleme dosyasını geri getir</string>
-  <string name="dialog_button_add">Ekle</string>
-  <string name="template_create_error">Şablonun kaydı sırasında hata meydana geldi</string>
-  <string name="contributed_by">Katkıda bulunan: %s</string>
-  <string name="pref_sync_notification_summary">Eşleşme ilerlemesi hakkında bildirim göster</string>
-  <string name="pref_debug_logging_summary">Hata ayıklama verilerini sistem kütüğüne yaz</string>
-  <string name="plan_custom_recurrence_info">Lütfen önce şablonu kaydedin. O zaman planlama takvim uygulamasında açılacaktır ve burada özel bir tekrarlama seçebilirsiniz.</string>
-  <string name="storage_permission_required">Seçtiğiniz kaynak sadece harici bir depolama alanından okuma iznini verirseniz okunabilir.</string>
-  <string name="picture">Resim</string>
-  <string name="menu_create_template_for_split">Yeni bölünmüş şablon</string>
-  <string name="progress_validating_licence">Lisans doğrulanıyor</string>
-  <string name="licence_validation_error_expired">Lisans sona ermiş</string>
-  <string name="licence_validation_error_device_limit_exceeded">Cİhaz sınırı aşılmıştır. Lütfen başka bir cihazdan lisansı kaldırın.</string>
-  <string name="error">Hata (%s)</string>
-  <string name="button_validate">Doğrula</string>
-  <string name="licence_key">Lisans Anahtarı</string>
-  <string name="licence_removal_information">Eğer bu cihazda genişletilmiş işlevlere ihtiyaç duymuyorsanız, lisans anahtarını kaldırabilirsiniz. Bu, anahtarı başka bir cihazda etkinleştirebilmenize izin verir. Anahtar en çok %d cihazda etkinleştirilebilir. </string>
-  <string name="progress_removing_licence">Lisans kaldırılıyor</string>
-  <string name="licence_removal_success">Lisans anahtarı bu cihazdan başarılı bir şekilde kaldırılmıştır.</string>
-  <string name="professional_key">Profesyonel Anahtar</string>
-  <string name="n_months">%d ay</string>
-  <string name="eu_vat_info">Görüntülenen fiyatlar Avrupa Birliği\'ndeki kullanıcılar için KDV\'yi içermemektedir.</string>
-  <string name="licence_migration_info">{app_name} yeni bir lisans doğrulama mekanizması kullanmaktadır. Lütfen yeni bir anahtar talep edin.</string>
-  <string name="valid_until">%s tarihine kadar geçerli</string>
-  <!--%1$s date, %2$s price-->
-  <string name="extend_until">%1$s tarihine kadar %2$s fiyatına yenile</string>
-  <string name="extended_upgrade_goodie_github">%d ek ay bir defalık olmak üzere zaten Genişletilmiş Lisansa sahip olan kullanıcılara verilmiştir</string>
-  <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">Genişletilmiş Lisansa zaten sahip olan kullanıcılar ilk sene normal fiyatın (%s) %%50\'sini öderler.</string>
-  <string name="extended_upgrade_goodie_subscription_amazon" tools:ignore="UnusedResources">Genişletilmiş lisansa zaten sahip olan kullanıcıların, senelik aboneliğin normal fiyatından (%2$s) %%%1$d oranında tenzilata hakları vardır.</string>
-  <string name="switch_to_yearly" tools:ignore="UnusedResources">Senelik aboneliğe geç</string>
-  <string name="switch_to_monthly" tools:ignore="UnusedResources">Aylık aboneliğe geç</string>
-  <string name="extend_validity">Geçerliliği uzat</string>
-  <string name="progress_dialog_fetching_data_from_sync_backend">Uzak arka uçtan veri alınıyor. Bu biraz zaman alabilir.</string>
-  <string name="donate_button_invoice">Fatura</string>
-  <string name="menu_sort_direction">Sıralama yönü</string>
-  <string name="sort_direction_ascending">artan</string>
-  <string name="sort_direction_descending">azalan</string>
-  <string name="never">asla</string>
-  <string name="always">daima</string>
-  <string name="auto_fill_account_from_aggregate_only">Sadece toplam (agrega) hesaptan başlatıldığında.</string>
-  <string name="sync_auth_exception_login_again">İzin verme başarısız oldu. Lütfen tekrar giriş yapın.</string>
-  <string name="sync_loading_accounts_from_backend">Mevcut hesaplar arka uçtan yükleniyor.</string>
-  <plurals name="delete_success">
-    <item quantity="one">Bir nesne başarıyla silindi.</item>
-    <item quantity="other">%d nesne başarıyla silindi.</item>
-  </plurals>
-  <string name="feature_deprecated">Kullanımdan kaldırılmış</string>
-  <string name="pref_protection_device_lock_screen_title">Cihaz kilitleme ekranı</string>
-  <string name="pref_warning_only_one_protection">%1$s ile korumayı kullanmadan önce %2$s ile korumayı devre dışı bırakmanız gerekir.</string>
-  <string name="warning_device_lock_screen_not_set_up_1">Güvenli cihaz kilidi ekranı ayarlanmadı.</string>
-  <string name="warning_device_lock_screen_not_set_up_2">Ekran kilidini ayarlamak için \'Ayarlar -&gt; Güvenlik -&gt; Ekran kilidine\' gidiniz.</string>
-  <string name="snackbar_dismiss">Kapat</string>
-  <string name="menu_history_show_balance">Bakiyeyi göster</string>
-  <string name="menu_history_transfers">Transferleri dahil et</string>
-  <string name="menu_history">Tarihçe</string>
-  <!--A label indicating the color for the sum of expenses-->
-  <string name="history_chart_out_label">Harcamalar</string>
-  <!--A label indicating the color for the sum of income-->
-  <string name="history_chart_in_label">Gelir</string>
-  <string name="menu_history_totals">Toplamları göster</string>
-  <string name="pref_home_currency_title">Yerel para birimi</string>
-  <string name="grand_total">Genel toplam</string>
-  <string name="menu_original_amount">Orijinal meblağ</string>
-  <string name="menu_equivalent_amount">Eşdeğer meblağ</string>
-  <string name="home_currency_change_warning">Yerel para biriminizi değiştirirseniz eşdeğer meblağlar ile döviz kurları silinecektir ve yeniden tanımlanmaları gerekecektir.</string>
-  <string name="warning_split_transactions">Seçilen muameleler bir bölünmüş muamelede gruplanacaklardır. Tarih bilgileri kaybolacak ve yerlerini ortalama değer alacaktır.</string>
-  <string name="warning_ungroup_split_transactions">Seçilen bölünmüş muamelelerin gruplandırmaları kaldırılacak yani bölünmüş parçalar normal muamelelere dönüşecektir.</string>
-  <!--This is the label for the action that breaks up a split transaction into its parts.-->
-  <string name="menu_ungroup_split_transaction">Bölümün gruplandırmasını kaldır</string>
-  <plurals name="ungroup_split_transaction_success">
-    <item quantity="one">Bölünmüş muamelenin gruplandırılması başarıyla kaldırıldı.</item>
-    <item quantity="other">%1$d bölünmüş muamelenin gruplandırılması başarıyla kaldırıldı.</item>
-  </plurals>
-  <string name="ungroup_split_transaction_failure">Bölünmüş muamelelerin gruplandırmaları kaldırılırken toplam %2$d sayısından %1$d sayıdaki kaldırılma başarısız oldu.</string>
-  <string name="split_transaction_one_success">Muameleler başarıyla bölünmüş muamelelere dönüştürüldü.</string>
-  <string name="split_transaction_one_error">Muamele bölünmüşe dönüştürülemedi.</string>
-  <string name="split_transaction_group_success">%1$d muamele başarıyla tek bir bölünmüş muamelede gruplandırıldı.</string>
-  <string name="split_transaction_group_error">Muameleler bölünmüş muamelede gruplandırılamadı.</string>
-  <string name="split_transaction_not_possible">Sadece aynı hesap, durum ve alacaklısı olan muameleler tek bir bölünmüş muamelede gruplandırılabilir.</string>
-  <string name="pref_transaction_time_summary">Kesin muamele zamanının ayarlanmasına izin ver.</string>
-  <string name="pref_value_date_summary">Muamele tarihine ek olarak değer tarihi ayarlamaya izin ver. Muamele tarihi saklanacaktır. Bu seçenek nakit hesaplara uygulanmaz.</string>
-  <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
-  <string name="booking_date">Muamele tarihi</string>
-  <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
-  <string name="value_date">Değer tarihi</string>
-  <string name="licence_expires_n_days">Profesyonel anahtarınızın geçerliliği %d gün içinde son erecek.</string>
-  <string name="licence_expires_tomorrow">Profesyonel anahtarınızın geçerliliği yarın sona erecek.</string>
-  <string name="licence_expires_today">Profesyonel anahtarınızın geçerliliği bugün sona eriyor.</string>
-  <string name="licence_expired_yesterday">Profesyonel anahtarınızın geçerliliği dün sona erdi.</string>
-  <string name="licence_has_expired_n_days">Profesyonel anahtarınızın geçerliliği %d gün önce sona erdi.</string>
-  <string name="pref_category_title_privacy">Gizlilik</string>
-  <string name="pref_ad_consent_title">Kişiselleştirilmiş reklamlar</string>
-  <string name="ad_consent_non_personalized">Kişiselleştirilmemiş reklamlar</string>
-  <string name="gdpr_consent_message">{app_name} uygulamasının destek, bakım ve geliştirilmesini sürdürmek için {ad_provider} ile işbirliği yaparak size reklam gösteriyoruz. Bu konuda rızanızı istiyoruz. Reklam görmek istemiyorsanız, lütfen reklamsız sürüm için ödeme yapın.</string>
-  <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">Evet, reklam görmeye devam et</string>
-  <string name="gdpr_consent_button_no">Reklamsız sürüm için ödeme yap</string>
-  <string name="sort_order">Sıralama düzeni</string>
-  <string name="navigation_drawer_accounts_title">Hesapları yönet</string>
-  <string name="pref_sync_wifi_only_summary">Sadece Wi-Fi üzerindeyken eşleştir</string>
-  <string name="pref_sync_changes_immediately_summary">Yerel değişimleri derhal arka uca yaz</string>
-  <string name="wifi_not_connected">Cihaz Wi-Fi ile bağlı değil. Eşleşme sonraya bırakıldı.</string>
-  <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
-  <string name="pref_translation_title">Tercüme</string>
-  <!--Content description for accessibility on image that allows to collapse content-->
-  <string name="content_description_collapse">Küçült</string>
-  <!--Content description for accessibility on image that allows to expand content-->
-  <string name="content_description_expand">Genişlet</string>
-  <!--Short label for the amount input where user can set either saving goal or credit limit-->
-  <string name="goal_or_limit">Hedef / Sınır</string>
-  <string name="saving_goal">Tasarruf hedefi </string>
-  <string name="credit_limit">Kredi limiti</string>
-  <string name="clear_all_filters">Tüm filtreleri temizle</string>
-  <string name="pref_scroll_to_current_date_summary">Uygulama başladığında muamele listesini güncel tarihe kaydır</string>
-  <string name="professional_key_fallback_info">Bir sene etkin olan ve yenilenmemiş bir Profesyonel Anahtar aboneliği otomatik olarak sınırsız Genişletilmiş Anahtar\'a dönüştürülecektir.</string>
-  <string name="menu_budget">Bütçeleme</string>
-  <string name="dialog_title_edit_budget">Bütçeyi düzenle</string>
-  <string name="budget_table_header_budgeted">Bütçelenmiş</string>
-  <string name="budget_table_header_allocated">Tahsis edilmiş</string>
-  <string name="budget_table_header_spent">Harcanmış</string>
-  <string name="budget_table_header_remainder">Kalan</string>
-  <string name="budget_allocated_amount">Tahsis edilen meblağ</string>
-  <string name="budget_exceeded_error_1_1">Bütçenizin %s haricindeki tümü başka kategorilere tahsis edildi.</string>
-  <string name="budget_exceeded_error_1_2">Tüm bütçeniz başka kategorilere tahsis edildi.</string>
-  <string name="budget_exceeded_error_2">Bütçelenmiş meblağı arttırın veya diğer kategorilerden para kaldırın.</string>
-  <string name="budget_under_allocated_error">%s zaten başka kategorilere tahsis edilmiş. Onlardan para kaldırmazsanız, en az bu meblağı bütçelemeniz gerekir.</string>
-  <string name="sub_budget_exceeded_error_1_1">Ana kategoriye tahsis edilen %s haricindeki tüm meblağ başka alt kategorilere tahsis edilmiştir.</string>
-  <string name="sub_budget_exceeded_error_1_2">Ana kategoriye tahsis edilen meblağın tümü başka alt kategorilere tahsis edilmiştir.</string>
-  <string name="sub_budget_exceeded_error_2">Ana kategoriye tahsis edilen meblağı arttırın veya başka alt kategorilerden para kaldırın.</string>
-  <string name="sub_budget_under_allocated_error">%s zaten alt kategorilere tahsis edilmiştir. Onlardan para kaldırmazsanız, ana kategori için en az bu meblağı bütçelemeniz gerekir.</string>
-  <!--Description for button that allows to clear the selected method-->
-  <string name="content_description_clear_method">Metodu sil</string>
-  <!--Description for button that allows to clear the selected category-->
-  <string name="content_description_clear_category">Kategoriyi sil</string>
-  <string name="currency_code">Kod</string>
-  <string name="dialog_title_new_currency">Yeni para birimi</string>
-  <string name="currency_code_already_definded">Para birimi kodu zaten tanımlanmıştır.</string>
-  <string name="currency_still_used">Para birimi kullanımdadır, silinemez.</string>
-  <string name="unmapped">Eşlenmemiş</string>
-  <!--In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
+    <string name="account">Hesap</string>
+    <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
+    <string name="account_types">Hesap türleri</string>
+    <string name="account_type_asset">Aktif hesabı</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_asset_plural">Aktif hesapları</string>
+    <string name="account_type_bank">Banka hesabı</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_bank_plural">Banka hesapları</string>
+    <string name="account_type_cash">Nakit hesabı</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_cash_plural">Nakit hesapları</string>
+    <string name="account_type_ccard">Kredi kartı</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_ccard_plural">Kredi kartları</string>
+    <string name="account_type_liability">Borç hesabı</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_liability_plural">Borç hesapları</string>
+    <string name="already_defined">%1$s zaten tanımlanmış</string>
+    <string name="amount">Miktar</string>
+    <string name="app_name">Harcamalarım</string>
+    <string name="backup_failure">SD kartına yedekleme başarısız oldu (%1$s).</string>
+    <string name="backup_success">Veritabanı ve tercihler SD karta başarılı bir şekilde yazıldı (%1$s).</string>
+    <string name="category">Kategori</string>
+    <string name="color">Renk</string>
+    <string name="comment">Notlar</string>
+    <string name="confirmation_dialog_dont_show_again">Bir daha gösterme</string>
+    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Reklamsız</string>
+    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Sınırsız sayıda hesap</string>
+    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Muameleye resim ekle</string>
+    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Dilim grafik (kategori başına dağılım)</string>
+    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Sınırsız plan sayısı</string>
+    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Muamele listesini PDF dosyasına aktar</string>
+    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Şablon widget\'i</string>
+    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV içe aktar</string>
+    <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Sınırsız sayıda bölünmüş şablonlar</string>
+    <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources">2 iş günü sonrasında cevap garantili <b>e-posta desteği</b></string>
+    <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources"><b>Geliştirme yol haritası</b> hakkında oy verme hakkı</string>
+    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Tarihçe grafiği (Nakit akışı)</string>
+    <string name="licence_status_free">Ücretsiz</string>
+    <string name="contrib_key">Katkı Anahtarı</string>
+    <string name="extended_key">Genişletilmiş Anahtarı</string>
+    <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
+    <string name="contrib_key_requires">%s gerektirir.</string>
+    <string name="currency">Döviz</string>
+    <string name="current_balance">Güncel bakiye</string>
+    <string name="date">Tarih</string>
+    <string name="date_format">Tarih biçimi</string>
+    <string name="date_format_illegal">Geçersiz tarih biçimi</string>
+    <string name="number_format_illegal">İllegal sayı biçimi</string>
+    <string name="decimal_separator">Ondalık ayırıcı</string>
+    <string name="default_account_name">Bütçe defteri</string>
+    <string name="description">Açıklama</string>
+    <string name="dialog_balance_delete">Uzlaşmış muameleleri sil</string>
+    <string name="dialog_confirm_discard_changes">Değişiklikler gözardı edilsin mi?</string>
+    <string name="dialog_confirm_discard_new_transaction">Yeni muamele gözardı edilsin mi?</string>
+    <string name="dialog_confirm_discard_new_template">Yeni şablon gözardı edilsin mi?</string>
+    <string name="dialog_confirm_discard_new_account">Yeni hesap gözardı edilsin mi?</string>
+    <string name="dialog_confirm_discard_new_method">Yeni ödeme metodu gözardı edilsin mi?</string>
+    <string name="dialog_command_disabled_balance">Uzlaştırılacak hiçbir çözümlenmiş muamele yok.</string>
+    <string name="dialog_command_disabled_insert_transfer">Transfer muameleleri ikinci bir hesap gerektirir.</string>
+    <string name="dialog_command_disabled_reset_account">Dışa aktarılacak hiçbir muamele yok.</string>
+    <string name="dialog_command_disabled_distribution">Bu hesapta hiçbir muamele kategorilendirilmemiştir.</string>
+    <!-- Button for accessing trial of premium feature -->
+    <string name="dialog_contrib_no">Dene</string>
+    <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
+    <string name="dialog_contrib_premium_feature">%1$s katkı işlevidir (%2$s).</string>
+    <string name="dialog_contrib_reminder_remove_limitation">Bu sınırlamayı kaldırıp daha fazla işleve erişmek için <i>{app_name}</i>\'ı yükseltin.</string>
+    <string name="dialog_contrib_text_1"><i>{app_name}</i> açık kaynak olarak sunulmuştur.</string>
+    <string name="dialog_contrib_text_2">Lütfen <i>{app_name}</i>\'ı yükselterek katkıda bulunun ve aşağıdaki işlevlere sınırsız erişim elde edin:</string>
+    <string name="dialog_contrib_usage_count">Kalan ücretsiz kullanım</string>
+    <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">Güncel lisans durumunuz (%2$s) ile bunu %1$d defa kullanabilirsiniz.</string>
+    <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Güncel lisans durumunuz (%2$s) ile bunu %1$d gün kullanabilirsiniz.</string>
+    <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Güncel lisans durumunuz (%2$s) %1$d hesap oluşturmanıza izin vermektedir.</string>
+    <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Güncel lisans durumunuz (%2$s) %1$d planlama oluşturmanıza izin vermektedir.</string>
+    <string name="dialog_contrib_usage_limit_split_templates">Güncel lisans durumunuz (%1$s) 1 bölünmüş şablon oluşturmanıza izin vermektedir.</string>
+    <string name="dialog_export_delete">Dışa aktarılan muameleleri sil</string>
+    <string name="dialog_export_not_yet_exported">Sadece henüz dışa aktarılmamış muameleleri aktar</string>
+    <string name="dialog_password_activate_protection">Parola ile korumayı etkinleştir</string>
+    <string name="dialog_password_change_password">Parolayı değiştir</string>
+    <string name="dialog_password_new_password">Yeni parola</string>
+    <string name="dialog_password_new_password_confirmation">Yeni parola (teyit)</string>
+    <string name="dialog_remind_later">Daha sonra</string>
+    <string name="dialog_remind_no">Hayır teşekkürler</string>
+    <string name="dialog_remind_rate_how_many_stars">{app_name}\'a kaç yıldız verirsiniz?</string>
+    <string name="dialog_remind_rate_1">{app_name}\'ı yorumlamak ve puan vermek için lütfen bir dakikanızı ayrınız.</string>
+    <string name="dialog_remind_rate_2">Yorumlarınız devamlı olarak geliştirme ve iyileştirmeler eklememize imkân vermektedir.</string>
+    <string name="dialog_remind_rate_1_suggest_improvement">Bize geliştirme için tavsiyelerinizi yollamak için lütfen bir dakikanızı ayırınız.</string>
+    <string name="dialog_remind_rate_yes">Şimdi not ver</string>
+    <string name="dialog_security_answer">Cevap</string>
+    <string name="dialog_security_question">Soru</string>
+    <string name="dialog_title_attention">Dikkat</string>
+    <string name="dialog_title_information">Bilgi</string>
+    <!-- %1$s is replace with account label -->
+    <string name="dialog_title_balance_account">%1$s unsurunu uzlaştır</string>
+    <string name="dialog_title_contrib_feature">Ücretli işlev</string>
+    <plurals name="dialog_title_warning_delete_account">
+        <item quantity="one">Kategori silinsin mi?</item>
+        <item quantity="other">%1$d hesap silinsin mi?</item>
+    </plurals>
+    <string name="dialog_title_warning_delete_category">Kategori silinsin mi?</string>
+    <string name="dialog_title_warning_delete_template">Şablon silinsin mi?</string>
+    <string name="dialog_title_warning_delete_transaction">Muamele silinsin mi?</string>
+    <string name="expense">gider</string>
+    <string name="export_expenses">Giderleri dışa aktar</string>
+    <!-- 1$s is replaced with path to file, 2$s with error message -->
+    <string name="export_sdcard_failure">\"%1$s\" dosyasına dışa aktarma başarısız oldu: %2$s</string>
+    <!-- 1$s is replaced with path to file -->
+    <string name="export_sdcard_success">Veriler başarıyla \"%1$s\" dosyasına aktarıldı</string>
+    <string name="external_storage_unavailable">Harici depolama (SD kartı) mevcut değil</string>
+    <string name="feedback">Geri bildirim</string>
+    <string name="ftp_uri_malformed">Yanlış yapılandırılmış URI %1$s</string>
+    <string name="grisbi_import_categories_loading">%1$s konumundan kategoriler yükleniyor</string>
+    <string name="grisbi_import_parties_loading">%1$s konumunundan bölümler yükleniyor</string>
+    <string name="grouping_day">Gün</string>
+    <string name="grouping_last_week">Geçen hafta</string>
+    <string name="grouping_month">Ay</string>
+    <string name="grouping_none">Grupsuz</string>
+    <string name="grouping_this_week">Bu hafta</string>
+    <string name="grouping_today">Bugün</string>
+    <string name="grouping_week">Hafta</string>
+    <string name="grouping_year">Sene</string>
+    <string name="grouping_yesterday">Dün</string>
+    <string name="help_button_rate">Not ver veya değerlendir</string>
+    <string name="help_heading_credits">Hazırlayanlar</string>
+    <string name="help_heading_license">Lisans</string>
+    <string name="help_heading_whats_new">Yenilikler</string>
+    <string name="important_upgrade_information_heading">Önemli bilgi</string>
+    <string name="import_select_transactions">Muameleler</string>
+    <string name="income">gelirler</string>
+    <string name="invalid_number_format">Yerel ayarlarınız ondalık biçimi tanımıyor. Lütfen şunu kullanınız: %1$s</string>
+    <string name="label">Etiket</string>
+    <string name="licence_validation_failure">Lisans anahtarı doğrulanamadı.</string>
+    <string name="licence_validation_success">Lisans anahtarı başarıyla doğrulandı:</string>
+    <string name="licence_validation_premium">Ödemeli işlevlerin kilidi açılmıştır.</string>
+    <string name="menu_aggregates">Toplam</string>
+    <!-- Shown in a notification; allows to apply a template (instantiate a new transaction from it) -->
+    <string name="menu_apply_template">Uygula</string>
+    <string name="menu_back">Önceki</string>
+    <string name="menu_backup">Yedekleme</string>
+    <!-- Balance: compare cleared balance in app with balance on statement received from bank -->
+    <string name="menu_balance">Hesabı uzlaştır</string>
+    <!-- Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction -->
+    <string name="menu_cancel_plan_instance">İptal et</string>
+    <string name="menu_clone_transaction">Klonla</string>
+    <string name="menu_contrib">Katkıda bulun</string>
+    <string name="menu_create_account">Yeni hesap oluştur</string>
+    <string name="menu_create_instance_edit">Uygula ve düzenle</string>
+    <string name="menu_create_instance_save">Uygula ve kaydet</string>
+    <string name="menu_create_main_cat">Yeni ana kategori oluştur</string>
+    <string name="menu_create_method">Yeni ödeme metodu oluştur</string>
+    <string name="menu_create_party">Yeni borçlu/alacaklı</string>
+    <string name="menu_create_split">Yeni bölünmüş muamele</string>
+    <string name="menu_create_split_part_category">Yeni bölünmüş alt muamele (kategori)</string>
+    <string name="menu_create_split_part_transfer">Yeni bölünmüş alt muamele (transfer)</string>
+    <string name="menu_create_sub_cat">Yeni alt kategori oluştur</string>
+    <string name="menu_create_template">Şablon oluştur</string>
+    <string name="menu_create_template_from_transaction">Şablon olarak kaydet</string>
+    <string name="menu_create_template_for_transaction">Yeni muamele şablonu</string>
+    <string name="menu_create_template_for_transfer">Yeni transfer şablonu</string>
+    <string name="menu_create_transaction">Muamele ekle</string>
+    <string name="menu_create_transfer">Virman ekle</string>
+    <string name="menu_delete">Sil</string>
+    <string name="menu_distribution">Dağılım</string>
+    <string name="menu_edit">Düzenle</string>
+    <string name="menu_edit_account">Hesabı düzenle</string>
+    <string name="menu_edit_cat">Kategori düzenle</string>
+    <string name="menu_edit_method">Ödeme metodunu düzenle</string>
+    <string name="menu_edit_party">Borçlu/alacaklıyı düzenle</string>
+    <string name="menu_edit_plan_instance">Planlamanın tek oluşumunu düzenle</string>
+    <string name="menu_edit_split">Bölünmeyi düzenle</string>
+    <string name="menu_edit_split_part_category">Bölünmüş alt muameleyi düzenle (kategori)</string>
+    <string name="menu_edit_split_part_transfer">Bölünmüş alt muameleyi düzenle (transfer)</string>
+    <string name="menu_edit_template">Şablonu düzenle</string>
+    <string name="menu_edit_transaction">Muameleyi düzenle</string>
+    <string name="menu_edit_transfer">Virmanı düzenle</string>
+    <string name="menu_exclude_from_totals">Toplamlardan dışla</string>
+    <string name="menu_forward">Sonraki</string>
+    <string name="menu_grouping">Gruplandırma</string>
+    <string name="menu_help">Yardım</string>
+    <!-- This command inverts the direction of a transfer -->
+    <string name="menu_invert_transfer">Ters Çevir</string>
+    <string name="menu_manage_plans">Şablonlar ve planlar</string>
+    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
+    <string name="menu_open">Aç</string>
+    <string name="menu_import">İçe aktar</string>
+    <string name="menu_print">Yazdır</string>
+    <string name="menu_reset">Dışa aktar ve sıfırla</string>
+    <string name="menu_reset_all">Tümünü dışa aktar ve sıfırla</string>
+    <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
+    <string name="menu_reset_plan_instance">Sıfırla</string>
+    <string name="menu_save">Kaydet</string>
+    <string name="menu_save_and_new">Kaydet ve yenisini aç</string>
+    <string name="menu_search">Ara</string>
+    <string name="menu_settings">Ayarlar</string>
+    <string name="menu_share">Bir arkadaşa bahset</string>
+    <string name="button_label_share_file">Paylaş</string>
+    <string name="button_label_close">Kapat</string>
+    <string name="menu_split_transaction">Bölünmüşe dönüştür</string>
+    <string name="method">Ödeme metodu</string>
+    <string name="no_amount_given">Hiçbir meblağ girmediniz.</string>
+    <string name="no_app_handling_email_available">E-postayı yöneten bir uygulama yok.</string>
+    <string name="no_app_handling_ftp_available">FTP yöneten bir uygulama yok. <i>Send With FTP</i> indirilsin mi?</string>
+    <string name="no_app_handling_pdf_available">PDF dosyalarını yönetecek hiçbir uygulama yok.</string>
+    <string name="no_categories">Kategori yok.</string>
+    <string name="no_expenses">Henüz hiçbir harcama yok!</string>
+    <string name="no_exportable_expenses">Henüz dışa aktarılmamış hiçbir muamele yok.</string>
+    <string name="no_filemanager_installed">Hiçbir dosya yöneticisi kurulu değil</string>
+    <string name="no_calendar_app_installed">Takvim olayını düzenlemek için hiçbir uygulama bulunamadı.</string>
+    <string name="no_mapped_transactions">Bu zaman aralığında hiçbir muamele kategoriler ile ilişkilendirilmemiştir.</string>
+    <string name="no_methods">Hiçbir ödeme metodu yok.</string>
+    <string name="no_parties">Bölüm yok.</string>
+    <string name="no_split_parts">Hiçbir alt muamele yok.</string>
+    <string name="no_templates">Şablon yok.</string>
+    <string name="no_accounts">Hesap yok.</string>
+    <string name="no_title_given">Hiçbir metin girmediniz.</string>
+    <plurals name="not_deletable_mapped_transactions">
+        <item quantity="one">Seçilen unsur bir muameleyle ilişkilidir ve silinemez.</item>
+        <item quantity="other">%1$d unsur muamelelerle ilişkilidir ve silinemez.</item>
+    </plurals>
+    <plurals name="not_deletable_mapped_templates">
+        <item quantity="one">Seçilen unsur bir şablonla ilişkilidir ve silinemez.</item>
+        <item quantity="other">%1$d unsur şablonlarla ilişkilidir ve silinemez.</item>
+    </plurals>
+    <string name="numbered">sayılı</string>
+    <string name="opening_balance">Açılış bakiyesi</string>
+    <string name="parse_error_file_not_found">%1$s dosyası bulunamadı</string>
+    <string name="parse_error_grisbi_version_not_supported">Desteklenmeyen Grisbi dosya sürümü: %1$s</string>
+    <string name="parse_error_no_data_found">Dosyada içe aktarılabilecek hiçbir veri bulunamadı.</string>
+    <string name="parse_error_other_exception">Bir hata meydana geldi: %1$s</string>
+    <string name="parse_error_parse_exception">Dosya ayrıştırılamadı</string>
+    <string name="password_disabled_reenable">Parola ile koruma devre dışı bırakıldı. Ayarlarda tekrar etkinleştirebilirsiniz.</string>
+    <string name="password_lost">Unutulmuş parola</string>
+    <string name="password_not_valid">Geçersiz parola. Tekrar deneyin!</string>
+    <string name="password_prompt">Parolanızı giriniz</string>
+    <string name="password_security_answer_not_valid">Yanlış cevap. Yeniden deneyin!</string>
+    <string name="payee">Alacaklı</string>
+    <string name="payer">Ödeyen</string>
+    <string name="payer_or_payee">Alacaklı/Mükellef</string>
+    <!-- Plan for future and recurring transactions -->
+    <string name="plan">Planla</string>
+    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
+    <string name="plan_automatic">otomatik</string>
+    <!-- this is the label for the calendar where plans for future and recurrent transactions are stored -->
+    <string name="plan_calendar_name">{app_name} planlayıcısı</string>
+    <string name="planner_notification_channel_name">Planlayıcı</string>
+    <string name="plan_event_deleted">Bu şablonla ilişkili planlama takvimden silindi.</string>
+    <!-- This message is shown, after a user decides to not apply a manual plan -->
+    <string name="plan_execution_canceled">Planı yürütme iptal edildi</string>
+    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
+    <string name="plan_manual">el ile</string>
+    <string name="planner_create_calendar_failure">Yerel planlama takvimi oluşturulamadı</string>
+    <string name="planner_create_calendar_success">Yerel planlama takvimi başarıyla oluşturuldu</string>
+    <!-- payment methods -->
+    <string name="pm_cheque">Çek</string>
+    <string name="pm_creditcard">Kredi kartı</string>
+    <string name="pm_deposit">Mevduat</string>
+    <string name="pm_directdebit">Doğrudan gider</string>
+    <string name="pm_type_credit">Gelir</string>
+    <string name="pm_type_debit">Gider</string>
+    <string name="pm_type_neutral">Nötr</string>
+    <string name="pref_app_dir_title">Yedekleme ve dışa aktarmalar için klasör</string>
+    <string name="pref_auto_fill_title">Muameleleri otomatik doldur</string>
+    <string name="pref_auto_fill_summary">Aynı alacaklı/ödeyici için verileri son muameleden doldur</string>
+    <string name="pref_backup_summary">SD kartına veritabanı ve tercihlerin bir yedeklemesini yap.</string>
+    <string name="pref_sort_order_usages">Kullanım sayacı</string>
+    <string name="pref_category_title_advanced">Gelişmiş</string>
+    <string name="pref_category_title_export">Dışa aktar</string>
+    <string name="pref_category_title_import">İçe aktar</string>
+    <string name="pref_category_title_manage">Yönet</string>
+    <string name="pref_category_title_more_information">İlâve bilgi</string>
+    <string name="pref_category_title_security">Güvenlik</string>
+    <string name="pref_category_title_ui">Kullanıcı arayüzü</string>
+    <string name="pref_checkbox_enabled">Etkinleştirilmiş</string>
+    <string name="pref_checkbox_disabled">Devre dışı</string>
+    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
+    <string name="pref_contrib_purchase_summary">Premium (ödemeli) işlevlere erişim satın al.</string>
+    <string name="pref_contrib_purchase_title">Anahtarını Satın Al</string>
+    <string name="pref_contrib_purchase_title_upgrade">Yükseltme anahtarı</string>
+    <string name="pref_contrib_purchase_title_in_app">Uygulama içi ödeme</string>
+    <string name="pref_custom_currency_title">Para birimlerini kişiselleştir</string>
+    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
+    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Eğer anahtarı aldıysanız tüm işlevlere erişim kazanın.</string>
+    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Anahtarını gir</string>
+    <string name="pref_export_format_title">Veri biçimi</string>
+    <string name="pref_import_from_grisbi_summary">Kategori (ve bölüm) içeri aktar Grisbi XML.</string>
+    <string name="pref_import_from_grisbi_title">Grisbi\'den içeri aktar</string>
+    <!-- %s is replaced with QIF or CSV -->
+    <string name="pref_import_summary">Muameleleri, kategorileri ve parçaları %s dosyasından içe aktar</string>
+    <!-- %s is replaced with QIF or CSV -->
+    <string name="pref_import_title">%s içe aktar</string>
+    <string name="pref_like_facebook_title">Bizi Facebook\'ta beğenin</string>
+    <string name="pref_manage_accounts_title">Hesaplar</string>
+    <string name="pref_manage_categories_summary">Kategori ekle, düzenle ve sil.</string>
+    <string name="pref_manage_categories_title">Kategoriler</string>
+    <string name="pref_manage_methods_summary">Ödeme metotları oluştur, düzenle ve hesap türleri ile ilişkilendir.</string>
+    <string name="pref_manage_methods_title">Ödeme metotları</string>
+    <string name="pref_manage_parties_summary">Borçlu/alacaklı ekle, düzenle veya sil.</string>
+    <string name="pref_manage_parties_title">Bölümler</string>
+    <string name="pref_manage_sync_backends_title">Eşleşme arka ucu</string>
+    <!-- %s will be replaced with list of backends -->
+    <string name="pref_manage_sync_backends_summary">Hesapları eşleştirmek için arka uç ekle (%s).</string>
+    <string name="pref_more_info_dialog_title">Lisans &amp; Hazırlayanlar</string>
+    <string name="pref_password_not_equal">Parolalar eşleşmedi</string>
+    <string name="pref_perform_protection_title">Koruma</string>
+    <string name="pref_perform_share_title">Dışa aktarmaları ve yedeklemeleri paylaş</string>
+    <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
+    <string name="pref_planning_calendar_create_local">Yeni yerel planlama takvimi oluştur</string>
+    <string name="pref_planning_calendar_summary">Gelecekteki ve tekrar eden muamelelerin saklanacağı takvimi seç</string>
+    <string name="pref_planning_calendar_title">Planlama takvimi</string>
+    <string name="pref_protection_delay_seconds_summary">Uygulamanın parola ile kilitlenmesinden önce beklenecek saniye sayısı</string>
+    <string name="pref_protection_delay_seconds_title">Korumanın başlamasından önceki süre</string>
+    <string name="pref_protection_enable_data_entry_from_widget_title">Kısayollar ve wigdet\'lardan veri girişi</string>
+    <string name="pref_protection_enable_data_entry_from_widget_summary_on">Parola olmasa da izinli.</string>
+    <string name="pref_protection_enable_data_entry_from_widget_summary_off">Parola gerekli.</string>
+    <string name="pref_qif_export_file_encoding_title">Karakter kodlaması</string>
+    <string name="pref_request_licence_title">Anahtarı talep et</string>
+    <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
+    <string name="pref_restore_alternative">Alternatif</string>
+    <string name="pref_restore_alternative_summary">Eğer cihazınızda kurulu bir dosya yöneticisi yoksa istiyorsanız bu alternatif metodu kullanınız.</string>
+    <string name="pref_restore_summary">Veritabanı ve tercihlerin geri alınacağı yedeklemeyi seç</string>
+    <string name="pref_restore_title">Geri al</string>
+    <string name="pref_security_question_summary">Parolanızı unuttuysanız uygulamanın kilidini açmanıza izin verir.</string>
+    <string name="pref_security_question_title">Güvenlik sorusu</string>
+    <string name="pref_send_feedback_title">Geri bildirim gönder</string>
+    <string name="pref_share_target_summary">Uygulamalar (e-posta, Dropbox, Google Docs, …) arası seçim yapmak istiyorsanız boş bırakın, yoksa desteklenen şemada bir URL girin.</string>
+    <string name="pref_share_target_title">Yükleme adresi</string>
+    <string name="pref_shortcut_added">Ana ekrana kısayol eklenmiştir</string>
+    <string name="pref_shortcut_not_added">Kısayolları kabul edecek ana ekran mevcut değil.</string>
+    <string name="pref_shortcut_summary">Ana ekrana kısayol ekle.</string>
+    <string name="pref_template_click_default_summary">Şablon listesinde unsura kısa dokunulduğunda</string>
+    <string name="pref_ui_fontsize_title">Yazı boyutu arttır</string>
+    <string name="pref_ui_home_screen_shortcuts">Ana Ekran Kısayolları</string>
+    <string name="pref_ui_language_default">Sistem varsayılanı</string>
+    <!-- Title of the preference for selecting the UI language -->
+    <string name="pref_ui_language_title">Dil</string>
+    <string name="pref_ui_theme_dark">Karanlık</string>
+    <string name="pref_ui_theme_light">Aydınlık</string>
+    <string name="pref_ui_theme_title">Tema</string>
+    <string name="pref_visit_website_summary">Değişiklikler ve SSS</string>
+    <string name="pref_visit_website_title">Siteyi ziyaret et</string>
+    <string name="progress_dialog_deleting">Nesneler siliniyor</string>
+    <string name="progress_dialog_loading">Veritabanından nesne yükleniyor</string>
+    <string name="progress_dialog_printing">PDF oluşturuluyor</string>
+    <string name="progress_dialog_saving">Nesne veritabanına kaydediliyor</string>
+    <string name="qif_parse_result">Ayrıştırıldı:  %1$s hesap,  %2$s kategori ve %3$s kişi</string>
+    <string name="qif_parse_failure_found_multiple_accounts">QIF dosyasında birden çok hesap bulundu.</string>
+    <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Bunlar mevcut bir hesapla birleştirilemez.</string>
+    <string name="reference_number">Referans sayısı</string>
+    <string name="restore_db_failure">Veritabanının yüklenmesi başarısız oldu</string>
+    <string name="restore_db_success">Veritabanı yedeklemeden restore edilmiştir.</string>
+    <string name="restore_no_backup_found">Yedek bulunamadı.</string>
+    <string name="restore_preferences_failure">Tercihlerin yüklenmesi başarısız oldu</string>
+    <string name="restore_backup_archive_not_valid">%1$s arşivi geçerli bir arşiv değildir</string>
+    <string name="restore_backup_file_not_found">\"%2$s\" arşivinde %1$s dosyası bulunamadı</string>
+    <string name="restore_preferences_success">Tercihler yedeklemeden restore edilmiştir.</string>
+    <string name="restore_calendar_success" tools:ignore="PluralsCandidate">Yedeklemeden %d planlama geri alınmıştır</string>
+    <string name="save_transaction_and_new_success">Başarıyla kaydedildi</string>
+    <string name="save_transaction_error">Şablondan muamele kaydedilemedi.</string>
+    <plurals name="save_transaction_from_template_success">
+        <item quantity="one">Yeni muamele şablondan başarıyla kaydedildi.</item>
+        <item quantity="other">%1$d yeni muamele şablonlardan başarıyla kaydedilmiştir.</item>
+    </plurals>
+    <string name="save_transaction_template_deleted">Şablon silinmiştir</string>
+    <string name="select">Seç</string>
+    <string name="select_category">Kategori seç</string>
+    <string name="select_payee">Ödeyen/alacaklı seçin</string>
+    <string name="share_scheme_not_supported">%1$s şeması desteklenmemektedir</string>
+    <string name="share_sending">Dışa aktarım dosyasını gönder</string>
+    <string name="split_parts_heading">Bölünmüş alt muameleler</string>
+    <string name="split_transaction">Bölünmüş muamele</string>
+    <string name="status">Durum</string>
+    <string name="status_cleared">temizlendi</string>
+    <string name="status_reconciled">uzlaşmış</string>
+    <string name="status_uncreconciled">uzlaşmamış</string>
+    <string name="status_void">hükümsüz</string>
+    <string name="subcategory">Alt kategori</string>
+    <string name="sum_expenses">Harcamalar</string>
+    <string name="sum_income">Gelirler</string>
+    <string name="sum_transfer">Transferler</string>
+    <!-- platform is replaced with Android or Blackberry -->
+    <string name="tell_a_friend_message">{platform} için kişisel finans yöneticisi olan {app_name}\'a {website} adresinde göz atın</string>
+    <string name="thank_you">Desteğiniz için teşekkür ederiz!</string>
+    <string name="time">Zaman</string>
+    <string name="title">Başlık</string>
+    <string name="total_cleared">Çözümlenmiş toplam</string>
+    <string name="total_reconciled">Uzlaşmış toplam</string>
+    <string name="transaction">Muamele</string>
+    <string name="transfer">Transfer</string>
+    <string name="transfer_from_account">Buradan</string>
+    <string name="transfer_to_account">Buraya</string>
+    <!-- Type refers to the type of an account, eg. Cash account, bank account -->
+    <string name="type">Tip</string>
+    <string name="unsplit_amount">Atanmamış meblağ</string>
+    <string name="unsplit_amount_greater_than_zero">Hala atanmamış bir miktar var.</string>
+    <string name="warning_backup">Veritabanı ve tercihler \"%1$s\" konumuna yazılacaktır.</string>
+    <string name="continue_confirmation">Devam etmek istiyor musunuz?</string>
+    <string name="warning_delete_account">\"%1$s\" hesabı tüm muameleleriyle silinecektir.</string>
+    <plurals name="warning_delete_main_category">
+        <item quantity="one">Seçili kategorinin alt kategorileri bulunmaktadır ve bunlar da silinecektir.</item>
+        <item quantity="other">Seçilen %1$d kategorinin alt kategorileri bulunmaktadır ve bunlar da silinecektir.</item>
+    </plurals>
+    <string name="warning_delete_category_with_budget">Seçilen en az bir kategori için, silinecek bütçe tahsisleri de vardır.</string>
+    <plurals name="warning_delete_template">
+        <item quantity="one">Seçilen şablon silinecektir.</item>
+        <item quantity="other">Seçilen %1$d şablon silinecektir.</item>
+    </plurals>
+    <plurals name="warning_delete_transaction">
+        <item quantity="one">Seçilen muamele silinecektir.</item>
+        <item quantity="other">Seçilen %1$d muamele silinecektir.</item>
+    </plurals>
+    <plurals name="move_category_success">
+        <item quantity="one">Bir kategori başarılı bir şekilde taşındı.</item>
+        <item quantity="other">%d kategori başarılı bir şekilde taşındı.</item>
+    </plurals>
+    <plurals name="move_category_failure">
+        <item quantity="one">Bir kategori taşınmadı, çünkü aynı etiket hedefte zaten mevcut.</item>
+        <item quantity="other">%d kategori taşınmadı, çünkü aynı etiket hedefte zaten mevcut.</item>
+    </plurals>
+    <string name="warning_delete_reconciled">Uzlaşmış muameleleri silmeniz kayıtlarınızın banka kayıtlarından farklı olmasına yol açar.</string>
+    <string name="warning_balance_account">Lütfen çözümlenmiş toplamı banka ekstresindeki bakiye ile karşılaştırın. Devam ederseniz çözümlenmiş muameleler uzlaşmış olarak işaretlenecektir.</string>
+    <string name="warning_password_protected">Uygulama parola ile koruludur.</string>
+    <string name="warning_widget_disabled">Bu widget\'i uygulama ayarlarında etkinleştirmeniz gerekir.</string>
+    <string name="warning_instantiate_template_from_widget_password_protected">Şablonların bu widget\'ten hızlı örneklenmeleri sadece uygulama ayarlarında widget\'lerden parola olmadan veri girilmesine izin verdiyseniz mümkündür.</string>
+    <string name="warning_password_contrib">Bir güvenlik sorusu ayarlamanız parolanızı unutursanız uygulamanın kilidini açmanıza imkân sağlar.</string>
+    <string name="warning_reset_account">Devam ederseniz bu hesabın tüm muameleleri veritabanından silinecek ve bu geri alınamayacaktır.</string>
+    <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
+    <string name="warning_reset_account_all">Devam ederseniz, tüm hesaplar%1$s için muameleler veritabanından silinecek ve bu geri alınamayacaktır.</string>
+    <string name="warning_reset_account_matched">Eğer devam ederseniz, güncel filtre ile eşleşen muameleler veritabanından silinecek ve bu geri alınamayacaktır.</string>
+    <string name="warning_restore">Veritabanı ve tercihler \"%1$s\" yedekleme dosyasından yüklenecektir. Güncel veriler silinecektir.</string>
+    <string name="warning_app_folder_will_be_deleted_upon_uninstall">Eğer {app_name}\'ı kaldırırsanız şu anda seçili olan dışa aktarmalar ve yedeklemeler klasörü Android tarafından otomatik olarak silinecektir. Buna mani olmak için Ayarlar ekranından başka bir klasör seçebilirsiniz.</string>
+    <string name="warning_splitpartcategory_context">Bölünmüş muamelelerin bir parçası olan transferler sadece bu bölünmüş muamele bağlamında düzenlenebilirler.</string>
+    <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">%1$d ilâ %2$d arası bir sayı ayarlayınız</string>
+    <string name="warning_change_fraction_digits_1">Yeni kesir basamak sayısıyla eşleşmesi için veritabanındaki meblağların güncellenmesi gerekmektedir.</string>
+    <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Eğer meblağlar güncellenmezse, değişiklikten sonra %d ile çarpılmış olarak gösterileceklerdir.</string>
+    <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Eğer meblağlar güncellenmezse, değişiklikten sonra %d ile bölünmüş olarak gösterileceklerdir.</string>
+    <string name="warning_change_fraction_digits_3">Eğer meblağlar güncellenirse, onların kesirli bölümü hakkında bilgi kaybedersiniz.</string>
+    <string name="warning_change_fraction_digits_checkbox_label">Veritabanındaki meblağları güncelle</string>
+    <string name="import_categories_success">%1$s kategori başarıyla içe aktarıldı</string>
+    <string name="import_parties_success">%1$s bölüm başarıyla içe aktarıldı</string>
+    <string name="import_accounts_success">%1$s hesap başarılı bir şekilde içe aktarıldı</string>
+    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d muamele başarılı bir şekilde %2$s hesabına aktarıldı</string>
+    <string name="import_accounts_none">İçe aktarılan hesap yok</string>
+    <string name="import_categories_none">İçe aktarılan kategori yok</string>
+    <string name="import_parties_none">İçe aktarılan bölüm yok</string>
+    <string name="import_transactions_none">Hiçbir muamele %1$s hesabına aktarılmadı</string>
+    <string name="import_source_select_error">Lütfen %1$s tipinde bir dosya verin</string>
+    <string name="menu_categories_setup_default">Varsayılan kategorileri kur</string>
+    <string name="menu_create_folder">Yeni klasör</string>
+    <!-- This string is used for navigating up in the folder browser -->
+    <string name="menu_up">Yukarı</string>
+    <string name="create_new_folder_fail">Klasör oluşturulamadı</string>
+    <string name="widget_title_accounts">Hesaplarım</string>
+    <string name="widget_title_templates">Şablonlarım</string>
+    <string name="app_dir_not_accessible">Yedeklemeler ve dışa aktarmalar için güncel olarak seçilmiş klasöre (%1$s) erişilemiyor. Lütfen başka bir klasör seçin.</string>
+    <string name="app_dir_not_compatible_with_nougat">Yedeklemeler ve dışa aktarmalar için güncel olarak yapılandırılmış URI (%1$s) Android Nougat tarafından desteklenmemektedir. Lütfen bir defa daha bir klasör seçin.</string>
+    <string name="search_amount">Meblağ ara</string>
+    <string name="search_category">Kategori ara</string>
+    <string name="search_comment">Not ara</string>
+    <string name="search_date">Tarih ara</string>
+    <string name="search_status">Durum ara</string>
+    <string name="search_payee">Alacaklı/mükellef ara</string>
+    <string name="search_method">Metot ara</string>
+    <string name="search_tag">Etiket ara</string>
+    <string name="and">ve</string>
+    <string name="between_and">%1$s ilâ %2$s arasında</string>
+    <string name="before">şundan önce: %s</string>
+    <string name="after">şundan sonra: %s</string>
+    <string name="comparison_operator_equal">şuna eşit</string>
+    <string name="comparison_operator_greater_than">şundan büyük</string>
+    <string name="comparison_operator_lesser_than">şundan küçük</string>
+    <string name="comparison_operator_between">arasında</string>
+    <string name="comparison_operator_date_before">önce</string>
+    <string name="comparison_operator_date_after">sonra</string>
+    <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Satın alma başarısız oldu veya iptal edildi.</string>
+    <string name="hint_auto_fill">Aynı alacaklı/ödeyici için veriler son muameleden doldurulsun mu? Bu davranışı ayarlardan değiştirmeniz mümkündür.</string>
+    <string name="yes">Evet</string>
+    <string name="no">Hayır</string>
+    <string name="hint_template_click">Bu listedeki bir unsura kısa bir dokunuş şablonu örneklendirecek ve onu ya derhal kaydedecek ya da kaydetmeden önce değiştirmenize izin verecek düzenleme formuna girecektir. Her iki etkinliği de uzun bir dokunuş ile elde edebilir ve varsayılan değeri ayarlarda değiştirebilirsiniz.</string>
+    <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%2$s para birimini kullanan %1$d hesap güncellendi.</string>
+    <string name="learn_more">Dahasını öğrenin</string>
+    <string name="import_source_file">Dosya</string>
+    <string name="restore_calendar_handling">Takvim veri yönetimi</string>
+    <string name="restore_calendar_handling_configured">Planlamaları güncel yapılandırılmış takvime geri al</string>
+    <string name="restore_calendar_handling_backup">Planlamaları mevcutsa yedeklemedeki takvim setine geri al</string>
+    <string name="restore_calendar_handling_ignore">Planlamaları geri alma</string>
+    <string name="restore_not_possible_target_calendar_missing">Yedekleme arşivindeki %s takvim seti yerel olarak mevcut değildir. Geri alma iptal edilmiştir.</string>
+    <string name="restore_not_possible_local_calendar_missing">Güncel planlama takvimi mevcut değildir.</string>
+    <string name="menu_view_picture">Resmi görüntüle</string>
+    <string name="menu_delete_picture">Resmi sil</string>
+    <string name="menu_change_picture">Değişik bir resim ekle</string>
+    <string name="menu_distribution_show_pie_char">Grafiği göster</string>
+    <string name="menu_distribution_aggreate">Gelir ve harcamaları beraberleştir</string>
+    <string name="pref_manage_stale_images_title">Eski resimler</string>
+    <string name="pref_manage_stale_images_summary">Silinmiş muamelelerden kalan resimleri yönet</string>
+    <string name="image_deleted">Resim silinmiştir</string>
+    <string name="transaction_deleted">Muamele silinmiştir</string>
+    <string name="dialog_export_applied_to_filter">Sadece güncel filtre ile eşleşen muameleler dikkate alınacaktır.</string>
+    <string name="export_handle_deleted_create_helper">Yardımcı muamele oluştur</string>
+    <string name="export_handle_deleted_update_balance">Açılış bakiyesini güncelle</string>
+    <string name="file_name">Dosya ismi</string>
+    <string name="folder_name">Klasör ismi</string>
+    <string name="mark_void_instead_of_delete">Muameleyi silme, bunun yerine hükümsüz olarak işaretle.</string>
+    <string name="menu_undelete_transaction">Silmeyi geri al</string>
+    <string name="slash_forbidden_in_filename">/ karakterine dosya isimlerinde müsaade edilmez</string>
+    <string name="io_error_unable_to_create_file">%2$s klasöründe %1$s dosyası oluşturulamadı</string>
+    <string name="menu_categories_export">QIF olarak dışa aktar</string>
+    <string name="pref_csv_import_delimiter">Sınırlayıcı</string>
+    <string name="csv_import_preview">Önizle</string>
+    <string name="menu_parse">Çözümle</string>
+    <!-- Label for column where user can check rows to be discarded from import -->
+    <string name="cvs_import_discard">At</string>
+    <string name="csv_import_field_mapped_more_than_once">%s bir kereden fazla haritalanmıştır.</string>
+    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d kayıt içe aktarılamadı.</string>
+    <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d kayıt atılmıştır.</string>
+    <string name="csv_import_subcategory_requires_category">Alt kategoriyi haritalarsanız, kategoriyi de haritalamanız gerekir.</string>
+    <string name="cvs_import_set_first_line_as_header">İlk satır başlık satırı olarak kabul edilmeli mi?</string>
+    <string name="csv_import_delimiter_comma">Virgül</string>
+    <string name="csv_import_delimiter_semicolon">Noktalı virgül</string>
+    <string name="csv_import_delimiter_tab">Sekme</string>
+    <string name="csv_import_no_mapping_found_for_amount">Lütfen bir sütunu ya bir meblağa, gelire ya da harcamaya haritalayın.</string>
+    <string name="menu_show_transactions">Muameleleri göster</string>
+    <string name="pref_custom_decimal_format_title">Sayı biçimi</string>
+    <string name="pref_custom_decimal_format_summary">Eğer tercümenin varsayılan biçiminden memnun değilseniz, ihtiyacınıza göre uyarlayın. Varsayılan biçimi geri getirmek için boş bırakın.</string>
+    <string name="pref_auto_backup_title">Otomatik yedekleme</string>
+    <string name="pref_auto_backup_summary">Veritabanını belirtilen zamanda (sadece verilerde değişiklik varsa) her gün yedekle.</string>
+    <string name="pref_auto_backup_time_title">Otomatik yedekleme zamanı</string>
+    <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">%d başarılı otomatik yedekleme ardından otomatik yedekleme devre dışı bırakılacaktır.</string>
+    <string name="calendar_permission_required">Gelecek ve tekrar eden muameleler oluşturabilmek amacıyla <i>{app_name}</i>\'ın takviminize erişmek için müsaadeye ihtiyacı vardır. </string>
+    <string name="button_request_calendar_access" tools:ignore="UnusedResources">İzin ver</string>
+    <string name="switch_on_text">Açık</string>
+    <string name="switch_off_text">Kapalı</string>
+    <string name="menu_move">Taşı</string>
+    <string name="dialog_title_select_target">Hedef seç</string>
+    <string name="transform_subcategory_to_main">Ana kategoriye dönüştür</string>
+    <string name="preferences_week_start_day_title">Haftanın ilk günü</string>
+    <string name="preferences_month_start_date_title">Ay şu gün başlar:</string>
+    <!-- this is the title of the section in the preferences, where user can set start day for weekly and monthly groups -->
+    <string name="pref_grouping_periods">Gruplandırma periyotları</string>
+    <string name="exchange_rate">Döviz kuru</string>
+    <string name="date_format_hour">Saat</string>
+    <string name="date_format_minute">Dakika</string>
+    <string name="copied_to_clipboard">Panoya kopyalandı</string>
+    <string name="menu_sort">Şuna göre sırala</string>
+    <string name="pref_sort_order_last_used">Son kullanıldığı</string>
+    <string name="pref_sort_order_custom">Özel</string>
+    <string name="content_description_calculator">Hesap makinesi</string>
+    <!-- describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list. -->
+    <string name="plan_instance_state_open">açık</string>
+    <!-- describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list. -->
+    <string name="plan_instance_state_cancelled">iptal edildi</string>
+    <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
+    <string name="plan_instance_state_applied">uygulandı</string>
+    <string name="progress_dialog_updating_split_parts">Bölünmüş parçalar güncelleniyor</string>
+    <string name="warning_cannot_move_split_transaction">Bu bölünmüş muamele %1$s hesabına taşınamaz çünkü bu hesapla ilişkili transfer parçaları bulunmaktadır.</string>
+    <string name="content_description_calculator_clear_button">Sıfırla tümünü</string>
+    <string name="content_description_calculator_delete_button">Son rakamı sil</string>
+    <string name="paypal_callback_info">Muameleniz tamamlanmış ve alışverişiniz hakkında bir makbuz e-posta ile size gönderilmiştir. Bu muamelenin ayrıntılarını görüntülemek için hesabınıza www.paypal.com adresinde bağlanabilirsiniz.</string>
+    <string name="search_transfer">Transfer için ara</string>
+    <!-- Sort plans (recurring transactions) by the next instance  -->
+    <string name="pref_sort_order_next_instance">Sonraki örnekleme</string>
+    <string name="crash_dialog_title">{app_name} çöktü</string>
+    <string name="crash_dialog_text">Uygulamanın çıkmasının zorlanması sırasında beklenmeyen bir hata meydana geldi. Lütfen bu hatayı düzeltmemize kullanıcı verileri yollayarak yardımcı olun, tüm yapmanız gereken Tamam\'a dokunmaktır.</string>
+    <string name="crash_dialog_comment_prompt">Problemle ilgili yorumlarınızı aşağıda ekleyebilirsiniz:</string>
+    <string name="synchronization">Eşleşmeli</string>
+    <string name="synchronization_none">Eşleşmesiz</string>
+    <string name="hint_url">Bağlantı</string>
+    <string name="description_webdav_url">Lütfen WebDAV sunucunuzdaki özel bir klasör için bağlantı girin. {app_name} verilerini bu klasör içinde saklayacak ve dışında hiçbir şeye dokunmayacaktır.</string>
+    <string name="description_webdav_trust_certificate">Ağ sitesi Android tarafından güvenilmeyen bir sertifika kullanmaktadır.</string>
+    <string name="hint_user_name">Kullanıcı ismi</string>
+    <string name="hint_password">Parola</string>
+    <string name="label_trust_certificate">Bu sertifikaya güven</string>
+    <string name="no_sync_backends">Hiçbir eşleşme arka ucu yok</string>
+    <string name="menu_create_sync_backend">Yeni eşleşme arka ucu</string>
+    <string name="validate_error_not_empty">Boş olmamalı</string>
+    <string name="validate_error_webdav_invalid_certificate">Bu sertifikaya güvenilemedi. Geçersiz gibi görünüyor.</string>
+    <string name="validate_error_webdav_not_compliant">Bağlantı bir WebDAV kaynağına işaret etmemektedir.</string>
+    <string name="validate_error_webdav_404">Bağlantı (URL) sunucuda mevcut değildir.</string>
+    <string name="url_not_valid">Geçersiz bağlantı</string>
+    <string name="menu_sync_unlink">Eşleşmeyi durdur</string>
+    <string name="menu_sync_link">Eşleşmeyi başlat</string>
+    <string name="menu_sync_download">İndir ve eşleştir</string>
+    <string name="menu_sync_now">Şimdi eşleştir</string>
+    <string name="pref_sync_frequency_title">Eşleştirme sıklığı</string>
+    <string name="pref_sync_frequency_summary">Verilerin hangi sıklıkla eşleştirilecekleri (saat olarak)</string>
+    <string name="dialog_confirm_sync_unlink">Bu hesabın %s ile bağlantısını kaldırırsanız, eşleşme durumu kaybolur. Daha sonra bağlantıyı tekrar kurmak tam bir eşleşmenin tekrar yapılmasını gerektirir.</string>
+    <string name="dialog_sync_link">uuid %s ile bir hesap hem yerel veritabanında hem de uzaktaki arka uçta mevcuttur. Bu ikisini ilişkilendirdiğinizde, ilk olarak yerel verileri uzaktaki arka uca mı yükleyeceğinize ya da uzaktan yerel veritabanına mı indireceğinize karar vermeniz gerekir.</string>
+    <string name="dialog_command_sync_link_remote">Uzaktan indir</string>
+    <string name="dialog_command_sync_link_local">Yerelden gönder</string>
+    <string name="dialog_synced_to_other">uuid %s ile bir hesap zaten yerel veritabanında mevcuttur ve uzaktaki  başka bir arka uca bağlıdır.</string>
+    <string name="menu_remove">Kaldır</string>
+    <string name="dialog_confirm_sync_remove_backend">Uzaktaki %s arka ucu kaldırılacaktır. Bu, yerel verileri ve uzaktaki verileri etkilemez, ancak eşleşme durumu kaybolacaktır.</string>
+    <string name="dialog_confirm_sync_link_local">Bu hesap için uzaktaki veriler silinecektir. Başka hiçbir cihazın ona bağlı olmadığından emin olun.</string>
+    <string name="dialog_confirm_sync_link_remote">Bu hesabın yerel verileri silinecektir.</string>
+    <string name="warning_limited_trial">%1$s işlevi %2$s tarihine dek denenebilir.</string>
+    <string name="warning_trial_limit_reached">%s işlevini deneme periyotu sona ermiştir.</string>
+    <string name="warning_synchronization_folder_usage">Bu klasör, {app_name}\'ın değişik cihazlardaki kurulumları arasında eşleştirme yapmak için kullanılır. Lütfen içeriğini elle değiştirmeyin.</string>
+    <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Seçtiğiniz klasör mevcut arka ucun bir hesabına denk gelmektedir. Bu arka ucu kullanmak için bir üst klasörü seçmeniz gerekir.</string>
+    <string name="select_unsynced_accounts">Bu arka uçla eşleştirilecek hesapları seç</string>
+    <string name="link_account_success" tools:ignore="PluralsCandidate">%d hesap arka uçla eşleştirmek için yapılandırıldı.</string>
+    <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d hesap arka uçla eşleştirmek için yapılandırılamadı.</string>
+    <string name="link_account_failure_2">Aynı uuid ile bir hesap zaten uzaktaki arka uçta mevcuttur.</string>
+    <string name="link_account_failure_3">Çakışma elle unsurun bağlam menüsünden giderilebilir.</string>
+    <string name="progress_dialog_checking_sync_backend">Arka ucu kontrol et</string>
+    <string name="template">Şablon</string>
+    <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Bulut eşleşmesi</string>
+    <string name="all_contrib_key_features">Katkı Anahtarının tüm işlevleri</string>
+    <string name="all_extended_key_features">Genişletilmiş Anahtar\'ın tüm işlevleri</string>
+    <!-- button leading user to purchase flow for licence keys -->
+    <string name="upgrade_now">Yükselt</string>
+    <string name="pref_backup_cloud_title">Eşleşme arka ucunda sakla</string>
+    <string name="pref_backup_cloud_summary">Cihazdaki yerel stoklamaya ek olarak, yedekleme dosyası uzaktaki bir arka uca kopyalanabilir.</string>
+    <string name="auto_backup_cloud_create_backend">Ana ayarlar ekranından bir eşleşme arka ucu oluştur.</string>
+    <string name="auto_backup_cloud_failure">%1$s dosyasının %2$s arka ucuna kaydedilmesi sırasında bir hata meydana geldi:</string>
+    <string name="auto_backup_cloud_success">%1$s yedekleme dosyası başarılı bir şekilde %2$s arka ucunda kaydedildi.</string>
+    <string name="home_screen_shortcuts_nougate_info">Kısayollar ana ekrandaki uygulama ikonuna uzunca dokunarak eklenebilir.</string>
+    <string name="currency_symbol">Para birimi sembolü</string>
+    <string name="number_of_fraction_digits">Kesir basamakları sayısı</string>
+    <string name="warning_auto_backup_deactivated">Otomatik yedekleme devre dışıdır. Problemi çözdükten sonra (yani yedeklemeler için yeni bir klasör seçtikten sonra) onu ayarlarda tekrar etkinleştirebilirsiniz.</string>
+    <string name="pref_tracking_summary">Geliştirme planlamamıza yardımcı olan kullanım modelleri hakkında anonim veriler toplamamıza izin verin.</string>
+    <string name="pref_tracking_title">Kullanım hakkında veri toplama</string>
+    <string name="sync_database_error">Eşleşme sırasında bir veritabanı hatası meydana geldi.</string>
+    <string name="sync_io_error_cannot_connect">Eşleşme arka ucuna bağlanılamadı.</string>
+    <string name="sync_error_will_try_again_later">Daha sonra tekrar denenecektir.</string>
+    <string name="sync_io_exception_reset_account_data">Uzaktaki hesabın sıfırlanması sırasında hata.</string>
+    <string name="sync_success_reset_account_data">%s hesabı için uzaktaki veriler silindi.</string>
+    <string name="sync_io_exception_setup_remote_account">Uzaktaki hesabın ayarlanması sırasında hata.</string>
+    <string name="sync_io_exception_syncing">Sunucu ile değişiklikler eşleştirilirken hata oluştu.</string>
+    <string name="sync_io_exception_unlocking">Uzaktaki arka uçtan kilit kaldırılırken hata oluştu.</string>
+    <string name="sync_io_exception_locking">Uzaktaki arka uç kilitli ya da kilitlenemez.</string>
+    <string name="synchronization_start">%s hesabı için eşleştirme başlatılıyor.</string>
+    <string name="synchronization_end_success">Uzaktaki %1$d değişiklik yerel veritabanına yazıldı. Yerel %2$d değişiklik uzaktaki arka uca yazıldı.</string>
+    <string name="synchronization_end_success_none">Eşleştirilecek hiçbir değişiklik yok.</string>
+    <string name="pref_webdav_timeout_title">WebDAV Zaman Aşımı (saniye olarak)</string>
+    <string name="sync_state_restored">%d hesap için eşleştirme durumu geri getirildi.</string>
+    <string name="sync_state_could_not_be_restored">%d hesap için eşleştirme durumu geri getirilemedi.</string>
+    <string name="onboarding_ui_title">{app_name} tercihinize uyum sağlar</string>
+    <string name="onboarding_data_title">İlk hesabınızı kuralım</string>
+    <string name="onboarding_get_started">Başlarken</string>
+    <string name="onboarding_more_options">Daha fazla seçenek</string>
+    <string name="onboarding_restore_from_cloud">Bulut eşleşmesinden geri getir</string>
+    <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
+    <string name="onboarding_restore_from_cloud_backup">Yedeklemeler</string>
+    <string name="onboarding_restore_from_local">Yerel yedekleme dosyasını geri getir</string>
+    <string name="dialog_button_add">Ekle</string>
+    <string name="template_create_error">Şablonun kaydı sırasında hata meydana geldi</string>
+    <string name="contributed_by">Katkıda bulunan: %s</string>
+    <string name="pref_sync_notification_summary">Eşleşme ilerlemesi hakkında bildirim göster</string>
+    <string name="pref_debug_logging_summary">Hata ayıklama verilerini sistem kütüğüne yaz</string>
+    <string name="plan_custom_recurrence_info">Lütfen önce şablonu kaydedin. O zaman planlama takvim uygulamasında açılacaktır ve burada özel bir tekrarlama seçebilirsiniz.</string>
+    <string name="storage_permission_required">Seçtiğiniz kaynak sadece harici bir depolama alanından okuma iznini verirseniz okunabilir.</string>
+    <string name="picture">Resim</string>
+    <string name="menu_create_template_for_split">Yeni bölünmüş şablon</string>
+    <string name="progress_validating_licence">Lisans doğrulanıyor</string>
+    <string name="licence_validation_error_expired">Lisans sona ermiş</string>
+    <string name="licence_validation_error_device_limit_exceeded">Cİhaz sınırı aşılmıştır. Lütfen başka bir cihazdan lisansı kaldırın.</string>
+    <string name="error">Hata (%s)</string>
+    <string name="button_validate">Doğrula</string>
+    <string name="licence_key">Lisans Anahtarı</string>
+    <string name="licence_removal_information">Eğer bu cihazda genişletilmiş işlevlere ihtiyaç duymuyorsanız, lisans anahtarını kaldırabilirsiniz. Bu, anahtarı başka bir cihazda etkinleştirebilmenize izin verir. Anahtar en çok %d cihazda etkinleştirilebilir. </string>
+    <string name="progress_removing_licence">Lisans kaldırılıyor</string>
+    <string name="licence_removal_success">Lisans anahtarı bu cihazdan başarılı bir şekilde kaldırılmıştır.</string>
+    <string name="professional_key">Profesyonel Anahtar</string>
+    <string name="n_months">%d ay</string>
+    <string name="eu_vat_info">Görüntülenen fiyatlar Avrupa Birliği\'ndeki kullanıcılar için KDV\'yi içermemektedir.</string>
+    <string name="licence_migration_info">{app_name} yeni bir lisans doğrulama mekanizması kullanmaktadır. Lütfen yeni bir anahtar talep edin.</string>
+    <string name="valid_until">%s tarihine kadar geçerli</string>
+    <!-- %1$s date, %2$s price  -->
+    <string name="extend_until">%1$s tarihine kadar %2$s fiyatına yenile</string>
+    <string name="extended_upgrade_goodie_github">%d ek ay bir defalık olmak üzere zaten Genişletilmiş Lisansa sahip olan kullanıcılara verilmiştir</string>
+    <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">Genişletilmiş Lisansa zaten sahip olan kullanıcılar ilk sene normal fiyatın (%s) %%50\'sini öderler.</string>
+    <string name="extended_upgrade_goodie_subscription_amazon" tools:ignore="UnusedResources">Genişletilmiş lisansa zaten sahip olan kullanıcıların, senelik aboneliğin normal fiyatından (%2$s) %%%1$d oranında tenzilata hakları vardır.</string>
+    <string name="switch_to_yearly" tools:ignore="UnusedResources">Senelik aboneliğe geç</string>
+    <string name="switch_to_monthly" tools:ignore="UnusedResources">Aylık aboneliğe geç</string>
+    <string name="extend_validity">Geçerliliği uzat</string>
+    <string name="progress_dialog_fetching_data_from_sync_backend">Uzak arka uçtan veri alınıyor. Bu biraz zaman alabilir.</string>
+    <string name="donate_button_invoice">Fatura</string>
+    <string name="menu_sort_direction">Sıralama yönü</string>
+    <string name="sort_direction_ascending">artan</string>
+    <string name="sort_direction_descending">azalan</string>
+    <string name="never">asla</string>
+    <string name="always">daima</string>
+    <string name="auto_fill_account_from_aggregate_only">Sadece toplam (agrega) hesaptan başlatıldığında.</string>
+    <string name="sync_auth_exception_login_again">İzin verme başarısız oldu. Lütfen tekrar giriş yapın.</string>
+    <string name="sync_loading_accounts_from_backend">Mevcut hesaplar arka uçtan yükleniyor.</string>
+    <plurals name="delete_success">
+        <item quantity="one">Bir nesne başarıyla silindi.</item>
+        <item quantity="other">%d nesne başarıyla silindi.</item>
+    </plurals>
+    <string name="feature_deprecated">Kullanımdan kaldırılmış</string>
+    <string name="pref_protection_device_lock_screen_title">Cihaz kilitleme ekranı</string>
+    <string name="pref_warning_only_one_protection">%1$s ile korumayı kullanmadan önce %2$s ile korumayı devre dışı bırakmanız gerekir.</string>
+    <string name="warning_device_lock_screen_not_set_up_1">Güvenli cihaz kilidi ekranı ayarlanmadı.</string>
+    <string name="warning_device_lock_screen_not_set_up_2">Ekran kilidini ayarlamak için \'Ayarlar -&gt; Güvenlik -&gt; Ekran kilidine\' gidiniz.</string>
+    <string name="snackbar_dismiss">Kapat</string>
+    <string name="menu_history_show_balance">Bakiyeyi göster</string>
+    <string name="menu_history_transfers">Transferleri dahil et</string>
+    <string name="menu_history">Tarihçe</string>
+    <!-- A label indicating the color for the sum of expenses -->
+    <string name="history_chart_out_label">Harcamalar</string>
+    <!-- A label indicating the color for the sum of income -->
+    <string name="history_chart_in_label">Gelir</string>
+    <string name="menu_history_totals">Toplamları göster</string>
+    <string name="pref_home_currency_title">Yerel para birimi</string>
+    <string name="grand_total">Genel toplam</string>
+    <string name="menu_original_amount">Orijinal meblağ</string>
+    <string name="menu_equivalent_amount">Eşdeğer meblağ</string>
+    <string name="home_currency_change_warning">Yerel para biriminizi değiştirirseniz eşdeğer meblağlar ile döviz kurları silinecektir ve yeniden tanımlanmaları gerekecektir.</string>
+    <string name="warning_split_transactions">Seçilen muameleler bir bölünmüş muamelede gruplanacaklardır. Tarih bilgileri kaybolacak ve yerlerini ortalama değer alacaktır.</string>
+    <string name="warning_ungroup_split_transactions">Seçilen bölünmüş muamelelerin gruplandırmaları kaldırılacak yani bölünmüş parçalar normal muamelelere dönüşecektir.</string>
+    <!-- This is the label for the action that breaks up a split transaction into its parts. -->
+    <string name="menu_ungroup_split_transaction">Bölümün gruplandırmasını kaldır</string>
+    <plurals name="ungroup_split_transaction_success">
+        <item quantity="one">Bölünmüş muamelenin gruplandırılması başarıyla kaldırıldı.</item>
+        <item quantity="other">%1$d bölünmüş muamelenin gruplandırılması başarıyla kaldırıldı.</item>
+    </plurals>
+    <string name="ungroup_split_transaction_failure">Bölünmüş muamelelerin gruplandırmaları kaldırılırken toplam %2$d sayısından %1$d sayıdaki kaldırılma başarısız oldu.</string>
+    <string name="split_transaction_one_success">Muameleler başarıyla bölünmüş muamelelere dönüştürüldü.</string>
+    <string name="split_transaction_one_error">Muamele bölünmüşe dönüştürülemedi.</string>
+    <string name="split_transaction_group_success">%1$d muamele başarıyla tek bir bölünmüş muamelede gruplandırıldı.</string>
+    <string name="split_transaction_group_error">Muameleler bölünmüş muamelede gruplandırılamadı.</string>
+    <string name="split_transaction_not_possible">Sadece aynı hesap, durum ve alacaklısı olan muameleler tek bir bölünmüş muamelede gruplandırılabilir.</string>
+    <string name="pref_transaction_time_summary">Kesin muamele zamanının ayarlanmasına izin ver.</string>
+    <string name="pref_value_date_summary">Muamele tarihine ek olarak değer tarihi ayarlamaya izin ver. Muamele tarihi saklanacaktır. Bu seçenek nakit hesaplara uygulanmaz.</string>
+    <!-- the date on which the transaction took place, aka transaction date, as opposed to value date -->
+    <string name="booking_date">Muamele tarihi</string>
+    <!-- the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date -->
+    <string name="value_date">Değer tarihi</string>
+    <string name="licence_expires_n_days">Profesyonel anahtarınızın geçerliliği %d gün içinde son erecek.</string>
+    <string name="licence_expires_tomorrow">Profesyonel anahtarınızın geçerliliği yarın sona erecek.</string>
+    <string name="licence_expires_today">Profesyonel anahtarınızın geçerliliği bugün sona eriyor.</string>
+    <string name="licence_expired_yesterday">Profesyonel anahtarınızın geçerliliği dün sona erdi.</string>
+    <string name="licence_has_expired_n_days">Profesyonel anahtarınızın geçerliliği %d gün önce sona erdi.</string>
+    <string name="pref_category_title_privacy">Gizlilik</string>
+    <string name="pref_ad_consent_title">Kişiselleştirilmiş reklamlar</string>
+    <string name="ad_consent_non_personalized">Kişiselleştirilmemiş reklamlar</string>
+    <string name="gdpr_consent_message">{app_name} uygulamasının destek, bakım ve geliştirilmesini sürdürmek için {ad_provider} ile işbirliği yaparak size reklam gösteriyoruz. Bu konuda rızanızı istiyoruz. Reklam görmek istemiyorsanız, lütfen reklamsız sürüm için ödeme yapın.</string>
+    <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">Evet, reklam görmeye devam et</string>
+    <string name="gdpr_consent_button_no">Reklamsız sürüm için ödeme yap</string>
+    <string name="sort_order">Sıralama düzeni</string>
+    <string name="navigation_drawer_accounts_title">Hesapları yönet</string>
+    <string name="pref_sync_wifi_only_summary">Sadece Wi-Fi üzerindeyken eşleştir</string>
+    <string name="pref_sync_changes_immediately_summary">Yerel değişimleri derhal arka uca yaz</string>
+    <string name="wifi_not_connected">Cihaz Wi-Fi ile bağlı değil. Eşleşme sonraya bırakıldı.</string>
+    <!-- title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project -->
+    <string name="pref_translation_title">Tercüme</string>
+    <!-- Content description for accessibility on image that allows to collapse content  -->
+    <string name="content_description_collapse">Küçült</string>
+    <!-- Content description for accessibility on image that allows to expand content  -->
+    <string name="content_description_expand">Genişlet</string>
+    <!-- Short label for the amount input where user can set either saving goal or credit limit -->
+    <string name="goal_or_limit">Hedef / Sınır</string>
+    <string name="saving_goal">Tasarruf hedefi </string>
+    <string name="credit_limit">Kredi limiti</string>
+    <string name="clear_all_filters">Tüm filtreleri temizle</string>
+    <string name="pref_scroll_to_current_date_summary">Uygulama başladığında muamele listesini güncel tarihe kaydır</string>
+    <string name="professional_key_fallback_info">Bir sene etkin olan ve yenilenmemiş bir Profesyonel Anahtar aboneliği otomatik olarak sınırsız Genişletilmiş Anahtar\'a dönüştürülecektir.</string>
+    <string name="menu_budget">Bütçeleme</string>
+    <string name="dialog_title_edit_budget">Bütçeyi düzenle</string>
+    <string name="budget_table_header_budgeted">Bütçelenmiş</string>
+    <string name="budget_table_header_allocated">Tahsis edilmiş</string>
+    <string name="budget_table_header_spent">Harcanmış</string>
+    <string name="budget_table_header_remainder">Kalan</string>
+    <string name="budget_allocated_amount">Tahsis edilen meblağ</string>
+    <string name="budget_exceeded_error_1_1">Bütçenizin %s haricindeki tümü başka kategorilere tahsis edildi.</string>
+    <string name="budget_exceeded_error_1_2">Tüm bütçeniz başka kategorilere tahsis edildi.</string>
+    <string name="budget_exceeded_error_2">Bütçelenmiş meblağı arttırın veya diğer kategorilerden para kaldırın.</string>
+    <string name="budget_under_allocated_error">%s zaten başka kategorilere tahsis edilmiş. Onlardan para kaldırmazsanız, en az bu meblağı bütçelemeniz gerekir.</string>
+    <string name="sub_budget_exceeded_error_1_1">Ana kategoriye tahsis edilen %s haricindeki tüm meblağ başka alt kategorilere tahsis edilmiştir.</string>
+    <string name="sub_budget_exceeded_error_1_2">Ana kategoriye tahsis edilen meblağın tümü başka alt kategorilere tahsis edilmiştir.</string>
+    <string name="sub_budget_exceeded_error_2">Ana kategoriye tahsis edilen meblağı arttırın veya başka alt kategorilerden para kaldırın.</string>
+    <string name="sub_budget_under_allocated_error">%s zaten alt kategorilere tahsis edilmiştir. Onlardan para kaldırmazsanız, ana kategori için en az bu meblağı bütçelemeniz gerekir.</string>
+    <!-- Description for button that allows to clear the selected method -->
+    <string name="content_description_clear_method">Metodu sil</string>
+    <!-- Description for button that allows to clear the selected category -->
+    <string name="content_description_clear_category">Kategoriyi sil</string>
+    <string name="currency_code">Kod</string>
+    <string name="dialog_title_new_currency">Yeni para birimi</string>
+    <string name="currency_code_already_definded">Para birimi kodu zaten tanımlanmıştır.</string>
+    <string name="currency_still_used">Para birimi kullanımdadır, silinemez.</string>
+    <string name="unmapped">Eşlenmemiş</string>
+    <!-- In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
-    but we warn the user if he includes this special item in the selection.-->
-  <string name="unmapped_filter_only_single">\'Eşlenmemiş\' filtresi çoklu seçime dahil edilemez</string>
-  <string name="upgrade_information_cloud_sync_storage_format">2.9.8 sürümünden beri verilerin eşleşme arka uçlarına yazılma yöntemi değişmiştir. Eşleştirme yapılan tüm cihazlarda yeni kayıt girmeden önce lütfen bu sürüme yükseltme yapın.</string>
-  <string name="pref_security_export_passphrase_title">Yedeklemeler için parola</string>
-  <string name="pref_security_export_passphrase_summary">Yedeklemeler bu parola ile şifrelenecektir</string>
-  <string name="backup_is_encrypted">Yedekleme dosyası şifrelenmiştir. Şifrelemeyi çözmek için parolayı girmeniz gerekir.</string>
-  <string name="backup_wrong_password">Yedekleme dosyası başka bir parola ile şifrelenmiş görünmektedir.</string>
-  <string name="passphrase_for_synchronization">Eğer bu arka uçtaki eşleşme verilerinin şifrelenmesini istiyorsanız bir parola giriniz.</string>
-  <string name="sync_backend_is_encrypted">Uzaktaki arka uç şifrelenmiştir. Bir parola girmeniz gerekmektedir.</string>
-  <string name="sync_backend_wrong_passphrase">Uzaktaki arka uç başka bir parola ile şifrelenmiş görünmektedir.</string>
-  <string name="sync_backend_is_not_encrypted">Uzaktaki arka uç şifrelenmemiştir.</string>
-  <string name="warning_backup_protected">Arşiv parolanız ile korunacaktır.</string>
-  <string name="dialog_title_backup_protected">Yedekleme (şifrelenmiş)</string>
-  <string name="input_label_passphrase">Parola</string>
-  <string name="button_label_no_encryption">Şifresiz</string>
-  <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
-  <string name="joining_or">veya</string>
-  <string name="pref_account_list_fast_scroll_summary">Hesap listesi için hızlı kaydırmayı etkinleştir. Bazı cihazlarda yanlış görüntüleme oluşmasına sebep olabilir</string>
-  <string name="menu_hide">Gizle</string>
-  <!--Action of closing an account. A closed account does not allow any modifications on its data.-->
-  <string name="menu_close">Kapat</string>
-  <!--Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data.-->
-  <string name="menu_reopen">Tekrar aç</string>
-  <!--Menu entry for opening a list of all hidden accounts.-->
-  <string name="menu_hidden_accounts">Gizli hesaplar</string>
-  <!--Action of showing an account again that had previously been hidden.-->
-  <string name="button_label_show">Göster</string>
-  <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
-  <string name="content_description_encrypted">Şifrelenmiş</string>
-  <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
-  <string name="content_description_closed">Kapatılmış</string>
-  <string name="warning_synced_account_cannot_be_closed">Herhangi bir eşleşme arka ucuna bağlı bir hesap kapatılamaz</string>
-  <string name="translated_by">Tercümanlar</string>
-  <string name="warning_no_account">Yeni muamele oluşturabilmek için en az bir hesabın görüntülenebilir ve açık olması gerekir.</string>
-  <string name="content_description_dates_are_linked">Muamele tarihi ve değer tarihi birlikte güncellenir</string>
-  <string name="content_description_dates_are_not_linked">Muamele tarihi ve değer tarihi birlikte güncellenmez</string>
-  <string name="icon">İkon</string>
-  <string name="pref_debug_title">Hata ayıklama</string>
-  <string name="roadmap_vote">Gelecek işlevler Oylaması</string>
-  <string name="warning_account_for_transaction_is_closed">Seçili muamelelerden en az biri düzenlenemez.</string>
-  <string name="object_sealed">Nesne kapalı bir hesaba atıfta bulunmaktadır.</string>
-  <string name="content_description_download_exchange_rate">Döviz kurunu indir</string>
-  <string name="exchange_rate_not_supported">Yapılandırılmış döviz kuru sağlayıcısı %1$s: %2$s kurunu sağlamamaktadır. Ayarlarda başka birini seçmeyi deneyebilirsiniz.</string>
-  <string name="pref_category_exchange_rates">Döviz kurları</string>
-  <string name="pref_exchange_rate_provider_summary">Döviz kurlarını indirmek için bir sağlayıcı seçin</string>
-  <string name="pref_exchange_rate_provider_title">Döviz Kuru Sağlayıcısı</string>
-  <string name="pref_openexchangerates_app_id_summary">Lütfen OpenExchangeRates üzerinde ücretsiz bir hesap oluşturun ve Uygulama Kimliğinizi (App ID) girin</string>
-  <string name="pref_plan_executor_time_title">Planlayıcı bildirim zamanı</string>
-  <string name="synchronization_select_folder_dialog_title">Mevcut bir klasör seçin veya yeni bir klasör oluşturun</string>
-  <!--This message is shwon when we highlight the income / expense toogle, to make user aware of this feature-->
-  <string name="discover_feature_expense_income_switch">Gelirleri kaydetmek için geçiş düğmesini kullanın</string>
-  <string name="menu_create_budget">Yeni bütçe</string>
-  <string name="budget_onetime">Bir kerelik</string>
-  <string name="dialog_confirm_discard_new_budget">Yeni bütçe atılsın mı?</string>
-  <string name="budget_duration_from">Şundan</string>
-  <string name="budget_duration_to">Şuna</string>
-  <string name="no_budgets">İlk bütçenizi + düğmesine dokunarak tanımlayın.</string>
-  <string name="budget_date_end_after_start">Bütçenin bitiş tarihi, başlangıç tarihinden sonra gelmelidir.</string>
-  <string name="menu_budget_allocated_only">Sadece tahsisi bulunan kategorileri göster</string>
-  <string name="budget_filter_all_categories">Tüm kategoriler</string>
-  <string name="budget_filter_all_parties">Tüm taraflar</string>
-  <string name="budget_filter_all_methods">Tüm metotlar</string>
-  <string name="budget_filter_all_states">Tüm durumlar</string>
-  <string name="budget_filter_all_tags">Tüm etiketler</string>
-  <string name="budget_form_label_filter">Filtre</string>
-  <string name="dialog_title_warning_delete_budget">Bütçe silinsin mi?</string>
-  <string name="warning_delete_budget">\"%1$s\" bütçesi silinecek.</string>
-  <string name="menu_edit_budget">Bütçeyi düzenle</string>
-  <string name="onboarding_privacy_title">Verlileriniz sizin ellerinizde kalacaktır</string>
-  <string name="onboarding_privacy_intro">Finansal verileriniz ne biz, ne de üçüncü bir taraf tarafından yönetilen hiçbir sunucuya gönderilmez.</string>
-  <string name="app_restart_required">Yeni yapılandırmanın uygulanması için uygulamanın yeniden başlatılması gerekir.</string>
-  <!--Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list.-->
-  <string name="checkbox_is_default">Varsayılan</string>
-  <!--Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method"-->
-  <string name="menu_remap">Yeniden eşleme</string>
-  <string name="dialog_title_confirm_remap">Eşleme değiştirilsin mi (%s)?</string>
-  <string name="remap_category">Tüm seçili muameleler %s kategorisine eşlenecektir.</string>
-  <string name="remap_payee">Tüm seçili muameleler %s borçlu/alacaklı unsuruna eşlenecektir.</string>
-  <string name="remap_method">Tüm seçili muameleler %s metoduna eşlenecektir.</string>
-  <string name="remap_account">Tüm seçili muameleler %s hesabına eşlenecektir.</string>
-  <string name="remapping_result">Seçili muameleler tekrar eşlenmiştir.</string>
-  <string name="clone_and_remap_result">Seçili muameleler konlandı ve yeniden eşleştirildi.</string>
-  <!--If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
+    but we warn the user if he includes this special item in the selection.   -->
+    <string name="unmapped_filter_only_single">\'Eşlenmemiş\' filtresi çoklu seçime dahil edilemez</string>
+    <string name="upgrade_information_cloud_sync_storage_format">2.9.8 sürümünden beri verilerin eşleşme arka uçlarına yazılma yöntemi değişmiştir. Eşleştirme yapılan tüm cihazlarda yeni kayıt girmeden önce lütfen bu sürüme yükseltme yapın.</string>
+    <string name="pref_security_export_passphrase_title">Yedeklemeler için parola</string>
+    <string name="pref_security_export_passphrase_summary">Yedeklemeler bu parola ile şifrelenecektir</string>
+    <string name="backup_is_encrypted">Yedekleme dosyası şifrelenmiştir. Şifrelemeyi çözmek için parolayı girmeniz gerekir.</string>
+    <string name="backup_wrong_password">Yedekleme dosyası başka bir parola ile şifrelenmiş görünmektedir.</string>
+    <string name="passphrase_for_synchronization">Eğer bu arka uçtaki eşleşme verilerinin şifrelenmesini istiyorsanız bir parola giriniz.</string>
+    <string name="sync_backend_is_encrypted">Uzaktaki arka uç şifrelenmiştir. Bir parola girmeniz gerekmektedir.</string>
+    <string name="sync_backend_wrong_passphrase">Uzaktaki arka uç başka bir parola ile şifrelenmiş görünmektedir.</string>
+    <string name="sync_backend_is_not_encrypted">Uzaktaki arka uç şifrelenmemiştir.</string>
+    <string name="warning_backup_protected">Arşiv parolanız ile korunacaktır.</string>
+    <string name="dialog_title_backup_protected">Yedekleme (şifrelenmiş)</string>
+    <string name="input_label_passphrase">Parola</string>
+    <string name="button_label_no_encryption">Şifresiz</string>
+    <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->
+    <string name="joining_or">veya</string>
+    <string name="pref_account_list_fast_scroll_summary">Hesap listesi için hızlı kaydırmayı etkinleştir. Bazı cihazlarda yanlış görüntüleme oluşmasına sebep olabilir</string>
+    <string name="menu_hide">Gizle</string>
+    <!-- Action of closing an account. A closed account does not allow any modifications on its data. -->
+    <string name="menu_close">Kapat</string>
+    <!-- Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data. -->
+    <string name="menu_reopen">Tekrar aç</string>
+    <!-- Menu entry for opening a list of all hidden accounts. -->
+    <string name="menu_hidden_accounts">Gizli hesaplar</string>
+    <!-- Action of showing an account again that had previously been hidden. -->
+    <string name="button_label_show">Göster</string>
+    <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
+    <string name="content_description_encrypted">Şifrelenmiş</string>
+    <!-- Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data. -->
+    <string name="content_description_closed">Kapatılmış</string>
+    <string name="warning_synced_account_cannot_be_closed">Herhangi bir eşleşme arka ucuna bağlı bir hesap kapatılamaz</string>
+    <string name="translated_by">Tercümanlar</string>
+    <string name="warning_no_account">Yeni muamele oluşturabilmek için en az bir hesabın görüntülenebilir ve açık olması gerekir.</string>
+    <string name="content_description_dates_are_linked">Muamele tarihi ve değer tarihi birlikte güncellenir</string>
+    <string name="content_description_dates_are_not_linked">Muamele tarihi ve değer tarihi birlikte güncellenmez</string>
+    <string name="icon">İkon</string>
+    <string name="pref_debug_title">Hata ayıklama</string>
+    <string name="roadmap_vote">Gelecek işlevler Oylaması</string>
+    <string name="warning_account_for_transaction_is_closed">Seçili muamelelerden en az biri düzenlenemez.</string>
+    <string name="object_sealed">Nesne kapalı bir hesaba atıfta bulunmaktadır.</string>
+    <string name="content_description_download_exchange_rate">Döviz kurunu indir</string>
+    <string name="exchange_rate_not_supported">Yapılandırılmış döviz kuru sağlayıcısı %1$s: %2$s kurunu sağlamamaktadır. Ayarlarda başka birini seçmeyi deneyebilirsiniz.</string>
+    <string name="pref_category_exchange_rates">Döviz kurları</string>
+    <string name="pref_exchange_rate_provider_summary">Döviz kurlarını indirmek için bir sağlayıcı seçin</string>
+    <string name="pref_exchange_rate_provider_title">Döviz Kuru Sağlayıcısı</string>
+    <string name="pref_openexchangerates_app_id_summary">Lütfen OpenExchangeRates üzerinde ücretsiz bir hesap oluşturun ve Uygulama Kimliğinizi (App ID) girin</string>
+    <string name="pref_plan_executor_time_title">Planlayıcı bildirim zamanı</string>
+    <string name="synchronization_select_folder_dialog_title">Mevcut bir klasör seçin veya yeni bir klasör oluşturun</string>
+    <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->
+    <string name="discover_feature_expense_income_switch">Gelirleri kaydetmek için geçiş düğmesini kullanın</string>
+    <string name="menu_create_budget">Yeni bütçe</string>
+    <string name="budget_onetime">Bir kerelik</string>
+    <string name="dialog_confirm_discard_new_budget">Yeni bütçe atılsın mı?</string>
+    <string name="budget_duration_from">Şundan</string>
+    <string name="budget_duration_to">Şuna</string>
+    <string name="no_budgets">İlk bütçenizi + düğmesine dokunarak tanımlayın.</string>
+    <string name="budget_date_end_after_start">Bütçenin bitiş tarihi, başlangıç tarihinden sonra gelmelidir.</string>
+    <string name="menu_budget_allocated_only">Sadece tahsisi bulunan kategorileri göster</string>
+    <string name="budget_filter_all_categories">Tüm kategoriler</string>
+    <string name="budget_filter_all_parties">Tüm taraflar</string>
+    <string name="budget_filter_all_methods">Tüm metotlar</string>
+    <string name="budget_filter_all_states">Tüm durumlar</string>
+    <string name="budget_filter_all_tags">Tüm etiketler</string>
+    <string name="budget_form_label_filter">Filtre</string>
+    <string name="dialog_title_warning_delete_budget">Bütçe silinsin mi?</string>
+    <string name="warning_delete_budget">\"%1$s\" bütçesi silinecek.</string>
+    <string name="menu_edit_budget">Bütçeyi düzenle</string>
+    <string name="onboarding_privacy_title">Verlileriniz sizin ellerinizde kalacaktır</string>
+    <string name="onboarding_privacy_intro">Finansal verileriniz ne biz, ne de üçüncü bir taraf tarafından yönetilen hiçbir sunucuya gönderilmez.</string>
+    <string name="app_restart_required">Yeni yapılandırmanın uygulanması için uygulamanın yeniden başlatılması gerekir.</string>
+    <!-- Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list. -->
+    <string name="checkbox_is_default">Varsayılan</string>
+    <!-- Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method" -->
+    <string name="menu_remap">Yeniden eşleme</string>
+    <string name="dialog_title_confirm_remap">Eşleme değiştirilsin mi (%s)?</string>
+    <string name="remap_category">Tüm seçili muameleler %s kategorisine eşlenecektir.</string>
+    <string name="remap_payee">Tüm seçili muameleler %s borçlu/alacaklı unsuruna eşlenecektir.</string>
+    <string name="remap_method">Tüm seçili muameleler %s metoduna eşlenecektir.</string>
+    <string name="remap_account">Tüm seçili muameleler %s hesabına eşlenecektir.</string>
+    <string name="remapping_result">Seçili muameleler tekrar eşlenmiştir.</string>
+    <string name="clone_and_remap_result">Seçili muameleler konlandı ve yeniden eşleştirildi.</string>
+    <!-- If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
         because no payment method is configured for all of the given account types.-->
-  <string name="remap_empty_list">Seçili muamelelerin tümüne eşlenecek bir unsur bulunamadı.</string>
-  <!--The label for the button, where user confirms that he wants to clone the selected transactions and then remap them.-->
-  <string name="button_label_clone_and_remap">Klonla ve yeniden eşleştir</string>
-  <!--The summary of a preference toggle. If switched on cloned transactions have the date set to the current date-->
-  <string name="pref_clone_with_current_date_summary_on">Klonlanmış muamelelerin tarihi güncel tarihtir</string>
-  <!--The summary of a preference toggle. If switched off cloned transactions keep the original date-->
-  <string name="pref_clone_with_current_date_summary_off">Klonlanmış muameleler orijinal tarihi korur</string>
-  <string name="pref_protection_screenshot_information">Cihaz korumasını etkinleştirerek ekran kopyası almayı devre dışı bırakırsınız.</string>
-  <string name="tags_create_or_select">Etiket oluştur veya seç</string>
-  <string name="content_description_tags_confirm">Teyit et</string>
-  <string name="tags">Etiketler</string>
-  <string name="pref_manage_tags_summary">Etiket ilave et, düzenle veya sil.</string>
-  <string name="dialog_title_warning_delete_tag">Etiket silinsin mi?</string>
-  <string name="menu_edit_tag">Etiket düzenle</string>
-  <!--This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction-->
-  <string name="menu_tag">Etiketle</string>
-  <!--%s will be replaced with the labels of all tags that user has selected.-->
-  <string name="dialog_multi_tag">Tüm seçili muameleler %s ile etiketlenecektir.</string>
-  <string name="dialog_multi_tag_clear">Seçili muamelelerden tüm etiketler kaldırılacaktır.</string>
-  <plurals name="warning_delete_tag">
-    <item quantity="one">%1$s etiketi bir muameleyle eşleştirilmiştir. Silinmeli mi?</item>
-    <item quantity="other">%1$s etiketi %2$d muameleleriyle eşleştirilmiştir. Silinmeli mi? </item>
-  </plurals>
-  <string name="dialog_multi_tag_append">Mevcut etiketlere yeni etiket ekle</string>
-  <string name="dialog_multi_tag_replace">Mevcut etiketleri yeni etiketlerle değiştir</string>
-  <string name="new_tag_hint">Yeni etiket gir</string>
-  <string name="language_download_requested">%s lisanı için tercümeler Play Store\'dan isteniyor</string>
-  <!--Title for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
-  <string name="pref_planner_manual_time_title">Elle uygulanan planlanmış muamele zamanı</string>
-  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
-  <string name="pref_planner_manual_time_noon">12:00 (öğlen)</string>
-  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application)-->
-  <string name="pref_planner_manual_time_current">Uygulama zamanı</string>
-  <!--Title in Settings screen, and title of dynamically loaded feature module-->
-  <string name="title_scan_receipt_feature">Makbuz tara</string>
-  <string name="feature_download_requested">%s özelliği Play Store\'dan talep edilmiştir.</string>
-  <string name="feature_downloaded">%s özelliği kurulmuştur.</string>
-  <!--If this mode is active, the action button will open the camera for scanning a receipt-->
-  <string name="menu_scan_mode">Tarama kipi</string>
-  <!--Button that triggers the scan operation-->
-  <string name="button_scan">Tara</string>
-  <string name="pref_ocr_total_indicators_title">Toplam meblağ için göstergeler</string>
-  <string name="pref_ocr_total_indicators_summary">Makbuzdaki toplam meblağı tanımlayan dizelerin listesi. Her bir değeri yeni bir satıra giriniz. Varsayılan değeri geri getirmek için boş bırakınız.</string>
-  <string name="pref_ocr_date_formats_title">Tarih Biçimleri</string>
-  <string name="pref_ocr_time_formats_title">Zaman Biçimleri</string>
-  <!--Title for a preference that allows user to decide if all transactions of the current day should be considered as past (future begins at end of day), or if the exact current time divides between past and future-->
-  <string name="pref_criterion_futur_title">Gelecek muameleler için kriter</string>
-  <!--Option for a preference that allows to decide that all transactions until end of day are considered past transactions-->
-  <string name="pref_criterion_future_end_of_day">Gün sonu</string>
-  <!--Option for a preference that allows to decide that only transactions before current time are considered past transactions-->
-  <string name="pref_criterion_future_current">Şimdiki zaman</string>
-  <!--Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)-->
-  <string name="pref_category_title_features">Features</string>
-  <string name="scan_result_no_data">Veri yok</string>
-  <string name="scan_result_multiple_candidates_dialog_title">Birden çok aday bulundu. Lütfen seçin:</string>
-  <string name="scan_result_no_amount">Hiçbir meblağ bulunamadı</string>
-  <string name="scan_result_no_date">Hiçbir tarih bulunamadı</string>
-  <string name="scan_result_no_payee">Hiçbir alacaklı bulunamadı</string>
-  <string name="button_download">İndir</string>
-  <string name="pref_feature_uninstall_title">İşlev ve lisanların kurulumunun kaldırılmasını talep et</string>
-  <string name="pref_feature_uninstall_summary">Play Store bu modülleri arka planda kaldırmaya çalışacaktır.</string>
-  <string name="pref_feature_uninstall_languages_title">Lisanlar</string>
-  <!--Toast message shown if user clicks on Upgrade button before having selected a licence-->
-  <string name="select_package">Lütfen bir lisans paketi seçin.</string>
-</resources>
+    <string name="remap_empty_list">Seçili muamelelerin tümüne eşlenecek bir unsur bulunamadı.</string>
+    <!-- The label for the button, where user confirms that he wants to clone the selected transactions and then remap them. -->
+    <string name="button_label_clone_and_remap">Klonla ve yeniden eşleştir</string>
+    <!-- The summary of a preference toggle. If switched on cloned transactions have the date set to the current date -->
+    <string name="pref_clone_with_current_date_summary_on">Klonlanmış muamelelerin tarihi güncel tarihtir</string>
+    <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
+    <string name="pref_clone_with_current_date_summary_off">Klonlanmış muameleler orijinal tarihi korur</string>
+    <string name="pref_protection_screenshot_information">Cihaz korumasını etkinleştirerek ekran kopyası almayı devre dışı bırakırsınız.</string>
+    <string name="tags_create_or_select">Etiket oluştur veya seç</string>
+    <string name="content_description_tags_confirm">Teyit et</string>
+    <string name="tags">Etiketler</string>
+    <string name="pref_manage_tags_summary">Etiket ilave et, düzenle veya sil.</string>
+    <string name="dialog_title_warning_delete_tag">Etiket silinsin mi?</string>
+    <string name="menu_edit_tag">Etiket düzenle</string>
+    <!-- This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction -->
+    <string name="menu_tag">Etiketle</string>
+    <!-- %s will be replaced with the labels of all tags that user has selected. -->
+    <string name="dialog_multi_tag">Tüm seçili muameleler %s ile etiketlenecektir.</string>
+    <string name="dialog_multi_tag_clear">Seçili muamelelerden tüm etiketler kaldırılacaktır.</string>
+    <plurals name="warning_delete_tag">
+        <item quantity="one">%1$s etiketi bir muameleyle eşleştirilmiştir. Silinmeli mi?</item>
+        <item quantity="other">%1$s etiketi %2$d muameleleriyle eşleştirilmiştir. Silinmeli mi? </item>
+    </plurals>
+    <string name="dialog_multi_tag_append">Mevcut etiketlere yeni etiket ekle</string>
+    <string name="dialog_multi_tag_replace">Mevcut etiketleri yeni etiketlerle değiştir</string>
+    <string name="new_tag_hint">Yeni etiket gir</string>
+    <string name="language_download_requested">%s lisanı için tercümeler Play Store\'dan isteniyor</string>
+    <!-- Title for a preference that allows to decide how the time will be set for a new instance of a recurring transaction -->
+    <string name="pref_planner_manual_time_title">Elle uygulanan planlanmış muamele zamanı</string>
+    <!-- Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction -->
+    <string name="pref_planner_manual_time_noon">12:00 (öğlen)</string>
+    <!-- Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application) -->
+    <string name="pref_planner_manual_time_current">Uygulama zamanı</string>
+    <!-- Title in Settings screen, and title of dynamically loaded feature module -->
+    <string name="title_scan_receipt_feature">Makbuz tara</string>
+    <string name="feature_download_requested">%s özelliği Play Store\'dan talep edilmiştir.</string>
+    <string name="feature_downloaded">%s özelliği kurulmuştur.</string>
+    <!-- If this mode is active, the action button will open the camera for scanning a receipt  -->
+    <string name="menu_scan_mode">Tarama kipi</string>
+    <!-- Button that triggers the scan operation -->
+    <string name="button_scan">Tara</string>
+    <string name="pref_ocr_total_indicators_title">Toplam meblağ için göstergeler</string>
+    <string name="pref_ocr_total_indicators_summary">Makbuzdaki toplam meblağı tanımlayan dizelerin listesi. Her bir değeri yeni bir satıra giriniz. Varsayılan değeri geri getirmek için boş bırakınız.</string>
+    <string name="pref_ocr_date_formats_title">Tarih Biçimleri</string>
+    <string name="pref_ocr_time_formats_title">Zaman Biçimleri</string>
+    <!-- Title for a preference that allows user to decide if all transactions of the current day should be considered as past (future begins at end of day), or if the exact current time divides between past and future  -->
+    <string name="pref_criterion_futur_title">Gelecek muameleler için kriter</string>
+    <!-- Option for a preference that allows to decide that all transactions until end of day are considered past transactions -->
+    <string name="pref_criterion_future_end_of_day">Gün sonu</string>
+    <!-- Option for a preference that allows to decide that only transactions before current time are considered past transactions -->
+    <string name="pref_criterion_future_current">Şimdiki zaman</string>
+    <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
+    <string name="pref_category_title_features">Features</string>
+    <string name="scan_result_no_data">Veri yok</string>
+    <string name="scan_result_multiple_candidates_dialog_title">Birden çok aday bulundu. Lütfen seçin:</string>
+    <string name="scan_result_no_amount">Hiçbir meblağ bulunamadı</string>
+    <string name="scan_result_no_date">Hiçbir tarih bulunamadı</string>
+    <string name="scan_result_no_payee">Hiçbir alacaklı bulunamadı</string>
+    <string name="button_download">İndir</string>
+    <string name="pref_feature_uninstall_title">İşlev ve lisanların kurulumunun kaldırılmasını talep et</string>
+    <string name="pref_feature_uninstall_summary">Play Store bu modülleri arka planda kaldırmaya çalışacaktır.</string>
+    <string name="pref_feature_uninstall_languages_title">Lisanlar</string>
+    <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
+    <string name="select_package">Lütfen bir lisans paketi seçin.</string>
+    </resources>

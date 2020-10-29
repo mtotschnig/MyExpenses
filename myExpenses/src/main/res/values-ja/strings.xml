@@ -1,900 +1,907 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
 <resources xmlns:tools="http://schemas.android.com/tools">
-  <string name="account">勘定</string>
-  <!--Label in form for payment method, where user checks for which account types the method is applicable-->
-  <string name="account_types">勘定種類</string>
-  <string name="account_type_asset">資産勘定</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_asset_plural">資産勘定</string>
-  <string name="account_type_bank">銀行口座</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_bank_plural">銀行口座</string>
-  <string name="account_type_cash">現金勘定</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_cash_plural">現金勘定</string>
-  <string name="account_type_ccard">クレジットカード</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_ccard_plural">クレジットカード</string>
-  <string name="account_type_liability">負債勘定</string>
-  <!--Plural form to be used in account list where accounts are grouped by type-->
-  <string name="account_type_liability_plural">負債勘定</string>
-  <string name="already_defined">%1$s は既に定義されています</string>
-  <string name="amount">金額</string>
-  <string name="app_name">マイ エクスペンス</string>
-  <string name="backup_failure">\"%1$s\" へのバックアップに失敗しました。</string>
-  <string name="backup_success">データベースとプリファレンスを \"%1$s\" に書き込みました。</string>
-  <string name="category">分類</string>
-  <string name="color">色</string>
-  <string name="comment">メモ</string>
-  <string name="confirmation_dialog_dont_show_again">今後表示しない</string>
-  <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">広告なし</string>
-  <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">無制限の勘定数</string>
-  <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">取引に画像を添付</string>
-  <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">円グラフ (分類ごとの分布)</string>
-  <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">無制限の計画数</string>
-  <string name="contrib_feature_print_label" tools:ignore="UnusedResources">取引リストを PDF にエクスポート</string>
-  <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">テンプレート ウィジェット</string>
-  <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV インポート</string>
-  <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">無制限の分割テンプレート</string>
-  <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources">2 営業日以内の <b>メールサポート</b> 対応を保証</string>
-  <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources"><b>開発ロードマップ</b> の投票権</string>
-  <string name="contrib_feature_history_label" tools:ignore="UnusedResources">履歴チャート (キャッシュフロー)</string>
-  <string name="licence_status_free">無料</string>
-  <string name="contrib_key">貢献キー</string>
-  <string name="extended_key">拡張キー</string>
-  <!--Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key-->
-  <string name="contrib_key_requires">%s が必要です。</string>
-  <string name="currency">通貨</string>
-  <string name="current_balance">現在の残高</string>
-  <string name="date">日付</string>
-  <string name="date_format">日付書式</string>
-  <string name="date_format_illegal">日付の書式が正しくありません</string>
-  <string name="number_format_illegal">数値の書式が正しくありません</string>
-  <string name="decimal_separator">小数点の記号</string>
-  <string name="default_account_name">予算簿</string>
-  <string name="description">説明</string>
-  <string name="dialog_balance_delete">照合した取引を削除</string>
-  <string name="dialog_confirm_discard_changes">変更を破棄しますか?</string>
-  <string name="dialog_confirm_discard_new_transaction">新しい取引を破棄しますか?</string>
-  <string name="dialog_confirm_discard_new_template">新しいテンプレートを破棄しますか?</string>
-  <string name="dialog_confirm_discard_new_account">新しい勘定を破棄しますか?</string>
-  <string name="dialog_confirm_discard_new_method">新しい支払方法を破棄しますか?</string>
-  <string name="dialog_command_disabled_balance">照合すべき消込された取引はありません。</string>
-  <string name="dialog_command_disabled_insert_transfer">取引の振替には、2番目の勘定が必要です。</string>
-  <string name="dialog_command_disabled_reset_account">エクスポートする取引がありません。</string>
-  <string name="dialog_command_disabled_distribution">この勘定の分類に配置する取引はありません。</string>
-  <!--Button for accessing trial of premium feature-->
-  <string name="dialog_contrib_no">試してみる</string>
-  <!--Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
-  <string name="dialog_contrib_premium_feature">%1$s はプレミアム機能です (%2$s)。</string>
-  <string name="dialog_contrib_reminder_remove_limitation"><i>{app_name}</i> をアップグレードすると、この制限を取り除き、より多くの機能にアクセスすることができます</string>
-  <string name="dialog_contrib_text_2"><i>{app_name}</i> をアップグレードすることで貢献して、次の機能に無制限にアクセスしてください:</string>
-  <string name="dialog_contrib_usage_count">無料の使用が残っています</string>
-  <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">現在のライセンスステータス (%2$s) で %1$d 回まで使用できます。</string>
-  <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">現在のライセンスステータス (%2$s) で %1$d 日間使用できます。</string>
-  <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">現在のライセンスステータス (%2$s) で %1$d アカウント作成できます。</string>
-  <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">現在のライセンスステータス (%2$s) で %1$d 計画作成できます。</string>
-  <string name="dialog_contrib_usage_limit_split_templates">現在のライセンス状況 (%1$s) 分割テンプレートを 1 つ作成することができます。</string>
-  <string name="dialog_export_delete">エクスポートした取引を削除</string>
-  <string name="dialog_export_not_yet_exported">まだエクスポートしていない取引のみエクスポート</string>
-  <string name="dialog_password_activate_protection">パスワード保護を有効にする</string>
-  <string name="dialog_password_change_password">パスワードを変更</string>
-  <string name="dialog_password_new_password">新しいパスワード</string>
-  <string name="dialog_password_new_password_confirmation">新しいパスワード (確認)</string>
-  <string name="dialog_remind_later">後で</string>
-  <string name="dialog_remind_no">いいえ結構です</string>
-  <string name="dialog_remind_rate_how_many_stars">{app_name} にいくつ星をつけますか?</string>
-  <string name="dialog_remind_rate_1">{app_name} の評価とレビューに少しお時間をいただけませんか。</string>
-  <string name="dialog_remind_rate_2">あなたのご意見により、私たちは絶え間ない改善と機能拡張を行うことができます。</string>
-  <string name="dialog_remind_rate_1_suggest_improvement">私たちに改善の提案をメールするお時間を少しいただけませんか。</string>
-  <string name="dialog_remind_rate_yes">今すぐ評価</string>
-  <string name="dialog_security_answer">回答</string>
-  <string name="dialog_security_question">質問</string>
-  <string name="dialog_title_attention">注意</string>
-  <string name="dialog_title_information">情報</string>
-  <!--%1$s is replace with account label-->
-  <string name="dialog_title_balance_account">%1$s 決算</string>
-  <string name="dialog_title_contrib_feature">プレミアム機能</string>
-  <plurals name="dialog_title_warning_delete_account">
-    <item quantity="other">%1$d 勘定を削除しますか?</item>
-  </plurals>
-  <string name="dialog_title_warning_delete_category">分類を削除しますか?</string>
-  <string name="dialog_title_warning_delete_template">テンプレートを削除しますか?</string>
-  <string name="dialog_title_warning_delete_transaction">取引を削除しますか?</string>
-  <string name="expense">支出</string>
-  <string name="export_expenses">支出エクスポート</string>
-  <!--1$s is replaced with path to file, 2$s with error message-->
-  <string name="export_sdcard_failure">ファイル \"%1$s\" へのエクスポートに失敗しました: %2$s</string>
-  <!--1$s is replaced with path to file-->
-  <string name="export_sdcard_success">ファイル \"%1$s\" にデータを正常にエクスポートしました</string>
-  <string name="external_storage_unavailable">外部ストレージ (SDカード) が利用可能ではありません</string>
-  <string name="feedback">フィードバック</string>
-  <string name="ftp_uri_malformed">不正な形式の URI %1$s</string>
-  <string name="grisbi_import_categories_loading">%1$s から分類をロード中</string>
-  <string name="grisbi_import_parties_loading">%1$s から取引先をロード中</string>
-  <string name="grouping_day">日</string>
-  <string name="grouping_last_week">先週</string>
-  <string name="grouping_month">月</string>
-  <string name="grouping_none">グループ化しない</string>
-  <string name="grouping_this_week">今週</string>
-  <string name="grouping_today">今日</string>
-  <string name="grouping_week">週</string>
-  <string name="grouping_year">年</string>
-  <string name="grouping_yesterday">昨日</string>
-  <string name="help_button_rate">評価またはレビュー</string>
-  <string name="help_heading_credits">クレジット</string>
-  <string name="help_heading_license">ライセンス</string>
-  <string name="help_heading_whats_new">新着情報</string>
-  <string name="important_upgrade_information_heading">重要な情報</string>
-  <string name="import_select_transactions">取引</string>
-  <string name="income">収入</string>
-  <string name="invalid_number_format">小数点の書式があなたのロケールでは認識できません。%1$s を使用してください。</string>
-  <string name="label">ラベル</string>
-  <string name="licence_validation_failure">ライセンスキーを検証できません。</string>
-  <string name="licence_validation_success">ライセンスキーが正常に検証されました:</string>
-  <string name="licence_validation_premium">プレミアムの機能はロック解除されています。</string>
-  <string name="menu_aggregates">合計</string>
-  <!--Shown in a notification; allows to apply a template (instantiate a new transaction from it)-->
-  <string name="menu_apply_template">適用</string>
-  <string name="menu_back">戻る</string>
-  <string name="menu_backup">バックアップ</string>
-  <!--Balance: compare cleared balance in app with balance on statement received from bank-->
-  <string name="menu_balance">口座決算</string>
-  <!--Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction-->
-  <string name="menu_cancel_plan_instance">キャンセル</string>
-  <string name="menu_clone_transaction">複製</string>
-  <string name="menu_contrib">貢献</string>
-  <string name="menu_create_account">新しい勘定</string>
-  <string name="menu_create_instance_edit">適用および編集</string>
-  <string name="menu_create_instance_save">適用および保存</string>
-  <string name="menu_create_main_cat">新しい主分類</string>
-  <string name="menu_create_method">新しい支払方法</string>
-  <string name="menu_create_party">新しい取引先</string>
-  <string name="menu_create_split">新しい分割</string>
-  <string name="menu_create_split_part_category">新しい分類分割パート</string>
-  <string name="menu_create_split_part_transfer">新しい振替分割パート</string>
-  <string name="menu_create_sub_cat">新しい副分類</string>
-  <string name="menu_create_template">新しいテンプレート</string>
-  <string name="menu_create_template_from_transaction">テンプレートとして保存</string>
-  <string name="menu_create_template_for_transaction">新しい取引テンプレート</string>
-  <string name="menu_create_template_for_transfer">新しい振替テンプレート</string>
-  <string name="menu_create_transaction">新しい取引</string>
-  <string name="menu_create_transfer">新しい振替</string>
-  <string name="menu_delete">削除</string>
-  <string name="menu_distribution">分布</string>
-  <string name="menu_edit">編集</string>
-  <string name="menu_edit_account">勘定を編集</string>
-  <string name="menu_edit_cat">分類を編集</string>
-  <string name="menu_edit_method">支払方法を編集</string>
-  <string name="menu_edit_party">取引先を編集</string>
-  <string name="menu_edit_plan_instance">単一計画発生を編集</string>
-  <string name="menu_edit_split">分割を編集</string>
-  <string name="menu_edit_split_part_category">分類分割パートを編集</string>
-  <string name="menu_edit_split_part_transfer">振替分割パートを編集</string>
-  <string name="menu_edit_template">テンプレートを編集</string>
-  <string name="menu_edit_transaction">取引を編集</string>
-  <string name="menu_edit_transfer">振替を編集</string>
-  <string name="menu_exclude_from_totals">合計から除外</string>
-  <string name="menu_forward">前へ</string>
-  <string name="menu_grouping">グループ化</string>
-  <string name="menu_help">ヘルプ</string>
-  <!--This command inverts the direction of a transfer-->
-  <string name="menu_invert_transfer">反転</string>
-  <string name="menu_manage_plans">テンプレートと計画</string>
-  <!--Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application-->
-  <string name="menu_open">開く</string>
-  <string name="menu_import">インポート</string>
-  <string name="menu_print">印刷</string>
-  <string name="menu_reset">エクスポートおよびリセット</string>
-  <string name="menu_reset_all">エクスポートおよびすべてリセット</string>
-  <!--Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag-->
-  <string name="menu_reset_plan_instance">リセット</string>
-  <string name="menu_save">保存</string>
-  <string name="menu_save_and_new">保存および新規</string>
-  <string name="menu_search">検索</string>
-  <string name="menu_settings">設定</string>
-  <string name="menu_share">友達に教える</string>
-  <string name="button_label_share_file">共有</string>
-  <string name="button_label_close">閉じる</string>
-  <string name="menu_split_transaction">変換して分割</string>
-  <string name="method">支払方法</string>
-  <string name="no_amount_given">金額が入力されていません。</string>
-  <string name="no_app_handling_email_available">利用可能なメール アプリがありません。</string>
-  <string name="no_app_handling_ftp_available">利用可能な ftp アプリがありません。<i>Send With FTP</i> をインストールしますか?</string>
-  <string name="no_app_handling_pdf_available">PDF を利用可能なアプリがありません。</string>
-  <string name="no_categories">分類がありません。</string>
-  <string name="no_expenses">まだ支出がありません!</string>
-  <string name="no_exportable_expenses">まだエクスポートしていない取引はありません。</string>
-  <string name="no_filemanager_installed">ファイルマネージャーがインストールされていません</string>
-  <string name="no_calendar_app_installed">カレンダーのイベントを編集するアプリが見つかりません。</string>
-  <string name="no_mapped_transactions">この期間に、分類に配置する取引はありません。</string>
-  <string name="no_methods">支払方法がありません。</string>
-  <string name="no_parties">取引先がありません。</string>
-  <string name="no_split_parts">分割パートがありません。</string>
-  <string name="no_templates">テンプレートがありません。</string>
-  <string name="no_accounts">勘定がありません。</string>
-  <string name="no_title_given">タイトル/科目が入力されていません。</string>
-  <plurals name="not_deletable_mapped_transactions">
-    <item quantity="other">%1$d オブジェクトが取引に配置されています。削除できません。</item>
-  </plurals>
-  <plurals name="not_deletable_mapped_templates">
-    <item quantity="other">%1$d オブジェクトがテンプレートに配置されています。削除できません。</item>
-  </plurals>
-  <string name="numbered">付番されました</string>
-  <string name="opening_balance">期首残高</string>
-  <string name="parse_error_file_not_found">ファイル %1$s が見つかりません</string>
-  <string name="parse_error_grisbi_version_not_supported">サポートされない Grisbi ファイル バージョン: %1$s</string>
-  <string name="parse_error_no_data_found">ファイルにインポート可能なデータが見つかりません。</string>
-  <string name="parse_error_other_exception">エラーが発生しました: %1$s</string>
-  <string name="parse_error_parse_exception">ファイルを解析できません</string>
-  <string name="password_disabled_reenable">パスワード保護が無効になっています。設定で再度有効にすることができます。</string>
-  <string name="password_lost">パスワードを忘れた</string>
-  <string name="password_not_valid">パスワードが正しくありません。もう一度試してください!</string>
-  <string name="password_prompt">パスワードを入力してください</string>
-  <string name="password_security_answer_not_valid">回答が間違っています。もう一度試してください!</string>
-  <string name="payee">受取人</string>
-  <string name="payer">支払人</string>
-  <string name="payer_or_payee">受取人/支払人</string>
-  <!--Plan for future and recurring transactions-->
-  <string name="plan">計画</string>
-  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance-->
-  <string name="plan_automatic">自動</string>
-  <!--this is the label for the calendar where plans for future and recurrent transactions are stored-->
-  <string name="plan_calendar_name">{app_name} プランナー</string>
-  <string name="planner_notification_channel_name">プランナー</string>
-  <string name="plan_event_deleted">このテンプレートに関連付けられた計画は予定表から削除されました。</string>
-  <!--This message is shown, after a user decides to not apply a manual plan-->
-  <string name="plan_execution_canceled">計画の実行がキャンセルされました</string>
-  <!--Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance)-->
-  <string name="plan_manual">手動</string>
-  <string name="planner_create_calendar_failure">ローカル プランナー カレンダーを作成できません</string>
-  <string name="planner_create_calendar_success">ローカル プランナー カレンダーが正常に作成されました</string>
-  <!--payment methods-->
-  <string name="pm_cheque">小切手/手形</string>
-  <string name="pm_creditcard">クレジットカード</string>
-  <string name="pm_deposit">預金</string>
-  <string name="pm_directdebit">自動引落</string>
-  <string name="pm_type_credit">貸方</string>
-  <string name="pm_type_debit">借方</string>
-  <string name="pm_type_neutral">中性</string>
-  <string name="pref_app_dir_title">バックアップとエクスポート先のフォルダー</string>
-  <string name="pref_auto_fill_title">取引の自動入力</string>
-  <string name="pref_auto_fill_summary">同じ受取人/支払人の最終取引のデータを記入する</string>
-  <string name="pref_backup_summary">データベースとプリファレンスのバックアップを作成します。</string>
-  <string name="pref_sort_order_usages">使用件数</string>
-  <string name="pref_category_title_advanced">高度な設定</string>
-  <string name="pref_category_title_export">エクスポート</string>
-  <string name="pref_category_title_import">インポート</string>
-  <string name="pref_category_title_manage">管理</string>
-  <string name="pref_category_title_more_information">詳細な情報</string>
-  <string name="pref_category_title_security">セキュリティ</string>
-  <string name="pref_category_title_ui">ユーザーインターフェイス</string>
-  <string name="pref_checkbox_enabled">有効</string>
-  <string name="pref_checkbox_disabled">無効</string>
-  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
-  <string name="pref_contrib_purchase_summary">プレミアムと拡張機能への購入アクセス。</string>
-  <string name="pref_contrib_purchase_title">購入キー</string>
-  <string name="pref_contrib_purchase_title_upgrade">キーをアップグレード</string>
-  <string name="pref_contrib_purchase_title_in_app">アプリ内課金</string>
-  <string name="pref_custom_currency_title">通貨をカスタマイズ</string>
-  <!--premium features refers to features of all three levels (Contrib, Extended, Professional-->
-  <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">キーを受け取った場合、プレミアム機能へアクセスすることができます。</string>
-  <string name="pref_enter_licence_title" tools:ignore="UnusedResources">キーを入力</string>
-  <string name="pref_export_format_title">データ形式</string>
-  <string name="pref_import_from_grisbi_summary">Grisbi XML ファイルから分類と取引先をインポートします</string>
-  <string name="pref_import_from_grisbi_title">Grisbi からインポート</string>
-  <!--%s is replaced with QIF or CSV-->
-  <string name="pref_import_summary">%s ファイルから取引、分類、および取引先をインポートします</string>
-  <!--%s is replaced with QIF or CSV-->
-  <string name="pref_import_title">%s インポート</string>
-  <string name="pref_like_facebook_title">Facebook でいいね</string>
-  <string name="pref_manage_accounts_title">勘定</string>
-  <string name="pref_manage_categories_summary">分類を追加/編集/削除します。</string>
-  <string name="pref_manage_categories_title">分類</string>
-  <string name="pref_manage_methods_summary">支払方法を作成/編集して、勘定の種類に関連付けます。</string>
-  <string name="pref_manage_methods_title">支払方法</string>
-  <string name="pref_manage_parties_summary">取引先 (受取人/支払人) を追加/編集/削除します。</string>
-  <string name="pref_manage_parties_title">取引先</string>
-  <string name="pref_manage_sync_backends_title">同期バックエンド</string>
-  <!--%s will be replaced with list of backends-->
-  <string name="pref_manage_sync_backends_summary">アカウントを同期するためのバックエンドを追加します (%s)。</string>
-  <string name="pref_more_info_dialog_title">ライセンス &amp; クレジット</string>
-  <string name="pref_password_not_equal">パスワードが一致しません</string>
-  <string name="pref_perform_protection_title">保護</string>
-  <string name="pref_perform_share_title">エクスポートとバックアップを共有</string>
-  <!--This entry is added to the list of available calendars, if no local calendar has been set up yet-->
-  <string name="pref_planning_calendar_create_local">新しいローカル プランニング カレンダーを作成</string>
-  <string name="pref_planning_calendar_summary">将来の計画および繰り返しの取引が保存されるカレンダーを選択します。</string>
-  <string name="pref_planning_calendar_title">プランニング カレンダー</string>
-  <string name="pref_protection_delay_seconds_summary">アプリをパスワードでロックするまでの、アイドル秒数。</string>
-  <string name="pref_protection_delay_seconds_title">保護までの遅延時間</string>
-  <string name="pref_protection_enable_data_entry_from_widget_title">ウィジェットやショートカットからのデータエントリー</string>
-  <string name="pref_protection_enable_data_entry_from_widget_summary_on">パスワードなしを許可。</string>
-  <string name="pref_protection_enable_data_entry_from_widget_summary_off">パスワードが必要。</string>
-  <string name="pref_qif_export_file_encoding_title">ｷｬﾗｸﾀｰ ｴﾝｺｰﾃﾞｨﾝｸﾞ</string>
-  <string name="pref_request_licence_title">キーをリクエスト</string>
-  <!--Alternative is used as an adjective designing an alternative method for restoring backups-->
-  <string name="pref_restore_alternative">代替</string>
-  <string name="pref_restore_alternative_summary">デバイスにファイルマネージャーがインストールされていない、この代替の方法を使用します。</string>
-  <string name="pref_restore_summary">データベースとプリファレンスを復元するためのバックアップを選択してください。</string>
-  <string name="pref_restore_title">復元</string>
-  <string name="pref_security_question_summary">パスワードを忘れた場合に、アプリのロックを解除することができます。</string>
-  <string name="pref_security_question_title">セキュリティの質問</string>
-  <string name="pref_send_feedback_title">フィードバックを送る</string>
-  <string name="pref_share_target_summary">あなたが適切なアプリ (メール、Dropbox、Google Docs …) を選択したい場合は空のままにしてください。あるいはサポートされているスキームのいずれかの URL を入力してください</string>
-  <string name="pref_share_target_title">アップロード URL</string>
-  <string name="pref_shortcut_added">ホーム画面にショートカットが追加されました</string>
-  <string name="pref_shortcut_not_added">ショートカットを受け付けることができるホーム画面がありません。</string>
-  <string name="pref_shortcut_summary">ホーム画面にショートカットを追加します</string>
-  <string name="pref_template_click_default_summary">テンプレートリストのエントリーをタップした時</string>
-  <string name="pref_ui_fontsize_title">フォントサイズの拡大</string>
-  <string name="pref_ui_home_screen_shortcuts">ホーム画面のショートカット</string>
-  <string name="pref_ui_language_default">システム デフォルト</string>
-  <!--Title of the preference for selecting the UI language-->
-  <string name="pref_ui_language_title">言語</string>
-  <string name="pref_ui_theme_dark">ダーク</string>
-  <string name="pref_ui_theme_light">ライト</string>
-  <string name="pref_ui_theme_title">テーマ</string>
-  <string name="pref_visit_website_summary">変更履歴 および FAQ</string>
-  <string name="pref_visit_website_title">Webサイトを訪問</string>
-  <string name="progress_dialog_deleting">オブジェクトを削除中</string>
-  <string name="progress_dialog_loading">データベースからオブジェクトをロード中</string>
-  <string name="progress_dialog_printing">PDF を生成中</string>
-  <string name="progress_dialog_saving">データベースにオブジェクトを保存中</string>
-  <string name="qif_parse_result">解析しました: %1$s 勘定; %2$s 分類 および %3$s 取引先</string>
-  <string name="qif_parse_failure_found_multiple_accounts">QIF ファイルに複数の勘定が見つかりました。</string>
-  <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">既存の勘定にそれをマージすることはできません。</string>
-  <string name="reference_number">参照番号</string>
-  <string name="restore_db_failure">データベースの復元に失敗しました。</string>
-  <string name="restore_db_success">バックアップからデータベースが復元されました。</string>
-  <string name="restore_no_backup_found">バックアップが見つかりません。</string>
-  <string name="restore_preferences_failure">プリファレンスの復元に失敗しました。</string>
-  <string name="restore_backup_archive_not_valid">アーカイブ %1$s が正しくありません</string>
-  <string name="restore_backup_file_not_found">アーカイブ \"%2$s\" に、ファイル %1$s が見つかりません</string>
-  <string name="restore_preferences_success">バックアップからプリファレンスが復元されました。</string>
-  <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d の計画がバックアップから復元されました</string>
-  <string name="save_transaction_and_new_success">正常に保存されました。</string>
-  <string name="save_transaction_error">テンプレートから新しい取引を保存することができません。</string>
-  <plurals name="save_transaction_from_template_success">
-    <item quantity="other">テンプレートから、%1$d の新しい取引が正常に保存されました。</item>
-  </plurals>
-  <string name="save_transaction_template_deleted">テンプレートが削除されました。</string>
-  <string name="select">選択</string>
-  <string name="select_category">分類の選択</string>
-  <string name="select_payee">受取人/支払人の選択</string>
-  <string name="share_scheme_not_supported">スキーム %1$s はサポートされていません</string>
-  <string name="share_sending">エクスポートファイルを送信</string>
-  <string name="split_parts_heading">分割パート</string>
-  <string name="split_transaction">取引を分割</string>
-  <string name="status">ステータス</string>
-  <string name="status_cleared">消込済</string>
-  <string name="status_reconciled">照合済</string>
-  <string name="status_uncreconciled">未照合</string>
-  <string name="status_void">無効</string>
-  <string name="subcategory">副分類</string>
-  <string name="sum_expenses">支出</string>
-  <string name="sum_income">収入</string>
-  <string name="sum_transfer">振替</string>
-  <!--platform is replaced with Android or Blackberry-->
-  <string name="tell_a_friend_message">{app_name}: {platform}用のパーソナル ファイナンス マネージャーを確かめてください。ここから {website}</string>
-  <string name="thank_you">サポートありがとうございます!</string>
-  <string name="time">時間</string>
-  <string name="title">タイトル/科目</string>
-  <string name="total_cleared">消込済合計</string>
-  <string name="total_reconciled">照合済合計</string>
-  <string name="transaction">取引</string>
-  <string name="transfer">振替</string>
-  <string name="transfer_from_account">元</string>
-  <string name="transfer_to_account">先</string>
-  <!--Type refers to the type of an account, eg. Cash account, bank account-->
-  <string name="type">種類</string>
-  <string name="unsplit_amount">未分割金額</string>
-  <string name="unsplit_amount_greater_than_zero">まだ分割されていない金額が残っています。</string>
-  <string name="warning_backup">データベースとプリファレンスが \"%1$s\" に保存されます。</string>
-  <string name="continue_confirmation">続けますか?</string>
-  <string name="warning_delete_account">勘定 \"%1$s\" はすべての取引と共に削除されます。</string>
-  <plurals name="warning_delete_main_category">
-    <item quantity="other">%1$d の選択された分類は副分類があります。これらも同様に削除されます。</item>
-  </plurals>
-  <string name="warning_delete_category_with_budget">選択した分類の少なくとも１つに予算の割り当てがあり、それらも同様に削除されます。</string>
-  <plurals name="warning_delete_template">
-    <item quantity="other">%1$d の選択されたテンプレートが削除されます。</item>
-  </plurals>
-  <plurals name="warning_delete_transaction">
-    <item quantity="other">%1$d の選択された取引が削除されます。</item>
-  </plurals>
-  <plurals name="move_category_success">
-    <item quantity="other">%d 分類の取引を移動しました。</item>
-  </plurals>
-  <plurals name="move_category_failure">
-    <item quantity="other">%d 分類の取引が移動できませんでした。対象に同じラベルがすでに存在します。</item>
-  </plurals>
-  <string name="warning_delete_reconciled">照合済の取引を削除すると、記録が銀行取引明細書と異なることになります。</string>
-  <string name="warning_balance_account">銀行取引明細書の期末残高と消込済合計を比較してください。続行すると、消込済取引は照合済としてマークされます。</string>
-  <string name="warning_password_protected">アプリはパスワード保護されています。</string>
-  <string name="warning_widget_disabled">アプリの設定で、このウィジェットを有効にする必要があります。</string>
-  <string name="warning_instantiate_template_from_widget_password_protected">アプリの設定で、パスワードなしにウィジェットからデータの入力を許可する場合のみ、このウィジェットからのテンプレートのクイックインスタンス化は機能します。</string>
-  <string name="warning_password_contrib">セキュリティの質問を設定すると、パスワードを忘れた場合に、アプリのロックを解除することができます。</string>
-  <string name="warning_reset_account">続行すると、この勘定のすべての取引がデータベースから削除され、復元することはできません。</string>
-  <!--the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list-->
-  <string name="warning_reset_account_all">続行すると、すべての勘定 %1$s 、取引はデータベースから削除され、復元することはできません。</string>
-  <string name="warning_reset_account_matched">続行すると、現在のフィルターに一致する取引はデータベースから削除され、復元することはできません。</string>
-  <string name="warning_restore">ファイル  \"%1$s\" から、データベースとプリファレンスが復元されます。現在のデータは削除されます。</string>
-  <string name="warning_app_folder_will_be_deleted_upon_uninstall">{app_name} をアンインストールした場合、バックアップとエクスポート用に現在選択されているフォルダは自動的に Android によって削除されます。 設定画面から別のフォルダを選択することで、これを防止することができます。</string>
-  <string name="warning_splitpartcategory_context">振替は分割の一部で、分割のコンテキストでのみ編集することができます。</string>
-  <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">%1$d から %2$d の間で数を設定してください。</string>
-  <string name="warning_change_fraction_digits_1">新しい小数桁の数に一致させるため、データベース内の金額を更新する必要があります。</string>
-  <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">金額が更新されていない場合は、変更後 %d を掛けたように表示されます。</string>
-  <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">金額が更新されていない場合は、変更後 %d で割ったように表示されます。</string>
-  <string name="warning_change_fraction_digits_3">アカウントが更新された場合は、端数部分に関する情報を失います。</string>
-  <string name="warning_change_fraction_digits_checkbox_label">データベースの金額を更新</string>
-  <string name="import_categories_success">%1$s 分類は正常にインポートされました</string>
-  <string name="import_parties_success">%1$s 取引先は正常にインポートされました</string>
-  <string name="import_accounts_success">%1$s 勘定は正常にインポートされました</string>
-  <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d 取引は勘定 %2$s に正常にインポートされました</string>
-  <string name="import_accounts_none">インポートされた勘定はありません</string>
-  <string name="import_categories_none">インポートされた分類はありません</string>
-  <string name="import_parties_none">インポートされた取引先はありません</string>
-  <string name="import_transactions_none">勘定 %1$s にインポートされた取引はありません</string>
-  <string name="import_source_select_error">種類 %1$s のファイルを入力してください</string>
-  <string name="menu_categories_setup_default">デフォルトの分類をセットアップ</string>
-  <string name="menu_create_folder">新しいフォルダー</string>
-  <!--This string is used for navigating up in the folder browser-->
-  <string name="menu_up">上へ</string>
-  <string name="create_new_folder_fail">フォルダーの作成に失敗しました</string>
-  <string name="widget_title_accounts">マイ勘定</string>
-  <string name="widget_title_templates">マイ テンプレート</string>
-  <string name="app_dir_not_accessible">現在、バックアップとエクスポート用に選択されているフォルダ (%1$s) にアクセスできません。別のフォルダを選択してください。</string>
-  <string name="app_dir_not_compatible_with_nougat">現在設定されているバックアップとエクスポートの URI (%1$s) は、Android Nougat ではサポートされていません。 もう一度フォルダーを選択してください。</string>
-  <string name="search_amount">金額の検索</string>
-  <string name="search_category">分類の</string>
-  <string name="search_comment">メモの検索</string>
-  <string name="search_date">日付の検索</string>
-  <string name="search_status">ステータスの検索</string>
-  <string name="search_payee">受取人/支払人の検索</string>
-  <string name="search_method">方法の検索</string>
-  <string name="search_tag">タグの検索</string>
-  <string name="and">かつ</string>
-  <string name="between_and">%1$s から %2$s の間</string>
-  <string name="before">%s 以降</string>
-  <string name="after">%s 以前</string>
-  <string name="comparison_operator_equal">等しい</string>
-  <string name="comparison_operator_greater_than">より大きい</string>
-  <string name="comparison_operator_lesser_than">より小さい</string>
-  <string name="comparison_operator_between">間</string>
-  <string name="comparison_operator_date_before">以前</string>
-  <string name="comparison_operator_date_after">以降</string>
-  <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">購入が失敗またはキャンセルされました。</string>
-  <string name="hint_auto_fill">同じ受取人/支払人の場合、前回の取引から自動的にデータを入力する必要がありますか? この動作はいつでも設定から変更できます。</string>
-  <string name="yes">はい</string>
-  <string name="no">いいえ</string>
-  <string name="hint_template_click">このリストのエントリで短くタップすると、テンプレートをインスタンス化して、それをすぐに保存したり、あるいは保存する前にその編集フォームの入力項目に入力することができます。長くタップして、いつでも両方のアクションにアクセスすることができます。設定でデフォルトを変更することができます。</string>
-  <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">通貨 %2$s の %1$d 勘定が更新されました。</string>
-  <string name="learn_more">さらに詳しく</string>
-  <string name="import_source_file">ファイル</string>
-  <string name="restore_calendar_handling">カレンダーデータの利用</string>
-  <string name="restore_calendar_handling_configured">現在設定されたカレンダーに計画を復元する</string>
-  <string name="restore_calendar_handling_backup">利用可能な場合、バックアップに設定されたカレンダーに計画を復元する</string>
-  <string name="restore_calendar_handling_ignore">計画を復元しない</string>
-  <string name="restore_not_possible_target_calendar_missing">バックアップアーカイブに設定されたカレンダー %s はローカルに存在しません。復元を中止しました。</string>
-  <string name="restore_not_possible_local_calendar_missing">現在のプランニング カレンダーが利用できません。</string>
-  <string name="menu_view_picture">写真を表示</string>
-  <string name="menu_delete_picture">写真を削除</string>
-  <string name="menu_change_picture">別の写真を添付</string>
-  <string name="menu_distribution_show_pie_char">パイチャートを表示</string>
-  <string name="menu_distribution_aggreate">支出と収入を集計</string>
-  <string name="pref_manage_stale_images_title">古くなった画像</string>
-  <string name="pref_manage_stale_images_summary">削除された取引から残っている写真を管理します</string>
-  <string name="image_deleted">写真が削除されました</string>
-  <string name="transaction_deleted">取引が削除されました</string>
-  <string name="dialog_export_applied_to_filter">現在のフィルターに一致する取引のみが考慮されます。</string>
-  <string name="export_handle_deleted_create_helper">ヘルパー取引を作成</string>
-  <string name="export_handle_deleted_update_balance">期首残高を更新</string>
-  <string name="file_name">ファイル名</string>
-  <string name="folder_name">フォルダー名</string>
-  <string name="mark_void_instead_of_delete">取引を削除しないでください。代わりに無効としてマークしてください。</string>
-  <string name="menu_undelete_transaction">削除の取消</string>
-  <string name="slash_forbidden_in_filename">/ の文字はファイル名に使用できません</string>
-  <string name="io_error_unable_to_create_file">ファイル %1$s を、フォルダー %2$s に作成できません</string>
-  <string name="menu_categories_export">QIF にエクスポート</string>
-  <string name="pref_csv_import_delimiter">デリミタ</string>
-  <string name="csv_import_preview">プレビュー</string>
-  <string name="menu_parse">解析</string>
-  <!--Label for column where user can check rows to be discarded from import-->
-  <string name="cvs_import_discard">破棄</string>
-  <string name="csv_import_field_mapped_more_than_once">%s は複数に配置されます。</string>
-  <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d レコードインポートできませんでした。</string>
-  <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d レコード破棄されました。</string>
-  <string name="csv_import_subcategory_requires_category">副分類を配置する場合は、分類も配置する必要があります。</string>
-  <string name="cvs_import_set_first_line_as_header">最初の行をヘッダー行として扱いますか?</string>
-  <string name="csv_import_delimiter_comma">カンマ</string>
-  <string name="csv_import_delimiter_semicolon">セミコロン</string>
-  <string name="csv_import_delimiter_tab">タブ</string>
-  <string name="csv_import_no_mapping_found_for_amount">金額を収入または支出のいずれかの列に配置してください。</string>
-  <string name="menu_show_transactions">取引を表示</string>
-  <string name="pref_custom_decimal_format_title">数値書式</string>
-  <string name="pref_custom_decimal_format_summary">ロケールのデフォルト形式で充足しない場合、ニーズに適合します。デフォルト形式を復元する場合は、空白のままにします。</string>
-  <string name="pref_auto_backup_title">自動バックアップを有効にする</string>
-  <string name="pref_auto_backup_summary">毎日指定した時間にデータベースをバックアップします (データが変更された場合のみ)。</string>
-  <string name="pref_auto_backup_time_title">自動バックアップ時間</string>
-  <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">%d 回正常に自動バックアップを行った後、自動バックアップは無効になります。</string>
-  <string name="calendar_permission_required"><i>{app_name}</i> は、将来の計画および繰り返しの取引を作成するために、自分のカレンダーにアクセスするアクセス許可が必要です。</string>
-  <string name="button_request_calendar_access" tools:ignore="UnusedResources">アクセスを許可</string>
-  <string name="switch_on_text">ON</string>
-  <string name="switch_off_text">OFF</string>
-  <string name="menu_move">移動</string>
-  <string name="dialog_title_select_target">対象を選択</string>
-  <string name="transform_subcategory_to_main">主分類に変換</string>
-  <string name="preferences_week_start_day_title">週の開始日</string>
-  <string name="preferences_month_start_date_title">月の開始日</string>
-  <!--this is the title of the section in the preferences, where user can set start day for weekly and monthly groups-->
-  <string name="pref_grouping_periods">期間のグループ化</string>
-  <string name="exchange_rate">為替レート</string>
-  <string name="date_format_hour">時間</string>
-  <string name="date_format_minute">分</string>
-  <string name="copied_to_clipboard">クリップボードにコピーしました</string>
-  <string name="menu_sort">ソート順</string>
-  <string name="pref_sort_order_last_used">最後に使用した</string>
-  <string name="pref_sort_order_custom">カスタム</string>
-  <string name="content_description_calculator">電卓</string>
-  <!--describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list.-->
-  <string name="plan_instance_state_open">未適用</string>
-  <!--describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list.-->
-  <string name="plan_instance_state_cancelled">キャンセル</string>
-  <!--describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list.-->
-  <string name="plan_instance_state_applied">適用済</string>
-  <string name="progress_dialog_updating_split_parts">分割パートを更新中</string>
-  <string name="warning_cannot_move_split_transaction">この分割取引は、この勘定を参照する振替パートがあるため、勘定 %1$s に移動できません。</string>
-  <string name="content_description_calculator_clear_button">すべてリセット</string>
-  <string name="content_description_calculator_delete_button">最後の数字を削除</string>
-  <string name="paypal_callback_info">取引は完了しました。ご購入の領収書をメールで送信しました。www.paypal.com にあなたのアカウントでログインして、この取引の詳細を表示することができます。</string>
-  <string name="search_transfer">振替の検索</string>
-  <!--Sort plans (recurring transactions) by the next instance-->
-  <string name="pref_sort_order_next_instance">次のインスタンス</string>
-  <string name="crash_dialog_title">{app_name} がクラッシュしました</string>
-  <string name="crash_dialog_text">予期しないエラーが発生しました。アプリケーションを強制的に停止します。私たちにエラーデータを送信して、この問題の解決を助けてください。あなたがする必要があるのは OK をクリックするだけです。</string>
-  <string name="crash_dialog_comment_prompt">以下に問題についてのコメントを追加できます:</string>
-  <string name="synchronization">同期</string>
-  <string name="synchronization_none">同期しない</string>
-  <string name="hint_url">URL</string>
-  <string name="description_webdav_url">WebDAV サーバー上の、このアカウントデータ用の特別なフォルダーの URL を入力してください。 {app_name}はこのフォルダの中にデータを保存し、それ以外には触れません。</string>
-  <string name="description_webdav_trust_certificate">このウェブサイトは Android で信頼されていない証明書を使用しています。</string>
-  <string name="hint_user_name">ユーザー名</string>
-  <string name="hint_password">パスワード</string>
-  <string name="label_trust_certificate">この証明書を信頼する</string>
-  <string name="no_sync_backends">同期バックエンドはありません</string>
-  <string name="menu_create_sync_backend">新しい同期バックエンド</string>
-  <string name="validate_error_not_empty">空にできません</string>
-  <string name="validate_error_webdav_invalid_certificate">証明書を信頼できませんでした。 無効のようです。</string>
-  <string name="validate_error_webdav_not_compliant">URL は WebDAV リソースを指していません。</string>
-  <string name="validate_error_webdav_404">URL がサーバーに存在しません</string>
-  <string name="url_not_valid">URL が無効です</string>
-  <string name="menu_sync_unlink">同期を停止</string>
-  <string name="menu_sync_link">同期を開始</string>
-  <string name="menu_sync_download">ダウンロードと同期</string>
-  <string name="menu_sync_now">今すぐ同期</string>
-  <string name="pref_sync_frequency_title">同期の周期</string>
-  <string name="pref_sync_frequency_summary">データを同期する頻度 (時間単位)</string>
-  <string name="dialog_confirm_sync_unlink">%s からこのアカウントのリンクを解除すると、同期ステータスが失われます。 後で再度リンクするには、完全な同期を再度実行する必要があります。</string>
-  <string name="dialog_sync_link">uuid %s のアカウントが、ローカルデータベースとリモートバックエンドの両方に存在します。 両方をリンクするときは、最初にローカルデータをリモートバックエンドにアップロードするか、リモートデータをローカルデータベースにダウンロードするかどうかを決定する必要があります。</string>
-  <string name="dialog_command_sync_link_remote">リモートからダウンロード</string>
-  <string name="dialog_command_sync_link_local">ローカルからアップロード</string>
-  <string name="dialog_synced_to_other">uuid %s のアカウントは、ローカルデータベースに既に存在し、別のリモートバックエンドにリンクされています。</string>
-  <string name="menu_remove">削除</string>
-  <string name="dialog_confirm_sync_remove_backend">リモートバックエンド %s は削除されます。 これはローカルまたはリモートに保存されたデータには影響しませんが、同期ステータスは失われます。</string>
-  <string name="dialog_confirm_sync_link_local">このアカウントのリモートデータは削除されます。 他のデバイスがリンクされていないことを確認してください。</string>
-  <string name="dialog_confirm_sync_link_remote">このアカウントのローカルデータは削除されます。</string>
-  <string name="warning_limited_trial">%1$s機能は %2$s までテストできます。</string>
-  <string name="warning_trial_limit_reached">%s機能をテストする試用期間が終了しました。</string>
-  <string name="warning_synchronization_folder_usage">このフォルダーは、さまざまなデバイス上の{app_name}のインストール間でデータを同期するために使用されます。 内容を手動で変更しないでください。</string>
-  <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">選択したフォルダーは、既存のバックエンドのアカウントに対応します。 このバックエンドを再利用するには、その親フォルダーを選択する必要があります。</string>
-  <string name="select_unsynced_accounts">選択した勘定はこのバックエンドに同期されます</string>
-  <string name="link_account_success" tools:ignore="PluralsCandidate">%d の勘定がこのバックエンドに同期するように設定されました。</string>
-  <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d の勘定がバックエンドと同期するように設定できませんでした。</string>
-  <string name="link_account_failure_2">同じuuidを持つ勘定が、リモートのバックエンドにすでに存在します。</string>
-  <string name="link_account_failure_3">競合は、エントリーのコンテキストメニューから手動で解決できます。</string>
-  <string name="progress_dialog_checking_sync_backend">バックエンドの確認中</string>
-  <string name="template">テンプレート</string>
-  <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">クラウド同期</string>
-  <string name="all_contrib_key_features">貢献キーのすべての機能</string>
-  <string name="all_extended_key_features">拡張キーのすべての機能</string>
-  <!--button leading user to purchase flow for licence keys-->
-  <string name="upgrade_now">アップグレード</string>
-  <string name="pref_backup_cloud_title">同期バックエンドに保存</string>
-  <string name="pref_backup_cloud_summary">デバイスのローカルストレージに加えて、バックアップファイルをリモートバックエンドにコピーすることができます。</string>
-  <string name="auto_backup_cloud_create_backend">メイン設定画面から同期バックエンドを作成します。</string>
-  <string name="auto_backup_cloud_failure">バックアップファイル %1$s をバックエンド %2$s に保存しようとしているときにエラーが発生しました:</string>
-  <string name="auto_backup_cloud_success">バックアップファイル %1$s はバックエンド %2$s に保存されました。</string>
-  <string name="home_screen_shortcuts_nougate_info">ショートカットは、ホーム画面のアプリアイコンを長押しして追加することができます。</string>
-  <string name="currency_symbol">通貨記号</string>
-  <string name="number_of_fraction_digits">小数の桁数</string>
-  <string name="warning_auto_backup_deactivated">自動バックアップが無効になっています。 問題を解決した後に、設定から再度オンにすることができます (バックアップ用に別のフォルダを選択するなど)。</string>
-  <string name="pref_tracking_summary">改善の計画に役立つ使用パターンに関する匿名データを収集することができるようにします。</string>
-  <string name="pref_tracking_title">利用状況データの収集</string>
-  <string name="sync_database_error">同期中にデータベースエラーが発生しました。</string>
-  <string name="sync_io_error_cannot_connect">同期バックエンドに接続できません。</string>
-  <string name="sync_error_will_try_again_later">後で再試行します。</string>
-  <string name="sync_io_exception_reset_account_data">リモートアカウントをリセット中にエラーが発生しました。</string>
-  <string name="sync_success_reset_account_data">アカウント %s のリモートデータが削除されました。</string>
-  <string name="sync_io_exception_setup_remote_account">リモートアカウントを設定中にエラーが発生しました。</string>
-  <string name="sync_io_exception_syncing">変更をサーバーと同期中にエラーが発生しました。</string>
-  <string name="sync_io_exception_unlocking">リモートバックエンドからロックを削除中にエラーが発生しました。</string>
-  <string name="sync_io_exception_locking">リモートバックエンドがロックされているか、ロックできません。</string>
-  <string name="synchronization_start">アカウント %s の同期を開始します。</string>
-  <string name="synchronization_end_success">%1$d のリモート変更がローカルデータベースに書き込まれました。 %2$d のローカル変更がリモートバックエンドに書き込まれました。</string>
-  <string name="synchronization_end_success_none">同期する変更はありません。</string>
-  <string name="pref_webdav_timeout_title">WebDAVタイムアウト（秒）</string>
-  <string name="sync_state_restored">%d アカウントの同期状態が復元されました。</string>
-  <string name="sync_state_could_not_be_restored">%d のアカウントで同期状態を復元できませんでした。</string>
-  <string name="onboarding_ui_title">{app_name}はあなたのお好みに適応します</string>
-  <string name="onboarding_data_title">最初のアカウントを設定しましょう</string>
-  <string name="onboarding_get_started">始めましょう</string>
-  <string name="onboarding_more_options">他のオプション</string>
-  <string name="onboarding_restore_from_cloud">クラウド同期から復元</string>
-  <!--During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed-->
-  <string name="onboarding_restore_from_cloud_backup">バックアップ</string>
-  <string name="onboarding_restore_from_local">ローカルのバックアップファイルを復元</string>
-  <string name="dialog_button_add">追加</string>
-  <string name="template_create_error">テンプレートの保存中にエラーが発生しました</string>
-  <string name="contributed_by">貢献者 %s</string>
-  <string name="pref_sync_notification_summary">同期の進行状況を通知する</string>
-  <string name="pref_debug_logging_summary">システムログにデバッグ情報を書き込む</string>
-  <string name="plan_custom_recurrence_info">まずテンプレートを保存してください。 予定はその後カレンダーアプリで開かれ、カスタムの繰り返しを設定できます。</string>
-  <string name="storage_permission_required">選択したソースは、外部ストレージからの読み取りアクセス許可を付与した場合にのみ読み取りできます。</string>
-  <string name="picture">写真</string>
-  <string name="menu_create_template_for_split">新しい分割テンプレート</string>
-  <string name="progress_validating_licence">ライセンスの検証中</string>
-  <string name="licence_validation_error_expired">ライセンスの期限が切れました</string>
-  <string name="licence_validation_error_device_limit_exceeded">デバイスの限度に達しました。別のデバイスからライセンスを削除してください。</string>
-  <string name="error">エラー (%s)</string>
-  <string name="button_validate">検証</string>
-  <string name="licence_key">ライセンスキー</string>
-  <string name="licence_removal_information">このデバイスでもうプレミアム機能が必要ではない場合は、ライセンスキーを削除することができます。これにより別のデバイスでライセンスをアクティベーションすることができます。キーは %dデバイスまでアクティベートすることができます。</string>
-  <string name="progress_removing_licence">ライセンスの削除中</string>
-  <string name="licence_removal_success">このデバイスからライセンスキーを解除しました。</string>
-  <string name="professional_key">プロフェッショナルキー</string>
-  <string name="n_months">%d ヶ月</string>
-  <string name="eu_vat_info">表示されている EU 価格には、付加価値税は含まれていません。</string>
-  <string name="licence_migration_info">{app_name}は新しいライセンス検証メカニズムを実装しています。 新しいキーを要求してください。</string>
-  <string name="valid_until">%s まで</string>
-  <!--%1$s date, %2$s price-->
-  <string name="extend_until">%1$s から %2$s まで延長</string>
-  <string name="extended_upgrade_goodie_github">追加の %d ヶ月は延長ライセンスを所有するユーザーに１度付与されます</string>
-  <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">すでに延長ライセンスを所有するユーザーは、最初の年に標準価格 (%s) の 50%%お支払いください。</string>
-  <string name="extended_upgrade_goodie_subscription_amazon" tools:ignore="UnusedResources">既に延長ライセンスを所有しているユーザーは、年間契約の通常価格 (%2$s) から %1$d%% に減額されます。</string>
-  <string name="switch_to_yearly" tools:ignore="UnusedResources">年間サブスクリプションに切り替える</string>
-  <string name="switch_to_monthly" tools:ignore="UnusedResources">月間サブスクリプションに切り替える</string>
-  <string name="extend_validity">有効期限を延長する</string>
-  <string name="progress_dialog_fetching_data_from_sync_backend">リモートのバックエンドからデータを取得しています。これはしばらく時間がかかることがあります。</string>
-  <string name="donate_button_invoice">請求書</string>
-  <string name="menu_sort_direction">ソートの向き</string>
-  <string name="sort_direction_ascending">昇順</string>
-  <string name="sort_direction_descending">降順</string>
-  <string name="never">しない</string>
-  <string name="always">常に</string>
-  <string name="auto_fill_account_from_aggregate_only">集計勘定から開始された場合のみ。</string>
-  <string name="sync_auth_exception_login_again">認証に失敗しました。もう一度ログインしてください。</string>
-  <string name="sync_loading_accounts_from_backend">バックエンドから利用可能な口座をロード中。</string>
-  <plurals name="delete_success">
-    <item quantity="other">%d のオブジェクトが削除されました。</item>
-  </plurals>
-  <string name="feature_deprecated">廃止</string>
-  <string name="pref_protection_device_lock_screen_title">デバイスのロック画面</string>
-  <string name="pref_warning_only_one_protection">%1$s による保護を使用する前に、%2$s の保護をオフにする必要があります。</string>
-  <string name="warning_device_lock_screen_not_set_up_1">安全なデバイスロック画面は設定されていません。</string>
-  <string name="warning_device_lock_screen_not_set_up_2">\'設定 -&gt; セキュリティ -&gt; 画面ロック\' でロック画面を設定してください。</string>
-  <string name="snackbar_dismiss">消去</string>
-  <string name="menu_history_show_balance">残高を表示</string>
-  <string name="menu_history_transfers">振替を含む</string>
-  <string name="menu_history">履歴</string>
-  <!--A label indicating the color for the sum of expenses-->
-  <string name="history_chart_out_label">支出</string>
-  <!--A label indicating the color for the sum of income-->
-  <string name="history_chart_in_label">収入</string>
-  <string name="menu_history_totals">合計を表示</string>
-  <string name="pref_home_currency_title">自国通貨</string>
-  <string name="grand_total">総合計</string>
-  <string name="menu_original_amount">当初金額</string>
-  <string name="menu_equivalent_amount">相当金額</string>
-  <string name="home_currency_change_warning">自国通貨を変更すると、相当金額と為替レートが失われ、再度定義する必要があります。</string>
-  <string name="warning_split_transactions">選択した取引は、1つの分割取引にグループ化されます。 それらの日付情報は失われます。すなわち平均で置き換えられます。</string>
-  <string name="warning_ungroup_split_transactions">選択された分割取引はグループ解除されます。分割された部分は通常の取引になります。</string>
-  <!--This is the label for the action that breaks up a split transaction into its parts.-->
-  <string name="menu_ungroup_split_transaction">分割のグループ化解除</string>
-  <plurals name="ungroup_split_transaction_success">
-    <item quantity="other">%1$d 分割取引がグループ化解除されました。</item>
-  </plurals>
-  <string name="ungroup_split_transaction_failure">分割取引のグループ化解除中、 %1$d / %2$d 失敗しました。</string>
-  <string name="split_transaction_one_success">取引が分割に変換されました。</string>
-  <string name="split_transaction_one_error">取引を変換して分割することができませんでした。</string>
-  <string name="split_transaction_group_success">%1$d 取引が1つの分割取引にグループ化されました。</string>
-  <string name="split_transaction_group_error">取引を分割にグループ化できませんでした。</string>
-  <string name="split_transaction_not_possible">同じ勘定科目、支払先、およびステータスを持つ取引だけが、1つの分割取引にグループ化できます。</string>
-  <string name="pref_transaction_time_summary">正確な取引時間を設定できるようにします。</string>
-  <string name="pref_value_date_summary">予約日に加えて実行日を設定することができます。 取引時間は表示されません。 この設定は現金口座には適用されません。</string>
-  <!--the date on which the transaction took place, aka transaction date, as opposed to value date-->
-  <string name="booking_date">予約日</string>
-  <!--the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date-->
-  <string name="value_date">実行日</string>
-  <string name="licence_expires_n_days">プロフェッショナルキーは %d 日で期限切れです。</string>
-  <string name="licence_expires_tomorrow">プロフェッショナルキーは明日期限切れです。</string>
-  <string name="licence_expires_today">プロフェッショナルキーは今日期限切れです。</string>
-  <string name="licence_expired_yesterday">プロフェッショナルキーは昨日期限が切れました。</string>
-  <string name="licence_has_expired_n_days">プロフェッショナルキーは %d 日前に期限が切れています。</string>
-  <string name="pref_category_title_privacy">プライバシー</string>
-  <string name="pref_ad_consent_title">パーソナライズされた広告</string>
-  <string name="ad_consent_non_personalized">パーソナライズされていない広告</string>
-  <string name="gdpr_consent_message">{app_name} のサポート、メンテナンス、開発を維持するために {ad_provider} と提携して広告を表示しています。 あなたの同意を求めます。 広告が表示されないようにするには、広告なしバージョンの料金をお支払いください。</string>
-  <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">はい、続行して広告を表示します</string>
-  <string name="gdpr_consent_button_no">広告なしバージョンを購入します</string>
-  <string name="sort_order">ソート順</string>
-  <string name="navigation_drawer_accounts_title">勘定の管理</string>
-  <string name="pref_sync_wifi_only_summary">Wi-Fi 接続時のみ同期</string>
-  <string name="pref_sync_changes_immediately_summary">ローカルの変更をすぐにバックエンドに書き込みます</string>
-  <string name="wifi_not_connected">デバイスが Wi-Fi に接続されていません。 同期は延期されます。</string>
-  <!--title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project-->
-  <string name="pref_translation_title">翻訳</string>
-  <!--Content description for accessibility on image that allows to collapse content-->
-  <string name="content_description_collapse">折りたたむ</string>
-  <!--Content description for accessibility on image that allows to expand content-->
-  <string name="content_description_expand">展開</string>
-  <!--Short label for the amount input where user can set either saving goal or credit limit-->
-  <string name="goal_or_limit">目標 / 限度</string>
-  <string name="saving_goal">貯蓄目標</string>
-  <string name="credit_limit">クレジット限度</string>
-  <string name="clear_all_filters">すべてのフィルターをクリア</string>
-  <string name="pref_scroll_to_current_date_summary">アプリの起動時に、取引リストを現在の日付にスクロールします</string>
-  <string name="professional_key_fallback_info">少なくとも 1 年間アクティブで、更新されていないプロフェッショナルキーのサブスクリプションは、自動的に無制限の延長キーに変換されます。</string>
-  <string name="menu_budget">予算作成</string>
-  <string name="dialog_title_edit_budget">予算を編集</string>
-  <string name="budget_table_header_budgeted">予算計画済</string>
-  <string name="budget_table_header_allocated">割り当て済</string>
-  <string name="budget_table_header_spent">消費</string>
-  <string name="budget_table_header_remainder">リマインダー</string>
-  <string name="budget_allocated_amount">割り当て済金額</string>
-  <string name="budget_exceeded_error_1_1">%s を除いたすべての予算は、他の分類に割り当てられています。</string>
-  <string name="budget_exceeded_error_1_2">すべての予算は、他の分類に割り当てられています。</string>
-  <string name="budget_exceeded_error_2">予算金額を増やすか、他の分類から費用を取り除いてください。</string>
-  <string name="budget_under_allocated_error">%s は既に分類に割り当てられています。 そこから費用を取り除かない限り、少なくともその金額の予算を立てる必要があります。</string>
-  <string name="sub_budget_exceeded_error_1_1">主分類に割り当てられた金額のうち %s を除くすべては、他の副分類に割り当てられています。</string>
-  <string name="sub_budget_exceeded_error_1_2">主分類に割り当てられた金額はすべて、他の副分類に割り当てられています。</string>
-  <string name="sub_budget_exceeded_error_2">主分類に割り当てられた金額を増やすか、他の副分類から金額を取り除いてください。</string>
-  <string name="sub_budget_under_allocated_error">%s は既に副分類に割り当てられています。 そこから費用を取り除かない限り、少なくともその金額を主分類に割り当てる必要があります。</string>
-  <!--Description for button that allows to clear the selected method-->
-  <string name="content_description_clear_method">方法をクリア</string>
-  <!--Description for button that allows to clear the selected category-->
-  <string name="content_description_clear_category">分類をクリア</string>
-  <string name="currency_code">コード</string>
-  <string name="dialog_title_new_currency">新しい通貨</string>
-  <string name="currency_code_already_definded">通貨コードはすでに定義されています。</string>
-  <string name="currency_still_used">通貨は使用されています。削除できません。</string>
-  <string name="unmapped">未配置</string>
-  <!--In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
+    <string name="account">勘定</string>
+    <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
+    <string name="account_types">勘定種類</string>
+    <string name="account_type_asset">資産勘定</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_asset_plural">資産勘定</string>
+    <string name="account_type_bank">銀行口座</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_bank_plural">銀行口座</string>
+    <string name="account_type_cash">現金勘定</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_cash_plural">現金勘定</string>
+    <string name="account_type_ccard">クレジットカード</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_ccard_plural">クレジットカード</string>
+    <string name="account_type_liability">負債勘定</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_liability_plural">負債勘定</string>
+    <string name="already_defined">%1$s は既に定義されています</string>
+    <string name="amount">金額</string>
+    <string name="app_name">マイ エクスペンス</string>
+    <string name="backup_failure">\"%1$s\" へのバックアップに失敗しました。</string>
+    <string name="backup_success">データベースとプリファレンスを \"%1$s\" に書き込みました。</string>
+    <string name="category">分類</string>
+    <string name="color">色</string>
+    <string name="comment">メモ</string>
+    <string name="confirmation_dialog_dont_show_again">今後表示しない</string>
+    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">広告なし</string>
+    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">無制限の勘定数</string>
+    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">取引に画像を添付</string>
+    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">円グラフ (分類ごとの分布)</string>
+    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">無制限の計画数</string>
+    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">取引リストを PDF にエクスポート</string>
+    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">テンプレート ウィジェット</string>
+    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV インポート</string>
+    <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">無制限の分割テンプレート</string>
+    <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources">2 営業日以内の <b>メールサポート</b> 対応を保証</string>
+    <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources"><b>開発ロードマップ</b> の投票権</string>
+    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">履歴チャート (キャッシュフロー)</string>
+    <string name="licence_status_free">無料</string>
+    <string name="contrib_key">貢献キー</string>
+    <string name="extended_key">拡張キー</string>
+    <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
+    <string name="contrib_key_requires">%s が必要です。</string>
+    <string name="currency">通貨</string>
+    <string name="current_balance">現在の残高</string>
+    <string name="date">日付</string>
+    <string name="date_format">日付書式</string>
+    <string name="date_format_illegal">日付の書式が正しくありません</string>
+    <string name="number_format_illegal">数値の書式が正しくありません</string>
+    <string name="decimal_separator">小数点の記号</string>
+    <string name="default_account_name">予算簿</string>
+    <string name="description">説明</string>
+    <string name="dialog_balance_delete">照合した取引を削除</string>
+    <string name="dialog_confirm_discard_changes">変更を破棄しますか?</string>
+    <string name="dialog_confirm_discard_new_transaction">新しい取引を破棄しますか?</string>
+    <string name="dialog_confirm_discard_new_template">新しいテンプレートを破棄しますか?</string>
+    <string name="dialog_confirm_discard_new_account">新しい勘定を破棄しますか?</string>
+    <string name="dialog_confirm_discard_new_method">新しい支払方法を破棄しますか?</string>
+    <string name="dialog_command_disabled_balance">照合すべき消込された取引はありません。</string>
+    <string name="dialog_command_disabled_insert_transfer">取引の振替には、2番目の勘定が必要です。</string>
+    <string name="dialog_command_disabled_reset_account">エクスポートする取引がありません。</string>
+    <string name="dialog_command_disabled_distribution">この勘定の分類に配置する取引はありません。</string>
+    <!-- Button for accessing trial of premium feature -->
+    <string name="dialog_contrib_no">試してみる</string>
+    <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
+    <string name="dialog_contrib_premium_feature">%1$s はプレミアム機能です (%2$s)。</string>
+    <string name="dialog_contrib_reminder_remove_limitation"><i>{app_name}</i> をアップグレードすると、この制限を取り除き、より多くの機能にアクセスすることができます</string>
+    <string name="dialog_contrib_text_2"><i>{app_name}</i> をアップグレードすることで貢献して、次の機能に無制限にアクセスしてください:</string>
+    <string name="dialog_contrib_usage_count">無料の使用が残っています</string>
+    <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">現在のライセンスステータス (%2$s) で %1$d 回まで使用できます。</string>
+    <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">現在のライセンスステータス (%2$s) で %1$d 日間使用できます。</string>
+    <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">現在のライセンスステータス (%2$s) で %1$d アカウント作成できます。</string>
+    <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">現在のライセンスステータス (%2$s) で %1$d 計画作成できます。</string>
+    <string name="dialog_contrib_usage_limit_split_templates">現在のライセンス状況 (%1$s) 分割テンプレートを 1 つ作成することができます。</string>
+    <string name="dialog_export_delete">エクスポートした取引を削除</string>
+    <string name="dialog_export_not_yet_exported">まだエクスポートしていない取引のみエクスポート</string>
+    <string name="dialog_password_activate_protection">パスワード保護を有効にする</string>
+    <string name="dialog_password_change_password">パスワードを変更</string>
+    <string name="dialog_password_new_password">新しいパスワード</string>
+    <string name="dialog_password_new_password_confirmation">新しいパスワード (確認)</string>
+    <string name="dialog_remind_later">後で</string>
+    <string name="dialog_remind_no">いいえ結構です</string>
+    <string name="dialog_remind_rate_how_many_stars">{app_name} にいくつ星をつけますか?</string>
+    <string name="dialog_remind_rate_1">{app_name} の評価とレビューに少しお時間をいただけませんか。</string>
+    <string name="dialog_remind_rate_2">あなたのご意見により、私たちは絶え間ない改善と機能拡張を行うことができます。</string>
+    <string name="dialog_remind_rate_1_suggest_improvement">私たちに改善の提案をメールするお時間を少しいただけませんか。</string>
+    <string name="dialog_remind_rate_yes">今すぐ評価</string>
+    <string name="dialog_security_answer">回答</string>
+    <string name="dialog_security_question">質問</string>
+    <string name="dialog_title_attention">注意</string>
+    <string name="dialog_title_information">情報</string>
+    <!-- %1$s is replace with account label -->
+    <string name="dialog_title_balance_account">%1$s 決算</string>
+    <string name="dialog_title_contrib_feature">プレミアム機能</string>
+    <plurals name="dialog_title_warning_delete_account">
+        <item quantity="other">%1$d 勘定を削除しますか?</item>
+    </plurals>
+    <string name="dialog_title_warning_delete_category">分類を削除しますか?</string>
+    <string name="dialog_title_warning_delete_template">テンプレートを削除しますか?</string>
+    <string name="dialog_title_warning_delete_transaction">取引を削除しますか?</string>
+    <string name="expense">支出</string>
+    <string name="export_expenses">支出エクスポート</string>
+    <!-- 1$s is replaced with path to file, 2$s with error message -->
+    <string name="export_sdcard_failure">ファイル \"%1$s\" へのエクスポートに失敗しました: %2$s</string>
+    <!-- 1$s is replaced with path to file -->
+    <string name="export_sdcard_success">ファイル \"%1$s\" にデータを正常にエクスポートしました</string>
+    <string name="external_storage_unavailable">外部ストレージ (SDカード) が利用可能ではありません</string>
+    <string name="feedback">フィードバック</string>
+    <string name="ftp_uri_malformed">不正な形式の URI %1$s</string>
+    <string name="grisbi_import_categories_loading">%1$s から分類をロード中</string>
+    <string name="grisbi_import_parties_loading">%1$s から取引先をロード中</string>
+    <string name="grouping_day">日</string>
+    <string name="grouping_last_week">先週</string>
+    <string name="grouping_month">月</string>
+    <string name="grouping_none">グループ化しない</string>
+    <string name="grouping_this_week">今週</string>
+    <string name="grouping_today">今日</string>
+    <string name="grouping_week">週</string>
+    <string name="grouping_year">年</string>
+    <string name="grouping_yesterday">昨日</string>
+    <string name="help_button_rate">評価またはレビュー</string>
+    <string name="help_heading_credits">クレジット</string>
+    <string name="help_heading_license">ライセンス</string>
+    <string name="help_heading_whats_new">新着情報</string>
+    <string name="important_upgrade_information_heading">重要な情報</string>
+    <string name="import_select_transactions">取引</string>
+    <string name="income">収入</string>
+    <string name="invalid_number_format">小数点の書式があなたのロケールでは認識できません。%1$s を使用してください。</string>
+    <string name="label">ラベル</string>
+    <string name="licence_validation_failure">ライセンスキーを検証できません。</string>
+    <string name="licence_validation_success">ライセンスキーが正常に検証されました:</string>
+    <string name="licence_validation_premium">プレミアムの機能はロック解除されています。</string>
+    <string name="menu_aggregates">合計</string>
+    <!-- Shown in a notification; allows to apply a template (instantiate a new transaction from it) -->
+    <string name="menu_apply_template">適用</string>
+    <string name="menu_back">戻る</string>
+    <string name="menu_backup">バックアップ</string>
+    <!-- Balance: compare cleared balance in app with balance on statement received from bank -->
+    <string name="menu_balance">口座決算</string>
+    <!-- Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction -->
+    <string name="menu_cancel_plan_instance">キャンセル</string>
+    <string name="menu_clone_transaction">複製</string>
+    <string name="menu_contrib">貢献</string>
+    <string name="menu_create_account">新しい勘定</string>
+    <string name="menu_create_instance_edit">適用および編集</string>
+    <string name="menu_create_instance_save">適用および保存</string>
+    <string name="menu_create_main_cat">新しい主分類</string>
+    <string name="menu_create_method">新しい支払方法</string>
+    <string name="menu_create_party">新しい取引先</string>
+    <string name="menu_create_split">新しい分割</string>
+    <string name="menu_create_split_part_category">新しい分類分割パート</string>
+    <string name="menu_create_split_part_transfer">新しい振替分割パート</string>
+    <string name="menu_create_sub_cat">新しい副分類</string>
+    <string name="menu_create_template">新しいテンプレート</string>
+    <string name="menu_create_template_from_transaction">テンプレートとして保存</string>
+    <string name="menu_create_template_for_transaction">新しい取引テンプレート</string>
+    <string name="menu_create_template_for_transfer">新しい振替テンプレート</string>
+    <string name="menu_create_transaction">新しい取引</string>
+    <string name="menu_create_transfer">新しい振替</string>
+    <string name="menu_delete">削除</string>
+    <string name="menu_distribution">分布</string>
+    <string name="menu_edit">編集</string>
+    <string name="menu_edit_account">勘定を編集</string>
+    <string name="menu_edit_cat">分類を編集</string>
+    <string name="menu_edit_method">支払方法を編集</string>
+    <string name="menu_edit_party">取引先を編集</string>
+    <string name="menu_edit_plan_instance">単一計画発生を編集</string>
+    <string name="menu_edit_split">分割を編集</string>
+    <string name="menu_edit_split_part_category">分類分割パートを編集</string>
+    <string name="menu_edit_split_part_transfer">振替分割パートを編集</string>
+    <string name="menu_edit_template">テンプレートを編集</string>
+    <string name="menu_edit_transaction">取引を編集</string>
+    <string name="menu_edit_transfer">振替を編集</string>
+    <string name="menu_exclude_from_totals">合計から除外</string>
+    <string name="menu_forward">前へ</string>
+    <string name="menu_grouping">グループ化</string>
+    <string name="menu_help">ヘルプ</string>
+    <!-- This command inverts the direction of a transfer -->
+    <string name="menu_invert_transfer">反転</string>
+    <string name="menu_manage_plans">テンプレートと計画</string>
+    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
+    <string name="menu_open">開く</string>
+    <string name="menu_import">インポート</string>
+    <string name="menu_print">印刷</string>
+    <string name="menu_reset">エクスポートおよびリセット</string>
+    <string name="menu_reset_all">エクスポートおよびすべてリセット</string>
+    <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
+    <string name="menu_reset_plan_instance">リセット</string>
+    <string name="menu_save">保存</string>
+    <string name="menu_save_and_new">保存および新規</string>
+    <string name="menu_search">検索</string>
+    <string name="menu_settings">設定</string>
+    <string name="menu_share">友達に教える</string>
+    <string name="button_label_share_file">共有</string>
+    <string name="button_label_close">閉じる</string>
+    <string name="menu_split_transaction">変換して分割</string>
+    <string name="method">支払方法</string>
+    <string name="no_amount_given">金額が入力されていません。</string>
+    <string name="no_app_handling_email_available">利用可能なメール アプリがありません。</string>
+    <string name="no_app_handling_ftp_available">利用可能な ftp アプリがありません。<i>Send With FTP</i> をインストールしますか?</string>
+    <string name="no_app_handling_pdf_available">PDF を利用可能なアプリがありません。</string>
+    <string name="no_categories">分類がありません。</string>
+    <string name="no_expenses">まだ支出がありません!</string>
+    <string name="no_exportable_expenses">まだエクスポートしていない取引はありません。</string>
+    <string name="no_filemanager_installed">ファイルマネージャーがインストールされていません</string>
+    <string name="no_calendar_app_installed">カレンダーのイベントを編集するアプリが見つかりません。</string>
+    <string name="no_mapped_transactions">この期間に、分類に配置する取引はありません。</string>
+    <string name="no_methods">支払方法がありません。</string>
+    <string name="no_parties">取引先がありません。</string>
+    <string name="no_split_parts">分割パートがありません。</string>
+    <string name="no_templates">テンプレートがありません。</string>
+    <string name="no_accounts">勘定がありません。</string>
+    <string name="no_title_given">タイトル/科目が入力されていません。</string>
+    <plurals name="not_deletable_mapped_transactions">
+        <item quantity="other">%1$d オブジェクトが取引に配置されています。削除できません。</item>
+    </plurals>
+    <plurals name="not_deletable_mapped_templates">
+        <item quantity="other">%1$d オブジェクトがテンプレートに配置されています。削除できません。</item>
+    </plurals>
+    <string name="numbered">付番されました</string>
+    <string name="opening_balance">期首残高</string>
+    <string name="parse_error_file_not_found">ファイル %1$s が見つかりません</string>
+    <string name="parse_error_grisbi_version_not_supported">サポートされない Grisbi ファイル バージョン: %1$s</string>
+    <string name="parse_error_no_data_found">ファイルにインポート可能なデータが見つかりません。</string>
+    <string name="parse_error_other_exception">エラーが発生しました: %1$s</string>
+    <string name="parse_error_parse_exception">ファイルを解析できません</string>
+    <string name="password_disabled_reenable">パスワード保護が無効になっています。設定で再度有効にすることができます。</string>
+    <string name="password_lost">パスワードを忘れた</string>
+    <string name="password_not_valid">パスワードが正しくありません。もう一度試してください!</string>
+    <string name="password_prompt">パスワードを入力してください</string>
+    <string name="password_security_answer_not_valid">回答が間違っています。もう一度試してください!</string>
+    <string name="payee">受取人</string>
+    <string name="payer">支払人</string>
+    <string name="payer_or_payee">受取人/支払人</string>
+    <!-- Plan for future and recurring transactions -->
+    <string name="plan">計画</string>
+    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
+    <string name="plan_automatic">自動</string>
+    <!-- this is the label for the calendar where plans for future and recurrent transactions are stored -->
+    <string name="plan_calendar_name">{app_name} プランナー</string>
+    <string name="planner_notification_channel_name">プランナー</string>
+    <string name="plan_event_deleted">このテンプレートに関連付けられた計画は予定表から削除されました。</string>
+    <!-- This message is shown, after a user decides to not apply a manual plan -->
+    <string name="plan_execution_canceled">計画の実行がキャンセルされました</string>
+    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
+    <string name="plan_manual">手動</string>
+    <string name="planner_create_calendar_failure">ローカル プランナー カレンダーを作成できません</string>
+    <string name="planner_create_calendar_success">ローカル プランナー カレンダーが正常に作成されました</string>
+    <!-- payment methods -->
+    <string name="pm_cheque">小切手/手形</string>
+    <string name="pm_creditcard">クレジットカード</string>
+    <string name="pm_deposit">預金</string>
+    <string name="pm_directdebit">自動引落</string>
+    <string name="pm_type_credit">貸方</string>
+    <string name="pm_type_debit">借方</string>
+    <string name="pm_type_neutral">中性</string>
+    <string name="pref_app_dir_title">バックアップとエクスポート先のフォルダー</string>
+    <string name="pref_auto_fill_title">取引の自動入力</string>
+    <string name="pref_auto_fill_summary">同じ受取人/支払人の最終取引のデータを記入する</string>
+    <string name="pref_backup_summary">データベースとプリファレンスのバックアップを作成します。</string>
+    <string name="pref_sort_order_usages">使用件数</string>
+    <string name="pref_category_title_advanced">高度な設定</string>
+    <string name="pref_category_title_export">エクスポート</string>
+    <string name="pref_category_title_import">インポート</string>
+    <string name="pref_category_title_manage">管理</string>
+    <string name="pref_category_title_more_information">詳細な情報</string>
+    <string name="pref_category_title_security">セキュリティ</string>
+    <string name="pref_category_title_ui">ユーザーインターフェイス</string>
+    <string name="pref_checkbox_enabled">有効</string>
+    <string name="pref_checkbox_disabled">無効</string>
+    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
+    <string name="pref_contrib_purchase_summary">プレミアムと拡張機能への購入アクセス。</string>
+    <string name="pref_contrib_purchase_title">購入キー</string>
+    <string name="pref_contrib_purchase_title_upgrade">キーをアップグレード</string>
+    <string name="pref_contrib_purchase_title_in_app">アプリ内課金</string>
+    <string name="pref_custom_currency_title">通貨をカスタマイズ</string>
+    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
+    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">キーを受け取った場合、プレミアム機能へアクセスすることができます。</string>
+    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">キーを入力</string>
+    <string name="pref_export_format_title">データ形式</string>
+    <string name="pref_import_from_grisbi_summary">Grisbi XML ファイルから分類と取引先をインポートします</string>
+    <string name="pref_import_from_grisbi_title">Grisbi からインポート</string>
+    <!-- %s is replaced with QIF or CSV -->
+    <string name="pref_import_summary">%s ファイルから取引、分類、および取引先をインポートします</string>
+    <!-- %s is replaced with QIF or CSV -->
+    <string name="pref_import_title">%s インポート</string>
+    <string name="pref_like_facebook_title">Facebook でいいね</string>
+    <string name="pref_manage_accounts_title">勘定</string>
+    <string name="pref_manage_categories_summary">分類を追加/編集/削除します。</string>
+    <string name="pref_manage_categories_title">分類</string>
+    <string name="pref_manage_methods_summary">支払方法を作成/編集して、勘定の種類に関連付けます。</string>
+    <string name="pref_manage_methods_title">支払方法</string>
+    <string name="pref_manage_parties_summary">取引先 (受取人/支払人) を追加/編集/削除します。</string>
+    <string name="pref_manage_parties_title">取引先</string>
+    <string name="pref_manage_sync_backends_title">同期バックエンド</string>
+    <!-- %s will be replaced with list of backends -->
+    <string name="pref_manage_sync_backends_summary">アカウントを同期するためのバックエンドを追加します (%s)。</string>
+    <string name="pref_more_info_dialog_title">ライセンス &amp; クレジット</string>
+    <string name="pref_password_not_equal">パスワードが一致しません</string>
+    <string name="pref_perform_protection_title">保護</string>
+    <string name="pref_perform_share_title">エクスポートとバックアップを共有</string>
+    <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
+    <string name="pref_planning_calendar_create_local">新しいローカル プランニング カレンダーを作成</string>
+    <string name="pref_planning_calendar_summary">将来の計画および繰り返しの取引が保存されるカレンダーを選択します。</string>
+    <string name="pref_planning_calendar_title">プランニング カレンダー</string>
+    <string name="pref_protection_delay_seconds_summary">アプリをパスワードでロックするまでの、アイドル秒数。</string>
+    <string name="pref_protection_delay_seconds_title">保護までの遅延時間</string>
+    <string name="pref_protection_enable_data_entry_from_widget_title">ウィジェットやショートカットからのデータエントリー</string>
+    <string name="pref_protection_enable_data_entry_from_widget_summary_on">パスワードなしを許可。</string>
+    <string name="pref_protection_enable_data_entry_from_widget_summary_off">パスワードが必要。</string>
+    <string name="pref_qif_export_file_encoding_title">ｷｬﾗｸﾀｰ ｴﾝｺｰﾃﾞｨﾝｸﾞ</string>
+    <string name="pref_request_licence_title">キーをリクエスト</string>
+    <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
+    <string name="pref_restore_alternative">代替</string>
+    <string name="pref_restore_alternative_summary">デバイスにファイルマネージャーがインストールされていない、この代替の方法を使用します。</string>
+    <string name="pref_restore_summary">データベースとプリファレンスを復元するためのバックアップを選択してください。</string>
+    <string name="pref_restore_title">復元</string>
+    <string name="pref_security_question_summary">パスワードを忘れた場合に、アプリのロックを解除することができます。</string>
+    <string name="pref_security_question_title">セキュリティの質問</string>
+    <string name="pref_send_feedback_title">フィードバックを送る</string>
+    <string name="pref_share_target_summary">あなたが適切なアプリ (メール、Dropbox、Google Docs …) を選択したい場合は空のままにしてください。あるいはサポートされているスキームのいずれかの URL を入力してください</string>
+    <string name="pref_share_target_title">アップロード URL</string>
+    <string name="pref_shortcut_added">ホーム画面にショートカットが追加されました</string>
+    <string name="pref_shortcut_not_added">ショートカットを受け付けることができるホーム画面がありません。</string>
+    <string name="pref_shortcut_summary">ホーム画面にショートカットを追加します</string>
+    <string name="pref_template_click_default_summary">テンプレートリストのエントリーをタップした時</string>
+    <string name="pref_ui_fontsize_title">フォントサイズの拡大</string>
+    <string name="pref_ui_home_screen_shortcuts">ホーム画面のショートカット</string>
+    <string name="pref_ui_language_default">システム デフォルト</string>
+    <!-- Title of the preference for selecting the UI language -->
+    <string name="pref_ui_language_title">言語</string>
+    <string name="pref_ui_theme_dark">ダーク</string>
+    <string name="pref_ui_theme_light">ライト</string>
+    <string name="pref_ui_theme_title">テーマ</string>
+    <string name="pref_visit_website_summary">変更履歴 および FAQ</string>
+    <string name="pref_visit_website_title">Webサイトを訪問</string>
+    <string name="progress_dialog_deleting">オブジェクトを削除中</string>
+    <string name="progress_dialog_loading">データベースからオブジェクトをロード中</string>
+    <string name="progress_dialog_printing">PDF を生成中</string>
+    <string name="progress_dialog_saving">データベースにオブジェクトを保存中</string>
+    <string name="qif_parse_result">解析しました: %1$s 勘定; %2$s 分類 および %3$s 取引先</string>
+    <string name="qif_parse_failure_found_multiple_accounts">QIF ファイルに複数の勘定が見つかりました。</string>
+    <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">既存の勘定にそれをマージすることはできません。</string>
+    <string name="reference_number">参照番号</string>
+    <string name="restore_db_failure">データベースの復元に失敗しました。</string>
+    <string name="restore_db_success">バックアップからデータベースが復元されました。</string>
+    <string name="restore_no_backup_found">バックアップが見つかりません。</string>
+    <string name="restore_preferences_failure">プリファレンスの復元に失敗しました。</string>
+    <string name="restore_backup_archive_not_valid">アーカイブ %1$s が正しくありません</string>
+    <string name="restore_backup_file_not_found">アーカイブ \"%2$s\" に、ファイル %1$s が見つかりません</string>
+    <string name="restore_preferences_success">バックアップからプリファレンスが復元されました。</string>
+    <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d の計画がバックアップから復元されました</string>
+    <string name="save_transaction_and_new_success">正常に保存されました。</string>
+    <string name="save_transaction_error">テンプレートから新しい取引を保存することができません。</string>
+    <plurals name="save_transaction_from_template_success">
+        <item quantity="other">テンプレートから、%1$d の新しい取引が正常に保存されました。</item>
+    </plurals>
+    <string name="save_transaction_template_deleted">テンプレートが削除されました。</string>
+    <string name="select">選択</string>
+    <string name="select_category">分類の選択</string>
+    <string name="select_payee">受取人/支払人の選択</string>
+    <string name="share_scheme_not_supported">スキーム %1$s はサポートされていません</string>
+    <string name="share_sending">エクスポートファイルを送信</string>
+    <string name="split_parts_heading">分割パート</string>
+    <string name="split_transaction">取引を分割</string>
+    <string name="status">ステータス</string>
+    <string name="status_cleared">消込済</string>
+    <string name="status_reconciled">照合済</string>
+    <string name="status_uncreconciled">未照合</string>
+    <string name="status_void">無効</string>
+    <string name="subcategory">副分類</string>
+    <string name="sum_expenses">支出</string>
+    <string name="sum_income">収入</string>
+    <string name="sum_transfer">振替</string>
+    <!-- platform is replaced with Android or Blackberry -->
+    <string name="tell_a_friend_message">{app_name}: {platform}用のパーソナル ファイナンス マネージャーを確かめてください。ここから {website}</string>
+    <string name="thank_you">サポートありがとうございます!</string>
+    <string name="time">時間</string>
+    <string name="title">タイトル/科目</string>
+    <string name="total_cleared">消込済合計</string>
+    <string name="total_reconciled">照合済合計</string>
+    <string name="transaction">取引</string>
+    <string name="transfer">振替</string>
+    <string name="transfer_from_account">元</string>
+    <string name="transfer_to_account">先</string>
+    <!-- Type refers to the type of an account, eg. Cash account, bank account -->
+    <string name="type">種類</string>
+    <string name="unsplit_amount">未分割金額</string>
+    <string name="unsplit_amount_greater_than_zero">まだ分割されていない金額が残っています。</string>
+    <string name="warning_backup">データベースとプリファレンスが \"%1$s\" に保存されます。</string>
+    <string name="continue_confirmation">続けますか?</string>
+    <string name="warning_delete_account">勘定 \"%1$s\" はすべての取引と共に削除されます。</string>
+    <plurals name="warning_delete_main_category">
+        <item quantity="other">%1$d の選択された分類は副分類があります。これらも同様に削除されます。</item>
+    </plurals>
+    <string name="warning_delete_category_with_budget">選択した分類の少なくとも１つに予算の割り当てがあり、それらも同様に削除されます。</string>
+    <plurals name="warning_delete_template">
+        <item quantity="other">%1$d の選択されたテンプレートが削除されます。</item>
+    </plurals>
+    <plurals name="warning_delete_transaction">
+        <item quantity="other">%1$d の選択された取引が削除されます。</item>
+    </plurals>
+    <plurals name="move_category_success">
+        <item quantity="other">%d 分類の取引を移動しました。</item>
+    </plurals>
+    <plurals name="move_category_failure">
+        <item quantity="other">%d 分類の取引が移動できませんでした。対象に同じラベルがすでに存在します。</item>
+    </plurals>
+    <string name="warning_delete_reconciled">照合済の取引を削除すると、記録が銀行取引明細書と異なることになります。</string>
+    <string name="warning_balance_account">銀行取引明細書の期末残高と消込済合計を比較してください。続行すると、消込済取引は照合済としてマークされます。</string>
+    <string name="warning_password_protected">アプリはパスワード保護されています。</string>
+    <string name="warning_widget_disabled">アプリの設定で、このウィジェットを有効にする必要があります。</string>
+    <string name="warning_instantiate_template_from_widget_password_protected">アプリの設定で、パスワードなしにウィジェットからデータの入力を許可する場合のみ、このウィジェットからのテンプレートのクイックインスタンス化は機能します。</string>
+    <string name="warning_password_contrib">セキュリティの質問を設定すると、パスワードを忘れた場合に、アプリのロックを解除することができます。</string>
+    <string name="warning_reset_account">続行すると、この勘定のすべての取引がデータベースから削除され、復元することはできません。</string>
+    <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
+    <string name="warning_reset_account_all">続行すると、すべての勘定 %1$s 、取引はデータベースから削除され、復元することはできません。</string>
+    <string name="warning_reset_account_matched">続行すると、現在のフィルターに一致する取引はデータベースから削除され、復元することはできません。</string>
+    <string name="warning_restore">ファイル  \"%1$s\" から、データベースとプリファレンスが復元されます。現在のデータは削除されます。</string>
+    <string name="warning_app_folder_will_be_deleted_upon_uninstall">{app_name} をアンインストールした場合、バックアップとエクスポート用に現在選択されているフォルダは自動的に Android によって削除されます。 設定画面から別のフォルダを選択することで、これを防止することができます。</string>
+    <string name="warning_splitpartcategory_context">振替は分割の一部で、分割のコンテキストでのみ編集することができます。</string>
+    <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">%1$d から %2$d の間で数を設定してください。</string>
+    <string name="warning_change_fraction_digits_1">新しい小数桁の数に一致させるため、データベース内の金額を更新する必要があります。</string>
+    <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">金額が更新されていない場合は、変更後 %d を掛けたように表示されます。</string>
+    <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">金額が更新されていない場合は、変更後 %d で割ったように表示されます。</string>
+    <string name="warning_change_fraction_digits_3">アカウントが更新された場合は、端数部分に関する情報を失います。</string>
+    <string name="warning_change_fraction_digits_checkbox_label">データベースの金額を更新</string>
+    <string name="import_categories_success">%1$s 分類は正常にインポートされました</string>
+    <string name="import_parties_success">%1$s 取引先は正常にインポートされました</string>
+    <string name="import_accounts_success">%1$s 勘定は正常にインポートされました</string>
+    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d 取引は勘定 %2$s に正常にインポートされました</string>
+    <string name="import_accounts_none">インポートされた勘定はありません</string>
+    <string name="import_categories_none">インポートされた分類はありません</string>
+    <string name="import_parties_none">インポートされた取引先はありません</string>
+    <string name="import_transactions_none">勘定 %1$s にインポートされた取引はありません</string>
+    <string name="import_source_select_error">種類 %1$s のファイルを入力してください</string>
+    <string name="menu_categories_setup_default">デフォルトの分類をセットアップ</string>
+    <string name="menu_create_folder">新しいフォルダー</string>
+    <!-- This string is used for navigating up in the folder browser -->
+    <string name="menu_up">上へ</string>
+    <string name="create_new_folder_fail">フォルダーの作成に失敗しました</string>
+    <string name="widget_title_accounts">マイ勘定</string>
+    <string name="widget_title_templates">マイ テンプレート</string>
+    <string name="app_dir_not_accessible">現在、バックアップとエクスポート用に選択されているフォルダ (%1$s) にアクセスできません。別のフォルダを選択してください。</string>
+    <string name="app_dir_not_compatible_with_nougat">現在設定されているバックアップとエクスポートの URI (%1$s) は、Android Nougat ではサポートされていません。 もう一度フォルダーを選択してください。</string>
+    <string name="search_amount">金額の検索</string>
+    <string name="search_category">分類の</string>
+    <string name="search_comment">メモの検索</string>
+    <string name="search_date">日付の検索</string>
+    <string name="search_status">ステータスの検索</string>
+    <string name="search_payee">受取人/支払人の検索</string>
+    <string name="search_method">方法の検索</string>
+    <string name="search_tag">タグの検索</string>
+    <string name="and">かつ</string>
+    <string name="between_and">%1$s から %2$s の間</string>
+    <string name="before">%s 以降</string>
+    <string name="after">%s 以前</string>
+    <string name="comparison_operator_equal">等しい</string>
+    <string name="comparison_operator_greater_than">より大きい</string>
+    <string name="comparison_operator_lesser_than">より小さい</string>
+    <string name="comparison_operator_between">間</string>
+    <string name="comparison_operator_date_before">以前</string>
+    <string name="comparison_operator_date_after">以降</string>
+    <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">購入が失敗またはキャンセルされました。</string>
+    <string name="hint_auto_fill">同じ受取人/支払人の場合、前回の取引から自動的にデータを入力する必要がありますか? この動作はいつでも設定から変更できます。</string>
+    <string name="yes">はい</string>
+    <string name="no">いいえ</string>
+    <string name="hint_template_click">このリストのエントリで短くタップすると、テンプレートをインスタンス化して、それをすぐに保存したり、あるいは保存する前にその編集フォームの入力項目に入力することができます。長くタップして、いつでも両方のアクションにアクセスすることができます。設定でデフォルトを変更することができます。</string>
+    <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">通貨 %2$s の %1$d 勘定が更新されました。</string>
+    <string name="learn_more">さらに詳しく</string>
+    <string name="import_source_file">ファイル</string>
+    <string name="restore_calendar_handling">カレンダーデータの利用</string>
+    <string name="restore_calendar_handling_configured">現在設定されたカレンダーに計画を復元する</string>
+    <string name="restore_calendar_handling_backup">利用可能な場合、バックアップに設定されたカレンダーに計画を復元する</string>
+    <string name="restore_calendar_handling_ignore">計画を復元しない</string>
+    <string name="restore_not_possible_target_calendar_missing">バックアップアーカイブに設定されたカレンダー %s はローカルに存在しません。復元を中止しました。</string>
+    <string name="restore_not_possible_local_calendar_missing">現在のプランニング カレンダーが利用できません。</string>
+    <string name="menu_view_picture">写真を表示</string>
+    <string name="menu_delete_picture">写真を削除</string>
+    <string name="menu_change_picture">別の写真を添付</string>
+    <string name="menu_distribution_show_pie_char">パイチャートを表示</string>
+    <string name="menu_distribution_aggreate">支出と収入を集計</string>
+    <string name="pref_manage_stale_images_title">古くなった画像</string>
+    <string name="pref_manage_stale_images_summary">削除された取引から残っている写真を管理します</string>
+    <string name="image_deleted">写真が削除されました</string>
+    <string name="transaction_deleted">取引が削除されました</string>
+    <string name="dialog_export_applied_to_filter">現在のフィルターに一致する取引のみが考慮されます。</string>
+    <string name="export_handle_deleted_create_helper">ヘルパー取引を作成</string>
+    <string name="export_handle_deleted_update_balance">期首残高を更新</string>
+    <string name="file_name">ファイル名</string>
+    <string name="folder_name">フォルダー名</string>
+    <string name="mark_void_instead_of_delete">取引を削除しないでください。代わりに無効としてマークしてください。</string>
+    <string name="menu_undelete_transaction">削除の取消</string>
+    <string name="slash_forbidden_in_filename">/ の文字はファイル名に使用できません</string>
+    <string name="io_error_unable_to_create_file">ファイル %1$s を、フォルダー %2$s に作成できません</string>
+    <string name="menu_categories_export">QIF にエクスポート</string>
+    <string name="pref_csv_import_delimiter">デリミタ</string>
+    <string name="csv_import_preview">プレビュー</string>
+    <string name="menu_parse">解析</string>
+    <!-- Label for column where user can check rows to be discarded from import -->
+    <string name="cvs_import_discard">破棄</string>
+    <string name="csv_import_field_mapped_more_than_once">%s は複数に配置されます。</string>
+    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d レコードインポートできませんでした。</string>
+    <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d レコード破棄されました。</string>
+    <string name="csv_import_subcategory_requires_category">副分類を配置する場合は、分類も配置する必要があります。</string>
+    <string name="cvs_import_set_first_line_as_header">最初の行をヘッダー行として扱いますか?</string>
+    <string name="csv_import_delimiter_comma">カンマ</string>
+    <string name="csv_import_delimiter_semicolon">セミコロン</string>
+    <string name="csv_import_delimiter_tab">タブ</string>
+    <string name="csv_import_no_mapping_found_for_amount">金額を収入または支出のいずれかの列に配置してください。</string>
+    <string name="menu_show_transactions">取引を表示</string>
+    <string name="pref_custom_decimal_format_title">数値書式</string>
+    <string name="pref_custom_decimal_format_summary">ロケールのデフォルト形式で充足しない場合、ニーズに適合します。デフォルト形式を復元する場合は、空白のままにします。</string>
+    <string name="pref_auto_backup_title">自動バックアップを有効にする</string>
+    <string name="pref_auto_backup_summary">毎日指定した時間にデータベースをバックアップします (データが変更された場合のみ)。</string>
+    <string name="pref_auto_backup_time_title">自動バックアップ時間</string>
+    <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">%d 回正常に自動バックアップを行った後、自動バックアップは無効になります。</string>
+    <string name="calendar_permission_required"><i>{app_name}</i> は、将来の計画および繰り返しの取引を作成するために、自分のカレンダーにアクセスするアクセス許可が必要です。</string>
+    <string name="button_request_calendar_access" tools:ignore="UnusedResources">アクセスを許可</string>
+    <string name="switch_on_text">ON</string>
+    <string name="switch_off_text">OFF</string>
+    <string name="menu_move">移動</string>
+    <string name="dialog_title_select_target">対象を選択</string>
+    <string name="transform_subcategory_to_main">主分類に変換</string>
+    <string name="preferences_week_start_day_title">週の開始日</string>
+    <string name="preferences_month_start_date_title">月の開始日</string>
+    <!-- this is the title of the section in the preferences, where user can set start day for weekly and monthly groups -->
+    <string name="pref_grouping_periods">期間のグループ化</string>
+    <string name="exchange_rate">為替レート</string>
+    <string name="date_format_hour">時間</string>
+    <string name="date_format_minute">分</string>
+    <string name="copied_to_clipboard">クリップボードにコピーしました</string>
+    <string name="menu_sort">ソート順</string>
+    <string name="pref_sort_order_last_used">最後に使用した</string>
+    <string name="pref_sort_order_custom">カスタム</string>
+    <string name="content_description_calculator">電卓</string>
+    <!-- describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list. -->
+    <string name="plan_instance_state_open">未適用</string>
+    <!-- describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list. -->
+    <string name="plan_instance_state_cancelled">キャンセル</string>
+    <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
+    <string name="plan_instance_state_applied">適用済</string>
+    <string name="progress_dialog_updating_split_parts">分割パートを更新中</string>
+    <string name="warning_cannot_move_split_transaction">この分割取引は、この勘定を参照する振替パートがあるため、勘定 %1$s に移動できません。</string>
+    <string name="content_description_calculator_clear_button">すべてリセット</string>
+    <string name="content_description_calculator_delete_button">最後の数字を削除</string>
+    <string name="paypal_callback_info">取引は完了しました。ご購入の領収書をメールで送信しました。www.paypal.com にあなたのアカウントでログインして、この取引の詳細を表示することができます。</string>
+    <string name="search_transfer">振替の検索</string>
+    <!-- Sort plans (recurring transactions) by the next instance  -->
+    <string name="pref_sort_order_next_instance">次のインスタンス</string>
+    <string name="crash_dialog_title">{app_name} がクラッシュしました</string>
+    <string name="crash_dialog_text">予期しないエラーが発生しました。アプリケーションを強制的に停止します。私たちにエラーデータを送信して、この問題の解決を助けてください。あなたがする必要があるのは OK をクリックするだけです。</string>
+    <string name="crash_dialog_comment_prompt">以下に問題についてのコメントを追加できます:</string>
+    <string name="synchronization">同期</string>
+    <string name="synchronization_none">同期しない</string>
+    <string name="hint_url">URL</string>
+    <string name="description_webdav_url">WebDAV サーバー上の、このアカウントデータ用の特別なフォルダーの URL を入力してください。 {app_name}はこのフォルダの中にデータを保存し、それ以外には触れません。</string>
+    <string name="description_webdav_trust_certificate">このウェブサイトは Android で信頼されていない証明書を使用しています。</string>
+    <string name="hint_user_name">ユーザー名</string>
+    <string name="hint_password">パスワード</string>
+    <string name="label_trust_certificate">この証明書を信頼する</string>
+    <string name="no_sync_backends">同期バックエンドはありません</string>
+    <string name="menu_create_sync_backend">新しい同期バックエンド</string>
+    <string name="validate_error_not_empty">空にできません</string>
+    <string name="validate_error_webdav_invalid_certificate">証明書を信頼できませんでした。 無効のようです。</string>
+    <string name="validate_error_webdav_not_compliant">URL は WebDAV リソースを指していません。</string>
+    <string name="validate_error_webdav_404">URL がサーバーに存在しません</string>
+    <string name="url_not_valid">URL が無効です</string>
+    <string name="menu_sync_unlink">同期を停止</string>
+    <string name="menu_sync_link">同期を開始</string>
+    <string name="menu_sync_download">ダウンロードと同期</string>
+    <string name="menu_sync_now">今すぐ同期</string>
+    <string name="pref_sync_frequency_title">同期の周期</string>
+    <string name="pref_sync_frequency_summary">データを同期する頻度 (時間単位)</string>
+    <string name="dialog_confirm_sync_unlink">%s からこのアカウントのリンクを解除すると、同期ステータスが失われます。 後で再度リンクするには、完全な同期を再度実行する必要があります。</string>
+    <string name="dialog_sync_link">uuid %s のアカウントが、ローカルデータベースとリモートバックエンドの両方に存在します。 両方をリンクするときは、最初にローカルデータをリモートバックエンドにアップロードするか、リモートデータをローカルデータベースにダウンロードするかどうかを決定する必要があります。</string>
+    <string name="dialog_command_sync_link_remote">リモートからダウンロード</string>
+    <string name="dialog_command_sync_link_local">ローカルからアップロード</string>
+    <string name="dialog_synced_to_other">uuid %s のアカウントは、ローカルデータベースに既に存在し、別のリモートバックエンドにリンクされています。</string>
+    <string name="menu_remove">削除</string>
+    <string name="dialog_confirm_sync_remove_backend">リモートバックエンド %s は削除されます。 これはローカルまたはリモートに保存されたデータには影響しませんが、同期ステータスは失われます。</string>
+    <string name="dialog_confirm_sync_link_local">このアカウントのリモートデータは削除されます。 他のデバイスがリンクされていないことを確認してください。</string>
+    <string name="dialog_confirm_sync_link_remote">このアカウントのローカルデータは削除されます。</string>
+    <string name="warning_limited_trial">%1$s機能は %2$s までテストできます。</string>
+    <string name="warning_trial_limit_reached">%s機能をテストする試用期間が終了しました。</string>
+    <string name="warning_synchronization_folder_usage">このフォルダーは、さまざまなデバイス上の{app_name}のインストール間でデータを同期するために使用されます。 内容を手動で変更しないでください。</string>
+    <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">選択したフォルダーは、既存のバックエンドのアカウントに対応します。 このバックエンドを再利用するには、その親フォルダーを選択する必要があります。</string>
+    <string name="select_unsynced_accounts">選択した勘定はこのバックエンドに同期されます</string>
+    <string name="link_account_success" tools:ignore="PluralsCandidate">%d の勘定がこのバックエンドに同期するように設定されました。</string>
+    <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d の勘定がバックエンドと同期するように設定できませんでした。</string>
+    <string name="link_account_failure_2">同じuuidを持つ勘定が、リモートのバックエンドにすでに存在します。</string>
+    <string name="link_account_failure_3">競合は、エントリーのコンテキストメニューから手動で解決できます。</string>
+    <string name="progress_dialog_checking_sync_backend">バックエンドの確認中</string>
+    <string name="template">テンプレート</string>
+    <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">クラウド同期</string>
+    <string name="all_contrib_key_features">貢献キーのすべての機能</string>
+    <string name="all_extended_key_features">拡張キーのすべての機能</string>
+    <!-- button leading user to purchase flow for licence keys -->
+    <string name="upgrade_now">アップグレード</string>
+    <string name="pref_backup_cloud_title">同期バックエンドに保存</string>
+    <string name="pref_backup_cloud_summary">デバイスのローカルストレージに加えて、バックアップファイルをリモートバックエンドにコピーすることができます。</string>
+    <string name="auto_backup_cloud_create_backend">メイン設定画面から同期バックエンドを作成します。</string>
+    <string name="auto_backup_cloud_failure">バックアップファイル %1$s をバックエンド %2$s に保存しようとしているときにエラーが発生しました:</string>
+    <string name="auto_backup_cloud_success">バックアップファイル %1$s はバックエンド %2$s に保存されました。</string>
+    <string name="home_screen_shortcuts_nougate_info">ショートカットは、ホーム画面のアプリアイコンを長押しして追加することができます。</string>
+    <string name="currency_symbol">通貨記号</string>
+    <string name="number_of_fraction_digits">小数の桁数</string>
+    <string name="warning_auto_backup_deactivated">自動バックアップが無効になっています。 問題を解決した後に、設定から再度オンにすることができます (バックアップ用に別のフォルダを選択するなど)。</string>
+    <string name="pref_tracking_summary">改善の計画に役立つ使用パターンに関する匿名データを収集することができるようにします。</string>
+    <string name="pref_tracking_title">利用状況データの収集</string>
+    <string name="sync_database_error">同期中にデータベースエラーが発生しました。</string>
+    <string name="sync_io_error_cannot_connect">同期バックエンドに接続できません。</string>
+    <string name="sync_error_will_try_again_later">後で再試行します。</string>
+    <string name="sync_io_exception_reset_account_data">リモートアカウントをリセット中にエラーが発生しました。</string>
+    <string name="sync_success_reset_account_data">アカウント %s のリモートデータが削除されました。</string>
+    <string name="sync_io_exception_setup_remote_account">リモートアカウントを設定中にエラーが発生しました。</string>
+    <string name="sync_io_exception_syncing">変更をサーバーと同期中にエラーが発生しました。</string>
+    <string name="sync_io_exception_unlocking">リモートバックエンドからロックを削除中にエラーが発生しました。</string>
+    <string name="sync_io_exception_locking">リモートバックエンドがロックされているか、ロックできません。</string>
+    <string name="synchronization_start">アカウント %s の同期を開始します。</string>
+    <string name="synchronization_end_success">%1$d のリモート変更がローカルデータベースに書き込まれました。 %2$d のローカル変更がリモートバックエンドに書き込まれました。</string>
+    <string name="synchronization_end_success_none">同期する変更はありません。</string>
+    <string name="pref_webdav_timeout_title">WebDAVタイムアウト（秒）</string>
+    <string name="sync_state_restored">%d アカウントの同期状態が復元されました。</string>
+    <string name="sync_state_could_not_be_restored">%d のアカウントで同期状態を復元できませんでした。</string>
+    <string name="onboarding_ui_title">{app_name}はあなたのお好みに適応します</string>
+    <string name="onboarding_data_title">最初のアカウントを設定しましょう</string>
+    <string name="onboarding_get_started">始めましょう</string>
+    <string name="onboarding_more_options">他のオプション</string>
+    <string name="onboarding_restore_from_cloud">クラウド同期から復元</string>
+    <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
+    <string name="onboarding_restore_from_cloud_backup">バックアップ</string>
+    <string name="onboarding_restore_from_local">ローカルのバックアップファイルを復元</string>
+    <string name="dialog_button_add">追加</string>
+    <string name="template_create_error">テンプレートの保存中にエラーが発生しました</string>
+    <string name="contributed_by">貢献者 %s</string>
+    <string name="pref_sync_notification_summary">同期の進行状況を通知する</string>
+    <string name="pref_debug_logging_summary">システムログにデバッグ情報を書き込む</string>
+    <string name="plan_custom_recurrence_info">まずテンプレートを保存してください。 予定はその後カレンダーアプリで開かれ、カスタムの繰り返しを設定できます。</string>
+    <string name="storage_permission_required">選択したソースは、外部ストレージからの読み取りアクセス許可を付与した場合にのみ読み取りできます。</string>
+    <string name="picture">写真</string>
+    <string name="menu_create_template_for_split">新しい分割テンプレート</string>
+    <string name="progress_validating_licence">ライセンスの検証中</string>
+    <string name="licence_validation_error_expired">ライセンスの期限が切れました</string>
+    <string name="licence_validation_error_device_limit_exceeded">デバイスの限度に達しました。別のデバイスからライセンスを削除してください。</string>
+    <string name="error">エラー (%s)</string>
+    <string name="button_validate">検証</string>
+    <string name="licence_key">ライセンスキー</string>
+    <string name="licence_removal_information">このデバイスでもうプレミアム機能が必要ではない場合は、ライセンスキーを削除することができます。これにより別のデバイスでライセンスをアクティベーションすることができます。キーは %dデバイスまでアクティベートすることができます。</string>
+    <string name="progress_removing_licence">ライセンスの削除中</string>
+    <string name="licence_removal_success">このデバイスからライセンスキーを解除しました。</string>
+    <string name="professional_key">プロフェッショナルキー</string>
+    <string name="n_months">%d ヶ月</string>
+    <string name="eu_vat_info">表示されている EU 価格には、付加価値税は含まれていません。</string>
+    <string name="licence_migration_info">{app_name}は新しいライセンス検証メカニズムを実装しています。 新しいキーを要求してください。</string>
+    <string name="valid_until">%s まで</string>
+    <!-- %1$s date, %2$s price  -->
+    <string name="extend_until">%1$s から %2$s まで延長</string>
+    <string name="extended_upgrade_goodie_github">追加の %d ヶ月は延長ライセンスを所有するユーザーに１度付与されます</string>
+    <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">すでに延長ライセンスを所有するユーザーは、最初の年に標準価格 (%s) の 50%%お支払いください。</string>
+    <string name="extended_upgrade_goodie_subscription_amazon" tools:ignore="UnusedResources">既に延長ライセンスを所有しているユーザーは、年間契約の通常価格 (%2$s) から %1$d%% に減額されます。</string>
+    <string name="switch_to_yearly" tools:ignore="UnusedResources">年間サブスクリプションに切り替える</string>
+    <string name="switch_to_monthly" tools:ignore="UnusedResources">月間サブスクリプションに切り替える</string>
+    <string name="extend_validity">有効期限を延長する</string>
+    <string name="progress_dialog_fetching_data_from_sync_backend">リモートのバックエンドからデータを取得しています。これはしばらく時間がかかることがあります。</string>
+    <string name="donate_button_invoice">請求書</string>
+    <string name="menu_sort_direction">ソートの向き</string>
+    <string name="sort_direction_ascending">昇順</string>
+    <string name="sort_direction_descending">降順</string>
+    <string name="never">しない</string>
+    <string name="always">常に</string>
+    <string name="auto_fill_account_from_aggregate_only">集計勘定から開始された場合のみ。</string>
+    <string name="sync_auth_exception_login_again">認証に失敗しました。もう一度ログインしてください。</string>
+    <string name="sync_loading_accounts_from_backend">バックエンドから利用可能な口座をロード中。</string>
+    <plurals name="delete_success">
+        <item quantity="other">%d のオブジェクトが削除されました。</item>
+    </plurals>
+    <string name="feature_deprecated">廃止</string>
+    <string name="pref_protection_device_lock_screen_title">デバイスのロック画面</string>
+    <string name="pref_warning_only_one_protection">%1$s による保護を使用する前に、%2$s の保護をオフにする必要があります。</string>
+    <string name="warning_device_lock_screen_not_set_up_1">安全なデバイスロック画面は設定されていません。</string>
+    <string name="warning_device_lock_screen_not_set_up_2">\'設定 -&gt; セキュリティ -&gt; 画面ロック\' でロック画面を設定してください。</string>
+    <string name="snackbar_dismiss">消去</string>
+    <string name="menu_history_show_balance">残高を表示</string>
+    <string name="menu_history_transfers">振替を含む</string>
+    <string name="menu_history">履歴</string>
+    <!-- A label indicating the color for the sum of expenses -->
+    <string name="history_chart_out_label">支出</string>
+    <!-- A label indicating the color for the sum of income -->
+    <string name="history_chart_in_label">収入</string>
+    <string name="menu_history_totals">合計を表示</string>
+    <string name="pref_home_currency_title">自国通貨</string>
+    <string name="grand_total">総合計</string>
+    <string name="menu_original_amount">当初金額</string>
+    <string name="menu_equivalent_amount">相当金額</string>
+    <string name="home_currency_change_warning">自国通貨を変更すると、相当金額と為替レートが失われ、再度定義する必要があります。</string>
+    <string name="warning_split_transactions">選択した取引は、1つの分割取引にグループ化されます。 それらの日付情報は失われます。すなわち平均で置き換えられます。</string>
+    <string name="warning_ungroup_split_transactions">選択された分割取引はグループ解除されます。分割された部分は通常の取引になります。</string>
+    <!-- This is the label for the action that breaks up a split transaction into its parts. -->
+    <string name="menu_ungroup_split_transaction">分割のグループ化解除</string>
+    <plurals name="ungroup_split_transaction_success">
+        <item quantity="other">%1$d 分割取引がグループ化解除されました。</item>
+    </plurals>
+    <string name="ungroup_split_transaction_failure">分割取引のグループ化解除中、 %1$d / %2$d 失敗しました。</string>
+    <string name="split_transaction_one_success">取引が分割に変換されました。</string>
+    <string name="split_transaction_one_error">取引を変換して分割することができませんでした。</string>
+    <string name="split_transaction_group_success">%1$d 取引が1つの分割取引にグループ化されました。</string>
+    <string name="split_transaction_group_error">取引を分割にグループ化できませんでした。</string>
+    <string name="split_transaction_not_possible">同じ勘定科目、支払先、およびステータスを持つ取引だけが、1つの分割取引にグループ化できます。</string>
+    <string name="pref_transaction_time_summary">正確な取引時間を設定できるようにします。</string>
+    <string name="pref_value_date_summary">予約日に加えて実行日を設定することができます。 取引時間は表示されません。 この設定は現金口座には適用されません。</string>
+    <!-- the date on which the transaction took place, aka transaction date, as opposed to value date -->
+    <string name="booking_date">予約日</string>
+    <!-- the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date -->
+    <string name="value_date">実行日</string>
+    <string name="licence_expires_n_days">プロフェッショナルキーは %d 日で期限切れです。</string>
+    <string name="licence_expires_tomorrow">プロフェッショナルキーは明日期限切れです。</string>
+    <string name="licence_expires_today">プロフェッショナルキーは今日期限切れです。</string>
+    <string name="licence_expired_yesterday">プロフェッショナルキーは昨日期限が切れました。</string>
+    <string name="licence_has_expired_n_days">プロフェッショナルキーは %d 日前に期限が切れています。</string>
+    <string name="pref_category_title_privacy">プライバシー</string>
+    <string name="pref_ad_consent_title">パーソナライズされた広告</string>
+    <string name="ad_consent_non_personalized">パーソナライズされていない広告</string>
+    <string name="gdpr_consent_message">{app_name} のサポート、メンテナンス、開発を維持するために {ad_provider} と提携して広告を表示しています。 あなたの同意を求めます。 広告が表示されないようにするには、広告なしバージョンの料金をお支払いください。</string>
+    <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">はい、続行して広告を表示します</string>
+    <string name="gdpr_consent_button_no">広告なしバージョンを購入します</string>
+    <string name="sort_order">ソート順</string>
+    <string name="navigation_drawer_accounts_title">勘定の管理</string>
+    <string name="pref_sync_wifi_only_summary">Wi-Fi 接続時のみ同期</string>
+    <string name="pref_sync_changes_immediately_summary">ローカルの変更をすぐにバックエンドに書き込みます</string>
+    <string name="wifi_not_connected">デバイスが Wi-Fi に接続されていません。 同期は延期されます。</string>
+    <!-- title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project -->
+    <string name="pref_translation_title">翻訳</string>
+    <!-- Content description for accessibility on image that allows to collapse content  -->
+    <string name="content_description_collapse">折りたたむ</string>
+    <!-- Content description for accessibility on image that allows to expand content  -->
+    <string name="content_description_expand">展開</string>
+    <!-- Short label for the amount input where user can set either saving goal or credit limit -->
+    <string name="goal_or_limit">目標 / 限度</string>
+    <string name="saving_goal">貯蓄目標</string>
+    <string name="credit_limit">クレジット限度</string>
+    <string name="clear_all_filters">すべてのフィルターをクリア</string>
+    <string name="pref_scroll_to_current_date_summary">アプリの起動時に、取引リストを現在の日付にスクロールします</string>
+    <string name="professional_key_fallback_info">少なくとも 1 年間アクティブで、更新されていないプロフェッショナルキーのサブスクリプションは、自動的に無制限の延長キーに変換されます。</string>
+    <string name="menu_budget">予算作成</string>
+    <string name="dialog_title_edit_budget">予算を編集</string>
+    <string name="budget_table_header_budgeted">予算計画済</string>
+    <string name="budget_table_header_allocated">割り当て済</string>
+    <string name="budget_table_header_spent">消費</string>
+    <string name="budget_table_header_remainder">リマインダー</string>
+    <string name="budget_allocated_amount">割り当て済金額</string>
+    <string name="budget_exceeded_error_1_1">%s を除いたすべての予算は、他の分類に割り当てられています。</string>
+    <string name="budget_exceeded_error_1_2">すべての予算は、他の分類に割り当てられています。</string>
+    <string name="budget_exceeded_error_2">予算金額を増やすか、他の分類から費用を取り除いてください。</string>
+    <string name="budget_under_allocated_error">%s は既に分類に割り当てられています。 そこから費用を取り除かない限り、少なくともその金額の予算を立てる必要があります。</string>
+    <string name="sub_budget_exceeded_error_1_1">主分類に割り当てられた金額のうち %s を除くすべては、他の副分類に割り当てられています。</string>
+    <string name="sub_budget_exceeded_error_1_2">主分類に割り当てられた金額はすべて、他の副分類に割り当てられています。</string>
+    <string name="sub_budget_exceeded_error_2">主分類に割り当てられた金額を増やすか、他の副分類から金額を取り除いてください。</string>
+    <string name="sub_budget_under_allocated_error">%s は既に副分類に割り当てられています。 そこから費用を取り除かない限り、少なくともその金額を主分類に割り当てる必要があります。</string>
+    <!-- Description for button that allows to clear the selected method -->
+    <string name="content_description_clear_method">方法をクリア</string>
+    <!-- Description for button that allows to clear the selected category -->
+    <string name="content_description_clear_category">分類をクリア</string>
+    <string name="currency_code">コード</string>
+    <string name="dialog_title_new_currency">新しい通貨</string>
+    <string name="currency_code_already_definded">通貨コードはすでに定義されています。</string>
+    <string name="currency_still_used">通貨は使用されています。削除できません。</string>
+    <string name="unmapped">未配置</string>
+    <!-- In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
-    but we warn the user if he includes this special item in the selection.-->
-  <string name="unmapped_filter_only_single">\'未配置\' フィルターは複数選択に含めることはできません</string>
-  <string name="upgrade_information_cloud_sync_storage_format">バージョン2.9.8で、同期バックエンドにデータが格納される方法が変更されました。 新しいレコードを入力する前に、すべての同期されるデバイスでこのバージョンにアップグレードしてください。</string>
-  <string name="pref_security_export_passphrase_title">バックアップのパスフレーズ</string>
-  <string name="pref_security_export_passphrase_summary">このパスフレーズでバックアップが暗号化されます</string>
-  <string name="backup_is_encrypted">バックアップファイルが暗号化されます。復号化するには、パスフレーズを指定する必要があります。</string>
-  <string name="backup_wrong_password">バックアップファイルは違うパスフレーズで暗号化されているようです。</string>
-  <string name="passphrase_for_synchronization">このバックエンドで暗号化して同期したい場合は、パスフレーズを入力してください。</string>
-  <string name="sync_backend_is_encrypted">リモートバックエンドが暗号化されます。パスフレーズを指定する必要があります。</string>
-  <string name="sync_backend_wrong_passphrase">リモートバックエンドは違うパスフレーズで暗号化されているようです。</string>
-  <string name="sync_backend_is_not_encrypted">リモートバックエンドは暗号化されていません。</string>
-  <string name="warning_backup_protected">アーカイブは指定したパスフレーズで保護されます。</string>
-  <string name="dialog_title_backup_protected">バックアップ (暗号化)</string>
-  <string name="input_label_passphrase">パスフレーズ</string>
-  <string name="button_label_no_encryption">暗号化しない</string>
-  <!--this resource is used to join a series of alternatives between which user can choose, like "A or B or C"-->
-  <string name="joining_or">または</string>
-  <string name="pref_account_list_fast_scroll_summary">アカウントリストの高速スクロールを有効にします。 一部のデバイスでは正しく表示されない可能性があります</string>
-  <string name="menu_hide">非表示</string>
-  <!--Action of closing an account. A closed account does not allow any modifications on its data.-->
-  <string name="menu_close">閉じる</string>
-  <!--Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data.-->
-  <string name="menu_reopen">再度開く</string>
-  <!--Menu entry for opening a list of all hidden accounts.-->
-  <string name="menu_hidden_accounts">非表示の勘定</string>
-  <!--Action of showing an account again that had previously been hidden.-->
-  <string name="button_label_show">表示</string>
-  <!--Content description for icon that indicates that a synchronization backend is encrypted.-->
-  <string name="content_description_encrypted">暗号化</string>
-  <!--Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data.-->
-  <string name="content_description_closed">閉じています</string>
-  <string name="warning_synced_account_cannot_be_closed">同期バックエンドにリンクされている勘定は閉じられません</string>
-  <string name="translated_by">翻訳者</string>
-  <string name="warning_no_account">新しい取引を作成するには、少なくとも1つ勘定が表示可能で、開始されいている必要があります。</string>
-  <string name="content_description_dates_are_linked">予約日と約定日は一緒に更新されます</string>
-  <string name="content_description_dates_are_not_linked">予約日と約定日は一緒に更新されません</string>
-  <string name="icon">アイコン</string>
-  <string name="pref_debug_title">デバッグ</string>
-  <string name="roadmap_vote">ロードマップの投票</string>
-  <string name="warning_account_for_transaction_is_closed">選択された取引に編集できないものがあります:</string>
-  <string name="object_sealed">オブジェクトが閉じた勘定を参照しています。</string>
-  <string name="content_description_download_exchange_rate">為替レートをダウンロード</string>
-  <string name="exchange_rate_not_supported">設定された為替レートプロバイダーがレートを提供していません %1$s : %2$s。 設定で別のものを選択してみてください。</string>
-  <string name="pref_category_exchange_rates">為替レート</string>
-  <string name="pref_exchange_rate_provider_summary">為替レートをダウンロードするプロバイダーを選択</string>
-  <string name="pref_exchange_rate_provider_title">為替レートプロバイダー</string>
-  <string name="pref_openexchangerates_app_id_summary">OpenExchangeRatesで無料アカウントを登録して、アプリIDを入力してください</string>
-  <string name="pref_plan_executor_time_title">プランナー通知時間</string>
-  <string name="synchronization_select_folder_dialog_title">既存のフォルダーを選択するか新しく作成</string>
-  <!--This message is shwon when we highlight the income / expense toogle, to make user aware of this feature-->
-  <string name="discover_feature_expense_income_switch">この切り替えボタンを使用して収入を記録します。</string>
-  <string name="menu_create_budget">新しい予算</string>
-  <string name="budget_onetime">１回限り</string>
-  <string name="dialog_confirm_discard_new_budget">新しい予算を破棄しますか?</string>
-  <string name="budget_duration_from">開始</string>
-  <string name="budget_duration_to">終了</string>
-  <string name="no_budgets">+ ボタンをタップして最初の予算を定義します。</string>
-  <string name="budget_date_end_after_start">予算の終了日は、開始日より後にする必要があります。</string>
-  <string name="menu_budget_allocated_only">割り当てられた分類のみを表示</string>
-  <string name="budget_filter_all_categories">すべての分類</string>
-  <string name="budget_filter_all_parties">すべての取引先</string>
-  <string name="budget_filter_all_methods">すべての方法</string>
-  <string name="budget_filter_all_states">すべての状態</string>
-  <string name="budget_filter_all_tags">すべてのタグ</string>
-  <string name="budget_form_label_filter">フィルター</string>
-  <string name="dialog_title_warning_delete_budget">予算を削除しますか?</string>
-  <string name="warning_delete_budget">予算 \"%1$s\" が削除されます。</string>
-  <string name="menu_edit_budget">予算を編集</string>
-  <string name="onboarding_privacy_title">データはあななの手元にあります</string>
-  <string name="onboarding_privacy_intro">あなたの財務データはどこのサーバーにも送信されず、私たちも第三者も操作していません。</string>
-  <string name="app_restart_required">新しい設定を有効にするには、アプリの再起動が必要です。</string>
-  <!--Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list.-->
-  <string name="checkbox_is_default">デフォルト</string>
-  <!--Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method"-->
-  <string name="menu_remap">再配置</string>
-  <string name="dialog_title_confirm_remap">配置を変更しますか (%s) ?</string>
-  <string name="remap_category">選択したすべての取引が分類に配置されます %s.</string>
-  <string name="remap_payee">選択したすべての取引が支払元/支払先に配置されます %s.</string>
-  <string name="remap_method">選択したすべての取引が方法に配置されます %s.</string>
-  <string name="remap_account">選択したすべての取引が勘定に配置されます %s.</string>
-  <string name="remapping_result">選択した取引が再配置されました。</string>
-  <string name="clone_and_remap_result">選択した取引の複製が作成され、再配置されました。</string>
-  <!--If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
+    but we warn the user if he includes this special item in the selection.   -->
+    <string name="unmapped_filter_only_single">\'未配置\' フィルターは複数選択に含めることはできません</string>
+    <string name="upgrade_information_cloud_sync_storage_format">バージョン2.9.8で、同期バックエンドにデータが格納される方法が変更されました。 新しいレコードを入力する前に、すべての同期されるデバイスでこのバージョンにアップグレードしてください。</string>
+    <string name="pref_security_export_passphrase_title">バックアップのパスフレーズ</string>
+    <string name="pref_security_export_passphrase_summary">このパスフレーズでバックアップが暗号化されます</string>
+    <string name="backup_is_encrypted">バックアップファイルが暗号化されます。復号化するには、パスフレーズを指定する必要があります。</string>
+    <string name="backup_wrong_password">バックアップファイルは違うパスフレーズで暗号化されているようです。</string>
+    <string name="passphrase_for_synchronization">このバックエンドで暗号化して同期したい場合は、パスフレーズを入力してください。</string>
+    <string name="sync_backend_is_encrypted">リモートバックエンドが暗号化されます。パスフレーズを指定する必要があります。</string>
+    <string name="sync_backend_wrong_passphrase">リモートバックエンドは違うパスフレーズで暗号化されているようです。</string>
+    <string name="sync_backend_is_not_encrypted">リモートバックエンドは暗号化されていません。</string>
+    <string name="warning_backup_protected">アーカイブは指定したパスフレーズで保護されます。</string>
+    <string name="dialog_title_backup_protected">バックアップ (暗号化)</string>
+    <string name="input_label_passphrase">パスフレーズ</string>
+    <string name="button_label_no_encryption">暗号化しない</string>
+    <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->
+    <string name="joining_or">または</string>
+    <string name="pref_account_list_fast_scroll_summary">アカウントリストの高速スクロールを有効にします。 一部のデバイスでは正しく表示されない可能性があります</string>
+    <string name="menu_hide">非表示</string>
+    <!-- Action of closing an account. A closed account does not allow any modifications on its data. -->
+    <string name="menu_close">閉じる</string>
+    <!-- Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data. -->
+    <string name="menu_reopen">再度開く</string>
+    <!-- Menu entry for opening a list of all hidden accounts. -->
+    <string name="menu_hidden_accounts">非表示の勘定</string>
+    <!-- Action of showing an account again that had previously been hidden. -->
+    <string name="button_label_show">表示</string>
+    <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
+    <string name="content_description_encrypted">暗号化</string>
+    <!-- Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data. -->
+    <string name="content_description_closed">閉じています</string>
+    <string name="warning_synced_account_cannot_be_closed">同期バックエンドにリンクされている勘定は閉じられません</string>
+    <string name="translated_by">翻訳者</string>
+    <string name="warning_no_account">新しい取引を作成するには、少なくとも1つ勘定が表示可能で、開始されいている必要があります。</string>
+    <string name="content_description_dates_are_linked">予約日と約定日は一緒に更新されます</string>
+    <string name="content_description_dates_are_not_linked">予約日と約定日は一緒に更新されません</string>
+    <string name="icon">アイコン</string>
+    <string name="pref_debug_title">デバッグ</string>
+    <string name="roadmap_vote">ロードマップの投票</string>
+    <string name="warning_account_for_transaction_is_closed">選択された取引に編集できないものがあります:</string>
+    <string name="object_sealed">オブジェクトが閉じた勘定を参照しています。</string>
+    <string name="content_description_download_exchange_rate">為替レートをダウンロード</string>
+    <string name="exchange_rate_not_supported">設定された為替レートプロバイダーがレートを提供していません %1$s : %2$s。 設定で別のものを選択してみてください。</string>
+    <string name="pref_category_exchange_rates">為替レート</string>
+    <string name="pref_exchange_rate_provider_summary">為替レートをダウンロードするプロバイダーを選択</string>
+    <string name="pref_exchange_rate_provider_title">為替レートプロバイダー</string>
+    <string name="pref_openexchangerates_app_id_summary">OpenExchangeRatesで無料アカウントを登録して、アプリIDを入力してください</string>
+    <string name="pref_plan_executor_time_title">プランナー通知時間</string>
+    <string name="synchronization_select_folder_dialog_title">既存のフォルダーを選択するか新しく作成</string>
+    <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->
+    <string name="discover_feature_expense_income_switch">この切り替えボタンを使用して収入を記録します。</string>
+    <string name="menu_create_budget">新しい予算</string>
+    <string name="budget_onetime">１回限り</string>
+    <string name="dialog_confirm_discard_new_budget">新しい予算を破棄しますか?</string>
+    <string name="budget_duration_from">開始</string>
+    <string name="budget_duration_to">終了</string>
+    <string name="no_budgets">+ ボタンをタップして最初の予算を定義します。</string>
+    <string name="budget_date_end_after_start">予算の終了日は、開始日より後にする必要があります。</string>
+    <string name="menu_budget_allocated_only">割り当てられた分類のみを表示</string>
+    <string name="budget_filter_all_categories">すべての分類</string>
+    <string name="budget_filter_all_parties">すべての取引先</string>
+    <string name="budget_filter_all_methods">すべての方法</string>
+    <string name="budget_filter_all_states">すべての状態</string>
+    <string name="budget_filter_all_tags">すべてのタグ</string>
+    <string name="budget_form_label_filter">フィルター</string>
+    <string name="dialog_title_warning_delete_budget">予算を削除しますか?</string>
+    <string name="warning_delete_budget">予算 \"%1$s\" が削除されます。</string>
+    <string name="menu_edit_budget">予算を編集</string>
+    <string name="onboarding_privacy_title">データはあななの手元にあります</string>
+    <string name="onboarding_privacy_intro">あなたの財務データはどこのサーバーにも送信されず、私たちも第三者も操作していません。</string>
+    <string name="app_restart_required">新しい設定を有効にするには、アプリの再起動が必要です。</string>
+    <!-- Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list. -->
+    <string name="checkbox_is_default">デフォルト</string>
+    <!-- Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method" -->
+    <string name="menu_remap">再配置</string>
+    <string name="dialog_title_confirm_remap">配置を変更しますか (%s) ?</string>
+    <string name="remap_category">選択したすべての取引が分類に配置されます %s.</string>
+    <string name="remap_payee">選択したすべての取引が支払元/支払先に配置されます %s.</string>
+    <string name="remap_method">選択したすべての取引が方法に配置されます %s.</string>
+    <string name="remap_account">選択したすべての取引が勘定に配置されます %s.</string>
+    <string name="remapping_result">選択した取引が再配置されました。</string>
+    <string name="clone_and_remap_result">選択した取引の複製が作成され、再配置されました。</string>
+    <!-- If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
         because no payment method is configured for all of the given account types.-->
-  <string name="remap_empty_list">選択されたすべての取引に配置できる項目が見つかりませんでした。</string>
-  <!--The label for the button, where user confirms that he wants to clone the selected transactions and then remap them.-->
-  <string name="button_label_clone_and_remap">複製と再配置</string>
-  <!--The summary of a preference toggle. If switched on cloned transactions have the date set to the current date-->
-  <string name="pref_clone_with_current_date_summary_on">複製された取引は現在の日付になります</string>
-  <!--The summary of a preference toggle. If switched off cloned transactions keep the original date-->
-  <string name="pref_clone_with_current_date_summary_off">複製された取引は元の日付になります</string>
-  <string name="pref_protection_screenshot_information">デバイス保護を有効にすると、スクリーンショットのキャプチャが無効になります。</string>
-  <string name="tags_create_or_select">タグの作成または選択</string>
-  <string name="content_description_tags_confirm">確認</string>
-  <string name="tags">タグ</string>
-  <string name="pref_manage_tags_summary">タグの追加、編集、削除。</string>
-  <string name="dialog_title_warning_delete_tag">タグを削除しますか?</string>
-  <string name="menu_edit_tag">タグを編集</string>
-  <!--This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction-->
-  <string name="menu_tag">タグ</string>
-  <!--%s will be replaced with the labels of all tags that user has selected.-->
-  <string name="dialog_multi_tag">選択したすべての取引が %s にタグ付けされます。</string>
-  <string name="dialog_multi_tag_clear">選択されたすべての取引から、タグがすべて削除されました。</string>
-  <plurals name="warning_delete_tag">
-    <item quantity="other">タグ %1$s は %2$d 取引に配置されています。 削除してもよろしいですか?</item>
-  </plurals>
-  <string name="dialog_multi_tag_append">既存のタグに新しいタグを追加</string>
-  <string name="dialog_multi_tag_replace">既存のタグを新しいタグで置き換え</string>
-  <string name="new_tag_hint">新しいタグを入力</string>
-  <string name="language_download_requested">言語 %s の翻訳が Play ストアからリクエストされました</string>
-  <!--Title for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
-  <string name="pref_planner_manual_time_title">手動で適用する、予定された取引の時間</string>
-  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction-->
-  <string name="pref_planner_manual_time_noon">12 PM (正午)</string>
-  <!--Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application)-->
-  <string name="pref_planner_manual_time_current">アプリケーションの時間</string>
-  <!--Title in Settings screen, and title of dynamically loaded feature module-->
-  <!--If this mode is active, the action button will open the camera for scanning a receipt-->
-  <!--Button that triggers the scan operation-->
-  <!--Title for a preference that allows user to decide if all transactions of the current day should be considered as past (future begins at end of day), or if the exact current time divides between past and future-->
-  <!--Option for a preference that allows to decide that all transactions until end of day are considered past transactions-->
-  <!--Option for a preference that allows to decide that only transactions before current time are considered past transactions-->
-  <!--Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)-->
-  <string name="pref_category_title_features">特長</string>
-  <string name="button_download">ダウンロード</string>
-  <!--Toast message shown if user clicks on Upgrade button before having selected a licence-->
-</resources>
+    <string name="remap_empty_list">選択されたすべての取引に配置できる項目が見つかりませんでした。</string>
+    <!-- The label for the button, where user confirms that he wants to clone the selected transactions and then remap them. -->
+    <string name="button_label_clone_and_remap">複製と再配置</string>
+    <!-- The summary of a preference toggle. If switched on cloned transactions have the date set to the current date -->
+    <string name="pref_clone_with_current_date_summary_on">複製された取引は現在の日付になります</string>
+    <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
+    <string name="pref_clone_with_current_date_summary_off">複製された取引は元の日付になります</string>
+    <string name="pref_protection_screenshot_information">デバイス保護を有効にすると、スクリーンショットのキャプチャが無効になります。</string>
+    <string name="tags_create_or_select">タグの作成または選択</string>
+    <string name="content_description_tags_confirm">確認</string>
+    <string name="tags">タグ</string>
+    <string name="pref_manage_tags_summary">タグの追加、編集、削除。</string>
+    <string name="dialog_title_warning_delete_tag">タグを削除しますか?</string>
+    <string name="menu_edit_tag">タグを編集</string>
+    <!-- This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction -->
+    <string name="menu_tag">タグ</string>
+    <!-- %s will be replaced with the labels of all tags that user has selected. -->
+    <string name="dialog_multi_tag">選択したすべての取引が %s にタグ付けされます。</string>
+    <string name="dialog_multi_tag_clear">選択されたすべての取引から、タグがすべて削除されました。</string>
+    <plurals name="warning_delete_tag">
+        <item quantity="other">タグ %1$s は %2$d 取引に配置されています。 削除してもよろしいですか?</item>
+    </plurals>
+    <string name="dialog_multi_tag_append">既存のタグに新しいタグを追加</string>
+    <string name="dialog_multi_tag_replace">既存のタグを新しいタグで置き換え</string>
+    <string name="new_tag_hint">新しいタグを入力</string>
+    <string name="language_download_requested">言語 %s の翻訳が Play ストアからリクエストされました</string>
+    <!-- Title for a preference that allows to decide how the time will be set for a new instance of a recurring transaction -->
+    <string name="pref_planner_manual_time_title">手動で適用する、予定された取引の時間</string>
+    <!-- Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction -->
+    <string name="pref_planner_manual_time_noon">12 PM (正午)</string>
+    <!-- Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application) -->
+    <string name="pref_planner_manual_time_current">アプリケーションの時間</string>
+    <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
+    <string name="pref_category_title_features">特長</string>
+    <string name="button_download">ダウンロード</string>
+    </resources>

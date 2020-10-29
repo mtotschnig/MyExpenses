@@ -2,7 +2,7 @@
 host = https://www.transifex.com
 lang_map = ca_ES:ca,pt_BR:pt,zh_HK:zh-rTW,ms_MY:ms,pt_PT:pt-rPT,zh_CN:zh-rCN,he:iw,uk_UA:uk
 
-[my-expenses.strings]
+[my-expenses.stringsV2]
 source_lang = en
 source_file = myExpenses/src/main/res/values/strings.xml
 file_filter = myExpenses/src/main/res/values-<lang>/strings.xml
