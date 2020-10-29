@@ -509,6 +509,7 @@
     </string-array>
 
     <string-array name="versions">
+        <item>433;3.1.6</item>
         <item>432;3.1.5</item>
         <item>428;3.1.4</item>
         <item>421;3.1.3</item>
@@ -557,10 +558,12 @@
     <string name="version_more_info_313" tools:ignore="UnusedResources">2677572629170865</string>
     <string name="version_more_info_314" tools:ignore="UnusedResources">2716940141900780</string>
     <string name="version_more_info_315" tools:ignore="UnusedResources">2733962776865183</string>
+    <string name="version_more_info_316" tools:ignore="UnusedResources">2741460342782093</string>
 
     <!-- Github -->
     <string name="project_board_314">30#column-10686300</string>
     <string name="project_board_315">31#column-11152071</string>
+    <string name="project_board_316">32#column-11377778</string>
 
     <string-array name="comparison_operator_entries">
         <item>@string/comparison_operator_equal</item>

@@ -15,6 +15,10 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_316">
+        <item>Save button in transaction form is more salient.</item>
+        <item>Long press on the floating action button opens a menu that allows to prepare the form for transfer, split transaction or income.</item>
+    </string-array>
     <string name="whats_new_315_dark_theme_q">Dark theme linked to system default</string>
     <string-array name="whats_new_313">
         <item>Enhanced management of recurring transactions</item>
