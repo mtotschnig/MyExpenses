@@ -21,7 +21,7 @@
     <color name="colorErrorDialog">@color/design_default_color_error</color>
 
     <color name="primaryColor">#0050a7</color>
-    <color name="primaryLightColor">#527bd9</color>
+    <color name="primaryLightColor">#6085DC</color>
     <color name="primaryLightestColor">#96AFE8</color>
     <color name="primaryDarkColor">#002977</color>
     <color name="primaryTextColor">#ffffff</color>
