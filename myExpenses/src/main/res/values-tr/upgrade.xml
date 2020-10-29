@@ -15,6 +15,10 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_316">
+        <item>Muamele formundaki kaydet düğmesi daha dikkat görünür yapıldı.</item>
+        <item>Kayan eylem düğmesine uzun süre dokunmak, gelir, transfer veya bölünmüş muamele için form hazırlamaya izin veren bir menü açar.</item>
+    </string-array>
     <string name="whats_new_315_dark_theme_q">Koyu tema sistem varsayılanına bağlandı</string>
     <string-array name="whats_new_313">
         <item>Tekrar eden muamelelerin yönetimi geliştirildi</item>

@@ -945,4 +945,8 @@
     <string name="pref_feature_uninstall_languages_title">Lisanlar</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">Lütfen bir lisans paketi seçin.</string>
-    </resources>
+    <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
+    <string name="discover_feature_fab_long_press">Transferler, bölünmüş muameleler veya gelirler için formu doğrudan açmak için kayan eylem düğmesine dokunun ve basılı tutun.</string>
+    <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
+    <string name="advance_exexcution_in_days">Önceden uygulama (gün olarak)</string>
+</resources>

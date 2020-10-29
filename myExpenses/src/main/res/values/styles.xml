@@ -92,12 +92,8 @@
     </style>
 
     <style name="SmallButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="android:textAppearance">@style/SmallButtonTextAppearance</item>
         <item name="strokeColor">?colorPrimary</item>
-    </style>
-
-    <style name="SmallButtonTextAppearance" parent="@style/TextAppearance.MaterialComponents.Button">
-        <item name="android:textSize">@dimen/textSizeLabel</item>
+        <item name="strokeWidth">2sp</item>
     </style>
 
     <style name="SwitchTextAppearance" parent="@style/TextAppearance.AppCompat.Widget.Switch">

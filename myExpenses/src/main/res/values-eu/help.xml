@@ -126,8 +126,15 @@
   <string name="help_CsvImportActivity_info"><![CDATA[Inportatu nahi duzun fitxategia aukeratu eta gero, honen kodeketa zehaztu behar duzu (UTF-8 edo ISO-8859-1), eremuak banatzeko erabilitako karakterea (koma, puntu eta koma edo tabulazioa), eta daten formatua. Datuak aurretik dagoen kontu batetara inportatu daitezke edo kontu berri batetara, bigarren kasuan moneta eta kontu mota aukeratu ditzakezu.<br><br>Ekintza barrako prozesatu botoia sakatu eta gero datuak taula batean aurkeztuko zaizkizu. Inportazioa ekintza barrako botoiarekin abiatu aurretik albo batera utzi nahi dituzun lerroak aukeratu ditzakezu, eta zutabeak dagokien eremuekin lotu behar dituzu.<br><br>lehen lerroa alboratzen baduzu, goiburu gisa hartu nahi duzun galdetuko zaizu, kasu honetan <i>Nire Gastuak</i> zutabeak eremuekin automatikoki lotzen saiatuko da goiburuko gelaxken edukien arabera. Goiburuaren araberako loturak ere gogoratuko ditu goiburu formatu bera duen beste fitxategi bat inportatzean.]]></string>
   <string name="menu_create_account_help_text">Sortu kontu berri bat. Dohako bertsioa bost kontuetara mugatuta dago.</string>
   <string name="menu_NavigationDrawer_grouping_help_text">Kontuen zerrenda kontu mota edo monetaren arabera taldekatuta ala taldekatu gabe bistaratu daiteke.</string>
+  <string name="cab_NavigationDrawer_hide_help_text">Kendu kontua zerrendatik.</string>
   <!--SyncBackends-->
+  <string name="help_ManageSyncBackends_drive">Google Drive: hautatu edozein karpeta, zure jabetzako karpeta edo zurekin partekatutakoa.</string>
   <!--History-->
   <!--Budget-->
+  <string name="help_ManageBudgets_title">Aurrekontu guztien zerrenda</string>
+  <string name="help_BudgetEdit_title">Aurrekontuentzako formularioa</string>
+  <string name="help_BudgetEdit_info">Erabili formulario hau aurrekontu berri bat sortzeko edo dagoeneko existitzen den aurrekontu bat editatzeko.</string>
+  <string name="form_BudgetEdit_title_help_text">Aurrekontuaren izenburuak laguntzen du aurrekontuen zerrendan bilatzen.</string>
+  <string name="form_BudgetEdit_amount_help_text">Zenbat diru dago eskuragarri aurrekontu honen testuinguruan.</string>
   <!--Tags-->
 </resources>

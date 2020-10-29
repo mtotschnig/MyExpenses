@@ -55,7 +55,11 @@ public abstract class CommitSafeDialogFragment extends DialogFragment {
 
   public void report(IllegalStateException e) {
     @Nullable final FragmentActivity activity = getActivity();
-    Timber.w(activity == null ? "Activity is null" : "Activity is finishing?: %b", activity.isFinishing());
+    if (activity == null) {
+      Timber.w("Activity is null");
+    } else {
+      Timber.w("Activity is finishing?: %b", activity.isFinishing());
+    }
     CrashHandler.report(e);
   }
 
