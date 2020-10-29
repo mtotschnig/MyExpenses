@@ -15,6 +15,10 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_316">
+        <item>Le bouton Enregistrer dans le formulaire d\'opération est plus saillant.</item>
+        <item>Un appui long sur le bouton d\'action flottant ouvre un menu qui permet de préparer le formulaire pour un transfert, une transaction ventilée ou du revenu.</item>
+    </string-array>
     <string name="whats_new_315_dark_theme_q">Le style sombre est lié à la valeur par défaut du système</string>
     <string-array name="whats_new_313">
         <item>Gestion améliorée des opérations récurrentes</item>

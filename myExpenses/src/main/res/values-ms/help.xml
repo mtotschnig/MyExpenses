@@ -95,7 +95,6 @@
   <string name="form_plan_help_text_advanced">Selepas anda menyimpan templat, anda boleh konfigur lagi banyak jenis pengulangan lanjutan yang digunakan untuk apl kalendar anda.</string>
   <string name="form_plan_help_text_mode">Plan boleh ditetapkan menjadi automatik atau manual. Bila sesebuah tika plan automatik berlaku, transaksi akan dicipta, dan seterusnya anda akan menerima pemberitahuan. Apabila plan adalah manual, anda juga menerima pemberitahuan, yang memberikan pilihan untuk batalkan, ubahsuai atau laksanakan templat untuk anda.</string>
   <string name="menu_save_help_text">Simpan data dan tutup borang.</string>
-  <string name="menu_save_and_new_help_text">Simpan data, biarkan borang terbuka untuk mencipta transaksi baharu dengan data yang sama.</string>
   <string name="menu_original_amount_help_text">Tunjuk satu medan yang boleh takrifkan amaun tambahan. Sebagai contoh jika anda bayar dengan kad kredit dalam matawang asing, anda boleh ingat harga asal selain dari amaun yang didebitkan dari kad anda. Amaun asal diabaikan untuk mengira jumlah.</string>
   <string name="menu_equivalent_amount_help_text">Untuk mengira jumlah keseluruhan merentasi semua akaun, transaksi bagi akaun matawang asing, digandakan dengan kadar pertukaran yang anda tetapkan untuk akaun. Tetapi anda juga boleh batalkan amaun kiraan terhad ini, dengan menetapkan satu amaun setara untuk mana-mana transaksi individu.</string>
   <string name="menu_invert_transfer_help_text">Songsang arah pemindahan dengan menyilih akaun \"Daripada\' dan \'Kepada\'.</string>

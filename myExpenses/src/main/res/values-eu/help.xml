@@ -93,7 +93,6 @@
   <string name="form_plan_help_text_advanced">Txantiloia gorde ondoren, zure egutegi aplikazioa erabiliz errepikatze mota aurreratuagoak konfiguratu ditzakezu.</string>
   <string name="form_plan_help_text_mode">Plana automatikoa ala eskuzkoa gisa ezarri daiteke. Plan automatiko baten instantzia bat gertatzen denean, transakzioa sortuko da eta jakinarazpen bat jasoko duzu. Plana eskuzkoa bada, jakinarazpen bat jasoko duzu ere eta zure esku dago txantiloia bertan behera utzi, aldatu ala aplikatzea.</string>
   <string name="menu_save_help_text">Gorde datuak eta itxi formularioa.</string>
-  <string name="menu_save_and_new_help_text">Gorde datuak, laga formularioa irekita beste transakzio bat sortzeko datu berberekin.</string>
   <string name="menu_invert_transfer_help_text">Alderantzikatu transferentziaren norabidea \'Nondik\' eta \'Nora\' kontuak txandakatuz</string>
   <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">\'Nork\' et \'Nori\' kontuen monetak desberdinak badira, bietako bakarraren kopurua zehaztu. Bestea txantiloitik instantziak sortzen dituzunean kalkulatuko da.</string>
   <!--AccountEdit-->

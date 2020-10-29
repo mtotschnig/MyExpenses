@@ -36,7 +36,6 @@
   <string name="help_ExpenseEdit_splitPartCategory_title">نموذج لتقسيمات التصنيف</string>
   <string name="help_ExpenseEdit_splitPartTransfer_title">نموذج لتقسميات التحويل</string>
   <string name="menu_save_help_text">حفظ البيانات ثم إغلاق.</string>
-  <string name="menu_save_and_new_help_text">حفظ البيانات، مع ترك النموذج مفتوح لإنشاء عملية جديدة بنفس البيانات.</string>
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">نموذج للحسابات</string>
   <!--MethodEdit-->

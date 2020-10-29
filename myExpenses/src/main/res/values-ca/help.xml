@@ -30,7 +30,6 @@
   <string name="form_title_help_text">Poseu un títol que identifiqui la plantilla de forma única.</string>
   <string name="form_plan_help_text_mode">Una planificació pot ser automàtica o manual. Quan es dona un esdeviniment d\'una planificació automàtica, es generarà l\'operació, i rebreu una notificació. Quan la planificació és manual, també rebreu una notificació, que podreu anul·lar, modificar o aplicar a una plantilla.</string>
   <string name="menu_save_help_text">Desa les dades i tanca la pantalla.</string>
-  <string name="menu_save_and_new_help_text">Desa les dades, deixa la pantalla oberta per a una nova operació amb les mateixes dades.</string>
   <string name="menu_invert_transfer_help_text">Inverteix la direcció de la transferència canviant els comptes de \"De\" i \"Per a\".</string>
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">Pantalla dels comptes</string>

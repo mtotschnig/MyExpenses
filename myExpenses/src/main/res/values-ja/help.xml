@@ -98,7 +98,6 @@
   <string name="form_plan_help_text_advanced">テンプレートを保存した後、お使いのカレンダーアプリを使用してより詳細な種類の繰り返しを設定することができます。</string>
   <string name="form_plan_help_text_mode">計画は、自動または手動に設定できます。自動の計画のインスタンスが発生すると、取引が作成されて、通知を受け取ります。計画が手動の場合も通知を受け取りますが、キャンセル、変更またはテンプレートを適用する選択があります。</string>
   <string name="menu_save_help_text">データを保存して、フォームを閉じます。</string>
-  <string name="menu_save_and_new_help_text">データを保存し、同じデータで新しい取引を作成するためにフォームを開いたままにします。</string>
   <string name="menu_original_amount_help_text">追加金額を定義できるフィールドを表示します。 たとえば、クレジットカードで外貨を支払う場合、カードから引き落とされた金額に加えて、元の価格を覚えておくことができます。 合計の計算には元の金額は無視されます。</string>
   <string name="menu_equivalent_amount_help_text">すべての勘定科目の総額を計算するため、外貨勘定の取引に、勘定科目に設定した為替レートを掛けます。 しかし、個々の取引に相当する金額を設定することで、この暗黙的に計算された金額を上書きすることもできます。</string>
   <string name="menu_invert_transfer_help_text">勘定の \'元\' と \'先\' を入れ換えて、振替の向きを反転させます。</string>

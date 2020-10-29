@@ -945,4 +945,8 @@
     <string name="pref_feature_uninstall_languages_title">Sprachen</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">Bitte wählen Sie ein Lizenzpaket aus.</string>
-    </resources>
+    <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
+    <string name="discover_feature_fab_long_press">Tippen und halten Sie die flotierende Aktionsschaltfläche, um das Formular für Überweisungen, mehrteilige Buchungen oder Einnahmen direkt zu öffnen.</string>
+    <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
+    <string name="advance_exexcution_in_days">Vorabausführung (in Tagen)</string>
+</resources>

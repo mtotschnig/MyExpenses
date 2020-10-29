@@ -72,7 +72,6 @@
   <string name="form_title_help_text">Introduceţi un titlu care identifică unic şablonul.</string>
   <string name="form_plan_help_text_mode">O scadenţă poate fi setată ca automată sau manuală. Atunci când apare o instanţă a unei scadenţe automate, tranzacţia va fi creată, şi veţi primi o notificare. Atunci când scadenţa este manuală, de asemenea, primiţi o notificare, care vă dă posibilitatea anulării, modificării sau aplicării unui şablon.</string>
   <string name="menu_save_help_text">Salvaţi datele şi închideţi  formularul.</string>
-  <string name="menu_save_and_new_help_text">Salvaţi datele, lăsaţi formularul deschis pentru a crea o nouă tranzacţie cu aceleaşi date.</string>
   <string name="menu_invert_transfer_help_text">Inversează direcţia transferului schimbând contul \'De la\' şi \'Către\'.</string>
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">Formular pentru conturi</string>

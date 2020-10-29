@@ -29,7 +29,6 @@
   <string name="form_title_help_text">Zadejte název, který jedinečně identifikuje šablonu.</string>
   <string name="form_plan_help_text_mode">Plán lze nastavit automaticky nebo ručně. Dojde-li události  automatického plánu, vytvoří se transakce a zobrazí se upozornění. Když je plán nastavený jako manuální, také obdrží upozornění, což ponechává volbu zrušení, změny nebo použití šablony na vás.</string>
   <string name="menu_save_help_text">Uložte data a zavřete formulář.</string>
-  <string name="menu_save_and_new_help_text">Uložte data,  formulář ponechte otevřený pro vytvoření nové transakce se stejnými daty.</string>
   <string name="menu_invert_transfer_help_text">Obrátí směr převodu tím, že vymění \'Od\' a \'Do\' účet.</string>
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">Formulář pro účty</string>

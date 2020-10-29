@@ -37,7 +37,6 @@
   <string name="form_title_help_text">සැලැස්ම හඳුනා ගැනීමට නමක් යොදන්න.</string>
   <string name="form_plan_help_text_mode">ක්‍රමය ස්වයංක්‍රීය හෝ කායික ලෙස ක්‍රියා කරන්නක් විය හැක. එය ස්වයංක්‍රීය ක්‍රමයක් වූ විට ගනුදෙනුව සැකසී ඔබට දැනුම්දීමක් ලැබේ. එය ස්වයංක්‍රීය ක්‍රමයක් නොවූ විට ඔබට දැනුම්දීමක් ලැබේ, එහෙත් ඔබට අවලංගු කිරීමට, සංස්කරණය කිරීමට හෝ සැලැස්ම අදාල කිරීමේ තීරණය ගැනීමට හැක.</string>
   <string name="menu_save_help_text">දත්ත සුරක්ෂිත කර පෝරමය වසා දමන්න.</string>
-  <string name="menu_save_and_new_help_text">දත්ත සුරක්ෂිත කර, එම දත්ත යොදා ගෙන නව ගනුදෙනුවක් සෑදීමට පෝරමය විවෘතව තබන්න.</string>
   <string name="menu_invert_transfer_help_text">යවන්නා හා ලැබෙන්නා යන ගිණුම් මාරු කර හුවමාරුවක දිශාව යටිකුරු කිරීම.</string>
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">ගිණුම් සඳහා පෝරමය.</string>

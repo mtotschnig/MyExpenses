@@ -47,7 +47,6 @@
   <string name="form_title_help_text">Digite um título que identifique o modelo.</string>
   <string name="form_plan_help_text_mode">Um plano pode ser definido como automático ou manual. Quando uma instância de um plano automático ocorre, a transação será criada, e você recebe uma notificação. Quando o plano for manual, você também receberá uma notificação, que deixa a opção de cancelar, modificar ou aplicar o modelo para você.</string>
   <string name="menu_save_help_text">Salvar os dados e fechar o formulário.</string>
-  <string name="menu_save_and_new_help_text">Salve os dados, deixando o formulário aberto para a criação de uma nova transação com os mesmos dados.</string>
   <string name="menu_invert_transfer_help_text">Inverta a direção da transferência, trocando o \'De\' e \'Para\' conta.</string>
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">Formulário para contas</string>

@@ -23,6 +23,7 @@
   <string name="cab_create_template_from_transaction_help_text">Seçilen muameleye dayalı yeni bir şablon tanımlayın. Şablonun başlığı size sorulacaktır.</string>
   <string name="cab_clone_transaction_help_text">Seçilen muameleler güncel tarih ve zamanla klonlanacaktır. Kopyayı kaydetmeden değişiklik yapabilirsiniz.</string>
   <string name="cab_split_help_text">Daha sonra gerektiği gibi ek bölümler eklemek için muameleyi düzenleyebilirsiniz.</string>
+  <string name="menu_scan_mode_help_text">Makbuzları hızlıca taramak için tarama kipini etkinleştirin.</string>
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Bu ekran önceden tanımlanmış ödeme metotlarını (Çek, kredi kartı, mevduat, doğrudan ödeme) listeler ve yenilerini tanımlamanıza imkân verir. Yeni metot oluşturacak formu açmak için kayan eylem düğmesini kullanın.</string>
   <!--ManageParties title is in keys-->
@@ -99,7 +100,6 @@
   <string name="form_plan_help_text_advanced">Şablonu kaydetmenizin ardından takvim uygulamasını kullanarak daha gelişmiş tekrar türlerini yapılandırabilirsiniz.</string>
   <string name="form_plan_help_text_mode">Bir planlama otomatik ya da el ile olarak ayarlanabilir. Otomatik bir planlamanın bir örneklemesi meydana geldiğinde muamele oluşturulacak ve size bir bildirim gösterilecektir. Planlama el ile şeklinde ayarlandıysa da size bir bildirim gösterilir ve bu size şablonu uygulama, iptal etme ya da değiştirme seçeneklerini sunacaktır.</string>
   <string name="menu_save_help_text">Verileri kaydet ve formu kapat.</string>
-  <string name="menu_save_and_new_help_text">Verileri kaydet ve aynı verilerle yeni bir muamele oluşturmak için formu açık bırak.</string>
   <string name="menu_original_amount_help_text">Ek meblağ tanımlamaya imkân verecek bir alan göster. Mesela kredi kartınızla yabancı bir para biriminde ödeme yapıyorsanız, kartınızdan alınan meblağa ek olarak orijinal fiyatı hatırlayabilirsiniz. Orijinal fiyat toplam hesaplanmasında görmezden gelinir.</string>
   <string name="menu_equivalent_amount_help_text">Tüm hesaplar dahilinde genel toplam hesaplamak için yabancı para birimindeki hesaplardaki muameleler hesap için tanımlayacağınız bir döviz kuruyla çarpılacaktır. Fakat herhangi bir bireysel muamele için eşdeğer bir meblağ tanımlayarak bu örtülü olarak hesaplanan meblağı da geçersiz kılabilirsiniz.</string>
   <string name="menu_invert_transfer_help_text">Transfer yönünü \'Kimden\' ve \'Kime\' hesaplarını takas ederek ters çevirin.</string>

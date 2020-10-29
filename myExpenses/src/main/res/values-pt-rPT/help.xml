@@ -84,7 +84,6 @@
   <string name="form_plan_help_text_advanced">Depois de ter guardado o modelo, pode configurar mais tipos de recorrência avançados usando a sua aplicação de calendário.</string>
   <string name="form_plan_help_text_mode">Um plano pode ser configurado como automático ou manual. Quando uma ocorrência automática de um plano acontece, a transação será criada, e receberá também uma notificação. Quando o plano é manual, receberá também uma notificação, que deixa para si a escolha de cancelar, modificar ou aplicar o modelo.</string>
   <string name="menu_save_help_text">Guardar os dados e fechar o formulário.</string>
-  <string name="menu_save_and_new_help_text">Guardar os dados, deixar o formulário aberto para criar uma nova transação com os mesmo dados.</string>
   <string name="menu_invert_transfer_help_text">Inverter a direção da transferência trocando o \'De\' e \'Para\' conta.</string>
   <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">Se as moedas das contas \'De\' e \'Para\' forem diferentes, especifique a quantia apenas para uma delas. A outra será calculada quando criar ocorrências a partir do modelo.</string>
   <!--AccountEdit-->

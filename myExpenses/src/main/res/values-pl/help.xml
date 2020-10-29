@@ -89,7 +89,6 @@
   <string name="form_plan_help_text_advanced">Po zapisaniu szablonu możesz skonfigurować bardziej zaawansowane typy powtarzania, korzystając z aplikacji kalendarza.</string>
   <string name="form_plan_help_text_mode">Plan może być ustawiony jako automatyczny lub ręczny. Kiedy wystąpi instancja automatycznego planu, transakcja zostanie utworzona, i dostaniesz o tym powiadomienie. Kiedy plan jest ustawiony jako ręczny, to także dostaniesz o tym powiadomienie, które tym razem da Ci do wyboru jego anulowanie, modyfikację lub zastosowania dla Ciebie szablonu.</string>
   <string name="menu_save_help_text">Zapiuje dane i zamyka formularz.</string>
-  <string name="menu_save_and_new_help_text">Zapisuje dane, zostawia formularz włączony dla tworzenia nowej transakcji z tymi samymi danymi.</string>
   <string name="menu_invert_transfer_help_text">Odwróć kierunek przelewu poprzez zamianę kont \'Z\' i \'Do\'</string>
   <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">Jeśli waluty konta \'Od\' i \'Do\' są różne, określasz kwotę tylko dla jednego z nich. Drugi zostanie obliczony podczas tworzenia instancji z szablonu.</string>
   <!--AccountEdit-->

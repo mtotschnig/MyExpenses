@@ -15,6 +15,10 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_316">
+        <item>Die Schaltfläche Speichern im Transaktionsformular ist ausgeprägter.</item>
+        <item>Durch langes Drücken der schwebenden Aktionstaste wird ein Menü geöffnet, in dem das Formular für Überweisungen, mehrteilige Buchungen oder Einnahmen vorbereitet werden kann.</item>
+    </string-array>
     <string name="whats_new_315_dark_theme_q">Dunkler Stil wird mit dem Systemstandard verknüpft</string>
     <string-array name="whats_new_313">
         <item>Verbesserte Verwaltung wiederkehrender Buchungen</item>
