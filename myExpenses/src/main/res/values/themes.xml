@@ -73,7 +73,9 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="android:windowAnimationStyle">@null</item>
     </style>
 
-    <style name="Translucent" parent="MyTheme.Translucent" />
+    <style name="Translucent" parent="MyTheme.Translucent">
+        <item name="popupMenuStyle">@style/LegacyPopupMenuStyle</item>
+    </style>
 
     <style name="OnboardingBase" parent="@style/SuwThemeMaterial">
         <item name="android:colorBackground">@color/myColorBackground</item>

@@ -301,4 +301,8 @@
     <style name="SearchViewStyle" parent="Widget.AppCompat.SearchView">
         <item name="searchHintIcon">@null</item>
     </style>
+
+    <style name="LegacyPopupMenuStyle" parent="Widget.MaterialComponents.PopupMenu">
+        <item name="android:popupBackground">@color/myColorBackground</item>
+    </style>
 </resources>
