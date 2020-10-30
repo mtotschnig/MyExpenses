@@ -57,6 +57,7 @@ tr:
       roadmap_voting: <b>Geliştirme yol haritası</b> hakkında oy verme hakkı
       history_chart: <b>Tarihçe grafiği</b> (Nakit akışı)
       budgeting: "<b>Bütçeleme</b>: Harcamalarınızı kategori başına günlük, haftalık, aylık veya senelik olarak belirlediğiniz sınırlarla karşılaştırın."
+      scan_receipt: "<b>Makbuz tarama</b>: Otomatik olarak meblağ, tarih ve alacaklı bilgilerini çıkar"
     one-time-payment: Bir defalık ödeme
     subscription: Abonlelik
   store:

@@ -57,6 +57,7 @@ it:
       roadmap_voting: Votare direttamente sulla <b>roadmap di sviluppo</b>
       history_chart: <b> Grafico storico </b> (flusso di cassa)
       budgeting: "<b> Bilancio </b>: confronta le tue spese con i limiti imposti per categoria su base giornaliera, settimanale, mensile o annuale."
+      scan_receipt: "<b>Scansiona gli scontrini</b> : estrai automaticamente l'importo, la data ed il beneficiario"
     one-time-payment: Pagamento unico
     subscription: Sottoscrizione
   store:
