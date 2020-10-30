@@ -5,7 +5,7 @@ import android.app.SearchManager
 import android.content.Context
 import android.text.TextUtils
 import android.view.Menu
-import android.widget.SearchView
+import androidx.appcompat.widget.SearchView
 import org.totschnig.myexpenses.R
 
 fun configureSearch(activity: Activity, menu: Menu, callback: (String?) -> Boolean) {
@@ -24,9 +24,9 @@ fun configureSearch(activity: Activity, menu: Menu, callback: (String?) -> Boole
 fun prepareSearch(menu: Menu, filter: String?) {
     menu.findItem(R.id.SEARCH_COMMAND)?.let { item ->
         if (!TextUtils.isEmpty(filter)) {
+            item.expandActionView()
             (item.actionView as? SearchView)?.apply {
                 setQuery(filter, false)
-                isIconified = false
                 clearFocus()
             }
         }
