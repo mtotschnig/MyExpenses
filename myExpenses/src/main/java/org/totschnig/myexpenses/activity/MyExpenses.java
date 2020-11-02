@@ -501,17 +501,20 @@ public class MyExpenses extends BaseMyExpenses implements
   protected void onActivityResult(int requestCode, int resultCode,
                                   Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
-    if (requestCode == EDIT_REQUEST && resultCode == RESULT_OK) {
-      if (!DistributionHelper.isGithub()) {
-        long nextReminder = prefHandler.getLong(PrefKey.NEXT_REMINDER_RATE, Utils.getInstallTime(this) + DAY_IN_MILLIS * 30);
-        if (nextReminder != -1 && nextReminder < System.currentTimeMillis()) {
-          RemindRateDialogFragment f = new RemindRateDialogFragment();
-          f.setCancelable(false);
-          f.show(getSupportFragmentManager(), "REMIND_RATE");
-          return;
+    if (requestCode == EDIT_REQUEST) {
+      floatingActionButton.show();
+      if (resultCode == RESULT_OK) {
+        if (!DistributionHelper.isGithub()) {
+          long nextReminder = prefHandler.getLong(PrefKey.NEXT_REMINDER_RATE, Utils.getInstallTime(this) + DAY_IN_MILLIS * 30);
+          if (nextReminder != -1 && nextReminder < System.currentTimeMillis()) {
+            RemindRateDialogFragment f = new RemindRateDialogFragment();
+            f.setCancelable(false);
+            f.show(getSupportFragmentManager(), "REMIND_RATE");
+            return;
+          }
         }
+        adHandler.onEditTransactionResult();
       }
-      adHandler.onEditTransactionResult();
     }
     if (requestCode == CREATE_ACCOUNT_REQUEST && resultCode == RESULT_OK) {
       //navigating to the new account currently does not work, due to the way LoaderManager behaves
