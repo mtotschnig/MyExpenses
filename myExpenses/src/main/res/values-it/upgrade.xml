@@ -15,6 +15,10 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_316">
+        <item>Il pulsante di salvataggio nei moduli delle transazioni è più accentuato.</item>
+        <item>Premendo a lungo sul pulsante fluttuante si apre un menù che consente di preparare i moduli per trasferimenti, operazioni frazionate o redditi.</item>
+    </string-array>
     <string name="whats_new_315_dark_theme_q">Il tema scuro è associato alle impostazioni di sistema</string>
     <string-array name="whats_new_313">
         <item>Migliorata la gestione delle transazioni ricorrenti</item>

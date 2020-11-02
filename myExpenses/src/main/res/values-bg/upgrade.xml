@@ -15,6 +15,10 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_316">
+        <item>Бутонът за запис във формата за транзакция е по забележим.</item>
+        <item>Дълго натискане на плаващия бутон отваря меню, където ще подготвите форма за превод, разпределена транзакция или приход.</item>
+    </string-array>
     <string name="whats_new_315_dark_theme_q">Тъмната тема е свързана със системната настройка по подразбиране</string>
     <string-array name="whats_new_313">
         <item>Подобрено управление на повтарящи се транзакции</item>

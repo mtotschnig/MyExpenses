@@ -49,7 +49,7 @@
     <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Esportazione dell\'elenco delle transazioni in PDF</string>
     <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Widget modelli</string>
     <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Importazione CSV</string>
-    <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Numero illimitato di modelli di divisione</string>
+    <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Numero illimitato di modelli per operazioni frazionate</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b> Supporto email </b> con risposta garantita entro 2 giorni lavorativi</string>
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Votare direttamente sulla <b>roadmap di sviluppo</b></string>
     <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Grafico storico (flusso di cassa)</string>
@@ -89,7 +89,7 @@
     <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">È possibile utilizzarlo per il %1$d giorni con il tuo stato corrente della licenza (%2$s).</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">La tua corrente licenza (%2$s) consente di creare %1$d conti.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Il tuo stato corrente della licenza (%2$s) consente di creare %1$d piani.</string>
-    <string name="dialog_contrib_usage_limit_split_templates">Lo stato della licenza corrente (%1$s) consente di creare 1 modello di divisione.</string>
+    <string name="dialog_contrib_usage_limit_split_templates">Lo stato della licenza corrente (%1$s) consente di creare 1 modello di operazioni frazionate.</string>
     <string name="dialog_export_delete">Cancellare le transazioni esportate</string>
     <string name="dialog_export_not_yet_exported">Esportare solo le operazioni non ancora esportate</string>
     <string name="dialog_password_activate_protection">Attivare la protezione con password</string>
@@ -168,7 +168,7 @@
     <string name="menu_create_party">Nuovo beneficiario</string>
     <string name="menu_create_split">Nuova operazione frazionata</string>
     <string name="menu_create_split_part_category">Nuova categoria (frazionamento)</string>
-    <string name="menu_create_split_part_transfer">Nuovo trasferimento (frazionamento)</string>
+    <string name="menu_create_split_part_transfer">Nuovo importo frazionato del trasferimento</string>
     <string name="menu_create_sub_cat">Nuova sottocategoria</string>
     <string name="menu_create_template">Nuovo modello</string>
     <string name="menu_create_template_from_transaction">Salva come modello</string>
@@ -186,7 +186,7 @@
     <string name="menu_edit_plan_instance">Modifica la ricorrenza del singolo piano</string>
     <string name="menu_edit_split">Modifica operazione frazionata</string>
     <string name="menu_edit_split_part_category">Modifica categoria (frazionamento)</string>
-    <string name="menu_edit_split_part_transfer">Modifica trasferimento (frazionamento)</string>
+    <string name="menu_edit_split_part_transfer">Modifica la parte frazionata del trasferimento</string>
     <string name="menu_edit_template">Modifica modello</string>
     <string name="menu_edit_transaction">Modificare operazione</string>
     <string name="menu_edit_transfer">Modificare un trasferimento</string>
@@ -383,7 +383,7 @@
     <string name="select_payee">Seleziona pagatore/beneficiario</string>
     <string name="share_scheme_not_supported">Schema %1$s non supportato</string>
     <string name="share_sending">Invia file export</string>
-    <string name="split_parts_heading">Frazionamenti</string>
+    <string name="split_parts_heading">Importi frazionati</string>
     <string name="split_transaction">Operazione frazionata</string>
     <string name="status">Stato</string>
     <string name="status_cleared">liquidato</string>
@@ -567,7 +567,7 @@
     <string name="plan_instance_state_cancelled">annullato</string>
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">applicato</string>
-    <string name="progress_dialog_updating_split_parts">Aggiornamento di frazionamenti</string>
+    <string name="progress_dialog_updating_split_parts">Aggiornamento degli importi frazionati</string>
     <string name="warning_cannot_move_split_transaction">Questa operazione frazionata non può essere spostato per %1$s perché ci sono frazionamenti che fanno riferimento a questo conto.</string>
     <string name="content_description_calculator_clear_button">Reinizializzare tutti</string>
     <string name="content_description_calculator_delete_button">Eliminare l\'ultima cifra</string>
@@ -666,7 +666,7 @@
     <string name="plan_custom_recurrence_info">Dapprima si prega di salvare il modello. Il piano verrà quindi aperto nell\'app calendario, in cui sarà possibile impostare una ricorrenza personalizzata.</string>
     <string name="storage_permission_required">La fonte che hai selezionato può essere letta solo se concedi il permesso di leggere dalla memoria esterna.</string>
     <string name="picture">Immagine</string>
-    <string name="menu_create_template_for_split">Nuovo modello di divisione</string>
+    <string name="menu_create_template_for_split">Nuovo modello di operazione frazionata</string>
     <string name="progress_validating_licence">Convalida della licenza</string>
     <string name="licence_validation_error_expired">Licenza scaduta</string>
     <string name="licence_validation_error_device_limit_exceeded">Il numero di dispositivi supera il limite. Si prega di rimuovere la licenza da un altro dispositivo.</string>
@@ -728,13 +728,13 @@
     <string name="menu_ungroup_split_transaction">Separa operazione frazionata</string>
     <plurals name="ungroup_split_transaction_success">
         <item quantity="one">La transazione divisa è stata suddivisa correttamente.</item>
-        <item quantity="other">%1$d operazioni suddivise sono state separate con successo.</item>
+        <item quantity="other">%1$d operazioni frazionate sono state separate con successo.</item>
     </plurals>
-    <string name="ungroup_split_transaction_failure">Durante la separazione delle operazioni divisi, %1$d su %2$d non è riuscito.</string>
+    <string name="ungroup_split_transaction_failure">Durante la separazione delle operazioni frazionate, %1$d su %2$d non è riuscito.</string>
     <string name="split_transaction_one_success">Operazione trasformata con successo in operazione frazionata.</string>
-    <string name="split_transaction_one_error">Impossibile frazionare transazione.</string>
+    <string name="split_transaction_one_error">Impossibile trasformare la transazione in un\'operazione frazionata.</string>
     <string name="split_transaction_group_success">%1$d operazioni sono state raggruppate correttamente in una operazione frazionata.</string>
-    <string name="split_transaction_group_error">Impossibile raggruppare le operazioni in operazione frazionata.</string>
+    <string name="split_transaction_group_error">Impossibile raggruppare le transazioni in un\'operazione frazionata.</string>
     <string name="split_transaction_not_possible">Solo le transazioni con lo stesso conto, beneficiario e stato possono essere raggruppate in una operazione frazionata.</string>
     <string name="pref_transaction_time_summary">Consentire di impostare il tempo di transazione esatto.</string>
     <string name="pref_value_date_summary">Consentire di impostare la data di valuta in aggiunta alla data di prenotazione. Il tempo di transazione sarà nascosto. Questa impostazione non è applicata ai conti di cassa.</string>
@@ -945,4 +945,8 @@
     <string name="pref_feature_uninstall_languages_title">Lingue</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">Seleziona una tipologia di licenza.</string>
-    </resources>
+    <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
+    <string name="discover_feature_fab_long_press">Tocca e tieni premuto il pulsante fluttuante per aprire direttamente un nuovo modulo per trasferimenti, transazioni frazionate o entrate.</string>
+    <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
+    <string name="advance_exexcution_in_days">Esecuzione anticipata (in giorni)</string>
+</resources>
