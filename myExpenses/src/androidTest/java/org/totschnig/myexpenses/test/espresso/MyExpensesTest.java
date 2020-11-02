@@ -65,7 +65,6 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertTrue;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
-import static org.totschnig.myexpenses.testutils.Espresso.openActionBarOverflowMenu;
 
 public final class MyExpensesTest extends BaseUiTest {
   private Account account;
@@ -111,7 +110,7 @@ public final class MyExpensesTest extends BaseUiTest {
   @Test
   public void helpDialogIsOpened() {
     Espresso.openActionBarOverflowMenu();
-    onData(hasToString(app.getString(R.string.menu_help))).perform(click());
+    onData(hasToString(getString(R.string.menu_help))).perform(click());
     onView(withText(containsString(mActivityRule.getActivity().getString(R.string.help_MyExpenses_title))))
         .check(matches(isDisplayed()));
     onView(allOf(
@@ -123,7 +122,7 @@ public final class MyExpensesTest extends BaseUiTest {
   @Test
   public void settingsScreenIsOpened() {
     Espresso.openActionBarOverflowMenu();
-    onData(hasToString(app.getString(R.string.menu_settings))).perform(click());
+    onData(hasToString(getString(R.string.menu_settings))).perform(click());
     intended(hasComponent(MyPreferenceActivity.class.getName()));
   }
 
@@ -202,7 +201,7 @@ public final class MyExpensesTest extends BaseUiTest {
 
   @NonNull
   private String getDialogTitleWarningDeleteAccount() {
-    return app.getResources().getQuantityString(R.plurals.dialog_title_warning_delete_account, 1);
+    return mActivityRule.getActivity().getResources().getQuantityString(R.plurals.dialog_title_warning_delete_account, 1);
   }
 
   @Test

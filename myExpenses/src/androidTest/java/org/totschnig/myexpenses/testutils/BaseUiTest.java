@@ -158,8 +158,6 @@ public abstract class BaseUiTest {
     Locale.setDefault(locale);
     Configuration config = new Configuration();
     config.locale = locale;
-    app.getResources().updateConfiguration(config,
-        app.getResources().getDisplayMetrics());
     Context instCtx = InstrumentationRegistry.getInstrumentation().getContext();
     instCtx.getResources().updateConfiguration(config,
         instCtx.getResources().getDisplayMetrics());
