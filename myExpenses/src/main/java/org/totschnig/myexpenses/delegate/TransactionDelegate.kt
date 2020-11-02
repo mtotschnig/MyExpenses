@@ -294,7 +294,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
             dateEditBinding.DateButton.setDate(localDate)
             dateEditBinding.Date2Button.setDate(ZonedDateTime.ofInstant(Instant.ofEpochSecond(transaction.valueDate),
                     ZoneId.systemDefault()).toLocalDate())
-            dateEditBinding.TimeButton.time = zonedDateTime.toLocalTime()
+            dateEditBinding.TimeButton.setTime(zonedDateTime.toLocalTime())
         }
     }
 

@@ -385,7 +385,7 @@ public class CalculatorInput extends ProtectedFragmentActivity implements OnClic
   }
 
   @Override
-  protected void onSaveInstanceState(Bundle outState) {
+  protected void onSaveInstanceState(@NonNull Bundle outState) {
     super.onSaveInstanceState(outState);
     outState.putString("result", result);
     outState.putInt("lastOp", lastOp);

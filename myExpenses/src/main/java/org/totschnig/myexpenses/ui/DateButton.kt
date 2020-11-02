@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.ui
 
-import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Context
@@ -13,6 +12,7 @@ import androidx.annotation.NonNull
 import icepick.State
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -23,7 +23,8 @@ import java.util.*
 /**
  * A button that opens DateDialog, and stores the date in its state
  */
-class DateButton(context: Context, attrs: AttributeSet?) : ButtonWithDialog(context, attrs) {
+class DateButton @JvmOverloads constructor(
+        context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :  ButtonWithDialog(context, attrs, defStyleAttr) {
     @State @JvmField
     var date: LocalDate = LocalDate.now()
 
@@ -87,8 +88,8 @@ class DateButton(context: Context, attrs: AttributeSet?) : ButtonWithDialog(cont
                 }
             }
         }
-        val datePickerDialog = DatePickerDialog(context, mDateSetListener,
-                yearOld, monthOld, dayOld)
+        val datePickerDialog = DatePickerDialog(context, R.style.ThemeOverlay_MaterialComponents_Dialog,
+                mDateSetListener, yearOld, monthOld, dayOld)
         if (PrefKey.GROUP_WEEK_STARTS.isSet) {
             val startOfWeek = Utils.getFirstDayOfWeekFromPreferenceWithFallbackToLocale(Locale.getDefault())
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

@@ -15,7 +15,6 @@
 
 package org.totschnig.myexpenses.activity;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.KeyguardManager;
 import android.content.ActivityNotFoundException;
@@ -94,7 +93,6 @@ import androidx.annotation.CallSuper;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
@@ -202,42 +200,31 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     Icepick.saveInstanceState(this, outState);
   }
 
-  @SuppressLint("NewApi")
   @Override
   protected void attachBaseContext(Context newBase) {
-    final boolean legacy = Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1;
-    super.attachBaseContext(legacy ? legacyConfig(newBase) : newBase);
+    super.attachBaseContext(useCustomConfig(newBase));
     injectDependencies();
-    if (!legacy) {
-      applyOverrideConfiguration(newBase.getResources().getConfiguration());
-    }
     featureManager.initActivity(this);
   }
 
-  private Context legacyConfig(Context context) {
-    Resources res = context.getResources();
-    Configuration config = new Configuration(res.getConfiguration());
-    config.locale = getUserPreferredLocale();
-    //noinspection deprecation
-    final MyApplication application = MyApplication.getInstance();
-    config.fontScale = getFontScale(application.getAppComponent().prefHandler(), application.getContentResolver());
-    res.updateConfiguration(config, res.getDisplayMetrics());
-    return context;
-  }
-
-  @Override
-  @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-  public void applyOverrideConfiguration(Configuration newConfig) {
-    super.applyOverrideConfiguration(updateConfiguration(newConfig));
-  }
-
-  @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-  private Configuration updateConfiguration(Configuration config) {
+  private Context useCustomConfig(Context context) {
     Locale locale = getUserPreferredLocale();
-    config.setLocale(locale);
-    config.fontScale = getFontScale(prefHandler, getContentResolver());
-    Timber.d("Fontscale: %f", config.fontScale);
-    return config;
+    Locale.setDefault(locale);
+    final MyApplication application = MyApplication.getInstance();
+    float fontScale = getFontScale(application.getAppComponent().prefHandler(), application.getContentResolver());
+    if (Build.VERSION.SDK_INT >= 17) {
+      Configuration config = new Configuration();
+      config.fontScale = fontScale;
+      config.setLocale(locale);
+      return context.createConfigurationContext(config);
+    } else {
+      Resources res = context.getResources();
+      Configuration config = new Configuration(res.getConfiguration());
+      config.fontScale = fontScale;
+      config.locale = locale;
+      res.updateConfiguration(config, res.getDisplayMetrics());
+      return context;
+    }
   }
 
   private float getFontScale(PrefHandler prefHandler, ContentResolver contentResolver) {
