@@ -133,7 +133,7 @@ public class HistoryChart extends Fragment
     TypedArray a = getActivity().obtainStyledAttributes(typedValue.data, textSizeAttr);
     valueTextSize = a.getDimensionPixelSize(indexOfAttrTextSize, 10) / getResources().getDisplayMetrics().density;
     a.recycle();
-    textColor = UiUtils.themeIntAttr(getContext(), R.attr.colorControlNormal);
+    textColor = UiUtils.themeIntAttr(getContext(), android.R.attr.textColor);
   }
 
   @Override
@@ -404,7 +404,7 @@ public class HistoryChart extends Fragment
       ValueFormatter valueFormatter = new ValueFormatter() {
         @Override
         public String getFormattedValue(float value) {
-          return  convAmount(value);
+          return convAmount(value);
         }
       };
 

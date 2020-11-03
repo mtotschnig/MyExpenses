@@ -264,6 +264,7 @@ public class PartiesList extends ContextualActionBarFragment {
     lv.setEmptyView(v.findViewById(R.id.empty));
     registerForContextualActionBar(lv);
     viewModel.getParties().observe(getViewLifecycleOwner(), parties -> {
+      mAdapter.setNotifyOnChange(false);
       mAdapter.clear();
       if (getAction().equals(ACTION_SELECT_FILTER)) {
         mAdapter.add(new Party(NULL_ITEM_ID, getString(R.string.unmapped), false, false));

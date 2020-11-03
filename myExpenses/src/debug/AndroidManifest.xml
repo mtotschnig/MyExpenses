@@ -3,7 +3,7 @@
     package="org.totschnig.myexpenses"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    
+
     <uses-permission
         android:name="android.permission.SET_TIME_ZONE"
         android:maxSdkVersion="25"
