@@ -68,6 +68,7 @@ public class ExpenseEditTest extends BaseUiTest {
     account1.save();
     account2 = new Account(accountLabel2, currency2, 0, "", AccountType.BANK, Account.DEFAULT_COLOR);
     account2.save();
+    configureLocale(Locale.GERMANY);
   }
 
   @After
