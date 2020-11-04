@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- 
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -14,60 +13,79 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<LinearLayout android:id="@+id/OneExpense"
-              xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              android:paddingLeft="@dimen/padding_dialog_side"
-              android:paddingRight="@dimen/padding_dialog_side">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1">
 
-    <TableLayout
-        android:id="@+id/Table"
+    <LinearLayout
+        android:id="@+id/OneExpense"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/general_padding"
-        android:layout_marginTop="@dimen/general_padding"
-        android:shrinkColumns="*"
-        android:stretchColumns="*">
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/padding_dialog_side"
+        android:paddingRight="@dimen/padding_dialog_side">
 
-        <TableRow>
+        <TableLayout
+            android:id="@+id/Table"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/general_padding"
+            android:layout_marginBottom="@dimen/general_padding"
+            android:shrinkColumns="*"
+            android:stretchColumns="*">
 
-            <TextView
-                style="@style/FormLabel.Condensed"
-                android:text="@string/total_reconciled"/>
+            <TableRow>
 
-            <TextView
-                android:id="@+id/TotalReconciled"
-                style="@style/dialog_text"
-                android:layout_gravity="end"/>
-        </TableRow>
+                <TextView
+                    style="@style/FormLabel.Condensed"
+                    android:text="@string/total_reconciled" />
 
-        <TableRow>
+                <TextView
+                    android:id="@+id/TotalReconciled"
+                    style="@style/dialog_text"
+                    android:layout_gravity="end" />
+            </TableRow>
 
-            <TextView
-                style="@style/FormLabel.Condensed"
-                android:text="@string/total_cleared"/>
+            <TableRow>
 
-            <TextView
-                android:id="@+id/TotalCleared"
-                style="@style/dialog_text"
-                android:layout_gravity="end"/>
-        </TableRow>
-    </TableLayout>
+                <TextView
+                    style="@style/FormLabel.Condensed"
+                    android:text="@string/total_cleared" />
 
-    <TextView
-        style="@style/dialog_text.bold"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/general_padding"
-        android:layout_marginTop="@dimen/general_padding"
-        android:text="@string/warning_balance_account"/>
+                <TextView
+                    android:id="@+id/TotalCleared"
+                    style="@style/dialog_text"
+                    android:layout_gravity="end" />
+            </TableRow>
+        </TableLayout>
 
-    <CheckBox
-        android:id="@+id/balance_delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:checked="false"
-        android:text="@string/dialog_balance_delete"/>
-</LinearLayout>
+        <TextView
+            style="@style/dialog_text.bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/general_padding"
+            android:layout_marginBottom="@dimen/general_padding"
+            android:text="@string/warning_balance_account" />
+
+        <CheckBox
+            android:id="@+id/balance_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text="@string/dialog_balance_delete" />
+
+        <TextView
+            android:id="@+id/balance_delete_warning"
+            style="@style/dialog_text.bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_marginBottom="@dimen/general_padding"
+            android:text="@string/warning_balance_account_delete"
+            android:drawablePadding="10dp"
+            app:drawableStartCompat="@drawable/ic_warning" />
+
+    </LinearLayout>
+</ScrollView>

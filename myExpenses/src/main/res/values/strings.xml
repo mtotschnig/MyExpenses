@@ -440,7 +440,7 @@
     <string name="warning_instantiate_template_from_widget_password_protected">Quick instantiation of templates from this widget only works if you allow data entry from widgets without password in the app settings.</string>
     <string name="warning_password_contrib">Setting a security question allows you to unlock the app, in case you forget your password.</string>
     <string name="warning_reset_account">If you proceed, all transactions of this account are deleted from the database and cannot be restored.</string>
-    <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
+    <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">If you proceed, for all accounts%1$s, transactions will be deleted from the database and cannot be restored.</string>
     <string name="warning_reset_account_matched">If you proceed, transactions matched by the current filter will be deleted from the database and cannot be restored.</string>
     <string name="warning_restore">Database and preferences will be restored from file \"%1$s\". The current data will be deleted.</string>
@@ -949,4 +949,6 @@
     <string name="discover_feature_fab_long_press">Tap and hold the flotating action button in order to directly open the form for transfers, split transactions or income.</string>
     <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
     <string name="advance_exexcution_in_days">Advance execution (in days)</string>
+    <string name="warning_balance_account_delete">If you proceed, all reconciled transactions of this account will be deleted from the database and you will not be able to restore them.</string>
+
 </resources>
