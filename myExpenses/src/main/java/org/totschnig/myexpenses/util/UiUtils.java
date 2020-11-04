@@ -27,8 +27,8 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.core.view.ViewCompat;
+import androidx.core.widget.ImageViewCompat;
 
 import static org.totschnig.myexpenses.preference.PrefKey.TRANSACTION_WITH_TIME;
 import static org.totschnig.myexpenses.preference.PrefKey.TRANSACTION_WITH_VALUE_DATE;
@@ -75,8 +75,7 @@ public class UiUtils {
 
   public static void setBackgroundTintListOnFab(FloatingActionButton fab, int color) {
     fab.setBackgroundTintList(ColorStateList.valueOf(color));
-    DrawableCompat.setTint(fab.getDrawable(), MoreUiUtilsKt.getBestForeground(color));
-    fab.invalidate();
+    ImageViewCompat.setImageTintList(fab, ColorStateList.valueOf(MoreUiUtilsKt.getBestForeground(color)));
   }
 
   public static void setBackgroundOnButton(AppCompatButton button, int color) {

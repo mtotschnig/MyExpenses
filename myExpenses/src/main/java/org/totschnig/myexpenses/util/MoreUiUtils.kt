@@ -35,4 +35,4 @@ fun setNightMode(prefHandler: PrefHandler, context: Context) {
             })
 }
 
-fun getBestForeground(color: Int) = arrayOf(Color.BLACK, Color.WHITE).maxByOrNull { calculateContrast(color, it) }
+fun getBestForeground(color: Int) = arrayOf(Color.BLACK, Color.WHITE).maxByOrNull { calculateContrast(color, it) }!!
