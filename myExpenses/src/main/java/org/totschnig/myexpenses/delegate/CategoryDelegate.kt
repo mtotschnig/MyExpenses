@@ -8,6 +8,7 @@ import icepick.State
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION
 import org.totschnig.myexpenses.databinding.DateEditBinding
+import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.ITransaction
@@ -22,8 +23,8 @@ import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.Utils
 
-class CategoryDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEditBinding, prefHandler: PrefHandler, isTemplate: Boolean)
-    : MainDelegate<ITransaction>(viewBinding, dateEditBinding, prefHandler, isTemplate) {
+class CategoryDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEditBinding, methodRowBinding: MethodRowBinding, prefHandler: PrefHandler, isTemplate: Boolean)
+    : MainDelegate<ITransaction>(viewBinding, dateEditBinding, methodRowBinding, prefHandler, isTemplate) {
 
     override val operationType = TYPE_TRANSACTION
 

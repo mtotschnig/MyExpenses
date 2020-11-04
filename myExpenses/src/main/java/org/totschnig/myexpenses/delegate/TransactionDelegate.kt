@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.adapter.OperationTypeAdapter
 import org.totschnig.myexpenses.adapter.RecurrenceAdapter
 import org.totschnig.myexpenses.contract.TransactionsContract
 import org.totschnig.myexpenses.databinding.DateEditBinding
+import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
@@ -56,9 +57,11 @@ import org.totschnig.myexpenses.viewmodel.data.Tag
 import java.math.BigDecimal
 import java.util.*
 
-abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpenseBinding, val dateEditBinding: DateEditBinding, val prefHandler: PrefHandler, val isTemplate: Boolean) : AdapterView.OnItemSelectedListener {
+abstract class TransactionDelegate<T : ITransaction>(
+        val viewBinding: OneExpenseBinding, val dateEditBinding: DateEditBinding, val methodRowBinding: MethodRowBinding,
+        val prefHandler: PrefHandler, val isTemplate: Boolean) : AdapterView.OnItemSelectedListener {
 
-    private val methodSpinner = SpinnerHelper(viewBinding.Method)
+    private val methodSpinner = SpinnerHelper(methodRowBinding.Method.root)
     val accountSpinner = SpinnerHelper(viewBinding.Account)
     private val statusSpinner = SpinnerHelper(viewBinding.Status)
     private val operationTypeSpinner = SpinnerHelper(viewBinding.toolbar.OperationType)
@@ -281,7 +284,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
 
     protected fun hideRowsSpecificToMain() {
         viewBinding.PayeeRow.visibility = View.GONE
-        viewBinding.MethodRow.visibility = View.GONE
+        methodRowBinding.MethodRow.visibility = View.GONE
     }
 
     private fun setLocalDateTime(transaction: ITransaction) {
@@ -315,7 +318,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
                 viewBinding.advanceExecutionSeek.progress = template.planExecutionAdvance
             }
         } else {
-            viewBinding.Number.setText(transaction.referenceNumber)
+            methodRowBinding.Number.setText(transaction.referenceNumber)
         }
         fillAmount(transaction.amount.amountMajor)
         transaction.originalAmount?.let {
@@ -430,7 +433,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
         } else {
             methodSpinner.setSelection(0)
         }
-        setVisibility(viewBinding.ClearMethod, methodId != null)
+        setVisibility(methodRowBinding.ClearMethod.root, methodId != null)
         setReferenceNumberVisibility()
     }
 
@@ -438,12 +441,13 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
         if (isTemplate) return
         //ignore first row "select" merged in
         val position = methodSpinner.selectedItemPosition
-        if (position > 0) {
+        val visibility = if (position > 0) {
             val pm = methodsAdapter.getItem(position - 1)
-            viewBinding.Number.visibility = if (pm != null && pm.isNumbered) View.VISIBLE else View.GONE
+            if (pm != null && pm.isNumbered) View.VISIBLE else View.GONE
         } else {
-            viewBinding.Number.visibility = View.GONE
+            View.GONE
         }
+        (methodRowBinding.ReferenceNumberRow ?: methodRowBinding.Number).visibility = visibility
     }
 
     val context: Context
@@ -502,9 +506,9 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
 
     fun setMethods(paymentMethods: List<PaymentMethod>?) {
         if (paymentMethods == null || paymentMethods.isEmpty()) {
-            viewBinding.MethodRow.visibility = View.GONE
+            methodRowBinding.MethodRow.visibility = View.GONE
         } else {
-            viewBinding.MethodRow.visibility = View.VISIBLE
+            methodRowBinding.MethodRow.visibility = View.VISIBLE
             methodsAdapter.clear()
             methodsAdapter.addAll(paymentMethods)
             setMethodSelection()
@@ -543,7 +547,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
             R.id.Method -> {
                 val hasSelection = position > 0
                 methodId = if (hasSelection) parent.selectedItemId.takeIf { it > 0 } else null
-                setVisibility(viewBinding.ClearMethod, hasSelection)
+                setVisibility(methodRowBinding.ClearMethod.root, hasSelection)
                 setReferenceNumberVisibility()
             }
             R.id.Account -> {
@@ -598,7 +602,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
         viewBinding.Comment.addTextChangedListener(watcher)
         viewBinding.Title.addTextChangedListener(watcher)
         viewBinding.Payee.addTextChangedListener(watcher)
-        viewBinding.Number.addTextChangedListener(watcher)
+        methodRowBinding.Number.addTextChangedListener(watcher)
         accountSpinner.setOnItemSelectedListener(this)
         methodSpinner.setOnItemSelectedListener(this)
         statusSpinner.setOnItemSelectedListener(this)
@@ -682,7 +686,7 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
                     }
                 }
             } else {
-                referenceNumber = viewBinding.Number.text.toString()
+                referenceNumber = methodRowBinding.Number.text.toString()
                 if (forSave && !isSplitPart) {
                     if (recurrenceSpinner.selectedItemPosition > 0) {
                         setInitialPlan(Pair.create(recurrenceSpinner.selectedItem as Plan.Recurrence, dateEditBinding.DateButton.date))
@@ -882,21 +886,25 @@ abstract class TransactionDelegate<T : ITransaction>(val viewBinding: OneExpense
     }
 
     companion object {
-        fun create(transaction: ITransaction, viewBinding: OneExpenseBinding, dateEditBinding: DateEditBinding, prefHandler: PrefHandler) =
+        fun create(transaction: ITransaction, viewBinding: OneExpenseBinding,
+                   dateEditBinding: DateEditBinding, methodRowBinding: MethodRowBinding,
+                   prefHandler: PrefHandler) =
                 (transaction is Template).let { isTemplate ->
                     with(transaction) {
                         when {
-                            isTransfer -> TransferDelegate(viewBinding, dateEditBinding, prefHandler, isTemplate)
-                            isSplit -> SplitDelegate(viewBinding, dateEditBinding, prefHandler, isTemplate)
-                            else -> CategoryDelegate(viewBinding, dateEditBinding, prefHandler, isTemplate)
+                            isTransfer -> TransferDelegate(viewBinding, dateEditBinding, methodRowBinding, prefHandler, isTemplate)
+                            isSplit -> SplitDelegate(viewBinding, dateEditBinding, methodRowBinding, prefHandler, isTemplate)
+                            else -> CategoryDelegate(viewBinding, dateEditBinding, methodRowBinding, prefHandler, isTemplate)
                         }
                     }
                 }
 
-        fun create(operationType: Int, isTemplate: Boolean, viewBinding: OneExpenseBinding, dateEditBinding: DateEditBinding, prefHandler: PrefHandler) = when (operationType) {
-            TransactionsContract.Transactions.TYPE_TRANSFER -> TransferDelegate(viewBinding, dateEditBinding, prefHandler, isTemplate)
-            TransactionsContract.Transactions.TYPE_SPLIT -> SplitDelegate(viewBinding, dateEditBinding, prefHandler, isTemplate)
-            else -> CategoryDelegate(viewBinding, dateEditBinding, prefHandler, isTemplate)
+        fun create(operationType: Int, isTemplate: Boolean, viewBinding: OneExpenseBinding,
+                   dateEditBinding: DateEditBinding, methodRowBinding: MethodRowBinding,
+                   prefHandler: PrefHandler) = when (operationType) {
+            TransactionsContract.Transactions.TYPE_TRANSFER -> TransferDelegate(viewBinding, dateEditBinding, methodRowBinding, prefHandler, isTemplate)
+            TransactionsContract.Transactions.TYPE_SPLIT -> SplitDelegate(viewBinding, dateEditBinding, methodRowBinding, prefHandler, isTemplate)
+            else -> CategoryDelegate(viewBinding, dateEditBinding, methodRowBinding, prefHandler, isTemplate)
         }
     }
 }

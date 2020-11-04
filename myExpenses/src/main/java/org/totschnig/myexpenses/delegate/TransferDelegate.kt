@@ -11,6 +11,7 @@ import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.adapter.AccountAdapter
 import org.totschnig.myexpenses.contract.TransactionsContract
 import org.totschnig.myexpenses.databinding.DateEditBinding
+import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.ITransfer
@@ -26,8 +27,8 @@ import org.totschnig.myexpenses.ui.SpinnerHelper
 import org.totschnig.myexpenses.viewmodel.data.Account
 import java.math.BigDecimal
 
-class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEditBinding, prefHandler: PrefHandler, isTemplate: Boolean) :
-        TransactionDelegate<ITransfer>(viewBinding, dateEditBinding, prefHandler, isTemplate) {
+class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEditBinding, methodRowBinding: MethodRowBinding, prefHandler: PrefHandler, isTemplate: Boolean) :
+        TransactionDelegate<ITransfer>(viewBinding, dateEditBinding, methodRowBinding, prefHandler, isTemplate) {
 
     private  var transferAccountSpinner = SpinnerHelper(viewBinding.TransferAccount)
 

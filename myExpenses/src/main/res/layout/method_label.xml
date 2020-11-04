@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/FormLabel"
+    android:labelFor="@+id/Method"
+    android:text="@string/method"
+    tools:showIn="@layout/method_row" />

@@ -309,51 +309,7 @@
                         </LinearLayout>
                     </TableRow>
 
-                    <TableRow android:id="@+id/MethodRow">
-
-                        <TextView
-                            android:id="@+id/MethodLabel"
-                            style="@style/FormLabel"
-                            android:labelFor="@+id/Method"
-                            android:text="@string/method" />
-
-                        <LinearLayout
-                            style="@style/FormField"
-                            android:orientation="horizontal">
-
-                            <Spinner
-                                android:id="@+id/Method"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_weight="1"
-                                android:prompt="@string/method" />
-
-                            <ImageView
-                                android:id="@+id/ClearMethod"
-                                style="?actionButtonStyle"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:contentDescription="@string/content_description_clear_method"
-                                android:focusable="true"
-                                android:onClick="clearMethodSelection"
-                                android:visibility="gone"
-                                app:srcCompat="@drawable/ic_menu_delete" />
-
-                            <EditText
-                                android:id="@+id/Number"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_weight="1"
-                                android:hint="@string/reference_number"
-                                android:inputType="text"
-                                android:maxLines="1"
-                                android:visibility="gone"
-                                tools:ignore="TextFields" />
-                        </LinearLayout>
-                    </TableRow>
+                    <include layout="@layout/method_row" />
 
                     <TableRow
                         android:id="@+id/PlanRow"

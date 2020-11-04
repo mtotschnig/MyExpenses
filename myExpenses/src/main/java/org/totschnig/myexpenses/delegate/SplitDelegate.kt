@@ -8,6 +8,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.contract.TransactionsContract
 import org.totschnig.myexpenses.databinding.DateEditBinding
+import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.ISplit
@@ -18,8 +19,8 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.ui.MyTextWatcher
 import org.totschnig.myexpenses.viewmodel.data.Account
 
-class SplitDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEditBinding, prefHandler: PrefHandler, isTemplate: Boolean) :
-        MainDelegate<ISplit>(viewBinding, dateEditBinding, prefHandler, isTemplate) {
+class SplitDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEditBinding, methodRowBinding: MethodRowBinding, prefHandler: PrefHandler, isTemplate: Boolean) :
+        MainDelegate<ISplit>(viewBinding, dateEditBinding, methodRowBinding, prefHandler, isTemplate) {
     override val operationType = TransactionsContract.Transactions.TYPE_SPLIT
 
     override val helpVariant: ExpenseEdit.HelpVariant

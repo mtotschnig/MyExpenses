@@ -52,6 +52,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
 import org.totschnig.myexpenses.databinding.DateEditBinding
+import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
 import org.totschnig.myexpenses.delegate.CategoryDelegate
 import org.totschnig.myexpenses.delegate.SplitDelegate
@@ -121,6 +122,7 @@ import javax.inject.Inject
 open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, ContribIFace, ConfirmationDialogListener, ButtonWithDialog.Host, ExchangeRateEdit.Host {
     private lateinit var rootBinding: OneExpenseBinding
     private lateinit var dateEditBinding: DateEditBinding
+    private lateinit var methodRowBinding: MethodRowBinding
     override val amountLabel: TextView
         get() = rootBinding.AmountLabel
     override val amountRow: ViewGroup
@@ -226,6 +228,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         setHelpVariant(HelpVariant.transaction)
         rootBinding = OneExpenseBinding.inflate(LayoutInflater.from(this))
         dateEditBinding = DateEditBinding.bind(rootBinding.root)
+        methodRowBinding = MethodRowBinding.bind(rootBinding.root)
         setContentView(rootBinding.root)
         setupToolbar()
         mManager = LoaderManager.getInstance(this)
@@ -235,7 +238,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         amountInput.setTypeEnabled(false)
 
         if (savedInstanceState != null) {
-            delegate = TransactionDelegate.create(operationType, isTemplate, rootBinding, dateEditBinding, prefHandler)
+            delegate = TransactionDelegate.create(operationType, isTemplate, rootBinding, dateEditBinding, methodRowBinding, prefHandler)
             loadData()
             delegate.bind(null, isCalendarPermissionPermanentlyDeclined, mNewInstance, savedInstanceState, null, withAutoFill)
             setTitle()
@@ -400,8 +403,10 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                 linkInputWithLabel(Comment, this)
             }
             linkInputWithLabel(Category, CategoryLabel)
-            linkInputWithLabel(Method, MethodLabel)
-            linkInputWithLabel(Number, MethodLabel)
+            with(methodRowBinding) {
+                linkInputWithLabel(Method.root, MethodLabel.root)
+                linkInputWithLabel(Number, ReferenceNumberLabel ?: MethodLabel.root)
+            }
             linkInputWithLabel(PB, PlanLabel)
             linkInputWithLabel(Recurrence, PlanLabel)
             linkInputWithLabel(TB, PlanLabel)
@@ -531,7 +536,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                 transaction.date = it / 1000
             }
         }
-        delegate = TransactionDelegate.create(transaction, rootBinding, dateEditBinding, prefHandler)
+        delegate = TransactionDelegate.create(transaction, rootBinding, dateEditBinding, methodRowBinding, prefHandler)
         loadData()
         delegate.bindUnsafe(transaction, isCalendarPermissionPermanentlyDeclined, mNewInstance, null, intent.getSerializableExtra(KEY_CACHED_RECURRENCE) as? Recurrence,
                 withAutoFill)

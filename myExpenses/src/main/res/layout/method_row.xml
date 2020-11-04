@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge>
+
+    <TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/MethodRow"
+        tools:showIn="@layout/one_expense">
+
+        <include
+            android:id="@+id/MethodLabel"
+            layout="@layout/method_label" />
+
+        <LinearLayout
+            style="@style/FormField"
+            android:orientation="horizontal">
+
+            <include
+                android:id="@+id/Method"
+                layout="@layout/method_spinner" />
+
+            <include
+                android:id="@+id/ClearMethod"
+                layout="@layout/clear_method" />
+        </LinearLayout>
+    </TableRow>
+
+    <TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/ReferenceNumberRow"
+        android:visibility="gone"
+        tools:showIn="@layout/one_expense">
+
+        <TextView
+            android:id="@+id/ReferenceNumberLabel"
+            style="@style/FormLabel"
+            android:labelFor="@+id/Number"
+            android:text="@string/reference_number" />
+
+        <EditText
+            android:id="@+id/Number"
+            style="@style/FormField"
+            android:inputType="text"
+            android:maxLines="1"
+            tools:ignore="TextFields" />
+    </TableRow>
+</merge>
