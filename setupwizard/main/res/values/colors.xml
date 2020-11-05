@@ -25,8 +25,7 @@
     <color name="suw_color_background_light">#fffafafa</color>
     <color name="suw_link_color_dark">#ff448aff</color>
     <color name="suw_link_color_light">#ff3367d6</color>
-    <color name="suw_list_item_icon_color_dark">#b3ffffff</color>
-    <color name="suw_list_item_icon_color_light">#89000000</color>
+    <color name="suw_list_item_icon_color">#b3ffffff</color>
     <color name="suw_progress_bar_color_dark">#ffffcd40</color>
     <color name="suw_progress_bar_color_light">#fff4b400</color>
 
@@ -48,5 +47,6 @@
     <color name="suw_glif_edit_text_bg_light_color">#fff1f3f4</color>
     <color name="suw_glif_v3_nav_bar_color_light">#ffffffff</color>
     <color name="suw_glif_v3_nav_bar_divider_color_light">#1f000000</color>
+    <color name="background_material">@color/background_material_light</color>
 
 </resources>

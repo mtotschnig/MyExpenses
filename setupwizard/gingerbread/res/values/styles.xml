@@ -20,67 +20,27 @@
     <!-- General styles -->
 
     <style name="SuwThemeMaterial" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="android:indeterminateTint" tools:ignore="NewApi">@color/suw_progress_bar_color_dark</item>
-        <!-- Specify the indeterminateTintMode to work around a bug in Lollipop -->
-        <item name="android:indeterminateTintMode" tools:ignore="NewApi">src_in</item>
         <item name="android:listPreferredItemHeight">@dimen/suw_items_preferred_height</item>
         <item name="android:listPreferredItemPaddingEnd" tools:ignore="NewApi">?attr/suwMarginSides</item>
         <item name="android:listPreferredItemPaddingStart" tools:ignore="NewApi">?attr/suwMarginSides</item>
         <item name="android:textAppearanceListItemSmall" tools:ignore="NewApi">?attr/textAppearanceListItemSmall</item>
-        <item name="android:textColorLink">@color/suw_link_color_dark</item>
         <item name="android:windowAnimationStyle">@style/Animation.SuwWindowAnimation</item>
         <item name="android:windowDisablePreview">true</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
 
-        <item name="colorAccent">@color/suw_color_accent_dark</item>
         <item name="suwFillContentLayoutStyle">@style/SuwFillContentLayout</item>
         <item name="listPreferredItemPaddingLeft">?attr/suwMarginSides</item>
         <item name="listPreferredItemPaddingRight">?attr/suwMarginSides</item>
         <item name="suwButtonAllCaps">true</item>
         <item name="suwButtonFontFamily">sans-serif</item>
-        <item name="suwCardBackground">@drawable/suw_card_bg_dark</item>
+        <item name="suwCardBackground">@drawable/suw_card_bg</item>
         <item name="suwDividerInsetEnd">0dp</item>
         <item name="suwDividerInsetStart">@dimen/suw_items_icon_divider_inset</item>
         <item name="suwDividerInsetStartNoIcon">@dimen/suw_items_text_divider_inset</item>
         <item name="suwItemDescriptionStyle">@style/SuwItemContainer.Description</item>
         <item name="suwItemDescriptionTitleStyle">@style/SuwItemTitle</item>
-        <item name="suwListItemIconColor">@color/suw_list_item_icon_color_dark</item>
+        <item name="suwListItemIconColor">@color/suw_list_item_icon_color</item>
         <item name="suwMarginSides">@dimen/suw_layout_margin_sides</item>
-        <item name="suwNavBarTheme">@style/SuwNavBarThemeDark</item>
-        <item name="textAppearanceListItemSmall">@style/TextAppearance.SuwItemSummary</item>
-    </style>
-
-    <style name="SuwThemeMaterial.Light" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:colorBackground">@color/suw_color_background_light</item>
-        <item name="android:indeterminateTint" tools:ignore="NewApi">@color/suw_progress_bar_color_light</item>
-        <!-- Specify the indeterminateTintMode to work around a bug in Lollipop -->
-        <item name="android:indeterminateTintMode" tools:ignore="NewApi">src_in</item>
-        <item name="android:listPreferredItemHeight">@dimen/suw_items_preferred_height</item>
-        <item name="android:listPreferredItemPaddingEnd" tools:ignore="NewApi">?attr/suwMarginSides</item>
-        <item name="android:listPreferredItemPaddingStart" tools:ignore="NewApi">?attr/suwMarginSides</item>
-        <item name="android:navigationBarColor" tools:ignore="NewApi">@android:color/black</item>
-        <item name="android:statusBarColor" tools:ignore="NewApi">@android:color/black</item>
-        <item name="android:textAppearanceListItemSmall" tools:ignore="NewApi">?attr/textAppearanceListItemSmall</item>
-        <item name="android:textColorLink">@color/suw_link_color_light</item>
-        <item name="android:windowAnimationStyle">@style/Animation.SuwWindowAnimation</item>
-        <item name="android:windowDisablePreview">true</item>
-        <item name="android:windowSoftInputMode">adjustResize</item>
-
-        <item name="colorAccent">@color/suw_color_accent_light</item>
-        <item name="suwFillContentLayoutStyle">@style/SuwFillContentLayout</item>
-        <item name="listPreferredItemPaddingLeft">?attr/suwMarginSides</item>
-        <item name="listPreferredItemPaddingRight">?attr/suwMarginSides</item>
-        <item name="suwButtonAllCaps">true</item>
-        <item name="suwButtonFontFamily">sans-serif</item>
-        <item name="suwCardBackground">@drawable/suw_card_bg_light</item>
-        <item name="suwDividerInsetEnd">0dp</item>
-        <item name="suwDividerInsetStart">@dimen/suw_items_icon_divider_inset</item>
-        <item name="suwDividerInsetStartNoIcon">@dimen/suw_items_text_divider_inset</item>
-        <item name="suwItemDescriptionStyle">@style/SuwItemContainer.Description</item>
-        <item name="suwItemDescriptionTitleStyle">@style/SuwItemTitle</item>
-        <item name="suwListItemIconColor">@color/suw_list_item_icon_color_light</item>
-        <item name="suwMarginSides">@dimen/suw_layout_margin_sides</item>
-        <item name="suwNavBarTheme">@style/SuwNavBarThemeLight</item>
         <item name="textAppearanceListItemSmall">@style/TextAppearance.SuwItemSummary</item>
     </style>
 
@@ -116,7 +76,7 @@
         <item name="suwGlifIconStyle">@style/SuwGlifIcon</item>
         <item name="suwItemDescriptionStyle">@style/SuwItemContainer.Description.Glif</item>
         <item name="suwItemDescriptionTitleStyle">@style/SuwItemTitle.GlifDescription</item>
-        <item name="suwListItemIconColor">@color/suw_list_item_icon_color_dark</item>
+        <item name="suwListItemIconColor">@color/suw_list_item_icon_color</item>
         <item name="suwMarginSides">@dimen/suw_glif_margin_sides</item>
         <item name="suwScrollIndicators">bottom</item>
         <item name="textAppearanceListItem">@style/TextAppearance.SuwGlifItemTitle</item>
@@ -155,7 +115,7 @@
         <item name="suwGlifIconStyle">@style/SuwGlifIcon</item>
         <item name="suwItemDescriptionStyle">@style/SuwItemContainer.Description.Glif</item>
         <item name="suwItemDescriptionTitleStyle">@style/SuwItemTitle.GlifDescription</item>
-        <item name="suwListItemIconColor">@color/suw_list_item_icon_color_light</item>
+        <item name="suwListItemIconColor">@color/suw_list_item_icon_color</item>
         <item name="suwMarginSides">@dimen/suw_glif_margin_sides</item>
         <item name="suwScrollIndicators">bottom</item>
         <item name="textAppearanceListItem">@style/TextAppearance.SuwGlifItemTitle</item>

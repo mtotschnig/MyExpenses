@@ -23,6 +23,6 @@
         android:topRightRadius="@dimen/suw_card_corner_radius" />
 
     <!-- Ignore PrivateResource: This should be fixed -->
-    <solid android:color="@color/background_material_dark" tools:ignore="PrivateResource" />
+    <solid android:color="@color/background_material" tools:ignore="PrivateResource" />
 
 </shape>

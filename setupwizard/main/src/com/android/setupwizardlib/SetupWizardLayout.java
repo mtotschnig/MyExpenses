@@ -172,7 +172,7 @@ public class SetupWizardLayout extends TemplateLayout {
         if (template == 0) {
             template = R.layout.suw_template;
         }
-        return inflateTemplate(inflater, R.style.SuwThemeMaterial_Light, template);
+        return inflateTemplate(inflater, R.style.SuwThemeMaterial, template);
     }
 
     @Override

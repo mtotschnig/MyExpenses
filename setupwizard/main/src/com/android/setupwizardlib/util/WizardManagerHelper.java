@@ -18,17 +18,13 @@ package com.android.setupwizardlib.util;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources.Theme;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.provider.Settings;
 
-import androidx.annotation.StyleRes;
-import androidx.annotation.VisibleForTesting;
-
-import com.android.setupwizardlib.R;
-
 import java.util.Arrays;
+
+import androidx.annotation.VisibleForTesting;
 
 public class WizardManagerHelper {
 
@@ -230,100 +226,4 @@ public class WizardManagerHelper {
                 && originalIntent.getBooleanExtra(EXTRA_IS_PRE_DEFERRED_SETUP, false);
     }
 
-    /**
-     * Checks the intent whether the extra indicates that the light theme should be used or not. If
-     * the theme is not specified in the intent, or the theme specified is unknown, the value def
-     * will be returned.
-     *
-     * @param intent The intent used to start the activity, which the theme extra will be read from.
-     * @param def The default value if the theme is not specified.
-     * @return True if the activity started by the given intent should use light theme.
-     */
-    public static boolean isLightTheme(Intent intent, boolean def) {
-        final String theme = intent.getStringExtra(EXTRA_THEME);
-        return isLightTheme(theme, def);
-    }
-
-    /**
-     * Checks whether {@code theme} represents a light or dark theme. If the theme specified is
-     * unknown, the value def will be returned.
-     *
-     * @param theme The theme as specified from an intent sent from setup wizard.
-     * @param def The default value if the theme is not known.
-     * @return True if {@code theme} represents a light theme.
-     */
-    public static boolean isLightTheme(String theme, boolean def) {
-        if (THEME_HOLO_LIGHT.equals(theme) || THEME_MATERIAL_LIGHT.equals(theme)
-                || THEME_GLIF_LIGHT.equals(theme) || THEME_GLIF_V2_LIGHT.equals(theme)
-                || THEME_GLIF_V3_LIGHT.equals(theme)) {
-            return true;
-        } else if (THEME_HOLO.equals(theme) || THEME_MATERIAL.equals(theme)
-                || THEME_GLIF.equals(theme) || THEME_GLIF_V2.equals(theme)
-                || THEME_GLIF_V3.equals(theme)) {
-            return false;
-        } else {
-            return def;
-        }
-    }
-
-    /**
-     * Gets the theme style resource defined by this library for the theme specified in the given
-     * intent. For example, for THEME_GLIF_LIGHT, the theme @style/SuwThemeGlif.Light is returned.
-     *
-     * @param intent The intent passed by setup wizard, or one with the theme propagated along using
-     *               {@link #copyWizardManagerExtras(Intent, Intent)}.
-     * @return The style corresponding to the theme in the given intent, or {@code defaultTheme} if
-     *         the given theme is not recognized.
-     *
-     * @see #getThemeRes(String, int)
-     */
-    public static @StyleRes int getThemeRes(Intent intent, @StyleRes int defaultTheme) {
-        final String theme = intent.getStringExtra(EXTRA_THEME);
-        return getThemeRes(theme, defaultTheme);
-    }
-
-    /**
-     * Gets the theme style resource defined by this library for the given theme name. For example,
-     * for THEME_GLIF_LIGHT, the theme @style/SuwThemeGlif.Light is returned.
-     *
-     * <p>If you require extra theme attributes but want to ensure forward compatibility with new
-     * themes added here, consider overriding {@link android.app.Activity#onApplyThemeResource} in
-     * your activity and call {@link Theme#applyStyle(int, boolean)} using your theme overlay.
-     *
-     * <pre>{@code
-     * protected void onApplyThemeResource(Theme theme, int resid, boolean first) {
-     *     super.onApplyThemeResource(theme, resid, first);
-     *     theme.applyStyle(R.style.MyThemeOverlay, true);
-     * }
-     * }</pre>
-     *
-     * @param theme The string representation of the theme.
-     * @return The style corresponding to the given {@code theme}, or {@code defaultTheme} if the
-     *         given theme is not recognized.
-     */
-    public static @StyleRes int getThemeRes(String theme, @StyleRes int defaultTheme) {
-        if (theme != null) {
-            switch (theme) {
-                case THEME_GLIF_V3_LIGHT:
-                    return R.style.SuwThemeGlifV3_Light;
-                case THEME_GLIF_V3:
-                    return R.style.SuwThemeGlifV3;
-                case THEME_GLIF_V2_LIGHT:
-                    return R.style.SuwThemeGlifV2_Light;
-                case THEME_GLIF_V2:
-                    return R.style.SuwThemeGlifV2;
-                case THEME_GLIF_LIGHT:
-                    return R.style.SuwThemeGlif_Light;
-                case THEME_GLIF:
-                    return R.style.SuwThemeGlif;
-                case THEME_MATERIAL_LIGHT:
-                    return R.style.SuwThemeMaterial_Light;
-                case THEME_MATERIAL:
-                    return R.style.SuwThemeMaterial;
-                default:
-                    // fall through
-            }
-        }
-        return defaultTheme;
-    }
 }
