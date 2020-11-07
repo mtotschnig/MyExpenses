@@ -675,6 +675,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             }
             R.id.SAVE_AND_NEW_COMMAND -> {
                 createNew = !createNew
+                updateFab()
                 invalidateOptionsMenu()
                 return true;
             }
@@ -1175,6 +1176,11 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         if (delegate.rowId == 0L) {
             (delegate as? TransferDelegate)?.configureTransferDirection()
         }
+        updateFab()
+    }
+
+    private fun updateFab() {
+        floatingActionButton.setImageResource(if (createNew) R.drawable.ic_action_save_new else R.drawable.ic_menu_done)
     }
 
     fun clearMethodSelection(@Suppress("UNUSED_PARAMETER") view: View) {
