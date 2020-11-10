@@ -543,7 +543,9 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   }
 
   public void tintSystemUi(int color) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP &&
+        (getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) <
+        Configuration.SCREENLAYOUT_SIZE_LARGE) {
       Window window = getWindow();
       //noinspection InlinedApi
       window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -554,9 +556,9 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
       window.setNavigationBarColor(color700);
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         //noinspection InlinedApi
-        getWindow().getDecorView().setSystemUiVisibility(
+        window.getDecorView().setSystemUiVisibility(
             ColorUtils.isBrightColor(color700) ? View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR : 0);
-        getWindow().getDecorView().setSystemUiVisibility(
+        window.getDecorView().setSystemUiVisibility(
             ColorUtils.isBrightColor(color700) ? View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR : 0);
       }
     }
