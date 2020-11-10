@@ -61,6 +61,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="toolbarStyle">@style/AppTheme.Toolbar</item>
         <item name="materialAlertDialogTheme">@style/MyAlertDialogTheme</item>
         <item name="searchViewStyle">@style/SearchViewStyle</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
     </style>
 
     <style name="EditDialog" parent="EditDialogBase" />
