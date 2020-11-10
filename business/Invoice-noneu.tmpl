@@ -51,7 +51,6 @@
 \setkomafont{fromname}{\sffamily\color{mygray}\LARGE}
 %\setkomafont{pagenumber}{\sffamily}
 \setkomafont{subject}{\mdseries}
-\setkomafont{lettersubject}{\normalcolor\bfseries}
 \setkomafont{backaddress}{\mdseries}
 \setkomafont{fromaddress}{\small\sffamily\mdseries\color{mygray}}
 \newkomavar[Ust-Id]{ustid}
@@ -67,100 +66,13 @@
 \newcommand{\country}{}
 \newcommand{\countryName}{
     \begin{switch}{\country}
-        \case{de}{Germany}
-        \case{fr}{France}
-        \case{at}{Austria}
-        \case{pl}{Poland}
-        \case{be}{Belgium}
-        \case{bg}{Bulgaria}
-        \case{cz}{Czech Republic}
-        \case{dk}{Denmark}
-        \case{ie}{Ireland}
-        \case{el}{Greece}
-        \case{es}{Spain}
-        \case{hr}{Croatia}
-        \case{it}{Italy}
-        \case{cy}{Cyprus}
-        \case{lv}{Latvia}
-        \case{lt}{Lithuania}
-        \case{lu}{Luxembourg}
-        \case{hu}{Hungary}
-        \case{mt}{Malta}
-        \case{nl}{Netherlands}
-        \case{pt}{Portugal}
-        \case{ro}{Romania}
-        \case{si}{Slovenia}
-        \case{sk}{Slovakia}
-        \case{fi}{Finland}
-        \case{se}{Sweden}
-        \case{uk}{United Kingdom}
-        \case{ee}{Estonia}
+        \case{us}{United States}
+        \case{sa}{Saudi Arabia}
+        \case{tr}{Turkey}
+        \case{bd}{Bangladesh}
+        \case{ch}{Switzerland}
     \end{switch}
 }
-
-% \makeatletter
-% \newcommand{\vatRate}{%
-  % \ifnum\pdf@strcmp{\country}{de}=0
-    % 19%
-  % \else\ifnum\pdf@strcmp{\country}{fr}=0
-    % 20%
-  % \else\ifnum\pdf@strcmp{\country}{at}=0
-    % 20%
-  % \else\ifnum\pdf@strcmp{\country}{pl}=0
-    % 23%
-  % \else\ifnum\pdf@strcmp{\country}{be}=0
-    % 21%
-  % \else\ifnum\pdf@strcmp{\country}{bg}=0
-    % 20%
-  % \else\ifnum\pdf@strcmp{\country}{cz}=0
-    % 21%
-  % \else\ifnum\pdf@strcmp{\country}{dk}=0
-    % 25%
-  % \else\ifnum\pdf@strcmp{\country}{ie}=0
-    % 23%
-  % \else\ifnum\pdf@strcmp{\country}{el}=0
-    % 24%
-  % \else\ifnum\pdf@strcmp{\country}{es}=0
-    % 21%
-  % \else\ifnum\pdf@strcmp{\country}{hr}=0
-    % 25%
-  % \else\ifnum\pdf@strcmp{\country}{it}=0
-    % 22%
-  % \else\ifnum\pdf@strcmp{\country}{cy}=0
-    % 19%
-  % \else\ifnum\pdf@strcmp{\country}{lv}=0
-    % 21%
-  % \else\ifnum\pdf@strcmp{\country}{lt}=0
-    % 21%
-  % \else\ifnum\pdf@strcmp{\country}{lu}=0
-    % 17%
-  % \else\ifnum\pdf@strcmp{\country}{hu}=0
-    % 27%
-  % \else\ifnum\pdf@strcmp{\country}{mt}=0
-    % 18%
-  % \else\ifnum\pdf@strcmp{\country}{nl}=0
-    % 21%
-  % \else\ifnum\pdf@strcmp{\country}{pt}=0
-    % 20%
-  % \else\ifnum\pdf@strcmp{\country}{ro}=0
-    % 19%
-  % \else\ifnum\pdf@strcmp{\country}{si}=0
-    % 22%
-  % \else\ifnum\pdf@strcmp{\country}{sk}=0
-    % 20%
-  % \else\ifnum\pdf@strcmp{\country}{fi}=0
-    % 24%
-  % \else\ifnum\pdf@strcmp{\country}{se}=0
-    % 25%
-  % \else\ifnum\pdf@strcmp{\country}{uk}=0
-    % 20%
-  % \else\ifnum\pdf@strcmp{\country}{ee}=0
-    % 20%
-  % \else
-    % unknown%
-  % \fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi\fi}
-  % \makeatother
-\newcommand{\vatRate}{16}
 
 %---------------------------------------------------------------------------
 \begin{document}
@@ -169,7 +81,7 @@
 \LoadLetterOption{DIN} %% oder: DINmtext, SN, SNleft, KOMAold.
 \makeatletter
 \@setplength{sigbeforevskip}{17mm} % Abstand der Signatur von dem closing
-%\@setplength{firstheadvpos}{17mm} % Abstand des Absenderfeldes vom Top
+\@setplength{firstheadvpos}{17mm} % Abstand des Absenderfeldes vom Top
 \@setplength{firstfootvpos}{275mm} % Abstand des Footers von oben
 \@setplength{firstheadwidth}{\paperwidth}
 \@setplength{locwidth}{70mm}   % Breite des Locationfeldes
@@ -198,12 +110,6 @@
 \newcommand\price{${PRICE}}                                  %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% VAT calculation
-\FPdiv{\vatFraction}{\vatRate}{100}
-\FPmul{\vatCalc}{\price}{\vatFraction}
-\FPadd{\total}{\price}{\vatCalc}
-
-
 %---------------------------------------------------------------------------
 % Absender Daten
 \setkomavar{fromname}{MyExpenses.mobi - Michael Totschnig}
@@ -231,14 +137,14 @@
 \pagenumbering{arabic}
 %---------------------------------------------------------------------------
 %---------------------------------------------------------------------------
-\setkomavar{firstfoot}{\footnotesize%
+\firstfoot{\footnotesize%
 \rule[3pt]{\textwidth}{.4pt} \\
 \begin{tabular}[t]{l@{}}% 
 \usekomavar{fromname}\\
 \usekomavar{fromaddress}\\
 \usekomavar[\Letter~]{fromemail}\\
 \end{tabular}%
-\Ifkomavarempty{frombank}{}{%
+\ifkomavarempty{frombank}{}{%
 \hfill
 \begin{tabular}[t]{l@{}}%
 Bank details \\
@@ -270,19 +176,19 @@ N26 Bank}
 %---------------------------------------------------------------------------
 % Der Betreff des Briefes
 \setkomavar{subject}{Invoice}
-%---------------------------------------------------------------------------
+-----------------------------------------------------------
 \opening{}
 
 \vspace{5pt}
 \begin{tabularx}{\textwidth}{Xr}
 %\rowcolor[gray]{.95}
 \key  &  \formatNumber{\price} \EUR \\
-\small{VAT \vatRate\% } & \formatNumber{\vatCalc} \EUR \\ \hline \hline
-\textbf{Total} & \textbf{\formatNumber{\total} \EUR} \\ 
+\hline \hline
+\textbf{Total} & \textbf{\formatNumber{\price} \EUR} \\ 
 \hline
 \end{tabularx}
 
-Please transfer \formatNumber{\total} \EUR\ to the account mentioned below.
+Please transfer \formatNumber{\price} \EUR\ to the account mentioned below.
 
 Many thanks for your contribution to the further development of My Expenses.
 

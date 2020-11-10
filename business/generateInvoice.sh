@@ -44,6 +44,7 @@ if [ -z "$KEY" ] || [ -z "$PRICE" ] || [ -z "$COUNTRY" ] || [ -z "$USER" ]
      show_help
 fi
 
+: "${TEMPLATE:=Invoice.tmpl}"
 YEAR=$(date +'%Y')
 MONTH=$(date +'%m')
 LATEST=$(<LATEST)
@@ -68,7 +69,7 @@ if test -f "$TEXFILE"; then
     echo "$TEXFILE exists."
     exit 1
 fi
-envsubst < Invoice.tmpl > $TEXFILE
+envsubst < $TEMPLATE > $TEXFILE
 pdflatex $TEXFILE
 open ${FILENAME}.pdf
 )
