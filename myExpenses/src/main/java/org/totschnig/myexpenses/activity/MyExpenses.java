@@ -631,7 +631,7 @@ public class MyExpenses extends BaseMyExpenses implements
         //for result is needed since it allows us to inspect the calling activity
         startActivity(i);
         return true;
-      case R.id.MANAGE_PLANS_COMMAND:
+      case R.id.MANAGE_TEMPLATES_COMMAND:
         i = new Intent(this, ManageTemplates.class);
         startActivity(i);
         return true;

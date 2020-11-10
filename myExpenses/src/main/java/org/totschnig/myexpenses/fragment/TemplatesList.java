@@ -407,7 +407,7 @@ public class TemplatesList extends SortableListFragment
             null,
             KEY_PARENTID + " is null",
             null,
-            Sort.preferredOrderByForTemplatesWithPlans(PrefKey.SORT_ORDER_TEMPLATES, prefHandler, Sort.USAGES));
+            Sort.preferredOrderByForTemplatesWithPlans(prefHandler, Sort.USAGES));
     }
     return null;
   }
