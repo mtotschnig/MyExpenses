@@ -20,6 +20,7 @@ import android.app.NotificationManager
 import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.database.ContentObserver
 import android.database.Cursor
 import android.net.Uri
@@ -29,7 +30,6 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
-import android.view.SubMenu
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
@@ -159,6 +159,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
     @State
     var operationType = 0
     private lateinit var mManager: LoaderManager
+
     @JvmField
     @State
     var createNew = false
@@ -191,8 +192,6 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
     lateinit var discoveryHelper: DiscoveryHelper
 
     lateinit var delegate: TransactionDelegate<*>
-
-    private var templatesMenu: SubMenu? = null
 
     private var menuItem2TemplateMap: MutableMap<Int, DataTemplate> = mutableMapOf()
 
@@ -651,7 +650,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
         if (!isSplitPartOrTemplate) {
-            templatesMenu = menu.addSubMenu(Menu.NONE, R.id.MANAGE_TEMPLATES_COMMAND, 0, R.string.template).apply {
+            menu.addSubMenu(Menu.NONE, R.id.MANAGE_TEMPLATES_COMMAND, 0, R.string.template).apply {
                 item.setIcon(R.drawable.ic_menu_template).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
             }
             menu.add(Menu.NONE, R.id.SAVE_AND_NEW_COMMAND, 0, R.string.menu_save_and_new)

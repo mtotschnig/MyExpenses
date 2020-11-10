@@ -719,7 +719,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         configureDateInput(account)
         configureStatusSpinner()
         viewBinding.Amount.setFractionDigits(account.currency.fractionDigits())
-        host.tintSystemUi(account.color)
+        host.tintSystemUiAndFab(account.color)
     }
 
     private fun hasHomeCurrency(account: Account): Boolean {

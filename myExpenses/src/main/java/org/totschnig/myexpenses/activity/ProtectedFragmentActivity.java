@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -98,7 +99,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
-import androidx.core.app.NavUtils;
 import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -541,14 +541,17 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     return false;
   }
 
+  public void tintSystemUiAndFab(int color) {
+    tintSystemUi(color);
+    UiUtils.setBackgroundTintListOnFab(floatingActionButton, color);
+  }
+
   public void tintSystemUi(int color) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP &&
-        (getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) <
-        Configuration.SCREENLAYOUT_SIZE_LARGE) {
+    if (shouldTintSystemUi() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
       Window window = getWindow();
       //noinspection InlinedApi
       window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-      //noinspection InlinedApi
+      //noinspection InlinedA
       window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
       int color700 = ColorUtils.get700Tint(color);
       window.setStatusBarColor(color700);
@@ -561,7 +564,18 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
             ColorUtils.isBrightColor(color700) ? View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR : 0);
       }
     }
-    UiUtils.setBackgroundTintListOnFab(floatingActionButton, color);
+  }
+
+  public boolean shouldTintSystemUi() {
+    try {
+      //on DialogWhenLargeTheme we do not want to tint if we are displayed on a large screen as dialog
+      return getPackageManager().getActivityInfo(getComponentName(), 0).getThemeResource() != R.style.EditDialog ||
+          (getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) <
+          Configuration.SCREENLAYOUT_SIZE_LARGE;
+    } catch (PackageManager.NameNotFoundException e) {
+      CrashHandler.report(e);
+      return false;
+    }
   }
 
   @Override

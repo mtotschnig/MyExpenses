@@ -972,7 +972,7 @@ public class MyExpenses extends BaseMyExpenses implements
     if (accountId != newAccountId) {
       prefHandler.putLong(PrefKey.CURRENT_ACCOUNT, newAccountId);
     }
-    tintSystemUi(newAccountId < 0 ? getResources().getColor(R.color.colorAggregate) : mAccountsCursor.getInt(columnIndexColor));
+    tintSystemUiAndFab(newAccountId < 0 ? getResources().getColor(R.color.colorAggregate) : mAccountsCursor.getInt(columnIndexColor));
 
     accountId = newAccountId;
     setCurrentCurrency(mAccountsCursor.getString(columnIndexCurrency));
