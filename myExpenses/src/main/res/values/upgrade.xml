@@ -15,11 +15,8 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
-    <string-array name="whats_new_3162">
-        <item>@string/bug_fixes</item>
-    </string-array>
-    <string-array name="whats_new_3161">
-        <item>@string/bug_fixes</item>
+    <string-array name="whats_new_317">
+        <item>Templates can be loaded from transaction form.</item>
     </string-array>
     <string-array name="whats_new_316">
         <item>Save button in transaction form is more salient.</item>
