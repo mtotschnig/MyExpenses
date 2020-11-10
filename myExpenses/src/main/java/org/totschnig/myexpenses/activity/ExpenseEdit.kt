@@ -678,7 +678,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         return menuItem2TemplateMap[item.itemId]?.let {
             if (isDirty) {
                 Bundle().apply {
-                    putString(ConfirmationDialogFragment.KEY_MESSAGE, "Existing form data will be discarded.")
+                    putString(ConfirmationDialogFragment.KEY_MESSAGE, getString(R.string.confirmation_load_template_discard_data))
                     putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.LOAD_TEMPLATE_DO)
                     putLong(KEY_ROWID, it.id)
                     ConfirmationDialogFragment.newInstance(this).show(supportFragmentManager, "CONFIRM_LOAD")
