@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.viewmodel
 import android.app.Application
 import android.content.ContentUris
 import android.database.Cursor
-import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
@@ -14,6 +13,7 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.ITransaction
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Plan.CalendarIntegrationNotAvailableException
+import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.model.SplitTransaction
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Transaction
@@ -25,17 +25,21 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACCOUNTY_TYPE_LIST
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.Account
-import org.totschnig.myexpenses.viewmodel.data.Event
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import java.util.*
+import org.totschnig.myexpenses.viewmodel.data.Template as DataTemplate
 
 const val ERROR_UNKNOWN = -1L
 const val ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE = -2L
@@ -48,13 +52,28 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
     val disposables = CompositeDisposable()
     private val methods = MutableLiveData<List<PaymentMethod>>()
     private val accounts = MutableLiveData<List<Account>>()
+    private val templates = MutableLiveData<List<DataTemplate>>()
 
     fun getMethods(): LiveData<List<PaymentMethod>> = methods
 
     fun getAccounts(): LiveData<List<Account>> = accounts
 
+    fun getTemplates(): LiveData<List<DataTemplate>> = templates
+
     fun plan(planId: Long): LiveData<Plan?> = liveData(context = coroutineContext()) {
         emit(Plan.getInstanceFromDb(planId))
+    }
+
+    fun loadTemplates() {
+        disposables.add(briteContentResolver.createQuery(TransactionProvider.TEMPLATES_URI.buildUpon()
+                .build(), arrayOf(KEY_ROWID, KEY_TITLE),
+                "${KEY_PLANID} is null AND ${KEY_PARENTID} is null AND ${KEY_SEALED} = 0",
+                null,
+                Sort.preferredOrderByForTemplatesWithPlans(prefHandler, Sort.USAGES),
+                false)
+                .mapToList { DataTemplate.fromCursor(it) }
+                .subscribe { templates.postValue(it) }
+        )
     }
 
     fun loadMethods(isIncome: Boolean, type: AccountType) {

@@ -19,7 +19,7 @@ class SortTest {
         val prefHandler = mock(PrefHandler::class.java)
         `when`(prefHandler.getString(eq(PrefKey.SORT_ORDER_TEMPLATES), any())).thenReturn(Sort.NEXT_INSTANCE.name)
         assertThat(
-                Sort.preferredOrderByForTemplatesWithPlans(PrefKey.SORT_ORDER_TEMPLATES, prefHandler, Sort.TITLE)).isNull()
+                Sort.preferredOrderByForTemplatesWithPlans(prefHandler, Sort.TITLE)).isNull()
     }
 
     @Test
@@ -27,7 +27,7 @@ class SortTest {
         val prefHandler = mock(PrefHandler::class.java)
         `when`(prefHandler.getString(eq(PrefKey.SORT_ORDER_TEMPLATES), any())).thenReturn(Sort.LABEL.name)
         assertThat(
-                Sort.preferredOrderByForTemplates(PrefKey.SORT_ORDER_TEMPLATES, prefHandler, Sort.TITLE)).isEqualTo(Sort.TITLE.toOrderBy())
+                Sort.preferredOrderByForTemplates(prefHandler, Sort.TITLE)).isEqualTo(Sort.TITLE.toOrderBy())
     }
 
     @Test
@@ -35,7 +35,7 @@ class SortTest {
         val prefHandler = mock(PrefHandler::class.java)
         `when`(prefHandler.getString(eq(PrefKey.SORT_ORDER_TEMPLATES), any())).thenReturn(Sort.TITLE.name)
         assertThat(
-                Sort.preferredOrderByForTemplates(PrefKey.SORT_ORDER_TEMPLATES, prefHandler, Sort.TITLE)).isEqualTo(Sort.TITLE.toOrderBy())
+                Sort.preferredOrderByForTemplates(prefHandler, Sort.TITLE)).isEqualTo(Sort.TITLE.toOrderBy())
     }
 
     @Test
@@ -43,14 +43,14 @@ class SortTest {
         val prefHandler = mock(PrefHandler::class.java)
         `when`(prefHandler.getString(eq(PrefKey.SORT_ORDER_TEMPLATES), any())).thenReturn(Sort.USAGES.name)
         assertThat(
-                Sort.preferredOrderByForTemplates(PrefKey.SORT_ORDER_TEMPLATES, prefHandler, Sort.TITLE)).isEqualTo(
+                Sort.preferredOrderByForTemplates(prefHandler, Sort.TITLE)).isEqualTo(
                 "%s, %s".format(Sort.USAGES.toOrderBy(), Sort.TITLE.toOrderBy()))
     }
 
     @Test(expected = IllegalArgumentException::class)
     fun calledWithUnsupportedThrowsException() {
         val prefHandler = mock(PrefHandler::class.java)
-        Sort.preferredOrderByForTemplates(PrefKey.SORT_ORDER_TEMPLATES, prefHandler, Sort.LABEL)
+        Sort.preferredOrderByForTemplates(prefHandler, Sort.LABEL)
     }
 
     @Test
@@ -58,6 +58,6 @@ class SortTest {
         val prefHandler = mock(PrefHandler::class.java)
         `when`(prefHandler.getString(eq(PrefKey.SORT_ORDER_TEMPLATES), any())).thenAnswer { i -> i.getArguments()[1] }
         assertThat(
-                Sort.preferredOrderByForTemplates(PrefKey.SORT_ORDER_TEMPLATES, prefHandler, Sort.TITLE)).isEqualTo(Sort.TITLE.toOrderBy())
+                Sort.preferredOrderByForTemplates(prefHandler, Sort.TITLE)).isEqualTo(Sort.TITLE.toOrderBy())
     }
 }

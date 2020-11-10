@@ -49,12 +49,12 @@ enum class Sort(val commandId: Int, private val isDescending: Boolean = true) {
                 preferredOrderByRestricted(prefKey, prefHandler, defaultSort, categorySort)
 
         @JvmStatic
-        fun preferredOrderByForTemplates(prefKey: PrefKey, prefHandler: PrefHandler, defaultSort: Sort) =
-                preferredOrderByRestricted(prefKey, prefHandler, defaultSort, templateSort)
+        fun preferredOrderByForTemplates(prefHandler: PrefHandler, defaultSort: Sort) =
+                preferredOrderByRestricted(PrefKey.SORT_ORDER_TEMPLATES, prefHandler, defaultSort, templateSort)
 
         @JvmStatic
-        fun preferredOrderByForTemplatesWithPlans(prefKey: PrefKey, prefHandler: PrefHandler, defaultSort: Sort) =
-                preferredOrderByRestricted(prefKey, prefHandler, defaultSort, templateWithPlansSort)
+        fun preferredOrderByForTemplatesWithPlans(prefHandler: PrefHandler, defaultSort: Sort) =
+                preferredOrderByRestricted(PrefKey.SORT_ORDER_TEMPLATES, prefHandler, defaultSort, templateWithPlansSort)
 
         @JvmStatic
         fun preferredOrderByForAccounts(prefKey: PrefKey, prefHandler: PrefHandler, defaultSort: Sort) =

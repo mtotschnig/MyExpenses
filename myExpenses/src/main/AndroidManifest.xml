@@ -83,6 +83,7 @@
 
         <activity
             android:theme="@style/MyTheme.Main"
+            android:launchMode="singleTop"
             android:name=".activity.MyExpenses"
             android:label="${appName}" />
 

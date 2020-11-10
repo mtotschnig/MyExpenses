@@ -631,7 +631,7 @@ public class MyExpenses extends BaseMyExpenses implements
         //for result is needed since it allows us to inspect the calling activity
         startActivity(i);
         return true;
-      case R.id.MANAGE_PLANS_COMMAND:
+      case R.id.MANAGE_TEMPLATES_COMMAND:
         i = new Intent(this, ManageTemplates.class);
         startActivity(i);
         return true;
@@ -972,7 +972,7 @@ public class MyExpenses extends BaseMyExpenses implements
     if (accountId != newAccountId) {
       prefHandler.putLong(PrefKey.CURRENT_ACCOUNT, newAccountId);
     }
-    tintSystemUi(newAccountId < 0 ? getResources().getColor(R.color.colorAggregate) : mAccountsCursor.getInt(columnIndexColor));
+    tintSystemUiAndFab(newAccountId < 0 ? getResources().getColor(R.color.colorAggregate) : mAccountsCursor.getInt(columnIndexColor));
 
     accountId = newAccountId;
     setCurrentCurrency(mAccountsCursor.getString(columnIndexCurrency));

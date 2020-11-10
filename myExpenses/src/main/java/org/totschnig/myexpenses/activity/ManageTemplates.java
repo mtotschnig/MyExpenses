@@ -125,17 +125,12 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
   @Override
   protected void doHome() {
     Intent upIntent = NavUtils.getParentActivityIntent(this);
-    if (shouldUpRecreateTask(this)) {
-      // This activity is NOT part of this app's task, so create a new task
-      // when navigating up, with a synthesized back stack.
-      TaskStackBuilder.create(this)
-          // Add all of this activity's parents to the back stack
-          .addNextIntentWithParentStack(upIntent)
-          // Navigate up to the closest parent
+    if (isTaskRoot()) {
+      // create new task
+      TaskStackBuilder.create(this).addNextIntentWithParentStack(upIntent)
           .startActivities();
     } else {
-      // This activity is part of this app's task, so simply
-      // navigate up to the logical parent activity.
+      // Stay in same task
       NavUtils.navigateUpTo(this, upIntent);
     }
   }

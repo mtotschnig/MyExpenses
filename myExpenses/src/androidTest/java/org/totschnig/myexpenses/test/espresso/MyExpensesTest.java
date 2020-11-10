@@ -268,7 +268,7 @@ public final class MyExpensesTest extends BaseUiTest {
 
   @Test
   public void templateScreenIsOpened() {
-    clickMenuItem(R.id.MANAGE_PLANS_COMMAND, R.string.menu_manage_plans);
+    clickMenuItem(R.id.MANAGE_TEMPLATES_COMMAND, R.string.menu_manage_plans);
     intended(hasComponent(ManageTemplates.class.getName()));
   }
 

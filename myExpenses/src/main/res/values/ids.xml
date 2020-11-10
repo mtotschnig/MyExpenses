@@ -37,7 +37,7 @@
     <item name="HANDLE_RESTORE_ON_INSTALL_COMMAND" type="id"/>
     <item name="HELP_COMMAND" type="id"/>
     <item name="INVERT_TRANSFER_COMMAND" type="id"/>
-    <item name="MANAGE_PLANS_COMMAND" type="id"/>
+    <item name="MANAGE_TEMPLATES_COMMAND" type="id"/>
     <item name="MORE_ACTIONS_DIALOG" type="id"/>
     <item name="MORE_INFO_DIALOG" type="id"/>
     <item name="NO_COMMAND" type="id"/>
@@ -188,4 +188,5 @@
     <item name="SCAN_MODE_COMMAND" type="id"/>
     <item name="OCR_DOWNLOAD_COMMAND" type="id" />
     <item name="OCR_FAQ_COMMAND" type="id" />
+    <item name="LOAD_TEMPLATE_DO" type="id" />
 </resources>

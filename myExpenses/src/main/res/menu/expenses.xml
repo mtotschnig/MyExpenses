@@ -58,7 +58,7 @@
         </menu>
     </item>
     <item
-        android:id="@id/MANAGE_PLANS_COMMAND"
+        android:id="@id/MANAGE_TEMPLATES_COMMAND"
         android:icon="@drawable/ic_menu_template"
         android:orderInCategory="10"
         android:title="@string/menu_manage_plans"
