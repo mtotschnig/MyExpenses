@@ -263,6 +263,8 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                 task = TRANSACTION
             }
             mNewInstance = mRowId == 0L
+            createNew = prefHandler.getBoolean(PrefKey.EXPENSE_EDIT_SAVE_AND_NEW, false)
+            updateFab()
             //were we called from a notification
             val notificationId = intent.getIntExtra(MyApplication.KEY_NOTIFICATION_ID, 0)
             if (notificationId > 0) {
@@ -675,6 +677,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             }
             R.id.SAVE_AND_NEW_COMMAND -> {
                 createNew = !createNew
+                prefHandler.putBoolean(PrefKey.EXPENSE_EDIT_SAVE_AND_NEW, createNew)
                 updateFab()
                 invalidateOptionsMenu()
                 return true;
