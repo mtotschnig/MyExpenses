@@ -15,7 +15,6 @@
 
 package org.totschnig.myexpenses.activity;
 
-import android.app.Activity;
 import android.app.KeyguardManager;
 import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
@@ -707,17 +706,6 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   public void recordUsage(ContribFeature f) {
     f.recordUsage(prefHandler);
-  }
-
-  /**
-   * Workaround for broken {@link NavUtils#shouldUpRecreateTask(android.app.Activity, Intent)}
-   *
-   * @param from
-   * @return
-   * @see <a href="http://stackoverflow.com/a/20643984/1199911">http://stackoverflow.com/a/20643984/1199911</a>
-   */
-  protected final boolean shouldUpRecreateTask(Activity from) {
-    return from.getIntent().getBooleanExtra(AbstractWidgetKt.EXTRA_START_FROM_WIDGET, false);
   }
 
   /*

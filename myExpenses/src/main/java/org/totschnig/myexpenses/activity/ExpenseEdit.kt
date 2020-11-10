@@ -199,7 +199,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
     private val isSplitPart: Boolean
         get() = parentId != 0L
 
-    private val isNoMainTransaction: Boolean
+    private val isSplitPartOrTemplate: Boolean
         get() = isSplitPart || isTemplate
 
     private val isMainTemplate: Boolean
@@ -209,7 +209,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         get() = operationType != TYPE_TRANSFER && !isSplitPart
 
     private val isMainTransaction: Boolean
-        get() = operationType != TYPE_TRANSFER && !isSplitPart && !isTemplate
+        get() = operationType != TYPE_TRANSFER && !isSplitPartOrTemplate
 
     private val isClone: Boolean
         get() = intent.getBooleanExtra(KEY_CLONE, false)
@@ -269,8 +269,6 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                 task = TRANSACTION
             }
             mNewInstance = mRowId == 0L
-            createNew = prefHandler.getBoolean(PrefKey.EXPENSE_EDIT_SAVE_AND_NEW, false)
-            updateFab()
             //were we called from a notification
             val notificationId = intent.getIntExtra(MyApplication.KEY_NOTIFICATION_ID, 0)
             if (notificationId > 0) {
@@ -403,6 +401,10 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             })
         }
         linkInputsWithLabels()
+        if (!isSplitPartOrTemplate) {
+            createNew = prefHandler.getBoolean(PrefKey.EXPENSE_EDIT_SAVE_AND_NEW, false)
+            updateFab()
+        }
     }
 
     override fun linkInputsWithLabels() {
@@ -648,7 +650,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
-        if (!isNoMainTransaction) {
+        if (!isSplitPartOrTemplate) {
             templatesMenu = menu.addSubMenu(Menu.NONE, R.id.MANAGE_TEMPLATES_COMMAND, 0, R.string.template).apply {
                 item.setIcon(R.drawable.ic_menu_template).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
             }
