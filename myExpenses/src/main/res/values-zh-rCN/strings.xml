@@ -359,7 +359,7 @@
     <string name="warning_widget_disabled">你需要在应用设置里面启用这个挂件</string>
     <string name="warning_password_contrib">若果您忘记了密码,设置一个安全问题可让你再次解锁此应用.</string>
     <string name="warning_reset_account">如果你继续,这个帐户的所有交易都从数据库中被删除且无法恢复.</string>
-    <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
+    <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">如果你继续,所有帐户%1$s和当中的所有交易都从数据库中被删除且无法恢复.</string>
     <string name="warning_restore">数据库和喜好设置将会从备份中被恢复过来 (%1$s).当前的数据会被删除.</string>
     <string name="warning_splitpartcategory_context">转移是分割的一部分,它只能在有分割的情况下被编辑或删除.</string>

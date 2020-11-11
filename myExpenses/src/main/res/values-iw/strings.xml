@@ -458,7 +458,7 @@
     <string name="warning_instantiate_template_from_widget_password_protected">הפעלה מהירה של תבניות מווידג\'ט זה פועלת רק אם אתה מאפשר הזנת נתונים מווידג\'טים ללא סיסמה בהגדרות האפליקציה.</string>
     <string name="warning_password_contrib">הגדרת שאלת אבטחה מאפשרת לך לבטל את נעילת האפליקציה, למקרה שתשכח את הסיסמה.</string>
     <string name="warning_reset_account">אם תמשיך, כל העסקאות בחשבון זה יימחקו ממסד הנתונים ולא ניתן לשחזר אותן.</string>
-    <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
+    <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">אם תמשיך, עבור כל החשבונות%1$s, עסקאות יימחקו ממסד הנתונים ולא ניתן לשחזר אותן.</string>
     <string name="warning_reset_account_matched">אם תמשיך, עסקאות התואמות את המסנן הנוכחי יימחקו ממסד הנתונים ולא ניתן לשחזר אותן.</string>
     <string name="warning_restore">אם תמשיך, עסקאות התואמות את המסנן הנוכחי יישוחזרו ממסד הנתונים וההעדפות מקובץ \"%1$s\". הנתונים הנוכחיים יימחקו. </string>
@@ -975,4 +975,4 @@
     <string name="discover_feature_fab_long_press">הקש והחזק את כפתור הפעולה הצף על מנת לפתוח ישירות את הטופס להעברות, עסקאות מפוצלות או הכנסה.</string>
     <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
     <string name="advance_exexcution_in_days">ביצוע מראש (בימים)</string>
-</resources>
+    </resources>

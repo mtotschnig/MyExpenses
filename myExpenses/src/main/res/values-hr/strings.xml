@@ -384,7 +384,7 @@
     <string name="warning_instantiate_template_from_widget_password_protected">Brzo instanciranje predložaka iz ovog widgeta radi jedino ako dopustite unos podataka iz widgeta bez lozinke. Ovo možete podesiti u postavkama.</string>
     <string name="warning_password_contrib">Postavljanje sigurnosnog pitanja omogućuje otključavanje aplikacije u slučaju da zaboravite lozinku.</string>
     <string name="warning_reset_account">Nastavite li, sve transakciije na ovom računu biti će obrisane iz baze podataka i neće se moći vratiti.</string>
-    <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
+    <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">Nastavite li, transakcije će biti obrisane za SVE račune%1$s i neće se moći obnoviti.</string>
     <string name="warning_restore">Podaci i preferencije će biti obnovljene sa \"%1$s\". Sadašnji podaci bit će obrisani.</string>
     <string name="warning_app_folder_will_be_deleted_upon_uninstall">Odabrana mapa za sigurnosne kopije i eksporte će biti izbrisana od strane Androida prilikom deinstalacije {app_name}-a. Ovo možete izbjeći odabirom druge mape unutar zaslona s postavkama.</string>

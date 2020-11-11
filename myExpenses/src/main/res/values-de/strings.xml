@@ -440,7 +440,7 @@
     <string name="warning_instantiate_template_from_widget_password_protected">Die schnelle Anwendung von Vorlagen über dieses Widget funktioniert nur, wenn Sie in den App-Einstellungen Dateneingabe über Widgets ohne Passwort erlauben.</string>
     <string name="warning_password_contrib">Durch das Setzen einer Sicherheitsfrage können Sie den Passwortschutz aufheben, sollten Sie das Passwort vergessen.</string>
     <string name="warning_reset_account">Wenn Sie fortfahren, werden alle Buchungen dieses Kontos von der Datenbank gelöscht. Dies kann nicht rückgängig gemacht werden.</string>
-    <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
+    <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">Wenn Sie fortfahren, werden alle Buchungen aller Konten%1$s aus der Datenbank gelöscht. Dies kann nicht rückgängig gemacht werden.</string>
     <string name="warning_reset_account_matched">Wenn Sie fortfahren, werden alle mit dem aktuellen Suchfilter übereinstimmenden Buchungen aus der Datenbank gelöscht. Dies kann nicht rückgängig gemacht werden.</string>
     <string name="warning_restore">Datenbank und Einstellungen werden aus dem Backup (%1$s) wiederhergestellt. Aktuelle Daten werden gelöscht.</string>
@@ -949,4 +949,8 @@
     <string name="discover_feature_fab_long_press">Tippen und halten Sie die flotierende Aktionsschaltfläche, um das Formular für Überweisungen, mehrteilige Buchungen oder Einnahmen direkt zu öffnen.</string>
     <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
     <string name="advance_exexcution_in_days">Vorabausführung (in Tagen)</string>
+    <string name="warning_balance_account_delete">Wenn Sie fortfahren, werden alle abgeglichenen Buchungen dieses Kontos aus der Datenbank gelöscht und Sie können diese nicht wiederherstellen.</string>
+    <!-- When user opens a template from the transaction form, existing data is discarded. This message appears in a dialgoue to confirm the action -->
+    <string name="confirmation_load_template_discard_data">Vorhandene Formulardaten werden verworfen.</string>
+
 </resources>

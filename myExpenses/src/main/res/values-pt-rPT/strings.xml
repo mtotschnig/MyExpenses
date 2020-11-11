@@ -420,7 +420,7 @@
     <string name="warning_instantiate_template_from_widget_password_protected">A aplicação rápida de modelos a partir deste widget apenas funciona se nas definições da aplicação permitir a introdução de dados a partir de widgets sem palavra-passe.</string>
     <string name="warning_password_contrib">Definir uma pergunta de segurança permite-lhe desbloquear a aplicação, no caso de se esquecer da palavra-passe.</string>
     <string name="warning_reset_account">Se proceder, todas as transações desta conta serão eliminadas da base de dados e não poderão ser recuperadas.</string>
-    <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
+    <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">Se proceder, as transações de todas as contas %1$s serão eliminadas da base de dados e não poderão ser recuperadas.</string>
     <string name="warning_reset_account_matched">Se proceder, as transações que correspondem ao filtro atual serão eliminadas da base de dados e não poderão ser recuperadas.</string>
     <string name="warning_restore">A base de dados e as preferências serão restauradas a partir do ficheiro \"%1$s\". Os dados atuais serão eliminados.</string>

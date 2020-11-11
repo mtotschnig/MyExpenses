@@ -458,7 +458,7 @@
     <string name="warning_instantiate_template_from_widget_password_protected">Быстрое создание шаблонов из этого виджета работает, только если вы разрешаете ввод данных из виджетов без пароля в настройках приложения.</string>
     <string name="warning_password_contrib">Установка секретного вопроса позволяет вам разблокировать приложение в случае, если вы забыли свой пароль.</string>
     <string name="warning_reset_account">Если продолжить, все операции этого счёта будут удалены из базы данных и не могут быть восстановлены.</string>
-    <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
+    <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">Если вы продолжите, для всех счетов %1$s операции будут удалены из базы данных и не могут быть восстановлены.</string>
     <string name="warning_reset_account_matched">Если вы продолжите, транзакции, соответствующие текущему фильтру, будут удалены из базы данных и не могут быть восстановлены.</string>
     <string name="warning_restore">Базы данных и настройки будут восстановлены из файла \"%1$s\". Текущие данные будут удалены.</string>

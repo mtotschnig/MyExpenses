@@ -410,7 +410,7 @@
     <string name="warning_instantiate_template_from_widget_password_protected">Instanţierea rapidă a şabloanelor din acest widget funcţionează numai dacă permiteţi introducerea datelor din  widget-uri fără parolă în setările app.</string>
     <string name="warning_password_contrib">Setarea unei întrebări de securitate vă permite să deblocaţi app, în cazul în care uitaţi parola.</string>
     <string name="warning_reset_account">Dacă veţi continua, toate tranzacţiile din acest cont vor fi şterse din baza de date şi nu se vor putea restaura.</string>
-    <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
+    <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">Dacă veţi continua, pentru toate conturile%1$s, tranzacţiile vor fi şterse din baza de date şi nu se vor putea restaura.</string>
     <string name="warning_restore">Baza de date si preferinţele  vor fi restaurate din fişierul \"%1$s\". Datele actuale vor fi şterse.</string>
     <string name="warning_app_folder_will_be_deleted_upon_uninstall">Folderul selectat pentru backup-uri şi exporturile vor fi şterse automat de Android dacă dezinstalați {app_name}.  Puteţi preveni acest lucru selectând un alt folder din ecranul Setări.</string>

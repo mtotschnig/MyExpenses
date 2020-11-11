@@ -311,7 +311,7 @@
     <string name="continue_confirmation">Voleu continuar?</string>
     <string name="warning_password_contrib">Configura una pregunta de seguretat per desblocar l\'aplicació, en cas que oblideu la vostra contrasenya.</string>
     <string name="warning_reset_account">Si continueu, totes les operacions d\'aquest compte s\'eliminaran de la base de dades i no es podran restaurar.</string>
-    <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
+    <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">Si continueu, per tots els comptes%1$s, les operacions s\'eliminaran de la base de dades i no es podran restaurar.</string>
     <string name="warning_restore">La base de dades i les preferències es restauraran des de la còpia de seguretat (%1$s). S\'esborraran les dades actuals.</string>
     <string name="warning_splitpartcategory_context">Transferències que formen part d\'una transacció dividida només es poden editar en el marc de la divisió.</string>

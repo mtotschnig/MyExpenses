@@ -290,7 +290,7 @@
     <string name="warning_delete_account">Ez a számla törlésre kerül minden tranzakcióval együtt (%1$s).</string>
     <string name="warning_password_contrib">Biztonsági kérdés és válasz megadásával a jelszó elvesztése/elfelejtése esetén is van lehetőség az alkalmazás megnyitására.</string>
     <string name="warning_reset_account">Ha folytatja minden ehhez a számlához tartozó tranzakció visszavonhatatlanul törlésre kerül az adatbázisból.</string>
-    <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
+    <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">Ha folytatja minden számla%1$s és tranzakció visszavonhatatlanul törlésre kerül az adatbázisból.</string>
     <string name="warning_restore">Adatbázis és beállítások visszaállítása a korábbi mentésből (%1$s). A jelenlegi adatok törlésre kerülnek.</string>
     <string name="warning_splitpartcategory_context">Azon tranzakciók, melyek felosztott tételek között szerepelnek, csak a felosztásoknál szerkeszthetők, vagy törölhetők.</string>

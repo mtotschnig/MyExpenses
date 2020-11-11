@@ -429,7 +429,7 @@
     <string name="warning_instantiate_template_from_widget_password_protected">Penyegeraan pantas templat dari widjet ini hanya berfungsi jika anda benarkan masukan data dari widjet tanpa kata laluan dalam tetapan apl.</string>
     <string name="warning_password_contrib">Menetapkan soalan keselamatan membolehkan anda buka apl, jika anda lupa kata laluan anda.</string>
     <string name="warning_reset_account">Jika anda teruskan, semua transaksi akaun ini dipadam dari pangkalan data dan tidak dapat dipulihkan.</string>
-    <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
+    <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">Jika anda teruskan, untuk semua akaun %1$s, transaksi akan dipadam dari pangkalan data dan tidak dapat dipulihkan.</string>
     <string name="warning_reset_account_matched">Jika anda teruskan, transaksi yang sepada dengan penapis semasa akan dipadam dari pangkalan data dan tidak dapat dipulihkan.</string>
     <string name="warning_restore">Pangkalan data dan keutamaan akan dipulih dari fail \"%1$s\". Data semasa akan dipadam.</string>

@@ -418,7 +418,7 @@
     <string name="warning_instantiate_template_from_widget_password_protected">Η γρήγορη συγκεκριμενοποίηση των προτύπων από αυτό το γραφικό στοιχείο λειτουργεί μόνο αν έχετε επιτρέψει την είσοδο δεδομένων από γραφικά στοιχεία χωρίς κωδικό πρόσβασης στις ρυθμίσεις της εφαρμογής.</string>
     <string name="warning_password_contrib">Προσθέτοντας ρύθμιση με μια ερώτηση ασφαλείας, σας επιτρέπει να ξεκλειδώσετε το app, σε περίπτωση που ξεχάσετε τον κωδικό πρόσβασής σας.</string>
     <string name="warning_reset_account">Εάν συνεχίσετε, όλες οι συναλλαγές του λογαριασμού αυτού διαγράφονται από τη βάση δεδομένων και δεν μπορούν να αποκατασταθούν.</string>
-    <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
+    <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">Εάν συνεχίσετε, για όλους τους λογαριασμούς %1$s οι συναλλαγές θα διαγραφούν από τη βάση δεδομένων και δεν θα μπορούν να ανακτηθούν.</string>
     <string name="warning_reset_account_matched">Αν συνεχίσετε, οι συναλλαγές που αντιστοιχούν στο τρέχον φίλτρο θα διαγραφούν από τη βάση δεδομένων και δεν θα μπορούν να αποκατασταθούν.</string>
     <string name="warning_restore">Βάση δεδομένων και προτιμήσεις θα ανακτηθούν από τη δημιουργία αντιγράφων %1$s. Τα τρέχοντα δεδομένα θα διαγραφούν.</string>

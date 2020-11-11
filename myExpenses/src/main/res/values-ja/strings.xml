@@ -430,7 +430,7 @@
     <string name="warning_instantiate_template_from_widget_password_protected">アプリの設定で、パスワードなしにウィジェットからデータの入力を許可する場合のみ、このウィジェットからのテンプレートのクイックインスタンス化は機能します。</string>
     <string name="warning_password_contrib">セキュリティの質問を設定すると、パスワードを忘れた場合に、アプリのロックを解除することができます。</string>
     <string name="warning_reset_account">続行すると、この勘定のすべての取引がデータベースから削除され、復元することはできません。</string>
-    <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
+    <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">続行すると、すべての勘定 %1$s 、取引はデータベースから削除され、復元することはできません。</string>
     <string name="warning_reset_account_matched">続行すると、現在のフィルターに一致する取引はデータベースから削除され、復元することはできません。</string>
     <string name="warning_restore">ファイル  \"%1$s\" から、データベースとプリファレンスが復元されます。現在のデータは削除されます。</string>

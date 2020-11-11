@@ -440,7 +440,7 @@
     <string name="warning_instantiate_template_from_widget_password_protected">நீங்கள் செயலியின் அமைப்புகளில் கடவுச்சொல் இல்லாமலே நிரல் பலகையிலிருந்து தரவு உள்ளீடுகளை அனுமதித்தால் மட்டுமே இந்த நிரல் பலகையிலிருந்து வார்ப்புருகளின் விரைவான  செயலாக்கம் வேலை செய்யும்.</string>
     <string name="warning_password_contrib">பாதுகாப்புக் கேள்வியை அமைத்தல்,  நீங்கள் கடவுச்சொல்லை மறந்துவிட்ட பட்சத்தில் செயலியை திறக்க உங்களை அனுமதிக்கும்.</string>
     <string name="warning_reset_account">நீங்கள் தொடர்ந்தால், இந்த கணக்கின் எல்லா பரிவர்த்தனைகளும் தரவுத்தளத்தில் இருந்து நீக்கப்படும். மேலும் அவற்றை மீட்டமைக்க முடியாது.</string>
-    <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
+    <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">நீங்கள் தொடர்ந்தால், எல்லா கணக்குகளுக்கும் %1$s, பரிவர்த்தனைகள் தரவுத்தளத்தில் இருந்து நீக்கப்படும். மேலும் அவற்றை மீட்டமைக்க முடியாது.</string>
     <string name="warning_reset_account_matched">நீங்கள் தொடர்ந்தால், தற்போதைய வடிப்பான் மூலம் பொருந்தும் பரிவர்த்தனைகள் தரவுத்தளத்தில் இருந்து நீக்கப்படும். மேலும் அவற்றை மீட்டமைக்க முடியாது.</string>
     <string name="warning_restore">தரவுத்தளம் மற்றும் விருப்பத்தேர்வுகள் \"%1$s\" கோப்பில் இருந்து மீட்டமைக்கப்படும். தற்போதைய தரவு நீக்கப்படும்.</string>

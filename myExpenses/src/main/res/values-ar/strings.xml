@@ -341,7 +341,7 @@
     <string name="warning_widget_disabled">يجب تمكين هذا الويدجت من إعدادات التطبيق.</string>
     <string name="warning_password_contrib">اعداد سؤال الامان يمكنك من إلغاء قفل التطبيق، في حال نسيت كلمة المرور.</string>
     <string name="warning_reset_account">إذا قمت بالمتابعة ، كل العمليات الخاصة بهذا الحساب سيتم حذفها من قاعدة البيانات ولا يمكنك استرجاعها لاحقاً.</string>
-    <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
+    <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">إذا قمت بالمتابعة ، كل الحسابات والعمليات%1$s سيتم حذفها من قاعدة البيانات ولا يمكنك استرجاعها لاحقاً.</string>
     <string name="warning_restore">سيتم استرجاع قاعدة البيانات والتفضيلات من النسخة احتياطية %1$s. سيتم حذف البيانات الحالية.</string>
     <string name="warning_splitpartcategory_context">لا يمكن تعديل أو حذف التحويلات التي تكون جزء من تقسيم إلا إذا كانت في سياق التقسيم.</string>

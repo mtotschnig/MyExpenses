@@ -424,7 +424,7 @@
     <string name="warning_instantiate_template_from_widget_password_protected">Thuyết minh nhanh về các bản mẫu từ tiện ích này chỉ hoạt động nếu bạn cho phép hiện các mục dữ liệu từ tiện ích, với việc không đặt mật khẩu trong cài đặt ứng dụng.</string>
     <string name="warning_password_contrib">Đặt một câu hỏi an ninh để khóa lại ứng dụng, trong trường hợp bạn quên mật khẩu</string>
     <string name="warning_reset_account">Tất cả giao dịch của tài khoản này sẽ được xuất trong tập tin trên thẻ nhớ và bị xóa. Bạn có thực sự muốn tiếp tục?</string>
-    <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
+    <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">Tất cả giao dịch của tài khoản%1$s này sẽ được xuất trong tập tin %1$s trên thẻ nhớ và bị xóa. Bạn có thực sự muốn tiếp tục?</string>
     <string name="warning_reset_account_matched">Nếu bạn tiếp tục, các giao dịch nằm trong bộ lọc hiện tại sẽ bị xoá khỏi cơ sở dữ liệu và không thể khôi phục.</string>
     <string name="warning_restore">Cơ sở dữ liệu và tùy biến sẽ được phục hồi từ thẻ nhớ (%1$s). Dữ liệu hiện tại sẽ bị xóa.</string>

@@ -440,7 +440,7 @@
     <string name="warning_instantiate_template_from_widget_password_protected">La création rapide de modèles à partir du widget ne fonctionne que si vous autorisez la saisie des données à partir du widget sans mot de passe dans les paramètres de l\'application.</string>
     <string name="warning_password_contrib">La définition d\'une question de sécurité vous permet de débloquer l\'app, si vous oubliez votre mot de passe.</string>
     <string name="warning_reset_account">Si vous continuez, toutes les opérations de ce compte seront supprimées de la base de données et ne pourront plus être restaurées.</string>
-    <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
+    <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">Si vous continuez, toutes les opérations de tous les comptes%1$s seront supprimées de la base de données et ne pourront pas être restaurées.</string>
     <string name="warning_reset_account_matched">Si vous continuez, toutes les opérations qui correspondent au filtre actuel  seront supprimées de la base de données et ne pourront plus être restaurées.</string>
     <string name="warning_restore">La base de données et les paramètres seront restaurés à partir du fichier \"%1$s\". Les données actuelles seront supprimées.</string>
@@ -949,4 +949,8 @@
     <string name="discover_feature_fab_long_press">Appuyez et maintenez le bouton d\'action flottant afin d\'ouvrir directement le formulaire pour les transferts, les transactions ventilées ou le revenu.</string>
     <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
     <string name="advance_exexcution_in_days">Exécution anticipée (en jours)</string>
+    <string name="warning_balance_account_delete">Si vous continuez, toutes les opérations rapprochées de ce compte seront supprimées de la base de données et vous ne pourrez pas les restaurer.</string>
+    <!-- When user opens a template from the transaction form, existing data is discarded. This message appears in a dialgoue to confirm the action -->
+    <string name="confirmation_load_template_discard_data">Les données existantes seront supprimées du formulaire.</string>
+
 </resources>

@@ -438,7 +438,7 @@
     <string name="warning_instantiate_template_from_widget_password_protected">Trepeta honetatik txantiloien abiatze azkarra erabili ahal izateko baimendu pasahitzik gabeko datuen sarrera trepetetatik aplikazioaren ezarpenetan</string>
     <string name="warning_password_contrib">Segurtasun galdera bat ezartzeak, aplikazioa desblokeatzea ahalbidetzen dizu pasahitza ahaztu baduzu.</string>
     <string name="warning_reset_account">Jarraitzen baduzu, kontu honetako transakzio guztiak datu-basetik ezabatuko dira eta ezin izango dira berreskuratu.</string>
-    <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
+    <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">Jarraitzen baduzu, kontu guztietako %1$s transakzio  datu-basetik ezabatuko dira eta ezin izango dira berreskuratu.</string>
     <string name="warning_reset_account_matched">Aurrera egitekotan, oraingo iragazkiarekin bat datozen transakzioak datu-basetik ezabatuko dira, eta ez dago hau desegiterik.</string>
     <string name="warning_restore">Datu-basea eta hobespenak berreskuratuko dira \"%1$s\" fitxategitik. Oraingo datuak ezabatuko dira.</string>

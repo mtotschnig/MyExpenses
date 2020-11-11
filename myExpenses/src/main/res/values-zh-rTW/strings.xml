@@ -271,7 +271,7 @@
     <string name="warning_delete_account">此帳戶將與它的所有交易將被刪除 (%1$s)。</string>
     <string name="warning_password_contrib">若果您忘記了密碼，設置一個安全問題可讓你再次解鎖此應用。</string>
     <string name="warning_reset_account">如果你繼續，這個帳戶的所有交易都從數據庫中被刪除且無法恢復。</string>
-    <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
+    <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">如果你繼續，所有帳戶%1$s和當中的所有交易都從數據庫中被刪除且無法恢復。</string>
     <string name="warning_restore">數據庫和喜好設定將會從備份中被恢復過來 (%1$s)。當前的數據會被刪除。</string>
     <string name="warning_splitpartcategory_context">轉移是分割的一部分，它只能在有分割的情況下被編輯或刪除。</string>

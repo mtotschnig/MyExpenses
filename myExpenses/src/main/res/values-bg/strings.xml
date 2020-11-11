@@ -440,7 +440,7 @@
     <string name="warning_instantiate_template_from_widget_password_protected">Бързо въвеждане с шаблони от уиджета работи само ако позволите въвеждане на данни от уиджети без парола в настройките на приложението.</string>
     <string name="warning_password_contrib">Задаване на въпрос за сигурност ви позволява да отключите приложението, в случай че забравите паролата си.</string>
     <string name="warning_reset_account">Ако продължите, всички транзакции по тази сметка ще бъдат изтрити от базата данни и не могат да бъдат възстановени.</string>
-    <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
+    <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">Ако продължите, всички транзакции с валута %1$s, по всички сметки, ще бъдат изтрити от базата данни и не могат да бъдат възстановени.</string>
     <string name="warning_reset_account_matched">Ако продължите, транзакциите, избрани с текущия филтър, ще бъдат изтрити от базата данни и не могат да бъдат възстановени.</string>
     <string name="warning_restore">База данни и предпочитания ще бъдат възстановени от файл \"%1$s\". Текущите данни ще бъдат изтрити.</string>
@@ -949,4 +949,4 @@
     <string name="discover_feature_fab_long_press">Задръжте натиснат плаващия бутон за да отворите направо формата за превод, разпределена транзакция или приход.</string>
     <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
     <string name="advance_exexcution_in_days">Предварително действие (в дни)</string>
-</resources>
+    </resources>

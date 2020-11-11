@@ -440,7 +440,7 @@
     <string name="warning_instantiate_template_from_widget_password_protected">La creazione rapida di modelli da questo widget funziona solo se si consente l\'immissione di dati da widget senza password nelle impostazioni app.</string>
     <string name="warning_password_contrib">L\'impostazione di una domanda di sicurezza consente di sbloccare l\'applicazione, nel caso in cui si dimentichi la password.</string>
     <string name="warning_reset_account">Se si continua, tutte le transazioni di questo conto verranno eliminate dal database e non potranno essere ripristinate.</string>
-    <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
+    <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">Se si continua, tutte le transazioni dei conti in%1$s verranno eliminate dal database e non potranno essere ripristinate.</string>
     <string name="warning_reset_account_matched">Se si continua, le transazioni che corrispondono al filtro corrente verranno eliminate dal database e non potranno essere ripristinate.</string>
     <string name="warning_restore">Database e impostazioni verranno ripristinati dal backup \"%1$s\". I dati attuali verranno cancellati.</string>
@@ -949,4 +949,4 @@
     <string name="discover_feature_fab_long_press">Tocca e tieni premuto il pulsante fluttuante per aprire direttamente un nuovo modulo per trasferimenti, transazioni frazionate o entrate.</string>
     <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
     <string name="advance_exexcution_in_days">Esecuzione anticipata (in giorni)</string>
-</resources>
+    </resources>

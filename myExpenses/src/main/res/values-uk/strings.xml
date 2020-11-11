@@ -446,7 +446,7 @@
     <string name="warning_instantiate_template_from_widget_password_protected">Швидке створення шаблонів з цього віджета працює, лише якщо Ви дозволите введення даних із віджетів без пароля в налаштуваннях програми.</string>
     <string name="warning_password_contrib">Встановлення контрольного запитання дозволяє розблокувати програму, якщо Ви забудете свій пароль.</string>
     <string name="warning_reset_account">Якщо Ви продовжите, всі операції цього рахунку будуть видалені з бази даних, і більше не зможуть бути відновлені.</string>
-    <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
+    <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">Якщо продовжити, операції всіх рахунків %1$s будуть видалені з бази даних, і більше не зможуть бути відновлені.</string>
     <string name="warning_reset_account_matched">Якщо ви продовжите, операції, які відповідають поточному фільтру, будуть видалені з бази даних, і більше не зможуть бути відновлені.</string>
     <string name="warning_restore">Базу даних та налаштування буде відновлено з файлу \"%1$s\". Поточні дані будуть видалені.</string>

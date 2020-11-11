@@ -440,7 +440,7 @@
     <string name="warning_instantiate_template_from_widget_password_protected">ಅಪ್ಲಿಕೇಶನ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ಪಾಸ್‌ವರ್ಡ್ ಇಲ್ಲದೆ ವಿಜೆಟ್‌ಗಳಿಂದ ಡೇಟಾ ನಮೂದನ್ನು ನೀವು ಅನುಮತಿಸಿದರೆ ಮಾತ್ರ ಈ ವಿಜೆಟ್‌ನಿಂದ ಟೆಂಪ್ಲೆಟ್ಗಳ ತ್ವರಿತ ಇನ್ಸ್ಟಾಂಟೇಶನ್ ಕಾರ್ಯನಿರ್ವಹಿಸುತ್ತದೆ.</string>
     <string name="warning_password_contrib">ನಿಮ್ಮ ಪಾಸ್‌ವರ್ಡ್ ಅನ್ನು ನೀವು ಮರೆತಿದ್ದರೆ, ಸುರಕ್ಷತಾ ಪ್ರಶ್ನೆಯನ್ನು ಹೊಂದಿಸುವುದರಿಂದ ಅಪ್ಲಿಕೇಶನ್ ಅನ್ನು ಅನ್ಲಾಕ್ ಮಾಡಲು ಅನುಮತಿಸುತ್ತದೆ.</string>
     <string name="warning_reset_account">ನೀವು ಮುಂದುವರಿದರೆ, ಈ ಖಾತೆಯ ಎಲ್ಲಾ ವಹಿವಾಟುಗಳನ್ನು ಡೇಟಾಬೇಸ್‌ನಿಂದ ಅಳಿಸಲಾಗುತ್ತದೆ ಮತ್ತು ಅದನ್ನು ಮರುಸ್ಥಾಪಿಸಲಾಗುವುದಿಲ್ಲ.</string>
-    <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
+    <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">ನೀವು ಮುಂದುವರಿದರೆ, ಎಲ್ಲಾ ಖಾತೆಗಳಿಗೆ%1$s, ವ್ಯವಹಾರಗಳನ್ನು ಡೇಟಾಬೇಸ್‌ನಿಂದ ಅಳಿಸಲಾಗುತ್ತದೆ ಮತ್ತು ಅದನ್ನು ಮರುಸ್ಥಾಪಿಸಲಾಗುವುದಿಲ್ಲ.</string>
     <string name="warning_reset_account_matched">ನೀವು ಮುಂದುವರಿದರೆ, ಪ್ರಸ್ತುತ ಫಿಲ್ಟರ್‌ಗೆ ಹೊಂದಿಕೆಯಾಗುವ ವಹಿವಾಟುಗಳನ್ನು ಡೇಟಾಬೇಸ್‌ನಿಂದ ಅಳಿಸಲಾಗುತ್ತದೆ ಮತ್ತು ಅದನ್ನು ಮರುಸ್ಥಾಪಿಸಲಾಗುವುದಿಲ್ಲ.</string>
     <string name="warning_restore">ಡೇಟಾಬೇಸ್ ಮತ್ತು ಆದ್ಯತೆಗಳನ್ನು \"%1$s\" ಫೈಲ್‌ನಿಂದ ಮರುಸ್ಥಾಪಿಸಲಾಗುತ್ತದೆ. ಪ್ರಸ್ತುತ ಡೇಟಾವನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.</string>

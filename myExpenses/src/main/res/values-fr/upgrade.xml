@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_317">
+        <item>Les modèles peuvent être chargés à partir du formulaire de saisie d\'opération.</item>
+    </string-array>
     <string-array name="whats_new_316">
         <item>Le bouton Enregistrer dans le formulaire d\'opération est plus saillant.</item>
         <item>Un appui long sur le bouton d\'action flottant ouvre un menu qui permet de préparer le formulaire pour un transfert, une transaction ventilée ou un revenu.</item>

@@ -331,7 +331,7 @@
     <string name="warning_password_protected">កម្មវិធីនេះ ការពារដោយ​ពាក្យសម្ងាត់</string>
     <string name="warning_password_contrib">ការកំណត់សំណួរសន្តិសុខអនុញ្ញាតឱ្យអ្នកដើម្បីដោះសោកម្មវិធីនេះក្នុងករណីដែលអ្នកភ្លេចពាក្យសម្ងាត់របស់អ្នក។</string>
     <string name="warning_reset_account">ប្រសិនបើអ្នកបន្ត រាល់ប្រតិបត្តិការទាំងអស់របស់គណនីនេះ នឹងត្រូវបានលុបចេញពីមូលដ្ឋានទិន្នន័យ និងមិនអាចត្រូវបានស្ដារឡើងវិញឡើយ។</string>
-    <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
+    <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">បើ​អ្នក​បាន​ដំណើរការហើយ សម្រាប់​គណនី​ %1$s ប្រតិបត្តិការ​ទាំង​អស់ នឹង​ត្រូវបាន​លុប​ចេញពី​មូលដ្ឋាន​ទិន្នន័យ និង​មិន​អាច​យក​មកវិញ​បាន​ទេ។</string>
     <string name="warning_restore">មូលដ្ឋានទិន្នន័យ និងចំណង់ចំណូលចិត្ត នឹងត្រូវបានស្ដារឡើងវិញពីការបម្រុងទុក។ (%1$s) ទិន្នន័យបច្ចុប្បន្ន នឹងត្រូវបានលុប។</string>
     <string name="warning_splitpartcategory_context">ការផ្លាស់ប្តូរដែលជាផ្នែកមួយ នៃការបំបែកអាចត្រូវបាន កែសម្រួល បានតែនៅក្នុងបរិបទនេះទេ។</string>

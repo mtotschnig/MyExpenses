@@ -328,7 +328,7 @@
     <string name="warning_instantiate_template_from_widget_password_protected">මෙම විජටයේ අච්චු ක්‍රියාත්මක වන්නේ ඔබ මුරපදයක් නොමැතිව දත්ත විජටයට යාමට සලසුවොත් පමණි </string>
     <string name="warning_password_contrib">ආරක්ෂක ප්‍රශ්නයක් පිහිටුවෙමෙන් ඔබට මුරපදය අම්තකවුවත් ඇපය යලි ක්‍රියාත්මක කල හැක.</string>
     <string name="warning_reset_account">ඔබ ඉදිරියට ගියහොත් මෙම ගිණුමෙහි ඇති  දත්ත ගබඩාවේ සියලුම ගනුදෙනු මකා  දැමෙන අතර නැවත පිහිටුවීමට නොහැකිය.</string>
-    <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
+    <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">ඔබ ඉදිරියට ගියහොත් සියලුම ගිණුම්%1$s ,ඇති  දත්ත ගබඩාවේ සියලුම ගනුදෙනු මකා  දැමෙන අතර නැවත පිහිටුවීමට නොහැකිය.</string>
     <string name="warning_restore">\"%1$s\" ලිපිගොනුවෙන් මනාප සහ දත්ත ගබඩාව නැවත පිහිටුවන අතර. දැනට පවතින දත්ත සියල්ල මකා දැමේ.</string>
     <string name="warning_splitpartcategory_context">බෙදිමක කොටස් වන ගනුදෙනු සංස්කරණය කල හැක්කේ බෙදීමෙහි සම්බන්දයක් ඇත්නම් පමණි </string>

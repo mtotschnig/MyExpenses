@@ -434,7 +434,7 @@
     <string name="warning_instantiate_template_from_widget_password_protected">Szybka tworzenie instancji szablonów z tego widżetu działa tylko jeżeli zezwolisz na wprowadzanie danych z widżetu bez hasła w ustawieniach aplikacji.</string>
     <string name="warning_password_contrib">Ustawienie pytania bezpieczeństwa pozwala Tobie na odblokowanie aplikacji, w razie zapomnienia swojego hasła.</string>
     <string name="warning_reset_account">Jeżeli kontynuujesz, wszystkie transakcje tego konta zostaną usunięte z bazy danych i nie będą mogły zostać przywrócone.</string>
-    <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
+    <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">Jeżeli będziesz kontynuować, dla wszystkich kont %1$s, transakcje zostaną usunięte z bazy danych i nie będą mogły być przywrócone.</string>
     <string name="warning_reset_account_matched">Jeśli kontynuujesz, transakcje dopasowane do bieżącego filtru zostaną usunięte z bazy danych i nie będzie można ich przywrócić.</string>
     <string name="warning_restore">Baza danych oraz preferencje zostaną przywrócone z kopii zapasowej (%1$s). Bieżące dane zostaną usunięte.</string>
