@@ -439,7 +439,7 @@
     <string name="warning_widget_disabled">Sie müssen dieses Widget in den App Einstellungen aktivieren.</string>
     <string name="warning_instantiate_template_from_widget_password_protected">Die schnelle Anwendung von Vorlagen über dieses Widget funktioniert nur, wenn Sie in den App-Einstellungen Dateneingabe über Widgets ohne Passwort erlauben.</string>
     <string name="warning_password_contrib">Durch das Setzen einer Sicherheitsfrage können Sie den Passwortschutz aufheben, sollten Sie das Passwort vergessen.</string>
-    <string name="warning_reset_account">Wenn Sie fortfahren, werden alle Transaktionen dieses Kontos von der Datenbank gelöscht.	Dies kann nicht rückgängig gemacht werden.</string>
+    <string name="warning_reset_account">Wenn Sie fortfahren, werden alle Buchungen dieses Kontos von der Datenbank gelöscht. Dies kann nicht rückgängig gemacht werden.</string>
     <!-- the placeholder %1$s will hold a currency code in paranthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">Wenn Sie fortfahren, werden alle Buchungen aller Konten%1$s aus der Datenbank gelöscht. Dies kann nicht rückgängig gemacht werden.</string>
     <string name="warning_reset_account_matched">Wenn Sie fortfahren, werden alle mit dem aktuellen Suchfilter übereinstimmenden Buchungen aus der Datenbank gelöscht. Dies kann nicht rückgängig gemacht werden.</string>
@@ -477,7 +477,7 @@
     <string name="search_status">Suche nach Status</string>
     <string name="search_payee">Suche nach Empfänger/Zahler</string>
     <string name="search_method">Suche nach Zahlungsweise</string>
-    <string name="search_tag">Suche nach Markierung</string>
+    <string name="search_tag">Suche nach Schlagwort</string>
     <string name="and">und</string>
     <string name="between_and">zwischen %1$s und %2$s</string>
     <string name="before">vor %s</string>
@@ -727,7 +727,7 @@
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->
     <string name="menu_ungroup_split_transaction">Gruppierung auflösen</string>
     <plurals name="ungroup_split_transaction_success">
-        <item quantity="one">Split-Transaktion wurde erfolgreich aufgehoben.</item>
+        <item quantity="one">Die Gruppierung einer mehrteiligen Buchung wurde erfolgreich aufgelöst.</item>
         <item quantity="other">Die Gruppierung von %1$d mehrteiligen Buchungen wurde erfolgreich aufgelöst.</item>
     </plurals>
     <string name="ungroup_split_transaction_failure">Das Aufheben der Gruppierung von mehrteiligen Buchungen ist in %1$d von %2$d Fällen fehlgeschlagen.</string>
@@ -769,7 +769,7 @@
     <string name="saving_goal">Sparziel</string>
     <string name="credit_limit">Kreditlimit</string>
     <string name="clear_all_filters">Alle Filter löschen</string>
-    <string name="pref_scroll_to_current_date_summary">Beim Starten der App die Transaktionsliste zum aktuellen Datum scrollen</string>
+    <string name="pref_scroll_to_current_date_summary">Beim Starten der App die Buchungsliste zum aktuellen Datum scrollen</string>
     <string name="professional_key_fallback_info">Ein Abonnement für den Professionellen Schlüssel, das seit mindestens einem Jahr aktiv ist und nicht erneuert wird, wird automatisch in einen unbegrenzten Erweiterten Schlüssel umgewandelt.</string>
     <string name="menu_budget">Budgetierung</string>
     <string name="dialog_title_edit_budget">Budget bearbeiten</string>
@@ -836,7 +836,7 @@
     <string name="icon">Symbol</string>
     <string name="pref_debug_title">Debuggen</string>
     <string name="roadmap_vote">Entwicklungsplan-Abstimmung </string>
-    <string name="warning_account_for_transaction_is_closed">Mindestens eine der ausgewählten Transaktionen kann nicht bearbeitet werden:</string>
+    <string name="warning_account_for_transaction_is_closed">Mindestens eine der ausgewählten Buchungen kann nicht bearbeitet werden:</string>
     <string name="object_sealed">Objekt bezieht sich auf ein geschlossenes Konto.</string>
     <string name="content_description_download_exchange_rate">Wechselkurs herunterladen</string>
     <string name="exchange_rate_not_supported">Der konfigurierte Wechselkursanbieter bietet nicht den Kurs %1$s: %2$s an. Sie können versuchen, in den Einstellungen einen anderen auszuwählen.</string>
@@ -860,7 +860,7 @@
     <string name="budget_filter_all_parties">Alle Parteien</string>
     <string name="budget_filter_all_methods">Alle Zahlungsweisen</string>
     <string name="budget_filter_all_states">Alle Status</string>
-    <string name="budget_filter_all_tags">Alle Markierungen</string>
+    <string name="budget_filter_all_tags">Alle Schlagwörter</string>
     <string name="budget_form_label_filter">Filter</string>
     <string name="dialog_title_warning_delete_budget">Budget löschen?</string>
     <string name="warning_delete_budget">Budget \"%1$s\" wird gelöscht.</string>
@@ -878,35 +878,35 @@
     <string name="remap_method">Alle ausgewählten Buchungen werden der Methode %s zugeordnet.</string>
     <string name="remap_account">Alle ausgewählten Buchungen werden dem Konto %s zugeordnet.</string>
     <string name="remapping_result">Die ausgewählten Buchungen wurden neu zugeordnet.</string>
-    <string name="clone_and_remap_result">Die ausgewählten Transaktionen wurden geklont und neu zugeordnet.</string>
+    <string name="clone_and_remap_result">Die ausgewählten Buchungen wurden geklont und neu zugeordnet.</string>
     <!-- If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
         because no payment method is configured for all of the given account types.-->
     <string name="remap_empty_list">Es wurde kein Eintrag gefunden, der allen ausgewählten Buchungen zugeordnet werden kann.</string>
     <!-- The label for the button, where user confirms that he wants to clone the selected transactions and then remap them. -->
     <string name="button_label_clone_and_remap">Klonen und neu zuordnen</string>
     <!-- The summary of a preference toggle. If switched on cloned transactions have the date set to the current date -->
-    <string name="pref_clone_with_current_date_summary_on">Geklonte Transaktionen haben das aktuelle Datum</string>
+    <string name="pref_clone_with_current_date_summary_on">Geklonte Buchungen haben das aktuelle Datum</string>
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
-    <string name="pref_clone_with_current_date_summary_off">Geklonte Transaktionen behalten das ursprüngliche Datum</string>
+    <string name="pref_clone_with_current_date_summary_off">Geklonte Buchungen behalten das ursprüngliche Datum</string>
     <string name="pref_protection_screenshot_information">Durch Aktivieren des Geräteschutzes wird die Screenshot-Aufnahme deaktiviert.</string>
-    <string name="tags_create_or_select">Markierungen erstellen oder auswählen</string>
+    <string name="tags_create_or_select">Schlagwörter erstellen oder auswählen</string>
     <string name="content_description_tags_confirm">Bestätigen</string>
-    <string name="tags">Markierungen</string>
-    <string name="pref_manage_tags_summary">Markierungen hinzufügen, bearbeiten, löschen.</string>
-    <string name="dialog_title_warning_delete_tag">Markierung löschen?</string>
-    <string name="menu_edit_tag">Markierung bearbeiten</string>
+    <string name="tags">Schlagwörter</string>
+    <string name="pref_manage_tags_summary">Schlagwörter hinzufügen, bearbeiten, löschen.</string>
+    <string name="dialog_title_warning_delete_tag">Schlagwort löschen?</string>
+    <string name="menu_edit_tag">Schlagwort bearbeiten</string>
     <!-- This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction -->
     <string name="menu_tag">Markieren</string>
     <!-- %s will be replaced with the labels of all tags that user has selected. -->
     <string name="dialog_multi_tag">Alle ausgewählten Buchungen werden mit %s markiert.</string>
-    <string name="dialog_multi_tag_clear">Alle Markierungen werden von den ausgewählten Buchungen entfernt.</string>
+    <string name="dialog_multi_tag_clear">Alle Schlagwörter werden von den ausgewählten Buchungen entfernt.</string>
     <plurals name="warning_delete_tag">
-        <item quantity="one">Die Markierung %1$s ist einer Buchung zugeordnet. Soll sie gelöscht werden?</item>
-        <item quantity="other">Die Markierung %1$s ist %2$d Buchungen zugeordnet. Soll sie gelöscht werden?</item>
+        <item quantity="one">Das Schlagwort %1$s ist einer Buchung zugeordnet. Soll es gelöscht werden?</item>
+        <item quantity="other">Das Schlagwort %1$s ist %2$d Buchungen zugeordnet. Soll es gelöscht werden?</item>
     </plurals>
-    <string name="dialog_multi_tag_append">Die neuen Markierungen werden zu den bestehenden hinzugefügt</string>
-    <string name="dialog_multi_tag_replace">Die neuen Markierungen ersetzen die bestehenden</string>
-    <string name="new_tag_hint">Neue Markierung eingeben</string>
+    <string name="dialog_multi_tag_append">Die neuen Schlagwörter werden zu den bestehenden hinzugefügt</string>
+    <string name="dialog_multi_tag_replace">Die neuen Schlagwörter ersetzen die bestehenden</string>
+    <string name="new_tag_hint">Neues Schlagwort eingeben</string>
     <string name="language_download_requested">Übersetzungen für die Sprache %s werden vom Play Store angefordert</string>
     <!-- Title for a preference that allows to decide how the time will be set for a new instance of a recurring transaction -->
     <string name="pref_planner_manual_time_title">Zeit für manuell angewendete geplante Buchung</string>

@@ -15,6 +15,10 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_316">
+        <item>לחצן שמור בטופס העסקה בולט יותר.</item>
+        <item>לחיצה ארוכה על כפתור הפעולה הצף פותחת תפריט המאפשר להכין את הטופס להעברה, לעסקה מפוצלת או להכנסה.</item>
+    </string-array>
     <string name="whats_new_315_dark_theme_q">עיצוב כהה מקושר לברירת המחדל של המערכת</string>
     <string-array name="whats_new_313">
         <item>ניהול משופר של עסקאות חוזרות</item>
