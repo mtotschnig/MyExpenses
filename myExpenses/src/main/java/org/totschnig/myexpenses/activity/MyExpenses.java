@@ -235,8 +235,6 @@ public class MyExpenses extends BaseMyExpenses implements
   private int columnIndexRowId, columnIndexColor, columnIndexCurrency, columnIndexLabel, columnIndexType, columnIndexGrouping;
   boolean indexesCalculated = false;
   @State
-  long idFromNotification = 0;
-  @State
   String mExportFormat = null;
 
   @State
@@ -357,23 +355,11 @@ public class MyExpenses extends BaseMyExpenses implements
     if (!isScanMode()) {
       floatingActionButton.setVisibility(View.INVISIBLE);
     }
-    if (savedInstanceState != null) {
-      mExportFormat = savedInstanceState.getString("exportFormat");
-      accountId = savedInstanceState.getLong(KEY_ACCOUNTID, 0L);
-    } else {
+    if (savedInstanceState == null) {
       Bundle extras = getIntent().getExtras();
       if (extras != null) {
         accountId = Utils.getFromExtra(extras, KEY_ROWID, 0);
-        idFromNotification = extras.getLong(KEY_TRANSACTIONID, 0);
-        //detail fragment from notification should only be shown upon first instantiation from notification
-        if (idFromNotification != 0) {
-          FragmentManager fm = getSupportFragmentManager();
-          if (fm.findFragmentByTag(TransactionDetailFragment.class.getName()) == null) {
-            TransactionDetailFragment.newInstance(idFromNotification)
-                .show(fm, TransactionDetailFragment.class.getName());
-            getIntent().removeExtra(KEY_TRANSACTIONID);
-          }
-        }
+        showTransactionFromIntent(extras);
       }
     }
     if (accountId == 0) {
@@ -404,6 +390,17 @@ public class MyExpenses extends BaseMyExpenses implements
     /*if (savedInstanceState == null) {
       voteReminderCheck();
     }*/
+  }
+
+  public void showTransactionFromIntent(Bundle extras) {
+    long idFromNotification = extras.getLong(KEY_TRANSACTIONID, 0);
+    //detail fragment from notification should only be shown upon first instantiation from notification
+    if (idFromNotification != 0) {
+      FragmentManager fm = getSupportFragmentManager();
+      TransactionDetailFragment.newInstance(idFromNotification)
+          .show(fm, TransactionDetailFragment.class.getName());
+      getIntent().removeExtra(KEY_TRANSACTIONID);
+    }
   }
 
   public void persistCollapsedHeaderIds() {
@@ -1013,23 +1010,41 @@ public class MyExpenses extends BaseMyExpenses implements
         columnIndexType = mAccountsCursor.getColumnIndex(KEY_TYPE);
         indexesCalculated = true;
       }
-      if (mAccountsCursor.moveToFirst()) {
-        int position = 0;
-        while (!mAccountsCursor.isAfterLast()) {
-          long accountId = mAccountsCursor.getLong(columnIndexRowId);
-          if (accountId == this.accountId) {
-            position = mAccountsCursor.getPosition();
-          }
-          if (accountId > 0) {
-            mAccountCount++;
-          }
-          mAccountsCursor.moveToNext();
+      moveToAccount();
+    }
+  }
+
+  public void moveToAccount() {
+    if (mAccountsCursor.moveToFirst()) {
+      int position = 0;
+      while (!mAccountsCursor.isAfterLast()) {
+        long accountId = mAccountsCursor.getLong(columnIndexRowId);
+        if (accountId == this.accountId) {
+          position = mAccountsCursor.getPosition();
         }
-        mCurrentPosition = position;
-        moveToPosition(mCurrentPosition);
-      } else {
-        mCurrentPosition = -1;
+        if (accountId > 0) {
+          mAccountCount++;
+        }
+        mAccountsCursor.moveToNext();
       }
+      mCurrentPosition = position;
+      moveToPosition(mCurrentPosition);
+    } else {
+      mCurrentPosition = -1;
+    }
+  }
+
+  @Override
+  protected void onNewIntent(Intent intent) {
+    super.onNewIntent(intent);
+    Bundle extras = intent.getExtras();
+    if (extras != null) {
+      long accountId = extras.getLong(KEY_ROWID);
+      if (accountId != this.accountId) {
+        this.accountId = accountId;
+        moveToAccount();
+      }
+      showTransactionFromIntent(extras);
     }
   }
 
