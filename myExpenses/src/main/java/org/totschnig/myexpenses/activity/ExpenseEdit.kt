@@ -20,7 +20,6 @@ import android.app.NotificationManager
 import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
-import android.content.res.Configuration
 import android.database.ContentObserver
 import android.database.Cursor
 import android.net.Uri
@@ -633,11 +632,14 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                 Utils.menuItemSetEnabledAndVisible(it, !(currentAccount == null || hasHomeCurrency(currentAccount)))
                 it.isChecked = delegate.equivalentAmountVisible
             }
-            menu.findItem(R.id.MANAGE_TEMPLATES_COMMAND)?.subMenu?.let { subMenu ->
-                subMenu.clear()
-                menuItem2TemplateMap.forEach { entry ->
-                    subMenu.add(Menu.NONE, entry.key, Menu.NONE, entry.value.title)
+            menu.findItem(R.id.MANAGE_TEMPLATES_COMMAND)?.let {
+                it.subMenu?.let { subMenu ->
+                    subMenu.clear()
+                    menuItem2TemplateMap.forEach { entry ->
+                        subMenu.add(Menu.NONE, entry.key, Menu.NONE, entry.value.title)
+                    }
                 }
+                Utils.menuItemSetEnabledAndVisible(it, menuItem2TemplateMap.size > 0)
             }
         }
         return super.onPrepareOptionsMenu(menu)
