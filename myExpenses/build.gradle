@@ -165,10 +165,6 @@ android {
     dynamicFeatures = [':ocr']
 }
 
-configurations {
-    conscriptReleaseImplementation {}
-}
-
 dependencies {
     implementation project(':transactionscontract')
     implementation "com.jakewharton:butterknife:$rootProject.butterknifeVersion"
@@ -236,8 +232,8 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     api "com.google.android.material:material:$materialComponents"
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
-    implementation 'androidx.preference:preference:1.1.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
+    implementation 'androidx.preference:preference-ktx:1.1.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
 
     implementation 'com.google.android:flexbox:2.0.1'
 
@@ -253,7 +249,8 @@ dependencies {
 
     implementation 'com.github.lzyzsd:circleprogress:1.2.1'
 
-    conscriptReleaseImplementation 'org.conscrypt:conscrypt-android:2.4.0'
+    conscriptExternReleaseImplementation 'org.conscrypt:conscrypt-android:2.4.0'
+    conscriptMlkitReleaseImplementation 'org.conscrypt:conscrypt-android:2.4.0'
 
     implementation 'com.squareup.sqlbrite3:sqlbrite:3.2.0'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
@@ -310,7 +307,7 @@ dependencies {
     //implementation "androidx.activity:activity-ktx:$rootProject.activity_version"
     implementation "androidx.fragment:fragment-ktx:$rootProject.fragment_version"
 
-    mlkitImplementation "com.google.android.gms:play-services-base:17.4.0"
+    mlkitImplementation "com.google.android.gms:play-services-base:17.5.0"
 
 }
 
