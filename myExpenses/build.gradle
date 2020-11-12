@@ -32,9 +32,6 @@ def getPropertyIfDefined(property, defaultValue) {
 }
 
 android {
-    sourceSets {
-        main.res.srcDirs += 'src/main/categoryIcons'
-    }
     compileSdkVersion project.compileSdkVersion
     useLibrary 'android.test.runner'
     useLibrary 'android.test.mock'
@@ -115,6 +112,14 @@ android {
         }
     }
 
+    sourceSets {
+        main.res.srcDirs += 'src/main/categoryIcons'
+        conscriptExternRelease.java.srcDirs += 'src/conscriptRelease/java'
+        conscriptExternDebug.java.srcDirs += 'src/conscriptDebug/java'
+        conscriptMlkitRelease.java.srcDirs += 'src/conscriptRelease/java'
+        conscriptMlkitDebug.java.srcDirs += 'src/conscriptDebug/java'
+    }
+
     lintOptions {
         disable 'InvalidPackage', 'MissingQuantity', 'MissingTranslation', 'ImpliedQuantity'
         abortOnError true
@@ -158,6 +163,10 @@ android {
         enabled = true
     }
     dynamicFeatures = [':ocr']
+}
+
+configurations {
+    conscriptReleaseImplementation {}
 }
 
 dependencies {
@@ -244,7 +253,7 @@ dependencies {
 
     implementation 'com.github.lzyzsd:circleprogress:1.2.1'
 
-    conscriptImplementation 'org.conscrypt:conscrypt-android:2.4.0'
+    conscriptReleaseImplementation 'org.conscrypt:conscrypt-android:2.4.0'
 
     implementation 'com.squareup.sqlbrite3:sqlbrite:3.2.0'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
