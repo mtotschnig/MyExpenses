@@ -113,15 +113,14 @@ public class PermissionHelper {
   }
 
   public static boolean canReadUri(Uri uri, Context context) {
-    switch(uri.getScheme()) {
-      case "file":
-        File file = new File(uri.getPath());
-        return file.exists() && file.canRead();
-      default:
-        return hasExternalReadPermission(context) ||
-            context.checkUriPermission(uri, Binder.getCallingPid(), Binder.getCallingUid(),
-                Intent.FLAG_GRANT_READ_URI_PERMISSION) == PERMISSION_GRANTED;
+    if ("file".equals(uri.getScheme())) {
+      File file = new File(uri.getPath());
+      return file.exists() && file.canRead();
     }
+    return AppDirHelper.getFileProviderAuthority().equals(uri.getAuthority()) ||
+        hasExternalReadPermission(context) ||
+        context.checkUriPermission(uri, Binder.getCallingPid(), Binder.getCallingUid(),
+            Intent.FLAG_GRANT_READ_URI_PERMISSION) == PERMISSION_GRANTED;
   }
 
   public static PrefKey permissionRequestedKey(int requestCode) {
