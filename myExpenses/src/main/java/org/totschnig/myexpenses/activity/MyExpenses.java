@@ -62,6 +62,7 @@ import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.CurrencyUnit;
+import org.totschnig.myexpenses.model.ExportFormat;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Sort;
@@ -99,6 +100,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.util.Pair;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -234,8 +236,6 @@ public class MyExpenses extends BaseMyExpenses implements
 
   private int columnIndexRowId, columnIndexColor, columnIndexCurrency, columnIndexLabel, columnIndexType, columnIndexGrouping;
   boolean indexesCalculated = false;
-  @State
-  String mExportFormat = null;
 
   @State
   boolean isInitialized = false;
@@ -1105,11 +1105,11 @@ public class MyExpenses extends BaseMyExpenses implements
         break;
       }
       case TASK_EXPORT: {
-        List<Uri> files = (List<Uri>) o;
-        if (files != null && !files.isEmpty()) {
-          Result shareResult = ShareUtils.share(this, files,
+        Pair<ExportFormat, List<Uri>> result = (Pair<ExportFormat, List<Uri>>) o;
+        if (result != null && !result.second.isEmpty()) {
+          Result shareResult = ShareUtils.share(this, result.second,
               getShareTarget(),
-              "text/" + mExportFormat.toLowerCase(Locale.US));
+              "text/" + result.first.name().toLowerCase(Locale.US));
           if (!shareResult.isSuccess()) {
             showSnackbar(shareResult.print(this), Snackbar.LENGTH_LONG);
           }
@@ -1218,7 +1218,6 @@ public class MyExpenses extends BaseMyExpenses implements
     super.onPositive(args);
     switch (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)) {
       case R.id.START_EXPORT_COMMAND:
-        mExportFormat = args.getString("format");
         args.putParcelableArrayList(TransactionList.KEY_FILTER,
             getCurrentFragment().getFilterCriteria());
         getSupportFragmentManager().beginTransaction()

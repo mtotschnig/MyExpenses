@@ -5,6 +5,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.webkit.MimeTypeMap;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -78,43 +79,44 @@ public class AppDirHelper {
                                              String mimeType, String addExtension) {
     String now = new SimpleDateFormat("yyyMMdd-HHmmss", Locale.US)
         .format(new Date());
-    return buildFile(parentDir, prefix + "-" + now, mimeType, addExtension, false);
+    String name = prefix + "-" + now;
+    if (addExtension != null) {
+      name += "." + addExtension;
+    }
+    return buildFile(parentDir, name, mimeType, false, false);
   }
 
   @Nullable
-  public static DocumentFile buildFile(DocumentFile parentDir, String base,
-                                       String mimeType, String addExtension, boolean allowExisting) {
-    int postfix = 0;
-    do {
-      String name = base;
-      if (postfix > 0) {
-        name += "_" + postfix;
-      }
-      if (addExtension != null) {
-        name += "." + addExtension;
-      }
-      final DocumentFile existingFile = parentDir.findFile(name);
-      if (existingFile == null) {
-        DocumentFile result = null;
-        try {
-          result = parentDir.createFile(mimeType, name);
-          if (result == null || !result.canWrite()) {
-            String message = result == null ? "createFile returned null" : "createFile returned unwritable file";
-            Map<String, String> customData = new HashMap<>();
-            customData.put("mimeType", mimeType);
-            customData.put("name", name);
-            customData.put("parent", parentDir.getUri().toString());
-            CrashHandler.report(new Exception(message), customData);
-          }
-        } catch (SecurityException e) {
-          CrashHandler.report(e);
-        }
-        return result;
-      } else if (allowExisting) {
+  public static DocumentFile buildFile(DocumentFile parentDir, String fileName,
+                                       String mimeType, boolean allowExisting, boolean supplementExtension) {
+    if (allowExisting) {
+      DocumentFile existingFile = parentDir.findFile(fileName);
+      if (existingFile != null) {
         return existingFile;
       }
-      postfix++;
-    } while (true);
+    }
+    DocumentFile result = null;
+    try {
+      //createFile supplements extension on known mimeTypes, if the mime type is not know, we take care of it
+      if (supplementExtension) {
+        final String extensionFromMimeType = MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType);
+        if (extensionFromMimeType == null) {
+          fileName += "." + mimeType.split("/")[1];
+        }
+      }
+      result = parentDir.createFile(mimeType, fileName);
+      if (result == null || !result.canWrite()) {
+        String message = result == null ? "createFile returned null" : "createFile returned unwritable file";
+        Map<String, String> customData = new HashMap<>();
+        customData.put("mimeType", mimeType);
+        customData.put("name", fileName);
+        customData.put("parent", parentDir.getUri().toString());
+        CrashHandler.report(new Exception(message), customData);
+      }
+    } catch (SecurityException e) {
+      CrashHandler.report(e);
+    }
+    return result;
   }
 
   public static DocumentFile newDirectory(DocumentFile parentDir, String base) {

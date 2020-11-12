@@ -34,12 +34,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.core.util.Pair;
 import androidx.documentfile.provider.DocumentFile;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
-public class ExportTask extends AsyncTask<Void, String, List<Uri>> {
+public class ExportTask extends AsyncTask<Void, String, Pair<ExportFormat, List<Uri>>> {
   public static final String KEY_DECIMAL_SEPARATOR = "export_decimal_separator";
   public static final String KEY_NOT_YET_EXPORTED_P = "notYetExportedP";
   public static final String KEY_DELETE_P = "deleteP";
@@ -116,7 +117,7 @@ public class ExportTask extends AsyncTask<Void, String, List<Uri>> {
   }
 
   @Override
-  protected void onPostExecute(List<Uri> result) {
+  protected void onPostExecute(Pair<ExportFormat, List<Uri>> result) {
     if (this.taskExecutionFragment.mCallbacks != null) {
       this.taskExecutionFragment.mCallbacks.onPostExecute(
           TaskExecutionFragment.TASK_EXPORT, result);
@@ -130,7 +131,7 @@ public class ExportTask extends AsyncTask<Void, String, List<Uri>> {
    * @see android.os.AsyncTask#doInBackground(Params[])
    */
   @Override
-  protected List<Uri> doInBackground(Void... ignored) {
+  protected Pair<ExportFormat, List<Uri>> doInBackground(Void... ignored) {
     Long[] accountIds;
     MyApplication application = MyApplication.getInstance();
     if (accountId > 0L) {
@@ -176,8 +177,7 @@ public class ExportTask extends AsyncTask<Void, String, List<Uri>> {
             destDir,
             fileNameForAccount,
             format.getMimeType(),
-            format.getMimeType().split("/")[1],
-            append);
+            append, true);
 
         if (outputFile == null) {
           throw new IOException(context.getString(
@@ -224,7 +224,7 @@ public class ExportTask extends AsyncTask<Void, String, List<Uri>> {
         CrashHandler.report(e);
       }
     }
-    return getResult();
+    return Pair.create(format, getResult());
   }
 
   public List<Uri> getResult() {

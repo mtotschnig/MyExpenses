@@ -28,6 +28,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.fragment.CategoryList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
+import org.totschnig.myexpenses.model.ExportFormat;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Plan;
@@ -435,7 +436,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         DocumentFile outputFile = AppDirHelper.timeStampedFile(
             appDir,
             fileName,
-            "text/qif", null);
+            ExportFormat.QIF.getMimeType(), null);
         if (outputFile == null) {
           return Result.ofFailure(
               R.string.io_error_unable_to_create_file,
