@@ -677,7 +677,6 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
                 .extra(args)
                 .pos(R.string.dialog_button_add)
                 .neut()
-                .theme(R.style.SimpleDialog)
                 .show(this, NEW_TEMPLATE_DIALOG);
           }
         });
@@ -1494,7 +1493,6 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
               .title(R.string.search_comment)
               .pos(R.string.menu_search)
               .neut()
-              .theme(R.style.SimpleDialog)
               .show(this, FILTER_COMMENT_DIALOG);
         }
         return true;

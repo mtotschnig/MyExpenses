@@ -169,7 +169,6 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
         .fields(Input.password(KEY_PASSWORD_ENCRYPTION).required().hint(R.string.input_label_passphrase))
         .extra(args)
         .neut(R.string.button_label_no_encryption)
-        .theme(R.style.SimpleDialog)
         .show(this, DIALOG_TAG_PASSWORD);
   }
 

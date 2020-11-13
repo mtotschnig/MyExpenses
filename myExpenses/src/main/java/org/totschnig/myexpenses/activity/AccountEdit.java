@@ -509,7 +509,6 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
         .allowCustom(true)
         .cancelable(false)
         .neut()
-        .theme(R.style.SimpleDialog)
         .colorPreset(mAccount.color)
         .show(this, EDIT_COLOR_DIALOG);
   }

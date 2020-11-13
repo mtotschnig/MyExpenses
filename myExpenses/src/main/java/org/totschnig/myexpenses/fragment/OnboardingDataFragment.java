@@ -258,7 +258,6 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
         .cancelable(false)
         .neut()
         .colorPreset(accountColor)
-        .theme(R.style.SimpleDialog)
         .show(this, EDIT_COLOR_DIALOG);
   }
 

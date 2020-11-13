@@ -131,7 +131,6 @@ class BudgetList : Fragment(), SimpleDialog.OnDialogResultListener {
                             SimpleFormDialog.build()
                                     .title(getString(R.string.dialog_title_edit_budget))
                                     .neg()
-                                    .theme(R.style.SimpleDialog)
                                     .extra(bundle)
                                     .fields(buildAmountField(budget.amount, context))
                                     .show(this@BudgetList, EDIT_BUDGET_DIALOG);

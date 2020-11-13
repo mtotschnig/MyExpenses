@@ -62,7 +62,6 @@ public abstract class CategoryActivity<T extends CategoryList> extends Protected
         .pos(R.string.dialog_button_add)
         .neut()
         .extra(args)
-        .theme(R.style.SimpleDialog)
         .show(this, DIALOG_NEW_CATEGORY);
   }
 
@@ -93,7 +92,6 @@ public abstract class CategoryActivity<T extends CategoryList> extends Protected
         .pos(R.string.menu_save)
         .neut()
         .extra(args)
-        .theme(R.style.SimpleDialog)
         .show(this, DIALOG_EDIT_CATEGORY);
   }
 
@@ -105,7 +103,6 @@ public abstract class CategoryActivity<T extends CategoryList> extends Protected
         .cancelable(false)
         .neut()
         .extra(args)
-        .theme(R.style.SimpleDialog)
         .colorPreset(c.color)
         .show(this, EDIT_COLOR_DIALOG);
   }

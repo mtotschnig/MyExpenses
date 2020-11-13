@@ -237,7 +237,6 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
         SimpleFormDialog.build().msg(R.string.backup_is_encrypted)
             .fields(Input.password(KEY_PASSWORD).required())
             .extra(args)
-            .theme(R.style.SimpleDialog)
             .show(this, DIALOG_TAG_PASSWORD);
       } else {
         doRestore(args);

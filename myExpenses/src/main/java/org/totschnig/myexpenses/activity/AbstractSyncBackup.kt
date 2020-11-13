@@ -75,7 +75,6 @@ abstract class AbstractSyncBackup<T : AbstractSetupViewModel> : ProtectedFragmen
                     .neg()
                     .pos(R.string.select)
                     .neut(R.string.menu_create_folder)
-                    .theme(R.style.SimpleDialog)
                     .show(this, DIALOG_TAG_FOLDER_SELECT)
         }
     }
@@ -87,7 +86,6 @@ abstract class AbstractSyncBackup<T : AbstractSetupViewModel> : ProtectedFragmen
                     .title(R.string.menu_create_folder)
                     .pos(android.R.string.ok)
                     .neg()
-                    .theme(R.style.SimpleDialog)
                     .show(this, DIALOG_TAG_FOLDER_CREATE)
         }
     }

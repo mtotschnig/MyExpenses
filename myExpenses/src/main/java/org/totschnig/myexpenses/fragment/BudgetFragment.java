@@ -142,7 +142,6 @@ public class BudgetFragment extends DistributionBaseFragment implements
               .msg(getString(R.string.warning_delete_budget, budget.getTitle()) + " " + getString(R.string.continue_confirmation))
               .pos(R.string.menu_delete)
               .neg(android.R.string.cancel)
-              .theme(R.style.SimpleDialog)
               .show(this, DELETE_BUDGET_DIALOG);
           return true;
         }
@@ -161,7 +160,6 @@ public class BudgetFragment extends DistributionBaseFragment implements
     final Money amount, max, min;
     final SimpleFormDialog simpleFormDialog = SimpleFormDialog.build()
         .title(category == null ? getString(R.string.dialog_title_edit_budget) : category.label)
-        .theme(R.style.SimpleDialog)
         .neg();
     if (category != null) {
       long allocated = parentItem == null ? getAllocated() :
