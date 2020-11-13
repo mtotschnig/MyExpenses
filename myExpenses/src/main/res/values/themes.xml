@@ -28,7 +28,10 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="android:activatedBackgroundIndicator">@drawable/activated_background</item>
         <item name="md_color_button_text">?colorAccent</item>
         <item name="textInputStyle">@style/MyTextInputLayout</item>
+        <item name="alertDialogTheme">@style/MyAlertDialogTheme</item>
         <item name="materialAlertDialogTheme">@style/MyAlertDialogTheme</item>
+        <item name="simpleDialogTheme">@style/SimpleDialog</item>
+
     </style>
 
     <style name="MyTheme" parent="MyThemeBase" />
@@ -59,9 +62,11 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="md_color_button_text">?colorAccent</item>
         <item name="textInputStyle">@style/MyTextInputLayout</item>
         <item name="toolbarStyle">@style/AppTheme.Toolbar</item>
+        <item name="alertDialogTheme">@style/MyAlertDialogTheme</item>
         <item name="materialAlertDialogTheme">@style/MyAlertDialogTheme</item>
         <item name="searchViewStyle">@style/SearchViewStyle</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="simpleDialogTheme">@style/SimpleDialog</item>
     </style>
 
     <style name="EditDialog" parent="EditDialogBase" />
@@ -87,6 +92,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="colorAccent">@color/colorAccent</item>
         <item name="md_color_button_text">?colorAccent</item>
         <item name="textInputStyle">@style/MyTextInputLayout</item>
+        <item name="simpleDialogTheme">@style/SimpleDialog</item>
     </style>
 
     <style name="Onboarding" parent="OnboardingBase" />
