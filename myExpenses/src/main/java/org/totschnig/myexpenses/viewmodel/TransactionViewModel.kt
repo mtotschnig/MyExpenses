@@ -49,7 +49,7 @@ open class TransactionViewModel(application: Application) : ContentResolvingAndr
                 it.first.prepareForEdit(clone, clone && prefHandler.getBoolean(PrefKey.CLONE_WITH_CURRENT_DATE, true))
             }
             emit(it.first)
-            it.second.takeIf { it.size > 0 }?.let { tags.postValue(it.toMutableList()) }
+            it.second?.takeIf { it.size > 0 }?.let { tags.postValue(it.toMutableList()) }
         }
     }
 

@@ -420,7 +420,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
   @Nullable
   public static kotlin.Pair<Transaction, List<Tag>> getInstanceFromDbWithTags(long id) {
     Template t = getInstanceFromDb(id);
-    return t == null ? null : new kotlin.Pair(t, t.loadTags());
+    return t == null ? null : new kotlin.Pair<>(t, t.loadTags());
   }
 
   @Nullable
