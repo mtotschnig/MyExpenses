@@ -975,4 +975,8 @@
     <string name="discover_feature_fab_long_press">הקש והחזק את כפתור הפעולה הצף על מנת לפתוח ישירות את הטופס להעברות, עסקאות מפוצלות או הכנסה.</string>
     <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
     <string name="advance_exexcution_in_days">ביצוע מראש (בימים)</string>
-    </resources>
+    <string name="warning_balance_account_delete">אם תמשיך, כל העסקאות המתואמות של חשבון זה יימחקו ממסד הנתונים ולא תוכל לשחזר אותן.</string>
+    <!-- When user opens a template from the transaction form, existing data is discarded. This message appears in a dialgoue to confirm the action -->
+    <string name="confirmation_load_template_discard_data">נתוני הטופס הקיימים יימחקו.</string>
+
+</resources>

@@ -949,4 +949,8 @@
     <string name="discover_feature_fab_long_press">Transferler, bölünmüş muameleler veya gelirler için formu doğrudan açmak için kayan eylem düğmesine dokunun ve basılı tutun.</string>
     <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
     <string name="advance_exexcution_in_days">Önceden uygulama (gün olarak)</string>
-    </resources>
+    <string name="warning_balance_account_delete">Eğer devam ederseniz, bu hesabın tüm uzlaşmış muameleleri veritabanından silinecektir ve onlar geri getirmeniz mümkün olmayacaktır.</string>
+    <!-- When user opens a template from the transaction form, existing data is discarded. This message appears in a dialgoue to confirm the action -->
+    <string name="confirmation_load_template_discard_data">Mevcut form verileri silinecektir.</string>
+
+</resources>

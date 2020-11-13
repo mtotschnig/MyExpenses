@@ -949,4 +949,8 @@
     <string name="discover_feature_fab_long_press">Tocca e tieni premuto il pulsante fluttuante per aprire direttamente un nuovo modulo per trasferimenti, transazioni frazionate o entrate.</string>
     <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
     <string name="advance_exexcution_in_days">Esecuzione anticipata (in giorni)</string>
-    </resources>
+    <string name="warning_balance_account_delete">Se procedi, tutte le transazioni riconciliate di questo account verranno eliminate dal database e non potrai ripristinarle.</string>
+    <!-- When user opens a template from the transaction form, existing data is discarded. This message appears in a dialgoue to confirm the action -->
+    <string name="confirmation_load_template_discard_data">I dati del modulo esistente verranno eliminati.</string>
+
+</resources>
