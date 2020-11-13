@@ -33,8 +33,10 @@ import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.viewmodel.data.PlanInstance;
+import org.totschnig.myexpenses.viewmodel.data.Tag;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
@@ -346,7 +348,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
     setParentId(parentId);
   }
 
-  @androidx.annotation.Nullable
+  @Nullable
   public static Template getTypedNewInstance(int operationType, Long accountId, boolean forEdit, Long parentId) {
     Account account = Account.getInstanceFromDbWithFallback(accountId);
     if (account == null) {
@@ -415,7 +417,13 @@ public class Template extends Transaction implements ITransfer, ISplit {
     return planInstance;
   }
 
-  @androidx.annotation.Nullable
+  @Nullable
+  public static kotlin.Pair<Transaction, List<Tag>> getInstanceFromDbWithTags(long id) {
+    Template t = getInstanceFromDb(id);
+    return t == null ? null : new kotlin.Pair(t, t.loadTags());
+  }
+
+  @Nullable
   public static Template getInstanceFromDb(long id) {
     Cursor c = cr().query(
         CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), null, null, null, null);

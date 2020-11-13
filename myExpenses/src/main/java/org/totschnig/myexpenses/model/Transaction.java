@@ -529,18 +529,28 @@ public class Transaction extends AbstractTransaction {
     return t;
   }
 
-  public static Pair<Transaction, List<Tag>> getInstanceFromTemplate(long id) {
+  public static kotlin.Pair<Transaction, List<Tag>> getInstanceFromDbWithTags(long id) {
+    Transaction t = getInstanceFromDb(id);
+    return t == null ? null : new kotlin.Pair<>(t, t.loadTags());
+  }
+
+  public static kotlin.Pair<Transaction, List<Tag>> getInstanceFromTemplateWithTags(long id) {
+    Template te = Template.getInstanceFromDb(id);
+    return te == null ? null : getInstanceFromTemplateWithTags(te);
+  }
+
+  public static Transaction getInstanceFromTemplate(long id) {
     Template te = Template.getInstanceFromDb(id);
     return te == null ? null : getInstanceFromTemplate(te);
   }
 
   @Nullable
-  public static Pair<Transaction, List<Tag>> getInstanceFromTemplateIfOpen(long id, long instanceId) {
+  public static kotlin.Pair<Transaction, List<Tag>> getInstanceFromTemplateIfOpen(long id, long instanceId) {
     Template te = Template.getInstanceFromDbIfInstanceIsOpen(id, instanceId);
-    return te == null ? null : getInstanceFromTemplate(te);
+    return te == null ? null : getInstanceFromTemplateWithTags(te);
   }
 
-  public static Pair<Transaction, List<Tag>> getInstanceFromTemplate(Template te) {
+  public static Transaction getInstanceFromTemplate(Template te) {
     Transaction tr;
     switch (te.operationType()) {
       case TYPE_TRANSACTION:
@@ -576,9 +586,8 @@ public class Transaction extends AbstractTransaction {
       if (c != null) {
         c.moveToFirst();
         while (!c.isAfterLast()) {
-          Pair<Transaction, List<Tag>> pair = Transaction.getInstanceFromTemplate(c.getLong(c.getColumnIndex(KEY_ROWID)));
-          if (pair != null) {
-            Transaction part = pair.first;
+          Transaction part = Transaction.getInstanceFromTemplate(c.getLong(c.getColumnIndex(KEY_ROWID)));
+          if (part != null) {
             part.status = STATUS_UNCOMMITTED;
             part.setParentId(tr.getId());
             part.saveAsNew();
@@ -595,10 +604,18 @@ public class Transaction extends AbstractTransaction {
             .appendPath(TransactionProvider.URI_SEGMENT_INCREASE_USAGE)
             .build(),
         null, null, null);
+    return tr;
+  }
+
+  public static kotlin.Pair<Transaction, List<Tag>> getInstanceFromTemplateWithTags(Template te) {
+    return new kotlin.Pair<>(getInstanceFromTemplate(te), te.loadTags());
+  }
+
+  protected List<Tag> loadTags() {
     List<Tag> tags;
-    if (te.getParentId() == null) {
+    if (getParentId() == null) {
       tags = new ArrayList<>();
-      Cursor c = cr().query(te.linkedTagsUri(), null, te.linkColumn() + " = ?", new String[]{idString}, null);
+      Cursor c = cr().query(linkedTagsUri(), null, linkColumn() + " = ?", new String[]{String.valueOf(getId())}, null);
       if (c != null) {
         c.moveToFirst();
         while (!c.isAfterLast()) {
@@ -610,7 +627,7 @@ public class Transaction extends AbstractTransaction {
     } else {
       tags = null;
     }
-    return Pair.create(tr, tags);
+    return tags;
   }
 
   /**

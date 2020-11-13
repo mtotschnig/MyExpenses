@@ -40,7 +40,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import androidx.core.app.JobIntentService;
-import androidx.core.util.Pair;
+import kotlin.Pair;
 import timber.log.Timber;
 
 import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
@@ -189,11 +189,11 @@ public class PlanExecutor extends JobIntentService {
                     content += currencyFormatter.formatCurrency(template.getAmount());
                     builder.setContentText(content);
                     if (template.isPlanExecutionAutomatic()) {
-                      Pair<Transaction, List<Tag>> pair = Transaction.getInstanceFromTemplate(template);
-                      Transaction t = pair.first;
+                      Pair<Transaction, List<Tag>> pair = Transaction.getInstanceFromTemplateWithTags(template);
+                      Transaction t = pair.getFirst();
                       t.setOriginPlanInstanceId(instanceId);
                       t.setDate(new Date(date));
-                      if (t.save(true) != null && t.saveTags(pair.second, getContentResolver())) {
+                      if (t.save(true) != null && t.saveTags(pair.getSecond(), getContentResolver())) {
                         Intent displayIntent = new Intent(this, MyExpenses.class)
                             .putExtra(KEY_ROWID, template.getAccountId())
                             .putExtra(KEY_TRANSACTIONID, t.getId());

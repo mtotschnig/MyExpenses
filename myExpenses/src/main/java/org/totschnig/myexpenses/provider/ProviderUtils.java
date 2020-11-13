@@ -32,6 +32,7 @@ public class ProviderUtils {
   private ProviderUtils() {
   }
 
+  //TODO add tags to contract
   public static Transaction buildFromExtras(Bundle extras) throws NotImplementedException {
     Transaction transaction;
     switch (extras.getInt(OPERATION_TYPE)) {

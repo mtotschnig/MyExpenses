@@ -172,7 +172,6 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
     private var pObserver: ContentObserver? = null
     private lateinit var viewModel: TransactionEditViewModel
     private lateinit var currencyViewModel: CurrencyViewModel
-    private var tagsLoaded = false
     override fun getDate(): LocalDate {
         return dateEditBinding.Date2Button.date
     }
@@ -277,8 +276,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             }
             // fetch the transaction or create a new instance
             if (task != null) {
-                //if called with extra KEY_CLONE, we ask the task to clone, but no longer after orientation change
-                viewModel.transaction(mRowId, task, intent.getBooleanExtra(KEY_CLONE, false), true, extras).observe(this, {
+                viewModel.transaction(mRowId, task, isClone, true, extras).observe(this, {
                     populateFromTask(it, task)
                 })
             } else {
@@ -390,7 +388,6 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         if (!isSplitPart) {
             viewModel.getTags().observe(this, { tags ->
                 if (::delegate.isInitialized) {
-                    tagsLoaded = true
                     delegate.showTags(tags) { tag ->
                         viewModel.removeTag(tag)
                         setDirty()
@@ -478,9 +475,6 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             if (transaction.isSealed) {
                 abortWithMessage("This transaction refers to a closed account and can no longer be edited")
             } else {
-                if (task != TRANSACTION_FROM_TEMPLATE) {
-                    viewModel.loadOriginalTags(transaction.id, it.linkedTagsUri(), it.linkColumn())
-                }
                 populate(it)
 
             }
@@ -1307,11 +1301,9 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
     }
 
     fun startTagSelection(@Suppress("UNUSED_PARAMETER") view: View) {
-        if (mNewInstance || tagsLoaded) {
-            val i = Intent(this, ManageTags::class.java).apply {
-                putParcelableArrayListExtra(KEY_TAGLIST, viewModel.getTags().value?.let { ArrayList(it) })
-            }
-            startActivityForResult(i, SELECT_TAGS_REQUEST)
+        val i = Intent(this, ManageTags::class.java).apply {
+            putParcelableArrayListExtra(KEY_TAGLIST, viewModel.getTags().value?.let { ArrayList(it) })
         }
+        startActivityForResult(i, SELECT_TAGS_REQUEST)
     }
 }

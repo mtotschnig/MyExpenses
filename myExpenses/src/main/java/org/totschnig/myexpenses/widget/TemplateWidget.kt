@@ -33,7 +33,7 @@ class TemplateWidget: AbstractWidget(TemplateWidgetService::class.java, R.string
                             context.getString(R.string.warning_instantiate_template_from_widget_password_protected),
                             Toast.LENGTH_LONG).show()
                 } else {
-                    Transaction.getInstanceFromTemplate(templateId)?.let {
+                    Transaction.getInstanceFromTemplateWithTags(templateId)?.let {
                         if (it.first!!.save(true) != null && it.first!!.saveTags(it.second, context.contentResolver)) {
                             Toast.makeText(context,
                                     context.resources.getQuantityString(R.plurals.save_transaction_from_template_success, 1, 1),

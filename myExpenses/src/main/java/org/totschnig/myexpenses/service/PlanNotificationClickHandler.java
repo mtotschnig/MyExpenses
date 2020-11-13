@@ -22,7 +22,6 @@ import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.Nullable;
-import androidx.core.util.Pair;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
@@ -55,14 +54,14 @@ public class PlanNotificationClickHandler extends IntentService {
     Long instanceId = extras.getLong(DatabaseConstants.KEY_INSTANCEID);
     switch (action) {
       case PlanExecutor.ACTION_APPLY:
-        Pair<Transaction, List<Tag>> pair = Transaction.getInstanceFromTemplate(templateId);
+        kotlin.Pair<Transaction, List<Tag>> pair = Transaction.getInstanceFromTemplateWithTags(templateId);
         if (pair == null) {
           message = getString(R.string.save_transaction_template_deleted);
         } else {
-          Transaction t = pair.first;
+          Transaction t = pair.getFirst();
           t.setDate(new Date(extras.getLong(DatabaseConstants.KEY_DATE)));
           t.setOriginPlanInstanceId(instanceId);
-          if (t.save(true) != null && t.saveTags(pair.second, getContentResolver())) {
+          if (t.save(true) != null && t.saveTags(pair.getSecond(), getContentResolver())) {
             message = getResources().getQuantityString(
                 R.plurals.save_transaction_from_template_success, 1, 1);
             Intent displayIntent = new Intent(this, MyExpenses.class)
