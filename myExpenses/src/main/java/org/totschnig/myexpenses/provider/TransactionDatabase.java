@@ -157,7 +157,7 @@ import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 110;
+  public static final int DATABASE_VERSION = 111;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -2196,9 +2196,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         db.execSQL(TRANSACTIONS_UPDATE_TRIGGER_CREATE);
       }
       if (oldVersion < 107) {
-        db.execSQL("update accounts set sealed = -1 where sealed = 1");
-        db.execSQL("UPDATE transactions set date = (select date from transactions parents where _id = transactions.parent_id) where parent_id is not null");
-        db.execSQL("update accounts set sealed = 1 where sealed = -1");
+        repairSplitPartDates(db);
       }
       if (oldVersion < 108) {
         db.execSQL("ALTER TABLE templates add column plan_execution_advance integer default 0");
@@ -2210,10 +2208,19 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       if (oldVersion < 110) {
         createOrRefreshTemplateViews(db);
       }
+      if (oldVersion < 111) {
+        repairSplitPartDates(db);
+      }
       TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {
       throw new SQLiteUpgradeFailedException(oldVersion, newVersion, e);
     }
+  }
+
+  public void repairSplitPartDates(SQLiteDatabase db) {
+    db.execSQL("update accounts set sealed = -1 where sealed = 1");
+    db.execSQL("UPDATE transactions set date = (select date from transactions parents where _id = transactions.parent_id) where parent_id is not null");
+    db.execSQL("update accounts set sealed = 1 where sealed = -1");
   }
 
   private void createOrRefreshAccountTriggers(SQLiteDatabase db) {

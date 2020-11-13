@@ -20,8 +20,6 @@ import android.app.Dialog;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -135,15 +133,15 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
     final LoaderManager loaderManager = LoaderManager.getInstance(this);
     loaderManager.initLoader(TRANSACTION_CURSOR, null, this);
     loaderManager.initLoader(SUM_CURSOR, null, this);
-    mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-      @Override
-      public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-        FragmentManager fm = getFragmentManager();
-        DialogFragment f = (DialogFragment) fm.findFragmentByTag(TransactionDetailFragment.class.getName());
-        if (f == null) {
-          FragmentTransaction ft = fm.beginTransaction();
-          TransactionDetailFragment.newInstance(id).show(ft, TransactionDetailFragment.class.getName());
-        }
+    mListView.setOnItemClickListener((a, v, position, id) -> {
+      Cursor c = (Cursor) mAdapter.getItem(position);
+      int index = c.getColumnIndexOrThrow(KEY_PARENTID);
+      long idToDisplay = c.isNull(index) ? id : c.getLong(index);
+      FragmentManager fm = getFragmentManager();
+      DialogFragment f = (DialogFragment) fm.findFragmentByTag(TransactionDetailFragment.class.getName());
+      if (f == null) {
+        FragmentTransaction ft = fm.beginTransaction();
+        TransactionDetailFragment.newInstance(idToDisplay).show(ft, TransactionDetailFragment.class.getName());
       }
     });
     //TODO pretify layout
