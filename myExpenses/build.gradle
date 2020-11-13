@@ -114,10 +114,14 @@ android {
 
     sourceSets {
         main.res.srcDirs += 'src/main/categoryIcons'
-        conscriptExternRelease.java.srcDirs += 'src/conscriptRelease/java'
-        conscriptExternDebug.java.srcDirs += 'src/conscriptDebug/java'
-        conscriptMlkitRelease.java.srcDirs += 'src/conscriptRelease/java'
-        conscriptMlkitDebug.java.srcDirs += 'src/conscriptDebug/java'
+        conscript {
+            release {
+                java.srcDirs += 'src/conscriptRelease/java'
+            }
+            debug {
+                java.srcDirs += 'src/conscriptDebug/java'
+            }
+        }
     }
 
     lintOptions {
