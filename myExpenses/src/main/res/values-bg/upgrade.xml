@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_317">
+        <item>Шаблон може да се зареди от страницата за транзакции.</item>
+    </string-array>
     <string-array name="whats_new_316">
         <item>Бутонът за запис във формата за транзакция е по забележим.</item>
         <item>Дълго натискане на плаващия бутон отваря меню, където ще подготвите форма за превод, разпределена транзакция или приход.</item>

@@ -949,4 +949,8 @@
     <string name="discover_feature_fab_long_press">Задръжте натиснат плаващия бутон за да отворите направо формата за превод, разпределена транзакция или приход.</string>
     <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
     <string name="advance_exexcution_in_days">Предварително действие (в дни)</string>
-    </resources>
+    <string name="warning_balance_account_delete">Ако продължите, всички съгласувани транзакции от тази сметка ще бъдат изтрити от базата данни и няма да можете да ги възстановите.</string>
+    <!-- When user opens a template from the transaction form, existing data is discarded. This message appears in a dialgoue to confirm the action -->
+    <string name="confirmation_load_template_discard_data">Сегашните данни на страницата ще бъдат премахнати.</string>
+
+</resources>
