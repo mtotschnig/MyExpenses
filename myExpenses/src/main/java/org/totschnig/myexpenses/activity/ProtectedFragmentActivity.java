@@ -25,7 +25,6 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Build;
@@ -93,6 +92,7 @@ import androidx.annotation.CallSuper;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
@@ -201,29 +201,39 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   @Override
   protected void attachBaseContext(Context newBase) {
-    super.attachBaseContext(useCustomConfig(newBase));
+    super.attachBaseContext(newBase);
     injectDependencies();
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+      Configuration config = new Configuration();
+      final MyApplication application = MyApplication.getInstance();
+      config.fontScale = getFontScale(application.getAppComponent().prefHandler(), application.getContentResolver());
+      applyOverrideConfiguration(config);
+    }
     featureManager.initActivity(this);
   }
 
-  private Context useCustomConfig(Context context) {
-    Locale locale = getUserPreferredLocale();
-    Locale.setDefault(locale);
-    final MyApplication application = MyApplication.getInstance();
-    float fontScale = getFontScale(application.getAppComponent().prefHandler(), application.getContentResolver());
-    if (Build.VERSION.SDK_INT >= 17) {
-      Configuration config = new Configuration();
-      config.fontScale = fontScale;
-      config.setLocale(locale);
-      return context.createConfigurationContext(config);
+  @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+  @Override
+  public void applyOverrideConfiguration(Configuration newConfig) {
+    super.applyOverrideConfiguration(updateConfigurationIfSupported(newConfig));
+  }
+
+  @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+  private Configuration updateConfigurationIfSupported(Configuration config) {
+    // Configuration.getLocales is added after 24 and Configuration.locale is deprecated in 24
+    if (Build.VERSION.SDK_INT >= 24) {
+      if (!config.getLocales().isEmpty()) {
+        return config;
+      }
     } else {
-      Resources res = context.getResources();
-      Configuration config = new Configuration(res.getConfiguration());
-      config.fontScale = fontScale;
-      config.locale = locale;
-      res.updateConfiguration(config, res.getDisplayMetrics());
-      return context;
+      if (config.locale != null) {
+        return config;
+      }
     }
+
+    Locale locale = getUserPreferredLocale();
+    config.setLocale(locale);
+    return config;
   }
 
   private float getFontScale(PrefHandler prefHandler, ContentResolver contentResolver) {

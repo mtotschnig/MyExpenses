@@ -68,7 +68,9 @@
         </Preference>
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_category_title_ui">
+    <PreferenceCategory
+        android:key="@string/pref_category_ui_key"
+        android:title="@string/pref_category_title_ui">
         <org.totschnig.myexpenses.preference.ListPreferenceShowSummary
             android:defaultValue="@string/pref_ui_theme_default"
             android:entries="@array/pref_ui_theme_entries"
@@ -554,10 +556,10 @@
                 android:key="@string/pref_debug_show_ads_key"
                 android:summary="Ads" />
         </PreferenceScreen>
-        <PreferenceScreen android:key="@string/pref_feature_uninstall_key"
-            android:title="@string/pref_feature_uninstall_title"
+        <PreferenceScreen
+            android:key="@string/pref_feature_uninstall_key"
             android:summary="@string/pref_feature_uninstall_summary"
-            >
+            android:title="@string/pref_feature_uninstall_title">
             <MultiSelectListPreference
                 android:key="@string/pref_feature_uninstall_features_key"
                 android:persistent="false"

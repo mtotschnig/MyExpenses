@@ -107,6 +107,7 @@
   <string name="menu_invert_transfer_help_text">Verändert die Richtung der Umbuchung indem die Konten \'Von\' und \'Nach\' ihre Position wechseln.</string>
   <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">Wenn die Währungen der \'Von\' und \'Nach\' Konten unterschiedlich sind, geben Sie den Betrag für nur eines der beiden an. Der andere wird beim Erstellen von Instanzen aus der Vorlage berechnet.</string>
   <string name="form_goal_or_limit_help_text">In diesem Feld kann entweder ein positives Sparziel oder ein negatives Kreditlimit angegeben werden. In beiden Fällen zeigt eine Fortschrittsanzeige in der Kontenliste die Entfernung zwischen dem aktuellen Kontostand und dem Ziel oder dem Limit an.</string>
+  <string name="menu_templates_help_text">Öffnen Sie ein Menü, in dem alle Vorlagen aufgelistet sind, damit Sie diese schnell in das Formular laden können.</string>
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">Formular für Konten</string>
   <string name="form_AccountEdit_label_help_text">Das Label kennzeichnet das Konto in der Kontoliste.</string>

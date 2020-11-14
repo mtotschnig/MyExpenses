@@ -126,6 +126,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_BACKUP;
 import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_CONTRIB;
 import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_MANAGE;
 import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_PRIVACY;
+import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_UI;
 import static org.totschnig.myexpenses.preference.PrefKey.CONTRIB_PURCHASE;
 import static org.totschnig.myexpenses.preference.PrefKey.CRASHREPORT_ENABLED;
 import static org.totschnig.myexpenses.preference.PrefKey.CRASHREPORT_SCREEN;
@@ -398,7 +399,11 @@ public class SettingsFragment extends BaseSettingsFragment implements
       }
 
       ListPreference languagePref = ((ListPreference) findPreference(UI_LANGUAGE));
-      languagePref.setEntries(getLocaleArray(getContext()));
+      if (Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN_MR1)) {
+        languagePref.setEntries(getLocaleArray(getContext()));
+      } else {
+        ((PreferenceCategory) findPreference(CATEGORY_UI)).removePreference(languagePref);
+      }
 
       currencyViewModel.getCurrencies().observe(this, currencies -> {
         ListPreference homeCurrencyPref = (ListPreference) findPreference(PrefKey.HOME_CURRENCY);
@@ -413,7 +418,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
       if (translatorsArrayResId != 0) {
         String[] translatorsArray = getResources().getStringArray(translatorsArrayResId);
         final String translators;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
           translators = ListFormatter.getInstance().format((Object[]) translatorsArray);
         } else {
           translators = TextUtils.join(", ", translatorsArray);

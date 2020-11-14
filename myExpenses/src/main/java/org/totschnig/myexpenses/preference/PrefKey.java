@@ -46,6 +46,7 @@ public enum PrefKey {
   RATE(R.string.pref_rate_key),
   UI_LANGUAGE(R.string.pref_ui_language_key),
   APP_DIR(R.string.pref_app_dir_key),
+  CATEGORY_UI(R.string.pref_category_ui_key),
   CATEGORY_CONTRIB(R.string.pref_category_contrib_key),
   CATEGORY_MANAGE(R.string.pref_category_manage_key),
   CATEGORY_PRIVACY(R.string.pref_category_privacy_key),

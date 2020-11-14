@@ -17,6 +17,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="pref_root_screen_key">pref_root</string>
     <string name="pref_category_export_key">category_export</string>
+    <string name="pref_category_ui_key">category_ui</string>
     <string name="pref_category_contrib_key">category_contrib</string>
     <string name="pref_category_backup_key">category_backup</string>
     <string name="pref_category_manage_key">category_manage</string>
