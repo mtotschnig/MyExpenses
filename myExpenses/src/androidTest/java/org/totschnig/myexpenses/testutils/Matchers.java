@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.testutils;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
-import android.widget.ListView;
 
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
@@ -26,7 +25,7 @@ public class Matchers {
   }
 
   public static Matcher<View> withListSize(final Matcher<Integer> integerMatcher) {
-    return new BoundedMatcher<View, ListView>(ListView.class) {
+    return new BoundedMatcher<View, AdapterView>(AdapterView.class) {
       @Override
       public void describeTo(Description description) {
         description.appendText("with number: ");
@@ -34,8 +33,8 @@ public class Matchers {
       }
 
       @Override
-      public boolean matchesSafely(ListView listView) {
-        return integerMatcher.matches(listView.getChildCount());
+      public boolean matchesSafely(AdapterView adapterView) {
+        return integerMatcher.matches(adapterView.getAdapter().getCount());
       }
     };
   }

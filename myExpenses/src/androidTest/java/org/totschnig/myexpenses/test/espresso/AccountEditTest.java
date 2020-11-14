@@ -3,10 +3,9 @@ package org.totschnig.myexpenses.test.espresso;
 import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.os.RemoteException;
-import android.widget.Spinner;
 
+import org.hamcrest.Matchers;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.totschnig.myexpenses.R;
@@ -23,6 +22,7 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static junit.framework.Assert.assertTrue;
+import static org.totschnig.myexpenses.testutils.Matchers.withListSize;
 
 public class AccountEditTest {
 
@@ -54,6 +54,6 @@ public class AccountEditTest {
     Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), AccountEdit.class);
     mActivityRule.launchActivity(i);
     onView(withId(R.id.Currency)).check(matches(isDisplayed()));
-    Assert.assertTrue(((Spinner) mActivityRule.getActivity().findViewById(R.id.Currency)).getAdapter().getCount() > 0);
+    onView(withId(R.id.Currency)).check(matches(withListSize(Matchers.greaterThan(0))));
   }
 }
