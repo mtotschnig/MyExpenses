@@ -129,6 +129,7 @@
   <string name="menu_invert_transfer_help_text">Invert the direction of the transfer by swapping \'From\' and \'To\' account.</string>
   <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">If the currencies of \'From\' and \'To\' account are different, you specify the amount for only one of them. The other one will be calculated when you create instances from the template.</string>
   <string name="form_goal_or_limit_help_text">This field allows to specify either a positive saving goal or a negative credit limit. In either case, on the account list, a progress indicator visualizes the distance between the current balance and the goal or the limit.</string>
+  <string name="menu_templates_help_text">Open a menu that lists all templates allowing to quickly load them into the form.</string>
 
   <!-- AccountEdit -->
   <string name="help_AccountEdit_title">Form for accounts</string>
