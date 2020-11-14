@@ -171,6 +171,7 @@
             android:summary="@string/pref_account_list_fast_scroll_summary" />
 
         <SwitchPreferenceCompat
+            android:title="@string/pref_clone_with_current_date_title"
             android:defaultValue="true"
             android:key="@string/pref_clone_with_current_date_key"
             android:summaryOff="@string/pref_clone_with_current_date_summary_off"

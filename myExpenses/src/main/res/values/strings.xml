@@ -952,5 +952,6 @@
     <string name="warning_balance_account_delete">If you proceed, all reconciled transactions of this account will be deleted from the database and you will not be able to restore them.</string>
     <!-- When user opens a template from the transaction form, existing data is discarded. This message appears in a dialgoue to confirm the action -->
     <string name="confirmation_load_template_discard_data">Existing form data will be discarded.</string>
+    <string name="pref_clone_with_current_date_title">Date of cloned transactions</string>
 
 </resources>
