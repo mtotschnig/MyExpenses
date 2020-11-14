@@ -111,9 +111,7 @@ public final class MyExpensesTest extends BaseUiTest {
   public void helpDialogIsOpened() {
     Espresso.openActionBarOverflowMenu();
     onData(hasToString(getString(R.string.menu_help))).perform(click());
-    //Unfortunately Help activity starts with app context when opened here from test. the language override does not work
-    //that is why we need to use app for resolving strings.
-    onView(withText(containsString(app.getString(R.string.help_MyExpenses_title))))
+    onView(withText(containsString(getString(R.string.help_MyExpenses_title))))
         .check(matches(isDisplayed()));
     onView(allOf(
         isAssignableFrom(Button.class),
