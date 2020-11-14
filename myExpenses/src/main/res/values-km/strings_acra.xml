@@ -2,8 +2,6 @@
 <resources>
   <string name="pref_category_title_crash_reports">របាយការណ៍​សាច់​ប្រាក់</string>
   <string name="pref_enable_acra">អនុញ្ញាតិ​ផ្ញើ​របាយការណ៍​សាច់​ប្រាក់​ដោយ​ស្វ័យ​ប្រវត្តិ</string>
-  <string name="pref_acra_enabled">បើក​ការ​ផ្ញើចេញ​ដោយ​ស្វ័យ​ប្រវត្តិ</string>
-  <string name="pref_acra_disabled">បិទការ​ផ្ញើចេញ​ដោយ​ស្វ័យ​ប្រវត្តិ</string>
   <string name="pref_acra_user_email">អ៊ីម៉ែល​អ្នក​ប្រើ​ប្រាស់ ត្រូវ​បាន​ដាក់បញ្ចូល​ក្នុង របាយការណ៍​ជាប់គាំង</string>
   <string name="pref_acra_user_email_summary">សូម​វាយ​បញ្ចូល​ អ៊ីម៉ែល​របស់​អ្នក បើ​អ្នក​ចង់​ជួយ ស្វែង​រកកំហុស​ឆ្គង និង​អនុញ្ញាតិ​អោយ​យើង​ខ្ញុំ​ទាក់ទង​ទៅ​អ្នក។</string>
 </resources>

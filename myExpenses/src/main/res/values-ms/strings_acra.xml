@@ -3,8 +3,6 @@
   <string name="crash_reports_user_info">{app_name} akan menghantar laporan mengenai kerosakan aplikasi secara automatik kepada pembangunnya, yang membolehkan mereka membaiki masalah dengan lebih pantas.</string>
   <string name="pref_category_title_crash_reports">Laporan kerosakan</string>
   <string name="pref_enable_acra">Benarkan penghantaran laporan kerosakan secara automatik</string>
-  <string name="pref_acra_enabled">Penghantaran automatik dibenarkan</string>
-  <string name="pref_acra_disabled">Penghantara automatik dilumpuhkan</string>
   <string name="pref_acra_user_email">Emel pengguna disertakan dalam laporan kerosakan</string>
   <string name="pref_acra_user_email_summary">Sila masukkan alamat emel anda jika anda mahu bantu menyahpepijat dan membolehkan kami menghubungi anda.</string>
 </resources>

@@ -3,8 +3,6 @@
   <string name="crash_reports_user_info">{app_name} enverra automatiquement des rapports aux développeurs si l\'application se bloque, ce qui leur permettra de résoudre les problèmes plus rapidement.</string>
   <string name="pref_category_title_crash_reports">Rapports d\'incidents</string>
   <string name="pref_enable_acra">Autoriser l\'envoi automatique de rapports d\'incidents</string>
-  <string name="pref_acra_enabled">L\'envoi automatique est activé</string>
-  <string name="pref_acra_disabled">L\'envoi automatique est désactivé</string>
   <string name="pref_acra_user_email">E-mail de l\'utilisateur à inclure dans le rapport d\'incident</string>
   <string name="pref_acra_user_email_summary">Veuillez entrer votre adresse e-mail si vous êtes prêt à nous aider à déboguer et nous permettent de vous contacter.</string>
 </resources>

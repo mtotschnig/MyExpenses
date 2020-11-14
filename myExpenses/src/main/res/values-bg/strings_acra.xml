@@ -3,8 +3,6 @@
   <string name="crash_reports_user_info">{app_name} ще изпраща доклад за срив на приложението до програмистите, което позволява по-бързо отстраняване на проблемите.</string>
   <string name="pref_category_title_crash_reports">Доклад за срив</string>
   <string name="pref_enable_acra">Разрешeние за автоматично изпращане</string>
-  <string name="pref_acra_enabled">Разрешено е автоматично изпращане на доклад за срив</string>
-  <string name="pref_acra_disabled">Забранено е автоматично изпращане на доклад за срив</string>
   <string name="pref_acra_user_email">Електронна поща на потребителя</string>
   <string name="pref_acra_user_email_summary">Моля, въведете адрес на вашата електронна поща, който да се включи в доклад за срив, за връзка с вас, ако желаете да помогнете за отстраняване на проблеми.</string>
 </resources>

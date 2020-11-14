@@ -3,8 +3,6 @@
   <string name="crash_reports_user_info">{app_name} سوف يرسل تقرير عن فشل التطبيق بشكل تلقائي للمبرمجين, هذا سيسمح لهم بإصلاح المشاكل بسرعة أكبر.</string>
   <string name="pref_category_title_crash_reports">تقارير لمشاكل التطبيق</string>
   <string name="pref_enable_acra">السماح بالإرسال التلقائي لتقارير الأعطال</string>
-  <string name="pref_acra_enabled">تم تمكين الإرسال التلقائي</string>
-  <string name="pref_acra_disabled">تم تعطيل الإرسال التلقائي</string>
   <string name="pref_acra_user_email">بريد المستخدم ليتم إدراجه في تقرير المشكلة </string>
   <string name="pref_acra_user_email_summary">رجاءاً أدخل بريدك الإلكتروني إذا كنت ترغب بالمساعدة</string>
 </resources>

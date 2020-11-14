@@ -3,8 +3,6 @@
   <string name="crash_reports_user_info">{app_name} enviará informes sobre errores de la aplicación automáticamente a sus desarrolladores, permitiendo solucionar problemas más rápidamente.</string>
   <string name="pref_category_title_crash_reports">Reportes de accidente</string>
   <string name="pref_enable_acra">Permite el envío automático de reportes de accidente</string>
-  <string name="pref_acra_enabled">Envío automático está activato</string>
-  <string name="pref_acra_disabled">Envío automático está desactivado</string>
   <string name="pref_acra_user_email">Correo electrónico del usuario para ser incluidos en el informe de accidente</string>
   <string name="pref_acra_user_email_summary">Por favor ingrese su correo electrónico si usted está dispuesto a ayudar a depurar y permitirnos comunicarnos con usted.</string>
 </resources>

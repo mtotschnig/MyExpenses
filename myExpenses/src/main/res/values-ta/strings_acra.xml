@@ -3,8 +3,6 @@
   <string name="crash_reports_user_info">\"{app_name}\" செயலியின் செயலிழப்புகளைப் பற்றிய அறிக்கையை தானாகவே உருவாக்குனருக்கு அனுப்புகிறது. இது சிக்கல்களை விரைவாக சரிசெய்ய அனுமதிக்கிறது.</string>
   <string name="pref_category_title_crash_reports">செயலிழப்பு அறிக்கைகள்</string>
   <string name="pref_enable_acra">தன்னியக்கமாக செயலிழப்பு அறிக்கைகளை அனுப்ப அனுமதி</string>
-  <string name="pref_acra_enabled">தன்னியக்கமாக அனுப்புதல் இயக்கப்படுகிறது</string>
-  <string name="pref_acra_disabled">தன்னியக்கமாக அனுப்புதல் முடக்கப்பட்டுள்ளது</string>
   <string name="pref_acra_user_email">செயலிழப்பு அறிக்கையில் பயனர் மின்னஞ்சல் உள்ளடக்கப்பட்டுள்ளது</string>
   <string name="pref_acra_user_email_summary">நீங்கள் வழு நீக்க உதவ விரும்பினால் உங்கள் மின்னஞ்சல் முகவரியை உள்ளிட்டு உங்களை தொடர்பு கொள்ள எங்களை அனுமதிக்கவும்.</string>
 </resources>

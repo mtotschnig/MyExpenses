@@ -1,10 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string name="crash_reports_user_info">{app_name} enviará relatórios sobre falhas do aplicativo automaticamente para seus programadores, o que lhes permitirá corrigir os problemas mais rapidamente.</string>
+  <string name="crash_reports_user_info">{app_name} enviará relatórios sobre falhas do aplicativo automaticamente para seus desenvolvedores, o que lhes permitirá corrigir os problemas mais rapidamente.</string>
   <string name="pref_category_title_crash_reports">Relatórios de falhas</string>
   <string name="pref_enable_acra">Permitir o envio automático de relatórios de falhas</string>
-  <string name="pref_acra_enabled">O envio automático está habilitado</string>
-  <string name="pref_acra_disabled">O envio automático está desativado</string>
   <string name="pref_acra_user_email">E-mail do usuário a ser incluído no relatório de falhas</string>
   <string name="pref_acra_user_email_summary">Por favor, digite seu endereço de e-mail se você estiver disposto a ajudar na depuração e nos permitir entrar em contato com você.</string>
 </resources>

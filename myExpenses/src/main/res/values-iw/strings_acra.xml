@@ -3,8 +3,6 @@
   <string name="crash_reports_user_info">{app_name}  ישלחו באופן אוטומטי למפתחים את הדיווחים על קריסת יישומים, דבר שיאפשר להם לתקן בעיות במהירות רבה יותר.</string>
   <string name="pref_category_title_crash_reports">דוחו\"ת קריסה</string>
   <string name="pref_enable_acra">אפשר שליחה אוטומטית של דוחות קריסה</string>
-  <string name="pref_acra_enabled">השליחה האוטומטית מופעלת</string>
-  <string name="pref_acra_disabled">השליחה האוטומטית מושבתת</string>
   <string name="pref_acra_user_email">כתובת האימייל של המשתמש תיכלל בדוח הקריסה</string>
   <string name="pref_acra_user_email_summary">הזן את כתובת הדוא\"ל שלך אם אתה מוכן לעזור באיתור באגים ולאפשר לנו ליצור איתך קשר.</string>
 </resources>

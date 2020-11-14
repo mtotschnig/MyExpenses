@@ -3,8 +3,6 @@
   <string name="crash_reports_user_info">{app_name} は、迅速に問題を解決することができるようするため、アプリケーションのクラッシュについてのレポートを、開発者に自動で送信します。</string>
   <string name="pref_category_title_crash_reports">クラッシュ レポート</string>
   <string name="pref_enable_acra">クラッシュ レポートの自動送信を許可する</string>
-  <string name="pref_acra_enabled">自動送信は有効です</string>
-  <string name="pref_acra_disabled">自動送信は無効です</string>
   <string name="pref_acra_user_email">クラッシュ レポートにユーザーのメールを含める</string>
   <string name="pref_acra_user_email_summary">あなたがデバッグを支援することを希望し、私たちがあなたに連絡することを許可していただける場合は、メールアドレスを入力してください。</string>
 </resources>

@@ -3,8 +3,6 @@
   <string name="crash_reports_user_info">{app_name} автоматично надсилатиме звіти розробникам про аварійне завершення роботи програми, що дозволить виправляти проблеми швидше.</string>
   <string name="pref_category_title_crash_reports">Звіти про помилки</string>
   <string name="pref_enable_acra">Дозволити автоматичне надсилання звітів про помилки</string>
-  <string name="pref_acra_enabled">Автоматичне надсилання ввімкнено</string>
-  <string name="pref_acra_disabled">Автоматичне надсилання вимкнено</string>
   <string name="pref_acra_user_email">Емейл користувача буде включено у звіт про помилки</string>
   <string name="pref_acra_user_email_summary">Будь ласка, вкажіть свій емейл, якщо Ви хочете допомогти у виправленні помилок і даєте згоду на контакт з Вами</string>
 </resources>

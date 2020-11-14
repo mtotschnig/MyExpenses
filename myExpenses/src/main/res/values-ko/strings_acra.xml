@@ -3,8 +3,6 @@
   <string name="crash_reports_user_info">{app_name}는 앱 충돌 오류와 관련된 보고서를 개발자에게 자동으로 전송해서 문제를 빨리 해결할 수 있도록 합니다.</string>
   <string name="pref_category_title_crash_reports">충돌 오류 보고서</string>
   <string name="pref_enable_acra">충돌 오류 보고서를 자동으로 전송하기</string>
-  <string name="pref_acra_enabled">보고서 자동 전송을 사용합니다</string>
-  <string name="pref_acra_disabled">보고서 자동 전송을 사용하지 않습니다</string>
   <string name="pref_acra_user_email">충돌 오류 보고서에 사용자 이메일 포함</string>
   <string name="pref_acra_user_email_summary">만약 디버그를 도와주시거나 연락을 받고 싶으시면 이메일 주소를 입력해주세요.</string>
 </resources>

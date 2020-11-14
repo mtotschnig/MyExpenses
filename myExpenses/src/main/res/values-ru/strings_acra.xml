@@ -3,8 +3,6 @@
   <string name="crash_reports_user_info">{app_name} будет отправлять сообщения о сбоях приложения автоматически разработчикам, что позволяет им быстрее исправить проблемы.</string>
   <string name="pref_category_title_crash_reports">Отчёты о сбоях</string>
   <string name="pref_enable_acra">Разрешить автоматическую отправку отчётов о сбоях</string>
-  <string name="pref_acra_enabled">Автоматическая отправка разрешена</string>
-  <string name="pref_acra_disabled">Автоматическая отправка отключена</string>
   <string name="pref_acra_user_email">Пользовательский email, включеный в отчёт о сбое</string>
   <string name="pref_acra_user_email_summary">Пожалуйста введите Ваш адрес электронной почты, если Вы готовы помочь отладке и позволить нам связываться с Вами.</string>
 </resources>

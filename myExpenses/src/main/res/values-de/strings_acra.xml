@@ -3,8 +3,6 @@
   <string name="crash_reports_user_info">{app_name} sendet Berichte über Abstürze automatisch an seine Entwickler, wodurch Probleme schneller gelöst werden können.</string>
   <string name="pref_category_title_crash_reports">Absturzberichte</string>
   <string name="pref_enable_acra">Automatischen Versand von Absturzberichten zulassen</string>
-  <string name="pref_acra_enabled">Automatischer Versand ist aktiviert</string>
-  <string name="pref_acra_disabled">Automatischer Versand ist deaktiviert</string>
   <string name="pref_acra_user_email">Email-Adresse für Absturzberichte</string>
   <string name="pref_acra_user_email_summary">Bitte geben Sie Ihre Email-Adresse an, falls Sie bereit sind beim Aufspüren der Fehler zu helfen, und erlauben, dass wir Sie kontaktieren.</string>
 </resources>

@@ -3,8 +3,6 @@
   <string name="crash_reports_user_info">{app_name} va trimite rapoarte despre blocări automat la dezvoltatorii săi ce le permite să remedieze problemele mult mai repede.</string>
   <string name="pref_category_title_crash_reports">Rapoarte blocare</string>
   <string name="pref_enable_acra">Permite trimiterea automată de rapoarte de blocare</string>
-  <string name="pref_acra_enabled">Trimiterea automată este activată</string>
-  <string name="pref_acra_disabled">Trimiterea automată este dezactivată</string>
   <string name="pref_acra_user_email">E-mail utilizator ce va fi inclus în raportul de blocare</string>
   <string name="pref_acra_user_email_summary">Vă rugăm să introduceţi adresa de e-mail în cazul în care sunteţi dispus să ajutaţi la depanare şi să ne permiteţi să vă contactăm.</string>
 </resources>

@@ -3,8 +3,6 @@
   <string name="crash_reports_user_info">{app_name} automatski šalje izvještaje o prestanku rada aplikacije svojim programerima kako bi brže ispravili greške.</string>
   <string name="pref_category_title_crash_reports">Izvještaji o prestanku rada aplikacije</string>
   <string name="pref_enable_acra">Omogući automatsko slanje izvještaja o prestanku rada aplikacije</string>
-  <string name="pref_acra_enabled">Automatsko slanje je aktivirano</string>
-  <string name="pref_acra_disabled">Automatsko slanje je deaktivirano</string>
   <string name="pref_acra_user_email">Korisnički e-mail će biti sadržan u izvještaju o prestanku rada aplikacije</string>
   <string name="pref_acra_user_email_summary">Molimo unesite vašu e-mail adresu ako želite pomoći u ispravljanju grešaka i dopustiti nam da vas kontaktiramo.</string>
 </resources>

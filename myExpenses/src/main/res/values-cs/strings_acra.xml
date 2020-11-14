@@ -3,8 +3,6 @@
   <string name="crash_reports_user_info">{app_name} pošle automaticky záznamy o pádech aplikace vývojářům, což umožní napravení chyb mnohem rychleji.</string>
   <string name="pref_category_title_crash_reports">Hlášení o pádech</string>
   <string name="pref_enable_acra">Povolí automatické posílání záznamů o pádech</string>
-  <string name="pref_acra_enabled">Automatické zasílání je zapnuto</string>
-  <string name="pref_acra_disabled">Automatické zasílání je vypnuto</string>
   <string name="pref_acra_user_email">Uživatelský email bude zahrnut v záznamu pádu</string>
   <string name="pref_acra_user_email_summary">Prosím zadejte vaši emailovou adresu pokud chcete pomoci při ladění a pokud nám chcete umožnit kontaktovat vás.</string>
 </resources>

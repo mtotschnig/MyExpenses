@@ -3,8 +3,6 @@
   <string name="crash_reports_user_info">{app_name} sẽ tự động gửi báo cáo về những lần ứng dụng bị lỗi tới nhà phát triển của nó, việc này sẽ giúp họ sửa chữa lỗi nhanh hơn.</string>
   <string name="pref_category_title_crash_reports">Báo cáo lỗi</string>
   <string name="pref_enable_acra">Cho phép tự động gửi báo cáo lỗi</string>
-  <string name="pref_acra_enabled">Cho phép tự động gửi</string>
-  <string name="pref_acra_disabled">Không cho phép tự động gửi</string>
   <string name="pref_acra_user_email">Bao gồm email người dùng trong báo cáo lỗi</string>
   <string name="pref_acra_user_email_summary">Vui lòng nhập email của bạn nếu bạn có ý định giúp chúng tôi gỡ lỗi và liên hệ với bạn</string>
 </resources>

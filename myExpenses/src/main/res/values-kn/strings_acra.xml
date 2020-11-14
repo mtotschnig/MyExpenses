@@ -3,8 +3,6 @@
   <string name="crash_reports_user_info">{app_name} ಅಪ್ಲಿಕೇಶನ್ ಕ್ರ್ಯಾಶ್‌ಗಳ ಕುರಿತು ಅದರ ಡೆವಲಪರ್‌ಗಳಿಗೆ ಸ್ವಯಂಚಾಲಿತವಾಗಿ ವರದಿಗಳನ್ನು ಕಳುಹಿಸುತ್ತದೆ, ಇದು ಸಮಸ್ಯೆಗಳನ್ನು ತ್ವರಿತವಾಗಿ ಪರಿಹರಿಸಲು ಅನುವು ಮಾಡಿಕೊಡುತ್ತದೆ.</string>
   <string name="pref_category_title_crash_reports">ಕ್ಯ್ರಾಶ್ ವರದಿ</string>
   <string name="pref_enable_acra">ಕ್ರ್ಯಾಶ್ ವರದಿಗಳನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಕಳುಹಿಸಲು ಅನುಮತಿಸಿ</string>
-  <string name="pref_acra_enabled">ಸ್ವಯಂಚಾಲಿತ ಕಳುಹಿಸುವಿಕೆಯನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ</string>
-  <string name="pref_acra_disabled">ಸ್ವಯಂಚಾಲಿತ ಕಳುಹಿಸುವಿಕೆಯನ್ನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ</string>
   <string name="pref_acra_user_email">ಕ್ರ್ಯಾಶ್ ವರದಿಯಲ್ಲಿ ಬಳಕೆದಾರರ ಇಮೇಲ್ ಅನ್ನು ಸೇರಿಸಲಾಗುವುದು</string>
   <string name="pref_acra_user_email_summary">ಡೀಬಗ್ ಮಾಡಲು ಸಹಾಯ ಮಾಡಲು ನೀವು ಸಿದ್ಧರಿದ್ದರೆ ಮತ್ತು ನಿಮ್ಮನ್ನು ಸಂಪರ್ಕಿಸಲು ನಮಗೆ ಅನುಮತಿಸಿದರೆ ದಯವಿಟ್ಟು ನಿಮ್ಮ ಇಮೇಲ್ ವಿಳಾಸವನ್ನು ನಮೂದಿಸಿ.</string>
 </resources>

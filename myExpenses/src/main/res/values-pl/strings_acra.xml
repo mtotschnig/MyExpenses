@@ -3,8 +3,6 @@
   <string name="crash_reports_user_info">Aplikacja {app_name} będzie wysyłać raporty o awariach automatycznie do jego twórców, które pozwolą im szybciej naprawić problem.</string>
   <string name="pref_category_title_crash_reports">Raporty o awariach</string>
   <string name="pref_enable_acra">Pozwól na automatyczne wysyłanie raportów o awariach.</string>
-  <string name="pref_acra_enabled">Automatyczne wysyłanie jest włączone</string>
-  <string name="pref_acra_disabled">Automatyczne wysyłanie jest wyłączone</string>
   <string name="pref_acra_user_email">Adres E-mail użytkownika dołączany do raportu o awarii.</string>
   <string name="pref_acra_user_email_summary">Proszę wprowadzić swój adres E-mail jeżeli jesteś chętny w pomocy naprawienia błędu i pozwoli nam na kontakt z tobą.</string>
 </resources>

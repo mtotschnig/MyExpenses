@@ -3,8 +3,6 @@
   <string name="crash_reports_user_info">\"{app_name}\" θα διαβιβάζουν εκθέσεις σχετικά με τα λάθη εφαρμογής αυτόματα στους προγραμματιστές, που τους επιτρέπει να διορθώσουν προβλήματα πιο γρήγορα.</string>
   <string name="pref_category_title_crash_reports">Αναφορές σφαλμάτων</string>
   <string name="pref_enable_acra">Επιτρέπεται η αυτόματη αποστολή των αναφορές σφαλμάτων</string>
-  <string name="pref_acra_enabled">Είναι ενεργοποιημένη η αυτόματη αποστολή</string>
-  <string name="pref_acra_disabled">Απενεργοποιείται η αυτόματη αποστολή</string>
   <string name="pref_acra_user_email">Διεύθυνση ηλεκτρονικού ταχυδρομείου του χρήστη πρέπει να περιλαμβάνεται στην έκθεση σφάλματος.</string>
   <string name="pref_acra_user_email_summary">Παρακαλούμε εισάγετε τη Διεύθυνση ηλεκτρονικού ταχυδρομείου σας, αν είστε πρόθυμοι να βοηθήσετε στον εντοπισμό σφαλμάτων και να μας επιτρέψετε να επικοινωνήσουμε μαζί σας.</string>
 </resources>
