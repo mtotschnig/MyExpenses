@@ -178,6 +178,7 @@ public class MyExpenses extends BaseMyExpenses implements
   private LoaderManager mManager;
 
   private int mCurrentPosition = -1;
+  @Nullable
   private Cursor mAccountsCursor;
 
   private MyViewPagerAdapter mViewPagerAdapter;
@@ -1013,7 +1014,7 @@ public class MyExpenses extends BaseMyExpenses implements
   }
 
   public void moveToAccount() {
-    if (mAccountsCursor.moveToFirst()) {
+    if (mAccountsCursor != null && mAccountsCursor.moveToFirst()) {
       int position = 0;
       while (!mAccountsCursor.isAfterLast()) {
         long accountId = mAccountsCursor.getLong(columnIndexRowId);
