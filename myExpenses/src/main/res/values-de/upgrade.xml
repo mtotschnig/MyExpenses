@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_318">
+        <item>Die Standardklickaktion kann pro Vorlage definiert werden.</item>
+    </string-array>
     <string-array name="whats_new_317">
         <item>Vorlagen können aus dem Buchungsformular heraus geladen werden.</item>
     </string-array>

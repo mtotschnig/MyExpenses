@@ -950,4 +950,8 @@
     <string name="warning_balance_account_delete">Si vous continuez, toutes les opérations rapprochées de ce compte seront supprimées de la base de données et vous ne pourrez pas les restaurer.</string>
     <!-- When user opens a template from the transaction form, existing data is discarded. This message appears in a dialgoue to confirm the action -->
     <string name="confirmation_load_template_discard_data">Les données existantes seront supprimées du formulaire.</string>
-    </resources>
+    <string name="pref_clone_with_current_date_title">Date des transactions clonées</string>
+    <string name="default_action">Action par défaut</string>
+    <string name="template_default_action_without_amount_hint">Le modèle sans montant doit être enregistré avec l\'action par défaut \'Éditer\'</string>
+
+</resources>
