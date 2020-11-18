@@ -373,7 +373,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_PARENTID + " integer references " + TABLE_TEMPLATES + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
           + KEY_STATUS + " integer default 0,"
           + KEY_PLAN_EXECUTION_ADVANCE + " integer default 0,"
-          + KEY_DEFAULT_ACTION + " text not null check (" + KEY_DEFAULT_ACTION + " in (" + Template.Action.JOIN + ")));";
+          + KEY_DEFAULT_ACTION + " text not null check (" + KEY_DEFAULT_ACTION + " in (" + Template.Action.JOIN + ")) default '" + Template.Action.SAVE.name() + "');";
 
   private static final String EVENT_CACHE_CREATE =
       "CREATE TABLE " + TABLE_EVENT_CACHE + " ( " +
@@ -2213,7 +2213,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         repairSplitPartDates(db);
       }
       if (oldVersion < 112) {
-        db.execSQL("ALTER TABLE templates add column default_action text not null check (default_action in ('SAVE', 'EDIT'))");
+        db.execSQL("ALTER TABLE templates add column default_action text not null check (default_action in ('SAVE', 'EDIT')) default 'SAVE'");
       }
       TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {
