@@ -207,6 +207,7 @@ abstract class TransactionDelegate<T : ITransaction>(
 
         if (isMainTemplate) {
             viewBinding.TitleRow.visibility = View.VISIBLE
+            viewBinding.DefaultActionRow.visibility  = View.VISIBLE
             if (!isCalendarPermissionPermanentlyDeclined) { //if user has denied access and checked that he does not want to be asked again, we do not
 //bother him with a button that is not working
                 setPlannerRowVisibility(View.VISIBLE)
@@ -316,6 +317,7 @@ abstract class TransactionDelegate<T : ITransaction>(
                 viewBinding.Title.setText(template.title)
                 planExecutionButton.isChecked = template.isPlanExecutionAutomatic
                 viewBinding.advanceExecutionSeek.progress = template.planExecutionAdvance
+                viewBinding.DefaultAction.setSelection(template.defaultAction.ordinal)
             }
         } else {
             methodRowBinding.Number.setText(transaction.referenceNumber)
@@ -649,7 +651,7 @@ abstract class TransactionDelegate<T : ITransaction>(
     abstract val operationType: Int
 
     open fun syncStateAndValidate(forSave: Boolean, currencyContext: CurrencyContext): T? {
-        return currentAccount()?.let { buildTransaction(forSave, currencyContext, it.id) }?.apply {
+        return currentAccount()?.let { buildTransaction(forSave && !isMainTemplate, currencyContext, it.id) }?.apply {
             originTemplateId = this@TransactionDelegate.originTemplateId
             uuid = this@TransactionDelegate.uuid
             id = rowId
@@ -662,7 +664,7 @@ abstract class TransactionDelegate<T : ITransaction>(
                 setDate(transactionDate)
                 setValueDate(if (dateEditBinding.Date2Button.visibility == View.VISIBLE) readZonedDateTime(dateEditBinding.Date2Button) else transactionDate)
             }
-            if (isTemplate && !isSplitPart) {
+            if (isMainTemplate) {
                 (this as Template).apply {
                     viewBinding.Title.text.toString().let {
                         if (it == "") {
@@ -673,6 +675,12 @@ abstract class TransactionDelegate<T : ITransaction>(
                         }
                         this.title = it
                     }
+                    this.defaultAction = Template.Action.values()[viewBinding.DefaultAction.selectedItemPosition]
+                    if (this.amount.amountMinor == 0L && this.defaultAction == Template.Action.SAVE) {
+                        host.showSnackbar(context.getString(R.string.template_default_action_without_amount_hint))
+                        return null
+                    }
+                    prefHandler.putString(PrefKey.TEMPLATE_CLICK_DEFAULT, defaultAction.name)
                     this.isPlanExecutionAutomatic = planExecutionButton.isChecked
                     this.planExecutionAdvance = viewBinding.advanceExecutionSeek.progress
                     val description = compileDescription(context.applicationContext as MyApplication)

@@ -312,6 +312,20 @@
                     <include layout="@layout/method_row" />
 
                     <TableRow
+                        android:id="@+id/DefaultActionRow"
+                        android:visibility="gone">
+                        <TextView
+                            android:id="@+id/DefaultActionLabel"
+                            style="@style/FormLabel"
+                            android:labelFor="@+id/DefaultAction"
+                            android:text="@string/default_action" />
+                        <Spinner
+                            android:entries="@array/template_default_action_entries"
+                            android:id="@+id/DefaultAction"
+                            style="@style/FormLabel" />
+
+                    </TableRow>
+                    <TableRow
                         android:id="@+id/PlanRow"
                         android:visibility="gone">
 

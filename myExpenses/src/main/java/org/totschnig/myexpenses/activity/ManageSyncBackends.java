@@ -10,7 +10,6 @@ import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 
 import com.annimon.stream.Exceptional;
 import com.dropbox.core.android.Auth;
-import com.google.android.material.snackbar.Snackbar;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
@@ -74,7 +73,7 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
             GenericAccountService.Authenticator.AUTH_TOKEN_TYPE,
             accessToken);
       } else {
-        showSnackbar("Dropbox Oauth Token is null", Snackbar.LENGTH_LONG);
+        showSnackbar("Dropbox Oauth Token is null");
       }
       dropBoxTokenRequestPendingForAccount = null;
     } else {
@@ -225,7 +224,7 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
         Result result = (Result) o;
         String resultPrintable = result.print(this);
         if (result.isSuccess()) {
-          showSnackbar(resultPrintable, Snackbar.LENGTH_LONG);
+          showSnackbar(resultPrintable);
         } else {
           Bundle b = new Bundle();
           b.putString(ConfirmationDialogFragment.KEY_MESSAGE, resultPrintable);

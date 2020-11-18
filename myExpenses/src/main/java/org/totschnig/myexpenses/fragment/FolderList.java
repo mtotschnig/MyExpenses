@@ -145,8 +145,7 @@ public class FolderList extends ListFragment {
       result = false;
     } finally {
       if (!result) {
-        ((ProtectedFragmentActivity) getActivity()).showSnackbar(R.string.create_new_folder_fail,
-            Snackbar.LENGTH_LONG);
+        ((ProtectedFragmentActivity) getActivity()).showSnackbar(R.string.create_new_folder_fail);
       } else if (newFolder.isDirectory()) {
         browseTo(newFolder);
       }

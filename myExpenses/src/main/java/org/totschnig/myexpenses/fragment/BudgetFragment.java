@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import com.annimon.stream.Stream;
 import com.google.android.material.chip.ChipGroup;
-import com.google.android.material.snackbar.Snackbar;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.BudgetEdit;
@@ -170,8 +169,7 @@ public class BudgetFragment extends DistributionBaseFragment implements
       if (maxLong <= 0) {
         ((ProtectedFragmentActivity) getActivity()).showSnackbar(TextUtils.concatResStrings(getActivity(), " ",
             parentItem == null ? R.string.budget_exceeded_error_1_2 : R.string.sub_budget_exceeded_error_1_2,
-            parentItem == null ? R.string.budget_exceeded_error_2 : R.string.sub_budget_exceeded_error_2),
-            Snackbar.LENGTH_LONG);
+            parentItem == null ? R.string.budget_exceeded_error_2 : R.string.sub_budget_exceeded_error_2));
         return;
       }
       Bundle bundle = new Bundle(1);

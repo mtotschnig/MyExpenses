@@ -2,8 +2,6 @@ package org.totschnig.myexpenses.activity;
 
 import android.os.Bundle;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import org.apache.commons.csv.CSVRecord;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
@@ -106,7 +104,7 @@ public class CsvImportActivity extends TabbedActivity implements
             break;
           }
         }
-        showSnackbar(R.string.parse_error_no_data_found, Snackbar.LENGTH_LONG);
+        showSnackbar(R.string.parse_error_no_data_found);
         break;
       case TaskExecutionFragment.TASK_CSV_IMPORT:
         Result r = (Result) result;
@@ -117,14 +115,14 @@ public class CsvImportActivity extends TabbedActivity implements
             mUsageRecorded = true;
           }
         }
-        showSnackbar(r.print(this), Snackbar.LENGTH_LONG);
+        showSnackbar(r.print(this));
     }
   }
 
   @Override
   public void onProgressUpdate(Object progress) {
     if (progress instanceof String) {
-      showSnackbar((String) progress, Snackbar.LENGTH_LONG);
+      showSnackbar((String) progress);
     } else {
       super.onProgressUpdate(progress);
     }

@@ -11,8 +11,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
@@ -56,7 +54,7 @@ public class CurrencyList extends ListFragment {
     });
     currencyViewModel.getDeleteComplete().observe(this, success -> {
       if (success != null && !success) {
-        ((ProtectedFragmentActivity) getActivity()).showSnackbar(R.string.currency_still_used, Snackbar.LENGTH_LONG);
+        ((ProtectedFragmentActivity) getActivity()).showSnackbar(R.string.currency_still_used);
       }
     });
     currencyViewModel.loadCurrencies();
@@ -110,7 +108,7 @@ public class CurrencyList extends ListFragment {
       if (data != null) {
         int result = data.getIntExtra(KEY_RESULT, 0);
         ((ProtectedFragmentActivity) getActivity()).showSnackbar(
-            getString(R.string.change_fraction_digits_result, result, data.getStringExtra(KEY_CURRENCY)), Snackbar.LENGTH_LONG);
+            getString(R.string.change_fraction_digits_result, result, data.getStringExtra(KEY_CURRENCY)));
       }
     }
   }

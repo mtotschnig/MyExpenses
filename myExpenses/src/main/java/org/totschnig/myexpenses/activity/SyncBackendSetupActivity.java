@@ -154,10 +154,6 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
     }
   }
 
-  protected void showSnackbar(String message) {
-    showSnackbar(message, Snackbar.LENGTH_LONG);
-  }
-
   protected void createAccount(String accountName, String password, String authToken, Bundle bundle) {
     Bundle args = new Bundle();
     args.putString(AccountManager.KEY_ACCOUNT_NAME, accountName);

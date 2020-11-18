@@ -75,8 +75,7 @@ class SplitDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEditBin
                     break
                 }
             }
-            host.showSnackbar(host.getString(R.string.warning_cannot_move_split_transaction, account.label),
-                    Snackbar.LENGTH_LONG)
+            host.showSnackbar(host.getString(R.string.warning_cannot_move_split_transaction, account.label))
         }
     }
 

@@ -15,7 +15,6 @@
 
 package org.totschnig.myexpenses.provider;
 
-import android.annotation.TargetApi;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -72,6 +71,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY_OTHER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY_SELF;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEFAULT_ACTION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_END;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT;
@@ -157,7 +157,7 @@ import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 111;
+  public static final int DATABASE_VERSION = 112;
   private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
@@ -372,7 +372,8 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_LAST_USED + " datetime,"
           + KEY_PARENTID + " integer references " + TABLE_TEMPLATES + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
           + KEY_STATUS + " integer default 0,"
-          + KEY_PLAN_EXECUTION_ADVANCE + " integer default 0);";
+          + KEY_PLAN_EXECUTION_ADVANCE + " integer default 0,"
+          + KEY_DEFAULT_ACTION + " text not null check (" + KEY_DEFAULT_ACTION + " in (" + Template.Action.JOIN + ")));";
 
   private static final String EVENT_CACHE_CREATE =
       "CREATE TABLE " + TABLE_EVENT_CACHE + " ( " +
@@ -505,7 +506,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + "primary key (" + KEY_BUDGETID + "," + KEY_CATID + "));";
 
 
-  private static final String SELECT_SEQUCENE_NUMBER_TEMLATE = "(SELECT " + KEY_SYNC_SEQUENCE_LOCAL + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = %s." + KEY_ACCOUNTID + ")";
+  private static final String SELECT_SEQUENCE_NUMBER_TEMPLATE = "(SELECT " + KEY_SYNC_SEQUENCE_LOCAL + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = %s." + KEY_ACCOUNTID + ")";
   private static final String SELECT_PARENT_UUID_TEMPLATE = "CASE WHEN %1$s." + KEY_PARENTID + " IS NULL THEN NULL ELSE (SELECT " + KEY_UUID + " from " + TABLE_TRANSACTIONS + " where " + KEY_ROWID + " = %1$s." + KEY_PARENTID + ") END";
 
   private static final String INSERT_TRIGGER_ACTION = " BEGIN INSERT INTO " + TABLE_CHANGES + "("
@@ -528,7 +529,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       + KEY_CR_STATUS + ", "
       + KEY_REFERENCE_NUMBER + ", "
       + KEY_PICTURE_URI + ") VALUES ('" + TransactionChange.Type.created + "', "
-      + String.format(Locale.US, SELECT_SEQUCENE_NUMBER_TEMLATE, "new") + ", "
+      + String.format(Locale.US, SELECT_SEQUENCE_NUMBER_TEMPLATE, "new") + ", "
       + "new." + KEY_UUID + ", "
       + String.format(Locale.US, SELECT_PARENT_UUID_TEMPLATE, "new") + ", "
       + "new." + KEY_COMMENT + ", "
@@ -553,7 +554,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       + KEY_ACCOUNTID + ","
       + KEY_UUID + ","
       + KEY_PARENT_UUID + ") VALUES ('" + TransactionChange.Type.deleted + "', "
-      + String.format(Locale.US, SELECT_SEQUCENE_NUMBER_TEMLATE, "old") + ", "
+      + String.format(Locale.US, SELECT_SEQUENCE_NUMBER_TEMPLATE, "old") + ", "
       + "old." + KEY_ACCOUNTID + ", "
       + "old." + KEY_UUID + ", "
       + String.format(Locale.US, SELECT_PARENT_UUID_TEMPLATE, "old") + "); END;";
@@ -564,7 +565,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       + KEY_ACCOUNTID + ","
       + KEY_UUID + ","
       + KEY_PARENT_UUID + ") VALUES ('" + TransactionChange.Type.deleted + "', "
-      + String.format(Locale.US, SELECT_SEQUCENE_NUMBER_TEMLATE, "old") + ", "
+      + String.format(Locale.US, SELECT_SEQUENCE_NUMBER_TEMPLATE, "old") + ", "
       + "old." + KEY_ACCOUNTID + ", "
       + "new." + KEY_UUID + ", "
       + String.format(Locale.US, SELECT_PARENT_UUID_TEMPLATE, "old") + "); END;";
@@ -636,7 +637,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_CR_STATUS + ", "
           + KEY_REFERENCE_NUMBER + ", "
           + KEY_PICTURE_URI + ") VALUES ('" + TransactionChange.Type.updated + "', "
-          + String.format(Locale.US, SELECT_SEQUCENE_NUMBER_TEMLATE, "old") + ", "
+          + String.format(Locale.US, SELECT_SEQUENCE_NUMBER_TEMPLATE, "old") + ", "
           + "new." + KEY_UUID + ", "
           + "new." + KEY_ACCOUNTID + ", "
           + String.format(Locale.US, SELECT_PARENT_UUID_TEMPLATE, "new") + ", "
@@ -708,7 +709,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + " BEGIN INSERT INTO %3$s (%4$s, %5$s, %6$s, %7$s) VALUES ('metadata', '_ignored_', new.%6$s, %8$s); END;",
       TABLE_ACCOUNT_EXCHANGE_RATES,
       String.format(Locale.US, SHOULD_WRITE_CHANGE_TEMPLATE, "new"),
-      TABLE_CHANGES, KEY_TYPE, KEY_UUID, KEY_ACCOUNTID, KEY_SYNC_SEQUENCE_LOCAL, String.format(SELECT_SEQUCENE_NUMBER_TEMLATE, "old"));
+      TABLE_CHANGES, KEY_TYPE, KEY_UUID, KEY_ACCOUNTID, KEY_SYNC_SEQUENCE_LOCAL, String.format(SELECT_SEQUENCE_NUMBER_TEMPLATE, "old"));
 
   private static final String SETTINGS_CREATE =
       "CREATE TABLE " + TABLE_SETTINGS + " ("
@@ -2210,6 +2211,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
       }
       if (oldVersion < 111) {
         repairSplitPartDates(db);
+      }
+      if (oldVersion < 112) {
+        db.execSQL("ALTER TABLE templates add column default_action text not null check (default_action in ('SAVE', 'EDIT'))");
       }
       TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {

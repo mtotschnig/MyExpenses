@@ -21,7 +21,6 @@ import android.text.TextUtils;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
-import com.google.android.material.snackbar.Snackbar;
 
 import org.jetbrains.annotations.NotNull;
 import org.threeten.bp.LocalDate;
@@ -619,14 +618,14 @@ public class SettingsFragment extends BaseSettingsFragment implements
 
           @Override
           public void onAsyncStartedLanguage(@NotNull String displayLanguage) {
-            activity().showSnackbar(getString(R.string.language_download_requested, displayLanguage), Snackbar.LENGTH_LONG);
+            activity().showSnackbar(getString(R.string.language_download_requested, displayLanguage));
           }
 
           @Override
           public void onError(@NotNull Throwable exception) {
             final String message = exception.getMessage();
             if (message != null) {
-              activity().showSnackbar(message, Snackbar.LENGTH_LONG);
+              activity().showSnackbar(message);
             }
           }
         }
@@ -654,7 +653,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
       activity().recreate();
     } else if (key.equals(getKey(PROTECTION_LEGACY)) || key.equals(getKey(PROTECTION_DEVICE_LOCK_SCREEN))) {
       if (sharedPreferences.getBoolean(key, false)) {
-        activity().showSnackbar(R.string.pref_protection_screenshot_information, Snackbar.LENGTH_LONG);
+        activity().showSnackbar(R.string.pref_protection_screenshot_information);
       }
       setProtectionDependentsState();
       updateAllWidgets();
@@ -840,12 +839,12 @@ public class SettingsFragment extends BaseSettingsFragment implements
       if (!target.equals("")) {
         uri = ShareUtils.parseUri(target);
         if (uri == null) {
-          activity().showSnackbar(getString(R.string.ftp_uri_malformed, target), Snackbar.LENGTH_LONG);
+          activity().showSnackbar(getString(R.string.ftp_uri_malformed, target));
           return false;
         }
         String scheme = uri.getScheme();
         if (!(scheme.equals("ftp") || scheme.equals("mailto"))) {
-          activity().showSnackbar(getString(R.string.share_scheme_not_supported, scheme), Snackbar.LENGTH_LONG);
+          activity().showSnackbar(getString(R.string.share_scheme_not_supported, scheme));
           return false;
         }
         Intent intent;
@@ -867,7 +866,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
         nf.applyLocalizedPattern(((String) value));
         currencyFormatter.invalidateAll(requireContext().getContentResolver());
       } catch (IllegalArgumentException e) {
-        activity().showSnackbar(R.string.number_format_illegal, Snackbar.LENGTH_LONG);
+        activity().showSnackbar(R.string.number_format_illegal);
         return false;
       }
     } else if (matches(pref, CUSTOM_DATE_FORMAT)) {
@@ -877,7 +876,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
     } else if (matches(pref, CRASHREPORT_USEREMAIL)) {
       crashHandler.setUserEmail((String) value);
     } else if (matches(pref, CRASHREPORT_ENABLED)) {
-      activity().showSnackbar(R.string.app_restart_required, Snackbar.LENGTH_LONG);
+      activity().showSnackbar(R.string.app_restart_required);
     } else if (matches(pref, OCR_DATE_FORMATS)) {
       if (!TextUtils.isEmpty((String) value)) {
         try {
@@ -885,7 +884,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
             LocalDate.now().format(DateTimeFormatter.ofPattern(line));
           }
         } catch (Exception e) {
-          activity().showSnackbar(R.string.date_format_illegal, Snackbar.LENGTH_LONG);
+          activity().showSnackbar(R.string.date_format_illegal);
           return false;
         }
       }
@@ -896,7 +895,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
             LocalTime.now().format(DateTimeFormatter.ofPattern(line));
           }
         } catch (Exception e) {
-          activity().showSnackbar(R.string.date_format_illegal, Snackbar.LENGTH_LONG);
+          activity().showSnackbar(R.string.date_format_illegal);
           return false;
         }
       }
@@ -1044,7 +1043,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
     String passWord = getString(R.string.pref_protection_password_title);
     Object[] formatArgs = legacyProtectionByPasswordIsActive ? new String[]{lockScreen, passWord} : new String[]{passWord, lockScreen};
     //noinspection StringFormatMatches
-    activity().showSnackbar(getString(R.string.pref_warning_only_one_protection, formatArgs), Snackbar.LENGTH_LONG);
+    activity().showSnackbar(getString(R.string.pref_warning_only_one_protection, formatArgs));
   }
 
   private void contribBuyDo(Package selectedPackage, boolean shouldReplaceExisting) {
@@ -1099,9 +1098,9 @@ public class SettingsFragment extends BaseSettingsFragment implements
 
     if (Utils.isIntentReceiverAvailable(getActivity(), intent)) {
       getActivity().sendBroadcast(intent);
-      activity().showSnackbar(getString(R.string.pref_shortcut_added), Snackbar.LENGTH_LONG);
+      activity().showSnackbar(getString(R.string.pref_shortcut_added));
     } else {
-      activity().showSnackbar(getString(R.string.pref_shortcut_not_added), Snackbar.LENGTH_LONG);
+      activity().showSnackbar(getString(R.string.pref_shortcut_not_added));
     }
   }
 
@@ -1131,7 +1130,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
       fragment = SecurityQuestionDialogFragmentCompat.newInstance(key);
     } else if (matches(preference, AUTO_BACKUP_CLOUD)) {
       if (((ListPreference) preference).getEntries().length == 1) {
-        activity().showSnackbar(R.string.auto_backup_cloud_create_backend, Snackbar.LENGTH_LONG);
+        activity().showSnackbar(R.string.auto_backup_cloud_create_backend);
         return;
       }
     } else if (preference instanceof SimplePasswordPreference) {

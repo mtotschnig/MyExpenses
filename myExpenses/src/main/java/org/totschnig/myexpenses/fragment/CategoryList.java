@@ -32,7 +32,6 @@ import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import android.widget.TextView;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.squareup.sqlbrite3.BriteContentResolver;
 import com.squareup.sqlbrite3.QueryObservable;
 import com.squareup.sqlbrite3.SqlBrite;
@@ -262,7 +261,7 @@ public class CategoryList extends SortableListFragment {
               idList.add(c.id);
             } else {
               ctx.showSnackbar(getResources().getQuantityString(R.plurals.not_deletable_mapped_transactions,
-                  1, 1), Snackbar.LENGTH_LONG);
+                  1, 1));
             }
           }
         }
@@ -315,7 +314,7 @@ public class CategoryList extends SortableListFragment {
           ctx.setResult(RESULT_FIRST_USER, intent);
           ctx.finish();
         } else {
-          ctx.showSnackbar(R.string.unmapped_filter_only_single, Snackbar.LENGTH_LONG);
+          ctx.showSnackbar(R.string.unmapped_filter_only_single);
         }
         return true;
       }

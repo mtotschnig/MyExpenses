@@ -31,6 +31,7 @@ import org.totschnig.myexpenses.provider.CalendarProviderProxy;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.viewmodel.data.PlanInstance;
 import org.totschnig.myexpenses.viewmodel.data.Tag;
@@ -53,6 +54,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEFAULT_ACTION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
@@ -79,10 +81,19 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES
 import static org.totschnig.myexpenses.provider.DbUtils.getLongOrNull;
 
 public class Template extends Transaction implements ITransfer, ISplit {
+  public enum Action {
+    SAVE, EDIT;
+    public static final String JOIN;
+    static {
+      JOIN = TextUtils.joinEnum(Action.class);
+    }
+  }
   private static String PART_SELECT = "(" + KEY_PARENTID + "= ?)";
   private String title;
   public Long planId;
   private boolean planExecutionAutomatic = false;
+
+  private Action defaultAction = Action.SAVE;
 
   private int planExecutionAdvance = 0;
 
@@ -136,7 +147,8 @@ public class Template extends Transaction implements ITransfer, ISplit {
         KEY_PLAN_EXECUTION,
         KEY_UUID,
         KEY_PARENTID,
-        KEY_PLAN_EXECUTION_ADVANCE
+        KEY_PLAN_EXECUTION_ADVANCE,
+        KEY_DEFAULT_ACTION
     };
     int baseLength = PROJECTION_BASE.length;
     PROJECTION_EXTENDED = new String[baseLength + 3];
@@ -326,6 +338,9 @@ public class Template extends Transaction implements ITransfer, ISplit {
       setUuid(DbUtils.getString(c, KEY_UUID));
     }
     setSealed(c.getInt(c.getColumnIndexOrThrow(KEY_SEALED)) > 0);
+    try {
+      defaultAction = Action.valueOf(c.getString(c.getColumnIndex(KEY_DEFAULT_ACTION)));
+    } catch (IllegalArgumentException ignored) {}
   }
 
   public Template(Account account, int operationType, Long parentId) {
@@ -497,6 +512,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
     initialValues.put(KEY_PLANID, planId);
     initialValues.put(KEY_PLAN_EXECUTION, isPlanExecutionAutomatic());
     initialValues.put(KEY_PLAN_EXECUTION_ADVANCE, planExecutionAdvance);
+    initialValues.put(KEY_DEFAULT_ACTION, defaultAction.name());
     initialValues.put(KEY_ACCOUNTID, getAccountId());
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
     if (getId() == 0) {
@@ -731,5 +747,13 @@ public class Template extends Transaction implements ITransfer, ISplit {
 
   public static void cleanupCanceledEdit(Long id) {
     cleanupCanceledEdit(id, CONTENT_URI, PART_SELECT);
+  }
+
+  public Action getDefaultAction() {
+    return defaultAction;
+  }
+
+  public void setDefaultAction(Action defaultAction) {
+    this.defaultAction = defaultAction;
   }
 }

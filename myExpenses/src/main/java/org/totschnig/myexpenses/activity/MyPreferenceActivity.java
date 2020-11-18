@@ -262,7 +262,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
     if (key.equals(UI_HOME_SCREEN_SHORTCUTS.getKey())) {
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
         //TODO on O we will be able to pin the shortcuts
-        showSnackbar(R.string.home_screen_shortcuts_nougate_info, Snackbar.LENGTH_LONG);
+        showSnackbar(R.string.home_screen_shortcuts_nougate_info);
         return true;
       }
     }
@@ -278,7 +278,7 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
       dismissSnackbar();
       if (o instanceof Result) {
         Result r = ((Result) o);
-        showSnackbar(r.print(this), Snackbar.LENGTH_LONG);
+        showSnackbar(r.print(this));
         getFragment().setProtectionDependentsState();
         getFragment().configureContribPrefs();
       }

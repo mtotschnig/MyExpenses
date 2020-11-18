@@ -32,8 +32,6 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageParties;
@@ -166,7 +164,7 @@ public class PartiesList extends ContextualActionBarFragment {
                 hasMappedTemplatesCount,
                 hasMappedTemplatesCount);
           }
-          activity.showSnackbar(message, Snackbar.LENGTH_LONG);
+          activity.showSnackbar(message);
         }
         break;
       }
@@ -185,7 +183,7 @@ public class PartiesList extends ContextualActionBarFragment {
           activity.setResult(RESULT_FIRST_USER, intent);
           activity.finish();
         } else {
-          activity.showSnackbar(R.string.unmapped_filter_only_single, Snackbar.LENGTH_LONG);
+          activity.showSnackbar(R.string.unmapped_filter_only_single);
         }
         return true;
       }

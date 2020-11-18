@@ -84,7 +84,7 @@ public class DialogUtils {
           if (Utils.isIntentAvailable(ctx, intent)) {
             ctx.startActivity(intent);
           } else {
-            ctx.showSnackbar(R.string.error_accessing_market, Snackbar.LENGTH_LONG);
+            ctx.showSnackbar(R.string.error_accessing_market);
           }
         })
         .setNegativeButton(android.R.string.no, (dialog, id) -> ctx.dismissDialog(R.id.FTP_DIALOG)).create();
@@ -276,7 +276,7 @@ public class DialogUtils {
   }
 
   public static Spinner configureDateFormat(View view, Context context, String prefName) {
-    Spinner spinner = (Spinner) view.findViewById(R.id.DateFormat);
+    Spinner spinner = view.findViewById(R.id.DateFormat);
     ArrayAdapter<QifDateFormat> dateFormatAdapter =
         new ArrayAdapter<>(
             context, android.R.layout.simple_spinner_item, QifDateFormat.values());
@@ -295,7 +295,7 @@ public class DialogUtils {
   }
 
   public static Spinner configureEncoding(View view, Context context, String prefName) {
-    Spinner spinner = (Spinner) view.findViewById(R.id.Encoding);
+    Spinner spinner = view.findViewById(R.id.Encoding);
     spinner.setSelection(
         Arrays.asList(context.getResources().getStringArray(R.array.pref_qif_export_file_encoding))
             .indexOf(MyApplication.getInstance().getSettings()

@@ -28,8 +28,6 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MethodEdit;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
@@ -129,7 +127,7 @@ public class MethodList extends ContextualActionBarFragment implements LoaderMan
             }
           }
         }
-        ProtectedFragmentActivity activity = (ProtectedFragmentActivity) getActivity();
+        ProtectedFragmentActivity activity = (ProtectedFragmentActivity) requireActivity();
         if (!idList.isEmpty()) {
           activity.startTaskExecution(
               TaskExecutionFragment.TASK_DELETE_PAYMENT_METHODS,
@@ -150,7 +148,7 @@ public class MethodList extends ContextualActionBarFragment implements LoaderMan
                 R.plurals.not_deletable_mapped_templates,
                 mappedTemplatesCount,
                 mappedTemplatesCount);
-          activity.showSnackbar(message, Snackbar.LENGTH_LONG);
+          activity.showSnackbar(message);
         }
         break;
     }
