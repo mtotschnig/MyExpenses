@@ -79,6 +79,7 @@ import org.totschnig.myexpenses.util.ads.AdHandlerFactory;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.licence.LicenceStatus;
+import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.widget.AbstractWidgetKt;
 
@@ -204,10 +205,13 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     super.attachBaseContext(newBase);
     injectDependencies();
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-      Configuration config = new Configuration();
       final MyApplication application = MyApplication.getInstance();
-      config.fontScale = getFontScale(application.getAppComponent().prefHandler(), application.getContentResolver());
-      applyOverrideConfiguration(config);
+      final int customFontScale = application.getAppComponent().prefHandler().getInt(UI_FONTSIZE, 0);
+      if (customFontScale > 0 || !MyApplication.getInstance().getAppComponent().userLocaleProvider().getPreferredLanguage().equals(MyApplication.DEFAULT_LANGUAGE)) {
+        Configuration config = new Configuration();
+        config.fontScale = getFontScale(customFontScale, application.getContentResolver());
+        applyOverrideConfiguration(config);
+      }
     }
     featureManager.initActivity(this);
   }
@@ -220,6 +224,10 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
   private Configuration updateConfigurationIfSupported(Configuration config) {
+    final UserLocaleProvider userLocaleProvider = MyApplication.getInstance().getAppComponent().userLocaleProvider();
+    if (userLocaleProvider.getPreferredLanguage().equals(MyApplication.DEFAULT_LANGUAGE)) {
+      return config;
+    }
     // Configuration.getLocales is added after 24 and Configuration.locale is deprecated in 24
     if (Build.VERSION.SDK_INT >= 24) {
       if (!config.getLocales().isEmpty()) {
@@ -231,19 +239,12 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
       }
     }
 
-    Locale locale = getUserPreferredLocale();
-    config.setLocale(locale);
+    config.setLocale(userLocaleProvider.getUserPreferredLocale());
     return config;
   }
 
-  private float getFontScale(PrefHandler prefHandler, ContentResolver contentResolver) {
-    final int customFontScale = prefHandler.getInt(UI_FONTSIZE, 0);
+  private float getFontScale(int customFontScale, ContentResolver contentResolver) {
     return Settings.System.getFloat(contentResolver, Settings.System.FONT_SCALE, 1.0f) * (1 + customFontScale / 10F);
-  }
-
-  private Locale getUserPreferredLocale() {
-    //noinspection deprecation
-    return MyApplication.getInstance().getAppComponent().userLocaleProvider().getUserPreferredLocale();
   }
 
   protected void injectDependencies() {
