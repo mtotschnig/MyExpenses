@@ -212,7 +212,7 @@
     <string name="menu_share">Weiterempfehlen</string>
     <string name="button_label_share_file">Teilen</string>
     <string name="button_label_close">Schließen</string>
-    <string name="menu_split_transaction">Splitten</string>
+    <string name="menu_split_transaction">Zu mehrteiliger Buchung zusammenfassen</string>
     <string name="method">Zahlungsweise</string>
     <string name="no_amount_given">Sie haben keinen Betrag eingegeben.</string>
     <string name="no_app_handling_email_available">Keine App für das Versenden von Email gefunden.</string>
