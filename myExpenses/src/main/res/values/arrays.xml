@@ -66,16 +66,6 @@
         <item>zh-TW</item>
     </string-array>
 
-    <string-array name="pref_template_click_default_entries">
-        <item>@string/menu_create_instance_save</item>
-        <item>@string/menu_create_instance_edit</item>
-    </string-array>
-
-    <string-array name="pref_template_click_default_values">
-        <item>SAVE</item>
-        <item>EDIT</item>
-    </string-array>
-
     <string-array name="method_types">
         <item>@string/pm_type_debit</item>
         <item>@string/pm_type_neutral</item>
@@ -289,6 +279,7 @@
         <item>category</item>
         <item>tags</item>
         <item>method</item>
+        <item>default_action</item>
         <item>plan</item>
     </string-array>
     <string-array name="ExpenseEdit_templateTransfer_formfields" tools:ignore="UnusedResources">
@@ -298,6 +289,7 @@
         <item>exchange_rate</item>
         <item>tags</item>
         <item>comment</item>
+        <item>default_action</item>
         <item>plan</item>
     </string-array>
     <string-array name="ExpenseEdit_templateSplit_formfields" tools:ignore="UnusedResources">
@@ -309,6 +301,7 @@
         <item>category</item>
         <item>tags</item>
         <item>method</item>
+        <item>default_action</item>
         <item>plan</item>
         <item>split_parts_heading</item>
     </string-array>
@@ -663,5 +656,10 @@
     <string-array name="pref_criterion_future_entries">
         <item>@string/pref_criterion_future_end_of_day</item>
         <item>@string/pref_criterion_future_current</item>
+    </string-array>
+
+    <string-array name="template_default_action_entries">
+        <item>@string/menu_save</item>
+        <item>@string/menu_edit</item>
     </string-array>
 </resources>

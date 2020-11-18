@@ -95,6 +95,7 @@ import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.getEnumFromPreferencesWithDefault
 import org.totschnig.myexpenses.util.tracking.Tracker
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
 import org.totschnig.myexpenses.viewmodel.ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE
@@ -306,6 +307,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                     viewModel.newTemplate(operationType, accountId, if (parentId != 0L) parentId else null).observe(this, {
                         if (it != null) {
                             mRowId = it.id
+                            it.defaultAction = getEnumFromPreferencesWithDefault(prefHandler, PrefKey.TEMPLATE_CLICK_DEFAULT, Template.Action.SAVE)
                         }
                         populateWithNewInstance(it)
                     })
@@ -426,6 +428,8 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             linkInputWithLabel(TransferAmount, TransferAmountLabel)
             linkInputWithLabel(OriginalAmount, OriginalAmountLabel)
             linkInputWithLabel(EquivalentAmount, EquivalentAmountLabel)
+            linkInputWithLabel(DefaultAction, DefaultActionLabel)
+            linkInputWithLabel(SelectTag, TagLabel)
         }
     }
 
@@ -746,7 +750,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
     private fun createRow() {
         val account = currentAccount
         if (account == null) {
-            showSnackbar(R.string.account_list_not_yet_loaded, Snackbar.LENGTH_LONG)
+            showSnackbar(R.string.account_list_not_yet_loaded)
             return
         }
         val i = Intent(this, ExpenseEdit::class.java)
@@ -844,7 +848,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                 } else {
                     val errorMsg = "Error while retrieving image: No data found."
                     CrashHandler.report(errorMsg)
-                    showSnackbar(errorMsg, Snackbar.LENGTH_LONG)
+                    showSnackbar(errorMsg)
                 }
             }
             PLAN_REQUEST -> finish()
@@ -988,7 +992,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                     (delegate as? CategoryDelegate)?.resetCategory()
                     "Error while saving transaction"
                 }
-            }, Snackbar.LENGTH_LONG)
+            })
         } else {
             if (operationType == Transactions.TYPE_SPLIT) {
                 recordUsage(ContribFeature.SPLIT_TRANSACTION)

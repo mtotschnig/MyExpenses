@@ -336,7 +336,6 @@
     <string name="pref_shortcut_added">Phím tắt đã được thêm vào màn hình chính</string>
     <string name="pref_shortcut_not_added">Không có màn hình chính nào có sẵn mà chấp nhận phím tắt.</string>
     <string name="pref_shortcut_summary">Thêm phím tắt vào màn hình chính.</string>
-    <string name="pref_template_click_default_summary">Trong lúc nhấn vào đối tượng trong danh sách bản mẫu</string>
     <string name="pref_ui_fontsize_title">Cỡ phông</string>
     <string name="pref_ui_home_screen_shortcuts">Phím tắt màn hình chính</string>
     <string name="pref_ui_language_default">Mặc định hệ thống</string>
@@ -475,7 +474,6 @@
     <string name="hint_auto_fill">Dữ liệu từ giao dịch liền trước với cùng người nhận/trả có nên được tự động thêm vào? Bạn luôn có thể thay đổi tuỳ chọn này trong mục cài đặt.</string>
     <string name="yes">Được</string>
     <string name="no">Không</string>
-    <string name="hint_template_click">Nhấn vào một mục trên danh sách này sẽ trình bày bản mẫu đó ra và sẽ lưu luôn hoặc vào phần sửa đổi, nơi mà bạn có thể chỉnh sửa nó trước khi lưu. Bạn luôn có thể thực hiện cả hai hành động qua một lần nhấn giữ, và thay đổi mặc định trong cài đặt.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d tài khoản với loại tiền %2$s đã được cập nhật.</string>
     <string name="learn_more">Tìm hiểu thêm</string>
     <string name="import_source_file">Tập tin</string>

@@ -333,7 +333,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
         try {
           startActivityForResult(intent, requestCode);
         } catch (ActivityNotFoundException e) {
-          showSnackbar("No activity found for confirming device credentials", Snackbar.LENGTH_LONG);
+          showSnackbar("No activity found for confirming device credentials");
         }
       } else {
         showDeviceLockScreenWarning();
@@ -352,8 +352,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
 
   public void showDeviceLockScreenWarning() {
     showSnackbar(
-        concatResStrings(this, " ", R.string.warning_device_lock_screen_not_set_up_1, R.string.warning_device_lock_screen_not_set_up_2),
-        Snackbar.LENGTH_LONG);
+        concatResStrings(this, " ", R.string.warning_device_lock_screen_not_set_up_1, R.string.warning_device_lock_screen_not_set_up_2));
   }
 
   @Override
@@ -406,7 +405,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
         if (Utils.isIntentAvailable(this, i)) {
           startActivity(i);
         } else {
-          showSnackbar(R.string.error_accessing_market, Snackbar.LENGTH_LONG);
+          showSnackbar(R.string.error_accessing_market);
         }
         return true;
       case R.id.SETTINGS_COMMAND:
@@ -446,7 +445,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
         Timber.d("Install info: %s", messageBody);
         i.putExtra(android.content.Intent.EXTRA_TEXT, messageBody);
         if (!Utils.isIntentAvailable(this, i)) {
-          showSnackbar(R.string.no_app_handling_email_available, Snackbar.LENGTH_LONG);
+          showSnackbar(R.string.no_app_handling_email_available);
         } else {
           startActivity(i);
         }
@@ -476,7 +475,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
             Locale.getDefault().toString(), DistributionHelper.getVersionInfo(this));
         i.putExtra(android.content.Intent.EXTRA_TEXT, extraText);
         if (!Utils.isIntentAvailable(this, i)) {
-          showSnackbar(R.string.no_app_handling_email_available, Snackbar.LENGTH_LONG);
+          showSnackbar(R.string.no_app_handling_email_available);
         } else {
           startActivity(i);
         }
@@ -602,8 +601,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
       case TaskExecutionFragment.TASK_UNDELETE_TRANSACTION: {
         Result result = (Result) o;
         if (!result.isSuccess()) {
-          showSnackbar("There was an error deleting the object. Please contact support@myexenses.mobi !",
-              Snackbar.LENGTH_LONG);
+          showSnackbar("There was an error deleting the object. Please contact support@myexenses.mobi !");
         }
         break;
       }
@@ -680,8 +678,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     FragmentManager m = getSupportFragmentManager();
     final boolean result = m.findFragmentByTag(ASYNC_TAG) != null;
     if (result && shouldWarn) {
-      showSnackbar("Previous task still executing, please try again later",
-          Snackbar.LENGTH_LONG);
+      showSnackbar("Previous task still executing, please try again later");
     }
     return result;
   }
@@ -777,7 +774,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
       if (target instanceof AmountInput) {
         ((AmountInput) target).setAmount(new BigDecimal(intent.getStringExtra(KEY_AMOUNT)), false);
       } else {
-        showSnackbar("CALCULATOR_REQUEST launched with incorrect EXTRA_KEY_INPUT_ID", Snackbar.LENGTH_LONG);
+        showSnackbar("CALCULATOR_REQUEST launched with incorrect EXTRA_KEY_INPUT_ID");
       }
     }
   }
@@ -813,8 +810,7 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
       }
     } else {
       if (permissions.length > 0 && ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[0])) {
-        showSnackbar(PermissionHelper.permissionRequestRationale(this, requestCode),
-            Snackbar.LENGTH_LONG);
+        showSnackbar(PermissionHelper.permissionRequestRationale(this, requestCode));
       }
     }
   }
@@ -923,9 +919,17 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     showSnackbar(message, Snackbar.LENGTH_INDEFINITE,
         new SnackbarAction(R.string.snackbar_dismiss, v -> snackbar.dismiss()));
   }
+  
+  public void showSnackbar(int message) {
+    showSnackbar(message, Snackbar.LENGTH_LONG);
+  }
 
   public void showSnackbar(int message, int duration) {
     showSnackbar(getText(message), duration);
+  }
+
+  public void showSnackbar(@NonNull CharSequence message) {
+    showSnackbar(message, Snackbar.LENGTH_LONG, null);
   }
 
   public void showSnackbar(@NonNull CharSequence message, int duration) {

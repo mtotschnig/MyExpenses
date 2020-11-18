@@ -139,7 +139,7 @@ class TagList : Fragment(), OnDialogResultListener {
         binding.tagEdit.text.toString().trim().takeIf { !TextUtils.isEmpty(it) }?.let { label ->
             val position = adapter.getPosition(label)
             if (position > -1) {
-                (activity as? ProtectedFragmentActivity)?.showSnackbar(getString(R.string.already_defined, label), Snackbar.LENGTH_LONG)
+                (activity as? ProtectedFragmentActivity)?.showSnackbar(getString(R.string.already_defined, label))
             } else {
                 viewModel.addTagAndPersist(label).observe(viewLifecycleOwner, Observer {
                     if (it) {
@@ -221,8 +221,7 @@ class TagList : Fragment(), OnDialogResultListener {
                             if (it) {
                                 adapter.notifyItemChanged(activePosition)
                             } else {
-                                (context as? ProtectedFragmentActivity)?.showSnackbar(getString(R.string.already_defined, newLabel),
-                                        Snackbar.LENGTH_LONG)
+                                (context as? ProtectedFragmentActivity)?.showSnackbar(getString(R.string.already_defined, newLabel))
                             }
                         })
                     }

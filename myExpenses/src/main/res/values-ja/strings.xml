@@ -340,7 +340,6 @@
     <string name="pref_shortcut_added">ホーム画面にショートカットが追加されました</string>
     <string name="pref_shortcut_not_added">ショートカットを受け付けることができるホーム画面がありません。</string>
     <string name="pref_shortcut_summary">ホーム画面にショートカットを追加します</string>
-    <string name="pref_template_click_default_summary">テンプレートリストのエントリーをタップした時</string>
     <string name="pref_ui_fontsize_title">フォントサイズの拡大</string>
     <string name="pref_ui_home_screen_shortcuts">ホーム画面のショートカット</string>
     <string name="pref_ui_language_default">システム デフォルト</string>
@@ -482,7 +481,6 @@
     <string name="hint_auto_fill">同じ受取人/支払人の場合、前回の取引から自動的にデータを入力する必要がありますか? この動作はいつでも設定から変更できます。</string>
     <string name="yes">はい</string>
     <string name="no">いいえ</string>
-    <string name="hint_template_click">このリストのエントリで短くタップすると、テンプレートをインスタンス化して、それをすぐに保存したり、あるいは保存する前にその編集フォームの入力項目に入力することができます。長くタップして、いつでも両方のアクションにアクセスすることができます。設定でデフォルトを変更することができます。</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">通貨 %2$s の %1$d 勘定が更新されました。</string>
     <string name="learn_more">さらに詳しく</string>
     <string name="import_source_file">ファイル</string>

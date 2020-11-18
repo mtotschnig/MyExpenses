@@ -129,7 +129,7 @@ public class ExpenseEditTest extends BaseUiTest {
     i.putExtra(KEY_NEW_TEMPLATE, true);
     mActivityRule.launchActivity(i);
     checkEffectiveVisible(R.id.TitleRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
-        R.id.PayeeRow, R.id.AccountRow, R.id.Recurrence);
+        R.id.PayeeRow, R.id.AccountRow, R.id.Recurrence, R.id.DefaultActionRow);
     checkEffectiveGone(R.id.PB);
   }
 

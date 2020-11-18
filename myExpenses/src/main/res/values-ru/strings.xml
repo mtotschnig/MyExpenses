@@ -350,7 +350,6 @@
     <string name="pref_shortcut_added">Ярлык добавлен на домашний экран</string>
     <string name="pref_shortcut_not_added">Нет домашнего экрана, который принимает ярлыки.</string>
     <string name="pref_shortcut_summary">Добавить ярлык на домашний экран.</string>
-    <string name="pref_template_click_default_summary">При краткосрочном нажатии на элемент списка шаблонов</string>
     <string name="pref_ui_fontsize_title">Увеличить размера шрифта</string>
     <string name="pref_ui_home_screen_shortcuts">Ярлыки домашнего экрана</string>
     <string name="pref_ui_language_default">По умолчанию</string>
@@ -510,7 +509,6 @@
     <string name="hint_auto_fill">Позволить автозаполнение на основе последней транзакции для того же получателя/плательщика? Вы всегда можете изменить это поведение в настройках.</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
-    <string name="hint_template_click">Короткое нажатие на запись в этом списке создаст экземпляр шаблона и либо сохранит его немедленно, либо предложит редактирование, где вы сможете изменить его перед сохранением. Вы всегда можете получить доступ к обоим действиям с помощью длительного нажатия, и изменить необходимую настройку.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d счетов с валютой %2$s было обновлено.</string>
     <string name="learn_more">Узнать больше</string>
     <string name="import_source_file">Файл</string>

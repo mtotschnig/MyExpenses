@@ -22,8 +22,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.select.SelectMainCategoryDialogFragment;
@@ -175,7 +173,7 @@ public class ManageCategories extends CategoryActivity implements
           encoding,
           R.string.menu_categories_export);
     } else {
-      showSnackbar(appDirStatus.print(this), Snackbar.LENGTH_LONG);
+      showSnackbar(appDirStatus.print(this));
     }
   }
 
@@ -213,8 +211,7 @@ public class ManageCategories extends CategoryActivity implements
   public void onPostExecute(Uri result) {
     if (result == null) {
       showSnackbar(getString(R.string.already_defined,
-          mCategory != null ? mCategory.getLabel() : ""),
-          Snackbar.LENGTH_LONG);
+          mCategory != null ? mCategory.getLabel() : ""));
     }
     super.onPostExecute(result);
   }
@@ -238,7 +235,7 @@ public class ManageCategories extends CategoryActivity implements
                 PrefKey.SHARE_TARGET.getString("").trim(),
                 "text/qif");
             if (!shareResult.isSuccess()) {
-              showSnackbar(shareResult.print(this), Snackbar.LENGTH_LONG);
+              showSnackbar(shareResult.print(this));
             }
           }
           break;
@@ -246,7 +243,7 @@ public class ManageCategories extends CategoryActivity implements
           mListFragment.reset();
           break;
         case TaskExecutionFragment.TASK_DELETE_CATEGORY: {
-          showSnackbar(r.print(this), Snackbar.LENGTH_LONG);
+          showSnackbar(r.print(this));
         }
       }
     }
@@ -254,7 +251,7 @@ public class ManageCategories extends CategoryActivity implements
     if (taskId != TaskExecutionFragment.TASK_DELETE_CATEGORY /*handled in super*/) {
       final String print = r.print0(this);
       if (print != null) {
-        showSnackbar(print, Snackbar.LENGTH_LONG);
+        showSnackbar(print);
       }
     }
   }

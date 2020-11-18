@@ -344,7 +344,6 @@
     <string name="pref_shortcut_added">முகப்பு திரைக்கு குறுக்குவழி சேர்க்கப்பட்டது</string>
     <string name="pref_shortcut_not_added">குறுக்குவழிகளை ஏற்றுக்கொள்வதற்கான எந்த முகப்பு திரைகளும் கிடைக்கவில்லை.</string>
     <string name="pref_shortcut_summary">முகப்பு திரைக்கு குறுக்குவழியைச் சேர்க்கவும்.</string>
-    <string name="pref_template_click_default_summary">வார்ப்புரு பட்டியலில் ஒரு உள்ளீட்டின் மீது சுருக்கமாக தட்டுவதன் மூலம்</string>
     <string name="pref_ui_fontsize_title">எழுத்துரு அளவு</string>
     <string name="pref_ui_home_screen_shortcuts">முகப்பு திரை குறுக்குவழிகள்</string>
     <string name="pref_ui_language_default">கருவி இயல்புநிலை</string>
@@ -492,7 +491,6 @@
     <string name="hint_auto_fill">அதே பணம் பெறுபவர்/செலுத்துபவர் கொண்ட முந்தய பரிவர்த்தனையிலிருந்து தரவு தானாகவே நிரப்பப்பட வேண்டுமா? இதை  அமைப்புகளிலிருந்து எப்போதும் மாற்றிக்கொள்ளலாம்.</string>
     <string name="yes">ஆம்</string>
     <string name="no">இல்லை</string>
-    <string name="hint_template_click">இந்த பட்டியலில் உள்ள உள்ளீட்டை சுருக்கமாக தட்டினால் வார்ப்புரு செயலாக்கப்பட்டு பின் உடனே சேமிக்கப்படும் அல்லது அதன் தொகுத்தல் படிவத்திற்குள் நுழையும். அந்த படிவத்தில் நீங்கள் அதை சேமிப்பதற்கு முன்பு மாற்றலாம். நீங்கள் இந்த இரண்டு செயல்பாடுகளை எப்பொழுதும் நீண்ட நேரம் தட்டுவதன் மூலம் அணுகலாம், மேலும் அமைப்புகளில் இயல்புநிலையை மாற்றலாம்.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%2$s-ஐ நாணயமாக கொண்ட %1$d கணக்குகள் புதுப்பிக்கப்பட்டன.</string>
     <string name="learn_more">மேலும் அறிக</string>
     <string name="import_source_file">கோப்பு</string>

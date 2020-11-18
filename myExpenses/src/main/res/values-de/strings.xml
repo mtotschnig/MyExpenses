@@ -344,7 +344,6 @@
     <string name="pref_shortcut_added">Verknüpfung dem Start-Bildschirm hinzugefügt</string>
     <string name="pref_shortcut_not_added">Es steht kein Start-Bildschirm zur Verfügung, der Verknüpfungen akzeptiert.</string>
     <string name="pref_shortcut_summary">Fügt die Verknüpfung dem Start-Bildschirm hinzu.</string>
-    <string name="pref_template_click_default_summary">Beim kurzen Tippen auf Eintrag in der Vorlagenliste</string>
     <string name="pref_ui_fontsize_title">Schriftgröße</string>
     <string name="pref_ui_home_screen_shortcuts">Verknüpfungen für den Start-Bildschirm</string>
     <string name="pref_ui_language_default">System-Standard</string>
@@ -492,7 +491,6 @@
     <string name="hint_auto_fill">Sollen Daten automatisch auf Basis der letzten Buchung für denselben Empfänger/Zahler ausgefüllt werden? Sie können dieses Verhalten jederzeit in den Einstellungen ändern.</string>
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
-    <string name="hint_template_click">Ein kurzes Tippen auf einen Eintrag in dieser Liste wendet die Vorlage an. Entweder diese wird unmittelbar gespeichert, oder das Eingabeformular wird geöffnet, wo diese vor dem Speichern verändert werden kann. Sie können immer auf beide Aktionen über ein langes Tippen zugreifen und die Standardeinstellung in den Einstellungen ändern. </string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d Konten mit Währung %2$s wurden aktualisiert.</string>
     <string name="learn_more">Mehr erfahren</string>
     <string name="import_source_file">Datei</string>
@@ -952,5 +950,4 @@
     <string name="warning_balance_account_delete">Wenn Sie fortfahren, werden alle abgeglichenen Buchungen dieses Kontos aus der Datenbank gelöscht und Sie können diese nicht wiederherstellen.</string>
     <!-- When user opens a template from the transaction form, existing data is discarded. This message appears in a dialgoue to confirm the action -->
     <string name="confirmation_load_template_discard_data">Vorhandene Formulardaten werden verworfen.</string>
-
-</resources>
+    </resources>

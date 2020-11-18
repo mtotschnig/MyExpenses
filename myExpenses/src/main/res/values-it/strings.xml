@@ -344,7 +344,6 @@
     <string name="pref_shortcut_added">Il collegamento è stato aggiunto alla schermata Home</string>
     <string name="pref_shortcut_not_added">Nessuna schermata Home disponibile che accetta collegamenti.</string>
     <string name="pref_shortcut_summary">Aggiungere il collegamento a Home.</string>
-    <string name="pref_template_click_default_summary">Dopo un breve click sulla voce nell\'elenco dei modelli</string>
     <string name="pref_ui_fontsize_title">Aumenta la dimensione del carattere</string>
     <string name="pref_ui_home_screen_shortcuts">Collegamenti schermata Home</string>
     <string name="pref_ui_language_default">Default di sistema</string>
@@ -492,7 +491,6 @@
     <string name="hint_auto_fill">I dati devono essere compilati automaticamente dall\'ultima transazione per lo stesso beneficiario / pagatore? È sempre possibile modificare questo comportamento dalle impostazioni.</string>
     <string name="yes">Sì</string>
     <string name="no">No</string>
-    <string name="hint_template_click">Un breve tocco su una voce in questa lista istanzierà il modello e verrà subito salvato altrimenti immettere il relativo modulo di modifica dove è possibile modificarlo prima di salvare. È sempre possibile accedere ad entrambe le azioni attraverso un tocco prolungato e modificare l\'impostazione predefinita nelle impostazioni.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d conti in valuta %2$s sono stati aggiornati.</string>
     <string name="learn_more">Per saperne di più</string>
     <string name="import_source_file">File</string>
@@ -952,5 +950,4 @@
     <string name="warning_balance_account_delete">Se procedi, tutte le transazioni riconciliate di questo account verranno eliminate dal database e non potrai ripristinarle.</string>
     <!-- When user opens a template from the transaction form, existing data is discarded. This message appears in a dialgoue to confirm the action -->
     <string name="confirmation_load_template_discard_data">I dati del modulo esistente verranno eliminati.</string>
-
-</resources>
+    </resources>

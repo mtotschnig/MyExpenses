@@ -107,6 +107,7 @@
   <string name="menu_invert_transfer_help_text">Invertire la direzione del trasferimento scambiando \'Da\' e \'A\' del conto.</string>
   <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">Se le valute dei conti \'Da\' e \'A\' sono diverse, è necessario specificare la quantità per uno solo di loro. L\'altra sarà calcolata quando si creano istanze dal modello.</string>
   <string name="form_goal_or_limit_help_text">Questo campo consente di specificare un obiettivo di risparmio positivo o un limite di credito negativo. In entrambi i casi, nell\'elenco dei conti, un indicatore di avanzamento mostrerà la distanza fra il saldo corrente e l\'obiettivo o il limite.</string>
+  <string name="menu_templates_help_text">Apre un menu che elenca tutti i modelli, consentendo di caricarli rapidamente nel modulo.</string>
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">Modulo per i conti</string>
   <string name="form_AccountEdit_label_help_text">L\'etichetta identifica il conto nell\'elenco conti.</string>

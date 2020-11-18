@@ -19,8 +19,6 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import org.apache.commons.csv.CSVRecord;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -322,7 +320,7 @@ public class CsvImportDataFragment extends Fragment {
         cell.setSingleLine();
         cell.setEllipsize(TextUtils.TruncateAt.END);
         cell.setSelected(true);
-        cell.setOnClickListener(v1 -> ((ProtectedFragmentActivity) getActivity()).showSnackbar(((TextView) v1).getText(), Snackbar.LENGTH_LONG));
+        cell.setOnClickListener(v1 -> ((ProtectedFragmentActivity) getActivity()).showSnackbar(((TextView) v1).getText()));
         if (viewType == 0) {
           cell.setTypeface(null, Typeface.BOLD);
         }
@@ -439,20 +437,20 @@ public class CsvImportDataFragment extends Fragment {
       int field = columnToFieldMap[i];
       if (field != R.string.cvs_import_discard) {
         if (foundFields.get(field, false)) {
-          activity.showSnackbar(getString(R.string.csv_import_field_mapped_more_than_once, getString(field)), Snackbar.LENGTH_LONG);
+          activity.showSnackbar(getString(R.string.csv_import_field_mapped_more_than_once, getString(field)));
           return false;
         }
         foundFields.put(field, true);
       }
     }
     if (foundFields.get(R.string.subcategory, false) && !foundFields.get(R.string.category, false)) {
-      activity.showSnackbar(R.string.csv_import_subcategory_requires_category, Snackbar.LENGTH_LONG);
+      activity.showSnackbar(R.string.csv_import_subcategory_requires_category);
       return false;
     }
     if (!(foundFields.get(R.string.amount, false) ||
         foundFields.get(R.string.expense, false) ||
         foundFields.get(R.string.income, false))) {
-      activity.showSnackbar(R.string.csv_import_no_mapping_found_for_amount, Snackbar.LENGTH_LONG);
+      activity.showSnackbar(R.string.csv_import_no_mapping_found_for_amount);
       return false;
     }
     return true;

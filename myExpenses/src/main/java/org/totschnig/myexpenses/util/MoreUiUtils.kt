@@ -36,3 +36,10 @@ fun setNightMode(prefHandler: PrefHandler, context: Context) {
 }
 
 fun getBestForeground(color: Int) = arrayOf(Color.BLACK, Color.WHITE).maxByOrNull { calculateContrast(color, it) }!!
+
+inline fun <reified E: Enum<E>> getEnumFromPreferencesWithDefault(prefHandler: PrefHandler, prefKey: PrefKey, defaultValue: E) =
+        try {
+            enumValueOf(prefHandler.getString(prefKey, defaultValue.name)!!)
+        } catch (e: IllegalArgumentException) {
+            defaultValue
+        }

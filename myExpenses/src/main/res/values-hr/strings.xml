@@ -295,7 +295,6 @@
     <string name="pref_shortcut_added">Prečac je kreiran na početnom zaslonu</string>
     <string name="pref_shortcut_not_added">Nema dostupnog početnog zaslona za kreiranje prečaca</string>
     <string name="pref_shortcut_summary">Dodaj prečac na početni zaslon.</string>
-    <string name="pref_template_click_default_summary">Kratki dodir na stavku u listi predloška</string>
     <string name="pref_ui_fontsize_title">Povećaj font</string>
     <string name="pref_ui_home_screen_shortcuts">Prečaci na glavnom prozoru</string>
     <string name="pref_ui_language_default">Sistemske postavke</string>
@@ -421,7 +420,6 @@
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Kupovina neuspjela ili otkazana.</string>
     <string name="yes">Da</string>
     <string name="no">Ne</string>
-    <string name="hint_template_click">Kratak dodir na unos u ovoj listi će otvoriti predložak i odmah ga spremiti ili ući u mod za oblikovanje gdje ga možete urediti prije spremanja. Dugim dodirom možete pristupiti obama akcijama, ili promijeniti zadane akcije u postavkama.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d računi sa valutom %2$s su ažurirani.</string>
     <string name="learn_more">Saznaj više</string>
     <string name="import_source_file">Datoteka</string>

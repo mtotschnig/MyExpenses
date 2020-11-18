@@ -21,8 +21,6 @@ import android.widget.EditText;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
@@ -142,7 +140,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
           setUri(ImportFileResultHandler.handleFilenameRequestResult(this, data));
         } catch (Throwable throwable) {
           setUri(null);
-          ((ProtectedFragmentActivity) getActivity()).showSnackbar(throwable.getMessage(), Snackbar.LENGTH_LONG);
+          ((ProtectedFragmentActivity) requireActivity()).showSnackbar(throwable.getMessage());
         }
       }
     }

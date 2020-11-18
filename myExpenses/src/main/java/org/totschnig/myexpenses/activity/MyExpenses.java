@@ -373,13 +373,13 @@ public class MyExpenses extends BaseMyExpenses implements
     viewModel.getFeatureState().observe(this, featureState -> {
       switch (featureState.getFirst()) {
         case LOADING:
-          showSnackbar(getString(R.string.feature_download_requested, getString(R.string.title_scan_receipt_feature)), Snackbar.LENGTH_LONG);
+          showSnackbar(getString(R.string.feature_download_requested, getString(R.string.title_scan_receipt_feature)));
           break;
         case AVAILABLE:
-          showSnackbar(getString(R.string.feature_downloaded, getString(R.string.title_scan_receipt_feature)), Snackbar.LENGTH_LONG);
+          showSnackbar(getString(R.string.feature_downloaded, getString(R.string.title_scan_receipt_feature)));
           break;
         case ERROR:
-          showSnackbar(featureState.getSecond(), Snackbar.LENGTH_LONG);
+          showSnackbar(featureState.getSecond());
           break;
       }
     });
@@ -573,7 +573,7 @@ public class MyExpenses extends BaseMyExpenses implements
 
       case R.id.CREATE_COMMAND:
         if (mAccountCount == 0) {
-          showSnackbar(R.string.warning_no_account, Snackbar.LENGTH_LONG);
+          showSnackbar(R.string.warning_no_account);
         } else {
           if (isScanMode()) {
             if (viewModel.isOcrAvailable(this)) {
@@ -617,7 +617,7 @@ public class MyExpenses extends BaseMyExpenses implements
             ExportDialogFragment.newInstance(accountId, tl.isFiltered())
                 .show(this.getSupportFragmentManager(), "WARNING_RESET");
           } else {
-            showSnackbar(appDirStatus.print(this), Snackbar.LENGTH_LONG);
+            showSnackbar(appDirStatus.print(this));
           }
         } else {
           showExportDisabledCommand();
@@ -681,7 +681,7 @@ public class MyExpenses extends BaseMyExpenses implements
         i.setDataAndType(data, "application/pdf");
         i.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         if (!Utils.isIntentAvailable(this, i)) {
-          showSnackbar(R.string.no_app_handling_pdf_available, Snackbar.LENGTH_LONG);
+          showSnackbar(R.string.no_app_handling_pdf_available);
         } else {
           startActivity(i);
         }
@@ -693,7 +693,7 @@ public class MyExpenses extends BaseMyExpenses implements
             getShareTarget(),
             "application/pdf");
         if (!shareResult.isSuccess()) {
-          showSnackbar(shareResult.print(this), Snackbar.LENGTH_LONG);
+          showSnackbar(shareResult.print(this));
         }
         return true;
       }
@@ -819,7 +819,7 @@ public class MyExpenses extends BaseMyExpenses implements
   }
 
   private void complainAccountsNotLoaded() {
-    showSnackbar(R.string.account_list_not_yet_loaded, Snackbar.LENGTH_LONG);
+    showSnackbar(R.string.account_list_not_yet_loaded);
   }
 
   public void showExportDisabledCommand() {
@@ -1086,7 +1086,7 @@ public class MyExpenses extends BaseMyExpenses implements
       case TASK_BALANCE: {
         Result result = (Result) o;
         if (!result.isSuccess()) {
-          showSnackbar(result.print(this), Snackbar.LENGTH_LONG);
+          showSnackbar(result.print(this));
         }
         break;
       }
@@ -1095,12 +1095,12 @@ public class MyExpenses extends BaseMyExpenses implements
         if (((Result) o).isSuccess()) {
           recordUsage(ContribFeature.SPLIT_TRANSACTION);
         }
-        showSnackbar(result.print(this), Snackbar.LENGTH_LONG);
+        showSnackbar(result.print(this));
         break;
       }
       case TASK_REVOKE_SPLIT: {
         Result result = (Result) o;
-        showSnackbar(result.print(this), Snackbar.LENGTH_LONG);
+        showSnackbar(result.print(this));
         break;
       }
       case TASK_EXPORT: {
@@ -1110,7 +1110,7 @@ public class MyExpenses extends BaseMyExpenses implements
               getShareTarget(),
               "text/" + result.first.name().toLowerCase(Locale.US));
           if (!shareResult.isSuccess()) {
-            showSnackbar(shareResult.print(this), Snackbar.LENGTH_LONG);
+            showSnackbar(shareResult.print(this));
           }
         }
         break;
@@ -1128,7 +1128,7 @@ public class MyExpenses extends BaseMyExpenses implements
           f.setCancelable(false);
           f.show(getSupportFragmentManager(), "PRINT_RESULT");
         } else {
-          showSnackbar(result.print(this), Snackbar.LENGTH_LONG);
+          showSnackbar(result.print(this));
         }
         break;
       }
@@ -1307,7 +1307,7 @@ public class MyExpenses extends BaseMyExpenses implements
     try {
       ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
       clipboard.setText(mCurrentBalance);
-      showSnackbar(R.string.copied_to_clipboard, Snackbar.LENGTH_LONG);
+      showSnackbar(R.string.copied_to_clipboard);
     } catch (RuntimeException e) {
       Timber.e(e);
     }

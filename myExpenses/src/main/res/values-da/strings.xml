@@ -305,7 +305,6 @@
     <string name="pref_shortcut_added">Genvej til startskærmen blev tilføjet </string>
     <string name="pref_shortcut_not_added">Ingen Startskærm tilgængelig der accepterer genveje.</string>
     <string name="pref_shortcut_summary">Tilføj genvej til startskærm.</string>
-    <string name="pref_template_click_default_summary">Ved at klikke på et navn i listen af skabeloner</string>
     <string name="pref_ui_fontsize_title">Forøg skriftstørrelsen</string>
     <string name="pref_ui_home_screen_shortcuts">Genvej til Startskærm</string>
     <string name="pref_ui_language_default">Systemstandard</string>
@@ -434,7 +433,6 @@
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Køb mislykkedes eller annulleret.</string>
     <string name="yes">Ja</string>
     <string name="no">Nej</string>
-    <string name="hint_template_click">Anvend en skabelon ved at vælge en ud af listen ved at trykke på den. Den gemmes med det samme eller du kan rediger den før den gemmes. Du kan altid få adgang til begge aktioner og ændre standard indstillingerne ved at trykke på den og holder trykt.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d konti med valuta %2$s opdateret.</string>
     <string name="learn_more">Læs mere</string>
     <string name="import_source_file">Fil</string>

@@ -129,12 +129,6 @@
                 android:title="@string/method" />
         </PreferenceScreen>
 
-        <org.totschnig.myexpenses.preference.ListPreferenceShowSummary
-            android:entries="@array/pref_template_click_default_entries"
-            android:entryValues="@array/pref_template_click_default_values"
-            android:key="@string/pref_template_click_default_key"
-            android:title="@string/pref_template_click_default_summary" />
-
         <PreferenceScreen
             android:key="@string/pref_grouping_start_key"
             android:title="@string/pref_grouping_periods">

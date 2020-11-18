@@ -27,7 +27,7 @@ abstract class BaseSettingsFragment: PreferenceFragmentCompat() {
 
     @SuppressLint("SimpleDateFormat")
     fun validateDateFormatWithFeedback(dateFormat: String) = validateDateFormat(dateFormat)?.let {
-        activity().showSnackbar(it, Snackbar.LENGTH_LONG)
+        activity().showSnackbar(it)
         false
     } ?: true
 

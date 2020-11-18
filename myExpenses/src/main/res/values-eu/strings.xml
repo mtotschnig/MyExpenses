@@ -343,7 +343,6 @@
     <string name="pref_shortcut_added">Laster-bidea hasiera pantailara gehitu da</string>
     <string name="pref_shortcut_not_added">Ez dago laster-bideak onartzen dituen hasiera pantailarik erabilgarri.</string>
     <string name="pref_shortcut_summary">Gehitu laster-bidea hasierako pantailan</string>
-    <string name="pref_template_click_default_summary">Sakatu labur txantiloi zerrendako sarrera batean</string>
     <string name="pref_ui_fontsize_title">Testuaren tamaina</string>
     <string name="pref_ui_home_screen_shortcuts">Hasiera pantailako laster-bideak</string>
     <string name="pref_ui_language_default">Sistemako lehenetsia</string>
@@ -489,7 +488,6 @@
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Erosketak huts egin du eta bertan behera utzi da.</string>
     <string name="yes">Bai</string>
     <string name="no">Ez</string>
-    <string name="hint_template_click">Sarrera honetan labur sakatuz txantiloia abiatuko da eta berehala gorde ala ediziora sartu gorde aurretik aldatu dezazun. Ekintza bietara sarbidea duzu luze sakatuz, eta lehenetsitako ekintza ezarpenetan aldatu dezakezu.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%2$s monetako %1$d kontu eguneratu dira.</string>
     <string name="learn_more">Ikasi gehiago</string>
     <string name="import_source_file">Fitxategia</string>

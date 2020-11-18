@@ -5,8 +5,6 @@ import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.os.Bundle;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
@@ -278,7 +276,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity implement
         showMessage(String.format("%s (%s)", getString(R.string.licence_validation_premium),
             getString(newStatus.getResId())));
       } else {
-        showSnackbar(R.string.licence_validation_failure, Snackbar.LENGTH_LONG);
+        showSnackbar(R.string.licence_validation_failure);
       }
     }
   }

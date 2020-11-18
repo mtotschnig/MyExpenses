@@ -340,7 +340,6 @@
     <string name="pref_shortcut_added">Pintasan telah ditambah ke Skrin Rumah</string>
     <string name="pref_shortcut_not_added">Tiada Skrin Rumah tersedia yang menerima pintasan.</string>
     <string name="pref_shortcut_summary">Tambah pintasan ke Skrin Rumah.</string>
-    <string name="pref_template_click_default_summary">Bila mengetuk pantas pada masukan dalam senarai templat</string>
     <string name="pref_ui_fontsize_title">Tingkatkan saiz fon</string>
     <string name="pref_ui_home_screen_shortcuts">Pintasan Skrin Rumah</string>
     <string name="pref_ui_language_default">Lalai sistem</string>
@@ -480,7 +479,6 @@
     <string name="hint_auto_fill">Sepatutnya data terisi secara automatik dari transaksi terakhir bagi penerima/pembayar yang sama? Tetapi anda boleh ubah kelakuan ini melalui tetapan.</string>
     <string name="yes">Ya</string>
     <string name="no">Tidak</string>
-    <string name="hint_template_click">Satu ketukan pantas pada masukan dalam senarai ini akan segerakan templat dan sama ada simpan ia serta-merta atau pergi ke bentuk suntingan yang mana anda boleh ubahsuai ia sebelum menyimpan. Anda boleh mengubah kedua-dua tindakan melalui ketukan panjang, dan ubah lalai di dalam tetapan.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d akaun dengan matawang %2$s telah dikemaskini.</string>
     <string name="learn_more">Ketahui lagi</string>
     <string name="import_source_file">Fail</string>

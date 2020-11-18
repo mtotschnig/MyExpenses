@@ -22,12 +22,9 @@ import android.os.Bundle;
 import com.android.calendar.CalendarContractCompat.Events;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.fragment.TemplatesList;
 import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.PermissionHelper;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
@@ -48,8 +45,6 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
     ConfirmationDialogListener, ContribIFace {
 
   public static final int NOT_CALLED = -1;
-  public static final String TEMPLATE_CLICK_ACTION_SAVE = "SAVE";
-  public static final String TEMPLATE_CLICK_ACTION_EDIT = "EDIT";
   private long calledFromCalendarWithId = NOT_CALLED;
 
   @Override
@@ -149,36 +144,6 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
 
   public void finishActionMode() {
     mListFragment.finishActionMode();
-  }
-
-  @Override
-  public void onPositive(Bundle args) {
-    long id = args.getLong(DatabaseConstants.KEY_ROWID);
-    boolean isSplit = args.getBoolean(TemplatesList.KEY_IS_SPLIT);
-    int command = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE);
-    if (command == R.id.CREATE_INSTANCE_SAVE_COMMAND) {
-      prefHandler.putString(PrefKey.TEMPLATE_CLICK_DEFAULT, TEMPLATE_CLICK_ACTION_SAVE);
-      if (isSplit) {
-        mListFragment.requestSplitTransaction(new Long[]{id});
-      } else {
-        mListFragment.dispatchCreateInstanceSaveDo(new Long[]{id}, null);
-      }
-    }
-  }
-
-  @Override
-  public void onNegative(Bundle args) {
-    long id = args.getLong(DatabaseConstants.KEY_ROWID);
-    boolean isSplit = args.getBoolean(TemplatesList.KEY_IS_SPLIT);
-    int command = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE);
-    if (command == R.id.CREATE_INSTANCE_EDIT_COMMAND) {
-      prefHandler.putString(PrefKey.TEMPLATE_CLICK_DEFAULT, TEMPLATE_CLICK_ACTION_EDIT);
-      if (isSplit) {
-        mListFragment.requestSplitTransaction(id);
-      } else {
-        mListFragment.dispatchCreateInstanceEditDo(id);
-      }
-    }
   }
 
   @Override

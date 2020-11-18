@@ -337,9 +337,9 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
           progressDialog.setProgress(totalProcessed);
         } else {
           if (result.getSecond() == 0) {
-            context.showSnackbar(R.string.clone_and_remap_result, Snackbar.LENGTH_LONG);
+            context.showSnackbar(R.string.clone_and_remap_result);
           } else {
-            context.showSnackbar(String.format(Locale.ROOT, "%d out of %d failed", result.getSecond(), totalProcessed), Snackbar.LENGTH_LONG);
+            context.showSnackbar(String.format(Locale.ROOT, "%d out of %d failed", result.getSecond(), totalProcessed));
           }
           getParentFragmentManager().beginTransaction().remove(progressDialog).commit();
         }
@@ -642,7 +642,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         final boolean isTransferPartPeer = DbUtils.getLongOrNull(mTransactionsCursor, KEY_TRANSFER_PEER_PARENT) != null;
         checkSealed(new long[]{acmi.id}, () -> {
           if (isTransferPartPeer) {
-            ctx.showSnackbar(R.string.warning_splitpartcategory_context, Snackbar.LENGTH_LONG);
+            ctx.showSnackbar(R.string.warning_splitpartcategory_context);
           } else {
             Intent i = new Intent(ctx, ExpenseEdit.class);
             i.putExtra(KEY_ROWID, acmi.id);
@@ -687,8 +687,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
 
   private void warnSealedAccount() {
     ((ProtectedFragmentActivity) getActivity()).showSnackbar(
-        concatResStrings(getContext(), " ", R.string.warning_account_for_transaction_is_closed, R.string.object_sealed),
-        Snackbar.LENGTH_LONG);
+        concatResStrings(getContext(), " ", R.string.warning_account_for_transaction_is_closed, R.string.object_sealed));
   }
 
   private WhereFilter getFilter() {
@@ -1210,7 +1209,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     if (headerData != null && headerData.get(headerId)[6] > 0) {
       ctx.contribFeatureRequested(ContribFeature.DISTRIBUTION, headerId);
     } else {
-      ctx.showSnackbar(R.string.no_mapped_transactions, Snackbar.LENGTH_LONG);
+      ctx.showSnackbar(R.string.no_mapped_transactions);
     }
     return true;
   }
@@ -1645,7 +1644,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         final Transaction transaction = Transaction.getInstanceFromDb(extras.getLong(KEY_ROWID));
         Uri uri = transaction == null ? null : new Template(transaction, label).save();
         if (uri == null) {
-          ctx.showSnackbar(R.string.template_create_error, Snackbar.LENGTH_LONG);
+          ctx.showSnackbar(R.string.template_create_error);
         } else {
           // show template edit activity
           Intent i = new Intent(ctx, ExpenseEdit.class);
@@ -1682,7 +1681,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
       viewModel.remap(checkedItemIds, extras.getString(KEY_COLUMN), extras.getLong(KEY_ROWID))
           .observe(this, result -> {
             final String message = result > 0 ? getString(R.string.remapping_result) : "No transactions were mapped";
-            ((ProtectedFragmentActivity) BaseTransactionList.this.getActivity()).showSnackbar(message, Snackbar.LENGTH_LONG);
+            ((ProtectedFragmentActivity) BaseTransactionList.this.getActivity()).showSnackbar(message);
           });
     }
   }

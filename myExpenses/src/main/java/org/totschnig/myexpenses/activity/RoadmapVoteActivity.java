@@ -171,7 +171,7 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
   private void publishResult(String message) {
     isLoading = false;
     dismissSnackbar();
-    showSnackbar(message, Snackbar.LENGTH_LONG);
+    showSnackbar(message);
   }
 
   @Override
@@ -224,7 +224,7 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
       }
       case R.id.ROADMAP_SUBMIT_VOTE: {
         if (lastVote != null && lastVote.getVote().equals(voteWeights) && lastVote.getVersion() == getVersionFromPref()) {
-          showSnackbar("Modify your vote, before submitting it again.", Snackbar.LENGTH_LONG);
+          showSnackbar("Modify your vote, before submitting it again.");
         } else {
           final boolean emailIsKnown = getEmail() != null;
           int msg = emailIsKnown ? R.string.roadmap_update_confirmation : R.string.roadmap_email_rationale;

@@ -344,7 +344,6 @@
     <string name="pref_shortcut_added">Shortcut has been added to Home Screen</string>
     <string name="pref_shortcut_not_added">No Home Screen available that accepts shortcuts.</string>
     <string name="pref_shortcut_summary">Add the shortcut to Home Screen.</string>
-    <string name="pref_template_click_default_summary">Upon short tap on entry in template list</string>
     <string name="pref_ui_fontsize_title">Font size</string>
     <string name="pref_ui_home_screen_shortcuts">Home Screen Shortcuts</string>
     <string name="pref_ui_language_default">System default</string>
@@ -492,7 +491,6 @@
     <string name="hint_auto_fill">Should data be filled in automatically from last transaction for same payee/payer? You can always change this behaviour from the settings.</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="hint_template_click">A short tap on an entry in this list will instantiate the template and either save it immediately or enter its editing form where you can modify it before saving. You can always access both actions through a long tap, and change the default in the settings.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d accounts with currency %2$s have been updated.</string>
     <string name="learn_more">Learn more</string>
     <string name="import_source_file">File</string>
@@ -953,5 +951,7 @@
     <!-- When user opens a template from the transaction form, existing data is discarded. This message appears in a dialgoue to confirm the action -->
     <string name="confirmation_load_template_discard_data">Existing form data will be discarded.</string>
     <string name="pref_clone_with_current_date_title">Date of cloned transactions</string>
+    <string name="default_action">Default action</string>
+    <string name="template_default_action_without_amount_hint">Template without amount should be saved with default action \'Edit\'</string>
 
 </resources>

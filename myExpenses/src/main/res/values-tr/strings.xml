@@ -344,7 +344,6 @@
     <string name="pref_shortcut_added">Ana ekrana kısayol eklenmiştir</string>
     <string name="pref_shortcut_not_added">Kısayolları kabul edecek ana ekran mevcut değil.</string>
     <string name="pref_shortcut_summary">Ana ekrana kısayol ekle.</string>
-    <string name="pref_template_click_default_summary">Şablon listesinde unsura kısa dokunulduğunda</string>
     <string name="pref_ui_fontsize_title">Yazı boyutu arttır</string>
     <string name="pref_ui_home_screen_shortcuts">Ana Ekran Kısayolları</string>
     <string name="pref_ui_language_default">Sistem varsayılanı</string>
@@ -492,7 +491,6 @@
     <string name="hint_auto_fill">Aynı alacaklı/ödeyici için veriler son muameleden doldurulsun mu? Bu davranışı ayarlardan değiştirmeniz mümkündür.</string>
     <string name="yes">Evet</string>
     <string name="no">Hayır</string>
-    <string name="hint_template_click">Bu listedeki bir unsura kısa bir dokunuş şablonu örneklendirecek ve onu ya derhal kaydedecek ya da kaydetmeden önce değiştirmenize izin verecek düzenleme formuna girecektir. Her iki etkinliği de uzun bir dokunuş ile elde edebilir ve varsayılan değeri ayarlarda değiştirebilirsiniz.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%2$s para birimini kullanan %1$d hesap güncellendi.</string>
     <string name="learn_more">Dahasını öğrenin</string>
     <string name="import_source_file">Dosya</string>
@@ -952,5 +950,4 @@
     <string name="warning_balance_account_delete">Eğer devam ederseniz, bu hesabın tüm uzlaşmış muameleleri veritabanından silinecektir ve onlar geri getirmeniz mümkün olmayacaktır.</string>
     <!-- When user opens a template from the transaction form, existing data is discarded. This message appears in a dialgoue to confirm the action -->
     <string name="confirmation_load_template_discard_data">Mevcut form verileri silinecektir.</string>
-
-</resources>
+    </resources>

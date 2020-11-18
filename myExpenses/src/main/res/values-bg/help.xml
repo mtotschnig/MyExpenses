@@ -107,6 +107,7 @@
   <string name="menu_invert_transfer_help_text">Сменя посоката на трансфера чрез размяна на сметките От и Към.</string>
   <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">Ако валутите на сметките \'От\' и \'Към\' са различни, задайте сума само в едната от тях. Сумата в другата сметка ще се изчисли когато създавате транзакция от шаблона.</string>
   <string name="form_goal_or_limit_help_text">Това поле позволява да посочите или положителна цел за спестяване или отрицателен кредитен лимит. И в двата случая в списъка на сметки индикатор за напредък показва отстоянието между текущото салдо и целта или лимита.</string>
+  <string name="menu_templates_help_text">Отваряте меню, в което са изброени всички шаблони. Позволява бързо зареждане на шаблон във формуляра.</string>
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">Бланка за сметки</string>
   <string name="form_AccountEdit_label_help_text">Името идентифицира сметката в списъка на сметките.</string>

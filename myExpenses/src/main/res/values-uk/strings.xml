@@ -340,7 +340,6 @@
     <string name="pref_shortcut_added">Ярлик було додано до Головного Екрана</string>
     <string name="pref_shortcut_not_added">Немає Головного Екрану, який би підтримув ярлики.</string>
     <string name="pref_shortcut_summary">Додайте ярлик до Головного Екрана.</string>
-    <string name="pref_template_click_default_summary">При короткому натиску на елемент списку шаблонів</string>
     <string name="pref_ui_fontsize_title">Розмір шрифту</string>
     <string name="pref_ui_home_screen_shortcuts">Ярлики на Головному Екрані</string>
     <string name="pref_ui_language_default">За замовчуванням</string>
@@ -497,7 +496,6 @@
     <string name="hint_auto_fill">Чи повинні дані заповнюватися автоматично з останньої операції для того самого одержувача / платника? Ви завжди можете змінити цю поведінку в налаштуваннях.</string>
     <string name="yes">Так</string>
     <string name="no">Ні</string>
-    <string name="hint_template_click">Коротке натискання на запис у цьому списку створить екземпляр шаблону і, або збереже його негайно, або відкриє форму редагування, де ви можете змінити дані перед збереженням. Ви завжди можете отримати доступ до обох дій за допомогою довгого натискання та змінити параметри за замовчуванням.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">Було оновлено %1$d рахунків з валютою %2$s.</string>
     <string name="learn_more">Дізнатись більше</string>
     <string name="import_source_file">Файл</string>

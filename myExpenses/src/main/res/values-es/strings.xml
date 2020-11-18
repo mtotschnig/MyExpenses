@@ -344,7 +344,6 @@
     <string name="pref_shortcut_added">Acceso directo añadido a la pantalla de inicio</string>
     <string name="pref_shortcut_not_added">No hay pantalla de inicio disponible que acepte atajos.</string>
     <string name="pref_shortcut_summary">Añadir acceso directo a pantalla de inicio.</string>
-    <string name="pref_template_click_default_summary">Con toque corto en la entrada en la lista de plantillas</string>
     <string name="pref_ui_fontsize_title">Tamaño de fuente</string>
     <string name="pref_ui_home_screen_shortcuts">Accesos directos en la pantalla de inicio</string>
     <string name="pref_ui_language_default">Sistema por defecto</string>
@@ -492,7 +491,6 @@
     <string name="hint_auto_fill">¿Los datos deberían de rellenarse automáticamente a partir de la última transacción para el mismo acreedor/ordenante? Siempre podrá cambiarlo desde configuración.</string>
     <string name="yes">Sí</string>
     <string name="no">No</string>
-    <string name="hint_template_click">Un toque corto en una entrada de esta lista creará una instancia de la plantilla, donde podrá guardarla inmediatamente o acceder a su modificación antes de dicho guardado. Siempre podrá acceder a ambas acciones a través de un toque largo y cambiar la opción predeterminada desde el menú de configuración.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d cuentas con moneda de %2$s han sido actualizadas.</string>
     <string name="learn_more">Más información</string>
     <string name="import_source_file">Archivo</string>
