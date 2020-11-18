@@ -11,5 +11,6 @@ data class TemplateInfo(val accountId: Long, val title: String,
         put(DatabaseConstants.KEY_ACCOUNTID, accountId)
         put(DatabaseConstants.KEY_PAYEEID, payeeId)
         put(DatabaseConstants.KEY_PLANID, planId)
+        put(DatabaseConstants.KEY_DEFAULT_ACTION, "SAVE")
     }
 }
