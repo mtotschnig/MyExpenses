@@ -313,7 +313,6 @@
     <string name="pref_shortcut_added">홈 스크린에 바로가기가 추가되었습니다.</string>
     <string name="pref_shortcut_not_added">바로가기를 추가할 수 있는 홈 스크린이 없습니다.</string>
     <string name="pref_shortcut_summary">홈 스크린에 바로가기를 추가합니다.</string>
-    <string name="pref_template_click_default_summary">템플릿 목록의 항목 짧게 누르기</string>
     <string name="pref_ui_fontsize_title">글자 크기 증가</string>
     <string name="pref_ui_home_screen_shortcuts">홈 스크린 바로가기</string>
     <string name="pref_ui_language_default">시스템 기본값</string>
@@ -443,7 +442,6 @@
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">구매에 실패했거나 취소되었습니다.</string>
     <string name="yes">예</string>
     <string name="no">아니오</string>
-    <string name="hint_template_click">템플릿 목록의 항목을 짧게 누르면 템플릿을 예시로 보여주고, 그것을 곧바로 저장하거나, 아니면 저장하기 전에 수정할 수 있는 입력 양식으로 진입할 수 있습니다. 두가지 동작은 길게 누르기를 통해 사용할 수도 있으며, 기본값을 설정 화면에서 바꿀 수 있습니다.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%2$s 화폐의 %1$d 계좌가 업데이트 되었습니다.</string>
     <string name="learn_more">자세히 알아보기</string>
     <string name="import_source_file">파일</string>

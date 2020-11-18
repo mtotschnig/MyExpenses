@@ -344,7 +344,6 @@
     <string name="pref_shortcut_added">Le raccourci a été ajouté à l\'écran d\'accueil</string>
     <string name="pref_shortcut_not_added">Aucun écran d\'accueil disponible qui accepte les raccourcis.</string>
     <string name="pref_shortcut_summary">Ajouter le raccourci à l\'écran d\'accueil.</string>
-    <string name="pref_template_click_default_summary">Sur clic court dans la liste des modèles</string>
     <string name="pref_ui_fontsize_title">Taille de police</string>
     <string name="pref_ui_home_screen_shortcuts">Raccourcis de l\'écran d\'accueil</string>
     <string name="pref_ui_language_default">Défaut du système</string>
@@ -492,7 +491,6 @@
     <string name="hint_auto_fill">Voulez-vous remplir automatiquement les données à partir de la dernière opération de ce tiers ? Vous pouvez toujours modifier cette option dans les paramètres.</string>
     <string name="yes">Oui</string>
     <string name="no">Non</string>
-    <string name="hint_template_click">Un clic court sur une entrée de cette liste appliquera ce modèle et soit vous l\'enregistrerez immédiatement, soit vous l\'éditerez et le modifierez avant  enregistrement. Vous pourrez toujours accéder à ces deux actions par un clic long et modifier la valeur par défaut de ses paramètres.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d comptes en devise %2$s ont été mis à jour.</string>
     <string name="learn_more">En apprendre plus</string>
     <string name="import_source_file">Fichier</string>
@@ -952,5 +950,4 @@
     <string name="warning_balance_account_delete">Si vous continuez, toutes les opérations rapprochées de ce compte seront supprimées de la base de données et vous ne pourrez pas les restaurer.</string>
     <!-- When user opens a template from the transaction form, existing data is discarded. This message appears in a dialgoue to confirm the action -->
     <string name="confirmation_load_template_discard_data">Les données existantes seront supprimées du formulaire.</string>
-
-</resources>
+    </resources>

@@ -340,7 +340,6 @@
     <string name="pref_shortcut_added">Skrót został dodany na Ekran Główny</string>
     <string name="pref_shortcut_not_added">Brak dostępnego Ekranu Startowego który akceptuje skróty.</string>
     <string name="pref_shortcut_summary">Dodaj skrót na Ekran Główny.</string>
-    <string name="pref_template_click_default_summary">Po krótkim dotknięciu wpisu na liście szablonów</string>
     <string name="pref_ui_fontsize_title">Wielkość kroju pisma</string>
     <string name="pref_ui_home_screen_shortcuts">Skróty</string>
     <string name="pref_ui_language_default">Domyślne systemowe</string>
@@ -484,7 +483,6 @@
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Zakup nie udał się lub został anulowany.</string>
     <string name="yes">Tak</string>
     <string name="no">Nie</string>
-    <string name="hint_template_click">Krótkie dotknięcie pozycji na tej liście spowoduje utworzenie instancji szablonu i zapisanie go natychmiast lub wprowadzenie formularza edycji, w którym można go zmodyfikować przed zapisaniem. Zawsze możesz uzyskać dostęp do obu działań przez długie dotknięcie i zmienić ustawienie domyślne w ustawieniach.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$dkonta z walutą %2$s zostały zaktualizowane. </string>
     <string name="learn_more">Dowiedz się więcej</string>
     <string name="import_source_file">Plik</string>

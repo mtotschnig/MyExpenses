@@ -320,7 +320,6 @@
     <string name="pref_shortcut_added">Shortcut-ul a fost adăugată la Ecranul Home </string>
     <string name="pref_shortcut_not_added">Niciun Ecran Home disponibil care acceptă shortcut-uri.</string>
     <string name="pref_shortcut_summary">Adăugă shortcut la Ecranul Home .</string>
-    <string name="pref_template_click_default_summary">La click scurt pe intrarea din lista şabloanelor</string>
     <string name="pref_ui_fontsize_title">Măriți dimensiunea fontului</string>
     <string name="pref_ui_home_screen_shortcuts">Shortcut-uri ecran Home</string>
     <string name="pref_ui_language_default">Sistem implicit</string>
@@ -453,7 +452,6 @@
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Cumpărare eşuată sau anulată.</string>
     <string name="yes">Da</string>
     <string name="no">Nu</string>
-    <string name="hint_template_click">Un click scurt pe o intrare în această listă va instanţia şablonul şi  fie salvaţi-l imediat sau introduceţi-l  în forma de editare unde se poate modifica înainte de salvare. Întotdeauna puteţi accesa ambele acţiuni printr-un click lung, şi schimba setările implicite.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d  conturi cu moneda %2$s au fost actualizate.</string>
     <string name="learn_more">Învaţă mai mult</string>
     <string name="import_source_file">Fişier</string>

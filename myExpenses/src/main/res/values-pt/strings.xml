@@ -344,7 +344,6 @@
     <string name="pref_shortcut_added">O atalho foi adicionado à tela inicial</string>
     <string name="pref_shortcut_not_added">Não existe nenhuma tela disponível que aceite atalhos.</string>
     <string name="pref_shortcut_summary">Adicionar o atalho à tela inicial.</string>
-    <string name="pref_template_click_default_summary">Toque breve em uma entrada na lista de modelos</string>
     <string name="pref_ui_fontsize_title">Tamanho da fonte</string>
     <string name="pref_ui_home_screen_shortcuts">Atalhos da tela inicial</string>
     <string name="pref_ui_language_default">Padrão do sistema</string>
@@ -491,7 +490,6 @@
     <string name="hint_auto_fill">Os dados devem ser automaticamente preenchidos baseados na última transação para o mesmo beneficiário/pagador? Esse comportamento pode ser alterado nas configurações.</string>
     <string name="yes">Sim</string>
     <string name="no">Não</string>
-    <string name="hint_template_click">Um toque curto em uma entrada nesta lista instanciará o modelo e irá salvá-lo imediatamente ou então abrir a opção de edição antes de salvá-lo. Você pode acessar ambas as opções dando um toque longo e alterando o padrão nas configurações.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d contas com a moeda %2$s foram atualizadas.</string>
     <string name="learn_more">Saiba Mais</string>
     <string name="import_source_file">Arquivo</string>

@@ -324,7 +324,6 @@
     <string name="pref_shortcut_added">Έχει προστεθεί συντόμευση στην αρχική οθόνη</string>
     <string name="pref_shortcut_not_added">Δεν υπάρχει διαθέσιμη αρχική οθόνη που να δέχεται συντομεύσεις.</string>
     <string name="pref_shortcut_summary">Προσθήκη της συντόμευσης στην αρχική οθόνη.</string>
-    <string name="pref_template_click_default_summary">Μετά από σύντομο πάτημα σε εγγραφή στην λίστα προτύπων</string>
     <string name="pref_ui_fontsize_title">Αύξηση μεγέθους γραμματοσειράς</string>
     <string name="pref_ui_home_screen_shortcuts">Συντομεύσεις αρχικής οθόνης</string>
     <string name="pref_ui_language_default">Προεπιλογή συστήματος</string>
@@ -467,7 +466,6 @@
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Η αγορά απέτυχε ή ακυρώθηκε.</string>
     <string name="yes">Ναι</string>
     <string name="no">Όχι</string>
-    <string name="hint_template_click">Ένα σύντομο πάτημα σε μια καταχώρηση στον κατάλογο αυτό θα επισημάνει το πρότυπο και είτε αποθηκεύστε το αμέσως ή εισέλθετε στην φόρμα επεξεργασίας, όπου μπορείτε να το τροποποιήσετε πριν από την αποθήκευση. Μπορείτε πάντα να έχετε πρόσβαση και τις δύο δράσεις με ένα παρατεταμένο πάτημα, και να αλλάξετε το προεπιλεγμένο στις ρυθμίσεις.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d λογαριασμοί με νόμισμα %2$s έχουν ενημερωθεί.</string>
     <string name="learn_more">Μάθετε περισσότερα</string>
     <string name="import_source_file">Αρχείο</string>

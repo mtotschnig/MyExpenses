@@ -344,7 +344,6 @@
     <string name="pref_shortcut_added">ಶಾರ್ಟ್ಕಟ್ ಅನ್ನು ಹೋಮ್ ಸ್ಕ್ರೀನ್ಗೆ ಸೇರಿಸಲಾಗಿದೆ</string>
     <string name="pref_shortcut_not_added">ಶಾರ್ಟ್‌ಕಟ್‌ಗಳನ್ನು ಸ್ವೀಕರಿಸುವ ಯಾವುದೇ ಹೋಮ್ ಸ್ಕ್ರೀನ್ ಲಭ್ಯವಿಲ್ಲ.</string>
     <string name="pref_shortcut_summary">ಮುಖಪುಟಕ್ಕೆ ಶಾರ್ಟ್‌ಕಟ್ ಸೇರಿಸಿ.</string>
-    <string name="pref_template_click_default_summary">ಟೆಂಪ್ಲೇಟ್ ಪಟ್ಟಿಯಲ್ಲಿ ಪ್ರವೇಶದ ಮೇಲೆ ಸಣ್ಣ ಟ್ಯಾಪ್ ಮಾಡಿದ ನಂತರ</string>
     <string name="pref_ui_fontsize_title">ಅಕ್ಷರ ಗಾತ್ರ</string>
     <string name="pref_ui_home_screen_shortcuts">ಮುಖಪುಟ ಪರದೆಯ ಶಾರ್ಟ್‌ಕಟ್‌ಗಳು</string>
     <string name="pref_ui_language_default">ಸಿಸ್ಟಮ್ ಡೀಫಾಲ್ಟ್</string>
@@ -492,7 +491,6 @@
     <string name="hint_auto_fill">ಅದೇ ಪಾವತಿದಾರ / ಪಾವತಿಸುವವರಿಗೆ ಕೊನೆಯ ವಹಿವಾಟಿನಿಂದ ಡೇಟಾವನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಭರ್ತಿ ಮಾಡಬೇಕೇ? ನೀವು ಯಾವಾಗಲೂ ಈ ನಡವಳಿಕೆಯನ್ನು ಸೆಟ್ಟಿಂಗ್‌ಗಳಿಂದ ಬದಲಾಯಿಸಬಹುದು.</string>
     <string name="yes">ಹೌದು</string>
     <string name="no">ಇಲ್ಲ</string>
-    <string name="hint_template_click">ಈ ಪಟ್ಟಿಯಲ್ಲಿನ ನಮೂದನ್ನು ಸಣ್ಣ ಟ್ಯಾಪ್ ಮಾಡುವುದರಿಂದ ಟೆಂಪ್ಲೇಟ್ ಅನ್ನು ತ್ವರಿತಗೊಳಿಸುತ್ತದೆ ಮತ್ತು ಅದನ್ನು ತಕ್ಷಣವೇ ಉಳಿಸಿ ಅಥವಾ ಅದರ ಸಂಪಾದನೆ ಫಾರ್ಮ್ ಅನ್ನು ನಮೂದಿಸಿ ಅಲ್ಲಿ ಉಳಿಸುವ ಮೊದಲು ನೀವು ಅದನ್ನು ಮಾರ್ಪಡಿಸಬಹುದು. ಸುದೀರ್ಘ ಟ್ಯಾಪ್ ಮೂಲಕ ನೀವು ಯಾವಾಗಲೂ ಎರಡೂ ಕ್ರಿಯೆಗಳನ್ನು ಪ್ರವೇಶಿಸಬಹುದು ಮತ್ತು ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ಡೀಫಾಲ್ಟ್ ಅನ್ನು ಬದಲಾಯಿಸಬಹುದು.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d ಕರೆನ್ಸಿ %2$s ಹೊಂದಿರುವ ಖಾತೆಗಳನ್ನು ನವೀಕರಿಸಲಾಗಿದೆ.</string>
     <string name="learn_more">ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ</string>
     <string name="import_source_file">ಫೈಲ್</string>

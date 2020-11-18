@@ -107,6 +107,7 @@
   <string name="menu_invert_transfer_help_text">הפוך את כיוון ההעברה על ידי החלפת \'מ\' ו \'אל\' חשבון.</string>
   <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">אם המטבעות של \'מאת\' ו \'אל\' החשבון שונים, אתה מציין את הסכום עבור אחד מהם בלבד. השני יחושב בעת יצירת מופעים מהתבנית.</string>
   <string name="form_goal_or_limit_help_text">שדה זה מאפשר לציין יעד חיסכון חיובי או מסגרת אשראי שלילית. בכל מקרה, ברשימת החשבונות, מחוון התקדמות מדמה את המרחק בין היתרה הנוכחית לבין היעד או הגבול.</string>
+  <string name="menu_templates_help_text">פתח תפריט המפרט את כל התבניות המאפשרות לטעון אותן במהירות לטופס.</string>
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">טופס לחשבונות</string>
   <string name="form_AccountEdit_label_help_text">התווית מזהה את החשבון ברשימת החשבונות.</string>

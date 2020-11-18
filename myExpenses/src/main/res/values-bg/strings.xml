@@ -344,7 +344,6 @@
     <string name="pref_shortcut_added">Добавен е шорткът на начален екран</string>
     <string name="pref_shortcut_not_added">Няма свободно място на начален екран, където да поставя шорткът.</string>
     <string name="pref_shortcut_summary">Добавяне шорткът на начален екран.</string>
-    <string name="pref_template_click_default_summary">При кратко докосване на запис в списък на шаблони</string>
     <string name="pref_ui_fontsize_title">Размер на шрифта</string>
     <string name="pref_ui_home_screen_shortcuts">Шорткъти на начален екран</string>
     <string name="pref_ui_language_default">От системата</string>
@@ -492,7 +491,6 @@
     <string name="hint_auto_fill">Да се попълват ли автоматично данните от последната транзакция за същия получател / платец? Винаги можете да промените това поведение от настройките.</string>
     <string name="yes">Да</string>
     <string name="no">Не</string>
-    <string name="hint_template_click">Кратко натискане на запис в този списък ще активира шаблона и ще го запамети веднага или ще изведе страница за редактиране, където може да направите промени преди запаметяване. Имате достъп до алтернативното действие чрез продължително натискане, а може да смените по подразбиране в Настройки.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">Актуализирани са %1$d сметки с валута %2$s .</string>
     <string name="learn_more">Научете повече</string>
     <string name="import_source_file">Файл</string>
@@ -952,5 +950,5 @@
     <string name="warning_balance_account_delete">Ако продължите, всички съгласувани транзакции от тази сметка ще бъдат изтрити от базата данни и няма да можете да ги възстановите.</string>
     <!-- When user opens a template from the transaction form, existing data is discarded. This message appears in a dialgoue to confirm the action -->
     <string name="confirmation_load_template_discard_data">Сегашните данни на страницата ще бъдат премахнати.</string>
-
-</resources>
+    <string name="pref_clone_with_current_date_title">Дата на клонирани транзакции</string>
+    </resources>

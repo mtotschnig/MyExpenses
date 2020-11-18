@@ -350,7 +350,6 @@
     <string name="pref_shortcut_added">קיצור דרך נוסף למסך הבית</string>
     <string name="pref_shortcut_not_added">אין במסך הבית מקום זמין לקבלת קיצורי דרך.</string>
     <string name="pref_shortcut_summary">הוסף את קיצור הדרך למסך הבית.</string>
-    <string name="pref_template_click_default_summary">בלחיצה קצרה על הרשומה ברשימת התבניות</string>
     <string name="pref_ui_fontsize_title">גוגל גופן</string>
     <string name="pref_ui_home_screen_shortcuts">קיצורי דרך מסך הבית</string>
     <string name="pref_ui_language_default">ברירת מחדל של המערכת</string>
@@ -510,7 +509,6 @@
     <string name="hint_auto_fill">האם הנתונים צריכים להיות מלאים באופן אוטומטי מהעסקה האחרונה עבור אותו מקבל / המשלם? תוכל תמיד לשנות התנהגות זו מההגדרות.</string>
     <string name="yes">כן</string>
     <string name="no">לא</string>
-    <string name="hint_template_click">הקשה קצרה על רשומה ברשימה זו תייצר את התבנית וגם תשמור אותה מיידית או תזין את טופס העריכה שלה, שבו תוכל לשנות אותה לפני השמירה. אתה תמיד יכול לגשת לשתי הפעולות באמצעות הקשה ארוכה, ולשנות את ברירת המחדל בהגדרות.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d חשבון עם מטבע %2$sעודכן.</string>
     <string name="learn_more">למד עוד</string>
     <string name="import_source_file">קובץ</string>
@@ -978,5 +976,5 @@
     <string name="warning_balance_account_delete">אם תמשיך, כל העסקאות המתואמות של חשבון זה יימחקו ממסד הנתונים ולא תוכל לשחזר אותן.</string>
     <!-- When user opens a template from the transaction form, existing data is discarded. This message appears in a dialgoue to confirm the action -->
     <string name="confirmation_load_template_discard_data">נתוני הטופס הקיימים יימחקו.</string>
-
-</resources>
+    <string name="pref_clone_with_current_date_title">תאריך העסקאות המשובטות</string>
+    </resources>
