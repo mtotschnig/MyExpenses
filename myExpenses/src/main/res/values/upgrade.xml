@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_318">
+        <item>Default click action can be defined per template.</item>
+    </string-array>
     <string-array name="whats_new_317">
         <item>Templates can be loaded from transaction form.</item>
     </string-array>
