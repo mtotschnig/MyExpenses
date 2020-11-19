@@ -57,6 +57,7 @@
         android:fullBackupContent="@xml/mybackupscheme"
         android:icon="@mipmap/ic_myexpenses"
         android:label="${appName}"
+        android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/MyTheme"
         tools:replace="android:label">
@@ -78,14 +79,13 @@
 
         <activity
             android:name=".activity.OnboardingActivity"
-            android:theme="@style/Onboarding">
-        </activity>
+            android:theme="@style/Onboarding"></activity>
 
         <activity
-            android:theme="@style/MyTheme.Main"
-            android:launchMode="singleTop"
             android:name=".activity.MyExpenses"
-            android:label="${appName}" />
+            android:label="${appName}"
+            android:launchMode="singleTop"
+            android:theme="@style/MyTheme.Main" />
 
         <activity
             android:name=".activity.DeepLinkActivity"
@@ -173,8 +173,7 @@
             android:exported="false"
             android:theme="@style/Translucent" />
 
-        <activity
-            android:name=".activity.CsvImportActivity" />
+        <activity android:name=".activity.CsvImportActivity" />
 
         <activity
             android:name=".activity.MyPreferenceActivity"
@@ -328,8 +327,7 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".activity.SimpleImageActivity" />
+        <activity android:name=".activity.SimpleImageActivity" />
 
         <activity android:name=".activity.BudgetActivity" />
 

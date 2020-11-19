@@ -500,7 +500,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             it.amount?.let { amountInput.setRaw(it) }
             it.date?.let { pair ->
                 dateEditBinding.DateButton.setDate(pair.first)
-                pair.second?.let { dateEditBinding.TimeButton.time = it }
+                pair.second?.let { dateEditBinding.TimeButton.setTime(it) }
             }
             it.payee?.let {
                 rootBinding.Payee.setText(it.name)

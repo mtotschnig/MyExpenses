@@ -22,15 +22,24 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import timber.log.Timber
 import java.text.NumberFormat
+import java.util.Locale
 import kotlin.math.absoluteValue
 
-abstract class AbstractOcrFeatureImpl(prefHandler: PrefHandler, userLocaleProvider: UserLocaleProvider, val context: Context) : OcrFeature {
-    private val numberFormat = NumberFormat.getInstance()
-    val dateFormatterList: List<DateTimeFormatter>
-    val timeFormatterList: List<DateTimeFormatter>
+abstract class AbstractOcrFeatureImpl(prefHandler: PrefHandler, userLocaleProvider: UserLocaleProvider, private val context: Context) : OcrFeature {
+    private val numberFormatList: List<NumberFormat>
+    private val dateFormatterList: List<DateTimeFormatter>
+    private val timeFormatterList: List<DateTimeFormatter>
     private val totalIndicators: List<String>
 
     init {
+        numberFormatList = mutableListOf<NumberFormat>().apply {
+            val userFormat = NumberFormat.getInstance(userLocaleProvider.systemLocale)
+            add(userFormat)
+            val rootFormat = NumberFormat.getInstance(Locale.ROOT)
+            if (rootFormat != userFormat) {
+                add(rootFormat)
+            }
+        }
         val withSystemLocale: (DateTimeFormatter) -> DateTimeFormatter = { it.withLocale(userLocaleProvider.systemLocale) }
         dateFormatterList = prefHandler.getString(PrefKey.OCR_DATE_FORMATS, null)?.lines()?.mapNotNull {
             try {
@@ -183,12 +192,13 @@ abstract class AbstractOcrFeatureImpl(prefHandler: PrefHandler, userLocaleProvid
     }
 
     private fun extractAmount(line: Line): String? = line.elements.filter { element ->
-        try {
-            numberFormat.parse(element.text)
-            true
-        } catch (e: Exception) {
-            false
+        numberFormatList.forEach {
+            try {
+                it.parse(element.text)
+                return@filter true
+            } catch (e: Exception) {}
         }
+        return@filter false
     }.map { it.text }.takeIf { it.isNotEmpty() }?.joinToString(separator = "")
 
     private fun log(message: String, vararg args: Any?) {

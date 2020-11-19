@@ -3,5 +3,6 @@
     <string name="pref_ocr_total_indicators_default">"Total
 Summe
 Zu zahlen
-Zahlbetrag"</string>
+Zahlbetrag
+Endsumme"</string>
 </resources>
