@@ -244,6 +244,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
 
         if (savedInstanceState != null) {
             delegate = TransactionDelegate.create(operationType, isTemplate, rootBinding, dateEditBinding, methodRowBinding, prefHandler)
+            setupObservers(true)
             delegate.bind(null, isCalendarPermissionPermanentlyDeclined, mNewInstance, savedInstanceState, null, withAutoFill)
             setTitle()
             refreshPlanData()
@@ -360,33 +361,6 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                 delegate.setMethods(paymentMethods)
             }
         })
-        currencyViewModel.getCurrencies().observe(this, { currencies ->
-            if (::delegate.isInitialized) {
-                delegate.setCurrencies(currencies, currencyContext)
-            }
-        })
-        viewModel.getAccounts().observe(this, { accounts ->
-            if (accounts.isEmpty()) {
-                abortWithMessage(getString(R.string.warning_no_account))
-            } else if (accounts.size == 1 && operationType == TYPE_TRANSFER) {
-                abortWithMessage(getString(R.string.dialog_command_disabled_insert_transfer))
-            } else {
-                if (::delegate.isInitialized) {
-                    delegate.setAccounts(accounts, if (savedInstanceState != null) null else intent.getStringExtra(DatabaseConstants.KEY_CURRENCY))
-                    delegate.linkAccountLabels()
-                    accountsLoaded = true
-                    if (mIsResumed) setupListeners()
-                }
-            }
-        })
-        viewModel.getTemplates().observe(this, { templates ->
-            menuItem2TemplateMap.clear()
-            for (template in templates) {
-                val menuId = ViewCompat.generateViewId()
-                menuItem2TemplateMap.put(menuId, template)
-                invalidateOptionsMenu()
-            }
-        })
         if (!isSplitPart) {
             viewModel.getTags().observe(this, { tags ->
                 if (::delegate.isInitialized) {
@@ -433,18 +407,46 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         }
     }
 
-    private fun loadData() {
+    private fun setupObservers(fromSavedState: Boolean) {
         loadCurrencies()
-        loadAccounts()
-        viewModel.loadTemplates()
+        loadAccounts(fromSavedState)
+        loadTemplates()
     }
 
-    private fun loadAccounts() {
-        viewModel.loadAccounts(currencyContext)
+    private fun loadTemplates() {
+        viewModel.getTemplates().observe(this, { templates ->
+            menuItem2TemplateMap.clear()
+            for (template in templates) {
+                val menuId = ViewCompat.generateViewId()
+                menuItem2TemplateMap.put(menuId, template)
+                invalidateOptionsMenu()
+            }
+        })
+    }
+
+    private fun loadAccounts(fromSavedState: Boolean) {
+        viewModel.getAccounts().observe(this, { accounts ->
+            if (accounts.isEmpty()) {
+                abortWithMessage(getString(R.string.warning_no_account))
+            } else if (accounts.size == 1 && operationType == TYPE_TRANSFER) {
+                abortWithMessage(getString(R.string.dialog_command_disabled_insert_transfer))
+            } else {
+                if (::delegate.isInitialized) {
+                    delegate.setAccounts(accounts, if (fromSavedState) null else intent.getStringExtra(DatabaseConstants.KEY_CURRENCY))
+                    delegate.linkAccountLabels()
+                    accountsLoaded = true
+                    if (mIsResumed) setupListeners()
+                }
+            }
+        })
     }
 
     private fun loadCurrencies() {
-        currencyViewModel.loadCurrencies()
+        currencyViewModel.getCurrencies().observe(this, { currencies ->
+            if (::delegate.isInitialized) {
+                delegate.setCurrencies(currencies, currencyContext)
+            }
+        })
     }
 
     private fun abortWithMessage(message: String) {
@@ -552,7 +554,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             }
         }
         delegate = TransactionDelegate.create(transaction, rootBinding, dateEditBinding, methodRowBinding, prefHandler)
-        loadData()
+        setupObservers(false)
         delegate.bindUnsafe(transaction, isCalendarPermissionPermanentlyDeclined, mNewInstance, null, intent.getSerializableExtra(KEY_CACHED_RECURRENCE) as? Recurrence,
                 withAutoFill)
         setHelpVariant(delegate.helpVariant)

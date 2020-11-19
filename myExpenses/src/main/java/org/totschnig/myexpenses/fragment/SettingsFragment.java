@@ -411,7 +411,6 @@ public class SettingsFragment extends BaseSettingsFragment implements
         homeCurrencyPref.setSummary(homeCurrencyPref.getEntry());
 
       });
-      currencyViewModel.loadCurrencies();
 
       final int translatorsArrayResId = getTranslatorsArrayResId();
       if (translatorsArrayResId != 0) {

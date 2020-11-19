@@ -50,9 +50,30 @@ const val ERROR_WHILE_SAVING_TAGS = -5L
 class TransactionEditViewModel(application: Application) : TransactionViewModel(application) {
 
     val disposables = CompositeDisposable()
+    //TODO move to lazyMap
     private val methods = MutableLiveData<List<PaymentMethod>>()
-    private val accounts = MutableLiveData<List<Account>>()
-    private val templates = MutableLiveData<List<DataTemplate>>()
+
+    private val accounts by lazy {
+        val liveData = MutableLiveData<List<Account>>()
+        disposables.add(briteContentResolver.createQuery(TransactionProvider.ACCOUNTS_BASE_URI, null, DatabaseConstants.KEY_SEALED + " = 0", null, null, false)
+                .mapToList { buildAccount(it, currencyContext) }
+                .subscribe { liveData.postValue(it) })
+        return@lazy liveData
+    }
+
+    private val templates by lazy {
+        val liveData = MutableLiveData<List<DataTemplate>>()
+        disposables.add(briteContentResolver.createQuery(TransactionProvider.TEMPLATES_URI.buildUpon()
+                .build(), arrayOf(KEY_ROWID, KEY_TITLE),
+                "${KEY_PLANID} is null AND ${KEY_PARENTID} is null AND ${KEY_SEALED} = 0",
+                null,
+                Sort.preferredOrderByForTemplatesWithPlans(prefHandler, Sort.USAGES),
+                false)
+                .mapToList { DataTemplate.fromCursor(it) }
+                .subscribe { liveData.postValue(it) }
+        )
+        return@lazy liveData
+    }
 
     fun getMethods(): LiveData<List<PaymentMethod>> = methods
 
@@ -64,18 +85,6 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
         emit(Plan.getInstanceFromDb(planId))
     }
 
-    fun loadTemplates() {
-        disposables.add(briteContentResolver.createQuery(TransactionProvider.TEMPLATES_URI.buildUpon()
-                .build(), arrayOf(KEY_ROWID, KEY_TITLE),
-                "${KEY_PLANID} is null AND ${KEY_PARENTID} is null AND ${KEY_SEALED} = 0",
-                null,
-                Sort.preferredOrderByForTemplatesWithPlans(prefHandler, Sort.USAGES),
-                false)
-                .mapToList { DataTemplate.fromCursor(it) }
-                .subscribe { templates.postValue(it) }
-        )
-    }
-
     fun loadMethods(isIncome: Boolean, type: AccountType) {
         disposables.add(briteContentResolver.createQuery(TransactionProvider.METHODS_URI.buildUpon()
                 .appendPath(TransactionProvider.URI_SEGMENT_TYPE_FILTER)
@@ -85,12 +94,6 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
                 .mapToList { PaymentMethod.create(it) }
                 .subscribe { methods.postValue(it) }
         )
-    }
-
-    fun loadAccounts(currencyContext: CurrencyContext) {
-        disposables.add(briteContentResolver.createQuery(TransactionProvider.ACCOUNTS_BASE_URI, null, DatabaseConstants.KEY_SEALED + " = 0", null, null, false)
-                .mapToList { buildAccount(it, currencyContext) }
-                .subscribe { accounts.postValue(it) })
     }
 
     private fun buildAccount(cursor: Cursor, currencyContext: CurrencyContext): Account {

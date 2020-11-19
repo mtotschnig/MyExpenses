@@ -179,7 +179,6 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
       currencySpinner.setSelection(adapter.getPosition(currency));
       nextButton.setVisibility(View.VISIBLE);
     });
-    currencyViewModel.loadCurrencies();
 
     //type
     DialogUtils.configureTypeSpinner(accountTypeSpinner);

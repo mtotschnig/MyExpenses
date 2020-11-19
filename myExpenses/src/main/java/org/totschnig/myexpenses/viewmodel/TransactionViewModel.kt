@@ -9,6 +9,7 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineDispatcher
 import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -29,6 +30,9 @@ open class TransactionViewModel(application: Application) : ContentResolvingAndr
 
     @Inject
     lateinit var prefHandler: PrefHandler
+
+    @Inject
+    lateinit var currencyContext: CurrencyContext
 
     protected val tags = MutableLiveData<MutableList<Tag>>()
 

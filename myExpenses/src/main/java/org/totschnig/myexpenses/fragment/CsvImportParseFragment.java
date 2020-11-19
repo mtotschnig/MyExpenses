@@ -117,7 +117,6 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
       adapter.addAll(currencies);
       mCurrencySpinner.setSelection(adapter.getPosition(currencyViewModel.getDefault()));
     });
-    currencyViewModel.loadCurrencies();
     mTypeSpinner = DialogUtils.configureTypeSpinner(view);
     mTypeSpinner.setOnItemSelectedListener(this);
     getLoaderManager().initLoader(0, null, this);

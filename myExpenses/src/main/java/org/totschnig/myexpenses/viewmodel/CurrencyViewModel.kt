@@ -7,21 +7,15 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import java.text.Collator
 import java.util.*
 
 open class CurrencyViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
 
-    private val currencies = MutableLiveData<List<Currency>>()
-
-    val default: Currency
-        get() = Currency.create(Utils.getHomeCurrency().code())
-
-
-    fun getCurrencies(): LiveData<List<Currency>> = currencies
-
-    fun loadCurrencies() {
+    private val currencies by lazy {
+        val liveData = MutableLiveData<List<Currency>>()
         val collator: Collator? = try {
             Collator.getInstance()
         } catch (e: Exception) {
@@ -37,7 +31,14 @@ open class CurrencyViewModel(application: Application) : ContentResolvingAndroid
                             Utils.compare(lhs.sortClass(), rhs.sortClass()).takeIf { it != 0 } ?: collator.compare(lhs.toString(), rhs.toString())
                         })
                     }
-                    this.currencies.postValue(currencies)
+                    liveData.postValue(currencies)
                 }
+        return@lazy liveData
     }
+
+    val default: Currency
+        get() = Currency.create(Utils.getHomeCurrency().code())
+
+
+    fun getCurrencies(): LiveData<List<Currency>> = currencies
 }

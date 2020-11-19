@@ -179,7 +179,6 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
         mCurrencySpinner.setSelection(currencyAdapter.getPosition(Currency.create(mAccount.getCurrencyUnit().code())));
       }
     });
-    currencyViewModel.loadCurrencies();
   }
 
   @Override

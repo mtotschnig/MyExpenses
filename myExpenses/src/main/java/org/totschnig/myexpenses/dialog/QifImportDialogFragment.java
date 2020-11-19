@@ -184,7 +184,6 @@ public class QifImportDialogFragment extends TextSourceDialogFragment implements
       adapter.addAll(currencies);
       mCurrencySpinner.setSelection(adapter.getPosition(currencyViewModel.getDefault()));
     });
-    currencyViewModel.loadCurrencies();
     view.findViewById(R.id.AccountType).setVisibility(View.GONE);//QIF data should specify type
   }
 

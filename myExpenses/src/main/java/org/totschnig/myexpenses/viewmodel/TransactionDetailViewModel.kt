@@ -14,9 +14,6 @@ import javax.inject.Inject
 import org.totschnig.myexpenses.viewmodel.data.Transaction as TData
 
 class TransactionDetailViewModel(application: Application) : TransactionViewModel(application) {
-    @Inject
-    lateinit var currencyContext: CurrencyContext
-
     init {
         (application as MyApplication).appComponent.inject(this)
     }

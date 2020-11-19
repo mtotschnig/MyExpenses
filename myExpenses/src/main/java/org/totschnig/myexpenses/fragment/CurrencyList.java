@@ -57,7 +57,6 @@ public class CurrencyList extends ListFragment {
         ((ProtectedFragmentActivity) getActivity()).showSnackbar(R.string.currency_still_used);
       }
     });
-    currencyViewModel.loadCurrencies();
   }
 
   @Override
