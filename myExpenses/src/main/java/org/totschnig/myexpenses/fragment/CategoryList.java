@@ -92,7 +92,6 @@ import static org.totschnig.myexpenses.util.MenuUtilsKt.prepareSearch;
 
 public class CategoryList extends SortableListFragment {
 
-  public static final String KEY_FILTER = "filter";
   private Disposable categoryDisposable;
   public static final String CATTREE_WHERE_CLAUSE = KEY_CATID + " IN (SELECT " +
       TABLE_CATEGORIES + "." + KEY_ROWID +
@@ -558,7 +557,7 @@ public class CategoryList extends SortableListFragment {
     String action = getAction();
     final boolean isFilter = action.equals(ACTION_SELECT_FILTER);
     maybeHide(menu, R.id.CREATE_COMMAND, isFilter);
-    maybeHide(menu, R.id.MOVE_COMMAND, (isFilter || hasChildren));
+    menu.findItem(R.id.MOVE_COMMAND).setVisible(isFilter || hasChildren);
     maybeHide(menu, R.id.COLOR_COMMAND, !isWithMainColors());
     maybeHide(menu, R.id.SELECT_ALL_COMMAND, true);
   }
