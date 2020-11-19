@@ -557,7 +557,7 @@ public class CategoryList extends SortableListFragment {
     String action = getAction();
     final boolean isFilter = action.equals(ACTION_SELECT_FILTER);
     maybeHide(menu, R.id.CREATE_COMMAND, isFilter);
-    menu.findItem(R.id.MOVE_COMMAND).setVisible(isFilter || hasChildren);
+    menu.findItem(R.id.MOVE_COMMAND).setVisible(!(isFilter || hasChildren));
     maybeHide(menu, R.id.COLOR_COMMAND, !isWithMainColors());
     maybeHide(menu, R.id.SELECT_ALL_COMMAND, true);
   }

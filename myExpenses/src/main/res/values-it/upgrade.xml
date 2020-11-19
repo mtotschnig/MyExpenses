@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_318">
+        <item>L\'azione predefinita del tocco può essere definita in base al modello.</item>
+    </string-array>
     <string-array name="whats_new_317">
         <item>I modelli possono essere caricati dal modulo di transazione.</item>
     </string-array>

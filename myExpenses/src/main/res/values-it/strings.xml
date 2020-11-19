@@ -950,4 +950,8 @@
     <string name="warning_balance_account_delete">Se procedi, tutte le transazioni riconciliate di questo account verranno eliminate dal database e non potrai ripristinarle.</string>
     <!-- When user opens a template from the transaction form, existing data is discarded. This message appears in a dialgoue to confirm the action -->
     <string name="confirmation_load_template_discard_data">I dati del modulo esistente verranno eliminati.</string>
-    </resources>
+    <string name="pref_clone_with_current_date_title">Data delle transazioni ricopiate</string>
+    <string name="default_action">Azione predefinita</string>
+    <string name="template_default_action_without_amount_hint">Il modello senza importo deve essere salvato con l\'azione predefinita \'Modifica\'</string>
+
+</resources>
