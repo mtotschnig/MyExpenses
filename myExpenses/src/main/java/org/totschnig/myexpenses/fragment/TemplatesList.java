@@ -45,6 +45,7 @@ import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
@@ -67,6 +68,7 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.viewmodel.TemplatesListViewModel;
 
 import java.io.Serializable;
 import java.lang.ref.WeakReference;
@@ -77,6 +79,7 @@ import javax.inject.Inject;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
@@ -114,7 +117,6 @@ public class TemplatesList extends SortableListFragment
   protected static final int SORTABLE_CURSOR = -1;
   public static final String CALDROID_DIALOG_FRAGMENT_TAG = "CALDROID_DIALOG_FRAGMENT";
   public static final String PLANNER_FRAGMENT_TAG = "PLANNER_FRAGMENT";
-  public static final String KEY_IS_SPLIT = "isSplit";
   private ListView mListView;
 
   protected int getMenuResource() {
@@ -147,12 +149,15 @@ public class TemplatesList extends SortableListFragment
   @Inject
   PrefHandler prefHandler;
 
+  protected TemplatesListViewModel viewModel;
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setHasOptionsMenu(true);
     Icepick.restoreInstanceState(this, savedInstanceState);
     MyApplication.getInstance().getAppComponent().inject(this);
+    viewModel = new ViewModelProvider(this).get(TemplatesListViewModel.class);
   }
 
   @Override
@@ -238,10 +243,20 @@ public class TemplatesList extends SortableListFragment
     return CALENDAR.hasPermission(getContext());
   }
 
+  private void bulkUpdateDefaultAction(Long[] itemIds, Template.Action action, int resultFeedBack) {
+    viewModel.updateDefaultAction(ArrayUtils.toPrimitive(itemIds), action).observe(getViewLifecycleOwner(), result -> showSnackbar(result ? getString(resultFeedBack) : "Error while setting default action for template click"));
+  }
+
   @Override
   public boolean dispatchCommandMultiple(int command,
                                          SparseBooleanArray positions, Long[] itemIds) {
     switch (command) {
+      case R.id.DEFAULT_ACTION_EDIT_COMMAND:
+        bulkUpdateDefaultAction(itemIds, Template.Action.EDIT, R.string.menu_create_instance_edit);
+        return true;
+      case R.id.DEFAULT_ACTION_SAVE_COMMAND:
+        bulkUpdateDefaultAction(itemIds, Template.Action.SAVE, R.string.menu_create_instance_save);
+        return true;
       case R.id.DELETE_COMMAND:
         MessageDialogFragment.newInstance(
             getString(R.string.dialog_title_warning_delete_template),//TODO check if template
@@ -309,10 +324,8 @@ public class TemplatesList extends SortableListFragment
 
   private boolean isSplitAtPosition(int position) {
     if (mTemplatesCursor != null) {
-      if (mTemplatesCursor.moveToPosition(position) &&
-          SPLIT_CATID.equals(DbUtils.getLongOrNull(mTemplatesCursor, KEY_CATID))) {
-        return true;
-      }
+      return mTemplatesCursor.moveToPosition(position) &&
+          SPLIT_CATID.equals(DbUtils.getLongOrNull(mTemplatesCursor, KEY_CATID));
     }
     return false;
   }

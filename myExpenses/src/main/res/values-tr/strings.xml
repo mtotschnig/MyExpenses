@@ -950,4 +950,8 @@
     <string name="warning_balance_account_delete">Eğer devam ederseniz, bu hesabın tüm uzlaşmış muameleleri veritabanından silinecektir ve onlar geri getirmeniz mümkün olmayacaktır.</string>
     <!-- When user opens a template from the transaction form, existing data is discarded. This message appears in a dialgoue to confirm the action -->
     <string name="confirmation_load_template_discard_data">Mevcut form verileri silinecektir.</string>
-    </resources>
+    <string name="pref_clone_with_current_date_title">Klonlanmış muamelelerin tarihi</string>
+    <string name="default_action">Varsayılan eylem</string>
+    <string name="template_default_action_without_amount_hint">Meblağı olmayan şablon \'Düzenleme\' varsayılan eylemi ile kaydedilmelidir.</string>
+
+</resources>

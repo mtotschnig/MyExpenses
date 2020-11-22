@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -15,22 +14,32 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>
  -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:tools="http://schemas.android.com/tools"
-      tools:ignore="AppCompatResource,UnusedAttribute,AlwaysShowAction">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="AppCompatResource,UnusedAttribute,AlwaysShowAction">
     <item
         android:id="@id/CREATE_INSTANCE_SAVE_COMMAND"
         android:icon="@drawable/ic_action_apply_save"
         android:orderInCategory="0"
         android:showAsAction="always"
-        android:title="@string/menu_create_instance_save">
-    </item>
+        android:title="@string/menu_create_instance_save" />
     <group android:id="@id/MenuSingle">
         <item
             android:id="@id/CREATE_INSTANCE_EDIT_COMMAND"
             android:icon="@drawable/ic_action_apply_edit"
             android:orderInCategory="1"
             android:showAsAction="always"
-            android:title="@string/menu_create_instance_edit">
-        </item>
+            android:title="@string/menu_create_instance_edit" />
     </group>
+    <item
+        android:showAsAction="never"
+        android:title="@string/default_action">
+        <menu>
+            <item
+                android:id="@id/DEFAULT_ACTION_SAVE_COMMAND"
+                android:title="@string/menu_create_instance_save" />
+            <item
+                android:id="@id/DEFAULT_ACTION_EDIT_COMMAND"
+                android:title="@string/menu_create_instance_edit" />
+        </menu>
+    </item>
 </menu>

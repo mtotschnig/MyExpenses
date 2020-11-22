@@ -2213,7 +2213,11 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         repairSplitPartDates(db);
       }
       if (oldVersion < 112) {
-        db.execSQL("ALTER TABLE templates add column default_action text not null check (default_action in ('SAVE', 'EDIT')) default 'SAVE'");
+        String templateDefaultAction = PrefKey.TEMPLATE_CLICK_DEFAULT.getString("SAVE");
+        if (!(templateDefaultAction.equals("SAVE") || templateDefaultAction.equals("EDIT"))) {
+          templateDefaultAction = "SAVE";
+        }
+        db.execSQL(String.format(Locale.ROOT,"ALTER TABLE templates add column default_action text not null check (default_action in ('SAVE', 'EDIT')) default '%s'", templateDefaultAction));
       }
       TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {

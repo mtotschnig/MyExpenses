@@ -91,6 +91,7 @@
   <string name="form_comment_help_text">Unsurla ilgili herhangi bir not girin.</string>
   <string name="form_method_help_text">Bu alan sadece güncel hesap herhangi bir ödeme metoduna bağlı ise mevcuttur. Varsayılan değer olarak sadece banka hesapları ödeme metotlarına bağlıdır (çek, kredi kartı, mevduat, doğrudan ödeme). Hesap türleri ve ödeme metotları arasındaki bağlantıyı yapılandırmak için Ayarlar -&gt; Yönet -&gt; Ödeme Metotları\'na gidin. Sayılı olarak tanımlanmış bir metot seçtiğinizde referans numarasını girebileceğiniz ek bir alan belirir.</string>
   <string name="form_attach_image_help_text"><![CDATA[ <img src=\"android:ic_menu_camera\"> düğmesi, unsura bir resim eklemenize (mesela galeriden ya da fotoğraf makinesinden) imkân verir.]]></string>
+  <string name="form_default_action_help_text">Her şablon için ona şablonar listesinde kısa bir dokunmanın örneklemeyi derhal kaydedeceğini mi veya onu düzenleyebileceğiniz düzenleme formuna mı gireceğini yapılandırabilirsiniz. Her iki eyleme daima uzun bir dokunuş ile erişebilirsiniz.</string>
   <string name="form_category_help_text">Bu düğme kategorilerin listesini açar ve burada muameleyi ilişkilendireceğiniz kategoriyi seçebilirsiniz.</string>
   <string name="form_split_parts_heading_help_text">Kayan eylem düğmesini ne kadar gerekiyorsa o kadar bölünmüş parça girmek için kullanın. Muamele ile parçaların toplamı arasındaki fark ekranın altında gösterilir. Bölünmüş muameleyi sadece muamele miktarı tam olarak atanmışsa kaydedebilirsiniz.</string>
   <string name="form_ExpenseEdit_splitPartCategory_category_help_text">Bu bölünmüş kısım için bir kategori seç.</string>
@@ -107,6 +108,7 @@
   <string name="menu_invert_transfer_help_text">Transfer yönünü \'Kimden\' ve \'Kime\' hesaplarını takas ederek ters çevirin.</string>
   <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">Eğer \'Kaynak\' ve \'Hedef\' hesaplarının para birimleri değişik ise, bunlardan sadece biri için meblağı belirtmeniz gerekir. Diğeri şablondan örnekleme oluşturduğunuzda hesaplanacaktır.</string>
   <string name="form_goal_or_limit_help_text">Bu alan ya bir pozitif tasarruf hedefi ya da bir negatif kredi limiti belirtmenize izin verir. Her iki durumda da hesap listesinde, bir ilerleme göstergesi mevcut bakiye ile hedef veya limit arasındaki mesafeyi görselleştirir.</string>
+  <string name="menu_templates_help_text">Forma hızlı bir şekilde yükleme yapılmasına imkân veren tüm şablonları listeleyen bir menü açar.</string>
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">Hesaplar için form</string>
   <string name="form_AccountEdit_label_help_text">Etiket hesabı hesap listesinde tanımlar.</string>

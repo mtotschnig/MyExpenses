@@ -11,12 +11,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
-import com.google.android.material.snackbar.Snackbar
 import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener.BUTTON_POSITIVE
@@ -62,16 +60,16 @@ class TagList : Fragment(), OnDialogResultListener {
         action = (context as? ManageTags)?.intent?.action ?: ACTION_SELECT_MAPPING
     }
 
-    val shouldManage: Boolean
+    private val shouldManage: Boolean
         get() = action == ACTION_MANAGE
 
-    val allowModifications: Boolean
+    private val allowModifications: Boolean
         get() = action != ACTION_SELECT_FILTER
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val selected = activity?.intent?.getParcelableArrayListExtra<Tag>(KEY_TAGLIST)
-        viewModel.loadTags(selected).observe(viewLifecycleOwner, Observer {
+        viewModel.loadTags(selected).observe(viewLifecycleOwner, {
             val closeFunction: (Tag) -> Unit = { tag ->
                 SimpleDialog.build()
                         .title(R.string.dialog_title_warning_delete_tag)
@@ -100,7 +98,7 @@ class TagList : Fragment(), OnDialogResultListener {
         })
         binding.tagEdit.apply {
             if (allowModifications) {
-                setOnEditorActionListener { v, actionId, event: KeyEvent? ->
+                setOnEditorActionListener { _, actionId, event: KeyEvent? ->
                     return@setOnEditorActionListener when (actionId) {
                         EditorInfo.IME_ACTION_DONE -> {
                             addTag()
@@ -123,7 +121,7 @@ class TagList : Fragment(), OnDialogResultListener {
 
     private fun removeTag(tag: Tag) {
         val position = adapter.getPosition(tag.label)
-        viewModel.removeTagAndPersist(tag).observe(viewLifecycleOwner, Observer {
+        viewModel.removeTagAndPersist(tag).observe(viewLifecycleOwner, {
             if (it) {
                 adapter.notifyItemRemoved(position)
             }
@@ -141,7 +139,7 @@ class TagList : Fragment(), OnDialogResultListener {
             if (position > -1) {
                 (activity as? ProtectedFragmentActivity)?.showSnackbar(getString(R.string.already_defined, label))
             } else {
-                viewModel.addTagAndPersist(label).observe(viewLifecycleOwner, Observer {
+                viewModel.addTagAndPersist(label).observe(viewLifecycleOwner, {
                     if (it) {
                         adapter.notifyItemInserted(0)
                         runnable?.run()
@@ -154,19 +152,21 @@ class TagList : Fragment(), OnDialogResultListener {
 
     fun confirm() {
         if (::adapter.isInitialized ) {
-            addTag(Runnable { activity?.run {
-                setResult(Activity.RESULT_OK, resultIntent())
-                finish()
-            } })
+            addTag {
+                activity?.run {
+                    setResult(Activity.RESULT_OK, resultIntent())
+                    finish()
+                }
+            }
         }
     }
 
-    fun resultIntent() = Intent().apply {
+    private fun resultIntent() = Intent().apply {
         putParcelableArrayListExtra(KEY_TAGLIST, ArrayList(adapter.tagList.filter { tag -> tag.selected }))
     }
 
     fun cancelIntent() = Intent().apply {
-        viewModel.getDeletedTagIds().takeIf { it.size > 0 }?.let {
+        viewModel.getDeletedTagIds().takeIf { it.isNotEmpty() }?.let {
             putExtra(KEY_DELETED_IDS, it)
         }
     }
@@ -180,7 +180,7 @@ class TagList : Fragment(), OnDialogResultListener {
 
         override fun getItemCount(): Int = tagList.size
 
-        fun getPosition(label: String) = tagList.indexOfFirst { it.label.equals(label) }
+        fun getPosition(label: String) = tagList.indexOfFirst { it.label == label }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             (holder.itemView as Chip).apply {
@@ -217,7 +217,7 @@ class TagList : Fragment(), OnDialogResultListener {
                     EDIT_TAG_DIALOG -> {
                         val activePosition = adapter.getPosition(tag.label)
                         val newLabel = extras.getString(SimpleInputDialog.TEXT)!!
-                        viewModel.updateTag(tag, newLabel).observe(viewLifecycleOwner, Observer {
+                        viewModel.updateTag(tag, newLabel).observe(viewLifecycleOwner, {
                             if (it) {
                                 adapter.notifyItemChanged(activePosition)
                             } else {

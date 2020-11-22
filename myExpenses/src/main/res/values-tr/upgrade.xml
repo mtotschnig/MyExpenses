@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_318">
+        <item>Varsayılan tıklama eylemi şablon başına tanımlanabilir.</item>
+    </string-array>
     <string-array name="whats_new_317">
         <item>Şablonlar işlem formundan yüklenebilir.</item>
     </string-array>

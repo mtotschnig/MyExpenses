@@ -937,4 +937,15 @@
     <string name="scan_result_no_amount">தொகை எதுவும் கிடைக்கவில்லை</string>
     <string name="scan_result_no_date">தேதி எதுவும் கிடைக்கவில்லை</string>
     <string name="scan_result_no_payee">பணம் பெறுபவர் எவரும் கிடைக்கவில்லை</string>
+    <string name="button_download">பதிவிறக்கு</string>
+    <string name="pref_feature_uninstall_title">அம்சங்கள் மற்றும் மொழிகளை நீக்குவதற்கு கோரிக்கை</string>
+    <string name="pref_feature_uninstall_summary">பின்னணியில் அந்த நிரல்கூறுகளை அகற்ற Play ஸ்டோர் முயற்சிக்கிறது.</string>
+    <string name="pref_feature_uninstall_languages_title">மொழிகள்</string>
+    <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
+    <string name="select_package">உரிமத் தொகுப்பைத் தேர்ந்தெடுக்கவும்.</string>
+    <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
+    <string name="discover_feature_fab_long_press">மிதக்கும் செயல் பொத்தானைத் தட்டிப் பிடிப்பதன் நிமித்தமாக, இடமாற்றங்கள், பிரிவு பரிவர்த்தனைகள் அல்லது வருமானத்திற்கான படிவத்தை நேரடியாகத் திறக்கவும்</string>
+    <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
+    <string name="advance_exexcution_in_days">முன்னதாக செயல்படுத்து (நாட்களில்)</string>
+    <string name="warning_balance_account_delete">நீங்கள் தொடர்ந்தால், இந்த கணக்கின் அனைத்து நல்லிணக்கம் செய்யப்பட்ட பரிவர்த்தனைகளும் தரவுத்தளத்திலிருந்து நீக்கப்படும், மேலும் அவற்றை நீங்கள் மீட்டெடுக்க முடியாது.</string>
     </resources>
