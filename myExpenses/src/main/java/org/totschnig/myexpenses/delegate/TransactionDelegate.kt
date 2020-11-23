@@ -50,6 +50,7 @@ import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.addChipsBulk
+import org.totschnig.myexpenses.util.linkInputWithLabel
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
@@ -58,7 +59,7 @@ import java.math.BigDecimal
 import java.util.*
 
 abstract class TransactionDelegate<T : ITransaction>(
-        val viewBinding: OneExpenseBinding, val dateEditBinding: DateEditBinding, val methodRowBinding: MethodRowBinding,
+        val viewBinding: OneExpenseBinding, private val dateEditBinding: DateEditBinding, private val methodRowBinding: MethodRowBinding,
         val prefHandler: PrefHandler, val isTemplate: Boolean) : AdapterView.OnItemSelectedListener {
 
     private val methodSpinner = SpinnerHelper(methodRowBinding.Method.root)
@@ -76,7 +77,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         viewBinding.advanceExecutionSeek.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 seekBar.requestFocusFromTouch() //prevent jump to first EditText https://stackoverflow.com/a/6177270/1199911
-                viewBinding.advanceExecutionValue.setText(progress.toString())
+                viewBinding.advanceExecutionValue.text = progress.toString()
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -106,14 +107,14 @@ abstract class TransactionDelegate<T : ITransaction>(
     open val editResId = R.string.menu_edit_transaction
     open val editPartResId = R.string.menu_edit_split_part_category
 
-    val isMainTransaction: Boolean
+    private val isMainTransaction: Boolean
         get() = !isSplitPart && !isTemplate
     open val shouldAutoFill
         get() = !isTemplate
 
     val isSplitPart
         get() = parentId != null
-    val isMainTemplate
+    private val isMainTemplate
         get() = isTemplate && !isSplitPart
 
     var isProcessingLinkedAmountInputs = false
@@ -192,8 +193,8 @@ abstract class TransactionDelegate<T : ITransaction>(
             originTemplateId = transaction.originTemplateId
             uuid = transaction.uuid
             //Setting this early instead of waiting for call to setAccounts
-            //works around a bug in some legagy virtual keyboards where configuring the
-            //edittext too late corrupt inputType
+            //works around a bug in some legacy virtual keyboards where configuring the
+            //editText too late corrupt inputType
             viewBinding.Amount.setFractionDigits(transaction.amount.currencyUnit.fractionDigits())
         } else {
             Icepick.restoreInstanceState(this, savedInstanceState)
@@ -302,7 +303,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         }
     }
 
-    fun setPlannerRowVisibility(visibility: Int) {
+    private fun setPlannerRowVisibility(visibility: Int) {
         viewBinding.PlanRow.visibility = visibility
     }
 
@@ -366,7 +367,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         setVisibility(viewBinding.OriginalAmountRow, originalAmountVisible)
     }
 
-    fun populateOriginalCurrency() {
+    private fun populateOriginalCurrency() {
         if (originalCurrencyCode != null) {
             viewBinding.OriginalAmount.setSelectedCurrency(originalCurrencyCode)
         }
@@ -401,7 +402,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         equivalentAmountVisible = !equivalentAmountVisible
         showEquivalentAmount()
         if (equivalentAmountVisible) {
-            if (validateAmountInput(viewBinding.EquivalentAmount, false, true) == null && currentAccount != null) {
+            if (validateAmountInput(viewBinding.EquivalentAmount, showToUser = false, ifPresent = true) == null && currentAccount != null) {
                 val rate = BigDecimal(currentAccount.exchangeRate)
                 viewBinding.EquivalentAmount.setExchangeRate(rate)
             }
@@ -483,7 +484,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         statusSpinner.adapter = sAdapter
     }
 
-    protected fun createAccountAdapter() {
+    private fun createAccountAdapter() {
         accountsAdapter = AccountAdapter(context)
         accountsAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
         accountSpinner.adapter = accountsAdapter
@@ -528,14 +529,14 @@ abstract class TransactionDelegate<T : ITransaction>(
         }
         when (parent.id) {
             R.id.Recurrence -> {
-                var planVisibilty = View.GONE
+                var planVisibility = View.GONE
                 if (id > 0) {
                     if (PermissionHelper.PermissionGroup.CALENDAR.hasPermission(context)) {
                         missingRecurrenceFeature()?.let {
                             recurrenceSpinner.setSelection(0)
                             host.showContribDialog(it, null)
                         } ?: run {
-                            planVisibilty = View.VISIBLE
+                            planVisibility = View.VISIBLE
                             showCustomRecurrenceInfo()
                         }
                     } else {
@@ -543,7 +544,7 @@ abstract class TransactionDelegate<T : ITransaction>(
                     }
                 }
                 if (isTemplate) {
-                    configurePlanDependents(planVisibilty)
+                    configurePlanDependents(planVisibility)
                 }
             }
             R.id.Method -> {
@@ -564,7 +565,7 @@ abstract class TransactionDelegate<T : ITransaction>(
                     } else if (newType == TransactionsContract.Transactions.TYPE_SPLIT) {
                         resetOperationType()
                         if (isTemplate) {
-                            if (PrefKey.NEW_SPLIT_TEMPLATE_ENABLED.getBoolean(true)) {
+                            if (prefHandler.getBoolean(PrefKey.NEW_SPLIT_TEMPLATE_ENABLED, true)) {
                                 host.restartWithType(newType)
                             } else {
                                 host.contribFeatureRequested(ContribFeature.SPLIT_TEMPLATE, null)
@@ -617,9 +618,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         get() = viewBinding.Amount.type
 
     open fun linkAccountLabels() {
-        with(host) {
-            linkInputWithLabel(accountSpinner.spinner, viewBinding.AccountLabel)
-        }
+        linkInputWithLabel(accountSpinner.spinner, viewBinding.AccountLabel)
     }
 
     private fun readZonedDateTime(dateEdit: DateButton): ZonedDateTime {
@@ -824,7 +823,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         configurePicture()
     }
 
-    fun configurePicture() {
+    private fun configurePicture() {
         if (pictureUri != null) {
             viewBinding.PictureContainer.root.visibility = View.VISIBLE
             Picasso.get().load(pictureUri).fit().into(viewBinding.PictureContainer.picture)
@@ -841,7 +840,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         planButton.visibility = View.GONE
     }
 
-    fun resetAmounts() {
+    private fun resetAmounts() {
         isProcessingLinkedAmountInputs = true
         viewBinding.Amount.clear()
         viewBinding.TransferAmount.clear()

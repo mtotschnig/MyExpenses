@@ -12,7 +12,6 @@ import android.widget.DatePicker
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import icepick.State
 import kotlinx.android.synthetic.main.one_budget.*
@@ -139,16 +138,16 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         setContentView(R.layout.one_budget)
         setupToolbar()
         viewModel = ViewModelProvider(this).get(BudgetEditViewModel::class.java)
-        viewModel.accounts.observe(this, Observer { list ->
+        viewModel.accounts.observe(this, { list ->
             Accounts.adapter = AccountAdapter(this, list)
-            linkInputWithLabel(Accounts, AccountsLabel)
+            linkInputsWithLabels()
             accountId?.let { populateAccount(it) }
         })
-        viewModel.budget.observe(this, Observer { populateData(it) })
+        viewModel.budget.observe(this, { populateData(it) })
         mNewInstance = budgetId == 0L
         pendingBudgetLoad = if (savedInstanceState == null) budgetId else 0L
         viewModel.loadData(pendingBudgetLoad)
-        viewModel.databaseResult.observe(this, Observer {
+        viewModel.databaseResult.observe(this, {
             if (it > -1) {
                 finish()
             } else {
@@ -159,7 +158,6 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
             adapter = GroupingAdapter(this@BudgetEdit)
             setSelection(Grouping.MONTH.ordinal)
         }
-        linkInputWithLabels()
         filterPersistence = FilterPersistence(prefHandler, prefNameForCriteria(budgetId), savedInstanceState, false, !mNewInstance)
 
         filterPersistence.whereFilter.criteria.forEach(this::showFilterCriteria)
@@ -240,19 +238,6 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         findViewById<ScrollingChip>(c.id)?.apply {
             text = c.prettyPrint(this@BudgetEdit)
             isCloseIconVisible = true
-        }
-    }
-
-    private fun linkInputWithLabels() {
-        linkInputWithLabel(Title, TitleLabel)
-        linkInputWithLabel(Description, DescriptionLabel)
-        linkInputWithLabel(Amount, AmountLabel)
-        linkInputWithLabel(typeSpinnerHelper.spinner, TypeLabel)
-        linkInputWithLabel(DefaultBudget, TypeLabel)
-        linkInputWithLabel(DurationFrom, DurationFromLabel)
-        linkInputWithLabel(DurationTo, DurationToLabel)
-        allFilterChips.forEach {
-            linkInputWithLabel(it, FilterLabel)
         }
     }
 

@@ -170,7 +170,6 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
 
     mSyncSpinner = new SpinnerHelper(findViewById(R.id.Sync));
     configureSyncBackendAdapter();
-    linkInputsWithLabels();
     populateFields();
 
     currencyViewModel.getCurrencies().observe(this, currencies -> {
@@ -178,6 +177,7 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
       if (savedInstanceState == null) {
         mCurrencySpinner.setSelection(currencyAdapter.getPosition(Currency.create(mAccount.getCurrencyUnit().code())));
       }
+      linkInputsWithLabels();
     });
   }
 
@@ -453,18 +453,6 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
       updateCriterionLabel();
     });
     criterion.addTextChangedListener(this);
-  }
-
-  @Override
-  protected void linkInputsWithLabels() {
-    super.linkInputsWithLabels();
-    linkInputWithLabel(mLabelText, findViewById(R.id.LabelLabel));
-    linkInputWithLabel(mDescriptionText, findViewById(R.id.DescriptionLabel));
-    linkInputWithLabel(mColorIndicator, findViewById(R.id.ColorLabel));
-    linkInputWithLabel(mAccountTypeSpinner.getSpinner(), findViewById(R.id.AccountTypeLabel));
-    linkInputWithLabel(mCurrencySpinner.getSpinner(), findViewById(R.id.CurrencyLabel));
-    linkInputWithLabel(mSyncSpinner.getSpinner(), findViewById(R.id.SyncLabel));
-    linkInputWithLabel(criterion, criterionLabel);
   }
 
   public void syncUnlink(View view) {

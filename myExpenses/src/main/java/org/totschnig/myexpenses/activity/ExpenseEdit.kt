@@ -246,6 +246,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             delegate = TransactionDelegate.create(operationType, isTemplate, rootBinding, dateEditBinding, methodRowBinding, prefHandler)
             setupObservers(true)
             delegate.bind(null, isCalendarPermissionPermanentlyDeclined, mNewInstance, savedInstanceState, null, withAutoFill)
+            linkInputsWithLabels()
             setTitle()
             refreshPlanData()
             floatingActionButton.show()
@@ -371,39 +372,9 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                 }
             })
         }
-        linkInputsWithLabels()
         if (!isSplitPartOrTemplate) {
             createNew = prefHandler.getBoolean(PrefKey.EXPENSE_EDIT_SAVE_AND_NEW, false)
             updateFab()
-        }
-    }
-
-    override fun linkInputsWithLabels() {
-        super.linkInputsWithLabels()
-
-        with(rootBinding) {
-            linkInputWithLabel(Title, TitleLabel)
-            linkInputWithLabel(dateEditBinding.DateButton, DateTimeLabel)
-            linkInputWithLabel(Payee, PayeeLabel)
-            with(CommentLabel) {
-                linkInputWithLabel(Status, this)
-                linkInputWithLabel(AttachImage, this)
-                linkInputWithLabel(PictureContainer.root, this)
-                linkInputWithLabel(Comment, this)
-            }
-            linkInputWithLabel(Category, CategoryLabel)
-            with(methodRowBinding) {
-                linkInputWithLabel(Method.root, MethodLabel.root)
-                linkInputWithLabel(Number, ReferenceNumberLabel ?: MethodLabel.root)
-            }
-            linkInputWithLabel(PB, PlanLabel)
-            linkInputWithLabel(Recurrence, PlanLabel)
-            linkInputWithLabel(TB, PlanLabel)
-            linkInputWithLabel(TransferAmount, TransferAmountLabel)
-            linkInputWithLabel(OriginalAmount, OriginalAmountLabel)
-            linkInputWithLabel(EquivalentAmount, EquivalentAmountLabel)
-            linkInputWithLabel(DefaultAction, DefaultActionLabel)
-            linkInputWithLabel(SelectTag, TagLabel)
         }
     }
 
@@ -557,6 +528,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         setupObservers(false)
         delegate.bindUnsafe(transaction, isCalendarPermissionPermanentlyDeclined, mNewInstance, null, intent.getSerializableExtra(KEY_CACHED_RECURRENCE) as? Recurrence,
                 withAutoFill)
+        linkInputsWithLabels()
         setHelpVariant(delegate.helpVariant)
         setTitle()
         operationType = transaction.operationType()

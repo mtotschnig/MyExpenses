@@ -16,21 +16,18 @@
 package org.totschnig.myexpenses.activity;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.ui.AmountInput;
+import org.totschnig.myexpenses.util.MoreUiUtilsKt;
 
 import java.math.BigDecimal;
 
@@ -46,8 +43,6 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
   protected boolean mIsDirty = false;
   @State
   protected boolean mNewInstance = true;
-  private int primaryColor;
-  private int accentColor;
 
   abstract int getDiscardNewMessage();
 
@@ -75,14 +70,6 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    TypedValue typedValue = new TypedValue();
-    TypedArray a = obtainStyledAttributes(typedValue.data,
-        new int[]{android.R.attr.textColorSecondary});
-    primaryColor = a.getColor(0, 0);
-    a.recycle();
-    a = obtainStyledAttributes(typedValue.data, new int[]{R.attr.colorAccent});
-    accentColor = a.getColor(0, 0);
-    a.recycle();
     if (savedInstanceState != null && savedInstanceState.getBoolean(KEY_IS_DIRTY)) {
       setDirty();
     }
@@ -172,20 +159,8 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
     super.onBackPressed();
   }
 
-  public void linkInputWithLabel(final View input, final View label) {
-    setOnFocusChangeListenerRecursive(input, (v, hasFocus) ->
-        ((TextView) label).setTextColor(hasFocus ? accentColor : primaryColor));
-  }
-
-  private void setOnFocusChangeListenerRecursive(View view, View.OnFocusChangeListener listener) {
-    if (view instanceof ViewGroup && !view.isFocusable()) {
-      ViewGroup group = ((ViewGroup) view);
-      for (int i = 0; i < group.getChildCount(); i++) {
-        setOnFocusChangeListenerRecursive(group.getChildAt(i), listener);
-      }
-    } else {
-      view.setOnFocusChangeListener(listener);
-    }
+  protected void linkInputsWithLabels() {
+    MoreUiUtilsKt.linkInputsWithLabels(findViewById(R.id.Table));
   }
 
   public boolean isDirty() {

@@ -50,11 +50,4 @@ abstract class AmountActivity : EditActivity() {
         amountInput.addTextChangedListener(this)
         amountInput.setTypeChangedListener { isChecked: Boolean -> onTypeChanged(isChecked) }
     }
-
-    protected open fun linkInputsWithLabels() {
-        linkInputWithLabel(amountInput, amountLabel)
-        linkInputWithLabel(amountRow.findViewById(R.id.Calculator), amountLabel)
-        val exchangeRateLabel = findViewById<View>(R.id.ExchangeRateLabel)
-        linkInputWithLabel(exchangeRateEdit, exchangeRateLabel)
-    }
 }

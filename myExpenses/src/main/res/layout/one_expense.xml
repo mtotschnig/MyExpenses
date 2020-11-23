@@ -50,7 +50,8 @@
                     android:paddingLeft="@dimen/padding_form"
                     android:paddingRight="@dimen/padding_form"
                     android:shrinkColumns="1"
-                    android:stretchColumns="1">
+                    android:stretchColumns="1"
+                    tools:ignore="UselessParent">
 
                     <TableRow
                         android:id="@+id/TitleRow"
