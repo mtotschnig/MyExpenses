@@ -1,16 +1,11 @@
 package org.totschnig.myexpenses.model
 
-import android.content.ContentProviderOperation
 import android.content.ContentResolver
 import android.net.Uri
-import androidx.core.util.Pair
 import org.threeten.bp.LocalDate
 import org.threeten.bp.ZonedDateTime
 import org.totschnig.myexpenses.model.Plan.Recurrence
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.viewmodel.data.Tag
-import java.io.Serializable
 
 interface ITransaction: IModel {
     var status: Int
@@ -38,7 +33,7 @@ interface ITransaction: IModel {
 
     fun setDate(zonedDateTime: ZonedDateTime)
     fun setValueDate(zonedDateTime: ZonedDateTime)
-    fun setInitialPlan(initialPlan: Pair<Recurrence?, LocalDate?>)
+    fun setInitialPlan(initialPlan: Triple<String, Recurrence, LocalDate>)
     fun save(withCommit: Boolean): Uri?
 
     fun linkedTagsUri(): Uri

@@ -94,6 +94,7 @@ import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.checkMenuIcon
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.getEnumFromPreferencesWithDefault
 import org.totschnig.myexpenses.util.tracking.Tracker
@@ -163,6 +164,10 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
     @JvmField
     @State
     var createNew = false
+
+    @JvmField
+    @State
+    var createTemplate = false
 
     @JvmField
     @State
@@ -593,6 +598,11 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         if (::delegate.isInitialized) {
             menu.findItem(R.id.SAVE_AND_NEW_COMMAND)?.let {
                 it.isChecked = createNew
+                checkMenuIcon(it)
+            }
+            menu.findItem(R.id.CREATE_TEMPLATE_COMMAND)?.let {
+                it.isChecked = createTemplate
+                checkMenuIcon(it)
             }
             menu.findItem(R.id.ORIGINAL_AMOUNT_COMMAND)?.let {
                 it.isChecked = delegate.originalAmountVisible
@@ -627,7 +637,12 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             }
             menu.add(Menu.NONE, R.id.SAVE_AND_NEW_COMMAND, 0, R.string.menu_save_and_new)
                     .setCheckable(true)
-                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER)
+                    .setIcon(R.drawable.ic_action_save_new)
+                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+            menu.add(Menu.NONE, R.id.CREATE_TEMPLATE_COMMAND, 0, R.string.menu_create_template_from_transaction)
+                    .setCheckable(true)
+                    .setIcon(R.drawable.ic_action_template_add)
+                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
         }
         if (operationType == TYPE_TRANSFER) {
             menu.add(Menu.NONE, R.id.INVERT_TRANSFER_COMMAND, 0, R.string.menu_invert_transfer)
@@ -693,6 +708,11 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             R.id.CREATE_PART_COMMAND -> {
                 createRow()
                 return true
+            }
+            R.id.CREATE_TEMPLATE_COMMAND -> {
+                createTemplate = !createTemplate
+                delegate.setCreateTemplate(createTemplate)
+                invalidateOptionsMenu()
             }
             R.id.SAVE_AND_NEW_COMMAND -> {
                 createNew = !createNew

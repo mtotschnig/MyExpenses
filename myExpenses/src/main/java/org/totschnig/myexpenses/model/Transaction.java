@@ -52,7 +52,7 @@ import java.util.Locale;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
-import androidx.core.util.Pair;
+import kotlin.Triple;
 import timber.log.Timber;
 
 import static android.text.TextUtils.isEmpty;
@@ -165,9 +165,9 @@ public class Transaction extends AbstractTransaction {
   private String categoryIcon = null;
   private boolean isSealed = false;
 
-  transient private Pair<Plan.Recurrence, LocalDate> initialPlan;
+  transient private Triple<String, ? extends Plan.Recurrence, LocalDate> initialPlan;
 
-  public void setInitialPlan(Pair<Plan.Recurrence, LocalDate> initialPlan) {
+  public void setInitialPlan(@NonNull Triple<String, ? extends Plan.Recurrence, LocalDate> initialPlan) {
     this.initialPlan = initialPlan;
   }
 
@@ -768,17 +768,21 @@ public class Transaction extends AbstractTransaction {
     } catch (RemoteException | OperationApplicationException e) {
       return null;
     }
-    if (initialPlan != null && initialPlan.first != null && initialPlan.second != null) {
-      String title = isEmpty(getPayee()) ?
+    if (initialPlan != null) {
+      String title = initialPlan.getFirst() == null ? (isEmpty(getPayee()) ?
           (isSplit() || isEmpty(getLabel()) ?
               (isEmpty(getComment()) ?
                   MyApplication.getInstance().getString(R.string.menu_create_template) : //TODO proper context
-                  getComment()) : getLabel()) : getPayee();
+                  getComment()) : getLabel()) : getPayee()) : initialPlan.getFirst();
       Template originTemplate = new Template(this, title);
       String description = originTemplate.compileDescription(MyApplication.getInstance()); //TODO proper context
       originTemplate.setPlanExecutionAutomatic(true);
-      originTemplate.setPlan(new Plan(initialPlan.second, initialPlan.first, title, description));
-      originTemplate.save(getId());
+      Long withLinkedTransaction = null;
+      if (initialPlan.getSecond() != Plan.Recurrence.NONE) {
+        originTemplate.setPlan(new Plan(initialPlan.getThird(), initialPlan.getSecond(), title, description));
+        withLinkedTransaction = getId();
+      }
+      originTemplate.save(withLinkedTransaction);
       originTemplateId = originTemplate.getId();
     }
     return uri;

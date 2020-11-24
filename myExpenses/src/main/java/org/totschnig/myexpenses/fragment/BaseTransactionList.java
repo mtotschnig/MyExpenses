@@ -22,11 +22,8 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.database.ContentObserver;
 import android.database.Cursor;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.net.Uri.Builder;
 import android.os.Bundle;
@@ -107,6 +104,7 @@ import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
+import org.totschnig.myexpenses.util.MenuUtilsKt;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
@@ -129,7 +127,6 @@ import javax.inject.Inject;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.collection.LongSparseArray;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -1370,15 +1367,9 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     }
     MenuItem searchMenu = menu.findItem(R.id.SEARCH_COMMAND);
     if (searchMenu != null) {
-      Drawable searchMenuIcon = searchMenu.getIcon();
-      if (searchMenuIcon == null) {
-        CrashHandler.report("Search menu icon not found");
-      }
       filterCard.setVisibility(getFilter().isEmpty() ? View.GONE : View.VISIBLE);
       searchMenu.setChecked(!getFilter().isEmpty());
-      if (searchMenuIcon != null) {
-        DrawableCompat.setTintList(searchMenuIcon, getFilter().isEmpty() ? null : ColorStateList.valueOf(Color.GREEN));
-      }
+      MenuUtilsKt.checkMenuIcon(searchMenu);
       if (!getFilter().isEmpty()) {
         addChipsBulk(filterView, Stream.of(getFilter().getCriteria()).map(criterion -> criterion.prettyPrint(getContext())).collect(Collectors.toList()), null);
       }
