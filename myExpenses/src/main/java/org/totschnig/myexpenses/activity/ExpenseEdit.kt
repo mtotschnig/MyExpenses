@@ -246,7 +246,6 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             delegate = TransactionDelegate.create(operationType, isTemplate, rootBinding, dateEditBinding, methodRowBinding, prefHandler)
             setupObservers(true)
             delegate.bind(null, isCalendarPermissionPermanentlyDeclined, mNewInstance, savedInstanceState, null, withAutoFill)
-            linkInputsWithLabels()
             setTitle()
             refreshPlanData()
             floatingActionButton.show()
@@ -382,6 +381,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         loadCurrencies()
         loadAccounts(fromSavedState)
         loadTemplates()
+        linkInputsWithLabels()
     }
 
     private fun loadTemplates() {
@@ -404,7 +404,6 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             } else {
                 if (::delegate.isInitialized) {
                     delegate.setAccounts(accounts, if (fromSavedState) null else intent.getStringExtra(DatabaseConstants.KEY_CURRENCY))
-                    delegate.linkAccountLabels()
                     accountsLoaded = true
                     if (mIsResumed) setupListeners()
                 }
@@ -528,7 +527,6 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         setupObservers(false)
         delegate.bindUnsafe(transaction, isCalendarPermissionPermanentlyDeclined, mNewInstance, null, intent.getSerializableExtra(KEY_CACHED_RECURRENCE) as? Recurrence,
                 withAutoFill)
-        linkInputsWithLabels()
         setHelpVariant(delegate.helpVariant)
         setTitle()
         operationType = transaction.operationType()

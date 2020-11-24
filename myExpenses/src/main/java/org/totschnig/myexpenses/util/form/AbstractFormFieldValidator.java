@@ -17,11 +17,11 @@
 package org.totschnig.myexpenses.util.form;
 
 import android.content.Context;
-import android.view.View;
-import android.view.ViewParent;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputLayout;
+
+import static org.totschnig.myexpenses.util.MoreUiUtilsKt.findParentWithTypeRecursively;
 
 public abstract class AbstractFormFieldValidator {
   protected Context context;
@@ -71,22 +71,11 @@ public abstract class AbstractFormFieldValidator {
   protected abstract boolean isValid();
 
   private void setError(TextView field, String error) {
-    TextInputLayout container = findTextInputLayoutRecursively(field) ;
+    TextInputLayout container = findParentWithTypeRecursively(field, TextInputLayout.class) ;
     if (container != null) {
       container.setError(error);
     } else {
       field.setError(error);
     }
-  }
-
-  private static TextInputLayout findTextInputLayoutRecursively(View view) {
-    if (view instanceof TextInputLayout) {
-      return (TextInputLayout) view;
-    }
-    ViewParent parent = view.getParent();
-    if (!(parent instanceof View)) {
-      return null;
-    }
-    return findTextInputLayoutRecursively((View) parent);
   }
 }

@@ -140,7 +140,6 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         viewModel = ViewModelProvider(this).get(BudgetEditViewModel::class.java)
         viewModel.accounts.observe(this, { list ->
             Accounts.adapter = AccountAdapter(this, list)
-            linkInputsWithLabels()
             accountId?.let { populateAccount(it) }
         })
         viewModel.budget.observe(this, { populateData(it) })
@@ -163,6 +162,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         filterPersistence.whereFilter.criteria.forEach(this::showFilterCriteria)
         configureFilterDependents()
         setTitle(if (mNewInstance) R.string.menu_create_budget else R.string.menu_edit_budget)
+        linkInputsWithLabels()
     }
 
     public override fun onSaveInstanceState(outState: Bundle) {

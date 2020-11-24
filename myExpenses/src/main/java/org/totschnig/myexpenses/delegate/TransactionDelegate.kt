@@ -50,7 +50,6 @@ import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.addChipsBulk
-import org.totschnig.myexpenses.util.linkInputWithLabel
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
@@ -616,10 +615,6 @@ abstract class TransactionDelegate<T : ITransaction>(
      */
     protected val isIncome: Boolean
         get() = viewBinding.Amount.type
-
-    open fun linkAccountLabels() {
-        linkInputWithLabel(accountSpinner.spinner, viewBinding.AccountLabel)
-    }
 
     private fun readZonedDateTime(dateEdit: DateButton): ZonedDateTime {
         return ZonedDateTime.of(dateEdit.date,

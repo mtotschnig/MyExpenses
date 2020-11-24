@@ -27,7 +27,7 @@ import android.view.inputmethod.InputMethodManager;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.ui.AmountInput;
-import org.totschnig.myexpenses.util.MoreUiUtilsKt;
+import org.totschnig.myexpenses.util.FormAccentUtilKt;
 
 import java.math.BigDecimal;
 
@@ -160,7 +160,7 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
   }
 
   protected void linkInputsWithLabels() {
-    MoreUiUtilsKt.linkInputsWithLabels(findViewById(R.id.Table));
+    FormAccentUtilKt.linkInputsWithLabels(findViewById(R.id.Table));
   }
 
   public boolean isDirty() {

@@ -24,7 +24,6 @@ import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.ExchangeRateEdit
 import org.totschnig.myexpenses.ui.MyTextWatcher
 import org.totschnig.myexpenses.ui.SpinnerHelper
-import org.totschnig.myexpenses.util.linkInputWithLabel
 import org.totschnig.myexpenses.viewmodel.data.Account
 import java.math.BigDecimal
 
@@ -199,15 +198,6 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
                 addView(viewBinding.TransferAmountRow, 4)
             }
         }
-
-        linkAccountLabels()
-    }
-
-    override fun linkAccountLabels() {
-        linkInputWithLabel(accountSpinner.spinner,
-                if (isIncome) viewBinding.TransferAccountLabel else viewBinding.AccountLabel)
-        linkInputWithLabel(transferAccountSpinner.spinner,
-                if (isIncome) viewBinding.AccountLabel else viewBinding.TransferAccountLabel)
     }
 
     private inner class LinkedTransferAmountTextWatcher(
