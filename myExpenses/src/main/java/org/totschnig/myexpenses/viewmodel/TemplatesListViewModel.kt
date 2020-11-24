@@ -15,6 +15,6 @@ class TemplatesListViewModel(application: Application) : ContentResolvingAndroid
         emit(contentResolver.update(TransactionProvider.TEMPLATES_URI,
                 ContentValues().apply { put(DatabaseConstants.KEY_DEFAULT_ACTION, action.name) },
                 DatabaseConstants.KEY_ROWID + " " + WhereFilter.Operation.IN.getOp(itemIds.size),
-                itemIds.map(Long::toString).toTypedArray()) == 1)
+                itemIds.map(Long::toString).toTypedArray()) == itemIds.size)
     }
 }
