@@ -124,6 +124,7 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
     iconMap.put("close.reopen", R.drawable.ic_lock);
     iconMap.put("remap", null);
     iconMap.put("scan_mode", R.drawable.ic_scan);
+    iconMap.put("save_and_new", R.drawable.ic_action_save_new);
   }
 
   private String context;
