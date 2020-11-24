@@ -88,12 +88,6 @@ public class Plan extends Model implements Serializable {
       }
       return null;
     }
-
-    public static Plan.Recurrence[] valuesWithoutOneTime() {
-      return new Plan.Recurrence[]{
-          NONE, DAILY, WEEKLY, MONTHLY, YEARLY
-      };
-    }
   }
 
   private Plan(long id, long dtstart, String rrule, String title, String description) {

@@ -11,7 +11,6 @@ import android.widget.ArrayAdapter
 import android.widget.CompoundButton
 import android.widget.SeekBar
 import android.widget.TextView
-import androidx.core.util.Pair
 import com.squareup.picasso.Picasso
 import icepick.Icepick
 import icepick.State
@@ -210,7 +209,7 @@ abstract class TransactionDelegate<T : ITransaction>(
             viewBinding.DefaultActionRow.visibility  = View.VISIBLE
             if (!isCalendarPermissionPermanentlyDeclined) { //if user has denied access and checked that he does not want to be asked again, we do not
 //bother him with a button that is not working
-                setPlannerRowVisibility(View.VISIBLE)
+                setPlannerRowVisibility(true)
                 val recurrenceAdapter = RecurrenceAdapter(context,
                         if (DistributionHelper.shouldUseAndroidPlatformCalendar()) null else Plan.Recurrence.CUSTOM)
                 recurrenceSpinner.adapter = recurrenceAdapter
@@ -239,7 +238,6 @@ abstract class TransactionDelegate<T : ITransaction>(
                     }
                 }
                 recurrenceSpinner.setOnItemSelectedListener(this)
-                setPlannerRowVisibility(View.VISIBLE)
             }
         }
         if (isSplitPart || isTemplate) {
@@ -302,8 +300,8 @@ abstract class TransactionDelegate<T : ITransaction>(
         }
     }
 
-    private fun setPlannerRowVisibility(visibility: Int) {
-        viewBinding.PlanRow.visibility = visibility
+    private fun setPlannerRowVisibility(visibility: Boolean) {
+        setVisibility(viewBinding.PlanRow, visibility)
     }
 
     /**
@@ -528,14 +526,14 @@ abstract class TransactionDelegate<T : ITransaction>(
         }
         when (parent.id) {
             R.id.Recurrence -> {
-                var planVisibility = View.GONE
+                var planVisibility = false
                 if (id > 0) {
                     if (PermissionHelper.PermissionGroup.CALENDAR.hasPermission(context)) {
                         missingRecurrenceFeature()?.let {
                             recurrenceSpinner.setSelection(0)
                             host.showContribDialog(it, null)
                         } ?: run {
-                            planVisibility = View.VISIBLE
+                            planVisibility = true
                             showCustomRecurrenceInfo()
                         }
                     } else {
@@ -690,8 +688,8 @@ abstract class TransactionDelegate<T : ITransaction>(
             } else {
                 referenceNumber = methodRowBinding.Number.text.toString()
                 if (forSave && !isSplitPart) {
-                    if (recurrenceSpinner.selectedItemPosition > 0) {
-                        setInitialPlan(Pair.create(recurrenceSpinner.selectedItem as Plan.Recurrence, dateEditBinding.DateButton.date))
+                    if (host.createTemplate) {
+                        setInitialPlan(Triple(viewBinding.Title.text.toString(), recurrenceSpinner.selectedItem as Plan.Recurrence, dateEditBinding.DateButton.date))
                     }
                 }
             }
@@ -790,15 +788,16 @@ abstract class TransactionDelegate<T : ITransaction>(
             planButton.text = Plan.prettyTimeInfo(context, plan.rrule, plan.dtstart)
             if (viewBinding.Title.text.toString() == "") viewBinding.Title.setText(plan.title)
             recurrenceSpinner.spinner.visibility = View.GONE
-            configurePlanDependents(View.VISIBLE)
+            configurePlanDependents(true)
             host.observePlan(plan.id)
         }
     }
 
-    private fun configurePlanDependents(visibility: Int) {
-        planButton.visibility = visibility
-        planExecutionButton.visibility = visibility
-        viewBinding.advanceExecutionRow.visibility = visibility
+    private fun configurePlanDependents(visibility: Boolean) {
+        setVisibility(planButton, visibility)
+        setVisibility(planExecutionButton, visibility)
+        setVisibility(viewBinding.advanceExecutionRow, visibility)
+        setVisibility(viewBinding.DefaultActionRow, !visibility)
     }
 
     open fun onSaveInstanceState(outState: Bundle) {
@@ -855,13 +854,13 @@ abstract class TransactionDelegate<T : ITransaction>(
     fun onCalendarPermissionsResult(granted: Boolean) {
         if (granted) {
             if (isTemplate) {
-                configurePlanDependents(View.VISIBLE)
+                configurePlanDependents(true)
                 showCustomRecurrenceInfo()
             }
         } else {
             recurrenceSpinner.setSelection(0)
             if (!PermissionHelper.PermissionGroup.CALENDAR.shouldShowRequestPermissionRationale(host)) {
-                setPlannerRowVisibility(View.GONE)
+                setPlannerRowVisibility(false)
             }
         }
     }
@@ -885,6 +884,11 @@ abstract class TransactionDelegate<T : ITransaction>(
             removeAllViews()
             tags?.let { addChipsBulk(it, closeFunction) }
         }
+    }
+
+    fun setCreateTemplate(createTemplate: Boolean) {
+        setVisibility(viewBinding.TitleRow, createTemplate)
+        setPlannerRowVisibility(createTemplate)
     }
 
     companion object {
