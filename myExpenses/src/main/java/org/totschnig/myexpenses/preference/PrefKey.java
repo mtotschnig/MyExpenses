@@ -144,7 +144,8 @@ public enum PrefKey {
   FEATURE_UNINSTALL(R.string.pref_feature_uninstall_key),
   FEATURE_UNINSTALL_FEATURES(R.string.pref_feature_uninstall_features_key),
   FEATURE_UNINSTALL_LANGUAGES(R.string.pref_feature_uninstall_languages_key),
-  EXPENSE_EDIT_SAVE_AND_NEW("expense_edit_save_and_new");
+  EXPENSE_EDIT_SAVE_AND_NEW("expense_edit_save_and_new"),
+  ACRA_INFO(R.string.pre_acra_info_key);
 
   int resId = 0;
   String key = null;

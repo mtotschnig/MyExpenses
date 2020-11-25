@@ -38,6 +38,7 @@ import org.totschnig.myexpenses.util.Utils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import androidx.cursoradapter.widget.ResourceCursorAdapter;
 import butterknife.BindView;
@@ -121,6 +122,7 @@ public class TransactionAdapter extends ResourceCursorAdapter {
     localizedTimeFormat = android.text.format.DateFormat.getTimeFormat(context);
     this.currencyFormatter = currencyFormatter;
     this.prefHandler = prefHandler;
+    //noinspection ConstantConditions
     monthStart = Integer.parseInt(prefHandler.getString(GROUP_MONTH_STARTS, "1"));
     this.currencyContext = currencyContext;
   }
@@ -261,6 +263,10 @@ public class TransactionAdapter extends ResourceCursorAdapter {
     return catText;
   }
 
+  private Locale localeFromContext() {
+    return Utils.localeFromContext(context);
+  }
+
   public void refreshDateFormat() {
     dateEms = 3;
     switch (mGroupingOverride != null ? mGroupingOverride : mAccount.getGrouping()) {
@@ -276,7 +282,7 @@ public class TransactionAdapter extends ResourceCursorAdapter {
       case MONTH:
         //noinspection SimpleDateFormat
         if (monthStart == 1) {
-          itemDateFormat = new SimpleDateFormat("dd");
+          itemDateFormat = new SimpleDateFormat("dd", localeFromContext());
           dateEms = 2;
         } else {
           itemDateFormat = Utils.localizedYearlessDateFormat(context);
@@ -285,7 +291,7 @@ public class TransactionAdapter extends ResourceCursorAdapter {
       case WEEK:
         //noinspection SimpleDateFormat
         dateEms = 2;
-        itemDateFormat = new SimpleDateFormat("EEE");
+        itemDateFormat = new SimpleDateFormat("EEE", localeFromContext());
         break;
       case YEAR:
         itemDateFormat = Utils.localizedYearlessDateFormat(context);

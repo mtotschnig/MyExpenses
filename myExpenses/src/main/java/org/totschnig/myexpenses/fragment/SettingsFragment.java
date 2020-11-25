@@ -42,6 +42,7 @@ import org.totschnig.myexpenses.preference.CalendarListPreferenceDialogFragmentC
 import org.totschnig.myexpenses.preference.FontSizeDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogPreference;
 import org.totschnig.myexpenses.preference.LegacyPasswordPreferenceDialogFragmentCompat;
+import org.totschnig.myexpenses.preference.LocalizedFormatEditTextPreference;
 import org.totschnig.myexpenses.preference.PopupMenuPreference;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.preference.SecurityQuestionDialogFragmentCompat;
@@ -79,11 +80,7 @@ import org.totschnig.myexpenses.widget.AccountWidget;
 import org.totschnig.myexpenses.widget.TemplateWidget;
 
 import java.net.URI;
-import java.text.DateFormat;
 import java.text.DateFormatSymbols;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -92,6 +89,7 @@ import javax.inject.Inject;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.documentfile.provider.DocumentFile;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -115,6 +113,7 @@ import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.RESULT
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER;
+import static org.totschnig.myexpenses.preference.PrefKey.ACRA_INFO;
 import static org.totschnig.myexpenses.preference.PrefKey.APP_DIR;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP_CLOUD;
@@ -191,7 +190,6 @@ import static org.totschnig.myexpenses.util.TextUtils.concatResStrings;
 
 @SuppressWarnings("PackageVisibleField")
 public class SettingsFragment extends BaseSettingsFragment implements
-    Preference.OnPreferenceChangeListener,
     Preference.OnPreferenceClickListener,
     SharedPreferences.OnSharedPreferenceChangeListener,
     SimpleInputDialog.OnDialogResultListener {
@@ -220,7 +218,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    MyApplication.getInstance().getAppComponent().inject(this);
+    requireApplication().getAppComponent().inject(this);
     currencyViewModel = new ViewModelProvider(this).get(CurrencyViewModel.class);
     super.onCreate(savedInstanceState);
     if (MyApplication.isInstrumentationTest()) {
@@ -228,7 +226,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
     }
   }
 
-  private Preference.OnPreferenceClickListener homeScreenShortcutPrefClickHandler =
+  private final Preference.OnPreferenceClickListener homeScreenShortcutPrefClickHandler =
       preference -> {
         trackPreferenceClick(preference);
         Bundle extras = new Bundle();
@@ -261,7 +259,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
         return false;
       };
 
-  private Preference.OnPreferenceChangeListener storeInDatabaseChangeListener =
+  private final Preference.OnPreferenceChangeListener storeInDatabaseChangeListener =
       (preference, newValue) -> {
         activity().startTaskExecution(TaskExecutionFragment.TASK_STORE_SETTING,
             new String[]{preference.getKey()}, newValue.toString(), R.string.progress_dialog_saving);
@@ -307,7 +305,6 @@ public class SettingsFragment extends BaseSettingsFragment implements
   @Override
   public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
     setPreferencesFromResource(R.xml.preferences, rootKey);
-    Preference pref;
 
     final PreferenceScreen preferenceScreen = getPreferenceScreen();
     setListenerRecursive(preferenceScreen, getKey(UI_HOME_SCREEN_SHORTCUTS).equals(rootKey) ?
@@ -315,48 +312,33 @@ public class SettingsFragment extends BaseSettingsFragment implements
     unsetIconSpaceReservedRecursive(preferenceScreen);
 
     if (rootKey == null) { //ROOT screen
-      findPreference(HOME_CURRENCY).setOnPreferenceChangeListener(this);
+      requirePreference(HOME_CURRENCY).setOnPreferenceChangeListener(this);
 
-      pref = findPreference(RESTORE);
-      pref.setTitle(getString(R.string.pref_restore_title) + " (ZIP)");
+      requirePreference(RESTORE).setTitle(getString(R.string.pref_restore_title) + " (ZIP)");
 
-      pref = findPreference(RESTORE_LEGACY);
+      Preference restoreLegacyPref = requirePreference(RESTORE_LEGACY);
       if (Utils.hasApiLevel(Build.VERSION_CODES.KITKAT)) {
-        ((PreferenceCategory) findPreference(CATEGORY_BACKUP)).removePreference(pref);
+        ((PreferenceCategory) requirePreference(CATEGORY_BACKUP)).removePreference(restoreLegacyPref);
       } else {
-        pref.setTitle(getString(R.string.pref_restore_title) + " (" + getString(R.string.pref_restore_alternative) + ")");
+        restoreLegacyPref.setTitle(getString(R.string.pref_restore_title) + " (" + getString(R.string.pref_restore_alternative) + ")");
       }
 
-      pref = findPreference(CUSTOM_DECIMAL_FORMAT);
-      pref.setOnPreferenceChangeListener(this);
-      if (prefHandler.getString(CUSTOM_DECIMAL_FORMAT, "").equals("")) {
-        setDefaultNumberFormat(((EditTextPreference) pref));
-      }
+      ((LocalizedFormatEditTextPreference) requirePreference(CUSTOM_DECIMAL_FORMAT)).setOnValidationErrorListener(this);
 
-      pref = findPreference(CUSTOM_DATE_FORMAT);
-      pref.setOnPreferenceChangeListener(this);
-      if (prefHandler.getString(CUSTOM_DATE_FORMAT, "").equals("")) {
-        DateFormat dateFormat = Utils.getDateFormatSafe(requireContext());
-        if (dateFormat instanceof SimpleDateFormat) {
-          final SimpleDateFormat simpleDateFormat = (SimpleDateFormat) dateFormat;
-          final String localized = simpleDateFormat.toPattern();
-          ((EditTextPreference) pref).setText(localized);
-        }
-      }
+      ((LocalizedFormatEditTextPreference) requirePreference(CUSTOM_DATE_FORMAT)).setOnValidationErrorListener(this);
 
       setAppDirSummary();
 
-      final PreferenceCategory categoryManage =
-          ((PreferenceCategory) findPreference(CATEGORY_MANAGE));
-      final Preference prefStaleImages = findPreference(MANAGE_STALE_IMAGES);
+      final PreferenceCategory categoryManage = requirePreference(CATEGORY_MANAGE);
+      final Preference prefStaleImages = requirePreference(MANAGE_STALE_IMAGES);
       categoryManage.removePreference(prefStaleImages);
 
-      pref = findPreference(IMPORT_QIF);
-      pref.setSummary(getString(R.string.pref_import_summary, "QIF"));
-      pref.setTitle(getString(R.string.pref_import_title, "QIF"));
-      pref = findPreference(IMPORT_CSV);
-      pref.setSummary(getString(R.string.pref_import_summary, "CSV"));
-      pref.setTitle(getString(R.string.pref_import_title, "CSV"));
+      Preference qifPref = requirePreference(IMPORT_QIF);
+      qifPref.setSummary(getString(R.string.pref_import_summary, "QIF"));
+      qifPref.setTitle(getString(R.string.pref_import_title, "QIF"));
+      Preference csvPref = requirePreference(IMPORT_CSV);
+      csvPref.setSummary(getString(R.string.pref_import_summary, "CSV"));
+      csvPref.setTitle(getString(R.string.pref_import_title, "CSV"));
 
       new AsyncTask<Void, Void, Boolean>() {
         @Override
@@ -382,30 +364,27 @@ public class SettingsFragment extends BaseSettingsFragment implements
         }
       }.execute();
 
-      final PreferenceCategory privacyCategory = (PreferenceCategory) findPreference(CATEGORY_PRIVACY);
+      final PreferenceCategory privacyCategory = requirePreference(CATEGORY_PRIVACY);
       if (!DistributionHelper.getDistribution().getSupportsTrackingAndCrashReporting()) {
-        pref = findPreference(TRACKING);
-        privacyCategory.removePreference(pref);
-        pref = findPreference(CRASHREPORT_SCREEN);
-        privacyCategory.removePreference(pref);
+        privacyCategory.removePreference(requirePreference(TRACKING));
+        privacyCategory.removePreference(requirePreference(CRASHREPORT_SCREEN));
       }
-      pref = findPreference(PERSONALIZED_AD_CONSENT);
       if (adHandlerFactory.isAdDisabled() || !adHandlerFactory.isRequestLocationInEeaOrUnknown()) {
-        privacyCategory.removePreference(pref);
+        privacyCategory.removePreference(requirePreference(PERSONALIZED_AD_CONSENT));
       }
       if (privacyCategory.getPreferenceCount() == 0) {
         preferenceScreen.removePreference(privacyCategory);
       }
 
-      ListPreference languagePref = ((ListPreference) findPreference(UI_LANGUAGE));
+      ListPreference languagePref = requirePreference(UI_LANGUAGE);
       if (Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN_MR1)) {
-        languagePref.setEntries(getLocaleArray(getContext()));
+        languagePref.setEntries(getLocaleArray(requireContext()));
       } else {
-        ((PreferenceCategory) findPreference(CATEGORY_UI)).removePreference(languagePref);
+        ((PreferenceCategory) requirePreference(CATEGORY_UI)).removePreference(languagePref);
       }
 
       currencyViewModel.getCurrencies().observe(this, currencies -> {
-        ListPreference homeCurrencyPref = (ListPreference) findPreference(PrefKey.HOME_CURRENCY);
+        ListPreference homeCurrencyPref = requirePreference(PrefKey.HOME_CURRENCY);
         homeCurrencyPref.setEntries(Stream.of(currencies).map(Currency::toString).toArray(CharSequence[]::new));
         homeCurrencyPref.setEntryValues(Stream.of(currencies).map(Currency::code).toArray(CharSequence[]::new));
         homeCurrencyPref.setSummary(homeCurrencyPref.getEntry());
@@ -417,36 +396,34 @@ public class SettingsFragment extends BaseSettingsFragment implements
         String[] translatorsArray = getResources().getStringArray(translatorsArrayResId);
         final String translators;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+          //noinspection RedundantCast
           translators = ListFormatter.getInstance().format((Object[]) translatorsArray);
         } else {
           translators = TextUtils.join(", ", translatorsArray);
         }
-        findPreference(TRANSLATION).setSummary(String.format("%s: %s", getString(R.string.translated_by), translators));
+        requirePreference(TRANSLATION).setSummary(String.format("%s: %s", getString(R.string.translated_by), translators));
       }
 
-      final PreferenceCategory advancedCategory = (PreferenceCategory) findPreference(CATEGORY_ADVANCED);
-      pref = findPreference(FEATURE_UNINSTALL);
       if (!featureManager.allowsUninstall()) {
-        advancedCategory.removePreference(pref);
+        ((PreferenceCategory) requirePreference(CATEGORY_ADVANCED)).removePreference(requirePreference(FEATURE_UNINSTALL));
       }
     }
     //SHORTCUTS screen
     else if (rootKey.equals(getKey(UI_HOME_SCREEN_SHORTCUTS))) {
-      pref = findPreference(SHORTCUT_CREATE_SPLIT);
-      pref.setEnabled(licenceHandler.isContribEnabled());
-      pref.setSummary(
+      Preference shortcutSplitPref = requirePreference(SHORTCUT_CREATE_SPLIT);
+      shortcutSplitPref.setEnabled(licenceHandler.isContribEnabled());
+      shortcutSplitPref.setSummary(
           getString(R.string.pref_shortcut_summary) + " " +
-              ContribFeature.SPLIT_TRANSACTION.buildRequiresString(getActivity()));
+              ContribFeature.SPLIT_TRANSACTION.buildRequiresString(requireActivity()));
 
     }
     //Password screen
     else if (rootKey.equals(getKey(PERFORM_PROTECTION_SCREEN))) {
       setProtectionDependentsState();
-      Preference preferenceLockScreen = findPreference(PROTECTION_DEVICE_LOCK_SCREEN);
-      Preference preferenceLegacy = findPreference(PROTECTION_LEGACY);
-      Preference preferenceSecurityQuestion = findPreference(SECURITY_QUESTION);
+      Preference preferenceLegacy = requirePreference(PROTECTION_LEGACY);
+      Preference preferenceSecurityQuestion = requirePreference(SECURITY_QUESTION);
       if (Utils.hasApiLevel(Build.VERSION_CODES.LOLLIPOP)) {
-        final PreferenceCategory preferenceCategory = new PreferenceCategory(getContext());
+        final PreferenceCategory preferenceCategory = new PreferenceCategory(requireContext());
         preferenceCategory.setTitle(R.string.feature_deprecated);
         preferenceScreen.addPreference(preferenceCategory);
         preferenceScreen.removePreference(preferenceLegacy);
@@ -454,29 +431,27 @@ public class SettingsFragment extends BaseSettingsFragment implements
         preferenceCategory.addPreference(preferenceLegacy);
         preferenceCategory.addPreference(preferenceSecurityQuestion);
       } else {
-        preferenceScreen.removePreference(preferenceLockScreen);
+        preferenceScreen.removePreference(requirePreference(PROTECTION_DEVICE_LOCK_SCREEN));
       }
     }
     //SHARE screen
     else if (rootKey.equals(getKey(PERFORM_SHARE))) {
-      pref = findPreference(SHARE_TARGET);
+      Preference sharePref = requirePreference(SHARE_TARGET);
       //noinspection AuthLeak
-      pref.setSummary(getString(R.string.pref_share_target_summary) + ":\n" +
+      sharePref.setSummary(getString(R.string.pref_share_target_summary) + ":\n" +
           "ftp: \"ftp://login:password@my.example.org:port/my/directory/\"\n" +
           "mailto: \"mailto:john@my.example.com\"");
-      pref.setOnPreferenceChangeListener(this);
+      sharePref.setOnPreferenceChangeListener(this);
     }
     //BACKUP screen
     else if (rootKey.equals(getKey(AUTO_BACKUP))) {
-      pref = findPreference(AUTO_BACKUP_INFO);
-      String summary = getString(R.string.pref_auto_backup_summary) + " " +
-          ContribFeature.AUTO_BACKUP.buildRequiresString(getActivity());
-      pref.setSummary(summary);
-      findPreference(AUTO_BACKUP_CLOUD).setOnPreferenceChangeListener(storeInDatabaseChangeListener);
+      requirePreference(AUTO_BACKUP_INFO).setSummary(getString(R.string.pref_auto_backup_summary) + " " +
+          ContribFeature.AUTO_BACKUP.buildRequiresString(requireActivity()));
+      requirePreference(AUTO_BACKUP_CLOUD).setOnPreferenceChangeListener(storeInDatabaseChangeListener);
     }
     //GROUP start screen
     else if (rootKey.equals(getKey(GROUPING_START_SCREEN))) {
-      ListPreference startPref = (ListPreference) findPreference(GROUP_WEEK_STARTS);
+      ListPreference startPref = requirePreference(GROUP_WEEK_STARTS);
       final Locale locale = Locale.getDefault();
       DateFormatSymbols dfs = new DateFormatSymbols(locale);
       String[] entries = new String[7];
@@ -495,7 +470,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
         startPref.setValue(String.valueOf(Utils.getFirstDayOfWeek(locale)));
       }
 
-      startPref = (ListPreference) findPreference(GROUP_MONTH_STARTS);
+      startPref = requirePreference(GROUP_MONTH_STARTS);
       String[] daysEntries = new String[31], daysValues = new String[31];
       for (int i = 1; i <= 31; i++) {
         daysEntries[i - 1] = Utils.toLocalizedString(i);
@@ -505,44 +480,43 @@ public class SettingsFragment extends BaseSettingsFragment implements
       startPref.setEntryValues(daysValues);
     } else if (rootKey.equals(getKey(DEBUG_SCREEN))) {
       if (!BuildConfig.DEBUG) {
-        preferenceScreen.removePreference(findPreference(DEBUG_ADS));
+        preferenceScreen.removePreference(requirePreference(DEBUG_ADS));
       }
     } else if (rootKey.equals(getKey(CRASHREPORT_SCREEN))) {
-      findPreference(getString(R.string.pre_acra_info_key)).setSummary(Utils.getTextWithAppName(getContext(), R.string.crash_reports_user_info));
-      findPreference(CRASHREPORT_ENABLED).setOnPreferenceChangeListener(this);
-      findPreference(CRASHREPORT_USEREMAIL).setOnPreferenceChangeListener(this);
+      requirePreference(ACRA_INFO).setSummary(Utils.getTextWithAppName(getContext(), R.string.crash_reports_user_info));
+      requirePreference(CRASHREPORT_ENABLED).setOnPreferenceChangeListener(this);
+      requirePreference(CRASHREPORT_USEREMAIL).setOnPreferenceChangeListener(this);
     } else if (rootKey.equals(getKey(OCR))) {
-      pref = findPreference(OCR_TOTAL_INDICATORS);
       if ("".equals(prefHandler.getString(OCR_TOTAL_INDICATORS, ""))) {
-        ((EditTextPreference) pref).setText(getString(R.string.pref_ocr_total_indicators_default));
+        ((EditTextPreference) requirePreference(OCR_TOTAL_INDICATORS)).setText(getString(R.string.pref_ocr_total_indicators_default));
       }
-      pref = findPreference(OCR_DATE_FORMATS);
-      pref.setOnPreferenceChangeListener(this);
+      Preference ocrDatePref = requirePreference(OCR_DATE_FORMATS);
+      ocrDatePref.setOnPreferenceChangeListener(this);
       if ("".equals(prefHandler.getString(OCR_DATE_FORMATS, ""))) {
         String shortFormat = getLocalizedDateTimePattern(SHORT, null, IsoChronology.INSTANCE, userLocaleProvider.getSystemLocale());
         String mediumFormat = getLocalizedDateTimePattern(MEDIUM, null, IsoChronology.INSTANCE, userLocaleProvider.getSystemLocale());
-        ((EditTextPreference) pref).setText(shortFormat + "\n" + mediumFormat);
+        ((EditTextPreference) ocrDatePref).setText(shortFormat + "\n" + mediumFormat);
       }
-      pref = findPreference(OCR_TIME_FORMATS);
-      pref.setOnPreferenceChangeListener(this);
+      Preference ocrTimePref = requirePreference(OCR_TIME_FORMATS);
+      ocrTimePref.setOnPreferenceChangeListener(this);
       if ("".equals(prefHandler.getString(OCR_TIME_FORMATS, ""))) {
         String shortFormat = getLocalizedDateTimePattern(null, SHORT, IsoChronology.INSTANCE, userLocaleProvider.getSystemLocale());
         String mediumFormat = getLocalizedDateTimePattern(null, MEDIUM, IsoChronology.INSTANCE, userLocaleProvider.getSystemLocale());
-        ((EditTextPreference) pref).setText(shortFormat + "\n" + mediumFormat);
+        ((EditTextPreference) ocrTimePref).setText(shortFormat + "\n" + mediumFormat);
       }
     } else if (rootKey.equals(getKey(SYNC))) {
-      findPreference(MANAGE_SYNC_BACKENDS).setSummary(
+      requirePreference(MANAGE_SYNC_BACKENDS).setSummary(
           getString(R.string.pref_manage_sync_backends_summary,
               Stream.of(ServiceLoader.load(getContext()))
                   .map(SyncBackendProviderFactory::getLabel)
                   .collect(Collectors.joining(", "))) +
-              " " + ContribFeature.SYNCHRONIZATION.buildRequiresString(getActivity()));
-      findPreference(SYNC_NOTIFICATION).setOnPreferenceChangeListener(storeInDatabaseChangeListener);
-      findPreference(SYNC_WIFI_ONLY).setOnPreferenceChangeListener(storeInDatabaseChangeListener);
+              " " + ContribFeature.SYNCHRONIZATION.buildRequiresString(requireActivity()));
+      requirePreference(SYNC_NOTIFICATION).setOnPreferenceChangeListener(storeInDatabaseChangeListener);
+      requirePreference(SYNC_WIFI_ONLY).setOnPreferenceChangeListener(storeInDatabaseChangeListener);
     } else if (rootKey.equals(getKey(FEATURE_UNINSTALL))) {
       configureUninstallPrefs();
     } else if (rootKey.equals(getKey(EXCHANGE_RATES))) {
-      findPreference(EXCHANGE_RATE_PROVIDER).setOnPreferenceChangeListener(this);
+      requirePreference(EXCHANGE_RATE_PROVIDER).setOnPreferenceChangeListener(this);
       configureOpenExchangeRatesPreference(prefHandler.getString(PrefKey.EXCHANGE_RATE_PROVIDER, "RATESAPI"));
     }
   }
@@ -587,22 +561,20 @@ public class SettingsFragment extends BaseSettingsFragment implements
       actionBar.setCustomView(null);
     }
     if (isRoot) {
-      findPreference(PERFORM_PROTECTION_SCREEN).setSummary(getString(
+      requirePreference(PERFORM_PROTECTION_SCREEN).setSummary(getString(
           prefHandler.getBoolean(PROTECTION_LEGACY, false) ? R.string.pref_protection_password_title :
               prefHandler.getBoolean(PROTECTION_DEVICE_LOCK_SCREEN, false) ? R.string.pref_protection_device_lock_screen_title :
                   R.string.switch_off_text));
-      Preference preference = findPreference(PLANNER_CALENDAR_ID);
-      if (preference != null) {
-        if (activity.isCalendarPermissionPermanentlyDeclined()) {
-          preference.setSummary(Utils.getTextWithAppName(getContext(),
-              R.string.calendar_permission_required));
-        } else {
-          preference.setSummary(R.string.pref_planning_calendar_summary);
-        }
+      Preference preference = requirePreference(PLANNER_CALENDAR_ID);
+      if (activity.isCalendarPermissionPermanentlyDeclined()) {
+        preference.setSummary(Utils.getTextWithAppName(getContext(),
+            R.string.calendar_permission_required));
+      } else {
+        preference.setSummary(R.string.pref_planning_calendar_summary);
       }
       configureContribPrefs();
     }
-    MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
+    requireApplication().getSettings().registerOnSharedPreferenceChangeListener(this);
     featureManager.registerCallback(
         new Callback() {
           @Override
@@ -632,10 +604,14 @@ public class SettingsFragment extends BaseSettingsFragment implements
     );
   }
 
+  private MyApplication requireApplication() {
+    return ((MyApplication) requireActivity().getApplication());
+  }
+
   @Override
   public void onPause() {
     super.onPause();
-    MyApplication.getInstance().getSettings().unregisterOnSharedPreferenceChangeListener(this);
+    requireApplication().getSettings().unregisterOnSharedPreferenceChangeListener(this);
     featureManager.unregister();
   }
 
@@ -698,7 +674,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
    * if we are on the root screen, the preference summary for the given key is updated with the
    * current value (On/Off)
    *
-   * @param prefKey
+   * @param prefKey PrefKey of screen
    * @return true if we have handle the given key as a subScreen
    */
   private boolean handleScreenWithMasterSwitch(final PrefKey prefKey) {
@@ -707,7 +683,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
     final boolean status = prefHandler.getBoolean(prefKey, false);
     if (matches(screen, prefKey)) {
       //noinspection InflateParams
-      SwitchCompat actionBarSwitch = (SwitchCompat) getActivity().getLayoutInflater().inflate(
+      SwitchCompat actionBarSwitch = (SwitchCompat) requireActivity().getLayoutInflater().inflate(
           R.layout.pref_master_switch, null);
       actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM,
           ActionBar.DISPLAY_SHOW_CUSTOM);
@@ -740,7 +716,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
   }
 
   private void setOnOffSummary(PrefKey key, boolean status) {
-    findPreference(key).setSummary(status ? getString(R.string.switch_on_text) :
+    requirePreference(key).setSummary(status ? getString(R.string.switch_on_text) :
         getString(R.string.switch_off_text));
   }
 
@@ -764,8 +740,8 @@ public class SettingsFragment extends BaseSettingsFragment implements
     if (!matches(getPreferenceScreen(), ROOT_SCREEN)) {
       return;
     }
-    Preference contribPurchasePref = findPreference(CONTRIB_PURCHASE),
-        licenceKeyPref = findPreference(NEW_LICENCE);
+    Preference contribPurchasePref = requirePreference(CONTRIB_PURCHASE),
+        licenceKeyPref = findPreference(NEW_LICENCE.getKey());
     if (licenceHandler.needsKeyEntry()) {
       if (licenceHandler.hasValidKey()) {
         licenceKeyPref.setTitle(getKeyInfo());
@@ -774,7 +750,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
       }
     } else {
       if (licenceKeyPref != null) {
-        ((PreferenceCategory) findPreference(CATEGORY_CONTRIB)).removePreference(licenceKeyPref);
+        ((PreferenceCategory) requirePreference(CATEGORY_CONTRIB)).removePreference(licenceKeyPref);
       }
     }
     String contribPurchaseTitle, contribPurchaseSummary;
@@ -789,12 +765,12 @@ public class SettingsFragment extends BaseSettingsFragment implements
     } else {
       contribPurchaseTitle = getString(licenceStatus.getResId());
       if (licenceHandler.needsMigration()) {
-        contribPurchaseSummary = Utils.getTextWithAppName(getContext(), R.string.licence_migration_info).toString();
+        contribPurchaseSummary = Utils.getTextWithAppName(requireContext(), R.string.licence_migration_info).toString();
       } else if (licenceStatus.isUpgradeable()) {
         contribPurchaseSummary = getString(R.string.pref_contrib_purchase_title_upgrade);
       } else {
-        contribPurchaseSummary = licenceHandler.getProLicenceAction(getContext());
-        String proLicenceStatus = licenceHandler.getProLicenceStatus(getContext());
+        contribPurchaseSummary = licenceHandler.getProLicenceAction(requireContext());
+        String proLicenceStatus = licenceHandler.getProLicenceStatus(requireContext());
         if (!TextUtils.isEmpty(proLicenceStatus)) {
           contribPurchaseTitle += String.format(" (%s)", proLicenceStatus);
         }
@@ -813,11 +789,11 @@ public class SettingsFragment extends BaseSettingsFragment implements
     if (matches(screen, ROOT_SCREEN) || matches(screen, PERFORM_PROTECTION_SCREEN)) {
       boolean isLegacy = prefHandler.getBoolean(PROTECTION_LEGACY, false);
       boolean isProtected = isLegacy || prefHandler.getBoolean(PROTECTION_DEVICE_LOCK_SCREEN, false);
-      findPreference(SECURITY_QUESTION).setEnabled(isLegacy);
-      findPreference(PROTECTION_DELAY_SECONDS).setEnabled(isProtected);
-      findPreference(PROTECTION_ENABLE_ACCOUNT_WIDGET).setEnabled(isProtected);
-      findPreference(PROTECTION_ENABLE_TEMPLATE_WIDGET).setEnabled(isProtected);
-      findPreference(PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET).setEnabled(isProtected);
+      requirePreference(SECURITY_QUESTION).setEnabled(isLegacy);
+      requirePreference(PROTECTION_DELAY_SECONDS).setEnabled(isProtected);
+      requirePreference(PROTECTION_ENABLE_ACCOUNT_WIDGET).setEnabled(isProtected);
+      requirePreference(PROTECTION_ENABLE_TEMPLATE_WIDGET).setEnabled(isProtected);
+      requirePreference(PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET).setEnabled(isProtected);
     }
   }
 
@@ -828,7 +804,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
         MessageDialogFragment.newInstance(getString(R.string.dialog_title_information),
             concatResStrings(getContext(), " ", R.string.home_currency_change_warning, R.string.continue_confirmation),
             new MessageDialogFragment.Button(android.R.string.ok, R.id.CHANGE_COMMAND, ((String) value)),
-            null, MessageDialogFragment.Button.noButton()).show(getFragmentManager(), "CONFIRM");
+            null, MessageDialogFragment.Button.noButton()).show(getParentFragmentManager(), "CONFIRM");
       }
       return false;
     }
@@ -850,26 +826,13 @@ public class SettingsFragment extends BaseSettingsFragment implements
         if (scheme.equals("ftp")) {
           intent = new Intent(Intent.ACTION_SENDTO);
           intent.setData(android.net.Uri.parse(target));
-          if (!Utils.isIntentAvailable(getActivity(), intent)) {
+          if (!Utils.isIntentAvailable(requireActivity(), intent)) {
             getActivity().showDialog(R.id.FTP_DIALOG);
           }
         }
       }
     } else if (matches(pref, CUSTOM_DECIMAL_FORMAT)) {
-      if (TextUtils.isEmpty((String) value)) {
-        currencyFormatter.invalidateAll(requireContext().getContentResolver());
-        return true;
-      }
-      try {
-        DecimalFormat nf = new DecimalFormat();
-        nf.applyLocalizedPattern(((String) value));
-        currencyFormatter.invalidateAll(requireContext().getContentResolver());
-      } catch (IllegalArgumentException e) {
-        activity().showSnackbar(R.string.number_format_illegal);
-        return false;
-      }
-    } else if (matches(pref, CUSTOM_DATE_FORMAT)) {
-      return validateDateFormatWithFeedback((String) value);
+      currencyFormatter.invalidateAll(requireContext().getContentResolver());
     } else if (matches(pref, EXCHANGE_RATE_PROVIDER)) {
       configureOpenExchangeRatesPreference((String) value);
     } else if (matches(pref, CRASHREPORT_USEREMAIL)) {
@@ -903,12 +866,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
   }
 
   private void configureOpenExchangeRatesPreference(String provider) {
-    findPreference(PrefKey.OPEN_EXCHANGE_RATES_APP_ID).setEnabled(provider.equals("OPENEXCHANGERATES"));
-  }
-
-  private void setDefaultNumberFormat(EditTextPreference pref) {
-    String pattern = ((DecimalFormat) NumberFormat.getCurrencyInstance()).toLocalizedPattern();
-    pref.setText(pattern);
+    requirePreference(PrefKey.OPEN_EXCHANGE_RATES_APP_ID).setEnabled(provider.equals("OPENEXCHANGERATES"));
   }
 
   @Override
@@ -1015,7 +973,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
       if (Utils.hasApiLevel(Build.VERSION_CODES.LOLLIPOP)) {
         SwitchPreferenceCompat switchPreferenceCompat = (SwitchPreferenceCompat) preference;
         if (switchPreferenceCompat.isChecked()) {
-          if (!((KeyguardManager) getContext().getSystemService(Context.KEYGUARD_SERVICE)).isKeyguardSecure()) {
+          if (!((KeyguardManager) requireContext().getSystemService(Context.KEYGUARD_SERVICE)).isKeyguardSecure()) {
             activity().showDeviceLockScreenWarning();
             switchPreferenceCompat.setChecked(false);
           } else if (prefHandler.getBoolean(PROTECTION_LEGACY, false)) {
@@ -1057,7 +1015,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
   }
 
   private void setAppDirSummary() {
-    Preference pref = findPreference(APP_DIR);
+    Preference pref = requirePreference(APP_DIR);
     if (AppDirHelper.isExternalStorageAvailable()) {
       DocumentFile appDir = AppDirHelper.getAppDir(getActivity());
       if (appDir != null) {
@@ -1065,7 +1023,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
           pref.setSummary(FileUtils.getPath(getActivity(), appDir.getUri()));
         } else {
           pref.setSummary(getString(R.string.app_dir_not_accessible,
-              FileUtils.getPath(MyApplication.getInstance(), appDir.getUri())));
+              FileUtils.getPath(requireApplication(), appDir.getUri())));
         }
       } else {
         pref.setSummary(R.string.io_error_appdir_null);
@@ -1078,7 +1036,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
 
   private Bitmap getBitmapForShortcut(int iconIdLegacy, int iconIdLollipop) {
     if (Utils.hasApiLevel(Build.VERSION_CODES.LOLLIPOP)) {
-      return UiUtils.drawableToBitmap(getResources().getDrawable(iconIdLollipop));
+      return UiUtils.drawableToBitmap(ResourcesCompat.getDrawable(getResources(), iconIdLollipop, null));
     } else {
       return UiUtils.getTintedBitmapForTheme(getActivity(), iconIdLegacy, R.style.DarkBackground);
     }
@@ -1087,7 +1045,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
   // credits Financisto
   // src/ru/orangesoftware/financisto/activity/PreferencesActivity.java
   private void addShortcut(int nameId, int operationType, Bitmap bitmap) {
-    Intent shortcutIntent = ShortcutHelper.createIntentForNewTransaction(getContext(), operationType);
+    Intent shortcutIntent = ShortcutHelper.createIntentForNewTransaction(requireContext(), operationType);
 
     Intent intent = new Intent();
     intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
@@ -1095,8 +1053,8 @@ public class SettingsFragment extends BaseSettingsFragment implements
     intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, bitmap);
     intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
 
-    if (Utils.isIntentReceiverAvailable(getActivity(), intent)) {
-      getActivity().sendBroadcast(intent);
+    if (Utils.isIntentReceiverAvailable(requireActivity(), intent)) {
+      requireActivity().sendBroadcast(intent);
       activity().showSnackbar(getString(R.string.pref_shortcut_added));
     } else {
       activity().showSnackbar(getString(R.string.pref_shortcut_not_added));
@@ -1137,7 +1095,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
     }
     if (fragment != null) {
       fragment.setTargetFragment(this, 0);
-      fragment.show(getFragmentManager(),
+      fragment.show(getParentFragmentManager(),
           "android.support.v7.preference.PreferenceFragment.DIALOG");
     } else {
       super.onDisplayPreferenceDialog(preference);
@@ -1149,14 +1107,14 @@ public class SettingsFragment extends BaseSettingsFragment implements
   public void onActivityResult(int requestCode, int resultCode,
                                Intent intent) {
     if (requestCode == RESTORE_REQUEST && resultCode == RESULT_RESTORE_OK) {
-      getActivity().setResult(resultCode);
-      getActivity().finish();
+      requireActivity().setResult(resultCode);
+      requireActivity().finish();
     } else if (requestCode == PICK_FOLDER_REQUEST) {
       if (resultCode == Activity.RESULT_OK) {
         Uri dir = intent.getData();
-        getActivity().getContentResolver().takePersistableUriPermission(dir,
+        requireActivity().getContentResolver().takePersistableUriPermission(dir,
             Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-        prefHandler.putString(APP_DIR, intent.getData().toString());
+        prefHandler.putString(APP_DIR, dir.toString());
         setAppDirSummary();
       } else {
         //we try to determine if we get here due to abnormal failure (observed on Xiaomi) of request, or if user canceled
@@ -1196,7 +1154,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
           b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.menu_remove);
           b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.REMOVE_LICENCE_COMMAND);
           ConfirmationDialogFragment.newInstance(b)
-              .show(getFragmentManager(), "REMOVE_LICENCE");
+              .show(getParentFragmentManager(), "REMOVE_LICENCE");
           break;
       }
     }
@@ -1204,9 +1162,9 @@ public class SettingsFragment extends BaseSettingsFragment implements
   }
 
   public void updateHomeCurrency(String currencyCode) {
-    final MyPreferenceActivity activity = activity();
+    final MyPreferenceActivity activity = ((MyPreferenceActivity) getActivity());
     if (activity != null) {
-      final ListPreference preference = (ListPreference) findPreference(HOME_CURRENCY);
+      final ListPreference preference = findPreference(HOME_CURRENCY.getKey());
       if (preference != null) {
         preference.setValue(currencyCode);
       } else {

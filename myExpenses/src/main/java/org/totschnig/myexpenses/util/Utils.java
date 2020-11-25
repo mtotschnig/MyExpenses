@@ -416,35 +416,42 @@ public class Utils {
     return true;
   }
 
-  @SuppressLint("SimpleDateFormat")
-  public static DateFormat getDateFormatSafe(Context context) {
-    String custom = ((MyApplication) context.getApplicationContext()).getAppComponent().prefHandler().getString(PrefKey.CUSTOM_DATE_FORMAT,"");
-    if (!"".equals(custom)) {
-      try {
-        return new SimpleDateFormat(custom);
-      } catch (Exception e) {
-        Timber.e(e);
-      }
-    }
+  public static DateFormat getFrameworkDateFormatSafe(Context context) {
     try {
       return android.text.format.DateFormat.getDateFormat(context);
     } catch (Exception e) {
       CrashHandler.report(e);
       //java.lang.SecurityException: Requires READ_PHONE_STATE observed on HUAWEI Y625-U13
-      return java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT);
+      return java.text.DateFormat.getDateInstance(DateFormat.SHORT, localeFromContext(context));
     }
   }
 
+  @SuppressLint("SimpleDateFormat")
+  public static DateFormat getDateFormatSafe(Context context) {
+    String custom = ((MyApplication) context.getApplicationContext()).getAppComponent().prefHandler().getString(PrefKey.CUSTOM_DATE_FORMAT,"");
+    if (!"".equals(custom)) {
+      try {
+        return new SimpleDateFormat(custom, localeFromContext(context));
+      } catch (Exception e) {
+        Timber.e(e);
+      }
+    }
+    return getFrameworkDateFormatSafe(context);
+  }
+
   public static DateFormat localizedYearlessDateFormat(Context context) {
-    Locale l = Locale.getDefault();
     DateFormat dateFormat = getDateFormatSafe(context);
     if (dateFormat instanceof SimpleDateFormat) {
       final String contextPattern = ((SimpleDateFormat) dateFormat).toPattern();
       String yearlessPattern = contextPattern.replaceAll("\\W?[Yy]+\\W?", "");
-      return new SimpleDateFormat(yearlessPattern, l);
+      return new SimpleDateFormat(yearlessPattern, localeFromContext(context));
     } else {
       return dateFormat;
     }
+  }
+
+  public static Locale localeFromContext(Context context) {
+    return context.getResources().getConfiguration().locale;
   }
 
   /**
@@ -453,12 +460,11 @@ public class Utils {
    * the space, we allocate for dates when transactions are not grouped, we replace the year part with "yy"
    */
   public static DateFormat ensureDateFormatWithShortYear(Context context) {
-    Locale l = Locale.getDefault();
     DateFormat dateFormat = getDateFormatSafe(context);
     if (dateFormat instanceof SimpleDateFormat) {
       final String contextPattern = ((SimpleDateFormat) dateFormat).toPattern();
       String shortPattern = contextPattern.replaceAll("y+", "yy");
-      return new SimpleDateFormat(shortPattern, l);
+      return new SimpleDateFormat(shortPattern, localeFromContext(context));
     } else {
       return dateFormat;
     }

@@ -493,11 +493,11 @@
                 android:targetClass="org.totschnig.myexpenses.activity.ManageCurrencies"
                 android:targetPackage="@string/application_id" />
         </Preference>
-        <EditTextPreference
+        <org.totschnig.myexpenses.preference.NumberFormatPreference
             android:key="@string/pref_custom_decimal_format_key"
             android:summary="@string/pref_custom_decimal_format_summary"
             android:title="@string/pref_custom_decimal_format_title" />
-        <EditTextPreference
+        <org.totschnig.myexpenses.preference.DateFormatPreference
             android:key="@string/pref_custom_date_format_key"
             android:summary="@string/pref_custom_decimal_format_summary"
             android:title="@string/date_format" />
