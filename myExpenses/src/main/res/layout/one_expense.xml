@@ -340,7 +340,7 @@
 
                             <Spinner
                                 android:id="@+id/Recurrence"
-                                style="@style/ReccurrenceRowReccurence"
+                                style="@style/RecurrenceRowRecurrence"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -348,7 +348,7 @@
 
                             <org.totschnig.myexpenses.ui.DateButton
                                 android:id="@+id/PB"
-                                style="@style/ReccurenceRowDateButton"
+                                style="@style/RecurrenceRowDateButton"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
@@ -358,15 +358,31 @@
 
                             <CheckBox
                                 android:id="@+id/TB"
-                                style="@style/ReccurrenceRowToggleButton"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:text="@string/plan_automatic"
                                 android:visibility="gone"
+                                app:layout_constraintTop_toTopOf="@id/PB"
+                                app:layout_constraintBottom_toBottomOf="@id/PB"
+                                app:layout_constraintEnd_toEndOf="@id/EditPlan"
+                                app:layout_constraintStart_toEndOf="@+id/PB" />
+
+                            <ImageView
+                                android:id="@+id/EditPlan"
+                                style="?actionButtonStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:contentDescription="TODO"
+                                android:focusable="true"
+                                android:visibility="gone"
+                                android:onClick="editPlan"
                                 app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toEndOf="@+id/PB"
-                                app:layout_constraintTop_toBottomOf="@id/Recurrence" />
+                                app:layout_constraintStart_toEndOf="@+id/TB"
+                                app:layout_constraintTop_toTopOf="@id/PB"
+                                app:layout_constraintBottom_toBottomOf="@id/PB"
+                                app:srcCompat="@drawable/ic_menu_edit" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </TableRow>
 

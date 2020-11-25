@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="ReccurrenceRowReccurence">
+    <style name="RecurrenceRowRecurrence">
         <item name="android:layout_width">0dp</item>
         <item name="layout_constraintHorizontal_chainStyle">spread</item>
         <item name="layout_constraintEnd_toStartOf">@id/PB</item>
     </style>
 
-    <style name="ReccurenceRowDateButton" parent="SmallButton">
+    <style name="RecurrenceRowDateButton" parent="SmallButton">
         <item name="layout_constraintStart_toEndOf">@id/Recurrence</item>
-        <item name="layout_constraintTop_toTopOf">parent</item>
-    </style>
-
-    <style name="ReccurrenceRowToggleButton">
         <item name="layout_constraintTop_toTopOf">parent</item>
     </style>
 </resources>

@@ -259,18 +259,14 @@
         <item name="android:focusable">false</item>
     </style>
 
-    <style name="ReccurrenceRowReccurence">
+    <style name="RecurrenceRowRecurrence">
         <item name="android:layout_width">match_parent</item>
         <item name="layout_constraintEnd_toEndOf">parent</item>
     </style>
 
-    <style name="ReccurenceRowDateButton" parent="SmallButton">
+    <style name="RecurrenceRowDateButton" parent="SmallButton">
         <item name="layout_constraintHorizontal_chainStyle">spread</item>
         <item name="layout_constraintStart_toStartOf">parent</item>
-        <item name="layout_constraintTop_toBottomOf">@id/Recurrence</item>
-    </style>
-
-    <style name="ReccurrenceRowToggleButton">
         <item name="layout_constraintTop_toBottomOf">@id/Recurrence</item>
     </style>
 

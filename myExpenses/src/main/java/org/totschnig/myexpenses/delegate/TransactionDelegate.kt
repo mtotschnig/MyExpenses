@@ -867,15 +867,19 @@ abstract class TransactionDelegate<T : ITransaction>(
 
     fun originTemplateLoaded(template: Template) {
         template.plan?.let { plan ->
+            setPlannerRowVisibility(true)
             recurrenceSpinner.spinner.visibility = View.GONE
-            planButton.visibility = View.VISIBLE
-            planButton.text = Plan.prettyTimeInfo(context,
-                    plan.rrule, plan.dtstart)
-            planButton.setOnClickListener {
-                currentAccount()?.let {
-                    (context as ExpenseEdit).showPlanMonthFragment(template, it.color)
+            with(planButton) {
+                visibility = View.VISIBLE
+                text = Plan.prettyTimeInfo(context,
+                        plan.rrule, plan.dtstart)
+                setOnClickListener {
+                    currentAccount()?.let {
+                        (context as ExpenseEdit).showPlanMonthFragment(template, it.color)
+                    }
                 }
             }
+            setVisibility(viewBinding.EditPlan, true)
         }
     }
 

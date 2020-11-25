@@ -172,6 +172,10 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
     @JvmField
     @State
     var isTemplate = false
+
+    @JvmField
+    @State
+    var shouldShowCreateTemplate = false
     private var mIsResumed = false
     private var accountsLoaded = false
     private var shouldRecordAttachPictureFeature = false
@@ -535,6 +539,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         setHelpVariant(delegate.helpVariant)
         setTitle()
         operationType = transaction.operationType()
+        shouldShowCreateTemplate = transaction.originTemplateId == null
         invalidateOptionsMenu()
     }
 
@@ -639,10 +644,12 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                     .setCheckable(true)
                     .setIcon(R.drawable.ic_action_save_new)
                     .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
-            menu.add(Menu.NONE, R.id.CREATE_TEMPLATE_COMMAND, 0, R.string.menu_create_template_from_transaction)
-                    .setCheckable(true)
-                    .setIcon(R.drawable.ic_action_template_add)
-                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+            if (shouldShowCreateTemplate) {
+                menu.add(Menu.NONE, R.id.CREATE_TEMPLATE_COMMAND, 0, R.string.menu_create_template_from_transaction)
+                        .setCheckable(true)
+                        .setIcon(R.drawable.ic_action_template_add)
+                        .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+            }
         }
         if (operationType == TYPE_TRANSFER) {
             menu.add(Menu.NONE, R.id.INVERT_TRANSFER_COMMAND, 0, R.string.menu_invert_transfer)
@@ -977,7 +984,6 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                 ERROR_WHILE_SAVING_TAGS -> "Error while saving tags"
                 ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE -> {
                     delegate.recurrenceSpinner.setSelection(0)
-                    //mTransaction!!.originTemplate = null
                     "Recurring transactions are not available, because calendar integration is not functional on this device."
                 }
                 else -> {
@@ -1302,4 +1308,6 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         }
         startActivityForResult(i, SELECT_TAGS_REQUEST)
     }
+
+    fun editPlan(view: View) {}
 }
