@@ -209,7 +209,7 @@ abstract class TransactionDelegate<T : ITransaction>(
             if (!isCalendarPermissionPermanentlyDeclined) { //if user has denied access and checked that he does not want to be asked again, we do not
 //bother him with a button that is not working
                 setPlannerRowVisibility(true)
-                val recurrenceAdapter = RecurrenceAdapter(context, null)
+                val recurrenceAdapter = RecurrenceAdapter(context)
                 recurrenceSpinner.adapter = recurrenceAdapter
                 recurrenceSpinner.setOnItemSelectedListener(this)
                 planButton.setOnClickListener {
@@ -224,8 +224,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         } else if (!isSplitPart) {
             if (!isCalendarPermissionPermanentlyDeclined) { //we set adapter even if spinner is not immediately visible, since it might become visible
 //after SAVE_AND_NEW action
-                val recurrenceAdapter = RecurrenceAdapter(context,
-                        Plan.Recurrence.ONETIME)
+                val recurrenceAdapter = RecurrenceAdapter(context)
                 recurrenceSpinner.adapter = recurrenceAdapter
                 if (missingRecurrenceFeature() == null) {
                     recurrence?.let {

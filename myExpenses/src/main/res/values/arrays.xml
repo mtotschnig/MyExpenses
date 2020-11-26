@@ -360,6 +360,10 @@
         <item>form_plan_help_text_advanced</item>
         <item>form_plan_help_text_mode</item>
     </string-array>
+    <string-array name="form_instant_plan_help_text" tools:ignore="UnusedResources">
+        <item>form_plan_help_text</item>
+        <item>form_plan_help_text_advanced</item>
+    </string-array>
     <string-array name="form_AccountEdit_type_help_text" tools:ignore="UnusedResources">
         <item>form_AccountEdit_type_help_text</item>
         <item>form_AccountEdit_type_help_text_reconciliation</item>

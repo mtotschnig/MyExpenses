@@ -377,7 +377,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:contentDescription="TODO"
+                                android:contentDescription="@string/content_description_edit_plan"
                                 android:focusable="true"
                                 android:onClick="editPlan"
                                 android:visibility="gone"
