@@ -902,8 +902,8 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
 
     private fun refreshPlanData() {
         delegate.planId?.let { planId ->
-            viewModel.plan(planId).observe(this, {
-                delegate.configurePlan(it)
+            viewModel.plan(planId).observe(this, { plan ->
+                plan?.let { delegate.updatePlanButton(it) }
             })
         }
     }
@@ -1008,10 +1008,10 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             } else {
                 if (delegate.recurrenceSpinner.selectedItem === Recurrence.CUSTOM) {
                     if (isTemplate) {
-                        launchPlanView(true, (transaction as Template).planId)
+                        (transaction as? Template)?.planId
                     } else {
-                        transaction.originPlanId?.let { launchPlanView(true, it) }
-                    }
+                        transaction.originPlanId
+                    }?.let { launchPlanView(true, it) }
                 } else { //make sure soft keyboard is closed
                     hideKeyboard()
                     setResult(RESULT_OK)
@@ -1268,10 +1268,12 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
     }
 
     fun observePlan(planId: Long) {
-        pObserver = PlanObserver().also {
-            contentResolver.registerContentObserver(
-                    ContentUris.withAppendedId(CalendarContractCompat.Events.CONTENT_URI, planId),
-                    false, it)
+        if (pObserver == null) {
+            pObserver = PlanObserver().also {
+                contentResolver.registerContentObserver(
+                        ContentUris.withAppendedId(CalendarContractCompat.Events.CONTENT_URI, planId),
+                        false, it)
+            }
         }
     }
 
@@ -1302,5 +1304,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         startActivityForResult(i, SELECT_TAGS_REQUEST)
     }
 
-    fun editPlan(view: View) {}
+    fun editPlan(view: View) {
+        delegate.planId?.let { launchPlanView(false, it) }
+    }
 }

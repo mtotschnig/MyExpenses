@@ -44,7 +44,6 @@ import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.DateButton
 import org.totschnig.myexpenses.ui.MyTextWatcher
 import org.totschnig.myexpenses.ui.SpinnerHelper
-import org.totschnig.myexpenses.util.DistributionHelper
 import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.Utils
@@ -780,13 +779,17 @@ abstract class TransactionDelegate<T : ITransaction>(
         viewBinding.PayeeLabel.setText(if (viewBinding.Amount.type) R.string.payer else R.string.payee)
     }
 
+    fun updatePlanButton(plan: Plan) {
+        planButton.text = Plan.prettyTimeInfo(context, plan.rrule, plan.dtstart)
+    }
+
     fun configurePlan(plan: Plan?) {
-        plan?.let { plan ->
-            planButton.text = Plan.prettyTimeInfo(context, plan.rrule, plan.dtstart)
-            if (viewBinding.Title.text.toString() == "") viewBinding.Title.setText(plan.title)
+        plan?.let {
+            updatePlanButton(it)
+            if (viewBinding.Title.text.toString() == "") viewBinding.Title.setText(it.title)
             recurrenceSpinner.spinner.visibility = View.GONE
             configurePlanDependents(true)
-            host.observePlan(plan.id)
+            host.observePlan(it.id)
         }
     }
 
@@ -866,10 +869,9 @@ abstract class TransactionDelegate<T : ITransaction>(
         template.plan?.let { plan ->
             setPlannerRowVisibility(true)
             recurrenceSpinner.spinner.visibility = View.GONE
+            updatePlanButton(plan)
             with(planButton) {
                 visibility = View.VISIBLE
-                text = Plan.prettyTimeInfo(context,
-                        plan.rrule, plan.dtstart)
                 setOnClickListener {
                     currentAccount()?.let {
                         (context as ExpenseEdit).showPlanMonthFragment(template, it.color)
@@ -877,6 +879,8 @@ abstract class TransactionDelegate<T : ITransaction>(
                 }
             }
             setVisibility(viewBinding.EditPlan, true)
+            planId = plan.id
+            host.observePlan(plan.id)
         }
     }
 
