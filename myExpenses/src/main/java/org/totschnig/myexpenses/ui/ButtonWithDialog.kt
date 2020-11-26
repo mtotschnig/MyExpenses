@@ -40,7 +40,7 @@ abstract class ButtonWithDialog @JvmOverloads constructor(
 
     interface Host {
         fun hideKeyBoardAndShowDialog(id: Int)
-        fun onValueSet(v: View)
+        fun onValueSet(view: View)
     }
 
     abstract fun onCreateDialog(): Dialog?

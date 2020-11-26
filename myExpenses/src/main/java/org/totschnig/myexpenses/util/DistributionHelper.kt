@@ -16,14 +16,6 @@ object DistributionHelper {
     val marketSelfUri: String
         get() = distribution.marketSelfUri
 
-    /**
-     *
-     * @return if we should use the Platform calendar for managing instances. Events are always stored
-     * in the platform calendar
-     */
-    @JvmStatic
-    fun shouldUseAndroidPlatformCalendar() = true
-
     @JvmStatic
     val distribution: Distribution
         get() = Distribution.valueOf(BuildConfig.DISTRIBUTION)

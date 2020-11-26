@@ -120,7 +120,6 @@
   <string name="menu_create_account_help_text">Criar uma nova conta. A versão gratuita está limitada a cinco contas.</string>
   <string name="menu_NavigationDrawer_sort_help_text">A lista de contas pode ser ordenada por título (alfabeticamente), por frequência de usos, ou pela última transação criada.</string>
   <string name="menu_NavigationDrawer_grouping_help_text">A lista de contas pode ser exibida agrupada por tipo de conta, moeda, ou não agrupada.</string>
-  <string name="form_instant_plan_help_text">Aqui pode marcar a transação para ocorrer diariamente, semanalmente, mensalmente ou anualmente. No ecrã de \"Modelos e planos\", pode inspecionar o plano resultante e configurar opções avançadas. Se a transação já se encontra associada a um plano, já não pode alterar o tipo de recorrência, mas pode abrir uma vista de calendário exibindo todas as datas recorrentes.</string>
   <!--SyncBackends-->
   <string name="help_ManageSyncBackends_drive">Google Drive: Escolha qualquer pasta que possua ou que esteja partilhada consigo.</string>
   <string name="menu_create_sync_backend_help_text">A partir do submenu, selecione o tipo de backend de sincronização que pretende adicionar, e forneça os detalhes específicos de cada.</string>

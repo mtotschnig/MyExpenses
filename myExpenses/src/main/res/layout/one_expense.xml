@@ -315,17 +315,20 @@
                     <TableRow
                         android:id="@+id/DefaultActionRow"
                         android:visibility="gone">
+
                         <TextView
                             android:id="@+id/DefaultActionLabel"
                             style="@style/FormLabel"
                             android:labelFor="@+id/DefaultAction"
                             android:text="@string/default_action" />
+
                         <Spinner
-                            android:entries="@array/template_default_action_entries"
                             android:id="@+id/DefaultAction"
-                            style="@style/FormLabel" />
+                            style="@style/FormLabel"
+                            android:entries="@array/template_default_action_entries" />
 
                     </TableRow>
+
                     <TableRow
                         android:id="@+id/PlanRow"
                         android:visibility="gone">
@@ -340,7 +343,7 @@
 
                             <Spinner
                                 android:id="@+id/Recurrence"
-                                style="@style/ReccurrenceRowReccurence"
+                                style="@style/RecurrenceRowRecurrence"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -348,7 +351,7 @@
 
                             <org.totschnig.myexpenses.ui.DateButton
                                 android:id="@+id/PB"
-                                style="@style/ReccurenceRowDateButton"
+                                style="@style/RecurrenceRowDateButton"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
@@ -358,15 +361,31 @@
 
                             <CheckBox
                                 android:id="@+id/TB"
-                                style="@style/ReccurrenceRowToggleButton"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:text="@string/plan_automatic"
                                 android:visibility="gone"
-                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintBottom_toBottomOf="@id/PB"
+                                app:layout_constraintEnd_toEndOf="@id/EditPlan"
                                 app:layout_constraintStart_toEndOf="@+id/PB"
-                                app:layout_constraintTop_toBottomOf="@id/Recurrence" />
+                                app:layout_constraintTop_toTopOf="@id/PB" />
+
+                            <ImageView
+                                android:id="@+id/EditPlan"
+                                style="?actionButtonStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:contentDescription="@string/content_description_edit_plan"
+                                android:focusable="true"
+                                android:onClick="editPlan"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toBottomOf="@id/PB"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toEndOf="@+id/TB"
+                                app:layout_constraintTop_toTopOf="@id/PB"
+                                app:srcCompat="@drawable/ic_menu_edit" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </TableRow>
 
@@ -403,5 +422,7 @@
         </ScrollView>
     </LinearLayout>
 
-    <include layout="@layout/floating_action_button_save" android:visibility="@integer/create_fab_initial_visibility" />
+    <include
+        layout="@layout/floating_action_button_save"
+        android:visibility="@integer/create_fab_initial_visibility" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

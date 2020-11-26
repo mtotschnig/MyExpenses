@@ -176,6 +176,10 @@ public class Transaction extends AbstractTransaction {
    */
   private Long originTemplateId = null;
   /**
+   * the id of the calendar plan for which this transaction has been created
+   */
+  private Long originPlanId = null;
+  /**
    * id of an instance of the event (plan) for which this transaction has been created
    */
   private Long originPlanInstanceId = null;
@@ -430,6 +434,17 @@ public class Transaction extends AbstractTransaction {
   @Override
   public void setOriginPlanInstanceId(@Nullable Long originPlanInstanceId) {
     this.originPlanInstanceId = originPlanInstanceId;
+  }
+
+  @Nullable
+  @Override
+  public Long getOriginPlanId() {
+    return originPlanId;
+  }
+
+  @Override
+  public void setOriginPlanId(@Nullable Long originPlanId) {
+    this.originPlanId = originPlanId;
   }
 
   @NonNull
@@ -784,6 +799,7 @@ public class Transaction extends AbstractTransaction {
       }
       originTemplate.save(withLinkedTransaction);
       originTemplateId = originTemplate.getId();
+      originPlanId = originTemplate.planId;
     }
     return uri;
   }

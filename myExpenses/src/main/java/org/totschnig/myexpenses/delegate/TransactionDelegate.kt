@@ -44,7 +44,6 @@ import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.DateButton
 import org.totschnig.myexpenses.ui.MyTextWatcher
 import org.totschnig.myexpenses.ui.SpinnerHelper
-import org.totschnig.myexpenses.util.DistributionHelper
 import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.Utils
@@ -210,15 +209,12 @@ abstract class TransactionDelegate<T : ITransaction>(
             if (!isCalendarPermissionPermanentlyDeclined) { //if user has denied access and checked that he does not want to be asked again, we do not
 //bother him with a button that is not working
                 setPlannerRowVisibility(true)
-                val recurrenceAdapter = RecurrenceAdapter(context,
-                        if (DistributionHelper.shouldUseAndroidPlatformCalendar()) null else Plan.Recurrence.CUSTOM)
+                val recurrenceAdapter = RecurrenceAdapter(context)
                 recurrenceSpinner.adapter = recurrenceAdapter
                 recurrenceSpinner.setOnItemSelectedListener(this)
                 planButton.setOnClickListener {
                     planId?.let {
-                        if (DistributionHelper.shouldUseAndroidPlatformCalendar()) {
-                            host.launchPlanView(false, it)
-                        }
+                        host.launchPlanView(false, it)
                     } ?: run {
                         planButton.showDialog()
                     }
@@ -228,8 +224,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         } else if (!isSplitPart) {
             if (!isCalendarPermissionPermanentlyDeclined) { //we set adapter even if spinner is not immediately visible, since it might become visible
 //after SAVE_AND_NEW action
-                val recurrenceAdapter = RecurrenceAdapter(context,
-                        Plan.Recurrence.ONETIME)
+                val recurrenceAdapter = RecurrenceAdapter(context)
                 recurrenceSpinner.adapter = recurrenceAdapter
                 if (missingRecurrenceFeature() == null) {
                     recurrence?.let {
@@ -783,13 +778,17 @@ abstract class TransactionDelegate<T : ITransaction>(
         viewBinding.PayeeLabel.setText(if (viewBinding.Amount.type) R.string.payer else R.string.payee)
     }
 
+    fun updatePlanButton(plan: Plan) {
+        planButton.text = Plan.prettyTimeInfo(context, plan.rrule, plan.dtstart)
+    }
+
     fun configurePlan(plan: Plan?) {
-        plan?.let { plan ->
-            planButton.text = Plan.prettyTimeInfo(context, plan.rrule, plan.dtstart)
-            if (viewBinding.Title.text.toString() == "") viewBinding.Title.setText(plan.title)
+        plan?.let {
+            updatePlanButton(it)
+            if (viewBinding.Title.text.toString() == "") viewBinding.Title.setText(it.title)
             recurrenceSpinner.spinner.visibility = View.GONE
             configurePlanDependents(true)
-            host.observePlan(plan.id)
+            host.observePlan(it.id)
         }
     }
 
@@ -867,15 +866,20 @@ abstract class TransactionDelegate<T : ITransaction>(
 
     fun originTemplateLoaded(template: Template) {
         template.plan?.let { plan ->
+            setPlannerRowVisibility(true)
             recurrenceSpinner.spinner.visibility = View.GONE
-            planButton.visibility = View.VISIBLE
-            planButton.text = Plan.prettyTimeInfo(context,
-                    plan.rrule, plan.dtstart)
-            planButton.setOnClickListener {
-                currentAccount()?.let {
-                    (context as ExpenseEdit).showPlanMonthFragment(template, it.color)
+            updatePlanButton(plan)
+            with(planButton) {
+                visibility = View.VISIBLE
+                setOnClickListener {
+                    currentAccount()?.let {
+                        (context as ExpenseEdit).showPlanMonthFragment(template, it.color)
+                    }
                 }
             }
+            setVisibility(viewBinding.EditPlan, true)
+            planId = plan.id
+            host.observePlan(plan.id)
         }
     }
 

@@ -69,6 +69,7 @@ import org.totschnig.myexpenses.fragment.SplitPartList
 import org.totschnig.myexpenses.fragment.TemplatesList
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.model.ITransaction
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Plan.Recurrence
@@ -172,6 +173,10 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
     @JvmField
     @State
     var isTemplate = false
+
+    @JvmField
+    @State
+    var shouldShowCreateTemplate = false
     private var mIsResumed = false
     private var accountsLoaded = false
     private var shouldRecordAttachPictureFeature = false
@@ -394,7 +399,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             menuItem2TemplateMap.clear()
             for (template in templates) {
                 val menuId = ViewCompat.generateViewId()
-                menuItem2TemplateMap.put(menuId, template)
+                menuItem2TemplateMap[menuId] = template
                 invalidateOptionsMenu()
             }
         })
@@ -473,13 +478,13 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             val errMsg = getString(R.string.warning_no_account)
             abortWithMessage(errMsg)
         }
-        intent.getParcelableExtra<OcrResultFlat>(KEY_OCR_RESULT)?.let {
-            it.amount?.let { amountInput.setRaw(it) }
-            it.date?.let { pair ->
+        intent.getParcelableExtra<OcrResultFlat>(KEY_OCR_RESULT)?.let { ocrResultFlat ->
+            ocrResultFlat.amount?.let { amountInput.setRaw(it) }
+            ocrResultFlat.date?.let { pair ->
                 dateEditBinding.DateButton.setDate(pair.first)
                 pair.second?.let { dateEditBinding.TimeButton.setTime(it) }
             }
-            it.payee?.let {
+            ocrResultFlat.payee?.let {
                 rootBinding.Payee.setText(it.name)
                 startAutoFill(it.id, true)
             }
@@ -535,6 +540,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         setHelpVariant(delegate.helpVariant)
         setTitle()
         operationType = transaction.operationType()
+        shouldShowCreateTemplate = transaction.originTemplateId == null
         invalidateOptionsMenu()
     }
 
@@ -619,7 +625,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                         subMenu.add(Menu.NONE, entry.key, Menu.NONE, entry.value.title)
                     }
                 }
-                Utils.menuItemSetEnabledAndVisible(it, menuItem2TemplateMap.size > 0)
+                Utils.menuItemSetEnabledAndVisible(it, menuItem2TemplateMap.isNotEmpty())
             }
         }
         return super.onPrepareOptionsMenu(menu)
@@ -635,14 +641,18 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             menu.addSubMenu(Menu.NONE, R.id.MANAGE_TEMPLATES_COMMAND, 0, R.string.widget_title_templates).apply {
                 item.setIcon(R.drawable.ic_menu_template).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
             }
-            menu.add(Menu.NONE, R.id.SAVE_AND_NEW_COMMAND, 0, R.string.menu_save_and_new)
-                    .setCheckable(true)
-                    .setIcon(R.drawable.ic_action_save_new)
-                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
-            menu.add(Menu.NONE, R.id.CREATE_TEMPLATE_COMMAND, 0, R.string.menu_create_template_from_transaction)
-                    .setCheckable(true)
-                    .setIcon(R.drawable.ic_action_template_add)
-                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+            if (mNewInstance) {
+                menu.add(Menu.NONE, R.id.SAVE_AND_NEW_COMMAND, 0, R.string.menu_save_and_new)
+                        .setCheckable(true)
+                        .setIcon(R.drawable.ic_action_save_new)
+                        .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+            }
+            if (shouldShowCreateTemplate) {
+                menu.add(Menu.NONE, R.id.CREATE_TEMPLATE_COMMAND, 0, R.string.menu_create_template_from_transaction)
+                        .setCheckable(true)
+                        .setIcon(R.drawable.ic_action_template_add)
+                        .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+            }
         }
         if (operationType == TYPE_TRANSFER) {
             menu.add(Menu.NONE, R.id.INVERT_TRANSFER_COMMAND, 0, R.string.menu_invert_transfer)
@@ -678,8 +688,8 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         } ?: false
     }
 
-    fun loadTemplate(id: Long) {
-        viewModel.transaction(id, TRANSACTION_FROM_TEMPLATE, false, true, null).observe(this, {
+    private fun loadTemplate(id: Long) {
+        viewModel.transaction(id, TRANSACTION_FROM_TEMPLATE, clone = false, forEdit = true, extras = null).observe(this, {
             populateFromTask(it, TRANSACTION_FROM_TEMPLATE)
         })
     }
@@ -719,7 +729,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                 prefHandler.putBoolean(PrefKey.EXPENSE_EDIT_SAVE_AND_NEW, createNew)
                 updateFab()
                 invalidateOptionsMenu()
-                return true;
+                return true
             }
             R.id.INVERT_TRANSFER_COMMAND -> {
                 (delegate as? TransferDelegate)?.invert()
@@ -786,7 +796,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                     transaction.originPlanInstanceId = planInstanceId
                 }
                 viewModel.save(transaction).observe(this, {
-                    onSaved(it)
+                    onSaved(it, transaction)
                 })
                 if (intent.getBooleanExtra(EXTRA_START_FROM_WIDGET, false)) {
                     when (operationType) {
@@ -869,7 +879,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
 
     private fun cleanup(onComplete: () -> Unit) {
         if (operationType == Transactions.TYPE_SPLIT && ::delegate.isInitialized) {
-            delegate.rowId?.let {
+            delegate.rowId.let {
                 viewModel.cleanupSplit(it, isTemplate).observe(this, {
                     onComplete()
                 })
@@ -894,8 +904,8 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
 
     private fun refreshPlanData() {
         delegate.planId?.let { planId ->
-            viewModel.plan(planId).observe(this, {
-                delegate.configurePlan(it)
+            viewModel.plan(planId).observe(this, { plan ->
+                plan?.let { delegate.updatePlanButton(it) }
             })
         }
     }
@@ -969,7 +979,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         }
     }
 
-    private fun onSaved(result: Long) {
+    private fun onSaved(result: Long, transaction: ITransaction) {
         if (result < 0L) {
             showSnackbar(when (result) {
                 ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE -> getString(R.string.external_storage_unavailable)
@@ -977,7 +987,6 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                 ERROR_WHILE_SAVING_TAGS -> "Error while saving tags"
                 ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE -> {
                     delegate.recurrenceSpinner.setSelection(0)
-                    //mTransaction!!.originTemplate = null
                     "Recurring transactions are not available, because calendar integration is not functional on this device."
                 }
                 else -> {
@@ -1001,12 +1010,10 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             } else {
                 if (delegate.recurrenceSpinner.selectedItem === Recurrence.CUSTOM) {
                     if (isTemplate) {
-                        launchPlanViewForTemplate(result)
+                        (transaction as? Template)?.planId
                     } else {
-                        viewModel.transaction(result, TRANSACTION, clone = false, forEdit = false, extras = null).observe(this, {
-                            it?.originTemplateId?.let { launchPlanViewForTemplate(it) }
-                        })
-                    }
+                        transaction.originPlanId
+                    }?.let { launchPlanView(true, it) }
                 } else { //make sure soft keyboard is closed
                     hideKeyboard()
                     setResult(RESULT_OK)
@@ -1017,12 +1024,6 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             }
         }
         mIsSaving = false
-    }
-
-    private fun launchPlanViewForTemplate(templateId: Long) {
-        viewModel.transaction(templateId, TEMPLATE, clone = false, forEdit = false, extras = null).observe(this, {
-            it?.let { launchPlanView(true, (it as Template).planId) }
-        })
     }
 
     override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor?> {
@@ -1269,10 +1270,12 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
     }
 
     fun observePlan(planId: Long) {
-        pObserver = PlanObserver().also {
-            contentResolver.registerContentObserver(
-                    ContentUris.withAppendedId(CalendarContractCompat.Events.CONTENT_URI, planId),
-                    false, it)
+        if (pObserver == null) {
+            pObserver = PlanObserver().also {
+                contentResolver.registerContentObserver(
+                        ContentUris.withAppendedId(CalendarContractCompat.Events.CONTENT_URI, planId),
+                        false, it)
+            }
         }
     }
 
@@ -1301,5 +1304,9 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             putParcelableArrayListExtra(KEY_TAGLIST, viewModel.getTags().value?.let { ArrayList(it) })
         }
         startActivityForResult(i, SELECT_TAGS_REQUEST)
+    }
+
+    fun editPlan(view: View) {
+        delegate.planId?.let { launchPlanView(false, it) }
     }
 }

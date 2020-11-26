@@ -27,6 +27,7 @@ interface ITransaction: IModel {
     var parentId: Long?
     var pictureUri: Uri?
     var originPlanInstanceId: Long?
+    var originPlanId: Long?
 
     val isTransfer: Boolean
     val isSplit: Boolean

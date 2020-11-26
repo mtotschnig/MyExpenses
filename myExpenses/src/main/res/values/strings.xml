@@ -953,5 +953,5 @@
     <string name="pref_clone_with_current_date_title">Date of cloned transactions</string>
     <string name="default_action">Default action</string>
     <string name="template_default_action_without_amount_hint">Template without amount should be saved with default action \'Edit\'</string>
-
+    <string name="content_description_edit_plan">Edit plan in calendar app</string>
 </resources>
