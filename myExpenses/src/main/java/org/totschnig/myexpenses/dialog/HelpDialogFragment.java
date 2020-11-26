@@ -345,9 +345,8 @@ public class HelpDialogFragment extends CommitSafeDialogFragment implements Imag
   }
 
   private boolean shouldSkip(String component) {
+    //noinspection SwitchStatementWithTooFewBranches
     switch (component) {
-      case "form_plan_help_text_advanced":
-        return !DistributionHelper.shouldUseAndroidPlatformCalendar();
       case "help_ManageSyncBackends_drive":
         return DistributionHelper.isGithub();
     }

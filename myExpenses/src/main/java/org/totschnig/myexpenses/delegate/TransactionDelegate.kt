@@ -210,15 +210,12 @@ abstract class TransactionDelegate<T : ITransaction>(
             if (!isCalendarPermissionPermanentlyDeclined) { //if user has denied access and checked that he does not want to be asked again, we do not
 //bother him with a button that is not working
                 setPlannerRowVisibility(true)
-                val recurrenceAdapter = RecurrenceAdapter(context,
-                        if (DistributionHelper.shouldUseAndroidPlatformCalendar()) null else Plan.Recurrence.CUSTOM)
+                val recurrenceAdapter = RecurrenceAdapter(context, null)
                 recurrenceSpinner.adapter = recurrenceAdapter
                 recurrenceSpinner.setOnItemSelectedListener(this)
                 planButton.setOnClickListener {
                     planId?.let {
-                        if (DistributionHelper.shouldUseAndroidPlatformCalendar()) {
-                            host.launchPlanView(false, it)
-                        }
+                        host.launchPlanView(false, it)
                     } ?: run {
                         planButton.showDialog()
                     }

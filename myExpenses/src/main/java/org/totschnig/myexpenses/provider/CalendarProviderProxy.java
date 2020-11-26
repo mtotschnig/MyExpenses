@@ -4,15 +4,12 @@ import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
-import android.database.MatrixCursor;
 import android.net.Uri;
-import android.text.TextUtils;
 
 import com.android.calendar.CalendarContractCompat;
 import com.android.calendarcommon2.EventRecurrence;
 
 import org.totschnig.myexpenses.BuildConfig;
-import org.totschnig.myexpenses.util.DistributionHelper;
 
 import java.util.TimeZone;
 
@@ -60,79 +57,19 @@ public class CalendarProviderProxy extends ContentProvider {
         }
         long startMilliseconds = Long.parseLong(uri.getPathSegments().get(2));
         long endMilliseconds = Long.parseLong(uri.getPathSegments().get(3));
-        if (DistributionHelper.shouldUseAndroidPlatformCalendar()) {
-          //Instances.Content_URI returns events that fall totally or partially in a given range
-          //we additionally select only instances where the begin is inside the range
-          //because we want to deal with each instance only once
-          //the calendar content provider on Android < 4 does not interpret the selection arguments
-          //hence we put them into the selection
-          selection = selection == null ? "" : (selection + " AND ");
-          selection += CalendarContractCompat.Instances.BEGIN +
-              " BETWEEN " + startMilliseconds + " AND " + endMilliseconds;
-          Uri proxiedUri = Uri.parse(uri.toString().replace(
-              INSTANCES_URI.toString(), CalendarContractCompat.Instances.CONTENT_URI.toString()));
-          return getContext().getContentResolver().query(proxiedUri, INSTANCE_PROJECTION, selection, selectionArgs,
-              sortOrder);
-        }
+        //Instances.Content_URI returns events that fall totally or partially in a given range
+        //we additionally select only instances where the begin is inside the range
+        //because we want to deal with each instance only once
+        //the calendar content provider on Android < 4 does not interpret the selection arguments
+        //hence we put them into the selection
+        selection = selection == null ? "" : (selection + " AND ");
+        selection += CalendarContractCompat.Instances.BEGIN +
+            " BETWEEN " + startMilliseconds + " AND " + endMilliseconds;
+        Uri proxiedUri = Uri.parse(uri.toString().replace(
+            INSTANCES_URI.toString(), CalendarContractCompat.Instances.CONTENT_URI.toString()));
+        return getContext().getContentResolver().query(proxiedUri, INSTANCE_PROJECTION, selection, selectionArgs,
+            sortOrder);
 
-        MatrixCursor result = new MatrixCursor(INSTANCE_PROJECTION);
-        String eventSelection = selection.replace(CalendarContractCompat.Instances.EVENT_ID,
-            CalendarContractCompat.Events._ID);
-        String[] eventProjection = new String[]{
-            CalendarContractCompat.Events._ID,
-            CalendarContractCompat.Events.DTSTART,
-            CalendarContractCompat.Events.RRULE};
-        Cursor eventcursor = getContext().getContentResolver().query(CalendarContractCompat.Events.CONTENT_URI,
-            eventProjection, eventSelection, selectionArgs, sortOrder);
-        DateTime end = DateTime.forInstant(endMilliseconds, TimeZone.getDefault());
-        if (eventcursor != null) {
-          if (eventcursor.moveToFirst()) {
-            while (!eventcursor.isAfterLast()) {
-              String eventId = eventcursor.getString(0);
-              long dtstart = eventcursor.getLong(1);
-              if (dtstart <= endMilliseconds) {
-                EventRecurrence recurrence = null;
-                String rrule = eventcursor.getString(2);
-                if (!TextUtils.isEmpty(rrule)) {
-                  recurrence = new EventRecurrence();
-                  recurrence.parse(rrule);
-                }
-                for (DateTime dayToCheck = DateTime.forInstant(Math.max(startMilliseconds, dtstart),
-                    TimeZone.getDefault());
-                     dayToCheck.lteq(end); ) {
-                  if (isInstanceOfPlan(dayToCheck, dtstart, recurrence)) {
-                    result.addRow(new String[]{
-                        eventId,
-                        String.valueOf(dayToCheck.getMilliseconds(TimeZone.getDefault())),
-                    });
-                    if (recurrence == null) {
-                      break;
-                    } else {
-                      switch (recurrence.freq) {
-                        case EventRecurrence.DAILY:
-                          dayToCheck = dayToCheck.plusDays(1);
-                          break;
-                        case EventRecurrence.WEEKLY:
-                          dayToCheck = dayToCheck.plusDays(7);
-                          break;
-                        case EventRecurrence.MONTHLY:
-                          dayToCheck = dayToCheck.plus(0, 1, 0, 0, 0, 0, 0, DateTime.DayOverflow.LastDay);
-                          break;
-                        case EventRecurrence.YEARLY:
-                          dayToCheck = dayToCheck.plus(1, 0, 0, 0, 0, 0, 0, DateTime.DayOverflow.LastDay);
-                      }
-                    }
-                  } else {
-                    dayToCheck = dayToCheck.plusDays(1);
-                  }
-                }
-              }
-              eventcursor.moveToNext();
-            }
-          }
-          eventcursor.close();
-        }
-        return result;
       case EVENTS:
         return getContext().getContentResolver().query(CalendarContractCompat.Events.CONTENT_URI,
             projection, selection, selectionArgs, sortOrder);
