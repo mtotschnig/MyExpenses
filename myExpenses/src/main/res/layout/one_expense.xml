@@ -197,6 +197,7 @@
                             style="@style/FormField"
                             android:layout_height="wrap_content"
                             android:completionThreshold="1"
+                            android:imeOptions="actionNext"
                             android:inputType="textPersonName|textCapWords" />
                     </TableRow>
 
