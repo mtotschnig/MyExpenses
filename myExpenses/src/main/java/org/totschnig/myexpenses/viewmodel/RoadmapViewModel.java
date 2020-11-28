@@ -45,7 +45,7 @@ import timber.log.Timber;
 public class RoadmapViewModel extends AndroidViewModel {
   public static final String ROADMAP_URL = BuildConfig.DEBUG ?
       "https://votedb-staging.herokuapp.com/"  : "https://roadmap.myexpenses.mobi/";
-  public static final int EXPECTED_MINIMAL_VERSION  = 1;
+  public static final int EXPECTED_MINIMAL_VERSION  = 2;
   public static final String ISSUE_CACHE = "issue_cache.json";
   public static final String ROADMAP_VOTE = "roadmap_vote.json";
 

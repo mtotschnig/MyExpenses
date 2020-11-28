@@ -388,9 +388,9 @@ public class MyExpenses extends BaseMyExpenses implements
     } else {
       setup();
     }
-    /*if (savedInstanceState == null) {
+    if (savedInstanceState == null) {
       voteReminderCheck();
-    }*/
+    }
   }
 
   public void showTransactionFromIntent(Bundle extras) {
