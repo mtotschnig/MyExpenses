@@ -15,6 +15,12 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_318">
+        <item>La acción de clic predeterminada puede definirse por plantilla.</item>
+    </string-array>
+    <string-array name="whats_new_317">
+        <item>Las plantillas pueden cargarse desde el formulario de transacción.</item>
+    </string-array>
     <string-array name="whats_new_316">
         <item>El botón de guardar en el formulario de transacción queda más destacado.</item>
         <item>Una pulsación prolongada del botón de acción flotante abre un menú que permite preparar el formulario para transferencia, división de la transacción o ingreso.</item>

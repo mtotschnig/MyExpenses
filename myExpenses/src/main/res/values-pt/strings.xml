@@ -415,6 +415,7 @@
         <item quantity="one">A categoria selecionada contém subcategorias, que também serão excluídas.</item>
         <item quantity="other">A categoria %1$d selecionada contém subcategorias, que também serão excluídas.</item>
     </plurals>
+    <string name="warning_delete_category_with_budget">Para pelo menos uma categoria selecionada, há alocações de orçamento, que também serão excluídas.</string>
     <plurals name="warning_delete_template">
         <item quantity="one">O modelo selecionado será excluído.</item>
         <item quantity="other">Os %1$d modelos selecionados serão excluídos.</item>
@@ -796,19 +797,75 @@
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.   -->
     <string name="unmapped_filter_only_single">Um filtro \'não mapeado\' não pode ser incluído em uma seleção múltipla</string>
+    <string name="upgrade_information_cloud_sync_storage_format">A partir da versão 2.9.8, a forma como os dados são armazenados nos servidores de sincronização mudou. Atualize para esta versão em todos os dispositivos sincronizados, antes de inserir novos registros em qualquer um deles.</string>
     <string name="pref_security_export_passphrase_title">Senha para backups</string>
     <string name="pref_security_export_passphrase_summary">Os backups serão criptografados com essa senha</string>
     <string name="backup_is_encrypted">O arquivo de backup está criptografado. Para descriptografá-lo é necessário fornecer sua senha.</string>
+    <string name="backup_wrong_password">O arquivo de backup parece criptografado com uma senha diferente.</string>
+    <string name="passphrase_for_synchronization">Digite uma senha, se quiser que os dados sincronizados nesse servidor sejam criptografados.</string>
+    <string name="sync_backend_is_encrypted">O servidor remoto é criptografado. Você precisa especificar uma senha.</string>
+    <string name="sync_backend_wrong_passphrase">O servidor remoto parece ter sido criptografado com uma senha diferente.</string>
+    <string name="sync_backend_is_not_encrypted">O servidor remoto não é criptografado.</string>
+    <string name="warning_backup_protected">O arquivo será protegido pela sua senha.</string>
+    <string name="dialog_title_backup_protected">Backup (criptografado)</string>
+    <string name="input_label_passphrase">Senha</string>
+    <string name="button_label_no_encryption">Sem criptografia</string>
+    <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->
+    <string name="joining_or">ou</string>
+    <string name="pref_account_list_fast_scroll_summary">Habilita a rolagem rápida para a lista de contas. Pode levar a uma exibição incorreta em alguns dispositivos.</string>
+    <string name="menu_hide">Ocultar</string>
     <!-- Action of closing an account. A closed account does not allow any modifications on its data. -->
     <string name="menu_close">Fechar</string>
+    <!-- Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data. -->
+    <string name="menu_reopen">Reabrir</string>
+    <!-- Menu entry for opening a list of all hidden accounts. -->
+    <string name="menu_hidden_accounts">Contas ocultas</string>
+    <!-- Action of showing an account again that had previously been hidden. -->
+    <string name="button_label_show">Exibir</string>
     <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
     <string name="content_description_encrypted">Criptografado</string>
+    <!-- Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data. -->
+    <string name="content_description_closed">Fechada</string>
+    <string name="warning_synced_account_cannot_be_closed">Uma conta vinculada a um servidor de sincronização não pode ser fechada.</string>
     <string name="translated_by">Traduzido por</string>
+    <string name="warning_no_account">Pelo menos uma conta deve estar visível e aberta para criar novas transações.</string>
+    <string name="content_description_dates_are_linked">A data do pagamento e a data da contabilização são atualizadas juntas.</string>
+    <string name="content_description_dates_are_not_linked">A data do pagamento e a data da contabilização não são atualizadas juntas.</string>
+    <string name="icon">Ícone</string>
+    <string name="pref_debug_title">Depurar</string>
+    <string name="warning_account_for_transaction_is_closed">Pelo menos uma das transações selecionadas não pode ser editada:</string>
+    <string name="object_sealed">O objeto se refere a uma conta fechada.</string>
+    <string name="content_description_download_exchange_rate">Baixar a taxa de câmbio</string>
+    <string name="exchange_rate_not_supported">O provedor de taxa de câmbio configurado não fornece a taxa %1$s: %2$s. Você pode tentar selecionar outro provedor nas configurações.</string>
     <string name="pref_category_exchange_rates">Taxas de câmbio</string>
+    <string name="pref_exchange_rate_provider_summary">Selecione o provedor para obter as taxas de câmbio</string>
+    <string name="pref_exchange_rate_provider_title">Provedor de taxa de câmbio</string>
+    <string name="pref_openexchangerates_app_id_summary">Por favor, registre uma conta gratuita em OpenExchangeRates e forneça o ID do seu aplicativo</string>
+    <string name="pref_plan_executor_time_title">Horário de notificação do planejador</string>
+    <string name="synchronization_select_folder_dialog_title">Selecione uma pasta existente ou crie uma nova</string>
+    <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->
+    <string name="discover_feature_expense_income_switch">Use este botão para registrar a receita.</string>
     <string name="menu_create_budget">Novo orçamento</string>
+    <string name="dialog_confirm_discard_new_budget">Descartar o novo orçamento?</string>
     <string name="budget_duration_from">De</string>
     <string name="budget_duration_to">Até</string>
+    <string name="no_budgets">Defina seu primeiro orçamento tocando no botão +.</string>
+    <string name="budget_date_end_after_start">A data de término do orçamento deve ser posterior à data de início.</string>
+    <string name="menu_budget_allocated_only">Exibir apenas categorias com alocação</string>
+    <string name="budget_filter_all_categories">Todas as categorias</string>
+    <string name="budget_filter_all_parties">Todos os parceiros</string>
+    <string name="budget_filter_all_methods">Todos os métodos</string>
+    <string name="budget_filter_all_states">Todos os status</string>
+    <string name="budget_filter_all_tags">Todas as etiquetas</string>
+    <string name="budget_form_label_filter">Filtrar</string>
+    <string name="dialog_title_warning_delete_budget">Excluir o orçamento?</string>
+    <string name="warning_delete_budget">O orçamento \"%1$s\" será excluído.</string>
     <string name="menu_edit_budget">Editar o orçamento</string>
+    <string name="onboarding_privacy_title">Seus dados ficam em suas mãos</string>
+    <string name="onboarding_privacy_intro">Seus dados financeiros não são enviados para nenhum servidor, nem são operados por nós ou por terceiros.</string>
+    <string name="app_restart_required">A nova configuração será ativada quando o aplicativo for reiniciado.</string>
+    <!-- Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list. -->
+    <string name="checkbox_is_default">Padrão</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Características</string>
     <string name="button_download">Baixar</string>

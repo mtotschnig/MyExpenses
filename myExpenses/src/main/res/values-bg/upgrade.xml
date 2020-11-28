@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_318">
+        <item>Дефиниране на действието по подразбиране за всеки шаблон.</item>
+    </string-array>
     <string-array name="whats_new_317">
         <item>Шаблон може да се зареди от страницата за транзакции.</item>
     </string-array>
