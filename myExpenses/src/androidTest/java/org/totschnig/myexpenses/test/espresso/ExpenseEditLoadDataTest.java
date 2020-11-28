@@ -118,7 +118,7 @@ public class ExpenseEditLoadDataTest extends BaseUiTest {
     i.putExtra(KEY_ROWID, transaction.getId());
     launchAndWait(i);
     checkEffectiveVisible(R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
-        R.id.PayeeRow, R.id.AccountRow, R.id.Recurrence);
+        R.id.PayeeRow, R.id.AccountRow);
     onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).check(matches(withText("5")));
   }
 
@@ -166,7 +166,7 @@ public class ExpenseEditLoadDataTest extends BaseUiTest {
     i.putExtra(KEY_ROWID, transfer.getId());
     launchAndWait(i);
     checkEffectiveVisible(R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.AccountRow,
-        R.id.TransferAccountRow, R.id.Recurrence);
+        R.id.TransferAccountRow);
     onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).check(matches(withText("6")));
   }
 
@@ -199,7 +199,7 @@ public class ExpenseEditLoadDataTest extends BaseUiTest {
     i.putExtra(KEY_ROWID, splitTransaction.getId());
     launchAndWait(i);
     checkEffectiveVisible(R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.SplitContainer,
-        R.id.PayeeRow, R.id.AccountRow, R.id.Recurrence);
+        R.id.PayeeRow, R.id.AccountRow);
   }
 
   @Test
@@ -262,7 +262,7 @@ public class ExpenseEditLoadDataTest extends BaseUiTest {
     i.putExtra(KEY_INSTANCEID, -1L);
     launchAndWait(i);
     checkEffectiveVisible(R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
-        R.id.PayeeRow, R.id.AccountRow, R.id.Recurrence);
+        R.id.PayeeRow, R.id.AccountRow);
     checkEffectiveGone(R.id.PB, R.id.TitleRow);
     assertThat(mActivityRule.getActivity().isTemplate).isFalse();
     onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).check(matches(withText("8")));
