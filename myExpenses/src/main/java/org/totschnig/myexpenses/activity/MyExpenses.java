@@ -922,6 +922,7 @@ public class MyExpenses extends BaseMyExpenses implements
         break;
       }
       case OCR: {
+        //viewModel.startOcrFeature(new File("/sdcard/OCR_DEBUG.jpg"), this);
         viewModel.getScanFile(file -> {
           scanFile = file;
           Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

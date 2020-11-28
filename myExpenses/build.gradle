@@ -232,7 +232,7 @@ dependencies {
 
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
-    implementation 'org.slf4j:slf4j-api:1.7.25'
+    implementation 'org.slf4j:slf4j-api:1.7.26'
     implementation 'com.github.tony19:logback-android:2.0.0'
 
     implementation "androidx.appcompat:appcompat:$appcompatVersion"
