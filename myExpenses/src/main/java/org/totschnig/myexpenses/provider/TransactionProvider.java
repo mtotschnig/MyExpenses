@@ -1464,34 +1464,32 @@ public class TransactionProvider extends BaseTransactionProvider {
         break;
       case CURRENCIES_CHANGE_FRACTION_DIGITS:
         synchronized (MyApplication.getInstance()) {
-          db.beginTransaction();
-          try {
-            List<String> segments = uri.getPathSegments();
-            segment = segments.get(2);
-            String[] bindArgs = new String[]{segment};
-            int oldValue = currencyContext.get(segment).fractionDigits();
-            int newValue = Integer.parseInt(segments.get(3));
-            if (oldValue == newValue) {
-              return 0;
-            }
-            c = db.query(
-                TABLE_ACCOUNTS,
-                new String[]{"count(*)"},
-                KEY_CURRENCY + "=?",
-                bindArgs, null, null, null);
-            count = 0;
-            if (c.getCount() != 0) {
-              c.moveToFirst();
-              count = c.getInt(0);
-            }
-            c.close();
-            if (count != 0) {
-              String operation = oldValue < newValue ? "*" : "/";
-              int factor = (int) Math.pow(10, Math.abs(oldValue - newValue));
+          List<String> segments = uri.getPathSegments();
+          segment = segments.get(2);
+          String[] bindArgs = new String[]{segment};
+          int oldValue = currencyContext.get(segment).fractionDigits();
+          int newValue = Integer.parseInt(segments.get(3));
+          if (oldValue == newValue) {
+            return 0;
+          }
+          c = db.query(
+              TABLE_ACCOUNTS,
+              new String[]{"count(*)"},
+              KEY_CURRENCY + "=?",
+              bindArgs, null, null, null);
+          count = 0;
+          if (c.getCount() != 0) {
+            c.moveToFirst();
+            count = c.getInt(0);
+          }
+          c.close();
+          String operation = oldValue < newValue ? "*" : "/";
+          int factor = (int) Math.pow(10, Math.abs(oldValue - newValue));
+          if (count != 0) {
+            MoreDbUtilsKt.safeUpdateWithSealedAccounts(db, () -> {
               db.execSQL("UPDATE " + TABLE_ACCOUNTS + " SET " + KEY_OPENING_BALANCE + "="
                       + KEY_OPENING_BALANCE + operation + factor + " WHERE " + KEY_CURRENCY + "=?",
                   bindArgs);
-
               db.execSQL("UPDATE " + TABLE_TRANSACTIONS + " SET " + KEY_AMOUNT + "="
                       + KEY_AMOUNT + operation + factor + " WHERE " + KEY_ACCOUNTID
                       + " IN (SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + "=?)",
@@ -1501,11 +1499,10 @@ public class TransactionProvider extends BaseTransactionProvider {
                       + KEY_AMOUNT + operation + factor + " WHERE " + KEY_ACCOUNTID
                       + " IN (SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + "=?)",
                   bindArgs);
-            }
+              currencyContext.storeCustomFractionDigits(segment, newValue);
+            });
+          } else {
             currencyContext.storeCustomFractionDigits(segment, newValue);
-            db.setTransactionSuccessful();
-          } finally {
-            db.endTransaction();
           }
         }
         break;
@@ -1786,23 +1783,13 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case METHOD_RESET_EQUIVALENT_AMOUNTS: {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
-        db.beginTransaction();
-        try {
-          Bundle result = new Bundle(1);
-          ContentValues unsealValues = new ContentValues(1);
-          unsealValues.put(KEY_SEALED, -1);
-          db.update(TABLE_ACCOUNTS, unsealValues, KEY_SEALED +  "= ?", new String[] {"1"});
+        Bundle result = new Bundle(1);
+        MoreDbUtilsKt.safeUpdateWithSealedAccounts(db, () -> {
           ContentValues resetValues = new ContentValues(1);
           resetValues.putNull(KEY_EQUIVALENT_AMOUNT);
           result.putInt(KEY_RESULT, db.update(TABLE_TRANSACTIONS, resetValues, KEY_EQUIVALENT_AMOUNT + " IS NOT NULL", null));
-          ContentValues sealValues = new ContentValues(1);
-          sealValues.put(KEY_SEALED, 1);
-          db.update(TABLE_ACCOUNTS, sealValues, KEY_SEALED +  "= ?", new String[] {"-1"});
-          db.setTransactionSuccessful();
-          return result;
-        } finally {
-          db.endTransaction();
-        }
+        });
+        return result;
       }
     }
     return null;
