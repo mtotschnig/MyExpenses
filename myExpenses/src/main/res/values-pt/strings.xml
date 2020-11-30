@@ -866,6 +866,35 @@
     <string name="app_restart_required">A nova configuração será ativada quando o aplicativo for reiniciado.</string>
     <!-- Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list. -->
     <string name="checkbox_is_default">Padrão</string>
+    <!-- Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method" -->
+    <string name="menu_remap">Remapear</string>
+    <string name="dialog_title_confirm_remap">Alterar mapeamento (%s)?</string>
+    <string name="remap_category">Todas as transações selecionadas serão mapeadas para a categoria %s.</string>
+    <string name="remap_payee">Todas as transações selecionadas serão mapeadas para pagador/beneficiário %s.</string>
+    <string name="remap_method">Todas as transações selecionadas serão mapeadas para o método %s.</string>
+    <string name="remap_account">Todas as transações selecionadas serão mapeadas para a conta %s.</string>
+    <string name="remapping_result">As transações selecionadas foram remapeadas.</string>
+    <string name="clone_and_remap_result">As transações selecionadas foram clonadas e remapeadas.</string>
+    <!-- If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
+        because no payment method is configured for all of the given account types.-->
+    <string name="remap_empty_list">Não foi encontrado nenhum item que possa ser mapeado para todas as transações selecionadas.</string>
+    <!-- The label for the button, where user confirms that he wants to clone the selected transactions and then remap them. -->
+    <string name="button_label_clone_and_remap">Clonar e remapear</string>
+    <!-- The summary of a preference toggle. If switched on cloned transactions have the date set to the current date -->
+    <string name="pref_clone_with_current_date_summary_on">As transações clonadas mudam para a data atual</string>
+    <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
+    <string name="pref_clone_with_current_date_summary_off">As transações clonadas mantêm a data original</string>
+    <string name="pref_protection_screenshot_information">Ao ativar a proteção do dispositivo, a captura de tela é desativada.</string>
+    <string name="tags_create_or_select">Criar ou selecionar etiquetas</string>
+    <string name="content_description_tags_confirm">Confirmar</string>
+    <string name="tags">Etiquetas</string>
+    <string name="pref_manage_tags_summary">Adicione, edite, apague etiquetas.</string>
+    <string name="dialog_title_warning_delete_tag">Excluir a etiqueta?</string>
+    <string name="menu_edit_tag">Editar a etiqueta</string>
+    <!-- This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction -->
+    <string name="menu_tag">Etiquetar</string>
+    <!-- %s will be replaced with the labels of all tags that user has selected. -->
+    <string name="dialog_multi_tag">Todas as transações selecionadas serão marcadas com %s.</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Características</string>
     <string name="button_download">Baixar</string>

@@ -523,7 +523,7 @@
     <string name="csv_import_preview">முன்னோட்டம்</string>
     <string name="menu_parse">பாகுபடுத்து</string>
     <!-- Label for column where user can check rows to be discarded from import -->
-    <string name="cvs_import_discard">நீக்கு</string>
+    <string name="cvs_import_discard">நிராகரி</string>
     <string name="csv_import_field_mapped_more_than_once">%s ஒன்றுக்கு மேலாக தொடற்பு படுத்தப்பட்டுள்ளது.</string>
     <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d பதிவுகளை இறக்குமதி செய்ய முடியவில்லை.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d பதிவுகள்  நீக்கப்பட்டது.</string>
@@ -848,7 +848,7 @@
     <string name="discover_feature_expense_income_switch">வருமானத்தை பதிவு செய்ய இந்த நிலைமாற்றியை பயன்படுத்தவும்.</string>
     <string name="menu_create_budget">புதிய வரவு செலவுத் திட்டம்</string>
     <string name="budget_onetime">ஒரு முறை</string>
-    <string name="dialog_confirm_discard_new_budget">புதிய வரவு செலவுத் திட்டத்தை நீக்கவா?</string>
+    <string name="dialog_confirm_discard_new_budget">புதிய வரவு செலவுத் திட்டத்தை கைவிடவா?</string>
     <string name="budget_duration_from">இருந்து</string>
     <string name="budget_duration_to">வரை</string>
     <string name="no_budgets">+ பொத்தானைத் தட்டுவதன் மூலம் உங்கள் முதல் வரவு செலவுத் திட்டத்தை வரையறுக்கவும்.</string>
@@ -948,4 +948,10 @@
     <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
     <string name="advance_exexcution_in_days">முன்னதாக செயல்படுத்து (நாட்களில்)</string>
     <string name="warning_balance_account_delete">நீங்கள் தொடர்ந்தால், இந்த கணக்கின் அனைத்து நல்லிணக்கம் செய்யப்பட்ட பரிவர்த்தனைகளும் தரவுத்தளத்திலிருந்து நீக்கப்படும், மேலும் அவற்றை நீங்கள் மீட்டெடுக்க முடியாது.</string>
-    </resources>
+    <!-- When user opens a template from the transaction form, existing data is discarded. This message appears in a dialgoue to confirm the action -->
+    <string name="confirmation_load_template_discard_data">இருக்கும் படிவத் தரவு நிராகரிக்கப்படும்.</string>
+    <string name="pref_clone_with_current_date_title">நகல் எடுக்கப்பட்ட பரிவர்த்தனைகளின் தேதி</string>
+    <string name="default_action">இயல்புநிலை செயல்</string>
+    <string name="template_default_action_without_amount_hint">தொகை இல்லாத வார்ப்புருக்கள் இயல்புநிலை நடவடிக்கை \'திருத்து\' உடன் சேமிக்கப்பட வேண்டும்</string>
+
+</resources>
