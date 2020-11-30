@@ -19,13 +19,11 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import org.threeten.bp.Instant
@@ -73,6 +71,9 @@ class TransactionDetailFragment : CommitSafeDialogFragment(), DialogInterface.On
 
     @Inject
     lateinit var prefHandler: PrefHandler
+
+    @Inject
+    lateinit var picasso: Picasso
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -269,7 +270,7 @@ class TransactionDetailFragment : CommitSafeDialogFragment(), DialogInterface.On
                     dlg.window?.findViewById<ImageView>(android.R.id.icon)?.let { image ->
                         image.visibility = View.VISIBLE
                         image.scaleType = ImageView.ScaleType.CENTER_CROP
-                        Picasso.get().load(transaction.pictureUri).fit().into(image)
+                        picasso.load(transaction.pictureUri).fit().into(image)
                     }
                 }
             } else {

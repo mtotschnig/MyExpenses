@@ -17,6 +17,6 @@ public class SimpleImageActivity extends Activity {
     super.onCreate(savedInstanceState);
     getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
     setContentView(R.layout.simple_image);
-    Picasso.get().load(getIntent().getData()).into(((ImageView) findViewById(R.id.imageView)));
+    Picasso.get().load(getIntent().getData()).fit().into(((ImageView) findViewById(R.id.imageView)));
   }
 }
