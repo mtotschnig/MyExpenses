@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses.activity;
 
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -927,7 +928,11 @@ public class MyExpenses extends BaseMyExpenses implements
           scanFile = file;
           Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
           intent.putExtra(MediaStore.EXTRA_OUTPUT, viewModel.getScanUri(scanFile));
-          startActivityForResult(intent, PICTURE_REQUEST_CODE);
+          try {
+            startActivityForResult(intent, PICTURE_REQUEST_CODE);
+          } catch (ActivityNotFoundException e) {
+            showSnackbar(R.string.image_capture_not_installed);
+          }
           return Unit.INSTANCE;
         });
       }
