@@ -273,14 +273,26 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
   @Override
   public void onPostExecute(int taskId, Object o) {
     super.onPostExecute(taskId, o);
-    if (taskId == TaskExecutionFragment.TASK_VALIDATE_LICENCE ||
-        taskId == TaskExecutionFragment.TASK_REMOVE_LICENCE) {
-      dismissSnackbar();
-      if (o instanceof Result) {
-        Result r = ((Result) o);
-        showSnackbar(r.print(this));
-        getFragment().setProtectionDependentsState();
-        getFragment().configureContribPrefs();
+    switch (taskId) {
+      case TaskExecutionFragment.TASK_VALIDATE_LICENCE:
+      case TaskExecutionFragment.TASK_REMOVE_LICENCE: {
+        dismissSnackbar();
+        if (o instanceof Result) {
+          Result r = ((Result) o);
+          showSnackbar(r.print(this));
+          getFragment().setProtectionDependentsState();
+          getFragment().configureContribPrefs();
+        }
+        break;
+      }
+      case TaskExecutionFragment.TASK_RESET_EQUIVALENT_AMOUNTS: {
+        Result<Integer> r = ((Result<Integer>) o);
+        if (r.isSuccess()) {
+          showSnackbar(String.format(getResources().getConfiguration().locale, "%s (%d)", getString(R.string.reset_equivalent_amounts_success), r.getExtra()));
+        } else {
+          showSnackbar("Equivalent amount reset failed");
+        }
+        break;
       }
     }
   }

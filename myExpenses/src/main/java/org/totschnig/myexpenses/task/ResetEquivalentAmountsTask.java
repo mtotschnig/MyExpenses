@@ -1,25 +1,22 @@
 package org.totschnig.myexpenses.task;
 
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.os.Bundle;
 
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.util.Result;
 
-public class ResetEquivalentAmountsTask extends ExtraTask<Void> {
+public class ResetEquivalentAmountsTask extends ExtraTask<Result<Integer>> {
   ResetEquivalentAmountsTask(TaskExecutionFragment taskExecutionFragment, int taskId) {
     super(taskExecutionFragment, taskId);
   }
 
   @Override
-  protected Void doInBackground(Bundle... bundles) {
-    MyApplication application = MyApplication.getInstance();
-    ContentResolver cr = application.getContentResolver();
-    ContentValues values = new ContentValues();
-    values.putNull(DatabaseConstants.KEY_EQUIVALENT_AMOUNT);
-    cr.update(TransactionProvider.TRANSACTIONS_URI, values, null, null);
-    return null;
+  protected Result<Integer> doInBackground(Bundle... bundles) {
+    final Bundle result = MyApplication.getInstance()
+        .getContentResolver()
+        .call(TransactionProvider.DUAL_URI, TransactionProvider.METHOD_RESET_EQUIVALENT_AMOUNTS, null, null);
+    return result == null ? Result.ofFailure(0) :
+        Result.ofSuccess(0, result.getInt(TransactionProvider.KEY_RESULT));
   }
 }

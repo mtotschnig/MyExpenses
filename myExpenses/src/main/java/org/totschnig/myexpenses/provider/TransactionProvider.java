@@ -209,6 +209,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String METHOD_BULK_END = "bulkEnd";
   public static final String METHOD_SORT_ACCOUNTS = "sort_accounts";
   public static final String METHOD_SETUP_CATEGORIES = "setup_categories";
+  public static final String METHOD_RESET_EQUIVALENT_AMOUNTS = "reset_equivalent_amounts";
 
   public static final String KEY_RESULT = "result";
 
@@ -1782,6 +1783,26 @@ public class TransactionProvider extends BaseTransactionProvider {
         result.putInt(KEY_RESULT, DbUtils.setupDefaultCategories(mOpenHelper.getWritableDatabase(), ContextHelper.wrap(getContext(), userLocaleProvider.getUserPreferredLocale())));
         notifyChange(CATEGORIES_URI, false);
         return result;
+      }
+      case METHOD_RESET_EQUIVALENT_AMOUNTS: {
+        final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+        db.beginTransaction();
+        try {
+          Bundle result = new Bundle(1);
+          ContentValues unsealValues = new ContentValues(1);
+          unsealValues.put(KEY_SEALED, -1);
+          db.update(TABLE_ACCOUNTS, unsealValues, KEY_SEALED +  "= ?", new String[] {"1"});
+          ContentValues resetValues = new ContentValues(1);
+          resetValues.putNull(KEY_EQUIVALENT_AMOUNT);
+          result.putInt(KEY_RESULT, db.update(TABLE_TRANSACTIONS, resetValues, KEY_EQUIVALENT_AMOUNT + " IS NOT NULL", null));
+          ContentValues sealValues = new ContentValues(1);
+          sealValues.put(KEY_SEALED, 1);
+          db.update(TABLE_ACCOUNTS, sealValues, KEY_SEALED +  "= ?", new String[] {"-1"});
+          db.setTransactionSuccessful();
+          return result;
+        } finally {
+          db.endTransaction();
+        }
       }
     }
     return null;

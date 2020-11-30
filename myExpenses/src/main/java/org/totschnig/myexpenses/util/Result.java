@@ -104,8 +104,8 @@ public class Result<T> {
     return new Result<>(true, message, extra);
   }
 
-  public static <T> Result<T> ofSuccess(int message, T extra, Object... messasgeArguments) {
-    return new Result<>(true, message, extra, messasgeArguments);
+  public static <T> Result<T> ofSuccess(int message, T extra, Object... messageArguments) {
+    return new Result<>(true, message, extra, messageArguments);
   }
 
   public static <T> Result<T> ofFailure(int message) {
@@ -116,8 +116,8 @@ public class Result<T> {
     return new Result<>(false, messageString);
   }
 
-  public static <T> Result<T> ofFailure(int message, Object... messasgeArguments) {
-    return new Result<>(false, message, null, messasgeArguments);
+  public static <T> Result<T> ofFailure(int message, Object... messageArguments) {
+    return new Result<>(false, message, null, messageArguments);
   }
 
   @NonNull
