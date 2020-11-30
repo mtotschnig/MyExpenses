@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.activity
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.app.NotificationManager
+import android.content.ActivityNotFoundException
 import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
@@ -1078,14 +1079,19 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         //intent.putExtra(CalendarContractCompat.EXTRA_EVENT_END_TIME, mPlan!!.dtstart)
         intent.data = ContentUris.withAppendedId(CalendarContractCompat.Events.CONTENT_URI, planId)
         if (Utils.isIntentAvailable(this, intent)) {
-            if (forResult) {
-                startActivityForResult(intent, PLAN_REQUEST)
-            } else {
-                startActivity(intent)
+            try {
+                if (forResult) {
+                    startActivityForResult(intent, PLAN_REQUEST)
+                } else {
+                    startActivity(intent)
+                }
+                return
+            } catch (e: ActivityNotFoundException) {
+                Timber.w("Component: %s", intent.resolveActivity(getPackageManager()))
+                CrashHandler.report(e)
             }
-        } else {
-            showSnackbar(R.string.no_calendar_app_installed, Snackbar.LENGTH_SHORT)
         }
+        showSnackbar(R.string.no_calendar_app_installed, Snackbar.LENGTH_SHORT)
     }
 
     override fun onLoaderReset(loader: Loader<Cursor?>) { //should not be necessary to empty the autoCompleteTextView
