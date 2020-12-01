@@ -14,6 +14,7 @@ import androidx.test.espresso.Espresso.pressBackUnconditionally
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.action.ViewActions.typeText
+import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -129,6 +130,8 @@ class SplitEditTest : BaseUiTest() {
         assertThat(splitPartListUpdateCalled).isEqualTo(1)
         repeat(times) {
             onView(withId(R.id.CREATE_PART_COMMAND)).perform(ViewActions.click())
+            onView(withId(R.id.MANAGE_TEMPLATES_COMMAND)).check(doesNotExist())
+            onView(withId(R.id.CREATE_TEMPLATE_COMMAND)).check(doesNotExist())
             enterAmountSave("50")
             onView(withId(R.id.CREATE_COMMAND)).perform(ViewActions.click())//save part
             assertThat(splitPartListUpdateCalled).isEqualTo(1)
@@ -141,6 +144,8 @@ class SplitEditTest : BaseUiTest() {
         assertThat(waitForAdapter().count).isEqualTo(2)
         onData(anything()).inAdapterView(ViewMatchers.isAssignableFrom(ListView::class.java)).atPosition(0).perform(ViewActions.click())
         onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).perform(replaceText("150"))
+        onView(withId(R.id.MANAGE_TEMPLATES_COMMAND)).check(doesNotExist())
+        onView(withId(R.id.CREATE_TEMPLATE_COMMAND)).check(doesNotExist())
         onView(withId(R.id.CREATE_COMMAND)).perform(ViewActions.click())//save part
         onView(withId(R.id.CREATE_COMMAND)).perform(ViewActions.click())//save parent fails with unsplit amount
         onView(withId(com.google.android.material.R.id.snackbar_text))

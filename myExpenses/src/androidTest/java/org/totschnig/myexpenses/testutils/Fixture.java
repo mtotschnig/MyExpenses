@@ -86,7 +86,7 @@ public class Fixture {
     SYNC_ACCOUNT_2 = "Dropbox - " + testContext.getString(R.string.testData_sync_backend_2_name);
     SYNC_ACCOUNT_3 = "WebDAV - https://my.private.cloud/webdav/MyExpenses";
     CurrencyUnit defaultCurrency = Utils.getHomeCurrency();
-    CurrencyUnit foreignCurrency = appContext.getAppComponent().currencyContext().get(defaultCurrency.code().equals("EUR") ? "GBP" : "EUR");
+    CurrencyUnit foreignCurrency = appContext.getAppComponent().currencyContext().get(defaultCurrency.getCode().equals("EUR") ? "GBP" : "EUR");
 
     account1 = new Account(
         testContext.getString(R.string.testData_account1Label),

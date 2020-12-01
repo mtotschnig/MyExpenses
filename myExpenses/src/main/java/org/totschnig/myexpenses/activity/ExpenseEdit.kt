@@ -497,6 +497,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
     }
 
     private fun populate(transaction: Transaction) {
+        parentId = transaction.parentId ?: 0L
         if (isClone) {
             transaction.crStatus = CrStatus.UNRECONCILED
             transaction.status = DatabaseConstants.STATUS_NONE

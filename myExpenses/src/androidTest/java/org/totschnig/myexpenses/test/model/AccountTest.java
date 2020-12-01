@@ -101,7 +101,7 @@ public class AccountTest extends ModelTest {
     Long openingBalance = (long) 100;
     account = new Account("TestAccount", openingBalance, "Testing with Junit");
     account.setCurrency(CurrencyUnit.create(java.util.Currency.getInstance("EUR")));
-    assertEquals("EUR", account.getCurrencyUnit().code());
+    assertEquals("EUR", account.getCurrencyUnit().getCode());
     account.save();
     assertTrue(account.getId() > 0);
     restored = Account.getInstanceFromDb(account.getId());
@@ -194,7 +194,7 @@ public class AccountTest extends ModelTest {
 
   public void testGetAggregateAccountFromDb() {
     insertData();
-    String currency = Utils.getHomeCurrency().code();
+    String currency = Utils.getHomeCurrency().getCode();
     Cursor c = getMockContentResolver().query(
         TransactionProvider.CURRENCIES_URI,
         new String[]{KEY_ROWID},
@@ -207,7 +207,7 @@ public class AccountTest extends ModelTest {
     c.close();
     AggregateAccount aa = (AggregateAccount) Account.getInstanceFromDb(id);
     assert aa != null;
-    assertEquals(currency, aa.getCurrencyUnit().code());
+    assertEquals(currency, aa.getCurrencyUnit().getCode());
     assertEquals(openingBalance * 2, aa.openingBalance.getAmountMinor().longValue());
   }
 

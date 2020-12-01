@@ -157,7 +157,7 @@ public class ExpenseEditTest extends BaseUiTest {
       //we assume that Fixture has set up the default account with id 1
       Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
       i.putExtra(OPERATION_TYPE, TYPE_TRANSACTION);
-      i.putExtra(DatabaseConstants.KEY_CURRENCY, c.code());
+      i.putExtra(DatabaseConstants.KEY_CURRENCY, c.getCode());
       mActivityRule.launchActivity(i);
       assertEquals("Account is not selected", c, mActivityRule.getActivity().getCurrentAccount().getCurrency());
       mActivityRule.getActivity().finish();
