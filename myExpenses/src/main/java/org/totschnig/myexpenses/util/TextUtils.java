@@ -36,10 +36,14 @@ public class TextUtils {
   }
 
   public static String appendCurrencySymbol(Context context, int resId, CurrencyUnit currency) {
-    return appendCurrencySymbol(context, resId, currency.symbol());
+    return appendText(context, resId, currency.getSymbol());
   }
 
-  public static String appendCurrencySymbol(Context context, int resId, String symbol) {
+  public static String appendCurrencyDescription(Context context, int resId, CurrencyUnit currency) {
+    return appendText(context, resId, currency.getDescription());
+  }
+
+  public static String appendText(Context context, int resId, String symbol) {
     return String.format(Locale.ROOT, "%s (%s)", context.getString(resId), symbol);
   }
 

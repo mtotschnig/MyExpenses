@@ -167,7 +167,7 @@ public class PdfPrinter {
       column = "sum(" + Account.CURRENT_BALANCE_EXPR + ")";
       selection = KEY_ROWID + " IN " +
           "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ?)";
-      selectionArgs = new String[]{account.getCurrencyUnit().code()};
+      selectionArgs = new String[]{account.getCurrencyUnit().getCode()};
     } else {
       column = Account.CURRENT_BALANCE_EXPR;
       selection = KEY_ROWID + " = ?";

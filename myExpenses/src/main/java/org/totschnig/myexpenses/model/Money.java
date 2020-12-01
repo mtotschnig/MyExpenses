@@ -45,11 +45,11 @@ public class Money implements Serializable {
   }
 
   private void setAmountMajor(BigDecimal amountMajor) {
-    this.amountMinor = amountMajor.movePointRight(currencyUnit.fractionDigits()).longValue();
+    this.amountMinor = amountMajor.movePointRight(currencyUnit.getFractionDigits()).longValue();
   }
 
   public BigDecimal getAmountMajor() {
-    return new BigDecimal(amountMinor).movePointLeft(currencyUnit.fractionDigits());
+    return new BigDecimal(amountMinor).movePointLeft(currencyUnit.getFractionDigits());
   }
 
   @Override
@@ -88,7 +88,7 @@ public class Money implements Serializable {
    */
   public static Money buildWithMicros(CurrencyUnit currency, long amountMicros) {
     long amountMinor;
-    int fractionDigits = currency.fractionDigits();
+    int fractionDigits = currency.getFractionDigits();
     switch (Utils.compare(6, fractionDigits)) {
       case -1:
         amountMinor = amountMicros * (long) Math.pow(10, fractionDigits - 6);

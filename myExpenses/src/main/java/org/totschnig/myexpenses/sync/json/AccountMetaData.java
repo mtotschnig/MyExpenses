@@ -90,7 +90,7 @@ public abstract class  AccountMetaData implements Parcelable {
 
   public static AccountMetaData from(Account account) {
     String homeCurrency = PrefKey.HOME_CURRENCY.getString(null);
-    final String accountCurrency = account.getCurrencyUnit().code();
+    final String accountCurrency = account.getCurrencyUnit().getCode();
     final Builder builder = builder()
         .setCurrency(accountCurrency)
         .setColor(account.color)

@@ -204,7 +204,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity implement
         prefHandler.remove(AUTO_FILL_LEGACY);
       }
       if (prev_version < 316) {
-        prefHandler.putString(HOME_CURRENCY, Utils.getHomeCurrency().code());
+        prefHandler.putString(HOME_CURRENCY, Utils.getHomeCurrency().getCode());
         invalidateHomeCurrency();
       }
       if (prev_version < 354) {

@@ -31,13 +31,8 @@ class OnboardingUiFragment : OnboardingFragment() {
     @BindView(R.id.font_size)
     lateinit var fontSizeSeekBar: SeekBar
 
-    @JvmField
     @BindView(R.id.theme)
-    var themeSwitch: SwitchCompat? = null
-
-    @JvmField
-    @BindView(R.id.themeSpinner)
-    var themeSpinnner: Spinner? = null
+    lateinit var themeSwitch: View
 
     @Inject
     lateinit var userLocaleProvider: UserLocaleProvider
@@ -78,9 +73,9 @@ class OnboardingUiFragment : OnboardingFragment() {
 
         //theme
         val theme = prefHandler.getString(PrefKey.UI_THEME_KEY, getString(R.string.pref_ui_theme_default))
-        themeSwitch?.let {
+        (themeSwitch as? SwitchCompat)?.let {
             val isLight = ProtectedFragmentActivity.ThemeType.light.name == theme
-           it.isChecked = isLight
+            it.isChecked = isLight
             setContentDescriptionToThemeSwitch(it, isLight)
             it.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
                 prefHandler.putString(PrefKey.UI_THEME_KEY,
@@ -88,7 +83,7 @@ class OnboardingUiFragment : OnboardingFragment() {
                 setNightMode(prefHandler, requireContext())
             }
         }
-        themeSpinnner?.let {
+        (themeSwitch as? Spinner)?.let {
             val spinnerHelper = SpinnerHelper(it)
             val themeValues = resources.getStringArray(R.array.pref_ui_theme_values)
             spinnerHelper.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {

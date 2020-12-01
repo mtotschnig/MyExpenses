@@ -302,7 +302,7 @@ class SyncDelegate @JvmOverloads constructor(val currencyContext: CurrencyContex
         }
         if (change.equivalentAmount() != null && change.equivalentCurrency() != null) {
             val homeCurrency = Utils.getHomeCurrency()
-            if (change.equivalentCurrency() == homeCurrency.code()) {
+            if (change.equivalentCurrency() == homeCurrency.code) {
                 values.put(DatabaseConstants.KEY_EQUIVALENT_AMOUNT, change.equivalentAmount())
             }
         }
@@ -378,7 +378,7 @@ class SyncDelegate @JvmOverloads constructor(val currencyContext: CurrencyContex
         change.equivalentAmount()?.let { equivalentAmount ->
             change.equivalentCurrency()?.let { equivalentCurrency ->
                 with(Utils.getHomeCurrency()) {
-                    if (equivalentCurrency == code()) {
+                    if (equivalentCurrency == code) {
                         t.equivalentAmount = Money(this, equivalentAmount)
                     }
                 }

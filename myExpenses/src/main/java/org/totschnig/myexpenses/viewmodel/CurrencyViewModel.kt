@@ -37,7 +37,7 @@ open class CurrencyViewModel(application: Application) : ContentResolvingAndroid
     }
 
     val default: Currency
-        get() = Currency.create(Utils.getHomeCurrency().code())
+        get() = Currency.create(Utils.getHomeCurrency().code)
 
 
     fun getCurrencies(): LiveData<List<Currency>> = currencies

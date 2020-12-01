@@ -139,7 +139,7 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
     }
 
     private fun adjustExchangeRate(raw: Double, currencyUnit: CurrencyUnit): Double {
-        val minorUnitDelta: Int = currencyUnit.fractionDigits() - Utils.getHomeCurrency().fractionDigits()
+        val minorUnitDelta: Int = currencyUnit.fractionDigits - Utils.getHomeCurrency().fractionDigits
         return raw * Math.pow(10.0, minorUnitDelta.toDouble())
     }
 

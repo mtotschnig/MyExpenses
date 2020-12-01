@@ -67,12 +67,12 @@ public class CurrencyFormatter {
   }
 
   private NumberFormat getNumberFormat(CurrencyUnit currencyUnit) {
-    NumberFormat numberFormat = numberFormats.get(currencyUnit.code());
+    NumberFormat numberFormat = numberFormats.get(currencyUnit.getCode());
     if (numberFormat == null) {
       numberFormat = initNumberFormat();
-      int fractionDigits = currencyUnit.fractionDigits();
+      int fractionDigits = currencyUnit.getFractionDigits();
       try {
-        numberFormat.setCurrency(Currency.getInstance(currencyUnit.code()));
+        numberFormat.setCurrency(Currency.getInstance(currencyUnit.getCode()));
       } catch (Exception ignored) { /*Custom locale}*/ }
       if (fractionDigits <= 3) {
         numberFormat.setMinimumFractionDigits(fractionDigits);
@@ -80,13 +80,13 @@ public class CurrencyFormatter {
       } else {
         numberFormat.setMaximumFractionDigits(fractionDigits);
       }
-      String currencySymbol = currencyUnit.symbol();
+      String currencySymbol = currencyUnit.getSymbol();
       if (currencySymbol != null) {
         DecimalFormatSymbols decimalFormatSymbols = ((DecimalFormat) numberFormat).getDecimalFormatSymbols();
         decimalFormatSymbols.setCurrencySymbol(currencySymbol);
         ((DecimalFormat) numberFormat).setDecimalFormatSymbols(decimalFormatSymbols);
       }
-      numberFormats.put(currencyUnit.code(), numberFormat);
+      numberFormats.put(currencyUnit.getCode(), numberFormat);
     }
     return numberFormat;
   }

@@ -22,7 +22,6 @@
             style="@style/OnboardingInputLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:labelFor="@+id/fontSize"
             android:text="@string/pref_tracking_title" />
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/tracking"
@@ -40,7 +39,6 @@
             style="@style/OnboardingInputLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:labelFor="@+id/fontSize"
             android:text="@string/pref_category_title_crash_reports" />
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/crash_reports"

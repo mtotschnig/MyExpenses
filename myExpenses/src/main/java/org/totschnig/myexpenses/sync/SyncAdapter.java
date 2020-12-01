@@ -450,7 +450,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       Uri uri = ContentUris.appendId(TransactionProvider.ACCOUNT_EXCHANGE_RATE_URI.buildUpon(), id)
           .appendEncodedPath(currency)
           .appendEncodedPath(homeCurrency).build();
-      int minorUnitDelta = Utils.getHomeCurrency().fractionDigits() - getCurrencyConext().get(currency).fractionDigits();
+      int minorUnitDelta = Utils.getHomeCurrency().getFractionDigits() - getCurrencyConext().get(currency).getFractionDigits();
       ops.add(ContentProviderOperation.newInsert(uri).withValue(KEY_EXCHANGE_RATE, exchangeRate * Math.pow(10, minorUnitDelta)).build());
     }
     ops.add(TransactionProvider.resumeChangeTrigger());

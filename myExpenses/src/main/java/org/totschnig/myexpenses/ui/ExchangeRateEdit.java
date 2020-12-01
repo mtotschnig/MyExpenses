@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.ui;
 
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.os.Build;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -86,7 +87,7 @@ public class ExchangeRateEdit extends ConstraintLayout {
     if (lifecycleOwner != null) {
       viewModel.getData().observe(lifecycleOwner, result -> rate2Edit.setAmount(BigDecimal.valueOf(result)));
     viewModel.getError().observe(lifecycleOwner, exception -> complain(exception instanceof UnsupportedOperationException ? getContext().getString(
-        R.string.exchange_rate_not_supported, firstCurrency.code(), secondCurrency.code()) :
+        R.string.exchange_rate_not_supported, firstCurrency.getCode(), secondCurrency.getCode()) :
         (exception instanceof MissingAppIdException ? getContext().getString(R.string.pref_openexchangerates_app_id_summary) :
             exception.getMessage())));
     } else {
@@ -97,7 +98,7 @@ public class ExchangeRateEdit extends ConstraintLayout {
   @OnClick(R.id.iv_download)
   void loadRate() {
     if (firstCurrency != null && secondCurrency != null && viewModel != null) {
-      viewModel.loadExchangeRate(firstCurrency.code(), secondCurrency.code(), getHost().getDate());
+      viewModel.loadExchangeRate(firstCurrency.getCode(), secondCurrency.getCode(), getHost().getDate());
     }
   }
 
@@ -112,8 +113,14 @@ public class ExchangeRateEdit extends ConstraintLayout {
     ButterKnife.bind(this);
     rate1Edit = rate1Container.findViewById(R.id.ExchangeRateText);
     rate1Edit.setId(R.id.ExchangeRateEdit1);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+      rate1Container.findViewById(R.id.ExchangeRateLabel_1).setLabelFor(R.id.ExchangeRateEdit1);
+    }
     rate2Edit = rate2Container.findViewById(R.id.ExchangeRateText);
     rate2Edit.setId(R.id.ExchangeRateEdit2);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+      rate2Container.findViewById(R.id.ExchangeRateLabel_1).setLabelFor(R.id.ExchangeRateEdit2);
+    }
     rate1Edit.setFractionDigits(EXCHANGE_RATE_FRACTION_DIGITS);
     rate2Edit.setFractionDigits(EXCHANGE_RATE_FRACTION_DIGITS);
     rate1Edit.addTextChangedListener(new LinkedExchangeRateTextWatchter(true));
@@ -169,8 +176,8 @@ public class ExchangeRateEdit extends ConstraintLayout {
       this.secondCurrency = second;
     }
     if (firstCurrency != null && secondCurrency != null) {
-      setSymbols(rate1Container, firstCurrency.symbol(), secondCurrency.symbol());
-      setSymbols(rate2Container, secondCurrency.symbol(), firstCurrency.symbol());
+      setSymbols(rate1Container, firstCurrency.getSymbol(), secondCurrency.getSymbol());
+      setSymbols(rate2Container, secondCurrency.getSymbol(), firstCurrency.getSymbol());
     }
   }
 

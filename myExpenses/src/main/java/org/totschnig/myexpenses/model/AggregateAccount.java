@@ -100,7 +100,7 @@ public class AggregateAccount extends Account {
     if (isHomeAggregate()) {
       return null;
     } else {
-      return new String[]{getCurrencyUnit().code()};
+      return new String[]{getCurrencyUnit().getCode()};
     }
   }
 
@@ -108,7 +108,7 @@ public class AggregateAccount extends Account {
   public Uri.Builder getGroupingUri(Grouping grouping) {
     Uri.Builder base = getGroupingBaseUri(grouping);
     if (!isHomeAggregate()) {
-      base.appendQueryParameter(KEY_CURRENCY, getCurrencyUnit().code());
+      base.appendQueryParameter(KEY_CURRENCY, getCurrencyUnit().getCode());
     }
     return base;
   }
@@ -117,7 +117,7 @@ public class AggregateAccount extends Account {
     if (isHomeAggregate()) {
       return AGGREGATE_HOME_CURRENCY_CODE;
     } else {
-      return getCurrencyUnit().code();
+      return getCurrencyUnit().getCode();
     }
   }
 

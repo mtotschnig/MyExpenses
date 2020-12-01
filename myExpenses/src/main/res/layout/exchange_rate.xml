@@ -1,32 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="wrap_content"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="16dp"
+    android:layout_marginRight="16dp"
     tools:showIn="@layout/one_expense">
 
     <TextView
         android:id="@+id/ExchangeRateLabel_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingRight="8dp"
-        android:paddingEnd="8dp"
-        tools:text="1 € = "/>
+        tools:text="1 € = " />
 
     <org.totschnig.myexpenses.ui.AmountEditText
         android:id="@+id/ExchangeRateText"
         android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_weight="3"
-        android:layout_height="wrap_content"/>
+        android:paddingHorizontal="8dp" />
 
     <TextView
-        android:paddingLeft="8dp"
-        android:paddingStart="8dp"
-        android:paddingRight="16dp"
-        android:paddingEnd="16dp"
         android:id="@+id/ExchangeRateLabel_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="$"/>
+        tools:text="$" />
 </LinearLayout>

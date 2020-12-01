@@ -704,7 +704,7 @@ public class TemplatesList extends SortableListFragment
         Account transferAccount = Account.getInstanceFromDb(
             mTemplatesCursor.getLong(columnIndexTransferAccount));
         return !mTemplatesCursor.getString(columnIndexCurrency).equals(
-            transferAccount.getCurrencyUnit().code());
+            transferAccount.getCurrencyUnit().getCode());
       }
     }
     return false;

@@ -107,7 +107,7 @@ public class EditCurrencyDialog extends CommitSafeDialogFragment {
     String title = null;
     if (currency != null) {
       CurrencyUnit currencyUnit = currencyContext.get(currency.code());
-      editTextSymbol.setText(currencyUnit.symbol());
+      editTextSymbol.setText(currencyUnit.getSymbol());
       editTextCode.setText(currency.code());
 
       final String displayName = currency.toString();
@@ -187,7 +187,7 @@ public class EditCurrencyDialog extends CommitSafeDialogFragment {
   private int currentFractionDigits() {
     final Currency currency = getCurrency();
     if (currency != null) {
-      return currencyContext.get(currency.code()).fractionDigits();
+      return currencyContext.get(currency.code()).getFractionDigits();
     }
     return 2;
   }

@@ -63,7 +63,7 @@ public class AmountFilterDialog extends CommitSafeDialogFragment implements OnCl
         .setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
     mAmount1Text = dialogView.findViewById(R.id.amount1);
     mAmount2Text = dialogView.findViewById(R.id.amount2);
-    int fractionDigits = ((CurrencyUnit) getArguments().getSerializable(KEY_CURRENCY)).fractionDigits();
+    int fractionDigits = ((CurrencyUnit) getArguments().getSerializable(KEY_CURRENCY)).getFractionDigits();
     mAmount1Text.setFractionDigits(fractionDigits);
     mAmount2Text.setFractionDigits(fractionDigits);
 
@@ -99,7 +99,7 @@ public class AmountFilterDialog extends CommitSafeDialogFragment implements OnCl
     final CurrencyUnit currency = (CurrencyUnit) getArguments().getSerializable(KEY_CURRENCY);
     ctx.addFilterCriteria(new AmountCriteria(
         WhereFilter.Operation.valueOf(selectedOp),
-        currency.code(),
+        currency.getCode(),
         type,
         new Money(currency, bdAmount1).getAmountMinor(),
         bdAmount2 != null ? new Money(currency, bdAmount2).getAmountMinor() : null));

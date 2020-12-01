@@ -175,7 +175,7 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
     currencyViewModel.getCurrencies().observe(this, currencies -> {
       currencyAdapter.addAll(currencies);
       if (savedInstanceState == null) {
-        mCurrencySpinner.setSelection(currencyAdapter.getPosition(Currency.create(mAccount.getCurrencyUnit().code())));
+        mCurrencySpinner.setSelection(currencyAdapter.getPosition(Currency.create(mAccount.getCurrencyUnit().getCode())));
       }
     });
     linkInputsWithLabels();
@@ -251,8 +251,8 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
   }
 
   private void setExchangeRateVisibility(CurrencyUnit currencyUnit) {
-    String homeCurrencyPref = PrefKey.HOME_CURRENCY.getString(currencyUnit.code());
-    final boolean isHomeAccount = currencyUnit.code().equals(homeCurrencyPref);
+    String homeCurrencyPref = PrefKey.HOME_CURRENCY.getString(currencyUnit.getCode());
+    final boolean isHomeAccount = currencyUnit.getCode().equals(homeCurrencyPref);
     exchangeRateRow.setVisibility(isHomeAccount ? View.GONE : View.VISIBLE);
     if (!isHomeAccount) {
       exchangeRateEdit.setCurrencies(currencyUnit, currencyContext.get(homeCurrencyPref));
@@ -323,8 +323,8 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
   }
 
   private void configureforCurrrency(CurrencyUnit currencyUnit) {
-    amountInput.setFractionDigits(currencyUnit.fractionDigits());
-    criterion.setFractionDigits(currencyUnit.fractionDigits());
+    amountInput.setFractionDigits(currencyUnit.getFractionDigits());
+    criterion.setFractionDigits(currencyUnit.getFractionDigits());
     setExchangeRateVisibility(currencyUnit);
   }
 

@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
             android:layout_marginBottom="0dp"
-            android:labelFor="@+id/theme"
+            android:labelFor="@id/theme"
             android:text="@string/pref_ui_theme_title" />
 
         <include layout="@layout/onboarding_theme_selection" />
@@ -29,7 +29,7 @@
             style="@style/OnboardingInputLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:labelFor="@+id/fontSize"
+            android:labelFor="@id/font_size"
             android:text="@string/pref_ui_fontsize_title" />
 
         <SeekBar

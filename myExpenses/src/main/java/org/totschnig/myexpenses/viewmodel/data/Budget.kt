@@ -38,7 +38,7 @@ data class Budget(val id: Long, val accountId: Long, val title: String, val desc
 
     fun label(context: Context) = accountName
             ?: if (accountId == Account.HOME_AGGREGATE_ID) context.getString(R.string.grand_total)
-            else currency.code()
+            else currency.code
 
     fun toContentValues() = ContentValues().apply {
         put(KEY_TITLE, title)
@@ -49,7 +49,7 @@ data class Budget(val id: Long, val accountId: Long, val title: String, val desc
             put(KEY_ACCOUNTID, accountId)
             putNull(KEY_CURRENCY)
         } else {
-            put(KEY_CURRENCY, currency.code())
+            put(KEY_CURRENCY, currency.code)
             putNull(KEY_ACCOUNTID)
         }
         if (grouping == Grouping.NONE) {

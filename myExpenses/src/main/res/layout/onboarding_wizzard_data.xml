@@ -44,11 +44,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="0dp"
-                    android:labelFor="@+id/Amount"
+                    android:labelFor="@id/AmountEditText"
                     android:text="@string/opening_balance" />
 
                 <org.totschnig.myexpenses.ui.AmountInput
                     android:id="@+id/Amount"
+                    android:contentDescription="@string/opening_balance"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="-4dp"

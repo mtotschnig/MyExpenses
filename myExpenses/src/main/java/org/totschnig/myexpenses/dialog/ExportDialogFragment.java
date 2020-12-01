@@ -170,7 +170,7 @@ public class ExportDialogFragment extends CommitSafeDialogFragment implements On
         hasExported = ctx.hasExported();
         if (accountId < 0L) {
           allP = true;
-          currency = a.getCurrencyUnit().code();
+          currency = a.getCurrencyUnit().getCode();
           fileName = "export" + "-" + currency + "-" + now;
           warningText = getString(R.string.warning_reset_account_all, " (" + currency + ")");
         } else {

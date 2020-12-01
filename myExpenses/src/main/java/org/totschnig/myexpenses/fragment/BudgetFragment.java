@@ -197,7 +197,7 @@ public class BudgetFragment extends DistributionBaseFragment implements
                                             boolean isMainCategory, boolean isSubCategory, Context context) {
     final AmountEdit amountEdit = AmountEdit.plain(KEY_AMOUNT)
         .label(appendCurrencySymbol(context, R.string.budget_allocated_amount, amount.getCurrencyUnit()))
-        .fractionDigits(amount.getCurrencyUnit().fractionDigits()).required();
+        .fractionDigits(amount.getCurrencyUnit().getFractionDigits()).required();
     if (!(amount.getAmountMajor().compareTo(BigDecimal.ZERO) == 0)) {
       amountEdit.amount(amount.getAmountMajor());
     }

@@ -317,7 +317,7 @@ public class HistoryChart extends Fragment
           .appendPath(grouping.name());
       if (!account.isHomeAggregate()) {
         if (account.isAggregate()) {
-          builder.appendQueryParameter(KEY_CURRENCY, account.getCurrencyUnit().code());
+          builder.appendQueryParameter(KEY_CURRENCY, account.getCurrencyUnit().getCode());
         } else {
           builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(account.getId()));
         }

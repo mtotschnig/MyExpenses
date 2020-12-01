@@ -79,11 +79,12 @@
                     <TextView
                         android:id="@+id/AmountLabel"
                         style="@style/FormLabel"
-                        android:labelFor="@+id/Amount"
+                        android:labelFor="@id/AmountEditText"
                         android:text="@string/opening_balance" />
 
                     <org.totschnig.myexpenses.ui.AmountInput
                         android:id="@+id/Amount"
+                        android:contentDescription="@string/opening_balance"
                         style="@style/FormField" />
                 </TableRow>
 
@@ -182,11 +183,12 @@
                     <TextView
                         android:id="@+id/CriterionLabel"
                         style="@style/FormLabel"
-                        android:labelFor="@+id/Criterion"
+                        android:labelFor="@id/AmountEditText"
                         android:text="@string/goal_or_limit" />
 
                     <org.totschnig.myexpenses.ui.AmountInput
                         android:id="@+id/Criterion"
+                        android:contentDescription="@string/goal_or_limit"
                         style="@style/FormField" />
 
                 </TableRow>

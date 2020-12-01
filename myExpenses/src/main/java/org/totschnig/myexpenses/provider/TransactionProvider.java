@@ -1467,7 +1467,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           List<String> segments = uri.getPathSegments();
           segment = segments.get(2);
           String[] bindArgs = new String[]{segment};
-          int oldValue = currencyContext.get(segment).fractionDigits();
+          int oldValue = currencyContext.get(segment).getFractionDigits();
           int newValue = Integer.parseInt(segments.get(3));
           if (oldValue == newValue) {
             return 0;

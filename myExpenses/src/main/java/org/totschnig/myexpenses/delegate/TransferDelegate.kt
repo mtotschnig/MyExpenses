@@ -151,12 +151,12 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
         val isSame = currency == transferAccountCurrencyUnit
         setVisibility(viewBinding.TransferAmountRow, !isSame)
         setVisibility(viewBinding.ERR.root as ViewGroup, !isSame /*&& mTransaction !is Template*/)
-        addCurrencyToInput(viewBinding.TransferAmountLabel, viewBinding.TransferAmount, transferAccountCurrencyUnit.symbol(), R.string.amount)
-        viewBinding.TransferAmount.setFractionDigits(transferAccountCurrencyUnit.fractionDigits())
+        addCurrencyToInput(viewBinding.TransferAmountLabel, viewBinding.TransferAmount, transferAccountCurrencyUnit, R.string.amount)
+        viewBinding.TransferAmount.setFractionDigits(transferAccountCurrencyUnit.fractionDigits)
         viewBinding.ERR.ExchangeRate.setCurrencies(currency, transferAccountCurrencyUnit)
         //TODO check history of this dead code
         val bundle = Bundle(2)
-        bundle.putStringArray(DatabaseConstants.KEY_CURRENCY, arrayOf(currency.code(), transferAccountCurrencyUnit.code()))
+        bundle.putStringArray(DatabaseConstants.KEY_CURRENCY, arrayOf(currency.code, transferAccountCurrencyUnit.code))
     }
 
     private fun createTransferAccountAdapter() {

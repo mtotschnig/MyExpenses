@@ -168,7 +168,7 @@ public class TransactionListDialogFragment extends CommitSafeDialogFragment impl
       selection = KEY_ACCOUNTID + " IN " +
           "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ? AND " +
           KEY_EXCLUDE_FROM_TOTALS + "=0)";
-      accountSelect = mAccount.getCurrencyUnit().code();
+      accountSelect = mAccount.getCurrencyUnit().getCode();
     } else {
       selection = KEY_ACCOUNTID + " = ?";
       accountSelect = String.valueOf(mAccount.getId());

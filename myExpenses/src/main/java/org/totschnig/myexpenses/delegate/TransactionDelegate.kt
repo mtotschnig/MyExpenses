@@ -34,6 +34,7 @@ import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.ITransaction
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Template
@@ -45,6 +46,8 @@ import org.totschnig.myexpenses.ui.DateButton
 import org.totschnig.myexpenses.ui.MyTextWatcher
 import org.totschnig.myexpenses.ui.SpinnerHelper
 import org.totschnig.myexpenses.util.PermissionHelper
+import org.totschnig.myexpenses.util.TextUtils.appendCurrencyDescription
+import org.totschnig.myexpenses.util.TextUtils.appendCurrencySymbol
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.addChipsBulk
@@ -192,7 +195,7 @@ abstract class TransactionDelegate<T : ITransaction>(
             //Setting this early instead of waiting for call to setAccounts
             //works around a bug in some legacy virtual keyboards where configuring the
             //editText too late corrupt inputType
-            viewBinding.Amount.setFractionDigits(transaction.amount.currencyUnit.fractionDigits())
+            viewBinding.Amount.setFractionDigits(transaction.amount.currencyUnit.fractionDigits)
         } else {
             Icepick.restoreInstanceState(this, savedInstanceState)
         }
@@ -320,7 +323,7 @@ abstract class TransactionDelegate<T : ITransaction>(
             originalAmountVisible = true
             showOriginalAmount()
             viewBinding.OriginalAmount.setAmount(it.amountMajor)
-            originalCurrencyCode = it.currencyUnit.code()
+            originalCurrencyCode = it.currencyUnit.code
         }
                 ?: kotlin.run { originalCurrencyCode = prefHandler.getString(PrefKey.LAST_ORIGINAL_CURRENCY, null) }
 
@@ -369,10 +372,10 @@ abstract class TransactionDelegate<T : ITransaction>(
         view.visibility = if (visible) View.VISIBLE else View.GONE
     }
 
-    protected fun addCurrencyToInput(label: TextView, amountInput: AmountInput, symbol: String, textResId: Int) {
-        val text = org.totschnig.myexpenses.util.TextUtils.appendCurrencySymbol(label.context, textResId, symbol)
+    protected fun addCurrencyToInput(label: TextView, amountInput: AmountInput, currencyUnit: CurrencyUnit, textResId: Int) {
+        val text = appendCurrencySymbol(label.context, textResId, currencyUnit)
         label.text = text
-        amountInput.contentDescription = text
+        amountInput.contentDescription = appendCurrencyDescription(label.context, textResId, currencyUnit)
     }
 
     fun setCurrencies(currencies: List<Currency?>?, currencyContext: CurrencyContext?) {
@@ -703,7 +706,7 @@ abstract class TransactionDelegate<T : ITransaction>(
 
     private fun configureAccountDependent(account: Account?) {
         val currencyUnit = account!!.currency
-        addCurrencyToInput(viewBinding.AmountLabel, viewBinding.Amount, currencyUnit.symbol(), R.string.amount)
+        addCurrencyToInput(viewBinding.AmountLabel, viewBinding.Amount, currencyUnit, R.string.amount)
         viewBinding.OriginalAmount.configureExchange(currencyUnit)
         if (hasHomeCurrency(account)) {
             viewBinding.EquivalentAmountRow.visibility = View.GONE
@@ -713,7 +716,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         }
         configureDateInput(account)
         configureStatusSpinner()
-        viewBinding.Amount.setFractionDigits(account.currency.fractionDigits())
+        viewBinding.Amount.setFractionDigits(account.currency.fractionDigits)
         host.tintSystemUiAndFab(account.color)
     }
 
@@ -742,7 +745,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         var selected = 0 //if the accountId we have been passed does not exist, we select the first entry
         for (item in mAccounts.indices) {
             val account = mAccounts[item]
-            if (account.currency.code() == currencyExtra ||
+            if (account.currency.code == currencyExtra ||
                     currencyExtra == null && account.id == accountId) {
                 selected = item
                 break

@@ -263,8 +263,8 @@ public class Account extends Model {
 
   private Uri buildExchangeRateUri() {
     return ContentUris.appendId(TransactionProvider.ACCOUNT_EXCHANGE_RATE_URI.buildUpon(), getId())
-        .appendEncodedPath(currencyUnit.code())
-        .appendEncodedPath(PrefKey.HOME_CURRENCY.getString(currencyUnit.code())).build();
+        .appendEncodedPath(currencyUnit.getCode())
+        .appendEncodedPath(PrefKey.HOME_CURRENCY.getString(currencyUnit.getCode())).build();
   }
 
   private double adjustExchangeRate(double raw) {
@@ -273,13 +273,13 @@ public class Account extends Model {
 
   private void storeExchangeRate() {
     ContentValues exchangeRateValues = new ContentValues();
-    int minorUnitDelta = Utils.getHomeCurrency().fractionDigits() - currencyUnit.fractionDigits();
+    int minorUnitDelta = Utils.getHomeCurrency().getFractionDigits() - currencyUnit.getFractionDigits();
     exchangeRateValues.put(KEY_EXCHANGE_RATE, exchangeRate * Math.pow(10, minorUnitDelta));
     cr().insert(buildExchangeRateUri(), exchangeRateValues);
   }
 
   private boolean hasForeignCurrency() {
-    return !PrefKey.HOME_CURRENCY.getString(currencyUnit.code()).equals(currencyUnit.code());
+    return !PrefKey.HOME_CURRENCY.getString(currencyUnit.getCode()).equals(currencyUnit.getCode());
   }
 
   /**
@@ -572,7 +572,7 @@ public class Account extends Model {
         if (aa == null) {
           return false;
         }
-        selectionArgs = new String[]{aa.getCurrencyUnit().code()};
+        selectionArgs = new String[]{aa.getCurrencyUnit().getCode()};
       } else {
         selection = KEY_ACCOUNTID + " = ?";
         selectionArgs = new String[]{String.valueOf(accountId)};
@@ -630,7 +630,7 @@ public class Account extends Model {
     initialValues.put(KEY_LABEL, getLabel());
     initialValues.put(KEY_OPENING_BALANCE, openingBalance.getAmountMinor());
     initialValues.put(KEY_DESCRIPTION, description);
-    initialValues.put(KEY_CURRENCY, currencyUnit.code());
+    initialValues.put(KEY_CURRENCY, currencyUnit.getCode());
     initialValues.put(KEY_TYPE, getType().name());
     initialValues.put(KEY_GROUPING, getGrouping().name());
     initialValues.put(KEY_COLOR, color);
@@ -664,7 +664,7 @@ public class Account extends Model {
 
   private void ensureCurrency(CurrencyUnit currencyUnit) {
     Cursor cursor = cr().query(TransactionProvider.CURRENCIES_URI, new String[]{"count(*)"},
-        KEY_CODE + " = ?", new String[]{currencyUnit.code()}, null);
+        KEY_CODE + " = ?", new String[]{currencyUnit.getCode()}, null);
     if (cursor != null) {
       cursor.moveToFirst();
       int result = cursor.getInt(0);
@@ -673,8 +673,8 @@ public class Account extends Model {
         return;
       }
       ContentValues contentValues = new ContentValues(2);
-      contentValues.put(KEY_LABEL, currencyUnit.code());
-      contentValues.put(KEY_CODE, currencyUnit.code());
+      contentValues.put(KEY_LABEL, currencyUnit.getCode());
+      contentValues.put(KEY_CODE, currencyUnit.getCode());
       if (cr().insert(TransactionProvider.CURRENCIES_URI, contentValues) != null) {
         return;
       }

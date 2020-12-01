@@ -92,6 +92,7 @@
                         <TextView
                             android:id="@+id/OriginalAmountLabel"
                             style="@style/FormLabel"
+                            android:labelFor="@id/AmountEditText"
                             android:text="@string/menu_original_amount" />
 
                         <org.totschnig.myexpenses.ui.AmountInput
@@ -108,12 +109,13 @@
 
                         <TextView
                             android:id="@+id/AmountLabel"
-                            style="@style/FormLabel" />
+                            style="@style/FormLabel"
+                            android:labelFor="@id/AmountEditText"
+                            tools:ignore="LabelFor" />
 
                         <org.totschnig.myexpenses.ui.AmountInput
                             android:id="@+id/Amount"
                             style="@style/FormField"
-                            android:contentDescription="@string/amount"
                             android:visibility="gone"
                             tools:visibility="visible" />
                     </TableRow>
@@ -129,12 +131,12 @@
                         <TextView
                             android:id="@+id/EquivalentAmountLabel"
                             style="@style/FormLabel"
+                            android:labelFor="@id/AmountEditText"
                             android:text="@string/menu_equivalent_amount" />
 
                         <org.totschnig.myexpenses.ui.AmountInput
                             android:id="@+id/EquivalentAmount"
                             style="@style/FormField"
-                            android:contentDescription="@string/menu_equivalent_amount"
                             app:alternateLayout="true"
                             app:withExchangeRate="true"
                             app:withTypeSwitch="false" />
@@ -147,7 +149,9 @@
 
                         <TextView
                             android:id="@+id/TransferAmountLabel"
-                            style="@style/FormLabel" />
+                            style="@style/FormLabel"
+                            android:labelFor="@id/AmountEditText"
+                            tools:ignore="LabelFor" />
 
                         <org.totschnig.myexpenses.ui.AmountInput
                             android:id="@+id/TransferAmount"

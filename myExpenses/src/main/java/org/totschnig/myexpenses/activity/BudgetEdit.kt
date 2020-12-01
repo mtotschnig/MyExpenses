@@ -296,7 +296,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
     }
 
     private fun configureAmount(currencyUnit: CurrencyUnit) {
-        Amount.setFractionDigits(currencyUnit.fractionDigits())
+        Amount.setFractionDigits(currencyUnit.fractionDigits)
     }
 
     private fun configureTypeDependents(grouping: Grouping) {

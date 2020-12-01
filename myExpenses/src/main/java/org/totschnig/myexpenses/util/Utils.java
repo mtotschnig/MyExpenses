@@ -131,7 +131,7 @@ public class Utils {
   }
 
   public static double adjustExchangeRate(double raw, CurrencyUnit currencyUnit) {
-    int minorUnitDelta = currencyUnit.fractionDigits() - Utils.getHomeCurrency().fractionDigits();
+    int minorUnitDelta = currencyUnit.getFractionDigits() - Utils.getHomeCurrency().getFractionDigits();
     return raw * Math.pow(10, minorUnitDelta);
   }
 
@@ -244,7 +244,7 @@ public class Utils {
     DecimalFormatSymbols symbols = new DecimalFormatSymbols();
     symbols.setDecimalSeparator(separator);
     nf.setDecimalFormatSymbols(symbols);
-    int fractionDigits = currency.fractionDigits();
+    int fractionDigits = currency.getFractionDigits();
     nf.setMinimumFractionDigits(fractionDigits);
     nf.setMaximumFractionDigits(fractionDigits);
     nf.setGroupingUsed(false);

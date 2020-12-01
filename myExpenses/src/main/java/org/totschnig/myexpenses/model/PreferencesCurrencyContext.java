@@ -1,5 +1,7 @@
 package org.totschnig.myexpenses.model;
 
+import android.os.Build;
+
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.util.Utils;
 
@@ -35,7 +37,7 @@ public class PreferencesCurrencyContext implements CurrencyContext {
 
       Currency c = Utils.getInstance(currencyCode);
       if (c != null) {
-        currencyUnit = CurrencyUnit.create(currencyCode, getSymbol(c), getFractionDigits(c));
+        currencyUnit = new CurrencyUnit(currencyCode, getSymbol(c), getFractionDigits(c), getDisplayName(c));
       } else {
         final String customSymbol = getCustomSymbol(currencyCode);
         final int customFractionDigits = getCustomFractionDigits(currencyCode);
@@ -44,6 +46,14 @@ public class PreferencesCurrencyContext implements CurrencyContext {
       }
       INSTANCES.put(currencyCode, currencyUnit);
       return currencyUnit;
+    }
+  }
+
+  private String getDisplayName(Currency c) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+      return c.getDisplayName();
+    } else {
+      return c.getCurrencyCode();
     }
   }
 
@@ -96,7 +106,7 @@ public class PreferencesCurrencyContext implements CurrencyContext {
 
   @Override
   public void ensureFractionDigitsAreCached(CurrencyUnit currency) {
-    storeCustomFractionDigits(currency.code(), currency.fractionDigits());
+    storeCustomFractionDigits(currency.getCode(), currency.getFractionDigits());
   }
 
   @Override

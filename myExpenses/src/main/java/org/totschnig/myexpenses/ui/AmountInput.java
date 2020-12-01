@@ -110,7 +110,7 @@ public class AmountInput extends ConstraintLayout {
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
           String currency = ((Currency) currencySpinner.getSelectedItem()).code();
           final CurrencyUnit currencyUnit = currencyContext.get(currency);
-          amountEditText.setFractionDigits(currencyUnit.fractionDigits());
+          amountEditText.setFractionDigits(currencyUnit.getFractionDigits());
           exchangeRateEdit.setCurrencies(currencyUnit, null);
         }
 
@@ -149,7 +149,9 @@ public class AmountInput extends ConstraintLayout {
   }
 
   private void updateChildContentDescriptions() {
-    setContentDescriptionForChild(amountEditText, null);
+    //Edit Text does not use content description once it holds content. It is hence needed to point a textview
+    //in the neighborhood of this AmountInput directly to amounteditext with android:labelFor="@id/AmountEditText"
+    //setContentDescriptionForChild(amountEditText, null);
     setContentDescriptionForChild(calculator, getContext().getString(R.string.content_description_calculator));
     setContentDescriptionForChild(currencySpinner, getContext().getString(R.string.currency));
     setContentDescriptionForTypeSwitch();

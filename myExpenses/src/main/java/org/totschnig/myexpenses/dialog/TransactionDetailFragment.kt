@@ -212,7 +212,7 @@ class TransactionDetailFragment : CommitSafeDialogFragment(), DialogInterface.On
                     binding.OriginalAmountRow.visibility = View.VISIBLE
                     binding.OriginalAmount.text = formatCurrencyAbs(it)
                 }
-                if (!transaction.isTransfer && transaction.amount.currencyUnit.code() != Utils.getHomeCurrency().code()) {
+                if (!transaction.isTransfer && transaction.amount.currencyUnit.code != Utils.getHomeCurrency().code) {
                     binding.EquivalentAmountRow.visibility = View.VISIBLE
                     binding.EquivalentAmount.text = formatCurrencyAbs(transaction.equivalentAmount)
                 }

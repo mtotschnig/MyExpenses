@@ -977,7 +977,7 @@ public class Transaction extends AbstractTransaction {
     initialValues.put(KEY_ACCOUNTID, getAccountId());
 
     initialValues.put(KEY_ORIGINAL_AMOUNT, originalAmount == null ? null : originalAmount.getAmountMinor());
-    initialValues.put(KEY_ORIGINAL_CURRENCY, originalAmount == null ? null : originalAmount.getCurrencyUnit().code());
+    initialValues.put(KEY_ORIGINAL_CURRENCY, originalAmount == null ? null : originalAmount.getCurrencyUnit().getCode());
     initialValues.put(KEY_EQUIVALENT_AMOUNT, equivalentAmount == null ? null : equivalentAmount.getAmountMinor());
 
     savePicture(initialValues);

@@ -149,7 +149,7 @@ public class QifImportDialogFragment extends TextSourceDialogFragment implements
     extras.addRow(new String[]{
         "0",
         getString(R.string.menu_create_account),
-        Utils.getHomeCurrency().code()
+        Utils.getHomeCurrency().getCode()
     });
     mAccountsCursor = new MergeCursor(new Cursor[]{extras, data});
     mAccountsAdapter.swapCursor(mAccountsCursor);

@@ -217,7 +217,7 @@ public abstract class DistributionBaseFragment extends CategoryList {
     long id = accountInfo.getId();
     if (id != Account.HOME_AGGREGATE_ID) {
       if (id < 0) {
-        builder.appendQueryParameter(KEY_CURRENCY, accountInfo.getCurrencyUnit().code());
+        builder.appendQueryParameter(KEY_CURRENCY, accountInfo.getCurrencyUnit().getCode());
       } else {
         builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(id));
       }
@@ -349,7 +349,7 @@ public abstract class DistributionBaseFragment extends CategoryList {
       accountSelection = " IN " +
           "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ? AND " +
           KEY_EXCLUDE_FROM_TOTALS + " = 0 )";
-      accountSelector = accountInfo.getCurrencyUnit().code();
+      accountSelector = accountInfo.getCurrencyUnit().getCode();
     } else {
       accountSelection = " = " + id;
     }

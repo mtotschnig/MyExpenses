@@ -92,8 +92,8 @@ public class CurrencyList extends ListFragment {
         Currency item = currencyAdapter.getItem(position);
         final CurrencyUnit currencyUnit = currencyContext.get(item.code());
         v.setText(String.format(Locale.getDefault(), "%s (%s, %d)", v.getText(),
-            currencyUnit.symbol(),
-            currencyUnit.fractionDigits()));
+            currencyUnit.getSymbol(),
+            currencyUnit.getFractionDigits()));
         return v;
       }
     };

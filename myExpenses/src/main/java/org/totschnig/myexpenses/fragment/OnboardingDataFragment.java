@@ -115,7 +115,7 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
 
   @Override
   protected void onNextButtonClicked() {
-    prefHandler.putString(PrefKey.HOME_CURRENCY, validateSelectedCurrency().code());
+    prefHandler.putString(PrefKey.HOME_CURRENCY, validateSelectedCurrency().getCode());
     ((OnboardingActivity) getActivity()).finishOnboarding();
   }
 
@@ -224,7 +224,7 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
   public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
     switch (parent.getId()) {
       case R.id.Currency:
-        amountInput.setFractionDigits(validateSelectedCurrency().fractionDigits());
+        amountInput.setFractionDigits(validateSelectedCurrency().getFractionDigits());
         break;
     }
   }

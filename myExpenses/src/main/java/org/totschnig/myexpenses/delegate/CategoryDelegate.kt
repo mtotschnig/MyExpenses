@@ -51,8 +51,8 @@ class CategoryDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
         }
         setCategoryButton()
         val homeCurrency = Utils.getHomeCurrency()
-        addCurrencyToInput(viewBinding.EquivalentAmountLabel, viewBinding.EquivalentAmount, homeCurrency.symbol(), R.string.menu_equivalent_amount)
-        viewBinding.EquivalentAmount.setFractionDigits(homeCurrency.fractionDigits())
+        addCurrencyToInput(viewBinding.EquivalentAmountLabel, viewBinding.EquivalentAmount, homeCurrency, R.string.menu_equivalent_amount)
+        viewBinding.EquivalentAmount.setFractionDigits(homeCurrency.fractionDigits)
     }
 
     override fun buildMainTransaction(accountId: Long): ITransaction =

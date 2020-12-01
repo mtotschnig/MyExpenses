@@ -96,7 +96,7 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
         val isTotalAccount = budget.accountId == AggregateAccount.HOME_AGGREGATE_ID.toLong()
         if (!isTotalAccount) {
             if (budget.accountId < 0) {
-                builder.appendQueryParameter(KEY_CURRENCY, budget.currency.code())
+                builder.appendQueryParameter(KEY_CURRENCY, budget.currency.code)
             } else {
                 builder.appendQueryParameter(KEY_ACCOUNTID, budget.accountId.toString())
             }
