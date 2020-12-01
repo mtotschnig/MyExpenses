@@ -953,5 +953,4 @@
     <string name="pref_clone_with_current_date_title">நகல் எடுக்கப்பட்ட பரிவர்த்தனைகளின் தேதி</string>
     <string name="default_action">இயல்புநிலை செயல்</string>
     <string name="template_default_action_without_amount_hint">தொகை இல்லாத வார்ப்புருக்கள் இயல்புநிலை நடவடிக்கை \'திருத்து\' உடன் சேமிக்கப்பட வேண்டும்</string>
-
-</resources>
+    </resources>

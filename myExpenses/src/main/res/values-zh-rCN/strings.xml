@@ -465,4 +465,5 @@
     <string name="pref_category_exchange_rates">汇率</string>
     <string name="budget_duration_from">从</string>
     <string name="budget_duration_to">到</string>
-    </resources>
+    <string name="menu_save_and_new_content_description">保存数据,保存表格以便创建相同数据的交易</string>
+</resources>

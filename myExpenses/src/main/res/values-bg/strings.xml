@@ -953,5 +953,5 @@
     <string name="pref_clone_with_current_date_title">Дата на клонирани транзакции</string>
     <string name="default_action">Действие по подразбиране</string>
     <string name="template_default_action_without_amount_hint">Шаблон без сума трябва да бъде запазен с действие по подразбиране „Редактиране“</string>
-
+    <string name="menu_save_and_new_content_description">Запазва данните, но оставя отворена бланката - за създаване на нова транзакция със същите данни.</string>
 </resources>

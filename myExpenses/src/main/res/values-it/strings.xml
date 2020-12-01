@@ -953,5 +953,5 @@
     <string name="pref_clone_with_current_date_title">Data delle transazioni ricopiate</string>
     <string name="default_action">Azione predefinita</string>
     <string name="template_default_action_without_amount_hint">Il modello senza importo deve essere salvato con l\'azione predefinita \'Modifica\'</string>
-
+    <string name="menu_save_and_new_content_description">Salva i dati e lascia il modulo aperto per la creazione di una nuova transazione con gli stessi dati.</string>
 </resources>

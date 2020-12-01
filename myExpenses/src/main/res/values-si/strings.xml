@@ -361,4 +361,5 @@
     <string name="budget_duration_to">දක්වා</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">ලක්ෂණ</string>
-    </resources>
+    <string name="menu_save_and_new_content_description">දත්ත සුරක්ෂිත කර, එම දත්ත යොදා ගෙන නව ගනුදෙනුවක් සෑදීමට පෝරමය විවෘතව තබන්න.</string>
+</resources>

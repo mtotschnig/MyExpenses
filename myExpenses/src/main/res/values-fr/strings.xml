@@ -953,5 +953,5 @@
     <string name="pref_clone_with_current_date_title">Date des transactions clonées</string>
     <string name="default_action">Action par défaut</string>
     <string name="template_default_action_without_amount_hint">Le modèle sans montant doit être enregistré avec l\'action par défaut \'Éditer\'</string>
-
+    <string name="menu_save_and_new_content_description">Sauvegarder les données et garder le formulaire ouvert pour la saisie d\'une nouvelle  opération avec les même données.</string>
 </resources>

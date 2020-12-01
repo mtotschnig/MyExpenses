@@ -1233,7 +1233,10 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
     }
 
     private fun updateFab() {
-        floatingActionButton.setImageResource(if (createNew) R.drawable.ic_action_save_new else R.drawable.ic_menu_done)
+        with(floatingActionButton) {
+            setImageResource(if (createNew) R.drawable.ic_action_save_new else R.drawable.ic_menu_done)
+            contentDescription = getString(if (createNew) R.string.menu_save_and_new_content_description else R.string.menu_save_help_text)
+        }
     }
 
     fun clearMethodSelection(@Suppress("UNUSED_PARAMETER") view: View) {

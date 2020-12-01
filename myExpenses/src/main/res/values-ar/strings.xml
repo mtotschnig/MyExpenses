@@ -440,4 +440,5 @@
     <string name="budget_duration_to">إلى</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">الخصائص</string>
-    </resources>
+    <string name="menu_save_and_new_content_description">حفظ البيانات، مع ترك النموذج مفتوح لإنشاء عملية جديدة بنفس البيانات.</string>
+</resources>

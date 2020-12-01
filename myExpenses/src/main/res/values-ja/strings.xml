@@ -902,4 +902,5 @@
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">特長</string>
     <string name="button_download">ダウンロード</string>
-    </resources>
+    <string name="menu_save_and_new_content_description">データを保存し、同じデータで新しい取引を作成するためにフォームを開いたままにします。</string>
+</resources>

@@ -953,5 +953,5 @@
     <string name="pref_clone_with_current_date_title">Fecha de las transacciones clonadas</string>
     <string name="default_action">Acción por defecto</string>
     <string name="template_default_action_without_amount_hint">La plantilla sin importe debe guardarse con la acción predeterminada \"Editar\".</string>
-
+    <string name="menu_save_and_new_content_description">Guardar los datos, dejando abierto el formulario para crear una nueva transacción con los mismos datos.</string>
 </resources>

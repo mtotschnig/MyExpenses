@@ -956,4 +956,5 @@
     <string name="template_default_action_without_amount_hint">Template without amount should be saved with default action \'Edit\'</string>
     <string name="content_description_edit_plan">Edit plan in calendar app</string>
     <string name="reset_equivalent_amounts_success">Equivalent amounts have been reset</string>
+    <string name="menu_save_and_new_content_description">Save the data, leave the form open for creating a new transaction with the same data.</string>
 </resources>

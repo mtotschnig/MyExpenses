@@ -933,4 +933,5 @@
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Особенности</string>
     <string name="button_download">Скачать</string>
-    </resources>
+    <string name="menu_save_and_new_content_description">Сохранить данные, открыть форму для создания новой операции с теми же данными.</string>
+</resources>

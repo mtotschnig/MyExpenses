@@ -953,5 +953,5 @@
     <string name="pref_clone_with_current_date_title">Datum der geklonten Buchungen</string>
     <string name="default_action">Standardaktion</string>
     <string name="template_default_action_without_amount_hint">Vorlage ohne Betrag sollte mit der Standardaktion \'Bearbeiten\' gespeichert werden.</string>
-
+    <string name="menu_save_and_new_content_description">Abspeichern, und das Formular für das Erfassen einer neuen  Buchung mit denselben Daten offen lassen</string>
 </resources>

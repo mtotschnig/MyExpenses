@@ -716,4 +716,5 @@
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Ezaugarriak</string>
     <string name="button_download">Deskargatu</string>
-    </resources>
+    <string name="menu_save_and_new_content_description">Gorde datuak, laga formularioa irekita beste transakzio bat sortzeko datu berberekin.</string>
+</resources>

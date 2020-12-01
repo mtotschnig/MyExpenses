@@ -340,4 +340,5 @@
     <string name="budget_duration_to">Do</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Funkce</string>
-    </resources>
+    <string name="menu_save_and_new_content_description">Uložte data,  formulář ponechte otevřený pro vytvoření nové transakce se stejnými daty.</string>
+</resources>
