@@ -295,8 +295,7 @@
                                 android:id="@+id/Status"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:prompt="@string/status" />
+                                android:layout_gravity="center_vertical" />
 
                             <ImageView
                                 android:id="@+id/AttachImage"
@@ -341,7 +340,7 @@
                         <TextView
                             android:id="@+id/PlanLabel"
                             style="@style/FormLabel"
-                            android:labelFor="@+id/PB"
+                            android:labelFor="@id/Recurrence"
                             android:text="@string/plan" />
 
                         <androidx.constraintlayout.widget.ConstraintLayout style="@style/FormField">
@@ -401,6 +400,7 @@
                         <TextView
                             android:id="@+id/advanceExecutionLabel"
                             style="@style/FormLabel"
+                            android:labelFor="@id/advanceExecutionSeek"
                             android:text="@string/advance_exexcution_in_days" />
 
                         <LinearLayout style="@style/FormField">

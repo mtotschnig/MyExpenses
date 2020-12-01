@@ -26,6 +26,7 @@
         <TextView
             style="@style/FormLabel"
             android:text="@string/import_source_file"
+            android:labelFor="@id/Filename"
             android:layout_height="wrap_content"/>
 
         <LinearLayout

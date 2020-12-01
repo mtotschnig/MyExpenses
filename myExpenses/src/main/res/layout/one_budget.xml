@@ -105,8 +105,7 @@
 
                     <Spinner
                         android:id="@+id/Accounts"
-                        style="@style/FormField"
-                        android:prompt="@string/pref_manage_accounts_title" />
+                        style="@style/FormField" />
                 </TableRow>
 
                 <TableRow>
@@ -174,8 +173,7 @@
                             android:id="@+id/Type"
                             android:layout_width="0dp"
                             android:layout_weight="1"
-                            android:layout_height="wrap_content"
-                            android:prompt="@string/type" />
+                            android:layout_height="wrap_content" />
 
                         <CheckBox
                             android:id="@+id/DefaultBudget"

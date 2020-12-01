@@ -8,6 +8,7 @@
 
     <TextView
         style="@style/FormLabel"
+        android:labelFor="@id/restore_calendar_handling"
         android:text="@string/restore_calendar_handling"/>
 
     <RadioGroup

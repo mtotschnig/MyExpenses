@@ -87,7 +87,10 @@ public class SimpleIconDialog extends SimpleRVDialog<SimpleIconDialog> {
     @Override
     public void onBindViewHolder(@NonNull IconViewHolder iconViewHolder, int position) {
       super.onBindViewHolder(iconViewHolder, position);
-      ((ImageView) iconViewHolder.itemView).setImageResource(UiUtils.resolveIcon(getContext(), getItem(position)));
+      final String item = getItem(position);
+      final ImageView itemView = (ImageView) iconViewHolder.itemView;
+      itemView.setContentDescription(item);
+      itemView.setImageResource(UiUtils.resolveIcon(getContext(), item));
     }
 
     @Override

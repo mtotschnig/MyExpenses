@@ -6,6 +6,5 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
-    android:entries="@array/pref_ui_theme_entries"
-    android:prompt="@string/pref_ui_theme_title" />
+    android:entries="@array/pref_ui_theme_entries" />
 </merge>

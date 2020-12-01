@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableRow xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          android:gravity="center_vertical"
-          tools:showIn="@layout/import_dialog">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:gravity="center_vertical"
+    tools:showIn="@layout/import_dialog">
 
     <TextView
         style="@style/FormLabel"
-        android:text="@string/account"/>
+        android:text="@string/account" />
 
     <LinearLayout
         style="@style/FormField"
@@ -16,19 +16,18 @@
             android:id="@+id/Account"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <Spinner
             android:id="@+id/Currency"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <Spinner
             android:id="@+id/AccountType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:prompt="@string/type"/>
+            android:layout_weight="1" />
     </LinearLayout>
 </TableRow>

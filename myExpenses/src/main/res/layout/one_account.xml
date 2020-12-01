@@ -98,8 +98,7 @@
 
                     <Spinner
                         android:id="@+id/Currency"
-                        style="@style/FormField"
-                        android:prompt="@string/currency" />
+                        style="@style/FormField" />
                 </TableRow>
 
                 <TableRow>
@@ -112,8 +111,7 @@
 
                     <Spinner
                         android:id="@+id/AccountType"
-                        style="@style/FormField"
-                        android:prompt="@string/type" />
+                        style="@style/FormField" />
                 </TableRow>
 
                 <TableRow>
@@ -145,8 +143,7 @@
                             android:id="@+id/Sync"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:prompt="@string/synchronization" />
+                            android:layout_weight="1" />
 
                         <ImageView
                             android:id="@+id/SyncUnlink"

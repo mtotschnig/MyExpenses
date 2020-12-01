@@ -66,6 +66,7 @@
 
                 <TextView
                     android:gravity="center_horizontal"
+                    android:labelFor="@id/amount2"
                     android:text="@string/and"/>
 
                 <org.totschnig.myexpenses.ui.AmountEditText

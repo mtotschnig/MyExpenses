@@ -72,8 +72,7 @@
                         android:id="@+id/TaType"
                         style="@style/FormField"
                         android:layout_height="wrap_content"
-                        android:entries="@array/method_types"
-                        android:prompt="@string/type" />
+                        android:entries="@array/method_types" />
                 </TableRow>
 
                 <TableRow>

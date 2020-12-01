@@ -67,8 +67,7 @@
                     style="@style/OnboardingSpinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:prompt="@string/currency" />
+                    android:layout_gravity="center_vertical" />
 
                 <Button
                     style="@style/Widget.MaterialComponents.Button.TextButton"
@@ -112,8 +111,7 @@
                         style="@style/OnboardingSpinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:prompt="@string/type" />
+                        android:layout_gravity="center_vertical" />
 
                     <TextView
                         style="@style/OnboardingInputLabel"
