@@ -120,6 +120,86 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 3.1.9
+    - "2020-11-29"
+    -
+      en: |
+        Refinement of the user interface.
+      fr: |
+        Raffinement de l'interface utilisateur.
+      de: |
+        Verfeinerung der Benutzeroberfläche.
+      it: |
+        Miglioramento dell'interfaccia utente.
+      tr: |
+        Kullanıcı arayüzü iyileştirildi.
+      bg: |
+        Подобрения в потребителския интерфейс.
+      iw: |
+       חידוד ממשק המשתמש.
+      es: |
+       Interfaz de usuario mejorada
+  -
+    - 3.1.8
+    - "2020-11-19"
+    -
+      en: |
+        Default click action can be defined per template.
+      fr: |
+        L'action de clic par défaut peut être définie par modèle.
+      de: |
+        Die Standardklickaktion kann pro Vorlage definiert werden.
+      it: |
+        L'azione predefinita del tocco può essere definita in base al modello.
+      es: |
+        La acción de clic predeterminada puede definirse por plantilla.
+      tr: |
+        Varsayılan tıklama eylemi şablon başına tanımlanabilir.
+      bg: |
+        Дефиниране на действието по подразбиране за всеки шаблон.
+      iw: |
+        ניתן להגדיר פעולת קליק ברירת מחדל לכל תבנית.
+  -
+    - 3.1.7
+    - "2020-11-14"
+    -
+      en: |
+        Templates can be loaded from transaction form.
+      fr: |
+        Les modèles peuvent être chargés à partir du formulaire de saisie d'opération.
+      de: |
+        Vorlagen können aus dem Buchungsformular heraus geladen werden.
+      it: |
+        I modelli possono essere caricati dal modulo di transazione.
+      es: |
+        Las plantillas pueden cargarse desde el formulario de transacción.
+      tr: |
+        Şablonlar işlem formundan yüklenebilir.
+      bg: |
+        Шаблон може да се зареди от страницата за транзакции.
+      iw: |
+        ניתן לטעון תבניות מטופס העסקה.
+  -
+    - 3.1.6
+    - "2020-10-30"
+    -
+      en: |
+        Save button in transaction form is more salient. Long press on the floating action button opens a menu that allows to prepare the form for transfer, split transaction or income.
+      fr: |
+        Le bouton Enregistrer dans le formulaire d'opération est plus saillant. Un appui long sur le bouton d'action flottant ouvre un menu qui permet de préparer le formulaire pour un transfert, une transaction ventilée ou un revenu.
+      de: |
+        Die Schaltfläche Speichern im Transaktionsformular ist ausgeprägter. Durch langes Drücken der schwebenden Aktionstaste wird ein Menü geöffnet, in dem das Formular für Überweisungen, mehrteilige Buchungen oder Einnahmen vorbereitet werden kann.
+      it: |
+        Il pulsante di salvataggio nei moduli delle transazioni è più accentuato. Premendo a lungo sul pulsante fluttuante si apre un menù che consente di preparare i moduli per trasferimenti, operazioni frazionate o redditi.
+      es: |
+        El botón de guardar en el formulario de transacción queda más destacado. Una pulsación prolongada del botón de acción flotante abre un menú que permite preparar el formulario para transferencia, división de la transacción o ingreso.
+      tr: |
+        Muamele formundaki kaydet düğmesi daha dikkat görünür yapıldı. Kayan eylem düğmesine uzun süre dokunmak, gelir, transfer veya bölünmüş muamele için form hazırlamaya izin veren bir menü açar.
+      bg: |
+        Бутонът за запис във формата за транзакция е по забележим. Дълго натискане на плаващия бутон отваря меню, където ще подготвите форма за превод, разпределена транзакция или приход.
+      iw: |
+        לחצן שמור בטופס העסקה בולט יותר. לחיצה ארוכה על כפתור הפעולה הצף פותחת תפריט המאפשר להכין את הטופס להעברה, לעסקה מפוצלת או להכנסה.
+  -
     - 3.1.5
     - "2020-10-22"
     -
