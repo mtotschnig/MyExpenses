@@ -61,7 +61,6 @@ import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -132,7 +131,9 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           if (t != null) {
             if (mExtra != null) {
               extraInfo2d = (Long[][]) mExtra;
-              t.setDate(new Date(extraInfo2d[i][1]));
+              final long date = extraInfo2d[i][1] / 1000;
+              t.setDate(date);
+              t.setValueDate(date);
               t.setOriginPlanInstanceId(extraInfo2d[i][0]);
             }
             t.setStatus(STATUS_NONE);
