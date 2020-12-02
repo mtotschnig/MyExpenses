@@ -234,6 +234,9 @@
     <string-array name="whats_new_315">
         <item>@string/ui_refinement</item>
     </string-array>
+    <string-array name="whats_new_319">
+        <item>@string/ui_refinement</item>
+    </string-array>
     <string-array name="Sub_10" tools:ignore="InconsistentArrays">
     </string-array>
     <!-- During onboarding, user can select to restore data from synchronized account-specific data . This is the title for the tab where the accounts are listed -->
