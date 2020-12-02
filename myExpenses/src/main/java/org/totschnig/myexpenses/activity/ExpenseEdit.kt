@@ -723,7 +723,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             }
             R.id.CREATE_TEMPLATE_COMMAND -> {
                 createTemplate = !createTemplate
-                delegate.setCreateTemplate(createTemplate)
+                delegate.setCreateTemplate(createTemplate, isCalendarPermissionPermanentlyDeclined)
                 invalidateOptionsMenu()
             }
             R.id.SAVE_AND_NEW_COMMAND -> {

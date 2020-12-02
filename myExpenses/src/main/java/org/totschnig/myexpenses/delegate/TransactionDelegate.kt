@@ -687,7 +687,9 @@ abstract class TransactionDelegate<T : ITransaction>(
                 referenceNumber = methodRowBinding.Number.text.toString()
                 if (forSave && !isSplitPart) {
                     if (host.createTemplate) {
-                        setInitialPlan(Triple(viewBinding.Title.text.toString(), recurrenceSpinner.selectedItem as Plan.Recurrence, dateEditBinding.DateButton.date))
+                        setInitialPlan(Triple(viewBinding.Title.text.toString(),
+                                recurrenceSpinner.selectedItem as? Plan.Recurrence ?: Plan.Recurrence.NONE,
+                                dateEditBinding.DateButton.date))
                     }
                 }
             }
@@ -893,9 +895,9 @@ abstract class TransactionDelegate<T : ITransaction>(
         }
     }
 
-    fun setCreateTemplate(createTemplate: Boolean) {
+    fun setCreateTemplate(createTemplate: Boolean, isCalendarPermissionPermanentlyDeclined: Boolean) {
         setVisibility(viewBinding.TitleRow, createTemplate)
-        setPlannerRowVisibility(createTemplate)
+        setPlannerRowVisibility(createTemplate && !isCalendarPermissionPermanentlyDeclined)
     }
 
     companion object {
