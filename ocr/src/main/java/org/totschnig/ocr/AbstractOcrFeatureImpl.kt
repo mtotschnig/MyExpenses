@@ -201,7 +201,7 @@ abstract class AbstractOcrFeatureImpl(prefHandler: PrefHandler, userLocaleProvid
         return@filter false
     }.map { it.text }.takeIf { it.isNotEmpty() }?.joinToString(separator = "")
 
-    private fun log(message: String, vararg args: Any?) {
+    fun log(message: String, vararg args: Any?) {
         Timber.tag(OcrFeatureProvider.TAG).i(message, *args)
     }
 }

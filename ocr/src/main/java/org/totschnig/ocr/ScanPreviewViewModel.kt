@@ -37,26 +37,6 @@ class ScanPreviewViewModel(application: Application) : AndroidViewModel(applicat
         DaggerOcrComponent.builder().appComponent((application as MyApplication).appComponent).build().inject(this)
     }
 
-    fun rotate(right: Boolean, scanFilePath: String, action: () -> Unit) {
-        viewModelScope.launch {
-            withContext(Dispatchers.Default) {
-                val exif = ExifInterface(scanFilePath)
-                when (exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)) {
-                    ExifInterface.ORIENTATION_NORMAL -> if (right) ExifInterface.ORIENTATION_ROTATE_90 else ExifInterface.ORIENTATION_ROTATE_270
-                    ExifInterface.ORIENTATION_ROTATE_90 -> if (right) ExifInterface.ORIENTATION_ROTATE_180 else ExifInterface.ORIENTATION_NORMAL
-                    ExifInterface.ORIENTATION_ROTATE_180 -> if (right) ExifInterface.ORIENTATION_ROTATE_270 else ExifInterface.ORIENTATION_ROTATE_90
-                    ExifInterface.ORIENTATION_ROTATE_270 -> if (right) ExifInterface.ORIENTATION_NORMAL else ExifInterface.ORIENTATION_ROTATE_180
-                    else -> 0
-                }.also {
-                    orientation = it
-                }.takeIf { it != 0 }?.also {
-                    exif.setAttribute(ExifInterface.TAG_ORIENTATION, it.toString())
-                    exif.saveAttributes()
-                }
-            }?.run { action() }
-        }
-    }
-
     fun runTextRecognition(scanFile: File, activity: Activity) {
         if (!running) {
             running = true

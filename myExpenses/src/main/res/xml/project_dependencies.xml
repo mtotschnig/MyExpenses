@@ -198,4 +198,9 @@
         <url>https://github.com/afollestad/material-dialogs</url>
         <licence>Apache License, Version 2.0</licence>
     </project>
+    <project>
+        <name>Android Image Cropper</name>
+        <url>https://github.com/ArthurHub/Android-Image-Cropper</url>
+        <licence>Apache License, Version 2.0</licence>
+    </project>
 </credits>

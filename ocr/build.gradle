@@ -33,6 +33,10 @@ android {
             dimension "textRecognition"
         }
     }
+
+    viewBinding {
+        enabled = true
+    }
 }
 
 dependencies {

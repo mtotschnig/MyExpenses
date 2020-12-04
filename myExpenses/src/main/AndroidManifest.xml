@@ -335,6 +335,10 @@
             android:name=".activity.ManageTags"
             android:theme="@style/EditDialog" />
 
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
+
         <service
             android:name=".service.AutoBackupService"
             android:exported="${debug}"

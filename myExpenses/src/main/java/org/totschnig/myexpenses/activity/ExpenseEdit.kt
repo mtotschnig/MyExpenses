@@ -26,7 +26,6 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
-import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -46,6 +45,8 @@ import androidx.loader.content.CursorLoader
 import androidx.loader.content.Loader
 import com.android.calendar.CalendarContractCompat
 import com.google.android.material.snackbar.Snackbar
+import com.theartofdev.edmodo.cropper.CropImage
+import com.theartofdev.edmodo.cropper.CropImageView
 import icepick.State
 import org.threeten.bp.LocalDate
 import org.totschnig.myexpenses.ACTION_SELECT_MAPPING
@@ -143,10 +144,6 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
     @JvmField
     @State
     var parentId = 0L
-
-    @JvmField
-    @State
-    var pictureUriTemp: Uri? = null
 
     val accountId: Long
         get() = currentAccount?.id ?: 0L
@@ -825,34 +822,12 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                         intent.getLongExtra(DatabaseConstants.KEY_CATID, 0))
                 setDirty()
             }
-            PICTURE_REQUEST_CODE -> if (resultCode == RESULT_OK) {
-                val uri: Uri?
-                when {
-                    intent == null -> {
-                        uri = pictureUriTemp
-                        Timber.d("got result for PICTURE request, intent null, relying on stored output uri %s", pictureUriTemp)
-                    }
-                    intent.data != null -> {
-                        uri = intent.data
-                        Timber.d("got result for PICTURE request, found uri in intent data %s", uri.toString())
-                    }
-                    else -> {
-                        Timber.d("got result for PICTURE request, intent != null, getData() null, relying on stored output uri %s", pictureUriTemp)
-                        uri = pictureUriTemp
-                    }
-                }
-                if (uri != null) {
-                    if (PermissionHelper.canReadUri(uri, this)) {
-                        setPicture(uri)
-                        setDirty()
-                    } else {
-                        pictureUriTemp = uri
-                        requestStoragePermission()
-                    }
-                } else {
-                    val errorMsg = "Error while retrieving image: No data found."
-                    CrashHandler.report(errorMsg)
-                    showSnackbar(errorMsg)
+            CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE -> {
+                val result = CropImage.getActivityResult(intent)
+                if (resultCode == RESULT_OK) {
+                    setPicture(result.uri)
+                } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                    showSnackbar(result.error.message ?: "ERROR")
                 }
             }
             PLAN_REQUEST -> finish()
@@ -1181,26 +1156,12 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
     }
 
     private fun startMediaChooserDo() {
-        val gallIntent = Intent(PictureDirHelper.getContentIntentAction())
-        gallIntent.type = "image/*"
-        val chooserIntent = Intent.createChooser(gallIntent, null)
-        //if external storage is not available, camera capture won't work
-        cameraUri?.let {
-            val camIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            camIntent.putExtra(MediaStore.EXTRA_OUTPUT, it)
-            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(camIntent))
-            Timber.d("starting chooser for PICTURE_REQUEST with EXTRA_OUTPUT %s ", it)
-        }
-        startActivityForResult(chooserIntent, PICTURE_REQUEST_CODE)
+        CropImage.activity()
+                .setAllowFlipping(false)
+                .setCaptureImageOutputUri(PictureDirHelper.getOutputMediaUri(true))
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .start(this)
     }
-
-    private val cameraUri: Uri?
-        get() {
-            if (pictureUriTemp == null) {
-                pictureUriTemp = PictureDirHelper.getOutputMediaUri(true)
-            }
-            return pictureUriTemp
-        }
 
     override fun onRequestPermissionsResult(requestCode: Int,
                                             permissions: Array<String>, grantResults: IntArray) {
@@ -1209,13 +1170,6 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         when (requestCode) {
             PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR -> {
                 delegate.onCalendarPermissionsResult(granted)
-            }
-            PermissionHelper.PERMISSIONS_REQUEST_STORAGE -> {
-                if (granted) {
-                    setPicture(pictureUriTemp)
-                } else {
-                    unsetPicture()
-                }
             }
         }
     }

@@ -133,10 +133,10 @@ class MyExpensesViewModel(application: Application) : ContentResolvingAndroidVie
 
     fun requestOcrFeature(fragmentActivity: FragmentActivity) = featureManager.requestFeature(OCR_MODULE, fragmentActivity)
 
-    fun getScanFile(action: (file: File) -> Unit) {
+    fun getScanFiles(action: (file: Pair<File, File>) -> Unit) {
         viewModelScope.launch {
             action(withContext(Dispatchers.IO) {
-                PictureDirHelper.getOutputMediaFile("SCAN", true, false)
+                Pair(PictureDirHelper.getOutputMediaFile("SCAN", true, false), PictureDirHelper.getOutputMediaFile("SCAN_CROPPED", true, false))
             })
         }
     }
