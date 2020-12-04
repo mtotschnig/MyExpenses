@@ -6,7 +6,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.requireString
 import java.util.*
 
-class UserLocalProviderImpl(private val prefHandler: PrefHandler, locale: Locale): UserLocaleProvider {
+class UserLocaleProviderImpl(private val prefHandler: PrefHandler, locale: Locale): UserLocaleProvider {
     override var systemLocale: Locale = locale
 
     override fun getPreferredLanguage(): String {
