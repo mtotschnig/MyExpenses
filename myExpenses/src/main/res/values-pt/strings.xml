@@ -223,6 +223,7 @@
     <string name="no_exportable_expenses">Não existe nenhuma transação que ainda não tenha sido exportada.</string>
     <string name="no_filemanager_installed">Nenhum gerenciador de arquivos instalado</string>
     <string name="no_calendar_app_installed">Não foi encontrado nenhum app para editar eventos de agenda.</string>
+    <string name="image_capture_not_installed">Não foi encontrado nenhum app para tirar fotos.</string>
     <string name="no_mapped_transactions">Não foi mapeada nenhuma transação para categorias durante este período.</string>
     <string name="no_methods">Não há formas de pagamento.</string>
     <string name="no_parties">Nenhum parceiro.</string>
@@ -846,6 +847,7 @@
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->
     <string name="discover_feature_expense_income_switch">Use este botão para registrar a receita.</string>
     <string name="menu_create_budget">Novo orçamento</string>
+    <string name="budget_onetime">Único</string>
     <string name="dialog_confirm_discard_new_budget">Descartar o novo orçamento?</string>
     <string name="budget_duration_from">De</string>
     <string name="budget_duration_to">Até</string>
@@ -895,6 +897,15 @@
     <string name="menu_tag">Etiquetar</string>
     <!-- %s will be replaced with the labels of all tags that user has selected. -->
     <string name="dialog_multi_tag">Todas as transações selecionadas serão marcadas com %s.</string>
+    <string name="dialog_multi_tag_clear">Todas as etiquetas serão removidas das transações selecionadas.</string>
+    <plurals name="warning_delete_tag">
+        <item quantity="one">A etiqueta %1$s está mapeada em uma transação. Ela deve ser excluída?</item>
+        <item quantity="other">A etiqueta %1$s está mapeada em %2$d transações. Ela deve ser excluída?</item>
+    </plurals>
+    <string name="dialog_multi_tag_append">Adicionar novas etiquetas às já existentes</string>
+    <string name="dialog_multi_tag_replace">Substituir as etiquetas existentes pelas novas</string>
+    <string name="new_tag_hint">Digite a nova etiqueta</string>
+    <string name="language_download_requested">As traduções para o idioma %s são solicitadas na Play Store</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Características</string>
     <string name="button_download">Baixar</string>

@@ -321,7 +321,7 @@ dependencies {
 
     mlkitImplementation "com.google.android.gms:play-services-base:17.5.0"
 
-    implementation 'com.github.mtotschnig:Android-Image-Cropper:5b4c9eb500'
+    implementation 'com.github.mtotschnig:Android-Image-Cropper:1380549743'
 }
 
 static def getDate() {

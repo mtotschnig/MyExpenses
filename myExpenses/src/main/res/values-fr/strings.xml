@@ -838,7 +838,7 @@
     <string name="object_sealed">L\'objet fait référence à un compte fermé.</string>
     <string name="content_description_download_exchange_rate">Télécharger le taux de change</string>
     <string name="exchange_rate_not_supported">Le fournisseur de taux de change configuré ne fournit pas le taux %1$s: %2$s. Vous pouvez essayer d\'en sélectionner un autre dans les paramètres.</string>
-    <string name="pref_category_exchange_rates">Taux d\'échange</string>
+    <string name="pref_category_exchange_rates">Taux de change</string>
     <string name="pref_exchange_rate_provider_summary">Sélectionner un fournisseur pour télécharger les taux de change</string>
     <string name="pref_exchange_rate_provider_title">Fournisseur de taux de change</string>
     <string name="pref_openexchangerates_app_id_summary">Veuillez créer un compte gratuit sur OpenExchangeRates et fournir votre App ID.</string>

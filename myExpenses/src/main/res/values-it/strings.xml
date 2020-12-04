@@ -223,6 +223,7 @@
     <string name="no_exportable_expenses">Non ci sono operazioni che non sono ancora state esportate.</string>
     <string name="no_filemanager_installed">Nessun gestore di file installato</string>
     <string name="no_calendar_app_installed">Nessuna app trovata per la modifica dell\'evento del calendario.</string>
+    <string name="image_capture_not_installed">Non è stata trovata alcuna applicazione per scattare foto.</string>
     <string name="no_mapped_transactions">Nessuna transazione è stata assegnata a categorie in questo periodo.</string>
     <string name="no_methods">Non ci sono metodi di pagamento.</string>
     <string name="no_parties">Non ci sono beneficiari.</string>
@@ -953,5 +954,7 @@
     <string name="pref_clone_with_current_date_title">Data delle transazioni ricopiate</string>
     <string name="default_action">Azione predefinita</string>
     <string name="template_default_action_without_amount_hint">Il modello senza importo deve essere salvato con l\'azione predefinita \'Modifica\'</string>
+    <string name="content_description_edit_plan">Modifica il piano nell\'applicazione del calendario</string>
+    <string name="reset_equivalent_amounts_success">Gli importi equivalenti sono stati ripristinati</string>
     <string name="menu_save_and_new_content_description">Salva i dati e lascia il modulo aperto per la creazione di una nuova transazione con gli stessi dati.</string>
 </resources>

@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_318">
+        <item>A ação padrão do clique pode ser definida por modelo.</item>
+    </string-array>
     <string-array name="whats_new_306">
         <item>Orçamento 2.0</item>
     </string-array>

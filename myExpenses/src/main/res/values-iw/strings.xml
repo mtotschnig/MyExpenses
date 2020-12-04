@@ -225,6 +225,7 @@
     <string name="no_exportable_expenses">אין עסקאות שטרם יוצאו.</string>
     <string name="no_filemanager_installed">לא נמצאה אפליקציה לניהול קבצים</string>
     <string name="no_calendar_app_installed">לא נמצאה אפליקציה לעריכת אירוע ביומן.</string>
+    <string name="image_capture_not_installed">.No app found for taking picture</string>
     <string name="no_mapped_transactions">במהלך תקופה זו לא היו עסקאות ממופות לקטגוריות.</string>
     <string name="no_methods">אין שיטת תשלום</string>
     <string name="no_parties">אין חלקים מפוצלים</string>
@@ -979,5 +980,7 @@
     <string name="pref_clone_with_current_date_title">תאריך העסקאות המשובטות</string>
     <string name="default_action">פעולת ברירת מחדל</string>
     <string name="template_default_action_without_amount_hint">יש לשמור תבנית ללא סכום עם פעולת ברירת המחדל \'ערוך\'</string>
+    <string name="content_description_edit_plan">Edit plan in calendar app</string>
+    <string name="reset_equivalent_amounts_success">סכומים שווים אופסו</string>
     <string name="menu_save_and_new_content_description">שמור את הנתונים, השאר את הטופס פתוח ליצירת עסקה חדשה עם אותם נתונים.</string>
 </resources>

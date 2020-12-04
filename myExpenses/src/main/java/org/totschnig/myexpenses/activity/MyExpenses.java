@@ -521,13 +521,10 @@ public class MyExpenses extends BaseMyExpenses implements
       accountId = intent.getLongExtra(KEY_ROWID, 0);
     }
     if (requestCode == CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-      final CropImage.ActivityResult activityResult = CropImage.getActivityResult(intent);
       if (resultCode == RESULT_OK) {
         viewModel.startOcrFeature(scanFile, this);
       } else {
-        if (activityResult != null) {
-          showSnackbar(activityResult.getError().getMessage());
-        }
+        processImageCaptureError(CropImage.getActivityResult(intent));
       }
     }
     if (requestCode == OCR_REQUEST && resultCode == RESULT_OK) {
