@@ -123,7 +123,7 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
       } else {
         mAccount = new Account();
         String currency = extras != null ? extras.getString(DatabaseConstants.KEY_CURRENCY) : null;
-        mAccount.setCurrency(currencyContext.get(currency != null ? currency : currencyViewModel.getDefault().code()));
+        mAccount.setCurrency(currencyContext.get(currency != null ? currency : currencyViewModel.getDefault().getCode()));
       }
     }
   }
@@ -175,7 +175,7 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
     currencyViewModel.getCurrencies().observe(this, currencies -> {
       currencyAdapter.addAll(currencies);
       if (savedInstanceState == null) {
-        mCurrencySpinner.setSelection(currencyAdapter.getPosition(Currency.create(mAccount.getCurrencyUnit().getCode())));
+        mCurrencySpinner.setSelection(currencyAdapter.getPosition(Currency.Companion.create(mAccount.getCurrencyUnit().getCode(), this)));
       }
     });
     linkInputsWithLabels();
@@ -272,7 +272,7 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
     if (openingBalance == null)
       return;
     String label;
-    String currency = ((Currency) mCurrencySpinner.getSelectedItem()).code();
+    String currency = ((Currency) mCurrencySpinner.getSelectedItem()).getCode();
     mAccount.setCurrency(currencyContext.get(currency));
 
     label = mLabelText.getText().toString();
@@ -310,7 +310,7 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
     switch (parent.getId()) {
       case R.id.Currency:
         try {
-          String currency = ((Currency) mCurrencySpinner.getSelectedItem()).code();
+          String currency = ((Currency) mCurrencySpinner.getSelectedItem()).getCode();
           configureforCurrrency(currencyContext.get(currency));
         } catch (IllegalArgumentException e) {
           //will be reported to user when he tries so safe

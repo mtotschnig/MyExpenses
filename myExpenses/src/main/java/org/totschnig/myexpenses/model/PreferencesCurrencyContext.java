@@ -41,7 +41,7 @@ public class PreferencesCurrencyContext implements CurrencyContext {
       } else {
         final String customSymbol = getCustomSymbol(currencyCode);
         final int customFractionDigits = getCustomFractionDigits(currencyCode);
-        currencyUnit = CurrencyUnit.create(currencyCode, customSymbol == null ? "¤" : customSymbol,
+        currencyUnit = new CurrencyUnit(currencyCode, customSymbol == null ? "¤" : customSymbol,
             customFractionDigits == -1 ? DEFAULTFRACTIONDIGITS : customFractionDigits);
       }
       INSTANCES.put(currencyCode, currencyUnit);

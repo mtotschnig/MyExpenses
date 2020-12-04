@@ -56,11 +56,11 @@ public final class MyExpensesCabTest extends BaseUiTest {
 
   @Before
   public void fixture() {
-    account = new Account("Test account 1", CurrencyUnit.create(Currency.getInstance("EUR")), 0, "",
+    account = new Account("Test account 1", new CurrencyUnite(Currency.getInstance("EUR")), 0, "",
         AccountType.CASH, Account.DEFAULT_COLOR);
     account.save();
     Transaction op0 = Transaction.getNewInstance(account.getId());
-    op0.setAmount(new Money(CurrencyUnit.create(Currency.getInstance("USD")), -1200L));
+    op0.setAmount(new Money(new CurrencyUnit(Currency.getInstance("USD")), -1200L));
     op0.save();
     int times = 5;
     for (int i = 0; i < times; i++) {

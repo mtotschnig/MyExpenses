@@ -59,8 +59,8 @@ public class ExpenseEditTest extends BaseUiTest {
   @Before
   public void fixture() {
     configureLocale(Locale.GERMANY);
-    currency1 = CurrencyUnit.create(Currency.getInstance("USD"));
-    currency2 = CurrencyUnit.create(Currency.getInstance("EUR"));
+    currency1 = new CurrencyUnit(Currency.getInstance("USD"));
+    currency2 = new CurrencyUnit(Currency.getInstance("EUR"));
     account1 = new Account(accountLabel1, currency1, 0, "", AccountType.CASH, Account.DEFAULT_COLOR);
     account1.save();
     account2 = new Account(accountLabel2, currency2, 0, "", AccountType.BANK, Account.DEFAULT_COLOR);
@@ -159,7 +159,7 @@ public class ExpenseEditTest extends BaseUiTest {
       i.putExtra(OPERATION_TYPE, TYPE_TRANSACTION);
       i.putExtra(DatabaseConstants.KEY_CURRENCY, c.getCode());
       mActivityRule.launchActivity(i);
-      assertEquals("Account is not selected", c, mActivityRule.getActivity().getCurrentAccount().getCurrency());
+      assertEquals("Selected account has wrong currency", c.getCode(), mActivityRule.getActivity().getCurrentAccount().getCurrency().getCode());
       mActivityRule.getActivity().finish();
     }
   }

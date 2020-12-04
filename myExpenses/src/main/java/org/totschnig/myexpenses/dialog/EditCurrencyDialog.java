@@ -106,15 +106,15 @@ public class EditCurrencyDialog extends CommitSafeDialogFragment {
     boolean frameworkCurrency;
     String title = null;
     if (currency != null) {
-      CurrencyUnit currencyUnit = currencyContext.get(currency.code());
+      CurrencyUnit currencyUnit = currencyContext.get(currency.getCode());
       editTextSymbol.setText(currencyUnit.getSymbol());
-      editTextCode.setText(currency.code());
+      editTextCode.setText(currency.getCode());
 
       final String displayName = currency.toString();
-      frameworkCurrency = isFrameworkCurrency(currency.code());
+      frameworkCurrency = isFrameworkCurrency(currency.getCode());
       if (frameworkCurrency) {
         editTextSymbol.requestFocus();
-        title = String.format(Locale.ROOT, "%s (%s)", displayName, currency.code());
+        title = String.format(Locale.ROOT, "%s (%s)", displayName, currency.getCode());
         containerLabel.setVisibility(View.GONE);
         containerCode.setVisibility(View.GONE);
       } else {
@@ -187,7 +187,7 @@ public class EditCurrencyDialog extends CommitSafeDialogFragment {
   private int currentFractionDigits() {
     final Currency currency = getCurrency();
     if (currency != null) {
-      return currencyContext.get(currency.code()).getFractionDigits();
+      return currencyContext.get(currency.getCode()).getFractionDigits();
     }
     return 2;
   }
@@ -223,8 +223,8 @@ public class EditCurrencyDialog extends CommitSafeDialogFragment {
         editCurrencyViewModel.newCurrency(readCodefromUI(), symbol, fractionDigits, label);
         setButtonState(false);
       } else {
-        final boolean frameworkCurrency = isFrameworkCurrency(currency.code());
-        editCurrencyViewModel.save(currency.code(), symbol, fractionDigits, frameworkCurrency ? null : label, withUpdate);
+        final boolean frameworkCurrency = isFrameworkCurrency(currency.getCode());
+        editCurrencyViewModel.save(currency.getCode(), symbol, fractionDigits, frameworkCurrency ? null : label, withUpdate);
         if (!withUpdate && frameworkCurrency) {
           dismiss();
         } else {
@@ -245,7 +245,7 @@ public class EditCurrencyDialog extends CommitSafeDialogFragment {
       if (result != null) {
         data = new Intent();
         data.putExtra(KEY_RESULT, result.intValue());
-        data.putExtra(KEY_CURRENCY, getCurrency().code());
+        data.putExtra(KEY_CURRENCY, getCurrency().getCode());
       }
       targetFragment.onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, data);
     }

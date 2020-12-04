@@ -42,8 +42,8 @@ public class ForeignTransferEditTest {
 
   @Before
   public void fixture() {
-    currency1 = CurrencyUnit.create(Currency.getInstance("USD"));
-    currency2 = CurrencyUnit.create(Currency.getInstance("EUR"));
+    currency1 = new CurrencyUnit(Currency.getInstance("USD"));
+    currency2 = new CurrencyUnit(Currency.getInstance("EUR"));
     account1 = new Account(accountLabel1, currency1, 0, "", AccountType.CASH, Account.DEFAULT_COLOR);
     account1.save();
     account2 = new Account(accountLabel2, currency2, 0, "", AccountType.CASH, Account.DEFAULT_COLOR);

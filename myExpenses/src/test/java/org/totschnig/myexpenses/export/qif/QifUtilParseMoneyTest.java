@@ -13,7 +13,7 @@ public class QifUtilParseMoneyTest extends TestCase {
 
   @Override
   protected void setUp() {
-    eur = CurrencyUnit.create(Currency.getInstance("EUR"));
+    eur = new CurrencyUnit(Currency.getInstance("EUR"));
   }
 
   public void testShouldParseCommaAsDecimalSeparator() {

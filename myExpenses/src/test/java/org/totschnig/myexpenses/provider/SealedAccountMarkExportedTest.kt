@@ -20,14 +20,14 @@ class SealedAccountMarkExportedTest {
 
     @Test
     fun allowExportOnSealedAccount() {
-        val currency = CurrencyUnit.create(Currency.getInstance("EUR"))
+        val currency = CurrencyUnit(Currency.getInstance("EUR"))
         val resolver = RuntimeEnvironment.application.contentResolver
-        val sealedAccount = Account("EUR-Account", CurrencyUnit.create(Currency.getInstance("EUR")), 0L, null, AccountType.CASH, Account.DEFAULT_COLOR)
+        val sealedAccount = Account("EUR-Account", CurrencyUnit(Currency.getInstance("EUR")), 0L, null, AccountType.CASH, Account.DEFAULT_COLOR)
         sealedAccount.save()
         val sealed = Transaction.getNewInstance(sealedAccount.id)
         sealed.amount = Money(currency, 500L)
         sealed.save()
-        val openAccount = Account("EUR-Account", CurrencyUnit.create(Currency.getInstance("EUR")), 0L, null, AccountType.CASH, Account.DEFAULT_COLOR)
+        val openAccount = Account("EUR-Account", CurrencyUnit(Currency.getInstance("EUR")), 0L, null, AccountType.CASH, Account.DEFAULT_COLOR)
         openAccount.save()
         val open = Transaction.getNewInstance(openAccount.id)
         open.amount = Money(currency, 500L)

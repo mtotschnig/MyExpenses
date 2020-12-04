@@ -28,7 +28,7 @@ class CurrencyFormatterTest {
 
     @Test
     fun testMoneyFormatGermany() {
-        val eur = CurrencyUnit.create("EUR", "€", 2)
+        val eur = CurrencyUnit("EUR", "€", 2)
         Mockito.`when`(userLocaleProvider.getUserPreferredLocale()).thenReturn(Locale.GERMANY)
 
         val javaVersion = System.getProperty("java.version")!!.split('.')[0].toInt()

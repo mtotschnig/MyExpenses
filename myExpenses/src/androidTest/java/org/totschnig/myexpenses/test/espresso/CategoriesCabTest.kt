@@ -44,7 +44,7 @@ class CategoriesCabTest : BaseUiTest() {
     private val contentResolver
         get() = InstrumentationRegistry.getInstrumentation().targetContext.contentResolver
 
-    val currency = CurrencyUnit.create(Currency.getInstance("EUR"))
+    val currency = CurrencyUnit(Currency.getInstance("EUR"))
     lateinit var account: Account
 
     private fun fixtureWithMappedTransaction() {
@@ -53,26 +53,26 @@ class CategoriesCabTest : BaseUiTest() {
         account.save()
         val categoryId = Category.write(0, "TestCategory", null)
         with(Transaction.getNewInstance(account.id)) {
-            amount = Money(CurrencyUnit.create(Currency.getInstance("USD")), -1200L)
+            amount = Money(CurrencyUnit(Currency.getInstance("USD")), -1200L)
             catId = categoryId
             save()
         }
     }
 
     private fun fixtureWithMappedTemplate() {
-        account = Account("Test account 1", CurrencyUnit.create(Currency.getInstance("EUR")), 0, "",
+        account = Account("Test account 1", CurrencyUnit(Currency.getInstance("EUR")), 0, "",
                 AccountType.CASH, Account.DEFAULT_COLOR)
         account.save()
         val categoryId = Category.write(0, "TestCategory", null)
         with(Template(account, Transactions.TYPE_TRANSACTION, null)) {
-            amount = Money(CurrencyUnit.create(Currency.getInstance("USD")), -1200L)
+            amount = Money(CurrencyUnit(Currency.getInstance("USD")), -1200L)
             catId = categoryId
             save()
         }
     }
 
     private fun fixtureWithMappedBudget() {
-        account = Account("Test account 1", CurrencyUnit.create(Currency.getInstance("EUR")), 0, "",
+        account = Account("Test account 1", CurrencyUnit(Currency.getInstance("EUR")), 0, "",
                 AccountType.CASH, Account.DEFAULT_COLOR)
         account.save()
         val categoryId = Category.write(0, "TestCategory", null)

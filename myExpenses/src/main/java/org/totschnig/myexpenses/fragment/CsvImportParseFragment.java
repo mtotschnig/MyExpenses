@@ -281,7 +281,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
                              long id) {
     if (parent.getId() == R.id.Currency) {
       if (accountId == 0) {
-        currency = ((Currency) parent.getSelectedItem()).code();
+        currency = ((Currency) parent.getSelectedItem()).getCode();
       }
       return;
     }
@@ -305,7 +305,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
               mAccountsCursor.getString(3));//3=KEY_TYPE
       mCurrencySpinner.setSelection(
           ((ArrayAdapter<Currency>) mCurrencySpinner.getAdapter())
-              .getPosition(Currency.create(currency)));
+              .getPosition(Currency.Companion.create(currency, requireActivity())));
       mTypeSpinner.setSelection(type.ordinal());
       mCurrencySpinner.setEnabled(position == 0);
       mTypeSpinner.setEnabled(position == 0);
@@ -321,7 +321,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
   }
 
   public String getCurrency() {
-    return ((Currency) mCurrencySpinner.getSelectedItem()).code();
+    return ((Currency) mCurrencySpinner.getSelectedItem()).getCode();
   }
 
   public QifDateFormat getDateFormat() {

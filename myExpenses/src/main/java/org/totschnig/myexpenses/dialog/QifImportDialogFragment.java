@@ -112,7 +112,7 @@ public class QifImportDialogFragment extends TextSourceDialogFragment implements
           mUri,
           format,
           mAccountSpinner.getSelectedItemId(),
-          ((Currency) mCurrencySpinner.getSelectedItem()).code(),
+          ((Currency) mCurrencySpinner.getSelectedItem()).getCode(),
           mImportTransactions.isChecked(),
           mImportCategories.isChecked(),
           mImportParties.isChecked(),
@@ -192,7 +192,7 @@ public class QifImportDialogFragment extends TextSourceDialogFragment implements
                              long id) {
     if (parent.getId() == R.id.Currency) {
       if (accountId == 0) {
-        currency = ((Currency) parent.getSelectedItem()).code();
+        currency = ((Currency) parent.getSelectedItem()).getCode();
       }
       return;
     }
@@ -205,7 +205,7 @@ public class QifImportDialogFragment extends TextSourceDialogFragment implements
           mAccountsCursor.getString(2);//2=KEY_CURRENCY
       mCurrencySpinner.setSelection(
           ((ArrayAdapter<Currency>) mCurrencySpinner.getAdapter())
-              .getPosition(Currency.create(currency)));
+              .getPosition(Currency.Companion.create(currency, requireActivity())));
       mCurrencySpinner.setEnabled(position == 0);
     }
   }

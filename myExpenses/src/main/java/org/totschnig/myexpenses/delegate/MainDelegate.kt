@@ -40,7 +40,7 @@ abstract class MainDelegate<T : ITransaction>(viewBinding: OneExpenseBinding, da
             val originalAmount = validateAmountInput(viewBinding.OriginalAmount, false, true)
             val selectedItem = viewBinding.OriginalAmount.selectedCurrency
             if (selectedItem != null && originalAmount != null) {
-                val currency = selectedItem.code()
+                val currency = selectedItem.code
                 PrefKey.LAST_ORIGINAL_CURRENCY.putString(currency)
                 this.originalAmount = Money(currencyContext[currency], originalAmount)
             } else {

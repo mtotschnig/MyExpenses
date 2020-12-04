@@ -807,7 +807,7 @@ abstract class TransactionDelegate<T : ITransaction>(
     open fun onSaveInstanceState(outState: Bundle) {
         val originalInputSelectedCurrency = viewBinding.OriginalAmount.selectedCurrency
         if (originalInputSelectedCurrency != null) {
-            originalCurrencyCode = originalInputSelectedCurrency.code()
+            originalCurrencyCode = originalInputSelectedCurrency.code
         }
         Icepick.saveInstanceState(this, outState)
     }

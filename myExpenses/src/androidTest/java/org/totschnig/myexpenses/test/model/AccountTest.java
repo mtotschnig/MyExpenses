@@ -100,7 +100,7 @@ public class AccountTest extends ModelTest {
     Account account, restored;
     Long openingBalance = (long) 100;
     account = new Account("TestAccount", openingBalance, "Testing with Junit");
-    account.setCurrency(CurrencyUnit.create(java.util.Currency.getInstance("EUR")));
+    account.setCurrency(new CurrencyUnit(java.util.Currency.getInstance("EUR")));
     assertEquals("EUR", account.getCurrencyUnit().getCode());
     account.save();
     assertTrue(account.getId() > 0);

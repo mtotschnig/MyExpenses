@@ -70,7 +70,7 @@ public class ManageCurrenciesTest extends BaseUiTest {
       op.save();
       Money before = account.getTotalBalance();
       assertEquals(0, before.getAmountMajor().compareTo(new BigDecimal(38)));
-      final Currency currency = Currency.create(CURRENCY_CODE);
+      final Currency currency = Currency.create(CURRENCY_CODE, mActivityRule.getActivity();
       onData(is(currency))
           .inAdapterView(withId(android.R.id.list)).perform(click());
       onView(withId(R.id.edt_currency_fraction_digits))

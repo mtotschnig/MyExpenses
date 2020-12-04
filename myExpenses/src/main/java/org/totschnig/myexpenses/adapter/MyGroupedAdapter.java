@@ -64,6 +64,7 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
   private ProtectedFragmentActivity activity;
   private PrefHandler prefHandler;
   private CurrencyContext currencyContext;
+  private Context context;
 
   public MyGroupedAdapter(ProtectedFragmentActivity context, Cursor c,
                           CurrencyFormatter currencyFormatter, PrefHandler prefHandler, CurrencyContext currencyContext) {
@@ -73,6 +74,7 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
     this.activity = context;
     this.prefHandler = prefHandler;
     this.currencyContext = currencyContext;
+    this.context = context;
   }
 
   public void setGrouping(AccountGrouping grouping) {
@@ -98,7 +100,7 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
     } else {
       switch (grouping) {
         case CURRENCY:
-          headerText = Currency.create(c.getString(c.getColumnIndex(KEY_CURRENCY))).toString();
+          headerText = Currency.Companion.create(c.getString(c.getColumnIndex(KEY_CURRENCY)), context).toString();
           break;
         case NONE:
           headerText = activity.getString(headerId == 0 ? R.string.pref_manage_accounts_title : R.string.menu_aggregates);

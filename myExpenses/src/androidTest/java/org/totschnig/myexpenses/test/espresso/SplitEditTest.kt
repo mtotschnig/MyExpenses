@@ -90,7 +90,7 @@ class SplitEditTest : BaseUiTest() {
 
     @Before
     fun fixture() {
-        currency1 = CurrencyUnit.create(Currency.getInstance("USD"))
+        currency1 = CurrencyUnit(Currency.getInstance("USD"))
         account1 = Account(accountLabel1, currency1, 0, "", AccountType.CASH, Account.DEFAULT_COLOR).apply { save() }
     }
 
@@ -156,13 +156,13 @@ class SplitEditTest : BaseUiTest() {
     }
 
     private fun prepareSplit() = with(SplitTransaction.getNewInstance(account1.id)) {
-        amount = Money(CurrencyUnit.create(Currency.getInstance("EUR")), 10000)
+        amount = Money(CurrencyUnit(Currency.getInstance("EUR")), 10000)
         status = DatabaseConstants.STATUS_NONE
         save(true)
         val part = Transaction.getNewInstance(account1.id, id)
-        part.amount = Money(CurrencyUnit.create(Currency.getInstance("EUR")), 5000)
+        part.amount = Money(CurrencyUnit(Currency.getInstance("EUR")), 5000)
         part.save()
-        part.amount = Money(CurrencyUnit.create(Currency.getInstance("EUR")), 5000)
+        part.amount = Money(CurrencyUnit(Currency.getInstance("EUR")), 5000)
         part.saveAsNew()
         id
     }

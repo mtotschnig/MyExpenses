@@ -68,7 +68,7 @@ public class CurrencyList extends ListFragment {
   @Override
   public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
     Currency currency = currencyAdapter.getItem(((AdapterView.AdapterContextMenuInfo) menuInfo).position);
-    if (!isFrameworkCurrency(currency.code())) {
+    if (!isFrameworkCurrency(currency.getCode())) {
       menu.add(0, R.id.DELETE_COMMAND, 0, R.string.menu_delete);
     }
   }
@@ -77,7 +77,7 @@ public class CurrencyList extends ListFragment {
   public boolean onContextItemSelected(MenuItem item) {
     if (item.getItemId() == R.id.DELETE_COMMAND) {
       currencyViewModel.deleteCurrency(
-          currencyAdapter.getItem(((AdapterView.AdapterContextMenuInfo) item.getMenuInfo()).position).code());
+          currencyAdapter.getItem(((AdapterView.AdapterContextMenuInfo) item.getMenuInfo()).position).getCode());
       return true;
     }
     return false;
@@ -90,7 +90,7 @@ public class CurrencyList extends ListFragment {
       public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         TextView v = (TextView) super.getView(position, convertView, parent);
         Currency item = currencyAdapter.getItem(position);
-        final CurrencyUnit currencyUnit = currencyContext.get(item.code());
+        final CurrencyUnit currencyUnit = currencyContext.get(item.getCode());
         v.setText(String.format(Locale.getDefault(), "%s (%s, %d)", v.getText(),
             currencyUnit.getSymbol(),
             currencyUnit.getFractionDigits()));

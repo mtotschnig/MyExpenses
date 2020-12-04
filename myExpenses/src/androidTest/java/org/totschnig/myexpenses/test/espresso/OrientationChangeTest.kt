@@ -58,9 +58,9 @@ class OrientationChangeTest: BaseUiTest() {
 
     @Before
     fun fixture() {
-        currency1 = CurrencyUnit.create(Currency.getInstance("USD"))
+        currency1 = CurrencyUnit(Currency.getInstance("USD"))
         account1 = Account(accountLabel1, currency1, 0, "", AccountType.BANK, Account.DEFAULT_COLOR).apply { save() }
-        currency2 = CurrencyUnit.create(Currency.getInstance("EUR"))
+        currency2 = CurrencyUnit(Currency.getInstance("EUR"))
         account2 = Account(accountLabel2, currency2, 0, "", AccountType.CASH, Account.DEFAULT_COLOR).apply { save() }
     }
 

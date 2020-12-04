@@ -51,10 +51,10 @@ public class ManageTemplatesTest extends BaseUiTest {
 
   @Before
   public void fixture() {
-    account1 = new Account("Test account 1", CurrencyUnit.create(Currency.getInstance("EUR")), 0, "",
+    account1 = new Account("Test account 1", new CurrencyUnit(Currency.getInstance("EUR")), 0, "",
         AccountType.CASH, Account.DEFAULT_COLOR);
     account1.save();
-    account2 = new Account("Test account 1", CurrencyUnit.create(Currency.getInstance("EUR")), 0, "",
+    account2 = new Account("Test account 1", new CurrencyUnit(Currency.getInstance("EUR")), 0, "",
         AccountType.CASH, Account.DEFAULT_COLOR);
     account2.save();
     createInstances(Template.Action.SAVE);

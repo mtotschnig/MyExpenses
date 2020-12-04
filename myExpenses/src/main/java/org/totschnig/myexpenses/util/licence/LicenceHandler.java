@@ -52,7 +52,7 @@ public class LicenceHandler {
   public LicenceHandler(MyApplication context, PreferenceObfuscator preferenceObfuscator, CrashHandler crashHandler) {
     this.context = context;
     this.licenseStatusPrefs = preferenceObfuscator;
-    this.currencyUnit = CurrencyUnit.create("EUR", "€", 2);
+    this.currencyUnit = new CurrencyUnit("EUR", "€", 2);
     this.crashHandler = crashHandler;
   }
 

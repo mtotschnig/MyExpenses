@@ -56,6 +56,7 @@ import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.viewmodel.BudgetEditViewModel;
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel;
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel;
+import org.totschnig.myexpenses.viewmodel.CurrencyViewModel;
 import org.totschnig.myexpenses.viewmodel.EditCurrencyViewModel;
 import org.totschnig.myexpenses.viewmodel.ExchangeRateViewModel;
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel;
@@ -190,6 +191,8 @@ public interface AppComponent {
   void inject(BudgetEditViewModel budgetEditViewModel);
 
   void inject(ContentResolvingAndroidViewModel contentResolvingAndroidViewModel);
+
+  void inject(CurrencyViewModel contentResolvingAndroidViewModel);
 
   void inject(MyExpensesViewModel myExpensesViewModel);
 

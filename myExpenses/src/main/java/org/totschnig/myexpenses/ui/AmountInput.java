@@ -100,7 +100,7 @@ public class AmountInput extends ConstraintLayout {
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
           View view = super.getView(position, convertView, parent);
           view.setPadding(view.getPaddingLeft(), view.getPaddingTop(), 0, view.getPaddingBottom());
-          ((TextView) view).setText(getItem(position).code());
+          ((TextView) view).setText(getItem(position).getCode());
           return view;
         }
       };
@@ -108,7 +108,7 @@ public class AmountInput extends ConstraintLayout {
       currencySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-          String currency = ((Currency) currencySpinner.getSelectedItem()).code();
+          String currency = ((Currency) currencySpinner.getSelectedItem()).getCode();
           final CurrencyUnit currencyUnit = currencyContext.get(currency);
           amountEditText.setFractionDigits(currencyUnit.getFractionDigits());
           exchangeRateEdit.setCurrencies(currencyUnit, null);
@@ -289,7 +289,7 @@ public class AmountInput extends ConstraintLayout {
   }
 
   public void setSelectedCurrency(String originalCurrencyCode) {
-    currencySpinner.setSelection(currencyAdapter.getPosition(Currency.create(originalCurrencyCode)));
+    currencySpinner.setSelection(currencyAdapter.getPosition(Currency.Companion.create(originalCurrencyCode, getContext())));
   }
 
   public void configureExchange(CurrencyUnit currencyUnit, CurrencyUnit homeCurrency) {
@@ -307,7 +307,7 @@ public class AmountInput extends ConstraintLayout {
     if (withExchangeRate && withCurrencySelection) {
       final Currency selectedCurrency = getSelectedCurrency();
       exchangeRateEdit.setCurrencies(selectedCurrency != null ?
-          currencyContext.get(selectedCurrency.code()) : null, currencyUnit);
+          currencyContext.get(selectedCurrency.getCode()) : null, currencyUnit);
     }
   }
 

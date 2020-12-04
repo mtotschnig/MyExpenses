@@ -386,7 +386,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
       currencyViewModel.getCurrencies().observe(this, currencies -> {
         ListPreference homeCurrencyPref = requirePreference(PrefKey.HOME_CURRENCY);
         homeCurrencyPref.setEntries(Stream.of(currencies).map(Currency::toString).toArray(CharSequence[]::new));
-        homeCurrencyPref.setEntryValues(Stream.of(currencies).map(Currency::code).toArray(CharSequence[]::new));
+        homeCurrencyPref.setEntryValues(Stream.of(currencies).map(Currency::getCode).toArray(CharSequence[]::new));
         homeCurrencyPref.setSummary(homeCurrencyPref.getEntry());
 
       });

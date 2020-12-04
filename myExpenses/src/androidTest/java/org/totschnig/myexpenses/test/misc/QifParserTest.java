@@ -701,7 +701,7 @@ public class QifParserTest extends AndroidTestCase {
 
     public void parseQif(String fileContent, QifDateFormat dateFormat) throws IOException {
         QifBufferedReader r = new QifBufferedReader(new BufferedReader(new InputStreamReader(new ByteArrayInputStream(fileContent.getBytes()), "UTF-8")));
-        p = new QifParser(r, dateFormat, CurrencyUnit.create(Currency.getInstance("EUR")));
+        p = new QifParser(r, dateFormat, new CurrencyUnit(Currency.getInstance("EUR")));
         p.parse();
     }
 

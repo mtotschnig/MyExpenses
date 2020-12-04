@@ -50,7 +50,7 @@ public final class MyExpensesCategorySearchFilterTest extends BaseUiTest {
   public static void fixture() {
     catLabel1 = "Test category 1";
     catLabel2 = "Test category 2";
-    final CurrencyUnit currency = CurrencyUnit.create(Currency.getInstance("EUR"));
+    final CurrencyUnit currency = new CurrencyUnit(Currency.getInstance("EUR"));
     account = new Account("Test account 1", currency, 0, "",
         AccountType.CASH, Account.DEFAULT_COLOR);
     account.save();

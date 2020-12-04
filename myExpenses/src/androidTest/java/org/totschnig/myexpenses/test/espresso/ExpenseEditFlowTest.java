@@ -36,7 +36,7 @@ public class ExpenseEditFlowTest {
   public ActivityTestRule<ExpenseEdit> mActivityRule = new ActivityTestRule<>(ExpenseEdit.class);
   private static String accountLabel1 = "Test label 1";
   private static Account account1;
-  private static CurrencyUnit currency1 = CurrencyUnit.create(Currency.getInstance("USD"));
+  private static CurrencyUnit currency1 = new CurrencyUnit(Currency.getInstance("USD"));
   private static PaymentMethod paymentMethod;
 
   @BeforeClass

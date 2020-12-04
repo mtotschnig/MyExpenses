@@ -100,7 +100,7 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
     super.onSaveInstanceState(outState);
     final Currency selectedItem = (Currency) currencySpinner.getSelectedItem();
     if (selectedItem != null) {
-      outState.putString(KEY_CURRENCY, selectedItem.code());
+      outState.putString(KEY_CURRENCY, selectedItem.getCode());
     }
     String label = labelEditText.getText().toString();
     outState.putBoolean(KEY_LABEL_UNCHANGED_OR_EMPTY, TextUtils.isEmpty(label) ||
@@ -170,7 +170,7 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
     DialogUtils.configureCurrencySpinner(currencySpinner, this);
 
     String code = savedInstanceState != null ? (String) savedInstanceState.get(KEY_CURRENCY) : null;
-    final Currency currency = code != null ? Currency.create(code) : currencyViewModel.getDefault();
+    final Currency currency = code != null ? Currency.Companion.create(code, requireActivity()) : currencyViewModel.getDefault();
 
     currencyViewModel.getCurrencies().observe(this, currencies -> {
       final CurrencyAdapter adapter = (CurrencyAdapter) currencySpinner.getAdapter();
@@ -230,7 +230,7 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
   }
 
   private CurrencyUnit validateSelectedCurrency() {
-    final String currency = ((Currency) currencySpinner.getSelectedItem()).code();
+    final String currency = ((Currency) currencySpinner.getSelectedItem()).getCode();
     return currencyContext.get(currency);
   }
 

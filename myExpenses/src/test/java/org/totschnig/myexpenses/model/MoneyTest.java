@@ -105,10 +105,10 @@ public class MoneyTest extends TestCase {
 
   private CurrencyUnit buildCurrencyUnit(String code) {
     Currency currency = Currency.getInstance(code);
-    return CurrencyUnit.create(code, currency.getSymbol(), currency.getDefaultFractionDigits());
+    return new CurrencyUnit(code, currency.getSymbol(), currency.getDefaultFractionDigits());
   }
 
   private CurrencyUnit buildXXX() {
-    return CurrencyUnit.create("XXX", "XXX", DEFAULTFRACTIONDIGITS);
+    return new CurrencyUnit("XXX", "XXX", DEFAULTFRACTIONDIGITS);
   }
 }

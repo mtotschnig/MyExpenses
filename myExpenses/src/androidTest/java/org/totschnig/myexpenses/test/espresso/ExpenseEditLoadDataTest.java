@@ -82,8 +82,8 @@ public class ExpenseEditLoadDataTest extends BaseUiTest {
   @Before
   public void fixture() {
     //IdlingRegistry.getInstance().register(getIdlingResource());
-    currency = CurrencyUnit.create(Currency.getInstance("EUR"));
-    foreignCurrency = CurrencyUnit.create(Currency.getInstance("USD"));
+    currency = new CurrencyUnit(Currency.getInstance("EUR"));
+    foreignCurrency = new CurrencyUnit(Currency.getInstance("USD"));
     account1 = new Account("Test account 1", currency, 0, "", AccountType.CASH, Account.DEFAULT_COLOR);
     account1.save();
     account2 = new Account("Test account 2", currency, 0, "", AccountType.CASH, Account.DEFAULT_COLOR);

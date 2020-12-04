@@ -55,7 +55,7 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
 
     private val accounts by lazy {
         val liveData = MutableLiveData<List<Account>>()
-        disposables.add(briteContentResolver.createQuery(TransactionProvider.ACCOUNTS_BASE_URI, null, DatabaseConstants.KEY_SEALED + " = 0", null, null, false)
+        disposables.add(briteContentResolver.createQuery(TransactionProvider.ACCOUNTS_BASE_URI, null, KEY_SEALED + " = 0", null, null, false)
                 .mapToList { buildAccount(it, currencyContext) }
                 .subscribe { liveData.postValue(it) })
         return@lazy liveData
