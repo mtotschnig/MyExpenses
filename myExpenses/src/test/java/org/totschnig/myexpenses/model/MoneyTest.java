@@ -77,28 +77,28 @@ public class MoneyTest extends TestCase {
 
   public void testBuildWithMicrosEUR() {
     c = buildCurrencyUnit("EUR");
-    assertEquals(2, c.fractionDigits());
+    assertEquals(2, c.getFractionDigits());
     m = Money.buildWithMicros(c, 23450000);
     Assert.assertEquals(2345L, m.getAmountMinor().longValue());
   }
 
   public void testBuildWithMicrosBHD() {
     c = buildCurrencyUnit("BHD");
-    assertEquals(3, c.fractionDigits());
+    assertEquals(3, c.getFractionDigits());
     m = Money.buildWithMicros(c, 23450000);
     Assert.assertEquals(23450L, m.getAmountMinor().longValue());
   }
 
   public void testBuildWithMicrosJPY() {
     c = buildCurrencyUnit("JPY");
-    assertEquals(0, c.fractionDigits());
+    assertEquals(0, c.getFractionDigits());
     m = Money.buildWithMicros(c, 23450000);
     Assert.assertEquals(23L, m.getAmountMinor().longValue());
   }
 
   public void testBuildWithMicrosXXX() {
     c = buildXXX();
-    assertEquals(8, c.fractionDigits());
+    assertEquals(8, c.getFractionDigits());
     m = Money.buildWithMicros(c, 23450000);
     Assert.assertEquals(2345000000L, m.getAmountMinor().longValue());
   }
