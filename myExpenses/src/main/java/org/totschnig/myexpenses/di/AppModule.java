@@ -12,7 +12,7 @@ import org.totschnig.myexpenses.preference.PrefHandlerImpl;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.AcraCrashHandler;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
-import org.totschnig.myexpenses.util.locale.UserLocalProviderImpl;
+import org.totschnig.myexpenses.util.locale.UserLocaleProviderImpl;
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 
@@ -96,6 +96,6 @@ public class AppModule {
   @Provides
   @Singleton
   static UserLocaleProvider provideUserLocaleProvider(PrefHandler prefHandler, Locale locale) {
-    return new UserLocalProviderImpl(prefHandler, locale);
+    return new UserLocaleProviderImpl(prefHandler, locale);
   }
 }
