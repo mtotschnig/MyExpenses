@@ -512,7 +512,8 @@
     </string-array>
 
     <string-array name="versions">
-        <item>444;3.1.9</item>
+        <item>444;3.2.0</item>
+        <item>443;3.1.9</item>
         <item>441;3.1.8</item>
         <item>439;3.1.7</item>
         <item>435;3.1.6</item>
