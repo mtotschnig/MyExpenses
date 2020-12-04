@@ -30,7 +30,7 @@
     <xsl:variable name="dir">
       <xsl:text>../myExpenses/src/main/res/values</xsl:text>
       <xsl:choose>
-        <xsl:when test="$lang='en'"></xsl:when>
+        <xsl:when test="$lang='en'" />
         <xsl:otherwise>-<xsl:value-of select="$lang"/></xsl:otherwise>
       </xsl:choose>
       <xsl:text>/upgrade.xml</xsl:text>
@@ -52,7 +52,7 @@
   <xsl:template match="item">
   <xsl:variable name="apos">'</xsl:variable>
   <xsl:variable name="quote">"</xsl:variable>
-    <xsl:value-of select="concat(' ',str:replace(str:replace(.,concat('\',$apos),$apos),concat('\',$quote),$quote),'.')" />
+    <xsl:value-of select="concat(' ',str:replace(str:replace(.,concat('\',$apos),$apos),concat('\',$quote),$quote))" />
   </xsl:template>
 
 </xsl:stylesheet>

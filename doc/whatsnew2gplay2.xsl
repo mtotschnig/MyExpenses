@@ -60,7 +60,7 @@
   <xsl:variable name="apos">'</xsl:variable>
   <xsl:variable name="quote">"</xsl:variable>
     <xsl-text>• </xsl-text>
-    <xsl:value-of select="concat('',str:replace(str:replace(.,concat('\',$apos),$apos),concat('\',$quote),$quote),'.')" /><xsl:text>
+    <xsl:value-of select="concat('',str:replace(str:replace(.,concat('\',$apos),$apos),concat('\',$quote),$quote))" /><xsl:text>
 </xsl:text>
   </xsl:template>
   
