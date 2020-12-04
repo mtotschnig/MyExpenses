@@ -706,8 +706,8 @@ abstract class TransactionDelegate<T : ITransaction>(
         return input.getTypedValue(ifPresent, showToUser)
     }
 
-    private fun configureAccountDependent(account: Account?) {
-        val currencyUnit = account!!.currency
+    private fun configureAccountDependent(account: Account) {
+        val currencyUnit = account.currency
         addCurrencyToInput(viewBinding.AmountLabel, viewBinding.Amount, currencyUnit, R.string.amount)
         viewBinding.OriginalAmount.configureExchange(currencyUnit)
         if (hasHomeCurrency(account)) {

@@ -89,8 +89,8 @@ public class AppModule {
 
   @Provides
   @Singleton
-  static CurrencyContext provideCurrencyContext(PrefHandler prefHandler) {
-    return new PreferencesCurrencyContext(prefHandler);
+  static CurrencyContext provideCurrencyContext(PrefHandler prefHandler, UserLocaleProvider userLocaleProvider) {
+    return new PreferencesCurrencyContext(prefHandler, userLocaleProvider);
   }
 
   @Provides

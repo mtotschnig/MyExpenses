@@ -4,6 +4,7 @@ import android.os.Build;
 
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
 
 import java.util.Collections;
 import java.util.Currency;
@@ -20,10 +21,12 @@ public class PreferencesCurrencyContext implements CurrencyContext {
   private static final String KEY_CUSTOM_FRACTION_DIGITS = "CustomFractionDigits";
   private static final String KEY_CUSTOM_CURRENCY_SYMBOL = "CustomCurrencySymbol";
   final private PrefHandler prefHandler;
+  final private UserLocaleProvider userLocaleProvider;
   private static final Map<String, CurrencyUnit> INSTANCES = Collections.synchronizedMap(new HashMap<>());
 
-  public PreferencesCurrencyContext(PrefHandler prefHandler) {
+  public PreferencesCurrencyContext(PrefHandler prefHandler, UserLocaleProvider userLocaleProvider) {
     this.prefHandler = prefHandler;
+    this.userLocaleProvider = userLocaleProvider;
   }
 
   @Override
@@ -67,7 +70,7 @@ public class PreferencesCurrencyContext implements CurrencyContext {
 
   public String getSymbol(@NonNull Currency currency) {
     String custom = getCustomSymbol(currency.getCurrencyCode());
-    return custom != null ? custom : currency.getSymbol();
+    return custom != null ? custom : currency.getSymbol(userLocaleProvider.getUserPreferredLocale());
   }
 
   public int getFractionDigits(Currency currency) {
