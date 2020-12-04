@@ -29,7 +29,7 @@ class SyncAdapterWriteToDbTest {
     }
 
     private fun setupSyncWithFakeResolver() {
-        syncDelegate = SyncDelegate(Mockito.mock(CurrencyContext::class.java)) {accountId, transactionUUid -> 1 }
+        syncDelegate = SyncDelegate(Mockito.mock(CurrencyContext::class.java)) { _, _ -> 1 }
         syncDelegate.account = Account()
     }
 

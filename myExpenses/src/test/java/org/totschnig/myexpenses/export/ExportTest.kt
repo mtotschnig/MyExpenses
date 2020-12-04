@@ -14,7 +14,6 @@
  */
 package org.totschnig.myexpenses.export
 
-import android.content.ContentProviderOperation
 import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
@@ -72,7 +71,7 @@ class ExportTest {
 
     @Suppress("DEPRECATION")
     private var base = Date(117, 11, 15, 12, 0, 0)
-    private var baseSinceEpoch = base.time
+    private var baseSinceEpoch = base.time / 1000
     var date: String = SimpleDateFormat("dd/MM/yyyy", Locale.US).format(base)
     private lateinit var outFile: File
 
@@ -99,7 +98,7 @@ class ExportTest {
         op.methodId = PaymentMethod.find("CHEQUE")
         op.crStatus = CrStatus.CLEARED
         op.referenceNumber = "1"
-        op.setDate(Date(baseSinceEpoch))
+        op.date = baseSinceEpoch
         op.save()
         context.contentResolver.applyBatch(TransactionProvider.AUTHORITY, saveTagLinks(listOf(tag1Id, tag2Id), op.id, null, true))
         op.amount = (Money(account1.currencyUnit, -expense2))
@@ -107,35 +106,35 @@ class ExportTest {
         op.payee = "N.N."
         op.crStatus = CrStatus.UNRECONCILED
         op.referenceNumber = "2"
-        op.setDate(Date(baseSinceEpoch + 1000))
+        op.date = baseSinceEpoch + 1
         op.saveAsNew()
         op.amount = Money(account1.currencyUnit, income1)
         op.catId = cat2Id
         op.payee = null
         op.methodId = null
         op.referenceNumber = null
-        op.setDate(Date(baseSinceEpoch + 2000))
+        op.date = baseSinceEpoch + 2
         op.saveAsNew()
         val contentValues = ContentValues(1)
         contentValues.put(DatabaseConstants.KEY_PICTURE_URI, "file://sdcard/picture.png")
         context.contentResolver.update(ContentUris.withAppendedId(Transaction.CONTENT_URI, op.id), contentValues, null, null)
         op.amount = Money(account1.currencyUnit, income2)
         op.comment = "Note for myself with \"quote\""
-        op.setDate(Date(baseSinceEpoch + 3000))
+        op.date = baseSinceEpoch + 3
         op.saveAsNew()
         val transfer = Transfer.getNewInstance(account1.id, account2.id)
                 ?: throw IllegalStateException()
         transfer.setAmount(Money(account1.currencyUnit, transferP))
         transfer.crStatus = CrStatus.RECONCILED
-        transfer.setDate(Date(baseSinceEpoch + 4000))
+        transfer.date = baseSinceEpoch + 4
         transfer.save()
         transfer.crStatus = CrStatus.UNRECONCILED
         transfer.setAmount(Money(account1.currencyUnit, -transferN))
-        transfer.setDate(Date(baseSinceEpoch + 5000))
+        transfer.date = baseSinceEpoch + 5
         transfer.saveAsNew()
         val split = SplitTransaction.getNewInstance(account1.id) ?: throw IllegalStateException()
         split.amount = Money(account1.currencyUnit, split1)
-        split.setDate(Date(baseSinceEpoch + 6000))
+        split.date = baseSinceEpoch + 6
         val part = Transaction.getNewInstance(account1.id, split.id)
                 ?: throw IllegalStateException()
         part.amount = Money(account1.currencyUnit, part1)
@@ -156,14 +155,14 @@ class ExportTest {
         op.methodId = PaymentMethod.find("CHEQUE")
         op.comment = "Expense inserted after first export"
         op.referenceNumber = "3"
-        op.setDate(Date(baseSinceEpoch))
+        op.date = baseSinceEpoch
         op.save()
         op.amount = Money(account.currencyUnit, income3)
         op.comment = "Income inserted after first export"
         op.payee = "N.N."
         op.methodId = null
         op.referenceNumber = null
-        op.setDate(Date(baseSinceEpoch + 1000))
+        op.date = baseSinceEpoch + 1
         op.saveAsNew()
     }
 
@@ -184,7 +183,7 @@ class ExportTest {
         op.methodId = PaymentMethod.find("CHEQUE")
         op.crStatus = CrStatus.CLEARED
         op.referenceNumber = "1"
-        op.setDate(Date(baseSinceEpoch))
+        op.date = baseSinceEpoch
         op.save()
         op = Transaction.getNewInstance(account2.id)
         if (op == null) {
@@ -194,7 +193,7 @@ class ExportTest {
         op.methodId = PaymentMethod.find("CHEQUE")
         op.crStatus = CrStatus.CLEARED
         op.referenceNumber = "1"
-        op.setDate(Date(baseSinceEpoch))
+        op.date = baseSinceEpoch
         op.save()
         return Pair(account1, account2)
     }
