@@ -223,6 +223,7 @@
     <string name="no_exportable_expenses">Aucune opération exportable.</string>
     <string name="no_filemanager_installed">Aucun gestionnaire de fichiers installé</string>
     <string name="no_calendar_app_installed">Aucune application disponible pour éditer l\'entrée dans le calendrier.</string>
+    <string name="image_capture_not_installed">Aucune application trouvée pour prendre des photos.</string>
     <string name="no_mapped_transactions">Aucune opération n\'a été attribuée à aucune catégorie au cours de cette période.</string>
     <string name="no_methods">Aucune méthode.</string>
     <string name="no_parties">Aucun tiers.</string>
@@ -953,5 +954,7 @@
     <string name="pref_clone_with_current_date_title">Date des transactions clonées</string>
     <string name="default_action">Action par défaut</string>
     <string name="template_default_action_without_amount_hint">Le modèle sans montant doit être enregistré avec l\'action par défaut \'Éditer\'</string>
+    <string name="content_description_edit_plan">Modifier le plan dans l\'application de calendrier</string>
+    <string name="reset_equivalent_amounts_success">Les montants équivalents ont été réinitialisés</string>
     <string name="menu_save_and_new_content_description">Sauvegarder les données et garder le formulaire ouvert pour la saisie d\'une nouvelle  opération avec les même données.</string>
 </resources>

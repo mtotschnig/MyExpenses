@@ -569,6 +569,7 @@
     <string name="version_more_info_317" tools:ignore="UnusedResources">2755797368015057</string>
     <string name="version_more_info_318" tools:ignore="UnusedResources">2760165394244921</string>
     <string name="version_more_info_319" tools:ignore="UnusedResources">2768864520041675</string>
+    <string name="version_more_info_320" tools:ignore="UnusedResources">2773874729540654</string>
 
     <!-- Github -->
     <string name="project_board_314">30#column-10686300</string>
@@ -577,6 +578,7 @@
     <string name="project_board_317">34#column-11664847</string>
     <string name="project_board_318">35#column-11734963</string>
     <string name="project_board_319">33#column-11450748</string>
+    <string name="project_board_320">36#column-11936717</string>
 
     <string-array name="comparison_operator_entries">
         <item>@string/comparison_operator_equal</item>

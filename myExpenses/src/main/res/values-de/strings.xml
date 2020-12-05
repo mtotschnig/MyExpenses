@@ -223,6 +223,7 @@
     <string name="no_exportable_expenses">Es gibt keine Buchungen, die noch nicht exportiert wurden.</string>
     <string name="no_filemanager_installed">Kein Dateimanager installiert</string>
     <string name="no_calendar_app_installed">Keine App für die Bearbeitung des Kalenderereignisses gefunden.</string>
+    <string name="image_capture_not_installed">Keine App zum Fotografieren gefunden.</string>
     <string name="no_mapped_transactions">In diesem Zeitraum wurden keine Buchungen Kategorien zugeordnet.</string>
     <string name="no_methods">Keine Zahlungsweisen.</string>
     <string name="no_parties">Keine Parteien.</string>
@@ -953,5 +954,7 @@
     <string name="pref_clone_with_current_date_title">Datum der geklonten Buchungen</string>
     <string name="default_action">Standardaktion</string>
     <string name="template_default_action_without_amount_hint">Vorlage ohne Betrag sollte mit der Standardaktion \'Bearbeiten\' gespeichert werden.</string>
+    <string name="content_description_edit_plan">Plan in Kalender-App bearbeiten</string>
+    <string name="reset_equivalent_amounts_success">Gleichwertige Beträge wurden zurückgesetzt</string>
     <string name="menu_save_and_new_content_description">Abspeichern, und das Formular für das Erfassen einer neuen  Buchung mit denselben Daten offen lassen</string>
 </resources>
