@@ -16,6 +16,7 @@
 package eltos.simpledialogfragment.form;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -73,9 +74,14 @@ class IconViewHolder extends FormElementViewHolder<SelectIconField> implements S
     select.setOnClickListener(v -> onClick(actions));
     icon.setOnClickListener(v -> onClick(actions));
     if (selected != null) {
-      icon.setImageResource(context.getResources().getIdentifier(selected, "drawable", context.getPackageName()));
+      updateIcon(selected, context.getResources().getIdentifier(selected, "drawable", context.getPackageName()));
     }
     updateViewVisibility();
+  }
+
+  private void updateIcon(String label, int resId) {
+    icon.setContentDescription(label);
+    icon.setImageResource(resId);
   }
 
   @Override
@@ -108,7 +114,7 @@ class IconViewHolder extends FormElementViewHolder<SelectIconField> implements S
     if ((ICON_PICKER_DIALOG_TAG + field.resultKey).equals(dialogTag)) {
       if (which == BUTTON_POSITIVE) {
         selected = extras.getString(KEY_ICON);
-        icon.setImageResource(extras.getInt(SimpleIconDialog.KEY_RESID));
+        updateIcon(selected, extras.getInt(SimpleIconDialog.KEY_RESID));
         updateViewVisibility();
       } else if (which == BUTTON_NEGATIVE) {
         selected = null;
@@ -120,8 +126,12 @@ class IconViewHolder extends FormElementViewHolder<SelectIconField> implements S
   }
 
   private void updateViewVisibility() {
-    icon.setVisibility(selected == null ? View.GONE : View.VISIBLE);
-    select.setVisibility(selected == null ? View.VISIBLE : View.GONE);
+    final boolean hasSelection = selected != null;
+    icon.setVisibility(hasSelection ? View.VISIBLE : View.GONE);
+    select.setVisibility(hasSelection ? View.GONE : View.VISIBLE);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+      label.setLabelFor(hasSelection ? R.id.icon : R.id.select);
+    }
   }
 
   private void onClick(final SimpleFormDialog.DialogActions actions) {

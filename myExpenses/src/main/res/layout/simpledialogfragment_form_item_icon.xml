@@ -1,34 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:orientation="vertical"
-              tools:ignore="UseCompoundDrawables">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:ignore="UseCompoundDrawables">
 
     <TextView
         android:id="@+id/label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:labelFor="@+id/select"
         android:paddingTop="4dp"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        tools:ignore="LabelFor" />
 
 
     <ImageView
-        android:contentDescription="@string/select"
-        android:clickable="true"
-        android:focusable="true"
         android:id="@+id/icon"
-        android:background="?selectableItemBackground"
         android:layout_width="@dimen/category_icon_size"
-        android:layout_height="@dimen/category_icon_size"/>
+        android:layout_height="@dimen/category_icon_size"
+        android:background="?selectableItemBackground"
+        android:clickable="true"
+        android:contentDescription="@string/select"
+        android:focusable="true" />
 
     <Button
         android:id="@+id/select"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/select"
-        android:textAppearance="?android:attr/textAppearanceSmall"/>
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </LinearLayout>
