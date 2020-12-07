@@ -223,6 +223,7 @@
     <string name="no_exportable_expenses">இதுவரை ஏற்றுமதி செய்யப்படாத பரிமாற்றங்கள் எதுவும் இல்லை.</string>
     <string name="no_filemanager_installed">எந்த கோப்பு மேலாளரும் நிறுவப்படவில்லை</string>
     <string name="no_calendar_app_installed">நாட்காட்டி நிகழ்வைத் திருத்துவதற்கு எந்த செயலியும் இல்லை.</string>
+    <string name="image_capture_not_installed">படம் எடுப்பதற்கான செயலி எதுவும் கிடைக்கவில்லை.</string>
     <string name="no_mapped_transactions">இந்த காலகட்டத்தில் எந்த பரிமாற்றங்களும் வகைப்படுத்தப்படவில்லை.</string>
     <string name="no_methods">கட்டண முறைகள் ஏதும் இல்லை.</string>
     <string name="no_parties">தரப்புகள் ஏதும் இல்லை.</string>
@@ -953,4 +954,7 @@
     <string name="pref_clone_with_current_date_title">நகல் எடுக்கப்பட்ட பரிவர்த்தனைகளின் தேதி</string>
     <string name="default_action">இயல்புநிலை செயல்</string>
     <string name="template_default_action_without_amount_hint">தொகை இல்லாத வார்ப்புருக்கள் இயல்புநிலை நடவடிக்கை \'திருத்து\' உடன் சேமிக்கப்பட வேண்டும்</string>
-    </resources>
+    <string name="content_description_edit_plan">நாட்காட்டி செயலியில் திட்டத்தைத் திருத்து</string>
+    <string name="reset_equivalent_amounts_success">சமமான தொகைகள் நிலை கொணரப்பட்டன</string>
+    <string name="menu_save_and_new_content_description">தரவைச் சேமிக்கவும், அதே தரவுடன் புதிய பரிவர்த்தனையை உருவாக்க படிவத்தைத் திறந்து விடவும்.</string>
+</resources>

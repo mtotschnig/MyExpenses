@@ -906,6 +906,10 @@
     <string name="dialog_multi_tag_replace">Substituir as etiquetas existentes pelas novas</string>
     <string name="new_tag_hint">Digite a nova etiqueta</string>
     <string name="language_download_requested">As traduções para o idioma %s são solicitadas na Play Store</string>
+    <!-- Title for a preference that allows to decide how the time will be set for a new instance of a recurring transaction -->
+    <string name="pref_planner_manual_time_title">Horário para transação agendada aplicada manualmente</string>
+    <!-- Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction -->
+    <string name="pref_planner_manual_time_noon">12h (meio-dia)</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Características</string>
     <string name="button_download">Baixar</string>

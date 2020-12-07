@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_320">
+        <item>ניתן לחתוך תמונות.</item>
+    </string-array>
     <string-array name="whats_new_318">
         <item>ניתן להגדיר פעולת קליק ברירת מחדל לכל תבנית.</item>
     </string-array>

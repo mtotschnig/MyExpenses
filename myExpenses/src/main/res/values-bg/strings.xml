@@ -223,6 +223,7 @@
     <string name="no_exportable_expenses">Няма транзакции, които да не са експортирани.</string>
     <string name="no_filemanager_installed">Няма инсталиран файлов менажер</string>
     <string name="no_calendar_app_installed">Не е намерено приложение за редактиране на събития от календара.</string>
+    <string name="image_capture_not_installed">Не е намерено приложение за снимане.</string>
     <string name="no_mapped_transactions">За този период няма транзакции, свързани с категорията.</string>
     <string name="no_methods">Няма начини на плащане.</string>
     <string name="no_parties">Няма страни.</string>
@@ -953,5 +954,7 @@
     <string name="pref_clone_with_current_date_title">Дата на клонирани транзакции</string>
     <string name="default_action">Действие по подразбиране</string>
     <string name="template_default_action_without_amount_hint">Шаблон без сума трябва да бъде запазен с действие по подразбиране „Редактиране“</string>
+    <string name="content_description_edit_plan">Редактиране на план в приложението календар</string>
+    <string name="reset_equivalent_amounts_success">Еквивалентните суми са нулирани</string>
     <string name="menu_save_and_new_content_description">Запазва данните, но оставя отворена бланката - за създаване на нова транзакция със същите данни.</string>
 </resources>
