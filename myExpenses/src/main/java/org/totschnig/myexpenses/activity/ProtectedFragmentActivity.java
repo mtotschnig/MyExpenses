@@ -97,7 +97,6 @@ import androidx.annotation.RequiresApi;
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.util.Pair;
@@ -129,7 +128,7 @@ import static org.totschnig.myexpenses.util.DistributionHelper.getMarketSelfUri;
 import static org.totschnig.myexpenses.util.DistributionHelper.getVersionInfo;
 import static org.totschnig.myexpenses.util.TextUtils.concatResStrings;
 
-public abstract class ProtectedFragmentActivity extends AppCompatActivity
+public abstract class ProtectedFragmentActivity extends BaseActivity
     implements MessageDialogListener, OnSharedPreferenceChangeListener,
     ConfirmationDialogFragment.ConfirmationDialogListener,
     TaskExecutionFragment.TaskCallbacks, DbWriteFragment.TaskCallbacks,
@@ -148,8 +147,6 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
   private Enum<?> helpVariant = null;
   protected ColorStateList textColorSecondary;
   protected FloatingActionButton floatingActionButton;
-
-  private Snackbar snackbar;
 
   @Inject
   protected Tracker tracker;
@@ -909,70 +906,6 @@ public abstract class ProtectedFragmentActivity extends AppCompatActivity
     findViewById(android.R.id.content).setVisibility(View.VISIBLE);
     final ActionBar actionBar = getSupportActionBar();
     if (actionBar != null) actionBar.show();
-  }
-
-  public void showDismissableSnackbar(int message) {
-    showDismissableSnackbar(getText(message));
-  }
-
-  public void showDismissableSnackbar(CharSequence message) {
-    showSnackbar(message, Snackbar.LENGTH_INDEFINITE,
-        new SnackbarAction(R.string.snackbar_dismiss, v -> snackbar.dismiss()));
-  }
-  
-  public void showSnackbar(int message) {
-    showSnackbar(message, Snackbar.LENGTH_LONG);
-  }
-
-  public void showSnackbar(int message, int duration) {
-    showSnackbar(getText(message), duration);
-  }
-
-  public void showSnackbar(@NonNull CharSequence message) {
-    showSnackbar(message, Snackbar.LENGTH_LONG, null);
-  }
-
-  public void showSnackbar(@NonNull CharSequence message, int duration) {
-    showSnackbar(message, duration, null);
-  }
-
-  public void showSnackbar(@NonNull CharSequence message, int duration, SnackbarAction snackbarAction) {
-    showSnackbar(message, duration, snackbarAction, null);
-  }
-
-  public void showSnackbar(@NonNull CharSequence message, int duration, SnackbarAction snackbarAction,
-                           Snackbar.Callback callback) {
-    View container = findViewById(getSnackbarContainerId());
-    if (container == null) {
-      CrashHandler.report(String.format("Class %s is unable to display snackbar", getClass()));
-      Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-    } else {
-      showSnackbar(message, duration, snackbarAction, callback, container);
-    }
-  }
-
-  protected void showSnackbar(@NonNull CharSequence message, int duration, SnackbarAction snackbarAction,
-                              Snackbar.Callback callback, @NonNull View container) {
-    snackbar = Snackbar.make(container, message, duration);
-    UiUtils.increaseSnackbarMaxLines(snackbar);
-    if (snackbarAction != null) {
-      snackbar.setAction(snackbarAction.resId, snackbarAction.listener);
-    }
-    if (callback != null) {
-      snackbar.addCallback(callback);
-    }
-    snackbar.show();
-  }
-
-  public void dismissSnackbar() {
-    if (snackbar != null) {
-      snackbar.dismiss();
-    }
-  }
-
-  @IdRes
-  protected int getSnackbarContainerId() {
-    return R.id.fragment_container;
   }
 
   public void showMessage(int resId) {

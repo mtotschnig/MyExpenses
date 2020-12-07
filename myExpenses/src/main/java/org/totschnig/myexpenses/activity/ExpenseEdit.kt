@@ -826,8 +826,8 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                 val result = CropImage.getActivityResult(intent)
                 if (resultCode == RESULT_OK) {
                     setPicture(result.uri)
-                } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                    showSnackbar(result.error.message ?: "ERROR")
+                } else  {
+                    processImageCaptureError(resultCode, result)
                 }
             }
             PLAN_REQUEST -> finish()

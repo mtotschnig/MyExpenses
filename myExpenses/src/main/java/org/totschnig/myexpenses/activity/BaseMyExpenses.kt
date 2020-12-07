@@ -54,12 +54,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
-    fun processImageCaptureError(activityResult: CropImage.ActivityResult?) {
-        showSnackbar(activityResult?.error?.let {
-            if (it is ActivityNotFoundException) getString(R.string.image_capture_not_installed) else it.message
-        } ?: "ERROR")
-    }
-
     override fun processOcrResult(result: Result<OcrResult>) {
         result.onSuccess {
             if (it.needsDisambiguation()) {

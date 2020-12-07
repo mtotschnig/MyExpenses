@@ -523,8 +523,8 @@ public class MyExpenses extends BaseMyExpenses implements
     if (requestCode == CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
       if (resultCode == RESULT_OK) {
         viewModel.startOcrFeature(scanFile, this);
-      } else {
-        processImageCaptureError(CropImage.getActivityResult(intent));
+      } else  {
+        processImageCaptureError(resultCode, CropImage.getActivityResult(intent));
       }
     }
     if (requestCode == OCR_REQUEST && resultCode == RESULT_OK) {
