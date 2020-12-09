@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.ui.DiscoveryHelper
+import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 
@@ -95,6 +96,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 })
             }
         }.onFailure {
+            Timber.e(it)
             Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
         }
     }
