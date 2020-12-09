@@ -665,12 +665,6 @@ abstract class TransactionDelegate<T : ITransaction>(
                         }
                         this.title = it
                     }
-                    this.defaultAction = Template.Action.values()[viewBinding.DefaultAction.selectedItemPosition]
-                    if (this.amount.amountMinor == 0L && this.defaultAction == Template.Action.SAVE) {
-                        host.showSnackbar(context.getString(R.string.template_default_action_without_amount_hint))
-                        return null
-                    }
-                    prefHandler.putString(PrefKey.TEMPLATE_CLICK_DEFAULT, defaultAction.name)
                     this.isPlanExecutionAutomatic = planExecutionButton.isChecked
                     this.planExecutionAdvance = viewBinding.advanceExecutionSeek.progress
                     val description = compileDescription(context.applicationContext as MyApplication)
@@ -682,6 +676,18 @@ abstract class TransactionDelegate<T : ITransaction>(
                                 title,
                                 description)
                     }
+                    this.defaultAction = Template.Action.values()[viewBinding.DefaultAction.selectedItemPosition]
+                    if (this.amount.amountMinor == 0L) {
+                        if (plan == null && this.defaultAction == Template.Action.SAVE) {
+                            host.showSnackbar(context.getString(R.string.template_default_action_without_amount_hint))
+                            return null
+                        }
+                        if (plan != null && this.isPlanExecutionAutomatic) {
+                            host.showSnackbar(context.getString(R.string.plan_automatic_without_amount_hint))
+                            return null
+                        }
+                    }
+                    prefHandler.putString(PrefKey.TEMPLATE_CLICK_DEFAULT, defaultAction.name)
                 }
             } else {
                 referenceNumber = methodRowBinding.Number.text.toString()
