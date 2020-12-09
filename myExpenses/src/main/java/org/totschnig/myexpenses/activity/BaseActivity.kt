@@ -65,7 +65,7 @@ internal abstract class BaseActivity : AppCompatActivity() {
     fun showSnackbar(message: CharSequence, duration: Int, snackbarAction: SnackbarAction?,
                      callback: Snackbar.Callback?, container: View) {
         snackbar = Snackbar.make(container, message, duration).apply {
-            UiUtils.increaseSnackbarMaxLines(snackbar)
+            UiUtils.increaseSnackbarMaxLines(this)
             if (snackbarAction != null) {
                 setAction(snackbarAction.resId, snackbarAction.listener)
             }
