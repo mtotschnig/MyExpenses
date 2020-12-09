@@ -55,7 +55,7 @@ class UiModule {
 
             override fun isFeatureInstalled(feature: String, context: Context) =
                     if (feature == OCR_MODULE)
-                        BuildConfig.FLAVOR_textRecognition == "mlkit" || Utils.isIntentAvailable(context, OcrFeatureProvider.intent())
+                        BuildConfig.FLAVOR_textRecognition == "intern" || Utils.isIntentAvailable(context, OcrFeatureProvider.intent())
                     else
                         false
 

@@ -70,6 +70,8 @@ abstract class AbstractOcrFeatureImpl(prefHandler: PrefHandler, userLocaleProvid
     private fun Line.bOr0() = boundingBox.bOr0()
     private fun Line.tOr0() = boundingBox.tOr0()
 
+    override fun initialize(context: Context) {}
+
     override suspend fun handleData(intent: Intent) = (intent.getParcelableExtra("result") as? Text)?.let {
         processTextRecognitionResult(it, queryPayees())
     } ?: throw IllegalArgumentException("Unable to retrieve result from intent")

@@ -35,6 +35,7 @@ class ScanPreviewViewModel(application: Application) : AndroidViewModel(applicat
 
     init {
         DaggerOcrComponent.builder().appComponent((application as MyApplication).appComponent).build().inject(this)
+        ocrFeature.initialize(application)
     }
 
     fun runTextRecognition(scanFile: File, activity: Activity) {
