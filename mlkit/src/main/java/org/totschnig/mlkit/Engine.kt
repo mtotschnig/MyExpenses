@@ -21,7 +21,7 @@ import kotlin.coroutines.suspendCoroutine
 @Keep
 object Engine: org.totschnig.ocr.Engine  {
     var initialized: Boolean = false
-    override fun initialize(context: Context) {
+    fun initialize(context: Context) {
         if (!initialized) {
             MlKit.initialize(context)
         }
@@ -29,6 +29,7 @@ object Engine: org.totschnig.ocr.Engine  {
 
     override suspend fun run(file: File, context: Context): Text =
             withContext(Dispatchers.Default) {
+                initialize(context)
                 val image = InputImage.fromFilePath(context, Uri.fromFile(file))
                 suspendCoroutine { cont ->
                     TextRecognition.getClient().process(image)

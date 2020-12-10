@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 public class PrefHandlerImpl implements PrefHandler {
-  private MyApplication context;
+  private final MyApplication context;
 
   public PrefHandlerImpl(MyApplication context) {
     this.context = context;

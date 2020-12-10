@@ -25,7 +25,7 @@ import java.text.NumberFormat
 import java.util.Locale
 import kotlin.math.absoluteValue
 
-abstract class AbstractOcrFeatureImpl(prefHandler: PrefHandler, userLocaleProvider: UserLocaleProvider, private val context: Context) : OcrFeature {
+abstract class AbstractOcrFeatureImpl(val prefHandler: PrefHandler, userLocaleProvider: UserLocaleProvider, private val context: Context) : OcrFeature {
     private val numberFormatList: List<NumberFormat>
     private val dateFormatterList: List<DateTimeFormatter>
     private val timeFormatterList: List<DateTimeFormatter>
@@ -69,8 +69,6 @@ abstract class AbstractOcrFeatureImpl(prefHandler: PrefHandler, userLocaleProvid
     private fun Rect?.tOr0() = this?.top ?: 0
     private fun Line.bOr0() = boundingBox.bOr0()
     private fun Line.tOr0() = boundingBox.tOr0()
-
-    override fun initialize(context: Context) {}
 
     override suspend fun handleData(intent: Intent) = (intent.getParcelableExtra("result") as? Text)?.let {
         processTextRecognitionResult(it, queryPayees())

@@ -958,4 +958,6 @@
     <string name="content_description_edit_plan">Edit plan in calendar app</string>
     <string name="reset_equivalent_amounts_success">Equivalent amounts have been reset</string>
     <string name="menu_save_and_new_content_description">Save the data, leave the form open for creating a new transaction with the same data.</string>
+    <!-- Title of a preference where user can select between Ml Kit and Tesseract as Engine for Optical character recognition -->
+    <string name="pref_ocr_engine_title">Engine for text recognition</string>
 </resources>

@@ -678,4 +678,12 @@
         <item>@string/menu_save</item>
         <item>@string/menu_edit</item>
     </string-array>
+    <string-array name="ocr_engine_entries">
+        <item>ML Kit</item>
+        <item>Tesseract</item>
+    </string-array>
+    <string-array name="ocr_engine_values">
+        <item>mlkit</item>
+        <item>tesseract</item>
+    </string-array>
 </resources>
