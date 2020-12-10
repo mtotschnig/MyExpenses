@@ -2,7 +2,7 @@
 buildscript {
     ext.kotlin_version = '1.4.10'
     repositories {
-        //mavenLocal()
+        mavenLocal()
         jcenter()
         google()
     }
@@ -15,7 +15,7 @@ buildscript {
 
 allprojects {
     repositories {
-        //mavenLocal()
+        mavenLocal()
         jcenter()
         mavenCentral()
         maven {
@@ -53,5 +53,6 @@ ext {
     annotations = "1.1.0"
     recyclerview = "1.1.0"
     materialComponents = "1.2.1"
-    junit = "4.13.1"
+    junitVersion = "4.13.1"
+    timberVersion = "4.7.1"
 }
