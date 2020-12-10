@@ -47,6 +47,7 @@
                 android:targetPackage="@string/application_id" />
         </Preference>
         <Preference
+            my:isPreferenceVisible="false"
             android:key="@string/pref_manage_stale_images_key"
             android:summary="@string/pref_manage_stale_images_summary"
             android:title="@string/pref_manage_stale_images_title">
@@ -288,6 +289,7 @@
                 android:summary="@string/pref_custom_decimal_format_summary"
                 android:title="@string/pref_ocr_time_formats_title" />
             <ListPreference
+                my:isPreferenceVisible="@bool/pref_ocr_engine_visible"
                 android:entries="@array/ocr_engine_entries"
                 android:entryValues="@array/ocr_engine_values"
                 android:key="@string/pref_ocr_engine_key"
@@ -553,6 +555,7 @@
                 android:key="@string/pref_debug_logging_key"
                 android:summary="@string/pref_debug_logging_summary" />
             <SwitchPreferenceCompat
+                my:isPreferenceVisible="@bool/pref_debug_show_ads_visible"
                 android:key="@string/pref_debug_show_ads_key"
                 android:summary="Ads" />
         </PreferenceScreen>

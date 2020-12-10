@@ -27,7 +27,6 @@ import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalTime;
 import org.threeten.bp.chrono.IsoChronology;
 import org.threeten.bp.format.DateTimeFormatter;
-import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
@@ -119,12 +118,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP_CLOUD;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP_INFO;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP_TIME;
-import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_ADVANCED;
-import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_BACKUP;
-import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_CONTRIB;
-import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_MANAGE;
 import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_PRIVACY;
-import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_UI;
 import static org.totschnig.myexpenses.preference.PrefKey.CONTRIB_PURCHASE;
 import static org.totschnig.myexpenses.preference.PrefKey.CRASHREPORT_ENABLED;
 import static org.totschnig.myexpenses.preference.PrefKey.CRASHREPORT_SCREEN;
@@ -132,8 +126,6 @@ import static org.totschnig.myexpenses.preference.PrefKey.CRASHREPORT_USEREMAIL;
 import static org.totschnig.myexpenses.preference.PrefKey.CRITERION_FUTURE;
 import static org.totschnig.myexpenses.preference.PrefKey.CUSTOM_DATE_FORMAT;
 import static org.totschnig.myexpenses.preference.PrefKey.CUSTOM_DECIMAL_FORMAT;
-import static org.totschnig.myexpenses.preference.PrefKey.DEBUG_ADS;
-import static org.totschnig.myexpenses.preference.PrefKey.DEBUG_SCREEN;
 import static org.totschnig.myexpenses.preference.PrefKey.EXCHANGE_RATES;
 import static org.totschnig.myexpenses.preference.PrefKey.EXCHANGE_RATE_PROVIDER;
 import static org.totschnig.myexpenses.preference.PrefKey.FEATURE_UNINSTALL;
@@ -318,7 +310,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
 
       Preference restoreLegacyPref = requirePreference(RESTORE_LEGACY);
       if (Utils.hasApiLevel(Build.VERSION_CODES.KITKAT)) {
-        ((PreferenceCategory) requirePreference(CATEGORY_BACKUP)).removePreference(restoreLegacyPref);
+        restoreLegacyPref.setVisible(false);
       } else {
         restoreLegacyPref.setTitle(getString(R.string.pref_restore_title) + " (" + getString(R.string.pref_restore_alternative) + ")");
       }
@@ -328,10 +320,6 @@ public class SettingsFragment extends BaseSettingsFragment implements
       ((LocalizedFormatEditTextPreference) requirePreference(CUSTOM_DATE_FORMAT)).setOnValidationErrorListener(this);
 
       setAppDirSummary();
-
-      final PreferenceCategory categoryManage = requirePreference(CATEGORY_MANAGE);
-      final Preference prefStaleImages = requirePreference(MANAGE_STALE_IMAGES);
-      categoryManage.removePreference(prefStaleImages);
 
       Preference qifPref = requirePreference(IMPORT_QIF);
       qifPref.setSummary(getString(R.string.pref_import_summary, "QIF"));
@@ -360,7 +348,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
         @Override
         protected void onPostExecute(Boolean result) {
           if (getActivity() != null && !getActivity().isFinishing() && result)
-            categoryManage.addPreference(prefStaleImages);
+            requirePreference(MANAGE_STALE_IMAGES).setVisible(true);
         }
       }.execute();
 
@@ -380,7 +368,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
       if (Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN_MR1)) {
         languagePref.setEntries(getLocaleArray(requireContext()));
       } else {
-        ((PreferenceCategory) requirePreference(CATEGORY_UI)).removePreference(languagePref);
+        languagePref.setVisible(false);
       }
 
       currencyViewModel.getCurrencies().observe(this, currencies -> {
@@ -405,7 +393,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
       }
 
       if (!featureManager.allowsUninstall()) {
-        ((PreferenceCategory) requirePreference(CATEGORY_ADVANCED)).removePreference(requirePreference(FEATURE_UNINSTALL));
+        requirePreference(FEATURE_UNINSTALL).setVisible(false);
       }
     }
     //SHORTCUTS screen
@@ -431,7 +419,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
         preferenceCategory.addPreference(preferenceLegacy);
         preferenceCategory.addPreference(preferenceSecurityQuestion);
       } else {
-        preferenceScreen.removePreference(requirePreference(PROTECTION_DEVICE_LOCK_SCREEN));
+        requirePreference(PROTECTION_DEVICE_LOCK_SCREEN).setVisible(false);
       }
     }
     //SHARE screen
@@ -478,10 +466,6 @@ public class SettingsFragment extends BaseSettingsFragment implements
       }
       startPref.setEntries(daysEntries);
       startPref.setEntryValues(daysValues);
-    } else if (rootKey.equals(getKey(DEBUG_SCREEN))) {
-      if (!BuildConfig.DEBUG) {
-        preferenceScreen.removePreference(requirePreference(DEBUG_ADS));
-      }
     } else if (rootKey.equals(getKey(CRASHREPORT_SCREEN))) {
       requirePreference(ACRA_INFO).setSummary(Utils.getTextWithAppName(getContext(), R.string.crash_reports_user_info));
       requirePreference(CRASHREPORT_ENABLED).setOnPreferenceChangeListener(this);
@@ -750,7 +734,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
       }
     } else {
       if (licenceKeyPref != null) {
-        ((PreferenceCategory) requirePreference(CATEGORY_CONTRIB)).removePreference(licenceKeyPref);
+        licenceKeyPref.setVisible(false);
       }
     }
     String contribPurchaseTitle, contribPurchaseSummary;
