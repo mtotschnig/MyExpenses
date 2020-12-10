@@ -4,6 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="org.totschnig.mlkit">
     <application>
+        <provider
+            android:name="com.google.mlkit.common.internal.MlKitInitProvider"
+            android:authorities="${applicationId}.mlkitinitprovider"
+            android:enabled="false"
+            tools:overrideLibrary="com.google.android.gms:play-services-mlkit-text-recognition"
+            tools:ignore="ExportedContentProvider" />
         <meta-data
             android:name="com.google.mlkit.vision.DEPENDENCIES"
             android:value="ocr" />

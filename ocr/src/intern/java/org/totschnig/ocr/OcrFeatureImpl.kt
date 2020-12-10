@@ -12,11 +12,11 @@ class OcrFeatureImpl @Inject constructor(prefHandler: PrefHandler, userLocalePro
 
     init {
         //TODO instantiate based on preference
-        engine = Class.forName("org.totschnig.mlkit.Engine").kotlin.objectInstance as Engine
+        engine = Class.forName("org.totschnig.tesseract.Engine").kotlin.objectInstance as Engine
     }
 
     override fun initialize(context: Context) {
-        engine.initialize()
+        engine.initialize(context)
     }
     override suspend fun runTextRecognition(file: File, context: Context): OcrResult =
             processTextRecognitionResult(engine.run(file, context), queryPayees())

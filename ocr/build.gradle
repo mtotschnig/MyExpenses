@@ -39,7 +39,7 @@ android {
 }
 
 dependencies {
-    implementation project(':myExpenses')
+    api project(':myExpenses')
     implementation "androidx.core:core-ktx:$ktxVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'com.jakewharton.timber:timber:4.7.1'
@@ -47,15 +47,13 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$appcompatVersion"
     implementation "com.squareup.picasso:picasso:$picassoVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$archLifecycleVersion"
-    //mlkitImplementation 'com.google.android.gms:play-services-mlkit-text-recognition:16.1.1'
-    //tesseractImplementation 'cz.adaptech.android:tesseract4android:2.1.0'
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
     implementation "com.google.dagger:dagger:$rootProject.daggerVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
     compileOnly 'javax.annotation:jsr250-api:1.0'
     implementation "com.jakewharton.threetenabp:threetenabp:$threetenabp"
 
-    testImplementation "junit:junit:$junit"
+    testImplementation "junit:junit:$junitVersion"
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     androidTestImplementation "androidx.annotation:annotation:$annotations"
