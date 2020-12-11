@@ -834,9 +834,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
         }
       }
     } else if (matches(pref, TESSERACT_LANGUAGE)) {
-      if (!value.equals(activity().downloadPending)) {
-        downloadTessData((String) value);
-      }
+      activity().checkTessDataDownload((String) value);
     }
     return true;
   }

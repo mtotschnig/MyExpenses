@@ -57,8 +57,6 @@ class MyExpensesViewModel(application: Application) : ContentResolvingAndroidVie
     @Inject
     lateinit var prefHandler: PrefHandler
 
-    var ocrFeatureProvider: OcrFeatureProvider? = null
-
     enum class FeatureState {
         LOADING, AVAILABLE, ERROR;
     }
@@ -116,38 +114,7 @@ class MyExpensesViewModel(application: Application) : ContentResolvingAndroidVie
         contentResolver.notifyChange(TransactionProvider.ACCOUNTS_URI, null, false)
     }
 
-    fun startOcrFeature(scanFile: @NotNull File, fragmentActivity: FragmentActivity) {
-        if (ocrFeatureProvider == null) {
-            ocrFeatureProvider = try {
-                Class.forName("org.totschnig.ocr.OcrFeatureProviderImpl").kotlin.objectInstance as OcrFeatureProvider
-
-            } catch (e: ClassNotFoundException) {
-                CrashHandler.report(e)
-                null
-            }
-        }
-        ocrFeatureProvider?.start(scanFile, fragmentActivity)
-    }
-
     fun isOcrAvailable(context: Context) = featureManager.isFeatureInstalled(OCR_MODULE, context)
 
     fun requestOcrFeature(fragmentActivity: FragmentActivity) = featureManager.requestFeature(OCR_MODULE, fragmentActivity)
-
-    fun getScanFiles(action: (file: Pair<File, File>) -> Unit) {
-        viewModelScope.launch {
-            action(withContext(Dispatchers.IO) {
-                Pair(PictureDirHelper.getOutputMediaFile("SCAN", true, false), PictureDirHelper.getOutputMediaFile("SCAN_CROPPED", true, false))
-            })
-        }
-    }
-
-    fun getScanUri(file: File) = try {
-        AppDirHelper.getContentUriForFile(file)
-    }  catch (e: IllegalArgumentException) {
-        Uri.fromFile(file)
-    }
-
-    fun handleOcrData(intent: Intent, fragmentActivity: FragmentActivity) {
-        ocrFeatureProvider?.handleData(intent, fragmentActivity)
-    }
 }

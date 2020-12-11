@@ -18,24 +18,30 @@ import com.theartofdev.edmodo.cropper.CropImage
 import icepick.State
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.ui.SnackbarAction
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.getTesseractLanguageDisplayName
 import org.totschnig.myexpenses.util.tracking.Tracker
-import org.totschnig.myexpenses.viewmodel.DownloadViewModel
+import org.totschnig.myexpenses.viewmodel.OcrViewModel
 import javax.inject.Inject
 
 internal abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.MessageDialogListener {
     private var snackbar: Snackbar? = null
     private val downloadReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            downloadPending?.let {
-                showSnackbar(getString(R.string.download_completed, getTesseractLanguageDisplayName(this@BaseActivity, it) ))
-            }
-            downloadPending = null
+            onDownloadComplete()
         }
+    }
+
+    private fun onDownloadComplete() {
+        downloadPending?.let {
+            showSnackbar(getString(R.string.download_completed, getTesseractLanguageDisplayName(this@BaseActivity, it)))
+        }
+        downloadPending = null
+        ocrViewModel.onDownloadComplete(supportFragmentManager)
     }
 
     @State
@@ -45,7 +51,7 @@ internal abstract class BaseActivity : AppCompatActivity(), MessageDialogFragmen
     @Inject
     lateinit var tracker: Tracker
 
-    lateinit var downloadViewModel: DownloadViewModel
+    lateinit var ocrViewModel: OcrViewModel
 
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(newBase)
@@ -59,7 +65,7 @@ internal abstract class BaseActivity : AppCompatActivity(), MessageDialogFragmen
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         tracker.init(this)
-        downloadViewModel = ViewModelProvider(this).get(DownloadViewModel::class.java)
+        ocrViewModel = ViewModelProvider(this).get(OcrViewModel::class.java)
     }
 
     override fun onResume() {
@@ -89,10 +95,10 @@ internal abstract class BaseActivity : AppCompatActivity(), MessageDialogFragmen
         if (command == R.id.TESSERACT_DOWNLOAD_COMMAND) {
             val language = tag as String
             downloadPending = language
-            downloadViewModel.downloadTessData(language)
-            return true;
+            ocrViewModel.downloadTessData(language)
+            return true
         }
-        return false;
+        return false
     }
 
     fun processImageCaptureError(resultCode: Int, activityResult: CropImage.ActivityResult?) {
@@ -167,4 +173,24 @@ internal abstract class BaseActivity : AppCompatActivity(), MessageDialogFragmen
         return R.id.fragment_container
     }
 
+    fun offerTessDataDownload(language: String) {
+        if (language != downloadPending) {
+            ConfirmationDialogFragment.newInstance(Bundle().apply {
+                putInt(ConfirmationDialogFragment.KEY_TITLE, R.string.button_download)
+                putString(ConfirmationDialogFragment.KEY_MESSAGE,
+                        getString(R.string.tesseract_download_confirmation,
+                                getTesseractLanguageDisplayName(this@BaseActivity, language)))
+                putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.TESSERACT_DOWNLOAD_COMMAND)
+                putSerializable(ConfirmationDialogFragment.KEY_TAG_POSITIVE, language)
+            }).show(supportFragmentManager, "DOWNLOAD_TESSDATA")
+        }
+    }
+
+    fun checkTessDataDownload(language: String) {
+        ocrViewModel.tessDataExists(language).observe(this, {
+            if (!it)
+                offerTessDataDownload(language)
+        })
+
+    }
 }

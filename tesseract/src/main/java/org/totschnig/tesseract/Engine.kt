@@ -1,20 +1,30 @@
 package org.totschnig.tesseract
 
 import Catalano.Imaging.FastBitmap
+import android.app.DownloadManager
 import android.content.Context
+import android.net.Uri
 import androidx.annotation.Keep
+import androidx.core.content.ContextCompat
 import com.googlecode.tesseract.android.TessBaseAPI
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.viewmodel.TessdataMissingException
 import org.totschnig.ocr.Element
 import org.totschnig.ocr.Line
+import org.totschnig.ocr.TesseractEngine
 import org.totschnig.ocr.Text
 import org.totschnig.ocr.TextBlock
 import timber.log.Timber
 import java.io.File
 
+const val TESSERACT_DOWNLOAD_FOLDER = "tesseract4/fast/"
+
 @Keep
-object Engine : org.totschnig.ocr.Engine {
+object Engine : TesseractEngine {
     var timer: Long = 0
     fun initialize() {
         System.loadLibrary("jpeg")
@@ -23,13 +33,33 @@ object Engine : org.totschnig.ocr.Engine {
         System.loadLibrary("tesseract")
     }
 
-    override suspend fun run(file: File, context: Context): Text =
+    override fun tessDataExists(context: Context, language: String) =
+            File(context.getExternalFilesDir(null), filePath(language)).exists()
+
+    fun filePath(language: String) = "${TESSERACT_DOWNLOAD_FOLDER}tessdata/%s.traineddata".format(language)
+
+    private fun fileName(language: String) = "%s.traineddata".format(language)
+
+    override fun downloadTessData(context: Context, language: String) {
+        val uri = Uri.parse("https://github.com/tesseract-ocr/tessdata_fast/raw/4.0.0/%s".format(fileName(language)))
+        ContextCompat.getSystemService(context, DownloadManager::class.java)?.enqueue(DownloadManager.Request(uri)
+                .setTitle(context.getString(R.string.pref_tesseract_language_title))
+                .setDescription(language)
+                .setDestinationInExternalFilesDir(context, null, filePath(language)))
+    }
+
+    override suspend fun run(file: File, context: Context, prefHandler: PrefHandler): Text =
             withContext(Dispatchers.Default) {
                 initialize()
                 with(TessBaseAPI()) {
                     timer = System.currentTimeMillis()
-                    if (!init("/sdcard/tesseract4/fast/", "bul")) {
-                        throw IllegalStateException("Could not init Tesseract")
+                    val language = prefHandler.getString(PrefKey.TESSERACT_LANGUAGE, "eng")!!
+                    if (!init(File(context.getExternalFilesDir(null), TESSERACT_DOWNLOAD_FOLDER).path, language)) {
+                        throw if (tessDataExists(context, language)) {
+                            IllegalStateException("Could not init Tesseract")
+                        } else {
+                            TessdataMissingException(language)
+                        }
                     }
                     timing("Init")
                     setVariable("tessedit_do_invert", TessBaseAPI.VAR_FALSE)

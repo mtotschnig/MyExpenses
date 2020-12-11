@@ -1,29 +1,22 @@
 package org.totschnig.myexpenses.fragment
 
-import android.content.Context
 import android.os.Bundle
-import androidx.lifecycle.ViewModelProvider
 import androidx.preference.MultiSelectListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.MyPreferenceActivity
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.preference.LocalizedFormatEditTextPreference
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.getTesseractLanguageDisplayName
-import org.totschnig.myexpenses.viewmodel.DownloadViewModel
 import java.util.*
 import javax.inject.Inject
 
 
 abstract class BaseSettingsFragment : PreferenceFragmentCompat(), LocalizedFormatEditTextPreference.OnValidationErrorListener {
-
-    lateinit var viewModel: DownloadViewModel
 
     @Inject
     lateinit var featureManager: FeatureManager
@@ -34,7 +27,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), LocalizedForma
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity().application as MyApplication).appComponent.inject(this)
-        viewModel = ViewModelProvider(requireActivity())[DownloadViewModel::class.java]
     }
 
     override fun onValidationError(messageResId: Int) {
@@ -92,17 +84,4 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), LocalizedForma
                     Locale(localeParts[0])
                 locale.getDisplayName(locale)
             }
-
-    fun downloadTessData(language: String) {
-        viewModel.tessDataExists(language).observe(this, { if (!it)
-            ConfirmationDialogFragment.newInstance(Bundle().apply {
-                putInt(ConfirmationDialogFragment.KEY_TITLE, R.string.button_download)
-                putString(ConfirmationDialogFragment.KEY_MESSAGE,
-                        getString(R.string.tesseract_download_confirmation,
-                                getTesseractLanguageDisplayName(requireContext(), language)))
-                putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.TESSERACT_DOWNLOAD_COMMAND)
-                putSerializable(ConfirmationDialogFragment.KEY_TAG_POSITIVE, language)
-            }).show(parentFragmentManager, "DOWNLOAD_TESSDATA")
-        })
-    }
 }

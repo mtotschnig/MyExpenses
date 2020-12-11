@@ -1,8 +1,9 @@
 package org.totschnig.myexpenses.feature
 
+import android.content.Context
 import android.content.Intent
 import android.os.Parcelable
-import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import kotlinx.android.parcel.Parcelize
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalTime
@@ -15,8 +16,11 @@ interface OcrFeatureProvider {
         const val MIME_TYPE = "image/jpeg"
         fun intent() = Intent(ACTION).setType(MIME_TYPE)
     }
-    fun start(scanFile: File, fragmentActivity: FragmentActivity)
-    fun handleData(intent: Intent, fragmentActivity: FragmentActivity)
+    fun start(scanFile: File, fragmentManager: FragmentManager)
+    fun handleData(intent: Intent, fragmentManager: FragmentManager) {}
+    fun downloadTessData(context: Context, language: String) {}
+    fun tessDataExists(context: Context, language: String): Boolean = false
+    fun onDownloadComplete(fragmentManager: FragmentManager) {}
 }
 
 @Parcelize

@@ -522,13 +522,13 @@ public class MyExpenses extends BaseMyExpenses implements
     }
     if (requestCode == CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
       if (resultCode == RESULT_OK) {
-        viewModel.startOcrFeature(scanFile, this);
+        ocrViewModel.startOcrFeature(scanFile, getSupportFragmentManager());
       } else  {
         processImageCaptureError(resultCode, CropImage.getActivityResult(intent));
       }
     }
     if (requestCode == OCR_REQUEST && resultCode == RESULT_OK) {
-      viewModel.handleOcrData(intent, this);
+      ocrViewModel.handleOcrData(intent, getSupportFragmentManager());
     }
   }
 
@@ -927,14 +927,15 @@ public class MyExpenses extends BaseMyExpenses implements
         break;
       }
       case OCR: {
-        //viewModel.startOcrFeature(new File("/sdcard/OCR_DEBUG.jpg"), this);
-        viewModel.getScanFiles(pair -> {
+        /*scanFile = new File("/sdcard/OCR_bg.jpg");
+        ocrViewModel.startOcrFeature(scanFile, getSupportFragmentManager());*/
+       ocrViewModel.getScanFiles(pair -> {
           scanFile = pair.getSecond();
           CropImage.activity()
               .setCameraOnly(true)
               .setAllowFlipping(false)
               .setOutputUri(Uri.fromFile(scanFile))
-              .setCaptureImageOutputUri(viewModel.getScanUri(pair.getFirst()))
+              .setCaptureImageOutputUri(ocrViewModel.getScanUri(pair.getFirst()))
               .setGuidelines(CropImageView.Guidelines.ON)
               .start(this);
           return Unit.INSTANCE;

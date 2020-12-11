@@ -13,6 +13,7 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.ScanPreviewBinding
 import org.totschnig.myexpenses.feature.OcrHost
+import org.totschnig.myexpenses.viewmodel.TessdataMissingException
 import java.io.File
 import javax.inject.Inject
 
@@ -31,8 +32,10 @@ class ScanPreviewFragment : DialogFragment() {
         binding = ScanPreviewBinding.inflate(LayoutInflater.from(requireContext()))
         viewModel = ViewModelProvider(this).get(ScanPreviewViewModel::class.java)
         viewModel.getResult().observe(this) { result ->
+            if (result.isSuccess || !(result.exceptionOrNull() is TessdataMissingException)) {
+                dismiss()
+            }
             (activity as? OcrHost)?.processOcrResult(result)
-            dismiss()
         }
         val builder: AlertDialog.Builder = MaterialAlertDialogBuilder(requireActivity())
                 .setView(binding.root)
@@ -61,6 +64,10 @@ class ScanPreviewFragment : DialogFragment() {
 
     fun handleData(intent: Intent) {
         viewModel.handleData(intent)
+    }
+
+    fun onDownloadComplete() {
+        (dialog as? AlertDialog)?.getButton(AlertDialog.BUTTON_POSITIVE)?.isEnabled = true
     }
 
     private val scanFile: File

@@ -16,7 +16,7 @@ class OcrFeatureImpl @Inject constructor(prefHandler: PrefHandler, userLocalePro
     override suspend fun runTextRecognition(file: File, context: Context): OcrResult {
         val string = prefHandler.getString(PrefKey.OCR_ENGINE, getDefaultEngine(Utils.localeFromContext(context)))
         engine = Class.forName("org.totschnig.$string.Engine").kotlin.objectInstance as Engine
-        return processTextRecognitionResult(engine.run(file, context), queryPayees())
+        return processTextRecognitionResult(engine.run(file, context, prefHandler), queryPayees())
     }
 
     /**

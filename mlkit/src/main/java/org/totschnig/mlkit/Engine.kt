@@ -3,12 +3,12 @@ package org.totschnig.mlkit
 import android.content.Context
 import android.net.Uri
 import androidx.annotation.Keep
-import androidx.fragment.app.FragmentActivity
 import com.google.mlkit.common.MlKit
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.ocr.Element
 import org.totschnig.ocr.Line
 import org.totschnig.ocr.Text
@@ -24,10 +24,11 @@ object Engine: org.totschnig.ocr.Engine  {
     fun initialize(context: Context) {
         if (!initialized) {
             MlKit.initialize(context)
+            initialized = true
         }
     }
 
-    override suspend fun run(file: File, context: Context): Text =
+    override suspend fun run(file: File, context: Context, prefHandler: PrefHandler): Text =
             withContext(Dispatchers.Default) {
                 initialize(context)
                 val image = InputImage.fromFilePath(context, Uri.fromFile(file))
