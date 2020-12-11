@@ -16,7 +16,7 @@ import java.io.File
 @Keep
 object Engine : org.totschnig.ocr.Engine {
     var timer: Long = 0
-    fun initialize(context: Context) {
+    fun initialize() {
         System.loadLibrary("jpeg")
         System.loadLibrary("png")
         System.loadLibrary("leptonica")
@@ -25,7 +25,7 @@ object Engine : org.totschnig.ocr.Engine {
 
     override suspend fun run(file: File, context: Context): Text =
             withContext(Dispatchers.Default) {
-                initialize(context)
+                initialize()
                 with(TessBaseAPI()) {
                     timer = System.currentTimeMillis()
                     if (!init("/sdcard/tesseract4/fast/", "bul")) {

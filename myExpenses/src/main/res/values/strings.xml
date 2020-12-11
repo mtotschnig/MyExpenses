@@ -960,4 +960,6 @@
     <string name="menu_save_and_new_content_description">Save the data, leave the form open for creating a new transaction with the same data.</string>
     <!-- Title of a preference where user can select between Ml Kit and Tesseract as Engine for Optical character recognition -->
     <string name="pref_ocr_engine_title">Engine for text recognition</string>
+    <!-- Title of a preference where user can select language for text recognition with Tesseract -->
+    <string name="pref_tesseract_language_title">Language for Tesseract</string>
 </resources>

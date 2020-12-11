@@ -170,6 +170,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.SYNC;
 import static org.totschnig.myexpenses.preference.PrefKey.SYNC_FREQUCENCY;
 import static org.totschnig.myexpenses.preference.PrefKey.SYNC_NOTIFICATION;
 import static org.totschnig.myexpenses.preference.PrefKey.SYNC_WIFI_ONLY;
+import static org.totschnig.myexpenses.preference.PrefKey.TESSERACT_LANGUAGE;
 import static org.totschnig.myexpenses.preference.PrefKey.TRACKING;
 import static org.totschnig.myexpenses.preference.PrefKey.TRANSLATION;
 import static org.totschnig.myexpenses.preference.PrefKey.UI_FONTSIZE;
@@ -488,6 +489,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
         String mediumFormat = getLocalizedDateTimePattern(null, MEDIUM, IsoChronology.INSTANCE, userLocaleProvider.getSystemLocale());
         ((EditTextPreference) ocrTimePref).setText(shortFormat + "\n" + mediumFormat);
       }
+      ((ListPreference) requirePreference(TESSERACT_LANGUAGE)).setEntries(getTesseractLanguageArray(requireContext()));
     } else if (rootKey.equals(getKey(SYNC))) {
       requirePreference(MANAGE_SYNC_BACKENDS).setSummary(
           getString(R.string.pref_manage_sync_backends_summary,
@@ -510,22 +512,6 @@ public class SettingsFragment extends BaseSettingsFragment implements
     String language = locale.getLanguage().toLowerCase(Locale.US);
     String country = locale.getCountry().toLowerCase(Locale.US);
     return activity().getTranslatorsArrayResId(language, country);
-  }
-
-  static String[] getLocaleArray(Context context) {
-    return Stream.of(context.getResources().getStringArray(R.array.pref_ui_language_values))
-        .map(localeString -> getLocaleDisplayName(context, localeString)).toArray(String[]::new);
-  }
-
-  private static CharSequence getLocaleDisplayName(Context context, CharSequence localeString) {
-    if (localeString.equals("default")) {
-      return context.getString(R.string.pref_ui_language_default);
-    } else {
-      String[] localeParts = localeString.toString().split("-");
-      Locale locale = localeParts.length == 2 ?
-          new Locale(localeParts[0], localeParts[1]) : new Locale(localeParts[0]);
-      return locale.getDisplayName(locale);
-    }
   }
 
   @Override
