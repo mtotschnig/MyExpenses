@@ -367,7 +367,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
 
       ListPreference languagePref = requirePreference(UI_LANGUAGE);
       if (Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN_MR1)) {
-        languagePref.setEntries(getLocaleArray(requireContext()));
+        languagePref.setEntries(getLocaleArray());
       } else {
         languagePref.setVisible(false);
       }
@@ -489,7 +489,9 @@ public class SettingsFragment extends BaseSettingsFragment implements
         String mediumFormat = getLocalizedDateTimePattern(null, MEDIUM, IsoChronology.INSTANCE, userLocaleProvider.getSystemLocale());
         ((EditTextPreference) ocrTimePref).setText(shortFormat + "\n" + mediumFormat);
       }
-      ((ListPreference) requirePreference(TESSERACT_LANGUAGE)).setEntries(getTesseractLanguageArray(requireContext()));
+      final ListPreference tesseractPref = requirePreference(TESSERACT_LANGUAGE);
+      tesseractPref.setEntries(getTesseractLanguageArray());
+      tesseractPref.setOnPreferenceChangeListener(this);
     } else if (rootKey.equals(getKey(SYNC))) {
       requirePreference(MANAGE_SYNC_BACKENDS).setSummary(
           getString(R.string.pref_manage_sync_backends_summary,
@@ -830,6 +832,10 @@ public class SettingsFragment extends BaseSettingsFragment implements
           activity().showSnackbar(R.string.date_format_illegal);
           return false;
         }
+      }
+    } else if (matches(pref, TESSERACT_LANGUAGE)) {
+      if (!value.equals(activity().downloadPending)) {
+        downloadTessData((String) value);
       }
     }
     return true;

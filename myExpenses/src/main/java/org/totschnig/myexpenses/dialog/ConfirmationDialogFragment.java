@@ -51,6 +51,7 @@ public class ConfirmationDialogFragment extends CommitSafeDialogFragment impleme
   public static final String KEY_MESSAGE = "message";
   public static final String KEY_COMMAND_POSITIVE = "positiveCommand";
   public static final String KEY_COMMAND_NEGATIVE = "negativeCommand";
+  public static final String KEY_TAG_POSITIVE = "positiveTag";
   public static final String KEY_PREFKEY = "prefKey";
   public static final String KEY_CHECKBOX_LABEL = "checkboxLabel";
   public static final String KEY_POSITIVE_BUTTON_LABEL = "positiveButtonLabel";

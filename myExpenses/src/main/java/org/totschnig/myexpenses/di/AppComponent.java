@@ -6,6 +6,7 @@ import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.activity.BaseActivity;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
@@ -223,4 +224,6 @@ public interface AppComponent {
   void inject(@NotNull ExtendProLicenceDialogFragment extendProLicenceDialogFragment);
 
   void inject(VersionDialogFragment versionDialogFragment);
+
+  void inject(@NotNull BaseActivity baseActivity);
 }

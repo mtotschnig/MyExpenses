@@ -1,19 +1,100 @@
 package org.totschnig.myexpenses.activity
 
+import android.app.DownloadManager
 import android.content.ActivityNotFoundException
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.CallSuper
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
+import icepick.State
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.ui.SnackbarAction
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.getTesseractLanguageDisplayName
+import org.totschnig.myexpenses.util.tracking.Tracker
+import org.totschnig.myexpenses.viewmodel.DownloadViewModel
+import javax.inject.Inject
 
-internal abstract class BaseActivity : AppCompatActivity() {
+internal abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.MessageDialogListener {
     private var snackbar: Snackbar? = null
+    private val downloadReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            downloadPending?.let {
+                showSnackbar(getString(R.string.download_completed, getTesseractLanguageDisplayName(this@BaseActivity, it) ))
+            }
+            downloadPending = null
+        }
+    }
+
+    @State
+    @JvmField
+    var downloadPending: String? = null
+
+    @Inject
+    lateinit var tracker: Tracker
+
+    lateinit var downloadViewModel: DownloadViewModel
+
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(newBase)
+        injectDependencies()
+    }
+
+    protected open fun injectDependencies() {
+        (applicationContext as MyApplication).appComponent.inject(this)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        tracker.init(this)
+        downloadViewModel = ViewModelProvider(this).get(DownloadViewModel::class.java)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        registerReceiver(downloadReceiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
+    }
+
+    override fun onPause() {
+        super.onPause()
+        unregisterReceiver(downloadReceiver)
+    }
+
+    fun setTrackingEnabled(enabled: Boolean) {
+        tracker.setEnabled(enabled)
+    }
+
+    fun logEvent(event: String?, params: Bundle?) {
+        tracker.logEvent(event, params)
+    }
+
+    @CallSuper
+    override fun dispatchCommand(command: Int, tag: Any?): Boolean {
+        val bundle = Bundle()
+        val fullResourceName = resources.getResourceName(command)
+        bundle.putString(Tracker.EVENT_PARAM_ITEM_ID, fullResourceName.substring(fullResourceName.indexOf('/') + 1))
+        logEvent(Tracker.EVENT_DISPATCH_COMMAND, bundle)
+        if (command == R.id.TESSERACT_DOWNLOAD_COMMAND) {
+            val language = tag as String
+            downloadPending = language
+            downloadViewModel.downloadTessData(language)
+            return true;
+        }
+        return false;
+    }
+
     fun processImageCaptureError(resultCode: Int, activityResult: CropImage.ActivityResult?) {
         if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
             showSnackbar(activityResult?.error?.let {
