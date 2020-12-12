@@ -25,6 +25,7 @@ import org.totschnig.ocr.Text
 import org.totschnig.ocr.TextBlock
 import timber.log.Timber
 import java.io.File
+import java.util.*
 
 const val TESSERACT_DOWNLOAD_FOLDER = "tesseract4/fast/"
 
@@ -38,7 +39,29 @@ object Engine : TesseractEngine {
         System.loadLibrary("tesseract")
     }
 
-    private fun language(context: Context, prefHandler: PrefHandler) = prefHandler.getString(PrefKey.TESSERACT_LANGUAGE, "eng")!!
+    private fun language(context: Context, prefHandler: PrefHandler) = prefHandler.getString(PrefKey.TESSERACT_LANGUAGE, defaultLanguage(context.resources.getStringArray(R.array.pref_tesseract_language_values)))!!
+
+    private fun defaultLanguage(availableLanguages: Array<String>): String {
+        val default = Locale.getDefault()
+        val language = default.isO3Language
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            if (language == "aze" || language == "uzb") {
+                if (default.script == "Cyrl") {
+                    return language + "_cyrl"
+                }
+            }
+            if (language == "srp") {
+                if (default.script == "Latn") {
+                    return language + "_latn"
+                }
+            }
+        }
+        if (language == "zho") {
+            val script = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP && default.script == "Hans") "sim" else "tra"
+            return "chi_${script}"
+        }
+        return language.takeIf { availableLanguages.indexOf(it) > - 1 } ?: "eng"
+    }
 
     override fun tessDataExists(context: Context, prefHandler: PrefHandler) =
             File(context.getExternalFilesDir(null), filePath(language(context, prefHandler))).exists()
