@@ -18,8 +18,8 @@ import com.theartofdev.edmodo.cropper.CropImage
 import icepick.State
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
+import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.ui.SnackbarAction
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -28,7 +28,7 @@ import org.totschnig.myexpenses.util.tracking.Tracker
 import org.totschnig.myexpenses.viewmodel.OcrViewModel
 import javax.inject.Inject
 
-internal abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.MessageDialogListener {
+abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.MessageDialogListener {
     private var snackbar: Snackbar? = null
     private val downloadReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -47,6 +47,9 @@ internal abstract class BaseActivity : AppCompatActivity(), MessageDialogFragmen
     @State
     @JvmField
     var downloadPending: String? = null
+
+    @Inject
+    lateinit var prefHandler: PrefHandler
 
     @Inject
     lateinit var tracker: Tracker
@@ -93,9 +96,9 @@ internal abstract class BaseActivity : AppCompatActivity(), MessageDialogFragmen
         bundle.putString(Tracker.EVENT_PARAM_ITEM_ID, fullResourceName.substring(fullResourceName.indexOf('/') + 1))
         logEvent(Tracker.EVENT_DISPATCH_COMMAND, bundle)
         if (command == R.id.TESSERACT_DOWNLOAD_COMMAND) {
-            val language = tag as String
-            downloadPending = language
-            ocrViewModel.downloadTessData(language)
+            ocrViewModel.downloadTessData().observe(this, {
+                downloadPending = it
+            })
             return true
         }
         return false
@@ -173,23 +176,14 @@ internal abstract class BaseActivity : AppCompatActivity(), MessageDialogFragmen
         return R.id.fragment_container
     }
 
-    fun offerTessDataDownload(language: String) {
-        if (language != downloadPending) {
-            ConfirmationDialogFragment.newInstance(Bundle().apply {
-                putInt(ConfirmationDialogFragment.KEY_TITLE, R.string.button_download)
-                putString(ConfirmationDialogFragment.KEY_MESSAGE,
-                        getString(R.string.tesseract_download_confirmation,
-                                getTesseractLanguageDisplayName(this@BaseActivity, language)))
-                putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.TESSERACT_DOWNLOAD_COMMAND)
-                putSerializable(ConfirmationDialogFragment.KEY_TAG_POSITIVE, language)
-            }).show(supportFragmentManager, "DOWNLOAD_TESSDATA")
-        }
+    fun offerTessDataDownload() {
+        ocrViewModel.offerTessDataDownload(this)
     }
 
-    fun checkTessDataDownload(language: String) {
-        ocrViewModel.tessDataExists(language).observe(this, {
+    fun checkTessDataDownload() {
+        ocrViewModel.tessDataExists().observe(this, {
             if (!it)
-                offerTessDataDownload(language)
+                offerTessDataDownload()
         })
 
     }

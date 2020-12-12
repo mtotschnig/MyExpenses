@@ -7,6 +7,8 @@ import androidx.fragment.app.FragmentManager
 import kotlinx.android.parcel.Parcelize
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalTime
+import org.totschnig.myexpenses.activity.BaseActivity
+import org.totschnig.myexpenses.preference.PrefHandler
 import java.io.File
 
 interface OcrFeatureProvider {
@@ -16,11 +18,12 @@ interface OcrFeatureProvider {
         const val MIME_TYPE = "image/jpeg"
         fun intent() = Intent(ACTION).setType(MIME_TYPE)
     }
-    fun start(scanFile: File, fragmentManager: FragmentManager)
+    fun start(scanFile: File, fragmentManager: FragmentManager) {}
     fun handleData(intent: Intent, fragmentManager: FragmentManager) {}
-    fun downloadTessData(context: Context, language: String) {}
-    fun tessDataExists(context: Context, language: String): Boolean = false
+    fun downloadTessData(context: Context, prefHandler: PrefHandler): String? = null
+    fun tessDataExists(context: Context, prefHandler: PrefHandler): Boolean = false
     fun onDownloadComplete(fragmentManager: FragmentManager) {}
+    fun offerTessDataDownload(baseActivity: BaseActivity) {}
 }
 
 @Parcelize

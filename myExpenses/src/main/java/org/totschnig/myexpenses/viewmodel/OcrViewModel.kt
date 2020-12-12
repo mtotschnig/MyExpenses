@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.fragment.app.FragmentManager
@@ -13,46 +12,44 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jetbrains.annotations.NotNull
 import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.feature.OcrFeatureProvider
+import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.PictureDirHelper
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.io.File
-
-class TessdataMissingException(val language: String) : Throwable() {}
+import javax.inject.Inject
 
 class OcrViewModel(application: Application) : AndroidViewModel(application) {
-    var ocrFeatureProvider: OcrFeatureProvider? = try {
-        Class.forName("org.totschnig.ocr.OcrFeatureProviderImpl").kotlin.objectInstance as OcrFeatureProvider
-    } catch (e: ClassNotFoundException) {
-        CrashHandler.report(e)
-        null
+
+    init {
+        (application as MyApplication).appComponent.inject(this)
     }
 
-    fun tessDataExists(language: String) = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
-        ocrFeatureProvider?.let {
-            emit(it.tessDataExists(getApplication<MyApplication>(), language))
-        }
+    @Inject
+    lateinit var prefHandler: PrefHandler
+
+    @Inject
+    lateinit var ocrFeatureProvider: OcrFeatureProvider
+
+    fun tessDataExists() = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
+        emit(ocrFeatureProvider.tessDataExists(getApplication<MyApplication>(), prefHandler))
     }
 
-    fun downloadTessData(language: String) {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                ocrFeatureProvider?.downloadTessData(getApplication(), language)
-            }
-        }
+    fun downloadTessData() = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
+        emit(ocrFeatureProvider.downloadTessData(getApplication(), prefHandler))
     }
 
     fun startOcrFeature(scanFile: @NotNull File, fragmentManager: FragmentManager) {
-        ocrFeatureProvider?.start(scanFile, fragmentManager)
+        ocrFeatureProvider.start(scanFile, fragmentManager)
     }
 
     fun handleOcrData(intent: @NotNull Intent, fragmentManager: FragmentManager) {
-        ocrFeatureProvider?.handleData(intent, fragmentManager)
+        ocrFeatureProvider.handleData(intent, fragmentManager)
     }
 
     fun onDownloadComplete(fragmentManager: FragmentManager) {
-        ocrFeatureProvider?.onDownloadComplete(fragmentManager)
+        ocrFeatureProvider.onDownloadComplete(fragmentManager)
     }
 
     fun getScanFiles(action: (file: Pair<File, File>) -> Unit) {
@@ -63,9 +60,13 @@ class OcrViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun getScanUri(file: File) = try {
+    fun getScanUri(file: File): Uri = try {
         AppDirHelper.getContentUriForFile(file)
     }  catch (e: IllegalArgumentException) {
         Uri.fromFile(file)
+    }
+
+    fun offerTessDataDownload(baseActivity: BaseActivity) {
+        ocrFeatureProvider.offerTessDataDownload(baseActivity)
     }
 }

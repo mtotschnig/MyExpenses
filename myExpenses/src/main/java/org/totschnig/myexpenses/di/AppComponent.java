@@ -61,6 +61,7 @@ import org.totschnig.myexpenses.viewmodel.CurrencyViewModel;
 import org.totschnig.myexpenses.viewmodel.EditCurrencyViewModel;
 import org.totschnig.myexpenses.viewmodel.ExchangeRateViewModel;
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel;
+import org.totschnig.myexpenses.viewmodel.OcrViewModel;
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
 import org.totschnig.myexpenses.viewmodel.TransactionDetailViewModel;
 import org.totschnig.myexpenses.viewmodel.TransactionViewModel;
@@ -226,4 +227,6 @@ public interface AppComponent {
   void inject(VersionDialogFragment versionDialogFragment);
 
   void inject(@NotNull BaseActivity baseActivity);
+
+  void inject(@NotNull OcrViewModel ocrViewModel);
 }

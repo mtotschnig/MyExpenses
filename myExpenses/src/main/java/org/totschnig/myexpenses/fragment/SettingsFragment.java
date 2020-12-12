@@ -316,9 +316,9 @@ public class SettingsFragment extends BaseSettingsFragment implements
         restoreLegacyPref.setTitle(getString(R.string.pref_restore_title) + " (" + getString(R.string.pref_restore_alternative) + ")");
       }
 
-      ((LocalizedFormatEditTextPreference) requirePreference(CUSTOM_DECIMAL_FORMAT)).setOnValidationErrorListener(this);
+      this.<LocalizedFormatEditTextPreference>requirePreference(CUSTOM_DECIMAL_FORMAT).setOnValidationErrorListener(this);
 
-      ((LocalizedFormatEditTextPreference) requirePreference(CUSTOM_DATE_FORMAT)).setOnValidationErrorListener(this);
+      this.<LocalizedFormatEditTextPreference>requirePreference(CUSTOM_DATE_FORMAT).setOnValidationErrorListener(this);
 
       setAppDirSummary();
 
@@ -473,7 +473,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
       requirePreference(CRASHREPORT_USEREMAIL).setOnPreferenceChangeListener(this);
     } else if (rootKey.equals(getKey(OCR))) {
       if ("".equals(prefHandler.getString(OCR_TOTAL_INDICATORS, ""))) {
-        ((EditTextPreference) requirePreference(OCR_TOTAL_INDICATORS)).setText(getString(R.string.pref_ocr_total_indicators_default));
+        this.<EditTextPreference>requirePreference(OCR_TOTAL_INDICATORS).setText(getString(R.string.pref_ocr_total_indicators_default));
       }
       Preference ocrDatePref = requirePreference(OCR_DATE_FORMATS);
       ocrDatePref.setOnPreferenceChangeListener(this);
@@ -489,9 +489,8 @@ public class SettingsFragment extends BaseSettingsFragment implements
         String mediumFormat = getLocalizedDateTimePattern(null, MEDIUM, IsoChronology.INSTANCE, userLocaleProvider.getSystemLocale());
         ((EditTextPreference) ocrTimePref).setText(shortFormat + "\n" + mediumFormat);
       }
-      final ListPreference tesseractPref = requirePreference(TESSERACT_LANGUAGE);
-      tesseractPref.setEntries(getTesseractLanguageArray());
-      tesseractPref.setOnPreferenceChangeListener(this);
+
+      this.<ListPreference>requirePreference(TESSERACT_LANGUAGE).setEntries(getTesseractLanguageArray());
     } else if (rootKey.equals(getKey(SYNC))) {
       requirePreference(MANAGE_SYNC_BACKENDS).setSummary(
           getString(R.string.pref_manage_sync_backends_summary,
@@ -623,6 +622,8 @@ public class SettingsFragment extends BaseSettingsFragment implements
       activity().setTrackingEnabled(sharedPreferences.getBoolean(key, false));
     } else if (key.equals(getKey(PLANNER_EXECUTION_TIME))) {
       DailyScheduler.updatePlannerAlarms(activity(), false, false);
+    } else if (key.equals(getKey(TESSERACT_LANGUAGE))) {
+      activity().checkTessDataDownload();
     }
   }
 
@@ -833,8 +834,6 @@ public class SettingsFragment extends BaseSettingsFragment implements
           return false;
         }
       }
-    } else if (matches(pref, TESSERACT_LANGUAGE)) {
-      activity().checkTessDataDownload((String) value);
     }
     return true;
   }

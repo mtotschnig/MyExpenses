@@ -159,9 +159,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   @Inject
   protected FeatureManager featureManager;
 
-  @Inject
-  protected PrefHandler prefHandler;
-
   private Pair<Integer, Integer> focusAfterRestoreInstanceState;
 
   public ColorStateList getTextColorSecondary() {
