@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TableRow xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <TableRow xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/MethodRow"
         tools:showIn="@layout/one_expense">
 
-        <include
-            android:id="@+id/MethodLabel"
-            layout="@layout/method_label" />
+        <TextView
+            style="@style/FormLabel"
+            android:labelFor="@+id/Method"
+            android:text="@string/method" />
 
         <LinearLayout
             style="@style/FormField"
@@ -29,6 +29,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:hint="@string/reference_number"
+                android:importantForAutofill="no"
                 android:inputType="text"
                 android:maxLines="1"
                 android:visibility="gone"
