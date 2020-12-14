@@ -22,7 +22,6 @@ interface OcrFeature {
     fun handleData(intent: Intent, fragmentManager: FragmentManager) {}
     fun downloadTessData(context: Context, prefHandler: PrefHandler): String? = null
     fun isAvailable(context: Context): Boolean
-    fun onDownloadComplete(fragmentManager: FragmentManager) {}
     fun offerInstall(baseActivity: BaseActivity) {}
 }
 

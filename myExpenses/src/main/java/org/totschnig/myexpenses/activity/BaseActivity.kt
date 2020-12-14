@@ -41,7 +41,6 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             showSnackbar(getString(R.string.download_completed, getTesseractLanguageDisplayName(this@BaseActivity, it)))
         }
         downloadPending = null
-        ocrViewModel.onDownloadComplete(supportFragmentManager)
     }
 
     @State

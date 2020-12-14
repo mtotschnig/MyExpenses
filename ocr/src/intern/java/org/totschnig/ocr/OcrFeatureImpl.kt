@@ -14,10 +14,6 @@ class OcrFeatureImpl(val prefHandler: PrefHandler): OcrFeature() {
     override fun isAvailable(context: Context) =
             (getEngine(prefHandler, context) as? TesseractEngine)?.tessDataExists(context, prefHandler) ?: true
 
-    override fun onDownloadComplete(fragmentManager: FragmentManager) {
-        (fragmentManager.findFragmentByTag(FRAGMENT_TAG) as? ScanPreviewFragment)?.onDownloadComplete()
-    }
-
     override fun offerInstall(baseActivity: BaseActivity) {
         (getEngine(prefHandler, baseActivity) as? TesseractEngine)?.offerTessDataDownload(baseActivity)
     }

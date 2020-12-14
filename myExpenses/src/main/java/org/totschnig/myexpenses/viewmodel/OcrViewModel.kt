@@ -48,10 +48,6 @@ class OcrViewModel(application: Application) : AndroidViewModel(application) {
         ocrFeature.handleData(intent, fragmentManager)
     }
 
-    fun onDownloadComplete(fragmentManager: FragmentManager) {
-        ocrFeature.onDownloadComplete(fragmentManager)
-    }
-
     fun getScanFiles(action: (file: Pair<File, File>) -> Unit) {
         viewModelScope.launch {
             action(withContext(Dispatchers.IO) {
