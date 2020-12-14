@@ -581,11 +581,7 @@ public class MyExpenses extends BaseMyExpenses implements
           showSnackbar(R.string.warning_no_account);
         } else {
           if (isScanMode()) {
-            if (viewModel.isOcrAvailable(this)) {
-              contribFeatureRequested(ContribFeature.OCR, null);
-            } else {
-              viewModel.requestOcrFeature(this);
-            }
+            contribFeatureRequested(ContribFeature.OCR, null);
           } else {
             createRow(TYPE_TRANSACTION, false);
           }
@@ -927,19 +923,23 @@ public class MyExpenses extends BaseMyExpenses implements
         break;
       }
       case OCR: {
+        if (viewModel.isOcrAvailable(this)) {
         /*scanFile = new File("/sdcard/OCR_bg.jpg");
         ocrViewModel.startOcrFeature(scanFile, getSupportFragmentManager());*/
-       ocrViewModel.getScanFiles(pair -> {
-          scanFile = pair.getSecond();
-          CropImage.activity()
-              .setCameraOnly(true)
-              .setAllowFlipping(false)
-              .setOutputUri(Uri.fromFile(scanFile))
-              .setCaptureImageOutputUri(ocrViewModel.getScanUri(pair.getFirst()))
-              .setGuidelines(CropImageView.Guidelines.ON)
-              .start(this);
-          return Unit.INSTANCE;
-        });
+          ocrViewModel.getScanFiles(pair -> {
+            scanFile = pair.getSecond();
+            CropImage.activity()
+                .setCameraOnly(true)
+                .setAllowFlipping(false)
+                .setOutputUri(Uri.fromFile(scanFile))
+                .setCaptureImageOutputUri(ocrViewModel.getScanUri(pair.getFirst()))
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .start(this);
+            return Unit.INSTANCE;
+          });
+        } else {
+          viewModel.requestOcrFeature(this);
+        }
       }
     }
   }
