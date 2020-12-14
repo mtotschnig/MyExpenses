@@ -70,10 +70,6 @@ abstract class AbstractOcrHandlerImpl(val prefHandler: PrefHandler, userLocalePr
     private fun Line.bOr0() = boundingBox.bOr0()
     private fun Line.tOr0() = boundingBox.tOr0()
 
-    override suspend fun handleData(intent: Intent) = (intent.getParcelableExtra("result") as? Text)?.let {
-        processTextRecognitionResult(it, queryPayees())
-    } ?: throw IllegalArgumentException("Unable to retrieve result from intent")
-
     suspend fun queryPayees() = withContext(Dispatchers.Default) {
         mutableListOf<Payee>().also {
             context.contentResolver.query(TransactionProvider.PAYEES_URI,

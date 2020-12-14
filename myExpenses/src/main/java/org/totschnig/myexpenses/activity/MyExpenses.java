@@ -206,7 +206,7 @@ public class MyExpenses extends BaseMyExpenses implements
     updateFab();
     invalidateOptionsMenu();
     if (newMode && !viewModel.isOcrAvailable(this)) {
-      viewModel.requestOcrFeature(this);
+      contribFeatureRequested(ContribFeature.OCR, false);
     }
   }
 
@@ -581,7 +581,7 @@ public class MyExpenses extends BaseMyExpenses implements
           showSnackbar(R.string.warning_no_account);
         } else {
           if (isScanMode()) {
-            contribFeatureRequested(ContribFeature.OCR, null);
+            contribFeatureRequested(ContribFeature.OCR, true);
           } else {
             createRow(TYPE_TRANSACTION, false);
           }
@@ -923,7 +923,7 @@ public class MyExpenses extends BaseMyExpenses implements
         break;
       }
       case OCR: {
-        if (viewModel.isOcrAvailable(this)) {
+        if (viewModel.isOcrAvailable(this) && ((Boolean) tag)) {
         /*scanFile = new File("/sdcard/OCR_bg.jpg");
         ocrViewModel.startOcrFeature(scanFile, getSupportFragmentManager());*/
           ocrViewModel.getScanFiles(pair -> {

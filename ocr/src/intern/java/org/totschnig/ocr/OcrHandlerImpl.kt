@@ -1,6 +1,8 @@
 package org.totschnig.ocr
 
 import android.content.Context
+import android.content.Intent
+import org.totschnig.myexpenses.feature.OcrResult
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.Utils
@@ -26,4 +28,8 @@ private fun getDefaultEngine(locale: Locale) = if (locale.language in arrayOf(
 class OcrHandlerImpl @Inject constructor(prefHandler: PrefHandler, userLocaleProvider: UserLocaleProvider, context: Context) : AbstractOcrHandlerImpl(prefHandler, userLocaleProvider, context) {
     override suspend fun runTextRecognition(file: File, context: Context) =
             processTextRecognitionResult(getEngine(prefHandler, context).run(file, context, prefHandler), queryPayees())
+
+    override suspend fun handleData(intent: Intent): OcrResult {
+        throw IllegalStateException()
+    }
 }
