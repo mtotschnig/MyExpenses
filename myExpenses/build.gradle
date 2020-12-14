@@ -168,8 +168,8 @@ android {
     }
     //It does not seem possible to define dynamicFeatures dependent on variant
     //If you want to build intern variant, you need to include mlkit and/or tesseract module
-    dynamicFeatures = [':ocr', ':mlkit', ':tesseract']
-    //dynamicFeatures = [':ocr']
+    //dynamicFeatures = [':ocr', ':mlkit', ':tesseract']
+    dynamicFeatures = [':ocr']
 }
 
 configurations {
@@ -321,6 +321,7 @@ dependencies {
 
     internImplementation "com.google.android.gms:play-services-base:17.5.0"
 
+    //noinspection GradleDependency
     implementation 'com.github.mtotschnig:Android-Image-Cropper:e7dccebcfc'
 }
 
