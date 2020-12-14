@@ -39,7 +39,10 @@ object Engine : TesseractEngine {
         System.loadLibrary("tesseract")
     }
 
-    private fun language(context: Context, prefHandler: PrefHandler) = prefHandler.getString(PrefKey.TESSERACT_LANGUAGE, defaultLanguage(context.resources.getStringArray(R.array.pref_tesseract_language_values)))!!
+    private fun language(context: Context, prefHandler: PrefHandler) =
+            prefHandler.getString(PrefKey.TESSERACT_LANGUAGE, null)
+                    ?: defaultLanguage(context.resources.getStringArray(
+                            R.array.pref_tesseract_language_values))
 
     private fun defaultLanguage(availableLanguages: Array<String>): String {
         val default = Locale.getDefault()
@@ -57,10 +60,11 @@ object Engine : TesseractEngine {
             }
         }
         if (language == "zho") {
-            val script = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP && default.script == "Hans") "sim" else "tra"
+            val script = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP
+                    && default.script == "Hans") "sim" else "tra"
             return "chi_${script}"
         }
-        return language.takeIf { availableLanguages.indexOf(it) > - 1 } ?: "eng"
+        return language.takeIf { availableLanguages.indexOf(it) > -1 } ?: "eng"
     }
 
     override fun tessDataExists(context: Context, prefHandler: PrefHandler) =

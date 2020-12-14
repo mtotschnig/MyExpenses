@@ -1,32 +1,24 @@
 package org.totschnig.ocr
 
 import android.content.Context
-import org.totschnig.myexpenses.feature.OcrResult
+import androidx.annotation.Keep
+import androidx.fragment.app.FragmentManager
+import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.util.Utils
-import org.totschnig.myexpenses.util.locale.UserLocaleProvider
-import java.io.File
-import java.util.*
-import javax.inject.Inject
 
-class OcrFeatureImpl @Inject constructor(prefHandler: PrefHandler, userLocaleProvider: UserLocaleProvider, context: Context) : AbstractOcrFeatureImpl(prefHandler, userLocaleProvider, context) {
-    lateinit var engine: Engine
+@Keep
+class OcrFeatureImpl(val prefHandler: PrefHandler): OcrFeature() {
+    override fun downloadTessData(context: Context, prefHandler: PrefHandler) =
+            (getEngine(prefHandler, context) as? TesseractEngine)?.downloadTessData(context, prefHandler)
 
-    override suspend fun runTextRecognition(file: File, context: Context): OcrResult {
-        val string = prefHandler.getString(PrefKey.OCR_ENGINE, getDefaultEngine(Utils.localeFromContext(context)))
-        engine = Class.forName("org.totschnig.$string.Engine").kotlin.objectInstance as Engine
-        return processTextRecognitionResult(engine.run(file, context, prefHandler), queryPayees())
+    override fun isAvailable(context: Context) =
+            (getEngine(prefHandler, context) as? TesseractEngine)?.tessDataExists(context, prefHandler) ?: true
+
+    override fun onDownloadComplete(fragmentManager: FragmentManager) {
+        (fragmentManager.findFragmentByTag(FRAGMENT_TAG) as? ScanPreviewFragment)?.onDownloadComplete()
     }
 
-    /**
-     * check if language has non-latin script and is supported by Tesseract
-     */
-    private fun getDefaultEngine(locale: Locale) = if (locale.language in arrayOf(
-                    "am", "ar", "as", "be", "bn", "bo", "bg", "zh", "dz", "el", "fa", "gu", "iw", "hi",
-                    "iu", "jv", "kn", "ka", "kk", "km", "ky", "ko", "lo", "ml", "mn", "my", "ne", "or",
-                    "pa", "ps", "ru", "si", "sd", "sr", "ta", "te", "tg", "th", "ti", "ug", "uk", "ur"))
-        "tesseract" else "mlkit"
-
-
+    override fun offerInstall(baseActivity: BaseActivity) {
+        (getEngine(prefHandler, baseActivity) as? TesseractEngine)?.offerTessDataDownload(baseActivity)
+    }
 }

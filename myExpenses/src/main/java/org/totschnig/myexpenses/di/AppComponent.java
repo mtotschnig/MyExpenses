@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.dialog.TransactionListDialogFragment;
 import org.totschnig.myexpenses.dialog.VersionDialogFragment;
 import org.totschnig.myexpenses.dialog.select.SelectFromTableDialogFragment;
 import org.totschnig.myexpenses.export.pdf.PdfPrinter;
+import org.totschnig.myexpenses.feature.OcrFeature;
 import org.totschnig.myexpenses.fragment.BaseSettingsFragment;
 import org.totschnig.myexpenses.fragment.BaseTransactionList;
 import org.totschnig.myexpenses.fragment.BudgetList;
@@ -73,11 +74,12 @@ import java.util.Locale;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import androidx.annotation.Nullable;
 import dagger.BindsInstance;
 import dagger.Component;
 
 @Singleton
-@Component(modules = {AppModule.class, UiModule.class, NetworkModule.class, LicenceModule.class, DbModule.class, CoroutineModule.class, ViewModelModule.class})
+@Component(modules = {AppModule.class, UiModule.class, NetworkModule.class, LicenceModule.class, DbModule.class, CoroutineModule.class, ViewModelModule.class, FeatureModule.class})
 public interface AppComponent {
   @Singleton
   DiscoveryHelper discoveryHelper();
@@ -123,6 +125,9 @@ public interface AppComponent {
   Picasso picasso();
 
   Context context();
+
+  @Nullable
+  OcrFeature ocrFeature();
 
   void inject(MyApplication application);
 

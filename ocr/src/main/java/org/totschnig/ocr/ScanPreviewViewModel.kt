@@ -14,8 +14,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.activity.OCR_REQUEST
-import org.totschnig.myexpenses.feature.OcrFeatureProvider.Companion.ACTION
-import org.totschnig.myexpenses.feature.OcrFeatureProvider.Companion.MIME_TYPE
+import org.totschnig.myexpenses.feature.OcrFeature.Companion.ACTION
+import org.totschnig.myexpenses.feature.OcrFeature.Companion.MIME_TYPE
 import org.totschnig.myexpenses.feature.OcrResult
 import org.totschnig.myexpenses.util.AppDirHelper
 import java.io.File
@@ -27,7 +27,7 @@ class ScanPreviewViewModel(application: Application) : AndroidViewModel(applicat
     private var orientation = 0
 
     @Inject
-    lateinit var ocrFeature: OcrFeature
+    lateinit var ocrHandler: OcrHandler
 
     private val result = MutableLiveData<Result<OcrResult>>()
 
@@ -53,7 +53,7 @@ class ScanPreviewViewModel(application: Application) : AndroidViewModel(applicat
                 }
             } else {
                 viewModelScope.launch {
-                    result.postValue(runCatching { ocrFeature.runTextRecognition(scanFile, activity) })
+                    result.postValue(runCatching { ocrHandler.runTextRecognition(scanFile, activity) })
                 }
             }
         }
@@ -76,7 +76,7 @@ class ScanPreviewViewModel(application: Application) : AndroidViewModel(applicat
 
     fun handleData(intent: Intent) {
         viewModelScope.launch {
-            result.postValue(runCatching { ocrFeature.handleData(intent) })
+            result.postValue(runCatching { ocrHandler.handleData(intent) })
         }
     }
 }

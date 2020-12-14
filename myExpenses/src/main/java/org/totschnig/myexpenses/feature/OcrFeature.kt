@@ -11,7 +11,7 @@ import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.preference.PrefHandler
 import java.io.File
 
-interface OcrFeatureProvider {
+interface OcrFeature {
     companion object {
         const val TAG = "OcrFeature"
         const val ACTION = "org.totschnig.ocr.action.RECOGNIZE"
@@ -21,9 +21,9 @@ interface OcrFeatureProvider {
     fun start(scanFile: File, fragmentManager: FragmentManager) {}
     fun handleData(intent: Intent, fragmentManager: FragmentManager) {}
     fun downloadTessData(context: Context, prefHandler: PrefHandler): String? = null
-    fun tessDataExists(context: Context, prefHandler: PrefHandler): Boolean = false
+    fun isAvailable(context: Context): Boolean
     fun onDownloadComplete(fragmentManager: FragmentManager) {}
-    fun offerTessDataDownload(baseActivity: BaseActivity) {}
+    fun offerInstall(baseActivity: BaseActivity) {}
 }
 
 @Parcelize

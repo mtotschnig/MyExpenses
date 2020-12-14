@@ -13,7 +13,7 @@ import kotlinx.coroutines.withContext
 import org.jetbrains.annotations.NotNull
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.activity.BaseActivity
-import org.totschnig.myexpenses.feature.OcrFeatureProvider
+import org.totschnig.myexpenses.feature.OcrFeature
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.PictureDirHelper
@@ -29,27 +29,27 @@ class OcrViewModel(application: Application) : AndroidViewModel(application) {
     @Inject
     lateinit var prefHandler: PrefHandler
 
-    @Inject
-    lateinit var ocrFeatureProvider: OcrFeatureProvider
+    val ocrFeature: OcrFeature
+        get() = getApplication<MyApplication>().appComponent.ocrFeature() ?: throw IllegalStateException()
 
     fun tessDataExists() = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
-        emit(ocrFeatureProvider.tessDataExists(getApplication<MyApplication>(), prefHandler))
+        emit(ocrFeature.isAvailable(getApplication<MyApplication>()))
     }
 
     fun downloadTessData() = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
-        emit(ocrFeatureProvider.downloadTessData(getApplication(), prefHandler))
+        emit(ocrFeature.downloadTessData(getApplication(), prefHandler))
     }
 
     fun startOcrFeature(scanFile: @NotNull File, fragmentManager: FragmentManager) {
-        ocrFeatureProvider.start(scanFile, fragmentManager)
+        ocrFeature.start(scanFile, fragmentManager)
     }
 
     fun handleOcrData(intent: @NotNull Intent, fragmentManager: FragmentManager) {
-        ocrFeatureProvider.handleData(intent, fragmentManager)
+        ocrFeature.handleData(intent, fragmentManager)
     }
 
     fun onDownloadComplete(fragmentManager: FragmentManager) {
-        ocrFeatureProvider.onDownloadComplete(fragmentManager)
+        ocrFeature.onDownloadComplete(fragmentManager)
     }
 
     fun getScanFiles(action: (file: Pair<File, File>) -> Unit) {
@@ -67,6 +67,6 @@ class OcrViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun offerTessDataDownload(baseActivity: BaseActivity) {
-        ocrFeatureProvider.offerTessDataDownload(baseActivity)
+        ocrFeature.offerInstall(baseActivity)
     }
 }
