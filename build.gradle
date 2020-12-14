@@ -2,7 +2,7 @@
 buildscript {
     ext.kotlin_version = '1.4.21'
     repositories {
-        mavenLocal()
+        //mavenLocal()
         jcenter()
         google()
     }
@@ -15,7 +15,7 @@ buildscript {
 
 allprojects {
     repositories {
-        mavenLocal()
+        //mavenLocal()
         jcenter()
         mavenCentral()
         maven {
