@@ -321,7 +321,7 @@ dependencies {
 
     internImplementation "com.google.android.gms:play-services-base:17.5.0"
 
-    implementation 'com.github.mtotschnig:Android-Image-Cropper:1380549743'
+    implementation 'com.github.mtotschnig:Android-Image-Cropper:e7dccebcfc'
 }
 
 static def getDate() {
