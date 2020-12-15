@@ -923,20 +923,22 @@ public class MyExpenses extends BaseMyExpenses implements
         break;
       }
       case OCR: {
-        if (viewModel.isOcrAvailable(this) && ((Boolean) tag)) {
+        if (viewModel.isOcrAvailable(this)) {
+          if ((Boolean) tag) {
         /*scanFile = new File("/sdcard/OCR_bg.jpg");
         ocrViewModel.startOcrFeature(scanFile, getSupportFragmentManager());*/
-          ocrViewModel.getScanFiles(pair -> {
-            scanFile = pair.getSecond();
-            CropImage.activity()
-                .setCameraOnly(true)
-                .setAllowFlipping(false)
-                .setOutputUri(Uri.fromFile(scanFile))
-                .setCaptureImageOutputUri(ocrViewModel.getScanUri(pair.getFirst()))
-                .setGuidelines(CropImageView.Guidelines.ON)
-                .start(this);
-            return Unit.INSTANCE;
-          });
+            ocrViewModel.getScanFiles(pair -> {
+              scanFile = pair.getSecond();
+              CropImage.activity()
+                  .setCameraOnly(true)
+                  .setAllowFlipping(false)
+                  .setOutputUri(Uri.fromFile(scanFile))
+                  .setCaptureImageOutputUri(ocrViewModel.getScanUri(pair.getFirst()))
+                  .setGuidelines(CropImageView.Guidelines.ON)
+                  .start(this);
+              return Unit.INSTANCE;
+            });
+          }
         } else {
           viewModel.requestOcrFeature(this);
         }
