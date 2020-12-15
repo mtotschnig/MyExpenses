@@ -11,23 +11,29 @@ import java.io.File
 import java.util.*
 import javax.inject.Inject
 
+const val ENGINE_TESSERACT = "tesseract"
+const val ENGINE_MLKIT = "mlkit"
 
 class OcrHandlerImpl @Inject constructor(prefHandler: PrefHandler, userLocaleProvider: UserLocaleProvider, context: Context) : AbstractOcrHandlerImpl(prefHandler, userLocaleProvider, context) {
     override suspend fun runTextRecognition(file: File, context: Context) =
-            processTextRecognitionResult(getEngine(context, prefHandler).run(file, context, prefHandler), queryPayees())
+            getEngine(context, prefHandler)?.let { processTextRecognitionResult(it.run(file, context, prefHandler), queryPayees()) } ?: throw java.lang.IllegalStateException("No engine loaded")
 
     override suspend fun handleData(intent: Intent): OcrResult {
         throw IllegalStateException()
     }
 
-    override fun info(context: Context): CharSequence {
-       return getEngine(context, prefHandler).info(context, prefHandler)
+    override fun info(context: Context): CharSequence? {
+       return getEngine(context, prefHandler)?.info(context, prefHandler)
     }
 
     companion object {
-        fun getEngine(context: Context, prefHandler: PrefHandler): Engine {
-            val string = prefHandler.getString(PrefKey.OCR_ENGINE, getDefaultEngine(getLocaleForUserCountry(context)))
-            return Class.forName("org.totschnig.$string.Engine").kotlin.objectInstance as Engine
+        fun getEngine(context: Context, prefHandler: PrefHandler) = getEngine(
+                prefHandler.getString(PrefKey.OCR_ENGINE, null) ?: getDefaultEngine(getLocaleForUserCountry(context)))
+
+        fun getEngine(engine: String) = try {
+            Class.forName("org.totschnig.$engine.Engine").kotlin.objectInstance as Engine
+        } catch (e: Exception) {
+            null
         }
 
         /**
@@ -37,7 +43,7 @@ class OcrHandlerImpl @Inject constructor(prefHandler: PrefHandler, userLocalePro
                         "am", "ar", "as", "be", "bn", "bo", "bg", "zh", "dz", "el", "fa", "gu", "iw", "hi",
                         "iu", "jv", "kn", "ka", "kk", "km", "ky", "ko", "lo", "ml", "mn", "my", "ne", "or",
                         "pa", "ps", "ru", "si", "sd", "sr", "ta", "te", "tg", "th", "ti", "ug", "uk", "ur"))
-            "tesseract" else "mlkit"
+            ENGINE_TESSERACT else ENGINE_MLKIT
 
         fun getLocaleForUserCountry(context: Context) =
                 getLocaleForUserCountry(Utils.getCountryFromTelephonyManager(context))

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Parcelable
 import androidx.fragment.app.FragmentManager
+import androidx.preference.ListPreference
 import kotlinx.android.parcel.Parcelize
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalTime
@@ -23,6 +24,9 @@ interface OcrFeature {
     fun downloadTessData(context: Context, prefHandler: PrefHandler): String? = null
     fun isAvailable(context: Context): Boolean
     fun offerInstall(baseActivity: BaseActivity) {}
+    fun configureTesseractLanguagePref(listPreference: ListPreference) {
+        listPreference.isVisible = false
+    }
 }
 
 @Parcelize

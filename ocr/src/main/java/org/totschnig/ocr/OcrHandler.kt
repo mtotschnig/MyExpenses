@@ -8,5 +8,5 @@ import java.io.File
 interface OcrHandler {
     suspend fun runTextRecognition(file: File, context: Context): OcrResult
     suspend fun handleData(intent: Intent): OcrResult
-    fun info(context: Context): CharSequence
+    fun info(context: Context): CharSequence?
 }

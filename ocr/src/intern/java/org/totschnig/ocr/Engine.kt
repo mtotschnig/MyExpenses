@@ -14,4 +14,5 @@ interface TesseractEngine : Engine  {
     fun downloadTessData(context: Context, prefHandler: PrefHandler): String
     fun tessDataExists(context: Context, prefHandler: PrefHandler): Boolean
     fun offerTessDataDownload(baseActivity: BaseActivity)
+    fun getLanguageArray(context: Context): Array<String>
 }

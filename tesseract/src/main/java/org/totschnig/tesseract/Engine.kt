@@ -17,7 +17,7 @@ import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.util.getTesseractLanguageDisplayName
+import org.totschnig.myexpenses.util.Utils
 import org.totschnig.ocr.Element
 import org.totschnig.ocr.Line
 import org.totschnig.ocr.OcrHandlerImpl.Companion.getLocaleForUserCountry
@@ -26,13 +26,14 @@ import org.totschnig.ocr.Text
 import org.totschnig.ocr.TextBlock
 import timber.log.Timber
 import java.io.File
+import java.util.*
 
 const val TESSERACT_DOWNLOAD_FOLDER = "tesseract4/fast/"
 
 @Keep
 object Engine : TesseractEngine {
-    var timer: Long = 0
-    fun initialize() {
+    private var timer: Long = 0
+    private fun initialize() {
         System.loadLibrary("jpeg")
         System.loadLibrary("png")
         System.loadLibrary("leptonica")
@@ -66,6 +67,33 @@ object Engine : TesseractEngine {
         return language.takeIf { context.resources.getStringArray(R.array.pref_tesseract_language_values).indexOf(it) > -1 } ?: "eng"
     }
 
+    override fun getLanguageArray(context: Context) =
+            context.resources.getStringArray(R.array.pref_tesseract_language_values)
+                    .map { getTesseractLanguageDisplayName(context, it)}
+                    .toTypedArray()
+
+    private fun getTesseractLanguageDisplayName(context: Context, localeString: String): String {
+        val localeParts = localeString.split("_")
+        val lang = when (localeParts[0]) {
+            "kmr" -> "kur"
+            else -> localeParts[0]
+        }
+        val localeFromContext = Utils.localeFromContext(context)
+        return if (localeParts.size == 2) {
+            val script = when (localeParts[1]) {
+                "sim" -> "Hans"
+                "tra" -> "Hant"
+                else -> localeParts[1]
+            }
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                Locale.Builder().setLanguage(lang).setScript(script).build().getDisplayName(localeFromContext)
+            } else {
+                "%s (%s)".format(Locale(lang).getDisplayName(localeFromContext), script)
+            }
+        } else
+            Locale(lang).getDisplayName(localeFromContext)
+    }
+
     override fun tessDataExists(context: Context, prefHandler: PrefHandler) =
             File(context.getExternalFilesDir(null), filePath(language(context, prefHandler))).exists()
 
@@ -82,7 +110,7 @@ object Engine : TesseractEngine {
         }
     }
 
-    fun filePath(language: String) = "${TESSERACT_DOWNLOAD_FOLDER}tessdata/%s.traineddata".format(language)
+    private fun filePath(language: String) = "${TESSERACT_DOWNLOAD_FOLDER}tessdata/%s.traineddata".format(language)
 
     private fun fileName(language: String) = "%s.traineddata".format(language)
 
@@ -93,7 +121,7 @@ object Engine : TesseractEngine {
                 .setTitle(context.getString(R.string.pref_tesseract_language_title))
                 .setDescription(language)
                 .setDestinationInExternalFilesDir(context, null, filePath(language)))
-        return language
+        return getTesseractLanguageDisplayName(context, language)
     }
 
     override suspend fun run(file: File, context: Context, prefHandler: PrefHandler): Text =
@@ -148,7 +176,7 @@ object Engine : TesseractEngine {
         return "Tesseract (%s)".format(language(context, prefHandler))
     }
 
-    fun timing(step: String) {
+    private fun timing(step: String) {
         val delta = System.currentTimeMillis() - timer
         Timber.i("Timing (%s): %d", step, delta)
         timer = System.currentTimeMillis()

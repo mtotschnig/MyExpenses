@@ -23,7 +23,6 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.ui.SnackbarAction
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import org.totschnig.myexpenses.util.getTesseractLanguageDisplayName
 import org.totschnig.myexpenses.util.tracking.Tracker
 import org.totschnig.myexpenses.viewmodel.OcrViewModel
 import javax.inject.Inject
@@ -38,7 +37,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     private fun onDownloadComplete() {
         downloadPending?.let {
-            showSnackbar(getString(R.string.download_completed, getTesseractLanguageDisplayName(this@BaseActivity, it)))
+            showSnackbar(getString(R.string.download_completed, it))
         }
         downloadPending = null
     }
@@ -184,6 +183,5 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             if (!it)
                 offerTessDataDownload()
         })
-
     }
 }

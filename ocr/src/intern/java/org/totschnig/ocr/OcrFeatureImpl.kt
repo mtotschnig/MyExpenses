@@ -17,4 +17,16 @@ class OcrFeatureImpl(val prefHandler: PrefHandler): OcrFeature() {
     override fun offerInstall(baseActivity: BaseActivity) {
         (getEngine(baseActivity, prefHandler) as? TesseractEngine)?.offerTessDataDownload(baseActivity)
     }
+
+    override fun configureTesseractLanguagePref(listPreference: androidx.preference.ListPreference) {
+        (getEngine(ENGINE_TESSERACT) as? TesseractEngine)?.let {
+            listPreference.isVisible = true
+            listPreference.setEntries(it.getLanguageArray(listPreference.context))
+        }
+                ?: kotlin.run { super.configureTesseractLanguagePref(listPreference) }
+    }
+
+    fun tesseractModuleInstalled(): Boolean {
+        return getEngine(ENGINE_TESSERACT) != null
+    }
 }

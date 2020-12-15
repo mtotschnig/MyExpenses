@@ -10,7 +10,6 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.ui.filter.ScrollingChip
-import java.util.*
 
 fun <T> ChipGroup.addChipsBulk(chips: Iterable<T>, closeFunction: ((T) -> Unit)?) {
     removeAllViews()
@@ -53,25 +52,4 @@ fun <T : View> findParentWithTypeRecursively(view: View, type: Class<T>): T? {
     }
     val parent = view.parent
     return if (parent is View) findParentWithTypeRecursively(parent as View, type) else null
-}
-
-fun getTesseractLanguageDisplayName(context: Context, localeString: String): String {
-    val localeParts = localeString.split("_")
-    val lang = when (localeParts[0]) {
-        "kmr" -> "kur"
-        else -> localeParts[0]
-    }
-    return if (localeParts.size == 2) {
-        val script = when (localeParts[1]) {
-            "sim" -> "Hans"
-            "tra" -> "Hant"
-            else -> localeParts[1]
-        }
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            Locale.Builder().setLanguage(lang).setScript(script).build().getDisplayName(Utils.localeFromContext(context))
-        } else {
-            "%s (%s)".format(Locale(lang).getDisplayName(Utils.localeFromContext(context)), script)
-        }
-    } else
-        Locale(lang).getDisplayName(Utils.localeFromContext(context))
 }

@@ -490,7 +490,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
         ((EditTextPreference) ocrTimePref).setText(shortFormat + "\n" + mediumFormat);
       }
 
-      this.<ListPreference>requirePreference(TESSERACT_LANGUAGE).setEntries(getTesseractLanguageArray());
+      configureTesseractLanguagePref();
     } else if (rootKey.equals(getKey(SYNC))) {
       requirePreference(MANAGE_SYNC_BACKENDS).setSummary(
           getString(R.string.pref_manage_sync_backends_summary,

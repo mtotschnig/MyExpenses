@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
+import androidx.preference.ListPreference
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -64,5 +65,9 @@ class OcrViewModel(application: Application) : AndroidViewModel(application) {
 
     fun offerTessDataDownload(baseActivity: BaseActivity) {
         ocrFeature.offerInstall(baseActivity)
+    }
+
+    fun configureTesseractLanguagePref(listPreference: ListPreference) {
+        ocrFeature.configureTesseractLanguagePref(listPreference)
     }
 }

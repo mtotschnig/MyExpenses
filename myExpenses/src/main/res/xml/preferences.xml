@@ -295,7 +295,7 @@
                 android:key="@string/pref_ocr_engine_key"
                 android:title="@string/pref_ocr_engine_title"/>
             <org.totschnig.myexpenses.preference.ListPreferenceShowSummary
-                my:isPreferenceVisible="@bool/pref_ocr_engine_visible"
+                my:isPreferenceVisible="false"
                 android:entryValues="@array/pref_tesseract_language_values"
                 android:key="@string/pref_tesseract_language_key"
                 android:title="@string/pref_tesseract_language_title" />

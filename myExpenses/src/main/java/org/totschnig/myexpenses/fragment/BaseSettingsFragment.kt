@@ -11,7 +11,6 @@ import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.preference.LocalizedFormatEditTextPreference
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.util.getTesseractLanguageDisplayName
 import java.util.*
 import javax.inject.Inject
 
@@ -68,11 +67,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), LocalizedForma
                     .map(this::getLocaleDisplayName)
                     .toTypedArray()
 
-    fun getTesseractLanguageArray() =
-            requireContext().resources.getStringArray(R.array.pref_tesseract_language_values)
-                    .map { getTesseractLanguageDisplayName(requireContext(), it)}
-                    .toTypedArray()
-
     private fun getLocaleDisplayName(localeString: CharSequence) =
             if (localeString == "default") {
                 requireContext().getString(R.string.pref_ui_language_default)
@@ -84,4 +78,8 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), LocalizedForma
                     Locale(localeParts[0])
                 locale.getDisplayName(locale)
             }
+
+    fun configureTesseractLanguagePref() {
+        activity().ocrViewModel.configureTesseractLanguagePref(requirePreference(PrefKey.TESSERACT_LANGUAGE))
+    }
 }
