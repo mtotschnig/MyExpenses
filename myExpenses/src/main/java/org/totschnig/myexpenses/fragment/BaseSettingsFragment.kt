@@ -5,17 +5,21 @@ import androidx.preference.MultiSelectListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.MyPreferenceActivity
 import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.preference.LocalizedFormatEditTextPreference
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import java.lang.IllegalStateException
+import java.util.*
 import javax.inject.Inject
 
-abstract class BaseSettingsFragment: PreferenceFragmentCompat(), LocalizedFormatEditTextPreference.OnValidationErrorListener {
+
+abstract class BaseSettingsFragment : PreferenceFragmentCompat(), LocalizedFormatEditTextPreference.OnValidationErrorListener {
+
     @Inject
     lateinit var featureManager: FeatureManager
+
     @Inject
     lateinit var prefHandler: PrefHandler
 
@@ -35,7 +39,7 @@ abstract class BaseSettingsFragment: PreferenceFragmentCompat(), LocalizedFormat
         configureMultiSelectListPref(PrefKey.FEATURE_UNINSTALL_LANGUAGES, featureManager.installedLanguages()) { featureManager.uninstallLanguages(it) }
     }
 
-    private fun configureMultiSelectListPref(prefKey: PrefKey, entries: Set<String>, action: (Set<String>) -> Unit ) {
+    private fun configureMultiSelectListPref(prefKey: PrefKey, entries: Set<String>, action: (Set<String>) -> Unit) {
         (requirePreference(prefKey) as? MultiSelectListPreference)?.apply {
             if (entries.isEmpty()) {
                 isEnabled = false
@@ -53,7 +57,29 @@ abstract class BaseSettingsFragment: PreferenceFragmentCompat(), LocalizedFormat
         }
     }
 
-    fun <T: Preference> requirePreference(prefKey: PrefKey): T {
-        return findPreference(prefHandler.getKey(prefKey)) ?: throw IllegalStateException("Preference not found")
+    fun <T : Preference> requirePreference(prefKey: PrefKey): T {
+        return findPreference(prefHandler.getKey(prefKey))
+                ?: throw IllegalStateException("Preference not found")
+    }
+
+    fun getLocaleArray() =
+            requireContext().resources.getStringArray(R.array.pref_ui_language_values)
+                    .map(this::getLocaleDisplayName)
+                    .toTypedArray()
+
+    private fun getLocaleDisplayName(localeString: CharSequence) =
+            if (localeString == "default") {
+                requireContext().getString(R.string.pref_ui_language_default)
+            } else {
+                val localeParts = localeString.split("-")
+                val locale = if (localeParts.size == 2)
+                    Locale(localeParts[0], localeParts[1])
+                else
+                    Locale(localeParts[0])
+                locale.getDisplayName(locale)
+            }
+
+    fun configureTesseractLanguagePref() {
+        activity().ocrViewModel.configureTesseractLanguagePref(requirePreference(PrefKey.TESSERACT_LANGUAGE))
     }
 }

@@ -28,6 +28,7 @@ public abstract class CommitSafeDialogFragment extends DialogFragment {
 
   protected View dialogView;
   protected LayoutInflater layoutInflater;
+  private Snackbar snackbar;
 
   protected AlertDialog.Builder initBuilder() {
     MaterialAlertDialogBuilder materialAlertDialogBuilder = new MaterialAlertDialogBuilder(requireContext());
@@ -87,12 +88,18 @@ public abstract class CommitSafeDialogFragment extends DialogFragment {
 
   public void showSnackbar(CharSequence message, int duration, SnackbarAction snackbarAction) {
     View view = dialogView != null ? dialogView : getDialog().getWindow().getDecorView();
-    Snackbar snackbar = Snackbar.make(view, message, duration);
+    snackbar = Snackbar.make(view, message, duration);
     UiUtils.increaseSnackbarMaxLines(snackbar);
     if (snackbarAction != null) {
       snackbar.setAction(snackbarAction.resId, snackbarAction.listener);
     }
     snackbar.show();
+  }
+
+  protected void dismissSnackbar() {
+    if (snackbar != null) {
+      snackbar.dismiss();
+    }
   }
 
 }

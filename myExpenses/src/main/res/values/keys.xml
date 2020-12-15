@@ -113,6 +113,7 @@
     <string name="pref_feature_uninstall_key">feature_uninstall</string>
     <string name="pref_feature_uninstall_features_key">feature_uninstall_features</string>
     <string name="pref_feature_uninstall_languages_key">feature_uninstall_languages</string>
+    <string name="pref_ocr_engine_key">ocr_engine</string>
 
     <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
     <string-array name="additional_credits">
@@ -258,4 +259,7 @@
 
     <string name="ocr_download_info">Text recognition capability is provided by an external application (org.totschnig.ocr). It is licensed under the Apache License 2.0 and based on Google\'s proprietary ML Kit library.</string>
     <string name="pref_ui_theme_default">dark</string>
+    <string name="title_mlkit">Mlkit</string>
+    <string name="title_tesseract">Tesseract</string>
+    <string name="pref_tesseract_language_key">tesseract_language</string>
 </resources>

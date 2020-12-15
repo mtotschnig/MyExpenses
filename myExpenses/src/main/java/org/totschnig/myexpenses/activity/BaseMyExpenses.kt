@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.activity
 
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -10,7 +9,6 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.graphics.drawable.DrawableCompat
-import com.theartofdev.edmodo.cropper.CropImage
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.form.Hint
 import eltos.simpledialogfragment.form.SimpleFormDialog

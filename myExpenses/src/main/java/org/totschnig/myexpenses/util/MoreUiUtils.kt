@@ -1,16 +1,8 @@
 package org.totschnig.myexpenses.util
 
 import android.content.Context
-import android.content.res.TypedArray
 import android.graphics.Color
-import android.util.TypedValue
 import android.view.View
-import android.view.View.OnFocusChangeListener
-import android.view.ViewGroup
-import android.widget.Spinner
-import android.widget.TableLayout
-import android.widget.TableRow
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.graphics.ColorUtils.calculateContrast
 import com.google.android.material.chip.ChipGroup

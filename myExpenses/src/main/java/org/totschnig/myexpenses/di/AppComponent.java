@@ -6,6 +6,7 @@ import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.activity.BaseActivity;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
@@ -22,6 +23,7 @@ import org.totschnig.myexpenses.dialog.TransactionListDialogFragment;
 import org.totschnig.myexpenses.dialog.VersionDialogFragment;
 import org.totschnig.myexpenses.dialog.select.SelectFromTableDialogFragment;
 import org.totschnig.myexpenses.export.pdf.PdfPrinter;
+import org.totschnig.myexpenses.feature.OcrFeature;
 import org.totschnig.myexpenses.fragment.BaseSettingsFragment;
 import org.totschnig.myexpenses.fragment.BaseTransactionList;
 import org.totschnig.myexpenses.fragment.BudgetList;
@@ -60,6 +62,7 @@ import org.totschnig.myexpenses.viewmodel.CurrencyViewModel;
 import org.totschnig.myexpenses.viewmodel.EditCurrencyViewModel;
 import org.totschnig.myexpenses.viewmodel.ExchangeRateViewModel;
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel;
+import org.totschnig.myexpenses.viewmodel.OcrViewModel;
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
 import org.totschnig.myexpenses.viewmodel.TransactionDetailViewModel;
 import org.totschnig.myexpenses.viewmodel.TransactionViewModel;
@@ -71,11 +74,12 @@ import java.util.Locale;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import androidx.annotation.Nullable;
 import dagger.BindsInstance;
 import dagger.Component;
 
 @Singleton
-@Component(modules = {AppModule.class, UiModule.class, NetworkModule.class, LicenceModule.class, DbModule.class, CoroutineModule.class, ViewModelModule.class})
+@Component(modules = {AppModule.class, UiModule.class, NetworkModule.class, LicenceModule.class, DbModule.class, CoroutineModule.class, ViewModelModule.class, FeatureModule.class})
 public interface AppComponent {
   @Singleton
   DiscoveryHelper discoveryHelper();
@@ -121,6 +125,9 @@ public interface AppComponent {
   Picasso picasso();
 
   Context context();
+
+  @Nullable
+  OcrFeature ocrFeature();
 
   void inject(MyApplication application);
 
@@ -223,4 +230,8 @@ public interface AppComponent {
   void inject(@NotNull ExtendProLicenceDialogFragment extendProLicenceDialogFragment);
 
   void inject(VersionDialogFragment versionDialogFragment);
+
+  void inject(@NotNull BaseActivity baseActivity);
+
+  void inject(@NotNull OcrViewModel ocrViewModel);
 }

@@ -157,7 +157,7 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
         String packageLabel = licenceHandler.getButtonLabel(aPackage);
         intent.putExtra(Intent.EXTRA_SUBJECT,
             "[" + getString(R.string.app_name) + "] " + getString(R.string.donate_button_invoice));
-        String userCountry = Utils.getCountryFromTelephonyManager();
+        String userCountry = Utils.getCountryFromTelephonyManager(this);
         String messageBody = String.format(
             "Please send an invoice for %s to:\nName: (optional)\nCountry: %s (required)",
             packageLabel, userCountry != null ? userCountry : "");

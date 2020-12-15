@@ -1,11 +1,15 @@
 package org.totschnig.ocr
 
-import android.content.Context
-import android.content.Intent
-import org.totschnig.myexpenses.feature.OcrResult
+import androidx.annotation.Keep
+import androidx.fragment.app.FragmentManager
+import org.totschnig.myexpenses.feature.OcrFeature
 import java.io.File
 
-interface OcrFeature {
-    suspend fun runTextRecognition(file: File, context: Context): OcrResult
-    suspend fun handleData(intent: Intent): OcrResult
+const val FRAGMENT_TAG = "SCAN_PREVIEW"
+
+@Keep
+abstract class OcrFeature: OcrFeature {
+    override fun start(scanFile: File, fragmentManager: FragmentManager) {
+        ScanPreviewFragment.with(scanFile).show(fragmentManager, FRAGMENT_TAG)
+    }
 }

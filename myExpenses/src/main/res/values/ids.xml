@@ -191,4 +191,5 @@
     <item name="LOAD_TEMPLATE_DO" type="id" />
     <item name="DEFAULT_ACTION_SAVE_COMMAND" type="id" />
     <item name="DEFAULT_ACTION_EDIT_COMMAND" type="id" />
+    <item name="TESSERACT_DOWNLOAD_COMMAND" type="id" />
 </resources>

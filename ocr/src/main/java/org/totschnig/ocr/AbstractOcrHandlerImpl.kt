@@ -11,7 +11,7 @@ import org.threeten.bp.LocalTime
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.FormatStyle
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.feature.OcrFeatureProvider
+import org.totschnig.myexpenses.feature.OcrFeature
 import org.totschnig.myexpenses.feature.OcrResult
 import org.totschnig.myexpenses.feature.Payee
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -25,7 +25,7 @@ import java.text.NumberFormat
 import java.util.Locale
 import kotlin.math.absoluteValue
 
-abstract class AbstractOcrFeatureImpl(prefHandler: PrefHandler, userLocaleProvider: UserLocaleProvider, private val context: Context) : OcrFeature {
+abstract class AbstractOcrHandlerImpl(val prefHandler: PrefHandler, userLocaleProvider: UserLocaleProvider, private val context: Context) : OcrHandler {
     private val numberFormatList: List<NumberFormat>
     private val dateFormatterList: List<DateTimeFormatter>
     private val timeFormatterList: List<DateTimeFormatter>
@@ -69,10 +69,6 @@ abstract class AbstractOcrFeatureImpl(prefHandler: PrefHandler, userLocaleProvid
     private fun Rect?.tOr0() = this?.top ?: 0
     private fun Line.bOr0() = boundingBox.bOr0()
     private fun Line.tOr0() = boundingBox.tOr0()
-
-    override suspend fun handleData(intent: Intent) = (intent.getParcelableExtra("result") as? Text)?.let {
-        processTextRecognitionResult(it, queryPayees())
-    } ?: throw IllegalArgumentException("Unable to retrieve result from intent")
 
     suspend fun queryPayees() = withContext(Dispatchers.Default) {
         mutableListOf<Payee>().also {
@@ -202,6 +198,6 @@ abstract class AbstractOcrFeatureImpl(prefHandler: PrefHandler, userLocaleProvid
     }.map { it.text }.takeIf { it.isNotEmpty() }?.joinToString(separator = "")
 
     fun log(message: String, vararg args: Any?) {
-        Timber.tag(OcrFeatureProvider.TAG).i(message, *args)
+        Timber.tag(OcrFeature.TAG).i(message, *args)
     }
 }

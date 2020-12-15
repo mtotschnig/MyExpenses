@@ -3,15 +3,16 @@ package org.totschnig.myexpenses.feature
 import android.app.Activity
 import android.app.Application
 import android.content.Context
-import androidx.fragment.app.FragmentActivity
+import org.totschnig.myexpenses.activity.BaseActivity
+import org.totschnig.myexpenses.preference.PrefHandler
 
 const val OCR_MODULE = "ocr"
 
 interface FeatureManager {
     fun initApplication(application: Application)
     fun initActivity(activity: Activity)
-    fun isFeatureInstalled(feature: String, context: Context): Boolean
-    fun requestFeature(feature: String, fragmentActivity: FragmentActivity)
+    fun isFeatureInstalled(feature: String, context: Context, prefHandler: PrefHandler): Boolean
+    fun requestFeature(feature: String, activity: BaseActivity)
     fun requestLocale(context: Context)
     fun registerCallback(callback: Callback)
     fun unregister()

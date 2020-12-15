@@ -1,22 +1,32 @@
 package org.totschnig.myexpenses.feature
 
+import android.content.Context
 import android.content.Intent
 import android.os.Parcelable
-import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
+import androidx.preference.ListPreference
 import kotlinx.android.parcel.Parcelize
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalTime
+import org.totschnig.myexpenses.activity.BaseActivity
+import org.totschnig.myexpenses.preference.PrefHandler
 import java.io.File
 
-interface OcrFeatureProvider {
+interface OcrFeature {
     companion object {
         const val TAG = "OcrFeature"
         const val ACTION = "org.totschnig.ocr.action.RECOGNIZE"
         const val MIME_TYPE = "image/jpeg"
         fun intent() = Intent(ACTION).setType(MIME_TYPE)
     }
-    fun start(scanFile: File, fragmentActivity: FragmentActivity)
-    fun handleData(intent: Intent, fragmentActivity: FragmentActivity)
+    fun start(scanFile: File, fragmentManager: FragmentManager) {}
+    fun handleData(intent: Intent?, fragmentManager: FragmentManager) {}
+    fun downloadTessData(context: Context, prefHandler: PrefHandler): String? = null
+    fun isAvailable(context: Context): Boolean
+    fun offerInstall(baseActivity: BaseActivity) {}
+    fun configureTesseractLanguagePref(listPreference: ListPreference) {
+        listPreference.isVisible = false
+    }
 }
 
 @Parcelize

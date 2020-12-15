@@ -1,6 +1,6 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    ext.kotlin_version = '1.4.10'
+    ext.kotlin_version = '1.4.21'
     repositories {
         //mavenLocal()
         jcenter()
@@ -53,5 +53,7 @@ ext {
     annotations = "1.1.0"
     recyclerview = "1.1.0"
     materialComponents = "1.2.1"
-    junit = "4.13.1"
+    junitVersion = "4.13.1"
+    timberVersion = "4.7.1"
+    assertjVersion = "3.18.1"
 }

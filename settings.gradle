@@ -1,3 +1,5 @@
+include ':mlkit'
+include ":tesseract"
 include ':ocr'
 include ':PlayLicensingOrig', ':transactionscontract'
 include ':myExpenses'

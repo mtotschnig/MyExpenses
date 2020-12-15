@@ -206,7 +206,7 @@ public class MyExpenses extends BaseMyExpenses implements
     updateFab();
     invalidateOptionsMenu();
     if (newMode && !viewModel.isOcrAvailable(this)) {
-      viewModel.requestOcrFeature(this);
+      contribFeatureRequested(ContribFeature.OCR, false);
     }
   }
 
@@ -522,13 +522,13 @@ public class MyExpenses extends BaseMyExpenses implements
     }
     if (requestCode == CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
       if (resultCode == RESULT_OK) {
-        viewModel.startOcrFeature(scanFile, this);
+        ocrViewModel.startOcrFeature(scanFile, getSupportFragmentManager());
       } else  {
         processImageCaptureError(resultCode, CropImage.getActivityResult(intent));
       }
     }
-    if (requestCode == OCR_REQUEST && resultCode == RESULT_OK) {
-      viewModel.handleOcrData(intent, this);
+    if (requestCode == OCR_REQUEST) {
+      ocrViewModel.handleOcrData(intent, getSupportFragmentManager());
     }
   }
 
@@ -581,11 +581,7 @@ public class MyExpenses extends BaseMyExpenses implements
           showSnackbar(R.string.warning_no_account);
         } else {
           if (isScanMode()) {
-            if (viewModel.isOcrAvailable(this)) {
-              contribFeatureRequested(ContribFeature.OCR, null);
-            } else {
-              viewModel.requestOcrFeature(this);
-            }
+            contribFeatureRequested(ContribFeature.OCR, true);
           } else {
             createRow(TYPE_TRANSACTION, false);
           }
@@ -927,18 +923,25 @@ public class MyExpenses extends BaseMyExpenses implements
         break;
       }
       case OCR: {
-        //viewModel.startOcrFeature(new File("/sdcard/OCR_DEBUG.jpg"), this);
-        viewModel.getScanFiles(pair -> {
-          scanFile = pair.getSecond();
-          CropImage.activity()
-              .setCameraOnly(true)
-              .setAllowFlipping(false)
-              .setOutputUri(Uri.fromFile(scanFile))
-              .setCaptureImageOutputUri(viewModel.getScanUri(pair.getFirst()))
-              .setGuidelines(CropImageView.Guidelines.ON)
-              .start(this);
-          return Unit.INSTANCE;
-        });
+        if (viewModel.isOcrAvailable(this)) {
+          if ((Boolean) tag) {
+        /*scanFile = new File("/sdcard/OCR_bg.jpg");
+        ocrViewModel.startOcrFeature(scanFile, getSupportFragmentManager());*/
+            ocrViewModel.getScanFiles(pair -> {
+              scanFile = pair.getSecond();
+              CropImage.activity()
+                  .setCameraOnly(true)
+                  .setAllowFlipping(false)
+                  .setOutputUri(Uri.fromFile(scanFile))
+                  .setCaptureImageOutputUri(ocrViewModel.getScanUri(pair.getFirst()))
+                  .setGuidelines(CropImageView.Guidelines.ON)
+                  .start(this);
+              return Unit.INSTANCE;
+            });
+          }
+        } else {
+          viewModel.requestOcrFeature(this);
+        }
       }
     }
   }

@@ -5,18 +5,19 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.ScanPreviewBinding
+import org.totschnig.myexpenses.dialog.CommitSafeDialogFragment
 import org.totschnig.myexpenses.feature.OcrHost
 import java.io.File
 import javax.inject.Inject
 
-class ScanPreviewFragment : DialogFragment() {
+class ScanPreviewFragment : CommitSafeDialogFragment() {
     private lateinit var binding: ScanPreviewBinding
     @Inject
     lateinit var picasso: Picasso
@@ -46,6 +47,7 @@ class ScanPreviewFragment : DialogFragment() {
                     getButton(AlertDialog.BUTTON_POSITIVE)?.let {
                         it.isEnabled = false
                     }
+                    showSnackbar(getString(R.string.ocr_recognition_info, viewModel.getOcrInfo(requireContext())), Snackbar.LENGTH_INDEFINITE, null)
                     activity?.let { viewModel.runTextRecognition(scanFile, it) }
                 }
             }
@@ -59,8 +61,8 @@ class ScanPreviewFragment : DialogFragment() {
         }
     }
 
-    fun handleData(intent: Intent) {
-        viewModel.handleData(intent)
+    fun handleData(intent: Intent?) {
+        intent?.let { viewModel.handleData(it) } ?: run { dismissSnackbar() }
     }
 
     private val scanFile: File

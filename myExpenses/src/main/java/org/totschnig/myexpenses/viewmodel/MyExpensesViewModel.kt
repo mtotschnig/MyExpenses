@@ -3,21 +3,17 @@ package org.totschnig.myexpenses.viewmodel
 import android.app.Application
 import android.content.ContentUris
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.jetbrains.annotations.NotNull
 import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.feature.Callback
 import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.feature.OCR_MODULE
-import org.totschnig.myexpenses.feature.OcrFeatureProvider
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AggregateAccount
 import org.totschnig.myexpenses.model.Grouping
@@ -25,10 +21,6 @@ import org.totschnig.myexpenses.model.SortDirection
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.util.AppDirHelper
-import org.totschnig.myexpenses.util.PictureDirHelper
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import java.io.File
 import javax.inject.Inject
 
 class MyExpensesViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
@@ -56,8 +48,6 @@ class MyExpensesViewModel(application: Application) : ContentResolvingAndroidVie
 
     @Inject
     lateinit var prefHandler: PrefHandler
-
-    var ocrFeatureProvider: OcrFeatureProvider? = null
 
     enum class FeatureState {
         LOADING, AVAILABLE, ERROR;
@@ -116,38 +106,7 @@ class MyExpensesViewModel(application: Application) : ContentResolvingAndroidVie
         contentResolver.notifyChange(TransactionProvider.ACCOUNTS_URI, null, false)
     }
 
-    fun startOcrFeature(scanFile: @NotNull File, fragmentActivity: FragmentActivity) {
-        if (ocrFeatureProvider == null) {
-            ocrFeatureProvider = try {
-                Class.forName("org.totschnig.ocr.OcrFeatureProviderImpl").kotlin.objectInstance as OcrFeatureProvider
+    fun isOcrAvailable(context: Context) = featureManager.isFeatureInstalled(OCR_MODULE, context, prefHandler)
 
-            } catch (e: ClassNotFoundException) {
-                CrashHandler.report(e)
-                null
-            }
-        }
-        ocrFeatureProvider?.start(scanFile, fragmentActivity)
-    }
-
-    fun isOcrAvailable(context: Context) = featureManager.isFeatureInstalled(OCR_MODULE, context)
-
-    fun requestOcrFeature(fragmentActivity: FragmentActivity) = featureManager.requestFeature(OCR_MODULE, fragmentActivity)
-
-    fun getScanFiles(action: (file: Pair<File, File>) -> Unit) {
-        viewModelScope.launch {
-            action(withContext(Dispatchers.IO) {
-                Pair(PictureDirHelper.getOutputMediaFile("SCAN", true, false), PictureDirHelper.getOutputMediaFile("SCAN_CROPPED", true, false))
-            })
-        }
-    }
-
-    fun getScanUri(file: File) = try {
-        AppDirHelper.getContentUriForFile(file)
-    }  catch (e: IllegalArgumentException) {
-        Uri.fromFile(file)
-    }
-
-    fun handleOcrData(intent: Intent, fragmentActivity: FragmentActivity) {
-        ocrFeatureProvider?.handleData(intent, fragmentActivity)
-    }
+    fun requestOcrFeature(activity: BaseActivity) = featureManager.requestFeature(OCR_MODULE, activity)
 }
