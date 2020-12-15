@@ -55,4 +55,5 @@ ext {
     materialComponents = "1.2.1"
     junitVersion = "4.13.1"
     timberVersion = "4.7.1"
+    assertjVersion = "3.18.1"
 }
