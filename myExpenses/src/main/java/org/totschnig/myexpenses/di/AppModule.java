@@ -71,12 +71,12 @@ public class AppModule {
   @Provides
   @Singleton
   @Named(USER_COUNTRY)
-  static String provideUserCountry() {
+  static String provideUserCountry(MyApplication application) {
     final String defaultCountry = "us";
     if (BuildConfig.DEBUG) {
       return defaultCountry;
     } else {
-      final String countryFromTelephonyManager = Utils.getCountryFromTelephonyManager();
+      final String countryFromTelephonyManager = Utils.getCountryFromTelephonyManager(application);
       return countryFromTelephonyManager != null ? countryFromTelephonyManager : defaultCountry;
     }
   }
