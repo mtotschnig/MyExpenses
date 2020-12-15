@@ -19,7 +19,7 @@ interface OcrFeature {
         fun intent() = Intent(ACTION).setType(MIME_TYPE)
     }
     fun start(scanFile: File, fragmentManager: FragmentManager) {}
-    fun handleData(intent: Intent, fragmentManager: FragmentManager) {}
+    fun handleData(intent: Intent?, fragmentManager: FragmentManager) {}
     fun downloadTessData(context: Context, prefHandler: PrefHandler): String? = null
     fun isAvailable(context: Context): Boolean
     fun offerInstall(baseActivity: BaseActivity) {}

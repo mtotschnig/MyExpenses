@@ -23,7 +23,7 @@ class OcrFeatureImpl(val prefHandler: PrefHandler): OcrFeature() {
                 null).show(baseActivity.supportFragmentManager, "OCR_DOWNLOAD")
     }
 
-    override fun handleData(intent: Intent, fragmentManager: FragmentManager) {
+    override fun handleData(intent: Intent?, fragmentManager: FragmentManager) {
         (fragmentManager.findFragmentByTag(FRAGMENT_TAG) as? ScanPreviewFragment)?.handleData(intent)
     }
 }

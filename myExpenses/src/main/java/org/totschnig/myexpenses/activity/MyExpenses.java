@@ -527,7 +527,7 @@ public class MyExpenses extends BaseMyExpenses implements
         processImageCaptureError(resultCode, CropImage.getActivityResult(intent));
       }
     }
-    if (requestCode == OCR_REQUEST && resultCode == RESULT_OK) {
+    if (requestCode == OCR_REQUEST) {
       ocrViewModel.handleOcrData(intent, getSupportFragmentManager());
     }
   }

@@ -7,6 +7,7 @@ import java.io.File
 
 interface Engine {
     suspend fun run(file: File, context: Context, prefHandler: PrefHandler): Text
+    fun info(context: Context, prefHandler: PrefHandler): CharSequence
 }
 
 interface TesseractEngine : Engine  {

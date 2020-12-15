@@ -21,7 +21,7 @@ import kotlin.coroutines.suspendCoroutine
 @Keep
 object Engine: org.totschnig.ocr.Engine  {
     var initialized: Boolean = false
-    fun initialize(context: Context) {
+    private fun initialize(context: Context) {
         if (!initialized) {
             MlKit.initialize(context)
             initialized = true
@@ -42,6 +42,10 @@ object Engine: org.totschnig.ocr.Engine  {
                             }
                 }
             }
+
+    override fun info(context: Context, prefHandler: PrefHandler): CharSequence {
+        return "Ml Kit"
+    }
 }
 
 fun com.google.mlkit.vision.text.Text.wrap() = Text(textBlocks.map { textBlock ->

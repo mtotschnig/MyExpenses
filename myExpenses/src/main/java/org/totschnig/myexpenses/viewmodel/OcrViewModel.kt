@@ -40,11 +40,11 @@ class OcrViewModel(application: Application) : AndroidViewModel(application) {
         emit(ocrFeature.downloadTessData(getApplication(), prefHandler))
     }
 
-    fun startOcrFeature(scanFile: @NotNull File, fragmentManager: FragmentManager) {
+    fun startOcrFeature(scanFile: File, fragmentManager: FragmentManager) {
         ocrFeature.start(scanFile, fragmentManager)
     }
 
-    fun handleOcrData(intent: @NotNull Intent, fragmentManager: FragmentManager) {
+    fun handleOcrData(intent: Intent?, fragmentManager: FragmentManager) {
         ocrFeature.handleData(intent, fragmentManager)
     }
 

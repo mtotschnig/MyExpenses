@@ -145,6 +145,10 @@ object Engine : TesseractEngine {
                 }
             }
 
+    override fun info(context: Context, prefHandler: PrefHandler): CharSequence {
+        return "Tesseract (%s)".format(language(context, prefHandler))
+    }
+
     fun timing(step: String) {
         val delta = System.currentTimeMillis() - timer
         Timber.i("Timing (%s): %d", step, delta)

@@ -966,4 +966,6 @@
     <string name="tesseract_download_confirmation">Do you want to download text recognition data for %s ?</string>
     <!-- %s is replaced with language -->
     <string name="download_completed">Download (%s) has completed.</string>
+    <!-- %s is replaced with information on the engine or application used for running text recognition -->
+    <string name="ocr_recognition_info">Running text recognition with %s</string>
 </resources>

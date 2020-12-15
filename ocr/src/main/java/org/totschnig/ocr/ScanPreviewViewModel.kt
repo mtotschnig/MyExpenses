@@ -2,6 +2,7 @@ package org.totschnig.ocr
 
 import android.app.Activity
 import android.app.Application
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.exifinterface.media.ExifInterface
@@ -79,4 +80,6 @@ class ScanPreviewViewModel(application: Application) : AndroidViewModel(applicat
             result.postValue(runCatching { ocrHandler.handleData(intent) })
         }
     }
+
+    fun getOcrInfo(context: Context): CharSequence? = ocrHandler.info(context)
 }
