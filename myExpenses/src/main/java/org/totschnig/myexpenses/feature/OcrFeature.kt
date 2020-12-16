@@ -9,7 +9,6 @@ import kotlinx.android.parcel.Parcelize
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalTime
 import org.totschnig.myexpenses.activity.BaseActivity
-import org.totschnig.myexpenses.preference.PrefHandler
 import java.io.File
 
 interface OcrFeature {
@@ -21,7 +20,7 @@ interface OcrFeature {
     }
     fun start(scanFile: File, fragmentManager: FragmentManager) {}
     fun handleData(intent: Intent?, fragmentManager: FragmentManager) {}
-    fun downloadTessData(context: Context, prefHandler: PrefHandler): String? = null
+    fun downloadTessData(context: Context): String? = null
     fun isAvailable(context: Context): Boolean
     fun offerInstall(baseActivity: BaseActivity) {}
     fun configureTesseractLanguagePref(listPreference: ListPreference) {

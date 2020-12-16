@@ -11,7 +11,6 @@ import androidx.preference.ListPreference
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.jetbrains.annotations.NotNull
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.feature.OcrFeature
@@ -38,7 +37,7 @@ class OcrViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun downloadTessData() = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
-        emit(ocrFeature.downloadTessData(getApplication(), prefHandler))
+        emit(ocrFeature.downloadTessData(getApplication()))
     }
 
     fun startOcrFeature(scanFile: File, fragmentManager: FragmentManager) {

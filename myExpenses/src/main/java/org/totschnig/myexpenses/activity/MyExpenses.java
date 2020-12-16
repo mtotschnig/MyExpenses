@@ -382,6 +382,11 @@ public class MyExpenses extends BaseMyExpenses implements
         case ERROR:
           showSnackbar(featureState.getSecond());
           break;
+        case PARTIAL:
+          if (!viewModel.isOcrAvailable(this)) {
+            viewModel.requestOcrFeature(this);
+          }
+          break;
       }
     });
     if (!isInitialized) {

@@ -28,8 +28,8 @@ class MyExpensesViewModel(application: Application) : ContentResolvingAndroidVie
     init {
         (application as MyApplication).appComponent.inject(this)
         featureManager.registerCallback(object : Callback {
-            override fun onAvailable() {
-                featureState.postValue(Pair(FeatureState.AVAILABLE, null))
+            override fun onAvailable(maybePartial: Boolean) {
+                featureState.postValue(Pair(if (maybePartial) FeatureState.PARTIAL else FeatureState.AVAILABLE, null))
             }
 
             override fun onAsyncStartedFeature(feature: String) {
@@ -50,7 +50,7 @@ class MyExpensesViewModel(application: Application) : ContentResolvingAndroidVie
     lateinit var prefHandler: PrefHandler
 
     enum class FeatureState {
-        LOADING, AVAILABLE, ERROR;
+        LOADING, AVAILABLE, ERROR, PARTIAL;
     }
 
     private val featureState = MutableLiveData<Pair<FeatureState, String?>>()
@@ -106,7 +106,7 @@ class MyExpensesViewModel(application: Application) : ContentResolvingAndroidVie
         contentResolver.notifyChange(TransactionProvider.ACCOUNTS_URI, null, false)
     }
 
-    fun isOcrAvailable(context: Context) = featureManager.isFeatureInstalled(OCR_MODULE, context, prefHandler)
+    fun isOcrAvailable(context: Context) = featureManager.isFeatureInstalled(OCR_MODULE, context)
 
     fun requestOcrFeature(activity: BaseActivity) = featureManager.requestFeature(OCR_MODULE, activity)
 }

@@ -553,7 +553,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
           }
 
           @Override
-          public void onAvailable() {
+          public void onAvailable(boolean maybePartial) {
             rebuildDbConstants();
             activity.recreate();
           }

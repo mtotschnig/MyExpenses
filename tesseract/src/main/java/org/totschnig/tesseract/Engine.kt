@@ -15,12 +15,12 @@ import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
+import org.totschnig.myexpenses.feature.getLocaleForUserCountry
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.ocr.Element
 import org.totschnig.ocr.Line
-import org.totschnig.ocr.OcrHandlerImpl.Companion.getLocaleForUserCountry
 import org.totschnig.ocr.TesseractEngine
 import org.totschnig.ocr.Text
 import org.totschnig.ocr.TextBlock

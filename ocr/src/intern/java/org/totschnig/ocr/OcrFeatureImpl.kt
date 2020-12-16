@@ -3,12 +3,13 @@ package org.totschnig.ocr
 import android.content.Context
 import androidx.annotation.Keep
 import org.totschnig.myexpenses.activity.BaseActivity
+import org.totschnig.myexpenses.feature.ENGINE_TESSERACT
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.ocr.OcrHandlerImpl.Companion.getEngine
 
 @Keep
 class OcrFeatureImpl(val prefHandler: PrefHandler): OcrFeature() {
-    override fun downloadTessData(context: Context, prefHandler: PrefHandler) =
+    override fun downloadTessData(context: Context) =
             (getEngine(context, prefHandler) as? TesseractEngine)?.downloadTessData(context, prefHandler)
 
     override fun isAvailable(context: Context) =
@@ -24,9 +25,5 @@ class OcrFeatureImpl(val prefHandler: PrefHandler): OcrFeature() {
             listPreference.setEntries(it.getLanguageArray(listPreference.context))
         }
                 ?: kotlin.run { super.configureTesseractLanguagePref(listPreference) }
-    }
-
-    fun tesseractModuleInstalled(): Boolean {
-        return getEngine(ENGINE_TESSERACT) != null
     }
 }
