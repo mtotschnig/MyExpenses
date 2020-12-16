@@ -21,7 +21,7 @@ interface OcrFeature {
     fun start(scanFile: File, fragmentManager: FragmentManager) {}
     fun handleData(intent: Intent?, fragmentManager: FragmentManager) {}
     fun downloadTessData(context: Context): String? = null
-    fun isAvailable(context: Context): Boolean
+    fun isAvailable(context: Context): Boolean = false
     fun offerInstall(baseActivity: BaseActivity) {}
     fun configureTesseractLanguagePref(listPreference: ListPreference) {
         listPreference.isVisible = false

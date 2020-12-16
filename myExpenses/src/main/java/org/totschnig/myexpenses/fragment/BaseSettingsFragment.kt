@@ -1,21 +1,30 @@
 package org.totschnig.myexpenses.fragment
 
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.os.Bundle
+import androidx.preference.ListPreference
 import androidx.preference.MultiSelectListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.MyPreferenceActivity
+import org.totschnig.myexpenses.feature.Callback
+import org.totschnig.myexpenses.feature.ENGINE_TESSERACT
 import org.totschnig.myexpenses.feature.FeatureManager
-import org.totschnig.myexpenses.preference.LocalizedFormatEditTextPreference
+import org.totschnig.myexpenses.model.Account
+import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.preference.LocalizedFormatEditTextPreference.OnValidationErrorListener
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import java.util.*
 import javax.inject.Inject
 
 
-abstract class BaseSettingsFragment : PreferenceFragmentCompat(), LocalizedFormatEditTextPreference.OnValidationErrorListener {
+abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationErrorListener,
+        OnSharedPreferenceChangeListener {
 
     @Inject
     lateinit var featureManager: FeatureManager
@@ -23,9 +32,44 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), LocalizedForma
     @Inject
     lateinit var prefHandler: PrefHandler
 
+    @Inject
+    lateinit var userLocaleProvider: UserLocaleProvider
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity().application as MyApplication).appComponent.inject(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        requireApplication().settings.registerOnSharedPreferenceChangeListener(this)
+        featureManager.registerCallback(object : Callback {
+            override fun onLanguageAvailable() {
+                rebuildDbConstants()
+                activity().recreate()
+            }
+
+            override fun onFeatureAvailable() {
+                configureTesseractLanguagePref()
+            }
+
+            override fun onAsyncStartedLanguage(displayLanguage: String) {
+                activity().showSnackbar(getString(R.string.language_download_requested, displayLanguage))
+            }
+
+            override fun onError(throwable: Throwable) {
+                throwable.message?.let {
+                    activity().showSnackbar(it)
+                }
+            }
+        }
+        )
+    }
+
+    override fun onPause() {
+        super.onPause()
+        requireApplication().settings.unregisterOnSharedPreferenceChangeListener(this)
+        featureManager.unregister()
     }
 
     override fun onValidationError(messageResId: Int) {
@@ -80,6 +124,20 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), LocalizedForma
             }
 
     fun configureTesseractLanguagePref() {
-        activity().ocrViewModel.configureTesseractLanguagePref(requirePreference(PrefKey.TESSERACT_LANGUAGE))
+        val listPreference = requirePreference<ListPreference>(PrefKey.TESSERACT_LANGUAGE)
+        if (prefHandler.getString(PrefKey.OCR_ENGINE, null) == ENGINE_TESSERACT)
+            activity().ocrViewModel.configureTesseractLanguagePref(listPreference)
+        else
+            listPreference.isVisible = false
+    }
+
+    fun requireApplication(): MyApplication {
+        return (requireActivity().getApplication() as MyApplication)
+    }
+
+    fun rebuildDbConstants() {
+        DatabaseConstants.buildLocalized(userLocaleProvider.getUserPreferredLocale())
+        Transaction.buildProjection(requireContext())
+        Account.buildProjection()
     }
 }

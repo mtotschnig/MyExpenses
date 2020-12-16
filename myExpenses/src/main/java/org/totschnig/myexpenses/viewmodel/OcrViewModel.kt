@@ -30,7 +30,7 @@ class OcrViewModel(application: Application) : AndroidViewModel(application) {
     lateinit var prefHandler: PrefHandler
 
     val ocrFeature: OcrFeature
-        get() = getApplication<MyApplication>().appComponent.ocrFeature() ?: throw IllegalStateException()
+        get() = getApplication<MyApplication>().appComponent.ocrFeature() ?: object : OcrFeature {}
 
     fun tessDataExists() = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
         emit(ocrFeature.isAvailable(getApplication<MyApplication>()))

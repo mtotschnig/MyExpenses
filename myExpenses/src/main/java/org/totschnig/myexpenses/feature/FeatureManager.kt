@@ -4,12 +4,16 @@ import android.app.Activity
 import android.content.Context
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.activity.BaseActivity
+import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.Utils
 import java.util.*
 
 const val OCR_MODULE = "ocr"
 const val ENGINE_TESSERACT = "tesseract"
 const val ENGINE_MLKIT = "mlkit"
+
+fun getUserConfiguredEngine(context: Context, prefHandler: PrefHandler) = prefHandler.getString(PrefKey.OCR_ENGINE, null) ?: getDefaultEngine(context)
 
 /**
  * check if language has non-latin script and is supported by Tesseract
@@ -56,7 +60,7 @@ abstract class FeatureManager {
         }
     }
     open fun requestLocale(context: Context) {
-        callback?.onAvailable(false)
+        callback?.onLanguageAvailable()
     }
 
     open fun registerCallback(callback: Callback) {
@@ -75,12 +79,9 @@ abstract class FeatureManager {
 }
 
 interface Callback {
-    /**
-     * @param maybePartial: If true, module has been installed, but client should check again if
-     * feature needs additional installlation
-     */
-    fun onAvailable(maybePartial: Boolean)
+    fun onLanguageAvailable() {}
+    fun onFeatureAvailable() {}
     fun onAsyncStartedFeature(feature: String) {}
     fun onAsyncStartedLanguage(displayLanguage: String) {}
-    fun onError(throwable: Throwable)
+    fun onError(throwable: Throwable) {}
 }

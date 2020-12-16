@@ -22,7 +22,6 @@ import android.text.TextUtils;
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 
-import org.jetbrains.annotations.NotNull;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalTime;
 import org.threeten.bp.chrono.IsoChronology;
@@ -34,9 +33,7 @@ import org.totschnig.myexpenses.activity.FolderBrowser;
 import org.totschnig.myexpenses.activity.MyPreferenceActivity;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
-import org.totschnig.myexpenses.feature.Callback;
 import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.CalendarListPreferenceDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogPreference;
@@ -49,7 +46,6 @@ import org.totschnig.myexpenses.preference.SimplePasswordDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.SimplePasswordPreference;
 import org.totschnig.myexpenses.preference.TimePreference;
 import org.totschnig.myexpenses.preference.TimePreferenceDialogFragmentCompat;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.service.DailyScheduler;
 import org.totschnig.myexpenses.sync.GenericAccountService;
@@ -70,7 +66,6 @@ import org.totschnig.myexpenses.util.io.FileUtils;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.licence.LicenceStatus;
 import org.totschnig.myexpenses.util.licence.Package;
-import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel;
 import org.totschnig.myexpenses.viewmodel.data.Currency;
@@ -112,6 +107,7 @@ import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.RESULT
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER;
+import static org.totschnig.myexpenses.feature.FeatureManagerKt.OCR_MODULE;
 import static org.totschnig.myexpenses.preference.PrefKey.ACRA_INFO;
 import static org.totschnig.myexpenses.preference.PrefKey.APP_DIR;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP;
@@ -143,6 +139,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.NEW_LICENCE;
 import static org.totschnig.myexpenses.preference.PrefKey.NEXT_REMINDER_RATE;
 import static org.totschnig.myexpenses.preference.PrefKey.OCR;
 import static org.totschnig.myexpenses.preference.PrefKey.OCR_DATE_FORMATS;
+import static org.totschnig.myexpenses.preference.PrefKey.OCR_ENGINE;
 import static org.totschnig.myexpenses.preference.PrefKey.OCR_TIME_FORMATS;
 import static org.totschnig.myexpenses.preference.PrefKey.OCR_TOTAL_INDICATORS;
 import static org.totschnig.myexpenses.preference.PrefKey.PERFORM_PROTECTION_SCREEN;
@@ -184,7 +181,6 @@ import static org.totschnig.myexpenses.util.TextUtils.concatResStrings;
 @SuppressWarnings("PackageVisibleField")
 public class SettingsFragment extends BaseSettingsFragment implements
     Preference.OnPreferenceClickListener,
-    SharedPreferences.OnSharedPreferenceChangeListener,
     SimpleInputDialog.OnDialogResultListener {
 
   private static final String DIALOG_VALIDATE_LICENCE = "validateLicence";
@@ -204,8 +200,6 @@ public class SettingsFragment extends BaseSettingsFragment implements
   CrashHandler crashHandler;
   @Inject
   CurrencyFormatter currencyFormatter;
-  @Inject
-  UserLocaleProvider userLocaleProvider;
 
   private CurrencyViewModel currencyViewModel;
 
@@ -489,7 +483,6 @@ public class SettingsFragment extends BaseSettingsFragment implements
         String mediumFormat = getLocalizedDateTimePattern(null, MEDIUM, IsoChronology.INSTANCE, userLocaleProvider.getSystemLocale());
         ((EditTextPreference) ocrTimePref).setText(shortFormat + "\n" + mediumFormat);
       }
-
       configureTesseractLanguagePref();
     } else if (rootKey.equals(getKey(SYNC))) {
       requirePreference(MANAGE_SYNC_BACKENDS).setSummary(
@@ -545,45 +538,6 @@ public class SettingsFragment extends BaseSettingsFragment implements
       }
       configureContribPrefs();
     }
-    requireApplication().getSettings().registerOnSharedPreferenceChangeListener(this);
-    featureManager.registerCallback(
-        new Callback() {
-          @Override
-          public void onAsyncStartedFeature(@NotNull String feature) {
-          }
-
-          @Override
-          public void onAvailable(boolean maybePartial) {
-            rebuildDbConstants();
-            activity.recreate();
-          }
-
-          @Override
-          public void onAsyncStartedLanguage(@NotNull String displayLanguage) {
-            activity().showSnackbar(getString(R.string.language_download_requested, displayLanguage));
-          }
-
-          @Override
-          public void onError(@NotNull Throwable exception) {
-            final String message = exception.getMessage();
-            if (message != null) {
-              activity().showSnackbar(message);
-            }
-          }
-        }
-
-    );
-  }
-
-  private MyApplication requireApplication() {
-    return ((MyApplication) requireActivity().getApplication());
-  }
-
-  @Override
-  public void onPause() {
-    super.onPause();
-    requireApplication().getSettings().unregisterOnSharedPreferenceChangeListener(this);
-    featureManager.unregister();
   }
 
   @Override
@@ -624,13 +578,12 @@ public class SettingsFragment extends BaseSettingsFragment implements
       DailyScheduler.updatePlannerAlarms(activity(), false, false);
     } else if (key.equals(getKey(TESSERACT_LANGUAGE))) {
       activity().checkTessDataDownload();
+    } else if (key.equals(getKey(OCR_ENGINE))) {
+      if (!featureManager.isFeatureInstalled(OCR_MODULE, activity())) {
+        featureManager.requestFeature(OCR_MODULE, activity());
+      }
+      configureTesseractLanguagePref();
     }
-  }
-
-  public void rebuildDbConstants() {
-    DatabaseConstants.buildLocalized(userLocaleProvider.getUserPreferredLocale());
-    Transaction.buildProjection(requireContext());
-    org.totschnig.myexpenses.model.Account.buildProjection();
   }
 
   private void updateAllWidgets() {

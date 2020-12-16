@@ -28,8 +28,8 @@ class MyExpensesViewModel(application: Application) : ContentResolvingAndroidVie
     init {
         (application as MyApplication).appComponent.inject(this)
         featureManager.registerCallback(object : Callback {
-            override fun onAvailable(maybePartial: Boolean) {
-                featureState.postValue(Pair(if (maybePartial) FeatureState.PARTIAL else FeatureState.AVAILABLE, null))
+            override fun onFeatureAvailable() {
+                featureState.postValue(Pair(FeatureState.AVAILABLE, null))
             }
 
             override fun onAsyncStartedFeature(feature: String) {
@@ -50,7 +50,7 @@ class MyExpensesViewModel(application: Application) : ContentResolvingAndroidVie
     lateinit var prefHandler: PrefHandler
 
     enum class FeatureState {
-        LOADING, AVAILABLE, ERROR, PARTIAL;
+        LOADING, AVAILABLE, ERROR;
     }
 
     private val featureState = MutableLiveData<Pair<FeatureState, String?>>()

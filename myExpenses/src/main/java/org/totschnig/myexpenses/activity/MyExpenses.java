@@ -378,14 +378,13 @@ public class MyExpenses extends BaseMyExpenses implements
           break;
         case AVAILABLE:
           showSnackbar(getString(R.string.feature_downloaded, getString(R.string.title_scan_receipt_feature)));
-          break;
-        case ERROR:
-          showSnackbar(featureState.getSecond());
-          break;
-        case PARTIAL:
+          //after the dynamic feature module has been installed, we need to check if data needed by the module (e.g. Tesseract) has been downloaded
           if (!viewModel.isOcrAvailable(this)) {
             viewModel.requestOcrFeature(this);
           }
+          break;
+        case ERROR:
+          showSnackbar(featureState.getSecond());
           break;
       }
     });
