@@ -152,8 +152,13 @@ public class Utils {
 
   public static List<Map<String, String>> getProjectDependencies(Context context) {
     List<Map<String, String>> result = new ArrayList<>();
-    XmlPullParser xpp = context.getResources().getXml(R.xml.project_dependencies);
-    int eventType = 0;
+    addProjectDependencies(result, context.getResources().getXml(R.xml.project_dependencies));
+    addProjectDependencies(result, context.getResources().getXml(R.xml.additional_dependencies));
+    return result;
+  }
+
+  private static void addProjectDependencies(List<Map<String, String>> result, XmlPullParser xpp) {
+    int eventType;
     try {
       eventType = xpp.getEventType();
       Map<String, String> project = null;
@@ -175,15 +180,6 @@ public class Utils {
       }
     } catch (Exception e) {
       Timber.e(e);
-    }
-    return result;
-  }
-
-  public enum Feature {
-    ;
-
-    public boolean isEnabled() {
-      return true;
     }
   }
 

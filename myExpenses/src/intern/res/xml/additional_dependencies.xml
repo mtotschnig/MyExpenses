@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<credits>
+    <project>
+        <name>Catalano-Framework</name>
+        <extra_info>BradleyLocalThreshold</extra_info>
+        <url>https://github.com/DiegoCatalano/Catalano-Framework</url>
+        <licence>LGPL</licence>
+    </project>
+    <project>
+        <name>Tesseract4Android</name>
+        <url>https://github.com/adaptech-cz/Tesseract4Android/issues</url>
+        <licence>Apache License, Version 2.0</licence>
+    </project>
+    <project>
+        <name>Ml Kit</name>
+        <url>https://developers.google.com/ml-kit</url>
+        <licence>https://developers.google.com/ml-kit/terms</licence>
+    </project>
+</credits>
