@@ -223,6 +223,7 @@
     <string name="no_exportable_expenses">No existen transacción que no hayan sido exportadas.</string>
     <string name="no_filemanager_installed">No hay instalado ningún administrador de archivos</string>
     <string name="no_calendar_app_installed">No se ha encontrado una aplicación para editar evento en el calendario.</string>
+    <string name="image_capture_not_installed">No se ha encontrado una aplicación para realizar una captura.</string>
     <string name="no_mapped_transactions">Ninguna transacción se ha asignado a las categorías durante este período.</string>
     <string name="no_methods">No hay métodos de pago.</string>
     <string name="no_parties">No hay grupos.</string>
@@ -953,5 +954,7 @@
     <string name="pref_clone_with_current_date_title">Fecha de las transacciones clonadas</string>
     <string name="default_action">Acción por defecto</string>
     <string name="template_default_action_without_amount_hint">La plantilla sin importe debe guardarse con la acción predeterminada \"Editar\".</string>
+    <string name="content_description_edit_plan">Editar planificación en la aplicación del calendario.</string>
+    <string name="reset_equivalent_amounts_success">Se han reiniciado las cantidades equivalentes</string>
     <string name="menu_save_and_new_content_description">Guardar los datos, dejando abierto el formulario para crear una nueva transacción con los mismos datos.</string>
 </resources>

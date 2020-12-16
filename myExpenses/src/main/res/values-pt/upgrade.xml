@@ -15,12 +15,67 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_320">
+        <item>As imagens podem ser aparadas.</item>
+    </string-array>
     <string-array name="whats_new_318">
         <item>A ação padrão do clique pode ser definida por modelo.</item>
+    </string-array>
+    <string-array name="whats_new_317">
+        <item>Os modelos podem ser carregados da tela de transação.</item>
+    </string-array>
+    <string-array name="whats_new_316">
+        <item>O botão Salvar na tela de transação está mais destacado.</item>
+        <item>Manter pressionado o botão de ação flutuante abre um menu que permite preparar o formulário para transferência, divisão de transação ou receita.</item>
+    </string-array>
+    <string name="whats_new_315_dark_theme_q">Vinculação do tema escuro  ao padrão do sistema.</string>
+    <string-array name="whats_new_313">
+        <item>Gerenciamento aprimorado de transações recorrentes.</item>
+        <item>Tradução  para canarim.</item>
+    </string-array>
+    <string-array name="whats_new_312">
+        <item>Formato de data personalizado.</item>
+        <item>Exportação das etiquetas para o CSV.</item>
+        <item>Memorização do estado recolhido de grupos na lista de transações.</item>
+    </string-array>
+    <string-array name="whats_new_311">
+        <item>A lista de parceiros (pagadores e beneficiários) está pesquisável.</item>
+    </string-array>
+    <string-array name="whats_new_310">
+        <item>As transações podem ser mapeadas para várias etiquetas.</item>
+    </string-array>
+    <string-array name="whats_new_308">
+        <item>Múltiplas contas agora podem ser exportadas para um único arquivo.</item>
+        <item>Os metadados da conta agora são sincronizados.</item>
+    </string-array>
+    <string-array name="whats_new_307">
+        <item>Edição em massa.</item>
     </string-array>
     <string-array name="whats_new_306">
         <item>Orçamento 2.0</item>
     </string-array>
+    <string-array name="whats_new_305">
+        <item>Nova implementação da sincronização via Dropbox e Drive.</item>
+    </string-array>
+    <string-array name="whats_new_304">
+        <item>Obtenção de taxas de câmbio.</item>
+    </string-array>
+    <string-array name="whats_new_303">
+        <item>Tradução para tâmil</item>
+        <item>Botão Sincronizar agora no menu principal.</item>
+        <item>A sincronização imediata após alterações locais pode ser desativada.</item>
+    </string-array>
+    <string-array name="whats_new_302">
+        <item>Ícones para categorias</item>
+    </string-array>
+    <string-array name="whats_new_301">
+        <item>As contas podem ser encerradas e/ou ocultadas.</item>
+    </string-array>
+    <string-array name="whats_new_300">
+        <item>Tradução para ucraniano.</item>
+        <item>Exportação de CSV: o delimitador agora é configurável.</item>
+    </string-array>
+    <string name="ui_refinement">Refinamento da interface do usuário.</string>
     <string name="bug_fixes">Correções de erros</string>
     <string name="performance_enhancement">Melhoria de performance</string>
     <string name="stability_improvements">Melhorias de estabilidade</string>

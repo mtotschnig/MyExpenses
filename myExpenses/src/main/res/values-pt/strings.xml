@@ -59,7 +59,7 @@
     <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
     <string name="contrib_key_requires">Necessita de %1$s.</string>
     <string name="currency">Moeda</string>
-    <string name="current_balance">Balanço atual</string>
+    <string name="current_balance">Saldo atual</string>
     <string name="date">Data</string>
     <string name="date_format">Formato da data</string>
     <string name="date_format_illegal">Formato de data ilegal</string>
@@ -72,8 +72,8 @@
     <string name="dialog_confirm_discard_new_transaction">Descartar a nova transação?</string>
     <string name="dialog_confirm_discard_new_template">Descartar o novo modelo?</string>
     <string name="dialog_confirm_discard_new_account">Descartar a nova conta?</string>
-    <string name="dialog_confirm_discard_new_method">Descartar o novo método de pagamento?</string>
-    <string name="dialog_command_disabled_balance">Nenhuma transação apurada para se reconciliar.</string>
+    <string name="dialog_confirm_discard_new_method">Descartar a nova forma de pagamento?</string>
+    <string name="dialog_command_disabled_balance">Não existe nenhuma transação compensada para ser reconciliada.</string>
     <string name="dialog_command_disabled_insert_transfer">As transferências de transações requerem uma segunda conta.</string>
     <string name="dialog_command_disabled_reset_account">Nenhuma transação para exportar.</string>
     <string name="dialog_command_disabled_distribution">Nenhuma transação foi mapeada para categorias nesta conta.</string>
@@ -108,7 +108,7 @@
     <string name="dialog_title_attention">Atenção</string>
     <string name="dialog_title_information">Informação</string>
     <!-- %1$s is replace with account label -->
-    <string name="dialog_title_balance_account">Balancear %1$s</string>
+    <string name="dialog_title_balance_account">Balanço de %1$s</string>
     <string name="dialog_title_contrib_feature">Recurso premium</string>
     <plurals name="dialog_title_warning_delete_account">
         <item quantity="one">Excluir a conta?</item>
@@ -143,7 +143,7 @@
     <string name="help_heading_whats_new">Novidades</string>
     <string name="important_upgrade_information_heading">Informações importantes</string>
     <string name="import_select_transactions">Transações</string>
-    <string name="income">Renda</string>
+    <string name="income">Receita</string>
     <string name="invalid_number_format">Formato decimal não reconhecido pela sua localidade. Por favor, use %1$s</string>
     <string name="label">Rótulo</string>
     <string name="licence_validation_failure">Não foi possível validar a chave da licença.</string>
@@ -155,7 +155,7 @@
     <string name="menu_back">Voltar</string>
     <string name="menu_backup">Backup</string>
     <!-- Balance: compare cleared balance in app with balance on statement received from bank -->
-    <string name="menu_balance">Balancear a conta</string>
+    <string name="menu_balance">Fazer o balanço da conta</string>
     <!-- Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction -->
     <string name="menu_cancel_plan_instance">Cancelar</string>
     <string name="menu_clone_transaction">Clonar</string>
@@ -164,7 +164,7 @@
     <string name="menu_create_instance_edit">Aplicar e editar</string>
     <string name="menu_create_instance_save">Aplicar e salvar</string>
     <string name="menu_create_main_cat">Nova categoria principal</string>
-    <string name="menu_create_method">Novo método de pagamento</string>
+    <string name="menu_create_method">Nova forma de pagamento</string>
     <string name="menu_create_party">Novo parceiro</string>
     <string name="menu_create_split">Nova divisão</string>
     <string name="menu_create_split_part_category">Nova divisão de categoria</string>
@@ -181,7 +181,7 @@
     <string name="menu_edit">Editar</string>
     <string name="menu_edit_account">Editar conta</string>
     <string name="menu_edit_cat">Editar categoria</string>
-    <string name="menu_edit_method">Editar método de pagamento</string>
+    <string name="menu_edit_method">Editar forma de pagamento</string>
     <string name="menu_edit_party">Editar parceiro</string>
     <string name="menu_edit_plan_instance">Editar ocorrência de plano único</string>
     <string name="menu_edit_split">Editar divisão</string>
@@ -213,7 +213,7 @@
     <string name="button_label_share_file">Compartilhar</string>
     <string name="button_label_close">Fechar</string>
     <string name="menu_split_transaction">Transformar em transação dividida</string>
-    <string name="method">Método de pagamento</string>
+    <string name="method">Forma de pagamento</string>
     <string name="no_amount_given">Você não digitou nenhuma quantia.</string>
     <string name="no_app_handling_email_available">Nenhum app de e-mail disponível.</string>
     <string name="no_app_handling_ftp_available">Nenhum app de FTP disponível. Instalar o <i>Enviar com FTP</i>?</string>
@@ -386,20 +386,20 @@
     <string name="split_parts_heading">Divisões</string>
     <string name="split_transaction">Transação dividida</string>
     <string name="status">Status</string>
-    <string name="status_cleared">apurada</string>
+    <string name="status_cleared">compensada</string>
     <string name="status_reconciled">reconciliada</string>
     <string name="status_uncreconciled">não reconciliada</string>
     <string name="status_void">vazio</string>
     <string name="subcategory">Subcategoria</string>
     <string name="sum_expenses">Despesas</string>
-    <string name="sum_income">Renda</string>
+    <string name="sum_income">Receita</string>
     <string name="sum_transfer">Transferências</string>
     <!-- platform is replaced with Android or Blackberry -->
     <string name="tell_a_friend_message">Confira o {app_name}, gerenciador de finanças pessoais para {platform}, em {website}</string>
     <string name="thank_you">Obrigado pelo seu apoio!</string>
     <string name="time">Horário</string>
     <string name="title">Título</string>
-    <string name="total_cleared">Total apurado</string>
+    <string name="total_cleared">Total compensado</string>
     <string name="total_reconciled">Total reconciliado</string>
     <string name="transaction">Transação</string>
     <string name="transfer">Transferência</string>
@@ -434,7 +434,7 @@
         <item quantity="other">%d categorias não foram movidas, porque o mesmo rótulo já existe no destino.</item>
     </plurals>
     <string name="warning_delete_reconciled">Excluir transações reconciliadas fará com que seus registros difiram do extrato bancário.</string>
-    <string name="warning_balance_account">Por favor, compare o total apurado com o saldo final em seu extrato bancário. Se você prosseguir, as transações apuradas serão marcadas como reconciliadas.</string>
+    <string name="warning_balance_account">Por favor, compare o total compensado com o saldo final em seu extrato bancário. Se você prosseguir, as transações compensadas serão marcadas como reconciliadas.</string>
     <string name="warning_password_protected">O app é protegido por senha.</string>
     <string name="warning_widget_disabled">Você precisa habilitar este widget nas configurações do app.</string>
     <string name="warning_instantiate_template_from_widget_password_protected">A instanciação rápida de modelos deste widget funciona somente se você permitir a entrada de dados de widgets sem senha nas configurações do app.</string>
@@ -505,7 +505,7 @@
     <string name="menu_delete_picture">Excluir imagem</string>
     <string name="menu_change_picture">Anexar uma imagem diferente</string>
     <string name="menu_distribution_show_pie_char">Exibir gráfico de pizza</string>
-    <string name="menu_distribution_aggreate">Agregar despesas e rendas</string>
+    <string name="menu_distribution_aggreate">Agregar despesas e receitas</string>
     <string name="pref_manage_stale_images_title">Imagens obsoletas</string>
     <string name="pref_manage_stale_images_summary">Gerenciar imagens que sobraram de transações excluídas</string>
     <string name="image_deleted">A Imagem foi excluída</string>
@@ -533,7 +533,7 @@
     <string name="csv_import_delimiter_comma">Vírgula</string>
     <string name="csv_import_delimiter_semicolon">Ponto e vírgula</string>
     <string name="csv_import_delimiter_tab">Tabulação</string>
-    <string name="csv_import_no_mapping_found_for_amount">Por favor, mapeie uma coluna para quantia, renda ou despesa.</string>
+    <string name="csv_import_no_mapping_found_for_amount">Por favor, mapeie uma coluna para quantia, receita ou despesa.</string>
     <string name="menu_show_transactions">Exibir transações</string>
     <string name="pref_custom_decimal_format_title">Formato de número</string>
     <string name="pref_custom_decimal_format_summary">Se você não estiver satisfeito com o formato padrão para sua localidade, adapte-o às suas necessidades. Deixe em branco para restaurar o formato padrão.</string>
@@ -708,7 +708,7 @@
     <string name="warning_device_lock_screen_not_set_up_1">A tela de bloqueio de segurança do dispositivo não foi configurada.</string>
     <string name="warning_device_lock_screen_not_set_up_2">Vá para \'Configurações -&gt; Segurança -&gt; Tela de bloqueio\' para definir uma tela de bloqueio.</string>
     <string name="snackbar_dismiss">Dispensar</string>
-    <string name="menu_history_show_balance">Exibir balanço</string>
+    <string name="menu_history_show_balance">Exibir saldo</string>
     <string name="menu_history_transfers">Incluir transferências</string>
     <string name="menu_history">Histórico</string>
     <!-- A label indicating the color for the sum of expenses -->
@@ -816,7 +816,7 @@
     <string name="pref_account_list_fast_scroll_summary">Habilita a rolagem rápida para a lista de contas. Pode levar a uma exibição incorreta em alguns dispositivos.</string>
     <string name="menu_hide">Ocultar</string>
     <!-- Action of closing an account. A closed account does not allow any modifications on its data. -->
-    <string name="menu_close">Fechar</string>
+    <string name="menu_close">Encerrar</string>
     <!-- Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data. -->
     <string name="menu_reopen">Reabrir</string>
     <!-- Menu entry for opening a list of all hidden accounts. -->
@@ -826,16 +826,17 @@
     <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
     <string name="content_description_encrypted">Criptografado</string>
     <!-- Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data. -->
-    <string name="content_description_closed">Fechada</string>
-    <string name="warning_synced_account_cannot_be_closed">Uma conta vinculada a um servidor de sincronização não pode ser fechada.</string>
+    <string name="content_description_closed">Encerrada</string>
+    <string name="warning_synced_account_cannot_be_closed">Uma conta vinculada a um servidor de sincronização não pode ser encerrada.</string>
     <string name="translated_by">Traduzido por</string>
     <string name="warning_no_account">Pelo menos uma conta deve estar visível e aberta para criar novas transações.</string>
     <string name="content_description_dates_are_linked">A data do pagamento e a data da contabilização são atualizadas juntas.</string>
     <string name="content_description_dates_are_not_linked">A data do pagamento e a data da contabilização não são atualizadas juntas.</string>
     <string name="icon">Ícone</string>
     <string name="pref_debug_title">Depurar</string>
+    <string name="roadmap_vote">Votar no roteiro</string>
     <string name="warning_account_for_transaction_is_closed">Pelo menos uma das transações selecionadas não pode ser editada:</string>
-    <string name="object_sealed">O objeto se refere a uma conta fechada.</string>
+    <string name="object_sealed">O objeto se refere a uma conta encerrada.</string>
     <string name="content_description_download_exchange_rate">Baixar a taxa de câmbio</string>
     <string name="exchange_rate_not_supported">O provedor de taxa de câmbio configurado não fornece a taxa %1$s: %2$s. Você pode tentar selecionar outro provedor nas configurações.</string>
     <string name="pref_category_exchange_rates">Taxas de câmbio</string>
@@ -910,8 +911,50 @@
     <string name="pref_planner_manual_time_title">Horário para transação agendada aplicada manualmente</string>
     <!-- Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction -->
     <string name="pref_planner_manual_time_noon">12h (meio-dia)</string>
+    <!-- Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application) -->
+    <string name="pref_planner_manual_time_current">Horário da aplicação</string>
+    <!-- Title in Settings screen, and title of dynamically loaded feature module -->
+    <string name="title_scan_receipt_feature">Digitalizar recibo</string>
+    <string name="feature_download_requested">O recurso %s foi solicitado na Play Store.</string>
+    <string name="feature_downloaded">O recurso %s foi instalado.</string>
+    <!-- If this mode is active, the action button will open the camera for scanning a receipt  -->
+    <string name="menu_scan_mode">Modo de digitalização</string>
+    <!-- Button that triggers the scan operation -->
+    <string name="button_scan">Digitalizar</string>
+    <string name="pref_ocr_total_indicators_title">Indicadores de valor total</string>
+    <string name="pref_ocr_total_indicators_summary">Uma lista de strings que identifica o valor total de um recibo. Coloque cada valor em uma nova linha. Deixe em branco para restaurar o valor padrão.</string>
+    <string name="pref_ocr_date_formats_title">Formatos de data</string>
+    <string name="pref_ocr_time_formats_title">Formatos de hora</string>
+    <!-- Title for a preference that allows user to decide if all transactions of the current day should be considered as past (future begins at end of day), or if the exact current time divides between past and future  -->
+    <string name="pref_criterion_futur_title">Critério para transações futuras</string>
+    <!-- Option for a preference that allows to decide that all transactions until end of day are considered past transactions -->
+    <string name="pref_criterion_future_end_of_day">Fim do dia</string>
+    <!-- Option for a preference that allows to decide that only transactions before current time are considered past transactions -->
+    <string name="pref_criterion_future_current">Hora atual</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Características</string>
+    <string name="scan_result_no_data">Sem dados</string>
+    <string name="scan_result_multiple_candidates_dialog_title">Foram encontrados vários candidatos. Por favor selecione:</string>
+    <string name="scan_result_no_amount">Não foi encontrada nenhuma quantia</string>
+    <string name="scan_result_no_date">Não foi encontrada nenhuma data</string>
+    <string name="scan_result_no_payee">Não foi encontrado nenhum beneficiário</string>
     <string name="button_download">Baixar</string>
+    <string name="pref_feature_uninstall_title">Solicitar desinstalação de recursos e idiomas</string>
+    <string name="pref_feature_uninstall_summary">A Play Store, eventualmente, tenta remover esses módulos em segundo plano.</string>
+    <string name="pref_feature_uninstall_languages_title">idiomas</string>
+    <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
+    <string name="select_package">Por favor, selecione uma licença.</string>
+    <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
+    <string name="discover_feature_fab_long_press">Toque e segure o botão de ação flutuante para abrir, diretamente, as telas de transferência, divisão de transação ou inclusão de receita.</string>
+    <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
+    <string name="advance_exexcution_in_days">Adiantar execução (em dias)</string>
+    <string name="warning_balance_account_delete">Se você continuar, todas as transações reconciliadas desta conta serão excluídas do banco de dados e você não poderá restaurá-las.</string>
+    <!-- When user opens a template from the transaction form, existing data is discarded. This message appears in a dialgoue to confirm the action -->
+    <string name="confirmation_load_template_discard_data">Os dados presentes no formulário serão descartados.</string>
+    <string name="pref_clone_with_current_date_title">Data das transações clonadas</string>
+    <string name="default_action">Ação padrão</string>
+    <string name="template_default_action_without_amount_hint">O modelo sem quantia deve ser salvo com a ação padrão \'Editar\'</string>
+    <string name="content_description_edit_plan">Editar o plano no aplicativo de agenda</string>
+    <string name="reset_equivalent_amounts_success">Quantias equivalentes foram redefinidas</string>
     <string name="menu_save_and_new_content_description">Salve os dados, deixando o formulário aberto para a criação de uma nova transação com os mesmos dados.</string>
 </resources>
