@@ -1,7 +1,5 @@
 package org.totschnig.myexpenses.activity;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.ContextMenu;
@@ -212,9 +210,7 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
     }
     switch (command) {
       case R.id.ROADMAP_RESULT_COMMAND: {
-        Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setData(Uri.parse(ROADMAP_URL + "issues.html"));
-        startActivity(i);
+        startActionView(ROADMAP_URL + "issues.html");
         return true;
       }
       case R.id.SYNC_COMMAND: {
@@ -281,9 +277,7 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
     ContextAwareRecyclerView.RecyclerContextMenuInfo info = (ContextAwareRecyclerView.RecyclerContextMenuInfo) item.getMenuInfo();
     switch (item.getItemId()) {
       case R.id.ROADMAP_DETAILS_COMMAND: {
-        Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setData(Uri.parse("https://github.com/mtotschnig/MyExpenses/issues/" + info.id));
-        startActivity(i);
+        startActionView("https://github.com/mtotschnig/MyExpenses/issues/" + info.id);
         return true;
       }
       case R.id.ROADMAP_ISSUE_VOTE_COMMAND: {

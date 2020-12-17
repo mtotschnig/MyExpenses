@@ -800,15 +800,11 @@ public class MyExpenses extends BaseMyExpenses implements
         return true;
       }
       case R.id.OCR_DOWNLOAD_COMMAND: {
-        i = new Intent(Intent.ACTION_VIEW);
-        i.setData(Uri.parse("https://github.com/mtotschnig/OCR/releases/download/1/app-release.apk"));
-        startActivity(i);
+        startActionView("https://github.com/mtotschnig/OCR/releases/download/1/app-release.apk");
         return true;
       }
       case R.id.OCR_FAQ_COMMAND: {
-        i = new Intent(Intent.ACTION_VIEW);
-        i.setData(Uri.parse("https://github.com/mtotschnig/MyExpenses/wiki/FAQ:-OCR"));
-        startActivity(i);
+        startActionView("https://github.com/mtotschnig/MyExpenses/wiki/FAQ:-OCR");
         return true;
       }
     }

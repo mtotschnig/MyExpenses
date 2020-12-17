@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -184,4 +185,15 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 offerTessDataDownload()
         })
     }
+
+    fun startActionView(uri: String) {
+        try {
+            startActivity(Intent(Intent.ACTION_VIEW).apply {
+                setData(Uri.parse(uri))
+            })
+        } catch (e: ActivityNotFoundException) {
+            showSnackbar("No activity found for opening $uri", Snackbar.LENGTH_LONG, null)
+        }
+    }
+
 }

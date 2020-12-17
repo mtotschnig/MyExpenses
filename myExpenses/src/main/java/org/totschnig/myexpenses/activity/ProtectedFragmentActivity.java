@@ -56,7 +56,6 @@ import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.service.DailyScheduler;
@@ -436,9 +435,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
         showContribDialog(null, null);
         return true;
       case R.id.WEB_COMMAND:
-        i = new Intent(Intent.ACTION_VIEW);
-        i.setData(Uri.parse(getString(R.string.website)));
-        startActivity(i);
+        startActionView(getString(R.string.website));
         return true;
       case R.id.HELP_COMMAND:
         doHelp((String) tag);
