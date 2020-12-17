@@ -18,6 +18,7 @@ import org.totschnig.myexpenses.preference.LocalizedFormatEditTextPreference.OnV
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import java.util.*
 import javax.inject.Inject
@@ -58,6 +59,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             }
 
             override fun onError(throwable: Throwable) {
+                CrashHandler.report(throwable)
                 throwable.message?.let {
                     activity().showSnackbar(it)
                 }

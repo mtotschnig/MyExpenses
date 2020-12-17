@@ -64,9 +64,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        ocrViewModel = ViewModelProvider(this).get(OcrViewModel::class.java)
         super.onCreate(savedInstanceState)
         tracker.init(this)
-        ocrViewModel = ViewModelProvider(this).get(OcrViewModel::class.java)
     }
 
     override fun onResume() {
