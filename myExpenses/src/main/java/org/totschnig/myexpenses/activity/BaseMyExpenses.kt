@@ -14,6 +14,8 @@ import eltos.simpledialogfragment.form.Hint
 import eltos.simpledialogfragment.form.SimpleFormDialog
 import eltos.simpledialogfragment.form.Spinner
 import icepick.State
+import org.threeten.bp.LocalDate
+import org.threeten.bp.LocalTime
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit.Companion.KEY_OCR_RESULT
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
@@ -53,6 +55,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
+    private fun displayDateCanditate(pair: Pair<LocalDate, LocalTime?>) =
+            (pair.second?.let { pair.first.atTime(pair.second) } ?: pair.second).toString()
+
     override fun processOcrResult(result: Result<OcrResult>) {
         result.onSuccess {
             if (it.needsDisambiguation()) {
@@ -65,24 +70,30 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         })
                         .title(getString(R.string.scan_result_multiple_candidates_dialog_title))
                         .fields(
-                                if (it.amountCandidates.isEmpty()) Hint.plain(getString(R.string.scan_result_no_amount)) else
-                                    Spinner.plain(KEY_AMOUNT)
+                                when (it.amountCandidates.size) {
+                                    0 -> Hint.plain(getString(R.string.scan_result_no_amount))
+                                    1 -> Hint.plain("%s: %s".format(getString(R.string.amount), it.amountCandidates[0]))
+                                    else -> Spinner.plain(KEY_AMOUNT)
                                             .placeholder(R.string.amount)
                                             .items(*it.amountCandidates.toTypedArray())
-                                            .preset(0),
-                                if (it.dateCandidates.isEmpty()) Hint.plain(getString(R.string.scan_result_no_date)) else
-                                    Spinner.plain(KEY_DATE)
+                                            .preset(0)
+                                },
+                                when (it.dateCandidates.size) {
+                                    0 -> Hint.plain(getString(R.string.scan_result_no_date))
+                                    1 -> Hint.plain("%s: %s".format(getString(R.string.date), displayDateCanditate(it.dateCandidates[0])))
+                                    else -> Spinner.plain(KEY_DATE)
                                             .placeholder(R.string.date)
-                                            .items(*it.dateCandidates.map { pair ->
-                                                (pair.second?.let { pair.first.atTime(pair.second) }
-                                                        ?: pair.second).toString()
-                                            }.toTypedArray())
-                                            .preset(0),
-                                if (it.payeeCandidates.isEmpty()) Hint.plain(getString(R.string.scan_result_no_payee)) else
-                                    Spinner.plain(KEY_PAYEE_NAME)
+                                            .items(*it.dateCandidates.map(this::displayDateCanditate).toTypedArray())
+                                            .preset(0)
+                                },
+                                when (it.payeeCandidates.size) {
+                                    0 -> Hint.plain(getString(R.string.scan_result_no_payee))
+                                    1 -> Hint.plain("%s: %s".format(getString(R.string.payee), it.payeeCandidates[0].name))
+                                    else -> Spinner.plain(KEY_PAYEE_NAME)
                                             .placeholder(R.string.payee)
                                             .items(*it.payeeCandidates.map(Payee::name).toTypedArray())
-                                            .preset(0),
+                                            .preset(0)
+                                }
                         )
                         .show(this, DIALOG_TAG_OCR_DISAMBIGUATE)
             } else {
