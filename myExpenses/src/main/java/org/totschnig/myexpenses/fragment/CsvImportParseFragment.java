@@ -43,7 +43,7 @@ import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
 
-import static org.totschnig.myexpenses.activity.ConstantsKt.IMPORT_FILENAME_REQUESTCODE;
+import static org.totschnig.myexpenses.activity.ConstantsKt.IMPORT_FILENAME_REQUEST_CODE;
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.ASYNC_TAG;
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.PROGRESS_TAG;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
@@ -133,7 +133,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
 
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
-    if (requestCode == IMPORT_FILENAME_REQUESTCODE) {
+    if (requestCode == IMPORT_FILENAME_REQUEST_CODE) {
       if (resultCode == Activity.RESULT_OK && data != null) {
         try {
           setUri(ImportFileResultHandler.handleFilenameRequestResult(this, data));

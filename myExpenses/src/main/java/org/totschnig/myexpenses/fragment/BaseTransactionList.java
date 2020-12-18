@@ -153,11 +153,11 @@ import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.FILTER_CATEGORY_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.FILTER_PAYEE_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.FILTER_TAGS_REQUEST;
-import static org.totschnig.myexpenses.activity.ConstantsKt.MAP_ACCOUNT_RQEUST;
-import static org.totschnig.myexpenses.activity.ConstantsKt.MAP_CATEGORY_RQEUST;
-import static org.totschnig.myexpenses.activity.ConstantsKt.MAP_METHOD_RQEUST;
-import static org.totschnig.myexpenses.activity.ConstantsKt.MAP_PAYEE_RQEUST;
-import static org.totschnig.myexpenses.activity.ConstantsKt.MAP_TAG_RQEUST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.MAP_ACCOUNT_REQUEST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.MAP_CATEGORY_REQUEST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.MAP_METHOD_REQUEST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.MAP_PAYEE_REQUEST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.MAP_TAG_REQUEST;
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.PROGRESS_TAG;
 import static org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter.NULL_ITEM_ID;
 import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_TITLE;
@@ -538,7 +538,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         checkSealed(ArrayUtils.toPrimitive(itemIds), () -> {
           Intent i = new Intent(getActivity(), ManageCategories.class);
           i.setAction(ACTION_SELECT_MAPPING);
-          startActivityForResult(i, MAP_CATEGORY_RQEUST);
+          startActivityForResult(i, MAP_CATEGORY_REQUEST);
         });
         return true;
       }
@@ -547,7 +547,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         checkSealed(ArrayUtils.toPrimitive(itemIds), () -> {
           Intent i = new Intent(getActivity(), ManageTags.class);
           i.setAction(ACTION_SELECT_MAPPING);
-          startActivityForResult(i, MAP_TAG_RQEUST);
+          startActivityForResult(i, MAP_TAG_REQUEST);
         });
         return true;
       }
@@ -556,7 +556,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         checkSealed(ArrayUtils.toPrimitive(itemIds), () -> {
           Intent i = new Intent(getActivity(), ManageParties.class);
           i.setAction(ACTION_SELECT_MAPPING);
-          startActivityForResult(i, MAP_PAYEE_RQEUST);
+          startActivityForResult(i, MAP_PAYEE_REQUEST);
         });
         return true;
       }
@@ -579,7 +579,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
           else if (hasIncome && !hasExpense) type = 1;
           final SelectSingleMethodDialogFragment dialogFragment = SelectSingleMethodDialogFragment.newInstance(
               R.string.menu_remap, R.string.remap_empty_list, accountTypes.toArray(new String[0]), type);
-          dialogFragment.setTargetFragment(this, MAP_METHOD_RQEUST);
+          dialogFragment.setTargetFragment(this, MAP_METHOD_REQUEST);
           dialogFragment.show(getActivity().getSupportFragmentManager(), "REMAP_METHOD");
         });
         return true;
@@ -607,7 +607,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
             excludedIds.addAll(result);
             final SelectSingleAccountDialogFragment dialogFragment = SelectSingleAccountDialogFragment.newInstance(
                 R.string.menu_remap, R.string.remap_empty_list, excludedIds);
-            dialogFragment.setTargetFragment(this, MAP_ACCOUNT_RQEUST);
+            dialogFragment.setTargetFragment(this, MAP_ACCOUNT_REQUEST);
             dialogFragment.show(getActivity().getSupportFragmentManager(), "REMAP_ACCOUNT");
           });
         });
@@ -1219,6 +1219,8 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     configureMenuInternal(menu, hasSplit, isVoidAtPosition(info.position), !hasSplit, isTransferAtPosition(info.position), 1);
   }
 
+  protected abstract void configureMenuInternal(Menu menu, boolean hasSplit, boolean voidAtPosition, boolean hasNotSplit, boolean transferAtPosition, int count);
+
   @Override
   protected void configureMenu11(Menu menu, int count, AbsListView lv) {
     super.configureMenu11(menu, count, lv);
@@ -1286,18 +1288,6 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
       }
     }
     return false;
-  }
-
-  private void configureMenuInternal(Menu menu, boolean hasSplit, boolean hasVoid, boolean hasNotSplit, boolean hasTransfer, int count) {
-    menu.findItem(R.id.CREATE_TEMPLATE_COMMAND).setVisible(count == 1);
-    menu.findItem(R.id.SPLIT_TRANSACTION_COMMAND).setVisible(!hasSplit && !hasVoid);
-    menu.findItem(R.id.UNGROUP_SPLIT_COMMAND).setVisible(!hasNotSplit && !hasVoid);
-    menu.findItem(R.id.UNDELETE_COMMAND).setVisible(hasVoid);
-    menu.findItem(R.id.EDIT_COMMAND).setVisible(count == 1 && !hasVoid);
-    menu.findItem(R.id.REMAP_ACCOUNT_COMMAND).setVisible(((MyExpenses) getActivity()).getAccountCount() > 1);
-    menu.findItem(R.id.REMAP_PAYEE_COMMAND).setVisible(!hasTransfer);
-    menu.findItem(R.id.REMAP_CATEGORY_COMMAND).setVisible(!hasTransfer && !hasSplit);
-    menu.findItem(R.id.REMAP_METHOD_COMMAND).setVisible(!hasTransfer);
   }
 
   @SuppressLint("NewApi")
@@ -1575,32 +1565,32 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         String label = Stream.of(tagList).map(Tag::getLabel).collect(Collectors.joining(", "));
         addFilterCriteria(new TagCriteria(label, tagIds));
       }
-    } else if (requestCode == MAP_CATEGORY_RQEUST || requestCode == MAP_PAYEE_RQEUST
-        || requestCode == MAP_METHOD_RQEUST || requestCode == MAP_ACCOUNT_RQEUST) {
+    } else if (requestCode == MAP_CATEGORY_REQUEST || requestCode == MAP_PAYEE_REQUEST
+        || requestCode == MAP_METHOD_REQUEST || requestCode == MAP_ACCOUNT_REQUEST) {
       Bundle b = new Bundle();
       int columnStringResId, confirmationStringResId;
       String column;
       String intentKey = KEY_ROWID;
       switch (requestCode) {
-        case MAP_CATEGORY_RQEUST: {
+        case MAP_CATEGORY_REQUEST: {
           column = intentKey = KEY_CATID;
           columnStringResId = R.string.category;
           confirmationStringResId = R.string.remap_category;
           break;
         }
-        case MAP_PAYEE_RQEUST: {
+        case MAP_PAYEE_REQUEST: {
           column = intentKey = KEY_PAYEEID;
           columnStringResId = R.string.payer_or_payee;
           confirmationStringResId = R.string.remap_payee;
           break;
         }
-        case MAP_METHOD_RQEUST: {
+        case MAP_METHOD_REQUEST: {
           column = KEY_METHODID;
           columnStringResId = R.string.method;
           confirmationStringResId = R.string.remap_method;
           break;
         }
-        case MAP_ACCOUNT_RQEUST: {
+        case MAP_ACCOUNT_REQUEST: {
           column = KEY_ACCOUNTID;
           columnStringResId = R.string.account;
           confirmationStringResId = R.string.remap_account;
@@ -1619,12 +1609,8 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
       b.putInt(ConfirmationDialogFragment.KEY_CHECKBOX_LABEL, R.string.menu_clone_transaction);
       b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.REMAP_COMMAND);
       ConfirmationDialogFragment.newInstance(b).show(getParentFragmentManager(), REMAP_DIALOG);
-    } else if (requestCode == MAP_TAG_RQEUST) {
-      handleTagResult(intent);
     }
   }
-
-  protected abstract void handleTagResult(Intent intent);
 
   @Override
   public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
