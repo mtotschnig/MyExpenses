@@ -909,4 +909,4 @@
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">ವೈಶಿಷ್ಟ್ಯಗಳು</string>
     <string name="menu_save_and_new_content_description">ಡೇಟಾವನ್ನು ಉಳಿಸಿ, ಅದೇ ಡೇಟಾದೊಂದಿಗೆ ಹೊಸ ವಹಿವಾಟನ್ನು ರಚಿಸಲು ಫಾರ್ಮ್ ಅನ್ನು ಮುಕ್ತವಾಗಿ ಬಿಡಿ.</string>
-</resources>
+    </resources>

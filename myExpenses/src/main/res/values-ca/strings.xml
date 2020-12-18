@@ -341,4 +341,4 @@
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Característiques</string>
     <string name="menu_save_and_new_content_description">Desa les dades, deixa la pantalla oberta per a una nova operació amb les mateixes dades.</string>
-</resources>
+    </resources>

@@ -954,7 +954,18 @@
     <string name="pref_clone_with_current_date_title">Дата на клонирани транзакции</string>
     <string name="default_action">Действие по подразбиране</string>
     <string name="template_default_action_without_amount_hint">Шаблон без сума трябва да бъде запазен с действие по подразбиране „Редактиране“</string>
+    <string name="plan_automatic_without_amount_hint">План без сума не трябва да се записва при автоматично изпълнение на плана</string>
     <string name="content_description_edit_plan">Редактиране на план в приложението календар</string>
     <string name="reset_equivalent_amounts_success">Еквивалентните суми са нулирани</string>
     <string name="menu_save_and_new_content_description">Запазва данните, но оставя отворена бланката - за създаване на нова транзакция със същите данни.</string>
+    <!-- Title of a preference where user can select between Ml Kit and Tesseract as Engine for Optical character recognition -->
+    <string name="pref_ocr_engine_title">Софтуер за разпознаване на текст</string>
+    <!-- Title of a preference where user can select language for text recognition with Tesseract -->
+    <string name="pref_tesseract_language_title">Език за Tesseract</string>
+    <!-- %s is replaced with language -->
+    <string name="tesseract_download_confirmation">Искате ли да изтеглите данни за разпознаване на текст за %s език?</string>
+    <!-- %s is replaced with language -->
+    <string name="download_completed">Изтеглянето на данните за %s завърши.</string>
+    <!-- %s is replaced with information on the engine or application used for running text recognition -->
+    <string name="ocr_recognition_info">Разпознаваме текст с %s ...</string>
 </resources>

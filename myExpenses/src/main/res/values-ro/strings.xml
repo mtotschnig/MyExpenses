@@ -529,4 +529,4 @@
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Funcţionalităţi</string>
     <string name="menu_save_and_new_content_description">Salvaţi datele, lăsaţi formularul deschis pentru a crea o nouă tranzacţie cu aceleaşi date.</string>
-</resources>
+    </resources>

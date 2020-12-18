@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_321">
+        <item>Разпознаването на текст вече работи на повече езици.</item>
+    </string-array>
     <string-array name="whats_new_320">
         <item>Изображенията могат да бъдат изрязани.</item>
     </string-array>

@@ -957,4 +957,4 @@
     <string name="content_description_edit_plan">Modifica il piano nell\'applicazione del calendario</string>
     <string name="reset_equivalent_amounts_success">Gli importi equivalenti sono stati ripristinati</string>
     <string name="menu_save_and_new_content_description">Salva i dati e lascia il modulo aperto per la creazione di una nuova transazione con gli stessi dati.</string>
-</resources>
+    </resources>

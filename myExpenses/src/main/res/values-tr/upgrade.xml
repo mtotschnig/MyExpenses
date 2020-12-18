@@ -15,6 +15,12 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_321">
+        <item>Metin tanıma artık daha fazla lisan ile çalışıyor.</item>
+    </string-array>
+    <string-array name="whats_new_320">
+        <item>Görüntüler kırpılabilir.</item>
+    </string-array>
     <string-array name="whats_new_318">
         <item>Varsayılan tıklama eylemi şablon başına tanımlanabilir.</item>
     </string-array>

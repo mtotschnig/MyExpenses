@@ -223,6 +223,7 @@
     <string name="no_exportable_expenses">Henüz dışa aktarılmamış hiçbir muamele yok.</string>
     <string name="no_filemanager_installed">Hiçbir dosya yöneticisi kurulu değil</string>
     <string name="no_calendar_app_installed">Takvim olayını düzenlemek için hiçbir uygulama bulunamadı.</string>
+    <string name="image_capture_not_installed">Resim çekmek için hiçbir uygulama bulunamadı.</string>
     <string name="no_mapped_transactions">Bu zaman aralığında hiçbir muamele kategoriler ile ilişkilendirilmemiştir.</string>
     <string name="no_methods">Hiçbir ödeme metodu yok.</string>
     <string name="no_parties">Bölüm yok.</string>
@@ -953,5 +954,18 @@
     <string name="pref_clone_with_current_date_title">Klonlanmış muamelelerin tarihi</string>
     <string name="default_action">Varsayılan eylem</string>
     <string name="template_default_action_without_amount_hint">Meblağı olmayan şablon \'Düzenleme\' varsayılan eylemi ile kaydedilmelidir.</string>
+    <string name="plan_automatic_without_amount_hint">Meblağsız planlama otomatik planlama uygulamasıyla kaydedilmemelidir</string>
+    <string name="content_description_edit_plan">Planlamayı takvim uygulamasında düzenle</string>
+    <string name="reset_equivalent_amounts_success">Eşdeğer meblağlar sıfırlandı</string>
     <string name="menu_save_and_new_content_description">Verileri kaydet ve aynı verilerle yeni bir muamele oluşturmak için formu açık bırak.</string>
+    <!-- Title of a preference where user can select between Ml Kit and Tesseract as Engine for Optical character recognition -->
+    <string name="pref_ocr_engine_title">Metin tanıma motoru</string>
+    <!-- Title of a preference where user can select language for text recognition with Tesseract -->
+    <string name="pref_tesseract_language_title">Tesseract için lisan</string>
+    <!-- %s is replaced with language -->
+    <string name="tesseract_download_confirmation">%s için metin tanıma verilerini indirmek istiyor musunuz?</string>
+    <!-- %s is replaced with language -->
+    <string name="download_completed">İndirme (%s) tamamlandı.</string>
+    <!-- %s is replaced with information on the engine or application used for running text recognition -->
+    <string name="ocr_recognition_info">Metin tanıma %s ile çalıştırılıyor</string>
 </resources>

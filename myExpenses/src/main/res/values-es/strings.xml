@@ -957,4 +957,4 @@
     <string name="content_description_edit_plan">Editar planificación en la aplicación del calendario.</string>
     <string name="reset_equivalent_amounts_success">Se han reiniciado las cantidades equivalentes</string>
     <string name="menu_save_and_new_content_description">Guardar los datos, dejando abierto el formulario para crear una nueva transacción con los mismos datos.</string>
-</resources>
+    </resources>

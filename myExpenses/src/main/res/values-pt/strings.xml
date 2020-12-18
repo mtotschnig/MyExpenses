@@ -957,4 +957,4 @@
     <string name="content_description_edit_plan">Editar o plano no aplicativo de agenda</string>
     <string name="reset_equivalent_amounts_success">Quantias equivalentes foram redefinidas</string>
     <string name="menu_save_and_new_content_description">Salve os dados, deixando o formulário aberto para a criação de uma nova transação com os mesmos dados.</string>
-</resources>
+    </resources>

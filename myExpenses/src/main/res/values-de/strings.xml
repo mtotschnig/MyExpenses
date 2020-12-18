@@ -954,7 +954,18 @@
     <string name="pref_clone_with_current_date_title">Datum der geklonten Buchungen</string>
     <string name="default_action">Standardaktion</string>
     <string name="template_default_action_without_amount_hint">Vorlage ohne Betrag sollte mit der Standardaktion \'Bearbeiten\' gespeichert werden.</string>
+    <string name="plan_automatic_without_amount_hint">Plan ohne Betrag sollte nicht mit automatischer Ausführung gespeichert werden</string>
     <string name="content_description_edit_plan">Plan in Kalender-App bearbeiten</string>
     <string name="reset_equivalent_amounts_success">Gleichwertige Beträge wurden zurückgesetzt</string>
     <string name="menu_save_and_new_content_description">Abspeichern, und das Formular für das Erfassen einer neuen  Buchung mit denselben Daten offen lassen</string>
+    <!-- Title of a preference where user can select between Ml Kit and Tesseract as Engine for Optical character recognition -->
+    <string name="pref_ocr_engine_title">Engine für Texterkennung</string>
+    <!-- Title of a preference where user can select language for text recognition with Tesseract -->
+    <string name="pref_tesseract_language_title">Sprache für Tesseract</string>
+    <!-- %s is replaced with language -->
+    <string name="tesseract_download_confirmation">Möchten Sie Texterkennungsdaten für %s herunterladen?</string>
+    <!-- %s is replaced with language -->
+    <string name="download_completed">Der Download (%s) ist abgeschlossen.</string>
+    <!-- %s is replaced with information on the engine or application used for running text recognition -->
+    <string name="ocr_recognition_info">Texterkennung wird mit %sausgeführt</string>
 </resources>
