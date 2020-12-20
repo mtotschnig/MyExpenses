@@ -476,7 +476,7 @@
     <string name="search_date">Pesquisar data</string>
     <string name="search_status">Pesquisar status</string>
     <string name="search_payee">Pesquisar beneficiário/pagador</string>
-    <string name="search_method">Pesquisar método</string>
+    <string name="search_method">Pesquisar formas de pagamento</string>
     <string name="search_tag">Pesquisar pela etiqueta</string>
     <string name="and">e</string>
     <string name="between_and">entre %1$s e %2$s</string>
@@ -786,7 +786,7 @@
     <string name="sub_budget_exceeded_error_2">Aumente o montante alocado à categoria principal ou remova dinheiro de outras subcategorias.</string>
     <string name="sub_budget_under_allocated_error">%s já foi alocado para subcategorias. Ao menos que você remova dinheiro delas, você deve, pelo menos, alocar essa quantia para a categoria principal.</string>
     <!-- Description for button that allows to clear the selected method -->
-    <string name="content_description_clear_method">Limpar o método</string>
+    <string name="content_description_clear_method">Limpar a forma de pagamento</string>
     <!-- Description for button that allows to clear the selected category -->
     <string name="content_description_clear_category">Limpar a categoria</string>
     <string name="currency_code">Código</string>
@@ -857,7 +857,7 @@
     <string name="menu_budget_allocated_only">Exibir apenas categorias com alocação</string>
     <string name="budget_filter_all_categories">Todas as categorias</string>
     <string name="budget_filter_all_parties">Todos os parceiros</string>
-    <string name="budget_filter_all_methods">Todos os métodos</string>
+    <string name="budget_filter_all_methods">Todos as formas</string>
     <string name="budget_filter_all_states">Todos os status</string>
     <string name="budget_filter_all_tags">Todas as etiquetas</string>
     <string name="budget_form_label_filter">Filtrar</string>
@@ -874,7 +874,7 @@
     <string name="dialog_title_confirm_remap">Alterar mapeamento (%s)?</string>
     <string name="remap_category">Todas as transações selecionadas serão mapeadas para a categoria %s.</string>
     <string name="remap_payee">Todas as transações selecionadas serão mapeadas para pagador/beneficiário %s.</string>
-    <string name="remap_method">Todas as transações selecionadas serão mapeadas para o método %s.</string>
+    <string name="remap_method">Todas as transações selecionadas serão mapeadas para a forma de pagamento %s.</string>
     <string name="remap_account">Todas as transações selecionadas serão mapeadas para a conta %s.</string>
     <string name="remapping_result">As transações selecionadas foram remapeadas.</string>
     <string name="clone_and_remap_result">As transações selecionadas foram clonadas e remapeadas.</string>

@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_321">
+        <item>זיהוי טקסט פועל כעת עם יותר שפות.</item>
+    </string-array>
     <string-array name="whats_new_320">
         <item>ניתן לחתוך תמונות.</item>
     </string-array>

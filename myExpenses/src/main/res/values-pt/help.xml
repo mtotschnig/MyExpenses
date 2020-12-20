@@ -43,6 +43,7 @@
   <string name="menu_back_help_text">Muda para o grupo anterior. Também pode ser feito deslizando o dedo da esquerda para a direita na tela.</string>
   <string name="menu_forward_help_text">Muda para o próximo grupo. Também pode ser feito deslizando o dedo da direita para a esquerda na tela.</string>
   <string name="cab_ManageCategories_create_sub_cat_help_text">Abre o campo para especificar o título de uma nova subcategoria abaixo da categoria selecionada.</string>
+  <string name="cab_ManageCategories_move_help_text">As subcategorias podem ser movidas para outra categoria principal ou podem ser transformadas em categorias principais. As categorias principais que não tenham subcategorias podem ser transformadas em subcategorias de outra categoria principal.</string>
   <string name="cab_ManageCategories_select_help_text">Mapeia a categoria selecionada para a transação e retorna para o formulário de transação.</string>
   <string name="menu_categories_setup_default_help_text">Um conjunto de categorias padrão será importado.</string>
   <string name="menu_categories_export_help_text">As categorias serão exportadas para o arquivo QIF.</string>
@@ -71,19 +72,31 @@
   <string name="form_category_help_text">Este botão abre a lista de categorias, onde você pode selecionar a categoria que deseja mapear para a transação.</string>
   <string name="form_split_parts_heading_help_text">Use o botão de ação flutuante para inserir quantas divisões forem necessárias. A diferença entre a soma das partes e a transação é exibida na parte inferior da tela. Você só pode salvar a transação dividida quando a quantia da transação for totalmente atribuída.</string>
   <string name="form_ExpenseEdit_splitPartCategory_category_help_text">Selecione uma categoria para esta divisão.</string>
+  <string name="form_exchange_rate_help_text">Você pode especificar a taxa em qualquer uma das direções da transferência. A taxa inversa e a quantia correspondente à parte dependente da taxa de câmbio são calculadas automaticamente.</string>
   <string name="form_title_help_text">Digite um título que identifique o modelo.</string>
+  <string name="form_plan_help_text">Quando você cria um plano para um modelo, ele é adicionado a uma agenda privado gerenciado pelo seu aplicativo de agenda. Você pode definir o plano como um evento único ou com recorrência diária, semanal, mensal ou anual.</string>
   <string name="form_plan_help_text_mode">Um plano pode ser definido como automático ou manual. Quando a ocorrência de um plano automático é efetivada, a transação será criada e você receberá uma notificação. Quando o plano for manual, você também receberá uma notificação, que deixa para você a opção de cancelar, modificar ou aplicar o modelo.</string>
   <string name="menu_save_help_text">Salvar os dados e fechar o formulário.</string>
   <string name="menu_save_and_new_help_text">Se isso estiver marcado, após salvar os dados, o formulário é deixado aberto para a criação de uma nova transação com os mesmos dados.</string>
   <string name="menu_invert_transfer_help_text">Inverta a direção da transferência, trocando o \'De\' e \'Para\' conta.</string>
+  <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">Se as moedas das contas \'De\' e \'Para\' forem diferentes, você deve especificar a quantia somente para uma delas. O outro valor será calculado ao criar ocorrências do modelo.</string>
   <string name="form_goal_or_limit_help_text">Este campo permite especificar uma meta positiva de poupança ou um limite negativo de crédito. Em ambos os casos, na lista de contas, um indicador de progresso mostra a distância entre o saldo atual e a meta ou o limite.</string>
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">Formulário para contas</string>
+  <string name="form_AccountEdit_label_help_text">O rótulo identifica a conta na lista de contas.</string>
+  <string name="form_description_help_text">A descrição tem um caráter apenas informativo.</string>
   <string name="form_AccountEdit_amount_switch_help_text">Use a chave para começar com um saldo inicial negativo.</string>
+  <string name="form_currency_help_text">Selecione uma moeda na lista de todas as moedas atuais.</string>
+  <string name="form_AccountEdit_type_help_text">Você pode definir o tipo de conta como dinheiro, banco, ativo, passivo ou cartão de crédito. O tipo determina as formas de pagamento disponíveis que podem ser definidos em Configurações -&gt; Gerenciar -&gt; Formas de pagamento.</string>
   <string name="form_AccountEdit_type_help_text_reconciliation">O recurso de reconciliação está disponível para todas as contas, exceto as de dinheiro. Ele permite definir o status de uma transação como compensada, uma vez que for confirmada, e reconciliar toda a conta com seu extrato bancário através do comando \"Balanço da conta\".</string>
+  <string name="form_color_help_text">Na lista de transações de uma conta, sua cor será usada como a cor principal da interface do usuário.</string>
   <string name="menu_exclude_from_totals_help_text">Se você marcar esta opção, esta conta não será incluída nos agregados por moeda.</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Formulário para formas de pagamento</string>
+  <string name="form_MethodEdit_label_help_text">O rótulo identifica a forma de pagamento quando você mapeia uma transação para ela.</string>
+  <string name="form_MethodEdit_type_help_text">Por meio do tipo da forma de pagamento, você determina se ela é aplicável para despesas (débito), receitas (crédito) ou ambos (neutro).</string>
+  <string name="form_MethodEdit_numbered_help_text">Quando uma forma de pagamento é numerado, as transações mapeadas para ela terão um campo adicional para inserir um número de referência.</string>
+  <string name="form_MethodEdit_account_types_help_text">Selecione os tipos de conta para os quais essa forma de pagamento é aplicável.</string>
   <!--ManageCurrencies-->
   <string name="help_ManageCurrencies_info">Para cada moeda, você pode modificar o número de dígitos de fração usados. Por exemplo, se para o Euro você precisa lidar com 1/10 de um ¢, ou seja, 1/1000 de um Euro, você definiria o número para três. Contas existentes que usam essa moeda, serão alteradas para a nova configuração.</string>
   <!--FolderBrowser title is in keys-->
@@ -98,5 +111,7 @@
   <!--History-->
   <string name="menu_HistoryActivity_history_show_balance_help_text">Alterna a exibição do saldo.</string>
   <!--Budget-->
+  <string name="form_BudgetEdit_filter_help_text">Os orçamentos podem ser filtrados em relação a categorias, parceiros, formas de pagamento ou estados. Apenas as transações correspondentes a esses filtros são levadas em consideração.</string>
+  <string name="cab_remap_help_text">Use os comandos neste submenu, caso deseje alterar a propriedade fornecida (conta, categoria, pagador/beneficiário ou forma de pagamento) para todas as transações selecionadas.</string>
   <!--Tags-->
 </resources>
