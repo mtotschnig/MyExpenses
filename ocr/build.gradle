@@ -43,7 +43,6 @@ dependencies {
     implementation "androidx.core:core-ktx:$ktxVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'com.jakewharton.timber:timber:4.7.1'
-    implementation 'androidx.exifinterface:exifinterface:1.3.2'
     implementation "androidx.appcompat:appcompat:$appcompatVersion"
     implementation "com.squareup.picasso:picasso:$picassoVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$archLifecycleVersion"

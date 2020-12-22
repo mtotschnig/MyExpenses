@@ -88,7 +88,7 @@ object Engine : TesseractEngine {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                 Locale.Builder().setLanguage(lang).setScript(script).build().getDisplayName(localeFromContext)
             } else {
-                "%s (%s)".format(Locale(lang).getDisplayName(localeFromContext), script)
+                "${Locale(lang).getDisplayName(localeFromContext)} ($script)"
             }
         } else
             Locale(lang).getDisplayName(localeFromContext)
@@ -110,13 +110,13 @@ object Engine : TesseractEngine {
         }
     }
 
-    private fun filePath(language: String) = "${TESSERACT_DOWNLOAD_FOLDER}tessdata/%s.traineddata".format(language)
+    private fun filePath(language: String) = "${TESSERACT_DOWNLOAD_FOLDER}tessdata/${language}.traineddata"
 
-    private fun fileName(language: String) = "%s.traineddata".format(language)
+    private fun fileName(language: String) = "${language}.traineddata"
 
     override fun downloadTessData(context: Context, prefHandler: PrefHandler): String {
         val language = language(context, prefHandler)
-        val uri = Uri.parse("https://github.com/tesseract-ocr/tessdata_fast/raw/4.0.0/%s".format(fileName(language)))
+        val uri = Uri.parse("https://github.com/tesseract-ocr/tessdata_fast/raw/4.0.0/${fileName(language)}")
         ContextCompat.getSystemService(context, DownloadManager::class.java)?.enqueue(DownloadManager.Request(uri)
                 .setTitle(context.getString(R.string.pref_tesseract_language_title))
                 .setDescription(language)
@@ -136,8 +136,14 @@ object Engine : TesseractEngine {
                     setVariable("tessedit_do_invert", TessBaseAPI.VAR_FALSE)
                     setVariable("load_system_dawg", TessBaseAPI.VAR_FALSE)
                     setVariable("load_freq_dawg", TessBaseAPI.VAR_FALSE)
+                    setVariable("load_punc_dawg", TessBaseAPI.VAR_FALSE)
+                    setVariable("load_number_dawg", TessBaseAPI.VAR_FALSE)
+                    setVariable("load_unambig_dawg", TessBaseAPI.VAR_FALSE)
+                    setVariable("load_bigram_dawg", TessBaseAPI.VAR_FALSE)
+                    setVariable("load_fixed_length_dawgs", TessBaseAPI.VAR_FALSE)
                     pageSegMode = TessBaseAPI.PageSegMode.PSM_AUTO_OSD
                     var bitmap = with(FastBitmap(file.path)) {
+                        toGrayscale()
                         val g: IApplyInPlace = BradleyLocalThreshold()
                         g.applyInPlace(this)
                         toBitmap()
@@ -173,7 +179,7 @@ object Engine : TesseractEngine {
             }
 
     override fun info(context: Context, prefHandler: PrefHandler): CharSequence {
-        return "Tesseract (%s)".format(language(context, prefHandler))
+        return "Tesseract (${language(context, prefHandler)})"
     }
 
     private fun timing(step: String) {
