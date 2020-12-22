@@ -1,25 +1,23 @@
-version: 2
+version: 2.1
+
+orbs:
+  android: circleci/android@0.2.3
 jobs:
   build:
-    working_directory: ~/code
     docker:
-      - image: circleci/android:api-29
+      - image: circleci/android:api-29-ndk
     environment:
       JVM_OPTS: -Xmx2048m
       GRADLE_OPTS: -Xmx1536m -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.caching=true -Dorg.gradle.configureondemand=true -Dkotlin.compiler.execution.strategy=in-process -Dkotlin.incremental=false
     steps:
       - checkout
-      - restore_cache:
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "myExpenses/build.gradle" }}
+      - android/restore-build-cache
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
-      - save_cache:
-          paths:
-            - ~/.gradle
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "myExpenses/build.gradle" }}
+      - android/save-build-cache
       - run:
-          name: Run Tests
+          name: Lint Test Package
           command: ./gradlew lintConscriptExternRelease testConscriptExternRelease assembleConscriptExternDebugAndroidTest :myExpenses:packageConscriptExternReleaseUniversalApk --no-daemon
       - store_artifacts:
           path: myExpenses/build/reports
