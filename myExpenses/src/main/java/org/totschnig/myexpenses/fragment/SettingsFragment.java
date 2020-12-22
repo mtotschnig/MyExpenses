@@ -370,8 +370,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
         ListPreference homeCurrencyPref = requirePreference(PrefKey.HOME_CURRENCY);
         homeCurrencyPref.setEntries(Stream.of(currencies).map(Currency::toString).toArray(CharSequence[]::new));
         homeCurrencyPref.setEntryValues(Stream.of(currencies).map(Currency::getCode).toArray(CharSequence[]::new));
-        homeCurrencyPref.setSummary(homeCurrencyPref.getEntry());
-
+        homeCurrencyPref.setSummaryProvider(ListPreference.SimpleSummaryProvider.getInstance());
       });
 
       final int translatorsArrayResId = getTranslatorsArrayResId();

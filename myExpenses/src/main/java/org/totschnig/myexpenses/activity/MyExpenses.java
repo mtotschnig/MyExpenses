@@ -799,10 +799,6 @@ public class MyExpenses extends BaseMyExpenses implements
             MANAGE_HIDDEN_FRAGMENT_TAG);
         return true;
       }
-      case R.id.OCR_DOWNLOAD_COMMAND: {
-        startActionView("https://github.com/mtotschnig/OCR/releases/download/1/app-release.apk");
-        return true;
-      }
       case R.id.OCR_FAQ_COMMAND: {
         startActionView("https://github.com/mtotschnig/MyExpenses/wiki/FAQ:-OCR");
         return true;

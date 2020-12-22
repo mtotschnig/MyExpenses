@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.activity
 
+import android.content.ComponentName
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -150,6 +151,24 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         if (DIALOG_TAG_OCR_DISAMBIGUATE == dialogTag && which == OnDialogResultListener.BUTTON_POSITIVE) {
             startEditFromOcrResult(extras.getParcelable<OcrResult>(KEY_OCR_RESULT)!!.selectCandidates(
                     extras.getInt(KEY_AMOUNT), extras.getInt(KEY_DATE), extras.getInt(KEY_PAYEE_NAME)))
+        }
+        return false
+    }
+
+    override fun dispatchCommand(command: Int, tag: Any?): Boolean {
+        if (super.dispatchCommand(command, tag)) {
+            return true
+        }
+        if (command == R.id.OCR_DOWNLOAD_COMMAND) {
+            val intent = Intent(Intent.ACTION_VIEW).apply {
+                setData(Uri.parse("market://details?id=org.totschnig.myexpenses.ocr.tesseract"))
+            }
+            packageManager.queryIntentActivities(intent, 0).find { it.activityInfo.packageName == "org.fdroid.fdroid" }
+                    ?.activityInfo?.let {
+                        intent.setComponent(ComponentName(it.applicationInfo.packageName, it.name))
+                        startActivity(intent)
+                    } ?: run { Toast.makeText(this, "F-Droid not installed", Toast.LENGTH_LONG).show()}
+            return true
         }
         return false
     }

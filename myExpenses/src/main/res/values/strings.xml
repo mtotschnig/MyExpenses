@@ -968,4 +968,5 @@
     <string name="download_completed">Download (%s) has completed.</string>
     <!-- %s is replaced with information on the engine or application used for running text recognition -->
     <string name="ocr_recognition_info">Running text recognition with %s</string>
+    <string name="ocr_download_info">Text recognition capability is provided by an external application.</string>
 </resources>

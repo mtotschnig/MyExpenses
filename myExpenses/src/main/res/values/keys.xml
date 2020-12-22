@@ -256,8 +256,6 @@
     <string name="pref_ocr_key">ocr</string>
     <string name="date_format_unsupported_character">Only Day (d), Month (M), and Year (y) can be used.</string>
     <string name="date_format_specifier_missing">You need to use Day (d), Month (M), and Year (y)</string>
-
-    <string name="ocr_download_info">Text recognition capability is provided by an external application (org.totschnig.ocr). It is licensed under the Apache License 2.0 and based on Google\'s proprietary ML Kit library.</string>
     <string name="pref_ui_theme_default">dark</string>
     <string name="title_mlkit">Mlkit</string>
     <string name="title_tesseract">Tesseract</string>
