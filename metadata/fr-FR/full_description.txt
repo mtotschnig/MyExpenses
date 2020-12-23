@@ -2,7 +2,6 @@ Mes dépenses enregistre vos dépenses et vos revenus, directement sur votre sma
 
 - Jusqu'à cinq comptes avec <b>virements</b> (également entre différentes monnaies)
 - Nombre illimité de <b>modèles</b> et échéancier avec jusqu'à trois échéances pour les opérations <b>périodiques</b>
-- 
 - <b>Export</b> vers QIF et CSV. <b>Import</b> à partir de QIF
 - Les données peuvent être protégées par <b>mot de passe</b> ou par <b>l'écran de verrouillage</b> de l'appareil.
 - <b>Thème</b> (sombre et clair) et <b>taille de police</b> peuvent être personnalisés
@@ -19,7 +18,6 @@ Les fonctions Premium sont déverrouillées en achetant l'une des clés de licen
 - <b>Diagramme circulaire</b>: Visualisez la distribution statistique des opérations par catégorie sur différentes périodes (années, mois, semaines, jours)
 - <b>Opération ventilée</b>: une seule opération peut être divisée en plusieurs parties (catégories et transferts)
 - <b>Imprimer</b> la liste des opérations dans un fichier PDF
-- 
 - <b>Image jointe</b>: Capture par caméra ou sélection dans la galerie
 
 <b>Clé étendue</b>

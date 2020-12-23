@@ -2,7 +2,6 @@ Meine Ausgaben ist Ihr Haushaltsbuch: Verfolgen Sie Ihre Ausgaben und Einnahmen 
 
 - Bis zu fünf Konten mit <b>Umbuchungen</b> (auch zwischen verschiedenen Währungen)
 - Unbegrenzte Anzahl von <b>Vorlagen</b> und bis zu drei Pläne für <b>wiederkehrende</b> Buchungen
-- 
 - <b>Exportieren</b> nach QIF und CSV. <b>Importieren</b> von QIF
 - Daten können durch ein <b>Passwort</b> oder den <b>Sperrbildschirm des Gerätes</b> geschützt werden
 - <b>Stil</b> (dunkel und hell) und <b>Schriftgröße</b> können angepasst werden
@@ -19,7 +18,6 @@ Premium-Funktionen werden durch den Kauf eines der folgenden Lizenzschlüssel fr
 - <b>Kreisdiagramm</b>: Visualisieren Sie die statistische Verteilung der Buchungen pro Kategorie über verschiedene Perioden (Jahre, Monate, Wochen, Tage)
 - <b>Mehrteilige Buchung</b>: Eine einzelne Buchung kann in mehrere Teile (Kategorien und Umbuchungen) aufgeteilt werden
 - <b>Drucken</b> der Buchungsliste in eine PDF-Datei
-- 
 - <b>Bildanhang</b>: Mit der Kamera aufnehmen oder aus der Galerie auswählen
 
 <b>Erweiterungsschlüssel</b>

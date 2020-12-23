@@ -1,0 +1,44 @@
+Le mie spese tiene traccia delle tue spese e delle tue entrate, direttamente sul tuo smartphone e sul tuo tablet.
+
+- Fino a cinque conti con <b> trasferimenti </b> (anche tra valute diverse)
+- Numero illimitato di <b> modelli </ b> e fino a tre piani per le transazioni <b> ricorrenti </b>
+- <b> Esporta </b> in QIF e CSV. <b> Importa </b> da QIF
+- I dati possono essere protetti da <b> password </b> o dal <b> blocco schermo </b> del dispositivo
+- <b> Tema </b>(scuro e chiaro) e <b> dimensione caratteri </b> possono essere personalizzati
+- <b>Riconciliazione</b>: Confronta facilmente lo stato delle transazioni con il tuo estratto conto
+- <b> Widget </b> per la schermata principale e <b> scorciatoie </b> per l'inserimento rapido dei dati
+
+Le funzionalità premium sono sbloccate con l'acquisto di una delle seguenti licenze:
+
+<b>Licenza Contributore</b>
+
+- <b>Nessun annuncio</b>
+- Numero illimitato di <b>conti</b>
+- Numero illimitato di piani per le transazioni <b> ricorrenti </b>
+- <b> Grafico a torta </b>: visualizza la distribuzione statistica delle transazioni per categoria su periodi diversi (anni, mesi, settimane, giorni)
+- <b> Transazione frazionata </b>: una singola transazione può essere suddivisa in più parti (categorie e trasferimenti)
+- <b> Esporta </b>l'elenco delle transazioni in un file PDF
+- <b> Allega immagine </b>: acquisisci tramite fotocamera o seleziona dalla galleria
+
+<b>Licenza Funzionalità Estese</b>
+
+- Tutte le funzionalità della Licenza Contributore
+- <b> Sincronizzazione </b>: I dati possono essere sincronizzati fra più dispositivi (Webdav, Dropbox)
+- <b> Backup automatici </b> giornalieri con caricamento opzionale sul cloud
+- <b> Importazione CSV </b>  sofisticata e personalizzabile (applicazioni per fogli di calcolo)
+
+<b>Licenza Professionale</b>
+
+- Tutte le funzionalità della Licenza Funzionalità Estese
+- <b> Bilancio </b>: confronta le tue spese con i limiti imposti per categoria su base giornaliera, settimanale, mensile o annuale.
+- <b> Grafico storico </b> (flusso di cassa)
+- Numero illimitato di <b> modelli e piani per le transazioni frazionate </b>
+- <b> Supporto email </b> con risposta garantita entro 2 giorni lavorativi
+- Votare direttamente sulla <b>roadmap di sviluppo</b>
+
+<i>Le mie spese</i> richiede le seguenti <b>autorizzazioni</b>:
+
+- <i>Calendario</i>: Piani futuri e transazioni ricorrenti sono memorizzate o in un apposito calendario locale o in qualsiasi altro calendario venga assegnato.
+- <i>Archiviazione</i>: Stoccaggio di QIF e CSV esportazioni e file di backup
+- <i>Internet</i>: Convalida della licenza, Sincronizzazione cloud.
+- <i>Conti</i>: Sincronizzare tra dispositivi attraverso i servizi cloud

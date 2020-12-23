@@ -2,7 +2,6 @@ Mis gastos permite el seguimiento de gastos e ingresos, directamente desde tu te
 
 - Hasta cinco cuentas con <b>transferencias</b> (también entre diferentes monedas)
 - Número ilimitado de <b>plantillas</b> y hasta tres proyectos para transacciones <b>recurrentes</b>
-- 
 - <b>Exportar</b> a QIF y CSV. <b>Importar</b> desde QIF
 - Se pueden proteger los datos con <b>contraseña</b> o un dispositivo de <b>bloqueo de pantalla</b>
 - Se puede personalizar el <b>tema</b> (oscuro y claro) y el <b>tipo de letra</b>
@@ -19,13 +18,12 @@ Las características premium se desbloquean al comprar una de la siguientes llav
 - <b>Gráfico de sectores</b>: visualice la distribución estadística de transacciones por categoría entre diferentes periodos (años, meses, semanas, días)
 - <b>Transacción dividida</b>: una transacción puede separarse en diferentes partes (categorías y transferencias)
 - <b>Imprima</b> la lista de transacciones en un archivo PDF
-- 
 - <b>Adjuntar imagen</b>: tomada desde la cámara o seleccionada desde galería
 
 <b>Clave Extendida</b>
 
 - Todas las características de licencia Contrib
-- <b>Sincronización con la nube</b>: los datos pueden sincronizarse entre diferentes dispositivos (Webdav, Dropbox)
+- <b>Sincronización con la nube</b>: los datos pueden sincronizarse entre varios dispositivos (Webdav, Dropbox)
 - <b>Copia de seguridad automática</b> diaria con subida a almacenamiento en la nube opcional
 - Una sofisticada y personalizable <b>importación a CSV</b> (para aplicaciones de hojas de cálculo)
 

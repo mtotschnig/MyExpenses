@@ -2,7 +2,6 @@ Harcamalarım harcamalarınızı ve gelirlerinizi doğrudan akıllı telefonunuz
 
 - <b>Havaleler</b> dahil olmak üzere 5 hesap desteği (değişik dövizler arasında da havale yapılabilir)
 - Sınırsız <b>şablon</b> sayısı ve <b>tekrarlanan</b> muameleler için üçe kadar planlama desteği
-- 
 - QIF ile CSV biçimlerinde <b>dışa aktarma</b>. QIF biçiminden <b>içe aktarma</b>
 - Veriler, <b>parola</b> veya <b>ekran kilidi</b> ile korunabilir
 - <b>Tema</b> (açık veya koyu) ile <b>yazıtipi boyutu</b> kişiselleştirilebilir
@@ -19,7 +18,6 @@ Premium işlevlerin kilidi aşağıdaki lisans anahtarlarının satın alınmas�
 - <b>Yuvarlak diyagram</b>: değişik zaman dilimleri (sene, ay, hafta, gün) ile kategori başına muamelelerin istatistiki dağılımını görüntüleyin
 - <b>Bölünmüş muameleler</b>: tek bir muamele birden çok parçalara ayrılabilir (kategoriler ve havaleler)
 - Muamele listesini bir PDF dosyasına <b>yazdırma</b>
-- 
 - <b>Resim ekleme</b>: kamera ile çekme ya da galeriden seçme
 
 <b>Genişletilmiş Anahtarı</b>

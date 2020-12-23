@@ -2,7 +2,6 @@ Perbelanjaan Saya menyimpan jejak perbelanjaan dan pendapatan anda, secara langs
 
 - Sehingga lima akaun dengan <b>pemindahan</b> (juga merentasi matawang berbeza)
 - Bilangan <b>templat</b> tanpa had dan sehingga tiga plan untuk transaksi <b>berulang</b>
-- 
 - <b>Eksport</b> ke QIF dan CSV. <b>Import</b> dari QIF
 - Data boleh dilindungi dengan <b>kata laluan</b> atau <b>skrin kunci</b> peranti
 - <b>Tema</b> (gelap dan cerah) serta <b>saiz fon</b> boleh disuaikan
@@ -19,7 +18,6 @@ Fitur Premium berikut boleh dibuka dengan membeli salah satu kunci lesen berikut
 - <b>Carta pai</b>: Visualikan agihan berstatistik bagi transaksi per kategori mengikut tempoh berbeza (tahun, bulan, minggu atau hari)
 - <b>Pengasingan transaksi</b>: Satu transaksi boleh diasingkan menjadi berbilang bahagian (kategori dan pemindahan)
 - <b>Cetak</b> senarai transaksi ke dalam fail PDF
-- 
 - <b>Lampiran imej</b>: Tangkap gambar melalui kamera atau pilih dari galeri
 
 <b>Kunci Lanjutan</b>

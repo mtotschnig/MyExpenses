@@ -2,7 +2,6 @@ Moje Wydatki śledzi Twoje wydatki i dochody bezpośrednio na smartfonie i table
 
 - Do pięciu kont z <b>transferem</b> (również między różnymi walutami)
 - Nieograniczona liczba <b>szablonów</b> i do trzech planów dla <b>recurring</b> transakcji
-- 
 - <b>Eksportuj</b> do QIF i CSV. <b>Importuj</b> z QIF
 - Data can be protected by <b>password</b> or device <b>lock screen</b>
 - <b>Temat</b> (ciemny i jasny) i <b>rozmiary czcionek</b> można dostosować
@@ -19,7 +18,6 @@ Funkcje premium są odblokowywane przez zakup jednego z następujących kluczy l
 - <b>Wykres kołowy</b>: Wizualizuj rozkład statystyczny transakcji według kategorii w różnych okresach (lata, miesiące, tygodnie, dni)
 - <b>Rozdzielaj transakcje</b>: Pojedyncza transakcja może być podzielona na wiele części (kategorie i transfery)
 - <b>Drukuj</b> listę transakcji do pliku PDF
-- 
 - <b>Załącznik obrazu </b>: Przechwyć za pomocą kamery lub wybierz z galerii
 
 <b>Klucz Rozszerzony</b>

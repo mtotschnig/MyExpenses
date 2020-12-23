@@ -1,0 +1,44 @@
+Мои расходы keeps track of your expenses and your income, directly on your smartphone and on your tablet.
+
+- До 5 счетов с поддержкой <b>операций</b> (поддержка пересчета курсов валют)
+- Unlimited number of <b>templates</b> and up to three plans for <b>recurring</b> transactions
+- <b>Export</b> to QIF and CSV. <b>Import</b> from QIF
+- Данные могут быть защищены <b>паролем</b> или <b>экраном блокировки</b> устройства.
+- <b>Тема</b> (темная и светлая) и <b>размер шрифта</b>могут быть настроены
+- <b>Согласование</b> : легко сравнивайте статус транзакции с выписками из своего банка
+- Homescreen <b>widget</b> and <b>shortcuts</b> for quick data entry
+
+Получение дополнительных возможностей при покупке одного из следующих лицензионных ключей:
+
+<b>Contrib-ключ</b>
+
+- <b>Без рекламы</b>
+- Неограниченное количество <b>аккаунтов</b>
+- Неограниченное количество планов для <b>повторяющихся</b> транзакций
+- <b>Круговая диаграмма</b> : визуализация статистического распределения транзакций по категориям за разные периоды (годы, месяцы, недели, дни)
+- <b>Split transaction</b>: A single transaction can be split into multiple parts (categories and transfers)
+- <b>Print</b> the transaction list to a PDF file
+- <b>Добавление изображений</b>: делайте снимки с камеры или выберите из галереи
+
+<b>Расширенный ключ</b>
+
+- Все возможности Contrib-ключа
+- <b>Cloud synchronization</b>: Data can be synced between multiple devices (Webdav, Dropbox)
+- Daily <b>automated backup</b> with optional upload to cloud storage
+- Sophisticated, customizable <b>CSV import</b> (spreadsheet applications)
+
+<b>Professional-ключ</b>
+
+- Все возможности Extended-ключа
+- <b>Budgeting</b>: Compare your spending to limits you set per category on a daily, weekly, monthly or yearly basis.
+- <b>История</b> (Cash flow)
+- Unlimited number of <b>templates and plans for split transactions</b>
+- <b>E-mail поддержка</b> с обязательным ответом в течении 2 рабочих дней
+- Право голоса на <b>дорожной карте разработки</b>
+
+<i>Мои расходы</i> требует следующих <u>разрешений</u>:
+
+- <i>Календарь</i>: Plans for future and recurrent transactions are stored either in a special local calendar or in any other calendar you assign.
+- <i>Storage</i>: Storage of QIF and CSV exports and backup files.
+- <i>Интернет</i>: Проверка лицензионного ключа, Облачная синхронизация.
+- <i>Счета</i>: Синхронизация между устройствами через облачные сервисы.

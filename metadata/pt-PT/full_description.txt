@@ -1,0 +1,44 @@
+Minhas despesas mantém o controle de suas despesas e sua receita, diretamente no seu smartphone e no seu tablet.
+
+- Até cinco contas com <b>transferências</b> (também entre moedas diferentes)
+- Número ilimitado de <b>modelos</b> e até três planos para transações <b>recorrentes</b>
+- <b>Exportar</b> para QIF e CSV. <b>Importar</b> do QIF
+- Os dados podem ser protegidos por <b>senha</b> ou pela <b>tela de bloqueio</b> do dispositivo
+- <b>O tema</b> (escuro e claro) e o <b>tamanho da fonte</b> podem ser personalizados
+- <b>Reconciliação</b>: compare facilmente o status da transação com seus extratos bancários
+- <b>Widget da</b> tela inicial e <b>atalhos</b> para entrada rápida de dados
+
+Os recursos premium são desbloqueados pela compra de uma das seguintes chaves de licença:
+
+<b>Chave de contribuição</b>
+
+- <b>Sem anúncios</b>
+- Número ilimitado de <b>contas</b>
+- Número ilimitado de planos para transações <b>recorrentes</b>
+- <b>Gráfico de pizza</b>: visualize a distribuição estatística de transações por categoria em diferentes períodos (anos, meses, semanas, dias)
+- <b>Transação dividida</b>: uma única transação pode ser dividida em várias partes (categorias e transferências)
+- <b>Imprime</b> a lista de transações em um arquivo PDF
+- <b>Anexo de imagem</b>: capturar via câmera ou selecionar da galeria
+
+<b>Chave estendida</b>
+
+- Todas os recursos da chave de contribuição
+- <b>Sincronização na nuvem</b>: os dados podem ser sincronizados entre vários dispositivos (Webdav, Dropbox)
+- <b>Backup automático</b> diário com envio opcional para armazenamento em nuvem
+- <b>Importação de CSV</b> sofisticada e personalizável (aplicativos de planilha)
+
+<b>Chave profissional</b>
+
+- Todos os recursos da chave estendida
+- <b>Budgeting</b>: Compare your spending to limits you set per category on a daily, weekly, monthly or yearly basis.
+- <b>Diagrama histórico</b> (fluxo de caixa)
+- Número ilimitado de <b>modelos e planos para transações divididas</b>
+- <b>Suporte por e-mail</b> com garantia de resposta em até 2 dias úteis
+- Direito de voto no <b>roteiro de desenvolvimento</b>
+
+<i>Minhas despesas</i> requer as seguintes <u>permissões</u>:
+
+- <i>Agenda</i>: Os planos para transações futuras e recorrentes são armazenados em uma agenda local especial ou em qualquer outra agenda que você escolher.
+- <i>Armazenamento</i>: Armazenamento de exportações QIF e CSV e arquivos de backup.
+- <i>Internet</i>: Validação da chave de licença, Sincronização na nuvem.
+- <i>Contas</i>: Sincronização entre dispositivos por meio de serviços em nuvem.

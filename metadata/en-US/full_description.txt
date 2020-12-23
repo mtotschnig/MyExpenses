@@ -2,7 +2,6 @@ My Expenses keeps track of your expenses and your income, directly on your smart
 
 - Up to five accounts with <b>transfers</b> (also between different currencies)
 - Unlimited number of <b>templates</b> and up to three plans for <b>recurring</b> transactions
-- 
 - <b>Export</b> to QIF and CSV. <b>Import</b> from QIF
 - Data can be protected by <b>password</b> or device <b>lock screen</b>
 - <b>Theme</b> (dark and light) and <b>font size</b> can be customized
@@ -19,13 +18,12 @@ Premium features are unlocked by purchase of one of the following licence keys:
 - <b>Pie chart</b>: Visualize the statistical distribution of transactions per category over different periods (years, months, weeks, days)
 - <b>Split transaction</b>: A single transaction can be split into multiple parts (categories and transfers)
 - <b>Print</b> the transaction list to a PDF file
-- 
 - <b>Image attachment</b>: Capture via camera or select from gallery
 
 <b>Extended Key</b>
 
 - All features of Contrib Key
-- <b>Cloud synchronization</b>: Data can be synced between multiple devices  (Webdav, Dropbox)
+- <b>Cloud synchronization</b>: Data can be synced between multiple devices (Webdav, Dropbox)
 - Daily <b>automated backup</b> with optional upload to cloud storage
 - Sophisticated, customizable <b>CSV import</b> (spreadsheet applications)
 
