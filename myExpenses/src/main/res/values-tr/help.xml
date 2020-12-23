@@ -109,6 +109,7 @@
   <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">Eğer \'Kaynak\' ve \'Hedef\' hesaplarının para birimleri değişik ise, bunlardan sadece biri için meblağı belirtmeniz gerekir. Diğeri şablondan örnekleme oluşturduğunuzda hesaplanacaktır.</string>
   <string name="form_goal_or_limit_help_text">Bu alan ya bir pozitif tasarruf hedefi ya da bir negatif kredi limiti belirtmenize izin verir. Her iki durumda da hesap listesinde, bir ilerleme göstergesi mevcut bakiye ile hedef veya limit arasındaki mesafeyi görselleştirir.</string>
   <string name="menu_templates_help_text">Forma hızlı bir şekilde yükleme yapılmasına imkân veren tüm şablonları listeleyen bir menü açar.</string>
+  <string name="menu_create_template_from_transaction_help_text">Eğer bu şık seçiliyse, muamele aynı zamanda bir şablon olarak da kaydedilecektir. Başlığını tanımlayabilir ve seçime dayalı olarak otomatik tekrarlama için bir planlama ayarlayabilirsiniz.</string>
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">Hesaplar için form</string>
   <string name="form_AccountEdit_label_help_text">Etiket hesabı hesap listesinde tanımlar.</string>

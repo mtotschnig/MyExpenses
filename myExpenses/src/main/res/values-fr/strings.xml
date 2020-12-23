@@ -968,4 +968,5 @@
     <string name="download_completed">Le téléchargement (%s) est terminé.</string>
     <!-- %s is replaced with information on the engine or application used for running text recognition -->
     <string name="ocr_recognition_info">Exécution de la reconnaissance de texte avec %s</string>
+    <string name="ocr_download_info">La capacité de reconnaissance de texte est fournie par une application externe.</string>
 </resources>
