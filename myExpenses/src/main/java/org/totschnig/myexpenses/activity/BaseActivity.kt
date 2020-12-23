@@ -77,7 +77,11 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     override fun onPause() {
         super.onPause()
-        unregisterReceiver(downloadReceiver)
+        try {
+            unregisterReceiver(downloadReceiver)
+        } catch (e: Exception) {
+            CrashHandler.report(e)
+        }
     }
 
     fun setTrackingEnabled(enabled: Boolean) {
