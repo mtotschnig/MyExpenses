@@ -6,8 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import org.jetbrains.annotations.Nullable
 import org.totschnig.myexpenses.dialog.select.SelectFromMappedTableDialogFragment
-import org.totschnig.myexpenses.model.Payee
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
@@ -19,9 +19,9 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
     private val parties = MutableLiveData<List<Party>>()
     fun getParties(): LiveData<List<Party>> = parties
     fun loadParties(filter: @Nullable String?, accountId: Long) {
-        val filterSelection = if (TextUtils.isEmpty(filter)) null else Payee.SELECTION
+        val filterSelection = if (TextUtils.isEmpty(filter)) null else "$KEY_PAYEE_NAME_NORMALIZED LIKE ?"
         val filterSelectionArgs = if (TextUtils.isEmpty(filter)) null else
-            Payee.SELECTION_ARGS(Utils.esacapeSqlLikeExpression(Utils.normalize(filter)))
+            arrayOf("%${Utils.esacapeSqlLikeExpression(Utils.normalize(filter))}%")
         val accountSelection = if (accountId == 0L) null else
             StringBuilder("exists (SELECT 1 from $TABLE_TRANSACTIONS WHERE $KEY_PAYEEID = $TABLE_PAYEES.$KEY_ROWID").apply {
                 SelectFromMappedTableDialogFragment.accountSelection(accountId)?.let {
