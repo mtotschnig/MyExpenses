@@ -15,20 +15,19 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:tools="http://schemas.android.com/tools"
-      tools:ignore="AppCompatResource,UnusedAttribute,AlwaysShowAction">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@id/DELETE_COMMAND"
         android:icon="@drawable/ic_menu_delete"
         android:orderInCategory="20"
-        android:showAsAction="always"
-        android:title="@string/menu_delete">
+        android:title="@string/menu_delete"
+        app:showAsAction="ifRoom">
     </item>
     <item
         android:id="@id/SAVE_COMMAND"
         android:icon="@drawable/ic_menu_save"
         android:orderInCategory="10"
-        android:showAsAction="always"
-        android:title="@string/menu_save">
+        android:title="@string/menu_save"
+        app:showAsAction="ifRoom">
     </item>
 </menu>

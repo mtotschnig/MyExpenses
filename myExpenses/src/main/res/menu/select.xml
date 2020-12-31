@@ -15,15 +15,14 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:tools="http://schemas.android.com/tools"
-      tools:ignore="AppCompatResource,UnusedAttribute,AlwaysShowAction">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <group android:id="@id/MenuSingle">
         <item
             android:id="@id/SELECT_COMMAND"
             android:icon="@drawable/ic_menu_done"
             android:orderInCategory="0"
-            android:showAsAction="always"
-            android:title="@string/select">
+            android:title="@string/select"
+            app:showAsAction="ifRoom">
         </item>
     </group>
 </menu>

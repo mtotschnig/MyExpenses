@@ -14,26 +14,25 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="AppCompatResource,AlwaysShowAction">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@id/DELETE_COMMAND"
         android:icon="@drawable/ic_menu_delete"
         android:orderInCategory="20"
-        android:showAsAction="always"
-        android:title="@string/menu_delete" />
+        android:title="@string/menu_delete"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/SELECT_ALL_COMMAND"
         android:icon="@drawable/ic_select_all"
         android:orderInCategory="0"
-        android:showAsAction="always"
-        android:title="@android:string/selectAll" />
+        android:title="@android:string/selectAll"
+        app:showAsAction="ifRoom" />
     <group android:id="@id/MenuSingle">
         <item
             android:id="@id/EDIT_COMMAND"
             android:icon="@drawable/ic_menu_edit"
             android:orderInCategory="10"
-            android:showAsAction="always"
-            android:title="@string/menu_edit" />
+            android:title="@string/menu_edit"
+            app:showAsAction="ifRoom" />
     </group>
 </menu>

@@ -15,29 +15,28 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:tools="http://schemas.android.com/tools"
-      tools:ignore="AppCompatResource,UnusedAttribute,AlwaysShowAction">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@id/MOVE_COMMAND"
         android:icon="@drawable/ic_menu_move"
         android:orderInCategory="50"
-        android:showAsAction="always"
-        android:title="@string/menu_move">
+        android:title="@string/menu_move"
+        app:showAsAction="ifRoom">
     </item>
     <group android:id="@id/MenuSingleGroup">
         <item
             android:id="@id/CREATE_COMMAND"
             android:icon="@drawable/ic_menu_add"
             android:orderInCategory="1"
-            android:showAsAction="always"
-            android:title="@string/menu_create_sub_cat">
+            android:title="@string/menu_create_sub_cat"
+            app:showAsAction="ifRoom">
         </item>
         <item
             android:id="@id/COLOR_COMMAND"
             android:icon="@drawable/ic_color"
             android:orderInCategory="0"
-            android:showAsAction="always"
-            android:title="@string/menu_color">
+            android:title="@string/menu_color"
+            app:showAsAction="ifRoom">
         </item>
     </group>
 </menu>

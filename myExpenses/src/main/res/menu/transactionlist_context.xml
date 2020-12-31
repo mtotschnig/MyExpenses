@@ -14,52 +14,50 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:ignore="AppCompatResource,AlwaysShowAction">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <group android:id="@id/MenuSingle">
         <item
             android:id="@id/CREATE_TEMPLATE_COMMAND"
             android:icon="@drawable/ic_action_template_add"
             android:orderInCategory="10"
-            android:showAsAction="always"
-            android:title="@string/menu_create_template_from_transaction" />
+            android:title="@string/menu_create_template_from_transaction"
+            app:showAsAction="ifRoom" />
         <item
             android:id="@id/CLONE_TRANSACTION_COMMAND"
             android:icon="@drawable/ic_menu_copy"
             android:orderInCategory="10"
-            android:showAsAction="always"
-            android:title="@string/menu_clone_transaction" />
+            android:title="@string/menu_clone_transaction"
+            app:showAsAction="ifRoom" />
     </group>
     <item
         android:id="@id/MAP_TAG_COMMAND"
         android:icon="@drawable/ic_action_tag"
         android:orderInCategory="30"
-        android:showAsAction="ifRoom"
-        android:title="@string/menu_tag" />
+        android:title="@string/menu_tag"
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@id/SPLIT_TRANSACTION_COMMAND"
         android:icon="@drawable/ic_menu_split_transaction"
         android:orderInCategory="40"
-        android:showAsAction="ifRoom"
-        android:title="@string/menu_split_transaction" />
+        android:title="@string/menu_split_transaction"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@id/UNGROUP_SPLIT_COMMAND"
         android:icon="@drawable/ic_menu_split"
         android:orderInCategory="40"
-        android:showAsAction="ifRoom"
-        android:title="@string/menu_ungroup_split_transaction" />
+        android:title="@string/menu_ungroup_split_transaction"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@id/UNDELETE_COMMAND"
         android:icon="@drawable/ic_menu_undelete"
         android:orderInCategory="45"
-        android:showAsAction="ifRoom"
-        android:title="@string/menu_undelete_transaction" />
+        android:title="@string/menu_undelete_transaction"
+        app:showAsAction="ifRoom" />
     <item
-        android:showAsAction="never"
         android:orderInCategory="50"
-        android:title="@string/menu_remap">
+        android:title="@string/menu_remap"
+        app:showAsAction="never">
         <menu>
             <item
                 android:id="@id/REMAP_CATEGORY_COMMAND"

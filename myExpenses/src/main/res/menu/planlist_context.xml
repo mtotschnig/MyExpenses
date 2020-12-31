@@ -14,44 +14,43 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>
  -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:tools="http://schemas.android.com/tools"
-      tools:ignore="AppCompatResource,UnusedAttribute">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@id/CREATE_PLAN_INSTANCE_SAVE_COMMAND"
         android:icon="@drawable/ic_action_apply_save"
         android:orderInCategory="1"
-        android:showAsAction="always"
-        android:title="@string/menu_create_instance_save">
+        android:title="@string/menu_create_instance_save"
+        app:showAsAction="ifRoom">
     </item>
     <item
         android:id="@id/CANCEL_PLAN_INSTANCE_COMMAND"
         android:icon="@drawable/ic_menu_close_clear_cancel"
         android:orderInCategory="10"
-        android:showAsAction="ifRoom"
-        android:title="@string/menu_cancel_plan_instance">
+        android:title="@string/menu_cancel_plan_instance"
+        app:showAsAction="ifRoom">
     </item>
     <item
         android:id="@id/RESET_PLAN_INSTANCE_COMMAND"
         android:icon="@drawable/ic_menu_revert"
         android:orderInCategory="15"
-        android:showAsAction="ifRoom"
-        android:title="@string/menu_reset_plan_instance">
+        android:title="@string/menu_reset_plan_instance"
+        app:showAsAction="ifRoom">
     </item>
     <group android:id="@id/MenuSingle">
         <item
             android:id="@id/CREATE_PLAN_INSTANCE_EDIT_COMMAND"
             android:icon="@drawable/ic_action_apply_edit"
             android:orderInCategory="5"
-            android:showAsAction="ifRoom"
-            android:title="@string/menu_create_instance_edit">
+            android:title="@string/menu_create_instance_edit"
+            app:showAsAction="ifRoom">
         </item>
         <item
             android:id="@id/EDIT_PLAN_INSTANCE_COMMAND"
             android:icon="@drawable/ic_menu_edit"
             android:orderInCategory="1"
-            android:showAsAction="always"
-            android:title="@string/menu_edit_plan_instance">
+            android:title="@string/menu_edit_plan_instance"
+            app:showAsAction="ifRoom">
         </item>
     </group>
 </menu>
