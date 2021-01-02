@@ -162,7 +162,7 @@ import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.PROGRE
 import static org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter.NULL_ITEM_ID;
 import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_TITLE;
 import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_TITLE_STRING;
-import static org.totschnig.myexpenses.fragment.TagListKt.KEY_TAGLIST;
+import static org.totschnig.myexpenses.fragment.TagListKt.KEY_TAG_LIST;
 import static org.totschnig.myexpenses.preference.PrefKey.NEW_SPLIT_TEMPLATE_ENABLED;
 import static org.totschnig.myexpenses.preference.PrefKey.OCR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_TRANSFERS;
@@ -1559,7 +1559,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         addCategoryFilter(label, catIds);
       }
     } else if (requestCode == FILTER_TAGS_REQUEST) {
-      final ArrayList<Tag> tagList = intent.getParcelableArrayListExtra(KEY_TAGLIST);
+      final ArrayList<Tag> tagList = intent.getParcelableArrayListExtra(KEY_TAG_LIST);
       if (tagList != null && !tagList.isEmpty()) {
         long[] tagIds = Stream.of(tagList).mapToLong(Tag::getId).toArray();
         String label = Stream.of(tagList).map(Tag::getLabel).collect(Collectors.joining(", "));

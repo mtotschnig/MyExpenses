@@ -4,7 +4,6 @@ import android.content.Context
 import android.database.Cursor
 import org.apache.commons.lang3.StringUtils
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.fragment.KEY_TAGLIST
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Category
 import org.totschnig.myexpenses.model.CrStatus

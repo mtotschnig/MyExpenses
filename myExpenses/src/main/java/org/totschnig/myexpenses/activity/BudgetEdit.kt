@@ -23,7 +23,7 @@ import org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter.NULL_ITEM_ID
 import org.totschnig.myexpenses.dialog.select.SelectCrStatusDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectFilterDialog
 import org.totschnig.myexpenses.dialog.select.SelectMethodsAllDialogFragment
-import org.totschnig.myexpenses.fragment.KEY_TAGLIST
+import org.totschnig.myexpenses.fragment.KEY_TAG_LIST
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
@@ -188,7 +188,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
                     }
                 }
                 FILTER_TAGS_REQUEST -> {
-                    intent?.getParcelableArrayListExtra<Tag>(KEY_TAGLIST)?.takeIf { it.size > 0 }?.let {
+                    intent?.getParcelableArrayListExtra<Tag>(KEY_TAG_LIST)?.takeIf { it.size > 0 }?.let {
                         val tagIds = it.map(Tag::id).toLongArray()
                         val label = it.map(Tag::label).joinToString(", ")
                         addFilterCriteria(TagCriteria(label, *tagIds))

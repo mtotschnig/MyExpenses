@@ -65,7 +65,7 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
 import org.totschnig.myexpenses.feature.OcrResultFlat
 import org.totschnig.myexpenses.fragment.KEY_DELETED_IDS
-import org.totschnig.myexpenses.fragment.KEY_TAGLIST
+import org.totschnig.myexpenses.fragment.KEY_TAG_LIST
 import org.totschnig.myexpenses.fragment.PlanMonthFragment
 import org.totschnig.myexpenses.fragment.SplitPartList
 import org.totschnig.myexpenses.fragment.TemplatesList
@@ -836,7 +836,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             }
             SELECT_TAGS_REQUEST -> intent?.also {
                 if (resultCode == RESULT_OK) {
-                    (intent.getParcelableArrayListExtra<Tag>(KEY_TAGLIST))?.let {
+                    (intent.getParcelableArrayListExtra<Tag>(KEY_TAG_LIST))?.let {
                         viewModel.updateTags(it)
                         setDirty()
                     }
@@ -1265,7 +1265,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
 
     fun startTagSelection(@Suppress("UNUSED_PARAMETER") view: View) {
         val i = Intent(this, ManageTags::class.java).apply {
-            putParcelableArrayListExtra(KEY_TAGLIST, viewModel.getTags().value?.let { ArrayList(it) })
+            putParcelableArrayListExtra(KEY_TAG_LIST, viewModel.getTags().value?.let { ArrayList(it) })
         }
         startActivityForResult(i, SELECT_TAGS_REQUEST)
     }

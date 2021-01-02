@@ -29,7 +29,7 @@ import org.totschnig.myexpenses.databinding.TagListBinding
 import org.totschnig.myexpenses.viewmodel.TagListViewModel
 import org.totschnig.myexpenses.viewmodel.data.Tag
 
-const val KEY_TAGLIST = "tagList"
+const val KEY_TAG_LIST = "tagList"
 const val KEY_DELETED_IDS = "deletedIds"
 const val KEY_TAG = "tag"
 const val DELETE_TAG_DIALOG = "DELETE_TAG"
@@ -50,7 +50,7 @@ class TagList : Fragment(), OnDialogResultListener {
         viewModel = ViewModelProvider(this, factory)[TagListViewModel::class.java]
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = TagListBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -68,7 +68,7 @@ class TagList : Fragment(), OnDialogResultListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val selected = activity?.intent?.getParcelableArrayListExtra<Tag>(KEY_TAGLIST)
+        val selected = activity?.intent?.getParcelableArrayListExtra<Tag>(KEY_TAG_LIST)
         viewModel.loadTags(selected).observe(viewLifecycleOwner, {
             val closeFunction: (Tag) -> Unit = { tag ->
                 SimpleDialog.build()
@@ -162,7 +162,7 @@ class TagList : Fragment(), OnDialogResultListener {
     }
 
     private fun resultIntent() = Intent().apply {
-        putParcelableArrayListExtra(KEY_TAGLIST, ArrayList(adapter.tagList.filter { tag -> tag.selected }))
+        putParcelableArrayListExtra(KEY_TAG_LIST, ArrayList(adapter.tagList.filter { tag -> tag.selected }))
     }
 
     fun cancelIntent() = Intent().apply {
