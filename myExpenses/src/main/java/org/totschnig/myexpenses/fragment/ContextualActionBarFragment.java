@@ -169,7 +169,12 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
           if (adapter instanceof HeaderViewListAdapter)
               adapter = ((HeaderViewListAdapter) adapter).getWrappedAdapter();
           for (int i = 0; i < adapter.getCount(); i++) {
-            lv.setItemChecked(i, true);
+            boolean shouldCheck = true;
+            if (lv instanceof ExpandableListView) {
+              long pos = ((ExpandableListView) lv).getExpandableListPosition(i);
+              shouldCheck = expandableListSelectionType == ExpandableListView.getPackedPositionType(pos);
+            }
+            lv.setItemChecked(i, shouldCheck);
           }
           return true;
         }
