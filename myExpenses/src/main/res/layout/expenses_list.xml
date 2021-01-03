@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- 
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -15,10 +14,12 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingStart="@dimen/padding_main_screen"
+    android:paddingEnd="@dimen/padding_main_screen">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/filterCard"
@@ -30,16 +31,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="4dp"
-            android:paddingBottom="4dp"
-            android:paddingStart="@dimen/general_padding"
-            android:paddingEnd="@dimen/general_padding">
+            android:paddingBottom="4dp">
 
             <ImageView
                 android:id="@+id/filterIcon"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="12dp"
                 android:layout_marginRight="12dp"
@@ -52,10 +51,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toEndOf="@+id/filterIcon"
+                android:layout_toStartOf="@+id/clearFilter"
                 android:layout_toLeftOf="@+id/clearFilter"
-                android:layout_toRightOf="@+id/filterIcon"
-                android:layout_toStartOf="@+id/clearFilter"/>
+                android:layout_toEndOf="@+id/filterIcon"
+                android:layout_toRightOf="@+id/filterIcon" />
 
             <ImageView
                 android:id="@+id/clearFilter"
@@ -67,7 +66,7 @@
                 android:layout_centerVertical="true"
                 android:contentDescription="@string/clear_all_filters"
                 android:onClick="clearFilter"
-                app:srcCompat="@drawable/ic_menu_close_clear_cancel"/>
+                app:srcCompat="@drawable/ic_menu_close_clear_cancel" />
 
         </RelativeLayout>
 
@@ -82,7 +81,7 @@
         android:fastScrollEnabled="true"
         android:paddingBottom="@dimen/fab_related_bottom_padding"
         android:scrollbarStyle="outsideOverlay"
-        android:scrollbars="vertical"/>
+        android:scrollbars="vertical" />
 
     <TextView
         android:id="@+id/empty"
@@ -91,5 +90,5 @@
         android:gravity="center"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:text="@string/no_expenses"/>
+        android:text="@string/no_expenses" />
 </LinearLayout>

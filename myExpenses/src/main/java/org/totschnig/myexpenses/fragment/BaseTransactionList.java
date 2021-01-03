@@ -102,6 +102,7 @@ import org.totschnig.myexpenses.provider.filter.PayeeCriteria;
 import org.totschnig.myexpenses.provider.filter.TagCriteria;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.ui.ExpansionHandle;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.MenuUtilsKt;
@@ -378,7 +379,9 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
 
   private void setGrouping() {
     mAdapter.refreshDateFormat();
-    mListView.setCollapsedHeaderIds(PreferenceUtilsKt.getLongList(prefHandler, collapsedHeaderIdsPrefKey()));
+    if (mAccount.getGrouping() != Grouping.NONE) {
+      mListView.setCollapsedHeaderIds(PreferenceUtilsKt.getLongList(prefHandler, collapsedHeaderIdsPrefKey()));
+    }
     restartGroupingLoader();
   }
 
@@ -954,6 +957,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     @Override
     public View getHeaderView(int position, View convertView, ViewGroup parent) {
       HeaderViewHolder holder = null;
+      final long headerId = getHeaderId(position);
       final boolean withBudget = BaseTransactionList.this.getFilter().isEmpty() &&
           budget != null;
 
@@ -968,11 +972,30 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         holder = new HeaderViewHolder(convertView);
         convertView.setTag(holder);
       }
+      HeaderViewHolder finalHolder = holder;
+      if (mAccount.getGrouping() != Grouping.NONE) {
+        holder.headerIndicator.setExpanded(!mListView.isHeaderCollapsed(headerId));
+        holder.headerIndicator.setOnClickListener(v -> finalHolder.headerIndicator.rotate(
+            !mListView.isHeaderCollapsed(headerId), expanded -> {
+              if (expanded) {
+                mListView.expand(headerId);
+                mAdapter.notifyDataSetChanged();
+                persistCollapsedHeaderIds();
+                finalHolder.dividerBottom.setVisibility(View.VISIBLE);
+              } else {
+                mListView.collapse(headerId);
+                persistCollapsedHeaderIds();
+                finalHolder.dividerBottom.setVisibility(View.GONE);
+              }
+            }));
+      } else {
+        holder.headerIndicator.setVisibility(View.GONE);
+      }
 
       Cursor c = getCursor();
       if (c != null) {
         c.moveToPosition(position);
-        fillSums(holder, getHeaderId(position));
+        fillSums(holder, headerId);
         holder.text.setText(mAccount.getGrouping().getDisplayTitle(getActivity(), c.getInt(getColumnIndexForYear()), getSecond(c),
             DateInfo.fromCursor(c), userLocaleProvider.getUserPreferredLocale()));
       }
@@ -1169,6 +1192,8 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     DonutProgress budgetProgress;
     @BindView(R.id.divider_bottom)
     View dividerBottom;
+    @BindView(R.id.headerIndicator)
+    ExpansionHandle headerIndicator;
 
     HeaderViewHolder(View convertView) {
       ButterKnife.bind(this, convertView);
@@ -1178,21 +1203,10 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
   @Override
   public void onHeaderClick(StickyListHeadersListView l, View header,
                             int itemPosition, long headerId, boolean currentlySticky) {
-    final HeaderViewHolder viewHolder = (HeaderViewHolder) header.getTag();
-    if (mListView.isHeaderCollapsed(headerId)) {
-      mListView.expand(headerId);
-      mAdapter.notifyDataSetChanged();
-      persistCollapsedHeaderIds();
-      viewHolder.dividerBottom.setVisibility(View.VISIBLE);
-    } else {
-      mListView.collapse(headerId);
-      persistCollapsedHeaderIds();
-      viewHolder.dividerBottom.setVisibility(View.GONE);
-    }
   }
 
   private void persistCollapsedHeaderIds() {
-    PreferenceUtilsKt.putLongList(prefHandler, collapsedHeaderIdsPrefKey(),  mListView.getCollapsedHeaderIds());
+    PreferenceUtilsKt.putLongList(prefHandler, collapsedHeaderIdsPrefKey(), mListView.getCollapsedHeaderIds());
   }
 
   private String collapsedHeaderIdsPrefKey() {
