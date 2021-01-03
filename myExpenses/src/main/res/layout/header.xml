@@ -35,21 +35,23 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/header_line"
         android:orientation="horizontal"
-        android:paddingBottom="@dimen/list_header_vertical_padding">
+        android:paddingBottom="@dimen/list_header_vertical_padding"
+        android:paddingLeft="@dimen/padding_main_screen_header"
+        android:paddingRight="@dimen/padding_main_screen_header">
 
         <TextView
             android:id="@+id/sum_income"
             style="@style/headingStyle"
-            android:layout_width="1dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
+            android:gravity="start"
             tools:text="sum_income" />
 
         <TextView
             android:id="@+id/sum_expense"
             style="@style/headingStyle"
-            android:layout_width="1dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
@@ -58,10 +60,10 @@
         <TextView
             android:id="@+id/sum_transfer"
             style="@style/headingStyle"
-            android:layout_width="1dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
+            android:gravity="end"
             tools:text="sum_transfer" />
     </LinearLayout>
 

@@ -24,9 +24,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/general_padding"
-        android:paddingRight="@dimen/general_padding">
+        android:layout_height="wrap_content">
 
         <View
             android:id="@+id/colorAccount"

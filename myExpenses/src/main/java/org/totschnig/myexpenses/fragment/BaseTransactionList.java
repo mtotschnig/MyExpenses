@@ -974,6 +974,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
       }
       HeaderViewHolder finalHolder = holder;
       if (mAccount.getGrouping() != Grouping.NONE) {
+        holder.headerIndicator.setVisibility(View.VISIBLE);
         holder.headerIndicator.setExpanded(!mListView.isHeaderCollapsed(headerId));
         holder.headerIndicator.setOnClickListener(v -> finalHolder.headerIndicator.rotate(
             !mListView.isHeaderCollapsed(headerId), expanded -> {

@@ -6,15 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layoutDirection="locale"
-    android:paddingLeft="@dimen/general_padding"
-    android:paddingRight="@dimen/general_padding"
+    android:paddingLeft="@dimen/padding_main_screen_header"
+    android:paddingRight="@dimen/padding_main_screen_header"
     android:paddingTop="@dimen/list_header_vertical_padding"
     tools:ignore="UnusedAttribute">
 
     <TextView
         android:id="@+id/text"
         style="@style/headingStyle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         tools:text="GROUP_TITLE LONG QUITE LONG VERY LONG TOO LONG"/>
@@ -22,7 +22,7 @@
     <TextView
         android:id="@+id/interim_balance"
         style="@style/headingStyle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="end"
