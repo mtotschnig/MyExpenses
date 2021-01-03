@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -15,12 +14,20 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?listChoiceBackgroundIndicator">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="?listChoiceBackgroundIndicator">
 
-    <include layout="@layout/header_line"/>
+    <include layout="@layout/header_line" />
+
+    <include
+        layout="@layout/expansion_handle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true" />
 
     <LinearLayout
         android:id="@+id/sum_line"
@@ -29,41 +36,46 @@
         android:layout_below="@+id/header_line"
         android:orientation="horizontal"
         android:paddingBottom="@dimen/list_header_vertical_padding"
-        tools:ignore="UnknownIdInLayout">
+        android:paddingLeft="@dimen/padding_main_screen_header"
+        android:paddingRight="@dimen/padding_main_screen_header">
 
         <TextView
-            style="@style/headingStyle"
             android:id="@+id/sum_income"
-            android:layout_width="1dp"
+            style="@style/headingStyle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"/>
+            android:gravity="start"
+            tools:text="sum_income" />
 
         <TextView
-            style="@style/headingStyle"
             android:id="@+id/sum_expense"
-            android:layout_width="1dp"
+            style="@style/headingStyle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"/>
+            android:gravity="center"
+            tools:text="sum_expense" />
 
         <TextView
-            style="@style/headingStyle"
             android:id="@+id/sum_transfer"
-            android:layout_width="1dp"
+            style="@style/headingStyle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"/>
+            android:gravity="end"
+            tools:text="sum_transfer" />
     </LinearLayout>
 
     <View
         android:id="@+id/divider_bottom"
         style="@style/Divider"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true" />
 
-    <include layout="@layout/group_divider"
-             android:layout_width="match_parent"
-             android:layout_height="1dp"
-             android:layout_alignParentTop="true"/>
+    <include
+        layout="@layout/group_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentTop="true" />
 
 </RelativeLayout>
