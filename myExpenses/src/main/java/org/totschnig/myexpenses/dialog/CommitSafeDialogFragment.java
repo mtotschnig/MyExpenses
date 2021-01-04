@@ -21,7 +21,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import timber.log.Timber;
 
 public abstract class CommitSafeDialogFragment extends DialogFragment {
@@ -42,16 +41,6 @@ public abstract class CommitSafeDialogFragment extends DialogFragment {
     dialogView = layoutInflater.inflate(layoutResourceId, null);
     builder.setView(dialogView);
     return builder;
-  }
-
-  @Override
-  public int show(@NonNull FragmentTransaction transaction, String tag) {
-      try {
-          return super.show(transaction, tag);
-      } catch (IllegalStateException e) {
-        report(e);
-      }
-      return -1;
   }
 
   public void report(IllegalStateException e) {

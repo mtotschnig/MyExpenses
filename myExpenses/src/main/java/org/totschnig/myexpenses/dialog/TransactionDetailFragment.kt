@@ -14,7 +14,6 @@
  */
 package org.totschnig.myexpenses.dialog
 
-import android.app.Activity
 import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
@@ -22,7 +21,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.Observer
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
@@ -77,7 +76,7 @@ class TransactionDetailFragment : CommitSafeDialogFragment(), DialogInterface.On
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        MyApplication.getInstance().appComponent.inject(this)
+        (requireActivity().applicationContext as MyApplication).appComponent.inject(this)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -85,8 +84,8 @@ class TransactionDetailFragment : CommitSafeDialogFragment(), DialogInterface.On
         _binding = TransactionDetailBinding.bind(dialogView)
         val viewModel = ViewModelProvider(this).get(TransactionDetailViewModel::class.java)
         val rowId = requireArguments().getLong(DatabaseConstants.KEY_ROWID)
-        viewModel.transaction(rowId).observe(this, Observer { o -> fillData(o) })
-        viewModel.getTags().observe(this, Observer { tags ->
+        viewModel.transaction(rowId).observe(this, { o -> fillData(o) })
+        viewModel.getTags().observe(this, { tags ->
             if (tags.size > 0) {
                 binding.TagGroup.addChipsBulk(tags, null)
             } else {
@@ -106,19 +105,16 @@ class TransactionDetailFragment : CommitSafeDialogFragment(), DialogInterface.On
                     (dialog as AlertDialog).getButton(AlertDialog.BUTTON_NEUTRAL)?.let { it.visibility = View.GONE }
                 }
                 //prevent automatic dismiss on button click
-                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener { v: View? -> onClick(alertDialog, AlertDialog.BUTTON_POSITIVE) }
+                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener { onClick(alertDialog, AlertDialog.BUTTON_POSITIVE) }
             }
         })
         return alertDialog
     }
 
     override fun onClick(dialog: DialogInterface, which: Int) {
-        val ctx: Activity? = activity
-        if (ctx == null) {
-            return
-        }
-        transactionData?.takeIf { it.size > 0 }?.let {
-            val transaction = it[0]
+        val ctx: FragmentActivity = activity ?: return
+        transactionData?.takeIf { it.isNotEmpty() }?.let { list ->
+            val transaction = list[0]
             when (which) {
                 AlertDialog.BUTTON_POSITIVE -> {
                     if (transaction.isTransfer && transaction.hasTransferPeerParent) {
@@ -140,10 +136,10 @@ class TransactionDetailFragment : CommitSafeDialogFragment(), DialogInterface.On
         }
     }
 
-    fun fillData(list: List<Transaction>) {
+    private fun fillData(list: List<Transaction>) {
         transactionData = list
         (dialog as? AlertDialog)?.let { dlg ->
-            if (list.size > 0) {
+            if (list.isNotEmpty()) {
                 val transaction = list[0]
                 binding.progress.visibility = View.GONE
                 var doShowPicture = false
@@ -173,19 +169,23 @@ class TransactionDetailFragment : CommitSafeDialogFragment(), DialogInterface.On
                 binding.Table.visibility = View.VISIBLE
                 val title: Int
                 val isIncome = transaction.amount.amountMinor > 0
-                if (transaction.isSplit) {
-                    binding.SplitContainer.visibility = View.VISIBLE
-                    title = R.string.split_transaction
-                    SplitPartRVAdapter(requireContext(), transaction.amount.currencyUnit, currencyFormatter, list.subList(1, list.size)).also {
-                        binding.splitList.adapter = it
-                        it.notifyDataSetChanged()
+                when {
+                    transaction.isSplit -> {
+                        binding.SplitContainer.visibility = View.VISIBLE
+                        title = R.string.split_transaction
+                        SplitPartRVAdapter(requireContext(), transaction.amount.currencyUnit, currencyFormatter, list.subList(1, list.size)).also {
+                            binding.splitList.adapter = it
+                            it.notifyDataSetChanged()
+                        }
                     }
-                } else if (transaction.isTransfer) {
-                    title = R.string.transfer
-                    binding.AccountLabel.setText(R.string.transfer_from_account)
-                    binding.CategoryLabel.setText(R.string.transfer_to_account)
-                } else {
-                    title = if (isIncome) R.string.income else R.string.expense
+                    transaction.isTransfer -> {
+                        title = R.string.transfer
+                        binding.AccountLabel.setText(R.string.transfer_from_account)
+                        binding.CategoryLabel.setText(R.string.transfer_to_account)
+                    }
+                    else -> {
+                        title = if (isIncome) R.string.income else R.string.expense
+                    }
                 }
                 val amountText: String
                 if (transaction.isTransfer) {

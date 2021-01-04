@@ -69,7 +69,6 @@ import org.totschnig.myexpenses.dialog.AmountFilterDialog;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.DateFilterDialog;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
-import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.dialog.select.SelectCrStatusDialogFragment;
 import org.totschnig.myexpenses.dialog.select.SelectMethodDialogFragment;
 import org.totschnig.myexpenses.dialog.select.SelectSingleAccountDialogFragment;
@@ -128,10 +127,8 @@ import javax.inject.Inject;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.collection.LongSparseArray;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
@@ -414,12 +411,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
 
     mListView.setEmptyView(emptyView);
     mListView.setOnItemClickListener((a, v1, position, id) -> {
-      FragmentManager fm = getActivity().getSupportFragmentManager();
-      DialogFragment f = (DialogFragment) fm.findFragmentByTag(TransactionDetailFragment.class.getName());
-      if (f == null) {
-        FragmentTransaction ft = fm.beginTransaction();
-        TransactionDetailFragment.newInstance(id).show(ft, TransactionDetailFragment.class.getName());
-      }
+      showDetails(id);
     });
     mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
       private int currentState = 0;
@@ -446,6 +438,8 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     mListView.addFooterView(LayoutInflater.from(getActivity()).inflate(R.layout.group_divider, mListView.getWrappedList(), false), null, false);
     mListView.setAdapter(mAdapter);
   }
+
+  protected abstract void showDetails(long id);
 
   protected void refresh(boolean invalidateMenu) {
     if (mAccount != null) { //if we are refreshed from onActivityResult, it might happen, that mAccount is not yet set (report 5c1754c8f8b88c29631ef140)

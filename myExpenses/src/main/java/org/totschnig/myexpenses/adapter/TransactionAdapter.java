@@ -40,6 +40,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+import androidx.annotation.Nullable;
 import androidx.cursoradapter.widget.ResourceCursorAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -256,7 +257,7 @@ public class TransactionAdapter extends ResourceCursorAdapter {
    * be displayed about the mapped category, can be overridden by subclass
    * should not be used for handle transfers
    */
-  protected CharSequence getCatText(CharSequence catText, String label_sub) {
+  protected CharSequence getCatText(CharSequence catText, @Nullable String label_sub) {
     if (label_sub != null && label_sub.length() > 0) {
       catText = catText + TransactionList.CATEGORY_SEPARATOR + label_sub;
     }

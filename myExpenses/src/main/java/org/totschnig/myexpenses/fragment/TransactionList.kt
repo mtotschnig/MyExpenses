@@ -6,12 +6,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.lifecycleScope
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.CONFIRM_MAP_TAG_REQUEST
 import org.totschnig.myexpenses.activity.MAP_TAG_REQUEST
 import org.totschnig.myexpenses.activity.MyExpenses
+import org.totschnig.myexpenses.dialog.TransactionDetailFragment
 import org.totschnig.myexpenses.viewmodel.data.Tag
 
 const val KEY_REPLACE = "replace"
@@ -52,6 +54,16 @@ class TransactionList : BaseTransactionList() {
             findItem(R.id.REMAP_PAYEE_COMMAND).isVisible = !hasTransfer
             findItem(R.id.REMAP_CATEGORY_COMMAND).isVisible = !hasTransfer && !hasSplit
             findItem(R.id.REMAP_METHOD_COMMAND).isVisible = !hasTransfer
+        }
+    }
+
+    override fun showDetails(transactionId: Long) {
+        lifecycleScope.launchWhenResumed {
+            with(parentFragmentManager)  {
+                if (findFragmentByTag(TransactionDetailFragment::class.java.name) == null) {
+                    TransactionDetailFragment.newInstance(transactionId).show(this, TransactionDetailFragment::class.java.name)
+                }
+            }
         }
     }
 }
