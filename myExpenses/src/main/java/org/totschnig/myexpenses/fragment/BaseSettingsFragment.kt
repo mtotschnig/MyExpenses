@@ -126,11 +126,12 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             }
 
     fun configureTesseractLanguagePref() {
-        val listPreference = requirePreference<ListPreference>(PrefKey.TESSERACT_LANGUAGE)
-        if (prefHandler.getString(PrefKey.OCR_ENGINE, null) == ENGINE_TESSERACT)
-            activity().ocrViewModel.configureTesseractLanguagePref(listPreference)
-        else
-            listPreference.isVisible = false
+        findPreference<ListPreference>(prefHandler.getKey(PrefKey.TESSERACT_LANGUAGE))?.let {
+            if (prefHandler.getString(PrefKey.OCR_ENGINE, null) == ENGINE_TESSERACT)
+                activity().ocrViewModel.configureTesseractLanguagePref(it)
+            else
+                it.isVisible = false
+        }
     }
 
     fun requireApplication(): MyApplication {
