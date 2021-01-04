@@ -77,7 +77,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
-public class ExportDialogFragment extends CommitSafeDialogFragment implements OnClickListener, OnCheckedChangeListener {
+public class ExportDialogFragment extends BaseDialogFragment implements OnClickListener, OnCheckedChangeListener {
   private static final String KEY_IS_FILTERED = "is_filtered";
   @BindView(R.id.handle_deleted)
   RadioGroup handleDeletedGroup;

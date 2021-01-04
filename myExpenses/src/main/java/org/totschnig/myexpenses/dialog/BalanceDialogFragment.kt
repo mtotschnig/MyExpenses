@@ -24,7 +24,7 @@ import org.totschnig.myexpenses.databinding.BalanceBinding
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.UiUtils
 
-class BalanceDialogFragment : CommitSafeDialogFragment(), DialogInterface.OnClickListener {
+class BalanceDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListener {
     private var _binding: BalanceBinding? = null
 
     // This property is only valid between onCreateView and onDestroyView.

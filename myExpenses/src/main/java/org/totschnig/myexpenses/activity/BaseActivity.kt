@@ -14,12 +14,14 @@ import androidx.annotation.CallSuper
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
 import icepick.State
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
+import org.totschnig.myexpenses.dialog.VersionDialogFragment
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.ui.SnackbarAction
 import org.totschnig.myexpenses.util.UiUtils
@@ -200,4 +202,26 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         }
     }
 
+    open fun showMessage(message: CharSequence) {
+        showMessage(message, MessageDialogFragment.Button.okButton(), null, null)
+    }
+
+    open fun showMessage(message: CharSequence,
+                         positive: MessageDialogFragment.Button?,
+                         neutral: MessageDialogFragment.Button?,
+                         negative: MessageDialogFragment.Button?,
+                         cancellable: Boolean = true) {
+        lifecycleScope.launchWhenResumed {
+            MessageDialogFragment.newInstance(null, message, positive, neutral, negative).apply {
+                setCancelable(cancellable)
+            }.show(getSupportFragmentManager(), "MESSAGE")
+        }
+    }
+
+    fun showVersionDialog(prev_version: Int, showImportantUpgradeInfo: Boolean) {
+        lifecycleScope.launchWhenResumed {
+            VersionDialogFragment.newInstance(prev_version, showImportantUpgradeInfo)
+                    .show(getSupportFragmentManager(), "VERSION_INFO")
+        }
+    }
 }

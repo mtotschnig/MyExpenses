@@ -31,7 +31,7 @@ import androidx.annotation.NonNull;
 import static android.app.ProgressDialog.STYLE_SPINNER;
 
 @Deprecated
-public class ProgressDialogFragment extends CommitSafeDialogFragment {
+public class ProgressDialogFragment extends BaseDialogFragment {
   private static final String KEY_PROGRESS_STYLE = "progressStyle";
   private static final String KEY_MESSAGE = "message";
   private static final String KEY_WITH_BUTTON = "withButton";

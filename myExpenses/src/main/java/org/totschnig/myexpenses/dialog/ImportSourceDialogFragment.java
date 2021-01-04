@@ -22,7 +22,7 @@ import androidx.appcompat.app.AlertDialog;
 
 import static org.totschnig.myexpenses.activity.ConstantsKt.IMPORT_FILENAME_REQUEST_CODE;
 
-public abstract class ImportSourceDialogFragment extends CommitSafeDialogFragment
+public abstract class ImportSourceDialogFragment extends BaseDialogFragment
     implements OnClickListener, DialogInterface.OnClickListener, ImportFileResultHandler.FileNameHostFragment {
 
   protected EditText mFilename;

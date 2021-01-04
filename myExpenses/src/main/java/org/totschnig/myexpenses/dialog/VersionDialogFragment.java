@@ -49,7 +49,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AlertDialog;
 
-public class VersionDialogFragment extends CommitSafeDialogFragment implements OnClickListener {
+public class VersionDialogFragment extends BaseDialogFragment implements OnClickListener {
 
   private static final String KEY_FROM = "from";
   private static final String KEY_WITH_IMPORTANT_UPGRADE_INFO = "withImportantUpgradeInfo";

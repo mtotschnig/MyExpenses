@@ -46,7 +46,6 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.HelpDialogFragment;
-import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.feature.FeatureManager;
 import org.totschnig.myexpenses.fragment.DbWriteFragment;
@@ -886,15 +885,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
 
   public void showMessage(int resId) {
     showMessage(getString(resId));
-  }
-
-  public void showMessage(CharSequence message) {
-    MessageDialogFragment.newInstance(
-        null,
-        message,
-        MessageDialogFragment.Button.okButton(),
-        null, null)
-        .show(getSupportFragmentManager(), "MESSAGE");
   }
 
   public void checkGdprConsent(boolean forceShow) {

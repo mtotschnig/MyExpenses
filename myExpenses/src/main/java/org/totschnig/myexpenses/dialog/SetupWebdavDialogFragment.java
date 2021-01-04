@@ -48,7 +48,7 @@ import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.ASYNC_
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.PROGRESS_TAG;
 import static org.totschnig.myexpenses.sync.WebDavBackendProvider.KEY_ALLOW_UNVERIFIED;
 
-public class SetupWebdavDialogFragment extends CommitSafeDialogFragment {
+public class SetupWebdavDialogFragment extends BaseDialogFragment {
 
   private EditText mEdtUrl;
   private EditText mEdtUserName;

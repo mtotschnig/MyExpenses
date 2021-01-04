@@ -60,7 +60,7 @@ import static org.totschnig.myexpenses.util.licence.LicenceStatus.CONTRIB;
 import static org.totschnig.myexpenses.util.licence.LicenceStatus.EXTENDED;
 import static org.totschnig.myexpenses.util.licence.LicenceStatus.PROFESSIONAL;
 
-public class ContribDialogFragment extends CommitSafeDialogFragment implements DialogInterface.OnClickListener, View.OnClickListener {
+public class ContribDialogFragment extends BaseDialogFragment implements DialogInterface.OnClickListener, View.OnClickListener {
   @Nullable
   private ContribFeature feature;
   private RadioButton contribButton, extendedButton, professionalButton;

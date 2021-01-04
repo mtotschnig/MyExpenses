@@ -20,7 +20,7 @@ import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
-public class DateFilterDialog extends CommitSafeDialogFragment implements OnClickListener {
+public class DateFilterDialog extends BaseDialogFragment implements OnClickListener {
   private DatePicker mDate1;
   private DatePicker mDate2;
   private Spinner mOperatorSpinner;

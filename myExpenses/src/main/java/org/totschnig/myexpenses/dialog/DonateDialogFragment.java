@@ -35,7 +35,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
-public class DonateDialogFragment extends CommitSafeDialogFragment {
+public class DonateDialogFragment extends BaseDialogFragment {
 
   private static final String KEY_PACKAGE = "package";
   @Inject

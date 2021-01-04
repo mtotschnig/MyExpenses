@@ -12,12 +12,12 @@ import com.squareup.picasso.Picasso
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.ScanPreviewBinding
-import org.totschnig.myexpenses.dialog.CommitSafeDialogFragment
+import org.totschnig.myexpenses.dialog.BaseDialogFragment
 import org.totschnig.myexpenses.feature.OcrHost
 import java.io.File
 import javax.inject.Inject
 
-class ScanPreviewFragment : CommitSafeDialogFragment() {
+class ScanPreviewFragment : BaseDialogFragment() {
     private lateinit var binding: ScanPreviewBinding
     @Inject
     lateinit var picasso: Picasso

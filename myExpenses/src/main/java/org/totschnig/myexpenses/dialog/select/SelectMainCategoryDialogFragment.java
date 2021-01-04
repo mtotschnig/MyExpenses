@@ -29,7 +29,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.CommitSafeDialogFragment;
+import org.totschnig.myexpenses.dialog.BaseDialogFragment;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import androidx.annotation.NonNull;
@@ -42,7 +42,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
-public class SelectMainCategoryDialogFragment extends CommitSafeDialogFragment implements OnClickListener,
+public class SelectMainCategoryDialogFragment extends BaseDialogFragment implements OnClickListener,
     LoaderManager.LoaderCallbacks<Cursor> {
   public static final String KEY_RESULT = "result";
   public static final String KEY_WITH_ROOT = "with_root";

@@ -43,7 +43,7 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.viewmodel.TransactionListViewModel
 import javax.inject.Inject
 
-class TransactionListDialogFragment : CommitSafeDialogFragment(), LoaderManager.LoaderCallbacks<Cursor> {
+class TransactionListDialogFragment : BaseDialogFragment(), LoaderManager.LoaderCallbacks<Cursor> {
     private lateinit var mAccount: Account
     private lateinit var mAdapter: TransactionAdapter
     private var isMain = false

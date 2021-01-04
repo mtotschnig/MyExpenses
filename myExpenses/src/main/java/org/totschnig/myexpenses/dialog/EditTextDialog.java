@@ -32,7 +32,7 @@ import org.totschnig.myexpenses.R;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
-public class EditTextDialog extends CommitSafeDialogFragment implements OnEditorActionListener {
+public class EditTextDialog extends BaseDialogFragment implements OnEditorActionListener {
 
   public static final String KEY_RESULT = "result";
   public static final String KEY_DIALOG_TITLE = "dialogTitle";

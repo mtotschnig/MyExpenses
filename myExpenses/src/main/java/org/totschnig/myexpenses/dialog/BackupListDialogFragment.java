@@ -20,7 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.documentfile.provider.DocumentFile;
 
-public class BackupListDialogFragment extends CommitSafeDialogFragment
+public class BackupListDialogFragment extends BaseDialogFragment
     implements DialogInterface.OnClickListener,DialogUtils.CalendarRestoreStrategyChangedListener {
   RadioGroup mRestorePlanStrategie;
   Spinner selectBackupSpinner;

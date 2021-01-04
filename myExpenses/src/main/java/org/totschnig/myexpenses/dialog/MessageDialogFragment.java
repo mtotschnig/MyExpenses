@@ -35,7 +35,7 @@ import static android.content.DialogInterface.BUTTON_NEGATIVE;
 import static android.content.DialogInterface.BUTTON_NEUTRAL;
 import static android.content.DialogInterface.BUTTON_POSITIVE;
 
-public class MessageDialogFragment extends CommitSafeDialogFragment implements OnClickListener {
+public class MessageDialogFragment extends BaseDialogFragment implements OnClickListener {
 
   private static final String KEY_TITLE = "title";
   private static final String KEY_MESSAGE = "message";

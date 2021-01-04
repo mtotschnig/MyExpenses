@@ -34,7 +34,7 @@ import androidx.appcompat.app.AlertDialog;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class RestoreFromCloudDialogFragment extends CommitSafeDialogFragment
+public class RestoreFromCloudDialogFragment extends BaseDialogFragment
     implements DialogInterface.OnClickListener, AdapterView.OnItemClickListener, DialogUtils.CalendarRestoreStrategyChangedListener {
   private static final String KEY_BACKUP_LIST = "backupList";
   private static final String KEY_SYNC_ACCOUNT_LIST = "syncAccountList";

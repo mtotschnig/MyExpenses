@@ -42,7 +42,7 @@ import androidx.appcompat.app.AlertDialog;
 import static android.text.format.DateUtils.DAY_IN_MILLIS;
 import static org.totschnig.myexpenses.util.tracking.Tracker.EVENT_RATING_DIALOG;
 
-public class RemindRateDialogFragment extends CommitSafeDialogFragment implements OnClickListener, OnRatingBarChangeListener {
+public class RemindRateDialogFragment extends BaseDialogFragment implements OnClickListener, OnRatingBarChangeListener {
 
   private RatingBar mRating;
   private TextView mRatingRemind;

@@ -391,20 +391,16 @@ public class MyExpenses extends BaseMyExpenses implements
     if (isInitialized) {
       setup();
     } else {
+      newVersionCheck();
       viewModel.initialize().observe(this, result -> {
         if (result == 0) {
           isInitialized = true;
           setup();
         } else {
-          MessageDialogFragment f = MessageDialogFragment.newInstance(
+          showMessage(result == ERROR_INIT_DOWNGRADE ? "Database cannot be downgraded from a newer version. Please either uninstall MyExpenses, before reinstalling, or upgrade to a new version." :
+              "Database upgrade failed. Please contact support@myexpenses.mobi !", new MessageDialogFragment.Button(android.R.string.ok, R.id.QUIT_COMMAND, null),
               null,
-              result == ERROR_INIT_DOWNGRADE ? "Database cannot be downgraded from a newer version. Please either uninstall MyExpenses, before reinstalling, or upgrade to a new version." :
-                  "Database upgrade failed. Please contact support@myexpenses.mobi !",
-              new MessageDialogFragment.Button(android.R.string.ok, R.id.QUIT_COMMAND, null),
-              null,
-              null);
-          f.setCancelable(false);
-          f.show(getSupportFragmentManager(), "INIT_FAILURE");
+              null, false);
         }
       });
     }
@@ -434,7 +430,6 @@ public class MyExpenses extends BaseMyExpenses implements
 
   private void setup() {
     viewModel.loadHiddenAccountCount();
-    newVersionCheck();
     mViewPagerAdapter = new MyViewPagerAdapter(this, getSupportFragmentManager(), null);
     myPager.setAdapter(this.mViewPagerAdapter);
     myPager.addOnPageChangeListener(this);
@@ -1143,14 +1138,11 @@ public class MyExpenses extends BaseMyExpenses implements
         Result<Uri> result = (Result<Uri>) o;
         if (result.isSuccess()) {
           recordUsage(ContribFeature.PRINT);
-          MessageDialogFragment f = MessageDialogFragment.newInstance(
-              null,
-              result.print(this),
+          showMessage(result.print(this),
               new MessageDialogFragment.Button(R.string.menu_open, R.id.OPEN_PDF_COMMAND, result.getExtra().toString(), true),
               MessageDialogFragment.Button.nullButton(R.string.button_label_close),
-              new MessageDialogFragment.Button(R.string.button_label_share_file, R.id.SHARE_PDF_COMMAND, result.getExtra().toString(), true));
-          f.setCancelable(false);
-          f.show(getSupportFragmentManager(), "PRINT_RESULT");
+              new MessageDialogFragment.Button(R.string.button_label_share_file, R.id.SHARE_PDF_COMMAND, result.getExtra().toString(), true),
+              false);
         } else {
           showSnackbar(result.print(this));
         }

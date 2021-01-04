@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class SortUtilityDialogFragment extends CommitSafeDialogFragment implements OnStartDragListener, DialogInterface.OnClickListener {
+public class SortUtilityDialogFragment extends BaseDialogFragment implements OnStartDragListener, DialogInterface.OnClickListener {
   private static final String KEY_ITEMS = "items";
   private ItemTouchHelper mItemTouchHelper;
   private OnConfirmListener callback;

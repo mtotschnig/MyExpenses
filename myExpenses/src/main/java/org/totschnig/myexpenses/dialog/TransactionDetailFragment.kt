@@ -55,7 +55,7 @@ import org.totschnig.myexpenses.viewmodel.TransactionDetailViewModel
 import org.totschnig.myexpenses.viewmodel.data.Transaction
 import javax.inject.Inject
 
-class TransactionDetailFragment : CommitSafeDialogFragment(), DialogInterface.OnClickListener {
+class TransactionDetailFragment : BaseDialogFragment(), DialogInterface.OnClickListener {
     private var transactionData: List<Transaction>? = null
     private var _binding: TransactionDetailBinding? = null
 

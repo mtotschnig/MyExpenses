@@ -57,7 +57,7 @@ import androidx.fragment.app.FragmentActivity;
  *
  * @author Michael Totschnig
  */
-public class HelpDialogFragment extends CommitSafeDialogFragment implements ImageGetter {
+public class HelpDialogFragment extends BaseDialogFragment implements ImageGetter {
 
   public static final String KEY_VARIANT = "variant";
   private static final String KEY_CONTEXT = "context";

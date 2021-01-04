@@ -25,7 +25,7 @@ import com.annimon.stream.Stream;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.BackupListDialogFragment;
 import org.totschnig.myexpenses.dialog.BackupSourcesDialogFragment;
-import org.totschnig.myexpenses.dialog.CommitSafeDialogFragment;
+import org.totschnig.myexpenses.dialog.BaseDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.dialog.DialogUtils;
@@ -332,7 +332,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
 
   @Override
   public void showSnackbar(@NonNull CharSequence message, int duration, SnackbarAction snackbarAction) {
-    final CommitSafeDialogFragment fragment = (CommitSafeDialogFragment) getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG);
+    final BaseDialogFragment fragment = (BaseDialogFragment) getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG);
     if (fragment != null) {
       fragment.showSnackbar(message, duration, snackbarAction);
     } else {

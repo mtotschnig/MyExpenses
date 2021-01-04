@@ -41,7 +41,7 @@ import butterknife.ButterKnife;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.util.Utils.isFrameworkCurrency;
 
-public class EditCurrencyDialog extends CommitSafeDialogFragment {
+public class EditCurrencyDialog extends BaseDialogFragment {
 
   public static final String KEY_RESULT = "result";
   @BindView(R.id.edt_currency_symbol)

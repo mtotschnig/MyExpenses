@@ -42,7 +42,7 @@ import androidx.appcompat.app.AlertDialog;
  * must implement {@link org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogCheckedListener}
  * and handle {@link #KEY_COMMAND_POSITIVE} in {@link org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogCheckedListener#onPositive(Bundle, boolean)}
  */
-public class ConfirmationDialogFragment extends CommitSafeDialogFragment implements OnClickListener {
+public class ConfirmationDialogFragment extends BaseDialogFragment implements OnClickListener {
 
   private CheckBox checkBox;
 

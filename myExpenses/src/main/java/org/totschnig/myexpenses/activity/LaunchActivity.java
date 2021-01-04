@@ -9,7 +9,6 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ExtendProLicenceDialogFragment;
-import org.totschnig.myexpenses.dialog.VersionDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.Transaction;
@@ -33,7 +32,7 @@ import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import timber.log.Timber;
 
 import static android.text.format.DateUtils.DAY_IN_MILLIS;
@@ -54,7 +53,6 @@ import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CAL
 
 public abstract class LaunchActivity extends ProtectedFragmentActivity implements BillingListener {
 
-  public static final String TAG_VERSION_INFO = "VERSION_INFO";
   private BillingManager billingManager;
   private UpgradeHandlerViewModel upgradeHandlerViewModel;
 
@@ -64,7 +62,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity implement
 
     billingManager = licenceHandler.initBillingManager(this, true);
 
-    upgradeHandlerViewModel = ViewModelProviders.of(this).get(UpgradeHandlerViewModel.class);
+    upgradeHandlerViewModel = new ViewModelProvider(this).get(UpgradeHandlerViewModel.class);
   }
 
   @Override
@@ -106,7 +104,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity implement
                   message = getString(R.string.licence_has_expired_n_days, -daysToGo);
                 }
                 prefHandler.putLong(PROFESSIONAL_EXPIRATION_REMINDER_LAST_SHOWN, now);
-                ExtendProLicenceDialogFragment.Companion.newInstance(message).show(getSupportFragmentManager(), "UPSELL");
+                ExtendProLicenceDialogFragment.Companion.newInstance(message).show(getSupportFragmentManager(), "UP_SELL");
               }
             }
           }
@@ -142,7 +140,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity implement
         edit.apply();
       }
       if (prev_version < 28) {
-        Timber.i("Upgrading to version 28: Purging %d transactions from datbase",
+        Timber.i("Upgrading to version 28: Purging %d transactions from database",
             getContentResolver().delete(TransactionProvider.TRANSACTIONS_URI,
                 KEY_ACCOUNTID + " not in (SELECT _id FROM accounts)", null));
       }
@@ -156,7 +154,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity implement
         //this no longer works since we migrated time to utc format
         //  DbUtils.fixDateValues(getContentResolver());
         //we do not want to show both reminder dialogs too quickly one after the other for upgrading users
-        //if they are already above both tresholds, so we set some delay
+        //if they are already above both thresholds, so we set some delay
         edit.putLong("nextReminderContrib", Transaction.getSequenceCount() + 23);
         edit.apply();
       }
@@ -211,8 +209,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity implement
         showImportantUpgradeInfo = GenericAccountService.getAccountsAsArray(this).length > 0;
       }
 
-      VersionDialogFragment.newInstance(prev_version, showImportantUpgradeInfo)
-          .show(getSupportFragmentManager(), TAG_VERSION_INFO);
+      showVersionDialog(prev_version, showImportantUpgradeInfo);
     } else {
       if (licenceHandler.needsMigration() &&
           !prefHandler.getBoolean(LICENCE_MIGRATION_INFO_SHOWN, false)) {

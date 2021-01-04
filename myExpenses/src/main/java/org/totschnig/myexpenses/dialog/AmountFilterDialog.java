@@ -26,7 +26,7 @@ import androidx.appcompat.app.AlertDialog;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 
-public class AmountFilterDialog extends CommitSafeDialogFragment implements OnClickListener {
+public class AmountFilterDialog extends BaseDialogFragment implements OnClickListener {
   private AmountEditText mAmount1Text;
   private AmountEditText mAmount2Text;
   private Spinner mOperatorSpinner;
