@@ -719,9 +719,11 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                 return true
             }
             R.id.CREATE_TEMPLATE_COMMAND -> {
-                createTemplate = !createTemplate
-                delegate.setCreateTemplate(createTemplate, isCalendarPermissionPermanentlyDeclined)
-                invalidateOptionsMenu()
+                if (::delegate.isInitialized) {
+                    createTemplate = !createTemplate
+                    delegate.setCreateTemplate(createTemplate, isCalendarPermissionPermanentlyDeclined)
+                    invalidateOptionsMenu()
+                }
             }
             R.id.SAVE_AND_NEW_COMMAND -> {
                 createNew = !createNew
@@ -731,18 +733,24 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                 return true
             }
             R.id.INVERT_TRANSFER_COMMAND -> {
-                (delegate as? TransferDelegate)?.invert()
-                return true
+                if (::delegate.isInitialized) {
+                    (delegate as? TransferDelegate)?.invert()
+                    return true
+                }
             }
             R.id.ORIGINAL_AMOUNT_COMMAND -> {
-                delegate.toggleOriginalAmount()
-                invalidateOptionsMenu()
-                return true
+                if (::delegate.isInitialized) {
+                    delegate.toggleOriginalAmount()
+                    invalidateOptionsMenu()
+                    return true
+                }
             }
             R.id.EQUIVALENT_AMOUNT_COMMAND -> {
-                delegate.toggleEquivalentAmount(currentAccount)
-                invalidateOptionsMenu()
-                return true
+                if (::delegate.isInitialized) {
+                    delegate.toggleEquivalentAmount(currentAccount)
+                    invalidateOptionsMenu()
+                    return true
+                }
             }
         }
         return false
