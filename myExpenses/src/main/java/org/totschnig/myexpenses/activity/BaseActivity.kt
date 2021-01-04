@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.res.Resources
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -96,10 +97,15 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     @CallSuper
     override fun dispatchCommand(command: Int, tag: Any?): Boolean {
-        val bundle = Bundle()
-        val fullResourceName = resources.getResourceName(command)
-        bundle.putString(Tracker.EVENT_PARAM_ITEM_ID, fullResourceName.substring(fullResourceName.indexOf('/') + 1))
-        logEvent(Tracker.EVENT_DISPATCH_COMMAND, bundle)
+        try {
+            resources.getResourceName(command)
+        } catch (e: Resources.NotFoundException) {
+            null
+        }?.let { fullResourceName ->
+            logEvent(Tracker.EVENT_DISPATCH_COMMAND, Bundle().apply {
+                putString(Tracker.EVENT_PARAM_ITEM_ID, fullResourceName.substring(fullResourceName.indexOf('/') + 1))
+            })
+        }
         if (command == R.id.TESSERACT_DOWNLOAD_COMMAND) {
             ocrViewModel.downloadTessData().observe(this, {
                 downloadPending = it
