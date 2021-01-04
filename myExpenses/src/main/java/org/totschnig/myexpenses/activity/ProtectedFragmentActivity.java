@@ -626,11 +626,13 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
    * @param extra
    * @param progressMessage if 0 no progress dialog will be shown
    */
+  @Deprecated
   public <T> void startTaskExecution(int taskId, T[] objectIds, Serializable extra,
                                      int progressMessage) {
     startTaskExecution(taskId, objectIds, extra, progressMessage, false);
   }
 
+  @Deprecated
   public <T> void startTaskExecution(int taskId, T[] objectIds, Serializable extra,
                                      int progressMessage, boolean withButton) {
     FragmentManager m = getSupportFragmentManager();

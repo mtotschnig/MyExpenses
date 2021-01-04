@@ -20,7 +20,6 @@ import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model.Transaction.ExternalStorageNotAvailableException
 import org.totschnig.myexpenses.model.Transaction.UnknownPictureSaveException
 import org.totschnig.myexpenses.model.Transfer
-import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE

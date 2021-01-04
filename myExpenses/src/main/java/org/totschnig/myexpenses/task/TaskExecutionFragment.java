@@ -44,6 +44,7 @@ import timber.log.Timber;
  * configuration changes. It handles several task that each operate on a single
  * db object identified by its row id
  */
+@Deprecated
 public class TaskExecutionFragment<T> extends Fragment {
   private static final String KEY_EXTRA = "extra";
   @Deprecated
@@ -105,8 +106,6 @@ public class TaskExecutionFragment<T> extends Fragment {
    * verify if a given uuid exists in a given backend
    */
   public static final int TASK_SYNC_CHECK = 49;
-
-  public static final int TASK_INIT = 50;
 
   public static final int TASK_FETCH_SYNC_ACCOUNT_DATA = 51;
   public static final int TASK_SETUP_FROM_SYNC_ACCOUNTS = 52;

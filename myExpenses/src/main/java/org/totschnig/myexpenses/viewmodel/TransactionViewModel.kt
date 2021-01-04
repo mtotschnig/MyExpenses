@@ -7,7 +7,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.CoroutineDispatcher
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Template
@@ -24,9 +23,6 @@ open class TransactionViewModel(application: Application) : ContentResolvingAndr
     init {
         (application as MyApplication).appComponent.inject(this)
     }
-
-    @Inject
-    lateinit var coroutineDispatcher: CoroutineDispatcher
 
     @Inject
     lateinit var prefHandler: PrefHandler
@@ -64,6 +60,4 @@ open class TransactionViewModel(application: Application) : ContentResolvingAndr
                 }
                 .subscribe { tags.postValue(it) }
     }
-
-    protected fun coroutineContext() = viewModelScope.coroutineContext + coroutineDispatcher
 }

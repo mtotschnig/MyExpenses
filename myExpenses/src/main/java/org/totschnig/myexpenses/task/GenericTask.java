@@ -655,30 +655,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           syncBackendProvider.get().tearDown();
         }
       }
-      case TaskExecutionFragment.TASK_INIT: {
-        for (SyncBackendProviderFactory factory : ServiceLoader.load(context)) {
-          factory.init();
-        }
-        try {
-          cr.call(TransactionProvider.DUAL_URI, TransactionProvider.METHOD_INIT, null, null);
-        } catch (TransactionDatabase.SQLiteDowngradeFailedException |
-            TransactionDatabase.SQLiteUpgradeFailedException e) {
-          CrashHandler.report(e);
-          String msg = e instanceof TransactionDatabase.SQLiteDowngradeFailedException ?
-              ("Database cannot be downgraded from a newer version. Please either uninstall MyExpenses, " +
-                  "before reinstalling, or upgrade to a new version.") :
-              "Database upgrade failed. Please contact support@myexpenses.mobi !";
-          return Result.ofFailure(msg);
-        } catch (SQLiteException e) {
-          String msg = String.format(
-              "Loading of transactions failed (%s). Probably the sum of the entered amounts exceeds the storage limit !"
-              , e.getMessage());
-          return Result.ofFailure(msg);
-        }
-        application.getAppComponent().licenceHandler().update();
-        Account.updateTransferShortcut();
-        return Result.SUCCESS;
-      }
       case TaskExecutionFragment.TASK_SETUP_FROM_SYNC_ACCOUNTS: {
         String syncAccountName = (String) mExtra;
         Exceptional<SyncBackendProvider> syncBackendProvider = getSyncBackendProviderFromExtra();

@@ -153,12 +153,12 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.KEY_LONG_IDS;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_BALANCE;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_EXPORT;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_INIT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_PRINT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_REVOKE_SPLIT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SET_ACCOUNT_HIDDEN;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SET_ACCOUNT_SEALED;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SPLIT;
+import static org.totschnig.myexpenses.viewmodel.MyExpensesViewModelKt.ERROR_INIT_DOWNGRADE;
 
 /**
  * This is the main activity where all expenses are listed
@@ -388,10 +388,25 @@ public class MyExpenses extends BaseMyExpenses implements
           break;
       }
     });
-    if (!isInitialized) {
-      startTaskExecution(TaskExecutionFragment.TASK_INIT, null, null, 0);
-    } else {
+    if (isInitialized) {
       setup();
+    } else {
+      viewModel.initialize().observe(this, result -> {
+        if (result == 0) {
+          isInitialized = true;
+          setup();
+        } else {
+          MessageDialogFragment f = MessageDialogFragment.newInstance(
+              null,
+              result == ERROR_INIT_DOWNGRADE ? "Database cannot be downgraded from a newer version. Please either uninstall MyExpenses, before reinstalling, or upgrade to a new version." :
+                  "Database upgrade failed. Please contact support@myexpenses.mobi !",
+              new MessageDialogFragment.Button(android.R.string.ok, R.id.QUIT_COMMAND, null),
+              null,
+              null);
+          f.setCancelable(false);
+          f.show(getSupportFragmentManager(), "INIT_FAILURE");
+        }
+      });
     }
 /*    if (savedInstanceState == null) {
       voteReminderCheck();
@@ -1139,24 +1154,6 @@ public class MyExpenses extends BaseMyExpenses implements
         } else {
           showSnackbar(result.print(this));
         }
-        break;
-      }
-      case TASK_INIT: {
-        isInitialized = true;
-        Result result = (Result) o;
-        if (!isFinishing())
-          if (result.isSuccess()) {
-            setup();
-          } else {
-            MessageDialogFragment f = MessageDialogFragment.newInstance(
-                null,
-                result.print(this),
-                new MessageDialogFragment.Button(android.R.string.ok, R.id.QUIT_COMMAND, null),
-                null,
-                null);
-            f.setCancelable(false);
-            f.show(getSupportFragmentManager(), "INIT_FAILURE");
-          }
         break;
       }
     }
