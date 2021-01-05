@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_321">
+        <item>O reconhecimento de texto agora funciona com mais idiomas.</item>
+    </string-array>
     <string-array name="whats_new_320">
         <item>As imagens podem ser aparadas.</item>
     </string-array>
@@ -47,6 +50,7 @@
     <string-array name="whats_new_308">
         <item>Múltiplas contas agora podem ser exportadas para um único arquivo.</item>
         <item>Os metadados da conta agora são sincronizados.</item>
+        <item>Widgets da tela inicial aprimorados</item>
     </string-array>
     <string-array name="whats_new_307">
         <item>Edição em massa.</item>

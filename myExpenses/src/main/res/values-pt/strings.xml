@@ -954,7 +954,19 @@
     <string name="pref_clone_with_current_date_title">Data das transações clonadas</string>
     <string name="default_action">Ação padrão</string>
     <string name="template_default_action_without_amount_hint">O modelo sem quantia deve ser salvo com a ação padrão \'Editar\'</string>
+    <string name="plan_automatic_without_amount_hint">Um plano sem quantia não deve ser salvo com a execução automática ativada</string>
     <string name="content_description_edit_plan">Editar o plano no aplicativo de agenda</string>
     <string name="reset_equivalent_amounts_success">Quantias equivalentes foram redefinidas</string>
     <string name="menu_save_and_new_content_description">Salve os dados, deixando o formulário aberto para a criação de uma nova transação com os mesmos dados.</string>
+    <!-- Title of a preference where user can select between Ml Kit and Tesseract as Engine for Optical character recognition -->
+    <string name="pref_ocr_engine_title">Mecanismo para reconhecimento de texto</string>
+    <!-- Title of a preference where user can select language for text recognition with Tesseract -->
+    <string name="pref_tesseract_language_title">Idioma para o Tesseract</string>
+    <!-- %s is replaced with language -->
+    <string name="tesseract_download_confirmation">Quer baixar dados de reconhecimento de texto para %s?</string>
+    <!-- %s is replaced with language -->
+    <string name="download_completed">O download (%s) foi concluído.</string>
+    <!-- %s is replaced with information on the engine or application used for running text recognition -->
+    <string name="ocr_recognition_info">Execução de reconhecimento de texto com %s</string>
+    <string name="ocr_download_info">O recurso de reconhecimento de texto é fornecido por um aplicativo externo.</string>
     </resources>

@@ -994,4 +994,5 @@
     <string name="download_completed">הורדת %s הסתיימה</string>
     <!-- %s is replaced with information on the engine or application used for running text recognition -->
     <string name="ocr_recognition_info">הפעלת זיהוי טקסט עם%s</string>
+    <string name="ocr_download_info">יכולת זיהוי טקסט ניתנת על ידי יישום חיצוני.</string>
     </resources>

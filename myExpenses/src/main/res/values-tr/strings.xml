@@ -968,4 +968,5 @@
     <string name="download_completed">İndirme (%s) tamamlandı.</string>
     <!-- %s is replaced with information on the engine or application used for running text recognition -->
     <string name="ocr_recognition_info">Metin tanıma %s ile çalıştırılıyor</string>
+    <string name="ocr_download_info">Metin tanıma kabiliyeti harici bir uygulama tarafından sağlanmaktadır.</string>
     </resources>

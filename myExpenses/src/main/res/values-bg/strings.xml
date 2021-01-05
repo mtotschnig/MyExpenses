@@ -969,4 +969,4 @@
     <!-- %s is replaced with information on the engine or application used for running text recognition -->
     <string name="ocr_recognition_info">Разпознаваме текст с %s ...</string>
     <string name="ocr_download_info">Възможността за разпознаване на текст се осигурява от външно приложение.</string>
-</resources>
+    </resources>
