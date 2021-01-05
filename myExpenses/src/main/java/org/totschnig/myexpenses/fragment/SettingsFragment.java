@@ -93,7 +93,6 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceGroup;
 import androidx.preference.PreferenceScreen;
-import androidx.preference.SwitchPreferenceCompat;
 import eltos.simpledialogfragment.SimpleDialog;
 import eltos.simpledialogfragment.form.Input;
 import eltos.simpledialogfragment.form.SimpleFormDialog;
@@ -404,6 +403,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
       setProtectionDependentsState();
       Preference preferenceLegacy = requirePreference(PROTECTION_LEGACY);
       Preference preferenceSecurityQuestion = requirePreference(SECURITY_QUESTION);
+      Preference preferenceDeviceLock = requirePreference(PROTECTION_DEVICE_LOCK_SCREEN);
       if (Utils.hasApiLevel(Build.VERSION_CODES.LOLLIPOP)) {
         final PreferenceCategory preferenceCategory = new PreferenceCategory(requireContext());
         preferenceCategory.setTitle(R.string.feature_deprecated);
@@ -412,8 +412,9 @@ public class SettingsFragment extends BaseSettingsFragment implements
         preferenceScreen.removePreference(preferenceSecurityQuestion);
         preferenceCategory.addPreference(preferenceLegacy);
         preferenceCategory.addPreference(preferenceSecurityQuestion);
+        preferenceDeviceLock.setOnPreferenceChangeListener(this);
       } else {
-        requirePreference(PROTECTION_DEVICE_LOCK_SCREEN).setVisible(false);
+        preferenceDeviceLock.setVisible(false);
       }
     }
     //SHARE screen
@@ -553,6 +554,9 @@ public class SettingsFragment extends BaseSettingsFragment implements
     } else if (key.equals(getKey(PROTECTION_LEGACY)) || key.equals(getKey(PROTECTION_DEVICE_LOCK_SCREEN))) {
       if (sharedPreferences.getBoolean(key, false)) {
         activity().showSnackbar(R.string.pref_protection_screenshot_information);
+        if (prefHandler.getBoolean(AUTO_BACKUP, false)) {
+          activity().showUnencryptedBackupWarning();
+        }
       }
       setProtectionDependentsState();
       updateAllWidgets();
@@ -564,7 +568,14 @@ public class SettingsFragment extends BaseSettingsFragment implements
     } else if (key.equals(getKey(PROTECTION_ENABLE_TEMPLATE_WIDGET))) {
       //Log.d("DEBUG","shared preference changed: Template Widget");
       updateWidgets(TemplateWidget.class);
-    } else if (key.equals(getKey(AUTO_BACKUP)) || key.equals(getKey(AUTO_BACKUP_TIME))) {
+    } else if (key.equals(getKey(AUTO_BACKUP))) {
+      if (sharedPreferences.getBoolean(key, false) &&
+          (prefHandler.getBoolean(PROTECTION_LEGACY, false) ||
+              prefHandler.getBoolean(PROTECTION_DEVICE_LOCK_SCREEN, false))) {
+        activity().showUnencryptedBackupWarning();
+      }
+      DailyScheduler.updateAutoBackupAlarms(activity());
+    } else if (key.equals(getKey(AUTO_BACKUP_TIME))) {
       DailyScheduler.updateAutoBackupAlarms(activity());
     } else if (key.equals(getKey(SYNC_FREQUCENCY))) {
       for (Account account : GenericAccountService.getAccountsAsArray(activity())) {
@@ -786,6 +797,19 @@ public class SettingsFragment extends BaseSettingsFragment implements
           return false;
         }
       }
+    } else if (matches(pref, PROTECTION_DEVICE_LOCK_SCREEN)) {
+      if (Utils.hasApiLevel(Build.VERSION_CODES.LOLLIPOP)) {
+        if (((Boolean) value)) {
+          if (!((KeyguardManager) requireContext().getSystemService(Context.KEYGUARD_SERVICE)).isKeyguardSecure()) {
+            activity().showDeviceLockScreenWarning();
+            return false;
+          } else if (prefHandler.getBoolean(PROTECTION_LEGACY, false)) {
+            showOnlyOneProtectionWarning(true);
+            return false;
+          }
+        }
+      }
+      return true;
     }
     return true;
   }
@@ -891,21 +915,6 @@ public class SettingsFragment extends BaseSettingsFragment implements
             .pos(R.string.button_validate)
             .neut()
             .show(this, DIALOG_VALIDATE_LICENCE);
-      }
-      return true;
-    }
-    if (matches(preference, PROTECTION_DEVICE_LOCK_SCREEN)) {
-      if (Utils.hasApiLevel(Build.VERSION_CODES.LOLLIPOP)) {
-        SwitchPreferenceCompat switchPreferenceCompat = (SwitchPreferenceCompat) preference;
-        if (switchPreferenceCompat.isChecked()) {
-          if (!((KeyguardManager) requireContext().getSystemService(Context.KEYGUARD_SERVICE)).isKeyguardSecure()) {
-            activity().showDeviceLockScreenWarning();
-            switchPreferenceCompat.setChecked(false);
-          } else if (prefHandler.getBoolean(PROTECTION_LEGACY, false)) {
-            showOnlyOneProtectionWarning(true);
-            switchPreferenceCompat.setChecked(false);
-          }
-        }
       }
       return true;
     }

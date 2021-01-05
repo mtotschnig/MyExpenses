@@ -41,6 +41,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.fragment.SettingsFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.DistributionHelper;
 import org.totschnig.myexpenses.util.PermissionHelper;
@@ -336,6 +337,11 @@ public class MyPreferenceActivity extends ProtectedFragmentActivity implements
     ft.replace(R.id.fragment_container, fragment, key);
     ft.addToBackStack(key);
     ft.commitAllowingStateLoss();
+  }
+
+  public void showUnencryptedBackupWarning() {
+    if (prefHandler.getString(PrefKey.EXPORT_PASSWORD, null) == null)
+      showMessage(unencryptedBackupWarning());
   }
 
 }

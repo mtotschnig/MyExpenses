@@ -52,6 +52,8 @@ import eltos.simpledialogfragment.form.SimpleFormDialog;
 import icepick.State;
 import timber.log.Timber;
 
+import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_DEVICE_LOCK_SCREEN;
+import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_LEGACY;
 import static org.totschnig.myexpenses.task.RestoreTask.KEY_PASSWORD;
 
 public class BackupRestoreActivity extends ProtectedFragmentActivity
@@ -98,6 +100,8 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
             .append(" ");
         if (isProtected) {
           message.append(getString(R.string.warning_backup_protected)).append(" ");
+        } else if (prefHandler.getBoolean(PROTECTION_LEGACY, false) || prefHandler.getBoolean(PROTECTION_DEVICE_LOCK_SCREEN, false)) {
+          message.append(unencryptedBackupWarning()).append(" ");
         }
         message.append(getString(R.string.continue_confirmation));
         MessageDialogFragment.newInstance(
