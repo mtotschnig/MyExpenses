@@ -10,6 +10,8 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.totschnig.myexpenses.R;
 
+import androidx.test.core.app.ApplicationProvider;
+
 import static junit.framework.Assert.fail;
 import static org.totschnig.myexpenses.util.Utils.PLACEHOLDER_APP_NAME;
 
@@ -18,8 +20,8 @@ public class AppNameLocalizationTest {
 
   @Test
   public void shouldBuildWithAppName() {
-    Application context = RuntimeEnvironment.application;
-    String[] locales = context.getResources().getStringArray(R.array.pref_ui_language_values);
+    Application context = ApplicationProvider.getApplicationContext();
+    String[] locales = getLocales(context);
     for (String locale : locales) {
       if (!locale.equals("default")) {
         setLocale(locale);
@@ -47,10 +49,14 @@ public class AppNameLocalizationTest {
     }
   }
 
+  public String[] getLocales(Application context) {
+    return context.getResources().getStringArray(R.array.pref_ui_language_values);
+  }
+
   @Test
   public void shouldBuildWithAppNameIfDefined() {
-    Application context = RuntimeEnvironment.application;
-    String[] locales = context.getResources().getStringArray(R.array.pref_ui_language_values);
+    Application context = ApplicationProvider.getApplicationContext();
+    String[] locales = getLocales(context);
     for (String locale : locales) {
       if (!locale.equals("default")) {
         setLocale(locale);
@@ -74,8 +80,8 @@ public class AppNameLocalizationTest {
 
   @Test
   public void shouldBuildTellAFriendMessage() {
-    Application context = RuntimeEnvironment.application;
-    String[] locales = context.getResources().getStringArray(R.array.pref_ui_language_values);
+    Application context = ApplicationProvider.getApplicationContext();
+    String[] locales = getLocales(context);
     for (String locale : locales) {
       if (!locale.equals("default")) {
         setLocale(locale);
@@ -86,8 +92,8 @@ public class AppNameLocalizationTest {
 
   @Test
   public void shouldBuildWithPhrase() {
-    Application context = RuntimeEnvironment.application;
-    String[] locales = context.getResources().getStringArray(R.array.pref_ui_language_values);
+    Application context = ApplicationProvider.getApplicationContext();
+    String[] locales = getLocales(context);
     for (String locale : locales) {
       if (!locale.equals("default")) {
         setLocale(locale);

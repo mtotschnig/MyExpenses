@@ -13,8 +13,6 @@ const val OCR_MODULE = "ocr"
 const val ENGINE_TESSERACT = "tesseract"
 const val ENGINE_MLKIT = "mlkit"
 
-fun getUserConfiguredEngine(context: Context, prefHandler: PrefHandler) = prefHandler.getString(PrefKey.OCR_ENGINE, null) ?: getDefaultEngine(context)
-
 /**
  * check if language has non-latin script and is supported by Tesseract
  */

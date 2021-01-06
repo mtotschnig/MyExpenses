@@ -4,15 +4,16 @@ import org.assertj.core.api.Assertions
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.totschnig.myexpenses.feature.getLocaleForUserCountry
 import java.util.*
 
 @RunWith(Parameterized::class)
 class OcrHandlerImplTest(private val country: String?, private val expectedLanguage: String) {
     @Test
-    fun getLocaleForUserCountry() {
+    fun localeForUserCountry() {
         val countryHasSingleLocale = Locale.getAvailableLocales().count { it.country == country } == 1
-        val value = if (countryHasSingleLocale) OcrHandlerImpl.getLocaleForUserCountry(country) else
-            OcrHandlerImpl.getLocaleForUserCountry(country, Locale(expectedLanguage))
+        val value = if (countryHasSingleLocale) getLocaleForUserCountry(country) else
+            getLocaleForUserCountry(country, Locale(expectedLanguage))
         Assertions.assertThat(value.language).isEqualTo(expectedLanguage)
     }
 
