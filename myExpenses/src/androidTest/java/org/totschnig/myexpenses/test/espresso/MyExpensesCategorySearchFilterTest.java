@@ -1,9 +1,11 @@
 package org.totschnig.myexpenses.test.espresso;
 
+import android.content.ContentUris;
 import android.content.OperationApplicationException;
 import android.os.RemoteException;
 
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
@@ -23,14 +25,15 @@ import org.totschnig.myexpenses.testutils.Matchers;
 import java.util.Currency;
 
 import androidx.test.espresso.matcher.CursorMatchers;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.rule.ActivityTestRule;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.longClick;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.RootMatchers.isPlatformPopup;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.is;
@@ -44,24 +47,30 @@ public final class MyExpensesCategorySearchFilterTest extends BaseUiTest {
       new ActivityTestRule<>(MyExpenses.class);
   private static String catLabel1;
   private static String catLabel2;
+  private static String catLabel1Sub;
+  private static long id1Main, id1Sub, id2Main;
   private static Account account;
 
   @BeforeClass
   public static void fixture() {
-    catLabel1 = "Test category 1";
+    catLabel1 = "Main category 1";
+    catLabel1Sub = "Sub category 1";
     catLabel2 = "Test category 2";
     final CurrencyUnit currency = new CurrencyUnit(Currency.getInstance("EUR"));
     account = new Account("Test account 1", currency, 0, "",
         AccountType.CASH, Account.DEFAULT_COLOR);
     account.save();
     long categoryId1 = Category.write(0L, catLabel1, null);
+    long categoryId1Sub = Category.write(0L, catLabel1Sub, categoryId1);
     long categoryId2 = Category.write(0L, catLabel2,null);
     Transaction op = Transaction.getNewInstance(account.getId());
     op.setAmount(new Money(currency, -1200L));
     op.setCatId(categoryId1);
-    op.save();
+    id1Main = ContentUris.parseId(op.save());
     op.setCatId(categoryId2);
-    op.saveAsNew();
+    id2Main = ContentUris.parseId(op.saveAsNew());
+    op.setCatId(categoryId1Sub);
+    id1Sub = ContentUris.parseId(op.saveAsNew());
   }
 
   @AfterClass
@@ -69,31 +78,68 @@ public final class MyExpensesCategorySearchFilterTest extends BaseUiTest {
     Account.delete(account.getId());
   }
 
-  @Test
-  public void catFilterShouldHideTransaction() {
+  @Before
+  public void startSearch() {
     waitForAdapter();
-    labelIsDisplayed(catLabel1);
-    labelIsDisplayed(catLabel2);
+    allLabelsAreDisplayed();
     onView(withId(R.id.SEARCH_COMMAND)).perform(click());
     onView(withText(R.string.category)).perform(click());
-    onData(withCategoryLabel(is(catLabel1)))
-        .inAdapterView(withId(R.id.list)).perform(click());
-    labelIsDisplayed(catLabel1);
-    labelIsNotDisplayed(catLabel2);
-    //switch off filter
-    onView(withId(R.id.SEARCH_COMMAND)).perform(click());
-    onView(withText(catLabel1)).inRoot(isPlatformPopup()).perform(click());
-    labelIsDisplayed(catLabel2);
   }
 
-  private void labelIsDisplayed(String label) {
-    onData(CursorMatchers.withRowString(DatabaseConstants.KEY_LABEL_MAIN, label))
-        .inAdapterView(getWrappedList()).check(matches(isDisplayed()));
+  private void allLabelsAreDisplayed() {
+    isDisplayed(id1Main);
+    isDisplayed(id1Sub);
+    isDisplayed(id2Main);
   }
-  private void labelIsNotDisplayed(String label) {
+
+  public void endSearch(String text) {
+    //switch off filter
+    onView(withId(R.id.SEARCH_COMMAND)).perform(click());
+    onView(withText(text)).inRoot(isPlatformPopup()).perform(click());
+    allLabelsAreDisplayed();
+  }
+
+  @Test
+  public void catFilterChildShouldHideTransaction() {
+    onData(withCategoryLabel(is(catLabel1)))
+        .inAdapterView(withId(R.id.list)).perform(click());
+    onData(withCategoryLabel(is(catLabel1Sub)))
+        .inAdapterView(withId(R.id.list)).perform(click());
+    isDisplayed(id1Sub);
+    isNotDisplayed(id1Main);
+    isNotDisplayed(id2Main);
+    endSearch(catLabel1Sub);
+  }
+
+  @Test
+  public void catFilterMainWithChildrenShouldHideTransaction() {
+    onData(withCategoryLabel(is(catLabel1)))
+        .inAdapterView(withId(R.id.list)).perform(longClick());
+    clickMenuItem(R.id.SELECT_COMMAND_MULTIPLE, R.string.select, true);
+    isDisplayed(id1Main);
+    isDisplayed(id1Sub);
+    isNotDisplayed(id2Main);
+    endSearch(catLabel1);
+  }
+
+  @Test
+  public void catFilterMainWithoutChildrenShouldHideTransaction() {
+    onData(withCategoryLabel(is(catLabel2)))
+        .inAdapterView(withId(R.id.list)).perform(click());
+    isDisplayed(id2Main);
+    isNotDisplayed(id1Main);
+    isNotDisplayed(id1Sub);
+    endSearch(catLabel2);
+  }
+
+  private void isDisplayed(long id) {
+    onData(CursorMatchers.withRowLong(DatabaseConstants.KEY_ROWID, id))
+        .inAdapterView(getWrappedList()).check(matches(ViewMatchers.isDisplayed()));
+  }
+  private void isNotDisplayed(long id) {
     onView(getWrappedList())
         .check(matches(not(Matchers.withAdaptedData(
-            CursorMatchers.withRowString(DatabaseConstants.KEY_LABEL_MAIN, label)))));
+            CursorMatchers.withRowLong(DatabaseConstants.KEY_ROWID, id)))));
   }
 
   @Override

@@ -290,7 +290,7 @@ public class CategoryList extends SortableListFragment {
         return true;
       }
       case R.id.SELECT_COMMAND_MULTIPLE: {
-        if (itemIds.length == 1 || Arrays.asList(itemIds).indexOf(NULL_ITEM_ID) == -1) {
+        if (itemIds.length == 1 || !Arrays.asList(itemIds).contains(NULL_ITEM_ID)) {
           ArrayList<String> labelList = new ArrayList<>();
           for (int i = 0; i < positions.size(); i++) {
             Category c;

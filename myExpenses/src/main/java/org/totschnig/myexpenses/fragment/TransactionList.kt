@@ -29,7 +29,7 @@ class TransactionList : BaseTransactionList() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
-        if (resultCode == Activity.RESULT_OK) {
+        if (resultCode != Activity.RESULT_CANCELED) {
             if (requestCode == CONFIRM_MAP_TAG_REQUEST) {
                 intent?.let {
                     viewModel.tag(mListView.checkedItemIds, it.getParcelableArrayListExtra(KEY_TAG_LIST)!!, it.getBooleanExtra(KEY_REPLACE, false))

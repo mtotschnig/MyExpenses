@@ -1040,10 +1040,10 @@ public class Transaction extends AbstractTransaction {
     setPictureUri(homeUri);
   }
 
-  public void saveAsNew() {
+  public Uri saveAsNew() {
     setId(0L);
     setUuid(null);
-    save();
+    return save();
   }
 
   /**

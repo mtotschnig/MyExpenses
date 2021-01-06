@@ -88,7 +88,7 @@ public class Matchers {
     };
   }
 
-  public static Matcher withCategoryLabel(Matcher nameMatcher) {
+  public static Matcher<Category> withCategoryLabel(Matcher<String> nameMatcher) {
     return new TypeSafeMatcher<Category>() {
       @Override
       public boolean matchesSafely(Category category) {
@@ -103,7 +103,7 @@ public class Matchers {
     };
   }
 
-  public static Matcher withDataItemLabel(Matcher nameMatcher) {
+  public static Matcher<DataHolder> withDataItemLabel(Matcher<String> nameMatcher) {
     return new TypeSafeMatcher<DataHolder>() {
       @Override
       public boolean matchesSafely(DataHolder dataHolder) {
