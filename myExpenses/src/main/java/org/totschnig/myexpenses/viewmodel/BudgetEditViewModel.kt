@@ -54,15 +54,16 @@ class BudgetEditViewModel(application: Application) : BudgetViewModel(applicatio
     }
 
     fun persistPreferences(budgetId: Long, whereFilter: WhereFilter, budget: Budget) {
-        val filterPersistence = FilterPersistence(prefHandler, prefNameForCriteria(budgetId), null, false, false)
+        val filterPersistence = FilterPersistence(prefHandler, prefNameForCriteria(budgetId), null,
+                immediatePersist = false, restoreFromPreferences = false)
         whereFilter.criteria.forEach { filterPersistence.addCriteria(it) }
         filterPersistence.persistAll()
         if (budget.grouping != Grouping.NONE && whereFilter.isEmpty) {
             val prefKey = prefNameForDefaultBudget(budget.accountId, budget.grouping)
             if (budget.default) {
-                prefHandler.putLong(prefKey, budget.id)
+                prefHandler.putLong(prefKey, budgetId)
             } else {
-                if(prefHandler.getLong(prefKey, 0) == budget.id) {
+                if(prefHandler.getLong(prefKey, 0) == budgetId) {
                     prefHandler.remove(prefKey)
                 }
             }
