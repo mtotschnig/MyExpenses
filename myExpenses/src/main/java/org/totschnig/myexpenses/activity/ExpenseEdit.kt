@@ -275,7 +275,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             } else {
                 task = TRANSACTION
             }
-            mNewInstance = mRowId == 0L
+            mNewInstance = mRowId == 0L || task == TRANSACTION_FROM_TEMPLATE
             //were we called from a notification
             val notificationId = intent.getIntExtra(MyApplication.KEY_NOTIFICATION_ID, 0)
             if (notificationId > 0) {
