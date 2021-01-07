@@ -969,4 +969,6 @@
     <!-- %s is replaced with information on the engine or application used for running text recognition -->
     <string name="ocr_recognition_info">Разпознаваме текст с %s ...</string>
     <string name="ocr_download_info">Възможността за разпознаване на текст се осигурява от външно приложение.</string>
-    </resources>
+    <!-- %s is replaced with the title of the preference for setting a passphrase for backups (pref_security_export_passphrase_title) -->
+    <string name="warning_unencrypted_backup">Въпреки че данните ви са защитени от неоторизиран достъп на това устройство, архивите се създават без криптиране, освен ако не зададете %s.</string>
+</resources>
