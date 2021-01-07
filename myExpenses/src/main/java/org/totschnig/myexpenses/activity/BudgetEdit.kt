@@ -54,6 +54,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
     private var resumedP = false
     private var budget: Budget? = null
     private lateinit var typeSpinnerHelper: SpinnerHelper
+    private lateinit var accountSpinnerHelper: SpinnerHelper
     private lateinit var filterPersistence: FilterPersistence
     @JvmField
     @State
@@ -73,7 +74,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         Description.addTextChangedListener(this)
         Amount.addTextChangedListener(this)
         typeSpinnerHelper.setOnItemSelectedListener(this)
-        Accounts.onItemSelectedListener = this
+        accountSpinnerHelper.setOnItemSelectedListener(this)
         (budget?.start ?: LocalDate.now()).let {
             DurationFrom.initWith(it, this)
         }
@@ -140,7 +141,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         viewModel = ViewModelProvider(this).get(BudgetEditViewModel::class.java)
         viewModel.accounts.observe(this, { list ->
             Accounts.adapter = AccountAdapter(this, list)
-            accountId?.let { populateAccount(it) }
+            populateAccount(accountId ?: list[0].id)
         })
         viewModel.budget.observe(this, { populateData(it) })
         mNewInstance = budgetId == 0L
@@ -157,6 +158,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
             adapter = GroupingAdapter(this@BudgetEdit)
             setSelection(Grouping.MONTH.ordinal)
         }
+        accountSpinnerHelper = SpinnerHelper(Accounts)
         filterPersistence = FilterPersistence(prefHandler, prefNameForCriteria(budgetId), savedInstanceState, false, !mNewInstance)
 
         filterPersistence.whereFilter.criteria.forEach(this::showFilterCriteria)
@@ -267,7 +269,8 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
     }
 
     private fun populateAccount(accountId: Long) {
-        with(Accounts) {
+        this.accountId = accountId
+        with(accountSpinnerHelper) {
             (adapter as AccountAdapter).getPosition(accountId).takeIf { it > -1 }?.let {
                 setSelection(it)
             }

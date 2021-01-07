@@ -167,12 +167,8 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
     return mIsDirty;
   }
 
-  private void setDirty(boolean isDirty) {
-    this.mIsDirty = isDirty;
-  }
-
   public void setDirty() {
-    setDirty(true);
+    mIsDirty = true;
   }
 
   @Override
