@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="padding_main_screen">48dp</dimen>
-    <dimen name="padding_main_screen_header">56dp</dimen>
 </resources>

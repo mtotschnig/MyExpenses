@@ -35,9 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/header_line"
         android:orientation="horizontal"
-        android:paddingBottom="@dimen/list_header_vertical_padding"
-        android:paddingLeft="@dimen/padding_main_screen_header"
-        android:paddingRight="@dimen/padding_main_screen_header">
+        android:paddingBottom="@dimen/list_header_vertical_padding">
 
         <TextView
             android:id="@+id/sum_income"
@@ -45,7 +43,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="start"
+            android:gravity="center"
             tools:text="sum_income" />
 
         <TextView
@@ -63,7 +61,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="end"
+            android:gravity="center"
             tools:text="sum_transfer" />
     </LinearLayout>
 

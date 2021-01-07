@@ -10,12 +10,15 @@
         android:orientation="horizontal">
 
         <!-- The navigation drawer -->
-        <include layout="@layout/account_list" />
+        <include layout="@layout/account_list"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="7" />
         <!-- The main content view -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="13"
             android:orientation="vertical">
 
             <include layout="@layout/toolbar" />

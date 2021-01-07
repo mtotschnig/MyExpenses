@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -15,37 +14,61 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?listChoiceBackgroundIndicator">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="?listChoiceBackgroundIndicator"
+    android:paddingStart="@dimen/padding_main_screen"
+    android:paddingEnd="@dimen/padding_main_screen">
+
+    <include
+        layout="@layout/expansion_handle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true" />
+
+    <com.github.lzyzsd.circleprogress.DonutProgress
+        android:id="@+id/budgetProgress"
+        android:layout_width="@dimen/account_color_diameter"
+        android:layout_height="@dimen/account_color_diameter"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/general_padding"
+        android:layout_marginRight="@dimen/general_padding"
+        app:donut_finished_stroke_width="3sp"
+        app:donut_text_color="?android:textColorPrimary"
+        app:donut_text_size="@dimen/textSizeLabel"
+        app:donut_unfinished_stroke_width="3sp" />
 
     <LinearLayout
         android:id="@+id/header_line"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="@dimen/general_padding"
         android:layout_marginStart="@dimen/general_padding"
+        android:layout_marginLeft="@dimen/general_padding"
+        android:layout_toEndOf="@id/budgetProgress"
+        android:layout_toRightOf="@id/budgetProgress"
         android:orientation="vertical"
-        android:paddingBottom="@dimen/list_header_vertical_padding"
-        android:paddingTop="@dimen/list_header_vertical_padding">
+        android:paddingTop="@dimen/list_header_vertical_padding"
+        android:paddingBottom="@dimen/list_header_vertical_padding">
 
         <TextView
             android:id="@+id/text"
             style="@style/headingStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="GROUP_TITLE"/>
+            tools:text="GROUP_TITLE" />
 
         <TextView
             android:id="@+id/interim_balance"
             style="@style/headingStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="INTERIM_BALANCE"/>
+            tools:text="INTERIM_BALANCE" />
 
         <LinearLayout
             android:id="@+id/sum_line"
@@ -60,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/general_padding"
                 android:layout_marginRight="@dimen/general_padding"
-                android:gravity="center"/>
+                android:gravity="center" />
 
             <TextView
                 android:id="@+id/sum_expense"
@@ -68,13 +91,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/general_padding"
                 android:layout_marginRight="@dimen/general_padding"
-                android:gravity="center"/>
+                android:gravity="center" />
 
             <TextView
                 android:id="@+id/sum_transfer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"/>
+                android:gravity="center" />
         </LinearLayout>
 
     </LinearLayout>
@@ -82,26 +105,12 @@
     <View
         android:id="@+id/divider_bottom"
         style="@style/Divider"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true" />
 
     <include
         layout="@layout/group_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_alignParentTop="true"/>
-
-    <com.github.lzyzsd.circleprogress.DonutProgress
-        android:id="@+id/budgetProgress"
-        android:layout_width="@dimen/account_color_diameter"
-        android:layout_height="@dimen/account_color_diameter"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="@dimen/general_padding"
-        android:layout_marginRight="@dimen/general_padding"
-        app:donut_finished_stroke_width="3sp"
-        app:donut_text_color="?android:textColorPrimary"
-        app:donut_text_size="@dimen/textSizeLabel"
-        app:donut_unfinished_stroke_width="3sp"/>
+        android:layout_alignParentTop="true" />
 
 </RelativeLayout>
