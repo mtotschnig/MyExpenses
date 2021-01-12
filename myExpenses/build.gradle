@@ -41,8 +41,8 @@ android {
         applicationId "org.totschnig.myexpenses"
         minSdkVersion project.minSdkVersion
         targetSdkVersion project.targetSdkVersion
-        versionCode 452
-        versionName '3.2.1.1'
+        versionCode project.versionCode
+        versionName project.versionName
         multiDexEnabled true
 
         buildConfigField "String", "BUILD_DATE", "\"" + getDate() + "\""
@@ -180,11 +180,11 @@ configurations {
 
 dependencies {
     implementation project(':transactionscontract')
-    implementation "com.jakewharton:butterknife:$rootProject.butterknifeVersion"
+    implementation "com.jakewharton:butterknife:$butterknifeVersion"
     implementation 'com.squareup.phrase:phrase:1.1.0'
-    kapt "com.jakewharton:butterknife-compiler:$rootProject.butterknifeVersion"
-    kapt "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
-    implementation "com.google.dagger:dagger:$rootProject.daggerVersion"
+    kapt "com.jakewharton:butterknife-compiler:$butterknifeVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    implementation "com.google.dagger:dagger:$daggerVersion"
     compileOnly 'javax.annotation:jsr250-api:1.0'
     implementation 'frankiesardo:icepick:3.2.0'
     kapt 'frankiesardo:icepick-processor:3.2.0'
@@ -208,8 +208,8 @@ dependencies {
         exclude group: "com.android.support", module: "support-annotations"
     }
     implementation 'com.itextpdf:itextpdf:5.5.13.1'
-    implementation "ch.acra:acra-mail:$rootProject.acraVersion"
-    implementation "ch.acra:acra-dialog:$rootProject.acraVersion"
+    implementation "ch.acra:acra-mail:$acraVersion"
+    implementation "ch.acra:acra-dialog:$acraVersion"
     //at the moment, we need to stick with the last version that supports java 6
     //noinspection GradleDependency
     implementation 'org.apache.commons:commons-lang3:3.5'
@@ -224,7 +224,7 @@ dependencies {
 
     // WebDAV2
     //noinspection GradleDependency
-    implementation "com.squareup.okhttp3:okhttp:$rootProject.okHttpVersion"
+    implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
 
     // Dropbox
     implementation 'com.dropbox.core:dropbox-core-sdk:3.1.5'
@@ -253,10 +253,10 @@ dependencies {
     implementation project(path: ':setupwizard')
 
     //licence validation
-    implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofitVersion"
-    implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofitVersion"
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     //noinspection GradleDependency
-    implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.okHttpVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
 
     implementation "com.jakewharton.threetenabp:threetenabp:$threetenabp"
 
@@ -275,22 +275,22 @@ dependencies {
     androidTestImplementation 'tools.fastlane:screengrab:2.0.0'
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation "androidx.test:runner:$rootProject.androidSupportTestVersion"
-    androidTestUtil "androidx.test:orchestrator:$rootProject.androidSupportTestVersion"
-    androidTestImplementation "androidx.test:rules:$rootProject.androidSupportTestVersion"
+    androidTestImplementation "androidx.test:runner:$androidSupportTestVersion"
+    androidTestUtil "androidx.test:orchestrator:$androidSupportTestVersion"
+    androidTestImplementation "androidx.test:rules:$androidSupportTestVersion"
     androidTestImplementation "androidx.test.espresso:espresso-intents:$espressoVersion"
     androidTestImplementation("androidx.test.espresso:espresso-contrib:$espressoVersion") {
         exclude module: 'accessibility-test-framework'
     }
-    //androidTestImplementation  "androidx.test.espresso.idling:idling-concurrent:$rootProject.espressoVersion"
-    androidTestImplementation "org.mockito:mockito-android:$rootProject.mockitoVersion"
+    //androidTestImplementation  "androidx.test.espresso.idling:idling-concurrent:$espressoVersion"
+    androidTestImplementation "org.mockito:mockito-android:$mockitoVersion"
 
     testImplementation "junit:junit:$junitVersion"
     testImplementation 'pl.pragmatists:JUnitParams:1.1.1'
-    testImplementation "org.mockito:mockito-core:$rootProject.mockitoVersion"
-    testImplementation "org.robolectric:robolectric:$rootProject.robolectricVersion"
-    testImplementation "org.robolectric:shadows-multidex:$rootProject.robolectricVersion"
-    testImplementation "androidx.test:core:$rootProject.androidSupportTestVersion"
+    testImplementation "org.mockito:mockito-core:$mockitoVersion"
+    testImplementation "org.robolectric:robolectric:$robolectricVersion"
+    testImplementation "org.robolectric:shadows-multidex:$robolectricVersion"
+    testImplementation "androidx.test:core:$androidSupportTestVersion"
     testImplementation "org.assertj:assertj-core:$assertjVersion"
     androidTestImplementation "org.assertj:assertj-core:$assertjVersion"
     implementation "androidx.core:core-ktx:$ktxVersion"
@@ -300,25 +300,25 @@ dependencies {
     androidTestImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 
     // Room components
-    implementation "androidx.room:room-runtime:$rootProject.roomVersion"
-    implementation "androidx.room:room-ktx:$rootProject.roomVersion"
-    kapt "androidx.room:room-compiler:$rootProject.roomVersion"
-    androidTestImplementation "androidx.room:room-testing:$rootProject.roomVersion"
+    implementation "androidx.room:room-runtime:$roomVersion"
+    implementation "androidx.room:room-ktx:$roomVersion"
+    kapt "androidx.room:room-compiler:$roomVersion"
+    androidTestImplementation "androidx.room:room-testing:$roomVersion"
 
     // Lifecycle components
-    implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.archLifecycleVersion"
-    implementation "androidx.lifecycle:lifecycle-common-java8:$rootProject.archLifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-extensions:$archLifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$archLifecycleVersion"
 
-    androidTestImplementation "androidx.arch.core:core-testing:$rootProject.androidxArchVersion"
+    androidTestImplementation "androidx.arch.core:core-testing:$androidxArchVersion"
 
     // ViewModel Kotlin support
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.archLifecycleVersion"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$rootProject.archLifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$archLifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$archLifecycleVersion"
 
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
 
-    //implementation "androidx.activity:activity-ktx:$rootProject.activity_version"
-    implementation "androidx.fragment:fragment-ktx:$rootProject.fragment_version"
+    //implementation "androidx.activity:activity-ktx:$activity_version"
+    implementation "androidx.fragment:fragment-ktx:$fragment_version"
 
     internImplementation "com.google.android.gms:play-services-base:17.5.0"
 
@@ -339,6 +339,10 @@ task copyFileForFixture(type: Files) {
     script {
         push "tests/script/screenshot.jpg", "/sdcard/Android/data/org.totschnig.myexpenses.fortest/files/screenshot.jpg"
     }
+}
+
+task echoPublishTag() {
+    println "git tag r${versionCode}; git push origin r${versionCode}"
 }
 
 def categoryIcons() {
