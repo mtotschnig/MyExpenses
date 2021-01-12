@@ -18,9 +18,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="?listChoiceBackgroundIndicator"
-    android:paddingStart="@dimen/padding_main_screen"
-    android:paddingEnd="@dimen/padding_main_screen">
+    android:background="?listChoiceBackgroundIndicator">
 
     <include
         layout="@layout/expansion_handle"
@@ -37,8 +35,8 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_marginEnd="@dimen/general_padding"
-        android:layout_marginRight="@dimen/general_padding"
+        android:layout_marginStart="@dimen/general_padding"
+        android:layout_marginLeft="@dimen/general_padding"
         app:donut_finished_stroke_width="3sp"
         app:donut_text_color="?android:textColorPrimary"
         app:donut_text_size="@dimen/textSizeLabel"
@@ -78,6 +76,7 @@
             tools:ignore="UnknownIdInLayout">
 
             <TextView
+                style="@style/headingStyle"
                 android:id="@+id/sum_income"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -86,6 +85,7 @@
                 android:gravity="center" />
 
             <TextView
+                style="@style/headingStyle"
                 android:id="@+id/sum_expense"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -94,6 +94,7 @@
                 android:gravity="center" />
 
             <TextView
+                style="@style/headingStyle"
                 android:id="@+id/sum_transfer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -6,8 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layoutDirection="locale"
-    android:paddingLeft="@dimen/padding_main_screen_header"
-    android:paddingRight="@dimen/padding_main_screen_header"
     android:paddingTop="@dimen/list_header_vertical_padding"
     tools:ignore="UnusedAttribute">
 
