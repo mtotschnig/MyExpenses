@@ -37,11 +37,12 @@
         android:title="@string/menu_reset_plan_instance"
         app:showAsAction="ifRoom">
     </item>
-    <group android:id="@id/MenuSingle">
+    <group android:id="@id/MenuSingle"
+        android:orderInCategory="2">
         <item
             android:id="@id/CREATE_PLAN_INSTANCE_EDIT_COMMAND"
             android:icon="@drawable/ic_action_apply_edit"
-            android:orderInCategory="5"
+            android:orderInCategory="2"
             android:title="@string/menu_create_instance_edit"
             app:showAsAction="ifRoom">
         </item>

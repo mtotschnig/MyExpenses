@@ -16,11 +16,11 @@
  -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <group android:id="@id/MenuSingle">
+    <group android:id="@id/MenuSingle"
+        android:orderInCategory="0">
         <item
             android:id="@id/SELECT_COMMAND"
             android:icon="@drawable/ic_menu_done"
-            android:orderInCategory="0"
             android:title="@string/select"
             app:showAsAction="ifRoom">
         </item>

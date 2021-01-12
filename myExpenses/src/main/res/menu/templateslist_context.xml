@@ -21,15 +21,16 @@
         android:orderInCategory="0"
         android:title="@string/menu_create_instance_save"
         app:showAsAction="ifRoom" />
-    <group android:id="@id/MenuSingle">
+    <group android:id="@id/MenuSingle"
+        android:orderInCategory="1">
         <item
             android:id="@id/CREATE_INSTANCE_EDIT_COMMAND"
             android:icon="@drawable/ic_action_apply_edit"
-            android:orderInCategory="1"
             android:title="@string/menu_create_instance_edit"
             app:showAsAction="ifRoom" />
     </group>
     <item
+        android:orderInCategory="99"
         android:title="@string/default_action"
         app:showAsAction="never">
         <menu>

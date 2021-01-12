@@ -24,14 +24,14 @@
     <item
         android:id="@+id/SELECT_ALL_COMMAND"
         android:icon="@drawable/ic_select_all"
-        android:orderInCategory="0"
+        android:orderInCategory="100"
         android:title="@android:string/selectAll"
         app:showAsAction="ifRoom" />
-    <group android:id="@id/MenuSingle">
+    <group android:id="@id/MenuSingle"
+        android:orderInCategory="10">
         <item
             android:id="@id/EDIT_COMMAND"
             android:icon="@drawable/ic_menu_edit"
-            android:orderInCategory="10"
             android:title="@string/menu_edit"
             app:showAsAction="ifRoom" />
     </group>

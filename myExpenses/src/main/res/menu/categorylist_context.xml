@@ -23,18 +23,16 @@
         android:title="@string/menu_move"
         app:showAsAction="ifRoom">
     </item>
-    <group android:id="@id/MenuSingleGroup">
+    <group android:id="@id/MenuSingleGroup" android:orderInCategory="2">
         <item
             android:id="@id/CREATE_COMMAND"
             android:icon="@drawable/ic_menu_add"
-            android:orderInCategory="1"
             android:title="@string/menu_create_sub_cat"
             app:showAsAction="ifRoom">
         </item>
         <item
             android:id="@id/COLOR_COMMAND"
             android:icon="@drawable/ic_color"
-            android:orderInCategory="0"
             android:title="@string/menu_color"
             app:showAsAction="ifRoom">
         </item>
