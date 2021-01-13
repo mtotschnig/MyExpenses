@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en" class="h-100">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>My Expenses Web User Interface</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+
+
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.js" defer></script>
+    <!-- Custom styles for this template -->
+</head>
+
+<body class="text-center text-white bg-dark h-100 d-flex flex-column"
+      x-data="{ ip: '', name: '', amount: '', count: 0, accounts: [] }">
+
+<div class=" d-flex h-100 p-3 mx-auto flex-column" role="dialog">
+    <form>
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="name">Phone IP</label>
+                <input type="text" class="form-control" name="ip" x-model="ip">
+                <button type="button" class="btn btn-primary" @click="loadData(ip).then(response => response.json())
+                      .then(data => accounts = data.accounts)">Load
+                </button>
+            </div>
+            <div class="form-group">
+                <label>Account</label>
+                <select name="account">
+                    <template x-for="account in accounts" :key="account.id">
+                        <option :value="account.id" x-text="account.label"></option>
+                    </template>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="name">Your name</label>
+                <input type="text" class="form-control" name="name" x-model="name">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Amount</label>
+                <input type="email" class="form-control" name="amount" x-model="amount">
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" :disabled="!name || !email" @click="submitForm(ip, {name: name, email: email}).then(() => {
+                count++;
+              })">Submit
+            </button>
+            <div x-show="count > 0"><span x-text="count"></span> transactions have been recorded.
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+      function loadData(ip) {
+      return fetch(server(ip))
+      }
+      function submitForm(ip, data){
+        return fetch(server(ip), {
+          method: 'POST',
+          body: JSON.stringify(data)
+        });
+      }
+
+    function server(ip) {
+        return 'http://'+ ip + ':9000/'
+    }
+
+
+</script>
+
+</body>
+</html>

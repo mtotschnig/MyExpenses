@@ -25,6 +25,7 @@ import org.totschnig.myexpenses.feature.OcrResult
 import org.totschnig.myexpenses.feature.OcrResultFlat
 import org.totschnig.myexpenses.feature.Payee
 import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
@@ -44,6 +45,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     @JvmField
     @State
     var accountId: Long = 0
+
+    @JvmField
+    @State
+    var webInputActive = false
     var currentCurrency: String? = null
 
     @Inject
@@ -197,5 +202,11 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             popup.show()
             true
         }
+    }
+
+    public override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        menu.findItem(R.id.SCAN_MODE_COMMAND)?.setChecked(prefHandler.getBoolean(PrefKey.OCR, false))
+        menu.findItem(R.id.WEB_INPUT_COMMAND)?.setChecked(webInputActive)
+        return super.onPrepareOptionsMenu(menu)
     }
 }

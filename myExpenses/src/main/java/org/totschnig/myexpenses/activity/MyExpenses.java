@@ -72,6 +72,7 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.preference.PreferenceUtilsKt;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.Criteria;
+import org.totschnig.myexpenses.service.WebInputService;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.CursorFragmentPagerAdapter;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
@@ -1186,6 +1187,23 @@ public class MyExpenses extends BaseMyExpenses implements
     // true, then it has handled the app icon touch event
     if (mDrawerToggle != null && mDrawerToggle.onOptionsItemSelected(item)) {
       return true;
+    }
+    switch (item.getItemId()) {
+      case R.id.SCAN_MODE_COMMAND: {
+        toggleScanMode();
+        return true;
+      }
+      case R.id.WEB_INPUT_COMMAND: {
+        final Intent intent = new Intent(this, WebInputService.class);
+        if (webInputActive) {
+          stopService(intent);
+        } else {
+          startService(intent);
+        }
+        webInputActive = !webInputActive;
+        invalidateOptionsMenu();
+        return true;
+      }
     }
 
     return handleGrouping(item) || handleSortDirection(item) || super.onOptionsItemSelected(item);
