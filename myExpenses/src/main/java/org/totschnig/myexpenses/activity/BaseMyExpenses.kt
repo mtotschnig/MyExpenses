@@ -2,8 +2,10 @@ package org.totschnig.myexpenses.activity
 
 import android.content.ComponentName
 import android.content.Intent
+import android.content.ServiceConnection
 import android.net.Uri
 import android.os.Bundle
+import android.os.IBinder
 import android.view.Menu
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
@@ -30,14 +32,16 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.service.WebInputService
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 
+
 const val DIALOG_TAG_OCR_DISAMBIGUATE = "DISAMBIGUATE"
 
-abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListener {
+abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListener, WebInputService.UpdateListener {
     @JvmField
     @State
     var scanFile: File? = null
@@ -46,10 +50,14 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     @State
     var accountId: Long = 0
 
-    @JvmField
-    @State
-    var webInputActive = false
+    val webInputActive
+        get() = if (webInputServiceBound) {
+            webInputService.isServerRunning
+        } else false
     var currentCurrency: String? = null
+
+    private lateinit var webInputService: WebInputService
+    private var webInputServiceBound: Boolean = false
 
     @Inject
     lateinit var discoveryHelper: DiscoveryHelper
@@ -58,6 +66,38 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         super.onPostCreate(savedInstanceState)
         if (savedInstanceState == null) {
             discoveryHelper.discover(this, floatingActionButton, 3, DiscoveryHelper.Feature.fab_long_press)
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Intent(this, WebInputService::class.java).also { intent ->
+            bindService(intent, serviceConnection, BIND_AUTO_CREATE)
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if (webInputServiceBound) {
+            webInputService.unregisterListener(this)
+            unbindService(serviceConnection)
+        }
+        webInputServiceBound = false
+    }
+
+    override fun onUpdate(running: Boolean) {
+        invalidateOptionsMenu()
+    }
+
+    private val serviceConnection: ServiceConnection = object : ServiceConnection {
+        override fun onServiceConnected(className: ComponentName, service: IBinder) {
+            webInputService = (service as WebInputService.LocalBinder).getService()
+            webInputService.registerListener(this@BaseMyExpenses)
+            webInputServiceBound = true
+        }
+
+        override fun onServiceDisconnected(className: ComponentName) {
+            webInputServiceBound = false
         }
     }
 
@@ -204,7 +244,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
-    public override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         menu.findItem(R.id.SCAN_MODE_COMMAND)?.setChecked(prefHandler.getBoolean(PrefKey.OCR, false))
         menu.findItem(R.id.WEB_INPUT_COMMAND)?.setChecked(webInputActive)
         return super.onPrepareOptionsMenu(menu)

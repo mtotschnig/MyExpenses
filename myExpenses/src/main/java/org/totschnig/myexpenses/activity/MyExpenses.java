@@ -151,6 +151,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOU
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
+import static org.totschnig.myexpenses.service.WebInputServiceKt.START_ACTION;
+import static org.totschnig.myexpenses.service.WebInputServiceKt.STOP_ACTION;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.KEY_LONG_IDS;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_BALANCE;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_EXPORT;
@@ -1195,13 +1197,8 @@ public class MyExpenses extends BaseMyExpenses implements
       }
       case R.id.WEB_INPUT_COMMAND: {
         final Intent intent = new Intent(this, WebInputService.class);
-        if (webInputActive) {
-          stopService(intent);
-        } else {
-          startService(intent);
-        }
-        webInputActive = !webInputActive;
-        invalidateOptionsMenu();
+        intent.setAction(getWebInputActive() ? STOP_ACTION : START_ACTION);
+        startService(intent);
         return true;
       }
     }
