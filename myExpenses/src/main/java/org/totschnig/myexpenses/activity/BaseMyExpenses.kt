@@ -41,7 +41,7 @@ import javax.inject.Inject
 
 const val DIALOG_TAG_OCR_DISAMBIGUATE = "DISAMBIGUATE"
 
-abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListener, WebInputService.UpdateListener {
+abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListener {
     @JvmField
     @State
     var scanFile: File? = null
@@ -79,20 +79,14 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     override fun onStop() {
         super.onStop()
         if (webInputServiceBound) {
-            webInputService.unregisterListener(this)
             unbindService(serviceConnection)
         }
         webInputServiceBound = false
     }
 
-    override fun onUpdate(running: Boolean) {
-        invalidateOptionsMenu()
-    }
-
     private val serviceConnection: ServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
             webInputService = (service as WebInputService.LocalBinder).getService()
-            webInputService.registerListener(this@BaseMyExpenses)
             webInputServiceBound = true
         }
 
@@ -101,7 +95,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
-    private fun displayDateCanditate(pair: Pair<LocalDate, LocalTime?>) =
+    private fun displayDateCandidate(pair: Pair<LocalDate, LocalTime?>) =
             (pair.second?.let { pair.first.atTime(pair.second) } ?: pair.second).toString()
 
     override fun processOcrResult(result: Result<OcrResult>) {
@@ -126,10 +120,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                 },
                                 when (it.dateCandidates.size) {
                                     0 -> Hint.plain(getString(R.string.scan_result_no_date))
-                                    1 -> Hint.plain("%s: %s".format(getString(R.string.date), displayDateCanditate(it.dateCandidates[0])))
+                                    1 -> Hint.plain("%s: %s".format(getString(R.string.date), displayDateCandidate(it.dateCandidates[0])))
                                     else -> Spinner.plain(KEY_DATE)
                                             .placeholder(R.string.date)
-                                            .items(*it.dateCandidates.map(this::displayDateCanditate).toTypedArray())
+                                            .items(*it.dateCandidates.map(this::displayDateCandidate).toTypedArray())
                                             .preset(0)
                                 },
                                 when (it.payeeCandidates.size) {
@@ -177,7 +171,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         startEdit(createRowIntent(type, isIncome))
     }
 
-    protected fun startEdit(intent: Intent?) {
+    private fun startEdit(intent: Intent?) {
         floatingActionButton.hide()
         startActivityForResult(intent, EDIT_REQUEST)
     }
@@ -206,11 +200,11 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
         if (command == R.id.OCR_DOWNLOAD_COMMAND) {
             val intent = Intent(Intent.ACTION_VIEW).apply {
-                setData(Uri.parse("market://details?id=org.totschnig.myexpenses.ocr.tesseract"))
+                data = Uri.parse("market://details?id=org.totschnig.myexpenses.ocr.tesseract")
             }
             packageManager.queryIntentActivities(intent, 0).find { it.activityInfo.packageName == "org.fdroid.fdroid" }
                     ?.activityInfo?.let {
-                        intent.setComponent(ComponentName(it.applicationInfo.packageName, it.name))
+                        intent.component = ComponentName(it.applicationInfo.packageName, it.name)
                         startActivity(intent)
                     } ?: run { Toast.makeText(this, "F-Droid not installed", Toast.LENGTH_LONG).show()}
             return true
@@ -219,22 +213,22 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     fun setupFabSubMenu() {
-        floatingActionButton.setOnLongClickListener { v ->
+        floatingActionButton.setOnLongClickListener {
             discoveryHelper.markDiscovered(DiscoveryHelper.Feature.fab_long_press)
             val popup = PopupMenu(this, floatingActionButton)
-            val popupMenu = popup.getMenu()
-            popup.setOnMenuItemClickListener({ item ->
+            val popupMenu = popup.menu
+            popup.setOnMenuItemClickListener { item ->
                 createRow(when (item.itemId) {
                     R.string.split_transaction -> Transactions.TYPE_SPLIT
                     R.string.transfer -> Transactions.TYPE_TRANSFER
                     else -> Transactions.TYPE_TRANSACTION
                 }, item.itemId == R.string.income)
                 true
-            })
+            }
             popupMenu.add(Menu.NONE, R.string.expense, Menu.NONE, R.string.expense).setIcon(R.drawable.ic_expense)
-            popupMenu.add(Menu.NONE, R.string.income, Menu.NONE, R.string.income).setIcon(AppCompatResources.getDrawable(this, R.drawable.ic_menu_add)?.also {
+            popupMenu.add(Menu.NONE, R.string.income, Menu.NONE, R.string.income).icon = AppCompatResources.getDrawable(this, R.drawable.ic_menu_add)?.also {
                 DrawableCompat.setTint(it, resources.getColor(R.color.colorIncome))
-            })
+            }
             popupMenu.add(Menu.NONE, R.string.transfer, Menu.NONE, R.string.transfer).setIcon(R.drawable.ic_menu_forward)
             popupMenu.add(Menu.NONE, R.string.split_transaction, Menu.NONE, R.string.split_transaction).setIcon(R.drawable.ic_menu_split)
             //noinspection RestrictedApi
@@ -245,8 +239,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        menu.findItem(R.id.SCAN_MODE_COMMAND)?.setChecked(prefHandler.getBoolean(PrefKey.OCR, false))
-        menu.findItem(R.id.WEB_INPUT_COMMAND)?.setChecked(webInputActive)
+        menu.findItem(R.id.SCAN_MODE_COMMAND)?.isChecked = prefHandler.getBoolean(PrefKey.OCR, false)
+        menu.findItem(R.id.WEB_INPUT_COMMAND)?.isChecked = webInputActive
         return super.onPrepareOptionsMenu(menu)
     }
 }

@@ -154,7 +154,7 @@ public class NotificationBuilderWrapper {
     if (shouldUseNative()) {
       api23Builder.addAction(new Notification.Action.Builder(
           //the icon is only shown on API 23, starting with Nougat notification actions only show text. Hence light background is ok
-          Icon.createWithBitmap(UiUtils.getTintedBitmapForTheme(context, iconApi23, R.style.LightBackground)),
+          iconApi23 == 0 ? null : Icon.createWithBitmap(UiUtils.getTintedBitmapForTheme(context, iconApi23, R.style.LightBackground)),
           title, intent).build());
     } else {
       compatBuilder.addAction(iconCompat, title, intent);

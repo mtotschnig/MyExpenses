@@ -17,7 +17,10 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
-import org.totschnig.myexpenses.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper.NOTIFICATION_WEB_UI
 import timber.log.Timber
@@ -26,19 +29,8 @@ const val STOP_ACTION = "STOP_ACTION"
 const val START_ACTION = "START_ACTION"
 
 class WebInputService : LifecycleService() {
-    interface UpdateListener {
-        fun onUpdate(running: Boolean)
-    }
-
-    private val mListeners = ArrayList<UpdateListener>()
-
-    fun registerListener(listener: UpdateListener?) {
-        mListeners.add(listener!!)
-    }
-
-    fun unregisterListener(listener: UpdateListener?) {
-        mListeners.remove(listener)
-    }
+    private val job = SupervisorJob()
+    private val scope = CoroutineScope(Dispatchers.IO  + job)
 
     private val binder = LocalBinder()
 
@@ -63,7 +55,9 @@ class WebInputService : LifecycleService() {
             }
             START_ACTION -> {
                 if (server == null) {
-                    server = embeddedServer(Netty, 9000) {
+                    //setting watchPaths to null prevents crash on server stop on Lollipop
+                    // (https://youtrack.jetbrains.com/issue/KTOR-1613)  and prevents Strict Mode violation
+                    server = embeddedServer(Netty, 9000, watchPaths = emptyList()) {
                         install(ContentNegotiation) {
                             gson {}
                         }
@@ -80,22 +74,18 @@ class WebInputService : LifecycleService() {
                         }
                     }.also {
                         //TODO strict mode. start on background
-                        it.start(wait = false)
-                        sendUpdate(true)
+                        scope.launch {
+                            it.start(wait = false)
+                        }
                     }
 
                     val stopIntent = Intent(this, WebInputService::class.java).apply {
-                        setAction(STOP_ACTION)
+                        action = STOP_ACTION
                     }
                     val notification: Notification = NotificationBuilderWrapper.defaultBigTextStyleBuilder(this, "Web UI", "Running ..." +
                             ((applicationContext.getSystemService(WIFI_SERVICE) as? WifiManager)?.connectionInfo?.ipAddress?.let { Formatter.formatIpAddress(it) }
                                     ?: "?"))
-                            .addAction(
-                                    //TODO icons
-                                    android.R.drawable.ic_menu_save,
-                                    R.drawable.ic_menu_save,
-                                    "Stop",
-                                    PendingIntent.getService(this, 0, stopIntent, FLAG_ONE_SHOT))
+                            .addAction(0, 0, "Stop", PendingIntent.getService(this, 0, stopIntent, FLAG_ONE_SHOT))
                             .build()
 
                     startForeground(NOTIFICATION_WEB_UI, notification)
@@ -106,19 +96,15 @@ class WebInputService : LifecycleService() {
         return START_NOT_STICKY
     }
 
-    private fun sendUpdate(running: Boolean) {
-        mListeners.forEach { it.onUpdate(running) }
-    }
-
     override fun onDestroy() {
         stopServer()
-        sendUpdate(false)
         super.onDestroy()
+        job.cancel()
     }
 
     private fun stopServer() {
         //TODO strict mode. stop on background
-        server?.stop(1000, 1000)
+        server?.stop(0, 0)
         server = null
         stopForeground(true)
     }
