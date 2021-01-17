@@ -278,6 +278,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
   private Account mAccount;
   private Money budget = null;
   protected TransactionListViewModel viewModel;
+  @Nullable
   private ContentObserver budgetsObserver;
 
   @Inject
@@ -342,10 +343,12 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     });
     MyApplication.getInstance().getAppComponent().inject(this);
     firstLoadCompleted = (savedInstanceState != null);
-    budgetsObserver = new BudgetObserver();
-    getContext().getContentResolver().registerContentObserver(
-        TransactionProvider.BUDGETS_URI,
-        true, budgetsObserver);
+    if (ContribFeature.BUDGET.isAvailable(prefHandler)) {
+      budgetsObserver = new BudgetObserver();
+      requireContext().getContentResolver().registerContentObserver(
+          TransactionProvider.BUDGETS_URI,
+          true, budgetsObserver);
+    }
   }
 
   @Override
