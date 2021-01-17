@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--When we use the navigation drawer we specify the width in sp (we allow it to grow with font size),
+    on tablet (starting from 700dp), we want a fixed distribution between account list and transaction list-->
+    <dimen name="drawerWidth">300dp</dimen>
+</resources>
