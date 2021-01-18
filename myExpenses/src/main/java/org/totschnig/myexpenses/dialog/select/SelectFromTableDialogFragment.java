@@ -69,7 +69,7 @@ public abstract class SelectFromTableDialogFragment extends BaseDialogFragment i
   }
 
   protected int getDialogTitle() {
-    return getArguments().getInt(KEY_DIALOG_TITLE);
+    return 0;
   }
 
   abstract Uri getUri();

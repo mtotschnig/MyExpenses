@@ -69,6 +69,7 @@ import org.totschnig.myexpenses.dialog.AmountFilterDialog;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.DateFilterDialog;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
+import org.totschnig.myexpenses.dialog.select.SelectMultipleAccountDialogFragment;
 import org.totschnig.myexpenses.dialog.select.SelectCrStatusDialogFragment;
 import org.totschnig.myexpenses.dialog.select.SelectMethodDialogFragment;
 import org.totschnig.myexpenses.dialog.select.SelectSingleAccountDialogFragment;
@@ -1402,6 +1403,9 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
           case R.id.FILTER_TAG_COMMAND:
             enabled = hasTags;
             break;
+          case R.id.FILTER_ACCOUNT_COMMAND:
+            enabled = mAccount.isAggregate();
+            break;
         }
         Criteria c = getFilter().get(filterItem.getItemId());
         Utils.menuItemSetEnabledAndVisible(filterItem, enabled || c != null);
@@ -1515,6 +1519,12 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
       case R.id.FILTER_TRANSFER_COMMAND:
         if (!removeFilter(command)) {
           SelectTransferAccountDialogFragment.newInstance(mAccount.getId())
+              .show(getActivity().getSupportFragmentManager(), "TRANSFER_FILTER");
+        }
+        return true;
+      case R.id.FILTER_ACCOUNT_COMMAND:
+        if (!removeFilter(command)) {
+          SelectMultipleAccountDialogFragment.newInstance(mAccount.getCurrencyUnit().getCode())
               .show(getActivity().getSupportFragmentManager(), "TRANSFER_FILTER");
         }
         return true;

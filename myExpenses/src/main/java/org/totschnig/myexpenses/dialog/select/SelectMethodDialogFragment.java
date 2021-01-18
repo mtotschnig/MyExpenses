@@ -42,7 +42,7 @@ public class SelectMethodDialogFragment extends SelectFromMappedTableDialogFragm
 
   public static SelectMethodDialogFragment newInstance(long rowId) {
     SelectMethodDialogFragment dialogFragment = new SelectMethodDialogFragment();
-    setArguments(dialogFragment, rowId);
+    dialogFragment.setArguments(rowId);
     return dialogFragment;
   }
 

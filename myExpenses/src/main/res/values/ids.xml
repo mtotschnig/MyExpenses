@@ -127,6 +127,7 @@
     <item name="MenuGroup" type="id"/>
     <item name="REQUEST_LICENCE_MIGRATION_COMMAND" type="id"/>
     <item name="FILTER_TRANSFER_COMMAND" type="id"/>
+    <item name="FILTER_ACCOUNT_COMMAND" type="id"/>
     <item name="SORT_NEXT_INSTANCE_COMMAND" type="id"/>
     <item name="SYNC_COMMAND" type="id"/>
     <item name="SYNC_SETTINGS_COMMAND" type="id"/>

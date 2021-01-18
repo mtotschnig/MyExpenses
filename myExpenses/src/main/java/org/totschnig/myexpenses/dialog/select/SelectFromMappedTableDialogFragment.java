@@ -49,10 +49,10 @@ public abstract class SelectFromMappedTableDialogFragment extends SelectFilterDi
     return accountSelectionArgs(getArguments().getLong(KEY_ROWID));
   }
 
-  protected static void setArguments(SelectFromMappedTableDialogFragment dialogFragment, long rowId) {
+  protected void setArguments(long rowId) {
     Bundle args = new Bundle(1);
     args.putLong(KEY_ROWID, rowId);
-    dialogFragment.setArguments(args);
+    setArguments(args);
   }
 
   @Nullable
