@@ -176,6 +176,11 @@
             android:summaryOff="@string/pref_clone_with_current_date_summary_off"
             android:summaryOn="@string/pref_clone_with_current_date_summary_on"
             android:title="@string/pref_clone_with_current_date_title" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="@string/pref_group_header_show_details_key"
+            android:summary="@string/pref_group_header_show_details_summary" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_category_title_import">

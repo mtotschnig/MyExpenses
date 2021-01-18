@@ -76,8 +76,8 @@
             tools:ignore="UnknownIdInLayout">
 
             <TextView
-                style="@style/headingStyle"
                 android:id="@+id/sum_income"
+                style="@style/headingStyle.Income"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/general_padding"
@@ -85,8 +85,8 @@
                 android:gravity="center" />
 
             <TextView
-                style="@style/headingStyle"
                 android:id="@+id/sum_expense"
+                style="@style/headingStyle.Expense"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/general_padding"
@@ -94,8 +94,8 @@
                 android:gravity="center" />
 
             <TextView
-                style="@style/headingStyle"
                 android:id="@+id/sum_transfer"
+                style="@style/headingStyle.Transfer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center" />

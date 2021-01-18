@@ -969,7 +969,9 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         holder = new HeaderViewHolder(convertView);
         convertView.setTag(holder);
       }
+      holder.sumLine.setVisibility(prefHandler.getBoolean(PrefKey.GROUP_HEADER, true) ? View.VISIBLE : View.GONE);
       HeaderViewHolder finalHolder = holder;
+      holder.interimBalance.setOnClickListener(v -> finalHolder.sumLine.setVisibility(finalHolder.sumLine.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE));
       if (mAccount.getGrouping() != Grouping.NONE) {
         holder.headerIndicator.setVisibility(View.VISIBLE);
         holder.headerIndicator.setExpanded(!mListView.isHeaderCollapsed(headerId));
@@ -1004,9 +1006,9 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     private void fillSums(HeaderViewHolder holder, long headerId) {
       Long[] data = headerData != null ? headerData.get(headerId) : null;
       if (data != null) {
-        holder.sumIncome.setText("+ " + currencyFormatter.convAmount(data[0], mAccount.getCurrencyUnit()));
-        final Long expensesSum = data[1];
-        holder.sumExpense.setText(currencyFormatter.convAmount(expensesSum, mAccount.getCurrencyUnit()));
+        holder.sumIncome.setText("⊕ " + currencyFormatter.convAmount(data[0], mAccount.getCurrencyUnit()));
+        final Long expensesSum = -data[1];
+        holder.sumExpense.setText("⊖ " + currencyFormatter.convAmount(expensesSum, mAccount.getCurrencyUnit()));
         holder.sumTransfer.setText(Transfer.BI_ARROW + " " + currencyFormatter.convAmount(
             data[2], mAccount.getCurrencyUnit()));
         String formattedDelta = String.format("%s %s", Long.signum(data[4]) > -1 ? "+" : "-",
@@ -1179,6 +1181,8 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     TextView interimBalance;
     @BindView(R.id.text)
     TextView text;
+    @BindView(R.id.sum_line)
+    ViewGroup sumLine;
     @BindView(R.id.sum_income)
     TextView sumIncome;
     @BindView(R.id.sum_expense)
