@@ -1388,7 +1388,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
             enabled = mappedCategories;
             break;
           case R.id.FILTER_STATUS_COMMAND:
-            enabled = !mAccount.getType().equals(AccountType.CASH);
+            enabled = mAccount.isAggregate() || !mAccount.getType().equals(AccountType.CASH);
             break;
           case R.id.FILTER_PAYEE_COMMAND:
             enabled = mappedPayees;
