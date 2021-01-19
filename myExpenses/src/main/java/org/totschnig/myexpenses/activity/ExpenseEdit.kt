@@ -81,6 +81,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.disableAutoFill
 import org.totschnig.myexpenses.preference.enableAutoFill
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PICTURE_URI
@@ -117,6 +118,7 @@ import org.totschnig.myexpenses.viewmodel.data.Tag
 import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET
 import timber.log.Timber
 import java.io.Serializable
+import java.math.BigDecimal
 import java.util.*
 import javax.inject.Inject
 import org.totschnig.myexpenses.viewmodel.data.Template as DataTemplate
@@ -491,6 +493,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             delegate.setPicture(it)
         }
         amountInput.type = intent.getBooleanExtra(KEY_INCOME, false)
+        (intent.getSerializableExtra(KEY_AMOUNT) as? BigDecimal)?.let { amountInput.setAmount(it) }
     }
 
     private fun populate(transaction: Transaction) {
@@ -834,7 +837,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                 val result = CropImage.getActivityResult(intent)
                 if (resultCode == RESULT_OK) {
                     setPicture(result.uri)
-                } else  {
+                } else {
                     processImageCaptureError(resultCode, result)
                 }
             }

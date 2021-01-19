@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2011 Google Inc.
+     Licensed to The Android Open Source Project.
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="drawer_open">"Mở ngăn kéo điều hướng"</string>
+    <string name="drawer_close">"Đóng ngăn kéo điều hướng"</string>
+    <string name="toast_text_copied">"Đã sao chép văn bản"</string>
+    <string name="copy_text">"Sao chép vào khay nhớ tạm"</string>
+</resources>
+

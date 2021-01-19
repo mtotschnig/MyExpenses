@@ -193,4 +193,6 @@
     <item name="DEFAULT_ACTION_SAVE_COMMAND" type="id" />
     <item name="DEFAULT_ACTION_EDIT_COMMAND" type="id" />
     <item name="TESSERACT_DOWNLOAD_COMMAND" type="id" />
+    <item name="COPY_TO_CLIPBOARD_COMMAND" type="id" />
+    <item name="NEW_BALANCE_COMMAND" type="id" />
 </resources>

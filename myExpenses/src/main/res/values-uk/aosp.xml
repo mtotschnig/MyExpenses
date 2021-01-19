@@ -7,5 +7,7 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="drawer_open">"Висунути навігаційну панель"</string>
     <string name="drawer_close">"Сховати навігаційну панель"</string>
+    <string name="toast_text_copied">"Текст скопійовано"</string>
+    <string name="copy_text">"Копіювати в буфер обміну"</string>
 </resources>
 

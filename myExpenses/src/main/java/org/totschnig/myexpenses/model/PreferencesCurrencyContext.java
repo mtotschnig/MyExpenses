@@ -31,7 +31,7 @@ public class PreferencesCurrencyContext implements CurrencyContext {
 
   @Override
   @NonNull
-  public CurrencyUnit get(String currencyCode) {
+  public CurrencyUnit get(@NonNull String currencyCode) {
     synchronized (this) {
       CurrencyUnit currencyUnit = INSTANCES.get(currencyCode);
       if (currencyUnit != null) {
