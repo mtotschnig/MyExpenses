@@ -26,6 +26,9 @@
   <string name="help_MyExpenses_title">Transaction list</string>
   <string name="help_MyExpenses_info">This screen lists all transactions for the current account. Use the floating action button to open the form for creating a new transaction.</string>
   <string name="help_MyExpenses_fab_long_press">Long press on the floating action button opens a menu that allows to prepare the form for transfer, split transaction or income.</string>
+  <string name="popup_MyExpenses_toolbar_intro">Tapping on the toolbar pops up a menu with the following entries:</string>
+  <string name="popup_MyExpenses_toolbar_copy_text">Copy the current balance to the clipboard.</string>
+  <string name="popup_MyExpenses_toolbar_new_balance">Calculate the difference between the current balance and a new value.</string>
   <string name="help_MyExpenses_crStatus_info">The status of the transaction is indicated by a colored rectangle: gray for unreconciled, blue for clear, green for reconciled. Clicking on the rectangle, changes the status.</string>
   <string name="menu_reset_help_text">This command will export all transactions of the current account to a file on the SD card in QIF or CSV format. You can decide to delete the exported transactions, in that case the opening balance is automatically adjusted. Alternatively, if transactions are not deleted, they will be marked as exported. My Expenses can share the file immediately after the export through FTP, email or any other file sharing app, if you configure it to do so in the Settings. If a search filter is active, only the transactions mapped by this filter will be taken into consideration.</string>
   <string name="menu_grouping_help_text">You can group transactions by day, week, month or year. For each group, the sum of income, expenses and transfers is calculated and displayed. When you click on a group header, the group of transactions is collapsed and only the header is displayed. Click again to expand.</string>

@@ -421,6 +421,12 @@
     <string-array name="help_MyExpenses_info" tools:ignore="UnusedResources">
         <item>help_MyExpenses_info</item>
         <item>help_MyExpenses_fab_long_press</item>
+        <item>popup_MyExpenses_toolbar</item>
+    </string-array>
+
+    <string-array name="popup_MyExpenses_toolbar_items">
+        <item>copy_text</item>
+        <item>new_balance</item>
     </string-array>
 
     <string-array name="help_ManageCurrencies_info" tools:ignore="UnusedResources">
