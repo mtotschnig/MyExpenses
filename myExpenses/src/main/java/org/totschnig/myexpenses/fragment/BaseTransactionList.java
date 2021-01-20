@@ -1525,7 +1525,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
       case R.id.FILTER_ACCOUNT_COMMAND:
         if (!removeFilter(command)) {
           SelectMultipleAccountDialogFragment.newInstance(mAccount.getCurrencyUnit().getCode())
-              .show(getActivity().getSupportFragmentManager(), "TRANSFER_FILTER");
+              .show(getActivity().getSupportFragmentManager(), "ACCOUNT_FILTER");
         }
         return true;
       case R.id.PRINT_COMMAND:

@@ -371,7 +371,9 @@ public class TransactionProvider extends BaseTransactionProvider {
         } else {
           amountCalculation = DatabaseConstants.getAmountHomeEquivalent(VIEW_WITH_ACCOUNT);
         }
-        final String sumColumn = "abs(sum(" + amountCalculation + ")) as  " + KEY_SUM;
+        String sumExpression = "sum(" + amountCalculation + ")";
+        if (groupByType) sumExpression = "abs(" + sumExpression + ")";
+        final String sumColumn = sumExpression + " as  " + KEY_SUM;
         projection = groupByType ? new String[]{KEY_AMOUNT + " > 0 as " + KEY_TYPE, sumColumn} : new String[]{sumColumn};
         break;
       }

@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -62,7 +63,7 @@ class BudgetList : Fragment(), SimpleDialog.OnDialogResultListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val adapter = requireActivity().let {
-            viewModel = ViewModelProviders.of(it)[BudgetViewModel::class.java]
+            viewModel = ViewModelProvider(it)[BudgetViewModel::class.java]
             BudgetsAdapter(it)
         }
         with(recycler_view) {
@@ -122,7 +123,7 @@ class BudgetList : Fragment(), SimpleDialog.OnDialogResultListener {
                         viewModel.loadBudgetSpend(position, budget, prefHandler)
                         0L
                     }
-                    budgetSummary.bind(budget, spent, currencyFormatter)
+                    budgetSummary.bind(budget, -spent, currencyFormatter)
                     budgetSummary.setOnBudgetClickListener(object : View.OnClickListener {
                         override fun onClick(v: View?) {
                             val bundle = Bundle(2)
