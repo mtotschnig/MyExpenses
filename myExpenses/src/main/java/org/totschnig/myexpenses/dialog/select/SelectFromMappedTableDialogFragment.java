@@ -20,6 +20,8 @@ import android.os.Bundle;
 import org.jetbrains.annotations.Nullable;
 import org.totschnig.myexpenses.model.AggregateAccount;
 
+import androidx.annotation.NonNull;
+
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
@@ -34,6 +36,7 @@ public abstract class SelectFromMappedTableDialogFragment extends SelectFilterDi
     super(withNullItem);
   }
 
+  @NonNull
   @Override
   String getColumn() {
     return KEY_LABEL;

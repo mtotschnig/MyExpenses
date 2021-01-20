@@ -72,8 +72,10 @@ public abstract class SelectFromTableDialogFragment extends BaseDialogFragment i
     return 0;
   }
 
+  @NonNull
   abstract Uri getUri();
 
+  @NonNull
   abstract String getColumn();
 
   @Nullable

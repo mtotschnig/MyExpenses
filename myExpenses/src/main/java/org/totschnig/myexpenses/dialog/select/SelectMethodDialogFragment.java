@@ -22,6 +22,8 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.Criteria;
 import org.totschnig.myexpenses.provider.filter.MethodCriteria;
 
+import androidx.annotation.NonNull;
+
 
 public class SelectMethodDialogFragment extends SelectFromMappedTableDialogFragment
 {
@@ -35,6 +37,7 @@ public class SelectMethodDialogFragment extends SelectFromMappedTableDialogFragm
     return R.string.search_method;
   }
 
+  @NonNull
   @Override
   Uri getUri() {
     return TransactionProvider.MAPPED_METHODS_URI;

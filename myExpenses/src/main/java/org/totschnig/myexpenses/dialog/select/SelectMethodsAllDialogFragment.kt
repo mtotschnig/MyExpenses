@@ -1,7 +1,7 @@
 package org.totschnig.myexpenses.dialog.select
 
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.dialog.select.SelectFilterDialog
+import org.totschnig.myexpenses.model.PaymentMethod
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.Criteria
@@ -15,5 +15,5 @@ class SelectMethodsAllDialogFragment: SelectFilterDialog(true) {
 
     override fun getUri() = TransactionProvider.METHODS_URI
 
-    override fun getColumn() = KEY_LABEL
+    override fun getColumn() = PaymentMethod.localizedLabelSqlColumn(context, KEY_LABEL)
 }

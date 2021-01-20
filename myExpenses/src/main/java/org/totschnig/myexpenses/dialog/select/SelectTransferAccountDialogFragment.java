@@ -36,6 +36,7 @@ public class SelectTransferAccountDialogFragment extends SelectFromMappedTableDi
     return R.string.search_transfer;
   }
 
+  @NonNull
   @Override
   Uri getUri() {
     return TransactionProvider.MAPPED_TRANSFER_ACCOUNTS_URI;
