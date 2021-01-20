@@ -8,7 +8,6 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.view.menu.MenuBuilder
@@ -158,6 +157,14 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     fun createRow(type: Int, isIncome: Boolean) {
+        if (type == Transactions.TYPE_SPLIT) {
+            contribFeatureRequested(ContribFeature.SPLIT_TRANSACTION, null)
+        } else {
+            createRowDo(type, isIncome)
+        }
+    }
+
+    fun createRowDo(type: Int, isIncome: Boolean) {
         startEdit(createRowIntent(type, isIncome))
     }
 

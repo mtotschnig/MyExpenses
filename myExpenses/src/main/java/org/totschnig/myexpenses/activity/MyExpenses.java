@@ -120,6 +120,7 @@ import static org.totschnig.myexpenses.activity.ConstantsKt.CREATE_ACCOUNT_REQUE
 import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_ACCOUNT_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.OCR_REQUEST;
+import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 import static org.totschnig.myexpenses.preference.PrefKey.OCR;
 import static org.totschnig.myexpenses.preference.PreferenceUtilsKt.requireString;
@@ -578,7 +579,7 @@ public class MyExpenses extends BaseMyExpenses implements
           if (isScanMode()) {
             contribFeatureRequested(ContribFeature.OCR, true);
           } else {
-            createRow(TYPE_TRANSACTION, false);
+            createRowDo(TYPE_TRANSACTION, false);
           }
         }
         return true;
@@ -883,6 +884,8 @@ public class MyExpenses extends BaseMyExpenses implements
           b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.menu_split_transaction);
           b.putLongArray(KEY_LONG_IDS, (long[]) tag);
           ConfirmationDialogFragment.newInstance(b).show(getSupportFragmentManager(), "SPLIT_TRANSACTION");
+        } else {
+          createRowDo(TYPE_SPLIT, false);
         }
         break;
       }
