@@ -15,8 +15,10 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
-    <string-array name="whats_new_3211">
-        <item>@string/bug_fixes</item>
+    <string-array name="whats_new_322">
+        <item>The sums for expenses, income and transfers in the group headers can be hidden.</item>
+        <item>Calculate the difference between the current balance and a new value.</item>
+        <item>Filter and budgets can be defined for a subset of accounts.</item>
     </string-array>
     <string-array name="whats_new_321">
         <item>Text recognition now works with more languages.</item>
