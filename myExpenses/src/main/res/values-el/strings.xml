@@ -44,10 +44,15 @@
     <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Χωρίς διαφημίσεις</string>
     <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Απεριόριστος αριθμός λογαριασμών</string>
     <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Επισυνάψτε εικόνα στην συναλλαγή</string>
+    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Γράφημα πίτας (Κατανομή ανά κατηγορία)</string>
     <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Απεριόριστος αριθμός σχεδίων</string>
     <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Εξαγάγετε τη λίστα συναλλαγών σε PDF</string>
     <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Πρότυπο γραφικού στοιχείου</string>
     <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Εισαγωγή CSV</string>
+    <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Απεριόριστος αριθμός προτύπων διαίρεσης</string>
+    <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Υποστήριξη ηλεκτρονικού ταχυδρομείου</b> με εγγυημένη απόκριση εντός 2 εργάσιμων ημερών</string>
+    <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Δικαίωμα ψήφου για τον <b>χάρτη πορείας</b></string>
+    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Γράφημα ιστορικού (Ταμειακές ροές)</string>
     <string name="licence_status_free">Ελεύθερο</string>
     <string name="contrib_key">Contrib κλειδί</string>
     <string name="extended_key">Κλειδί Εκτεταμένης λειτουργίας</string>
@@ -72,6 +77,8 @@
     <string name="dialog_command_disabled_insert_transfer">Οι συναλλαγές μεταφοράς απαιτούν ένα δεύτερο λογαριασμό</string>
     <string name="dialog_command_disabled_reset_account">Συναλλαγές για την εξαγωγή.</string>
     <string name="dialog_command_disabled_distribution">Συναλλαγές δεν έχουν καταχωρηθεί σε κατηγορίες σε αυτό το λογαριασμό.</string>
+    <!-- Button for accessing trial of premium feature -->
+    <string name="dialog_contrib_no">Δοκιμή</string>
     <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
     <string name="dialog_contrib_premium_feature">%1$s είναι ένα αναβαθμισμένο χαρακτηριστικό (%2$s).</string>
     <string name="dialog_contrib_reminder_remove_limitation">Αφαιρέστε αυτόν τον περιορισμό και αποκτήστε πρόσβαση σε περισσότερες δυνατότητες αναβαθμίζοντας το <i>{app_name}</i></string>
@@ -82,6 +89,7 @@
     <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Μπορείτε να το χρησιμοποιήσετε για %1$d ημέρες με την τωρινή σας άδεια (%2$s).</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Η άδεια που κατέχετε (%2$s) σας επιτρέπει να δημιουργήσετε %1$d λογαριασμούς</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Η άδεια που κατέχετε (%2$s) σας επιτρέπει να δημιουργήσετε %1$d πλάνα</string>
+    <string name="dialog_contrib_usage_limit_split_templates">Η τρέχουσα άδεια χρήσης σας (%1$s), σας επιτρέπει να δημιουργήσετε 1 πρότυπο διαίρεσης.</string>
     <string name="dialog_export_delete">Διαγράψετε εξαγόμενες συναλλαγές</string>
     <string name="dialog_export_not_yet_exported">Εξαγάγετε μόνο τις συναλλαγές που δεν έχει ακόμη εξαχθεί</string>
     <string name="dialog_password_activate_protection">Ενεργοποιήσετε την προστασία με κωδικό πρόσβασης</string>
@@ -102,6 +110,11 @@
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Υπόλοιπο %1$s</string>
     <string name="dialog_title_contrib_feature">Αναβαθμισμένο χαρακτηριστικό</string>
+    <plurals name="dialog_title_warning_delete_account">
+        <item quantity="one">Διαγραφή λογαριασμού;</item>
+        <item quantity="other">Διαγραφή %1$d λογαριασμών</item>
+    </plurals>
+    <string name="dialog_title_warning_delete_category">Διαγραφή κατηγορίας;</string>
     <string name="dialog_title_warning_delete_template">Θέλετε να διαγράψετε το πρότυπο;</string>
     <string name="dialog_title_warning_delete_transaction">Να διαγραφεί η συναλλαγή;</string>
     <string name="expense">Δαπάνη</string>
@@ -146,7 +159,7 @@
     <!-- Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction -->
     <string name="menu_cancel_plan_instance">\"Άκυρο\"</string>
     <string name="menu_clone_transaction">Κλώνος</string>
-    <string name="menu_contrib">Συμβάλλει</string>
+    <string name="menu_contrib">Συμβολή</string>
     <string name="menu_create_account">Νέος λογαριασμός</string>
     <string name="menu_create_instance_edit">Εφαρμόστε και επεξεργαστείτε</string>
     <string name="menu_create_instance_save">Εφαρμόστε και να αποθηκεύστε</string>
@@ -197,6 +210,8 @@
     <string name="menu_search">Αναζήτηση</string>
     <string name="menu_settings">Ρυθμίσεις</string>
     <string name="menu_share">Πες το σε ένα φίλο</string>
+    <string name="button_label_share_file">Μοιραστείτε</string>
+    <string name="button_label_close">Κλείσιμο</string>
     <string name="menu_split_transaction">Μετασχηματισμός για να διαιρεθεί</string>
     <string name="method">Μέθοδος πληρωμής</string>
     <string name="no_amount_given">Δεν έγινε καμία εισαγωγή οποιουδήποτε ποσού.</string>
@@ -208,11 +223,13 @@
     <string name="no_exportable_expenses">Δεν υπάρχουν συναλλαγές που δεν έχουν ακόμα εξαχθεί.</string>
     <string name="no_filemanager_installed">Δεν υπάρχει εγκατεστημένος διαχειριστής αρχείων</string>
     <string name="no_calendar_app_installed">Δεν βρέθηκε εφαρμογή για επεξεργασία συμβάντων ημερολογίου.</string>
+    <string name="image_capture_not_installed">Δεν βρέθηκε εφαρμογή για τη λήψη φωτογραφιών.</string>
     <string name="no_mapped_transactions">Συναλλαγές δεν έχουν καταχωρηθεί σε κατηγορίες κατά τη διάρκεια αυτής της περιόδου.</string>
     <string name="no_methods">Δεν υπάρχουν τρόποι πληρωμής.</string>
     <string name="no_parties">Δεν υπάρχουν μέρη/πρόσωπα.</string>
     <string name="no_split_parts">Κανένας διαχωρισμός των μερών </string>
     <string name="no_templates">Δεν υπαρχουν πρότυπα.</string>
+    <string name="no_accounts">Δεν υπάρχουν λογαριασμοί.</string>
     <string name="no_title_given">Δεν έγινε καμία εισαγωγή τίτλου κυριότητας.</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="one">Το επιλεγμένο αντικείμενο έχει καταχωρηθεί σε μια συναλλαγή και δεν μπορεί να διαγραφεί.</item>
@@ -261,6 +278,7 @@
     <string name="pm_type_neutral">Ουδέτερο</string>
     <string name="pref_app_dir_title">Φάκελος για την δημιουργία αντιγράφων ασφαλείας και εξαγωγές</string>
     <string name="pref_auto_fill_title">Αυτόματη συμπλήρωση συναλλαγών</string>
+    <string name="pref_auto_fill_summary">Συμπληρώστε τα δεδομένα από την τελευταία συναλλαγή για τον ίδιο δικαιούχο/πληρωτή</string>
     <string name="pref_backup_summary">Δημιουργήστε ένα αντίγραφο ασφαλείας της βάσης δεδομένων και προτιμήσεις για την sdcard.</string>
     <string name="pref_sort_order_usages">Άθροισμα χρήσεων</string>
     <string name="pref_category_title_advanced">Προχωρημένα</string>
@@ -299,6 +317,7 @@
     <string name="pref_manage_sync_backends_title">Backend συγχρονισμού</string>
     <string name="pref_more_info_dialog_title">Άδεια &amp; πιστώσεις</string>
     <string name="pref_password_not_equal">Κωδικοί πρόσβασης δεν ταιριάζουν</string>
+    <string name="pref_perform_protection_title">Προστασία</string>
     <string name="pref_perform_share_title">Μοιραστείτε αρχείο  εξαγωγής</string>
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">Δημιουργήσετε νέο τοπικό ημερολόγιο προγραμματισμού</string>
@@ -359,6 +378,7 @@
     <string name="save_transaction_template_deleted">Το πρότυπο έχει διαγραφεί</string>
     <string name="select">Επιλέξτε</string>
     <string name="select_category">Επιλέξτε κατηγορία</string>
+    <string name="select_payee">Επιλογή πληρωτή/δικαιούχου</string>
     <string name="share_scheme_not_supported">Δεν υποστηρίζεται το πρόγραμμα/σύστημα %1$s</string>
     <string name="share_sending">Αποστολή αρχείου εξαγωγής</string>
     <string name="split_parts_heading">Διαχωρισμός, διάσπαση των μερών </string>
@@ -446,6 +466,7 @@
     <string name="widget_title_accounts">Οι λογαριασμοί μου</string>
     <string name="widget_title_templates">Τα πρότυπά μου</string>
     <string name="app_dir_not_accessible">Ο τρέχων επιλεγμένος φάκελος για αντίγραφα ασφαλείας και εξαγωγές (%1$s) δεν είναι προσβάσιμος. παρακαλώ επιλέξτε έναν άλλο.</string>
+    <string name="app_dir_not_compatible_with_nougat">Το τρέχον ρυθμισμένο URI για αντίγραφα ασφαλείας και εξαγωγές (%1$s) δεν υποστηρίζεται στο Android Nougat. Επιλέξτε ξανά ένα φάκελο.</string>
     <string name="search_amount">Αναζήτηση για ποσό</string>
     <string name="search_category">Αναζήτηση για κατηγορία</string>
     <string name="search_comment">Αναζήτηση για σημειώσεις</string>
@@ -453,6 +474,7 @@
     <string name="search_status">Αναζήτηση για κατάσταση</string>
     <string name="search_payee">Αναζήτηση για δικαιούχο/πληρωτή</string>
     <string name="search_method">Αναζήτηση για μέθοδο</string>
+    <string name="search_tag">Αναζήτηση ετικέτας</string>
     <string name="and">και</string>
     <string name="between_and">μεταξύ %1$s και %2$s</string>
     <string name="before">πριν από %s</string>
@@ -464,6 +486,7 @@
     <string name="comparison_operator_date_before">πριν από</string>
     <string name="comparison_operator_date_after">μετά από</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Η αγορά απέτυχε ή ακυρώθηκε.</string>
+    <string name="hint_auto_fill">Θα πρέπει τα δεδομένα να συμπληρώνονται αυτόματα από την τελευταία συναλλαγή για τον ίδιο δικαιούχο/πληρωτή; Μπορείτε πάντα να αλλάξετε αυτήν τη συμπεριφορά από τις ρυθμίσεις.</string>
     <string name="yes">Ναι</string>
     <string name="no">Όχι</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d λογαριασμοί με νόμισμα %2$s έχουν ενημερωθεί.</string>
@@ -583,14 +606,209 @@
     <string name="template">Πρότυπο</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Συγχρονισμός σύννεφου</string>
     <string name="all_contrib_key_features">Όλα οι δυνατότητες ενός Contrib κλειδιού</string>
+    <string name="all_extended_key_features">Όλες οι δυνατότητες του Εκτεταμένου Κλειδιού</string>
+    <!-- button leading user to purchase flow for licence keys -->
+    <string name="upgrade_now">Αναβάθμιση</string>
+    <string name="home_screen_shortcuts_nougate_info">Συντομεύσεις μπορούν να προστεθούν πατώντας παρατεταμένα το εικονίδιο της εφαρμογής στην Αρχική οθόνη.</string>
+    <string name="currency_symbol">Σύμβολο Νομίσματος</string>
+    <string name="number_of_fraction_digits">Αριθμός κλασματικών ψηφίων</string>
+    <string name="warning_auto_backup_deactivated">Η αυτόματη δημιουργία αντιγράφων ασφαλείας έχει απενεργοποιηθεί. Μπορείτε να το ενεργοποιήσετε ξανά από τις ρυθμίσεις μετά την επίλυση του προβλήματος (π.χ. επιλέγοντας διαφορετικό φάκελο για αντίγραφα ασφαλείας).</string>
+    <string name="pref_tracking_summary">Επιτρέψτε μας να συλλέγουμε ανώνυμα δεδομένα σχετικά με μοτίβα χρήσης που μας βοηθούν να σχεδιάζουμε βελτιώσεις.</string>
+    <string name="pref_tracking_title">Συλλογή δεδομένων χρήσης</string>
+    <string name="sync_database_error">Παρουσιάστηκε σφάλμα στη βάση δεδομένων κατά τον συγχρονισμό.</string>
+    <string name="sync_error_will_try_again_later">Θα προσπαθήσω ξανά αργότερα.</string>
+    <string name="sync_io_exception_reset_account_data">Παρουσιάστηκε σφάλμα κατά την επαναφορά του απομακρυσμένου λογαριασμού.</string>
+    <string name="sync_success_reset_account_data">Τα απομακρυσμένα δεδομένα για το λογαριασμό %s έχουν διαγραφεί.</string>
+    <string name="sync_io_exception_setup_remote_account">Παρουσιάστηκε σφάλμα κατά τη ρύθμιση του απομακρυσμένου λογαριασμού.</string>
+    <string name="sync_io_exception_syncing">Παρουσιάστηκε σφάλμα κατά το συγχρονισμό αλλαγών με το διακομιστή.</string>
+    <string name="synchronization_start">Εκκίνηση συγχρονισμού για το λογαριασμό %s.</string>
+    <string name="synchronization_end_success_none">Δεν υπάρχουν αλλαγές για συγχρονισμό.</string>
+    <string name="pref_webdav_timeout_title">Χρονικό όριο WebDAV (σε δευτερόλεπτα)</string>
+    <string name="sync_state_restored">Έγινε επαναφορά της κατάστασης συγχρονισμού για %d λογαριασμούς.</string>
+    <string name="sync_state_could_not_be_restored">Δεν ήταν δυνατή η επαναφορά της κατάστασης συγχρονισμού για %d λογαριασμούς.</string>
+    <string name="onboarding_data_title">Αφήστε μας να δημιουργήσουμε τον πρώτο σας λογαριασμό</string>
+    <string name="onboarding_get_started">Ξεκινήστε</string>
+    <string name="onboarding_more_options">Περισσότερες Επιλογές</string>
+    <string name="onboarding_restore_from_cloud">Επαναφορά από συγχρονισμό με το σύννεφο</string>
+    <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
+    <string name="onboarding_restore_from_cloud_backup">Αντίγραφα ασφαλείας</string>
+    <string name="onboarding_restore_from_local">Επαναφορά τοπικού αντιγράφου ασφαλείας</string>
+    <string name="dialog_button_add">Προσθήκη</string>
+    <string name="template_create_error">Σφάλμα κατά την αποθήκευση του προτύπου</string>
+    <string name="pref_sync_notification_summary">Ειδοποίηση σχετικά με την πρόοδο του συγχρονισμού</string>
+    <string name="pref_debug_logging_summary">Εγγραφή πληροφοριών εντοπισμού σφαλμάτων στο αρχείο καταγραφής συστήματος</string>
+    <string name="plan_custom_recurrence_info">Αποθηκεύστε πρώτα το πρότυπο. Στη συνέχεια, το σχέδιο θα ανοίξει στην εφαρμογή ημερολογίου, όπου μπορείτε να ορίσετε μια προσαρμοσμένη περιοδικότητα.</string>
+    <string name="storage_permission_required">Η προέλευση που επιλέξατε μπορεί να διαβαστεί μόνο εάν εκχωρήσετε το δικαίωμα ανάγνωσης από εξωτερικό χώρο αποθήκευσης.</string>
+    <string name="picture">Εικόνα</string>
+    <string name="menu_create_template_for_split">Νέο πρότυπο διαχωρισμού</string>
+    <string name="progress_validating_licence">Επικύρωση Άδειας</string>
+    <string name="licence_validation_error_expired">Η άδεια έληξε</string>
+    <string name="licence_validation_error_device_limit_exceeded">Έγινε υπέρβαση του ορίου συσκευών. Καταργήστε την άδεια χρήσης από κάποια άλλη συσκευή.</string>
+    <string name="error">Σφάλμα (%s)</string>
+    <string name="button_validate">Επικύρωση</string>
+    <string name="licence_key">Κλειδί άδειας χρήσης</string>
+    <string name="licence_removal_information">Εάν δεν χρειάζεστε πλέον την αναβαθμισμένη λειτουργικότητα σε αυτήν τη συσκευή, μπορείτε να καταργήσετε το κλειδί άδειας χρήσης. Αυτό ελευθερώνει το κλειδί για ενεργοποίηση σε μία άλλη συσκευή. Το κλειδί μπορεί να ενεργοποιηθεί σε έως και %d συσκευές.</string>
+    <string name="progress_removing_licence">Κατάργηση άδειας χρήσης</string>
+    <string name="licence_removal_success">Το κλειδί άδειας χρήσης απελευθερώθηκε με επιτυχία από αυτήν τη συσκευή.</string>
     <string name="professional_key">Επαγγελματικό κλειδί</string>
+    <string name="n_months">%d μήνες</string>
+    <string name="eu_vat_info">Για τους κατοίκους της Ευρωπαϊκής Ένωσης οι τιμές που εμφανίζονται δεν περιλαμβάνουν ΦΠΑ.</string>
+    <string name="valid_until">Μέχρι %s</string>
+    <!-- %1$s date, %2$s price  -->
+    <string name="extend_until">Επέκταση μέχρι %1$s για %2$s</string>
+    <string name="extended_upgrade_goodie_github">Επιπλέον %d μήνες χορηγούνται για μια φορά σε χρήστες που κατέχουν ήδη την Εκτεταμένη Άδεια</string>
+    <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">Οι χρήστες που κατέχουν ήδη την Εκτεταμένη Άδεια πληρώνουν 50%% από την κανονική τιμή (%s) κατά το πρώτο έτος.</string>
+    <string name="extended_upgrade_goodie_subscription_amazon" tools:ignore="UnusedResources">Οι χρήστες που κατέχουν ήδη την Εκτεταμένη Άδεια δικαιούνται μείωση %1$d%% από την κανονική τιμή (%2$s) της ετήσιας συνδρομής.</string>
+    <string name="switch_to_yearly" tools:ignore="UnusedResources">Μετάβαση σε ετήσια συνδρομή</string>
+    <string name="switch_to_monthly" tools:ignore="UnusedResources">Μετάβαση σε μηνιαία συνδρομή</string>
+    <string name="extend_validity">Επέκταση ισχύος</string>
+    <string name="progress_dialog_fetching_data_from_sync_backend">Λήψη δεδομένων από απομακρυσμένο σύστημα υποστήριξης. Αυτό μπορεί να διαρκέσει λίγο.</string>
+    <string name="donate_button_invoice">Τιμολόγιο</string>
+    <string name="menu_sort_direction">Κατεύθυνση ταξινόμησης</string>
+    <string name="sort_direction_ascending">Αύξουσα</string>
+    <string name="sort_direction_descending">Φθίνουσα</string>
+    <string name="never">ποτέ</string>
+    <string name="always">πάντα</string>
+    <string name="auto_fill_account_from_aggregate_only">Μόνο όταν ξεκινούν από συνολικό λογαριασμό.</string>
+    <string name="sync_auth_exception_login_again">Η εξουσιοδότηση απέτυχε. Συνδεθείτε ξανά.</string>
+    <string name="sync_loading_accounts_from_backend">Φόρτωση διαθέσιμων λογαριασμών από το σύστημα υποστήριξης.</string>
+    <plurals name="delete_success">
+        <item quantity="one">Ένα αντικείμενο διαγράφηκε με επιτυχία.</item>
+        <item quantity="other">%d αντικείμενα διαγράφηκαν με επιτυχία.</item>
+    </plurals>
+    <string name="feature_deprecated">Καταργήθηκε</string>
+    <string name="pref_protection_device_lock_screen_title">Οθόνη κλειδώματος συσκευής</string>
+    <string name="pref_warning_only_one_protection">Για να μπορέσετε να χρησιμοποιήσετε την προστασία από %1$s, πρέπει να απενεργοποιήσετε την προστασία από %2$s.</string>
+    <string name="warning_device_lock_screen_not_set_up_1">Η ασφαλής οθόνη κλειδώματος συσκευής δεν έχει ρυθμιστεί.</string>
+    <string name="warning_device_lock_screen_not_set_up_2">Μεταβείτε στην ενότητα \"Ρυθμίσεις -> Ασφάλεια -> Προστασία\" για να ρυθμίσετε την οθόνη κλειδώματος.</string>
+    <string name="snackbar_dismiss">Απόρριψη</string>
+    <string name="menu_history_show_balance">Εμφάνιση υπολοίπου</string>
+    <string name="menu_history_transfers">Συμπερίληψη μεταφορών</string>
+    <string name="menu_history">Ιστορικό</string>
+    <!-- A label indicating the color for the sum of expenses -->
+    <string name="history_chart_out_label">Δαπάνες</string>
+    <!-- A label indicating the color for the sum of income -->
+    <string name="history_chart_in_label">Έσοδα</string>
+    <string name="menu_history_totals">Εμφάνιση συνόλων</string>
+    <string name="pref_home_currency_title">Εγχώριο νόμισμα</string>
+    <string name="grand_total">Γενικό σύνολο</string>
+    <string name="menu_original_amount">Αρχικό ποσό</string>
+    <string name="menu_equivalent_amount">Ισοδύναμο ποσό</string>
+    <string name="home_currency_change_warning">Εάν αλλάξετε το εγχώριο νόμισμά σας, τα ισοδύναμα ποσά και οι συναλλαγματικές ισοτιμίες θα χαθούν, και πρέπει να καθοριστούν πάλι.</string>
+    <string name="warning_split_transactions">Οι επιλεγμένες συναλλαγές θα ομαδοποιηθούν σε μία διαιρεμένη συναλλαγή. Οι πληροφορίες ημερομηνίας τους θα χαθούν, δηλαδή θα αντικατασταθούν από τον μέσο όρο τους.</string>
+    <string name="warning_ungroup_split_transactions">Οι επιλεγμένες διαιρεμένες συναλλαγές θα απομαδοποιηθούν, δηλαδή τα διαχωρισμένα τμήματα θα γίνουν κανονικές συναλλαγές.</string>
+    <!-- This is the label for the action that breaks up a split transaction into its parts. -->
+    <string name="menu_ungroup_split_transaction">Κατάργηση διαίρεσης</string>
+    <plurals name="ungroup_split_transaction_success">
+        <item quantity="one">Η διαιρεμένη συναλλαγή καταργήθηκε με επιτυχία.</item>
+        <item quantity="other">%1$d οι διαιρεμένες συναλλαγές καταργήθηκαν με επιτυχία.</item>
+    </plurals>
     <string name="split_transaction_one_error">Δεν μπόρεσε να μετατραπεί η συναλλαγή για διάσπαση.</string>
+    <string name="pref_transaction_time_summary">Να επιτρέπεται ο ορισμός του ακριβούς χρόνου συναλλαγής.</string>
+    <string name="pref_value_date_summary">Να επιτρέπεται ο ορισμός ημερομηνίας αξίας εκτός από την ημερομηνία δέσμευσης. Ο χρόνος συναλλαγής θα είναι κρυφός. Αυτή η ρύθμιση δεν εφαρμόζεται σε λογαριασμούς μετρητών.</string>
+    <!-- the date on which the transaction took place, aka transaction date, as opposed to value date -->
+    <string name="booking_date">Ημερομηνία Δέσμευσης</string>
+    <!-- the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date -->
+    <string name="value_date">Ημερομηνία αξίας</string>
+    <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">Ναι, συνεχίστε να βλέπετε διαφημίσεις</string>
+    <string name="gdpr_consent_button_no">Πληρωμή για την έκδοση χωρίς διαφημίσεις</string>
+    <string name="sort_order">Σειρά ταξινόμησης</string>
+    <string name="navigation_drawer_accounts_title">Διαχείριση λογαριασμών</string>
+    <string name="pref_sync_wifi_only_summary">Συγχρονισμός μόνο σε Wi-Fi</string>
+    <!-- title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project -->
+    <string name="pref_translation_title">Μετάφραση</string>
+    <!-- Content description for accessibility on image that allows to collapse content  -->
+    <string name="content_description_collapse">Σύμπτυξη</string>
+    <!-- Content description for accessibility on image that allows to expand content  -->
+    <string name="content_description_expand">Ανάπτυξη</string>
+    <!-- Short label for the amount input where user can set either saving goal or credit limit -->
+    <string name="goal_or_limit">Στόχος / Όριο</string>
+    <string name="saving_goal">Στόχος Αποταμίευσης</string>
+    <string name="credit_limit">Πιστωτικό όριο</string>
+    <string name="clear_all_filters">Απαλοιφή όλων των φίλτρων</string>
+    <string name="professional_key_fallback_info">Μια συνδρομή στο Επαγγελματικό Κλειδί που είναι ενεργή για τουλάχιστον ένα έτος και δεν ανανεωθεί, θα μετατραπεί αυτόματα σε απεριόριστο Εκτεταμένο Κλειδί.</string>
+    <string name="menu_budget">Προϋπολογισμός</string>
+    <string name="dialog_title_edit_budget">Επεξεργασία προϋπολογισμού</string>
+    <string name="budget_table_header_budgeted">Προϋπολογισμένο</string>
+    <string name="budget_table_header_allocated">Κατανεμημένο</string>
+    <string name="budget_table_header_spent">Ξοδεύτηκε</string>
+    <string name="budget_table_header_remainder">Υπόλοιπο</string>
+    <string name="budget_allocated_amount">Κατανεμημένο ποσό</string>
+    <!-- Description for button that allows to clear the selected method -->
+    <string name="content_description_clear_method">Απαλοιφή μεθόδου</string>
+    <!-- Description for button that allows to clear the selected category -->
+    <string name="content_description_clear_category">Απαλοιφή κατηγορίας</string>
+    <string name="currency_code">Κώδικας</string>
+    <string name="dialog_title_new_currency">Νέο νόμισμα</string>
+    <string name="currency_still_used">Το νόμισμα χρησιμοποιείται, δεν μπορεί να διαγραφεί.</string>
+    <string name="pref_security_export_passphrase_title">Φράση πρόσβασης για αντίγραφα ασφαλείας</string>
+    <string name="dialog_title_backup_protected">Δημιουργία αντιγράφου ασφαλείας (κρυπτογραφημένο)</string>
+    <string name="input_label_passphrase">Φράση Πρόσβασης</string>
+    <string name="button_label_no_encryption">Χωρίς κρυπτογράφηση</string>
+    <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->
+    <string name="joining_or">ή</string>
+    <string name="menu_hide">Απόκρυψη</string>
+    <!-- Action of closing an account. A closed account does not allow any modifications on its data. -->
+    <string name="menu_close">Κλείσιμο</string>
+    <!-- Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data. -->
+    <string name="menu_reopen">Άνοιγμα ξανά</string>
+    <!-- Menu entry for opening a list of all hidden accounts. -->
+    <string name="menu_hidden_accounts">Κρυφοί λογαριασμοί</string>
+    <!-- Action of showing an account again that had previously been hidden. -->
+    <string name="button_label_show">Εμφάνιση</string>
     <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
     <string name="content_description_encrypted">Κρυπτογραφημένο</string>
+    <!-- Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data. -->
+    <string name="content_description_closed">Κλειστός</string>
     <string name="translated_by">Μεταφράστηκε από</string>
+    <string name="content_description_dates_are_linked">Η ημερομηνία δέσμευσης και η ημερομηνία αξίας ενημερώνονται μαζί</string>
+    <string name="content_description_dates_are_not_linked">Η ημερομηνία δέσμευσης και η ημερομηνία αξίας δεν ενημερώνονται μαζί</string>
+    <string name="icon">Εικονίδιο</string>
+    <string name="pref_debug_title">Εντοπισμός σφαλμάτων</string>
+    <string name="pref_category_exchange_rates">Συναλλαγματικές ισοτιμίες</string>
     <string name="budget_duration_from">Από</string>
     <string name="budget_duration_to">Στις</string>
+    <string name="budget_filter_all_categories">Όλες οι κατηγορίες</string>
+    <string name="budget_filter_all_methods">Όλοι οι μέθοδοι</string>
+    <string name="budget_filter_all_tags">Όλες οι ετικέτες</string>
+    <string name="budget_form_label_filter">Φίλτρο</string>
+    <string name="menu_edit_budget">Επεξεργασία προϋπολογισμού</string>
+    <!-- Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list. -->
+    <string name="checkbox_is_default">Προεπιλογή</string>
+    <string name="tags_create_or_select">Δημιουργία ή επιλογή ετικετών</string>
+    <string name="content_description_tags_confirm">Επιβεβαιώστε</string>
+    <string name="tags">Ετικέτες</string>
+    <string name="pref_manage_tags_summary">Προσθήκη, επεξεργασία, διαγραφή ετικετών.</string>
+    <string name="dialog_title_warning_delete_tag">Διαγραφή ετικέτας;</string>
+    <string name="menu_edit_tag">Επεξεργασία ετικέτας</string>
+    <!-- This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction -->
+    <string name="menu_tag">Ετικέτα</string>
+    <!-- Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction -->
+    <string name="pref_planner_manual_time_noon">12 μ.μ. (μεσημέρι)</string>
+    <!-- Title in Settings screen, and title of dynamically loaded feature module -->
+    <string name="title_scan_receipt_feature">Σάρωση απόδειξης</string>
+    <!-- If this mode is active, the action button will open the camera for scanning a receipt  -->
+    <string name="menu_scan_mode">Λειτουργία σάρωσης</string>
+    <!-- Button that triggers the scan operation -->
+    <string name="button_scan">Σάρωση</string>
+    <string name="pref_ocr_date_formats_title">Μορφές ημερομηνίας</string>
+    <string name="pref_ocr_time_formats_title">Μορφές ώρας</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Χαρακτηριστικά</string>
+    <string name="scan_result_no_data">Δεν υπάρχουν δεδομένα</string>
     <string name="button_download">Λήψη</string>
-    </resources>
+    <string name="pref_feature_uninstall_languages_title">Γλώσσες</string>
+    <!-- Title of a preference where user can select between Ml Kit and Tesseract as Engine for Optical character recognition -->
+    <string name="pref_ocr_engine_title">Μηχανή αναγνώρισης κειμένου</string>
+    <!-- Title of a preference where user can select language for text recognition with Tesseract -->
+    <string name="pref_tesseract_language_title">Γλώσσα για το Tesseract</string>
+    <!-- %s is replaced with language -->
+    <string name="tesseract_download_confirmation">Θέλετε να κάνετε λήψη δεδομένων αναγνώρισης κειμένου για το %s;</string>
+    <!-- %s is replaced with language -->
+    <string name="download_completed">Η λήψη (%s) ολοκληρώθηκε.</string>
+    <!-- %s is replaced with information on the engine or application used for running text recognition -->
+    <string name="ocr_recognition_info">Εκτέλεση αναγνώρισης κειμένου με %s</string>
+    <string name="ocr_download_info">Η δυνατότητα αναγνώρισης κειμένου παρέχεται από μια εξωτερική εφαρμογή.</string>
+    <!-- %s is replaced with the title of the preference for setting a passphrase for backups (pref_security_export_passphrase_title) -->
+    <string name="warning_unencrypted_backup">Ενώ τα δεδομένα σας προστατεύονται από μη εξουσιοδοτημένη πρόσβαση σε αυτήν τη συσκευή, τα αντίγραφα ασφαλείας δημιουργούνται χωρίς κρυπτογράφηση, εκτός εάν ρυθμίσετε τις παραμέτρους του %s.</string>
+</resources>

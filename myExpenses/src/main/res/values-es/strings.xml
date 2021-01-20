@@ -954,7 +954,21 @@
     <string name="pref_clone_with_current_date_title">Fecha de las transacciones clonadas</string>
     <string name="default_action">Acción por defecto</string>
     <string name="template_default_action_without_amount_hint">La plantilla sin importe debe guardarse con la acción predeterminada \"Editar\".</string>
+    <string name="plan_automatic_without_amount_hint">No se guardar el plan sin cantidad con la ejecución automática del plan</string>
     <string name="content_description_edit_plan">Editar planificación en la aplicación del calendario.</string>
     <string name="reset_equivalent_amounts_success">Se han reiniciado las cantidades equivalentes</string>
     <string name="menu_save_and_new_content_description">Guardar los datos, dejando abierto el formulario para crear una nueva transacción con los mismos datos.</string>
-    </resources>
+    <!-- Title of a preference where user can select between Ml Kit and Tesseract as Engine for Optical character recognition -->
+    <string name="pref_ocr_engine_title">Sistema de reconocimiento de texto</string>
+    <!-- Title of a preference where user can select language for text recognition with Tesseract -->
+    <string name="pref_tesseract_language_title">Lenguaje para Teseracto</string>
+    <!-- %s is replaced with language -->
+    <string name="tesseract_download_confirmation">¿Quiere descargar datos de reconocimiento de texto para %s?</string>
+    <!-- %s is replaced with language -->
+    <string name="download_completed">Se ha completado la descarga (%s).</string>
+    <!-- %s is replaced with information on the engine or application used for running text recognition -->
+    <string name="ocr_recognition_info">Ejecutar reconocimiento de texto con %s</string>
+    <string name="ocr_download_info">El reconocimiento de texto se realiza por una aplicación externa.</string>
+    <!-- %s is replaced with the title of the preference for setting a passphrase for backups (pref_security_export_passphrase_title) -->
+    <string name="warning_unencrypted_backup">Mientras sus datos estén protegidos contra acceso no autorizado en este dispositivo, las copias de seguridad se crearán sin encriptación, a menos que configure %s.</string>
+</resources>

@@ -209,7 +209,7 @@
     <string name="menu_save_and_new">Salva e nuova</string>
     <string name="menu_search">Cerca</string>
     <string name="menu_settings">Impostazioni</string>
-    <string name="menu_share">Dillo a un amico</string>
+    <string name="menu_share">Invita un amico</string>
     <string name="button_label_share_file">Condividere</string>
     <string name="button_label_close">Chiudere</string>
     <string name="menu_split_transaction">Frazionare</string>
@@ -501,14 +501,14 @@
     <string name="restore_calendar_handling_ignore">Non ripristinare i piani</string>
     <string name="restore_not_possible_target_calendar_missing">Il calendario %s dell\'archivio di backup non esiste localmente. Il ripristino è stato interrotto.</string>
     <string name="restore_not_possible_local_calendar_missing">Il calendario di pianificazione corrente non è disponibile.</string>
-    <string name="menu_view_picture">Vedere foto</string>
-    <string name="menu_delete_picture">Eliminare foto</string>
-    <string name="menu_change_picture">Allegare foto diversa</string>
+    <string name="menu_view_picture">Visualizza l\'immagine</string>
+    <string name="menu_delete_picture">Elimina l\'immagine</string>
+    <string name="menu_change_picture">Allega un\'immagine diversa</string>
     <string name="menu_distribution_show_pie_char">Visualizza il grafico a torta</string>
     <string name="menu_distribution_aggreate">Aggrega redditi e spese</string>
     <string name="pref_manage_stale_images_title">Immagini vecchie</string>
-    <string name="pref_manage_stale_images_summary">Gestire immagini lasciate da transazioni eliminate</string>
-    <string name="image_deleted">Foto cancellata</string>
+    <string name="pref_manage_stale_images_summary">Gestisci le immagini lasciate da transazioni eliminate</string>
+    <string name="image_deleted">L\'immagine è stata cancellata</string>
     <string name="transaction_deleted">Transazione è stata eliminata</string>
     <string name="dialog_export_applied_to_filter">Saranno considerate solo le transazioni che corrispondono al filtro corrente.</string>
     <string name="export_handle_deleted_create_helper">Creare transazione ausiliario</string>
@@ -710,7 +710,7 @@
     <string name="snackbar_dismiss">Respingere</string>
     <string name="menu_history_show_balance">Mostra equilibrio</string>
     <string name="menu_history_transfers">Includi trasferimenti</string>
-    <string name="menu_history">Storia</string>
+    <string name="menu_history">Storico</string>
     <!-- A label indicating the color for the sum of expenses -->
     <string name="history_chart_out_label">Spesa</string>
     <!-- A label indicating the color for the sum of income -->
@@ -969,4 +969,6 @@
     <!-- %s is replaced with information on the engine or application used for running text recognition -->
     <string name="ocr_recognition_info">Esecuzione del riconoscimento del testo con %s</string>
     <string name="ocr_download_info">La funzione di riconoscimento del testo è fornita da un\'applicazione esterna.</string>
-    </resources>
+    <!-- %s is replaced with the title of the preference for setting a passphrase for backups (pref_security_export_passphrase_title) -->
+    <string name="warning_unencrypted_backup">Sebbene i tuoi dati siano protetti da accessi non autorizzati a questo dispositivo, i backup vengono creati senza crittografia, a meno che tu non configuri %s.</string>
+</resources>

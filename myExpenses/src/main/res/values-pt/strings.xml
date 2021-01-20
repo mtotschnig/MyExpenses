@@ -969,4 +969,6 @@
     <!-- %s is replaced with information on the engine or application used for running text recognition -->
     <string name="ocr_recognition_info">Execução de reconhecimento de texto com %s</string>
     <string name="ocr_download_info">O recurso de reconhecimento de texto é fornecido por um aplicativo externo.</string>
-    </resources>
+    <!-- %s is replaced with the title of the preference for setting a passphrase for backups (pref_security_export_passphrase_title) -->
+    <string name="warning_unencrypted_backup">Embora seus dados estejam protegidos contra acesso não autorizado neste dispositivo, os backups são criados sem criptografia, a menos que você configure a %s.</string>
+</resources>
