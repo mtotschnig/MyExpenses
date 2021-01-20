@@ -555,7 +555,6 @@
     <string name="exchange_rate">Döviz kuru</string>
     <string name="date_format_hour">Saat</string>
     <string name="date_format_minute">Dakika</string>
-    <string name="copied_to_clipboard">Panoya kopyalandı</string>
     <string name="menu_sort">Şuna göre sırala</string>
     <string name="pref_sort_order_last_used">Son kullanıldığı</string>
     <string name="pref_sort_order_custom">Özel</string>
@@ -971,4 +970,4 @@
     <string name="ocr_download_info">Metin tanıma kabiliyeti harici bir uygulama tarafından sağlanmaktadır.</string>
     <!-- %s is replaced with the title of the preference for setting a passphrase for backups (pref_security_export_passphrase_title) -->
     <string name="warning_unencrypted_backup">Bu cihazda verileriniz izinsiz erişimden korunuyor olsalar dahi, yedeklemeler %s unsurunu yapılandırmadığınız takdirde şifrelenmemiş bir şekilde oluşturulurlar.</string>
-</resources>
+    </resources>

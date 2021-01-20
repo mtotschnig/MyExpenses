@@ -554,7 +554,6 @@
     <string name="exchange_rate">ವಿನಿಮಯ ದರ</string>
     <string name="date_format_hour">ಗಂಟೆ</string>
     <string name="date_format_minute">ನಿಮಿಷ</string>
-    <string name="copied_to_clipboard">ಕ್ಲಿಪ್‌ಬೋರ್ಡ್‌ಗೆ ನಕಲಿಸಲಾಗಿದೆ</string>
     <string name="menu_sort">ವಿಂಗಡಿಸು</string>
     <string name="pref_sort_order_last_used">ಕೊನೆಯದಾಗಿ ಉಪಯೋಗಿಸಿದ</string>
     <string name="pref_sort_order_custom">ಕಸ್ಟಮ್</string>

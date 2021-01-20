@@ -591,7 +591,6 @@
     <string name="exchange_rate">معدل الصرف</string>
     <string name="date_format_hour">ساعة</string>
     <string name="date_format_minute">دقيقة</string>
-    <string name="copied_to_clipboard">تم النسخ للحافظة</string>
     <string name="menu_sort">رتب بواسطة</string>
     <string name="pref_sort_order_last_used">آخر استخدام</string>
     <string name="pref_sort_order_custom">تخصيص</string>
@@ -1019,4 +1018,4 @@
     <string name="ocr_download_info">يتم توفير إمكانية التعرف على النص بواسطة تطبيق خارجي.</string>
     <!-- %s is replaced with the title of the preference for setting a passphrase for backups (pref_security_export_passphrase_title) -->
     <string name="warning_unencrypted_backup">أثناء حماية بياناتك من الوصول غير المصرح به على هذا الجهاز، يتم إنشاء النسخ الاحتياطية بدون تشفير، إلا إذا قمت بتهيئة %s.</string>
-</resources>
+    </resources>

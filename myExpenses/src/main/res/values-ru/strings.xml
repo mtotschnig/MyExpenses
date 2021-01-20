@@ -572,7 +572,6 @@
     <string name="exchange_rate">Обменный курс</string>
     <string name="date_format_hour">Час</string>
     <string name="date_format_minute">Минута</string>
-    <string name="copied_to_clipboard">Скопировано в буфер обмена</string>
     <string name="menu_sort">Сортировать по</string>
     <string name="pref_sort_order_last_used">Последнее использование</string>
     <string name="pref_sort_order_custom">Настраиваемый</string>

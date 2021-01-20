@@ -537,7 +537,6 @@
     <string name="exchange_rate">Tỷ giá</string>
     <string name="date_format_hour">Giờ</string>
     <string name="date_format_minute">Phút</string>
-    <string name="copied_to_clipboard">Đã chép tới khay nhớ tạm</string>
     <string name="menu_sort">Sắp xếp theo</string>
     <string name="pref_sort_order_last_used">Sử dụng lần cuối</string>
     <string name="pref_sort_order_custom">Tuỳ ch</string>

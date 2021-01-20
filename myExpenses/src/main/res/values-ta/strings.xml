@@ -555,7 +555,6 @@
     <string name="exchange_rate">மாற்று விகிதம்</string>
     <string name="date_format_hour">மணி நேரம்</string>
     <string name="date_format_minute">நிமிடம்</string>
-    <string name="copied_to_clipboard">நகல் நினைவிக்கு நகலெடுக்கப்பட்டது</string>
     <string name="menu_sort">வரிசைப்படுத்தும் முறை</string>
     <string name="pref_sort_order_last_used">கடைசியாகப் பயன்படுத்தியது</string>
     <string name="pref_sort_order_custom">தனி விருப்பம்</string>

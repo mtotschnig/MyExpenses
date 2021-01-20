@@ -573,7 +573,6 @@
     <string name="exchange_rate">שער חליפין</string>
     <string name="date_format_hour">שעה</string>
     <string name="date_format_minute">דקה</string>
-    <string name="copied_to_clipboard">הועתק ללוח</string>
     <string name="menu_sort">מיין לפי</string>
     <string name="pref_sort_order_last_used">נעשה בו שימוש לאחרונה</string>
     <string name="pref_sort_order_custom">מותאם אישית</string>
@@ -997,4 +996,4 @@
     <string name="ocr_download_info">יכולת זיהוי טקסט ניתנת על ידי יישום חיצוני.</string>
     <!-- %s is replaced with the title of the preference for setting a passphrase for backups (pref_security_export_passphrase_title) -->
     <string name="warning_unencrypted_backup">למרות שהנתונים שלך מוגנים מפני גישה לא מורשית במכשיר זה, גיבויים נוצרים ללא הצפנה, אלא אם כן אתה מגדיר את התצורה %s.</string>
-</resources>
+    </resources>

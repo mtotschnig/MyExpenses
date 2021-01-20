@@ -555,7 +555,6 @@
     <string name="exchange_rate">Taxa de câmbio</string>
     <string name="date_format_hour">Hora</string>
     <string name="date_format_minute">Minuto</string>
-    <string name="copied_to_clipboard">Copiado para a área de transferência</string>
     <string name="menu_sort">Ordenar por</string>
     <string name="pref_sort_order_last_used">Usado pela última vez</string>
     <string name="pref_sort_order_custom">Personalizado</string>
@@ -971,4 +970,4 @@
     <string name="ocr_download_info">O recurso de reconhecimento de texto é fornecido por um aplicativo externo.</string>
     <!-- %s is replaced with the title of the preference for setting a passphrase for backups (pref_security_export_passphrase_title) -->
     <string name="warning_unencrypted_backup">Embora seus dados estejam protegidos contra acesso não autorizado neste dispositivo, os backups são criados sem criptografia, a menos que você configure a %s.</string>
-</resources>
+    </resources>

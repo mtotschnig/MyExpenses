@@ -546,7 +546,6 @@
     <string name="exchange_rate">Kurs wymiany</string>
     <string name="date_format_hour">Godzina</string>
     <string name="date_format_minute">Minuta</string>
-    <string name="copied_to_clipboard">Skopiowano do schowka</string>
     <string name="menu_sort">Sortuj według</string>
     <string name="pref_sort_order_last_used">Ostatnio używane</string>
     <string name="pref_sort_order_custom">Spersonalizowany </string>

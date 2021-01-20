@@ -552,7 +552,6 @@
     <string name="exchange_rate">Ισοτιμία</string>
     <string name="date_format_hour">Ώρα</string>
     <string name="date_format_minute">Λεπτό</string>
-    <string name="copied_to_clipboard">Αντιγράφτηκε στο πρόχειρο</string>
     <string name="menu_sort">Ταξινόμηση κατά</string>
     <string name="pref_sort_order_last_used">Τελευταία χρήση</string>
     <string name="pref_sort_order_custom">Προσαρμοσμένο</string>
@@ -811,4 +810,4 @@
     <string name="ocr_download_info">Η δυνατότητα αναγνώρισης κειμένου παρέχεται από μια εξωτερική εφαρμογή.</string>
     <!-- %s is replaced with the title of the preference for setting a passphrase for backups (pref_security_export_passphrase_title) -->
     <string name="warning_unencrypted_backup">Ενώ τα δεδομένα σας προστατεύονται από μη εξουσιοδοτημένη πρόσβαση σε αυτήν τη συσκευή, τα αντίγραφα ασφαλείας δημιουργούνται χωρίς κρυπτογράφηση, εκτός εάν ρυθμίσετε τις παραμέτρους του %s.</string>
-</resources>
+    </resources>

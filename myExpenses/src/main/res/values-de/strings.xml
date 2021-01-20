@@ -555,7 +555,6 @@
     <string name="exchange_rate">Wechselkurs</string>
     <string name="date_format_hour">Stunde</string>
     <string name="date_format_minute">Minute</string>
-    <string name="copied_to_clipboard">In Zwischenablage kopiert</string>
     <string name="menu_sort">Sortieren nach</string>
     <string name="pref_sort_order_last_used">Zuletzt verwendet</string>
     <string name="pref_sort_order_custom">Benutzerdefiniert</string>
@@ -971,4 +970,4 @@
     <string name="ocr_download_info">Die Texterkennungsfunktion wird von einer externen Anwendung bereitgestellt.</string>
     <!-- %s is replaced with the title of the preference for setting a passphrase for backups (pref_security_export_passphrase_title) -->
     <string name="warning_unencrypted_backup">Während Ihre Daten vor unbefugtem Zugriff auf diesem Gerät geschützt sind, werden Sicherungskopien ohne Verschlüsselung erstellt, es sei denn, Sie konfigurieren %s.</string>
-</resources>
+    </resources>
