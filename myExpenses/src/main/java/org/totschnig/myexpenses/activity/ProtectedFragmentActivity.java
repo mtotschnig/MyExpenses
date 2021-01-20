@@ -778,6 +778,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
 
   @Override
   public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    floatingActionButton.setEnabled(true);
     super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     boolean granted = PermissionHelper.allGranted(grantResults);
     storePermissionRequested(requestCode);
@@ -834,6 +835,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   }
 
   public void requestPermission(PermissionGroup permissionGroup) {
+    floatingActionButton.setEnabled(false);
     ActivityCompat.requestPermissions(this, permissionGroup.androidPermissions,
         permissionGroup.requestCode);
   }
