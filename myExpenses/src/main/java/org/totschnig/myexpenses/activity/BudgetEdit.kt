@@ -259,7 +259,6 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         Title.setText(budget.title)
         Description.setText(budget.description)
         populateAccount(budget.accountId)
-        configureAmount(budget.currency)
         Amount.setAmount(budget.amount.amountMajor)
         typeSpinnerHelper.setSelection(budget.grouping.ordinal)
         configureTypeDependents(budget.grouping)
@@ -275,6 +274,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
                 setSelection(it)
             }
         }
+        configureAccount()
     }
 
     override fun onNothingSelected(parent: AdapterView<*>) {
@@ -288,12 +288,13 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
                 configureTypeDependents(Type.adapter.getItem(position) as Grouping)
             }
             R.id.Accounts -> {
-                configureAccount(selectedAccount())
+                configureAccount()
             }
         }
     }
 
-    private fun configureAccount(account: Account) {
+    private fun configureAccount() {
+        val account = selectedAccount()
         accountId = account.id
         configureAmount(currencyContext[account.currency])
     }
