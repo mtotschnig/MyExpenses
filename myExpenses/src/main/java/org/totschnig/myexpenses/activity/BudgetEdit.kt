@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter.NULL_ITEM_ID
 import org.totschnig.myexpenses.dialog.select.SelectCrStatusDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectFilterDialog
 import org.totschnig.myexpenses.dialog.select.SelectMethodsAllDialogFragment
+import org.totschnig.myexpenses.dialog.select.SelectMultipleAccountDialogFragment
 import org.totschnig.myexpenses.fragment.KEY_TAG_LIST
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
@@ -58,10 +59,10 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
     private lateinit var filterPersistence: FilterPersistence
     @JvmField
     @State
-    var accountId: Long? = null
+    var accountId: Long = 0
 
     private val allFilterChips: Array<ScrollingChip>
-        get() = arrayOf(FILTER_CATEGORY_COMMAND, FILTER_PAYEE_COMMAND, FILTER_METHOD_COMMAND, FILTER_STATUS_COMMAND, FILTER_TAG_COMMAND)
+        get() = arrayOf(FILTER_CATEGORY_COMMAND, FILTER_PAYEE_COMMAND, FILTER_METHOD_COMMAND, FILTER_STATUS_COMMAND, FILTER_TAG_COMMAND, FILTER_ACCOUNT_COMMAND)
 
     override fun setupListeners() {
         val removeFilter: (View) -> Unit = { view -> removeFilter((view.parent as View).id) }
@@ -93,6 +94,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
                 R.id.FILTER_METHOD_COMMAND -> R.string.budget_filter_all_methods
                 R.id.FILTER_STATUS_COMMAND -> R.string.budget_filter_all_states
                 R.id.FILTER_TAG_COMMAND -> R.string.budget_filter_all_tags
+                R.id.FILTER_ACCOUNT_COMMAND -> R.string.budget_filter_all_accounts
                 else -> 0
             }.takeIf { it != 0 }?.let { text = getString(it) }
             isCloseIconVisible = false
@@ -128,6 +130,10 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
                 SelectCrStatusDialogFragment.newInstance()
                         .show(supportFragmentManager, "STATUS_FILTER")
             }
+            R.id.FILTER_ACCOUNT_COMMAND -> {
+                SelectMultipleAccountDialogFragment.newInstance(selectedAccount().currency)
+                        .show(supportFragmentManager, "ACCOUNT_FILTER")
+            }
         }
     }
 
@@ -141,7 +147,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         viewModel = ViewModelProvider(this).get(BudgetEditViewModel::class.java)
         viewModel.accounts.observe(this, { list ->
             Accounts.adapter = AccountAdapter(this, list)
-            populateAccount(accountId ?: list[0].id)
+            populateAccount(accountId.takeIf { it != 0L } ?: list[0].id)
         })
         viewModel.budget.observe(this, { populateData(it) })
         mNewInstance = budgetId == 0L
@@ -289,6 +295,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
             }
             R.id.Accounts -> {
                 configureAccount()
+                removeFilter(R.id.FILTER_ACCOUNT_COMMAND)
             }
         }
     }
@@ -296,6 +303,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
     private fun configureAccount() {
         val account = selectedAccount()
         accountId = account.id
+        FILTER_ACCOUNT_COMMAND.visibility = if (accountId < 0) View.VISIBLE else View.GONE
         configureAmount(currencyContext[account.currency])
     }
 

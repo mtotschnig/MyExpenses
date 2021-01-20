@@ -70,7 +70,7 @@ class FilterPersistence(val prefHandler: PrefHandler, private val keyTemplate: S
     fun persistAll() {
         arrayOf(CategoryCriteria.COLUMN, AmountCriteria.COLUMN, CommentCriteria.COLUMN,
                 CrStatusCriteria.COLUMN, PayeeCriteria.COLUMN, MethodCriteria.COLUMN,
-                DateCriteria.COLUMN, TRANSFER_COLUMN, TAG_COLUMN).forEach { column ->
+                DateCriteria.COLUMN, TRANSFER_COLUMN, TAG_COLUMN, ACCOUNT_COLUMN).forEach { column ->
             whereFilter.get(column)?.let {
                 persist(it)
             } ?: kotlin.run { prefHandler.remove(prefNameForCriteria(column)) }
