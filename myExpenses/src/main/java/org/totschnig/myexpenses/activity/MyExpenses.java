@@ -108,7 +108,6 @@ import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import eltos.simpledialogfragment.list.MenuDialog;
-import icepick.State;
 import kotlin.Unit;
 import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
@@ -223,9 +222,6 @@ public class MyExpenses extends BaseMyExpenses implements
   private ActionBarDrawerToggle mDrawerToggle;
 
   boolean indexesCalculated = false;
-
-  @State
-  boolean isInitialized = false;
 
   private RoadmapViewModel roadmapViewModel;
   private MyExpensesViewModel viewModel;
@@ -370,14 +366,13 @@ public class MyExpenses extends BaseMyExpenses implements
           break;
       }
     });
-    if (isInitialized) {
-      setup();
+    if (savedInstanceState != null) {
+      setup(false);
     } else {
       newVersionCheck();
       viewModel.initialize().observe(this, result -> {
         if (result == 0) {
-          isInitialized = true;
-          setup();
+          setup(true);
         } else {
           showMessage(result == ERROR_INIT_DOWNGRADE ? "Database cannot be downgraded from a newer version. Please either uninstall MyExpenses, before reinstalling, or upgrade to a new version." :
               "Database upgrade failed. Please contact support@myexpenses.mobi !", new MessageDialogFragment.Button(android.R.string.ok, R.id.QUIT_COMMAND, null),
@@ -410,15 +405,13 @@ public class MyExpenses extends BaseMyExpenses implements
     return "collapsedHeadersDrawer_" + accountGrouping.name();
   }
 
-  private void setup() {
+  private void setup(boolean firstCreate) {
     viewModel.loadHiddenAccountCount();
-    mViewPagerAdapter = new MyViewPagerAdapter(this, getSupportFragmentManager(), null);
-    myPager.setAdapter(this.mViewPagerAdapter);
-    myPager.addOnPageChangeListener(this);
-    myPager.setPageMargin(UiUtils.dp2Px(10, getResources()));
-    myPager.setPageMarginDrawable(new ColorDrawable(UiUtils.themeIntAttr(this, R.attr.colorOnSurface)));
     mManager = LoaderManager.getInstance(this);
-    mManager.initLoader(ACCOUNTS_CURSOR, null, this);
+    if (firstCreate) {
+      mManager.initLoader(ACCOUNTS_CURSOR, null, this);
+    }
+
   }
 
   private void voteReminderCheck() {
@@ -1001,7 +994,7 @@ public class MyExpenses extends BaseMyExpenses implements
       //swapping the cursor is altering the accountId, if the
       //sort order has changed, but we want to move to the same account as before
       long cacheAccountId = accountId;
-      mViewPagerAdapter.swapCursor(cursor);
+      setupViewPager(cursor);
       accountId = cacheAccountId;
       if (!indexesCalculated) {
         setColumnIndexRowId(cursor.getColumnIndex(KEY_ROWID));
@@ -1015,6 +1008,20 @@ public class MyExpenses extends BaseMyExpenses implements
       moveToAccount();
     }
   }
+
+  public void setupViewPager(Cursor cursor) {
+    if (mViewPagerAdapter == null) {
+      mViewPagerAdapter = new MyViewPagerAdapter(this, getSupportFragmentManager(), cursor);
+      myPager.setAdapter(mViewPagerAdapter);
+      myPager.addOnPageChangeListener(this);
+      myPager.setPageMargin(UiUtils.dp2Px(10, getResources()));
+      myPager.setPageMarginDrawable(new ColorDrawable(UiUtils.themeIntAttr(this, R.attr.colorOnSurface)));
+    } else {
+      mViewPagerAdapter.swapCursor(cursor);
+    }
+  }
+
+
 
   public void moveToAccount() {
     Cursor cursor = getAccountsCursor();
@@ -1152,6 +1159,12 @@ public class MyExpenses extends BaseMyExpenses implements
       return false;
     cursor.moveToPosition(getCurrentPosition());
     return cursor.getInt(cursor.getColumnIndexOrThrow(KEY_HAS_CLEARED)) > 0;
+  }
+
+  @Override
+  protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+    super.onRestoreInstanceState(savedInstanceState);
+    mManager.initLoader(ACCOUNTS_CURSOR, null, this);
   }
 
   @Override
