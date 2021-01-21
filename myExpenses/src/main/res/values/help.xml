@@ -26,7 +26,7 @@
   <string name="help_MyExpenses_title">Transaction list</string>
   <string name="help_MyExpenses_info">This screen lists all transactions for the current account. Use the floating action button to open the form for creating a new transaction.</string>
   <string name="help_MyExpenses_fab_long_press">Long press on the floating action button opens a menu that allows to prepare the form for transfer, split transaction or income.</string>
-  <string name="popup_MyExpenses_toolbar_intro">Tapping on the toolbar pops up a menu with the following entries:</string>
+  <string name="popup_MyExpenses_toolbar_intro">Tapping on the toolbar (account label or current balance) pops up a menu with the following entries:</string>
   <string name="popup_MyExpenses_toolbar_copy_text">Copy the current balance to the clipboard.</string>
   <string name="popup_MyExpenses_toolbar_new_balance">Calculate the difference between the current balance and a new value.</string>
   <string name="help_MyExpenses_crStatus_info">The status of the transaction is indicated by a colored rectangle: gray for unreconciled, blue for clear, green for reconciled. Clicking on the rectangle, changes the status.</string>

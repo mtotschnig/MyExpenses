@@ -15,6 +15,11 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_322">
+        <item>Die Beträge für Ausgaben, Einnahmen und Überweisungen in den Gruppenkopfzeilen können ausgeblendet werden.</item>
+        <item>Berechnen Sie die Differenz zwischen dem aktuellen Kontostand und einem neuen Wert.</item>
+        <item>Filter und Budgets können für eine Teilmenge von Konten definiert werden.</item>
+    </string-array>
     <string-array name="whats_new_321">
         <item>Die Texterkennung funktioniert jetzt mit mehr Sprachen.</item>
     </string-array>

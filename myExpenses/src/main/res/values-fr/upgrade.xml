@@ -15,6 +15,11 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_322">
+        <item>Les sommes des dépenses, des revenus et des transferts dans les en-têtes de groupe peuvent être masquées.</item>
+        <item>Calculez la différence entre le solde actuel et une nouvelle valeur.</item>
+        <item>Le filtre et les budgets peuvent être définis pour un sous-ensemble de comptes.</item>
+    </string-array>
     <string-array name="whats_new_321">
         <item>La reconnaissance de texte fonctionne désormais avec plus de langues.</item>
     </string-array>

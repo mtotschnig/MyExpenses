@@ -15,6 +15,11 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_322">
+        <item>Grup başlıklarında harcama, gelir ve transfer toplamları gizlenebilir.</item>
+        <item>Yeni bir değer ile güncel bakiye arasındaki fark hesaplanabilir.</item>
+        <item>Filtreler ve bütçeler hesapların alt kümeleri için tanımlanabilir.</item>
+    </string-array>
     <string-array name="whats_new_321">
         <item>Metin tanıma artık daha fazla lisan ile çalışıyor.</item>
     </string-array>
