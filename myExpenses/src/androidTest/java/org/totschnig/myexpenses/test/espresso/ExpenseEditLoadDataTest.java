@@ -220,7 +220,7 @@ public class ExpenseEditLoadDataTest extends BaseUiTest {
     i.putExtra(KEY_INSTANCEID, -1L);
     launchAndWait(i);
     assertThat(mActivityRule.getActivity().isTemplate).isFalse();
-    toolbarTitle().check(matches(withText(R.string.menu_edit_split)));
+    onView(withId(R.id.OperationType)).check(matches(withSpinnerText(R.string.menu_create_split)));
     checkEffectiveVisible(R.id.SplitContainer);
     onView(withId(R.id.list)).check(matches(withListSize(1)));
   }

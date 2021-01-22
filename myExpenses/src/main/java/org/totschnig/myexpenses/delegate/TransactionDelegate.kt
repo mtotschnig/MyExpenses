@@ -24,9 +24,10 @@ import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.adapter.AccountAdapter
 import org.totschnig.myexpenses.adapter.CrStatusAdapter
 import org.totschnig.myexpenses.adapter.NothingSelectedSpinnerAdapter
-import org.totschnig.myexpenses.adapter.OperationTypeAdapter
 import org.totschnig.myexpenses.adapter.RecurrenceAdapter
-import org.totschnig.myexpenses.contract.TransactionsContract
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
@@ -69,7 +70,7 @@ abstract class TransactionDelegate<T : ITransaction>(
     val recurrenceSpinner = SpinnerHelper(viewBinding.Recurrence)
     lateinit var accountsAdapter: AccountAdapter
     private lateinit var methodsAdapter: ArrayAdapter<PaymentMethod>
-    private lateinit var operationTypeAdapter: OperationTypeAdapter
+    private lateinit var operationTypeAdapter: ArrayAdapter<OperationType>
 
     init {
         createAccountAdapter()
@@ -208,7 +209,7 @@ abstract class TransactionDelegate<T : ITransaction>(
 
         if (isMainTemplate) {
             viewBinding.TitleRow.visibility = View.VISIBLE
-            viewBinding.DefaultActionRow.visibility  = View.VISIBLE
+            viewBinding.DefaultActionRow.visibility = View.VISIBLE
             if (!isCalendarPermissionPermanentlyDeclined) { //if user has denied access and checked that he does not want to be asked again, we do not
 //bother him with a button that is not working
                 setPlannerRowVisibility(true)
@@ -458,12 +459,23 @@ abstract class TransactionDelegate<T : ITransaction>(
 
     protected fun createOperationTypeAdapter() {
         val allowedOperationTypes: MutableList<Int> = ArrayList()
-        allowedOperationTypes.add(TransactionsContract.Transactions.TYPE_TRANSACTION)
-        allowedOperationTypes.add(TransactionsContract.Transactions.TYPE_TRANSFER)
+        allowedOperationTypes.add(TYPE_TRANSACTION)
+        allowedOperationTypes.add(TYPE_TRANSFER)
         if (parentId == null) {
-            allowedOperationTypes.add(TransactionsContract.Transactions.TYPE_SPLIT)
+            allowedOperationTypes.add(TYPE_SPLIT)
         }
-        operationTypeAdapter = OperationTypeAdapter(context, allowedOperationTypes, isTemplate, parentId != null)
+        val objects = allowedOperationTypes.map {
+            OperationType(it).apply {
+                label = context.getString(when (it) {
+                TYPE_SPLIT -> if (isTemplate) R.string.menu_create_template_for_split else R.string.menu_create_split
+                TYPE_TRANSFER -> if (isSplitPart) R.string.menu_create_split_part_transfer else if (isTemplate) R.string.menu_create_template_for_transfer else R.string.menu_create_transfer
+                TYPE_TRANSACTION -> if (isSplitPart) R.string.menu_create_split_part_category else if (isTemplate) R.string.menu_create_template_for_transaction else R.string.menu_create_transaction
+                else -> throw IllegalStateException("Unknown operationType $it")
+            })
+            }
+        }
+        operationTypeAdapter = ArrayAdapter<OperationType>(context, android.R.layout.simple_spinner_item, objects)
+        operationTypeAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
         operationTypeSpinner.adapter = operationTypeAdapter
         resetOperationType()
         operationTypeSpinner.setOnItemSelectedListener(this)
@@ -499,7 +511,7 @@ abstract class TransactionDelegate<T : ITransaction>(
     }
 
     fun resetOperationType() {
-        operationTypeSpinner.setSelection(operationTypeAdapter.getPosition(operationType))
+        operationTypeSpinner.setSelection(operationTypeAdapter.getPosition(OperationType(operationType)))
     }
 
     fun setMethods(paymentMethods: List<PaymentMethod>?) {
@@ -553,11 +565,11 @@ abstract class TransactionDelegate<T : ITransaction>(
                 updateAccount(account)
             }
             R.id.OperationType -> {
-                val newType = operationTypeSpinner.getItemAtPosition(position) as Int
+                val newType = (operationTypeSpinner.getItemAtPosition(position) as OperationType).type
                 if (host.isValidType(newType)) {
-                    if (newType == TransactionsContract.Transactions.TYPE_TRANSFER && !checkTransferEnabled()) { //reset to previous
+                    if (newType == TYPE_TRANSFER && !checkTransferEnabled()) { //reset to previous
                         resetOperationType()
-                    } else if (newType == TransactionsContract.Transactions.TYPE_SPLIT) {
+                    } else if (newType == TYPE_SPLIT) {
                         resetOperationType()
                         if (isTemplate) {
                             if (prefHandler.getBoolean(PrefKey.NEW_SPLIT_TEMPLATE_ENABLED, true)) {
@@ -694,7 +706,8 @@ abstract class TransactionDelegate<T : ITransaction>(
                 if (forSave && !isSplitPart) {
                     if (host.createTemplate) {
                         setInitialPlan(Triple(viewBinding.Title.text.toString(),
-                                recurrenceSpinner.selectedItem as? Plan.Recurrence ?: Plan.Recurrence.NONE,
+                                recurrenceSpinner.selectedItem as? Plan.Recurrence
+                                        ?: Plan.Recurrence.NONE,
                                 dateEditBinding.DateButton.date))
                     }
                 }
@@ -793,7 +806,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         planButton.text = Plan.prettyTimeInfo(context, plan.rrule, plan.dtstart)
     }
 
-    fun configurePlan(plan: Plan?) {
+    private fun configurePlan(plan: Plan?) {
         plan?.let {
             updatePlanButton(it)
             if (viewBinding.Title.text.toString() == "") viewBinding.Title.setText(it.title)
@@ -906,6 +919,14 @@ abstract class TransactionDelegate<T : ITransaction>(
         setPlannerRowVisibility(createTemplate && !isCalendarPermissionPermanentlyDeclined)
     }
 
+    data class OperationType(val type: Int) {
+        var label: String = ""
+
+        override fun toString(): String {
+            return label
+        }
+    }
+
     companion object {
         fun create(transaction: ITransaction, viewBinding: OneExpenseBinding,
                    dateEditBinding: DateEditBinding, methodRowBinding: MethodRowBinding,
@@ -923,8 +944,8 @@ abstract class TransactionDelegate<T : ITransaction>(
         fun create(operationType: Int, isTemplate: Boolean, viewBinding: OneExpenseBinding,
                    dateEditBinding: DateEditBinding, methodRowBinding: MethodRowBinding,
                    prefHandler: PrefHandler) = when (operationType) {
-            TransactionsContract.Transactions.TYPE_TRANSFER -> TransferDelegate(viewBinding, dateEditBinding, methodRowBinding, prefHandler, isTemplate)
-            TransactionsContract.Transactions.TYPE_SPLIT -> SplitDelegate(viewBinding, dateEditBinding, methodRowBinding, prefHandler, isTemplate)
+            TYPE_TRANSFER -> TransferDelegate(viewBinding, dateEditBinding, methodRowBinding, prefHandler, isTemplate)
+            TYPE_SPLIT -> SplitDelegate(viewBinding, dateEditBinding, methodRowBinding, prefHandler, isTemplate)
             else -> CategoryDelegate(viewBinding, dateEditBinding, methodRowBinding, prefHandler, isTemplate)
         }
     }
