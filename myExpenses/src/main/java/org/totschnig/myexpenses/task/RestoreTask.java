@@ -47,6 +47,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -153,7 +154,11 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
 
       }
     } catch (FileNotFoundException | SecurityException | GeneralSecurityException e) {
-      CrashHandler.report(e, String.format("fileUri %s, syncAccountName %s, backupFromSync %s", fileUri, syncAccountName, backupFromSync));
+      Map<String, String> customData = new HashMap<>();
+      customData.put("fileUri", fileUri != null ? fileUri.toString() : "null");
+      customData.put("syncAccountName", syncAccountName);
+      customData.put("backupFromSync", backupFromSync);
+      CrashHandler.report(e, customData);
       return Result.ofFailure(
           R.string.parse_error_other_exception,
           e.getMessage());

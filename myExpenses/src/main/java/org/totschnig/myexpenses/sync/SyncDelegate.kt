@@ -199,7 +199,7 @@ class SyncDelegate @JvmOverloads constructor(val currencyContext: CurrencyContex
         var skipped = false
         val offset = ops.size
         var tagOpsCount = 0
-        val tagIds = if (change.tags() != null) extractTagIds(change.tags()!!, tagToId) else null
+        val tagIds = change.tags()?.let { extractTagIds(it, tagToId) }
         @Suppress("NON_EXHAUSTIVE_WHEN")
         when (change.type()) {
             TransactionChange.Type.created -> {

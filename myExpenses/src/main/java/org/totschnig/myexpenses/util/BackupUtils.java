@@ -61,7 +61,7 @@ public class BackupUtils {
       failureMessage = result.print(context);
     }
     return Result.ofFailure(context.getString(R.string.backup_failure,
-        FileUtils.getPath(context, backupFile.getUri())) + " " + "failure");
+        FileUtils.getPath(context, backupFile.getUri())) + " " + failureMessage);
   }
 
   private static DocumentFile requireBackupFile(@NonNull DocumentFile appDir, boolean encrypted) {
