@@ -15,6 +15,37 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_322">
+        <item>يمكن إخفاء مبالغ النفقات والإيرادات والتحويلات في رؤوس المجموعة.</item>
+        <item>احسب الفرق بين الرصيد الحالي والقيمة الجديدة.</item>
+        <item>يمكن تحديد التصفية والميزانيات لمجموعة فرعية من الحسابات.</item>
+    </string-array>
+    <string-array name="whats_new_321">
+        <item>يعمل التعرف على النص الآن مع المزيد من اللغات.</item>
+    </string-array>
+    <string-array name="whats_new_320">
+        <item>يمكن اقتصاص الصور.</item>
+    </string-array>
+    <string-array name="whats_new_318">
+        <item>يمكن تحديد إجراء النقر الافتراضي لكل قالب.</item>
+    </string-array>
+    <string-array name="whats_new_317">
+        <item>يمكن تحميل القوالب من نموذج المعاملة.</item>
+    </string-array>
+    <string-array name="whats_new_316">
+        <item>زر الحفظ في نموذج المعاملة أكثر بروزًا.</item>
+        <item>الضغط لفترة طويلة على زر الإجراء العائم يفتح قائمة تسمح بإعداد النموذج للتحويل أو تقسيم المعاملة أو الدخل.</item>
+    </string-array>
+    <string name="whats_new_315_dark_theme_q">السمة الداكنة مرتبطة بشكل افتراضي بالنظام</string>
+    <string-array name="whats_new_313">
+        <item>تعزيز إدارة المعاملات المتكررة</item>
+        <item>الترجمة الكانادية</item>
+    </string-array>
+    <string-array name="whats_new_312">
+        <item>تنسيق التاريخ المخصص</item>
+        <item>يتم تصدير العلامات إلى CSV</item>
+        <item>لا يمكن تجميع المعاملات في معاملة مجزأة.</item>
+    </string-array>
     <string-array name="whats_new_311">
         <item>قائمة الأطراف ( المشترين و المستفيدين ) قابلة للبحث</item>
     </string-array>
@@ -53,6 +84,7 @@
         <item>الترجمة للأوكرانية</item>
         <item>البيانات المملوءة مسبقا أصبحت قابلة للتعديل</item>
     </string-array>
+    <string name="ui_refinement">صقل واجهة المستخدم</string>
     <string name="bug_fixes">إصلاح الأخطاء</string>
     <string name="performance_enhancement">تحسينات علي الأداء</string>
     <string name="stability_improvements">رفع مستوي ثبات البرنامج</string>

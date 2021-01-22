@@ -47,7 +47,7 @@
     <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">مخطط دائري (التوزيع حسب الفئة)</string>
     <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">عدد غير محدود من الخطط</string>
     <string name="contrib_feature_print_label" tools:ignore="UnusedResources">تصدير قائمة العمليات إلى PDF</string>
-    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">ويدجت النموذج</string>
+    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">مختصر النموذج</string>
     <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">إستيراد ملف CSV</string>
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">عدد غير محدود من القوالب المنقسمة</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>دعم البريد الإلكتروني</b> مع استجابة مضمونة في غضون يومي عمل</string>
@@ -78,7 +78,7 @@
     <string name="dialog_command_disabled_reset_account">لا يوجد عمليات لتصديرها.</string>
     <string name="dialog_command_disabled_distribution">لا يوجد عمليات معينة للتصنيفات لهذا الحساب.</string>
     <!-- Button for accessing trial of premium feature -->
-    <string name="dialog_contrib_no">تجربة</string>
+    <string name="dialog_contrib_no">للتجربة</string>
     <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
     <string name="dialog_contrib_premium_feature">%1$s هذه الخاصية تتطلب ميزات كاملة (%2$s).</string>
     <string name="dialog_contrib_reminder_remove_limitation">قم بإزالة هذا القيد والوصول إلى المزيد من الميزات عن طريق ترقية <i> {app_name}</i>.</string>
@@ -303,7 +303,7 @@
     <string name="pref_checkbox_enabled">مفعل</string>
     <string name="pref_checkbox_disabled">معطل</string>
     <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_contrib_purchase_summary">شراء الوصول إلى الميزات المتميزة.</string>
+    <string name="pref_contrib_purchase_summary">شراء الوصول إلى الميزات الكاملة.</string>
     <string name="pref_contrib_purchase_title">مفتاح الشراء</string>
     <string name="pref_contrib_purchase_title_upgrade">مفتاح الترقية </string>
     <string name="pref_contrib_purchase_title_in_app">الشراء داخل التطبيق</string>
@@ -405,7 +405,7 @@
     <string name="status_cleared">تمت تصفيته</string>
     <string name="status_reconciled">تمت تسويته</string>
     <string name="status_uncreconciled">لم تتم تسويتها</string>
-    <string name="status_void">لاغٍ</string>
+    <string name="status_void">لاغي</string>
     <string name="subcategory">التصنيفات الفرعية</string>
     <string name="sum_expenses">المصاريف</string>
     <string name="sum_income">الدخل</string>
@@ -556,7 +556,7 @@
     <string name="slash_forbidden_in_filename">/ رمز غير مسموح به في اسماء الملفات</string>
     <string name="io_error_unable_to_create_file">غير قادر على إنشاء الملف %1$s في المجلد %2$s</string>
     <string name="menu_categories_export">تصدير لصيغة QIF</string>
-    <string name="pref_csv_import_delimiter">محدد</string>
+    <string name="pref_csv_import_delimiter">المحدد</string>
     <string name="csv_import_preview">معاينة</string>
     <string name="menu_parse">تحليل</string>
     <!-- Label for column where user can check rows to be discarded from import -->
@@ -890,7 +890,7 @@
     <string name="synchronization_select_folder_dialog_title">حدد مجلداً موجوداً أو أنشئ مجلداً جديداً</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->
     <string name="discover_feature_expense_income_switch">استخدم زر التبديل هذا لتسجيل الدخل.</string>
-    <string name="menu_create_budget">ويدجت جديدة</string>
+    <string name="menu_create_budget">ميزانية جديدة</string>
     <string name="budget_onetime">مرة واحدة</string>
     <string name="dialog_confirm_discard_new_budget">تجاهل الميزانية الجديدة؟</string>
     <string name="budget_duration_from">من</string>
