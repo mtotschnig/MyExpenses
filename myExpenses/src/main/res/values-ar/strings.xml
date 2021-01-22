@@ -903,6 +903,7 @@
     <string name="budget_filter_all_methods">كل الطرق</string>
     <string name="budget_filter_all_states">الحالة الكلية</string>
     <string name="budget_filter_all_tags">كل العلامات</string>
+    <string name="budget_filter_all_accounts">كافة الحسابات</string>
     <string name="budget_form_label_filter">فلتر</string>
     <string name="dialog_title_warning_delete_budget">هل تودّ حذف الميزانية؟</string>
     <string name="warning_delete_budget">سيتم حذف الميزانية \"%1$s\".</string>
@@ -1018,4 +1019,8 @@
     <string name="ocr_download_info">يتم توفير إمكانية التعرف على النص بواسطة تطبيق خارجي.</string>
     <!-- %s is replaced with the title of the preference for setting a passphrase for backups (pref_security_export_passphrase_title) -->
     <string name="warning_unencrypted_backup">أثناء حماية بياناتك من الوصول غير المصرح به على هذا الجهاز، يتم إنشاء النسخ الاحتياطية بدون تشفير، إلا إذا قمت بتهيئة %s.</string>
-    </resources>
+    <!-- Title of a preference switch that allows to configure display of group header. If switched on sums for income/expense/transfer are shown -->
+    <string name="pref_group_header_show_details_summary"> إظهار المجموع التفصيلي في ترويسة المجموعة</string>
+    <!-- Title of a menu item and a dialogue that allow to adjust the current balance. User can enter the new balance, and transaction form is opened with the amount prefiled to the difference between old and new balance  -->
+    <string name="new_balance">الرصيد الجديد</string>
+</resources>
