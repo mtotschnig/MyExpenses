@@ -342,7 +342,9 @@ task copyFileForFixture(type: Files) {
 }
 
 task echoPublishTag() {
-    println "git tag r${versionCode}; git push origin r${versionCode}"
+    doLast {
+        println "git tag r${versionCode}; git push origin r${versionCode}"
+    }
 }
 
 def categoryIcons() {
