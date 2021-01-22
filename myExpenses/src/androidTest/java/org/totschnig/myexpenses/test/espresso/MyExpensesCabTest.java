@@ -85,8 +85,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
         .atPosition(1)
         .perform(longClick());
     clickMenuItem(R.id.CLONE_TRANSACTION_COMMAND, R.string.menu_clone_transaction, true);
-    closeSoftKeyboard();
-    onView(withId(R.id.CREATE_COMMAND)).perform(click());
+    closeKeyboardAndSave();
     assertThat(waitForAdapter().getCount()).isEqualTo(origListSize + 1);
   }
 
@@ -99,7 +98,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
         .atPosition(1) // position 0 is header
         .perform(longClick());
     clickMenuItem(R.id.EDIT_COMMAND, R.string.menu_edit, true);
-    onView(withId(R.id.CREATE_COMMAND)).perform(click());
+    closeKeyboardAndSave();
     assertThat(waitForAdapter().getCount()).isEqualTo(origListSize);
     }
 

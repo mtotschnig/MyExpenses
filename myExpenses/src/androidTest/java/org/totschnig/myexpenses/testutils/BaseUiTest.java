@@ -28,6 +28,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
 import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -62,6 +63,11 @@ public abstract class BaseUiTest {
   protected void clickOnListEntry(int atPosition) {
     waitForAdapter();
     onData(anything()).inAdapterView(isAssignableFrom(AdapterView.class)).atPosition(atPosition).perform(click());
+  }
+
+  protected void closeKeyboardAndSave() {
+    closeSoftKeyboard();
+    onView(withId(R.id.CREATE_COMMAND)).perform(click());
   }
 
 
