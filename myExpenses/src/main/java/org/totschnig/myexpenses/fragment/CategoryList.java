@@ -188,7 +188,6 @@ public class CategoryList extends SortableListFragment {
   protected QueryObservable createQuery() {
     String selection = null;
     String[] selectionArgs;
-    String catFilter = CATTREE_WHERE_CLAUSE;
     String[] projection = new String[]{
         KEY_ROWID,
         KEY_PARENTID,
@@ -196,7 +195,7 @@ public class CategoryList extends SortableListFragment {
         KEY_COLOR,
         KEY_ICON,
         //here we do not filter out void transactions since they need to be considered as mapped
-        "(select 1 FROM " + TABLE_BUDGET_CATEGORIES + " WHERE " + catFilter + ") AS " + DatabaseConstants.KEY_MAPPED_BUDGETS
+        "(select 1 FROM " + TABLE_BUDGET_CATEGORIES + " WHERE " + CATTREE_WHERE_CLAUSE + ") AS " + DatabaseConstants.KEY_MAPPED_BUDGETS
     };
     boolean isFiltered = !TextUtils.isEmpty(mFilter);
     if (isFiltered) {

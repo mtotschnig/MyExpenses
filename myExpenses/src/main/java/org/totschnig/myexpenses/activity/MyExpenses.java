@@ -974,7 +974,6 @@ public class MyExpenses extends BaseMyExpenses implements
     } else {
       floatingActionButton.show();
     }
-    toolbar.setVisibility(View.VISIBLE);
     mDrawerList.setItemChecked(position, true);
     supportInvalidateOptionsMenu();
   }
@@ -1006,6 +1005,7 @@ public class MyExpenses extends BaseMyExpenses implements
         indexesCalculated = true;
       }
       moveToAccount();
+      toolbar.setVisibility(View.VISIBLE);
     }
   }
 

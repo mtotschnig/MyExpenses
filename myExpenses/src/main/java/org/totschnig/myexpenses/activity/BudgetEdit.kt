@@ -147,7 +147,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         viewModel = ViewModelProvider(this).get(BudgetEditViewModel::class.java)
         viewModel.accounts.observe(this, { list ->
             Accounts.adapter = AccountAdapter(this, list)
-            populateAccount(accountId.takeIf { it != 0L } ?: list[0].id)
+            (accountId.takeIf { it != 0L } ?: list.getOrNull(0)?.id)?.let { populateAccount(it) }
         })
         viewModel.budget.observe(this, { populateData(it) })
         mNewInstance = budgetId == 0L
