@@ -21,6 +21,7 @@ import java.util.Currency;
 import androidx.test.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
+import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -64,6 +65,7 @@ public class ForeignTransferEditTest {
     Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
     i.putExtra(KEY_ROWID, transfer.getId());
     mActivityRule.launchActivity(i);
+    closeSoftKeyboard();
     onView(withId(R.id.CREATE_COMMAND)).perform(click());
     assertTrue(mActivityRule.getActivity().isFinishing());
   }

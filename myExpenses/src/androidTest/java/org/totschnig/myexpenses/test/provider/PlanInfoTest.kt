@@ -23,9 +23,9 @@ class PlanInfoTest : BaseDbTest() {
     private val dailyPlan = Plan(1, "FREQ=DAILY")
     private val weeklyPlan = Plan(2, "FREQ=WEEKLY")
     private val monthlyPlan = Plan(3, "FREQ=MONTHLY")
-    private val TRANSACTIONS: Array<TemplateInfo> by lazy {
+    private val templateInfos: Array<TemplateInfo> by lazy {
         val testAccountId = mDb.insertOrThrow(DatabaseConstants.TABLE_ACCOUNTS, null,
-                AccountInfo("Test account", AccountType.CASH, 0).getContentValues())
+                AccountInfo("Test account", AccountType.CASH, 0).contentValues)
         val payeeId = mDb.insertOrThrow(DatabaseConstants.TABLE_PAYEES, null, PayeeInfo("N.N").contentValues)
         arrayOf(TemplateInfo(testAccountId, "Template monthly", 100, payeeId, monthlyPlan.id),
                 TemplateInfo(testAccountId, "Template weekly", 100, payeeId, weeklyPlan.id),
@@ -42,7 +42,7 @@ class PlanInfoTest : BaseDbTest() {
                 addRow(monthlyPlan.toMatrixRow())
                 it.addEventResult(this)
             }
-            mMockResolver.addProvider(CalendarContractCompat.AUTHORITY, it)
+            mockContentResolver.addProvider(CalendarContractCompat.AUTHORITY, it)
         }
     }
 
@@ -50,7 +50,7 @@ class PlanInfoTest : BaseDbTest() {
     fun grantCalendarPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             with(getInstrumentation()) {
-                getUiAutomation().apply {
+                uiAutomation.apply {
                     grantRuntimePermission(targetContext.packageName, "android.permission.READ_CALENDAR")
                     grantRuntimePermission(targetContext.packageName, "android.permission.WRITE_CALENDAR")
                 }
@@ -59,7 +59,7 @@ class PlanInfoTest : BaseDbTest() {
     }
 
     private fun insertData() {
-        for (transactionInfo in TRANSACTIONS) {
+        for (transactionInfo in templateInfos) {
 
             mDb.insertOrThrow(
                     DatabaseConstants.TABLE_TEMPLATES,
@@ -71,13 +71,13 @@ class PlanInfoTest : BaseDbTest() {
 
     fun testPlanInfo() {
         insertData()
-        val cursor = mMockResolver.query(
+        val cursor = mockContentResolver.query(
                 TransactionProvider.TEMPLATES_URI.buildUpon()
                         .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_WITH_PLAN_INFO, "1")
                         .build(),
                 null, null, null, null)!!
 
-        assertEquals(TRANSACTIONS.size, cursor.count)
+        assertEquals(templateInfos.size, cursor.count)
         cursor.moveToFirst()
         do {
             val planId = cursor.getLong(cursor.getColumnIndex(DatabaseConstants.KEY_PLANID))
@@ -115,15 +115,15 @@ class PlanInfoTest : BaseDbTest() {
                 return null
             }
         }.also {
-            mMockResolver.addProvider(CalendarProviderProxy.AUTHORITY, it)
+            mockContentResolver.addProvider(CalendarProviderProxy.AUTHORITY, it)
         }
         //we only need/must add one row
         mDb.insertOrThrow(
                 DatabaseConstants.TABLE_TEMPLATES,
                 null,
-                TRANSACTIONS[0].contentValues
+                templateInfos[0].contentValues
         )
-        mMockResolver.query(
+        mockContentResolver.query(
                 TransactionProvider.TEMPLATES_URI.buildUpon()
                         .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_WITH_PLAN_INFO, "1")
                         .build(),
@@ -136,7 +136,7 @@ class PlanInfoTest : BaseDbTest() {
     fun testGetInstancesSorting() {
         object : MockContentProvider() {
 
-            override fun query(uri: Uri, projection: Array<String>?, selection: String?, selectionArgs: Array<String>?, sortOrder: String?): Cursor? {
+            override fun query(uri: Uri, projection: Array<String>?, selection: String?, selectionArgs: Array<String>?, sortOrder: String?): Cursor {
                 val planId = selectionArgs!![0].toLong()
                 val nextInstance = System.currentTimeMillis() + TimeUnit.DAYS.toMillis(
                         when (planId) {
@@ -150,10 +150,10 @@ class PlanInfoTest : BaseDbTest() {
                 }
             }
         }.also {
-            mMockResolver.addProvider(CalendarProviderProxy.AUTHORITY, it)
+            mockContentResolver.addProvider(CalendarProviderProxy.AUTHORITY, it)
         }
         insertData()
-        val cursor = mMockResolver.query(
+        val cursor = mockContentResolver.query(
                 TransactionProvider.TEMPLATES_URI.buildUpon()
                         .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_WITH_PLAN_INFO, "1")
                         .build(),

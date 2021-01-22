@@ -85,6 +85,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
         .atPosition(1)
         .perform(longClick());
     clickMenuItem(R.id.CLONE_TRANSACTION_COMMAND, R.string.menu_clone_transaction, true);
+    closeSoftKeyboard();
     onView(withId(R.id.CREATE_COMMAND)).perform(click());
     assertThat(waitForAdapter().getCount()).isEqualTo(origListSize + 1);
   }

@@ -98,7 +98,7 @@ public class TransactionTest extends BaseDbTest {
 
     // Query subtest 1.
     // If there are no records in the table, the returned cursor from a query should be empty.
-    Cursor cursor = mMockResolver.query(
+    Cursor cursor = getMockContentResolver().query(
         TransactionProvider.TRANSACTIONS_URI,  // the URI for the main data table
         null,                       // no projection, get all columns
         null,                       // no selection criteria, get all records
@@ -118,7 +118,7 @@ public class TransactionTest extends BaseDbTest {
     cursor.close();
 
     // Gets all the columns for all the rows in the table
-    cursor = mMockResolver.query(
+    cursor = getMockContentResolver().query(
         TransactionProvider.TRANSACTIONS_URI,  // the URI for the main data table
         null,                       // no projection, get all columns
         null,                       // no selection criteria, get all records
@@ -135,7 +135,7 @@ public class TransactionTest extends BaseDbTest {
     // Query subtest 3.
     // A query that uses a projection should return a cursor with the same number of columns
     // as the projection, with the same names, in the same order.
-    Cursor projectionCursor = mMockResolver.query(
+    Cursor projectionCursor = getMockContentResolver().query(
         TransactionProvider.TRANSACTIONS_URI,  // the URI for the main data table
         TEST_PROJECTION,            // get the comment, date and payee_id
         null,                       // no selection columns, get all the records
@@ -158,7 +158,7 @@ public class TransactionTest extends BaseDbTest {
     // Query subtest 4
     // A query that uses selection criteria should return only those rows that match the
     // criteria. Use a projection so that it's easy to get the data in a particular column.
-    projectionCursor = mMockResolver.query(
+    projectionCursor = getMockContentResolver().query(
         TransactionProvider.TRANSACTIONS_URI, // the URI for the main data table
         TEST_PROJECTION,           //  get the comment, date and payee_id
         SELECTION_COLUMNS,         // select on the title column
@@ -213,7 +213,7 @@ public class TransactionTest extends BaseDbTest {
     Uri transactionIdUri = ContentUris.withAppendedId(TransactionProvider.TRANSACTIONS_URI, 1);
 
     // Queries the table with the transaction's ID URI. This should return an empty cursor.
-    Cursor cursor = mMockResolver.query(
+    Cursor cursor = getMockContentResolver().query(
         transactionIdUri, // URI pointing to a single record
         null,      // no projection, get all the columns for each record
         null,      // no selection criteria, get all the records in the table
@@ -234,7 +234,7 @@ public class TransactionTest extends BaseDbTest {
     cursor.close();
 
     // Queries the table using the URI for the full table.
-    cursor = mMockResolver.query(
+    cursor = getMockContentResolver().query(
         TransactionProvider.TRANSACTIONS_URI, // the base URI for the table
         TRANSACTION_ID_PROJECTION,        // returns the ID and title columns of rows
         SELECTION_COLUMNS,         // select based on the title column
@@ -259,7 +259,7 @@ public class TransactionTest extends BaseDbTest {
 
     // Queries the table using the content ID URI, which returns a single record with the
     // specified transaction ID, matching the selection criteria provided.
-    cursor = mMockResolver.query(transactionIdUri, // the URI for a single transaction
+    cursor = getMockContentResolver().query(transactionIdUri, // the URI for a single transaction
         TRANSACTION_ID_PROJECTION,                 // same projection, get ID and title columns
         SELECTION_COLUMNS,                  // same selection, based on title column
         SELECTION_ARGS,                     // same selection arguments, title = "Transaction 0"
@@ -290,7 +290,7 @@ public class TransactionTest extends BaseDbTest {
     // Insert subtest 1.
     // Inserts a row using the new transaction instance.
     // No assertion will be done. The insert() method either works or throws an Exception
-    Uri rowUri = mMockResolver.insert(
+    Uri rowUri = getMockContentResolver().insert(
         TransactionProvider.TRANSACTIONS_URI,  // the main table URI
         transaction.getContentValues()     // the map of values to insert as a new record
     );
@@ -300,7 +300,7 @@ public class TransactionTest extends BaseDbTest {
 
     // Does a full query on the table. Since insertData() hasn't yet been called, the
     // table should only contain the record just inserted.
-    Cursor cursor = mMockResolver.query(
+    Cursor cursor = getMockContentResolver().query(
         TransactionProvider.TRANSACTIONS_URI, // the main table URI
         null,                      // no projection, return all the columns
         null,                      // no selection criteria, return all the rows in the model
@@ -338,7 +338,7 @@ public class TransactionTest extends BaseDbTest {
 
     // Tries to insert this record into the table.
     try {
-      mMockResolver.insert(TransactionProvider.TRANSACTIONS_URI, values);
+      getMockContentResolver().insert(TransactionProvider.TRANSACTIONS_URI, values);
       fail("Expected insert failure for existing record but insert succeeded.");
     } catch (Exception e) {
       // succeeded, do nothing
@@ -352,7 +352,7 @@ public class TransactionTest extends BaseDbTest {
         "Transaction 4",
         new Date(), 1000, testAccountId + 1, payeeId);
     try {
-      mMockResolver.insert(TransactionProvider.TRANSACTIONS_URI, transaction.getContentValues());
+      getMockContentResolver().insert(TransactionProvider.TRANSACTIONS_URI, transaction.getContentValues());
       fail("Expected insert failure for link to non-existing account but insert succeeded.");
     } catch (Exception e) {
       // succeeded, so do nothing
@@ -374,7 +374,7 @@ public class TransactionTest extends BaseDbTest {
     final String[] SELECTION_ARGS = {"Transaction 0"};
 
     // Tries to delete rows matching the selection criteria from the data model.
-    int rowsDeleted = mMockResolver.delete(
+    int rowsDeleted = getMockContentResolver().delete(
         TransactionProvider.TRANSACTIONS_URI, // the base URI of the table
         SELECTION_COLUMNS,         // select based on the title column
         SELECTION_ARGS             // select title = "Transaction 0"
@@ -390,7 +390,7 @@ public class TransactionTest extends BaseDbTest {
     insertData();
 
     // Uses the same parameters to try to delete the row with comment "Transaction 0"
-    rowsDeleted = mMockResolver.delete(
+    rowsDeleted = getMockContentResolver().delete(
         TransactionProvider.TRANSACTIONS_URI, // the base URI of the table
         SELECTION_COLUMNS,         // same selection column, "title"
         SELECTION_ARGS             // same selection arguments, comment = "Transaction 0"
@@ -403,7 +403,7 @@ public class TransactionTest extends BaseDbTest {
     // asserts that nothing was returned.
 
     // Queries the table with the same selection column and argument used to delete the row.
-    Cursor cursor = mMockResolver.query(
+    Cursor cursor = getMockContentResolver().query(
         TransactionProvider.TRANSACTIONS_URI, // the base URI of the table
         null,                      // no projection, return all columns
         SELECTION_COLUMNS,         // select based on the title column
@@ -437,7 +437,7 @@ public class TransactionTest extends BaseDbTest {
     values.put(DatabaseConstants.KEY_COMMENT, "Testing an update with this string");
 
     // Tries to update the table
-    int rowsUpdated = mMockResolver.update(
+    int rowsUpdated = getMockContentResolver().update(
         TransactionProvider.TRANSACTIONS_URI,  // the URI of the data table
         values,                     // a map of the updates to do (column title and value)
         SELECTION_COLUMNS,           // select based on the title column
@@ -454,7 +454,7 @@ public class TransactionTest extends BaseDbTest {
     insertData();
 
     //  Does the update again, using the same arguments as in subtest 1.
-    rowsUpdated = mMockResolver.update(
+    rowsUpdated = getMockContentResolver().update(
         TransactionProvider.TRANSACTIONS_URI,   // The URI of the data table
         values,                      // the same map of updates
         SELECTION_COLUMNS,            // same selection, based on the title column
@@ -474,7 +474,7 @@ public class TransactionTest extends BaseDbTest {
         DatabaseConstants.KEY_CR_STATUS};
 
     // Queries the table using the URI for the full table.
-    Cursor cursor = mMockResolver.query(
+    Cursor cursor = getMockContentResolver().query(
         TransactionProvider.TRANSACTIONS_URI, // the base URI for the table
         TRANSACTION_ID_PROJECTION,
         null,
@@ -492,14 +492,14 @@ public class TransactionTest extends BaseDbTest {
     //default value should be unreconciled
     assertEquals(CrStatus.UNRECONCILED, CrStatus.valueOf(cursor.getString(2)));
     //toggle, then should be cleared
-    mMockResolver.update(
+    getMockContentResolver().update(
         transactionIdUri.buildUpon()
             .appendPath(TransactionProvider.URI_SEGMENT_TOGGLE_CRSTATUS)
             .build(),
         null, null, null);
     cursor.close();
 
-    cursor = mMockResolver.query(
+    cursor = getMockContentResolver().query(
         transactionIdUri, // the base URI for the table
         TRANSACTION_ID_PROJECTION,
         null,
@@ -511,14 +511,14 @@ public class TransactionTest extends BaseDbTest {
     assertEquals(CrStatus.CLEARED, CrStatus.valueOf(cursor.getString(2)));
 
     //toggle again, then should be unreconciled
-    mMockResolver.update(
+    getMockContentResolver().update(
         transactionIdUri.buildUpon()
             .appendPath(TransactionProvider.URI_SEGMENT_TOGGLE_CRSTATUS)
             .build(),
         null, null, null);
     cursor.close();
 
-    cursor = mMockResolver.query(
+    cursor = getMockContentResolver().query(
         transactionIdUri, // the base URI for the table
         TRANSACTION_ID_PROJECTION,
         null,

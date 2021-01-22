@@ -2,7 +2,7 @@ package org.totschnig.myexpenses.test.model;
 
 import org.totschnig.myexpenses.model.PaymentMethod;
 
-public class PaymentMethodTest extends ModelTest  {
+public class PaymentMethodTest extends ModelTest {
 
   @Override
   protected void setUp() throws Exception {
@@ -24,7 +24,7 @@ public class PaymentMethodTest extends ModelTest  {
     pm.isNumbered = !pm.isNumbered;
     pm.save();
   }
-  
+
   public void testSavingAPredefinedMethodWithChangingLabelShouldDiscardPredefinedInformation() {
     PaymentMethod pm = PaymentMethod.getInstanceFromDb(1);
     assert pm != null;
