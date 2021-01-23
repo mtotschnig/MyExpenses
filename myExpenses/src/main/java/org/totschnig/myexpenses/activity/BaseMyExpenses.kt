@@ -192,14 +192,16 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     return true
                 }
                 DIALOG_TAG_NEW_BALANCE -> {
-                    accountsCursor?.let {
-                        it.moveToPosition(currentPosition)
-                        startEdit(
-                                createRowIntent(Transactions.TYPE_TRANSACTION, false).apply {
-                                    putExtra(KEY_AMOUNT, (extras.getSerializable(KEY_AMOUNT) as BigDecimal) -
-                                            Money(currentCurrencyUnit, it.getLong(it.getColumnIndex(DatabaseConstants.KEY_CURRENT_BALANCE))).amountMajor)
-                                }
-                        )
+                    if (currentPosition > -1) {
+                        accountsCursor?.let {
+                            it.moveToPosition(currentPosition)
+                            startEdit(
+                                    createRowIntent(Transactions.TYPE_TRANSACTION, false).apply {
+                                        putExtra(KEY_AMOUNT, (extras.getSerializable(KEY_AMOUNT) as BigDecimal) -
+                                                Money(currentCurrencyUnit, it.getLong(it.getColumnIndex(DatabaseConstants.KEY_CURRENT_BALANCE))).amountMajor)
+                                    }
+                            )
+                        }
                     }
                 }
             }
@@ -253,22 +255,24 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     fun setupToolbarPopupMenu() {
         toolbar.setOnClickListener {
-            val popup = PopupMenu(this, toolbar)
-            val popupMenu = popup.menu
-            popupMenu.add(Menu.NONE, R.id.COPY_TO_CLIPBOARD_COMMAND, Menu.NONE, R.string.copy_text)
-            popupMenu.add(Menu.NONE, R.id.NEW_BALANCE_COMMAND, Menu.NONE, getString(R.string.new_balance))
-            popup.setOnMenuItemClickListener { item ->
-                when (item.itemId) {
-                    R.id.COPY_TO_CLIPBOARD_COMMAND -> copyToClipBoard()
-                    R.id.NEW_BALANCE_COMMAND -> if (accountId > 0) {
-                        SimpleFormDialog.build().fields(
-                                AmountEdit.plain(KEY_AMOUNT).label(R.string.new_balance).fractionDigits(currentCurrencyUnit!!.fractionDigits)
-                        ).show(this, DIALOG_TAG_NEW_BALANCE)
+            if (currentPosition > -1) {
+                val popup = PopupMenu(this, toolbar)
+                val popupMenu = popup.menu
+                popupMenu.add(Menu.NONE, R.id.COPY_TO_CLIPBOARD_COMMAND, Menu.NONE, R.string.copy_text)
+                popupMenu.add(Menu.NONE, R.id.NEW_BALANCE_COMMAND, Menu.NONE, getString(R.string.new_balance))
+                popup.setOnMenuItemClickListener { item ->
+                    when (item.itemId) {
+                        R.id.COPY_TO_CLIPBOARD_COMMAND -> copyToClipBoard()
+                        R.id.NEW_BALANCE_COMMAND -> if (accountId > 0) {
+                            SimpleFormDialog.build().fields(
+                                    AmountEdit.plain(KEY_AMOUNT).label(R.string.new_balance).fractionDigits(currentCurrencyUnit!!.fractionDigits)
+                            ).show(this, DIALOG_TAG_NEW_BALANCE)
+                        }
                     }
+                    true
                 }
-                true
+                popup.show()
             }
-            popup.show()
         }
     }
 

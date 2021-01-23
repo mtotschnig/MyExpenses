@@ -1040,7 +1040,7 @@ public class MyExpenses extends BaseMyExpenses implements
       setCurrentPosition(position);
       moveToPosition(getCurrentPosition());
     } else {
-      setCurrentPosition(-1);
+      onNoData();
     }
   }
 
@@ -1063,9 +1063,15 @@ public class MyExpenses extends BaseMyExpenses implements
     if (loader.getId() == ACCOUNTS_CURSOR) {
       mViewPagerAdapter.swapCursor(null);
       mDrawerListAdapter.swapCursor(null);
-      setCurrentPosition(-1);
+      onNoData();
       setAccountsCursor(null);
     }
+  }
+
+  public void onNoData() {
+    setTitle(R.string.app_name);
+    toolbar.setSubtitle(null);
+    setCurrentPosition(-1);
   }
 
   @Override
