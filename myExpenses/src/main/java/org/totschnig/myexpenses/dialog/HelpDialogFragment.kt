@@ -246,7 +246,7 @@ class HelpDialogFragment : BaseDialogFragment(), ImageGetter {
             val row = layoutInflater.inflate(R.layout.help_dialog_action_row, linearLayout, false)
             var title = ""
             //this allows us to map an item like "date.time" to the concatenation of translations for date and for time
-            for (resIdPart in item.split("\\.").toTypedArray()) {
+            for (resIdPart in item.split(".").toTypedArray()) {
                 if (title != "") title += "/"
                 title += resolveStringOrThrowIf0((if (prefix == "form") "" else "menu_") + resIdPart)
             }
