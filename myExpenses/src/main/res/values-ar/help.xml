@@ -41,7 +41,7 @@
   <string name="help_ManageTemplates_templates_info"><![CDATA[<img src=\"ic_menu_template\"> بينما يمكن اشتقاق القوالب من المعاملات من خلال قائمة السياق الخاصة بها ، هنا يمكنك إنشاء قوالب جديدة من البداية (للمعاملات أو التحويلات) بالنقر فوق زر الإجراء العائم. يؤدي النقر فوق قالب إلى إنشاء مثيل له.<br><img src=\"ic_event\"> الخطة هي قالب قمت بإنشاء حدث له (لمرة واحدة أو متكرر) في تقويم المخطط. سيؤدي النقر فوق إحدى الخطط إلى فتح طريقة عرض التقويم ، والتي تعرض الحالات السابقة والقادمة للخطة.]]></string>
   <string name="help_ManageTemplates_planner_intro">يؤدي النقر لفترة طويلة على مثيل مفتوح إلى بدء التحديد المتعدد. يتيح النقر على بداية النطاق الزمني أو نهايته توسيع النطاق إلى الماضي أو المستقبل.</string>
   <string name="help_ManageTemplates_plans_intro">يمثل كل تاريخ مميز مثيلاً للخطة.</string>
-  <string name="help_ManageTemplates_plans_info"><![CDATA[The state of an instance is indicated by the following icons:<br><img src=\"ic_stat_open\"> لم يتم تطبيق المثيل بعد.<br><img src=\"ic_stat_applied\"> تم تطبيق المثيل.<br><img src=\"ic_stat_cancelled\"> تم إلغاء المثيل ، أي أنك قمت بطرحه ليتم تخطيه. لن يتم إنشاء أي معاملة لهذه الحالة.]]></string>
+  <string name="help_ManageTemplates_plans_info">&lt;![CDATA [يشار إلى حالة المثيل بالرموز التالية:&lt;br&gt;&lt;img src=\"ic_stat_open\"&gt; لم يتم تطبيق المثيل بعد.&lt;br&gt;&lt;img src=\"ic_stat_applied\"&gt; تم تطبيق المثيل.&lt;br&gt;&lt;img src=\"ic_stat_cancelled\"&gt; تم إلغاء المثيل ، أي أنك قمت بطرحه ليتم تخطيه. لن يتم إنشاء أي معاملة لهذه الحالة.]]&gt;</string>
   <string name="cab_ManageTemplates_templates_create_instance_save_help_text">إنشاء القوالب المحددة وحفظها على الفور.</string>
   <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">قم بإنشاء النموذج المحدد وأدخل نموذج التحرير الخاص به حيث يمكنك تعديله قبل الحفظ.</string>
   <string name="cab_ManageTemplates_delete_help_text">احذف القوالب المحددة وأي خطط مرتبطة بها.</string>
@@ -90,7 +90,7 @@
   <string name="form_payer_or_payee_help_text">يتذكر هذا الحقل القيم التي تدخلها وسوف يقترحها في المستقبل.</string>
   <string name="form_amount_switch_help_text">استخدم المفتاح للتبديل بين المصاريف والدخل.</string>
   <string name="form_calculator_help_text"><![CDATA[The <img src=\"?calcIcon\">زر يفتح الآلة الحاسبة.]]></string>
-  <string name="form_crstatus_help_text">بالنسبة للمعاملات التي تنتمي إلى حسابات بنكية ، يمكنك تغيير حالة المعاملة إلى مسوَّاة. لتعيينه على التسوية ، يجب عليك استخدام أمر "حساب الرصيد" من قائمة المعاملات. إذا تم تعيين الحالة على "باطل" ، فلن يتم احتساب المعاملة.</string>
+  <string name="form_crstatus_help_text">بالنسبة للمعاملات التي تنتمي إلى حسابات بنكية ، يمكنك تغيير حالة المعاملة إلى مسوَّاة. لتعيينه على التسوية ، يجب عليك استخدام أمر \"حساب الرصيد\" من قائمة المعاملات. إذا تم تعيين الحالة على \"باطل\" ، فلن يتم احتساب المعاملة.</string>
   <string name="form_comment_help_text">أدخل أي ملاحظة حول الكائن.</string>
   <string name="form_method_help_text">هذا الحقل متاح فقط إذا كان الحساب الجاري من نوع مرتبط بأي طريقة دفع. بشكل افتراضي ، يتم ربط الحسابات المصرفية فقط بطرق الدفع (شيك ، بطاقة ائتمان ، إيداع ، خصم مباشر). انتقل إلى الإعدادات -&gt; إدارة -&gt; طرق الدفع لتكوين الارتباط بين أنواع الحسابات وطرق الدفع. عند تحديد طريقة مُعرَّفة كرقم ، يتوفر حقل إضافي لإدخال رقم مرجعي.</string>
   <string name="form_attach_image_help_text"><![CDATA[<img src=\"android:ic_menu_camera\">يتيح لك الزر إرفاق صورة (على سبيل المثال من المعرض أو الكاميرا) بالكائن.]]></string>
@@ -108,8 +108,8 @@
   <string name="menu_save_and_new_help_text">إذا تم تحديد هذا الخيار ، بعد حفظ البيانات ، يتم ترك النموذج مفتوحًا لإنشاء معاملة جديدة بنفس البيانات.</string>
   <string name="menu_original_amount_help_text">اعرض حقلاً يسمح بتحديد مبلغ إضافي. على سبيل المثال ، إذا كنت تدفع ببطاقتك الائتمانية بعملة أجنبية ، يمكنك تذكر السعر الأصلي بالإضافة إلى المبلغ المخصوم من بطاقتك. يتم تجاهل المبلغ الأصلي لحساب المبالغ.</string>
   <string name="menu_equivalent_amount_help_text">لحساب الإجمالي الكلي عبر جميع الحسابات ، يتم ضرب حركات حسابات العملات الأجنبية في سعر الصرف الذي تحدده للحساب. ولكن يمكنك أيضًا تجاوز هذا المبلغ المحسوب ضمنيًا ، عن طريق تعيين مبلغ معادل لأي معاملة فردية.</string>
-  <string name="menu_invert_transfer_help_text">اعكس اتجاه التحويل عن طريق تبديل الحساب "من" و "إلى".</string>
-  <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">إذا كانت عملات الحساب "من" و "إلى" مختلفة ، فإنك تحدد المبلغ لعملة واحدة فقط. سيتم حساب الآخر عند إنشاء مثيلات من القالب.</string>
+  <string name="menu_invert_transfer_help_text">اعكس اتجاه التحويل عن طريق تبديل الحساب \"من\" و \"إلى\".</string>
+  <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">إذا كانت عملات الحساب \"من\" و \"إلى\" مختلفة ، فإنك تحدد المبلغ لعملة واحدة فقط. سيتم حساب الآخر عند إنشاء مثيلات من القالب.</string>
   <string name="form_goal_or_limit_help_text">يسمح هذا الحقل بتحديد إما هدف توفير إيجابي أو حد ائتماني سلبي. في كلتا الحالتين ، في قائمة الحساب ، يظهر مؤشر التقدم المسافة بين الرصيد الحالي والهدف أو الحد.</string>
   <string name="menu_templates_help_text">افتح قائمة تسرد جميع القوالب مما يسمح بتحميلها بسرعة في النموذج.</string>
   <string name="menu_create_template_from_transaction_help_text">إذا تم تحديد هذا الخيار ، فسيتم أيضًا حفظ المعاملة كقالب. يمكنك تحديد عنوانها واختيارياً تعيين خطة للتكرار التلقائي.</string>
@@ -120,7 +120,7 @@
   <string name="form_AccountEdit_amount_switch_help_text">استخدم المفتاح للبدء برصيد افتتاحي سلبي.</string>
   <string name="form_currency_help_text">حدد عملة من القائمة المتوفرة لجميع العملات الحالية.</string>
   <string name="form_AccountEdit_type_help_text">يمكنك تحديد نوع الحساب على أنه حساب نقدي ، بنكي ، أصول ، التزامات ، بطاقة ائتمان. يحدد النوع طرق الدفع المتاحة التي يمكنك تكوينها ضمن الإعدادات -&gt; إدارة -&gt; طرق الدفع.</string>
-  <string name="form_AccountEdit_type_help_text_reconciliation">ميزة التسوية متاحة لجميع الحسابات باستثناء النقدية: فهي تسمح بتعيين حالة المعاملات لتصفية ، بمجرد تأكيدها ، وتسوية الحساب بالكامل مع كشف حسابك المصرفي من خلال أمر "حساب الرصيد".</string>
+  <string name="form_AccountEdit_type_help_text_reconciliation">ميزة التسوية متاحة لجميع الحسابات باستثناء النقدية: فهي تسمح بتعيين حالة المعاملات لتصفية ، بمجرد تأكيدها ، وتسوية الحساب بالكامل مع كشف حسابك المصرفي من خلال أمر \"حساب الرصيد\".</string>
   <string name="form_color_help_text">في قائمة المعاملات الخاصة بأي حساب ، سيتم استخدام لونه كلون أساسي لواجهة المستخدم.</string>
   <string name="form_synchronization_help_text_select">حدد خلفية لمزامنة السحابة.</string>
   <string name="form_synchronization_help_text_add">يمكن إضافة الخلفيات من شاشة الإعدادات.</string>
@@ -143,12 +143,12 @@
   <!--StaleImages-->
   <string name="help_ManageStaleImages_info">تتيح لك هذه الشاشة التعامل مع ملفات الصور التي تم تركها من المعاملات المحذوفة. انقر مطولاً على الإدخالات من أجل حذفها أو نقلها خارج مجلد التخزين (ربما داخليًا) إلى مجلد النسخ الاحتياطي (Android / data / org.totschnig.mxexpenses / files / images.old) على وحدة التخزين الخارجية.</string>
   <!--CSV Import-->
-  <string name="help_CsvImportActivity_info"><![CDATA[After you select the file you want to import, you need to configure how  the file is encoded (UTF-8 or ISO-8859-1), which character separates fields (comma, semicolon or tab), and how dates are formated. Data can be either imported into an existing account, or a new one, where you can configure the currency and the account type.<br><br> بعد أن تضغط على زر التحليل من شريط الإجراءات ، سيتم تقديم البيانات لك في جدول. قبل بدء الاستيراد عبر الزر في شريط الإجراءات ، يمكنك تحديد الصفوف التي تريد تجاهلها ، وعليك تعيين الأعمدة إلى حقول البيانات المعنية.<br><br> عند التخلص من الصف الأول، تتم مطالبتك إذا كنت تريد أن يتم التعامل معها على أنها خط الرأس، وفي هذه الحالة <i>بلادي المصروفات</i> سيحاول الخريطة الأعمدة تلقائيا استنادا إلى محتوى الخلايا الرأس. سيتذكر أيضًا تعيينك استنادًا إلى سطر العنوان ، ويستعيده ، عندما تقوم باستيراد ملف بنفس تنسيق الرأس في المرة القادمة.]]></string>
+  <string name="help_CsvImportActivity_info">&lt;! [CDATA [بعد تحديد الملف الذي تريد استيراده ، تحتاج إلى تكوين كيفية تشفير الملف (UTF-8 أو ISO-8859-1) ، وأي حرف يفصل الحقول (فاصلة أو فاصلة منقوطة أو علامة تبويب) ، وكيف تم تشكيل التواريخ. يمكن استيراد البيانات إما إلى حساب موجود ، أو حساب جديد ، حيث يمكنك تكوين العملة ونوع الحساب&lt;br&gt;&lt;br&gt; بعد أن تضغط على زر التحليل من شريط الإجراءات ، سيتم تقديم البيانات لك في جدول. قبل بدء الاستيراد من خلال الزر في شريط الإجراءات ، يمكنك تحديد الصفوف التي تريد تجاهلها ، ويجب عليك تعيين الأعمدة إلى حقول البيانات المعنية.&lt;br&gt;&lt;br&gt; عند التخلص من الصف الأول، تتم مطالبتك إذا كنت تريد أن يتم التعامل معها على أنها خط الرأس، وفي هذه الحالة &lt;i&gt;بلادي المصروفات&lt;/i&gt; سيحاول الخريطة الأعمدة تلقائيا استنادا إلى محتوى الخلايا الرأس. سيتذكر أيضًا تعيينك استنادًا إلى سطر العنوان ، ويستعيده ، عندما تقوم باستيراد ملف بنفس تنسيق الرأس في المرة القادمة.]]&amp;gt;</string>
   <string name="help_ExportDialog_date_format"><![CDATA[Text can be quoted using single quotes (\') to avoid interpretation. \'\' (two single quotes) represent a single quote. Consult the full <a href="http://developer.android.com/reference/java/text/SimpleDateFormat.html">لمزيد من التفاصيل ، أو اتصل support@myexpenses.mobi للحصول على المساعدة.]]></string>
   <string name="help_NavigationDrawer_info">تتيح لك قائمة الحسابات التنقل بسهولة بين الحسابات بمجرد النقر فوق إدخال.</string>
   <string name="menu_create_account_help_text">انشاء حساب جديد. الإصدار المجاني يقتصر على خمسة حسابات.</string>
   <string name="menu_NavigationDrawer_sort_help_text">يمكن فرز قائمة الحسابات حسب العنوان (أبجديًا) ، أو تكرار الاستخدامات ، أو حسب آخر مرة تم فيها إنشاء معاملة لها.</string>
-  <string name="menu_NavigationDrawer_sort_help_text_custom">يتيح لك النقر فوق "مخصص" إمكانية تكوين موضع كل حساب بحرية.</string>
+  <string name="menu_NavigationDrawer_sort_help_text_custom">يتيح لك النقر فوق \" مخصص \" إمكانية تكوين موضع كل حساب بحرية.</string>
   <string name="menu_NavigationDrawer_grouping_help_text">يمكن عرض قائمة الحسابات مجمعة حسب نوع الحساب أو العملة أو غير مجمعة.</string>
   <string name="menu_NavigationDrawer_hidden_accounts_help_text">يعرض قائمة بجميع الحسابات المخفية ، حيث يمكن جعلها مرئية مرة أخرى أو حذفها.</string>
   <string name="cab_NavigationDrawer_hide_help_text">إزالة الحساب من القائمة.</string>
