@@ -123,6 +123,7 @@
                         android:text="@string/color" />
 
                     <include
+                        android:id="@+id/colorInput"
                         style="@style/FormField"
                         layout="@layout/color_input" />
                 </TableRow>
