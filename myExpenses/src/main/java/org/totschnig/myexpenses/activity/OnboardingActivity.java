@@ -13,6 +13,7 @@ import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.databinding.OnboardingBinding;
 import org.totschnig.myexpenses.dialog.RestoreFromCloudDialogFragment;
 import org.totschnig.myexpenses.fragment.OnBoardingPrivacyFragment;
 import org.totschnig.myexpenses.fragment.OnboardingDataFragment;
@@ -34,9 +35,6 @@ import java.util.List;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.preference.PreferenceManager;
-import androidx.viewpager.widget.ViewPager;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import icepick.State;
 
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT;
@@ -45,8 +43,7 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SETUP_FRO
 
 
 public class OnboardingActivity extends SyncBackendSetupActivity {
-  @BindView(R.id.viewpager)
-  ViewPager pager;
+  private OnboardingBinding binding;
   private MyPagerAdapter pagerAdapter;
   @State
   String accountName;
@@ -60,11 +57,11 @@ public class OnboardingActivity extends SyncBackendSetupActivity {
       PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
     }
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.onboarding);
-    ButterKnife.bind(this);
+    binding = OnboardingBinding.inflate(getLayoutInflater());
+    setContentView(binding.getRoot());
     //setupToolbar(false);
     pagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
-    pager.setAdapter(pagerAdapter);
+    binding.viewpager.setAdapter(pagerAdapter);
   }
 
   @Override
@@ -74,24 +71,20 @@ public class OnboardingActivity extends SyncBackendSetupActivity {
   }
 
   public void navigate_next() {
-    final int currentItem = pager.getCurrentItem();
-    pager.setCurrentItem(currentItem + 1, true);
+    final int currentItem = binding.viewpager.getCurrentItem();
+    binding.viewpager.setCurrentItem(currentItem + 1, true);
   }
 
   @Override
   public void onBackPressed() {
-    if (pager != null) {
-      final int currentItem = pager.getCurrentItem();
+    if (binding.viewpager != null) {
+      final int currentItem = binding.viewpager.getCurrentItem();
       if (currentItem > 0) {
-        pager.setCurrentItem(currentItem - 1);
+        binding.viewpager.setCurrentItem(currentItem - 1);
         return;
       }
     }
     super.onBackPressed();
-  }
-
-  public void showMoreOptions(View view) {
-    getDataFragment().showMoreOptions(view);
   }
 
   private OnboardingDataFragment getDataFragment() {

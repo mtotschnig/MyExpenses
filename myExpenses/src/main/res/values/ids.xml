@@ -195,4 +195,5 @@
     <item name="TESSERACT_DOWNLOAD_COMMAND" type="id" />
     <item name="COPY_TO_CLIPBOARD_COMMAND" type="id" />
     <item name="NEW_BALANCE_COMMAND" type="id" />
+    <item name="theme" type="id">@id/themeSwitch</item>
 </resources>

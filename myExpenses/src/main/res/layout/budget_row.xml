@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    style="@style/ExpandableListRowWithCustomIndicator"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/ExpandableListRowWithCustomIndicator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?android:attr/activatedBackgroundIndicator">
 
-    <include layout="@layout/expandable_list_handle"/>
+    <ImageView
+        android:id="@+id/explist_indicator"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:contentDescription="@string/content_description_expand"
+        android:src="@drawable/expander_close_mtrl_alpha"
+        app:tint="?colorControlNormal" />
 
     <FrameLayout
         android:id="@+id/color1"
@@ -16,10 +24,10 @@
         android:layout_height="@dimen/account_color_diameter"
         android:layout_centerVertical="true"
         android:layout_gravity="center_vertical"
-        android:layout_marginEnd="4dp"
-        android:layout_marginLeft="-4dp"
-        android:layout_marginRight="4dp"
         android:layout_marginStart="-4dp"
+        android:layout_marginLeft="-4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
         android:layout_toEndOf="@+id/explist_indicator"
         android:layout_toRightOf="@+id/explist_indicator"
         android:padding="4dp">
@@ -31,7 +39,7 @@
             app:donut_finished_stroke_width="3sp"
             app:donut_text_color="?android:textColorPrimary"
             app:donut_text_size="@dimen/textSizeLabel"
-            app:donut_unfinished_stroke_width="3sp"/>
+            app:donut_unfinished_stroke_width="3sp" />
     </FrameLayout>
 
     <ImageView
@@ -40,20 +48,22 @@
         android:layout_height="@dimen/category_icon_size"
         android:layout_centerVertical="true"
         android:layout_toEndOf="@+id/color1"
-        android:layout_toRightOf="@+id/color1"/>
+        android:layout_toRightOf="@+id/color1" />
 
     <TextView
         android:id="@+id/label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
-        android:layout_toEndOf="@+id/category_icon"
-        android:layout_toLeftOf="@+id/budgetContainer"
-        android:layout_toRightOf="@+id/category_icon"
+        android:layout_marginLeft="8dp"
         android:layout_toStartOf="@+id/budgetContainer"
-        tools:text="LABEL"/>
+        android:layout_toLeftOf="@+id/budgetContainer"
+        android:layout_toEndOf="@+id/category_icon"
+        android:layout_toRightOf="@+id/category_icon"
+        tools:text="LABEL" />
 
-    <include layout="@layout/budget_container"/>
+    <include
+        android:id="@+id/budgetContainer"
+        layout="@layout/budget_container" />
 </RelativeLayout>

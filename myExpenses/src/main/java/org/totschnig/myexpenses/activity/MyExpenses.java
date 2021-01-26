@@ -43,6 +43,7 @@ import org.jetbrains.annotations.NotNull;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.MyGroupedAdapter;
+import org.totschnig.myexpenses.databinding.ActivityMainBinding;
 import org.totschnig.myexpenses.dialog.BalanceDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
@@ -93,11 +94,9 @@ import java.util.List;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.util.Pair;
 import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
@@ -105,8 +104,6 @@ import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
 import androidx.viewpager.widget.ViewPager;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import eltos.simpledialogfragment.list.MenuDialog;
 import kotlin.Unit;
 import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
@@ -168,6 +165,7 @@ public class MyExpenses extends BaseMyExpenses implements
   private static final String MANAGE_HIDDEN_FRAGMENT_TAG = "MANAGE_HIDDEN";
 
   private LoaderManager mManager;
+  private ActivityMainBinding binding;
 
   private MyViewPagerAdapter mViewPagerAdapter;
   private MyGroupedAdapter mDrawerListAdapter;
@@ -210,15 +208,17 @@ public class MyExpenses extends BaseMyExpenses implements
     }
   }
 
-  @BindView(R.id.left_drawer)
-  ExpandableStickyListHeadersListView mDrawerList;
-  @Nullable
-  @BindView(R.id.drawer)
-  DrawerLayout mDrawerLayout;
-  @BindView(R.id.viewpager)
-  ViewPager myPager;
-  @BindView(R.id.expansionContent)
-  NavigationView navigationView;
+  ExpandableStickyListHeadersListView accountList() {
+    return binding.accountPanel.accountList;
+  }
+
+  ViewPager viewPager() {
+    return binding.viewPagerMain.viewPager;
+  }
+
+  NavigationView navigationView() {
+    return binding.accountPanel.expansionContent;
+  }
   private ActionBarDrawerToggle mDrawerToggle;
 
   boolean indexesCalculated = false;
@@ -234,7 +234,8 @@ public class MyExpenses extends BaseMyExpenses implements
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
+    binding = ActivityMainBinding.inflate(getLayoutInflater());
+    setContentView(binding.getRoot());
 
     final ViewGroup adContainer = findViewById(R.id.adContainer);
     accountGrouping = readAccountGroupingFromPref();
@@ -256,13 +257,11 @@ public class MyExpenses extends BaseMyExpenses implements
       CrashHandler.report(e);
     }
 
-    ButterKnife.bind(this);
-
     toolbar = setupToolbar(false);
     toolbar.setVisibility(View.INVISIBLE);
     setupToolbarPopupMenu();
-    if (mDrawerLayout != null) {
-      mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+    if (binding.drawer != null) {
+      mDrawerToggle = new ActionBarDrawerToggle(this, binding.drawer,
           toolbar, R.string.drawer_open, R.string.drawer_close) {
 
         /**
@@ -292,26 +291,26 @@ public class MyExpenses extends BaseMyExpenses implements
       };
 
       // Set the drawer toggle as the DrawerListener
-      mDrawerLayout.addDrawerListener(mDrawerToggle);
+      binding.drawer.addDrawerListener(mDrawerToggle);
     }
     mDrawerListAdapter = new MyGroupedAdapter(this, null, currencyFormatter, prefHandler, currencyContext);
 
-    navigationView.setNavigationItemSelectedListener(item -> dispatchCommand(item.getItemId(), null));
-    View navigationMenuView = navigationView.getChildAt(0);
+    navigationView().setNavigationItemSelectedListener(item -> dispatchCommand(item.getItemId(), null));
+    View navigationMenuView = navigationView().getChildAt(0);
     if (navigationMenuView != null) {
       navigationMenuView.setVerticalScrollBarEnabled(false);
     }
 
-    mDrawerList.setAdapter(mDrawerListAdapter);
-    mDrawerList.setAreHeadersSticky(false);
-    mDrawerList.setOnHeaderClickListener(new StickyListHeadersListView.OnHeaderClickListener() {
+    accountList().setAdapter(mDrawerListAdapter);
+    accountList().setAreHeadersSticky(false);
+    accountList().setOnHeaderClickListener(new StickyListHeadersListView.OnHeaderClickListener() {
       @Override
       public void onHeaderClick(StickyListHeadersListView l, View header, int itemPosition, long headerId, boolean currentlySticky) {
-        if (mDrawerList.isHeaderCollapsed(headerId)) {
-          mDrawerList.expand(headerId);
+        if (accountList().isHeaderCollapsed(headerId)) {
+          accountList().expand(headerId);
           persistCollapsedHeaderIds();
         } else {
-          mDrawerList.collapse(headerId);
+          accountList().collapse(headerId);
           persistCollapsedHeaderIds();
         }
       }
@@ -321,14 +320,14 @@ public class MyExpenses extends BaseMyExpenses implements
         return false;
       }
     });
-    mDrawerList.setOnItemClickListener((parent, view, position, id) -> {
+    accountList().setOnItemClickListener((parent, view, position, id) -> {
       if (accountId != id) {
         moveToPosition(position);
         closeDrawer();
       }
     });
-    registerForContextMenu(mDrawerList);
-    mDrawerList.setFastScrollEnabled(prefHandler.getBoolean(PrefKey.ACCOUNT_LIST_FAST_SCROLL, false));
+    registerForContextMenu(accountList());
+    accountList().setFastScrollEnabled(prefHandler.getBoolean(PrefKey.ACCOUNT_LIST_FAST_SCROLL, false));
 
     updateFab();
     setupFabSubMenu();
@@ -348,7 +347,7 @@ public class MyExpenses extends BaseMyExpenses implements
     roadmapViewModel = new ViewModelProvider(this).get(RoadmapViewModel.class);
     viewModel = new ViewModelProvider(this).get(MyExpensesViewModel.class);
     viewModel.getHasHiddenAccounts().observe(this,
-        result -> navigationView.getMenu().findItem(R.id.HIDDEN_ACCOUNTS_COMMAND).setVisible(result != null && result));
+        result -> navigationView().getMenu().findItem(R.id.HIDDEN_ACCOUNTS_COMMAND).setVisible(result != null && result));
     viewModel.getFeatureState().observe(this, featureState -> {
       switch (featureState.getFirst()) {
         case LOADING:
@@ -398,7 +397,7 @@ public class MyExpenses extends BaseMyExpenses implements
   }
 
   public void persistCollapsedHeaderIds() {
-    PreferenceUtilsKt.putLongList(prefHandler, collapsedHeaderIdsPrefKey(), mDrawerList.getCollapsedHeaderIds());
+    PreferenceUtilsKt.putLongList(prefHandler, collapsedHeaderIdsPrefKey(), accountList().getCollapsedHeaderIds());
   }
 
   private String collapsedHeaderIdsPrefKey() {
@@ -438,10 +437,10 @@ public class MyExpenses extends BaseMyExpenses implements
   }
 
   private void moveToPosition(int position) {
-    if (myPager.getCurrentItem() == position)
+    if (viewPager().getCurrentItem() == position)
       setCurrentAccount(position);
     else
-      myPager.setCurrentItem(position, false);
+      viewPager().setCurrentItem(position, false);
   }
 
   private AccountGrouping readAccountGroupingFromPref() {
@@ -752,7 +751,7 @@ public class MyExpenses extends BaseMyExpenses implements
                 true, 0);
           } else {
             showSnackbar(getString(R.string.warning_synced_account_cannot_be_closed),
-                Snackbar.LENGTH_LONG, null, null, mDrawerList);
+                Snackbar.LENGTH_LONG, null, null, accountList());
           }
         }
         return true;
@@ -809,7 +808,7 @@ public class MyExpenses extends BaseMyExpenses implements
   }
 
   private void closeDrawer() {
-    if (mDrawerLayout != null) mDrawerLayout.closeDrawers();
+    if (binding.drawer != null) binding.drawer.closeDrawers();
   }
 
   private class MyViewPagerAdapter extends CursorFragmentPagerAdapter {
@@ -974,7 +973,7 @@ public class MyExpenses extends BaseMyExpenses implements
     } else {
       floatingActionButton.show();
     }
-    mDrawerList.setItemChecked(position, true);
+    accountList().setItemChecked(position, true);
     supportInvalidateOptionsMenu();
   }
 
@@ -988,7 +987,7 @@ public class MyExpenses extends BaseMyExpenses implements
       }
 
       mDrawerListAdapter.setGrouping(accountGrouping);
-      mDrawerList.setCollapsedHeaderIds(PreferenceUtilsKt.getLongList(prefHandler, collapsedHeaderIdsPrefKey()));
+      accountList().setCollapsedHeaderIds(PreferenceUtilsKt.getLongList(prefHandler, collapsedHeaderIdsPrefKey()));
       mDrawerListAdapter.swapCursor(cursor);
       //swapping the cursor is altering the accountId, if the
       //sort order has changed, but we want to move to the same account as before
@@ -1012,10 +1011,10 @@ public class MyExpenses extends BaseMyExpenses implements
   public void setupViewPager(Cursor cursor) {
     if (mViewPagerAdapter == null) {
       mViewPagerAdapter = new MyViewPagerAdapter(this, getSupportFragmentManager(), cursor);
-      myPager.setAdapter(mViewPagerAdapter);
-      myPager.addOnPageChangeListener(this);
-      myPager.setPageMargin(UiUtils.dp2Px(10, getResources()));
-      myPager.setPageMarginDrawable(new ColorDrawable(UiUtils.themeIntAttr(this, R.attr.colorOnSurface)));
+      viewPager().setAdapter(mViewPagerAdapter);
+      viewPager().addOnPageChangeListener(this);
+      viewPager().setPageMargin(UiUtils.dp2Px(10, getResources()));
+      viewPager().setPageMarginDrawable(new ColorDrawable(UiUtils.themeIntAttr(this, R.attr.colorOnSurface)));
     } else {
       mViewPagerAdapter.swapCursor(cursor);
     }
@@ -1289,8 +1288,8 @@ public class MyExpenses extends BaseMyExpenses implements
   }
 
   public void onBackPressed() {
-    if (mDrawerLayout != null && mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-      mDrawerLayout.closeDrawer(GravityCompat.START);
+    if (binding.drawer != null && binding.drawer.isDrawerOpen(GravityCompat.START)) {
+      binding.drawer.closeDrawer(GravityCompat.START);
     } else {
       super.onBackPressed();
     }

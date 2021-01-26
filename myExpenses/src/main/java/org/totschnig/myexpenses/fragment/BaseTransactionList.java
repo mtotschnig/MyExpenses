@@ -50,7 +50,6 @@ import com.annimon.stream.Collectors;
 import com.annimon.stream.IntStream;
 import com.annimon.stream.Stream;
 import com.github.lzyzsd.circleprogress.DonutProgress;
-import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -65,13 +64,16 @@ import org.totschnig.myexpenses.activity.ManageTags;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.TransactionAdapter;
+import org.totschnig.myexpenses.databinding.ExpensesListBinding;
+import org.totschnig.myexpenses.databinding.HeaderBinding;
+import org.totschnig.myexpenses.databinding.HeaderWithBudgetBinding;
 import org.totschnig.myexpenses.dialog.AmountFilterDialog;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.DateFilterDialog;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
-import org.totschnig.myexpenses.dialog.select.SelectMultipleAccountDialogFragment;
 import org.totschnig.myexpenses.dialog.select.SelectCrStatusDialogFragment;
 import org.totschnig.myexpenses.dialog.select.SelectMethodDialogFragment;
+import org.totschnig.myexpenses.dialog.select.SelectMultipleAccountDialogFragment;
 import org.totschnig.myexpenses.dialog.select.SelectSingleAccountDialogFragment;
 import org.totschnig.myexpenses.dialog.select.SelectSingleMethodDialogFragment;
 import org.totschnig.myexpenses.dialog.select.SelectTransferAccountDialogFragment;
@@ -134,13 +136,11 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import androidx.viewbinding.ViewBinding;
 import eltos.simpledialogfragment.SimpleDialog;
 import eltos.simpledialogfragment.input.SimpleInputDialog;
 import icepick.Icepick;
 import icepick.State;
-import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.SectionIndexingStickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView.OnHeaderClickListener;
@@ -238,15 +238,8 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
   private Cursor mTransactionsCursor;
   private Parcelable listState;
 
-  @BindView(R.id.list)
-  ExpandableStickyListHeadersListView mListView;
-  @BindView(R.id.empty)
-  View emptyView;
-  @BindView(R.id.filter)
-  ChipGroup filterView;
-  @BindView(R.id.filterCard)
-  ViewGroup filterCard;
   private LoaderManager mManager;
+  protected ExpensesListBinding binding;
 
   /**
    * maps header to an array that holds an array of following sums:
@@ -381,7 +374,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
   private void setGrouping() {
     mAdapter.refreshDateFormat();
     if (mAccount.getGrouping() != Grouping.NONE) {
-      mListView.setCollapsedHeaderIds(PreferenceUtilsKt.getLongList(prefHandler, collapsedHeaderIdsPrefKey()));
+      binding.list.setCollapsedHeaderIds(PreferenceUtilsKt.getLongList(prefHandler, collapsedHeaderIdsPrefKey()));
     }
     restartGroupingLoader();
   }
@@ -394,14 +387,13 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     mManager = LoaderManager.getInstance(this);
     filterPersistence = new FilterPersistence(prefHandler, prefNameForCriteria(), savedInstanceState, true, true);
-    View v = inflater.inflate(R.layout.expenses_list, container, false);
-    ButterKnife.bind(this, v);
+    binding = ExpensesListBinding.inflate(inflater, container, false);
     if (mAdapter == null) {
       mAdapter = new MyGroupedAdapter(getActivity(), R.layout.expense_row, null, 0);
     }
     configureListView();
-    registerForContextualActionBar(mListView.getWrappedList());
-    return v;
+    registerForContextualActionBar(binding.list.getWrappedList());
+    return binding.getRoot();
   }
 
   @Override
@@ -410,14 +402,14 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
   }
 
   private void configureListView() {
-    mListView.setOnHeaderClickListener(this);
-    mListView.setDrawingListUnderStickyHeader(false);
+    binding.list.setOnHeaderClickListener(this);
+    binding.list.setDrawingListUnderStickyHeader(false);
 
-    mListView.setEmptyView(emptyView);
-    mListView.setOnItemClickListener((a, v1, position, id) -> {
+    binding.list.setEmptyView(binding.empty);
+    binding.list.setOnItemClickListener((a, v1, position, id) -> {
       showDetails(id);
     });
-    mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+    binding.list.setOnScrollListener(new AbsListView.OnScrollListener() {
       private int currentState = 0;
 
       @Override
@@ -439,8 +431,8 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         }
       }
     });
-    mListView.addFooterView(LayoutInflater.from(getActivity()).inflate(R.layout.group_divider, mListView.getWrappedList(), false), null, false);
-    mListView.setAdapter(mAdapter);
+    binding.list.addFooterView(LayoutInflater.from(getActivity()).inflate(R.layout.group_divider, binding.list.getWrappedList(), false), null, false);
+    binding.list.setAdapter(mAdapter);
   }
 
   protected abstract void showDetails(long id);
@@ -457,8 +449,8 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
 
   @Override
   public void onDestroyView() {
-    if (mListView != null) {
-      listState = mListView.getWrappedList().onSaveInstanceState();
+    if (binding.list != null) {
+      listState = binding.list.getWrappedList().onSaveInstanceState();
     }
     super.onDestroyView();
   }
@@ -776,9 +768,9 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         mAdapter.swapCursor(c);
         if (count > 0) {
           if (firstLoadCompleted) {
-            mListView.post(() -> {
+            binding.list.post(() -> {
               if (listState != null) {
-                mListView.getWrappedList().onRestoreInstanceState(listState);
+                binding.list.getWrappedList().onRestoreInstanceState(listState);
                 listState = null;
               }
             });
@@ -786,8 +778,8 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
             firstLoadCompleted = true;
             if (prefHandler.getBoolean(PrefKey.SCROLL_TO_CURRENT_DATE, false)) {
               final int currentPosition = findCurrentPosition(c);
-              mListView.post(() -> {
-                mListView.setSelection(currentPosition);
+              binding.list.post(() -> {
+                binding.list.setSelection(currentPosition);
               });
             }
           }
@@ -925,13 +917,13 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-      if (!mListView.isHeaderCollapsed(headerId(cursor)))
+      if (!binding.list.isHeaderCollapsed(headerId(cursor)))
         super.bindView(view, context, cursor);
     }
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-      if (mListView.isHeaderCollapsed(headerId(cursor))) {
+      if (binding.list.isHeaderCollapsed(headerId(cursor))) {
         return new View(context);
       } else {
         return super.newView(context, cursor, parent);
@@ -944,7 +936,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
 
     @Override
     public int getItemViewType(int position) {
-      return mListView.isHeaderCollapsed(getHeaderId(position)) ? 0 : 1;
+      return binding.list.isHeaderCollapsed(getHeaderId(position)) ? 0 : 1;
     }
 
     @Override
@@ -961,43 +953,43 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
 
       if (convertView != null) {
         holder = (HeaderViewHolder) convertView.getTag();
-        boolean holderHasBudget = holder.budgetProgress != null;
+        boolean holderHasBudget = holder.budgetProgress() != null;
         if (withBudget != holderHasBudget) holder = null;
       }
       if (holder == null) {
-        final int headerLayout = withBudget ? R.layout.header_with_budget : R.layout.header;
-        convertView = inflater.inflate(headerLayout, parent, false);
-        holder = new HeaderViewHolder(convertView);
+        ViewBinding binding = withBudget ? HeaderWithBudgetBinding.inflate(inflater, parent, false) : HeaderBinding.inflate(inflater, parent, false);
+        convertView = binding.getRoot();
+        holder = new HeaderViewHolder(binding);
         convertView.setTag(holder);
       }
-      holder.sumLine.setVisibility(prefHandler.getBoolean(PrefKey.GROUP_HEADER, true) ? View.VISIBLE : View.GONE);
+      holder.sumLine().setVisibility(prefHandler.getBoolean(PrefKey.GROUP_HEADER, true) ? View.VISIBLE : View.GONE);
       HeaderViewHolder finalHolder = holder;
-      holder.interimBalance.setOnClickListener(v -> finalHolder.sumLine.setVisibility(finalHolder.sumLine.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE));
+      holder.interimBalance().setOnClickListener(v -> finalHolder.sumLine().setVisibility(finalHolder.sumLine().getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE));
       if (mAccount.getGrouping() != Grouping.NONE) {
-        holder.headerIndicator.setVisibility(View.VISIBLE);
-        holder.headerIndicator.setExpanded(!mListView.isHeaderCollapsed(headerId));
-        holder.headerIndicator.setOnClickListener(v -> finalHolder.headerIndicator.rotate(
-            !mListView.isHeaderCollapsed(headerId), expanded -> {
+        holder.headerIndicator().setVisibility(View.VISIBLE);
+        holder.headerIndicator().setExpanded(!binding.list.isHeaderCollapsed(headerId));
+        holder.headerIndicator().setOnClickListener(v -> finalHolder.headerIndicator().rotate(
+            !binding.list.isHeaderCollapsed(headerId), expanded -> {
               if (expanded) {
-                mListView.expand(headerId);
+                binding.list.expand(headerId);
                 mAdapter.notifyDataSetChanged();
                 persistCollapsedHeaderIds();
-                finalHolder.dividerBottom.setVisibility(View.VISIBLE);
+                finalHolder.dividerBottom().setVisibility(View.VISIBLE);
               } else {
-                mListView.collapse(headerId);
+                binding.list.collapse(headerId);
                 persistCollapsedHeaderIds();
-                finalHolder.dividerBottom.setVisibility(View.GONE);
+                finalHolder.dividerBottom().setVisibility(View.GONE);
               }
             }));
       } else {
-        holder.headerIndicator.setVisibility(View.GONE);
+        holder.headerIndicator().setVisibility(View.GONE);
       }
 
       Cursor c = getCursor();
       if (c != null) {
         c.moveToPosition(position);
         fillSums(holder, headerId);
-        holder.text.setText(mAccount.getGrouping().getDisplayTitle(getActivity(), c.getInt(getColumnIndexForYear()), getSecond(c),
+        holder.text().setText(mAccount.getGrouping().getDisplayTitle(getActivity(), c.getInt(getColumnIndexForYear()), getSecond(c),
             DateInfo.fromCursor(c), userLocaleProvider.getUserPreferredLocale()));
       }
       return convertView;
@@ -1007,25 +999,25 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     private void fillSums(HeaderViewHolder holder, long headerId) {
       Long[] data = headerData != null ? headerData.get(headerId) : null;
       if (data != null) {
-        holder.sumIncome.setText("⊕ " + currencyFormatter.convAmount(data[0], mAccount.getCurrencyUnit()));
+        holder.sumIncome().setText("⊕ " + currencyFormatter.convAmount(data[0], mAccount.getCurrencyUnit()));
         final Long expensesSum = -data[1];
-        holder.sumExpense.setText("⊖ " + currencyFormatter.convAmount(expensesSum, mAccount.getCurrencyUnit()));
-        holder.sumTransfer.setText(Transfer.BI_ARROW + " " + currencyFormatter.convAmount(
+        holder.sumExpense().setText("⊖ " + currencyFormatter.convAmount(expensesSum, mAccount.getCurrencyUnit()));
+        holder.sumTransfer().setText(Transfer.BI_ARROW + " " + currencyFormatter.convAmount(
             data[2], mAccount.getCurrencyUnit()));
         String formattedDelta = String.format("%s %s", Long.signum(data[4]) > -1 ? "+" : "-",
             currencyFormatter.convAmount(Math.abs(data[4]), mAccount.getCurrencyUnit()));
         currencyFormatter.convAmount(Math.abs(data[4]), mAccount.getCurrencyUnit());
-        holder.interimBalance.setText(
+        holder.interimBalance().setText(
             BaseTransactionList.this.getFilter().isEmpty() && !mAccount.isHomeAggregate() ? String.format("%s %s = %s",
                 currencyFormatter.convAmount(data[3], mAccount.getCurrencyUnit()), formattedDelta,
                 currencyFormatter.convAmount(data[5], mAccount.getCurrencyUnit())) :
                 formattedDelta);
-        if (holder.budgetProgress != null && budget != null) {
+        if (holder.budgetProgress() != null && budget != null) {
           long budgetAmountMinor = budget.getAmountMinor();
           int progress = budgetAmountMinor == 0 ? 100 : Math.round(-expensesSum * 100F / budgetAmountMinor);
-          UiUtils.configureProgress(holder.budgetProgress, progress);
-          holder.budgetProgress.setFinishedStrokeColor(mAccount.color);
-          holder.budgetProgress.setUnfinishedStrokeColor(getComplementColor(mAccount.color));
+          UiUtils.configureProgress(holder.budgetProgress(), progress);
+          holder.budgetProgress().setFinishedStrokeColor(mAccount.color);
+          holder.budgetProgress().setUnfinishedStrokeColor(getComplementColor(mAccount.color));
         }
       }
     }
@@ -1178,28 +1170,38 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
   }
 
   class HeaderViewHolder {
-    @BindView(R.id.interim_balance)
-    TextView interimBalance;
-    @BindView(R.id.text)
-    TextView text;
-    @BindView(R.id.sum_line)
-    ViewGroup sumLine;
-    @BindView(R.id.sum_income)
-    TextView sumIncome;
-    @BindView(R.id.sum_expense)
-    TextView sumExpense;
-    @BindView(R.id.sum_transfer)
-    TextView sumTransfer;
+    private ViewBinding viewBinding;
+    TextView interimBalance() {
+      return viewBinding instanceof HeaderBinding ? ((HeaderBinding) viewBinding).headerLine.interimBalance : ((HeaderWithBudgetBinding) viewBinding).interimBalance;
+    }
+    TextView text() {
+      return viewBinding instanceof HeaderBinding ? ((HeaderBinding) viewBinding).headerLine.text : ((HeaderWithBudgetBinding) viewBinding).text;
+    }
+    ViewGroup sumLine() {
+      return viewBinding instanceof HeaderBinding ? ((HeaderBinding) viewBinding).sumLine : ((HeaderWithBudgetBinding) viewBinding).sumLine;
+    }
+    TextView sumIncome() {
+      return viewBinding instanceof HeaderBinding ? ((HeaderBinding) viewBinding).sumIncome : ((HeaderWithBudgetBinding) viewBinding).sumIncome;
+    }
+    TextView sumExpense() {
+      return viewBinding instanceof HeaderBinding ? ((HeaderBinding) viewBinding).sumExpense : ((HeaderWithBudgetBinding) viewBinding).sumExpense;
+    }
+    TextView sumTransfer() {
+      return viewBinding instanceof HeaderBinding ? ((HeaderBinding) viewBinding).sumTransfer : ((HeaderWithBudgetBinding) viewBinding).sumTransfer;
+    }
     @Nullable
-    @BindView(R.id.budgetProgress)
-    DonutProgress budgetProgress;
-    @BindView(R.id.divider_bottom)
-    View dividerBottom;
-    @BindView(R.id.headerIndicator)
-    ExpansionHandle headerIndicator;
+    DonutProgress budgetProgress() {
+      return viewBinding instanceof HeaderBinding ? null : ((HeaderWithBudgetBinding) viewBinding).budgetProgress;
+    }
+    View dividerBottom() {
+      return viewBinding instanceof HeaderBinding ? ((HeaderBinding) viewBinding).dividerBottom : ((HeaderWithBudgetBinding) viewBinding).dividerBottom;
+    }
+    ExpansionHandle headerIndicator() {
+      return viewBinding instanceof HeaderBinding ? ((HeaderBinding) viewBinding).expansionHandle.getRoot() : ((HeaderWithBudgetBinding) viewBinding).expansionHandle.getRoot();
+    }
 
-    HeaderViewHolder(View convertView) {
-      ButterKnife.bind(this, convertView);
+    HeaderViewHolder(ViewBinding viewBinding) {
+      this.viewBinding = viewBinding;
     }
   }
 
@@ -1209,7 +1211,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
   }
 
   private void persistCollapsedHeaderIds() {
-    PreferenceUtilsKt.putLongList(prefHandler, collapsedHeaderIdsPrefKey(), mListView.getCollapsedHeaderIds());
+    PreferenceUtilsKt.putLongList(prefHandler, collapsedHeaderIdsPrefKey(), binding.list.getCollapsedHeaderIds());
   }
 
   private String collapsedHeaderIdsPrefKey() {
@@ -1310,7 +1312,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
   @SuppressLint("NewApi")
   public void onDrawerOpened() {
     if (mActionMode != null) {
-      mCheckedListItems = mListView.getWrappedList().getCheckedItemPositions().clone();
+      mCheckedListItems = binding.list.getWrappedList().getCheckedItemPositions().clone();
       mActionMode.finish();
     }
   }
@@ -1319,7 +1321,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     if (mCheckedListItems != null) {
       for (int i = 0; i < mCheckedListItems.size(); i++) {
         if (mCheckedListItems.valueAt(i)) {
-          mListView.getWrappedList().setItemChecked(mCheckedListItems.keyAt(i), true);
+          binding.list.getWrappedList().setItemChecked(mCheckedListItems.keyAt(i), true);
         }
       }
     }
@@ -1374,11 +1376,11 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     }
     MenuItem searchMenu = menu.findItem(R.id.SEARCH_COMMAND);
     if (searchMenu != null) {
-      filterCard.setVisibility(getFilter().isEmpty() ? View.GONE : View.VISIBLE);
+      binding.filterCard.setVisibility(getFilter().isEmpty() ? View.GONE : View.VISIBLE);
       searchMenu.setChecked(!getFilter().isEmpty());
       MenuUtilsKt.checkMenuIcon(searchMenu);
       if (!getFilter().isEmpty()) {
-        addChipsBulk(filterView, Stream.of(getFilter().getCriteria()).map(criterion -> criterion.prettyPrint(getContext())).collect(Collectors.toList()), null);
+        addChipsBulk(binding.filter, Stream.of(getFilter().getCriteria()).map(criterion -> criterion.prettyPrint(getContext())).collect(Collectors.toList()), null);
       }
       SubMenu filterMenu = searchMenu.getSubMenu();
       for (int i = 0; i < filterMenu.size(); i++) {
@@ -1670,7 +1672,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
   }
 
   public void remap(@NonNull Bundle extras, boolean shouldClone) {
-    final long[] checkedItemIds = mListView.getCheckedItemIds();
+    final long[] checkedItemIds = binding.list.getCheckedItemIds();
     if (shouldClone) {
       final ProgressDialogFragment progressDialog = ProgressDialogFragment.newInstance(
           getString(R.string.progress_dialog_saving), null, ProgressDialog.STYLE_HORIZONTAL, false);

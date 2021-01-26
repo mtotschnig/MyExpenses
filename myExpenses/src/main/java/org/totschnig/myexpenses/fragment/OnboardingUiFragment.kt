@@ -7,14 +7,12 @@ import android.widget.AdapterView
 import android.widget.CompoundButton
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
-import android.widget.Spinner
-import android.widget.TextView
-import androidx.appcompat.widget.SwitchCompat
-import butterknife.BindView
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.adapter.FontSizeAdapter
+import org.totschnig.myexpenses.databinding.OnboardingThemeSelectionBinding
+import org.totschnig.myexpenses.databinding.OnboardingWizzardUiBinding
 import org.totschnig.myexpenses.preference.FontSizeDialogPreference
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
@@ -25,14 +23,10 @@ import org.totschnig.myexpenses.util.setNightMode
 import javax.inject.Inject
 
 class OnboardingUiFragment : OnboardingFragment() {
-    @BindView(R.id.font_size_display_name)
-    lateinit var fontSizeDisplayNameTextView: TextView
-
-    @BindView(R.id.font_size)
-    lateinit var fontSizeSeekBar: SeekBar
-
-    @BindView(R.id.theme)
-    lateinit var themeSwitch: View
+    private var _binding: OnboardingWizzardUiBinding? = null
+    private var _themeSelectionBinding: OnboardingThemeSelectionBinding? = null
+    private val binding get() = _binding!!
+    private val themeSelectionBinding get() = _themeSelectionBinding!!
 
     @Inject
     lateinit var userLocaleProvider: UserLocaleProvider
@@ -43,17 +37,21 @@ class OnboardingUiFragment : OnboardingFragment() {
     private var fontScale = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        MyApplication.getInstance().appComponent.inject(this)
+        (requireActivity().application as MyApplication).appComponent.inject(this)
     }
 
     override fun getLayoutResId(): Int {
         return R.layout.onboarding_wizzard_ui
     }
 
+    override fun bindView(view: View) {
+        _binding = OnboardingWizzardUiBinding.bind(view)
+        _themeSelectionBinding = OnboardingThemeSelectionBinding.bind(view)
+    }
+
     override fun configureView(savedInstanceState: Bundle?) {
-        //fontsize
         fontScale = prefHandler.getInt(PrefKey.UI_FONTSIZE, 0)
-        fontSizeSeekBar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
+        binding.fontSize.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 updateFontSizeDisplayName(progress)
             }
@@ -63,8 +61,8 @@ class OnboardingUiFragment : OnboardingFragment() {
                 onFontSizeSet()
             }
         })
-        fontSizeSeekBar.progress = fontScale
-        fontSizeSeekBar.onFocusChangeListener = OnFocusChangeListener { _: View?, hasFocus: Boolean ->
+        binding.fontSize.progress = fontScale
+        binding.fontSize.onFocusChangeListener = OnFocusChangeListener { _: View?, hasFocus: Boolean ->
             if (!hasFocus) {
                 onFontSizeSet()
             }
@@ -73,7 +71,8 @@ class OnboardingUiFragment : OnboardingFragment() {
 
         //theme
         val theme = prefHandler.getString(PrefKey.UI_THEME_KEY, getString(R.string.pref_ui_theme_default))
-        (themeSwitch as? SwitchCompat)?.let {
+
+        themeSelectionBinding.themeSwitch?.let {
             val isLight = ProtectedFragmentActivity.ThemeType.light.name == theme
             it.isChecked = isLight
             setContentDescriptionToThemeSwitch(it, isLight)
@@ -83,7 +82,7 @@ class OnboardingUiFragment : OnboardingFragment() {
                 setNightMode(prefHandler, requireContext())
             }
         }
-        (themeSwitch as? Spinner)?.let {
+        themeSelectionBinding.themeSpinner?.let {
             val spinnerHelper = SpinnerHelper(it)
             val themeValues = resources.getStringArray(R.array.pref_ui_theme_values)
             spinnerHelper.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
@@ -104,7 +103,7 @@ class OnboardingUiFragment : OnboardingFragment() {
     }
 
     private fun onFontSizeSet() {
-        val newValue = fontSizeSeekBar.progress
+        val newValue = binding.fontSize.progress
         if (fontScale != newValue) {
             prefHandler.putInt(PrefKey.UI_FONTSIZE, newValue)
             recreate()
@@ -119,14 +118,20 @@ class OnboardingUiFragment : OnboardingFragment() {
     private fun updateFontSizeDisplayName(fontScale: Int) {
         val activity = activity
         if (activity != null) {
-            fontSizeDisplayNameTextView.text = FontSizeDialogPreference.getEntry(activity, fontScale)
-            FontSizeAdapter.updateTextView(fontSizeDisplayNameTextView, fontScale, activity)
+            binding.fontSizeDisplayName.text = FontSizeDialogPreference.getEntry(activity, fontScale)
+            FontSizeAdapter.updateTextView(binding.fontSizeDisplayName, fontScale, activity)
         }
     }
 
     private fun setContentDescriptionToThemeSwitch(themeSwitch: View, isLight: Boolean) {
         themeSwitch.contentDescription = getString(
                 if (isLight) R.string.pref_ui_theme_light else R.string.pref_ui_theme_dark)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+        _themeSelectionBinding = null
     }
 
     companion object {

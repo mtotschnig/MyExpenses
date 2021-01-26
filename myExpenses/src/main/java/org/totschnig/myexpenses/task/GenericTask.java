@@ -10,7 +10,6 @@ import android.content.Context;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
-import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -25,7 +24,7 @@ import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.fragment.CategoryList;
+import org.totschnig.myexpenses.fragment.AbstractCategoryList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.ExportFormat;
@@ -37,7 +36,6 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
-import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.sync.GenericAccountService;
@@ -195,8 +193,8 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       case TaskExecutionFragment.TASK_DELETE_CATEGORY:
         try (Cursor cursor = cr.query(TransactionProvider.CATEGORIES_URI,
             new String[]{KEY_ROWID,
-                "(select 1 FROM " + TABLE_TRANSACTIONS + " WHERE " + CategoryList.CATTREE_WHERE_CLAUSE + ") AS " + DatabaseConstants.KEY_MAPPED_TRANSACTIONS,
-                "(select 1 FROM " + TABLE_TEMPLATES + " WHERE " + CategoryList.CATTREE_WHERE_CLAUSE + ") AS " + DatabaseConstants.KEY_MAPPED_TEMPLATES
+                "(select 1 FROM " + TABLE_TRANSACTIONS + " WHERE " + AbstractCategoryList.CATTREE_WHERE_CLAUSE + ") AS " + DatabaseConstants.KEY_MAPPED_TRANSACTIONS,
+                "(select 1 FROM " + TABLE_TEMPLATES + " WHERE " + AbstractCategoryList.CATTREE_WHERE_CLAUSE + ") AS " + DatabaseConstants.KEY_MAPPED_TEMPLATES
             }, DatabaseConstants.KEY_ROWID + " " + WhereFilter.Operation.IN.getOp(ids.length), Stream.of(((Long[]) ids)).map(String::valueOf).toArray(String[]::new), null)) {
           if (cursor == null) return Result.ofFailure("Cursor is null");
           int deleted = 0, mappedToTransaction = 0, mappedToTemplate = 0;

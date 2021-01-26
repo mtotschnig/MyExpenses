@@ -21,12 +21,10 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.SparseBooleanArray;
 import android.view.ContextMenu;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
@@ -37,11 +35,9 @@ import com.squareup.sqlbrite3.QueryObservable;
 import com.squareup.sqlbrite3.SqlBrite;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.CategoryActivity;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
-import org.totschnig.myexpenses.adapter.CategoryTreeAdapter;
 import org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.select.SelectMainCategoryDialogFragment;
@@ -53,7 +49,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
-import org.totschnig.myexpenses.util.MenuUtilsKt;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.viewmodel.data.Category;
 
@@ -64,8 +59,7 @@ import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import androidx.viewbinding.ViewBinding;
 import icepick.Icepick;
 import icepick.State;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -88,9 +82,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGET_CATEGORIES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
-import static org.totschnig.myexpenses.util.MenuUtilsKt.prepareSearch;
 
-public class CategoryList extends SortableListFragment {
+public abstract class AbstractCategoryList<T extends ViewBinding> extends SortableListFragment {
 
   private Disposable categoryDisposable;
   public static final String CATTREE_WHERE_CLAUSE = KEY_CATID + " IN (SELECT " +
@@ -105,18 +98,8 @@ public class CategoryList extends SortableListFragment {
     return R.menu.categorylist_context;
   }
 
-  protected CategoryTreeBaseAdapter mAdapter;
-  @BindView(R.id.list)
-  ExpandableListView mListView;
-  @Nullable
-  @BindView(R.id.sum_income)
-  TextView incomeSumTv;
-  @Nullable
-  @BindView(R.id.sum_expense)
-  TextView expenseSumTv;
-  @Nullable
-  @BindView(R.id.SETUP_CATEGORIES_DEFAULT_COMMAND)
-  View mImportButton;
+  protected CategoryTreeBaseAdapter<T> mAdapter;
+  abstract ExpandableListView getListView();
 
   protected int lastExpandedPosition = -1;
 
@@ -137,31 +120,7 @@ public class CategoryList extends SortableListFragment {
     super.onCreate(savedInstanceState);
     setHasOptionsMenu(true);
     Icepick.restoreInstanceState(this, savedInstanceState);
-    MyApplication.getInstance().getAppComponent().inject(this);
     briteContentResolver = new SqlBrite.Builder().build().wrapContentProvider(getContext().getContentResolver(), Schedulers.io());
-  }
-
-  @Override
-  public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    final ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
-    View v = inflater.inflate(R.layout.categories_list, container, false);
-    ButterKnife.bind(this, v);
-    configureImportButton(true);
-    final View emptyView = v.findViewById(R.id.empty);
-    mListView.setEmptyView(emptyView);
-    mAdapter = new CategoryTreeAdapter(ctx, currencyFormatter, null, isWithMainColors(),
-        false, getAction().equals(ACTION_SELECT_FILTER));
-    mListView.setAdapter(mAdapter);
-    loadData();
-    registerForContextualActionBar(mListView);
-    return v;
-  }
-
-  private void configureImportButton(boolean visible) {
-    if (mImportButton != null) {
-      mImportButton.setVisibility(visible/* && getResources().getBoolean(R.bool.has_localized_categories)*/
-          ? View.VISIBLE : View.GONE);
-    }
   }
 
   @Override
@@ -240,7 +199,7 @@ public class CategoryList extends SortableListFragment {
           Category c;
           if (positions.valueAt(i)) {
             int position = positions.keyAt(i);
-            long pos = mListView.getExpandableListPosition(position);
+            long pos = getListView().getExpandableListPosition(position);
             int type = ExpandableListView.getPackedPositionType(pos);
             int group = ExpandableListView.getPackedPositionGroup(pos),
                 child = ExpandableListView.getPackedPositionChild(pos);
@@ -265,7 +224,7 @@ public class CategoryList extends SortableListFragment {
           }
         }
         if (!idList.isEmpty()) {
-          Long[] objectIds = idList.toArray(new Long[idList.size()]);
+          Long[] objectIds = idList.toArray(new Long[0]);
           if (hasChildrenCount > 0 || mappedBudgetsCount > 0) {
             String message = hasChildrenCount > 0 ?
                 getResources().getQuantityString(R.plurals.warning_delete_main_category, hasChildrenCount, hasChildrenCount) : "";
@@ -295,7 +254,7 @@ public class CategoryList extends SortableListFragment {
             Category c;
             if (positions.valueAt(i)) {
               int position = positions.keyAt(i);
-              long pos = mListView.getExpandableListPosition(position);
+              long pos = getListView().getExpandableListPosition(position);
               int type = ExpandableListView.getPackedPositionType(pos);
               int group = ExpandableListView.getPackedPositionGroup(pos),
                   child = ExpandableListView.getPackedPositionChild(pos);
@@ -327,19 +286,19 @@ public class CategoryList extends SortableListFragment {
           for (int i = 0; i < positions.size(); i++) {
             if (positions.valueAt(i)) {
               int position = positions.keyAt(i);
-              long pos = mListView.getExpandableListPosition(position);
+              long pos = getListView().getExpandableListPosition(position);
               int group = ExpandableListView.getPackedPositionGroup(pos);
               idList.add(mAdapter.getGroup(group).id);
             }
           }
-          excludedIds = idList.toArray(new Long[idList.size()]);
+          excludedIds = idList.toArray(new Long[0]);
         }
         Bundle args = new Bundle(3);
         args.putBoolean(SelectMainCategoryDialogFragment.KEY_WITH_ROOT, !inGroup);
         args.putLongArray(SelectMainCategoryDialogFragment.KEY_EXCLUDED_ID, ArrayUtils.toPrimitive(excludedIds));
         args.putLongArray(TaskExecutionFragment.KEY_OBJECT_IDS, ArrayUtils.toPrimitive(itemIds));
         SelectMainCategoryDialogFragment.newInstance(args)
-            .show(getFragmentManager(), "SELECT_TARGET");
+            .show(getParentFragmentManager(), "SELECT_TARGET");
         return true;
     }
     return false;
@@ -389,34 +348,6 @@ public class CategoryList extends SortableListFragment {
   }
 
   @Override
-  public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-    if (getActivity() == null) return;
-    inflater.inflate(R.menu.search, menu);
-    MenuUtilsKt.configureSearch(getActivity(), menu, this::onQueryTextChange);
-  }
-
-  private Boolean onQueryTextChange(String newText) {
-    if (TextUtils.isEmpty(newText)) {
-      mFilter = "";
-      configureImportButton(true);
-    } else {
-      mFilter = newText;
-      // if a filter results in an empty list,
-      // we do not want to show the setup default categories button
-      configureImportButton(false);
-    }
-    collapseAll();
-    loadData();
-    return true;
-  }
-
-  @Override
-  public void onPrepareOptionsMenu(@NonNull Menu menu) {
-    super.onPrepareOptionsMenu(menu);
-    prepareSearch(menu, mFilter);
-  }
-
-  @Override
   public boolean onOptionsItemSelected(@NonNull MenuItem item) {
     return handleSortOption(item);
   }
@@ -424,7 +355,7 @@ public class CategoryList extends SortableListFragment {
   public void collapseAll() {
     int count = mAdapter.getGroupCount();
     for (int i = 0; i < count; i++)
-      mListView.collapseGroup(i);
+      getListView().collapseGroup(i);
   }
 
   /*     (non-Javadoc)
@@ -480,7 +411,7 @@ public class CategoryList extends SortableListFragment {
   public void reset() {
     //TODO: would be nice to retrieve the same open groups on the next or previous group
     Timber.w("reset");
-    mListView.clearChoices();
+    getListView().clearChoices();
     lastExpandedPosition = -1;
     loadData();
   }
@@ -533,11 +464,11 @@ public class CategoryList extends SortableListFragment {
     boolean hasChildren = false;
     super.configureMenu11(menu, count, lv);
     if (expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-      SparseBooleanArray checkedItemPositions = mListView.getCheckedItemPositions();
+      SparseBooleanArray checkedItemPositions = getListView().getCheckedItemPositions();
       for (int i = 0; i < checkedItemPositions.size(); i++) {
         if (checkedItemPositions.valueAt(i)) {
           int position = checkedItemPositions.keyAt(i);
-          long pos = mListView.getExpandableListPosition(position);
+          long pos = getListView().getExpandableListPosition(position);
           int groupPos = ExpandableListView.getPackedPositionGroup(pos);
           if (hasChildren(groupPos)) {
             hasChildren = true;
@@ -570,11 +501,11 @@ public class CategoryList extends SortableListFragment {
     }
   }
 
-  private boolean isWithMainColors() {
+  protected boolean isWithMainColors() {
     return getAction().equals(ACTION_MANAGE);
   }
 
-  private String getAction() {
+  protected String getAction() {
     return ((CategoryActivity) getActivity()).getAction();
   }
 }

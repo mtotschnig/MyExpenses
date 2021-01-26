@@ -21,12 +21,14 @@
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
     <include
+        android:id="@+id/AmountExchangeRate"
         layout="@layout/amount_exchange_rate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent" />
 
     <include
+        android:id="@+id/TaType"
         layout="@layout/type_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,6 +37,7 @@
         app:layout_constraintTop_toBottomOf="@+id/AmountExchangeRate" />
 
     <include
+        android:id="@+id/AmountCurrency"
         layout="@layout/amount_currency"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -43,6 +46,7 @@
         app:layout_constraintTop_toBottomOf="@+id/AmountExchangeRate" />
 
     <include
+        android:id="@+id/AmountEditText"
         layout="@layout/amount_edittext"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -51,6 +55,7 @@
         app:layout_constraintTop_toBottomOf="@+id/AmountExchangeRate" />
 
     <include
+        android:id="@+id/Calculator"
         layout="@layout/calc_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

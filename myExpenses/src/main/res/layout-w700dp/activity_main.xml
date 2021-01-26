@@ -12,7 +12,9 @@
         tools:ignore="UselessParent">
 
         <!-- The navigation drawer -->
-        <include layout="@layout/account_list" />
+        <include
+            android:id="@+id/accountPanel"
+            layout="@layout/account_list" />
         <!-- The main content view -->
         <LinearLayout
             android:layout_width="0dp"
@@ -27,7 +29,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <include layout="@layout/viewpager_main" />
+                <include
+                    android:id="@+id/viewPagerMain"
+                    layout="@layout/viewpager_main" />
 
                 <include layout="@layout/floating_action_button" />
             </androidx.coordinatorlayout.widget.CoordinatorLayout>

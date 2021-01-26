@@ -40,7 +40,7 @@
         app:menu="@menu/accounts"/>
 
     <se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView
-        android:id="@+id/left_drawer"
+        android:id="@+id/accountList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/drawerBackground"

@@ -1,41 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.android.setupwizardlib.SetupWizardLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/setup_wizard_layout"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/SuwContentFrame"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:importantForAutofill="noExcludeDescendants"
-    android:layout="@layout/suw_template"
-    app:suwBackgroundTile="@drawable/bg_tile_teal"
-    tools:targetApi="o">
+    android:orientation="vertical">
 
-    <LinearLayout
-        style="@style/SuwContentFrame"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:fillViewport="true">
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <LinearLayout
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/Label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:hint="@string/label"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                style="@style/OnboardingInputLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_marginBottom="0dp"
+                android:labelFor="@id/AmountEditText"
+                android:text="@string/opening_balance" />
+
+            <org.totschnig.myexpenses.ui.AmountInput
+                android:id="@+id/Amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-4dp"
+                android:layout_marginLeft="-4dp"
+                android:contentDescription="@string/opening_balance" />
+
+            <TextView
+                style="@style/OnboardingInputLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:labelFor="@+id/Currency"
+                android:text="@string/currency" />
+
+            <Spinner
+                android:id="@+id/Currency"
+                style="@style/OnboardingSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical" />
+
+            <Button
+                android:id="@+id/MoreOptionsButton"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="@string/onboarding_more_options" />
+
+            <LinearLayout
+                android:id="@+id/MoreOptionsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/Label"
+                        android:id="@+id/Description"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:hint="@string/label"
+                        android:hint="@string/description"
                         android:inputType="text" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -43,87 +91,26 @@
                     style="@style/OnboardingInputLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="0dp"
-                    android:labelFor="@id/AmountEditText"
-                    android:text="@string/opening_balance" />
-
-                <org.totschnig.myexpenses.ui.AmountInput
-                    android:id="@+id/Amount"
-                    android:contentDescription="@string/opening_balance"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="-4dp"
-                    android:layout_marginLeft="-4dp" />
-
-                <TextView
-                    style="@style/OnboardingInputLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:labelFor="@+id/Currency"
-                    android:text="@string/currency" />
+                    android:labelFor="@+id/AccountType"
+                    android:text="@string/type" />
 
                 <Spinner
-                    android:id="@+id/Currency"
+                    android:id="@+id/AccountType"
                     style="@style/OnboardingSpinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical" />
 
-                <Button
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:id="@+id/MoreOptionsButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:onClick="showMoreOptions"
-                    android:text="@string/onboarding_more_options" />
-
-                <LinearLayout
-                    android:id="@+id/MoreOptionsContainer"
+                <TextView
+                    style="@style/OnboardingInputLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:orientation="vertical"
-                    android:visibility="gone">
+                    android:labelFor="@+id/Color"
+                    android:text="@string/color" />
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/Description"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:hint="@string/description"
-                            android:inputType="text" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <TextView
-                        style="@style/OnboardingInputLabel"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:labelFor="@+id/AccountType"
-                        android:text="@string/type" />
-
-                    <Spinner
-                        android:id="@+id/AccountType"
-                        style="@style/OnboardingSpinner"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical" />
-
-                    <TextView
-                        style="@style/OnboardingInputLabel"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:labelFor="@+id/Color"
-                        android:text="@string/color" />
-
-                    <include layout="@layout/color_input" />
-                </LinearLayout>
-
+                <include android:id="@+id/colorInput" layout="@layout/color_input" />
             </LinearLayout>
-        </ScrollView>
-    </LinearLayout>
-</com.android.setupwizardlib.SetupWizardLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

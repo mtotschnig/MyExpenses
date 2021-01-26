@@ -361,7 +361,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             }
             if (mNewInstance) {
                 if (operationType != TYPE_TRANSFER) {
-                    discoveryHelper.discover(this, amountInput.typeButton, 1,
+                    discoveryHelper.discover(this, amountInput.typeButton(), 1,
                             DiscoveryHelper.Feature.expense_income_switch)
                 }
             }
