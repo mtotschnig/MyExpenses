@@ -41,7 +41,6 @@ import androidx.test.rule.ActivityTestRule;
 import androidx.test.rule.GrantPermissionRule;
 
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withSpinnerText;
@@ -129,7 +128,7 @@ public class ExpenseEditLoadDataTest extends BaseUiTest {
     String uuid = transaction.getUuid();
     int status = transaction.getStatus();
     launchAndWait(i);
-    onView(withId(R.id.CREATE_COMMAND)).perform(click());
+    closeKeyboardAndSave();
     Transaction t = Transaction.getInstanceFromDb(transaction.getId());
     assertThat(t.getStatus()).isEqualTo(status);
     assertThat(t.getUuid()).isEqualTo(uuid);
