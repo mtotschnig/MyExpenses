@@ -37,7 +37,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM;
 import static org.totschnig.myexpenses.util.ColorUtils.getShades;
 import static org.totschnig.myexpenses.util.ColorUtils.getTints;
 
-public abstract class CategoryTreeBaseAdapter<T extends ViewBinding> extends BaseExpandableListAdapter {
+public abstract class CategoryTreeBaseAdapter<ROWBINDING extends ViewBinding> extends BaseExpandableListAdapter {
   protected final CurrencyUnit currency;
   private List<Category> mainCategories = new ArrayList<>();
   private final SparseArray<List<Integer>> subColorMap = new SparseArray<>();
@@ -139,7 +139,7 @@ public abstract class CategoryTreeBaseAdapter<T extends ViewBinding> extends Bas
   protected View getView(Category item, Category parentItem, View convertView, ViewGroup parent, int color, String icon) {
     ViewHolder holder;
     if (convertView == null) {
-      final T binding = getViewBinding(inflater, parent);
+      final ROWBINDING binding = getViewBinding(inflater, parent);
       convertView = binding.getRoot();
       holder = new ViewHolder(binding);
       convertView.setTag(holder);
@@ -161,7 +161,7 @@ public abstract class CategoryTreeBaseAdapter<T extends ViewBinding> extends Bas
   abstract ImageView groupIndicator(ViewHolder viewHolder);
   abstract ImageView icon(ViewHolder viewHolder);
 
-  protected abstract T getViewBinding(LayoutInflater inflater, ViewGroup parent);
+  protected abstract ROWBINDING getViewBinding(LayoutInflater inflater, ViewGroup parent);
 
   @Override
   public boolean isChildSelectable(int groupPosition, int childPosition) {
@@ -233,8 +233,8 @@ public abstract class CategoryTreeBaseAdapter<T extends ViewBinding> extends Bas
   }
 
   class ViewHolder {
-    T binding;
-    ViewHolder(T binding) {
+    ROWBINDING binding;
+    ViewHolder(ROWBINDING binding) {
       this.binding = binding;
     }
   }

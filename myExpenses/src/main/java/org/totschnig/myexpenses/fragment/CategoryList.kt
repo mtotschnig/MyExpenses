@@ -25,6 +25,7 @@ class CategoryList: AbstractCategoryList<CategoryRowBinding>() {
         super.onCreate(savedInstanceState)
         (requireActivity().application as MyApplication).appComponent.inject(this)
     }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val ctx = activity as ProtectedFragmentActivity?
         _binding = CategoriesListBinding.inflate(inflater, container, false)

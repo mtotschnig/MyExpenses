@@ -120,6 +120,12 @@ public class BudgetFragment extends DistributionBaseFragment<BudgetRowBinding> i
   }
 
   @Override
+  public void onDestroyView() {
+    super.onDestroyView();
+    binding = null;
+  }
+
+  @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     viewModel = new ViewModelProvider(this).get(BudgetViewModel.class);
     viewModel.getBudget().observe(getViewLifecycleOwner(), this::setBudget);

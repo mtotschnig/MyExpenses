@@ -280,7 +280,6 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
 
   class HeaderViewHolder {
     AccountsHeaderBinding binding;
-    @BindView(R.id.sectionLabel) TextView sectionLabel;
 
     HeaderViewHolder(AccountsHeaderBinding binding) {
       this.binding = binding;

@@ -171,7 +171,7 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
       default:
         criterionLabel = R.string.goal_or_limit;
     }
-   binding.CriterionLabel.setText(criterionLabel);
+    binding.CriterionLabel.setText(criterionLabel);
   }
 
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {

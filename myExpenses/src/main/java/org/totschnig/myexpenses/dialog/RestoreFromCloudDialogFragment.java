@@ -206,6 +206,12 @@ public class RestoreFromCloudDialogFragment extends BaseDialogFragment
   }
 
   @Override
+  public void onDestroyView() {
+    super.onDestroyView();
+    binding = null;
+  }
+
+  @Override
   public void onCheckedChanged() {
     configureSubmit();
   }

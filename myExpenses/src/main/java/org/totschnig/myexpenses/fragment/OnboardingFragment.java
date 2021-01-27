@@ -84,8 +84,7 @@ public abstract class OnboardingFragment extends Fragment {
     }
   }
 
-  protected  void setupMenu() {
-
+  protected void setupMenu() {
   }
 
   @Override

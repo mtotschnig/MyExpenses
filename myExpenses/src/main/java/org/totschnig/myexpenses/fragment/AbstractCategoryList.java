@@ -83,7 +83,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGET_CATEGORIES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
 
-public abstract class AbstractCategoryList<T extends ViewBinding> extends SortableListFragment {
+public abstract class AbstractCategoryList<ROWBINDING extends ViewBinding> extends SortableListFragment {
 
   private Disposable categoryDisposable;
   public static final String CATTREE_WHERE_CLAUSE = KEY_CATID + " IN (SELECT " +
@@ -98,7 +98,7 @@ public abstract class AbstractCategoryList<T extends ViewBinding> extends Sortab
     return R.menu.categorylist_context;
   }
 
-  protected CategoryTreeBaseAdapter<T> mAdapter;
+  protected CategoryTreeBaseAdapter<ROWBINDING> mAdapter;
   abstract ExpandableListView getListView();
 
   protected int lastExpandedPosition = -1;

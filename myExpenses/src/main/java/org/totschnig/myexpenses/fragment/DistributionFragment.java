@@ -241,6 +241,12 @@ public class DistributionFragment extends DistributionBaseFragment<CategoryRowBi
     return binding.getRoot();
   }
 
+  @Override
+  public void onDestroyView() {
+    super.onDestroyView();
+    binding = null;
+  }
+
   public void onNothingSelected() {
     ExpandableListView listView = getListView();
     listView.setItemChecked(listView.getCheckedItemPosition(), false);

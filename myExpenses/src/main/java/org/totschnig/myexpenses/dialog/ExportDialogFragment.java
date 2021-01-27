@@ -321,6 +321,12 @@ public class ExportDialogFragment extends BaseDialogFragment implements OnClickL
     return mDialog;
   }
 
+  @Override
+  public void onDestroyView() {
+    super.onDestroyView();
+    binding = null;
+  }
+
   private void setFileNameLabel(boolean oneFile) {
     binding.fileNameLabel.setText(oneFile ? R.string.file_name : R.string.folder_name);
   }

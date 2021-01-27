@@ -73,7 +73,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.getWeek;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart;
 
-public abstract class DistributionBaseFragment<T extends ViewBinding> extends AbstractCategoryList<T> {
+public abstract class DistributionBaseFragment<ROWBINDING extends ViewBinding> extends AbstractCategoryList<ROWBINDING> {
   protected Grouping mGrouping;
   protected boolean isIncome = false;
   int mGroupingYear;
