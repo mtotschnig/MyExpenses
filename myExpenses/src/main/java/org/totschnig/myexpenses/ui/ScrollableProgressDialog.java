@@ -20,22 +20,13 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import org.totschnig.myexpenses.R;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import org.totschnig.myexpenses.databinding.ScrollableProgressDialogBinding;
 
 @Deprecated
 public class ScrollableProgressDialog extends AlertDialog {
-
+  private ScrollableProgressDialogBinding binding;
   private CharSequence message;
-  @BindView(R.id.message)
-  TextView messageView;
-  @BindView(R.id.progress)
-  ProgressBar progressBar;
 
   /**
    * Creates a Progress dialog.
@@ -48,26 +39,21 @@ public class ScrollableProgressDialog extends AlertDialog {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    LayoutInflater inflater = LayoutInflater.from(getContext());
-    //noinspection InflateParams
-    View view = inflater.inflate(R.layout.scrollable_progress_dialog, null);
-    ButterKnife.bind(this, view);
+    binding = ScrollableProgressDialogBinding.inflate(LayoutInflater.from(getContext()));
     if (message != null) {
       setMessage(message);
     }
-    setView(view);
+    setView(binding.getRoot());
     super.onCreate(savedInstanceState);
   }
 
   @Override
   public void setMessage(CharSequence message) {
-    if (messageView != null) {
-      messageView.setText(message);
-    }
+    binding.message.setText(message);
     this.message = message;
   }
 
   public void unsetIndeterminateDrawable() {
-    progressBar.setVisibility(View.INVISIBLE);
+    binding.progress.setVisibility(View.INVISIBLE);
   }
 }

@@ -125,7 +125,6 @@ public class TransactionAdapter extends ResourceCursorAdapter {
     localizedTimeFormat = android.text.format.DateFormat.getTimeFormat(context);
     this.currencyFormatter = currencyFormatter;
     this.prefHandler = prefHandler;
-    //noinspection ConstantConditions
     monthStart = Integer.parseInt(prefHandler.getString(GROUP_MONTH_STARTS, "1"));
     this.currencyContext = currencyContext;
   }
