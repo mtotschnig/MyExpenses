@@ -14,12 +14,12 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import icepick.State
-import kotlinx.android.synthetic.main.one_budget.*
 import org.threeten.bp.LocalDate
 import org.totschnig.myexpenses.ACTION_SELECT_FILTER
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.AccountAdapter
 import org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter.NULL_ITEM_ID
+import org.totschnig.myexpenses.databinding.OneBudgetBinding
 import org.totschnig.myexpenses.dialog.select.SelectCrStatusDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectFilterDialog
 import org.totschnig.myexpenses.dialog.select.SelectMethodsAllDialogFragment
@@ -50,6 +50,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         SelectFilterDialog.Host {
 
     private lateinit var viewModel: BudgetEditViewModel
+    private lateinit var binding: OneBudgetBinding
     override fun getDiscardNewMessage() = R.string.dialog_confirm_discard_new_budget
     private var pendingBudgetLoad = 0L
     private var resumedP = false
@@ -62,7 +63,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
     var accountId: Long = 0
 
     private val allFilterChips: Array<ScrollingChip>
-        get() = arrayOf(FILTER_CATEGORY_COMMAND, FILTER_PAYEE_COMMAND, FILTER_METHOD_COMMAND, FILTER_STATUS_COMMAND, FILTER_TAG_COMMAND, FILTER_ACCOUNT_COMMAND)
+        get() = with(binding) { arrayOf( FILTERCATEGORYCOMMAND, FILTERPAYEECOMMAND, FILTERMETHODCOMMAND, FILTERSTATUSCOMMAND, FILTERTAGCOMMAND, FILTERACCOUNTCOMMAND) }
 
     override fun setupListeners() {
         val removeFilter: (View) -> Unit = { view -> removeFilter((view.parent as View).id) }
@@ -71,16 +72,16 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
             it.setOnCloseIconClickListener(removeFilter)
             it.setOnClickListener(startFilterDialog)
         }
-        Title.addTextChangedListener(this)
-        Description.addTextChangedListener(this)
-        Amount.addTextChangedListener(this)
+        binding.Title.addTextChangedListener(this)
+        binding.Description.addTextChangedListener(this)
+        binding.Amount.addTextChangedListener(this)
         typeSpinnerHelper.setOnItemSelectedListener(this)
         accountSpinnerHelper.setOnItemSelectedListener(this)
         (budget?.start ?: LocalDate.now()).let {
-            DurationFrom.initWith(it, this)
+            binding.DurationFrom.initWith(it, this)
         }
         (budget?.end ?: LocalDate.now()).let {
-            DurationTo.initWith(it, this)
+            binding.DurationTo.initWith(it, this)
         }
     }
 
@@ -142,11 +143,12 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.one_budget)
+        binding = OneBudgetBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         setupToolbar()
         viewModel = ViewModelProvider(this).get(BudgetEditViewModel::class.java)
         viewModel.accounts.observe(this, { list ->
-            Accounts.adapter = AccountAdapter(this, list)
+            binding.Accounts.adapter = AccountAdapter(this, list)
             (accountId.takeIf { it != 0L } ?: list.getOrNull(0)?.id)?.let { populateAccount(it) }
         })
         viewModel.budget.observe(this, { populateData(it) })
@@ -160,11 +162,11 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
                 Toast.makeText(this, "Error while saving budget", Toast.LENGTH_LONG).show()
             }
         })
-        typeSpinnerHelper = SpinnerHelper(Type).apply {
+        typeSpinnerHelper = SpinnerHelper(binding.Type).apply {
             adapter = GroupingAdapter(this@BudgetEdit)
             setSelection(Grouping.MONTH.ordinal)
         }
-        accountSpinnerHelper = SpinnerHelper(Accounts)
+        accountSpinnerHelper = SpinnerHelper(binding.Accounts)
         filterPersistence = FilterPersistence(prefHandler, prefNameForCriteria(budgetId), savedInstanceState, false, !mNewInstance)
 
         filterPersistence.whereFilter.criteria.forEach(this::showFilterCriteria)
@@ -262,13 +264,13 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
 
     private fun populateData(budget: Budget) {
         this.budget = budget
-        Title.setText(budget.title)
-        Description.setText(budget.description)
+        binding.Title.setText(budget.title)
+        binding.Description.setText(budget.description)
         populateAccount(budget.accountId)
-        Amount.setAmount(budget.amount.amountMajor)
+        binding.Amount.setAmount(budget.amount.amountMajor)
         typeSpinnerHelper.setSelection(budget.grouping.ordinal)
         configureTypeDependents(budget.grouping)
-        DefaultBudget.isChecked = budget.default
+        binding.DefaultBudget.isChecked = budget.default
         if (resumedP) setupListeners()
         pendingBudgetLoad = 0L
     }
@@ -291,7 +293,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         setDirty()
         when (parent.id) {
             R.id.Type -> {
-                configureTypeDependents(Type.adapter.getItem(position) as Grouping)
+                configureTypeDependents(binding.Type.adapter.getItem(position) as Grouping)
             }
             R.id.Accounts -> {
                 configureAccount()
@@ -303,22 +305,22 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
     private fun configureAccount() {
         val account = selectedAccount()
         accountId = account.id
-        FILTER_ACCOUNT_COMMAND.visibility = if (accountId < 0) View.VISIBLE else View.GONE
+        binding.FILTERACCOUNTCOMMAND.visibility = if (accountId < 0) View.VISIBLE else View.GONE
         configureAmount(currencyContext[account.currency])
     }
 
     private fun configureAmount(currencyUnit: CurrencyUnit) {
-        Amount.setFractionDigits(currencyUnit.fractionDigits)
+        binding.Amount.setFractionDigits(currencyUnit.fractionDigits)
     }
 
     private fun configureTypeDependents(grouping: Grouping) {
-        DurationFromRow.isVisible = grouping == Grouping.NONE
-        DurationToRow.isVisible = grouping == Grouping.NONE
-        DefaultBudget.isVisible = grouping != Grouping.NONE
+        binding.DurationFromRow.isVisible = grouping == Grouping.NONE
+        binding.DurationToRow.isVisible = grouping == Grouping.NONE
+        binding.DefaultBudget.isVisible = grouping != Grouping.NONE
     }
 
     private fun configureFilterDependents() {
-        with(DefaultBudget) {
+        with(binding.DefaultBudget) {
             filterPersistence.whereFilter.isEmpty.let {
                 if (!it) {
                     isChecked = false
@@ -334,22 +336,22 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
 
     override fun dispatchCommand(command: Int, tag: Any?): Boolean {
         if (command == R.id.CREATE_COMMAND) {
-            validateAmountInput(Amount, true)?.let { amount ->
+            validateAmountInput(binding.Amount, true)?.let { amount ->
                 val grouping = typeSpinnerHelper.selectedItem as Grouping
-                val start = if (grouping == Grouping.NONE) DurationFrom.getDate() else null
-                val end = if (grouping == Grouping.NONE) DurationTo.getDate() else null
+                val start = if (grouping == Grouping.NONE) binding.DurationFrom.getDate() else null
+                val end = if (grouping == Grouping.NONE) binding.DurationTo.getDate() else null
                 if (end != null && start != null && end < start) {
                     showDismissableSnackbar(R.string.budget_date_end_after_start)
                 } else {
                     val account: Account = selectedAccount()
                     val currencyUnit = currencyContext[account.currency]
                     val budget = Budget(budgetId, account.id,
-                            Title.text.toString(), Description.text.toString(), currencyUnit,
+                            binding.Title.text.toString(), binding.Description.text.toString(), currencyUnit,
                             Money(currencyUnit, amount),
                             grouping,
                             -1,
                             start,
-                            end, null, DefaultBudget.isChecked)
+                            end, null, binding.DefaultBudget.isChecked)
                     viewModel.saveBudget(budget, filterPersistence.whereFilter)
                 }
 
@@ -359,7 +361,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         return super.dispatchCommand(command, tag)
     }
 
-    private fun selectedAccount() = Accounts.selectedItem as Account
+    private fun selectedAccount() = binding.Accounts.selectedItem as Account
 }
 
 class GroupingAdapter(context: Context) : ArrayAdapter<Grouping>(context, android.R.layout.simple_spinner_item, android.R.id.text1, Grouping.values()) {

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-       xmlns:app="http://schemas.android.com/apk/res-auto"
-       xmlns:tools="http://schemas.android.com/tools"
-       tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
     <include
         android:id="@+id/ExchangeRate_1"
@@ -12,7 +12,7 @@
         app:layout_constraintBottom_toTopOf="@id/ExchangeRate_2"
         app:layout_constraintEnd_toStartOf="@id/iv_download"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <include
@@ -23,7 +23,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/iv_download"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ExchangeRate_1"/>
+        app:layout_constraintTop_toBottomOf="@id/ExchangeRate_1" />
 
-    <include layout="@layout/exchange_rate_download"/>
+    <include
+        android:id="@+id/iv_download"
+        layout="@layout/exchange_rate_download" />
 </merge>

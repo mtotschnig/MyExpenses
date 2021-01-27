@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.android.setupwizardlib.SetupWizardLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/setup_wizard_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:importantForAutofill="noExcludeDescendants"
+    android:layout="@layout/suw_template"
+    app:suwBackgroundTile="@drawable/bg_tile_teal"
+    tools:targetApi="o">
+
+    <ViewStub
+        android:id="@+id/onboarding_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</com.android.setupwizardlib.SetupWizardLayout>

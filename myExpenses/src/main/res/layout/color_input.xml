@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -15,10 +13,9 @@
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_gravity="center_vertical"
-        android:focusable="true"
         android:layout_weight="1"
-        android:onClick="editAccountColor"
-        />
+        android:focusable="true"
+        android:onClick="editAccountColor" />
 
     <ImageView
         android:id="@+id/ColorEdit"
@@ -29,5 +26,5 @@
         android:contentDescription="@string/menu_edit"
         android:focusable="true"
         android:onClick="editAccountColor"
-        app:srcCompat="@drawable/ic_menu_edit"/>
+        app:srcCompat="@drawable/ic_menu_edit" />
 </LinearLayout>

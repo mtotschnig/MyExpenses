@@ -13,13 +13,14 @@
         android:orientation="vertical"/>
 
     <LinearLayout
-        android:id="@+id/backup_list"
+        android:id="@+id/backup_list_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:visibility="gone">
 
         <ListView
+            android:id="@+id/backup_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"/>
@@ -32,18 +33,20 @@
             android:layout_marginRight="@dimen/padding_dialog_side"/>
 
         <include
+            android:id="@+id/passwordLayout"
             layout="@layout/simple_password_dialog"
             android:visibility="gone"/>
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/sync_account_list"
+        android:id="@+id/sync_account_list_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:visibility="gone">
 
         <ListView
+            android:id="@+id/sync_account_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 

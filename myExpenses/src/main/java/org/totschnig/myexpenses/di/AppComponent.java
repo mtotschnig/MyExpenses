@@ -26,10 +26,11 @@ import org.totschnig.myexpenses.export.pdf.PdfPrinter;
 import org.totschnig.myexpenses.feature.OcrFeature;
 import org.totschnig.myexpenses.fragment.BaseSettingsFragment;
 import org.totschnig.myexpenses.fragment.BaseTransactionList;
+import org.totschnig.myexpenses.fragment.BudgetFragment;
 import org.totschnig.myexpenses.fragment.BudgetList;
 import org.totschnig.myexpenses.fragment.CategoryList;
 import org.totschnig.myexpenses.fragment.CurrencyList;
-import org.totschnig.myexpenses.fragment.DistributionBaseFragment;
+import org.totschnig.myexpenses.fragment.DistributionFragment;
 import org.totschnig.myexpenses.fragment.HistoryChart;
 import org.totschnig.myexpenses.fragment.OnBoardingPrivacyFragment;
 import org.totschnig.myexpenses.fragment.OnboardingDataFragment;
@@ -153,7 +154,9 @@ public interface AppComponent {
 
   void inject(CategoryList categoryList);
 
-  void inject(DistributionBaseFragment categoryList);
+  void inject(BudgetFragment budgetFragment);
+
+  void inject(DistributionFragment distributionFragment);
 
   void inject(AdHandler adHandler);
 

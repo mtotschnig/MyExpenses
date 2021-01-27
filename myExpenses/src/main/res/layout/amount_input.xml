@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -14,29 +13,36 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<merge
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
     <include
+        android:id="@+id/TaType"
         layout="@layout/type_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toStartOf="@+id/AmountCurrency"
-        app:layout_constraintStart_toStartOf="parent"/>
-
-    <include layout="@layout/amount_currency" />
-
-    <include layout="@layout/amount_edittext" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <include
+        android:id="@+id/AmountCurrency"
+        layout="@layout/amount_currency" />
+
+    <include
+        android:id="@+id/AmountEditText"
+        layout="@layout/amount_edittext" />
+
+    <include
+        android:id="@+id/Calculator"
         layout="@layout/calc_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/AmountEditText"/>
+        app:layout_constraintStart_toEndOf="@+id/AmountEditText" />
 
-    <include layout="@layout/amount_exchange_rate" />
+    <include
+        android:id="@+id/AmountExchangeRate"
+        layout="@layout/amount_exchange_rate" />
 </merge>

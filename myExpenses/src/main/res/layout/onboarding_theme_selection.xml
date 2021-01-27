@@ -19,7 +19,7 @@
             android:text="@string/pref_ui_theme_dark" />
 
         <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/theme"
+            android:id="@+id/themeSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"

@@ -32,7 +32,7 @@ class TransactionList : BaseTransactionList() {
         if (resultCode != Activity.RESULT_CANCELED) {
             if (requestCode == CONFIRM_MAP_TAG_REQUEST) {
                 intent?.let {
-                    viewModel.tag(mListView.checkedItemIds, it.getParcelableArrayListExtra(KEY_TAG_LIST)!!, it.getBooleanExtra(KEY_REPLACE, false))
+                    viewModel.tag(binding.list.checkedItemIds, it.getParcelableArrayListExtra(KEY_TAG_LIST)!!, it.getBooleanExtra(KEY_REPLACE, false))
                 }
                 finishActionMode()
             } else if (requestCode == MAP_TAG_REQUEST) {

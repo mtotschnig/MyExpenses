@@ -5,7 +5,7 @@ import android.text.InputType;
 
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.fragment.CategoryList;
+import org.totschnig.myexpenses.fragment.AbstractCategoryList;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.viewmodel.data.Category;
@@ -25,7 +25,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
-public abstract class CategoryActivity<T extends CategoryList> extends ProtectedFragmentActivity implements
+public abstract class CategoryActivity<T extends AbstractCategoryList> extends ProtectedFragmentActivity implements
     SimpleFormDialog.OnDialogResultListener {
   protected static final String DIALOG_NEW_CATEGORY = "dialogNewCat";
   protected static final String DIALOG_EDIT_CATEGORY = "dialogEditCat";

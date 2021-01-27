@@ -6,7 +6,6 @@ import android.content.ContextWrapper
 import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.View
-import butterknife.ButterKnife
 import com.google.android.material.button.MaterialButton
 import icepick.Icepick
 
@@ -46,7 +45,6 @@ abstract class ButtonWithDialog @JvmOverloads constructor(
     abstract fun onCreateDialog(): Dialog?
 
     init {
-        ButterKnife.bind(this)
         setOnClickListener { showDialog() }
     }
 }
