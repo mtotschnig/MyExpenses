@@ -30,7 +30,7 @@ class ManageTags: ProtectedFragmentActivity() {
             else -> HelpVariant.select_mapping
         })
         if (action == ACTION_MANAGE) {
-            floatingActionButton.visibility = View.GONE
+            floatingActionButton?.visibility = View.GONE
         }
     }
 

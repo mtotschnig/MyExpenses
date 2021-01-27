@@ -137,6 +137,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   private Optional<Boolean> confirmCredentialResult = Optional.empty();
   private Enum<?> helpVariant = null;
   protected ColorStateList textColorSecondary;
+  @Nullable
   protected FloatingActionButton floatingActionButton;
 
   @Inject
@@ -778,7 +779,9 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
 
   @Override
   public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-    floatingActionButton.setEnabled(true);
+    if (floatingActionButton != null) {
+      floatingActionButton.setEnabled(true);
+    }
     super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     boolean granted = PermissionHelper.allGranted(grantResults);
     storePermissionRequested(requestCode);
@@ -835,7 +838,9 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   }
 
   public void requestPermission(PermissionGroup permissionGroup) {
-    floatingActionButton.setEnabled(false);
+    if (floatingActionButton != null) {
+      floatingActionButton.setEnabled(false);
+    }
     ActivityCompat.requestPermissions(this, permissionGroup.androidPermissions,
         permissionGroup.requestCode);
   }

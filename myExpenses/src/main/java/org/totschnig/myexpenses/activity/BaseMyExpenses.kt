@@ -80,7 +80,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         if (savedInstanceState == null) {
-            discoveryHelper.discover(this, floatingActionButton, 3, DiscoveryHelper.Feature.fab_long_press)
+            floatingActionButton?.let { discoveryHelper.discover(this, it, 3, DiscoveryHelper.Feature.fab_long_press) }
         }
     }
 
@@ -169,7 +169,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     private fun startEdit(intent: Intent?) {
-        floatingActionButton.hide()
+        floatingActionButton?.hide()
         startActivityForResult(intent, EDIT_REQUEST)
     }
 
@@ -228,9 +228,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     fun setupFabSubMenu() {
-        floatingActionButton.setOnLongClickListener {
+        floatingActionButton?.setOnLongClickListener {
             discoveryHelper.markDiscovered(DiscoveryHelper.Feature.fab_long_press)
-            val popup = PopupMenu(this, floatingActionButton)
+            val popup = PopupMenu(this, it)
             val popupMenu = popup.menu
             popup.setOnMenuItemClickListener { item ->
                 createRow(when (item.itemId) {
