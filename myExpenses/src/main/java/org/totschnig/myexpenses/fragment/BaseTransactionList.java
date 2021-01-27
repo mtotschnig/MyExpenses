@@ -452,7 +452,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     if (binding.list != null) {
       listState = binding.list.getWrappedList().onSaveInstanceState();
     }
-    binding = null
+    binding = null;
     super.onDestroyView();
   }
 

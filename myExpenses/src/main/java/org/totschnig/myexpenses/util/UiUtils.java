@@ -35,7 +35,8 @@ import static org.totschnig.myexpenses.preference.PrefKey.TRANSACTION_WITH_VALUE
 
 public class UiUtils {
 
-  private UiUtils() {}
+  private UiUtils() {
+  }
 
   public static void increaseSnackbarMaxLines(Snackbar snackbar) {
     View snackbarView = snackbar.getView();
@@ -80,7 +81,7 @@ public class UiUtils {
 
   public static void setBackgroundOnButton(AppCompatButton button, int color) {
     //noinspection RestrictedApi
-    button.setSupportBackgroundTintList(new ColorStateList(new int[][] {{0}}, new int[] {color}));
+    button.setSupportBackgroundTintList(new ColorStateList(new int[][]{{0}}, new int[]{color}));
   }
 
   public static void configureAmountTextViewForHebrew(TextView amount) {
@@ -129,14 +130,17 @@ public class UiUtils {
 
   public static void setCompoundDrawablesCompatWithIntrinsicBounds(TextView textView, int start, int top, int end, int bottom) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-      textView.setCompoundDrawablesRelativeWithIntrinsicBounds(start, top, end,bottom);
+      textView.setCompoundDrawablesRelativeWithIntrinsicBounds(start, top, end, bottom);
     } else {
-      textView.setCompoundDrawablesWithIntrinsicBounds(start, top, end,bottom);
+      textView.setCompoundDrawablesWithIntrinsicBounds(start, top, end, bottom);
     }
   }
 
-  /** Returns the value of the desired theme integer attribute, or -1 if not found **/
-  @ColorInt public static int themeIntAttr(@Nullable Context context, int attr) {
+  /**
+   * Returns the value of the desired theme integer attribute, or -1 if not found
+   **/
+  @ColorInt
+  public static int themeIntAttr(@Nullable Context context, int attr) {
     if (context != null) {
       final Resources.Theme theme = context.getTheme();
       if (theme != null) {
