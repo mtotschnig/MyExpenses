@@ -19,6 +19,6 @@
         app:layout_constraintStart_toEndOf="@id/ExchangeRate_1" />
 
     <include
-        android:id="@+id/ERD"
+        android:id="@+id/iv_download"
         layout="@layout/exchange_rate_download" />
 </merge>
