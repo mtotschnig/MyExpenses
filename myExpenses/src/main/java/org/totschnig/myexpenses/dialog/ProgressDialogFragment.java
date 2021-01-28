@@ -43,7 +43,7 @@ public class ProgressDialogFragment extends BaseDialogFragment {
   private boolean mTaskCompleted = false;
   private int progress = 0, max = 0;
   private String title, message;
-  private int dialogButton = DialogInterface.BUTTON_POSITIVE;
+  private final int dialogButton = DialogInterface.BUTTON_POSITIVE;
 
 
   /**
@@ -118,6 +118,7 @@ public class ProgressDialogFragment extends BaseDialogFragment {
     super.onDestroyView();
   }
 
+  @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     int progressStyle = getArguments().getInt(KEY_PROGRESS_STYLE);
@@ -132,7 +133,7 @@ public class ProgressDialogFragment extends BaseDialogFragment {
     }
     boolean withButton = getArguments().getBoolean(KEY_WITH_BUTTON);
     if (messageFromArguments != null) {
-      //message might have been set through setmessage
+      //message might have been set through setMessage
       if (message == null) {
         message = messageFromArguments + " …";
         mDialog.setMessage(message);
@@ -212,7 +213,7 @@ public class ProgressDialogFragment extends BaseDialogFragment {
   }
 
   @Override
-  public void onSaveInstanceState(Bundle outState) {
+  public void onSaveInstanceState(@NonNull Bundle outState) {
     super.onSaveInstanceState(outState);
     outState.putBoolean(KEY_TASK_COMPLETED, mTaskCompleted);
     outState.putString(KEY_TITLE, title);

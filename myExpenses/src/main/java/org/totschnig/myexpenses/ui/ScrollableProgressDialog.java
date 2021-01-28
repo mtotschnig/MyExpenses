@@ -23,8 +23,11 @@ import android.view.View;
 
 import org.totschnig.myexpenses.databinding.ScrollableProgressDialogBinding;
 
+import androidx.annotation.Nullable;
+
 @Deprecated
 public class ScrollableProgressDialog extends AlertDialog {
+  @Nullable
   private ScrollableProgressDialogBinding binding;
   private CharSequence message;
 
@@ -49,7 +52,9 @@ public class ScrollableProgressDialog extends AlertDialog {
 
   @Override
   public void setMessage(CharSequence message) {
-    binding.message.setText(message);
+    if (binding != null) {
+      binding.message.setText(message);
+    }
     this.message = message;
   }
 
