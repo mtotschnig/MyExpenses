@@ -8,6 +8,7 @@ import android.util.AttributeSet
 import android.view.View
 import com.google.android.material.button.MaterialButton
 import icepick.Icepick
+import org.totschnig.myexpenses.preference.PrefHandler
 
 abstract class ButtonWithDialog @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : MaterialButton(context, attrs, defStyleAttr) {
@@ -25,6 +26,7 @@ abstract class ButtonWithDialog @JvmOverloads constructor(
     }
 
     protected abstract fun update()
+
     protected val host: Host
         get() {
             var context = context
@@ -42,9 +44,13 @@ abstract class ButtonWithDialog @JvmOverloads constructor(
         fun onValueSet(view: View)
     }
 
-    abstract fun onCreateDialog(): Dialog?
+    abstract fun onCreateDialog(prefHandler: PrefHandler): Dialog?
+
+    open fun onClick() {
+        showDialog()
+    }
 
     init {
-        setOnClickListener { showDialog() }
+        setOnClickListener { onClick() }
     }
 }

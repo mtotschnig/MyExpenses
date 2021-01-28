@@ -791,7 +791,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
     override fun onCreateDialog(id: Int): Dialog? {
         hideKeyboard()
         return try {
-            (findViewById<View>(id) as ButtonWithDialog).onCreateDialog()
+            (findViewById<View>(id) as ButtonWithDialog).onCreateDialog(prefHandler)
         } catch (e: ClassCastException) {
             Timber.e(e)
             null
