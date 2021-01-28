@@ -40,4 +40,6 @@
     <dimen name="colorContainerOuter">32dp</dimen>
     <dimen name="colorContainerInner">16dp</dimen>
     <dimen name="fab_related_bottom_padding">75dp</dimen>
+    <dimen name="dateLink_padding">3dp</dimen>
+    <dimen name="dateLink_minWidth">30dp</dimen>
 </resources>

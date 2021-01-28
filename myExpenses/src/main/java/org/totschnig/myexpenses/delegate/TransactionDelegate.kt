@@ -220,7 +220,7 @@ abstract class TransactionDelegate<T : ITransaction>(
                     planId?.let {
                         host.launchPlanView(false, it)
                     } ?: run {
-                        planButton.showDialog()
+                        planButton.onClick()
                     }
                 }
             }
@@ -803,7 +803,7 @@ abstract class TransactionDelegate<T : ITransaction>(
     }
 
     fun updatePlanButton(plan: Plan) {
-        planButton.text = Plan.prettyTimeInfo(context, plan.rrule, plan.dtstart)
+        planButton.overrideText(Plan.prettyTimeInfo(context, plan.rrule, plan.dtstart))
     }
 
     private fun configurePlan(plan: Plan?) {

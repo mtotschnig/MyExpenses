@@ -32,7 +32,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.Nullable
@@ -177,6 +176,11 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
     @JvmField
     @State
     var shouldShowCreateTemplate = false
+
+    @JvmField
+    @State
+    var areDatesLinked = false
+
     private var mIsResumed = false
     private var accountsLoaded = false
     private var shouldRecordAttachPictureFeature = false
@@ -567,22 +571,24 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         setDirty()
         if (view is DateButton) {
             val date = view.date
-            if (areDatesLinked()) {
-                val other = if (view.getId() == R.id.Date2Button) dateEditBinding.DateButton else dateEditBinding.Date2Button
-                other.setDate(date)
+            if (areDatesLinked) {
+                when(view.id) {
+                    R.id.Date2Button -> dateEditBinding.DateButton
+                    R.id.DateButton -> dateEditBinding.Date2Button
+                    else -> null
+                }?.setDate(date)
             }
         }
     }
 
     fun toggleDateLink(view: View) {
-        val isLinked = !areDatesLinked()
-        (view as ImageView).setImageResource(if (isLinked) R.drawable.ic_hchain else R.drawable.ic_hchain_broken)
-        view.setTag(isLinked.toString())
-        view.setContentDescription(getString(if (isLinked) R.string.content_description_dates_are_linked else R.string.content_description_dates_are_not_linked))
+        areDatesLinked = !areDatesLinked
+        updateDateLink()
     }
 
-    private fun areDatesLinked(): Boolean {
-        return java.lang.Boolean.parseBoolean(dateEditBinding.DateLink.tag as String)
+    private fun updateDateLink() {
+        dateEditBinding.DateLink.setImageResource(if (areDatesLinked) R.drawable.ic_hchain else R.drawable.ic_hchain_broken)
+        dateEditBinding.DateLink.contentDescription = getString(if (areDatesLinked) R.string.content_description_dates_are_linked else R.string.content_description_dates_are_not_linked)
     }
 
     override fun setupListeners() {
@@ -1025,7 +1031,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                         autoFillAccountFromPreference == "aggregate" && autoFillAccountFromExtra
                 if (overridePreferences || prefHandler.getBoolean(PrefKey.AUTO_FILL_AMOUNT, false)) {
                     dataToLoad.add(DatabaseConstants.KEY_CURRENCY)
-                    dataToLoad.add(DatabaseConstants.KEY_AMOUNT)
+                    dataToLoad.add(KEY_AMOUNT)
                 }
                 if (overridePreferences || prefHandler.getBoolean(PrefKey.AUTO_FILL_CATEGORY, false)) {
                     dataToLoad.add(DatabaseConstants.KEY_CATID)
@@ -1074,7 +1080,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                 }
                 return
             } catch (e: ActivityNotFoundException) {
-                Timber.w("Component: %s", intent.resolveActivity(getPackageManager()))
+                Timber.w("Component: %s", intent.resolveActivity(packageManager))
                 CrashHandler.report(e)
             }
         }
@@ -1195,6 +1201,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             (delegate as? TransferDelegate)?.configureTransferDirection()
         }
         updateFab()
+        updateDateLink()
     }
 
     private fun updateFab() {

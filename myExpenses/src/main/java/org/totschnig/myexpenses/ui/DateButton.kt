@@ -40,6 +40,7 @@ class DateButton @JvmOverloads constructor(
     init {
         UiUtils.setCompoundDrawablesCompatWithIntrinsicBounds(this, R.drawable.ic_chevron_start, 0, R.drawable.ic_chevron_end, 0)
         setPaddingRelative(0, paddingTop, 0, paddingBottom)
+        compoundDrawablePadding = -marginTouchWidth / 2
         //noinspection ClickableViewAccessibility
         setOnTouchListener { _, motionEvent ->
             if (motionEvent.actionMasked == MotionEvent.ACTION_DOWN) {
@@ -48,6 +49,7 @@ class DateButton @JvmOverloads constructor(
             false
         }
     }
+
 
     override fun onClick() {
         when {
@@ -64,30 +66,26 @@ class DateButton @JvmOverloads constructor(
     }
 
     private fun previousDay() {
-        date = date.minusDays(1)
-        update()
+        setDateInternal(date.minusDays(1))
     }
 
     private fun nextDay() {
-        date = date.plusDays(1)
-        update()
+        setDateInternal(date.plusDays(1))
     }
 
     private val isBrokenSamsungDevice: Boolean
-        get() = Build.MANUFACTURER.equals("samsung", ignoreCase = true) && isBetweenAndroidVersions(
-                Build.VERSION_CODES.LOLLIPOP,
-                Build.VERSION_CODES.LOLLIPOP_MR1)
+        get() = Build.MANUFACTURER.equals("samsung", ignoreCase = true) && Build.VERSION.SDK_INT in Build.VERSION_CODES.LOLLIPOP..Build.VERSION_CODES.LOLLIPOP_MR1
 
     override fun onCreateDialog(prefHandler: PrefHandler): Dialog {
         val brokenSamsungDevice = isBrokenSamsungDevice
-        val base = context
         val context = if (brokenSamsungDevice)
         //https://stackoverflow.com/a/34853067
-            object : ContextWrapper(base) {
+            object : ContextWrapper(context) {
                 private lateinit var wrappedResources: Resources
                 override fun getResources(): Resources {
                     val r: Resources = super.getResources()
                     if (!::wrappedResources.isInitialized) {
+                        @Suppress("DEPRECATION")
                         wrappedResources = object : Resources(r.assets, r.displayMetrics, r.configuration) {
                             @NonNull
                             @Throws(NotFoundException::class)
@@ -107,7 +105,7 @@ class DateButton @JvmOverloads constructor(
                 }
             }
         else
-            base
+            context
         var yearOld = date.year
         var monthOld = date.monthValue - 1
         var dayOld = date.dayOfMonth
@@ -122,8 +120,7 @@ class DateButton @JvmOverloads constructor(
                 yearOld = year
                 monthOld = month
                 dayOld = dayOfMonth
-                setDate(LocalDate.of(year, month + 1, dayOfMonth))
-                host.onValueSet(this@DateButton)
+                setDateInternal(LocalDate.of(year, month + 1, dayOfMonth))
             }
         }
         val datePickerDialog = DatePickerDialog(context, R.style.ThemeOverlay_MaterialComponents_Dialog,
@@ -145,12 +142,13 @@ class DateButton @JvmOverloads constructor(
     }
 
     private fun setFirstDayOfWeek(datePickerDialog: DatePickerDialog, startOfWeek: Int) {
-        val calendarView = datePickerDialog.datePicker.calendarView
+        @Suppress("DEPRECATION") val calendarView = datePickerDialog.datePicker.calendarView
         calendarView.firstDayOfWeek = startOfWeek
     }
 
-    private fun isBetweenAndroidVersions(min: Int, max: Int): Boolean {
-        return Build.VERSION.SDK_INT in min..max
+    private fun setDateInternal(localDate: LocalDate) {
+        setDate(localDate)
+        host.onValueSet(this)
     }
 
     fun setDate(localDate: LocalDate) {
@@ -160,5 +158,10 @@ class DateButton @JvmOverloads constructor(
 
     override fun update() {
         text = date.format(formatter)
+    }
+
+    fun overrideText(text: CharSequence) {
+        this.text = text
+        setCompoundDrawables(null, null, null, null)
     }
 }
