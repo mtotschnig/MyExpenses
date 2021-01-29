@@ -14,6 +14,8 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.testutils.BaseUiTest;
 
+import java.util.concurrent.TimeoutException;
+
 import androidx.test.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
@@ -47,7 +49,7 @@ public final class MyExpensesIntentTest extends BaseUiTest {
   }
 
   @Test
-  public void shouldNavigateToAccountReceivedThroughIntent() {
+  public void shouldNavigateToAccountReceivedThroughIntent() throws TimeoutException {
     Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), MyExpenses.class)
         .putExtra(KEY_ROWID, account1.getId());
     mActivityRule.launchActivity(i);

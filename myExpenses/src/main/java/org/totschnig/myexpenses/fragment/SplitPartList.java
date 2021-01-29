@@ -25,16 +25,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.ListView;
-import android.widget.TextView;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.SplitPartAdapter;
+import org.totschnig.myexpenses.databinding.SplitPartsListBinding;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
@@ -66,12 +63,12 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
   private static final String KEY_ACCOUNT = "account";
   private static final int TRANSACTION_CURSOR = 5;
   private static final int SUM_CURSOR = 6;
-  //
-  SplitPartAdapter mAdapter;
-  private TextView balanceTv;
+
+  private SplitPartsListBinding binding;
+
+  private SplitPartAdapter mAdapter;
   private long transactionSum = 0;
   private Money unsplitAmount;
-  private FloatingActionButton fab;
 
   @State
   long parentId;
@@ -99,12 +96,12 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
     setHasOptionsMenu(true);
     setRetainInstance(true);
     if (savedInstanceState == null) {
-      parentId = getArguments().getLong(KEY_PARENTID);
-      accountId = getArguments().getLong(KEY_ACCOUNTID);
+      parentId = requireArguments().getLong(KEY_PARENTID);
+      accountId = requireArguments().getLong(KEY_ACCOUNTID);
     } else {
       Icepick.restoreInstanceState(this, savedInstanceState);
     }
-    MyApplication.getInstance().getAppComponent().inject(this);
+    ((MyApplication) requireActivity().getApplication()).getAppComponent().inject(this);
   }
 
   @Override
@@ -116,14 +113,10 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     final ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
-    View v = inflater.inflate(R.layout.split_parts_list, container, false);
-    View emptyView = v.findViewById(R.id.empty);
-    balanceTv = v.findViewById(R.id.end);
+    binding = SplitPartsListBinding.inflate(inflater, container, false);
 
-    ListView lv = v.findViewById(R.id.list);
     // Create an array to specify the fields we want to display in the list
     String[] from = new String[]{KEY_LABEL_MAIN, KEY_AMOUNT};
-
     // and an array of the fields we want to bind those fields to 
     int[] to = new int[]{R.id.category, R.id.amount};
 
@@ -132,17 +125,23 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
     final Account account = (Account) getArguments().getSerializable(KEY_ACCOUNT);
     mAdapter = new SplitPartAdapter(ctx, R.layout.split_part_row, null, from, to, 0,
         account.getCurrency(), currencyFormatter);
-    lv.setAdapter(mAdapter);
-    lv.setEmptyView(emptyView);
-    lv.setOnItemClickListener((a, v1, position, id) -> {
+    binding.list.setAdapter(mAdapter);
+    binding.list.setEmptyView(binding.empty);
+    binding.list.setOnItemClickListener((a, v1, position, id) -> {
       Intent i = new Intent(ctx, ExpenseEdit.class);
       i.putExtra(parentIsTemplate() ? KEY_TEMPLATEID : KEY_ROWID, id);
       startActivityForResult(i, EDIT_REQUEST);
     });
-    registerForContextMenu(lv);
-    v.findViewById(R.id.CREATE_PART_COMMAND).setContentDescription(TextUtils.concatResStrings(getActivity(), ". ",
+    registerForContextMenu(binding.list);
+    binding.CREATEPARTCOMMAND.setContentDescription(TextUtils.concatResStrings(getActivity(), ". ",
         R.string.menu_create_split_part_category, R.string.menu_create_split_part_transfer));
-    return v;
+    return binding.getRoot();
+  }
+
+  @Override
+  public void onDestroyView() {
+    super.onDestroyView();
+    binding = null;
   }
 
   @Override
@@ -221,8 +220,7 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
     if (unsplitAmount == null)
       return;
     unsplitAmount = new Money(unsplitAmount.getCurrencyUnit(), unsplitAmount.getAmountMinor() - transactionSum);
-    if (balanceTv != null)
-      balanceTv.setText(currencyFormatter.formatCurrency(unsplitAmount));
+    binding.end.setText(currencyFormatter.formatCurrency(unsplitAmount));
   }
 
   public boolean splitComplete() {

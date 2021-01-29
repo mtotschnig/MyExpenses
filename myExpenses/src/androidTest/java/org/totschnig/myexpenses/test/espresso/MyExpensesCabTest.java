@@ -22,6 +22,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.testutils.BaseUiTest;
 
 import java.util.Currency;
+import java.util.concurrent.TimeoutException;
 
 import androidx.test.espresso.matcher.CursorMatchers;
 import androidx.test.filters.FlakyTest;
@@ -78,7 +79,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
 
   @Test
   @FlakyTest
-  public void cloneCommandIncreasesListSize() {
+  public void cloneCommandIncreasesListSize() throws TimeoutException {
     int origListSize = waitForAdapter().getCount();
     onData(is(instanceOf(Cursor.class)))
         .inAdapterView(getWrappedList())
@@ -91,7 +92,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
 
   @Test
   @FlakyTest
-  public void editCommandKeepsListSize() {
+  public void editCommandKeepsListSize() throws TimeoutException {
     int origListSize = waitForAdapter().getCount();
     onData(is(instanceOf(Cursor.class)))
         .inAdapterView(getWrappedList())
@@ -103,7 +104,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
     }
 
   @Test
-  public void createTemplateCommandCreatesTemplate() {
+  public void createTemplateCommandCreatesTemplate() throws TimeoutException {
     waitForAdapter();
     String templateTitle = "Espresso Template Test";
     onData(is(instanceOf(Cursor.class)))
@@ -125,7 +126,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
   }
 
   @Test
-  public void deleteCommandDecreasesListSize() {
+  public void deleteCommandDecreasesListSize() throws TimeoutException {
     int origListSize = waitForAdapter().getCount();
     onData(is(instanceOf(Cursor.class)))
         .inAdapterView(getWrappedList())
@@ -137,7 +138,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
   }
 
   @Test
-  public void deleteCommandWithVoidOption() {
+  public void deleteCommandWithVoidOption() throws TimeoutException {
     int origListSize = waitForAdapter().getCount();
     onData(is(instanceOf(Cursor.class)))
         .inAdapterView(getWrappedList())
@@ -160,7 +161,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
   }
 
   @Test
-  public void deleteCommandCancelKeepsListSize() {
+  public void deleteCommandCancelKeepsListSize() throws TimeoutException {
     int origListSize = waitForAdapter().getCount();
     onData(is(instanceOf(Cursor.class)))
         .inAdapterView(getWrappedList())
@@ -172,7 +173,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
   }
 
   @Test
-  public void splitCommandCreatesSplitTransaction() {
+  public void splitCommandCreatesSplitTransaction() throws TimeoutException {
     waitForAdapter();
     onData(is(instanceOf(Cursor.class)))
         .inAdapterView(getWrappedList())
@@ -191,7 +192,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
   }
 
   @Test
-  public void cabIsRestoredAfterOrientationChange() {
+  public void cabIsRestoredAfterOrientationChange() throws TimeoutException {
     waitForAdapter();
     onData(is(instanceOf(Cursor.class)))
         .inAdapterView(getWrappedList())

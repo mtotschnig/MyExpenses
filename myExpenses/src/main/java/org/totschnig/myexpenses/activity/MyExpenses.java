@@ -817,7 +817,7 @@ public class MyExpenses extends BaseMyExpenses implements
     }
 
     String getFragmentName(int currentPosition) {
-      return FragmentPagerAdapter.makeFragmentName(R.id.viewpager, getItemId(currentPosition));
+      return FragmentPagerAdapter.makeFragmentName(viewPager().getId(), getItemId(currentPosition));
     }
 
     @Override

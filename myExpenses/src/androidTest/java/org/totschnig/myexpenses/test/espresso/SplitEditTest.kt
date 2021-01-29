@@ -6,13 +6,13 @@ import android.content.OperationApplicationException
 import android.os.Bundle
 import android.os.RemoteException
 import android.widget.ListView
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBackUnconditionally
-import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.replaceText
+import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -20,11 +20,9 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.filters.FlakyTest
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.intercepting.SingleActivityFactory
-import junit.framework.TestCase
 import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.Matchers.anything
 import org.junit.After
@@ -45,7 +43,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseUiTest
-import org.totschnig.myexpenses.testutils.Espresso.openActionBarOverflowMenu
 import org.totschnig.myexpenses.testutils.Espresso.withIdAndParent
 import java.util.*
 
@@ -53,7 +50,7 @@ import java.util.*
 class SplitEditTest : BaseUiTest() {
     var splitPartListUpdateCalled = 0
     var activityIsRecreated = false
-    var activityFactory: SingleActivityFactory<ExpenseEdit> = object : SingleActivityFactory<ExpenseEdit>(ExpenseEdit::class.java) {
+    private var activityFactory: SingleActivityFactory<ExpenseEdit> = object : SingleActivityFactory<ExpenseEdit>(ExpenseEdit::class.java) {
         override fun create(intent: Intent): ExpenseEdit {
             return object : ExpenseEdit() {
                 override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,10 +78,10 @@ class SplitEditTest : BaseUiTest() {
     lateinit var account1: Account
     private var currency1: CurrencyUnit? = null
 
-    val targetContext: Context
+    private val targetContext: Context
         get() = InstrumentationRegistry.getInstrumentation().targetContext
 
-    val baseIntent: Intent
+    private val baseIntent: Intent
         get() = Intent(targetContext, ExpenseEdit::class.java).apply {
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_SPLIT)
         }
@@ -111,7 +108,7 @@ class SplitEditTest : BaseUiTest() {
         closeSoftKeyboard()
         pressBackUnconditionally()
         assertThat(Transaction.count(uncommittedUri, DatabaseConstants.KEY_STATUS + "= ?", arrayOf(DatabaseConstants.STATUS_UNCOMMITTED.toString()))).isEqualTo(0)
-        assertThat(mActivityRule.activity.isFinishing).isTrue()
+        assertThat(mActivityRule.activity.isFinishing).isTrue
     }
 
     @Test
@@ -119,42 +116,44 @@ class SplitEditTest : BaseUiTest() {
         mActivityRule.launchActivity(baseIntent)
         assertThat(splitPartListUpdateCalled).isEqualTo(1)
         createParts(5)
-        onView(withId(R.id.CREATE_COMMAND)).perform(ViewActions.click())//save parent fails with unsplit amount
+        onView(withId(R.id.CREATE_COMMAND)).perform(click())//save parent fails with unsplit amount
         onView(withId(com.google.android.material.R.id.snackbar_text))
                 .check(matches(withText(R.string.unsplit_amount_greater_than_zero)))
         enterAmountSave("250")
-        onView(withId(R.id.CREATE_COMMAND)).perform(ViewActions.click())//save parent succeeds
-        TestCase.assertTrue(mActivityRule.activity.isFinishing)
+        onView(withId(R.id.CREATE_COMMAND)).perform(click())//save parent succeeds
+        assertThat(mActivityRule.activity.isFinishing).isTrue
     }
 
     private fun createParts(times: Int) {
         assertThat(splitPartListUpdateCalled).isEqualTo(1)
         repeat(times) {
-            onView(withId(R.id.CREATE_PART_COMMAND)).perform(ViewActions.click())
+            closeSoftKeyboard()
+            onView(withId(R.id.CREATE_PART_COMMAND)).perform(scrollTo(), click())
             onView(withId(R.id.MANAGE_TEMPLATES_COMMAND)).check(doesNotExist())
             onView(withId(R.id.CREATE_TEMPLATE_COMMAND)).check(doesNotExist())
             enterAmountSave("50")
-            onView(withId(R.id.CREATE_COMMAND)).perform(ViewActions.click())//save part
+            onView(withId(R.id.CREATE_COMMAND)).perform(click())//save part
             assertThat(splitPartListUpdateCalled).isEqualTo(1)
         }
     }
 
     @Test
-    @FlakyTest
     fun loadEditSaveSplit() {
         mActivityRule.launchActivity(baseIntent.apply { putExtra(KEY_ROWID, prepareSplit()) })
         assertThat(waitForAdapter().count).isEqualTo(2)
-        onData(anything()).inAdapterView(ViewMatchers.isAssignableFrom(ListView::class.java)).atPosition(0).perform(ViewActions.click())
+        closeSoftKeyboard()
+        onView(withId(R.id.list)).perform(scrollTo())
+        onData(anything()).inAdapterView(ViewMatchers.isAssignableFrom(ListView::class.java)).atPosition(0).perform(click())
         onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).perform(replaceText("150"))
         onView(withId(R.id.MANAGE_TEMPLATES_COMMAND)).check(doesNotExist())
         onView(withId(R.id.CREATE_TEMPLATE_COMMAND)).check(doesNotExist())
-        onView(withId(R.id.CREATE_COMMAND)).perform(ViewActions.click())//save part
-        onView(withId(R.id.CREATE_COMMAND)).perform(ViewActions.click())//save parent fails with unsplit amount
+        onView(withId(R.id.CREATE_COMMAND)).perform(click())//save part
+        onView(withId(R.id.CREATE_COMMAND)).perform(click())//save parent fails with unsplit amount
         onView(withId(com.google.android.material.R.id.snackbar_text))
                 .check(matches(withText(R.string.unsplit_amount_greater_than_zero)))
         onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).perform(replaceText("200"))
-        onView(withId(R.id.CREATE_COMMAND)).perform(ViewActions.click())//save parent succeeds
-        assertThat(mActivityRule.activity.isFinishing).isTrue()
+        onView(withId(R.id.CREATE_COMMAND)).perform(click())//save parent succeeds
+        assertThat(mActivityRule.activity.isFinishing).isTrue
     }
 
     private fun prepareSplit() = with(SplitTransaction.getNewInstance(account1.id)) {
@@ -185,12 +184,15 @@ class SplitEditTest : BaseUiTest() {
         createParts(1)
         enterAmountSave("50")
         clickMenuItem(R.id.SAVE_AND_NEW_COMMAND, R.string.menu_save_and_new, false) //toggle save and new on
-        onView(withId(R.id.CREATE_COMMAND)).perform(ViewActions.click())
+        onView(withId(R.id.CREATE_COMMAND)).perform(click())
+        onView(withId(com.google.android.material.R.id.snackbar_text))
+                .check(matches(withText(R.string.save_transaction_and_new_success)))
+        waitForSnackbarDismissed()
         createParts(1)
         enterAmountSave("50")
         clickMenuItem(R.id.SAVE_AND_NEW_COMMAND, R.string.menu_save_and_new, false) //toggle save and new off
-        onView(withId(R.id.CREATE_COMMAND)).perform(ViewActions.click())//save parent succeeds
-        assertThat(mActivityRule.activity.isFinishing).isTrue()
+        closeKeyboardAndSave()
+        assertThat(mActivityRule.activity.isFinishing).isTrue
     }
 
     private fun enterAmountSave(amount: String) {

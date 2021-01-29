@@ -61,7 +61,7 @@ public class OnboardingActivity extends SyncBackendSetupActivity {
     setContentView(binding.getRoot());
     //setupToolbar(false);
     pagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
-    binding.viewpager.setAdapter(pagerAdapter);
+    binding.viewPager.setAdapter(pagerAdapter);
   }
 
   @Override
@@ -71,16 +71,16 @@ public class OnboardingActivity extends SyncBackendSetupActivity {
   }
 
   public void navigate_next() {
-    final int currentItem = binding.viewpager.getCurrentItem();
-    binding.viewpager.setCurrentItem(currentItem + 1, true);
+    final int currentItem = binding.viewPager.getCurrentItem();
+    binding.viewPager.setCurrentItem(currentItem + 1, true);
   }
 
   @Override
   public void onBackPressed() {
-    if (binding.viewpager != null) {
-      final int currentItem = binding.viewpager.getCurrentItem();
+    if (binding != null) {
+      final int currentItem = binding.viewPager.getCurrentItem();
       if (currentItem > 0) {
-        binding.viewpager.setCurrentItem(currentItem - 1);
+        binding.viewPager.setCurrentItem(currentItem - 1);
         return;
       }
     }
@@ -115,8 +115,8 @@ public class OnboardingActivity extends SyncBackendSetupActivity {
 
   private void getStarted() {
     int current_version = DistributionHelper.getVersionNumber();
-    PrefKey.CURRENT_VERSION.putInt(current_version);
-    PrefKey.FIRST_INSTALL_VERSION.putInt(current_version);
+    prefHandler.putInt(PrefKey.CURRENT_VERSION, current_version);
+    prefHandler.putInt(PrefKey.FIRST_INSTALL_VERSION, current_version);
     Intent intent = new Intent(this, MyExpenses.class);
     startActivity(intent);
     finish();
@@ -199,7 +199,7 @@ public class OnboardingActivity extends SyncBackendSetupActivity {
     }
 
     String getFragmentName(int currentPosition) {
-      return FragmentPagerAdapter.makeFragmentName(R.id.viewpager, getItemId(currentPosition));
+      return FragmentPagerAdapter.makeFragmentName(binding.viewPager.getId(), getItemId(currentPosition));
     }
 
     @Override
@@ -231,6 +231,6 @@ public class OnboardingActivity extends SyncBackendSetupActivity {
 
   @Override
   protected int getSnackbarContainerId() {
-    return R.id.viewpager;
+    return binding.viewPager.getId();
   }
 }

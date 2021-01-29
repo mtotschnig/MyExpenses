@@ -176,7 +176,7 @@ public class EditCurrencyDialog extends BaseDialogFragment {
 
   private int readFractionDigitsFromUI() {
     try {
-      return Integer.parseInt(binding.edtCurrencyCode.getText().toString());
+      return Integer.parseInt(binding.edtCurrencyFractionDigits.getText().toString());
     } catch (NumberFormatException e) {
       return -1;
     }

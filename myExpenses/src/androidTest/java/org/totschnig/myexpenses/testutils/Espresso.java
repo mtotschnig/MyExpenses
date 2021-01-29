@@ -6,13 +6,9 @@ import android.view.View;
 
 import org.hamcrest.Matcher;
 
-import java.util.concurrent.TimeoutException;
-
-import androidx.test.espresso.PerformException;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.espresso.util.HumanReadables;
 import androidx.test.espresso.util.TreeIterables;
 import androidx.test.platform.app.InstrumentationRegistry;
 
@@ -94,56 +90,16 @@ public class Espresso {
     }
   }
 
-  private static final Matcher<View> localizedContextualOverFlowButtonMatcher(Context context) {
+  private static Matcher<View> localizedContextualOverFlowButtonMatcher(Context context) {
     return allOf(localizedOverFlowButtonMatcher(context), isDescendantOfA(withClassName(endsWith("ActionBarContextView"))));
   }
 
   @SuppressLint("PrivateResource")
-  private static final Matcher<View> localizedOverFlowButtonMatcher(Context context) {
+  private static Matcher<View> localizedOverFlowButtonMatcher(Context context) {
     return anyOf(
         allOf(isDisplayed(), withContentDescription(context.getString(
             androidx.appcompat.R.string.abc_action_menu_overflow_description))),
         allOf(isDisplayed(), withClassName(endsWith("OverflowMenuButton"))));
-  }
-
-  public static ViewAction wait(Matcher<View> viewMatcher, final long millis) {
-    return new ViewAction() {
-      @Override
-      public Matcher<View> getConstraints() {
-        return isRoot();
-      }
-
-      @Override
-      public String getDescription() {
-        return "wait for a specific view <" + viewMatcher.toString() + "> during " + millis + " millis.";
-      }
-
-      @Override
-      public void perform(final UiController uiController, final View view) {
-        uiController.loopMainThreadUntilIdle();
-        final long startTime = System.currentTimeMillis();
-        final long endTime = startTime + millis;
-
-        do {
-          for (View child : TreeIterables.breadthFirstViewTraversal(view)) {
-            // found view with required ID
-            if (viewMatcher.matches(child)) {
-              return;
-            }
-          }
-
-          uiController.loopMainThreadForAtLeast(50);
-        }
-        while (System.currentTimeMillis() < endTime);
-
-        // timeout happens
-        throw new PerformException.Builder()
-            .withActionDescription(this.getDescription())
-            .withViewDescription(HumanReadables.describe(view))
-            .withCause(new TimeoutException())
-            .build();
-      }
-    };
   }
 
   public static Matcher<View> withIdAndParent(final int id, final int parentId) {

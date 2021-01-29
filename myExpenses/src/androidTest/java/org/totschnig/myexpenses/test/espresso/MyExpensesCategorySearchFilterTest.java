@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.testutils.BaseUiTest;
 import org.totschnig.myexpenses.testutils.Matchers;
 
 import java.util.Currency;
+import java.util.concurrent.TimeoutException;
 
 import androidx.test.espresso.matcher.CursorMatchers;
 import androidx.test.espresso.matcher.ViewMatchers;
@@ -79,7 +80,7 @@ public final class MyExpensesCategorySearchFilterTest extends BaseUiTest {
   }
 
   @Before
-  public void startSearch() {
+  public void startSearch() throws TimeoutException {
     waitForAdapter();
     allLabelsAreDisplayed();
     onView(withId(R.id.SEARCH_COMMAND)).perform(click());

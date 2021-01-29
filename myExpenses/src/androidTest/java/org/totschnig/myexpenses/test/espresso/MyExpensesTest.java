@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -63,7 +64,6 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertTrue;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 public final class MyExpensesTest extends BaseUiTest {
@@ -96,8 +96,8 @@ public final class MyExpensesTest extends BaseUiTest {
         .check(matches(isDisplayed()));
 
     FragmentPagerAdapter adapter =
-        (FragmentPagerAdapter) ((ViewPager) activity.findViewById(R.id.viewpager)).getAdapter();
-    assertTrue(adapter != null);
+        (FragmentPagerAdapter) ((ViewPager) activity.findViewById(R.id.viewPager)).getAdapter();
+    Assert.assertNotNull(adapter);
     assertEquals(adapter.getCount(), 1);
   }
 
@@ -138,9 +138,6 @@ public final class MyExpensesTest extends BaseUiTest {
 
   /**
    * Call a menu item and verify that a message is shown in dialog
-   * @param menuItemId
-   * @param menuTextResId
-   * @param messageResId
    */
   private void testInActiveItemHelper(int menuItemId, int menuTextResId, int messageResId) {
     clickMenuItem(menuItemId, menuTextResId);
@@ -162,7 +159,7 @@ public final class MyExpensesTest extends BaseUiTest {
   public void openDrawer() {
     try {
       onView(withId(R.id.drawer)).perform(DrawerActions.open());
-    } catch (NoMatchingViewException e) { /*drawerless layout*/ }
+    } catch (NoMatchingViewException e) { /*drawerLess layout*/ }
   }
 
   @Test
@@ -170,7 +167,7 @@ public final class MyExpensesTest extends BaseUiTest {
     openDrawer();
     onData(anything()).inAdapterView(allOf(
         isAssignableFrom(AdapterView.class),
-        isDescendantOfA(withId(R.id.left_drawer)),
+        isDescendantOfA(withId(R.id.accountList)),
         isDisplayed()))
         .atPosition(0)
         .perform(longClick());
@@ -180,14 +177,14 @@ public final class MyExpensesTest extends BaseUiTest {
 
   @Test
   public void deleteConfirmationDialogDeleteButtonDeletes() throws InterruptedException {
-    // only if there are two accounts, the delete functionality is availalbe
+    // only if there are two accounts, the delete functionality is available
     Account account2 = new Account("Test account 2", 0, "");
     account2.save();
     Thread.sleep(500);
     openDrawer();
     onData(CursorMatchers.withRowLong(DatabaseConstants.KEY_ROWID, account2.getId()))
         .inAdapterView(allOf(isAssignableFrom(AdapterView.class),
-            isDescendantOfA(withId(R.id.left_drawer)),
+            isDescendantOfA(withId(R.id.accountList)),
             isDisplayed()))
         .perform(longClick());
     onView(withText(R.string.menu_delete)).perform(click());
@@ -206,13 +203,13 @@ public final class MyExpensesTest extends BaseUiTest {
 
   @Test
   public void deleteConfirmationDialogCancelButtonCancels() throws RemoteException, OperationApplicationException {
-    // only if there are two accounts, the delete functionality is availalbe
+    // only if there are two accounts, the delete functionality is available
     Account account2 = new Account("Test account 2", 0, "");
     account2.save();
     openDrawer();
     onData(CursorMatchers.withRowLong(DatabaseConstants.KEY_ROWID, account2.getId()))
         .inAdapterView(allOf(isAssignableFrom(AdapterView.class),
-            isDescendantOfA(withId(R.id.left_drawer)),
+            isDescendantOfA(withId(R.id.accountList)),
             isDisplayed()))
         .perform(longClick());
     onView(withText(R.string.menu_delete)).perform(click());
@@ -235,11 +232,11 @@ public final class MyExpensesTest extends BaseUiTest {
     Account account2 = new Account(label2, 0, "");
     account2.save();
 
-    //we try to delete acccount 1
+    //we try to delete account 1
     openDrawer();
     onData(CursorMatchers.withRowLong(DatabaseConstants.KEY_ROWID, account1.getId()))
         .inAdapterView(allOf(isAssignableFrom(AdapterView.class),
-            isDescendantOfA(withId(R.id.left_drawer)),
+            isDescendantOfA(withId(R.id.accountList)),
             isDisplayed()))
         .perform(longClick());
     onView(withText(R.string.menu_delete)).perform(click());
@@ -248,11 +245,11 @@ public final class MyExpensesTest extends BaseUiTest {
         isAssignableFrom(Button.class),
         withText(android.R.string.cancel))).perform(click());
 
-    //we try to delete acccount 2
+    //we try to delete account 2
     openDrawer();
     onData(CursorMatchers.withRowLong(DatabaseConstants.KEY_ROWID, account2.getId()))
         .inAdapterView(allOf(isAssignableFrom(AdapterView.class),
-            isDescendantOfA(withId(R.id.left_drawer)),
+            isDescendantOfA(withId(R.id.accountList)),
             isDisplayed()))
         .perform(longClick());
     onView(withText(R.string.menu_delete)).perform(click());

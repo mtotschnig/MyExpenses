@@ -2,9 +2,7 @@ package org.totschnig.myexpenses.activity;
 
 import android.os.Bundle;
 
-import com.google.android.material.tabs.TabLayout;
-
-import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.databinding.ActivityWithTabsBinding;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
 
 import java.util.ArrayList;
@@ -14,11 +12,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 
 public abstract class TabbedActivity extends ProtectedFragmentActivity {
-  protected TabLayout mTabLayout;
-  protected ViewPager mViewPager;
+  protected ActivityWithTabsBinding binding;
   /**
    * The {@link PagerAdapter} that will provide
    * fragments for each of the sections. We use a
@@ -29,26 +25,20 @@ public abstract class TabbedActivity extends ProtectedFragmentActivity {
    */
   SectionsPagerAdapter mSectionsPagerAdapter;
 
-  protected int getLayoutRessourceId() {
-    return R.layout.activity_with_tabs;
-  }
-
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(getLayoutRessourceId());
+    binding = ActivityWithTabsBinding.inflate(getLayoutInflater());
+    setContentView(binding.getRoot());
     setupToolbar(true);
 
-    mViewPager = findViewById(R.id.viewpager);
-
     mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-    mTabLayout = findViewById(R.id.tabs);
 
     setupTabs();
 
-    mViewPager.setAdapter(mSectionsPagerAdapter);
+    binding.viewPager.setAdapter(mSectionsPagerAdapter);
 
-    mTabLayout.setupWithViewPager(mViewPager);
+    binding.tabs.setupWithViewPager(binding.viewPager);
   }
 
   protected abstract void setupTabs();
@@ -91,12 +81,12 @@ public abstract class TabbedActivity extends ProtectedFragmentActivity {
       //http://stackoverflow.com/questions/7379165/update-data-in-listfragment-as-part-of-viewpager
       //would call this function if it were visible
       //return makeFragmentName(R.id.viewpager_main,currentPosition);
-      return "android:switcher:"+ R.id.viewpager+":"+getItemId(currentPosition);
+      return "android:switcher:" + binding.viewPager.getId() + ":" + getItemId(currentPosition);
     }
   }
 
   @Override
   protected int getSnackbarContainerId() {
-    return R.id.viewpager;
+    return binding.viewPager.getId();
   }
 }
