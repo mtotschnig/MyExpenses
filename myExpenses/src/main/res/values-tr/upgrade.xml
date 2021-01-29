@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_323">
+        <item>Tarih düğmesi önceki ve sonraki güne çabuk geçmeye izin verir.</item>
+    </string-array>
     <string-array name="whats_new_322">
         <item>Grup başlıklarında harcama, gelir ve transfer toplamları gizlenebilir.</item>
         <item>Yeni bir değer ile güncel bakiye arasındaki fark hesaplanabilir.</item>
