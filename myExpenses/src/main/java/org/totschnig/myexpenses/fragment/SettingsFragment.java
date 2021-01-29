@@ -245,6 +245,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
         return false;
       };
 
+  //TODO: these settings need to be authoritatvely stored in Database, instead of just mirrored
   private final Preference.OnPreferenceChangeListener storeInDatabaseChangeListener =
       (preference, newValue) -> {
         activity().startTaskExecution(TaskExecutionFragment.TASK_STORE_SETTING,

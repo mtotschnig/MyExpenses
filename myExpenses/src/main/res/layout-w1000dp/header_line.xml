@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layoutDirection="locale"
+    android:paddingStart="@dimen/padding_main_screen"
+    android:paddingTop="@dimen/list_header_vertical_padding"
+    android:paddingEnd="@dimen/padding_main_screen"
+    tools:ignore="UnusedAttribute">
+
+    <TextView
+        android:id="@+id/text"
+        style="@style/headingStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        tools:text="GROUP_TITLE LONG QUITE LONG VERY LONG TOO LONG" />
+
+    <TextView
+        android:id="@+id/interim_balance"
+        style="@style/headingStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="end"
+        tools:text="INTERIM_BALANCE EVERYTHING YOU NEED TO KNOW" />
+
+</LinearLayout>

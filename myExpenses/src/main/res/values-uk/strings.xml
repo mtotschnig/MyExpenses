@@ -559,7 +559,6 @@
     <string name="exchange_rate">Курс обміну валюти</string>
     <string name="date_format_hour">Година</string>
     <string name="date_format_minute">Хвилина</string>
-    <string name="copied_to_clipboard">Скопійовано в буфер обміну</string>
     <string name="menu_sort">Сортувати за</string>
     <string name="pref_sort_order_last_used">Останнє користування</string>
     <string name="pref_sort_order_custom">Персоналізований</string>

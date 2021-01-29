@@ -15,6 +15,8 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SET_ACCOUNT_HIDDEN;
 
 public class SelectHiddenAccountDialogFragment extends SelectMultipleDialogFragment {
@@ -32,11 +34,13 @@ public class SelectHiddenAccountDialogFragment extends SelectMultipleDialogFragm
     return R.string.menu_hidden_accounts;
   }
 
+  @NonNull
   @Override
   Uri getUri() {
     return TransactionProvider.ACCOUNTS_URI;
   }
 
+  @NonNull
   @Override
   String getColumn() {
     return DatabaseConstants.KEY_LABEL;

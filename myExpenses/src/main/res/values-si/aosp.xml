@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="drawer_open">"සංචාලන ඇදීම විවෘත කරන්න"</string>
+    <string name="drawer_close">"සංචාලන ඇදීම වසන්න"</string>
+    <string name="toast_text_copied">"පෙළ පිටපත් කරන ලදී"</string>
+    <string name="copy_text">"පසුරු පුවරුවට පිටපත් කරන්න"</string>
+</resources>

@@ -1,7 +1,9 @@
 package org.totschnig.myexpenses.model;
 
+import androidx.annotation.NonNull;
+
 public interface CurrencyContext {
-  CurrencyUnit get(String currencyCode);
+  @NonNull CurrencyUnit get(@NonNull String currencyCode);
 
   void storeCustomFractionDigits(String currencyCode, int fractionDigits);
 

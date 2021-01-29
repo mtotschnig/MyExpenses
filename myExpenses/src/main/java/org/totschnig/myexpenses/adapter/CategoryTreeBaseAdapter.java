@@ -20,12 +20,11 @@ import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.viewmodel.data.Category;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import androidx.annotation.NonNull;
 import androidx.collection.LongSparseArray;
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import androidx.viewbinding.ViewBinding;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
@@ -38,10 +37,10 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM;
 import static org.totschnig.myexpenses.util.ColorUtils.getShades;
 import static org.totschnig.myexpenses.util.ColorUtils.getTints;
 
-public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter {
+public abstract class CategoryTreeBaseAdapter<ROWBINDING extends ViewBinding> extends BaseExpandableListAdapter {
   protected final CurrencyUnit currency;
   private List<Category> mainCategories = new ArrayList<>();
-  private SparseArray<List<Integer>> subColorMap = new SparseArray<>();
+  private final SparseArray<List<Integer>> subColorMap = new SparseArray<>();
   final Context context;
   private final LayoutInflater inflater;
   protected final CurrencyFormatter currencyFormatter;
@@ -67,7 +66,7 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
   }
 
   public List<Category> getMainCategories() {
-    return mainCategories;
+    return Collections.unmodifiableList(mainCategories);
   }
 
   public List<Category> getSubCategories(int groupPosition) {
@@ -111,7 +110,7 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
   public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
     final Category item = getGroup(groupPosition);
     final View view = getView(item, null, convertView, parent, withMainColors ? item.color : 0, item.icon);
-    ImageView indicator = ((ViewHolder) view.getTag()).groupIndicator;
+    ImageView indicator = groupIndicator((ViewHolder) view.getTag());
     if (getChildrenCount(groupPosition) == 0) {
       indicator.setImageResource(R.drawable.expander_empty);
       indicator.setContentDescription("No children");
@@ -133,32 +132,36 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
       color = subColors.get(childPosition % subColors.size());
     }
     final View view = getView(item, parentCat, convertView, parent, color, item.icon);
-    ((ViewHolder) view.getTag()).groupIndicator.setVisibility(View.INVISIBLE);
+    groupIndicator((ViewHolder) view.getTag()).setVisibility(View.INVISIBLE);
     return view;
   }
 
   protected View getView(Category item, Category parentItem, View convertView, ViewGroup parent, int color, String icon) {
     ViewHolder holder;
     if (convertView == null) {
-      convertView = inflater.inflate(getLayoutResourceId(), parent, false);
-      holder = getHolder(convertView);
+      final ROWBINDING binding = getViewBinding(inflater, parent);
+      convertView = binding.getRoot();
+      holder = new ViewHolder(binding);
       convertView.setTag(holder);
     } else {
       holder = (ViewHolder) convertView.getTag();
     }
-    holder.label.setText(item.label);
-    holder.label.setTypeface(holder.label.getTypeface(), parentItem == null ? Typeface.BOLD : Typeface.NORMAL);
+    TextView label = label(holder);
+    label.setText(item.label);
+    label.setTypeface(label.getTypeface(), parentItem == null ? Typeface.BOLD : Typeface.NORMAL);
     if (item.sum != null && currency != null) {
-      holder.amount.setText(currencyFormatter.convAmount(item.sum, currency));
+      amount(holder).setText(currencyFormatter.convAmount(item.sum, currency));
     }
-    holder.icon.setImageResource(icon != null ? context.getResources().getIdentifier(icon, "drawable", context.getPackageName()) : 0);
+    icon(holder).setImageResource(icon != null ? context.getResources().getIdentifier(icon, "drawable", context.getPackageName()) : 0);
     return convertView;
   }
 
-  protected abstract int getLayoutResourceId();
+  abstract TextView label(ViewHolder viewHolder);
+  abstract TextView amount(ViewHolder viewHolder);
+  abstract ImageView groupIndicator(ViewHolder viewHolder);
+  abstract ImageView icon(ViewHolder viewHolder);
 
-  @NonNull
-  protected abstract ViewHolder getHolder(View convertView);
+  protected abstract ROWBINDING getViewBinding(LayoutInflater inflater, ViewGroup parent);
 
   @Override
   public boolean isChildSelectable(int groupPosition, int childPosition) {
@@ -167,8 +170,6 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
 
   /**
    * This method expects the main categories to be sorted first
-   *
-   * @param cursor
    */
   public void ingest(Cursor cursor) {
     if (cursor != null) {
@@ -186,7 +187,7 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
         final int columnIndexBudget = cursor.getColumnIndex(KEY_BUDGET);
         final int columnIndexMapBudgets = cursor.getColumnIndex(KEY_MAPPED_BUDGETS);
         final int columnIndexColor = cursor.getColumnIndex(KEY_COLOR);
-        final int columIndexIcon = cursor.getColumnIndex(KEY_ICON);
+        final int columnIndexIcon = cursor.getColumnIndex(KEY_ICON);
         while (cursor.moveToNext()) {
           final long id = cursor.getLong(columnIndexRowId);
           final Long parentId = DbUtils.getLongOrNull(cursor, columnIndexParentId);
@@ -195,7 +196,7 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
               columnIndexSum == -1 ? null : cursor.getLong(columnIndexSum),
               columnIndexMapBudgets == -1 ? null : cursor.getInt(columnIndexMapBudgets) > 0,
               cursor.getInt(columnIndexColor),
-              columnIndexBudget == -1 ? null : cursor.getLong(columnIndexBudget), cursor.getString(columIndexIcon));
+              columnIndexBudget == -1 ? null : cursor.getLong(columnIndexBudget), cursor.getString(columnIndexIcon));
           if (parentId == null) {
             newList.add(category);
             positionMap.put(id, position);
@@ -231,18 +232,10 @@ public abstract class CategoryTreeBaseAdapter extends BaseExpandableListAdapter 
     notifyDataSetChanged();
   }
 
-  static class ViewHolder {
-    @BindView(R.id.label)
-    TextView label;
-    @BindView(R.id.amount)
-    TextView amount;
-    @BindView(R.id.explist_indicator)
-    ImageView groupIndicator;
-    @BindView(R.id.category_icon)
-    ImageView icon;
-
-    ViewHolder(View view) {
-      ButterKnife.bind(this, view);
+  class ViewHolder {
+    ROWBINDING binding;
+    ViewHolder(ROWBINDING binding) {
+      this.binding = binding;
     }
   }
 

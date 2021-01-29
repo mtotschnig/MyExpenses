@@ -20,6 +20,18 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="headingStyle.Expense">
+        <item name="android:textColor">@color/colorExpense</item>
+    </style>
+
+    <style name="headingStyle.Income">
+        <item name="android:textColor">@color/colorIncome</item>
+    </style>
+
+    <style name="headingStyle.Transfer">
+        <item name="android:textColor">@color/colorTransfer</item>
+    </style>
+
     <style name="headingStyle.WithMargin">
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:layout_marginBottom">8dp</item>

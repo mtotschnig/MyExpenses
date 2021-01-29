@@ -94,12 +94,12 @@ public class Espresso {
     }
   }
 
-  private static final Matcher<View> localizedContextualOverFlowButtonMatcher(Context context) {
+  private static Matcher<View> localizedContextualOverFlowButtonMatcher(Context context) {
     return allOf(localizedOverFlowButtonMatcher(context), isDescendantOfA(withClassName(endsWith("ActionBarContextView"))));
   }
 
   @SuppressLint("PrivateResource")
-  private static final Matcher<View> localizedOverFlowButtonMatcher(Context context) {
+  private static Matcher<View> localizedOverFlowButtonMatcher(Context context) {
     return anyOf(
         allOf(isDisplayed(), withContentDescription(context.getString(
             androidx.appcompat.R.string.abc_action_menu_overflow_description))),
@@ -108,14 +108,15 @@ public class Espresso {
 
   public static ViewAction wait(Matcher<View> viewMatcher, final long millis) {
     return new ViewAction() {
+
       @Override
       public Matcher<View> getConstraints() {
-        return isRoot();
+        return isDisplayed();
       }
 
       @Override
       public String getDescription() {
-        return "wait for a specific view <" + viewMatcher.toString() + "> during " + millis + " millis.";
+        return "wait for matcher <" + viewMatcher.toString() + "> during " + millis + " millis.";
       }
 
       @Override
@@ -125,11 +126,8 @@ public class Espresso {
         final long endTime = startTime + millis;
 
         do {
-          for (View child : TreeIterables.breadthFirstViewTraversal(view)) {
-            // found view with required ID
-            if (viewMatcher.matches(child)) {
-              return;
-            }
+          if (viewMatcher.matches(view)) {
+            return;
           }
 
           uiController.loopMainThreadForAtLeast(50);

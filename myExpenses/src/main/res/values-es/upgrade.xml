@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_321">
+        <item>El reconocimiento de texto ahora funciona con más idiomas.</item>
+    </string-array>
     <string-array name="whats_new_320">
         <item>Se pueden recortar imágenes.</item>
     </string-array>

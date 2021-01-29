@@ -19,6 +19,7 @@ import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.OperationApplicationException;
 import android.content.UriMatcher;
 import android.database.Cursor;
@@ -371,7 +372,9 @@ public class TransactionProvider extends BaseTransactionProvider {
         } else {
           amountCalculation = DatabaseConstants.getAmountHomeEquivalent(VIEW_WITH_ACCOUNT);
         }
-        final String sumColumn = "abs(sum(" + amountCalculation + ")) as  " + KEY_SUM;
+        String sumExpression = "sum(" + amountCalculation + ")";
+        if (groupByType) sumExpression = "abs(" + sumExpression + ")";
+        final String sumColumn = sumExpression + " as  " + KEY_SUM;
         projection = groupByType ? new String[]{KEY_AMOUNT + " > 0 as " + KEY_TYPE, sumColumn} : new String[]{sumColumn};
         break;
       }
@@ -787,14 +790,14 @@ public class TransactionProvider extends BaseTransactionProvider {
       case METHODS:
         qb.setTables(TABLE_METHODS);
         if (projection == null) {
-          projection = PaymentMethod.PROJECTION(getContext());
+          projection = PaymentMethod.PROJECTION(wrappedContext());
         }
         if (sortOrder == null) {
-          sortOrder = PaymentMethod.localizedLabelSqlColumn(getContext(), KEY_LABEL) + " COLLATE LOCALIZED";
+          sortOrder = PaymentMethod.localizedLabelSqlColumn(wrappedContext(), KEY_LABEL) + " COLLATE LOCALIZED";
         }
         break;
       case MAPPED_METHODS:
-        String localizedLabel = PaymentMethod.localizedLabelSqlColumn(getContext(), KEY_LABEL);
+        String localizedLabel = PaymentMethod.localizedLabelSqlColumn(wrappedContext(), KEY_LABEL);
         qb.setTables(TABLE_METHODS + " JOIN " + TABLE_TRANSACTIONS + " ON (" + KEY_METHODID + " = " + TABLE_METHODS + "." + KEY_ROWID + ")");
         projection = new String[]{"DISTINCT " + TABLE_METHODS + "." + KEY_ROWID, localizedLabel + " AS " + KEY_LABEL};
         if (sortOrder == null) {
@@ -804,11 +807,11 @@ public class TransactionProvider extends BaseTransactionProvider {
       case METHOD_ID:
         qb.setTables(TABLE_METHODS);
         if (projection == null)
-          projection = PaymentMethod.PROJECTION(getContext());
+          projection = PaymentMethod.PROJECTION(wrappedContext());
         qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
         break;
       case METHODS_FILTERED:
-        localizedLabel = PaymentMethod.localizedLabelSqlColumn(getContext(), KEY_LABEL);
+        localizedLabel = PaymentMethod.localizedLabelSqlColumn(wrappedContext(), KEY_LABEL);
         qb.setTables(TABLE_METHODS + " JOIN " + TABLE_ACCOUNTTYES_METHODS + " ON (" + KEY_ROWID + " = " + KEY_METHODID + ")");
         projection = new String[]{KEY_ROWID, localizedLabel + " AS " + KEY_LABEL, KEY_IS_NUMBERED};
         String paymentType = uri.getPathSegments().get(2);
@@ -995,6 +998,10 @@ public class TransactionProvider extends BaseTransactionProvider {
     }
     c.setNotificationUri(getContext().getContentResolver(), uri);
     return c;
+  }
+
+  private Context wrappedContext() {
+    return ContextHelper.wrap(getContext(), userLocaleProvider.getUserPreferredLocale());
   }
 
   @Override
@@ -1777,7 +1784,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case METHOD_SETUP_CATEGORIES: {
         Bundle result = new Bundle(1);
-        result.putInt(KEY_RESULT, DbUtils.setupDefaultCategories(mOpenHelper.getWritableDatabase(), ContextHelper.wrap(getContext(), userLocaleProvider.getUserPreferredLocale())));
+        result.putInt(KEY_RESULT, DbUtils.setupDefaultCategories(mOpenHelper.getWritableDatabase(), wrappedContext()));
         notifyChange(CATEGORIES_URI, false);
         return result;
       }

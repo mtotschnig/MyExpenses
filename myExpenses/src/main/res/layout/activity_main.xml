@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.drawerlayout.widget.DrawerLayout xmlns:tools="http://schemas.android.com/tools"
+    <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawer"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -20,12 +20,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <include layout="@layout/viewpager_main" />
+                <include android:id="@+id/viewPagerMain" layout="@layout/viewpager_main" />
 
                 <include layout="@layout/floating_action_button" />
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
         </LinearLayout>
         <!-- The navigation drawer -->
-        <include layout="@layout/account_list" />
+        <include android:id="@+id/accountPanel" layout="@layout/account_list" />
     </androidx.drawerlayout.widget.DrawerLayout>
 </FrameLayout>

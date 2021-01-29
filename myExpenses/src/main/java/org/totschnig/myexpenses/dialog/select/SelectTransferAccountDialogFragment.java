@@ -22,6 +22,8 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.Criteria;
 import org.totschnig.myexpenses.provider.filter.TransferCriteria;
 
+import androidx.annotation.NonNull;
+
 public class SelectTransferAccountDialogFragment extends SelectFromMappedTableDialogFragment
 {
 
@@ -34,18 +36,20 @@ public class SelectTransferAccountDialogFragment extends SelectFromMappedTableDi
     return R.string.search_transfer;
   }
 
+  @NonNull
   @Override
   Uri getUri() {
     return TransactionProvider.MAPPED_TRANSFER_ACCOUNTS_URI;
   }
 
-  public static final SelectTransferAccountDialogFragment newInstance(long rowId) {
+  public static SelectTransferAccountDialogFragment newInstance(long rowId) {
     SelectTransferAccountDialogFragment dialogFragment = new SelectTransferAccountDialogFragment();
-    setArguments(dialogFragment, rowId);
+    dialogFragment.setArguments(rowId);
     return dialogFragment;
   }
+  @NonNull
   @Override
-  protected Criteria makeCriteria(String label, long... ids) {
+  protected Criteria makeCriteria(@NonNull String label, @NonNull long... ids) {
     return new TransferCriteria(label, ids);
   }
 }

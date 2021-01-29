@@ -28,7 +28,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +39,7 @@ import org.jetbrains.annotations.NotNull;
 import org.threeten.bp.LocalDate;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.CurrencyAdapter;
+import org.totschnig.myexpenses.databinding.OneAccountBinding;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.Account;
@@ -64,10 +64,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.lifecycle.ViewModelProviders;
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import androidx.lifecycle.ViewModelProvider;
 import eltos.simpledialogfragment.SimpleDialog;
 import eltos.simpledialogfragment.color.SimpleColorDialog;
 
@@ -84,30 +81,7 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_UNLI
 public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host,
     OnItemSelectedListener, ContribIFace, SimpleDialog.OnDialogResultListener {
 
-  @BindView(R.id.AmountLabel)
-  protected TextView amountLabel;
-  @BindView(R.id.AmountRow)
-  ViewGroup amountRow;
-  @BindView(R.id.ERR)
-  ViewGroup exchangeRateRow;
-  @BindView(R.id.Amount)
-  AmountInput amountInput;
-  @BindView(R.id.ExchangeRate)
-  ExchangeRateEdit exchangeRateEdit;
-  @BindView(R.id.Label)
-  EditText mLabelText;
-  @BindView(R.id.Description)
-  EditText mDescriptionText;
-  @BindView(R.id.ColorIndicator)
-  AppCompatButton mColorIndicator;
-  @BindView(R.id.SyncUnlink)
-  View syncUnlink;
-  @BindView(R.id.SyncHelp)
-  View syncHelp;
-  @BindView(R.id.CriterionLabel)
-  TextView criterionLabel;
-  @BindView(R.id.Criterion)
-  AmountInput criterion;
+  private OneAccountBinding binding;
 
   private SpinnerHelper mCurrencySpinner, mAccountTypeSpinner, mSyncSpinner;
   private Account mAccount;
@@ -137,12 +111,10 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
-    setContentView(R.layout.one_account);
+    binding = OneAccountBinding.inflate(getLayoutInflater());
+    setContentView(binding.getRoot());
     setupToolbar();
-    currencyViewModel = ViewModelProviders.of(this).get(CurrencyViewModel.class);
-
-    ButterKnife.bind(this);
+    currencyViewModel = new ViewModelProvider(this).get(CurrencyViewModel.class);
 
     Bundle extras = getIntent().getExtras();
     long rowId = extras != null ? extras.getLong(DatabaseConstants.KEY_ROWID) : 0;
@@ -155,12 +127,12 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
     if (rowId != 0) {
       mNewInstance = false;
       setTitle(R.string.menu_edit_account);
-      mLabelText.setText(mAccount.getLabel());
-      mDescriptionText.setText(mAccount.description);
+      binding.Label.setText(mAccount.getLabel());
+      binding.Description.setText(mAccount.description);
     } else {
       setTitle(R.string.menu_create_account);
     }
-    configureforCurrrency(mAccount.getCurrencyUnit());
+    configureForCurrrency(mAccount.getCurrencyUnit());
 
     mCurrencySpinner = new SpinnerHelper(findViewById(R.id.Currency));
     currencyAdapter = new CurrencyAdapter(this, android.R.layout.simple_spinner_item);
@@ -189,7 +161,7 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
 
   private void updateCriterionLabel() {
     int criterionLabel;
-    switch (criterion.getTypedValue().compareTo(BigDecimal.ZERO)) {
+    switch (binding.Criterion.getTypedValue().compareTo(BigDecimal.ZERO)) {
       case 1:
         criterionLabel = R.string.saving_goal;
         break;
@@ -199,7 +171,7 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
       default:
         criterionLabel = R.string.goal_or_limit;
     }
-    this.criterionLabel.setText(criterionLabel);
+    binding.CriterionLabel.setText(criterionLabel);
   }
 
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -223,10 +195,10 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
       if (position > -1) {
         mSyncSpinner.setSelection(position);
         mSyncSpinner.setEnabled(false);
-        syncUnlink.setVisibility(View.VISIBLE);
+        binding.SyncUnlink.setVisibility(View.VISIBLE);
       }
     } else {
-      syncHelp.setVisibility(View.VISIBLE);
+      binding.SyncHelp.setVisibility(View.VISIBLE);
     }
   }
 
@@ -240,23 +212,23 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
    * populates the input field either from the database or with default value for currency (from Locale)
    */
   private void populateFields() {
-    amountInput.setAmount(mAccount.openingBalance.getAmountMajor());
+    binding.Amount.setAmount(mAccount.openingBalance.getAmountMajor());
     mAccountTypeSpinner.setSelection(mAccount.getType().ordinal());
-    UiUtils.setBackgroundOnButton(mColorIndicator, mAccount.color);
+    UiUtils.setBackgroundOnButton(binding.colorInput.ColorIndicator, mAccount.color);
     final Money criterion = mAccount.getCriterion();
     if (criterion != null) {
-      this.criterion.setAmount(criterion.getAmountMajor());
+      binding.Criterion.setAmount(criterion.getAmountMajor());
       updateCriterionLabel();
     }
   }
 
   private void setExchangeRateVisibility(CurrencyUnit currencyUnit) {
-    String homeCurrencyPref = PrefKey.HOME_CURRENCY.getString(currencyUnit.getCode());
+    String homeCurrencyPref = prefHandler.getString(PrefKey.HOME_CURRENCY, currencyUnit.getCode());
     final boolean isHomeAccount = currencyUnit.getCode().equals(homeCurrencyPref);
-    exchangeRateRow.setVisibility(isHomeAccount ? View.GONE : View.VISIBLE);
+    binding.ERR.getRoot().setVisibility(isHomeAccount ? View.GONE : View.VISIBLE);
     if (!isHomeAccount) {
-      exchangeRateEdit.setCurrencies(currencyUnit, currencyContext.get(homeCurrencyPref));
-      exchangeRateEdit.setRate(new BigDecimal(mAccount.getCurrencyUnit().equals(currencyUnit) ?
+      binding.ERR.ExchangeRate.setCurrencies(currencyUnit, currencyContext.get(homeCurrencyPref));
+      binding.ERR.ExchangeRate.setRate(new BigDecimal(mAccount.getCurrencyUnit().equals(currencyUnit) ?
           mAccount.getExchangeRate() : 1), true);
     }
   }
@@ -264,8 +236,6 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
   /**
    * validates currency (must be code from ISO 4217) and opening balance
    * (a valid float according to the format from the locale)
-   *
-   * @return true upon success, false if validation fails
    */
   protected void saveState() {
     BigDecimal openingBalance = validateAmountInput(true);
@@ -275,25 +245,25 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
     String currency = ((Currency) mCurrencySpinner.getSelectedItem()).getCode();
     mAccount.setCurrency(currencyContext.get(currency));
 
-    label = mLabelText.getText().toString();
+    label = binding.Label.getText().toString();
     if (label.equals("")) {
-      mLabelText.setError(getString(R.string.no_title_given));
+      binding.Label.setError(getString(R.string.no_title_given));
       return;
     }
     mAccount.setLabel(label);
-    mAccount.description = mDescriptionText.getText().toString();
+    mAccount.description = binding.Description.getText().toString();
     mAccount.openingBalance = new Money(mAccount.getCurrencyUnit(), openingBalance);
     mAccount.setType((AccountType) mAccountTypeSpinner.getSelectedItem());
     if (mSyncSpinner.getSelectedItemPosition() > 0) {
       mAccount.setSyncAccountName((String) mSyncSpinner.getSelectedItem());
     }
-    if (!PrefKey.HOME_CURRENCY.getString(currency).equals(currency)) {
-      final BigDecimal rate = exchangeRateEdit.getRate(false);
+    if (!prefHandler.getString(PrefKey.HOME_CURRENCY, currency).equals(currency)) {
+      final BigDecimal rate = binding.ERR.ExchangeRate.getRate(false);
       if (rate != null) {
         mAccount.setExchangeRate(rate.doubleValue());
       }
     }
-    mAccount.setCriterion(criterion.getTypedValue());
+    mAccount.setCriterion(binding.Criterion.getTypedValue());
     //EditActivity.saveState calls DbWriteFragment
     super.saveState();
   }
@@ -311,7 +281,7 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
       case R.id.Currency:
         try {
           String currency = ((Currency) mCurrencySpinner.getSelectedItem()).getCode();
-          configureforCurrrency(currencyContext.get(currency));
+          configureForCurrrency(currencyContext.get(currency));
         } catch (IllegalArgumentException e) {
           //will be reported to user when he tries so safe
         }
@@ -322,9 +292,9 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
     }
   }
 
-  private void configureforCurrrency(CurrencyUnit currencyUnit) {
-    amountInput.setFractionDigits(currencyUnit.getFractionDigits());
-    criterion.setFractionDigits(currencyUnit.getFractionDigits());
+  private void configureForCurrrency(CurrencyUnit currencyUnit) {
+    binding.Amount.setFractionDigits(currencyUnit.getFractionDigits());
+    binding.Criterion.setFractionDigits(currencyUnit.getFractionDigits());
     setExchangeRateVisibility(currencyUnit);
   }
 
@@ -362,7 +332,7 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
         if (r.isSuccess()) {
           mSyncSpinner.setSelection(0);
           mSyncSpinner.setEnabled(true);
-          syncUnlink.setVisibility(View.GONE);
+          binding.SyncUnlink.setVisibility(View.GONE);
         }
         break;
       case TASK_SYNC_CHECK:
@@ -443,16 +413,16 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
   @Override
   protected void setupListeners() {
     super.setupListeners();
-    mLabelText.addTextChangedListener(this);
-    mDescriptionText.addTextChangedListener(this);
+    binding.Label.addTextChangedListener(this);
+    binding.Description.addTextChangedListener(this);
     mAccountTypeSpinner.setOnItemSelectedListener(this);
     mCurrencySpinner.setOnItemSelectedListener(this);
     mSyncSpinner.setOnItemSelectedListener(this);
-    criterion.setTypeChangedListener(type -> {
+    binding.Criterion.setTypeChangedListener(type -> {
       setDirty();
       updateCriterionLabel();
     });
-    criterion.addTextChangedListener(this);
+    binding.Criterion.addTextChangedListener(this);
   }
 
   public void syncUnlink(View view) {
@@ -504,7 +474,7 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
   public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
     if (EDIT_COLOR_DIALOG.equals(dialogTag) && which == BUTTON_POSITIVE) {
       mAccount.color = extras.getInt(SimpleColorDialog.COLOR);
-      UiUtils.setBackgroundOnButton(mColorIndicator, mAccount.color);
+      UiUtils.setBackgroundOnButton(binding.colorInput.ColorIndicator, mAccount.color);
       return true;
     }
     return false;
@@ -519,30 +489,30 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
   @NotNull
   @Override
   public TextView getAmountLabel() {
-    return amountLabel;
+    return binding.AmountLabel;
   }
 
   @NotNull
   @Override
   public ViewGroup getAmountRow() {
-    return amountRow;
+    return binding.AmountRow;
   }
 
   @NotNull
   @Override
   public ViewGroup getExchangeRateRow() {
-    return exchangeRateRow;
+    return binding.ERR.getRoot();
   }
 
   @NotNull
   @Override
   public AmountInput getAmountInput() {
-    return amountInput;
+    return binding.Amount;
   }
 
   @NotNull
   @Override
   public ExchangeRateEdit getExchangeRateEdit() {
-    return exchangeRateEdit;
+    return binding.ERR.ExchangeRate;
   }
 }

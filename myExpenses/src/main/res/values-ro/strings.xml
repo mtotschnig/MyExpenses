@@ -498,7 +498,6 @@
     <string name="exchange_rate">Rata de schimb</string>
     <string name="date_format_hour">Ora</string>
     <string name="date_format_minute">Minutul</string>
-    <string name="copied_to_clipboard">Copiat în clipboard</string>
     <string name="menu_sort">Setează dupa</string>
     <string name="pref_sort_order_last_used">Ultima utilizate</string>
     <string name="pref_sort_order_custom">Custom</string>

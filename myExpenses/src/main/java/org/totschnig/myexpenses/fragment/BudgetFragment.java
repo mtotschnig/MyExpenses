@@ -11,15 +11,19 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ExpandableListView;
 import android.widget.Toast;
 
 import com.annimon.stream.Stream;
 import com.google.android.material.chip.ChipGroup;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.BudgetEdit;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.BudgetAdapter;
+import org.totschnig.myexpenses.databinding.BudgetListBinding;
+import org.totschnig.myexpenses.databinding.BudgetRowBinding;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Money;
@@ -40,8 +44,7 @@ import java.util.Locale;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
-import androidx.lifecycle.ViewModelProviders;
-import butterknife.ButterKnife;
+import androidx.lifecycle.ViewModelProvider;
 import eltos.simpledialogfragment.SimpleDialog;
 import eltos.simpledialogfragment.form.AmountEdit;
 import eltos.simpledialogfragment.form.SimpleFormDialog;
@@ -54,11 +57,12 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.util.MoreUiUtilsKt.addChipsBulk;
 import static org.totschnig.myexpenses.util.TextUtils.appendCurrencySymbol;
 
-public class BudgetFragment extends DistributionBaseFragment implements
+public class BudgetFragment extends DistributionBaseFragment<BudgetRowBinding> implements
     BudgetAdapter.OnBudgetClickListener, SimpleDialog.OnDialogResultListener {
   private Budget budget;
   BudgetSummary budgetSummary;
   ChipGroup filterGroup;
+  private BudgetListBinding binding;
   public static final String EDIT_BUDGET_DIALOG = "EDIT_BUDGET";
   private static final String DELETE_BUDGET_DIALOG = "DELETE_BUDGET";
 
@@ -95,19 +99,35 @@ public class BudgetFragment extends DistributionBaseFragment implements
   }
 
   @Override
+  ExpandableListView getListView() {
+    return binding.list;
+  }
+
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    ((MyApplication) requireActivity().getApplication()).getAppComponent().inject(this);
+    super.onCreate(savedInstanceState);
+  }
+
+  @Override
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.budget_list, container, false);
-    ButterKnife.bind(this, view);
-    budgetSummary = (BudgetSummary) inflater.inflate(R.layout.budget_fragment_summary, mListView, false);
+    binding = BudgetListBinding.inflate(inflater, container, false);
+    budgetSummary = (BudgetSummary) inflater.inflate(R.layout.budget_fragment_summary, getListView(), false);
     budgetSummary.setOnBudgetClickListener(view1 -> onBudgetClick(null, null));
-    filterGroup = (ChipGroup) inflater.inflate(R.layout.budget_filter, mListView, false);
-    registerForContextMenu(mListView);
-    return view;
+    filterGroup = (ChipGroup) inflater.inflate(R.layout.budget_filter, getListView(), false);
+    registerForContextMenu(getListView());
+    return binding.getRoot();
+  }
+
+  @Override
+  public void onDestroyView() {
+    super.onDestroyView();
+    binding = null;
   }
 
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-    viewModel = ViewModelProviders.of(this).get(BudgetViewModel.class);
+    viewModel = new ViewModelProvider(this).get(BudgetViewModel.class);
     viewModel.getBudget().observe(getViewLifecycleOwner(), this::setBudget);
     viewModel.getDatabaseResult().observe(getViewLifecycleOwner(), success -> {
       Activity activity = getActivity();
@@ -253,9 +273,9 @@ public class BudgetFragment extends DistributionBaseFragment implements
     if (mAdapter == null) {
       mAdapter = new BudgetAdapter((ProtectedFragmentActivity) getActivity(), currencyFormatter,
           budget.getCurrency(), this);
-      mListView.addHeaderView(filterGroup, null, false);
-      mListView.addHeaderView(budgetSummary, null, false);
-      mListView.setAdapter(mAdapter);
+      getListView().addHeaderView(filterGroup, null, false);
+      getListView().addHeaderView(budgetSummary, null, false);
+      getListView().setAdapter(mAdapter);
     }
 
     mGrouping = budget.getGrouping();
@@ -291,7 +311,7 @@ public class BudgetFragment extends DistributionBaseFragment implements
 
   @Override
   protected void onDateInfoReceived() {
-    //we fetch dateinfo from database two times, first to get info about current date,
+    //we fetch dateInfo from database two times, first to get info about current date,
     //then we use this info in second run
     if (mGroupingYear == 0) {
       mGroupingYear = dateInfo.getThisYear();
@@ -356,7 +376,7 @@ public class BudgetFragment extends DistributionBaseFragment implements
   }
 
   @Override
-  public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+  public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
     inflater.inflate(R.menu.budget, menu);
   }
 

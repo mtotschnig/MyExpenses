@@ -542,7 +542,6 @@
     <string name="exchange_rate">Kadar pertukaran</string>
     <string name="date_format_hour">Jam</string>
     <string name="date_format_minute">Minit</string>
-    <string name="copied_to_clipboard">Disalin ke papan keratan</string>
     <string name="menu_sort">Isih mengikut</string>
     <string name="pref_sort_order_last_used">Terakhir digunakan</string>
     <string name="pref_sort_order_custom">Suai</string>

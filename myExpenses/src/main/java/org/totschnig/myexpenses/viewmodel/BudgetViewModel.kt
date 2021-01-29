@@ -93,7 +93,7 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
             builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_AGGREGATE_TYPES, "1")
                     .build()
         }
-        val isTotalAccount = budget.accountId == AggregateAccount.HOME_AGGREGATE_ID.toLong()
+        val isTotalAccount = budget.accountId == AggregateAccount.HOME_AGGREGATE_ID
         if (!isTotalAccount) {
             if (budget.accountId < 0) {
                 builder.appendQueryParameter(KEY_CURRENCY, budget.currency.code)

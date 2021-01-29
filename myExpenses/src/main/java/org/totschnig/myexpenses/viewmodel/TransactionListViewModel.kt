@@ -13,6 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.model.Account
+import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model.saveTagLinks
@@ -42,7 +43,9 @@ class TransactionListViewModel(application: Application) : BudgetViewModel(appli
                 .throttleFirst(100, TimeUnit.MILLISECONDS)
                 .subscribe {
                     liveData.postValue(it)
-                    loadBudget(it)
+                    if (ContribFeature.BUDGET.isAvailable(prefHandler)) {
+                        loadBudget(it)
+                    }
                 }
         return@lazyMap liveData
     }

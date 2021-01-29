@@ -551,7 +551,6 @@
     <string name="exchange_rate">Kanbio-tasa</string>
     <string name="date_format_hour">Ordu</string>
     <string name="date_format_minute">Minutu</string>
-    <string name="copied_to_clipboard">Arbelera kopiatu da</string>
     <string name="menu_sort">Ordenatu honela</string>
     <string name="pref_sort_order_last_used">Ezken erabilera</string>
     <string name="pref_sort_order_custom">Pertsonalizatua</string>

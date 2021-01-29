@@ -6,7 +6,7 @@
 		>
   <xsl:output method="xml" encoding="UTF-8"/>
 	<xsl:param name="version" />
-  <xsl:param name="langs" select="'en fr de it es pt tr el eu bg ca cs ru hr ms ja ro pl si ko da iw ta kn'"/>
+  <xsl:param name="langs" select="'en fr de it es pt tr el eu bg ca cs ru hr ms ja ro pl si ko da iw ta kn ar'"/>
 
   <xsl:template match="/">
     <xsl:for-each select="str:tokenize($langs)">
@@ -78,6 +78,7 @@
       <xsl:when test="$lang = 'iw'">iw-IL</xsl:when>
       <xsl:when test="$lang = 'pl'">pl-PL</xsl:when>
       <xsl:when test="$lang = 'ru'">ru-RU</xsl:when>
+      <xsl:when test="$lang = 'pt'">pt-PT</xsl:when>
       <xsl:otherwise><xsl:value-of select="$lang"/></xsl:otherwise>
     </xsl:choose>
   </xsl:template>

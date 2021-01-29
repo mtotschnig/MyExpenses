@@ -16,13 +16,14 @@
  -->
 
 <RelativeLayout
+    android:id="@+id/viewPagerMain"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <include layout="@layout/bannerad"/>
     <androidx.viewpager.widget.ViewPager
         android:layout_below="@id/adContainer"
-        android:id="@+id/viewpager"
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

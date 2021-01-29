@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2011 Google Inc.
+     Licensed to The Android Open Source Project.
+     android-source/packages/apps/UnifiedEmail/res/values/strings.xmlls
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="drawer_open">"Ireki nabigazio-panel lerrakorra"</string>
+    <string name="drawer_close">"Itxi nabigazio-panel lerrakorra"</string>
+    <string name="toast_text_copied">"Testua kopiatu da"</string>
+    <string name="copy_text">"Kopiatu arbelean"</string>
+</resources>
+

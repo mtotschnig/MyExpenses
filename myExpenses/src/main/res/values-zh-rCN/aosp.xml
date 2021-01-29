@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2011 Google Inc.
+     Licensed to The Android Open Source Project.
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="drawer_open">开启导航抽屉</string>
+    <string name="drawer_close">关闭导航抽屉</string>
+    <string name="toast_text_copied">"文本已复制"</string>
+    <string name="copy_text">"复制到剪贴板"</string>
+</resources>
+

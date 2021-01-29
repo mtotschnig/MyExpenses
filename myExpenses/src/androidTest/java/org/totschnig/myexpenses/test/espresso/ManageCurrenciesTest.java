@@ -20,8 +20,8 @@ import org.totschnig.myexpenses.testutils.BaseUiTest;
 import org.totschnig.myexpenses.viewmodel.data.Currency;
 
 import java.math.BigDecimal;
+import java.util.concurrent.TimeoutException;
 
-import androidx.test.filters.FlakyTest;
 import androidx.test.rule.ActivityTestRule;
 
 import static androidx.test.espresso.Espresso.onData;
@@ -45,19 +45,17 @@ public class ManageCurrenciesTest extends BaseUiTest {
   public ActivityTestRule<ManageCurrencies> mActivityRule =
       new ActivityTestRule<>(ManageCurrencies.class);
 
-  @FlakyTest
   @Test
-  public void changeOfFractionDigitsWithUpdateShouldKeepTransactionSum() throws RemoteException, OperationApplicationException {
+  public void changeOfFractionDigitsWithUpdateShouldKeepTransactionSum() throws RemoteException, OperationApplicationException, TimeoutException {
     testHelper(true);
   }
 
-  @FlakyTest
   @Test
-  public void changeOfFractionDigitsWithoutUpdateShouldChangeTransactionSum() throws RemoteException, OperationApplicationException {
+  public void changeOfFractionDigitsWithoutUpdateShouldChangeTransactionSum() throws RemoteException, OperationApplicationException, TimeoutException {
     testHelper(false);
   }
 
-  private void testHelper(boolean withUpdate) throws RemoteException, OperationApplicationException {
+  private void testHelper(boolean withUpdate) throws RemoteException, OperationApplicationException, TimeoutException {
     final AppComponent appComponent = ((MyApplication) mActivityRule.getActivity().getApplicationContext()).getAppComponent();
     CurrencyContext currencyContext = appComponent.currencyContext();
     final CurrencyUnit currencyUnit = currencyContext.get(CURRENCY_CODE);

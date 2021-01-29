@@ -69,7 +69,7 @@ public class AutoFillTest extends BaseDbTest {
   public void testAutoLoadData() {
     final String[] projection = new String[]{KEY_CURRENCY, KEY_AMOUNT, KEY_CATID, CAT_AS_LABEL,
         KEY_COMMENT, KEY_ACCOUNTID, KEY_METHODID};
-    Cursor cursor = mMockResolver.query(
+    Cursor cursor = getMockContentResolver().query(
         ContentUris.withAppendedId(TransactionProvider.AUTOFILL_URI, payeeId),
         projection,
         null,

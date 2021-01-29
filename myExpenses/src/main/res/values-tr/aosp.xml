@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2011 Google Inc.
+     Licensed to The Android Open Source Project.
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="drawer_open">"Gezinme menüsünü aç"</string>
+    <string name="drawer_close">"Gezinme menüsünü kapat"</string>
+    <string name="toast_text_copied">"Metin kopyalandı"</string>
+    <string name="copy_text">"Panoya kopyala"</string>
+</resources>
+

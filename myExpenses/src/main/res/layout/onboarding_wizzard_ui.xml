@@ -1,51 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.android.setupwizardlib.SetupWizardLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/setup_wizard_layout"
+    style="@style/SuwContentFrame"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout="@layout/suw_template"
-    app:suwBackgroundTile="@drawable/bg_tile_teal">
+    android:orientation="vertical">
 
-    <LinearLayout
-        style="@style/SuwContentFrame"
+    <TextView
+        style="@style/OnboardingInputLabel"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        android:labelFor="@id/theme"
+        android:text="@string/pref_ui_theme_title" />
 
-        <TextView
-            style="@style/OnboardingInputLabel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
-            android:layout_marginBottom="0dp"
-            android:labelFor="@id/theme"
-            android:text="@string/pref_ui_theme_title" />
+    <include layout="@layout/onboarding_theme_selection" />
 
-        <include layout="@layout/onboarding_theme_selection" />
+    <TextView
+        style="@style/OnboardingInputLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:labelFor="@id/font_size"
+        android:text="@string/pref_ui_fontsize_title" />
 
-        <TextView
-            style="@style/OnboardingInputLabel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:labelFor="@id/font_size"
-            android:text="@string/pref_ui_fontsize_title" />
+    <SeekBar
+        android:id="@+id/font_size"
+        style="@style/Widget.AppCompat.SeekBar.Discrete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="3" />
 
-        <SeekBar
-            android:id="@+id/font_size"
-            style="@style/Widget.AppCompat.SeekBar.Discrete"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:max="3" />
-
-        <TextView
-            android:id="@+id/font_size_display_name"
-            style="@style/OnBoardingDisplayProperty"
-            android:layout_width="wrap_content"
-            android:layout_height="30sp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            tools:text="System standard" />
-    </LinearLayout>
-</com.android.setupwizardlib.SetupWizardLayout>
+    <TextView
+        android:id="@+id/font_size_display_name"
+        style="@style/OnBoardingDisplayProperty"
+        android:layout_width="wrap_content"
+        android:layout_height="30sp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        tools:text="System standard" />
+</LinearLayout>

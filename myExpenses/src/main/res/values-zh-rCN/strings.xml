@@ -449,7 +449,6 @@
     <string name="exchange_rate">改变汇率</string>
     <string name="date_format_hour">时</string>
     <string name="date_format_minute">分</string>
-    <string name="copied_to_clipboard">复制到剪切板</string>
     <string name="menu_sort">排序</string>
     <string name="pref_sort_order_custom">自定义</string>
     <string name="content_description_calculator">计算器</string>

@@ -555,7 +555,6 @@
     <string name="exchange_rate">Обменен курс</string>
     <string name="date_format_hour">Час</string>
     <string name="date_format_minute">Минути</string>
-    <string name="copied_to_clipboard">Копирано в клипборда</string>
     <string name="menu_sort">Подреди по</string>
     <string name="pref_sort_order_last_used">Последно използван</string>
     <string name="pref_sort_order_custom">Ръчно</string>
@@ -971,4 +970,4 @@
     <string name="ocr_download_info">Възможността за разпознаване на текст се осигурява от външно приложение.</string>
     <!-- %s is replaced with the title of the preference for setting a passphrase for backups (pref_security_export_passphrase_title) -->
     <string name="warning_unencrypted_backup">Въпреки че данните ви са защитени от неоторизиран достъп на това устройство, архивите се създават без криптиране, освен ако не зададете %s.</string>
-</resources>
+    </resources>

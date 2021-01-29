@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.squareup.sqlbrite3.QueryObservable;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.TransactionListDialogFragment;
@@ -33,6 +32,7 @@ import javax.inject.Inject;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.core.util.Pair;
+import androidx.viewbinding.ViewBinding;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 
@@ -73,7 +73,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.getWeek;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart;
 
-public abstract class DistributionBaseFragment extends CategoryList {
+public abstract class DistributionBaseFragment<ROWBINDING extends ViewBinding> extends AbstractCategoryList<ROWBINDING> {
   protected Grouping mGrouping;
   protected boolean isIncome = false;
   int mGroupingYear;
@@ -96,7 +96,6 @@ public abstract class DistributionBaseFragment extends CategoryList {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    MyApplication.getInstance().getAppComponent().inject(this);
     aggregateTypes = prefHandler.getBoolean(getPrefKey(), true);
   }
 

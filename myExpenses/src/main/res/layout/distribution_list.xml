@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -14,14 +13,14 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/distribution_list_inner"/>
+    <include
+        layout="@layout/distribution_list_inner" />
 
     <TextView
         android:id="@+id/empty"
@@ -29,12 +28,12 @@
         android:layout_height="0px"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="@string/no_mapped_transactions"/>
+        android:text="@string/no_mapped_transactions" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#ffffff"/>
+        android:background="#ffffff" />
 
     <LinearLayout
         android:id="@+id/sum_line"
@@ -50,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="∑ : "
-            tools:ignore="HardcodedText"/>
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/sum_income"
@@ -59,7 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="end"
-            tools:text="SUM_INCOME"/>
+            tools:text="SUM_INCOME" />
 
         <TextView
             android:id="@+id/sum_expense"
@@ -68,11 +67,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="end"
-            tools:text="SUM_EXPENSE"/>
+            tools:text="SUM_EXPENSE" />
     </LinearLayout>
 
     <View
         android:id="@+id/BottomLine"
         android:layout_width="match_parent"
-        android:layout_height="4dp"/>
+        android:layout_height="4dp" />
 </LinearLayout>

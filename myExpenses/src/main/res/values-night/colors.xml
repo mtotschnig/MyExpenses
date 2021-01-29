@@ -7,6 +7,7 @@
     <color name="cardHighlightForeground">#40cccccc</color>
     <color name="colorIncome">#00D000</color>
     <color name="colorExpense">#FF5E5E</color>
+    <color name="colorTransfer">#7777FF</color>
     <color name="colorAggregate">@color/material_grey_400</color>
     <color name="caldroid_custom_gridview_background">@color/caldroid_middle_gray</color>
     <color name="caldroid_red_border">@color/caldroid_light_red</color>

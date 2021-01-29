@@ -12,18 +12,13 @@ import org.totschnig.myexpenses.ui.animation.ExpandAnimation;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class ExpansionPanel extends LinearLayout {
   private int contentVisibility;
   private boolean isMeasured;
-  @BindView(R.id.headerIndicator)
   ExpansionHandle headerIndicator;
-  @BindView(R.id.expansionContent)
   View expansionContent;
   @Nullable
-  @BindView(R.id.expansionTrigger)
   View expansionTrigger;
 
   public void setListener(@Nullable Listener listener) {
@@ -53,7 +48,9 @@ public class ExpansionPanel extends LinearLayout {
   @Override
   protected void onFinishInflate() {
     super.onFinishInflate();
-    ButterKnife.bind(this);
+    expansionTrigger = findViewById(R.id.expansionTrigger);
+    expansionContent = findViewById(R.id.expansionContent);
+    headerIndicator = findViewById(R.id.headerIndicator);
     updateIndicator();
     if (hasNoDefaultTransition()) {
       expansionContent.getViewTreeObserver().addOnGlobalLayoutListener(

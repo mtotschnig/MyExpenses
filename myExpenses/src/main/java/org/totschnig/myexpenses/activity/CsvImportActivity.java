@@ -24,12 +24,12 @@ public class CsvImportActivity extends TabbedActivity implements
     ConfirmationDialogFragment.ConfirmationDialogListener {
 
   @State
-  boolean mDataReady = false;
+  boolean dataReady = false;
   @State
   boolean mUsageRecorded = false;
 
-  private void setmDataReady(boolean mDataReady) {
-    this.mDataReady = mDataReady;
+  private void setDataReady() {
+    this.dataReady = true;
     mSectionsPagerAdapter.notifyDataSetChanged();
   }
 
@@ -45,7 +45,7 @@ public class CsvImportActivity extends TabbedActivity implements
   protected void setupTabs() {
     //we only add the first tab, the second one once data has been parsed
     addTab(0);
-    if (mDataReady) {
+    if (dataReady) {
       addTab(1);
     }
   }
@@ -91,15 +91,15 @@ public class CsvImportActivity extends TabbedActivity implements
         if (result != null) {
           ArrayList<CSVRecord> data = (ArrayList<CSVRecord>) result;
           if (!data.isEmpty()) {
-            if (!mDataReady) {
+            if (!dataReady) {
               addTab(1);
-              setmDataReady(true);
+              setDataReady();
             }
             CsvImportDataFragment df = (CsvImportDataFragment) getSupportFragmentManager().findFragmentByTag(
                 mSectionsPagerAdapter.getFragmentName(1));
             if (df != null) {
               df.setData(data);
-              mViewPager.setCurrentItem(1);
+              binding.viewPager.setCurrentItem(1);
             }
             break;
           }
@@ -108,7 +108,6 @@ public class CsvImportActivity extends TabbedActivity implements
         break;
       case TaskExecutionFragment.TASK_CSV_IMPORT:
         Result r = (Result) result;
-        String msg;
         if (r.isSuccess()) {
           if (!mUsageRecorded) {
             recordUsage(ContribFeature.CSV_IMPORT);

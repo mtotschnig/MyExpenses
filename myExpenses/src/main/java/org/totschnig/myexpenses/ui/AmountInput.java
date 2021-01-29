@@ -14,10 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.CurrencyAdapter;
+import org.totschnig.myexpenses.databinding.AmountInputAlternateBinding;
+import org.totschnig.myexpenses.databinding.AmountInputBinding;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.viewmodel.data.Currency;
@@ -30,21 +33,46 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.util.Pair;
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import androidx.viewbinding.ViewBinding;
 
 public class AmountInput extends ConstraintLayout {
-  @BindView(R.id.TaType)
-  CompoundButton typeButton;
-  @BindView(R.id.AmountEditText)
-  AmountEditText amountEditText;
-  @BindView(R.id.Calculator)
-  View calculator;
-  @BindView(R.id.AmountCurrency)
-  AppCompatSpinner currencySpinner;
-  @BindView(R.id.AmountExchangeRate)
-  ExchangeRateEdit exchangeRateEdit;
+  public CompoundButton typeButton() {
+    return (viewBinding instanceof AmountInputAlternateBinding ?
+        ((AmountInputAlternateBinding) viewBinding).TaType :
+        ((AmountInputBinding) viewBinding).TaType)
+        .getRoot();
+  }
 
+  private AmountEditText amountEditText() {
+    return (viewBinding instanceof AmountInputAlternateBinding ?
+        ((AmountInputAlternateBinding) viewBinding).AmountEditText :
+        ((AmountInputBinding) viewBinding).AmountEditText)
+        .getRoot();
+  }
+
+  private ImageView calculator() {
+    return (viewBinding instanceof AmountInputAlternateBinding ?
+        ((AmountInputAlternateBinding) viewBinding).Calculator :
+        ((AmountInputBinding) viewBinding).Calculator)
+        .getRoot();
+  }
+
+  private AppCompatSpinner currencySpinner() {
+    return (viewBinding instanceof AmountInputAlternateBinding ?
+        ((AmountInputAlternateBinding) viewBinding).AmountCurrency :
+        ((AmountInputBinding) viewBinding).AmountCurrency)
+        .getRoot();
+  }
+
+  private ExchangeRateEdit exchangeRateEdit() {
+    return (viewBinding instanceof AmountInputAlternateBinding ?
+        ((AmountInputAlternateBinding) viewBinding).AmountExchangeRate :
+        ((AmountInputBinding) viewBinding).AmountExchangeRate)
+        .getRoot();
+  }
+
+
+  private ViewBinding viewBinding;
   private boolean withTypeSwitch;
   private boolean withCurrencySelection;
   private boolean withExchangeRate;
@@ -80,18 +108,17 @@ public class AmountInput extends ConstraintLayout {
     boolean alternateLayout = ta.getBoolean(R.styleable.AmountInput_alternateLayout, false);
     ta.recycle();
     LayoutInflater inflater = LayoutInflater.from(context);
-    inflater.inflate(alternateLayout ? R.layout.amount_input_alternate : R.layout.amount_input, this, true);
-    ButterKnife.bind(this);
+    viewBinding = alternateLayout ? AmountInputAlternateBinding.inflate(inflater, this) : AmountInputBinding.inflate(inflater, this);
     updateChildContentDescriptions();
     if (withTypeSwitch) {
-      typeButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+      typeButton().setOnCheckedChangeListener((buttonView, isChecked) -> {
         setContentDescriptionForTypeSwitch();
         if (typeChangedListener != null) {
           typeChangedListener.onTypeChanged(isChecked);
         }
       });
     } else {
-      typeButton.setVisibility(View.GONE);
+      typeButton().setVisibility(View.GONE);
     }
     if (withCurrencySelection) {
       currencyAdapter = new CurrencyAdapter(getContext(), android.R.layout.simple_spinner_item) {
@@ -104,14 +131,14 @@ public class AmountInput extends ConstraintLayout {
           return view;
         }
       };
-      currencySpinner.setAdapter(currencyAdapter);
-      currencySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+      currencySpinner().setAdapter(currencyAdapter);
+      currencySpinner().setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-          String currency = ((Currency) currencySpinner.getSelectedItem()).getCode();
+          String currency = ((Currency) currencySpinner().getSelectedItem()).getCode();
           final CurrencyUnit currencyUnit = currencyContext.get(currency);
-          amountEditText.setFractionDigits(currencyUnit.getFractionDigits());
-          exchangeRateEdit.setCurrencies(currencyUnit, null);
+          amountEditText().setFractionDigits(currencyUnit.getFractionDigits());
+          exchangeRateEdit().setCurrencies(currencyUnit, null);
         }
 
         @Override
@@ -120,19 +147,17 @@ public class AmountInput extends ConstraintLayout {
         }
       });
     } else {
-      currencySpinner.setVisibility(View.GONE);
+      currencySpinner().setVisibility(View.GONE);
     }
     if (withExchangeRate) {
-      exchangeRateEdit.setExchangeRateWatcher((rate, inverse) -> {
+      exchangeRateEdit().setExchangeRateWatcher((rate, inverse) -> {
         onCompoundResultOutput();
         onCompoundResultInput();
       });
     } else {
-      exchangeRateEdit.setVisibility(View.GONE);
+      exchangeRateEdit().setVisibility(View.GONE);
     }
-    calculator.setOnClickListener(v -> {
-      getHost().showCalculator(validate(false), getId());
-    });
+    calculator().setOnClickListener(v -> getHost().showCalculator(validate(false), getId()));
     initialized = true;
   }
 
@@ -145,15 +170,15 @@ public class AmountInput extends ConstraintLayout {
   }
 
   public void setExchangeRate(BigDecimal rate) {
-    exchangeRateEdit.setRate(rate, false);
+    exchangeRateEdit().setRate(rate, false);
   }
 
   private void updateChildContentDescriptions() {
-    //Edit Text does not use content description once it holds content. It is hence needed to point a textview
-    //in the neighborhood of this AmountInput directly to amounteditext with android:labelFor="@id/AmountEditText"
+    //Edit Text does not use content description once it holds content. It is hence needed to point a textView
+    //in the neighborhood of this AmountInput directly to amountEdiText with android:labelFor="@id/AmountEditText"
     //setContentDescriptionForChild(amountEditText, null);
-    setContentDescriptionForChild(calculator, getContext().getString(R.string.content_description_calculator));
-    setContentDescriptionForChild(currencySpinner, getContext().getString(R.string.currency));
+    setContentDescriptionForChild(calculator(), getContext().getString(R.string.content_description_calculator));
+    setContentDescriptionForChild(currencySpinner(), getContext().getString(R.string.currency));
     setContentDescriptionForTypeSwitch();
   }
 
@@ -163,8 +188,8 @@ public class AmountInput extends ConstraintLayout {
   }
 
   private void setContentDescriptionForTypeSwitch() {
-    setContentDescriptionForChild(typeButton, getContext().getString(
-        typeButton.isChecked() ? R.string.income : R.string.expense));
+    setContentDescriptionForChild(typeButton(), getContext().getString(
+        typeButton().isChecked() ? R.string.income : R.string.expense));
   }
 
   public void setTypeChangedListener(TypeChangedListener typeChangedListener) {
@@ -174,7 +199,7 @@ public class AmountInput extends ConstraintLayout {
   public void setCompoundResultOutListener(CompoundResultOutListener compoundResultOutListener) {
     this.compoundResultInput = null;
     this.compoundResultOutListener = compoundResultOutListener;
-    amountEditText.addTextChangedListener(new TextWatcher() {
+    amountEditText().addTextChangedListener(new TextWatcher() {
       @Override
       public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -200,7 +225,7 @@ public class AmountInput extends ConstraintLayout {
   private void onCompoundResultOutput() {
     if (compoundResultOutListener == null) return;
     BigDecimal input = validate(false);
-    BigDecimal rate = exchangeRateEdit.getRate(false);
+    BigDecimal rate = exchangeRateEdit().getRate(false);
     if (input != null && rate != null) {
       compoundResultOutListener.onResultChanged(input.multiply(rate));
     }
@@ -208,7 +233,7 @@ public class AmountInput extends ConstraintLayout {
 
   private void onCompoundResultInput() {
     if (compoundResultInput != null) {
-      final BigDecimal rate = exchangeRateEdit.getRate(false);
+      final BigDecimal rate = exchangeRateEdit().getRate(false);
       if (rate != null) {
         setAmount(compoundResultInput.multiply(rate), false);
       }
@@ -216,15 +241,15 @@ public class AmountInput extends ConstraintLayout {
   }
 
   public void addTextChangedListener(TextWatcher textWatcher) {
-    amountEditText.addTextChangedListener(textWatcher);
+    amountEditText().addTextChangedListener(textWatcher);
   }
 
   public void setType(boolean type) {
-    typeButton.setChecked(type);
+    typeButton().setChecked(type);
   }
 
   public void setFractionDigits(int i) {
-    amountEditText.setFractionDigits(i);
+    amountEditText().setFractionDigits(i);
   }
 
   public void setAmount(@NonNull BigDecimal amount) {
@@ -232,24 +257,24 @@ public class AmountInput extends ConstraintLayout {
   }
 
   public void setAmount(@NonNull BigDecimal amount, boolean updateType) {
-    amountEditText.setError(null);
-    amountEditText.setAmount(amount.abs());
+    amountEditText().setError(null);
+    amountEditText().setAmount(amount.abs());
     if (updateType) {
-      typeButton.setChecked(amount.signum() > -1);
+      typeButton().setChecked(amount.signum() > -1);
     }
   }
 
   public void setRaw(String text) {
-    amountEditText.setText(text);
+    amountEditText().setText(text);
   }
 
   public void clear() {
-    amountEditText.setText("");
+    amountEditText().setText("");
   }
 
   @Nullable
   public BigDecimal validate(boolean showToUser) {
-    return amountEditText.validate(showToUser);
+    return amountEditText().validate(showToUser);
   }
 
   @NonNull
@@ -268,19 +293,19 @@ public class AmountInput extends ConstraintLayout {
   }
 
   public boolean getType() {
-    return !withTypeSwitch || typeButton.isChecked();
+    return !withTypeSwitch || typeButton().isChecked();
   }
 
   public void hideTypeButton() {
-    typeButton.setVisibility(GONE);
+    typeButton().setVisibility(GONE);
   }
 
   public void setTypeEnabled(boolean enabled) {
-    typeButton.setEnabled(enabled);
+    typeButton().setEnabled(enabled);
   }
 
   public void toggle() {
-    typeButton.toggle();
+    typeButton().toggle();
   }
 
   public void setCurrencies(List<Currency> currencies, CurrencyContext currencyContext) {
@@ -289,39 +314,37 @@ public class AmountInput extends ConstraintLayout {
   }
 
   public void setSelectedCurrency(String originalCurrencyCode) {
-    currencySpinner.setSelection(currencyAdapter.getPosition(Currency.Companion.create(originalCurrencyCode, getContext())));
+    currencySpinner().setSelection(currencyAdapter.getPosition(Currency.Companion.create(originalCurrencyCode, getContext())));
   }
 
   public void configureExchange(CurrencyUnit currencyUnit, CurrencyUnit homeCurrency) {
     if (withExchangeRate) {
-      exchangeRateEdit.setCurrencies(currencyUnit, homeCurrency);
+      exchangeRateEdit().setCurrencies(currencyUnit, homeCurrency);
     }
   }
 
   /**
-   * sets the second currency on the exchangeedit, the first one taken from the currency selector
-   *
-   * @param currencyUnit
+   * sets the second currency on the exchangeEdit, the first one taken from the currency selector
    */
   public void configureExchange(CurrencyUnit currencyUnit) {
     if (withExchangeRate && withCurrencySelection) {
       final Currency selectedCurrency = getSelectedCurrency();
-      exchangeRateEdit.setCurrencies(selectedCurrency != null ?
+      exchangeRateEdit().setCurrencies(selectedCurrency != null ?
           currencyContext.get(selectedCurrency.getCode()) : null, currencyUnit);
     }
   }
 
   @Nullable
   public Currency getSelectedCurrency() {
-    return (Currency) currencySpinner.getSelectedItem();
+    return (Currency) currencySpinner().getSelectedItem();
   }
 
   public void selectAll() {
-    amountEditText.selectAll();
+    amountEditText().selectAll();
   }
 
   public void setError(CharSequence error) {
-    amountEditText.setError(error);
+    amountEditText().setError(error);
   }
 
   /**
@@ -349,6 +372,7 @@ public class AmountInput extends ConstraintLayout {
 
   public interface Host {
     void showCalculator(BigDecimal amount, int id);
+
     void setFocusAfterRestoreInstanceState(Pair<Integer, Integer> focusView);
   }
 
@@ -356,19 +380,19 @@ public class AmountInput extends ConstraintLayout {
   protected Parcelable onSaveInstanceState() {
     Parcelable superState = super.onSaveInstanceState();
     final View focusedChild = getFocusedChild();
-    return new SavedState(superState, typeButton.onSaveInstanceState(),
-        amountEditText.onSaveInstanceState(), currencySpinner.onSaveInstanceState(),
-        exchangeRateEdit.getRate(false), focusedChild != null ? focusedChild.getId() : 0);
+    return new SavedState(superState, typeButton().onSaveInstanceState(),
+        amountEditText().onSaveInstanceState(), currencySpinner().onSaveInstanceState(),
+        exchangeRateEdit().getRate(false), focusedChild != null ? focusedChild.getId() : 0);
   }
 
   @Override
   protected void onRestoreInstanceState(Parcelable state) {
     SavedState savedState = (SavedState) state;
     super.onRestoreInstanceState(savedState.getSuperState());
-    typeButton.onRestoreInstanceState(savedState.getTypeButtonState());
-    amountEditText.onRestoreInstanceState(savedState.getAmountEditTextState());
-    currencySpinner.onRestoreInstanceState(savedState.getCurrencySpinnerState());
-    exchangeRateEdit.setRate(savedState.getExchangeRateState(), true);
+    typeButton().onRestoreInstanceState(savedState.getTypeButtonState());
+    amountEditText().onRestoreInstanceState(savedState.getAmountEditTextState());
+    currencySpinner().onRestoreInstanceState(savedState.getCurrencySpinnerState());
+    exchangeRateEdit().setRate(savedState.getExchangeRateState(), true);
     if (savedState.getFocusedId() != 0) {
       getHost().setFocusAfterRestoreInstanceState(Pair.create(getId(), savedState.getFocusedId()));
     }
@@ -384,15 +408,11 @@ public class AmountInput extends ConstraintLayout {
     super.dispatchThawSelfOnly(container);
   }
 
-  public CompoundButton getTypeButton() {
-    return typeButton;
-  }
-
-  static class SavedState extends BaseSavedState {
-    private Parcelable typeButtonState;
-    private Parcelable amountEditTextState;
-    private Parcelable currencySpinnerState;
-    private BigDecimal exchangeRateState;
+  private static class SavedState extends BaseSavedState {
+    private final Parcelable typeButtonState;
+    private final Parcelable amountEditTextState;
+    private final Parcelable currencySpinnerState;
+    private final BigDecimal exchangeRateState;
     private int focusedId;
 
     private SavedState(Parcel in) {

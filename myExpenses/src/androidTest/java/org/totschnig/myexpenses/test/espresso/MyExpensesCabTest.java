@@ -22,6 +22,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.testutils.BaseUiTest;
 
 import java.util.Currency;
+import java.util.concurrent.TimeoutException;
 
 import androidx.test.espresso.matcher.CursorMatchers;
 import androidx.test.filters.FlakyTest;
@@ -78,39 +79,39 @@ public final class MyExpensesCabTest extends BaseUiTest {
 
   @Test
   @FlakyTest
-  public void cloneCommandIncreasesListSize() {
+  public void cloneCommandIncreasesListSize() throws TimeoutException {
     int origListSize = waitForAdapter().getCount();
     onData(is(instanceOf(Cursor.class)))
         .inAdapterView(getWrappedList())
         .atPosition(1)
         .perform(longClick());
-    clickMenuItem(R.id.CLONE_TRANSACTION_COMMAND, R.string.menu_clone_transaction, true);
-    onView(withId(R.id.CREATE_COMMAND)).perform(click());
+    clickMenuItem(R.id.CLONE_TRANSACTION_COMMAND, true);
+    closeKeyboardAndSave();
     assertThat(waitForAdapter().getCount()).isEqualTo(origListSize + 1);
   }
 
   @Test
   @FlakyTest
-  public void editCommandKeepsListSize() {
+  public void editCommandKeepsListSize() throws TimeoutException {
     int origListSize = waitForAdapter().getCount();
     onData(is(instanceOf(Cursor.class)))
         .inAdapterView(getWrappedList())
         .atPosition(1) // position 0 is header
         .perform(longClick());
-    clickMenuItem(R.id.EDIT_COMMAND, R.string.menu_edit, true);
-    onView(withId(R.id.CREATE_COMMAND)).perform(click());
+    clickMenuItem(R.id.EDIT_COMMAND, true);
+    closeKeyboardAndSave();
     assertThat(waitForAdapter().getCount()).isEqualTo(origListSize);
     }
 
   @Test
-  public void createTemplateCommandCreatesTemplate() {
+  public void createTemplateCommandCreatesTemplate() throws TimeoutException {
     waitForAdapter();
     String templateTitle = "Espresso Template Test";
     onData(is(instanceOf(Cursor.class)))
         .inAdapterView(getWrappedList())
         .atPosition(1)
         .perform(longClick());
-    clickMenuItem(R.id.CREATE_TEMPLATE_COMMAND, R.string.menu_create_template_from_transaction, true);
+    clickMenuItem(R.id.CREATE_TEMPLATE_COMMAND, true);
     onView(withText(containsString(mActivityRule.getActivity().getString(R.string.menu_create_template))))
         .check(matches(isDisplayed()));
     onView(withId(R.id.editText))
@@ -120,30 +121,30 @@ public final class MyExpensesCabTest extends BaseUiTest {
     onView(withId(R.id.CREATE_COMMAND)).perform(click());
 
     //((EditText) mSolo.getView(EditText.class, 0)).onEditorAction(EditorInfo.IME_ACTION_DONE);
-    clickMenuItem(R.id.MANAGE_TEMPLATES_COMMAND, R.string.menu_manage_plans);
+    clickMenuItem(R.id.MANAGE_TEMPLATES_COMMAND);
     onView(withText(is(templateTitle))).check(matches(isDisplayed()));
   }
 
   @Test
-  public void deleteCommandDecreasesListSize() {
+  public void deleteCommandDecreasesListSize() throws TimeoutException {
     int origListSize = waitForAdapter().getCount();
     onData(is(instanceOf(Cursor.class)))
         .inAdapterView(getWrappedList())
         .atPosition(1)
         .perform(longClick());
-    clickMenuItem(R.id.DELETE_COMMAND, R.string.menu_delete, true);
+    clickMenuItem(R.id.DELETE_COMMAND, true);
     onView(withText(R.string.menu_delete)).perform(click());
     assertThat(waitForAdapter().getCount()).isEqualTo(origListSize - 1);
   }
 
   @Test
-  public void deleteCommandWithVoidOption() {
+  public void deleteCommandWithVoidOption() throws TimeoutException {
     int origListSize = waitForAdapter().getCount();
     onData(is(instanceOf(Cursor.class)))
         .inAdapterView(getWrappedList())
         .atPosition(1) // position 0 is header
         .perform(longClick());
-    clickMenuItem(R.id.DELETE_COMMAND, R.string.menu_delete, true);
+    clickMenuItem(R.id.DELETE_COMMAND, true);
     onView(withId(R.id.checkBox)).perform(click());
     onView(withText(R.string.menu_delete)).perform(click());
     onData(is(instanceOf(Cursor.class))).inAdapterView(getWrappedList()).atPosition(1)
@@ -153,32 +154,32 @@ public final class MyExpensesCabTest extends BaseUiTest {
         .inAdapterView(getWrappedList())
         .atPosition(1) // position 0 is header
         .perform(longClick());
-    clickMenuItem(R.id.UNDELETE_COMMAND, R.string.menu_undelete_transaction, true);
+    clickMenuItem(R.id.UNDELETE_COMMAND, true);
     onView(getWrappedList())
         .check(matches(not(withAdaptedData(CursorMatchers.withRowString(DatabaseConstants.KEY_CR_STATUS, "VOID")))));
     assertThat(waitForAdapter().getCount()).isEqualTo(origListSize);
   }
 
   @Test
-  public void deleteCommandCancelKeepsListSize() {
+  public void deleteCommandCancelKeepsListSize() throws TimeoutException {
     int origListSize = waitForAdapter().getCount();
     onData(is(instanceOf(Cursor.class)))
         .inAdapterView(getWrappedList())
         .atPosition(1)
         .perform(longClick());
-    clickMenuItem(R.id.DELETE_COMMAND, R.string.menu_delete, true);
+    clickMenuItem(R.id.DELETE_COMMAND, true);
     onView(withText(android.R.string.cancel)).perform(click());
     assertThat(waitForAdapter().getCount()).isEqualTo(origListSize);
   }
 
   @Test
-  public void splitCommandCreatesSplitTransaction() {
+  public void splitCommandCreatesSplitTransaction() throws TimeoutException {
     waitForAdapter();
     onData(is(instanceOf(Cursor.class)))
         .inAdapterView(getWrappedList())
         .atPosition(1)
         .perform(longClick());
-    clickMenuItem(R.id.SPLIT_TRANSACTION_COMMAND, R.string.menu_split_transaction, true);
+    clickMenuItem(R.id.SPLIT_TRANSACTION_COMMAND, true);
     handleContribDialog(ContribFeature.SPLIT_TRANSACTION);
     onView(withText(R.string.menu_split_transaction)).perform(click());
     onView(withText(R.string.split_transaction)).check(matches(isDisplayed()));
@@ -191,7 +192,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
   }
 
   @Test
-  public void cabIsRestoredAfterOrientationChange() {
+  public void cabIsRestoredAfterOrientationChange() throws TimeoutException {
     waitForAdapter();
     onData(is(instanceOf(Cursor.class)))
         .inAdapterView(getWrappedList())

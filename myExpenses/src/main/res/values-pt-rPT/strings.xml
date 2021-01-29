@@ -531,7 +531,6 @@
     <string name="exchange_rate">Taxa de câmbio</string>
     <string name="date_format_hour">Hora</string>
     <string name="date_format_minute">Minuto</string>
-    <string name="copied_to_clipboard">Copiado para a área de transferência</string>
     <string name="menu_sort">Ordenar por</string>
     <string name="pref_sort_order_last_used">Última utilização</string>
     <string name="pref_sort_order_custom">Personalizado</string>

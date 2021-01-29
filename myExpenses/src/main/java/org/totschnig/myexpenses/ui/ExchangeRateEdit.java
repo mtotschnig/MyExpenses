@@ -7,14 +7,14 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 
 import org.threeten.bp.LocalDate;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.databinding.ExchangeRateBinding;
+import org.totschnig.myexpenses.databinding.ExchangeRatesBinding;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.retrofit.MissingAppIdException;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
@@ -27,9 +27,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.LifecycleOwner;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class ExchangeRateEdit extends ConstraintLayout {
 
@@ -40,11 +37,7 @@ public class ExchangeRateEdit extends ConstraintLayout {
   private static final int EXCHANGE_RATE_FRACTION_DIGITS = 5;
   private static final BigDecimal nullValue = new BigDecimal(0);
 
-  @BindView(R.id.ExchangeRate_1)
-  ViewGroup rate1Container;
   AmountEditText rate1Edit;
-  @BindView(R.id.ExchangeRate_2)
-  ViewGroup rate2Container;
   AmountEditText rate2Edit;
 
 
@@ -52,6 +45,8 @@ public class ExchangeRateEdit extends ConstraintLayout {
   private boolean blockWatcher = false;
   private ExchangeRateViewModel viewModel;
   private CurrencyUnit firstCurrency, secondCurrency;
+
+  private final ExchangeRatesBinding binding = ExchangeRatesBinding.inflate(LayoutInflater.from(getContext()), this);
 
   public void setExchangeRateWatcher(ExchangeRateWatcher exchangeRateWatcher) {
     this.exchangeRateWatcher = exchangeRateWatcher;
@@ -95,43 +90,35 @@ public class ExchangeRateEdit extends ConstraintLayout {
     }
   }
 
-  @OnClick(R.id.iv_download)
-  void loadRate() {
-    if (firstCurrency != null && secondCurrency != null && viewModel != null) {
-      viewModel.loadExchangeRate(firstCurrency.getCode(), secondCurrency.getCode(), getHost().getDate());
-    }
-  }
-
   public void setBlockWatcher(boolean blockWatcher) {
     this.blockWatcher = blockWatcher;
   }
 
   public ExchangeRateEdit(Context context, AttributeSet attrs) {
     super(context, attrs);
-    LayoutInflater inflater = LayoutInflater.from(context);
-    inflater.inflate(R.layout.exchange_rates, this, true);
-    ButterKnife.bind(this);
-    rate1Edit = rate1Container.findViewById(R.id.ExchangeRateText);
+    binding.ivDownload.getRoot().setOnClickListener(v -> {
+      if (firstCurrency != null && secondCurrency != null && viewModel != null) {
+        viewModel.loadExchangeRate(firstCurrency.getCode(), secondCurrency.getCode(), getHost().getDate());
+      }
+    });
+    rate1Edit = binding.ExchangeRate1.ExchangeRateText;
     rate1Edit.setId(R.id.ExchangeRateEdit1);
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-      rate1Container.findViewById(R.id.ExchangeRateLabel_1).setLabelFor(R.id.ExchangeRateEdit1);
+      binding.ExchangeRate1.ExchangeRateLabel1.setLabelFor(R.id.ExchangeRateEdit1);
     }
-    rate2Edit = rate2Container.findViewById(R.id.ExchangeRateText);
+    rate2Edit =  binding.ExchangeRate2.ExchangeRateText;
     rate2Edit.setId(R.id.ExchangeRateEdit2);
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-      rate2Container.findViewById(R.id.ExchangeRateLabel_1).setLabelFor(R.id.ExchangeRateEdit2);
+      binding.ExchangeRate2.ExchangeRateLabel1.setLabelFor(R.id.ExchangeRateEdit2);
     }
     rate1Edit.setFractionDigits(EXCHANGE_RATE_FRACTION_DIGITS);
     rate2Edit.setFractionDigits(EXCHANGE_RATE_FRACTION_DIGITS);
-    rate1Edit.addTextChangedListener(new LinkedExchangeRateTextWatchter(true));
-    rate2Edit.addTextChangedListener(new LinkedExchangeRateTextWatchter(false));
+    rate1Edit.addTextChangedListener(new LinkedExchangeRateTextWatcher(true));
+    rate2Edit.addTextChangedListener(new LinkedExchangeRateTextWatcher(false));
   }
 
   /**
    * does not trigger call to registered ExchangeRateWatcher calculates rates based on two values
-   *
-   * @param amount1
-   * @param amount2
    */
   public void calculateAndSetRate(@Nullable BigDecimal amount1, @Nullable BigDecimal amount2) {
     blockWatcher = true;
@@ -153,9 +140,6 @@ public class ExchangeRateEdit extends ConstraintLayout {
 
   /**
    * does not trigger call to registered ExchangeRateWatcher; calculates inverse rate, and sets both values
-   *
-   * @param rate
-   * @param blockWatcher
    */
   public void setRate(@Nullable BigDecimal rate, boolean blockWatcher) {
     if (rate != null) {
@@ -176,23 +160,23 @@ public class ExchangeRateEdit extends ConstraintLayout {
       this.secondCurrency = second;
     }
     if (firstCurrency != null && secondCurrency != null) {
-      setSymbols(rate1Container, firstCurrency.getSymbol(), secondCurrency.getSymbol());
-      setSymbols(rate2Container, secondCurrency.getSymbol(), firstCurrency.getSymbol());
+      setSymbols(binding.ExchangeRate1, firstCurrency.getSymbol(), secondCurrency.getSymbol());
+      setSymbols(binding.ExchangeRate2, secondCurrency.getSymbol(), firstCurrency.getSymbol());
     }
   }
 
-  private void setSymbols(ViewGroup group, String symbol1, String symbol2) {
-    ((TextView) group.findViewById(R.id.ExchangeRateLabel_1)).setText(String.format("1 %s =", symbol1));
-    ((TextView) group.findViewById(R.id.ExchangeRateLabel_2)).setText(symbol2);
+  private void setSymbols(ExchangeRateBinding group, String symbol1, String symbol2) {
+    group.ExchangeRateLabel1.setText(String.format("1 %s =", symbol1));
+    group.ExchangeRateLabel2.setText(symbol2);
   }
 
-  private class LinkedExchangeRateTextWatchter implements TextWatcher {
+  private class LinkedExchangeRateTextWatcher implements TextWatcher {
     /**
      * true if we are linked to exchange rate where unit is from account currency
      */
-    private boolean isMain;
+    private final boolean isMain;
 
-    LinkedExchangeRateTextWatchter(boolean isMain) {
+    LinkedExchangeRateTextWatcher(boolean isMain) {
       this.isMain = isMain;
     }
 

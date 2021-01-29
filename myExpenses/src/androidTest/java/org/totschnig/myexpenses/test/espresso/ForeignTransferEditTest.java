@@ -10,24 +10,27 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Transfer;
+import org.totschnig.myexpenses.testutils.BaseUiTest;
 
 import java.util.Currency;
 
 import androidx.test.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
+import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.junit.Assert.assertTrue;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
-public class ForeignTransferEditTest {
+public class ForeignTransferEditTest extends BaseUiTest {
 
   @Rule
   public ActivityTestRule<ExpenseEdit> mActivityRule =
@@ -64,7 +67,12 @@ public class ForeignTransferEditTest {
     Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
     i.putExtra(KEY_ROWID, transfer.getId());
     mActivityRule.launchActivity(i);
-    onView(withId(R.id.CREATE_COMMAND)).perform(click());
+    closeKeyboardAndSave();
     assertTrue(mActivityRule.getActivity().isFinishing());
+  }
+
+  @Override
+  protected ActivityTestRule<? extends ProtectedFragmentActivity> getTestRule() {
+    return mActivityRule;
   }
 }

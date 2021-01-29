@@ -11,10 +11,10 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- *   
+ *
  *   Based on Financisto (c) 2010 Denis Solonenko, made available
  *   under the terms of the GNU Public License v2.0
-*/
+ */
 
 package org.totschnig.myexpenses.provider.filter;
 
@@ -38,15 +38,18 @@ public abstract class Criteria implements Parcelable {
   protected static final String EXTRA_SEPARATOR_ESCAPE_SAVE_REGEXP = "(?<!\\\\)\\;";
 
   public static String escapeSeparator(String in) {
-    return in.replace(";","\\;");
+    return in.replace(";", "\\;");
   }
+
   public static String unescapeSeparator(String in) {
-    return in.replace("\\;",";");
+    return in.replace("\\;", ";");
   }
+
   public final WhereFilter.Operation operation;
   public final String[] values;
 
   public abstract int getID();
+
   abstract String getColumn();
 
   public Criteria(Operation operation,
@@ -99,24 +102,26 @@ public abstract class Criteria implements Parcelable {
   public String toStringExtra() {
     throw new UnsupportedOperationException("Only subclasses can be persisted");
   }
+
   /**
    * @param selection
    * @return selection wrapped in a way that it also finds split transactions with parts
    * that are matched by the critera
    */
-  protected String applyToSplitParts(String selection,String tableName) {
+  protected String applyToSplitParts(String selection, String tableName) {
     if (!shouldApplyToParts()) {
       return selection;
     }
     return "(" + selection + " OR (" + KEY_CATID + " = " + DatabaseConstants.SPLIT_CATID //maybe the check for split catId is not needed
         + " AND exists(select 1 from " + TABLE_TRANSACTIONS + " children"
-        + " WHERE children." + KEY_PARENTID
-        + " = " + tableName + "." + KEY_ROWID + " AND children." + selection + ")))";
+        + " WHERE " + KEY_PARENTID
+        + " = " + tableName + "." + KEY_ROWID + " AND (" + selection + "))))";
   }
-  
+
   /**
    * the sums are calculated based on split parts, hence here we must take care to select parts
    * where the parents match
+   *
    * @param selection
    * @return selection wrapped in a way that is also finds split parts where parents are
    * matched by the criteria
@@ -129,15 +134,16 @@ public abstract class Criteria implements Parcelable {
       selectParents = selection;
     }
     return "(" + selectParents + " OR  exists(select 1 from " + TABLE_TRANSACTIONS + " parents"
-        + " WHERE parents." + KEY_ROWID
-        + " = " + tableName + "." + KEY_PARENTID + " AND parents." + selection + "))";
+        + " WHERE " + KEY_ROWID
+        + " = " + tableName + "." + KEY_PARENTID + " AND (" + selection + ")))";
   }
 
   public String getSelectionForParts(String tableName) {
-    return applyToSplitParents(getSelection(),tableName);
+    return applyToSplitParents(getSelection(), tableName);
   }
+
   public String getSelectionForParents(String tableName) {
-    return applyToSplitParts(getSelection(),tableName);
+    return applyToSplitParts(getSelection(), tableName);
   }
 
   protected boolean shouldApplyToParts() {

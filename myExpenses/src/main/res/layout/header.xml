@@ -19,9 +19,10 @@
     android:layout_height="wrap_content"
     android:background="?listChoiceBackgroundIndicator">
 
-    <include layout="@layout/header_line" />
+    <include android:id="@+id/header_line" layout="@layout/header_line" />
 
     <include
+        android:id="@+id/expansionHandle"
         layout="@layout/expansion_handle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,7 +40,7 @@
 
         <TextView
             android:id="@+id/sum_income"
-            style="@style/headingStyle"
+            style="@style/headingStyle.Income"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -48,7 +49,7 @@
 
         <TextView
             android:id="@+id/sum_expense"
-            style="@style/headingStyle"
+            style="@style/headingStyle.Expense"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -57,7 +58,7 @@
 
         <TextView
             android:id="@+id/sum_transfer"
-            style="@style/headingStyle"
+            style="@style/headingStyle.Transfer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

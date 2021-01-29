@@ -7,7 +7,7 @@
 * Test and assemble
   * ./gradlew lintConscriptExternRelease
   * ./gradlew testConscriptExternReleaseUnitTest
-  * ./gradlew clean connectedConscriptExternDebugAndroidTest
+  * ./gradlew disableSystemAnimations clean connectedConscriptExternDebugAndroidTest
   * ./gradlew clean assembleConscriptExternRelease
 * test upgrade mechanism
 * Create release tag in GIT (git tag r39; git push origin r39)

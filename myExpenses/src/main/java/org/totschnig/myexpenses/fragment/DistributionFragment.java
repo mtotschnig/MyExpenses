@@ -25,9 +25,13 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.CategoryTreeAdapter;
+import org.totschnig.myexpenses.databinding.CategoryRowBinding;
+import org.totschnig.myexpenses.databinding.DistributionListBinding;
+import org.totschnig.myexpenses.databinding.DistributionListInnerBinding;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Grouping;
@@ -43,8 +47,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.SwitchCompat;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import timber.log.Timber;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
@@ -53,17 +55,30 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GRO
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
 
-public class DistributionFragment extends DistributionBaseFragment {
-  @BindView(R.id.chart1)
-  PieChart mChart;
-  @BindView(R.id.BottomLine)
-  View bottomLine;
+public class DistributionFragment extends DistributionBaseFragment<CategoryRowBinding> {
   boolean showChart = false;
   private int textColorSecondary;
   private Account mAccount;
+  private DistributionListBinding binding;
+  private DistributionListInnerBinding innerBinding;
 
   public Grouping getGrouping() {
     return mGrouping;
+  }
+
+  @Override
+  ExpandableListView getListView() {
+    return innerBinding.list;
+  }
+
+  PieChart getChart() {
+    return innerBinding.chart1;
+  }
+
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    ((MyApplication) requireActivity().getApplication()).getAppComponent().inject(this);
+    super.onCreate(savedInstanceState);
   }
 
   @Override
@@ -84,9 +99,8 @@ public class DistributionFragment extends DistributionBaseFragment {
       }
     });
     final ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
-    View v;
     Bundle extras = ctx.getIntent().getExtras();
-    showChart = PrefKey.DISTRIBUTION_SHOW_CHART.getBoolean(true);
+    showChart = prefHandler.getBoolean(PrefKey.DISTRIBUTION_SHOW_CHART, true);
 
     Bundle b = savedInstanceState != null ? savedInstanceState : extras;
 
@@ -96,15 +110,16 @@ public class DistributionFragment extends DistributionBaseFragment {
     mGroupingSecond = b.getInt(KEY_SECOND_GROUP);
     getActivity().invalidateOptionsMenu();
 
-    v = inflater.inflate(R.layout.distribution_list, container, false);
-    ButterKnife.bind(this, v);
+    binding = DistributionListBinding.inflate(inflater, container, false);
+    innerBinding = DistributionListInnerBinding.bind(binding.getRoot());
     textColorSecondary = ((ProtectedFragmentActivity) getActivity()).getTextColorSecondary().getDefaultColor();
 
-    mChart.setVisibility(showChart ? View.VISIBLE : View.GONE);
-    mChart.getDescription().setEnabled(false);
-    mChart.setExtraOffsets(20,0,20,0);
-    final SelectivePieChartRenderer renderer = new SelectivePieChartRenderer(mChart, new SelectivePieChartRenderer.Selector() {
+    getChart().setVisibility(showChart ? View.VISIBLE : View.GONE);
+    getChart().getDescription().setEnabled(false);
+    getChart().setExtraOffsets(20, 0, 20, 0);
+    final SelectivePieChartRenderer renderer = new SelectivePieChartRenderer(getChart(), new SelectivePieChartRenderer.Selector() {
       boolean lastValueGreaterThanOne = true;
+
       @Override
       public boolean shouldDrawEntry(int index, PieEntry pieEntry, float value) {
         final boolean greaterThanOne = value > 1f;
@@ -115,11 +130,11 @@ public class DistributionFragment extends DistributionBaseFragment {
     });
     renderer.getPaintEntryLabels().setColor(textColorSecondary);
     renderer.getPaintEntryLabels().setTextSize(getTextSizeForAppearance(android.R.attr.textAppearanceSmall));
-    mChart.setRenderer(renderer);
+    getChart().setRenderer(renderer);
 
-    mChart.setCenterTextSizePixels(getTextSizeForAppearance(android.R.attr.textAppearanceMedium));
+    getChart().setCenterTextSizePixels(getTextSizeForAppearance(android.R.attr.textAppearanceMedium));
 
-    mChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+    getChart().setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
 
       @Override
       public void onValueSelected(Entry e, Highlight highlight) {
@@ -128,33 +143,34 @@ public class DistributionFragment extends DistributionBaseFragment {
             ExpandableListView.getPackedPositionForGroup(index) :
             ExpandableListView.getPackedPositionForChild(lastExpandedPosition, index);
         Timber.w("%d-%d-%d, %b", index, lastExpandedPosition, packedPosition, showChart);
-        int flatPosition = mListView.getFlatListPosition(packedPosition);
-        mListView.setItemChecked(flatPosition, true);
-        mListView.smoothScrollToPosition(flatPosition);
+        ExpandableListView listView = getListView();
+        int flatPosition = listView.getFlatListPosition(packedPosition);
+        listView.setItemChecked(flatPosition, true);
+        listView.smoothScrollToPosition(flatPosition);
         setCenterText(index);
       }
 
       @Override
       public void onNothingSelected() {
-        mListView.setItemChecked(mListView.getCheckedItemPosition(), false);
+        onNothingSelected();
       }
     });
-    mChart.setUsePercentValues(true);
+    getChart().setUsePercentValues(true);
     updateColor();
-    final View emptyView = v.findViewById(R.id.empty);
-    mListView.setEmptyView(emptyView);
+    ExpandableListView listView = getListView();
+    listView.setEmptyView(binding.empty);
     mAdapter = new CategoryTreeAdapter(ctx, currencyFormatter, mAccount.getCurrencyUnit(), showChart, showChart, false);
-    mListView.setAdapter(mAdapter);
+    listView.setAdapter(mAdapter);
     loadData();
-    mListView.setOnGroupClickListener((parent, v12, groupPosition, id) ->
+    listView.setOnGroupClickListener((parent, v12, groupPosition, id) ->
     {
       if (showChart) {
         if (mAdapter.getChildrenCount(groupPosition) == 0) {
           long packedPosition = ExpandableListView.getPackedPositionForGroup(groupPosition);
-          mListView.setItemChecked(mListView.getFlatListPosition(packedPosition), true);
+          listView.setItemChecked(listView.getFlatListPosition(packedPosition), true);
           if (lastExpandedPosition != -1
               && groupPosition != lastExpandedPosition) {
-            mListView.collapseGroup(lastExpandedPosition);
+            listView.collapseGroup(lastExpandedPosition);
             lastExpandedPosition = -1;
           }
           if (lastExpandedPosition == -1) {
@@ -165,10 +181,10 @@ public class DistributionFragment extends DistributionBaseFragment {
       }
       return false;
     });
-    mListView.setOnGroupExpandListener(groupPosition -> {
+    listView.setOnGroupExpandListener(groupPosition -> {
       if (showChart) {
         if (lastExpandedPosition != -1 && groupPosition != lastExpandedPosition) {
-          mListView.collapseGroup(lastExpandedPosition);
+          listView.collapseGroup(lastExpandedPosition);
         }
         lastExpandedPosition = groupPosition;
         setData();
@@ -177,39 +193,39 @@ public class DistributionFragment extends DistributionBaseFragment {
         lastExpandedPosition = groupPosition;
       }
     });
-    mListView.setOnGroupCollapseListener(groupPosition -> {
+    listView.setOnGroupCollapseListener(groupPosition -> {
       lastExpandedPosition = -1;
       if (showChart) {
         setData();
         highlight(groupPosition);
       }
     });
-    mListView.setOnChildClickListener((parent, v1, groupPosition, childPosition, id) -> {
+    listView.setOnChildClickListener((parent, v1, groupPosition, childPosition, id) -> {
       if (showChart) {
         long packedPosition = ExpandableListView.getPackedPositionForChild(
             groupPosition, childPosition);
         highlight(childPosition);
-        int flatPosition = mListView.getFlatListPosition(packedPosition);
-        mListView.setItemChecked(flatPosition, true);
+        int flatPosition = listView.getFlatListPosition(packedPosition);
+        listView.setItemChecked(flatPosition, true);
         return true;
       }
       return false;
     });
     //the following is relevant when not in touch mode
-    mListView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+    listView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
       @Override
       public void onItemSelected(AdapterView<?> parent, View view,
                                  int position, long id) {
         if (showChart) {
-          long pos = mListView.getExpandableListPosition(position);
+          long pos = listView.getExpandableListPosition(position);
           int type = ExpandableListView.getPackedPositionType(pos);
           int group = ExpandableListView.getPackedPositionGroup(pos),
               child = ExpandableListView.getPackedPositionChild(pos);
           int highlightedPos;
           if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
             if (lastExpandedPosition != group) {
-              mListView.collapseGroup(lastExpandedPosition);
+              listView.collapseGroup(lastExpandedPosition);
             }
             highlightedPos = lastExpandedPosition == -1 ? group : -1;
           } else {
@@ -223,9 +239,21 @@ public class DistributionFragment extends DistributionBaseFragment {
       public void onNothingSelected(AdapterView<?> parent) {
       }
     });
-    mListView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
-    registerForContextMenu(mListView);
-    return v;
+    listView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
+    registerForContextMenu(listView);
+    return binding.getRoot();
+  }
+
+  @Override
+  public void onDestroyView() {
+    super.onDestroyView();
+    binding = null;
+    innerBinding = null;
+  }
+
+  public void onNothingSelected() {
+    ExpandableListView listView = getListView();
+    listView.setItemChecked(listView.getCheckedItemPosition(), false);
   }
 
   private int getTextSizeForAppearance(int appearance) {
@@ -248,19 +276,19 @@ public class DistributionFragment extends DistributionBaseFragment {
   protected void onLoadFinished() {
     super.onLoadFinished();
     if (mAdapter.getGroupCount() > 0) {
-      mChart.setVisibility(showChart ? View.VISIBLE : View.GONE);
+      getChart().setVisibility(showChart ? View.VISIBLE : View.GONE);
       setData();
       highlight(0);
       if (showChart) {
-        mListView.setItemChecked(mListView.getFlatListPosition(ExpandableListView.getPackedPositionForGroup(0)), true);
+        getListView().setItemChecked(getListView().getFlatListPosition(ExpandableListView.getPackedPositionForGroup(0)), true);
       }
     } else {
-      mChart.setVisibility(View.GONE);
+      getChart().setVisibility(View.GONE);
     }
   }
 
   @Override
-  public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+  public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
     inflater.inflate(R.menu.distribution, menu);
     inflater.inflate(R.menu.grouping, menu);
 
@@ -293,8 +321,8 @@ public class DistributionFragment extends DistributionBaseFragment {
 
   @Override
   void updateIncomeAndExpense(long income, long expense) {
-    updateSum("+", incomeSumTv, income);
-    updateSum("-", expenseSumTv, expense);
+    updateSum("+", binding.sumIncome, income);
+    updateSum("-", binding.sumExpense, expense);
   }
 
   private void updateSum(String prefix, TextView tv, long amount) {
@@ -349,12 +377,12 @@ public class DistributionFragment extends DistributionBaseFragment {
     switch (item.getItemId()) {
       case R.id.TOGGLE_CHART_COMMAND:
         showChart = !showChart;
-        PrefKey.DISTRIBUTION_SHOW_CHART.putBoolean(showChart);
-        mChart.setVisibility(showChart ? View.VISIBLE : View.GONE);
+        prefHandler.putBoolean(PrefKey.DISTRIBUTION_SHOW_CHART, showChart);
+        getChart().setVisibility(showChart ? View.VISIBLE : View.GONE);
         if (showChart) {
           collapseAll();
         } else {
-          mListView.setItemChecked(mListView.getCheckedItemPosition(), false);
+          onNothingSelected();
         }
         mAdapter.toggleColors();
         return true;
@@ -407,22 +435,22 @@ public class DistributionFragment extends DistributionBaseFragment {
 
     PieData data = new PieData(ds1);
     data.setValueFormatter(new PercentFormatter());
-    mChart.setData(data);
-    mChart.getLegend().setEnabled(false);
+    getChart().setData(data);
+    getChart().getLegend().setEnabled(false);
     // undo all highlights
-    mChart.highlightValues(null);
-    mChart.invalidate();
+    getChart().highlightValues(null);
+    getChart().invalidate();
   }
 
   private void highlight(int position) {
     if (position != -1) {
-      mChart.highlightValue(position, 0);
+      getChart().highlightValue(position, 0);
       setCenterText(position);
     }
   }
 
   private void setCenterText(int position) {
-    PieData data = mChart.getData();
+    PieData data = getChart().getData();
 
     PieEntry entry = data.getDataSet().getEntryForIndex(position);
     String description = entry.getLabel();
@@ -431,19 +459,18 @@ public class DistributionFragment extends DistributionBaseFragment {
         entry.getValue() / data.getYValueSum() * 100f,
         entry, position, null);
 
-    mChart.setCenterText(
+    getChart().setCenterText(
         description + "\n" +
             value
     );
   }
 
   private void updateColor() {
-    if (bottomLine != null)
-      bottomLine.setBackgroundColor(mAccount.color);
+    binding.BottomLine.setBackgroundColor(mAccount.color);
   }
 
   @Override
-  public void onSaveInstanceState(Bundle outState) {
+  public void onSaveInstanceState(@NonNull Bundle outState) {
     super.onSaveInstanceState(outState);
     outState.putSerializable(KEY_GROUPING, mGrouping);
     outState.putInt(KEY_YEAR, mGroupingYear);

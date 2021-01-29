@@ -83,7 +83,7 @@ public class AccountTest extends BaseDbTest {
 
     final String SORT_ORDER = DatabaseConstants.KEY_LABEL + " ASC";
 
-    Cursor cursor = mMockResolver.query(
+    Cursor cursor = getMockContentResolver().query(
         TransactionProvider.ACCOUNTS_URI,
         null,
         null,
@@ -97,7 +97,7 @@ public class AccountTest extends BaseDbTest {
     insertData();
     cursor.close();
 
-    cursor = mMockResolver.query(
+    cursor = getMockContentResolver().query(
         TransactionProvider.ACCOUNTS_URI,
         null,
         null,
@@ -109,7 +109,7 @@ public class AccountTest extends BaseDbTest {
     assertEquals(TEST_ACCOUNTS.length, cursor.getCount());
     cursor.close();
 
-    Cursor projectionCursor = mMockResolver.query(
+    Cursor projectionCursor = getMockContentResolver().query(
         TransactionProvider.ACCOUNTS_URI,
         TEST_PROJECTION,
         null,
@@ -125,7 +125,7 @@ public class AccountTest extends BaseDbTest {
     assertEquals(TEST_PROJECTION[2], projectionCursor.getColumnName(2));
     projectionCursor.close();
 
-    projectionCursor = mMockResolver.query(
+    projectionCursor = getMockContentResolver().query(
         TransactionProvider.ACCOUNTS_URI,
         TEST_PROJECTION,
         SELECTION_COLUMNS,
@@ -154,7 +154,7 @@ public class AccountTest extends BaseDbTest {
 
     Uri AccountIdUri = ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, accountId);
 
-    Cursor cursor = mMockResolver.query(AccountIdUri,
+    Cursor cursor = getMockContentResolver().query(AccountIdUri,
         null,
         null,
         null,
@@ -179,7 +179,7 @@ public class AccountTest extends BaseDbTest {
 
     insertData();
 
-    Cursor cursor = mMockResolver.query(
+    Cursor cursor = getMockContentResolver().query(
         TransactionProvider.ACCOUNTS_URI,
         Account_ID_PROJECTION,
         null,
@@ -198,7 +198,7 @@ public class AccountTest extends BaseDbTest {
 
     cursor.close();
 
-    cursor = mMockResolver.query(AccountIdUri,
+    cursor = getMockContentResolver().query(AccountIdUri,
         new String[] {DatabaseConstants.KEY_LABEL},
         SELECTION_COLUMNS,
         SELECTION_ARGS,
@@ -215,7 +215,7 @@ public class AccountTest extends BaseDbTest {
   }
 
   public void testInserts() {
-    Cursor cursor = mMockResolver.query(
+    Cursor cursor = getMockContentResolver().query(
         TransactionProvider.ACCOUNTS_URI,
         null,
         null,
@@ -230,7 +230,7 @@ public class AccountTest extends BaseDbTest {
         "Account 4",
         AccountType.ASSET, 1000);
 
-    Uri rowUri = mMockResolver.insert(
+    Uri rowUri = getMockContentResolver().insert(
         TransactionProvider.ACCOUNTS_URI,
         account.getContentValues()
     );
@@ -238,7 +238,7 @@ public class AccountTest extends BaseDbTest {
     long AccountId = ContentUris.parseId(rowUri);
     cursor.close();
 
-    cursor = mMockResolver.query(
+    cursor = getMockContentResolver().query(
         TransactionProvider.ACCOUNTS_URI,
         null,
         null,
@@ -266,7 +266,7 @@ public class AccountTest extends BaseDbTest {
     values.put(DatabaseConstants.KEY_ROWID, AccountId);
 
     try {
-      mMockResolver.insert(TransactionProvider.ACCOUNTS_URI, values);
+      getMockContentResolver().insert(TransactionProvider.ACCOUNTS_URI, values);
       fail("Expected insert failure for existing record but insert succeeded.");
     } catch (Exception e) {
 
@@ -279,7 +279,7 @@ public class AccountTest extends BaseDbTest {
 
     final String[] SELECTION_ARGS = {"Account 0"};
 
-    int rowsDeleted = mMockResolver.delete(
+    int rowsDeleted = getMockContentResolver().delete(
         TransactionProvider.ACCOUNTS_URI,
         SELECTION_COLUMNS,
         SELECTION_ARGS
@@ -289,7 +289,7 @@ public class AccountTest extends BaseDbTest {
 
     insertData();
 
-    rowsDeleted = mMockResolver.delete(
+    rowsDeleted = getMockContentResolver().delete(
         TransactionProvider.ACCOUNTS_URI,
         SELECTION_COLUMNS,
         SELECTION_ARGS
@@ -297,7 +297,7 @@ public class AccountTest extends BaseDbTest {
 
     assertEquals(1, rowsDeleted);
 
-    Cursor cursor = mMockResolver.query(
+    Cursor cursor = getMockContentResolver().query(
         TransactionProvider.ACCOUNTS_URI,
         null,
         SELECTION_COLUMNS,
@@ -320,7 +320,7 @@ public class AccountTest extends BaseDbTest {
 
     values.put(DatabaseConstants.KEY_LABEL, "Testing an update with this string");
 
-    int rowsUpdated = mMockResolver.update(
+    int rowsUpdated = getMockContentResolver().update(
         TransactionProvider.ACCOUNTS_URI,
         values,
         SELECTION_COLUMNS,
@@ -331,7 +331,7 @@ public class AccountTest extends BaseDbTest {
 
     insertData();
 
-    rowsUpdated = mMockResolver.update(
+    rowsUpdated = getMockContentResolver().update(
         TransactionProvider.ACCOUNTS_URI,
         values,
         SELECTION_COLUMNS,
@@ -348,7 +348,7 @@ public class AccountTest extends BaseDbTest {
     };
     insertData();
 
-    Cursor cursor = mMockResolver.query(
+    Cursor cursor = getMockContentResolver().query(
         TransactionProvider.ACCOUNTS_URI,
         Account_ID_PROJECTION,
         null,
@@ -369,12 +369,12 @@ public class AccountTest extends BaseDbTest {
 
     cursor.close();
 
-    mMockResolver.update(ContentUris.withAppendedId(TransactionProvider.ACCOUNT_GROUPINGS_URI, inputAccountId)
+    getMockContentResolver().update(ContentUris.withAppendedId(TransactionProvider.ACCOUNT_GROUPINGS_URI, inputAccountId)
             .buildUpon().appendPath(Grouping.YEAR.name()).build(),
         null, null, null);
 
 
-    cursor = mMockResolver.query(accountIdUri,
+    cursor = getMockContentResolver().query(accountIdUri,
         new String[]{DbUtils.fqcn(DatabaseConstants.TABLE_ACCOUNTS, DatabaseConstants.KEY_GROUPING)},
         null,
         null,
@@ -395,7 +395,7 @@ public class AccountTest extends BaseDbTest {
     };
     insertData();
 
-    Cursor cursor = mMockResolver.query(
+    Cursor cursor = getMockContentResolver().query(
         TransactionProvider.ACCOUNTS_URI,
         Account_ID_PROJECTION,
         null,
@@ -416,10 +416,10 @@ public class AccountTest extends BaseDbTest {
 
     cursor.close();
 
-    mMockResolver.update(accountIdUri.buildUpon().appendPath("sortDirection").appendPath(SortDirection.ASC.name()).build(),
+    getMockContentResolver().update(accountIdUri.buildUpon().appendPath("sortDirection").appendPath(SortDirection.ASC.name()).build(),
         null, null, null);
 
-    cursor = mMockResolver.query(accountIdUri,
+    cursor = getMockContentResolver().query(accountIdUri,
         new String[] {DatabaseConstants.KEY_SORT_DIRECTION},
         null,
         null,

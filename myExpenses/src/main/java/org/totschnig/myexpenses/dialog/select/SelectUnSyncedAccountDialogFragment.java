@@ -11,6 +11,8 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_LINK_SAVE;
@@ -34,11 +36,13 @@ public class SelectUnSyncedAccountDialogFragment extends SelectMultipleDialogFra
     return R.string.select_unsynced_accounts;
   }
 
+  @NonNull
   @Override
   Uri getUri() {
     return TransactionProvider.ACCOUNTS_URI;
   }
 
+  @NonNull
   @Override
   String getColumn() {
     return DatabaseConstants.KEY_LABEL;

@@ -8,8 +8,6 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.Spinner;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -17,6 +15,7 @@ import org.totschnig.myexpenses.activity.BackupRestoreActivity;
 import org.totschnig.myexpenses.activity.OnboardingActivity;
 import org.totschnig.myexpenses.activity.SyncBackendSetupActivity;
 import org.totschnig.myexpenses.adapter.CurrencyAdapter;
+import org.totschnig.myexpenses.databinding.OnboardingWizzardDataBinding;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
@@ -26,7 +25,6 @@ import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.sync.GenericAccountService;
-import org.totschnig.myexpenses.ui.AmountInput;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel;
 import org.totschnig.myexpenses.viewmodel.data.Currency;
@@ -37,9 +35,7 @@ import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.lifecycle.ViewModelProviders;
-import butterknife.BindView;
+import androidx.lifecycle.ViewModelProvider;
 import eltos.simpledialogfragment.SimpleDialog;
 import eltos.simpledialogfragment.color.SimpleColorDialog;
 import icepick.Icepick;
@@ -52,24 +48,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 
 public class OnboardingDataFragment extends OnboardingFragment implements AdapterView.OnItemSelectedListener,
     SimpleDialog.OnDialogResultListener {
-
   private static final String KEY_LABEL_UNCHANGED_OR_EMPTY = "label_unchanged_or_empty";
-  @BindView(R.id.MoreOptionsContainer)
-  View moreOptionsContainer;
-  @BindView(R.id.MoreOptionsButton)
-  View moreOptionsButton;
-  @BindView(R.id.Label)
-  EditText labelEditText;
-  @BindView(R.id.Description)
-  EditText descriptionEditText;
-  @BindView(R.id.Amount)
-  AmountInput amountInput;
-  @BindView(R.id.ColorIndicator)
-  AppCompatButton colorIndicator;
-  @BindView(R.id.Currency)
-  Spinner currencySpinner;
-  @BindView(R.id.AccountType)
-  Spinner accountTypeSpinner;
+  private OnboardingWizzardDataBinding binding;
 
   @State
   boolean moreOptionsShown = false;
@@ -91,18 +71,18 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     Icepick.restoreInstanceState(this, savedInstanceState);
-    MyApplication.getInstance().getAppComponent().inject(this);
-    currencyViewModel = ViewModelProviders.of(this).get(CurrencyViewModel.class);
+    ((MyApplication) requireActivity().getApplication()).getAppComponent().inject(this);
+    currencyViewModel = new ViewModelProvider(this).get(CurrencyViewModel.class);
   }
 
   @Override
   public void onSaveInstanceState(@NonNull Bundle outState) {
     super.onSaveInstanceState(outState);
-    final Currency selectedItem = (Currency) currencySpinner.getSelectedItem();
+    final Currency selectedItem = (Currency) binding.Currency.getSelectedItem();
     if (selectedItem != null) {
       outState.putString(KEY_CURRENCY, selectedItem.getCode());
     }
-    String label = labelEditText.getText().toString();
+    String label = binding.Label.getText().toString();
     outState.putBoolean(KEY_LABEL_UNCHANGED_OR_EMPTY, TextUtils.isEmpty(label) ||
         label.equals(getString(R.string.default_account_name)));
     Icepick.saveInstanceState(this, outState);
@@ -157,34 +137,49 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
   }
 
   @Override
+  void bindView(@NonNull View view) {
+    binding = OnboardingWizzardDataBinding.bind(view);
+    binding.MoreOptionsButton.setOnClickListener(v -> {
+      moreOptionsShown = true;
+      showMoreOptions();
+    });
+  }
+
+  @Override
+  public void onDestroyView() {
+    super.onDestroyView();
+    binding = null;
+  }
+
+  @Override
   protected void configureView(Bundle savedInstanceState) {
     //label
     setDefaultLabel();
 
     //amount
-    amountInput.setFractionDigits(2);
-    amountInput.setAmount(BigDecimal.ZERO);
-    amountInput.findViewById(R.id.Calculator).setVisibility(View.GONE);
+    binding.Amount.setFractionDigits(2);
+    binding.Amount.setAmount(BigDecimal.ZERO);
+    binding.Amount.findViewById(R.id.Calculator).setVisibility(View.GONE);
 
     //currency
-    DialogUtils.configureCurrencySpinner(currencySpinner, this);
+    DialogUtils.configureCurrencySpinner(binding.Currency, this);
 
     String code = savedInstanceState != null ? (String) savedInstanceState.get(KEY_CURRENCY) : null;
     final Currency currency = code != null ? Currency.Companion.create(code, requireActivity()) : currencyViewModel.getDefault();
 
     currencyViewModel.getCurrencies().observe(this, currencies -> {
-      final CurrencyAdapter adapter = (CurrencyAdapter) currencySpinner.getAdapter();
+      final CurrencyAdapter adapter = (CurrencyAdapter) binding.Currency.getAdapter();
       adapter.clear();
       adapter.addAll(currencies);
-      currencySpinner.setSelection(adapter.getPosition(currency));
+      binding.Currency.setSelection(adapter.getPosition(currency));
       nextButton.setVisibility(View.VISIBLE);
     });
 
     //type
-    DialogUtils.configureTypeSpinner(accountTypeSpinner);
+    DialogUtils.configureTypeSpinner(binding.AccountType);
 
     //color
-    UiUtils.setBackgroundOnButton(colorIndicator, accountColor);
+    UiUtils.setBackgroundOnButton(binding.colorInput.ColorIndicator, accountColor);
 
     if (moreOptionsShown) {
       showMoreOptions();
@@ -197,7 +192,7 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
   }
 
   public void setDefaultLabel() {
-    labelEditText.setText(R.string.default_account_name);
+    binding.Label.setText(R.string.default_account_name);
   }
 
   @Override
@@ -210,27 +205,20 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
     }
   }
 
-  public void showMoreOptions(View view) {
-    moreOptionsShown = true;
-    showMoreOptions();
-  }
-
   private void showMoreOptions() {
-    moreOptionsButton.setVisibility(View.GONE);
-    moreOptionsContainer.setVisibility(View.VISIBLE);
+    binding.MoreOptionsButton.setVisibility(View.GONE);
+    binding.MoreOptionsContainer.setVisibility(View.VISIBLE);
   }
 
   @Override
   public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-    switch (parent.getId()) {
-      case R.id.Currency:
-        amountInput.setFractionDigits(validateSelectedCurrency().getFractionDigits());
-        break;
+    if (parent.getId() == R.id.Currency) {
+      binding.Amount.setFractionDigits(validateSelectedCurrency().getFractionDigits());
     }
   }
 
   private CurrencyUnit validateSelectedCurrency() {
-    final String currency = ((Currency) currencySpinner.getSelectedItem()).getCode();
+    final String currency = ((Currency) binding.Currency.getSelectedItem()).getCode();
     return currencyContext.get(currency);
   }
 
@@ -240,15 +228,15 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
   }
 
   public Account buildAccount() {
-    String label = labelEditText.getText().toString();
+    String label = binding.Label.getText().toString();
     if (android.text.TextUtils.isEmpty(label)) {
       label = getString(R.string.default_account_name);
     }
-    BigDecimal openingBalance = amountInput.getTypedValue();
+    BigDecimal openingBalance = binding.Amount.getTypedValue();
     CurrencyUnit currency = validateSelectedCurrency();
     return new Account(label, currency, new Money(currency, openingBalance),
-        descriptionEditText.getText().toString(),
-        (AccountType) accountTypeSpinner.getSelectedItem(), accountColor);
+        binding.Description.getText().toString(),
+        (AccountType) binding.AccountType.getSelectedItem(), accountColor);
   }
 
   public void editAccountColor() {
@@ -264,7 +252,7 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
   public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
     if (EDIT_COLOR_DIALOG.equals(dialogTag) && which == BUTTON_POSITIVE) {
       accountColor = extras.getInt(SimpleColorDialog.COLOR);
-      UiUtils.setBackgroundOnButton(colorIndicator, accountColor);
+      UiUtils.setBackgroundOnButton(binding.colorInput.ColorIndicator, accountColor);
       return true;
     }
     return false;

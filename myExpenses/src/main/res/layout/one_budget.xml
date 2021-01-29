@@ -156,6 +156,15 @@
                             android:layout_height="wrap_content"
                             android:text="@string/budget_filter_all_tags"
                             android:theme="@style/Theme.MaterialComponents" />
+
+                        <org.totschnig.myexpenses.ui.filter.ScrollingChip
+                            android:id="@id/FILTER_ACCOUNT_COMMAND"
+                            style="@style/Widget.MaterialComponents.Chip.Action"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/budget_filter_all_accounts"
+                            android:visibility="gone"
+                            android:theme="@style/Theme.MaterialComponents" />
                     </com.google.android.material.chip.ChipGroup>
                 </TableRow>
 

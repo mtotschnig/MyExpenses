@@ -15,7 +15,7 @@ buildscript {
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id 'kotlin-android-extensions'
+    id 'kotlin-parcelize'
     id 'kotlin-kapt'
 }
 
@@ -154,8 +154,8 @@ android {
         }
     }
 
-    viewBinding {
-        enabled = true
+    buildFeatures {
+        viewBinding true
     }
     //It does not seem possible to define dynamicFeatures dependent on variant
     //If you want to build intern variant, you need to include mlkit and/or tesseract module
@@ -336,7 +336,9 @@ task copyFileForFixture(type: Files) {
 }
 
 task echoPublishTag() {
-    println "git tag r${versionCode}; git push origin r${versionCode}"
+    doLast {
+        println "git tag r${versionCode}; git push origin r${versionCode}"
+    }
 }
 
 def categoryIcons() {

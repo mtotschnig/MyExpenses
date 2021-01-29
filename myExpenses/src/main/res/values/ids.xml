@@ -127,6 +127,7 @@
     <item name="MenuGroup" type="id"/>
     <item name="REQUEST_LICENCE_MIGRATION_COMMAND" type="id"/>
     <item name="FILTER_TRANSFER_COMMAND" type="id"/>
+    <item name="FILTER_ACCOUNT_COMMAND" type="id"/>
     <item name="SORT_NEXT_INSTANCE_COMMAND" type="id"/>
     <item name="SYNC_COMMAND" type="id"/>
     <item name="SYNC_SETTINGS_COMMAND" type="id"/>
@@ -192,4 +193,7 @@
     <item name="DEFAULT_ACTION_SAVE_COMMAND" type="id" />
     <item name="DEFAULT_ACTION_EDIT_COMMAND" type="id" />
     <item name="TESSERACT_DOWNLOAD_COMMAND" type="id" />
+    <item name="COPY_TO_CLIPBOARD_COMMAND" type="id" />
+    <item name="NEW_BALANCE_COMMAND" type="id" />
+    <item name="theme" type="id">@id/themeSwitch</item>
 </resources>

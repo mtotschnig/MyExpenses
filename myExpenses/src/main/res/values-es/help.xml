@@ -91,6 +91,7 @@
   <string name="form_comment_help_text">Escriba cualquier nota sobre el objetivo.</string>
   <string name="form_method_help_text">Este campo sólo está disponible si la cuenta corriente está vinculada a cualquier forma de pago. Por defecto, sólo las cuentas bancarias están vinculadas a formas de pago (cheque, tarjeta de crédito, depósito, tarjeta de débito). Vaya a Configuración -&gt; Administrar -&gt; Métodos de pago para configurar la asociación entre tipos de cuenta y formas de pago. Al seleccionar un método como los descritos, aparecerá un campo adicional para introducir un número de referencia.</string>
   <string name="form_attach_image_help_text"><![CDATA[<img src=\"android:ic_menu_camera\"> le permite adjuntar una imagen (por ejemplo, de la galería o la cámara) al objetivo.]]></string>
+  <string name="form_default_action_help_text">Para cada plantilla, puede configurar si un breve toque en la lista de plantillas guardará la instancia inmediatamente o introducir su formulario de edición donde podrá modificarla antes de guardarla. Siempre puede acceder a ambas acciones a través de un toque largo.</string>
   <string name="form_category_help_text">Este botón abre la lista de categorías, donde puede seleccionar la categoría que desea asignar a la transacción.</string>
   <string name="form_split_parts_heading_help_text">Use el botón de acción flotante para ingresar tantas partes divididas como sean necesarias. La diferencia entre la suma de las partes y la transacción se muestra en la parte inferior de la pantalla. Sólo podrá guardar la transacción dividida, si el total de la transacción ha sido asignada de forma exacta.</string>
   <string name="form_ExpenseEdit_splitPartCategory_category_help_text">Seleccione una categoría para esta parte dividida.</string>
@@ -107,6 +108,8 @@
   <string name="menu_invert_transfer_help_text">Invertir la dirección de la transferencia mediante el cambio de \'De\' y \'A\' de las cuentas.</string>
   <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">Si las monedas de las cuentas de \'Desde\' y \'A\' son diferentes, especifique la cantidad de solo uno de ellos. El otro se calculará al crear instancias desde la plantilla.</string>
   <string name="form_goal_or_limit_help_text">Este campo le permite especificar tanto un objetivo de ahorro positivo o un límite de crédito negativo. En cualquier caso, desde la lista de cuenta, un indicador progresivo visualizará la distancia entre el balance actual y el objetivo o límite.</string>
+  <string name="menu_templates_help_text">Abre un menú que enumera todas las plantillas, permitiendo cargarlas rápidamente en el formulario.</string>
+  <string name="menu_create_template_from_transaction_help_text">Si se marca esta casilla, la transacción también se guardará como plantilla. Se puede definir su título y opcionalmente establecer un plan para su repetición automática.</string>
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">Formulario para cuentas</string>
   <string name="form_AccountEdit_label_help_text">La etiqueta identifica la cuenta en la lista de cuentas.</string>

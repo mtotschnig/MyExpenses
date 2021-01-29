@@ -15,6 +15,7 @@ import com.github.lzyzsd.circleprogress.DonutProgress;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.databinding.AccountsHeaderBinding;
 import org.totschnig.myexpenses.model.AccountGrouping;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.AggregateAccount;
@@ -60,18 +61,16 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
 
   private final CurrencyFormatter currencyFormatter;
   private AccountGrouping grouping;
-  private LayoutInflater inflater;
-  private ProtectedFragmentActivity activity;
-  private PrefHandler prefHandler;
-  private CurrencyContext currencyContext;
-  private Context context;
+  private final LayoutInflater inflater;
+  private final PrefHandler prefHandler;
+  private final CurrencyContext currencyContext;
+  private final Context context;
 
   public MyGroupedAdapter(ProtectedFragmentActivity context, Cursor c,
                           CurrencyFormatter currencyFormatter, PrefHandler prefHandler, CurrencyContext currencyContext) {
     super(context, R.layout.account_row_ng, c, 0);
     inflater = LayoutInflater.from(context);
     this.currencyFormatter = currencyFormatter;
-    this.activity = context;
     this.prefHandler = prefHandler;
     this.currencyContext = currencyContext;
     this.context = context;
@@ -85,8 +84,9 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
   public View getHeaderView(int position, View convertView, ViewGroup parent) {
     HeaderViewHolder holder;
     if (convertView == null) {
-      convertView = inflater.inflate(R.layout.accounts_header, parent, false);
-      holder = new HeaderViewHolder(convertView);
+      AccountsHeaderBinding binding = AccountsHeaderBinding.inflate(inflater, parent, false);
+      convertView = binding.getRoot();
+      holder = new HeaderViewHolder(binding);
       convertView.setTag(holder);
     } else {
       holder = (HeaderViewHolder) convertView.getTag();
@@ -96,14 +96,14 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
     long headerId = getHeaderId(position);
     String headerText = null;
     if (headerId == Long.MAX_VALUE) {
-      headerText = activity.getString(R.string.menu_aggregates);
+      headerText = context.getString(R.string.menu_aggregates);
     } else {
       switch (grouping) {
         case CURRENCY:
           headerText = Currency.Companion.create(c.getString(c.getColumnIndex(KEY_CURRENCY)), context).toString();
           break;
         case NONE:
-          headerText = activity.getString(headerId == 0 ? R.string.pref_manage_accounts_title : R.string.menu_aggregates);
+          headerText = context.getString(headerId == 0 ? R.string.pref_manage_accounts_title : R.string.menu_aggregates);
           break;
         case TYPE:
           int headerRes;
@@ -112,11 +112,11 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
           } else {
             headerRes = AccountType.values()[(int) headerId].toStringResPlural();
           }
-          headerText = activity.getString(headerRes);
+          headerText = context.getString(headerRes);
           break;
       }
     }
-    holder.sectionLabel.setText(headerText);
+    holder.binding.sectionLabel.setText(headerText);
     return convertView;
   }
 
@@ -279,10 +279,10 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
   }
 
   class HeaderViewHolder {
-    @BindView(R.id.sectionLabel) TextView sectionLabel;
+    AccountsHeaderBinding binding;
 
-    HeaderViewHolder(View view) {
-      ButterKnife.bind(this, view);
+    HeaderViewHolder(AccountsHeaderBinding binding) {
+      this.binding = binding;
     }
   }
 

@@ -1,8 +1,11 @@
 package org.totschnig.myexpenses.activity
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
+import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
@@ -11,8 +14,11 @@ import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
+import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
+import eltos.simpledialogfragment.form.AmountEdit
 import eltos.simpledialogfragment.form.Hint
 import eltos.simpledialogfragment.form.SimpleFormDialog
 import eltos.simpledialogfragment.form.Spinner
@@ -26,7 +32,10 @@ import org.totschnig.myexpenses.feature.OcrHost
 import org.totschnig.myexpenses.feature.OcrResult
 import org.totschnig.myexpenses.feature.OcrResultFlat
 import org.totschnig.myexpenses.feature.Payee
+import org.totschnig.myexpenses.model.AggregateAccount
 import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
@@ -36,10 +45,13 @@ import org.totschnig.myexpenses.service.WebInputService
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import timber.log.Timber
 import java.io.File
+import java.math.BigDecimal
+import java.util.*
 import javax.inject.Inject
 
 
 const val DIALOG_TAG_OCR_DISAMBIGUATE = "DISAMBIGUATE"
+const val DIALOG_TAG_NEW_BALANCE = "NEW_BALANCE"
 
 abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListener {
     @JvmField
@@ -58,14 +70,29 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     private lateinit var webInputService: WebInputService
     private var webInputServiceBound: Boolean = false
+    val currentCurrencyUnit: CurrencyUnit?
+        get() = currentCurrency?.let { currencyContext.get(it) }
 
     @Inject
     lateinit var discoveryHelper: DiscoveryHelper
+    var accountsCursor: Cursor? = null
+    lateinit var toolbar: Toolbar
+
+    var columnIndexLabel = 0
+    var columnIndexRowId = 0
+    var columnIndexColor = 0
+    var columnIndexCurrency = 0
+    var columnIndexGrouping = 0
+    var columnIndexType = 0
+
+    private var currentBalance: String? = null
+    var currentPosition = -1
+
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         if (savedInstanceState == null) {
-            discoveryHelper.discover(this, floatingActionButton, 3, DiscoveryHelper.Feature.fab_long_press)
+            floatingActionButton?.let { discoveryHelper.discover(this, it, 3, DiscoveryHelper.Feature.fab_long_press) }
         }
     }
 
@@ -167,12 +194,20 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
-    fun createRow(type: Int, isIncome: Boolean) {
+    private fun createRow(type: Int, isIncome: Boolean) {
+        if (type == Transactions.TYPE_SPLIT) {
+            contribFeatureRequested(ContribFeature.SPLIT_TRANSACTION, null)
+        } else {
+            createRowDo(type, isIncome)
+        }
+    }
+
+    fun createRowDo(type: Int, isIncome: Boolean) {
         startEdit(createRowIntent(type, isIncome))
     }
 
     private fun startEdit(intent: Intent?) {
-        floatingActionButton.hide()
+        floatingActionButton?.hide()
         startActivityForResult(intent, EDIT_REQUEST)
     }
 
@@ -187,9 +222,27 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
-        if (DIALOG_TAG_OCR_DISAMBIGUATE == dialogTag && which == OnDialogResultListener.BUTTON_POSITIVE) {
-            startEditFromOcrResult(extras.getParcelable<OcrResult>(KEY_OCR_RESULT)!!.selectCandidates(
-                    extras.getInt(KEY_AMOUNT), extras.getInt(KEY_DATE), extras.getInt(KEY_PAYEE_NAME)))
+        if (which == OnDialogResultListener.BUTTON_POSITIVE) {
+            when (dialogTag) {
+                DIALOG_TAG_OCR_DISAMBIGUATE -> {
+                    startEditFromOcrResult(extras.getParcelable<OcrResult>(KEY_OCR_RESULT)!!.selectCandidates(
+                            extras.getInt(KEY_AMOUNT), extras.getInt(KEY_DATE), extras.getInt(KEY_PAYEE_NAME)))
+                    return true
+                }
+                DIALOG_TAG_NEW_BALANCE -> {
+                    if (currentPosition > -1) {
+                        accountsCursor?.let {
+                            it.moveToPosition(currentPosition)
+                            startEdit(
+                                    createRowIntent(Transactions.TYPE_TRANSACTION, false).apply {
+                                        putExtra(KEY_AMOUNT, (extras.getSerializable(KEY_AMOUNT) as BigDecimal) -
+                                                Money(currentCurrencyUnit, it.getLong(it.getColumnIndex(DatabaseConstants.KEY_CURRENT_BALANCE))).amountMajor)
+                                    }
+                            )
+                        }
+                    }
+                }
+            }
         }
         return false
     }
@@ -206,16 +259,17 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     ?.activityInfo?.let {
                         intent.component = ComponentName(it.applicationInfo.packageName, it.name)
                         startActivity(intent)
-                    } ?: run { Toast.makeText(this, "F-Droid not installed", Toast.LENGTH_LONG).show()}
+                    }
+                    ?: run { Toast.makeText(this, "F-Droid not installed", Toast.LENGTH_LONG).show() }
             return true
         }
         return false
     }
 
     fun setupFabSubMenu() {
-        floatingActionButton.setOnLongClickListener {
+        floatingActionButton?.setOnLongClickListener { fab ->
             discoveryHelper.markDiscovered(DiscoveryHelper.Feature.fab_long_press)
-            val popup = PopupMenu(this, floatingActionButton)
+            val popup = PopupMenu(this, fab)
             val popupMenu = popup.menu
             popup.setOnMenuItemClickListener { item ->
                 createRow(when (item.itemId) {
@@ -242,5 +296,51 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         menu.findItem(R.id.SCAN_MODE_COMMAND)?.isChecked = prefHandler.getBoolean(PrefKey.OCR, false)
         menu.findItem(R.id.WEB_INPUT_COMMAND)?.isChecked = webInputActive
         return super.onPrepareOptionsMenu(menu)
+    }
+
+    fun setupToolbarPopupMenu() {
+        toolbar.setOnClickListener {
+            if (currentPosition > -1) {
+                val popup = PopupMenu(this, toolbar)
+                val popupMenu = popup.menu
+                popupMenu.add(Menu.NONE, R.id.COPY_TO_CLIPBOARD_COMMAND, Menu.NONE, R.string.copy_text)
+                popupMenu.add(Menu.NONE, R.id.NEW_BALANCE_COMMAND, Menu.NONE, getString(R.string.new_balance))
+                popup.setOnMenuItemClickListener { item ->
+                    when (item.itemId) {
+                        R.id.COPY_TO_CLIPBOARD_COMMAND -> copyToClipBoard()
+                        R.id.NEW_BALANCE_COMMAND -> if (accountId > 0) {
+                            SimpleFormDialog.build().fields(
+                                    AmountEdit.plain(KEY_AMOUNT).label(R.string.new_balance).fractionDigits(currentCurrencyUnit!!.fractionDigits)
+                            ).show(this, DIALOG_TAG_NEW_BALANCE)
+                        }
+                    }
+                    true
+                }
+                popup.show()
+            }
+        }
+    }
+
+    fun setBalance() {
+        accountsCursor?.let {
+            val balance = it.getLong(it.getColumnIndex(DatabaseConstants.KEY_CURRENT_BALANCE))
+            val label = it.getString(columnIndexLabel)
+            val isHome = it.getInt(it.getColumnIndex(DatabaseConstants.KEY_IS_AGGREGATE)) == AggregateAccount.AGGREGATE_HOME
+            currentBalance = String.format(Locale.getDefault(), "%s%s", if (isHome) " ≈ " else "",
+                    currencyFormatter.formatCurrency(Money(currentCurrencyUnit, balance)))
+            title = if (isHome) getString(R.string.grand_total) else label
+            toolbar.subtitle = currentBalance
+            toolbar.setSubtitleTextColor(resources.getColor(if (balance < 0) R.color.colorExpense else R.color.colorIncome))
+        }
+
+    }
+
+    private fun copyToClipBoard() {
+        try {
+            ContextCompat.getSystemService(this, ClipboardManager::class.java)?.setPrimaryClip(ClipData.newPlainText(null, currentBalance))
+            showSnackbar(R.string.toast_text_copied)
+        } catch (e: RuntimeException) {
+            Timber.e(e)
+        }
     }
 }

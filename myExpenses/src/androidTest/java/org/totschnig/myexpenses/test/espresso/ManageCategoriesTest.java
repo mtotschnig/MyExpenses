@@ -10,6 +10,8 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.testutils.BaseUiTest;
 
+import java.util.concurrent.TimeoutException;
+
 import androidx.test.rule.ActivityTestRule;
 
 import static androidx.test.espresso.Espresso.onView;
@@ -30,7 +32,7 @@ public class ManageCategoriesTest extends BaseUiTest {
   }
 
   @Test
-  public void setupCategoriesShouldPopulateList() {
+  public void setupCategoriesShouldPopulateList() throws TimeoutException {
     assertThat(waitForAdapter().getCount()).isEqualTo(0);
     openActionBarOverflowMenu();
     onView(withText(R.string.menu_categories_setup_default)).perform(click());

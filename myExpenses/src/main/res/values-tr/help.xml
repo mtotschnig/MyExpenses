@@ -10,6 +10,9 @@
   <string name="help_MyExpenses_title">Muamele listesi</string>
   <string name="help_MyExpenses_info">Bu ekran güncel hesap için tüm muameleleri gösterir. Yeni muamele oluşturacak formu açmak için kayan eylem düğmesini kullanın.</string>
   <string name="help_MyExpenses_fab_long_press">Kayan eylem düğmesine uzun süre dokunmak, gelir, transfer veya bölünmüş muamele için form hazırlamaya izin veren bir menü açar.</string>
+  <string name="popup_MyExpenses_toolbar_intro">Araç çubuğuna (hesap etiketi veya güncel bakiye) dokunmanız aşağıdaki unsurları içeren bir menü açar: </string>
+  <string name="popup_MyExpenses_toolbar_copy_text">Güncel bakiyeyi panoya kopyala.</string>
+  <string name="popup_MyExpenses_toolbar_new_balance">Yeni bir değer ile güncel bakiye arasındaki fark hesaplanabilir.</string>
   <string name="help_MyExpenses_crStatus_info">Muamelenin durumu renkli bir dikdörtgen ile gösterilir: uzlaşmamış için gri, temiz için mavi, uzlaşmış için yeşil. Dikdörtgene tıklamak durumu değiştirir.</string>
   <string name="menu_reset_help_text">Bu komut güncel hesabın tüm muamelelerini QIF ya da CSV biçiminde SD kartında bir dosyaya aktarır. Dışa aktarılan muameleleri silmeyi seçebilirsiniz, bu durumda açılış bakiyesi otomatik olarak ayarlanır. Alternatif olarak, eğer muameleler silinmediyse, dışa aktarılmış olarak işaretleneceklerdir. Ayarlarda yapılmasını ayarlarsanız Harcamalarım dışa aktarmanın ardından dosyayı derhal FTP, e-posta ya da herhangi diğer bir dosya paylaşımı uygulamasıyla paylaşabilir. Eğer bir arama filtresi etkinse sadece bu filtreyle eşleşen muameleler dikkate alınacaktır.</string>
   <string name="menu_grouping_help_text">Muameleleri gün, hafta, ay, ya da yıla dayanarak gruplandırabilirsiniz. Her grup için gelir, gider ve transferlerin toplamı hesaplanır ve görüntülenir. Bir grup başlığına tıkladığınız zaman muamele grubu küçültülür ve sadece başlık görüntülenir. Genişletmek için tekrar tıklamak yeterlidir.</string>

@@ -19,11 +19,10 @@ import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayout.Tab;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.OnboardingActivity;
+import org.totschnig.myexpenses.databinding.RestoreFromCloudBinding;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
 
 import java.util.ArrayList;
@@ -31,26 +30,15 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class RestoreFromCloudDialogFragment extends BaseDialogFragment
     implements DialogInterface.OnClickListener, AdapterView.OnItemClickListener, DialogUtils.CalendarRestoreStrategyChangedListener {
   private static final String KEY_BACKUP_LIST = "backupList";
   private static final String KEY_SYNC_ACCOUNT_LIST = "syncAccountList";
-  @BindView(R.id.tabs)
-  TabLayout tabLayout;
-  @BindView(R.id.backup_list)
-  LinearLayout backupListContainer;
-  @BindView(R.id.sync_account_list)
-  LinearLayout syncAccountListContainer;
-  @BindView(R.id.passwordLayout)
-  TextInputLayout passwordLayout;
-  @BindView(R.id.passwordEdit)
-  TextInputEditText passwordEdit;
   private RadioGroup restorePlanStrategie;
   private RadioGroup.OnCheckedChangeListener calendarRestoreButtonCheckedChangeListener;
   private ArrayAdapter<String> backupAdapter;
+  private RestoreFromCloudBinding binding;
 
   public static RestoreFromCloudDialogFragment newInstance(List<String> backupList, List<AccountMetaData> syncAccountList) {
     Bundle arguments = new Bundle(2);
@@ -64,10 +52,12 @@ public class RestoreFromCloudDialogFragment extends BaseDialogFragment
   @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    AlertDialog.Builder builder = initBuilderWithView(R.layout.restore_from_cloud);
-    ButterKnife.bind(this, dialogView);
-    passwordLayout.setHint(getString(R.string.input_label_passphrase));
-    passwordEdit.addTextChangedListener(new TextWatcher() {
+    AlertDialog.Builder builder = initBuilder();
+    binding = RestoreFromCloudBinding.inflate(layoutInflater);
+    dialogView = binding.getRoot();
+    builder.setView(dialogView);
+    binding.passwordLayout.passwordLayout.setHint(getString(R.string.input_label_passphrase));
+    binding.passwordLayout.passwordEdit.addTextChangedListener(new TextWatcher() {
       @Override
       public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -86,30 +76,27 @@ public class RestoreFromCloudDialogFragment extends BaseDialogFragment
     ArrayList<String> backups = getBackups();
     ArrayList<AccountMetaData> syncAccounts = getSyncAccounts();
     if (backups != null && backups.size() > 0) {
-      ListView backupList = findListView(backupListContainer);
       backupAdapter = new ArrayAdapter<>(getActivity(),
           android.R.layout.simple_list_item_single_choice, backups);
-      backupList.setAdapter(backupAdapter);
-      backupList.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
-      backupList.setOnItemClickListener(this);
-      restorePlanStrategie = DialogUtils.configureCalendarRestoreStrategy(backupListContainer);
+      binding.backupList.setAdapter(backupAdapter);
+      binding.backupList.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
+      binding.backupList.setOnItemClickListener(this);
+      restorePlanStrategie = DialogUtils.configureCalendarRestoreStrategy(binding.backupListContainer);
       if (restorePlanStrategie != null) {
         calendarRestoreButtonCheckedChangeListener =
             DialogUtils.buildCalendarRestoreStrategyChangedListener(getActivity(), this);
         restorePlanStrategie.setOnCheckedChangeListener(calendarRestoreButtonCheckedChangeListener);
       }
-      DialogUtils.configureCalendarRestoreStrategy(backupListContainer);
-      tabLayout.addTab(tabLayout.newTab().setText(R.string.onboarding_restore_from_cloud_backup).setTag(backupListContainer));
+      binding.tabs.addTab(binding.tabs.newTab().setText(R.string.onboarding_restore_from_cloud_backup).setTag(binding.backupListContainer));
     }
     if (syncAccounts != null && syncAccounts.size() > 0) {
-      ListView syncAccountList = findListView(syncAccountListContainer);
-      syncAccountList.setAdapter(new ArrayAdapter<>(getActivity(),
+      binding.syncAccountList.setAdapter(new ArrayAdapter<>(getActivity(),
           android.R.layout.simple_list_item_multiple_choice, syncAccounts));
-      syncAccountList.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
-      syncAccountList.setOnItemClickListener(this);
-      tabLayout.addTab(tabLayout.newTab().setText(R.string.onboarding_restore_from_cloud_sync_accounts).setTag(syncAccountListContainer));
+      binding.syncAccountList.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
+      binding.syncAccountList.setOnItemClickListener(this);
+      binding.tabs.addTab(binding.tabs.newTab().setText(R.string.onboarding_restore_from_cloud_sync_accounts).setTag(binding.syncAccountListContainer));
     }
-    tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+    binding.tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
       @Override
       public void onTabSelected(Tab tab) {
         setTabVisibility(tab, View.VISIBLE);
@@ -126,11 +113,11 @@ public class RestoreFromCloudDialogFragment extends BaseDialogFragment
 
       }
     });
-    setTabVisibility(tabLayout.getTabAt(0), View.VISIBLE);
+    setTabVisibility(binding.tabs.getTabAt(0), View.VISIBLE);
 
     final AlertDialog dialog = builder.setTitle(R.string.onboarding_restore_from_cloud)
         .setPositiveButton(android.R.string.ok, this)
-        .setNegativeButton(android.R.string.cancel,null)
+        .setNegativeButton(android.R.string.cancel, null)
         .create();
     dialog.setOnShowListener(new ButtonOnShowDisabler());
     return dialog;
@@ -169,7 +156,7 @@ public class RestoreFromCloudDialogFragment extends BaseDialogFragment
       if (restorePlanStrategie.getCheckedRadioButtonId() == -1) {
         return false;
       }
-      if (passwordLayout.getVisibility() == View.VISIBLE && TextUtils.isEmpty(passwordEdit.getText().toString())) {
+      if (binding.passwordLayout.passwordLayout.getVisibility() == View.VISIBLE && TextUtils.isEmpty(binding.passwordLayout.passwordEdit.getText().toString())) {
         return false;
       }
     }
@@ -177,7 +164,7 @@ public class RestoreFromCloudDialogFragment extends BaseDialogFragment
   }
 
   private LinearLayout getActiveContent() {
-    return getContentForTab(tabLayout.getTabAt(tabLayout.getSelectedTabPosition()));
+    return getContentForTab(binding.tabs.getTabAt(binding.tabs.getSelectedTabPosition()));
   }
 
   @Override
@@ -189,7 +176,7 @@ public class RestoreFromCloudDialogFragment extends BaseDialogFragment
       LinearLayout contentForTab = getActiveContent();
       switch (contentForTab.getId()) {
         case R.id.backup_list:
-          final String password = passwordLayout.getVisibility() == View.VISIBLE ? passwordEdit.getText().toString() : null;
+          final String password = binding.passwordLayout.passwordLayout.getVisibility() == View.VISIBLE ? binding.passwordLayout.passwordEdit.getText().toString() : null;
           activity.setupFromBackup(backups.get(findListView(contentForTab).getCheckedItemPosition()),
               restorePlanStrategie.getCheckedRadioButtonId(), password);
           break;
@@ -213,9 +200,15 @@ public class RestoreFromCloudDialogFragment extends BaseDialogFragment
   @Override
   public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
     if (((LinearLayout) parent.getParent()).getId() == R.id.backup_list) {
-      passwordLayout.setVisibility(backupAdapter.getItem(position).endsWith("enc") ? View.VISIBLE : View.GONE);
+      binding.passwordLayout.passwordLayout.setVisibility(backupAdapter.getItem(position).endsWith("enc") ? View.VISIBLE : View.GONE);
     }
     configureSubmit();
+  }
+
+  @Override
+  public void onDestroyView() {
+    super.onDestroyView();
+    binding = null;
   }
 
   @Override

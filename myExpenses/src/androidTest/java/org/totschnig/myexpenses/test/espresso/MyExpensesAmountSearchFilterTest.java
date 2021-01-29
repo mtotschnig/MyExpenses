@@ -20,6 +20,7 @@ import org.totschnig.myexpenses.testutils.BaseUiTest;
 import org.totschnig.myexpenses.testutils.Matchers;
 
 import java.util.Currency;
+import java.util.concurrent.TimeoutException;
 
 import androidx.test.espresso.matcher.CursorMatchers;
 import androidx.test.rule.ActivityTestRule;
@@ -63,7 +64,7 @@ public final class MyExpensesAmountSearchFilterTest extends BaseUiTest {
   }
 
   @Test
-  public void amountFilterShouldHideTransaction() {
+  public void amountFilterShouldHideTransaction() throws TimeoutException {
     waitForAdapter();
     amountIsDisplayed(amount1);
     amountIsDisplayed(amount2);

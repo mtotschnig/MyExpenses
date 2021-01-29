@@ -1,16 +1,10 @@
 package org.totschnig.myexpenses.test.model;
 
-import android.test.ProviderTestCase2;
-
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.PaymentMethod;
-import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.testutils.BaseProviderTest;
 
-public abstract class ModelTest extends ProviderTestCase2<TransactionProvider> {
-  public ModelTest() {
-    super(TransactionProvider.class, TransactionProvider.AUTHORITY);
-  }
-
+public abstract class ModelTest extends BaseProviderTest {
   @Override
   protected void setUp() throws Exception {
     super.setUp();

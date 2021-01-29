@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2011 Google Inc.
+     Licensed to The Android Open Source Project.
+     android-source/packages/apps/UnifiedEmail/res/values/strings.xmlls
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="drawer_open">"내비게이션 폴더 열기"</string>
+    <string name="drawer_close">"내비게이션 폴더 닫기"</string>
+    <string name="toast_text_copied">"텍스트 복사됨"</string>
+    <string name="copy_text">"클립보드에 복사"</string>
+</resources>
+

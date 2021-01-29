@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.dialog.select
 import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
-import android.database.Cursor
 import android.os.Bundle
 import android.widget.AbsListView
 import android.widget.AdapterView
@@ -21,6 +20,10 @@ abstract class SelectSingleDialogFragment : SelectFromTableDialogFragment(false)
             })
         }
         dismiss()
+    }
+
+    override fun getDialogTitle(): Int {
+        return requireArguments().getInt(KEY_DIALOG_TITLE)
     }
 
     private fun buildExtras(): Bundle? {

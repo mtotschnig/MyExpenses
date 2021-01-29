@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.dialog.select
 
-import org.jetbrains.annotations.NotNull
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 

@@ -16,6 +16,7 @@ import com.annimon.stream.Stream;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.databinding.RoadmapBinding;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.retrofit.Issue;
@@ -37,10 +38,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import eltos.simpledialogfragment.SimpleDialog;
 import eltos.simpledialogfragment.form.Input;
 import eltos.simpledialogfragment.form.SimpleFormDialog;
@@ -55,8 +53,7 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
   private static final String DIALOG_TAG_SUBMIT_VOTE = "ROADMAP_VOTE";
   private static final String KEY_POSITION = "position";
   private static final String KEY_EMAIL = "EMAIL";
-  @BindView(R.id.my_recycler_view)
-  ContextAwareRecyclerView recyclerView;
+  private RoadmapBinding binding;
   private List<Issue> dataSet;
   private List<Issue> dataSetFiltered;
   private MenuItem voteMenuItem;
@@ -70,14 +67,12 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
 
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.roadmap);
-    ButterKnife.bind(this);
-    LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-    recyclerView.setLayoutManager(layoutManager);
-    recyclerView.addItemDecoration(new DividerItemDecoration(this, layoutManager.getOrientation()));
+    binding = RoadmapBinding.inflate(getLayoutInflater());
+    setContentView(binding.getRoot());
+    binding.myRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
     roadmapAdapter = new RoadmapAdapter();
-    recyclerView.setAdapter(roadmapAdapter);
-    registerForContextMenu(recyclerView);
+    binding.myRecyclerView.setAdapter(roadmapAdapter);
+    registerForContextMenu(binding.myRecyclerView);
     setupToolbar(true);
     getSupportActionBar().setTitle(R.string.roadmap_vote);
 

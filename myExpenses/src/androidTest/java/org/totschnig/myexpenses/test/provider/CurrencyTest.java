@@ -12,7 +12,7 @@ public class CurrencyTest extends BaseDbTest {
 
   public void testShouldNotDeleteFrameworkCurrency() {
     try {
-      mMockResolver.delete(TransactionProvider.CURRENCIES_URI.buildUpon().appendPath("EUR").build(), null, null);
+      getMockContentResolver().delete(TransactionProvider.CURRENCIES_URI.buildUpon().appendPath("EUR").build(), null, null);
       fail("Expected deletion of framework currency to fail");
     } catch (IllegalArgumentException e) {
       e.printStackTrace();
@@ -25,7 +25,7 @@ public class CurrencyTest extends BaseDbTest {
         null,
         TEST_CURRENCY.getContentValues()
     );
-    int result = mMockResolver.delete(TransactionProvider.CURRENCIES_URI.buildUpon().appendPath(TEST_CURRENCY.code).build(), null, null);
+    int result = getMockContentResolver().delete(TransactionProvider.CURRENCIES_URI.buildUpon().appendPath(TEST_CURRENCY.code).build(), null, null);
     assertEquals(1, result);
   }
 
@@ -40,7 +40,7 @@ public class CurrencyTest extends BaseDbTest {
         null,
         TEST_ACCOUNT.getContentValues()
     );
-    int result = mMockResolver.delete(TransactionProvider.CURRENCIES_URI.buildUpon().appendPath(TEST_CURRENCY.code).build(), null, null);
+    int result = getMockContentResolver().delete(TransactionProvider.CURRENCIES_URI.buildUpon().appendPath(TEST_CURRENCY.code).build(), null, null);
     assertEquals(0, result);
   }
 }

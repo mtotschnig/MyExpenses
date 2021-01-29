@@ -67,7 +67,7 @@ public class CategoryTest extends BaseDbTest {
     final String[] SELECTION_ARGS = {"Main 1", "Main 2", "Sub 1"};
     final String SORT_ORDER = DatabaseConstants.KEY_LABEL + " ASC";
 
-    Cursor cursor = mMockResolver.query(
+    Cursor cursor = getMockContentResolver().query(
         TransactionProvider.CATEGORIES_URI,
         null,
         null,
@@ -81,7 +81,7 @@ public class CategoryTest extends BaseDbTest {
     insertData();
     cursor.close();
 
-    cursor = mMockResolver.query(
+    cursor = getMockContentResolver().query(
         TransactionProvider.CATEGORIES_URI,
         null,
         null,
@@ -93,7 +93,7 @@ public class CategoryTest extends BaseDbTest {
     assertEquals(TEST_CATEGORIES.length, cursor.getCount());
     cursor.close();
 
-    Cursor projectionCursor = mMockResolver.query(
+    Cursor projectionCursor = getMockContentResolver().query(
         TransactionProvider.CATEGORIES_URI,
         TEST_PROJECTION,
         null,
@@ -108,7 +108,7 @@ public class CategoryTest extends BaseDbTest {
     assertEquals(TEST_PROJECTION[1], projectionCursor.getColumnName(1));
     projectionCursor.close();
 
-    projectionCursor = mMockResolver.query(
+    projectionCursor = getMockContentResolver().query(
         TransactionProvider.CATEGORIES_URI,
         TEST_PROJECTION,
         SELECTION_COLUMNS,
@@ -143,7 +143,7 @@ public class CategoryTest extends BaseDbTest {
 
     Uri categoryIdUri = ContentUris.withAppendedId(TransactionProvider.CATEGORIES_URI, 1);
 
-    Cursor cursor = mMockResolver.query(
+    Cursor cursor = getMockContentResolver().query(
         categoryIdUri,
         null,
         null,
@@ -157,7 +157,7 @@ public class CategoryTest extends BaseDbTest {
     insertData();
     cursor.close();
 
-    cursor = mMockResolver.query(
+    cursor = getMockContentResolver().query(
         TransactionProvider.CATEGORIES_URI,
         CATEGORY_ID_PROJECTION,
         SELECTION_COLUMNS,
@@ -175,7 +175,7 @@ public class CategoryTest extends BaseDbTest {
     categoryIdUri = ContentUris.withAppendedId(TransactionProvider.CATEGORIES_URI, inputCategoryId);
     cursor.close();
 
-    cursor = mMockResolver.query(categoryIdUri,
+    cursor = getMockContentResolver().query(categoryIdUri,
         CATEGORY_ID_PROJECTION,
         SELECTION_COLUMNS,
         SELECTION_ARGS,
@@ -195,14 +195,14 @@ public class CategoryTest extends BaseDbTest {
     CategoryInfo transaction = new CategoryInfo(
         "Main 3", null);
 
-    Uri rowUri = mMockResolver.insert(
+    Uri rowUri = getMockContentResolver().insert(
         TransactionProvider.CATEGORIES_URI,
         transaction.getContentValues()
     );
 
     long categoryId = ContentUris.parseId(rowUri);
 
-    Cursor cursor = mMockResolver.query(
+    Cursor cursor = getMockContentResolver().query(
         TransactionProvider.CATEGORIES_URI,
         null,
         null,
@@ -226,14 +226,14 @@ public class CategoryTest extends BaseDbTest {
     values.put(DatabaseConstants.KEY_ROWID, categoryId);
 
     try {
-      mMockResolver.insert(TransactionProvider.CATEGORIES_URI, values);
+      getMockContentResolver().insert(TransactionProvider.CATEGORIES_URI, values);
       fail("Expected insert failure for existing record but insert succeeded.");
     } catch (Exception e) {
     }
     values.remove(DatabaseConstants.KEY_ROWID);
     values.put(DatabaseConstants.KEY_PARENTID, 100);
     try {
-      mMockResolver.insert(TransactionProvider.CATEGORIES_URI, values);
+      getMockContentResolver().insert(TransactionProvider.CATEGORIES_URI, values);
       fail("Expected insert failure for link to non-existing parent but insert succeeded.");
     } catch (Exception e) {
     }
@@ -245,7 +245,7 @@ public class CategoryTest extends BaseDbTest {
 
     final String[] SELECTION_ARGS_MAIN = {"Main 1"};
 
-    int rowsDeleted = mMockResolver.delete(
+    int rowsDeleted = getMockContentResolver().delete(
         TransactionProvider.CATEGORIES_URI,
         SELECTION_COLUMNS,
         SELECTION_ARGS_MAIN
@@ -256,7 +256,7 @@ public class CategoryTest extends BaseDbTest {
     insertData();
 
     try {
-      mMockResolver.delete(
+      getMockContentResolver().delete(
           TransactionProvider.CATEGORIES_URI,
           DatabaseConstants.KEY_LABEL + " = " + "?",
           new String[]{"Main 1"}
@@ -275,7 +275,7 @@ public class CategoryTest extends BaseDbTest {
 
     insertData();
 
-    int rowsDeleted = mMockResolver.delete(
+    int rowsDeleted = getMockContentResolver().delete(
         TransactionProvider.CATEGORIES_URI,
         SELECTION_COLUMNS,
         SELECTION_ARGS_SUB
@@ -283,7 +283,7 @@ public class CategoryTest extends BaseDbTest {
 
     assertEquals(2, rowsDeleted);
 
-    rowsDeleted = mMockResolver.delete(
+    rowsDeleted = getMockContentResolver().delete(
         TransactionProvider.CATEGORIES_URI,
         SELECTION_COLUMNS,
         SELECTION_ARGS_MAIN
@@ -291,7 +291,7 @@ public class CategoryTest extends BaseDbTest {
 
     assertEquals(2, rowsDeleted);
 
-    Cursor cursor = mMockResolver.query(
+    Cursor cursor = getMockContentResolver().query(
         TransactionProvider.CATEGORIES_URI,
         null,
         SELECTION_COLUMNS,
@@ -303,7 +303,7 @@ public class CategoryTest extends BaseDbTest {
     assertEquals(0, cursor.getCount());
     cursor.close();
 
-    cursor = mMockResolver.query(
+    cursor = getMockContentResolver().query(
         TransactionProvider.CATEGORIES_URI,
         null,
         SELECTION_COLUMNS,
@@ -326,7 +326,7 @@ public class CategoryTest extends BaseDbTest {
     values.put(DatabaseConstants.KEY_LABEL, "Testing an update with this string");
 
     try {
-      mMockResolver.update(
+      getMockContentResolver().update(
           TransactionProvider.CATEGORIES_URI,
           values,
           SELECTION_COLUMNS,
@@ -342,7 +342,7 @@ public class CategoryTest extends BaseDbTest {
         "Main 1", null);
 
     try {
-      mMockResolver.insert(
+      getMockContentResolver().insert(
           TransactionProvider.CATEGORIES_URI,
           category.getContentValues()
       );
@@ -357,7 +357,7 @@ public class CategoryTest extends BaseDbTest {
         "Sub 1", testIds[0]);
 
     try {
-      mMockResolver.insert(
+      getMockContentResolver().insert(
           TransactionProvider.CATEGORIES_URI,
           category.getContentValues()
       );
@@ -373,7 +373,7 @@ public class CategoryTest extends BaseDbTest {
     try {
       ContentValues args = new ContentValues();
       args.put(KEY_LABEL, "Main 1");
-      mMockResolver.update(
+      getMockContentResolver().update(
           TransactionProvider.CATEGORIES_URI.buildUpon().appendPath(String.valueOf(testIds[1])).build(),
           args, null, null
       );
@@ -388,7 +388,7 @@ public class CategoryTest extends BaseDbTest {
     try {
       ContentValues args = new ContentValues();
       args.put(KEY_LABEL, "Sub 1");
-      mMockResolver.update(
+      getMockContentResolver().update(
           TransactionProvider.CATEGORIES_URI.buildUpon().appendPath(String.valueOf(testIds[3])).build(),
           args, null, null
       );
@@ -403,13 +403,13 @@ public class CategoryTest extends BaseDbTest {
     final int testcolor = ColorUtils.MAIN_COLORS[0];
     args.put(KEY_COLOR, testcolor);
     final Uri categoryIdUri = TransactionProvider.CATEGORIES_URI.buildUpon().appendPath(String.valueOf(testIds[3])).build();
-    mMockResolver.update(
+    getMockContentResolver().update(
         categoryIdUri,
         args, null, null
     );
     final String[] CATEGORY_ID_PROJECTION = {
         DatabaseConstants.KEY_COLOR};
-    Cursor cursor = mMockResolver.query(categoryIdUri,
+    Cursor cursor = getMockContentResolver().query(categoryIdUri,
         CATEGORY_ID_PROJECTION,
         null,
         null,
@@ -430,7 +430,7 @@ public class CategoryTest extends BaseDbTest {
     final String[] CATEGORY_ID_PROJECTION = {
         DatabaseConstants.KEY_PARENTID,
         DatabaseConstants.KEY_COLOR};
-    Cursor cursor = mMockResolver.query(TransactionProvider.CATEGORIES_URI,
+    Cursor cursor = getMockContentResolver().query(TransactionProvider.CATEGORIES_URI,
         CATEGORY_ID_PROJECTION,
         null,
         null,

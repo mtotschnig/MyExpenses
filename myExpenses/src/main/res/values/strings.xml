@@ -555,7 +555,6 @@
     <string name="exchange_rate">Exchange rate</string>
     <string name="date_format_hour">Hour</string>
     <string name="date_format_minute">Minute</string>
-    <string name="copied_to_clipboard">Copied to clipboard</string>
     <string name="menu_sort">Sort by</string>
     <string name="pref_sort_order_last_used">Last used</string>
     <string name="pref_sort_order_custom">Custom</string>
@@ -860,6 +859,7 @@
     <string name="budget_filter_all_methods">All methods</string>
     <string name="budget_filter_all_states">All status</string>
     <string name="budget_filter_all_tags">All tags</string>
+    <string name="budget_filter_all_accounts">All accounts</string>
     <string name="budget_form_label_filter">Filter</string>
     <string name="dialog_title_warning_delete_budget">Delete budget?</string>
     <string name="warning_delete_budget">Budget \"%1$s\" will be deleted.</string>
@@ -971,4 +971,8 @@
     <string name="ocr_download_info">Text recognition capability is provided by an external application.</string>
     <!-- %s is replaced with the title of the preference for setting a passphrase for backups (pref_security_export_passphrase_title) -->
     <string name="warning_unencrypted_backup">While your data is protected from unauthorized access on this device, backups are created without encryption, unless you configure %s.</string>
+    <!-- Title of a preference switch that allows to configure display of group header. If switched on sums for income/expense/transfer are shown -->
+    <string name="pref_group_header_show_details_summary">Show detail sums in group header</string>
+    <!-- Title of a menu item and a dialogue that allow to adjust the current balance. User can enter the new balance, and transaction form is opened with the amount prefiled to the difference between old and new balance  -->
+    <string name="new_balance">New balance</string>
 </resources>

@@ -21,23 +21,17 @@ class TagCriteria(label: String, vararg ids: String) : IdCriteria(label, *ids) {
     override fun getColumn() = TAG_COLUMN
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(label);
+        parcel.writeString(label)
         parcel.writeStringArray(values)
     }
 
     override fun shouldApplyToParts() = false
 
     companion object CREATOR : Parcelable.Creator<TagCriteria> {
-        override fun createFromParcel(parcel: Parcel): TagCriteria {
-            return TagCriteria(parcel)
-        }
+        override fun createFromParcel(parcel: Parcel) = TagCriteria(parcel)
 
-        override fun newArray(size: Int): Array<TagCriteria?> {
-            return arrayOfNulls(size)
-        }
+        override fun newArray(size: Int): Array<TagCriteria?> = arrayOfNulls(size)
 
-        fun fromStringExtra(extra: String): TagCriteria? {
-            return fromStringExtra(extra, TagCriteria::class.java)
-        }
+        fun fromStringExtra(extra: String) = fromStringExtra(extra, TagCriteria::class.java)
     }
 }

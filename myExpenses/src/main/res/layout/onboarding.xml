@@ -6,7 +6,7 @@
     android:fitsSystemWindows="true">
 
     <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewpager"
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true" />
@@ -19,7 +19,7 @@
         app:piv_animationType="slide"
         app:piv_dynamicCount="true"
         app:piv_interactiveAnimation="true"
-        app:piv_viewPager="@id/viewpager"
+        app:piv_viewPager="@id/viewPager"
         app:piv_padding="12dp"
         app:piv_radius="8dp" />
 </FrameLayout>

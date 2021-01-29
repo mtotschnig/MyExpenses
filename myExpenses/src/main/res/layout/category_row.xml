@@ -16,12 +16,12 @@
         android:src="@drawable/expander_close_mtrl_alpha"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/color1"
+        app:layout_constraintEnd_toStartOf="@id/color"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="?colorControlNormal" />
 
     <View
-        android:id="@+id/color1"
+        android:id="@+id/color"
         android:layout_width="@dimen/category_color_diameter"
         android:layout_height="@dimen/category_color_diameter"
         android:layout_marginBottom="2dp"
@@ -40,7 +40,7 @@
         android:layout_width="@dimen/category_icon_size"
         android:layout_height="@dimen/category_icon_size"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/color1"
+        app:layout_constraintStart_toEndOf="@+id/color"
         app:layout_constraintEnd_toStartOf="@id/label"
         app:layout_constraintTop_toTopOf="parent"/>
 

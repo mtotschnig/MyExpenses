@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.AccountEdit;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.testutils.Espresso;
 
 import androidx.test.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
@@ -54,6 +55,6 @@ public class AccountEditTest {
     Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), AccountEdit.class);
     mActivityRule.launchActivity(i);
     onView(withId(R.id.Currency)).check(matches(isDisplayed()));
-    onView(withId(R.id.Currency)).check(matches(withListSize(Matchers.greaterThan(0))));
+    onView(withId(R.id.Currency)).perform(Espresso.wait(withListSize(Matchers.greaterThan(0)), 1000));
   }
 }

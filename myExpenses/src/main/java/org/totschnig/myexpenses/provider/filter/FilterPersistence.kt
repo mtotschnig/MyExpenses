@@ -7,7 +7,7 @@ import timber.log.Timber
 
 const val KEY_FILTER = "filter"
 
-class FilterPersistence(val prefHandler: PrefHandler, val keyTemplate: String, savedInstanceState: Bundle?, val immediatePersist: Boolean, restoreFromPreferences: Boolean = true) {
+class FilterPersistence(val prefHandler: PrefHandler, private val keyTemplate: String, savedInstanceState: Bundle?, val immediatePersist: Boolean, restoreFromPreferences: Boolean = true) {
     val whereFilter: WhereFilter
     init {
         whereFilter = savedInstanceState?.getParcelableArrayList<Criteria>(KEY_FILTER)?.let {
@@ -41,11 +41,14 @@ class FilterPersistence(val prefHandler: PrefHandler, val keyTemplate: String, s
                 Timber.e(e)
             }
         }
-        prefHandler.getString(prefNameForCriteria(TransferCriteria.COLUMN), null)?.let {
+        prefHandler.getString(prefNameForCriteria(TRANSFER_COLUMN), null)?.let {
             whereFilter.put(TransferCriteria.fromStringExtra(it))
         }
         prefHandler.getString(prefNameForCriteria(TAG_COLUMN), null)?.let {
             whereFilter.put(TagCriteria.fromStringExtra(it))
+        }
+        prefHandler.getString(prefNameForCriteria(ACCOUNT_COLUMN), null)?.let {
+            whereFilter.put(AccountCriteria.fromStringExtra(it))
         }
     }
 
@@ -67,10 +70,10 @@ class FilterPersistence(val prefHandler: PrefHandler, val keyTemplate: String, s
     fun persistAll() {
         arrayOf(CategoryCriteria.COLUMN, AmountCriteria.COLUMN, CommentCriteria.COLUMN,
                 CrStatusCriteria.COLUMN, PayeeCriteria.COLUMN, MethodCriteria.COLUMN,
-                DateCriteria.COLUMN, TransferCriteria.COLUMN, TAG_COLUMN).forEach {
-            whereFilter.get(it)?.let {
+                DateCriteria.COLUMN, TRANSFER_COLUMN, TAG_COLUMN, ACCOUNT_COLUMN).forEach { column ->
+            whereFilter.get(column)?.let {
                 persist(it)
-            } ?: kotlin.run { prefHandler.remove(prefNameForCriteria(it)) }
+            } ?: kotlin.run { prefHandler.remove(prefNameForCriteria(column)) }
         }
     }
 
@@ -95,6 +98,6 @@ class FilterPersistence(val prefHandler: PrefHandler, val keyTemplate: String, s
     }
 
     fun onSaveInstanceState(outState: Bundle) {
-        outState.putParcelableArrayList(KEY_FILTER, whereFilter.getCriteria())
+        outState.putParcelableArrayList(KEY_FILTER, whereFilter.criteria)
     }
 }

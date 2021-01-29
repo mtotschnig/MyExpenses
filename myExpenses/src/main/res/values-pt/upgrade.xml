@@ -15,6 +15,11 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_322">
+        <item>As somas para despesas, receitas e transferências nos cabeçalhos de grupo podem ser ocultadas.</item>
+        <item>Calcula a diferença entre o saldo atual e um novo valor.</item>
+        <item>Filtro e orçamentos podem ser definidos para um subconjunto de contas.</item>
+    </string-array>
     <string-array name="whats_new_321">
         <item>O reconhecimento de texto agora funciona com mais idiomas.</item>
     </string-array>

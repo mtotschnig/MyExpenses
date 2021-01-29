@@ -21,6 +21,8 @@ import java.util.Locale;
 
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.espresso.Espresso;
+import androidx.test.espresso.NoMatchingViewException;
+import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.contrib.DrawerActions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -58,15 +60,22 @@ public class TestMain extends BaseUiTest {
     scenario();
   }
 
+  private void drawerAction(ViewAction action) {
+    //no drawer on w700dp
+    try {
+      onView(withId(R.id.drawer)).perform(action);
+    } catch (NoMatchingViewException ignored) { }
+  }
+
   private void scenario() {
     sleep();
     switch (BuildConfig.TEST_SCENARIO) {
       case 1: {
-        onView(withId(R.id.drawer)).perform(DrawerActions.open());
+        drawerAction(DrawerActions.open());
         takeScreenshot("summarize");
-        onView(withId(R.id.drawer)).perform(DrawerActions.close());
+        drawerAction(DrawerActions.close());
         takeScreenshot("group");
-        clickMenuItem(R.id.RESET_COMMAND, R.string.menu_reset);
+        clickMenuItem(R.id.RESET_COMMAND);
         Espresso.closeSoftKeyboard();
         takeScreenshot("export");
         Espresso.pressBack();
@@ -75,22 +84,22 @@ public class TestMain extends BaseUiTest {
         Espresso.closeSoftKeyboard();
         takeScreenshot("split");
         Espresso.pressBack();
-        clickMenuItem(R.id.DISTRIBUTION_COMMAND, R.string.menu_distribution);
+        clickMenuItem(R.id.DISTRIBUTION_COMMAND);
         takeScreenshot("distribution");
         Espresso.pressBack();
-        clickMenuItem(R.id.HISTORY_COMMAND, R.string.menu_history);
-        clickMenuItem(R.id.GROUPING_COMMAND, R.string.menu_grouping);
+        clickMenuItem(R.id.HISTORY_COMMAND);
+        clickMenuItem(R.id.GROUPING_COMMAND);
         onView(withText(R.string.grouping_month)).perform(click());
-        clickMenuItem(R.id.TOGGLE_INCLUDE_TRANSFERS_COMMAND, R.string.menu_history_transfers);
+        clickMenuItem(R.id.TOGGLE_INCLUDE_TRANSFERS_COMMAND);
         takeScreenshot("history");
         Espresso.pressBack();
-        clickMenuItem(R.id.BUDGET_COMMAND, R.string.menu_budget);
+        clickMenuItem(R.id.BUDGET_COMMAND);
         onView(withId(R.id.recycler_view))
             .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         takeScreenshot("budget");
         Espresso.pressBack();
         Espresso.pressBack();
-        clickMenuItem(R.id.SETTINGS_COMMAND, R.string.menu_settings);
+        clickMenuItem(R.id.SETTINGS_COMMAND);
         onView(instanceOf(RecyclerView.class))
             .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(R.string.synchronization)),
                 click()));
@@ -105,7 +114,7 @@ public class TestMain extends BaseUiTest {
       }
       case 2: {//tablet screenshots
         takeScreenshot("main");
-        clickMenuItem(R.id.DISTRIBUTION_COMMAND, R.string.menu_distribution);
+        clickMenuItem(R.id.DISTRIBUTION_COMMAND);
         takeScreenshot("distribution");
         Espresso.pressBack();
 
