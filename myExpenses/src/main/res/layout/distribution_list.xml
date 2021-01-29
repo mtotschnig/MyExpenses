@@ -20,7 +20,6 @@
     android:orientation="vertical">
 
     <include
-        android:id="@+id/distributionList"
         layout="@layout/distribution_list_inner" />
 
     <TextView

@@ -31,6 +31,7 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.CategoryTreeAdapter;
 import org.totschnig.myexpenses.databinding.CategoryRowBinding;
 import org.totschnig.myexpenses.databinding.DistributionListBinding;
+import org.totschnig.myexpenses.databinding.DistributionListInnerBinding;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Grouping;
@@ -59,6 +60,7 @@ public class DistributionFragment extends DistributionBaseFragment<CategoryRowBi
   private int textColorSecondary;
   private Account mAccount;
   private DistributionListBinding binding;
+  private DistributionListInnerBinding innerBinding;
 
   public Grouping getGrouping() {
     return mGrouping;
@@ -66,11 +68,11 @@ public class DistributionFragment extends DistributionBaseFragment<CategoryRowBi
 
   @Override
   ExpandableListView getListView() {
-    return binding.distributionList.list;
+    return innerBinding.list;
   }
 
   PieChart getChart() {
-    return binding.distributionList.chart1;
+    return innerBinding.chart1;
   }
 
   @Override
@@ -109,9 +111,10 @@ public class DistributionFragment extends DistributionBaseFragment<CategoryRowBi
     getActivity().invalidateOptionsMenu();
 
     binding = DistributionListBinding.inflate(inflater, container, false);
+    innerBinding = DistributionListInnerBinding.bind(binding.getRoot());
     textColorSecondary = ((ProtectedFragmentActivity) getActivity()).getTextColorSecondary().getDefaultColor();
 
-    binding.distributionList.chart1.setVisibility(showChart ? View.VISIBLE : View.GONE);
+    getChart().setVisibility(showChart ? View.VISIBLE : View.GONE);
     getChart().getDescription().setEnabled(false);
     getChart().setExtraOffsets(20, 0, 20, 0);
     final SelectivePieChartRenderer renderer = new SelectivePieChartRenderer(getChart(), new SelectivePieChartRenderer.Selector() {
@@ -245,6 +248,7 @@ public class DistributionFragment extends DistributionBaseFragment<CategoryRowBi
   public void onDestroyView() {
     super.onDestroyView();
     binding = null;
+    innerBinding = null;
   }
 
   public void onNothingSelected() {
