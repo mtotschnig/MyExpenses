@@ -116,7 +116,7 @@ public final class MyExpensesCategorySearchFilterTest extends BaseUiTest {
   public void catFilterMainWithChildrenShouldHideTransaction() {
     onData(withCategoryLabel(is(catLabel1)))
         .inAdapterView(withId(R.id.list)).perform(longClick());
-    clickMenuItem(R.id.SELECT_COMMAND_MULTIPLE, R.string.select, true);
+    clickMenuItem(R.id.SELECT_COMMAND_MULTIPLE, true);
     isDisplayed(id1Main);
     isDisplayed(id1Sub);
     isNotDisplayed(id2Main);

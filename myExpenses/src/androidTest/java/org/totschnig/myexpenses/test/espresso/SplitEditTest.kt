@@ -183,14 +183,14 @@ class SplitEditTest : BaseUiTest() {
         mActivityRule.launchActivity(baseIntent)
         createParts(1)
         enterAmountSave("50")
-        clickMenuItem(R.id.SAVE_AND_NEW_COMMAND, R.string.menu_save_and_new, false) //toggle save and new on
+        clickMenuItem(R.id.SAVE_AND_NEW_COMMAND, false) //toggle save and new on
         onView(withId(R.id.CREATE_COMMAND)).perform(click())
         onView(withId(com.google.android.material.R.id.snackbar_text))
                 .check(matches(withText(R.string.save_transaction_and_new_success)))
         waitForSnackbarDismissed()
         createParts(1)
         enterAmountSave("50")
-        clickMenuItem(R.id.SAVE_AND_NEW_COMMAND, R.string.menu_save_and_new, false) //toggle save and new off
+        clickMenuItem(R.id.SAVE_AND_NEW_COMMAND, false) //toggle save and new off
         closeKeyboardAndSave()
         assertThat(mActivityRule.activity.isFinishing).isTrue
     }

@@ -85,7 +85,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
         .inAdapterView(getWrappedList())
         .atPosition(1)
         .perform(longClick());
-    clickMenuItem(R.id.CLONE_TRANSACTION_COMMAND, R.string.menu_clone_transaction, true);
+    clickMenuItem(R.id.CLONE_TRANSACTION_COMMAND, true);
     closeKeyboardAndSave();
     assertThat(waitForAdapter().getCount()).isEqualTo(origListSize + 1);
   }
@@ -98,7 +98,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
         .inAdapterView(getWrappedList())
         .atPosition(1) // position 0 is header
         .perform(longClick());
-    clickMenuItem(R.id.EDIT_COMMAND, R.string.menu_edit, true);
+    clickMenuItem(R.id.EDIT_COMMAND, true);
     closeKeyboardAndSave();
     assertThat(waitForAdapter().getCount()).isEqualTo(origListSize);
     }
@@ -111,7 +111,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
         .inAdapterView(getWrappedList())
         .atPosition(1)
         .perform(longClick());
-    clickMenuItem(R.id.CREATE_TEMPLATE_COMMAND, R.string.menu_create_template_from_transaction, true);
+    clickMenuItem(R.id.CREATE_TEMPLATE_COMMAND, true);
     onView(withText(containsString(mActivityRule.getActivity().getString(R.string.menu_create_template))))
         .check(matches(isDisplayed()));
     onView(withId(R.id.editText))
@@ -121,7 +121,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
     onView(withId(R.id.CREATE_COMMAND)).perform(click());
 
     //((EditText) mSolo.getView(EditText.class, 0)).onEditorAction(EditorInfo.IME_ACTION_DONE);
-    clickMenuItem(R.id.MANAGE_TEMPLATES_COMMAND, R.string.menu_manage_plans);
+    clickMenuItem(R.id.MANAGE_TEMPLATES_COMMAND);
     onView(withText(is(templateTitle))).check(matches(isDisplayed()));
   }
 
@@ -132,7 +132,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
         .inAdapterView(getWrappedList())
         .atPosition(1)
         .perform(longClick());
-    clickMenuItem(R.id.DELETE_COMMAND, R.string.menu_delete, true);
+    clickMenuItem(R.id.DELETE_COMMAND, true);
     onView(withText(R.string.menu_delete)).perform(click());
     assertThat(waitForAdapter().getCount()).isEqualTo(origListSize - 1);
   }
@@ -144,7 +144,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
         .inAdapterView(getWrappedList())
         .atPosition(1) // position 0 is header
         .perform(longClick());
-    clickMenuItem(R.id.DELETE_COMMAND, R.string.menu_delete, true);
+    clickMenuItem(R.id.DELETE_COMMAND, true);
     onView(withId(R.id.checkBox)).perform(click());
     onView(withText(R.string.menu_delete)).perform(click());
     onData(is(instanceOf(Cursor.class))).inAdapterView(getWrappedList()).atPosition(1)
@@ -154,7 +154,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
         .inAdapterView(getWrappedList())
         .atPosition(1) // position 0 is header
         .perform(longClick());
-    clickMenuItem(R.id.UNDELETE_COMMAND, R.string.menu_undelete_transaction, true);
+    clickMenuItem(R.id.UNDELETE_COMMAND, true);
     onView(getWrappedList())
         .check(matches(not(withAdaptedData(CursorMatchers.withRowString(DatabaseConstants.KEY_CR_STATUS, "VOID")))));
     assertThat(waitForAdapter().getCount()).isEqualTo(origListSize);
@@ -167,7 +167,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
         .inAdapterView(getWrappedList())
         .atPosition(1)
         .perform(longClick());
-    clickMenuItem(R.id.DELETE_COMMAND, R.string.menu_delete, true);
+    clickMenuItem(R.id.DELETE_COMMAND, true);
     onView(withText(android.R.string.cancel)).perform(click());
     assertThat(waitForAdapter().getCount()).isEqualTo(origListSize);
   }
@@ -179,7 +179,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
         .inAdapterView(getWrappedList())
         .atPosition(1)
         .perform(longClick());
-    clickMenuItem(R.id.SPLIT_TRANSACTION_COMMAND, R.string.menu_split_transaction, true);
+    clickMenuItem(R.id.SPLIT_TRANSACTION_COMMAND, true);
     handleContribDialog(ContribFeature.SPLIT_TRANSACTION);
     onView(withText(R.string.menu_split_transaction)).perform(click());
     onView(withText(R.string.split_transaction)).check(matches(isDisplayed()));

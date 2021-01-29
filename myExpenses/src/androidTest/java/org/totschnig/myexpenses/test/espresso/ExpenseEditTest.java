@@ -81,7 +81,7 @@ public class ExpenseEditTest extends BaseUiTest {
     checkEffectiveVisible(R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
         R.id.PayeeRow, R.id.AccountRow);
     checkEffectiveGone(R.id.Status, R.id.Recurrence, R.id.TitleRow);
-    clickMenuItem(R.id.CREATE_TEMPLATE_COMMAND, R.string.menu_create_template_from_transaction);
+    clickMenuItem(R.id.CREATE_TEMPLATE_COMMAND);
     checkEffectiveVisible(R.id.TitleRow, R.id.Recurrence);
     checkAccountDependents();
   }
@@ -108,7 +108,7 @@ public class ExpenseEditTest extends BaseUiTest {
     checkEffectiveVisible(R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.AccountRow,
         R.id.TransferAccountRow);
     checkEffectiveGone(R.id.Status, R.id.Recurrence, R.id.TitleRow);
-    clickMenuItem(R.id.CREATE_TEMPLATE_COMMAND, R.string.menu_create_template_from_transaction);
+    clickMenuItem(R.id.CREATE_TEMPLATE_COMMAND);
     checkEffectiveVisible(R.id.TitleRow, R.id.Recurrence);
     checkAccountDependents();
   }
@@ -121,7 +121,7 @@ public class ExpenseEditTest extends BaseUiTest {
     checkEffectiveVisible(R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.SplitContainer,
         R.id.PayeeRow, R.id.AccountRow);
     checkEffectiveGone(R.id.Status, R.id.Recurrence, R.id.TitleRow);
-    clickMenuItem(R.id.CREATE_TEMPLATE_COMMAND, R.string.menu_create_template_from_transaction);
+    clickMenuItem(R.id.CREATE_TEMPLATE_COMMAND);
     checkEffectiveVisible(R.id.TitleRow, R.id.Recurrence);
     checkAccountDependents();
   }
@@ -173,7 +173,7 @@ public class ExpenseEditTest extends BaseUiTest {
     String success = getString(R.string.save_transaction_and_new_success);
     int times = 5;
     int amount = 2;
-    clickMenuItem(R.id.SAVE_AND_NEW_COMMAND, R.string.menu_save_and_new, false); //toggle save and new on
+    clickMenuItem(R.id.SAVE_AND_NEW_COMMAND, false); //toggle save and new on
     for (int j = 0; j < times; j++) {
       onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).perform(typeText(String.valueOf(amount)));
       onView(withId(R.id.CREATE_COMMAND)).perform(click());

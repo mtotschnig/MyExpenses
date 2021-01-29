@@ -140,7 +140,7 @@ public final class MyExpensesTest extends BaseUiTest {
    * Call a menu item and verify that a message is shown in dialog
    */
   private void testInActiveItemHelper(int menuItemId, int menuTextResId, int messageResId) {
-    clickMenuItem(menuItemId, menuTextResId);
+    clickMenuItem(menuItemId);
     onView(withText(messageResId)).check(matches(isDisplayed()));
     onView(allOf(
         isAssignableFrom(Button.class),
@@ -263,7 +263,7 @@ public final class MyExpensesTest extends BaseUiTest {
 
   @Test
   public void templateScreenIsOpened() {
-    clickMenuItem(R.id.MANAGE_TEMPLATES_COMMAND, R.string.menu_manage_plans);
+    clickMenuItem(R.id.MANAGE_TEMPLATES_COMMAND);
     intended(hasComponent(ManageTemplates.class.getName()));
   }
 

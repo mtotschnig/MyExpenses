@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.testutils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import java.util.concurrent.TimeoutException;
 
 import androidx.fragment.app.Fragment;
 import androidx.test.espresso.NoMatchingViewException;
+import androidx.test.espresso.ViewInteraction;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
@@ -47,10 +49,14 @@ import static org.totschnig.myexpenses.testutils.Matchers.menuIdMatcher;
 
 public abstract class BaseUiTest {
   protected TestApp app;
+  protected Context testContext;
+  private boolean isLarge;
 
   @Before
-  public void setUp() {
+  public void setUp() throws PackageManager.NameNotFoundException {
     app = (TestApp) InstrumentationRegistry.getInstrumentation().getTargetContext().getApplicationContext();
+    testContext = InstrumentationRegistry.getInstrumentation().getContext();
+    isLarge = testContext.getResources().getBoolean(org.totschnig.myexpenses.debug.test.R.bool.isLarge);
   }
 
   protected void closeKeyboardAndSave() {
@@ -62,8 +68,8 @@ public abstract class BaseUiTest {
   /**
    * Click on a menu item, that might be visible or hidden in overflow menu
    */
-  protected void clickMenuItem(int menuItemId, int menuTextResId) {
-    clickMenuItem(menuItemId, menuTextResId, false);
+  protected void clickMenuItem(int menuItemId) {
+    clickMenuItem(menuItemId, false);
   }
 
   protected Matcher<View> getWrappedList() {
@@ -74,12 +80,21 @@ public abstract class BaseUiTest {
   }
 
   /**
-   * @param menuItemId    id of menu item rendered in CAB on Honeycomb and higher
-   * @param menuTextResId String used on Gingerbread where context actions are rendered in a context menu
+   * @param menuItemId id of menu item rendered in CAB on Honeycomb and higher
    */
-  protected void clickMenuItem(int menuItemId, int menuTextResId, boolean isCab) {
+  protected void clickMenuItem(int menuItemId, boolean isCab) {
     try {
-      onView(withId(menuItemId)).perform(click());
+      ViewInteraction viewInteraction = onView(withId(menuItemId));
+      boolean isLargeDialog = false;
+      try {
+        isLargeDialog = isLarge &&
+            app.getPackageManager().getActivityInfo(getTestRule().getActivity().getComponentName(), 0).getThemeResource() == R.style.EditDialog;
+      } catch (PackageManager.NameNotFoundException ignored) {
+      }
+      if (isLargeDialog) {
+        viewInteraction.inRoot(isPlatformPopup());
+      }
+      viewInteraction.perform(click());
     } catch (NoMatchingViewException e) {
       openActionBarOverflowMenu(isCab);
       onData(menuIdMatcher(menuItemId)).inRoot(isPlatformPopup()).perform(click());
