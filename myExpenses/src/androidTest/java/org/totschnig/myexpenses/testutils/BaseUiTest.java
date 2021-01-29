@@ -30,10 +30,12 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
 import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
+import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.RootMatchers.isPlatformPopup;
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -41,6 +43,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.totschnig.myexpenses.testutils.Espresso.openActionBarOverflowMenu;
+import static org.totschnig.myexpenses.testutils.Matchers.menuIdMatcher;
 
 public abstract class BaseUiTest {
   protected TestApp app;
@@ -58,9 +61,6 @@ public abstract class BaseUiTest {
 
   /**
    * Click on a menu item, that might be visible or hidden in overflow menu
-   *
-   * @param menuItemId
-   * @param menuTextResId
    */
   protected void clickMenuItem(int menuItemId, int menuTextResId) {
     clickMenuItem(menuItemId, menuTextResId, false);
@@ -76,14 +76,13 @@ public abstract class BaseUiTest {
   /**
    * @param menuItemId    id of menu item rendered in CAB on Honeycomb and higher
    * @param menuTextResId String used on Gingerbread where context actions are rendered in a context menu
-   * @param isCab
    */
   protected void clickMenuItem(int menuItemId, int menuTextResId, boolean isCab) {
     try {
       onView(withId(menuItemId)).perform(click());
     } catch (NoMatchingViewException e) {
       openActionBarOverflowMenu(isCab);
-      onView(withText(menuTextResId)).perform(click());
+      onData(menuIdMatcher(menuItemId)).inRoot(isPlatformPopup()).perform(click());
     }
   }
 

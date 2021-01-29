@@ -6,9 +6,13 @@ import android.view.View;
 
 import org.hamcrest.Matcher;
 
+import java.util.concurrent.TimeoutException;
+
+import androidx.test.espresso.PerformException;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.espresso.util.HumanReadables;
 import androidx.test.espresso.util.TreeIterables;
 import androidx.test.platform.app.InstrumentationRegistry;
 
@@ -100,6 +104,44 @@ public class Espresso {
         allOf(isDisplayed(), withContentDescription(context.getString(
             androidx.appcompat.R.string.abc_action_menu_overflow_description))),
         allOf(isDisplayed(), withClassName(endsWith("OverflowMenuButton"))));
+  }
+
+  public static ViewAction wait(Matcher<View> viewMatcher, final long millis) {
+    return new ViewAction() {
+
+      @Override
+      public Matcher<View> getConstraints() {
+        return isDisplayed();
+      }
+
+      @Override
+      public String getDescription() {
+        return "wait for matcher <" + viewMatcher.toString() + "> during " + millis + " millis.";
+      }
+
+      @Override
+      public void perform(final UiController uiController, final View view) {
+        uiController.loopMainThreadUntilIdle();
+        final long startTime = System.currentTimeMillis();
+        final long endTime = startTime + millis;
+
+        do {
+          if (viewMatcher.matches(view)) {
+            return;
+          }
+
+          uiController.loopMainThreadForAtLeast(50);
+        }
+        while (System.currentTimeMillis() < endTime);
+
+        // timeout happens
+        throw new PerformException.Builder()
+            .withActionDescription(this.getDescription())
+            .withViewDescription(HumanReadables.describe(view))
+            .withCause(new TimeoutException())
+            .build();
+      }
+    };
   }
 
   public static Matcher<View> withIdAndParent(final int id, final int parentId) {
