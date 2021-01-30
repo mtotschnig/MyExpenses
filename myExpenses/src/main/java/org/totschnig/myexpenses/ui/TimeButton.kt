@@ -55,4 +55,8 @@ class TimeButton @JvmOverloads constructor(
                 DateFormat.is24HourFormat(context)
         )
     }
+
+    override fun onPrepareDialog(dialog: Dialog) {
+        (dialog as? TimePickerDialog)?.updateTime(time.hour, time.minute)
+    }
 }

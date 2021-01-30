@@ -50,6 +50,8 @@ abstract class ButtonWithDialog @JvmOverloads constructor(
         showDialog()
     }
 
+    abstract fun onPrepareDialog(dialog: Dialog)
+
     init {
         setOnClickListener { onClick() }
     }

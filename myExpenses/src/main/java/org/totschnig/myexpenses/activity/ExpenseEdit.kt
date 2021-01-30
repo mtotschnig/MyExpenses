@@ -804,6 +804,15 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         }
     }
 
+    override fun onPrepareDialog(id: Int, dialog: Dialog) {
+        super.onPrepareDialog(id, dialog)
+        try {
+            (findViewById<View>(id) as ButtonWithDialog).onPrepareDialog(dialog)
+        } catch (e: ClassCastException) {
+            Timber.e(e)
+        }
+    }
+
     override fun saveState() {
         if (::delegate.isInitialized) {
             delegate.syncStateAndValidate(true, currencyContext)?.let { transaction ->
