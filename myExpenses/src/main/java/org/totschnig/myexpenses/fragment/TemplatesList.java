@@ -695,6 +695,7 @@ public class TemplatesList extends SortableListFragment
   private void configureMenuInternal(Menu menu, int count, boolean foreignExchangeTransfer, boolean hasPlan, boolean hasSealed) {
     menu.findItem(R.id.CREATE_INSTANCE_SAVE_COMMAND).setVisible(!foreignExchangeTransfer && !hasPlan & !hasSealed);
     menu.findItem(R.id.CREATE_INSTANCE_EDIT_COMMAND).setVisible(count == 1 && !hasPlan && !hasSealed);
+    menu.findItem(R.id.DEFAULT_ACTION_MENU).setVisible(!hasPlan);
     menu.findItem(R.id.EDIT_COMMAND).setVisible(count == 1 && !hasSealed);
   }
 

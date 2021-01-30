@@ -21,6 +21,7 @@ import android.widget.ListView;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 
@@ -35,7 +36,7 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
   int expandableListSelectionType = ExpandableListView.PACKED_POSITION_TYPE_NULL;
 
   @Override
-  public boolean onContextItemSelected(android.view.MenuItem item) {
+  public boolean onContextItemSelected(@NonNull android.view.MenuItem item) {
     if (!getUserVisibleHint())
       return false;
     int itemId = item.getItemId();
@@ -63,27 +64,28 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
   }
 
   public boolean dispatchCommandSingle(int command, ContextMenu.ContextMenuInfo info) {
-    ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
-    finishActionMode();
-    return ctx.dispatchCommand(command, info);
+    ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) requireActivity();
+    final boolean handled = ctx.dispatchCommand(command, info);
+    if (handled) {
+      finishActionMode();
+    }
+    return handled;
   }
 
   /**
    * dispatch a bulk command with the provided information about checked positions and itemIds
    * subclasses that override this method should not assume that the count and order of positions
    * is in parallel with the itemIds, it should do its work either based on positions or based on itemIds
-   *
-   * @param command
-   * @param positions
-   * @param itemIds
-   * @return
    */
   public boolean dispatchCommandMultiple(int command, SparseBooleanArray positions, Long[] itemIds) {
-    ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
+    ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) requireActivity();
     //we send only the positions to the default dispatch command mechanism,
     //but subclasses can provide a method that handles the itemIds
-    finishActionMode();
-    return ctx.dispatchCommand(command, positions);
+    final boolean handled = ctx.dispatchCommand(command, positions);
+    if (handled) {
+      finishActionMode();
+    }
+    return handled;
   }
 
   protected int getMenuResource() {
@@ -95,7 +97,7 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
   }
 
   protected void inflateHelper(Menu menu, int listId) {
-    MenuInflater inflater = getActivity().getMenuInflater();
+    MenuInflater inflater = requireActivity().getMenuInflater();
     if (withCommonContext()) {
       inflater.inflate(R.menu.common_context, menu);
     }
@@ -105,7 +107,7 @@ public class ContextualActionBarFragment extends Fragment implements OnGroupClic
   }
 
   @Override
-  public void onCreateContextMenu(ContextMenu menu, View v,
+  public void onCreateContextMenu(@NonNull ContextMenu menu, View v,
                                   ContextMenuInfo menuInfo) {
     inflateHelper(menu, v.getId());
     super.onCreateContextMenu(menu, v, menuInfo);

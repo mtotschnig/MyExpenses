@@ -30,6 +30,7 @@
             app:showAsAction="ifRoom" />
     </group>
     <item
+        android:id="@id/DEFAULT_ACTION_MENU"
         android:orderInCategory="99"
         android:title="@string/default_action"
         app:showAsAction="never">
