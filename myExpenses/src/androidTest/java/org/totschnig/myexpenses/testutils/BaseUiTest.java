@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.testutils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -41,6 +42,7 @@ import static androidx.test.espresso.matcher.RootMatchers.isPlatformPopup;
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
@@ -85,13 +87,13 @@ public abstract class BaseUiTest {
   protected void clickMenuItem(int menuItemId, boolean isCab) {
     try {
       ViewInteraction viewInteraction = onView(withId(menuItemId));
-      boolean isLargeDialog = false;
+      boolean searchInPlatformPopup = false;
       try {
-        isLargeDialog = isLarge &&
-            app.getPackageManager().getActivityInfo(getTestRule().getActivity().getComponentName(), 0).getThemeResource() == R.style.EditDialog;
+        searchInPlatformPopup = isCab && isLarge &&
+            app.getPackageManager().getActivityInfo(getCurrentActivity().getComponentName(), 0).getThemeResource() == R.style.EditDialog;
       } catch (PackageManager.NameNotFoundException ignored) {
       }
-      if (isLargeDialog) {
+      if (searchInPlatformPopup) {
         viewInteraction.inRoot(isPlatformPopup());
       }
       viewInteraction.perform(click());
@@ -99,6 +101,13 @@ public abstract class BaseUiTest {
       openActionBarOverflowMenu(isCab);
       onData(menuIdMatcher(menuItemId)).inRoot(isPlatformPopup()).perform(click());
     }
+  }
+
+  //https://stackoverflow.com/a/41415288/1199911
+  private Activity getCurrentActivity() {
+    final Activity[] activity = new Activity[1];
+    onView(isRoot()).check((view, noViewFoundException) -> activity[0] = (Activity) view.findViewById(android.R.id.content).getContext());
+    return activity[0];
   }
 
   protected void handleContribDialog(ContribFeature contribFeature) {
