@@ -899,7 +899,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
     private fun refreshPlanData() {
         delegate.planId?.let { planId ->
             viewModel.plan(planId).observe(this, { plan ->
-                plan?.let { delegate.updatePlanButton(it) }
+                plan?.let { delegate.configurePlan(it) }
             })
         }
     }

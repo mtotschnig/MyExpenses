@@ -802,11 +802,11 @@ abstract class TransactionDelegate<T : ITransaction>(
         viewBinding.PayeeLabel.setText(if (viewBinding.Amount.type) R.string.payer else R.string.payee)
     }
 
-    fun updatePlanButton(plan: Plan) {
+    private fun updatePlanButton(plan: Plan) {
         planButton.overrideText(Plan.prettyTimeInfo(context, plan.rrule, plan.dtstart))
     }
 
-    private fun configurePlan(plan: Plan?) {
+    fun configurePlan(plan: Plan?) {
         plan?.let {
             updatePlanButton(it)
             if (viewBinding.Title.text.toString() == "") viewBinding.Title.setText(it.title)
