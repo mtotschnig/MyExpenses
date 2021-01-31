@@ -3,7 +3,7 @@ package org.totschnig.ocr
 import android.graphics.Rect
 import android.os.Parcelable
 import androidx.annotation.Keep
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 @Keep
