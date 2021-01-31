@@ -33,6 +33,7 @@ import org.totschnig.myexpenses.util.getDateTimeFormatter
 import org.totschnig.myexpenses.viewmodel.PlannerViewModel
 import org.totschnig.myexpenses.viewmodel.data.EventObserver
 import org.totschnig.myexpenses.viewmodel.data.PlanInstance
+import org.totschnig.myexpenses.viewmodel.data.PlanInstanceSet
 import org.totschnig.myexpenses.viewmodel.data.PlanInstanceState
 import org.totschnig.myexpenses.viewmodel.data.PlanInstanceUpdate
 import timber.log.Timber
@@ -72,7 +73,7 @@ class PlannerFragment : BaseDialogFragment() {
 
     @State
     @JvmField
-    var selectedInstances: HashSet<PlanInstance> = HashSet()
+    var selectedInstances: PlanInstanceSet = PlanInstanceSet()
 
     private lateinit var backgroundColor: ColorStateList
 
