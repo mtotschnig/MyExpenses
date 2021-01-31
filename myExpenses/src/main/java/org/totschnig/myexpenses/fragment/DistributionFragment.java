@@ -152,7 +152,7 @@ public class DistributionFragment extends DistributionBaseFragment<CategoryRowBi
 
       @Override
       public void onNothingSelected() {
-        onNothingSelected();
+        DistributionFragment.this.onNothingSelected();
       }
     });
     getChart().setUsePercentValues(true);
