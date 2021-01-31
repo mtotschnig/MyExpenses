@@ -251,7 +251,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
    * [5] interimBalance
    * [6] mappedCategories
    */
-  private LongSparseArray<Long[]> headerData = new LongSparseArray<>();
+  private final LongSparseArray<Long[]> headerData = new LongSparseArray<>();
   private String[] sections;
   private int[] sectionIds;
   /**
@@ -335,7 +335,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         }
       }
     });
-    MyApplication.getInstance().getAppComponent().inject(this);
+    ((MyApplication) requireActivity().getApplication()).getAppComponent().inject(this);
     firstLoadCompleted = (savedInstanceState != null);
     if (ContribFeature.BUDGET.isAvailable(prefHandler)) {
       budgetsObserver = new BudgetObserver();
@@ -406,9 +406,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     binding.list.setDrawingListUnderStickyHeader(false);
 
     binding.list.setEmptyView(binding.empty);
-    binding.list.setOnItemClickListener((a, v1, position, id) -> {
-      showDetails(id);
-    });
+    binding.list.setOnItemClickListener((a, v1, position, id) -> showDetails(id));
     binding.list.setOnScrollListener(new AbsListView.OnScrollListener() {
       private int currentState = 0;
 
@@ -461,7 +459,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
                                          SparseBooleanArray positions, Long[] itemIds) {
     MyExpenses ctx = (MyExpenses) getActivity();
     if (ctx == null) return false;
-    FragmentManager fm = getFragmentManager();
+    FragmentManager fm = getParentFragmentManager();
     switch (command) {
       case R.id.DELETE_COMMAND: {
         boolean hasReconciled = false, hasNotVoid = false;
@@ -588,9 +586,9 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
           for (int i = 0; i < positions.size(); i++) {
             if (positions.valueAt(i)) {
               mTransactionsCursor.moveToPosition(positions.keyAt(i));
-              long transferaccount = DbUtils.getLongOr0L(mTransactionsCursor, KEY_TRANSFER_ACCOUNT);
-              if (transferaccount != 0) {
-                excludedIds.add(transferaccount);
+              long transferAccount = DbUtils.getLongOr0L(mTransactionsCursor, KEY_TRANSFER_ACCOUNT);
+              if (transferAccount != 0) {
+                excludedIds.add(transferAccount);
               }
               if (SPLIT_CATID.equals(DbUtils.getLongOrNull(mTransactionsCursor, KEY_CATID))) {
                 splitIds.add(DbUtils.getLongOr0L(mTransactionsCursor, KEY_ROWID));
@@ -770,17 +768,20 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         if (count > 0) {
           if (firstLoadCompleted) {
             binding.list.post(() -> {
-              if (listState != null) {
-                binding.list.getWrappedList().onRestoreInstanceState(listState);
-                listState = null;
-              }
+              if (listState != null)
+                if (binding != null) {
+                  binding.list.getWrappedList().onRestoreInstanceState(listState);
+                }
+              listState = null;
             });
           } else {
             firstLoadCompleted = true;
             if (prefHandler.getBoolean(PrefKey.SCROLL_TO_CURRENT_DATE, false)) {
               final int currentPosition = findCurrentPosition(c);
               binding.list.post(() -> {
-                binding.list.setSelection(currentPosition);
+                if (binding != null) {
+                  binding.list.setSelection(currentPosition);
+                }
               });
             }
           }
@@ -818,7 +819,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
             previousBalance = interimBalance;
           } while (c.moveToNext());
         }
-        //if the transactionscursor has been loaded before the grouping cursor, we need to refresh
+        //if the transactionsCursor has been loaded before the grouping cursor, we need to refresh
         //in order to have accurate grouping values
         if (mTransactionsCursor != null)
           mAdapter.notifyDataSetChanged();
@@ -909,7 +910,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
   }
 
   private class MyGroupedAdapter extends TransactionAdapter implements SectionIndexingStickyListHeadersAdapter {
-    private LayoutInflater inflater;
+    private final LayoutInflater inflater;
 
     private MyGroupedAdapter(Context context, int layout, Cursor c, int flags) {
       super(context, layout, c, flags, currencyFormatter, prefHandler, currencyContext);
@@ -1170,33 +1171,42 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     }
   }
 
-  class HeaderViewHolder {
-    private ViewBinding viewBinding;
+  static class HeaderViewHolder {
+    private final ViewBinding viewBinding;
+
     TextView interimBalance() {
       return viewBinding instanceof HeaderBinding ? ((HeaderBinding) viewBinding).headerLine.interimBalance : ((HeaderWithBudgetBinding) viewBinding).interimBalance;
     }
+
     TextView text() {
       return viewBinding instanceof HeaderBinding ? ((HeaderBinding) viewBinding).headerLine.text : ((HeaderWithBudgetBinding) viewBinding).text;
     }
+
     ViewGroup sumLine() {
       return viewBinding instanceof HeaderBinding ? ((HeaderBinding) viewBinding).sumLine : ((HeaderWithBudgetBinding) viewBinding).sumLine;
     }
+
     TextView sumIncome() {
       return viewBinding instanceof HeaderBinding ? ((HeaderBinding) viewBinding).sumIncome : ((HeaderWithBudgetBinding) viewBinding).sumIncome;
     }
+
     TextView sumExpense() {
       return viewBinding instanceof HeaderBinding ? ((HeaderBinding) viewBinding).sumExpense : ((HeaderWithBudgetBinding) viewBinding).sumExpense;
     }
+
     TextView sumTransfer() {
       return viewBinding instanceof HeaderBinding ? ((HeaderBinding) viewBinding).sumTransfer : ((HeaderWithBudgetBinding) viewBinding).sumTransfer;
     }
+
     @Nullable
     DonutProgress budgetProgress() {
       return viewBinding instanceof HeaderBinding ? null : ((HeaderWithBudgetBinding) viewBinding).budgetProgress;
     }
+
     View dividerBottom() {
       return viewBinding instanceof HeaderBinding ? ((HeaderBinding) viewBinding).dividerBottom : ((HeaderWithBudgetBinding) viewBinding).dividerBottom;
     }
+
     ExpansionHandle headerIndicator() {
       return viewBinding instanceof HeaderBinding ? ((HeaderBinding) viewBinding).expansionHandle.getRoot() : ((HeaderWithBudgetBinding) viewBinding).expansionHandle.getRoot();
     }
@@ -1302,9 +1312,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         } catch (IllegalArgumentException ex) {
           status = CrStatus.UNRECONCILED;
         }
-        if (status.equals(CrStatus.VOID)) {
-          return true;
-        }
+        return status.equals(CrStatus.VOID);
       }
     }
     return false;
@@ -1341,8 +1349,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
   /**
    * Removes a given filter
    *
-   * @param id
-   * @return true if the filter was set and succesfully removed, false otherwise
+   * @return true if the filter was set and successfully removed, false otherwise
    */
   private boolean removeFilter(int id) {
     boolean isFiltered = filterPersistence.removeFilter(id);
@@ -1458,7 +1465,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
   }
 
   @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
+  public boolean onOptionsItemSelected(@NonNull MenuItem item) {
     if (mAccount == null || getActivity() == null) {
       return false;
     }
