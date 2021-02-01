@@ -29,7 +29,7 @@ import java.util.*
 class DateButton @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : ButtonWithDialog(context, attrs, defStyleAttr) {
     private var lastTouchDownX: Float = 0F
-    private val marginTouchWidth = UiUtils.dp2Px(24F, resources)
+    private val marginTouchWidth = UiUtils.dp2Px(36F, resources)
 
     @State
     @JvmField
@@ -40,7 +40,7 @@ class DateButton @JvmOverloads constructor(
     init {
         UiUtils.setCompoundDrawablesCompatWithIntrinsicBounds(this, R.drawable.ic_chevron_start, 0, R.drawable.ic_chevron_end, 0)
         setPaddingRelative(0, paddingTop, 0, paddingBottom)
-        compoundDrawablePadding = -marginTouchWidth / 2
+        compoundDrawablePadding = UiUtils.dp2Px(-6F, resources)
         //noinspection ClickableViewAccessibility
         setOnTouchListener { _, motionEvent ->
             if (motionEvent.actionMasked == MotionEvent.ACTION_DOWN) {
@@ -49,7 +49,6 @@ class DateButton @JvmOverloads constructor(
             false
         }
     }
-
 
     override fun onClick() {
         when {
@@ -134,11 +133,14 @@ class DateButton @JvmOverloads constructor(
                     setFirstDayOfWeek(datePickerDialog, startOfWeek)
                 } catch (e: UnsupportedOperationException) {/*Nothing left to do*/
                 }
-
             }
         }
 
         return datePickerDialog
+    }
+
+    override fun onPrepareDialog(dialog: Dialog) {
+        (dialog as? DatePickerDialog)?.updateDate(date.year, date.monthValue - 1, date.dayOfMonth)
     }
 
     private fun setFirstDayOfWeek(datePickerDialog: DatePickerDialog, startOfWeek: Int) {

@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_323">
+        <item>Il pulsante Data consente la navigazione rapida al giorno precedente o successivo.</item>
+    </string-array>
     <string-array name="whats_new_322">
         <item>Le somme per spese, entrate e trasferimenti possono essere nascoste dall\'intestazione del gruppo.</item>
         <item>Calcola la differenza fra il saldo corrente e un nuovo valore.</item>
