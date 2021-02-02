@@ -69,7 +69,14 @@ class WebInputService : LifecycleService() {
                             }
                             get("/") {
                                 call.response.header("Access-Control-Allow-Origin", "*")
-                                call.respond(mapOf("accounts" to arrayOf(mapOf("id" to 1, "label" to "Bankkonto"), mapOf("id" to 2, "label" to "Geldtasche"))))
+                                call.respond(mapOf(
+                                        "accounts" to arrayOf(
+                                                mapOf("id" to 1, "label" to "Bankkonto"),
+                                                mapOf("id" to 2, "label" to "Geldtasche")),
+                                        "payees" to arrayOf(
+                                                mapOf("id" to 1, "name" to "A A"),
+                                                mapOf("id" to 2, "name" to "B B"))
+                                ))
                             }
                         }
                     }.also {
