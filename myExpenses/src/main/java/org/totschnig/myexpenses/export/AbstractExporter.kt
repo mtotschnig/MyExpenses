@@ -2,6 +2,8 @@ package org.totschnig.myexpenses.export
 
 import android.content.Context
 import android.database.Cursor
+import android.net.Uri
+import androidx.documentfile.provider.DocumentFile
 import org.apache.commons.lang3.StringUtils
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.Account
@@ -14,12 +16,10 @@ import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.filter.WhereFilter
-import org.totschnig.myexpenses.util.Result
 import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.Utils
 import timber.log.Timber
 import java.io.IOException
-import java.io.OutputStream
 import java.io.OutputStreamWriter
 import java.math.BigDecimal
 import java.text.SimpleDateFormat
@@ -33,11 +33,10 @@ abstract class AbstractExporter
  * @param dateFormat       format that can be parsed by SimpleDateFormat class
  * @param decimalSeparator , or .
  * @param encoding         the string describing the desired character encoding.
- * @param delimiter   , or ; or \t
- * @param withAccountColumn put account in column
- */(val account: Account, private val filter: WhereFilter?, private val notYetExportedP: Boolean,
-    private val dateFormat: String, private val decimalSeparator: Char,
-    private val encoding: String) {
+ */
+(val account: Account, private val filter: WhereFilter?, private val notYetExportedP: Boolean,
+ private val dateFormat: String, private val decimalSeparator: Char,
+ private val encoding: String) {
     val nfFormat = Utils.getDecimalFormat(account.currencyUnit, decimalSeparator)
     abstract val format: ExportFormat
     abstract fun header(context: Context): String?
@@ -45,7 +44,7 @@ abstract class AbstractExporter
     abstract fun split(dateStr: String, payee: String, amount: BigDecimal, labelMain: String, labelSub: String, fullLabel: String, comment: String, pictureFileName: String): String
 
     @Throws(IOException::class)
-    fun export(context: Context, outputStream: OutputStream): Result<Unit> {
+    fun export(context: Context, outputStream: Lazy<Result<DocumentFile>>, append: Boolean): Result<Uri> {
         Timber.i("now starting export")
         //first we check if there are any exportable transactions
         var selection = DatabaseConstants.KEY_ACCOUNTID + " = ? AND " + DatabaseConstants.KEY_PARENTID + " is null"
@@ -60,9 +59,11 @@ abstract class AbstractExporter
                 null, selection, selectionArgs, DatabaseConstants.KEY_DATE)?.use { cursor ->
 
             if (cursor.count == 0) {
-                Result.ofFailure(R.string.no_exportable_expenses)
+                Result.failure(Exception(context.getString(R.string.no_exportable_expenses)))
             } else {
-                outputStream.use { outputStream ->
+                val uri = outputStream.value.getOrThrow().uri
+                (context.contentResolver.openOutputStream(uri, if (append) "wa" else "w")
+                        ?: throw IOException("openOutputStream returned null")).use { outputStream ->
                     OutputStreamWriter(outputStream, encoding).use { out ->
                         cursor.moveToFirst()
                         val formatter = SimpleDateFormat(dateFormat, Locale.US)
@@ -149,11 +150,11 @@ abstract class AbstractExporter
                             recordDelimiter()?.let { out.write(it) }
                             cursor.moveToNext()
                         }
-                        Result.SUCCESS
+                        Result.success(uri)
                     }
                 }
             }
-        } ?: Result.ofFailure("Cursor is null")
+        } ?: Result.failure(Exception("Cursor is null"))
     }
 
     open fun recordDelimiter(): String? = null

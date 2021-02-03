@@ -25,26 +25,26 @@ class QifExporter(account: Account, filter: WhereFilter?, notYetExportedP: Boole
                 .append(dateStr)
                 .append("\nT")
                 .append(nfFormat.format(amount))
-        if (comment.length > 0) {
+        if (comment.isNotEmpty()) {
             append("\nM").append(comment)
         }
-        if (fullLabel.length > 0) {
+        if (fullLabel.isNotEmpty()) {
             append("\nL").append(fullLabel)
         }
-        if (payee.length > 0) {
+        if (payee.isNotEmpty()) {
             append("\nP").append(payee)
         }
         if ("" != status.symbol) {
             append("\nC").append(status.symbol)
         }
-        if (referenceNumber.length > 0) {
+        if (referenceNumber.isNotEmpty()) {
             append("\nN").append(referenceNumber)
         }
     }.toString()
 
     override fun split(dateStr: String, payee: String, amount: BigDecimal, labelMain: String, labelSub: String, fullLabel: String, comment: String, pictureFileName: String) = StringBuilderWrapper().apply {
         append("S").append(fullLabel)
-        if (comment.length > 0) {
+        if (comment.isNotEmpty()) {
             append("\nE").append(comment)
         }
         append("\n$").append(nfFormat.format(amount))

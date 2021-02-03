@@ -18,6 +18,7 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
 import android.util.Log
+import androidx.documentfile.provider.DocumentFile
 import androidx.test.core.app.ApplicationProvider
 import org.junit.Assert
 import org.junit.Before
@@ -38,11 +39,9 @@ import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.model.saveTagLinks
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.util.Result
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileInputStream
-import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStreamReader
 import java.text.SimpleDateFormat
@@ -301,7 +300,7 @@ class ExportTest {
         )
         try {
             Assert.assertTrue(CsvExporter(insertData1(), null, false, "M/d/yyyy", ',', "UTF-8", true, ',', false)
-                    .export(context, FileOutputStream(outFile)).isSuccess)
+                    .export(context, lazy { Result.success(DocumentFile.fromFile(outFile)) }, false).isSuccess)
             compare(linesCSV)
         } catch (e: IOException) {
             Assert.fail("Could not export expenses. Error: " + e.message)
@@ -414,7 +413,7 @@ class ExportTest {
     @Throws(IOException::class)
     private fun exportAll(account: Account, format: ExportFormat, notYetExportedP: Boolean, append: Boolean, withAccountColumn: Boolean): Result<*> {
         val exporter = if (format == ExportFormat.CSV) CsvExporter(account, null, notYetExportedP, "dd/MM/yyyy", '.', "UTF-8", !append, ';', withAccountColumn) else QifExporter(account, null, notYetExportedP, "dd/MM/yyyy", '.', "UTF-8")
-        return exporter.export(context, FileOutputStream(outFile, append))
+        return exporter.export(context, lazy {  Result.success(DocumentFile.fromFile(outFile)) }, append)
     }
 
     companion object {

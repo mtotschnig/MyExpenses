@@ -13,20 +13,17 @@ import java.math.BigDecimal
 /**
  * @param account          Account to print
  * @param filter           only transactions matched by filter will be considered
- * @param destDir          destination directory
- * @param fileName         Filename for exported file
  * @param notYetExportedP  if true only transactions not marked as exported will be handled
  * @param dateFormat       format that can be parsed by SimpleDateFormat class
  * @param decimalSeparator , or .
  * @param encoding         the string describing the desired character encoding.
  * @param delimiter   , or ; or \t
- * @param append          append to file
  * @param withAccountColumn put account in column
  */
 class CsvExporter(account: Account, filter: WhereFilter?,
                   notYetExportedP: Boolean, dateFormat: String,
-                  decimalSeparator: Char, encoding: String, val withHeader: Boolean, val delimiter: Char,
-                  val withAccountColumn: Boolean) :
+                  decimalSeparator: Char, encoding: String, private val withHeader: Boolean, val delimiter: Char,
+                  private val withAccountColumn: Boolean) :
         AbstractExporter(account, filter, notYetExportedP, dateFormat,
                 decimalSeparator, encoding) {
     override val format = ExportFormat.CSV
