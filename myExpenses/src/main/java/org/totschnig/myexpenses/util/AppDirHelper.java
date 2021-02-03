@@ -31,7 +31,6 @@ public class AppDirHelper {
   /**
    * @return the directory user has configured in the settings, if not configured yet
    * returns {@link android.content.ContextWrapper#getExternalFilesDir(String)} with argument null
-   * @param context
    */
   @Nullable
   public static DocumentFile getAppDir(Context context) {
@@ -87,24 +86,27 @@ public class AppDirHelper {
   }
 
   @Nullable
-  public static DocumentFile buildFile(DocumentFile parentDir, String fileName,
-                                       String mimeType, boolean allowExisting, boolean supplementExtension) {
+  public static DocumentFile buildFile(final DocumentFile parentDir, final String fileName,
+                                       final String mimeType, final boolean allowExisting,
+                                       final boolean supplementExtension) {
+    //createFile supplements extension on known mimeTypes, if the mime type is not known, we take care of it
+    String supplementedFilename = String.format(Locale.ROOT, "%s.%s", fileName, mimeType.split("/")[1]);
+    String fileNameToCreate = fileName;
+    if (supplementExtension) {
+      final String extensionFromMimeType = MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType);
+      if (extensionFromMimeType == null) {
+        fileNameToCreate = supplementedFilename;
+      }
+    }
     if (allowExisting) {
-      DocumentFile existingFile = parentDir.findFile(fileName);
+      DocumentFile existingFile = parentDir.findFile(supplementedFilename);
       if (existingFile != null) {
         return existingFile;
       }
     }
     DocumentFile result = null;
     try {
-      //createFile supplements extension on known mimeTypes, if the mime type is not know, we take care of it
-      if (supplementExtension) {
-        final String extensionFromMimeType = MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType);
-        if (extensionFromMimeType == null) {
-          fileName += "." + mimeType.split("/")[1];
-        }
-      }
-      result = parentDir.createFile(mimeType, fileName);
+      result = parentDir.createFile(mimeType, fileNameToCreate);
       if (result == null || !result.canWrite()) {
         String message = result == null ? "createFile returned null" : "createFile returned unwritable file";
         Map<String, String> customData = new HashMap<>();
