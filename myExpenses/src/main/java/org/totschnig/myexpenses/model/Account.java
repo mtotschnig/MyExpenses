@@ -50,7 +50,6 @@ import androidx.annotation.VisibleForTesting;
 
 import static android.content.ContentProviderOperation.newUpdate;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_CLEARED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_EXPORTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CLEARED_TOTAL;
@@ -174,7 +173,6 @@ public class Account extends Model {
         KEY_TYPE,
         KEY_SORT_KEY,
         KEY_EXCLUDE_FROM_TOTALS,
-        HAS_EXPORTED,
         KEY_SYNC_ACCOUNT_NAME,
         KEY_UUID,
         KEY_SORT_DIRECTION,
@@ -563,7 +561,7 @@ public class Account extends Model {
   public static boolean getHasExported(Long accountId) {
     String selection = null;
     String[] selectionArgs = null;
-    if (accountId != null) {
+    if (accountId != Account.HOME_AGGREGATE_ID) {
       if (accountId < 0L) {
         //aggregate account
         AggregateAccount aa = AggregateAccount.getInstanceFromDb(accountId);

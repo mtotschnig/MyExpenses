@@ -126,7 +126,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_CLEARED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_EXPORTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL;
@@ -1146,15 +1145,6 @@ public class MyExpenses extends BaseMyExpenses implements
         break;
       }
     }
-  }
-
-  public boolean hasExported() {
-    Cursor cursor = getAccountsCursor();
-    //in case we are called before the accounts cursor is loaded, we return false
-    if (cursor == null || cursor.getCount() == 0)
-      return false;
-    cursor.moveToPosition(getCurrentPosition());
-    return cursor.getInt(cursor.getColumnIndexOrThrow(KEY_HAS_EXPORTED)) > 0;
   }
 
   private boolean hasCleared() {

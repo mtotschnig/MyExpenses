@@ -107,7 +107,7 @@ public class ExportDialogFragment extends BaseDialogFragment implements OnClickL
       throw new IllegalStateException("Cannot be used without args");
     }
     long accountId = args.getLong(KEY_ACCOUNTID);
-    boolean allP = false, hasExported;
+    boolean allP = false;
     String warningText;
     final String fileName;
     String now = new SimpleDateFormat("yyyMMdd-HHmmss", Locale.US)
@@ -126,13 +126,12 @@ public class ExportDialogFragment extends BaseDialogFragment implements OnClickL
       binding.error.setText("Unable to instantiate account " + accountId);
     } else {
       boolean canReset = !a.isSealed();
+      boolean hasExported = Account.getHasExported(accountId);
       if (accountId == Account.HOME_AGGREGATE_ID) {
         allP = true;
         warningText = getString(R.string.warning_reset_account_all, "");
-        hasExported = Account.getHasExported(null);
         fileName = "export" + "-" + now;
       } else {
-        hasExported = ctx.hasExported();
         if (accountId < 0L) {
           allP = true;
           currency = a.getCurrencyUnit().getCode();
