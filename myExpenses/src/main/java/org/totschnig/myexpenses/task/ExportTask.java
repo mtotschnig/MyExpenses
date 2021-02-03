@@ -49,8 +49,6 @@ public class ExportTask extends AsyncTask<Void, String, Pair<ExportFormat, List<
   public static final String KEY_DELIMITER = "export_delimiter";
   public static final String KEY_MERGE_P = "export_merge_accounts";
   private final TaskExecutionFragment taskExecutionFragment;
-  //we store the label of the account as progress
-  private String progress = "";
   private final ArrayList<Uri> result = new ArrayList<>();
   private ExportFormat format;
   private boolean deleteP;
@@ -93,14 +91,6 @@ public class ExportTask extends AsyncTask<Void, String, Pair<ExportFormat, List<
     accountId = extras.getLong(KEY_ROWID);
     filter = new WhereFilter(extras.getParcelableArrayList(TransactionList.KEY_FILTER));
 
-  }
-
-  String getProgress() {
-    return progress;
-  }
-
-  void appendToProgress(String progress) {
-    this.progress += "\n" + progress;
   }
 
   /* (non-Javadoc)
@@ -164,6 +154,7 @@ public class ExportTask extends AsyncTask<Void, String, Pair<ExportFormat, List<
     }
     ArrayList<Account> successfullyExported = new ArrayList<>();
     final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyMMdd-HHmmss", Locale.US);
+    final Date now = new Date();
     for (int i = 0; i < accountIds.length; i++) {
       account = Account.getInstanceFromDb(accountIds[i]);
       if (account == null) continue;
@@ -172,7 +163,7 @@ public class ExportTask extends AsyncTask<Void, String, Pair<ExportFormat, List<
         boolean append = mergeP && i > 0;
         String fileNameForAccount = oneFile ? fileName :
             String.format(("%s-%s"), Utils.escapeForFileName(account.getLabel()),
-                simpleDateFormat.format(new Date()));
+                simpleDateFormat.format(now));
         DocumentFile outputFile = AppDirHelper.buildFile(
             destDir,
             fileNameForAccount,
