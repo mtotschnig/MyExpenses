@@ -12,10 +12,8 @@
     <!-- Custom styles for this template -->
 </head>
 
-<body x-data="{ ip: '', name: '', amount: '', date: '', payee: '', account: 0, notes: '', categoryMain: 0, categorySub: 0, selectedTags: [], count: 0, accounts: [], payees: [],
-tags: [ {id: 1, label: 'Reise'}, {id: 2, label: 'Völlerei'} ],
-categories: [ {id: 1, label: 'Lebensmittel', children: [{id: 3, label: 'Bäcjer'}]}, {id: 2, label: 'Sport', children: [{id: 4, label: 'Ausrüstung'}]} ]
- }">
+<body x-data="{ ip: '', name: '', amount: '', date: '', payee: '', account: 0, notes: '', categoryMain: 0, categorySub: 0, selectedTags: [], count: 0,
+accounts: [], payees: [], categories: [], tags: [ {id: 1, label: 'Reise'}, {id: 2, label: 'Völlerei'} ]}">
 <div class="flex justify-center bg-teal-lighter">
     <div class="bg-white max-w-screen-sm w-full rounded shadow-lg p-8 m-4">
         <form>
@@ -26,7 +24,7 @@ categories: [ {id: 1, label: 'Lebensmittel', children: [{id: 3, label: 'Bäcjer'
                        x-model="ip">
                 <button class="block bg-green-500 hover:bg-green-700 text-white uppercase text-lg mx-auto p-4 rounded"
                         type="button" @click="loadData(ip).then(response => response.json())
-                              .then(data => { payees = data.payees; accounts = data.accounts; })">
+                              .then(data => { payees = data.payees; accounts = data.accounts; categories = data.categories })">
                     Load
                 </button>
             </div>
@@ -73,13 +71,13 @@ categories: [ {id: 1, label: 'Lebensmittel', children: [{id: 3, label: 'Bäcjer'
                 <div>
                     <select name="category_main" id="category_main" x-model="categoryMain">
                         <option value="0"></option>
-                        <template x-for="item in categories" :key="item.id">
+                        <template x-for="item in categoriesByParent(categories, 0)" :key="item.id">
                             <option :value="item.id" x-text="item.label"></option>
                         </template>
                     </select>
                     <select name="category_sub" x-model="categorySub" x-show="categoryMain > 0">
                         <option value="0"></option>
-                        <template x-for="item in subcategories(categories, categoryMain)" :key="item.id">
+                        <template x-for="item in categoriesByParent(categories, categoryMain)" :key="item.id">
                             <option :value="item.id" x-text="item.label"></option>
                         </template>
                     </select>
@@ -115,8 +113,9 @@ categories: [ {id: 1, label: 'Lebensmittel', children: [{id: 3, label: 'Bäcjer'
 </div>
 
 <script>
-function subcategories(tree, id) {
-    return id == 0 ? [] : tree.find(item => item.id == id).children
+function categoriesByParent(array, parent) {
+    console.log(parent)
+    return array.filter(item => item.parent == parent)
 }
 function loadData(ip) {
     return fetch(server(ip))

@@ -21,6 +21,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper.NOTIFICATION_WEB_UI
 import timber.log.Timber
@@ -30,7 +36,7 @@ const val START_ACTION = "START_ACTION"
 
 class WebInputService : LifecycleService() {
     private val job = SupervisorJob()
-    private val scope = CoroutineScope(Dispatchers.IO  + job)
+    private val scope = CoroutineScope(Dispatchers.IO + job)
 
     private val binder = LocalBinder()
 
@@ -70,17 +76,31 @@ class WebInputService : LifecycleService() {
                             get("/") {
                                 call.response.header("Access-Control-Allow-Origin", "*")
                                 call.respond(mapOf(
-                                        "accounts" to arrayOf(
-                                                mapOf("id" to 1, "label" to "Bankkonto"),
-                                                mapOf("id" to 2, "label" to "Geldtasche")),
-                                        "payees" to arrayOf(
-                                                mapOf("id" to 1, "name" to "A A"),
-                                                mapOf("id" to 2, "name" to "B B"))
+                                        "accounts" to contentResolver.query(TransactionProvider.ACCOUNTS_BASE_URI,
+                                                arrayOf(KEY_ROWID, KEY_LABEL),
+                                                DatabaseConstants.KEY_SEALED + " = 0", null, null)?.use {
+                                            generateSequence { if (it.moveToNext()) it else null }
+                                                    .map { mapOf("id" to it.getLong(0), "label" to it.getString(1)) }
+                                                    .toList()
+                                        },
+                                        "payees" to contentResolver.query(TransactionProvider.PAYEES_URI,
+                                                arrayOf(KEY_ROWID, KEY_PAYEE_NAME),
+                                                null, null, null)?.use {
+                                            generateSequence { if (it.moveToNext()) it else null }
+                                                    .map { mapOf("id" to it.getLong(0), "name" to it.getString(1)) }
+                                                    .toList()
+                                        },
+                                        "categories" to contentResolver.query(TransactionProvider.CATEGORIES_URI,
+                                                arrayOf(KEY_ROWID, KEY_PARENTID, KEY_LABEL),
+                                                null, null, null)?.use {
+                                            generateSequence { if (it.moveToNext()) it else null }
+                                                    .map { mapOf("id" to it.getLong(0), "parent" to it.getLong(1), "label" to it.getString(2)) }
+                                                    .toList()
+                                        }
                                 ))
                             }
                         }
                     }.also {
-                        //TODO strict mode. start on background
                         scope.launch {
                             it.start(wait = false)
                         }
