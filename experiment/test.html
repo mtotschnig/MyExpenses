@@ -9,11 +9,82 @@
     <link href="styles.css" rel="stylesheet">
 
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.js" defer></script>
-    <!-- Custom styles for this template -->
+
+    <style>
+    /*https://www.w3schools.com/howto/howto_css_switch.asp */
+        /* The switch - the box around the slider */
+        .switch {
+              position: relative;
+              display: inline-block;
+              width: 60px;
+              height: 34px;
+              vertical-align: middle;
+            }
+
+            .switch input {
+              display: none;
+            }
+
+            .slider {
+              position: absolute;
+              cursor: pointer;
+              top: 0;
+              left: 0;
+              right: 0;
+              bottom: 0;
+              background-color: red;
+              -webkit-transition: .4s;
+              transition: .4s;
+            }
+
+            .slider:before {
+              position: absolute;
+              content: "-";
+              height: 26px;
+              width: 26px;
+              left: 4px;
+              bottom: 4px;
+              background-color: white;
+              -webkit-transition: .4s;
+              transition: .4s;
+              text-align: center;
+              line-height: 26px;
+            }
+
+             input:checked+.slider:before {
+              content: "+";
+             }
+
+            input:checked+.slider {
+              background-color: green;
+            }
+
+            input:focus+.slider {
+              box-shadow: 0 0 1px #2196F3;
+            }
+
+            input:checked+.slider:before {
+              -webkit-transform: translateX(26px);
+              -ms-transform: translateX(26px);
+              transform: translateX(26px);
+            }
+
+
+            /* Rounded sliders */
+
+            .slider.round {
+              border-radius: 34px;
+            }
+
+            .slider.round:before {
+              border-radius: 50%;
+            }
+
+    </style>
 </head>
 
-<body x-data="{ ip: '', name: '', amount: '', date: new Date().toISOString().substring(0, 10), payee: '', account: '', categoryMain: 0, categorySub: 0, selectedTags: [], count: 0,
-accounts: [], payees: [], categories: [], tags: []}" x-init="$watch('categoryMain', value => categorySub = 0)">
+<body x-data="{ ip: '', name: '', signum: false, amount: '', date: new Date().toISOString().substring(0, 10), payee: '', account: 0, notes: '', categoryMain: 0, categorySub: 0, selectedTags: [], count: 0,
+accounts: [], payees: [], categories: [], tags: []}" x-init="$watch('categoryMain', value => categorySub = 0); $watch('amount', value => {if (value < 0) amount = -value})">
 <div class="flex justify-center bg-teal-lighter">
     <div class="bg-white max-w-screen-sm w-full rounded shadow-lg p-8 m-4">
         <form>
@@ -40,8 +111,11 @@ accounts: [], payees: [], categories: [], tags: []}" x-init="$watch('categoryMai
             <div class="flex flex-col mb-4">
                 <label class="mb-2 uppercase font-bold text-lg text-grey-darkest" for="amount">Amount</label>
                 <div>
-                    <input type="checkbox" name="type">
-                    <input class="border py-2 px-3 text-grey-darkest" type="number" name="amount" id="amount"
+                    <label class="switch">
+                        <input type="checkbox" name="type" x-model="signum">
+                        <span class="slider round"></span>
+                    </label>
+                    <input class="border py-2 px-3 text-grey-darkest align-middle" type="number" name="amount" id="amount" step="0.01" min="0" required
                            x-model="amount">
                 </div>
             </div>
@@ -49,7 +123,7 @@ accounts: [], payees: [], categories: [], tags: []}" x-init="$watch('categoryMai
             <div class="flex flex-col mb-4">
                 <label class="mb-2 uppercase font-bold text-lg text-grey-darkest"
                        for="date">Date</label>
-                <input class="border py-2 px-3 text-grey-darkest" type="date" name="date" id="date"
+                <input class="border py-2 px-3 text-grey-darkest" type="date" name="date" id="date" required
                        x-model="date">
             </div>
 
@@ -114,7 +188,6 @@ accounts: [], payees: [], categories: [], tags: []}" x-init="$watch('categoryMai
 
 <script>
 function categoriesByParent(array, parent) {
-    console.log(parent)
     return array.filter(item => item.parent == parent)
 }
 function loadData(ip) {

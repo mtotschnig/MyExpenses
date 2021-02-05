@@ -96,6 +96,13 @@ class WebInputService : LifecycleService() {
                                             generateSequence { if (it.moveToNext()) it else null }
                                                     .map { mapOf("id" to it.getLong(0), "parent" to it.getLong(1), "label" to it.getString(2)) }
                                                     .toList()
+                                        },
+                                        "tags" to contentResolver.query(TransactionProvider.TAGS_URI,
+                                                arrayOf(KEY_ROWID, KEY_LABEL),
+                                                null, null, null)?.use {
+                                            generateSequence { if (it.moveToNext()) it else null }
+                                                    .map { mapOf("id" to it.getLong(0), "label" to it.getString(1)) }
+                                                    .toList()
                                         }
                                 ))
                             }
