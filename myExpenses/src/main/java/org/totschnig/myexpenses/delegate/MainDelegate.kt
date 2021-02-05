@@ -37,7 +37,7 @@ abstract class MainDelegate<T : ITransaction>(viewBinding: OneExpenseBinding, da
         return buildMainTransaction(accountId).apply {
             this.amount = Money(currentAccount()!!.currency, amount)
             payee = viewBinding.Payee.text.toString()
-            this.methodId = if (currentAccount()!!.type == AccountType.CASH) null else this@MainDelegate.methodId
+            this.methodId = this@MainDelegate.methodId
             val originalAmount = validateAmountInput(viewBinding.OriginalAmount, false, true)
             val selectedItem = viewBinding.OriginalAmount.selectedCurrency
             if (selectedItem != null && originalAmount != null) {
