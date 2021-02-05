@@ -276,8 +276,6 @@ abstract class TransactionDelegate<T : ITransaction>(
         if (equivalentAmountVisible) {
             showEquivalentAmount()
         }
-
-        setMethodSelection()
     }
 
     protected fun hideRowsSpecificToMain() {
