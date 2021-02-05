@@ -15,6 +15,14 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_323">
+        <item>Бутонът за дата позволява бърза навигация до вчера и утре.</item>
+    </string-array>
+    <string-array name="whats_new_322">
+        <item>Сумите в заглавията на групата могат да бъдат скрити.</item>
+        <item>Изчисляване на разликата между текущото салдо и новата му стойност.</item>
+        <item>Филтър и бюджет могат да бъдат дефинирани за част от сметките.</item>
+    </string-array>
     <string-array name="whats_new_321">
         <item>Разпознаването на текст вече работи на повече езици.</item>
     </string-array>

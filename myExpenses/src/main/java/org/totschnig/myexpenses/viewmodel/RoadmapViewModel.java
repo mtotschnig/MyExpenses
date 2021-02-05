@@ -42,6 +42,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import timber.log.Timber;
 
+//TODO migrate to Coroutines, and use mock network for test
 public class RoadmapViewModel extends AndroidViewModel {
   public static final String ROADMAP_URL = BuildConfig.DEBUG ?
       "https://votedb-staging.herokuapp.com/"  : "https://roadmap.myexpenses.mobi/";
