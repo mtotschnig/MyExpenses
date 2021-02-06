@@ -199,7 +199,7 @@ public class LicenceHandler {
   }
 
   public Package[] getProPackages() {
-    return new Package[]{Package.Professional_6, Package.Professional_18, Package.Professional_30};
+    return new Package[]{Package.Professional_6, Package.Professional_12, Package.Professional_24};
   }
 
   @Nullable
