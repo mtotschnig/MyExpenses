@@ -104,7 +104,7 @@ class SelectColorViewHolder extends FormElementViewHolder<SelectColorField> impl
   protected boolean validate(Context context) {
     boolean valid = posButtonEnabled(context);
     if (valid) {
-      int color = UiUtils.themeIntAttr(label.getContext(), android.R.attr.textColor);
+      int color = UiUtils.themeIntAttr(label.getContext(), R.attr.colorOnSurface);
       if (color != -1) {
         label.setTextColor(color);
       } else {
