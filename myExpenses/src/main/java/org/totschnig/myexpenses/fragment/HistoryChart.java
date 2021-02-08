@@ -135,7 +135,7 @@ public class HistoryChart extends Fragment
     TypedArray a = getActivity().obtainStyledAttributes(typedValue.data, textSizeAttr);
     valueTextSize = a.getDimensionPixelSize(indexOfAttrTextSize, 10) / getResources().getDisplayMetrics().density;
     a.recycle();
-    textColor = UiUtils.themeIntAttr(getContext(), R.attr.colorOnSurface);
+    textColor = UiUtils.getColor(requireContext(), R.attr.colorOnSurface);
   }
 
   @Override

@@ -135,7 +135,7 @@ public class PlanMonthFragment extends CaldroidFragment
   private void setupStateListDrawable() {
     int accountColor = getArguments().getInt(DatabaseConstants.KEY_COLOR);
     stateListDrawable = new StateListDrawable();
-    final int surfaceColor = UiUtils.themeIntAttr(getContext(), R.attr.colorSurface);
+    final int surfaceColor = UiUtils.getColor(requireContext(), R.attr.colorSurface);
     int todayDrawableResId = R.drawable.red_border;
     GradientDrawable today = (GradientDrawable) AppCompatResources.getDrawable(requireContext(), todayDrawableResId).mutate();
     GradientDrawable todaySelected = (GradientDrawable) AppCompatResources.getDrawable(requireContext(), todayDrawableResId).mutate();

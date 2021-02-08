@@ -1013,7 +1013,7 @@ public class MyExpenses extends BaseMyExpenses implements
       viewPager().setAdapter(mViewPagerAdapter);
       viewPager().addOnPageChangeListener(this);
       viewPager().setPageMargin(UiUtils.dp2Px(10, getResources()));
-      viewPager().setPageMarginDrawable(new ColorDrawable(UiUtils.themeIntAttr(this, R.attr.colorOnSurface)));
+      viewPager().setPageMarginDrawable(new ColorDrawable(UiUtils.getColor(this, R.attr.colorOnSurface)));
     } else {
       mViewPagerAdapter.swapCursor(cursor);
     }

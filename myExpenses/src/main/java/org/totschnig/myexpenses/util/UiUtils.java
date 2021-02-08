@@ -16,6 +16,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.github.lzyzsd.circleprogress.DonutProgress;
+import com.google.android.material.color.MaterialColors;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -23,6 +24,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.preference.PrefHandler;
 
+import androidx.annotation.AttrRes;
 import androidx.annotation.ColorInt;
 import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
@@ -140,17 +142,8 @@ public class UiUtils {
    * Returns the value of the desired theme integer attribute, or -1 if not found
    **/
   @ColorInt
-  public static int themeIntAttr(@Nullable Context context, int attr) {
-    if (context != null) {
-      final Resources.Theme theme = context.getTheme();
-      if (theme != null) {
-        final TypedValue value = new TypedValue();
-        if (theme.resolveAttribute(attr, value, true)) {
-          return value.data;
-        }
-      }
-    }
-    return -1;
+  public static int getColor(@Nullable Context context, @AttrRes int attr) {
+    return MaterialColors.getColor(context, attr, context.getClass().getCanonicalName());
   }
 
   public static boolean themeBoolAttr(Context context, int attr) {

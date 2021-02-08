@@ -62,7 +62,7 @@ class DiscoveryHelper @Inject constructor(val prefHandler: PrefHandler) {
         TapTargetView.showFor(context,
                 TapTarget.forView(target, feature.toTitle(context), feature.toDescription(context))
                         .transparentTarget(true)
-                        .outerCircleColorInt(UiUtils.themeIntAttr(context, R.attr.colorAccent))
+                        .outerCircleColorInt(UiUtils.getColor(context, R.attr.colorAccent))
                         .apply {
                             targetRadius?.let { this.targetRadius(it) }
                         },
