@@ -5,15 +5,20 @@
 
 package org.totschnig.myexpenses.dialog;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.ui.SnackbarAction;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+
+import javax.inject.Inject;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -26,6 +31,15 @@ public abstract class BaseDialogFragment extends DialogFragment {
   protected View dialogView;
   protected LayoutInflater layoutInflater;
   private Snackbar snackbar;
+
+  @Inject
+  PrefHandler prefHandler;
+
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    ((MyApplication) requireActivity().getApplication()).getAppComponent().inject(this);
+  }
 
   protected AlertDialog.Builder initBuilder() {
     MaterialAlertDialogBuilder materialAlertDialogBuilder = new MaterialAlertDialogBuilder(requireContext());

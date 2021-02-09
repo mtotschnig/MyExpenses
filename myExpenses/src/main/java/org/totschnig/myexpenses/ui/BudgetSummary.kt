@@ -44,7 +44,7 @@ class BudgetSummary @JvmOverloads constructor(
         binding.budgetProgressTotal.setUnfinishedStrokeColor(getComplementColor(budget.color))
         tableBinding.totalBudget.text = currencyFormatter.formatCurrency(budget.amount)
         tableBinding.totalAmount.text = currencyFormatter.formatCurrency(Money(budget.currency, -spent))
-        val allocated = budget.amount.getAmountMinor()
+        val allocated = budget.amount.amountMinor
         val available = allocated - spent
         tableBinding.totalAvailable.text = currencyFormatter.formatCurrency(Money(budget.currency, available))
         val onBudget = available >= 0

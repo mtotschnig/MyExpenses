@@ -631,8 +631,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           //home query
           String[] subQueries;
           if (homeCurrency != null) {
-            String grouping = MyApplication.getInstance().getSettings().getString(
-                GROUPING_AGGREGATE, "NONE");
+            String grouping = prefHandler.getString(GROUPING_AGGREGATE, "NONE");
             rowIdColumn = Account.HOME_AGGREGATE_ID + " AS " + KEY_ROWID;
             labelColumn = "'' AS " + KEY_LABEL;
             currencyColumn = "'" + AGGREGATE_HOME_CURRENCY_CODE + "' AS " + KEY_CURRENCY;
@@ -708,7 +707,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       case AGGREGATE_ID:
         String currencyId = uri.getPathSegments().get(2);
         if (Integer.parseInt(currencyId) == Account.HOME_AGGREGATE_ID) {
-          String grouping = MyApplication.getInstance().getSettings().getString(
+          String grouping = prefHandler.getString(
               GROUPING_AGGREGATE, "NONE");
           qb.setTables(TABLE_ACCOUNTS);
           projection = new String[]{

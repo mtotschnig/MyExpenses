@@ -49,15 +49,12 @@ public class RemindRateDialogFragment extends BaseDialogFragment implements OnCl
   private int POSITIVE_RATING = 5;
 
   @Inject
-  PrefHandler prefHandler;
-
-  @Inject
   protected Tracker tracker;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    MyApplication.getInstance().getAppComponent().inject(this);
+    ((MyApplication) requireActivity().getApplication()).getAppComponent().inject(this);
   }
 
   @Override

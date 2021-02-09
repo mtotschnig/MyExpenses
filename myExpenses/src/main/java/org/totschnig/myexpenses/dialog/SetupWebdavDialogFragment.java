@@ -14,10 +14,8 @@ import android.widget.TextView;
 
 import com.annimon.stream.Exceptional;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.SyncBackendSetupActivity;
-import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.WebDavBackendProvider;
@@ -37,10 +35,7 @@ import java.io.FileNotFoundException;
 import java.security.cert.CertificateEncodingException;
 import java.security.cert.X509Certificate;
 
-import javax.inject.Inject;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import okhttp3.HttpUrl;
 
@@ -57,15 +52,6 @@ public class SetupWebdavDialogFragment extends BaseDialogFragment {
   private TextView mTxtTrustCertificate;
   private CheckBox mChkTrustCertificate;
   private X509Certificate mTrustCertificate;
-
-  @Inject
-  PrefHandler prefHandler;
-
-  @Override
-  public void onCreate(@Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    MyApplication.getInstance().getAppComponent().inject(this);
-  }
 
   @NonNull
   @Override

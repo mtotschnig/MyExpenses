@@ -9,9 +9,11 @@ import android.os.Binder
 import android.os.IBinder
 import android.text.format.Formatter
 import androidx.lifecycle.LifecycleService
+import com.google.gson.JsonDeserializer
 import io.ktor.application.*
 import io.ktor.features.*
 import io.ktor.gson.*
+import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
@@ -21,6 +23,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import org.threeten.bp.LocalDate
+import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.model2.Transaction
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
@@ -30,11 +36,18 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper.NOTIFICATION_WEB_UI
 import timber.log.Timber
+import javax.inject.Inject
 
 const val STOP_ACTION = "STOP_ACTION"
 const val START_ACTION = "START_ACTION"
 
 class WebInputService : LifecycleService() {
+
+    @Inject
+    lateinit var localDateJsonDeserializer: JsonDeserializer<LocalDate>
+    @Inject
+    lateinit var repository: Repository
+
     private val job = SupervisorJob()
     private val scope = CoroutineScope(Dispatchers.IO + job)
 
@@ -42,6 +55,11 @@ class WebInputService : LifecycleService() {
 
     inner class LocalBinder : Binder() {
         fun getService(): WebInputService = this@WebInputService
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        (application as MyApplication).appComponent.inject(this)
     }
 
     override fun onBind(intent: Intent): IBinder {
@@ -65,16 +83,26 @@ class WebInputService : LifecycleService() {
                     // (https://youtrack.jetbrains.com/issue/KTOR-1613)  and prevents Strict Mode violation
                     server = embeddedServer(Netty, 9000, watchPaths = emptyList()) {
                         install(ContentNegotiation) {
-                            gson {}
+                            gson {
+                                registerTypeAdapter(LocalDate::class.java, localDateJsonDeserializer)
+                            }
+                        }
+                        install(CORS) {
+                            anyHost()
+                            allowNonSimpleContentTypes = true
+                        }
+                        install(StatusPages) {
+                            exception<Throwable> { cause ->
+                                call.respond(HttpStatusCode.InternalServerError, "Internal Server Error")
+                                Timber.e(cause)
+                                throw cause
+                            }
                         }
                         routing {
                             post("/") {
-                                Timber.d("Received %s", call.receiveText())
-                                call.response.header("Access-Control-Allow-Origin", "*")
-                                call.respond(mapOf("message" to "Hello world"))
+                                call.respond(if (repository.createTransaction(call.receive()) != null) HttpStatusCode.Created else HttpStatusCode.Conflict)
                             }
                             get("/") {
-                                call.response.header("Access-Control-Allow-Origin", "*")
                                 call.respond(mapOf(
                                         "accounts" to contentResolver.query(TransactionProvider.ACCOUNTS_BASE_URI,
                                                 arrayOf(KEY_ROWID, KEY_LABEL),

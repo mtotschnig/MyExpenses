@@ -69,9 +69,6 @@ class TransactionDetailFragment : BaseDialogFragment(), DialogInterface.OnClickL
     lateinit var currencyFormatter: CurrencyFormatter
 
     @Inject
-    lateinit var prefHandler: PrefHandler
-
-    @Inject
     lateinit var picasso: Picasso
 
     override fun onCreate(savedInstanceState: Bundle?) {

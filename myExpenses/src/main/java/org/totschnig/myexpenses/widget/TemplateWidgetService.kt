@@ -70,7 +70,7 @@ class TemplatetRemoteViewsFactory(
         setTextViewText(R.id.line1,
                 title + " : " + (context.applicationContext as MyApplication).appComponent.currencyFormatter().formatCurrency(amount))
         val commentSeparator = " / "
-        val description = SpannableStringBuilder(if (isTransfer) Transfer.getIndicatorPrefixForLabel(amount.getAmountMinor()) + label else label)
+        val description = SpannableStringBuilder(if (isTransfer) Transfer.getIndicatorPrefixForLabel(amount.amountMinor) + label else label)
         if (!TextUtils.isEmpty(comment)) {
             if (description.length != 0) {
                 description.append(commentSeparator)

@@ -41,11 +41,9 @@ import com.google.android.material.snackbar.Snackbar;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.databinding.ExportDialogBinding;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.task.ExportTask;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
@@ -59,8 +57,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 
-import javax.inject.Inject;
-
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -73,9 +69,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 public class ExportDialogFragment extends BaseDialogFragment implements OnClickListener, OnCheckedChangeListener {
   private static final String KEY_IS_FILTERED = "is_filtered";
   private ExportDialogBinding binding;
-
-  @Inject
-  PrefHandler prefHandler;
 
   AlertDialog mDialog;
   String currency;
@@ -101,7 +94,6 @@ public class ExportDialogFragment extends BaseDialogFragment implements OnClickL
   @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    MyExpenses ctx = (MyExpenses) getActivity();
     Bundle args = getArguments();
     if (args == null) {
       throw new IllegalStateException("Cannot be used without args");

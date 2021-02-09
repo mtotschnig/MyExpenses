@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.fragment
 
+import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.os.Bundle
 import androidx.preference.ListPreference
@@ -36,6 +37,9 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     @Inject
     lateinit var userLocaleProvider: UserLocaleProvider
 
+    @Inject
+    lateinit var settings: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity().application as MyApplication).appComponent.inject(this)
@@ -43,7 +47,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
 
     override fun onResume() {
         super.onResume()
-        requireApplication().settings.registerOnSharedPreferenceChangeListener(this)
+        settings.registerOnSharedPreferenceChangeListener(this)
         featureManager.registerCallback(object : Callback {
             override fun onLanguageAvailable() {
                 rebuildDbConstants()
@@ -70,7 +74,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
 
     override fun onPause() {
         super.onPause()
-        requireApplication().settings.unregisterOnSharedPreferenceChangeListener(this)
+        settings.unregisterOnSharedPreferenceChangeListener(this)
         featureManager.unregister()
     }
 

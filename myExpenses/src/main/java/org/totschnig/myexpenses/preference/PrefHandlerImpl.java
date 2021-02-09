@@ -1,15 +1,18 @@
 package org.totschnig.myexpenses.preference;
 
-import org.totschnig.myexpenses.MyApplication;
+import android.app.Application;
+import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 public class PrefHandlerImpl implements PrefHandler {
-  private final MyApplication context;
+  private final Application context;
+  private final SharedPreferences sharedPreferences;
 
-  public PrefHandlerImpl(MyApplication context) {
+  public PrefHandlerImpl(Application context, SharedPreferences sharedPreferences) {
     this.context = context;
+    this.sharedPreferences = sharedPreferences;
   }
 
   @NonNull
@@ -27,7 +30,7 @@ public class PrefHandlerImpl implements PrefHandler {
   @Override
   @Nullable
   public String getString(String key, String defValue) {
-    return context.getSettings().getString(key, defValue);
+    return sharedPreferences.getString(key, defValue);
   }
 
   @Override
@@ -37,7 +40,7 @@ public class PrefHandlerImpl implements PrefHandler {
 
   @Override
   public void putString(String key, String value) {
-    context.getSettings().edit().putString(key, value).apply();
+    sharedPreferences.edit().putString(key, value).apply();
   }
 
   @Override
@@ -47,7 +50,7 @@ public class PrefHandlerImpl implements PrefHandler {
 
   @Override
   public boolean getBoolean(String key, boolean defValue) {
-    return context.getSettings().getBoolean(key, defValue);
+    return sharedPreferences.getBoolean(key, defValue);
   }
 
   @Override
@@ -57,7 +60,7 @@ public class PrefHandlerImpl implements PrefHandler {
 
   @Override
   public void putBoolean(String key, boolean value) {
-    context.getSettings().edit().putBoolean(key, value).apply();
+    sharedPreferences.edit().putBoolean(key, value).apply();
   }
 
   @Override
@@ -67,7 +70,7 @@ public class PrefHandlerImpl implements PrefHandler {
 
   @Override
   public int getInt(String key, int defValue) {
-    return context.getSettings().getInt(key, defValue);
+    return sharedPreferences.getInt(key, defValue);
   }
 
   @Override
@@ -77,7 +80,7 @@ public class PrefHandlerImpl implements PrefHandler {
 
   @Override
   public void putInt(String key, int value) {
-    context.getSettings().edit().putInt(key, value).apply();
+    sharedPreferences.edit().putInt(key, value).apply();
   }
 
   @Override
@@ -87,7 +90,7 @@ public class PrefHandlerImpl implements PrefHandler {
 
   @Override
   public long getLong(String key, long defValue) {
-    return context.getSettings().getLong(key, defValue);
+    return sharedPreferences.getLong(key, defValue);
   }
 
   @Override
@@ -97,7 +100,7 @@ public class PrefHandlerImpl implements PrefHandler {
 
   @Override
   public void putLong(String key, long value) {
-    context.getSettings().edit().putLong(key, value).apply();
+    sharedPreferences.edit().putLong(key, value).apply();
   }
 
   @Override
@@ -107,7 +110,7 @@ public class PrefHandlerImpl implements PrefHandler {
 
   @Override
   public void remove(String key) {
-    context.getSettings().edit().remove(key).apply();
+    sharedPreferences.edit().remove(key).apply();
   }
 
   @Override
@@ -117,7 +120,7 @@ public class PrefHandlerImpl implements PrefHandler {
 
   @Override
   public boolean isSet(String key) {
-    return context.getSettings().contains(key);
+    return sharedPreferences.contains(key);
   }
 
   @Override

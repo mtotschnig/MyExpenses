@@ -10,14 +10,14 @@ import org.totschnig.myexpenses.activity.BaseActivity;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.db2.Repository;
 import org.totschnig.myexpenses.dialog.AmountFilterDialog;
+import org.totschnig.myexpenses.dialog.BaseDialogFragment;
 import org.totschnig.myexpenses.dialog.ContribDialogFragment;
 import org.totschnig.myexpenses.dialog.DonateDialogFragment;
 import org.totschnig.myexpenses.dialog.EditCurrencyDialog;
-import org.totschnig.myexpenses.dialog.ExportDialogFragment;
 import org.totschnig.myexpenses.dialog.ExtendProLicenceDialogFragment;
 import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
-import org.totschnig.myexpenses.dialog.SetupWebdavDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.dialog.TransactionListDialogFragment;
 import org.totschnig.myexpenses.dialog.VersionDialogFragment;
@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.fragment.BaseTransactionList;
 import org.totschnig.myexpenses.fragment.BudgetFragment;
 import org.totschnig.myexpenses.fragment.BudgetList;
 import org.totschnig.myexpenses.fragment.CategoryList;
+import org.totschnig.myexpenses.fragment.CsvImportParseFragment;
 import org.totschnig.myexpenses.fragment.CurrencyList;
 import org.totschnig.myexpenses.fragment.DistributionFragment;
 import org.totschnig.myexpenses.fragment.HistoryChart;
@@ -47,6 +48,7 @@ import org.totschnig.myexpenses.provider.ExchangeRateRepository;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.service.AutoBackupService;
 import org.totschnig.myexpenses.service.PlanExecutor;
+import org.totschnig.myexpenses.service.WebInputService;
 import org.totschnig.myexpenses.sync.webdav.WebDavClient;
 import org.totschnig.myexpenses.task.LicenceApiTask;
 import org.totschnig.myexpenses.ui.DiscoveryHelper;
@@ -67,6 +69,7 @@ import org.totschnig.myexpenses.viewmodel.OcrViewModel;
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
 import org.totschnig.myexpenses.viewmodel.TransactionDetailViewModel;
 import org.totschnig.myexpenses.viewmodel.TransactionViewModel;
+import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.TemplatetRemoteViewsFactory;
 
@@ -80,10 +83,15 @@ import dagger.BindsInstance;
 import dagger.Component;
 
 @Singleton
-@Component(modules = {AppModule.class, UiModule.class, NetworkModule.class, LicenceModule.class, DbModule.class, CoroutineModule.class, ViewModelModule.class, FeatureModule.class})
+@Component(modules = {AppModule.class, UiModule.class, NetworkModule.class, LicenceModule.class,
+    DbModule.class, CoroutineModule.class, ViewModelModule.class, FeatureModule.class,
+    SharedPreferencesModule.class})
 public interface AppComponent {
   @Singleton
   DiscoveryHelper discoveryHelper();
+
+  @Singleton
+  Repository repository();
 
   String USER_COUNTRY = "userCountry";
 
@@ -100,6 +108,8 @@ public interface AppComponent {
     Builder coroutineModule(CoroutineModule coroutineModule);
 
     Builder viewModelModule(ViewModelModule viewModelModule);
+
+    Builder sharedPreferencesModule(SharedPreferencesModule sharedPreferencesModule);
 
     AppComponent build();
   }
@@ -192,8 +202,6 @@ public interface AppComponent {
 
   void inject(EditCurrencyViewModel editCurrencyViewModel);
 
-  void inject(ExportDialogFragment exportDialogFragment);
-
   void inject(PlanExecutor planExecutor);
 
   void inject(BudgetViewModel budgetViewModel);
@@ -206,11 +214,11 @@ public interface AppComponent {
 
   void inject(MyExpensesViewModel myExpensesViewModel);
 
+  void inject(UpgradeHandlerViewModel upgradeHandlerViewModel);
+
   void inject(SelectFromTableDialogFragment selectFromTableDialogFragment);
 
   void inject(BudgetList budgetList);
-
-  void inject(SetupWebdavDialogFragment setupWebdavDialogFragment);
 
   void inject(OnBoardingPrivacyFragment onBoardingPrivacyFragment);
 
@@ -237,4 +245,10 @@ public interface AppComponent {
   void inject(@NotNull BaseActivity baseActivity);
 
   void inject(@NotNull OcrViewModel ocrViewModel);
+
+  void inject(@NotNull WebInputService webInputService);
+
+  void inject(BaseDialogFragment confirmationDialogFragment);
+
+  void inject(CsvImportParseFragment csvImportParseFragment);
 }

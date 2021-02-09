@@ -156,6 +156,9 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   protected CurrencyFormatter currencyFormatter;
 
   @Inject
+  protected SharedPreferences settings;
+
+  @Inject
   protected FeatureManager featureManager;
 
   private Pair<Integer, Integer> focusAfterRestoreInstanceState;
@@ -172,7 +175,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
       getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
           WindowManager.LayoutParams.FLAG_SECURE);
     }
-    MyApplication.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
+    settings.registerOnSharedPreferenceChangeListener(this);
     TypedArray themeArray = getTheme().obtainStyledAttributes(new int[]{android.R.attr.textColorSecondary});
     textColorSecondary = themeArray.getColorStateList(0);
   }
@@ -281,7 +284,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   @Override
   protected void onDestroy() {
     super.onDestroy();
-    MyApplication.getInstance().getSettings().unregisterOnSharedPreferenceChangeListener(this);
+    settings.unregisterOnSharedPreferenceChangeListener(this);
   }
 
   @Override

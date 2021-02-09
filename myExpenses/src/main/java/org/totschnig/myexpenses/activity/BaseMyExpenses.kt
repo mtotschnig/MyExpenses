@@ -231,14 +231,16 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 }
                 DIALOG_TAG_NEW_BALANCE -> {
                     if (currentPosition > -1) {
-                        accountsCursor?.let {
-                            it.moveToPosition(currentPosition)
-                            startEdit(
-                                    createRowIntent(Transactions.TYPE_TRANSACTION, false).apply {
-                                        putExtra(KEY_AMOUNT, (extras.getSerializable(KEY_AMOUNT) as BigDecimal) -
-                                                Money(currentCurrencyUnit, it.getLong(it.getColumnIndex(DatabaseConstants.KEY_CURRENT_BALANCE))).amountMajor)
-                                    }
-                            )
+                        accountsCursor?.let { cursor ->
+                            currentCurrencyUnit?.let { currencyUnit ->
+                                cursor.moveToPosition(currentPosition)
+                                startEdit(
+                                        createRowIntent(Transactions.TYPE_TRANSACTION, false).apply {
+                                            putExtra(KEY_AMOUNT, (extras.getSerializable(KEY_AMOUNT) as BigDecimal) -
+                                                    Money(currencyUnit, cursor.getLong(cursor.getColumnIndex(DatabaseConstants.KEY_CURRENT_BALANCE))).amountMajor)
+                                        }
+                                )
+                            }
                         }
                     }
                 }
@@ -322,15 +324,17 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     fun setBalance() {
-        accountsCursor?.let {
-            val balance = it.getLong(it.getColumnIndex(DatabaseConstants.KEY_CURRENT_BALANCE))
-            val label = it.getString(columnIndexLabel)
-            val isHome = it.getInt(it.getColumnIndex(DatabaseConstants.KEY_IS_AGGREGATE)) == AggregateAccount.AGGREGATE_HOME
-            currentBalance = String.format(Locale.getDefault(), "%s%s", if (isHome) " ≈ " else "",
-                    currencyFormatter.formatCurrency(Money(currentCurrencyUnit, balance)))
-            title = if (isHome) getString(R.string.grand_total) else label
-            toolbar.subtitle = currentBalance
-            toolbar.setSubtitleTextColor(resources.getColor(if (balance < 0) R.color.colorExpense else R.color.colorIncome))
+        accountsCursor?.let { cursor ->
+            currentCurrencyUnit?.let { currencyUnit ->
+                val balance = cursor.getLong(cursor.getColumnIndex(DatabaseConstants.KEY_CURRENT_BALANCE))
+                val label = cursor.getString(columnIndexLabel)
+                val isHome = cursor.getInt(cursor.getColumnIndex(DatabaseConstants.KEY_IS_AGGREGATE)) == AggregateAccount.AGGREGATE_HOME
+                currentBalance = String.format(Locale.getDefault(), "%s%s", if (isHome) " ≈ " else "",
+                        currencyFormatter.formatCurrency(Money(currencyUnit, balance)))
+                title = if (isHome) getString(R.string.grand_total) else label
+                toolbar.subtitle = currentBalance
+                toolbar.setSubtitleTextColor(resources.getColor(if (balance < 0) R.color.colorExpense else R.color.colorIncome))
+            }
         }
 
     }

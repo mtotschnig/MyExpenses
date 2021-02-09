@@ -100,12 +100,14 @@ public class MyApplication extends Application implements
   PrefHandler prefHandler;
   @Inject
   UserLocaleProvider userLocaleProvider;
+  @Inject
+  SharedPreferences mSettings;
   private static boolean instrumentationTest = false;
   private static String testId;
   public static final String PLANNER_CALENDAR_NAME = "MyExpensesPlanner";
   public static final String PLANNER_ACCOUNT_NAME = "Local Calendar";
   public static final String INVALID_CALENDAR_ID = "-1";
-  private SharedPreferences mSettings;
+
   private static MyApplication mSelf;
 
   public static final String KEY_NOTIFICATION_ID = "notification_id";
@@ -168,7 +170,7 @@ public class MyApplication extends Application implements
     setupLogging();
     if (!syncService) {
       // sets up mSettings
-      getSettings().registerOnSharedPreferenceChangeListener(this);
+      mSettings.registerOnSharedPreferenceChangeListener(this);
       DailyScheduler.updatePlannerAlarms(this, false, false);
       registerWidgetObservers();
     }
@@ -267,11 +269,8 @@ public class MyApplication extends Application implements
     return userLocaleProvider.getSystemLocale();
   }
 
+  @Deprecated
   public SharedPreferences getSettings() {
-    if (mSettings == null) {
-      mSettings = instrumentationTest ? getSharedPreferences(getTestId(), Context.MODE_PRIVATE) :
-          PreferenceManager.getDefaultSharedPreferences(this);
-    }
     return mSettings;
   }
 
@@ -284,7 +283,7 @@ public class MyApplication extends Application implements
 
   public static void cleanUpAfterTest() {
     mSelf.deleteDatabase(testId);
-    mSelf.getSettings().edit().clear().apply();
+    mSelf.mSettings.edit().clear().apply();
     new File(new File(mSelf.getFilesDir().getParentFile().getPath() + "/shared_prefs/"),
         testId + ".xml").delete();
   }

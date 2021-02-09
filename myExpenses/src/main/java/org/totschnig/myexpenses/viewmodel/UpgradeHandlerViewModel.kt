@@ -1,8 +1,10 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
+import android.content.SharedPreferences
 import android.os.Build
 import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.di.SharedPreferencesModule
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.model.Template
@@ -15,8 +17,14 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.validateDateFormat
 import timber.log.Timber
 import java.util.*
+import javax.inject.Inject
 
 class UpgradeHandlerViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
+    @Inject
+    lateinit var settings: SharedPreferences
+    init {
+        (application as MyApplication).appComponent.inject(this)
+    }
     fun upgrade(fromVersion: Int, toVersion: Int) {
         if (fromVersion < 385) {
             val hasIncomeColumn = "max(amount * (transfer_peer is null)) > 0 "
@@ -36,7 +44,7 @@ class UpgradeHandlerViewModel(application: Application) : ContentResolvingAndroi
                     }
         }
         if (fromVersion < 391) {
-            val dateFilterList = getApplication<MyApplication>().settings.all.entries.map { it.key }.filter { it.startsWith("filter_date") }
+            val dateFilterList = settings.all.entries.map { it.key }.filter { it.startsWith("filter_date") }
             val prefHandler = getApplication<MyApplication>().appComponent.prefHandler()
             dateFilterList.forEach { key ->
                 prefHandler.getString(key, null)?.let { legacy ->

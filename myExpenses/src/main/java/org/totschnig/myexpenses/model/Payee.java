@@ -115,6 +115,14 @@ public class Payee extends Model {
     }
   }
 
+  public static long findOrWrite(String name) {
+    long id = find(name);
+    if (id == -1) {
+      id = maybeWrite(name);
+    }
+    return id;
+  }
+
   /**
    * @param name
    * @return id of new record, or -1, if it already exists
@@ -133,10 +141,7 @@ public class Payee extends Model {
   public static long extractPayeeId(String payeeName, Map<String, Long> payeeToId) {
     Long id = payeeToId.get(payeeName);
     if (id == null) {
-      id = Payee.find(payeeName);
-      if (id == -1) {
-        id = Payee.maybeWrite(payeeName);
-      }
+      id = Payee.findOrWrite(payeeName);
       if (id != -1) { //should always be the case
         payeeToId.put(payeeName, id);
       }
@@ -163,7 +168,6 @@ public class Payee extends Model {
         cr().update(CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build(),
             initialValues, null, null);
       } catch (SQLiteConstraintException e) {
-        // TODO Auto-generated catch block
         uri = null;
       }
     }

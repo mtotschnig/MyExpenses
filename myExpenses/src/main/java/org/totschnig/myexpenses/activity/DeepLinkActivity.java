@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import org.totschnig.myexpenses.BuildConfig;
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
@@ -17,11 +16,6 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_VALIDATE_
 
 public class DeepLinkActivity extends ProtectedFragmentActivity {
   private boolean isPdt = true; //PaypalDataTransfer
-
-  @Override
-  protected void injectDependencies() {
-    ((MyApplication) getApplicationContext()).getAppComponent().inject(this);
-  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

@@ -310,11 +310,10 @@ public class MyExpenses extends BaseMyExpenses implements
       public void onHeaderClick(StickyListHeadersListView l, View header, int itemPosition, long headerId, boolean currentlySticky) {
         if (accountList().isHeaderCollapsed(headerId)) {
           accountList().expand(headerId);
-          persistCollapsedHeaderIds();
         } else {
           accountList().collapse(headerId);
-          persistCollapsedHeaderIds();
         }
+        persistCollapsedHeaderIds();
       }
 
       @Override

@@ -15,14 +15,13 @@
 
 package org.totschnig.myexpenses.model;
 
-import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import java.math.BigDecimal;
 import java.util.Currency;
 
 public class MoneyTest extends TestCase {
-  int DEFAULTFRACTIONDIGITS = 8;
+  int DEFAULT_FRACTION_DIGITS = 8;
   CurrencyUnit c;
   Money m;
 
@@ -32,10 +31,10 @@ public class MoneyTest extends TestCase {
   public void testEUR() {
     c = buildCurrencyUnit("EUR");
     m = new Money(c, (long) 2345);
-    Assert.assertEquals(m.getAmountMinor().longValue(), (long) 2345);
-    Assert.assertEquals(0, m.getAmountMajor().compareTo(new BigDecimal("23.45")));
+    assertEquals(m.getAmountMinor(), (long) 2345);
+    assertEquals(0, m.getAmountMajor().compareTo(new BigDecimal("23.45")));
     m = new Money(c, new BigDecimal("34.56"));
-    Assert.assertEquals(m.getAmountMinor().longValue(), (long) 3456);
+    assertEquals(m.getAmountMinor(), (long) 3456);
   }
 
   /**
@@ -44,10 +43,10 @@ public class MoneyTest extends TestCase {
   public void testBHD() {
     c = buildCurrencyUnit("BHD");
     m = new Money(c, (long) 2345);
-    Assert.assertEquals(m.getAmountMinor().longValue(), (long) 2345);
-    Assert.assertEquals(0, m.getAmountMajor().compareTo(new BigDecimal("2.345")));
+    assertEquals(m.getAmountMinor(), (long) 2345);
+    assertEquals(0, m.getAmountMajor().compareTo(new BigDecimal("2.345")));
     m = new Money(c, new BigDecimal("3.456"));
-    Assert.assertEquals(m.getAmountMinor().longValue(), (long) 3456);
+    assertEquals(m.getAmountMinor(), (long) 3456);
   }
 
   /**
@@ -56,10 +55,10 @@ public class MoneyTest extends TestCase {
   public void testJPY() {
     c = buildCurrencyUnit("JPY");
     m = new Money(c, (long) 2345);
-    Assert.assertEquals(m.getAmountMinor().longValue(), (long) 2345);
-    Assert.assertEquals(0, m.getAmountMajor().compareTo(new BigDecimal("2345")));
+    assertEquals(m.getAmountMinor(), (long) 2345);
+    assertEquals(0, m.getAmountMajor().compareTo(new BigDecimal("2345")));
     m = new Money(c, new BigDecimal("3456"));
-    Assert.assertEquals(m.getAmountMinor().longValue(), (long) 3456);
+    assertEquals(m.getAmountMinor(), (long) 3456);
   }
 
   /**
@@ -67,40 +66,40 @@ public class MoneyTest extends TestCase {
    */
   public void testXXX() {
     c = buildXXX();
-    long minor = (long) (2345 * Math.pow(10, DEFAULTFRACTIONDIGITS));
+    long minor = (long) (2345 * Math.pow(10, DEFAULT_FRACTION_DIGITS));
     m = new Money(c, minor);
-    Assert.assertEquals(m.getAmountMinor().longValue(), minor);
-    Assert.assertEquals(0, m.getAmountMajor().compareTo(new BigDecimal("2345")));
+    assertEquals(m.getAmountMinor(), minor);
+    assertEquals(0, m.getAmountMajor().compareTo(new BigDecimal("2345")));
     m = new Money(c, new BigDecimal("3456.789"));
-    Assert.assertEquals(m.getAmountMinor().longValue(), (long) (3456.789 * Math.pow(10, DEFAULTFRACTIONDIGITS)));
+    assertEquals(m.getAmountMinor(), (long) (3456.789 * Math.pow(10, DEFAULT_FRACTION_DIGITS)));
   }
 
   public void testBuildWithMicrosEUR() {
     c = buildCurrencyUnit("EUR");
     assertEquals(2, c.getFractionDigits());
     m = Money.buildWithMicros(c, 23450000);
-    Assert.assertEquals(2345L, m.getAmountMinor().longValue());
+    assertEquals(2345L, m.getAmountMinor());
   }
 
   public void testBuildWithMicrosBHD() {
     c = buildCurrencyUnit("BHD");
     assertEquals(3, c.getFractionDigits());
     m = Money.buildWithMicros(c, 23450000);
-    Assert.assertEquals(23450L, m.getAmountMinor().longValue());
+    assertEquals(23450L, m.getAmountMinor());
   }
 
   public void testBuildWithMicrosJPY() {
     c = buildCurrencyUnit("JPY");
     assertEquals(0, c.getFractionDigits());
     m = Money.buildWithMicros(c, 23450000);
-    Assert.assertEquals(23L, m.getAmountMinor().longValue());
+    assertEquals(23L, m.getAmountMinor());
   }
 
   public void testBuildWithMicrosXXX() {
     c = buildXXX();
     assertEquals(8, c.getFractionDigits());
     m = Money.buildWithMicros(c, 23450000);
-    Assert.assertEquals(2345000000L, m.getAmountMinor().longValue());
+    assertEquals(2345000000L, m.getAmountMinor());
   }
 
   private CurrencyUnit buildCurrencyUnit(String code) {
@@ -109,6 +108,6 @@ public class MoneyTest extends TestCase {
   }
 
   private CurrencyUnit buildXXX() {
-    return new CurrencyUnit("XXX", "XXX", DEFAULTFRACTIONDIGITS);
+    return new CurrencyUnit("XXX", "XXX", DEFAULT_FRACTION_DIGITS);
   }
 }
