@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_3231">
+        <item>@string/bug_fixes</item>
+    </string-array>
     <string-array name="whats_new_323">
         <item>Date button allows quick navigation to previous and next day.</item>
     </string-array>

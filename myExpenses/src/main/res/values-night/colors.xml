@@ -5,8 +5,10 @@
     <color name="colorPrimaryDialog">@color/primaryLightestColor</color>
     <color name="colorErrorDialog">#D57B8C</color>
     <color name="cardHighlightForeground">#40cccccc</color>
-    <color name="colorIncome">#00D000</color>
-    <color name="colorExpense">#FF5E5E</color>
+    <color name="colorExpense">@color/colorExpenseLight</color>
+    <color name="colorIncome">@color/colorIncomeLight</color>
+    <color name="colorExpenseHistoryChart">@color/colorExpenseDark</color>
+    <color name="colorIncomeHistoryChart">@color/colorIncomeDark</color>
     <color name="colorTransfer">#7777FF</color>
     <color name="colorAggregate">@color/material_grey_400</color>
     <color name="caldroid_custom_gridview_background">@color/caldroid_middle_gray</color>

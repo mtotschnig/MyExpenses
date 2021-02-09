@@ -62,6 +62,7 @@ android {
 
     kotlinOptions {
         jvmTarget = "1.8"
+        freeCompilerArgs = ["-Xallow-result-return-type"]
     }
 
     compileOptions {
@@ -205,8 +206,7 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.5'
     implementation 'org.apache.commons:commons-csv:1.5'
     implementation "com.squareup.picasso:picasso:$picassoVersion"
-    implementation 'com.github.mtotschnig:MPAndroidChart:8ebaf08edd'
-    //implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0-alpha'
+    implementation 'com.github.mtotschnig:MPAndroidChart:6fcf34d9d4'
     implementation 'com.github.mtotschnig:Caldroid:d217ebc306'
     implementation 'com.github.eltos:simpledialogfragments:v3.3'
     implementation 'com.annimon:stream:1.2.1'
@@ -310,7 +310,7 @@ dependencies {
     //implementation "androidx.activity:activity-ktx:$activity_version"
     implementation "androidx.fragment:fragment-ktx:$fragment_version"
 
-    internImplementation "com.google.android.gms:play-services-base:17.5.0"
+    internImplementation "com.google.android.gms:play-services-base:17.6.0"
 
     //noinspection GradleDependency
     implementation 'com.github.mtotschnig:Android-Image-Cropper:581335df71'

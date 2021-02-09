@@ -276,8 +276,6 @@ abstract class TransactionDelegate<T : ITransaction>(
         if (equivalentAmountVisible) {
             showEquivalentAmount()
         }
-
-        setMethodSelection()
     }
 
     protected fun hideRowsSpecificToMain() {
@@ -427,6 +425,7 @@ abstract class TransactionDelegate<T : ITransaction>(
                 }
             }
             if (!found) {
+                methodId = null
                 methodSpinner.setSelection(0)
             }
         } else {
@@ -516,6 +515,7 @@ abstract class TransactionDelegate<T : ITransaction>(
 
     fun setMethods(paymentMethods: List<PaymentMethod>?) {
         if (paymentMethods == null || paymentMethods.isEmpty()) {
+            methodId = null
             methodRowBinding.MethodRow.visibility = View.GONE
         } else {
             methodRowBinding.MethodRow.visibility = View.VISIBLE

@@ -91,7 +91,7 @@ class PlannerFragment : BaseDialogFragment() {
                         intArrayOf()
                 ),
                 intArrayOf(
-                        UiUtils.themeIntAttr(requireContext(), R.attr.colorControlActivated),
+                        UiUtils.getColor(requireContext(), R.attr.colorControlActivated),
                         resources.getColor(R.color.cardBackground)
                 )
         )

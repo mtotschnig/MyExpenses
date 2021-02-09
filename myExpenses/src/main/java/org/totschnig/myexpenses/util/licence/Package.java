@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 
 public enum Package {
   Contrib(350), Upgrade(300), Extended(500), Professional_1(100), Professional_6(500),
-  Professional_12(900), Professional_18(950), Professional_30(1400),
+  Professional_12(800), Professional_24(1500),
   Professional_Amazon(900);
 
   /**

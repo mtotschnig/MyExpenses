@@ -8,7 +8,7 @@ import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IPieDataSet;
 import com.github.mikephil.charting.renderer.PieChartRenderer;
 import com.github.mikephil.charting.utils.ColorTemplate;
@@ -29,8 +29,10 @@ public class SelectivePieChartRenderer extends PieChartRenderer {
     this.selector = selector;
   }
 
+
   @Override
   public void drawValues(Canvas c) {
+
     MPPointF center = mChart.getCenterCircleBox();
 
     // get whole the radius
@@ -89,11 +91,13 @@ public class SelectivePieChartRenderer extends PieChartRenderer {
       float lineHeight = Utils.calcTextHeight(mValuePaint, "Q")
           + Utils.convertDpToPixel(4f);
 
-      ValueFormatter formatter = dataSet.getValueFormatter();
+      IValueFormatter formatter = dataSet.getValueFormatter();
 
       int entryCount = dataSet.getEntryCount();
 
-      mValueLinePaint.setColor(dataSet.getValueLineColor());
+      boolean isUseValueColorForLineEnabled = dataSet.isUseValueColorForLineEnabled();
+      int valueLineColor = dataSet.getValueLineColor();
+
       mValueLinePaint.setStrokeWidth(Utils.convertDpToPixel(dataSet.getValueLineWidth()));
 
       final float sliceSpace = getSliceSpace(dataSet);
@@ -125,8 +129,6 @@ public class SelectivePieChartRenderer extends PieChartRenderer {
             / yValueSum * 100f : entry.getY();
 
         if (selector.shouldDrawEntry(j, entry, value)) {
-
-          String formattedValue = formatter.getPieLabel(value, entry);
           String entryLabel = entry.getLabel();
 
           final float sliceXBase = (float) Math.cos(transformedAngle * Utils.FDEG2RAD);
@@ -193,12 +195,15 @@ public class SelectivePieChartRenderer extends PieChartRenderer {
               labelPty = pt2y;
             }
 
-            if (dataSet.getValueLineColor() != ColorTemplate.COLOR_NONE) {
+            int lineColor = ColorTemplate.COLOR_NONE;
 
-              if (dataSet.isUsingSliceColorAsValueLineColor()) {
-                mValueLinePaint.setColor(dataSet.getColor(j));
-              }
+            if (isUseValueColorForLineEnabled)
+              lineColor = dataSet.getColor(j);
+            else if (valueLineColor != ColorTemplate.COLOR_NONE)
+              lineColor = valueLineColor;
 
+            if (lineColor != ColorTemplate.COLOR_NONE) {
+              mValueLinePaint.setColor(lineColor);
               c.drawLine(pt0x, pt0y, pt1x, pt1y, mValueLinePaint);
               c.drawLine(pt1x, pt1y, pt2x, pt2y, mValueLinePaint);
             }
@@ -206,7 +211,14 @@ public class SelectivePieChartRenderer extends PieChartRenderer {
             // draw everything, depending on settings
             if (drawXOutside && drawYOutside) {
 
-              drawValue(c, formattedValue, labelPtx, labelPty, dataSet.getValueTextColor(j));
+              drawValue(c,
+                  formatter,
+                  value,
+                  entry,
+                  0,
+                  labelPtx,
+                  labelPty,
+                  dataSet.getValueTextColor(j));
 
               if (j < data.getEntryCount() && entryLabel != null) {
                 drawEntryLabel(c, entryLabel, labelPtx, labelPty + lineHeight);
@@ -218,7 +230,8 @@ public class SelectivePieChartRenderer extends PieChartRenderer {
               }
             } else if (drawYOutside) {
 
-              drawValue(c, formattedValue, labelPtx, labelPty + lineHeight / 2.f, dataSet.getValueTextColor(j));
+              drawValue(c, formatter, value, entry, 0, labelPtx, labelPty + lineHeight / 2.f, dataSet
+                  .getValueTextColor(j));
             }
           }
 
@@ -232,7 +245,7 @@ public class SelectivePieChartRenderer extends PieChartRenderer {
             // draw everything, depending on settings
             if (drawXInside && drawYInside) {
 
-              drawValue(c, formattedValue, x, y, dataSet.getValueTextColor(j));
+              drawValue(c, formatter, value, entry, 0, x, y, dataSet.getValueTextColor(j));
 
               if (j < data.getEntryCount() && entryLabel != null) {
                 drawEntryLabel(c, entryLabel, x, y + lineHeight);
@@ -243,7 +256,8 @@ public class SelectivePieChartRenderer extends PieChartRenderer {
                 drawEntryLabel(c, entryLabel, x, y + lineHeight / 2f);
               }
             } else if (drawYInside) {
-              drawValue(c, formattedValue, x, y + lineHeight / 2f, dataSet.getValueTextColor(j));
+
+              drawValue(c, formatter, value, entry, 0, x, y + lineHeight / 2f, dataSet.getValueTextColor(j));
             }
           }
 
@@ -264,6 +278,7 @@ public class SelectivePieChartRenderer extends PieChartRenderer {
                 icon.getIntrinsicHeight());
           }
         }
+
         xIndex++;
       }
 

@@ -80,7 +80,7 @@
 
         <activity
             android:name=".activity.OnboardingActivity"
-            android:theme="@style/Onboarding"></activity>
+            android:theme="@style/Onboarding" />
 
         <activity
             android:name=".activity.MyExpenses"

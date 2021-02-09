@@ -764,8 +764,8 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     if (!isFinishing()) {
       Intent i = new Intent(this, MyExpenses.class);
       i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+      finishAffinity();
       startActivity(i);
-      finish();
     }
   }
 

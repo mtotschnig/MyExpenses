@@ -859,6 +859,7 @@
     <string name="budget_filter_all_methods">Всички методи</string>
     <string name="budget_filter_all_states">Всички държави</string>
     <string name="budget_filter_all_tags">Всички маркери</string>
+    <string name="budget_filter_all_accounts">Всички сметки</string>
     <string name="budget_form_label_filter">Филтър</string>
     <string name="dialog_title_warning_delete_budget">Да се изтрие ли бюджетът?</string>
     <string name="warning_delete_budget">Бюджетът „%1$s“ ще бъде изтрит.</string>
@@ -970,4 +971,8 @@
     <string name="ocr_download_info">Възможността за разпознаване на текст се осигурява от външно приложение.</string>
     <!-- %s is replaced with the title of the preference for setting a passphrase for backups (pref_security_export_passphrase_title) -->
     <string name="warning_unencrypted_backup">Въпреки че данните ви са защитени от неоторизиран достъп на това устройство, архивите се създават без криптиране, освен ако не зададете %s.</string>
-    </resources>
+    <!-- Title of a preference switch that allows to configure display of group header. If switched on sums for income/expense/transfer are shown -->
+    <string name="pref_group_header_show_details_summary">Показвай подробни суми в заглавието на групата</string>
+    <!-- Title of a menu item and a dialogue that allow to adjust the current balance. User can enter the new balance, and transaction form is opened with the amount prefiled to the difference between old and new balance  -->
+    <string name="new_balance">Ново салдо</string>
+</resources>

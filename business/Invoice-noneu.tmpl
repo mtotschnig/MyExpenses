@@ -71,6 +71,7 @@
         \case{tr}{Turkey}
         \case{bd}{Bangladesh}
         \case{ch}{Switzerland}
+        \case{uk}{United Kingdom}
     \end{switch}
 }
 
@@ -81,7 +82,7 @@
 \LoadLetterOption{DIN} %% oder: DINmtext, SN, SNleft, KOMAold.
 \makeatletter
 \@setplength{sigbeforevskip}{17mm} % Abstand der Signatur von dem closing
-\@setplength{firstheadvpos}{17mm} % Abstand des Absenderfeldes vom Top
+%\@setplength{firstheadvpos}{17mm} % Abstand des Absenderfeldes vom Top
 \@setplength{firstfootvpos}{275mm} % Abstand des Footers von oben
 \@setplength{firstheadwidth}{\paperwidth}
 \@setplength{locwidth}{70mm}   % Breite des Locationfeldes
@@ -137,14 +138,14 @@
 \pagenumbering{arabic}
 %---------------------------------------------------------------------------
 %---------------------------------------------------------------------------
-\firstfoot{\footnotesize%
+\setkomavar{firstfoot}{\footnotesize%
 \rule[3pt]{\textwidth}{.4pt} \\
 \begin{tabular}[t]{l@{}}% 
 \usekomavar{fromname}\\
 \usekomavar{fromaddress}\\
 \usekomavar[\Letter~]{fromemail}\\
 \end{tabular}%
-\ifkomavarempty{frombank}{}{%
+\Ifkomavarempty{frombank}{}{%
 \hfill
 \begin{tabular}[t]{l@{}}%
 Bank details \\
@@ -176,7 +177,7 @@ N26 Bank}
 %---------------------------------------------------------------------------
 % Der Betreff des Briefes
 \setkomavar{subject}{Invoice}
------------------------------------------------------------
+%-----------------------------------------------------------
 \opening{}
 
 \vspace{5pt}

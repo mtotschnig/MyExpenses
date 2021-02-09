@@ -28,11 +28,17 @@
 
     <color name="appDefault">#ffc107</color>
     <color name="emphasis">#31b6e7</color>
-    <color name="colorExpense">#800000</color>
-    <color name="colorIncome">#006800</color>
+    <color name="colorExpense">@color/colorExpenseDark</color>
+    <color name="colorIncome">@color/colorIncomeDark</color>
+    <color name="colorExpenseHistoryChart">@color/colorExpenseLight</color>
+    <color name="colorIncomeHistoryChart">@color/colorIncomeLight</color>
     <color name="colorTransfer">#000080</color>
     <color name="colorAggregate">@color/my_material_grey_600</color>
     <color name="cardHighlightForeground">#4080cbc4</color>
+    <color name="colorExpenseDark">#800000</color>
+    <color name="colorIncomeDark">#006800</color>
+    <color name="colorExpenseLight">#FF5E5E</color>
+    <color name="colorIncomeLight">#00D000</color>
 
     <color name="drawerBackground">@android:color/white</color>
     <color name="cardBackground">#f0f0f0</color>

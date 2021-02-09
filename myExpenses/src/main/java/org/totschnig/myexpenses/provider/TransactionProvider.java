@@ -562,8 +562,6 @@ public class TransactionProvider extends BaseTransactionProvider {
                 .append(") AS ")
                 .append(KEY_SUM_TRANSFERS)
                 .append(", ")
-                .append(HAS_EXPORTED)
-                .append(", ")
                 .append(DatabaseConstants.getHasFuture())
                 .append(", ")
                 .append("coalesce((SELECT ")
@@ -610,7 +608,6 @@ public class TransactionProvider extends BaseTransactionProvider {
               "'AGGREGATE' AS " + KEY_TYPE,
               "0 AS " + KEY_SORT_KEY,
               "0 AS " + KEY_EXCLUDE_FROM_TOTALS,
-              "max(" + KEY_HAS_EXPORTED + ") AS " + KEY_HAS_EXPORTED,
               "null AS " + KEY_SYNC_ACCOUNT_NAME,
               "null AS " + KEY_UUID,
               "'DESC' AS " + KEY_SORT_DIRECTION,
@@ -651,7 +648,6 @@ public class TransactionProvider extends BaseTransactionProvider {
                 "'AGGREGATE' AS " + KEY_TYPE,
                 "0 AS " + KEY_SORT_KEY,
                 "0 AS " + KEY_EXCLUDE_FROM_TOTALS,
-                "max(" + KEY_HAS_EXPORTED + ") AS " + KEY_HAS_EXPORTED,
                 "null AS " + KEY_SYNC_ACCOUNT_NAME,
                 "null AS " + KEY_UUID,
                 "'DESC' AS " + KEY_SORT_DIRECTION,
