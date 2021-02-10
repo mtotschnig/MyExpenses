@@ -17,7 +17,7 @@
     <div class="bg-white max-w-screen-sm w-full rounded shadow-lg p-8 m-4">
         <form>
             <div class="flex flex-col mb-4">
-                <label class="mb-2 uppercase font-bold text-lg text-grey-darkest" for="account">Account</label>
+                <label class="mb-2 uppercase font-bold text-lg text-grey-darkest" for="account">${i18n_account}</label>
                 <select name="account" id="account" x-model="account">
                     <template x-for="item in data.accounts" :key="item.id">
                         <option :value="item.id" x-text="item.label"></option>
@@ -26,7 +26,7 @@
             </div>
 
             <div class="flex flex-col mb-4">
-                <label class="mb-2 uppercase font-bold text-lg text-grey-darkest" for="amount">Amount</label>
+                <label class="mb-2 uppercase font-bold text-lg text-grey-darkest" for="amount">${i18n_amount}</label>
                 <div>
                     <label class="switch">
                         <input type="checkbox" name="type" x-model="signum">
@@ -39,14 +39,14 @@
 
             <div class="flex flex-col mb-4">
                 <label class="mb-2 uppercase font-bold text-lg text-grey-darkest"
-                       for="date">Date</label>
+                       for="date">${i18n_date}</label>
                 <input class="border py-2 px-3 text-grey-darkest" type="date" name="date" id="date" required
                        x-model="date">
             </div>
 
             <div class="flex flex-col mb-4">
                 <label class="mb-2 uppercase font-bold text-lg text-grey-darkest"
-                       for="payee">Payee</label>
+                       for="payee">${i18n_payee}</label>
                 <input class="border py-2 px-3 text-grey-darkest" list="payees" name="payee" id="payee"
                        x-model="payee">
                 <datalist id="payees">
@@ -58,7 +58,7 @@
 
             <div class="flex flex-col mb-4">
                 <label class="mb-2 uppercase font-bold text-lg text-grey-darkest"
-                       for="category_main">Category</label>
+                       for="category_main">${i18n_category}</label>
                 <div>
                     <select name="category_main" id="category_main" x-model="categoryMain">
                         <option value="0"></option>
@@ -76,7 +76,7 @@
             </div>
 
             <div class="flex flex-col mb-4">
-                <label class="mb-2 uppercase font-bold text-lg text-grey-darkest" for="tags">Tags</label>
+                <label class="mb-2 uppercase font-bold text-lg text-grey-darkest" for="tags">${i18n_tags}</label>
                 <select name="tags" id="tags" multiple x-model="selectedTags">
                     <template x-for="item in data.tags" :key="item.id">
                         <option :value="item.id" x-text="item.label"></option>
@@ -85,7 +85,7 @@
             </div>
 
             <div class="flex flex-col mb-4">
-                <label class="mb-2 uppercase font-bold text-lg text-grey-darkest" for="notes">Notes</label>
+                <label class="mb-2 uppercase font-bold text-lg text-grey-darkest" for="notes">${i18n_notes}</label>
                 <textarea name="notes" id="notes" x-model="comment"></textarea>
             </div>
 
@@ -98,8 +98,7 @@
     } else {
         throw new Error('Something went wrong.');
     }
-  }).catch(errorHandler)">Submit
-                </button>
+  }).catch(errorHandler)">${i18n_submit}</button>
                 <div x-show="count > 0"><span x-text="count"></span> transactions have been
                     recorded.
                 </div>
@@ -128,7 +127,7 @@ function modelData() {
         categorySub: 0,
         selectedTags: [],
         count: 0,
-        data: %s,
+        data: ${data},
     }
 }
 

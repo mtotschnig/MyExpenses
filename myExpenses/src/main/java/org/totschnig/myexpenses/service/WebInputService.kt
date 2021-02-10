@@ -24,8 +24,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import org.apache.commons.lang3.text.StrSubstitutor
 import org.threeten.bp.LocalDate
 import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
@@ -35,7 +37,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper.NOTIFICATION_WEB_UI
-import timber.log.Timber
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import javax.inject.Inject
 
 const val STOP_ACTION = "STOP_ACTION"
@@ -45,8 +47,10 @@ class WebInputService : LifecycleService() {
 
     @Inject
     lateinit var localDateJsonDeserializer: JsonDeserializer<LocalDate>
+
     @Inject
     lateinit var repository: Repository
+
     @Inject
     lateinit var gson: Gson
 
@@ -73,7 +77,7 @@ class WebInputService : LifecycleService() {
     val isServerRunning
         get() = server != null
 
-    fun readFromAssets(fileName: String)= assets.open(fileName).bufferedReader()
+    fun readFromAssets(fileName: String) = assets.open(fileName).bufferedReader()
             .use {
                 it.readText()
             }
@@ -101,7 +105,7 @@ class WebInputService : LifecycleService() {
                         install(StatusPages) {
                             exception<Throwable> { cause ->
                                 call.respond(HttpStatusCode.InternalServerError, "Internal Server Error")
-                                Timber.e(cause)
+                                CrashHandler.report(cause)
                                 throw cause
                             }
                         }
@@ -143,7 +147,17 @@ class WebInputService : LifecycleService() {
                                                     .toList()
                                         }
                                 )
-                                call.respondText(readFromAssets("form.html").format(gson.toJson(data)), ContentType.Text.Html)
+                                val text = StrSubstitutor.replace(readFromAssets("form.html"), mapOf(
+                                        "i18n_account" to getString(R.string.account),
+                                        "i18n_amount" to getString(R.string.amount),
+                                        "i18n_date" to getString(R.string.date),
+                                        "i18n_payee" to getString(R.string.payer_or_payee),
+                                        "i18n_category" to getString(R.string.category),
+                                        "i18n_tags" to getString(R.string.tags),
+                                        "i18n_notes" to getString(R.string.comment),
+                                        "i18n_submit" to getString(R.string.menu_save),
+                                        "data" to gson.toJson(data)))
+                                call.respondText(text, ContentType.Text.Html)
                             }
                         }
                     }.also {
