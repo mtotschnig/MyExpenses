@@ -9,6 +9,7 @@ import android.os.Binder
 import android.os.IBinder
 import android.text.format.Formatter
 import androidx.lifecycle.LifecycleService
+import com.google.gson.Gson
 import com.google.gson.JsonDeserializer
 import io.ktor.application.*
 import io.ktor.features.*
@@ -26,7 +27,6 @@ import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.db2.Repository
-import org.totschnig.myexpenses.model2.Transaction
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
@@ -47,6 +47,8 @@ class WebInputService : LifecycleService() {
     lateinit var localDateJsonDeserializer: JsonDeserializer<LocalDate>
     @Inject
     lateinit var repository: Repository
+    @Inject
+    lateinit var gson: Gson
 
     private val job = SupervisorJob()
     private val scope = CoroutineScope(Dispatchers.IO + job)
@@ -70,6 +72,11 @@ class WebInputService : LifecycleService() {
     private var server: ApplicationEngine? = null
     val isServerRunning
         get() = server != null
+
+    fun readFromAssets(fileName: String)= assets.open(fileName).bufferedReader()
+            .use {
+                it.readText()
+            }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
@@ -102,8 +109,11 @@ class WebInputService : LifecycleService() {
                             post("/") {
                                 call.respond(if (repository.createTransaction(call.receive()) != null) HttpStatusCode.Created else HttpStatusCode.Conflict)
                             }
+                            get("/styles.css") {
+                                call.respondText(readFromAssets("styles.css"), ContentType.Text.CSS)
+                            }
                             get("/") {
-                                call.respond(mapOf(
+                                val data = mapOf(
                                         "accounts" to contentResolver.query(TransactionProvider.ACCOUNTS_BASE_URI,
                                                 arrayOf(KEY_ROWID, KEY_LABEL),
                                                 DatabaseConstants.KEY_SEALED + " = 0", null, null)?.use {
@@ -132,7 +142,8 @@ class WebInputService : LifecycleService() {
                                                     .map { mapOf("id" to it.getLong(0), "label" to it.getString(1)) }
                                                     .toList()
                                         }
-                                ))
+                                )
+                                call.respondText(readFromAssets("form.html").format(gson.toJson(data)), ContentType.Text.Html)
                             }
                         }
                     }.also {

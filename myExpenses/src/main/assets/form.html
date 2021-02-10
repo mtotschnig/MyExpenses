@@ -10,104 +10,16 @@
     <link href="styles.css" rel="stylesheet">
 
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.js" defer></script>
-
-    <style>
-    /*https://www.w3schools.com/howto/howto_css_switch.asp */
-        /* The switch - the box around the slider */
-        .switch {
-              position: relative;
-              display: inline-block;
-              width: 60px;
-              height: 34px;
-              vertical-align: middle;
-            }
-
-            .switch input {
-              display: none;
-            }
-
-            .slider {
-              position: absolute;
-              cursor: pointer;
-              top: 0;
-              left: 0;
-              right: 0;
-              bottom: 0;
-              background-color: red;
-              -webkit-transition: .4s;
-              transition: .4s;
-            }
-
-            .slider:before {
-              position: absolute;
-              content: "-";
-              height: 26px;
-              width: 26px;
-              left: 4px;
-              bottom: 4px;
-              background-color: white;
-              -webkit-transition: .4s;
-              transition: .4s;
-              text-align: center;
-              line-height: 26px;
-            }
-
-             input:checked+.slider:before {
-              content: "+";
-             }
-
-            input:checked+.slider {
-              background-color: green;
-            }
-
-            input:focus+.slider {
-              box-shadow: 0 0 1px #2196F3;
-            }
-
-            input:checked+.slider:before {
-              -webkit-transform: translateX(26px);
-              -ms-transform: translateX(26px);
-              transform: translateX(26px);
-            }
-
-
-            /* Rounded sliders */
-
-            .slider.round {
-              border-radius: 34px;
-            }
-
-            .slider.round:before {
-              border-radius: 50%;
-            }
-
-    </style>
 </head>
 
-<body x-data="{ ip: '', isLoaded: false, name: '', signum: false, amount: '', date: new Date().toISOString().substring(0, 10), payee: '', account: 0, comment: '', categoryMain: 0, categorySub: 0, selectedTags: [], count: 0,
-accounts: [], payees: [], categories: [], tags: []}" x-init="$watch('categoryMain', value => categorySub = 0); $watch('amount', value => {if (value < 0) amount = -value});">
+<body x-data="modelData()" x-init="$watch('categoryMain', value => categorySub = 0); $watch('amount', value => {if (value < 0) amount = -value});">
 <div class="flex justify-center bg-teal-lighter">
     <div class="bg-white max-w-screen-sm w-full rounded shadow-lg p-8 m-4">
         <form>
             <div class="flex flex-col mb-4">
-                <label class="mb-2 uppercase font-bold text-lg text-grey-darkest" for="ip">Phone
-                    IP</label>
-                <input class="border py-2 px-3 text-grey-darkest" type="text" name="ip" id="ip"
-                       x-model="ip">
-                <button class="block bg-green-500 hover:bg-green-700 text-white uppercase text-lg mx-auto p-4 rounded"
-                        type="button" @click="if (validIP(ip)) {
-                            fetch(server(ip))
-                            .then(response => response.json())
-                            .then(data => { isLoaded = true; payees = data.payees; accounts = data.accounts; account = accounts[0].id, categories = data.categories, tags = data.tags })
-                            .catch(errorHandler)
-                        } else {
-                            alert('IP is not valid')
-                        }">Load</button>
-            </div>
-            <div class="flex flex-col mb-4">
                 <label class="mb-2 uppercase font-bold text-lg text-grey-darkest" for="account">Account</label>
                 <select name="account" id="account" x-model="account">
-                    <template x-for="item in accounts" :key="item.id">
+                    <template x-for="item in data.accounts" :key="item.id">
                         <option :value="item.id" x-text="item.label"></option>
                     </template>
                 </select>
@@ -138,7 +50,7 @@ accounts: [], payees: [], categories: [], tags: []}" x-init="$watch('categoryMai
                 <input class="border py-2 px-3 text-grey-darkest" list="payees" name="payee" id="payee"
                        x-model="payee">
                 <datalist id="payees">
-                    <template x-for="item in payees" :key="item.id">
+                    <template x-for="item in data.payees" :key="item.id">
                         <option x-text="item.name"></option>
                     </template>
                 </datalist>
@@ -150,13 +62,13 @@ accounts: [], payees: [], categories: [], tags: []}" x-init="$watch('categoryMai
                 <div>
                     <select name="category_main" id="category_main" x-model="categoryMain">
                         <option value="0"></option>
-                        <template x-for="item in categoriesByParent(categories, 0)" :key="item.id">
+                        <template x-for="item in categoriesByParent(data.categories, 0)" :key="item.id">
                             <option :value="item.id" x-text="item.label"></option>
                         </template>
                     </select>
                     <select name="category_sub" id="category_sub" x-model="categorySub" x-show="categoryMain > 0">
                         <option value="0"></option>
-                        <template x-for="item in categoriesByParent(categories, categoryMain)" :key="item.id">
+                        <template x-for="item in categoriesByParent(data.categories, categoryMain)" :key="item.id">
                             <option :value="item.id" x-text="item.label"></option>
                         </template>
                     </select>
@@ -166,7 +78,7 @@ accounts: [], payees: [], categories: [], tags: []}" x-init="$watch('categoryMai
             <div class="flex flex-col mb-4">
                 <label class="mb-2 uppercase font-bold text-lg text-grey-darkest" for="tags">Tags</label>
                 <select name="tags" id="tags" multiple x-model="selectedTags">
-                    <template x-for="item in tags" :key="item.id">
+                    <template x-for="item in data.tags" :key="item.id">
                         <option :value="item.id" x-text="item.label"></option>
                     </template>
                 </select>
@@ -179,7 +91,7 @@ accounts: [], payees: [], categories: [], tags: []}" x-init="$watch('categoryMai
 
             <div>
                 <button class="block bg-green-500 hover:bg-green-700 disabled:opacity-50 text-white uppercase text-lg mx-auto p-4 rounded"
-                        type="button" :disabled="!isLoaded || amount == ''"  @click="submitForm(ip, {account: account, amount: amount, date: date, payee: payee, category: categorySub != 0 ? categorySub : categoryMain, tags: selectedTags, comment: comment}).then(function(response) {
+                        type="button" :disabled="amount == ''"  @click="submitForm({account: account, amount: amount, date: date, payee: payee, category: categorySub != 0 ? categorySub : categoryMain, tags: selectedTags, comment: comment}).then(function(response) {
     if(response.status == 201)
     {
         count++
@@ -199,26 +111,35 @@ accounts: [], payees: [], categories: [], tags: []}" x-init="$watch('categoryMai
 <script>
 var errorHandler = (error) => alert('Error: ' + error)
 
-function validIP(ip) {
-return /^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$/.test(ip)
-}
-
 function categoriesByParent(array, parent) {
     return array.filter(item => item.parent == parent)
 }
 
-function submitForm(ip, data) {
-    return fetch(server(ip), {
+function modelData() {
+    return {
+        name: '',
+        signum: false,
+        amount: '',
+        date: new Date().toISOString().substring(0, 10),
+        payee: '',
+        account: 0,
+        comment: '',
+        categoryMain: 0,
+        categorySub: 0,
+        selectedTags: [],
+        count: 0,
+        data: %s,
+    }
+}
+
+function submitForm(data) {
+    return fetch("/", {
         headers: {
             'Content-Type': 'application/json'
         },
         method: 'POST',
         body: JSON.stringify(data)
     });
-}
-
-function server(ip) {
-    return 'http://'+ ip + ':9000/'
 }
 </script>
 
