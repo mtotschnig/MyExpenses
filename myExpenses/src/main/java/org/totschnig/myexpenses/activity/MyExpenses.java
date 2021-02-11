@@ -71,7 +71,6 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.preference.PreferenceUtilsKt;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.Criteria;
-import org.totschnig.myexpenses.service.WebInputService;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.CursorFragmentPagerAdapter;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
@@ -138,8 +137,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOU
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
-import static org.totschnig.myexpenses.service.WebInputServiceKt.START_ACTION;
-import static org.totschnig.myexpenses.service.WebInputServiceKt.STOP_ACTION;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.KEY_LONG_IDS;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_BALANCE;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_EXPORT;
@@ -1189,16 +1186,9 @@ public class MyExpenses extends BaseMyExpenses implements
         toggleScanMode();
         return true;
       }
-      case R.id.WEB_INPUT_COMMAND: {
-        final Intent intent = new Intent(this, WebInputService.class);
-        intent.setAction(getWebInputActive() ? STOP_ACTION : START_ACTION);
-        startService(intent);
-        return true;
-      }
     }
 
     return handleGrouping(item) || handleSortDirection(item) || super.onOptionsItemSelected(item);
-
   }
 
   public TransactionList getCurrentFragment() {

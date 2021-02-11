@@ -4,12 +4,11 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.ComponentName
 import android.content.Intent
-import android.content.ServiceConnection
 import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
-import android.os.IBinder
 import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.view.menu.MenuBuilder
@@ -17,6 +16,7 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.lifecycle.ViewModelProvider
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.form.AmountEdit
 import eltos.simpledialogfragment.form.Hint
@@ -41,8 +41,8 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
-import org.totschnig.myexpenses.service.WebInputService
 import org.totschnig.myexpenses.ui.DiscoveryHelper
+import org.totschnig.myexpenses.viewmodel.WebUiViewModel
 import timber.log.Timber
 import java.io.File
 import java.math.BigDecimal
@@ -62,14 +62,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     @State
     var accountId: Long = 0
 
-    val webInputActive
-        get() = if (webInputServiceBound) {
-            webInputService.isServerRunning
-        } else false
     var currentCurrency: String? = null
 
-    private lateinit var webInputService: WebInputService
-    private var webInputServiceBound: Boolean = false
     val currentCurrencyUnit: CurrencyUnit?
         get() = currentCurrency?.let { currencyContext.get(it) }
 
@@ -88,6 +82,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     private var currentBalance: String? = null
     var currentPosition = -1
 
+    private lateinit var webUiViewModel: WebUiViewModel
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
@@ -96,30 +91,27 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        webUiViewModel = ViewModelProvider(this)[WebUiViewModel::class.java]
+    }
+
     override fun onStart() {
         super.onStart()
-        Intent(this, WebInputService::class.java).also { intent ->
-            bindService(intent, serviceConnection, BIND_AUTO_CREATE)
-        }
+        webUiViewModel.bind(this)
     }
 
     override fun onStop() {
         super.onStop()
-        if (webInputServiceBound) {
-            unbindService(serviceConnection)
-        }
-        webInputServiceBound = false
+        webUiViewModel.unbind(this)
     }
 
-    private val serviceConnection: ServiceConnection = object : ServiceConnection {
-        override fun onServiceConnected(className: ComponentName, service: IBinder) {
-            webInputService = (service as WebInputService.LocalBinder).getService()
-            webInputServiceBound = true
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.WEB_INPUT_COMMAND) {
+            webUiViewModel.toggle(this)
+            return true
         }
-
-        override fun onServiceDisconnected(className: ComponentName) {
-            webInputServiceBound = false
-        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun displayDateCandidate(pair: Pair<LocalDate, LocalTime?>) =
@@ -296,7 +288,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         menu.findItem(R.id.SCAN_MODE_COMMAND)?.isChecked = prefHandler.getBoolean(PrefKey.OCR, false)
-        menu.findItem(R.id.WEB_INPUT_COMMAND)?.isChecked = webInputActive
+        menu.findItem(R.id.WEB_INPUT_COMMAND)?.isChecked = webUiViewModel.isBoundAndRunning
         return super.onPrepareOptionsMenu(menu)
     }
 

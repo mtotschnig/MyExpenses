@@ -161,7 +161,7 @@ android {
     //It does not seem possible to define dynamicFeatures dependent on variant
     //If you want to build intern variant, you need to include mlkit and/or tesseract module
     //dynamicFeatures = [':ocr', ':mlkit', ':tesseract']
-    dynamicFeatures = [':ocr']
+    dynamicFeatures = [':ocr', ':webui']
 }
 
 configurations {
@@ -203,7 +203,7 @@ dependencies {
     implementation "ch.acra:acra-dialog:$acraVersion"
     //at the moment, we need to stick with the last version that supports java 6
     //noinspection GradleDependency
-    implementation 'org.apache.commons:commons-lang3:3.5'
+    implementation "org.apache.commons:commons-lang3:$commonsLang"
     implementation 'org.apache.commons:commons-csv:1.5'
     implementation "com.squareup.picasso:picasso:$picassoVersion"
     implementation 'com.github.mtotschnig:MPAndroidChart:6fcf34d9d4'
@@ -264,7 +264,7 @@ dependencies {
 
     androidTestImplementation 'tools.fastlane:screengrab:2.0.0'
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation "androidx.test.ext:junit:$androidxTextExtJunit"
     androidTestImplementation "androidx.test:runner:$androidSupportTestVersion"
     androidTestUtil "androidx.test:orchestrator:$androidSupportTestVersion"
     androidTestImplementation "androidx.test:rules:$androidSupportTestVersion"
@@ -284,9 +284,7 @@ dependencies {
     testImplementation "org.assertj:assertj-core:$assertjVersion"
     androidTestImplementation "org.assertj:assertj-core:$assertjVersion"
     implementation "androidx.core:core-ktx:$ktxVersion"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    androidTestImplementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     androidTestImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 
     // Room components
@@ -314,10 +312,6 @@ dependencies {
 
     //noinspection GradleDependency
     implementation 'com.github.mtotschnig:Android-Image-Cropper:581335df71'
-
-    implementation "io.ktor:ktor:1.5.0"
-    implementation "io.ktor:ktor-server-netty:1.5.0"
-    implementation "io.ktor:ktor-gson:1.5.0"
 }
 
 static def getDate() {

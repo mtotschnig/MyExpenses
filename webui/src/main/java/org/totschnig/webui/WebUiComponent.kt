@@ -14,26 +14,16 @@
  * limitations under the License.
  *
  */
-package org.totschnig.ocr
+package org.totschnig.webui
 
 import dagger.Component
-import dagger.Module
-import dagger.Provides
 import org.totschnig.myexpenses.di.AppComponent
 import org.totschnig.myexpenses.di.FeatureScope
 
 @FeatureScope
 @Component(
-        modules = [OcrModule::class],
         dependencies = [AppComponent::class]
 )
-interface OcrComponent {
-    fun inject(scanPreviewFragment: ScanPreviewFragment)
-    fun inject(scanPreviewViewModel: ScanPreviewViewModel)
-}
-
-@Module
-class OcrModule {
-    @Provides
-    internal fun bindOcrFeatureImpl(ocrHandlerImpl: OcrHandlerImpl): OcrHandler = ocrHandlerImpl
+interface WebUiComponent {
+    fun inject(webInputService: WebInputService)
 }

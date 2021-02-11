@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.db2
 
-import android.app.Application
 import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.ContentValues
@@ -8,7 +7,6 @@ import android.content.Context
 import org.threeten.bp.LocalTime
 import org.threeten.bp.ZoneId
 import org.threeten.bp.ZonedDateTime
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model2.Transaction
@@ -17,9 +15,12 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.Utils
 import java.math.BigDecimal
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class Repository(val contentResolver: ContentResolver, val currencyContext: CurrencyContext) {
-    @Inject constructor(context: Context, currencyContext: CurrencyContext) : this(context.contentResolver, currencyContext)
+    @Inject
+    constructor(context: Context, currencyContext: CurrencyContext) : this(context.contentResolver, currencyContext)
 
     //Transaction
     fun createTransaction(transaction: Transaction) = with(transaction) {

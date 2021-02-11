@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.service
+package org.totschnig.webui
 
 import android.app.Notification
 import android.app.PendingIntent
@@ -65,7 +65,7 @@ class WebInputService : LifecycleService() {
 
     override fun onCreate() {
         super.onCreate()
-        (application as MyApplication).appComponent.inject(this)
+        DaggerWebUiComponent.builder().appComponent((application as MyApplication).appComponent).build().inject(this)
     }
 
     override fun onBind(intent: Intent): IBinder {
@@ -77,7 +77,7 @@ class WebInputService : LifecycleService() {
     val isServerRunning
         get() = server != null
 
-    fun readFromAssets(fileName: String) = assets.open(fileName).bufferedReader()
+    private fun readFromAssets(fileName: String) = assets.open(fileName).bufferedReader()
             .use {
                 it.readText()
             }
@@ -148,6 +148,7 @@ class WebInputService : LifecycleService() {
                                         }
                                 )
                                 val text = StrSubstitutor.replace(readFromAssets("form.html"), mapOf(
+                                        "i18n_title" to "${getString(R.string.app_name)} ${getString(R.string.title_webui)}",
                                         "i18n_account" to getString(R.string.account),
                                         "i18n_amount" to getString(R.string.amount),
                                         "i18n_date" to getString(R.string.date),

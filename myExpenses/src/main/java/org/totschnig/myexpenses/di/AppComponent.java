@@ -2,9 +2,12 @@ package org.totschnig.myexpenses.di;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonDeserializer;
 import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
+import org.threeten.bp.LocalDate;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.BaseActivity;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
@@ -24,6 +27,7 @@ import org.totschnig.myexpenses.dialog.VersionDialogFragment;
 import org.totschnig.myexpenses.dialog.select.SelectFromTableDialogFragment;
 import org.totschnig.myexpenses.export.pdf.PdfPrinter;
 import org.totschnig.myexpenses.feature.OcrFeature;
+import org.totschnig.myexpenses.feature.WebUiFeature;
 import org.totschnig.myexpenses.fragment.BaseSettingsFragment;
 import org.totschnig.myexpenses.fragment.BaseTransactionList;
 import org.totschnig.myexpenses.fragment.BudgetFragment;
@@ -48,7 +52,6 @@ import org.totschnig.myexpenses.provider.ExchangeRateRepository;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.service.AutoBackupService;
 import org.totschnig.myexpenses.service.PlanExecutor;
-import org.totschnig.myexpenses.service.WebInputService;
 import org.totschnig.myexpenses.sync.webdav.WebDavClient;
 import org.totschnig.myexpenses.task.LicenceApiTask;
 import org.totschnig.myexpenses.ui.DiscoveryHelper;
@@ -87,12 +90,6 @@ import dagger.Component;
     DbModule.class, CoroutineModule.class, ViewModelModule.class, FeatureModule.class,
     SharedPreferencesModule.class})
 public interface AppComponent {
-  @Singleton
-  DiscoveryHelper discoveryHelper();
-
-  @Singleton
-  Repository repository();
-
   String USER_COUNTRY = "userCountry";
 
   @Component.Builder
@@ -137,8 +134,19 @@ public interface AppComponent {
 
   Context context();
 
+  DiscoveryHelper discoveryHelper();
+
+  Repository repository();
+
+  JsonDeserializer<LocalDate> localDateJsonDeserializer();
+
+  Gson gson();
+
   @Nullable
   OcrFeature ocrFeature();
+
+  @Nullable
+  WebUiFeature webuiFeature();
 
   void inject(MyApplication application);
 
@@ -245,8 +253,6 @@ public interface AppComponent {
   void inject(@NotNull BaseActivity baseActivity);
 
   void inject(@NotNull OcrViewModel ocrViewModel);
-
-  void inject(@NotNull WebInputService webInputService);
 
   void inject(BaseDialogFragment confirmationDialogFragment);
 

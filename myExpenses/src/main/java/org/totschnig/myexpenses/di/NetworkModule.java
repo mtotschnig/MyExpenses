@@ -148,7 +148,7 @@ class NetworkModule {
 
   @Provides
   @Singleton
-  static JsonDeserializer<LocalDate> provideLocalDateDeserializer() {
+  static JsonDeserializer<LocalDate> provideLocalDateJsonDeserializer() {
     return (json, typeOfT, context) -> LocalDate.parse(json.getAsJsonPrimitive().getAsString());
   }
 }
