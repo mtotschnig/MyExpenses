@@ -32,6 +32,7 @@ import org.totschnig.myexpenses.feature.OcrHost
 import org.totschnig.myexpenses.feature.OcrResult
 import org.totschnig.myexpenses.feature.OcrResultFlat
 import org.totschnig.myexpenses.feature.Payee
+import org.totschnig.myexpenses.feature.WEBUI_MODULE
 import org.totschnig.myexpenses.model.AggregateAccount
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -42,9 +43,11 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.ui.DiscoveryHelper
+import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
 import org.totschnig.myexpenses.viewmodel.WebUiViewModel
 import timber.log.Timber
 import java.io.File
+import java.io.Serializable
 import java.math.BigDecimal
 import java.util.*
 import javax.inject.Inject
@@ -53,7 +56,7 @@ import javax.inject.Inject
 const val DIALOG_TAG_OCR_DISAMBIGUATE = "DISAMBIGUATE"
 const val DIALOG_TAG_NEW_BALANCE = "NEW_BALANCE"
 
-abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListener {
+abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListener, ContribIFace {
     @JvmField
     @State
     var scanFile: File? = null
@@ -83,6 +86,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     var currentPosition = -1
 
     private lateinit var webUiViewModel: WebUiViewModel
+    lateinit var viewModel: MyExpensesViewModel
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
@@ -93,6 +97,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel = ViewModelProvider(this)[MyExpensesViewModel::class.java]
         webUiViewModel = ViewModelProvider(this)[WebUiViewModel::class.java]
     }
 
@@ -108,10 +113,23 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.WEB_INPUT_COMMAND) {
-            webUiViewModel.toggle(this)
+            if (webUiViewModel.isBoundAndRunning) {
+                webUiViewModel.toggle(this)
+            } else {
+                contribFeatureRequested(ContribFeature.WEB_UI, false)
+            }
             return true
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun contribFeatureCalled(feature: ContribFeature?, tag: Serializable?) {
+        if (feature == ContribFeature.WEB_UI) {
+            if (viewModel.isFeatureAvailable(this, WEBUI_MODULE))
+                webUiViewModel.toggle(this)
+            else
+                viewModel.requestFeature(this, WEBUI_MODULE)
+        }
     }
 
     private fun displayDateCandidate(pair: Pair<LocalDate, LocalTime?>) =

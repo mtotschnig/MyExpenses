@@ -12,6 +12,7 @@ import java.util.*
 const val OCR_MODULE = "ocr"
 const val ENGINE_TESSERACT = "tesseract"
 const val ENGINE_MLKIT = "mlkit"
+const val WEBUI_MODULE = "webui"
 
 fun getUserConfiguredOcrEngine(context: Context, prefHandler: PrefHandler) = prefHandler.getString(PrefKey.OCR_ENGINE, null) ?: getDefaultOcrEngine(context)
 
@@ -52,7 +53,7 @@ abstract class FeatureManager {
             if (feature == OCR_MODULE) {
                 ocrFeature?.isAvailable(context) ?: false
             } else
-                false
+                true
 
     open fun requestFeature(feature: String, activity: BaseActivity) {
         if (feature == OCR_MODULE) {

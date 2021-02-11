@@ -24,9 +24,7 @@ import androidx.annotation.Nullable;
 public interface ContribIFace {
 
   /**
-   * @param feature
-   * called when the user clicks on "not yet", and calls the requested feature
-   * @param tag TODO
+   * called when the user clicks on "not yet", and calls the requested feature, or if he has access
    */
   void contribFeatureCalled(ContribFeature feature, @Nullable Serializable tag);
 
@@ -34,7 +32,6 @@ public interface ContribIFace {
    * the user can either click on "Buy" or cancel the dialog
    * for the moment, we are fine with the same callback for both cases,
    * for example, in some cases, the calling activity might have to be finished
-   * @param feature
    */
   void contribFeatureNotCalled(ContribFeature feature);
 

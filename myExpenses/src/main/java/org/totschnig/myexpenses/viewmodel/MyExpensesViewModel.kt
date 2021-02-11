@@ -14,7 +14,6 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.feature.Callback
 import org.totschnig.myexpenses.feature.FeatureManager
-import org.totschnig.myexpenses.feature.OCR_MODULE
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AggregateAccount
 import org.totschnig.myexpenses.model.Grouping
@@ -133,7 +132,7 @@ class MyExpensesViewModel(application: Application) : ContentResolvingAndroidVie
         contentResolver.notifyChange(TransactionProvider.ACCOUNTS_URI, null, false)
     }
 
-    fun isOcrAvailable(context: Context) = featureManager.isFeatureInstalled(OCR_MODULE, context)
+    fun isFeatureAvailable(context: Context, feature: String) = featureManager.isFeatureInstalled(feature, context)
 
-    fun requestOcrFeature(activity: BaseActivity) = featureManager.requestFeature(OCR_MODULE, activity)
+    fun requestFeature(activity: BaseActivity, feature: String) = featureManager.requestFeature(feature, activity)
 }
