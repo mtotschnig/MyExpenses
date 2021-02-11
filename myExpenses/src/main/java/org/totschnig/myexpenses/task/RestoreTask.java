@@ -426,7 +426,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
           String accountName = cursor.getString(1);
           String localKey = SyncAdapter.KEY_LAST_SYNCED_LOCAL(accountId);
           String remoteKey = SyncAdapter.KEY_LAST_SYNCED_REMOTE(accountId);
-          if (accounts.indexOf(accountName) > -1) {
+          if (accounts.contains(accountName)) {
             android.accounts.Account account = GenericAccountService.GetAccount(accountName);
             accountManager.setUserData(account, localKey, sharedPreferences.getString(localKey, null));
             accountManager.setUserData(account, remoteKey, sharedPreferences.getString(remoteKey, null));

@@ -1449,10 +1449,6 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     if (syncItem != null) {
       Utils.menuItemSetEnabledAndVisible(syncItem, mAccount.getSyncAccountName() != null);
     }
-    MenuItem scanItem = menu.findItem(R.id.SCAN_MODE_COMMAND);
-    if (scanItem != null) {
-      scanItem.setChecked(prefHandler.getBoolean(OCR, false));
-    }
   }
 
   @Override
@@ -1555,9 +1551,6 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
       case R.id.SYNC_COMMAND: {
         mAccount.requestSync();
         return true;
-      }
-      case R.id.SCAN_MODE_COMMAND: {
-        ((MyExpenses) getActivity()).toggleScanMode();
       }
       default:
         return super.onOptionsItemSelected(item);

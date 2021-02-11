@@ -1,0 +1,146 @@
+<!doctype html>
+<!--suppress HtmlUnknownAttribute -->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>${i18n_title}</title>
+
+    <link href="styles.css" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.js" defer></script>
+</head>
+
+<body x-data="modelData()" x-init="$watch('categoryMain', value => categorySub = 0); $watch('amount', value => {if (value < 0) amount = -value});">
+<div class="flex justify-center bg-teal-lighter">
+    <div class="bg-white max-w-screen-sm w-full rounded shadow-lg p-8 m-4">
+        <form>
+            <div class="flex flex-col mb-4">
+                <label class="mb-2 uppercase font-bold text-lg text-grey-darkest" for="account">${i18n_account}</label>
+                <select name="account" id="account" x-model="account">
+                    <template x-for="item in data.accounts" :key="item.id">
+                        <option :value="item.id" x-text="item.label"></option>
+                    </template>
+                </select>
+            </div>
+
+            <div class="flex flex-col mb-4">
+                <label class="mb-2 uppercase font-bold text-lg text-grey-darkest" for="amount">${i18n_amount}</label>
+                <div>
+                    <label class="switch">
+                        <input type="checkbox" name="type" x-model="signum">
+                        <span class="slider round"></span>
+                    </label>
+                    <input class="border py-2 px-3 text-grey-darkest align-middle" type="number" name="amount" id="amount" step="0.01" min="0" required
+                           x-model="amount">
+                </div>
+            </div>
+
+            <div class="flex flex-col mb-4">
+                <label class="mb-2 uppercase font-bold text-lg text-grey-darkest"
+                       for="date">${i18n_date}</label>
+                <input class="border py-2 px-3 text-grey-darkest" type="date" name="date" id="date" required
+                       x-model="date">
+            </div>
+
+            <div class="flex flex-col mb-4">
+                <label class="mb-2 uppercase font-bold text-lg text-grey-darkest"
+                       for="payee">${i18n_payee}</label>
+                <input class="border py-2 px-3 text-grey-darkest" list="payees" name="payee" id="payee"
+                       x-model="payee">
+                <datalist id="payees">
+                    <template x-for="item in data.payees" :key="item.id">
+                        <option x-text="item.name"></option>
+                    </template>
+                </datalist>
+            </div>
+
+            <div class="flex flex-col mb-4">
+                <label class="mb-2 uppercase font-bold text-lg text-grey-darkest"
+                       for="category_main">${i18n_category}</label>
+                <div>
+                    <select name="category_main" id="category_main" x-model="categoryMain">
+                        <option value="0"></option>
+                        <template x-for="item in categoriesByParent(data.categories, 0)" :key="item.id">
+                            <option :value="item.id" x-text="item.label"></option>
+                        </template>
+                    </select>
+                    <select name="category_sub" id="category_sub" x-model="categorySub" x-show="categoryMain > 0">
+                        <option value="0"></option>
+                        <template x-for="item in categoriesByParent(data.categories, categoryMain)" :key="item.id">
+                            <option :value="item.id" x-text="item.label"></option>
+                        </template>
+                    </select>
+                </div>
+            </div>
+
+            <div class="flex flex-col mb-4">
+                <label class="mb-2 uppercase font-bold text-lg text-grey-darkest" for="tags">${i18n_tags}</label>
+                <select name="tags" id="tags" multiple x-model="selectedTags">
+                    <template x-for="item in data.tags" :key="item.id">
+                        <option :value="item.id" x-text="item.label"></option>
+                    </template>
+                </select>
+            </div>
+
+            <div class="flex flex-col mb-4">
+                <label class="mb-2 uppercase font-bold text-lg text-grey-darkest" for="notes">${i18n_notes}</label>
+                <textarea name="notes" id="notes" x-model="comment"></textarea>
+            </div>
+
+            <div>
+                <button class="block bg-green-500 hover:bg-green-700 disabled:opacity-50 text-white uppercase text-lg mx-auto p-4 rounded"
+                        type="button" :disabled="amount == ''"  @click="submitForm({account: account, amount: amount, date: date, payee: payee, category: categorySub != 0 ? categorySub : categoryMain, tags: selectedTags, comment: comment}).then(function(response) {
+    if(response.status == 201)
+    {
+        count++
+    } else {
+        throw new Error('Something went wrong.');
+    }
+  }).catch(errorHandler)">${i18n_submit}</button>
+                <div x-show="count > 0"><span x-text="count"></span> transactions have been
+                    recorded.
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+var errorHandler = (error) => alert('Error: ' + error)
+
+function categoriesByParent(array, parent) {
+    return array.filter(item => item.parent == parent)
+}
+
+function modelData() {
+    return {
+        name: '',
+        signum: false,
+        amount: '',
+        date: new Date().toISOString().substring(0, 10),
+        payee: '',
+        account: 0,
+        comment: '',
+        categoryMain: 0,
+        categorySub: 0,
+        selectedTags: [],
+        count: 0,
+        data: ${data},
+    }
+}
+
+function submitForm(data) {
+    return fetch("/", {
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify(data)
+    });
+}
+</script>
+
+</body>
+</html>

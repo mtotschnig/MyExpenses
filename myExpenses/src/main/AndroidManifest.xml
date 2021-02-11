@@ -20,7 +20,7 @@
         android:smallScreens="true"
         android:xlargeScreens="true"
         tools:ignore="UnusedAttribute" />
-
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <uses-permission
         android:name="android.permission.GET_ACCOUNTS"
         android:maxSdkVersion="22" />
@@ -37,6 +37,7 @@
         android:name="android.permission.WAKE_LOCK"
         android:maxSdkVersion="25" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.READ_SYNC_STATS" />
@@ -415,6 +416,7 @@
             android:name=".widget.TemplateWidgetService"
             android:exported="false"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
+        <service android:name=".service.WebInputService" />
 
         <meta-data
             android:name="com.samsung.android.sdk.multiwindow.enable"

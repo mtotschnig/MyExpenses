@@ -2,33 +2,38 @@ package org.totschnig.myexpenses.di;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonDeserializer;
 import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
+import org.threeten.bp.LocalDate;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.BaseActivity;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.db2.Repository;
 import org.totschnig.myexpenses.dialog.AmountFilterDialog;
+import org.totschnig.myexpenses.dialog.BaseDialogFragment;
 import org.totschnig.myexpenses.dialog.ContribDialogFragment;
 import org.totschnig.myexpenses.dialog.DonateDialogFragment;
 import org.totschnig.myexpenses.dialog.EditCurrencyDialog;
-import org.totschnig.myexpenses.dialog.ExportDialogFragment;
 import org.totschnig.myexpenses.dialog.ExtendProLicenceDialogFragment;
 import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
-import org.totschnig.myexpenses.dialog.SetupWebdavDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.dialog.TransactionListDialogFragment;
 import org.totschnig.myexpenses.dialog.VersionDialogFragment;
 import org.totschnig.myexpenses.dialog.select.SelectFromTableDialogFragment;
 import org.totschnig.myexpenses.export.pdf.PdfPrinter;
 import org.totschnig.myexpenses.feature.OcrFeature;
+import org.totschnig.myexpenses.feature.WebUiFeature;
 import org.totschnig.myexpenses.fragment.BaseSettingsFragment;
 import org.totschnig.myexpenses.fragment.BaseTransactionList;
 import org.totschnig.myexpenses.fragment.BudgetFragment;
 import org.totschnig.myexpenses.fragment.BudgetList;
 import org.totschnig.myexpenses.fragment.CategoryList;
+import org.totschnig.myexpenses.fragment.CsvImportParseFragment;
 import org.totschnig.myexpenses.fragment.CurrencyList;
 import org.totschnig.myexpenses.fragment.DistributionFragment;
 import org.totschnig.myexpenses.fragment.HistoryChart;
@@ -67,6 +72,7 @@ import org.totschnig.myexpenses.viewmodel.OcrViewModel;
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
 import org.totschnig.myexpenses.viewmodel.TransactionDetailViewModel;
 import org.totschnig.myexpenses.viewmodel.TransactionViewModel;
+import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.TemplatetRemoteViewsFactory;
 
@@ -80,11 +86,10 @@ import dagger.BindsInstance;
 import dagger.Component;
 
 @Singleton
-@Component(modules = {AppModule.class, UiModule.class, NetworkModule.class, LicenceModule.class, DbModule.class, CoroutineModule.class, ViewModelModule.class, FeatureModule.class})
+@Component(modules = {AppModule.class, UiModule.class, NetworkModule.class, LicenceModule.class,
+    DbModule.class, CoroutineModule.class, ViewModelModule.class, FeatureModule.class,
+    SharedPreferencesModule.class})
 public interface AppComponent {
-  @Singleton
-  DiscoveryHelper discoveryHelper();
-
   String USER_COUNTRY = "userCountry";
 
   @Component.Builder
@@ -100,6 +105,8 @@ public interface AppComponent {
     Builder coroutineModule(CoroutineModule coroutineModule);
 
     Builder viewModelModule(ViewModelModule viewModelModule);
+
+    Builder sharedPreferencesModule(SharedPreferencesModule sharedPreferencesModule);
 
     AppComponent build();
   }
@@ -127,8 +134,19 @@ public interface AppComponent {
 
   Context context();
 
+  DiscoveryHelper discoveryHelper();
+
+  Repository repository();
+
+  JsonDeserializer<LocalDate> localDateJsonDeserializer();
+
+  Gson gson();
+
   @Nullable
   OcrFeature ocrFeature();
+
+  @Nullable
+  WebUiFeature webuiFeature();
 
   void inject(MyApplication application);
 
@@ -192,8 +210,6 @@ public interface AppComponent {
 
   void inject(EditCurrencyViewModel editCurrencyViewModel);
 
-  void inject(ExportDialogFragment exportDialogFragment);
-
   void inject(PlanExecutor planExecutor);
 
   void inject(BudgetViewModel budgetViewModel);
@@ -206,11 +222,11 @@ public interface AppComponent {
 
   void inject(MyExpensesViewModel myExpensesViewModel);
 
+  void inject(UpgradeHandlerViewModel upgradeHandlerViewModel);
+
   void inject(SelectFromTableDialogFragment selectFromTableDialogFragment);
 
   void inject(BudgetList budgetList);
-
-  void inject(SetupWebdavDialogFragment setupWebdavDialogFragment);
 
   void inject(OnBoardingPrivacyFragment onBoardingPrivacyFragment);
 
@@ -237,4 +253,8 @@ public interface AppComponent {
   void inject(@NotNull BaseActivity baseActivity);
 
   void inject(@NotNull OcrViewModel ocrViewModel);
+
+  void inject(BaseDialogFragment confirmationDialogFragment);
+
+  void inject(CsvImportParseFragment csvImportParseFragment);
 }

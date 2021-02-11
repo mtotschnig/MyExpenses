@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.ImportFileResultHandler;
@@ -37,8 +38,10 @@ import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel;
 import org.totschnig.myexpenses.viewmodel.data.Currency;
 
+import javax.inject.Inject;
+
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
@@ -60,6 +63,9 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
   static final String PREFKEY_IMPORT_CSV_DELIMITER = "import_csv_delimiter";
   private Uri mUri;
   private CurrencyViewModel currencyViewModel;
+
+  @Inject
+  PrefHandler prefHandler;
 
   @Override
   public String getPrefKey() {
@@ -100,9 +106,9 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
     }
 
     View view = inflater.inflate(R.layout.import_csv_parse, container, false);
-    mDateFormatSpinner = DialogUtils.configureDateFormat(view, getActivity(), PREFKEY_IMPORT_CSV_DATE_FORMAT);
-    mEncodingSpinner = DialogUtils.configureEncoding(view, getActivity(), PREFKEY_IMPORT_CSV_ENCODING);
-    mDelimiterSpinner = DialogUtils.configureDelimiter(view, getActivity(), PREFKEY_IMPORT_CSV_DELIMITER);
+    mDateFormatSpinner = DialogUtils.configureDateFormat(view, getActivity(), prefHandler, PREFKEY_IMPORT_CSV_DATE_FORMAT);
+    mEncodingSpinner = DialogUtils.configureEncoding(view, getActivity(), prefHandler, PREFKEY_IMPORT_CSV_ENCODING);
+    mDelimiterSpinner = DialogUtils.configureDelimiter(view, getActivity(), prefHandler, PREFKEY_IMPORT_CSV_DELIMITER);
     mFilename = DialogUtils.configureFilename(view);
     mAccountSpinner = view.findViewById(R.id.Account);
     Context wrappedCtx = view.getContext();
@@ -119,7 +125,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
     });
     mTypeSpinner = DialogUtils.configureTypeSpinner(view);
     mTypeSpinner.setOnItemSelectedListener(this);
-    getLoaderManager().initLoader(0, null, this);
+    LoaderManager.getInstance(this).initLoader(0, null, this);
     view.findViewById(R.id.btn_browse).setOnClickListener(this);
     return view;
   }
@@ -128,7 +134,8 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setHasOptionsMenu(true);
-    currencyViewModel = ViewModelProviders.of(this).get(CurrencyViewModel.class);
+    ((MyApplication) requireActivity().getApplication()).getAppComponent().inject(this);
+    currencyViewModel = new ViewModelProvider(this).get(CurrencyViewModel.class);
   }
 
   @Override
@@ -148,7 +155,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
   @Override
   public void onResume() {
     super.onResume();
-    ImportFileResultHandler.handleFileNameHostOnResume(this);
+    ImportFileResultHandler.handleFileNameHostOnResume(this, prefHandler);
   }
 
   @Override
@@ -214,12 +221,10 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
         String encoding = (String) mEncodingSpinner.getSelectedItem();
         String delimiter = getResources().getStringArray(R.array.pref_csv_import_delimiter_values)
             [mDelimiterSpinner.getSelectedItemPosition()];
-        MyApplication.getInstance().getSettings().edit()
-            .putString(PREFKEY_IMPORT_CSV_DELIMITER, delimiter)
-            .putString(PREFKEY_IMPORT_CSV_ENCODING, encoding)
-            .putString(PREFKEY_IMPORT_CSV_DATE_FORMAT, format.name())
-            .apply();
-        ImportFileResultHandler.maybePersistUri(this);
+        prefHandler.putString(PREFKEY_IMPORT_CSV_DELIMITER, delimiter);
+        prefHandler.putString(PREFKEY_IMPORT_CSV_ENCODING, encoding);
+        prefHandler.putString(PREFKEY_IMPORT_CSV_DATE_FORMAT, format.name());
+        ImportFileResultHandler.maybePersistUri(this, prefHandler);
         TaskExecutionFragment taskExecutionFragment =
             TaskExecutionFragment.newInstanceCSVParse(
                 mUri, delimiter.charAt(0), encoding);

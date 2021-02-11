@@ -1,0 +1,56 @@
+plugins {
+    id 'com.android.dynamic-feature'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
+android {
+    compileSdkVersion project.compileSdkVersion
+
+    defaultConfig {
+        missingDimensionStrategy 'textRecognition', 'extern'
+        applicationId "org.totschnig.webui"
+        minSdkVersion project.minSdkVersion
+        targetSdkVersion project.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    packagingOptions {
+        exclude 'META-INF/*'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    api project(":myExpenses")
+    implementation "androidx.core:core-ktx:$ktxVersion"
+    implementation "androidx.lifecycle:lifecycle-service:$archLifecycleVersion"
+    //at the moment, we need to stick with the last version that supports java 6
+    //noinspection GradleDependency
+    implementation "org.apache.commons:commons-lang3:$commonsLang"
+    implementation "com.jakewharton.threetenabp:threetenabp:$threetenabp"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    implementation "com.google.dagger:dagger:$rootProject.daggerVersion"
+    compileOnly 'javax.annotation:jsr250-api:1.0'
+    testImplementation "junit:junit:$junitVersion"
+    androidTestImplementation "androidx.test.ext:junit:$androidxTextExtJunit"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+    androidTestImplementation "androidx.annotation:annotation:$annotations"
+
+    implementation "io.ktor:ktor:1.5.0"
+    implementation "io.ktor:ktor-server-netty:1.5.0"
+    implementation "io.ktor:ktor-gson:1.5.0"
+}

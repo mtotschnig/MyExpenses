@@ -36,5 +36,4 @@ interface OcrComponent {
 class OcrModule {
     @Provides
     internal fun bindOcrFeatureImpl(ocrHandlerImpl: OcrHandlerImpl): OcrHandler = ocrHandlerImpl
-
 }

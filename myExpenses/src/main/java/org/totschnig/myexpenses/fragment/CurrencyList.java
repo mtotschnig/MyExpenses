@@ -28,7 +28,7 @@ import javax.inject.Inject;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.ListFragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_REQUEST;
 import static org.totschnig.myexpenses.dialog.EditCurrencyDialog.KEY_RESULT;
@@ -45,9 +45,9 @@ public class CurrencyList extends ListFragment {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    MyApplication.getInstance().getAppComponent().inject(this);
+    ((MyApplication) requireActivity().getApplication()).getAppComponent().inject(this);
     setAdapter();
-    currencyViewModel = ViewModelProviders.of(this).get(EditCurrencyViewModel.class);
+    currencyViewModel = new ViewModelProvider(this).get(EditCurrencyViewModel.class);
     currencyViewModel.getCurrencies().observe(this, currencies -> {
       currencyAdapter.clear();
       currencyAdapter.addAll(currencies);

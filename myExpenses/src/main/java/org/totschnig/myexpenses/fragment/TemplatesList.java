@@ -156,7 +156,7 @@ public class TemplatesList extends SortableListFragment
     super.onCreate(savedInstanceState);
     setHasOptionsMenu(true);
     Icepick.restoreInstanceState(this, savedInstanceState);
-    MyApplication.getInstance().getAppComponent().inject(this);
+    ((MyApplication) requireActivity().getApplication()).getAppComponent().inject(this);
     viewModel = new ViewModelProvider(this).get(TemplatesListViewModel.class);
   }
 

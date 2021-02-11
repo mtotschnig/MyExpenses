@@ -14,7 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.QifImport;
 import org.totschnig.myexpenses.adapter.CurrencyAdapter;
@@ -104,10 +103,8 @@ public class QifImportDialogFragment extends TextSourceDialogFragment implements
       QifDateFormat format = (QifDateFormat) mDateFormatSpinner.getSelectedItem();
       String encoding = (String) mEncodingSpinner.getSelectedItem();
       maybePersistUri();
-      MyApplication.getInstance().getSettings().edit()
-          .putString(PREFKEY_IMPORT_ENCODING, encoding)
-          .putString(PREFKEY_IMPORT_DATE_FORMAT, format.name())
-          .apply();
+      prefHandler.putString(PREFKEY_IMPORT_ENCODING, encoding);
+      prefHandler.putString(PREFKEY_IMPORT_DATE_FORMAT, format.name());
       ((QifImport) getActivity()).onSourceSelected(
           mUri,
           format,
@@ -174,9 +171,9 @@ public class QifImportDialogFragment extends TextSourceDialogFragment implements
     mAccountSpinner.setOnItemSelectedListener(this);
     getLoaderManager().initLoader(0, null, this);
 
-    mDateFormatSpinner = DialogUtils.configureDateFormat(view, wrappedCtx, PREFKEY_IMPORT_DATE_FORMAT);
+    mDateFormatSpinner = DialogUtils.configureDateFormat(view, wrappedCtx, prefHandler, PREFKEY_IMPORT_DATE_FORMAT);
 
-    mEncodingSpinner = DialogUtils.configureEncoding(view, wrappedCtx, PREFKEY_IMPORT_ENCODING);
+    mEncodingSpinner = DialogUtils.configureEncoding(view, wrappedCtx, prefHandler, PREFKEY_IMPORT_ENCODING);
 
     mCurrencySpinner = DialogUtils.configureCurrencySpinner(view, this);
     currencyViewModel.getCurrencies().observe(this, currencies -> {

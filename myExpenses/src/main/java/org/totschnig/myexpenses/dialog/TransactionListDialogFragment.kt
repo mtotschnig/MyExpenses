@@ -49,17 +49,12 @@ class TransactionListDialogFragment : BaseDialogFragment(), LoaderManager.Loader
     private var isMain = false
     private lateinit var viewModel: TransactionListViewModel
 
-    @JvmField
     @Inject
-    var currencyFormatter: CurrencyFormatter? = null
+    lateinit var currencyFormatter: CurrencyFormatter
 
-    @JvmField
     @Inject
-    var prefHandler: PrefHandler? = null
+    lateinit var currencyContext: CurrencyContext
 
-    @JvmField
-    @Inject
-    var currencyContext: CurrencyContext? = null
     private var catId: Long = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -200,7 +195,7 @@ class TransactionListDialogFragment : BaseDialogFragment(), LoaderManager.Loader
             SUM_CURSOR -> {
                 cursor.moveToFirst()
                 val title = requireArguments().getString(DatabaseConstants.KEY_LABEL) + TABS +
-                        currencyFormatter!!.convAmount(cursor.getLong(0), mAccount.currencyUnit)
+                        currencyFormatter.convAmount(cursor.getLong(0), mAccount.currencyUnit)
                 dialog!!.setTitle(title)
             }
         }

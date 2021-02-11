@@ -4,6 +4,7 @@ import dagger.Module
 import dagger.Provides
 import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.feature.OcrFeature
+import org.totschnig.myexpenses.feature.WebUiFeature
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
@@ -12,6 +13,7 @@ import javax.inject.Singleton
 @Module
 class FeatureModule {
     private var ocrFeature: OcrFeature? = null
+    private var webUiFeature: WebUiFeature? = null
 
     @Provides
     fun provideOcrFeature(prefHandler: PrefHandler): OcrFeature? {
@@ -22,6 +24,21 @@ class FeatureModule {
             (Class.forName("org.totschnig.ocr.OcrFeatureImpl").getConstructor(PrefHandler::class.java)
                     .newInstance(prefHandler) as OcrFeature).also {
                 ocrFeature = it
+            }
+        } catch (e: ClassNotFoundException) {
+            CrashHandler.report(e)
+            null
+        }
+    }
+
+    @Provides
+    fun provideWebUiFeature(): WebUiFeature? {
+        if (webUiFeature != null) {
+            return webUiFeature
+        }
+        return try {
+            (Class.forName("org.totschnig.webui.WebUiFeatureImpl").newInstance() as WebUiFeature).also {
+                webUiFeature = it
             }
         } catch (e: ClassNotFoundException) {
             CrashHandler.report(e)

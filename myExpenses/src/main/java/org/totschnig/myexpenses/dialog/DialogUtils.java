@@ -50,6 +50,7 @@ import org.totschnig.myexpenses.adapter.CurrencyAdapter;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.util.DistributionHelper;
@@ -275,7 +276,7 @@ public class DialogUtils {
     void onCalendarPermissionDenied();
   }
 
-  public static Spinner configureDateFormat(View view, Context context, String prefName) {
+  public static Spinner configureDateFormat(View view, Context context, PrefHandler prefHandler, String prefName) {
     Spinner spinner = view.findViewById(R.id.DateFormat);
     ArrayAdapter<QifDateFormat> dateFormatAdapter =
         new ArrayAdapter<>(
@@ -284,9 +285,7 @@ public class DialogUtils {
     spinner.setAdapter(dateFormatAdapter);
     QifDateFormat qdf;
     try {
-      qdf = QifDateFormat.valueOf(
-          MyApplication.getInstance().getSettings()
-              .getString(prefName, "EU"));
+      qdf = QifDateFormat.valueOf(prefHandler.getString(prefName, "EU"));
     } catch (IllegalArgumentException e) {
       qdf = QifDateFormat.EU;
     }
@@ -294,21 +293,19 @@ public class DialogUtils {
     return spinner;
   }
 
-  public static Spinner configureEncoding(View view, Context context, String prefName) {
+  public static Spinner configureEncoding(View view, Context context, PrefHandler prefHandler, String prefName) {
     Spinner spinner = view.findViewById(R.id.Encoding);
     spinner.setSelection(
         Arrays.asList(context.getResources().getStringArray(R.array.pref_qif_export_file_encoding))
-            .indexOf(MyApplication.getInstance().getSettings()
-                .getString(prefName, "UTF-8")));
+            .indexOf(prefHandler.getString(prefName, "UTF-8")));
     return spinner;
   }
 
-  public static Spinner configureDelimiter(View view, Context context, String prefName) {
+  public static Spinner configureDelimiter(View view, Context context, PrefHandler prefHandler, String prefName) {
     Spinner spinner = (Spinner) view.findViewById(R.id.Delimiter);
     spinner.setSelection(
         Arrays.asList(context.getResources().getStringArray(R.array.pref_csv_import_delimiter_values))
-            .indexOf(MyApplication.getInstance().getSettings()
-                .getString(prefName, ",")));
+            .indexOf(prefHandler.getString(prefName, ",")));
     return spinner;
   }
 

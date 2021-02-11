@@ -13,7 +13,9 @@ import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.Utils
 import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class DiscoveryHelper @Inject constructor(val prefHandler: PrefHandler) {
 
     enum class Feature(val key: String) {

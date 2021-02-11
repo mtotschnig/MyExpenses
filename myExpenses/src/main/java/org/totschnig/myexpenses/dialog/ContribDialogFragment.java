@@ -33,7 +33,6 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.util.DistributionHelper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
@@ -70,8 +69,6 @@ public class ContribDialogFragment extends BaseDialogFragment implements DialogI
   Package selectedPackage = null;
   @Inject
   LicenceHandler licenceHandler;
-  @Inject
-  PrefHandler prefHandler;
   private TextView professionalPriceTextView;
   View dialogView;
 
@@ -92,7 +89,7 @@ public class ContribDialogFragment extends BaseDialogFragment implements DialogI
     if (featureStringExtra != null) {
       feature = ContribFeature.valueOf(featureStringExtra);
     }
-    MyApplication.getInstance().getAppComponent().inject(this);
+    ((MyApplication) requireActivity().getApplication()).getAppComponent().inject(this);
   }
 
   @Override

@@ -105,13 +105,13 @@ public abstract class ImportSourceDialogFragment extends BaseDialogFragment
   @Override
   public void onResume() {
     super.onResume();
-    ImportFileResultHandler.handleFileNameHostOnResume(this);
+    ImportFileResultHandler.handleFileNameHostOnResume(this, prefHandler);
     setButtonState();
   }
 
   //we cannot persist document Uris because we use ACTION_GET_CONTENT instead of ACTION_OPEN_DOCUMENT
   protected void maybePersistUri() {
-    ImportFileResultHandler.maybePersistUri(this);
+    ImportFileResultHandler.maybePersistUri(this, prefHandler);
   }
 
   @Override

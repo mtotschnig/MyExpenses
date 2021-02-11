@@ -41,7 +41,6 @@ android {
 dependencies {
     api project(':myExpenses')
     implementation "androidx.core:core-ktx:$ktxVersion"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'com.jakewharton.timber:timber:4.7.1'
     implementation "androidx.appcompat:appcompat:$appcompatVersion"
     implementation "com.squareup.picasso:picasso:$picassoVersion"
@@ -54,7 +53,7 @@ dependencies {
 
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.assertj:assertj-core:$assertjVersion"
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation "androidx.test.ext:junit:$androidxTextExtJunit"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "androidx.annotation:annotation:$annotations"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"

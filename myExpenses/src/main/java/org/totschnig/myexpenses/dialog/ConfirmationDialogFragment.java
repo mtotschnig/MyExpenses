@@ -26,7 +26,6 @@ import android.widget.CheckBox;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 
 import androidx.annotation.NonNull;
@@ -105,7 +104,7 @@ public class ConfirmationDialogFragment extends BaseDialogFragment implements On
   }
 
   @Override
-  public void onCancel(DialogInterface dialog) {
+  public void onCancel(@NonNull DialogInterface dialog) {
     ConfirmationDialogBaseListener ctx = (ConfirmationDialogBaseListener) getActivity();
     if (ctx != null) {
       ctx.onDismissOrCancel(getArguments());
@@ -121,9 +120,7 @@ public class ConfirmationDialogFragment extends BaseDialogFragment implements On
     Bundle bundle = getArguments();
     String prefKey = bundle.getString(KEY_PREFKEY);
     if (prefKey != null && checkBox.isChecked()) {
-      MyApplication.getInstance().getSettings().edit()
-          .putBoolean(prefKey, true)
-          .apply();
+      prefHandler.putBoolean(prefKey, true);
     }
     if (which == AlertDialog.BUTTON_POSITIVE) {
       if (bundle.getInt(KEY_CHECKBOX_LABEL, 0) == 0) {

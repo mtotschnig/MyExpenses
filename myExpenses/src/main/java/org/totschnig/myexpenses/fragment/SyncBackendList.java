@@ -65,7 +65,7 @@ public class SyncBackendList extends Fragment implements
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
-    MyApplication.getInstance().getAppComponent().inject(this);
+    ((MyApplication) requireActivity().getApplication()).getAppComponent().inject(this);
     super.onCreate(savedInstanceState);
     setHasOptionsMenu(true);
     viewModel = new ViewModelProvider(this).get(modelClass);
