@@ -33,9 +33,10 @@ ext {
     versionName = '3.2.3.1'
     compileSdkVersion = 30
     minSdkVersion = 16
-    targetSdkVersion = 29
+    targetSdkVersion = 30
     espressoVersion = "3.3.0"
     androidSupportTestVersion = "1.3.0"
+    androidxTextExtJunit = "1.1.2"
     daggerVersion = "2.30.1"
     okHttpVersion = "3.12.12"
     acraVersion = "5.7.0"
@@ -58,4 +59,6 @@ ext {
     junitVersion = "4.13.1"
     timberVersion = "4.7.1"
     assertjVersion = "3.18.1"
+    annotations = "1.1.0"
+    commonsLang = "3.5"
 }
