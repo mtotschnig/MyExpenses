@@ -51,6 +51,6 @@ dependencies {
     androidTestImplementation "androidx.annotation:annotation:$annotations"
 
     implementation "io.ktor:ktor:1.5.0"
-    implementation "io.ktor:ktor-server-netty:1.5.0"
+    implementation "io.ktor:ktor-server-cio:1.5.0"
     implementation "io.ktor:ktor-gson:1.5.0"
 }

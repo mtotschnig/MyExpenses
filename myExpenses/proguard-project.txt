@@ -57,9 +57,6 @@
 -dontwarn java.nio.file.**
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
 
-# Retrolambda
--dontwarn java.lang.invoke.*
--dontwarn **$$Lambda$*
 
 -keep public enum org.totschnig.myexpenses.sync.json.TransactionChange$** {
     **[] $VALUES;
@@ -77,10 +74,6 @@
 -keep class org.slf4j.** { *; }
 -keepattributes *Annotation*
 -dontwarn ch.qos.logback.core.net.*
-
-# Pubnative
--keepattributes Signature
--keep class net.pubnative.** { *; }
 
 # Dropbox
 -dontwarn okio.**

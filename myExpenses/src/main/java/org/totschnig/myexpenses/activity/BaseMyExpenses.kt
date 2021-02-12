@@ -103,17 +103,20 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     override fun onStart() {
         super.onStart()
-        webUiViewModel.bind(this)
+        if (webUiAvailable) {
+            webUiViewModel.bind(this)
+        }
     }
 
     override fun onStop() {
         super.onStop()
-        webUiViewModel.unbind(this)
+        if (webUiAvailable)
+            webUiViewModel.unbind(this)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.WEB_INPUT_COMMAND) {
-            if (webUiViewModel.isBoundAndRunning) {
+            if (webUiRunning) {
                 webUiViewModel.toggle(this)
             } else {
                 contribFeatureRequested(ContribFeature.WEB_UI, false)
@@ -125,7 +128,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     override fun contribFeatureCalled(feature: ContribFeature?, tag: Serializable?) {
         if (feature == ContribFeature.WEB_UI) {
-            if (viewModel.isFeatureAvailable(this, WEBUI_MODULE))
+            if (webUiAvailable)
                 webUiViewModel.toggle(this)
             else
                 viewModel.requestFeature(this, WEBUI_MODULE)
@@ -306,9 +309,12 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         menu.findItem(R.id.SCAN_MODE_COMMAND)?.isChecked = prefHandler.getBoolean(PrefKey.OCR, false)
-        menu.findItem(R.id.WEB_INPUT_COMMAND)?.isChecked = webUiViewModel.isBoundAndRunning
+        menu.findItem(R.id.WEB_INPUT_COMMAND)?.isChecked = webUiRunning
         return super.onPrepareOptionsMenu(menu)
     }
+
+    private val webUiAvailable get() = viewModel.isFeatureAvailable(this, WEBUI_MODULE)
+    private val webUiRunning get() = webUiAvailable && webUiViewModel.isBoundAndRunning
 
     fun setupToolbarPopupMenu() {
         toolbar.setOnClickListener {

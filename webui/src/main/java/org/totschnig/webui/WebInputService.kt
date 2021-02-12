@@ -18,8 +18,8 @@ import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
+import io.ktor.server.cio.*
 import io.ktor.server.engine.*
-import io.ktor.server.netty.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -92,7 +92,7 @@ class WebInputService : LifecycleService() {
                 if (server == null) {
                     //setting watchPaths to null prevents crash on server stop on Lollipop
                     // (https://youtrack.jetbrains.com/issue/KTOR-1613)  and prevents Strict Mode violation
-                    server = embeddedServer(Netty, 9000, watchPaths = emptyList()) {
+                    server = embeddedServer(CIO, 9000, watchPaths = emptyList()) {
                         install(ContentNegotiation) {
                             gson {
                                 registerTypeAdapter(LocalDate::class.java, localDateJsonDeserializer)
