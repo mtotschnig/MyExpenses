@@ -33,8 +33,11 @@ import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RestrictTo;
 import androidx.annotation.VisibleForTesting;
 import timber.log.Timber;
+
+import static androidx.annotation.RestrictTo.Scope.TESTS;
 
 public class LicenceHandler {
   protected static final String LICENSE_STATUS_KEY = "licence_status";
@@ -131,14 +134,10 @@ public class LicenceHandler {
     return Timber.tag(TAG);
   }
 
-  @VisibleForTesting
+  @RestrictTo(TESTS)
   public void setLockState(boolean locked) {
-    if (MyApplication.isInstrumentationTest()) {
-      setLicenceStatus(locked ? null : LicenceStatus.PROFESSIONAL);
-      update();
-    } else {
-      throw new UnsupportedOperationException();
-    }
+    setLicenceStatus(locked ? null : LicenceStatus.PROFESSIONAL);
+    update();
   }
 
   @Nullable

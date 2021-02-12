@@ -54,7 +54,6 @@ import org.totschnig.myexpenses.service.AutoBackupService;
 import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.sync.webdav.WebDavClient;
 import org.totschnig.myexpenses.task.LicenceApiTask;
-import org.totschnig.myexpenses.ui.DiscoveryHelper;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.ads.AdHandler;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
@@ -87,10 +86,11 @@ import dagger.Component;
 
 @Singleton
 @Component(modules = {AppModule.class, UiModule.class, NetworkModule.class, LicenceModule.class,
-    DbModule.class, CoroutineModule.class, ViewModelModule.class, FeatureModule.class,
-    SharedPreferencesModule.class})
+    DataModule.class, CoroutineModule.class, ViewModelModule.class, FeatureModule.class,
+    CrashHandlerModule.class})
 public interface AppComponent {
   String USER_COUNTRY = "userCountry";
+  String DATABASE_NAME = "databaseName";
 
   @Component.Builder
   interface Builder {
@@ -106,7 +106,11 @@ public interface AppComponent {
 
     Builder viewModelModule(ViewModelModule viewModelModule);
 
-    Builder sharedPreferencesModule(SharedPreferencesModule sharedPreferencesModule);
+    Builder dataModule(DataModule dataModule);
+
+    Builder crashHandlerModule(CrashHandlerModule crashHandlerModule);
+
+    Builder uiModule(UiModule uiModule);
 
     AppComponent build();
   }
@@ -133,8 +137,6 @@ public interface AppComponent {
   Picasso picasso();
 
   Context context();
-
-  DiscoveryHelper discoveryHelper();
 
   Repository repository();
 

@@ -112,7 +112,7 @@ public class AccountTest extends ModelTest {
     op1.setAmount(new Money(account.getCurrencyUnit(), trAmount));
     op1.setComment("test transaction");
     op1.save();
-    assertEquals(account.getTotalBalance().getAmountMinor().longValue(), openingBalance + trAmount);
+    assertEquals(account.getTotalBalance().getAmountMinor(), openingBalance + trAmount);
     Account.delete(account.getId());
     assertNull("Account deleted, but can still be retrieved", Account.getInstanceFromDb(account.getId()));
     assertNull("Account delete should delete transaction, but operation can still be retrieved", Transaction.getInstanceFromDb(op1.getId()));
@@ -208,7 +208,7 @@ public class AccountTest extends ModelTest {
     AggregateAccount aa = (AggregateAccount) Account.getInstanceFromDb(id);
     assert aa != null;
     assertEquals(currency, aa.getCurrencyUnit().getCode());
-    assertEquals(openingBalance * 2, aa.openingBalance.getAmountMinor().longValue());
+    assertEquals(openingBalance * 2, aa.openingBalance.getAmountMinor());
   }
 
   public void testBalanceWithoutReset() {

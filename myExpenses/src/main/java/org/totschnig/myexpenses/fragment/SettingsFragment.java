@@ -26,7 +26,6 @@ import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalTime;
 import org.threeten.bp.chrono.IsoChronology;
 import org.threeten.bp.format.DateTimeFormatter;
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
 import org.totschnig.myexpenses.activity.FolderBrowser;
@@ -207,9 +206,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
     requireApplication().getAppComponent().inject(this);
     currencyViewModel = new ViewModelProvider(this).get(CurrencyViewModel.class);
     super.onCreate(savedInstanceState);
-    if (MyApplication.isInstrumentationTest()) {
-      getPreferenceManager().setSharedPreferencesName(MyApplication.getTestId());
-    }
+    prefHandler.preparePreferenceFragment(this);
   }
 
   private final Preference.OnPreferenceClickListener homeScreenShortcutPrefClickHandler =

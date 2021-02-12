@@ -1,10 +1,15 @@
 package org.totschnig.myexpenses.preference;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
+
+import org.totschnig.myexpenses.R;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceManager;
 
 public class PrefHandlerImpl implements PrefHandler {
   private final Application context;
@@ -130,5 +135,15 @@ public class PrefHandlerImpl implements PrefHandler {
         return true;
     }
     return false;
+  }
+
+  @Override
+  public void setDefaultValues(Context context) {
+    PreferenceManager.setDefaultValues(context, R.xml.preferences, false);
+  }
+
+  @Override
+  public void preparePreferenceFragment(PreferenceFragmentCompat preferenceFragmentCompat) {
+    //NOOP overriden in test
   }
 }

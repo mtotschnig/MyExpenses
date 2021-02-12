@@ -30,12 +30,6 @@
 #Picasso
 -dontwarn com.squareup.okhttp.**
 
-# needed by MyTestRunner
--keepclassmembers class org.totschnig.myexpenses.MyApplication {
-    public static void setInstrumentationTest(boolean);
-    public static void cleanUpAfterTest();
-}
-
 # Espresso Contrib DrawerActions accesses this through reflection
 -keepclassmembers class android.support.v4.widget.DrawerLayout {
     private android.support.v4.widget.DrawerLayout$DrawerListener mListener;

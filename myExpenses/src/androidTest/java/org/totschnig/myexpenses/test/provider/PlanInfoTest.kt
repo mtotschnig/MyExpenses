@@ -73,7 +73,7 @@ class PlanInfoTest : BaseDbTest() {
         insertData()
         val cursor = mockContentResolver.query(
                 TransactionProvider.TEMPLATES_URI.buildUpon()
-                        .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_WITH_PLAN_INFO, "1")
+                        .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_WITH_PLAN_INFO, "2")
                         .build(),
                 null, null, null, null)!!
 
@@ -125,7 +125,7 @@ class PlanInfoTest : BaseDbTest() {
         )
         mockContentResolver.query(
                 TransactionProvider.TEMPLATES_URI.buildUpon()
-                        .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_WITH_PLAN_INFO, "1")
+                        .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_WITH_PLAN_INFO, "2")
                         .build(),
                 null, null, null, null)!!.apply {
             assertNotNull(this)
@@ -155,7 +155,7 @@ class PlanInfoTest : BaseDbTest() {
         insertData()
         val cursor = mockContentResolver.query(
                 TransactionProvider.TEMPLATES_URI.buildUpon()
-                        .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_WITH_PLAN_INFO, "1")
+                        .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_WITH_PLAN_INFO, "2")
                         .build(),
                 null, null, null, null)!!
         cursor.moveToFirst()

@@ -43,6 +43,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.ui.DiscoveryHelper
+import org.totschnig.myexpenses.ui.IDiscoveryHelper
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel.FeatureState
 import org.totschnig.myexpenses.viewmodel.WebUiViewModel
@@ -72,7 +73,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         get() = currentCurrency?.let { currencyContext.get(it) }
 
     @Inject
-    lateinit var discoveryHelper: DiscoveryHelper
+    lateinit var discoveryHelper: IDiscoveryHelper
     var accountsCursor: Cursor? = null
     lateinit var toolbar: Toolbar
 

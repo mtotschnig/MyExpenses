@@ -158,7 +158,6 @@ import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CAL
 
 public class TransactionDatabase extends SQLiteOpenHelper {
   public static final int DATABASE_VERSION = 112;
-  private static final String DATABASE_NAME = "data";
   private Context mCtx;
 
   /**
@@ -752,16 +751,12 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
   public static final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
 
-  TransactionDatabase(Context context) {
-    super(context, getDbName(), null, DATABASE_VERSION);
+  TransactionDatabase(Context context, String databaseName) {
+    super(context, databaseName, null, DATABASE_VERSION);
     mCtx = context;
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
       setWriteAheadLoggingEnabled(false);
     }
-  }
-
-  public static String getDbName() {
-    return MyApplication.isInstrumentationTest() ? MyApplication.getTestId() : DATABASE_NAME;
   }
 
   @Override

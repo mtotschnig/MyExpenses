@@ -81,7 +81,7 @@ public class ManageCurrenciesTest extends BaseUiTest {
       Money after = Account.getInstanceFromDb(account.getId()).getTotalBalance();
       if (withUpdate) {
         assertEquals(0, before.getAmountMajor().compareTo(after.getAmountMajor()));
-        assertEquals(before.getAmountMinor() * 10, after.getAmountMinor().longValue());
+        assertEquals(before.getAmountMinor() * 10, after.getAmountMinor());
       } else {
         assertEquals(0, before.getAmountMajor().divide(new BigDecimal(10)).compareTo(after.getAmountMajor()));
         assertEquals(before.getAmountMinor(), after.getAmountMinor());

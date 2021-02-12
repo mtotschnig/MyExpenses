@@ -32,6 +32,7 @@ import android.text.TextUtils;
 
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.di.AppComponent;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountGrouping;
 import org.totschnig.myexpenses.model.AggregateAccount;
@@ -67,6 +68,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -77,6 +79,7 @@ import static org.totschnig.myexpenses.model.AggregateAccount.AGGREGATE_HOME_CUR
 import static org.totschnig.myexpenses.model.AggregateAccount.GROUPING_AGGREGATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import static org.totschnig.myexpenses.provider.DbUtils.suggestNewCategoryColor;
+import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionProvider extends BaseTransactionProvider {
 
@@ -182,6 +185,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String QUERY_PARAMETER_DISTINCT = "distinct";
   public static final String QUERY_PARAMETER_GROUP_BY = "groupBy";
   public static final String QUERY_PARAMETER_MARK_VOID = "markVoid";
+  //"1" from production, "2" from test
   public static final String QUERY_PARAMETER_WITH_PLAN_INFO = "withPlanInfo";
   public static final String QUERY_PARAMETER_INIT = "init";
   public static final String QUERY_PARAMETER_CALLER_IS_SYNCADAPTER = "caller_is_syncadapter";
@@ -283,6 +287,9 @@ public class TransactionProvider extends BaseTransactionProvider {
   PrefHandler prefHandler;
   @Inject
   UserLocaleProvider userLocaleProvider;
+  @Inject
+  @Named(AppComponent.DATABASE_NAME)
+  String databaseName;
 
   @Override
   public boolean onCreate() {
@@ -292,7 +299,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   }
 
   private void initOpenHelper() {
-    mOpenHelper = new TransactionDatabase(getContext());
+    mOpenHelper = new TransactionDatabase(getContext(), databaseName);
   }
 
   @Override
@@ -988,8 +995,10 @@ public class TransactionProvider extends BaseTransactionProvider {
     //long endTime = System.nanoTime();
     //Log.d("TIMER",uri.toString() + Arrays.toString(selectionArgs) + " : "+(endTime-startTime));
 
-    if (uriMatch == TEMPLATES && uri.getQueryParameter(QUERY_PARAMETER_WITH_PLAN_INFO) != null) {
-      c = new PlanInfoCursorWrapper(getContext(), c, sortOrder == null);
+    final String withPlanInfo = uri.getQueryParameter(QUERY_PARAMETER_WITH_PLAN_INFO);
+    if (uriMatch == TEMPLATES && withPlanInfo != null) {
+      final boolean shouldSortByNextInstance = sortOrder == null && (CALENDAR.hasPermission(getContext()) || withPlanInfo.equals("2"));
+      c = new PlanInfoCursorWrapper(getContext(), c, shouldSortByNextInstance);
     }
     c.setNotificationUri(getContext().getContentResolver(), uri);
     return c;
@@ -1929,7 +1938,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     dataDir.mkdir();
     //line below gives app_databases instead of databases ???
     //File currentDb = new File(mCtx.getDir("databases", 0),mDatabaseName);
-    File currentDb = new File(dataDir, TransactionDatabase.getDbName());
+    File currentDb = new File(dataDir, databaseName);
     boolean result = false;
     mOpenHelper.close();
     try {

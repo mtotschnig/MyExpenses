@@ -9,7 +9,6 @@ import android.text.TextUtils;
 import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Events;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.provider.CalendarProviderProxy;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -20,27 +19,23 @@ import java.util.Collections;
 import androidx.collection.LongSparseArray;
 import androidx.collection.SparseArrayCompat;
 
-import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
-
 public class PlanInfoCursorWrapper extends CursorWrapperHelper {
-  private Context context;
+  private final Context context;
   private final LongSparseArray<String> planInfo = new LongSparseArray<>();
   private final SparseArrayCompat<Long> nextInstance = new SparseArrayCompat<>();
-  private ArrayList<Integer> sortedPositions = new ArrayList<>();
-  private boolean shouldSortByNextInstance;
+  private final ArrayList<Integer> sortedPositions = new ArrayList<>();
+  private final boolean shouldSortByNextInstance;
 
   public PlanInfoCursorWrapper(Context context, Cursor cursor, boolean shouldSortByNextInstance) {
     super(cursor);
     this.context = context;
     this.shouldSortByNextInstance = shouldSortByNextInstance;
-    initializePlanInfo();
+    if (shouldSortByNextInstance) {
+      initializePlanInfo();
+    }
   }
 
   private void initializePlanInfo() {
-    if (!(CALENDAR.hasPermission(context) || MyApplication.isInstrumentationTest())) {
-      shouldSortByNextInstance = false;
-      return;
-    }
     Cursor wrapped = getWrappedCursor();
     if (wrapped.moveToFirst()) {
       ArrayList<Long> plans = new ArrayList<>();

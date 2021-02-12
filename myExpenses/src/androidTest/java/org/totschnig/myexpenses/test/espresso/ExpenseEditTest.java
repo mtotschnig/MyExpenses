@@ -197,7 +197,7 @@ public class ExpenseEditTest extends BaseUiTest {
     onView(withId(R.id.CREATE_COMMAND)).perform(click());
     Template restored = Template.getInstanceFromDb(template.getId());
     assertEquals(TYPE_TRANSFER, restored.operationType());
-    assertEquals(-amount * 100, restored.getAmount().getAmountMinor().longValue());
+    assertEquals(-amount * 100, restored.getAmount().getAmountMinor());
   }
 
   @Override

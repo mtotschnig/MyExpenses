@@ -15,8 +15,7 @@ import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
-class DiscoveryHelper @Inject constructor(val prefHandler: PrefHandler) {
+class DiscoveryHelper(val prefHandler: PrefHandler) : IDiscoveryHelper {
 
     enum class Feature(val key: String) {
         expense_income_switch("showDiscoveryExpenseIncomeSwitch") {
@@ -38,9 +37,9 @@ class DiscoveryHelper @Inject constructor(val prefHandler: PrefHandler) {
         abstract fun toTitle(context: Context): String
     }
 
-    fun discover(context: Activity, target: View, daysSinceInstall: Int, feature: Feature,
-                 measureTarget: Boolean = false) =
-            (!MyApplication.isInstrumentationTest() && Utils.getDaysSinceInstall(context) >= daysSinceInstall && prefHandler.getBoolean(feature.key, true)).also {
+    override fun discover(context: Activity, target: View, daysSinceInstall: Int, feature: Feature,
+                          measureTarget: Boolean) =
+            (Utils.getDaysSinceInstall(context) >= daysSinceInstall && prefHandler.getBoolean(feature.key, true)).also {
                 if (it) {
                     if (measureTarget) {
                         target.getViewTreeObserver().addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
@@ -55,7 +54,7 @@ class DiscoveryHelper @Inject constructor(val prefHandler: PrefHandler) {
                 }
             }
 
-    fun markDiscovered(feature: Feature) {
+    override fun markDiscovered(feature: Feature) {
         prefHandler.putBoolean(feature.key, false)
         Timber.d("Marked as discoverd: %s", feature)
     }

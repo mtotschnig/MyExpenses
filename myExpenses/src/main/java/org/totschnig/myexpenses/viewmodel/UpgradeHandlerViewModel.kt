@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.SharedPreferences
 import android.os.Build
 import org.totschnig.myexpenses.MyApplication
-import org.totschnig.myexpenses.di.SharedPreferencesModule
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.model.Template
@@ -13,6 +12,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.DateCriteria
 import org.totschnig.myexpenses.ui.DiscoveryHelper
+import org.totschnig.myexpenses.ui.IDiscoveryHelper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.validateDateFormat
 import timber.log.Timber
@@ -22,6 +22,9 @@ import javax.inject.Inject
 class UpgradeHandlerViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
     @Inject
     lateinit var settings: SharedPreferences
+    @Inject
+    lateinit var discoveryHelper: IDiscoveryHelper
+
     init {
         (application as MyApplication).appComponent.inject(this)
     }
@@ -34,7 +37,6 @@ class UpgradeHandlerViewModel(application: Application) : ContentResolvingAndroi
                     .subscribe { query ->
                         query.run()?.let { cursor ->
                             if (cursor.moveToFirst()) {
-                                val discoveryHelper = getApplication<MyApplication>().appComponent.discoveryHelper()
                                 if (cursor.getInt(0) > 0) {
                                     discoveryHelper.markDiscovered(DiscoveryHelper.Feature.expense_income_switch)
                                 }

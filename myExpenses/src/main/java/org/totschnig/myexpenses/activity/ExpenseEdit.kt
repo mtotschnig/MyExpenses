@@ -93,6 +93,7 @@ import org.totschnig.myexpenses.ui.ButtonWithDialog
 import org.totschnig.myexpenses.ui.DateButton
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.ExchangeRateEdit
+import org.totschnig.myexpenses.ui.IDiscoveryHelper
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.PictureDirHelper
@@ -202,7 +203,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
     lateinit var currencyFormatter: CurrencyFormatter
 
     @Inject
-    lateinit var discoveryHelper: DiscoveryHelper
+    lateinit var discoveryHelper: IDiscoveryHelper
 
     lateinit var delegate: TransactionDelegate<*>
 

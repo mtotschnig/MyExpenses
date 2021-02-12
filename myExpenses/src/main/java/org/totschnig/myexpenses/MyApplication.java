@@ -68,11 +68,9 @@ import org.totschnig.myexpenses.widget.AbstractWidgetKt;
 import org.totschnig.myexpenses.widget.AccountWidget;
 import org.totschnig.myexpenses.widget.TemplateWidget;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.TimeZone;
-import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -102,8 +100,7 @@ public class MyApplication extends Application implements
   UserLocaleProvider userLocaleProvider;
   @Inject
   SharedPreferences mSettings;
-  private static boolean instrumentationTest = false;
-  private static String testId;
+
   public static final String PLANNER_CALENDAR_NAME = "MyExpensesPlanner";
   public static final String PLANNER_ACCOUNT_NAME = "Local Calendar";
   public static final String INVALID_CALENDAR_ID = "-1";
@@ -129,14 +126,6 @@ public class MyApplication extends Application implements
     return appComponent;
   }
 
-  public static void setInstrumentationTest(boolean instrumentationTest) {
-    MyApplication.instrumentationTest = instrumentationTest;
-  }
-
-  public static boolean isInstrumentationTest() {
-    return instrumentationTest;
-  }
-
   public boolean isLocked() {
     return isLocked;
   }
@@ -157,7 +146,8 @@ public class MyApplication extends Application implements
 
   @Override
   public void onCreate() {
-    if (BuildConfig.DEBUG && !instrumentationTest) {
+    if (BuildConfig.DEBUG) {
+      ///TODO disable in test
       enableStrictMode();
     }
     super.onCreate();
@@ -272,20 +262,6 @@ public class MyApplication extends Application implements
   @Deprecated
   public SharedPreferences getSettings() {
     return mSettings;
-  }
-
-  public static String getTestId() {
-    if (testId == null) {
-      testId = UUID.randomUUID().toString();
-    }
-    return testId;
-  }
-
-  public static void cleanUpAfterTest() {
-    mSelf.deleteDatabase(testId);
-    mSelf.mSettings.edit().clear().apply();
-    new File(new File(mSelf.getFilesDir().getParentFile().getPath() + "/shared_prefs/"),
-        testId + ".xml").delete();
   }
 
   public LicenceHandler getLicenceHandler() {

@@ -52,17 +52,6 @@ class MyTestRunner : AndroidJUnitRunner() {
         return Settings.System.getFloat(targetContext.contentResolver, setting)
     }
 
-    override fun finish(resultCode: Int, results: Bundle) {
-        MyApplication.cleanUpAfterTest()
-        super.finish(resultCode, results)
-    }
-
-    init {
-        // Inform the app we are an instrumentation test before the object graph is initialized.
-        Log.d("instrumentationTest", "now setting instrumentationTest to true")
-        MyApplication.setInstrumentationTest(true)
-    }
-
     companion object {
         private const val ANIMATION_SETTINGS_MANUALLY_CHECKED = false
     }

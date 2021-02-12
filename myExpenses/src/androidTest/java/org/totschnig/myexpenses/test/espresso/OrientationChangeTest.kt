@@ -50,11 +50,11 @@ class OrientationChangeTest: BaseUiTest() {
     @get:Rule
     var mActivityRule = ActivityTestRule(ExpenseEdit::class.java, false, false)
     private val accountLabel1 = "Test label 1"
-    private var account1: Account? = null
-    private var currency1: CurrencyUnit? = null
+    private lateinit var account1: Account
+    private lateinit var currency1: CurrencyUnit
     private val accountLabel2 = "Test label 2"
-    private var account2: Account? = null
-    private var currency2: CurrencyUnit? = null
+    private lateinit var account2: Account
+    private lateinit var currency2: CurrencyUnit
 
     @Before
     fun fixture() {
@@ -67,17 +67,13 @@ class OrientationChangeTest: BaseUiTest() {
     @After
     @Throws(RemoteException::class, OperationApplicationException::class)
     fun tearDown() {
-        account1?.let {
-            Account.delete(it.id)
-        }
-        account2?.let {
-            Account.delete(it.id)
-        }
+        Account.delete(account1.id)
+        Account.delete(account2.id)
     }
 
     @Test
     fun shouldKeepAccountAfterOrientationChange() {
-        val transaction = Transaction.getNewInstance(account1!!.id)
+        val transaction = Transaction.getNewInstance(account1.id)
         transaction.amount = Money(currency1, 500L)
         transaction.save()
         val i = Intent(InstrumentationRegistry.getInstrumentation().targetContext, ExpenseEdit::class.java)
@@ -94,7 +90,7 @@ class OrientationChangeTest: BaseUiTest() {
 
     @Test
     fun shouldKeepMethodAfterOrientationChange() {
-        val transaction = Transaction.getNewInstance(account1!!.id)
+        val transaction = Transaction.getNewInstance(account1.id)
         transaction.amount = Money(currency1, -500L)
         transaction.methodId = PaymentMethod.find(PaymentMethod.PreDefined.DIRECTDEBIT.name)
         transaction.save()
@@ -117,7 +113,7 @@ class OrientationChangeTest: BaseUiTest() {
 
     @Test
     fun shouldKeepStatusAfterOrientationChange() {
-        val transaction = Transaction.getNewInstance(account1!!.id)
+        val transaction = Transaction.getNewInstance(account1.id)
         transaction.amount = Money(currency1, -500L)
         transaction.crStatus = CrStatus.UNRECONCILED
         transaction.save()
@@ -152,7 +148,7 @@ class OrientationChangeTest: BaseUiTest() {
 
     @Test
     fun shouldHandleExistingInstanceAfterOrientationChange() {
-        val id = with(Transaction.getNewInstance(account1!!.id)) {
+        val id = with(Transaction.getNewInstance(account1.id)) {
             amount = Money(currency1, -500L)
             crStatus = CrStatus.UNRECONCILED
             save()

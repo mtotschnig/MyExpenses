@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,6 +18,7 @@ import org.totschnig.myexpenses.fragment.OnBoardingPrivacyFragment;
 import org.totschnig.myexpenses.fragment.OnboardingDataFragment;
 import org.totschnig.myexpenses.fragment.OnboardingUiFragment;
 import org.totschnig.myexpenses.model.Model;
+import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
@@ -32,9 +32,10 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.preference.PreferenceManager;
 import icepick.State;
 
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT;
@@ -48,14 +49,12 @@ public class OnboardingActivity extends SyncBackendSetupActivity {
   @State
   String accountName;
 
+  @Inject
+  PrefHandler prefHandler;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    if (MyApplication.isInstrumentationTest()) {
-      PreferenceManager.setDefaultValues(this, MyApplication.getTestId(), Context.MODE_PRIVATE,
-          R.xml.preferences, true);
-    } else {
-      PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-    }
+    prefHandler.setDefaultValues(this);
     super.onCreate(savedInstanceState);
     binding = OnboardingBinding.inflate(getLayoutInflater());
     setContentView(binding.getRoot());
@@ -68,6 +67,11 @@ public class OnboardingActivity extends SyncBackendSetupActivity {
   public boolean onCreateOptionsMenu(Menu menu) {
     //skip Help
     return true;
+  }
+
+  @Override
+  protected void injectDependencies() {
+    ((MyApplication) getApplication()).getAppComponent().inject(this);
   }
 
   public void navigate_next() {

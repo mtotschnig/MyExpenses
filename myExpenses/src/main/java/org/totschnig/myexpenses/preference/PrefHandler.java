@@ -1,7 +1,10 @@
 package org.totschnig.myexpenses.preference;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.preference.PreferenceFragmentCompat;
 
 public interface PrefHandler {
   @NonNull
@@ -50,4 +53,8 @@ public interface PrefHandler {
   boolean isSet(String key);
 
   boolean matches(@NonNull String key, PrefKey... prefKeys);
+
+  void setDefaultValues(Context context);
+
+  void preparePreferenceFragment(PreferenceFragmentCompat preferenceFragmentCompat);
 }
