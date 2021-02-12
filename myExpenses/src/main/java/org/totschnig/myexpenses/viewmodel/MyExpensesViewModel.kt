@@ -13,6 +13,7 @@ import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.feature.Callback
+import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AggregateAccount
@@ -35,16 +36,16 @@ class MyExpensesViewModel(application: Application) : ContentResolvingAndroidVie
     init {
         (application as MyApplication).appComponent.inject(this)
         featureManager.registerCallback(object : Callback {
-            override fun onFeatureAvailable() {
-                featureState.postValue(Pair(FeatureState.AVAILABLE, null))
+            override fun onFeatureAvailable(moduleNames: List<String>) {
+                featureState.postValue(FeatureState.Available(moduleNames))
             }
 
-            override fun onAsyncStartedFeature(feature: String) {
-                featureState.postValue(Pair(FeatureState.LOADING, null))
+            override fun onAsyncStartedFeature(feature: Feature) {
+                featureState.postValue(FeatureState.Loading(feature))
             }
 
             override fun onError(throwable: Throwable) {
-                featureState.postValue(Pair(FeatureState.ERROR, throwable.message))
+                featureState.postValue(FeatureState.Error(throwable))
             }
 
         })
@@ -56,11 +57,13 @@ class MyExpensesViewModel(application: Application) : ContentResolvingAndroidVie
     @Inject
     lateinit var prefHandler: PrefHandler
 
-    enum class FeatureState {
-        LOADING, AVAILABLE, ERROR;
+    sealed class FeatureState<out T> {
+        data class Error(val throwable: Throwable) : FeatureState<Throwable>()
+        data class Loading(val feature: Feature): FeatureState<Feature>()
+        data class Available(val modules: List<String>): FeatureState<List<String>>()
     }
 
-    private val featureState = MutableLiveData<Pair<FeatureState, String?>>()
+    private val featureState = MutableLiveData<FeatureState<*>>()
 
     private val hasHiddenAccounts = MutableLiveData<Boolean>()
 
@@ -68,7 +71,7 @@ class MyExpensesViewModel(application: Application) : ContentResolvingAndroidVie
         return hasHiddenAccounts
     }
 
-    fun getFeatureState(): LiveData<Pair<FeatureState, String?>> {
+    fun getFeatureState(): LiveData<FeatureState<*>> {
         return featureState
     }
 
@@ -132,7 +135,7 @@ class MyExpensesViewModel(application: Application) : ContentResolvingAndroidVie
         contentResolver.notifyChange(TransactionProvider.ACCOUNTS_URI, null, false)
     }
 
-    fun isFeatureAvailable(context: Context, feature: String) = featureManager.isFeatureInstalled(feature, context)
+    fun isFeatureAvailable(context: Context, feature: Feature) = featureManager.isFeatureInstalled(feature, context)
 
-    fun requestFeature(activity: BaseActivity, feature: String) = featureManager.requestFeature(feature, activity)
+    fun requestFeature(activity: BaseActivity, feature: Feature) = featureManager.requestFeature(feature, activity)
 }

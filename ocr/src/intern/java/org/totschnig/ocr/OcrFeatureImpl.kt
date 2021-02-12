@@ -3,7 +3,7 @@ package org.totschnig.ocr
 import android.content.Context
 import androidx.annotation.Keep
 import org.totschnig.myexpenses.activity.BaseActivity
-import org.totschnig.myexpenses.feature.ENGINE_TESSERACT
+import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.ocr.OcrHandlerImpl.Companion.getEngine
 
@@ -20,9 +20,9 @@ class OcrFeatureImpl(val prefHandler: PrefHandler): OcrFeature() {
     }
 
     override fun configureTesseractLanguagePref(listPreference: androidx.preference.ListPreference) {
-        (getEngine(ENGINE_TESSERACT) as? TesseractEngine)?.let {
+        (getEngine(Feature.TESSERACT) as? TesseractEngine)?.let {
             listPreference.isVisible = true
-            listPreference.setEntries(it.getLanguageArray(listPreference.context))
+            listPreference.entries = it.getLanguageArray(listPreference.context)
         }
                 ?: kotlin.run { super.configureTesseractLanguagePref(listPreference) }
     }

@@ -2,6 +2,7 @@ package org.totschnig.ocr
 
 import android.content.Context
 import android.content.Intent
+import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.OcrResult
 import org.totschnig.myexpenses.feature.getUserConfiguredOcrEngine
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -24,8 +25,8 @@ class OcrHandlerImpl @Inject constructor(prefHandler: PrefHandler, userLocalePro
     companion object {
         fun getEngine(context: Context, prefHandler: PrefHandler) = getEngine(getUserConfiguredOcrEngine(context, prefHandler))
 
-        fun getEngine(engine: String) = try {
-            Class.forName("org.totschnig.$engine.Engine").kotlin.objectInstance as Engine
+        fun getEngine(engine: Feature) = try {
+            Class.forName("org.totschnig.${engine.moduleName}.Engine").kotlin.objectInstance as Engine
         } catch (e: Exception) {
             null
         }

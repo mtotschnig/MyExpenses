@@ -11,7 +11,7 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.MyPreferenceActivity
 import org.totschnig.myexpenses.feature.Callback
-import org.totschnig.myexpenses.feature.ENGINE_TESSERACT
+import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Transaction
@@ -54,7 +54,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 activity().recreate()
             }
 
-            override fun onFeatureAvailable() {
+            override fun onFeatureAvailable(moduleNames: List<String>) {
                 configureTesseractLanguagePref()
             }
 
@@ -131,7 +131,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
 
     fun configureTesseractLanguagePref() {
         findPreference<ListPreference>(prefHandler.getKey(PrefKey.TESSERACT_LANGUAGE))?.let {
-            if (prefHandler.getString(PrefKey.OCR_ENGINE, null) == ENGINE_TESSERACT)
+            if (prefHandler.getString(PrefKey.OCR_ENGINE, null) == Feature.TESSERACT.moduleName)
                 activity().ocrViewModel.configureTesseractLanguagePref(it)
             else
                 it.isVisible = false
@@ -139,7 +139,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     }
 
     fun requireApplication(): MyApplication {
-        return (requireActivity().getApplication() as MyApplication)
+        return (requireActivity().application as MyApplication)
     }
 
     fun rebuildDbConstants() {

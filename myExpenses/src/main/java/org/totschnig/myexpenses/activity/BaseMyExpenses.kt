@@ -28,11 +28,11 @@ import org.threeten.bp.LocalTime
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit.Companion.KEY_OCR_RESULT
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
+import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.OcrHost
 import org.totschnig.myexpenses.feature.OcrResult
 import org.totschnig.myexpenses.feature.OcrResultFlat
 import org.totschnig.myexpenses.feature.Payee
-import org.totschnig.myexpenses.feature.WEBUI_MODULE
 import org.totschnig.myexpenses.model.AggregateAccount
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -44,6 +44,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
+import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel.FeatureState
 import org.totschnig.myexpenses.viewmodel.WebUiViewModel
 import timber.log.Timber
 import java.io.File
@@ -99,6 +100,21 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this)[MyExpensesViewModel::class.java]
         webUiViewModel = ViewModelProvider(this)[WebUiViewModel::class.java]
+        viewModel.getFeatureState().observe(this, { featureState ->
+            when (featureState) {
+                is FeatureState.Loading -> showSnackbar(getString(R.string.feature_download_requested, getString(featureState.feature.labelResId)))
+                is FeatureState.Available -> {
+                    arrayOf(Feature.OCR, Feature.WEBUI).find { featureState.modules.contains(it.moduleName) }?.let {
+                        showSnackbar(getString(R.string.feature_downloaded, getString(it.labelResId)))
+                        //after the dynamic feature module has been installed, we need to check if data needed by the module (e.g. Tesseract) has been downloaded
+                        if (!viewModel.isFeatureAvailable(this, it)) {
+                            viewModel.requestFeature(this, it)
+                        }
+                    }
+                }
+                is FeatureState.Error -> showSnackbar(featureState.throwable.toString())
+            }
+        })
     }
 
     override fun onStart() {
@@ -131,7 +147,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             if (webUiAvailable)
                 webUiViewModel.toggle(this)
             else
-                viewModel.requestFeature(this, WEBUI_MODULE)
+                viewModel.requestFeature(this, Feature.WEBUI)
         }
     }
 
@@ -313,7 +329,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         return super.onPrepareOptionsMenu(menu)
     }
 
-    private val webUiAvailable get() = viewModel.isFeatureAvailable(this, WEBUI_MODULE)
+    private val webUiAvailable get() = viewModel.isFeatureAvailable(this, Feature.WEBUI)
     private val webUiRunning get() = webUiAvailable && webUiViewModel.isBoundAndRunning
 
     fun setupToolbarPopupMenu() {

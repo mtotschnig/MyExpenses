@@ -33,6 +33,7 @@ import org.totschnig.myexpenses.activity.FolderBrowser;
 import org.totschnig.myexpenses.activity.MyPreferenceActivity;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
+import org.totschnig.myexpenses.feature.Feature;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.CalendarListPreferenceDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogFragmentCompat;
@@ -106,7 +107,6 @@ import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.RESULT
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER;
-import static org.totschnig.myexpenses.feature.FeatureManagerKt.OCR_MODULE;
 import static org.totschnig.myexpenses.preference.PrefKey.ACRA_INFO;
 import static org.totschnig.myexpenses.preference.PrefKey.APP_DIR;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP;
@@ -590,8 +590,8 @@ public class SettingsFragment extends BaseSettingsFragment implements
     } else if (key.equals(getKey(TESSERACT_LANGUAGE))) {
       activity().checkTessDataDownload();
     } else if (key.equals(getKey(OCR_ENGINE))) {
-      if (!featureManager.isFeatureInstalled(OCR_MODULE, activity())) {
-        featureManager.requestFeature(OCR_MODULE, activity());
+      if (!featureManager.isFeatureInstalled(Feature.OCR, activity())) {
+        featureManager.requestFeature(Feature.OCR, activity());
       }
       configureTesseractLanguagePref();
     }

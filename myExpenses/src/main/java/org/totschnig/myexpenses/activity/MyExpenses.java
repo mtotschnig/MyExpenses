@@ -55,6 +55,7 @@ import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.dialog.select.SelectFilterDialog;
 import org.totschnig.myexpenses.dialog.select.SelectHiddenAccountDialogFragment;
+import org.totschnig.myexpenses.feature.Feature;
 import org.totschnig.myexpenses.fragment.ContextualActionBarFragment;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
@@ -117,7 +118,6 @@ import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.OCR_REQUEST;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
-import static org.totschnig.myexpenses.feature.FeatureManagerKt.OCR_MODULE;
 import static org.totschnig.myexpenses.preference.PrefKey.OCR;
 import static org.totschnig.myexpenses.preference.PreferenceUtilsKt.requireString;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
@@ -186,7 +186,7 @@ public class MyExpenses extends BaseMyExpenses implements
     prefHandler.putBoolean(OCR, newMode);
     updateFab();
     invalidateOptionsMenu();
-    if (newMode && !getViewModel().isFeatureAvailable(this, OCR_MODULE)) {
+    if (newMode && !getViewModel().isFeatureAvailable(this, Feature.OCR)) {
       contribFeatureRequested(ContribFeature.OCR, false);
     }
   }
@@ -343,23 +343,6 @@ public class MyExpenses extends BaseMyExpenses implements
     roadmapViewModel = new ViewModelProvider(this).get(RoadmapViewModel.class);
     viewModel.getHasHiddenAccounts().observe(this,
         result -> navigationView().getMenu().findItem(R.id.HIDDEN_ACCOUNTS_COMMAND).setVisible(result != null && result));
-    viewModel.getFeatureState().observe(this, featureState -> {
-      switch (featureState.getFirst()) {
-        case LOADING:
-          showSnackbar(getString(R.string.feature_download_requested, getString(R.string.title_scan_receipt_feature)));
-          break;
-        case AVAILABLE:
-          showSnackbar(getString(R.string.feature_downloaded, getString(R.string.title_scan_receipt_feature)));
-          //after the dynamic feature module has been installed, we need to check if data needed by the module (e.g. Tesseract) has been downloaded
-          if (!viewModel.isFeatureAvailable(this, OCR_MODULE)) {
-            viewModel.requestFeature(this, OCR_MODULE);
-          }
-          break;
-        case ERROR:
-          showSnackbar(featureState.getSecond());
-          break;
-      }
-    });
     if (savedInstanceState != null) {
       setup(false);
     } else {
@@ -900,7 +883,7 @@ public class MyExpenses extends BaseMyExpenses implements
         break;
       }
       case OCR: {
-        if (viewModel.isFeatureAvailable(this, OCR_MODULE)) {
+        if (viewModel.isFeatureAvailable(this, Feature.OCR)) {
           if ((Boolean) tag) {
         /*scanFile = new File("/sdcard/OCR_bg.jpg");
         ocrViewModel.startOcrFeature(scanFile, getSupportFragmentManager());*/
@@ -917,7 +900,7 @@ public class MyExpenses extends BaseMyExpenses implements
             });
           }
         } else {
-          viewModel.requestFeature(this, OCR_MODULE);
+          viewModel.requestFeature(this, Feature.OCR);
         }
       }
       default: super.contribFeatureCalled(feature, tag);
