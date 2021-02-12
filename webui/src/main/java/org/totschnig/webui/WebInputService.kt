@@ -98,10 +98,6 @@ class WebInputService : LifecycleService() {
                                 registerTypeAdapter(LocalDate::class.java, localDateJsonDeserializer)
                             }
                         }
-                        install(CORS) {
-                            anyHost()
-                            allowNonSimpleContentTypes = true
-                        }
                         install(StatusPages) {
                             exception<Throwable> { cause ->
                                 call.respond(HttpStatusCode.InternalServerError, "Internal Server Error")
