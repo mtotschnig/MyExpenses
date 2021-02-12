@@ -85,11 +85,16 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     fun activity() = activity as MyPreferenceActivity
 
     fun configureUninstallPrefs() {
-        configureMultiSelectListPref(PrefKey.FEATURE_UNINSTALL_FEATURES, featureManager.installedFeatures()) { featureManager.uninstallFeatures(it) }
-        configureMultiSelectListPref(PrefKey.FEATURE_UNINSTALL_LANGUAGES, featureManager.installedLanguages()) { featureManager.uninstallLanguages(it) }
+        configureMultiSelectListPref(PrefKey.FEATURE_UNINSTALL_FEATURES, featureManager.installedFeatures(),
+                featureManager::uninstallFeatures) {
+            Feature.fromModuleName(it)?.let { getString(it.labelResId) } ?: it
+        }
+        configureMultiSelectListPref(PrefKey.FEATURE_UNINSTALL_LANGUAGES, featureManager.installedLanguages(), featureManager::uninstallLanguages) {
+            Locale(it).let { it.getDisplayName(it) }
+        }
     }
 
-    private fun configureMultiSelectListPref(prefKey: PrefKey, entries: Set<String>, action: (Set<String>) -> Unit) {
+    private fun configureMultiSelectListPref(prefKey: PrefKey, entries: Set<String>, action: (Set<String>) -> Unit, prettyPrint: (String) -> String) {
         (requirePreference(prefKey) as? MultiSelectListPreference)?.apply {
             if (entries.isEmpty()) {
                 isEnabled = false
@@ -99,10 +104,8 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     (newValue as? Set<String>)?.let { action(it) }
                     false
                 }
-                entries.toTypedArray<CharSequence>().let {
-                    setEntries(it)
-                    entryValues = it
-                }
+                setEntries(entries.map(prettyPrint).toTypedArray())
+                entryValues = entries.toTypedArray()
             }
         }
     }
