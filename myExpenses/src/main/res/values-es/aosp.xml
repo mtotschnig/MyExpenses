@@ -8,5 +8,7 @@
     <string name="drawer_close">"Cerrar control de navegación"</string>
     <string name="toast_text_copied">"Texto copiado"</string>
     <string name="copy_text">"Copiar en el portapapeles"</string>
+    <string name="start">"Iniciar"</string>
+    <string name="stop">"Detener"</string>
 </resources>
 

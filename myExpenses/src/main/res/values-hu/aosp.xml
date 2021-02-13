@@ -8,5 +8,7 @@
     <string name="drawer_close">"Navigációs fiók bezárása"</string>
     <string name="toast_text_copied">"Másolt szöveg"</string>
     <string name="copy_text">"Másolás vágólapra"</string>
+    <string name="start">"Kezdés"</string>
+    <string name="stop">"Leállítás"</string>
 </resources>
 

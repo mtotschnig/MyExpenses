@@ -8,5 +8,7 @@
     <string name="drawer_close">"Chiudi riquadro di navigazione"</string>
     <string name="toast_text_copied">"Testo copiato"</string>
     <string name="copy_text">"Copia negli appunti"</string>
+    <string name="start">"Avvia"</string>
+    <string name="stop">"Interrompi"</string>
 </resources>
 

@@ -8,5 +8,7 @@
     <string name="drawer_close">"Zamknij szufladę nawigacji"</string>
     <string name="toast_text_copied">"Tekst skopiowany"</string>
     <string name="copy_text">"Kopiuj do schowka"</string>
+    <string name="start">"Start"</string>
+    <string name="stop">"Stop"</string>
 </resources>
 

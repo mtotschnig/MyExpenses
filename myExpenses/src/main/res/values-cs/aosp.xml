@@ -8,5 +8,7 @@
     <string name="drawer_close">"Zavřít navigační složku"</string>
     <string name="toast_text_copied">"Text zkopírován"</string>
     <string name="copy_text">"Zkopírovat do schránky"</string>
+    <string name="start">"Spustit"</string>
+    <string name="stop">"Zastavit"</string>
 </resources>
 

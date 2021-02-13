@@ -9,5 +9,7 @@
     <string name="drawer_close">"Сховати навігаційну панель"</string>
     <string name="toast_text_copied">"Текст скопійовано"</string>
     <string name="copy_text">"Копіювати в буфер обміну"</string>
+    <string name="start">"Почати"</string>
+    <string name="stop">"Зупинити"</string>
 </resources>
 

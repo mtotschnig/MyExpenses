@@ -8,5 +8,7 @@
     <string name="drawer_close">"Κλείσιμο συρταριού πλοήγησης"</string>
     <string name="toast_text_copied">"Το κείμενο αντιγράφηκε"</string>
     <string name="copy_text">"Αντιγραφή στο πρόχειρο"</string>
+    <string name="start">"Έναρξη"</string>
+    <string name="stop">"Διακοπή"</string>
 </resources>
 

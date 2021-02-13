@@ -8,5 +8,7 @@
     <string name="drawer_close">"Fermer le panneau de navigation"</string>
     <string name="toast_text_copied">"Texte copié"</string>
     <string name="copy_text">"Copier dans le presse-papiers"</string>
+    <string name="start">"Lancer"</string>
+    <string name="stop">"Arrêter"</string>
 </resources>
 

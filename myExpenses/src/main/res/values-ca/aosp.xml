@@ -8,5 +8,7 @@
     <string name="drawer_close">"Tanca el tauler de navegació"</string>
     <string name="toast_text_copied">"Text copiat"</string>
     <string name="copy_text">"Copia al porta-retalls"</string>
+    <string name="start">"Inicia"</string>
+    <string name="stop">"Atura"</string>
 </resources>
 
