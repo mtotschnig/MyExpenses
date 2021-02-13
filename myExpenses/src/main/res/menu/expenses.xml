@@ -85,12 +85,6 @@
         android:title="@string/menu_history"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/WEB_INPUT_COMMAND"
-        android:checkable="true"
-        android:orderInCategory="10"
-        android:title="@string/title_webui"
-        app:showAsAction="never" />
-    <item
         android:id="@+id/SCAN_MODE_COMMAND"
         android:checkable="true"
         android:orderInCategory="10"

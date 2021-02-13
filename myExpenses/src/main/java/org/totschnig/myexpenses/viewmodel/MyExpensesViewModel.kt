@@ -33,46 +33,13 @@ const val ERROR_INIT_UPGRADE = -2
 
 class MyExpensesViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
 
-    init {
-        (application as MyApplication).appComponent.inject(this)
-        featureManager.registerCallback(object : Callback {
-            override fun onFeatureAvailable(moduleNames: List<String>) {
-                featureState.postValue(FeatureState.Available(moduleNames))
-            }
-
-            override fun onAsyncStartedFeature(feature: Feature) {
-                featureState.postValue(FeatureState.Loading(feature))
-            }
-
-            override fun onError(throwable: Throwable) {
-                featureState.postValue(FeatureState.Error(throwable))
-            }
-
-        })
-    }
-
-    @Inject
-    lateinit var featureManager: FeatureManager
-
     @Inject
     lateinit var prefHandler: PrefHandler
-
-    sealed class FeatureState<out T> {
-        data class Error(val throwable: Throwable) : FeatureState<Throwable>()
-        data class Loading(val feature: Feature): FeatureState<Feature>()
-        data class Available(val modules: List<String>): FeatureState<List<String>>()
-    }
-
-    private val featureState = MutableLiveData<FeatureState<*>>()
 
     private val hasHiddenAccounts = MutableLiveData<Boolean>()
 
     fun getHasHiddenAccounts(): LiveData<Boolean> {
         return hasHiddenAccounts
-    }
-
-    fun getFeatureState(): LiveData<FeatureState<*>> {
-        return featureState
     }
 
     fun initialize(): LiveData<Int> = liveData(context = coroutineContext()) {
@@ -134,8 +101,4 @@ class MyExpensesViewModel(application: Application) : ContentResolvingAndroidVie
         AggregateAccount.persistSortDirectionHomeAggregate(prefHandler, sortDirection)
         contentResolver.notifyChange(TransactionProvider.ACCOUNTS_URI, null, false)
     }
-
-    fun isFeatureAvailable(context: Context, feature: Feature) = featureManager.isFeatureInstalled(feature, context)
-
-    fun requestFeature(activity: BaseActivity, feature: Feature) = featureManager.requestFeature(feature, activity)
 }

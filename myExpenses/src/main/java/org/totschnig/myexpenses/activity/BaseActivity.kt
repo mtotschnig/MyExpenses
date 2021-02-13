@@ -28,6 +28,7 @@ import org.totschnig.myexpenses.ui.SnackbarAction
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.tracking.Tracker
+import org.totschnig.myexpenses.viewmodel.FeatureViewModel
 import org.totschnig.myexpenses.viewmodel.OcrViewModel
 import javax.inject.Inject
 
@@ -57,6 +58,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     lateinit var tracker: Tracker
 
     lateinit var ocrViewModel: OcrViewModel
+    lateinit var featureViewModel: FeatureViewModel
 
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(newBase)
@@ -69,6 +71,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     override fun onCreate(savedInstanceState: Bundle?) {
         ocrViewModel = ViewModelProvider(this).get(OcrViewModel::class.java)
+        featureViewModel = ViewModelProvider(this).get(FeatureViewModel::class.java)
         super.onCreate(savedInstanceState)
         tracker.init(this)
     }

@@ -8,7 +8,6 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.view.menu.MenuBuilder
@@ -44,12 +43,10 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
+import org.totschnig.myexpenses.viewmodel.FeatureViewModel.FeatureState
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
-import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel.FeatureState
-import org.totschnig.myexpenses.viewmodel.WebUiViewModel
 import timber.log.Timber
 import java.io.File
-import java.io.Serializable
 import java.math.BigDecimal
 import java.util.*
 import javax.inject.Inject
@@ -87,7 +84,6 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     private var currentBalance: String? = null
     var currentPosition = -1
 
-    private lateinit var webUiViewModel: WebUiViewModel
     lateinit var viewModel: MyExpensesViewModel
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -100,56 +96,21 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this)[MyExpensesViewModel::class.java]
-        webUiViewModel = ViewModelProvider(this)[WebUiViewModel::class.java]
-        viewModel.getFeatureState().observe(this, { featureState ->
+        featureViewModel.getFeatureState().observe(this, { featureState ->
             when (featureState) {
                 is FeatureState.Loading -> showSnackbar(getString(R.string.feature_download_requested, getString(featureState.feature.labelResId)))
                 is FeatureState.Available -> {
                     arrayOf(Feature.OCR, Feature.WEBUI).find { featureState.modules.contains(it.moduleName) }?.let {
                         showSnackbar(getString(R.string.feature_downloaded, getString(it.labelResId)))
                         //after the dynamic feature module has been installed, we need to check if data needed by the module (e.g. Tesseract) has been downloaded
-                        if (!viewModel.isFeatureAvailable(this, it)) {
-                            viewModel.requestFeature(this, it)
+                        if (!featureViewModel.isFeatureAvailable(this, it)) {
+                            featureViewModel.requestFeature(this, it)
                         }
                     }
                 }
                 is FeatureState.Error -> showSnackbar(featureState.throwable.toString())
             }
         })
-    }
-
-    override fun onStart() {
-        super.onStart()
-        if (webUiAvailable) {
-            webUiViewModel.bind(this)
-        }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        if (webUiAvailable)
-            webUiViewModel.unbind(this)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.WEB_INPUT_COMMAND) {
-            if (webUiRunning) {
-                webUiViewModel.toggle(this)
-            } else {
-                contribFeatureRequested(ContribFeature.WEB_UI, false)
-            }
-            return true
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-    override fun contribFeatureCalled(feature: ContribFeature?, tag: Serializable?) {
-        if (feature == ContribFeature.WEB_UI) {
-            if (webUiAvailable)
-                webUiViewModel.toggle(this)
-            else
-                viewModel.requestFeature(this, Feature.WEBUI)
-        }
     }
 
     private fun displayDateCandidate(pair: Pair<LocalDate, LocalTime?>) =
@@ -326,12 +287,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         menu.findItem(R.id.SCAN_MODE_COMMAND)?.isChecked = prefHandler.getBoolean(PrefKey.OCR, false)
-        menu.findItem(R.id.WEB_INPUT_COMMAND)?.isChecked = webUiRunning
         return super.onPrepareOptionsMenu(menu)
     }
-
-    private val webUiAvailable get() = viewModel.isFeatureAvailable(this, Feature.WEBUI)
-    private val webUiRunning get() = webUiAvailable && webUiViewModel.isBoundAndRunning
 
     fun setupToolbarPopupMenu() {
         toolbar.setOnClickListener {

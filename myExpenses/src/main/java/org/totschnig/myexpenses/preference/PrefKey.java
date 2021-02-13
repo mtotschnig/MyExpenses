@@ -148,7 +148,8 @@ public enum PrefKey {
   ACRA_INFO(R.string.pre_acra_info_key),
   OCR_ENGINE(R.string.pref_ocr_engine_key),
   TESSERACT_LANGUAGE(R.string.pref_tesseract_language_key),
-  GROUP_HEADER(R.string.pref_group_header_show_details_key);
+  GROUP_HEADER(R.string.pref_group_header_show_details_key),
+  UI_WEB(R.string.pref_web_ui_key);
 
   int resId = 0;
   String key = null;

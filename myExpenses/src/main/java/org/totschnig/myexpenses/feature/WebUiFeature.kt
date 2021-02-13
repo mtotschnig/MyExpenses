@@ -1,12 +1,14 @@
 package org.totschnig.myexpenses.feature
 
-import android.content.Context
+import android.os.Binder
 
-interface WebUiFeature {
-    fun bind(context: Context) {}
-    fun unbind(context: Context) {}
-    fun toggle(context: Context) {}
+const val STOP_ACTION = "STOP_ACTION"
+const val START_ACTION = "START_ACTION"
 
-    val isBoundAndRunning: Boolean
-        get() = false
+abstract class WebUiBinder: Binder() {
+    abstract fun getService(): IWebInputService
+}
+
+interface IWebInputService {
+    val isServerRunning: Boolean
 }

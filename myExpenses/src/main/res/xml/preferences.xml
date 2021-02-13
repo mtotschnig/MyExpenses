@@ -345,6 +345,7 @@
                 android:key="@string/pref_sync_changes_immediately_key"
                 android:summary="@string/pref_sync_changes_immediately_summary" />
         </PreferenceScreen>
+        <Preference android:key="@string/pref_web_ui_key" android:title="@string/title_webui"/>
     </PreferenceCategory>
 
     <PreferenceCategory

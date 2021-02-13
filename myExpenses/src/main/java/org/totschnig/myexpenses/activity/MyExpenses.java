@@ -186,7 +186,7 @@ public class MyExpenses extends BaseMyExpenses implements
     prefHandler.putBoolean(OCR, newMode);
     updateFab();
     invalidateOptionsMenu();
-    if (newMode && !getViewModel().isFeatureAvailable(this, Feature.OCR)) {
+    if (newMode && !featureViewModel.isFeatureAvailable(this, Feature.OCR)) {
       contribFeatureRequested(ContribFeature.OCR, false);
     }
   }
@@ -883,7 +883,7 @@ public class MyExpenses extends BaseMyExpenses implements
         break;
       }
       case OCR: {
-        if (viewModel.isFeatureAvailable(this, Feature.OCR)) {
+        if (featureViewModel.isFeatureAvailable(this, Feature.OCR)) {
           if ((Boolean) tag) {
         /*scanFile = new File("/sdcard/OCR_bg.jpg");
         ocrViewModel.startOcrFeature(scanFile, getSupportFragmentManager());*/
@@ -900,10 +900,9 @@ public class MyExpenses extends BaseMyExpenses implements
             });
           }
         } else {
-          viewModel.requestFeature(this, Feature.OCR);
+          featureViewModel.requestFeature(this, Feature.OCR);
         }
       }
-      default: super.contribFeatureCalled(feature, tag);
     }
   }
 

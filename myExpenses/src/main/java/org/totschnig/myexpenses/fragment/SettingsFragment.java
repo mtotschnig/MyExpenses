@@ -106,6 +106,8 @@ import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.RESULT
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER;
+import static org.totschnig.myexpenses.model.ContribFeature.CSV_IMPORT;
+import static org.totschnig.myexpenses.model.ContribFeature.WEB_UI;
 import static org.totschnig.myexpenses.preference.PrefKey.ACRA_INFO;
 import static org.totschnig.myexpenses.preference.PrefKey.APP_DIR;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP;
@@ -172,6 +174,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.UI_FONTSIZE;
 import static org.totschnig.myexpenses.preference.PrefKey.UI_HOME_SCREEN_SHORTCUTS;
 import static org.totschnig.myexpenses.preference.PrefKey.UI_LANGUAGE;
 import static org.totschnig.myexpenses.preference.PrefKey.UI_THEME_KEY;
+import static org.totschnig.myexpenses.preference.PrefKey.UI_WEB;
 import static org.totschnig.myexpenses.sync.GenericAccountService.HOUR_IN_SECONDS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 import static org.totschnig.myexpenses.util.TextUtils.concatResStrings;
@@ -249,10 +252,6 @@ public class SettingsFragment extends BaseSettingsFragment implements
             new String[]{preference.getKey()}, newValue.toString(), R.string.progress_dialog_saving);
         return true;
       };
-
-  private boolean matches(@NonNull Preference preference, @NonNull PrefKey prefKey) {
-    return prefHandler.getKey(prefKey).equals(preference.getKey());
-  }
 
   private void trackPreferenceClick(Preference preference) {
     Bundle bundle = new Bundle();
@@ -884,14 +883,8 @@ public class SettingsFragment extends BaseSettingsFragment implements
       }
       return true;
     }
-    if (matches(preference, IMPORT_CSV)) {
-      if (ContribFeature.CSV_IMPORT.hasAccess()) {
-        activity().contribFeatureCalled(ContribFeature.CSV_IMPORT, null);
-      } else {
-        activity().showContribDialog(ContribFeature.CSV_IMPORT, null);
-      }
-      return true;
-    }
+    if (handleContrib(IMPORT_CSV, CSV_IMPORT, preference)) return true;
+    if (handleContrib(UI_WEB, WEB_UI, preference)) return true;
     if (matches(preference, NEW_LICENCE)) {
       if (licenceHandler.hasValidKey()) {
         SimpleDialog.build()

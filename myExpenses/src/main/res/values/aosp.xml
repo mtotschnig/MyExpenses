@@ -10,5 +10,8 @@
     <!-- packages/apps/Contacts/res/values/strings.xml -->
     <string name="toast_text_copied">Text copied</string>
     <string name="copy_text">Copy to clipboard</string>
+    <!--  packages/apps/DeskClock/res/values/strings.xml -->
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
 </resources>
 

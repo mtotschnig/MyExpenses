@@ -183,7 +183,6 @@ public enum ContribFeature {
 
   /**
    * @return user either has access through licence or through trial
-   * @param prefHandler
    */
   public boolean isAvailable(PrefHandler prefHandler) {
     return hasAccess() || usagesLeft(prefHandler) > 0;

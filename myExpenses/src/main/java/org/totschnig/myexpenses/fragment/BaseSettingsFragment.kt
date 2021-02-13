@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.feature.Callback
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.model.Account
+import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.LocalizedFormatEditTextPreference.OnValidationErrorListener
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -86,11 +87,11 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
 
     fun configureUninstallPrefs() {
         configureMultiSelectListPref(PrefKey.FEATURE_UNINSTALL_FEATURES, featureManager.installedFeatures(),
-                featureManager::uninstallFeatures) {
-            Feature.fromModuleName(it)?.let { getString(it.labelResId) } ?: it
+                featureManager::uninstallFeatures) { module ->
+            Feature.fromModuleName(module)?.let { getString(it.labelResId) } ?: module
         }
-        configureMultiSelectListPref(PrefKey.FEATURE_UNINSTALL_LANGUAGES, featureManager.installedLanguages(), featureManager::uninstallLanguages) {
-            Locale(it).let { it.getDisplayName(it) }
+        configureMultiSelectListPref(PrefKey.FEATURE_UNINSTALL_LANGUAGES, featureManager.installedLanguages(), featureManager::uninstallLanguages) { language ->
+            Locale(language).let { it.getDisplayName(it) }
         }
     }
 
@@ -150,4 +151,16 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         Transaction.buildProjection(requireContext())
         Account.buildProjection()
     }
+
+    fun handleContrib(prefKey: PrefKey, feature: ContribFeature, preference: Preference) =
+            if (matches(preference, prefKey)) {
+                if (feature.hasAccess()) {
+                    activity().contribFeatureCalled(feature, null)
+                } else {
+                    activity().showContribDialog(feature, null)
+                }
+                true
+            } else false
+
+    fun matches(preference: Preference, prefKey: PrefKey) = prefHandler.getKey(prefKey) == preference.key
 }
