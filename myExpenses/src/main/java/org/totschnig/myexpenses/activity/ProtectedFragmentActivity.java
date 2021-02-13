@@ -350,10 +350,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   }
 
   @Override
-  public void onMessageDialogDismissOrCancel() {
-  }
-
-  @Override
   public void onProgressDialogDismiss() {
   }
 

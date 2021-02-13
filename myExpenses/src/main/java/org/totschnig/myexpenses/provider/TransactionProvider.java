@@ -293,8 +293,8 @@ public class TransactionProvider extends BaseTransactionProvider {
 
   @Override
   public boolean onCreate() {
-    initOpenHelper();
     MyApplication.getInstance().getAppComponent().inject(this);
+    initOpenHelper();
     return true;
   }
 

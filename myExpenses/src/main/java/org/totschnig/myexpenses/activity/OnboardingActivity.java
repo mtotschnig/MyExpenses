@@ -10,7 +10,6 @@ import android.view.View;
 import com.annimon.stream.Exceptional;
 import com.annimon.stream.Stream;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.databinding.OnboardingBinding;
 import org.totschnig.myexpenses.dialog.RestoreFromCloudDialogFragment;
@@ -18,7 +17,6 @@ import org.totschnig.myexpenses.fragment.OnBoardingPrivacyFragment;
 import org.totschnig.myexpenses.fragment.OnboardingDataFragment;
 import org.totschnig.myexpenses.fragment.OnboardingUiFragment;
 import org.totschnig.myexpenses.model.Model;
-import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
@@ -31,8 +29,6 @@ import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.util.List;
-
-import javax.inject.Inject;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -49,9 +45,6 @@ public class OnboardingActivity extends SyncBackendSetupActivity {
   @State
   String accountName;
 
-  @Inject
-  PrefHandler prefHandler;
-
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     prefHandler.setDefaultValues(this);
@@ -67,11 +60,6 @@ public class OnboardingActivity extends SyncBackendSetupActivity {
   public boolean onCreateOptionsMenu(Menu menu) {
     //skip Help
     return true;
-  }
-
-  @Override
-  protected void injectDependencies() {
-    ((MyApplication) getApplication()).getAppComponent().inject(this);
   }
 
   public void navigate_next() {

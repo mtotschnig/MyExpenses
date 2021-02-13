@@ -233,4 +233,6 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     fun unencryptedBackupWarning() = getString(R.string.warning_unencrypted_backup,
             getString(R.string.pref_security_export_passphrase_title))
+
+    public override fun onMessageDialogDismissOrCancel() {}
 }
