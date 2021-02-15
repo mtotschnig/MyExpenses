@@ -10,5 +10,13 @@ abstract class WebUiBinder: Binder() {
 }
 
 interface IWebInputService {
-    val isServerRunning: Boolean
+    fun registerObserver(serverStateObserver: ServerStateObserver)
+    fun unregisterObserver()
+}
+
+fun interface ServerStateObserver {
+    /**
+     * @param address: The address to reach the server or null if the server is stopped
+     */
+    fun onChanged(address: String?)
 }

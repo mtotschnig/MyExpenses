@@ -21,6 +21,7 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Configuration;
@@ -63,6 +64,7 @@ import org.totschnig.myexpenses.util.io.StreamReader;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
 import org.totschnig.myexpenses.util.log.TagFilterFileLoggingTree;
+import org.totschnig.myexpenses.viewmodel.WebUiViewModel;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.AbstractWidgetKt;
 import org.totschnig.myexpenses.widget.AccountWidget;
@@ -81,7 +83,10 @@ import androidx.multidex.MultiDex;
 import androidx.preference.PreferenceManager;
 import timber.log.Timber;
 
+import static org.totschnig.myexpenses.feature.WebUiFeatureKt.START_ACTION;
+import static org.totschnig.myexpenses.feature.WebUiFeatureKt.STOP_ACTION;
 import static org.totschnig.myexpenses.preference.PrefKey.DEBUG_LOGGING;
+import static org.totschnig.myexpenses.preference.PrefKey.UI_WEB;
 
 public class MyApplication extends Application implements
     OnSharedPreferenceChangeListener {
@@ -163,6 +168,9 @@ public class MyApplication extends Application implements
       mSettings.registerOnSharedPreferenceChangeListener(this);
       DailyScheduler.updatePlannerAlarms(this, false, false);
       registerWidgetObservers();
+      if (prefHandler.getBoolean(UI_WEB, false)) {
+        controlWebUi(true);
+      }
     }
     licenceHandler.init();
     NotificationBuilderWrapper.createChannels(this);
@@ -536,6 +544,12 @@ public class MyApplication extends Application implements
     return updated > 0;
   }
 
+  private void controlWebUi(boolean start) {
+    final Intent intent = WebUiViewModel.Companion.getServiceIntent();
+    intent.setAction(start ? START_ACTION : STOP_ACTION);
+    startService(intent);
+  }
+
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
                                         String key) {
@@ -544,6 +558,9 @@ public class MyApplication extends Application implements
     }
     if (key.equals(prefHandler.getKey(DEBUG_LOGGING))) {
       setupLogging();
+    }
+    else if (key.equals(prefHandler.getKey(UI_WEB))) {
+      controlWebUi(sharedPreferences.getBoolean(key, false));
     }
     // TODO: move to TaskExecutionFragment
     else if (key.equals(prefHandler.getKey(PrefKey.PLANNER_CALENDAR_ID))) {

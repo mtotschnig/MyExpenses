@@ -1,12 +1,16 @@
 package org.totschnig.myexpenses.fragment
 
+import android.appwidget.AppWidgetProvider
+import android.content.ContentResolver
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.os.Bundle
+import androidx.lifecycle.ViewModelProvider
 import androidx.preference.ListPreference
 import androidx.preference.MultiSelectListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.SwitchPreferenceCompat
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.MyPreferenceActivity
@@ -20,8 +24,17 @@ import org.totschnig.myexpenses.preference.LocalizedFormatEditTextPreference.OnV
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.service.DailyScheduler
+import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
+import org.totschnig.myexpenses.util.setNightMode
+import org.totschnig.myexpenses.viewmodel.WebUiViewModel
+import org.totschnig.myexpenses.widget.AccountWidget
+import org.totschnig.myexpenses.widget.TemplateWidget
+import org.totschnig.myexpenses.widget.WIDGET_CONTEXT_CHANGED
+import org.totschnig.myexpenses.widget.updateWidgets
 import java.util.*
 import javax.inject.Inject
 
@@ -41,9 +54,28 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     @Inject
     lateinit var settings: SharedPreferences
 
+    private lateinit var webUiViewModel: WebUiViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity().application as MyApplication).appComponent.inject(this)
+        webUiViewModel = ViewModelProvider(this)[WebUiViewModel::class.java]
+        webUiViewModel.getServiceState().observe(this) { serverAddress ->
+            findPreference<SwitchPreferenceCompat>(PrefKey.UI_WEB)?.let { preference ->
+                serverAddress?.let { preference.summaryOn = it }
+                preference.isChecked = serverAddress != null
+            }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        webUiViewModel.bind(requireContext())
+    }
+
+    override fun onStop() {
+        super.onStop()
+        webUiViewModel.unbind(requireContext())
     }
 
     override fun onResume() {
@@ -111,8 +143,11 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         }
     }
 
+    fun <T : Preference> findPreference(prefKey: PrefKey): T? =
+            findPreference(prefHandler.getKey(prefKey))
+
     fun <T : Preference> requirePreference(prefKey: PrefKey): T {
-        return findPreference(prefHandler.getKey(prefKey))
+        return findPreference(prefKey)
                 ?: throw IllegalStateException("Preference not found")
     }
 
@@ -134,7 +169,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             }
 
     fun configureTesseractLanguagePref() {
-        findPreference<ListPreference>(prefHandler.getKey(PrefKey.TESSERACT_LANGUAGE))?.let {
+        findPreference<ListPreference>(PrefKey.TESSERACT_LANGUAGE)?.let {
             if (prefHandler.getString(PrefKey.OCR_ENGINE, null) == Feature.TESSERACT.moduleName)
                 activity().ocrViewModel.configureTesseractLanguagePref(it)
             else
@@ -163,4 +198,81 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             } else false
 
     fun matches(preference: Preference, prefKey: PrefKey) = prefHandler.getKey(prefKey) == preference.key
+    fun getKey(prefKey: PrefKey): String {
+        return prefHandler.getKey(prefKey)
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences,
+                                                  key: String) {
+        if (key == getKey(PrefKey.UI_LANGUAGE)) {
+            featureManager.requestLocale(activity())
+        } else if ((key == getKey(PrefKey.GROUP_MONTH_STARTS) ||
+                        key == getKey(PrefKey.GROUP_WEEK_STARTS) || key == getKey(PrefKey.CRITERION_FUTURE))) {
+            rebuildDbConstants()
+        } else if (key == getKey(PrefKey.UI_FONTSIZE)) {
+            updateAllWidgets()
+            activity().recreate()
+        } else if (key == getKey(PrefKey.PROTECTION_LEGACY) || key == getKey(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN)) {
+            if (sharedPreferences.getBoolean(key, false)) {
+                activity().showSnackbar(R.string.pref_protection_screenshot_information)
+                if (prefHandler.getBoolean(PrefKey.AUTO_BACKUP, false)) {
+                    activity().showUnencryptedBackupWarning()
+                }
+            }
+            setProtectionDependentsState()
+            updateAllWidgets()
+        } else if (key == getKey(PrefKey.UI_THEME_KEY)) {
+            setNightMode(prefHandler, requireContext())
+        } else if (key == getKey(PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET)) {
+            //Log.d("DEBUG","shared preference changed: Account Widget");
+            updateWidgetsForClass(AccountWidget::class.java)
+        } else if (key == getKey(PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET)) {
+            //Log.d("DEBUG","shared preference changed: Template Widget");
+            updateWidgetsForClass(TemplateWidget::class.java)
+        } else if (key == getKey(PrefKey.AUTO_BACKUP)) {
+            if ((sharedPreferences.getBoolean(key, false) && ((prefHandler.getBoolean(PrefKey.PROTECTION_LEGACY, false) || prefHandler.getBoolean(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN, false))))) {
+                activity().showUnencryptedBackupWarning()
+            }
+            DailyScheduler.updateAutoBackupAlarms(activity())
+        } else if (key == getKey(PrefKey.AUTO_BACKUP_TIME)) {
+            DailyScheduler.updateAutoBackupAlarms(activity())
+        } else if (key == getKey(PrefKey.SYNC_FREQUCENCY)) {
+            for (account in GenericAccountService.getAccountsAsArray(activity())) {
+                ContentResolver.addPeriodicSync(account, TransactionProvider.AUTHORITY, Bundle.EMPTY,
+                        prefHandler.getInt(PrefKey.SYNC_FREQUCENCY, GenericAccountService.DEFAULT_SYNC_FREQUENCY_HOURS).toLong() * GenericAccountService.HOUR_IN_SECONDS)
+            }
+        } else if (key == getKey(PrefKey.TRACKING)) {
+            activity().setTrackingEnabled(sharedPreferences.getBoolean(key, false))
+        } else if (key == getKey(PrefKey.PLANNER_EXECUTION_TIME)) {
+            DailyScheduler.updatePlannerAlarms(activity(), false, false)
+        } else if (key == getKey(PrefKey.TESSERACT_LANGUAGE)) {
+            activity().checkTessDataDownload()
+        } else if (key == getKey(PrefKey.OCR_ENGINE)) {
+            if (!featureManager.isFeatureInstalled(Feature.OCR, activity())) {
+                featureManager.requestFeature(Feature.OCR, activity())
+            }
+            configureTesseractLanguagePref()
+        }
+    }
+
+    private fun updateAllWidgets() {
+        updateWidgetsForClass(AccountWidget::class.java)
+        updateWidgetsForClass(TemplateWidget::class.java)
+    }
+
+    private fun updateWidgetsForClass(provider: Class<out AppWidgetProvider>) {
+        updateWidgets(activity(), provider, WIDGET_CONTEXT_CHANGED)
+    }
+
+    fun setProtectionDependentsState() {
+        if (matches(preferenceScreen, PrefKey.ROOT_SCREEN) || matches(preferenceScreen, PrefKey.PERFORM_PROTECTION_SCREEN)) {
+            val isLegacy = prefHandler.getBoolean(PrefKey.PROTECTION_LEGACY, false)
+            val isProtected = isLegacy || prefHandler.getBoolean(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN, false)
+            requirePreference<Preference>(PrefKey.SECURITY_QUESTION).isEnabled = isLegacy
+            requirePreference<Preference>(PrefKey.PROTECTION_DELAY_SECONDS).isEnabled = isProtected
+            requirePreference<Preference>(PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET).isEnabled = isProtected
+            requirePreference<Preference>(PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET).isEnabled = isProtected
+            requirePreference<Preference>(PrefKey.PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET).isEnabled = isProtected
+        }
+    }
 }

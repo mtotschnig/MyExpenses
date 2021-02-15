@@ -27,7 +27,10 @@ import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.feature.IWebInputService
 import org.totschnig.myexpenses.feature.START_ACTION
 import org.totschnig.myexpenses.feature.STOP_ACTION
+import org.totschnig.myexpenses.feature.ServerStateObserver
 import org.totschnig.myexpenses.feature.WebUiBinder
+import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
@@ -52,7 +55,12 @@ class WebInputService : Service(), IWebInputService {
     @Inject
     lateinit var gson: Gson
 
+    @Inject
+    lateinit var prefHandler: PrefHandler
+
     private val binder = LocalBinder()
+
+    private var serverStateObserver: ServerStateObserver? = null
 
     inner class LocalBinder : WebUiBinder() {
         override fun getService() = this@WebInputService
@@ -68,8 +76,22 @@ class WebInputService : Service(), IWebInputService {
     }
 
     private var server: ApplicationEngine? = null
-    override val isServerRunning
-        get() = server != null
+
+    val serverAddress: String?
+        get() = if (server != null) address else null
+
+    override fun registerObserver(serverStateObserver: ServerStateObserver) {
+        this.serverStateObserver = serverStateObserver
+        serverStateObserver.onChanged(serverAddress)
+    }
+
+    override fun unregisterObserver() {
+        this.serverStateObserver = null
+    }
+
+    private val address: String
+        get() = "http://${(applicationContext.getSystemService(WIFI_SERVICE) as WifiManager).connectionInfo.ipAddress.let { Formatter.formatIpAddress(it) }}:$PORT"
+
 
     private fun readFromAssets(fileName: String) = assets.open(fileName).bufferedReader()
             .use {
@@ -81,6 +103,8 @@ class WebInputService : Service(), IWebInputService {
         when (intent?.action) {
             STOP_ACTION -> {
                 stopServer()
+                prefHandler.putBoolean(PrefKey.UI_WEB, false)
+                serverStateObserver?.onChanged(null)
             }
             START_ACTION -> {
                 if (server == null) {
@@ -156,12 +180,12 @@ class WebInputService : Service(), IWebInputService {
                     val stopIntent = Intent(this, WebInputService::class.java).apply {
                         action = STOP_ACTION
                     }
-                    val notification: Notification = NotificationBuilderWrapper.defaultBigTextStyleBuilder(this, getString(R.string.title_webui), "http://${(applicationContext.getSystemService(WIFI_SERVICE) as WifiManager).connectionInfo.ipAddress.let { Formatter.formatIpAddress(it) }}:$PORT")
+                    val notification: Notification = NotificationBuilderWrapper.defaultBigTextStyleBuilder(this, getString(R.string.title_webui), address)
                             .addAction(0, 0, getString(R.string.stop), PendingIntent.getService(this, 0, stopIntent, FLAG_ONE_SHOT))
                             .build()
 
                     startForeground(NOTIFICATION_WEB_UI, notification)
-
+                    serverStateObserver?.onChanged(address)
                 }
             }
         }

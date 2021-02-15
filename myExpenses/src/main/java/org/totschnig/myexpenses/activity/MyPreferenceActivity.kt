@@ -184,11 +184,7 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace, Preferen
             startActivity(i)
         }
         if (feature === ContribFeature.WEB_UI) {
-            if (featureViewModel.isFeatureAvailable(this, Feature.WEBUI)) {
-                WebUiControllFragment().show(supportFragmentManager, "WEB_UI")
-            } else {
-                featureViewModel.requestFeature(this, Feature.WEBUI)
-            }
+            prefHandler.putBoolean(PrefKey.UI_WEB, true);
         }
     }
 
@@ -298,43 +294,5 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace, Preferen
     companion object {
         const val KEY_OPEN_PREF_KEY = "openPrefKey"
         const val FRAGMENT_TAG = "Settings"
-    }
-}
-
-class WebUiControllFragment : BaseDialogFragment(), DialogInterface.OnClickListener {
-    private lateinit var webUiViewModel: WebUiViewModel
-
-    override fun onStart() {
-        super.onStart()
-        webUiViewModel.bind(requireContext())
-    }
-
-    override fun onStop() {
-        super.onStop()
-        webUiViewModel.unbind(requireContext())
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        webUiViewModel = ViewModelProvider(this)[WebUiViewModel::class.java]
-        webUiViewModel.getServiceState().observe(this) {
-            (dialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE).apply {
-                isEnabled = true
-                setText(if (it) R.string.stop else R.string.start)
-            }
-        }
-    }
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder = initBuilder()
-        builder.setTitle(R.string.title_webui)
-        builder.setPositiveButton("Binding to service …", this)
-        val dialog = builder.create()
-        dialog.setOnShowListener(ButtonOnShowDisabler())
-        return dialog
-    }
-
-    override fun onClick(dialog: DialogInterface?, which: Int) {
-        webUiViewModel.toggle(requireContext())
     }
 }
