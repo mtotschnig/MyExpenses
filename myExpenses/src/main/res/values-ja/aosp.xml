@@ -9,7 +9,6 @@
     <string name="drawer_close">"ナビゲーションドロワーを閉じる"</string>
     <string name="toast_text_copied">"テキストをコピーしました"</string>
     <string name="copy_text">"クリップボードにコピー"</string>
-    <string name="start">"開始"</string>
     <string name="stop">"停止"</string>
 </resources>
 

@@ -8,7 +8,6 @@
     <string name="drawer_close">"Gezinme menüsünü kapat"</string>
     <string name="toast_text_copied">"Metin kopyalandı"</string>
     <string name="copy_text">"Panoya kopyala"</string>
-    <string name="start">"Başlat"</string>
     <string name="stop">"Durdur"</string>
 </resources>
 

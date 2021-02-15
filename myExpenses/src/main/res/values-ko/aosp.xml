@@ -9,7 +9,6 @@
     <string name="drawer_close">"내비게이션 폴더 닫기"</string>
     <string name="toast_text_copied">"텍스트 복사됨"</string>
     <string name="copy_text">"클립보드에 복사"</string>
-    <string name="start">"시작"</string>
     <string name="stop">"중지"</string>
 </resources>
 

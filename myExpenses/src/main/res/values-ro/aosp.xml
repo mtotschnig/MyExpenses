@@ -9,7 +9,6 @@
     <string name="drawer_close">"Închideți panoul de navigare"</string>
     <string name="toast_text_copied">"Text copiat"</string>
     <string name="copy_text">"Copiați în clipboard"</string>
-    <string name="start">"Start"</string>
     <string name="stop">"Opriți"</string>
 </resources>
 

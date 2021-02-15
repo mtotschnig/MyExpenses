@@ -9,7 +9,6 @@
     <string name="drawer_close">"סגור את חלונית ההזזה לניווט"</string>
     <string name="toast_text_copied">"טקסט שהועתק"</string>
     <string name="copy_text">"העתקה ללוח"</string>
-    <string name="start">"התחל"</string>
     <string name="stop">"עצור"</string>
 </resources>
 

@@ -8,7 +8,6 @@
     <string name="drawer_close">关闭导航抽屉</string>
     <string name="toast_text_copied">"文本已复制"</string>
     <string name="copy_text">"复制到剪贴板"</string>
-    <string name="start">"开始"</string>
     <string name="stop">"停止"</string>
 </resources>
 

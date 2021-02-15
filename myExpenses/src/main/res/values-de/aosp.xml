@@ -8,7 +8,6 @@
     <string name="drawer_close">"Navigationsleiste schließen"</string>
     <string name="toast_text_copied">"Text kopiert"</string>
     <string name="copy_text">"In Zwischenablage kopieren"</string>
-    <string name="start">"Starten"</string>
     <string name="stop">"Anhalten"</string>
 </resources>
 

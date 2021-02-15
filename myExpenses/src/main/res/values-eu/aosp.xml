@@ -9,7 +9,6 @@
     <string name="drawer_close">"Itxi nabigazio-panel lerrakorra"</string>
     <string name="toast_text_copied">"Testua kopiatu da"</string>
     <string name="copy_text">"Kopiatu arbelean"</string>
-    <string name="start">"Hasi"</string>
     <string name="stop">"Gelditu"</string>
 </resources>
 
