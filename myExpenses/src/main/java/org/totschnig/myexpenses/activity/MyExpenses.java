@@ -173,21 +173,15 @@ public class MyExpenses extends BaseMyExpenses implements
   private AccountGrouping accountGrouping;
   private Sort accountSort;
 
-  public void updateFab() {
-    boolean scanMode = isScanMode();
-    requireFloatingActionButtonWithContentDescription(scanMode ? getString(R.string.contrib_feature_ocr_label) : TextUtils.concatResStrings(this, ". ",
-        R.string.menu_create_transaction, R.string.menu_create_transfer, R.string.menu_create_split));
-    floatingActionButton.setImageResource(scanMode ? R.drawable.ic_scan : R.drawable.ic_menu_add_fab);
-  }
-
   public void toggleScanMode() {
     final boolean oldMode = prefHandler.getBoolean(OCR, false);
     final boolean newMode = !oldMode;
-    prefHandler.putBoolean(OCR, newMode);
-    updateFab();
-    invalidateOptionsMenu();
-    if (newMode && !featureViewModel.isFeatureAvailable(this, Feature.OCR)) {
+    if (newMode) {
       contribFeatureRequested(ContribFeature.OCR, false);
+    } else {
+      prefHandler.putBoolean(OCR, newMode);
+      updateFab();
+      invalidateOptionsMenu();
     }
   }
 
@@ -769,10 +763,6 @@ public class MyExpenses extends BaseMyExpenses implements
     return false;
   }
 
-  public boolean isScanMode() {
-    return prefHandler.getBoolean(OCR, false);
-  }
-
   public String getShareTarget() {
     return requireString(prefHandler, PrefKey.SHARE_TARGET, "").trim();
   }
@@ -898,6 +888,8 @@ public class MyExpenses extends BaseMyExpenses implements
                   .start(this);
               return Unit.INSTANCE;
             });
+          } else {
+            activateOcrMode();
           }
         } else {
           featureViewModel.requestFeature(this, Feature.OCR);

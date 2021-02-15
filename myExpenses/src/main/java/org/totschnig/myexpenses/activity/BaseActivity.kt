@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.VersionDialogFragment
+import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.ui.SnackbarAction
 import org.totschnig.myexpenses.util.UiUtils
@@ -69,9 +70,28 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         (applicationContext as MyApplication).appComponent.inject(this)
     }
 
+    open fun onFeatureAvailable(feature : Feature) {}
+
     override fun onCreate(savedInstanceState: Bundle?) {
         ocrViewModel = ViewModelProvider(this).get(OcrViewModel::class.java)
         featureViewModel = ViewModelProvider(this).get(FeatureViewModel::class.java)
+        featureViewModel.getFeatureState().observe(this, { featureState ->
+            when (featureState) {
+                is FeatureViewModel.FeatureState.Loading -> showSnackbar(getString(R.string.feature_download_requested, getString(featureState.feature.labelResId)))
+                is FeatureViewModel.FeatureState.Available -> {
+                    Feature.values().find { featureState.modules.contains(it.moduleName) }?.let {
+                        showSnackbar(getString(R.string.feature_downloaded, getString(it.labelResId)))
+                        //after the dynamic feature module has been installed, we need to check if data needed by the module (e.g. Tesseract) has been downloaded
+                        if (!featureViewModel.isFeatureAvailable(this, it)) {
+                            featureViewModel.requestFeature(this, it)
+                        } else {
+                            onFeatureAvailable(it)
+                        }
+                    }
+                }
+                is FeatureViewModel.FeatureState.Error -> showSnackbar(featureState.throwable.toString())
+            }
+        })
         super.onCreate(savedInstanceState)
         tracker.init(this)
     }

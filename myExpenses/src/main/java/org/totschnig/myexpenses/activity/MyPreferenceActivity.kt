@@ -15,7 +15,6 @@
 package org.totschnig.myexpenses.activity
 
 import android.app.Dialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -29,16 +28,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceScreen
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.dialog.BaseDialogFragment
-import org.totschnig.myexpenses.dialog.ButtonOnShowDisabler
 import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.fragment.SettingsFragment
@@ -50,7 +45,6 @@ import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.Result
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.Utils
-import org.totschnig.myexpenses.viewmodel.WebUiViewModel
 import java.io.Serializable
 import java.util.*
 
@@ -178,13 +172,27 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace, Preferen
         showSnackbar(progressResId, Snackbar.LENGTH_INDEFINITE)
     }
 
+    override fun onFeatureAvailable(feature: Feature) {
+        if (feature == Feature.WEBUI) {
+            activateWebUi()
+        }
+    }
+
+    private fun activateWebUi() {
+        prefHandler.putBoolean(PrefKey.UI_WEB, true)
+    }
+
     override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
         if (feature === ContribFeature.CSV_IMPORT) {
             val i = Intent(this, CsvImportActivity::class.java)
             startActivity(i)
         }
         if (feature === ContribFeature.WEB_UI) {
-            prefHandler.putBoolean(PrefKey.UI_WEB, true);
+            if (featureViewModel.isFeatureAvailable(this, Feature.WEBUI)) {
+                activateWebUi()
+            } else {
+                featureViewModel.requestFeature(this, Feature.WEBUI);
+            }
         }
     }
 

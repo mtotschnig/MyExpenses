@@ -43,6 +43,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
+import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.viewmodel.FeatureViewModel.FeatureState
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
 import timber.log.Timber
@@ -96,21 +97,12 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this)[MyExpensesViewModel::class.java]
-        featureViewModel.getFeatureState().observe(this, { featureState ->
-            when (featureState) {
-                is FeatureState.Loading -> showSnackbar(getString(R.string.feature_download_requested, getString(featureState.feature.labelResId)))
-                is FeatureState.Available -> {
-                    arrayOf(Feature.OCR, Feature.WEBUI).find { featureState.modules.contains(it.moduleName) }?.let {
-                        showSnackbar(getString(R.string.feature_downloaded, getString(it.labelResId)))
-                        //after the dynamic feature module has been installed, we need to check if data needed by the module (e.g. Tesseract) has been downloaded
-                        if (!featureViewModel.isFeatureAvailable(this, it)) {
-                            featureViewModel.requestFeature(this, it)
-                        }
-                    }
-                }
-                is FeatureState.Error -> showSnackbar(featureState.throwable.toString())
-            }
-        })
+    }
+
+    override fun onFeatureAvailable(feature: Feature) {
+        if (feature == Feature.OCR) {
+            activateOcrMode()
+        }
     }
 
     private fun displayDateCandidate(pair: Pair<LocalDate, LocalTime?>) =
@@ -336,5 +328,25 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         } catch (e: RuntimeException) {
             Timber.e(e)
         }
+    }
+
+    fun updateFab() {
+        val scanMode = isScanMode()
+        requireFloatingActionButtonWithContentDescription(if (scanMode)
+            getString(R.string.contrib_feature_ocr_label)
+        else
+            TextUtils.concatResStrings(this, ". ",
+                    R.string.menu_create_transaction, R.string.menu_create_transfer, R.string.menu_create_split))
+        floatingActionButton!!.setImageResource(if (scanMode) R.drawable.ic_scan else R.drawable.ic_menu_add_fab)
+    }
+
+    fun isScanMode(): Boolean {
+        return prefHandler.getBoolean(PrefKey.OCR, false)
+    }
+
+    fun activateOcrMode() {
+        prefHandler.putBoolean(PrefKey.OCR, true)
+        updateFab()
+        invalidateOptionsMenu()
     }
 }

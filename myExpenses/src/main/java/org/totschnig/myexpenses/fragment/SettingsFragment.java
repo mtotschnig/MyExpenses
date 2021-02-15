@@ -28,6 +28,7 @@ import org.totschnig.myexpenses.activity.FolderBrowser;
 import org.totschnig.myexpenses.activity.MyPreferenceActivity;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
+import org.totschnig.myexpenses.feature.Feature;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.CalendarListPreferenceDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogFragmentCompat;
@@ -704,11 +705,15 @@ public class SettingsFragment extends BaseSettingsFragment implements
       return true;
     }
     else if (matches(pref, UI_WEB)) {
-      if (!((Boolean) value) || ContribFeature.WEB_UI.hasAccess()) {
-        return true;
+      if ((Boolean) value) {
+        if (ContribFeature.WEB_UI.hasAccess() && activity().featureViewModel.isFeatureAvailable(activity(), Feature.WEBUI)) {
+          return true;
+        } else {
+          activity().contribFeatureRequested(ContribFeature.WEB_UI, null);
+          return false;
+        }
       } else {
-        activity().contribFeatureRequested(ContribFeature.WEB_UI, null);
-        return false;
+        return true;
       }
     }
     return true;
