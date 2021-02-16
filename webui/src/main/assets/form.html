@@ -12,7 +12,7 @@
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.js" defer></script>
 </head>
 
-<body x-data="modelData()" x-init="$watch('categoryMain', value => categorySub = 0); $watch('amount', value => {if (value < 0) amount = -value});">
+<body x-data="modelData()" x-init="account = data.accounts[0].id; $watch('categoryMain', value => categorySub = 0); $watch('amount', value => {if (value < 0) amount = -value});">
 <div class="flex justify-center bg-teal-lighter">
     <div class="bg-white max-w-screen-sm w-full rounded shadow-lg p-8 m-4">
         <form>
