@@ -79,6 +79,9 @@ import static org.totschnig.myexpenses.model.AggregateAccount.AGGREGATE_HOME_CUR
 import static org.totschnig.myexpenses.model.AggregateAccount.GROUPING_AGGREGATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import static org.totschnig.myexpenses.provider.DbUtils.suggestNewCategoryColor;
+import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.groupByForPaymentMethodQuery;
+import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.mapPaymentMethodProjection;
+import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.tableForPaymentMethodQuery;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionProvider extends BaseTransactionProvider {
@@ -318,6 +321,7 @@ public class TransactionProvider extends BaseTransactionProvider {
 
     String accountSelector;
     int uriMatch = URI_MATCHER.match(uri);
+    final Context wrappedContext = wrappedContext();
     switch (uriMatch) {
       case TRANSACTIONS:
         boolean extended = uri.getQueryParameter(QUERY_PARAMETER_EXTENDED) != null;
@@ -790,16 +794,19 @@ public class TransactionProvider extends BaseTransactionProvider {
         }
         break;
       case METHODS:
-        qb.setTables(TABLE_METHODS);
+        qb.setTables(tableForPaymentMethodQuery(projection));
+        groupBy = groupByForPaymentMethodQuery(projection);
         if (projection == null) {
-          projection = PaymentMethod.PROJECTION(wrappedContext());
+          projection = PaymentMethod.PROJECTION(wrappedContext);
+        } else {
+          projection = mapPaymentMethodProjection(projection, wrappedContext);
         }
         if (sortOrder == null) {
-          sortOrder = PaymentMethod.localizedLabelSqlColumn(wrappedContext(), KEY_LABEL) + " COLLATE LOCALIZED";
+          sortOrder = PaymentMethod.localizedLabelSqlColumn(wrappedContext, KEY_LABEL) + " COLLATE LOCALIZED";
         }
         break;
       case MAPPED_METHODS:
-        String localizedLabel = PaymentMethod.localizedLabelSqlColumn(wrappedContext(), KEY_LABEL);
+        String localizedLabel = PaymentMethod.localizedLabelSqlColumn(wrappedContext, KEY_LABEL);
         qb.setTables(TABLE_METHODS + " JOIN " + TABLE_TRANSACTIONS + " ON (" + KEY_METHODID + " = " + TABLE_METHODS + "." + KEY_ROWID + ")");
         projection = new String[]{"DISTINCT " + TABLE_METHODS + "." + KEY_ROWID, localizedLabel + " AS " + KEY_LABEL};
         if (sortOrder == null) {
@@ -809,11 +816,11 @@ public class TransactionProvider extends BaseTransactionProvider {
       case METHOD_ID:
         qb.setTables(TABLE_METHODS);
         if (projection == null)
-          projection = PaymentMethod.PROJECTION(wrappedContext());
+          projection = PaymentMethod.PROJECTION(wrappedContext);
         qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
         break;
       case METHODS_FILTERED:
-        localizedLabel = PaymentMethod.localizedLabelSqlColumn(wrappedContext(), KEY_LABEL);
+        localizedLabel = PaymentMethod.localizedLabelSqlColumn(wrappedContext, KEY_LABEL);
         qb.setTables(TABLE_METHODS + " JOIN " + TABLE_ACCOUNTTYES_METHODS + " ON (" + KEY_ROWID + " = " + KEY_METHODID + ")");
         projection = new String[]{KEY_ROWID, localizedLabel + " AS " + KEY_LABEL, KEY_IS_NUMBERED};
         String paymentType = uri.getPathSegments().get(2);

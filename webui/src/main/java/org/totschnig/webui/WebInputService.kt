@@ -32,10 +32,13 @@ import org.totschnig.myexpenses.feature.WebUiBinder
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TPYE_LIST
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_NUMBERED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper.NOTIFICATION_WEB_UI
@@ -131,10 +134,16 @@ class WebInputService : Service(), IWebInputService {
                             get("/") {
                                 val data = mapOf(
                                         "accounts" to contentResolver.query(TransactionProvider.ACCOUNTS_BASE_URI,
-                                                arrayOf(KEY_ROWID, KEY_LABEL),
+                                                arrayOf(KEY_ROWID, KEY_LABEL, KEY_TYPE),
                                                 DatabaseConstants.KEY_SEALED + " = 0", null, null)?.use {
                                             generateSequence { if (it.moveToNext()) it else null }
-                                                    .map { mapOf("id" to it.getLong(0), "label" to it.getString(1)) }
+                                                    .map {
+                                                        mapOf(
+                                                                "id" to it.getLong(0),
+                                                                "label" to it.getString(1),
+                                                                "type" to it.getString(2)
+                                                        )
+                                                    }
                                                     .toList()
                                         },
                                         "payees" to contentResolver.query(TransactionProvider.PAYEES_URI,
@@ -157,7 +166,22 @@ class WebInputService : Service(), IWebInputService {
                                             generateSequence { if (it.moveToNext()) it else null }
                                                     .map { mapOf("id" to it.getLong(0), "label" to it.getString(1)) }
                                                     .toList()
-                                        }
+                                        },
+                                        "methods" to contentResolver.query(TransactionProvider.METHODS_URI,
+                                                arrayOf(KEY_ROWID, KEY_LABEL, KEY_IS_NUMBERED, KEY_TYPE, KEY_ACCOUNT_TPYE_LIST),
+                                                null, null, null)?.use {
+                                            generateSequence { if (it.moveToNext()) it else null }
+                                                    .map {
+                                                        mapOf(
+                                                                "id" to it.getLong(0),
+                                                                "label" to it.getString(1),
+                                                                "is_Numbered" to (it.getInt(2) > 0),
+                                                                "type" to it.getInt(3),
+                                                                "accountTypes" to it.getString(4).split(',')
+                                                        )
+                                                    }
+                                                    .toList()
+                                        },
                                 )
                                 val text = StrSubstitutor.replace(readFromAssets("form.html"), mapOf(
                                         "i18n_title" to "${getString(R.string.app_name)} ${getString(R.string.title_webui)}",

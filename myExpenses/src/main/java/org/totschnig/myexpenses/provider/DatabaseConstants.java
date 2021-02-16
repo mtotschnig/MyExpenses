@@ -212,6 +212,7 @@ public class DatabaseConstants {
   public static final String KEY_TRANSFER_CURRENCY = "transfer_currency";
   public static final String KEY_COUNT = "count";
   public static final String KEY_TAGLIST = "tag_list";
+  public static final String KEY_ACCOUNT_TPYE_LIST = "account_type_list";
 
   /**
    * Used for both saving goal and credit limit on accounts
