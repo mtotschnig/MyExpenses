@@ -35,6 +35,7 @@ class Repository(val contentResolver: ContentResolver, val currencyContext: Curr
                 put(DatabaseConstants.KEY_PAYEEID, findOrWritePayee(payee))
                 put(DatabaseConstants.KEY_CR_STATUS, CrStatus.UNRECONCILED.name)
                 category.takeIf { it > 0 }?.let { put(DatabaseConstants.KEY_CATID, it) }
+                method.takeIf { it > 0 }?.let { put(DatabaseConstants.KEY_METHODID, it) }
                 put(DatabaseConstants.KEY_COMMENT, comment)
             })?.let { ContentUris.parseId(it) }
         }

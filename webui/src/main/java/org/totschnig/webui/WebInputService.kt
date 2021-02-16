@@ -192,6 +192,7 @@ class WebInputService : Service(), IWebInputService {
                                         "i18n_category" to getString(R.string.category),
                                         "i18n_tags" to getString(R.string.tags),
                                         "i18n_notes" to getString(R.string.comment),
+                                        "i18n_method" to getString(R.string.method),
                                         "i18n_submit" to getString(R.string.menu_save),
                                         "data" to gson.toJson(data)))
                                 call.respondText(text, ContentType.Text.Html)

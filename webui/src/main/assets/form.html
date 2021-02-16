@@ -12,7 +12,11 @@
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.js" defer></script>
 </head>
 
-<body x-data="modelData()" x-init="account = data.accounts[0].id; $watch('categoryMain', value => categorySub = 0); $watch('amount', value => {if (value < 0) amount = -value});">
+<body x-data="modelData()" x-init="account = data.accounts[0].id; method = firstMethod(data, account, signum);
+$watch('categoryMain', value => categorySub = 0);
+$watch('amount', value => { if (value < 0) amount = -value } );
+$watch('account', value => method = firstMethod(data, account, signum));
+$watch('signum', value => method = firstMethod(data, account, signum));">
 <div class="flex justify-center bg-teal-lighter">
     <div class="bg-white max-w-screen-sm w-full rounded shadow-lg p-8 m-4">
         <form>
@@ -85,13 +89,22 @@
             </div>
 
             <div class="flex flex-col mb-4">
+                <label class="mb-2 uppercase font-bold text-lg text-grey-darkest" for="tags">${i18n_method}</label>
+                <select name="method" id="method" x-model="method">
+                    <template x-for="item in methodsForTypes(data, account, signum)" :key="item.id">
+                        <option :value="item.id" x-text="item.label"></option>
+                    </template>
+                </select>
+            </div>
+
+            <div class="flex flex-col mb-4">
                 <label class="mb-2 uppercase font-bold text-lg text-grey-darkest" for="notes">${i18n_notes}</label>
                 <textarea name="notes" id="notes" x-model="comment"></textarea>
             </div>
 
             <div>
                 <button class="block bg-green-500 hover:bg-green-700 disabled:opacity-50 text-white uppercase text-lg mx-auto p-4 rounded"
-                        type="button" :disabled="amount == ''"  @click="submitForm({account: account, amount: amount, date: date, payee: payee, category: categorySub != 0 ? categorySub : categoryMain, tags: selectedTags, comment: comment}).then(function(response) {
+                        type="button" :disabled="amount == ''"  @click="submitForm({account: account, amount: signum ? amount : -amount, date: date, payee: payee, category: categorySub != 0 ? categorySub : categoryMain, tags: selectedTags, comment: comment, method: method}).then(function(response) {
     if(response.status == 201)
     {
         count++
@@ -114,6 +127,16 @@ function categoriesByParent(array, parent) {
     return array.filter(item => item.parent == parent)
 }
 
+function firstMethod(data, account, signum) {
+    var methods = methodsForTypes(data, account, signum)
+    return methods.length > 0 ? methods[0].id : 0
+}
+
+function methodsForTypes(data, account, signum) {
+    var type = data.accounts.find(item => item.id == account).type
+    return data.methods.filter(item => item.accountTypes.includes(type) && (item.type == 0 || item.type == (signum ? 1 : -1)))
+}
+
 function modelData() {
     return {
         name: '',
@@ -126,6 +149,7 @@ function modelData() {
         categoryMain: 0,
         categorySub: 0,
         selectedTags: [],
+        method: 0,
         count: 0,
         data: ${data},
     }
