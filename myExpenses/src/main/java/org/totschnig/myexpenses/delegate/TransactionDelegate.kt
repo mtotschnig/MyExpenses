@@ -604,7 +604,7 @@ abstract class TransactionDelegate<T : ITransaction>(
 
     private fun showCustomRecurrenceInfo() {
         if (recurrenceSpinner.selectedItem === Plan.Recurrence.CUSTOM) {
-            (context as ExpenseEdit).showDismissableSnackbar(R.string.plan_custom_recurrence_info)
+            (context as ExpenseEdit).showDismissibleSnackbar(R.string.plan_custom_recurrence_info)
         }
     }
 

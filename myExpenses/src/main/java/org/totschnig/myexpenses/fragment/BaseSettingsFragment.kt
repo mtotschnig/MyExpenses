@@ -14,20 +14,15 @@ import androidx.preference.SwitchPreferenceCompat
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.MyPreferenceActivity
-import org.totschnig.myexpenses.feature.Callback
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.FeatureManager
-import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.ContribFeature
-import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.LocalizedFormatEditTextPreference.OnValidationErrorListener
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.service.DailyScheduler
 import org.totschnig.myexpenses.sync.GenericAccountService
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import org.totschnig.myexpenses.util.setNightMode
 import org.totschnig.myexpenses.viewmodel.WebUiViewModel
@@ -70,45 +65,30 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
 
     override fun onStart() {
         super.onStart()
+        if (featureManager.isFeatureInstalled(Feature.WEBUI, requireContext())) {
+            bindToWebUiService()
+        }
+    }
+
+    fun bindToWebUiService() {
         webUiViewModel.bind(requireContext())
     }
 
     override fun onStop() {
         super.onStop()
-        webUiViewModel.unbind(requireContext())
+        if (featureManager.isFeatureInstalled(Feature.WEBUI, requireContext())) {
+            webUiViewModel.unbind(requireContext())
+        }
     }
 
     override fun onResume() {
         super.onResume()
         settings.registerOnSharedPreferenceChangeListener(this)
-        featureManager.registerCallback(object : Callback {
-            override fun onLanguageAvailable() {
-                rebuildDbConstants()
-                activity().recreate()
-            }
-
-            override fun onFeatureAvailable(moduleNames: List<String>) {
-                configureTesseractLanguagePref()
-            }
-
-            override fun onAsyncStartedLanguage(displayLanguage: String) {
-                activity().showSnackbar(getString(R.string.language_download_requested, displayLanguage))
-            }
-
-            override fun onError(throwable: Throwable) {
-                CrashHandler.report(throwable)
-                throwable.message?.let {
-                    activity().showSnackbar(it)
-                }
-            }
-        }
-        )
     }
 
     override fun onPause() {
         super.onPause()
         settings.unregisterOnSharedPreferenceChangeListener(this)
-        featureManager.unregister()
     }
 
     override fun onValidationError(messageResId: Int) {
@@ -181,12 +161,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         return (requireActivity().application as MyApplication)
     }
 
-    fun rebuildDbConstants() {
-        DatabaseConstants.buildLocalized(userLocaleProvider.getUserPreferredLocale())
-        Transaction.buildProjection(requireContext())
-        Account.buildProjection()
-    }
-
     fun handleContrib(prefKey: PrefKey, feature: ContribFeature, preference: Preference) =
             if (matches(preference, prefKey)) {
                 if (feature.hasAccess()) {
@@ -203,12 +177,12 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences,
-                                                  key: String) {
+                                           key: String) {
         if (key == getKey(PrefKey.UI_LANGUAGE)) {
             featureManager.requestLocale(activity())
         } else if ((key == getKey(PrefKey.GROUP_MONTH_STARTS) ||
                         key == getKey(PrefKey.GROUP_WEEK_STARTS) || key == getKey(PrefKey.CRITERION_FUTURE))) {
-            rebuildDbConstants()
+            activity().rebuildDbConstants()
         } else if (key == getKey(PrefKey.UI_FONTSIZE)) {
             updateAllWidgets()
             activity().recreate()

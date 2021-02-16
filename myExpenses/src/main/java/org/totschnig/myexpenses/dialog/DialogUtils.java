@@ -227,7 +227,7 @@ public class DialogUtils {
           callback.onPasswordDialogUnlocked();
           if (isInSecurityQuestion) {
             PrefKey.PROTECTION_LEGACY.putBoolean(false);
-            ctx.showDismissableSnackbar(R.string.password_disabled_reenable);
+            ctx.showDismissibleSnackbar(R.string.password_disabled_reenable);
             dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setText(R.string.password_lost);
             dialog.setTitle(R.string.password_prompt);
             input.setTag(Boolean.valueOf(false));

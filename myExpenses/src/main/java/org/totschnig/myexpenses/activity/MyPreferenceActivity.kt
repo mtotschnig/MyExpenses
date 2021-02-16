@@ -174,7 +174,11 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace, Preferen
 
     override fun onFeatureAvailable(feature: Feature) {
         if (feature == Feature.WEBUI) {
+            fragment.bindToWebUiService()
             activateWebUi()
+        }
+        if (feature == Feature.OCR) {
+            fragment.configureTesseractLanguagePref()
         }
     }
 

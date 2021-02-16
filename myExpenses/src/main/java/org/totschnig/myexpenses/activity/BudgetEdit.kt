@@ -341,7 +341,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
                 val start = if (grouping == Grouping.NONE) binding.DurationFrom.getDate() else null
                 val end = if (grouping == Grouping.NONE) binding.DurationTo.getDate() else null
                 if (end != null && start != null && end < start) {
-                    showDismissableSnackbar(R.string.budget_date_end_after_start)
+                    showDismissibleSnackbar(R.string.budget_date_end_after_start)
                 } else {
                     val account: Account = selectedAccount()
                     val currencyUnit = currencyContext[account.currency]

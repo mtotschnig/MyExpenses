@@ -24,13 +24,18 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.VersionDialogFragment
 import org.totschnig.myexpenses.feature.Feature
+import org.totschnig.myexpenses.model.Account
+import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.ui.SnackbarAction
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import org.totschnig.myexpenses.util.tracking.Tracker
 import org.totschnig.myexpenses.viewmodel.FeatureViewModel
 import org.totschnig.myexpenses.viewmodel.OcrViewModel
+import org.totschnig.myexpenses.viewmodel.data.EventObserver
 import javax.inject.Inject
 
 abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.MessageDialogListener {
@@ -58,6 +63,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     @Inject
     lateinit var tracker: Tracker
 
+    @Inject
+    lateinit var userLocaleProvider: UserLocaleProvider
+
     lateinit var ocrViewModel: OcrViewModel
     lateinit var featureViewModel: FeatureViewModel
 
@@ -75,10 +83,10 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     override fun onCreate(savedInstanceState: Bundle?) {
         ocrViewModel = ViewModelProvider(this).get(OcrViewModel::class.java)
         featureViewModel = ViewModelProvider(this).get(FeatureViewModel::class.java)
-        featureViewModel.getFeatureState().observe(this, { featureState ->
+        featureViewModel.getFeatureState().observe(this, EventObserver { featureState ->
             when (featureState) {
-                is FeatureViewModel.FeatureState.Loading -> showSnackbar(getString(R.string.feature_download_requested, getString(featureState.feature.labelResId)))
-                is FeatureViewModel.FeatureState.Available -> {
+                is FeatureViewModel.FeatureState.FeatureLoading -> showSnackbar(getString(R.string.feature_download_requested, getString(featureState.feature.labelResId)))
+                is FeatureViewModel.FeatureState.FeatureAvailable -> {
                     Feature.values().find { featureState.modules.contains(it.moduleName) }?.let {
                         showSnackbar(getString(R.string.feature_downloaded, getString(it.labelResId)))
                         //after the dynamic feature module has been installed, we need to check if data needed by the module (e.g. Tesseract) has been downloaded
@@ -89,7 +97,17 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                         }
                     }
                 }
-                is FeatureViewModel.FeatureState.Error -> showSnackbar(featureState.throwable.toString())
+                is FeatureViewModel.FeatureState.Error -> {
+                    with (featureState.throwable) {
+                        CrashHandler.report(this)
+                        message?.let { showSnackbar(it) }
+                    }
+                }
+                is FeatureViewModel.FeatureState.LanguageLoading -> showSnackbar(getString(R.string.language_download_requested, featureState.language))
+                is FeatureViewModel.FeatureState.LanguageAvailable -> {
+                    rebuildDbConstants()
+                    recreate()
+                }
             }
         })
         super.onCreate(savedInstanceState)
@@ -99,6 +117,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     override fun onResume() {
         super.onResume()
         registerReceiver(downloadReceiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
+        featureViewModel.registerCallback()
     }
 
     override fun onPause() {
@@ -108,6 +127,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         } catch (e: Exception) {
             CrashHandler.report(e)
         }
+        featureViewModel.unregisterCallback()
     }
 
     fun setTrackingEnabled(enabled: Boolean) {
@@ -146,11 +166,11 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         }
     }
 
-    fun showDismissableSnackbar(message: Int) {
-        showDismissableSnackbar(getText(message))
+    fun showDismissibleSnackbar(message: Int) {
+        showDismissibleSnackbar(getText(message))
     }
 
-    fun showDismissableSnackbar(message: CharSequence) {
+    fun showDismissibleSnackbar(message: CharSequence) {
         showSnackbar(message, Snackbar.LENGTH_INDEFINITE,
                 SnackbarAction(R.string.snackbar_dismiss) { snackbar?.dismiss() })
     }
@@ -210,7 +230,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         return R.id.fragment_container
     }
 
-    fun offerTessDataDownload() {
+    private fun offerTessDataDownload() {
         ocrViewModel.offerTessDataDownload(this)
     }
 
@@ -224,7 +244,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     fun startActionView(uri: String) {
         try {
             startActivity(Intent(Intent.ACTION_VIEW).apply {
-                setData(Uri.parse(uri))
+                data = Uri.parse(uri)
             })
         } catch (e: ActivityNotFoundException) {
             showSnackbar("No activity found for opening $uri", Snackbar.LENGTH_LONG, null)
@@ -242,20 +262,26 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                          cancellable: Boolean = true) {
         lifecycleScope.launchWhenResumed {
             MessageDialogFragment.newInstance(null, message, positive, neutral, negative).apply {
-                setCancelable(cancellable)
-            }.show(getSupportFragmentManager(), "MESSAGE")
+                isCancelable = cancellable
+            }.show(supportFragmentManager, "MESSAGE")
         }
     }
 
     fun showVersionDialog(prev_version: Int, showImportantUpgradeInfo: Boolean) {
         lifecycleScope.launchWhenResumed {
             VersionDialogFragment.newInstance(prev_version, showImportantUpgradeInfo)
-                    .show(getSupportFragmentManager(), "VERSION_INFO")
+                    .show(supportFragmentManager, "VERSION_INFO")
         }
     }
 
     fun unencryptedBackupWarning() = getString(R.string.warning_unencrypted_backup,
             getString(R.string.pref_security_export_passphrase_title))
 
-    public override fun onMessageDialogDismissOrCancel() {}
+    override fun onMessageDialogDismissOrCancel() {}
+
+    fun rebuildDbConstants() {
+        DatabaseConstants.buildLocalized(userLocaleProvider.getUserPreferredLocale())
+        Transaction.buildProjection(this)
+        Account.buildProjection()
+    }
 }
