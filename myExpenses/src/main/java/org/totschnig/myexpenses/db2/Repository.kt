@@ -7,6 +7,7 @@ import android.content.Context
 import org.threeten.bp.LocalTime
 import org.threeten.bp.ZoneId
 import org.threeten.bp.ZonedDateTime
+import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model2.Transaction
@@ -32,6 +33,7 @@ class Repository(val contentResolver: ContentResolver, val currencyContext: Curr
                 put(DatabaseConstants.KEY_DATE, toEpochSecond)
                 put(DatabaseConstants.KEY_VALUE_DATE, toEpochSecond)
                 put(DatabaseConstants.KEY_PAYEEID, findOrWritePayee(payee))
+                put(DatabaseConstants.KEY_CR_STATUS, CrStatus.UNRECONCILED.name)
                 category.takeIf { it > 0 }?.let { put(DatabaseConstants.KEY_CATID, it) }
                 put(DatabaseConstants.KEY_COMMENT, comment)
             })?.let { ContentUris.parseId(it) }
