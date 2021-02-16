@@ -60,7 +60,7 @@ $watch('signum', value => method = firstMethod(data, account, signum));">
                 </datalist>
             </div>
 
-            <div class="flex flex-col mb-4">
+            <div class="flex flex-col mb-4" x-show="data.categories.length > 0">
                 <label class="mb-2 uppercase font-bold text-lg text-grey-darkest"
                        for="category_main">${i18n_category}</label>
                 <div>
@@ -79,7 +79,7 @@ $watch('signum', value => method = firstMethod(data, account, signum));">
                 </div>
             </div>
 
-            <div class="flex flex-col mb-4">
+            <div class="flex flex-col mb-4" x-show="data.tags.length > 0">
                 <label class="mb-2 uppercase font-bold text-lg text-grey-darkest" for="tags">${i18n_tags}</label>
                 <select name="tags" id="tags" multiple x-model="selectedTags">
                     <template x-for="item in data.tags" :key="item.id">
@@ -88,7 +88,7 @@ $watch('signum', value => method = firstMethod(data, account, signum));">
                 </select>
             </div>
 
-            <div class="flex flex-col mb-4">
+            <div class="flex flex-col mb-4" x-show="methodsForTypes(data, account, signum).length > 0">
                 <label class="mb-2 uppercase font-bold text-lg text-grey-darkest" for="tags">${i18n_method}</label>
                 <select name="method" id="method" x-model="method">
                     <template x-for="item in methodsForTypes(data, account, signum)" :key="item.id">
