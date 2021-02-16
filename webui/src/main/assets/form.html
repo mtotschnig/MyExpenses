@@ -104,17 +104,11 @@ $watch('signum', value => method = firstMethod(data, account, signum));">
 
             <div>
                 <button class="block bg-green-500 hover:bg-green-700 disabled:opacity-50 text-white uppercase text-lg mx-auto p-4 rounded"
-                        type="button" :disabled="amount == ''"  @click="submitForm({account: account, amount: signum ? amount : -amount, date: date, payee: payee, category: categorySub != 0 ? categorySub : categoryMain, tags: selectedTags, comment: comment, method: method}).then(function(response) {
-    if(response.status == 201)
-    {
-        count++
-    } else {
-        throw new Error('Something went wrong.');
-    }
-  }).catch(errorHandler)">${i18n_submit}</button>
-                <div x-show="count > 0"><span x-text="count"></span> transactions have been
-                    recorded.
-                </div>
+                        type="button" :disabled="amount == ''"  @click="submitForm({account: account, amount: signum ? amount : -amount, date: date, payee: payee, category: categorySub != 0 ? categorySub : categoryMain, tags: selectedTags, comment: comment, method: method}).then(response => {
+                        resultCode = response.status
+    response.text().then(text => resultText = text)
+    }).catch(errorHandler)">${i18n_submit}</button>
+                <div x-text="resultText" :class="resultCode == 201 ? 'text-current' : 'text-red-500'"></div>
             </div>
         </form>
     </div>
@@ -150,7 +144,8 @@ function modelData() {
         categorySub: 0,
         selectedTags: [],
         method: 0,
-        count: 0,
+        resultText: '',
+        resultCode: 0,
         data: ${data},
     }
 }

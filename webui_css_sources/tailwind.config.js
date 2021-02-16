@@ -2,7 +2,7 @@ module.exports = {
   purge: {
     preserveHtmlElements: false,
     content: [
-      '../myExpenses/src/main/assets/form.html'
+      '../webui/src/main/assets/form.html'
     ]
   },
   darkMode: false, // or 'media' or 'class'

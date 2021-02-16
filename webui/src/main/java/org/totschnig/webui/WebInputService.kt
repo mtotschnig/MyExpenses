@@ -65,6 +65,8 @@ class WebInputService : Service(), IWebInputService {
 
     private var serverStateObserver: ServerStateObserver? = null
 
+    private var count = 0
+
     inner class LocalBinder : WebUiBinder() {
         override fun getService() = this@WebInputService
     }
@@ -126,7 +128,12 @@ class WebInputService : Service(), IWebInputService {
                         }
                         routing {
                             post("/") {
-                                call.respond(if (repository.createTransaction(call.receive()) != null) HttpStatusCode.Created else HttpStatusCode.Conflict)
+                                if (repository.createTransaction(call.receive()) != null) {
+                                    count++
+                                    call.respond(HttpStatusCode.Created, "${getString(R.string.save_transaction_and_new_success)} ($count)")
+                                } else {
+                                    call.respond(HttpStatusCode.Conflict, "Error while saving transaction.")
+                                }
                             }
                             get("/styles.css") {
                                 call.respondText(readFromAssets("styles.css"), ContentType.Text.CSS)
