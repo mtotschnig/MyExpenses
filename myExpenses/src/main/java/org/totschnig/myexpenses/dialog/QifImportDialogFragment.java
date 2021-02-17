@@ -27,7 +27,7 @@ import org.totschnig.myexpenses.viewmodel.data.Currency;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
@@ -57,7 +57,7 @@ public class QifImportDialogFragment extends TextSourceDialogFragment implements
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    currencyViewModel = ViewModelProviders.of(this).get(CurrencyViewModel.class);
+    currencyViewModel = new ViewModelProvider(this).get(CurrencyViewModel.class);
   }
 
   @Override

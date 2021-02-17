@@ -294,7 +294,6 @@ dependencies {
     androidTestImplementation "androidx.room:room-testing:$roomVersion"
 
     // Lifecycle components
-    implementation "androidx.lifecycle:lifecycle-extensions:$archLifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-common-java8:$archLifecycleVersion"
 
     androidTestImplementation "androidx.arch.core:core-testing:$androidxArchVersion"
