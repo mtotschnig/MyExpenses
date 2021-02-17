@@ -79,9 +79,11 @@ class BudgetList : Fragment(), SimpleDialog.OnDialogResultListener {
             binding.empty.isVisible = it.isEmpty()
             binding.recyclerView.isVisible = it.isNotEmpty()
         })
-        viewModel.spent.observe(viewLifecycleOwner, {
-            position2Spent?.set(it.first, it.second)
-            adapter.notifyItemChanged(it.first)
+        viewModel.spent.observe(viewLifecycleOwner, { spent ->
+            position2Spent?.takeIf { it.size > spent.first  }?.let {
+                it.set(spent.first, spent.second)
+                adapter.notifyItemChanged(spent.first)
+            }
         })
         binding.recyclerView.adapter = adapter
         viewModel.loadAllBudgets()
