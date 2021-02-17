@@ -74,7 +74,7 @@ public class AppDirHelper {
    * prefix as name, if the file already exists it appends a numeric
    * postfix
    */
-  public static DocumentFile timeStampedFile(DocumentFile parentDir, String prefix,
+  public static DocumentFile timeStampedFile(@NonNull DocumentFile parentDir, String prefix,
                                              String mimeType, String addExtension) {
     String now = new SimpleDateFormat("yyyMMdd-HHmmss", Locale.US)
         .format(new Date());
@@ -86,7 +86,7 @@ public class AppDirHelper {
   }
 
   @Nullable
-  public static DocumentFile buildFile(final DocumentFile parentDir, final String fileName,
+  public static DocumentFile buildFile(@NonNull final DocumentFile parentDir, final String fileName,
                                        final String mimeType, final boolean allowExisting,
                                        final boolean supplementExtension) {
     //createFile supplements extension on known mimeTypes, if the mime type is not known, we take care of it
@@ -121,6 +121,7 @@ public class AppDirHelper {
     return result;
   }
 
+  @Nullable
   public static DocumentFile newDirectory(DocumentFile parentDir, String base) {
     int postfix = 0;
     do {

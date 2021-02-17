@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.task
 
+import android.content.Context
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
@@ -43,7 +44,7 @@ class ExportTask(private val taskExecutionFragment: TaskExecutionFragment<*>, ex
     private val encoding = extras.getString(TaskExecutionFragment.KEY_ENCODING)!!
     private val handleDelete = extras.getInt(KEY_EXPORT_HANDLE_DELETED)
     private val filter = WhereFilter(extras.getParcelableArrayList(KEY_FILTER)!!)
-    private val fileName = extras.getString(KEY_FILE_NAME)
+    private val fileName = extras.getString(KEY_FILE_NAME)!!
     private val delimiter = extras.getChar(KEY_DELIMITER)
 
     init {
@@ -64,6 +65,10 @@ class ExportTask(private val taskExecutionFragment: TaskExecutionFragment<*>, ex
                     TaskExecutionFragment.TASK_EXPORT, result)
         }
     }
+
+    private fun createFileFailure(context: Context, parent: DocumentFile, fileName: String) =
+            IOException(context.getString(R.string.io_error_unable_to_create_file,
+                    fileName, FileUtils.getPath(context, parent.uri)))
 
     override fun doInBackground(vararg ignored: Void): Pair<ExportFormat, List<Uri>>? {
         val accountIds: Array<Long>
@@ -93,7 +98,7 @@ class ExportTask(private val taskExecutionFragment: TaskExecutionFragment<*>, ex
         destDir = if (oneFile) {
             appDir
         } else {
-            AppDirHelper.newDirectory(appDir, fileName)
+            AppDirHelper.newDirectory(appDir, fileName) ?: throw createFileFailure(context, appDir, fileName)
         }
         val successfullyExported = ArrayList<Account>()
         val simpleDateFormat = SimpleDateFormat("yyyMMdd-HHmmss", Locale.US)
@@ -111,9 +116,7 @@ class ExportTask(private val taskExecutionFragment: TaskExecutionFragment<*>, ex
                     QifExporter(account, filter, notYetExportedP, dateFormat, decimalSeparator, encoding)
                 val result = exporter.export(context, lazy {
                     Result.success(AppDirHelper.buildFile(destDir, fileNameForAccount, format.mimeType,
-                            append, true) ?: throw IOException(context.getString(
-                            R.string.io_error_unable_to_create_file,
-                            fileName, FileUtils.getPath(application, destDir.uri))))
+                            append, true) ?: throw createFileFailure(context, destDir, fileName))
                 }, append)
                 result.onSuccess {
                     if (PrefKey.PERFORM_SHARE.getBoolean(false)) {
