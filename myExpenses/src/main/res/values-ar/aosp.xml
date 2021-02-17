@@ -8,7 +8,6 @@
     <string name="drawer_close">"إغلاق ساحب التنقل"</string>
     <string name="toast_text_copied">"تم نسخ النص"</string>
     <string name="copy_text">"نسخ إلى الحافظة"</string>
-    <string name="start">"بدء"</string>
     <string name="stop">"إيقاف"</string>
 </resources>
 
