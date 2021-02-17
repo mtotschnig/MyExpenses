@@ -982,15 +982,17 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         holder.headerIndicator().setExpanded(!binding.list.isHeaderCollapsed(headerId));
         holder.headerIndicator().setOnClickListener(v -> finalHolder.headerIndicator().rotate(
             !binding.list.isHeaderCollapsed(headerId), expanded -> {
-              if (expanded) {
-                binding.list.expand(headerId);
-                mAdapter.notifyDataSetChanged();
-                persistCollapsedHeaderIds();
-                finalHolder.dividerBottom().setVisibility(View.VISIBLE);
-              } else {
-                binding.list.collapse(headerId);
-                persistCollapsedHeaderIds();
-                finalHolder.dividerBottom().setVisibility(View.GONE);
+              if (binding != null) {
+                if (expanded) {
+                  binding.list.expand(headerId);
+                  mAdapter.notifyDataSetChanged();
+                  persistCollapsedHeaderIds();
+                  finalHolder.dividerBottom().setVisibility(View.VISIBLE);
+                } else {
+                  binding.list.collapse(headerId);
+                  persistCollapsedHeaderIds();
+                  finalHolder.dividerBottom().setVisibility(View.GONE);
+                }
               }
             }));
       } else {
