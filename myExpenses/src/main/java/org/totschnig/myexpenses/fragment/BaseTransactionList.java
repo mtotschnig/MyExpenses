@@ -163,7 +163,6 @@ import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_TIT
 import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_TITLE_STRING;
 import static org.totschnig.myexpenses.fragment.TagListKt.KEY_TAG_LIST;
 import static org.totschnig.myexpenses.preference.PrefKey.NEW_SPLIT_TEMPLATE_ENABLED;
-import static org.totschnig.myexpenses.preference.PrefKey.OCR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_TRANSFERS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TYPE;
@@ -911,6 +910,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
 
   private class MyGroupedAdapter extends TransactionAdapter implements SectionIndexingStickyListHeadersAdapter {
     private final LayoutInflater inflater;
+    private final SparseBooleanArray sumLineState = new SparseBooleanArray();
 
     private MyGroupedAdapter(Context context, int layout, Cursor c, int flags) {
       super(context, layout, c, flags, currencyFormatter, prefHandler, currencyContext);
@@ -949,7 +949,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     @Override
     public View getHeaderView(int position, View convertView, ViewGroup parent) {
       HeaderViewHolder holder = null;
-      final long headerId = getHeaderId(position);
+      final int headerId = getHeaderIdInt(position);
       final boolean withBudget = BaseTransactionList.this.getFilter().isEmpty() &&
           budget != null;
 
@@ -964,9 +964,14 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         holder = new HeaderViewHolder(binding);
         convertView.setTag(holder);
       }
-      holder.sumLine().setVisibility(prefHandler.getBoolean(PrefKey.GROUP_HEADER, true) ? View.VISIBLE : View.GONE);
+      boolean sumLineVisibility = sumLineState.get(headerId, prefHandler.getBoolean(PrefKey.GROUP_HEADER, true));
+      holder.sumLine().setVisibility(sumLineVisibility ? View.VISIBLE : View.GONE);
       HeaderViewHolder finalHolder = holder;
-      holder.interimBalance().setOnClickListener(v -> finalHolder.sumLine().setVisibility(finalHolder.sumLine().getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE));
+      holder.interimBalance().setOnClickListener(v -> {
+        final boolean oldState = finalHolder.sumLine().getVisibility() == View.VISIBLE;
+        sumLineState.put(headerId, !oldState);
+        finalHolder.sumLine().setVisibility(oldState ? View.GONE : View.VISIBLE);
+      });
       if (mAccount.getGrouping() != Grouping.NONE) {
         holder.headerIndicator().setVisibility(View.VISIBLE);
         holder.headerIndicator().setExpanded(!binding.list.isHeaderCollapsed(headerId));
@@ -1002,7 +1007,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
       Long[] data = headerData != null ? headerData.get(headerId) : null;
       if (data != null) {
         holder.sumIncome().setText("⊕ " + currencyFormatter.convAmount(data[0], mAccount.getCurrencyUnit()));
-        final Long expensesSum = -data[1];
+        final long expensesSum = -data[1];
         holder.sumExpense().setText("⊖ " + currencyFormatter.convAmount(expensesSum, mAccount.getCurrencyUnit()));
         holder.sumTransfer().setText(Transfer.BI_ARROW + " " + currencyFormatter.convAmount(
             data[2], mAccount.getCurrencyUnit()));
