@@ -182,7 +182,7 @@ class WebInputService : Service(), IWebInputService {
                                                         mapOf(
                                                                 "id" to it.getLong(0),
                                                                 "label" to it.getString(1),
-                                                                "is_Numbered" to (it.getInt(2) > 0),
+                                                                "isNumbered" to (it.getInt(2) > 0),
                                                                 "type" to it.getInt(3),
                                                                 "accountTypes" to it.getString(4).split(',')
                                                         )
@@ -201,6 +201,7 @@ class WebInputService : Service(), IWebInputService {
                                         "i18n_notes" to getString(R.string.comment),
                                         "i18n_method" to getString(R.string.method),
                                         "i18n_submit" to getString(R.string.menu_save),
+                                        "i18n_number" to getString(R.string.reference_number),
                                         "data" to gson.toJson(data)))
                                 call.respondText(text, ContentType.Text.Html)
                             }

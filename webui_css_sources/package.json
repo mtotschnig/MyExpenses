@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "postcss css/styles.css -o build/styles.css",
+    "build": "postcss css/styles.css -o ../webui/src/main/assets/styles.css",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
