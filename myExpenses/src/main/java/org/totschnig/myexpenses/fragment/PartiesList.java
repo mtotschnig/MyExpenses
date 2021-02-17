@@ -93,6 +93,9 @@ public class PartiesList extends ContextualActionBarFragment {
 
   @Override
   public boolean dispatchCommandSingle(int command, ContextMenu.ContextMenuInfo info) {
+    if (super.dispatchCommandSingle(command, info)) {
+      return true;
+    }
     AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) info;
     Party party = mAdapter.getItem(menuInfo.position);
     switch (command) {
@@ -115,12 +118,15 @@ public class PartiesList extends ContextualActionBarFragment {
         finishActionMode();
         return true;
     }
-    return super.dispatchCommandSingle(command, info);
+    return false;
   }
 
   @Override
   public boolean dispatchCommandMultiple(int command,
                                          SparseBooleanArray positions, Long[] itemIds) {
+    if (super.dispatchCommandMultiple(command, positions, itemIds)) {
+      return true;
+    }
     ProtectedFragmentActivity activity = (ProtectedFragmentActivity) requireActivity();
     switch (command) {
       case R.id.DELETE_COMMAND: {
@@ -169,7 +175,7 @@ public class PartiesList extends ContextualActionBarFragment {
         break;
       }
       case R.id.SELECT_COMMAND_MULTIPLE: {
-        if (itemIds.length == 1 || Arrays.asList(itemIds).indexOf(NULL_ITEM_ID) == -1) {
+        if (itemIds.length == 1 || !Arrays.asList(itemIds).contains(NULL_ITEM_ID)) {
           ArrayList<String> labelList = new ArrayList<>();
           for (int i = 0; i < positions.size(); i++) {
             if (positions.valueAt(i)) {
@@ -188,7 +194,7 @@ public class PartiesList extends ContextualActionBarFragment {
         return true;
       }
     }
-    return super.dispatchCommandMultiple(command, positions, itemIds);
+    return false;
   }
 
   @Override

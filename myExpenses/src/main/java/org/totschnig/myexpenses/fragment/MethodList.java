@@ -89,6 +89,9 @@ public class MethodList extends ContextualActionBarFragment implements LoaderMan
   }
 
   public boolean dispatchCommandSingle(int command, ContextMenu.ContextMenuInfo info) {
+    if (super.dispatchCommandSingle(command, info)) {
+      return true;
+    }
     AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) info;
     switch (command) {
       case R.id.EDIT_COMMAND:
@@ -97,12 +100,15 @@ public class MethodList extends ContextualActionBarFragment implements LoaderMan
         startActivity(i);
         break;
     }
-    return super.dispatchCommandSingle(command, info);
+    return false;
   }
 
   @Override
   public boolean dispatchCommandMultiple(int command,
                                          SparseBooleanArray positions, Long[] itemIds) {
+    if (super.dispatchCommandMultiple(command, positions, itemIds)) {
+      return true;
+    }
     switch (command) {
       case R.id.DELETE_COMMAND:
         int columnIndexMappedTransactions = mMethodsCursor.getColumnIndex(DatabaseConstants.KEY_MAPPED_TRANSACTIONS);
@@ -152,6 +158,6 @@ public class MethodList extends ContextualActionBarFragment implements LoaderMan
         }
         break;
     }
-    return super.dispatchCommandMultiple(command, positions, itemIds);
+    return false;
   }
 }

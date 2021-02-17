@@ -65,6 +65,9 @@ public class StaleImagesList extends ContextualActionBarFragment implements Load
   @Override
   public boolean dispatchCommandMultiple(int command,
                                          SparseBooleanArray positions, Long[] itemIds) {
+    if (super.dispatchCommandMultiple(command, positions, itemIds)) {
+      return true;
+    }
     int taskId = 0, progressMessage = 0;
     switch (command) {
       case R.id.SAVE_COMMAND:
@@ -77,7 +80,7 @@ public class StaleImagesList extends ContextualActionBarFragment implements Load
         break;
     }
     if (taskId == 0) {
-      return super.dispatchCommandMultiple(command, positions, itemIds);
+      return false;
     }
     finishActionMode();
     ((ProtectedFragmentActivity) getActivity()).startTaskExecution(

@@ -189,6 +189,9 @@ public abstract class AbstractCategoryList<ROWBINDING extends ViewBinding> exten
   @Override
   public boolean dispatchCommandMultiple(int command,
                                          SparseBooleanArray positions, Long[] itemIds) {
+    if (super.dispatchCommandMultiple(command, positions, itemIds)) {
+      return true;
+    }
     ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
     ArrayList<Long> idList;
     switch (command) {
@@ -306,6 +309,9 @@ public abstract class AbstractCategoryList<ROWBINDING extends ViewBinding> exten
 
   @Override
   public boolean dispatchCommandSingle(int command, ContextMenu.ContextMenuInfo info) {
+    if (super.dispatchCommandSingle(command, info)) {
+      return true;
+    }
     CategoryActivity ctx = (CategoryActivity) getActivity();
     String action = getAction();
     ExpandableListContextMenuInfo elcmi = (ExpandableListContextMenuInfo) info;
@@ -340,7 +346,7 @@ public abstract class AbstractCategoryList<ROWBINDING extends ViewBinding> exten
         ctx.createCat(elcmi.id);
         return true;
     }
-    return super.dispatchCommandSingle(command, info);
+    return false;
   }
 
   protected PrefKey getSortOrderPrefKey() {

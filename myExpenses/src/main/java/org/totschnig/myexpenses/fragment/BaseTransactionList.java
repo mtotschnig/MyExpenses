@@ -456,6 +456,9 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
   @Override
   public boolean dispatchCommandMultiple(int command,
                                          SparseBooleanArray positions, Long[] itemIds) {
+    if (super.dispatchCommandMultiple(command, positions, itemIds)) {
+      return true;
+    }
     MyExpenses ctx = (MyExpenses) getActivity();
     if (ctx == null) return false;
     FragmentManager fm = getParentFragmentManager();
@@ -604,9 +607,8 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         });
         return true;
       }
-      //super is handling deactivation of mActionMode
     }
-    return super.dispatchCommandMultiple(command, positions, itemIds);
+    return false;
   }
 
   private void checkSealed(long[] itemIds, Runnable onChecked) {
@@ -621,6 +623,9 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
 
   @Override
   public boolean dispatchCommandSingle(int command, ContextMenu.ContextMenuInfo info) {
+    if (super.dispatchCommandSingle(command, info)) {
+      return true;
+    }
     AdapterContextMenuInfo acmi = (AdapterContextMenuInfo) info;
     MyExpenses ctx = (MyExpenses) requireActivity();
     mTransactionsCursor.moveToPosition(acmi.position);
@@ -668,9 +673,9 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
                 .show(this, NEW_TEMPLATE_DIALOG);
           }
         });
-        return true;
+        return false;
     }
-    return super.dispatchCommandSingle(command, info);
+    return false;
   }
 
   private void warnSealedAccount() {

@@ -250,6 +250,9 @@ public class TemplatesList extends SortableListFragment
   @Override
   public boolean dispatchCommandMultiple(int command,
                                          SparseBooleanArray positions, Long[] itemIds) {
+    if (super.dispatchCommandMultiple(command, positions, itemIds)) {
+      return true;
+    }
     switch (command) {
       case R.id.DEFAULT_ACTION_EDIT_COMMAND:
         bulkUpdateDefaultAction(itemIds, Template.Action.EDIT, R.string.menu_create_instance_edit);
@@ -287,11 +290,14 @@ public class TemplatesList extends SortableListFragment
         finishActionMode();
         return true;
     }
-    return super.dispatchCommandMultiple(command, positions, itemIds);
+    return false;
   }
 
   @Override
   public boolean dispatchCommandSingle(int command, ContextMenu.ContextMenuInfo info) {
+    if (super.dispatchCommandSingle(command, info)) {
+      return true;
+    }
     AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) info;
     Intent i;
     switch (command) {
@@ -319,7 +325,7 @@ public class TemplatesList extends SortableListFragment
         finishActionMode();
         return true;
     }
-    return super.dispatchCommandSingle(command, info);
+    return false;
   }
 
   private boolean isSplitAtPosition(int position) {
