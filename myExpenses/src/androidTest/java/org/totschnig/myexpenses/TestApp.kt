@@ -24,7 +24,7 @@ class TestApp: MyApplication() {
             .viewModelModule(TestViewModelModule())
             .dataModule(TestDataModule())
             .crashHandlerModule(object : CrashHandlerModule() {
-                override fun providesCrashHandler() = CrashHandler.NO_OP
+                override fun providesCrashHandler(prefHandler: PrefHandler) = CrashHandler.NO_OP
             })
             .uiModule(object : UiModule() {
                 override fun provideDiscoveryHelper(prefHandler: PrefHandler) =

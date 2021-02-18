@@ -4,10 +4,12 @@ import android.app.Notification
 import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_ONE_SHOT
 import android.app.Service
+import android.content.Context
 import android.content.Intent
 import android.net.wifi.WifiManager
 import android.os.IBinder
 import android.text.format.Formatter
+import androidx.annotation.StringRes
 import com.google.gson.Gson
 import com.google.gson.JsonDeserializer
 import io.ktor.application.*
@@ -40,9 +42,11 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.ui.ContextHelper
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper.NOTIFICATION_WEB_UI
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import javax.inject.Inject
 
 private const val PORT = 9000
@@ -61,6 +65,11 @@ class WebInputService : Service(), IWebInputService {
     @Inject
     lateinit var prefHandler: PrefHandler
 
+    @Inject
+    lateinit var userLocaleProvider: UserLocaleProvider
+
+    private lateinit var wrappedContext: Context
+
     private val binder = LocalBinder()
 
     private var serverStateObserver: ServerStateObserver? = null
@@ -74,6 +83,7 @@ class WebInputService : Service(), IWebInputService {
     override fun onCreate() {
         super.onCreate()
         DaggerWebUiComponent.builder().appComponent((application as MyApplication).appComponent).build().inject(this)
+        wrappedContext =  ContextHelper.wrap(this, userLocaleProvider.getUserPreferredLocale())
     }
 
     override fun onBind(intent: Intent): IBinder {
@@ -191,17 +201,17 @@ class WebInputService : Service(), IWebInputService {
                                         },
                                 )
                                 val text = StrSubstitutor.replace(readFromAssets("form.html"), mapOf(
-                                        "i18n_title" to "${getString(R.string.app_name)} ${getString(R.string.title_webui)}",
-                                        "i18n_account" to getString(R.string.account),
-                                        "i18n_amount" to getString(R.string.amount),
-                                        "i18n_date" to getString(R.string.date),
-                                        "i18n_payee" to getString(R.string.payer_or_payee),
-                                        "i18n_category" to getString(R.string.category),
-                                        "i18n_tags" to getString(R.string.tags),
-                                        "i18n_notes" to getString(R.string.comment),
-                                        "i18n_method" to getString(R.string.method),
-                                        "i18n_submit" to getString(R.string.menu_save),
-                                        "i18n_number" to getString(R.string.reference_number),
+                                        "i18n_title" to "${t(R.string.app_name)} ${getString(R.string.title_webui)}",
+                                        "i18n_account" to t(R.string.account),
+                                        "i18n_amount" to t(R.string.amount),
+                                        "i18n_date" to t(R.string.date),
+                                        "i18n_payee" to t(R.string.payer_or_payee),
+                                        "i18n_category" to t(R.string.category),
+                                        "i18n_tags" to t(R.string.tags),
+                                        "i18n_notes" to t(R.string.comment),
+                                        "i18n_method" to t(R.string.method),
+                                        "i18n_submit" to t(R.string.menu_save),
+                                        "i18n_number" to t(R.string.reference_number),
                                         "data" to gson.toJson(data)))
                                 call.respondText(text, ContentType.Text.Html)
                             }
@@ -224,6 +234,8 @@ class WebInputService : Service(), IWebInputService {
         }
         return START_NOT_STICKY
     }
+
+    private fun t(@StringRes resId: Int) = wrappedContext.getString(resId)
 
     override fun onDestroy() {
         stopServer()

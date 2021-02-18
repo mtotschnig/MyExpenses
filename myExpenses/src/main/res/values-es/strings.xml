@@ -859,6 +859,7 @@
     <string name="budget_filter_all_methods">Todos los métodos</string>
     <string name="budget_filter_all_states">Todos los estados</string>
     <string name="budget_filter_all_tags">Todas las etiquetas</string>
+    <string name="budget_filter_all_accounts">Todas las cuentas</string>
     <string name="budget_form_label_filter">Filtro</string>
     <string name="dialog_title_warning_delete_budget">¿Borrar presupuesto?</string>
     <string name="warning_delete_budget">El presupuesto \"%1$s\" será eliminado.</string>
@@ -970,4 +971,8 @@
     <string name="ocr_download_info">El reconocimiento de texto se realiza por una aplicación externa.</string>
     <!-- %s is replaced with the title of the preference for setting a passphrase for backups (pref_security_export_passphrase_title) -->
     <string name="warning_unencrypted_backup">Mientras sus datos estén protegidos contra acceso no autorizado en este dispositivo, las copias de seguridad se crearán sin encriptación, a menos que configure %s.</string>
+    <!-- Title of a preference switch that allows to configure display of group header. If switched on sums for income/expense/transfer are shown -->
+    <string name="pref_group_header_show_details_summary">Mostrar sumas detalladas en la cabecera del grupo</string>
+    <!-- Title of a menu item and a dialogue that allow to adjust the current balance. User can enter the new balance, and transaction form is opened with the amount prefiled to the difference between old and new balance  -->
+    <string name="new_balance">Nuevo balance</string>
     </resources>

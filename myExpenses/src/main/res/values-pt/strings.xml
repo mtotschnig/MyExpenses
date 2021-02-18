@@ -975,4 +975,4 @@
     <string name="pref_group_header_show_details_summary">Exibir somas detalhadas no cabeçalho do grupo</string>
     <!-- Title of a menu item and a dialogue that allow to adjust the current balance. User can enter the new balance, and transaction form is opened with the amount prefiled to the difference between old and new balance  -->
     <string name="new_balance">Novo saldo</string>
-</resources>
+    </resources>

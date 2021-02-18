@@ -15,6 +15,14 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_323">
+        <item>El botón de fecha permite una navegación rápida al día anterior y al siguiente.</item>
+    </string-array>
+    <string-array name="whats_new_322">
+        <item>Pueden ocultarse los importes de gastos, ingresos y transferencias en las cabeceras de los grupos.</item>
+        <item>Calcular la diferencia entre el saldo actual y un nuevo valor.</item>
+        <item>Se pueden definir filtros y presupuestos para un subconjunto de cuentas.</item>
+    </string-array>
     <string-array name="whats_new_321">
         <item>El reconocimiento de texto ahora funciona con más idiomas.</item>
     </string-array>

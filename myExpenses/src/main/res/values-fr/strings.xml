@@ -975,4 +975,5 @@
     <string name="pref_group_header_show_details_summary">Afficher les sommes détaillées dans l\'en-tête de groupe</string>
     <!-- Title of a menu item and a dialogue that allow to adjust the current balance. User can enter the new balance, and transaction form is opened with the amount prefiled to the difference between old and new balance  -->
     <string name="new_balance">Nouveau solde</string>
+    <string name="title_webui">Interface utilisateur Web</string>
 </resources>
