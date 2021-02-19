@@ -194,7 +194,7 @@ class WebInputService : Service(), IWebInputService {
                                                                 "label" to it.getString(1),
                                                                 "isNumbered" to (it.getInt(2) > 0),
                                                                 "type" to it.getInt(3),
-                                                                "accountTypes" to it.getString(4).split(',')
+                                                                "accountTypes" to it.getString(4)?.split(',')
                                                         )
                                                     }
                                                     .toList()

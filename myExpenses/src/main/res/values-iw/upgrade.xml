@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_324">
+        <item>ממשק משתמש באינטרנט</item>
+    </string-array>
     <string-array name="whats_new_323">
         <item>כפתור תאריך מאפשר ניווט מהיר ליום הקודם ולמחרת.</item>
     </string-array>

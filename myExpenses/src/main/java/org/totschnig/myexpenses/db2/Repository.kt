@@ -9,6 +9,7 @@ import org.threeten.bp.ZoneId
 import org.threeten.bp.ZonedDateTime
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model2.Transaction
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -38,6 +39,7 @@ class Repository(val contentResolver: ContentResolver, val currencyContext: Curr
                 method.takeIf { it > 0 }?.let { put(DatabaseConstants.KEY_METHODID, it) }
                 put(DatabaseConstants.KEY_REFERENCE_NUMBER, number)
                 put(DatabaseConstants.KEY_COMMENT, comment)
+                put(DatabaseConstants.KEY_UUID, Model.generateUuid())
             })?.let { ContentUris.parseId(it) }
         }
     }

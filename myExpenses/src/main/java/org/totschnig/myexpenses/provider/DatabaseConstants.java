@@ -212,6 +212,10 @@ public class DatabaseConstants {
   public static final String KEY_TRANSFER_CURRENCY = "transfer_currency";
   public static final String KEY_COUNT = "count";
   public static final String KEY_TAGLIST = "tag_list";
+  /**
+   * If this field is part of a projection for a query to the Methods URI, only payment methods
+   * mapped to account types will be returned
+   */
   public static final String KEY_ACCOUNT_TPYE_LIST = "account_type_list";
 
   /**

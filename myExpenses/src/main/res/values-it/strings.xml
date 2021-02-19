@@ -342,11 +342,11 @@
     <string name="pref_send_feedback_title">Invia commenti</string>
     <string name="pref_share_target_summary">Lascia vuoto se vuoi scegliere tra le applicazioni appropriate (e-mail, Dropbox, Google Docs, …), o fornire l\'URL in uno dei sistemi sostenuti</string>
     <string name="pref_share_target_title">Carica URL Export</string>
-    <string name="pref_shortcut_added">Il collegamento è stato aggiunto alla schermata Home</string>
-    <string name="pref_shortcut_not_added">Nessuna schermata Home disponibile che accetta collegamenti.</string>
-    <string name="pref_shortcut_summary">Aggiungere il collegamento a Home.</string>
-    <string name="pref_ui_fontsize_title">Aumenta la dimensione del carattere</string>
-    <string name="pref_ui_home_screen_shortcuts">Collegamenti schermata Home</string>
+    <string name="pref_shortcut_added">Il collegamento è stato aggiunto alla schermata principale</string>
+    <string name="pref_shortcut_not_added">Non è disponibile nessuna schermata principale che accetti collegamenti.</string>
+    <string name="pref_shortcut_summary">Aggiungi il collegamento alla schermata principale.</string>
+    <string name="pref_ui_fontsize_title">Aumenta le dimensioni del carattere</string>
+    <string name="pref_ui_home_screen_shortcuts">Collegamenti sulla schermata principale</string>
     <string name="pref_ui_language_default">Default di sistema</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Lingua</string>
@@ -627,7 +627,7 @@
     <string name="auto_backup_cloud_create_backend">Crea un back-end di sincronizzazione dalla schermata principale delle impostazioni.</string>
     <string name="auto_backup_cloud_failure">Si è verificato un errore durante il backup del file %1$s sul back-end %2$s:</string>
     <string name="auto_backup_cloud_success">Il file di backup %1$s è stato salvato correttamente sul back-end %2$s.</string>
-    <string name="home_screen_shortcuts_nougate_info">Le scorciatoie possono essere aggiunte premendo a lungo sull\'icona dell\'applicazione nella schermata Home.</string>
+    <string name="home_screen_shortcuts_nougate_info">Le scorciatoie possono essere aggiunte premendo a lungo sull\'icona dell\'applicazione nella schermata principale.</string>
     <string name="currency_symbol">Simbolo di valuta</string>
     <string name="number_of_fraction_digits">Numero di decimali</string>
     <string name="warning_auto_backup_deactivated">Il backup automatico è stato disattivato. Puoi attivarlo nuovamente dalle impostazioni dopo aver risolto il problema (ad esempio selezionando una cartella diversa per i backup).</string>
@@ -975,4 +975,5 @@
     <string name="pref_group_header_show_details_summary">Mostra in dettaglio le somme all\'interno dell\'intestazione del gruppo</string>
     <!-- Title of a menu item and a dialogue that allow to adjust the current balance. User can enter the new balance, and transaction form is opened with the amount prefiled to the difference between old and new balance  -->
     <string name="new_balance">Nuovo saldo</string>
-    </resources>
+    <string name="title_webui">Interfaccia utente Web</string>
+</resources>

@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_324">
+        <item>Interfaccia utente Web</item>
+    </string-array>
     <string-array name="whats_new_323">
         <item>Il pulsante Data consente la navigazione rapida al giorno precedente o successivo.</item>
     </string-array>
@@ -58,7 +61,7 @@
     <string-array name="whats_new_308">
         <item>É ora possibile esportare più account in un unico file</item>
         <item>I metadati del conto sono ora sincronizzati</item>
-        <item>Migliorati i widget della homescreen</item>
+        <item>Migliorati i widget della schermata principale</item>
     </string-array>
     <string-array name="whats_new_307">
         <item>Modifica in blocco</item>

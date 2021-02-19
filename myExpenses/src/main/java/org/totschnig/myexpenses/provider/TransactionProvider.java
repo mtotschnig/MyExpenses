@@ -80,6 +80,7 @@ import static org.totschnig.myexpenses.model.AggregateAccount.GROUPING_AGGREGATE
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import static org.totschnig.myexpenses.provider.DbUtils.suggestNewCategoryColor;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.groupByForPaymentMethodQuery;
+import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.havingForPaymentMethodQuery;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.mapPaymentMethodProjection;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.tableForPaymentMethodQuery;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
@@ -306,7 +307,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   }
 
   @Override
-  public Cursor query(@NonNull Uri uri, String[] projection, String selection,
+  public Cursor query(@NonNull Uri uri,@Nullable String[] projection, String selection,
                       String[] selectionArgs, String sortOrder) {
     SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
     SQLiteDatabase db;
@@ -796,6 +797,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       case METHODS:
         qb.setTables(tableForPaymentMethodQuery(projection));
         groupBy = groupByForPaymentMethodQuery(projection);
+        having = havingForPaymentMethodQuery(projection);
         if (projection == null) {
           projection = PaymentMethod.PROJECTION(wrappedContext);
         } else {
