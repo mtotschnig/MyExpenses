@@ -12,8 +12,8 @@ import androidx.annotation.NonNull;
 
 public enum Package {
   Contrib(350), Upgrade(300), Extended(500), Professional_1(100), Professional_6(500),
-  Professional_12(800), Professional_24(1500),
-  Professional_Amazon(900);
+  Professional_12(800), Professional_24(1500), Professional_Amazon(900), AddOn_SPLIT_TEMPLATE(500),
+  AddOn_HISTORY(500), AddOn_BUDGET(500), AddOn_OCR(500), AddOn_WEB_UI(500);
 
   /**
    * Extra months credited for professional licence to holders of extended licence
