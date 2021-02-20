@@ -17,7 +17,6 @@ package org.totschnig.myexpenses.model;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.text.Html;
 
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
@@ -32,6 +31,7 @@ import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
+import androidx.core.text.HtmlCompat;
 
 import static org.totschnig.myexpenses.util.licence.LicenceStatus.CONTRIB;
 import static org.totschnig.myexpenses.util.licence.LicenceStatus.EXTENDED;
@@ -84,8 +84,6 @@ public enum ContribFeature {
 
   private enum TrialMode {NONE, NUMBER_OF_TIMES, DURATION}
 
-  ;
-
   ContribFeature() {
     this(TrialMode.NUMBER_OF_TIMES);
   }
@@ -103,16 +101,17 @@ public enum ContribFeature {
   public static final int FREE_PLANS = 3;
   public static final int FREE_ACCOUNTS = 5;
   public static final int FREE_SPLIT_TEMPLATES = 1;
-  protected int TRIAL_DURATION_DAYS = 30;
-  private long TRIAL_DURATION_MILLIS = (TRIAL_DURATION_DAYS * 24 * 60) * 60 * 1000L;
+  private final int TRIAL_DURATION_DAYS = 30;
+  private final long TRIAL_DURATION_MILLIS = (TRIAL_DURATION_DAYS * 24 * 60) * 60 * 1000L;
 
-  private TrialMode trialMode;
-  private LicenceStatus licenceStatus;
+  private final TrialMode trialMode;
+  private final LicenceStatus licenceStatus;
   /**
    * how many times contrib features can be used for free
    */
   public static final int USAGES_LIMIT = BuildConfig.DEBUG ? Integer.MAX_VALUE : 10;
 
+  @NonNull
   public String toString() {
     return name().toLowerCase(Locale.US);
   }
@@ -172,7 +171,7 @@ public enum ContribFeature {
   /**
    * @return if user has licence that includes feature
    */
-  //TODO pass licencehandler into method
+  //TODO pass licenceHandler into method
   public boolean hasAccess() {
     if (BuildConfig.BUILD_TYPE.equals("beta")) {
       return true;
@@ -211,10 +210,10 @@ public enum ContribFeature {
   }
 
   public CharSequence buildFullInfoString(Context ctx) {
-    return Html.fromHtml(ctx.getString(R.string.dialog_contrib_premium_feature,
+    return HtmlCompat.fromHtml(ctx.getString(R.string.dialog_contrib_premium_feature,
         "<i>" + ctx.getString(getLabelResIdOrThrow(ctx)) + "</i>",
         ctx.getString(getLicenceStatus().getResId())) + " " +
-        buildUsageLimitString(ctx));
+        buildUsageLimitString(ctx), HtmlCompat.FROM_HTML_MODE_LEGACY);
   }
 
   @SuppressLint("DefaultLocale")

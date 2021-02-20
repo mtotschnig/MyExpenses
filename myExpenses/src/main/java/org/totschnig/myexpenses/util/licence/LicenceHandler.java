@@ -17,6 +17,7 @@ import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -27,6 +28,7 @@ import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -41,6 +43,7 @@ import static androidx.annotation.RestrictTo.Scope.TESTS;
 
 public class LicenceHandler {
   protected static final String LICENSE_STATUS_KEY = "licence_status";
+  protected static final String LICENSE_FEATURES = "licence_features";
   private static final String LICENSE_VALID_SINCE_KEY = "licence_valid_since";
   private static final String LICENSE_VALID_UNTIL_KEY = "licence_valid_until";
   public static final String TAG = "LicenceHandler";
@@ -49,6 +52,7 @@ public class LicenceHandler {
   private boolean isSandbox = BuildConfig.DEBUG;
 
   private LicenceStatus licenceStatus;
+  private List<ContribFeature> addOnFeatures;
   PreferenceObfuscator licenseStatusPrefs;
   CurrencyUnit currencyUnit;
 
@@ -110,6 +114,7 @@ public class LicenceHandler {
     } else {
       setLicenceStatus(licence.getType());
       licenseStatusPrefs.putString(LICENSE_STATUS_KEY, licenceStatus.name());
+      licenseStatusPrefs.putString(LICENSE_FEATURES, licence.getFeatureList());
       if (licence.getValidSince() != null) {
         ZonedDateTime validSince = licence.getValidSince().atTime(LocalTime.MAX).atZone(ZoneId.of("Etc/GMT-14"));
         licenseStatusPrefs.putString(LICENSE_VALID_SINCE_KEY, String.valueOf(validSince.toEpochSecond() * 1000));
@@ -278,7 +283,8 @@ public class LicenceHandler {
   }
 
   public String getBackendUri() {
-    return isSandbox ? "https://myexpenses-licencedb-staging.herokuapp.com" : "https://licencedb.myexpenses.mobi/";
+    // staging "https://myexpenses-licencedb-staging.herokuapp.com";
+    return isSandbox ? "http://10.0.2.2:3000/" : "https://licencedb.myexpenses.mobi/";
   }
 
   private String getPaypalLocale() {

@@ -17,7 +17,6 @@ package org.totschnig.myexpenses.dialog
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
-import android.text.Html
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.Menu
@@ -26,6 +25,9 @@ import android.view.View
 import android.widget.RadioButton
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.text.HtmlCompat
+import androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import icepick.Icepick
 import icepick.State
@@ -42,7 +44,6 @@ import org.totschnig.myexpenses.util.licence.LicenceStatus
 import org.totschnig.myexpenses.util.licence.Package
 import org.totschnig.myexpenses.util.tracking.Tracker
 import java.io.Serializable
-import java.lang.IllegalStateException
 import java.util.*
 import javax.inject.Inject
 
@@ -52,7 +53,7 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
     private var feature: ContribFeature? = null
     private var contribVisible = false
     private var extendedVisible = false
-    private var singleVisisble = false
+    private var singleVisible = false
 
     private val contribButton
         get() = binding.contribFeatureContainer.packageButton
@@ -62,6 +63,7 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
         get() = binding.professionalFeatureContainer.packageButton
     private val singleButton
         get() = binding.singleFeatureContainer.packageButton
+
 
     @JvmField
     @State
@@ -92,89 +94,111 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
         _binding = ContribDialogBinding.inflate(LayoutInflater.from(builder.context))
         dialogView = binding.root
 
-
         //prepare HEADER
-        val message: CharSequence
-        if (feature != null) {
-            val featureDescription = feature!!.buildFullInfoString(ctx)
-            val linefeed: CharSequence = Html.fromHtml("<br>")
-            val removePhrase = feature!!.buildRemoveLimitation(activity, true)
-            message = TextUtils.concat(featureDescription, linefeed, removePhrase)
-            if (feature!!.hasTrial()) {
-                binding.usagesLeft.text = feature!!.buildUsagesLefString(ctx, prefHandler)
+        val message = feature?.let {
+            val featureDescription = it.buildFullInfoString(ctx)
+            val linefeed: CharSequence = HtmlCompat.fromHtml("<br>", FROM_HTML_MODE_LEGACY)
+            val removePhrase = it.buildRemoveLimitation(activity, true)
+            if (it.hasTrial()) {
+                binding.usagesLeft.text = it.buildUsagesLefString(ctx, prefHandler)
                 binding.usagesLeft.visibility = View.VISIBLE
             }
-        } else {
-            val contribText2 = Utils.getTextWithAppName(context, R.string.dialog_contrib_text_2)
-            message = if (isGithub) {
-                TextUtils.concat(Utils.getTextWithAppName(context, R.string.dialog_contrib_text_1), " ",
-                        contribText2)
-            } else {
-                contribText2
-            }
+            TextUtils.concat(featureDescription, linefeed, removePhrase)
+        } ?: Utils.getTextWithAppName(context, R.string.dialog_contrib_text_2).let {
+            if (isGithub)
+                TextUtils.concat(Utils.getTextWithAppName(context, R.string.dialog_contrib_text_1), " ", it)
+            else it
+
         }
         binding.featureInfo.text = message
         val contribFeatureLabelsAsList = Utils.getContribFeatureLabelsAsList(ctx, LicenceStatus.CONTRIB)
         val extendedFeatureLabelsAsList = Utils.getContribFeatureLabelsAsList(ctx, LicenceStatus.EXTENDED)
 
         //prepare CONTRIB section
-        binding.contribFeatureContainer.root.setBackgroundColor(resources.getColor(R.color.premium_licence))
-        if (licenceStatus == null && LicenceStatus.CONTRIB.covers(feature)) {
-            contribVisible = true
-            val contribList = Utils.makeBulletList(ctx, contribFeatureLabelsAsList, R.drawable.ic_menu_done)
-            binding.contribFeatureContainer.packageFeatureList.text = contribList
-        } else {
-            binding.contribFeatureContainer.root.visibility = View.GONE
+        with(binding.contribFeatureContainer) {
+            root.setBackgroundColor(ResourcesCompat.getColor(resources, R.color.premium_licence, null))
+            if (licenceStatus == null && LicenceStatus.CONTRIB.covers(feature)) {
+                contribVisible = true
+                val contribList = Utils.makeBulletList(ctx, contribFeatureLabelsAsList, R.drawable.ic_menu_done)
+                packageFeatureList.text = contribList
+                packageLabel.setText(R.string.contrib_key)
+                packagePrice.text = licenceHandler.getFormattedPrice(Package.Contrib)
+                root.setOnClickListener(this@ContribDialogFragment)
+                contribButton.setOnClickListener(this@ContribDialogFragment)
+            } else {
+                root.visibility = View.GONE
+            }
         }
 
         //prepare EXTENDED section
-        binding.extendedFeatureContainer.root.setBackgroundColor(resources.getColor(R.color.extended_licence))
-        if (LicenceStatus.CONTRIB.greaterOrEqual(licenceStatus) && LicenceStatus.EXTENDED.covers(feature)) {
-            extendedVisible = true
-            val lines = ArrayList<CharSequence>()
-            if (contribVisible) {
-                lines.add("""
-    ${getString(R.string.all_contrib_key_features)}
-    +
-    """.trimIndent())
-            } else if (licenceStatus == null && feature != null && feature!!.isExtended) {
-                lines.addAll(contribFeatureLabelsAsList)
+        with(binding.extendedFeatureContainer) {
+            root.setBackgroundColor(ResourcesCompat.getColor(resources, R.color.extended_licence, null))
+            if (LicenceStatus.CONTRIB.greaterOrEqual(licenceStatus) && LicenceStatus.EXTENDED.covers(feature)) {
+                extendedVisible = true
+                val lines = ArrayList<CharSequence>()
+                if (contribVisible) {
+                    lines.add(getString(R.string.all_contrib_key_features) + "\n+")
+                } else if (licenceStatus == null && (feature?.isExtended == true)) {
+                    lines.addAll(contribFeatureLabelsAsList)
+                }
+                lines.addAll(extendedFeatureLabelsAsList)
+                packageFeatureList.text = Utils.makeBulletList(ctx, lines, R.drawable.ic_menu_done)
+                packageLabel.setText(R.string.extended_key)
+                packagePrice.text = licenceHandler.getFormattedPrice(if (licenceStatus == null) Package.Extended else Package.Upgrade)
+                root.setOnClickListener(this@ContribDialogFragment)
+                extendedButton.setOnClickListener(this@ContribDialogFragment)
+            } else {
+                root.visibility = View.GONE
             }
-            lines.addAll(extendedFeatureLabelsAsList)
-            binding.extendedFeatureContainer.packageFeatureList.text = Utils.makeBulletList(ctx, lines, R.drawable.ic_menu_done)
-        } else {
-            binding.extendedFeatureContainer.root.visibility = View.GONE
         }
 
         //prepare PROFESSIONAL section
-        val lines = ArrayList<CharSequence>()
-        binding.professionalFeatureContainer.root.setBackgroundColor(resources.getColor(R.color.professional_licence))
-        if (extendedVisible) {
-            lines.add("""
-    ${getString(R.string.all_extended_key_features)}
-    +
-    """.trimIndent())
-        } else if (feature != null && feature!!.isProfessional) {
-            if (licenceStatus == null) {
-                lines.addAll(contribFeatureLabelsAsList)
+        with(binding.professionalFeatureContainer) {
+            val lines = ArrayList<CharSequence>()
+            root.setBackgroundColor(ResourcesCompat.getColor(resources, R.color.professional_licence, null))
+            if (extendedVisible) {
+                lines.add(getString(R.string.all_extended_key_features) + "\n+")
+            } else if (feature?.isProfessional == true) {
+                if (licenceStatus == null) {
+                    lines.addAll(contribFeatureLabelsAsList)
+                }
+                if (LicenceStatus.CONTRIB.greaterOrEqual(licenceStatus)) {
+                    lines.addAll(extendedFeatureLabelsAsList)
+                }
             }
-            if (LicenceStatus.CONTRIB.greaterOrEqual(licenceStatus)) {
-                lines.addAll(extendedFeatureLabelsAsList)
+            lines.addAll(Utils.getContribFeatureLabelsAsList(ctx, LicenceStatus.PROFESSIONAL))
+            packageFeatureList.text = Utils.makeBulletList(ctx, lines, R.drawable.ic_menu_done)
+            packageLabel.setText(R.string.professional_key)
+            packagePrice.text = licenceHandler.professionalPriceShortInfo
+            val proPackages = licenceHandler.proPackages
+            if (!contribVisible && !extendedVisible && proPackages.size == 1) {
+                professionalButton.isChecked = true
+                selectedPackage = proPackages[0]
+            } else {
+                root.setOnClickListener(this@ContribDialogFragment)
+                professionalButton.setOnClickListener(this@ContribDialogFragment)
+            }
+            if (savedInstanceState != null && selectedPackage != null) {
+                updateProPrice(licenceStatus)
             }
         }
-        lines.addAll(Utils.getContribFeatureLabelsAsList(ctx, LicenceStatus.PROFESSIONAL))
-        binding.professionalFeatureContainer.packageFeatureList.text = Utils.makeBulletList(ctx, lines, R.drawable.ic_menu_done)
 
         //single FEATURE
-        if (feature?.licenceStatus === LicenceStatus.PROFESSIONAL) {
-            singleVisisble = true
-            binding.singleFeatureContainer.packageLabel.setText(feature!!.getLabelResIdOrThrow(requireContext()))
-            binding.singleFeatureContainer.packagePrice.text = licenceHandler.getFormattedPrice(getSinglePackage())
-            binding.singleFeatureContainer.root.setOnClickListener(this)
-            singleButton.setOnClickListener(this)
-        } else {
-            binding.singleFeatureContainer.root.visibility = View.GONE
+        with(binding.singleFeatureContainer) {
+            root.setBackgroundColor(ResourcesCompat.getColor(resources, R.color.professional_licence, null))
+            feature?.takeIf { it.licenceStatus === LicenceStatus.PROFESSIONAL }?.let {
+                singleVisible = true
+                packageLabel.setText(it.getLabelResIdOrThrow(requireContext()))
+                packagePrice.text = licenceHandler.getFormattedPrice(getSinglePackage())
+                root.setOnClickListener(this@ContribDialogFragment)
+                singleButton.setOnClickListener(this@ContribDialogFragment)
+                packageFeatureList.visibility = View.GONE
+                binding.singleFeatureInfo.visibility = View.VISIBLE
+            } ?: run {
+                root.visibility = View.GONE
+            }
         }
+
 
         //FOOTER
         if (isGithub) {
@@ -187,36 +211,11 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
                 .setNeutralButton(R.string.button_label_close, this)
                 .setIcon(R.mipmap.ic_launcher_alt)
                 .setPositiveButton(R.string.upgrade_now, null)
-        if (feature != null && feature!!.isAvailable(prefHandler)) {
+        if (feature?.isAvailable(prefHandler) == true) {
             builder.setNegativeButton(R.string.dialog_contrib_no, this)
         }
         val dialog = builder.create()
         dialog.setOnShowListener { dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener { onUpgradeClicked() } }
-        if (contribVisible) {
-            binding.contribFeatureContainer.packageLabel.setText(R.string.contrib_key)
-            binding.contribFeatureContainer.packagePrice.text = licenceHandler.getFormattedPrice(Package.Contrib)
-            binding.contribFeatureContainer.root.setOnClickListener(this)
-            contribButton.setOnClickListener(this)
-        }
-        if (extendedVisible) {
-            binding.extendedFeatureContainer.packageLabel.setText(R.string.extended_key)
-            binding.extendedFeatureContainer.packagePrice.text = licenceHandler.getFormattedPrice(if (licenceStatus == null) Package.Extended else Package.Upgrade)
-            binding.extendedFeatureContainer.root.setOnClickListener(this)
-            extendedButton.setOnClickListener(this)
-        }
-        binding.professionalFeatureContainer.packageLabel.setText(R.string.professional_key)
-        binding.professionalFeatureContainer.packagePrice.text = licenceHandler.professionalPriceShortInfo
-        val proPackages = licenceHandler.proPackages
-        if (!contribVisible && !extendedVisible && proPackages.size == 1) {
-            professionalButton.isChecked = true
-            selectedPackage = proPackages[0]
-        } else {
-            binding.professionalFeatureContainer.root.setOnClickListener(this)
-            professionalButton.setOnClickListener(this)
-        }
-        if (savedInstanceState != null && selectedPackage != null) {
-            updateProPrice(licenceStatus)
-        }
         return dialog
     }
 
@@ -231,6 +230,12 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
 
     private fun onUpgradeClicked() {
         val ctx = activity as ContribInfoDialogActivity? ?: return
+        selectedPackage?.let {
+            ctx.contribBuyDo(it)
+            dismiss()
+        } ?: run {
+            showSnackbar(R.string.select_package)
+        }
         if (selectedPackage != null) {
             ctx.contribBuyDo(selectedPackage!!)
             dismiss()
@@ -304,7 +309,7 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
                     popup.menu.add(Menu.NONE, aPackage.ordinal, Menu.NONE, title)
                 }
                 popup.setOnDismissListener {
-                    if (selectedPackage == null || !selectedPackage!!.isProfessional) {
+                    if (selectedPackage?.isProfessional != true) {
                         professionalButton.isChecked = false
                     }
                 }
@@ -316,7 +321,7 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
     private fun updateButtons(selected: RadioButton?) {
         if (contribVisible) contribButton.isChecked = contribButton === selected
         if (extendedVisible) extendedButton.isChecked = extendedButton === selected
-        if (singleVisisble) singleButton.isChecked = singleButton === selected
+        if (singleVisible) singleButton.isChecked = singleButton === selected
         professionalButton.isChecked = professionalButton === selected
     }
 
