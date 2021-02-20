@@ -17,6 +17,7 @@ package org.totschnig.myexpenses;
 
 import android.app.ActivityManager;
 import android.app.Application;
+import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -28,6 +29,7 @@ import android.content.res.Configuration;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Process;
 import android.os.StrictMode;
 
@@ -547,7 +549,15 @@ public class MyApplication extends Application implements
   private void controlWebUi(boolean start) {
     final Intent intent = WebUiViewModel.Companion.getServiceIntent();
     intent.setAction(start ? START_ACTION : STOP_ACTION);
-    startService(intent);
+    ComponentName componentName;
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+      componentName = startForegroundService(intent);
+    } else {
+      componentName = startService(intent);
+    }
+    if (componentName == null) {
+      CrashHandler.report("Start of Web User Interface failed");
+    }
   }
 
   @Override
