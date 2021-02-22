@@ -150,10 +150,6 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
     val accountId: Long
         get() = currentAccount?.id ?: 0L
 
-    @JvmField
-    @State
-    var planInstanceId: Long = 0
-
     /**
      * transaction, transfer or split
      */
@@ -228,7 +224,10 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         get() = intent.getBooleanExtra(KEY_CLONE, false)
 
     private val withAutoFill: Boolean
-        get() = mNewInstance && !isClone
+        get() = mNewInstance && !isClone && planInstanceId == 0L
+
+    private val planInstanceId: Long
+        get() = intent.getLongExtra(KEY_INSTANCEID, 0)
 
     public override fun getDiscardNewMessage(): Int {
         return if (isTemplate) R.string.dialog_confirm_discard_new_template else R.string.dialog_confirm_discard_new_transaction
@@ -271,7 +270,6 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             if (mRowId == 0L) {
                 mRowId = intent.getLongExtra(KEY_TEMPLATEID, 0L)
                 if (mRowId != 0L) {
-                    planInstanceId = intent.getLongExtra(KEY_INSTANCEID, 0)
                     if (planInstanceId != 0L) {
                         task = TRANSACTION_FROM_TEMPLATE
                     } else {
@@ -573,7 +571,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         if (view is DateButton) {
             val date = view.date
             if (areDatesLinked) {
-                when(view.id) {
+                when (view.id) {
                     R.id.Date2Button -> dateEditBinding.DateButton
                     R.id.DateButton -> dateEditBinding.Date2Button
                     else -> null
