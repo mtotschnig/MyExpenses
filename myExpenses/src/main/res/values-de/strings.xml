@@ -967,7 +967,7 @@
     <!-- %s is replaced with language -->
     <string name="download_completed">Der Download (%s) ist abgeschlossen.</string>
     <!-- %s is replaced with information on the engine or application used for running text recognition -->
-    <string name="ocr_recognition_info">Texterkennung wird mit %sausgeführt</string>
+    <string name="ocr_recognition_info">Texterkennung wird mit %s ausgeführt</string>
     <string name="ocr_download_info">Die Texterkennungsfunktion wird von einer externen Anwendung bereitgestellt.</string>
     <!-- %s is replaced with the title of the preference for setting a passphrase for backups (pref_security_export_passphrase_title) -->
     <string name="warning_unencrypted_backup">Während Ihre Daten vor unbefugtem Zugriff auf diesem Gerät geschützt sind, werden Sicherungskopien ohne Verschlüsselung erstellt, es sei denn, Sie konfigurieren %s.</string>
