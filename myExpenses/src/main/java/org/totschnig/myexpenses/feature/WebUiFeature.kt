@@ -14,9 +14,7 @@ interface IWebInputService {
     fun unregisterObserver()
 }
 
-fun interface ServerStateObserver {
-    /**
-     * @param address: The address to reach the server or null if the server is stopped
-     */
-    fun onChanged(address: String?)
+interface ServerStateObserver {
+    fun postAddress(address: String)
+    fun onStopped()
 }

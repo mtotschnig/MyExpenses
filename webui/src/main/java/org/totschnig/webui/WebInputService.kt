@@ -50,6 +50,7 @@ import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import javax.inject.Inject
 
 private const val PORT = 9000
+private const val STOP_CLICK_ACTION = "STOP_CLICK_ACTION"
 
 class WebInputService : Service(), IWebInputService {
 
@@ -83,7 +84,7 @@ class WebInputService : Service(), IWebInputService {
     override fun onCreate() {
         super.onCreate()
         DaggerWebUiComponent.builder().appComponent((application as MyApplication).appComponent).build().inject(this)
-        wrappedContext =  ContextHelper.wrap(this, userLocaleProvider.getUserPreferredLocale())
+        wrappedContext = ContextHelper.wrap(this, userLocaleProvider.getUserPreferredLocale())
     }
 
     override fun onBind(intent: Intent): IBinder {
@@ -92,12 +93,12 @@ class WebInputService : Service(), IWebInputService {
 
     private var server: ApplicationEngine? = null
 
-    val serverAddress: String?
+    private val serverAddress: String?
         get() = if (server != null) address else null
 
     override fun registerObserver(serverStateObserver: ServerStateObserver) {
         this.serverStateObserver = serverStateObserver
-        serverStateObserver.onChanged(serverAddress)
+        serverAddress?.let { serverStateObserver.postAddress(it) }
     }
 
     override fun unregisterObserver() {
@@ -116,10 +117,13 @@ class WebInputService : Service(), IWebInputService {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
         when (intent?.action) {
-            STOP_ACTION -> {
-                stopServer()
+            STOP_CLICK_ACTION -> {
                 prefHandler.putBoolean(PrefKey.UI_WEB, false)
-                serverStateObserver?.onChanged(null)
+            }
+            STOP_ACTION -> {
+                if (stopServer()) {
+                    serverStateObserver?.onStopped()
+                }
             }
             START_ACTION -> {
                 if (server == null) {
@@ -221,14 +225,14 @@ class WebInputService : Service(), IWebInputService {
                     }
 
                     val stopIntent = Intent(this, WebInputService::class.java).apply {
-                        action = STOP_ACTION
+                        action = STOP_CLICK_ACTION
                     }
                     val notification: Notification = NotificationBuilderWrapper.defaultBigTextStyleBuilder(this, getString(R.string.title_webui), address)
                             .addAction(0, 0, getString(R.string.stop), PendingIntent.getService(this, 0, stopIntent, FLAG_ONE_SHOT))
                             .build()
 
                     startForeground(NOTIFICATION_WEB_UI, notification)
-                    serverStateObserver?.onChanged(address)
+                    serverStateObserver?.postAddress(address)
                 }
             }
         }
@@ -242,9 +246,10 @@ class WebInputService : Service(), IWebInputService {
         super.onDestroy()
     }
 
-    private fun stopServer() {
+    private fun stopServer() = if (server != null) {
         server?.stop(0, 0)
         server = null
         stopForeground(true)
-    }
+        true
+    } else false
 }

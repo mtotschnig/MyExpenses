@@ -550,7 +550,7 @@ public class MyApplication extends Application implements
     final Intent intent = WebUiViewModel.Companion.getServiceIntent();
     intent.setAction(start ? START_ACTION : STOP_ACTION);
     ComponentName componentName;
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && start) {
       componentName = startForegroundService(intent);
     } else {
       componentName = startService(intent);
