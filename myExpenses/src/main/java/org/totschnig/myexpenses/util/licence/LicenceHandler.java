@@ -40,6 +40,7 @@ import timber.log.Timber;
 import static androidx.annotation.RestrictTo.Scope.TESTS;
 
 public class LicenceHandler {
+  private boolean hasOurLicence = false;
   protected static final String LICENSE_STATUS_KEY = "licence_status";
   private static final String LICENSE_VALID_SINCE_KEY = "licence_valid_since";
   private static final String LICENSE_VALID_UNTIL_KEY = "licence_valid_until";
@@ -48,7 +49,7 @@ public class LicenceHandler {
   private final CrashHandler crashHandler;
   private boolean isSandbox = BuildConfig.DEBUG;
 
-  private LicenceStatus licenceStatus;
+  @Nullable private LicenceStatus licenceStatus;
   PreferenceObfuscator licenseStatusPrefs;
   CurrencyUnit currencyUnit;
 
@@ -72,6 +73,10 @@ public class LicenceHandler {
     return isEnabledFor(LicenceStatus.EXTENDED);
   }
 
+  public boolean isProfessionalEnabled() {
+    return isEnabledFor(LicenceStatus.PROFESSIONAL);
+  }
+
   public boolean isEnabledFor(@NonNull LicenceStatus licenceStatus) {
     if (this.licenceStatus == null) {
       return false;
@@ -86,9 +91,13 @@ public class LicenceHandler {
   public void init() {
     String licenseStatusPrefsString = licenseStatusPrefs.getString(LICENSE_STATUS_KEY, null);
     try {
-      setLicenceStatus(licenseStatusPrefsString != null ? LicenceStatus.valueOf(licenseStatusPrefsString) : null);
+      final LicenceStatus licenceStatus = licenseStatusPrefsString != null ? LicenceStatus.valueOf(licenseStatusPrefsString) : null;
+      if (licenceStatus != null) {
+        hasOurLicence = true;
+      }
+      setLicenceStatusInternal(licenceStatus);
     } catch (IllegalArgumentException e) {
-      setLicenceStatus(null);
+      setLicenceStatusInternal(null);
     }
   }
 
@@ -103,12 +112,13 @@ public class LicenceHandler {
 
   public void updateLicenceStatus(Licence licence) {
     if (licence == null || licence.getType() == null) {
-      setLicenceStatus(null);
+      setLicenceStatusInternal(null);
       licenseStatusPrefs.remove(LICENSE_STATUS_KEY);
       licenseStatusPrefs.remove(LICENSE_VALID_SINCE_KEY);
       licenseStatusPrefs.remove(LICENSE_VALID_UNTIL_KEY);
     } else {
-      setLicenceStatus(licence.getType());
+      hasOurLicence = true;
+      setLicenceStatusInternal(licence.getType());
       licenseStatusPrefs.putString(LICENSE_STATUS_KEY, licenceStatus.name());
       if (licence.getValidSince() != null) {
         ZonedDateTime validSince = licence.getValidSince().atTime(LocalTime.MAX).atZone(ZoneId.of("Etc/GMT-14"));
@@ -136,7 +146,7 @@ public class LicenceHandler {
 
   @RestrictTo(TESTS)
   public void setLockState(boolean locked) {
-    setLicenceStatus(locked ? null : LicenceStatus.PROFESSIONAL);
+    setLicenceStatusInternal(locked ? null : LicenceStatus.PROFESSIONAL);
     update();
   }
 
@@ -146,7 +156,7 @@ public class LicenceHandler {
   }
 
   @Nullable
-  private String getFormattedPriceWithExtra(Package aPackage, boolean withExtra) {
+  String getFormattedPriceWithExtra(Package aPackage, boolean withExtra) {
     return aPackage.getFormattedPrice(context, currencyUnit, withExtra);
   }
 
@@ -172,6 +182,10 @@ public class LicenceHandler {
 
   @NonNull
   public String getProLicenceStatus(Context context) {
+    return getProValidUntil(context);
+  }
+
+  String getProValidUntil(Context context) {
     return context.getString(R.string.valid_until, Utils.getDateFormatSafe(this.context).format(getValidUntilDate()));
   }
 
@@ -331,7 +345,7 @@ public class LicenceHandler {
   public void handleExpiration() {
     long licenceDuration = getValidUntilMillis() - getValidSinceMillis();
     if (TimeUnit.MILLISECONDS.toDays(licenceDuration) > 240) { // roughly eight months
-      setLicenceStatus(LicenceStatus.EXTENDED);
+      setLicenceStatusInternal(LicenceStatus.EXTENDED);
       licenseStatusPrefs.putString(LICENSE_STATUS_KEY, licenceStatus.name());
       licenseStatusPrefs.remove(LICENSE_VALID_UNTIL_KEY);
       licenseStatusPrefs.commit();
@@ -358,7 +372,13 @@ public class LicenceHandler {
     return String.format("%s (%s)", context.getString(resId), getFormattedPriceWithExtra(aPackage, licenceStatus == LicenceStatus.EXTENDED));
   }
 
-  protected void setLicenceStatus(@Nullable LicenceStatus licenceStatus) {
+  void setLicenceStatus(@Nullable LicenceStatus licenceStatus) {
+    if (!hasOurLicence || this.licenceStatus == null || !this.licenceStatus.greaterOrEqual(licenceStatus)) {
+      setLicenceStatusInternal(licenceStatus);
+    }
+  }
+
+  private void setLicenceStatusInternal(@Nullable LicenceStatus licenceStatus) {
     this.licenceStatus = licenceStatus;
     crashHandler.putCustomData("Licence", licenceStatus != null ? licenceStatus.name() : "null");
   }
