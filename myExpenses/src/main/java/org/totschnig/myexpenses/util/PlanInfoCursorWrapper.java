@@ -30,9 +30,7 @@ public class PlanInfoCursorWrapper extends CursorWrapperHelper {
     super(cursor);
     this.context = context;
     this.shouldSortByNextInstance = shouldSortByNextInstance;
-    if (shouldSortByNextInstance) {
-      initializePlanInfo();
-    }
+    initializePlanInfo();
   }
 
   private void initializePlanInfo() {
