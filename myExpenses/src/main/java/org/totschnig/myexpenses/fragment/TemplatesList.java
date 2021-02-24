@@ -623,7 +623,7 @@ public class TemplatesList extends SortableListFragment
       tv2.setText(catText);
 
       if (doesHavePlan) {
-        CharSequence planInfo = c.getString(columnIndexPlanInfo);
+        CharSequence planInfo = columnIndexPlanInfo == -1 ? null : c.getString(columnIndexPlanInfo);
         if (planInfo == null) {
           if (isCalendarPermissionGranted()) {
             planInfo = getString(R.string.plan_event_deleted);

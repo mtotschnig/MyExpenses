@@ -26,11 +26,15 @@ public class PlanInfoCursorWrapper extends CursorWrapperHelper {
   private final ArrayList<Integer> sortedPositions = new ArrayList<>();
   private final boolean shouldSortByNextInstance;
 
-  public PlanInfoCursorWrapper(Context context, Cursor cursor, boolean shouldSortByNextInstance) {
+  public PlanInfoCursorWrapper(Context context, Cursor cursor, boolean shouldSortByNextInstance, boolean initializePlanInfo) {
     super(cursor);
     this.context = context;
-    this.shouldSortByNextInstance = shouldSortByNextInstance;
-    initializePlanInfo();
+    if (initializePlanInfo) {
+      this.shouldSortByNextInstance = shouldSortByNextInstance;
+      initializePlanInfo();
+    } else {
+      this.shouldSortByNextInstance = false;
+    }
   }
 
   private void initializePlanInfo() {

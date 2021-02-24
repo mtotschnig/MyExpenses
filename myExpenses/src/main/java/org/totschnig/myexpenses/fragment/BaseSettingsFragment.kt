@@ -33,7 +33,6 @@ import org.totschnig.myexpenses.widget.updateWidgets
 import java.util.*
 import javax.inject.Inject
 
-
 abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationErrorListener,
         OnSharedPreferenceChangeListener {
 
