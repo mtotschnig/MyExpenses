@@ -39,9 +39,11 @@ import org.totschnig.myexpenses.databinding.ContribDialogBinding
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.util.DistributionHelper.isGithub
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.licence.AddOnPackage
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.licence.LicenceStatus
 import org.totschnig.myexpenses.util.licence.Package
+import org.totschnig.myexpenses.util.licence.ProfessionalPackage
 import org.totschnig.myexpenses.util.tracking.Tracker
 import java.io.Serializable
 import java.util.*
@@ -64,7 +66,6 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
     private val singleButton
         get() = binding.singleFeatureContainer.packageButton
 
-
     @JvmField
     @State
     var selectedPackage: Package? = null
@@ -75,9 +76,8 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Icepick.restoreInstanceState(this, savedInstanceState)
-        val featureStringExtra = requireArguments().getString(ContribInfoDialogActivity.KEY_FEATURE)
-        if (featureStringExtra != null) {
-            feature = ContribFeature.valueOf(featureStringExtra)
+        requireArguments().getString(ContribInfoDialogActivity.KEY_FEATURE)?.let {
+            feature = ContribFeature.valueOf(it)
         }
         (requireActivity().application as MyApplication).appComponent.inject(this)
     }
@@ -178,9 +178,6 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
                 root.setOnClickListener(this@ContribDialogFragment)
                 professionalButton.setOnClickListener(this@ContribDialogFragment)
             }
-            if (savedInstanceState != null && selectedPackage != null) {
-                updateProPrice(licenceStatus)
-            }
         }
 
         //single FEATURE
@@ -215,16 +212,31 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
             builder.setNegativeButton(R.string.dialog_contrib_no, this)
         }
         val dialog = builder.create()
-        dialog.setOnShowListener { dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener { onUpgradeClicked() } }
+        dialog.setOnShowListener {
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener { onUpgradeClicked() }
+            if (savedInstanceState != null) {
+                selectedPackage?.let {
+                    when(it) {
+                        Package.Contrib -> contribButton
+                        Package.Extended, Package.Upgrade -> extendedButton
+                        is ProfessionalPackage -> {
+                            updateProPrice(licenceStatus)
+                            professionalButton
+                        }
+                        is AddOnPackage -> singleButton
+                    }.isChecked = true
+                }
+            }
+        }
         return dialog
     }
 
     private fun getSinglePackage() = when (feature) {
-        ContribFeature.SPLIT_TEMPLATE -> Package.AddOn_SPLIT_TEMPLATE
-        ContribFeature.HISTORY -> Package.AddOn_HISTORY
-        ContribFeature.BUDGET -> Package.AddOn_BUDGET
-        ContribFeature.OCR -> Package.AddOn_OCR
-        ContribFeature.WEB_UI -> Package.AddOn_WEB_UI
+        ContribFeature.SPLIT_TEMPLATE -> AddOnPackage.SplitTemplate
+        ContribFeature.HISTORY -> AddOnPackage.History
+        ContribFeature.BUDGET -> AddOnPackage.Budget
+        ContribFeature.OCR -> AddOnPackage.Ocr
+        ContribFeature.WEB_UI -> AddOnPackage.WebUi
         else -> throw IllegalStateException()
     }
 
@@ -234,12 +246,6 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
             ctx.contribBuyDo(it)
             dismiss()
         } ?: run {
-            showSnackbar(R.string.select_package)
-        }
-        if (selectedPackage != null) {
-            ctx.contribBuyDo(selectedPackage!!)
-            dismiss()
-        } else {
             showSnackbar(R.string.select_package)
         }
     }
@@ -267,7 +273,7 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
     }
 
     private fun updateProPrice(licenceStatus: LicenceStatus?) {
-        var formattedPrice = licenceHandler.getFormattedPrice(selectedPackage)
+        var formattedPrice = licenceHandler.getFormattedPrice(selectedPackage!!)
         if (formattedPrice != null) {
             if (licenceStatus === LicenceStatus.EXTENDED) {
                 val extendedUpgradeGoodieMessage = licenceHandler.getExtendedUpgradeGoodieMessage(selectedPackage)
@@ -298,18 +304,18 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
             } else {
                 val popup = PopupMenu(requireActivity(), professionalButton)
                 popup.setOnMenuItemClickListener { item: MenuItem ->
-                    selectedPackage = Package.values()[item.itemId]
+                    selectedPackage = proPackages[item.itemId]
                     updateProPrice(licenceStatus)
                     updateButtons(professionalButton)
                     true
                 }
-                for (aPackage in proPackages) {
-                    var title = licenceHandler.getFormattedPrice(aPackage)
-                    if (title == null) title = aPackage.name //fallback if prices have not been loaded
-                    popup.menu.add(Menu.NONE, aPackage.ordinal, Menu.NONE, title)
+                for (aPackage in proPackages.withIndex()) {
+                    var title = licenceHandler.getFormattedPrice(aPackage.value)
+                    if (title == null) title = aPackage::class.java.simpleName //fallback if prices have not been loaded
+                    popup.menu.add(Menu.NONE, aPackage.index, Menu.NONE, title)
                 }
                 popup.setOnDismissListener {
-                    if (selectedPackage?.isProfessional != true) {
+                    if (!(selectedPackage is ProfessionalPackage)) {
                         professionalButton.isChecked = false
                     }
                 }

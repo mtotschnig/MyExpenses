@@ -60,6 +60,7 @@ import org.totschnig.myexpenses.util.io.NetworkUtilsKt;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.licence.LicenceStatus;
 import org.totschnig.myexpenses.util.licence.Package;
+import org.totschnig.myexpenses.util.licence.ProfessionalPackage;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel;
 import org.totschnig.myexpenses.viewmodel.data.Currency;
@@ -157,7 +158,6 @@ import static org.totschnig.myexpenses.preference.PrefKey.UI_WEB;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 import static org.totschnig.myexpenses.util.TextUtils.concatResStrings;
 
-@SuppressWarnings("PackageVisibleField")
 public class SettingsFragment extends BaseSettingsFragment implements
     Preference.OnPreferenceClickListener,
     SimpleInputDialog.OnDialogResultListener {
@@ -742,7 +742,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
           startActivity(i);
         }
       } else {
-        Package[] proPackagesForExtendOrSwitch = licenceHandler.getProPackagesForExtendOrSwitch();
+        ProfessionalPackage[] proPackagesForExtendOrSwitch = licenceHandler.getProPackagesForExtendOrSwitch();
         if (proPackagesForExtendOrSwitch != null) {
           if (proPackagesForExtendOrSwitch.length > 1) {
             ((PopupMenuPreference) preference).showPopupMenu(item -> {

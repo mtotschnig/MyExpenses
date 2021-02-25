@@ -72,7 +72,9 @@ public class DonateDialogFragment extends BaseDialogFragment {
   @NonNull
   private Package getPackage() {
     Package aPackage= (Package) getArguments().getSerializable(KEY_PACKAGE);
-    if (aPackage == null) aPackage = Package.Contrib;
+    if (aPackage == null) {
+      aPackage = Package.Contrib.INSTANCE;
+    }
     return aPackage;
   }
 
@@ -91,7 +93,7 @@ public class DonateDialogFragment extends BaseDialogFragment {
   }
 
   @Override
-  public void onCancel(DialogInterface dialog) {
+  public void onCancel(@NonNull DialogInterface dialog) {
     if (getActivity() instanceof ContribInfoDialogActivity) {
       getActivity().finish();
     }

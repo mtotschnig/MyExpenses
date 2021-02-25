@@ -284,7 +284,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
   @Inject
   UserLocaleProvider userLocaleProvider;
   @Inject
-  LicenceHandler licenceHandler
+  LicenceHandler licenceHandler;
   FilterPersistence filterPersistence;
 
   @State
