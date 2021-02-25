@@ -33,7 +33,6 @@ import org.totschnig.myexpenses.widget.updateWidgets
 import java.util.*
 import javax.inject.Inject
 
-
 abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationErrorListener,
         OnSharedPreferenceChangeListener {
 
@@ -58,7 +57,9 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         webUiViewModel.getServiceState().observe(this) { serverAddress ->
             findPreference<SwitchPreferenceCompat>(PrefKey.UI_WEB)?.let { preference ->
                 serverAddress?.let { preference.summaryOn = it }
-                preference.isChecked = serverAddress != null
+                if (preference.isChecked && serverAddress == null) {
+                    preference.isChecked = false
+                }
             }
         }
     }
@@ -72,6 +73,10 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
 
     fun bindToWebUiService() {
         webUiViewModel.bind(requireContext())
+    }
+
+    fun activateWebUi() {
+        findPreference<SwitchPreferenceCompat>(PrefKey.UI_WEB)?.isChecked = true
     }
 
     override fun onStop() {

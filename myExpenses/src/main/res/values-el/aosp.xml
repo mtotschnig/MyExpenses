@@ -9,5 +9,6 @@
     <string name="toast_text_copied">"Το κείμενο αντιγράφηκε"</string>
     <string name="copy_text">"Αντιγραφή στο πρόχειρο"</string>
     <string name="stop">"Διακοπή"</string>
+    <string name="no_network">"Δεν υπάρχει σύνδεση δικτύου."</string>
 </resources>
 

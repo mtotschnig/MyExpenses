@@ -1006,8 +1006,7 @@ public class TransactionProvider extends BaseTransactionProvider {
 
     final String withPlanInfo = uri.getQueryParameter(QUERY_PARAMETER_WITH_PLAN_INFO);
     if (uriMatch == TEMPLATES && withPlanInfo != null) {
-      final boolean shouldSortByNextInstance = sortOrder == null && (CALENDAR.hasPermission(getContext()) || withPlanInfo.equals("2"));
-      c = new PlanInfoCursorWrapper(getContext(), c, shouldSortByNextInstance);
+      c = new PlanInfoCursorWrapper(getContext(), c, sortOrder == null, CALENDAR.hasPermission(getContext()) || withPlanInfo.equals("2"));
     }
     c.setNotificationUri(getContext().getContentResolver(), uri);
     return c;

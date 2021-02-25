@@ -29,6 +29,11 @@ const val EXTRA_START_FROM_WIDGET = "startFromWidget"
 const val EXTRA_START_FROM_WIDGET_DATA_ENTRY = "startFromWidgetDataEntry"
 const val KEY_WIDTH = "width"
 
+fun onConfigurationChanged(context: Context) {
+    updateWidgets(context, AccountWidget::class.java, WIDGET_CONTEXT_CHANGED)
+    updateWidgets(context, TemplateWidget::class.java, WIDGET_CONTEXT_CHANGED)
+}
+
 fun updateWidgets(context: Context, provider: Class<out AppWidgetProvider?>, action: String?) =
         context.sendBroadcast(Intent(context, provider).apply {
             this.action = action

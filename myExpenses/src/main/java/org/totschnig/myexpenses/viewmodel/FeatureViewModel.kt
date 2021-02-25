@@ -20,7 +20,7 @@ class FeatureViewModel (application: Application) : AndroidViewModel(application
         (application as MyApplication).appComponent.inject(this)
     }
 
-    private fun postAsEvent(state: FeatureState<*>) {
+    private fun postAsEvent(state: FeatureState) {
         featureState.postValue(Event(state))
     }
 
@@ -53,17 +53,17 @@ class FeatureViewModel (application: Application) : AndroidViewModel(application
         featureManager.unregister()
     }
 
-    sealed class FeatureState<out T> {
-        class Error(val throwable: Throwable) : FeatureState<Throwable>()
-        class FeatureLoading(val feature: Feature): FeatureState<Feature>()
-        class LanguageLoading(val language: String): FeatureState<String>()
-        class FeatureAvailable(val modules: List<String>): FeatureState<List<String>>()
-        object LanguageAvailable : FeatureState<Unit>()
+    sealed class FeatureState {
+        class Error(val throwable: Throwable) : FeatureState()
+        class FeatureLoading(val feature: Feature): FeatureState()
+        class LanguageLoading(val language: String): FeatureState()
+        class FeatureAvailable(val modules: List<String>): FeatureState()
+        object LanguageAvailable : FeatureState()
     }
 
-    private val featureState = MutableLiveData<Event<FeatureState<*>>>()
+    private val featureState = MutableLiveData<Event<FeatureState>>()
 
-    fun getFeatureState(): LiveData<Event<FeatureState<*>>> {
+    fun getFeatureState(): LiveData<Event<FeatureState>> {
         return featureState
     }
 

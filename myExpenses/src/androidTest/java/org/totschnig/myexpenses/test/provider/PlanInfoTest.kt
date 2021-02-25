@@ -13,6 +13,8 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.provider.CalendarProviderProxy
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseDbTest
 import timber.log.Timber
@@ -27,8 +29,8 @@ class PlanInfoTest : BaseDbTest() {
         val testAccountId = mDb.insertOrThrow(DatabaseConstants.TABLE_ACCOUNTS, null,
                 AccountInfo("Test account", AccountType.CASH, 0).contentValues)
         val payeeId = mDb.insertOrThrow(DatabaseConstants.TABLE_PAYEES, null, PayeeInfo("N.N").contentValues)
-        arrayOf(TemplateInfo(testAccountId, "Template monthly", 100, payeeId, monthlyPlan.id),
-                TemplateInfo(testAccountId, "Template weekly", 100, payeeId, weeklyPlan.id),
+        arrayOf(TemplateInfo(testAccountId, "Template monthly", 150, payeeId, monthlyPlan.id),
+                TemplateInfo(testAccountId, "Template weekly", 200, payeeId, weeklyPlan.id),
                 TemplateInfo(testAccountId, "Template daily", 100, payeeId, dailyPlan.id))
     }
 
@@ -69,30 +71,60 @@ class PlanInfoTest : BaseDbTest() {
         }
     }
 
-    fun testPlanInfo() {
+    fun testPlanInfoSortByAmount() {
+        planInfoTestHelper("$KEY_AMOUNT DESC", longArrayOf(weeklyPlan.id, monthlyPlan.id, dailyPlan.id ))
+    }
+
+    fun testPlanInfoSortByNextInstance() {
+        object : MockContentProvider() {
+
+            override fun query(uri: Uri, projection: Array<String>?, selection: String?, selectionArgs: Array<String>?, sortOrder: String?): Cursor {
+                val planId = selectionArgs!![0].toLong()
+                val nextInstanceDays: Long = when (planId) {
+                    dailyPlan.id -> 1
+                    weeklyPlan.id -> 3
+                    monthlyPlan.id -> 2
+                    else -> 0
+                }
+                Timber.i("nextInstanceDays %d for planId %d", nextInstanceDays, planId)
+                val nextInstance = System.currentTimeMillis() + TimeUnit.DAYS.toMillis(nextInstanceDays)
+                return MatrixCursor(arrayOf(CalendarContractCompat.Instances.BEGIN)).apply {
+                    addRow(arrayOf(nextInstance))
+                }
+            }
+        }.also {
+            mockContentResolver.addProvider(CalendarProviderProxy.AUTHORITY, it)
+        }
+        planInfoTestHelper(null, longArrayOf(dailyPlan.id, monthlyPlan.id, weeklyPlan.id ))
+    }
+
+    private fun planInfoTestHelper(sortOrder: String?, expectedSort: LongArray) {
         insertData()
         val cursor = mockContentResolver.query(
                 TransactionProvider.TEMPLATES_URI.buildUpon()
                         .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_WITH_PLAN_INFO, "2")
                         .build(),
-                null, null, null, null)!!
+                null, null, null, sortOrder)!!
 
         assertEquals(templateInfos.size, cursor.count)
         cursor.moveToFirst()
+        val orderedElements = LongArray(3)
         do {
-            val planId = cursor.getLong(cursor.getColumnIndex(DatabaseConstants.KEY_PLANID))
+            val planId = cursor.getLong(cursor.getColumnIndex(KEY_PLANID))
             val planInfo = cursor.getString(cursor.getColumnIndex(DatabaseConstants.KEY_PLAN_INFO))
             with(getInstrumentation().targetContext) {
                 assertThat(planInfo).contains(when (planId) {
-                            dailyPlan.id -> getString(R.string.daily_plain)
-                            weeklyPlan.id -> getString(R.string.weekly_plain)
-                            monthlyPlan.id -> getString(R.string.monthly_on_day, LocalDateTime.now().dayOfMonth)
-                            else -> throw IllegalArgumentException()
-                        })
+                    dailyPlan.id -> getString(R.string.daily_plain)
+                    weeklyPlan.id -> getString(R.string.weekly_plain)
+                    monthlyPlan.id -> getString(R.string.monthly_on_day, LocalDateTime.now().dayOfMonth)
+                    else -> throw IllegalArgumentException()
+                })
+                orderedElements[cursor.position] = cursor.getLong(cursor.getColumnIndex(KEY_PLANID))
             }
 
         } while (cursor.moveToNext())
         cursor.close()
+        assertThat(orderedElements).containsExactly(*expectedSort)
     }
 
     /*
@@ -131,40 +163,6 @@ class PlanInfoTest : BaseDbTest() {
             assertNotNull(this)
             close()
         }
-    }
-
-    fun testGetInstancesSorting() {
-        object : MockContentProvider() {
-
-            override fun query(uri: Uri, projection: Array<String>?, selection: String?, selectionArgs: Array<String>?, sortOrder: String?): Cursor {
-                val planId = selectionArgs!![0].toLong()
-                val nextInstance = System.currentTimeMillis() + TimeUnit.DAYS.toMillis(
-                        when (planId) {
-                            dailyPlan.id -> 1
-                            weeklyPlan.id -> 7
-                            monthlyPlan.id -> 30
-                            else -> 0
-                        })
-                return MatrixCursor(arrayOf(CalendarContractCompat.Instances.BEGIN)).apply {
-                    addRow(arrayOf(nextInstance))
-                }
-            }
-        }.also {
-            mockContentResolver.addProvider(CalendarProviderProxy.AUTHORITY, it)
-        }
-        insertData()
-        val cursor = mockContentResolver.query(
-                TransactionProvider.TEMPLATES_URI.buildUpon()
-                        .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_WITH_PLAN_INFO, "2")
-                        .build(),
-                null, null, null, null)!!
-        cursor.moveToFirst()
-        assertThat(cursor.getLong(cursor.getColumnIndex(DatabaseConstants.KEY_PLANID))).isEqualTo(dailyPlan.id)
-        cursor.moveToNext()
-        assertThat(cursor.getLong(cursor.getColumnIndex(DatabaseConstants.KEY_PLANID))).isEqualTo(weeklyPlan.id)
-        cursor.moveToNext()
-        assertThat(cursor.getLong(cursor.getColumnIndex(DatabaseConstants.KEY_PLANID))).isEqualTo(monthlyPlan.id)
-        cursor.close()
     }
 }
 

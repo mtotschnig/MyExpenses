@@ -11,6 +11,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.feature.IWebInputService
+import org.totschnig.myexpenses.feature.ServerStateObserver
 import org.totschnig.myexpenses.feature.WebUiBinder
 
 class WebUiViewModel(application: Application) : AndroidViewModel(application) {
@@ -22,9 +23,16 @@ class WebUiViewModel(application: Application) : AndroidViewModel(application) {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
             webInputService = (service as WebUiBinder).getService()
             webInputServiceBound = true
-            webInputService.registerObserver {
-                serviceState.postValue(it)
-            }
+            webInputService.registerObserver(object: ServerStateObserver {
+                override fun postAddress(address: String) {
+                    serviceState.postValue(address)
+                }
+
+                override fun onStopped() {
+                    serviceState.postValue(null)
+                }
+
+            })
         }
 
         override fun onServiceDisconnected(className: ComponentName) {

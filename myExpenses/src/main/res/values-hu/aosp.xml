@@ -9,5 +9,6 @@
     <string name="toast_text_copied">"Másolt szöveg"</string>
     <string name="copy_text">"Másolás vágólapra"</string>
     <string name="stop">"Leállítás"</string>
+    <string name="no_network">"Nincs hálózati kapcsolat."</string>
 </resources>
 

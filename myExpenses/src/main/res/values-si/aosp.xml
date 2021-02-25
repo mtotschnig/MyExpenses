@@ -5,4 +5,5 @@
     <string name="toast_text_copied">"පෙළ පිටපත් කරන ලදී"</string>
     <string name="copy_text">"පසුරු පුවරුවට පිටපත් කරන්න"</string>
     <string name="stop">"නතර කරන්න"</string>
+    <string name="no_network">"ජාල සම්බන්ධයක් නොමැත."</string>
 </resources>

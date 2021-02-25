@@ -183,7 +183,7 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace, Preferen
     }
 
     private fun activateWebUi() {
-        prefHandler.putBoolean(PrefKey.UI_WEB, true)
+        fragment.activateWebUi()
     }
 
     override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {

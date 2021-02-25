@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_324">
+        <item>Interface web do usuário</item>
+    </string-array>
     <string-array name="whats_new_323">
         <item>O botão de data permite uma navegação rápida para o dia anterior e o seguinte.</item>
     </string-array>

@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.db2
 
+import android.content.ContentProviderOperation
 import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.ContentValues
@@ -13,6 +14,7 @@ import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model2.Transaction
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.Utils
 import java.math.BigDecimal
@@ -27,20 +29,29 @@ class Repository(val contentResolver: ContentResolver, val currencyContext: Curr
     //Transaction
     fun createTransaction(transaction: Transaction) = with(transaction) {
         getCurrencyUnitForAccount(account)?.let { currencyUnit ->
-            contentResolver.insert(TransactionProvider.TRANSACTIONS_URI, ContentValues().apply {
-                put(DatabaseConstants.KEY_ACCOUNTID, account)
-                put(DatabaseConstants.KEY_AMOUNT, Money(currencyUnit, BigDecimal(amount.toString())).amountMinor)
-                val toEpochSecond = ZonedDateTime.of(date, LocalTime.now(), ZoneId.systemDefault()).toEpochSecond()
-                put(DatabaseConstants.KEY_DATE, toEpochSecond)
-                put(DatabaseConstants.KEY_VALUE_DATE, toEpochSecond)
-                put(DatabaseConstants.KEY_PAYEEID, findOrWritePayee(payee))
-                put(DatabaseConstants.KEY_CR_STATUS, CrStatus.UNRECONCILED.name)
-                category.takeIf { it > 0 }?.let { put(DatabaseConstants.KEY_CATID, it) }
-                method.takeIf { it > 0 }?.let { put(DatabaseConstants.KEY_METHODID, it) }
-                put(DatabaseConstants.KEY_REFERENCE_NUMBER, number)
-                put(DatabaseConstants.KEY_COMMENT, comment)
-                put(DatabaseConstants.KEY_UUID, Model.generateUuid())
-            })?.let { ContentUris.parseId(it) }
+            val ops = ArrayList<ContentProviderOperation>()
+            ops.add(ContentProviderOperation.newInsert(TransactionProvider.TRANSACTIONS_URI).withValues(
+                    ContentValues().apply {
+                        put(DatabaseConstants.KEY_ACCOUNTID, account)
+                        put(DatabaseConstants.KEY_AMOUNT, Money(currencyUnit, BigDecimal(amount.toString())).amountMinor)
+                        val toEpochSecond = ZonedDateTime.of(date, LocalTime.now(), ZoneId.systemDefault()).toEpochSecond()
+                        put(DatabaseConstants.KEY_DATE, toEpochSecond)
+                        put(DatabaseConstants.KEY_VALUE_DATE, toEpochSecond)
+                        put(DatabaseConstants.KEY_PAYEEID, findOrWritePayee(payee))
+                        put(DatabaseConstants.KEY_CR_STATUS, CrStatus.UNRECONCILED.name)
+                        category.takeIf { it > 0 }?.let { put(DatabaseConstants.KEY_CATID, it) }
+                        method.takeIf { it > 0 }?.let { put(DatabaseConstants.KEY_METHODID, it) }
+                        put(DatabaseConstants.KEY_REFERENCE_NUMBER, number)
+                        put(DatabaseConstants.KEY_COMMENT, comment)
+                        put(DatabaseConstants.KEY_UUID, Model.generateUuid())
+                    }
+            ).build())
+            for (tag in transaction.tags) {
+                ops.add(ContentProviderOperation.newInsert(TransactionProvider.TRANSACTIONS_TAGS_URI)
+                        .withValueBackReference(KEY_TRANSACTIONID, 0)
+                        .withValue(DatabaseConstants.KEY_TAGID, tag).build())
+            }
+            contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops)[0].uri?.let { ContentUris.parseId(it) }
         }
     }
 

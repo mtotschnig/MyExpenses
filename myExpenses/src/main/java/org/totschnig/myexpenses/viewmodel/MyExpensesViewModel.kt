@@ -42,6 +42,10 @@ class MyExpensesViewModel(application: Application) : ContentResolvingAndroidVie
         return hasHiddenAccounts
     }
 
+    init {
+        (application as MyApplication).appComponent.inject(this)
+    }
+
     fun initialize(): LiveData<Int> = liveData(context = coroutineContext()) {
         for (factory in ServiceLoader.load(getApplication())) {
             factory.init()
@@ -53,7 +57,6 @@ class MyExpensesViewModel(application: Application) : ContentResolvingAndroidVie
             emit(ERROR_INIT_DOWNGRADE)
         } catch (e: SQLiteUpgradeFailedException) {
             CrashHandler.report(e)
-            val msg = "Database upgrade failed. Please contact support@myexpenses.mobi !"
             emit(ERROR_INIT_UPGRADE)
         }
         getApplication<MyApplication>().appComponent.licenceHandler().update()

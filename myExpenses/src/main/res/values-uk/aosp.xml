@@ -10,5 +10,6 @@
     <string name="toast_text_copied">"Текст скопійовано"</string>
     <string name="copy_text">"Копіювати в буфер обміну"</string>
     <string name="stop">"Зупинити"</string>
+    <string name="no_network">"Немає з’єднання з мережею."</string>
 </resources>
 

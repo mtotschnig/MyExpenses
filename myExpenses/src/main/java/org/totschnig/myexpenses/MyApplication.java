@@ -17,6 +17,7 @@ package org.totschnig.myexpenses;
 
 import android.app.ActivityManager;
 import android.app.Application;
+import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -25,9 +26,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Configuration;
-import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Process;
 import android.os.StrictMode;
 
@@ -60,15 +61,14 @@ import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.crypt.PRNGFixes;
+import org.totschnig.myexpenses.util.io.NetworkUtilsKt;
 import org.totschnig.myexpenses.util.io.StreamReader;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
 import org.totschnig.myexpenses.util.log.TagFilterFileLoggingTree;
 import org.totschnig.myexpenses.viewmodel.WebUiViewModel;
-import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.AbstractWidgetKt;
-import org.totschnig.myexpenses.widget.AccountWidget;
-import org.totschnig.myexpenses.widget.TemplateWidget;
+import org.totschnig.myexpenses.widget.WidgetObserver;
 
 import java.io.IOException;
 import java.util.Locale;
@@ -165,12 +165,16 @@ public class MyApplication extends Application implements
     setupLogging();
     if (!syncService) {
       // sets up mSettings
+      if (prefHandler.getBoolean(UI_WEB, false)) {
+        if (NetworkUtilsKt.isNetworkConnected(this)) {
+          controlWebUi(true);
+        } else {
+          prefHandler.putBoolean(UI_WEB, false);
+        }
+      }
       mSettings.registerOnSharedPreferenceChangeListener(this);
       DailyScheduler.updatePlannerAlarms(this, false, false);
-      registerWidgetObservers();
-      if (prefHandler.getBoolean(UI_WEB, false)) {
-        controlWebUi(true);
-      }
+      WidgetObserver.Companion.register(this);
     }
     licenceHandler.init();
     NotificationBuilderWrapper.createChannels(this);
@@ -246,18 +250,6 @@ public class MyApplication extends Application implements
     crashHandler.setupLogging(this);
   }
 
-  private void registerWidgetObservers() {
-    final ContentResolver r = getContentResolver();
-    WidgetObserver mTemplateObserver = new WidgetObserver(TemplateWidget.class);
-    for (Uri uri : TemplateWidget.Companion.getOBSERVED_URIS()) {
-      r.registerContentObserver(uri, true, mTemplateObserver);
-    }
-    WidgetObserver mAccountObserver = new WidgetObserver(AccountWidget.class);
-    for (Uri uri : AccountWidget.Companion.getOBSERVED_URIS()) {
-      r.registerContentObserver(uri, true, mAccountObserver);
-    }
-  }
-
   @Deprecated
   public static MyApplication getInstance() {
     return mSelf;
@@ -277,10 +269,10 @@ public class MyApplication extends Application implements
   }
 
   @Override
-  public void onConfigurationChanged(Configuration newConfig) {
+  public void onConfigurationChanged(@NonNull Configuration newConfig) {
     super.onConfigurationChanged(newConfig);
     userLocaleProvider.setSystemLocale(newConfig.locale);
-    AbstractWidgetKt.updateWidgets(mSelf, AccountWidget.class, AbstractWidgetKt.WIDGET_CONTEXT_CHANGED);
+    AbstractWidgetKt.onConfigurationChanged(this);
   }
 
   public long getLastPause() {
@@ -547,7 +539,15 @@ public class MyApplication extends Application implements
   private void controlWebUi(boolean start) {
     final Intent intent = WebUiViewModel.Companion.getServiceIntent();
     intent.setAction(start ? START_ACTION : STOP_ACTION);
-    startService(intent);
+    ComponentName componentName;
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && start) {
+      componentName = startForegroundService(intent);
+    } else {
+      componentName = startService(intent);
+    }
+    if (componentName == null) {
+      CrashHandler.report("Start of Web User Interface failed");
+    }
   }
 
   @Override
@@ -640,23 +640,6 @@ public class MyApplication extends Application implements
       } else {
         prefHandler.remove(PrefKey.PLANNER_CALENDAR_PATH);
       }
-    }
-  }
-
-  private class WidgetObserver extends ContentObserver {
-    /**
-     *
-     */
-    private Class<? extends AbstractWidget> mProvider;
-
-    WidgetObserver(Class<? extends AbstractWidget> provider) {
-      super(null);
-      mProvider = provider;
-    }
-
-    @Override
-    public void onChange(boolean selfChange) {
-      AbstractWidgetKt.updateWidgets(mSelf, mProvider, AbstractWidgetKt.WIDGET_LIST_DATA_CHANGED);
     }
   }
 

@@ -10,5 +10,6 @@
     <string name="toast_text_copied">"உரை நகலெடுக்கப்பட்டது"</string>
     <string name="copy_text">"கிளிப்போர்டுக்கு நகலெடு"</string>
     <string name="stop">"நிறுத்து"</string>
+    <string name="no_network">"நெட்வொர்க் இணைப்பு இல்லை."</string>
 </resources>
 

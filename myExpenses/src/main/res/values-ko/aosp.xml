@@ -10,5 +10,6 @@
     <string name="toast_text_copied">"텍스트 복사됨"</string>
     <string name="copy_text">"클립보드에 복사"</string>
     <string name="stop">"중지"</string>
+    <string name="no_network">"네트워크에 연결되어 있지 않습니다."</string>
 </resources>
 

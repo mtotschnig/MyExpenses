@@ -9,5 +9,6 @@
     <string name="toast_text_copied">"Text copiat"</string>
     <string name="copy_text">"Copia al porta-retalls"</string>
     <string name="stop">"Atura"</string>
+    <string name="no_network">"No hi ha cap connexió de xarxa."</string>
 </resources>
 
