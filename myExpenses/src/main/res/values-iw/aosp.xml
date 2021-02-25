@@ -10,5 +10,6 @@
     <string name="toast_text_copied">"טקסט שהועתק"</string>
     <string name="copy_text">"העתקה ללוח"</string>
     <string name="stop">"עצור"</string>
+    <string name="no_network">"אין חיבור לרשת."</string>
 </resources>
 

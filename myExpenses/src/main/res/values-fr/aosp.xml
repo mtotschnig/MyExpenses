@@ -9,5 +9,6 @@
     <string name="toast_text_copied">"Texte copié"</string>
     <string name="copy_text">"Copier dans le presse-papiers"</string>
     <string name="stop">"Arrêter"</string>
+    <string name="no_network">"Aucune connexion réseau."</string>
 </resources>
 

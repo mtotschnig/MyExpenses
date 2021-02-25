@@ -10,5 +10,6 @@
     <string name="toast_text_copied">"テキストをコピーしました"</string>
     <string name="copy_text">"クリップボードにコピー"</string>
     <string name="stop">"停止"</string>
+    <string name="no_network">"ネットワークに接続できません。"</string>
 </resources>
 

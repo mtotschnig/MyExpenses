@@ -10,5 +10,6 @@
     <string name="toast_text_copied">"Testua kopiatu da"</string>
     <string name="copy_text">"Kopiatu arbelean"</string>
     <string name="stop">"Gelditu"</string>
+    <string name="no_network">"Ez dago sareko konexiorik."</string>
 </resources>
 

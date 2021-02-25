@@ -5,14 +5,14 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- packages/apps/UnifiedEmail/res/values/strings.xml -->
-    <string name="drawer_open">Open navigation drawer</string>
-    <string name="drawer_close">Close navigation drawer</string>
+    <string name="drawer_open">"Buka laci navigasi"</string>
+    <string name="drawer_close">"Tutup laci navigasi"</string>
     <!-- packages/apps/Contacts/res/values/strings.xml -->
-    <string name="toast_text_copied">Text copied</string>
-    <string name="copy_text">Copy to clipboard</string>
+    <string name="toast_text_copied">Teks disalin</string>
+    <string name="copy_text">Salin ke papan keratan</string>
     <!--  packages/apps/DeskClock/res/values/strings.xml -->
-    <string name="stop">Stop</string>
+    <string name="stop">Berhenti</string>
     <!-- packages/apps/Settings/res/values/strings.xml -->
-    <string name="no_network">There is no network connection.</string>
+    <string name="no_network">Tiada sambungan rangkaian.</string>
 </resources>
 

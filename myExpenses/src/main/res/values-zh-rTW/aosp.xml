@@ -9,5 +9,6 @@
     <string name="toast_text_copied">"文字已複製"</string>
     <string name="copy_text">"複製到剪貼簿"</string>
     <string name="stop">"停止"</string>
+    <string name="no_network">"沒有網路連線，"</string>
 </resources>
 

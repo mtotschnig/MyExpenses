@@ -56,6 +56,7 @@ import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.io.FileUtils;
+import org.totschnig.myexpenses.util.io.NetworkUtilsKt;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.licence.LicenceStatus;
 import org.totschnig.myexpenses.util.licence.Package;
@@ -706,6 +707,10 @@ public class SettingsFragment extends BaseSettingsFragment implements
     }
     else if (matches(pref, UI_WEB)) {
       if ((Boolean) value) {
+        if (!NetworkUtilsKt.isNetworkConnected(requireContext())) {
+          activity().showSnackbar(R.string.no_network);
+          return false;
+        }
         if (ContribFeature.WEB_UI.hasAccess() && activity().featureViewModel.isFeatureAvailable(activity(), Feature.WEBUI)) {
           return true;
         } else {

@@ -9,5 +9,6 @@
     <string name="toast_text_copied">"تم نسخ النص"</string>
     <string name="copy_text">"نسخ إلى الحافظة"</string>
     <string name="stop">"إيقاف"</string>
+    <string name="no_network">ليس هناك اتصال بالشبكة.</string>
 </resources>
 

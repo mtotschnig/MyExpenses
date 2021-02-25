@@ -62,6 +62,7 @@ import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.crypt.PRNGFixes;
+import org.totschnig.myexpenses.util.io.NetworkUtilsKt;
 import org.totschnig.myexpenses.util.io.StreamReader;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
@@ -167,12 +168,16 @@ public class MyApplication extends Application implements
     setupLogging();
     if (!syncService) {
       // sets up mSettings
+      if (prefHandler.getBoolean(UI_WEB, false)) {
+        if (NetworkUtilsKt.isNetworkConnected(this)) {
+          controlWebUi(true);
+        } else {
+          prefHandler.putBoolean(UI_WEB, false);
+        }
+      }
       mSettings.registerOnSharedPreferenceChangeListener(this);
       DailyScheduler.updatePlannerAlarms(this, false, false);
       registerWidgetObservers();
-      if (prefHandler.getBoolean(UI_WEB, false)) {
-        controlWebUi(true);
-      }
     }
     licenceHandler.init();
     NotificationBuilderWrapper.createChannels(this);

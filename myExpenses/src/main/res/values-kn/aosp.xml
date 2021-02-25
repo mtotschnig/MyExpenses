@@ -10,5 +10,6 @@
     <string name="toast_text_copied">"ಪಠ್ಯವನ್ನು ನಕಲಿಸಲಾಗಿದೆ"</string>
     <string name="copy_text">"ಕ್ಲಿಪ್‌ಬೋರ್ಡ್‌ಗೆ ನಕಲಿಸಿ"</string>
     <string name="stop">"ನಿಲ್ಲಿಸು"</string>
+    <string name="no_network">"ಯಾವುದೇ ನೆಟ್‌ವರ್ಕ್‌ ಸಂಪರ್ಕಗಳಿಲ್ಲ."</string>
 </resources>
 

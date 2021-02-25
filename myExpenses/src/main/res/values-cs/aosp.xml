@@ -9,5 +9,6 @@
     <string name="toast_text_copied">"Text zkopírován"</string>
     <string name="copy_text">"Zkopírovat do schránky"</string>
     <string name="stop">"Zastavit"</string>
+    <string name="no_network">"Připojení k síti není k dispozici."</string>
 </resources>
 
