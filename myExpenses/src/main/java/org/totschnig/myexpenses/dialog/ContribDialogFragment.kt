@@ -211,7 +211,7 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
                 .setNeutralButton(R.string.button_label_close, this)
                 .setIcon(R.mipmap.ic_launcher_alt)
                 .setPositiveButton(R.string.upgrade_now, null)
-        if (feature?.isAvailable(prefHandler) == true) {
+        if (feature?.let { licenceHandler.hasTrialAccessTo(it) } == true) {
             builder.setNegativeButton(R.string.dialog_contrib_no, this)
         }
         val dialog = builder.create()

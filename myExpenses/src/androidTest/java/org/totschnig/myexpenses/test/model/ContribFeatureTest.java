@@ -19,13 +19,13 @@ public class ContribFeatureTest extends ModelTest {
     PrefHandler prefHandler = appComponent.prefHandler();
     Assert.assertEquals(USAGES_LIMIT, feature.usagesLeft(prefHandler));
     licenceHandler.setLockState(true);
-    feature.recordUsage(prefHandler);
+    feature.recordUsage(prefHandler, licenceHandler);
     Assert.assertEquals(USAGES_LIMIT - 1, feature.usagesLeft(prefHandler));
     licenceHandler.setLockState(false);
-    feature.recordUsage(prefHandler);
+    feature.recordUsage(prefHandler, licenceHandler);
     Assert.assertEquals(USAGES_LIMIT - 1, feature.usagesLeft(prefHandler));
     licenceHandler.setLockState(true);
-    feature.recordUsage(prefHandler);
+    feature.recordUsage(prefHandler, licenceHandler);
     Assert.assertEquals(USAGES_LIMIT - 2, feature.usagesLeft(prefHandler));
   }
 }

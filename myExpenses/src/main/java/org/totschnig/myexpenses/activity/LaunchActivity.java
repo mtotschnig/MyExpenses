@@ -219,7 +219,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity implement
         ConfirmationDialogFragment.newInstance(bundle).show(getSupportFragmentManager(),
             "RESTORE");
       }
-      if (!ContribFeature.SYNCHRONIZATION.hasAccess() && ContribFeature.SYNCHRONIZATION.usagesLeft(prefHandler) < 1 &&
+      if (!licenceHandler.hasTrialAccessTo(ContribFeature.SYNCHRONIZATION) &&
           !prefHandler.getBoolean(SYNC_UPSELL_NOTIFICATION_SHOWN, false)) {
         prefHandler.putBoolean(SYNC_UPSELL_NOTIFICATION_SHOWN, true);
         ContribUtils.showContribNotification(this, ContribFeature.SYNCHRONIZATION);

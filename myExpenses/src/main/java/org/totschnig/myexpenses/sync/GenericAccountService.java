@@ -39,6 +39,7 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.util.licence.LicenceHandler;
 
 import java.util.List;
 
@@ -108,9 +109,8 @@ public class GenericAccountService extends Service {
     return mAuthenticator.getIBinder();
   }
 
-  public static void updateAccountsIsSyncable(MyApplication context) {
-    boolean isSyncable = ContribFeature.SYNCHRONIZATION.hasAccess() ||
-        ContribFeature.SYNCHRONIZATION.usagesLeft(context.getAppComponent().prefHandler()) > 0;
+  public static void updateAccountsIsSyncable(MyApplication context, LicenceHandler licenceHandler) {
+    boolean isSyncable = licenceHandler.hasTrialAccessTo(ContribFeature.SYNCHRONIZATION);
     AccountManager accountManager = AccountManager.get(context);
 
     getAccountsAsStream(context)

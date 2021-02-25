@@ -12,6 +12,7 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.licence.LicenceHandler;
 
 import java.util.Arrays;
 
@@ -54,17 +55,19 @@ public class DefaultAdHandlerFactory implements AdHandlerFactory {
   protected final Context context;
   protected final PrefHandler prefHandler;
   protected final String userCountry;
+  private final LicenceHandler licenceHandler;
 
-  public DefaultAdHandlerFactory(Context context, PrefHandler prefHandler, String userCountry) {
+  public DefaultAdHandlerFactory(Context context, PrefHandler prefHandler, String userCountry, LicenceHandler licenceHandler) {
     this.context = context;
     this.prefHandler = prefHandler;
     this.userCountry = userCountry;
+    this.licenceHandler = licenceHandler;
   }
 
   @Override
   public boolean isAdDisabled() {
     return !prefHandler.getBoolean(DEBUG_ADS, false) &&
-        (ContribFeature.AD_FREE.hasAccess() ||
+        (licenceHandler.hasAccessTo(ContribFeature.AD_FREE) ||
             isInInitialGracePeriod() || BuildConfig.DEBUG);
   }
 

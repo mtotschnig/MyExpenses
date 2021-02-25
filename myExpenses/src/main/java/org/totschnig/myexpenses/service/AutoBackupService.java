@@ -37,6 +37,7 @@ import org.totschnig.myexpenses.util.NotificationBuilderWrapper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.util.licence.LicenceHandler;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -58,7 +59,9 @@ public class AutoBackupService extends JobIntentService {
   public static final String ACTION_SCHEDULE_AUTO_BACKUP = BuildConfig.APPLICATION_ID + ".ACTION_SCHEDULE_AUTO_BACKUP";
 
   @Inject
-  protected PrefHandler prefHandler;
+  PrefHandler prefHandler;
+  @Inject
+  LicenceHandler licenceHandler;
 
   /**
    * Unique job ID for this service.
@@ -84,7 +87,7 @@ public class AutoBackupService extends JobIntentService {
     if (ACTION_AUTO_BACKUP.equals(action)) {
       Result<DocumentFile> result = BackupUtils.doBackup(prefHandler.getString(PrefKey.EXPORT_PASSWORD, null), this);
       if (result.isSuccess()) {
-        int remaining = ContribFeature.AUTO_BACKUP.recordUsage(prefHandler);
+        int remaining = ContribFeature.AUTO_BACKUP.recordUsage(prefHandler, licenceHandler);
         if (remaining < 1) {
           ContribUtils.showContribNotification(this, ContribFeature.AUTO_BACKUP);
         }

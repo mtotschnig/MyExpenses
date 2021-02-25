@@ -20,6 +20,7 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Template;
+import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.util.Preconditions;
@@ -40,6 +41,7 @@ import androidx.annotation.VisibleForTesting;
 import timber.log.Timber;
 
 import static androidx.annotation.RestrictTo.Scope.TESTS;
+import static org.totschnig.myexpenses.util.licence.LicenceKt.getFeaturesFromPreference;
 
 public class LicenceHandler {
   private boolean hasOurLicence = false;
@@ -50,18 +52,20 @@ public class LicenceHandler {
   public static final String TAG = "LicenceHandler";
   protected final MyApplication context;
   private final CrashHandler crashHandler;
+  private final PrefHandler prefHandler;
   private boolean isSandbox = BuildConfig.DEBUG;
 
-  @Nullable  private LicenceStatus licenceStatus;
-  private List<ContribFeature> addOnFeatures;
+  @Nullable private LicenceStatus licenceStatus;
+  @Nullable private List<ContribFeature> addOnFeatures;
   PreferenceObfuscator licenseStatusPrefs;
   CurrencyUnit currencyUnit;
 
-  public LicenceHandler(MyApplication context, PreferenceObfuscator preferenceObfuscator, CrashHandler crashHandler) {
+  public LicenceHandler(MyApplication context, PreferenceObfuscator preferenceObfuscator, CrashHandler crashHandler, PrefHandler prefHandler) {
     this.context = context;
     this.licenseStatusPrefs = preferenceObfuscator;
     this.currencyUnit = new CurrencyUnit("EUR", "€", 2);
     this.crashHandler = crashHandler;
+    this.prefHandler = prefHandler;
   }
 
   public boolean hasValidKey() {
@@ -79,6 +83,17 @@ public class LicenceHandler {
 
   public boolean isProfessionalEnabled() {
     return isEnabledFor(LicenceStatus.PROFESSIONAL);
+  }
+
+  /**
+   * @return user either has access through licence or through trial
+   */
+  public boolean hasTrialAccessTo(@NonNull ContribFeature feature) {
+    return hasAccessTo(feature) || feature.usagesLeft(prefHandler) > 0;
+  }
+
+  public boolean hasAccessTo(@NonNull ContribFeature feature) {
+    return isEnabledFor(feature.getLicenceStatus()) || addOnFeatures.contains(feature);
   }
 
   public boolean isEnabledFor(@NonNull LicenceStatus licenceStatus) {
@@ -100,6 +115,7 @@ public class LicenceHandler {
         hasOurLicence = true;
       }
       setLicenceStatusInternal(licenceStatus);
+      addOnFeatures = getFeaturesFromPreference(licenseStatusPrefs.getString(LICENSE_FEATURES, null));
     } catch (IllegalArgumentException e) {
       setLicenceStatusInternal(null);
     }
@@ -108,7 +124,7 @@ public class LicenceHandler {
   public final void update() {
     Template.updateNewPlanEnabled();
     Account.updateNewAccountEnabled();
-    GenericAccountService.updateAccountsIsSyncable(context);
+    GenericAccountService.updateAccountsIsSyncable(context, this);
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
       ShortcutHelper.configureSplitShortcut(context, isContribEnabled());
     }
@@ -124,7 +140,8 @@ public class LicenceHandler {
       hasOurLicence = true;
       setLicenceStatusInternal(licence.getType());
       licenseStatusPrefs.putString(LICENSE_STATUS_KEY, licenceStatus.name());
-      licenseStatusPrefs.putString(LICENSE_FEATURES, licence.getFeatureList());
+      addOnFeatures = licence.getFeatureList();
+      licenseStatusPrefs.putString(LICENSE_FEATURES, licence.getFeaturesAsPrefString());
       if (licence.getValidSince() != null) {
         ZonedDateTime validSince = licence.getValidSince().atTime(LocalTime.MAX).atZone(ZoneId.of("Etc/GMT-14"));
         licenseStatusPrefs.putString(LICENSE_VALID_SINCE_KEY, String.valueOf(validSince.toEpochSecond() * 1000));

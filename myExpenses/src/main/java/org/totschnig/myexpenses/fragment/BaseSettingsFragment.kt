@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.service.DailyScheduler
 import org.totschnig.myexpenses.sync.GenericAccountService
+import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import org.totschnig.myexpenses.util.setNightMode
 import org.totschnig.myexpenses.viewmodel.WebUiViewModel
@@ -47,6 +48,9 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
 
     @Inject
     lateinit var settings: SharedPreferences
+
+    @Inject
+    lateinit var licenceHandler: LicenceHandler
 
     private lateinit var webUiViewModel: WebUiViewModel
 
@@ -168,7 +172,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
 
     fun handleContrib(prefKey: PrefKey, feature: ContribFeature, preference: Preference) =
             if (matches(preference, prefKey)) {
-                if (feature.hasAccess()) {
+                if (licenceHandler.hasAccessTo(feature)) {
                     activity().contribFeatureCalled(feature, null)
                 } else {
                     activity().showContribDialog(feature, null)

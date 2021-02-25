@@ -111,7 +111,7 @@ public abstract class BaseUiTest {
   }
 
   protected void handleContribDialog(ContribFeature contribFeature) {
-    if (!contribFeature.hasAccess()) {
+    if (!app.getAppComponent().licenceHandler().hasAccessTo(contribFeature)) {
       try {
         //without playservice a billing setup error dialog is displayed
         onView(withText(android.R.string.ok)).perform(click());

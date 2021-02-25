@@ -10,6 +10,7 @@ import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory
 import org.totschnig.myexpenses.util.ads.DefaultAdHandlerFactory
+import org.totschnig.myexpenses.util.licence.LicenceHandler
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -21,7 +22,7 @@ open class UiModule {
 
     @Provides
     @Singleton
-    fun provideAdHandlerFactory(application: MyApplication, prefHandler: PrefHandler, @Named(AppComponent.USER_COUNTRY) userCountry: String): AdHandlerFactory = object : DefaultAdHandlerFactory(application, prefHandler, userCountry) {
+    fun provideAdHandlerFactory(application: MyApplication, prefHandler: PrefHandler, @Named(AppComponent.USER_COUNTRY) userCountry: String, licenceHandler: LicenceHandler): AdHandlerFactory = object : DefaultAdHandlerFactory(application, prefHandler, userCountry, licenceHandler) {
         override fun isAdDisabled() = true
     }
 

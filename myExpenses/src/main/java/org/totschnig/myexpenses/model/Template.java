@@ -26,6 +26,8 @@ import android.net.Uri;
 import android.os.RemoteException;
 
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.di.AppComponent;
+import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.CalendarProviderProxy;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -33,6 +35,7 @@ import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.viewmodel.data.PlanInstance;
 import org.totschnig.myexpenses.viewmodel.data.Tag;
 
@@ -652,20 +655,23 @@ public class Template extends Transaction implements ITransfer, ISplit {
   }
 
   public static void updateNewPlanEnabled() {
+    final AppComponent appComponent = MyApplication.getInstance().getAppComponent();
+    LicenceHandler licenceHandler = appComponent.licenceHandler();
+    PrefHandler prefHandler = appComponent.prefHandler();
     boolean newPlanEnabled = true, newSplitTemplateEnabled = true;
-    if (!ContribFeature.PLANS_UNLIMITED.hasAccess()) {
+    if (!licenceHandler.hasAccessTo(ContribFeature.PLANS_UNLIMITED)) {
       if (count(Template.CONTENT_URI, KEY_PLANID + " is not null", null) >= ContribFeature.FREE_PLANS) {
         newPlanEnabled = false;
       }
     }
-    PrefKey.NEW_PLAN_ENABLED.putBoolean(newPlanEnabled);
+    prefHandler.putBoolean(PrefKey.NEW_PLAN_ENABLED, newPlanEnabled);
 
-    if (!ContribFeature.SPLIT_TEMPLATE.hasAccess()) {
+    if (!licenceHandler.hasAccessTo(ContribFeature.SPLIT_TEMPLATE)) {
       if (count(Template.CONTENT_URI, KEY_CATID + " = " + DatabaseConstants.SPLIT_CATID, null) >= ContribFeature.FREE_SPLIT_TEMPLATES) {
         newSplitTemplateEnabled = false;
       }
     }
-    PrefKey.NEW_SPLIT_TEMPLATE_ENABLED.putBoolean(newSplitTemplateEnabled);
+    prefHandler.putBoolean(PrefKey.NEW_SPLIT_TEMPLATE_ENABLED, newSplitTemplateEnabled);
   }
 
   public boolean isPlanExecutionAutomatic() {

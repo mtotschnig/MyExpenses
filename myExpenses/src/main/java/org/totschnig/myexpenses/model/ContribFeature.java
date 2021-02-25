@@ -123,8 +123,8 @@ public enum ContribFeature {
   /**
    * @return number of remaining usages (> 0, if usage still possible, <= 0 if not)
    */
-  public int recordUsage(PrefHandler prefHandler) {
-    if (!hasAccess()) {
+  public int recordUsage(PrefHandler prefHandler, LicenceHandler licenceHandler) {
+    if (!licenceHandler.hasAccessTo(this)) {
       if (trialMode == TrialMode.NUMBER_OF_TIMES) {
         int usages = getUsages(prefHandler) + 1;
         prefHandler.putInt(getPrefKey(), usages);
@@ -166,25 +166,6 @@ public enum ContribFeature {
       default:
         return 0;
     }
-  }
-
-  /**
-   * @return if user has licence that includes feature
-   */
-  //TODO pass licenceHandler into method
-  public boolean hasAccess() {
-    if (BuildConfig.BUILD_TYPE.equals("beta")) {
-      return true;
-    }
-    LicenceHandler licenceHandler = MyApplication.getInstance().getLicenceHandler();
-    return licenceHandler.isEnabledFor(getLicenceStatus());
-  }
-
-  /**
-   * @return user either has access through licence or through trial
-   */
-  public boolean isAvailable(PrefHandler prefHandler) {
-    return hasAccess() || usagesLeft(prefHandler) > 0;
   }
 
   public String buildRequiresString(Context ctx) {

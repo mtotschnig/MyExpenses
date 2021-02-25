@@ -535,7 +535,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
       actionBarSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
         //TODO factor out to call site
         if (prefKey.equals(AUTO_BACKUP)) {
-          if (isChecked && !ContribFeature.AUTO_BACKUP.hasAccess()) {
+          if (isChecked && !licenceHandler.hasAccessTo(ContribFeature.AUTO_BACKUP)) {
             activity().showContribDialog(ContribFeature.AUTO_BACKUP, null);
             if (ContribFeature.AUTO_BACKUP.usagesLeft(prefHandler) <= 0) {
               buttonView.setChecked(false);
@@ -711,7 +711,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
           activity().showSnackbar(R.string.no_network);
           return false;
         }
-        if (ContribFeature.WEB_UI.hasAccess() && activity().featureViewModel.isFeatureAvailable(activity(), Feature.WEBUI)) {
+        if (licenceHandler.hasAccessTo(ContribFeature.WEB_UI) && activity().featureViewModel.isFeatureAvailable(activity(), Feature.WEBUI)) {
           return true;
         } else {
           activity().contribFeatureRequested(ContribFeature.WEB_UI, null);

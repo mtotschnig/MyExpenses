@@ -183,7 +183,7 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
     if (featureStringFromExtra != null) {
       ContribFeature feature = ContribFeature.valueOf(featureStringFromExtra);
       int usagesLeft = feature.usagesLeft(prefHandler);
-      boolean shouldCallFeature = feature.hasAccess() || (!canceled && usagesLeft > 0);
+      boolean shouldCallFeature = licenceHandler.hasAccessTo(feature) || (!canceled && usagesLeft > 0);
       if (callerIsContribIface()) {
         Intent i = new Intent();
         i.putExtra(KEY_FEATURE, featureStringFromExtra);

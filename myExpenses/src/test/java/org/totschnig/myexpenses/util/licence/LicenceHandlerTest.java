@@ -22,7 +22,7 @@ public class LicenceHandlerTest {
 
   @Before
   public void setUp() {
-    licenceHandler = new LicenceHandler(mock(MyApplication.class), mock(PreferenceObfuscator.class), mock(CrashHandler.class));
+    licenceHandler = new LicenceHandler(mock(MyApplication.class), mock(PreferenceObfuscator.class), mock(CrashHandler.class), prefHandler);
   }
 
   @After

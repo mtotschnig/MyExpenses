@@ -2,10 +2,16 @@ package org.totschnig.myexpenses.util.licence
 
 import com.google.gson.annotations.SerializedName
 import org.threeten.bp.LocalDate
+import org.totschnig.myexpenses.model.ContribFeature
 
 data class Licence(@SerializedName("valid_since") val validSince: LocalDate?,
                    @SerializedName("valid_until") val validUntil: LocalDate?,
                    @SerializedName("type") val type: LicenceStatus?,
                    @SerializedName("features") val features: List<String>?) {
-    val featureList get() = features?.joinToString(",")
+    val featureList
+        get() = features?.map { ContribFeature.valueOf(it) }
+    val featuresAsPrefString
+        get() = features?.joinToString(",")
 }
+
+fun getFeaturesFromPreference(prefString: String?) = prefString?.split(',')?.map { ContribFeature.valueOf(it) }
