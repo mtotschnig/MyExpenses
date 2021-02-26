@@ -9,7 +9,8 @@ data class Licence(@SerializedName("valid_since") val validSince: LocalDate?,
                    @SerializedName("type") val type: LicenceStatus?,
                    @SerializedName("features") val features: List<String>?) {
     val featureList
-        get() = features?.map { ContribFeature.valueOf(it) }
+        get() = AddOnPackage::class.sealedSubclasses.filter { features?.contains(it.simpleName) == true }
+                .mapNotNull { it.objectInstance?.feature }
     val featuresAsPrefString
         get() = features?.joinToString(",")
 }

@@ -10,6 +10,9 @@ import java.io.Serializable
 import kotlin.math.ceil
 
 sealed class Package(val defaultPrice: Long) : Serializable {
+    open val optionName = "Licence"
+
+    open fun payPalButtonId(isSandBox: Boolean) = if (isSandBox) "TURRUESSCUG8N" else "LBUDF8DSWJAZ8"
 
     fun getFormattedPrice(context: Context, currencyUnit: CurrencyUnit?, withExtra: Boolean): String {
         val formatted = getFormattedPriceRaw(currencyUnit, context)
@@ -70,6 +73,8 @@ sealed class ProfessionalPackage(defaultPrice: Long, val duration: Int) : Packag
     }
 }
 sealed class AddOnPackage(defaultPrice: Long, val feature: ContribFeature) : Package(defaultPrice) {
+    override val optionName = "AddOn"
+    override fun payPalButtonId(isSandBox: Boolean) = if (isSandBox) "9VF4Z9KSLHXZN" else TODO()
     object SplitTemplate : AddOnPackage(500, ContribFeature.SPLIT_TEMPLATE)
     object History : AddOnPackage(500, ContribFeature.HISTORY)
     object Budget : AddOnPackage(500, ContribFeature.BUDGET)

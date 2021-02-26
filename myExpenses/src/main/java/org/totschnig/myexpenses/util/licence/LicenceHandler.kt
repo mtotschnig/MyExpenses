@@ -30,6 +30,7 @@ import java.util.concurrent.TimeUnit
 open class LicenceHandler(protected val context: MyApplication, var licenseStatusPrefs: PreferenceObfuscator, private val crashHandler: CrashHandler, private val prefHandler: PrefHandler) {
     private var hasOurLicence = false
     private val isSandbox = BuildConfig.DEBUG
+    private val localBackend = false
     var licenceStatus: LicenceStatus? = null
         set(value) {
             crashHandler.putCustomData("Licence", licenceStatus?.name ?: "null")
@@ -242,11 +243,9 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
 
     fun getPaypalUri(aPackage: Package): String {
         val host = if (isSandbox) "www.sandbox.paypal.com" else "www.paypal.com"
-        val paypalButtonId = if (aPackage is AddOnPackage) "9VF4Z9KSLHXZN"
-                else if (isSandbox) "TURRUESSCUG8N" else "LBUDF8DSWJAZ8"
         var uri = String.format(Locale.US,
                 "https://%s/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=%s&on0=%s&os0=%s&lc=%s&currency_code=EUR",
-                host, paypalButtonId, "Licence", aPackage::class.java.simpleName, paypalLocale)
+                host, aPackage.payPalButtonId(isSandbox), aPackage.optionName, aPackage::class.java.simpleName, paypalLocale)
         prefHandler.getString(PrefKey.LICENCE_EMAIL, null)?.let {
             uri += "&custom=" + Uri.encode(it)
         }
@@ -254,10 +253,16 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
         return uri
     }
 
-    // staging "https://myexpenses-licencedb-staging.herokuapp.com";
     val backendUri: String
-        get() =// staging "https://myexpenses-licencedb-staging.herokuapp.com";
-            if (isSandbox) "http://10.0.2.2:3000/" else "https://licencedb.myexpenses.mobi/"
+        get() =
+            if (isSandbox)
+                if (localBackend)
+                    "http://10.0.2.2:3000/"
+                else
+                    "https://myexpenses-licencedb-staging.herokuapp.com"
+            else
+                "https://licencedb.myexpenses.mobi/"
+
     private val paypalLocale: String
         get() {
             val locale = Locale.getDefault()
