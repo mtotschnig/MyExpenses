@@ -242,13 +242,15 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
 
     fun getPaypalUri(aPackage: Package): String {
         val host = if (isSandbox) "www.sandbox.paypal.com" else "www.paypal.com"
-        val paypalButtonId = if (isSandbox) "TURRUESSCUG8N" else "LBUDF8DSWJAZ8"
+        val paypalButtonId = if (aPackage is AddOnPackage) "9VF4Z9KSLHXZN"
+                else if (isSandbox) "TURRUESSCUG8N" else "LBUDF8DSWJAZ8"
         var uri = String.format(Locale.US,
                 "https://%s/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=%s&on0=%s&os0=%s&lc=%s&currency_code=EUR",
                 host, paypalButtonId, "Licence", aPackage::class.java.simpleName, paypalLocale)
         prefHandler.getString(PrefKey.LICENCE_EMAIL, null)?.let {
             uri += "&custom=" + Uri.encode(it)
         }
+        Timber.d("Paypal URI: %s", uri)
         return uri
     }
 
