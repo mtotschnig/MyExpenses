@@ -128,7 +128,7 @@ public class TemplatesList extends SortableListFragment
   private LoaderManager mManager;
 
   private int columnIndexAmount, columnIndexLabelSub, columnIndexComment,
-      columnIndexPayee, columnIndexColor, columIndexDefaultAction,
+      columnIndexPayee, columnIndexColor, columnIndexDefaultAction,
       columnIndexCurrency, columnIndexTransferAccount, columnIndexPlanId,
       columnIndexTitle, columnIndexRowId, columnIndexPlanInfo, columnIndexIsSealed;
   private boolean indexesCalculated = false;
@@ -149,7 +149,7 @@ public class TemplatesList extends SortableListFragment
   @Inject
   PrefHandler prefHandler;
 
-  protected TemplatesListViewModel viewModel;
+  private TemplatesListViewModel viewModel;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -161,7 +161,7 @@ public class TemplatesList extends SortableListFragment
   }
 
   @Override
-  public void onSaveInstanceState(Bundle outState) {
+  public void onSaveInstanceState(@NonNull Bundle outState) {
     super.onSaveInstanceState(outState);
     Icepick.saveInstanceState(this, outState);
   }
@@ -172,7 +172,7 @@ public class TemplatesList extends SortableListFragment
     View v = inflater.inflate(R.layout.templates_list, container, false);
     mListView = v.findViewById(R.id.list);
 
-    mManager = getLoaderManager();
+    mManager = LoaderManager.getInstance(this);
     mManager.initLoader(SORTABLE_CURSOR, null, this);
     // Create an array to specify the fields we want to display in the list
     String[] from = new String[]{KEY_TITLE, KEY_LABEL_MAIN, KEY_AMOUNT};
@@ -201,7 +201,7 @@ public class TemplatesList extends SortableListFragment
             boolean splitAtPosition = isSplitAtPosition(position);
             Template.Action defaultAction;
             try {
-              defaultAction = Template.Action.valueOf(mTemplatesCursor.getString(columIndexDefaultAction));
+              defaultAction = Template.Action.valueOf(mTemplatesCursor.getString(columnIndexDefaultAction));
             } catch (IllegalArgumentException e) {
               defaultAction = Template.Action.SAVE;
             }
@@ -434,10 +434,9 @@ public class TemplatesList extends SortableListFragment
         columnIndexTitle = c.getColumnIndex(KEY_TITLE);
         columnIndexPlanInfo = c.getColumnIndex(KEY_PLAN_INFO);
         columnIndexIsSealed = c.getColumnIndex(KEY_SEALED);
-        columIndexDefaultAction = c.getColumnIndex(KEY_DEFAULT_ACTION);
+        columnIndexDefaultAction = c.getColumnIndex(KEY_DEFAULT_ACTION);
         indexesCalculated = true;
       }
-      mAdapter.swapCursor(mTemplatesCursor);
       invalidateCAB();
       hasPlans = false;
       if (isCalendarPermissionGranted() &&
@@ -479,11 +478,12 @@ public class TemplatesList extends SortableListFragment
           }
           if (missingUuids.size() > 0) {
             new RepairHandler(this).obtainMessage(
-                0, missingUuids.toArray(new String[missingUuids.size()]))
+                0, missingUuids.toArray(new String[0]))
                 .sendToTarget();
           }
         }
       }
+      mAdapter.swapCursor(mTemplatesCursor);
       requireActivity().invalidateOptionsMenu();
     }
   }
@@ -565,10 +565,8 @@ public class TemplatesList extends SortableListFragment
   }
 
   private class MyAdapter extends SimpleCursorAdapter {
-    private int colorExpense;
-    private int colorIncome;
-    private String categorySeparator = " : ",
-        commentSeparator = " / ";
+    private final int colorExpense;
+    private final int colorIncome;
 
     public MyAdapter(Context context, int layout, Cursor c, String[] from,
                      int[] to, int flags) {
@@ -602,6 +600,7 @@ public class TemplatesList extends SortableListFragment
         } else {
           String label_sub = c.getString(columnIndexLabelSub);
           if (label_sub != null && label_sub.length() > 0) {
+            String categorySeparator = " : ";
             catText = catText + categorySeparator + label_sub;
           }
         }
@@ -609,6 +608,7 @@ public class TemplatesList extends SortableListFragment
       //TODO: simplify confer TemplateWidget
       SpannableStringBuilder ssb;
       String comment = c.getString(columnIndexComment);
+      String commentSeparator = " / ";
       if (comment != null && comment.length() > 0) {
         ssb = new SpannableStringBuilder(comment);
         ssb.setSpan(new StyleSpan(android.graphics.Typeface.ITALIC), 0, comment.length(), 0);
@@ -732,7 +732,7 @@ public class TemplatesList extends SortableListFragment
   }
 
   @Override
-  public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+  public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
     inflater.inflate(R.menu.templates, menu);
   }
 

@@ -25,7 +25,7 @@
     </item>
     <group android:id="@id/MenuSingleGroup" android:orderInCategory="2">
         <item
-            android:id="@id/CREATE_COMMAND"
+            android:id="@id/CREATE_SUB_COMMAND"
             android:icon="@drawable/ic_menu_add"
             android:title="@string/menu_create_sub_cat"
             app:showAsAction="ifRoom">

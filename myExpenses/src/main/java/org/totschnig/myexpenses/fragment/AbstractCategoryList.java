@@ -342,7 +342,7 @@ public abstract class AbstractCategoryList<ROWBINDING extends ViewBinding> exten
         doSingleSelection(elcmi.id, label, category.icon, isMain);
         finishActionMode();
         return true;
-      case R.id.CREATE_COMMAND:
+      case R.id.CREATE_SUB_COMMAND:
         ctx.createCat(elcmi.id);
         return true;
     }

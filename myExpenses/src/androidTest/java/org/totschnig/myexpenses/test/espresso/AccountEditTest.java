@@ -44,17 +44,11 @@ public class AccountEditTest {
   public void saveAccount() {
     Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), AccountEdit.class);
     mActivityRule.launchActivity(i);
+    onView(withId(R.id.Currency)).check(matches(isDisplayed()));
+    onView(withId(R.id.Currency)).perform(Espresso.wait(withListSize(Matchers.greaterThan(0)), 1000));
     onView(withId(R.id.Label)).perform(typeText(LABEL));
     onView(withId(R.id.CREATE_COMMAND)).perform(click());
     assertTrue(mActivityRule.getActivity().isFinishing());
     assertTrue(Account.findAnyOpen(LABEL) > -1);
-  }
-
-  @Test
-  public void currenciesAreLoaded() {
-    Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), AccountEdit.class);
-    mActivityRule.launchActivity(i);
-    onView(withId(R.id.Currency)).check(matches(isDisplayed()));
-    onView(withId(R.id.Currency)).perform(Espresso.wait(withListSize(Matchers.greaterThan(0)), 1000));
   }
 }

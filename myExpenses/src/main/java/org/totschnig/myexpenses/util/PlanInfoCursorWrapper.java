@@ -11,13 +11,15 @@ import com.android.calendar.CalendarContractCompat.Events;
 
 import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.provider.CalendarProviderProxy;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
 import androidx.collection.LongSparseArray;
 import androidx.collection.SparseArrayCompat;
+
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLAN_INFO;
 
 public class PlanInfoCursorWrapper extends CursorWrapperHelper {
   private final Context context;
@@ -42,7 +44,7 @@ public class PlanInfoCursorWrapper extends CursorWrapperHelper {
     if (wrapped.moveToFirst()) {
       ArrayList<Long> plans = new ArrayList<>();
       long planId;
-      int columnIndexPlanId = getColumnIndex(DatabaseConstants.KEY_PLANID);
+      int columnIndexPlanId = getColumnIndex(KEY_PLANID);
       while (!wrapped.isAfterLast()) {
         int wrappedPos = wrapped.getPosition();
         if ((planId = getLong(columnIndexPlanId)) != 0L) {
@@ -137,7 +139,7 @@ public class PlanInfoCursorWrapper extends CursorWrapperHelper {
   @Override
   public int getColumnIndex(String columnName) {
     int result;
-    if (columnName.equals(DatabaseConstants.KEY_PLAN_INFO)) {
+    if (columnName.equals(KEY_PLAN_INFO)) {
       result = getColumnCount();
     } else {
       result = super.getColumnIndex(columnName);
@@ -146,9 +148,17 @@ public class PlanInfoCursorWrapper extends CursorWrapperHelper {
   }
 
   @Override
+  public String getColumnName(int columnIndex) {
+    if (columnIndex == getColumnCount()) {
+      return KEY_PLAN_INFO;
+    }
+    return super.getColumnName(columnIndex);
+  }
+
+  @Override
   public String getString(int columnIndex) {
     if (columnIndex == getColumnCount()) {
-      return planInfo.get(getLong(getColumnIndex(DatabaseConstants.KEY_PLANID)));
+      return planInfo.get(getLong(getColumnIndex(KEY_PLANID)));
     }
     return super.getString(columnIndex);
   }
