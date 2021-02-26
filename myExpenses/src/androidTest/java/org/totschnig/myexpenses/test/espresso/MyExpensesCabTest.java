@@ -81,23 +81,24 @@ public final class MyExpensesCabTest extends BaseUiTest {
   @FlakyTest
   public void cloneCommandIncreasesListSize() throws TimeoutException {
     int origListSize = waitForAdapter().getCount();
+    openCab();
+    clickMenuItem(R.id.CLONE_TRANSACTION_COMMAND, true);
+    closeKeyboardAndSave();
+    assertThat(waitForAdapter().getCount()).isEqualTo(origListSize + 1);
+  }
+
+  private void openCab() {
     onData(is(instanceOf(Cursor.class)))
         .inAdapterView(getWrappedList())
         .atPosition(1)
         .perform(longClick());
-    clickMenuItem(R.id.CLONE_TRANSACTION_COMMAND, true);
-    closeKeyboardAndSave();
-    assertThat(waitForAdapter().getCount()).isEqualTo(origListSize + 1);
   }
 
   @Test
   @FlakyTest
   public void editCommandKeepsListSize() throws TimeoutException {
     int origListSize = waitForAdapter().getCount();
-    onData(is(instanceOf(Cursor.class)))
-        .inAdapterView(getWrappedList())
-        .atPosition(1) // position 0 is header
-        .perform(longClick());
+    openCab();
     clickMenuItem(R.id.EDIT_COMMAND, true);
     closeKeyboardAndSave();
     assertThat(waitForAdapter().getCount()).isEqualTo(origListSize);
@@ -107,10 +108,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
   public void createTemplateCommandCreatesTemplate() throws TimeoutException {
     waitForAdapter();
     String templateTitle = "Espresso Template Test";
-    onData(is(instanceOf(Cursor.class)))
-        .inAdapterView(getWrappedList())
-        .atPosition(1)
-        .perform(longClick());
+    openCab();
     clickMenuItem(R.id.CREATE_TEMPLATE_COMMAND, true);
     onView(withText(containsString(mActivityRule.getActivity().getString(R.string.menu_create_template))))
         .check(matches(isDisplayed()));
@@ -128,10 +126,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
   @Test
   public void deleteCommandDecreasesListSize() throws TimeoutException {
     int origListSize = waitForAdapter().getCount();
-    onData(is(instanceOf(Cursor.class)))
-        .inAdapterView(getWrappedList())
-        .atPosition(1)
-        .perform(longClick());
+    openCab();
     clickMenuItem(R.id.DELETE_COMMAND, true);
     onView(withText(R.string.menu_delete)).perform(click());
     assertThat(waitForAdapter().getCount()).isEqualTo(origListSize - 1);
@@ -140,20 +135,14 @@ public final class MyExpensesCabTest extends BaseUiTest {
   @Test
   public void deleteCommandWithVoidOption() throws TimeoutException {
     int origListSize = waitForAdapter().getCount();
-    onData(is(instanceOf(Cursor.class)))
-        .inAdapterView(getWrappedList())
-        .atPosition(1) // position 0 is header
-        .perform(longClick());
+    openCab();
     clickMenuItem(R.id.DELETE_COMMAND, true);
     onView(withId(R.id.checkBox)).perform(click());
     onView(withText(R.string.menu_delete)).perform(click());
     onData(is(instanceOf(Cursor.class))).inAdapterView(getWrappedList()).atPosition(1)
         .check(matches(hasDescendant(both(withId(R.id.voidMarker)).and(isDisplayed()))));
     assertThat(waitForAdapter().getCount()).isEqualTo(origListSize);
-    onData(is(instanceOf(Cursor.class)))
-        .inAdapterView(getWrappedList())
-        .atPosition(1) // position 0 is header
-        .perform(longClick());
+    openCab();
     clickMenuItem(R.id.UNDELETE_COMMAND, true);
     onView(getWrappedList())
         .check(matches(not(withAdaptedData(CursorMatchers.withRowString(DatabaseConstants.KEY_CR_STATUS, "VOID")))));
@@ -163,10 +152,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
   @Test
   public void deleteCommandCancelKeepsListSize() throws TimeoutException {
     int origListSize = waitForAdapter().getCount();
-    onData(is(instanceOf(Cursor.class)))
-        .inAdapterView(getWrappedList())
-        .atPosition(1)
-        .perform(longClick());
+    openCab();
     clickMenuItem(R.id.DELETE_COMMAND, true);
     onView(withText(android.R.string.cancel)).perform(click());
     assertThat(waitForAdapter().getCount()).isEqualTo(origListSize);
@@ -175,10 +161,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
   @Test
   public void splitCommandCreatesSplitTransaction() throws TimeoutException {
     waitForAdapter();
-    onData(is(instanceOf(Cursor.class)))
-        .inAdapterView(getWrappedList())
-        .atPosition(1)
-        .perform(longClick());
+    openCab();
     clickMenuItem(R.id.SPLIT_TRANSACTION_COMMAND, true);
     handleContribDialog(ContribFeature.SPLIT_TRANSACTION);
     onView(withText(R.string.menu_split_transaction)).perform(click());
@@ -194,10 +177,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
   @Test
   public void cabIsRestoredAfterOrientationChange() throws TimeoutException {
     waitForAdapter();
-    onData(is(instanceOf(Cursor.class)))
-        .inAdapterView(getWrappedList())
-        .atPosition(1)
-        .perform(longClick());
+    openCab();
     rotate();
     onView(withId(R.id.action_mode_bar)).check(matches(isDisplayed()));
   }
