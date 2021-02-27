@@ -268,7 +268,7 @@ public abstract class DistributionBaseFragment<ROWBINDING extends ViewBinding> e
     menu.findItem(R.id.DELETE_COMMAND).setVisible(false);
     menu.findItem(R.id.SELECT_ALL_COMMAND).setVisible(false);
     menu.findItem(R.id.SELECT_COMMAND).setTitle(R.string.menu_show_transactions);
-    menu.findItem(R.id.CREATE_COMMAND).setVisible(false);
+    menu.findItem(R.id.CREATE_SUB_COMMAND).setVisible(false);
     menu.findItem(R.id.MOVE_COMMAND).setVisible(false);
   }
 
