@@ -58,7 +58,6 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.io.FileUtils;
 import org.totschnig.myexpenses.util.io.NetworkUtilsKt;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
-import org.totschnig.myexpenses.util.licence.LicenceStatus;
 import org.totschnig.myexpenses.util.licence.Package;
 import org.totschnig.myexpenses.util.licence.ProfessionalPackage;
 import org.totschnig.myexpenses.util.tracking.Tracker;
@@ -579,54 +578,6 @@ public class SettingsFragment extends BaseSettingsFragment implements
     }
   }
 
-  public void configureContribPrefs() {
-    if (!matches(getPreferenceScreen(), ROOT_SCREEN)) {
-      return;
-    }
-    Preference contribPurchasePref = requirePreference(CONTRIB_PURCHASE),
-        licenceKeyPref = findPreference(NEW_LICENCE);
-    if (licenceHandler.needsKeyEntry()) {
-      if (licenceHandler.hasValidKey()) {
-        licenceKeyPref.setTitle(getKeyInfo());
-        licenceKeyPref.setSummary(concatResStrings(getActivity(), " / ",
-            R.string.button_validate, R.string.menu_remove));
-      }
-    } else {
-      if (licenceKeyPref != null) {
-        licenceKeyPref.setVisible(false);
-      }
-    }
-    String contribPurchaseTitle, contribPurchaseSummary;
-    LicenceStatus licenceStatus = licenceHandler.getLicenceStatus();
-    if (licenceStatus == null) {
-      int baseTitle = R.string.pref_contrib_purchase_title;
-      contribPurchaseTitle = getString(baseTitle);
-      if (licenceHandler.doesUseIAP()) {
-        contribPurchaseTitle += " (" + getString(R.string.pref_contrib_purchase_title_in_app) + ")";
-      }
-      contribPurchaseSummary = getString(R.string.pref_contrib_purchase_summary);
-    } else {
-      contribPurchaseTitle = getString(licenceStatus.getResId());
-      if (licenceHandler.needsMigration()) {
-        contribPurchaseSummary = Utils.getTextWithAppName(requireContext(), R.string.licence_migration_info).toString();
-      } else if (licenceStatus.isUpgradeable()) {
-        contribPurchaseSummary = getString(R.string.pref_contrib_purchase_title_upgrade);
-      } else {
-        contribPurchaseSummary = licenceHandler.getProLicenceAction(requireContext());
-        String proLicenceStatus = licenceHandler.getProLicenceStatus(requireContext());
-        if (!TextUtils.isEmpty(proLicenceStatus)) {
-          contribPurchaseTitle += String.format(" (%s)", proLicenceStatus);
-        }
-      }
-      if (!TextUtils.isEmpty(contribPurchaseSummary)) {
-        contribPurchaseSummary += "\n";
-      }
-      contribPurchaseSummary += getString(R.string.thank_you);
-    }
-    contribPurchasePref.setSummary(contribPurchaseSummary);
-    contribPurchasePref.setTitle(contribPurchaseTitle);
-  }
-
   @Override
   public boolean onPreferenceChange(Preference pref, Object value) {
     if (matches(pref, HOME_CURRENCY)) {
@@ -826,10 +777,6 @@ public class SettingsFragment extends BaseSettingsFragment implements
       return true;
     }
     return false;
-  }
-
-  private String getKeyInfo() {
-    return String.format("%s: %s", prefHandler.getString(LICENCE_EMAIL, ""), prefHandler.getString(NEW_LICENCE, ""));
   }
 
   private void showOnlyOneProtectionWarning(boolean legacyProtectionByPasswordIsActive) {

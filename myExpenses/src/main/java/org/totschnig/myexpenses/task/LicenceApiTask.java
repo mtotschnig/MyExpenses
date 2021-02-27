@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 
 import com.google.gson.Gson;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.retrofit.ValidationService;
@@ -13,6 +14,7 @@ import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.util.licence.Licence;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
+import org.totschnig.myexpenses.util.licence.LicenceStatus;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -88,20 +90,23 @@ public class LicenceApiTask extends AsyncTask<Void, Void, Result> {
       try {
         Response<Licence> licenceResponse = licenceCall.execute();
         Licence licence = licenceResponse.body();
-        if (licenceResponse.isSuccessful() && licence != null && licence.getType() != null) {
+        if (licenceResponse.isSuccessful() && licence != null) {
           licenceHandler.updateLicenceStatus(licence);
-          return Result.ofSuccess(TextUtils.concatResStrings(context, " ",
-              R.string.licence_validation_success, licence.getType().getResId()));
+          final LicenceStatus type = licence.getType();
+          Integer[] resIds = type == null ? ArrayUtils.addAll(
+              new Integer[]{R.string.licence_validation_success}, licence.featureListAsResIDs(context)) :
+              new Integer[]{R.string.licence_validation_success, type.getResId()};
+          return Result.ofSuccess(TextUtils.concatResStrings(context, " ", resIds));
         } else {
           switch (licenceResponse.code()) {
             case 452:
-              licenceHandler.updateLicenceStatus(null);
+              licenceHandler.voidLicenceStatus(true);
               return Result.ofFailure(R.string.licence_validation_error_expired);
             case 453:
-              licenceHandler.updateLicenceStatus(null);
+              licenceHandler.voidLicenceStatus(false);
               return Result.ofFailure(R.string.licence_validation_error_device_limit_exceeded);
             case 404:
-              licenceHandler.updateLicenceStatus(null);
+              licenceHandler.voidLicenceStatus(false);
               return Result.ofFailure(R.string.licence_validation_failure);
             default:
               return buildFailureResult(String.valueOf(licenceResponse.code()));
@@ -117,7 +122,7 @@ public class LicenceApiTask extends AsyncTask<Void, Void, Result> {
         if (licenceResponse.isSuccessful() || licenceResponse.code() == 404) {
           NEW_LICENCE.remove();
           LICENCE_EMAIL.remove();
-          licenceHandler.updateLicenceStatus(null);
+          licenceHandler.voidLicenceStatus(false);
           return Result.ofSuccess(R.string.licence_removal_success);
         } else {
           return buildFailureResult(String.valueOf(licenceResponse.code()));

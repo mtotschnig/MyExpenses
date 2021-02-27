@@ -32,14 +32,15 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
     private val isSandbox = BuildConfig.DEBUG
     private val localBackend = false
     var licenceStatus: LicenceStatus? = null
-        set(value) {
+        private set(value) {
             crashHandler.putCustomData("Licence", licenceStatus?.name ?: "null")
             field = value
         }
-    private var addOnFeatures: List<ContribFeature>? = null
+    var addOnFeatures: List<ContribFeature>? = null
+
     val currencyUnit: CurrencyUnit = CurrencyUnit("EUR", "€", 2)
     fun hasValidKey(): Boolean {
-        return isContribEnabled && !hasLegacyLicence()
+        return (isContribEnabled || !addOnFeatures.isNullOrEmpty()) && !hasLegacyLicence()
     }
 
     fun maybeUpgradeLicence(licenceStatus: LicenceStatus?) {
@@ -65,7 +66,7 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
     }
 
     fun hasAccessTo(feature: ContribFeature): Boolean {
-        return isEnabledFor(feature.licenceStatus) || addOnFeatures != null && addOnFeatures!!.contains(feature)
+        return isEnabledFor(feature.licenceStatus) || addOnFeatures?.contains(feature) == true
     }
 
     fun isEnabledFor(licenceStatus: LicenceStatus): Boolean {
@@ -85,7 +86,7 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
                 hasOurLicence = true
             }
             this.licenceStatus = licenceStatus
-            addOnFeatures = getFeaturesFromPreference(licenseStatusPrefs.getString(LICENSE_FEATURES, null))
+            addOnFeatures = Licence.getFeaturesFromPreference(licenseStatusPrefs.getString(LICENSE_FEATURES, null))
         } catch (e: IllegalArgumentException) {
             this.licenceStatus = null
         }
@@ -100,28 +101,34 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
         }
     }
 
-    open fun updateLicenceStatus(licence: Licence?) {
-        if (licence?.type == null) {
-            this.licenceStatus = null
-            licenseStatusPrefs.remove(LICENSE_STATUS_KEY)
-            licenseStatusPrefs.remove(LICENSE_VALID_SINCE_KEY)
-            licenseStatusPrefs.remove(LICENSE_VALID_UNTIL_KEY)
+    open fun voidLicenceStatus(keepFeatures: Boolean) {
+        this.licenceStatus = null
+        licenseStatusPrefs.remove(LICENSE_STATUS_KEY)
+        licenseStatusPrefs.remove(LICENSE_VALID_SINCE_KEY)
+        licenseStatusPrefs.remove(LICENSE_VALID_UNTIL_KEY)
+        if (!keepFeatures) {
+            this.addOnFeatures = null
+            licenseStatusPrefs.remove(LICENSE_FEATURES)
+        }
+    }
+
+    open fun updateLicenceStatus(licence: Licence) {
+        hasOurLicence = true
+        this.licenceStatus = licence.type
+        licence.type?.name?.let {
+            licenseStatusPrefs.putString(LICENSE_STATUS_KEY, it)
+        } ?: licenseStatusPrefs.remove(LICENSE_STATUS_KEY)
+        addOnFeatures = licence.featureList
+        licenseStatusPrefs.putString(LICENSE_FEATURES, licence.featuresAsPrefString)
+        if (licence.validSince != null) {
+            val validSince = licence.validSince.atTime(LocalTime.MAX).atZone(ZoneId.of("Etc/GMT-14"))
+            licenseStatusPrefs.putString(LICENSE_VALID_SINCE_KEY, (validSince.toEpochSecond() * 1000).toString())
+        }
+        if (licence.validUntil != null) {
+            val validUntil = licence.validUntil.atTime(LocalTime.MAX).atZone(ZoneId.of("Etc/GMT+12"))
+            licenseStatusPrefs.putString(LICENSE_VALID_UNTIL_KEY, (validUntil.toEpochSecond() * 1000).toString())
         } else {
-            hasOurLicence = true
-            this.licenceStatus = licence.type
-            licenseStatusPrefs.putString(LICENSE_STATUS_KEY, licenceStatus!!.name)
-            addOnFeatures = licence.featureList
-            licenseStatusPrefs.putString(LICENSE_FEATURES, licence.featuresAsPrefString)
-            if (licence.validSince != null) {
-                val validSince = licence.validSince.atTime(LocalTime.MAX).atZone(ZoneId.of("Etc/GMT-14"))
-                licenseStatusPrefs.putString(LICENSE_VALID_SINCE_KEY, (validSince.toEpochSecond() * 1000).toString())
-            }
-            if (licence.validUntil != null) {
-                val validUntil = licence.validUntil.atTime(LocalTime.MAX).atZone(ZoneId.of("Etc/GMT+12"))
-                licenseStatusPrefs.putString(LICENSE_VALID_UNTIL_KEY, (validUntil.toEpochSecond() * 1000).toString())
-            } else {
-                licenseStatusPrefs.remove(LICENSE_VALID_UNTIL_KEY)
-            }
+            licenseStatusPrefs.remove(LICENSE_VALID_UNTIL_KEY)
         }
         licenseStatusPrefs.commit()
         update()
@@ -134,7 +141,7 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
 
     @RestrictTo(RestrictTo.Scope.TESTS)
     fun setLockState(locked: Boolean) {
-        this.licenceStatus= if (locked) null else LicenceStatus.PROFESSIONAL
+        this.licenceStatus = if (locked) null else LicenceStatus.PROFESSIONAL
         update()
     }
 
@@ -294,11 +301,11 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
         val licenceDuration = validUntilMillis - validSinceMillis
         if (TimeUnit.MILLISECONDS.toDays(licenceDuration) > 240) { // roughly eight months
             licenceStatus = LicenceStatus.EXTENDED
-            licenseStatusPrefs.putString(LICENSE_STATUS_KEY, licenceStatus!!.name)
+            licenseStatusPrefs.putString(LICENSE_STATUS_KEY, LicenceStatus.EXTENDED.name)
             licenseStatusPrefs.remove(LICENSE_VALID_UNTIL_KEY)
             licenseStatusPrefs.commit()
         } else {
-            updateLicenceStatus(null)
+            voidLicenceStatus(true)
         }
     }
 

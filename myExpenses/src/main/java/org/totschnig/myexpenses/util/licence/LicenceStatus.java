@@ -38,14 +38,11 @@ public enum LicenceStatus {
 
   /**
    * for historical reasons, skus for Contrib used "premium"
-   * @return
    */
   public String toSkuType() {
-    switch (this) {
-      case CONTRIB:
-        return "premium";
-      default:
-        return name().toLowerCase(Locale.ROOT);
+    if (this == LicenceStatus.CONTRIB) {
+      return "premium";
     }
+    return name().toLowerCase(Locale.ROOT);
   }
 }
