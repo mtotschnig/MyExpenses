@@ -1,6 +1,6 @@
 include ':webui'
-include ':mlkit'
-include ":tesseract"
+//include ':mlkit'
+//include ":tesseract"
 include ':ocr'
 include ':PlayLicensingOrig', ':transactionscontract'
 include ':myExpenses'

@@ -86,7 +86,7 @@ android {
             //signingConfig signingConfigs.release
             manifestPlaceholders = [appName: "@string/app_name", debug: "false"]
             applicationIdSuffix ""
-            ndk.debugSymbolLevel = 'FULL'
+            //ndk.debugSymbolLevel = 'FULL'
         }
         debug {
             applicationIdSuffix ".debug"
