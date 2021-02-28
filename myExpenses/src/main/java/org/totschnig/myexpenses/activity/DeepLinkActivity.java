@@ -11,6 +11,8 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
 
+import androidx.annotation.NonNull;
+
 import static android.text.TextUtils.isEmpty;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_VALIDATE_LICENCE;
 
@@ -64,7 +66,7 @@ public class DeepLinkActivity extends ProtectedFragmentActivity {
     finish();
   }
 
-  public void showMessage(final CharSequence message) {
+  public void showMessage(@NonNull final CharSequence message) {
     String messageToShow = isPdt ? getString(R.string.paypal_callback_info) + " " : "";
     messageToShow += message;
     super.showMessage(messageToShow);

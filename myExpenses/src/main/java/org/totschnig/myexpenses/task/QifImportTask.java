@@ -43,6 +43,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.ui.ContextHelper;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.io.FileUtils;
+import org.totschnig.myexpenses.util.licence.LicenceHandler;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -260,7 +261,8 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
 
     int importCount = 0;
     for (QifAccount account : accounts) {
-      if (!ContribFeature.ACCOUNTS_UNLIMITED.hasAccess()
+      LicenceHandler licenceHandler = ((MyApplication) taskExecutionFragment.requireContext().getApplicationContext()).getAppComponent().licenceHandler();
+      if (!licenceHandler.hasAccessTo(ContribFeature.ACCOUNTS_UNLIMITED)
           && nrOfAccounts + importCount > 5) {
         publishProgress(
             context.getString(R.string.qif_parse_failure_found_multiple_accounts) + " " +

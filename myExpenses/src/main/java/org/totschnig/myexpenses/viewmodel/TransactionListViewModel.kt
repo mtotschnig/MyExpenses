@@ -43,7 +43,7 @@ class TransactionListViewModel(application: Application) : BudgetViewModel(appli
                 .throttleFirst(100, TimeUnit.MILLISECONDS)
                 .subscribe {
                     liveData.postValue(it)
-                    if (ContribFeature.BUDGET.isAvailable(prefHandler)) {
+                    if (licenceHandler.hasTrialAccessTo(ContribFeature.BUDGET)) {
                         loadBudget(it)
                     }
                 }

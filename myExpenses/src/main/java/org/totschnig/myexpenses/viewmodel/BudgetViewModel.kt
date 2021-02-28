@@ -18,6 +18,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import java.util.*
 import javax.inject.Inject
@@ -35,6 +36,8 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
     lateinit var currencyContext: CurrencyContext
     @Inject
     lateinit var prefHandler: PrefHandler
+    @Inject
+    lateinit var licenceHandler: LicenceHandler
     private val databaseHandler: DatabaseHandler
     val budgetCreatorFunction: (Cursor) -> Budget = { cursor ->
         val currency = cursor.getString(cursor.getColumnIndex(KEY_CURRENCY))

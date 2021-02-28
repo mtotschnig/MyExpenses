@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.AdapterView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
@@ -13,12 +12,10 @@ import icepick.State
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity
-import org.totschnig.myexpenses.activity.LaunchActivity
 import org.totschnig.myexpenses.adapter.MaterialSpinnerAdapter
 import org.totschnig.myexpenses.databinding.ExtendProLicenceBinding
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import javax.inject.Inject
-
 
 class ExtendProLicenceDialogFragment : DialogFragment(), DialogInterface.OnClickListener {
     private lateinit var binding: ExtendProLicenceBinding
@@ -43,13 +40,13 @@ class ExtendProLicenceDialogFragment : DialogFragment(), DialogInterface.OnClick
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = ExtendProLicenceBinding.inflate(LayoutInflater.from(requireContext()))
-        val proPackages = licenceHandler.getProPackages().map(licenceHandler::getExtendOrSwitchMessage)
+        val proPackages = licenceHandler.proPackages.map(licenceHandler::getExtendOrSwitchMessage)
         val adapter = MaterialSpinnerAdapter(
                 requireContext(),
                 R.layout.support_simple_spinner_dropdown_item,
                 proPackages)
         binding.actSelectLicence.setAdapter(adapter)
-        binding.actSelectLicence.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id -> selectedIndex = position }
+        binding.actSelectLicence.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ -> selectedIndex = position }
         val dialog = AlertDialog.Builder(requireContext())
                 .setCancelable(false)
                 .setMessage(requireArguments().getCharSequence(KEY_MESSAGE))
@@ -65,7 +62,7 @@ class ExtendProLicenceDialogFragment : DialogFragment(), DialogInterface.OnClick
             binding.tilSelectLicence.error = getString(R.string.select_package)
         } else {
             startActivity(ContribInfoDialogActivity.getIntentFor(requireActivity(),
-                    licenceHandler.getProPackages()[selectedIndex], false));
+                    licenceHandler.proPackages[selectedIndex], false))
             dismiss()
         }
     }

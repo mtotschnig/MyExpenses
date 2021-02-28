@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.adapter;
 
 import android.database.Cursor;
-import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SimpleCursorAdapter;
@@ -15,6 +14,8 @@ import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
+
+import androidx.core.text.HtmlCompat;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
@@ -102,7 +103,7 @@ public final class SplitPartAdapter extends SimpleCursorAdapter {
     if (comment != null && comment.length() > 0) {
       catText += (catText.equals("") ? "" : commentSeparator) + "<i>" + comment + "</i>";
     }
-    tv2.setText(Html.fromHtml(catText));
+    tv2.setText(HtmlCompat.fromHtml(catText, HtmlCompat.FROM_HTML_MODE_LEGACY));
     return row;
   }
 }

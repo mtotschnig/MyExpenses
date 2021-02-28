@@ -33,7 +33,6 @@ import timber.log.Timber;
 import static org.totschnig.myexpenses.activity.ConstantsKt.INVOICE_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.PAYPAL_REQUEST;
 
-
 /**
  * Manages the dialog shown to user when they request usage of a premium functionality or click on
  * the dedicated entry on the preferences screen. If called from an activity extending
@@ -65,7 +64,7 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
   public static Intent getIntentFor(Context context, @NonNull Package aPackage, boolean shouldReplaceExisting) {
     Intent intent = new Intent(context, ContribInfoDialogActivity.class);
     intent.setAction(Intent.ACTION_MAIN);
-    intent.putExtra(KEY_PACKAGE, aPackage.name());
+    intent.putExtra(KEY_PACKAGE, aPackage);
     intent.putExtra(KEY_SHOULD_REPLACE_EXISTING, shouldReplaceExisting);
     return intent;
   }
@@ -73,7 +72,7 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    String packageFromExtra = packageFromExtra();
+    Package packageFromExtra = packageFromExtra();
 
     if (savedInstanceState == null) {
       if (packageFromExtra == null) {
@@ -83,15 +82,15 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
         getSupportFragmentManager().executePendingTransactions();
       } else {
         if (DistributionHelper.isGithub()) {
-          contribBuyDo(Package.valueOf(packageFromExtra));
+          contribBuyDo(packageFromExtra);
         }
       }
     }
     billingManager = licenceHandler.initBillingManager(this, false);
   }
 
-  private String packageFromExtra() {
-    return getIntent().getStringExtra(KEY_PACKAGE);
+  private Package packageFromExtra() {
+    return (Package) getIntent().getSerializableExtra(KEY_PACKAGE);
   }
 
   private void contribBuyGithub(Package aPackage) {
@@ -105,7 +104,7 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
 
   public void contribBuyDo(@NonNull Package aPackage) {
     Bundle bundle = new Bundle(1);
-    bundle.putString(Tracker.EVENT_PARAM_PACKAGE, aPackage.name());
+    bundle.putString(Tracker.EVENT_PARAM_PACKAGE, aPackage.getClass().getName());
     logEvent(Tracker.EVENT_CONTRIB_DIALOG_BUY, bundle);
     switch (DistributionHelper.getDistribution()) {
       case PLAY:
@@ -183,7 +182,7 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
     if (featureStringFromExtra != null) {
       ContribFeature feature = ContribFeature.valueOf(featureStringFromExtra);
       int usagesLeft = feature.usagesLeft(prefHandler);
-      boolean shouldCallFeature = feature.hasAccess() || (!canceled && usagesLeft > 0);
+      boolean shouldCallFeature = licenceHandler.hasAccessTo(feature) || (!canceled && usagesLeft > 0);
       if (callerIsContribIface()) {
         Intent i = new Intent();
         i.putExtra(KEY_FEATURE, featureStringFromExtra);
@@ -257,9 +256,9 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
 
   @Override
   public void onBillingSetupFinished() {
-    String packageFromExtra = packageFromExtra();
+    Package packageFromExtra = packageFromExtra();
     if (packageFromExtra != null) {
-      contribBuyDo(Package.valueOf(packageFromExtra));
+      contribBuyDo(packageFromExtra);
     }
   }
 

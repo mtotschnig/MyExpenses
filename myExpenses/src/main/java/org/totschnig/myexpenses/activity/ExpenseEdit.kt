@@ -308,7 +308,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                         allowed = prefHandler.getBoolean(PrefKey.NEW_SPLIT_TEMPLATE_ENABLED, true)
                     } else {
                         contribFeature = ContribFeature.SPLIT_TRANSACTION
-                        allowed = contribFeature.hasAccess() || contribFeature.usagesLeft(prefHandler) > 0
+                        allowed = licenceHandler.hasTrialAccessTo(contribFeature)
                     }
                     if (!allowed) {
                         abortWithMessage(contribFeature.buildRequiresString(this))

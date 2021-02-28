@@ -112,6 +112,7 @@ import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
 import org.totschnig.myexpenses.viewmodel.TransactionListViewModel;
 import org.totschnig.myexpenses.viewmodel.data.DateInfo;
@@ -282,6 +283,8 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
   CurrencyContext currencyContext;
   @Inject
   UserLocaleProvider userLocaleProvider;
+  @Inject
+  LicenceHandler licenceHandler;
   FilterPersistence filterPersistence;
 
   @State
@@ -336,7 +339,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     });
     ((MyApplication) requireActivity().getApplication()).getAppComponent().inject(this);
     firstLoadCompleted = (savedInstanceState != null);
-    if (ContribFeature.BUDGET.isAvailable(prefHandler)) {
+    if (licenceHandler.hasTrialAccessTo(ContribFeature.BUDGET)) {
       budgetsObserver = new BudgetObserver();
       requireContext().getContentResolver().registerContentObserver(
           TransactionProvider.BUDGETS_URI,

@@ -76,7 +76,7 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
     setupToolbar(true);
     getSupportActionBar().setTitle(R.string.roadmap_vote);
 
-    isPro = ContribFeature.ROADMAP_VOTING.hasAccess();
+    isPro = licenceHandler.hasAccessTo(ContribFeature.ROADMAP_VOTING);
 
     showIsLoading();
 
@@ -321,7 +321,6 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
         case DIALOG_TAG_SUBMIT_VOTE: {
           showSnackbar("Submitting vote ...", Snackbar.LENGTH_INDEFINITE);
           isLoading = true;
-          boolean isPro = ContribFeature.ROADMAP_VOTING.hasAccess();
           String email =  getEmail();
           if (email == null) {
             email = extras.getString(KEY_EMAIL);

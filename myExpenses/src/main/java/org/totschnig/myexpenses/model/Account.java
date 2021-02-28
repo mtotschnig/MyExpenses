@@ -30,6 +30,8 @@ import android.os.RemoteException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.di.AppComponent;
+import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
@@ -41,6 +43,7 @@ import org.totschnig.myexpenses.sync.SyncAdapter;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.licence.LicenceHandler;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -873,12 +876,15 @@ public class Account extends Model {
 
   public static void updateNewAccountEnabled() {
     boolean newAccountEnabled = true;
-    if (!ContribFeature.ACCOUNTS_UNLIMITED.hasAccess()) {
+    final AppComponent appComponent = MyApplication.getInstance().getAppComponent();
+    LicenceHandler licenceHandler = appComponent.licenceHandler();
+    PrefHandler prefHandler = appComponent.prefHandler();
+    if (!licenceHandler.hasAccessTo(ContribFeature.ACCOUNTS_UNLIMITED)) {
       if (count(null, null) >= ContribFeature.FREE_ACCOUNTS) {
         newAccountEnabled = false;
       }
     }
-    PrefKey.NEW_ACCOUNT_ENABLED.putBoolean(newAccountEnabled);
+    prefHandler.putBoolean(PrefKey.NEW_ACCOUNT_ENABLED, newAccountEnabled);
   }
 
   public static void updateTransferShortcut() {

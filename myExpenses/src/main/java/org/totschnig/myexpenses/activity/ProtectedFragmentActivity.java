@@ -706,7 +706,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   }
 
   public void recordUsage(ContribFeature f) {
-    f.recordUsage(prefHandler);
+    f.recordUsage(prefHandler, licenceHandler);
   }
 
   /*
@@ -769,7 +769,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   }
 
   public void contribFeatureRequested(@NonNull ContribFeature feature, @Nullable Serializable tag) {
-    if (feature.hasAccess()) {
+    if (licenceHandler.hasAccessTo(feature)) {
       ((ContribIFace) this).contribFeatureCalled(feature, tag);
     } else {
       showContribDialog(feature, tag);

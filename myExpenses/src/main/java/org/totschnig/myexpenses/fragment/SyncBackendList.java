@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.viewmodel.AbstractSyncBackendViewModel;
 
 import java.util.List;
@@ -62,6 +63,8 @@ public class SyncBackendList extends Fragment implements
   CurrencyContext currencyContext;
   @Inject
   Class<? extends AbstractSyncBackendViewModel> modelClass;
+  @Inject
+  LicenceHandler licenceHandler;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,7 +97,7 @@ public class SyncBackendList extends Fragment implements
     long packedPosition = ((ExpandableListView.ExpandableListContextMenuInfo) menuInfo).packedPosition;
     int commandId;
     int titleId;
-    boolean isSyncAvailable = ContribFeature.SYNCHRONIZATION.isAvailable(prefHandler);
+    boolean isSyncAvailable = licenceHandler.hasTrialAccessTo(ContribFeature.SYNCHRONIZATION);
     if (ExpandableListView.getPackedPositionType(packedPosition) ==
         ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
       if (isSyncAvailable) {

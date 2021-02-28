@@ -129,6 +129,7 @@ class HelpDialogFragment : BaseDialogFragment(), ImageGetter {
     private var context: String? = null
     private var variant: String? = null
     private var linearLayout: LinearLayout? = null
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val ctx = activity
         val res = resources

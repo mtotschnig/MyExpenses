@@ -599,7 +599,7 @@ public class MyExpenses extends BaseMyExpenses implements
           complainAccountsNotLoaded();
         }
         //we need the accounts to be loaded in order to evaluate if the limit has been reached
-        else if (ContribFeature.ACCOUNTS_UNLIMITED.hasAccess() || mAccountCount < ContribFeature.FREE_ACCOUNTS) {
+        else if (licenceHandler.hasAccessTo(ContribFeature.ACCOUNTS_UNLIMITED) || mAccountCount < ContribFeature.FREE_ACCOUNTS) {
           closeDrawer();
           i = new Intent(this, AccountEdit.class);
           if (tag != null)

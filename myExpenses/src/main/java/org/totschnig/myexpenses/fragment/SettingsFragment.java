@@ -58,8 +58,8 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.io.FileUtils;
 import org.totschnig.myexpenses.util.io.NetworkUtilsKt;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
-import org.totschnig.myexpenses.util.licence.LicenceStatus;
 import org.totschnig.myexpenses.util.licence.Package;
+import org.totschnig.myexpenses.util.licence.ProfessionalPackage;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel;
 import org.totschnig.myexpenses.viewmodel.data.Currency;
@@ -157,7 +157,6 @@ import static org.totschnig.myexpenses.preference.PrefKey.UI_WEB;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 import static org.totschnig.myexpenses.util.TextUtils.concatResStrings;
 
-@SuppressWarnings("PackageVisibleField")
 public class SettingsFragment extends BaseSettingsFragment implements
     Preference.OnPreferenceClickListener,
     SimpleInputDialog.OnDialogResultListener {
@@ -535,7 +534,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
       actionBarSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
         //TODO factor out to call site
         if (prefKey.equals(AUTO_BACKUP)) {
-          if (isChecked && !ContribFeature.AUTO_BACKUP.hasAccess()) {
+          if (isChecked && !licenceHandler.hasAccessTo(ContribFeature.AUTO_BACKUP)) {
             activity().showContribDialog(ContribFeature.AUTO_BACKUP, null);
             if (ContribFeature.AUTO_BACKUP.usagesLeft(prefHandler) <= 0) {
               buttonView.setChecked(false);
@@ -577,54 +576,6 @@ public class SettingsFragment extends BaseSettingsFragment implements
       //noinspection RestrictedApi
       preference.performClick();
     }
-  }
-
-  public void configureContribPrefs() {
-    if (!matches(getPreferenceScreen(), ROOT_SCREEN)) {
-      return;
-    }
-    Preference contribPurchasePref = requirePreference(CONTRIB_PURCHASE),
-        licenceKeyPref = findPreference(NEW_LICENCE);
-    if (licenceHandler.needsKeyEntry()) {
-      if (licenceHandler.hasValidKey()) {
-        licenceKeyPref.setTitle(getKeyInfo());
-        licenceKeyPref.setSummary(concatResStrings(getActivity(), " / ",
-            R.string.button_validate, R.string.menu_remove));
-      }
-    } else {
-      if (licenceKeyPref != null) {
-        licenceKeyPref.setVisible(false);
-      }
-    }
-    String contribPurchaseTitle, contribPurchaseSummary;
-    LicenceStatus licenceStatus = licenceHandler.getLicenceStatus();
-    if (licenceStatus == null) {
-      int baseTitle = R.string.pref_contrib_purchase_title;
-      contribPurchaseTitle = getString(baseTitle);
-      if (licenceHandler.doesUseIAP()) {
-        contribPurchaseTitle += " (" + getString(R.string.pref_contrib_purchase_title_in_app) + ")";
-      }
-      contribPurchaseSummary = getString(R.string.pref_contrib_purchase_summary);
-    } else {
-      contribPurchaseTitle = getString(licenceStatus.getResId());
-      if (licenceHandler.needsMigration()) {
-        contribPurchaseSummary = Utils.getTextWithAppName(requireContext(), R.string.licence_migration_info).toString();
-      } else if (licenceStatus.isUpgradeable()) {
-        contribPurchaseSummary = getString(R.string.pref_contrib_purchase_title_upgrade);
-      } else {
-        contribPurchaseSummary = licenceHandler.getProLicenceAction(requireContext());
-        String proLicenceStatus = licenceHandler.getProLicenceStatus(requireContext());
-        if (!TextUtils.isEmpty(proLicenceStatus)) {
-          contribPurchaseTitle += String.format(" (%s)", proLicenceStatus);
-        }
-      }
-      if (!TextUtils.isEmpty(contribPurchaseSummary)) {
-        contribPurchaseSummary += "\n";
-      }
-      contribPurchaseSummary += getString(R.string.thank_you);
-    }
-    contribPurchasePref.setSummary(contribPurchaseSummary);
-    contribPurchasePref.setTitle(contribPurchaseTitle);
   }
 
   @Override
@@ -711,7 +662,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
           activity().showSnackbar(R.string.no_network);
           return false;
         }
-        if (ContribFeature.WEB_UI.hasAccess() && activity().featureViewModel.isFeatureAvailable(activity(), Feature.WEBUI)) {
+        if (licenceHandler.hasAccessTo(ContribFeature.WEB_UI) && activity().featureViewModel.isFeatureAvailable(activity(), Feature.WEBUI)) {
           return true;
         } else {
           activity().contribFeatureRequested(ContribFeature.WEB_UI, null);
@@ -742,7 +693,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
           startActivity(i);
         }
       } else {
-        Package[] proPackagesForExtendOrSwitch = licenceHandler.getProPackagesForExtendOrSwitch();
+        ProfessionalPackage[] proPackagesForExtendOrSwitch = licenceHandler.getProPackagesForExtendOrSwitch();
         if (proPackagesForExtendOrSwitch != null) {
           if (proPackagesForExtendOrSwitch.length > 1) {
             ((PopupMenuPreference) preference).showPopupMenu(item -> {
@@ -826,10 +777,6 @@ public class SettingsFragment extends BaseSettingsFragment implements
       return true;
     }
     return false;
-  }
-
-  private String getKeyInfo() {
-    return String.format("%s: %s", prefHandler.getString(LICENCE_EMAIL, ""), prefHandler.getString(NEW_LICENCE, ""));
   }
 
   private void showOnlyOneProtectionWarning(boolean legacyProtectionByPasswordIsActive) {

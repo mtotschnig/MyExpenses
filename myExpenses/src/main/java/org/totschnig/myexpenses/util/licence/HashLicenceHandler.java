@@ -5,6 +5,7 @@ import android.provider.Settings;
 import com.google.android.vending.licensing.PreferenceObfuscator;
 
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
@@ -14,8 +15,8 @@ import androidx.annotation.Nullable;
 public class HashLicenceHandler extends LicenceHandler {
   private boolean hasLegacyLicence = false;
 
-  public HashLicenceHandler(MyApplication context, PreferenceObfuscator preferenceObfuscator, CrashHandler crashHandler) {
-    super(context, preferenceObfuscator, crashHandler);
+  public HashLicenceHandler(MyApplication context, PreferenceObfuscator preferenceObfuscator, CrashHandler crashHandler, PrefHandler prefHandler) {
+    super(context, preferenceObfuscator, crashHandler, prefHandler);
   }
 
   @Override
@@ -55,13 +56,13 @@ public class HashLicenceHandler extends LicenceHandler {
       String s = androidId + extendedSecret;
       Long l = (s.hashCode() & 0x00000000ffffffffL);
       if (l.toString().equals(key)) {
-        setLicenceStatus(LicenceStatus.EXTENDED);
+        maybeUpgradeLicence(LicenceStatus.EXTENDED);
         hasLegacyLicence = true;
       } else {
         s = androidId + secret;
         l = (s.hashCode() & 0x00000000ffffffffL);
         if (l.toString().equals(key)) {
-          setLicenceStatus(LicenceStatus.CONTRIB);
+          maybeUpgradeLicence(LicenceStatus.CONTRIB);
           hasLegacyLicence = true;
         }
       }

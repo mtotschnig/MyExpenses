@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.di.AppComponent;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.util.licence.LicenceHandler;
 
 import java.util.Date;
 
@@ -41,9 +42,10 @@ public class DailyScheduler {
 
   public static void updateAutoBackupAlarms(Context context) {
     final PrefHandler prefHandler = getPrefHandler(context);
+    final LicenceHandler licenceHandler = getLicenceHandler(context);
     if (prefHandler.getBoolean(PrefKey.AUTO_BACKUP, false) &&
         prefHandler.getBoolean(PrefKey.AUTO_BACKUP_DIRTY, true)) {
-      if (ContribFeature.AUTO_BACKUP.hasAccess() || ContribFeature.AUTO_BACKUP.usagesLeft(prefHandler) > 0) {
+      if (licenceHandler.hasTrialAccessTo(ContribFeature.AUTO_BACKUP)) {
         scheduleAutoBackup(context);
       }
     } else {
@@ -63,6 +65,12 @@ public class DailyScheduler {
     final MyApplication applicationContext = (MyApplication) ((context instanceof MyApplication) ? context : context.getApplicationContext());
     final AppComponent appComponent = applicationContext.getAppComponent();
     return appComponent.prefHandler();
+  }
+
+  private static LicenceHandler getLicenceHandler(Context context) {
+    final MyApplication applicationContext = (MyApplication) ((context instanceof MyApplication) ? context : context.getApplicationContext());
+    final AppComponent appComponent = applicationContext.getAppComponent();
+    return appComponent.licenceHandler();
   }
 
   public static void cancelAutoBackup(Context context) {

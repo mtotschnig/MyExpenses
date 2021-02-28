@@ -67,7 +67,7 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace, Preferen
         initialPrefToShow = if (savedInstanceState == null) intent.getStringExtra(KEY_OPEN_PREF_KEY) else null
 
         //when a user no longer has access to auto backup we do not want him to believe that it works
-        if (!ContribFeature.AUTO_BACKUP.hasAccess() && ContribFeature.AUTO_BACKUP.usagesLeft(prefHandler) < 1) {
+        if (!licenceHandler.hasTrialAccessTo(ContribFeature.AUTO_BACKUP)) {
             prefHandler.putBoolean(PrefKey.AUTO_BACKUP, false)
         }
     }

@@ -7,19 +7,19 @@
     android:layout_weight="1"
     android:paddingTop="@dimen/padding_dialog_content_top">
 
-    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:orientation="vertical"
-                  android:paddingLeft="@dimen/padding_dialog_side"
-                  android:paddingRight="@dimen/padding_dialog_side">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/padding_dialog_side"
+        android:paddingRight="@dimen/padding_dialog_side">
 
         <TextView
             android:id="@+id/feature_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/vertical_padding_paragraph"
-            android:textAppearance="?android:attr/textAppearanceMedium"/>
+            android:textAppearance="?android:attr/textAppearanceSmall"/>
 
         <TextView
             android:id="@+id/usages_left"
@@ -39,6 +39,19 @@
 
         <include
             android:id="@+id/professional_feature_container"
+            layout="@layout/package_container"/>
+
+        <TextView
+            android:id="@+id/single_feature_info"
+            android:text="@string/single_feature_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/vertical_padding_paragraph"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:visibility="gone"/>
+
+        <include
+            android:id="@+id/single_feature_container"
             layout="@layout/package_container"/>
 
         <TextView

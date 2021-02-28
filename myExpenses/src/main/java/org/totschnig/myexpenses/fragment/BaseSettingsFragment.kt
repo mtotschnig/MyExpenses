@@ -5,6 +5,7 @@ import android.content.ContentResolver
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.os.Bundle
+import android.text.TextUtils.isEmpty
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.ListPreference
 import androidx.preference.MultiSelectListPreference
@@ -23,6 +24,9 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.service.DailyScheduler
 import org.totschnig.myexpenses.sync.GenericAccountService
+import org.totschnig.myexpenses.util.TextUtils
+import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import org.totschnig.myexpenses.util.setNightMode
 import org.totschnig.myexpenses.viewmodel.WebUiViewModel
@@ -47,6 +51,9 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
 
     @Inject
     lateinit var settings: SharedPreferences
+
+    @Inject
+    lateinit var licenceHandler: LicenceHandler
 
     private lateinit var webUiViewModel: WebUiViewModel
 
@@ -168,7 +175,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
 
     fun handleContrib(prefKey: PrefKey, feature: ContribFeature, preference: Preference) =
             if (matches(preference, prefKey)) {
-                if (feature.hasAccess()) {
+                if (licenceHandler.hasAccessTo(feature)) {
                     activity().contribFeatureCalled(feature, null)
                 } else {
                     activity().showContribDialog(feature, null)
@@ -253,5 +260,67 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             requirePreference<Preference>(PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET).isEnabled = isProtected
             requirePreference<Preference>(PrefKey.PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET).isEnabled = isProtected
         }
+    }
+
+    fun getKeyInfo(): String {
+        return "${prefHandler.getString(PrefKey.LICENCE_EMAIL, "")}: ${prefHandler.getString(PrefKey.NEW_LICENCE, "")}"
+    }
+
+    open fun configureContribPrefs() {
+        if (!matches(preferenceScreen, PrefKey.ROOT_SCREEN)) {
+            return
+        }
+        val contribPurchasePref = requirePreference<Preference>(PrefKey.CONTRIB_PURCHASE)
+        val licenceKeyPref = findPreference<Preference>(PrefKey.NEW_LICENCE)
+        if (licenceHandler.needsKeyEntry()) {
+            licenceKeyPref?.let {
+                if (licenceHandler.hasValidKey()) {
+                    it.setTitle(getKeyInfo())
+                    it.summary = TextUtils.concatResStrings(activity, " / ",
+                            R.string.button_validate, R.string.menu_remove)
+                } else {
+                    it.setTitle(R.string.pref_enter_licence_title)
+                    it.setSummary(R.string.pref_enter_licence_summary)
+                }
+            }
+        } else {
+            licenceKeyPref?.isVisible = false
+        }
+        var contribPurchaseTitle: String
+        var contribPurchaseSummary: String
+        val licenceStatus = licenceHandler.licenceStatus
+        val addOnFeatures = licenceHandler.addOnFeatures
+        if (licenceStatus == null && addOnFeatures?.isEmpty() != false) {
+            contribPurchaseTitle = getString(R.string.pref_contrib_purchase_title)
+            if (licenceHandler.doesUseIAP()) {
+                contribPurchaseTitle += " (" + getString(R.string.pref_contrib_purchase_title_in_app) + ")"
+            }
+            contribPurchaseSummary = getString(R.string.pref_contrib_purchase_summary)
+        } else {
+            contribPurchaseTitle = if (licenceStatus == null) "" else getString(licenceStatus.resId)
+            addOnFeatures?.takeIf { it.isNotEmpty() }?.map { getString(it.getLabelResIdOrThrow(requireContext())) }?.joinToString()?.let {
+                if (!isEmpty(contribPurchaseTitle)) {
+                    contribPurchaseTitle += " "
+                }
+                contribPurchaseTitle += "(+ $it)"
+            }
+            if (licenceHandler.needsMigration()) {
+                contribPurchaseSummary = Utils.getTextWithAppName(requireContext(), R.string.licence_migration_info).toString()
+            } else if (licenceStatus?.isUpgradeable != false) {
+                contribPurchaseSummary = getString(R.string.pref_contrib_purchase_title_upgrade)
+            } else {
+                contribPurchaseSummary = licenceHandler.getProLicenceAction(requireContext())
+                val proLicenceStatus = licenceHandler.getProLicenceStatus(requireContext())
+                if (!isEmpty(proLicenceStatus)) {
+                    contribPurchaseTitle += String.format(" (%s)", proLicenceStatus)
+                }
+            }
+            if (!isEmpty(contribPurchaseSummary)) {
+                contribPurchaseSummary += "\n"
+            }
+            contribPurchaseSummary += getString(R.string.thank_you)
+        }
+        contribPurchasePref.summary = contribPurchaseSummary
+        contribPurchasePref.title = contribPurchaseTitle
     }
 }

@@ -22,7 +22,6 @@ import android.content.DialogInterface.OnClickListener;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.Html;
 import android.text.InputFilter;
 import android.text.Layout;
 import android.text.StaticLayout;
@@ -61,6 +60,7 @@ import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.text.HtmlCompat;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
@@ -349,7 +349,7 @@ public class ExportDialogFragment extends BaseDialogFragment implements OnClickL
       else
         sb.append(". ");
     }
-    return TextUtils.concat(sb, Html.fromHtml(getString(R.string.help_ExportDialog_date_format)));
+    return TextUtils.concat(sb, HtmlCompat.fromHtml(getString(R.string.help_ExportDialog_date_format), HtmlCompat.FROM_HTML_MODE_LEGACY));
   }
 
 
