@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 
 import com.google.gson.Gson;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.retrofit.ValidationService;
@@ -93,10 +92,10 @@ public class LicenceApiTask extends AsyncTask<Void, Void, Result> {
         if (licenceResponse.isSuccessful() && licence != null) {
           licenceHandler.updateLicenceStatus(licence);
           final LicenceStatus type = licence.getType();
-          Integer[] resIds = type == null ? ArrayUtils.addAll(
-              new Integer[]{R.string.licence_validation_success}, licence.featureListAsResIDs(context)) :
-              new Integer[]{R.string.licence_validation_success, type.getResId()};
-          return Result.ofSuccess(TextUtils.concatResStrings(context, " ", resIds));
+          String successMessage = context.getString(R.string.licence_validation_success);
+          successMessage += (type == null ? TextUtils.concatResStrings(context, ", ", licence.featureListAsResIDs(context)) :
+              " " + context.getString(type.getResId()));
+          return Result.ofSuccess(successMessage);
         } else {
           switch (licenceResponse.code()) {
             case 452:
