@@ -272,7 +272,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         }
         val contribPurchasePref = requirePreference<Preference>(PrefKey.CONTRIB_PURCHASE)
         val licenceKeyPref = findPreference<Preference>(PrefKey.NEW_LICENCE)
-        if (licenceHandler.needsKeyEntry()) {
+        if (licenceHandler.needsKeyEntry) {
             licenceKeyPref?.let {
                 if (licenceHandler.hasValidKey()) {
                     it.setTitle(getKeyInfo())
@@ -292,7 +292,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         val addOnFeatures = licenceHandler.addOnFeatures
         if (licenceStatus == null && addOnFeatures?.isEmpty() != false) {
             contribPurchaseTitle = getString(R.string.pref_contrib_purchase_title)
-            if (licenceHandler.doesUseIAP()) {
+            if (licenceHandler.doesUseIAP) {
                 contribPurchaseTitle += " (" + getString(R.string.pref_contrib_purchase_title_in_app) + ")"
             }
             contribPurchaseSummary = getString(R.string.pref_contrib_purchase_summary)

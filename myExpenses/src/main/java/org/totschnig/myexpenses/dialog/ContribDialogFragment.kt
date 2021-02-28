@@ -39,6 +39,7 @@ import org.totschnig.myexpenses.databinding.ContribDialogBinding
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.util.DistributionHelper.isGithub
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.licence.AddOnPackage
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.licence.LicenceStatus
@@ -272,16 +273,18 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
     }
 
     private fun updateProPrice(licenceStatus: LicenceStatus?) {
-        var formattedPrice = licenceHandler.getFormattedPrice(selectedPackage!!)
-        if (formattedPrice != null) {
-            if (licenceStatus === LicenceStatus.EXTENDED) {
-                val extendedUpgradeGoodieMessage = licenceHandler.getExtendedUpgradeGoodieMessage(selectedPackage)
-                if (extendedUpgradeGoodieMessage != null) {
-                    formattedPrice += String.format(" (%s)", extendedUpgradeGoodieMessage)
+        (selectedPackage as? ProfessionalPackage)?.let {
+            var formattedPrice = licenceHandler.getFormattedPrice(it)
+            if (formattedPrice != null) {
+                if (licenceStatus === LicenceStatus.EXTENDED) {
+                    val extendedUpgradeGoodieMessage = licenceHandler.getExtendedUpgradeGoodieMessage(it)
+                    if (extendedUpgradeGoodieMessage != null) {
+                        formattedPrice += String.format(" (%s)", extendedUpgradeGoodieMessage)
+                    }
                 }
+                binding.professionalFeatureContainer.packagePrice.text = formattedPrice
             }
-            binding.professionalFeatureContainer.packagePrice.text = formattedPrice
-        }
+        } ?: CrashHandler.report(java.lang.IllegalStateException("called without selectedPackage being professional"))
     }
 
     override fun onClick(v: View) {

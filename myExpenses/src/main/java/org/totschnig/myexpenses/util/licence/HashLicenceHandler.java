@@ -9,6 +9,7 @@ import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 @Deprecated
@@ -71,7 +72,7 @@ public class HashLicenceHandler extends LicenceHandler {
 
   @Nullable
   @Override
-  public String getExtendedUpgradeGoodieMessage(Package selectedPackage) {
+  public String getExtendedUpgradeGoodieMessage(@NonNull ProfessionalPackage selectedPackage) {
     return hasLegacyLicence ? null : super.getExtendedUpgradeGoodieMessage(selectedPackage);
   }
 }

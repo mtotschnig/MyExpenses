@@ -27,12 +27,12 @@ import timber.log.Timber
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-open class LicenceHandler(protected val context: MyApplication, var licenseStatusPrefs: PreferenceObfuscator, private val crashHandler: CrashHandler, private val prefHandler: PrefHandler) {
+open class LicenceHandler(protected val context: MyApplication, var licenseStatusPrefs: PreferenceObfuscator, private val crashHandler: CrashHandler, protected val prefHandler: PrefHandler) {
     private var hasOurLicence = false
     private val isSandbox = BuildConfig.DEBUG
     private val localBackend = false
     var licenceStatus: LicenceStatus? = null
-        private set(value) {
+        protected set(value) {
             crashHandler.putCustomData("Licence", licenceStatus?.name ?: "null")
             field = value
         }
@@ -69,7 +69,7 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
         return isEnabledFor(feature.licenceStatus) || addOnFeatures?.contains(feature) == true
     }
 
-    fun isEnabledFor(licenceStatus: LicenceStatus): Boolean {
+    open fun isEnabledFor(licenceStatus: LicenceStatus): Boolean {
         return if (this.licenceStatus == null) {
             false
         } else this.licenceStatus!!.ordinal >= licenceStatus.ordinal
@@ -145,7 +145,7 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
         update()
     }
 
-    fun getFormattedPrice(aPackage: Package): String? {
+    open fun getFormattedPrice(aPackage: Package): String? {
         return getFormattedPriceWithExtra(aPackage, false)
     }
 
@@ -163,7 +163,7 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
                         (aPackage.getDuration(withExtra) * base.defaultPrice))
     }
 
-    fun getExtendOrSwitchMessage(aPackage: ProfessionalPackage): String {
+    open fun getExtendOrSwitchMessage(aPackage: ProfessionalPackage): String {
         val extendedDate = DateUtils.addMonths(
                 Date(validUntilMillis.coerceAtLeast(System.currentTimeMillis())),
                 aPackage.getDuration(false))
@@ -172,7 +172,7 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
                 aPackage.getFormattedPriceRaw(currencyUnit, context))
     }
 
-    fun getProLicenceStatus(context: Context): String {
+    open fun getProLicenceStatus(context: Context): String {
         return getProValidUntil(context)
     }
 
@@ -195,10 +195,10 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
         return false
     }
 
-    val proPackages: Array<ProfessionalPackage>
+    open val proPackages: Array<ProfessionalPackage>
         get() = arrayOf(ProfessionalPackage.Professional_6, ProfessionalPackage.Professional_12, ProfessionalPackage.Professional_24)
 
-    open fun getExtendedUpgradeGoodieMessage(selectedPackage: Package?): String? {
+    open fun getExtendedUpgradeGoodieMessage(selectedPackage: ProfessionalPackage): String? {
         return context.getString(R.string.extended_upgrade_goodie_github, 3)
     }
 
@@ -208,31 +208,24 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
     protected fun joinPriceInfos(vararg packages: Package) =
             packages.map(::getFormattedPrice).joinToString(" ${context.getString(R.string.joining_or)} ")
 
-    val proPackagesForExtendOrSwitch: Array<ProfessionalPackage>
+    open val proPackagesForExtendOrSwitch: Array<ProfessionalPackage>?
         get() = proPackages
 
-    fun getProLicenceAction(context: Context): String {
+    open fun getProLicenceAction(context: Context): String {
         return context.getString(R.string.extend_validity)
     }
 
-    val purchaseExtraInfo: String?
+    open val purchaseExtraInfo: String?
         get() = null
 
-    fun buildRoadmapVoteKey(): String {
+    open fun buildRoadmapVoteKey(): String {
         return UUID.randomUUID().toString()
     }
 
     /**
      * @return true if licenceStatus has been upEd
      */
-    fun registerUnlockLegacy(): Boolean {
-        return false
-    }
-
-    /**
-     * @return true if licenceStatus has been upEd
-     */
-    fun registerBlackberryProfessional(): Boolean {
+    open fun registerUnlockLegacy(): Boolean {
         return false
     }
 
@@ -240,13 +233,11 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
         return if (aPackage.defaultPrice >= 500) intArrayOf(R.string.donate_button_paypal, R.string.donate_button_invoice) else intArrayOf(R.string.donate_button_paypal)
     }
 
-    fun doesUseIAP(): Boolean {
-        return false
-    }
+    open val doesUseIAP: Boolean
+        get() = false
 
-    fun needsKeyEntry(): Boolean {
-        return true
-    }
+    open val needsKeyEntry: Boolean
+        get() = true
 
     fun getPaypalUri(aPackage: Package): String {
         val host = if (isSandbox) "www.sandbox.paypal.com" else "www.paypal.com"
@@ -320,11 +311,11 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
         return String.format("%s (%s)", context.getString(resId), getFormattedPriceWithExtra(aPackage, licenceStatus === LicenceStatus.EXTENDED))
     }
 
-    fun initBillingManager(activity: Activity, query: Boolean): BillingManager? {
+    open fun initBillingManager(activity: Activity, query: Boolean): BillingManager? {
         return null
     }
 
-    fun launchPurchase(aPackage: Package, shouldReplaceExisting: Boolean, billingManager: BillingManager) {}
+    open fun launchPurchase(aPackage: Package, shouldReplaceExisting: Boolean, billingManager: BillingManager) {}
 
     companion object {
         protected const val LICENSE_STATUS_KEY = "licence_status"
