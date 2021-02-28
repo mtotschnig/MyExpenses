@@ -196,7 +196,6 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
             }
         }
 
-
         //FOOTER
         if (isGithub) {
             binding.githubExtraInfo.visibility = View.VISIBLE
@@ -216,7 +215,7 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener { onUpgradeClicked() }
             if (savedInstanceState != null) {
                 selectedPackage?.let {
-                    when(it) {
+                    when (it) {
                         Package.Contrib -> contribButton
                         Package.Extended, Package.Upgrade -> extendedButton
                         is ProfessionalPackage -> {
@@ -338,13 +337,11 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
 
     companion object {
         @JvmStatic
-        fun newInstance(feature: String?, tag: Serializable?): ContribDialogFragment {
-            val dialogFragment = ContribDialogFragment()
-            val bundle = Bundle()
-            bundle.putString(ContribInfoDialogActivity.KEY_FEATURE, feature)
-            bundle.putSerializable(ContribInfoDialogActivity.KEY_TAG, tag)
-            dialogFragment.arguments = bundle
-            return dialogFragment
+        fun newInstance(feature: String?, tag: Serializable?) = ContribDialogFragment().apply {
+            arguments = Bundle().apply {
+                putString(ContribInfoDialogActivity.KEY_FEATURE, feature)
+                putSerializable(ContribInfoDialogActivity.KEY_TAG, tag)
+            }
         }
     }
 }
