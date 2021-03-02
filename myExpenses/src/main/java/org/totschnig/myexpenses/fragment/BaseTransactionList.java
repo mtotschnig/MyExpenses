@@ -648,8 +648,8 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
             ctx.startActivityForResult(i, EDIT_REQUEST);
           }
         });
-        //super is handling deactivation of mActionMode
-        break;
+        finishActionMode();
+        return true;
       case R.id.CREATE_TEMPLATE_COMMAND:
         final boolean splitAtPosition = isSplitAtPosition(acmi.position);
         String label = mTransactionsCursor.getString(columnIndexPayee);
@@ -676,7 +676,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
                 .show(this, NEW_TEMPLATE_DIALOG);
           }
         });
-        return false;
+        return true;
     }
     return false;
   }

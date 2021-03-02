@@ -98,7 +98,8 @@ public class MethodList extends ContextualActionBarFragment implements LoaderMan
         Intent i = new Intent(getActivity(), MethodEdit.class);
         i.putExtra(DatabaseConstants.KEY_ROWID, menuInfo.id);
         startActivity(i);
-        break;
+        finishActionMode();
+        return true;
     }
     return false;
   }
@@ -140,7 +141,6 @@ public class MethodList extends ContextualActionBarFragment implements LoaderMan
               idList.toArray(new Long[idList.size()]),
               null,
               R.string.progress_dialog_deleting);
-          return true;
         }
         if (mappedTransactionsCount > 0 || mappedTemplatesCount > 0) {
           String message = "";
@@ -156,7 +156,7 @@ public class MethodList extends ContextualActionBarFragment implements LoaderMan
                 mappedTemplatesCount);
           activity.showSnackbar(message);
         }
-        break;
+        return true;
     }
     return false;
   }

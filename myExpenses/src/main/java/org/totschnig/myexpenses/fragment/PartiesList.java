@@ -152,7 +152,7 @@ public class PartiesList extends ContextualActionBarFragment {
         if (!idList.isEmpty()) {
           activity.startTaskExecution(
               TaskExecutionFragment.TASK_DELETE_PAYEES,
-              idList.toArray(new Long[idList.size()]),
+              idList.toArray(new Long[0]),
               null,
               R.string.progress_dialog_deleting);
         }
@@ -172,7 +172,7 @@ public class PartiesList extends ContextualActionBarFragment {
           }
           activity.showSnackbar(message);
         }
-        break;
+        return true;
       }
       case R.id.SELECT_COMMAND_MULTIPLE: {
         if (itemIds.length == 1 || !Arrays.asList(itemIds).contains(NULL_ITEM_ID)) {
