@@ -426,9 +426,7 @@ public class FileUtils {
     Bitmap bm = null;
     if (uri != null) {
       final ContentResolver resolver = context.getContentResolver();
-      Cursor cursor = null;
-      try {
-        cursor = resolver.query(uri, null, null, null, null);
+      try (Cursor cursor = resolver.query(uri, null, null, null, null)) {
         if (cursor.moveToFirst()) {
           final int id = cursor.getInt(0);
           Timber.d("Got thumb ID: %d", id);
@@ -449,9 +447,6 @@ public class FileUtils {
         }
       } catch (Exception e) {
         Timber.e(e, "getThumbnail");
-      } finally {
-        if (cursor != null)
-          cursor.close();
       }
     }
     return bm;

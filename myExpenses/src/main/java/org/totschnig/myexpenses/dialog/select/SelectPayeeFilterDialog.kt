@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.dialog.select
 
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.dialog.select.SelectFilterDialog
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.Criteria

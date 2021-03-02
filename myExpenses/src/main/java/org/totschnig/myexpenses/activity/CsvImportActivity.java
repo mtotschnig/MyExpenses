@@ -65,11 +65,10 @@ public class CsvImportActivity extends TabbedActivity implements
 
   @Override
   public void onPositive(Bundle args) {
-    switch (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)) {
-      case R.id.SET_HEADER_COMMAND:
-        CsvImportDataFragment df = (CsvImportDataFragment) getSupportFragmentManager().findFragmentByTag(
-            mSectionsPagerAdapter.getFragmentName(1));
-        df.setHeader();
+    if (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE) == R.id.SET_HEADER_COMMAND) {
+      CsvImportDataFragment df = (CsvImportDataFragment) getSupportFragmentManager().findFragmentByTag(
+          mSectionsPagerAdapter.getFragmentName(1));
+      df.setHeader();
     }
   }
 

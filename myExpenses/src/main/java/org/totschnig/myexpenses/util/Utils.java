@@ -228,9 +228,7 @@ public class Utils {
   }
 
   /**
-   * @param currency
-   * @param separator
-   * @return a Decimalformat with the number of fraction digits appropriate for
+   * @return a DecimalFormat with the number of fraction digits appropriate for
    * currency, and with the given separator, but without the currency
    * symbol appropriate for CSV and QIF export
    */
@@ -248,10 +246,8 @@ public class Utils {
   }
 
   /**
-   * utility method that calls formatters for date
-   *
-   * @param text
-   * @return formated string
+   * utility method that calls formatter for date
+   * @return formatted string
    */
   public static String convDate(String text, DateFormat format) {
     Date date = dateFromSQL(text);
@@ -262,10 +258,10 @@ public class Utils {
   }
 
   /**
-   * utility method that calls formatters for date
+   * utility method that calls formatter for date
    *
    * @param date unixEpoch
-   * @return formated string
+   * @return formatted string
    */
   public static String convDateTime(long date, DateFormat format) {
     return format.format(new Date(date * 1000L));
@@ -376,12 +372,11 @@ public class Utils {
       // Create MD5 Hash
       MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
       digest.update(s.getBytes());
-      byte messageDigest[] = digest.digest();
+      byte[] messageDigest = digest.digest();
 
       // Create Hex String
-      StringBuffer hexString = new StringBuffer();
-      for (int i = 0; i < messageDigest.length; i++)
-        hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+      StringBuilder hexString = new StringBuilder();
+      for (byte b : messageDigest) hexString.append(Integer.toHexString(0xFF & b));
       return hexString.toString();
 
     } catch (NoSuchAlgorithmException e) {
@@ -394,9 +389,6 @@ public class Utils {
    * Credit:
    * https://groups.google.com/forum/?fromgroups#!topic/actionbarsherlock
    * /Z8Ic8djq-3o
-   *
-   * @param item
-   * @param enabled
    */
   public static void menuItemSetEnabledAndVisible(@NonNull MenuItem item, boolean enabled) {
     item.setEnabled(enabled).setVisible(enabled);
@@ -435,12 +427,12 @@ public class Utils {
     return getFrameworkDateFormatSafe(context);
   }
 
-  public static DateFormat localizedYearlessDateFormat(Context context) {
+  public static DateFormat localizedYearLessDateFormat(Context context) {
     DateFormat dateFormat = getDateFormatSafe(context);
     if (dateFormat instanceof SimpleDateFormat) {
       final String contextPattern = ((SimpleDateFormat) dateFormat).toPattern();
-      String yearlessPattern = contextPattern.replaceAll("\\W?[Yy]+\\W?", "");
-      return new SimpleDateFormat(yearlessPattern, localeFromContext(context));
+      String yearLessPattern = contextPattern.replaceAll("\\W?[Yy]+\\W?", "");
+      return new SimpleDateFormat(yearLessPattern, localeFromContext(context));
     } else {
       return dateFormat;
     }
@@ -451,7 +443,6 @@ public class Utils {
   }
 
   /**
-   * @param context
    * @return Locale en-CA has "y-MM-dd" (2019-06-18) as short date format, which does not fit into
    * the space, we allocate for dates when transactions are not grouped, we replace the year part with "yy"
    */
@@ -565,7 +556,6 @@ public class Utils {
   }
 
   /**
-   * @param str
    * @return a representation of str converted to lower case, Unicode
    * normalization applied and markers removed this allows
    * case-insensitive comparison for non-ascii and non-latin strings
@@ -578,7 +568,7 @@ public class Utils {
         "");
   }
 
-  public static String esacapeSqlLikeExpression(String str) {
+  public static String escapeSqlLikeExpression(String str) {
     return str
         .replace(WhereFilter.LIKE_ESCAPE_CHAR,
             WhereFilter.LIKE_ESCAPE_CHAR + WhereFilter.LIKE_ESCAPE_CHAR)
@@ -601,10 +591,7 @@ public class Utils {
 
   /**
    * filters out the '/' character and characters of type {@link Character#SURROGATE} or
-   * {@link java.lang.Character#OTHER_SYMBOL}, meant primarily to skip emojs
-   *
-   * @param in
-   * @return
+   * {@link java.lang.Character#OTHER_SYMBOL}, meant primarily to skip emojis
    */
   public static String escapeForFileName(String in) {
     return in.replace("/", "").replaceAll("\\p{Cs}", "").replaceAll("\\p{So}", "");
@@ -644,41 +631,36 @@ public class Utils {
 
   public static void configureSortDirectionMenu(SubMenu subMenu, SortDirection currentSortDirection) {
     MenuItem activeItem;
-    switch (currentSortDirection) {
-      case ASC:
-        activeItem = subMenu.findItem(R.id.SORT_DIRECTION_ASCENDING_COMMAND);
-        break;
-      default:
-        activeItem = subMenu.findItem(R.id.SORT_DIRECTION_DESCENDING_COMMAND);
-        break;
+    if (currentSortDirection == SortDirection.ASC) {
+      activeItem = subMenu.findItem(R.id.SORT_DIRECTION_ASCENDING_COMMAND);
+    } else {
+      activeItem = subMenu.findItem(R.id.SORT_DIRECTION_DESCENDING_COMMAND);
     }
     activeItem.setChecked(true);
   }
 
   @Nullable
   public static Grouping getGroupingFromMenuItemId(int id) {
-    switch (id) {
-      case R.id.GROUPING_NONE_COMMAND:
-        return Grouping.NONE;
-      case R.id.GROUPING_DAY_COMMAND:
-        return Grouping.DAY;
-      case R.id.GROUPING_WEEK_COMMAND:
-        return Grouping.WEEK;
-      case R.id.GROUPING_MONTH_COMMAND:
-        return Grouping.MONTH;
-      case R.id.GROUPING_YEAR_COMMAND:
-        return Grouping.YEAR;
+    if (id == R.id.GROUPING_NONE_COMMAND) {
+      return Grouping.NONE;
+    } else if (id == R.id.GROUPING_DAY_COMMAND) {
+      return Grouping.DAY;
+    } else if (id == R.id.GROUPING_WEEK_COMMAND) {
+      return Grouping.WEEK;
+    } else if (id == R.id.GROUPING_MONTH_COMMAND) {
+      return Grouping.MONTH;
+    } else if (id == R.id.GROUPING_YEAR_COMMAND) {
+      return Grouping.YEAR;
     }
     return null;
   }
 
   @Nullable
   public static SortDirection getSortDirectionFromMenuItemId(int id) {
-    switch (id) {
-      case R.id.SORT_DIRECTION_DESCENDING_COMMAND:
-        return SortDirection.DESC;
-      case R.id.SORT_DIRECTION_ASCENDING_COMMAND:
-        return SortDirection.ASC;
+    if (id == R.id.SORT_DIRECTION_DESCENDING_COMMAND) {
+      return SortDirection.DESC;
+    } else if (id == R.id.SORT_DIRECTION_ASCENDING_COMMAND) {
+      return SortDirection.ASC;
     }
     return null;
   }
@@ -695,17 +677,19 @@ public class Utils {
   /**
    * backport of {@link Integer#compare(int, int)} which is API 19
    * returns -1, 0 or 1
+   * TODO remove now desugared
    */
   public static int compare(int lhs, int rhs) {
-    return lhs < rhs ? -1 : (lhs == rhs ? 0 : 1);
+    return Integer.compare(lhs, rhs);
   }
 
   /**
    * backport of {@link Long#compare(long, long)} which is API 19
    * returns -1, 0 or 1
+   * TODO remove now desugared
    */
   public static int compare(long x, long y) {
-    return (x < y) ? -1 : ((x == y) ? 0 : 1);
+    return Long.compare(x, y);
   }
 
   /**

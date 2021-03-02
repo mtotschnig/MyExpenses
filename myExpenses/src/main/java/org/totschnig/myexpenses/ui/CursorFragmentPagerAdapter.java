@@ -112,7 +112,7 @@ public abstract class CursorFragmentPagerAdapter extends FragmentPagerAdapter {
 
         int rowId = mCursor.getInt(mRowIDColumn);
         Object obj = super.instantiateItem(container, position);
-        mObjectMap.put(obj, Integer.valueOf(rowId));
+        mObjectMap.put(obj, rowId);
 
         return obj;
     }

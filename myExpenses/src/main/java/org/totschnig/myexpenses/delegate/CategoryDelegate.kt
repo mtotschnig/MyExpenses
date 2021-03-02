@@ -73,7 +73,7 @@ class CategoryDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
     /**
      * set label on category button
      */
-    fun setCategoryButton() {
+    private fun setCategoryButton() {
         if (label.isNullOrEmpty()) {
             viewBinding.Category.setText(R.string.select)
             viewBinding.ClearCategory.visibility = View.GONE
@@ -110,7 +110,7 @@ class CategoryDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
             }
             val columnIndexAmount = data.getColumnIndex(DatabaseConstants.KEY_AMOUNT)
             val columnIndexCurrency = data.getColumnIndex(DatabaseConstants.KEY_CURRENCY)
-            if (validateAmountInput(viewBinding.Amount, false, true) == null && columnIndexAmount != -1 && columnIndexCurrency != -1) {
+            if (validateAmountInput(viewBinding.Amount, showToUser = false, ifPresent = true) == null && columnIndexAmount != -1 && columnIndexCurrency != -1) {
                 val beforeType = isIncome
                 fillAmount(Money(currencyContext[data.getString(columnIndexCurrency)], data.getLong(columnIndexAmount)).amountMajor)
                 configureType()

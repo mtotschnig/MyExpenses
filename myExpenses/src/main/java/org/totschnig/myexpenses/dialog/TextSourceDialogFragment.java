@@ -1,12 +1,11 @@
 package org.totschnig.myexpenses.dialog;
 
-import org.totschnig.myexpenses.R;
-
-import android.content.DialogInterface.OnClickListener;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+
+import org.totschnig.myexpenses.R;
 
 public abstract class TextSourceDialogFragment extends
     ImportSourceDialogFragment implements OnCheckedChangeListener {

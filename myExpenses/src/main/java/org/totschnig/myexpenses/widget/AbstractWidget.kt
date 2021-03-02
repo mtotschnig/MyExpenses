@@ -41,7 +41,7 @@ fun updateWidgets(context: Context, provider: Class<out AppWidgetProvider?>, act
                     AppWidgetManager.getInstance(context).getAppWidgetIds(ComponentName(context, provider)))
         })
 
-abstract class AbstractWidget(val clazz: Class<out RemoteViewsService>, val emptyTextResourceId: Int, val protectionKey: PrefKey) : AppWidgetProvider() {
+abstract class AbstractWidget(private val clazz: Class<out RemoteViewsService>, private val emptyTextResourceId: Int, private val protectionKey: PrefKey) : AppWidgetProvider() {
     @Inject
     lateinit  var prefHandler: PrefHandler
 
@@ -66,8 +66,8 @@ abstract class AbstractWidget(val clazz: Class<out RemoteViewsService>, val empt
 
     abstract fun handleWidgetClick(context: Context, intent: Intent)
 
-    protected fun updateWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
-        val widget = RemoteViews(context.getPackageName(), R.layout.widget_list)
+    private fun updateWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
+        val widget = RemoteViews(context.packageName, R.layout.widget_list)
         widget.setEmptyView(R.id.list, R.id.emptyView)
         val clickIntent = Intent(WIDGET_CLICK, null, context, javaClass)
         val clickPI = PendingIntent.getBroadcast(context, appWidgetId, clickIntent,
@@ -81,14 +81,14 @@ abstract class AbstractWidget(val clazz: Class<out RemoteViewsService>, val empt
             svcIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 val options = appWidgetManager.getAppWidgetOptions(appWidgetId)
-                svcIntent.putExtra(KEY_WIDTH, when ((context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).getDefaultDisplay().rotation) {
+                svcIntent.putExtra(KEY_WIDTH, when ((context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.rotation) {
                     ROTATION_0, ROTATION_180 -> /*ORIENTATION_PORTRAIT*/ options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)
                     else -> /*ORIENTATION_LANDSCAPE*/ options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH)
                 })
             }
             // When intents are compared, the extras are ignored, so we need to embed the extras
             // into the data so that the extras will not be ignored.
-            svcIntent.setData(Uri.parse(svcIntent.toUri(Intent.URI_INTENT_SCHEME)))
+            svcIntent.data = Uri.parse(svcIntent.toUri(Intent.URI_INTENT_SCHEME))
             widget.setRemoteAdapter(R.id.list, svcIntent)
             widget.setTextViewText(R.id.emptyView, context.getString(emptyTextResourceId))
             widget.setPendingIntentTemplate(R.id.list, clickPI)

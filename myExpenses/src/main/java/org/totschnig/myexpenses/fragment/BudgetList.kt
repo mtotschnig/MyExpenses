@@ -81,7 +81,7 @@ class BudgetList : Fragment(), SimpleDialog.OnDialogResultListener {
         })
         viewModel.spent.observe(viewLifecycleOwner, { spent ->
             position2Spent?.takeIf { it.size > spent.first  }?.let {
-                it.set(spent.first, spent.second)
+                it[spent.first] = spent.second
                 adapter.notifyItemChanged(spent.first)
             }
         })

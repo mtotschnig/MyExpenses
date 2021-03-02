@@ -61,7 +61,6 @@ import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
@@ -253,42 +252,39 @@ public class TemplatesList extends SortableListFragment
     if (super.dispatchCommandMultiple(command, positions, itemIds)) {
       return true;
     }
-    switch (command) {
-      case R.id.DEFAULT_ACTION_EDIT_COMMAND:
-        bulkUpdateDefaultAction(itemIds, Template.Action.EDIT, R.string.menu_create_instance_edit);
-        return true;
-      case R.id.DEFAULT_ACTION_SAVE_COMMAND:
-        bulkUpdateDefaultAction(itemIds, Template.Action.SAVE, R.string.menu_create_instance_save);
-        return true;
-      case R.id.DELETE_COMMAND:
-        MessageDialogFragment.newInstance(
-            getString(R.string.dialog_title_warning_delete_template),//TODO check if template
-            getResources().getQuantityString(R.plurals.warning_delete_template, itemIds.length, itemIds.length),
-            new MessageDialogFragment.Button(
-                R.string.menu_delete,
-                R.id.DELETE_COMMAND_DO,
-                itemIds),
-            null,
-            new MessageDialogFragment.Button(android.R.string.no, R.id.CANCEL_CALLBACK_COMMAND, null))
-            .show(getActivity().getSupportFragmentManager(), "DELETE_TEMPLATE");
-        return true;
-      case R.id.CREATE_INSTANCE_SAVE_COMMAND:
-        if (hasSplitAtPositions(positions)) {
-          requestSplitTransaction(itemIds);
-        } else {
-          dispatchCreateInstanceSaveDo(itemIds, null);
-        }
-        finishActionMode();
-        return true;
-      case R.id.CREATE_PLAN_INSTANCE_SAVE_COMMAND:
-      case R.id.CANCEL_PLAN_INSTANCE_COMMAND:
-      case R.id.RESET_PLAN_INSTANCE_COMMAND:
-        final PlanMonthFragment planMonthFragment = getPlanMonthFragment();
-        if (planMonthFragment != null) {
-          planMonthFragment.dispatchCommandMultiple(command, positions);
-        }
-        finishActionMode();
-        return true;
+    if (command == R.id.DEFAULT_ACTION_EDIT_COMMAND) {
+      bulkUpdateDefaultAction(itemIds, Template.Action.EDIT, R.string.menu_create_instance_edit);
+      return true;
+    } else if (command == R.id.DEFAULT_ACTION_SAVE_COMMAND) {
+      bulkUpdateDefaultAction(itemIds, Template.Action.SAVE, R.string.menu_create_instance_save);
+      return true;
+    } else if (command == R.id.DELETE_COMMAND) {
+      MessageDialogFragment.newInstance(
+          getString(R.string.dialog_title_warning_delete_template),//TODO check if template
+          getResources().getQuantityString(R.plurals.warning_delete_template, itemIds.length, itemIds.length),
+          new MessageDialogFragment.Button(
+              R.string.menu_delete,
+              R.id.DELETE_COMMAND_DO,
+              itemIds),
+          null,
+          new MessageDialogFragment.Button(android.R.string.no, R.id.CANCEL_CALLBACK_COMMAND, null))
+          .show(getActivity().getSupportFragmentManager(), "DELETE_TEMPLATE");
+      return true;
+    } else if (command == R.id.CREATE_INSTANCE_SAVE_COMMAND) {
+      if (hasSplitAtPositions(positions)) {
+        requestSplitTransaction(itemIds);
+      } else {
+        dispatchCreateInstanceSaveDo(itemIds, null);
+      }
+      finishActionMode();
+      return true;
+    } else if (command == R.id.CREATE_PLAN_INSTANCE_SAVE_COMMAND || command == R.id.CANCEL_PLAN_INSTANCE_COMMAND || command == R.id.RESET_PLAN_INSTANCE_COMMAND) {
+      final PlanMonthFragment planMonthFragment = getPlanMonthFragment();
+      if (planMonthFragment != null) {
+        planMonthFragment.dispatchCommandMultiple(command, positions);
+      }
+      finishActionMode();
+      return true;
     }
     return false;
   }
@@ -300,30 +296,28 @@ public class TemplatesList extends SortableListFragment
     }
     AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) info;
     Intent i;
-    switch (command) {
-      case R.id.CREATE_INSTANCE_EDIT_COMMAND:
-        if (isSplitAtPosition(menuInfo.position)) {
-          requestSplitTransaction(menuInfo.id);
-        } else {
-          dispatchCreateInstanceEditDo(menuInfo.id);
-        }
-        finishActionMode();
-        return true;
-      case R.id.EDIT_COMMAND:
-        finishActionMode();
-        i = new Intent(getActivity(), ExpenseEdit.class);
-        i.putExtra(DatabaseConstants.KEY_TEMPLATEID, menuInfo.id);
-        //TODO check what to do on Result
-        startActivityForResult(i, EDIT_REQUEST);
-        return true;
-      case R.id.EDIT_PLAN_INSTANCE_COMMAND:
-      case R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND:
-        final PlanMonthFragment planMonthFragment = getPlanMonthFragment();
-        if (planMonthFragment != null) {
-          planMonthFragment.dispatchCommandSingle(command, menuInfo.position);
-        }
-        finishActionMode();
-        return true;
+    if (command == R.id.CREATE_INSTANCE_EDIT_COMMAND) {
+      if (isSplitAtPosition(menuInfo.position)) {
+        requestSplitTransaction(menuInfo.id);
+      } else {
+        dispatchCreateInstanceEditDo(menuInfo.id);
+      }
+      finishActionMode();
+      return true;
+    } else if (command == R.id.EDIT_COMMAND) {
+      finishActionMode();
+      i = new Intent(getActivity(), ExpenseEdit.class);
+      i.putExtra(KEY_TEMPLATEID, menuInfo.id);
+      //TODO check what to do on Result
+      startActivityForResult(i, EDIT_REQUEST);
+      return true;
+    } else if (command == R.id.EDIT_PLAN_INSTANCE_COMMAND || command == R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND) {
+      final PlanMonthFragment planMonthFragment = getPlanMonthFragment();
+      if (planMonthFragment != null) {
+        planMonthFragment.dispatchCommandSingle(command, menuInfo.position);
+      }
+      finishActionMode();
+      return true;
     }
     return false;
   }
@@ -403,15 +397,14 @@ public class TemplatesList extends SortableListFragment
   @NonNull
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
-    switch (id) {
-      case SORTABLE_CURSOR:
-        return new CursorLoader(getActivity(),
-            TransactionProvider.TEMPLATES_URI.buildUpon()
-                .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_WITH_PLAN_INFO, "1").build(),
-            null,
-            KEY_PARENTID + " is null",
-            null,
-            Sort.preferredOrderByForTemplatesWithPlans(prefHandler, Sort.USAGES));
+    if (id == SORTABLE_CURSOR) {
+      return new CursorLoader(getActivity(),
+          TransactionProvider.TEMPLATES_URI.buildUpon()
+              .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_WITH_PLAN_INFO, "1").build(),
+          null,
+          KEY_PARENTID + " is null",
+          null,
+          Sort.preferredOrderByForTemplatesWithPlans(prefHandler, Sort.USAGES));
     }
     return null;
   }
@@ -539,11 +532,9 @@ public class TemplatesList extends SortableListFragment
 
   @Override
   public void onLoaderReset(Loader<Cursor> loader) {
-    switch (loader.getId()) {
-      case SORTABLE_CURSOR:
-        mTemplatesCursor = null;
-        mAdapter.swapCursor(null);
-        break;
+    if (loader.getId() == SORTABLE_CURSOR) {
+      mTemplatesCursor = null;
+      mAdapter.swapCursor(null);
     }
   }
 
@@ -647,54 +638,51 @@ public class TemplatesList extends SortableListFragment
   @Override
   protected void configureMenuLegacy(Menu menu, ContextMenu.ContextMenuInfo menuInfo, int listId) {
     super.configureMenuLegacy(menu, menuInfo, listId);
-    switch (listId) {
-      case R.id.list:
-        AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
-        configureMenuInternal(menu, 1, isForeignExchangeTransfer(info.position), isPlan(info.position), isSealed(info.position));
-        break;
-      case R.id.calendar_gridview:
-        final PlanMonthFragment planMonthFragment = getPlanMonthFragment();
-        if (planMonthFragment != null) {
-          planMonthFragment.configureMenuLegacy(menu, menuInfo);
-        }
+    if (listId == R.id.list) {
+      AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
+      configureMenuInternal(menu, 1, isForeignExchangeTransfer(info.position), isPlan(info.position), isSealed(info.position));
+    } else if (listId == R.id.calendar_gridview) {
+      final PlanMonthFragment planMonthFragment = getPlanMonthFragment();
+      if (planMonthFragment != null) {
+        planMonthFragment.configureMenuLegacy(menu, menuInfo);
+      }
     }
   }
 
   @Override
   protected void configureMenu11(Menu menu, int count, AbsListView lv) {
     super.configureMenu11(menu, count, lv);
-    switch (lv.getId()) {
-      case R.id.list:
-        SparseBooleanArray checkedItemPositions = mListView.getCheckedItemPositions();
-        boolean hasForeignExchangeTransfer = false, hasPlan = false, hasSealed = false;
-        for (int i = 0; i < checkedItemPositions.size(); i++) {
-          if (checkedItemPositions.valueAt(i) && isForeignExchangeTransfer(checkedItemPositions.keyAt
-              (i))) {
-            hasForeignExchangeTransfer = true;
-            break;
-          }
+    int id = lv.getId();
+    if (id == R.id.list) {
+      SparseBooleanArray checkedItemPositions = mListView.getCheckedItemPositions();
+      boolean hasForeignExchangeTransfer = false, hasPlan = false, hasSealed = false;
+      for (int i = 0; i < checkedItemPositions.size(); i++) {
+        if (checkedItemPositions.valueAt(i) && isForeignExchangeTransfer(checkedItemPositions.keyAt
+            (i))) {
+          hasForeignExchangeTransfer = true;
+          break;
         }
-        for (int i = 0; i < checkedItemPositions.size(); i++) {
-          if (checkedItemPositions.valueAt(i) && isPlan(checkedItemPositions.keyAt
-              (i))) {
-            hasPlan = true;
-            break;
-          }
+      }
+      for (int i = 0; i < checkedItemPositions.size(); i++) {
+        if (checkedItemPositions.valueAt(i) && isPlan(checkedItemPositions.keyAt
+            (i))) {
+          hasPlan = true;
+          break;
         }
-        for (int i = 0; i < checkedItemPositions.size(); i++) {
-          if (checkedItemPositions.valueAt(i) && isSealed(checkedItemPositions.keyAt
-              (i))) {
-            hasSealed = true;
-            break;
-          }
+      }
+      for (int i = 0; i < checkedItemPositions.size(); i++) {
+        if (checkedItemPositions.valueAt(i) && isSealed(checkedItemPositions.keyAt
+            (i))) {
+          hasSealed = true;
+          break;
         }
-        configureMenuInternal(menu, count, hasForeignExchangeTransfer, hasPlan, hasSealed);
-        break;
-      case R.id.calendar_gridview:
-        final PlanMonthFragment planMonthFragment = getPlanMonthFragment();
-        if (planMonthFragment != null) {
-          planMonthFragment.configureMenu11(menu, count, lv);
-        }
+      }
+      configureMenuInternal(menu, count, hasForeignExchangeTransfer, hasPlan, hasSealed);
+    } else if (id == R.id.calendar_gridview) {
+      final PlanMonthFragment planMonthFragment = getPlanMonthFragment();
+      if (planMonthFragment != null) {
+        planMonthFragment.configureMenu11(menu, count, lv);
+      }
     }
   }
 
@@ -756,12 +744,10 @@ public class TemplatesList extends SortableListFragment
 
   @Override
   protected void inflateHelper(Menu menu, int listId) {
-    switch (listId) {
-      case R.id.list:
-        super.inflateHelper(menu, listId);
-        break;
-      case R.id.calendar_gridview:
-        getActivity().getMenuInflater().inflate(R.menu.planlist_context, menu);
+    if (listId == R.id.list) {
+      super.inflateHelper(menu, listId);
+    } else if (listId == R.id.calendar_gridview) {
+      getActivity().getMenuInflater().inflate(R.menu.planlist_context, menu);
     }
   }
 

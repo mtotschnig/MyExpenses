@@ -55,14 +55,14 @@ public class HashLicenceHandler extends LicenceHandler {
       String androidId = Settings.Secure.getString(MyApplication.getInstance()
           .getContentResolver(), Settings.Secure.ANDROID_ID);
       String s = androidId + extendedSecret;
-      Long l = (s.hashCode() & 0x00000000ffffffffL);
-      if (l.toString().equals(key)) {
+      long l = (s.hashCode() & 0x00000000ffffffffL);
+      if (Long.toString(l).equals(key)) {
         maybeUpgradeLicence(LicenceStatus.EXTENDED);
         hasLegacyLicence = true;
       } else {
         s = androidId + secret;
         l = (s.hashCode() & 0x00000000ffffffffL);
-        if (l.toString().equals(key)) {
+        if (Long.toString(l).equals(key)) {
           maybeUpgradeLicence(LicenceStatus.CONTRIB);
           hasLegacyLicence = true;
         }

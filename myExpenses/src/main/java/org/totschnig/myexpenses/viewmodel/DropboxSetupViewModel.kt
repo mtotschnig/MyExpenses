@@ -25,20 +25,20 @@ class DropboxSetupViewModel(application: Application) : AbstractSetupViewModel(a
             var result = it.files().listFolder("")
             while (true) {
                 folderList.addAll(result.entries
-                        .filter { metadata -> metadata is FolderMetadata }
-                        .map { metadata ->  (metadata as FolderMetadata).let { Pair(metadata.id, metadata.name) } })
-                if (!result.getHasMore()) {
+                        .filterIsInstance<FolderMetadata>()
+                        .map { metadata -> Pair(metadata.id, metadata.name) })
+                if (!result.hasMore) {
                     break
                 }
-                result = it.files().listFolderContinue(result.getCursor())
+                result = it.files().listFolderContinue(result.cursor)
             }
         }
         folderList
     }
 
     override suspend fun createFolderBackground(label: String) = withContext(Dispatchers.IO) {
-        mDbxClient?.let {
-            it.files().createFolderV2("/" + label).metadata.let { Pair(it.id, it.name) }
+        mDbxClient?.let { client ->
+            client.files().createFolderV2("/$label").metadata.let { Pair(it.id, it.name) }
         } ?: throw Exception("Dropbox client not set up")
     }
 }

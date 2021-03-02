@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.delegate
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
-import com.google.android.material.snackbar.Snackbar
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.contract.TransactionsContract

@@ -118,7 +118,7 @@ public class SyncBackendList extends Fragment implements
             commandId = R.id.SYNC_DOWNLOAD_COMMAND;
             titleId = R.string.menu_sync_download;
             break;
-          default://EROR
+          default://ERROR
             commandId = 0;
             titleId = 0;
         }
@@ -143,52 +143,47 @@ public class SyncBackendList extends Fragment implements
   public boolean onContextItemSelected(MenuItem item) {
     long packedPosition = ((ExpandableListView.ExpandableListContextMenuInfo) item.getMenuInfo())
         .packedPosition;
-    switch (item.getItemId()) {
-      case R.id.SYNC_COMMAND: {
-        requestSync(packedPosition);
-        return true;
+    int itemId = item.getItemId();
+    if (itemId == R.id.SYNC_COMMAND) {
+      requestSync(packedPosition);
+      return true;
+    } else if (itemId == R.id.SYNC_UNLINK_COMMAND) {
+      final Account accountForSync = getAccountForSync(packedPosition);
+      if (accountForSync != null) {
+        DialogUtils.showSyncUnlinkConfirmationDialog(getActivity(),
+            accountForSync);
       }
-      case R.id.SYNC_UNLINK_COMMAND: {
-        final Account accountForSync = getAccountForSync(packedPosition);
-        if (accountForSync != null) {
-          DialogUtils.showSyncUnlinkConfirmationDialog(getActivity(),
-              accountForSync);
-        }
-        return true;
+      return true;
+    } else if (itemId == R.id.SYNCED_TO_OTHER_COMMAND) {
+      Account account = getAccountForSync(packedPosition);
+      if (account != null) {
+        ((ProtectedFragmentActivity) getActivity()).showMessage(
+            getString(R.string.dialog_synced_to_other, account.getUuid()));
       }
-      case R.id.SYNCED_TO_OTHER_COMMAND: {
-        Account account = getAccountForSync(packedPosition);
-        if (account != null) {
-          ((ProtectedFragmentActivity) getActivity()).showMessage(
-              getString(R.string.dialog_synced_to_other, account.getUuid()));
-        }
-        return true;
+      return true;
+    } else if (itemId == R.id.SYNC_LINK_COMMAND) {
+      Account account = getAccountForSync(packedPosition);
+      if (account != null) {
+        MessageDialogFragment.newInstance(
+            getString(R.string.menu_sync_link),
+            getString(R.string.dialog_sync_link, account.getUuid()),
+            new MessageDialogFragment.Button(R.string.dialog_command_sync_link_remote, R.id.SYNC_LINK_COMMAND_REMOTE, account),
+            MessageDialogFragment.Button.nullButton(android.R.string.cancel),
+            new MessageDialogFragment.Button(R.string.dialog_command_sync_link_local, R.id.SYNC_LINK_COMMAND_LOCAL, account))
+            .show(getParentFragmentManager(), "SYNC_LINK");
       }
-      case R.id.SYNC_LINK_COMMAND: {
-        Account account = getAccountForSync(packedPosition);
-        if (account != null) {
-          MessageDialogFragment.newInstance(
-              getString(R.string.menu_sync_link),
-              getString(R.string.dialog_sync_link, account.getUuid()),
-              new MessageDialogFragment.Button(R.string.dialog_command_sync_link_remote, R.id.SYNC_LINK_COMMAND_REMOTE, account),
-              MessageDialogFragment.Button.nullButton(android.R.string.cancel),
-              new MessageDialogFragment.Button(R.string.dialog_command_sync_link_local, R.id.SYNC_LINK_COMMAND_LOCAL, account))
-              .show(getFragmentManager(), "SYNC_LINK");
-        }
-        return true;
-      }
-      case R.id.SYNC_REMOVE_BACKEND_COMMAND: {
-        String syncAccountName = syncBackendAdapter.getSyncAccountName(packedPosition);
-        Bundle b = new Bundle();
-        final String message = getString(R.string.dialog_confirm_sync_remove_backend, syncAccountName)
-            + " " + getString(R.string.continue_confirmation);
-        b.putString(ConfirmationDialogFragment.KEY_MESSAGE, message);
-        b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.SYNC_REMOVE_BACKEND_COMMAND);
-        b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.menu_remove);
-        b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, android.R.string.cancel);
-        b.putString(KEY_SYNC_ACCOUNT_NAME, syncAccountName);
-        ConfirmationDialogFragment.newInstance(b).show(getFragmentManager(), "SYNC_REMOVE_BACKEND");
-      }
+      return true;
+    } else if (itemId == R.id.SYNC_REMOVE_BACKEND_COMMAND) {
+      String syncAccountName = syncBackendAdapter.getSyncAccountName(packedPosition);
+      Bundle b = new Bundle();
+      final String message = getString(R.string.dialog_confirm_sync_remove_backend, syncAccountName)
+          + " " + getString(R.string.continue_confirmation);
+      b.putString(ConfirmationDialogFragment.KEY_MESSAGE, message);
+      b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.SYNC_REMOVE_BACKEND_COMMAND);
+      b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.menu_remove);
+      b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, android.R.string.cancel);
+      b.putString(KEY_SYNC_ACCOUNT_NAME, syncAccountName);
+      ConfirmationDialogFragment.newInstance(b).show(getParentFragmentManager(), "SYNC_REMOVE_BACKEND");
     }
     return super.onContextItemSelected(item);
   }

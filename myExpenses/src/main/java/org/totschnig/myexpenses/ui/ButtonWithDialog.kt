@@ -12,7 +12,7 @@ import org.totschnig.myexpenses.preference.PrefHandler
 
 abstract class ButtonWithDialog @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : MaterialButton(context, attrs, defStyleAttr) {
-    fun showDialog() {
+    private fun showDialog() {
         host.hideKeyBoardAndShowDialog(id)
     }
 

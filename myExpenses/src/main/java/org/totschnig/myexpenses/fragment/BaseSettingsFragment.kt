@@ -275,7 +275,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         if (licenceHandler.needsKeyEntry) {
             licenceKeyPref?.let {
                 if (licenceHandler.hasValidKey()) {
-                    it.setTitle(getKeyInfo())
+                    it.title = getKeyInfo()
                     it.summary = TextUtils.concatResStrings(activity, " / ",
                             R.string.button_validate, R.string.menu_remove)
                 } else {
@@ -298,7 +298,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             contribPurchaseSummary = getString(R.string.pref_contrib_purchase_summary)
         } else {
             contribPurchaseTitle = if (licenceStatus == null) "" else getString(licenceStatus.resId)
-            addOnFeatures?.takeIf { it.isNotEmpty() }?.map { getString(it.getLabelResIdOrThrow(requireContext())) }?.joinToString()?.let {
+            addOnFeatures?.takeIf { it.isNotEmpty() }?.joinToString { getString(it.getLabelResIdOrThrow(requireContext())) }?.let {
                 if (!isEmpty(contribPurchaseTitle)) {
                     contribPurchaseTitle += " "
                 }

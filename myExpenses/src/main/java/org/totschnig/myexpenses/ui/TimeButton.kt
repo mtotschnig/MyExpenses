@@ -25,7 +25,7 @@ class TimeButton @JvmOverloads constructor(
         time = LocalTime.now()
     }
 
-    var timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
+    private var timeFormatter: DateTimeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
 
     override fun update() {
         text = time.format(timeFormatter)
@@ -40,7 +40,7 @@ class TimeButton @JvmOverloads constructor(
         update()
     }
 
-    override fun onCreateDialog(prefHandler: PrefHandler): Dialog? {
+    override fun onCreateDialog(prefHandler: PrefHandler): Dialog {
         val timeSetListener = OnTimeSetListener { view: TimePicker?, hourOfDay: Int, minute: Int ->
             if (time[ChronoField.HOUR_OF_DAY] != hourOfDay ||
                     time[ChronoField.MINUTE_OF_HOUR] != minute) {

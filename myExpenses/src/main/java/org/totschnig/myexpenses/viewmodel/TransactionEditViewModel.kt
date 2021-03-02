@@ -38,6 +38,7 @@ import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import java.util.*
+import kotlin.math.pow
 import org.totschnig.myexpenses.viewmodel.data.Template as DataTemplate
 
 const val ERROR_UNKNOWN = -1L
@@ -48,13 +49,13 @@ const val ERROR_WHILE_SAVING_TAGS = -5L
 
 class TransactionEditViewModel(application: Application) : TransactionViewModel(application) {
 
-    val disposables = CompositeDisposable()
+    private val disposables = CompositeDisposable()
     //TODO move to lazyMap
     private val methods = MutableLiveData<List<PaymentMethod>>()
 
     private val accounts by lazy {
         val liveData = MutableLiveData<List<Account>>()
-        disposables.add(briteContentResolver.createQuery(TransactionProvider.ACCOUNTS_BASE_URI, null, KEY_SEALED + " = 0", null, null, false)
+        disposables.add(briteContentResolver.createQuery(TransactionProvider.ACCOUNTS_BASE_URI, null, "$KEY_SEALED = 0", null, null, false)
                 .mapToList { buildAccount(it, currencyContext) }
                 .subscribe { liveData.postValue(it) })
         return@lazy liveData
@@ -64,7 +65,7 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
         val liveData = MutableLiveData<List<DataTemplate>>()
         disposables.add(briteContentResolver.createQuery(TransactionProvider.TEMPLATES_URI.buildUpon()
                 .build(), arrayOf(KEY_ROWID, KEY_TITLE),
-                "${KEY_PLANID} is null AND ${KEY_PARENTID} is null AND ${KEY_SEALED} = 0",
+                "$KEY_PLANID is null AND $KEY_PARENTID is null AND $KEY_SEALED = 0",
                 null,
                 Sort.preferredOrderByForTemplatesWithPlans(prefHandler, Sort.USAGES),
                 false)
@@ -139,7 +140,7 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
 
     private fun adjustExchangeRate(raw: Double, currencyUnit: CurrencyUnit): Double {
         val minorUnitDelta: Int = currencyUnit.fractionDigits - Utils.getHomeCurrency().fractionDigits
-        return raw * Math.pow(10.0, minorUnitDelta.toDouble())
+        return raw * 10.0.pow(minorUnitDelta.toDouble())
     }
 
     fun updateTags(it: MutableList<Tag>) {

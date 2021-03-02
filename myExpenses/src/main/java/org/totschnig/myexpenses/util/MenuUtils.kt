@@ -15,7 +15,7 @@ import org.totschnig.myexpenses.R
 fun configureSearch(activity: Activity, menu: Menu, callback: (String?) -> Boolean) {
     (activity.getSystemService(Context.SEARCH_SERVICE) as? SearchManager)?.let { manager ->
         (menu.findItem(R.id.SEARCH_COMMAND).actionView as? SearchView)?.let {
-            it.setSearchableInfo(manager.getSearchableInfo(activity.getComponentName()))
+            it.setSearchableInfo(manager.getSearchableInfo(activity.componentName))
             it.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?) = false
 

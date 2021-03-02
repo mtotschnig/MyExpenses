@@ -52,7 +52,7 @@ fun getLocaleForUserCountry(country: String?, defaultLocale: Locale): Locale {
 abstract class FeatureManager {
     lateinit var application: MyApplication
     var callback: Callback? = null
-    val ocrFeature: OcrFeature?
+    private val ocrFeature: OcrFeature?
         get() = application.appComponent.ocrFeature()
 
     open fun initApplication(application: MyApplication) {

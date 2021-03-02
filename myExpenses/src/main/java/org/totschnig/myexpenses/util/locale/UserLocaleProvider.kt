@@ -9,13 +9,17 @@ interface UserLocaleProvider {
     var systemLocale: Locale
 
     companion object {
-        fun resolveLocale(language: String, systemLocale: Locale): Locale = if (language == DEFAULT_LANGUAGE) {
-            systemLocale
-        } else if (language.contains("-")) {
-            val parts = language.split("-").toTypedArray()
-            Locale(parts[0], parts[1])
-        } else {
-            Locale(language)
+        fun resolveLocale(language: String, systemLocale: Locale): Locale = when {
+            language == DEFAULT_LANGUAGE -> {
+                systemLocale
+            }
+            language.contains("-") -> {
+                val parts = language.split("-").toTypedArray()
+                Locale(parts[0], parts[1])
+            }
+            else -> {
+                Locale(language)
+            }
         }
     }
 }

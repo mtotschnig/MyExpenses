@@ -6,7 +6,7 @@ import org.totschnig.myexpenses.MyApplication
 abstract class BaseTransactionProvider: ContentProvider() {
     var dirty = false
     set(value) {
-        if(field == false && value == true) {
+        if(!field && value) {
             (context?.applicationContext as? MyApplication)?.markDataDirty()
         }
         field = value

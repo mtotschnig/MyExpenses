@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.ListFragment;
 
@@ -52,8 +53,8 @@ public class FolderList extends ListFragment {
   }
 
   @Override
-  public void onCreateOptionsMenu(Menu menu, MenuInflater inflator) {
-    inflator.inflate(R.menu.folder, menu);
+  public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
+    inflater.inflate(R.menu.folder, menu);
   }
 
   @Override
@@ -69,8 +70,8 @@ public class FolderList extends ListFragment {
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     FolderBrowser ctx = (FolderBrowser) getActivity();
-    switch (item.getItemId()) {
-    case R.id.SELECT_COMMAND:
+    int itemId = item.getItemId();
+    if (itemId == R.id.SELECT_COMMAND) {
       if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
         try {
           //on Kitkat secondary storage is reported as writable by File.canWrite(),
@@ -79,19 +80,16 @@ public class FolderList extends ListFragment {
         } catch (IOException e) {
           ctx.showSnackbar(getString(R.string.app_dir_not_accessible,
               selectedFolder.getPath()), Snackbar.LENGTH_SHORT);
-          break;
+          return super.onOptionsItemSelected(item);
         }
       }
       PrefKey.APP_DIR.putString(Uri.fromFile(selectedFolder).toString());
       ctx.setResult(FolderBrowser.RESULT_OK);
       ctx.finish();
-      break;
-    case R.id.CREATE_COMMAND:
+    } else if (itemId == R.id.CREATE_COMMAND) {
       createNewFolder();
-      break;
-    case R.id.UP_COMMAND:
+    } else if (itemId == R.id.UP_COMMAND) {
       browseTo(selectedFolder.getParentFile());
-      break;
     }
     return super.onOptionsItemSelected(item);
   }
@@ -120,7 +118,7 @@ public class FolderList extends ListFragment {
   }
 
   @Override
-  public void onSaveInstanceState(Bundle outState) {
+  public void onSaveInstanceState(@NonNull Bundle outState) {
     super.onSaveInstanceState(outState);
     if (selectedFolder != null) {
       outState.putString(FolderBrowser.PATH, selectedFolder.getAbsolutePath());
@@ -131,7 +129,7 @@ public class FolderList extends ListFragment {
     Bundle args = new Bundle();
     args.putString(EditTextDialog.KEY_DIALOG_TITLE,getString(R.string.menu_create_folder));
     EditTextDialog.newInstance(args)
-        .show(getFragmentManager(), "CREATE_FOLDER");
+        .show(getParentFragmentManager(), "CREATE_FOLDER");
   }
 
   public void createNewFolder(String name) {
@@ -196,7 +194,7 @@ public class FolderList extends ListFragment {
   }
 
   @Override
-  public void onListItemClick(ListView l, View v, int position, long id) {
+  public void onListItemClick(@NonNull ListView l, @NonNull View v, int position, long id) {
     super.onListItemClick(l, v, position, id);
     FileItem selected = files.get(position);
     browseTo(selected.file);

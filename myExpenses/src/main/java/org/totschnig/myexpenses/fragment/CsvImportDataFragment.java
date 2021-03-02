@@ -126,7 +126,7 @@ public class CsvImportDataFragment extends Fragment {
   }
 
   @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+  public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
     DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
 
@@ -275,7 +275,7 @@ public class CsvImportDataFragment extends Fragment {
           b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
               R.id.SET_HEADER_COMMAND);
           ConfirmationDialogFragment.newInstance(b).show(
-              getFragmentManager(), "SET_HEADER_CONFIRMATION");
+              getParentFragmentManager(), "SET_HEADER_CONFIRMATION");
         }
       } else {
         discardedRows.delete(position);
@@ -364,7 +364,7 @@ public class CsvImportDataFragment extends Fragment {
   }
 
   @Override
-  public void onSaveInstanceState(Bundle outState) {
+  public void onSaveInstanceState(@NonNull Bundle outState) {
     super.onSaveInstanceState(outState);
     outState.putSerializable(KEY_DATASET, mDataset);
     outState.putParcelable(KEY_DISCARDED_ROWS, discardedRows);
@@ -372,50 +372,48 @@ public class CsvImportDataFragment extends Fragment {
   }
 
   @Override
-  public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+  public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
     inflater.inflate(R.menu.csv_import, menu);
   }
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    switch (item.getItemId()) {
-      case R.id.IMPORT_COMMAND:
-        int[] columnToFieldMap = new int[nrOfColumns];
-        final CSVRecord header = mDataset.get(0);
-        for (int i = 0; i < nrOfColumns; i++) {
-          int position = ((Spinner) mHeaderLine.getChildAt(i + 1)).getSelectedItemPosition();
-          columnToFieldMap[i] = fields[position];
-          if (firstLineIsHeader) {
-            try {
-              if (!fieldKeys[position].equals(FIELD_KEY_DISCARD)) {
-                header2FieldMap.put(Utils.normalize(header.get(i)), fieldKeys[position]);
-              }
-            } catch (JSONException e) {
-              CrashHandler.report(e);
+    if (item.getItemId() == R.id.IMPORT_COMMAND) {
+      int[] columnToFieldMap = new int[nrOfColumns];
+      final CSVRecord header = mDataset.get(0);
+      for (int i = 0; i < nrOfColumns; i++) {
+        int position = ((Spinner) mHeaderLine.getChildAt(i + 1)).getSelectedItemPosition();
+        columnToFieldMap[i] = fields[position];
+        if (firstLineIsHeader) {
+          try {
+            if (!fieldKeys[position].equals(FIELD_KEY_DISCARD)) {
+              header2FieldMap.put(Utils.normalize(header.get(i)), fieldKeys[position]);
             }
+          } catch (JSONException e) {
+            CrashHandler.report(e);
           }
         }
-        if (validateMapping(columnToFieldMap)) {
-          PrefKey.CSV_IMPORT_HEADER_TO_FIELD_MAP.putString(header2FieldMap.toString());
-          long accountId = ((CsvImportActivity) getActivity()).getAccountId();
-          CurrencyUnit currency = ((CsvImportActivity) getActivity()).getCurrency();
-          QifDateFormat format = ((CsvImportActivity) getActivity()).getDateFormat();
-          AccountType type = ((CsvImportActivity) getActivity()).getAccountType();
-          TaskExecutionFragment taskExecutionFragment =
-              TaskExecutionFragment.newInstanceCSVImport(
-                  mDataset, columnToFieldMap, discardedRows, format, accountId, currency, type);
-          ProgressDialogFragment progressDialogFragment = ProgressDialogFragment.newInstance(
-              getString(R.string.pref_import_title, "CSV"),
-              null, ProgressDialog.STYLE_HORIZONTAL, false);
-          progressDialogFragment.setMax(mDataset.size() - discardedRows.size());
-          getFragmentManager()
-              .beginTransaction()
-              .add(taskExecutionFragment, ASYNC_TAG)
-              .add(progressDialogFragment, PROGRESS_TAG)
-              .commit();
+      }
+      if (validateMapping(columnToFieldMap)) {
+        PrefKey.CSV_IMPORT_HEADER_TO_FIELD_MAP.putString(header2FieldMap.toString());
+        long accountId = ((CsvImportActivity) getActivity()).getAccountId();
+        CurrencyUnit currency = ((CsvImportActivity) getActivity()).getCurrency();
+        QifDateFormat format = ((CsvImportActivity) getActivity()).getDateFormat();
+        AccountType type = ((CsvImportActivity) getActivity()).getAccountType();
+        TaskExecutionFragment taskExecutionFragment =
+            TaskExecutionFragment.newInstanceCSVImport(
+                mDataset, columnToFieldMap, discardedRows, format, accountId, currency, type);
+        ProgressDialogFragment progressDialogFragment = ProgressDialogFragment.newInstance(
+            getString(R.string.pref_import_title, "CSV"),
+            null, ProgressDialog.STYLE_HORIZONTAL, false);
+        progressDialogFragment.setMax(mDataset.size() - discardedRows.size());
+        getParentFragmentManager()
+            .beginTransaction()
+            .add(taskExecutionFragment, ASYNC_TAG)
+            .add(progressDialogFragment, PROGRESS_TAG)
+            .commit();
 
-        }
-        break;
+      }
     }
     return super.onOptionsItemSelected(item);
   }
@@ -433,8 +431,7 @@ public class CsvImportDataFragment extends Fragment {
   private boolean validateMapping(int[] columnToFieldMap) {
     SparseBooleanArray foundFields = new SparseBooleanArray();
     ProtectedFragmentActivity activity = (ProtectedFragmentActivity) getActivity();
-    for (int i = 0; i < columnToFieldMap.length; i++) {
-      int field = columnToFieldMap[i];
+    for (int field : columnToFieldMap) {
       if (field != R.string.cvs_import_discard) {
         if (foundFields.get(field, false)) {
           activity.showSnackbar(getString(R.string.csv_import_field_mapped_more_than_once, getString(field)));

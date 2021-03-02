@@ -40,6 +40,7 @@ import org.totschnig.myexpenses.viewmodel.data.Currency;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.loader.app.LoaderManager;
@@ -98,7 +99,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
   private AccountType type = null;
 
   @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+  public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     if (savedInstanceState != null) {
       accountId = savedInstanceState.getLong(KEY_ACCOUNTID);
       currency = savedInstanceState.getString(KEY_CURRENCY);
@@ -159,7 +160,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
   }
 
   @Override
-  public void onSaveInstanceState(Bundle outState) {
+  public void onSaveInstanceState(@NonNull Bundle outState) {
     super.onSaveInstanceState(outState);
     if (mUri != null) {
       outState.putString(getPrefKey(), mUri.toString());
@@ -204,7 +205,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
   }
 
   @Override
-  public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+  public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
     inflater.inflate(R.menu.csv_parse, menu);
   }
 
@@ -215,31 +216,30 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    switch (item.getItemId()) {
-      case R.id.PARSE_COMMAND:
-        QifDateFormat format = (QifDateFormat) mDateFormatSpinner.getSelectedItem();
-        String encoding = (String) mEncodingSpinner.getSelectedItem();
-        String delimiter = getResources().getStringArray(R.array.pref_csv_import_delimiter_values)
-            [mDelimiterSpinner.getSelectedItemPosition()];
-        prefHandler.putString(PREFKEY_IMPORT_CSV_DELIMITER, delimiter);
-        prefHandler.putString(PREFKEY_IMPORT_CSV_ENCODING, encoding);
-        prefHandler.putString(PREFKEY_IMPORT_CSV_DATE_FORMAT, format.name());
-        ImportFileResultHandler.maybePersistUri(this, prefHandler);
-        TaskExecutionFragment taskExecutionFragment =
-            TaskExecutionFragment.newInstanceCSVParse(
-                mUri, delimiter.charAt(0), encoding);
-        getParentFragmentManager()
-            .beginTransaction()
-            .add(taskExecutionFragment, ASYNC_TAG)
-            .add(ProgressDialogFragment.newInstance(
-                getString(R.string.pref_import_title, "CSV"),
-                null, ProgressDialog.STYLE_SPINNER, false), PROGRESS_TAG)
-            .commit();
-        break;
+    if (item.getItemId() == R.id.PARSE_COMMAND) {
+      QifDateFormat format = (QifDateFormat) mDateFormatSpinner.getSelectedItem();
+      String encoding = (String) mEncodingSpinner.getSelectedItem();
+      String delimiter = getResources().getStringArray(R.array.pref_csv_import_delimiter_values)
+          [mDelimiterSpinner.getSelectedItemPosition()];
+      prefHandler.putString(PREFKEY_IMPORT_CSV_DELIMITER, delimiter);
+      prefHandler.putString(PREFKEY_IMPORT_CSV_ENCODING, encoding);
+      prefHandler.putString(PREFKEY_IMPORT_CSV_DATE_FORMAT, format.name());
+      ImportFileResultHandler.maybePersistUri(this, prefHandler);
+      TaskExecutionFragment taskExecutionFragment =
+          TaskExecutionFragment.newInstanceCSVParse(
+              mUri, delimiter.charAt(0), encoding);
+      getParentFragmentManager()
+          .beginTransaction()
+          .add(taskExecutionFragment, ASYNC_TAG)
+          .add(ProgressDialogFragment.newInstance(
+              getString(R.string.pref_import_title, "CSV"),
+              null, ProgressDialog.STYLE_SPINNER, false), PROGRESS_TAG)
+          .commit();
     }
     return super.onOptionsItemSelected(item);
   }
 
+  @NonNull
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle args) {
     if (getActivity() == null) {
@@ -257,7 +257,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
   }
 
   @Override
-  public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+  public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
     MatrixCursor extras = new MatrixCursor(new String[]{
         KEY_ROWID,
         KEY_LABEL,
@@ -276,7 +276,7 @@ public class CsvImportParseFragment extends Fragment implements View.OnClickList
   }
 
   @Override
-  public void onLoaderReset(Loader<Cursor> loader) {
+  public void onLoaderReset(@NonNull Loader<Cursor> loader) {
     mAccountsCursor = null;
     mAccountsAdapter.swapCursor(null);
   }

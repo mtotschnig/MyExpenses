@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.dialog.select
 
 import android.content.DialogInterface
-import android.database.Cursor
 import androidx.appcompat.app.AlertDialog
 import java.util.*
 
@@ -16,7 +15,7 @@ abstract class SelectMultipleDialogFragment(withNullItem: Boolean): SelectFromTa
         val positions = listView.checkedItemPositions
         val itemIds = listView.checkedItemIds
         var shouldDismiss = true
-        if (itemIds.size > 0) {
+        if (itemIds.isNotEmpty()) {
             val labelList = ArrayList<String>()
             for (i in 0 until positions.size()) {
                 if (positions.valueAt(i)) {

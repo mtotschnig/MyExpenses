@@ -61,8 +61,8 @@ data class Budget(val id: Long, val accountId: Long, val title: String, val desc
         }
     }
 
-    fun startIso() = start!!.format(ISO_LOCAL_DATE)
-    fun endIso() = end!!.format(ISO_LOCAL_DATE)
+    private fun startIso(): String = start!!.format(ISO_LOCAL_DATE)
+    private fun endIso(): String = end!!.format(ISO_LOCAL_DATE)
     fun durationAsSqlFilter() = "%1\$s > strftime('%%s', '%2\$s', 'utc') AND %1\$s < strftime('%%s', '%3\$s', 'utc')".format(
             KEY_DATE, startIso(), endIso())
 

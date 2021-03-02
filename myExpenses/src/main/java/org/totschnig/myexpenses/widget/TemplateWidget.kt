@@ -19,8 +19,7 @@ class TemplateWidget: AbstractWidget(TemplateWidgetService::class.java, R.string
 
     override fun handleWidgetClick(context: Context, intent: Intent) {
         val templateId = intent.getLongExtra(DatabaseConstants.KEY_ROWID, 0)
-        val clickAction = intent.getStringExtra(KEY_CLICK_ACTION)
-        when (clickAction) {
+        when (intent.getStringExtra(KEY_CLICK_ACTION)) {
             null -> {
                 context.startActivity(Intent(context, ManageTemplates::class.java).apply {
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP

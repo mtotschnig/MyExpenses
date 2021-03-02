@@ -110,7 +110,7 @@ public class SetupWebdavDialogFragment extends BaseDialogFragment {
       args.putString(TestLoginTask.KEY_PASSWORD, mEdtPassword.getText().toString().trim());
       args.putSerializable(TestLoginTask.KEY_CERTIFICATE, mChkTrustCertificate.isChecked() ? mTrustCertificate : null);
       args.putBoolean(KEY_ALLOW_UNVERIFIED, prefHandler.getBoolean(PrefKey.WEBDAV_ALLOW_UNVERIFIED_HOST, false));
-      getFragmentManager()
+      getParentFragmentManager()
           .beginTransaction()
           .add(TaskExecutionFragment.newInstanceWithBundle(args, TaskExecutionFragment.TASK_WEBDAV_TEST_LOGIN), ASYNC_TAG)
           .add(ProgressDialogFragment.newInstance("WebDAV", null, 0, false),

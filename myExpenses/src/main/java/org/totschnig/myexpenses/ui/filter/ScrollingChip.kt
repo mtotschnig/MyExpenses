@@ -36,7 +36,7 @@ class ScrollingChip @JvmOverloads constructor(
         addView(chip)
         attrs?.let {
             context.obtainStyledAttributes(it, intArrayOf(android.R.attr.text)).apply {
-                chip.setText(getText(0))
+                chip.text = getText(0)
                 recycle()
             }
         }

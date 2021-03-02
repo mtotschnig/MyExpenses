@@ -103,7 +103,7 @@ public class AmountCriteria extends Criteria {
       default:
         throw new UnsupportedOperationException("Operator not supported: " + operation.name());
     }
-    Long longAmount1, longAmount2;
+    long longAmount1, longAmount2;
     longAmount1 =  type ? values[0] : -values[0];
     if (operation == Operation.BTW) {
       if (values[1] == null) {

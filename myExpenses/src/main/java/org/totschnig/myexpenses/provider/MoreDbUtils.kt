@@ -31,14 +31,14 @@ fun safeUpdateWithSealedAccounts(db: SQLiteDatabase, runnable: Runnable) {
 }
 
 fun groupByForPaymentMethodQuery(projection: Array<String>?) =
-        if (projection?.contains(KEY_ACCOUNT_TPYE_LIST) ?: false) KEY_ROWID else null
+        if (projection?.contains(KEY_ACCOUNT_TPYE_LIST) == true) KEY_ROWID else null
 
 fun havingForPaymentMethodQuery(projection: Array<String>?) =
-        if (projection?.contains(KEY_ACCOUNT_TPYE_LIST) ?: false) "$KEY_ACCOUNT_TPYE_LIST is not null" else null
+        if (projection?.contains(KEY_ACCOUNT_TPYE_LIST) == true) "$KEY_ACCOUNT_TPYE_LIST is not null" else null
 
 fun tableForPaymentMethodQuery(projection: Array<String>?) =
-        if (projection?.contains(KEY_ACCOUNT_TPYE_LIST) ?: false)
-            "${TABLE_METHODS} left join $TABLE_ACCOUNTTYES_METHODS on $KEY_METHODID = $KEY_ROWID"
+        if (projection?.contains(KEY_ACCOUNT_TPYE_LIST) == true)
+            "$TABLE_METHODS left join $TABLE_ACCOUNTTYES_METHODS on $KEY_METHODID = $KEY_ROWID"
         else
             TABLE_METHODS
 

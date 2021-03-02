@@ -51,7 +51,7 @@ class TemplatetRemoteViewsFactory(
     }
 
     override fun buildCursor(): Cursor? {
-        return context.getContentResolver().query(
+        return context.contentResolver.query(
                 TransactionProvider.TEMPLATES_URI, null, String.format(Locale.ROOT, "%s is null AND %s is null AND %s = 0",
                 KEY_PLANID, KEY_PARENTID, KEY_SEALED),
                 null, preferredOrderByForTemplates(prefHandler, Sort.TITLE))
@@ -60,7 +60,7 @@ class TemplatetRemoteViewsFactory(
     override fun RemoteViews.populate(cursor: Cursor) {
         setBackgroundColorSave(R.id.divider3, cursor.getInt(cursor.getColumnIndex(KEY_COLOR)))
         val title = DbUtils.getString(cursor, DatabaseConstants.KEY_TITLE)
-        val currencyContext = MyApplication.getInstance().getAppComponent().currencyContext()
+        val currencyContext = MyApplication.getInstance().appComponent.currencyContext()
         val currency = currencyContext.get(DbUtils.getString(cursor, KEY_CURRENCY))
         val amount = Money(currency, DbUtils.getLongOr0L(cursor, DatabaseConstants.KEY_AMOUNT))
         val isTransfer = !(cursor.isNull(cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_TRANSFER_ACCOUNT)))
@@ -72,7 +72,7 @@ class TemplatetRemoteViewsFactory(
         val commentSeparator = " / "
         val description = SpannableStringBuilder(if (isTransfer) Transfer.getIndicatorPrefixForLabel(amount.amountMinor) + label else label)
         if (!TextUtils.isEmpty(comment)) {
-            if (description.length != 0) {
+            if (description.isNotEmpty()) {
                 description.append(commentSeparator)
             }
             description.append(comment)
@@ -81,7 +81,7 @@ class TemplatetRemoteViewsFactory(
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
         if (!TextUtils.isEmpty(payee)) {
-            if (description.length != 0) {
+            if (description.isNotEmpty()) {
                 description.append(commentSeparator)
             }
             description.append(payee)
@@ -97,7 +97,7 @@ class TemplatetRemoteViewsFactory(
         setViewVisibility(R.id.command3, View.GONE)
     }
 
-    protected fun RemoteViews.configureButton(buttonId: Int, drawableResId: Int, action: String, contentDescriptionResId: Int, templateId: Long, minimumWidth: Int) {
+    private fun RemoteViews.configureButton(buttonId: Int, drawableResId: Int, action: String, contentDescriptionResId: Int, templateId: Long, minimumWidth: Int) {
         if (width < minimumWidth) {
             setViewVisibility(buttonId, View.GONE)
         } else {

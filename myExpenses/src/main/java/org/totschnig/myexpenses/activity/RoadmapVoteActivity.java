@@ -203,30 +203,26 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
     if (super.dispatchCommand(command, tag)) {
       return true;
     }
-    switch (command) {
-      case R.id.ROADMAP_RESULT_COMMAND: {
-        startActionView(ROADMAP_URL + "issues.html");
-        return true;
-      }
-      case R.id.SYNC_COMMAND: {
-        showIsLoading();
-        roadmapViewModel.loadData(false);
-        return true;
-      }
-      case R.id.ROADMAP_SUBMIT_VOTE: {
-        if (lastVote != null && lastVote.getVote().equals(voteWeights) && lastVote.getVersion() == getVersionFromPref()) {
-          showSnackbar("Modify your vote, before submitting it again.");
-        } else {
-          final boolean emailIsKnown = getEmail() != null;
-          int msg = emailIsKnown ? R.string.roadmap_update_confirmation : R.string.roadmap_email_rationale;
-          final SimpleFormDialog simpleFormDialog = SimpleFormDialog.build().msg(msg);
-          if (!emailIsKnown) {
-            simpleFormDialog.fields(Input.email(KEY_EMAIL).required());
-          }
-          simpleFormDialog.show(this, DIALOG_TAG_SUBMIT_VOTE);
+    if (command == R.id.ROADMAP_RESULT_COMMAND) {
+      startActionView(ROADMAP_URL + "issues.html");
+      return true;
+    } else if (command == R.id.SYNC_COMMAND) {
+      showIsLoading();
+      roadmapViewModel.loadData(false);
+      return true;
+    } else if (command == R.id.ROADMAP_SUBMIT_VOTE) {
+      if (lastVote != null && lastVote.getVote().equals(voteWeights) && lastVote.getVersion() == getVersionFromPref()) {
+        showSnackbar("Modify your vote, before submitting it again.");
+      } else {
+        final boolean emailIsKnown = getEmail() != null;
+        int msg = emailIsKnown ? R.string.roadmap_update_confirmation : R.string.roadmap_email_rationale;
+        final SimpleFormDialog simpleFormDialog = SimpleFormDialog.build().msg(msg);
+        if (!emailIsKnown) {
+          simpleFormDialog.fields(Input.email(KEY_EMAIL).required());
         }
-        return true;
+        simpleFormDialog.show(this, DIALOG_TAG_SUBMIT_VOTE);
       }
+      return true;
     }
     return false;
   }
@@ -270,34 +266,32 @@ public class RoadmapVoteActivity extends ProtectedFragmentActivity implements
   @Override
   public boolean onContextItemSelected(MenuItem item) {
     ContextAwareRecyclerView.RecyclerContextMenuInfo info = (ContextAwareRecyclerView.RecyclerContextMenuInfo) item.getMenuInfo();
-    switch (item.getItemId()) {
-      case R.id.ROADMAP_DETAILS_COMMAND: {
-        startActionView("https://github.com/mtotschnig/MyExpenses/issues/" + info.id);
-        return true;
+    int itemId = item.getItemId();
+    if (itemId == R.id.ROADMAP_DETAILS_COMMAND) {
+      startActionView("https://github.com/mtotschnig/MyExpenses/issues/" + info.id);
+      return true;
+    } else if (itemId == R.id.ROADMAP_ISSUE_VOTE_COMMAND) {
+      Bundle extra = new Bundle(1);
+      extra.putInt(KEY_ROWID, (int) info.id);
+      extra.putInt(KEY_POSITION, info.position);
+      Integer value = voteWeights.get((int) info.id);
+      int available = getTotalAvailableWeight() - getCurrentTotalWeight();
+      if (value != null) {
+        available += value;
       }
-      case R.id.ROADMAP_ISSUE_VOTE_COMMAND: {
-        Bundle extra = new Bundle(1);
-        extra.putInt(KEY_ROWID, (int) info.id);
-        extra.putInt(KEY_POSITION, info.position);
-        Integer value = voteWeights.get((int) info.id);
-        int available = getTotalAvailableWeight() - getCurrentTotalWeight();
+      if (available > 0) {
+        SimpleSeekBarDialog dialog = SimpleSeekBarDialog.build()
+            .title(dataSetFiltered.get(info.position).getTitle())
+            .max(available)
+            .extra(extra);
         if (value != null) {
-          available += value;
+          dialog.value(value);
         }
-        if (available > 0) {
-          SimpleSeekBarDialog dialog = SimpleSeekBarDialog.build()
-              .title(dataSetFiltered.get(info.position).getTitle())
-              .max(available)
-              .extra(extra);
-          if (value != null) {
-            dialog.value(value);
-          }
-          dialog.show(this, DIALOG_TAG_ISSUE_VOTE);
-        } else {
-          showSnackbar("You spent all your points on other issues.", Snackbar.LENGTH_SHORT);
-        }
-        return true;
+        dialog.show(this, DIALOG_TAG_ISSUE_VOTE);
+      } else {
+        showSnackbar("You spent all your points on other issues.", Snackbar.LENGTH_SHORT);
       }
+      return true;
     }
     return false;
   }

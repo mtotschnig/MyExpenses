@@ -167,7 +167,7 @@ public class DialogUtils {
                 }
               }
             }
-          } catch (Exception e) {
+          } catch (Exception ignored) {
           } finally {
             cursor.close();
           }
@@ -209,11 +209,11 @@ public class DialogUtils {
       TextView error = dialog.findViewById(R.id.passwordInvalid);
       if (v == dialog.getButton(AlertDialog.BUTTON_NEUTRAL)) {
         if ((Boolean) input.getTag()) {
-          input.setTag(Boolean.valueOf(false));
+          input.setTag(Boolean.FALSE);
           ((Button) v).setText(R.string.password_lost);
           dialog.setTitle(R.string.password_prompt);
         } else {
-          input.setTag(Boolean.valueOf(true));
+          input.setTag(Boolean.TRUE);
           dialog.setTitle(securityQuestion);
           ((Button) v).setText(android.R.string.cancel);
         }
@@ -230,7 +230,7 @@ public class DialogUtils {
             ctx.showDismissibleSnackbar(R.string.password_disabled_reenable);
             dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setText(R.string.password_lost);
             dialog.setTitle(R.string.password_prompt);
-            input.setTag(Boolean.valueOf(false));
+            input.setTag(Boolean.FALSE);
           }
           dialog.dismiss();
         } else {

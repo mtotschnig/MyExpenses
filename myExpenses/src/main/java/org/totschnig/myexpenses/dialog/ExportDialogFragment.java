@@ -365,29 +365,23 @@ public class ExportDialogFragment extends BaseDialogFragment implements OnClickL
     String dateFormat = binding.dateFormat.getText().toString();
     char decimalSeparator = binding.separator.getCheckedRadioButtonId() == R.id.dot ? '.' : ',';
     final char delimiter;
-    switch (binding.Delimiter.getCheckedRadioButtonId()) {
-      case R.id.delimiter_tab:
-        delimiter = '\t';
-        break;
-      case R.id.delimiter_semicolon:
-        delimiter = ';';
-        break;
-      case R.id.delimiter_comma:
-      default:
-        delimiter = ',';
-        break;
+    int checkedRadioButtonId = binding.Delimiter.getCheckedRadioButtonId();
+    if (checkedRadioButtonId == R.id.delimiter_tab) {
+      delimiter = '\t';
+    } else if (checkedRadioButtonId == R.id.delimiter_semicolon) {
+      delimiter = ';';
+    } else {
+      delimiter = ',';
     }
 
     int handleDeleted;
-    switch (binding.handleDeleted.getCheckedRadioButtonId()) {
-      case R.id.update_balance:
-        handleDeleted = Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE;
-        break;
-      case R.id.create_helper:
-        handleDeleted = Account.EXPORT_HANDLE_DELETED_CREATE_HELPER;
-        break;
-      default: //-1
-        handleDeleted = Account.EXPORT_HANDLE_DELETED_DO_NOTHING;
+    int radioButtonId = binding.handleDeleted.getCheckedRadioButtonId();//-1
+    if (radioButtonId == R.id.update_balance) {
+      handleDeleted = Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE;
+    } else if (radioButtonId == R.id.create_helper) {
+      handleDeleted = Account.EXPORT_HANDLE_DELETED_CREATE_HELPER;
+    } else {
+      handleDeleted = Account.EXPORT_HANDLE_DELETED_DO_NOTHING;
     }
 
     String encoding = (String) binding.Encoding.getSelectedItem();

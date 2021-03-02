@@ -17,8 +17,7 @@ const val CLICK_ACTION_NEW_SPLIT = "newSplit"
 class AccountWidget : AbstractWidget(AccountWidgetService::class.java, R.string.no_accounts, PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET) {
     override fun handleWidgetClick(context: Context, intent: Intent) {
         val accountId = intent.getLongExtra(DatabaseConstants.KEY_ROWID, 0)
-        val clickAction = intent.getStringExtra(KEY_CLICK_ACTION)
-        when (clickAction) {
+        when (val clickAction = intent.getStringExtra(KEY_CLICK_ACTION)) {
             null -> {
                 context.startActivity(Intent(context, MyExpenses::class.java).apply {
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP

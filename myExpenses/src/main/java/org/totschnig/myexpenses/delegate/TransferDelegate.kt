@@ -172,7 +172,7 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
         }
     }
 
-    fun switchAccountViews() {
+    private fun switchAccountViews() {
         val accountSpinner = accountSpinner.spinner
         val transferAccountSpinner = transferAccountSpinner.spinner
         with(viewBinding.Table) {
@@ -230,13 +230,13 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
     }
 
     private fun applyExchangeRate(from: AmountInput, to: AmountInput, rate: BigDecimal?) {
-        val input = validateAmountInput(from, false, true)
+        val input = validateAmountInput(from, showToUser = false, ifPresent = true)
         to.setAmount(if (rate != null && input != null) input.multiply(rate) else BigDecimal(0), false)
     }
 
     private fun updateExchangeRates() {
-        val amount = validateAmountInput(viewBinding.Amount, false, true)
-        val transferAmount = validateAmountInput(viewBinding.TransferAmount, false, true)
+        val amount = validateAmountInput(viewBinding.Amount, showToUser = false, ifPresent = true)
+        val transferAmount = validateAmountInput(viewBinding.TransferAmount, showToUser = false, ifPresent = true)
         viewBinding.ERR.ExchangeRate.calculateAndSetRate(amount, transferAmount)
     }
 
@@ -246,10 +246,10 @@ class TransferDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
         val transferAccount = transferAccount()!!
         val isSame = currentAccount.currency == transferAccount.currency
         val transferAmount: BigDecimal?
-        if (isSame && amount != null) {
-            transferAmount = amount.negate()
+        transferAmount = if (isSame && amount != null) {
+            amount.negate()
         } else {
-            transferAmount = validateAmountInput(viewBinding.TransferAmount, forSave, true)?.let {
+            validateAmountInput(viewBinding.TransferAmount, forSave, true)?.let {
                 if (isIncome) it.negate() else it
             }
         }

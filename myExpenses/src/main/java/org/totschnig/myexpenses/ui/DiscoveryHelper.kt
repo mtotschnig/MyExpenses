@@ -6,14 +6,11 @@ import android.view.View
 import android.view.ViewTreeObserver
 import com.getkeepsafe.taptargetview.TapTarget
 import com.getkeepsafe.taptargetview.TapTargetView
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.Utils
 import timber.log.Timber
-import javax.inject.Inject
-import javax.inject.Singleton
 
 class DiscoveryHelper(val prefHandler: PrefHandler) : IDiscoveryHelper {
 
@@ -30,7 +27,7 @@ class DiscoveryHelper(val prefHandler: PrefHandler) : IDiscoveryHelper {
         };
 
         open fun getLabelResId(ctx: Context) =
-                ctx.resources.getIdentifier("discover_feature_" + name, "string", ctx.packageName)
+                ctx.resources.getIdentifier("discover_feature_$name", "string", ctx.packageName)
 
         fun toDescription(context: Context) = context.getString(getLabelResId(context))
 
@@ -42,10 +39,10 @@ class DiscoveryHelper(val prefHandler: PrefHandler) : IDiscoveryHelper {
             (Utils.getDaysSinceInstall(context) >= daysSinceInstall && prefHandler.getBoolean(feature.key, true)).also {
                 if (it) {
                     if (measureTarget) {
-                        target.getViewTreeObserver().addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                        target.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
                             override fun onGlobalLayout() {
                                 discoveryShow(context, target, feature, UiUtils.px2Dp(target.width / 2))
-                                target.getViewTreeObserver().removeGlobalOnLayoutListener(this)
+                                target.viewTreeObserver.removeGlobalOnLayoutListener(this)
                             }
                         })
                     } else {

@@ -46,16 +46,17 @@ public enum AccountType {
   }
 
   public static AccountType fromQifName(String qifName) {
-    if (qifName.equals("Oth L")) {
-      return LIABILITY;
-    } else if (qifName.equals("Oth A")) {
-      return ASSET;
-    } else if (qifName.equals("CCard")) {
-      return CCARD;
-    } else if (qifName.equals("Cash")) {
-      return CASH;
-    } else {
-      return BANK;
+    switch (qifName) {
+      case "Oth L":
+        return LIABILITY;
+      case "Oth A":
+        return ASSET;
+      case "CCard":
+        return CCARD;
+      case "Cash":
+        return CASH;
+      default:
+        return BANK;
     }
   }
 

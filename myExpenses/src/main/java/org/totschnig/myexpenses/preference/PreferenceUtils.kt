@@ -32,7 +32,7 @@ fun PrefHandler.putLongList(key: String, value: List<Long>) {
 }
 
 fun PrefHandler.getLongList(key: String) =
-        requireString(key, "").takeIf { !it.isEmpty() }?.split(',')?.map(String::toLong) ?: emptyList()
+        requireString(key, "").takeIf { it.isNotEmpty() }?.split(',')?.map(String::toLong) ?: emptyList()
 
 fun PrefHandler.requireString(key: PrefKey, defaultValue: String) =
         getString(key, defaultValue)!!

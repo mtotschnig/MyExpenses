@@ -276,24 +276,24 @@ public abstract class DistributionBaseFragment<ROWBINDING extends ViewBinding> e
   protected void doSingleSelection(long cat_id, String label, String icon, boolean isMain) {
     TransactionListDialogFragment.newInstance(
         accountInfo.getId(), cat_id, isMain, mGrouping, buildFilterClause(VIEW_EXTENDED), filterSelectionArgs(), label, 0, true)
-        .show(getFragmentManager(), TransactionListDialogFragment.class.getName());
+        .show(getParentFragmentManager(), TransactionListDialogFragment.class.getName());
   }
 
   @Override
   public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-    switch (item.getItemId()) {
-      case R.id.BACK_COMMAND:
-        back();
-        return true;
-      case R.id.FORWARD_COMMAND:
-        forward();
-        return true;
-      case R.id.TOGGLE_AGGREGATE_TYPES:
-        aggregateTypes = !aggregateTypes;
-        prefHandler.putBoolean(getPrefKey(), aggregateTypes);
-        getActivity().invalidateOptionsMenu();
-        reset();
-        return true;
+    int itemId = item.getItemId();
+    if (itemId == R.id.BACK_COMMAND) {
+      back();
+      return true;
+    } else if (itemId == R.id.FORWARD_COMMAND) {
+      forward();
+      return true;
+    } else if (itemId == R.id.TOGGLE_AGGREGATE_TYPES) {
+      aggregateTypes = !aggregateTypes;
+      prefHandler.putBoolean(getPrefKey(), aggregateTypes);
+      getActivity().invalidateOptionsMenu();
+      reset();
+      return true;
     }
     return super.onOptionsItemSelected(item);
   }

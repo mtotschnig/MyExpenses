@@ -287,7 +287,7 @@ public class TransactionAdapter extends ResourceCursorAdapter {
           itemDateFormat = new SimpleDateFormat("dd", localeFromContext());
           dateEms = 2;
         } else {
-          itemDateFormat = Utils.localizedYearlessDateFormat(context);
+          itemDateFormat = Utils.localizedYearLessDateFormat(context);
         }
         break;
       case WEEK:
@@ -296,7 +296,7 @@ public class TransactionAdapter extends ResourceCursorAdapter {
         itemDateFormat = new SimpleDateFormat("EEE", localeFromContext());
         break;
       case YEAR:
-        itemDateFormat = Utils.localizedYearlessDateFormat(context);
+        itemDateFormat = Utils.localizedYearLessDateFormat(context);
         break;
       case NONE:
         itemDateFormat = Utils.ensureDateFormatWithShortYear(context);

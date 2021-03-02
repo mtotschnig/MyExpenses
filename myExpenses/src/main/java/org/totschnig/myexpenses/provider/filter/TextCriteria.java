@@ -27,7 +27,7 @@ public abstract class TextCriteria extends Criteria {
   private String searchString;
   TextCriteria(String searchString) {
     super(WhereFilter.Operation.LIKE,
-        "%" + Utils.esacapeSqlLikeExpression(searchString) + "%");
+        "%" + Utils.escapeSqlLikeExpression(searchString) + "%");
     this.searchString = searchString;
   }
   TextCriteria(Parcel in) {

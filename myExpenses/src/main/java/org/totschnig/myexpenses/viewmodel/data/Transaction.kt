@@ -76,8 +76,8 @@ data class Transaction(
                             ?: Money(homeCurrency, money.amountMajor.multiply(BigDecimal(
                                     Utils.adjustExchangeRate(cursor.getDouble(cursor.getColumnIndex(KEY_EXCHANGE_RATE)),
                                             currencyUnit)))),
-                    pictureUri = cursor.getString(cursor.getColumnIndex(KEY_PICTURE_URI))?.let {
-                        var parsedUri = Uri.parse(it)
+                    pictureUri = cursor.getString(cursor.getColumnIndex(KEY_PICTURE_URI))?.let { uri ->
+                        var parsedUri = Uri.parse(uri)
                         if ("file" == parsedUri.scheme) { // Upgrade from legacy uris
                             parsedUri.path?.let {
                                 try {

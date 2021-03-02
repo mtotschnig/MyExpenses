@@ -21,7 +21,7 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
     fun loadParties(filter: @Nullable String?, accountId: Long) {
         val filterSelection = if (TextUtils.isEmpty(filter)) null else "$KEY_PAYEE_NAME_NORMALIZED LIKE ?"
         val filterSelectionArgs = if (TextUtils.isEmpty(filter)) null else
-            arrayOf("%${Utils.esacapeSqlLikeExpression(Utils.normalize(filter))}%")
+            arrayOf("%${Utils.escapeSqlLikeExpression(Utils.normalize(filter))}%")
         val accountSelection = if (accountId == 0L) null else
             StringBuilder("exists (SELECT 1 from $TABLE_TRANSACTIONS WHERE $KEY_PAYEEID = $TABLE_PAYEES.$KEY_ROWID").apply {
                 SelectFromMappedTableDialogFragment.accountSelection(accountId)?.let {
@@ -37,7 +37,7 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
                 if (length > 0) append(" AND ")
                 append(it)
             }
-        }.takeIf { it.length > 0 }?.toString()
+        }.takeIf { it.isNotEmpty() }?.toString()
         disposable = briteContentResolver.createQuery(TransactionProvider.PAYEES_URI, null,
                 selection, Utils.joinArrays(filterSelectionArgs, accountSelectionArgs), null, true)
                 .mapToList { Party.fromCursor(it) }

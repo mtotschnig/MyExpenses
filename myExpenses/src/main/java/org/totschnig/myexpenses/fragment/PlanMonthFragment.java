@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.fragment;
 import android.app.Dialog;
 import android.content.ContentUris;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
@@ -165,7 +164,7 @@ public class PlanMonthFragment extends CaldroidFragment
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     return new Dialog(getActivity(), getTheme()) {
       @Override
-      public boolean onMenuItemSelected(int featureId, MenuItem item) {
+      public boolean onMenuItemSelected(int featureId, @NonNull MenuItem item) {
         if (featureId == Window.FEATURE_CONTEXT_MENU) {
           return getParentFragment().onContextItemSelected(item);
         } else {
@@ -181,7 +180,7 @@ public class PlanMonthFragment extends CaldroidFragment
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    mManager = getLoaderManager();
+    mManager = LoaderManager.getInstance(this);
     View view = super.onCreateView(inflater, container, savedInstanceState);
     Toolbar toolbar = view.findViewById(R.id.calendar_toolbar);
     toolbar.setOnMenuItemClickListener(item -> {
@@ -285,20 +284,16 @@ public class PlanMonthFragment extends CaldroidFragment
   }
 
   public void dispatchCommandSingle(int command, int position) {
-    Intent i;
     long instanceId = getPlanInstanceForPosition(position);
     final FragmentActivity activity = getActivity();
     final Bundle arguments = getArguments();
     final TemplatesList templatesList = (TemplatesList) getParentFragment();
     if (activity == null || arguments == null || templatesList == null) return;
     if (instanceId != -1) {
-      switch (command) {
-        case R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND:
-          templatesList.dispatchCreateInstanceEdit(arguments.getLong(KEY_ROWID), instanceId, getDateForPosition(position));
-          break;
-        case R.id.EDIT_PLAN_INSTANCE_COMMAND:
-          templatesList.dispatchEditInstance(instance2TransactionMap.get(instanceId));
-          break;
+      if (command == R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND) {
+        templatesList.dispatchCreateInstanceEdit(arguments.getLong(KEY_ROWID), instanceId, getDateForPosition(position));
+      } else if (command == R.id.EDIT_PLAN_INSTANCE_COMMAND) {
+        templatesList.dispatchEditInstance(instance2TransactionMap.get(instanceId));
       }
     }
   }
@@ -310,58 +305,54 @@ public class PlanMonthFragment extends CaldroidFragment
     final Bundle arguments = getArguments();
     final TemplatesList templatesList = (TemplatesList) getParentFragment();
     if (activity == null || arguments == null || templatesList == null) return;
-    switch (command) {
-      case R.id.CREATE_PLAN_INSTANCE_SAVE_COMMAND:
-        for (int i = 0; i < positions.size(); i++) {
-          if (positions.valueAt(i)) {
-            int position = positions.keyAt(i);
-            long instanceId = getPlanInstanceForPosition(position);
-            //ignore instances that are not open
-            if (instanceId == -1 || instance2TransactionMap.get(instanceId) != null)
-              continue;
-            //pass event instance id and date as extra
-            extra2dAL.add(new Long[]{instanceId, getDateForPosition(position)});
-            objectIdsAL.add(arguments.getLong(KEY_ROWID));
-          }
+    if (command == R.id.CREATE_PLAN_INSTANCE_SAVE_COMMAND) {
+      for (int i = 0; i < positions.size(); i++) {
+        if (positions.valueAt(i)) {
+          int position = positions.keyAt(i);
+          long instanceId = getPlanInstanceForPosition(position);
+          //ignore instances that are not open
+          if (instanceId == -1 || instance2TransactionMap.get(instanceId) != null)
+            continue;
+          //pass event instance id and date as extra
+          extra2dAL.add(new Long[]{instanceId, getDateForPosition(position)});
+          objectIdsAL.add(arguments.getLong(KEY_ROWID));
         }
-        templatesList.dispatchCreateInstanceSaveDo(objectIdsAL.toArray(new Long[0]),
-            extra2dAL.toArray(new Long[extra2dAL.size()][2]));
-        break;
-      case R.id.CANCEL_PLAN_INSTANCE_COMMAND:
-        for (int i = 0; i < positions.size(); i++) {
-          if (positions.valueAt(i)) {
-            int position = positions.keyAt(i);
-            long instanceId = getPlanInstanceForPosition(position);
-            if (instanceId == -1)
-              continue;
-            objectIdsAL.add(instanceId);
-            extra2dAL.add(new Long[]{arguments.getLong(KEY_ROWID),
-                instance2TransactionMap.get(instanceId)});
-          }
+      }
+      templatesList.dispatchCreateInstanceSaveDo(objectIdsAL.toArray(new Long[0]),
+          extra2dAL.toArray(new Long[extra2dAL.size()][2]));
+    } else if (command == R.id.CANCEL_PLAN_INSTANCE_COMMAND) {
+      for (int i = 0; i < positions.size(); i++) {
+        if (positions.valueAt(i)) {
+          int position = positions.keyAt(i);
+          long instanceId = getPlanInstanceForPosition(position);
+          if (instanceId == -1)
+            continue;
+          objectIdsAL.add(instanceId);
+          extra2dAL.add(new Long[]{arguments.getLong(KEY_ROWID),
+              instance2TransactionMap.get(instanceId)});
         }
-        templatesList.dispatchTask(
-            TaskExecutionFragment.TASK_CANCEL_PLAN_INSTANCE,
-            objectIdsAL.toArray(new Long[0]),
-            extra2dAL.toArray(new Long[extra2dAL.size()][2]));
-        break;
-      case R.id.RESET_PLAN_INSTANCE_COMMAND:
-        for (int i = 0; i < positions.size(); i++) {
-          if (positions.valueAt(i)) {
-            int position = positions.keyAt(i);
-            long instanceId = getPlanInstanceForPosition(position);
-            if (instanceId == -1)
-              continue;
-            objectIdsAL.add(instanceId);
-            //pass transactionId in extra
-            extra2dAL.add(new Long[]{arguments.getLong(KEY_ROWID),
-                instance2TransactionMap.get(instanceId)});
-          }
+      }
+      templatesList.dispatchTask(
+          TaskExecutionFragment.TASK_CANCEL_PLAN_INSTANCE,
+          objectIdsAL.toArray(new Long[0]),
+          extra2dAL.toArray(new Long[extra2dAL.size()][2]));
+    } else if (command == R.id.RESET_PLAN_INSTANCE_COMMAND) {
+      for (int i = 0; i < positions.size(); i++) {
+        if (positions.valueAt(i)) {
+          int position = positions.keyAt(i);
+          long instanceId = getPlanInstanceForPosition(position);
+          if (instanceId == -1)
+            continue;
+          objectIdsAL.add(instanceId);
+          //pass transactionId in extra
+          extra2dAL.add(new Long[]{arguments.getLong(KEY_ROWID),
+              instance2TransactionMap.get(instanceId)});
         }
-        templatesList.dispatchTask(
-            TaskExecutionFragment.TASK_RESET_PLAN_INSTANCE,
-            objectIdsAL.toArray(new Long[0]),
-            extra2dAL.toArray(new Long[extra2dAL.size()][2]));
-        break;
+      }
+      templatesList.dispatchTask(
+          TaskExecutionFragment.TASK_RESET_PLAN_INSTANCE,
+          objectIdsAL.toArray(new Long[0]),
+          extra2dAL.toArray(new Long[extra2dAL.size()][2]));
     }
   }
 
@@ -428,19 +419,19 @@ public class PlanMonthFragment extends CaldroidFragment
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-      View framelayout;
+      View frameLayout;
 
       // For reuse
       if (convertView == null) {
         //TODO investigate why passing parent to inflate leads to corrupted display
         //noinspection InflateParams
-        framelayout = localInflater.inflate(R.layout.plan_calendar_cell, null);
+        frameLayout = localInflater.inflate(R.layout.plan_calendar_cell, null);
       } else {
-        framelayout = convertView;
+        frameLayout = convertView;
       }
 
-      CellView cell = (CellView) framelayout.findViewById(R.id.cell);
-      ImageView state = (ImageView) framelayout.findViewById(R.id.state);
+      CellView cell = (CellView) frameLayout.findViewById(R.id.cell);
+      ImageView state = (ImageView) frameLayout.findViewById(R.id.state);
 
       customizeTextView(position, cell);
 
@@ -453,13 +444,13 @@ public class PlanMonthFragment extends CaldroidFragment
         int themeResId = brightColor ? R.style.LightBackground : R.style.DarkBackground;
         if (transactionId == null) {
           state.setImageBitmap(UiUtils.getTintedBitmapForTheme(getContext(), R.drawable.ic_stat_open, themeResId));
-          framelayout.setContentDescription(getString(R.string.plan_instance_state_open));
+          frameLayout.setContentDescription(getString(R.string.plan_instance_state_open));
         } else if (transactionId == 0L) {
           state.setImageBitmap(UiUtils.getTintedBitmapForTheme(getContext(), R.drawable.ic_stat_cancelled, themeResId));
-          framelayout.setContentDescription(getString(R.string.plan_instance_state_cancelled));
+          frameLayout.setContentDescription(getString(R.string.plan_instance_state_cancelled));
         } else {
           state.setImageBitmap(UiUtils.getTintedBitmapForTheme(getContext(), R.drawable.ic_stat_applied, themeResId));
-          framelayout.setContentDescription(getString(R.string.plan_instance_state_applied));
+          frameLayout.setContentDescription(getString(R.string.plan_instance_state_applied));
         }
 
         cell.setTextColor(getContext().getResources().getColor(
@@ -468,7 +459,7 @@ public class PlanMonthFragment extends CaldroidFragment
         state.setVisibility(View.GONE);
       }
 
-      return framelayout;
+      return frameLayout;
     }
 
     @Override

@@ -105,13 +105,13 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
   }
 
   @Override
-  public void onSaveInstanceState(Bundle outState) {
+  public void onSaveInstanceState(@NonNull Bundle outState) {
     super.onSaveInstanceState(outState);
     Icepick.saveInstanceState(this, outState);
   }
 
   @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+  public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     final ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
     binding = SplitPartsListBinding.inflate(inflater, container, false);
 
@@ -145,7 +145,7 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
   }
 
   @Override
-  public void onCreateContextMenu(ContextMenu menu, View v,
+  public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v,
                                   ContextMenuInfo menuInfo) {
     super.onCreateContextMenu(menu, v, menuInfo);
     menu.add(0, R.id.DELETE_COMMAND, 0, R.string.menu_delete);
@@ -154,18 +154,18 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
   @Override
   public boolean onContextItemSelected(android.view.MenuItem item) {
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-    switch (item.getItemId()) {
-      case R.id.DELETE_COMMAND:
-        ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
-            parentIsTemplate() ? TaskExecutionFragment.TASK_DELETE_TEMPLATES : TaskExecutionFragment.TASK_DELETE_TRANSACTION,
-            new Long[]{info.id},
-            Boolean.FALSE,
-            0);
-        return true;
+    if (item.getItemId() == R.id.DELETE_COMMAND) {
+      ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
+          parentIsTemplate() ? TaskExecutionFragment.TASK_DELETE_TEMPLATES : TaskExecutionFragment.TASK_DELETE_TRANSACTION,
+          new Long[]{info.id},
+          Boolean.FALSE,
+          0);
+      return true;
     }
     return super.onContextItemSelected(item);
   }
 
+  @NonNull
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle args) {
     String[] selectionArgs = new String[]{String.valueOf(parentId)};
@@ -204,10 +204,8 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
 
   @Override
   public void onLoaderReset(Loader<Cursor> arg0) {
-    switch (arg0.getId()) {
-      case TRANSACTION_CURSOR:
-        mAdapter.swapCursor(null);
-        break;
+    if (arg0.getId() == TRANSACTION_CURSOR) {
+      mAdapter.swapCursor(null);
     }
   }
 

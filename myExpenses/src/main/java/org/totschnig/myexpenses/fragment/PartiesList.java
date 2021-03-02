@@ -98,25 +98,24 @@ public class PartiesList extends ContextualActionBarFragment {
     }
     AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) info;
     Party party = mAdapter.getItem(menuInfo.position);
-    switch (command) {
-      case R.id.EDIT_COMMAND:
-        Bundle args = new Bundle();
-        args.putLong(DatabaseConstants.KEY_ROWID, menuInfo.id);
-        SimpleInputDialog.build()
-            .title(R.string.menu_edit_party)
-            .cancelable(false)
-            .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
-            .hint(R.string.label)
-            .text(party.getName())
-            .pos(R.string.menu_save)
-            .neut()
-            .extra(args)
-            .show(this, DIALOG_EDIT_PARTY);
-        return true;
-      case R.id.SELECT_COMMAND:
-        doSingleSelection(party);
-        finishActionMode();
-        return true;
+    if (command == R.id.EDIT_COMMAND) {
+      Bundle args = new Bundle();
+      args.putLong(DatabaseConstants.KEY_ROWID, menuInfo.id);
+      SimpleInputDialog.build()
+          .title(R.string.menu_edit_party)
+          .cancelable(false)
+          .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
+          .hint(R.string.label)
+          .text(party.getName())
+          .pos(R.string.menu_save)
+          .neut()
+          .extra(args)
+          .show(this, DIALOG_EDIT_PARTY);
+      return true;
+    } else if (command == R.id.SELECT_COMMAND) {
+      doSingleSelection(party);
+      finishActionMode();
+      return true;
     }
     return false;
   }
@@ -128,71 +127,68 @@ public class PartiesList extends ContextualActionBarFragment {
       return true;
     }
     ProtectedFragmentActivity activity = (ProtectedFragmentActivity) requireActivity();
-    switch (command) {
-      case R.id.DELETE_COMMAND: {
-        int hasMappedTransactionsCount = 0, hasMappedTemplatesCount = 0;
-        ArrayList<Long> idList = new ArrayList<>();
+    if (command == R.id.DELETE_COMMAND) {
+      int hasMappedTransactionsCount = 0, hasMappedTemplatesCount = 0;
+      ArrayList<Long> idList = new ArrayList<>();
+      for (int i = 0; i < positions.size(); i++) {
+        if (positions.valueAt(i)) {
+          boolean deletable = true;
+          Party party = mAdapter.getItem(positions.keyAt(i));
+          if (party.getMappedTransactions()) {
+            hasMappedTransactionsCount++;
+            deletable = false;
+          }
+          if (party.getMappedTemplates()) {
+            hasMappedTemplatesCount++;
+            deletable = false;
+          }
+          if (deletable) {
+            idList.add(party.getId());
+          }
+        }
+      }
+      if (!idList.isEmpty()) {
+        activity.startTaskExecution(
+            TaskExecutionFragment.TASK_DELETE_PAYEES,
+            idList.toArray(new Long[0]),
+            null,
+            R.string.progress_dialog_deleting);
+      }
+      if (hasMappedTransactionsCount > 0 || hasMappedTemplatesCount > 0) {
+        String message = "";
+        if (hasMappedTransactionsCount > 0) {
+          message += getResources().getQuantityString(
+              R.plurals.not_deletable_mapped_transactions,
+              hasMappedTransactionsCount,
+              hasMappedTransactionsCount);
+        }
+        if (hasMappedTemplatesCount > 0) {
+          message += getResources().getQuantityString(
+              R.plurals.not_deletable_mapped_templates,
+              hasMappedTemplatesCount,
+              hasMappedTemplatesCount);
+        }
+        activity.showSnackbar(message);
+      }
+      return true;
+    } else if (command == R.id.SELECT_COMMAND_MULTIPLE) {
+      if (itemIds.length == 1 || !Arrays.asList(itemIds).contains(NULL_ITEM_ID)) {
+        ArrayList<String> labelList = new ArrayList<>();
         for (int i = 0; i < positions.size(); i++) {
           if (positions.valueAt(i)) {
-            boolean deletable = true;
             Party party = mAdapter.getItem(positions.keyAt(i));
-            if (party.getMappedTransactions()) {
-              hasMappedTransactionsCount++;
-              deletable = false;
-            }
-            if (party.getMappedTemplates()) {
-              hasMappedTemplatesCount++;
-              deletable = false;
-            }
-            if (deletable) {
-              idList.add(party.getId());
-            }
+            labelList.add(party.getName());
           }
         }
-        if (!idList.isEmpty()) {
-          activity.startTaskExecution(
-              TaskExecutionFragment.TASK_DELETE_PAYEES,
-              idList.toArray(new Long[0]),
-              null,
-              R.string.progress_dialog_deleting);
-        }
-        if (hasMappedTransactionsCount > 0 || hasMappedTemplatesCount > 0) {
-          String message = "";
-          if (hasMappedTransactionsCount > 0) {
-            message += getResources().getQuantityString(
-                R.plurals.not_deletable_mapped_transactions,
-                hasMappedTransactionsCount,
-                hasMappedTransactionsCount);
-          }
-          if (hasMappedTemplatesCount > 0) {
-            message += getResources().getQuantityString(
-                R.plurals.not_deletable_mapped_templates,
-                hasMappedTemplatesCount,
-                hasMappedTemplatesCount);
-          }
-          activity.showSnackbar(message);
-        }
-        return true;
+        Intent intent = new Intent();
+        intent.putExtra(KEY_PAYEEID, ArrayUtils.toPrimitive(itemIds));
+        intent.putExtra(KEY_LABEL, TextUtils.join(",", labelList));
+        activity.setResult(RESULT_FIRST_USER, intent);
+        activity.finish();
+      } else {
+        activity.showSnackbar(R.string.unmapped_filter_only_single);
       }
-      case R.id.SELECT_COMMAND_MULTIPLE: {
-        if (itemIds.length == 1 || !Arrays.asList(itemIds).contains(NULL_ITEM_ID)) {
-          ArrayList<String> labelList = new ArrayList<>();
-          for (int i = 0; i < positions.size(); i++) {
-            if (positions.valueAt(i)) {
-              Party party = mAdapter.getItem(positions.keyAt(i));
-              labelList.add(party.getName());
-            }
-          }
-          Intent intent = new Intent();
-          intent.putExtra(KEY_PAYEEID, ArrayUtils.toPrimitive(itemIds));
-          intent.putExtra(KEY_LABEL, TextUtils.join(",", labelList));
-          activity.setResult(RESULT_FIRST_USER, intent);
-          activity.finish();
-        } else {
-          activity.showSnackbar(R.string.unmapped_filter_only_single);
-        }
-        return true;
-      }
+      return true;
     }
     return false;
   }
@@ -246,9 +242,7 @@ public class PartiesList extends ContextualActionBarFragment {
     lv.setItemsCanFocus(false);
     String action = getAction();
     if (!action.equals(ACTION_MANAGE)) {
-      lv.setOnItemClickListener((parent, view, position, id) -> {
-        doSingleSelection(mAdapter.getItem(position));
-      });
+      lv.setOnItemClickListener((parent, view, position, id) -> doSingleSelection(mAdapter.getItem(position)));
     }
 
     mAdapter = new ArrayAdapter<Party>(requireContext(), android.R.layout.simple_list_item_activated_1) {

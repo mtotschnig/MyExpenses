@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
 import android.content.ContentUris
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
@@ -11,10 +10,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
-import org.totschnig.myexpenses.activity.BaseActivity
-import org.totschnig.myexpenses.feature.Callback
-import org.totschnig.myexpenses.feature.Feature
-import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AggregateAccount
 import org.totschnig.myexpenses.model.Grouping
@@ -90,13 +85,13 @@ class MyExpensesViewModel(application: Application) : ContentResolvingAndroidVie
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 contentResolver.update(ContentUris.withAppendedId(Account.CONTENT_URI, accountId).buildUpon().appendPath("sortDirection").appendPath(sortDirection.name).build(),
-                        null, null, null);
+                        null, null, null)
             }
         }
     }
 
     fun persistSortDirectionAggregate(currency: String, sortDirection: SortDirection) {
-        AggregateAccount.persistSortDirectionAggregate(prefHandler, currency, sortDirection);
+        AggregateAccount.persistSortDirectionAggregate(prefHandler, currency, sortDirection)
         contentResolver.notifyChange(TransactionProvider.ACCOUNTS_URI, null, false)
     }
 

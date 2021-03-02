@@ -515,250 +515,234 @@ public class MyExpenses extends BaseMyExpenses implements
     }
     Intent i;
     TransactionList tl;
-    switch (command) {
-      case R.id.BUDGET_COMMAND:
-        contribFeatureRequested(ContribFeature.BUDGET, null);
-        return true;
-      case R.id.DISTRIBUTION_COMMAND:
-        tl = getCurrentFragment();
-        if (tl != null && tl.hasMappedCategories()) {
-          contribFeatureRequested(ContribFeature.DISTRIBUTION, null);
+    if (command == R.id.BUDGET_COMMAND) {
+      contribFeatureRequested(ContribFeature.BUDGET, null);
+      return true;
+    } else if (command == R.id.DISTRIBUTION_COMMAND) {
+      tl = getCurrentFragment();
+      if (tl != null && tl.hasMappedCategories()) {
+        contribFeatureRequested(ContribFeature.DISTRIBUTION, null);
+      } else {
+        showMessage(R.string.dialog_command_disabled_distribution);
+      }
+      return true;
+    } else if (command == R.id.HISTORY_COMMAND) {
+      tl = getCurrentFragment();
+      if (tl != null && tl.hasItems()) {
+        contribFeatureRequested(ContribFeature.HISTORY, null);
+      } else {
+        showMessage(R.string.no_expenses);
+      }
+      return true;
+    } else if (command == R.id.CREATE_COMMAND) {
+      if (mAccountCount == 0) {
+        showSnackbar(R.string.warning_no_account);
+      } else {
+        if (isScanMode()) {
+          contribFeatureRequested(ContribFeature.OCR, true);
         } else {
-          showMessage(R.string.dialog_command_disabled_distribution);
+          createRowDo(TYPE_TRANSACTION, false);
         }
-        return true;
-      case R.id.HISTORY_COMMAND:
-        tl = getCurrentFragment();
-        if (tl != null && tl.hasItems()) {
-          contribFeatureRequested(ContribFeature.HISTORY, null);
+      }
+      return true;
+    } else if (command == R.id.BALANCE_COMMAND) {
+      tl = getCurrentFragment();
+      if (tl != null && hasCleared()) {
+        getAccountsCursor().moveToPosition(getCurrentPosition());
+        CurrencyUnit currency = getCurrentCurrencyUnit();
+        Bundle bundle = new Bundle();
+        bundle.putLong(KEY_ROWID,
+            getAccountsCursor().getLong(getColumnIndexRowId()));
+        bundle.putString(KEY_LABEL,
+            getAccountsCursor().getString(getColumnIndexLabel()));
+        bundle.putString(KEY_RECONCILED_TOTAL,
+            currencyFormatter.formatCurrency(
+                new Money(currency,
+                    getAccountsCursor().getLong(getAccountsCursor().getColumnIndex(KEY_RECONCILED_TOTAL)))));
+        bundle.putString(KEY_CLEARED_TOTAL, currencyFormatter.formatCurrency(
+            new Money(currency,
+                getAccountsCursor().getLong(getAccountsCursor().getColumnIndex(KEY_CLEARED_TOTAL)))));
+        BalanceDialogFragment.newInstance(bundle)
+            .show(getSupportFragmentManager(), "BALANCE_ACCOUNT");
+      } else {
+        showMessage(R.string.dialog_command_disabled_balance);
+      }
+      return true;
+    } else if (command == R.id.RESET_COMMAND) {
+      tl = getCurrentFragment();
+      if (tl != null && tl.hasItems()) {
+        Result appDirStatus = AppDirHelper.checkAppDir(this);
+        if (appDirStatus.isSuccess()) {
+          ExportDialogFragment.newInstance(accountId, tl.isFiltered())
+              .show(this.getSupportFragmentManager(), "WARNING_RESET");
         } else {
-          showMessage(R.string.no_expenses);
+          showSnackbar(appDirStatus.print(this));
         }
-        return true;
-
-      case R.id.CREATE_COMMAND:
-        if (mAccountCount == 0) {
-          showSnackbar(R.string.warning_no_account);
-        } else {
-          if (isScanMode()) {
-            contribFeatureRequested(ContribFeature.OCR, true);
-          } else {
-            createRowDo(TYPE_TRANSACTION, false);
-          }
-        }
-        return true;
-      case R.id.BALANCE_COMMAND:
-        tl = getCurrentFragment();
-        if (tl != null && hasCleared()) {
-          getAccountsCursor().moveToPosition(getCurrentPosition());
-          CurrencyUnit currency = getCurrentCurrencyUnit();
-          Bundle bundle = new Bundle();
-          bundle.putLong(KEY_ROWID,
-              getAccountsCursor().getLong(getColumnIndexRowId()));
-          bundle.putString(KEY_LABEL,
-              getAccountsCursor().getString(getColumnIndexLabel()));
-          bundle.putString(KEY_RECONCILED_TOTAL,
-              currencyFormatter.formatCurrency(
-                  new Money(currency,
-                      getAccountsCursor().getLong(getAccountsCursor().getColumnIndex(KEY_RECONCILED_TOTAL)))));
-          bundle.putString(KEY_CLEARED_TOTAL, currencyFormatter.formatCurrency(
-              new Money(currency,
-                  getAccountsCursor().getLong(getAccountsCursor().getColumnIndex(KEY_CLEARED_TOTAL)))));
-          BalanceDialogFragment.newInstance(bundle)
-              .show(getSupportFragmentManager(), "BALANCE_ACCOUNT");
-        } else {
-          showMessage(R.string.dialog_command_disabled_balance);
-        }
-        return true;
-      case R.id.RESET_COMMAND:
-        tl = getCurrentFragment();
-        if (tl != null && tl.hasItems()) {
-          Result appDirStatus = AppDirHelper.checkAppDir(this);
-          if (appDirStatus.isSuccess()) {
-            ExportDialogFragment.newInstance(accountId, tl.isFiltered())
-                .show(this.getSupportFragmentManager(), "WARNING_RESET");
-          } else {
-            showSnackbar(appDirStatus.print(this));
-          }
-        } else {
-          showExportDisabledCommand();
-        }
-        return true;
-      case R.id.HELP_COMMAND_DRAWER:
-        i = new Intent(this, Help.class);
-        i.putExtra(Help.KEY_CONTEXT, "NavigationDrawer");
-        //for result is needed since it allows us to inspect the calling activity
+      } else {
+        showExportDisabledCommand();
+      }
+      return true;
+    } else if (command == R.id.HELP_COMMAND_DRAWER) {
+      i = new Intent(this, Help.class);
+      i.putExtra(Help.KEY_CONTEXT, "NavigationDrawer");
+      //for result is needed since it allows us to inspect the calling activity
+      startActivity(i);
+      return true;
+    } else if (command == R.id.MANAGE_TEMPLATES_COMMAND) {
+      i = new Intent(this, ManageTemplates.class);
+      startActivity(i);
+      return true;
+    } else if (command == R.id.CREATE_ACCOUNT_COMMAND) {
+      if (getAccountsCursor() == null) {
+        complainAccountsNotLoaded();
+      }
+      //we need the accounts to be loaded in order to evaluate if the limit has been reached
+      else if (licenceHandler.hasAccessTo(ContribFeature.ACCOUNTS_UNLIMITED) || mAccountCount < ContribFeature.FREE_ACCOUNTS) {
+        closeDrawer();
+        i = new Intent(this, AccountEdit.class);
+        if (tag != null)
+          i.putExtra(KEY_CURRENCY, (String) tag);
+        startActivityForResult(i, CREATE_ACCOUNT_REQUEST);
+      } else {
+        showContribDialog(ContribFeature.ACCOUNTS_UNLIMITED, null);
+      }
+      return true;
+    } else if (command == R.id.DELETE_ACCOUNT_COMMAND_DO) {//reset mAccountId will prevent the now defunct account being used in an immediately following "new transaction"
+      final Long[] accountIds = (Long[]) tag;
+      if (Stream.of(accountIds).anyMatch(id -> id == accountId)) {
+        accountId = 0;
+      }
+      final Fragment manageHiddenFragment = getSupportFragmentManager().findFragmentByTag(MANAGE_HIDDEN_FRAGMENT_TAG);
+      if (manageHiddenFragment != null) {
+        getSupportFragmentManager().beginTransaction().remove(manageHiddenFragment).commit();
+      }
+      startTaskExecution(
+          TaskExecutionFragment.TASK_DELETE_ACCOUNT,
+          accountIds,
+          null,
+          R.string.progress_dialog_deleting);
+      return true;
+    } else if (command == R.id.SHARE_COMMAND) {
+      i = new Intent();
+      i.setAction(Intent.ACTION_SEND);
+      i.putExtra(Intent.EXTRA_TEXT, Utils.getTellAFriendMessage(this).toString());
+      i.setType("text/plain");
+      startActivity(Intent.createChooser(i, getResources().getText(R.string.menu_share)));
+      return true;
+    } else if (command == R.id.CANCEL_CALLBACK_COMMAND) {
+      finishActionMode();
+      return true;
+    } else if (command == R.id.OPEN_PDF_COMMAND) {
+      i = new Intent();
+      i.setAction(Intent.ACTION_VIEW);
+      Uri data = AppDirHelper.ensureContentUri(Uri.parse((String) tag));
+      i.setDataAndType(data, "application/pdf");
+      i.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+      if (!Utils.isIntentAvailable(this, i)) {
+        showSnackbar(R.string.no_app_handling_pdf_available);
+      } else {
         startActivity(i);
-        return true;
-      case R.id.MANAGE_TEMPLATES_COMMAND:
-        i = new Intent(this, ManageTemplates.class);
-        startActivity(i);
-        return true;
-      case R.id.CREATE_ACCOUNT_COMMAND:
-        if (getAccountsCursor() == null) {
-          complainAccountsNotLoaded();
-        }
-        //we need the accounts to be loaded in order to evaluate if the limit has been reached
-        else if (licenceHandler.hasAccessTo(ContribFeature.ACCOUNTS_UNLIMITED) || mAccountCount < ContribFeature.FREE_ACCOUNTS) {
-          closeDrawer();
-          i = new Intent(this, AccountEdit.class);
-          if (tag != null)
-            i.putExtra(KEY_CURRENCY, (String) tag);
-          startActivityForResult(i, CREATE_ACCOUNT_REQUEST);
-        } else {
-          showContribDialog(ContribFeature.ACCOUNTS_UNLIMITED, null);
-        }
-        return true;
-      case R.id.DELETE_ACCOUNT_COMMAND_DO:
-        //reset mAccountId will prevent the now defunct account being used in an immediately following "new transaction"
-        final Long[] accountIds = (Long[]) tag;
-        if (Stream.of(accountIds).anyMatch(id -> id == accountId)) {
-          accountId = 0;
-        }
-        final Fragment manageHiddenFragment = getSupportFragmentManager().findFragmentByTag(MANAGE_HIDDEN_FRAGMENT_TAG);
-        if (manageHiddenFragment != null) {
-          getSupportFragmentManager().beginTransaction().remove(manageHiddenFragment).commit();
-        }
-        startTaskExecution(
-            TaskExecutionFragment.TASK_DELETE_ACCOUNT,
-            accountIds,
+      }
+      return true;
+    } else if (command == R.id.SHARE_PDF_COMMAND) {
+      Result shareResult = ShareUtils.share(this,
+          Collections.singletonList(AppDirHelper.ensureContentUri(Uri.parse((String) tag))),
+          getShareTarget(),
+          "application/pdf");
+      if (!shareResult.isSuccess()) {
+        showSnackbar(shareResult.print(this));
+      }
+      return true;
+    } else if (command == R.id.EDIT_ACCOUNT_COMMAND) {
+      closeDrawer();
+      long accountId = ((AdapterView.AdapterContextMenuInfo) tag).id;
+      if (accountId > 0) { //do nothing if accidentally we are positioned at an aggregate account
+        i = new Intent(this, AccountEdit.class);
+        i.putExtra(KEY_ROWID, accountId);
+        startActivityForResult(i, EDIT_ACCOUNT_REQUEST);
+      }
+      return true;
+    } else if (command == R.id.DELETE_ACCOUNT_COMMAND) {
+      closeDrawer();
+      long accountId = ((AdapterView.AdapterContextMenuInfo) tag).id;
+      //do nothing if accidentally we are positioned at an aggregate account
+      if (accountId > 0) {
+        getAccountsCursor().moveToPosition(((AdapterView.AdapterContextMenuInfo) tag).position);
+        String label = getAccountsCursor().getString(getColumnIndexLabel());
+        MessageDialogFragment.newInstance(
+            getResources().getQuantityString(R.plurals.dialog_title_warning_delete_account, 1, 1),
+            getString(R.string.warning_delete_account, label) + " " + getString(R.string.continue_confirmation),
+            new MessageDialogFragment.Button(R.string.menu_delete, R.id.DELETE_ACCOUNT_COMMAND_DO,
+                new Long[]{accountId}),
             null,
-            R.string.progress_dialog_deleting);
-        return true;
-      case R.id.SHARE_COMMAND:
-        i = new Intent();
-        i.setAction(Intent.ACTION_SEND);
-        i.putExtra(Intent.EXTRA_TEXT, Utils.getTellAFriendMessage(this).toString());
-        i.setType("text/plain");
-        startActivity(Intent.createChooser(i, getResources().getText(R.string.menu_share)));
-        return true;
-      case R.id.CANCEL_CALLBACK_COMMAND:
-        finishActionMode();
-        return true;
-      case R.id.OPEN_PDF_COMMAND: {
-        i = new Intent();
-        i.setAction(Intent.ACTION_VIEW);
-        Uri data = AppDirHelper.ensureContentUri(Uri.parse((String) tag));
-        i.setDataAndType(data, "application/pdf");
-        i.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        if (!Utils.isIntentAvailable(this, i)) {
-          showSnackbar(R.string.no_app_handling_pdf_available);
-        } else {
-          startActivity(i);
-        }
-        return true;
+            MessageDialogFragment.Button.noButton(), 0)
+            .show(getSupportFragmentManager(), "DELETE_ACCOUNT");
       }
-      case R.id.SHARE_PDF_COMMAND: {
-        Result shareResult = ShareUtils.share(this,
-            Collections.singletonList(AppDirHelper.ensureContentUri(Uri.parse((String) tag))),
-            getShareTarget(),
-            "application/pdf");
-        if (!shareResult.isSuccess()) {
-          showSnackbar(shareResult.print(this));
-        }
-        return true;
-      }
-      case R.id.EDIT_ACCOUNT_COMMAND: {
-        closeDrawer();
-        long accountId = ((AdapterView.AdapterContextMenuInfo) tag).id;
-        if (accountId > 0) { //do nothing if accidentally we are positioned at an aggregate account
-          i = new Intent(this, AccountEdit.class);
-          i.putExtra(KEY_ROWID, accountId);
-          startActivityForResult(i, EDIT_ACCOUNT_REQUEST);
-        }
-        return true;
-      }
-      case R.id.DELETE_ACCOUNT_COMMAND: {
-        closeDrawer();
-        long accountId = ((AdapterView.AdapterContextMenuInfo) tag).id;
-        //do nothing if accidentally we are positioned at an aggregate account
-        if (accountId > 0) {
-          getAccountsCursor().moveToPosition(((AdapterView.AdapterContextMenuInfo) tag).position);
-          String label = getAccountsCursor().getString(getColumnIndexLabel());
-          MessageDialogFragment.newInstance(
-              getResources().getQuantityString(R.plurals.dialog_title_warning_delete_account, 1, 1),
-              getString(R.string.warning_delete_account, label) + " " + getString(R.string.continue_confirmation),
-              new MessageDialogFragment.Button(R.string.menu_delete, R.id.DELETE_ACCOUNT_COMMAND_DO,
-                  new Long[]{accountId}),
-              null,
-              MessageDialogFragment.Button.noButton(), 0)
-              .show(getSupportFragmentManager(), "DELETE_ACCOUNT");
-        }
-        return true;
-      }
-      case R.id.GROUPING_ACCOUNTS_COMMAND: {
-        MenuDialog.build()
-            .menu(this, R.menu.accounts_grouping)
-            .choiceIdPreset(accountGrouping.commandId)
-            .title(R.string.menu_grouping)
-            .show(this, DIALOG_TAG_GROUPING);
-        return true;
-      }
-      case R.id.SORT_COMMAND: {
-        MenuDialog.build()
-            .menu(this, R.menu.accounts_sort)
-            .choiceIdPreset(accountSort.getCommandId())
-            .title(R.string.menu_sort)
-            .show(this, DIALOG_TAG_SORTING);
-        return true;
-      }
-      case R.id.CLEAR_FILTER_COMMAND: {
-        getCurrentFragment().clearFilter();
-        return true;
-      }
-      case R.id.ROADMAP_COMMAND: {
-        Intent intent = new Intent(this, RoadmapVoteActivity.class);
-        startActivity(intent);
-        return true;
-      }
-      case R.id.CLOSE_ACCOUNT_COMMAND: {
-        long accountId = ((AdapterView.AdapterContextMenuInfo) tag).id;
-        //do nothing if accidentally we are positioned at an aggregate account
-        if (accountId > 0) {
-          getAccountsCursor().moveToPosition(((AdapterView.AdapterContextMenuInfo) tag).position);
-          if (getAccountsCursor().getString(getAccountsCursor().getColumnIndex(KEY_SYNC_ACCOUNT_NAME)) == null) {
-            startTaskExecution(
-                TASK_SET_ACCOUNT_SEALED,
-                new Long[]{accountId},
-                true, 0);
-          } else {
-            showSnackbar(getString(R.string.warning_synced_account_cannot_be_closed),
-                Snackbar.LENGTH_LONG, null, null, accountList());
-          }
-        }
-        return true;
-      }
-      case R.id.REOPEN_ACCOUNT_COMMAND: {
-        long accountId = ((AdapterView.AdapterContextMenuInfo) tag).id;
-        //do nothing if accidentally we are positioned at an aggregate account
-        if (accountId > 0) {
+      return true;
+    } else if (command == R.id.GROUPING_ACCOUNTS_COMMAND) {
+      MenuDialog.build()
+          .menu(this, R.menu.accounts_grouping)
+          .choiceIdPreset(accountGrouping.commandId)
+          .title(R.string.menu_grouping)
+          .show(this, DIALOG_TAG_GROUPING);
+      return true;
+    } else if (command == R.id.SORT_COMMAND) {
+      MenuDialog.build()
+          .menu(this, R.menu.accounts_sort)
+          .choiceIdPreset(accountSort.getCommandId())
+          .title(R.string.menu_sort)
+          .show(this, DIALOG_TAG_SORTING);
+      return true;
+    } else if (command == R.id.CLEAR_FILTER_COMMAND) {
+      getCurrentFragment().clearFilter();
+      return true;
+    } else if (command == R.id.ROADMAP_COMMAND) {
+      Intent intent = new Intent(this, RoadmapVoteActivity.class);
+      startActivity(intent);
+      return true;
+    } else if (command == R.id.CLOSE_ACCOUNT_COMMAND) {
+      long accountId = ((AdapterView.AdapterContextMenuInfo) tag).id;
+      //do nothing if accidentally we are positioned at an aggregate account
+      if (accountId > 0) {
+        getAccountsCursor().moveToPosition(((AdapterView.AdapterContextMenuInfo) tag).position);
+        if (getAccountsCursor().getString(getAccountsCursor().getColumnIndex(KEY_SYNC_ACCOUNT_NAME)) == null) {
           startTaskExecution(
               TASK_SET_ACCOUNT_SEALED,
               new Long[]{accountId},
-              false, 0);
-        }
-        return true;
-      }
-      case R.id.HIDE_ACCOUNT_COMMAND: {
-        long accountId = ((AdapterView.AdapterContextMenuInfo) tag).id;
-        //do nothing if accidentally we are positioned at an aggregate account
-        if (accountId > 0) {
-          startTaskExecution(
-              TASK_SET_ACCOUNT_HIDDEN,
-              new Long[]{accountId},
               true, 0);
+        } else {
+          showSnackbar(getString(R.string.warning_synced_account_cannot_be_closed),
+              Snackbar.LENGTH_LONG, null, null, accountList());
         }
-        return true;
       }
-      case R.id.HIDDEN_ACCOUNTS_COMMAND: {
-        SelectHiddenAccountDialogFragment.newInstance().show(getSupportFragmentManager(),
-            MANAGE_HIDDEN_FRAGMENT_TAG);
-        return true;
+      return true;
+    } else if (command == R.id.REOPEN_ACCOUNT_COMMAND) {
+      long accountId = ((AdapterView.AdapterContextMenuInfo) tag).id;
+      //do nothing if accidentally we are positioned at an aggregate account
+      if (accountId > 0) {
+        startTaskExecution(
+            TASK_SET_ACCOUNT_SEALED,
+            new Long[]{accountId},
+            false, 0);
       }
-      case R.id.OCR_FAQ_COMMAND: {
-        startActionView("https://github.com/mtotschnig/MyExpenses/wiki/FAQ:-OCR");
-        return true;
+      return true;
+    } else if (command == R.id.HIDE_ACCOUNT_COMMAND) {
+      long accountId = ((AdapterView.AdapterContextMenuInfo) tag).id;
+      //do nothing if accidentally we are positioned at an aggregate account
+      if (accountId > 0) {
+        startTaskExecution(
+            TASK_SET_ACCOUNT_HIDDEN,
+            new Long[]{accountId},
+            true, 0);
       }
+      return true;
+    } else if (command == R.id.HIDDEN_ACCOUNTS_COMMAND) {
+      SelectHiddenAccountDialogFragment.newInstance().show(getSupportFragmentManager(),
+          MANAGE_HIDDEN_FRAGMENT_TAG);
+      return true;
+    } else if (command == R.id.OCR_FAQ_COMMAND) {
+      startActionView("https://github.com/mtotschnig/MyExpenses/wiki/FAQ:-OCR");
+      return true;
     }
     return false;
   }
@@ -1153,11 +1137,9 @@ public class MyExpenses extends BaseMyExpenses implements
     if (mDrawerToggle != null && mDrawerToggle.onOptionsItemSelected(item)) {
       return true;
     }
-    switch (item.getItemId()) {
-      case R.id.SCAN_MODE_COMMAND: {
-        toggleScanMode();
-        return true;
-      }
+    if (item.getItemId() == R.id.SCAN_MODE_COMMAND) {
+      toggleScanMode();
+      return true;
     }
 
     return handleGrouping(item) || handleSortDirection(item) || super.onOptionsItemSelected(item);
@@ -1173,53 +1155,41 @@ public class MyExpenses extends BaseMyExpenses implements
   @Override
   public void onPositive(Bundle args) {
     super.onPositive(args);
-    switch (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)) {
-      case R.id.START_EXPORT_COMMAND:
-        args.putParcelableArrayList(TransactionList.KEY_FILTER,
-            getCurrentFragment().getFilterCriteria());
-        getSupportFragmentManager().beginTransaction()
-            .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_EXPORT),
-                ASYNC_TAG)
-            .add(ProgressDialogFragment.newInstance(
-                getString(R.string.pref_category_title_export), null, ProgressDialog.STYLE_SPINNER, true), PROGRESS_TAG)
-            .commit();
-        break;
-      case R.id.DELETE_COMMAND_DO:
-        //Confirmation dialog was shown without Checkbox, because it was called with only void transactions
-        onPositive(args, false);
-        break;
-      case R.id.SPLIT_TRANSACTION_COMMAND: {
-        startTaskExecution(TASK_SPLIT, args, R.string.progress_dialog_saving);
-        break;
-      }
-      case R.id.UNGROUP_SPLIT_COMMAND: {
-        startTaskExecution(TASK_REVOKE_SPLIT, args, R.string.progress_dialog_saving);
-        break;
-      }
+    int anInt = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE);
+    if (anInt == R.id.START_EXPORT_COMMAND) {
+      args.putParcelableArrayList(TransactionList.KEY_FILTER,
+          getCurrentFragment().getFilterCriteria());
+      getSupportFragmentManager().beginTransaction()
+          .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_EXPORT),
+              ASYNC_TAG)
+          .add(ProgressDialogFragment.newInstance(
+              getString(R.string.pref_category_title_export), null, ProgressDialog.STYLE_SPINNER, true), PROGRESS_TAG)
+          .commit();
+    } else if (anInt == R.id.DELETE_COMMAND_DO) {//Confirmation dialog was shown without Checkbox, because it was called with only void transactions
+      onPositive(args, false);
+    } else if (anInt == R.id.SPLIT_TRANSACTION_COMMAND) {
+      startTaskExecution(TASK_SPLIT, args, R.string.progress_dialog_saving);
+    } else if (anInt == R.id.UNGROUP_SPLIT_COMMAND) {
+      startTaskExecution(TASK_REVOKE_SPLIT, args, R.string.progress_dialog_saving);
     }
   }
 
   @Override
   public void onPositive(Bundle args, boolean checked) {
-    switch (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)) {
-      case R.id.DELETE_COMMAND_DO: {
-        finishActionMode();
-        startTaskExecution(
-            TaskExecutionFragment.TASK_DELETE_TRANSACTION,
-            ArrayUtils.toObject(args.getLongArray(TaskExecutionFragment.KEY_OBJECT_IDS)),
-            checked,
-            R.string.progress_dialog_deleting);
-        break;
-      }
-      case R.id.BALANCE_COMMAND_DO: {
-        startTaskExecution(TaskExecutionFragment.TASK_BALANCE,
-            new Long[]{args.getLong(KEY_ROWID)},
-            checked, 0);
-        break;
-      }
-      case R.id.REMAP_COMMAND: {
-        getCurrentFragment().remap(args, checked);
-      }
+    int anInt = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE);
+    if (anInt == R.id.DELETE_COMMAND_DO) {
+      finishActionMode();
+      startTaskExecution(
+          TaskExecutionFragment.TASK_DELETE_TRANSACTION,
+          ArrayUtils.toObject(args.getLongArray(TaskExecutionFragment.KEY_OBJECT_IDS)),
+          checked,
+          R.string.progress_dialog_deleting);
+    } else if (anInt == R.id.BALANCE_COMMAND_DO) {
+      startTaskExecution(TASK_BALANCE,
+          new Long[]{args.getLong(KEY_ROWID)},
+          checked, 0);
+    } else if (anInt == R.id.REMAP_COMMAND) {
+      getCurrentFragment().remap(args, checked);
     }
   }
 
@@ -1301,16 +1271,12 @@ public class MyExpenses extends BaseMyExpenses implements
   protected boolean handleAccountsGrouping(int itemId) {
     AccountGrouping newGrouping = null;
 
-    switch (itemId) {
-      case R.id.GROUPING_ACCOUNTS_CURRENCY_COMMAND:
-        newGrouping = AccountGrouping.CURRENCY;
-        break;
-      case R.id.GROUPING_ACCOUNTS_TYPE_COMMAND:
-        newGrouping = AccountGrouping.TYPE;
-        break;
-      case R.id.GROUPING_ACCOUNTS_NONE_COMMAND:
-        newGrouping = AccountGrouping.NONE;
-        break;
+    if (itemId == R.id.GROUPING_ACCOUNTS_CURRENCY_COMMAND) {
+      newGrouping = AccountGrouping.CURRENCY;
+    } else if (itemId == R.id.GROUPING_ACCOUNTS_TYPE_COMMAND) {
+      newGrouping = AccountGrouping.TYPE;
+    } else if (itemId == R.id.GROUPING_ACCOUNTS_NONE_COMMAND) {
+      newGrouping = AccountGrouping.NONE;
     }
     if (newGrouping != null && !newGrouping.equals(accountGrouping)) {
       accountGrouping = newGrouping;

@@ -14,10 +14,8 @@
  */
 package org.totschnig.myexpenses.activity
 
-import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.ExchangeRateEdit
 import java.math.BigDecimal

@@ -12,7 +12,6 @@ import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
-import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.ITransaction
 import org.totschnig.myexpenses.model.Money
@@ -31,14 +30,13 @@ abstract class MainDelegate<T : ITransaction>(viewBinding: OneExpenseBinding, da
 
     override fun buildTransaction(forSave: Boolean, currencyContext: CurrencyContext, accountId: Long): T? {
         val amount = validateAmountInput(forSave)
-        if (amount == null) { //Snackbar is shown in validateAmountInput
-            return null
-        }
+                ?: //Snackbar is shown in validateAmountInput
+                return null
         return buildMainTransaction(accountId).apply {
             this.amount = Money(currentAccount()!!.currency, amount)
             payee = viewBinding.Payee.text.toString()
             this.methodId = this@MainDelegate.methodId
-            val originalAmount = validateAmountInput(viewBinding.OriginalAmount, false, true)
+            val originalAmount = validateAmountInput(viewBinding.OriginalAmount, showToUser = false, ifPresent = true)
             val selectedItem = viewBinding.OriginalAmount.selectedCurrency
             if (selectedItem != null && originalAmount != null) {
                 val currency = selectedItem.code
@@ -47,7 +45,7 @@ abstract class MainDelegate<T : ITransaction>(viewBinding: OneExpenseBinding, da
             } else {
                 this.originalAmount = null
             }
-            val equivalentAmount = validateAmountInput(viewBinding.EquivalentAmount, false, true)
+            val equivalentAmount = validateAmountInput(viewBinding.EquivalentAmount, showToUser = false, ifPresent = true)
             this.equivalentAmount = if (equivalentAmount == null) null else Money(Utils.getHomeCurrency(), if (isIncome) equivalentAmount else equivalentAmount.negate())
         }
     }
@@ -84,7 +82,7 @@ abstract class MainDelegate<T : ITransaction>(viewBinding: OneExpenseBinding, da
             var selectArgs = arrayOfNulls<String>(0)
             if (constraint != null) {
                 selection = Payee.SELECTION
-                selectArgs = Payee.SELECTION_ARGS(Utils.esacapeSqlLikeExpression(Utils.normalize(constraint.toString())))
+                selectArgs = Payee.SELECTION_ARGS(Utils.escapeSqlLikeExpression(Utils.normalize(constraint.toString())))
             }
             context.contentResolver.query(
                     TransactionProvider.PAYEES_URI, arrayOf(DatabaseConstants.KEY_ROWID, DatabaseConstants.KEY_PAYEE_NAME),

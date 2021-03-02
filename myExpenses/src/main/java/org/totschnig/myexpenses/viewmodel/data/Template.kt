@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.viewmodel.data
 
 import android.database.Cursor
-import com.android.calendar.CalendarContractCompat
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
 

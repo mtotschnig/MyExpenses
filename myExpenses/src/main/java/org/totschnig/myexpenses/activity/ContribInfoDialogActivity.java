@@ -136,36 +136,32 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
 
   public void startPayment(int paymentOption, Package aPackage) {
     Intent intent;
-    switch (paymentOption) {
-      case R.string.donate_button_paypal: {
-        intent = new Intent(Intent.ACTION_VIEW);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setData(Uri.parse(licenceHandler.getPaypalUri(aPackage)));
-        try {
-          startActivityForResult(intent, PAYPAL_REQUEST);
-        } catch (ActivityNotFoundException e) {
-          complain("No activity found for opening Paypal");
-        }
-        break;
+    if (paymentOption == R.string.donate_button_paypal) {
+      intent = new Intent(Intent.ACTION_VIEW);
+      intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+      intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+      intent.setData(Uri.parse(licenceHandler.getPaypalUri(aPackage)));
+      try {
+        startActivityForResult(intent, PAYPAL_REQUEST);
+      } catch (ActivityNotFoundException e) {
+        complain("No activity found for opening Paypal");
       }
-      case R.string.donate_button_invoice: {
-        intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("message/rfc822");
-        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{MyApplication.INVOICES_EMAIL});
-        String packageLabel = licenceHandler.getButtonLabel(aPackage);
-        intent.putExtra(Intent.EXTRA_SUBJECT,
-            "[" + getString(R.string.app_name) + "] " + getString(R.string.donate_button_invoice));
-        String userCountry = Utils.getCountryFromTelephonyManager(this);
-        String messageBody = String.format(
-            "Please send an invoice for %s to:\nName: (optional)\nCountry: %s (required)",
-            packageLabel, userCountry != null ? userCountry : "");
-        intent.putExtra(Intent.EXTRA_TEXT, messageBody);
-        if (!Utils.isIntentAvailable(this, intent)) {
-          complain(getString(R.string.no_app_handling_email_available));
-        } else {
-          startActivityForResult(intent, INVOICE_REQUEST);
-        }
+    } else if (paymentOption == R.string.donate_button_invoice) {
+      intent = new Intent(Intent.ACTION_SEND);
+      intent.setType("message/rfc822");
+      intent.putExtra(Intent.EXTRA_EMAIL, new String[]{MyApplication.INVOICES_EMAIL});
+      String packageLabel = licenceHandler.getButtonLabel(aPackage);
+      intent.putExtra(Intent.EXTRA_SUBJECT,
+          "[" + getString(R.string.app_name) + "] " + getString(R.string.donate_button_invoice));
+      String userCountry = Utils.getCountryFromTelephonyManager(this);
+      String messageBody = String.format(
+          "Please send an invoice for %s to:\nName: (optional)\nCountry: %s (required)",
+          packageLabel, userCountry != null ? userCountry : "");
+      intent.putExtra(Intent.EXTRA_TEXT, messageBody);
+      if (!Utils.isIntentAvailable(this, intent)) {
+        complain(getString(R.string.no_app_handling_email_available));
+      } else {
+        startActivityForResult(intent, INVOICE_REQUEST);
       }
     }
   }
@@ -200,15 +196,12 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
   }
 
   private void callFeature(ContribFeature feature) {
-    switch (feature) {
-      case SPLIT_TRANSACTION:
-        startActivity(ShortcutHelper.createIntentForNewSplit(this));
-        break;
-      default:
-        //should not happen
-        CrashHandler.report(new IllegalStateException(
-            String.format("Unhandlable request for feature %s (caller = %s)", feature,
-                getCallingActivity() != null ? getCallingActivity().getClassName() : "null")));
+    if (feature == ContribFeature.SPLIT_TRANSACTION) {
+      startActivity(ShortcutHelper.createIntentForNewSplit(this));
+    } else {//should not happen
+      CrashHandler.report(new IllegalStateException(
+          String.format("Unhandlable request for feature %s (caller = %s)", feature,
+              getCallingActivity() != null ? getCallingActivity().getClassName() : "null")));
     }
   }
 

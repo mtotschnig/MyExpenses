@@ -37,6 +37,7 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
@@ -62,28 +63,28 @@ public class MethodList extends ContextualActionBarFragment implements LoaderMan
         from,
         to,
         0);
-    getLoaderManager().initLoader(0, null, this);
+    LoaderManager.getInstance(this).initLoader(0, null, this);
     lv.setAdapter(mAdapter);
     lv.setEmptyView(v.findViewById(R.id.empty));
     registerForContextualActionBar(lv);
     return v;
   }
 
+  @NonNull
   @Override
   public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
-    CursorLoader cursorLoader = new CursorLoader(getActivity(),
+    return new CursorLoader(getActivity(),
         TransactionProvider.METHODS_URI, null, null, null, null);
-    return cursorLoader;
   }
 
   @Override
-  public void onLoadFinished(Loader<Cursor> arg0, Cursor c) {
+  public void onLoadFinished(@NonNull Loader<Cursor> arg0, Cursor c) {
     mMethodsCursor = c;
     mAdapter.swapCursor(c);
   }
 
   @Override
-  public void onLoaderReset(Loader<Cursor> arg0) {
+  public void onLoaderReset(@NonNull Loader<Cursor> arg0) {
     mMethodsCursor = null;
     mAdapter.swapCursor(null);
   }
@@ -93,13 +94,12 @@ public class MethodList extends ContextualActionBarFragment implements LoaderMan
       return true;
     }
     AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) info;
-    switch (command) {
-      case R.id.EDIT_COMMAND:
-        Intent i = new Intent(getActivity(), MethodEdit.class);
-        i.putExtra(DatabaseConstants.KEY_ROWID, menuInfo.id);
-        startActivity(i);
-        finishActionMode();
-        return true;
+    if (command == R.id.EDIT_COMMAND) {
+      Intent i = new Intent(getActivity(), MethodEdit.class);
+      i.putExtra(DatabaseConstants.KEY_ROWID, menuInfo.id);
+      startActivity(i);
+      finishActionMode();
+      return true;
     }
     return false;
   }
@@ -110,53 +110,52 @@ public class MethodList extends ContextualActionBarFragment implements LoaderMan
     if (super.dispatchCommandMultiple(command, positions, itemIds)) {
       return true;
     }
-    switch (command) {
-      case R.id.DELETE_COMMAND:
-        int columnIndexMappedTransactions = mMethodsCursor.getColumnIndex(DatabaseConstants.KEY_MAPPED_TRANSACTIONS);
-        int columnIndexMappedTemplates = mMethodsCursor.getColumnIndex(DatabaseConstants.KEY_MAPPED_TEMPLATES);
-        int columnIndexRowId = mMethodsCursor.getColumnIndex(DatabaseConstants.KEY_ROWID);
-        int mappedTransactionsCount = 0, mappedTemplatesCount = 0;
-        ArrayList<Long> idList = new ArrayList<>();
-        for (int i = 0; i < positions.size(); i++) {
-          if (positions.valueAt(i)) {
-            boolean deletable = true;
-            mMethodsCursor.moveToPosition(positions.keyAt(i));
-            if (mMethodsCursor.getInt(columnIndexMappedTransactions) > 0) {
-              mappedTransactionsCount++;
-              deletable = false;
-            }
-            if (mMethodsCursor.getInt(columnIndexMappedTemplates) > 0) {
-              mappedTemplatesCount++;
-              deletable = false;
-            }
-            if (deletable) {
-              idList.add(mMethodsCursor.getLong(columnIndexRowId));
-            }
+    if (command == R.id.DELETE_COMMAND) {
+      int columnIndexMappedTransactions = mMethodsCursor.getColumnIndex(DatabaseConstants.KEY_MAPPED_TRANSACTIONS);
+      int columnIndexMappedTemplates = mMethodsCursor.getColumnIndex(DatabaseConstants.KEY_MAPPED_TEMPLATES);
+      int columnIndexRowId = mMethodsCursor.getColumnIndex(DatabaseConstants.KEY_ROWID);
+      int mappedTransactionsCount = 0, mappedTemplatesCount = 0;
+      ArrayList<Long> idList = new ArrayList<>();
+      for (int i = 0; i < positions.size(); i++) {
+        if (positions.valueAt(i)) {
+          boolean deletable = true;
+          mMethodsCursor.moveToPosition(positions.keyAt(i));
+          if (mMethodsCursor.getInt(columnIndexMappedTransactions) > 0) {
+            mappedTransactionsCount++;
+            deletable = false;
+          }
+          if (mMethodsCursor.getInt(columnIndexMappedTemplates) > 0) {
+            mappedTemplatesCount++;
+            deletable = false;
+          }
+          if (deletable) {
+            idList.add(mMethodsCursor.getLong(columnIndexRowId));
           }
         }
-        ProtectedFragmentActivity activity = (ProtectedFragmentActivity) requireActivity();
-        if (!idList.isEmpty()) {
-          activity.startTaskExecution(
-              TaskExecutionFragment.TASK_DELETE_PAYMENT_METHODS,
-              idList.toArray(new Long[idList.size()]),
-              null,
-              R.string.progress_dialog_deleting);
-        }
-        if (mappedTransactionsCount > 0 || mappedTemplatesCount > 0) {
-          String message = "";
-          if (mappedTransactionsCount > 0)
-            message += getResources().getQuantityString(
-                R.plurals.not_deletable_mapped_transactions,
-                mappedTransactionsCount,
-                mappedTransactionsCount);
-          if (mappedTemplatesCount > 0)
-            message += getResources().getQuantityString(
-                R.plurals.not_deletable_mapped_templates,
-                mappedTemplatesCount,
-                mappedTemplatesCount);
-          activity.showSnackbar(message);
-        }
-        return true;
+      }
+      ProtectedFragmentActivity activity = (ProtectedFragmentActivity) requireActivity();
+      if (!idList.isEmpty()) {
+        activity.startTaskExecution(
+            TaskExecutionFragment.TASK_DELETE_PAYMENT_METHODS,
+            idList.toArray(new Long[0]),
+            null,
+            R.string.progress_dialog_deleting);
+      }
+      if (mappedTransactionsCount > 0 || mappedTemplatesCount > 0) {
+        String message = "";
+        if (mappedTransactionsCount > 0)
+          message += getResources().getQuantityString(
+              R.plurals.not_deletable_mapped_transactions,
+              mappedTransactionsCount,
+              mappedTransactionsCount);
+        if (mappedTemplatesCount > 0)
+          message += getResources().getQuantityString(
+              R.plurals.not_deletable_mapped_templates,
+              mappedTemplatesCount,
+              mappedTemplatesCount);
+        activity.showSnackbar(message);
+      }
+      return true;
     }
     return false;
   }

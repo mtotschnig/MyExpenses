@@ -56,7 +56,7 @@ class Repository(val contentResolver: ContentResolver, val currencyContext: Curr
     }
 
     //Payee
-    fun findOrWritePayee(name: String) = findPayee(name) ?: createPayee(name)
+    private fun findOrWritePayee(name: String) = findPayee(name) ?: createPayee(name)
 
     private fun findPayee(name: String) = contentResolver.query(TransactionProvider.PAYEES_URI,
             arrayOf(DatabaseConstants.KEY_ROWID),
@@ -72,7 +72,7 @@ class Repository(val contentResolver: ContentResolver, val currencyContext: Curr
             })?.let { ContentUris.parseId(it) }
 
     //Account
-    fun getCurrencyUnitForAccount(accountId: Long) =
+    private fun getCurrencyUnitForAccount(accountId: Long) =
             contentResolver.query(ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, accountId),
                     arrayOf(DatabaseConstants.KEY_CURRENCY), null, null, null)?.use {
                 if (it.moveToFirst()) it.getString(0) else null

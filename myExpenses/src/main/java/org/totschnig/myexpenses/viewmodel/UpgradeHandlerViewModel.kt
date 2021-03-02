@@ -64,7 +64,7 @@ class UpgradeHandlerViewModel(application: Application) : ContentResolvingAndroi
         if (fromVersion < 393) {
             val prefHandler = getApplication<MyApplication>().appComponent.prefHandler()
             arrayOf(PrefKey.SORT_ORDER_ACCOUNTS, PrefKey.SORT_ORDER_CATEGORIES, PrefKey.SORT_ORDER_BUDGET_CATEGORIES).forEach {
-                if (Sort.TITLE.name.equals(prefHandler.getString(it, null))) {
+                if (Sort.TITLE.name == prefHandler.getString(it, null)) {
                     prefHandler.putString(it, Sort.LABEL.name)
                 }
             }

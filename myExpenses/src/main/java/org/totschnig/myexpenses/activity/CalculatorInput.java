@@ -1,24 +1,9 @@
-/*******************************************************************************
- * Copyright (c) 2010 Denis Solonenko.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v2.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * <p/>
- * Contributors:
- * Denis Solonenko - initial API and implementation
- * adapted to My Expenses by Michael Totschnig:
- * - added support for small screen height
- * - retain state on orientation change
- ******************************************************************************/
 package org.totschnig.myexpenses.activity;
 
-import android.content.Context;
+import android.content.ClipboardManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.ClipboardManager;
 import android.view.ContextMenu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -37,18 +22,32 @@ import java.util.Stack;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.core.content.ContextCompat;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 
 //import android.os.Vibrator;
 
 //TODO move to DialogFragment in order to have material styled ok and cancel buttons
+/*******************************************************************************
+ * Copyright (c) 2010 Denis Solonenko.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Public License v2.0
+ * which accompanies this distribution, and is available at
+ * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * <p/>
+ * Contributors:
+ * Denis Solonenko - initial API and implementation
+ * adapted to My Expenses by Michael Totschnig:
+ * - added support for small screen height
+ * - retain state on orientation change
+ ******************************************************************************/
 public class CalculatorInput extends ProtectedFragmentActivity implements OnClickListener {
   public static final String EXTRA_KEY_INPUT_ID = "input_id";
   public static final BigDecimal HUNDRED = new BigDecimal(100);
   public static final int[] numberButtons = { R.id.b0, R.id.b1, R.id.b2, R.id.b3, R.id.b4, R.id.b5,
       R.id.b6, R.id.b7, R.id.b8, R.id.b9 };
-  public static final int[] otherbuttons = { R.id.bAdd, R.id.bSubtract, R.id.bDivide, R.id.bMultiply,
+  public static final int[] otherButtons = { R.id.bAdd, R.id.bSubtract, R.id.bDivide, R.id.bMultiply,
       R.id.bPercent, R.id.bPlusMinus, R.id.bDot, R.id.bResult, R.id.bClear, R.id.bDelete};
 
 
@@ -77,7 +76,7 @@ public class CalculatorInput extends ProtectedFragmentActivity implements OnClic
       b.setOnClickListener(this);
       b.setText(Utils.toLocalizedString(i));
     }
-    for (int id : otherbuttons) {
+    for (int id : otherButtons) {
       Button b = (Button) findViewById(id);
       b.setOnClickListener(this);
     }
@@ -85,36 +84,26 @@ public class CalculatorInput extends ProtectedFragmentActivity implements OnClic
     ((Button) findViewById(R.id.bDot)).setText(String.valueOf(Utils.getDefaultDecimalSeparator()));
 
     final View resultPane = findViewById(R.id.result_pane);
-    resultPane.setOnLongClickListener(new View.OnLongClickListener() {
-      @Override
-      public boolean onLongClick(View v) {
-        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-        final CharSequence pasteText = clipboard.getText();
+    resultPane.setOnLongClickListener(v -> {
+      final CharSequence pasteText = ContextCompat.getSystemService(this, ClipboardManager.class).getPrimaryClip().getItemAt(0).getText();
+      if (pasteText == null) return false;
 
-        if (pasteText == null) return false;
+      try {
+        DecimalFormat df = (DecimalFormat) NumberFormat.getInstance();
+        df.setParseBigDecimal(true);
+        final BigDecimal parsedNumber =
+            (BigDecimal) df.parseObject(pasteText.toString().replaceAll("[^\\d,.٫-]", ""));
 
-        try {
-          DecimalFormat df = (DecimalFormat) NumberFormat.getInstance();
-          df.setParseBigDecimal(true);
-          final BigDecimal parsedNumber =
-              (BigDecimal) df.parseObject(pasteText.toString().replaceAll("[^\\d,.٫-]", ""));
-
-          PopupMenu popup = new PopupMenu(CalculatorInput.this, resultPane);
-          popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-              setDisplay(parsedNumber.toPlainString());
-              return true;
-            }
-
-          });
-          popup.inflate(R.menu.paste);
-          popup.show();
+        PopupMenu popup = new PopupMenu(CalculatorInput.this, resultPane);
+        popup.setOnMenuItemClickListener(item -> {
+          setDisplay(parsedNumber.toPlainString());
           return true;
-        } catch (ParseException e) {
-          return false;
-        }
+        });
+        popup.inflate(R.menu.paste);
+        popup.show();
+        return true;
+      } catch (ParseException e) {
+        return false;
       }
     });
 
@@ -124,22 +113,16 @@ public class CalculatorInput extends ProtectedFragmentActivity implements OnClic
 
     Button b = (Button) findViewById(R.id.bOK);
 
-    b.setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View arg0) {
-        if (!isInEquals) {
-          doEqualsChar();
-        }
-        close();
+    b.setOnClickListener(arg0 -> {
+      if (!isInEquals) {
+        doEqualsChar();
       }
+      close();
     });
     b = (Button) findViewById(R.id.bCancel);
-    b.setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View arg0) {
-        setResult(RESULT_CANCELED);
-        finish();
-      }
+    b.setOnClickListener(arg0 -> {
+      setResult(RESULT_CANCELED);
+      finish();
     });
 
     Intent intent = getIntent();
@@ -175,7 +158,7 @@ public class CalculatorInput extends ProtectedFragmentActivity implements OnClic
       if (Character.isDigit(c)) {
         out.append(Utils.toLocalizedString(Character.getNumericValue(c)));
       } else if (c == '.') {
-        out.append(String.valueOf(Utils.getDefaultDecimalSeparator()));
+        out.append(Utils.getDefaultDecimalSeparator());
       } else {
         out.append(c);
       }
@@ -191,16 +174,12 @@ public class CalculatorInput extends ProtectedFragmentActivity implements OnClic
 /*        if (vibrator != null) {
             vibrator.vibrate(20);
         }*/
-    switch (id) {
-      case R.id.bClear:
-        resetAll();
-        break;
-      case R.id.bDelete:
-        doBackspace();
-        break;
-      default:
-        doButton(id);
-        break;
+    if (id == R.id.bClear) {
+      resetAll();
+    } else if (id == R.id.bDelete) {
+      doBackspace();
+    } else {
+      doButton(id);
     }
   }
 
@@ -225,55 +204,36 @@ public class CalculatorInput extends ProtectedFragmentActivity implements OnClic
   }
 
   private void doButton(int id) {
-    switch(id) {
-      case R.id.b0:
-        addChar('0');
-        break;
-      case R.id.b1:
-        addChar('1');
-        break;
-      case R.id.b2:
-        addChar('2');
-        break;
-      case R.id.b3:
-        addChar('3');
-        break;
-      case R.id.b4:
-        addChar('4');
-        break;
-      case R.id.b5:
-        addChar('5');
-        break;
-      case R.id.b6:
-        addChar('6');
-        break;
-      case R.id.b7:
-        addChar('7');
-        break;
-      case R.id.b8:
-        addChar('8');
-        break;
-      case R.id.b9:
-        addChar('9');
-        break;
-      case R.id.bDot:
-        addChar('.');
-        break;
-      case R.id.bAdd:
-      case R.id.bSubtract:
-      case R.id.bMultiply:
-      case R.id.bDivide:
-        doOpChar(id);
-        break;
-      case R.id.bPercent:
-        doPercentChar();
-        break;
-      case R.id.bResult:
-        doEqualsChar();
-        break;
-      case R.id.bPlusMinus:
-        setDisplay(new BigDecimal(result).negate().toPlainString());
-        break;
+    if (id == R.id.b0) {
+      addChar('0');
+    } else if (id == R.id.b1) {
+      addChar('1');
+    } else if (id == R.id.b2) {
+      addChar('2');
+    } else if (id == R.id.b3) {
+      addChar('3');
+    } else if (id == R.id.b4) {
+      addChar('4');
+    } else if (id == R.id.b5) {
+      addChar('5');
+    } else if (id == R.id.b6) {
+      addChar('6');
+    } else if (id == R.id.b7) {
+      addChar('7');
+    } else if (id == R.id.b8) {
+      addChar('8');
+    } else if (id == R.id.b9) {
+      addChar('9');
+    } else if (id == R.id.bDot) {
+      addChar('.');
+    } else if (id == R.id.bAdd || id == R.id.bSubtract || id == R.id.bMultiply || id == R.id.bDivide) {
+      doOpChar(id);
+    } else if (id == R.id.bPercent) {
+      doPercentChar();
+    } else if (id == R.id.bResult) {
+      doEqualsChar();
+    } else if (id == R.id.bPlusMinus) {
+      setDisplay(new BigDecimal(result).negate().toPlainString());
     }
   }
 
@@ -308,15 +268,14 @@ public class CalculatorInput extends ProtectedFragmentActivity implements OnClic
 
   @NonNull
   private String getLastOpLabel() {
-    switch(lastOp) {
-      case R.id.bAdd:
-        return getString(R.string.calculator_operator_plus);
-      case R.id.bSubtract:
-        return getString(R.string.calculator_operator_minus);
-      case R.id.bMultiply:
-        return getString(R.string.calculator_operator_multiply);
-      case R.id.bDivide:
-        return getString(R.string.calculator_operator_divide);
+    if (lastOp == R.id.bAdd) {
+      return getString(R.string.calculator_operator_plus);
+    } else if (lastOp == R.id.bSubtract) {
+      return getString(R.string.calculator_operator_minus);
+    } else if (lastOp == R.id.bMultiply) {
+      return getString(R.string.calculator_operator_multiply);
+    } else if (lastOp == R.id.bDivide) {
+      return getString(R.string.calculator_operator_divide);
     }
     return "";
   }
@@ -329,26 +288,19 @@ public class CalculatorInput extends ProtectedFragmentActivity implements OnClic
 
     String valTwo = stack.pop();
     String valOne = stack.pop();
-    switch (lastOp) {
-      case R.id.bAdd:
-        stack.push(new BigDecimal(valOne).add(new BigDecimal(valTwo)).toPlainString());
-        break;
-      case R.id.bSubtract:
-        stack.push(new BigDecimal(valOne).subtract(new BigDecimal(valTwo)).toPlainString());
-        break;
-      case R.id.bMultiply:
-        stack.push(new BigDecimal(valOne).multiply(new BigDecimal(valTwo)).toPlainString());
-        break;
-      case R.id.bDivide:
-        BigDecimal d2 = new BigDecimal(valTwo);
-        if (d2.compareTo(nullValue) == 0) {
-          stack.push("0.0");
-        } else {
-          stack.push(new BigDecimal(valOne).divide(d2, MathContext.DECIMAL64).toPlainString());
-        }
-        break;
-      default:
-        break;
+    if (lastOp == R.id.bAdd) {
+      stack.push(new BigDecimal(valOne).add(new BigDecimal(valTwo)).toPlainString());
+    } else if (lastOp == R.id.bSubtract) {
+      stack.push(new BigDecimal(valOne).subtract(new BigDecimal(valTwo)).toPlainString());
+    } else if (lastOp == R.id.bMultiply) {
+      stack.push(new BigDecimal(valOne).multiply(new BigDecimal(valTwo)).toPlainString());
+    } else if (lastOp == R.id.bDivide) {
+      BigDecimal d2 = new BigDecimal(valTwo);
+      if (d2.compareTo(nullValue) == 0) {
+        stack.push("0.0");
+      } else {
+        stack.push(new BigDecimal(valOne).divide(d2, MathContext.DECIMAL64).toPlainString());
+      }
     }
     setDisplay(stack.peek());
     if (isInEquals) {
@@ -390,11 +342,11 @@ public class CalculatorInput extends ProtectedFragmentActivity implements OnClic
     outState.putString("result", result);
     outState.putInt("lastOp", lastOp);
     outState.putBoolean("isInEquals", isInEquals);
-    outState.putSerializable("stack", stack.toArray(new String[stack.size()]));
+    outState.putSerializable("stack", stack.toArray(new String[0]));
   }
 
   @Override
-  protected void onRestoreInstanceState(Bundle savedInstanceState) {
+  protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
     super.onRestoreInstanceState(savedInstanceState);
     result = savedInstanceState.getString("result");
     lastOp = savedInstanceState.getInt("lastOp");

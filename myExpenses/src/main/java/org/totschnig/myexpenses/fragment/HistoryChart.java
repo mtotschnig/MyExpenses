@@ -255,25 +255,22 @@ public class HistoryChart extends Fragment
   @Override
   public boolean onOptionsItemSelected(@NonNull MenuItem item) {
     if (handleGrouping(item)) return true;
-    switch (item.getItemId()) {
-      case R.id.TOGGLE_BALANCE_COMMAND: {
-        showBalance = !showBalance;
-        prefHandler.putBoolean(PrefKey.HISTORY_SHOW_BALANCE, showBalance);
-        reset();
-        return true;
-      }
-      case R.id.TOGGLE_INCLUDE_TRANSFERS_COMMAND: {
-        includeTransfers = !includeTransfers;
-        prefHandler.putBoolean(PrefKey.HISTORY_INCLUDE_TRANSFERS, includeTransfers);
-        reset();
-        return true;
-      }
-      case R.id.TOGGLE_TOTALS_COMMAND: {
-        showTotals = !showTotals;
-        prefHandler.putBoolean(PrefKey.HISTORY_SHOW_TOTALS, showTotals);
-        reset();
-        return true;
-      }
+    int itemId = item.getItemId();
+    if (itemId == R.id.TOGGLE_BALANCE_COMMAND) {
+      showBalance = !showBalance;
+      prefHandler.putBoolean(PrefKey.HISTORY_SHOW_BALANCE, showBalance);
+      reset();
+      return true;
+    } else if (itemId == R.id.TOGGLE_INCLUDE_TRANSFERS_COMMAND) {
+      includeTransfers = !includeTransfers;
+      prefHandler.putBoolean(PrefKey.HISTORY_INCLUDE_TRANSFERS, includeTransfers);
+      reset();
+      return true;
+    } else if (itemId == R.id.TOGGLE_TOTALS_COMMAND) {
+      showTotals = !showTotals;
+      prefHandler.putBoolean(PrefKey.HISTORY_SHOW_TOTALS, showTotals);
+      reset();
+      return true;
     }
     return false;
   }

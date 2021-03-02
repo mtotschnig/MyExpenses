@@ -16,7 +16,7 @@ public class BackupSourcesDialogFragment extends ImportSourceDialogFragment
   RadioGroup.OnCheckedChangeListener mCalendarRestoreButtonCheckedChangeListener;
 
   
-  public static final BackupSourcesDialogFragment newInstance() {
+  public static BackupSourcesDialogFragment newInstance() {
     return new BackupSourcesDialogFragment();
   }
   @Override

@@ -12,7 +12,7 @@ import org.totschnig.myexpenses.viewmodel.DropboxSetupViewModel
 const val APP_KEY = "09ctg08r5gnsh5c"
 
 class DropboxSetup : AbstractSyncBackup<DropboxSetupViewModel>() {
-    var oauthStartPending: Boolean = false
+    private var oauthStartPending: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

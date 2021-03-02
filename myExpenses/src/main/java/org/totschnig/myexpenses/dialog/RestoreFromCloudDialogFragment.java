@@ -35,7 +35,7 @@ public class RestoreFromCloudDialogFragment extends BaseDialogFragment
     implements DialogInterface.OnClickListener, AdapterView.OnItemClickListener, DialogUtils.CalendarRestoreStrategyChangedListener {
   private static final String KEY_BACKUP_LIST = "backupList";
   private static final String KEY_SYNC_ACCOUNT_LIST = "syncAccountList";
-  private RadioGroup restorePlanStrategie;
+  private RadioGroup restorePlanStrategy;
   private RadioGroup.OnCheckedChangeListener calendarRestoreButtonCheckedChangeListener;
   private ArrayAdapter<String> backupAdapter;
   private RestoreFromCloudBinding binding;
@@ -81,11 +81,11 @@ public class RestoreFromCloudDialogFragment extends BaseDialogFragment
       binding.backupList.setAdapter(backupAdapter);
       binding.backupList.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
       binding.backupList.setOnItemClickListener(this);
-      restorePlanStrategie = DialogUtils.configureCalendarRestoreStrategy(binding.backupListContainer);
-      if (restorePlanStrategie != null) {
+      restorePlanStrategy = DialogUtils.configureCalendarRestoreStrategy(binding.backupListContainer);
+      if (restorePlanStrategy != null) {
         calendarRestoreButtonCheckedChangeListener =
             DialogUtils.buildCalendarRestoreStrategyChangedListener(getActivity(), this);
-        restorePlanStrategie.setOnCheckedChangeListener(calendarRestoreButtonCheckedChangeListener);
+        restorePlanStrategy.setOnCheckedChangeListener(calendarRestoreButtonCheckedChangeListener);
       }
       binding.tabs.addTab(binding.tabs.newTab().setText(R.string.onboarding_restore_from_cloud_backup).setTag(binding.backupListContainer));
     }
@@ -153,7 +153,7 @@ public class RestoreFromCloudDialogFragment extends BaseDialogFragment
     LinearLayout activeContent = getActiveContent();
     ListView activeList = findListView(activeContent);
     if (activeContent.getId() == R.id.backup_list) {
-      if (restorePlanStrategie.getCheckedRadioButtonId() == -1) {
+      if (restorePlanStrategy.getCheckedRadioButtonId() == -1) {
         return false;
       }
       if (binding.passwordLayout.passwordLayout.getVisibility() == View.VISIBLE && TextUtils.isEmpty(binding.passwordLayout.passwordEdit.getText().toString())) {
@@ -174,17 +174,15 @@ public class RestoreFromCloudDialogFragment extends BaseDialogFragment
     if (which == AlertDialog.BUTTON_POSITIVE) {
       OnboardingActivity activity = (OnboardingActivity) getActivity();
       LinearLayout contentForTab = getActiveContent();
-      switch (contentForTab.getId()) {
-        case R.id.backup_list:
-          final String password = binding.passwordLayout.passwordLayout.getVisibility() == View.VISIBLE ? binding.passwordLayout.passwordEdit.getText().toString() : null;
-          activity.setupFromBackup(backups.get(findListView(contentForTab).getCheckedItemPosition()),
-              restorePlanStrategie.getCheckedRadioButtonId(), password);
-          break;
-        case R.id.sync_account_list:
-          activity.setupFromSyncAccounts(Stream.of(syncAccounts)
-              .filterIndexed((index, value) -> findListView(contentForTab).isItemChecked(index))
-              .collect(Collectors.toList()));
-          break;
+      int id = contentForTab.getId();
+      if (id == R.id.backup_list) {
+        final String password = binding.passwordLayout.passwordLayout.getVisibility() == View.VISIBLE ? binding.passwordLayout.passwordEdit.getText().toString() : null;
+        activity.setupFromBackup(backups.get(findListView(contentForTab).getCheckedItemPosition()),
+            restorePlanStrategy.getCheckedRadioButtonId(), password);
+      } else if (id == R.id.sync_account_list) {
+        activity.setupFromSyncAccounts(Stream.of(syncAccounts)
+            .filterIndexed((index, value) -> findListView(contentForTab).isItemChecked(index))
+            .collect(Collectors.toList()));
       }
     }
   }
@@ -218,9 +216,9 @@ public class RestoreFromCloudDialogFragment extends BaseDialogFragment
 
   @Override
   public void onCalendarPermissionDenied() {
-    restorePlanStrategie.setOnCheckedChangeListener(null);
-    restorePlanStrategie.clearCheck();
-    restorePlanStrategie.setOnCheckedChangeListener(calendarRestoreButtonCheckedChangeListener);
+    restorePlanStrategy.setOnCheckedChangeListener(null);
+    restorePlanStrategy.clearCheck();
+    restorePlanStrategy.setOnCheckedChangeListener(calendarRestoreButtonCheckedChangeListener);
     configureSubmit();
   }
 }

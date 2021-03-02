@@ -23,7 +23,7 @@ class CheckTransferAccountOfSplitPartsHandler(cr: ContentResolver) : AsyncQueryH
         if (itemIds.size == 0) {
             listener.onResult(emptyList())
         } else {
-            startQuery(TOKEN, listener, TransactionProvider.TRANSACTIONS_URI, arrayOf("distinct " + KEY_TRANSFER_ACCOUNT),
+            startQuery(TOKEN, listener, TransactionProvider.TRANSACTIONS_URI, arrayOf("distinct $KEY_TRANSFER_ACCOUNT"),
                     KEY_TRANSFER_ACCOUNT + " is not null AND " +
                             DatabaseConstants.KEY_PARENTID + " " + WhereFilter.Operation.IN.getOp(itemIds.size), itemIds.map(Long::toString).toTypedArray(), null)
         }

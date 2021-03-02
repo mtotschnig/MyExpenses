@@ -8,7 +8,7 @@ import org.totschnig.myexpenses.room.ExchangeRate
 import org.totschnig.myexpenses.room.ExchangeRateDao
 import java.io.IOException
 
-class ExchangeRateRepository(val dao: @NotNull ExchangeRateDao, val prefHandler: @NotNull PrefHandler,
+class ExchangeRateRepository(private val dao: @NotNull ExchangeRateDao, val prefHandler: @NotNull PrefHandler,
                              val service: @NotNull ExchangeRateService) {
     @Throws(IOException::class)
     suspend fun loadExchangeRate(other: String, base: String, date: LocalDate): Float {

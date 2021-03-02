@@ -25,7 +25,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.SimpleCursorAdapter;
@@ -42,6 +41,7 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
@@ -69,15 +69,12 @@ public class StaleImagesList extends ContextualActionBarFragment implements Load
       return true;
     }
     int taskId = 0, progressMessage = 0;
-    switch (command) {
-      case R.id.SAVE_COMMAND:
-        taskId = TaskExecutionFragment.TASK_SAVE_IMAGES;
-        progressMessage = R.string.progress_dialog_saving;
-        break;
-      case R.id.DELETE_COMMAND:
-        taskId = TaskExecutionFragment.TASK_DELETE_IMAGES;
-        progressMessage = R.string.progress_dialog_deleting;
-        break;
+    if (command == R.id.SAVE_COMMAND) {
+      taskId = TaskExecutionFragment.TASK_SAVE_IMAGES;
+      progressMessage = R.string.progress_dialog_saving;
+    } else if (command == R.id.DELETE_COMMAND) {
+      taskId = TaskExecutionFragment.TASK_DELETE_IMAGES;
+      progressMessage = R.string.progress_dialog_deleting;
     }
     if (taskId == 0) {
       return false;
@@ -128,36 +125,33 @@ public class StaleImagesList extends ContextualActionBarFragment implements Load
         v.setContentDescription(value);
       }
     };
-    lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-      @Override
-      public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        mImagesCursor.moveToPosition(position);
-        imageViewIntentProvider.startViewIntent(getActivity(),
-            Uri.parse(mImagesCursor.getString(
-                mImagesCursor.getColumnIndex(DatabaseConstants.KEY_PICTURE_URI))));
-      }
+    lv.setOnItemClickListener((parent, view, position, id) -> {
+      mImagesCursor.moveToPosition(position);
+      imageViewIntentProvider.startViewIntent(getActivity(),
+          Uri.parse(mImagesCursor.getString(
+              mImagesCursor.getColumnIndex(DatabaseConstants.KEY_PICTURE_URI))));
     });
-    getLoaderManager().initLoader(0, null, this);
+    LoaderManager.getInstance(this).initLoader(0, null, this);
     lv.setAdapter(mAdapter);
     registerForContextualActionBar(lv);
     return v;
   }
 
+  @NonNull
   @Override
   public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
-    CursorLoader cursorLoader = new CursorLoader(getActivity(),
+    return new CursorLoader(getActivity(),
         TransactionProvider.STALE_IMAGES_URI, null, null, null, null);
-    return cursorLoader;
   }
 
   @Override
-  public void onLoadFinished(Loader<Cursor> arg0, Cursor c) {
+  public void onLoadFinished(@NonNull Loader<Cursor> arg0, Cursor c) {
     mImagesCursor = c;
     mAdapter.swapCursor(c);
   }
 
   @Override
-  public void onLoaderReset(Loader<Cursor> arg0) {
+  public void onLoaderReset(@NonNull Loader<Cursor> arg0) {
     mImagesCursor = null;
     mAdapter.swapCursor(null);
   }

@@ -317,7 +317,7 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
                     popup.menu.add(Menu.NONE, aPackage.index, Menu.NONE, title)
                 }
                 popup.setOnDismissListener {
-                    if (!(selectedPackage is ProfessionalPackage)) {
+                    if (selectedPackage !is ProfessionalPackage) {
                         professionalButton.isChecked = false
                     }
                 }

@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.adapter
 
 import android.content.Context
-import android.text.Html
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -14,17 +13,11 @@ import org.totschnig.myexpenses.model.Category
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.util.CurrencyFormatter
-import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.viewmodel.data.Transaction
 
-class SplitPartRVAdapter(context: Context, val currencyUnit: CurrencyUnit, val currencyFormatter: CurrencyFormatter, val splitList: List<Transaction>) : RecyclerView.Adapter<SplitPartRVAdapter.ViewHolder>() {
-    val colorExpense: Int
-    val colorIncome: Int
-
-    init {
-        colorExpense = context.getResources().getColor(R.color.colorExpense);
-        colorIncome = context.getResources().getColor(R.color.colorIncome);
-    }
+class SplitPartRVAdapter(context: Context, val currencyUnit: CurrencyUnit, val currencyFormatter: CurrencyFormatter, private val splitList: List<Transaction>) : RecyclerView.Adapter<SplitPartRVAdapter.ViewHolder>() {
+    val colorExpense: Int = context.resources.getColor(R.color.colorExpense)
+    val colorIncome: Int = context.resources.getColor(R.color.colorIncome)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(SplitPartRowBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -57,7 +50,7 @@ class SplitPartRVAdapter(context: Context, val currencyUnit: CurrencyUnit, val c
                 if (!TextUtils.isEmpty(transaction.comment)) {
                     catText += (if (catText == "") "" else " / ") + "<i>" + transaction.comment + "</i>"
                 }
-                setText(HtmlCompat.fromHtml(catText, FROM_HTML_MODE_LEGACY))
+                text = HtmlCompat.fromHtml(catText, FROM_HTML_MODE_LEGACY)
             }
         }
     }

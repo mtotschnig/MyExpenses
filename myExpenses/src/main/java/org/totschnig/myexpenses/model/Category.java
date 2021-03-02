@@ -77,7 +77,7 @@ public class Category extends Model {
    */
   public static long write(long id, String label, Long parentId) {
     Uri uri = new Category(id, label, parentId).save();
-    return uri == null ? -1 : Integer.valueOf(uri.getLastPathSegment());
+    return uri == null ? -1 : Integer.parseInt(uri.getLastPathSegment());
   }
 
   /**

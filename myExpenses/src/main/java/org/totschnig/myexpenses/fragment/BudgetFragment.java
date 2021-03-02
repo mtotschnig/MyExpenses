@@ -148,28 +148,25 @@ public class BudgetFragment extends DistributionBaseFragment<BudgetRowBinding> i
   @Override
   public boolean onOptionsItemSelected(@NonNull MenuItem item) {
     if (budget != null) {
-      switch (item.getItemId()) {
-        case R.id.EDIT_COMMAND: {
-          Intent intent = new Intent(getActivity(), BudgetEdit.class);
-          intent.putExtra(KEY_ROWID, budget.getId());
-          startActivity(intent);
-          return true;
-        }
-        case R.id.DELETE_COMMAND: {
-          SimpleDialog.build()
-              .title(R.string.dialog_title_warning_delete_budget)
-              .msg(getString(R.string.warning_delete_budget, budget.getTitle()) + " " + getString(R.string.continue_confirmation))
-              .pos(R.string.menu_delete)
-              .neg(android.R.string.cancel)
-              .show(this, DELETE_BUDGET_DIALOG);
-          return true;
-        }
-        case R.id.BUDGET_ALLOCATED_ONLY: {
-          allocatedOnly = !allocatedOnly;
-          prefHandler.putBoolean(getTemplateForAllocatedOnlyKey(budget), allocatedOnly);
-          reset();
-          return true;
-        }
+      int itemId = item.getItemId();
+      if (itemId == R.id.EDIT_COMMAND) {
+        Intent intent = new Intent(getActivity(), BudgetEdit.class);
+        intent.putExtra(KEY_ROWID, budget.getId());
+        startActivity(intent);
+        return true;
+      } else if (itemId == R.id.DELETE_COMMAND) {
+        SimpleDialog.build()
+            .title(R.string.dialog_title_warning_delete_budget)
+            .msg(getString(R.string.warning_delete_budget, budget.getTitle()) + " " + getString(R.string.continue_confirmation))
+            .pos(R.string.menu_delete)
+            .neg(android.R.string.cancel)
+            .show(this, DELETE_BUDGET_DIALOG);
+        return true;
+      } else if (itemId == R.id.BUDGET_ALLOCATED_ONLY) {
+        allocatedOnly = !allocatedOnly;
+        prefHandler.putBoolean(getTemplateForAllocatedOnlyKey(budget), allocatedOnly);
+        reset();
+        return true;
       }
     }
     return super.onOptionsItemSelected(item);
@@ -183,7 +180,7 @@ public class BudgetFragment extends DistributionBaseFragment<BudgetRowBinding> i
     if (category != null) {
       long allocated = parentItem == null ? getAllocated() :
           Stream.of(parentItem.getChildren()).mapToLong(category1 -> category1.budget).sum();
-      final Long budgetAmount = parentItem == null ? budget.getAmount().getAmountMinor() : parentItem.budget;
+      final long budgetAmount = parentItem == null ? budget.getAmount().getAmountMinor() : parentItem.budget;
       long allocatable = budgetAmount - allocated;
       final long maxLong = allocatable + category.budget;
       if (maxLong <= 0) {

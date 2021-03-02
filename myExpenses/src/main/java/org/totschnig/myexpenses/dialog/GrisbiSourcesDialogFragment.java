@@ -11,7 +11,7 @@ import androidx.appcompat.app.AlertDialog;
 public class GrisbiSourcesDialogFragment extends TextSourceDialogFragment implements
 DialogInterface.OnClickListener {
   
-  public static final GrisbiSourcesDialogFragment newInstance() {
+  public static GrisbiSourcesDialogFragment newInstance() {
     return new GrisbiSourcesDialogFragment();
   }
   @Override

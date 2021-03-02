@@ -30,15 +30,19 @@ class TransactionList : BaseTransactionList() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         if (resultCode != Activity.RESULT_CANCELED) {
-            if (requestCode == CONFIRM_MAP_TAG_REQUEST) {
-                intent?.let {
-                    viewModel.tag(binding.list.checkedItemIds, it.getParcelableArrayListExtra(KEY_TAG_LIST)!!, it.getBooleanExtra(KEY_REPLACE, false))
+            when (requestCode) {
+                CONFIRM_MAP_TAG_REQUEST -> {
+                    intent?.let {
+                        viewModel.tag(binding.list.checkedItemIds, it.getParcelableArrayListExtra(KEY_TAG_LIST)!!, it.getBooleanExtra(KEY_REPLACE, false))
+                    }
+                    finishActionMode()
                 }
-                finishActionMode()
-            } else if (requestCode == MAP_TAG_REQUEST) {
-                handleTagResult(intent!!)
-            } else {
-                super.onActivityResult(requestCode, resultCode, intent)
+                MAP_TAG_REQUEST -> {
+                    handleTagResult(intent!!)
+                }
+                else -> {
+                    super.onActivityResult(requestCode, resultCode, intent)
+                }
             }
         }
     }
@@ -76,7 +80,7 @@ class ConfirmTagDialogFragment : DialogFragment() {
         val isEmpty = tagList.size == 0
         val dialog = MaterialDialog(requireContext())
                 .title(R.string.menu_tag)
-                .message(text = if (isEmpty) getString(R.string.dialog_multi_tag_clear) else getString(R.string.dialog_multi_tag, tagList.map { tag -> tag.label }.joinToString(", ")))
+                .message(text = if (isEmpty) getString(R.string.dialog_multi_tag_clear) else getString(R.string.dialog_multi_tag, tagList.joinToString(", ") { tag -> tag.label }))
                 .negativeButton(android.R.string.cancel)
         return if (isEmpty) {
             dialog.positiveButton(R.string.menu_remove) { confirm(true) }

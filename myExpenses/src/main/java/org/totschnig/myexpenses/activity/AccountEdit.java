@@ -277,18 +277,16 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
   public void onItemSelected(AdapterView<?> parent, View view, int position,
                              long id) {
     setDirty();
-    switch (parent.getId()) {
-      case R.id.Currency:
-        try {
-          String currency = ((Currency) mCurrencySpinner.getSelectedItem()).getCode();
-          configureForCurrrency(currencyContext.get(currency));
-        } catch (IllegalArgumentException e) {
-          //will be reported to user when he tries so safe
-        }
-        break;
-      case R.id.Sync:
-        contribFeatureRequested(ContribFeature.SYNCHRONIZATION, null);
-        break;
+    int parentId = parent.getId();
+    if (parentId == R.id.Currency) {
+      try {
+        String currency = ((Currency) mCurrencySpinner.getSelectedItem()).getCode();
+        configureForCurrrency(currencyContext.get(currency));
+      } catch (IllegalArgumentException e) {
+        //will be reported to user when he tries so safe
+      }
+    } else if (parentId == R.id.Sync) {
+      contribFeatureRequested(ContribFeature.SYNCHRONIZATION, null);
     }
   }
 
@@ -387,25 +385,24 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
     if (super.dispatchCommand(command, tag)) {
       return true;
     }
-    switch (command) {
-      case R.id.EXCLUDE_FROM_TOTALS_COMMAND:
-        if (mAccount.getId() != 0) {
-          startTaskExecution(
-              TASK_SET_EXCLUDE_FROM_TOTALS,
-              new Long[]{mAccount.getId()},
-              !mAccount.excludeFromTotals, 0);
-        }
-        return true;
-      case R.id.SYNC_UNLINK_COMMAND:
-        mAccount.setSyncAccountName(null);
+    if (command == R.id.EXCLUDE_FROM_TOTALS_COMMAND) {
+      if (mAccount.getId() != 0) {
         startTaskExecution(
-            TASK_SYNC_UNLINK,
-            new String[]{mAccount.getUuid()}, null, 0);
-        return true;
-      case R.id.SYNC_SETTINGS_COMMAND:
-        Intent i = new Intent(this, ManageSyncBackends.class);
-        startActivityForResult(i, PREFERENCES_REQUEST);
-        return true;
+            TASK_SET_EXCLUDE_FROM_TOTALS,
+            new Long[]{mAccount.getId()},
+            !mAccount.excludeFromTotals, 0);
+      }
+      return true;
+    } else if (command == R.id.SYNC_UNLINK_COMMAND) {
+      mAccount.setSyncAccountName(null);
+      startTaskExecution(
+          TASK_SYNC_UNLINK,
+          new String[]{mAccount.getUuid()}, null, 0);
+      return true;
+    } else if (command == R.id.SYNC_SETTINGS_COMMAND) {
+      Intent i = new Intent(this, ManageSyncBackends.class);
+      startActivityForResult(i, PREFERENCES_REQUEST);
+      return true;
     }
     return false;
   }

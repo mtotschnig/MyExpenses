@@ -128,30 +128,29 @@ public class ManageCategories extends CategoryActivity implements
     if (super.dispatchCommand(command, tag)) {
       return true;
     }
-    switch (command) {
-      case R.id.CREATE_COMMAND:
-        createCat(null);
-        return true;
-      case R.id.DELETE_COMMAND_DO:
-        finishActionMode();
-        startTaskExecution(
-            TaskExecutionFragment.TASK_DELETE_CATEGORY,
-            (Long[]) tag,
-            null,
-            R.string.progress_dialog_deleting);
-        return true;
-      case R.id.CANCEL_CALLBACK_COMMAND:
-        finishActionMode();
-        return true;
-      case R.id.SETUP_CATEGORIES_DEFAULT_COMMAND:
-        importCats();
-        return true;
-      case R.id.EXPORT_CATEGORIES_COMMAND_ISO88591:
-        exportCats("ISO-8859-1");
-        return true;
-      case R.id.EXPORT_CATEGORIES_COMMAND_UTF8:
-        exportCats("UTF-8");
-        return true;
+    if (command == R.id.CREATE_COMMAND) {
+      createCat(null);
+      return true;
+    } else if (command == R.id.DELETE_COMMAND_DO) {
+      finishActionMode();
+      startTaskExecution(
+          TaskExecutionFragment.TASK_DELETE_CATEGORY,
+          (Long[]) tag,
+          null,
+          R.string.progress_dialog_deleting);
+      return true;
+    } else if (command == R.id.CANCEL_CALLBACK_COMMAND) {
+      finishActionMode();
+      return true;
+    } else if (command == R.id.SETUP_CATEGORIES_DEFAULT_COMMAND) {
+      importCats();
+      return true;
+    } else if (command == R.id.EXPORT_CATEGORIES_COMMAND_ISO88591) {
+      exportCats("ISO-8859-1");
+      return true;
+    } else if (command == R.id.EXPORT_CATEGORIES_COMMAND_UTF8) {
+      exportCats("UTF-8");
+      return true;
     }
     return false;
   }

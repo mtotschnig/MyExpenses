@@ -158,7 +158,7 @@ public abstract class AbstractCategoryList<ROWBINDING extends ViewBinding> exten
     };
     boolean isFiltered = !TextUtils.isEmpty(mFilter);
     if (isFiltered) {
-      String normalized = Utils.esacapeSqlLikeExpression(Utils.normalize(mFilter));
+      String normalized = Utils.escapeSqlLikeExpression(Utils.normalize(mFilter));
       String filterSelection = KEY_LABEL_NORMALIZED + " LIKE ?";
       final String likeExpression = "%" + normalized + "%";
       selectionArgs = new String[]{likeExpression, likeExpression};
@@ -194,10 +194,63 @@ public abstract class AbstractCategoryList<ROWBINDING extends ViewBinding> exten
     }
     ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
     ArrayList<Long> idList;
-    switch (command) {
-      case R.id.DELETE_COMMAND: {
-        int hasChildrenCount = 0, mappedBudgetsCount = 0;
-        idList = new ArrayList<>();
+    if (command == R.id.DELETE_COMMAND) {
+      int hasChildrenCount = 0, mappedBudgetsCount = 0;
+      idList = new ArrayList<>();
+      for (int i = 0; i < positions.size(); i++) {
+        Category c;
+        if (positions.valueAt(i)) {
+          int position = positions.keyAt(i);
+          long pos = getListView().getExpandableListPosition(position);
+          int type = ExpandableListView.getPackedPositionType(pos);
+          int group = ExpandableListView.getPackedPositionGroup(pos),
+              child = ExpandableListView.getPackedPositionChild(pos);
+          if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+            c = mAdapter.getChild(group, child);
+          } else {
+            c = mAdapter.getGroup(group);
+          }
+          Bundle extras = ctx.getIntent().getExtras();
+          if ((extras == null || extras.getLong(KEY_ROWID) != c.id)) {
+            if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP && c.hasChildren()) {
+              hasChildrenCount++;
+            }
+            if (c.hasMappedBudgets) {
+              mappedBudgetsCount++;
+            }
+            idList.add(c.id);
+          } else {
+            ctx.showSnackbar(getResources().getQuantityString(R.plurals.not_deletable_mapped_transactions,
+                1, 1));
+          }
+        }
+      }
+      if (!idList.isEmpty()) {
+        Long[] objectIds = idList.toArray(new Long[0]);
+        if (hasChildrenCount > 0 || mappedBudgetsCount > 0) {
+          String message = hasChildrenCount > 0 ?
+              getResources().getQuantityString(R.plurals.warning_delete_main_category, hasChildrenCount, hasChildrenCount) : "";
+          if (mappedBudgetsCount > 0) {
+            if (!message.equals("")) {
+              message += " ";
+            }
+            message += getString(R.string.warning_delete_category_with_budget);
+          }
+          MessageDialogFragment.newInstance(
+              getString(R.string.dialog_title_warning_delete_category),
+              message,
+              new MessageDialogFragment.Button(android.R.string.yes, R.id.DELETE_COMMAND_DO, objectIds),
+              null,
+              new MessageDialogFragment.Button(android.R.string.no, R.id.CANCEL_CALLBACK_COMMAND, null))
+              .show(ctx.getSupportFragmentManager(), "DELETE_CATEGORY");
+        } else {
+          ctx.dispatchCommand(R.id.DELETE_COMMAND_DO, objectIds);
+        }
+      }
+      return true;
+    } else if (command == R.id.SELECT_COMMAND_MULTIPLE) {
+      if (itemIds.length == 1 || !Arrays.asList(itemIds).contains(NULL_ITEM_ID)) {
+        ArrayList<String> labelList = new ArrayList<>();
         for (int i = 0; i < positions.size(); i++) {
           Category c;
           if (positions.valueAt(i)) {
@@ -211,98 +264,42 @@ public abstract class AbstractCategoryList<ROWBINDING extends ViewBinding> exten
             } else {
               c = mAdapter.getGroup(group);
             }
-            Bundle extras = ctx.getIntent().getExtras();
-            if ((extras == null || extras.getLong(KEY_ROWID) != c.id)) {
-              if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP && c.hasChildren()) {
-                hasChildrenCount++;
-              }
-              if (c.hasMappedBudgets) {
-                mappedBudgetsCount++;
-              }
-              idList.add(c.id);
-            } else {
-              ctx.showSnackbar(getResources().getQuantityString(R.plurals.not_deletable_mapped_transactions,
-                  1, 1));
-            }
+            labelList.add(c.label);
           }
         }
-        if (!idList.isEmpty()) {
-          Long[] objectIds = idList.toArray(new Long[0]);
-          if (hasChildrenCount > 0 || mappedBudgetsCount > 0) {
-            String message = hasChildrenCount > 0 ?
-                getResources().getQuantityString(R.plurals.warning_delete_main_category, hasChildrenCount, hasChildrenCount) : "";
-            if (mappedBudgetsCount > 0) {
-              if (!message.equals("")) {
-                message += " ";
-              }
-              message += getString(R.string.warning_delete_category_with_budget);
-            }
-            MessageDialogFragment.newInstance(
-                getString(R.string.dialog_title_warning_delete_category),
-                message,
-                new MessageDialogFragment.Button(android.R.string.yes, R.id.DELETE_COMMAND_DO, objectIds),
-                null,
-                new MessageDialogFragment.Button(android.R.string.no, R.id.CANCEL_CALLBACK_COMMAND, null))
-                .show(ctx.getSupportFragmentManager(), "DELETE_CATEGORY");
-          } else {
-            ctx.dispatchCommand(R.id.DELETE_COMMAND_DO, objectIds);
-          }
-        }
-        return true;
+        Intent intent = new Intent();
+        intent.putExtra(KEY_CATID, ArrayUtils.toPrimitive(itemIds));
+        intent.putExtra(KEY_LABEL, TextUtils.join(",", labelList));
+        ctx.setResult(RESULT_FIRST_USER, intent);
+        ctx.finish();
+      } else {
+        ctx.showSnackbar(R.string.unmapped_filter_only_single);
       }
-      case R.id.SELECT_COMMAND_MULTIPLE: {
-        if (itemIds.length == 1 || !Arrays.asList(itemIds).contains(NULL_ITEM_ID)) {
-          ArrayList<String> labelList = new ArrayList<>();
-          for (int i = 0; i < positions.size(); i++) {
-            Category c;
-            if (positions.valueAt(i)) {
-              int position = positions.keyAt(i);
-              long pos = getListView().getExpandableListPosition(position);
-              int type = ExpandableListView.getPackedPositionType(pos);
-              int group = ExpandableListView.getPackedPositionGroup(pos),
-                  child = ExpandableListView.getPackedPositionChild(pos);
-              if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-                c = mAdapter.getChild(group, child);
-              } else {
-                c = mAdapter.getGroup(group);
-              }
-              labelList.add(c.label);
-            }
+      return true;
+    } else if (command == R.id.MOVE_COMMAND) {
+      final Long[] excludedIds;
+      final boolean inGroup = expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP;
+      if (inGroup) {
+        excludedIds = itemIds;
+      } else {
+        idList = new ArrayList<>();
+        for (int i = 0; i < positions.size(); i++) {
+          if (positions.valueAt(i)) {
+            int position = positions.keyAt(i);
+            long pos = getListView().getExpandableListPosition(position);
+            int group = ExpandableListView.getPackedPositionGroup(pos);
+            idList.add(mAdapter.getGroup(group).id);
           }
-          Intent intent = new Intent();
-          intent.putExtra(KEY_CATID, ArrayUtils.toPrimitive(itemIds));
-          intent.putExtra(KEY_LABEL, TextUtils.join(",", labelList));
-          ctx.setResult(RESULT_FIRST_USER, intent);
-          ctx.finish();
-        } else {
-          ctx.showSnackbar(R.string.unmapped_filter_only_single);
         }
-        return true;
+        excludedIds = idList.toArray(new Long[0]);
       }
-      case R.id.MOVE_COMMAND:
-        final Long[] excludedIds;
-        final boolean inGroup = expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP;
-        if (inGroup) {
-          excludedIds = itemIds;
-        } else {
-          idList = new ArrayList<>();
-          for (int i = 0; i < positions.size(); i++) {
-            if (positions.valueAt(i)) {
-              int position = positions.keyAt(i);
-              long pos = getListView().getExpandableListPosition(position);
-              int group = ExpandableListView.getPackedPositionGroup(pos);
-              idList.add(mAdapter.getGroup(group).id);
-            }
-          }
-          excludedIds = idList.toArray(new Long[0]);
-        }
-        Bundle args = new Bundle(3);
-        args.putBoolean(SelectMainCategoryDialogFragment.KEY_WITH_ROOT, !inGroup);
-        args.putLongArray(SelectMainCategoryDialogFragment.KEY_EXCLUDED_ID, ArrayUtils.toPrimitive(excludedIds));
-        args.putLongArray(TaskExecutionFragment.KEY_OBJECT_IDS, ArrayUtils.toPrimitive(itemIds));
-        SelectMainCategoryDialogFragment.newInstance(args)
-            .show(getParentFragmentManager(), "SELECT_TARGET");
-        return true;
+      Bundle args = new Bundle(3);
+      args.putBoolean(SelectMainCategoryDialogFragment.KEY_WITH_ROOT, !inGroup);
+      args.putLongArray(SelectMainCategoryDialogFragment.KEY_EXCLUDED_ID, ArrayUtils.toPrimitive(excludedIds));
+      args.putLongArray(TaskExecutionFragment.KEY_OBJECT_IDS, ArrayUtils.toPrimitive(itemIds));
+      SelectMainCategoryDialogFragment.newInstance(args)
+          .show(getParentFragmentManager(), "SELECT_TARGET");
+      return true;
     }
     return false;
   }
@@ -328,23 +325,22 @@ public abstract class AbstractCategoryList<ROWBINDING extends ViewBinding> exten
       isMain = true;
     }
     String label = category.label;
-    switch (command) {
-      case R.id.COLOR_COMMAND:
-        ctx.editCategoryColor(category);
-        return true;
-      case R.id.EDIT_COMMAND:
-        ctx.editCat(category);
-        return true;
-      case R.id.SELECT_COMMAND:
-        if (!isMain && action.equals(ACTION_SELECT_MAPPING)) {
-          label = mAdapter.getGroup(group).label + TransactionList.CATEGORY_SEPARATOR + label;
-        }
-        doSingleSelection(elcmi.id, label, category.icon, isMain);
-        finishActionMode();
-        return true;
-      case R.id.CREATE_SUB_COMMAND:
-        ctx.createCat(elcmi.id);
-        return true;
+    if (command == R.id.COLOR_COMMAND) {
+      ctx.editCategoryColor(category);
+      return true;
+    } else if (command == R.id.EDIT_COMMAND) {
+      ctx.editCat(category);
+      return true;
+    } else if (command == R.id.SELECT_COMMAND) {
+      if (!isMain && action.equals(ACTION_SELECT_MAPPING)) {
+        label = mAdapter.getGroup(group).label + TransactionList.CATEGORY_SEPARATOR + label;
+      }
+      doSingleSelection(elcmi.id, label, category.icon, isMain);
+      finishActionMode();
+      return true;
+    } else if (command == R.id.CREATE_SUB_COMMAND) {
+      ctx.createCat(elcmi.id);
+      return true;
     }
     return false;
   }

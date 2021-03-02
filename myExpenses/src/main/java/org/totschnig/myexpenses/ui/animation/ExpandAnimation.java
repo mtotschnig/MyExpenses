@@ -34,7 +34,7 @@ public class ExpandAnimation extends Animation {
     mIsVisibleAfter = (view.getVisibility() == View.VISIBLE);
 
     mMarginStart = mViewLayoutParams.bottomMargin;
-    mMarginEnd = (mMarginStart == 0 ? (0 - view.getHeight()) : 0);
+    mMarginEnd = (mMarginStart == 0 ? (-view.getHeight()) : 0);
 
     view.setVisibility(View.VISIBLE);
   }

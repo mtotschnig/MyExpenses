@@ -12,7 +12,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_BASE_URI
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 
 abstract class AbstractSyncBackendViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
-    protected val localAccountInfo = MutableLiveData<Map<String, String?>>()
+    private val localAccountInfo = MutableLiveData<Map<String, String?>>()
     abstract fun getAccounts(context: Context): List<Pair<String, Boolean>>
 
     fun getLocalAccountInfo(): LiveData<Map<String, String?>> = localAccountInfo
@@ -23,8 +23,8 @@ abstract class AbstractSyncBackendViewModel(application: Application) : ContentR
         disposable = briteContentResolver.createQuery(ACCOUNTS_BASE_URI,
                 arrayOf(DatabaseConstants.KEY_UUID, DatabaseConstants.KEY_SYNC_ACCOUNT_NAME), null, null, null, false)
                 .map(SqlBrite.Query::run)
-                .subscribe {
-                    it?.use { cursor ->
+                .subscribe { c ->
+                    c?.use { cursor ->
                         val uuid2syncMap: MutableMap<String, String?> = HashMap()
                         cursor.moveToFirst()
                         while (!cursor.isAfterLast) {

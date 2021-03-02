@@ -278,7 +278,7 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
     }
   }
 
-  class HeaderViewHolder {
+  static class HeaderViewHolder {
     AccountsHeaderBinding binding;
 
     HeaderViewHolder(AccountsHeaderBinding binding) {
@@ -286,7 +286,7 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
     }
   }
 
-  class ViewHolder {
+  static class ViewHolder {
     @BindView(R.id.expansionPanel) ExpansionPanel expansionPanel;
     @BindView(R.id.colorAccount) ImageView colorAccount;
     @BindView(R.id.criterion_progress) DonutProgress criterionProgress;

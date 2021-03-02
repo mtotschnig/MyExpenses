@@ -32,7 +32,7 @@ class AccountRemoteViewsFactory(
     override fun buildCursor(): Cursor? {
         val builder = TransactionProvider.ACCOUNTS_URI.buildUpon()
         builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES, "1")
-        return context.getContentResolver().query(
+        return context.contentResolver.query(
                 builder.build(), null, DatabaseConstants.KEY_HIDDEN + " = 0", null, null)
     }
 
@@ -51,7 +51,7 @@ class AccountRemoteViewsFactory(
         configureButton(R.id.command3, R.drawable.ic_menu_split, CLICK_ACTION_NEW_SPLIT, R.string.menu_create_split, account, 271)
     }
 
-    protected fun RemoteViews.configureButton(buttonId: Int, drawableResId: Int, action: String, contentDescriptionResId: Int, account: Account, minimumWidth: Int) {
+    private fun RemoteViews.configureButton(buttonId: Int, drawableResId: Int, action: String, contentDescriptionResId: Int, account: Account, minimumWidth: Int) {
         if (account.isSealed || width < minimumWidth) {
             setViewVisibility(buttonId, View.GONE)
         } else {
@@ -60,7 +60,7 @@ class AccountRemoteViewsFactory(
             setContentDescription(buttonId, context.getString(contentDescriptionResId))
             setOnClickFillInIntent(buttonId, Intent().apply {
                 putExtra(KEY_ROWID, account.id)
-                putExtra(KEY_CURRENCY, account.getCurrencyUnit().code)
+                putExtra(KEY_CURRENCY, account.currencyUnit.code)
                 putExtra(KEY_CLICK_ACTION, action)
             })
         }

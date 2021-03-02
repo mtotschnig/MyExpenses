@@ -95,24 +95,23 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
       return true;
     }
     Intent i;
-    switch (command) {
-      case R.id.CREATE_COMMAND:
-        i = new Intent(this, ExpenseEdit.class);
-        i.putExtra(OPERATION_TYPE, TYPE_TRANSACTION);
-        i.putExtra(ExpenseEdit.KEY_NEW_TEMPLATE, true);
-        startActivity(i);
-        return true;
-      case R.id.DELETE_COMMAND_DO:
-        finishActionMode();
-        startTaskExecution(
-            TaskExecutionFragment.TASK_DELETE_TEMPLATES,
-            (Long[]) tag,
-            CALENDAR.hasPermission(this),
-            R.string.progress_dialog_deleting);
-        return true;
-      case R.id.CANCEL_CALLBACK_COMMAND:
-        finishActionMode();
-        return true;
+    if (command == R.id.CREATE_COMMAND) {
+      i = new Intent(this, ExpenseEdit.class);
+      i.putExtra(OPERATION_TYPE, TYPE_TRANSACTION);
+      i.putExtra(ExpenseEdit.KEY_NEW_TEMPLATE, true);
+      startActivity(i);
+      return true;
+    } else if (command == R.id.DELETE_COMMAND_DO) {
+      finishActionMode();
+      startTaskExecution(
+          TaskExecutionFragment.TASK_DELETE_TEMPLATES,
+          (Long[]) tag,
+          CALENDAR.hasPermission(this),
+          R.string.progress_dialog_deleting);
+      return true;
+    } else if (command == R.id.CANCEL_CALLBACK_COMMAND) {
+      finishActionMode();
+      return true;
     }
     return false;
   }
@@ -133,12 +132,11 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
   @Override
   public void onPostExecute(int taskId, Object o) {
     super.onPostExecute(taskId, o);
-    switch (taskId) {
-      case TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE:
-        Integer successCount = (Integer) o;
-        String msg = successCount == 0 ? getString(R.string.save_transaction_error) :
-            getResources().getQuantityString(R.plurals.save_transaction_from_template_success, successCount, successCount);
-        mListFragment.showSnackbar(msg);
+    if (taskId == TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE) {
+      Integer successCount = (Integer) o;
+      String msg = successCount == 0 ? getString(R.string.save_transaction_error) :
+          getResources().getQuantityString(R.plurals.save_transaction_from_template_success, successCount, successCount);
+      mListFragment.showSnackbar(msg);
     }
   }
 
@@ -154,11 +152,9 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
   public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                          @NonNull int[] grantResults) {
     super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    switch (requestCode) {
-      case PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR: {
-        if (PermissionHelper.allGranted(grantResults)) {
-          mListFragment.loadData();
-        }
+    if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR) {
+      if (PermissionHelper.allGranted(grantResults)) {
+        mListFragment.loadData();
       }
     }
   }

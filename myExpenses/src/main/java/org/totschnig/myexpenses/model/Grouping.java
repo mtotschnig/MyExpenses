@@ -56,7 +56,7 @@ public enum Grouping {
       case WEEK: {
         int this_week = dateInfo.getThisWeek();
         int this_year_of_week_start = dateInfo.getThisYearOfWeekStart();
-        DateFormat dateformat = Utils.localizedYearlessDateFormat(ctx);
+        DateFormat dateformat = Utils.localizedYearLessDateFormat(ctx);
         String weekRange = " (" + Utils.convDateTime(dateInfo.getWeekStart(), dateformat)
             + " - " + Utils.convDateTime(dateInfo.getWeekEnd(), dateformat) + " )";
         String yearPrefix;

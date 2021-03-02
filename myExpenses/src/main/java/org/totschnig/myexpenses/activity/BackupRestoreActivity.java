@@ -160,25 +160,24 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
   public boolean dispatchCommand(int command, Object tag) {
     if (super.dispatchCommand(command, tag))
       return true;
-    switch (command) {
-      case R.id.BACKUP_COMMAND:
-        if (AppDirHelper.checkAppFolderWarning(this)) {
-          doBackup();
-        } else {
-          Bundle b = new Bundle();
-          b.putInt(ConfirmationDialogFragment.KEY_TITLE,
-              R.string.dialog_title_attention);
-          b.putCharSequence(
-              ConfirmationDialogFragment.KEY_MESSAGE,
-              Utils.getTextWithAppName(this, R.string.warning_app_folder_will_be_deleted_upon_uninstall));
-          b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
-              R.id.BACKUP_COMMAND_DO);
-          b.putString(ConfirmationDialogFragment.KEY_PREFKEY,
-              PrefKey.APP_FOLDER_WARNING_SHOWN.getKey());
-          ConfirmationDialogFragment.newInstance(b).show(
-              getSupportFragmentManager(), "APP_FOLDER_WARNING");
-        }
-        return true;
+    if (command == R.id.BACKUP_COMMAND) {
+      if (AppDirHelper.checkAppFolderWarning(this)) {
+        doBackup();
+      } else {
+        Bundle b = new Bundle();
+        b.putInt(ConfirmationDialogFragment.KEY_TITLE,
+            R.string.dialog_title_attention);
+        b.putCharSequence(
+            ConfirmationDialogFragment.KEY_MESSAGE,
+            Utils.getTextWithAppName(this, R.string.warning_app_folder_will_be_deleted_upon_uninstall));
+        b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+            R.id.BACKUP_COMMAND_DO);
+        b.putString(ConfirmationDialogFragment.KEY_PREFKEY,
+            PrefKey.APP_FOLDER_WARNING_SHOWN.getKey());
+        ConfirmationDialogFragment.newInstance(b).show(
+            getSupportFragmentManager(), "APP_FOLDER_WARNING");
+      }
+      return true;
     }
     return false;
   }
@@ -197,25 +196,22 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
   public void onPostExecute(int taskId, Object result) {
     super.onPostExecute(taskId, result);
     Result<DocumentFile> r = (Result<DocumentFile>) result;
-    switch (taskId) {
-      case TaskExecutionFragment.TASK_BACKUP: {
-        if (!r.isSuccess()) {
-          onProgressUpdate(r.print(this));
-        } else {
-          Uri backupFileUri = r.getExtra().getUri();
-          onProgressUpdate(getString(r.getMessage(), FileUtils.getPath(this, backupFileUri)));
-          if (PrefKey.PERFORM_SHARE.getBoolean(false)) {
-            ArrayList<Uri> uris = new ArrayList<>();
-            uris.add(backupFileUri);
-            Result shareResult = ShareUtils.share(this, uris,
-                PrefKey.SHARE_TARGET.getString("").trim(),
-                "application/zip");
-            if (!shareResult.isSuccess()) {
-              onProgressUpdate(shareResult.print(this));
-            }
+    if (taskId == TaskExecutionFragment.TASK_BACKUP) {
+      if (!r.isSuccess()) {
+        onProgressUpdate(r.print(this));
+      } else {
+        Uri backupFileUri = r.getExtra().getUri();
+        onProgressUpdate(getString(r.getMessage(), FileUtils.getPath(this, backupFileUri)));
+        if (PrefKey.PERFORM_SHARE.getBoolean(false)) {
+          ArrayList<Uri> uris = new ArrayList<>();
+          uris.add(backupFileUri);
+          Result shareResult = ShareUtils.share(this, uris,
+              PrefKey.SHARE_TARGET.getString("").trim(),
+              "application/zip");
+          if (!shareResult.isSuccess()) {
+            onProgressUpdate(shareResult.print(this));
           }
         }
-        break;
       }
     }
   }
@@ -265,13 +261,11 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
 
   @Override
   public void onPositive(Bundle args) {
-    switch (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)) {
-      case R.id.BACKUP_COMMAND_DO:
-        doBackup();
-        break;
-      case R.id.RESTORE_COMMAND:
-        doRestore(args);
-        break;
+    int anInt = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE);
+    if (anInt == R.id.BACKUP_COMMAND_DO) {
+      doBackup();
+    } else if (anInt == R.id.RESTORE_COMMAND) {
+      doRestore(args);
     }
   }
 
@@ -321,15 +315,14 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
 
   @Override
   public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-    switch (requestCode) {
-      case PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR:
-        if (!PermissionHelper.allGranted(grantResults)) {
-          final Fragment fragment = getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG);
-          if (fragment instanceof DialogUtils.CalendarRestoreStrategyChangedListener) {
-            ((DialogUtils.CalendarRestoreStrategyChangedListener) fragment).onCalendarPermissionDenied();
-          }
+    if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR) {
+      if (!PermissionHelper.allGranted(grantResults)) {
+        final Fragment fragment = getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG);
+        if (fragment instanceof DialogUtils.CalendarRestoreStrategyChangedListener) {
+          ((DialogUtils.CalendarRestoreStrategyChangedListener) fragment).onCalendarPermissionDenied();
         }
-        return;
+      }
+      return;
     }
     super.onRequestPermissionsResult(requestCode, permissions, grantResults);
   }

@@ -39,7 +39,7 @@ fun readThemeColor(context: Context, attr: Int): Int {
 }
 
 private fun setOnFocusChangeListenerRecursive(view: View, listener: OnFocusChangeListener) {
-    if (view is ViewGroup && !(view is Spinner) && (!view.isFocusable() || view.descendantFocusability == ViewGroup.FOCUS_AFTER_DESCENDANTS)) {
+    if (view is ViewGroup && view !is Spinner && (!view.isFocusable() || view.descendantFocusability == ViewGroup.FOCUS_AFTER_DESCENDANTS)) {
         for (i in 0 until view.childCount) {
             setOnFocusChangeListenerRecursive(view.getChildAt(i), listener)
         }

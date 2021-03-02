@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.util.ColorUtils.getComplementColor
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.viewmodel.data.Budget
+import kotlin.math.roundToInt
 
 class BudgetSummary @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : LinearLayout(context, attrs, defStyleAttr) {
@@ -36,12 +37,12 @@ class BudgetSummary @JvmOverloads constructor(
     }
 
     fun setAllocated(allocated: String) {
-        tableBinding.totalAllocated.setText(allocated)
+        tableBinding.totalAllocated.text = allocated
     }
 
     fun bind(budget: Budget, spent: Long, currencyFormatter: CurrencyFormatter) {
-        binding.budgetProgressTotal.setFinishedStrokeColor(budget.color)
-        binding.budgetProgressTotal.setUnfinishedStrokeColor(getComplementColor(budget.color))
+        binding.budgetProgressTotal.finishedStrokeColor = budget.color
+        binding.budgetProgressTotal.unfinishedStrokeColor = getComplementColor(budget.color)
         tableBinding.totalBudget.text = currencyFormatter.formatCurrency(budget.amount)
         tableBinding.totalAmount.text = currencyFormatter.formatCurrency(Money(budget.currency, -spent))
         val allocated = budget.amount.amountMinor
@@ -50,7 +51,7 @@ class BudgetSummary @JvmOverloads constructor(
         val onBudget = available >= 0
         tableBinding.totalAvailable.setBackgroundResource(getBackgroundForAvailable(onBudget))
         tableBinding.totalAvailable.setTextColor(context.resources.getColor(if (onBudget) R.color.colorIncome else R.color.colorExpense))
-        val progress = if (allocated == 0L) 100 else Math.round(spent * 100f / allocated)
+        val progress = if (allocated == 0L) 100 else (spent * 100f / allocated).roundToInt()
         UiUtils.configureProgress(binding.budgetProgressTotal, progress)
     }
 }

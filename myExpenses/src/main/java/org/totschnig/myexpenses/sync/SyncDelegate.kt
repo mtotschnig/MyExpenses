@@ -73,7 +73,7 @@ class SyncDelegate @JvmOverloads constructor(val currencyContext: CurrencyContex
      * @return the same list with split parts moved as parts to their parents. If there are multiple parents
      * for the same uuid, the splits will appear under each of them
      */
-    fun collectSplits(changeList: MutableList<TransactionChange>): List<TransactionChange>? {
+    fun collectSplits(changeList: MutableList<TransactionChange>): List<TransactionChange> {
         val splitsPerUuid = HashMap<String, MutableList<TransactionChange>>()
         val i = changeList.iterator()
         while (i.hasNext()) {

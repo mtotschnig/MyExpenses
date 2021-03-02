@@ -195,7 +195,7 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace, Preferen
             if (featureViewModel.isFeatureAvailable(this, Feature.WEBUI)) {
                 activateWebUi()
             } else {
-                featureViewModel.requestFeature(this, Feature.WEBUI);
+                featureViewModel.requestFeature(this, Feature.WEBUI)
             }
         }
     }

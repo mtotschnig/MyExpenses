@@ -28,7 +28,6 @@ public class LegacyPasswordPreferenceDialogFragmentCompat extends PreferenceDial
   private EditText password1;
   private EditText password2;
   private TextInputLayout password2Wrapper;
-  private CheckBox protect, change;
   private LinearLayout main, edit;
 
   @Override
@@ -48,8 +47,8 @@ public class LegacyPasswordPreferenceDialogFragmentCompat extends PreferenceDial
     LegacyPasswordPreference preference = ((LegacyPasswordPreference) getPreference());
     password1 = view.findViewById(R.id.password1);
     password2 = view.findViewById(R.id.password2);
-    protect = view.findViewById(R.id.performProtection);
-    change = view.findViewById(R.id.changePassword);
+    CheckBox protect = view.findViewById(R.id.performProtection);
+    CheckBox change = view.findViewById(R.id.changePassword);
     password2Wrapper = view.findViewById(R.id.password2Wrapper);
     main = view.findViewById(R.id.layoutMain);
     edit = view.findViewById(R.id.layoutPasswordEdit);
@@ -84,16 +83,15 @@ public class LegacyPasswordPreferenceDialogFragmentCompat extends PreferenceDial
 
   @Override
   public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-    switch (buttonView.getId()) {
-      case R.id.performProtection:
-        main.setVisibility(isChecked ? View.VISIBLE : View.GONE);
-        boolProtect = isChecked;
-        validate();
-        break;
-      case R.id.changePassword:
-        edit.setVisibility(isChecked ? View.VISIBLE : View.GONE);
-        changePW = isChecked;
-        validate();
+    int id = buttonView.getId();
+    if (id == R.id.performProtection) {
+      main.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+      boolProtect = isChecked;
+      validate();
+    } else if (id == R.id.changePassword) {
+      edit.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+      changePW = isChecked;
+      validate();
     }
   }
 

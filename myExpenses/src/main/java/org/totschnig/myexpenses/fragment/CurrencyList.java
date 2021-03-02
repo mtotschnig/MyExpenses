@@ -117,6 +117,6 @@ public class CurrencyList extends ListFragment {
     Currency item = currencyAdapter.getItem(position);
     final EditCurrencyDialog editCurrencyDialog = EditCurrencyDialog.newInstance(item);
     editCurrencyDialog.setTargetFragment(this, EDIT_REQUEST);
-    editCurrencyDialog.show(getFragmentManager(), "SET_FRACTION_DIGITS");
+    editCurrencyDialog.show(getParentFragmentManager(), "SET_FRACTION_DIGITS");
   }
 }

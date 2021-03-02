@@ -44,7 +44,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
 import org.totschnig.myexpenses.util.TextUtils
-import org.totschnig.myexpenses.viewmodel.FeatureViewModel.FeatureState
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
 import timber.log.Timber
 import java.io.File

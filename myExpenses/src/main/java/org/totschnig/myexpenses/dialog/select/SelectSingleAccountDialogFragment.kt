@@ -13,7 +13,7 @@ class SelectSingleAccountDialogFragment : SelectSingleDialogFragment() {
 
     override fun getColumn() = DatabaseConstants.KEY_LABEL
 
-    override fun getSelection() = KEY_SEALED + " = 0 " + (arguments?.getLongArray(KEY_EXCLUDED_IDS)?.let {
+    override fun getSelection() = "$KEY_SEALED = 0 " + (arguments?.getLongArray(KEY_EXCLUDED_IDS)?.let {
         "AND %s NOT %s".format(KEY_ROWID, WhereFilter.Operation.IN.getOp(it.size))
     } ?: "")
 

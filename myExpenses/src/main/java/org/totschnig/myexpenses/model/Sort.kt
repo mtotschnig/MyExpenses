@@ -22,7 +22,7 @@ enum class Sort(val commandId: Int, private val isDescending: Boolean = true) {
     }
 
     fun toOrderBy() = toDatabaseColumn()?.let {
-        if (isDescending) it + " DESC" else it
+        if (isDescending) "$it DESC" else it
     }
 
     companion object {

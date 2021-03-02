@@ -13,7 +13,7 @@ class WidgetObserver(private val context: Context, private val mProvider: Class<
             register(context, TemplateWidget::class.java, TemplateWidget.OBSERVED_URIS)
             register(context, AccountWidget::class.java, AccountWidget.OBSERVED_URIS)
         }
-        fun register(context: Context, mProvider: Class<out AbstractWidget>, observedUris: Array<Uri>) {
+        private fun register(context: Context, mProvider: Class<out AbstractWidget>, observedUris: Array<Uri>) {
             WidgetObserver(context, mProvider).apply {
                 for (uri in observedUris) {
                     context.contentResolver.registerContentObserver(uri, true, this)

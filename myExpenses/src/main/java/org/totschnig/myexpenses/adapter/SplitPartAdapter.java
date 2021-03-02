@@ -24,8 +24,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_SUB;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
 
 public final class SplitPartAdapter extends SimpleCursorAdapter {
-  private final String commentSeparator = " / ";
-  private final String categorySeparator = " : ";
   int colorExpense;
   int colorIncome;
 
@@ -36,7 +34,7 @@ public final class SplitPartAdapter extends SimpleCursorAdapter {
   CurrencyUnit currency;
   boolean insideFragment;
 
-  private CurrencyFormatter currencyFormatter;
+  private final CurrencyFormatter currencyFormatter;
 
   public SplitPartAdapter(ProtectedFragmentActivity context, int layout, Cursor c,
                           String[] from, int[] to, int flags, CurrencyUnit currency,
@@ -46,7 +44,7 @@ public final class SplitPartAdapter extends SimpleCursorAdapter {
       insideFragment = true;
     }
     colorExpense = context.getResources().getColor(R.color.colorExpense);
-    colorIncome = context.getResources().getColor(R.color.colorIncome);;
+    colorIncome = context.getResources().getColor(R.color.colorIncome);
     this.currency = currency;
     this.currencyFormatter = currencyFormatter;
   }
@@ -57,9 +55,8 @@ public final class SplitPartAdapter extends SimpleCursorAdapter {
    */
   @Override
   public void setViewText(TextView v, String text) {
-    switch (v.getId()) {
-      case R.id.amount:
-        text = currencyFormatter.convAmount(text, currency);
+    if (v.getId() == R.id.amount) {
+      text = currencyFormatter.convAmount(text, currency);
     }
     super.setViewText(v, text);
   }
@@ -94,6 +91,7 @@ public final class SplitPartAdapter extends SimpleCursorAdapter {
         col = c.getColumnIndex(KEY_LABEL_SUB);
         String label_sub = c.getString(col);
         if (label_sub != null && label_sub.length() > 0) {
+          String categorySeparator = " : ";
           catText += categorySeparator + label_sub;
         }
       }
@@ -101,6 +99,7 @@ public final class SplitPartAdapter extends SimpleCursorAdapter {
     col = c.getColumnIndex(KEY_COMMENT);
     String comment = c.getString(col);
     if (comment != null && comment.length() > 0) {
+      String commentSeparator = " / ";
       catText += (catText.equals("") ? "" : commentSeparator) + "<i>" + comment + "</i>";
     }
     tv2.setText(HtmlCompat.fromHtml(catText, HtmlCompat.FROM_HTML_MODE_LEGACY));

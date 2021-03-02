@@ -20,12 +20,12 @@ enum class ExchangeRateSource {
 
 class MissingAppIdException : java.lang.IllegalStateException()
 
-class ExchangeRateService(val ratesApi: @NotNull RatesApi, val openExchangeRatesApi: @NotNull OpenExchangeRatesApi) {
-    val ECP_SUPPORTED_CURRENCIES = arrayOf(
+class ExchangeRateService(private val ratesApi: @NotNull RatesApi, val openExchangeRatesApi: @NotNull OpenExchangeRatesApi) {
+    private val ECP_SUPPORTED_CURRENCIES = arrayOf(
             "USD", "JPY", "BGN", "CZK", "DKK", "GBP", "HUF", "PLN", "RON", "SEK", "CHF", "ISK", "NOK",
             "HRK", "RUB", "TRY", "AUD", "BRL", "CAD", "CNY", "HKD", "IDR", "ILS", "INR", "KRW", "MXN",
             "MYR", "NZD", "PHP", "SGD", "THB", "ZAR")
-    var appId = ""
+    private var appId = ""
     var source = ExchangeRateSource.RATESAPI
     fun getRate(date: LocalDate, symbol: String, base: String): Pair<LocalDate, Float> = when (source) {
         ExchangeRateSource.RATESAPI -> {
@@ -34,7 +34,7 @@ class ExchangeRateService(val ratesApi: @NotNull RatesApi, val openExchangeRates
             log(response)
             if (response.isSuccessful) {
                 response.body()?.let { result ->
-                    result.rates.get(symbol)?.let {
+                    result.rates[symbol]?.let {
                         return Pair(result.date, it)
                     }
                 }
@@ -51,22 +51,22 @@ class ExchangeRateService(val ratesApi: @NotNull RatesApi, val openExchangeRates
             throw IOException(error)
         }
         ExchangeRateSource.OPENEXCHANGERATES -> {
-            if (appId.equals("")) throw MissingAppIdException()
+            if (appId == "") throw MissingAppIdException()
             val error: String
             val response = openExchangeRatesApi.getRate(date,
-                    symbol + "," + base, appId).execute()
+                    "$symbol,$base", appId).execute()
             log(response)
-            if (response.isSuccessful) {
+            error = if (response.isSuccessful) {
                 response.body()?.let { result ->
-                    val otherRate = result.rates.get(symbol)
-                    val baseRate = result.rates.get(base)
+                    val otherRate = result.rates[symbol]
+                    val baseRate = result.rates[base]
                     if (otherRate != null && baseRate != null) {
                         return Pair(toLocalDate(result.timestamp), otherRate / baseRate)
                     }
                 }
-                error = "Unable to retrieve rate"
+                "Unable to retrieve rate"
             } else {
-                error = response.errorBody()?.let {
+                response.errorBody()?.let {
                     JSONObject(it.string()).getString("error")
                 } ?: "Unknown Error"
             }
@@ -85,7 +85,7 @@ class ExchangeRateService(val ratesApi: @NotNull RatesApi, val openExchangeRates
         }
     }
 
-    fun toLocalDate(timestamp: Long): LocalDate {
+    private fun toLocalDate(timestamp: Long): LocalDate {
         return ZonedDateTime.ofInstant(
                 Instant.ofEpochSecond(timestamp), ZoneId.systemDefault()).toLocalDate()
     }
@@ -97,6 +97,6 @@ class ExchangeRateService(val ratesApi: @NotNull RatesApi, val openExchangeRates
             ExchangeRateSource.RATESAPI
         }
         appId = prefHandler.requireString(PrefKey.OPEN_EXCHANGE_RATES_APP_ID, "")
-        return source;
+        return source
     }
 }

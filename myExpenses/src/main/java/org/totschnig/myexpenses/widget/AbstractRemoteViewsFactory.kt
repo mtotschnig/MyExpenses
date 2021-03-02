@@ -10,22 +10,17 @@ import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import timber.log.Timber
 
 abstract class AbstractRemoteViewsFactory(
         private val context: Context,
         intent: Intent
 ) : RemoteViewsService.RemoteViewsFactory {
-    protected val appWidgetId: Int
     protected var cursor: Cursor? = null
     protected val width: Int
 
     init {
-        appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
-                AppWidgetManager.INVALID_APPWIDGET_ID)
         width = intent.getIntExtra(KEY_WIDTH, 0).takeIf { it > 0 } ?: Int.MAX_VALUE
     }
 
@@ -50,21 +45,21 @@ abstract class AbstractRemoteViewsFactory(
 
     override fun onDataSetChanged() {
         cursor?.close()
-        val token = Binder.clearCallingIdentity();
+        val token = Binder.clearCallingIdentity()
         try {
             try {
                 cursor = buildCursor()
             } catch (e: SQLiteException) {
-                CrashHandler.report(e);
+                CrashHandler.report(e)
             }
         } finally {
-            Binder.restoreCallingIdentity(token);
+            Binder.restoreCallingIdentity(token)
         }
     }
 
     abstract fun buildCursor(): Cursor?
 
-    override fun getViewAt(position: Int) = RemoteViews(context.getPackageName(), R.layout.widget_row).apply {
+    override fun getViewAt(position: Int) = RemoteViews(context.packageName, R.layout.widget_row).apply {
         cursor?.let {
             it.moveToPosition(position)
             populate(it)

@@ -10,7 +10,7 @@ class DateConverter {
     }
 
     @TypeConverter
-    fun dateToString(date: LocalDate?): String? {
-        return date.toString();
+    fun dateToString(date: LocalDate?): String {
+        return date.toString()
     }
 }

@@ -34,12 +34,11 @@ class ExpansionHandle @JvmOverloads constructor(
     }
 
     fun setExpanded(expanded: Boolean) {
-        setRotation(if (expanded) ROTATION_EXPANDED else ROTATION_COLLAPSED)
+        rotation = if (expanded) ROTATION_EXPANDED else ROTATION_COLLAPSED
         updateContentDescription()
     }
 
     private fun updateContentDescription() {
-        setContentDescription(
-                resources.getString(if (getRotation() == ROTATION_EXPANDED) R.string.content_description_collapse else R.string.content_description_expand))
+        contentDescription = resources.getString(if (rotation == ROTATION_EXPANDED) R.string.content_description_collapse else R.string.content_description_expand)
     }
 }

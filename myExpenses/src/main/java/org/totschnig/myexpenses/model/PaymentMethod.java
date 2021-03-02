@@ -55,7 +55,7 @@ public class PaymentMethod extends Model {
   public boolean isNumbered = false;
   private PreDefined preDefined = null;
 
-  public static final String[] PROJECTION(Context ctx) {
+  public static String[] PROJECTION(Context ctx) {
     return new String[]{
         KEY_ROWID,
         preDefinedName() + " AS " + KEY_PREDEFINED_METHOD_NAME,
@@ -218,7 +218,7 @@ public class PaymentMethod extends Model {
     initialValues.put(KEY_IS_NUMBERED, isNumbered);
     if (getId() == 0) {
       uri = cr().insert(CONTENT_URI, initialValues);
-      setId(Long.valueOf(uri.getLastPathSegment()));
+      setId(Long.parseLong(uri.getLastPathSegment()));
     } else {
       uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build();
       cr().update(uri, initialValues, null, null);
@@ -278,7 +278,7 @@ public class PaymentMethod extends Model {
     PaymentMethod paymentMethod = new PaymentMethod(label);
     paymentMethod.addAccountType(accountType);
     Uri uri = paymentMethod.save();
-    return uri == null ? -1 : Long.valueOf(uri.getLastPathSegment());
+    return uri == null ? -1 : Long.parseLong(uri.getLastPathSegment());
   }
 
   /**

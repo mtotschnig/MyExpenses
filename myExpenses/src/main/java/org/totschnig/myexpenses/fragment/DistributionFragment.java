@@ -374,18 +374,17 @@ public class DistributionFragment extends DistributionBaseFragment<CategoryRowBi
   public boolean onOptionsItemSelected(@NonNull MenuItem item) {
     if (handleGrouping(item)) return true;
     if (super.onOptionsItemSelected(item)) return true;
-    switch (item.getItemId()) {
-      case R.id.TOGGLE_CHART_COMMAND:
-        showChart = !showChart;
-        prefHandler.putBoolean(PrefKey.DISTRIBUTION_SHOW_CHART, showChart);
-        getChart().setVisibility(showChart ? View.VISIBLE : View.GONE);
-        if (showChart) {
-          collapseAll();
-        } else {
-          onNothingSelected();
-        }
-        mAdapter.toggleColors();
-        return true;
+    if (item.getItemId() == R.id.TOGGLE_CHART_COMMAND) {
+      showChart = !showChart;
+      prefHandler.putBoolean(PrefKey.DISTRIBUTION_SHOW_CHART, showChart);
+      getChart().setVisibility(showChart ? View.VISIBLE : View.GONE);
+      if (showChart) {
+        collapseAll();
+      } else {
+        onNothingSelected();
+      }
+      mAdapter.toggleColors();
+      return true;
     }
     return false;
   }

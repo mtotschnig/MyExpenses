@@ -38,8 +38,8 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
     lateinit var prefHandler: PrefHandler
     @Inject
     lateinit var licenceHandler: LicenceHandler
-    private val databaseHandler: DatabaseHandler
-    val budgetCreatorFunction: (Cursor) -> Budget = { cursor ->
+    private val databaseHandler: DatabaseHandler = DatabaseHandler(application.contentResolver)
+    private val budgetCreatorFunction: (Cursor) -> Budget = { cursor ->
         val currency = cursor.getString(cursor.getColumnIndex(KEY_CURRENCY))
         val currencyUnit = if (currency.equals(AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE))
             Utils.getHomeCurrency() else currencyContext.get(currency)
@@ -63,7 +63,6 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
     }
 
     init {
-        databaseHandler = DatabaseHandler(application.contentResolver)
         (application as MyApplication).appComponent.inject(this)
     }
 
@@ -120,7 +119,7 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
                 .subscribe { spent.value = Pair(position, it) })
     }
 
-    protected fun buildDateFilterClause(budget: Budget): String? {
+    private fun buildDateFilterClause(budget: Budget): String {
         val year = "$YEAR = $THIS_YEAR"
         return when (budget.grouping) {
             Grouping.YEAR -> year
@@ -140,7 +139,7 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
             override fun onDeleteComplete(token: Int, result: Int) {
                 databaseResult.postValue(if (result == 1) budgetId else -1)
             }
-        }, TransactionProvider.BUDGETS_URI, KEY_ROWID + " = ?", arrayOf(budgetId.toString()))
+        }, TransactionProvider.BUDGETS_URI, "$KEY_ROWID = ?", arrayOf(budgetId.toString()))
     }
 
     fun updateBudget(budgetId: Long, categoryId: Long, amount: Money) {
@@ -161,7 +160,7 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
 
 
     companion object {
-        private val TOKEN = 0
+        private const val TOKEN = 0
         private val PROJECTION = arrayOf(
                 q(KEY_ROWID),
                 "coalesce(%1\$s, -(select %2\$s from %3\$s where %4\$s = %5\$s), %6\$d) AS %1\$s"
@@ -176,10 +175,10 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
                 KEY_COLOR,
                 KEY_START,
                 KEY_END,
-                TABLE_ACCOUNTS + "." + KEY_LABEL + " AS " + KEY_ACCOUNT_LABEL
+                "$TABLE_ACCOUNTS.$KEY_LABEL AS $KEY_ACCOUNT_LABEL"
         )
 
-        private fun q(column:String) = TABLE_BUDGETS + "." + column
+        private fun q(column:String) = "$TABLE_BUDGETS.$column"
 
         fun prefNameForCriteria(budgetId: Long): String =
                 "budgetFilter_%%s_%d".format(Locale.ROOT, budgetId)
