@@ -7,6 +7,7 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import java.io.Serializable
+import java.util.*
 import kotlin.math.ceil
 
 sealed class Package(val defaultPrice: Long) : Serializable {
@@ -72,9 +73,14 @@ sealed class ProfessionalPackage(defaultPrice: Long, val duration: Int) : Packag
         private const val DURATION_EXTRA = 3
     }
 }
+
 sealed class AddOnPackage(defaultPrice: Long, val feature: ContribFeature) : Package(defaultPrice) {
     override val optionName = "AddOn"
+    val sku: String
+        get() = this::class.simpleName!!.toLowerCase(Locale.ROOT)
+
     override fun payPalButtonId(isSandBox: Boolean) = if (isSandBox) "9VF4Z9KSLHXZN" else TODO()
+
     object SplitTemplate : AddOnPackage(500, ContribFeature.SPLIT_TEMPLATE)
     object History : AddOnPackage(500, ContribFeature.HISTORY)
     object Budget : AddOnPackage(500, ContribFeature.BUDGET)
