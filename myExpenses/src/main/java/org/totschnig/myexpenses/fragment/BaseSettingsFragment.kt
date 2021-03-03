@@ -286,10 +286,9 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         } else {
             licenceKeyPref?.isVisible = false
         }
-        val contribPurchaseTitle = licenceHandler.prettyPrintStatus(requireContext()) ?: {
-            getString(R.string.pref_contrib_purchase_title) + if (licenceHandler.doesUseIAP)
-                " (${getString(R.string.pref_contrib_purchase_title_in_app)})" else ""
-        }
+        val contribPurchaseTitle: String = licenceHandler.prettyPrintStatus(requireContext()) ?:
+        getString(R.string.pref_contrib_purchase_title) + (if (licenceHandler.doesUseIAP)
+            " (${getString(R.string.pref_contrib_purchase_title_in_app)})" else "")
         var contribPurchaseSummary: String
         val licenceStatus = licenceHandler.licenceStatus
         if (licenceStatus == null && licenceHandler.addOnFeatures.isEmpty()) {
@@ -301,10 +300,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 contribPurchaseSummary = getString(R.string.pref_contrib_purchase_title_upgrade)
             } else {
                 contribPurchaseSummary = licenceHandler.getProLicenceAction(requireContext())
-                val proLicenceStatus = licenceHandler.getProLicenceStatus(requireContext())
-                if (!isEmpty(proLicenceStatus)) {
-                    contribPurchaseTitle += String.format(" (%s)", proLicenceStatus)
-                }
             }
             if (!isEmpty(contribPurchaseSummary)) {
                 contribPurchaseSummary += "\n"

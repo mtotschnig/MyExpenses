@@ -52,7 +52,7 @@
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Número ilimitado de modelos de divisão de transações</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Suporte por e-mail</b> com garantia de resposta em até 2 dias úteis</string>
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Direito de voto no <b>roteiro de desenvolvimento</b></string>
-    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Diagrama histórico (fluxo de caixa)</string>
+    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Diagrama histórico</string>
     <string name="licence_status_free">Gratuita</string>
     <string name="contrib_key">Chave de contribuição</string>
     <string name="extended_key">Chave estendida</string>
@@ -976,4 +976,4 @@
     <!-- Title of a menu item and a dialogue that allow to adjust the current balance. User can enter the new balance, and transaction form is opened with the amount prefiled to the difference between old and new balance  -->
     <string name="new_balance">Novo saldo</string>
     <string name="title_webui">Interface web do usuário</string>
-</resources>
+    </resources>

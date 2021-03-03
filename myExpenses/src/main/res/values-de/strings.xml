@@ -52,7 +52,6 @@
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Unbegrenzte Anzahl an Vorlagen für mehrteilige Buchungen</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>E-Mail-Support</b> mit garantierter Antwort innerhalb von 2 Werktagen</string>
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Stimmrecht zum <b>Entwicklungsfahrplan</b></string>
-    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Verlaufsdiagramm (Cashflow)</string>
     <string name="licence_status_free">Gratis</string>
     <string name="contrib_key">Contrib-Schlüssel</string>
     <string name="extended_key">Erweiterungsschlüssel</string>
@@ -976,4 +975,4 @@
     <!-- Title of a menu item and a dialogue that allow to adjust the current balance. User can enter the new balance, and transaction form is opened with the amount prefiled to the difference between old and new balance  -->
     <string name="new_balance">Neuer Saldo</string>
     <string name="title_webui">Web-Benutzeroberfläche</string>
-</resources>
+    </resources>

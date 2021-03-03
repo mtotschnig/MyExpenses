@@ -52,7 +52,6 @@
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Неограничен брой шаблони за  разпределяне</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b> Поддръжка по имейл </b> с гарантиран отговор до 2 работни дни</string>
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Право да гласувате на <b> карта за развитие </b></string>
-    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Графика на историята (паричен поток)</string>
     <string name="licence_status_free">Безплатен</string>
     <string name="contrib_key">ключ за Основен вариант</string>
     <string name="extended_key">ключ за Разширен вариант</string>
@@ -976,4 +975,4 @@
     <!-- Title of a menu item and a dialogue that allow to adjust the current balance. User can enter the new balance, and transaction form is opened with the amount prefiled to the difference between old and new balance  -->
     <string name="new_balance">Ново салдо</string>
     <string name="title_webui">Уеб потребителски интерфейс</string>
-</resources>
+    </resources>

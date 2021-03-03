@@ -52,7 +52,7 @@
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Необмежена кількість шаблонів поділу</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Сервіс підтримки</b> через електронну пошту з гарантованою відповіддю протягом 2 робочих днів</string>
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Можливість голосувати <b>в плані розвитку програми</b></string>
-    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Історія (Рух коштів)</string>
+    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Історія</string>
     <string name="licence_status_free">Безкоштовна версія</string>
     <string name="contrib_key">Платна версія</string>
     <string name="extended_key">Розширена платна версія</string>

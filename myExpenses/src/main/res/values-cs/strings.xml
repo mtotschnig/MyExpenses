@@ -47,7 +47,7 @@
     <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Šablona widget</string>
     <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Import CSV souboru</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Emailová podpora</b> s garantovanou odpovědí během 2 pracovních dnů</string>
-    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Graf historie (Hotovost)</string>
+    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Graf historie</string>
     <string name="licence_status_free">Zdarma</string>
     <string name="contrib_key">Klíč Contrib</string>
     <string name="extended_key">Rozšířený klíč</string>

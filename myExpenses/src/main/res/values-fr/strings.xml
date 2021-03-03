@@ -52,7 +52,6 @@
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Nombre illimité de modèles ventilés</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Assistance par e-mail</b> avec réponse garantie sous 2 jours ouvrables</string>
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Voter sur la <b>feuille de route pour le développement</b></string>
-    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Graphique historique (flux de trésorerie)</string>
     <string name="licence_status_free">Gratuit</string>
     <string name="contrib_key">Clé Contrib</string>
     <string name="extended_key">Clé étendue</string>
@@ -976,4 +975,4 @@
     <!-- Title of a menu item and a dialogue that allow to adjust the current balance. User can enter the new balance, and transaction form is opened with the amount prefiled to the difference between old and new balance  -->
     <string name="new_balance">Nouveau solde</string>
     <string name="title_webui">Interface utilisateur Web</string>
-</resources>
+    </resources>

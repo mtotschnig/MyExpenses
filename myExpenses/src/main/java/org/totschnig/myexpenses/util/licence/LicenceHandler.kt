@@ -172,9 +172,8 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
                 aPackage.getFormattedPriceRaw(currencyUnit, context))
     }
 
-    open fun getProLicenceStatus(context: Context): String {
-        return getProValidUntil(context)
-    }
+    open fun getProLicenceStatus(context: Context) = if (licenceStatus == LicenceStatus.PROFESSIONAL)
+        getProValidUntil(context) else null
 
     fun getProValidUntil(context: Context): String {
         return context.getString(R.string.valid_until, Utils.getDateFormatSafe(this.context).format(validUntilDate))
@@ -309,6 +308,9 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
                 result += " "
             }
             result += "(+ $it)"
+        }
+        getProLicenceStatus(context)?.let {
+            result += String.format(" (%s)", it)
         }
         return result
     }

@@ -52,7 +52,6 @@
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">வரம்பற்ற பிரிவு வார்ப்புருக்கள்</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources">2 வணிக நாட்களுக்குள் உத்தரவாத பதிலுடன் <b> மின்னஞ்சல் ஆதரவு </b></string>
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources"><b>மேம்பாட்டு  திட்டத்தில்</b> வாக்களிக்கும் உரிமை</string>
-    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">வரலாற்று விளக்கப்படம் (பணச் செலவு)</string>
     <string name="licence_status_free">இலவசம்</string>
     <string name="contrib_key">பங்களிப்பு திறவுகோல்</string>
     <string name="extended_key">விரிவாக்கப்பட்ட திறவுகோல்</string>

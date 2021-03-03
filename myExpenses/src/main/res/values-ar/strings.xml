@@ -52,7 +52,6 @@
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">عدد غير محدود من القوالب المنقسمة</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>دعم البريد الإلكتروني</b> مع استجابة مضمونة في غضون يومي عمل</string>
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">حق التصويت على <b> مخططات التنمية</b></string>
-    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">مخطط زمني (التدفق النقدي)</string>
     <string name="licence_status_free">خالي</string>
     <string name="contrib_key">مفتاح المساهمة</string>
     <string name="extended_key">مفتاح موسع</string>

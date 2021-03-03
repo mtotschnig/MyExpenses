@@ -52,7 +52,7 @@
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">無制限の分割テンプレート</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources">2 営業日以内の <b>メールサポート</b> 対応を保証</string>
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources"><b>開発ロードマップ</b> の投票権</string>
-    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">履歴チャート (キャッシュフロー)</string>
+    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">履歴チャート</string>
     <string name="licence_status_free">無料</string>
     <string name="contrib_key">貢献キー</string>
     <string name="extended_key">拡張キー</string>

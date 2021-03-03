@@ -52,7 +52,6 @@
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Zatiketa txantiloi kopuru mugagabea</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>E-mail bidezko laguntza</b> 2 lanegunetan erantzuna jasotzeko bermearekin</string>
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources"><b>Garapen ibilbidean</b> bozkatzeko aukera</string>
-    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Historikoaren diagrama (Cash flow)</string>
     <string name="licence_status_free">Doan</string>
     <string name="contrib_key">Kontribuzio Gakoa</string>
     <string name="extended_key">Gako hedatua</string>

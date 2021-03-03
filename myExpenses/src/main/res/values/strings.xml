@@ -52,7 +52,7 @@
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Unlimited number of split templates</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Email support</b> with guaranteed response within 2 business days</string>
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Voting right on <b>development roadmap</b></string>
-    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">History chart (Cash flow)</string>
+    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">History chart</string>
     <string name="licence_status_free">Free</string>
     <string name="contrib_key">Contrib Key</string>
     <string name="extended_key">Extended Key</string>

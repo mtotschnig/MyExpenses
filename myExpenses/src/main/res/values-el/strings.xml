@@ -52,7 +52,6 @@
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Απεριόριστος αριθμός προτύπων διαίρεσης</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Υποστήριξη ηλεκτρονικού ταχυδρομείου</b> με εγγυημένη απόκριση εντός 2 εργάσιμων ημερών</string>
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Δικαίωμα ψήφου για τον <b>χάρτη πορείας</b></string>
-    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Γράφημα ιστορικού (Ταμειακές ροές)</string>
     <string name="licence_status_free">Ελεύθερο</string>
     <string name="contrib_key">Contrib κλειδί</string>
     <string name="extended_key">Κλειδί Εκτεταμένης λειτουργίας</string>

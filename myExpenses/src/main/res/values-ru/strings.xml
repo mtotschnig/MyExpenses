@@ -52,7 +52,7 @@
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Неограниченное число шаблонов разделенных операций</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>E-mail поддержка</b> с обязательным ответом в течении 2 рабочих дней</string>
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Право голоса на <b>дорожной карте разработки</b></string>
-    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">История (Cash flow)</string>
+    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">История</string>
     <string name="licence_status_free">Бесплатный</string>
     <string name="contrib_key">Contrib-ключ</string>
     <string name="extended_key">Расширенный ключ</string>

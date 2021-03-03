@@ -52,7 +52,7 @@
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Nieograniczona liczba podzielonych szablonów</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Wysyłaj pocztę e-mail</b> z reakcją gwarantowaną po upływie 2 dni roboczych</string>
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Głosowanie bezpośrednio na mapie drogowej <b>rozwoju</b></string>
-    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Wykres historii (przepływ gotówki)</string>
+    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Wykres historii</string>
     <string name="licence_status_free">Darmowa</string>
     <string name="contrib_key">Klucz Contrib</string>
     <string name="extended_key">Klucz Rozszerzony</string>

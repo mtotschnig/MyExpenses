@@ -52,7 +52,6 @@
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Número ilimitado de plantillas divididas</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Soporte por correo electrónico</b> con respuesta garantizada en 2 días laborales</string>
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Derecho a participar en la <b>hoja de ruta de desarrollo</b></string>
-    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Gráfico de historial (flujo de efectivo)</string>
     <string name="licence_status_free">Gratis</string>
     <string name="contrib_key">Clave Contrib</string>
     <string name="extended_key">Clave Extendida</string>

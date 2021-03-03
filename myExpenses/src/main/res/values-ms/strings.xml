@@ -52,7 +52,7 @@
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Bilang templat berasingan tidak terhad</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Sokongan emel</b> dengan maklumbalas dijamin selepas 2 hari bekerja</string>
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Hak mengundi dalam &lt;/b&gt;peta jalan pembangunan&lt;/b&gt;</string>
-    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Carta sejarah (Aliran tunai)</string>
+    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Carta sejarah</string>
     <string name="licence_status_free">Percuma</string>
     <string name="contrib_key">Kunci Contrib</string>
     <string name="extended_key">Kunci Lanjutan</string>

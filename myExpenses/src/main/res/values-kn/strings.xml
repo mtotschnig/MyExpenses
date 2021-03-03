@@ -52,7 +52,7 @@
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">ವಿಭಜಿತ ಟೆಂಪ್ಲೆಟ್ಗಳ ಅನಿಯಮಿತ ಸಂಖ್ಯೆ</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources">2 ವ್ಯವಹಾರ ದಿನಗಳಲ್ಲಿ ಖಾತರಿಯ ಪ್ರತಿಕ್ರಿಯೆಯೊಂದಿಗೆ <b>ಇಮೇಲ್ ಬೆಂಬಲ</b></string>
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources"><b>ಅಭಿವೃದ್ಧಿ ಮಾರ್ಗಸೂಚಿಯಲ್ಲಿ</b> ಮತದಾನ</string>
-    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">ಇತಿಹಾಸ ಚಾರ್ಟ್ (ನಗದು ಹರಿವು)</string>
+    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">ಇತಿಹಾಸ ಚಾರ್ಟ್</string>
     <string name="licence_status_free">ಉಚಿತ</string>
     <string name="contrib_key">ಕೊಡುಗೆ ಕೀ</string>
     <string name="extended_key">ವಿಸ್ತೃತ ಕೀ</string>
