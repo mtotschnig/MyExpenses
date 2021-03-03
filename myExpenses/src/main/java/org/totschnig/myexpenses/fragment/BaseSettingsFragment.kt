@@ -286,24 +286,15 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         } else {
             licenceKeyPref?.isVisible = false
         }
-        var contribPurchaseTitle: String
+        val contribPurchaseTitle = licenceHandler.prettyPrintStatus(requireContext()) ?: {
+            getString(R.string.pref_contrib_purchase_title) + if (licenceHandler.doesUseIAP)
+                " (${getString(R.string.pref_contrib_purchase_title_in_app)})" else ""
+        }
         var contribPurchaseSummary: String
         val licenceStatus = licenceHandler.licenceStatus
-        val addOnFeatures = licenceHandler.addOnFeatures
-        if (licenceStatus == null && addOnFeatures?.isEmpty() != false) {
-            contribPurchaseTitle = getString(R.string.pref_contrib_purchase_title)
-            if (licenceHandler.doesUseIAP) {
-                contribPurchaseTitle += " (" + getString(R.string.pref_contrib_purchase_title_in_app) + ")"
-            }
+        if (licenceStatus == null && licenceHandler.addOnFeatures.isEmpty()) {
             contribPurchaseSummary = getString(R.string.pref_contrib_purchase_summary)
         } else {
-            contribPurchaseTitle = if (licenceStatus == null) "" else getString(licenceStatus.resId)
-            addOnFeatures?.takeIf { it.isNotEmpty() }?.joinToString { getString(it.getLabelResIdOrThrow(requireContext())) }?.let {
-                if (!isEmpty(contribPurchaseTitle)) {
-                    contribPurchaseTitle += " "
-                }
-                contribPurchaseTitle += "(+ $it)"
-            }
             if (licenceHandler.needsMigration()) {
                 contribPurchaseSummary = Utils.getTextWithAppName(requireContext(), R.string.licence_migration_info).toString()
             } else if (licenceStatus?.isUpgradeable != false) {

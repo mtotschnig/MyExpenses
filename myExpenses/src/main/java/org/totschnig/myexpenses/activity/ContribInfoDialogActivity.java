@@ -19,7 +19,6 @@ import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.BillingListener;
 import org.totschnig.myexpenses.util.licence.BillingManager;
-import org.totschnig.myexpenses.util.licence.LicenceStatus;
 import org.totschnig.myexpenses.util.licence.Package;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 
@@ -125,7 +124,6 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
 
   void complain(String message) {
     CrashHandler.report(String.format("**** InAppPurchase Error: %s", message));
-    doFinishAfterMessageDismiss = false;
     showMessage(message);
   }
 
@@ -219,12 +217,12 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
   }
 
   @Override
-  public void onLicenceStatusSet(@Nullable LicenceStatus newStatus, @Nullable LicenceStatus oldStatus) {
+  public void onLicenceStatusSet(String newStatus) {
     if (newStatus != null) {
       Timber.d("Purchase is premium upgrade. Congratulating user.");
       showMessage(
           String.format("%s (%s) %s", getString(R.string.licence_validation_premium),
-              getString(newStatus.getResId()), getString(R.string.thank_you)));
+              newStatus, getString(R.string.thank_you)));
     } else {
       complain("Validation of purchase failed");
     }
@@ -258,6 +256,7 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
   @Override
   public void onBillingSetupFailed(@NonNull String reason) {
     if (DistributionHelper.isPlay()) {
+      doFinishAfterMessageDismiss = false;
       complain(String.format("Billing setup failed (%s)", reason));
     }
   }

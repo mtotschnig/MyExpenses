@@ -36,11 +36,11 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
             crashHandler.putCustomData("Licence", licenceStatus?.name ?: "null")
             field = value
         }
-    var addOnFeatures: List<ContribFeature>? = null
+    var addOnFeatures: List<ContribFeature> = emptyList()
 
     val currencyUnit: CurrencyUnit = CurrencyUnit("EUR", "€", 2)
     fun hasValidKey(): Boolean {
-        return (isContribEnabled || !addOnFeatures.isNullOrEmpty()) && !hasLegacyLicence()
+        return (isContribEnabled || addOnFeatures.isNotEmpty()) && !hasLegacyLicence()
     }
 
     fun maybeUpgradeLicence(licenceStatus: LicenceStatus?) {
@@ -66,7 +66,7 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
     }
 
     fun hasAccessTo(feature: ContribFeature): Boolean {
-        return isEnabledFor(feature.licenceStatus) || addOnFeatures?.contains(feature) == true
+        return isEnabledFor(feature.licenceStatus) || addOnFeatures.contains(feature)
     }
 
     open fun isEnabledFor(licenceStatus: LicenceStatus): Boolean {
@@ -107,7 +107,7 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
         licenseStatusPrefs.remove(LICENSE_VALID_SINCE_KEY)
         licenseStatusPrefs.remove(LICENSE_VALID_UNTIL_KEY)
         if (!keepFeatures) {
-            this.addOnFeatures = null
+            this.addOnFeatures = emptyList()
             licenseStatusPrefs.remove(LICENSE_FEATURES)
         }
     }
@@ -298,6 +298,19 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
         } else {
             voidLicenceStatus(true)
         }
+    }
+
+    fun prettyPrintStatus(context: Context): String? {
+        var result = licenceStatus?.let { context.getString(it.resId) }
+        addOnFeatures.takeIf { it.isNotEmpty() }?.joinToString { context.getString(it.getLabelResIdOrThrow(context)) }?.let {
+            if (result == null) {
+                result = ""
+            } else {
+                result += " "
+            }
+            result += "(+ $it)"
+        }
+        return result
     }
 
     fun getButtonLabel(aPackage: Package): String {
