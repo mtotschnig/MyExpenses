@@ -45,7 +45,6 @@ android {
         versionName project.versionName
         multiDexEnabled true
 
-        buildConfigField "String", "BUILD_DATE", "\"" + getDate() + "\""
         buildConfigField "String", "DISTRIBUTION", "\"GITHUB\""
         buildConfigField "String[]", "CATEGORY_ICONS", "{" + categoryIcons() + "}"
         testInstrumentationRunner "org.totschnig.myexpenses.MyTestRunner"
@@ -83,15 +82,17 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-project.txt'
-            //signingConfig signingConfigs.release
+            signingConfig signingConfigs.release
             manifestPlaceholders = [appName: "@string/app_name", debug: "false"]
             applicationIdSuffix ""
             //ndk.debugSymbolLevel = 'FULL'
+            buildConfigField "String", "BUILD_DATE", "\"" + getDate() + "\""
         }
         debug {
             applicationIdSuffix ".debug"
             manifestPlaceholders = [appName: "My Expenses Debug", debug: "true"]
             buildConfigField "int", "TEST_SCENARIO", getPropertyIfDefined('testScenario', "1")
+            buildConfigField "String", "BUILD_DATE", "\"now\""
         }
     }
 
