@@ -82,7 +82,7 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-project.txt'
-            signingConfig signingConfigs.release
+            //signingConfig signingConfigs.release
             manifestPlaceholders = [appName: "@string/app_name", debug: "false"]
             applicationIdSuffix ""
             //ndk.debugSymbolLevel = 'FULL'
