@@ -1,7 +1,6 @@
 # Restore some Source file names and restore approximate line numbers in the stack traces,
 # otherwise the stack traces are pretty useless
 -keepattributes SourceFile, LineNumberTable, InnerClasses
--dontskipnonpubliclibraryclassmembers
 
 #-keep class org.bouncycastle.** { *; }
 -keep class com.itextpdf.** { *; }
