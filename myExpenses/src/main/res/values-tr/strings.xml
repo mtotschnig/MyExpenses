@@ -52,7 +52,7 @@
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Sınırsız sayıda bölünmüş şablonlar</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources">2 iş günü sonrasında cevap garantili <b>e-posta desteği</b></string>
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources"><b>Geliştirme yol haritası</b> hakkında oy verme hakkı</string>
-    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Tarihçe grafiği (Nakit akışı)</string>
+    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Tarihçe grafiği</string>
     <string name="licence_status_free">Ücretsiz</string>
     <string name="contrib_key">Katkı Anahtarı</string>
     <string name="extended_key">Genişletilmiş Anahtarı</string>
@@ -976,4 +976,4 @@
     <!-- Title of a menu item and a dialogue that allow to adjust the current balance. User can enter the new balance, and transaction form is opened with the amount prefiled to the difference between old and new balance  -->
     <string name="new_balance">Yeni bakiye</string>
     <string name="title_webui">İnternet Kullanıcı Arayüzü</string>
-</resources>
+    </resources>

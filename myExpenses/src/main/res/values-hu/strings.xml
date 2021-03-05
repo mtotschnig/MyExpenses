@@ -45,8 +45,9 @@
     <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Sablon widget</string>
     <string name="licence_status_free">Ingyenes</string>
     <string name="contrib_key">Contrib Kulcs</string>
+    <string name="extended_key">Kiterjesztett Kulcs</string>
     <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
-    <string name="contrib_key_requires">Ehhez a %s használata szükséges.</string>
+    <string name="contrib_key_requires">Ehhez a %1$s használata szükséges.</string>
     <string name="currency">Pénznem</string>
     <string name="current_balance">Aktuális egyenleg</string>
     <string name="date">Dátum</string>
@@ -209,6 +210,8 @@
     <string name="pref_category_title_more_information">További információ</string>
     <string name="pref_category_title_security">Biztonság</string>
     <string name="pref_category_title_ui">Felhasználói felület</string>
+    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
+    <string name="pref_contrib_purchase_summary">Vásároljon hozzáférést a prémium funkciókhoz.</string>
     <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Kulcs megadása</string>
     <string name="pref_export_format_title">Adat formátum</string>
     <string name="pref_import_from_grisbi_summary">Kategóriák és résztvevők beolvasása Grisbi XML.</string>
@@ -305,6 +308,7 @@
     <string name="content_description_calculator">Számológép</string>
     <string name="template">Sablon</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Felhő szinkronizálás</string>
+    <string name="professional_key">Szakmai kulcs</string>
     <!-- Action of closing an account. A closed account does not allow any modifications on its data. -->
     <string name="menu_close">Bezár</string>
     <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->

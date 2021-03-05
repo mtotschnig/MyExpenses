@@ -270,6 +270,8 @@
     <string name="pref_category_title_ui">Interfaţa utilizator</string>
     <string name="pref_checkbox_enabled">Activat</string>
     <string name="pref_checkbox_disabled">Dezactivat</string>
+    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
+    <string name="pref_contrib_purchase_summary">Achiziționați acces la funcții premium.</string>
     <string name="pref_contrib_purchase_title">Cumpăraţi Cheie</string>
     <string name="pref_contrib_purchase_title_upgrade">Actualizează cheia</string>
     <string name="pref_contrib_purchase_title_in_app">In-App plată</string>

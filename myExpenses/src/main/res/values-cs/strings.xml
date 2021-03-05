@@ -233,6 +233,8 @@
     <string name="pref_category_title_security">Bezpečnost</string>
     <string name="pref_category_title_ui">Uživatelské rozhraní</string>
     <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
+    <string name="pref_contrib_purchase_summary">Kupte si přístup k prémiovým funkcím.</string>
+    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
     <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Pokud jste obdrželi klíč, získejte přístup k nadstandardním funkcím.</string>
     <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Vložte klíč</string>
     <string name="pref_export_format_title">Formát dat</string>
@@ -332,6 +334,7 @@
     <string name="content_description_calculator">Kalkulačka</string>
     <string name="template">Šablona</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Cloudová synchronizace</string>
+    <string name="professional_key">Profesionální klíč</string>
     <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
     <string name="content_description_encrypted">Šifrováno</string>
     <string name="translated_by">Přeložil</string>

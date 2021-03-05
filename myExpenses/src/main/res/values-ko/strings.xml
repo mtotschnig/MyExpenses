@@ -264,6 +264,8 @@
     <string name="pref_category_title_ui">사용자 인터페이스</string>
     <string name="pref_checkbox_enabled">사용함</string>
     <string name="pref_checkbox_disabled">사용하지 않음</string>
+    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
+    <string name="pref_contrib_purchase_summary">프리미엄 기능에 대한 액세스를 구입하십시오.</string>
     <string name="pref_contrib_purchase_title">기부 확인 키 구매 </string>
     <string name="pref_contrib_purchase_title_upgrade">키 업그레이드</string>
     <string name="pref_contrib_purchase_title_in_app">인앱 결제</string>

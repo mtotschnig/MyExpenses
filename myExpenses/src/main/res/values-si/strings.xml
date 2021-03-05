@@ -33,8 +33,9 @@
     <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">සීමා රහිත ක්‍රම ගණනක්</string>
     <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">විජට් අච්චුව </string>
     <string name="contrib_key">කොන්ට්‍රිබ් යතුර </string>
+    <string name="extended_key">දිගු කළ යතුර</string>
     <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
-    <string name="contrib_key_requires">මයි එක්ස්පෙන්සස් %s අවශ්‍ය වේ </string>
+    <string name="contrib_key_requires">මයි එක්ස්පෙන්සස් %1$s අවශ්‍ය වේ </string>
     <string name="currency">මුදල් </string>
     <string name="current_balance">දැනට පවතින ශේෂය </string>
     <string name="date">දිනය </string>
@@ -213,6 +214,8 @@
     <string name="pref_category_title_ui">පාවිච්චි කරන්නාගේ අතුරු මුහුණත </string>
     <string name="pref_checkbox_enabled">පවරනවා</string>
     <string name="pref_checkbox_disabled">අබල කරනවා</string>
+    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
+    <string name="pref_contrib_purchase_summary">වාරික විශේෂාංග සඳහා ප්‍රවේශය මිලදී ගන්න.</string>
     <string name="pref_enter_licence_title" tools:ignore="UnusedResources">යතුර ඇතුළු කරන්න </string>
     <string name="pref_export_format_title">දත්ත ආකෘතිය</string>
     <string name="pref_import_from_grisbi_summary">පක්ෂ සහ වර්ග ග්රිස්බි හි  XML ලිපිගොනුවෙන් ආනයනය කරන්න </string>
@@ -354,6 +357,7 @@
     <string name="content_description_calculator">ගණකයන්ත්‍රය</string>
     <string name="template">අච්චුව </string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">වලාකුළු සමමුහුර්තකරණය</string>
+    <string name="professional_key">වෘත්තීය යතුර</string>
     <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
     <string name="content_description_encrypted">සංකේතනය කර ඇත</string>
     <string name="translated_by">පරිවර්තනය</string>

@@ -44,8 +44,9 @@
     <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Exporta la llista de transaccions en PDF</string>
     <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Widget de plantilla</string>
     <string name="contrib_key">Clau del Contribuïdor</string>
+    <string name="extended_key">Clau estesa</string>
     <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
-    <string name="contrib_key_requires">Requereix %s.</string>
+    <string name="contrib_key_requires">Requereix %1$s.</string>
     <string name="currency">Moneda</string>
     <string name="current_balance">Saldo actual</string>
     <string name="date">Data</string>
@@ -227,6 +228,8 @@
     <string name="pref_category_title_security">Seguretat</string>
     <string name="pref_category_title_ui">Interfície d\'usuari</string>
     <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
+    <string name="pref_contrib_purchase_summary">Compreu accés a funcions premium.</string>
+    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
     <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Si heu rebut una clau, podeu accedir a les funcions avançades.</string>
     <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Entreu la clau</string>
     <string name="pref_export_format_title">Format de les dades</string>
@@ -330,6 +333,7 @@
     <string name="content_description_calculator">Calculadora</string>
     <string name="template">Plantilla</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sincronització del núvol</string>
+    <string name="professional_key">Clau professional</string>
     <!-- Action of closing an account. A closed account does not allow any modifications on its data. -->
     <string name="menu_close">Tanca</string>
     <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->

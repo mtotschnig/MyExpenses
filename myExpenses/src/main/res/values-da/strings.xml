@@ -49,7 +49,7 @@
     <string name="contrib_key">Contrib Nøgle</string>
     <string name="extended_key">Nøgle til udvidet version</string>
     <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
-    <string name="contrib_key_requires">Kræver %s.</string>
+    <string name="contrib_key_requires">Kræver %1$s.</string>
     <string name="currency">Valuta</string>
     <string name="current_balance">Aktuel saldo</string>
     <string name="date">Dato</string>
@@ -480,6 +480,7 @@
     <string name="preferences_week_start_day_title">Ugen starter</string>
     <string name="content_description_calculator">Lommeregner</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Cloud synkronisering</string>
+    <string name="professional_key">Professionel Nøgle</string>
     <string name="split_transaction_one_error">Denne postering kunne ikke splittes.</string>
     <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
     <string name="content_description_encrypted">Krypteret</string>

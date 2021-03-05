@@ -34,6 +34,7 @@
     <string name="contrib_feature_print_label" tools:ignore="UnusedResources">匯出交易記錄清單成PDF</string>
     <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">模板插件</string>
     <string name="contrib_key">貢獻密鑰</string>
+    <string name="extended_key">延伸版金鑰</string>
     <string name="currency">貨幣</string>
     <string name="current_balance">當前餘額</string>
     <string name="date">日期</string>
@@ -192,6 +193,8 @@
     <string name="pref_category_title_more_information">更多資訊</string>
     <string name="pref_category_title_security">安全</string>
     <string name="pref_category_title_ui">用戶界面</string>
+    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
+    <string name="pref_contrib_purchase_summary">購買使用高級功能的權限。</string>
     <string name="pref_export_format_title">日期格式</string>
     <string name="pref_import_from_grisbi_summary">匯入類別 和貿易夥伴.</string>
     <string name="pref_import_from_grisbi_title">由Grisbi匯入</string>
@@ -288,6 +291,7 @@
     <string name="content_description_calculator">計算機</string>
     <string name="template">範本</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">云同步</string>
+    <string name="professional_key">專業版金鑰</string>
     <!-- Action of closing an account. A closed account does not allow any modifications on its data. -->
     <string name="menu_close">關閉</string>
     <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->

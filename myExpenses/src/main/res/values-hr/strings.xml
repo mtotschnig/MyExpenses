@@ -44,8 +44,9 @@
     <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Eksportiraj listu transakcija u PDF</string>
     <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Widget za predložak</string>
     <string name="contrib_key">Contrib Ključ</string>
+    <string name="extended_key">Prošireni ključ</string>
     <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
-    <string name="contrib_key_requires">Potreban %s.</string>
+    <string name="contrib_key_requires">Potreban %1$s.</string>
     <string name="currency">Valuta</string>
     <string name="current_balance">Trenutačno stanje računa</string>
     <string name="date">Datum</string>
@@ -249,6 +250,8 @@
     <string name="pref_category_title_ui">Korisničko sučelje</string>
     <string name="pref_checkbox_enabled">Omogućeno</string>
     <string name="pref_checkbox_disabled">Onemogućeno</string>
+    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
+    <string name="pref_contrib_purchase_summary">Kupite pristup premium značajkama.</string>
     <string name="pref_contrib_purchase_title">Kupi Ključ</string>
     <string name="pref_contrib_purchase_title_in_app">plaćanje unutar aplikacije</string>
     <string name="pref_custom_currency_title">Prilagodi valute</string>
@@ -435,6 +438,7 @@
     <string name="content_description_calculator">Kalkulator</string>
     <string name="template">Predložak</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sinhronizacija u oblaku</string>
+    <string name="professional_key">Profesionalni ključ</string>
     <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
     <string name="content_description_encrypted">Šifrirani</string>
     <string name="translated_by">Preveo</string>

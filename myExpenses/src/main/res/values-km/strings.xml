@@ -42,8 +42,10 @@
     <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">ចំនួន​គណនី​គ្មាន​ដែន​កំណត់</string>
     <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">ចំនួន​ផែនការគ្មានដែន​កំណត់​</string>
     <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">ប្រអប់​ធាតុពុម្ព</string>
+    <string name="contrib_key">កូនសោកុងតឺន័រ</string>
+    <string name="extended_key">កូនសោពង្រីក</string>
     <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
-    <string name="contrib_key_requires">ត្រូវការកម្មវិធី %s.</string>
+    <string name="contrib_key_requires">ត្រូវការកម្មវិធី %1$s.</string>
     <string name="currency">រូបិយប័ណ្ណ</string>
     <string name="current_balance">សមតុល្យ​បច្ចុប្បន្ន</string>
     <string name="date">កាលបរិច្ឆេទ</string>
@@ -235,6 +237,8 @@
     <string name="pref_category_title_ui">User Interface</string>
     <string name="pref_checkbox_enabled">បើក</string>
     <string name="pref_checkbox_disabled">បិទ</string>
+    <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
+    <string name="pref_contrib_purchase_summary">ទិញការចូលប្រើលក្ខណៈពិសេស។</string>
     <string name="pref_export_format_title">ទ្រង់ទ្រាយទិន្នន័យ</string>
     <string name="pref_import_from_grisbi_title">នាំចូលពី Grisbi</string>
     <string name="pref_manage_accounts_title">គណនី</string>
@@ -368,6 +372,7 @@
     <string name="content_description_calculator">ម៉ាស៊ីនគិតលេខ</string>
     <string name="template">ទិន្ន​ន័យ​គំរូ</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">ធ្វើសមកាលកម្មពពក</string>
+    <string name="professional_key">គន្លឹះវិជ្ជាជីវៈ</string>
     <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
     <string name="content_description_encrypted">បានអ៊ិនគ្រីប</string>
     <string name="budget_duration_from">ពី</string>
