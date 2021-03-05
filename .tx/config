@@ -57,3 +57,8 @@ source_lang = en
 source_file = myExpenses/src/main/res/values/strings_ocr.xml
 file_filter = myExpenses/src/main/res/values-<lang>/strings_ocr.xml
 
+
+[my-expenses.addons]
+source_lang = en
+source_file = ../Documents/MyExpenses.business/AddOns/strings.xml
+file_filter = ../Documents/MyExpenses.business/AddOns/strings-<lang>.xml
