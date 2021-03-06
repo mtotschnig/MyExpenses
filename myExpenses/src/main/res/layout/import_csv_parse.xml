@@ -30,7 +30,7 @@
 
         <include layout="@layout/filename"/>
 
-        <include layout="@layout/encoding"/>
+        <include layout="@layout/encoding" android:id="@+id/EncodingTable"/>
 
         <TableRow>
 
@@ -44,9 +44,9 @@
                 android:entries="@array/pref_csv_import_delimiter_entries"/>
         </TableRow>
 
-        <include layout="@layout/date_format"/>
+        <include layout="@layout/date_format" android:id="@+id/DateFormatTable"/>
 
-        <include layout="@layout/import_account"/>
+        <include layout="@layout/import_account" android:id="@+id/AccountTable"/>
 
     </TableLayout>
 </androidx.core.widget.NestedScrollView>

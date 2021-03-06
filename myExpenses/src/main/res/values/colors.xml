@@ -17,6 +17,7 @@
 <resources>
     <color name="colorPrimary">@color/primaryColor</color>
     <color name="colorAccent">@color/primaryDarkColor</color>
+    <color name="colorAccentSnackbar">@color/primaryLightColor</color>
     <color name="colorPrimaryDialog">@color/primaryDarkColor</color>
     <color name="colorErrorDialog">@color/design_default_color_error</color>
 

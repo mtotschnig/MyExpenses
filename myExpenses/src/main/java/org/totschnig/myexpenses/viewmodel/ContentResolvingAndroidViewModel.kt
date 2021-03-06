@@ -2,12 +2,14 @@ package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
 import android.content.ContentResolver
+import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.squareup.sqlbrite3.BriteContentResolver
 import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.CoroutineDispatcher
 import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.ui.ContextHelper
 import javax.inject.Inject
 
 abstract class ContentResolvingAndroidViewModel(application: Application) : AndroidViewModel(application) {
@@ -20,6 +22,11 @@ abstract class ContentResolvingAndroidViewModel(application: Application) : Andr
 
     val contentResolver: ContentResolver
         get() = getApplication<MyApplication>().contentResolver
+
+    val localizedContext: Context
+        get() = with(getApplication<MyApplication>()) {
+            ContextHelper.wrap(this, appComponent.userLocaleProvider().getUserPreferredLocale())
+        }
 
     init {
         (application as MyApplication).appComponent.inject(this)

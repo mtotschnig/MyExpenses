@@ -310,4 +310,8 @@
     <style name="LegacyPopupMenuStyle" parent="Widget.MaterialComponents.PopupMenu">
         <item name="android:popupBackground">@color/myColorBackground</item>
     </style>
+
+    <style name="SnackBarTheme">
+        <item name="colorAccent">@color/colorAccentSnackbar</item>
+    </style>
 </resources>

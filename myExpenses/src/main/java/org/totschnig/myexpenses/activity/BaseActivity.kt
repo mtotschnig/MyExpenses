@@ -10,10 +10,13 @@ import android.content.res.Resources
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.annotation.CallSuper
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.view.ContextThemeWrapper
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
@@ -78,7 +81,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         (applicationContext as MyApplication).appComponent.inject(this)
     }
 
-    open fun onFeatureAvailable(feature : Feature) {}
+    open fun onFeatureAvailable(feature: Feature) {}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         ocrViewModel = ViewModelProvider(this).get(OcrViewModel::class.java)
@@ -98,7 +101,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                     }
                 }
                 is FeatureViewModel.FeatureState.Error -> {
-                    with (featureState.throwable) {
+                    with(featureState.throwable) {
                         CrashHandler.report(this)
                         message?.let { showSnackbar(it) }
                     }
@@ -197,13 +200,24 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     fun showSnackbar(message: CharSequence, duration: Int, snackbarAction: SnackbarAction?,
                      callback: Snackbar.Callback?) {
-        val container = findViewById<View>(getSnackbarContainerId())
-        if (container == null) {
-            CrashHandler.report(String.format("Class %s is unable to display snackbar", javaClass))
-            Toast.makeText(this, message, Toast.LENGTH_LONG).show()
-        } else {
-            showSnackbar(message, duration, snackbarAction, callback, container)
-        }
+        findViewById<View>(getSnackbarContainerId())?.let {
+            showSnackbar(message, duration, snackbarAction, callback, it)
+        } ?: showSnackBarFallBack(message)
+    }
+
+    private fun showSnackBarFallBack(message: CharSequence) {
+        CrashHandler.report(String.format("Class %s is unable to display snackbar", javaClass))
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    }
+
+    fun showProgressSnackBar(message: String) {
+        findViewById<View>(getSnackbarContainerId())?.let {
+            snackbar = Snackbar.make(it, message, Snackbar.LENGTH_INDEFINITE).apply {
+                (view.findViewById<View>(com.google.android.material.R.id.snackbar_text).parent as ViewGroup)
+                        .addView(ProgressBar(ContextThemeWrapper(this@BaseActivity, R.style.SnackBarTheme)))
+                show()
+            }
+        } ?: showSnackBarFallBack(message)
     }
 
     fun showSnackbar(message: CharSequence, duration: Int, snackbarAction: SnackbarAction?,

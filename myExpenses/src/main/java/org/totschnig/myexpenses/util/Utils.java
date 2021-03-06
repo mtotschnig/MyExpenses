@@ -699,21 +699,6 @@ public class Utils {
     return (a == b) ? 0 : c.compare(a, b);
   }
 
-  // From Guava
-  public static int indexOf(int[] array, int target) {
-    return indexOf(array, target, 0, array.length);
-  }
-
-  private static int indexOf(
-      int[] array, int target, int start, int end) {
-    for (int i = start; i < end; i++) {
-      if (array[i] == target) {
-        return i;
-      }
-    }
-    return -1;
-  }
-
   public static int pow(int b, int k) {
     switch (b) {
       case 0:
