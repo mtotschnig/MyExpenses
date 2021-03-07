@@ -877,10 +877,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     if (actionBar != null) actionBar.show();
   }
 
-  public void showMessage(int resId) {
-    showMessage(getString(resId));
-  }
-
   public void checkGdprConsent(boolean forceShow) {
     adHandlerFactory.gdprConsent(this, forceShow);
   }

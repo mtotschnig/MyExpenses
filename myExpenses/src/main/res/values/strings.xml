@@ -977,4 +977,5 @@
     <string name="new_balance">New balance</string>
     <string name="title_webui">Web User Interface</string>
     <string name="single_feature_info">Alternatively you can buy unlimited access to only this feature.</string>
+    <string name="button_label_continue">Continue</string>
 </resources>

@@ -270,15 +270,11 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         }
     }
 
-    open fun showMessage(message: CharSequence) {
-        showMessage(message, MessageDialogFragment.Button.okButton(), null, null)
-    }
-
-    open fun showMessage(message: CharSequence,
-                         positive: MessageDialogFragment.Button?,
-                         neutral: MessageDialogFragment.Button?,
-                         negative: MessageDialogFragment.Button?,
-                         cancellable: Boolean = true) {
+    @JvmOverloads open fun showMessage(message: CharSequence,
+                                       positive: MessageDialogFragment.Button = MessageDialogFragment.okButton(),
+                                       neutral: MessageDialogFragment.Button? = null,
+                                       negative: MessageDialogFragment.Button? = null,
+                                       cancellable: Boolean = true) {
         lifecycleScope.launchWhenResumed {
             MessageDialogFragment.newInstance(null, message, positive, neutral, negative).apply {
                 isCancelable = cancellable
@@ -302,5 +298,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         DatabaseConstants.buildLocalized(userLocaleProvider.getUserPreferredLocale())
         Transaction.buildProjection(this)
         Account.buildProjection()
+    }
+
+    fun showMessage(resId: Int) {
+        showMessage(getString(resId))
     }
 }

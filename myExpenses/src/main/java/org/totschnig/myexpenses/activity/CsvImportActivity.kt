@@ -8,6 +8,7 @@ import org.apache.commons.csv.CSVRecord
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
+import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.export.qif.QifDateFormat
 import org.totschnig.myexpenses.fragment.CsvImportDataFragment
 import org.totschnig.myexpenses.fragment.CsvImportParseFragment
@@ -40,6 +41,15 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
         super.onCreate(savedInstanceState)
         supportActionBar?.title = getString(R.string.pref_import_title, "CSV")
         csvImportViewModel = ViewModelProvider(this)[CsvImportViewModel::class.java]
+    }
+
+    override fun dispatchCommand(command: Int, tag: Any?) = when {
+        super.dispatchCommand(command, tag) -> true
+        command == R.id.CLOSE_COMMAND -> {
+            finish()
+            true
+        }
+        else -> false
     }
 
     override fun setupTabs() {
@@ -125,8 +135,10 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
                 if (it.third > 0) {
                     msg += " ${getString(R.string.csv_import_records_discarded, it.third)}"
                 }
-
-                showSnackbar(msg)
+                dismissSnackbar()
+                showMessage(msg,
+                        neutral = MessageDialogFragment.nullButton(R.string.button_label_continue),
+                        positive = MessageDialogFragment.Button(R.string.button_label_close, R.id.CLOSE_COMMAND, null))
             }.onFailure {
                 showSnackbar(it.message!!)
             }

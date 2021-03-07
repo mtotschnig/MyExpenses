@@ -456,7 +456,7 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
         null,
         message,
         new MessageDialogFragment.Button(R.string.pref_category_title_manage, R.id.SYNC_SETTINGS_COMMAND, null),
-        MessageDialogFragment.Button.okButton(),
+        MessageDialogFragment.okButton(),
         null)
         .show(getSupportFragmentManager(), "SYNC_HELP");
   }

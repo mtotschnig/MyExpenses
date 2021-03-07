@@ -44,6 +44,18 @@ public class MessageDialogFragment extends BaseDialogFragment implements OnClick
   private static final String KEY_NEGATIVE = "negative";
   private static final String KEY_ICON = "icon";
 
+  public static Button noButton() {
+    return nullButton(android.R.string.cancel);
+  }
+
+  public static Button okButton() {
+    return nullButton(android.R.string.ok);
+  }
+
+  public static Button nullButton(int label) {
+    return new Button(label, R.id.NO_COMMAND, null);
+  }
+
   public static class Button implements Serializable {
     int label;
     int command;
@@ -61,17 +73,6 @@ public class MessageDialogFragment extends BaseDialogFragment implements OnClick
       this.keepDialogOpen = keepDialogOpen;
     }
 
-    public static Button noButton() {
-      return nullButton(android.R.string.cancel);
-    }
-
-    public static Button okButton() {
-      return nullButton(android.R.string.ok);
-    }
-
-    public static Button nullButton(int label) {
-      return new Button(label, R.id.NO_COMMAND, null);
-    }
   }
 
   public static MessageDialogFragment newInstance(
