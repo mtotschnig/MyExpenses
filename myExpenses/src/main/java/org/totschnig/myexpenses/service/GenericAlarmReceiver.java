@@ -42,7 +42,6 @@ public class GenericAlarmReceiver extends BroadcastReceiver {
     Intent serviceIntent = new Intent(context, PlanExecutor.class);
     serviceIntent.setAction(PlanExecutor.ACTION_SCHEDULE_EXECUTE_PLANS);
     PlanExecutor.enqueueWork(context, serviceIntent);
-
   }
 
   private void requestScheduleAutoBackup(Context context) {
