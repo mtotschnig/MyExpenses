@@ -858,7 +858,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
 
   @Override
   public void onDismissOrCancel(Bundle args) {
-
   }
 
   @VisibleForTesting

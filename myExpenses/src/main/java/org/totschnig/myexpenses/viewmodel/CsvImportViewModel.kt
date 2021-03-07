@@ -4,6 +4,7 @@ import android.app.Application
 import android.net.Uri
 import android.text.TextUtils
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVRecord
@@ -27,6 +28,8 @@ import java.math.BigDecimal
 import java.util.*
 
 class CsvImportViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
+    private val _progress: MutableLiveData<Int> = MutableLiveData()
+    val progress: LiveData<Int> = _progress
     fun parseFile(uri: Uri, delimiter: Char, encoding: String): LiveData<Result<List<CSVRecord>>> =
             liveData(context = coroutineContext()) {
         try {
@@ -176,9 +179,7 @@ class CsvImportViewModel(application: Application) : ContentResolvingAndroidView
                 } else {
                     totalFailed++
                 }
-               /* if (totalImported % 10 == 0) {
-                    publishProgress(totalImported)
-                }*/
+                _progress.postValue(totalImported)
             }
         }
         contentResolver.call(TransactionProvider.DUAL_URI, TransactionProvider.METHOD_BULK_END, null, null)

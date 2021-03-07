@@ -15,8 +15,6 @@ import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.task.TaskExecutionFragment
-import org.totschnig.myexpenses.util.Result
 import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable
 import org.totschnig.myexpenses.viewmodel.CsvImportViewModel
 import java.io.FileNotFoundException
@@ -36,12 +34,11 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
         mSectionsPagerAdapter.notifyDataSetChanged()
     }
 
-    lateinit var csvImportViewModel: CsvImportViewModel
+    private lateinit var csvImportViewModel: CsvImportViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val actionBar = supportActionBar
-        actionBar!!.title = getString(R.string.pref_import_title, "CSV")
+        supportActionBar?.title = getString(R.string.pref_import_title, "CSV")
         csvImportViewModel = ViewModelProvider(this)[CsvImportViewModel::class.java]
     }
 
@@ -64,32 +61,13 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
 
     override fun onPositive(args: Bundle) {
         if (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE) == R.id.SET_HEADER_COMMAND) {
-            val df = supportFragmentManager.findFragmentByTag(
-                    mSectionsPagerAdapter.getFragmentName(1)) as CsvImportDataFragment?
-            df!!.setHeader()
+            (supportFragmentManager.findFragmentByTag(
+                    mSectionsPagerAdapter.getFragmentName(1)) as? CsvImportDataFragment)?.setHeader()
         }
     }
 
-    override fun onNegative(args: Bundle) {}
-    override fun onDismissOrCancel(args: Bundle) {}
-    override fun onPostExecute(taskId: Int, result: Any?) {
-        super.onPostExecute(taskId, result)
-        when (taskId) {
-            TaskExecutionFragment.TASK_CSV_IMPORT -> {
-                val r = result as Result<*>?
-                if (r!!.isSuccess) {
-                    if (!mUsageRecorded) {
-                        recordUsage(ContribFeature.CSV_IMPORT)
-                        mUsageRecorded = true
-                    }
-                }
-                showSnackbar(r.print(this))
-            }
-        }
-    }
-
-    private fun showProgress() {
-        showProgressSnackBar(getString(R.string.pref_import_title, "CSV"))
+    private fun showProgress(total: Int = 0, progress: Int = 0) {
+        showProgressSnackBar(getString(R.string.pref_import_title, "CSV"), total, progress)
     }
 
     fun parseFile(uri: Uri, delimiter: Char, encoding: String) {
@@ -103,7 +81,7 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
                         setDataReady()
                     }
                     (supportFragmentManager.findFragmentByTag(
-                            mSectionsPagerAdapter.getFragmentName(1)) as CsvImportDataFragment?)?.let {
+                            mSectionsPagerAdapter.getFragmentName(1)) as? CsvImportDataFragment)?.let {
                         it.setData(data)
                         binding.viewPager.currentItem = 1
                     }
@@ -120,13 +98,18 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
     }
 
     fun importData(dataSet: ArrayList<CSVRecord>, columnToFieldMap: IntArray, discardedRows: SparseBooleanArrayParcelable) {
-        showProgress()
+        val totalToImport =  dataSet.size - discardedRows.size()
+        showProgress(total = totalToImport)
+        csvImportViewModel.progress.observe(this) {
+            showProgress(total = totalToImport, progress = it)
+        }
         csvImportViewModel.importData(dataSet, columnToFieldMap, discardedRows, dateFormat) {
             if (accountId == 0L) {
                 Account(getString(R.string.pref_import_title, "CSV"), currency, 0, accountType).apply {
                     save()
                 }
             } else {
+                @Suppress("DEPRECATION") //runs on background thread
                 Account.getInstanceFromDb(accountId)
             }
         }.observe(this) { result ->
@@ -150,25 +133,27 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
         }
     }
 
-    private val parseFragment: CsvImportParseFragment?
+    private val parseFragment: CsvImportParseFragment
         get() = supportFragmentManager.findFragmentByTag(
-                mSectionsPagerAdapter.getFragmentName(0)) as CsvImportParseFragment?
+                mSectionsPagerAdapter.getFragmentName(0)) as CsvImportParseFragment
 
     val accountId: Long
         get() {
-            return parseFragment!!.getSelectedAccountId()
+            return parseFragment.getSelectedAccountId()
         }
 
     val currency: CurrencyUnit
         get() {
-            return currencyContext[parseFragment!!.getSelectedCurrency()]
+            return currencyContext[parseFragment.getSelectedCurrency()]
         }
+
     val dateFormat: QifDateFormat
         get() {
-            return parseFragment!!.dateFormat
+            return parseFragment.dateFormat
         }
+
     val accountType: AccountType
         get() {
-            return parseFragment!!.accountType
+            return parseFragment.accountType
         }
 }

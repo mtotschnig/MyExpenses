@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.fragment
 
 import android.app.Activity
-import android.app.ProgressDialog
 import android.content.Intent
 import android.database.Cursor
 import android.database.MatrixCursor
@@ -31,13 +30,11 @@ import org.totschnig.myexpenses.adapter.CurrencyAdapter
 import org.totschnig.myexpenses.databinding.FilenameBinding
 import org.totschnig.myexpenses.databinding.ImportCsvParseBinding
 import org.totschnig.myexpenses.dialog.DialogUtils
-import org.totschnig.myexpenses.dialog.ProgressDialogFragment
 import org.totschnig.myexpenses.export.qif.QifDateFormat
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.util.ImportFileResultHandler
 import org.totschnig.myexpenses.util.ImportFileResultHandler.FileNameHostFragment
 import org.totschnig.myexpenses.util.UiUtils
@@ -138,7 +135,7 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, LoaderManager.L
                 try {
                     uri = ImportFileResultHandler.handleFilenameRequestResult(this, data)
                 } catch (throwable: Throwable) {
-                    setUri(null)
+                    uri = null
                     (requireActivity() as ProtectedFragmentActivity).showSnackbar(throwable.message!!)
                 }
             }
@@ -198,9 +195,11 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, LoaderManager.L
         val format = binding.DateFormatTable.DateFormat.selectedItem as QifDateFormat
         val encoding = binding.EncodingTable.Encoding.selectedItem as String
         val delimiter = resources.getStringArray(R.array.pref_csv_import_delimiter_values)[binding.Delimiter.selectedItemPosition]
-        prefHandler.putString(PREF_KEY_IMPORT_CSV_DELIMITER, delimiter)
-        prefHandler.putString(PREF_KEY_IMPORT_CSV_ENCODING, encoding)
-        prefHandler.putString(PREF_KEY_IMPORT_CSV_DATE_FORMAT, format.name)
+        with(prefHandler) {
+            putString(PREF_KEY_IMPORT_CSV_DELIMITER, delimiter)
+            putString(PREF_KEY_IMPORT_CSV_ENCODING, encoding)
+            putString(PREF_KEY_IMPORT_CSV_DATE_FORMAT, format.name)
+        }
         ImportFileResultHandler.maybePersistUri(this, prefHandler)
         (activity as? CsvImportActivity)?.parseFile(mUri!!, delimiter[0], encoding)
         true

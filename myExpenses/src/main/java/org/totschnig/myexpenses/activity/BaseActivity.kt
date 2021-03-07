@@ -210,12 +210,17 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 
-    fun showProgressSnackBar(message: String) {
+    fun showProgressSnackBar(message: String, total: Int = 0, progress: Int = 0) {
         findViewById<View>(getSnackbarContainerId())?.let {
-            snackbar = Snackbar.make(it, message, Snackbar.LENGTH_INDEFINITE).apply {
-                (view.findViewById<View>(com.google.android.material.R.id.snackbar_text).parent as ViewGroup)
-                        .addView(ProgressBar(ContextThemeWrapper(this@BaseActivity, R.style.SnackBarTheme)))
-                show()
+            val displayMessage = if (total > 0) "$message ($progress/$total)" else message
+            if (progress > 0) {
+                snackbar?.setText(displayMessage)
+            } else {
+                snackbar = Snackbar.make(it, displayMessage, Snackbar.LENGTH_INDEFINITE).apply {
+                    (view.findViewById<View>(com.google.android.material.R.id.snackbar_text).parent as ViewGroup)
+                            .addView(ProgressBar(ContextThemeWrapper(this@BaseActivity, R.style.SnackBarTheme)))
+                    show()
+                }
             }
         } ?: showSnackBarFallBack(message)
     }

@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.fragment
 
-import android.app.ProgressDialog
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.TextUtils
@@ -28,10 +27,8 @@ import org.totschnig.myexpenses.activity.CsvImportActivity
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.databinding.ImportCsvDataBinding
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
-import org.totschnig.myexpenses.dialog.ProgressDialogFragment
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.Utils
@@ -45,7 +42,7 @@ class CsvImportDataFragment : Fragment() {
     private val binding get() = _binding!!
     lateinit var dataSet: ArrayList<CSVRecord>
     lateinit var discardedRows: SparseBooleanArrayParcelable
-    private var mFieldAdapter: ArrayAdapter<Int?>? = null
+    private var mFieldAdapter: ArrayAdapter<Int>? = null
     private var cellParams: LinearLayout.LayoutParams? = null
     private var cbParams: LinearLayout.LayoutParams? = null
     private var firstLineIsHeader = false
@@ -100,7 +97,7 @@ class CsvImportDataFragment : Fragment() {
                 LinearLayout.LayoutParams.WRAP_CONTENT).also {
                     it.setMargins(CELL_MARGIN, CELL_MARGIN, CELL_MARGIN, CELL_MARGIN)
         }
-        mFieldAdapter = object : ArrayAdapter<Int?>(
+        mFieldAdapter = object : ArrayAdapter<Int>(
                 requireActivity(), android.R.layout.simple_spinner_item, fields) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val tv = super.getView(position, convertView, parent) as TextView
@@ -124,7 +121,7 @@ class CsvImportDataFragment : Fragment() {
         binding.myRecyclerView.setHasFixedSize(true)
 
         if (savedInstanceState != null) {
-            setData(savedInstanceState.getSerializable(KEY_DATA_SET) as ArrayList<CSVRecord>?)
+            setData(savedInstanceState.getSerializable(KEY_DATA_SET) as? ArrayList<CSVRecord>)
             discardedRows = savedInstanceState.getParcelable(KEY_DISCARDED_ROWS)!!
             firstLineIsHeader = savedInstanceState.getBoolean(KEY_FIRST_LINE_IS_HEADER)
         }
@@ -138,7 +135,7 @@ class CsvImportDataFragment : Fragment() {
 
     fun setData(data: List<CSVRecord>?) {
         if (data == null || data.isEmpty()) return
-        dataSet = data as ArrayList<CSVRecord>
+        dataSet = ArrayList(data)
         val nrOfColumns = dataSet[0].size()
         discardedRows = SparseBooleanArrayParcelable()
         val availableCellWidth = ((windowWidth - CHECKBOX_COLUMN_WIDTH - CELL_MARGIN * (nrOfColumns + 2)) / nrOfColumns).toInt()
@@ -329,17 +326,6 @@ class CsvImportDataFragment : Fragment() {
             if (validateMapping(columnToFieldMap)) {
                 prefHandler.putString(PrefKey.CSV_IMPORT_HEADER_TO_FIELD_MAP, header2FieldMap.toString())
                 (activity as? CsvImportActivity)?.importData(dataSet, columnToFieldMap, discardedRows)
-                /*val taskExecutionFragment = TaskExecutionFragment.newInstanceCSVImport(
-                        dataSet, columnToFieldMap, discardedRows, format, accountId, currency, type)
-                val progressDialogFragment = ProgressDialogFragment.newInstance(
-                        getString(R.string.pref_import_title, "CSV"),
-                        null, ProgressDialog.STYLE_HORIZONTAL, false)
-                progressDialogFragment.max = dataSet.size - discardedRows.size()
-                parentFragmentManager
-                        .beginTransaction()
-                        .add(taskExecutionFragment, ProtectedFragmentActivity.ASYNC_TAG)
-                        .add(progressDialogFragment, ProtectedFragmentActivity.PROGRESS_TAG)
-                        .commit()*/
             }
         }
         return super.onOptionsItemSelected(item)
@@ -383,7 +369,6 @@ class CsvImportDataFragment : Fragment() {
     companion object {
         const val KEY_DATA_SET = "DATA_SET"
         const val KEY_DISCARDED_ROWS = "DISCARDED_ROWS"
-        const val KEY_FIELD_TO_COLUMN = "FIELD_TO_COLUMN"
         const val KEY_FIRST_LINE_IS_HEADER = "FIRST_LINE_IS_HEADER"
         const val CELL_MIN_WIDTH = 100
         const val CHECKBOX_COLUMN_WIDTH = 60
