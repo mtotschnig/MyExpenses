@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.ProviderUtils
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import javax.inject.Inject
 
@@ -49,7 +50,7 @@ open class TransactionViewModel(application: Application) : ContentResolvingAndr
             }
             emit(pair.first)
             pair.second?.takeIf { it.size > 0 }?.let { tags.postValue(it.toMutableList()) }
-        }
+        } ?: CrashHandler.report("Received null for task $task")
     }
 
     fun loadOriginalTags(id: Long, uri: Uri, column: String) {
