@@ -1,9 +1,11 @@
 package org.totschnig.myexpenses.util.licence
 
 import android.content.Context
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 import org.threeten.bp.LocalDate
 
+@Keep
 data class Licence(@SerializedName("valid_since") val validSince: LocalDate?,
                    @SerializedName("valid_until") val validUntil: LocalDate?,
                    @SerializedName("type") val type: LicenceStatus?,
