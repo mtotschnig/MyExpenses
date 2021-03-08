@@ -11,11 +11,13 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.LinearLayout
+import android.widget.LinearLayout.LayoutParams.MATCH_PARENT
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatSpinner
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import org.apache.commons.csv.CSVRecord
@@ -26,11 +28,11 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.CsvImportActivity
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.databinding.ImportCsvDataBinding
+import org.totschnig.myexpenses.databinding.ImportCsvDataRowBinding
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable
-import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
@@ -44,7 +46,6 @@ class CsvImportDataFragment : Fragment() {
     private lateinit var selectedRows: SparseBooleanArrayParcelable
     private lateinit var mFieldAdapter: ArrayAdapter<Int>
     private lateinit var cellParams: LinearLayout.LayoutParams
-    private lateinit var cbParams: LinearLayout.LayoutParams
     private var firstLineIsHeader = false
     private var nrOfColumns: Int = 0
     private val fieldKeys = arrayOf(
@@ -69,7 +70,10 @@ class CsvImportDataFragment : Fragment() {
             R.string.split_transaction
     )
     private lateinit var header2FieldMap: JSONObject
-    private var windowWidth = 0f
+    private var windowWidth = 0
+    private var cellMinWidth = 0
+    private var checkboxColumnWidth = 0
+    private var cellMargin = 0
 
     @Inject
     lateinit var prefHandler: PrefHandler
@@ -78,11 +82,14 @@ class CsvImportDataFragment : Fragment() {
         super.onCreate(savedInstanceState)
         (requireActivity().application as MyApplication).appComponent.inject(this)
         setHasOptionsMenu(true)
+        cellMinWidth = resources.getDimensionPixelSize(R.dimen.csv_import_cell_min_width)
+        checkboxColumnWidth = resources.getDimensionPixelSize(R.dimen.csv_import_checkbox_column_width)
+        cellMargin = resources.getDimensionPixelSize(R.dimen.csv_import_cell_margin)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val displayMetrics = resources.displayMetrics
-        windowWidth = displayMetrics.widthPixels / displayMetrics.density
+        windowWidth = (displayMetrics.widthPixels / displayMetrics.density).toInt()
         header2FieldMap = prefHandler.getString(PrefKey.CSV_IMPORT_HEADER_TO_FIELD_MAP, null)?.let {
             try {
                 JSONObject(it)
@@ -90,12 +97,8 @@ class CsvImportDataFragment : Fragment() {
                 null
             }
         } ?: JSONObject()
-        cbParams = LinearLayout.LayoutParams(UiUtils.dp2Px(CHECKBOX_COLUMN_WIDTH.toFloat(), resources),
-                LinearLayout.LayoutParams.WRAP_CONTENT).also {
-                    it.setMargins(CELL_MARGIN, CELL_MARGIN, CELL_MARGIN, CELL_MARGIN)
-        }
         mFieldAdapter = object : ArrayAdapter<Int>(
-                requireActivity(), android.R.layout.simple_spinner_item, fields) {
+                requireActivity(), R.layout.spinner_item_narrow, 0, fields) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val tv = super.getView(position, convertView, parent) as TextView
                 tv.text = getString(fields[position])
@@ -138,34 +141,34 @@ class CsvImportDataFragment : Fragment() {
         for (i in 0 until dataSet.size) {
             selectedRows.put(i, true)
         }
-        val availableCellWidth = ((windowWidth - CHECKBOX_COLUMN_WIDTH - CELL_MARGIN * (nrOfColumns + 2)) / nrOfColumns).toInt()
+        val availableCellWidth = ((windowWidth - checkboxColumnWidth - cellMargin * nrOfColumns * 2) / nrOfColumns)
         val cellWidth: Int
         val tableWidth: Int
-        if (availableCellWidth > CELL_MIN_WIDTH) {
+        if (availableCellWidth > cellMinWidth) {
             cellWidth = availableCellWidth
-            tableWidth = windowWidth.toInt()
+            tableWidth = windowWidth
         } else {
-            cellWidth = CELL_MIN_WIDTH
-            tableWidth = CELL_MIN_WIDTH * nrOfColumns + CHECKBOX_COLUMN_WIDTH + CELL_MARGIN * (nrOfColumns + 2)
+            cellWidth = cellMinWidth
+            tableWidth = cellMinWidth * nrOfColumns + checkboxColumnWidth + cellMargin * nrOfColumns * 2
         }
-        cellParams = LinearLayout.LayoutParams(UiUtils.dp2Px(cellWidth.toFloat(), resources),
-                LinearLayout.LayoutParams.WRAP_CONTENT).apply {
-            setMargins(CELL_MARGIN, CELL_MARGIN, CELL_MARGIN, CELL_MARGIN)
+        cellParams = LinearLayout.LayoutParams(cellWidth, MATCH_PARENT).apply {
+            setMargins(cellMargin, cellMargin, cellMargin, cellMargin)
         }
         with(binding.myRecyclerView) {
             val params = layoutParams
-            params.width = UiUtils.dp2Px(tableWidth.toFloat(), resources)
+            params.width = tableWidth
             layoutParams = params
             adapter = MyAdapter()
         }
 
         //set up header
-        with (binding.headerLine) {
+        with(binding.headerLine) {
             removeViews(1, childCount - 1)
             for (i in 0 until nrOfColumns) {
-                val cell = Spinner(activity)
-                cell.id = i
+                val cell = AppCompatSpinner(requireContext())
+                cell.id = ViewCompat.generateViewId()
                 cell.adapter = mFieldAdapter
+                ViewCompat.setPaddingRelative(cell, 0, 0, 90, 0)
                 addView(cell, cellParams)
             }
         }
@@ -231,22 +234,13 @@ class CsvImportDataFragment : Fragment() {
             notifyItemChanged(position)
         }
 
-        // Provide a reference to the views for each data item
-        // Complex data items may need more than one view per item, and
-        // you provide access to all the views for a data item in a view holder
-        inner class ViewHolder(  // each data item is just a string in this case
-                var row: LinearLayout) : RecyclerView.ViewHolder(row)
+        inner class ViewHolder(val itemBinding: ImportCsvDataRowBinding) : RecyclerView.ViewHolder(itemBinding.root)
 
-        // Create new views (invoked by the layout manager)
         override fun onCreateViewHolder(parent: ViewGroup,
                                         viewType: Int): ViewHolder {
-            // create a new view
-            val v = LinearLayout(parent.context)
-            v.setBackgroundResource(R.drawable.csv_import_row_background)
-            var cell: TextView = CheckBox(parent.context)
-            v.addView(cell, cbParams)
+            val itemBinding = ImportCsvDataRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             for (i in 0 until nrOfColumns) {
-                cell = TextView(parent.context)
+                val cell = TextView(parent.context)
                 cell.setSingleLine()
                 cell.ellipsize = TextUtils.TruncateAt.END
                 cell.isSelected = true
@@ -254,25 +248,26 @@ class CsvImportDataFragment : Fragment() {
                 if (viewType == 0) {
                     cell.setTypeface(null, Typeface.BOLD)
                 }
-                v.addView(cell, cellParams)
+                itemBinding.root.addView(cell, cellParams)
             }
-            return ViewHolder(v)
+            return ViewHolder(itemBinding)
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val isSelected = selectedRows[position, false]
             val isHeader = position == 0 && firstLineIsHeader
-            holder.row.isActivated = !isSelected && !isHeader
+            holder.itemView.isActivated = !isSelected && !isHeader
             val record = dataSet[position]
             for (i in 0 until record.size().coerceAtLeast(nrOfColumns)) {
-                val cell = holder.row.getChildAt(i + 1) as TextView
+                val cell = holder.itemBinding.root.getChildAt(i + 1) as TextView
                 cell.text = record[i]
             }
-            val cb = holder.row.getChildAt(0) as CheckBox
-            cb.tag = position
-            cb.setOnCheckedChangeListener(null)
-            cb.isChecked = isSelected
-            cb.setOnCheckedChangeListener(this)
+            with(holder.itemBinding.checkBox) {
+                tag = position
+                setOnCheckedChangeListener(null)
+                isChecked = isSelected
+                setOnCheckedChangeListener(this@MyAdapter)
+            }
         }
 
         // Return the size of your dataSet (invoked by the layout manager)
@@ -320,7 +315,7 @@ class CsvImportDataFragment : Fragment() {
             }
             if (validateMapping(columnToFieldMap)) {
                 prefHandler.putString(PrefKey.CSV_IMPORT_HEADER_TO_FIELD_MAP, header2FieldMap.toString())
-                val selectedData = dataSet.filterIndexed { index, csvRecord -> selectedRows[index] }
+                val selectedData = dataSet.filterIndexed { index, _ -> selectedRows[index] }
                 (activity as? CsvImportActivity)?.importData(selectedData, columnToFieldMap, dataSet.size - selectedData.size)
             }
         }
@@ -366,9 +361,6 @@ class CsvImportDataFragment : Fragment() {
         const val KEY_DATA_SET = "DATA_SET"
         const val KEY_SELECTED_ROWS = "SELECTED_ROWS"
         const val KEY_FIRST_LINE_IS_HEADER = "FIRST_LINE_IS_HEADER"
-        const val CELL_MIN_WIDTH = 100
-        const val CHECKBOX_COLUMN_WIDTH = 60
-        const val CELL_MARGIN = 5
         const val FIELD_KEY_SELECT = "SELECT"
         const val FIELD_KEY_AMOUNT = "AMOUNT"
         const val FIELD_KEY_EXPENSE = "EXPENSE"

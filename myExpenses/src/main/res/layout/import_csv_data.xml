@@ -14,12 +14,15 @@
         <LinearLayout
             android:id="@+id/header_line"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="60dp"
+                android:layout_width="@dimen/csv_import_checkbox_column_width"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:layout_height="wrap_content"
+                android:textSize="@dimen/csv_import_header_text_size"
                 android:text="@string/select"/>
         </LinearLayout>
 
