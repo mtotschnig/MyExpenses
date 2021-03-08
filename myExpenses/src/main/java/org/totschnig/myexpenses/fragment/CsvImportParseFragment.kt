@@ -187,10 +187,6 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, LoaderManager.L
         inflater.inflate(R.menu.csv_parse, menu)
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        menu.findItem(R.id.PARSE_COMMAND).isEnabled = mUri != null
-    }
-
     override fun onOptionsItemSelected(item: MenuItem) = if (item.itemId == R.id.PARSE_COMMAND) {
         val format = binding.DateFormatTable.DateFormat.selectedItem as QifDateFormat
         val encoding = binding.EncodingTable.Encoding.selectedItem as String

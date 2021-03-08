@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.activity
 
 import android.net.Uri
 import android.os.Bundle
+import android.view.Menu
 import androidx.lifecycle.ViewModelProvider
 import icepick.State
 import org.apache.commons.csv.CSVRecord
@@ -30,6 +31,11 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
     @JvmField
     @State
     var mUsageRecorded = false
+
+    @JvmField
+    @State
+    var idle = true
+
     private fun setDataReady() {
         dataReady = true
         mSectionsPagerAdapter.notifyDataSetChanged()
@@ -41,6 +47,13 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
         super.onCreate(savedInstanceState)
         supportActionBar?.title = getString(R.string.pref_import_title, "CSV")
         csvImportViewModel = ViewModelProvider(this)[CsvImportViewModel::class.java]
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        menu.findItem(R.id.PARSE_COMMAND)?.isEnabled = parseFragment.uri != null && idle
+        menu.findItem(R.id.IMPORT_COMMAND)?.isEnabled = idle
+        super.onPrepareOptionsMenu(menu)
+        return true
     }
 
     override fun dispatchCommand(command: Int, tag: Any?) = when {
@@ -78,12 +91,20 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
 
     private fun showProgress(total: Int = 0, progress: Int = 0) {
         showProgressSnackBar(getString(R.string.pref_import_title, "CSV"), total, progress)
+        idle = false
+        invalidateOptionsMenu()
+    }
+
+    private fun hideProgress() {
+        dismissSnackbar()
+        idle = true
+        invalidateOptionsMenu()
     }
 
     fun parseFile(uri: Uri, delimiter: Char, encoding: String) {
         showProgress()
         csvImportViewModel.parseFile(uri, delimiter, encoding).observe(this) { result ->
-            dismissSnackbar()
+            hideProgress()
             result.onSuccess { data ->
                 if (data.isNotEmpty()) {
                     if (!dataReady) {
@@ -123,6 +144,7 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
                 Account.getInstanceFromDb(accountId)
             }
         }.observe(this) { result ->
+            hideProgress()
             result.onSuccess {
                 if (!mUsageRecorded) {
                     recordUsage(ContribFeature.CSV_IMPORT)
@@ -135,7 +157,6 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
                 if (it.third > 0) {
                     msg += " ${getString(R.string.csv_import_records_discarded, it.third)}"
                 }
-                dismissSnackbar()
                 showMessage(msg,
                         neutral = MessageDialogFragment.nullButton(R.string.button_label_continue),
                         positive = MessageDialogFragment.Button(R.string.button_label_close, R.id.CLOSE_COMMAND, null))
