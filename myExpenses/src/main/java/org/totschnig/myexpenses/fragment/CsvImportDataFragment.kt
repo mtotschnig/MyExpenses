@@ -40,21 +40,21 @@ import javax.inject.Inject
 class CsvImportDataFragment : Fragment() {
     private var _binding: ImportCsvDataBinding? = null
     private val binding get() = _binding!!
-    lateinit var dataSet: ArrayList<CSVRecord>
-    lateinit var discardedRows: SparseBooleanArrayParcelable
-    private var mFieldAdapter: ArrayAdapter<Int>? = null
-    private var cellParams: LinearLayout.LayoutParams? = null
-    private var cbParams: LinearLayout.LayoutParams? = null
+    private lateinit var dataSet: ArrayList<CSVRecord>
+    private lateinit var selectedRows: SparseBooleanArrayParcelable
+    private lateinit var mFieldAdapter: ArrayAdapter<Int>
+    private lateinit var cellParams: LinearLayout.LayoutParams
+    private lateinit var cbParams: LinearLayout.LayoutParams
     private var firstLineIsHeader = false
     private var nrOfColumns: Int = 0
     private val fieldKeys = arrayOf(
-            FIELD_KEY_DISCARD, FIELD_KEY_AMOUNT, FIELD_KEY_EXPENSE, FIELD_KEY_INCOME,
+            FIELD_KEY_SELECT, FIELD_KEY_AMOUNT, FIELD_KEY_EXPENSE, FIELD_KEY_INCOME,
             FIELD_KEY_DATE, FIELD_KEY_PAYEE, FIELD_KEY_COMMENT, FIELD_KEY_CATEGORY,
             FIELD_KEY_SUBCATEGORY, FIELD_KEY_METHOD, FIELD_KEY_STATUS, FIELD_KEY_NUMBER,
             FIELD_KEY_SPLIT
     )
     private val fields = arrayOf(
-            R.string.cvs_import_discard,
+            R.string.csv_import_discard,
             R.string.amount,
             R.string.expense,
             R.string.income,
@@ -68,7 +68,7 @@ class CsvImportDataFragment : Fragment() {
             R.string.reference_number,
             R.string.split_transaction
     )
-    private var header2FieldMap: JSONObject? = null
+    private lateinit var header2FieldMap: JSONObject
     private var windowWidth = 0f
 
     @Inject
@@ -83,16 +83,13 @@ class CsvImportDataFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val displayMetrics = resources.displayMetrics
         windowWidth = displayMetrics.widthPixels / displayMetrics.density
-        val header2FieldMapJson = prefHandler.getString(PrefKey.CSV_IMPORT_HEADER_TO_FIELD_MAP, null)
-        header2FieldMap = if (header2FieldMapJson != null) {
+        header2FieldMap = prefHandler.getString(PrefKey.CSV_IMPORT_HEADER_TO_FIELD_MAP, null)?.let {
             try {
-                JSONObject(header2FieldMapJson)
+                JSONObject(it)
             } catch (e: JSONException) {
-                JSONObject()
+                null
             }
-        } else {
-            JSONObject()
-        }
+        } ?: JSONObject()
         cbParams = LinearLayout.LayoutParams(UiUtils.dp2Px(CHECKBOX_COLUMN_WIDTH.toFloat(), resources),
                 LinearLayout.LayoutParams.WRAP_CONTENT).also {
                     it.setMargins(CELL_MARGIN, CELL_MARGIN, CELL_MARGIN, CELL_MARGIN)
@@ -122,7 +119,7 @@ class CsvImportDataFragment : Fragment() {
 
         if (savedInstanceState != null) {
             setData(savedInstanceState.getSerializable(KEY_DATA_SET) as? ArrayList<CSVRecord>)
-            discardedRows = savedInstanceState.getParcelable(KEY_DISCARDED_ROWS)!!
+            selectedRows = savedInstanceState.getParcelable(KEY_SELECTED_ROWS)!!
             firstLineIsHeader = savedInstanceState.getBoolean(KEY_FIRST_LINE_IS_HEADER)
         }
         return binding.root
@@ -137,7 +134,10 @@ class CsvImportDataFragment : Fragment() {
         if (data == null || data.isEmpty()) return
         dataSet = ArrayList(data)
         val nrOfColumns = dataSet[0].size()
-        discardedRows = SparseBooleanArrayParcelable()
+        selectedRows = SparseBooleanArrayParcelable()
+        for (i in 0 until dataSet.size) {
+            selectedRows.put(i, true)
+        }
         val availableCellWidth = ((windowWidth - CHECKBOX_COLUMN_WIDTH - CELL_MARGIN * (nrOfColumns + 2)) / nrOfColumns).toInt()
         val cellWidth: Int
         val tableWidth: Int
@@ -149,8 +149,9 @@ class CsvImportDataFragment : Fragment() {
             tableWidth = CELL_MIN_WIDTH * nrOfColumns + CHECKBOX_COLUMN_WIDTH + CELL_MARGIN * (nrOfColumns + 2)
         }
         cellParams = LinearLayout.LayoutParams(UiUtils.dp2Px(cellWidth.toFloat(), resources),
-                LinearLayout.LayoutParams.WRAP_CONTENT)
-        cellParams!!.setMargins(CELL_MARGIN, CELL_MARGIN, CELL_MARGIN, CELL_MARGIN)
+                LinearLayout.LayoutParams.WRAP_CONTENT).apply {
+            setMargins(CELL_MARGIN, CELL_MARGIN, CELL_MARGIN, CELL_MARGIN)
+        }
         with(binding.myRecyclerView) {
             val params = layoutParams
             params.width = UiUtils.dp2Px(tableWidth.toFloat(), resources)
@@ -177,12 +178,12 @@ class CsvImportDataFragment : Fragment() {
         val record = dataSet[0]
         outer@ for (j in 0 until record.size()) {
             val headerLabel = Utils.normalize(record[j])
-            val keys = header2FieldMap!!.keys()
+            val keys = header2FieldMap.keys()
             while (keys.hasNext()) {
                 val storedLabel = keys.next()
                 if (storedLabel == headerLabel) {
                     try {
-                        val fieldKey = header2FieldMap!!.getString(storedLabel)
+                        val fieldKey = header2FieldMap.getString(storedLabel)
                         val position = listOf(*fieldKeys).indexOf(fieldKey)
                         if (position != -1) {
                             (binding.headerLine.getChildAt(j + 1) as Spinner).setSelection(position)
@@ -193,7 +194,7 @@ class CsvImportDataFragment : Fragment() {
                     }
                 }
             }
-            for (i in 1 /* 0=Discard ignored  */ until fields.size) {
+            for (i in 1 /* 0=Select ignored  */ until fields.size) {
                 val fieldLabel = Utils.normalize(getString(fields[i]))
                 if (fieldLabel == headerLabel) {
                     (binding.headerLine.getChildAt(j + 1) as Spinner).setSelection(i)
@@ -206,9 +207,14 @@ class CsvImportDataFragment : Fragment() {
     private inner class MyAdapter : RecyclerView.Adapter<MyAdapter.ViewHolder>(), CompoundButton.OnCheckedChangeListener {
         override fun onCheckedChanged(buttonView: CompoundButton, isChecked: Boolean) {
             val position = buttonView.tag as Int
-            Timber.d("%s item at position %d", if (isChecked) "Discarding" else "Including", position)
+            Timber.d("%s item at position %d", if (isChecked) "Selecting" else "Discarding", position)
             if (isChecked) {
-                discardedRows.put(position, true)
+                selectedRows.put(position, true)
+                if (position == 0) {
+                    firstLineIsHeader = false
+                }
+            } else {
+                selectedRows.delete(position)
                 if (position == 0) {
                     val b = Bundle()
                     b.putInt(ConfirmationDialogFragment.KEY_TITLE,
@@ -220,11 +226,6 @@ class CsvImportDataFragment : Fragment() {
                             R.id.SET_HEADER_COMMAND)
                     ConfirmationDialogFragment.newInstance(b).show(
                             parentFragmentManager, "SET_HEADER_CONFIRMATION")
-                }
-            } else {
-                discardedRows.delete(position)
-                if (position == 0) {
-                    firstLineIsHeader = false
                 }
             }
             notifyItemChanged(position)
@@ -249,34 +250,28 @@ class CsvImportDataFragment : Fragment() {
                 cell.setSingleLine()
                 cell.ellipsize = TextUtils.TruncateAt.END
                 cell.isSelected = true
-                cell.setOnClickListener { v1: View -> (activity as ProtectedFragmentActivity?)!!.showSnackbar((v1 as TextView).text) }
+                cell.setOnClickListener { v1: View -> (requireActivity() as ProtectedFragmentActivity).showSnackbar((v1 as TextView).text) }
                 if (viewType == 0) {
                     cell.setTypeface(null, Typeface.BOLD)
                 }
                 v.addView(cell, cellParams)
             }
-            // set the view's size, margins, paddings and layout parameters
             return ViewHolder(v)
         }
 
-        // Replace the contents of a view (invoked by the layout manager)
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            // - get element from your dataSet at this position
-            // - replace the contents of the view with that element
-            val isDiscarded = discardedRows[position, false]
+            val isSelected = selectedRows[position, false]
             val isHeader = position == 0 && firstLineIsHeader
-            holder.row.isActivated = isDiscarded && !isHeader
+            holder.row.isActivated = !isSelected && !isHeader
             val record = dataSet[position]
-            var i = 0
-            while (i < record.size() && i < nrOfColumns) {
+            for (i in 0 until record.size().coerceAtLeast(nrOfColumns)) {
                 val cell = holder.row.getChildAt(i + 1) as TextView
                 cell.text = record[i]
-                i++
             }
             val cb = holder.row.getChildAt(0) as CheckBox
             cb.tag = position
             cb.setOnCheckedChangeListener(null)
-            cb.isChecked = isDiscarded
+            cb.isChecked = isSelected
             cb.setOnCheckedChangeListener(this)
         }
 
@@ -298,7 +293,7 @@ class CsvImportDataFragment : Fragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putSerializable(KEY_DATA_SET, dataSet)
-        outState.putParcelable(KEY_DISCARDED_ROWS, discardedRows)
+        outState.putParcelable(KEY_SELECTED_ROWS, selectedRows)
         outState.putBoolean(KEY_FIRST_LINE_IS_HEADER, firstLineIsHeader)
     }
 
@@ -315,8 +310,8 @@ class CsvImportDataFragment : Fragment() {
                 columnToFieldMap[i] = fields[position]
                 if (firstLineIsHeader) {
                     try {
-                        if (fieldKeys[position] != FIELD_KEY_DISCARD) {
-                            header2FieldMap!!.put(Utils.normalize(header[i]), fieldKeys[position])
+                        if (fieldKeys[position] != FIELD_KEY_SELECT) {
+                            header2FieldMap.put(Utils.normalize(header[i]), fieldKeys[position])
                         }
                     } catch (e: JSONException) {
                         CrashHandler.report(e)
@@ -325,7 +320,8 @@ class CsvImportDataFragment : Fragment() {
             }
             if (validateMapping(columnToFieldMap)) {
                 prefHandler.putString(PrefKey.CSV_IMPORT_HEADER_TO_FIELD_MAP, header2FieldMap.toString())
-                (activity as? CsvImportActivity)?.importData(dataSet, columnToFieldMap, discardedRows)
+                val selectedData = dataSet.filterIndexed { index, csvRecord -> selectedRows[index] }
+                (activity as? CsvImportActivity)?.importData(selectedData, columnToFieldMap, dataSet.size - selectedData.size)
             }
         }
         return super.onOptionsItemSelected(item)
@@ -343,24 +339,24 @@ class CsvImportDataFragment : Fragment() {
      */
     private fun validateMapping(columnToFieldMap: IntArray): Boolean {
         val foundFields = SparseBooleanArray()
-        val activity = activity as ProtectedFragmentActivity?
+        val activity = requireActivity() as ProtectedFragmentActivity
         for (field in columnToFieldMap) {
-            if (field != R.string.cvs_import_discard) {
+            if (field != R.string.csv_import_discard) {
                 if (foundFields[field, false]) {
-                    activity!!.showSnackbar(getString(R.string.csv_import_field_mapped_more_than_once, getString(field)))
+                    activity.showSnackbar(getString(R.string.csv_import_field_mapped_more_than_once, getString(field)))
                     return false
                 }
                 foundFields.put(field, true)
             }
         }
         if (foundFields[R.string.subcategory, false] && !foundFields[R.string.category, false]) {
-            activity!!.showSnackbar(R.string.csv_import_subcategory_requires_category)
+            activity.showSnackbar(R.string.csv_import_subcategory_requires_category)
             return false
         }
         if (!(foundFields[R.string.amount, false] ||
                         foundFields[R.string.expense, false] ||
                         foundFields[R.string.income, false])) {
-            activity!!.showSnackbar(R.string.csv_import_no_mapping_found_for_amount)
+            activity.showSnackbar(R.string.csv_import_no_mapping_found_for_amount)
             return false
         }
         return true
@@ -368,12 +364,12 @@ class CsvImportDataFragment : Fragment() {
 
     companion object {
         const val KEY_DATA_SET = "DATA_SET"
-        const val KEY_DISCARDED_ROWS = "DISCARDED_ROWS"
+        const val KEY_SELECTED_ROWS = "SELECTED_ROWS"
         const val KEY_FIRST_LINE_IS_HEADER = "FIRST_LINE_IS_HEADER"
         const val CELL_MIN_WIDTH = 100
         const val CHECKBOX_COLUMN_WIDTH = 60
         const val CELL_MARGIN = 5
-        const val FIELD_KEY_DISCARD = "DISCARD"
+        const val FIELD_KEY_SELECT = "SELECT"
         const val FIELD_KEY_AMOUNT = "AMOUNT"
         const val FIELD_KEY_EXPENSE = "EXPENSE"
         const val FIELD_KEY_INCOME = "INCOME"

@@ -524,7 +524,7 @@
     <string name="csv_import_preview">Preview</string>
     <string name="menu_parse">Parse</string>
     <!-- Label for column where user can check rows to be discarded from import -->
-    <string name="cvs_import_discard">Discard</string>
+    <string name="csv_import_discard">Discard</string>
     <string name="csv_import_field_mapped_more_than_once">%s is mapped more than once.</string>
     <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d records could not be imported.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d records were discarded.</string>

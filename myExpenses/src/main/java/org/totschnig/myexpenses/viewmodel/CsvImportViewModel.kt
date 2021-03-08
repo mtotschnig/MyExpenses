@@ -22,7 +22,6 @@ import org.totschnig.myexpenses.model.SplitTransaction
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable
 import java.io.InputStreamReader
 import java.math.BigDecimal
 import java.util.*
@@ -41,9 +40,8 @@ class CsvImportViewModel(application: Application) : ContentResolvingAndroidView
         }
     }
 
-    fun importData(data: ArrayList<CSVRecord>, columnToFieldMap: IntArray, discardedRows: SparseBooleanArrayParcelable, dateFormat: QifDateFormat, accountCreator: () -> Account): LiveData<Result<Triple<Pair<Int, String>, Int, Int>>> = liveData(context = coroutineContext()) {
+    fun importData(data: List<CSVRecord>, columnToFieldMap: IntArray, dateFormat: QifDateFormat, accountCreator: () -> Account): LiveData<Result<Pair<Pair<Int, String>, Int>>> = liveData(context = coroutineContext()) {
         var totalImported = 0
-        var totalDiscarded = 0
         var totalFailed = 0
         val payeeToId: MutableMap<String, Long> = HashMap()
         val categoryToId: MutableMap<String, Long> = HashMap()
@@ -68,122 +66,118 @@ class CsvImportViewModel(application: Application) : ContentResolvingAndroidView
         contentResolver.call(TransactionProvider.DUAL_URI, TransactionProvider.METHOD_BULK_START, null, null)
         for (i in data.indices) {
             var transferAccountId: Long = -1
-            if (discardedRows.get(i, false)) {
-                totalDiscarded++
-            } else {
-                val record: CSVRecord = data[i]
-                var categoryInfo: String? = null
-                if (columnIndexSplit != -1) {
-                    isSplitPart = saveGetFromRecord(record, columnIndexSplit) == SplitTransaction.CSV_PART_INDICATOR
-                    isSplitParent = saveGetFromRecord(record, columnIndexSplit) == SplitTransaction.CSV_INDICATOR
-                }
-                val amount = try {
-                    if (columnIndexAmount != -1) {
-                        QifUtils.parseMoney(saveGetFromRecord(record, columnIndexAmount), account.currencyUnit)
-                    } else {
-                        val income = if (columnIndexIncome != -1) QifUtils.parseMoney(saveGetFromRecord(record, columnIndexIncome), account.currencyUnit).abs() else BigDecimal(0)
-                        val expense = if (columnIndexExpense != -1) QifUtils.parseMoney(saveGetFromRecord(record, columnIndexExpense), account.currencyUnit).abs() else BigDecimal(0)
-                        income.subtract(expense)
-                    }
-                } catch (e: IllegalArgumentException) {
-                    emit(Result.failure<Triple<Pair<Int, String>, Int, Int>>(Exception("Amounts in data exceed storage limit")))
-                    return@liveData
-                }
-                val m = Money(account.currencyUnit, amount)
-                if (!isSplitParent && columnIndexCategory != -1) {
-                    val category: String = saveGetFromRecord(record, columnIndexCategory)
-                    if (category != "") {
-                        val subCategory = if (columnIndexSubcategory != -1) saveGetFromRecord(record, columnIndexSubcategory) else ""
-                        if (category == localizedContext.getString(R.string.transfer) &&
-                                subCategory != "" &&
-                                QifUtils.isTransferCategory(subCategory)) {
-                            transferAccountId = Account.findAnyOpen(subCategory.substring(1, subCategory.length - 1))
-                        } else if (QifUtils.isTransferCategory(category)) {
-                            transferAccountId = Account.findAnyOpen(category.substring(1, category.length - 1))
-                        }
-                        if (transferAccountId == -1L) {
-                            categoryInfo = category
-                            if (subCategory != "") {
-                                categoryInfo += ":$subCategory"
-                            }
-                        }
-                    }
-                }
-                if (isSplitPart) {
-                    if (transferAccountId != -1L) {
-                        t = Transfer.getNewInstance(account.id, transferAccountId, splitParent)
-                        t.setAmount(m)
-                    } else {
-                        t = Transaction.getNewInstance(account.id, splitParent)
-                        t.amount = m
-                    }
-                } else {
-                    t = if (isSplitParent) {
-                        SplitTransaction(account.id, m)
-                    } else {
-                        if (transferAccountId != -1L) {
-                            Transfer(account.id, m, transferAccountId)
-                        } else {
-                            Transaction(account.id, m)
-                        }
-                    }
-                }
-                if (!TextUtils.isEmpty(categoryInfo)) {
-                    CategoryInfo(categoryInfo).insert(categoryToId, false)
-                    t.catId = categoryToId[categoryInfo]
-                }
-                if (columnIndexDate != -1) {
-                    t.setDate(QifUtils.parseDate(saveGetFromRecord(record, columnIndexDate), dateFormat))
-                }
-                if (columnIndexPayee != -1) {
-                    val payee: String = saveGetFromRecord(record, columnIndexPayee)
-                    if (payee != "") {
-                        val id = Payee.extractPayeeId(payee, payeeToId)
-                        if (id != -1L) {
-                            payeeToId[payee] = id
-                            t.payeeId = id
-                        }
-                    }
-                }
-                if (columnIndexNotes != -1) {
-                    t.comment = saveGetFromRecord(record, columnIndexNotes)
-                }
-                if (columnIndexMethod != -1) {
-                    var method: String = saveGetFromRecord(record, columnIndexMethod)
-                    if (method != "") {
-                        for (preDefined in PreDefined.values()) {
-                            if (preDefined.localizedLabel == method) {
-                                method = preDefined.name
-                                break
-                            }
-                        }
-                        val methodId = PaymentMethod.find(method)
-                        if (methodId != -1L) {
-                            t.methodId = methodId
-                        }
-                    }
-                }
-                if (columnIndexStatus != -1) {
-                    t.crStatus = CrStatus.fromQifName(saveGetFromRecord(record, columnIndexStatus))
-                }
-                if (columnIndexNumber != -1) {
-                    t.referenceNumber = saveGetFromRecord(record, columnIndexNumber)
-                }
-                if (t.save() != null) {
-                    if (isSplitParent) {
-                        splitParent = t.id
-                    }
-                    if (!isSplitPart) {
-                        totalImported++
-                    }
-                } else {
-                    totalFailed++
-                }
-                _progress.postValue(totalImported)
+            val record: CSVRecord = data[i]
+            var categoryInfo: String? = null
+            if (columnIndexSplit != -1) {
+                isSplitPart = saveGetFromRecord(record, columnIndexSplit) == SplitTransaction.CSV_PART_INDICATOR
+                isSplitParent = saveGetFromRecord(record, columnIndexSplit) == SplitTransaction.CSV_INDICATOR
             }
+            val amount = try {
+                if (columnIndexAmount != -1) {
+                    QifUtils.parseMoney(saveGetFromRecord(record, columnIndexAmount), account.currencyUnit)
+                } else {
+                    val income = if (columnIndexIncome != -1) QifUtils.parseMoney(saveGetFromRecord(record, columnIndexIncome), account.currencyUnit).abs() else BigDecimal(0)
+                    val expense = if (columnIndexExpense != -1) QifUtils.parseMoney(saveGetFromRecord(record, columnIndexExpense), account.currencyUnit).abs() else BigDecimal(0)
+                    income.subtract(expense)
+                }
+            } catch (e: IllegalArgumentException) {
+                emit(Result.failure<Pair<Pair<Int, String>, Int>>(Exception("Amounts in data exceed storage limit")))
+                return@liveData
+            }
+            val m = Money(account.currencyUnit, amount)
+            if (!isSplitParent && columnIndexCategory != -1) {
+                val category: String = saveGetFromRecord(record, columnIndexCategory)
+                if (category != "") {
+                    val subCategory = if (columnIndexSubcategory != -1) saveGetFromRecord(record, columnIndexSubcategory) else ""
+                    if (category == localizedContext.getString(R.string.transfer) &&
+                            subCategory != "" &&
+                            QifUtils.isTransferCategory(subCategory)) {
+                        transferAccountId = Account.findAnyOpen(subCategory.substring(1, subCategory.length - 1))
+                    } else if (QifUtils.isTransferCategory(category)) {
+                        transferAccountId = Account.findAnyOpen(category.substring(1, category.length - 1))
+                    }
+                    if (transferAccountId == -1L) {
+                        categoryInfo = category
+                        if (subCategory != "") {
+                            categoryInfo += ":$subCategory"
+                        }
+                    }
+                }
+            }
+            if (isSplitPart) {
+                if (transferAccountId != -1L) {
+                    t = Transfer.getNewInstance(account.id, transferAccountId, splitParent)
+                    t.setAmount(m)
+                } else {
+                    t = Transaction.getNewInstance(account.id, splitParent)
+                    t.amount = m
+                }
+            } else {
+                t = if (isSplitParent) {
+                    SplitTransaction(account.id, m)
+                } else {
+                    if (transferAccountId != -1L) {
+                        Transfer(account.id, m, transferAccountId)
+                    } else {
+                        Transaction(account.id, m)
+                    }
+                }
+            }
+            if (!TextUtils.isEmpty(categoryInfo)) {
+                CategoryInfo(categoryInfo).insert(categoryToId, false)
+                t.catId = categoryToId[categoryInfo]
+            }
+            if (columnIndexDate != -1) {
+                t.setDate(QifUtils.parseDate(saveGetFromRecord(record, columnIndexDate), dateFormat))
+            }
+            if (columnIndexPayee != -1) {
+                val payee: String = saveGetFromRecord(record, columnIndexPayee)
+                if (payee != "") {
+                    val id = Payee.extractPayeeId(payee, payeeToId)
+                    if (id != -1L) {
+                        payeeToId[payee] = id
+                        t.payeeId = id
+                    }
+                }
+            }
+            if (columnIndexNotes != -1) {
+                t.comment = saveGetFromRecord(record, columnIndexNotes)
+            }
+            if (columnIndexMethod != -1) {
+                var method: String = saveGetFromRecord(record, columnIndexMethod)
+                if (method != "") {
+                    for (preDefined in PreDefined.values()) {
+                        if (preDefined.localizedLabel == method) {
+                            method = preDefined.name
+                            break
+                        }
+                    }
+                    val methodId = PaymentMethod.find(method)
+                    if (methodId != -1L) {
+                        t.methodId = methodId
+                    }
+                }
+            }
+            if (columnIndexStatus != -1) {
+                t.crStatus = CrStatus.fromQifName(saveGetFromRecord(record, columnIndexStatus))
+            }
+            if (columnIndexNumber != -1) {
+                t.referenceNumber = saveGetFromRecord(record, columnIndexNumber)
+            }
+            if (t.save() != null) {
+                if (isSplitParent) {
+                    splitParent = t.id
+                }
+                if (!isSplitPart) {
+                    totalImported++
+                }
+            } else {
+                totalFailed++
+            }
+            _progress.postValue(totalImported)
         }
         contentResolver.call(TransactionProvider.DUAL_URI, TransactionProvider.METHOD_BULK_END, null, null)
-        emit(Result.success(Triple(Pair(totalImported, account.label), totalFailed, totalDiscarded)))
+        emit(Result.success(Pair(Pair(totalImported, account.label), totalFailed)))
     }
 
     private fun saveGetFromRecord(record: CSVRecord, index: Int): String {

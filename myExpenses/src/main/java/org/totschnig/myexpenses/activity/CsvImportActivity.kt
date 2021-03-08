@@ -17,10 +17,8 @@ import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable
 import org.totschnig.myexpenses.viewmodel.CsvImportViewModel
 import java.io.FileNotFoundException
-import java.util.*
 
 
 class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
@@ -128,13 +126,13 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
         }
     }
 
-    fun importData(dataSet: ArrayList<CSVRecord>, columnToFieldMap: IntArray, discardedRows: SparseBooleanArrayParcelable) {
-        val totalToImport =  dataSet.size - discardedRows.size()
+    fun importData(dataSet: List<CSVRecord>, columnToFieldMap: IntArray, discardedRows: Int) {
+        val totalToImport =  dataSet.size
         showProgress(total = totalToImport)
         csvImportViewModel.progress.observe(this) {
             showProgress(total = totalToImport, progress = it)
         }
-        csvImportViewModel.importData(dataSet, columnToFieldMap, discardedRows, dateFormat) {
+        csvImportViewModel.importData(dataSet, columnToFieldMap, dateFormat) {
             if (accountId == 0L) {
                 Account(getString(R.string.pref_import_title, "CSV"), currency, 0, accountType).apply {
                     save()
@@ -154,8 +152,8 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
                 if (it.second > 0) {
                     msg += " ${getString(R.string.csv_import_records_failed, it.second)}"
                 }
-                if (it.third > 0) {
-                    msg += " ${getString(R.string.csv_import_records_discarded, it.third)}"
+                if (discardedRows > 0) {
+                    msg += " ${getString(R.string.csv_import_records_discarded, discardedRows)}"
                 }
                 showMessage(msg,
                         neutral = MessageDialogFragment.nullButton(R.string.button_label_continue),

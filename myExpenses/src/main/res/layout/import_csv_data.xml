@@ -20,7 +20,7 @@
             <TextView
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:text="@string/cvs_import_discard"/>
+                android:text="@string/select"/>
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
