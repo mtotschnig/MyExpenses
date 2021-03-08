@@ -63,6 +63,19 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
         else -> false
     }
 
+    private fun shouldGoBack() = if (binding.viewPager.currentItem == 1) {
+        binding.viewPager.currentItem = 0
+        false
+    } else true
+
+    override fun doHome() {
+        if (shouldGoBack()) super.doHome()
+    }
+
+    override fun onBackPressed() {
+        if (shouldGoBack()) super.onBackPressed()
+    }
+
     override fun setupTabs() {
         //we only add the first tab, the second one once data has been parsed
         addTab(0)
@@ -127,7 +140,7 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
     }
 
     fun importData(dataSet: List<CSVRecord>, columnToFieldMap: IntArray, discardedRows: Int) {
-        val totalToImport =  dataSet.size
+        val totalToImport = dataSet.size
         showProgress(total = totalToImport)
         csvImportViewModel.progress.observe(this) {
             showProgress(total = totalToImport, progress = it)
