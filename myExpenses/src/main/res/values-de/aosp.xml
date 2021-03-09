@@ -10,5 +10,6 @@
     <string name="copy_text">"In Zwischenablage kopieren"</string>
     <string name="stop">"Anhalten"</string>
     <string name="no_network">"Es ist keine Netzwerkverbindung verfügbar."</string>
+    <string name="button_label_continue">Weiter</string>
 </resources>
 

@@ -14,5 +14,6 @@
     <string name="stop">Berhenti</string>
     <!-- packages/apps/Settings/res/values/strings.xml -->
     <string name="no_network">Tiada sambungan rangkaian.</string>
+    <string name="button_label_continue">Teruskan</string>
 </resources>
 

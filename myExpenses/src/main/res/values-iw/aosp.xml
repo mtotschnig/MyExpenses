@@ -11,5 +11,6 @@
     <string name="copy_text">"העתקה ללוח"</string>
     <string name="stop">"עצור"</string>
     <string name="no_network">"אין חיבור לרשת."</string>
+    <string name="button_label_continue">המשך</string>
 </resources>
 

@@ -10,5 +10,6 @@
     <string name="copy_text">"Copiar para área de transferência"</string>
     <string name="stop">"Parar"</string>
     <string name="no_network">"Nenhuma conexão de rede."</string>
+    <string name="button_label_continue">Continuar</string>
 </resources>
 

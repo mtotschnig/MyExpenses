@@ -10,5 +10,6 @@
     <string name="copy_text">"Sao chép vào khay nhớ tạm"</string>
     <string name="stop">"Dừng"</string>
     <string name="no_network">"Không có kết nối mạng."</string>
+    <string name="button_label_continue">Tiếp tục</string>
 </resources>
 

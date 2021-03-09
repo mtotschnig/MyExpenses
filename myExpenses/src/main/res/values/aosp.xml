@@ -14,5 +14,7 @@
     <string name="stop">Stop</string>
     <!-- packages/apps/Settings/res/values/strings.xml -->
     <string name="no_network">There is no network connection.</string>
+    <!-- name="encryption_continue_button" -->
+    <string name="button_label_continue">Continue</string>
 </resources>
 
