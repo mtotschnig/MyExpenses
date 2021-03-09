@@ -10,7 +10,7 @@ import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import javax.inject.Singleton
 
 @Module
-class FeatureModule {
+open class FeatureModule {
     private var ocrFeature: OcrFeature? = null
 
     @Provides
@@ -31,7 +31,7 @@ class FeatureModule {
 
     @Provides
     @Singleton
-    fun provideFeatureManager(localeProvider: UserLocaleProvider, prefHandler: PrefHandler): FeatureManager = try {
+    open fun provideFeatureManager(localeProvider: UserLocaleProvider, prefHandler: PrefHandler): FeatureManager = try {
         Class.forName("org.totschnig.myexpenses.util.locale.PlatformSplitManager")
                 .getConstructor(UserLocaleProvider::class.java, PrefHandler::class.java)
                 .newInstance(localeProvider, prefHandler) as FeatureManager

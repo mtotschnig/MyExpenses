@@ -8,6 +8,7 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.testutils.Fixture
 import org.totschnig.myexpenses.testutils.TestCoroutineModule
 import org.totschnig.myexpenses.testutils.TestDataModule
+import org.totschnig.myexpenses.testutils.TestFeatureModule
 import org.totschnig.myexpenses.testutils.TestViewModelModule
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -20,9 +21,10 @@ class TestApp: MyApplication() {
         fixture = Fixture(InstrumentationRegistry.getInstrumentation())
     }
     override fun buildAppComponent(systemLocale: Locale) = DaggerAppComponent.builder()
-            .coroutineModule(TestCoroutineModule())
-            .viewModelModule(TestViewModelModule())
-            .dataModule(TestDataModule())
+            .coroutineModule(TestCoroutineModule)
+            .viewModelModule(TestViewModelModule)
+            .dataModule(TestDataModule)
+            .featureModule(TestFeatureModule)
             .crashHandlerModule(object : CrashHandlerModule() {
                 override fun providesCrashHandler(prefHandler: PrefHandler) = CrashHandler.NO_OP
             })

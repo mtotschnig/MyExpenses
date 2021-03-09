@@ -44,6 +44,7 @@ android {
         versionCode project.versionCode
         versionName project.versionName
         multiDexEnabled true
+        multiDexKeepProguard file('multidex-config.pro')
 
         buildConfigField "String", "DISTRIBUTION", "\"GITHUB\""
         buildConfigField "String[]", "CATEGORY_ICONS", "{" + categoryIcons() + "}"
@@ -205,7 +206,7 @@ dependencies {
     //at the moment, we need to stick with the last version that supports java 6
     //noinspection GradleDependency
     implementation "org.apache.commons:commons-lang3:$commonsLang"
-    implementation 'org.apache.commons:commons-csv:1.5'
+    implementation 'org.apache.commons:commons-csv:1.8'
     implementation "com.squareup.picasso:picasso:$picassoVersion"
     implementation 'com.github.mtotschnig:MPAndroidChart:6fcf34d9d4'
     implementation 'com.github.mtotschnig:Caldroid:d217ebc306'
@@ -283,7 +284,7 @@ dependencies {
     testImplementation "org.robolectric:shadows-multidex:$robolectricVersion"
     testImplementation "androidx.test:core:$androidSupportTestVersion"
     testImplementation "org.assertj:assertj-core:$assertjVersion"
-    androidTestImplementation "org.assertj:assertj-core:$assertjVersion"
+    androidTestImplementation "org.assertj:assertj-core:$assertjVersionAndroid"
     implementation "androidx.core:core-ktx:$ktxVersion"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     androidTestImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"

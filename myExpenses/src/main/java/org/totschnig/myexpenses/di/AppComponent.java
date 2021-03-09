@@ -109,6 +109,8 @@ public interface AppComponent {
 
     Builder dataModule(DataModule dataModule);
 
+    Builder featureModule(FeatureModule featureModule);
+
     Builder crashHandlerModule(CrashHandlerModule crashHandlerModule);
 
     Builder uiModule(UiModule uiModule);

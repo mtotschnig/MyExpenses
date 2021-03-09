@@ -5,10 +5,8 @@ import android.annotation.TargetApi
 import android.app.Application
 import android.content.Context
 import android.os.Build
-import android.os.Bundle
 import android.provider.Settings
 import android.provider.Settings.SettingNotFoundException
-import android.util.Log
 import androidx.test.runner.AndroidJUnitRunner
 import org.totschnig.myexpenses.util.Utils
 

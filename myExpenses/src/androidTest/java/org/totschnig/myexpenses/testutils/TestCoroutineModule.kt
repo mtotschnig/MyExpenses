@@ -4,7 +4,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import org.totschnig.myexpenses.di.CoroutineModule
 
-class TestCoroutineModule: CoroutineModule() {
+object TestCoroutineModule: CoroutineModule() {
     /*val executor: IdlingThreadPoolExecutor = IdlingThreadPoolExecutor("Coroutine Idling Ressource",
             1,
             1,

@@ -59,6 +59,7 @@ ext {
     junitVersion = "4.13.1"
     timberVersion = "4.7.1"
     assertjVersion = "3.18.1"
+    assertjVersionAndroid = "2.9.1"
     annotations = "1.1.0"
-    commonsLang = "3.5"
+    commonsLang = "3.12.0"
 }
