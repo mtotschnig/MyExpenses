@@ -675,7 +675,7 @@ public class MyExpenses extends BaseMyExpenses implements
             new MessageDialogFragment.Button(R.string.menu_delete, R.id.DELETE_ACCOUNT_COMMAND_DO,
                 new Long[]{accountId}),
             null,
-            MessageDialogFragment.Button.noButton(), 0)
+            MessageDialogFragment.noButton(), 0)
             .show(getSupportFragmentManager(), "DELETE_ACCOUNT");
       }
       return true;
@@ -1091,7 +1091,7 @@ public class MyExpenses extends BaseMyExpenses implements
           recordUsage(ContribFeature.PRINT);
           showMessage(result.print(this),
               new MessageDialogFragment.Button(R.string.menu_open, R.id.OPEN_PDF_COMMAND, result.getExtra().toString(), true),
-              MessageDialogFragment.Button.nullButton(R.string.button_label_close),
+              MessageDialogFragment.nullButton(R.string.button_label_close),
               new MessageDialogFragment.Button(R.string.button_label_share_file, R.id.SHARE_PDF_COMMAND, result.getExtra().toString(), true),
               false);
         } else {

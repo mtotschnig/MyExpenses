@@ -12,6 +12,7 @@ import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.util.io.FileUtils;
 
+import androidx.annotation.Nullable;
 import timber.log.Timber;
 
 public class ImportFileResultHandler {
@@ -99,9 +100,10 @@ public class ImportFileResultHandler {
   public interface FileNameHostFragment {
     String getPrefKey();
 
+    @Nullable
     Uri getUri();
 
-    void setUri(Uri uri);
+    void setUri(@Nullable Uri uri);
 
     EditText getFilenameEditText();
 

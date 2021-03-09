@@ -11,5 +11,6 @@
     <string name="copy_text">"클립보드에 복사"</string>
     <string name="stop">"중지"</string>
     <string name="no_network">"네트워크에 연결되어 있지 않습니다."</string>
+    <string name="button_label_continue">계속</string>
 </resources>
 

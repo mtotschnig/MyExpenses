@@ -32,6 +32,7 @@ import org.totschnig.myexpenses.fragment.BaseTransactionList;
 import org.totschnig.myexpenses.fragment.BudgetFragment;
 import org.totschnig.myexpenses.fragment.BudgetList;
 import org.totschnig.myexpenses.fragment.CategoryList;
+import org.totschnig.myexpenses.fragment.CsvImportDataFragment;
 import org.totschnig.myexpenses.fragment.CsvImportParseFragment;
 import org.totschnig.myexpenses.fragment.CurrencyList;
 import org.totschnig.myexpenses.fragment.DistributionFragment;
@@ -107,6 +108,8 @@ public interface AppComponent {
     Builder viewModelModule(ViewModelModule viewModelModule);
 
     Builder dataModule(DataModule dataModule);
+
+    Builder featureModule(FeatureModule featureModule);
 
     Builder crashHandlerModule(CrashHandlerModule crashHandlerModule);
 
@@ -258,4 +261,6 @@ public interface AppComponent {
   void inject(CsvImportParseFragment csvImportParseFragment);
 
   void inject(@NotNull FeatureViewModel featureViewModel);
+
+  void inject(@NotNull CsvImportDataFragment csvImportDataFragment);
 }

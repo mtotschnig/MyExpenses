@@ -10,5 +10,6 @@
     <string name="copy_text">"Copiar en el portapapeles"</string>
     <string name="stop">"Detener"</string>
     <string name="no_network">"No hay conexión de red."</string>
+    <string name="button_label_continue">Continuar</string>
 </resources>
 

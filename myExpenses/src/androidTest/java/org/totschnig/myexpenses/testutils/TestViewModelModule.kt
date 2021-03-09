@@ -12,7 +12,7 @@ import org.totschnig.myexpenses.di.ViewModelModule
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.viewmodel.AbstractSyncBackendViewModel
 
-class TestViewModelModule : ViewModelModule() {
+object TestViewModelModule : ViewModelModule() {
     @Provides
     override fun provideSyncBackendViewModelClass(): Class<out AbstractSyncBackendViewModel> = FakeSyncBackendViewModel::class.java
 }

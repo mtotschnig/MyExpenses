@@ -16,8 +16,8 @@ public class CrStatusAdapter extends ArrayAdapter<CrStatus> {
   private static final int TEXT_VIEW_RESOURCE_ID = android.R.id.text1;
 
   public CrStatusAdapter(Context context) {
-    super(context, R.layout.custom_spinner_item, TEXT_VIEW_RESOURCE_ID, CrStatus.values());
-    setDropDownViewResource(R.layout.custom_spinner_dropdown_item);
+    super(context, R.layout.spinner_item_with_color, TEXT_VIEW_RESOURCE_ID, CrStatus.values());
+    setDropDownViewResource(R.layout.spinner_dropdown_item_with_color);
   }
 
   @NonNull
@@ -26,7 +26,7 @@ public class CrStatusAdapter extends ArrayAdapter<CrStatus> {
     View row = super.getView(position, convertView, parent);
     setColor(position, row);
     setText(position, row);
-    row.findViewById(android.R.id.text1).setVisibility(View.GONE);
+    row.findViewById(TEXT_VIEW_RESOURCE_ID).setVisibility(View.GONE);
     return row;
   }
 
@@ -35,7 +35,7 @@ public class CrStatusAdapter extends ArrayAdapter<CrStatus> {
     View row = super.getDropDownView(position, convertView, parent);
     setColor(position, row);
     setText(position, row);
-    row.findViewById(android.R.id.text1).setEnabled(isEnabled(position));
+    row.findViewById(TEXT_VIEW_RESOURCE_ID).setEnabled(isEnabled(position));
     return row;
   }
 

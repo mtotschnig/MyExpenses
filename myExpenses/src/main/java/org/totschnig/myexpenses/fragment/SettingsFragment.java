@@ -585,7 +585,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
         MessageDialogFragment.newInstance(getString(R.string.dialog_title_information),
             concatResStrings(getContext(), " ", R.string.home_currency_change_warning, R.string.continue_confirmation),
             new MessageDialogFragment.Button(android.R.string.ok, R.id.CHANGE_COMMAND, ((String) value)),
-            null, MessageDialogFragment.Button.noButton()).show(getParentFragmentManager(), "CONFIRM");
+            null, MessageDialogFragment.noButton()).show(getParentFragmentManager(), "CONFIRM");
       }
       return false;
     }

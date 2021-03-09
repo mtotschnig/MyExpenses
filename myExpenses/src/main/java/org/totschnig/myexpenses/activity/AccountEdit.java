@@ -28,6 +28,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -138,7 +139,9 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
     currencyAdapter = new CurrencyAdapter(this, android.R.layout.simple_spinner_item);
     mCurrencySpinner.setAdapter(currencyAdapter);
 
-    mAccountTypeSpinner = new SpinnerHelper(DialogUtils.configureTypeSpinner(findViewById(R.id.AccountType)));
+    final Spinner spinner = findViewById(R.id.AccountType);
+    DialogUtils.configureTypeSpinner(spinner);
+    mAccountTypeSpinner = new SpinnerHelper(spinner);
 
     mSyncSpinner = new SpinnerHelper(findViewById(R.id.Sync));
     configureSyncBackendAdapter();
@@ -453,7 +456,7 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
         null,
         message,
         new MessageDialogFragment.Button(R.string.pref_category_title_manage, R.id.SYNC_SETTINGS_COMMAND, null),
-        MessageDialogFragment.Button.okButton(),
+        MessageDialogFragment.okButton(),
         null)
         .show(getSupportFragmentManager(), "SYNC_HELP");
   }

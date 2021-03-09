@@ -18,6 +18,7 @@ import org.totschnig.myexpenses.util.ImportFileResultHandler;
 import org.totschnig.myexpenses.util.PermissionHelper;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
 import static org.totschnig.myexpenses.activity.ConstantsKt.IMPORT_FILENAME_REQUEST_CODE;
@@ -32,7 +33,7 @@ public abstract class ImportSourceDialogFragment extends BaseDialogFragment
   }
 
   @Override
-  public void setUri(Uri uri) {
+  public void setUri(@Nullable Uri uri) {
     mUri = uri;
   }
 
@@ -77,7 +78,7 @@ public abstract class ImportSourceDialogFragment extends BaseDialogFragment
   }
 
   protected void setupDialogView(View view) {
-    mFilename = DialogUtils.configureFilename(view);
+    mFilename = view.findViewById(R.id.Filename);
 
     view.findViewById(R.id.btn_browse).setOnClickListener(this);
   }

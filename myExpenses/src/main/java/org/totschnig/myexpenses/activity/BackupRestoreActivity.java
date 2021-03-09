@@ -109,7 +109,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
             message.toString(),
             new MessageDialogFragment.Button(android.R.string.yes,
                 R.id.BACKUP_COMMAND, null), null,
-            MessageDialogFragment.Button.noButton(), isProtected ? R.drawable.ic_lock : 0)
+            MessageDialogFragment.noButton(), isProtected ? R.drawable.ic_lock : 0)
             .show(getSupportFragmentManager(), "BACKUP");
         break;
       }

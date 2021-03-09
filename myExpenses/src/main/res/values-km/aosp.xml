@@ -14,5 +14,6 @@
     <string name="stop">"ឈប់"</string>
     <!-- packages/apps/Settings/res/values/strings.xml -->
     <string name="no_network">"មិន​មាន​ការ​តភ្ជាប់​បណ្ដាញ។"</string>
+    <string name="button_label_continue">បន្ត</string>
 </resources>
 

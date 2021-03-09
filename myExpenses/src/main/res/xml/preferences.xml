@@ -184,6 +184,12 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_category_title_import">
+        <Preference android:key="@string/pref_import_csv_key" />
+        <Preference android:key="@string/pref_import_qif_key">
+            <intent
+                android:targetClass="org.totschnig.myexpenses.activity.QifImport"
+                android:targetPackage="@string/application_id" />
+        </Preference>
         <Preference
             android:key="import_from_grisbi"
             android:summary="@string/pref_import_from_grisbi_summary"
@@ -193,12 +199,6 @@
                 android:targetClass="org.totschnig.myexpenses.activity.GrisbiImport"
                 android:targetPackage="@string/application_id" />
         </Preference>
-        <Preference android:key="@string/pref_import_qif_key">
-            <intent
-                android:targetClass="org.totschnig.myexpenses.activity.QifImport"
-                android:targetPackage="@string/application_id" />
-        </Preference>
-        <Preference android:key="@string/pref_import_csv_key" />
     </PreferenceCategory>
 
     <PreferenceCategory

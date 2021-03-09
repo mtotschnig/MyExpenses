@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<HorizontalScrollView
-    android:id="@+id/scrollHorizontal"
+<HorizontalScrollView android:id="@+id/scrollHorizontal"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -14,18 +14,22 @@
         <LinearLayout
             android:id="@+id/header_line"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="60dp"
+                android:layout_width="@dimen/csv_import_checkbox_column_width"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:layout_height="wrap_content"
-                android:text="@string/cvs_import_discard"/>
+                android:textSize="@dimen/csv_import_header_text_size"
+                android:text="@string/select"/>
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/my_recycler_view"
             android:layout_width="1395dip"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:layout_height="wrap_content"/>
     </LinearLayout>
 </HorizontalScrollView>

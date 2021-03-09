@@ -11,5 +11,6 @@
     <string name="copy_text">"Копиране в буфера"</string>
     <string name="stop">"Спиране"</string>
     <string name="no_network">"Няма връзка с мрежата."</string>
+    <string name="button_label_continue">Напред</string>
 </resources>
 

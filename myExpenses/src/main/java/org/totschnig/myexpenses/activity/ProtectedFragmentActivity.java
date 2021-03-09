@@ -858,7 +858,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
 
   @Override
   public void onDismissOrCancel(Bundle args) {
-
   }
 
   @VisibleForTesting
@@ -876,10 +875,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     findViewById(android.R.id.content).setVisibility(View.VISIBLE);
     final ActionBar actionBar = getSupportActionBar();
     if (actionBar != null) actionBar.show();
-  }
-
-  public void showMessage(int resId) {
-    showMessage(getString(resId));
   }
 
   public void checkGdprConsent(boolean forceShow) {

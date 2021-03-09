@@ -10,5 +10,6 @@
     <string name="copy_text">"複製到剪貼簿"</string>
     <string name="stop">"停止"</string>
     <string name="no_network">"沒有網路連線，"</string>
+    <string name="button_label_continue">繼續</string>
 </resources>
 

@@ -171,11 +171,14 @@ public class QifImportDialogFragment extends TextSourceDialogFragment implements
     mAccountSpinner.setOnItemSelectedListener(this);
     getLoaderManager().initLoader(0, null, this);
 
-    mDateFormatSpinner = DialogUtils.configureDateFormat(view, wrappedCtx, prefHandler, PREFKEY_IMPORT_DATE_FORMAT);
+    mDateFormatSpinner = view.findViewById(R.id.DateFormat);
+    DialogUtils.configureDateFormat(mDateFormatSpinner, wrappedCtx, prefHandler, PREFKEY_IMPORT_DATE_FORMAT);
 
-    mEncodingSpinner = DialogUtils.configureEncoding(view, wrappedCtx, prefHandler, PREFKEY_IMPORT_ENCODING);
+    mEncodingSpinner = view.findViewById(R.id.Encoding);
+    DialogUtils.configureEncoding(mEncodingSpinner, wrappedCtx, prefHandler, PREFKEY_IMPORT_ENCODING);
 
-    mCurrencySpinner = DialogUtils.configureCurrencySpinner(view, this);
+    mCurrencySpinner = view.findViewById(R.id.Currency);
+    DialogUtils.configureCurrencySpinner(mCurrencySpinner, this);
     currencyViewModel.getCurrencies().observe(this, currencies -> {
       final CurrencyAdapter adapter = (CurrencyAdapter) mCurrencySpinner.getAdapter();
       adapter.addAll(currencies);

@@ -276,8 +276,7 @@ public class DialogUtils {
     void onCalendarPermissionDenied();
   }
 
-  public static Spinner configureDateFormat(View view, Context context, PrefHandler prefHandler, String prefName) {
-    Spinner spinner = view.findViewById(R.id.DateFormat);
+  public static void configureDateFormat(Spinner spinner, Context context, PrefHandler prefHandler, String prefName) {
     ArrayAdapter<QifDateFormat> dateFormatAdapter =
         new ArrayAdapter<>(
             context, android.R.layout.simple_spinner_item, QifDateFormat.values());
@@ -290,44 +289,29 @@ public class DialogUtils {
       qdf = QifDateFormat.EU;
     }
     spinner.setSelection(qdf.ordinal());
-    return spinner;
   }
 
-  public static Spinner configureEncoding(View view, Context context, PrefHandler prefHandler, String prefName) {
-    Spinner spinner = view.findViewById(R.id.Encoding);
+  public static void configureEncoding(Spinner spinner, Context context, PrefHandler prefHandler, String prefName) {
     spinner.setSelection(
         Arrays.asList(context.getResources().getStringArray(R.array.pref_qif_export_file_encoding))
             .indexOf(prefHandler.getString(prefName, "UTF-8")));
-    return spinner;
   }
 
-  public static Spinner configureDelimiter(View view, Context context, PrefHandler prefHandler, String prefName) {
-    Spinner spinner = (Spinner) view.findViewById(R.id.Delimiter);
+  public static void configureDelimiter(Spinner spinner, Context context, PrefHandler prefHandler, String prefName) {
     spinner.setSelection(
         Arrays.asList(context.getResources().getStringArray(R.array.pref_csv_import_delimiter_values))
             .indexOf(prefHandler.getString(prefName, ",")));
-    return spinner;
   }
 
-  public static EditText configureFilename(View view) {
-    return (EditText) view.findViewById(R.id.Filename);
-  }
-
-  public static Spinner configureCurrencySpinner(
-      View view, AdapterView.OnItemSelectedListener listener) {
-    Spinner spinner = view instanceof Spinner ? (Spinner) view : view.findViewById(R.id.Currency);
-    CurrencyAdapter curAdapter = new CurrencyAdapter(view.getContext(), android.R.layout.simple_spinner_item);
+  public static void configureCurrencySpinner(Spinner spinner, AdapterView.OnItemSelectedListener listener) {
+    CurrencyAdapter curAdapter = new CurrencyAdapter(spinner.getContext(), android.R.layout.simple_spinner_item);
     spinner.setAdapter(curAdapter);
     spinner.setOnItemSelectedListener(listener);
-    return spinner;
   }
 
-  public static Spinner configureTypeSpinner(View view) {
-    Spinner spinner = view instanceof Spinner ? (Spinner) view :
-        (Spinner) view.findViewById(R.id.AccountType);
+  public static void configureTypeSpinner(Spinner spinner) {
     ArrayAdapter<AccountType> typAdapter = new AccountTypeAdapter(spinner.getContext());
     spinner.setAdapter(typAdapter);
-    return spinner;
   }
 
   public static void openBrowse(Uri uri, Fragment fragment) {

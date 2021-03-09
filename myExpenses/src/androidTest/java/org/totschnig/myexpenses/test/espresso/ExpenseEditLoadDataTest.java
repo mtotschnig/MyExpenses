@@ -46,7 +46,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withSpinnerText;
 import static androidx.test.espresso.matcher.ViewMatchers.withSubstring;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.ACCOUNT_LABEL;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.AMOUNT_MICROS;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.CATEGORY_LABEL;

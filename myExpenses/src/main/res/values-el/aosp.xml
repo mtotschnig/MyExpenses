@@ -10,5 +10,6 @@
     <string name="copy_text">"Αντιγραφή στο πρόχειρο"</string>
     <string name="stop">"Διακοπή"</string>
     <string name="no_network">"Δεν υπάρχει σύνδεση δικτύου."</string>
+    <string name="button_label_continue">Συνέχεια</string>
 </resources>
 

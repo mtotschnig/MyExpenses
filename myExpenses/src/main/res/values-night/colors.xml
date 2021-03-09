@@ -2,6 +2,7 @@
 <resources>
     <color name="colorPrimary">@color/primaryLightColor</color>
     <color name="colorAccent">@color/primaryLightColor</color>
+    <color name="colorAccentSnackbar">@color/primaryDarkColor</color>
     <color name="colorPrimaryDialog">@color/primaryLightestColor</color>
     <color name="colorErrorDialog">#D57B8C</color>
     <color name="cardHighlightForeground">#40cccccc</color>
