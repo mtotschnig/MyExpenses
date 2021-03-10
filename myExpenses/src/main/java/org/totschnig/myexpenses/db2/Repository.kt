@@ -16,6 +16,7 @@ import org.totschnig.myexpenses.model2.Transaction
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
+import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.Utils
 import java.math.BigDecimal
@@ -64,7 +65,7 @@ class Repository(val contentResolver: ContentResolver, val currencyContext: Curr
     private fun autoFill(payeeId: Long): AutoFillInfo? {
         return contentResolver.query(ContentUris.withAppendedId(TransactionProvider.AUTOFILL_URI, payeeId),
                 arrayOf(KEY_CATID), null, null, null)?.use { cursor ->
-            cursor.takeIf { it.moveToFirst() }?.let { AutoFillInfo(categoryId = it.getLong(0)) }
+            cursor.takeIf { it.moveToFirst() }?.let { DbUtils.getLongOrNull(it, 0)?.let { categoryId -> AutoFillInfo(categoryId) } }
         }
     }
 
