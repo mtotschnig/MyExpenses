@@ -161,9 +161,13 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
                     recordUsage(ContribFeature.CSV_IMPORT)
                     mUsageRecorded = true
                 }
-                var msg = "${getString(R.string.import_transactions_success, it.first.first, it.first.second)}."
-                if (it.second > 0) {
-                    msg += " ${getString(R.string.csv_import_records_failed, it.second)}"
+                val success = it.first
+                val failure: Int = it.second
+                val count: Int = success.first
+                val label = success.second
+                var msg = "${getString(R.string.import_transactions_success, count, label)}."
+                if (failure > 0) {
+                    msg += " ${getString(R.string.csv_import_records_failed, failure)}"
                 }
                 if (discardedRows > 0) {
                     msg += " ${getString(R.string.csv_import_records_discarded, discardedRows)}"
@@ -172,7 +176,7 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
                         neutral = MessageDialogFragment.nullButton(R.string.button_label_continue),
                         positive = MessageDialogFragment.Button(R.string.button_label_close, R.id.CLOSE_COMMAND, null))
             }.onFailure {
-                showSnackbar(it.message!!)
+                showSnackbar(it.message ?: it.javaClass.simpleName)
             }
         }
     }
