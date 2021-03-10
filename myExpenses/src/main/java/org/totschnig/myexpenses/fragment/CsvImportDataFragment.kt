@@ -74,6 +74,7 @@ class CsvImportDataFragment : Fragment() {
     private var cellMinWidth = 0
     private var checkboxColumnWidth = 0
     private var cellMargin = 0
+    private var spinnerRightPadding = 0
 
     @Inject
     lateinit var prefHandler: PrefHandler
@@ -85,6 +86,7 @@ class CsvImportDataFragment : Fragment() {
         cellMinWidth = resources.getDimensionPixelSize(R.dimen.csv_import_cell_min_width)
         checkboxColumnWidth = resources.getDimensionPixelSize(R.dimen.csv_import_checkbox_column_width)
         cellMargin = resources.getDimensionPixelSize(R.dimen.csv_import_cell_margin)
+        spinnerRightPadding = resources.getDimensionPixelSize(R.dimen.csv_import_spinner_right_padding)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -168,7 +170,7 @@ class CsvImportDataFragment : Fragment() {
                 val cell = AppCompatSpinner(requireContext())
                 cell.id = ViewCompat.generateViewId()
                 cell.adapter = mFieldAdapter
-                ViewCompat.setPaddingRelative(cell, 0, 0, 90, 0)
+                ViewCompat.setPaddingRelative(cell, 0, 0, spinnerRightPadding, 0)
                 addView(cell, cellParams)
             }
         }
