@@ -50,7 +50,8 @@ class CsvImportViewModel(application: Application) : ContentResolvingAndroidView
         val columnIndexAmount: Int = columnToFieldMap.indexOf(R.string.amount)
         val columnIndexExpense: Int = columnToFieldMap.indexOf(R.string.expense)
         val columnIndexIncome: Int = columnToFieldMap.indexOf(R.string.income)
-        val columnIndexDate: Int = columnToFieldMap.indexOf(R.string.date)
+        val columnIndexDate: Int = columnToFieldMap.indexOf(R.string.date).takeIf { it > -1 } ?: columnToFieldMap.indexOf(R.string.booking_date)
+        val columnIndexValueDate: Int = columnToFieldMap.indexOf(R.string.value_date)
         val columnIndexPayee: Int = columnToFieldMap.indexOf(R.string.payer_or_payee)
         val columnIndexNotes: Int = columnToFieldMap.indexOf(R.string.comment)
         val columnIndexCategory: Int = columnToFieldMap.indexOf(R.string.category)
@@ -129,7 +130,10 @@ class CsvImportViewModel(application: Application) : ContentResolvingAndroidView
                 t.catId = categoryToId[categoryInfo]
             }
             if (columnIndexDate != -1) {
-                t.setDate(QifUtils.parseDate(saveGetFromRecord(record, columnIndexDate), dateFormat))
+                t.date = QifUtils.parseDate(saveGetFromRecord(record, columnIndexDate), dateFormat).time / 1000
+            }
+            if (columnIndexValueDate != -1) {
+                t.valueDate = QifUtils.parseDate(saveGetFromRecord(record, columnIndexDate), dateFormat).time / 1000
             }
             if (columnIndexPayee != -1) {
                 val payee: String = saveGetFromRecord(record, columnIndexPayee)

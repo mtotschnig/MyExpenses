@@ -44,31 +44,29 @@ class CsvImportDataFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var dataSet: ArrayList<CSVRecord>
     private lateinit var selectedRows: SparseBooleanArrayParcelable
-    private lateinit var mFieldAdapter: ArrayAdapter<Int>
+    private lateinit var mFieldAdapter: ArrayAdapter<Pair<Int, String?>>
     private lateinit var cellParams: LinearLayout.LayoutParams
     private var firstLineIsHeader = false
     private var nrOfColumns: Int = 0
-    private val fieldKeys = arrayOf(
-            FIELD_KEY_SELECT, FIELD_KEY_AMOUNT, FIELD_KEY_EXPENSE, FIELD_KEY_INCOME,
-            FIELD_KEY_DATE, FIELD_KEY_PAYEE, FIELD_KEY_COMMENT, FIELD_KEY_CATEGORY,
-            FIELD_KEY_SUBCATEGORY, FIELD_KEY_METHOD, FIELD_KEY_STATUS, FIELD_KEY_NUMBER,
-            FIELD_KEY_SPLIT
+    private val allFields: List<Pair<Int, String?>> = listOf(
+            R.string.discard to null,
+            R.string.amount to "AMOUNT",
+            R.string.expense to "EXPENSE",
+            R.string.income to "INCOME",
+            R.string.date to "DATE",
+            R.string.booking_date to "BOOKING_DATE",
+            R.string.value_date to "VALUE_DATE",
+            R.string.payer_or_payee to "PAYEE",
+            R.string.comment to "COMMENT",
+            R.string.category to "CATEGORY",
+            R.string.subcategory to "SUB_CATEGORY",
+            R.string.method to "METHOD",
+            R.string.status to "STATUS",
+            R.string.reference_number to "NUMBER",
+            R.string.split_transaction to "SPLIT"
     )
-    private val fields = arrayOf(
-            R.string.discard,
-            R.string.amount,
-            R.string.expense,
-            R.string.income,
-            R.string.date,
-            R.string.payer_or_payee,
-            R.string.comment,
-            R.string.category,
-            R.string.subcategory,
-            R.string.method,
-            R.string.status,
-            R.string.reference_number,
-            R.string.split_transaction
-    )
+
+    private lateinit var fields: List<Pair<Int, String?>>
     private lateinit var header2FieldMap: JSONObject
     private var windowWidth = 0
     private var cellMinWidth = 0
@@ -87,6 +85,13 @@ class CsvImportDataFragment : Fragment() {
         checkboxColumnWidth = resources.getDimensionPixelSize(R.dimen.csv_import_checkbox_column_width)
         cellMargin = resources.getDimensionPixelSize(R.dimen.csv_import_cell_margin)
         spinnerRightPadding = resources.getDimensionPixelSize(R.dimen.csv_import_spinner_right_padding)
+        val withValueDate = prefHandler.getBoolean(PrefKey.TRANSACTION_WITH_VALUE_DATE, false)
+        fields = allFields.filter { when(it.first) {
+            R.string.date -> !withValueDate
+            R.string.booking_date, R.string.value_date -> withValueDate
+            else -> true
+        } }
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -99,17 +104,17 @@ class CsvImportDataFragment : Fragment() {
                 null
             }
         } ?: JSONObject()
-        mFieldAdapter = object : ArrayAdapter<Int>(
+        mFieldAdapter = object : ArrayAdapter<Pair<Int, String?>>(
                 requireActivity(), R.layout.spinner_item_narrow, 0, fields) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val tv = super.getView(position, convertView, parent) as TextView
-                tv.text = getString(fields[position])
+                tv.text = getString(fields[position].first)
                 return tv
             }
 
             override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val tv = super.getDropDownView(position, convertView, parent) as TextView
-                tv.text = getString(fields[position])
+                tv.text = getString(fields[position].first)
                 return tv
             }
         }.also {
@@ -189,7 +194,7 @@ class CsvImportDataFragment : Fragment() {
                 if (storedLabel == headerLabel) {
                     try {
                         val fieldKey = header2FieldMap.getString(storedLabel)
-                        val position = listOf(*fieldKeys).indexOf(fieldKey)
+                        val position = fields.indexOfFirst { it.second == fieldKey }
                         if (position != -1) {
                             (binding.headerLine.getChildAt(j + 1) as Spinner).setSelection(position)
                             continue@outer
@@ -200,7 +205,7 @@ class CsvImportDataFragment : Fragment() {
                 }
             }
             for (i in 1 /* 0=Select ignored  */ until fields.size) {
-                val fieldLabel = Utils.normalize(getString(fields[i]))
+                val fieldLabel = Utils.normalize(getString(fields[i].first))
                 if (fieldLabel == headerLabel) {
                     (binding.headerLine.getChildAt(j + 1) as Spinner).setSelection(i)
                     break
@@ -304,11 +309,11 @@ class CsvImportDataFragment : Fragment() {
             val header = dataSet[0]
             for (i in 0 until nrOfColumns) {
                 val position = (binding.headerLine.getChildAt(i + 1) as Spinner).selectedItemPosition
-                columnToFieldMap[i] = fields[position]
+                columnToFieldMap[i] = fields[position].first
                 if (firstLineIsHeader) {
                     try {
-                        if (fieldKeys[position] != FIELD_KEY_SELECT) {
-                            header2FieldMap.put(Utils.normalize(header[i]), fieldKeys[position])
+                        if (position > 0) {
+                            header2FieldMap.put(Utils.normalize(header[i]), fields[position].second)
                         }
                     } catch (e: JSONException) {
                         CrashHandler.report(e)
@@ -330,7 +335,6 @@ class CsvImportDataFragment : Fragment() {
      *  * No field mapped more than once
      *  * Subcategory cannot be mapped without category
      *  * One of amount, income or expense must be mapped.
-     *
      *
      * @param columnToFieldMap
      */
@@ -363,19 +367,6 @@ class CsvImportDataFragment : Fragment() {
         const val KEY_DATA_SET = "DATA_SET"
         const val KEY_SELECTED_ROWS = "SELECTED_ROWS"
         const val KEY_FIRST_LINE_IS_HEADER = "FIRST_LINE_IS_HEADER"
-        const val FIELD_KEY_SELECT = "SELECT"
-        const val FIELD_KEY_AMOUNT = "AMOUNT"
-        const val FIELD_KEY_EXPENSE = "EXPENSE"
-        const val FIELD_KEY_INCOME = "INCOME"
-        const val FIELD_KEY_DATE = "DATE"
-        const val FIELD_KEY_PAYEE = "PAYEE"
-        const val FIELD_KEY_COMMENT = "COMMENT"
-        const val FIELD_KEY_CATEGORY = "CATEGORY"
-        const val FIELD_KEY_SUBCATEGORY = "SUB_CATEGORY"
-        const val FIELD_KEY_METHOD = "METHOD"
-        const val FIELD_KEY_STATUS = "STATUS"
-        const val FIELD_KEY_NUMBER = "NUMBER"
-        const val FIELD_KEY_SPLIT = "SPLIT"
         fun newInstance(): CsvImportDataFragment {
             return CsvImportDataFragment()
         }
