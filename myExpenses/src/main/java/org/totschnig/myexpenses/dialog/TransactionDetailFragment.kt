@@ -76,8 +76,9 @@ class TransactionDetailFragment : BaseDialogFragment(), DialogInterface.OnClickL
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder = initBuilderWithView(R.layout.transaction_detail)
-        _binding = TransactionDetailBinding.bind(dialogView)
+        val builder = initBuilderWithBinding {
+            TransactionDetailBinding.inflate(materialLayoutInflater).also { _binding = it }
+        }
         val viewModel = ViewModelProvider(this).get(TransactionDetailViewModel::class.java)
         val rowId = requireArguments().getLong(DatabaseConstants.KEY_ROWID)
         viewModel.transaction(rowId).observe(this, { o -> fillData(o) })

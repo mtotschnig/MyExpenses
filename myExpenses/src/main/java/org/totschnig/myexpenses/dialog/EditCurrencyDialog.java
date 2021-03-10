@@ -79,11 +79,10 @@ public class EditCurrencyDialog extends BaseDialogFragment {
   @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    AlertDialog.Builder builder = initBuilder();
-    binding = EditCurrencyBinding.inflate(layoutInflater);
-    dialogView = binding.getRoot();
-    builder.setView(dialogView);
-
+    AlertDialog.Builder builder = initBuilderWithBinding(() -> {
+        binding = EditCurrencyBinding.inflate(materialLayoutInflater);
+        return binding;
+    });
     Currency currency = getCurrency();
     boolean frameworkCurrency;
     String title = null;

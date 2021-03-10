@@ -115,8 +115,9 @@ class PlannerFragment : BaseDialogFragment() {
         get() = _binding?.recyclerView?.adapter
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder = initBuilderWithView(R.layout.planner_fragment)
-        _binding = PlannerFragmentBinding.bind(dialogView)
+        val builder = initBuilderWithBinding {
+            PlannerFragmentBinding.inflate(materialLayoutInflater).also { _binding = it }
+        }
         val plannerAdapter = PlannerAdapter()
         binding.recyclerView.adapter = plannerAdapter
         binding.Title.movementMethod = LinkMovementMethod.getInstance()

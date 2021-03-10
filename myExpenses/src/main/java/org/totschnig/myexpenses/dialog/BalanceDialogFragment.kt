@@ -31,8 +31,9 @@ class BalanceDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
     private val binding get() = _binding!!
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder = initBuilderWithView(R.layout.balance)
-        _binding = BalanceBinding.bind(dialogView)
+        val builder = initBuilderWithBinding {
+            BalanceBinding.inflate(materialLayoutInflater).also { _binding = it }
+        }
         UiUtils.configureAmountTextViewForHebrew(binding.TotalReconciled)
         binding.TotalReconciled.text = requireArguments().getString(DatabaseConstants.KEY_RECONCILED_TOTAL)
         UiUtils.configureAmountTextViewForHebrew(binding.TotalCleared)
@@ -52,6 +53,11 @@ class BalanceDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
         val ctx = activity as MyExpenses? ?: return
         requireArguments().putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.BALANCE_COMMAND_DO)
         ctx.onPositive(requireArguments(), binding.balanceDelete.isChecked)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {

@@ -104,10 +104,10 @@ public class ExportDialogFragment extends BaseDialogFragment implements OnClickL
     final String fileName;
     String now = new SimpleDateFormat("yyyMMdd-HHmmss", Locale.US)
         .format(new Date());
-    AlertDialog.Builder builder = initBuilder();
-    binding = ExportDialogBinding.inflate(layoutInflater);
-    dialogView = binding.getRoot();
-    builder.setView(dialogView);
+    AlertDialog.Builder builder = initBuilderWithBinding(() -> {
+      binding = ExportDialogBinding.inflate(materialLayoutInflater);
+      return binding;
+    });
 
     //TODO Strict mode violation
     Account a = Account.getInstanceFromDb(accountId);

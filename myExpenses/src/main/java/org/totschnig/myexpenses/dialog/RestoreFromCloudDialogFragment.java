@@ -52,10 +52,10 @@ public class RestoreFromCloudDialogFragment extends BaseDialogFragment
   @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    AlertDialog.Builder builder = initBuilder();
-    binding = RestoreFromCloudBinding.inflate(layoutInflater);
-    dialogView = binding.getRoot();
-    builder.setView(dialogView);
+    AlertDialog.Builder builder = initBuilderWithBinding(() -> {
+      binding = RestoreFromCloudBinding.inflate(materialLayoutInflater);
+      return binding;
+    });
     binding.passwordLayout.passwordLayout.setHint(getString(R.string.input_label_passphrase));
     binding.passwordLayout.passwordEdit.addTextChangedListener(new TextWatcher() {
       @Override

@@ -26,7 +26,6 @@ import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.ArrayRes
 import androidx.annotation.StringRes
@@ -35,6 +34,7 @@ import androidx.core.text.HtmlCompat
 import androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.databinding.HelpDialogBinding
 import org.totschnig.myexpenses.util.DistributionHelper.isGithub
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.util.*
@@ -46,6 +46,8 @@ import java.util.*
  * @author Michael Totschnig
  */
 class HelpDialogFragment : BaseDialogFragment(), ImageGetter {
+    private var _binding: HelpDialogBinding? = null
+    private val binding get() = _binding!!
     companion object {
         const val KEY_VARIANT = "variant"
         private const val KEY_CONTEXT = "context"
@@ -128,7 +130,6 @@ class HelpDialogFragment : BaseDialogFragment(), ImageGetter {
 
     private var context: String? = null
     private var variant: String? = null
-    private var linearLayout: LinearLayout? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val ctx = activity
@@ -137,8 +138,9 @@ class HelpDialogFragment : BaseDialogFragment(), ImageGetter {
         val args = arguments
         context = args!!.getString(KEY_CONTEXT)
         variant = args.getString(KEY_VARIANT)
-        val builder = initBuilderWithView(R.layout.help_dialog)
-        linearLayout = dialogView.findViewById(R.id.help)
+        val builder = initBuilderWithBinding {
+            HelpDialogBinding.inflate(materialLayoutInflater).also { _binding = it }
+        }
         try {
             var resIdString = "help_" + context + "_info"
             var screenInfo = resolveStringOrArray(resIdString, true)
@@ -153,12 +155,11 @@ class HelpDialogFragment : BaseDialogFragment(), ImageGetter {
                     }
                 }
             }
-            val infoView = dialogView.findViewById<TextView>(R.id.screen_info)
             if (TextUtils.isEmpty(screenInfo)) {
-                infoView.visibility = View.GONE
+                binding.screenInfo.visibility = View.GONE
             } else {
-                infoView.text = screenInfo
-                infoView.movementMethod = LinkMovementMethod.getInstance()
+                binding.screenInfo.text = screenInfo
+                binding.screenInfo.movementMethod = LinkMovementMethod.getInstance()
             }
 
             // Form entries
@@ -168,17 +169,19 @@ class HelpDialogFragment : BaseDialogFragment(), ImageGetter {
                 menuItems.addAll(listOf(*res.getStringArray(formResId)))
             }
             if (menuItems.isEmpty()) {
-                dialogView.findViewById<View>(R.id.form_fields_heading).visibility = View.GONE
+                binding.formFieldsHeading.visibility = View.GONE
             } else {
-                handleMenuItems(menuItems, "form", dialogView.findViewById(R.id.form_fields_container))
+                handleMenuItems(menuItems, "form", binding.formFieldsContainer)
             }
 
             // Menu items
             val menuResId = resolveArray(buildComponentName("menuitems"))
             menuItems.clear()
             if (menuResId != 0) menuItems.addAll(listOf(*res.getStringArray(menuResId)))
-            if (menuItems.isEmpty()) dialogView.findViewById<View>(R.id.menu_commands_heading).visibility = View.GONE else {
-                handleMenuItems(menuItems, "menu", dialogView.findViewById(R.id.menu_commands_container))
+            if (menuItems.isEmpty()) {
+                binding.menuCommandsHeading.visibility = View.GONE
+            } else {
+                handleMenuItems(menuItems, "menu", binding.menuCommandsContainer)
             }
 
             // Contextual action bar
@@ -187,12 +190,12 @@ class HelpDialogFragment : BaseDialogFragment(), ImageGetter {
             menuItems.clear()
             if (cabResId != 0) menuItems.addAll(listOf(*res.getStringArray(cabResId)))
             if (menuItems.isEmpty()) {
-                dialogView.findViewById<View>(R.id.cab_commands_heading).visibility = View.GONE
+                binding.cabCommandsHeading.visibility = View.GONE
             } else {
-                handleMenuItems(menuItems, "cab", dialogView.findViewById(R.id.cab_commands_container))
+                handleMenuItems(menuItems, "cab", binding.cabCommandsContainer)
             }
             if (menuItems.isEmpty() || !showLongTapHint(componentName)) {
-                dialogView.findViewById<View>(R.id.cab_commands_help).visibility = View.GONE
+                binding.cabCommandsHelp.visibility = View.GONE
             }
             val titleResId = if (variant != null) resolveString("help_" + context + "_" + variant + "_title") else 0
             title = if (titleResId == 0) {
@@ -234,7 +237,7 @@ class HelpDialogFragment : BaseDialogFragment(), ImageGetter {
     }
 
     /**
-     * @param menuItems list of menuitems to be displayed
+     * @param menuItems list of menuItems to be displayed
      * @param prefix    "form", "menu" or "cab"
      * @param container items will be added to this container
      * @throws Resources.NotFoundException
@@ -244,7 +247,7 @@ class HelpDialogFragment : BaseDialogFragment(), ImageGetter {
         var resIdString: String
         var resId: Int?
         for (item in menuItems) {
-            val row = layoutInflater.inflate(R.layout.help_dialog_action_row, linearLayout, false)
+            val row = materialLayoutInflater.inflate(R.layout.help_dialog_action_row, binding.help, false)
             var title = ""
             //this allows us to map an item like "date.time" to the concatenation of translations for date and for time
             for (resIdPart in item.split(".").toTypedArray()) {
@@ -288,7 +291,7 @@ class HelpDialogFragment : BaseDialogFragment(), ImageGetter {
         }
     }
 
-    private fun resolveStringOrArray(resString: String, separateComponentsByLinefeeds: Boolean): CharSequence? {
+    private fun resolveStringOrArray(resString: String, separateComponentsByLineFeeds: Boolean): CharSequence? {
         val resIdString = resString.replace('.', '_')
         val arrayId = resolveArray(resIdString)
         return if (arrayId == 0) {
@@ -308,7 +311,7 @@ class HelpDialogFragment : BaseDialogFragment(), ImageGetter {
             for (i in components.indices) {
                 resolvedComponents.add(HtmlCompat.fromHtml(components[i], FROM_HTML_MODE_LEGACY, this, null))
                 if (i < components.size - 1) {
-                    resolvedComponents.add(if (separateComponentsByLinefeeds) linefeed else " ")
+                    resolvedComponents.add(if (separateComponentsByLineFeeds) linefeed else " ")
                 }
             }
             TextUtils.concat(*resolvedComponents.toTypedArray())
@@ -411,5 +414,10 @@ class HelpDialogFragment : BaseDialogFragment(), ImageGetter {
         } catch (e: Resources.NotFoundException) {
             null
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
