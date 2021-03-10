@@ -210,7 +210,7 @@ dependencies {
     implementation "com.squareup.picasso:picasso:$picassoVersion"
     implementation 'com.github.mtotschnig:MPAndroidChart:6fcf34d9d4'
     implementation 'com.github.mtotschnig:Caldroid:d217ebc306'
-    implementation 'com.github.eltos:simpledialogfragments:v3.3'
+    implementation 'com.github.eltos:simpledialogfragments:v3.3.2'
     implementation 'com.annimon:stream:1.2.1'
     implementation 'com.getkeepsafe.taptargetview:taptargetview:1.13.0'
 
@@ -284,6 +284,7 @@ dependencies {
     testImplementation "org.robolectric:shadows-multidex:$robolectricVersion"
     testImplementation "androidx.test:core:$androidSupportTestVersion"
     testImplementation "org.assertj:assertj-core:$assertjVersion"
+    //noinspection GradleDependency
     androidTestImplementation "org.assertj:assertj-core:$assertjVersionAndroid"
     implementation "androidx.core:core-ktx:$ktxVersion"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
