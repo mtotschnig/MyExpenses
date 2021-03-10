@@ -4,7 +4,7 @@
      Licensed to The Android Open Source Project.
      android-source/packages/apps/UnifiedEmail/res/values/strings.xmlls
 -->
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources>
     <string name="drawer_open">"Åbn navigationsskuffen"</string>
     <string name="drawer_close">"Luk navigationsskuffen"</string>
     <string name="toast_text_copied">"Kopieret tekst"</string>
@@ -12,5 +12,8 @@
     <string name="stop">"Stop"</string>
     <string name="no_network">"Der er ingen netværksforbindelse."</string>
     <string name="button_label_continue">Fortsæt</string>
+    <string name="autofill">"Autofyld"</string>
+    <string name="discard">"Kassér"</string>
+    <string name="dialog_dismiss">"Luk"</string>
 </resources>
 

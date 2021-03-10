@@ -52,6 +52,7 @@
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Zatiketa txantiloi kopuru mugagabea</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>E-mail bidezko laguntza</b> 2 lanegunetan erantzuna jasotzeko bermearekin</string>
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources"><b>Garapen ibilbidean</b> bozkatzeko aukera</string>
+    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Historikoaren diagrama</string>
     <string name="licence_status_free">Doan</string>
     <string name="contrib_key">Kontribuzio Gakoa</string>
     <string name="extended_key">Gako hedatua</string>
@@ -275,7 +276,6 @@
     <string name="pm_type_debit">Zordunketa</string>
     <string name="pm_type_neutral">Neutrala</string>
     <string name="pref_app_dir_title">Babeskopia eta esportazioetarako karpeta</string>
-    <string name="pref_auto_fill_title">Automatikoki bete transakzioak</string>
     <string name="pref_backup_summary">Sortu datu-base eta hobespenen babeskopia bat.</string>
     <string name="pref_sort_order_usages">Erabilera kontaketa</string>
     <string name="pref_category_title_advanced">Aurreratua</string>
@@ -518,8 +518,6 @@
     <string name="pref_csv_import_delimiter">Bereizlea</string>
     <string name="csv_import_preview">Aurreikusi</string>
     <string name="menu_parse">Prozesatu</string>
-    <!-- Label for column where user can check rows to be discarded from import -->
-    <string name="cvs_import_discard">Baztertu</string>
     <string name="csv_import_field_mapped_more_than_once">%s behin baino gehiagotan mapeatu da.</string>
     <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d sarrera ezin izan dira inportatu.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d sarrera baztertu dira.</string>

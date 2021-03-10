@@ -109,7 +109,7 @@
 
         <PreferenceScreen
             android:key="@string/pref_auto_fill_key"
-            android:title="@string/pref_auto_fill_title">
+            android:title="@string/autofill">
             <Preference
                 style="?preferenceInformationStyle"
                 android:summary="@string/pref_auto_fill_summary" />

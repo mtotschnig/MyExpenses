@@ -3,7 +3,7 @@
      Copyright (C) 2011 Google Inc.
      Licensed to The Android Open Source Project.
 -->
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources>
     <string name="drawer_open">"Navigációs fiók kinyitása"</string>
     <string name="drawer_close">"Navigációs fiók bezárása"</string>
     <string name="toast_text_copied">"Másolt szöveg"</string>
@@ -11,5 +11,8 @@
     <string name="stop">"Leállítás"</string>
     <string name="no_network">"Nincs hálózati kapcsolat."</string>
     <string name="button_label_continue">Tovább</string>
+    <string name="autofill">"Automatikus kitöltés"</string>
+    <string name="discard">"Elvetés"</string>
+    <string name="dialog_dismiss">"Elvetés"</string>
 </resources>
 

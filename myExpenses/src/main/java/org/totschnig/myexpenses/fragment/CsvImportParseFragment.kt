@@ -45,6 +45,7 @@ import org.totschnig.myexpenses.viewmodel.data.Currency.Companion.create
 import javax.inject.Inject
 
 class CsvImportParseFragment : Fragment(), View.OnClickListener, LoaderManager.LoaderCallbacks<Cursor>, AdapterView.OnItemSelectedListener, FileNameHostFragment {
+
     private var _binding: ImportCsvParseBinding? = null
     private var _fileNameBinding: FilenameBinding? = null
     private val binding
@@ -279,6 +280,9 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, LoaderManager.L
 
     val accountType: AccountType
         get() = binding.AccountTable.AccountType.selectedItem as AccountType
+
+    val autoFillCategories: Boolean
+        get() = binding.autofillCategories.isChecked
 
     companion object {
         const val PREF_KEY_IMPORT_CSV_DATE_FORMAT = "import_csv_date_format"

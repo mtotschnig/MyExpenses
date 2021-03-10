@@ -277,7 +277,6 @@
     <string name="pm_type_debit">Gider</string>
     <string name="pm_type_neutral">Nötr</string>
     <string name="pref_app_dir_title">Yedekleme ve dışa aktarmalar için klasör</string>
-    <string name="pref_auto_fill_title">Muameleleri otomatik doldur</string>
     <string name="pref_auto_fill_summary">Aynı alacaklı/ödeyici için verileri son muameleden doldur</string>
     <string name="pref_backup_summary">SD kartına veritabanı ve tercihlerin bir yedeklemesini yap.</string>
     <string name="pref_sort_order_usages">Kullanım sayacı</string>
@@ -523,8 +522,6 @@
     <string name="pref_csv_import_delimiter">Sınırlayıcı</string>
     <string name="csv_import_preview">Önizle</string>
     <string name="menu_parse">Çözümle</string>
-    <!-- Label for column where user can check rows to be discarded from import -->
-    <string name="cvs_import_discard">At</string>
     <string name="csv_import_field_mapped_more_than_once">%s bir kereden fazla haritalanmıştır.</string>
     <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d kayıt içe aktarılamadı.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d kayıt atılmıştır.</string>
@@ -706,7 +703,6 @@
     <string name="pref_warning_only_one_protection">%1$s ile korumayı kullanmadan önce %2$s ile korumayı devre dışı bırakmanız gerekir.</string>
     <string name="warning_device_lock_screen_not_set_up_1">Güvenli cihaz kilidi ekranı ayarlanmadı.</string>
     <string name="warning_device_lock_screen_not_set_up_2">Ekran kilidini ayarlamak için \'Ayarlar -&gt; Güvenlik -&gt; Ekran kilidine\' gidiniz.</string>
-    <string name="snackbar_dismiss">Kapat</string>
     <string name="menu_history_show_balance">Bakiyeyi göster</string>
     <string name="menu_history_transfers">Transferleri dahil et</string>
     <string name="menu_history">Tarihçe</string>

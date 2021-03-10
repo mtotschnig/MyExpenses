@@ -4,7 +4,7 @@
      Licensed to The Android Open Source Project.
      android-source/packages/apps/UnifiedEmail/res/values/strings.xmlls
 -->
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources>
     <string name="drawer_open">"Ireki nabigazio-panel lerrakorra"</string>
     <string name="drawer_close">"Itxi nabigazio-panel lerrakorra"</string>
     <string name="toast_text_copied">"Testua kopiatu da"</string>
@@ -12,5 +12,8 @@
     <string name="stop">"Gelditu"</string>
     <string name="no_network">"Ez dago sareko konexiorik."</string>
     <string name="button_label_continue">Jarraitu</string>
+    <string name="autofill">"Betetze automatikoa"</string>
+    <string name="discard">"Baztertu"</string>
+    <string name="dialog_dismiss">"Baztertu"</string>
 </resources>
 

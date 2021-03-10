@@ -9,6 +9,7 @@ import com.squareup.sqlbrite3.BriteContentResolver
 import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.CoroutineDispatcher
 import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.ui.ContextHelper
 import javax.inject.Inject
 
@@ -17,6 +18,8 @@ abstract class ContentResolvingAndroidViewModel(application: Application) : Andr
     lateinit var briteContentResolver: BriteContentResolver
     @Inject
     lateinit var coroutineDispatcher: CoroutineDispatcher
+    @Inject
+    lateinit var repository: Repository
 
     var disposable: Disposable? = null
 

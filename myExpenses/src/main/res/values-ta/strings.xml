@@ -52,6 +52,7 @@
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">வரம்பற்ற பிரிவு வார்ப்புருக்கள்</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources">2 வணிக நாட்களுக்குள் உத்தரவாத பதிலுடன் <b> மின்னஞ்சல் ஆதரவு </b></string>
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources"><b>மேம்பாட்டு  திட்டத்தில்</b> வாக்களிக்கும் உரிமை</string>
+    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">வரலாற்று விளக்கப்படம்</string>
     <string name="licence_status_free">இலவசம்</string>
     <string name="contrib_key">பங்களிப்பு திறவுகோல்</string>
     <string name="extended_key">விரிவாக்கப்பட்ட திறவுகோல்</string>
@@ -276,7 +277,6 @@
     <string name="pm_type_debit">செலவு</string>
     <string name="pm_type_neutral">நடுநிலை</string>
     <string name="pref_app_dir_title">காப்புப்பிரதி மற்றும் ஏற்றுமதிகளுக்கான கோப்புறை</string>
-    <string name="pref_auto_fill_title">பரிவர்த்தனைகளை தன்னிரப்புதல்</string>
     <string name="pref_auto_fill_summary">அதே பணம் பெறுபவர்/செலுத்துபவர் எனும் பட்சத்தில் கடந்த பரிவர்த்தனையிலிருந்து தரவை நிரப்பு</string>
     <string name="pref_backup_summary">தரவுதளம் மற்றும் விருப்பத்தேர்வுகளின் காப்புப்பிரதி உருவாக்குதல்.</string>
     <string name="pref_sort_order_usages">பயன்பாடுகளின் எண்ணிக்கை</string>
@@ -522,8 +522,6 @@
     <string name="pref_csv_import_delimiter">வரம்புச் சுட்டி</string>
     <string name="csv_import_preview">முன்னோட்டம்</string>
     <string name="menu_parse">பாகுபடுத்து</string>
-    <!-- Label for column where user can check rows to be discarded from import -->
-    <string name="cvs_import_discard">நிராகரி</string>
     <string name="csv_import_field_mapped_more_than_once">%s ஒன்றுக்கு மேலாக தொடற்பு படுத்தப்பட்டுள்ளது.</string>
     <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d பதிவுகளை இறக்குமதி செய்ய முடியவில்லை.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d பதிவுகள்  நீக்கப்பட்டது.</string>
@@ -705,7 +703,6 @@
     <string name="pref_warning_only_one_protection">நீங்கள் %1$s மூலம் பாதுகாப்பைப் பயன்படுத்தும் முன், %2$s மூலம் பாதுகாப்பை நிறுத்த வேண்டும்.</string>
     <string name="warning_device_lock_screen_not_set_up_1">பாதுகாப்பான கருவி பூட்டு திரை அமைக்கப்படவில்லை.</string>
     <string name="warning_device_lock_screen_not_set_up_2">\'அமைப்புகள் -&gt; பாதுகாப்பு -&gt; திரைப்பூட்டு\';-க்கு சென்று ஒரு பூட்டு திரையை அமைக்கவும்.</string>
-    <string name="snackbar_dismiss">அகற்று</string>
     <string name="menu_history_show_balance">இருப்பை காட்டு</string>
     <string name="menu_history_transfers">பரிமாற்றங்களை உள்ளடக்கு</string>
     <string name="menu_history">வரலாறு</string>

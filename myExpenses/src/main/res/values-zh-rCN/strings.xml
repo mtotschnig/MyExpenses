@@ -241,7 +241,6 @@
     <string name="pm_type_debit">借记</string>
     <string name="pm_type_neutral">中性</string>
     <string name="pref_app_dir_title">备份和导出的文件夹</string>
-    <string name="pref_auto_fill_title">自动填充交易</string>
     <string name="pref_backup_summary">在SD卡上建立资料库备份和喜好设置档.</string>
     <string name="pref_sort_order_usages">使用量计数</string>
     <string name="pref_category_title_advanced">高级设置</string>
@@ -421,8 +420,6 @@
     <string name="pref_csv_import_delimiter">分隔符</string>
     <string name="csv_import_preview">预览</string>
     <string name="menu_parse">粘贴</string>
-    <!-- Label for column where user can check rows to be discarded from import -->
-    <string name="cvs_import_discard">丢弃</string>
     <string name="csv_import_field_mapped_more_than_once">%s 被映射超过一次.</string>
     <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d 个记录不能被导入</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d 个记录被丢弃.</string>

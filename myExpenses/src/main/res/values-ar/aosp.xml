@@ -3,7 +3,7 @@
      Copyright (C) 2011 Google Inc.
      Licensed to The Android Open Source Project.
 -->
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources>
     <string name="drawer_open">"فتح ساحب التنقل"</string>
     <string name="drawer_close">"إغلاق ساحب التنقل"</string>
     <string name="toast_text_copied">"تم نسخ النص"</string>
@@ -11,5 +11,8 @@
     <string name="stop">"إيقاف"</string>
     <string name="no_network">ليس هناك اتصال بالشبكة.</string>
     <string name="button_label_continue">متابعة</string>
+    <string name="autofill">"الملء التلقائي"</string>
+    <string name="discard">"إلغاء"</string>
+    <string name="dialog_dismiss">"تجاهل"</string>
 </resources>
 

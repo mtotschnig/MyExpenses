@@ -145,7 +145,7 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
         csvImportViewModel.progress.observe(this) {
             showProgress(total = totalToImport, progress = it)
         }
-        csvImportViewModel.importData(dataSet, columnToFieldMap, dateFormat) {
+        csvImportViewModel.importData(dataSet, columnToFieldMap, dateFormat, parseFragment.autoFillCategories) {
             if (accountId == 0L) {
                 Account(getString(R.string.pref_import_title, "CSV"), currency, 0, accountType).apply {
                     save()

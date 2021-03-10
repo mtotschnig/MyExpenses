@@ -55,7 +55,7 @@ class CsvImportDataFragment : Fragment() {
             FIELD_KEY_SPLIT
     )
     private val fields = arrayOf(
-            R.string.csv_import_discard,
+            R.string.discard,
             R.string.amount,
             R.string.expense,
             R.string.income,
@@ -338,7 +338,7 @@ class CsvImportDataFragment : Fragment() {
         val foundFields = SparseBooleanArray()
         val activity = requireActivity() as ProtectedFragmentActivity
         for (field in columnToFieldMap) {
-            if (field != R.string.csv_import_discard) {
+            if (field != R.string.discard) {
                 if (foundFields[field, false]) {
                     activity.showSnackbar(getString(R.string.csv_import_field_mapped_more_than_once, getString(field)))
                     return false

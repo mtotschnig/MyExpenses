@@ -277,7 +277,6 @@
     <string name="pm_type_debit">Débito</string>
     <string name="pm_type_neutral">Neutro</string>
     <string name="pref_app_dir_title">Pasta para backups e exportações</string>
-    <string name="pref_auto_fill_title">Preenchimento automático de transações</string>
     <string name="pref_auto_fill_summary">Preencha com dados da última transação para o mesmo beneficiário/pagador</string>
     <string name="pref_backup_summary">Cria um backup do banco de dados e das preferências.</string>
     <string name="pref_sort_order_usages">Contagem de usos</string>
@@ -523,8 +522,6 @@
     <string name="pref_csv_import_delimiter">Delimitador</string>
     <string name="csv_import_preview">Visualizar</string>
     <string name="menu_parse">Analisar</string>
-    <!-- Label for column where user can check rows to be discarded from import -->
-    <string name="cvs_import_discard">Descartar</string>
     <string name="csv_import_field_mapped_more_than_once">%s está mapeado mais de uma vez.</string>
     <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">Não foi possível importar %d registros.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d registros foram descartados.</string>
@@ -706,7 +703,6 @@
     <string name="pref_warning_only_one_protection">Antes de usar a proteção por %1$s, você deve desativar a proteção por %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">A tela de bloqueio de segurança do dispositivo não foi configurada.</string>
     <string name="warning_device_lock_screen_not_set_up_2">Vá para \'Configurações -&gt; Segurança -&gt; Tela de bloqueio\' para definir uma tela de bloqueio.</string>
-    <string name="snackbar_dismiss">Dispensar</string>
     <string name="menu_history_show_balance">Exibir saldo</string>
     <string name="menu_history_transfers">Incluir transferências</string>
     <string name="menu_history">Histórico</string>
@@ -976,4 +972,5 @@
     <!-- Title of a menu item and a dialogue that allow to adjust the current balance. User can enter the new balance, and transaction form is opened with the amount prefiled to the difference between old and new balance  -->
     <string name="new_balance">Novo saldo</string>
     <string name="title_webui">Interface web do usuário</string>
-    </resources>
+    <string name="single_feature_info">Como alternativa, você pode comprar acesso ilimitado apenas a este recurso.</string>
+</resources>

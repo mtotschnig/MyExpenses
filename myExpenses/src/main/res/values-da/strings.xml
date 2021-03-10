@@ -242,7 +242,6 @@
     <string name="pm_type_debit">Udgifter</string>
     <string name="pm_type_neutral">Neutral</string>
     <string name="pref_app_dir_title">Mappen til sikkerhedskopier og eksport</string>
-    <string name="pref_auto_fill_title">AutoFyld</string>
     <string name="pref_backup_summary">Opret en sikkerhedskopi af databasen og indstillingerne.</string>
     <string name="pref_category_title_advanced">Avanceret</string>
     <string name="pref_category_title_export">Eksporter</string>
@@ -463,8 +462,6 @@
     <string name="pref_csv_import_delimiter">Adskillelsestegn</string>
     <string name="csv_import_preview">Preview</string>
     <string name="menu_parse">Analyser</string>
-    <!-- Label for column where user can check rows to be discarded from import -->
-    <string name="cvs_import_discard">Forkast</string>
     <string name="csv_import_field_mapped_more_than_once">%s er tilknyttet til flere.</string>
     <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d dataposter kunne ikke importeres</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d dataposter ignoreret</string>

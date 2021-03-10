@@ -4,7 +4,7 @@
      Licensed to The Android Open Source Project.
      android-source/packages/apps/UnifiedEmail/res/values/strings.xmlls
 -->
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources>
     <string name="drawer_open">"Отваряне на слоя за навигация"</string>
     <string name="drawer_close">"Затваряне на чекмеджето за навигация"</string>
     <string name="toast_text_copied">"Текстът бе копиран"</string>
@@ -12,5 +12,8 @@
     <string name="stop">"Спиране"</string>
     <string name="no_network">"Няма връзка с мрежата."</string>
     <string name="button_label_continue">Напред</string>
+    <string name="autofill">"Автоматично попълване"</string>
+    <string name="discard">"Отхвърляне"</string>
+    <string name="dialog_dismiss">"Отхвърляне"</string>
 </resources>
 

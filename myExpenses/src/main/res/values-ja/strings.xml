@@ -272,7 +272,6 @@
     <string name="pm_type_debit">借方</string>
     <string name="pm_type_neutral">中性</string>
     <string name="pref_app_dir_title">バックアップとエクスポート先のフォルダー</string>
-    <string name="pref_auto_fill_title">取引の自動入力</string>
     <string name="pref_auto_fill_summary">同じ受取人/支払人の最終取引のデータを記入する</string>
     <string name="pref_backup_summary">データベースとプリファレンスのバックアップを作成します。</string>
     <string name="pref_sort_order_usages">使用件数</string>
@@ -512,8 +511,6 @@
     <string name="pref_csv_import_delimiter">デリミタ</string>
     <string name="csv_import_preview">プレビュー</string>
     <string name="menu_parse">解析</string>
-    <!-- Label for column where user can check rows to be discarded from import -->
-    <string name="cvs_import_discard">破棄</string>
     <string name="csv_import_field_mapped_more_than_once">%s は複数に配置されます。</string>
     <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d レコードインポートできませんでした。</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d レコード破棄されました。</string>
@@ -694,7 +691,6 @@
     <string name="pref_warning_only_one_protection">%1$s による保護を使用する前に、%2$s の保護をオフにする必要があります。</string>
     <string name="warning_device_lock_screen_not_set_up_1">安全なデバイスロック画面は設定されていません。</string>
     <string name="warning_device_lock_screen_not_set_up_2">\'設定 -&gt; セキュリティ -&gt; 画面ロック\' でロック画面を設定してください。</string>
-    <string name="snackbar_dismiss">消去</string>
     <string name="menu_history_show_balance">残高を表示</string>
     <string name="menu_history_transfers">振替を含む</string>
     <string name="menu_history">履歴</string>

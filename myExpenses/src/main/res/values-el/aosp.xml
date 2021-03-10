@@ -3,7 +3,7 @@
      Copyright (C) 2011 Google Inc.
      Licensed to The Android Open Source Project.
 -->
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources>
     <string name="drawer_open">"Άνοιγμα συρταριού πλοήγησης"</string>
     <string name="drawer_close">"Κλείσιμο συρταριού πλοήγησης"</string>
     <string name="toast_text_copied">"Το κείμενο αντιγράφηκε"</string>
@@ -11,5 +11,8 @@
     <string name="stop">"Διακοπή"</string>
     <string name="no_network">"Δεν υπάρχει σύνδεση δικτύου."</string>
     <string name="button_label_continue">Συνέχεια</string>
+    <string name="autofill">"Αυτόματη συμπλήρωση"</string>
+    <string name="discard">"Απόρριψη"</string>
+    <string name="dialog_dismiss">"Παράβλεψη"</string>
 </resources>
 

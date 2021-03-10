@@ -3,7 +3,7 @@
      Copyright (C) 2011 Google Inc.
      Licensed to The Android Open Source Project.
 -->
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources>
     <string name="drawer_open">"Abrir gaveta de navegação"</string>
     <string name="drawer_close">"Fechar gaveta de navegação"</string>
     <string name="toast_text_copied">"Texto copiado"</string>
@@ -11,5 +11,8 @@
     <string name="stop">"Parar"</string>
     <string name="no_network">"Nenhuma conexão de rede."</string>
     <string name="button_label_continue">Continuar</string>
+    <string name="autofill">"Preenchimento automático"</string>
+    <string name="discard">"Odrzuć"</string>
+    <string name="dialog_dismiss">"Dispensar"</string>
 </resources>
 

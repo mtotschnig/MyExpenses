@@ -52,6 +52,7 @@
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Número ilimitado de plantillas divididas</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Soporte por correo electrónico</b> con respuesta garantizada en 2 días laborales</string>
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Derecho a participar en la <b>hoja de ruta de desarrollo</b></string>
+    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Gráfico de historial</string>
     <string name="licence_status_free">Gratis</string>
     <string name="contrib_key">Clave Contrib</string>
     <string name="extended_key">Clave Extendida</string>
@@ -276,7 +277,6 @@
     <string name="pm_type_debit">Débito</string>
     <string name="pm_type_neutral">Neutral</string>
     <string name="pref_app_dir_title">Carpeta para copias de seguridad y exportaciones</string>
-    <string name="pref_auto_fill_title"> Autorrelleno de transacciones</string>
     <string name="pref_auto_fill_summary">Rellenar los datos desde la última transacción para el mismo acreedor/ordenante</string>
     <string name="pref_backup_summary">Crear una copia de seguridad de la base de datos y las configuraciones.</string>
     <string name="pref_sort_order_usages">Frecuencia de utilización</string>
@@ -522,8 +522,6 @@
     <string name="pref_csv_import_delimiter">Delimitador</string>
     <string name="csv_import_preview">Vista previa</string>
     <string name="menu_parse">Análisis</string>
-    <!-- Label for column where user can check rows to be discarded from import -->
-    <string name="cvs_import_discard">Descartar</string>
     <string name="csv_import_field_mapped_more_than_once">%s ha sido asignada más de una vez.</string>
     <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d registros no pudieron ser importados.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d registros fueron descartados.</string>
@@ -705,7 +703,6 @@
     <string name="pref_warning_only_one_protection">Antes de que pueda usar la protección por %1$s, tiene que desactivar la protección por %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">La seguridad en el bloqueo de pantalla no ha sido configurada.</string>
     <string name="warning_device_lock_screen_not_set_up_2">Vaya a \'Ajustes -&gt; Seguridad -&gt; Bloqueo de pantalla\' para configurar un bloqueo de pantalla.</string>
-    <string name="snackbar_dismiss">Descartar</string>
     <string name="menu_history_show_balance">Mostrar balance</string>
     <string name="menu_history_transfers">Incluir transferencias</string>
     <string name="menu_history">Historial</string>

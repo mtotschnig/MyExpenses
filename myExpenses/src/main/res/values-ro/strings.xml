@@ -258,7 +258,6 @@
     <string name="pm_type_debit">Debit</string>
     <string name="pm_type_neutral">Neutru</string>
     <string name="pref_app_dir_title">Folder pentru backup-uri si exporturi</string>
-    <string name="pref_auto_fill_title">Tranzacţii completate automat</string>
     <string name="pref_backup_summary">Creaţi un backup al bazei de date si preferinţelor.</string>
     <string name="pref_sort_order_usages">Numarul utilizarilor</string>
     <string name="pref_category_title_advanced">Avansat</string>
@@ -476,8 +475,6 @@
     <string name="menu_categories_export">Export ca QIF</string>
     <string name="pref_csv_import_delimiter">Delimitator</string>
     <string name="csv_import_preview">Preview</string>
-    <!-- Label for column where user can check rows to be discarded from import -->
-    <string name="cvs_import_discard">Inlatura</string>
     <string name="csv_import_field_mapped_more_than_once">%s este mapat de mai multe ori.</string>
     <string name="csv_import_delimiter_comma">Virgula</string>
     <string name="csv_import_delimiter_semicolon">Punct si virgula</string>

@@ -4,7 +4,7 @@
      Licensed to The Android Open Source Project.
      android-source/packages/apps/UnifiedEmail/res/values/strings.xml
 -->
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources>
     <string name="drawer_open">"ನ್ಯಾವಿಗೇಶನ್ ಡ್ರಾಯರ್ ತೆರೆಯಿರಿ"</string>
     <string name="drawer_close">"ನ್ಯಾವಿಗೇಶನ್ ಡ್ರಾಯರ್ ಮುಚ್ಚಿ"</string>
     <string name="toast_text_copied">"ಪಠ್ಯವನ್ನು ನಕಲಿಸಲಾಗಿದೆ"</string>
@@ -12,5 +12,8 @@
     <string name="stop">"ನಿಲ್ಲಿಸು"</string>
     <string name="no_network">"ಯಾವುದೇ ನೆಟ್‌ವರ್ಕ್‌ ಸಂಪರ್ಕಗಳಿಲ್ಲ."</string>
     <string name="button_label_continue">"ಮುಂದುವರಿಸು"</string>
+    <string name="autofill">"ಸ್ವಯಂತುಂಬುವಿಕೆ"</string>
+    <string name="discard">"ತಿರಸ್ಕರಿಸು"</string>
+    <string name="dialog_dismiss">"ವಜಾಗೊಳಿಸು"</string>
 </resources>
 

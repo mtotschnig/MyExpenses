@@ -175,7 +175,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     fun showDismissibleSnackbar(message: CharSequence) {
         showSnackbar(message, Snackbar.LENGTH_INDEFINITE,
-                SnackbarAction(R.string.snackbar_dismiss) { snackbar?.dismiss() })
+                SnackbarAction(R.string.dialog_dismiss) { snackbar?.dismiss() })
     }
 
     fun showSnackbar(message: Int) {

@@ -48,5 +48,25 @@
 
         <include layout="@layout/import_account" android:id="@+id/AccountTable"/>
 
+        <TableRow
+            android:gravity="center_vertical">
+
+            <TextView
+                style="@style/FormLabel"
+                android:text="@string/autofill"/>
+
+            <LinearLayout
+                style="@style/FormField"
+                android:orientation="vertical">
+
+                <CheckBox
+                    android:id="@+id/autofill_categories"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/pref_manage_categories_title"/>
+            </LinearLayout>
+        </TableRow>
+
     </TableLayout>
 </androidx.core.widget.NestedScrollView>

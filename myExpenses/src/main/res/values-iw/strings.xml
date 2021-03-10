@@ -283,7 +283,6 @@
     <string name="pm_type_debit">חובה</string>
     <string name="pm_type_neutral">ניטראלי</string>
     <string name="pref_app_dir_title">תיקייה לגיבויים ולייצוא</string>
-    <string name="pref_auto_fill_title">מילוי אוטומטי של עסקאות</string>
     <string name="pref_auto_fill_summary">מלא נתונים מהעסקה האחרונה עבור אותו מקבל תשלום / משלם</string>
     <string name="pref_backup_summary">צור גיבוי של מסד נתונים והעדפות.</string>
     <string name="pref_sort_order_usages">ספירת שימושים</string>
@@ -541,8 +540,6 @@
     <string name="pref_csv_import_delimiter">תוחם - מציב גבול</string>
     <string name="csv_import_preview">תצוגה מקדימה</string>
     <string name="menu_parse">ביטוי</string>
-    <!-- Label for column where user can check rows to be discarded from import -->
-    <string name="cvs_import_discard">השלך</string>
     <string name="csv_import_field_mapped_more_than_once">%s משוייך יחותר מפעם אחת.</string>
     <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d רשומות לא ניתנות ליבוא..</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d רשומות נמחקו</string>
@@ -726,7 +723,6 @@
     <string name="pref_warning_only_one_protection">לפני שתוכל להשתמש בהגנה על ידי%1$s, עליך לבטל את ההגנה על ידי%2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">מסך נעילת המכשיר המאובטח לא הוגדר.</string>
     <string name="warning_device_lock_screen_not_set_up_2">גש להגדרות, בחר אבטחה,בחר נעילת מסך כדי להגדיר נעילת מסך</string>
-    <string name="snackbar_dismiss">שחרר</string>
     <string name="menu_history_show_balance">הצג את היתרה</string>
     <string name="menu_history_transfers">כלול העברות</string>
     <string name="menu_history">היסטוריה</string>

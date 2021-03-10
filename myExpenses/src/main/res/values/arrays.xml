@@ -412,6 +412,10 @@
         <item>account_types</item>
     </string-array>
 
+    <string-array name="CsvImportActivity_formfields" tools:ignore="UnusedResources">
+        <item>autofill</item>
+    </string-array>
+
     <string-array name="FolderBrowser_menuitems" tools:ignore="UnusedResources">
         <item>create_folder</item>
         <item>select</item>

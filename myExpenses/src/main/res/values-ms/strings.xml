@@ -51,7 +51,7 @@
     <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Import CSV</string>
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Bilang templat berasingan tidak terhad</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Sokongan emel</b> dengan maklumbalas dijamin selepas 2 hari bekerja</string>
-    <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Hak mengundi dalam &lt;/b&gt;peta jalan pembangunan&lt;/b&gt;</string>
+    <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Hak mengundi dalam <b>peta jalan pembangunan</b></string>
     <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Carta sejarah</string>
     <string name="licence_status_free">Percuma</string>
     <string name="contrib_key">Kunci Contrib</string>
@@ -272,7 +272,6 @@
     <string name="pm_type_debit">Debit</string>
     <string name="pm_type_neutral">Neutral</string>
     <string name="pref_app_dir_title">Folder untuk sandar dan eksport</string>
-    <string name="pref_auto_fill_title">Transaksi autoisi</string>
     <string name="pref_auto_fill_summary">Isi data dari transaksi terakhir untuk penerima/pembayar</string>
     <string name="pref_backup_summary">Cipta sandar pangkalan data dan keutamaan.</string>
     <string name="pref_sort_order_usages">Kiraan penggunaan</string>
@@ -510,8 +509,6 @@
     <string name="pref_csv_import_delimiter">Pembatas</string>
     <string name="csv_import_preview">Pratonton</string>
     <string name="menu_parse">Hurai</string>
-    <!-- Label for column where user can check rows to be discarded from import -->
-    <string name="cvs_import_discard">Singkir</string>
     <string name="csv_import_field_mapped_more_than_once">%s telah dipetakan lebih dari sekali.</string>
     <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d rekod tidak dapat diimport.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d rekod telah disingkirkan.</string>
@@ -690,7 +687,6 @@
     <string name="pref_warning_only_one_protection">Sebelum anda guna perlindungan oleh %1$s, anda mesti matikan perlindungan oleh %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">Selamatkan skrin kunci peranti belum dipasangkan.</string>
     <string name="warning_device_lock_screen_not_set_up_2">Pergi ke \'Tetapan -&gt; Keselamatan -&gt; KunciSkrin\' untuk tetapkan skrin kunci.</string>
-    <string name="snackbar_dismiss">Singkir</string>
     <string name="menu_history_show_balance">Tunjuk baki</string>
     <string name="menu_history_transfers">Sertakan pemindahan</string>
     <string name="menu_history">Sejarah</string>

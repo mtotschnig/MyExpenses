@@ -3,7 +3,7 @@
      Copyright (C) 2011 Google Inc.
      Licensed to The Android Open Source Project.
 -->
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources>
     <string name="drawer_open">"Открыть панель навигации"</string>
     <string name="drawer_close">"Закрыть панель навигации"</string>
     <string name="toast_text_copied">"Текст скопирован"</string>
@@ -11,5 +11,8 @@
     <string name="stop">"Стоп"</string>
     <string name="no_network">"Нет подключения к сети."</string>
     <string name="button_label_continue">Продолжить</string>
+    <string name="autofill">"Автозаполнение"</string>
+    <string name="discard">"Отменить"</string>
+    <string name="dialog_dismiss">"Закрыть"</string>
 </resources>
 

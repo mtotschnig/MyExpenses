@@ -3,7 +3,7 @@
      Copyright (C) 2011 Google Inc.
      Licensed to The Android Open Source Project.
 -->
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources>
     <string name="drawer_open">"開啟導覽匣"</string>
     <string name="drawer_close">"關閉導覽匣"</string>
     <string name="toast_text_copied">"文字已複製"</string>
@@ -11,5 +11,8 @@
     <string name="stop">"停止"</string>
     <string name="no_network">"沒有網路連線，"</string>
     <string name="button_label_continue">繼續</string>
+    <string name="autofill">"自動填入"</string>
+    <string name="discard">"捨棄"</string>
+    <string name="dialog_dismiss">"關閉"</string>
 </resources>
 

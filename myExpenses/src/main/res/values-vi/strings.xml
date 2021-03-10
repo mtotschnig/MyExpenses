@@ -268,7 +268,6 @@
     <string name="pm_type_debit">Nợ</string>
     <string name="pm_type_neutral">Trung lập</string>
     <string name="pref_app_dir_title">Thư mục cho các bản sao lưu và dữ liệu xuất ra</string>
-    <string name="pref_auto_fill_title">Tự điền vào giao dịch</string>
     <string name="pref_auto_fill_summary">Điền dữ liệu từ giao dịch trước đó cho cùng người nhận/trả</string>
     <string name="pref_backup_summary">Tạo một phần sao lưu đối với cơ sở dữ liệu và tùy biến trên thẻ nhớ.</string>
     <string name="pref_sort_order_usages">Số lần sử dụng</string>
@@ -505,8 +504,6 @@
     <string name="pref_csv_import_delimiter">Dấu phân tách</string>
     <string name="csv_import_preview">xem trước</string>
     <string name="menu_parse">Phân tích</string>
-    <!-- Label for column where user can check rows to be discarded from import -->
-    <string name="cvs_import_discard">Huỷ bỏ</string>
     <string name="csv_import_field_mapped_more_than_once">%s được ánh xạ nhiều hơn một lần.</string>
     <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d bản ghi không thể nhập được.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d bản ghi bị huỷ bỏ.</string>
@@ -681,7 +678,6 @@
     <string name="pref_warning_only_one_protection">Trước khi bạn có thể sử dụng phương thức bảo vệ bởi %1$s, bạn phải tắt cơ chế bảo vệ của %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">Khoá màn hình an toàn vẫn chưa được thiết lập.</string>
     <string name="warning_device_lock_screen_not_set_up_2">Vào mục \'Cài đặt -&gt; Bảo mật -&gt; Khoá màn hình\' để thiết lập khoá màn hình.</string>
-    <string name="snackbar_dismiss">Bỏ qua</string>
     <string name="menu_history_show_balance">Hiển thị số dư</string>
     <string name="menu_history_transfers">Bao gồm các giao dịch chuyển khoản</string>
     <string name="menu_history">Lịch sử</string>

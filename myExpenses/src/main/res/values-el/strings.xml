@@ -52,6 +52,7 @@
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Απεριόριστος αριθμός προτύπων διαίρεσης</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Υποστήριξη ηλεκτρονικού ταχυδρομείου</b> με εγγυημένη απόκριση εντός 2 εργάσιμων ημερών</string>
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Δικαίωμα ψήφου για τον <b>χάρτη πορείας</b></string>
+    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Γράφημα ιστορικού</string>
     <string name="licence_status_free">Ελεύθερο</string>
     <string name="contrib_key">Contrib κλειδί</string>
     <string name="extended_key">Κλειδί Εκτεταμένης λειτουργίας</string>
@@ -276,7 +277,6 @@
     <string name="pm_type_debit">Χρεωστική εγγραφή, χρέωση</string>
     <string name="pm_type_neutral">Ουδέτερο</string>
     <string name="pref_app_dir_title">Φάκελος για την δημιουργία αντιγράφων ασφαλείας και εξαγωγές</string>
-    <string name="pref_auto_fill_title">Αυτόματη συμπλήρωση συναλλαγών</string>
     <string name="pref_auto_fill_summary">Συμπληρώστε τα δεδομένα από την τελευταία συναλλαγή για τον ίδιο δικαιούχο/πληρωτή</string>
     <string name="pref_backup_summary">Δημιουργήστε ένα αντίγραφο ασφαλείας της βάσης δεδομένων και προτιμήσεις για την sdcard.</string>
     <string name="pref_sort_order_usages">Άθροισμα χρήσεων</string>
@@ -519,8 +519,6 @@
     <string name="pref_csv_import_delimiter">Οριοθέτης</string>
     <string name="csv_import_preview">Προεπισκόπηση</string>
     <string name="menu_parse">Ανάλυση</string>
-    <!-- Label for column where user can check rows to be discarded from import -->
-    <string name="cvs_import_discard">Απόρριψη</string>
     <string name="csv_import_field_mapped_more_than_once">%s έχει αντιστοιχιστεί πάνω από μία φορά.</string>
     <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d εγγραφές δεν μπορούν να εισαχθούν.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d εγγραφές απορρίφθηκαν.</string>
@@ -679,7 +677,6 @@
     <string name="pref_warning_only_one_protection">Για να μπορέσετε να χρησιμοποιήσετε την προστασία από %1$s, πρέπει να απενεργοποιήσετε την προστασία από %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">Η ασφαλής οθόνη κλειδώματος συσκευής δεν έχει ρυθμιστεί.</string>
     <string name="warning_device_lock_screen_not_set_up_2">Μεταβείτε στην ενότητα \"Ρυθμίσεις -> Ασφάλεια -> Προστασία\" για να ρυθμίσετε την οθόνη κλειδώματος.</string>
-    <string name="snackbar_dismiss">Απόρριψη</string>
     <string name="menu_history_show_balance">Εμφάνιση υπολοίπου</string>
     <string name="menu_history_transfers">Συμπερίληψη μεταφορών</string>
     <string name="menu_history">Ιστορικό</string>

@@ -52,6 +52,7 @@
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Unbegrenzte Anzahl an Vorlagen für mehrteilige Buchungen</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>E-Mail-Support</b> mit garantierter Antwort innerhalb von 2 Werktagen</string>
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Stimmrecht zum <b>Entwicklungsfahrplan</b></string>
+    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Verlaufsdiagramm</string>
     <string name="licence_status_free">Gratis</string>
     <string name="contrib_key">Contrib-Schlüssel</string>
     <string name="extended_key">Erweiterungsschlüssel</string>
@@ -276,7 +277,6 @@
     <string name="pm_type_debit">Ausgaben</string>
     <string name="pm_type_neutral">Neutral</string>
     <string name="pref_app_dir_title">Ordner für Backups und Exports</string>
-    <string name="pref_auto_fill_title">Automatisches Ausfüllen</string>
     <string name="pref_auto_fill_summary">Daten von der letzten Buchung für denselben Empfänger/Zahler ausfüllen</string>
     <string name="pref_backup_summary">Erzeugt ein Backup der Datenbank und der Einstellungen</string>
     <string name="pref_sort_order_usages">Häufigkeit der Benutzung</string>
@@ -522,8 +522,6 @@
     <string name="pref_csv_import_delimiter">Trennzeichen</string>
     <string name="csv_import_preview">Vorschau</string>
     <string name="menu_parse">Analysieren</string>
-    <!-- Label for column where user can check rows to be discarded from import -->
-    <string name="cvs_import_discard">Verwerfen</string>
     <string name="csv_import_field_mapped_more_than_once">%s wird mehr als einmal zugeordnet.</string>
     <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d Einträge konnten nicht importiert werden.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d Einträge wurden verworfen.</string>
@@ -705,7 +703,6 @@
     <string name="pref_warning_only_one_protection">Bevor Sie den Schutz durch %1$s verwenden können, müssen Sie den Schutz durch %2$s ausschalten.</string>
     <string name="warning_device_lock_screen_not_set_up_1">Der sichere Gerätesperrbildschirm wurde nicht eingerichtet.</string>
     <string name="warning_device_lock_screen_not_set_up_2">Gehen Sie zu \'Einstellungen -&gt; Sicherheit -&gt; Bildschirmsperre\', um einen Sperrbildschirm einzurichten.</string>
-    <string name="snackbar_dismiss">Verwerfen</string>
     <string name="menu_history_show_balance">Saldo anzeigen</string>
     <string name="menu_history_transfers">Umbuchungen einschließen</string>
     <string name="menu_history">Verlauf</string>

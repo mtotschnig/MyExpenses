@@ -8,7 +8,7 @@
   * ./gradlew lintConscriptExternRelease
   * ./gradlew testConscriptExternReleaseUnitTest
   * ./gradlew disableSystemAnimations clean connectedConscriptExternDebugAndroidTest
-  * ./gradlew clean assembleConscriptExternRelease
+  * ./gradlew clean :myExpenses:packageConscriptExternReleaseUniversalApk
 * test upgrade mechanism
 * Create release tag in GIT (git tag r39; git push origin r39)
 * update _config.yml and push gh-pages

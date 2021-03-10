@@ -52,6 +52,7 @@
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Неограничен брой шаблони за  разпределяне</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b> Поддръжка по имейл </b> с гарантиран отговор до 2 работни дни</string>
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Право да гласувате на <b> карта за развитие </b></string>
+    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Графика на историята</string>
     <string name="licence_status_free">Безплатен</string>
     <string name="contrib_key">ключ за Основен вариант</string>
     <string name="extended_key">ключ за Разширен вариант</string>
@@ -276,7 +277,6 @@
     <string name="pm_type_debit">Дебит</string>
     <string name="pm_type_neutral">Неутрално</string>
     <string name="pref_app_dir_title">Папка за архивиране и експорт</string>
-    <string name="pref_auto_fill_title">Автоматично попълване</string>
     <string name="pref_auto_fill_summary">Попълни данните от последната транзакция за същия получател / платец</string>
     <string name="pref_backup_summary">Запиши сега резервно копие на базата данни и предпочитания.</string>
     <string name="pref_sort_order_usages">По брой използвания</string>
@@ -522,8 +522,6 @@
     <string name="pref_csv_import_delimiter">Разделител</string>
     <string name="csv_import_preview">Предварителен оглед</string>
     <string name="menu_parse">Анализирай</string>
-    <!-- Label for column where user can check rows to be discarded from import -->
-    <string name="cvs_import_discard">Отхвърли</string>
     <string name="csv_import_field_mapped_more_than_once">%s е свързан повече от веднъж.</string>
     <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">Не могат да бъдат внесени %d записа.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">Отхвърлени са %d записа.</string>
@@ -705,7 +703,6 @@
     <string name="pref_warning_only_one_protection">Преди да можете да използвате защита от %1$s, трябва да изключите защитата от %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">Защитният екран за заключено устройството не е настроен.</string>
     <string name="warning_device_lock_screen_not_set_up_2">Отидете на \"Настройки -&gt; Настройки -&gt; Заключен екран\", за да настроите заключен екран.</string>
-    <string name="snackbar_dismiss">Отхвърли</string>
     <string name="menu_history_show_balance">Показване на салдото</string>
     <string name="menu_history_transfers">Включи преводите</string>
     <string name="menu_history">История</string>

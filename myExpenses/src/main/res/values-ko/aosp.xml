@@ -4,7 +4,7 @@
      Licensed to The Android Open Source Project.
      android-source/packages/apps/UnifiedEmail/res/values/strings.xmlls
 -->
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources>
     <string name="drawer_open">"내비게이션 폴더 열기"</string>
     <string name="drawer_close">"내비게이션 폴더 닫기"</string>
     <string name="toast_text_copied">"텍스트 복사됨"</string>
@@ -12,5 +12,8 @@
     <string name="stop">"중지"</string>
     <string name="no_network">"네트워크에 연결되어 있지 않습니다."</string>
     <string name="button_label_continue">계속</string>
+    <string name="autofill">"자동완성"</string>
+    <string name="discard">"취소"</string>
+    <string name="dialog_dismiss">"닫기"</string>
 </resources>
 

@@ -1,6 +1,6 @@
 [main]
 host = https://www.transifex.com
-lang_map = ca_ES:ca,pt_BR:pt,zh_HK:zh-rTW,ms_MY:ms,pt_PT:pt-rPT,zh_CN:zh-rCN,he:iw,uk_UA:uk
+lang_map = ca_ES:ca,pt_BR:pt,zh_HK:zh-rHK,ms_MY:ms,pt_PT:pt-rPT,zh_CN:zh-rCN,he:iw,uk_UA:uk,zh-Hant:zh-rTW
 
 [my-expenses.stringsV2]
 source_lang = en

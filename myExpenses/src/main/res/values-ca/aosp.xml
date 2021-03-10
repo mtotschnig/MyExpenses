@@ -3,7 +3,7 @@
      Copyright (C) 2011 Google Inc.
      Licensed to The Android Open Source Project.
 -->
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources>
     <string name="drawer_open">"Obre el tauler de navegació"</string>
     <string name="drawer_close">"Tanca el tauler de navegació"</string>
     <string name="toast_text_copied">"Text copiat"</string>
@@ -11,5 +11,8 @@
     <string name="stop">"Atura"</string>
     <string name="no_network">"No hi ha cap connexió de xarxa."</string>
     <string name="button_label_continue">Continua</string>
+    <string name="autofill">"Emplenament automàtic"</string>
+    <string name="discard">"Descarta"</string>
+    <string name="dialog_dismiss">"Ignora"</string>
 </resources>
 

@@ -239,7 +239,6 @@
     <string name="pm_type_debit">Dugovanje</string>
     <string name="pm_type_neutral">Neutralno</string>
     <string name="pref_app_dir_title">Mapa za sigurnosne kopije i eksporte</string>
-    <string name="pref_auto_fill_title">Automatski popuni transacije</string>
     <string name="pref_backup_summary">Kreiraj sigurnosnu kopiju baze podataka i preferencija.</string>
     <string name="pref_category_title_advanced">Napredno</string>
     <string name="pref_category_title_export">Eksportiraj</string>

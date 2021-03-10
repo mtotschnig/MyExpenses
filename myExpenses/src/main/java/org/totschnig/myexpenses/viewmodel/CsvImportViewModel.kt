@@ -9,13 +9,13 @@ import androidx.lifecycle.liveData
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVRecord
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.db2.AutoFillInfo
 import org.totschnig.myexpenses.export.CategoryInfo
 import org.totschnig.myexpenses.export.qif.QifDateFormat
 import org.totschnig.myexpenses.export.qif.QifUtils
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Payee
 import org.totschnig.myexpenses.model.PaymentMethod
 import org.totschnig.myexpenses.model.PaymentMethod.PreDefined
 import org.totschnig.myexpenses.model.SplitTransaction
@@ -29,6 +29,7 @@ import java.util.*
 class CsvImportViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
     private val _progress: MutableLiveData<Int> = MutableLiveData()
     val progress: LiveData<Int> = _progress
+
     fun parseFile(uri: Uri, delimiter: Char, encoding: String): LiveData<Result<List<CSVRecord>>> =
             liveData(context = coroutineContext()) {
         try {
@@ -40,10 +41,10 @@ class CsvImportViewModel(application: Application) : ContentResolvingAndroidView
         }
     }
 
-    fun importData(data: List<CSVRecord>, columnToFieldMap: IntArray, dateFormat: QifDateFormat, accountCreator: () -> Account): LiveData<Result<Pair<Pair<Int, String>, Int>>> = liveData(context = coroutineContext()) {
+    fun importData(data: List<CSVRecord>, columnToFieldMap: IntArray, dateFormat: QifDateFormat, autoFill: Boolean, accountCreator: () -> Account): LiveData<Result<Pair<Pair<Int, String>, Int>>> = liveData(context = coroutineContext()) {
         var totalImported = 0
         var totalFailed = 0
-        val payeeToId: MutableMap<String, Long> = HashMap()
+        val payeeCache: MutableMap<String, Pair<Long, AutoFillInfo>> = HashMap()
         val categoryToId: MutableMap<String, Long> = HashMap()
         val account: Account = accountCreator()
         val columnIndexAmount: Int = columnToFieldMap.indexOf(R.string.amount)
@@ -85,7 +86,7 @@ class CsvImportViewModel(application: Application) : ContentResolvingAndroidView
                 return@liveData
             }
             val m = Money(account.currencyUnit, amount)
-            if (!isSplitParent && columnIndexCategory != -1) {
+            if (!autoFill && !isSplitParent && columnIndexCategory != -1) {
                 val category: String = saveGetFromRecord(record, columnIndexCategory)
                 if (category != "") {
                     val subCategory = if (columnIndexSubcategory != -1) saveGetFromRecord(record, columnIndexSubcategory) else ""
@@ -133,10 +134,12 @@ class CsvImportViewModel(application: Application) : ContentResolvingAndroidView
             if (columnIndexPayee != -1) {
                 val payee: String = saveGetFromRecord(record, columnIndexPayee)
                 if (payee != "") {
-                    val id = Payee.extractPayeeId(payee, payeeToId)
-                    if (id != -1L) {
-                        payeeToId[payee] = id
-                        t.payeeId = id
+                    val payeeInfo = payeeCache[payee] ?: run {
+                        repository.findOrWritePayeeInfo(payee, autoFill)
+                    }
+                    t.payeeId = payeeInfo.first
+                    payeeInfo.second?.categoryId?.let {
+                        t.catId = it
                     }
                 }
             }

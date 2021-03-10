@@ -276,7 +276,6 @@
     <string name="pm_type_debit">ಡೆಬಿಟ್</string>
     <string name="pm_type_neutral">ತಟಸ್ಥ</string>
     <string name="pref_app_dir_title">ಬ್ಯಾಕಪ್‌ಗಳು ಮತ್ತು ರಫ್ತುಗಳಿಗಾಗಿ ಫೋಲ್ಡರ್</string>
-    <string name="pref_auto_fill_title">ಆಟೋಫಿಲ್ ವ್ಯವಹಾರಗಳು</string>
     <string name="pref_auto_fill_summary">ಅದೇ ಪಾವತಿದಾರ / ಪಾವತಿಸುವವರಿಗೆ ಕೊನೆಯ ವಹಿವಾಟಿನಿಂದ ಡೇಟಾವನ್ನು ಭರ್ತಿ ಮಾಡಿ</string>
     <string name="pref_backup_summary">ಡೇಟಾಬೇಸ್ ಮತ್ತು ಆದ್ಯತೆಗಳ ಬ್ಯಾಕಪ್ ರಚಿಸಿ.</string>
     <string name="pref_sort_order_usages">ಬಳಕೆಗಳ ಎಣಿಕೆ</string>
@@ -522,8 +521,6 @@
     <string name="pref_csv_import_delimiter">ಡಿಲಿಮಿಟರ್</string>
     <string name="csv_import_preview">ಮುನ್ನೋಟ</string>
     <string name="menu_parse">ಪಾರ್ಸ್</string>
-    <!-- Label for column where user can check rows to be discarded from import -->
-    <string name="cvs_import_discard">ತ್ಯಜಿಸಿ</string>
     <string name="csv_import_field_mapped_more_than_once">%s ಅನ್ನು ಒಂದಕ್ಕಿಂತ ಹೆಚ್ಚು ಬಾರಿ ಮ್ಯಾಪ್ ಮಾಡಲಾಗಿದೆ.</string>
     <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d ದಾಖಲೆಗಳನ್ನು ಆಮದು ಮಾಡಲಾಗಲಿಲ್ಲ.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d ದಾಖಲೆಗಳನ್ನು ತ್ಯಜಿಸಲಾಗಿದೆ.</string>
@@ -705,7 +702,6 @@
     <string name="pref_warning_only_one_protection">ನೀವು %1$s ಮೂಲಕ ರಕ್ಷಣೆಯನ್ನು ಬಳಸುವ ಮೊದಲು, ನೀವು %2$s ಮೂಲಕ ರಕ್ಷಣೆಯನ್ನು ಆಫ್ ಮಾಡಬೇಕು.</string>
     <string name="warning_device_lock_screen_not_set_up_1">ಸುರಕ್ಷಿತ ಸಾಧನ ಲಾಕ್ ಪರದೆಯನ್ನು ಹೊಂದಿಸಲಾಗಿಲ್ಲ.</string>
     <string name="warning_device_lock_screen_not_set_up_2">ಲಾಕ್ ಪರದೆಯನ್ನು ಹೊಂದಿಸಲು \'ಸೆಟ್ಟಿಂಗ್‌ಗಳು -&gt; ಭದ್ರತೆ -&gt; ಸ್ಕ್ರೀನ್‌ಲಾಕ್\' ಗೆ ಹೋಗಿ.</string>
-    <string name="snackbar_dismiss">ವಜಾಗೊಳಿಸಿ</string>
     <string name="menu_history_show_balance">ಬಾಕಿ ಮೊತ್ತ ತೋರಿಸಿ</string>
     <string name="menu_history_transfers">ವರ್ಗಾವಣೆಗಳನ್ನು ಸೇರಿಸಿ</string>
     <string name="menu_history">ಇತಿಹಾಸ</string>

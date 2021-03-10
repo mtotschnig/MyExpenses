@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model2.Transaction
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.Utils
@@ -39,7 +40,7 @@ class Repository(val contentResolver: ContentResolver, val currencyContext: Curr
                         put(DatabaseConstants.KEY_VALUE_DATE, toEpochSecond)
                         put(DatabaseConstants.KEY_PAYEEID, findOrWritePayee(payee))
                         put(DatabaseConstants.KEY_CR_STATUS, CrStatus.UNRECONCILED.name)
-                        category.takeIf { it > 0 }?.let { put(DatabaseConstants.KEY_CATID, it) }
+                        category.takeIf { it > 0 }?.let { put(KEY_CATID, it) }
                         method.takeIf { it > 0 }?.let { put(DatabaseConstants.KEY_METHODID, it) }
                         put(DatabaseConstants.KEY_REFERENCE_NUMBER, number)
                         put(DatabaseConstants.KEY_COMMENT, comment)
@@ -56,6 +57,17 @@ class Repository(val contentResolver: ContentResolver, val currencyContext: Curr
     }
 
     //Payee
+    fun findOrWritePayeeInfo(payeeName: String, autoFill: Boolean) = findPayee(payeeName)?.let {
+        Pair(it, if (autoFill) autoFill(it) else null)
+    } ?: Pair(createPayee(payeeName)!!, null)
+
+    private fun autoFill(payeeId: Long): AutoFillInfo? {
+        return contentResolver.query(ContentUris.withAppendedId(TransactionProvider.AUTOFILL_URI, payeeId),
+                arrayOf(KEY_CATID), null, null, null)?.use { cursor ->
+            cursor.takeIf { it.moveToFirst() }?.let { AutoFillInfo(categoryId = it.getLong(0)) }
+        }
+    }
+
     private fun findOrWritePayee(name: String) = findPayee(name) ?: createPayee(name)
 
     private fun findPayee(name: String) = contentResolver.query(TransactionProvider.PAYEES_URI,
@@ -78,3 +90,5 @@ class Repository(val contentResolver: ContentResolver, val currencyContext: Curr
                 if (it.moveToFirst()) it.getString(0) else null
             }?.let { currencyContext[it] }
 }
+
+data class AutoFillInfo(val categoryId: Long)

@@ -42,4 +42,5 @@
     <string name="help_ManageTags_manage_title">@string/tags</string>
     <string name="help_ManageTags_select_mapping_title">@string/tags_create_or_select</string>
     <string name="help_ManageTags_select_filter_title">@string/search_tag</string>
+    <string name="form_autofill_help_text">@string/pref_auto_fill_summary</string>
 </resources>

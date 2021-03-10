@@ -4,7 +4,7 @@
      Licensed to The Android Open Source Project.
      android-source/packages/apps/UnifiedEmail/res/values/strings.xmlls
 -->
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources>
     <string name="drawer_open">"Deschideți panoul de navigare"</string>
     <string name="drawer_close">"Închideți panoul de navigare"</string>
     <string name="toast_text_copied">"Text copiat"</string>
@@ -12,5 +12,8 @@
     <string name="stop">"Opriți"</string>
     <string name="no_network">"Nu există nicio conexiune la rețea."</string>
     <string name="button_label_continue">Continuați</string>
+    <string name="autofill">"Completare automată"</string>
+    <string name="discard">"Renunţaţi"</string>
+    <string name="dialog_dismiss">"Închideți"</string>
 </resources>
 

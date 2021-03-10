@@ -252,7 +252,6 @@
     <string name="pm_type_debit">직불 결제</string>
     <string name="pm_type_neutral">중립</string>
     <string name="pref_app_dir_title">백업 및 내보내기에 사용할 폴더</string>
-    <string name="pref_auto_fill_title">거래 내역 자동으로 채우기</string>
     <string name="pref_backup_summary">데이터베이스와 설정값의 백업을 만들기</string>
     <string name="pref_sort_order_usages">사용 빈도</string>
     <string name="pref_category_title_advanced">고급</string>
@@ -474,8 +473,6 @@
     <string name="pref_csv_import_delimiter">구획 문자</string>
     <string name="csv_import_preview">미리보기</string>
     <string name="menu_parse">분석</string>
-    <!-- Label for column where user can check rows to be discarded from import -->
-    <string name="cvs_import_discard">버리기</string>
     <string name="csv_import_field_mapped_more_than_once">%s 항목은 한번 이상 배치되었습니다.</string>
     <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d 기록을 가져올 수 없습니다.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d 기록이 버려졌습니다.</string>

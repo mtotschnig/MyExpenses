@@ -4,7 +4,7 @@
      Licensed to The Android Open Source Project.
      android-source/packages/apps/UnifiedEmail/res/values/strings.xmlls
 -->
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources>
     <string name="drawer_open">"ナビゲーションドロワーを開く"</string>
     <string name="drawer_close">"ナビゲーションドロワーを閉じる"</string>
     <string name="toast_text_copied">"テキストをコピーしました"</string>
@@ -12,5 +12,8 @@
     <string name="stop">"停止"</string>
     <string name="no_network">"ネットワークに接続できません。"</string>
     <string name="button_label_continue">"次へ"</string>
+    <string name="autofill">"自動入力"</string>
+    <string name="discard">"破棄"</string>
+    <string name="dialog_dismiss">"閉じる"</string>
 </resources>
 

@@ -3,7 +3,7 @@
      Copyright (C) 2011 Google Inc.
      Licensed to The Android Open Source Project.
 -->
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources>
     <string name="drawer_open">"Gezinme menüsünü aç"</string>
     <string name="drawer_close">"Gezinme menüsünü kapat"</string>
     <string name="toast_text_copied">"Metin kopyalandı"</string>
@@ -11,5 +11,8 @@
     <string name="stop">"Durdur"</string>
     <string name="no_network">"Ağ bağlantısı yok."</string>
     <string name="button_label_continue">Devam</string>
+    <string name="autofill">"Otomatik Doldur"</string>
+    <string name="discard">"Sil"</string>
+    <string name="dialog_dismiss">"Kapat"</string>
 </resources>
 

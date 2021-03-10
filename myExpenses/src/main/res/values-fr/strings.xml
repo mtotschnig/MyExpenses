@@ -52,6 +52,7 @@
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Nombre illimité de modèles ventilés</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Assistance par e-mail</b> avec réponse garantie sous 2 jours ouvrables</string>
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Voter sur la <b>feuille de route pour le développement</b></string>
+    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Graphique historique</string>
     <string name="licence_status_free">Gratuit</string>
     <string name="contrib_key">Clé Contrib</string>
     <string name="extended_key">Clé étendue</string>
@@ -276,7 +277,6 @@
     <string name="pm_type_debit">Débit</string>
     <string name="pm_type_neutral">Neutre</string>
     <string name="pref_app_dir_title">Dossier pour sauvegardes et exports</string>
-    <string name="pref_auto_fill_title">Remplissage automatique des opérations</string>
     <string name="pref_auto_fill_summary">Remplissage des données de la dernière opération pour le même tiers</string>
     <string name="pref_backup_summary">Créé une sauvegarde de la base de données et des préférences.</string>
     <string name="pref_sort_order_usages">Fréquence d\'utilisation</string>
@@ -522,8 +522,6 @@
     <string name="pref_csv_import_delimiter">Marqueur</string>
     <string name="csv_import_preview">Prévisualisation</string>
     <string name="menu_parse">Analyse</string>
-    <!-- Label for column where user can check rows to be discarded from import -->
-    <string name="cvs_import_discard">Rejeter</string>
     <string name="csv_import_field_mapped_more_than_once">%s est attribué plus d\'une fois.</string>
     <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d enregistrements n\'ont pas pu être importés.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d enregistrements ont été rejetés.</string>
@@ -705,7 +703,6 @@
     <string name="pref_warning_only_one_protection">Avant de pouvoir utiliser la protection par %1$s, vous devez désactiver la protection par %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">L\'écran de verrouillage sécurisé de l\'appareil n\'a pas été configuré.</string>
     <string name="warning_device_lock_screen_not_set_up_2">Allez dans \'Paramètres -&gt; Sécurité -&gt; Screenlock\' pour configurer un écran de verrouillage.</string>
-    <string name="snackbar_dismiss">Rejeter</string>
     <string name="menu_history_show_balance">Afficher le solde</string>
     <string name="menu_history_transfers">Inclure les transferts</string>
     <string name="menu_history">Historique</string>

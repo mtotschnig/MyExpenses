@@ -3,7 +3,7 @@
      Copyright (C) 2011 Google Inc.
      Licensed to The Android Open Source Project.
 -->
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources>
     <string name="drawer_open">"Mở ngăn kéo điều hướng"</string>
     <string name="drawer_close">"Đóng ngăn kéo điều hướng"</string>
     <string name="toast_text_copied">"Đã sao chép văn bản"</string>
@@ -11,5 +11,8 @@
     <string name="stop">"Dừng"</string>
     <string name="no_network">"Không có kết nối mạng."</string>
     <string name="button_label_continue">Tiếp tục</string>
+    <string name="autofill">"Tự động điền"</string>
+    <string name="discard">"Hủy"</string>
+    <string name="dialog_dismiss">"Loại bỏ"</string>
 </resources>
 
