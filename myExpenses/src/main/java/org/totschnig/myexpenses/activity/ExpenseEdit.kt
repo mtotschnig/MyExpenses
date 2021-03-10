@@ -264,6 +264,8 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             refreshPlanData()
             floatingActionButton?.show()
         } else {
+            areDatesLinked = prefHandler.getBoolean(PrefKey.DATES_ARE_LINKED, false)
+            updateDateLink()
             val extras = intent.extras
             var mRowId = Utils.getFromExtra(extras, KEY_ROWID, 0L)
             var task: TransactionViewModel.InstantiationTask? = null
@@ -582,6 +584,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
 
     fun toggleDateLink(view: View) {
         areDatesLinked = !areDatesLinked
+        prefHandler.putBoolean(PrefKey.DATES_ARE_LINKED, areDatesLinked);
         updateDateLink()
     }
 
