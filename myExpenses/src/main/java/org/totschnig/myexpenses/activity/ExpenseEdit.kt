@@ -376,20 +376,6 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                 delegate.setMethods(paymentMethods)
             }
         })
-        if (!isSplitPart) {
-            viewModel.getTags().observe(this, { tags ->
-                if (::delegate.isInitialized) {
-                    delegate.showTags(tags) { tag ->
-                        viewModel.removeTag(tag)
-                        setDirty()
-                    }
-                }
-            })
-        }
-        if (!isSplitPartOrTemplate) {
-            createNew = prefHandler.getBoolean(PrefKey.EXPENSE_EDIT_SAVE_AND_NEW, false)
-            updateFab()
-        }
     }
 
     private fun setupObservers(fromSavedState: Boolean) {
@@ -548,6 +534,20 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         setTitle()
         operationType = transaction.operationType()
         shouldShowCreateTemplate = transaction.originTemplateId == null
+        if (!isSplitPart) {
+            viewModel.getTags().observe(this, { tags ->
+                if (::delegate.isInitialized) {
+                    delegate.showTags(tags) { tag ->
+                        viewModel.removeTag(tag)
+                        setDirty()
+                    }
+                }
+            })
+        }
+        if (!isSplitPartOrTemplate) {
+            createNew = mNewInstance && prefHandler.getBoolean(PrefKey.EXPENSE_EDIT_SAVE_AND_NEW, false)
+            updateFab()
+        }
         invalidateOptionsMenu()
     }
 
@@ -1008,8 +1008,6 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             }
             if (createNew) {
                 delegate.prepareForNew()
-                //while saving the picture might have been moved from temp to permanent
-                //mPictureUri = mTransaction!!.pictureUri
                 mNewInstance = true
                 showSnackbar(getString(R.string.save_transaction_and_new_success), Snackbar.LENGTH_SHORT)
             } else {
