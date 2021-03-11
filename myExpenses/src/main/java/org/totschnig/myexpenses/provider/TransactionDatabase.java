@@ -156,7 +156,7 @@ import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 112;
+  public static final int DATABASE_VERSION = 113;
   private Context mCtx;
 
   /**
@@ -2171,13 +2171,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         db.execSQL(TRANSACTIONS_SEALED_UPDATE_TRIGGER_CREATE);
         //repair uuids that got lost by bug
         db.execSQL("update accounts set sealed = -1 where sealed = 1");
-        try {
-          //this has failed for some users, when it was run in update to version 101, possibly this failure was caused by the faulty sealed_account_transaction_update
-          //and then it should succeed now
-          db.execSQL("update transactions set uuid = (select uuid from transactions peer where peer._id=transactions.transfer_peer) where uuid is null and transfer_peer is not null;");
-        } catch (SQLException e) {
-          Timber.e(e);
-        }
+        repairTransferUuids(db);
         db.execSQL("update accounts set sealed = 1 where sealed = -1");
       }
       if (oldVersion < 105) {
@@ -2211,9 +2205,22 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         }
         db.execSQL(String.format(Locale.ROOT,"ALTER TABLE templates add column default_action text not null check (default_action in ('SAVE', 'EDIT')) default '%s'", templateDefaultAction));
       }
+      if (oldVersion < 113) {
+        repairTransferUuids(db);
+      }
       TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {
       throw new SQLiteUpgradeFailedException(oldVersion, newVersion, e);
+    }
+  }
+
+  public void repairTransferUuids(SQLiteDatabase db) {
+    try {
+      //this has failed for some users, when it was run in update to version 101, possibly this failure was caused by the faulty sealed_account_transaction_update
+      //and then it should succeed now
+      db.execSQL("update transactions set uuid = (select uuid from transactions peer where peer._id=transactions.transfer_peer) where uuid is null and transfer_peer is not null;");
+    } catch (SQLException e) {
+      Timber.e(e);
     }
   }
 

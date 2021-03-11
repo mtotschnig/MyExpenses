@@ -21,6 +21,8 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.net.Uri;
 
+import org.totschnig.myexpenses.util.Preconditions;
+
 import java.util.ArrayList;
 
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER;
@@ -197,7 +199,6 @@ public class Transfer extends Transaction implements ITransfer {
       //happens if the account after update is identical to transferAccountId before update
       ContentValues uuidNullValues = new ContentValues(1);
       uuidNullValues.putNull(KEY_UUID);
-      setUuid(retrieveUuidFromDb());
       Uri transferUri = uri.buildUpon().appendPath(String.valueOf(getTransferPeer())).build();
       ops.add(ContentProviderOperation
           .newUpdate(transferUri)
@@ -213,6 +214,7 @@ public class Transfer extends Transaction implements ITransfer {
       transferValues.put(KEY_ACCOUNTID, getTransferAccountId());
       //the account from which is transfered could also have been altered
       transferValues.put(KEY_TRANSFER_ACCOUNT, getAccountId());
+      Preconditions.checkNotNull(getUuid());
       transferValues.put(KEY_UUID, getUuid());
       ops.add(ContentProviderOperation
           .newUpdate(transferUri)
