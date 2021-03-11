@@ -62,17 +62,17 @@
     <string name="date">日期</string>
     <string name="date_format">日期型式</string>
     <string name="date_format_illegal">日期格式不正確</string>
-    <string name="number_format_illegal">非法数字格式</string>
+    <string name="number_format_illegal">非法數字格式</string>
     <string name="decimal_separator">小數點分隔符號</string>
     <string name="default_account_name">預算簿</string>
     <string name="description">描述</string>
-    <string name="dialog_balance_delete">删除已校对的交易</string>
+    <string name="dialog_balance_delete">删除已對賬的交易</string>
     <string name="dialog_confirm_discard_changes">要放棄變更?</string>
     <string name="dialog_confirm_discard_new_transaction">要放棄新建立的交易?</string>
     <string name="dialog_confirm_discard_new_template">要放棄新建立的範本?</string>
     <string name="dialog_confirm_discard_new_account">要放棄新建立的帳戶?</string>
     <string name="dialog_confirm_discard_new_method">要放棄新建立的付款方式?</string>
-    <string name="dialog_command_disabled_balance">没有透明交易需要被校对</string>
+    <string name="dialog_command_disabled_balance">沒有已結算的交易需要去對賬</string>
     <string name="dialog_command_disabled_insert_transfer">需要建立第二個帳戶才可以轉移交易</string>
     <string name="dialog_command_disabled_reset_account">沒有交易資料可以輸出</string>
     <string name="dialog_command_disabled_distribution">這個帳戶內的交易項目沒有被分類</string>
@@ -87,7 +87,7 @@
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">依據您目前的版本(%2$s)的權限，您可以建立%1$d個帳戶。</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">依據您目前的版本(%2$s)的權限，您可以建立%1$d個支出計畫。</string>
     <string name="dialog_contrib_usage_limit_split_templates">您目前的版本(%1$s)的權限允許您建立1個分支模板。</string>
-    <string name="dialog_export_delete">刪除輸出的交易</string>
+    <string name="dialog_export_delete">刪除已輸出的交易</string>
     <string name="dialog_export_not_yet_exported">只輸出尚未輸出的交易</string>
     <string name="dialog_password_activate_protection">啟用保護密碼</string>
     <string name="dialog_password_change_password">更改密碼</string>
@@ -105,7 +105,7 @@
     <string name="dialog_title_attention">注意</string>
     <string name="dialog_title_information">資訊</string>
     <!-- %1$s is replace with account label -->
-    <string name="dialog_title_balance_account">余额 %1$s</string>
+    <string name="dialog_title_balance_account">餘額 %1$s</string>
     <string name="dialog_title_contrib_feature">高級功能</string>
     <plurals name="dialog_title_warning_delete_account">
         <item quantity="other">要刪除帳號%1$d嗎?</item>
@@ -357,15 +357,15 @@
     <string name="status">狀態</string>
     <string name="status_cleared">已結清</string>
     <string name="status_reconciled">已對賬</string>
-    <string name="status_uncreconciled">未對賬</string>
-    <string name="status_void">空</string>
+    <string name="status_uncreconciled">未入賬</string>
+    <string name="status_void">無效</string>
     <string name="subcategory">子類別</string>
     <string name="sum_expenses">支出</string>
     <string name="sum_income">收入</string>
     <string name="sum_transfer">轉移</string>
     <!-- platform is replaced with Android or Blackberry -->
     <string name="tell_a_friend_message">{app_name}, 個人理財工具 {platform}版, {website}</string>
-    <string name="thank_you">感謝你的支持！</string>
+    <string name="thank_you">感謝您的支持！</string>
     <string name="time">時間</string>
     <string name="title">名稱</string>
     <string name="total_cleared">已结清总账</string>
@@ -381,71 +381,87 @@
     <string name="warning_backup">資料數據與偏好設定將會儲存到\"%1$s\"</string>
     <string name="continue_confirmation">你要繼續嗎？</string>
     <string name="warning_delete_account">此帳戶將與它的所有交易將被刪除 (%1$s)。</string>
+    <string name="warning_delete_reconciled">刪除已對賬的交易會導致您的記錄與銀行對賬單不同</string>
+    <string name="warning_balance_account">請在銀行對帳單中比較已入賬的總額與期末餘額。如果繼續，已入賬的交易將被標記為已對賬。</string>
     <string name="warning_password_protected">应用被密码保护</string>
     <string name="warning_widget_disabled">你需要在应用设置里面启用这个挂件</string>
     <string name="warning_password_contrib">若果您忘記了密碼，設置一個安全問題可讓你再次解鎖此應用。</string>
     <string name="warning_reset_account">如果你繼續，這個帳戶的所有交易都從數據庫中被刪除且無法恢復。</string>
     <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
-    <string name="warning_reset_account_all">如果你繼續，所有帳戶%1$s和當中的所有交易都從數據庫中被刪除且無法恢復。</string>
+    <string name="warning_reset_account_all">如果你繼續，所有%1$s的賬戶和當中的所有交易都從數據庫中被刪除且無法恢復。</string>
+    <string name="warning_reset_account_matched">如果繼續，當前與篩選器匹配的交易將從數據庫中刪除，並且無法恢復。</string>
     <string name="warning_restore">資料數據與偏好設定將會從檔案\"%1$s\"復原。而現有的資料將被刪除。</string>
     <string name="warning_app_folder_will_be_deleted_upon_uninstall">如果您卸載{app_name}，Android將自動刪除當前選定用來備份和導出的文件夾。您可以在“設定”裡選擇其它文件夾來防止這種情況發生。</string>
     <string name="warning_splitpartcategory_context">轉移是分割的一部分，它只能在有分割的情況下被編輯或刪除。</string>
+    <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">請在%1$d與%2$d之間設置一個數字</string>
     <string name="warning_change_fraction_digits_1">需要更新資料庫中的金額以符合新的小數點位數。</string>
+    <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">如果不更新金額，則更改後，它們將顯示為乘以%d。</string>
+    <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">如果不更新金額，則更改後，它們將顯示為除以 %d。</string>
+    <string name="warning_change_fraction_digits_3">如果金額被更新，您將遺失有關其分數或小數點部分的訊息。</string>
     <string name="warning_change_fraction_digits_checkbox_label">更新資料庫中的金額</string>
     <string name="import_categories_success">%1$s類別已成功匯入</string>
     <string name="import_parties_success">%1$s 貿易夥伴被匯入成功</string>
-    <string name="import_accounts_success">%1$s 账号导入成功</string>
-    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d 交易被导入账户 %2$s</string>
-    <string name="import_accounts_none">没有账号被导入</string>
-    <string name="import_categories_none">没有类别被导入</string>
-    <string name="import_parties_none">没有贸易伙伴被导入</string>
-    <string name="import_transactions_none">没有交易被导入账户 %1$s</string>
-    <string name="import_source_select_error">请提供文件类型 %1$s</string>
-    <string name="menu_categories_setup_default">设置默认类别</string>
-    <string name="menu_create_folder">新建文件夹</string>
+    <string name="import_accounts_success">%1$s 賬戶已匯入成功</string>
+    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d 交易已成功匯入賬戶%2$s</string>
+    <string name="import_accounts_none">沒有賬戶被匯入</string>
+    <string name="import_categories_none">沒有類別被匯入</string>
+    <string name="import_parties_none">沒有貿易夥伴被匯入</string>
+    <string name="import_transactions_none">沒有交易被匯入賬戶 %1$s</string>
+    <string name="import_source_select_error">請提供 %1$s類型的檔案</string>
+    <string name="menu_categories_setup_default">設置默認的類別</string>
+    <string name="menu_create_folder">新建文件夾</string>
+    <!-- This string is used for navigating up in the folder browser -->
+    <string name="menu_up">向上導覽</string>
     <string name="create_new_folder_fail">目錄建立失敗</string>
-    <string name="widget_title_accounts">我的账户</string>
+    <string name="widget_title_accounts">我的賬戶</string>
     <string name="widget_title_templates">我的模板</string>
-    <string name="app_dir_not_accessible">所选文件夹(%1$s)不可访问,请选择其他</string>
-    <string name="search_amount">以金額搜尋</string>
-    <string name="search_category">搜索类别</string>
-    <string name="search_comment">以備註搜尋</string>
-    <string name="search_date">以日期搜尋</string>
-    <string name="search_status">搜索状态</string>
-    <string name="search_payee">搜索收付人</string>
-    <string name="search_method">搜索交易方法</string>
+    <string name="app_dir_not_accessible">無法使用您所選的檔案夾(%1$s)，請選擇其他檔案夾。</string>
+    <string name="app_dir_not_compatible_with_nougat">當前用來備份和匯出所配置的統一資源識別碼(URI) ，(%1$s)不被安卓牛軋糖版本(Android Nougat ) 所支援。請再次選擇一個檔案夾。</string>
+    <string name="search_amount">以金額來搜尋</string>
+    <string name="search_category">以類別來搜尋</string>
+    <string name="search_comment">以備註來搜尋</string>
+    <string name="search_date">以日期來搜尋</string>
+    <string name="search_status">以狀態來搜尋</string>
+    <string name="search_payee">以收款人/付款人來搜尋</string>
+    <string name="search_method">以交易方法來搜尋</string>
+    <string name="search_tag">以標籤來搜尋</string>
     <string name="and">和</string>
-    <string name="between_and">在 %1$s 和 %2$s 之间</string>
+    <string name="between_and">在 %1$s 和 %2$s 之間</string>
     <string name="before">在 %s 之前</string>
-    <string name="after">%s 之后</string>
-    <string name="comparison_operator_equal">等于</string>
-    <string name="comparison_operator_greater_than">大于</string>
-    <string name="comparison_operator_lesser_than">小于</string>
+    <string name="after">%s 之後</string>
+    <string name="comparison_operator_equal">等於</string>
+    <string name="comparison_operator_greater_than">大於</string>
+    <string name="comparison_operator_lesser_than">小於</string>
+    <string name="comparison_operator_between">之間</string>
     <string name="comparison_operator_date_before">前</string>
-    <string name="comparison_operator_date_after">后</string>
-    <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">购买失败或取消</string>
-    <string name="hint_auto_fill">若是相同的收款人/付款人，程式將自動填入與最後一筆交易裡相同的資料? 您可以在“設定”中隨時更改此設定。</string>
-    <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate"> %2$s 货币 %1$d 账户已经被更新了.</string>
+    <string name="comparison_operator_date_after">後</string>
+    <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">購買失敗或取消</string>
+    <string name="hint_auto_fill">是否應該從同一筆收款人/付款人的上次交易中自動填入數據？
+您始終可以通過設置更改此行為。</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
+    <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate"> %2$s 貨幣的 %1$d 賬戶已經被更新了</string>
     <string name="learn_more">了解更多</string>
-    <string name="import_source_file">文件</string>
+    <string name="import_source_file">檔案</string>
     <string name="restore_calendar_handling">行事曆數據處理中...</string>
     <string name="restore_calendar_handling_configured">將計畫復原到當前配置的日曆中</string>
-    <string name="restore_calendar_handling_backup">如果可以，將計畫復原到備份檔中設置的日曆</string>
+    <string name="restore_calendar_handling_backup">如果有計畫的話，將復原計畫到備份檔中設置的日曆</string>
     <string name="restore_calendar_handling_ignore">不要復原計畫</string>
-    <string name="restore_not_possible_target_calendar_missing">备份中的日历 %s 本地不存在.恢复已中止</string>
+    <string name="restore_not_possible_target_calendar_missing">備份中設置的日曆 %s 已經不存在。復原動作已被終止了。</string>
     <string name="restore_not_possible_local_calendar_missing">目前規劃交易用的日曆無法使用</string>
-    <string name="menu_view_picture">查看图片</string>
-    <string name="menu_delete_picture">删除图片</string>
-    <string name="menu_change_picture">附加不同图片</string>
+    <string name="menu_view_picture">查看圖片</string>
+    <string name="menu_delete_picture">刪除圖片</string>
+    <string name="menu_change_picture">附加不同的圖片</string>
     <string name="menu_distribution_show_pie_char">顯示圓餅統計圖</string>
-    <string name="menu_distribution_aggreate">合計支出和收入</string>
-    <string name="image_deleted">图片被删除</string>
+    <string name="menu_distribution_aggreate">總支出和收入</string>
+    <string name="pref_manage_stale_images_summary">管理已刪除交易後留下的圖片</string>
+    <string name="image_deleted">圖片已被刪除</string>
     <string name="dialog_export_applied_to_filter">只有被当前过滤器匹配的交易才会被考虑</string>
     <string name="export_handle_deleted_create_helper">创建交易助手</string>
     <string name="export_handle_deleted_update_balance">更新打开余额</string>
     <string name="file_name">文件名</string>
     <string name="folder_name">文件夹名</string>
-    <string name="mark_void_instead_of_delete">不要删除交易,应标记为空</string>
+    <string name="mark_void_instead_of_delete">不刪除交易，而是將其標記成無效交易</string>
     <string name="menu_undelete_transaction">取消删除</string>
     <string name="slash_forbidden_in_filename">/ 符号不允许作为文件名</string>
     <string name="io_error_unable_to_create_file">不能在 %2$s 里面创建文件 %1$s</string>
@@ -548,5 +564,6 @@
     <string name="menu_edit_budget">編輯預算</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">特色功能</string>
+    <string name="warning_balance_account_delete">如果繼續，此帳戶中所有已對帳的交易將從數據庫中刪除，並且您將無法還原它們</string>
     <string name="menu_save_and_new_content_description">保存数据,保存表格以便创建相同数据的交易</string>
     </resources>

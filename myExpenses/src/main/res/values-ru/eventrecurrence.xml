@@ -14,20 +14,20 @@
  -->
 
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="does_not_repeat" msgid="1877681921029738999">"Однократное мероприятие"</string>
-    <string name="endByDate" msgid="7654221304929538201">"до <xliff:g id="DATE">%s</xliff:g>"</string>
+    <string name="does_not_repeat">"Однократное мероприятие"</string>
+    <string name="endByDate">"до <xliff:g id="DATE">%s</xliff:g>"</string>
     <plurals name="endByCount">
-        <item msgid="3727754565990691816" quantity="one">"; 1 раз"</item>
-        <item msgid="4855496837834652446" quantity="other">"; <xliff:g id="NUMBER">%d</xliff:g> раз(-а)"</item>
+        <item quantity="one">"; 1 раз"</item>
+        <item quantity="other">"; <xliff:g id="NUMBER">%d</xliff:g> раз(-а)"</item>
     </plurals>
     <plurals name="daily">
-        <item msgid="5169052946627480942" quantity="one">"Ежедневно"</item>
-        <item msgid="5455230727715859264" quantity="other">"Раз в <xliff:g id="NUMBER">%d</xliff:g> дн."</item>
+        <item quantity="one">"Ежедневно"</item>
+        <item quantity="other">"Раз в <xliff:g id="NUMBER">%d</xliff:g> дн."</item>
     </plurals>
-    <string name="every_weekday" msgid="5896574838353902978">"Каждый будний день (пн–пт)"</string>
+    <string name="every_weekday">"Каждый будний день (пн–пт)"</string>
     <plurals name="weekly">
-        <item msgid="5463021019301453273" quantity="one">"Еженедельно (<xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>)"</item>
-        <item msgid="2857390143157377867" quantity="other">"Кажд. <xliff:g id="NUMBER">%1$d</xliff:g> нед. (<xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>)"</item>
+        <item quantity="one">"Еженедельно (<xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>)"</item>
+        <item quantity="other">"Кажд. <xliff:g id="NUMBER">%1$d</xliff:g> нед. (<xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>)"</item>
     </plurals>
     <plurals name="monthly">
         <item quantity="one">Ежемесячно</item>
@@ -37,60 +37,60 @@
         <item quantity="one">Ежегодно</item>
         <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> гг./лет</item>
     </plurals>
-    <string name="monthly_plain" msgid="4587116285383048586">"Ежемесячно"</string>
-    <string name="monthly_on_day" msgid="5370155265278821156">" (<xliff:g id="DAY_OF_MONTH">%s</xliff:g> числа)"</string>
-    <string name="yearly_on_day" msgid="8576208380302949002">" (<xliff:g id="DATES">%s</xliff:g>)"</string>
+    <string name="monthly_plain">"Ежемесячно"</string>
+    <string name="monthly_on_day">" (<xliff:g id="DAY_OF_MONTH">%s</xliff:g> числа)"</string>
+    <string name="yearly_on_day">" (<xliff:g id="DATES">%s</xliff:g>)"</string>
     <string name="yearly_plain">Ежегодно</string>
     <string name="daily_plain">Ежедневно</string>
     <string name="weekly_plain">Еженедельно</string>
 
     <string-array name="repeat_by_nth_sun">
-        <item msgid="143841313172233420">"первое воскресенье месяца"</item>
-        <item msgid="2557379346106451363">"второе воскресенье месяца"</item>
-        <item msgid="7622144489915654132">"третье воскресенье месяца"</item>
-        <item msgid="527152448137686021">"четвертое воскресенье месяца"</item>
-        <item msgid="5057483608824759350">"последнее воскресенье месяца"</item>
+        <item>"первое воскресенье месяца"</item>
+        <item>"второе воскресенье месяца"</item>
+        <item>"третье воскресенье месяца"</item>
+        <item>"четвертое воскресенье месяца"</item>
+        <item>"последнее воскресенье месяца"</item>
     </string-array>
     <string-array name="repeat_by_nth_mon">
-        <item msgid="7539974918997689048">"первый понедельник месяца"</item>
-        <item msgid="4484275849072423978">"второй понедельник месяца"</item>
-        <item msgid="8956169860824371383">"третий понедельник месяца"</item>
-        <item msgid="6924403357659569326">"четвертый понедельник месяца"</item>
-        <item msgid="1379608815263472161">"последний понедельник месяца"</item>
+        <item>"первый понедельник месяца"</item>
+        <item>"второй понедельник месяца"</item>
+        <item>"третий понедельник месяца"</item>
+        <item>"четвертый понедельник месяца"</item>
+        <item>"последний понедельник месяца"</item>
     </string-array>
     <string-array name="repeat_by_nth_tues">
-        <item msgid="8690802834039790777">"первый вторник месяца"</item>
-        <item msgid="9063613547307760928">"второй вторник месяца"</item>
-        <item msgid="6688603328729208168">"третий вторник месяца"</item>
-        <item msgid="6695206006961533357">"четвертый вторник месяца"</item>
-        <item msgid="8619069174889809914">"последний вторник месяца"</item>
+        <item>"первый вторник месяца"</item>
+        <item>"второй вторник месяца"</item>
+        <item>"третий вторник месяца"</item>
+        <item>"четвертый вторник месяца"</item>
+        <item>"последний вторник месяца"</item>
     </string-array>
     <string-array name="repeat_by_nth_wed">
-        <item msgid="3233850232075584386">"первая среда месяца"</item>
-        <item msgid="5059722045367799217">"вторая среда месяца"</item>
-        <item msgid="7986246648229272275">"третья среда месяца"</item>
-        <item msgid="9068566169348980801">"четвертая среда месяца"</item>
-        <item msgid="7976866743069062134">"последняя среда месяца"</item>
+        <item>"первая среда месяца"</item>
+        <item>"вторая среда месяца"</item>
+        <item>"третья среда месяца"</item>
+        <item>"четвертая среда месяца"</item>
+        <item>"последняя среда месяца"</item>
     </string-array>
     <string-array name="repeat_by_nth_thurs">
-        <item msgid="920673677566009313">"первый четверг месяца"</item>
-        <item msgid="4857419136007543270">"второй четверг месяца"</item>
-        <item msgid="222044587450564839">"третий четверг месяца"</item>
-        <item msgid="6197927556533030945">"четвертый четверг месяца"</item>
-        <item msgid="1023326923033436905">"последний четверг месяца"</item>
+        <item>"первый четверг месяца"</item>
+        <item>"второй четверг месяца"</item>
+        <item>"третий четверг месяца"</item>
+        <item>"четвертый четверг месяца"</item>
+        <item>"последний четверг месяца"</item>
     </string-array>
     <string-array name="repeat_by_nth_fri">
-        <item msgid="6534500380525126157">"первая пятница месяца"</item>
-        <item msgid="1935608297230506940">"вторая пятница месяца"</item>
-        <item msgid="4061877662049317599">"третья пятница месяца"</item>
-        <item msgid="6856646749131820614">"четвертая пятница месяца"</item>
-        <item msgid="6533513913914859794">"последняя пятница месяца"</item>
+        <item>"первая пятница месяца"</item>
+        <item>"вторая пятница месяца"</item>
+        <item>"третья пятница месяца"</item>
+        <item>"четвертая пятница месяца"</item>
+        <item>"последняя пятница месяца"</item>
     </string-array>
     <string-array name="repeat_by_nth_sat">
-        <item msgid="3556369572649948699">"первая суббота месяца"</item>
-        <item msgid="9130198690512925355">"вторая суббота месяца"</item>
-        <item msgid="4525736070844032405">"третья суббота месяца"</item>
-        <item msgid="422053689531707709">"четвертая суббота месяца"</item>
-        <item msgid="5499975799312474425">"последняя суббота месяца"</item>
+        <item>"первая суббота месяца"</item>
+        <item>"вторая суббота месяца"</item>
+        <item>"третья суббота месяца"</item>
+        <item>"четвертая суббота месяца"</item>
+        <item>"последняя суббота месяца"</item>
     </string-array>
 </resources>

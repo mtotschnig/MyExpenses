@@ -16,20 +16,20 @@
 
 <resources
     xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <string name="does_not_repeat" msgid="1877681921029738999">"Evento único"</string>
-    <string name="endByDate" msgid="7654221304929538201">"; até <xliff:g id="DATE">%s</xliff:g>"</string>
+  <string name="does_not_repeat">"Evento único"</string>
+    <string name="endByDate">"; até <xliff:g id="DATE">%s</xliff:g>"</string>
   <plurals name="endByCount">
-    <item quantity="one" msgid="3727754565990691816">"; uma vez"</item>
-    <item quantity="other" msgid="4855496837834652446">"; <xliff:g id="NUMBER">%d</xliff:g> vezes"</item>
+    <item quantity="one">"; uma vez"</item>
+    <item quantity="other">"; <xliff:g id="NUMBER">%d</xliff:g> vezes"</item>
   </plurals>
   <plurals name="daily">
-    <item quantity="one" msgid="5169052946627480942">"Diariamente"</item>
-    <item quantity="other" msgid="5455230727715859264">"A cada <xliff:g id="NUMBER">%d</xliff:g> dias"</item>
+    <item quantity="one">"Diariamente"</item>
+    <item quantity="other">"A cada <xliff:g id="NUMBER">%d</xliff:g> dias"</item>
   </plurals>
-    <string name="every_weekday" msgid="5896574838353902978">"Todos os dias da semana (de segunda a sexta)"</string>
+    <string name="every_weekday">"Todos os dias da semana (de segunda a sexta)"</string>
   <plurals name="weekly">
-    <item quantity="one" msgid="5463021019301453273">"A cada <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
-    <item quantity="other" msgid="2857390143157377867">"<xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g> a cada <xliff:g id="NUMBER">%1$d</xliff:g> semanas"</item>
+    <item quantity="one">"A cada <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
+    <item quantity="other">"<xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g> a cada <xliff:g id="NUMBER">%1$d</xliff:g> semanas"</item>
   </plurals>
   <plurals name="monthly">
     <item quantity="one">Mensalmente</item>
@@ -39,60 +39,60 @@
     <item quantity="one">Anualmente</item>
     <item quantity="other">A cada <xliff:g id="COUNT">%d</xliff:g> anos</item>
   </plurals>
-    <string name="monthly_plain" msgid="4587116285383048586">"Mensalmente"</string>
-    <string name="monthly_on_day" msgid="5370155265278821156">" (no dia <xliff:g id="DAY_OF_MONTH">%s</xliff:g>)"</string>
-    <string name="yearly_on_day" msgid="8576208380302949002">" (em <xliff:g id="DATES">%s</xliff:g>)"</string>
+    <string name="monthly_plain">"Mensalmente"</string>
+    <string name="monthly_on_day">" (no dia <xliff:g id="DAY_OF_MONTH">%s</xliff:g>)"</string>
+    <string name="yearly_on_day">" (em <xliff:g id="DATES">%s</xliff:g>)"</string>
   <string name="yearly_plain">Anualmente</string>
   <string name="daily_plain">Diariamente</string>
   <string name="weekly_plain">Semanalmente</string>
 
   <string-array name="repeat_by_nth_sun">
-    <item msgid="143841313172233420">"primeiro domingo do mês"</item>
-    <item msgid="2557379346106451363">"segundo domingo do mês"</item>
-    <item msgid="7622144489915654132">"terceiro domingo do mês"</item>
-    <item msgid="527152448137686021">"quarto domingo do mês"</item>
-    <item msgid="5057483608824759350">"último domingo do mês"</item>
+    <item>"primeiro domingo do mês"</item>
+    <item>"segundo domingo do mês"</item>
+    <item>"terceiro domingo do mês"</item>
+    <item>"quarto domingo do mês"</item>
+    <item>"último domingo do mês"</item>
   </string-array>
   <string-array name="repeat_by_nth_mon">
-    <item msgid="7539974918997689048">"primeira segunda-feira do mês"</item>
-    <item msgid="4484275849072423978" tools:ignore="Typos">"segunda segunda-feira do mês"</item>
-    <item msgid="8956169860824371383">"terceira segunda-feira do mês"</item>
-    <item msgid="6924403357659569326">"quarta segunda-feira do mês"</item>
-    <item msgid="1379608815263472161">"última segunda-feira do mês"</item>
+    <item>"primeira segunda-feira do mês"</item>
+    <item tools:ignore="Typos">"segunda segunda-feira do mês"</item>
+    <item>"terceira segunda-feira do mês"</item>
+    <item>"quarta segunda-feira do mês"</item>
+    <item>"última segunda-feira do mês"</item>
   </string-array>
   <string-array name="repeat_by_nth_tues">
-    <item msgid="8690802834039790777">"primeira terça-feira do mês"</item>
-    <item msgid="9063613547307760928">"segunda terça-feira do mês"</item>
-    <item msgid="6688603328729208168">"terceira terça-feira do mês"</item>
-    <item msgid="6695206006961533357">"quarta terça-feira do mês"</item>
-    <item msgid="8619069174889809914">"última terça-feira do mês"</item>
+    <item>"primeira terça-feira do mês"</item>
+    <item>"segunda terça-feira do mês"</item>
+    <item>"terceira terça-feira do mês"</item>
+    <item>"quarta terça-feira do mês"</item>
+    <item>"última terça-feira do mês"</item>
   </string-array>
   <string-array name="repeat_by_nth_wed">
-    <item msgid="3233850232075584386">"primeira quarta-feira do mês"</item>
-    <item msgid="5059722045367799217">"segunda quarta-feira do mês"</item>
-    <item msgid="7986246648229272275">"terceira quarta-feira do mês"</item>
-    <item msgid="9068566169348980801" tools:ignore="Typos">"quarta quarta-feira do mês"</item>
-    <item msgid="7976866743069062134">"última quarta-feira do mês"</item>
+    <item>"primeira quarta-feira do mês"</item>
+    <item>"segunda quarta-feira do mês"</item>
+    <item>"terceira quarta-feira do mês"</item>
+    <item tools:ignore="Typos">"quarta quarta-feira do mês"</item>
+    <item>"última quarta-feira do mês"</item>
   </string-array>
   <string-array name="repeat_by_nth_thurs">
-    <item msgid="920673677566009313">"primeira quinta-feira do mês"</item>
-    <item msgid="4857419136007543270">"segunda quinta-feira do mês"</item>
-    <item msgid="222044587450564839">"terceira quinta-feira do mês"</item>
-    <item msgid="6197927556533030945">"quarta quinta-feira do mês"</item>
-    <item msgid="1023326923033436905">"última quinta-feira do mês"</item>
+    <item>"primeira quinta-feira do mês"</item>
+    <item>"segunda quinta-feira do mês"</item>
+    <item>"terceira quinta-feira do mês"</item>
+    <item>"quarta quinta-feira do mês"</item>
+    <item>"última quinta-feira do mês"</item>
   </string-array>
   <string-array name="repeat_by_nth_fri">
-    <item msgid="6534500380525126157">"primeira sexta-feira do mês"</item>
-    <item msgid="1935608297230506940">"segunda sexta-feira do mês"</item>
-    <item msgid="4061877662049317599">"terceira sexta-feira do mês"</item>
-    <item msgid="6856646749131820614">"quarta sexta-feira do mês"</item>
-    <item msgid="6533513913914859794">"última sexta-feira do mês"</item>
+    <item>"primeira sexta-feira do mês"</item>
+    <item>"segunda sexta-feira do mês"</item>
+    <item>"terceira sexta-feira do mês"</item>
+    <item>"quarta sexta-feira do mês"</item>
+    <item>"última sexta-feira do mês"</item>
   </string-array>
   <string-array name="repeat_by_nth_sat">
-    <item msgid="3556369572649948699">"primeiro sábado do mês"</item>
-    <item msgid="9130198690512925355">"segundo sábado do mês"</item>
-    <item msgid="4525736070844032405">"terceiro sábado do mês"</item>
-    <item msgid="422053689531707709">"quarto sábado do mês"</item>
-    <item msgid="5499975799312474425">"último sábado do mês"</item>
+    <item>"primeiro sábado do mês"</item>
+    <item>"segundo sábado do mês"</item>
+    <item>"terceiro sábado do mês"</item>
+    <item>"quarto sábado do mês"</item>
+    <item>"último sábado do mês"</item>
   </string-array>
 </resources>

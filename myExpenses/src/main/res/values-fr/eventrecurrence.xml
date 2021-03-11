@@ -13,20 +13,20 @@
      limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="does_not_repeat" msgid="1877681921029738999">"Événement ponctuel"</string>
-    <string name="endByDate" msgid="7654221304929538201">"; jusqu\'au <xliff:g id="DATE">%s</xliff:g>"</string>
+    <string name="does_not_repeat">"Événement ponctuel"</string>
+    <string name="endByDate">"; jusqu\'au <xliff:g id="DATE">%s</xliff:g>"</string>
     <plurals name="endByCount">
-        <item msgid="3727754565990691816" quantity="one">"; une seule fois"</item>
-        <item msgid="4855496837834652446" quantity="other">"; <xliff:g id="NUMBER">%d</xliff:g> fois"</item>
+        <item quantity="one">"; une seule fois"</item>
+        <item quantity="other">"; <xliff:g id="NUMBER">%d</xliff:g> fois"</item>
     </plurals>
     <plurals name="daily">
-        <item msgid="5169052946627480942" quantity="one">"Quotidien"</item>
-        <item msgid="5455230727715859264" quantity="other">"Tous les <xliff:g id="NUMBER">%d</xliff:g> jours"</item>
+        <item quantity="one">"Quotidien"</item>
+        <item quantity="other">"Tous les <xliff:g id="NUMBER">%d</xliff:g> jours"</item>
     </plurals>
-    <string name="every_weekday" msgid="5896574838353902978">"Jours ouvrés (lun–ven)"</string>
+    <string name="every_weekday">"Jours ouvrés (lun–ven)"</string>
     <plurals name="weekly">
-        <item msgid="5463021019301453273" quantity="one">"Hebdomadaire (le <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>)"</item>
-        <item msgid="2857390143157377867" quantity="other">"Toutes les <xliff:g id="NUMBER">%1$d</xliff:g> semaines le <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
+        <item quantity="one">"Hebdomadaire (le <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>)"</item>
+        <item quantity="other">"Toutes les <xliff:g id="NUMBER">%1$d</xliff:g> semaines le <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
     </plurals>
     <plurals name="monthly">
         <item quantity="one">Tous les mois</item>
@@ -37,8 +37,8 @@
         <item quantity="other">Tous les <xliff:g id="COUNT">%d</xliff:g> ans</item>
     </plurals>
 
-    <string name="monthly_on_day" msgid="5370155265278821156">" (le <xliff:g id="DAY_OF_MONTH">%s</xliff:g>)"</string>
-    <string name="yearly_on_day" msgid="8576208380302949002">" (le <xliff:g id="DATES">%s</xliff:g>)"</string>
+    <string name="monthly_on_day">" (le <xliff:g id="DAY_OF_MONTH">%s</xliff:g>)"</string>
+    <string name="yearly_on_day">" (le <xliff:g id="DATES">%s</xliff:g>)"</string>
 
     <string name="yearly_plain">Tous les ans</string>
     <string name="daily_plain">Quotidien</string>
@@ -46,52 +46,52 @@
     <string name="monthly_plain">"Tous les mois"</string>
 
     <string-array name="repeat_by_nth_sun">
-        <item msgid="143841313172233420">"tous les premiers dimanches"</item>
-        <item msgid="2557379346106451363">"tous les deuxièmes dimanches"</item>
-        <item msgid="7622144489915654132">"tous les troisièmes dimanches"</item>
-        <item msgid="527152448137686021">"tous les quatrièmes dimanches"</item>
-        <item msgid="5057483608824759350">"tous les derniers dimanches"</item>
+        <item>"tous les premiers dimanches"</item>
+        <item>"tous les deuxièmes dimanches"</item>
+        <item>"tous les troisièmes dimanches"</item>
+        <item>"tous les quatrièmes dimanches"</item>
+        <item>"tous les derniers dimanches"</item>
     </string-array>
     <string-array name="repeat_by_nth_mon">
-        <item msgid="7539974918997689048">"tous les premiers lundis"</item>
-        <item msgid="4484275849072423978">"tous les deuxièmes lundis"</item>
-        <item msgid="8956169860824371383">"tous les troisièmes lundis"</item>
-        <item msgid="6924403357659569326">"tous les quatrièmes lundis"</item>
-        <item msgid="1379608815263472161">"tous les derniers lundis"</item>
+        <item>"tous les premiers lundis"</item>
+        <item>"tous les deuxièmes lundis"</item>
+        <item>"tous les troisièmes lundis"</item>
+        <item>"tous les quatrièmes lundis"</item>
+        <item>"tous les derniers lundis"</item>
     </string-array>
     <string-array name="repeat_by_nth_tues">
-        <item msgid="8690802834039790777">"tous les premiers mardis"</item>
-        <item msgid="9063613547307760928">"tous les deuxièmes mardis"</item>
-        <item msgid="6688603328729208168">"tous les troisièmes mardis"</item>
-        <item msgid="6695206006961533357">"tous les quatrièmes mardis"</item>
-        <item msgid="8619069174889809914">"tous les derniers mardis"</item>
+        <item>"tous les premiers mardis"</item>
+        <item>"tous les deuxièmes mardis"</item>
+        <item>"tous les troisièmes mardis"</item>
+        <item>"tous les quatrièmes mardis"</item>
+        <item>"tous les derniers mardis"</item>
     </string-array>
     <string-array name="repeat_by_nth_wed">
-        <item msgid="3233850232075584386">"tous les premiers mercredis"</item>
-        <item msgid="5059722045367799217">"tous les deuxièmes mercredis"</item>
-        <item msgid="7986246648229272275">"tous les troisièmes mercredis"</item>
-        <item msgid="9068566169348980801">"tous les quatrièmes mercredis"</item>
-        <item msgid="7976866743069062134">"tous les derniers mercredis"</item>
+        <item>"tous les premiers mercredis"</item>
+        <item>"tous les deuxièmes mercredis"</item>
+        <item>"tous les troisièmes mercredis"</item>
+        <item>"tous les quatrièmes mercredis"</item>
+        <item>"tous les derniers mercredis"</item>
     </string-array>
     <string-array name="repeat_by_nth_thurs">
-        <item msgid="920673677566009313">"tous les premiers jeudis"</item>
-        <item msgid="4857419136007543270">"tous les deuxièmes jeudis"</item>
-        <item msgid="222044587450564839">"tous les troisièmes jeudis"</item>
-        <item msgid="6197927556533030945">"tous les quatrièmes jeudis"</item>
-        <item msgid="1023326923033436905">"tous les derniers jeudis"</item>
+        <item>"tous les premiers jeudis"</item>
+        <item>"tous les deuxièmes jeudis"</item>
+        <item>"tous les troisièmes jeudis"</item>
+        <item>"tous les quatrièmes jeudis"</item>
+        <item>"tous les derniers jeudis"</item>
     </string-array>
     <string-array name="repeat_by_nth_fri">
-        <item msgid="6534500380525126157">"tous les premiers vendredis"</item>
-        <item msgid="1935608297230506940">"tous les deuxièmes vendredis"</item>
-        <item msgid="4061877662049317599">"tous les troisièmes vendredis"</item>
-        <item msgid="6856646749131820614">"tous les quatrièmes vendredis"</item>
-        <item msgid="6533513913914859794">"tous les derniers vendredis"</item>
+        <item>"tous les premiers vendredis"</item>
+        <item>"tous les deuxièmes vendredis"</item>
+        <item>"tous les troisièmes vendredis"</item>
+        <item>"tous les quatrièmes vendredis"</item>
+        <item>"tous les derniers vendredis"</item>
     </string-array>
     <string-array name="repeat_by_nth_sat">
-        <item msgid="3556369572649948699">"tous les premiers samedis"</item>
-        <item msgid="9130198690512925355">"tous les deuxièmes samedis"</item>
-        <item msgid="4525736070844032405">"tous les troisièmes samedis"</item>
-        <item msgid="422053689531707709">"tous les quatrièmes samedis"</item>
-        <item msgid="5499975799312474425">"tous les derniers samedis"</item>
+        <item>"tous les premiers samedis"</item>
+        <item>"tous les deuxièmes samedis"</item>
+        <item>"tous les troisièmes samedis"</item>
+        <item>"tous les quatrièmes samedis"</item>
+        <item>"tous les derniers samedis"</item>
     </string-array>
 </resources>

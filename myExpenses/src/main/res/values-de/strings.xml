@@ -505,6 +505,7 @@
     <string name="menu_change_picture">Anderes Bild anfügen</string>
     <string name="menu_distribution_show_pie_char">Tortendiagramm anzeigen</string>
     <string name="menu_distribution_aggreate">Ausgaben und Einnahmen zusammen zählen</string>
+    <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Veraltete Bilder</string>
     <string name="pref_manage_stale_images_summary">Verwalten Sie Bilder aus gelöschten Buchungen</string>
     <string name="image_deleted">Bild wurde gelöscht</string>
@@ -972,4 +973,5 @@
     <!-- Title of a menu item and a dialogue that allow to adjust the current balance. User can enter the new balance, and transaction form is opened with the amount prefiled to the difference between old and new balance  -->
     <string name="new_balance">Neuer Saldo</string>
     <string name="title_webui">Web-Benutzeroberfläche</string>
-    </resources>
+    <string name="single_feature_info">Alternativ können Sie uneingeschränkten Zugriff nur auf diese Funktion erwerben.</string>
+</resources>

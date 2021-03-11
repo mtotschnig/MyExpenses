@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- A list of key words, that are commonly used on receipts for identifying the total amount. Each key word should be on a separate line  -->
+    <string name="pref_ocr_total_indicators_default">總金額</string>
+</resources>

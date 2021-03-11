@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+  <string name="help_menu_commands">選單命令</string>
+  <string name="help_contextual_actions">上下文動作</string>
+  <string name="cab_delete_help_text">刪除所選項目</string>
+  <string name="cab_edit_help_text">編輯所選的項目</string>
+  <!--My Expenses Transaction list-->
+  <string name="help_MyExpenses_title">交易清單</string>
+  <!--ManageMethods title is in keys-->
+  <!--ManageParties title is in keys-->
+  <!--ManageTemplates title is in keys-->
+  <!--ManageCategories_* titles are in keys-->
+  <!--ExpenseEdit-->
+  <string name="help_ExpenseEdit_transaction_title">交易形成</string>
+  <string name="help_ExpenseEdit_transfer_title">轉讓形式</string>
+  <!--AccountEdit-->
+  <string name="help_AccountEdit_title">賬戶形式</string>
+  <!--MethodEdit-->
+  <string name="help_MethodEdit_title">付款方式</string>
+  <!--ManageCurrencies-->
+  <!--FolderBrowser title is in keys-->
+  <!--StaleImages-->
+  <!--CSV Import-->
+  <!--SyncBackends-->
+  <!--History-->
+  <!--Budget-->
+  <!--Tags-->
+</resources>

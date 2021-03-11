@@ -10,9 +10,9 @@
     <!-- packages/apps/Contacts/res/values/strings.xml -->
     <string name="toast_text_copied">Text copied</string>
     <string name="copy_text">Copy to clipboard</string>
-    <!--  packages/apps/DeskClock/res/values/strings.xml -->
+    <!--  packages/apps/DeskClock/res/values/strings.xml name="timer_stop" -->
     <string name="stop">Stop</string>
-    <!-- packages/apps/Settings/res/values/strings.xml -->
+    <!-- packages/apps/Settings/res/values/strings.xml name="vpn_no_network" -->
     <string name="no_network">There is no network connection.</string>
     <!-- Settings name="encryption_continue_button" -->
     <string name="button_label_continue">Continue</string>
