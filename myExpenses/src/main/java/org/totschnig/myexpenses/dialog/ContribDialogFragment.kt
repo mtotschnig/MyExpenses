@@ -273,13 +273,12 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
     }
 
     private fun updateProPrice(licenceStatus: LicenceStatus?) {
-        (selectedPackage as? ProfessionalPackage)?.let {
-            var formattedPrice = licenceHandler.getFormattedPrice(it)
+        (selectedPackage as? ProfessionalPackage)?.let { professionalPackage ->
+            var formattedPrice = licenceHandler.getFormattedPrice(professionalPackage)
             if (formattedPrice != null) {
                 if (licenceStatus === LicenceStatus.EXTENDED) {
-                    val extendedUpgradeGoodieMessage = licenceHandler.getExtendedUpgradeGoodieMessage(it)
-                    if (extendedUpgradeGoodieMessage != null) {
-                        formattedPrice += String.format(" (%s)", extendedUpgradeGoodieMessage)
+                    licenceHandler.getExtendedUpgradeGoodyMessage(professionalPackage)?.let {
+                        formattedPrice += " ($it)"
                     }
                 }
                 binding.professionalFeatureContainer.packagePrice.text = formattedPrice

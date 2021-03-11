@@ -263,7 +263,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity implement
   @Override
   public void onLicenceStatusSet(String newStatus) {
     if (newStatus != null) {
-      showMessage(String.format("%s (%s)", getString(R.string.licence_validation_premium), newStatus));
+      showSnackbar(getString(R.string.licence_validation_premium) + " (" + newStatus + ")");
     } else {
       showSnackbar(R.string.licence_validation_failure);
     }

@@ -72,7 +72,7 @@ public class HashLicenceHandler extends LicenceHandler {
 
   @Nullable
   @Override
-  public String getExtendedUpgradeGoodieMessage(@NonNull ProfessionalPackage selectedPackage) {
-    return hasLegacyLicence ? null : super.getExtendedUpgradeGoodieMessage(selectedPackage);
+  public String getExtendedUpgradeGoodyMessage(@NonNull ProfessionalPackage selectedPackage) {
+    return hasLegacyLicence ? null : super.getExtendedUpgradeGoodyMessage(selectedPackage);
   }
 }

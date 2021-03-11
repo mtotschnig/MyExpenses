@@ -7,6 +7,9 @@ import android.os.Build
 import androidx.annotation.RestrictTo
 import androidx.annotation.VisibleForTesting
 import com.google.android.vending.licensing.PreferenceObfuscator
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.apache.commons.lang3.time.DateUtils
 import org.threeten.bp.LocalTime
 import org.threeten.bp.ZoneId
@@ -86,18 +89,20 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
                 hasOurLicence = true
             }
             this.licenceStatus = licenceStatus
-            addOnFeatures = Licence.getFeaturesFromPreference(licenseStatusPrefs.getString(LICENSE_FEATURES, null))
         } catch (e: IllegalArgumentException) {
             this.licenceStatus = null
         }
+        restoreAddOnFeatures()
     }
 
     fun update() {
-        Template.updateNewPlanEnabled()
-        Account.updateNewAccountEnabled()
-        GenericAccountService.updateAccountsIsSyncable(context, this)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-            ShortcutHelper.configureSplitShortcut(context, isContribEnabled)
+        CoroutineScope(Dispatchers.IO).launch {
+            Template.updateNewPlanEnabled()
+            Account.updateNewAccountEnabled()
+            GenericAccountService.updateAccountsIsSyncable(context, this@LicenceHandler)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                ShortcutHelper.configureSplitShortcut(context, isContribEnabled)
+            }
         }
     }
 
@@ -119,7 +124,7 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
             licenseStatusPrefs.putString(LICENSE_STATUS_KEY, it)
         } ?: licenseStatusPrefs.remove(LICENSE_STATUS_KEY)
         addOnFeatures = licence.featureList
-        licenseStatusPrefs.putString(LICENSE_FEATURES, licence.featuresAsPrefString)
+        persistAddonFeatures()
         if (licence.validSince != null) {
             val validSince = licence.validSince.atTime(LocalTime.MAX).atZone(ZoneId.of("Etc/GMT-14"))
             licenseStatusPrefs.putString(LICENSE_VALID_SINCE_KEY, (validSince.toEpochSecond() * 1000).toString())
@@ -175,14 +180,18 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
     open fun getProLicenceStatus(context: Context) = if (licenceStatus == LicenceStatus.PROFESSIONAL)
         getProValidUntil(context) else null
 
+    @Suppress("MemberVisibilityCanBePrivate") //used from Huawei
     fun getProValidUntil(context: Context): String {
         return context.getString(R.string.valid_until, Utils.getDateFormatSafe(this.context).format(validUntilDate))
     }
 
     private val validUntilDate: Date
         get() = Date(validUntilMillis)
+
     val validUntilMillis: Long
         get() = licenseStatusPrefs.getString(LICENSE_VALID_UNTIL_KEY, "0").toLong()
+
+    @Suppress("MemberVisibilityCanBePrivate")
     val validSinceMillis: Long
         get() = licenseStatusPrefs.getString(LICENSE_VALID_SINCE_KEY, "0").toLong()
 
@@ -197,14 +206,15 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
     open val proPackages: Array<ProfessionalPackage>
         get() = arrayOf(ProfessionalPackage.Professional_6, ProfessionalPackage.Professional_12, ProfessionalPackage.Professional_24)
 
-    open fun getExtendedUpgradeGoodieMessage(selectedPackage: ProfessionalPackage): String? {
+    open fun getExtendedUpgradeGoodyMessage(selectedPackage: ProfessionalPackage): String? {
         return context.getString(R.string.extended_upgrade_goodie_github, 3)
     }
 
     val professionalPriceShortInfo: String
-        get() = joinPriceInfos(*proPackages)
+        get() = joinPriceInformation(*proPackages)
 
-    protected fun joinPriceInfos(vararg packages: Package) =
+    @Suppress("MemberVisibilityCanBePrivate") //used from Amazon
+    protected fun joinPriceInformation(vararg packages: Package) =
             packages.map(::getFormattedPrice).joinToString(" ${context.getString(R.string.joining_or)} ")
 
     open val proPackagesForExtendOrSwitch: Array<ProfessionalPackage>?
@@ -331,6 +341,20 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
     }
 
     open fun launchPurchase(aPackage: Package, shouldReplaceExisting: Boolean, billingManager: BillingManager) {}
+
+    protected fun persistAddonFeatures() {
+        licenseStatusPrefs.putString(LICENSE_FEATURES, addOnFeatures.joinToString(",", transform = ContribFeature::name))
+    }
+
+    private fun restoreAddOnFeatures() {
+        addOnFeatures = licenseStatusPrefs.getString(LICENSE_FEATURES, null)?.split(',')?.mapNotNull {
+            try {
+                ContribFeature.valueOf(it)
+            } catch (e: Exception) {
+                null
+            }
+        } ?: emptyList()
+    }
 
     companion object {
         protected const val LICENSE_STATUS_KEY = "licence_status"
