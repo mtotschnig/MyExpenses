@@ -133,7 +133,7 @@ class CsvImportViewModel(application: Application) : ContentResolvingAndroidView
                 t.date = QifUtils.parseDate(saveGetFromRecord(record, columnIndexDate), dateFormat).time / 1000
             }
             if (columnIndexValueDate != -1) {
-                t.valueDate = QifUtils.parseDate(saveGetFromRecord(record, columnIndexDate), dateFormat).time / 1000
+                t.valueDate = QifUtils.parseDate(saveGetFromRecord(record, columnIndexValueDate), dateFormat).time / 1000
             }
             if (columnIndexPayee != -1) {
                 val payee: String = saveGetFromRecord(record, columnIndexPayee)
