@@ -44,7 +44,7 @@ open class TransactionViewModel(application: Application) : ContentResolvingAndr
             InstantiationTask.TRANSACTION_FROM_TEMPLATE -> Transaction.getInstanceFromTemplateWithTags(transactionId)
             InstantiationTask.TRANSACTION -> Transaction.getInstanceFromDbWithTags(transactionId)
             InstantiationTask.FROM_INTENT_EXTRAS -> Pair(ProviderUtils.buildFromExtras(extras), emptyList())
-        }?.let { pair ->
+        }?.also { pair ->
             if (forEdit) {
                 pair.first.prepareForEdit(clone, clone && prefHandler.getBoolean(PrefKey.CLONE_WITH_CURRENT_DATE, true))
             }
