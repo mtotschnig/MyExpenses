@@ -96,7 +96,7 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
     override fun onPositive(args: Bundle) {
         if (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE) == R.id.SET_HEADER_COMMAND) {
             (supportFragmentManager.findFragmentByTag(
-                    mSectionsPagerAdapter.getFragmentName(1)) as? CsvImportDataFragment)?.setHeader()
+                    mSectionsPagerAdapter.getFragmentName(1)) as? CsvImportDataFragment)?.setHeader(args.getInt(CsvImportDataFragment.KEY_HEADER_LINE_POSITION))
         }
     }
 
