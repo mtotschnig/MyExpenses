@@ -43,6 +43,7 @@
     <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Neograničeni broj planova</string>
     <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Eksportiraj listu transakcija u PDF</string>
     <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Widget za predložak</string>
+    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV uvoz</string>
     <string name="contrib_key">Contrib Ključ</string>
     <string name="extended_key">Prošireni ključ</string>
     <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->

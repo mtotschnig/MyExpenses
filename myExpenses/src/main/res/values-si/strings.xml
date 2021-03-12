@@ -32,6 +32,7 @@
     <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">සීමා රහිත ගිණුම් ගණනක්</string>
     <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">සීමා රහිත ක්‍රම ගණනක්</string>
     <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">විජට් අච්චුව </string>
+    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV ආනයනය</string>
     <string name="contrib_key">කොන්ට්‍රිබ් යතුර </string>
     <string name="extended_key">දිගු කළ යතුර</string>
     <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->

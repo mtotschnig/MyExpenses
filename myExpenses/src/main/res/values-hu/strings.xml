@@ -43,6 +43,7 @@
     <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Korlátlan számú számla</string>
     <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Korlátlan számú terv</string>
     <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Sablon widget</string>
+    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV-importálás</string>
     <string name="licence_status_free">Ingyenes</string>
     <string name="contrib_key">Contrib Kulcs</string>
     <string name="extended_key">Kiterjesztett Kulcs</string>

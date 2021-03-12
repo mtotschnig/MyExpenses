@@ -42,6 +42,7 @@
     <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">ចំនួន​គណនី​គ្មាន​ដែន​កំណត់</string>
     <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">ចំនួន​ផែនការគ្មានដែន​កំណត់​</string>
     <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">ប្រអប់​ធាតុពុម្ព</string>
+    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">ការនាំចូលស៊ីអេសវី</string>
     <string name="contrib_key">កូនសោកុងតឺន័រ</string>
     <string name="extended_key">កូនសោពង្រីក</string>
     <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->

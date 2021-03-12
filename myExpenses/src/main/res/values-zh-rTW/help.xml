@@ -1,28 +1,34 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-  <string name="help_menu_commands">選單命令</string>
-  <string name="help_contextual_actions">上下文動作</string>
-  <string name="cab_delete_help_text">刪除所選項目</string>
-  <string name="cab_edit_help_text">編輯所選的項目</string>
+  <string name="cab_delete_help_text">刪除選定的項目</string>
+  <string name="cab_edit_help_text">編輯選定的項目</string>
   <!--My Expenses Transaction list-->
   <string name="help_MyExpenses_title">交易清單</string>
+  <string name="popup_MyExpenses_toolbar_intro">點擊工具欄上的選項（帳戶標籤或當前餘額）會彈出一個選單，其中包含以下條目：</string>
+  <string name="menu_grouping_help_text">您可以把交易按照日、週、月或年進行分組。每一組將會計算並顯示收入、支出和轉帳的總和。當您單擊該組標題時，其交易群組將被收合起來，並且僅顯示標題。再次單擊即可以展開。</string>
   <!--ManageMethods title is in keys-->
   <!--ManageParties title is in keys-->
   <!--ManageTemplates title is in keys-->
   <!--ManageCategories_* titles are in keys-->
   <!--ExpenseEdit-->
-  <string name="help_ExpenseEdit_transaction_title">交易形成</string>
-  <string name="help_ExpenseEdit_transfer_title">轉讓形式</string>
+  <string name="form_split_parts_heading_help_text">使用浮動操作鈕可以根據您的需要，輸入盡可能多的分割款項。分割款項的總和與交易項目顯示的金額，兩者之間的差額會顯示在螢幕底部。只有正確地分配分割款項，才能儲存此分割交易。</string>
+  <string name="menu_templates_help_text">打開一個列出所有範本的選單，以便快速的將它們加載到表單中。</string>
   <!--AccountEdit-->
-  <string name="help_AccountEdit_title">賬戶形式</string>
+  <string name="form_AccountEdit_label_help_text">在賬戶列表中，用來辨識該帳戶的標籤。</string>
   <!--MethodEdit-->
-  <string name="help_MethodEdit_title">付款方式</string>
+  <string name="form_MethodEdit_label_help_text">當您將交易分類到付款方式時，可以用來辨識付款方式的標籤。</string>
   <!--ManageCurrencies-->
+  <string name="help_ManageCurrencies_new">對於自定義貨幣，您需要定義一個標籤 ( 此標籤會出現在選擇貨幣的選單中 ) 和一個字母代碼 ( 按慣例由三個字母組成 )。</string>
   <!--FolderBrowser title is in keys-->
   <!--StaleImages-->
   <!--CSV Import-->
   <!--SyncBackends-->
   <!--History-->
+  <string name="help_HistoryActivity_info">此畫面顯示您的金錢流向，看支出和收入如何隨著年、月、週或日的變化而變化。</string>
+  <string name="menu_HistoryActivity_grouping_help_text">切換查看每日、每週、每月或每年的金錢流量數據。</string>
+  <string name="menu_HistoryActivity_history_show_balance_help_text">勾選後，可顯示收支結餘</string>
+  <string name="menu_HistoryActivity_history_transfers_help_text">勾選後，可將轉帳交易計入當作常規的收入或支出</string>
   <!--Budget-->
+  <string name="form_BudgetEdit_filter_help_text">可以根據類別、貿易夥伴、付款方式或狀態，來篩選預算項目。僅與篩選器相匹配的交易才會被放入賬戶中。</string>
   <!--Tags-->
 </resources>
