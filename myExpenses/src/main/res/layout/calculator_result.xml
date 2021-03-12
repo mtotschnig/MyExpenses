@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-<RelativeLayout
-    android:id="@+id/result_pane"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/textfield_default"
@@ -20,8 +16,8 @@
         android:layout_alignParentRight="true"
         android:layout_marginBottom="-5sp"
         android:textColor="#000000"
-        tools:text="+"
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        tools:text="+" />
 
     <TextView
         android:id="@+id/result"
@@ -31,10 +27,8 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_marginTop="-5sp"
-        tools:text="123.45"
+        android:maxLines="1"
         android:textColor="#000000"
         android:textSize="36sp"
-        android:maxLines="1"/>
-
-
+        tools:text="123.45" />
 </RelativeLayout>
