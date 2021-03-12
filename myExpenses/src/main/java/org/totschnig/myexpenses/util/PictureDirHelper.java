@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.VisibleForTesting;
 import androidx.core.content.ContextCompat;
 
 import static org.totschnig.myexpenses.util.AppDirHelper.getContentUriForFile;
@@ -102,7 +101,6 @@ public class PictureDirHelper {
     return getFileForUri(pictureUri).exists();
   }
 
-  @VisibleForTesting
   @NonNull
   public static File getFileForUri(Uri pictureUri) throws IllegalArgumentException {
     if ("file".equals(pictureUri.getScheme())) {

@@ -20,11 +20,13 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.SimpleCursorAdapter;
@@ -38,6 +40,7 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.myexpenses.util.io.FileUtils;
 
 import javax.inject.Inject;
 
@@ -89,6 +92,24 @@ public class StaleImagesList extends ContextualActionBarFragment implements Load
   }
 
   @Override
+  public boolean dispatchCommandSingle(int command, ContextMenu.ContextMenuInfo info) {
+    if (super.dispatchCommandSingle(command, info)) {
+      return true;
+    }
+    if (command == R.id.VIEW_COMMAND) {
+      imageViewIntentProvider.startViewIntent(requireActivity(),
+          uriAtPosition(((AdapterView.AdapterContextMenuInfo) info).position));
+    }
+    return false;
+  }
+
+  private Uri uriAtPosition(int position) {
+    mImagesCursor.moveToPosition(position);
+    return Uri.parse(mImagesCursor.getString(
+        mImagesCursor.getColumnIndex(DatabaseConstants.KEY_PICTURE_URI)));
+  }
+
+  @Override
   @SuppressLint("InlinedApi")
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View v = inflater.inflate(R.layout.images_list, container, false);
@@ -126,10 +147,8 @@ public class StaleImagesList extends ContextualActionBarFragment implements Load
       }
     };
     lv.setOnItemClickListener((parent, view, position, id) -> {
-      mImagesCursor.moveToPosition(position);
-      imageViewIntentProvider.startViewIntent(getActivity(),
-          Uri.parse(mImagesCursor.getString(
-              mImagesCursor.getColumnIndex(DatabaseConstants.KEY_PICTURE_URI))));
+      ((ProtectedFragmentActivity) requireActivity()).showSnackbar(
+          FileUtils.getPath(requireContext(), uriAtPosition(position)));
     });
     LoaderManager.getInstance(this).initLoader(0, null, this);
     lv.setAdapter(mAdapter);
@@ -140,7 +159,7 @@ public class StaleImagesList extends ContextualActionBarFragment implements Load
   @NonNull
   @Override
   public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
-    return new CursorLoader(getActivity(),
+    return new CursorLoader(requireActivity(),
         TransactionProvider.STALE_IMAGES_URI, null, null, null, null);
   }
 
@@ -158,7 +177,7 @@ public class StaleImagesList extends ContextualActionBarFragment implements Load
 
   @Override
   protected void inflateHelper(Menu menu, int listId) {
-    MenuInflater inflater = getActivity().getMenuInflater();
+    MenuInflater inflater = requireActivity().getMenuInflater();
     inflater.inflate(R.menu.stale_images_context, menu);
   }
 }

@@ -30,4 +30,12 @@
         android:title="@string/menu_save"
         app:showAsAction="ifRoom">
     </item>
+    <group android:id="@id/MenuSingle"
+        android:orderInCategory="10">
+        <item
+            android:id="@id/VIEW_COMMAND"
+            android:icon="@android:drawable/ic_menu_view"
+            android:title="@string/menu_view_picture"
+            app:showAsAction="ifRoom" />
+    </group>
 </menu>

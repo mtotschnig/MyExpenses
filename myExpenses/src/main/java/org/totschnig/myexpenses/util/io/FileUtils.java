@@ -32,6 +32,8 @@ import android.provider.MediaStore;
 import android.webkit.MimeTypeMap;
 
 import org.totschnig.myexpenses.BuildConfig;
+import org.totschnig.myexpenses.util.AppDirHelper;
+import org.totschnig.myexpenses.util.PictureDirHelper;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.File;
@@ -314,6 +316,10 @@ public class FileUtils {
     }
     // MediaStore (and general)
     else if ("content".equalsIgnoreCase(uri.getScheme())) {
+
+      if(AppDirHelper.getFileProviderAuthority().equals(uri.getAuthority())) {
+        return PictureDirHelper.getFileForUri(uri).getPath();
+      }
 
       // Return the remote address
       if (isGooglePhotosUri(uri))
