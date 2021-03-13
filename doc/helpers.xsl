@@ -1,12 +1,30 @@
 <?xml version='1.0' ?>
 <xsl:stylesheet xmlns:str="http://exslt.org/strings"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" extension-element-prefixes="str" version="1.0">
-    <xsl:output encoding="UTF-8" method="text" />
     <xsl:variable name="all-languages"
         select="'ar bg ca cs da de el es eu fr hr hu it iw ja ms km ko pl pt ro ru si ta tr vi zh en'" />
     <xsl:variable name='newline'>
         <xsl:text>&#xa;</xsl:text>
     </xsl:variable>
+
+    <xsl:template name="values-dir">
+        <xsl:param name="lang"/>
+        <xsl:text>../myExpenses/src/main/res/values</xsl:text>
+        <xsl:call-template name="lang-file">
+            <xsl:with-param name="lang" select="$lang"/>
+        </xsl:call-template>
+    </xsl:template>
+
+    <xsl:template name="special-version-info">
+        <xsl:param name="version"/>
+        <xsl:param name="strings"/>
+        <xsl:param name="aosp"/>
+        <xsl:if test="$version = '3.2.5'">
+            <xsl:apply-templates select="document($strings)/resources/string[@name='contrib_feature_csv_import_label']" mode="unescape"/>
+            <xsl:text>: </xsl:text>
+            <xsl:apply-templates select="document($aosp)/resources/string[@name='autofill']" mode="unescape"/>
+        </xsl:if>
+    </xsl:template>
 
     <xsl:template match="item|string" mode="unescape">
         <xsl:variable name="apostrophe">'</xsl:variable>

@@ -2,7 +2,7 @@
 <xsl:stylesheet xmlns:str="http://exslt.org/strings"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" extension-element-prefixes="str" version="1.0">
     <xsl:output encoding="UTF-8" method="xml" />
-    <xsl:include href="play_languages.xsl" />
+    <xsl:include href="helpers.xsl" />
     <xsl:param name="version" />
     <xsl:param name="languages" select="$all-languages" />
 
@@ -17,28 +17,35 @@
     <xsl:template name="extract">
         <xsl:param name="lang" />
         <xsl:variable name="dir">
-            <xsl:text>../myExpenses/src/main/res/values</xsl:text>
-            <xsl:call-template name="lang-file">
-                <xsl:with-param name="lang" select="$lang"/>
+            <xsl:call-template name="values-dir">
+                <xsl:with-param name="lang" select="$lang" />
             </xsl:call-template>
         </xsl:variable>
         <xsl:variable name="upgrade">
-            <xsl:value-of select="$dir"/><xsl:text>/upgrade.xml</xsl:text>
+            <xsl:value-of select="$dir" />
+            <xsl:text>/upgrade.xml</xsl:text>
         </xsl:variable>
         <xsl:variable name="strings">
-            <xsl:value-of select="$dir"/><xsl:text>/strings.xml</xsl:text>
+            <xsl:value-of select="$dir" />
+            <xsl:text>/strings.xml</xsl:text>
         </xsl:variable>
         <xsl:variable name="aosp">
-            <xsl:value-of select="$dir"/><xsl:text>/aosp.xml</xsl:text>
+            <xsl:value-of select="$dir" />
+            <xsl:text>/aosp.xml</xsl:text>
         </xsl:variable>
         <xsl:variable name="changelog">
             <xsl:for-each select="str:tokenize($version)">
+                <xsl:variable name="special-version-info">
+                    <xsl:call-template name="special-version-info">
+                        <xsl:with-param name="version" select="." />
+                        <xsl:with-param name="strings" select="$strings" />
+                        <xsl:with-param name="aosp" select="$aosp" />
+                    </xsl:call-template>
+                </xsl:variable>
                 <xsl:choose>
-                    <xsl:when test=". = '3.2.5'">
-                        <xsl-text>• </xsl-text>
-                        <xsl:apply-templates select="document($strings)/resources/string[@name='contrib_feature_csv_import_label']" mode="unescape"/>
-                        <xsl:text>: </xsl:text>
-                        <xsl:apply-templates select="document($aosp)/resources/string[@name='autofill']" mode="unescape"/>
+                    <xsl:when test="$special-version-info != ''">
+                        <xsl-text>•</xsl-text>
+                        <xsl:value-of select="$special-version-info" />
                     </xsl:when>
                     <xsl:otherwise>
                         <xsl:apply-templates select="document($upgrade)/resources/string-array">
@@ -55,14 +62,11 @@
                 </xsl:call-template>
             </xsl:variable>
             <xsl:element name="{$element-name}">
-                <xsl:text>
-</xsl:text>
+                <xsl:value-of select="$newline" />
                 <xsl:value-of select="$changelog" />
-                <xsl:text>
-</xsl:text>
+                <xsl:value-of select="$newline" />
             </xsl:element>
-            <xsl:text>
-</xsl:text>
+            <xsl:value-of select="$newline" />
         </xsl:if>
     </xsl:template>
 
@@ -75,6 +79,7 @@
     </xsl:template>
 
     <xsl:template match="item">
-        <xsl-text>• </xsl-text><xsl:apply-templates select="." mode="unescape" />
+        <xsl-text>•</xsl-text>
+        <xsl:apply-templates mode="unescape" select="." />
     </xsl:template>
 </xsl:stylesheet>

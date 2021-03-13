@@ -5,7 +5,7 @@
 		version="1.0"
 		>
   <xsl:output method="text" encoding="UTF-8"/>
-  <xsl:include href="play_languages.xsl" />
+  <xsl:include href="helpers.xsl" />
   <xsl:param name="addons" select="'splittemplate history budget ocr webui'"/>
   <xsl:param name="languages" select="$all-languages" />
 
