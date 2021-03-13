@@ -2,9 +2,9 @@
 <xsl:stylesheet xmlns:str="http://exslt.org/strings"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" extension-element-prefixes="str" version="1.0">
     <xsl:output encoding="UTF-8" method="xml" />
+    <xsl:include href="play_languages.xsl" />
     <xsl:param name="version" />
-    <xsl:param name="languages"
-        select="'en ar bg ca cs da de el es eu fr hr hu it iw ja ms km ko pl pt ro ru si ta tr vi zh'" />
+    <xsl:param name="languages" select="$all-languages" />
 
     <xsl:template match="/">
         <xsl:for-each select="str:tokenize($languages)">
@@ -18,11 +18,9 @@
         <xsl:param name="lang" />
         <xsl:variable name="dir">
             <xsl:text>../myExpenses/src/main/res/values</xsl:text>
-            <xsl:choose>
-                <xsl:when test="$lang='en'" />
-                <xsl:when test="$lang='zh'">-zh-rTW</xsl:when>
-                <xsl:otherwise>-<xsl:value-of select="$lang" /></xsl:otherwise>
-            </xsl:choose>
+            <xsl:call-template name="lang-file">
+                <xsl:with-param name="lang" select="$lang"/>
+            </xsl:call-template>
         </xsl:variable>
         <xsl:variable name="upgrade">
             <xsl:value-of select="$dir"/><xsl:text>/upgrade.xml</xsl:text>
@@ -52,7 +50,7 @@
         </xsl:variable>
         <xsl:if test="$changelog != ''">
             <xsl:variable name="element-name">
-                <xsl:call-template name="map-element-name">
+                <xsl:call-template name="lang-play">
                     <xsl:with-param name="lang" select="$lang" />
                 </xsl:call-template>
             </xsl:variable>
@@ -94,35 +92,4 @@
         <xsl:value-of
             select="str:replace(str:replace($trim,concat('\',apostrophe),apostrophe),concat('\',$quote),$quote)" />
     </xsl:template>
-
-    <xsl:template name="map-element-name">
-        <xsl:param name="lang" />
-        <xsl:choose>
-            <xsl:when test="$lang = 'cs'">cs-CZ</xsl:when>
-            <xsl:when test="$lang = 'da'">da-DK</xsl:when>
-            <xsl:when test="$lang = 'de'">de-DE</xsl:when>
-            <xsl:when test="$lang = 'en'">en-US</xsl:when>
-            <xsl:when test="$lang = 'el'">el-GR</xsl:when>
-            <xsl:when test="$lang = 'es'">es-ES</xsl:when>
-            <xsl:when test="$lang = 'eu'">eu-ES</xsl:when>
-            <xsl:when test="$lang = 'fr'">fr-FR</xsl:when>
-            <xsl:when test="$lang = 'hu'">hu-HU</xsl:when>
-            <xsl:when test="$lang = 'it'">it-IT</xsl:when>
-            <xsl:when test="$lang = 'iw'">iw-IL</xsl:when>
-            <xsl:when test="$lang = 'ja'">ja-JP</xsl:when>
-            <xsl:when test="$lang = 'km'">km-KH</xsl:when>
-            <xsl:when test="$lang = 'ko'">ko-KR</xsl:when>
-            <xsl:when test="$lang = 'pl'">pl-PL</xsl:when>
-            <xsl:when test="$lang = 'pt'">pt-PT</xsl:when>
-            <xsl:when test="$lang = 'ru'">ru-RU</xsl:when>
-            <xsl:when test="$lang = 'si'">si-LK</xsl:when>
-            <xsl:when test="$lang = 'ta'">ta-IN</xsl:when>
-            <xsl:when test="$lang = 'tr'">tr-TR</xsl:when>
-            <xsl:when test="$lang = 'zh'">zh-TW</xsl:when>
-            <xsl:otherwise>
-                <xsl:value-of select="$lang" />
-            </xsl:otherwise>
-        </xsl:choose>
-    </xsl:template>
-
 </xsl:stylesheet>
