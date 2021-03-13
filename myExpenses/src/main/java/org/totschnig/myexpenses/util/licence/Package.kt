@@ -1,18 +1,18 @@
 package org.totschnig.myexpenses.util.licence
 
 import android.content.Context
+import android.os.Parcelable
 import androidx.annotation.Keep
+import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
-import java.io.Serializable
 import java.util.*
-import kotlin.math.ceil
 
 @Keep
-sealed class Package(val defaultPrice: Long) : Serializable {
+sealed class Package(val defaultPrice: Long) : Parcelable {
     open val optionName = "Licence"
 
     open fun payPalButtonId(isSandBox: Boolean) = if (isSandBox) "TURRUESSCUG8N" else "LBUDF8DSWJAZ8"
@@ -29,19 +29,19 @@ sealed class Package(val defaultPrice: Long) : Serializable {
                 .formatCurrency(Money(currencyUnit!!, defaultPrice))
     }
 
-    @Keep object Contrib : Package(350)
-    @Keep object Upgrade : Package(300)
-    @Keep object Extended : Package(500)
+    @Parcelize @Keep object Contrib : Package(350)
+    @Parcelize@Keep object Upgrade : Package(300)
+    @Parcelize@Keep object Extended : Package(500)
 }
 
 @Suppress("ClassName")
 @Keep
 sealed class ProfessionalPackage(defaultPrice: Long, val duration: Int) : Package(defaultPrice) {
-    @Keep object Professional_1 : ProfessionalPackage(100, 1)
-    @Keep object Professional_6 : ProfessionalPackage(500, 6)
-    @Keep object Professional_12 : ProfessionalPackage(800, 12)
-    @Keep object Professional_24 : ProfessionalPackage(1500, 24)
-    @Keep object Amazon : ProfessionalPackage(900, 0)
+    @Parcelize @Keep object Professional_1 : ProfessionalPackage(100, 1)
+    @Parcelize @Keep object Professional_6 : ProfessionalPackage(500, 6)
+    @Parcelize @Keep object Professional_12 : ProfessionalPackage(800, 12)
+    @Parcelize @Keep object Professional_24 : ProfessionalPackage(1500, 24)
+    @Parcelize @Keep object Amazon : ProfessionalPackage(900, 0)
 
     fun getDuration(withExtra: Boolean): Int {
         val base = duration
@@ -51,8 +51,8 @@ sealed class ProfessionalPackage(defaultPrice: Long, val duration: Int) : Packag
     override fun getFormattedPrice(context: Context, formatted: String, withExtra: Boolean) =
             formatWithDuration(context, formatted, withExtra)
 
-    fun getMonthlyPrice(withExtra: Boolean) =
-            ceil(defaultPrice.toDouble() / getDuration(withExtra)).toLong()
+/*    fun getMonthlyPrice(withExtra: Boolean) =
+            ceil(defaultPrice.toDouble() / getDuration(withExtra)).toLong()*/
 
     private fun formatWithDuration(context: Context, formattedPrice: String?, withExtra: Boolean): String {
         val duration = getDuration(withExtra)
@@ -85,9 +85,9 @@ sealed class AddOnPackage(defaultPrice: Long, val feature: ContribFeature) : Pac
 
     override fun payPalButtonId(isSandBox: Boolean) = if (isSandBox) "9VF4Z9KSLHXZN" else TODO()
 
-    @Keep object SplitTemplate : AddOnPackage(500, ContribFeature.SPLIT_TEMPLATE)
-    @Keep object History : AddOnPackage(500, ContribFeature.HISTORY)
-    @Keep object Budget : AddOnPackage(500, ContribFeature.BUDGET)
-    @Keep object Ocr : AddOnPackage(500, ContribFeature.OCR)
-    @Keep object WebUi : AddOnPackage(500, ContribFeature.WEB_UI)
+    @Parcelize @Keep object SplitTemplate : AddOnPackage(500, ContribFeature.SPLIT_TEMPLATE)
+    @Parcelize @Keep object History : AddOnPackage(500, ContribFeature.HISTORY)
+    @Parcelize @Keep object Budget : AddOnPackage(500, ContribFeature.BUDGET)
+    @Parcelize @Keep object Ocr : AddOnPackage(500, ContribFeature.OCR)
+    @Parcelize @Keep object WebUi : AddOnPackage(500, ContribFeature.WEB_UI)
 }

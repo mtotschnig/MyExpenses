@@ -89,7 +89,7 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
   }
 
   private Package packageFromExtra() {
-    return (Package) getIntent().getSerializableExtra(KEY_PACKAGE);
+    return getIntent().getParcelableExtra(KEY_PACKAGE);
   }
 
   private void contribBuyGithub(Package aPackage) {
@@ -113,7 +113,8 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
             licenceHandler.launchPurchase(aPackage, getIntent().getBooleanExtra(KEY_SHOULD_REPLACE_EXISTING, false), billingManager);
           }
         } catch (IllegalStateException e) {
-          complain(e.getMessage());
+          CrashHandler.report(e);
+          showMessage(e.getMessage() != null ? e.getMessage() : "ERROR");
         }
         break;
       default:

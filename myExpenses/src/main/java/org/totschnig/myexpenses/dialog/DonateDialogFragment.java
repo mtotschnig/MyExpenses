@@ -44,7 +44,7 @@ public class DonateDialogFragment extends BaseDialogFragment {
   public static DonateDialogFragment newInstance(Package aPackage) {
     DonateDialogFragment fragment = new DonateDialogFragment();
     Bundle args = new Bundle();
-    args.putSerializable(KEY_PACKAGE, aPackage);
+    args.putParcelable(KEY_PACKAGE, aPackage);
     fragment.setArguments(args);
     return fragment;
   }
@@ -71,7 +71,7 @@ public class DonateDialogFragment extends BaseDialogFragment {
 
   @NonNull
   private Package getPackage() {
-    Package aPackage= (Package) getArguments().getSerializable(KEY_PACKAGE);
+    Package aPackage= getArguments().getParcelable(KEY_PACKAGE);
     if (aPackage == null) {
       aPackage = Package.Contrib.INSTANCE;
     }
