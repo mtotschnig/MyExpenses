@@ -5,11 +5,11 @@
 		version="1.0"
 		>
   <xsl:output method="text" encoding="UTF-8"/>
-  <xsl:param name="langs" select="'en ar bg ca cs da de el es eu fr hr hu it iw ja km kn ko ms pl pt ro ru si ta tr vi zh-rTW'"/>
+  <xsl:param name="languages" select="$all-languages" />
 
   <xsl:template match="/">
     <xsl:text>"</xsl:text>
-    <xsl:for-each select="str:tokenize($langs)">
+    <xsl:for-each select="str:tokenize($languages)">
       <xsl:call-template name="extract">
         <xsl:with-param name="key" select="'contrib_key'"/>
         <xsl:with-param name="lang" select="."/>
@@ -17,7 +17,7 @@
     </xsl:for-each>
     <xsl:text>"
 "</xsl:text>
-    <xsl:for-each select="str:tokenize($langs)">
+    <xsl:for-each select="str:tokenize($languages)">
       <xsl:call-template name="extract">
         <xsl:with-param name="key" select="'extended_key'"/>
         <xsl:with-param name="lang" select="."/>
@@ -25,7 +25,7 @@
     </xsl:for-each>
     <xsl:text>"
 "</xsl:text>
-    <xsl:for-each select="str:tokenize($langs)">
+    <xsl:for-each select="str:tokenize($languages)">
       <xsl:call-template name="upgrade">
         <xsl:with-param name="lang" select="."/>
       </xsl:call-template>

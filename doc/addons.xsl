@@ -10,8 +10,8 @@
   <xsl:param name="languages" select="$all-languages" />
 
   <xsl:template match="/">
-    <xsl:text>Product ID,Published State,Purchase Type,Auto Translate,Locale; Title; Description,Auto Fill Prices,Price,Pricing Template ID
-</xsl:text>
+    <xsl:text>Product ID,Published State,Purchase Type,Auto Translate,Locale; Title; Description,Auto Fill Prices,Price,Pricing Template ID</xsl:text>
+    <xsl:value-of select="$newline"/>
     <xsl:for-each select="str:tokenize($addons)">
       <xsl:variable name="addon" select="."/>
       <xsl:value-of select="."/><xsl:text>,published,managed_by_android,false,"</xsl:text>
@@ -21,8 +21,8 @@
         <xsl:with-param name="lang" select="."/>
       </xsl:call-template>
     </xsl:for-each>
-      <xsl:text>",false,,4637809629993162912
-</xsl:text>
+      <xsl:text>",false,,4637809629993162912</xsl:text>
+      <xsl:value-of select="$newline"/>
     </xsl:for-each>
   </xsl:template>
 

@@ -1,8 +1,12 @@
 <?xml version='1.0' ?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+<xsl:stylesheet xmlns:str="http://exslt.org/strings"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" extension-element-prefixes="str" version="1.0">
     <xsl:output encoding="UTF-8" method="text" />
     <xsl:variable name="all-languages"
         select="'ar bg ca cs da de el es eu fr hr hu it iw ja ms km ko pl pt ro ru si ta tr vi zh en'" />
+    <xsl:variable name='newline'>
+        <xsl:text>&#xa;</xsl:text>
+    </xsl:variable>
 
     <xsl:template match="item|string" mode="unescape">
         <xsl:variable name="apostrophe">'</xsl:variable>
@@ -10,9 +14,11 @@
         <xsl:variable name="trim">
             <xsl:choose>
                 <xsl:when test="starts-with(., $quote)">
-                    <xsl:value-of select="substring-before(substring-after(., $quote), $quote) "/>
+                    <xsl:value-of select="substring-before(substring-after(., $quote), $quote) " />
                 </xsl:when>
-                <xsl:otherwise> <xsl:value-of select="."/></xsl:otherwise>
+                <xsl:otherwise>
+                    <xsl:value-of select="." />
+                </xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
         <xsl:value-of
@@ -24,7 +30,10 @@
         <xsl:choose>
             <xsl:when test="$lang='en'" />
             <xsl:when test="$lang='zh'">-zh-rTW</xsl:when>
-            <xsl:otherwise>-<xsl:value-of select="$lang" /></xsl:otherwise>
+            <xsl:otherwise>
+                <xsl:text>-</xsl:text>
+                <xsl:value-of select="$lang" />
+            </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
 
