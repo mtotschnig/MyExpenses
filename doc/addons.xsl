@@ -37,10 +37,10 @@
       <xsl:text>.xml</xsl:text>
     </xsl:variable>
     <xsl:variable name="title">
-      <xsl:apply-templates select="document($file)/resources/string[@name=concat($addon,'_title')]" />
+      <xsl:apply-templates select="document($file)/resources/string[@name=concat($addon,'_title')]" mode="unescape" />
     </xsl:variable>
     <xsl:variable name="description">
-      <xsl:apply-templates select="document($file)/resources/string[@name=concat($addon,'_description')]" />
+      <xsl:apply-templates select="document($file)/resources/string[@name=concat($addon,'_description')]" mode="unescape" />
     </xsl:variable>
     <xsl:if test="$title != '' and $description != ''">
       <xsl:call-template name="lang-play">
@@ -52,11 +52,5 @@
       <xsl:value-of select="$description"/>
       <xsl:if test="position() != last()"><xsl:text>;</xsl:text></xsl:if>
     </xsl:if>
-  </xsl:template>
-
-  <xsl:template match="string">
-    <xsl:variable name="apos">'</xsl:variable>
-    <xsl:variable name="quote">"</xsl:variable>
-    <xsl:value-of select="str:replace(str:replace(str:replace(.,concat('\',$apos),$apos),concat('\',$quote),$quote),';','\;')" />
   </xsl:template>
   </xsl:stylesheet>

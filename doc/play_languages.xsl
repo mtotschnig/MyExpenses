@@ -4,6 +4,21 @@
     <xsl:variable name="all-languages"
         select="'ar bg ca cs da de el es eu fr hr hu it iw ja ms km ko pl pt ro ru si ta tr vi zh en'" />
 
+    <xsl:template match="item|string" mode="unescape">
+        <xsl:variable name="apostrophe">'</xsl:variable>
+        <xsl:variable name="quote">"</xsl:variable>
+        <xsl:variable name="trim">
+            <xsl:choose>
+                <xsl:when test="starts-with(., $quote)">
+                    <xsl:value-of select="substring-before(substring-after(., $quote), $quote) "/>
+                </xsl:when>
+                <xsl:otherwise> <xsl:value-of select="."/></xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        <xsl:value-of
+            select="str:replace(str:replace($trim,concat('\',apostrophe),apostrophe),concat('\',$quote),$quote)" />
+    </xsl:template>
+
     <xsl:template name="lang-file">
         <xsl:param name="lang" />
         <xsl:choose>

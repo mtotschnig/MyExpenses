@@ -49,12 +49,12 @@
     <xsl:if test="count(document($file)/resources/string[@name=$key]) = 0">
       <xsl:message terminate="yes">Missing key <xsl:value-of select="$key"/> for lang <xsl:value-of select="$lang"/> </xsl:message>
     </xsl:if>
-    <xsl:apply-templates select="document($file)/resources/string[@name=$key]" />
+    <xsl:apply-templates select="document($file)/resources/string[@name=$key]" mode="unescape" />
     <xsl:text>;</xsl:text>
     <xsl:if test="count(document($file)/resources/string[@name='pref_contrib_purchase_summary']) = 0">
       <xsl:message terminate="yes">Missing key pref_contrib_purchase_summary for lang <xsl:value-of select="$lang"/> </xsl:message>
     </xsl:if>
-    <xsl:apply-templates select="document($file)/resources/string[@name='pref_contrib_purchase_summary']" />
+    <xsl:apply-templates select="document($file)/resources/string[@name='pref_contrib_purchase_summary']" mode="unescape" />
     <xsl:if test="position() != last()"><xsl:text>;</xsl:text></xsl:if>
   </xsl:template>
 
@@ -72,17 +72,11 @@
       <xsl:with-param name="lang" select="$lang"/>
     </xsl:call-template>
     <xsl:text>;</xsl:text>
-    <xsl:apply-templates select="document($file)/resources/string[@name='contrib_key']" />
+    <xsl:apply-templates select="document($file)/resources/string[@name='contrib_key']" mode="unescape" />
     <xsl:text> => </xsl:text>
-    <xsl:apply-templates select="document($file)/resources/string[@name='extended_key']" />
+    <xsl:apply-templates select="document($file)/resources/string[@name='extended_key']" mode="unescape" />
     <xsl:text>;</xsl:text>
-    <xsl:apply-templates select="document($file)/resources/string[@name='pref_contrib_purchase_summary']" />
+    <xsl:apply-templates select="document($file)/resources/string[@name='pref_contrib_purchase_summary']" mode="unescape" />
     <xsl:if test="position() != last()"><xsl:text>;</xsl:text></xsl:if>
-  </xsl:template>
-
-  <xsl:template match="string">
-    <xsl:variable name="apos">'</xsl:variable>
-    <xsl:variable name="quote">"</xsl:variable>
-    <xsl:value-of select="str:replace(str:replace(str:replace(.,concat('\',$apos),$apos),concat('\',$quote),$quote),';','\;')" />
   </xsl:template>
   </xsl:stylesheet>

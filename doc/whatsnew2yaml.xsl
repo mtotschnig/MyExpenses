@@ -46,13 +46,7 @@
   </xsl:template>
 
   <xsl:template match="string-array">
-     <xsl:apply-templates select='item'/>
-  </xsl:template>
-
-  <xsl:template match="item">
-  <xsl:variable name="apos">'</xsl:variable>
-  <xsl:variable name="quote">"</xsl:variable>
-    <xsl:value-of select="concat(' ',str:replace(str:replace(.,concat('\',$apos),$apos),concat('\',$quote),$quote))" />
+     <xsl:apply-templates select='item' mode="unescape"/>
   </xsl:template>
 
 </xsl:stylesheet>

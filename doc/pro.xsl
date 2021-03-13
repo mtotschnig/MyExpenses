@@ -41,10 +41,10 @@
     <xsl:if test="count(document($app_file)/resources/string[@name='professional_key']) = 0">
       <xsl:message terminate="yes">Missing key professional_key for lang <xsl:value-of select="$lang"/> </xsl:message>
     </xsl:if>
-    <xsl:apply-templates select="document($app_file)/resources/string[@name='professional_key']" />
+    <xsl:apply-templates select="document($app_file)/resources/string[@name='professional_key']" mode="unescape" />
     <xsl:text>")
         .setDescription("</xsl:text>
-    <xsl:apply-templates select="document($app_file)/resources/string[@name='pref_contrib_purchase_summary']" />
+    <xsl:apply-templates select="document($app_file)/resources/string[@name='pref_contrib_purchase_summary']" mode="unescape" />
     <xsl:text>")</xsl:text>
     <xsl:if test="count(document($addon_file)/resources/string[starts-with(@name,'professional_benefit_')]) > 0">
       <xsl:text>
@@ -54,7 +54,7 @@
         <xsl:if test="string-length(.) > 40">
           <xsl:message terminate="yes">Benefit for lang <xsl:value-of select="$lang"/> must not exceed 40 characters.</xsl:message>
         </xsl:if>
-        <xsl:apply-templates select="."/>
+        <xsl:apply-templates select="." mode="unescape"/>
         <xsl:text>"</xsl:text>
         <xsl:if test="position() != last()"><xsl:text>, </xsl:text></xsl:if>
       </xsl:for-each>
@@ -62,11 +62,5 @@
     </xsl:if>
     <xsl:if test="position() != last()"><xsl:text>,
 </xsl:text></xsl:if>
-  </xsl:template>
-
-  <xsl:template match="string">
-    <xsl:variable name="apos">'</xsl:variable>
-    <xsl:variable name="quote">"</xsl:variable>
-    <xsl:value-of select="str:replace(str:replace(str:replace(.,concat('\',$apos),$apos),concat('\',$quote),$quote),';','\;')" />
   </xsl:template>
   </xsl:stylesheet>

@@ -77,19 +77,4 @@
     <xsl:template match="item">
         <xsl-text>• </xsl-text><xsl:apply-templates select="." mode="unescape" />
     </xsl:template>
-
-    <xsl:template match="item|string" mode="unescape">
-        <xsl:variable name="apostrophe">'</xsl:variable>
-        <xsl:variable name="quote">"</xsl:variable>
-        <xsl:variable name="trim">
-            <xsl:choose>
-            <xsl:when test="starts-with(., $quote)">
-                <xsl:value-of select="substring-before(substring-after(., $quote), $quote) "/>
-            </xsl:when>
-            <xsl:otherwise> <xsl:value-of select="."/></xsl:otherwise>
-            </xsl:choose>
-        </xsl:variable>
-        <xsl:value-of
-            select="str:replace(str:replace($trim,concat('\',apostrophe),apostrophe),concat('\',$quote),$quote)" />
-    </xsl:template>
 </xsl:stylesheet>
