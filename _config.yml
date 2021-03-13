@@ -120,6 +120,180 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 3.2.5
+    - "2021-01-25"
+    -
+      ar: |
+        إستيراد ملف CSV: الملء التلقائي
+      bg: |
+        Импорт от CSV: Автоматично попълване
+      ca: |
+        Importació CSV: Emplenament automàtic
+      cs: |
+        Import CSV souboru: Automatické vyplňování
+      da: |
+        CSV import: Autofyld
+      de: |
+        CSV import: AutoFill
+      el: |
+        Εισαγωγή CSV: Αυτόματη συμπλήρωση
+      es: |
+        Importar desde CSV: Autocompletar
+      eu: |
+        CSV inportazioa: Betetze automatikoa
+      fr: |
+        Import CSV: Saisie automatique
+      hr: |
+        CSV uvoz: Automatsko popunjavanje
+      hu: |
+        CSV-importálás: Automatikus kitöltés
+      it: |
+        Importazione CSV: Compilazione automatica
+      iw: |
+        ייבוא CSV: מילוי אוטומטי
+      ja: |
+        CSV インポート: 自動入力
+      ms: |
+        Import CSV: Autolengkap
+      km: |
+        ការនាំចូលស៊ីអេសវី: បំពេញ​ដោយស្វ័យ​ប្រវត្តិ
+      ko: |
+        CSV 가져오기: 자동완성
+      pl: |
+        Import CSV: Autouzupełnianie
+      pt: |
+        Importação CSV: Preenchimento automático
+      ro: |
+        CSV import: Completare automată
+      ru: |
+        Импорт данных в формате CSV: Автозаполнение
+      si: |
+        CSV ආනයනය: ස්වයංක්‍රිය පිරවුම
+      ta: |
+        CSV இறக்குமதி: தன்னிரப்பி
+      tr: |
+        CSV içe aktar: Otomatik Doldur
+      vi: |
+        Nhập CSV: Tự động điền
+      zh: |
+        以CSV的檔案型式輸入: 自動填入
+      en: |
+        CSV import: Autofill
+  -
+    - 3.2.4
+    - "2021-01-25"
+    -
+      bg: |
+        Уеб потребителски интерфейс
+      de: |
+        Web-Benutzeroberfläche
+      fr: |
+        Interface utilisateur Web
+      it: |
+        Interfaccia utente Web
+      iw: |
+        ממשק משתמש באינטרנט
+      pt: |
+        Interface web do usuário
+      tr: |
+        İnternet Kullanıcı Arayüzü
+      en: |
+        Web User Interface
+  -
+    - 3.2.3
+    - "2021-01-25"
+    -
+      bg: |
+        Бутонът за дата позволява бърза навигация до вчера и утре.
+      de: |
+        Die Datumsschaltfläche ermöglicht eine schnelle Navigation zum vorherigen und nächsten Tag.
+      es: |
+        El botón de fecha permite una navegación rápida al día anterior y al siguiente.
+      fr: |
+        Le bouton Date permet une navigation rapide vers le jour précédent et suivant.
+      it: |
+        Il pulsante Data consente la navigazione rapida al giorno precedente o successivo.
+      iw: |
+        כפתור תאריך מאפשר ניווט מהיר ליום הקודם ולמחרת.
+      pt: |
+        O botão de data permite uma navegação rápida para o dia anterior e o seguinte.
+      tr: |
+        Tarih düğmesi önceki ve sonraki güne çabuk geçmeye izin verir.
+      en: |
+        Date button allows quick navigation to previous and next day.
+  -
+    - 3.2.2
+    - "2021-01-25"
+    -
+      ar: |
+        يمكن إخفاء مبالغ النفقات والإيرادات والتحويلات في رؤوس المجموعة. احسب الفرق بين الرصيد الحالي والقيمة الجديدة. يمكن تحديد التصفية والميزانيات لمجموعة فرعية من الحسابات.
+      bg: |
+        Сумите в заглавията на групата могат да бъдат скрити. Изчисляване на разликата между текущото салдо и новата му стойност. Филтър и бюджет могат да бъдат дефинирани за част от сметките.
+      de: |
+        Die Beträge für Ausgaben, Einnahmen und Überweisungen in den Gruppenkopfzeilen können ausgeblendet werden. Berechnen Sie die Differenz zwischen dem aktuellen Kontostand und einem neuen Wert. Filter und Budgets können für eine Teilmenge von Konten definiert werden.
+      es: |
+        Pueden ocultarse los importes de gastos, ingresos y transferencias en las cabeceras de los grupos. Calcular la diferencia entre el saldo actual y un nuevo valor. Se pueden definir filtros y presupuestos para un subconjunto de cuentas.
+      fr: |
+        Les sommes des dépenses, des revenus et des transferts dans les en-têtes de groupe peuvent être masquées. Calculez la différence entre le solde actuel et une nouvelle valeur. Le filtre et les budgets peuvent être définis pour un sous-ensemble de comptes.
+      it: |
+        Le somme per spese, entrate e trasferimenti possono essere nascoste dall'intestazione del gruppo. Calcola la differenza fra il saldo corrente e un nuovo valore. È possibile definire filtri e budget per un sottoinsieme di account.
+      iw: |
+        ניתן להסתיר את סכומי ההוצאות, ההכנסות וההעברות בכותרות הקבוצה. חשב את ההפרש בין היתרה הנוכחית לערך חדש. ניתן להגדיר סינון ותקציבים עבור קבוצת משנה של חשבונות.
+      pt: |
+        As somas para despesas, receitas e transferências nos cabeçalhos de grupo podem ser ocultadas. Calcula a diferença entre o saldo atual e um novo valor. Filtro e orçamentos podem ser definidos para um subconjunto de contas.
+      tr: |
+        Grup başlıklarında harcama, gelir ve transfer toplamları gizlenebilir. Yeni bir değer ile güncel bakiye arasındaki fark hesaplanabilir. Filtreler ve bütçeler hesapların alt kümeleri için tanımlanabilir.
+      en: |
+        The sums for expenses, income and transfers in the group headers can be hidden. Calculate the difference between the current balance and a new value. Filter and budgets can be defined for a subset of accounts.
+  -
+    - 3.2.1
+    - "2020-12-21"
+    -
+      ar: |
+       يعمل التعرف على النص الآن مع المزيد من اللغات.
+      bg: |
+       Разпознаването на текст вече работи на повече езици.
+      de: |
+       Die Texterkennung funktioniert jetzt mit mehr Sprachen.
+      es: |
+       El reconocimiento de texto ahora funciona con más idiomas.
+      fr: |
+       La reconnaissance de texte fonctionne désormais avec plus de langues.
+      it: |
+       Il riconoscimento del testo ora funziona con più lingue.
+      iw: |
+       זיהוי טקסט פועל כעת עם יותר שפות.
+      pt: |
+       O reconhecimento de texto agora funciona com mais idiomas.
+      tr: |
+       Metin tanıma artık daha fazla lisan ile çalışıyor.
+      en: |
+       Text recognition now works with more languages.
+  -
+    - 3.2.0
+    - "2020-12-05"
+    -
+      ar: |
+       يمكن اقتصاص الصور.
+      bg: |
+       Изображенията могат да бъдат изрязани.
+      de: |
+       Bilder können zugeschnitten werden.
+      es: |
+       Se pueden recortar imágenes.
+      fr: |
+       Les images peuvent être recadrées.
+      it: |
+       Le immagini possono essere ritagliate.
+      iw: |
+       ניתן לחתוך תמונות.
+      pt: |
+       As imagens podem ser aparadas.
+      tr: |
+       Görüntüler kırpılabilir.
+      en: |
+       Images can be cropped.  
+  -
     - 3.1.9
     - "2020-11-29"
     -
