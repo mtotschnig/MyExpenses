@@ -177,16 +177,12 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
                 aPackage.getFormattedPriceRaw(currencyUnit, context))
     }
 
-    open fun getProLicenceStatus(context: Context) = if (licenceStatus == LicenceStatus.PROFESSIONAL)
-        getProValidUntil(context) else null
+    open fun getProLicenceStatus(context: Context) = getProValidUntil(context)
 
     @Suppress("MemberVisibilityCanBePrivate") //used from Huawei
-    fun getProValidUntil(context: Context): String {
-        return context.getString(R.string.valid_until, Utils.getDateFormatSafe(this.context).format(validUntilDate))
+    fun getProValidUntil(context: Context): String? {
+        return validUntilMillis.takeIf { it != 0L }?.let { context.getString(R.string.valid_until, Utils.getDateFormatSafe(this.context).format(Date(it))) }
     }
-
-    private val validUntilDate: Date
-        get() = Date(validUntilMillis)
 
     val validUntilMillis: Long
         get() = licenseStatusPrefs.getString(LICENSE_VALID_UNTIL_KEY, "0").toLong()
@@ -319,8 +315,10 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
             }
             result += "(+ $it)"
         }
-        getProLicenceStatus(context)?.let {
-            result += String.format(" (%s)", it)
+        if (licenceStatus == LicenceStatus.PROFESSIONAL) {
+            getProLicenceStatus(context)?.let {
+                result += String.format(" (%s)", it)
+            }
         }
         return result
     }
