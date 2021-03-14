@@ -157,8 +157,12 @@
         <item>Hiếu Văn</item>
     </string-array>
 
-    <string-array name="translators_zh_tw">
+    <string-array name="translators_zh_hk">
         <item>Casper Li</item>
+    </string-array>
+
+    <string-array name="translators_zh_tw">
+        <item>chyannie</item>
     </string-array>
 
     <string-array name="translators_zh">
