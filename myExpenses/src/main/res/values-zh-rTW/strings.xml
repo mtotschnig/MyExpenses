@@ -54,8 +54,8 @@
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">對<b>程式開發者的未來藍圖 </b>進行投票</string>
     <string name="contrib_feature_history_label" tools:ignore="UnusedResources">收支歷史圖表</string>
     <string name="licence_status_free">免費版</string>
-    <string name="contrib_key">貢獻版金鑰</string>
-    <string name="extended_key">延伸版金鑰</string>
+    <string name="contrib_key">貢獻版金鑰(Contrib Key)</string>
+    <string name="extended_key">延伸版金鑰(Extended Key)</string>
     <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
     <string name="contrib_key_requires">需要 %1$s.</string>
     <string name="currency">貨幣</string>
@@ -64,17 +64,17 @@
     <string name="date_format">日期格式</string>
     <string name="date_format_illegal">日期格式不正確</string>
     <string name="number_format_illegal">不正確的數字格式</string>
-    <string name="decimal_separator">小數點分隔符號</string>
+    <string name="decimal_separator">小數點符號</string>
     <string name="default_account_name">預算簿</string>
     <string name="description">描述</string>
-    <string name="dialog_balance_delete">删除已對賬的交易</string>
+    <string name="dialog_balance_delete">删除已對帳的交易</string>
     <string name="dialog_confirm_discard_changes">要放棄變更?</string>
     <string name="dialog_confirm_discard_new_transaction">要放棄新建立的交易?</string>
     <string name="dialog_confirm_discard_new_template">要放棄新建立的範本?</string>
     <string name="dialog_confirm_discard_new_account">要放棄新建立的帳戶?</string>
     <string name="dialog_confirm_discard_new_method">要放棄新建立的付款方式?</string>
     <string name="dialog_command_disabled_balance">沒有已結算或已入賬的交易需要去對賬</string>
-    <string name="dialog_command_disabled_insert_transfer">需要建立第二個帳戶才可以互相轉移交易</string>
+    <string name="dialog_command_disabled_insert_transfer">需要建立第二個帳戶才可以互相轉帳。</string>
     <string name="dialog_command_disabled_reset_account">沒有交易資料可以輸出</string>
     <string name="dialog_command_disabled_distribution">這個帳戶內的交易項目沒有被分類</string>
     <!-- Button for accessing trial of premium feature -->
@@ -85,11 +85,11 @@
     <string name="dialog_contrib_text_1"><i>{app_name}</i>提供開源代碼</string>
     <string name="dialog_contrib_text_2">請用升級來贊助<i>{app_name}</i>，還可以解鎖得到以下更多的功能:</string>
     <string name="dialog_contrib_usage_count">剩餘使用空間</string>
-    <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">依據您目前的版本(%2$s)的權限，您還可以使用此功能%1$d次</string>
-    <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">依據您目前的版本(%2$s)的權限，您還可以使用此功能%1$d天。</string>
-    <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">依據您目前的版本(%2$s)的權限，您可以建立%1$d個帳戶。</string>
+    <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">依據您目前許可證(%2$s)的權限，您還可以使用此功能%1$d次</string>
+    <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">依據您目前許可證(%2$s)的權限，您還可以使用此功能%1$d天。</string>
+    <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">依據您目前許可證(%2$s)的權限，您可以建立%1$d個帳戶。</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">依據您目前的版本(%2$s)的權限，您可以建立%1$d個收支計畫。</string>
-    <string name="dialog_contrib_usage_limit_split_templates">您目前許可證(%1$s)的權限只允許您建立1個分割款項的範本。</string>
+    <string name="dialog_contrib_usage_limit_split_templates">依據您目前許可證(%1$s)的權限，您可以建立1個分割款項的範本。</string>
     <string name="dialog_export_delete">刪除已輸出的交易</string>
     <string name="dialog_export_not_yet_exported">只輸出尚未被輸出的交易</string>
     <string name="dialog_password_activate_protection">啟用保護密碼</string>
@@ -108,7 +108,7 @@
     <string name="dialog_title_attention">注意</string>
     <string name="dialog_title_information">資訊</string>
     <!-- %1$s is replace with account label -->
-    <string name="dialog_title_balance_account">餘額 %1$s</string>
+    <string name="dialog_title_balance_account">%1$s 餘額</string>
     <string name="dialog_title_contrib_feature">高級功能</string>
     <plurals name="dialog_title_warning_delete_account">
         <item quantity="other">要刪除帳號%1$d嗎?</item>
@@ -116,8 +116,8 @@
     <string name="dialog_title_warning_delete_category">確定刪除類別？</string>
     <string name="dialog_title_warning_delete_template">要刪除模板嗎?</string>
     <string name="dialog_title_warning_delete_transaction">要刪除交易嗎?</string>
-    <string name="expense">開支</string>
-    <string name="export_expenses">輸出開支</string>
+    <string name="expense">開支花費</string>
+    <string name="export_expenses">輸出開支花費</string>
     <!-- 1$s is replaced with path to file, 2$s with error message -->
     <string name="export_sdcard_failure">輸出到檔案\"%1$s\"失敗: %2$s</string>
     <!-- 1$s is replaced with path to file -->
@@ -126,7 +126,7 @@
     <string name="feedback">反饋問題</string>
     <string name="ftp_uri_malformed">異常URI %1$s</string>
     <string name="grisbi_import_categories_loading">從%1$s載入類別項目中...</string>
-    <string name="grisbi_import_parties_loading">由 %1$s 載入部分</string>
+    <string name="grisbi_import_parties_loading">由 %1$s 載入交易對象</string>
     <string name="grouping_day">日</string>
     <string name="grouping_last_week">上週</string>
     <string name="grouping_month">月</string>
@@ -141,7 +141,7 @@
     <string name="help_heading_license">許可</string>
     <string name="help_heading_whats_new">最新資訊</string>
     <string name="important_upgrade_information_heading">重要消息</string>
-    <string name="import_select_transactions">交易</string>
+    <string name="import_select_transactions">交易項目</string>
     <string name="income">收入</string>
     <string name="invalid_number_format">本機設備無法識別十進制格式。請使用%1$s</string>
     <string name="label">標籤</string>
@@ -150,11 +150,11 @@
     <string name="licence_validation_premium">高級功能已經解鎖了</string>
     <string name="menu_aggregates">總金額</string>
     <!-- Shown in a notification; allows to apply a template (instantiate a new transaction from it) -->
-    <string name="menu_apply_template">使用</string>
+    <string name="menu_apply_template">使用此範本</string>
     <string name="menu_back">上一步</string>
     <string name="menu_backup">備份</string>
     <!-- Balance: compare cleared balance in app with balance on statement received from bank -->
-    <string name="menu_balance">餘額帳戶</string>
+    <string name="menu_balance">核對銀行對帳單</string>
     <!-- Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction -->
     <string name="menu_cancel_plan_instance">取消</string>
     <string name="menu_clone_transaction">複製</string>
@@ -164,7 +164,7 @@
     <string name="menu_create_instance_save">採用並儲存</string>
     <string name="menu_create_main_cat">新增主類別</string>
     <string name="menu_create_method">新增付款方式</string>
-    <string name="menu_create_party">新增貿易夥伴</string>
+    <string name="menu_create_party">新增交易對象</string>
     <string name="menu_create_split">新增分割款項</string>
     <string name="menu_create_split_part_category">新增類別式的分割款項</string>
     <string name="menu_create_split_part_transfer">新增轉帳式的分割款項</string>
@@ -176,60 +176,60 @@
     <string name="menu_create_transaction">新增交易</string>
     <string name="menu_create_transfer">新增轉帳</string>
     <string name="menu_delete">刪除</string>
-    <string name="menu_distribution">開銷分布</string>
+    <string name="menu_distribution">開銷分布統計表</string>
     <string name="menu_edit">編輯</string>
     <string name="menu_edit_account">編輯帳戶</string>
     <string name="menu_edit_cat">編輯分類類別</string>
     <string name="menu_edit_method">編輯付款方式</string>
-    <string name="menu_edit_party">編輯貿易夥伴</string>
-    <string name="menu_edit_plan_instance">編輯單一發生的計畫</string>
+    <string name="menu_edit_party">編輯交易對象</string>
+    <string name="menu_edit_plan_instance">編輯單次發生的計畫</string>
     <string name="menu_edit_split">編輯分割款項</string>
     <string name="menu_edit_split_part_category">編輯分割款項的類別</string>
-    <string name="menu_edit_split_part_transfer">編輯分割款項的轉帳部分</string>
+    <string name="menu_edit_split_part_transfer">編輯分割款項的轉帳</string>
     <string name="menu_edit_template">編輯範本</string>
     <string name="menu_edit_transaction">編輯交易</string>
     <string name="menu_edit_transfer">編輯轉帳</string>
-    <string name="menu_exclude_from_totals">从总量中排除</string>
+    <string name="menu_exclude_from_totals">從總計中排除</string>
     <string name="menu_forward">下一步</string>
     <string name="menu_grouping">分組歸類</string>
     <string name="menu_help">幫助</string>
     <!-- This command inverts the direction of a transfer -->
-    <string name="menu_invert_transfer">插入</string>
+    <string name="menu_invert_transfer">兩者反轉</string>
     <string name="menu_manage_plans">範本與收支計畫</string>
     <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
-    <string name="menu_open">開啟</string>
+    <string name="menu_open">開啟檔案</string>
     <string name="menu_import">匯入</string>
     <string name="menu_print">列印</string>
-    <string name="menu_reset">匯出檔案後重置</string>
-    <string name="menu_reset_all">匯出檔案後全部重置</string>
+    <string name="menu_reset">匯出並重置</string>
+    <string name="menu_reset_all">匯出檔案並全部重置</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
     <string name="menu_reset_plan_instance">重置</string>
-    <string name="menu_save">儲存</string>
-    <string name="menu_save_and_new">儲存後新增</string>
+    <string name="menu_save">存檔</string>
+    <string name="menu_save_and_new">存檔並新增</string>
     <string name="menu_search">搜尋</string>
     <string name="menu_settings">設定</string>
-    <string name="menu_share">轉告給朋友</string>
+    <string name="menu_share">推薦給朋友</string>
     <string name="button_label_share_file">分享</string>
     <string name="button_label_close">關閉</string>
     <string name="menu_split_transaction">轉變成分割款項</string>
     <string name="method">付款方式</string>
     <string name="no_amount_given">您沒有輸入任何金額</string>
-    <string name="no_app_handling_email_available">沒有可用的應用程序電子郵件。</string>
-    <string name="no_app_handling_ftp_available">沒有被應用程序處理的ftp可用。安裝 <i>使用FTP發送</i> ？</string>
+    <string name="no_app_handling_email_available">沒有可應用電子郵件的程式。</string>
+    <string name="no_app_handling_ftp_available">沒有可處理ftp的應用程式。安裝<i>使用FTP發送</i>？</string>
     <string name="no_app_handling_pdf_available">沒有可以處理PDF檔案的應用程式</string>
-    <string name="no_categories">没有类别.</string>
+    <string name="no_categories">沒有類別項目。</string>
     <string name="no_expenses">尚無支出</string>
-    <string name="no_exportable_expenses">沒有交易未被匯出</string>
+    <string name="no_exportable_expenses">沒有尚未匯出的交易項目。</string>
     <string name="no_filemanager_installed">沒有安裝檔案管理程式</string>
-    <string name="no_calendar_app_installed">找不到可編輯行事曆事件的應用程式</string>
+    <string name="no_calendar_app_installed">找不到用於編輯日曆事件的應用程式</string>
     <string name="image_capture_not_installed">找不到用於拍照的應用程序</string>
     <string name="no_mapped_transactions">在此期間，沒有交易被分類到此類別。</string>
     <string name="no_methods">沒有付款方式</string>
-    <string name="no_parties">沒有貿易夥伴。</string>
+    <string name="no_parties">沒有交易對象</string>
     <string name="no_split_parts">沒有分割款項</string>
     <string name="no_templates">沒有範本</string>
     <string name="no_accounts">沒有帳戶</string>
-    <string name="no_title_given">你未輸入任何文字。</string>
+    <string name="no_title_given">您沒有輸入任何標題。</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="other">有交易項目被分類到%1$d之中，所以無法刪除。</item>
     </plurals>
@@ -237,16 +237,16 @@
         <item quantity="other">有範本被分類到%1$d之中，所以無法刪除。</item>
     </plurals>
     <string name="numbered">編號</string>
-    <string name="opening_balance">金額</string>
+    <string name="opening_balance">起始結餘</string>
     <string name="parse_error_file_not_found">找不到檔案%1$s</string>
     <string name="parse_error_grisbi_version_not_supported">無法支援 Grisbi 檔案版本: %1$s</string>
-    <string name="parse_error_no_data_found">文件中沒有可匯入的數據。</string>
+    <string name="parse_error_no_data_found">檔案中找不到可匯入的數據。</string>
     <string name="parse_error_other_exception">發生錯誤: %1$s</string>
     <string name="parse_error_parse_exception">無法解析檔案</string>
-    <string name="password_disabled_reenable">密碼保護已被停用。您可以在設定中重新啟用它。</string>
+    <string name="password_disabled_reenable">密碼保護已被停用。您可以在\"設定\"中重新啟用它。</string>
     <string name="password_lost">忘記密碼</string>
     <string name="password_not_valid">該密碼無效。請再試試!</string>
-    <string name="password_prompt">輸入您的密碼</string>
+    <string name="password_prompt">請輸入您的密碼</string>
     <string name="password_security_answer_not_valid">該密碼錯誤。請再試試!</string>
     <string name="payee">收款人</string>
     <string name="payer">付款人</string>
@@ -254,38 +254,38 @@
     <!-- Plan for future and recurring transactions -->
     <string name="plan">收支計畫</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
-    <string name="plan_automatic">自動的</string>
+    <string name="plan_automatic">自動執行</string>
     <!-- this is the label for the calendar where plans for future and recurrent transactions are stored -->
-    <string name="plan_calendar_name">{app_name} 規劃</string>
-    <string name="planner_notification_channel_name">規劃計畫</string>
+    <string name="plan_calendar_name">{app_name} 排程日曆</string>
+    <string name="planner_notification_channel_name">排程設定</string>
     <string name="plan_event_deleted">與此範本相關聯的計畫已從日曆中刪除。</string>
     <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">計畫執行已取消</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
-    <string name="plan_manual">手動的</string>
+    <string name="plan_manual">手動執行</string>
     <string name="planner_create_calendar_failure">無法建立本機計畫日曆</string>
     <string name="planner_create_calendar_success">本機計畫日曆已成功建立</string>
     <!-- payment methods -->
     <string name="pm_cheque">支票</string>
     <string name="pm_creditcard">信用卡</string>
     <string name="pm_deposit">存款</string>
-    <string name="pm_directdebit">直接付款</string>
+    <string name="pm_directdebit">直接扣款</string>
     <string name="pm_type_credit">貸款</string>
     <string name="pm_type_debit">借款</string>
     <string name="pm_type_neutral">中性</string>
     <string name="pref_app_dir_title">用來備份與匯出的檔案夾</string>
-    <string name="pref_auto_fill_summary">若是同一個 收款人/付款人 時，將填入上次交易的數據。</string>
+    <string name="pref_auto_fill_summary">若交易對象是同一個 收款人/付款人 時，系統將自動填入上次交易的數據。</string>
     <string name="pref_backup_summary">建立一個包含數據與偏好設定的備份檔</string>
     <string name="pref_sort_order_usages">使用量計數</string>
-    <string name="pref_category_title_advanced">高级设置</string>
+    <string name="pref_category_title_advanced">進階設定</string>
     <string name="pref_category_title_export">匯出</string>
     <string name="pref_category_title_import">匯入</string>
-    <string name="pref_category_title_manage">管理</string>
+    <string name="pref_category_title_manage">管理設定</string>
     <string name="pref_category_title_more_information">更多資訊</string>
     <string name="pref_category_title_security">安全性</string>
-    <string name="pref_category_title_ui">用戶介面</string>
-    <string name="pref_checkbox_enabled">啟用</string>
-    <string name="pref_checkbox_disabled">停用</string>
+    <string name="pref_category_title_ui">使用者介面</string>
+    <string name="pref_checkbox_enabled">已啟用</string>
+    <string name="pref_checkbox_disabled">已停用</string>
     <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
     <string name="pref_contrib_purchase_summary">購買使用高級功能的權限。</string>
     <string name="pref_contrib_purchase_title">購買金鑰</string>
@@ -293,75 +293,79 @@
     <string name="pref_contrib_purchase_title_in_app">程式內付款</string>
     <string name="pref_custom_currency_title">自定義貨幣</string>
     <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">如果您收到密鑰，則可以使用高級功能。</string>
-    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">输入密钥</string>
+    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">如果您收到金鑰，就可以使用高級功能。</string>
+    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">請輸入金鑰號碼</string>
     <string name="pref_export_format_title">數據資料格式</string>
-    <string name="pref_import_from_grisbi_summary">匯入類別 和貿易夥伴.</string>
+    <string name="pref_import_from_grisbi_summary">從Grisbi XML 檔案匯入類別項目和交易對象(收款人/付款人)</string>
     <string name="pref_import_from_grisbi_title">由Grisbi匯入</string>
     <!-- %s is replaced with QIF or CSV -->
-    <string name="pref_import_summary">从 %s 文件里面导入交易,类别和交易伙伴</string>
+    <string name="pref_import_summary">從%s檔案匯入交易項目、類別項目和交易對象(收款人/付款人)</string>
     <!-- %s is replaced with QIF or CSV -->
-    <string name="pref_import_title">导入 %s</string>
+    <string name="pref_import_title">%s檔案匯入</string>
     <string name="pref_like_facebook_title">在臉書上幫我們按讚</string>
     <string name="pref_manage_accounts_title">帳戶</string>
-    <string name="pref_manage_categories_summary">新增，編輯，移除類別。</string>
-    <string name="pref_manage_categories_title">分類</string>
+    <string name="pref_manage_categories_summary">新增、編輯或刪除類別。</string>
+    <string name="pref_manage_categories_title">類別設定</string>
     <string name="pref_manage_methods_summary">創建和編輯付款方式，並將其聯繫到相關的帳戶類型。</string>
     <string name="pref_manage_methods_title">付款方法</string>
-    <string name="pref_manage_parties_summary">新增、編輯、刪除貿易夥伴 (付款人和收款人) 。</string>
-    <string name="pref_manage_parties_title">貿易夥伴</string>
+    <string name="pref_manage_parties_summary">新增、編輯、刪除交易對象 (付款人和收款人) 。</string>
+    <string name="pref_manage_parties_title">交易對象(付款人/收款人)</string>
     <string name="pref_manage_sync_backends_title">同步後端</string>
     <!-- %s will be replaced with list of backends -->
     <string name="pref_manage_sync_backends_summary">添加後端或雲端設備以同步帳戶（%s）。</string>
-    <string name="pref_more_info_dialog_title">許可 &amp; 信用</string>
+    <string name="pref_more_info_dialog_title">授權許可和所有權</string>
     <string name="pref_password_not_equal">密碼不符合</string>
-    <string name="pref_perform_protection_title">防護設定</string>
+    <string name="pref_perform_protection_title">保護設定</string>
     <string name="pref_perform_share_title">分享匯出檔案</string>
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
-    <string name="pref_planning_calendar_create_local">建立新的本機計劃日曆</string>
-    <string name="pref_planning_calendar_summary">選取一個日曆用於計劃將來和記錄經常性交易</string>
-    <string name="pref_planning_calendar_title">計劃日曆</string>
-    <string name="pref_protection_delay_seconds_summary">閒置秒數將被密碼鎖定。</string>
-    <string name="pref_protection_delay_seconds_title">剩時保護</string>
+    <string name="pref_planning_calendar_create_local">建立新的本機計畫日曆</string>
+    <string name="pref_planning_calendar_summary">選擇儲存未來和定期交易計畫的日曆</string>
+    <string name="pref_planning_calendar_title">選擇計畫日曆</string>
+    <string name="pref_protection_delay_seconds_summary">閒置幾秒鐘後，應用程序將被密碼鎖定</string>
+    <string name="pref_protection_delay_seconds_title">延遲保護</string>
     <string name="pref_protection_enable_data_entry_from_widget_title">從小工具和捷徑輸入數據</string>
-    <string name="pref_protection_enable_data_entry_from_widget_summary_on">允许不设置密码</string>
-    <string name="pref_protection_enable_data_entry_from_widget_summary_off">需要密码</string>
+    <string name="pref_protection_enable_data_entry_from_widget_summary_on">無需密碼即可允許此操作</string>
+    <string name="pref_protection_enable_data_entry_from_widget_summary_off">必須輸入密碼才可操作</string>
     <string name="pref_qif_export_file_encoding_title">字符編碼</string>
-    <string name="pref_request_licence_title">请求密钥</string>
+    <string name="pref_request_licence_title">索取金鑰</string>
     <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
-    <string name="pref_restore_alternative">可选项</string>
+    <string name="pref_restore_alternative">具有選擇性的</string>
     <string name="pref_restore_alternative_summary">如果設備上沒有安裝文件管理器，請使用此替代方法。</string>
     <string name="pref_restore_summary">選擇一個備份檔來復原數據與偏好設定</string>
-    <string name="pref_restore_title">恢復</string>
-    <string name="pref_security_question_summary">如果你忘記了你的密碼，貢獻 開支助手 可助你解鎖你的應用程式。</string>
+    <string name="pref_restore_title">復原</string>
+    <string name="pref_security_question_summary">如果您忘記密碼，貢獻 開支助手 可讓您解鎖應用程序。</string>
     <string name="pref_security_question_title">安全問題</string>
     <string name="pref_send_feedback_title">反饋意見</string>
-    <string name="pref_share_target_summary">必需留空，若果你想選擇合適應用程式 (電郵、Dropbox、Google Docs …)，或者提供一個支援上載的URL地址。</string>
-    <string name="pref_share_target_title">上傳網址(URL)</string>
+    <string name="pref_share_target_summary">如果您要選擇合適的應用程序（電子郵件、Dropbox、Google Docs...等），請不要輸入任何數據、空置此處。或者，您需要輸入一個支援上傳的URL網址。</string>
+    <string name="pref_share_target_title">上傳網址</string>
     <string name="pref_shortcut_added">捷徑已被添加到主畫面</string>
-    <string name="pref_shortcut_not_added">主屏幕没有空间接收快捷方式</string>
+    <string name="pref_shortcut_not_added">沒有可接受捷徑的主畫面或主畫面沒有空位了。</string>
     <string name="pref_shortcut_summary">新增捷徑到主畫面。</string>
     <string name="pref_ui_fontsize_title">介面字體大小</string>
-    <string name="pref_ui_home_screen_shortcuts">主屏快捷方式</string>
+    <string name="pref_ui_home_screen_shortcuts">主畫面捷徑</string>
     <string name="pref_ui_language_default">系統預設</string>
     <!-- Title of the preference for selecting the UI language -->
-    <string name="pref_ui_language_title">語言</string>
+    <string name="pref_ui_language_title">選擇語言</string>
     <string name="pref_ui_theme_dark">黑</string>
     <string name="pref_ui_theme_light">白</string>
-    <string name="pref_ui_theme_title">界面主題</string>
+    <string name="pref_ui_theme_title">背景主題</string>
     <string name="pref_visit_website_summary">活動日誌和常見問題</string>
     <string name="pref_visit_website_title">瀏覽官方網站</string>
-    <string name="progress_dialog_deleting">删除对象</string>
+    <string name="progress_dialog_deleting">刪除物件中...</string>
     <string name="progress_dialog_loading">從資料庫載入物件中...</string>
-    <string name="progress_dialog_printing">生成PDF</string>
+    <string name="progress_dialog_printing">生成PDF檔案中...</string>
     <string name="progress_dialog_saving">儲存物件到資料庫中...</string>
+    <string name="qif_parse_result">已解析：%1$s個帳戶； %2$s類別項目和%3$s交易對象</string>
+    <string name="qif_parse_failure_found_multiple_accounts">在QIF檔案中找到多個帳戶。</string>
+    <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">無法將它們合併到現有帳戶中。</string>
     <string name="reference_number">參考編號</string>
     <string name="restore_db_failure">資料數據復原失敗!</string>
     <string name="restore_db_success">數據庫已從備份恢復過來。</string>
-    <string name="restore_no_backup_found">没有找到备份</string>
-    <string name="restore_preferences_failure">喜好設定恢復失敗</string>
-    <string name="restore_backup_file_not_found">在压缩包 \"%2$s\" 中没有找到 %1$s </string>
-    <string name="restore_preferences_success">喜好設定已經從備份恢復過來。</string>
+    <string name="restore_no_backup_found">找不到備份。</string>
+    <string name="restore_preferences_failure">偏好設定還原失敗</string>
+    <string name="restore_backup_archive_not_valid">存檔%1$s無效</string>
+    <string name="restore_backup_file_not_found">在檔案夾“ %2$s”中找不到檔案%1$s</string>
+    <string name="restore_preferences_success">偏好設定已從備份中還原。</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d計畫已經從備份檔中復原</string>
     <string name="save_transaction_and_new_success">存檔成功</string>
     <string name="save_transaction_error">無法從範本儲存新的交易</string>
@@ -371,6 +375,7 @@
     <string name="save_transaction_template_deleted">範本已被移除</string>
     <string name="select">選取</string>
     <string name="select_category">選取類別</string>
+    <string name="select_payee">選擇付款人/收款人</string>
     <string name="share_scheme_not_supported">不支持方案 %1$s</string>
     <string name="share_sending">發送匯出檔案</string>
     <string name="split_parts_heading">分割款項</string>
@@ -401,27 +406,33 @@
     <string name="unsplit_amount_greater_than_zero">還有一些分割金額尚未被計算</string>
     <string name="warning_backup">資料數據與偏好設定將會儲存到\"%1$s\"</string>
     <string name="continue_confirmation">你要繼續嗎？</string>
-    <string name="warning_delete_account">此帳戶將與它的所有交易將被刪除 (%1$s)。</string>
+    <string name="warning_delete_account">帳戶“ %1$s”及其所有交易項目都將被刪除。</string>
     <plurals name="warning_delete_main_category">
         <item quantity="other">您所選定的類別%1$d包含子類別，這些子類別也將被刪除。</item>
     </plurals>
     <string name="warning_delete_category_with_budget">您所選定的類別項目中，有一個或多個項目包含預算撥款，這些預算也將被刪除。</string>
+    <plurals name="warning_delete_template">
+        <item quantity="other">%1$d所選範本將被刪除。</item>
+    </plurals>
+    <plurals name="warning_delete_transaction">
+        <item quantity="other">%1$d選定的交易項目將被刪除。</item>
+    </plurals>
     <plurals name="move_category_success">
         <item quantity="other">%d類別已移動成功。</item>
     </plurals>
     <plurals name="move_category_failure">
         <item quantity="other">%d類別尚未被移動，因為目的地上已經存在相同的標記。</item>
     </plurals>
-    <string name="warning_delete_reconciled">刪除已對賬的交易會導致您的記錄與銀行對賬單不同</string>
-    <string name="warning_balance_account">請在銀行對帳單中比較已入賬的總額與期末餘額。如果繼續，已入賬的交易將被標記為已對賬。</string>
-    <string name="warning_password_protected">应用被密码保护</string>
+    <string name="warning_delete_reconciled">刪除已對帳的交易項目將導致您的記錄與銀行對帳單不同。</string>
+    <string name="warning_balance_account">請核對\"已入帳\"的交易總額與銀行對帳單期末結餘。如果繼續操作，\"已入帳\"的交易將被標記成\"已對帳\"。</string>
+    <string name="warning_password_protected">應用程序受密碼保護。</string>
     <string name="warning_widget_disabled">您需要在應用程式的設定中啟用此小工具。</string>
     <string name="warning_instantiate_template_from_widget_password_protected">在應用程序沒有設置保護密碼的情況下，您才能從小工具上快速實例化範本。</string>
-    <string name="warning_password_contrib">若果您忘記了密碼，設置一個安全問題可讓你再次解鎖此應用。</string>
-    <string name="warning_reset_account">如果你繼續，這個帳戶的所有交易都從數據庫中被刪除且無法恢復。</string>
+    <string name="warning_password_contrib">以防萬一您忘記了密碼，記得設置一個安全問題可讓您再次解鎖此應用程式。</string>
+    <string name="warning_reset_account">如果繼續此操作，此帳戶的所有交易將從數據庫中刪除，並且無法還原。</string>
     <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
-    <string name="warning_reset_account_all">如果你繼續，所有%1$s的賬戶和當中的所有交易都從數據庫中被刪除且無法恢復。</string>
-    <string name="warning_reset_account_matched">如果繼續，當前與篩選器匹配的交易將從數據庫中刪除，並且無法恢復。</string>
+    <string name="warning_reset_account_all">如果繼續此操作，對於所有帳戶%1$s，交易項目將從數據庫中刪除，並且無法還原。</string>
+    <string name="warning_reset_account_matched">如果繼續此操作，與當前篩選器匹配的交易項目將從數據庫中刪除，並且無法還原。</string>
     <string name="warning_restore">資料數據與偏好設定將會從檔案\"%1$s\"復原。而現有的資料將被刪除。</string>
     <string name="warning_app_folder_will_be_deleted_upon_uninstall">如果您卸載{app_name}，Android將自動刪除當前選定用來備份和導出的文件夾。您可以在“設定”裡選擇其它文件夾來防止這種情況發生。</string>
     <string name="warning_splitpartcategory_context">當轉帳項目是分割款項的一部分時，它只能在分割項目裡被編輯或刪除。</string>
@@ -429,15 +440,15 @@
     <string name="warning_change_fraction_digits_1">需要更新資料庫中的金額以符合新的小數點位數。</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">如果不更新金額，則更改後，它們將顯示為乘以%d。</string>
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">如果不更新金額，則更改後，它們將顯示為除以 %d。</string>
-    <string name="warning_change_fraction_digits_3">如果金額被更新，您將遺失有關其分數或小數點部分的訊息。</string>
+    <string name="warning_change_fraction_digits_3">如果金額被更新，您將遺失有關其小數點部分的資訊。</string>
     <string name="warning_change_fraction_digits_checkbox_label">更新資料庫中的金額</string>
     <string name="import_categories_success">%1$s類別已成功匯入</string>
-    <string name="import_parties_success">%1$s 貿易夥伴被匯入成功</string>
+    <string name="import_parties_success">%1$s 交易對象已匯入成功</string>
     <string name="import_accounts_success">%1$s 賬戶已匯入成功</string>
-    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d 交易已成功匯入賬戶%2$s</string>
+    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d 交易已成功匯入帳戶%2$s</string>
     <string name="import_accounts_none">沒有賬戶被匯入</string>
     <string name="import_categories_none">沒有類別被匯入</string>
-    <string name="import_parties_none">沒有貿易夥伴被匯入</string>
+    <string name="import_parties_none">沒有交易對象的資料被匯入</string>
     <string name="import_transactions_none">沒有交易被匯入賬戶 %1$s</string>
     <string name="import_source_select_error">請提供 %1$s類型的檔案</string>
     <string name="menu_categories_setup_default">設置系統預設的類別</string>
@@ -446,7 +457,7 @@
     <string name="menu_up">向上導覽</string>
     <string name="create_new_folder_fail">目錄建立失敗</string>
     <string name="widget_title_accounts">我的賬戶</string>
-    <string name="widget_title_templates">我的模板</string>
+    <string name="widget_title_templates">我的範本</string>
     <string name="app_dir_not_accessible">無法使用您所選的檔案夾(%1$s)，請選擇其他檔案夾。</string>
     <string name="app_dir_not_compatible_with_nougat">當前用來備份和匯出所配置的統一資源識別碼(URI) ，(%1$s)不被安卓牛軋糖版本(Android Nougat ) 所支援。請再次選擇一個檔案夾。</string>
     <string name="search_amount">以金額來搜尋</string>
@@ -469,7 +480,7 @@
     <string name="comparison_operator_date_after">後</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">購買失敗或取消</string>
     <string name="hint_auto_fill">是否應該從同一筆收款人/付款人的上次交易中自動填入數據？
-您始終可以通過設置更改此行為。</string>
+您始終可以通過設定更改此行為。</string>
     <string name="yes">是</string>
     <string name="no">否</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate"> %2$s 貨幣的 %1$d 賬戶已經被更新了</string>
@@ -486,29 +497,32 @@
     <string name="menu_change_picture">附加不同的圖片</string>
     <string name="menu_distribution_show_pie_char">顯示圓餅統計圖</string>
     <string name="menu_distribution_aggreate">總支出和收入</string>
+    <!-- Stale refers to pictures left over from deleted transactions  -->
+    <string name="pref_manage_stale_images_title">失效的圖片</string>
     <string name="pref_manage_stale_images_summary">管理已刪除交易後留下的圖片</string>
     <string name="image_deleted">圖片已被刪除</string>
+    <string name="transaction_deleted">交易已刪除</string>
     <string name="dialog_export_applied_to_filter">僅與當前篩選器匹配的交易才會被考慮。</string>
-    <string name="export_handle_deleted_create_helper">创建交易助手</string>
-    <string name="export_handle_deleted_update_balance">更新打开余额</string>
-    <string name="file_name">文件名</string>
-    <string name="folder_name">文件夹名</string>
+    <string name="export_handle_deleted_create_helper">創建交易助手</string>
+    <string name="export_handle_deleted_update_balance">更新起始結餘</string>
+    <string name="file_name">檔案名稱</string>
+    <string name="folder_name">檔案夾名稱</string>
     <string name="mark_void_instead_of_delete">不刪除交易，而是將其標記成無效交易</string>
     <string name="menu_undelete_transaction">取消删除</string>
-    <string name="slash_forbidden_in_filename">/ 符号不允许作为文件名</string>
-    <string name="io_error_unable_to_create_file">不能在 %2$s 里面创建文件 %1$s</string>
+    <string name="slash_forbidden_in_filename">檔案名中不允許使用 \" / \" 字符</string>
+    <string name="io_error_unable_to_create_file">無法在檔案夾%2$s中創建檔案%1$s</string>
     <string name="menu_categories_export">以QIF檔匯出</string>
     <string name="pref_csv_import_delimiter">分隔符號</string>
-    <string name="csv_import_preview">预览</string>
-    <string name="menu_parse">粘贴</string>
+    <string name="csv_import_preview">預覽</string>
+    <string name="menu_parse">解析</string>
     <string name="csv_import_field_mapped_more_than_once">%s 被重覆分類</string>
     <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d紀錄無法被匯入。</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d紀錄被丟棄了。</string>
     <string name="csv_import_subcategory_requires_category">如果要分類到子類別，您必須先分類主類別。</string>
-    <string name="cvs_import_set_first_line_as_header">是否把第一行当作标题行</string>
+    <string name="cvs_import_set_first_line_as_header">是否將第一行當作標題行？</string>
     <string name="csv_import_delimiter_comma">逗點</string>
     <string name="csv_import_delimiter_semicolon">分號</string>
-    <string name="csv_import_delimiter_tab">制表符</string>
+    <string name="csv_import_delimiter_tab">Tab定界符</string>
     <string name="csv_import_no_mapping_found_for_amount">請對應到金額、收入或支出其中一欄。</string>
     <string name="menu_show_transactions">顯示交易紀錄</string>
     <string name="pref_custom_decimal_format_title">數字格式</string>
@@ -536,55 +550,158 @@
     <string name="pref_sort_order_custom">自訂</string>
     <string name="content_description_calculator">計算機</string>
     <!-- describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list. -->
-    <string name="plan_instance_state_open">打开</string>
+    <string name="plan_instance_state_open">尚未應用</string>
     <!-- describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list. -->
     <string name="plan_instance_state_cancelled">已取消</string>
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
-    <string name="plan_instance_state_applied">已应用</string>
+    <string name="plan_instance_state_applied">已應用</string>
     <string name="progress_dialog_updating_split_parts">更新分割款項中...</string>
     <string name="warning_cannot_move_split_transaction">此分割交易無法移動到賬戶%1$s中，因為有部分轉帳已經引用到此帳戶。</string>
     <string name="content_description_calculator_clear_button">重置所有</string>
-    <string name="content_description_calculator_delete_button">删除上一个数字</string>
+    <string name="content_description_calculator_delete_button">刪除上一個數字</string>
+    <string name="paypal_callback_info">您的交易已經完成，購買收據已經通過電子郵件發送給您。您可以從www.paypal.com登錄您的帳戶以查看該交易的詳細資訊。</string>
     <string name="search_transfer">以轉帳項目來搜尋</string>
+    <!-- Sort plans (recurring transactions) by the next instance  -->
+    <string name="pref_sort_order_next_instance">下一個範例</string>
+    <string name="crash_dialog_title">{app_name} 已停止運作</string>
     <string name="crash_dialog_text">一個意外錯誤的發生，導致應用程序被強制停止。請您通過向我們發送錯誤數據來幫助我們解決此問題，您只需點選“確定”即可。</string>
+    <string name="crash_dialog_comment_prompt">您可以在下面填入有關當機問題的意見：</string>
+    <string name="synchronization">同步化</string>
+    <string name="synchronization_none">沒有同步</string>
+    <string name="hint_url">網址</string>
     <string name="description_webdav_url">請輸入WebDAV伺服器上指定文件夾的URL網址。 {app_name}會將其數據存儲在此文件夾中，它不會觸及其外的任何內容。</string>
+    <string name="description_webdav_trust_certificate">該網站使用的證書不受Android信任。</string>
     <string name="hint_user_name">使用者名稱</string>
+    <string name="hint_password">採用密碼保護程式</string>
+    <string name="label_trust_certificate">信任此證書</string>
     <string name="no_sync_backends">沒有用來同步的後端設備</string>
     <string name="menu_create_sync_backend">新的同步後端設備</string>
+    <string name="validate_error_not_empty">不能空白</string>
+    <string name="validate_error_webdav_invalid_certificate">證書不可信。它似乎無效。</string>
+    <string name="validate_error_webdav_not_compliant">該網址不指向WebDAV資源。</string>
+    <string name="validate_error_webdav_404">伺服器上不存在此網址。</string>
+    <string name="url_not_valid">無效網址</string>
+    <string name="menu_sync_unlink">停止同步</string>
+    <string name="menu_sync_link">開始同步</string>
     <string name="menu_sync_download">下載並同步</string>
+    <string name="menu_sync_now">立即同步</string>
+    <string name="pref_sync_frequency_title">同步頻率</string>
+    <string name="pref_sync_frequency_summary">數據應多久同步一次（以小時為單位）</string>
+    <string name="dialog_confirm_sync_unlink">如果您將該帳戶從%s取消鏈結，同步狀態將會失效。當您稍後重新鏈結它們時，則需要再次執行完全同步。</string>
     <string name="dialog_sync_link">具有通用唯一識別碼UUID %s的帳戶在本機數據庫和遠程後端中都存在的情況下。當您鏈接兩者時，首先需要確定是要將本機數據上傳到遠程後端，還是將遠程數據下載到本機數據庫。</string>
     <string name="dialog_command_sync_link_remote">從遠程下載</string>
     <string name="dialog_command_sync_link_local">從本機上傳</string>
     <string name="dialog_synced_to_other">具有通用唯一識別碼UUID %s的帳戶已存在於本機數據庫中，並且已鏈接到其他遠程後端。</string>
+    <string name="menu_remove">移除</string>
     <string name="dialog_confirm_sync_remove_backend">遠程後端%s將被移除。這不會影響本機或遠程存儲的數據，但是會失去同步狀態。</string>
+    <string name="dialog_confirm_sync_link_local">該帳戶的遠程數據將被刪除。請確保沒有其他設備與它相鏈結。</string>
     <string name="dialog_confirm_sync_link_remote">該帳戶在本機的數據將被刪除。</string>
+    <string name="warning_limited_trial">%1$s此功能可以試用到%2$s之前。</string>
+    <string name="warning_trial_limit_reached">試用版功能%s已經到期。</string>
+    <string name="warning_synchronization_folder_usage">{app_name}安裝在不同設備上時，兩者之間的數據同步在此檔案夾裡。請不要手動修改其任何內容。</string>
+    <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">您所選的檔案夾已對應到此後端的一個帳戶。您需要選擇其上層檔案夾才能重用此後端。</string>
+    <string name="select_unsynced_accounts">選擇要同步到此後端的帳戶</string>
+    <string name="link_account_success" tools:ignore="PluralsCandidate">已將%d帳戶配置為與後端同步。</string>
+    <string name="link_account_failure_1" tools:ignore="PluralsCandidate">無法將%d帳戶配置為與後端同步。</string>
+    <string name="link_account_failure_2">具有相同\"通用唯一識別碼uuid\"的帳戶已存在於遠程後端上。</string>
+    <string name="link_account_failure_3">可以從條目的內容選單中手動解決衝突。</string>
+    <string name="progress_dialog_checking_sync_backend">驗證後端</string>
     <string name="template">範本</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">雲端同步</string>
+    <string name="all_contrib_key_features">\"貢獻版金鑰(Contrib Key)\" 的所有功能</string>
+    <string name="all_extended_key_features">延伸版金鑰(Extended Key)的所有功能</string>
+    <!-- button leading user to purchase flow for licence keys -->
+    <string name="upgrade_now">購買升級</string>
+    <string name="pref_backup_cloud_title">存儲在同步後端</string>
     <string name="pref_backup_cloud_summary">除了儲存在本機設備中之外，備份檔案還可以複製到遠程後端或雲端設備。</string>
     <string name="auto_backup_cloud_create_backend">請從“設定”的主畫面處，創建一個同步後端</string>
+    <string name="auto_backup_cloud_failure">嘗試在後端%2$s上儲存備份檔%1$s時發生錯誤：</string>
+    <string name="auto_backup_cloud_success">備份檔案%1$s已成功儲存在後端%2$s上。</string>
     <string name="home_screen_shortcuts_nougate_info">長按程式圖標可以在主畫面新增捷徑</string>
     <string name="currency_symbol">貨幣符號</string>
     <string name="number_of_fraction_digits">小數點位數</string>
-    <string name="warning_auto_backup_deactivated">自動備份已經停用。當您解決問題後，您可以從設定裡再次打開它。(例如：選擇一個不同的檔案夾來備份。) </string>
+    <string name="warning_auto_backup_deactivated">自動備份功能已經停用。當您解決問題後，您可以從\"設定\"裡再次啟用它。(解決方法如：選擇一個不同的檔案夾來備份。) </string>
+    <string name="pref_tracking_summary">允許我們收集有關使用模式的匿名數據，以幫助我們計劃改進。</string>
+    <string name="pref_tracking_title">收集使用數據</string>
+    <string name="sync_database_error">數據庫在同步期間發生錯誤。</string>
+    <string name="sync_io_error_cannot_connect">無法連接到同步後端。</string>
+    <string name="sync_error_will_try_again_later">稍後會再試一次。</string>
+    <string name="sync_io_exception_reset_account_data">重設遠程帳戶時出現錯誤。</string>
+    <string name="sync_success_reset_account_data">帳戶%s的遠程數據已刪除。</string>
+    <string name="sync_io_exception_setup_remote_account">設定遠程帳戶時出現錯誤。</string>
+    <string name="sync_io_exception_syncing">與伺服器同步時發生錯誤。</string>
+    <string name="sync_io_exception_unlocking">解鎖遠程後端時發生錯誤。</string>
+    <string name="sync_io_exception_locking">遠程後端已鎖定或無法鎖定。</string>
+    <string name="synchronization_start">帳戶%s開始同步</string>
     <string name="synchronization_end_success">%1$d遠程異動已寫入本機數據庫。 %2$d本機異動已寫入遠程後端。</string>
+    <string name="synchronization_end_success_none">沒有需要同步的數據。</string>
+    <string name="pref_webdav_timeout_title">WebDAV 超過時間（以秒為單位）</string>
+    <string name="sync_state_restored">已為%d帳戶恢復了同步狀態。</string>
+    <string name="sync_state_could_not_be_restored">無法為%d帳戶恢復同步狀態。</string>
+    <string name="onboarding_ui_title">{app_name} 適應您的偏好</string>
+    <string name="onboarding_data_title">讓我們建立您的第一個帳戶</string>
+    <string name="onboarding_get_started">開始使用吧!</string>
+    <string name="onboarding_more_options">更多的選擇</string>
+    <string name="onboarding_restore_from_cloud">可從同步的雲端設備還原</string>
+    <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
+    <string name="onboarding_restore_from_cloud_backup">選擇還原用的備份檔</string>
     <string name="onboarding_restore_from_local">從本機備份檔案來復原</string>
+    <string name="dialog_button_add">添加</string>
+    <string name="template_create_error">保存範本時發生錯誤</string>
+    <string name="contributed_by">由%s提供</string>
+    <string name="pref_sync_notification_summary">通知有關同步的進度</string>
     <string name="pref_debug_logging_summary">將偵錯資訊寫入系統日誌</string>
     <string name="plan_custom_recurrence_info">請您先將範本存檔。然後，該計畫將可以在日曆的應用程式中打開，您便能在其中自訂定期交易。</string>
+    <string name="storage_permission_required">只有當您授權允許讀取外部儲存空間時，才能讀取所選的原始資料。</string>
+    <string name="picture">圖片</string>
     <string name="menu_create_template_for_split">新建分割款項用的範本</string>
-    <string name="professional_key">專業版金鑰</string>
+    <string name="progress_validating_licence">許可證驗證中...</string>
+    <string name="licence_validation_error_expired">許可證已過期</string>
+    <string name="licence_validation_error_device_limit_exceeded">超出設備限制。請從其他設備上刪除許可證。</string>
+    <string name="error">錯誤（%s）</string>
+    <string name="button_validate">驗證</string>
+    <string name="licence_key">許可證金鑰</string>
+    <string name="licence_removal_information">如果您不再需要此設備上的高級功能，則可以刪除許可證金鑰。這樣可以釋放金鑰，以便在另一台設備上進行激活。該金鑰最多可以在%d台設備上激活。</string>
+    <string name="progress_removing_licence">許可證移除中...</string>
+    <string name="licence_removal_success">許可證金鑰已成功從此設備釋放。</string>
+    <string name="professional_key">專業版金鑰(Professional Key)</string>
+    <string name="n_months">%d個月</string>
+    <string name="eu_vat_info">對於歐盟的居民，顯示的價格不包括增值稅。</string>
+    <string name="licence_migration_info">{app_name}實施新的許可證驗證機制。請索取一個新的金鑰。</string>
+    <string name="valid_until">直到%s</string>
+    <!-- %1$s date, %2$s price  -->
+    <string name="extend_until">延長至%1$s只要%2$s</string>
+    <string name="extended_upgrade_goodie_github">已擁有\"延伸版金鑰(Extended Key)\"的使用者，將被授予一次額外的%d個月</string>
+    <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">已經擁有\"延伸版金鑰(Extended Key)\" 的使用者在第一年支付正常價格（%s）的50%%。</string>
+    <string name="extended_upgrade_goodie_subscription_amazon" tools:ignore="UnusedResources">已經擁有\"延伸版金鑰(Extended Key)\"的使用者，有權從年度訂購的正常價格（%2$s）降低%1$d%%。</string>
+    <string name="switch_to_yearly" tools:ignore="UnusedResources">切換至年度訂購</string>
+    <string name="switch_to_monthly" tools:ignore="UnusedResources">切換到每月訂購</string>
+    <string name="extend_validity">延長有效期</string>
+    <string name="progress_dialog_fetching_data_from_sync_backend">從遠程後端獲取數據中。這可能要花點時間。</string>
+    <string name="donate_button_invoice">發票</string>
     <string name="menu_sort_direction">排序方式</string>
     <string name="sort_direction_ascending">升序: 從舊到新</string>
     <string name="sort_direction_descending">降序: 從新到舊</string>
     <string name="never">從不</string>
     <string name="always">總是</string>
+    <string name="auto_fill_account_from_aggregate_only">僅當從總帳戶啟動時。</string>
     <string name="sync_auth_exception_login_again">授權失敗。請重新登入。</string>
     <string name="sync_loading_accounts_from_backend">從後端載入可用帳戶中…</string>
+    <plurals name="delete_success">
+        <item quantity="other">%d已成功刪除。</item>
+    </plurals>
+    <string name="feature_deprecated">不建議使用</string>
+    <string name="pref_protection_device_lock_screen_title">採用設備的螢幕鎖定功能</string>
+    <string name="pref_warning_only_one_protection">使用%1$s保護之前，您必須透過%2$s關閉保護。</string>
+    <string name="warning_device_lock_screen_not_set_up_1">尚未設置設備的螢幕鎖定功能。</string>
+    <string name="warning_device_lock_screen_not_set_up_2">請到本機設備的 \"設定\" -> \"安全性\" -> \"鎖定螢幕\" 裡去設置一個螢幕鎖定 </string>
     <string name="menu_history_show_balance">顯示收支結餘</string>
     <string name="menu_history_transfers">包括轉帳</string>
     <string name="menu_history">收支歷史紀錄</string>
     <string name="menu_history_totals">顯示總金額</string>
     <string name="pref_home_currency_title">本地貨幣</string>
     <string name="grand_total">累計</string>
+    <string name="home_currency_change_warning">如果您更改本地貨幣，等值金額和匯率的資訊將會遺失並需要重新定義。</string>
     <string name="warning_split_transactions">選定的交易將被組成一個分割交易。他們原有的日期資訊將會遺失，改由它們的平均值來代替。</string>
     <string name="warning_ungroup_split_transactions">您所選定的分割交易將被解散群組，也就是說，它們的分割款項將各自成為一般交易。</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->
@@ -598,17 +715,35 @@
     <string name="split_transaction_group_success">%1$d數筆交易已成功組成一個分割交易。</string>
     <string name="split_transaction_group_error">無法將這些交易組成一個分割交易。</string>
     <string name="split_transaction_not_possible">只有具有相同帳戶、收款人和狀態的交易，才能被組成一個分割交易。</string>
+    <string name="pref_transaction_time_summary">允許設置確切的交易時間。</string>
+    <string name="pref_value_date_summary">除了交易日期(booking date)外，還可以設置生效日期(value date)。交易時間將被隱藏。此設定不適用於現金帳戶。</string>
+    <!-- the date on which the transaction took place, aka transaction date, as opposed to value date -->
+    <string name="booking_date">交易日期</string>
+    <!-- the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date -->
+    <string name="value_date">生效日期</string>
+    <string name="licence_expires_n_days">您的\"專業版金鑰(Professional Key)\"將在%d天後過期。</string>
+    <string name="licence_expires_tomorrow">您的\"專業版金鑰(Professional Key)\"將於明天到期。</string>
+    <string name="licence_expires_today">您的\"專業版金鑰(Professional Key)\"今天到期。</string>
+    <string name="licence_expired_yesterday">您的\"專業版金鑰(Professional Key)\"已在昨天過期。</string>
+    <string name="licence_has_expired_n_days">您的\"專業版金鑰(Professional Key)\"已在%d天前過期。</string>
+    <string name="gdpr_consent_message">我們與{ad_provider}合作，所以想徵得您的同意，通過向您展示廣告來支援{app_name}的維護和開發。如果您不想看到任何廣告，請為無廣告版本付費。</string>
     <string name="pref_sync_changes_immediately_summary">立即將本機異動之處寫入後端</string>
+    <string name="wifi_not_connected">設備未連接到Wi-Fi。資料同步已被推遲。</string>
+    <string name="credit_limit">信用額度</string>
     <string name="clear_all_filters">清除所有的篩選項目</string>
+    <string name="pref_scroll_to_current_date_summary">應用程式啟動後，將交易列表滾動到當前日期</string>
+    <string name="professional_key_fallback_info">\"專業版金鑰(Professional Key)\"的認購已激活滿一年且未續訂的情況下，將自動轉換為無限期的\"延伸版金鑰( Extended Key)\"。</string>
     <string name="dialog_title_edit_budget">編輯預算</string>
     <string name="sub_budget_exceeded_error_1_1">分配給主類別的金額中，除了%s之外，剩下的金額都已分配給其他子類別。</string>
     <string name="sub_budget_exceeded_error_1_2">分配給主類別的所有金額，已分配到其他子類別。</string>
     <string name="sub_budget_exceeded_error_2">增加分配給主類別的金額，或把資金從其他子類別中移過來。</string>
+    <string name="sub_budget_under_allocated_error">已經將%s金額分配給了子類別。若您打算減少主類別的預算，必須先調降子類別的金額。主類別的金額與子類別的總金額需要維持一致。</string>
     <!-- Description for button that allows to clear the selected method -->
     <string name="content_description_clear_method">清除此付款方式</string>
     <!-- Description for button that allows to clear the selected category -->
     <string name="content_description_clear_category">清除此類別項目</string>
     <string name="dialog_title_new_currency">新增貨幣</string>
+    <string name="currency_code_already_definded">貨幣代碼已經定義</string>
     <string name="currency_still_used">此貨幣正在使用中，無法被刪除</string>
     <string name="unmapped">未分類項目</string>
     <!-- In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
@@ -616,11 +751,19 @@
     but we warn the user if he includes this special item in the selection.   -->
     <string name="unmapped_filter_only_single">“未分類項目”只能被單獨篩選，不能包含在多個選擇中</string>
     <string name="upgrade_information_cloud_sync_storage_format">對於2.9.8版，數據存儲在同步後端上的方式已變更。請在所有同步的裝置上升級到此版本後，才可以輸入任何新紀錄。</string>
+    <string name="pref_security_export_passphrase_title">設置備份密碼</string>
     <string name="pref_security_export_passphrase_summary">備份檔案將用此密碼加密</string>
+    <string name="backup_is_encrypted">備份檔案已加密。為了解密它，您需要輸入它的密碼。</string>
+    <string name="backup_wrong_password">備份檔案似乎使用了不同的密碼。</string>
+    <string name="passphrase_for_synchronization">如果要對後端上的同步數據進行加密，請輸入密碼。</string>
+    <string name="sync_backend_is_encrypted">遠程後端已加密。您需要輸入一個密碼。</string>
+    <string name="sync_backend_wrong_passphrase">遠程後端似乎使用不同的密碼。</string>
+    <string name="warning_backup_protected">儲存的檔案將受到您的密碼保護。</string>
     <string name="dialog_title_backup_protected">備份(加密的)</string>
+    <string name="input_label_passphrase">密碼</string>
     <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->
     <string name="joining_or">或</string>
-    <string name="pref_account_list_fast_scroll_summary">開啟快速捲動帳戶清單，但有可能會導致某些機型出現錯誤。</string>
+    <string name="pref_account_list_fast_scroll_summary">啟用快速捲動帳戶清單的功能。但有可能會導致某些機型出現錯誤。</string>
     <string name="menu_hide">隱藏</string>
     <!-- Action of closing an account. A closed account does not allow any modifications on its data. -->
     <string name="menu_close">關閉</string>
@@ -632,21 +775,27 @@
     <string name="button_label_show">顯示隱藏的帳戶</string>
     <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
     <string name="content_description_encrypted">已加密</string>
+    <string name="content_description_dates_are_linked">交易日期(booking date)和生效日期(value date)會一起更新</string>
+    <string name="content_description_dates_are_not_linked">交易日期(booking date)和生效日期(value date)不會一起更新</string>
     <string name="icon">圖標</string>
     <string name="roadmap_vote">程式開發藍圖投票</string>
     <string name="warning_account_for_transaction_is_closed">至少有一個選定的交易無法編輯:</string>
     <string name="content_description_download_exchange_rate">下載匯率</string>
+    <string name="exchange_rate_not_supported">目前配置的換匯程式不提供匯率%1$s：%2$s。您可以嘗試在\"設定\"中選擇其他程式。</string>
     <string name="pref_category_exchange_rates">匯率</string>
     <string name="pref_exchange_rate_provider_summary">選擇匯率資料的提供者</string>
-    <string name="pref_exchange_rate_provider_title">匯率提供</string>
-    <string name="pref_openexchangerates_app_id_summary">請在 OpenExchangeRates 註冊帳號後，把 App ID 填到這邊</string>
-    <string name="pref_plan_executor_time_title">計畫通知時間</string>
+    <string name="pref_exchange_rate_provider_title">匯率提供者</string>
+    <string name="pref_openexchangerates_app_id_summary">請在 OpenExchangeRates 註冊免費帳號後，把 App ID 填到這邊</string>
+    <string name="pref_plan_executor_time_title">交易計畫通知時間</string>
     <string name="menu_create_budget">新增預算</string>
     <string name="budget_duration_from">從</string>
     <string name="budget_duration_to">到</string>
+    <string name="budget_date_end_after_start">預算的結束日期必須晚於開始日期。</string>
+    <string name="budget_filter_all_parties">所有的交易對象</string>
     <string name="budget_filter_all_methods">所有的付款方式</string>
     <string name="budget_filter_all_tags">所有的標籤</string>
     <string name="menu_edit_budget">編輯預算</string>
+    <string name="onboarding_privacy_intro">您的財務數據不會發送到任何由我們或任何第三方營運的服務器。</string>
     <!-- Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list. -->
     <string name="checkbox_is_default">採用系統預設</string>
     <!-- Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method" -->
@@ -663,6 +812,11 @@
     <string name="remap_empty_list">系統找不到可符合所有選定交易的分類項目。</string>
     <!-- The label for the button, where user confirms that he wants to clone the selected transactions and then remap them. -->
     <string name="button_label_clone_and_remap">複製並重新分類</string>
+    <!-- The summary of a preference toggle. If switched on cloned transactions have the date set to the current date -->
+    <string name="pref_clone_with_current_date_summary_on">被複製的交易採用當前日期</string>
+    <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
+    <string name="pref_clone_with_current_date_summary_off">被複製的交易保留原本日期</string>
+    <string name="pref_protection_screenshot_information">若啟用此保護功能，本應用程式的螢幕截圖功能將被禁用。</string>
     <string name="tags_create_or_select">新建或選擇標籤</string>
     <string name="tags">標籤</string>
     <string name="pref_manage_tags_summary">新增，編輯，刪除標籤。</string>
@@ -679,8 +833,18 @@
     <string name="dialog_multi_tag_append">將新標籤添加到現有的標籤中</string>
     <string name="dialog_multi_tag_replace">用新標籤取代現有的標籤</string>
     <string name="new_tag_hint">輸入新標籤</string>
+    <!-- Title for a preference that allows to decide how the time will be set for a new instance of a recurring transaction -->
+    <string name="pref_planner_manual_time_title">手動執行定期計畫的時間</string>
+    <!-- Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction -->
+    <string name="pref_planner_manual_time_noon">中午12點</string>
     <!-- Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application) -->
-    <string name="pref_planner_manual_time_current">應用時間</string>
+    <string name="pref_planner_manual_time_current">當初建立計畫的時間</string>
+    <!-- Title in Settings screen, and title of dynamically loaded feature module -->
+    <string name="title_scan_receipt_feature">掃描收據</string>
+    <!-- If this mode is active, the action button will open the camera for scanning a receipt  -->
+    <string name="menu_scan_mode">開啟掃描模式</string>
+    <!-- Button that triggers the scan operation -->
+    <string name="button_scan">掃描</string>
     <string name="pref_ocr_total_indicators_summary">這是字符串列表，用來標識收據中的全部數值。請將每個數值放在新的一行上。
 若留置空白，可以恢復成預設格式。</string>
     <string name="pref_ocr_date_formats_title">日期格式</string>
@@ -689,18 +853,25 @@
     <string name="pref_criterion_future_current">當前時間</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">特色功能</string>
+    <string name="scan_result_no_date">找不到日期</string>
     <string name="button_download">下載</string>
     <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
     <string name="discover_feature_fab_long_press">長按浮動操作鈕，可以直接打開表單新增轉帳、分割交易或收入等項目。</string>
     <string name="warning_balance_account_delete">如果繼續，此帳戶中所有已對帳的交易將從數據庫中刪除，並且您將無法還原它們</string>
+    <string name="pref_clone_with_current_date_title">複製交易採用的日期</string>
     <string name="default_action">系統預設動作</string>
     <string name="template_default_action_without_amount_hint">沒有金額的範本應使用預設操作，即以“編輯”來存檔</string>
     <string name="plan_automatic_without_amount_hint">沒有金額的計劃不應該將其儲存成自動執行模式</string>
-    <string name="menu_save_and_new_content_description">保存数据,保存表格以便创建相同数据的交易</string>
+    <string name="content_description_edit_plan">在日曆應用程式中編輯計畫交易</string>
+    <string name="menu_save_and_new_content_description">交易存檔後，表單仍維持打開狀態並保留相同的數據內容，方便多次新增類同的交易。</string>
     <!-- %s is replaced with language -->
     <string name="tesseract_download_confirmation">您是否要下載%s的文字識別數據？</string>
     <!-- %s is replaced with language -->
     <string name="download_completed">下載 (%s) 已完成。</string>
+    <string name="ocr_download_info">文本識別功能由外部應用程式提供。</string>
     <!-- Title of a preference switch that allows to configure display of group header. If switched on sums for income/expense/transfer are shown -->
     <string name="pref_group_header_show_details_summary">在各組標題中顯示明細總和</string>
+    <!-- Title of a menu item and a dialogue that allow to adjust the current balance. User can enter the new balance, and transaction form is opened with the amount prefiled to the difference between old and new balance  -->
+    <string name="new_balance">更新帳戶餘額</string>
+    <string name="title_webui">網頁版的使用者介面</string>
     </resources>
