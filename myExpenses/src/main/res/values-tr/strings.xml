@@ -505,6 +505,7 @@
     <string name="menu_change_picture">Değişik bir resim ekle</string>
     <string name="menu_distribution_show_pie_char">Grafiği göster</string>
     <string name="menu_distribution_aggreate">Gelir ve harcamaları beraberleştir</string>
+    <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Eski resimler</string>
     <string name="pref_manage_stale_images_summary">Silinmiş muamelelerden kalan resimleri yönet</string>
     <string name="image_deleted">Resim silinmiştir</string>
@@ -930,6 +931,7 @@
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Features</string>
     <string name="scan_result_no_data">Veri yok</string>
+    <!-- After text recognition has been run on an image, if multiple strings are found that can be interpreted as date, amount or payee, a dialogue is shown allowing to select between these "candidates". This message is the title of this dialogue.  -->
     <string name="scan_result_multiple_candidates_dialog_title">Birden çok aday bulundu. Lütfen seçin:</string>
     <string name="scan_result_no_amount">Hiçbir meblağ bulunamadı</string>
     <string name="scan_result_no_date">Hiçbir tarih bulunamadı</string>

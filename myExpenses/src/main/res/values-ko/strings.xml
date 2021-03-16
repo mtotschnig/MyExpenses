@@ -457,6 +457,7 @@
     <string name="menu_change_picture">다른 사진 첨부</string>
     <string name="menu_distribution_show_pie_char">파이 그래프 표시</string>
     <string name="menu_distribution_aggreate">지출과 수입 총계</string>
+    <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">오래된 이미지</string>
     <string name="pref_manage_stale_images_summary">삭제된 거래 내역으로부터 남겨진 사진 관리</string>
     <string name="image_deleted">사진이 삭제되었습니다</string>

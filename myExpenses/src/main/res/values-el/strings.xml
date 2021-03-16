@@ -502,6 +502,7 @@
     <string name="menu_change_picture">Επισυνάψτε διαφορετική εικόνα</string>
     <string name="menu_distribution_show_pie_char">Εμφάνιση γράφημα πίτας</string>
     <string name="menu_distribution_aggreate">Συγκεντρωτικό εξόδων και εσόδων</string>
+    <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Παλαιές εικόνες</string>
     <string name="pref_manage_stale_images_summary">Διαχείριση εικόνων που έχουν απομείνει από διαγραμμένες συναλλαγές</string>
     <string name="image_deleted">Η εικόνα έχει διαγραφεί</string>

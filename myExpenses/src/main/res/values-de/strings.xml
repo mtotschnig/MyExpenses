@@ -931,6 +931,7 @@
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Funktionen</string>
     <string name="scan_result_no_data">Keine Daten</string>
+    <!-- After text recognition has been run on an image, if multiple strings are found that can be interpreted as date, amount or payee, a dialogue is shown allowing to select between these "candidates". This message is the title of this dialogue.  -->
     <string name="scan_result_multiple_candidates_dialog_title">Mehrere Kandidaten gefunden. Bitte wählen:</string>
     <string name="scan_result_no_amount">Keinen Betrag gefunden</string>
     <string name="scan_result_no_date">Kein Datum gefunden</string>

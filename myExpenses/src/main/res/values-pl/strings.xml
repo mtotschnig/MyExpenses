@@ -496,6 +496,7 @@
     <string name="menu_change_picture">Załącz inny obrazek</string>
     <string name="menu_distribution_show_pie_char">Pokaż wykres kołowy</string>
     <string name="menu_distribution_aggreate">Łączne wydatki i dochody</string>
+    <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Stale obrazy</string>
     <string name="pref_manage_stale_images_summary">Zarządzaj zdjęciami pozostałymi po usuniętych transakcjach</string>
     <string name="image_deleted">Obrazek został usunięty</string>

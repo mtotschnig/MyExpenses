@@ -541,6 +541,7 @@
     <string name="menu_change_picture">أرفق صورة أخرى</string>
     <string name="menu_distribution_show_pie_char">أظهر التخطيط البياني</string>
     <string name="menu_distribution_aggreate">مجموع المصروفات والدخل</string>
+    <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">صور قديمة</string>
     <string name="pref_manage_stale_images_summary">إدارة الصور المتبقية من المعاملات المحذوفة</string>
     <string name="image_deleted">تم حدذف الصورة</string>
@@ -978,6 +979,7 @@
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">الخصائص</string>
     <string name="scan_result_no_data">لا توجد بيانات</string>
+    <!-- After text recognition has been run on an image, if multiple strings are found that can be interpreted as date, amount or payee, a dialogue is shown allowing to select between these "candidates". This message is the title of this dialogue.  -->
     <string name="scan_result_multiple_candidates_dialog_title">تم العثور على عدة مرشحين. يُرجى تحديد:</string>
     <string name="scan_result_no_amount">لم يتم العثور على مبلغ</string>
     <string name="scan_result_no_date">لم يتم العثور على تاريخ</string>

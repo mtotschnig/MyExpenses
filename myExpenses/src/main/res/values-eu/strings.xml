@@ -501,6 +501,7 @@
     <string name="menu_change_picture">Erantsi beste irudi bat</string>
     <string name="menu_distribution_show_pie_char">Erakutsi tarta diagrama</string>
     <string name="menu_distribution_aggreate">Agregatu gatuak eta diru-sarrerak</string>
+    <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Irudi soilak</string>
     <string name="pref_manage_stale_images_summary">Kudeatu ezabatutako transakzioetatik soberan geratu diren irudiak</string>
     <string name="image_deleted">Irudia ezabatu da</string>

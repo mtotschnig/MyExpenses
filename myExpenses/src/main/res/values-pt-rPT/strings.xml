@@ -481,6 +481,7 @@
     <string name="menu_change_picture">Anexar imagem diferente</string>
     <string name="menu_distribution_show_pie_char">Mostrar gráfico circular</string>
     <string name="menu_distribution_aggreate">Agregar receitas e despesas</string>
+    <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Imagens obsoletas</string>
     <string name="pref_manage_stale_images_summary">Gerir imagens deixadas para trás pelas transações eliminadas</string>
     <string name="image_deleted">A imagem foi apagada</string>

@@ -86,7 +86,7 @@
     <string name="dialog_contrib_text_2">請用升級來贊助<i>{app_name}</i>，還可以解鎖得到以下更多的功能:</string>
     <string name="dialog_contrib_usage_count">剩餘使用空間</string>
     <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">依據您目前許可證(%2$s)的權限，您還可以使用此功能%1$d次</string>
-    <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">依據您目前許可證(%2$s)的權限，您還可以使用此功能%1$d天。</string>
+    <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">依據您目前許可證(%2$s)的權限，您可以使用此功能%1$d天。</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">依據您目前許可證(%2$s)的權限，您可以建立%1$d個帳戶。</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">依據您目前的版本(%2$s)的權限，您可以建立%1$d個收支計畫。</string>
     <string name="dialog_contrib_usage_limit_split_templates">依據您目前許可證(%1$s)的權限，您可以建立1個分割款項的範本。</string>
@@ -229,7 +229,7 @@
     <string name="no_split_parts">沒有分割款項</string>
     <string name="no_templates">沒有範本</string>
     <string name="no_accounts">沒有帳戶</string>
-    <string name="no_title_given">您沒有輸入任何標題。</string>
+    <string name="no_title_given">您尚未輸入任何文字。</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="other">有交易項目被分類到%1$d之中，所以無法刪除。</item>
     </plurals>
@@ -486,7 +486,7 @@
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate"> %2$s 貨幣的 %1$d 賬戶已經被更新了</string>
     <string name="learn_more">了解更多</string>
     <string name="import_source_file">檔案</string>
-    <string name="restore_calendar_handling">行事曆數據處理中...</string>
+    <string name="restore_calendar_handling">日曆數據處理</string>
     <string name="restore_calendar_handling_configured">將計畫復原到當前配置的日曆中</string>
     <string name="restore_calendar_handling_backup">如果有計畫的話，將其復原到備份檔中設置的日曆</string>
     <string name="restore_calendar_handling_ignore">不要復原計畫</string>
@@ -498,7 +498,7 @@
     <string name="menu_distribution_show_pie_char">顯示圓餅統計圖</string>
     <string name="menu_distribution_aggreate">總支出和收入</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
-    <string name="pref_manage_stale_images_title">失效的圖片</string>
+    <string name="pref_manage_stale_images_title">陳舊圖檔</string>
     <string name="pref_manage_stale_images_summary">管理已刪除交易後留下的圖片</string>
     <string name="image_deleted">圖片已被刪除</string>
     <string name="transaction_deleted">交易已刪除</string>
@@ -541,7 +541,7 @@
     <string name="preferences_week_start_day_title">一週起始日</string>
     <string name="preferences_month_start_date_title">月份開始於</string>
     <!-- this is the title of the section in the preferences, where user can set start day for weekly and monthly groups -->
-    <string name="pref_grouping_periods">分組起始日</string>
+    <string name="pref_grouping_periods">設定每月和每週的分組起始日</string>
     <string name="exchange_rate">匯率</string>
     <string name="date_format_hour">小時</string>
     <string name="date_format_minute">分鐘</string>
@@ -701,6 +701,7 @@
     <string name="menu_history_totals">顯示總金額</string>
     <string name="pref_home_currency_title">本地貨幣</string>
     <string name="grand_total">累計</string>
+    <string name="menu_original_amount">原始金額</string>
     <string name="home_currency_change_warning">如果您更改本地貨幣，等值金額和匯率的資訊將會遺失並需要重新定義。</string>
     <string name="warning_split_transactions">選定的交易將被組成一個分割交易。他們原有的日期資訊將會遺失，改由它們的平均值來代替。</string>
     <string name="warning_ungroup_split_transactions">您所選定的分割交易將被解散群組，也就是說，它們的分割款項將各自成為一般交易。</string>
@@ -727,12 +728,16 @@
     <string name="licence_expired_yesterday">您的\"專業版金鑰(Professional Key)\"已在昨天過期。</string>
     <string name="licence_has_expired_n_days">您的\"專業版金鑰(Professional Key)\"已在%d天前過期。</string>
     <string name="gdpr_consent_message">我們與{ad_provider}合作，所以想徵得您的同意，通過向您展示廣告來支援{app_name}的維護和開發。如果您不想看到任何廣告，請為無廣告版本付費。</string>
+    <string name="gdpr_consent_button_no">支付無廣告版本</string>
+    <string name="navigation_drawer_accounts_title">管理帳戶</string>
     <string name="pref_sync_changes_immediately_summary">立即將本機異動之處寫入後端</string>
     <string name="wifi_not_connected">設備未連接到Wi-Fi。資料同步已被推遲。</string>
+    <string name="saving_goal">節省目標</string>
     <string name="credit_limit">信用額度</string>
     <string name="clear_all_filters">清除所有的篩選項目</string>
     <string name="pref_scroll_to_current_date_summary">應用程式啟動後，將交易列表滾動到當前日期</string>
     <string name="professional_key_fallback_info">\"專業版金鑰(Professional Key)\"的認購已激活滿一年且未續訂的情況下，將自動轉換為無限期的\"延伸版金鑰( Extended Key)\"。</string>
+    <string name="menu_budget">預算編制</string>
     <string name="dialog_title_edit_budget">編輯預算</string>
     <string name="sub_budget_exceeded_error_1_1">分配給主類別的金額中，除了%s之外，剩下的金額都已分配給其他子類別。</string>
     <string name="sub_budget_exceeded_error_1_2">分配給主類別的所有金額，已分配到其他子類別。</string>
@@ -742,6 +747,7 @@
     <string name="content_description_clear_method">清除此付款方式</string>
     <!-- Description for button that allows to clear the selected category -->
     <string name="content_description_clear_category">清除此類別項目</string>
+    <string name="currency_code">代碼</string>
     <string name="dialog_title_new_currency">新增貨幣</string>
     <string name="currency_code_already_definded">貨幣代碼已經定義</string>
     <string name="currency_still_used">此貨幣正在使用中，無法被刪除</string>
@@ -750,7 +756,7 @@
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.   -->
     <string name="unmapped_filter_only_single">“未分類項目”只能被單獨篩選，不能包含在多個選擇中</string>
-    <string name="upgrade_information_cloud_sync_storage_format">對於2.9.8版，數據存儲在同步後端上的方式已變更。請在所有同步的裝置上升級到此版本後，才可以輸入任何新紀錄。</string>
+    <string name="upgrade_information_cloud_sync_storage_format">在版本2.9.8中，數據在同步後端上的儲存方式已變更。請將所有同步設備升級到該版本後，才能在其中的設備上輸入任何新記錄。</string>
     <string name="pref_security_export_passphrase_title">設置備份密碼</string>
     <string name="pref_security_export_passphrase_summary">備份檔案將用此密碼加密</string>
     <string name="backup_is_encrypted">備份檔案已加密。為了解密它，您需要輸入它的密碼。</string>
@@ -758,9 +764,11 @@
     <string name="passphrase_for_synchronization">如果要對後端上的同步數據進行加密，請輸入密碼。</string>
     <string name="sync_backend_is_encrypted">遠程後端已加密。您需要輸入一個密碼。</string>
     <string name="sync_backend_wrong_passphrase">遠程後端似乎使用不同的密碼。</string>
+    <string name="sync_backend_is_not_encrypted">遠程後端未加密。</string>
     <string name="warning_backup_protected">儲存的檔案將受到您的密碼保護。</string>
     <string name="dialog_title_backup_protected">備份(加密的)</string>
     <string name="input_label_passphrase">密碼</string>
+    <string name="button_label_no_encryption">沒有加密</string>
     <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->
     <string name="joining_or">或</string>
     <string name="pref_account_list_fast_scroll_summary">啟用快速捲動帳戶清單的功能。但有可能會導致某些機型出現錯誤。</string>
@@ -775,6 +783,11 @@
     <string name="button_label_show">顯示隱藏的帳戶</string>
     <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
     <string name="content_description_encrypted">已加密</string>
+    <!-- Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data. -->
+    <string name="content_description_closed">已關閉</string>
+    <string name="warning_synced_account_cannot_be_closed">鏈接到同步後端的帳戶無法關閉</string>
+    <string name="translated_by">翻譯者</string>
+    <string name="warning_no_account">為了創建新交易，請至少開設一個非隱藏性的帳戶。</string>
     <string name="content_description_dates_are_linked">交易日期(booking date)和生效日期(value date)會一起更新</string>
     <string name="content_description_dates_are_not_linked">交易日期(booking date)和生效日期(value date)不會一起更新</string>
     <string name="icon">圖標</string>
@@ -849,29 +862,57 @@
 若留置空白，可以恢復成預設格式。</string>
     <string name="pref_ocr_date_formats_title">日期格式</string>
     <string name="pref_ocr_time_formats_title">時間格式</string>
+    <!-- Title for a preference that allows user to decide if all transactions of the current day should be considered as past (future begins at end of day), or if the exact current time divides between past and future  -->
+    <string name="pref_criterion_futur_title">視為未來交易的時間基準點</string>
+    <!-- Option for a preference that allows to decide that all transactions until end of day are considered past transactions -->
+    <string name="pref_criterion_future_end_of_day">當日午夜12點</string>
     <!-- Option for a preference that allows to decide that only transactions before current time are considered past transactions -->
     <string name="pref_criterion_future_current">當前時間</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">特色功能</string>
+    <string name="scan_result_no_data">沒有數據</string>
+    <!-- After text recognition has been run on an image, if multiple strings are found that can be interpreted as date, amount or payee, a dialogue is shown allowing to select between these "candidates". This message is the title of this dialogue.  -->
+    <string name="scan_result_multiple_candidates_dialog_title">找到多種待選項目。請選擇：</string>
+    <string name="scan_result_no_amount">找不到金額</string>
     <string name="scan_result_no_date">找不到日期</string>
+    <string name="scan_result_no_payee">找不到收款人</string>
     <string name="button_download">下載</string>
+    <string name="pref_feature_uninstall_title">要求卸載功能和語言</string>
+    <string name="pref_feature_uninstall_summary">Google Play商店嘗試在背景刪除這些組件。</string>
+    <string name="pref_feature_uninstall_languages_title">語言</string>
+    <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
+    <string name="select_package">請選擇一套許可證</string>
     <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
     <string name="discover_feature_fab_long_press">長按浮動操作鈕，可以直接打開表單新增轉帳、分割交易或收入等項目。</string>
+    <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
+    <string name="advance_exexcution_in_days">提前執行交易（以天為單位）</string>
     <string name="warning_balance_account_delete">如果繼續，此帳戶中所有已對帳的交易將從數據庫中刪除，並且您將無法還原它們</string>
+    <!-- When user opens a template from the transaction form, existing data is discarded. This message appears in a dialgoue to confirm the action -->
+    <string name="confirmation_load_template_discard_data">剛才編輯中但未儲存的交易數據將被丟棄。</string>
     <string name="pref_clone_with_current_date_title">複製交易採用的日期</string>
     <string name="default_action">系統預設動作</string>
     <string name="template_default_action_without_amount_hint">沒有金額的範本應使用預設操作，即以“編輯”來存檔</string>
     <string name="plan_automatic_without_amount_hint">沒有金額的計劃不應該將其儲存成自動執行模式</string>
     <string name="content_description_edit_plan">在日曆應用程式中編輯計畫交易</string>
+    <string name="reset_equivalent_amounts_success">等值金額已重設</string>
     <string name="menu_save_and_new_content_description">交易存檔後，表單仍維持打開狀態並保留相同的數據內容，方便多次新增類同的交易。</string>
+    <!-- Title of a preference where user can select between Ml Kit and Tesseract as Engine for Optical character recognition -->
+    <string name="pref_ocr_engine_title">請選擇文字辨識引擎</string>
+    <!-- Title of a preference where user can select language for text recognition with Tesseract -->
+    <string name="pref_tesseract_language_title">請選擇 Tesseract 的辨識語言</string>
     <!-- %s is replaced with language -->
     <string name="tesseract_download_confirmation">您是否要下載%s的文字識別數據？</string>
     <!-- %s is replaced with language -->
     <string name="download_completed">下載 (%s) 已完成。</string>
+    <!-- %s is replaced with information on the engine or application used for running text recognition -->
+    <string name="ocr_recognition_info">使用%s執行文本辨識</string>
     <string name="ocr_download_info">文本識別功能由外部應用程式提供。</string>
+    <!-- %s is replaced with the title of the preference for setting a passphrase for backups (pref_security_export_passphrase_title) -->
+    <string name="warning_unencrypted_backup">目前設備創建的是不加密的備份檔，它可以防止未經授權的訪問。但若您要求加密的備份檔，請配置%s。</string>
     <!-- Title of a preference switch that allows to configure display of group header. If switched on sums for income/expense/transfer are shown -->
     <string name="pref_group_header_show_details_summary">在各組標題中顯示明細總和</string>
     <!-- Title of a menu item and a dialogue that allow to adjust the current balance. User can enter the new balance, and transaction form is opened with the amount prefiled to the difference between old and new balance  -->
     <string name="new_balance">更新帳戶餘額</string>
     <string name="title_webui">網頁版的使用者介面</string>
-    </resources>
+    <string name="single_feature_info">或者您可以購買僅此功能的無限制訪問權限。</string>
+</resources>

@@ -505,6 +505,7 @@
     <string name="menu_change_picture">வேறு படத்தை இணைக்கவும்</string>
     <string name="menu_distribution_show_pie_char">பை விளக்கப்படத்தை காட்டு</string>
     <string name="menu_distribution_aggreate">மொத்த செலவுகள் மற்றும் வருமானம்</string>
+    <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">நாள்பட்ட படங்கள்</string>
     <string name="pref_manage_stale_images_summary">நீக்கப்பட்ட பரிவர்த்தனைகளில் இருந்து மீதமுள்ள படங்களை நிர்வகிக்கவும்</string>
     <string name="image_deleted">படம் நீக்கப்பட்டது</string>
@@ -929,6 +930,7 @@
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">அம்சங்கள்</string>
     <string name="scan_result_no_data">தகவல் இல்லை</string>
+    <!-- After text recognition has been run on an image, if multiple strings are found that can be interpreted as date, amount or payee, a dialogue is shown allowing to select between these "candidates". This message is the title of this dialogue.  -->
     <string name="scan_result_multiple_candidates_dialog_title">பல வேட்புகள் கண்டறியப்பட்டன. தயவு செய்து தேர்வு செய்யவும்:</string>
     <string name="scan_result_no_amount">தொகை எதுவும் கிடைக்கவில்லை</string>
     <string name="scan_result_no_date">தேதி எதுவும் கிடைக்கவில்லை</string>

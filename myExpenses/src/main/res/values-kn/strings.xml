@@ -504,6 +504,7 @@
     <string name="menu_change_picture">ವಿಭಿನ್ನ ಚಿತ್ರವನ್ನು ಲಗತ್ತಿಸಿ</string>
     <string name="menu_distribution_show_pie_char">ಪೈ ಚಾರ್ಟ್ ತೋರಿಸಿ</string>
     <string name="menu_distribution_aggreate">ಒಟ್ಟು ವೆಚ್ಚಗಳು ಮತ್ತು ಆದಾಯ</string>
+    <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">ಹಳೆಯ ಚಿತ್ರಗಳು</string>
     <string name="pref_manage_stale_images_summary">ಅಳಿಸಿದ ವಹಿವಾಟಿನಿಂದ ಉಳಿದಿರುವ ಚಿತ್ರಗಳನ್ನು ನಿರ್ವಹಿಸಿ</string>
     <string name="image_deleted">ಚಿತ್ರವನ್ನು ಅಳಿಸಲಾಗಿದೆ</string>

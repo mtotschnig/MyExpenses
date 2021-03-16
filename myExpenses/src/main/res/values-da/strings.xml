@@ -446,6 +446,7 @@
     <string name="menu_change_picture">Vedhæft forskellige billeder</string>
     <string name="menu_distribution_show_pie_char">Vis cirkeldiagram</string>
     <string name="menu_distribution_aggreate">Samlede udgifter og indtægter</string>
+    <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Gamle billeder</string>
     <string name="pref_manage_stale_images_summary">Administrer billeder fra slettede posteringer</string>
     <string name="image_deleted">Billedet slettet</string>

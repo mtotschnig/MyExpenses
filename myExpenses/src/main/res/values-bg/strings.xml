@@ -505,6 +505,7 @@
     <string name="menu_change_picture">Прикачи друго изображение</string>
     <string name="menu_distribution_show_pie_char">Покажи графиката</string>
     <string name="menu_distribution_aggreate">Сумирай разходите и приходите</string>
+    <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Ненужни изображения</string>
     <string name="pref_manage_stale_images_summary">Управление на изображения, останали след изтриване на транзакция</string>
     <string name="image_deleted">Изображението е изтрито</string>
@@ -930,6 +931,7 @@
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Функции</string>
     <string name="scan_result_no_data">Няма данни</string>
+    <!-- After text recognition has been run on an image, if multiple strings are found that can be interpreted as date, amount or payee, a dialogue is shown allowing to select between these "candidates". This message is the title of this dialogue.  -->
     <string name="scan_result_multiple_candidates_dialog_title">Намерени са няколко кандидати. Моля изберете:</string>
     <string name="scan_result_no_amount">Не е намерена сума</string>
     <string name="scan_result_no_date">Не е намерена дата</string>

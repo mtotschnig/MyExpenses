@@ -505,6 +505,7 @@
     <string name="menu_change_picture">Adjuntar una imagen diferente</string>
     <string name="menu_distribution_show_pie_char">Mostrar el gráfico de sectores</string>
     <string name="menu_distribution_aggreate">Agregar gastos e ingresos</string>
+    <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Antiguas imágenes</string>
     <string name="pref_manage_stale_images_summary">Administrar imágenes restantes de transacciones eliminadas</string>
     <string name="image_deleted">La imagen ha sido eliminada</string>
@@ -930,6 +931,7 @@
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Características</string>
     <string name="scan_result_no_data">Sin información</string>
+    <!-- After text recognition has been run on an image, if multiple strings are found that can be interpreted as date, amount or payee, a dialogue is shown allowing to select between these "candidates". This message is the title of this dialogue.  -->
     <string name="scan_result_multiple_candidates_dialog_title">Se han encontrado varios candidatos. Por favor, seleccione uno:</string>
     <string name="scan_result_no_amount">No se ha encontrado esa cantidad</string>
     <string name="scan_result_no_date">No se ha encontrado esa fecha</string>

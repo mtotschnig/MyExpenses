@@ -492,6 +492,7 @@
     <string name="menu_change_picture">Lampir gambar lain</string>
     <string name="menu_distribution_show_pie_char">Tunjuk carta pai</string>
     <string name="menu_distribution_aggreate">Perbelanjaan dan pendapatan aggregat</string>
+    <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Imej kaku</string>
     <string name="pref_manage_stale_images_summary">Urus gambar berbaki dari transaksi yang telah dipadam</string>
     <string name="image_deleted">Gambar telah dipadamkan</string>

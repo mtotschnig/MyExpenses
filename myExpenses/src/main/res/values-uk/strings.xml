@@ -509,6 +509,7 @@
     <string name="menu_change_picture">Прикріпити інше зображення</string>
     <string name="menu_distribution_show_pie_char">Показати кругову діаграму</string>
     <string name="menu_distribution_aggreate">Об\'єднати витрати та доходи</string>
+    <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Старі зображення</string>
     <string name="pref_manage_stale_images_summary">Керування зображеннями, залишеними після видалених операцій</string>
     <string name="image_deleted">Зображення було видалено</string>

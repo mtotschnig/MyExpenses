@@ -487,6 +487,7 @@
     <string name="menu_change_picture">Đính kèm ảnh khác</string>
     <string name="menu_distribution_show_pie_char">Hiện biểu đồ tròn</string>
     <string name="menu_distribution_aggreate">Gộp thu và chi</string>
+    <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">Ảnh mất hiệu lực</string>
     <string name="pref_manage_stale_images_summary">Xử lý hình ảnh còn dư từ các giao dịch đã bị xoá</string>
     <string name="image_deleted">Ảnh đã bị xoá</string>
