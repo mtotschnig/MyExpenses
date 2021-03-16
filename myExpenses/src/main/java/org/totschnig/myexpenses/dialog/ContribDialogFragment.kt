@@ -184,7 +184,7 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
         //single FEATURE
         with(binding.singleFeatureContainer) {
             root.setBackgroundColor(ResourcesCompat.getColor(resources, R.color.professional_licence, null))
-            feature?.takeIf { it.licenceStatus === LicenceStatus.PROFESSIONAL }?.let {
+            feature?.takeIf { licenceHandler.supportSingleFeaturePurchase(it) }?.let {
                 singleVisible = true
                 packageLabel.setText(it.getLabelResIdOrThrow(requireContext()))
                 packagePrice.text = licenceHandler.getFormattedPrice(getSinglePackage())

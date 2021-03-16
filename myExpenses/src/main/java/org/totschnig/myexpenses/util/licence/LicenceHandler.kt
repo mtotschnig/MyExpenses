@@ -206,7 +206,7 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
         return context.getString(R.string.extended_upgrade_goodie_github, 3)
     }
 
-    val professionalPriceShortInfo: String
+    open val professionalPriceShortInfo: String
         get() = joinPriceInformation(*proPackages)
 
     @Suppress("MemberVisibilityCanBePrivate") //used from Amazon
@@ -353,6 +353,8 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
             }
         } ?: emptyList()
     }
+
+    open fun supportSingleFeaturePurchase(feature: ContribFeature) = feature.licenceStatus == LicenceStatus.PROFESSIONAL
 
     companion object {
         protected const val LICENSE_STATUS_KEY = "licence_status"
