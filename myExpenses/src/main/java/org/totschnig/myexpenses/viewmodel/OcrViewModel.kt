@@ -69,4 +69,6 @@ class OcrViewModel(application: Application) : AndroidViewModel(application) {
     fun configureTesseractLanguagePref(listPreference: ListPreference) {
         ocrFeature.configureTesseractLanguagePref(listPreference)
     }
+
+    fun shouldShowEngineSelection() = ocrFeature.shouldShowEngineSelection()
 }

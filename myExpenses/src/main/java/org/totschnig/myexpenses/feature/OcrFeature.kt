@@ -26,6 +26,7 @@ interface OcrFeature {
     fun configureTesseractLanguagePref(listPreference: ListPreference) {
         listPreference.isVisible = false
     }
+    fun shouldShowEngineSelection() = false
 }
 
 @Parcelize

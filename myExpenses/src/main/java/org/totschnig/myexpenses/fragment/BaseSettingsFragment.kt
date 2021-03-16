@@ -161,11 +161,8 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             }
 
     fun configureTesseractLanguagePref() {
-        findPreference<ListPreference>(PrefKey.TESSERACT_LANGUAGE)?.let {
-            if (prefHandler.getString(PrefKey.OCR_ENGINE, null) == Feature.TESSERACT.moduleName)
-                activity().ocrViewModel.configureTesseractLanguagePref(it)
-            else
-                it.isVisible = false
+        requirePreference<ListPreference>(PrefKey.TESSERACT_LANGUAGE).let {
+            activity().ocrViewModel.configureTesseractLanguagePref(it)
         }
     }
 

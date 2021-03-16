@@ -23,7 +23,17 @@ class OcrHandlerImpl @Inject constructor(prefHandler: PrefHandler, userLocalePro
     }
 
     companion object {
-        fun getEngine(context: Context, prefHandler: PrefHandler) = getEngine(getUserConfiguredOcrEngine(context, prefHandler))
+
+        fun availableEngines(): List<Engine> = listOfNotNull(getEngine(Feature.TESSERACT), getEngine(Feature.MLKIT))
+
+        fun getEngine(context: Context, prefHandler: PrefHandler) =
+                with (availableEngines()) {
+                    when(size) {
+                        0 -> null
+                        1 -> get(0)
+                        else -> find { it.javaClass.`package`?.name?.contains(getUserConfiguredOcrEngine(context, prefHandler).moduleName) == true  }
+                    }
+                }
 
         fun getEngine(engine: Feature) = try {
             Class.forName("org.totschnig.${engine.moduleName}.Engine").kotlin.objectInstance as Engine

@@ -303,7 +303,6 @@
                 android:entryValues="@array/ocr_engine_values"
                 android:key="@string/pref_ocr_engine_key"
                 android:title="@string/pref_ocr_engine_title"
-                my:isPreferenceVisible="@bool/pref_ocr_engine_visible"
                 my:useSimpleSummaryProvider="true" />
             <ListPreference
                 android:entryValues="@array/pref_tesseract_language_values"

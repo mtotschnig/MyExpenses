@@ -24,7 +24,8 @@ enum class Feature(@StringRes val labelResId: Int) {
     }
 }
 
-fun getUserConfiguredOcrEngine(context: Context, prefHandler: PrefHandler) = Feature.fromModuleName(prefHandler.getString(PrefKey.OCR_ENGINE, null)) ?: getDefaultOcrEngine(context)
+fun getUserConfiguredOcrEngine(context: Context, prefHandler: PrefHandler) =
+        Feature.fromModuleName(prefHandler.getString(PrefKey.OCR_ENGINE, null)) ?: getDefaultOcrEngine(context)
 
 /**
  * check if language has non-latin script and is supported by Tesseract

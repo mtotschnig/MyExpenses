@@ -128,6 +128,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.NEW_LICENCE;
 import static org.totschnig.myexpenses.preference.PrefKey.NEXT_REMINDER_RATE;
 import static org.totschnig.myexpenses.preference.PrefKey.OCR;
 import static org.totschnig.myexpenses.preference.PrefKey.OCR_DATE_FORMATS;
+import static org.totschnig.myexpenses.preference.PrefKey.OCR_ENGINE;
 import static org.totschnig.myexpenses.preference.PrefKey.OCR_TIME_FORMATS;
 import static org.totschnig.myexpenses.preference.PrefKey.OCR_TOTAL_INDICATORS;
 import static org.totschnig.myexpenses.preference.PrefKey.PERFORM_PROTECTION_SCREEN;
@@ -440,20 +441,21 @@ public class SettingsFragment extends BaseSettingsFragment implements
       if ("".equals(prefHandler.getString(OCR_TOTAL_INDICATORS, ""))) {
         this.<EditTextPreference>requirePreference(OCR_TOTAL_INDICATORS).setText(getString(R.string.pref_ocr_total_indicators_default));
       }
-      Preference ocrDatePref = requirePreference(OCR_DATE_FORMATS);
+      EditTextPreference ocrDatePref = requirePreference(OCR_DATE_FORMATS);
       ocrDatePref.setOnPreferenceChangeListener(this);
       if ("".equals(prefHandler.getString(OCR_DATE_FORMATS, ""))) {
         String shortFormat = getLocalizedDateTimePattern(SHORT, null, IsoChronology.INSTANCE, userLocaleProvider.getSystemLocale());
         String mediumFormat = getLocalizedDateTimePattern(MEDIUM, null, IsoChronology.INSTANCE, userLocaleProvider.getSystemLocale());
-        ((EditTextPreference) ocrDatePref).setText(shortFormat + "\n" + mediumFormat);
+        ocrDatePref.setText(shortFormat + "\n" + mediumFormat);
       }
-      Preference ocrTimePref = requirePreference(OCR_TIME_FORMATS);
+      EditTextPreference ocrTimePref = requirePreference(OCR_TIME_FORMATS);
       ocrTimePref.setOnPreferenceChangeListener(this);
       if ("".equals(prefHandler.getString(OCR_TIME_FORMATS, ""))) {
         String shortFormat = getLocalizedDateTimePattern(null, SHORT, IsoChronology.INSTANCE, userLocaleProvider.getSystemLocale());
         String mediumFormat = getLocalizedDateTimePattern(null, MEDIUM, IsoChronology.INSTANCE, userLocaleProvider.getSystemLocale());
-        ((EditTextPreference) ocrTimePref).setText(shortFormat + "\n" + mediumFormat);
+        ocrTimePref.setText(shortFormat + "\n" + mediumFormat);
       }
+      this.<ListPreference>requirePreference(OCR_ENGINE).setVisible(activity().ocrViewModel.shouldShowEngineSelection());
       configureTesseractLanguagePref();
     } else if (rootKey.equals(getKey(SYNC))) {
       requirePreference(MANAGE_SYNC_BACKENDS).setSummary(
