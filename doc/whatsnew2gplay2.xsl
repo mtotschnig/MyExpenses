@@ -44,7 +44,7 @@
                 </xsl:variable>
                 <xsl:choose>
                     <xsl:when test="$special-version-info != ''">
-                        <xsl-text>•</xsl-text>
+                        <xsl-text>•&#032;</xsl-text>
                         <xsl:value-of select="$special-version-info" />
                     </xsl:when>
                     <xsl:otherwise>
@@ -79,7 +79,8 @@
     </xsl:template>
 
     <xsl:template match="item">
-        <xsl-text>•</xsl-text>
+        <xsl-text>•&#032;</xsl-text>
         <xsl:apply-templates mode="unescape" select="." />
+        <xsl:value-of select="$newline" />
     </xsl:template>
 </xsl:stylesheet>

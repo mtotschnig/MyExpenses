@@ -8,16 +8,20 @@
     <xsl:param name="languages" select="$all-languages" />
 
     <xsl:template match="/">
-        <xsl:text>&#032;&#032;-</xsl:text>
+        <xsl:value-of select="str:padding(2, '&#032;')"/>
+        <xsl:text>-</xsl:text>
         <xsl:value-of select="$newline" />
-        <xsl:text>&#032;&#032;&#032;&#032;-&#032;</xsl:text>
+        <xsl:value-of select="str:padding(4, '&#032;')"/>
+        <xsl:text>-&#032;</xsl:text>
         <xsl:value-of select="$version" />
         <xsl:value-of select="$newline" />
-        <xsl:text>&#032;&#032;&#032;&#032;-&#032;"</xsl:text>
+        <xsl:value-of select="str:padding(4, '&#032;')"/>
+        <xsl:text>-&#032;"</xsl:text>
         <xsl:value-of select="$version_date" />
         <xsl:text>"</xsl:text>
         <xsl:value-of select="$newline" />
-        <xsl:text>&#032;&#032;&#032;&#032;-</xsl:text>
+        <xsl:value-of select="str:padding(4, '&#032;')"/>
+        <xsl:text>-</xsl:text>
         <xsl:for-each select="str:tokenize($languages)">
             <xsl:call-template name="extract">
                 <xsl:with-param name="lang" select="." />
@@ -68,11 +72,11 @@
         </xsl:variable>
         <xsl:if test="$changelog != ''">
             <xsl:value-of select="$newline" />
-            <xsl:text>&#032;&#032;&#032;&#032;&#032;&#032;</xsl:text>
+            <xsl:value-of select="str:padding(6, '&#032;')"/>
             <xsl:value-of select="$lang" />
             <xsl:text>: |</xsl:text>
             <xsl:value-of select="$newline" />
-            <xsl:text>&#032;&#032;&#032;&#032;&#032;&#032;&#032;&#032;</xsl:text>
+            <xsl:value-of select="str:padding(8, '&#032;')"/>
             <xsl:value-of select="$changelog" />
         </xsl:if>
     </xsl:template>
