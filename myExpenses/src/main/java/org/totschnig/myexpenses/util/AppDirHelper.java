@@ -67,9 +67,6 @@ public class AppDirHelper {
   }
 
   /**
-   * @param parentDir
-   * @param prefix
-   * @param addExtension
    * @return creates a file object in parentDir, with a timestamp appended to
    * prefix as name, if the file already exists it appends a numeric
    * postfix

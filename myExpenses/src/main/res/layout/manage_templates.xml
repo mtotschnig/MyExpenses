@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- 
+<?xml version="1.0" encoding="UTF-8"?><!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -15,19 +14,24 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
-    <include layout="@layout/toolbar"/>
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <fragment android:name="org.totschnig.myexpenses.fragment.TemplatesList"
-                  android:id="@+id/templates_list"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent"/>
-        <include layout="@layout/floating_action_button"/>
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/templates_list"
+            android:name="org.totschnig.myexpenses.fragment.TemplatesList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <include layout="@layout/floating_action_button" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </LinearLayout>
 
