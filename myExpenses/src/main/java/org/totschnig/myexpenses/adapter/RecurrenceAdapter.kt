@@ -15,7 +15,7 @@ class RecurrenceAdapter(context: Context?) : ArrayAdapter<Recurrence?>(context!!
         return result
     }
 
-    override fun getDropDownView(position: Int, convertView: View, parent: ViewGroup): View {
+    override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
         val result = super.getDropDownView(position, convertView, parent)
         (result as TextView).text = getItem(position)!!.getLabel(context)
         return result

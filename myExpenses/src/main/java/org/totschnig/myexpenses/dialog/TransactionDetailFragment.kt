@@ -259,7 +259,7 @@ class TransactionDetailFragment : BaseDialogFragment(), DialogInterface.OnClickL
                     binding.PlanRow.visibility = View.GONE
                 } else {
                     binding.Plan.text = transaction.originTemplate.plan?.let {
-                        Plan.prettyTimeInfo(activity, it.rrule, it.dtstart)
+                        Plan.prettyTimeInfo(requireContext(), it.rRule, it.dtStart)
                     } ?: getString(R.string.plan_event_deleted)
                 }
                 dlg.setTitle(title)

@@ -52,10 +52,12 @@ import org.totschnig.myexpenses.util.TextUtils.appendCurrencySymbol
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.addChipsBulk
+import org.totschnig.myexpenses.util.epoch2ZonedDateTime
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import org.totschnig.myexpenses.viewmodel.data.Tag
+import timber.log.Timber
 import java.math.BigDecimal
 import java.util.*
 
@@ -199,6 +201,7 @@ abstract class TransactionDelegate<T : ITransaction>(
             viewBinding.Amount.setFractionDigits(transaction.amount.currencyUnit.fractionDigits)
         } else {
             Icepick.restoreInstanceState(this, savedInstanceState)
+            Timber.d("Date: %d", dateEditBinding.DateButton.date.dayOfMonth)
         }
         setVisibility(viewBinding.toolbar.OperationType, newInstance)
         originTemplateId?.let { host.loadOriginTemplate(it) }
@@ -682,7 +685,7 @@ abstract class TransactionDelegate<T : ITransaction>(
                         plan = Plan(
                                 this@TransactionDelegate.planId ?: 0L,
                                 planButton.date,
-                                recurrenceSpinner.selectedItem as? Plan.Recurrence,
+                                recurrenceSpinner.selectedItem as Plan.Recurrence,
                                 title,
                                 description)
                     }
@@ -801,7 +804,7 @@ abstract class TransactionDelegate<T : ITransaction>(
     }
 
     private fun updatePlanButton(plan: Plan) {
-        planButton.overrideText(Plan.prettyTimeInfo(context, plan.rrule, plan.dtstart))
+        planButton.overrideText(Plan.prettyTimeInfo(context, plan.rRule, plan.dtStart))
     }
 
     fun configurePlan(plan: Plan?) {

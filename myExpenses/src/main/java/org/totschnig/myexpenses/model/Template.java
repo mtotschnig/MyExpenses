@@ -527,7 +527,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
         if (withLinkedTransaction != null) {
           ops.add(ContentProviderOperation.newInsert(TransactionProvider.PLAN_INSTANCE_STATUS_URI)
               .withValueBackReference(KEY_TEMPLATEID, 0)
-              .withValue(KEY_INSTANCEID, CalendarProviderProxy.calculateId(plan.dtstart))
+              .withValue(KEY_INSTANCEID, CalendarProviderProxy.calculateId(plan.getDtStart()))
               .withValue(KEY_TRANSACTIONID, withLinkedTransaction)
               .build());
         }
@@ -546,7 +546,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
       if (withLinkedTransaction != null) {
         ops.add(ContentProviderOperation.newInsert(TransactionProvider.PLAN_INSTANCE_STATUS_URI)
             .withValue(KEY_TEMPLATEID, getId())
-            .withValue(KEY_INSTANCEID, CalendarProviderProxy.calculateId(plan.dtstart))
+            .withValue(KEY_INSTANCEID, CalendarProviderProxy.calculateId(plan.getDtStart()))
             .withValue(KEY_TRANSACTIONID, withLinkedTransaction)
             .build());
       }
