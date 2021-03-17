@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.text.TextUtils
 import org.threeten.bp.Instant
+import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneId
 import org.threeten.bp.ZonedDateTime
@@ -12,8 +13,11 @@ import org.threeten.bp.format.FormatStyle
 import org.totschnig.myexpenses.R
 import java.text.SimpleDateFormat
 
-fun epochMillis2LocalDate(epochMillis: Long) = ZonedDateTime.ofInstant(
+fun epochMillis2LocalDate(epochMillis: Long): LocalDate = ZonedDateTime.ofInstant(
         Instant.ofEpochMilli(epochMillis), ZoneId.systemDefault()).toLocalDate()
+
+fun epoch2ZonedDateTime(epoch: Long): ZonedDateTime = ZonedDateTime.ofInstant(
+        Instant.ofEpochSecond(epoch), ZoneId.systemDefault())
 
 fun localDateTime2Epoch(localDateTime: LocalDateTime) =
         ZonedDateTime.of(localDateTime, ZoneId.systemDefault()).toEpochSecond()

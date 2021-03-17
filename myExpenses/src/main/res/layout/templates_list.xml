@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -15,20 +14,19 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="1px"
-              android:layout_weight="1"
-              android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:paddingBottom="75dp"
         android:clipToPadding="false"
-        android:drawSelectorOnTop="false"/>
+        android:drawSelectorOnTop="false"
+        android:paddingBottom="75dp" />
 
     <TextView
         android:id="@+id/empty"
@@ -38,5 +36,5 @@
         android:gravity="center"
         android:text="@string/no_templates"
         android:translationY="-28dp"
-        tools:ignore="UnusedAttribute"/>
+        tools:ignore="UnusedAttribute" />
 </LinearLayout>

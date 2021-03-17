@@ -284,15 +284,13 @@ abstract class TransactionDelegate<T : ITransaction>(
     }
 
     private fun setLocalDateTime(transaction: ITransaction) {
-        val zonedDateTime = ZonedDateTime.ofInstant(
-                Instant.ofEpochSecond(transaction.date), ZoneId.systemDefault())
+        val zonedDateTime = epoch2ZonedDateTime(transaction.date)
         val localDate = zonedDateTime.toLocalDate()
         if (transaction is Template) {
             planButton.setDate(localDate)
         } else {
             dateEditBinding.DateButton.setDate(localDate)
-            dateEditBinding.Date2Button.setDate(ZonedDateTime.ofInstant(Instant.ofEpochSecond(transaction.valueDate),
-                    ZoneId.systemDefault()).toLocalDate())
+            dateEditBinding.Date2Button.setDate(epoch2ZonedDateTime(transaction.valueDate).toLocalDate())
             dateEditBinding.TimeButton.setTime(zonedDateTime.toLocalTime())
         }
     }
