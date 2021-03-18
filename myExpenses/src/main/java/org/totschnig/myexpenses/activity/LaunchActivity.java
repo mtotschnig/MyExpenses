@@ -6,7 +6,6 @@ import android.os.Bundle;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ExtendProLicenceDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.CrStatus;
@@ -40,7 +39,6 @@ import static org.totschnig.myexpenses.preference.PrefKey.AUTO_FILL_LEGACY;
 import static org.totschnig.myexpenses.preference.PrefKey.CATEGORIES_SORT_BY_USAGES_LEGACY;
 import static org.totschnig.myexpenses.preference.PrefKey.CURRENT_VERSION;
 import static org.totschnig.myexpenses.preference.PrefKey.HOME_CURRENCY;
-import static org.totschnig.myexpenses.preference.PrefKey.LICENCE_MIGRATION_INFO_SHOWN;
 import static org.totschnig.myexpenses.preference.PrefKey.PLANNER_CALENDAR_ID;
 import static org.totschnig.myexpenses.preference.PrefKey.PROFESSIONAL_EXPIRATION_REMINDER_LAST_SHOWN;
 import static org.totschnig.myexpenses.preference.PrefKey.SHARE_TARGET;
@@ -205,20 +203,6 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity implement
 
       showVersionDialog(prev_version, showImportantUpgradeInfo);
     } else {
-      if (licenceHandler.needsMigration() &&
-          !prefHandler.getBoolean(LICENCE_MIGRATION_INFO_SHOWN, false)) {
-        Bundle bundle = new Bundle();
-        bundle.putCharSequence(
-            ConfirmationDialogFragment.KEY_MESSAGE,
-            Utils.getTextWithAppName(this, R.string.licence_migration_info));
-        bundle.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
-            R.id.REQUEST_LICENCE_MIGRATION_COMMAND);
-        bundle.putString(ConfirmationDialogFragment.KEY_PREFKEY,
-            LICENCE_MIGRATION_INFO_SHOWN.getKey());
-        bundle.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.pref_request_licence_title);
-        ConfirmationDialogFragment.newInstance(bundle).show(getSupportFragmentManager(),
-            "RESTORE");
-      }
       if (!licenceHandler.hasTrialAccessTo(ContribFeature.SYNCHRONIZATION) &&
           !prefHandler.getBoolean(SYNC_UPSELL_NOTIFICATION_SHOWN, false)) {
         prefHandler.putBoolean(SYNC_UPSELL_NOTIFICATION_SHOWN, true);

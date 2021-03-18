@@ -20,7 +20,7 @@ class DeepLinkActivity : ProtectedFragmentActivity() {
                 if (data == null) {
                     showWebSite()
                 } else if (data.lastPathSegment == "callback.html") {
-                    showMessage(Utils.getTextWithAppName(this, R.string.licence_migration_info))
+                    showMessage("My Expenses implements a new licence validation mechanism. Please request a new key.")
                 } else if ("verify" == data.fragment) { //callback2.html
                     val isSandbox = data.getBooleanQueryParameter("sandbox", false)
                     if (isSandbox == BuildConfig.DEBUG) { //prevent a sandbox call from hitting production app, and vice versa

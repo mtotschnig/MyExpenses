@@ -11,7 +11,6 @@ import com.google.android.vending.licensing.PreferenceObfuscator;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
-import org.totschnig.myexpenses.util.licence.HashLicenceHandler;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 
 import javax.inject.Named;
@@ -25,7 +24,7 @@ public class LicenceModule {
   @Provides
   @Singleton
   LicenceHandler providesLicenceHandler(PreferenceObfuscator preferenceObfuscator, CrashHandler crashHandler, MyApplication application, PrefHandler prefHandler) {
-    return new HashLicenceHandler(application, preferenceObfuscator, crashHandler, prefHandler);
+    return new LicenceHandler(application, preferenceObfuscator, crashHandler, prefHandler);
   }
 
   @Provides

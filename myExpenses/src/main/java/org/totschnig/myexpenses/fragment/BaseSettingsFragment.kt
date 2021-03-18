@@ -291,9 +291,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         if (licenceStatus == null && licenceHandler.addOnFeatures.isEmpty()) {
             contribPurchaseSummary = getString(R.string.pref_contrib_purchase_summary)
         } else {
-            if (licenceHandler.needsMigration()) {
-                contribPurchaseSummary = Utils.getTextWithAppName(requireContext(), R.string.licence_migration_info).toString()
-            } else if (licenceStatus?.isUpgradeable != false) {
+            if (licenceStatus?.isUpgradeable != false) {
                 contribPurchaseSummary = getString(R.string.pref_contrib_purchase_title_upgrade)
             } else {
                 contribPurchaseSummary = licenceHandler.getProLicenceAction(requireContext())

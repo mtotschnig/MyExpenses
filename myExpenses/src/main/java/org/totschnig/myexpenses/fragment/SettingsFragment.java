@@ -685,9 +685,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
   public boolean onPreferenceClick(Preference preference) {
     trackPreferenceClick(preference);
     if (matches(preference, CONTRIB_PURCHASE)) {
-      if (licenceHandler.needsMigration()) {
-        activity().dispatchCommand(R.id.REQUEST_LICENCE_MIGRATION_COMMAND, null);
-      } else if (licenceHandler.isUpgradeable()) {
+      if (licenceHandler.isUpgradeable()) {
         Intent i = ContribInfoDialogActivity.getIntentFor(getActivity(), null);
         if (DistributionHelper.isGithub()) {
           startActivityForResult(i, CONTRIB_PURCHASE_REQUEST);

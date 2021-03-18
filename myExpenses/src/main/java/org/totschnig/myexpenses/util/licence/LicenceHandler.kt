@@ -29,21 +29,34 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.collections.HashSet
 
 open class LicenceHandler(protected val context: MyApplication, var licenseStatusPrefs: PreferenceObfuscator, private val crashHandler: CrashHandler, protected val prefHandler: PrefHandler) {
     private var hasOurLicence = false
     private val isSandbox = BuildConfig.DEBUG
     private val localBackend = false
     var licenceStatus: LicenceStatus? = null
-        protected set(value) {
-            crashHandler.putCustomData("Licence", licenceStatus?.name ?: "null")
+        private set(value) {
+            crashHandler.putCustomData("Licence", value?.name ?: "null")
             field = value
         }
-    var addOnFeatures: List<ContribFeature> = emptyList()
+    val addOnFeatures: MutableSet<ContribFeature> = mutableSetOf()
 
     val currencyUnit: CurrencyUnit = CurrencyUnit("EUR", "€", 2)
     fun hasValidKey(): Boolean {
-        return (isContribEnabled || addOnFeatures.isNotEmpty()) && !hasLegacyLicence()
+        return hasOurLicence
+    }
+
+    fun maybeUpgradeAddonFeatures(features: List<ContribFeature>, newPurchase: Boolean) {
+        if (!hasOurLicence && !newPurchase) {
+            addOnFeatures.clear()
+        }
+        addFeatures(features)
+    }
+
+    private fun addFeatures(features: List<ContribFeature>) {
+        addOnFeatures.addAll(features)
+        persistAddonFeatures()
     }
 
     fun maybeUpgradeLicence(licenceStatus: LicenceStatus?) {
@@ -82,15 +95,13 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
         get() = licenceStatus == null || licenceStatus!!.isUpgradeable
 
     open fun init() {
-        val licenseStatusPrefsString = licenseStatusPrefs.getString(LICENSE_STATUS_KEY, null)
-        try {
-            val licenceStatus = if (licenseStatusPrefsString != null) LicenceStatus.valueOf(licenseStatusPrefsString) else null
-            if (licenceStatus != null) {
-                hasOurLicence = true
+        this.licenceStatus = licenseStatusPrefs.getString(LICENSE_STATUS_KEY, null)?.let {
+            hasOurLicence = true
+            try {
+                LicenceStatus.valueOf(it)
+            } catch (e: IllegalArgumentException) {
+                null
             }
-            this.licenceStatus = licenceStatus
-        } catch (e: IllegalArgumentException) {
-            this.licenceStatus = null
         }
         restoreAddOnFeatures()
     }
@@ -112,19 +123,17 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
         licenseStatusPrefs.remove(LICENSE_VALID_SINCE_KEY)
         licenseStatusPrefs.remove(LICENSE_VALID_UNTIL_KEY)
         if (!keepFeatures) {
-            this.addOnFeatures = emptyList()
+            addOnFeatures.clear()
             licenseStatusPrefs.remove(LICENSE_FEATURES)
         }
+        licenseStatusPrefs.commit()
     }
 
     open fun updateLicenceStatus(licence: Licence) {
         hasOurLicence = true
         this.licenceStatus = licence.type
-        licence.type?.name?.let {
-            licenseStatusPrefs.putString(LICENSE_STATUS_KEY, it)
-        } ?: licenseStatusPrefs.remove(LICENSE_STATUS_KEY)
-        addOnFeatures = licence.featureList
-        persistAddonFeatures()
+        licenseStatusPrefs.putString(LICENSE_STATUS_KEY, licence.type?.name ?: "null")
+        addFeatures(licence.featureList)
         if (licence.validSince != null) {
             val validSince = licence.validSince.atTime(LocalTime.MAX).atZone(ZoneId.of("Etc/GMT-14"))
             licenseStatusPrefs.putString(LICENSE_VALID_SINCE_KEY, (validSince.toEpochSecond() * 1000).toString())
@@ -190,14 +199,6 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
     @Suppress("MemberVisibilityCanBePrivate")
     val validSinceMillis: Long
         get() = licenseStatusPrefs.getString(LICENSE_VALID_SINCE_KEY, "0").toLong()
-
-    open fun hasLegacyLicence(): Boolean {
-        return false
-    }
-
-    open fun needsMigration(): Boolean {
-        return false
-    }
 
     open val proPackages: Array<ProfessionalPackage>
         get() = arrayOf(ProfessionalPackage.Professional_6, ProfessionalPackage.Professional_12, ProfessionalPackage.Professional_24)
@@ -340,18 +341,20 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
 
     open fun launchPurchase(aPackage: Package, shouldReplaceExisting: Boolean, billingManager: BillingManager) {}
 
-    protected fun persistAddonFeatures() {
-        licenseStatusPrefs.putString(LICENSE_FEATURES, addOnFeatures.joinToString(",", transform = ContribFeature::name))
+    private fun persistAddonFeatures() {
+        val joinToString = addOnFeatures.joinToString(",", transform = ContribFeature::name)
+        licenseStatusPrefs.putString(LICENSE_FEATURES, joinToString)
+        crashHandler.putCustomData("AddOns", joinToString)
     }
 
     private fun restoreAddOnFeatures() {
-        addOnFeatures = licenseStatusPrefs.getString(LICENSE_FEATURES, null)?.split(',')?.mapNotNull {
+        licenseStatusPrefs.getString(LICENSE_FEATURES, null)?.split(',')?.mapNotNull {
             try {
                 ContribFeature.valueOf(it)
             } catch (e: Exception) {
                 null
             }
-        } ?: emptyList()
+        }?.let { addFeatures(it) }
     }
 
     open fun supportSingleFeaturePurchase(feature: ContribFeature) = feature.licenceStatus == LicenceStatus.PROFESSIONAL

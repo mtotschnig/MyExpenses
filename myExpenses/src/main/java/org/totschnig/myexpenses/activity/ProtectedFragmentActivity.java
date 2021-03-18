@@ -108,7 +108,6 @@ import static org.totschnig.myexpenses.preference.PrefKey.CUSTOM_DATE_FORMAT;
 import static org.totschnig.myexpenses.preference.PrefKey.GROUP_MONTH_STARTS;
 import static org.totschnig.myexpenses.preference.PrefKey.GROUP_WEEK_STARTS;
 import static org.totschnig.myexpenses.preference.PrefKey.HOME_CURRENCY;
-import static org.totschnig.myexpenses.preference.PrefKey.LICENCE_LEGACY;
 import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_DEVICE_LOCK_SCREEN;
 import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_LEGACY;
 import static org.totschnig.myexpenses.preference.PrefKey.UI_FONTSIZE;
@@ -435,24 +434,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
       return true;
     } else if (command == R.id.HELP_COMMAND) {
       doHelp((String) tag);
-      return true;
-    } else if (command == R.id.REQUEST_LICENCE_MIGRATION_COMMAND) {
-      String androidId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-      i = new Intent(Intent.ACTION_SEND);
-      i.setType("plain/text");
-      i.putExtra(Intent.EXTRA_EMAIL, new String[]{MyApplication.FEEDBACK_EMAIL});
-      i.putExtra(Intent.EXTRA_SUBJECT,
-          "[" + getString(R.string.app_name) + "] " + getString(licenceHandler.getLicenceStatus().getResId()));
-      String extraText = String.format(
-          "Please send me a new licence key. Current key is %1$s for Android-Id %2$s\nLANGUAGE:%3$s\nVERSION:%4$s",
-          prefHandler.getString(LICENCE_LEGACY, null), androidId,
-          Locale.getDefault().toString(), getVersionInfo(this));
-      i.putExtra(Intent.EXTRA_TEXT, extraText);
-      if (!Utils.isIntentAvailable(this, i)) {
-        showSnackbar(R.string.no_app_handling_email_available);
-      } else {
-        startActivity(i);
-      }
       return true;
     } else if (command == android.R.id.home) {
       doHome();
