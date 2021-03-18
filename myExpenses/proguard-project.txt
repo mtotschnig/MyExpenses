@@ -7,7 +7,7 @@
 -dontwarn org.bouncycastle.**
 -dontwarn com.itextpdf.**
 
--keepclassmembers class org.totschnig.myexpenses.provider.filter.** {
+-keepclassmembers class org.totschnig.myexpenses.provider.filter.* {
  public <init>(java.lang.String,java.lang.String[]);
 }
 
@@ -26,7 +26,6 @@
 
 #Picasso
 -dontwarn com.squareup.okhttp.**
-
 
 -dontwarn icepick.**
 -keep class icepick.** { *; }
