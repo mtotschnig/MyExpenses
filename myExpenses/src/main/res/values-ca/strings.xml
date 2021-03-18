@@ -254,7 +254,6 @@
     <string name="pref_protection_delay_seconds_summary">Els segons d\'inactivitat que hauran de transcorre abans que l\'aplicació sigui blocada amb la contrasenya.</string>
     <string name="pref_protection_delay_seconds_title">Retard de la protecció</string>
     <string name="pref_qif_export_file_encoding_title">Codificació de caràcters</string>
-    <string name="pref_request_licence_title">Demaneu una clau</string>
     <string name="pref_restore_summary">Seleccioneu una còpia de seguretat per restaurar la base de dades i preferències.</string>
     <string name="pref_restore_title">Restauració</string>
     <string name="pref_security_question_summary">Us permet desblocar l\'aplicació, si heu oblidat la vostra contrasenya.</string>

@@ -325,7 +325,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Dibenarkan tanpa kata laluan.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Kata laluan diperlukan.</string>
     <string name="pref_qif_export_file_encoding_title">Pengekodan aksara</string>
-    <string name="pref_request_licence_title">Pohon kunci</string>
     <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
     <string name="pref_restore_alternative">Alternatif</string>
     <string name="pref_restore_alternative_summary">Guna kaedah alternatif ini jika tiada pengurus fail terpasang dalam peranti.</string>
@@ -660,7 +659,6 @@
     <string name="professional_key">Kunci profesional</string>
     <string name="n_months">%d bulan</string>
     <string name="eu_vat_info">Bagi penduduk Kesatuan Eropah harga dipaparkan tidak melibatkan VAT.</string>
-    <string name="licence_migration_info">{app_name} melaksanakan satu mekanisma pengesahan lesen baharu. Sila dapatkan kunci baharu.</string>
     <string name="valid_until">Sehingga %s</string>
     <!-- %1$s date, %2$s price  -->
     <string name="extend_until">Dilanjutkan sehingga %1$s untuk %2$s</string>

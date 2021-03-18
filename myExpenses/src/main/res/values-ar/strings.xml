@@ -342,7 +342,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">بدون باسوورد.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">يتطلب كلمة مرور.</string>
     <string name="pref_qif_export_file_encoding_title">ترميز الحروف</string>
-    <string name="pref_request_licence_title">اطلب مفتاح</string>
     <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
     <string name="pref_restore_alternative">بديل</string>
     <string name="pref_restore_alternative_summary">استخدم هذه الطريقة البديلة إذا لم يكن مدير ملفات مثبتا على الجهاز</string>
@@ -711,7 +710,6 @@
     <string name="professional_key">المفتاح شامل</string>
     <string name="n_months">%d شهراً</string>
     <string name="eu_vat_info">بالنسبة للمقيمين في الاتحاد الأوروبي، الأسعار المعروضة لا تشمل ضريبة القيمة المضافة.</string>
-    <string name="licence_migration_info">ينفذ {app_name} آلية جديدة للتحقق من الترخيص. يُرجى طلب مفتاح جديد.</string>
     <string name="valid_until">حتى %s</string>
     <!-- %1$s date, %2$s price  -->
     <string name="extend_until">تمديد حتى %1$s لـ %2$s</string>

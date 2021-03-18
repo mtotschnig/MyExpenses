@@ -301,7 +301,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">암호 없이 허가되었습니다.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">암호가 필요합니다.</string>
     <string name="pref_qif_export_file_encoding_title">문자 인코딩</string>
-    <string name="pref_request_licence_title">기부 확인 키 요청</string>
     <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
     <string name="pref_restore_alternative">대안</string>
     <string name="pref_restore_summary">데이터베이스와 설정값을 복원할 백업 파일을 선택하세요.</string>

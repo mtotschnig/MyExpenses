@@ -308,7 +308,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Permis fără parolă.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Parola este necesară.</string>
     <string name="pref_qif_export_file_encoding_title">Codificare caractere</string>
-    <string name="pref_request_licence_title">Solicită o cheie</string>
     <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
     <string name="pref_restore_alternative">Alternativă</string>
     <string name="pref_restore_summary">Selectaţi un backup pentru restaurarea bazei de date şi preferinţe.</string>

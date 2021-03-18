@@ -287,7 +287,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Dozvoljeno bez lozinke.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Potrebna lozinka.</string>
     <string name="pref_qif_export_file_encoding_title">Kodiranje znakova</string>
-    <string name="pref_request_licence_title">Zatraži ključ</string>
     <string name="pref_restore_summary">Odaberi sigurnosnu kopiju za obnavljanje baze podataka i preferencija.</string>
     <string name="pref_restore_title">Obnovi</string>
     <string name="pref_security_question_summary">Omogućava otključavanje aplikacije u slučaju da ste zaboravili lozinku.</string>

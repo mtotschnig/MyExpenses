@@ -330,7 +330,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Ohne Passwort erlaubt.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Passwort wird benötigt.</string>
     <string name="pref_qif_export_file_encoding_title">Zeichenkodierung</string>
-    <string name="pref_request_licence_title">Schlüssel beantragen</string>
     <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
     <string name="pref_restore_alternative">Alternativ</string>
     <string name="pref_restore_alternative_summary">Verwenden Sie diese alternative Methode, wenn kein Datei-Manager auf dem Gerät installiert ist.</string>
@@ -675,7 +674,6 @@
     <string name="professional_key">Professioneller Schlüssel</string>
     <string name="n_months">%d Monate</string>
     <string name="eu_vat_info">Die Preise für die in der Europäischen Union ansässigen Personen verstehen sich ohne Mehrwertsteuer.</string>
-    <string name="licence_migration_info">{app_name} implementiert einen neuen Lizenzvalidierungsmechanismus. Bitte fordern Sie einen neuen Schlüssel an.</string>
     <string name="valid_until">Bis %s</string>
     <!-- %1$s date, %2$s price  -->
     <string name="extend_until">Verlängern bis %1$s für %2$s</string>

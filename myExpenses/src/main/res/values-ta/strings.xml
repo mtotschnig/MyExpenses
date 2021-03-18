@@ -330,7 +330,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">கடவுச்சொல் இல்லாமல் அனுமதி.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">கடவுச்சொல் தேவை.</string>
     <string name="pref_qif_export_file_encoding_title">எழுத்து குறியேற்றம்</string>
-    <string name="pref_request_licence_title">திறவுகோல் கோரு</string>
     <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
     <string name="pref_restore_alternative">மாற்று வழி</string>
     <string name="pref_restore_alternative_summary">கருவியில் கோப்பு நிர்வகிக்கும் செயலி நிறுவப்படவில்லை என்றால், இந்த மாற்று முறையைப் பயன்படுத்தவும்.</string>
@@ -675,7 +674,6 @@
     <string name="professional_key">நிபுணத்துவ திறவுகோல்</string>
     <string name="n_months">%d மாதங்கள்</string>
     <string name="eu_vat_info">ஐரோப்பிய ஒன்றியத்தில் வாழ்பவர்களுக்கு, காட்டப்படும் விலை VAT சேர்க்கப்படாதது.</string>
-    <string name="licence_migration_info">{app_name} புதிய உரிம அங்கீகார முறையை செயல்படுத்துகிறது. தயவு செய்து ஒரு புதிய திறவுகோலை கோருக.</string>
     <string name="valid_until">%s வரை</string>
     <!-- %1$s date, %2$s price  -->
     <string name="extend_until">%2$sசெலவில் %1$s வரை நீட்டிக்கவும்</string>

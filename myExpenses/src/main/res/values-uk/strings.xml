@@ -325,7 +325,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Дозволено без пароля.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Пароль обовʼязковий.</string>
     <string name="pref_qif_export_file_encoding_title">Кодування символів</string>
-    <string name="pref_request_licence_title">Звернутись по ключ</string>
     <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
     <string name="pref_restore_alternative">Альтернатива</string>
     <string name="pref_restore_alternative_summary">Використовуйте цю альтернативу, якщо на пристрої не встановлено файловий менеджер.</string>
@@ -675,7 +674,6 @@
     <string name="professional_key">Професійна версія</string>
     <string name="n_months">%d місяців</string>
     <string name="eu_vat_info">Для резидентів Європейського Союзу ціни вказано без ПДВ.</string>
-    <string name="licence_migration_info">{app_name} реалізує новий механізм перевірки ліцензії. Будь ласка, зверніться по новий ліцензійний ключ.</string>
     <string name="valid_until">До %s</string>
     <!-- %1$s date, %2$s price  -->
     <string name="extend_until">Продовжити до %1$s для %2$s</string>

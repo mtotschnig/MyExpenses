@@ -330,7 +330,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Parola olmasa da izinli.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Parola gerekli.</string>
     <string name="pref_qif_export_file_encoding_title">Karakter kodlaması</string>
-    <string name="pref_request_licence_title">Anahtarı talep et</string>
     <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
     <string name="pref_restore_alternative">Alternatif</string>
     <string name="pref_restore_alternative_summary">Eğer cihazınızda kurulu bir dosya yöneticisi yoksa istiyorsanız bu alternatif metodu kullanınız.</string>
@@ -675,7 +674,6 @@
     <string name="professional_key">Profesyonel Anahtar</string>
     <string name="n_months">%d ay</string>
     <string name="eu_vat_info">Görüntülenen fiyatlar Avrupa Birliği\'ndeki kullanıcılar için KDV\'yi içermemektedir.</string>
-    <string name="licence_migration_info">{app_name} yeni bir lisans doğrulama mekanizması kullanmaktadır. Lütfen yeni bir anahtar talep edin.</string>
     <string name="valid_until">%s tarihine kadar geçerli</string>
     <!-- %1$s date, %2$s price  -->
     <string name="extend_until">%1$s tarihine kadar %2$s fiyatına yenile</string>

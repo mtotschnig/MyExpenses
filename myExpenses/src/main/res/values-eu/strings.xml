@@ -328,7 +328,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Pasahitzik gabe baimenduta.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Pasahitza ezinbestekoa.</string>
     <string name="pref_qif_export_file_encoding_title">Karaktere-kodeketa</string>
-    <string name="pref_request_licence_title">Eskatu gako bat</string>
     <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
     <string name="pref_restore_alternative">Ordezkoa</string>
     <string name="pref_restore_alternative_summary">Eğer cihazınızda kurulu bir dosya yöneticisi yoksa almak istiyorsanız bu alternatif metodu kullanınız.</string>

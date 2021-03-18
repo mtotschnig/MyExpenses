@@ -258,7 +258,6 @@
     <string name="pref_protection_delay_seconds_summary">Doba nečinnosti v sekundá než bude aplikace uzamčena heslem.</string>
     <string name="pref_protection_delay_seconds_title">Odložit do ochránění</string>
     <string name="pref_qif_export_file_encoding_title">Kódování znaků</string>
-    <string name="pref_request_licence_title">Zažádejte klíč</string>
     <string name="pref_restore_title">Obnovit</string>
     <string name="pref_security_question_summary">Umožňuje odemknout aplikaci, pokud jste zapomněli vaše heslo.</string>
     <string name="pref_security_question_title">Bezpečnostní otázka</string>

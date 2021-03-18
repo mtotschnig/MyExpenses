@@ -335,7 +335,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Разрешено без пароля</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Требуется пароль</string>
     <string name="pref_qif_export_file_encoding_title">Кодировка</string>
-    <string name="pref_request_licence_title">Запросить ключ</string>
     <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
     <string name="pref_restore_alternative">Альтернатива</string>
     <string name="pref_restore_alternative_summary">Используйте этот альтернативный метод если на устройстве не установлен файл-менеджер.</string>
@@ -692,7 +691,6 @@
     <string name="professional_key">Professional-ключ</string>
     <string name="n_months">%d месяцев</string>
     <string name="eu_vat_info">Для резидентов Европейского союза цены указаны без НДС</string>
-    <string name="licence_migration_info">{app_name} реализует новый механизм проверки лицензии. Пожалуйста, запросите новый ключ.</string>
     <string name="valid_until">До %s</string>
     <!-- %1$s date, %2$s price  -->
     <string name="extend_until">Продлите до %1$s за %2$s</string>

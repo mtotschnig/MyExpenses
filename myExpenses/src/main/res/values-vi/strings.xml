@@ -321,7 +321,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Được cho phép mà không cần mật khẩu.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Mật khẩu được yêu cầu.</string>
     <string name="pref_qif_export_file_encoding_title">Mã hóa ký tự</string>
-    <string name="pref_request_licence_title">Yêu cầu một khóa</string>
     <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
     <string name="pref_restore_alternative">Cách khác</string>
     <string name="pref_restore_alternative_summary">Dùng phương thức này nếu không có trình quản lý tập tinnào được cài đặt trên thiết.</string>
@@ -651,7 +650,6 @@
     <string name="professional_key">Khoá Cao cấp</string>
     <string name="n_months">%d tháng</string>
     <string name="eu_vat_info">Đối với những người cư trú tại Liên minh châu Âu, số tiền hiển thị không bao gồm thuế giá trị gia tăng.</string>
-    <string name="licence_migration_info">{app_name} bắt đầu sử dụng phương thức xác minh bản quyền mới. Vui lòng yêu cầu một khoá mới.</string>
     <string name="valid_until">Cho tới %s</string>
     <!-- %1$s date, %2$s price  -->
     <string name="extend_until">Mở rộng cho tới %1$s trong %2$s</string>

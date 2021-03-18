@@ -325,7 +325,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Hasło nie jest wymagane.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Hasło jest wymagane.</string>
     <string name="pref_qif_export_file_encoding_title">Kodowanie znaków</string>
-    <string name="pref_request_licence_title">Poproś o klucz</string>
     <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
     <string name="pref_restore_alternative">Alternatywny</string>
     <string name="pref_restore_alternative_summary">Użyj tej alternatywnej metody, jeśli na urządzeniu nie ma zainstalowanego menedżera plików.</string>
@@ -660,7 +659,6 @@
     <string name="professional_key">Profesjonalny Klucz</string>
     <string name="n_months">%d miesięcy</string>
     <string name="eu_vat_info">Dla mieszkańców Unii Europejskiej wyświetlane ceny nie zawierają podatku VAT.</string>
-    <string name="licence_migration_info">{app_name} implementuje nowy mechanizm sprawdzania licencji. Poproś o nowy klucz.</string>
     <string name="valid_until">Aż do %s</string>
     <!-- %1$s date, %2$s price  -->
     <string name="extend_until">Wydłuż do %1$s dla %2$s</string>

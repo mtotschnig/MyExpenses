@@ -325,7 +325,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">パスワードなしを許可。</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">パスワードが必要。</string>
     <string name="pref_qif_export_file_encoding_title">ｷｬﾗｸﾀｰ ｴﾝｺｰﾃﾞｨﾝｸﾞ</string>
-    <string name="pref_request_licence_title">キーをリクエスト</string>
     <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
     <string name="pref_restore_alternative">代替</string>
     <string name="pref_restore_alternative_summary">デバイスにファイルマネージャーがインストールされていない、この代替の方法を使用します。</string>
@@ -664,7 +663,6 @@
     <string name="professional_key">プロフェッショナルキー</string>
     <string name="n_months">%d ヶ月</string>
     <string name="eu_vat_info">表示されている EU 価格には、付加価値税は含まれていません。</string>
-    <string name="licence_migration_info">{app_name}は新しいライセンス検証メカニズムを実装しています。 新しいキーを要求してください。</string>
     <string name="valid_until">%s まで</string>
     <!-- %1$s date, %2$s price  -->
     <string name="extend_until">%1$s から %2$s まで延長</string>

@@ -311,7 +311,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Permitido sem palavra-passe</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Requer palavra-passe</string>
     <string name="pref_qif_export_file_encoding_title">Codificação de caracteres</string>
-    <string name="pref_request_licence_title">Solicitar uma chave</string>
     <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
     <string name="pref_restore_alternative">Alternativo</string>
     <string name="pref_restore_alternative_summary">Utilize este método alternativo se não houver um gestor de ficheiros instalado no dispositivo.</string>

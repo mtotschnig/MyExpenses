@@ -246,7 +246,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">මුරපදයක් නොමැතිව අනුමත කරනවා </string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">මුරපදයක් අවශ්‍යයි </string>
     <string name="pref_qif_export_file_encoding_title">අක්ෂර කේතාංකනය කිරීම</string>
-    <string name="pref_request_licence_title">යතුර ඉල්ලන්න </string>
     <string name="pref_restore_summary">දත්ත ගබඩාව සහ මනාප නැවත  පිහිටුවීම  සදහා  උපස්තයක් තෝරන්න </string>
     <string name="pref_restore_title">නැවත පිහිටුවන්න </string>
     <string name="pref_security_question_summary">ඔබට මුරපදය අමතක වූයේනම්.නැවත ඇපය ක්‍රියාත්මක කිරීමට උදව් වේ </string>

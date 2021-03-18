@@ -235,7 +235,6 @@
     <string name="pref_protection_delay_seconds_summary">Várakozási idő (másodperc) a jelszóval feloldható zárolás előtt.</string>
     <string name="pref_protection_delay_seconds_title">Késleltetés a védelemig</string>
     <string name="pref_qif_export_file_encoding_title">Karakter kódolás</string>
-    <string name="pref_request_licence_title">Kérjen kulcsot</string>
     <string name="pref_restore_title">Visszaállítás</string>
     <string name="pref_security_question_summary">Lehetővé teszi, hogy feloldja az alkalmazást abban az esetben is, ha elvesztette a jelszót.</string>
     <string name="pref_security_question_title">Biztonsági kérdés</string>

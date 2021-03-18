@@ -330,7 +330,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Permitido sin contraseña.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Contraseña requerida.</string>
     <string name="pref_qif_export_file_encoding_title">Codificación de caracteres</string>
-    <string name="pref_request_licence_title">Solicitar una clave</string>
     <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
     <string name="pref_restore_alternative">Alternativa</string>
     <string name="pref_restore_alternative_summary">Utilice este método alternativo si no hay ningún administrador de archivos instalado en el dispositivo.</string>
@@ -675,7 +674,6 @@
     <string name="professional_key">Llave Profesional</string>
     <string name="n_months">%dmeses</string>
     <string name="eu_vat_info">Para residentes de la Unión Europea, los precios pueden aparecer sin IVA.</string>
-    <string name="licence_migration_info">{app_name} implementa un nuevo sistema de validación de licencia. Por favor, solicite una llave nueva.</string>
     <string name="valid_until">Hasta %s</string>
     <!-- %1$s date, %2$s price  -->
     <string name="extend_until">Extendida hasta %1$s por %2$s</string>

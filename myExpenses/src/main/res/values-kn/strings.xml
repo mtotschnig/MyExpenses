@@ -329,7 +329,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">ಪಾಸ್ವರ್ಡ್ ಇಲ್ಲದೆ ಅನುಮತಿಸಲಾಗಿದೆ.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">ಗುಪ್ತಪದದ ಅಗತ್ಯವಿದೆ.</string>
     <string name="pref_qif_export_file_encoding_title">ಅಕ್ಷರ ಎನ್‌ಕೋಡಿಂಗ್</string>
-    <string name="pref_request_licence_title">ಕೀಲಿಯನ್ನು ವಿನಂತಿಸಿ</string>
     <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
     <string name="pref_restore_alternative">ಪರ್ಯಾಯ</string>
     <string name="pref_restore_alternative_summary">ಸಾಧನದಲ್ಲಿ ಯಾವುದೇ ಫೈಲ್ ಮ್ಯಾನೇಜರ್ ಸ್ಥಾಪಿಸದಿದ್ದರೆ ಈ ಪರ್ಯಾಯ ವಿಧಾನವನ್ನು ಬಳಸಿ.</string>
@@ -674,7 +673,6 @@
     <string name="professional_key">ವೃತ್ತಿಪರ ಕೀ</string>
     <string name="n_months">%d ತಿಂಗಳುಗಳು</string>
     <string name="eu_vat_info">ಪ್ರದರ್ಶಿಸಲಾದ ಯುರೋಪಿಯನ್ ಯೂನಿಯನ್ ಬೆಲೆಗಳ ನಿವಾಸಿಗಳಿಗೆ ವ್ಯಾಟ್ ಅನ್ನು ಒಳಗೊಂಡಿಲ್ಲ.</string>
-    <string name="licence_migration_info">{app_name} ಹೊಸ ಪರವಾನಗಿ ಮೌಲ್ಯಮಾಪನ ಕಾರ್ಯವಿಧಾನವನ್ನು ಕಾರ್ಯಗತಗೊಳಿಸುತ್ತದೆ. ದಯವಿಟ್ಟು ಹೊಸ ಕೀಲಿಯನ್ನು ವಿನಂತಿಸಿ.</string>
     <string name="valid_until">%s ರವರೆಗೆ</string>
     <!-- %1$s date, %2$s price  -->
     <string name="extend_until">%2$s ಗಾಗಿ %1$s ವರೆಗೆ ವಿಸ್ತರಿಸಿ</string>

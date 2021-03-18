@@ -284,7 +284,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">允许不设置密码</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">需要密码</string>
     <string name="pref_qif_export_file_encoding_title">字符编码</string>
-    <string name="pref_request_licence_title">请求密钥</string>
     <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
     <string name="pref_restore_alternative">可选项</string>
     <string name="pref_restore_title">恢复</string>

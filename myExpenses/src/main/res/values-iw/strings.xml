@@ -336,7 +336,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">מותרת ללא סיסמה.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">נדרשת סיסמה</string>
     <string name="pref_qif_export_file_encoding_title">קידוד תווים</string>
-    <string name="pref_request_licence_title">בקש מפתח</string>
     <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
     <string name="pref_restore_alternative">חלופה</string>
     <string name="pref_restore_alternative_summary">השתמש בשיטה חלופית זו אם אין מנהל קבצים מותקן במכשיר.</string>
@@ -693,7 +692,6 @@
     <string name="professional_key">מפתח מקצועי</string>
     <string name="n_months">%d חודשים</string>
     <string name="eu_vat_info">לתושבי האיחוד האירופי המחירים המוצגים אינם כוללים מע\"מ.</string>
-    <string name="licence_migration_info">{app_name} מיישם מנגנון אימות רשיון חדש. אנא בקש מפתח חדש.</string>
     <string name="valid_until">עד %s</string>
     <!-- %1$s date, %2$s price  -->
     <string name="extend_until">הארכה עד %1$s למשך %2$s</string>
