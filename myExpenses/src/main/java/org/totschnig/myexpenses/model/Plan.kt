@@ -16,7 +16,6 @@ import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalTime
 import org.threeten.bp.temporal.ChronoField
 import org.totschnig.myexpenses.MyApplication
-import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.service.DailyScheduler
 import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup
@@ -36,24 +35,22 @@ class Plan private constructor(id: Long, var dtStart: Long, var rRule: String?, 
 
     private constructor(id: Long = 0L, localDate: LocalDate, rRule: String?, title: String, description: String) : this(id, localDateTime2EpochMillis(localDate.atTime(LocalTime.of(12, 0))), rRule, title, description)
     constructor(localDate: LocalDate, rRule: String?, title: String, description: String) : this(0L, localDate, rRule, title, description)
-    constructor(id: Long, localDate: LocalDate, recurrence: Recurrence, title: String, description: String) : this(id, localDate, recurrence.torRule(localDate), title, description)
+    constructor(id: Long, localDate: LocalDate, recurrence: Recurrence, title: String, description: String) :
+            this(id, if (recurrence == Recurrence.LAST_DAY_OF_MONTH) localDate.withDayOfMonth(localDate.lengthOfMonth()) else localDate, recurrence.toRule(localDate), title, description)
     constructor(localDate: LocalDate, recurrence: Recurrence, title: String, description: String) : this(0L, localDate, recurrence, title, description)
 
     enum class Recurrence {
-        NONE, ONETIME, DAILY, WEEKLY, MONTHLY, YEARLY, CUSTOM;
+        NONE, ONETIME, DAILY, WEEKLY, MONTHLY, LAST_DAY_OF_MONTH, YEARLY, CUSTOM;
 
-        fun torRule(localDate: LocalDate): String? {
+        fun toRule(localDate: LocalDate): String? {
             val weekStart = calendarDay2String(Utils.getFirstDayOfWeek(Locale.getDefault()))
             return when (this) {
                 DAILY -> "FREQ=DAILY;INTERVAL=1;WKST=$weekStart"
                 WEEKLY -> "FREQ=WEEKLY;INTERVAL=1;WKST=$weekStart;BYDAY=${calendarDay2String(localDate[ChronoField.DAY_OF_WEEK])}"
                 MONTHLY -> {
-                    val endOfMonth = if (localDate.dayOfMonth > 28)
-                        //FREQ=MONTHLY;INTERVAL=1;WKST=TU;BYDAY=SU,MO,TU,WE,TH,FR,SA;BYMONTHDAY=28,29,30;BYSETPOS=-1
-                        "BYDAY=SU,MO,TU,WE,TH,FR,SA;BYSETPOS=-1;BYMONTHDAY=${(28..localDate.dayOfMonth).joinToString(",")};"
-                    else ""
-                    "FREQ=MONTHLY;${endOfMonth}WKST=$weekStart"
+                    "FREQ=MONTHLY;INTERVAL=1;WKST=$weekStart"
                 }
+                LAST_DAY_OF_MONTH -> "FREQ=MONTHLY;INTERVAL=1;BYDAY=SU,MO,TU,WE,TH,FR,SA;BYSETPOS=-1;WKST=$weekStart"
                 YEARLY -> "FREQ=YEARLY;INTERVAL=1;WKST=$weekStart"
                 else -> null
             }
@@ -61,18 +58,6 @@ class Plan private constructor(id: Long, var dtStart: Long, var rRule: String?, 
 
         private fun calendarDay2String(calendarDay: Int): String {
             return EventRecurrence.day2String(EventRecurrence.dayOfWeek2Day(DayOfWeek.of(calendarDay)))
-        }
-
-        fun getLabel(context: Context): String {
-            return when (this) {
-                NONE -> "- - - -"
-                ONETIME -> context.getString(R.string.does_not_repeat)
-                DAILY -> context.getString(R.string.daily_plain)
-                WEEKLY -> context.getString(R.string.weekly_plain)
-                MONTHLY -> context.getString(R.string.monthly_plain)
-                YEARLY -> context.getString(R.string.yearly_plain)
-                CUSTOM -> context.getString(R.string.pref_sort_order_custom)
-            }
         }
     }
 
