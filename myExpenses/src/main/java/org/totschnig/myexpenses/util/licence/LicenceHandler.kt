@@ -36,7 +36,7 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
     private val isSandbox = BuildConfig.DEBUG
     private val localBackend = false
     var licenceStatus: LicenceStatus? = null
-        private set(value) {
+        @VisibleForTesting set(value) {
             crashHandler.putCustomData("Licence", value?.name ?: "null")
             field = value
         }

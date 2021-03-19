@@ -10,6 +10,8 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
+import java.util.Objects;
+
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 
@@ -78,7 +80,7 @@ public class LicenceHandlerTest {
       "PROFESSIONAL, PROFESSIONAL, true",
   })
   public void greaterOrEqual(String self, String other, boolean expected) {
-    assertEquals(expected, parse(self).greaterOrEqual(parse(other)));
+    assertEquals(expected, Objects.requireNonNull(parse(self)).greaterOrEqual(parse(other)));
   }
 
   private LicenceStatus parse(String licenceStatus) {

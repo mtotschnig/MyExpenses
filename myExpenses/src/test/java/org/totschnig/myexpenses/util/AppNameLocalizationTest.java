@@ -37,7 +37,6 @@ public class AppNameLocalizationTest {
             R.string.description_webdav_url,
             R.string.warning_synchronization_folder_usage,
             R.string.onboarding_ui_title,
-            R.string.licence_migration_info,
             R.string.crash_dialog_title}) {
           try {
             Utils.getTextWithAppName(context, resId);
@@ -114,17 +113,10 @@ public class AppNameLocalizationTest {
   }
 
   private String mapToQualifier(String locale) {
-    switch(locale) {
-      case "pt-BR":
-        return "pt";
-      case "pt-PT":
-        return "pt-rPT";
-      case "zh-CN":
-        return "zh-rCN";
-      case "zh-TW":
-        return "zh-rTW";
-      default:
-        return locale;
+    String[] parts = locale.split("-");
+    if (parts.length == 2) {
+      return parts[0] + "-r" + parts[1];
     }
+    return locale;
   }
 }
