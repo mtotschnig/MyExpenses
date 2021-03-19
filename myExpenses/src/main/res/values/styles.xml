@@ -272,7 +272,6 @@
     </style>
 
     <style name="RecurrenceRowRecurrence">
-        <item name="android:layout_width">0dp</item>
         <item name="layout_constraintEnd_toStartOf">@id/LastDay</item>
     </style>
 

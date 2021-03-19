@@ -348,6 +348,7 @@
                             <Spinner
                                 android:id="@+id/Recurrence"
                                 style="@style/RecurrenceRowRecurrence"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 app:layout_constraintStart_toStartOf="parent"

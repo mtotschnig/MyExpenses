@@ -58,7 +58,6 @@ import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import org.totschnig.myexpenses.viewmodel.data.Tag
-import timber.log.Timber
 import java.math.BigDecimal
 import java.util.*
 
@@ -202,7 +201,6 @@ abstract class TransactionDelegate<T : ITransaction>(
             viewBinding.Amount.setFractionDigits(transaction.amount.currencyUnit.fractionDigits)
         } else {
             Icepick.restoreInstanceState(this, savedInstanceState)
-            Timber.d("Date: %d", dateEditBinding.DateButton.date.dayOfMonth)
         }
         setVisibility(viewBinding.toolbar.OperationType, newInstance)
         originTemplateId?.let { host.loadOriginTemplate(it) }
