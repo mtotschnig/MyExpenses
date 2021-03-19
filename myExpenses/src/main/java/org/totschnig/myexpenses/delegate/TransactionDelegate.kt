@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter
 import android.widget.CompoundButton
 import android.widget.SeekBar
 import android.widget.TextView
+import androidx.core.view.isVisible
 import com.squareup.picasso.Picasso
 import icepick.Icepick
 import icepick.State
@@ -52,6 +53,7 @@ import org.totschnig.myexpenses.util.TextUtils.appendCurrencySymbol
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.addChipsBulk
+import org.totschnig.myexpenses.util.epoch2ZonedDateTime
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
@@ -262,6 +264,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         //}
         //after setLocalDateTime, so that the plan info can override the date
         configurePlan((transaction as? Template)?.plan)
+        configureLastDayButton()
 
         viewBinding.Amount.addTextChangedListener(object : MyTextWatcher() {
             override fun afterTextChanged(s: Editable) {
@@ -543,6 +546,7 @@ abstract class TransactionDelegate<T : ITransaction>(
                         } ?: run {
                             planVisibility = true
                             showCustomRecurrenceInfo()
+                            configureLastDayButton()
                         }
                     } else {
                         host.requestPermission(PermissionHelper.PermissionGroup.CALENDAR)
@@ -603,6 +607,17 @@ abstract class TransactionDelegate<T : ITransaction>(
     private fun showCustomRecurrenceInfo() {
         if (recurrenceSpinner.selectedItem === Plan.Recurrence.CUSTOM) {
             (context as ExpenseEdit).showDismissibleSnackbar(R.string.plan_custom_recurrence_info)
+        }
+    }
+
+    private val inLastDaysOfMonth: Boolean
+        get() = (if (isMainTemplate) planButton else dateEditBinding.DateButton).date.dayOfMonth > 28
+
+    fun configureLastDayButton() {
+        val visible = recurrenceSpinner.selectedItem === Plan.Recurrence.MONTHLY && inLastDaysOfMonth
+        viewBinding.LastDay.isVisible = visible
+        if (!visible) {
+            viewBinding.LastDay.isChecked = false
         }
     }
 
@@ -682,7 +697,7 @@ abstract class TransactionDelegate<T : ITransaction>(
                         plan = Plan(
                                 this@TransactionDelegate.planId ?: 0L,
                                 planButton.date,
-                                recurrenceSpinner.selectedItem as? Plan.Recurrence,
+                                selectedRecurrence,
                                 title,
                                 description)
                     }
@@ -704,9 +719,7 @@ abstract class TransactionDelegate<T : ITransaction>(
                 if (forSave && !isSplitPart) {
                     if (host.createTemplate) {
                         setInitialPlan(Triple(viewBinding.Title.text.toString(),
-                                recurrenceSpinner.selectedItem as? Plan.Recurrence
-                                        ?: Plan.Recurrence.NONE,
-                                dateEditBinding.DateButton.date))
+                                selectedRecurrence, dateEditBinding.DateButton.date))
                     }
                 }
             }
@@ -714,6 +727,12 @@ abstract class TransactionDelegate<T : ITransaction>(
             this.pictureUri = this@TransactionDelegate.pictureUri
         }
     }
+
+    private val selectedRecurrence
+        get() = (recurrenceSpinner.selectedItem as? Plan.Recurrence)?.let {
+            if (it == Plan.Recurrence.MONTHLY && inLastDaysOfMonth && viewBinding.LastDay.isChecked)
+                Plan.Recurrence.LAST_DAY_OF_MONTH else it
+        } ?: Plan.Recurrence.NONE
 
     protected fun validateAmountInput(forSave: Boolean): BigDecimal? {
         return validateAmountInput(viewBinding.Amount, forSave, forSave)
@@ -801,7 +820,7 @@ abstract class TransactionDelegate<T : ITransaction>(
     }
 
     private fun updatePlanButton(plan: Plan) {
-        planButton.overrideText(Plan.prettyTimeInfo(context, plan.rrule, plan.dtstart))
+        planButton.overrideText(Plan.prettyTimeInfo(context, plan.rRule, plan.dtStart))
     }
 
     fun configurePlan(plan: Plan?) {
@@ -876,8 +895,9 @@ abstract class TransactionDelegate<T : ITransaction>(
         if (granted) {
             if (isTemplate) {
                 configurePlanDependents(true)
-                showCustomRecurrenceInfo()
             }
+            showCustomRecurrenceInfo()
+            configureLastDayButton()
         } else {
             recurrenceSpinner.setSelection(0)
             if (!PermissionHelper.PermissionGroup.CALENDAR.shouldShowRequestPermissionRationale(host)) {

@@ -348,10 +348,24 @@
                             <Spinner
                                 android:id="@+id/Recurrence"
                                 style="@style/RecurrenceRowRecurrence"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
+
+                            <CheckBox
+                                android:id="@+id/LastDay"
+                                style="@style/RecurrenceRowLastDay"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="@string/recurrence_last_day_of_month"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toBottomOf="@id/Recurrence"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toEndOf="@+id/Recurrence"
+                                app:layout_constraintTop_toTopOf="@id/Recurrence" />
 
                             <org.totschnig.myexpenses.ui.DateButton
                                 android:id="@+id/PB"

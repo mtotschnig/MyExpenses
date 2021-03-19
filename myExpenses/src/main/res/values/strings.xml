@@ -973,4 +973,6 @@
     <string name="new_balance">New balance</string>
     <string name="title_webui">Web User Interface</string>
     <string name="single_feature_info">Alternatively you can buy unlimited access to only this feature.</string>
+    <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
+    <string name="recurrence_last_day_of_month">Last day</string>
 </resources>

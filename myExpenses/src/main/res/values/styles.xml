@@ -272,7 +272,10 @@
     </style>
 
     <style name="RecurrenceRowRecurrence">
-        <item name="android:layout_width">match_parent</item>
+        <item name="layout_constraintEnd_toStartOf">@id/LastDay</item>
+    </style>
+
+    <style name="RecurrenceRowLastDay">
         <item name="layout_constraintEnd_toEndOf">parent</item>
     </style>
 

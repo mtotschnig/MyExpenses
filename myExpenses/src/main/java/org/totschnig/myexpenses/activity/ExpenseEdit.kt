@@ -579,6 +579,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                     else -> null
                 }?.setDate(date)
             }
+            delegate.configureLastDayButton()
         }
     }
 
@@ -1211,6 +1212,9 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         }
         updateFab()
         updateDateLink()
+        if (!isSplitPartOrTemplate) {
+            delegate.setCreateTemplate(createTemplate, isCalendarPermissionPermanentlyDeclined)
+        }
     }
 
     private fun updateFab() {
