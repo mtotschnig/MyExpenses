@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_326">
+        <item>Buchungen können am letzten Tag des Monats wiederholt werden.</item>
+    </string-array>
     <string-array name="whats_new_324">
         <item>Web-Benutzeroberfläche</item>
     </string-array>

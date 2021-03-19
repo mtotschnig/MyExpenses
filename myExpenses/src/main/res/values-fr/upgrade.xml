@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_326">
+        <item>Les opérations peuvent se répéter le dernier jour du mois.</item>
+    </string-array>
     <string-array name="whats_new_324">
         <item>Interface utilisateur Web</item>
     </string-array>

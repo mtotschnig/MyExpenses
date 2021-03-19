@@ -76,3 +76,8 @@
 -keepattributes Signature
 # Retain declared checked exceptions for use by a Proxy instance.
 -keepattributes Exceptions
+
+#https://issuetracker.google.com/issues/181878999
+-keep class androidx.exifinterface.media.ExifInterface$OsApi21Impl {
+  <methods>;
+}

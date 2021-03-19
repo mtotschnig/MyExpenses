@@ -973,4 +973,6 @@
     <string name="new_balance">Neuer Saldo</string>
     <string name="title_webui">Web-Benutzeroberfläche</string>
     <string name="single_feature_info">Alternativ können Sie uneingeschränkten Zugriff nur auf diese Funktion erwerben.</string>
+    <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
+    <string name="recurrence_last_day_of_month">Letzter Tag</string>
 </resources>
