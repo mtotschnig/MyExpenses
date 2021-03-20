@@ -123,7 +123,7 @@
     <!-- 1$s is replaced with path to file -->
     <string name="export_sdcard_success">數據資料已經成功輸出成檔案\"%1$s\"</string>
     <string name="external_storage_unavailable">外部儲存空間(SD卡)無法使用</string>
-    <string name="feedback">反饋問題</string>
+    <string name="feedback">回饋意見</string>
     <string name="ftp_uri_malformed">異常URI %1$s</string>
     <string name="grisbi_import_categories_loading">從%1$s載入類別項目中...</string>
     <string name="grisbi_import_parties_loading">由 %1$s 載入交易對象</string>
@@ -329,12 +329,12 @@
     <string name="pref_qif_export_file_encoding_title">字符編碼</string>
     <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
     <string name="pref_restore_alternative">具有選擇性的</string>
-    <string name="pref_restore_alternative_summary">如果設備上沒有安裝文件管理器，請使用此替代方法。</string>
+    <string name="pref_restore_alternative_summary">如果設備上沒有安裝檔案管理器，請使用此替代方法。</string>
     <string name="pref_restore_summary">選擇一個備份檔來復原數據與偏好設定</string>
     <string name="pref_restore_title">復原</string>
     <string name="pref_security_question_summary">如果您忘記密碼，貢獻 開支助手 可讓您解鎖應用程序。</string>
     <string name="pref_security_question_title">安全問題</string>
-    <string name="pref_send_feedback_title">發送反饋意見</string>
+    <string name="pref_send_feedback_title">發送回饋意見</string>
     <string name="pref_share_target_summary">如果您要在應用程式（電子郵件、Dropbox、Google Docs...等）之間做選擇，請不要輸入任何數據、空置此處。或者，您需要輸入一個支援上傳方案的網址。</string>
     <string name="pref_share_target_title">上傳網址</string>
     <string name="pref_shortcut_added">捷徑已被添加到主畫面</string>
@@ -430,8 +430,8 @@
     <string name="warning_password_contrib">以防萬一您忘記了密碼，記得設置一個安全問題可讓您再次解鎖此應用程式。</string>
     <string name="warning_reset_account">如果繼續此操作，此帳戶的所有交易將從數據庫中刪除，並且無法還原。</string>
     <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
-    <string name="warning_reset_account_all">如果繼續此操作，對於所有帳戶%1$s，交易項目將從數據庫中刪除，並且無法還原。</string>
-    <string name="warning_reset_account_matched">如果繼續此操作，與當前篩選器匹配的交易項目將從數據庫中刪除，並且無法還原。</string>
+    <string name="warning_reset_account_all">如果繼續此操作，對於所有帳戶%1$s，交易項目將從資料庫中刪除，並且無法還原。</string>
+    <string name="warning_reset_account_matched">如果繼續此操作，與當前篩選器匹配的交易項目將從資料庫中刪除，並且無法還原。</string>
     <string name="warning_restore">資料數據與偏好設定將會從檔案\"%1$s\"復原。而現有的資料將被刪除。</string>
     <string name="warning_app_folder_will_be_deleted_upon_uninstall">如果您卸載{app_name}，Android將自動刪除當前選定用來備份和導出的文件夾。您可以在“設定”裡選擇其它文件夾來防止這種情況發生。</string>
     <string name="warning_splitpartcategory_context">當轉帳項目是分割款項的一部分時，它只能在分割表單裡被編輯或刪除。</string>
@@ -603,7 +603,7 @@
     <string name="link_account_success" tools:ignore="PluralsCandidate">已將%d帳戶配置為與後端同步。</string>
     <string name="link_account_failure_1" tools:ignore="PluralsCandidate">無法將%d帳戶配置為與後端同步。</string>
     <string name="link_account_failure_2">具有相同\"通用唯一識別碼uuid\"的帳戶已存在於遠程後端上。</string>
-    <string name="link_account_failure_3">可以從條目的快捷選單中手動解決衝突。</string>
+    <string name="link_account_failure_3">可以從帳目列表的快顯選單中手動解決衝突。</string>
     <string name="progress_dialog_checking_sync_backend">驗證後端</string>
     <string name="template">範本</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">雲端同步</string>
@@ -719,7 +719,7 @@
     <string name="split_transaction_group_success">%1$d數筆交易已成功組成一個分割交易。</string>
     <string name="split_transaction_group_error">無法將這些交易組成一個分割交易。</string>
     <string name="split_transaction_not_possible">只有具有相同帳戶、收款人和狀態的交易，才能被組成一個分割交易。</string>
-    <string name="pref_transaction_time_summary">允許設置確切的交易時間。</string>
+    <string name="pref_transaction_time_summary">允許設定確切的交易時間。</string>
     <string name="pref_value_date_summary">除了帳面交易日期(booking date)外，還可以設置生效日期(value date)。交易時間將被隱藏。此設定不適用於現金帳戶。</string>
     <!-- the date on which the transaction took place, aka transaction date, as opposed to value date -->
     <string name="booking_date">帳面交易日期</string>
@@ -963,4 +963,6 @@
     <string name="new_balance">更新帳戶餘額</string>
     <string name="title_webui">網頁版的使用者介面</string>
     <string name="single_feature_info">或者您可以購買僅此功能的無限制使用權限。</string>
-    </resources>
+    <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
+    <string name="recurrence_last_day_of_month">每月的最後一天</string>
+</resources>
