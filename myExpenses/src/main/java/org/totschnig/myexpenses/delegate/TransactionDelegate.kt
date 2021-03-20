@@ -15,7 +15,7 @@ import androidx.core.view.isVisible
 import com.squareup.picasso.Picasso
 import icepick.Icepick
 import icepick.State
-import org.threeten.bp.Instant
+import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalTime
 import org.threeten.bp.ZoneId
 import org.threeten.bp.ZonedDateTime
@@ -610,14 +610,16 @@ abstract class TransactionDelegate<T : ITransaction>(
         }
     }
 
-    private val inLastDaysOfMonth: Boolean
-        get() = (if (isMainTemplate) planButton else dateEditBinding.DateButton).date.dayOfMonth > 28
+    private val configuredDate: LocalDate
+        get() = (if (isMainTemplate) planButton else dateEditBinding.DateButton).date
 
     fun configureLastDayButton() {
-        val visible = recurrenceSpinner.selectedItem === Plan.Recurrence.MONTHLY && inLastDaysOfMonth
+        val visible = recurrenceSpinner.selectedItem === Plan.Recurrence.MONTHLY && configuredDate.dayOfMonth > 28
         viewBinding.LastDay.isVisible = visible
         if (!visible) {
             viewBinding.LastDay.isChecked = false
+        } else if (configuredDate.dayOfMonth == 31) {
+            viewBinding.LastDay.isChecked = true
         }
     }
 
@@ -730,7 +732,7 @@ abstract class TransactionDelegate<T : ITransaction>(
 
     private val selectedRecurrence
         get() = (recurrenceSpinner.selectedItem as? Plan.Recurrence)?.let {
-            if (it == Plan.Recurrence.MONTHLY && inLastDaysOfMonth && viewBinding.LastDay.isChecked)
+            if (it == Plan.Recurrence.MONTHLY && configuredDate.dayOfMonth > 28 && viewBinding.LastDay.isChecked)
                 Plan.Recurrence.LAST_DAY_OF_MONTH else it
         } ?: Plan.Recurrence.NONE
 
