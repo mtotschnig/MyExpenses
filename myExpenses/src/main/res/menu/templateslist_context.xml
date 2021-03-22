@@ -13,22 +13,20 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>
  -->
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@id/CREATE_INSTANCE_SAVE_COMMAND"
         android:icon="@drawable/ic_action_apply_save"
         android:orderInCategory="0"
         android:title="@string/menu_create_instance_save"
         app:showAsAction="ifRoom" />
-    <group android:id="@id/MenuSingle"
-        android:orderInCategory="1">
-        <item
-            android:id="@id/CREATE_INSTANCE_EDIT_COMMAND"
-            android:icon="@drawable/ic_action_apply_edit"
-            android:title="@string/menu_create_instance_edit"
-            app:showAsAction="ifRoom" />
-    </group>
+    <item
+        android:id="@id/CREATE_INSTANCE_EDIT_COMMAND"
+        android:icon="@drawable/ic_action_apply_edit"
+        android:orderInCategory="1"
+        android:title="@string/menu_create_instance_edit"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@id/DEFAULT_ACTION_MENU"
         android:orderInCategory="99"

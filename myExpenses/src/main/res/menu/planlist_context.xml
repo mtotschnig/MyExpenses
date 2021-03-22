@@ -37,21 +37,18 @@
         android:title="@string/menu_reset_plan_instance"
         app:showAsAction="ifRoom">
     </item>
-    <group android:id="@id/MenuSingle"
-        android:orderInCategory="2">
-        <item
-            android:id="@id/CREATE_PLAN_INSTANCE_EDIT_COMMAND"
-            android:icon="@drawable/ic_action_apply_edit"
-            android:orderInCategory="2"
-            android:title="@string/menu_create_instance_edit"
-            app:showAsAction="ifRoom">
-        </item>
-        <item
-            android:id="@id/EDIT_PLAN_INSTANCE_COMMAND"
-            android:icon="@drawable/ic_menu_edit"
-            android:orderInCategory="1"
-            android:title="@string/menu_edit_plan_instance"
-            app:showAsAction="ifRoom">
-        </item>
-    </group>
+    <item
+        android:id="@id/CREATE_PLAN_INSTANCE_EDIT_COMMAND"
+        android:icon="@drawable/ic_action_apply_edit"
+        android:orderInCategory="3"
+        android:title="@string/menu_create_instance_edit"
+        app:showAsAction="ifRoom">
+    </item>
+    <item
+        android:id="@id/EDIT_PLAN_INSTANCE_COMMAND"
+        android:icon="@drawable/ic_menu_edit"
+        android:orderInCategory="2"
+        android:title="@string/menu_edit_plan_instance"
+        app:showAsAction="ifRoom">
+    </item>
 </menu>

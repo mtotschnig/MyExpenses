@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -16,13 +15,10 @@
  -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <group android:id="@id/MenuSingle"
-        android:orderInCategory="0">
-        <item
-            android:id="@id/SELECT_COMMAND"
-            android:icon="@drawable/ic_menu_done"
-            android:title="@string/select"
-            app:showAsAction="ifRoom">
-        </item>
-    </group>
+    <item
+        android:id="@id/SELECT_COMMAND"
+        android:icon="@drawable/ic_menu_done"
+        android:orderInCategory="0"
+        android:title="@string/select"
+        app:showAsAction="ifRoom" />
 </menu>

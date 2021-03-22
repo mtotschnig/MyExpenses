@@ -450,18 +450,6 @@ public abstract class AbstractCategoryList<ROWBINDING extends ViewBinding> exten
   }
 
   @Override
-  protected void configureMenuLegacy(Menu menu, ContextMenu.ContextMenuInfo menuInfo, int listId) {
-    super.configureMenuLegacy(menu, menuInfo, listId);
-    boolean hasChildren = false;
-    if (expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-      ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) menuInfo;
-      int groupPos = ExpandableListView.getPackedPositionGroup(info.packedPosition);
-      hasChildren = hasChildren(groupPos);
-    }
-    configureMenuInternal(menu, hasChildren);
-  }
-
-  @Override
   protected void configureMenu11(Menu menu, int count, AbsListView lv) {
     boolean hasChildren = false;
     super.configureMenu11(menu, count, lv);

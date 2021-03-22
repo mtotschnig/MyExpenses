@@ -636,20 +636,6 @@ public class TemplatesList extends SortableListFragment
   }
 
   @Override
-  protected void configureMenuLegacy(Menu menu, ContextMenu.ContextMenuInfo menuInfo, int listId) {
-    super.configureMenuLegacy(menu, menuInfo, listId);
-    if (listId == R.id.list) {
-      AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
-      configureMenuInternal(menu, 1, isForeignExchangeTransfer(info.position), isPlan(info.position), isSealed(info.position));
-    } else if (listId == R.id.calendar_gridview) {
-      final PlanMonthFragment planMonthFragment = getPlanMonthFragment();
-      if (planMonthFragment != null) {
-        planMonthFragment.configureMenuLegacy(menu, menuInfo);
-      }
-    }
-  }
-
-  @Override
   protected void configureMenu11(Menu menu, int count, AbsListView lv) {
     super.configureMenu11(menu, count, lv);
     int id = lv.getId();

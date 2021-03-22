@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -21,21 +20,17 @@
         android:icon="@drawable/ic_menu_delete"
         android:orderInCategory="20"
         android:title="@string/menu_delete"
-        app:showAsAction="ifRoom">
-    </item>
+        app:showAsAction="ifRoom" />
     <item
         android:id="@id/SAVE_COMMAND"
         android:icon="@drawable/ic_menu_save"
         android:orderInCategory="10"
         android:title="@string/menu_save"
-        app:showAsAction="ifRoom">
-    </item>
-    <group android:id="@id/MenuSingle"
-        android:orderInCategory="10">
-        <item
-            android:id="@id/VIEW_COMMAND"
-            android:icon="@android:drawable/ic_menu_view"
-            android:title="@string/menu_view_picture"
-            app:showAsAction="ifRoom" />
-    </group>
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@id/VIEW_COMMAND"
+        android:icon="@android:drawable/ic_menu_view"
+        android:orderInCategory="10"
+        android:title="@string/menu_view_picture"
+        app:showAsAction="ifRoom" />
 </menu>

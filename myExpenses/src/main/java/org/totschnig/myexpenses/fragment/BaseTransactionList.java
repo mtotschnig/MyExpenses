@@ -1240,14 +1240,6 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     return true;
   }
 
-  @Override
-  protected void configureMenuLegacy(Menu menu, ContextMenuInfo menuInfo, int listId) {
-    super.configureMenuLegacy(menu, menuInfo, listId);
-    AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
-    final boolean hasSplit = isSplitAtPosition(info.position);
-    configureMenuInternal(menu, hasSplit, isVoidAtPosition(info.position), !hasSplit, isTransferAtPosition(info.position), 1);
-  }
-
   protected abstract void configureMenuInternal(Menu menu, boolean hasSplit, boolean voidAtPosition, boolean hasNotSplit, boolean transferAtPosition, int count);
 
   @Override
