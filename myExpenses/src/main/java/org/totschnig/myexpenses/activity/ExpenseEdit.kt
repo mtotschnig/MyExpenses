@@ -544,12 +544,15 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                 }
             })
         }
-        if (!isSplitPartOrTemplate) {
-            createNew = mNewInstance && prefHandler.getBoolean(PrefKey.EXPENSE_EDIT_SAVE_AND_NEW, false)
+        if (!isTemplate) {
+            createNew = mNewInstance && prefHandler.getBoolean(saveAndNewPrefKey, false)
             updateFab()
         }
         invalidateOptionsMenu()
     }
+
+    private val saveAndNewPrefKey: PrefKey
+        get() = if (isSplitPart) PrefKey.EXPENSE_EDIT_SAVE_AND_NEW_SPLIT_PART else PrefKey.EXPENSE_EDIT_SAVE_AND_NEW
 
     private fun setTitle() {
         if (mNewInstance) {
@@ -648,15 +651,15 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
+        if (!isTemplate && mNewInstance) {
+            menu.add(Menu.NONE, R.id.SAVE_AND_NEW_COMMAND, 0, R.string.menu_save_and_new)
+                    .setCheckable(true)
+                    .setIcon(R.drawable.ic_action_save_new)
+                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+        }
         if (!isSplitPartOrTemplate) {
             menu.addSubMenu(Menu.NONE, R.id.MANAGE_TEMPLATES_COMMAND, 0, R.string.widget_title_templates).apply {
                 item.setIcon(R.drawable.ic_menu_template).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
-            }
-            if (mNewInstance) {
-                menu.add(Menu.NONE, R.id.SAVE_AND_NEW_COMMAND, 0, R.string.menu_save_and_new)
-                        .setCheckable(true)
-                        .setIcon(R.drawable.ic_action_save_new)
-                        .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
             }
             if (shouldShowCreateTemplate) {
                 menu.add(Menu.NONE, R.id.CREATE_TEMPLATE_COMMAND, 0, R.string.menu_create_template_from_transaction)
@@ -739,7 +742,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             }
             R.id.SAVE_AND_NEW_COMMAND -> {
                 createNew = !createNew
-                prefHandler.putBoolean(PrefKey.EXPENSE_EDIT_SAVE_AND_NEW, createNew)
+                prefHandler.putBoolean(saveAndNewPrefKey, createNew)
                 updateFab()
                 invalidateOptionsMenu()
                 return true

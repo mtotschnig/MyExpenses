@@ -144,6 +144,7 @@ public enum PrefKey {
   FEATURE_UNINSTALL_FEATURES(R.string.pref_feature_uninstall_features_key),
   FEATURE_UNINSTALL_LANGUAGES(R.string.pref_feature_uninstall_languages_key),
   EXPENSE_EDIT_SAVE_AND_NEW("expense_edit_save_and_new"),
+  EXPENSE_EDIT_SAVE_AND_NEW_SPLIT_PART("expense_edit_save_and_new_split_part"),
   ACRA_INFO(R.string.pre_acra_info_key),
   OCR_ENGINE(R.string.pref_ocr_engine_key),
   TESSERACT_LANGUAGE(R.string.pref_tesseract_language_key),
