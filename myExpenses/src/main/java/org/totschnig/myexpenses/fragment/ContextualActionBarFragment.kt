@@ -132,7 +132,7 @@ abstract class ContextualActionBarFragment : Fragment(), OnGroupClickListener, O
                 val checkedItemPositions = lv.checkedItemPositions
                 val checkedItemCount = checkedItemPositions.size()
                 var result = false
-                if (isSingleCommamd(item)) {
+                if (isSingleCommamd(item) || isSingleGroupCommand(item)) {
                     for (i in 0 until checkedItemCount) {
                         if (checkedItemPositions.valueAt(i)) {
                             val position = checkedItemPositions.keyAt(i)
