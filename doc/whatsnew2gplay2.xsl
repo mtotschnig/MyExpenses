@@ -81,6 +81,8 @@
     <xsl:template match="item">
         <xsl-text>•&#032;</xsl-text>
         <xsl:apply-templates mode="unescape" select="." />
-        <xsl:value-of select="$newline" />
+        <xsl:if test="position() != last()">
+            <xsl:value-of select="$newline" />
+        </xsl:if>
     </xsl:template>
 </xsl:stylesheet>
