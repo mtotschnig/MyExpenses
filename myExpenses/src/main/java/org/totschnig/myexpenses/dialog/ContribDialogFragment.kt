@@ -205,11 +205,10 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
         }
         builder.setTitle(if (feature == null) R.string.menu_contrib else R.string.dialog_title_contrib_feature)
                 .setView(dialogView)
-                .setNeutralButton(R.string.button_label_close, this)
                 .setIcon(R.mipmap.ic_launcher_alt)
                 .setPositiveButton(R.string.upgrade_now, null)
         if (feature?.let { licenceHandler.hasTrialAccessTo(it) } == true) {
-            builder.setNegativeButton(R.string.dialog_contrib_no, this)
+            builder.setNeutralButton(R.string.dialog_contrib_no, this)
         }
         val dialog = builder.create()
         dialog.setOnShowListener {
