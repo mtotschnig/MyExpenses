@@ -253,10 +253,6 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
         val ctx = activity as ContribInfoDialogActivity? ?: return
         when (which) {
             AlertDialog.BUTTON_NEUTRAL -> {
-                ctx.logEvent(Tracker.EVENT_CONTRIB_DIALOG_CANCEL, null)
-                ctx.finish(true)
-            }
-            AlertDialog.BUTTON_NEGATIVE -> {
                 ctx.logEvent(Tracker.EVENT_CONTRIB_DIALOG_NEGATIVE, null)
                 ctx.finish(false)
             }
