@@ -88,7 +88,6 @@ class TransactionList : BaseTransactionList() {
             canLinkAsTransfer = canLinkPositions(checkedItemPositions.keyAt(0), checkedItemPositions.keyAt(1))
         }
 
-
         with(menu) {
             findItem(R.id.CREATE_TEMPLATE_COMMAND).isVisible = lv.checkedItemCount == 1
             findItem(R.id.SPLIT_TRANSACTION_COMMAND).isVisible = !hasSplit && !hasVoid

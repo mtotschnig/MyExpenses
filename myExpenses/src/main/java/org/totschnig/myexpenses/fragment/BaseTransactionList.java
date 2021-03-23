@@ -159,6 +159,10 @@ import static org.totschnig.myexpenses.activity.ConstantsKt.MAP_PAYEE_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.MAP_TAG_REQUEST;
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.PROGRESS_TAG;
 import static org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter.NULL_ITEM_ID;
+import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE;
+import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_COMMAND_POSITIVE;
+import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_MESSAGE;
+import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL;
 import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_TITLE;
 import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_TITLE_STRING;
 import static org.totschnig.myexpenses.fragment.TagListKt.KEY_TAG_LIST;
@@ -492,10 +496,10 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         }
         Bundle b = new Bundle();
         b.putInt(KEY_TITLE, R.string.dialog_title_warning_delete_transaction);
-        b.putString(ConfirmationDialogFragment.KEY_MESSAGE, message);
-        b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.DELETE_COMMAND_DO);
-        b.putInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE, R.id.CANCEL_CALLBACK_COMMAND);
-        b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.menu_delete);
+        b.putString(KEY_MESSAGE, message);
+        b.putInt(KEY_COMMAND_POSITIVE, R.id.DELETE_COMMAND_DO);
+        b.putInt(KEY_COMMAND_NEGATIVE, R.id.CANCEL_CALLBACK_COMMAND);
+        b.putInt(KEY_POSITIVE_BUTTON_LABEL, R.string.menu_delete);
         if (finalHasNotVoid) {
           b.putInt(ConfirmationDialogFragment.KEY_CHECKBOX_LABEL,
               R.string.mark_void_instead_of_delete);
@@ -509,10 +513,10 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     } else if (command == R.id.UNGROUP_SPLIT_COMMAND) {
       checkSealed(ArrayUtils.toPrimitive(itemIds), () -> {
         Bundle b = new Bundle();
-        b.putString(ConfirmationDialogFragment.KEY_MESSAGE, getString(R.string.warning_ungroup_split_transactions));
-        b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.UNGROUP_SPLIT_COMMAND);
-        b.putInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE, R.id.CANCEL_CALLBACK_COMMAND);
-        b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.menu_ungroup_split_transaction);
+        b.putString(KEY_MESSAGE, getString(R.string.warning_ungroup_split_transactions));
+        b.putInt(KEY_COMMAND_POSITIVE, R.id.UNGROUP_SPLIT_COMMAND);
+        b.putInt(KEY_COMMAND_NEGATIVE, R.id.CANCEL_CALLBACK_COMMAND);
+        b.putInt(KEY_POSITIVE_BUTTON_LABEL, R.string.menu_ungroup_split_transaction);
         b.putLongArray(KEY_LONG_IDS, ArrayUtils.toPrimitive(itemIds));
         ConfirmationDialogFragment.newInstance(b).show(fm, "UNSPLIT_TRANSACTION");
       });
@@ -592,6 +596,17 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
           dialogFragment.setTargetFragment(this, MAP_ACCOUNT_REQUEST);
           dialogFragment.show(getActivity().getSupportFragmentManager(), "REMAP_ACCOUNT");
         });
+      });
+      return true;
+    } else if (command == R.id.LINK_TRANSFER_COMMAND) {
+      checkSealed(ArrayUtils.toPrimitive(itemIds), () -> {
+        Bundle b = new Bundle();
+        b.putString(KEY_MESSAGE, getString(R.string.warning_link_transfer) + " " + getString(R.string.continue_confirmation));
+        b.putInt(KEY_COMMAND_POSITIVE, R.id.LINK_TRANSFER_COMMAND);
+        b.putInt(KEY_COMMAND_NEGATIVE, R.id.CANCEL_CALLBACK_COMMAND);
+        b.putInt(KEY_POSITIVE_BUTTON_LABEL, R.string.menu_create_transfer);
+        b.putLongArray(KEY_LONG_IDS, ArrayUtils.toPrimitive(itemIds));
+        ConfirmationDialogFragment.newInstance(b).show(fm, "UNSPLIT_TRANSACTION");
       });
       return true;
     }
@@ -1576,12 +1591,12 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
       b.putString(KEY_COLUMN, column);
       b.putLong(KEY_ROWID, intent.getLongExtra(intentKey, 0));
       b.putString(KEY_TITLE_STRING, getString(R.string.dialog_title_confirm_remap, getString(columnStringResId)));
-      b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.menu_remap);
+      b.putInt(KEY_POSITIVE_BUTTON_LABEL, R.string.menu_remap);
       b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_CHECKED_LABEL, R.string.button_label_clone_and_remap);
       b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, android.R.string.cancel);
-      b.putString(ConfirmationDialogFragment.KEY_MESSAGE, getString(confirmationStringResId, intent.getStringExtra(KEY_LABEL)) + " " + getString(R.string.continue_confirmation));
+      b.putString(KEY_MESSAGE, getString(confirmationStringResId, intent.getStringExtra(KEY_LABEL)) + " " + getString(R.string.continue_confirmation));
       b.putInt(ConfirmationDialogFragment.KEY_CHECKBOX_LABEL, R.string.menu_clone_transaction);
-      b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.REMAP_COMMAND);
+      b.putInt(KEY_COMMAND_POSITIVE, R.id.REMAP_COMMAND);
       ConfirmationDialogFragment.newInstance(b).show(getParentFragmentManager(), REMAP_DIALOG);
     }
   }

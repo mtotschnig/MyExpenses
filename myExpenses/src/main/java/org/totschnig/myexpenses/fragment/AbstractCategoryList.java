@@ -83,10 +83,10 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGET_CATEGORIES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
 
-public abstract class AbstractCategoryList<ROWBINDING extends ViewBinding> extends SortableListFragment {
+public abstract class AbstractCategoryList<ROW_BINDING extends ViewBinding> extends SortableListFragment {
 
   private Disposable categoryDisposable;
-  public static final String CATTREE_WHERE_CLAUSE = KEY_CATID + " IN (SELECT " +
+  public static final String CAT_TREE_WHERE_CLAUSE = KEY_CATID + " IN (SELECT " +
       TABLE_CATEGORIES + "." + KEY_ROWID +
       " UNION SELECT " + KEY_ROWID + " FROM "
       + TABLE_CATEGORIES + " subtree WHERE " + KEY_PARENTID + " = " + TABLE_CATEGORIES + "." + KEY_ROWID + ")";
@@ -98,7 +98,7 @@ public abstract class AbstractCategoryList<ROWBINDING extends ViewBinding> exten
     return R.menu.categorylist_context;
   }
 
-  protected CategoryTreeBaseAdapter<ROWBINDING> mAdapter;
+  protected CategoryTreeBaseAdapter<ROW_BINDING> mAdapter;
   abstract ExpandableListView getListView();
 
   protected int lastExpandedPosition = -1;
@@ -120,7 +120,7 @@ public abstract class AbstractCategoryList<ROWBINDING extends ViewBinding> exten
     super.onCreate(savedInstanceState);
     setHasOptionsMenu(true);
     Icepick.restoreInstanceState(this, savedInstanceState);
-    briteContentResolver = new SqlBrite.Builder().build().wrapContentProvider(getContext().getContentResolver(), Schedulers.io());
+    briteContentResolver = new SqlBrite.Builder().build().wrapContentProvider(requireContext().getContentResolver(), Schedulers.io());
   }
 
   @Override
@@ -154,7 +154,7 @@ public abstract class AbstractCategoryList<ROWBINDING extends ViewBinding> exten
         KEY_COLOR,
         KEY_ICON,
         //here we do not filter out void transactions since they need to be considered as mapped
-        "(select 1 FROM " + TABLE_BUDGET_CATEGORIES + " WHERE " + CATTREE_WHERE_CLAUSE + ") AS " + DatabaseConstants.KEY_MAPPED_BUDGETS
+        "(select 1 FROM " + TABLE_BUDGET_CATEGORIES + " WHERE " + CAT_TREE_WHERE_CLAUSE + ") AS " + DatabaseConstants.KEY_MAPPED_BUDGETS
     };
     boolean isFiltered = !TextUtils.isEmpty(mFilter);
     if (isFiltered) {
@@ -192,7 +192,7 @@ public abstract class AbstractCategoryList<ROWBINDING extends ViewBinding> exten
     if (super.dispatchCommandMultiple(command, positions, itemIds)) {
       return true;
     }
-    ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) getActivity();
+    ProtectedFragmentActivity ctx = (ProtectedFragmentActivity) requireActivity();
     ArrayList<Long> idList;
     if (command == R.id.DELETE_COMMAND) {
       int hasChildrenCount = 0, mappedBudgetsCount = 0;
@@ -309,7 +309,7 @@ public abstract class AbstractCategoryList<ROWBINDING extends ViewBinding> exten
     if (super.dispatchCommandSingle(command, info)) {
       return true;
     }
-    CategoryActivity ctx = (CategoryActivity) getActivity();
+    CategoryActivity<?> ctx = (CategoryActivity<?>) requireActivity();
     String action = getAction();
     ExpandableListContextMenuInfo elcmi = (ExpandableListContextMenuInfo) info;
     int type = ExpandableListView.getPackedPositionType(elcmi.packedPosition);
@@ -365,7 +365,7 @@ public abstract class AbstractCategoryList<ROWBINDING extends ViewBinding> exten
    * @see android.app.ExpandableListActivity#onChildClick(android.widget.ExpandableListView, android.view.View, int, int, long)
    */
   @Override
-  public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+  public boolean onChildClick(@NonNull ExpandableListView parent, @NonNull View v, int groupPosition, int childPosition, long id) {
     if (super.onChildClick(parent, v, groupPosition, childPosition, id))
       return true;
     if (getActivity() == null) {
@@ -384,7 +384,7 @@ public abstract class AbstractCategoryList<ROWBINDING extends ViewBinding> exten
   }
 
   @Override
-  public boolean onGroupClick(ExpandableListView parent, View v,
+  public boolean onGroupClick(@NonNull ExpandableListView parent, @NonNull View v,
                               int groupPosition, long id) {
     if (super.onGroupClick(parent, v, groupPosition, id))
       return true;
@@ -401,7 +401,7 @@ public abstract class AbstractCategoryList<ROWBINDING extends ViewBinding> exten
   }
 
   protected void doSingleSelection(long cat_id, String label, String icon, boolean isMain) {
-    Activity ctx = getActivity();
+    Activity ctx = requireActivity();
     Intent intent = new Intent();
     intent.putExtra(KEY_CATID, cat_id);
     intent.putExtra(KEY_LABEL, label);
@@ -430,7 +430,7 @@ public abstract class AbstractCategoryList<ROWBINDING extends ViewBinding> exten
   }
 
   @Override
-  protected void inflateContextualActionBar(Menu menu, int listId) {
+  protected void inflateContextualActionBar(@NonNull Menu menu, int listId) {
     super.inflateContextualActionBar(menu, listId);
     MenuInflater inflater = requireActivity().getMenuInflater();
     if (hasSelectSingle()) {
@@ -496,6 +496,6 @@ public abstract class AbstractCategoryList<ROWBINDING extends ViewBinding> exten
   }
 
   protected String getAction() {
-    return ((CategoryActivity) getActivity()).getAction();
+    return ((CategoryActivity<?>) requireActivity()).getAction();
   }
 }

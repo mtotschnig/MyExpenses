@@ -99,4 +99,16 @@ class MyExpensesViewModel(application: Application) : ContentResolvingAndroidVie
         AggregateAccount.persistSortDirectionHomeAggregate(prefHandler, sortDirection)
         contentResolver.notifyChange(TransactionProvider.ACCOUNTS_URI, null, false)
     }
+
+    fun linkTransfer(itemIds: LongArray) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                contentResolver.update(TransactionProvider.TRANSACTIONS_URI.buildUpon()
+                        .appendPath(TransactionProvider.URI_SEGMENT_LINK_TRANSFER)
+                        .appendPath(repository.getUuidForTransaction(itemIds[0]))
+                        .appendPath(repository.getUuidForTransaction(itemIds[1]))
+                        .build(), null, null, null)
+            }
+        }
+    }
 }

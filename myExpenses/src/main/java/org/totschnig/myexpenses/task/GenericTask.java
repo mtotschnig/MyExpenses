@@ -193,8 +193,8 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       case TaskExecutionFragment.TASK_DELETE_CATEGORY:
         try (Cursor cursor = cr.query(TransactionProvider.CATEGORIES_URI,
             new String[]{KEY_ROWID,
-                "(select 1 FROM " + TABLE_TRANSACTIONS + " WHERE " + AbstractCategoryList.CATTREE_WHERE_CLAUSE + ") AS " + DatabaseConstants.KEY_MAPPED_TRANSACTIONS,
-                "(select 1 FROM " + TABLE_TEMPLATES + " WHERE " + AbstractCategoryList.CATTREE_WHERE_CLAUSE + ") AS " + DatabaseConstants.KEY_MAPPED_TEMPLATES
+                "(select 1 FROM " + TABLE_TRANSACTIONS + " WHERE " + AbstractCategoryList.CAT_TREE_WHERE_CLAUSE + ") AS " + DatabaseConstants.KEY_MAPPED_TRANSACTIONS,
+                "(select 1 FROM " + TABLE_TEMPLATES + " WHERE " + AbstractCategoryList.CAT_TREE_WHERE_CLAUSE + ") AS " + DatabaseConstants.KEY_MAPPED_TEMPLATES
             }, DatabaseConstants.KEY_ROWID + " " + WhereFilter.Operation.IN.getOp(ids.length), Stream.of(((Long[]) ids)).map(String::valueOf).toArray(String[]::new), null)) {
           if (cursor == null) return Result.ofFailure("Cursor is null");
           int deleted = 0, mappedToTransaction = 0, mappedToTemplate = 0;

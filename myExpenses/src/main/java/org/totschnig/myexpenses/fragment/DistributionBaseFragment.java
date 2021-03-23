@@ -362,7 +362,7 @@ public abstract class DistributionBaseFragment<ROWBINDING extends ViewBinding> e
       catFilter += " AND " + dateFilter;
     }
     //we need to include transactions mapped to children for main categories
-    catFilter += " AND " + CATTREE_WHERE_CLAUSE;
+    catFilter += " AND " + CAT_TREE_WHERE_CLAUSE;
     String extraColumn = getExtraColumn();
     String[] projection = new String[extraColumn == null ? 6 : 7];
     projection[0] = KEY_ROWID;

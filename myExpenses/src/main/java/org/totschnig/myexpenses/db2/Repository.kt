@@ -90,6 +90,13 @@ class Repository(val contentResolver: ContentResolver, val currencyContext: Curr
                     arrayOf(DatabaseConstants.KEY_CURRENCY), null, null, null)?.use {
                 if (it.moveToFirst()) it.getString(0) else null
             }?.let { currencyContext[it] }
+
+    //Transaction
+    fun getUuidForTransaction(transactionId: Long) =
+            contentResolver.query(ContentUris.withAppendedId(TransactionProvider.TRANSACTIONS_URI, transactionId),
+                    arrayOf(DatabaseConstants.KEY_UUID), null, null, null)?.use {
+                if (it.moveToFirst()) it.getString(0) else null
+            }
 }
 
 data class AutoFillInfo(val categoryId: Long)
