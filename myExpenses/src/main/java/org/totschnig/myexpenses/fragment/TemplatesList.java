@@ -636,8 +636,8 @@ public class TemplatesList extends SortableListFragment
   }
 
   @Override
-  protected void configureMenu11(Menu menu, int count, AbsListView lv) {
-    super.configureMenu11(menu, count, lv);
+  protected void configureMenu(@NonNull Menu menu, @NonNull AbsListView lv) {
+    super.configureMenu(menu, lv);
     int id = lv.getId();
     if (id == R.id.list) {
       SparseBooleanArray checkedItemPositions = mListView.getCheckedItemPositions();
@@ -663,11 +663,11 @@ public class TemplatesList extends SortableListFragment
           break;
         }
       }
-      configureMenuInternal(menu, count, hasForeignExchangeTransfer, hasPlan, hasSealed);
+      configureMenuInternal(menu, lv.getCheckedItemCount(), hasForeignExchangeTransfer, hasPlan, hasSealed);
     } else if (id == R.id.calendar_gridview) {
       final PlanMonthFragment planMonthFragment = getPlanMonthFragment();
       if (planMonthFragment != null) {
-        planMonthFragment.configureMenu11(menu, count, lv);
+        planMonthFragment.configureMenu11(menu, lv.getCheckedItemCount(), lv);
       }
     }
   }
@@ -729,9 +729,9 @@ public class TemplatesList extends SortableListFragment
   }
 
   @Override
-  protected void inflateHelper(Menu menu, int listId) {
+  protected void inflateContextualActionBar(Menu menu, int listId) {
     if (listId == R.id.list) {
-      super.inflateHelper(menu, listId);
+      super.inflateContextualActionBar(menu, listId);
     } else if (listId == R.id.calendar_gridview) {
       getActivity().getMenuInflater().inflate(R.menu.planlist_context, menu);
     }

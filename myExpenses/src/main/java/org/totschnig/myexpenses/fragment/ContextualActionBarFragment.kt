@@ -67,7 +67,7 @@ abstract class ContextualActionBarFragment : Fragment(), OnGroupClickListener, O
         return true
     }
 
-    protected open fun inflateHelper(menu: Menu?, listId: Int) {
+    protected open fun inflateContextualActionBar(menu: Menu, listId: Int) {
         val inflater = requireActivity().menuInflater
         if (withCommonContext()) {
             inflater.inflate(R.menu.common_context, menu)
@@ -88,7 +88,7 @@ abstract class ContextualActionBarFragment : Fragment(), OnGroupClickListener, O
                             lv.getExpandableListPosition(position))
                 }
                 mode.title = count.toString()
-                configureMenu11(mode.menu, count, lv)
+                configureMenu(mode.menu, lv)
             }
 
             override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
@@ -101,14 +101,14 @@ abstract class ContextualActionBarFragment : Fragment(), OnGroupClickListener, O
                 //so we never restore the CAB for PACKED_POSITION_TYPE_CHILD
                 if (!shouldStartActionMode()) return false
                 expandableListSelectionType = if (lv is ExpandableListView) ExpandableListView.PACKED_POSITION_TYPE_GROUP else ExpandableListView.PACKED_POSITION_TYPE_NULL
-                inflateHelper(menu, lv.id)
+                inflateContextualActionBar(menu, lv.id)
                 mode.title = lv.checkedItemCount.toString()
                 mActionMode = mode
                 return true
             }
 
             override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
-                configureMenu11(menu, lv.checkedItemCount, lv)
+                configureMenu(menu, lv)
                 return false
             }
 
@@ -231,19 +231,15 @@ abstract class ContextualActionBarFragment : Fragment(), OnGroupClickListener, O
         return false
     }
 
-    protected open fun configureMenu11(menu: Menu, count: Int, lv: AbsListView) {
-        configureMenu(menu, count)
-    }
-
-    private fun configureMenu(menu: Menu, count: Int) {
+    protected open fun configureMenu(menu: Menu, lv: AbsListView) {
         val inGroup = expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP
         for (i in 0 until menu.size()) {
             with(menu.getItem(i)) {
                 if (isSingleCommamd(this)) {
-                    isVisible = count == 1
+                    isVisible = lv.checkedItemCount == 1
                 }
                 if (isSingleGroupCommand(this)) {
-                    isVisible = inGroup && count == 1
+                    isVisible = inGroup && lv.checkedItemCount == 1
                 }
             }
         }

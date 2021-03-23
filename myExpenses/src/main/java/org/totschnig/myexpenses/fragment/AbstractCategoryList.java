@@ -430,9 +430,9 @@ public abstract class AbstractCategoryList<ROWBINDING extends ViewBinding> exten
   }
 
   @Override
-  protected void inflateHelper(Menu menu, int listId) {
-    super.inflateHelper(menu, listId);
-    MenuInflater inflater = getActivity().getMenuInflater();
+  protected void inflateContextualActionBar(Menu menu, int listId) {
+    super.inflateContextualActionBar(menu, listId);
+    MenuInflater inflater = requireActivity().getMenuInflater();
     if (hasSelectSingle()) {
       inflater.inflate(R.menu.select, menu);
     }
@@ -450,9 +450,9 @@ public abstract class AbstractCategoryList<ROWBINDING extends ViewBinding> exten
   }
 
   @Override
-  protected void configureMenu11(Menu menu, int count, AbsListView lv) {
+  protected void configureMenu(@NonNull Menu menu, @NonNull AbsListView lv) {
     boolean hasChildren = false;
-    super.configureMenu11(menu, count, lv);
+    super.configureMenu(menu, lv);
     if (expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
       SparseBooleanArray checkedItemPositions = getListView().getCheckedItemPositions();
       for (int i = 0; i < checkedItemPositions.size(); i++) {
