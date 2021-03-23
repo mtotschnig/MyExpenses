@@ -259,6 +259,13 @@ class SyncDelegate @JvmOverloads constructor(val currencyContext: CurrencyContex
                         .withValue(DatabaseConstants.KEY_UUID, change.uuid())
                         .build())
             }
+            TransactionChange.Type.link -> {
+                ops.add(ContentProviderOperation.newUpdate(uri.buildUpon()
+                        .appendPath(TransactionProvider.URI_SEGMENT_LINK_TRANSFER)
+                        .appendPath(change.uuid()).build())
+                        .withValue(DatabaseConstants.KEY_UUID, change.referenceNumber())
+                        .build())
+            }
         }
         if (change.isCreateOrUpdate && !skipped) {
             change.splitParts()?.let { splitParts ->
@@ -339,7 +346,7 @@ class SyncDelegate @JvmOverloads constructor(val currencyContext: CurrencyContex
                 //if the account exists locally and the peer has already been synced
                 //we create a Transfer, the Transfer class will take care in buildSaveOperations
                 //of linking them together
-                findTransferAccount(transferAccount).takeIf { accountId -> resolver(accountId, change.uuid())  != -1L }?.let { Transfer(account.id, money, it) }
+                findTransferAccount(transferAccount).takeIf { accountId -> resolver(accountId, change.uuid()) != -1L }?.let { Transfer(account.id, money, it) }
             } ?: Transaction(account.id, money).apply {
                 if (change.transferAccount() == null) {
                     change.label()?.let { label ->

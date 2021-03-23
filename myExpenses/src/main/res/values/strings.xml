@@ -978,4 +978,5 @@
     <string name="single_feature_info">Alternatively you can buy unlimited access to only this feature.</string>
     <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
     <string name="recurrence_last_day_of_month">Last day</string>
+    <string name="warning_link_transfer">The two selected transactions will be linked as transfer. Payee/Payer and category information will be dropped.</string>
 </resources>

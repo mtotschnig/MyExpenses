@@ -188,4 +188,5 @@
     <item name="theme" type="id">@id/themeSwitch</item>
     <item name="DEFAULT_ACTION_MENU" type="id" />
     <item name="CLOSE_COMMAND" type="id" />
+    <item name="LINK_TRANSFER_COMMAND" type="id" />
 </resources>

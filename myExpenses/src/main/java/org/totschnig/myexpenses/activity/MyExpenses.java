@@ -1168,9 +1168,14 @@ public class MyExpenses extends BaseMyExpenses implements
     } else if (anInt == R.id.DELETE_COMMAND_DO) {//Confirmation dialog was shown without Checkbox, because it was called with only void transactions
       onPositive(args, false);
     } else if (anInt == R.id.SPLIT_TRANSACTION_COMMAND) {
+      finishActionMode();
       startTaskExecution(TASK_SPLIT, args, R.string.progress_dialog_saving);
     } else if (anInt == R.id.UNGROUP_SPLIT_COMMAND) {
+      finishActionMode();
       startTaskExecution(TASK_REVOKE_SPLIT, args, R.string.progress_dialog_saving);
+    } else  if (anInt == R.id.LINK_TRANSFER_COMMAND) {
+      finishActionMode();
+      viewModel.linkTransfer(args.getLongArray(KEY_LONG_IDS));
     }
   }
 

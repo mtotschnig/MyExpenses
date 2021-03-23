@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.widget.AbsListView
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import com.afollestad.materialdialogs.MaterialDialog
@@ -47,19 +48,78 @@ class TransactionList : BaseTransactionList() {
         }
     }
 
-    override fun configureMenuInternal(menu: Menu, hasSplit: Boolean, hasVoid: Boolean, hasNotSplit: Boolean, hasTransfer: Boolean, count: Int) {
+    override fun configureMenu(menu: Menu, lv: AbsListView) {
+        super.configureMenu(menu, lv)
+        val checkedItemPositions = lv.checkedItemPositions
+        var hasSplit = false
+        var hasVoid = false
+        var hasNotSplit = false
+        var hasTransfer = false
+        var canLinkAsTransfer = false
+        for (i in 0 until checkedItemPositions.size()) {
+            if (checkedItemPositions.valueAt(i)) {
+                if (isSplitAtPosition(checkedItemPositions.keyAt(i))) {
+                    hasSplit = true
+                } else {
+                    hasNotSplit = true
+                }
+                if (hasSplit && hasNotSplit) {
+                    break
+                }
+            }
+        }
+        for (i in 0 until checkedItemPositions.size()) {
+            if (checkedItemPositions.valueAt(i)) {
+                if (isVoidAtPosition(checkedItemPositions.keyAt(i))) {
+                    hasVoid = true
+                    break
+                }
+            }
+        }
+        for (i in 0 until checkedItemPositions.size()) {
+            if (checkedItemPositions.valueAt(i)) {
+                if (isTransferAtPosition(checkedItemPositions.keyAt(i))) {
+                    hasTransfer = true
+                    break
+                }
+            }
+        }
+        if (lv.checkedItemCount == 2 && !hasSplit && !hasTransfer) {
+            canLinkAsTransfer = canLinkPositions(checkedItemPositions.keyAt(0), checkedItemPositions.keyAt(1))
+        }
+
         with(menu) {
-            findItem(R.id.CREATE_TEMPLATE_COMMAND).isVisible = count == 1
+            findItem(R.id.CREATE_TEMPLATE_COMMAND).isVisible = lv.checkedItemCount == 1
             findItem(R.id.SPLIT_TRANSACTION_COMMAND).isVisible = !hasSplit && !hasVoid
             findItem(R.id.UNGROUP_SPLIT_COMMAND).isVisible = !hasNotSplit && !hasVoid
             findItem(R.id.UNDELETE_COMMAND).isVisible = hasVoid
-            findItem(R.id.EDIT_COMMAND).isVisible = count == 1 && !hasVoid
+            findItem(R.id.EDIT_COMMAND).isVisible = lv.checkedItemCount == 1 && !hasVoid
             findItem(R.id.REMAP_ACCOUNT_COMMAND).isVisible = (activity as? MyExpenses)?.accountCount ?: 0 > 1
             findItem(R.id.REMAP_PAYEE_COMMAND).isVisible = !hasTransfer
             findItem(R.id.REMAP_CATEGORY_COMMAND).isVisible = !hasTransfer && !hasSplit
             findItem(R.id.REMAP_METHOD_COMMAND).isVisible = !hasTransfer
+            findItem(R.id.LINK_TRANSFER_COMMAND).isVisible = canLinkAsTransfer
         }
     }
+
+    private fun canLinkPositions(position1: Int, position2: Int): Boolean {
+        if (mTransactionsCursor != null && columnIndexAccountId > -1) {
+            if (mTransactionsCursor.moveToPosition(position1)) {
+                val accountId1 = mTransactionsCursor.getLong(columnIndexAccountId)
+                val amount1 = mTransactionsCursor.getLong(columnIndexAmount)
+                val currency1 = currencyAtPosition
+                if (mTransactionsCursor.moveToPosition(position2)) {
+                    //we either have two transactions with different currencies or with the same amount
+                    return accountId1 != mTransactionsCursor.getLong(columnIndexAccountId) &&
+                            (amount1 == - mTransactionsCursor.getLong(columnIndexAmount) || currency1 != currencyAtPosition)
+                }
+            }
+        }
+        return false
+    }
+
+    private val currencyAtPosition: String?
+        get() = columnIndexCurrency.takeIf { it > -1 }?.let { mTransactionsCursor.getString(it) }
 
     override fun showDetails(transactionId: Long) {
         lifecycleScope.launchWhenResumed {

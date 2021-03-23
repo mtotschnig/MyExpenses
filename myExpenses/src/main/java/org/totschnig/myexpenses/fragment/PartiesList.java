@@ -274,8 +274,8 @@ public class PartiesList extends ContextualActionBarFragment {
   }
 
   @Override
-  protected void inflateHelper(Menu menu, int listId) {
-    super.inflateHelper(menu, listId);
+  protected void inflateContextualActionBar(Menu menu, int listId) {
+    super.inflateContextualActionBar(menu, listId);
     MenuInflater inflater = getActivity().getMenuInflater();
     if (hasSelectSingle()) {
       inflater.inflate(R.menu.select, menu);

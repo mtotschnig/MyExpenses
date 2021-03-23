@@ -184,6 +184,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String URI_SEGMENT_LAST_EXCHANGE = "lastExchange";
   public static final String URI_SEGMENT_SWAP_SORT_KEY = "swapSortKey";
   public static final String URI_SEGMENT_UNSPLIT = "unsplit";
+  public static final String URI_SEGMENT_LINK_TRANSFER = "link_transfer";
   public static final String QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES = "mergeCurrencyAggregates";
   public static final String QUERY_PARAMETER_EXTENDED = "extended";
   public static final String QUERY_PARAMETER_DISTINCT = "distinct";
@@ -281,6 +282,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   private static final int TEMPLATES_TAGS = 58;
   private static final int UNCOMMITTED_ID = 59;
   private static final int PLANINSTANCE_STATUS_SINGLE = 60;
+  private static final int TRANSACTION_LINK_TRANSFER = 61;
 
   private boolean bulkInProgress = false;
 
@@ -1642,9 +1644,9 @@ public class TransactionProvider extends BaseTransactionProvider {
               new String[]{uuid, uuid, uuid});
           //Change is recorded
           if (callerIsNotSyncAdatper(uri)) {
-            db.execSQL(String.format(Locale.ROOT, "INSERT INTO %1$s (%2$s, %3$s, %4$s, %5$s) SELECT '%6$s', %7$s, %4$s, ? FROM %8$s WHERE %7$s = %9$s",
+            db.execSQL(String.format(Locale.ROOT, "INSERT INTO %1$s (%2$s, %3$s, %4$s, %5$s) SELECT '%6$s', %7$s, %4$s, ? FROM %8$s WHERE %7$s = %9$s AND %10$s IS NOT NULL",
                 TABLE_CHANGES, KEY_TYPE, KEY_ACCOUNTID, KEY_SYNC_SEQUENCE_LOCAL, KEY_UUID,
-                TransactionChange.Type.unsplit.name(), KEY_ROWID, TABLE_ACCOUNTS, accountIdSubSelect), new String[]{uuid, uuid});
+                TransactionChange.Type.unsplit.name(), KEY_ROWID, TABLE_ACCOUNTS, accountIdSubSelect, KEY_SYNC_ACCOUNT_NAME), new String[]{uuid, uuid});
           }
           //parent is deleted
           count = db.delete(TABLE_TRANSACTIONS, KEY_UUID + " = ?", new String[]{uuid});
@@ -1677,12 +1679,16 @@ public class TransactionProvider extends BaseTransactionProvider {
             KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
         break;
       }
+      case TRANSACTION_LINK_TRANSFER: {
+        count = MoreDbUtilsKt.linkTransfers(db, uri.getPathSegments().get(2), values.getAsString(KEY_UUID), callerIsNotSyncAdatper(uri));
+        break;
+      }
       default:
         throw unknownUri(uri);
     }
     if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTION_ID || uriMatch == ACCOUNTS || uriMatch == ACCOUNT_ID ||
         uriMatch == CURRENCIES_CHANGE_FRACTION_DIGITS || uriMatch == TRANSACTION_UNDELETE ||
-        uriMatch == TRANSACTION_MOVE || uriMatch == TRANSACTION_TOGGLE_CRSTATUS) {
+        uriMatch == TRANSACTION_MOVE || uriMatch == TRANSACTION_TOGGLE_CRSTATUS || uriMatch == TRANSACTION_LINK_TRANSFER) {
       notifyChange(TRANSACTIONS_URI, callerIsNotSyncAdatper(uri));
       notifyChange(ACCOUNTS_URI, false);
       notifyChange(UNCOMMITTED_URI, false);
@@ -1877,6 +1883,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "transactions/tags", TRANSACTIONS_TAGS);
     URI_MATCHER.addURI(AUTHORITY, "tags/#", TAG_ID);
     URI_MATCHER.addURI(AUTHORITY, "templates/tags", TEMPLATES_TAGS);
+    URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_LINK_TRANSFER + "/*", TRANSACTION_LINK_TRANSFER);
   }
 
   /**

@@ -79,7 +79,7 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
     if (accountDir.isDirectory()) {
       for (String file : accountDir.list()) {
         if (!(new File(accountDir, file).delete())) {
-          throw new IOException("Cannot reset accout dir");
+          throw new IOException("Cannot reset account dir");
         }
       }
     }

@@ -34,7 +34,6 @@ import android.text.TextUtils;
 import android.util.SparseBooleanArray;
 import android.util.SparseIntArray;
 import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -160,6 +159,10 @@ import static org.totschnig.myexpenses.activity.ConstantsKt.MAP_PAYEE_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.MAP_TAG_REQUEST;
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.PROGRESS_TAG;
 import static org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter.NULL_ITEM_ID;
+import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE;
+import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_COMMAND_POSITIVE;
+import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_MESSAGE;
+import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL;
 import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_TITLE;
 import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_TITLE_STRING;
 import static org.totschnig.myexpenses.fragment.TagListKt.KEY_TAG_LIST;
@@ -170,6 +173,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TY
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_TRANSFERS;
@@ -235,7 +239,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
   private boolean hasTransfers;
   private boolean hasTags;
   private boolean firstLoadCompleted;
-  private Cursor mTransactionsCursor;
+  protected Cursor mTransactionsCursor;
   private Parcelable listState;
 
   private LoaderManager mManager;
@@ -264,10 +268,10 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
    */
   private SparseBooleanArray mCheckedListItems;
 
-  private int columnIndexYear, columnIndexYearOfWeekStart, columnIndexMonth,
+  protected int columnIndexYear, columnIndexYearOfWeekStart, columnIndexMonth,
       columnIndexWeek, columnIndexDay, columnIndexLabelSub,
       columnIndexPayee, columnIndexCrStatus, columnIndexYearOfMonthStart,
-      columnIndexLabelMain;
+      columnIndexLabelMain, columnIndexAccountId, columnIndexAmount, columnIndexCurrency;
   private boolean indexesCalculated = false;
   private Account mAccount;
   private Money budget = null;
@@ -443,15 +447,13 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
       mManager.restartLoader(GROUPING_CURSOR, null, this);
     }
     if (invalidateMenu) {
-      getActivity().invalidateOptionsMenu();
+      requireActivity().invalidateOptionsMenu();
     }
   }
 
   @Override
   public void onDestroyView() {
-    if (binding.list != null) {
-      listState = binding.list.getWrappedList().onSaveInstanceState();
-    }
+    listState = binding.list.getWrappedList().onSaveInstanceState();
     binding = null;
     super.onDestroyView();
   }
@@ -494,10 +496,10 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         }
         Bundle b = new Bundle();
         b.putInt(KEY_TITLE, R.string.dialog_title_warning_delete_transaction);
-        b.putString(ConfirmationDialogFragment.KEY_MESSAGE, message);
-        b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.DELETE_COMMAND_DO);
-        b.putInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE, R.id.CANCEL_CALLBACK_COMMAND);
-        b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.menu_delete);
+        b.putString(KEY_MESSAGE, message);
+        b.putInt(KEY_COMMAND_POSITIVE, R.id.DELETE_COMMAND_DO);
+        b.putInt(KEY_COMMAND_NEGATIVE, R.id.CANCEL_CALLBACK_COMMAND);
+        b.putInt(KEY_POSITIVE_BUTTON_LABEL, R.string.menu_delete);
         if (finalHasNotVoid) {
           b.putInt(ConfirmationDialogFragment.KEY_CHECKBOX_LABEL,
               R.string.mark_void_instead_of_delete);
@@ -511,10 +513,10 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     } else if (command == R.id.UNGROUP_SPLIT_COMMAND) {
       checkSealed(ArrayUtils.toPrimitive(itemIds), () -> {
         Bundle b = new Bundle();
-        b.putString(ConfirmationDialogFragment.KEY_MESSAGE, getString(R.string.warning_ungroup_split_transactions));
-        b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.UNGROUP_SPLIT_COMMAND);
-        b.putInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE, R.id.CANCEL_CALLBACK_COMMAND);
-        b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.menu_ungroup_split_transaction);
+        b.putString(KEY_MESSAGE, getString(R.string.warning_ungroup_split_transactions));
+        b.putInt(KEY_COMMAND_POSITIVE, R.id.UNGROUP_SPLIT_COMMAND);
+        b.putInt(KEY_COMMAND_NEGATIVE, R.id.CANCEL_CALLBACK_COMMAND);
+        b.putInt(KEY_POSITIVE_BUTTON_LABEL, R.string.menu_ungroup_split_transaction);
         b.putLongArray(KEY_LONG_IDS, ArrayUtils.toPrimitive(itemIds));
         ConfirmationDialogFragment.newInstance(b).show(fm, "UNSPLIT_TRANSACTION");
       });
@@ -596,12 +598,23 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         });
       });
       return true;
+    } else if (command == R.id.LINK_TRANSFER_COMMAND) {
+      checkSealed(ArrayUtils.toPrimitive(itemIds), () -> {
+        Bundle b = new Bundle();
+        b.putString(KEY_MESSAGE, getString(R.string.warning_link_transfer) + " " + getString(R.string.continue_confirmation));
+        b.putInt(KEY_COMMAND_POSITIVE, R.id.LINK_TRANSFER_COMMAND);
+        b.putInt(KEY_COMMAND_NEGATIVE, R.id.CANCEL_CALLBACK_COMMAND);
+        b.putInt(KEY_POSITIVE_BUTTON_LABEL, R.string.menu_create_transfer);
+        b.putLongArray(KEY_LONG_IDS, ArrayUtils.toPrimitive(itemIds));
+        ConfirmationDialogFragment.newInstance(b).show(fm, "UNSPLIT_TRANSACTION");
+      });
+      return true;
     }
     return false;
   }
 
   private void checkSealed(long[] itemIds, Runnable onChecked) {
-    new CheckSealedHandler(getActivity().getContentResolver()).check(itemIds, result -> {
+    new CheckSealedHandler(requireActivity().getContentResolver()).check(itemIds, result -> {
       if (result) {
         onChecked.run();
       } else {
@@ -666,7 +679,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
   }
 
   private void warnSealedAccount() {
-    ((ProtectedFragmentActivity) getActivity()).showSnackbar(
+    ((ProtectedFragmentActivity) requireActivity()).showSnackbar(
         concatResStrings(getContext(), " ", R.string.warning_account_for_transaction_is_closed, R.string.object_sealed));
   }
 
@@ -677,7 +690,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
   @NonNull
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle arg1) {
-    CursorLoader cursorLoader = null;
+    CursorLoader cursorLoader;
     String selection = mAccount.getSelectionForTransactionList();
     String[] selectionArgs = mAccount.getSelectionArgsForTransactionList();
     switch (id) {
@@ -696,7 +709,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
           selection += " AND ";
         }
         selection += KEY_PARENTID + " is null";
-        cursorLoader = new CursorLoader(getActivity(),
+        cursorLoader = new CursorLoader(requireActivity(),
             mAccount.getExtendedUriForTransactionList(false),
             mAccount.getExtendedProjectionForTransactionList(),
             selection,
@@ -704,7 +717,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         break;
       //TODO: probably we can get rid of SUM_CURSOR, if we also aggregate unmapped transactions
       case SUM_CURSOR:
-        cursorLoader = new CursorLoader(getActivity(),
+        cursorLoader = new CursorLoader(requireActivity(),
             TransactionProvider.TRANSACTIONS_URI,
             new String[]{MAPPED_CATEGORIES, MAPPED_METHODS, MAPPED_PAYEES, HAS_TRANSFERS, MAPPED_TAGS},
             selection,
@@ -731,6 +744,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
             builder.build(),
             null, selection, selectionArgs, sortOrder);
         break;
+      default: throw new IllegalStateException("No loader defined for id " + id);
     }
     return cursorLoader;
   }
@@ -753,6 +767,9 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
           columnIndexLabelMain = c.getColumnIndex(KEY_LABEL_MAIN);
           columnIndexPayee = c.getColumnIndex(KEY_PAYEE_NAME);
           columnIndexCrStatus = c.getColumnIndex(KEY_CR_STATUS);
+          columnIndexAccountId = c.getColumnIndex(KEY_ACCOUNTID);
+          columnIndexAmount = c.getColumnIndex(KEY_AMOUNT);
+          columnIndexCurrency = c.getColumnIndex(KEY_CURRENCY);
           indexesCalculated = true;
         }
         mAdapter.swapCursor(c);
@@ -786,7 +803,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         mappedMethods = c.getInt(c.getColumnIndex(KEY_MAPPED_METHODS)) > 0;
         hasTransfers = c.getInt(c.getColumnIndex(KEY_HAS_TRANSFERS)) > 0;
         hasTags = c.getInt(c.getColumnIndex(KEY_MAPPED_TAGS)) > 0;
-        getActivity().invalidateOptionsMenu();
+        requireActivity().invalidateOptionsMenu();
         break;
       case GROUPING_CURSOR:
         int columnIndexGroupYear = c.getColumnIndex(KEY_YEAR);
@@ -1013,12 +1030,13 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
                 currencyFormatter.convAmount(data[3], mAccount.getCurrencyUnit()), formattedDelta,
                 currencyFormatter.convAmount(data[5], mAccount.getCurrencyUnit())) :
                 formattedDelta);
-        if (holder.budgetProgress() != null && budget != null) {
+        final DonutProgress budgetProgress = holder.budgetProgress();
+        if (budgetProgress != null && budget != null) {
           long budgetAmountMinor = budget.getAmountMinor();
           int progress = budgetAmountMinor == 0 ? 100 : Math.round(expensesSum * 100F / budgetAmountMinor);
-          UiUtils.configureProgress(holder.budgetProgress(), progress);
-          holder.budgetProgress().setFinishedStrokeColor(mAccount.color);
-          holder.budgetProgress().setUnfinishedStrokeColor(getComplementColor(mAccount.color));
+          UiUtils.configureProgress(budgetProgress, progress);
+          budgetProgress.setFinishedStrokeColor(mAccount.color);
+          budgetProgress.setUnfinishedStrokeColor(getComplementColor(mAccount.color));
         }
       }
     }
@@ -1231,7 +1249,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
   @Override
   public boolean onHeaderLongClick(StickyListHeadersListView l, View header,
                                    int itemPosition, long headerId, boolean currentlySticky) {
-    MyExpenses ctx = (MyExpenses) getActivity();
+    MyExpenses ctx = (MyExpenses) requireActivity();
     if (headerData != null && headerData.get(headerId)[6] > 0) {
       ctx.contribFeatureRequested(ContribFeature.DISTRIBUTION, headerId);
     } else {
@@ -1240,45 +1258,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     return true;
   }
 
-  protected abstract void configureMenuInternal(Menu menu, boolean hasSplit, boolean voidAtPosition, boolean hasNotSplit, boolean transferAtPosition, int count);
-
-  @Override
-  protected void configureMenu11(Menu menu, int count, AbsListView lv) {
-    super.configureMenu11(menu, count, lv);
-    SparseBooleanArray checkedItemPositions = lv.getCheckedItemPositions();
-    boolean hasSplit = false, hasVoid = false, hasNotSplit = false, hasTransfer = false;
-    for (int i = 0; i < checkedItemPositions.size(); i++) {
-      if (checkedItemPositions.valueAt(i)) {
-        if (isSplitAtPosition(checkedItemPositions.keyAt(i))) {
-          hasSplit = true;
-        } else {
-          hasNotSplit = true;
-        }
-        if (hasSplit && hasNotSplit) {
-          break;
-        }
-      }
-    }
-    for (int i = 0; i < checkedItemPositions.size(); i++) {
-      if (checkedItemPositions.valueAt(i)) {
-        if (isVoidAtPosition(checkedItemPositions.keyAt(i))) {
-          hasVoid = true;
-          break;
-        }
-      }
-    }
-    for (int i = 0; i < checkedItemPositions.size(); i++) {
-      if (checkedItemPositions.valueAt(i)) {
-        if (isTransferAtPosition(checkedItemPositions.keyAt(i))) {
-          hasTransfer = true;
-          break;
-        }
-      }
-    }
-    configureMenuInternal(menu, hasSplit, hasVoid, hasNotSplit, hasTransfer, count);
-  }
-
-  private boolean isTransferAtPosition(int position) {
+  protected boolean isTransferAtPosition(int position) {
     if (mTransactionsCursor != null) {
       return mTransactionsCursor.moveToPosition(position) &&
           DbUtils.getLongOr0L(mTransactionsCursor, KEY_TRANSFER_ACCOUNT) != 0L;
@@ -1286,7 +1266,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     return false;
   }
 
-  private boolean isSplitAtPosition(int position) {
+  protected boolean isSplitAtPosition(int position) {
     if (mTransactionsCursor != null) {
       return mTransactionsCursor.moveToPosition(position) &&
           SPLIT_CATID.equals(DbUtils.getLongOrNull(mTransactionsCursor, KEY_CATID));
@@ -1294,7 +1274,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     return false;
   }
 
-  private boolean isVoidAtPosition(int position) {
+  protected boolean isVoidAtPosition(int position) {
     if (mTransactionsCursor != null) {
       if (mTransactionsCursor.moveToPosition(position)) {
         CrStatus status;
@@ -1611,12 +1591,12 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
       b.putString(KEY_COLUMN, column);
       b.putLong(KEY_ROWID, intent.getLongExtra(intentKey, 0));
       b.putString(KEY_TITLE_STRING, getString(R.string.dialog_title_confirm_remap, getString(columnStringResId)));
-      b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.menu_remap);
+      b.putInt(KEY_POSITIVE_BUTTON_LABEL, R.string.menu_remap);
       b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_CHECKED_LABEL, R.string.button_label_clone_and_remap);
       b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, android.R.string.cancel);
-      b.putString(ConfirmationDialogFragment.KEY_MESSAGE, getString(confirmationStringResId, intent.getStringExtra(KEY_LABEL)) + " " + getString(R.string.continue_confirmation));
+      b.putString(KEY_MESSAGE, getString(confirmationStringResId, intent.getStringExtra(KEY_LABEL)) + " " + getString(R.string.continue_confirmation));
       b.putInt(ConfirmationDialogFragment.KEY_CHECKBOX_LABEL, R.string.menu_clone_transaction);
-      b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.REMAP_COMMAND);
+      b.putInt(KEY_COMMAND_POSITIVE, R.id.REMAP_COMMAND);
       ConfirmationDialogFragment.newInstance(b).show(getParentFragmentManager(), REMAP_DIALOG);
     }
   }
@@ -1625,7 +1605,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
   public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
     if (which == BUTTON_POSITIVE) {
       if (NEW_TEMPLATE_DIALOG.equals(dialogTag)) {
-        MyExpenses ctx = (MyExpenses) getActivity();
+        MyExpenses ctx = (MyExpenses) requireActivity();
         String label = extras.getString(SimpleInputDialog.TEXT);
         final Transaction transaction = Transaction.getInstanceFromDb(extras.getLong(KEY_ROWID));
         Uri uri = transaction == null ? null : new Template(transaction, label).save();
@@ -1654,6 +1634,8 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
 
   public void remap(@NonNull Bundle extras, boolean shouldClone) {
     final long[] checkedItemIds = binding.list.getCheckedItemIds();
+    final String column = extras.getString(KEY_COLUMN);
+    if (column == null) return;
     if (shouldClone) {
       final ProgressDialogFragment progressDialog = ProgressDialogFragment.newInstance(
           getString(R.string.progress_dialog_saving), null, ProgressDialog.STYLE_HORIZONTAL, false);
@@ -1662,12 +1644,12 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
           .beginTransaction()
           .add(progressDialog, PROGRESS_TAG)
           .commit();
-      viewModel.cloneAndRemap(checkedItemIds, extras.getString(KEY_COLUMN), extras.getLong(KEY_ROWID));
+      viewModel.cloneAndRemap(checkedItemIds, column, extras.getLong(KEY_ROWID));
     } else {
-      viewModel.remap(checkedItemIds, extras.getString(KEY_COLUMN), extras.getLong(KEY_ROWID))
+      viewModel.remap(checkedItemIds, column, extras.getLong(KEY_ROWID))
           .observe(this, result -> {
             final String message = result > 0 ? getString(R.string.remapping_result) : "No transactions were mapped";
-            ((ProtectedFragmentActivity) BaseTransactionList.this.getActivity()).showSnackbar(message);
+            ((ProtectedFragmentActivity) requireActivity()).showSnackbar(message);
           });
     }
   }
