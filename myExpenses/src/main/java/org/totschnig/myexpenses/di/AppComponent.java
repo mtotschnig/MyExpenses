@@ -55,7 +55,7 @@ import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.sync.webdav.WebDavClient;
 import org.totschnig.myexpenses.task.LicenceApiTask;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
-import org.totschnig.myexpenses.util.ads.AdHandler;
+import org.totschnig.myexpenses.util.ads.BaseAdHandler;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
@@ -178,7 +178,7 @@ public interface AppComponent {
 
   void inject(DistributionFragment distributionFragment);
 
-  void inject(AdHandler adHandler);
+  void inject(BaseAdHandler adHandler);
 
   void inject(LicenceApiTask licenceApiTask);
 

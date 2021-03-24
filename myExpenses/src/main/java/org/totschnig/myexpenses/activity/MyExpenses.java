@@ -231,7 +231,7 @@ public class MyExpenses extends BaseMyExpenses implements
     final ViewGroup adContainer = findViewById(R.id.adContainer);
     accountGrouping = readAccountGroupingFromPref();
     accountSort = readAccountSortFromPref();
-    adHandler = adHandlerFactory.create(adContainer);
+    adHandler = adHandlerFactory.create(adContainer, this);
     adContainer.getViewTreeObserver().addOnGlobalLayoutListener(
         new ViewTreeObserver.OnGlobalLayoutListener() {
 
