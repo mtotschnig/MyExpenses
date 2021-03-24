@@ -19,13 +19,13 @@ while getopts "p:c:u:n:" opt; do
                  export KEY="My Expenses Professional Licence 6 months"
                  export PRICE=5
                  ;;
-               Professional_18)
-                 export KEY="My Expenses Professional Licence 18 months"
-                 export PRICE=9.5
+               Professional_12)
+                 export KEY="My Expenses Professional Licence 1 year"
+                 export PRICE=8
                  ;;
-               Professional_30)
-                 export KEY="My Expenses Professional Licence 30 months"
-                 export PRICE=14
+               Professional_24)
+                 export KEY="My Expenses Professional Licence 2 years"
+                 export PRICE=15
                  ;;
             esac
            ;;
@@ -45,6 +45,9 @@ if [ -z "$KEY" ] || [ -z "$PRICE" ] || [ -z "$COUNTRY" ] || [ -z "$USER" ]
 fi
 
 : "${TEMPLATE:=Invoice.tmpl}"
+
+(
+cd /Users/michaeltotschnig/Documents/MyExpenses.business/invoices
 YEAR=$(date +'%Y')
 MONTH=$(date +'%m')
 LATEST=$(<LATEST)
@@ -59,10 +62,7 @@ if [ "$MONTH" == "${LATEST_MONTH}" ]
     LATEST_NUMBER=1
 fi
 export NUMBER=${YEAR}-${MONTH}-${LATEST_NUMBER}
-echo ${MONTH}-${LATEST_NUMBER} >LATEST
 
-(
-cd /Users/michaeltotschnig/Documents/MyExpenses.business/invoices
 FILENAME=Invoice-${NUMBER}
 TEXFILE=${FILENAME}.tex
 if test -f "$TEXFILE"; then
@@ -71,5 +71,6 @@ if test -f "$TEXFILE"; then
 fi
 envsubst < $TEMPLATE > $TEXFILE
 pdflatex $TEXFILE
+echo ${MONTH}-${LATEST_NUMBER} >LATEST
 open ${FILENAME}.pdf
 )
