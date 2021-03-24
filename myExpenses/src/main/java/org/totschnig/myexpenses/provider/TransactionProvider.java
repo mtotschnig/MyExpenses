@@ -185,6 +185,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String URI_SEGMENT_SWAP_SORT_KEY = "swapSortKey";
   public static final String URI_SEGMENT_UNSPLIT = "unsplit";
   public static final String URI_SEGMENT_LINK_TRANSFER = "link_transfer";
+  public static final String URI_SEGMENT_SORT_DIRECTION = "sortDirection";
   public static final String QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES = "mergeCurrencyAggregates";
   public static final String QUERY_PARAMETER_EXTENDED = "extended";
   public static final String QUERY_PARAMETER_DISTINCT = "distinct";
@@ -1840,7 +1841,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "accountsbase", ACCOUNTS_BASE);
     URI_MATCHER.addURI(AUTHORITY, "accounts/#", ACCOUNT_ID);
     URI_MATCHER.addURI(AUTHORITY, "account_groupings/*/*", ACCOUNT_ID_GROUPING);
-    URI_MATCHER.addURI(AUTHORITY, "accounts/#/sortDirection/*", ACCOUNT_ID_SORTDIRECTION);
+    URI_MATCHER.addURI(AUTHORITY, "accounts/#/" + URI_SEGMENT_SORT_DIRECTION + "/*", ACCOUNT_ID_SORTDIRECTION);
     URI_MATCHER.addURI(AUTHORITY, "payees", PAYEES);
     URI_MATCHER.addURI(AUTHORITY, "payees/#", PAYEE_ID);
     URI_MATCHER.addURI(AUTHORITY, "methods", METHODS);

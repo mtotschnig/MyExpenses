@@ -86,7 +86,9 @@ class MyExpensesViewModel(application: Application) : ContentResolvingAndroidVie
     fun persistSortDirection(accountId: Long, sortDirection: SortDirection) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                contentResolver.update(ContentUris.withAppendedId(Account.CONTENT_URI, accountId).buildUpon().appendPath("sortDirection").appendPath(sortDirection.name).build(),
+                contentResolver.update(ContentUris.withAppendedId(Account.CONTENT_URI, accountId).buildUpon()
+                        .appendPath(TransactionProvider.URI_SEGMENT_SORT_DIRECTION)
+                        .appendPath(sortDirection.name).build(),
                         null, null, null)
             }
         }
