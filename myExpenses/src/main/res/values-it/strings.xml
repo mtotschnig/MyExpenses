@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -12,8 +13,7 @@
   
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+ --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">Conto</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">Tipi di conto</string>
@@ -57,7 +57,7 @@
     <string name="contrib_key">Licenza Contributore</string>
     <string name="extended_key">Licenza Funzionalità Estese</string>
     <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
-    <string name="contrib_key_requires">Richiede %s.</string>
+    <string name="contrib_key_requires">Richiede %1$s.</string>
     <string name="currency">Valuta</string>
     <string name="current_balance">Saldo corrente</string>
     <string name="date">Data</string>
@@ -124,7 +124,7 @@
     <!-- 1$s is replaced with path to file -->
     <string name="export_sdcard_success">I dati sono stati esportati correttamente nel file \"%1$s\"</string>
     <string name="external_storage_unavailable">Archiviazione esterna (Scheda SD) non disponibile</string>
-    <string name="feedback">Feedback</string>
+    <string name="feedback">Commenti</string>
     <string name="ftp_uri_malformed">Sintassi errata URI %1$s</string>
     <string name="grisbi_import_categories_loading">Importazione delle categorie dalla %1$s</string>
     <string name="grisbi_import_parties_loading">Importazione dei beneficiari dalla %1$s</string>
@@ -147,7 +147,7 @@
     <string name="invalid_number_format">Formato decimale non riconosciuto dalla tua regione. Si prega di utilizzare %1$s</string>
     <string name="label">Etichetta</string>
     <string name="licence_validation_failure">Impossible convalidare la licenza.</string>
-    <string name="licence_validation_success">Licenza convalidata con successo</string>
+    <string name="licence_validation_success">Licenza convalidata con successo:</string>
     <string name="licence_validation_premium">Le funzionalità premium sono state sbloccate.</string>
     <string name="menu_aggregates">Sommato</string>
     <!-- Shown in a notification; allows to apply a template (instantiate a new transaction from it) -->
@@ -215,11 +215,11 @@
     <string name="menu_split_transaction">Frazionare</string>
     <string name="method">Metodo di pagamento</string>
     <string name="no_amount_given">Non hai scritto nessuno importo.</string>
-    <string name="no_app_handling_email_available">Nessuna applicazione disponibile per e-mail</string>
+    <string name="no_app_handling_email_available">Nessuna applicazione disponibile per e-mail.</string>
     <string name="no_app_handling_ftp_available">Nessuna applicazione per ftp disponibile. Installare <i>Invia via FTP</i>?</string>
     <string name="no_app_handling_pdf_available">Nessuna applicazione che gestisce i file PDF è disponibile.</string>
     <string name="no_categories">Non ci sono categorie.</string>
-    <string name="no_expenses">Non ci sono spese.</string>
+    <string name="no_expenses">Non ci sono ancora spese!</string>
     <string name="no_exportable_expenses">Non ci sono operazioni che non sono ancora state esportate.</string>
     <string name="no_filemanager_installed">Nessun gestore di file installato</string>
     <string name="no_calendar_app_installed">Nessuna app trovata per la modifica dell\'evento del calendario.</string>
@@ -266,7 +266,7 @@
     <string name="plan_execution_canceled">Esecuzione del piano annullata</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
     <string name="plan_manual">manuale</string>
-    <string name="planner_create_calendar_failure">Impossibile creare un calendario di pianificazione locale.</string>
+    <string name="planner_create_calendar_failure">Impossibile creare un calendario di pianificazione locale</string>
     <string name="planner_create_calendar_success">Calendario di pianificazione locale creato con successo</string>
     <!-- payment methods -->
     <string name="pm_cheque">Assegno</string>
@@ -299,10 +299,10 @@
     <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Se avete ricevuto una licenza, otterrete l\'accesso a funzionalità premium.</string>
     <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Inserisci la licenza</string>
     <string name="pref_export_format_title">Formato dati</string>
-    <string name="pref_import_from_grisbi_summary">Importazione di categorie e beneficiari Grisbi XML.</string>
+    <string name="pref_import_from_grisbi_summary">Importazione di categorie e beneficiari da file Grisbi XML</string>
     <string name="pref_import_from_grisbi_title">Importazione dei dati Grisbi</string>
     <!-- %s is replaced with QIF or CSV -->
-    <string name="pref_import_summary">Importazione di operazioni, categorie e beneficiari da %s.</string>
+    <string name="pref_import_summary">Importazione di operazioni, categorie e beneficiari da %s</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">Importazione %s</string>
     <string name="pref_like_facebook_title">Mi piace su Facebook</string>
@@ -334,7 +334,7 @@
     <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
     <string name="pref_restore_alternative">Alternativo</string>
     <string name="pref_restore_alternative_summary">Utilizzare questo metodo alternativo se non c\'è nessun file manager installato nel dispositivo.</string>
-    <string name="pref_restore_summary">Seleziona un backup per il ripristino del database e delle preferenze</string>
+    <string name="pref_restore_summary">Seleziona un backup per il ripristino del database e delle preferenze.</string>
     <string name="pref_restore_title">Ripristina</string>
     <string name="pref_security_question_summary">Permette di sbloccare l\'applicazione, se hai dimenticato la password.</string>
     <string name="pref_security_question_title">Domanda di sicurezza</string>
@@ -365,7 +365,7 @@
     <string name="restore_db_failure">Ripristino del database non riuscito.</string>
     <string name="restore_db_success">Il database è stato ripristinato dal backup.</string>
     <string name="restore_no_backup_found">Nessun backup è stato trovato.</string>
-    <string name="restore_preferences_failure">Ripristino delle preferenze non riuscito.</string>
+    <string name="restore_preferences_failure">Ripristino delle preferenze non riuscito</string>
     <string name="restore_backup_archive_not_valid">L\'archivio %1$s non è valido</string>
     <string name="restore_backup_file_not_found">Nessun file %1$s trovato in archivio \"%2$s\"</string>
     <string name="restore_preferences_success">Le preferenze sono state ripristinate dal backup.</string>
@@ -475,7 +475,7 @@
     <string name="search_date">Ricerca per data</string>
     <string name="search_status">Cerca per stato</string>
     <string name="search_payee">Cerca per beneficiario/pagatore</string>
-    <string name="search_method">Cerca per metodo.</string>
+    <string name="search_method">Cerca per metodo</string>
     <string name="search_tag">Cerca per tag</string>
     <string name="and">e</string>
     <string name="between_and">tra %1$s e %2$s</string>
@@ -535,9 +535,9 @@
     <string name="pref_custom_decimal_format_title">Formato numero</string>
     <string name="pref_custom_decimal_format_summary">Se non siete soddisfatti del formato predefinito per le impostazioni internazionali, è possibile adattarlo alle proprie esigenze. Lasciare vuoto per ripristinare il formato predefinito.</string>
     <string name="pref_auto_backup_title">Attivare il backup automatico</string>
-    <string name="pref_auto_backup_summary">Backup del database ogni giorno all\'ora specificata (solo se i dati sono cambiati)</string>
+    <string name="pref_auto_backup_summary">Backup del database ogni giorno all\'ora specificata (solo se i dati sono cambiati).</string>
     <string name="pref_auto_backup_time_title">Ora di backup automatico</string>
-    <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Dopo %d successo automatico backup, backup automatico verrà disattivato.</string>
+    <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Dopo %d backup automatici con successo, il backup automatico verrà disattivato.</string>
     <string name="calendar_permission_required"><i>{app_name}</i> richiede l\'autorizzazione per accedere al calendario, al fine di creare piani per operazione future e ricorrenti.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Concedere l\'accesso</string>
     <string name="switch_on_text">Attivo</string>
@@ -589,7 +589,7 @@
     <string name="validate_error_webdav_404">URL inesistente sul server.</string>
     <string name="url_not_valid">URL non valido</string>
     <string name="menu_sync_unlink">Interrompere la sincronizzazione</string>
-    <string name="menu_sync_link">Avviare la sincronizzazione.</string>
+    <string name="menu_sync_link">Avviare la sincronizzazione</string>
     <string name="menu_sync_download">Download e sincronizzazione</string>
     <string name="menu_sync_now">Sincronizza ora</string>
     <string name="pref_sync_frequency_title">Frequenza di sincronizzazione</string>
@@ -972,4 +972,5 @@
     <!-- Title of a menu item and a dialogue that allow to adjust the current balance. User can enter the new balance, and transaction form is opened with the amount prefiled to the difference between old and new balance  -->
     <string name="new_balance">Nuovo saldo</string>
     <string name="title_webui">Interfaccia utente Web</string>
-    </resources>
+    <string name="single_feature_info">Alternativamente, puoi acquistare un accesso illimitato solo a questa funzione.</string>
+</resources>
