@@ -16,13 +16,16 @@ import org.totschnig.myexpenses.provider.ExchangeRateRepository;
 import org.totschnig.myexpenses.retrofit.ExchangeRateService;
 import org.totschnig.myexpenses.retrofit.OpenExchangeRatesApi;
 import org.totschnig.myexpenses.retrofit.RatesApi;
+import org.totschnig.myexpenses.retrofit.RoadmapService;
 import org.totschnig.myexpenses.room.ExchangeRateDatabase;
 import org.totschnig.myexpenses.util.DelegatingSocketFactory;
+import org.totschnig.myexpenses.viewmodel.repository.RoadmapRepository;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.Socket;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
 import javax.net.SocketFactory;
@@ -150,5 +153,21 @@ class NetworkModule {
   @Singleton
   static JsonDeserializer<LocalDate> provideLocalDateJsonDeserializer() {
     return (json, typeOfT, context) -> LocalDate.parse(json.getAsJsonPrimitive().getAsString());
+  }
+
+  @Provides
+  @Singleton
+  static RoadmapService provideRoadmapService(OkHttpClient.Builder builder) {
+    OkHttpClient okHttpClient = builder
+        .connectTimeout(20, TimeUnit.SECONDS)
+        .writeTimeout(20, TimeUnit.SECONDS)
+        .readTimeout(30, TimeUnit.SECONDS)
+        .build();
+    Retrofit retrofit = new Retrofit.Builder()
+        .baseUrl(RoadmapRepository.Companion.getROADMAP_URL())
+        .addConverterFactory(GsonConverterFactory.create())
+        .client(okHttpClient)
+        .build();
+    return retrofit.create(RoadmapService.class);
   }
 }

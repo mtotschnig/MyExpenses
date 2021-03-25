@@ -404,7 +404,6 @@ public class MyExpenses extends BaseMyExpenses implements
               "ROAD_MAP_VOTE_REMINDER");
         }
       });
-      roadmapViewModel.loadLastVote();
     }
   }
 
