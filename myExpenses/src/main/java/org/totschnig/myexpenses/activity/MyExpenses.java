@@ -75,6 +75,7 @@ import org.totschnig.myexpenses.provider.filter.Criteria;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.CursorFragmentPagerAdapter;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
+import org.totschnig.myexpenses.ui.SnackbarAction;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.DistributionHelper;
 import org.totschnig.myexpenses.util.Result;
@@ -352,9 +353,10 @@ public class MyExpenses extends BaseMyExpenses implements
         }
       });
     }
-/*    if (savedInstanceState == null) {
-      voteReminderCheck();
-    }*/
+    if (savedInstanceState == null) {
+      //voteReminderCheck();
+      voteReminderCheck2();
+    }
   }
 
   public void showTransactionFromIntent(Bundle extras) {
@@ -405,6 +407,18 @@ public class MyExpenses extends BaseMyExpenses implements
         }
       });
     }
+  }
+
+  private void voteReminderCheck2() {
+    roadmapViewModel.getShouldShowVoteReminder().observe(this, shouldShow -> {
+      if (shouldShow) {
+        prefHandler.putLong(PrefKey.VOTE_REMINDER_LAST_CHECK, System.currentTimeMillis());
+        showSnackbar(getString(R.string.reminder_vote_update), Snackbar.LENGTH_INDEFINITE, new SnackbarAction(R.string.roadmap_vote, v -> {
+          Intent intent = new Intent(this, RoadmapVoteActivity.class);
+          startActivity(intent);
+        }));
+      }
+    });
   }
 
   private void moveToPosition(int position) {

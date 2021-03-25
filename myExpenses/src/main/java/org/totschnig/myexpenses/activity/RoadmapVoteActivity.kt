@@ -163,7 +163,7 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
                 return true
             }
             R.id.ROADMAP_SUBMIT_VOTE -> {
-                if (lastVote?.let { it.vote == voteWeights && it.version == versionFromPref } != false) {
+                if (lastVote?.let { it.vote == voteWeights && it.version == versionFromPref } == true) {
                     showSnackbar("Modify your vote, before submitting it again.")
                 } else {
                     val emailIsKnown = email != null

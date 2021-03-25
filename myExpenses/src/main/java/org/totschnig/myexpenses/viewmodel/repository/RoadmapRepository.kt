@@ -19,7 +19,6 @@ import org.totschnig.myexpenses.util.io.StreamReader
 import timber.log.Timber
 import java.io.File
 import java.io.FileInputStream
-import java.io.IOException
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -36,8 +35,15 @@ class RoadmapRepository @Inject constructor(private val gson: Gson, private val 
 
     private val data = MutableLiveData<List<Issue>?>()
     fun getData(): LiveData<List<Issue>?> = data
+
     fun getLastVote(): LiveData<Vote?> = liveData {
         emit(readLastVoteFromFile())
+    }
+
+    fun getDaysPassedSinceLastVote(): LiveData<Long?> = liveData {
+        emit(internalFile(ROADMAP_VOTE)?.let {
+            TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - withContext(Dispatchers.IO) { it.lastModified() })
+        })
     }
 
     suspend fun loadData(forceRefresh: Boolean) {
@@ -47,41 +53,37 @@ class RoadmapRepository @Inject constructor(private val gson: Gson, private val 
                 } else null) ?: readIssuesFromNetwork())
     }
 
-    private fun internalFile(fileName: String) = File(context.filesDir, fileName)
+    private suspend fun internalFile(fileName: String) = withContext(Dispatchers.IO) {
+        File(context.filesDir, fileName).takeIf { it.exists() }
+    }
 
     private suspend fun readIssuesFromCache(): List<Issue>? = withContext(Dispatchers.IO) {
-        with(internalFile(ISSUE_CACHE)) {
-            if (exists() && TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - lastModified()) < 30) {
-                Timber.i("Issue cache was last modified %d days ago", TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - lastModified()))
-                val listType = object : TypeToken<ArrayList<Issue>>() {}.type
-                gson.fromJson<ArrayList<Issue>>(readFromFile(this), listType)?.also {
-                    Timber.i("Loaded %d issues from cache", it.size)
-                }
-            } else null
+        internalFile(ISSUE_CACHE)?.takeIf { TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - it.lastModified()) < 30 }?.let { file ->
+            val listType = object : TypeToken<ArrayList<Issue>>() {}.type
+            gson.fromJson<ArrayList<Issue>>(readFromFile(file), listType)?.also {
+                Timber.i("Loaded %d issues from cache", it.size)
+            }
         }
     }
 
-    private suspend fun readIssuesFromNetwork(): List<Issue>? = withContext(Dispatchers.IO) {
-        try {
-            val issuesCall = roadmapService.issues
-            val response = issuesCall.execute()
-            val version = response.headers()["X-Version"]
-            response.body()?.also {
-                if (version != null) {
-                    val versionInt: Int
-                    try {
-                        versionInt = version.toInt()
-                        prefHandler.putInt(PrefKey.ROADMAP_VERSION, versionInt)
-                    } catch (ignored: NumberFormatException) {
-                    }
+    private suspend fun readIssuesFromNetwork(): List<Issue>? = try {
+        val response = roadmapService.issues()
+        val version = response.headers()["X-Version"]
+        response.body()?.also {
+            if (version != null) {
+                val versionInt: Int
+                try {
+                    versionInt = version.toInt()
+                    prefHandler.putInt(PrefKey.ROADMAP_VERSION, versionInt)
+                } catch (ignored: NumberFormatException) {
                 }
-                Timber.i("Loaded %d issues (version %s) from network", it.size, version)
-                writeToFile(ISSUE_CACHE, gson.toJson(it))
             }
-        } catch (e: Exception) {
-            Timber.i(e)
-            null
+            Timber.i("Loaded %d issues (version %s) from network", it.size, version)
+            writeToFile(ISSUE_CACHE, gson.toJson(it))
         }
+    } catch (e: Exception) {
+        Timber.i(e)
+        null
     }
 
     private suspend fun writeToFile(fileName: String, json: String) = withContext(Dispatchers.IO) {
@@ -96,17 +98,13 @@ class RoadmapRepository @Inject constructor(private val gson: Gson, private val 
         }
     }
 
-    private suspend fun readLastVoteFromFile(): Vote? = try {
-        gson.fromJson(readFromFile(internalFile(ROADMAP_VOTE)), Vote::class.java)
-    } catch (e: IOException) {
-        Timber.i(e)
-        null
+    private suspend fun readLastVoteFromFile(): Vote? = internalFile(ROADMAP_VOTE)?.let {
+        gson.fromJson(readFromFile(it), Vote::class.java)
     }
 
-    fun submitVote(vote: Vote?): LiveData<Int> = liveData {
+    fun submitVote(vote: Vote): LiveData<Int> = liveData {
         emit(try {
-            val voteCall = roadmapService.createVote(vote)
-            val voteResponse = voteCall.execute()
+            val voteResponse = roadmapService.createVote(vote)
             when {
                 voteResponse.isSuccessful -> {
                     writeToFile(ROADMAP_VOTE, gson.toJson(vote))

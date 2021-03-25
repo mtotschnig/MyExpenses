@@ -222,6 +222,7 @@
     <string name="roadmap_vote_success">Your vote has been recorded</string>
     <string name="roadmap_vote_failure">Failure while submitting your vote</string>
     <string name="roadmap_vote_outdated">Your vote cannot be recorded, because your locally cached issue list is outdated. Please select Refresh from the menu and submit your vote again.</string>
+    <string name="reminder_vote_update">The list of issues on the roadmap might have changed since you last voted. You might want to update your vote.</string>
     <string-array name="whats_new_294" tools:ignore="UnusedResources">
         <item>@string/pref_scroll_to_current_date_summary</item>
     </string-array>
