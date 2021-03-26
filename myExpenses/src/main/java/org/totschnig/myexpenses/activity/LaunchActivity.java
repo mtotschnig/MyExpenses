@@ -17,7 +17,6 @@ import org.totschnig.myexpenses.util.ContribUtils;
 import org.totschnig.myexpenses.util.DistributionHelper;
 import org.totschnig.myexpenses.util.PermissionHelper;
 import org.totschnig.myexpenses.util.Utils;
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.BillingListener;
 import org.totschnig.myexpenses.util.licence.BillingManager;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
@@ -239,7 +238,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity implement
 
   @Override
   public void onBillingSetupFailed(@NonNull String reason) {
-    CrashHandler.reportWithTag(String.format("Billing setup failed (%s)", reason), LicenceHandler.TAG);
+    LicenceHandler.Companion.log().w("Billing setup failed (%s)", reason);
   }
 
   @Override
