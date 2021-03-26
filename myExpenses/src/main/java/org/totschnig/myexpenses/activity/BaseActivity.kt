@@ -192,8 +192,12 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     }
 
     private fun showSnackBarFallBack(message: CharSequence) {
-        CrashHandler.report(String.format("Class %s is unable to display snackbar", javaClass))
+        reportMissingSnackbarContainer()
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    }
+
+    open fun reportMissingSnackbarContainer() {
+        CrashHandler.report(String.format("Class %s is unable to display snackbar", javaClass))
     }
 
     fun showProgressSnackBar(message: String, total: Int = 0, progress: Int = 0) {

@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.activity;
 
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 
 public class SimpleToastActivity extends ProtectedFragmentActivity {
@@ -18,6 +19,9 @@ public class SimpleToastActivity extends ProtectedFragmentActivity {
     }
     finish();
   }
+
+  @Override
+  public void reportMissingSnackbarContainer() { /*is expected*/ }
 
   @Override
   public void onMessageDialogDismissOrCancel() {
