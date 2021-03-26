@@ -147,8 +147,8 @@ public enum ContribFeature {
     return prefHandler.getLong(getPrefKey(), defaultValue);
   }
 
-  private long getEndOfTrial(long now, PrefHandler prefHandler) {
-    return getStartOfTrial(now, prefHandler) + TRIAL_DURATION_MILLIS;
+  private long getEndOfTrial(long defaultValue, PrefHandler prefHandler) {
+    return getStartOfTrial(defaultValue, prefHandler) + TRIAL_DURATION_MILLIS;
   }
 
   private String getPrefKey() {

@@ -11,7 +11,6 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ContribDialogFragment;
 import org.totschnig.myexpenses.dialog.DonateDialogFragment;
-import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.util.DistributionHelper;
 import org.totschnig.myexpenses.util.ShortcutHelper;
@@ -41,7 +40,7 @@ import static org.totschnig.myexpenses.activity.ConstantsKt.PAYPAL_REQUEST;
  * for the premium feature directly
  */
 public class ContribInfoDialogActivity extends ProtectedFragmentActivity
-    implements MessageDialogListener, BillingListener {
+    implements BillingListener {
   public final static String KEY_FEATURE = "feature";
   private final static String KEY_PACKAGE = "package";
   public static final String KEY_TAG = "tag";
@@ -197,11 +196,8 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
   private void callFeature(ContribFeature feature) {
     if (feature == ContribFeature.SPLIT_TRANSACTION) {
       startActivity(ShortcutHelper.createIntentForNewSplit(this));
-    } else {//should not happen
-      CrashHandler.report(new IllegalStateException(
-          String.format("Unhandlable request for feature %s (caller = %s)", feature,
-              getCallingActivity() != null ? getCallingActivity().getClassName() : "null")));
     }
+    // else User bought licence in the meantime
   }
 
   private boolean callerIsContribIface() {

@@ -85,14 +85,11 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
         return isEnabledFor(feature.licenceStatus) || addOnFeatures.contains(feature)
     }
 
-    open fun isEnabledFor(licenceStatus: LicenceStatus): Boolean {
-        return if (this.licenceStatus == null) {
-            false
-        } else this.licenceStatus!!.ordinal >= licenceStatus.ordinal
-    }
+    open fun isEnabledFor(licenceStatus: LicenceStatus) =
+            this.licenceStatus?.compareTo(licenceStatus) ?: -1 >= 0
 
     val isUpgradeable: Boolean
-        get() = licenceStatus == null || licenceStatus!!.isUpgradeable
+        get() = licenceStatus?.isUpgradeable ?: false
 
     open fun init() {
         this.licenceStatus = licenseStatusPrefs.getString(LICENSE_STATUS_KEY, null)?.let {

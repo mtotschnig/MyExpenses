@@ -97,8 +97,8 @@ public class MessageDialogFragment extends BaseDialogFragment implements OnClick
   @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    final Bundle bundle = getArguments();
-    Activity ctx = getActivity();
+    final Bundle bundle = requireArguments();
+    Activity ctx = requireActivity();
     AlertDialog.Builder builder = new MaterialAlertDialogBuilder(ctx)
         .setMessage(bundle.getCharSequence(KEY_MESSAGE))
         .setTitle(bundle.getCharSequence(KEY_TITLE));
@@ -140,15 +140,13 @@ public class MessageDialogFragment extends BaseDialogFragment implements OnClick
 
   /**
    * prevent automatic dismiss on button click
-   * @param alertDialog
-   * @param which
    */
   private void setOnClickForward(AlertDialog alertDialog, int which) {
     alertDialog.getButton(which).setOnClickListener(v -> onClick(alertDialog, which));
   }
 
   @Override
-  public void onCancel(DialogInterface dialog) {
+  public void onCancel(@NonNull DialogInterface dialog) {
     if (getActivity() == null) {
       return;
     }
@@ -160,8 +158,8 @@ public class MessageDialogFragment extends BaseDialogFragment implements OnClick
     if (getActivity() == null) {
       return;
     }
-    Bundle bundle = getArguments();
-    Button clicked = null;
+    Bundle bundle = requireArguments();
+    Button clicked;
     switch (which) {
       case BUTTON_POSITIVE:
         clicked = (Button) bundle.getSerializable(KEY_POSITIVE);
@@ -172,8 +170,10 @@ public class MessageDialogFragment extends BaseDialogFragment implements OnClick
       case BUTTON_NEGATIVE:
         clicked = (Button) bundle.getSerializable(KEY_NEGATIVE);
         break;
+      default:
+        throw new IllegalStateException("unknown button " + which);
     }
-    if (clicked.command == R.id.NO_COMMAND) {
+    if (clicked == null || clicked.command == R.id.NO_COMMAND) {
       onCancel(dialog);
     } else {
       ((MessageDialogListener) getActivity())

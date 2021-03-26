@@ -5,6 +5,8 @@ import org.totschnig.myexpenses.model.ContribFeature;
 
 import java.util.Locale;
 
+import androidx.annotation.Nullable;
+
 public enum LicenceStatus {
   CONTRIB(R.string.contrib_key), EXTENDED(R.string.extended_key), PROFESSIONAL(R.string.professional_key) {
     @Override
@@ -23,7 +25,7 @@ public enum LicenceStatus {
     return resId;
   }
 
-  public boolean greaterOrEqual(LicenceStatus other) {
+  public boolean greaterOrEqual(@Nullable LicenceStatus other) {
     return other == null || compareTo(other) >= 0;
   }
 

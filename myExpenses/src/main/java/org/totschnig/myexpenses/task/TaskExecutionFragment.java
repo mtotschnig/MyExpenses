@@ -45,7 +45,6 @@ public class TaskExecutionFragment<T> extends Fragment {
   @Deprecated
   public static final String KEY_OBJECT_IDS = "objectIds";
   public static final String KEY_LONG_IDS = "longIds";
-  private static final String KEY_STRING_IDS = "stringIds";
   private static final String KEY_RUNNING = "running";
   private static final String KEY_TASKID = "taskId";
   public static final String KEY_WITH_PARTIES = "withParties";
@@ -55,7 +54,6 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final String KEY_DATE_FORMAT = "dateFormat";
   public static final String KEY_ENCODING = "encoding";
   public static final String KEY_FORMAT = "format";
-  public static final String KEY_DELIMITER = "delimiter";
 
   public static final int TASK_DELETE_TRANSACTION = 6;
   public static final int TASK_DELETE_ACCOUNT = 7;

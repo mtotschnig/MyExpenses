@@ -213,7 +213,7 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity implement
   }
 
   private void checkCalendarPermission() {
-    if (!prefHandler.getString(PLANNER_CALENDAR_ID, "-1").equals("-1")) {
+    if (!"-1".equals(prefHandler.getString(PLANNER_CALENDAR_ID, "-1"))) {
       if (!CALENDAR.hasPermission(this)) {
         requestPermission(CALENDAR);
       }
@@ -223,14 +223,12 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity implement
   @Override
   public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
     super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    switch (requestCode) {
-      case PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR:
-        if (!PermissionHelper.allGranted(grantResults)) {
-          if (!CALENDAR.shouldShowRequestPermissionRationale(this)) {
-            MyApplication.getInstance().removePlanner();
-          }
+    if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR) {
+      if (!PermissionHelper.allGranted(grantResults)) {
+        if (!CALENDAR.shouldShowRequestPermissionRationale(this)) {
+          MyApplication.getInstance().removePlanner();
         }
-        break;
+      }
     }
   }
 
