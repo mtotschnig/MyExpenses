@@ -32,7 +32,7 @@ class RoadmapViewModel(application: Application) : AndroidViewModel(application)
     fun getLastVote(): LiveData<Vote?> = roadmapRepository.getLastVote()
 
     fun getShouldShowVoteReminder(): LiveData<Boolean> = roadmapRepository.getDaysPassedSinceLastVote().map {
-        it?.compareTo(100) == 1 && TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - prefHandler.getLong(PrefKey.VOTE_REMINDER_LAST_CHECK, 0)) > 100L
+        it?.compareTo(VOTE_REMINDER_DAYS) == 1 && TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - prefHandler.getLong(PrefKey.VOTE_REMINDER_LAST_CHECK, 0)) > VOTE_REMINDER_DAYS
     }
 
     fun loadData(forceRefresh: Boolean) {
@@ -55,6 +55,7 @@ class RoadmapViewModel(application: Application) : AndroidViewModel(application)
 
     companion object {
         const val EXPECTED_MINIMAL_VERSION = 2
+        const val VOTE_REMINDER_DAYS = 100L
     }
 
     init {
