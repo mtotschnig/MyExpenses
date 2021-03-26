@@ -582,7 +582,9 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                     else -> null
                 }?.setDate(date)
             }
-            delegate.configureLastDayButton()
+            if (::delegate.isInitialized) {
+                delegate.configureLastDayButton()
+            }
         }
     }
 
