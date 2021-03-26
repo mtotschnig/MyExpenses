@@ -25,7 +25,6 @@ import com.annimon.stream.Stream;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.BackupListDialogFragment;
 import org.totschnig.myexpenses.dialog.BackupSourcesDialogFragment;
-import org.totschnig.myexpenses.dialog.BaseDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.dialog.DialogUtils;
@@ -33,7 +32,6 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.task.RestoreTask;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
-import org.totschnig.myexpenses.ui.SnackbarAction;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.PermissionHelper;
 import org.totschnig.myexpenses.util.Result;
@@ -328,12 +326,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
   }
 
   @Override
-  public void showSnackbar(@NonNull CharSequence message, int duration, SnackbarAction snackbarAction) {
-    final BaseDialogFragment fragment = (BaseDialogFragment) getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG);
-    if (fragment != null) {
-      fragment.showSnackbar(message, duration, snackbarAction);
-    } else {
-      super.showSnackbar(message, duration, snackbarAction);
-    }
+  protected int getSnackbarContainerId() {
+    return  android.R.id.content;
   }
 }

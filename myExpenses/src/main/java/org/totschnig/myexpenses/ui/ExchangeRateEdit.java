@@ -13,6 +13,7 @@ import com.google.android.material.snackbar.Snackbar;
 import org.threeten.bp.LocalDate;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.BaseActivity;
 import org.totschnig.myexpenses.databinding.ExchangeRateBinding;
 import org.totschnig.myexpenses.databinding.ExchangeRatesBinding;
 import org.totschnig.myexpenses.model.CurrencyUnit;
@@ -222,7 +223,7 @@ public class ExchangeRateEdit extends ConstraintLayout {
 
   private void complain(String message) {
     Host host = getHost();
-    host.showSnackbar(message, Snackbar.LENGTH_LONG);
+    ((BaseActivity) host).showSnackbar(message, Snackbar.LENGTH_LONG);
   }
 
   @NonNull
@@ -238,8 +239,6 @@ public class ExchangeRateEdit extends ConstraintLayout {
   }
 
   public interface Host {
-    void showSnackbar(@NonNull CharSequence message, int lengthLong);
-
     @NonNull
     LocalDate getDate();
   }
