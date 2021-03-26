@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_327">
+        <item>Two existing transactions can be linked as transfer.</item>
+    </string-array>
     <string-array name="whats_new_326">
         <item>Transactions can repeat on last day of month.</item>
     </string-array>
