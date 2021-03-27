@@ -186,21 +186,6 @@ public class MyExpenses extends BaseMyExpenses implements
     }
   }
 
-  public enum HelpVariant {
-    crStatus
-  }
-
-  private void setHelpVariant() {
-    if (getCurrentPosition() > -1) {
-      getAccountsCursor().moveToPosition(getCurrentPosition());
-      String accountType = getAccountsCursor().getString(getColumnIndexType());
-      setHelpVariant(accountType.equals(AccountType.CASH.name()) ?
-          null : HelpVariant.crStatus);
-    } else {
-      setHelpVariant(null);
-    }
-  }
-
   ExpandableStickyListHeadersListView accountList() {
     return binding.accountPanel.accountList;
   }
@@ -511,12 +496,6 @@ public class MyExpenses extends BaseMyExpenses implements
     if (tl != null) {
       tl.addFilterCriteria(c);
     }
-  }
-
-  @Override
-  protected void doHelp(String variant) {
-    setHelpVariant();
-    super.doHelp(variant);
   }
 
   /**

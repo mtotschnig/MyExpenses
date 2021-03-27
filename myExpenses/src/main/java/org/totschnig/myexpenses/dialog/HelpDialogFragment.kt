@@ -34,6 +34,7 @@ import androidx.core.text.HtmlCompat
 import androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.databinding.HelpDialogActionRowBinding
 import org.totschnig.myexpenses.databinding.HelpDialogBinding
 import org.totschnig.myexpenses.util.DistributionHelper.isGithub
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -112,7 +113,8 @@ class HelpDialogFragment : BaseDialogFragment(), ImageGetter {
                 "close.reopen" to R.drawable.ic_lock,
                 "remap" to null,
                 "scan_mode" to R.drawable.ic_scan,
-                "save_and_new" to R.drawable.ic_action_save_new
+                "save_and_new" to R.drawable.ic_action_save_new,
+                "link" to R.drawable.ic_hchain
         )
 
         @JvmStatic
@@ -163,7 +165,7 @@ class HelpDialogFragment : BaseDialogFragment(), ImageGetter {
             }
 
             // Form entries
-            val formResId = resolveArray(buildComponentName("formfields"))
+            val formResId = findComponentArray("formfields")
             val menuItems = ArrayList<String>()
             if (formResId != 0) {
                 menuItems.addAll(listOf(*res.getStringArray(formResId)))
@@ -175,7 +177,7 @@ class HelpDialogFragment : BaseDialogFragment(), ImageGetter {
             }
 
             // Menu items
-            val menuResId = resolveArray(buildComponentName("menuitems"))
+            val menuResId = findComponentArray("menuitems")
             menuItems.clear()
             if (menuResId != 0) menuItems.addAll(listOf(*res.getStringArray(menuResId)))
             if (menuItems.isEmpty()) {
@@ -185,8 +187,7 @@ class HelpDialogFragment : BaseDialogFragment(), ImageGetter {
             }
 
             // Contextual action bar
-            val componentName = buildComponentName("cabitems")
-            val cabResId = resolveArray(componentName)
+            val cabResId = findComponentArray("cabitems")
             menuItems.clear()
             if (cabResId != 0) menuItems.addAll(listOf(*res.getStringArray(cabResId)))
             if (menuItems.isEmpty()) {
@@ -194,7 +195,7 @@ class HelpDialogFragment : BaseDialogFragment(), ImageGetter {
             } else {
                 handleMenuItems(menuItems, "cab", binding.cabCommandsContainer)
             }
-            if (menuItems.isEmpty() || !showLongTapHint(componentName)) {
+            if (menuItems.isEmpty() || !showLongTapHint(buildComponentName("cabitems"))) {
                 binding.cabCommandsHelp.visibility = View.GONE
             }
             val titleResId = if (variant != null) resolveString("help_" + context + "_" + variant + "_title") else 0
@@ -232,6 +233,9 @@ class HelpDialogFragment : BaseDialogFragment(), ImageGetter {
         return componentName != "ManageTemplates_planner_cabitems"
     }
 
+    private fun findComponentArray(type: String) = resolveArray(buildComponentName(type)).takeIf { it != 0 || variant == null }
+            ?: resolveArray(context + "_" + type)
+
     private fun buildComponentName(type: String): String {
         return if (variant != null) context + "_" + variant + "_" + type else context + "_" + type
     }
@@ -247,28 +251,28 @@ class HelpDialogFragment : BaseDialogFragment(), ImageGetter {
         var resIdString: String
         var resId: Int?
         for (item in menuItems) {
-            val row = materialLayoutInflater.inflate(R.layout.help_dialog_action_row, binding.help, false)
+            val rowBinding = HelpDialogActionRowBinding.inflate(materialLayoutInflater, container, false)
             var title = ""
             //this allows us to map an item like "date.time" to the concatenation of translations for date and for time
             for (resIdPart in item.split(".").toTypedArray()) {
                 if (title != "") title += "/"
                 title += resolveStringOrThrowIf0((if (prefix == "form") "" else "menu_") + resIdPart)
             }
-            (row.findViewById<View>(R.id.title) as TextView).text = title
-            if (prefix == "form") {
-                row.findViewById<View>(R.id.list_image_container).visibility = View.GONE
-            } else if (iconMap.containsKey(item)) {
-                resId = iconMap[item]
-                if (resId != null) {
-                    //null value in the map indicates no icon
-                    val icon = row.findViewById<ImageView>(R.id.list_image)
-                    icon.visibility = View.VISIBLE
-                    icon.setImageResource(resId)
-                    icon.contentDescription = title
+            rowBinding.title.text = title
+            if (prefix != "form") {
+                if (iconMap.containsKey(item)) {
+                    resId = iconMap[item]
+                    if (resId != null) {
+                        with(rowBinding.listImage) {
+                            visibility = View.VISIBLE
+                            setImageResource(resId)
+                            contentDescription = title
+                        }
+                    }
+                } else {
+                    rowBinding.listCheckbox.visibility = View.VISIBLE
+                    //menu entries without entries in the map are checkable
                 }
-            } else {
-                //menu entries without entries in the map are checkable
-                row.findViewById<View>(R.id.list_checkbox).visibility = View.VISIBLE
             }
 
             //we look for a help text specific to the variant first, then to the activity
@@ -286,8 +290,8 @@ class HelpDialogFragment : BaseDialogFragment(), ImageGetter {
                     }
                 }
             }
-            (row.findViewById<View>(R.id.help_text) as TextView).text = helpText
-            container.addView(row)
+            rowBinding.helpText.text = helpText
+            container.addView(rowBinding.root)
         }
     }
 

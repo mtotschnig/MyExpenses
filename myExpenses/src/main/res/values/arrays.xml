@@ -83,21 +83,10 @@
         <item>reset</item>
         <item>grouping</item>
         <item>sort_direction</item>
-        <item>print</item>
-    </string-array>
-    <string-array name="MyExpenses_crStatus_menuitems" tools:ignore="UnusedResources">
-        <item>search</item>
-        <item>manage_plans</item>
-        <item>budget</item>
-        <item>distribution</item>
-        <item>history</item>
-        <item>scan_mode</item>
-        <item>reset</item>
-        <item>grouping</item>
-        <item>sort_direction</item>
         <item>balance</item>
         <item>print</item>
     </string-array>
+
     <string-array name="MyExpenses_cabitems" tools:ignore="UnusedResources">
         <item>edit</item>
         <item>delete</item>
@@ -106,15 +95,7 @@
         <item>split_transaction</item>
         <item>ungroup_split_transaction</item>
         <item>remap</item>
-    </string-array>
-    <string-array name="MyExpenses_crStatus_cabitems" tools:ignore="UnusedResources">
-        <item>edit</item>
-        <item>delete</item>
-        <item>create_template_from_transaction</item>
-        <item>clone_transaction</item>
-        <item>split_transaction</item>
-        <item>ungroup_split_transaction</item>
-        <item>remap</item>
+        <item>link</item>
     </string-array>
 
     <string-array name="NavigationDrawer_menuitems" tools:ignore="UnusedResources">

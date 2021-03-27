@@ -44,6 +44,7 @@
   <string name="cab_clone_transaction_help_text">The selected transactions will be cloned with the current date and time. You can make changes before saving the copy.</string>
   <string name="cab_split_help_text">You can later edit the transaction to create additional parts as needed.</string>
   <string name="menu_scan_mode_help_text">Activate scan mode in order to quickly scan receipts.</string>
+  <string name="cab_link_help_text">An expense in one account can be linked with an income in another account. If the accounts have the same currency, the two transactions must have identical amounts.</string>
 
   <!-- ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">This screen lists the predefined payment methods (Cheque, Credit card, Deposit, Direct debit) and lets you define new ones. Use the floating action button to open the form for creating a new method.</string>

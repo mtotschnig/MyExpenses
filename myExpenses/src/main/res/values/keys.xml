@@ -213,6 +213,7 @@
     <string name="menu_select">@string/select</string>
     <string name="menu_manage_categories">@string/pref_manage_categories_title</string>
     <string name="menu_templates">@string/widget_title_templates</string>
+    <string name="menu_link">@string/menu_create_transfer</string>
     <string name="roadmap_intro">We have launched a new iteration of the Roadmap Vote. Please help us define priorities for the upcoming year.</string>
     <string name="roadmap_intro_update">You need to update your vote in order to have it counted.</string>
     <!--<string name="roadmap_particpate">Participate</string>-->

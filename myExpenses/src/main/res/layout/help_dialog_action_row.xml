@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -14,63 +13,64 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:orientation="horizontal">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="4dp">
 
-    <LinearLayout
+    <!--  Menu icon -->
+    <FrameLayout
         android:id="@+id/list_image_container"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginRight="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-    <!--  Menu icon -->
+        android:layout_height="32dp"
+        app:layout_constraintEnd_toStartOf="@id/title"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <ImageView
             android:id="@+id/list_image"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:visibility="gone"
-            tools:visibility="visible"
-            tools:src="@android:drawable/ic_menu_my_calendar"
-            tools:ignore="ContentDescription"/>
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            tools:ignore="ContentDescription"
+            tools:src="@drawable/ic_hchain"
+            tools:visibility="visible" />
+
         <CheckBox
             android:id="@+id/list_checkbox"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:checked="true"
             android:enabled="false"
-            android:visibility="gone"
-            android:layout_width="32dp"
-            android:layout_height="32dp"/>
-    </LinearLayout>
- 
-    <!-- Description-->
+            android:visibility="gone" />
+    </FrameLayout>
+
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/list_image_container"
-        android:layout_toEndOf="@+id/list_image_container"
-        android:typeface="sans"
         android:textSize="15sp"
         android:textStyle="bold"
-        tools:text="Command title"/>
+        android:typeface="sans"
+        app:layout_constraintBottom_toBottomOf="@id/list_image_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/list_image_container"
+        app:layout_constraintTop_toTopOf="@id/list_image_container"
+        tools:text="Command title" />
+
     <TextView
         android:id="@+id/help_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/title"
-        android:layout_marginTop="1dip"
-        android:layout_toRightOf="@+id/list_image_container"
-        android:layout_toEndOf="@+id/list_image_container"
+        android:layout_marginTop="4dp"
+        app:layout_constraintTop_toBottomOf="@id/list_image_container"
         tools:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
             tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
-            At vero eos et accusam et justo duo dolores et ea rebum."/>
-    <View style="@style/Divider" 
-        android:layout_below="@id/help_text"/>
- </RelativeLayout>
+            At vero eos et accusam et justo duo dolores et ea rebum." />
+</androidx.constraintlayout.widget.ConstraintLayout>
