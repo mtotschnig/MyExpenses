@@ -28,6 +28,7 @@
   <string name="cab_clone_transaction_help_text">Seçilen muameleler güncel tarih ve zamanla klonlanacaktır. Kopyayı kaydetmeden değişiklik yapabilirsiniz.</string>
   <string name="cab_split_help_text">Daha sonra gerektiği gibi ek bölümler eklemek için muameleyi düzenleyebilirsiniz.</string>
   <string name="menu_scan_mode_help_text">Makbuzları hızlıca taramak için tarama kipini etkinleştirin.</string>
+  <string name="cab_link_help_text">Bir hesaptaki herhangi bir harcama, başka bir hesaptaki gelir ile ilişkilendirilebilir. Şayet hesaplar aynı para birimini kullanıyorsa, iki muamelenin de meblağının aynı olması gerekir.</string>
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Bu ekran önceden tanımlanmış ödeme metotlarını (Çek, kredi kartı, mevduat, doğrudan ödeme) listeler ve yenilerini tanımlamanıza imkân verir. Yeni metot oluşturacak formu açmak için kayan eylem düğmesini kullanın.</string>
   <!--ManageParties title is in keys-->

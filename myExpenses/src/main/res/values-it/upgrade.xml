@@ -15,6 +15,12 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_327">
+        <item>Due transazioni esistenti possono essere collegate come trasferimento.</item>
+    </string-array>
+    <string-array name="whats_new_326">
+        <item>Le transazioni possono essere ripetute l\'ultimo giorno del mese.</item>
+    </string-array>
     <string-array name="whats_new_324">
         <item>Interfaccia utente Web</item>
     </string-array>

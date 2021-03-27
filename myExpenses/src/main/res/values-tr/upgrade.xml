@@ -15,6 +15,12 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_327">
+        <item>İki mevcut muamele, transfer olarak ilişkilendirilebilir.</item>
+    </string-array>
+    <string-array name="whats_new_326">
+        <item>Muameleler ayın son gününde tekrarlanabilir.</item>
+    </string-array>
     <string-array name="whats_new_324">
         <item>İnternet Kullanıcı Arayüzü</item>
     </string-array>

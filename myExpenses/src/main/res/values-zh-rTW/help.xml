@@ -22,6 +22,7 @@
   <!--FolderBrowser title is in keys-->
   <!--StaleImages-->
   <!--CSV Import-->
+  <string name="menu_create_account_help_text">創建一個新帳戶。免費版本僅限創建五個帳戶。</string>
   <!--SyncBackends-->
   <!--History-->
   <string name="help_HistoryActivity_info">此畫面顯示您的金錢流向，看支出和收入如何隨著年、月、週或日的變化而變化。</string>

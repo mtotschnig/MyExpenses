@@ -483,8 +483,11 @@
     <string name="comparison_operator_equal">uguale a</string>
     <string name="comparison_operator_greater_than">maggiore di</string>
     <string name="comparison_operator_lesser_than">minore di</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions between two specified dates. -->
     <string name="comparison_operator_between">tra</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions before a specified date.  -->
     <string name="comparison_operator_date_before">prima</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">dopo</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Acquisto non riuscito o annullato.</string>
     <string name="hint_auto_fill">I dati devono essere compilati automaticamente dall\'ultima transazione per lo stesso beneficiario / pagatore? È sempre possibile modificare questo comportamento dalle impostazioni.</string>
@@ -972,4 +975,7 @@
     <!-- Title of a menu item and a dialogue that allow to adjust the current balance. User can enter the new balance, and transaction form is opened with the amount prefiled to the difference between old and new balance  -->
     <string name="new_balance">Nuovo saldo</string>
     <string name="title_webui">Interfaccia utente Web</string>
-    </resources>
+    <string name="single_feature_info">In alternativa puoi acquistare l\'accesso illimitato solamente a questa funzione.</string>
+    <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
+    <string name="recurrence_last_day_of_month">Ultimo giorno</string>
+</resources>
