@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -12,8 +13,7 @@
   
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+ --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">Conta</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">Tipos de conta</string>
@@ -454,7 +454,7 @@
     <string name="import_categories_success">%1$s categorias importadas com sucesso</string>
     <string name="import_parties_success">%1$s parceiros importados com sucesso</string>
     <string name="import_accounts_success">%1$s contas importadas com sucesso</string>
-    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transações importadas com com sucesso na conta %2$s</string>
+    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transações importadas com sucesso na conta %2$s</string>
     <string name="import_accounts_none">Não foi importada nenhuma conta</string>
     <string name="import_categories_none">Não foi importada nenhuma categoria</string>
     <string name="import_parties_none">Não foi importado nenhum parceiro</string>
@@ -541,7 +541,7 @@
     <string name="calendar_permission_required"><i>{app_name}</i> precisa de permissão para acessar sua agenda, à fim de criar planos para transações futuras e recorrentes.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Conceder acesso</string>
     <string name="switch_on_text">On</string>
-    <string name="switch_off_text">Off</string>
+    <string name="switch_off_text">Desativado</string>
     <string name="menu_move">Mover</string>
     <string name="dialog_title_select_target">Selecione o destino</string>
     <string name="transform_subcategory_to_main">Transformar em categoria principal</string>
@@ -566,7 +566,7 @@
     <string name="warning_cannot_move_split_transaction">Não foi possível mover esta transação dividida para a conta%1$s porque há transferências que se referem a esta conta.</string>
     <string name="content_description_calculator_clear_button">Redefinir tudo</string>
     <string name="content_description_calculator_delete_button">Apagar o último dígito</string>
-    <string name="paypal_callback_info">A sua transação foi concluída e um recibo da sua compra foi enviado para o seu email. Pode entrar na sua conta em www.paypal.com para ver os detalhes desta transação.</string>
+    <string name="paypal_callback_info">A sua transação foi concluída e um recibo da sua compra foi enviado para o seu e-mail. Pode entrar na sua conta em www.paypal.com para ver os detalhes desta transação.</string>
     <string name="search_transfer">Pesquisar transferência</string>
     <!-- Sort plans (recurring transactions) by the next instance  -->
     <string name="pref_sort_order_next_instance">Próxima instância</string>
@@ -808,7 +808,7 @@
     <string name="button_label_no_encryption">Sem criptografia</string>
     <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->
     <string name="joining_or">ou</string>
-    <string name="pref_account_list_fast_scroll_summary">Habilita a rolagem rápida para a lista de contas. Pode levar a uma exibição incorreta em alguns dispositivos.</string>
+    <string name="pref_account_list_fast_scroll_summary">Habilita a rolagem rápida para a lista de contas. Pode levar a uma exibição incorreta em alguns dispositivos</string>
     <string name="menu_hide">Ocultar</string>
     <!-- Action of closing an account. A closed account does not allow any modifications on its data. -->
     <string name="menu_close">Encerrar</string>
@@ -822,11 +822,11 @@
     <string name="content_description_encrypted">Criptografado</string>
     <!-- Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data. -->
     <string name="content_description_closed">Encerrada</string>
-    <string name="warning_synced_account_cannot_be_closed">Uma conta vinculada a um destino de sincronização não pode ser encerrada.</string>
+    <string name="warning_synced_account_cannot_be_closed">Uma conta vinculada a um destino de sincronização não pode ser encerrada</string>
     <string name="translated_by">Traduzido por</string>
     <string name="warning_no_account">Pelo menos uma conta deve estar visível e aberta para criar novas transações.</string>
-    <string name="content_description_dates_are_linked">A data do pagamento e a data da contabilização são atualizadas juntas.</string>
-    <string name="content_description_dates_are_not_linked">A data do pagamento e a data da contabilização não são atualizadas juntas.</string>
+    <string name="content_description_dates_are_linked">A data do pagamento e a data da contabilização são atualizadas juntas</string>
+    <string name="content_description_dates_are_not_linked">A data do pagamento e a data da contabilização não são atualizadas juntas</string>
     <string name="icon">Ícone</string>
     <string name="pref_debug_title">Depurar</string>
     <string name="roadmap_vote">Votar no roteiro</string>
