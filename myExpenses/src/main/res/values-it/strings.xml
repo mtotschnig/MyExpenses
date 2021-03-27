@@ -35,8 +35,8 @@
     <string name="already_defined">%1$s già definita</string>
     <string name="amount">Importo</string>
     <string name="app_name">Le mie spese</string>
-    <string name="backup_failure">Il backup su \"%1$s\" non è riuscito.</string>
-    <string name="backup_success">Il database e le impostazioni sono state salvate correttamente su \"%1$s\".</string>
+    <string name="backup_failure">Il backup su «%1$s» non è riuscito.</string>
+    <string name="backup_success">La base di dati e le impostazioni sono state salvate correttamente su «%1$s».</string>
     <string name="category">Categoria</string>
     <string name="color">Colore</string>
     <string name="comment">Note</string>
@@ -50,7 +50,7 @@
     <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Widget modelli</string>
     <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Importazione CSV</string>
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Numero illimitato di modelli per operazioni frazionate</string>
-    <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b> Supporto email </b> con risposta garantita entro 2 giorni lavorativi</string>
+    <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources">&lt;b xmlns:tools=\"http://schemas.android.com/tools\"&gt;Assistenza per posta elettronica&lt;/b&gt; con risposta garantita entro 2 giorni lavorativi</string>
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Votare direttamente sulla <b>roadmap di sviluppo</b></string>
     <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Grafico storico</string>
     <string name="licence_status_free">Gratuito</string>
@@ -120,9 +120,9 @@
     <string name="expense">Spesa</string>
     <string name="export_expenses">Esportazione delle spese</string>
     <!-- 1$s is replaced with path to file, 2$s with error message -->
-    <string name="export_sdcard_failure">Esportazione a \"%1$s\" fallita: %2$s</string>
+    <string name="export_sdcard_failure">Esportazione a «%1$s» fallita: %2$s</string>
     <!-- 1$s is replaced with path to file -->
-    <string name="export_sdcard_success">I dati sono stati esportati correttamente nel file \"%1$s\"</string>
+    <string name="export_sdcard_success">I dati sono stati esportati correttamente nel file «%1$s»</string>
     <string name="external_storage_unavailable">Archiviazione esterna (Scheda SD) non disponibile</string>
     <string name="feedback">Commenti</string>
     <string name="ftp_uri_malformed">Sintassi errata URI %1$s</string>
@@ -278,7 +278,7 @@
     <string name="pm_type_neutral">Neutro</string>
     <string name="pref_app_dir_title">Cartella per backup ed esportazioni</string>
     <string name="pref_auto_fill_summary">Compila i dati dell\'ultima transazione per lo stesso beneficiario / pagatore</string>
-    <string name="pref_backup_summary">Crea un backup del database e delle preferenze.</string>
+    <string name="pref_backup_summary">Crea un backup della base di dati e delle preferenze.</string>
     <string name="pref_sort_order_usages">Frequenza d\'uso</string>
     <string name="pref_category_title_advanced">Avanzata</string>
     <string name="pref_category_title_export">Esporta</string>
@@ -334,12 +334,12 @@
     <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
     <string name="pref_restore_alternative">Alternativo</string>
     <string name="pref_restore_alternative_summary">Utilizzare questo metodo alternativo se non c\'è nessun file manager installato nel dispositivo.</string>
-    <string name="pref_restore_summary">Seleziona un backup per il ripristino del database e delle preferenze.</string>
+    <string name="pref_restore_summary">Seleziona un backup per il ripristino della base di dati e delle preferenze.</string>
     <string name="pref_restore_title">Ripristina</string>
     <string name="pref_security_question_summary">Permette di sbloccare l\'applicazione, se hai dimenticato la password.</string>
     <string name="pref_security_question_title">Domanda di sicurezza</string>
     <string name="pref_send_feedback_title">Invia commenti</string>
-    <string name="pref_share_target_summary">Lascia vuoto se vuoi scegliere tra le applicazioni appropriate (e-mail, Dropbox, Google Docs, …), o fornire l\'URL in uno dei sistemi sostenuti</string>
+    <string name="pref_share_target_summary">Lascia vuoto se vuoi scegliere tra le applicazioni appropriate (e-mail, Dropbox, Google Docs…), o fornire l\'URL in uno dei sistemi sostenuti</string>
     <string name="pref_share_target_title">Carica URL Export</string>
     <string name="pref_shortcut_added">Il collegamento è stato aggiunto alla schermata principale</string>
     <string name="pref_shortcut_not_added">Non è disponibile nessuna schermata principale che accetti collegamenti.</string>
@@ -355,19 +355,19 @@
     <string name="pref_visit_website_summary">Aggiornamenti e FAQ</string>
     <string name="pref_visit_website_title">Visita il sito Web</string>
     <string name="progress_dialog_deleting">Cancellazione di oggetti</string>
-    <string name="progress_dialog_loading">Caricamento di oggetti dal database</string>
+    <string name="progress_dialog_loading">Caricamento di oggetti dalla base di dati</string>
     <string name="progress_dialog_printing">Creazione di PDF</string>
-    <string name="progress_dialog_saving">Salvando oggetto al database</string>
+    <string name="progress_dialog_saving">Salvando oggetto alla base di dati</string>
     <string name="qif_parse_result">Esito dell\'analisi: %1$s conti. %2$s categorie e %3$s beneficiari</string>
     <string name="qif_parse_failure_found_multiple_accounts">Più conti sono stati trovati nel file QIF.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Non è possibile unirli nel conto esistente.</string>
     <string name="reference_number">Numero di riferimento</string>
-    <string name="restore_db_failure">Ripristino del database non riuscito.</string>
-    <string name="restore_db_success">Il database è stato ripristinato dal backup.</string>
+    <string name="restore_db_failure">Ripristino della base di dati non riuscito.</string>
+    <string name="restore_db_success">La base di dati è stato ripristinato dal backup.</string>
     <string name="restore_no_backup_found">Nessun backup è stato trovato.</string>
     <string name="restore_preferences_failure">Ripristino delle preferenze non riuscito</string>
     <string name="restore_backup_archive_not_valid">L\'archivio %1$s non è valido</string>
-    <string name="restore_backup_file_not_found">Nessun file %1$s trovato in archivio \"%2$s\"</string>
+    <string name="restore_backup_file_not_found">Nessun file %1$s trovato in archivio «%2$s»</string>
     <string name="restore_preferences_success">Le preferenze sono state ripristinate dal backup.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d piani sono stati ripristinati dal backup</string>
     <string name="save_transaction_and_new_success">Salvato con successo</string>
@@ -408,9 +408,9 @@
     <string name="type">Tipo</string>
     <string name="unsplit_amount">Importo non frazionato</string>
     <string name="unsplit_amount_greater_than_zero">C\'è ancora qualche importo non frazionato.</string>
-    <string name="warning_backup">Il database e le preferenze verranno salvate su \"%1$s\".</string>
+    <string name="warning_backup">La base di dati e le preferenze verranno salvate su «%1$s».</string>
     <string name="continue_confirmation">Vuoi continuare?</string>
-    <string name="warning_delete_account">Il conto \"%1$s\" e tutte le sue transazioni saranno eliminati.</string>
+    <string name="warning_delete_account">Il conto «%1$s» e tutte le sue transazioni saranno eliminati.</string>
     <plurals name="warning_delete_main_category">
         <item quantity="one">La categoria selezionata ha sottocategorie, che verranno quindi cancellate.</item>
         <item quantity="other">%1$d categorie selezionate hanno sottocategorie, che verranno quindi cancellate.</item>
@@ -438,19 +438,19 @@
     <string name="warning_widget_disabled">È necessario abilitare questo widget nelle impostazioni app.</string>
     <string name="warning_instantiate_template_from_widget_password_protected">La creazione rapida di modelli da questo widget funziona solo se si consente l\'immissione di dati da widget senza password nelle impostazioni app.</string>
     <string name="warning_password_contrib">L\'impostazione di una domanda di sicurezza consente di sbloccare l\'applicazione, nel caso in cui si dimentichi la password.</string>
-    <string name="warning_reset_account">Se si continua, tutte le transazioni di questo conto verranno eliminate dal database e non potranno essere ripristinate.</string>
+    <string name="warning_reset_account">Se si continua, tutte le transazioni di questo conto verranno eliminate dalla base di dati e non potranno essere ripristinate.</string>
     <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
-    <string name="warning_reset_account_all">Se si continua, tutte le transazioni dei conti in%1$s verranno eliminate dal database e non potranno essere ripristinate.</string>
-    <string name="warning_reset_account_matched">Se si continua, le transazioni che corrispondono al filtro corrente verranno eliminate dal database e non potranno essere ripristinate.</string>
-    <string name="warning_restore">Database e impostazioni verranno ripristinati dal backup \"%1$s\". I dati attuali verranno cancellati.</string>
+    <string name="warning_reset_account_all">Se si continua, tutte le transazioni dei conti in%1$s verranno eliminate dalla base di dati e non potranno essere ripristinate.</string>
+    <string name="warning_reset_account_matched">Se si continua, le transazioni che corrispondono al filtro corrente verranno eliminate dalla base di dati e non potranno essere ripristinate.</string>
+    <string name="warning_restore">Base di dati e impostazioni verranno ripristinate dal backup «%1$s». I dati attuali verranno cancellati.</string>
     <string name="warning_app_folder_will_be_deleted_upon_uninstall">La cartella correntemente selezionata per i backup e le esportazioni verrà automaticamente eliminata da Android se si disinstalla {app_name}. È possibile impedire che questo accada selezionando una cartella diversa dalla schermata Impostazioni.</string>
     <string name="warning_splitpartcategory_context">I trasferimenti che sono parte di un\'operazione frazionata possono essere modificati solamente nell\'ambito del frazionamento.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Si prega di impostare un numero compreso tra %1$d e %2$d</string>
-    <string name="warning_change_fraction_digits_1">Gli importi nel database devono essere aggiornati al fine di corrispondere al nuovo numero di cifre frazionarie.</string>
+    <string name="warning_change_fraction_digits_1">Gli importi nella base di dati devono essere aggiornati al fine di corrispondere al nuovo numero di cifre frazionarie.</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Se gli importi non vengono aggiornati, verranno visualizzati come moltiplicati per %d dopo la modifica.</string>
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Se gli importi non vengono aggiornati, verranno visualizzati come divisi per %d dopo la modifica.</string>
     <string name="warning_change_fraction_digits_3">Se gli importi sono aggiornati, si perderanno le informazioni sulla loro parte frazionaria.</string>
-    <string name="warning_change_fraction_digits_checkbox_label">Aggiornamento degli importi in database</string>
+    <string name="warning_change_fraction_digits_checkbox_label">Aggiornamento degli importi in base di dati</string>
     <string name="import_categories_success">%1$s categorie state importate</string>
     <string name="import_parties_success">%1$s beneficiari state importate</string>
     <string name="import_accounts_success">%1$s conti importati correttamente</string>
@@ -476,7 +476,7 @@
     <string name="search_status">Cerca per stato</string>
     <string name="search_payee">Cerca per beneficiario/pagatore</string>
     <string name="search_method">Cerca per metodo</string>
-    <string name="search_tag">Cerca per tag</string>
+    <string name="search_tag">Cerca per etichetta</string>
     <string name="and">e</string>
     <string name="between_and">tra %1$s e %2$s</string>
     <string name="before">prima di %s</string>
@@ -535,7 +535,7 @@
     <string name="pref_custom_decimal_format_title">Formato numero</string>
     <string name="pref_custom_decimal_format_summary">Se non siete soddisfatti del formato predefinito per le impostazioni internazionali, è possibile adattarlo alle proprie esigenze. Lasciare vuoto per ripristinare il formato predefinito.</string>
     <string name="pref_auto_backup_title">Attivare il backup automatico</string>
-    <string name="pref_auto_backup_summary">Backup del database ogni giorno all\'ora specificata (solo se i dati sono cambiati).</string>
+    <string name="pref_auto_backup_summary">Backup della base di dati ogni giorno all\'ora specificata (solo se i dati sono cambiati).</string>
     <string name="pref_auto_backup_time_title">Ora di backup automatico</string>
     <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Dopo %d backup automatici con successo, il backup automatico verrà disattivato.</string>
     <string name="calendar_permission_required"><i>{app_name}</i> richiede l\'autorizzazione per accedere al calendario, al fine di creare piani per operazione future e ricorrenti.</string>
@@ -566,7 +566,7 @@
     <string name="warning_cannot_move_split_transaction">Questa operazione frazionata non può essere spostato per %1$s perché ci sono frazionamenti che fanno riferimento a questo conto.</string>
     <string name="content_description_calculator_clear_button">Reinizializzare tutti</string>
     <string name="content_description_calculator_delete_button">Eliminare l\'ultima cifra</string>
-    <string name="paypal_callback_info">La transazione è stata completata e una ricevuta per l\'acquisto è stata inviata a voi. Può accedere al suo account su www.paypal.com per visualizzare i dettagli di questa transazione.</string>
+    <string name="paypal_callback_info">La transazione è stata completata e una ricevuta per l\'acquisto è stata inviata a voi per e-mail. Può accedere al suo account su www.paypal.com per visualizzare i dettagli di questa transazione.</string>
     <string name="search_transfer">Ricerca per il trasferimento</string>
     <!-- Sort plans (recurring transactions) by the next instance  -->
     <string name="pref_sort_order_next_instance">Istanza successiva</string>
@@ -595,10 +595,10 @@
     <string name="pref_sync_frequency_title">Frequenza di sincronizzazione</string>
     <string name="pref_sync_frequency_summary">Quanto spesso devono essere sincronizzati i dati (in ore)</string>
     <string name="dialog_confirm_sync_unlink">Se si scollega questo account da %s, lo stato di sincronizzazione verrà perso. Collegandolo nuovamente in seguito, richiederà una sincronizzazione completa per essere eseguito di nuovo.</string>
-    <string name="dialog_sync_link">Un conto con uuid %sè presente sia nel database locale che nel back-end remoto. Quando si collegano entrambi, è necessario decidere se si desidera caricare i dati locali sul back-end remoto o scaricare i dati remoti nel database locale.</string>
+    <string name="dialog_sync_link">Un conto con uuid %sè presente sia nella base di dati locale che nel back-end remoto. Quando si collegano entrambi, è necessario decidere se si desidera caricare i dati locali sul back-end remoto o scaricare i dati remoti nella base di dati locale.</string>
     <string name="dialog_command_sync_link_remote">Scaricare da remoto</string>
     <string name="dialog_command_sync_link_local">Caricare da locale</string>
-    <string name="dialog_synced_to_other">Un conto con uuid %s è già presente nel database locale ed è collegato ad un diverso back-end remoto.</string>
+    <string name="dialog_synced_to_other">Un conto con UUID %s è già presente nella base di dati locale ed è collegato ad un diverso back-end remoto.</string>
     <string name="menu_remove">Rimuovere</string>
     <string name="dialog_confirm_sync_remove_backend">Il back-end remoto %s verrà rimosso. Ciò non influirà sui dati salvati in locale o in remoto, ma lo stato di sincronizzazione verrà interrotto definitivamente.</string>
     <string name="dialog_confirm_sync_link_local">I dati remoti per questo account saranno cancellati. Accertati che non ci siano altri dispositivi collegati all\'account.</string>
@@ -630,7 +630,7 @@
     <string name="warning_auto_backup_deactivated">Il backup automatico è stato disattivato. Puoi attivarlo nuovamente dalle impostazioni dopo aver risolto il problema (ad esempio selezionando una cartella diversa per i backup).</string>
     <string name="pref_tracking_summary">Acconsenti alla raccolta di dati anonimi sull\'utilizzo che ci aiuteranno a progettare miglioramenti.</string>
     <string name="pref_tracking_title">Raccolta dati di utilizzo</string>
-    <string name="sync_database_error">Si è verificato un errore di database durante la sincronizzazione.</string>
+    <string name="sync_database_error">Si è verificato un errore nella base di dati durante la sincronizzazione.</string>
     <string name="sync_io_error_cannot_connect">Impossibile connettersi al back-end di sincronizzazione.</string>
     <string name="sync_error_will_try_again_later">Verrà effettuato un nuovo tentativo più tardi.</string>
     <string name="sync_io_exception_reset_account_data">Errore durante il ripristino dell\'account remoto.</string>
@@ -640,7 +640,7 @@
     <string name="sync_io_exception_unlocking">Errore durante la rimozione del blocco dal back-end remoto.</string>
     <string name="sync_io_exception_locking">Il back-end remoto è bloccato o non può essere bloccato.</string>
     <string name="synchronization_start">Avvio della sincronizzazione per l\'account %s.</string>
-    <string name="synchronization_end_success">%1$d modifiche remote sono state scritte nel database locale. %2$d modifiche locali sono state scritte sul back-end remoto.</string>
+    <string name="synchronization_end_success">%1$d modifiche remote sono state scritte nella base di dati locale. %2$d modifiche locali sono state scritte sul back-end remoto.</string>
     <string name="synchronization_end_success_none">Nessuna modifica da sincronizzare.</string>
     <string name="pref_webdav_timeout_title">Timeout WebDAV (in secondi)</string>
     <string name="sync_state_restored">Lo stato di sincronizzazione è stato ripristinato per%d conti.</string>
@@ -702,7 +702,7 @@
     <string name="pref_protection_device_lock_screen_title">Schermata di blocco del dispositivo</string>
     <string name="pref_warning_only_one_protection">Prima di poter utilizzare la protezione con %1$s, è necessario disattivare la protezione con %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">La schermata di blocco del dispositivo sicuro non è stata configurata.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Vai a \'Impostazioni -&gt; Sicurezza -&gt; Screenlock\' per impostare una schermata di blocco.</string>
+    <string name="warning_device_lock_screen_not_set_up_2">Vai a Impostazioni -&gt; Sicurezza -&gt; Blocco schermo per impostare una schermata di blocco.</string>
     <string name="menu_history_show_balance">Mostra equilibrio</string>
     <string name="menu_history_transfers">Includi trasferimenti</string>
     <string name="menu_history">Storico</string>
@@ -792,7 +792,7 @@
     <!-- In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.   -->
-    <string name="unmapped_filter_only_single">Il filtro per \"Nessuna categoria\" non può essere incluso nella selezione multipla</string>
+    <string name="unmapped_filter_only_single">Il filtro per «Nessuna categoria» non può essere incluso nella selezione multipla</string>
     <string name="upgrade_information_cloud_sync_storage_format">A parire dalla versione 2.9.8, il modo in cui i dati sono salvati sul back-end è cambiato. Per favore, aggiorna a questa versione tutti i dispositivi sincronizzati prima di inserire qualsiasi nuova voce su uno di essi.</string>
     <string name="pref_security_export_passphrase_title">Password per i backup</string>
     <string name="pref_security_export_passphrase_summary">I backup saranno crittografati con questa password</string>
@@ -854,11 +854,11 @@
     <string name="budget_filter_all_parties">Tutti i beneficiari</string>
     <string name="budget_filter_all_methods">Tutti i metodi</string>
     <string name="budget_filter_all_states">Tutti gli stati</string>
-    <string name="budget_filter_all_tags">Tutti i tag</string>
+    <string name="budget_filter_all_tags">Tutte le etichette</string>
     <string name="budget_filter_all_accounts">Tutti i conti</string>
     <string name="budget_form_label_filter">Filtro</string>
     <string name="dialog_title_warning_delete_budget">Elimina il budget?</string>
-    <string name="warning_delete_budget">Il budget \"%1$s\" verrà eliminato.</string>
+    <string name="warning_delete_budget">Il budget «%1$s» verrà eliminato.</string>
     <string name="menu_edit_budget">Modifica il budget</string>
     <string name="onboarding_privacy_title">I tuoi dati rimangono nelle tue mani</string>
     <string name="onboarding_privacy_intro">I tuoi dati finanziari non vengono inviati a nessun server, né gestiti da noi, né da terze parti.</string>
@@ -884,24 +884,24 @@
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">Le transazioni clonate manterranno la data originaria</string>
     <string name="pref_protection_screenshot_information">Attivando la protezione del dispositivo, l\'acquisizione di screenshot sarà disattivata all\'interno dell\'applicazione.</string>
-    <string name="tags_create_or_select">Crea o seleziona tag</string>
+    <string name="tags_create_or_select">Crea o seleziona un\'etichetta</string>
     <string name="content_description_tags_confirm">Conferma</string>
-    <string name="tags">Tag</string>
-    <string name="pref_manage_tags_summary">Aggiungi, modifica, elimina tag.</string>
-    <string name="dialog_title_warning_delete_tag">Eliminare il tag?</string>
-    <string name="menu_edit_tag">Modifica il tag</string>
+    <string name="tags">Etichette</string>
+    <string name="pref_manage_tags_summary">Aggiungi, modifica, elimina etichette.</string>
+    <string name="dialog_title_warning_delete_tag">Eliminare l\'etichetta\?</string>
+    <string name="menu_edit_tag">Modifica l\'etichetta</string>
     <!-- This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction -->
-    <string name="menu_tag">Tag</string>
+    <string name="menu_tag">Etichetta</string>
     <!-- %s will be replaced with the labels of all tags that user has selected. -->
-    <string name="dialog_multi_tag">Tutte le transazioni selezionate saranno taggate con %s.</string>
-    <string name="dialog_multi_tag_clear">Tutti i tag saranno rimossi dalle transazioni selezionate.</string>
+    <string name="dialog_multi_tag">Tutte le transazioni selezionate saranno etichettate con %s.</string>
+    <string name="dialog_multi_tag_clear">Tutte le etichette saranno rimosse dalle transazioni selezionate.</string>
     <plurals name="warning_delete_tag">
-        <item quantity="one">Il tag %1$s è associato a una transazione. Dovrebbe essere cancellato?</item>
-        <item quantity="other">Il tag %1$s è assegnata a %2$d transazioni. Vuoi eliminarla?</item>
+        <item quantity="one">L\'etichetta %1$s è associato a una transazione. Dovrebbe essere cancellato\?</item>
+        <item quantity="other">L\'etichetta %1$s è assegnata a %2$d transazioni. Vuoi eliminarla\?</item>
     </plurals>
-    <string name="dialog_multi_tag_append">Aggiungi nuovi tag ai tag esistenti</string>
-    <string name="dialog_multi_tag_replace">Sostituisci tag esistenti con nuovi tag</string>
-    <string name="new_tag_hint">Inserisci un nuovo tag</string>
+    <string name="dialog_multi_tag_append">Aggiungi nuove etichette alle etichette esistenti</string>
+    <string name="dialog_multi_tag_replace">Sostituisci etichette esistenti con nuove etichette</string>
+    <string name="new_tag_hint">Inserisci una nuova etichetta</string>
     <string name="language_download_requested">Le traduzioni per la lingua %s sono richieste dal Play Store</string>
     <!-- Title for a preference that allows to decide how the time will be set for a new instance of a recurring transaction -->
     <string name="pref_planner_manual_time_title">Tempo per la transazione pianificata manualmente</string>
@@ -944,7 +944,7 @@
     <string name="discover_feature_fab_long_press">Tocca e tieni premuto il pulsante fluttuante per aprire direttamente un nuovo modulo per trasferimenti, transazioni frazionate o entrate.</string>
     <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
     <string name="advance_exexcution_in_days">Esecuzione anticipata (in giorni)</string>
-    <string name="warning_balance_account_delete">Se procedi, tutte le transazioni riconciliate di questo account verranno eliminate dal database e non potrai ripristinarle.</string>
+    <string name="warning_balance_account_delete">Se procedi, tutte le transazioni riconciliate di questo account verranno eliminate dalla base di dati e non potrai ripristinarle.</string>
     <!-- When user opens a template from the transaction form, existing data is discarded. This message appears in a dialgoue to confirm the action -->
     <string name="confirmation_load_template_discard_data">I dati del modulo esistente verranno eliminati.</string>
     <string name="pref_clone_with_current_date_title">Data delle transazioni ricopiate</string>
