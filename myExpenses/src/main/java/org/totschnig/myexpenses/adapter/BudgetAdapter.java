@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.databinding.BudgetRowBinding;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
@@ -23,7 +23,7 @@ public class BudgetAdapter extends CategoryTreeBaseAdapter<BudgetRowBinding> {
     void onBudgetClick(Category category, Category parentItem);
   }
 
-  public BudgetAdapter(ProtectedFragmentActivity ctx, CurrencyFormatter currencyFormatter, CurrencyUnit currency, OnBudgetClickListener listener) {
+  public BudgetAdapter(Context ctx, CurrencyFormatter currencyFormatter, CurrencyUnit currency, OnBudgetClickListener listener) {
     super(ctx, currencyFormatter, currency, true, true, false);
     this.listener = listener;
   }

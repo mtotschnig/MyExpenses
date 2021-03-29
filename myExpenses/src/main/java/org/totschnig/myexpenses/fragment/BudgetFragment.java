@@ -24,7 +24,6 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.BudgetAdapter;
 import org.totschnig.myexpenses.databinding.BudgetListBinding;
 import org.totschnig.myexpenses.databinding.BudgetRowBinding;
-import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Sort;
@@ -34,6 +33,7 @@ import org.totschnig.myexpenses.provider.filter.FilterPersistence;
 import org.totschnig.myexpenses.ui.BudgetSummary;
 import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel;
+import org.totschnig.myexpenses.viewmodel.data.BaseAccountInfo;
 import org.totschnig.myexpenses.viewmodel.data.Budget;
 import org.totschnig.myexpenses.viewmodel.data.Category;
 
@@ -254,18 +254,8 @@ public class BudgetFragment extends DistributionBaseFragment<BudgetRowBinding> i
     this.budget = budget;
     filterPersistence.reloadFromPreferences();
     allocatedOnly = prefHandler.getBoolean(getTemplateForAllocatedOnlyKey(budget),false);
-    setAccountInfo(new AccountInfo() {
-      @Override
-      public long getId() {
-        return budget.getAccountId();
-      }
-
-      @Override
-      public CurrencyUnit getCurrencyUnit() {
-        return budget.getCurrency();
-      }
-    });
-    final ActionBar actionBar = ((ProtectedFragmentActivity) getActivity()).getSupportActionBar();
+    setAccountInfo(new BaseAccountInfo(budget.getAccountId(), budget.label(requireActivity()), budget.getCurrency(), budget.getColor()));
+    final ActionBar actionBar = ((ProtectedFragmentActivity) requireActivity()).getSupportActionBar();
     actionBar.setTitle(budget.getTitle());
     if (mAdapter == null) {
       mAdapter = new BudgetAdapter((ProtectedFragmentActivity) getActivity(), currencyFormatter,

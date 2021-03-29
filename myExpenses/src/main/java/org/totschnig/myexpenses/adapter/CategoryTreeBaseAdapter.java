@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
@@ -49,7 +48,7 @@ public abstract class CategoryTreeBaseAdapter<ROWBINDING extends ViewBinding> ex
   private final boolean withNullCategory;
   public static final long NULL_ITEM_ID = -1L;
 
-  public CategoryTreeBaseAdapter(ProtectedFragmentActivity ctx, CurrencyFormatter currencyFormatter,
+  public CategoryTreeBaseAdapter(Context ctx, CurrencyFormatter currencyFormatter,
                                  CurrencyUnit currency, boolean withMainColors, boolean withSubColors, boolean withNullCategory) {
     this.context = ctx;
     inflater = LayoutInflater.from(ctx);

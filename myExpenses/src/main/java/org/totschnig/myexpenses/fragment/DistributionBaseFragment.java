@@ -13,7 +13,6 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.TransactionListDialogFragment;
 import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -21,6 +20,7 @@ import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
+import org.totschnig.myexpenses.viewmodel.data.BaseAccountInfo;
 import org.totschnig.myexpenses.viewmodel.data.DateInfo;
 
 import java.util.ArrayList;
@@ -82,16 +82,11 @@ public abstract class DistributionBaseFragment<ROWBINDING extends ViewBinding> e
   boolean aggregateTypes;
   private Disposable dateInfoDisposable;
   private Disposable sumDisposable;
-  private AccountInfo accountInfo;
+
+  private BaseAccountInfo accountInfo;
 
   @Inject
   UserLocaleProvider userLocaleProvider;
-
-  interface AccountInfo {
-    long getId();
-
-    CurrencyUnit getCurrencyUnit();
-  }
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -105,8 +100,12 @@ public abstract class DistributionBaseFragment<ROWBINDING extends ViewBinding> e
     }
   }
 
-  protected void setAccountInfo(AccountInfo accountInfo) {
+  protected void setAccountInfo(BaseAccountInfo accountInfo) {
     this.accountInfo = accountInfo;
+  }
+
+  public BaseAccountInfo getAccountInfo() {
+    return accountInfo;
   }
 
   protected void updateDateInfo(boolean withMaxValue) {
@@ -216,7 +215,7 @@ public abstract class DistributionBaseFragment<ROWBINDING extends ViewBinding> e
     long id = accountInfo.getId();
     if (id != Account.HOME_AGGREGATE_ID) {
       if (id < 0) {
-        builder.appendQueryParameter(KEY_CURRENCY, accountInfo.getCurrencyUnit().getCode());
+        builder.appendQueryParameter(KEY_CURRENCY, accountInfo.getCurrency().getCode());
       } else {
         builder.appendQueryParameter(KEY_ACCOUNTID, String.valueOf(id));
       }
@@ -348,7 +347,7 @@ public abstract class DistributionBaseFragment<ROWBINDING extends ViewBinding> e
       accountSelection = " IN " +
           "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ? AND " +
           KEY_EXCLUDE_FROM_TOTALS + " = 0 )";
-      accountSelector = accountInfo.getCurrencyUnit().getCode();
+      accountSelector = accountInfo.getCurrency().getCode();
     } else {
       accountSelection = " = " + id;
     }

@@ -2,13 +2,11 @@ package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
 import android.content.ContentProviderOperation
-import android.content.ContentUris
 import android.content.ContentValues
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
-import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -24,36 +22,13 @@ import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.Tag
-import java.util.concurrent.TimeUnit
 
 class TransactionListViewModel(application: Application) : BudgetViewModel(application) {
     val budgetAmount = MutableLiveData<Money?>()
-    private var accountDisposable: Disposable? = null
     private var cloneAndRemapProgressInternal = MutableLiveData<Pair<Int, Int>>()
-
-    private val accountLiveData: Map<Long, LiveData<Account>> = lazyMap { accountId ->
-        val liveData = MutableLiveData<Account>()
-        accountDisposable?.let {
-            if (!it.isDisposed) it.dispose()
-        }
-        val base = if (accountId > 0) TransactionProvider.ACCOUNTS_URI else TransactionProvider.ACCOUNTS_AGGREGATE_URI
-        accountDisposable = briteContentResolver.createQuery(ContentUris.withAppendedId(base, accountId),
-                        Account.PROJECTION_BASE, null, null, null, true)
-                .mapToOne { Account.fromCursor(it) }
-                .throttleFirst(100, TimeUnit.MILLISECONDS)
-                .subscribe {
-                    liveData.postValue(it)
-                    if (licenceHandler.hasTrialAccessTo(ContribFeature.BUDGET)) {
-                        loadBudget(it)
-                    }
-                }
-        return@lazyMap liveData
-    }
 
     val cloneAndRemapProgress: LiveData<Pair<Int, Int>>
         get() = cloneAndRemapProgressInternal
-
-    fun account(accountId: Long): LiveData<Account> = accountLiveData.getValue(accountId)
 
     fun loadBudget(account: Account) {
         val budgetId = getDefault(account.id, account.grouping)
@@ -61,6 +36,12 @@ class TransactionListViewModel(application: Application) : BudgetViewModel(appli
             loadBudget(budgetId, true)
         } else {
             budgetAmount.postValue(null)
+        }
+    }
+
+    override fun onAccountLoaded(account: Account) {
+        if (licenceHandler.hasTrialAccessTo(ContribFeature.BUDGET)) {
+            loadBudget(account)
         }
     }
 

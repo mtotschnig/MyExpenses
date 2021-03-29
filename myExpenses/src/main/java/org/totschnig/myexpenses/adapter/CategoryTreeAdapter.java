@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.databinding.CategoryRowBinding;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
@@ -16,7 +16,7 @@ import org.totschnig.myexpenses.viewmodel.data.Category;
 import static org.totschnig.myexpenses.util.ColorUtils.createBackgroundColorDrawable;
 
 public class CategoryTreeAdapter extends CategoryTreeBaseAdapter<CategoryRowBinding> {
-  public CategoryTreeAdapter(ProtectedFragmentActivity ctx, CurrencyFormatter currencyFormatter,
+  public CategoryTreeAdapter(Context ctx, CurrencyFormatter currencyFormatter,
                              CurrencyUnit currency, boolean withMainColors, boolean withSubColors,
                              boolean withNullCategory) {
     super(ctx, currencyFormatter, currency, withMainColors, withSubColors, withNullCategory);

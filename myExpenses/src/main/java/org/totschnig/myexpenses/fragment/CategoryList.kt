@@ -26,11 +26,10 @@ class CategoryList: AbstractCategoryList<CategoryRowBinding>() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val ctx = activity as ProtectedFragmentActivity?
         _binding = CategoriesListBinding.inflate(inflater, container, false)
         configureImportButton(true)
         listView.emptyView = binding.empty
-        mAdapter = CategoryTreeAdapter(ctx, currencyFormatter, null, isWithMainColors,
+        mAdapter = CategoryTreeAdapter(requireContext(), currencyFormatter, null, isWithMainColors,
                 false, action == ACTION_SELECT_FILTER)
         listView.setAdapter(mAdapter)
         loadData()
