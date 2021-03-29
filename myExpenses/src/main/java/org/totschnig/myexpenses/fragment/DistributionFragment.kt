@@ -54,28 +54,6 @@ class DistributionFragment : DistributionBaseFragment<CategoryRowBinding?>() {
         get() = _innerBinding!!
     val viewModel: DistributionViewModel by viewModels()
 
-    var grouping: Grouping
-        get() = mGrouping
-        set(grouping) {
-            mGrouping = grouping
-            mGroupingYear = dateInfo.thisYear
-            when (grouping) {
-                Grouping.NONE -> mGroupingYear = 0
-                Grouping.DAY -> mGroupingSecond = dateInfo.thisDay
-                Grouping.WEEK -> {
-                    mGroupingYear = dateInfo.thisYearOfWeekStart
-                    mGroupingSecond = dateInfo.thisWeek
-                }
-                Grouping.MONTH -> {
-                    mGroupingYear = dateInfo.thisYearOfMonthStart
-                    mGroupingSecond = dateInfo.thisMonth
-                }
-                Grouping.YEAR -> mGroupingSecond = 0
-            }
-            requireActivity().invalidateOptionsMenu()
-            reset()
-        }
-
     public override fun getListView(): ExpandableListView {
         return innerBinding.list
     }
@@ -92,20 +70,22 @@ class DistributionFragment : DistributionBaseFragment<CategoryRowBinding?>() {
         viewModel.account(requireActivity().intent.getLongExtra(DatabaseConstants.KEY_ACCOUNTID, 0)).observe(viewLifecycleOwner) {
             accountInfo = BaseAccountInfo(it.id, it.getLabelForScreenTitle(requireActivity()), it.currencyUnit, it.color)
             updateSum()
-            updateDateInfo(true)
+            updateDateInfo()
             (requireActivity() as ProtectedFragmentActivity).supportActionBar?.title = accountInfo.label
             updateColor()
             initListView()
-            loadData()
         }
 
         val ctx = requireActivity() as ProtectedFragmentActivity
-        val extras = ctx.intent.extras
         showChart = prefHandler.getBoolean(PrefKey.DISTRIBUTION_SHOW_CHART, true)
-        val b = savedInstanceState ?: extras!!
-        mGrouping = b.getSerializable(DatabaseConstants.KEY_GROUPING) as Grouping? ?: Grouping.NONE
-        mGroupingYear = b.getInt(DatabaseConstants.KEY_YEAR)
-        mGroupingSecond = b.getInt(DatabaseConstants.KEY_SECOND_GROUP)
+        val b = savedInstanceState ?: ctx.intent.extras!!
+        grouping = b.getSerializable(DatabaseConstants.KEY_GROUPING) as Grouping? ?: try {
+            Grouping.valueOf(prefHandler.getString(PrefKey.GROUPING_DISTRIBUTION, Grouping.NONE.name)!!)
+        } catch (e: IllegalArgumentException) {
+            Grouping.NONE
+        }
+        groupingYear = b.getInt(DatabaseConstants.KEY_YEAR)
+        groupingSecond = b.getInt(DatabaseConstants.KEY_SECOND_GROUP)
         ctx.invalidateOptionsMenu()
         _binding = DistributionListBinding.inflate(inflater, container, false)
         _innerBinding = DistributionListInnerBinding.bind(binding.root)
@@ -281,8 +261,8 @@ class DistributionFragment : DistributionBaseFragment<CategoryRowBinding?>() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
-        if (mGrouping != null) {
-            Utils.configureGroupingMenu(menu.findItem(R.id.GROUPING_COMMAND).subMenu, mGrouping)
+        if (grouping != null) {
+            Utils.configureGroupingMenu(menu.findItem(R.id.GROUPING_COMMAND).subMenu, grouping)
         }
         val m = menu.findItem(R.id.TOGGLE_CHART_COMMAND)
         if (m != null) {
@@ -296,7 +276,7 @@ class DistributionFragment : DistributionBaseFragment<CategoryRowBinding?>() {
         super.onPrepareOptionsMenu(menu)
     }
 
-    public override fun updateIncomeAndExpense(income: Long, expense: Long) {
+    override fun updateIncomeAndExpense(income: Long, expense: Long) {
         updateSum("+", binding.sumIncome, income)
         updateSum("-", binding.sumExpense, expense)
     }
@@ -312,6 +292,10 @@ class DistributionFragment : DistributionBaseFragment<CategoryRowBinding?>() {
         if (newGrouping != null) {
             if (!item.isChecked) {
                 grouping = newGrouping
+                setDefaults()
+                prefHandler.putString(PrefKey.GROUPING_DISTRIBUTION, grouping.name)
+                requireActivity().invalidateOptionsMenu()
+                reset()
             }
             return true
         }
@@ -394,12 +378,10 @@ class DistributionFragment : DistributionBaseFragment<CategoryRowBinding?>() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putSerializable(DatabaseConstants.KEY_GROUPING, mGrouping)
-        outState.putInt(DatabaseConstants.KEY_YEAR, mGroupingYear)
-        outState.putInt(DatabaseConstants.KEY_SECOND_GROUP, mGroupingSecond)
+        outState.putSerializable(DatabaseConstants.KEY_GROUPING, grouping)
+        outState.putInt(DatabaseConstants.KEY_YEAR, groupingYear)
+        outState.putInt(DatabaseConstants.KEY_SECOND_GROUP, groupingSecond)
     }
 
-    override fun getPrefKey(): PrefKey {
-        return PrefKey.DISTRIBUTION_AGGREGATE_TYPES
-    }
+    override val prefKey = PrefKey.DISTRIBUTION_AGGREGATE_TYPES
 }

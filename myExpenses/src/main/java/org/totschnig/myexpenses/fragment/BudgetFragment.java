@@ -140,7 +140,7 @@ public class BudgetFragment extends DistributionBaseFragment<BudgetRowBinding> i
         }
       }
     });
-    final long budgetId = getActivity().getIntent().getLongExtra(KEY_ROWID, 0);
+    final long budgetId = requireActivity().getIntent().getLongExtra(KEY_ROWID, 0);
     loadBudget(budgetId);
     filterPersistence = new FilterPersistence(prefHandler, BudgetViewModel.Companion.prefNameForCriteria(budgetId), null, false, true);
   }
@@ -184,7 +184,7 @@ public class BudgetFragment extends DistributionBaseFragment<BudgetRowBinding> i
       long allocatable = budgetAmount - allocated;
       final long maxLong = allocatable + category.budget;
       if (maxLong <= 0) {
-        ((ProtectedFragmentActivity) getActivity()).showSnackbar(TextUtils.concatResStrings(getActivity(), " ",
+        ((ProtectedFragmentActivity) requireActivity()).showSnackbar(TextUtils.concatResStrings(getActivity(), " ",
             parentItem == null ? R.string.budget_exceeded_error_1_2 : R.string.sub_budget_exceeded_error_1_2,
             parentItem == null ? R.string.budget_exceeded_error_2 : R.string.sub_budget_exceeded_error_2));
         return;
@@ -258,22 +258,22 @@ public class BudgetFragment extends DistributionBaseFragment<BudgetRowBinding> i
     final ActionBar actionBar = ((ProtectedFragmentActivity) requireActivity()).getSupportActionBar();
     actionBar.setTitle(budget.getTitle());
     if (mAdapter == null) {
-      mAdapter = new BudgetAdapter((ProtectedFragmentActivity) getActivity(), currencyFormatter,
+      mAdapter = new BudgetAdapter(getActivity(), currencyFormatter,
           budget.getCurrency(), this);
       getListView().addHeaderView(filterGroup, null, false);
       getListView().addHeaderView(budgetSummary, null, false);
       getListView().setAdapter(mAdapter);
     }
 
-    mGrouping = budget.getGrouping();
-    mGroupingYear = 0;
-    mGroupingSecond = 0;
-    if (mGrouping == Grouping.NONE) {
+    grouping = budget.getGrouping();
+    setGroupingYear(0);
+    setGroupingSecond(0);
+    if (grouping == Grouping.NONE) {
       updateSum();
       loadData();
       setSubTitle(budget.durationPrettyPrint());
     } else {
-      updateDateInfo(false);
+      updateDateInfo();
     }
     updateSummary();
     setFilterInfo();
@@ -294,33 +294,6 @@ public class BudgetFragment extends DistributionBaseFragment<BudgetRowBinding> i
   @Override
   public void onBudgetClick(Category category, Category parentItem) {
     showEditBudgetDialog(category, parentItem);
-  }
-
-  @Override
-  protected void onDateInfoReceived() {
-    //we fetch dateInfo from database two times, first to get info about current date,
-    //then we use this info in second run
-    if (mGroupingYear == 0) {
-      mGroupingYear = dateInfo.getThisYear();
-      switch (mGrouping) {
-        case DAY:
-          mGroupingSecond = dateInfo.getThisDay();
-          break;
-        case WEEK:
-          mGroupingYear = dateInfo.getThisYearOfWeekStart();
-          mGroupingSecond = dateInfo.getThisWeek();
-          break;
-        case MONTH:
-          mGroupingYear = dateInfo.getThisYearOfMonthStart();
-          mGroupingSecond = dateInfo.getThisMonth();
-          break;
-      }
-      updateDateInfo(true);
-      updateSum();
-    } else {
-      super.onDateInfoReceived();
-      loadData();
-    }
   }
 
   @Override
@@ -346,9 +319,9 @@ public class BudgetFragment extends DistributionBaseFragment<BudgetRowBinding> i
   }
 
   @Override
-  void updateIncomeAndExpense(long income, long expense) {
+  protected void updateIncomeAndExpense(long income, long expense) {
     this.spent = expense;
-    if (aggregateTypes) {
+    if (getAggregateTypes()) {
       this.spent -= income;
     }
     updateSummary();
