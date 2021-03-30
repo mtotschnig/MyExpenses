@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_327">
+        <item>ניתן לקשר שתי עסקאות קיימות כהעברה.</item>
+    </string-array>
     <string-array name="whats_new_326">
         <item>עסקאות יכולות לחזור ביום האחרון של החודש.</item>
     </string-array>

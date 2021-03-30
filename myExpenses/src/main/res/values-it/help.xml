@@ -28,6 +28,7 @@
   <string name="cab_clone_transaction_help_text">Le operazioni selezionate verranno clonate con la data corrente e l\'ora. È possibile modificare prima di salvare la copia.</string>
   <string name="cab_split_help_text">Puoi modificare successivamente la transazione per creare parti aggiuntive secondo necessità.</string>
   <string name="menu_scan_mode_help_text">Attiva la modalità scanner per scansionare rapidamente gli scontrini.</string>
+  <string name="cab_link_help_text">Una spesa in un conto può essere collegata ad un reddito in un altro conto. Se i conti hanno la stessa valuta, le due transazioni devono presentare i medesimi importi.</string>
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Questa schermata elenca i metodi di pagamento predefiniti (assegno, carta di credito, deposito, addebito diretto) e consente di definirne nuovi. Utilizzare il pulsante fluttuante per aprire il modulo per la creazione di un nuovo metodo.</string>
   <!--ManageParties title is in keys-->

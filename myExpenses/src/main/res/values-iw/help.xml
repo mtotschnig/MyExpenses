@@ -28,6 +28,7 @@
   <string name="cab_clone_transaction_help_text">העסקאות שנבחרו ישוכפלו עם התאריך והשעה הנוכחיים. באפשרותך לבצע שינויים לפני שמירת העותק.</string>
   <string name="cab_split_help_text">לאחר מכן תוכל לערוך את העסקה כדי ליצור חלקים נוספים לפי הצורך.</string>
   <string name="menu_scan_mode_help_text">הפעל את מצב הסריקה על מנת לסרוק קבלות במהירות.</string>
+  <string name="cab_link_help_text">ניתן לקשר הוצאה בחשבון אחד להכנסה בחשבון אחר. אם לחשבונות יש אותו מטבע, שתי העסקאות חייבות להיות בסכומים זהים.</string>
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">מסך זה מפרט את שיטות התשלום המוגדרות מראש (המחאה, כרטיס אשראי, הפקדה, הוראת קבע) ומאפשר לך להגדיר שיטות חדשות. השתמש בלחצן פעולה הצף כדי לפתוח את הטופס ליצירת שיטה חדשה.</string>
   <!--ManageParties title is in keys-->
