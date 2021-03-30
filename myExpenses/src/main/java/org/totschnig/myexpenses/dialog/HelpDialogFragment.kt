@@ -25,8 +25,6 @@ import android.text.method.LinkMovementMethod
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.annotation.ArrayRes
 import androidx.annotation.StringRes
 import androidx.core.content.res.ResourcesCompat
@@ -36,7 +34,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.HelpDialogActionRowBinding
 import org.totschnig.myexpenses.databinding.HelpDialogBinding
-import org.totschnig.myexpenses.util.DistributionHelper.isGithub
+import org.totschnig.myexpenses.util.distrib.DistributionHelper.isGithub
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.util.*
 

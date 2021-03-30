@@ -37,7 +37,7 @@ import org.totschnig.myexpenses.activity.ContribInfoDialogActivity
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.databinding.ContribDialogBinding
 import org.totschnig.myexpenses.model.ContribFeature
-import org.totschnig.myexpenses.util.DistributionHelper.isGithub
+import org.totschnig.myexpenses.util.distrib.DistributionHelper.isGithub
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.licence.AddOnPackage

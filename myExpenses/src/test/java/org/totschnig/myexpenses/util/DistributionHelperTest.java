@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.totschnig.myexpenses.BuildConfig;
+import org.totschnig.myexpenses.util.distrib.DistributionHelper;
 
 import java.util.Locale;
 

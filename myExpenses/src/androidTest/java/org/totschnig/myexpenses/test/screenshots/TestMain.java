@@ -14,7 +14,7 @@ import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.testutils.BaseUiTest;
-import org.totschnig.myexpenses.util.DistributionHelper;
+import org.totschnig.myexpenses.util.distrib.DistributionHelper;
 import org.totschnig.myexpenses.util.Utils;
 
 import java.util.Locale;

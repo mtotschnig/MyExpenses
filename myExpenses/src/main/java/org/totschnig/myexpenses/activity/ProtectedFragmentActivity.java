@@ -114,8 +114,8 @@ import static org.totschnig.myexpenses.preference.PrefKey.UI_FONTSIZE;
 import static org.totschnig.myexpenses.preference.PrefKey.UI_LANGUAGE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_RESTORE;
-import static org.totschnig.myexpenses.util.DistributionHelper.getMarketSelfUri;
-import static org.totschnig.myexpenses.util.DistributionHelper.getVersionInfo;
+import static org.totschnig.myexpenses.util.distrib.DistributionHelper.getMarketSelfUri;
+import static org.totschnig.myexpenses.util.distrib.DistributionHelper.getVersionInfo;
 import static org.totschnig.myexpenses.util.TextUtils.concatResStrings;
 
 public abstract class ProtectedFragmentActivity extends BaseActivity

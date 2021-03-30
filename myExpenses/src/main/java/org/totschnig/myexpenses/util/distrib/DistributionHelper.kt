@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.util
+package org.totschnig.myexpenses.util.distrib
 
 import android.content.Context
 import org.totschnig.myexpenses.BuildConfig
@@ -62,7 +62,8 @@ object DistributionHelper {
         },
         GITHUB {
             override val supportsTrackingAndCrashReporting = BuildConfig.DEBUG
-        };
+        },
+        HUAWEI;
 
         open val platform = "Android"
 

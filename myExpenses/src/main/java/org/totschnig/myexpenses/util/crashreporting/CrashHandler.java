@@ -5,7 +5,7 @@ import android.content.Context;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DbUtils;
-import org.totschnig.myexpenses.util.DistributionHelper;
+import org.totschnig.myexpenses.util.distrib.DistributionHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;

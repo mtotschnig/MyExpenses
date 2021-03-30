@@ -40,7 +40,7 @@ import org.totschnig.myexpenses.fragment.SettingsFragment
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.task.TaskExecutionFragment
-import org.totschnig.myexpenses.util.DistributionHelper.getVersionInfo
+import org.totschnig.myexpenses.util.distrib.DistributionHelper.getVersionInfo
 import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.Result
 import org.totschnig.myexpenses.util.UiUtils
