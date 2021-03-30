@@ -33,7 +33,7 @@ import org.totschnig.myexpenses.provider.filter.FilterPersistence;
 import org.totschnig.myexpenses.ui.BudgetSummary;
 import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel;
-import org.totschnig.myexpenses.viewmodel.data.BaseAccountInfo;
+import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo;
 import org.totschnig.myexpenses.viewmodel.data.Budget;
 import org.totschnig.myexpenses.viewmodel.data.Category;
 
@@ -254,7 +254,7 @@ public class BudgetFragment extends DistributionBaseFragment<BudgetRowBinding> i
     this.budget = budget;
     filterPersistence.reloadFromPreferences();
     allocatedOnly = prefHandler.getBoolean(getTemplateForAllocatedOnlyKey(budget),false);
-    setAccountInfo(new BaseAccountInfo(budget.getAccountId(), budget.label(requireActivity()), budget.getCurrency(), budget.getColor()));
+    setAccountInfo(new DistributionAccountInfo(budget.getAccountId(), budget.label(requireActivity()), budget.getCurrency(), budget.getColor()));
     final ActionBar actionBar = ((ProtectedFragmentActivity) requireActivity()).getSupportActionBar();
     actionBar.setTitle(budget.getTitle());
     if (mAdapter == null) {

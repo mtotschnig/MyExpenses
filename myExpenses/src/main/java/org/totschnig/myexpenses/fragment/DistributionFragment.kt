@@ -38,7 +38,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.ui.SelectivePieChartRenderer
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.viewmodel.DistributionViewModel
-import org.totschnig.myexpenses.viewmodel.data.BaseAccountInfo
+import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo
 import org.totschnig.myexpenses.viewmodel.data.Category
 import timber.log.Timber
 import kotlin.math.abs
@@ -68,7 +68,7 @@ class DistributionFragment : DistributionBaseFragment<CategoryRowBinding?>() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         viewModel.account(requireActivity().intent.getLongExtra(DatabaseConstants.KEY_ACCOUNTID, 0)).observe(viewLifecycleOwner) {
-            accountInfo = BaseAccountInfo(it.id, it.getLabelForScreenTitle(requireActivity()), it.currencyUnit, it.color)
+            accountInfo = DistributionAccountInfo(it.id, it.getLabelForScreenTitle(requireActivity()), it.currencyUnit, it.color)
             updateSum()
             updateDateInfo()
             (requireActivity() as ProtectedFragmentActivity).supportActionBar?.title = accountInfo.label
@@ -79,11 +79,7 @@ class DistributionFragment : DistributionBaseFragment<CategoryRowBinding?>() {
         val ctx = requireActivity() as ProtectedFragmentActivity
         showChart = prefHandler.getBoolean(PrefKey.DISTRIBUTION_SHOW_CHART, true)
         val b = savedInstanceState ?: ctx.intent.extras!!
-        grouping = b.getSerializable(DatabaseConstants.KEY_GROUPING) as Grouping? ?: try {
-            Grouping.valueOf(prefHandler.getString(PrefKey.GROUPING_DISTRIBUTION, Grouping.NONE.name)!!)
-        } catch (e: IllegalArgumentException) {
-            Grouping.NONE
-        }
+        grouping = b.getString(DatabaseConstants.KEY_GROUPING)?.let { Grouping.valueOf(it) } ?: Grouping.NONE
         groupingYear = b.getInt(DatabaseConstants.KEY_YEAR)
         groupingSecond = b.getInt(DatabaseConstants.KEY_SECOND_GROUP)
         ctx.invalidateOptionsMenu()
@@ -261,9 +257,7 @@ class DistributionFragment : DistributionBaseFragment<CategoryRowBinding?>() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
-        if (grouping != null) {
-            Utils.configureGroupingMenu(menu.findItem(R.id.GROUPING_COMMAND).subMenu, grouping)
-        }
+        Utils.configureGroupingMenu(menu.findItem(R.id.GROUPING_COMMAND).subMenu, grouping)
         val m = menu.findItem(R.id.TOGGLE_CHART_COMMAND)
         if (m != null) {
             m.isChecked = showChart
@@ -293,7 +287,6 @@ class DistributionFragment : DistributionBaseFragment<CategoryRowBinding?>() {
             if (!item.isChecked) {
                 grouping = newGrouping
                 setDefaults()
-                prefHandler.putString(PrefKey.GROUPING_DISTRIBUTION, grouping.name)
                 requireActivity().invalidateOptionsMenu()
                 reset()
             }

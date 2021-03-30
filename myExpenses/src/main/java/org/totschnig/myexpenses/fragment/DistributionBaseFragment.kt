@@ -5,7 +5,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.core.util.Pair
 import androidx.viewbinding.ViewBinding
 import com.squareup.sqlbrite3.QueryObservable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -17,13 +16,13 @@ import org.totschnig.myexpenses.dialog.TransactionListDialogFragment.Companion.n
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
-import org.totschnig.myexpenses.viewmodel.data.BaseAccountInfo
 import org.totschnig.myexpenses.viewmodel.data.DateInfo
+import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo
 import java.util.*
 import javax.inject.Inject
 
@@ -36,7 +35,7 @@ abstract class DistributionBaseFragment<ROW_BINDING : ViewBinding?> : AbstractCa
     var aggregateTypes = false
     private var dateInfoDisposable: Disposable? = null
     private var sumDisposable: Disposable? = null
-    lateinit var accountInfo: BaseAccountInfo
+    lateinit var accountInfo: DistributionAccountInfo
 
     @Inject
     lateinit var userLocaleProvider: UserLocaleProvider
@@ -53,12 +52,12 @@ abstract class DistributionBaseFragment<ROW_BINDING : ViewBinding?> : AbstractCa
     protected fun updateDateInfo() {
         disposeDateInfo()
         val projectionList = mutableListOf(
-                DatabaseConstants.getThisYearOfWeekStart() + " AS " + DatabaseConstants.KEY_THIS_YEAR_OF_WEEK_START,
-                DatabaseConstants.getThisYearOfMonthStart() + " AS " + DatabaseConstants.KEY_THIS_YEAR_OF_MONTH_START,
-                DatabaseConstants.THIS_YEAR + " AS " + DatabaseConstants.KEY_THIS_YEAR,
-                DatabaseConstants.getThisMonth() + " AS " + DatabaseConstants.KEY_THIS_MONTH,
-                DatabaseConstants.getThisWeek() + " AS " + DatabaseConstants.KEY_THIS_WEEK,
-                DatabaseConstants.THIS_DAY + " AS " + DatabaseConstants.KEY_THIS_DAY)
+                "${getThisYearOfWeekStart()} AS $KEY_THIS_YEAR_OF_WEEK_START",
+                "${getThisYearOfMonthStart()} AS $KEY_THIS_YEAR_OF_MONTH_START",
+                "$THIS_YEAR AS $KEY_THIS_YEAR",
+                "${getThisMonth()} AS $KEY_THIS_MONTH",
+                "${getThisWeek()} AS $KEY_THIS_WEEK",
+                "$THIS_DAY AS $KEY_THIS_DAY")
         if (groupingYear != 0) {
             //if we are at the beginning of the year we are interested in the max of the previous year
             val maxYearToLookUp = if (groupingSecond <= 1) groupingYear - 1 else groupingYear
@@ -73,8 +72,8 @@ abstract class DistributionBaseFragment<ROW_BINDING : ViewBinding?> : AbstractCa
                 Grouping.MONTH -> "0"
                 else -> "1"
             }
-            projectionList.add(maxValueExpression + " AS " + DatabaseConstants.KEY_MAX_VALUE)
-            projectionList.add(minValueExpression + " AS " + DatabaseConstants.KEY_MIN_VALUE)
+            projectionList.add("$maxValueExpression AS $KEY_MAX_VALUE")
+            projectionList.add("$minValueExpression AS $KEY_MIN_VALUE")
             if (grouping == Grouping.WEEK) {
                 //we want to find out the week range when we are given a week number
                 //we find out the first Monday in the year, which is the beginning of week 1 and then
@@ -110,7 +109,6 @@ abstract class DistributionBaseFragment<ROW_BINDING : ViewBinding?> : AbstractCa
 
     fun setDefaults() {
         groupingYear = when (grouping) {
-            Grouping.NONE -> 0
             Grouping.WEEK -> dateInfo.thisYearOfWeekStart
             Grouping.MONTH -> dateInfo.thisYearOfMonthStart
             else -> dateInfo.thisYear
@@ -128,12 +126,12 @@ abstract class DistributionBaseFragment<ROW_BINDING : ViewBinding?> : AbstractCa
     }
 
     protected open fun buildFilterClause(tableName: String?): String? {
-        val year = DatabaseConstants.YEAR + " = " + groupingYear
+        val year = "$YEAR = $groupingYear"
         return when (grouping) {
             Grouping.YEAR -> year
-            Grouping.DAY -> year + " AND " + DatabaseConstants.DAY + " = " + groupingSecond
-            Grouping.WEEK -> DatabaseConstants.getYearOfWeekStart() + " = " + groupingYear + " AND " + DatabaseConstants.getWeek() + " = " + groupingSecond
-            Grouping.MONTH -> DatabaseConstants.getYearOfMonthStart() + " = " + groupingYear + " AND " + DatabaseConstants.getMonth() + " = " + groupingSecond
+            Grouping.DAY -> "$year AND $DAY = $groupingSecond"
+            Grouping.WEEK -> "${getYearOfWeekStart()} = $groupingYear AND ${getWeek()} = $groupingSecond"
+            Grouping.MONTH -> "${getYearOfMonthStart()} = $groupingYear AND ${getMonth()} = $groupingSecond"
             else -> null
         }
     }
@@ -155,31 +153,31 @@ abstract class DistributionBaseFragment<ROW_BINDING : ViewBinding?> : AbstractCa
         val id = accountInfo.id
         if (id != Account.HOME_AGGREGATE_ID) {
             if (id < 0) {
-                builder.appendQueryParameter(DatabaseConstants.KEY_CURRENCY, accountInfo.currency.code)
+                builder.appendQueryParameter(KEY_CURRENCY, accountInfo.currency.code)
             } else {
-                builder.appendQueryParameter(DatabaseConstants.KEY_ACCOUNTID, id.toString())
+                builder.appendQueryParameter(KEY_ACCOUNTID, id.toString())
             }
         }
         //if we have no income or expense, there is no row in the cursor
         sumDisposable = briteContentResolver.createQuery(builder.build(),
                 null,
-                buildFilterClause(DatabaseConstants.VIEW_WITH_ACCOUNT),
+                buildFilterClause(VIEW_WITH_ACCOUNT),
                 filterSelectionArgs(),
                 null, true)
                 .mapToList { cursor: Cursor ->
-                    val type = cursor.getInt(cursor.getColumnIndex(DatabaseConstants.KEY_TYPE))
-                    val sum = cursor.getLong(cursor.getColumnIndex(DatabaseConstants.KEY_SUM))
-                    Pair.create(type, sum)
+                    val type = cursor.getInt(cursor.getColumnIndex(KEY_TYPE))
+                    val sum = cursor.getLong(cursor.getColumnIndex(KEY_SUM))
+                    Pair(type, sum)
                 }
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { pairs: List<Pair<Int, Long?>> ->
+                .subscribe { pairs: List<Pair<Int, Long>> ->
                     var income: Long = 0
                     var expense: Long = 0
                     for (pair in pairs) {
-                        if (pair.first!! > 0) {
-                            income = pair.second!!
+                        if (pair.first > 0) {
+                            income = pair.second
                         } else {
-                            expense = pair.second!!
+                            expense = pair.second
                         }
                     }
                     updateIncomeAndExpense(income, expense)
@@ -211,7 +209,7 @@ abstract class DistributionBaseFragment<ROW_BINDING : ViewBinding?> : AbstractCa
 
     override fun doSingleSelection(cat_id: Long, label: String, icon: String, isMain: Boolean) {
         newInstance(
-                accountInfo.id, cat_id, isMain, grouping, buildFilterClause(DatabaseConstants.VIEW_EXTENDED), filterSelectionArgs(), label, 0, true)
+                accountInfo.id, cat_id, isMain, grouping, buildFilterClause(VIEW_EXTENDED), filterSelectionArgs(), label, 0, true)
                 .show(parentFragmentManager, TransactionListDialogFragment::class.java.name)
     }
 
@@ -271,29 +269,28 @@ abstract class DistributionBaseFragment<ROW_BINDING : ViewBinding?> : AbstractCa
         val selectionArgs: Array<String>?
         var catFilter: String
         val accountSelection: String?
-        var amountCalculation = DatabaseConstants.KEY_AMOUNT
-        var table = DatabaseConstants.VIEW_COMMITTED
+        var amountCalculation = KEY_AMOUNT
+        var table = VIEW_COMMITTED
         val id = accountInfo.id
         when {
             id == Account.HOME_AGGREGATE_ID -> {
                 accountSelection = null
-                amountCalculation = DatabaseConstants.getAmountHomeEquivalent(DatabaseConstants.VIEW_WITH_ACCOUNT)
-                table = DatabaseConstants.VIEW_WITH_ACCOUNT
+                amountCalculation = getAmountHomeEquivalent(VIEW_WITH_ACCOUNT)
+                table = VIEW_WITH_ACCOUNT
             }
             id < 0 -> {
                 accountSelection = " IN " +
-                        "(SELECT " + DatabaseConstants.KEY_ROWID + " from " + DatabaseConstants.TABLE_ACCOUNTS + " WHERE " + DatabaseConstants.KEY_CURRENCY + " = ? AND " +
-                        DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS + " = 0 )"
+                        "(SELECT " + KEY_ROWID + " from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " = ? AND " +
+                        KEY_EXCLUDE_FROM_TOTALS + " = 0 )"
                 accountSelector = accountInfo.currency.code
             }
             else -> {
                 accountSelection = " = $id"
             }
         }
-        catFilter = "FROM " + table +
-                " WHERE " + DatabaseConstants.WHERE_NOT_VOID + if (accountSelection == null) "" else " AND +" + DatabaseConstants.KEY_ACCOUNTID + accountSelection
+        catFilter = "FROM $table WHERE $WHERE_NOT_VOID${if (accountSelection == null) "" else " AND +$KEY_ACCOUNTID$accountSelection"}"
         if (!aggregateTypes) {
-            catFilter += " AND " + DatabaseConstants.KEY_AMOUNT + (if (isIncome) ">" else "<") + "0"
+            catFilter += " AND " + KEY_AMOUNT + (if (isIncome) ">" else "<") + "0"
         }
         val dateFilter = buildFilterClause(table)
         if (dateFilter != null) {
@@ -302,24 +299,20 @@ abstract class DistributionBaseFragment<ROW_BINDING : ViewBinding?> : AbstractCa
         //we need to include transactions mapped to children for main categories
         catFilter += " AND $CAT_TREE_WHERE_CLAUSE"
         val extraColumn = extraColumn
-        val projection = arrayOfNulls<String>(if (extraColumn == null) 6 else 7)
-        projection[0] = DatabaseConstants.KEY_ROWID
-        projection[1] = DatabaseConstants.KEY_PARENTID
-        projection[2] = DatabaseConstants.KEY_LABEL
-        projection[3] = DatabaseConstants.KEY_COLOR
-        projection[4] = "(SELECT sum(" + amountCalculation + ") " + catFilter + ") AS " + DatabaseConstants.KEY_SUM
-        projection[5] = DatabaseConstants.KEY_ICON
+        val projection = mutableListOf(KEY_ROWID, KEY_PARENTID, KEY_LABEL, KEY_COLOR,
+                "(SELECT sum($amountCalculation) $catFilter) AS $KEY_SUM", KEY_ICON)
         if (extraColumn != null) {
-            projection[6] = extraColumn
+            projection.add(extraColumn)
         }
         val showAllCategories = showAllCategories()
         selectionArgs = Utils.joinArrays(if (accountSelector != null) if (showAllCategories) arrayOf(accountSelector) else arrayOf(accountSelector, accountSelector) else null, filterSelectionArgs())
-        return briteContentResolver.createQuery(categoriesUri!!,
-                projection, if (showAllCategories) null else " exists (SELECT 1 $catFilter)", selectionArgs, sortExpression, true)
+        return briteContentResolver.createQuery(categoriesUri,
+                projection.toTypedArray(), if (showAllCategories) null else " exists (SELECT 1 $catFilter)", selectionArgs, sortExpression, true)
     }
 
-    protected open val categoriesUri: Uri?
+    protected open val categoriesUri: Uri
         get() = TransactionProvider.CATEGORIES_URI
+
     protected open val extraColumn: String?
         get() = null
 

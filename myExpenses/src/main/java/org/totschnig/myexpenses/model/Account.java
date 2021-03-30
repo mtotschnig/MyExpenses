@@ -897,20 +897,26 @@ public class Account extends Model {
    * @param withType true means, that the query is for either positive (income) or negative (expense) transactions
    *                 in that case, the merge transfer restriction must be skipped, since it is based on only
    *                 selecting the negative part of a transfer
-   * @return
    */
   public Uri getExtendedUriForTransactionList(boolean withType) {
     return Transaction.EXTENDED_URI;
   }
 
   public boolean isHomeAggregate() {
-    return getId() == HOME_AGGREGATE_ID;
+    return isHomeAggregate(getId());
+  }
+
+  public static boolean isHomeAggregate(long id) {
+    return id == HOME_AGGREGATE_ID;
   }
 
   public boolean isAggregate() {
-    return getId() < 0;
+    return isAggregate(getId());
   }
 
+  public static boolean isAggregate(long id) {
+    return id < 0;
+  }
 
   public String[] getExtendedProjectionForTransactionList() {
     return Transaction.PROJECTION_EXTENDED;

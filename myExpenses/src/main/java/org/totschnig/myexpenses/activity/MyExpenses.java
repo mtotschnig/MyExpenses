@@ -60,7 +60,6 @@ import org.totschnig.myexpenses.fragment.ContextualActionBarFragment;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountGrouping;
-import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.ExportFormat;
@@ -794,10 +793,10 @@ public class MyExpenses extends BaseMyExpenses implements
         recordUsage(feature);
         Intent i = new Intent(this, Distribution.class);
         i.putExtra(KEY_ACCOUNTID, accountId);
+        i.putExtra(KEY_GROUPING, getAccountsCursor().getString(getColumnIndexGrouping()));
         if (tag != null) {
           int year = (int) ((Long) tag / 1000);
           int groupingSecond = (int) ((Long) tag % 1000);
-          i.putExtra(KEY_GROUPING, Grouping.valueOf(getAccountsCursor().getString(getColumnIndexGrouping())));
           i.putExtra(KEY_YEAR, year);
           i.putExtra(KEY_SECOND_GROUP, groupingSecond);
         }
@@ -806,8 +805,10 @@ public class MyExpenses extends BaseMyExpenses implements
       }
       case HISTORY: {
         recordUsage(feature);
+        getAccountsCursor().moveToPosition(getCurrentPosition());
         Intent i = new Intent(this, HistoryActivity.class);
         i.putExtra(KEY_ACCOUNTID, accountId);
+        i.putExtra(KEY_GROUPING, getAccountsCursor().getString(getColumnIndexGrouping()));
         startActivity(i);
         break;
       }
