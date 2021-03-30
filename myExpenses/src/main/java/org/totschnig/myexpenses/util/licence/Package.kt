@@ -29,9 +29,9 @@ sealed class Package(val defaultPrice: Long) : Parcelable {
                 .formatCurrency(Money(currencyUnit!!, defaultPrice))
     }
 
-    @Parcelize @Keep object Contrib : Package(350)
+    @Parcelize @Keep object Contrib : Package(430)
     @Parcelize@Keep object Upgrade : Package(300)
-    @Parcelize@Keep object Extended : Package(500)
+    @Parcelize@Keep object Extended : Package(670)
 }
 
 @Suppress("ClassName")
@@ -85,9 +85,9 @@ sealed class AddOnPackage(defaultPrice: Long, val feature: ContribFeature) : Pac
 
     override fun payPalButtonId(isSandBox: Boolean) = if (isSandBox) "9VF4Z9KSLHXZN" else TODO()
 
-    @Parcelize @Keep object SplitTemplate : AddOnPackage(500, ContribFeature.SPLIT_TEMPLATE)
-    @Parcelize @Keep object History : AddOnPackage(500, ContribFeature.HISTORY)
-    @Parcelize @Keep object Budget : AddOnPackage(500, ContribFeature.BUDGET)
-    @Parcelize @Keep object Ocr : AddOnPackage(500, ContribFeature.OCR)
-    @Parcelize @Keep object WebUi : AddOnPackage(500, ContribFeature.WEB_UI)
+    @Parcelize @Keep object SplitTemplate : AddOnPackage(430, ContribFeature.SPLIT_TEMPLATE)
+    @Parcelize @Keep object History : AddOnPackage(430, ContribFeature.HISTORY)
+    @Parcelize @Keep object Budget : AddOnPackage(430, ContribFeature.BUDGET)
+    @Parcelize @Keep object Ocr : AddOnPackage(430, ContribFeature.OCR)
+    @Parcelize @Keep object WebUi : AddOnPackage(430, ContribFeature.WEB_UI)
 }

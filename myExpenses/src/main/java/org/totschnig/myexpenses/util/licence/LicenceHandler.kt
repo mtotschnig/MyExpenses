@@ -233,7 +233,7 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
     }
 
     fun getPaymentOptions(aPackage: Package): IntArray {
-        return if (aPackage.defaultPrice >= 500) intArrayOf(R.string.donate_button_paypal, R.string.donate_button_invoice) else intArrayOf(R.string.donate_button_paypal)
+        return if (aPackage.defaultPrice >= 430) intArrayOf(R.string.donate_button_paypal, R.string.donate_button_invoice) else intArrayOf(R.string.donate_button_paypal)
     }
 
     open val doesUseIAP: Boolean
