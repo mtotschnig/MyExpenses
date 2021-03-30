@@ -1,0 +1,2 @@
+• Les opérations peuvent se répéter le dernier jour du mois.
+• Deux transactions existantes peuvent être liées en tant que transfert.
