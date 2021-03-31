@@ -24,6 +24,7 @@ import eltos.simpledialogfragment.form.Spinner
 import icepick.State
 import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalTime
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit.Companion.KEY_OCR_RESULT
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
@@ -44,6 +45,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
 import org.totschnig.myexpenses.util.TextUtils
+import org.totschnig.myexpenses.util.distrib.ReviewManager
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
 import timber.log.Timber
 import java.io.File
@@ -71,6 +73,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     @Inject
     lateinit var discoveryHelper: IDiscoveryHelper
+    @Inject
+    lateinit var reviewManager: ReviewManager
+
     var accountsCursor: Cursor? = null
     lateinit var toolbar: Toolbar
 
@@ -96,6 +101,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this)[MyExpensesViewModel::class.java]
+    }
+
+    override fun injectDependencies() {
+        (applicationContext as MyApplication).appComponent.inject(this)
     }
 
     override fun onFeatureAvailable(feature: Feature) {

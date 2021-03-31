@@ -5,9 +5,9 @@ interface AdHandler {
 
     fun maybeRequestNewInterstitial() {}
 
-    fun maybeShowInterstitial() {}
+    fun maybeShowInterstitial(): Boolean = false
 
-    fun onEditTransactionResult() {}
+    fun onEditTransactionResult(): Boolean = false
 
     fun onResume() {}
 

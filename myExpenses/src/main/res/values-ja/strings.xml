@@ -96,7 +96,6 @@
     <string name="dialog_password_new_password">新しいパスワード</string>
     <string name="dialog_password_new_password_confirmation">新しいパスワード (確認)</string>
     <string name="dialog_remind_later">後で</string>
-    <string name="dialog_remind_no">いいえ結構です</string>
     <string name="dialog_remind_rate_how_many_stars">{app_name} にいくつ星をつけますか?</string>
     <string name="dialog_remind_rate_1">{app_name} の評価とレビューに少しお時間をいただけませんか。</string>
     <string name="dialog_remind_rate_2">あなたのご意見により、私たちは絶え間ない改善と機能拡張を行うことができます。</string>
@@ -472,8 +471,11 @@
     <string name="comparison_operator_equal">等しい</string>
     <string name="comparison_operator_greater_than">より大きい</string>
     <string name="comparison_operator_lesser_than">より小さい</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions between two specified dates. -->
     <string name="comparison_operator_between">間</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions before a specified date.  -->
     <string name="comparison_operator_date_before">以前</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">以降</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">購入が失敗またはキャンセルされました。</string>
     <string name="hint_auto_fill">同じ受取人/支払人の場合、前回の取引から自動的にデータを入力する必要がありますか? この動作はいつでも設定から変更できます。</string>

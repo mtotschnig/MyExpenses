@@ -97,7 +97,6 @@
     <string name="dialog_password_new_password">Yeni parola</string>
     <string name="dialog_password_new_password_confirmation">Yeni parola (teyit)</string>
     <string name="dialog_remind_later">Daha sonra</string>
-    <string name="dialog_remind_no">Hayır teşekkürler</string>
     <string name="dialog_remind_rate_how_many_stars">{app_name}\'a kaç yıldız verirsiniz?</string>
     <string name="dialog_remind_rate_1">{app_name}\'ı yorumlamak ve puan vermek için lütfen bir dakikanızı ayrınız.</string>
     <string name="dialog_remind_rate_2">Yorumlarınız devamlı olarak geliştirme ve iyileştirmeler eklememize imkân vermektedir.</string>
@@ -483,8 +482,11 @@
     <string name="comparison_operator_equal">şuna eşit</string>
     <string name="comparison_operator_greater_than">şundan büyük</string>
     <string name="comparison_operator_lesser_than">şundan küçük</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions between two specified dates. -->
     <string name="comparison_operator_between">arasında</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions before a specified date.  -->
     <string name="comparison_operator_date_before">önce</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">sonra</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Satın alma başarısız oldu veya iptal edildi.</string>
     <string name="hint_auto_fill">Aynı alacaklı/ödeyici için veriler son muameleden doldurulsun mu? Bu davranışı ayarlardan değiştirmeniz mümkündür.</string>
@@ -973,4 +975,6 @@
     <string name="new_balance">Yeni bakiye</string>
     <string name="title_webui">İnternet Kullanıcı Arayüzü</string>
     <string name="single_feature_info">Alternatif olarak sadece bu işlev için sınırsız erişim satın alabilirsiniz.</string>
+    <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
+    <string name="recurrence_last_day_of_month">Son gün</string>
     </resources>

@@ -69,7 +69,6 @@
     <string name="dialog_password_new_password">Nova contrasenya</string>
     <string name="dialog_password_new_password_confirmation">Nova contrasenya (confirmació)</string>
     <string name="dialog_remind_later">Més endavant</string>
-    <string name="dialog_remind_no">No, gràcies</string>
     <string name="dialog_remind_rate_how_many_stars">Quants estels donaries a {app_name}?</string>
     <string name="dialog_remind_rate_1">Si us plau prengueu-vos un moment per valorar i comentar {app_name}.</string>
     <string name="dialog_remind_rate_2">Els vostres comentaris ens permeten afegir millores contínuament.</string>

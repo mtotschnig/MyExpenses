@@ -67,7 +67,6 @@
     <string name="dialog_password_new_password">Új jelszó</string>
     <string name="dialog_password_new_password_confirmation">Új jelszó (megerősítés)</string>
     <string name="dialog_remind_later">Későb</string>
-    <string name="dialog_remind_no">Nem, köszönöm</string>
     <string name="dialog_remind_rate_1">Kérjük szánjon egy percet arra, hogy értékeli és visszajelez a {app_name} programról felületen.</string>
     <string name="dialog_remind_rate_2">Észrevételeivel újabb szolgáltatásokat és fejlesztéseket végezhetünk.</string>
     <string name="dialog_remind_rate_yes">Értékelje most</string>

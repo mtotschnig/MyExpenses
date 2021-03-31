@@ -94,7 +94,6 @@
     <string name="dialog_password_new_password">Mật khẩu mới</string>
     <string name="dialog_password_new_password_confirmation">Mật khẩu mới (xác nhận)</string>
     <string name="dialog_remind_later">Để sau</string>
-    <string name="dialog_remind_no">Không, cảm ơn</string>
     <string name="dialog_remind_rate_how_many_stars">Bạn sẽ đánh giá {app_name} bao nhiêu sao?</string>
     <string name="dialog_remind_rate_1">Xin dành chút thời gian để xếp hạng và xem các nhận xét về {app_name}.</string>
     <string name="dialog_remind_rate_2">Các bình luận của bạn sẽ giúp chúng tôi cải thiện chất lượng dịch vụ về sản phẩm tốt hơn.</string>
@@ -465,8 +464,11 @@
     <string name="comparison_operator_equal">bằng với</string>
     <string name="comparison_operator_greater_than">lớn hơn</string>
     <string name="comparison_operator_lesser_than">nhỏ hơn</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions between two specified dates. -->
     <string name="comparison_operator_between">trong khoảng</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions before a specified date.  -->
     <string name="comparison_operator_date_before">trước</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">sau</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Giao dịch thất bại hoặc đã bị huỷ bỏ</string>
     <string name="hint_auto_fill">Dữ liệu từ giao dịch liền trước với cùng người nhận/trả có nên được tự động thêm vào? Bạn luôn có thể thay đổi tuỳ chọn này trong mục cài đặt.</string>

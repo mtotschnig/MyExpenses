@@ -10,8 +10,8 @@ import org.jetbrains.annotations.NotNull;
 import org.threeten.bp.LocalDate;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.BaseActivity;
+import org.totschnig.myexpenses.activity.BaseMyExpenses;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
-import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.db2.Repository;
 import org.totschnig.myexpenses.dialog.AmountFilterDialog;
@@ -154,7 +154,7 @@ public interface AppComponent {
 
   void inject(ExpenseEdit expenseEdit);
 
-  void inject(MyExpenses myExpenses);
+  void inject(BaseMyExpenses myExpenses);
 
   void inject(ProtectedFragmentActivity protectedFragmentActivity);
 

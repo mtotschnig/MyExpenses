@@ -97,7 +97,6 @@
     <string name="dialog_password_new_password">ಹೊಸ ಪಾಸ್‌ವರ್ಡ್</string>
     <string name="dialog_password_new_password_confirmation">ಹೊಸ ಪಾಸ್‌ವರ್ಡ್ (ದೃಢೀಕರಣ)</string>
     <string name="dialog_remind_later">ನಂತರ</string>
-    <string name="dialog_remind_no">ಬೇಡ, ಧನ್ಯವಾದಗಳು</string>
     <string name="dialog_remind_rate_how_many_stars">{app_name} ಗೆ ನೀವು ಎಷ್ಟು ನಕ್ಷತ್ರಗಳನ್ನು ನೀಡುತ್ತೀರಿ?</string>
     <string name="dialog_remind_rate_1"> ದಯವಿಟ್ಟು {app_name}  ಅನ್ನು ರೇಟ್ ಮಾಡಲು ಮತ್ತು ವಿಮರ್ಶಿಸಲು ಸ್ವಲ್ಪ ಸಮಯ ತೆಗೆದುಕೊಳ್ಳಿ.</string>
     <string name="dialog_remind_rate_2">ಸುಧಾರಣೆಗಳು ಮತ್ತು ವರ್ಧನೆಗಳನ್ನು ನಿರಂತರವಾಗಿ ಸೇರಿಸಲು ನಿಮ್ಮ ಕಾಮೆಂಟ್‌ಗಳು ನಮಗೆ ಅವಕಾಶ ಮಾಡಿಕೊಡುತ್ತವೆ.</string>
@@ -482,8 +481,11 @@
     <string name="comparison_operator_equal">ಸಮಾನವಾಗಿರುತ್ತದೆ</string>
     <string name="comparison_operator_greater_than">ಅದಕ್ಕಿಂತ ಹೆಚ್ಚು</string>
     <string name="comparison_operator_lesser_than">ಗಿಂತ ಕಡಿಮೆ</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions between two specified dates. -->
     <string name="comparison_operator_between">ನಡುವೆ</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions before a specified date.  -->
     <string name="comparison_operator_date_before">ಮೊದಲು</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">ನಂತರ</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">ಖರೀದಿ ವಿಫಲವಾಗಿದೆ ಅಥವಾ ರದ್ದುಗೊಂಡಿದೆ.</string>
     <string name="hint_auto_fill">ಅದೇ ಪಾವತಿದಾರ / ಪಾವತಿಸುವವರಿಗೆ ಕೊನೆಯ ವಹಿವಾಟಿನಿಂದ ಡೇಟಾವನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಭರ್ತಿ ಮಾಡಬೇಕೇ? ನೀವು ಯಾವಾಗಲೂ ಈ ನಡವಳಿಕೆಯನ್ನು ಸೆಟ್ಟಿಂಗ್‌ಗಳಿಂದ ಬದಲಾಯಿಸಬಹುದು.</string>

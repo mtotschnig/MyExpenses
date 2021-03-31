@@ -97,7 +97,6 @@
     <string name="dialog_password_new_password">新密碼</string>
     <string name="dialog_password_new_password_confirmation">(再確認一次)新密碼</string>
     <string name="dialog_remind_later">以後再說</string>
-    <string name="dialog_remind_no">不用，謝謝!</string>
     <string name="dialog_remind_rate_how_many_stars">您會給{app_name}幾顆星的評價?</string>
     <string name="dialog_remind_rate_1">請您花點時間來給{app_name}評分與評語</string>
     <string name="dialog_remind_rate_2">您的意見是我們繼續改進與新增功能的動力</string>
@@ -474,9 +473,12 @@
     <string name="comparison_operator_equal">等於</string>
     <string name="comparison_operator_greater_than">大於</string>
     <string name="comparison_operator_lesser_than">小於</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions between two specified dates. -->
     <string name="comparison_operator_between">之間</string>
-    <string name="comparison_operator_date_before">前</string>
-    <string name="comparison_operator_date_after">後</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions before a specified date.  -->
+    <string name="comparison_operator_date_before">之前</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
+    <string name="comparison_operator_date_after">之後</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">購買失敗或取消</string>
     <string name="hint_auto_fill">當交易對象(收款人/付款人)相同時，是否自動填入上次交易的內容？
 您始終可以通過設定更改此決定。</string>
@@ -965,4 +967,4 @@
     <string name="single_feature_info">或者您可以購買僅此功能的無限制使用權限。</string>
     <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
     <string name="recurrence_last_day_of_month">每月的最後一天</string>
-</resources>
+    </resources>

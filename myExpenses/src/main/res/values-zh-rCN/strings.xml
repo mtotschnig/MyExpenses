@@ -81,7 +81,6 @@
     <string name="dialog_password_new_password">新密码</string>
     <string name="dialog_password_new_password_confirmation">新密码 (再确认)</string>
     <string name="dialog_remind_later">以后来说</string>
-    <string name="dialog_remind_no">不用感谢</string>
     <string name="dialog_remind_rate_how_many_stars">你会给{app_name}打多少分?</string>
     <string name="dialog_remind_rate_1">请大家花点时间来评价{app_name}.</string>
     <string name="dialog_remind_rate_2">你的意见将不断鼓励我改进此工具.</string>
@@ -391,7 +390,9 @@
     <string name="comparison_operator_equal">等于</string>
     <string name="comparison_operator_greater_than">大于</string>
     <string name="comparison_operator_lesser_than">小于</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions before a specified date.  -->
     <string name="comparison_operator_date_before">前</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">后</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">购买失败或取消</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate"> %2$s 货币 %1$d 账户已经被更新了.</string>

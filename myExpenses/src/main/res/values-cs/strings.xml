@@ -84,7 +84,6 @@
     <string name="dialog_password_new_password">Nové heslo</string>
     <string name="dialog_password_new_password_confirmation">Nové heslo (potvrzení)</string>
     <string name="dialog_remind_later">Později</string>
-    <string name="dialog_remind_no">Ne, děkuji</string>
     <string name="dialog_remind_rate_1">Prosím věnujte chvílí hodnocení a recenzi aplikace {app_name}.</string>
     <string name="dialog_remind_rate_2">Vaše komentáře nám pomáhají k neustálému zlepšování aplikace.</string>
     <string name="dialog_remind_rate_yes">Ohodnoťte nyní</string>

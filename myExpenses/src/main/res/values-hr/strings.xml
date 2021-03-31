@@ -70,7 +70,6 @@
     <string name="dialog_password_new_password">Nova lozinka</string>
     <string name="dialog_password_new_password_confirmation">Nova lozinka (potvrdi)</string>
     <string name="dialog_remind_later">Kasnije</string>
-    <string name="dialog_remind_no">Ne, hvala</string>
     <string name="dialog_remind_rate_how_many_stars">Kako biste ocijenili {app_name}?</string>
     <string name="dialog_remind_rate_1">Molimo izdvojite trenutak kako biste ocijenili i opisali {app_name}.</string>
     <string name="dialog_remind_rate_2">Vaši komentari nam omogućuju kontinuirana poboljšanja i unaprjeđenja.</string>
@@ -418,6 +417,7 @@
     <string name="comparison_operator_equal">jednako</string>
     <string name="comparison_operator_greater_than">više od</string>
     <string name="comparison_operator_lesser_than">manje od</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions between two specified dates. -->
     <string name="comparison_operator_between">između</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Kupovina neuspjela ili otkazana.</string>
     <string name="yes">Da</string>

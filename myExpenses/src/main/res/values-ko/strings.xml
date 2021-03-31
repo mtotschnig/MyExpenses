@@ -83,7 +83,6 @@
     <string name="dialog_password_new_password">새 암호</string>
     <string name="dialog_password_new_password_confirmation">새 암호 (다시 확인)</string>
     <string name="dialog_remind_later">나중에</string>
-    <string name="dialog_remind_no">괜찮습니다</string>
     <string name="dialog_remind_rate_how_many_stars">{app_name}에 몇개의 별점을 주실건가요?</string>
     <string name="dialog_remind_rate_1">{app_name}를 평가하고 별점을 매길 동안 잠시 기다려주세요.</string>
     <string name="dialog_remind_rate_2">당신의 코멘트는 지속적으로 기능을 추가하고 발전시키는데 도움이 됩니다.</string>
@@ -436,8 +435,11 @@
     <string name="comparison_operator_equal">다음과 같음</string>
     <string name="comparison_operator_greater_than">다음보다 많음</string>
     <string name="comparison_operator_lesser_than">다음보다 적음</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions between two specified dates. -->
     <string name="comparison_operator_between">사이에</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions before a specified date.  -->
     <string name="comparison_operator_date_before">이전에</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">이후에</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">구매에 실패했거나 취소되었습니다.</string>
     <string name="yes">예</string>

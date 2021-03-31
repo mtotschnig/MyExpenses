@@ -97,7 +97,6 @@
     <string name="dialog_password_new_password">Nueva contraseña</string>
     <string name="dialog_password_new_password_confirmation">Nueva contraseña (confirmación)</string>
     <string name="dialog_remind_later">Más tarde</string>
-    <string name="dialog_remind_no">No, gracias</string>
     <string name="dialog_remind_rate_how_many_stars">¿Cuántas estrellas le daría a {app_name}?</string>
     <string name="dialog_remind_rate_1">Por favor, tómese un momento para calificar y dejar una reseña de {app_name}.</string>
     <string name="dialog_remind_rate_2">Sus comentarios nos permiten añadir mejoras y ampliaciones continuamente.</string>
@@ -483,8 +482,11 @@
     <string name="comparison_operator_equal">igual a</string>
     <string name="comparison_operator_greater_than">mayor que</string>
     <string name="comparison_operator_lesser_than">menor que</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions between two specified dates. -->
     <string name="comparison_operator_between">entre</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions before a specified date.  -->
     <string name="comparison_operator_date_before">antes</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">después</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Compra fallida o cancelada.</string>
     <string name="hint_auto_fill">¿Los datos deberían de rellenarse automáticamente a partir de la última transacción para el mismo acreedor/ordenante? Siempre podrá cambiarlo desde configuración.</string>

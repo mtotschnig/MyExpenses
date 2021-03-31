@@ -89,7 +89,6 @@
     <string name="dialog_password_new_password">Nova palavra-passe</string>
     <string name="dialog_password_new_password_confirmation">Nova palavra-passe (confirmação)</string>
     <string name="dialog_remind_later">Mais tarde</string>
-    <string name="dialog_remind_no">Não obrigado</string>
     <string name="dialog_remind_rate_how_many_stars">Quantas estrelas daria ao {app_name}?</string>
     <string name="dialog_remind_rate_1">Por favor tire um momento para avaliar e dar a sua opinião sobre o {app_name}.</string>
     <string name="dialog_remind_rate_2">Os seus comentários permitem-nos adicionar continuamente melhorias e aperfeiçoamentos.</string>
@@ -460,8 +459,11 @@
     <string name="comparison_operator_equal">igual a</string>
     <string name="comparison_operator_greater_than">maior que</string>
     <string name="comparison_operator_lesser_than">menor que</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions between two specified dates. -->
     <string name="comparison_operator_between">entre</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions before a specified date.  -->
     <string name="comparison_operator_date_before">antes</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">depois</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">A compra falhou ou foi cancelada.</string>
     <string name="yes">Sim</string>

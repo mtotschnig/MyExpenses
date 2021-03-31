@@ -97,7 +97,6 @@
     <string name="dialog_password_new_password">كلمة مرور الجديدة</string>
     <string name="dialog_password_new_password_confirmation">كلمة المرور الجديدة (للتأكيد)</string>
     <string name="dialog_remind_later">لاحقاً</string>
-    <string name="dialog_remind_no">لا شكراً</string>
     <string name="dialog_remind_rate_how_many_stars">كم عدد النجوم التي قد تمنحها لـ {app_name}؟</string>
     <string name="dialog_remind_rate_1">فضلا قم بتقييم {app_name}.</string>
     <string name="dialog_remind_rate_2">تعليقاتكم تسمح لنا بالاستمرار في تحسين و ترقية البرنامج .</string>
@@ -519,8 +518,11 @@
     <string name="comparison_operator_equal">مساوي لـ</string>
     <string name="comparison_operator_greater_than">أكبر من</string>
     <string name="comparison_operator_lesser_than">أقل من</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions between two specified dates. -->
     <string name="comparison_operator_between">بين</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions before a specified date.  -->
     <string name="comparison_operator_date_before">قبل</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">بعد</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">.عملية الشراء فشلت أو ألغيت</string>
     <string name="hint_auto_fill">هل يجب ملء البيانات تلقائياً من آخر معاملة لنفس المستفيد / الدافع؟ يمكنك دائماً تغيير هذا السلوك من الإعدادات.</string>

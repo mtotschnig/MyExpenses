@@ -97,7 +97,6 @@
     <string name="dialog_password_new_password">Nuova password</string>
     <string name="dialog_password_new_password_confirmation">Nuova password (conferma)</string>
     <string name="dialog_remind_later">Più tardi</string>
-    <string name="dialog_remind_no">No grazie</string>
     <string name="dialog_remind_rate_how_many_stars">Quante stelle daresti a {app_name}?</string>
     <string name="dialog_remind_rate_1">Prenditi un momento per votare e rivedere {app_name}.</string>
     <string name="dialog_remind_rate_2">I tuoi commenti ci permettono di aggiungere continuamente miglioramenti e perfezionamenti.</string>
@@ -978,4 +977,4 @@
     <string name="single_feature_info">In alternativa puoi acquistare l\'accesso illimitato solamente a questa funzione.</string>
     <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
     <string name="recurrence_last_day_of_month">Ultimo giorno</string>
-</resources>
+    </resources>

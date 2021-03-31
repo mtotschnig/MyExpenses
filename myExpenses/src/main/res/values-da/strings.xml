@@ -72,7 +72,6 @@
     <string name="dialog_password_new_password">Ny adgangskode</string>
     <string name="dialog_password_new_password_confirmation">Bekræftelse af ny adgangskode</string>
     <string name="dialog_remind_later">Senere</string>
-    <string name="dialog_remind_no">Nej tak</string>
     <string name="dialog_remind_rate_how_many_stars">Hvor mange stjerner vil du give til {app_name}?</string>
     <string name="dialog_remind_rate_1">Tag venligst et øjeblik til at anmelde {app_name}.</string>
     <string name="dialog_remind_rate_2">Dine kommentarer hjælper os til at tilføje løbende forbedringer.</string>
@@ -425,8 +424,11 @@
     <string name="comparison_operator_equal">lige med</string>
     <string name="comparison_operator_greater_than">større end</string>
     <string name="comparison_operator_lesser_than">mindre end</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions between two specified dates. -->
     <string name="comparison_operator_between">mellem</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions before a specified date.  -->
     <string name="comparison_operator_date_before">før</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">efter</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Køb mislykkedes eller annulleret.</string>
     <string name="yes">Ja</string>

@@ -97,7 +97,6 @@
     <string name="dialog_password_new_password">New password</string>
     <string name="dialog_password_new_password_confirmation">New password (confirmation)</string>
     <string name="dialog_remind_later">Later</string>
-    <string name="dialog_remind_no">No thanks</string>
     <string name="dialog_remind_rate_how_many_stars">How many stars would you give to {app_name}?</string>
     <string name="dialog_remind_rate_1">Please take a moment to rate and review {app_name}.</string>
     <string name="dialog_remind_rate_2">Your comments allow us to continually add improvements and enhancements.</string>

@@ -40,7 +40,6 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.MyGroupedAdapter;
 import org.totschnig.myexpenses.databinding.ActivityMainBinding;
@@ -50,7 +49,6 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDi
 import org.totschnig.myexpenses.dialog.ExportDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
-import org.totschnig.myexpenses.dialog.RemindRateDialogFragment;
 import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.dialog.select.SelectFilterDialog;
@@ -76,7 +74,6 @@ import org.totschnig.myexpenses.ui.CursorFragmentPagerAdapter;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
 import org.totschnig.myexpenses.ui.SnackbarAction;
 import org.totschnig.myexpenses.util.AppDirHelper;
-import org.totschnig.myexpenses.util.distrib.DistributionHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.ShareUtils;
 import org.totschnig.myexpenses.util.TextUtils;
@@ -84,6 +81,7 @@ import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.ads.AdHandler;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.util.distrib.DistributionHelper;
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
 
 import java.io.Serializable;
@@ -109,7 +107,6 @@ import kotlin.Unit;
 import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
-import static android.text.format.DateUtils.DAY_IN_MILLIS;
 import static com.theartofdev.edmodo.cropper.CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE;
 import static eltos.simpledialogfragment.list.CustomListDialog.SELECTED_SINGLE_ID;
 import static org.totschnig.myexpenses.activity.ConstantsKt.CREATE_ACCOUNT_REQUEST;
@@ -201,11 +198,6 @@ public class MyExpenses extends BaseMyExpenses implements
   boolean indexesCalculated = false;
 
   private RoadmapViewModel roadmapViewModel;
-
-  @Override
-  protected void injectDependencies() {
-    ((MyApplication) getApplicationContext()).getAppComponent().inject(this);
-  }
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -341,6 +333,7 @@ public class MyExpenses extends BaseMyExpenses implements
       //voteReminderCheck();
       voteReminderCheck2();
     }
+    reviewManager.init(this);
   }
 
   public void showTransactionFromIntent(Bundle extras) {
@@ -460,16 +453,9 @@ public class MyExpenses extends BaseMyExpenses implements
     if (requestCode == EDIT_REQUEST) {
       floatingActionButton.show();
       if (resultCode == RESULT_OK) {
-        if (!DistributionHelper.isGithub()) {
-          long nextReminder = prefHandler.getLong(PrefKey.NEXT_REMINDER_RATE, Utils.getInstallTime(this) + DAY_IN_MILLIS * 30);
-          if (nextReminder != -1 && nextReminder < System.currentTimeMillis()) {
-            RemindRateDialogFragment f = new RemindRateDialogFragment();
-            f.setCancelable(false);
-            f.show(getSupportFragmentManager(), "REMIND_RATE");
-            return;
-          }
+        if (!adHandler.onEditTransactionResult()) {
+          reviewManager.onEditTransactionResult(this);
         }
-        adHandler.onEditTransactionResult();
       }
     }
     if (requestCode == CREATE_ACCOUNT_REQUEST && resultCode == RESULT_OK) {

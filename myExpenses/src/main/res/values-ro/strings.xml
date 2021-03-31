@@ -80,7 +80,6 @@
     <string name="dialog_password_new_password">Parolă nouă</string>
     <string name="dialog_password_new_password_confirmation">Parolă nouă (confirmare)</string>
     <string name="dialog_remind_later">Mai târziu</string>
-    <string name="dialog_remind_no">Nu mulţumesc</string>
     <string name="dialog_remind_rate_how_many_stars">Câte stele ai da la {app_name}?</string>
     <string name="dialog_remind_rate_1">Vă rugăm să evaluaţi şi revizuiţi {app_name}.</string>
     <string name="dialog_remind_rate_2">Comentariile dvs ne permit să adăugăm permanent  îmbunătăţiri şi perfecţionări.</string>
@@ -446,8 +445,11 @@
     <string name="comparison_operator_equal">egal cu</string>
     <string name="comparison_operator_greater_than">mai mare decât</string>
     <string name="comparison_operator_lesser_than">mai mic decât</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions between two specified dates. -->
     <string name="comparison_operator_between">între</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions before a specified date.  -->
     <string name="comparison_operator_date_before">înainte </string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">după</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Cumpărare eşuată sau anulată.</string>
     <string name="yes">Da</string>

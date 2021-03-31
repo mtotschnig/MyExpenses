@@ -97,7 +97,6 @@
     <string name="dialog_password_new_password">Kata laluan baharu</string>
     <string name="dialog_password_new_password_confirmation">Kata laluan baharu (pengesahan)</string>
     <string name="dialog_remind_later">Kemudian</string>
-    <string name="dialog_remind_no">Tidak terima kasih</string>
     <string name="dialog_remind_rate_how_many_stars">Berapa banyak bintang yang anda mahu berikan kepada {app_name}?</string>
     <string name="dialog_remind_rate_1">Sila ambil sedikit masa untuk beri penarafan dan ulasan {app_name}.</string>
     <string name="dialog_remind_rate_2">Ulasan anda membolehkan kami tambah penambahbaikan dan peningkatan secara berterusan.</string>
@@ -470,8 +469,11 @@
     <string name="comparison_operator_equal">sama dengan</string>
     <string name="comparison_operator_greater_than">lebih besar dari</string>
     <string name="comparison_operator_lesser_than">lebih kurang dari</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions between two specified dates. -->
     <string name="comparison_operator_between">diantara</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions before a specified date.  -->
     <string name="comparison_operator_date_before">sebelum</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">selepas</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Pembelian gagal atau dibatalkan.</string>
     <string name="hint_auto_fill">Sepatutnya data terisi secara automatik dari transaksi terakhir bagi penerima/pembayar yang sama? Tetapi anda boleh ubah kelakuan ini melalui tetapan.</string>

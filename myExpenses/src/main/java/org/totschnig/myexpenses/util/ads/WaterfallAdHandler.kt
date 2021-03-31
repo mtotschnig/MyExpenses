@@ -47,14 +47,11 @@ class WaterfallAdHandler internal constructor(factory: AdHandlerFactory, adConta
     }
 
     private fun requestNewInterstitialCurrent() {
-        val current = currentForInterstitial
-        current?.requestNewInterstitialDo()
+        currentForInterstitial?.requestNewInterstitialDo()
     }
 
-    override fun onEditTransactionResult() {
-        val current = currentForInterstitial
-        current?.onEditTransactionResult()
-    }
+    override fun onEditTransactionResult() =
+            currentForInterstitial?.onEditTransactionResult() ?: false
 
     override fun onResume() {
         val current = current

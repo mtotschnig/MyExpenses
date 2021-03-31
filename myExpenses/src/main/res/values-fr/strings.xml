@@ -97,7 +97,6 @@
     <string name="dialog_password_new_password">Nouveau mot de passe</string>
     <string name="dialog_password_new_password_confirmation">Nouveau mot de passe (confirmation)</string>
     <string name="dialog_remind_later">Plus tard</string>
-    <string name="dialog_remind_no">Non merci</string>
     <string name="dialog_remind_rate_how_many_stars">Combien d\'étoiles donneriez-vous à {app_name} ?</string>
     <string name="dialog_remind_rate_1">S\'il vous plaît prenez le temps d\'évaluer et de noter {app_name}.</string>
     <string name="dialog_remind_rate_2">Vos commentaires nous permettent d\'ajouter constamment des améliorations et perfectionnements.</string>
@@ -483,8 +482,11 @@
     <string name="comparison_operator_equal">égal à</string>
     <string name="comparison_operator_greater_than">supérieur à</string>
     <string name="comparison_operator_lesser_than">inférieur à</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions between two specified dates. -->
     <string name="comparison_operator_between">entre</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions before a specified date.  -->
     <string name="comparison_operator_date_before">avant</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">après</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Échec ou annulation de l\'achat.</string>
     <string name="hint_auto_fill">Voulez-vous remplir automatiquement les données à partir de la dernière opération de ce tiers ? Vous pouvez toujours modifier cette option dans les paramètres.</string>
@@ -975,4 +977,4 @@
     <string name="single_feature_info">Vous pouvez également acheter un accès illimité à cette fonctionnalité uniquement.</string>
     <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
     <string name="recurrence_last_day_of_month">Dernier jour</string>
-</resources>
+    </resources>

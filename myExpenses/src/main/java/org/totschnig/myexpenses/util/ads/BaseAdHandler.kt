@@ -51,15 +51,15 @@ abstract class BaseAdHandler protected constructor(private val factory: AdHandle
         }
     }
 
-    override fun maybeShowInterstitial() {
-        if (maybeShowInterstitialDo()) {
-            prefHandler.putLong(PrefKey.INTERSTITIAL_LAST_SHOWN, System.currentTimeMillis())
-            prefHandler.putInt(PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL, 0)
-        } else {
-            prefHandler.putInt(PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL,
-                    prefHandler.getInt(PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL, 0) + 1)
-            maybeRequestNewInterstitial()
-        }
+    override fun maybeShowInterstitial() = if (maybeShowInterstitialDo()) {
+        prefHandler.putLong(PrefKey.INTERSTITIAL_LAST_SHOWN, System.currentTimeMillis())
+        prefHandler.putInt(PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL, 0)
+        true
+    } else {
+        prefHandler.putInt(PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL,
+                prefHandler.getInt(PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL, 0) + 1)
+        maybeRequestNewInterstitial()
+        false
     }
 
     abstract fun maybeShowInterstitialDo(): Boolean
@@ -76,15 +76,16 @@ abstract class BaseAdHandler protected constructor(private val factory: AdHandle
         }
     }
 
-    override fun onEditTransactionResult() {
+    override fun onEditTransactionResult(): Boolean {
         try {
             if (!shouldHideAd()) {
                 init()
-                maybeShowInterstitial()
+                return maybeShowInterstitial()
             }
         } catch (e: Exception) {
             Timber.e(e)
         }
+        return false
     }
 
     protected open fun hide() {

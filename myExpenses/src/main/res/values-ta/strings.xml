@@ -97,7 +97,6 @@
     <string name="dialog_password_new_password">புதிய கடவுச்சொல்</string>
     <string name="dialog_password_new_password_confirmation">புதிய கடவுச்சொல் (உறுதிப்படுத்தல்)</string>
     <string name="dialog_remind_later">பின்னர்</string>
-    <string name="dialog_remind_no">இல்லை, நன்றி</string>
     <string name="dialog_remind_rate_how_many_stars">{app_name} செயலிக்கு நீங்கள் எத்தனை நட்சத்திரங்கள் கொடுப்பீற்கள்?</string>
     <string name="dialog_remind_rate_1">{app_name} மதிப்பிடவும், மதிப்பாய்வு செய்யவும் ஒரு கணம் எடுத்துக்கொள்ளவும்.</string>
     <string name="dialog_remind_rate_2">உங்கள் கருத்துகள், மேம்படுத்தல்களையும் விரிவாக்கங்களையும் தொடர்ந்து சேர்க்க எங்களை அனுமதிக்கிறது.</string>
@@ -483,8 +482,11 @@
     <string name="comparison_operator_equal">சமமாக</string>
     <string name="comparison_operator_greater_than">அதிகமாக</string>
     <string name="comparison_operator_lesser_than">குறைவாக</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions between two specified dates. -->
     <string name="comparison_operator_between">இடையே</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions before a specified date.  -->
     <string name="comparison_operator_date_before">முன்</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">பின்</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">வாங்குதல் தோல்வியுற்றது அல்லது ரத்துசெய்யப்பட்டது.</string>
     <string name="hint_auto_fill">அதே பணம் பெறுபவர்/செலுத்துபவர் கொண்ட முந்தய பரிவர்த்தனையிலிருந்து தரவு தானாகவே நிரப்பப்பட வேண்டுமா? இதை  அமைப்புகளிலிருந்து எப்போதும் மாற்றிக்கொள்ளலாம்.</string>

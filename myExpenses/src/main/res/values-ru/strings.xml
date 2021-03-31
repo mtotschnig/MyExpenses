@@ -97,7 +97,6 @@
     <string name="dialog_password_new_password">Новый пароль</string>
     <string name="dialog_password_new_password_confirmation">Новый пароль (подтверждение)</string>
     <string name="dialog_remind_later">Позже</string>
-    <string name="dialog_remind_no">Нет, спасибо</string>
     <string name="dialog_remind_rate_how_many_stars">Какую оценку вы бы поставили приложению {app_name}?</string>
     <string name="dialog_remind_rate_1">Пожалуйста, найдите минутку, чтобы оценить и написать обзор на {app_name}.</string>
     <string name="dialog_remind_rate_2">Ваши комментарии позволяют нам постоянно улучшать и совершенствовать программу.</string>
@@ -500,8 +499,11 @@
     <string name="comparison_operator_equal">равняется</string>
     <string name="comparison_operator_greater_than">больше чем</string>
     <string name="comparison_operator_lesser_than">меньше чем</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions between two specified dates. -->
     <string name="comparison_operator_between">между</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions before a specified date.  -->
     <string name="comparison_operator_date_before">до</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">после</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Покупка была прервана или отменена.</string>
     <string name="hint_auto_fill">Позволить автозаполнение на основе последней транзакции для того же получателя/плательщика? Вы всегда можете изменить это поведение в настройках.</string>

@@ -97,7 +97,6 @@
     <string name="dialog_password_new_password">Pasahitz berria</string>
     <string name="dialog_password_new_password_confirmation">Pasahitz berria (berretsi)</string>
     <string name="dialog_remind_later">Geroago</string>
-    <string name="dialog_remind_no">Ez, eskerrik asko</string>
     <string name="dialog_remind_rate_how_many_stars">Zenbat izar emango zenizkioke {app_name} aplikazioari?</string>
     <string name="dialog_remind_rate_1">Mesedez hartu unetxo bat {app_name} baloratzeko eta iruzkin bat egiteko.</string>
     <string name="dialog_remind_rate_2">Zure iruzkinek zuzenketak eta hobekuntzak etengabe gehitzea ahalbidetzen digute.</string>
@@ -480,8 +479,11 @@
     <string name="comparison_operator_equal">=</string>
     <string name="comparison_operator_greater_than">&gt;</string>
     <string name="comparison_operator_lesser_than">&lt;</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions between two specified dates. -->
     <string name="comparison_operator_between">&gt; x &lt;</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions before a specified date.  -->
     <string name="comparison_operator_date_before">lehenago</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">beranduago</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Erosketak huts egin du eta bertan behera utzi da.</string>
     <string name="yes">Bai</string>
