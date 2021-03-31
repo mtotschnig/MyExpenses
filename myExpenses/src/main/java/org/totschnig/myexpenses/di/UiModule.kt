@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.di
 
+import android.content.Context
 import androidx.fragment.app.FragmentActivity
 import dagger.Module
 import dagger.Provides
@@ -11,7 +12,6 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory
-import org.totschnig.myexpenses.util.ads.DefaultAdHandlerFactory
 import org.totschnig.myexpenses.util.distrib.ReviewManager
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import javax.inject.Named
@@ -25,9 +25,13 @@ open class UiModule {
 
     @Provides
     @Singleton
-    fun provideAdHandlerFactory(application: MyApplication, prefHandler: PrefHandler, @Named(AppComponent.USER_COUNTRY) userCountry: String, licenceHandler: LicenceHandler): AdHandlerFactory = object : DefaultAdHandlerFactory(application, prefHandler, userCountry, licenceHandler) {
-        override val isAdDisabled: Boolean
-            get() = true
+    fun provideAdHandlerFactory(application: MyApplication, prefHandler: PrefHandler, @Named(AppComponent.USER_COUNTRY) userCountry: String, licenceHandler: LicenceHandler): AdHandlerFactory =
+           try {
+               Class.forName("org.totschnig.myexpenses.util.ads.PlatformAdHandlerFactory")
+                       .getConstructor(Context::class.java, PrefHandler::class.java, String::class.java, LicenceHandler::class.java)
+                       .newInstance(application, prefHandler, userCountry, licenceHandler) as AdHandlerFactory
+           } catch (e: Exception) {
+               object : AdHandlerFactory {}
     }
 
     @Provides
