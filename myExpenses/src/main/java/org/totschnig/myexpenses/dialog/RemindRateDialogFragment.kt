@@ -105,7 +105,7 @@ class RemindRateDialogFragment : BaseDialogFragment(), DialogInterface.OnClickLi
     companion object {
         private const val POSITIVE_RATING = 5
         fun maybeShow(prefHandler: PrefHandler, activity: FragmentActivity) {
-            if (true) {
+            if (shouldShow(prefHandler, activity)) {
                 RemindRateDialogFragment().apply {
                     isCancelable = false
                     show(activity.supportFragmentManager, "REMIND_RATE")
