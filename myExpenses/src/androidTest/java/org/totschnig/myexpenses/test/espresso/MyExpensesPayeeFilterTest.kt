@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.test.espresso
 
 import android.content.OperationApplicationException
 import android.os.RemoteException
+import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -9,18 +10,17 @@ import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.CursorMatchers
 import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import androidx.test.rule.ActivityTestRule
+import androidx.test.ext.junit.rules.ActivityScenarioRule
 import org.hamcrest.Matchers
-import org.hamcrest.Matchers.allOf
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.MyExpenses
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -32,9 +32,8 @@ import java.util.*
 
 class MyExpensesPayeeFilterTest: BaseUiTest() {
     @get:Rule
-    var mActivityRule = ActivityTestRule(MyExpenses::class.java)
-    override fun getTestRule() = mActivityRule
-    private lateinit var account: Account;
+    var scenarioRule = ActivityScenarioRule(MyExpenses::class.java)
+    private lateinit var account: Account
     private var payee1 = "John Doe"
     private var payee2 = "Hinz Finz"
 
@@ -84,5 +83,8 @@ class MyExpensesPayeeFilterTest: BaseUiTest() {
     fun tearDown() {
         Account.delete(account.id)
     }
+
+    override val testScenario: ActivityScenario<out ProtectedFragmentActivity>
+        get() = scenarioRule.scenario
 
 }

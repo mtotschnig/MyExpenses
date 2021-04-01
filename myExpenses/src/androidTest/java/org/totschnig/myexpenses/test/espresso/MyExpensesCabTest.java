@@ -7,7 +7,6 @@ import android.os.RemoteException;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
@@ -22,11 +21,13 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.testutils.BaseUiTest;
 
 import java.util.Currency;
+import java.util.Objects;
 import java.util.concurrent.TimeoutException;
 
+import androidx.annotation.NonNull;
+import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.matcher.CursorMatchers;
 import androidx.test.filters.FlakyTest;
-import androidx.test.rule.ActivityTestRule;
 
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onData;
@@ -50,9 +51,7 @@ import static org.totschnig.myexpenses.testutils.Matchers.withAdaptedData;
 
 public final class MyExpensesCabTest extends BaseUiTest {
 
-  @Rule
-  public ActivityTestRule<MyExpenses> mActivityRule =
-      new ActivityTestRule<>(MyExpenses.class, true, false);
+  private ActivityScenario<MyExpenses> activityScenario = null;
   private Account account;
 
   @Before
@@ -69,7 +68,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
     }
     Intent i = new Intent();
     i.putExtra(KEY_ROWID, account.getId());
-    mActivityRule.launchActivity(i);
+    activityScenario = ActivityScenario.launch(i);
   }
 
   @After
@@ -110,7 +109,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
     String templateTitle = "Espresso Template Test";
     openCab();
     clickMenuItem(R.id.CREATE_TEMPLATE_COMMAND, true);
-    onView(withText(containsString(mActivityRule.getActivity().getString(R.string.menu_create_template))))
+    onView(withText(containsString(getString(R.string.menu_create_template))))
         .check(matches(isDisplayed()));
     onView(withId(R.id.editText))
         .perform(typeText(templateTitle));
@@ -182,8 +181,9 @@ public final class MyExpensesCabTest extends BaseUiTest {
     onView(withId(R.id.action_mode_bar)).check(matches(isDisplayed()));
   }
 
+  @NonNull
   @Override
-  protected ActivityTestRule<? extends ProtectedFragmentActivity> getTestRule() {
-    return mActivityRule;
+  protected ActivityScenario<? extends ProtectedFragmentActivity> getTestScenario() {
+    return Objects.requireNonNull(activityScenario);
   }
 }

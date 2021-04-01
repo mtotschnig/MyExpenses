@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.test.espresso
 import android.content.ContentUris
 import android.content.ContentUris.appendId
 import android.content.ContentValues
+import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
@@ -14,11 +15,9 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.rule.ActivityTestRule
 import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.Matchers
 import org.junit.After
-import org.junit.Rule
 import org.junit.Test
 import org.threeten.bp.LocalDate
 import org.totschnig.myexpenses.R
@@ -40,8 +39,7 @@ import org.totschnig.myexpenses.viewmodel.data.Budget
 import java.util.*
 
 class CategoriesCabTest : BaseUiTest() {
-    @get:Rule
-    var mActivityRule: ActivityTestRule<ManageCategories?> = ActivityTestRule(ManageCategories::class.java, true, false)
+    private lateinit var activityScenario: ActivityScenario<ManageCategories>
 
     private val contentResolver
         get() = InstrumentationRegistry.getInstrumentation().targetContext.contentResolver
@@ -82,7 +80,7 @@ class CategoriesCabTest : BaseUiTest() {
         setCategoryBudget(budgetId, categoryId, 50000)
     }
 
-    private fun setCategoryBudget(budgetId: Long, categoryId: Long, amount: Long) {
+    private fun setCategoryBudget(budgetId: Long, categoryId: Long, @Suppress("SameParameterValue") amount: Long) {
         with(ContentValues(1)) {
             put(DatabaseConstants.KEY_BUDGET, amount)
             contentResolver!!.update(appendId(appendId(TransactionProvider.BUDGETS_URI.buildUpon(), budgetId), categoryId).build(),
@@ -94,6 +92,7 @@ class CategoriesCabTest : BaseUiTest() {
     fun tearDown() {
         Account.delete(account.id)
         contentResolver?.delete(Category.CONTENT_URI, null, null)
+        activityScenario.close()
     }
 
     @Test
@@ -103,7 +102,7 @@ class CategoriesCabTest : BaseUiTest() {
         clickMenuItem(R.id.DELETE_COMMAND, true)
         assertThat(waitForAdapter().count).isEqualTo(origListSize)
         onView(withId(com.google.android.material.R.id.snackbar_text))
-                .check(matches(withText(mActivityRule.activity!!.resources.getQuantityString(
+                .check(matches(withText(getQuantityString(
                         R.plurals.not_deletable_mapped_transactions, 1, 1))))
     }
 
@@ -114,7 +113,7 @@ class CategoriesCabTest : BaseUiTest() {
         clickMenuItem(R.id.DELETE_COMMAND, true)
         assertThat(waitForAdapter().count).isEqualTo(origListSize)
         onView(withId(com.google.android.material.R.id.snackbar_text))
-                .check(matches(withText(mActivityRule.activity!!.resources.getQuantityString(
+                .check(matches(withText(getQuantityString(
                         R.plurals.not_deletable_mapped_templates, 1, 1))))
     }
 
@@ -129,7 +128,7 @@ class CategoriesCabTest : BaseUiTest() {
     }
 
     private fun launchAndOpenCab(): Int {
-        mActivityRule.launchActivity(null)
+        activityScenario = ActivityScenario.launch(ManageCategories::class.java)
         val origListSize = waitForAdapter().count
         Espresso.onData(Matchers.`is`(Matchers.instanceOf(org.totschnig.myexpenses.viewmodel.data.Category::class.java)))
                 .atPosition(0)
@@ -148,7 +147,6 @@ class CategoriesCabTest : BaseUiTest() {
         assertThat(Category.countSub(categoryId)).isEqualTo(1)
     }
 
-    override fun getTestRule(): ActivityTestRule<out ProtectedFragmentActivity?> {
-        return mActivityRule
-    }
+    override val testScenario: ActivityScenario<out ProtectedFragmentActivity>
+        get() = activityScenario
 }

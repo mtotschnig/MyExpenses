@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.test.espresso;
 import android.content.OperationApplicationException;
 import android.os.RemoteException;
 
+import org.jetbrains.annotations.NotNull;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -22,8 +23,9 @@ import org.totschnig.myexpenses.testutils.Matchers;
 import java.util.Currency;
 import java.util.concurrent.TimeoutException;
 
+import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.matcher.CursorMatchers;
-import androidx.test.rule.ActivityTestRule;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
@@ -40,8 +42,8 @@ public final class MyExpensesCommentSearchFilterTest extends BaseUiTest {
   private static final String comment1 = "something";
   private static final String comment2 = "different";
   @Rule
-  public ActivityTestRule<MyExpenses> mActivityRule =
-      new ActivityTestRule<>(MyExpenses.class);
+  public ActivityScenarioRule<MyExpenses> scenarioRule =
+      new ActivityScenarioRule<>(MyExpenses.class);
   private static Account account;
 
   @BeforeClass
@@ -85,14 +87,15 @@ public final class MyExpensesCommentSearchFilterTest extends BaseUiTest {
         .inAdapterView(getWrappedList()).check(matches(isDisplayed()));
   }
 
-  private void commentIsNotDisplayed(String comment) {
+  private void commentIsNotDisplayed(@SuppressWarnings("SameParameterValue") String comment) {
     onView(getWrappedList())
         .check(matches(not(Matchers.withAdaptedData(
             CursorMatchers.withRowString(DatabaseConstants.KEY_COMMENT, comment)))));
   }
 
+  @NotNull
   @Override
-  protected ActivityTestRule<? extends ProtectedFragmentActivity> getTestRule() {
-    return mActivityRule;
+  protected ActivityScenario<? extends ProtectedFragmentActivity> getTestScenario() {
+    return scenarioRule.getScenario();
   }
 }

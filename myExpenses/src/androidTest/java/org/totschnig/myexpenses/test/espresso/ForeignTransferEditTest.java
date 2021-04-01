@@ -1,14 +1,13 @@
 package org.totschnig.myexpenses.test.espresso;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.os.RemoteException;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.Account;
@@ -19,36 +18,31 @@ import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.testutils.BaseUiTest;
 
 import java.util.Currency;
+import java.util.Objects;
 
-import androidx.test.InstrumentationRegistry;
-import androidx.test.rule.ActivityTestRule;
+import androidx.annotation.NonNull;
+import androidx.test.core.app.ActivityScenario;
+import androidx.test.platform.app.InstrumentationRegistry;
 
-import static androidx.test.espresso.Espresso.closeSoftKeyboard;
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+
 
 public class ForeignTransferEditTest extends BaseUiTest {
 
-  @Rule
-  public ActivityTestRule<ExpenseEdit> mActivityRule =
-      new ActivityTestRule<>(ExpenseEdit.class, false, false);
-  private String accountLabel1 = "Test label 1";
-  private String accountLabel2 = "Test label 2";
+  private ActivityScenario<ExpenseEdit> activityScenario = null;
   private Account account1;
   private Account account2;
-  private CurrencyUnit currency1;
-  private CurrencyUnit currency2;
   private Transfer transfer;
 
   @Before
   public void fixture() {
-    currency1 = new CurrencyUnit(Currency.getInstance("USD"));
-    currency2 = new CurrencyUnit(Currency.getInstance("EUR"));
+    CurrencyUnit currency1 = new CurrencyUnit(Currency.getInstance("USD"));
+    CurrencyUnit currency2 = new CurrencyUnit(Currency.getInstance("EUR"));
+    String accountLabel1 = "Test label 1";
     account1 = new Account(accountLabel1, currency1, 0, "", AccountType.CASH, Account.DEFAULT_COLOR);
     account1.save();
+    String accountLabel2 = "Test label 2";
     account2 = new Account(accountLabel2, currency2, 0, "", AccountType.CASH, Account.DEFAULT_COLOR);
     account2.save();
     transfer = Transfer.getNewInstance(account1.getId(), account2.getId());
@@ -66,13 +60,14 @@ public class ForeignTransferEditTest extends BaseUiTest {
   public void shouldSaveForeignTransfer() {
     Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
     i.putExtra(KEY_ROWID, transfer.getId());
-    mActivityRule.launchActivity(i);
+    activityScenario = ActivityScenario.launch(i);
     closeKeyboardAndSave();
-    assertTrue(mActivityRule.getActivity().isFinishing());
+    assertThat(activityScenario.getResult().getResultCode()).isEqualTo(Activity.RESULT_OK);
   }
 
+  @NonNull
   @Override
-  protected ActivityTestRule<? extends ProtectedFragmentActivity> getTestRule() {
-    return mActivityRule;
+  protected ActivityScenario<? extends ProtectedFragmentActivity> getTestScenario() {
+    return Objects.requireNonNull(activityScenario);
   }
 }

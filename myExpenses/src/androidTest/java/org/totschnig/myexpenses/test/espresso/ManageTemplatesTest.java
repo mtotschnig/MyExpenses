@@ -6,9 +6,7 @@ import android.os.RemoteException;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
@@ -24,11 +22,12 @@ import org.totschnig.myexpenses.testutils.BaseUiTest;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 
 import java.util.Currency;
+import java.util.Objects;
 
+import androidx.annotation.NonNull;
 import androidx.test.InstrumentationRegistry;
-import androidx.test.espresso.intent.rule.IntentsTestRule;
+import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.matcher.CursorMatchers;
-import androidx.test.rule.ActivityTestRule;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -44,9 +43,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 //TODO test CAB actions
 public class ManageTemplatesTest extends BaseUiTest {
 
-  @Rule
-  public IntentsTestRule<ManageTemplates> mActivityRule =
-      new IntentsTestRule<>(ManageTemplates.class, false, false);
+  private ActivityScenario<ManageTemplates> activityScenario = null;
+
   private static Account account1, account2;
 
   @Before
@@ -60,7 +58,7 @@ public class ManageTemplatesTest extends BaseUiTest {
     createInstances(Template.Action.SAVE);
     createInstances(Template.Action.EDIT);
     Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ManageTemplates.class);
-    mActivityRule.launchActivity(i);
+    activityScenario = ActivityScenario.launch(i);
   }
 
   public void createInstances(Template.Action defaultAction) {
@@ -131,7 +129,6 @@ public class ManageTemplatesTest extends BaseUiTest {
     doTheTest("SAVE", "Split");
   }
 
-
   private void doTheTest(String action, String type) {
     String title = String.format("Espresso %s Template %s", type, action);
     onData(CursorMatchers.withRowString(DatabaseConstants.KEY_TITLE, title))
@@ -143,14 +140,14 @@ public class ManageTemplatesTest extends BaseUiTest {
   }
 
   private void unlock() {
-    final AppComponent appComponent = ((MyApplication) mActivityRule.getActivity().getApplicationContext()).getAppComponent();
+    final AppComponent appComponent = app.getAppComponent();
     LicenceHandler licenceHandler = appComponent.licenceHandler();
     licenceHandler.setLockState(false);
   }
 
-
+  @NonNull
   @Override
-  protected ActivityTestRule<? extends ProtectedFragmentActivity> getTestRule() {
-    return mActivityRule;
+  protected ActivityScenario<? extends ProtectedFragmentActivity> getTestScenario() {
+    return Objects.requireNonNull(activityScenario);
   }
 }

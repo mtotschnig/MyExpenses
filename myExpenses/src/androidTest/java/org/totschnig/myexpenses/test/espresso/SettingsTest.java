@@ -4,7 +4,10 @@ import android.os.Build;
 import android.view.View;
 
 import org.hamcrest.Matcher;
+import org.jetbrains.annotations.NotNull;
+import org.junit.After;
 import org.junit.Assume;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.totschnig.myexpenses.R;
@@ -25,9 +28,10 @@ import org.totschnig.myexpenses.testutils.BaseUiTest;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.contrib.RecyclerViewActions;
-import androidx.test.espresso.intent.rule.IntentsTestRule;
-import androidx.test.rule.ActivityTestRule;
+import androidx.test.espresso.intent.Intents;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -43,8 +47,18 @@ import static org.hamcrest.Matchers.instanceOf;
 public class SettingsTest extends BaseUiTest {
 
   @Rule
-  public final IntentsTestRule<MyPreferenceActivity> mActivityRule =
-      new IntentsTestRule<>(MyPreferenceActivity.class, false, true);
+  public ActivityScenarioRule<MyPreferenceActivity> scenarioRule =
+      new ActivityScenarioRule<>(MyPreferenceActivity.class);
+
+  @Before
+  public void initIntents() {
+    Intents.init();
+  }
+
+  @After
+  public void releaseIntents() {
+    Intents.release();
+  }
 
   @Test
   public void manageCategories() {
@@ -88,7 +102,7 @@ public class SettingsTest extends BaseUiTest {
   public void importQif() {
     onView(getRootMatcher())
         .perform(RecyclerViewActions.actionOnItem(hasDescendant(
-            withText(mActivityRule.getActivity().getString(R.string.pref_import_title, "QIF"))),
+            withText(getString(R.string.pref_import_title, "QIF"))),
             click()));
     intended(hasComponent(QifImport.class.getName()));
   }
@@ -98,7 +112,7 @@ public class SettingsTest extends BaseUiTest {
   public void importCsv() {
     onView(getRootMatcher())
         .perform(RecyclerViewActions.actionOnItem(hasDescendant(
-            withText(mActivityRule.getActivity().getString(R.string.pref_import_title, "CSV"))),
+            withText(getString(R.string.pref_import_title, "CSV"))),
             click()));
     handleContribDialog(ContribFeature.CSV_IMPORT);
     intended(hasComponent(CsvImportActivity.class.getName()));
@@ -117,7 +131,7 @@ public class SettingsTest extends BaseUiTest {
   public void restore() {
     onView(getRootMatcher())
         .perform(RecyclerViewActions.actionOnItem(hasDescendant(
-            withText(mActivityRule.getActivity().getString(R.string.pref_restore_title) + " (ZIP)")),
+            withText(getString(R.string.pref_restore_title) + " (ZIP)")),
             click()));
     intended(hasComponent(BackupRestoreActivity.class.getName()));
     onView(withText(R.string.pref_restore_title)).check(matches(isDisplayed()));
@@ -128,8 +142,8 @@ public class SettingsTest extends BaseUiTest {
     Assume.assumeTrue(Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT);
     onView(getRootMatcher())
         .perform(RecyclerViewActions.actionOnItem(hasDescendant(
-            withText(mActivityRule.getActivity().getString(R.string.pref_restore_title) + " (" +
-                mActivityRule.getActivity().getString(R.string.pref_restore_alternative) + ")")),
+            withText(getString(R.string.pref_restore_title) + " (" +
+                getString(R.string.pref_restore_alternative) + ")")),
             click()));
     intended(hasComponent(BackupRestoreActivity.class.getName()));
     onView(withText(R.string.restore_no_backup_found)).check(matches(isDisplayed()));
@@ -162,8 +176,9 @@ public class SettingsTest extends BaseUiTest {
     intended(hasComponent(ManageCurrencies.class.getName()));
   }
 
+  @NotNull
   @Override
-  protected ActivityTestRule<? extends ProtectedFragmentActivity> getTestRule() {
-    return mActivityRule;
+  protected ActivityScenario<? extends ProtectedFragmentActivity> getTestScenario() {
+    return scenarioRule.getScenario();
   }
 }

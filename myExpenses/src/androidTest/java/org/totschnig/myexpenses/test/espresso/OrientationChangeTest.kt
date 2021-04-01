@@ -3,7 +3,7 @@ package org.totschnig.myexpenses.test.espresso
 import android.content.Intent
 import android.content.OperationApplicationException
 import android.os.RemoteException
-import androidx.test.InstrumentationRegistry
+import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onData
@@ -15,17 +15,18 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withSpinnerText
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import androidx.test.rule.ActivityTestRule
+import androidx.test.platform.app.InstrumentationRegistry
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.containsString
 import org.hamcrest.CoreMatchers.instanceOf
 import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
+import org.totschnig.myexpenses.activity.MyExpenses
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.adapter.IAccount
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.model.Account
@@ -46,9 +47,8 @@ import org.totschnig.myexpenses.testutils.withStatus
 import java.util.*
 
 
-class OrientationChangeTest: BaseUiTest() {
-    @get:Rule
-    var mActivityRule = ActivityTestRule(ExpenseEdit::class.java, false, false)
+class OrientationChangeTest : BaseUiTest() {
+    private lateinit var activityScenario: ActivityScenario<MyExpenses>
     private val accountLabel1 = "Test label 1"
     private lateinit var account1: Account
     private lateinit var currency1: CurrencyUnit
@@ -78,7 +78,7 @@ class OrientationChangeTest: BaseUiTest() {
         transaction.save()
         val i = Intent(InstrumentationRegistry.getInstrumentation().targetContext, ExpenseEdit::class.java)
         i.putExtra(DatabaseConstants.KEY_ROWID, transaction.id)
-        mActivityRule.launchActivity(i)
+        activityScenario = ActivityScenario.launch(i)
         onView(withId(R.id.Account)).perform(click())
         onData(allOf(instanceOf(IAccount::class.java), withAccount(accountLabel2))).perform(click())
         onView(withId(R.id.Account)).check(matches(withSpinnerText(containsString(accountLabel2))))
@@ -96,7 +96,7 @@ class OrientationChangeTest: BaseUiTest() {
         transaction.save()
         val i = Intent(InstrumentationRegistry.getInstrumentation().targetContext, ExpenseEdit::class.java)
         i.putExtra(DatabaseConstants.KEY_ROWID, transaction.id)
-        mActivityRule.launchActivity(i)
+        activityScenario = ActivityScenario.launch(i)
         //Thread.sleep(100) //unfortunately needed if test starts in landscape
         closeSoftKeyboard()
         onView(withId(R.id.Method)).perform(scrollTo(), click())
@@ -110,7 +110,6 @@ class OrientationChangeTest: BaseUiTest() {
     }
 
 
-
     @Test
     fun shouldKeepStatusAfterOrientationChange() {
         val transaction = Transaction.getNewInstance(account1.id)
@@ -119,7 +118,7 @@ class OrientationChangeTest: BaseUiTest() {
         transaction.save()
         val i = Intent(InstrumentationRegistry.getInstrumentation().targetContext, ExpenseEdit::class.java)
         i.putExtra(DatabaseConstants.KEY_ROWID, transaction.id)
-        mActivityRule.launchActivity(i)
+        activityScenario = ActivityScenario.launch(i)
         //Thread.sleep(100) //unfortunately needed if test starts in landscape
         closeSoftKeyboard()
         onView(withId(R.id.Status)).perform(scrollTo(), click())
@@ -135,10 +134,10 @@ class OrientationChangeTest: BaseUiTest() {
 
     @Test
     fun shouldHandleNewInstanceAfterOrientationChange() {
-        Intent(androidx.test.platform.app.InstrumentationRegistry.getInstrumentation().targetContext, ExpenseEdit::class.java).apply {
-            putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
-            mActivityRule.launchActivity(this)
-        }
+        activityScenario = ActivityScenario.launch(
+                Intent(InstrumentationRegistry.getInstrumentation().targetContext, ExpenseEdit::class.java).apply {
+                    putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
+                })
         rotate()
         Espresso.onIdle()
         toolbarTitle().check(doesNotExist())
@@ -154,10 +153,10 @@ class OrientationChangeTest: BaseUiTest() {
             save()
             id
         }
-        Intent(InstrumentationRegistry.getInstrumentation().targetContext, ExpenseEdit::class.java).apply {
-            putExtra(DatabaseConstants.KEY_ROWID, id)
-            mActivityRule.launchActivity(this)
-        }
+        activityScenario = ActivityScenario.launch(
+                Intent(InstrumentationRegistry.getInstrumentation().targetContext, ExpenseEdit::class.java).apply {
+                    putExtra(DatabaseConstants.KEY_ROWID, id)
+                })
         rotate()
         Espresso.onIdle()
         checkEffectiveGone(R.id.OperationType)
@@ -165,5 +164,6 @@ class OrientationChangeTest: BaseUiTest() {
         rotate()
     }
 
-    override fun getTestRule() = mActivityRule
+    override val testScenario: ActivityScenario<out ProtectedFragmentActivity>
+        get() = activityScenario
 }

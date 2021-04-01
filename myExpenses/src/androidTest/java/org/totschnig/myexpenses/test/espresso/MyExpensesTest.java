@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.test.espresso;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.os.RemoteException;
@@ -11,7 +10,6 @@ import android.widget.TextView;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.AccountEdit;
@@ -30,13 +28,13 @@ import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
 
 import java.util.Currency;
 import java.util.Locale;
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
+import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.espresso.contrib.DrawerActions;
-import androidx.test.espresso.intent.rule.IntentsTestRule;
 import androidx.test.espresso.matcher.CursorMatchers;
-import androidx.test.rule.ActivityTestRule;
 import androidx.viewpager.widget.ViewPager;
 
 import static androidx.test.espresso.Espresso.onData;
@@ -69,9 +67,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 public final class MyExpensesTest extends BaseUiTest {
   private Account account;
 
-  @Rule
-  public final IntentsTestRule<MyExpenses> mActivityRule =
-      new IntentsTestRule<>(MyExpenses.class, false, false);
+  private ActivityScenario<MyExpenses> activityScenario = null;
 
   @Before
   public void fixture() {
@@ -81,7 +77,7 @@ public final class MyExpensesTest extends BaseUiTest {
     Intent i = new Intent();
     i.putExtra(KEY_ROWID, account.getId());
     configureLocale(Locale.GERMANY);
-    mActivityRule.launchActivity(i);
+    activityScenario = ActivityScenario.launch(i);
   }
 
   @After
@@ -91,14 +87,15 @@ public final class MyExpensesTest extends BaseUiTest {
 
   @Test
   public void viewPagerIsSetup() {
-    MyExpenses activity = mActivityRule.getActivity();
-    onView(withText(containsString(activity.getString(R.string.no_expenses))))
+    onView(withText(containsString(getString(R.string.no_expenses))))
         .check(matches(isDisplayed()));
 
-    FragmentPagerAdapter adapter =
-        (FragmentPagerAdapter) ((ViewPager) activity.findViewById(R.id.viewPager)).getAdapter();
-    Assert.assertNotNull(adapter);
-    assertEquals(adapter.getCount(), 1);
+    activityScenario.onActivity(activity -> {
+      FragmentPagerAdapter adapter =
+          (FragmentPagerAdapter) ((ViewPager) activity.findViewById(R.id.viewPager)).getAdapter();
+      Assert.assertNotNull(adapter);
+      assertEquals(adapter.getCount(), 1);
+    });
   }
 
   @Test
@@ -128,23 +125,23 @@ public final class MyExpensesTest extends BaseUiTest {
 
   @Test
   public void inActiveItemsOpenDialog() {
-    testInActiveItemHelper(R.id.RESET_COMMAND, R.string.menu_reset,
+    testInActiveItemHelper(R.id.RESET_COMMAND,
         R.string.dialog_command_disabled_reset_account);
-    testInActiveItemHelper(R.id.DISTRIBUTION_COMMAND, R.string.menu_distribution,
+    testInActiveItemHelper(R.id.DISTRIBUTION_COMMAND,
         R.string.dialog_command_disabled_distribution);
-    testInActiveItemHelper(R.id.PRINT_COMMAND, R.string.menu_print,
+    testInActiveItemHelper(R.id.PRINT_COMMAND,
         R.string.dialog_command_disabled_reset_account);
   }
 
   /**
    * Call a menu item and verify that a message is shown in dialog
    */
-  private void testInActiveItemHelper(int menuItemId, int menuTextResId, int messageResId) {
+  private void testInActiveItemHelper(int menuItemId, int messageResId) {
     clickMenuItem(menuItemId);
     onView(withText(messageResId)).check(matches(isDisplayed()));
     onView(allOf(
         isAssignableFrom(Button.class),
-        withText(is(mActivityRule.getActivity().getString(android.R.string.ok))))).perform(click());
+        withText(is(getString(android.R.string.ok))))).perform(click());
   }
 
   @Test
@@ -191,14 +188,14 @@ public final class MyExpensesTest extends BaseUiTest {
     onView(withText(getDialogTitleWarningDeleteAccount())).check(matches(isDisplayed()));
     onView(allOf(
         isAssignableFrom(Button.class),
-        withText(is(mActivityRule.getActivity().getString(R.string.menu_delete))))).perform(click());
+        withText(is(getString(R.string.menu_delete))))).perform(click());
     onView(withId(android.R.id.content));
     assertNull(Account.getInstanceFromDb(account2.getId()));
   }
 
   @NonNull
   private String getDialogTitleWarningDeleteAccount() {
-    return mActivityRule.getActivity().getResources().getQuantityString(R.plurals.dialog_title_warning_delete_account, 1);
+    return getQuantityString(R.plurals.dialog_title_warning_delete_account, 1);
   }
 
   @Test
@@ -216,7 +213,7 @@ public final class MyExpensesTest extends BaseUiTest {
     onView(withText(getDialogTitleWarningDeleteAccount())).check(matches(isDisplayed()));
     onView(allOf(
         isAssignableFrom(Button.class),
-        withText(is(mActivityRule.getActivity().getString(android.R.string.cancel))))).perform(click());
+        withText(is(getString(android.R.string.cancel))))).perform(click());
     onView(withId(android.R.id.content));
     assertNotNull(Account.getInstanceFromDb(account2.getId()));
     Account.delete(account2.getId());
@@ -224,7 +221,6 @@ public final class MyExpensesTest extends BaseUiTest {
 
   @Test
   public void deleteConfirmationDialogShowsLabelOfAccountToBeDeleted() throws RemoteException, OperationApplicationException {
-    Context context = mActivityRule.getActivity();
     String label1 = "Some first account";
     String label2 = "Another second account";
     Account account1 = new Account(label1, 0, "");
@@ -240,7 +236,7 @@ public final class MyExpensesTest extends BaseUiTest {
             isDisplayed()))
         .perform(longClick());
     onView(withText(R.string.menu_delete)).perform(click());
-    onView(withSubstring(context.getString(R.string.warning_delete_account, label1))).check(matches(isDisplayed()));
+    onView(withSubstring(getString(R.string.warning_delete_account, label1))).check(matches(isDisplayed()));
     onView(allOf(
         isAssignableFrom(Button.class),
         withText(android.R.string.cancel))).perform(click());
@@ -253,7 +249,7 @@ public final class MyExpensesTest extends BaseUiTest {
             isDisplayed()))
         .perform(longClick());
     onView(withText(R.string.menu_delete)).perform(click());
-    onView(withSubstring(context.getString(R.string.warning_delete_account, label2))).check(matches(isDisplayed()));
+    onView(withSubstring(getString(R.string.warning_delete_account, label2))).check(matches(isDisplayed()));
     onView(allOf(
         isAssignableFrom(Button.class),
         withText(android.R.string.cancel))).perform(click());
@@ -279,8 +275,9 @@ public final class MyExpensesTest extends BaseUiTest {
     onView(allOf(instanceOf(TextView.class), withParent(withId(R.id.toolbar)), withText("0,00 €"))).check(matches(isDisplayed()));
   }
 
+  @NonNull
   @Override
-  protected ActivityTestRule<? extends ProtectedFragmentActivity> getTestRule() {
-    return mActivityRule;
+  protected ActivityScenario<? extends ProtectedFragmentActivity> getTestScenario() {
+    return Objects.requireNonNull(activityScenario);
   }
 }

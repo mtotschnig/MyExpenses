@@ -3,9 +3,9 @@ package org.totschnig.myexpenses.test.espresso;
 import android.content.OperationApplicationException;
 import android.os.RemoteException;
 
+import org.jetbrains.annotations.NotNull;
 import org.junit.Rule;
 import org.junit.Test;
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageCurrencies;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
@@ -21,8 +21,10 @@ import org.totschnig.myexpenses.viewmodel.data.Currency;
 
 import java.math.BigDecimal;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicReference;
 
-import androidx.test.rule.ActivityTestRule;
+import androidx.test.core.app.ActivityScenario;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
@@ -41,9 +43,10 @@ import static org.hamcrest.Matchers.is;
 public class ManageCurrenciesTest extends BaseUiTest {
 
   private static final String CURRENCY_CODE = "EUR";
+
   @Rule
-  public ActivityTestRule<ManageCurrencies> mActivityRule =
-      new ActivityTestRule<>(ManageCurrencies.class);
+  public ActivityScenarioRule<ManageCurrencies> scenarioRule =
+      new ActivityScenarioRule<>(ManageCurrencies.class);
 
   @Test
   public void changeOfFractionDigitsWithUpdateShouldKeepTransactionSum() throws RemoteException, OperationApplicationException, TimeoutException {
@@ -56,7 +59,7 @@ public class ManageCurrenciesTest extends BaseUiTest {
   }
 
   private void testHelper(boolean withUpdate) throws RemoteException, OperationApplicationException, TimeoutException {
-    final AppComponent appComponent = ((MyApplication) mActivityRule.getActivity().getApplicationContext()).getAppComponent();
+    final AppComponent appComponent = app.getAppComponent();
     CurrencyContext currencyContext = appComponent.currencyContext();
     final CurrencyUnit currencyUnit = currencyContext.get(CURRENCY_CODE);
     Account account = new Account("TEST ACCOUNT", currencyUnit, 5000L, "", AccountType.CASH, Account.DEFAULT_COLOR);
@@ -68,7 +71,8 @@ public class ManageCurrenciesTest extends BaseUiTest {
       op.save();
       Money before = account.getTotalBalance();
       assertEquals(0, before.getAmountMajor().compareTo(new BigDecimal(38)));
-      final Currency currency = Currency.Companion.create(CURRENCY_CODE, mActivityRule.getActivity());
+      AtomicReference<Currency> currency = null;
+      getTestScenario().onActivity(activity -> currency.set(Currency.Companion.create(CURRENCY_CODE, activity)));
       onData(is(currency))
           .inAdapterView(withId(android.R.id.list)).perform(click());
       onView(withId(R.id.edt_currency_fraction_digits))
@@ -77,7 +81,7 @@ public class ManageCurrenciesTest extends BaseUiTest {
         onView(withId(R.id.checkBox)).perform(click());
       }
       onView(withText(android.R.string.ok)).perform(click());
-      onView(withText(allOf(containsString(currency.toString()), containsString("3")))).check(matches(isDisplayed()));
+      onView(withText(allOf(containsString(currency.get().toString()), containsString("3")))).check(matches(isDisplayed()));
       Money after = Account.getInstanceFromDb(account.getId()).getTotalBalance();
       if (withUpdate) {
         assertEquals(0, before.getAmountMajor().compareTo(after.getAmountMajor()));
@@ -92,9 +96,10 @@ public class ManageCurrenciesTest extends BaseUiTest {
     }
   }
 
+  @NotNull
   @Override
-  protected ActivityTestRule<? extends ProtectedFragmentActivity> getTestRule() {
-    return mActivityRule;
+  protected ActivityScenario<? extends ProtectedFragmentActivity> getTestScenario() {
+    return scenarioRule.getScenario();
   }
 
   @Override

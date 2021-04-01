@@ -6,7 +6,6 @@ import android.os.RemoteException;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
@@ -14,10 +13,12 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.testutils.BaseUiTest;
 
+import java.util.Objects;
 import java.util.concurrent.TimeoutException;
 
-import androidx.test.InstrumentationRegistry;
-import androidx.test.rule.ActivityTestRule;
+import androidx.annotation.NonNull;
+import androidx.test.core.app.ActivityScenario;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -30,9 +31,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 public final class MyExpensesIntentTest extends BaseUiTest {
 
-  @Rule
-  public ActivityTestRule<MyExpenses> mActivityRule =
-      new ActivityTestRule<>(MyExpenses.class, false, false);
+  private ActivityScenario<MyExpenses> activityScenario = null;
   private static String accountLabel1;
   private static Account account1;
 
@@ -52,7 +51,7 @@ public final class MyExpensesIntentTest extends BaseUiTest {
   public void shouldNavigateToAccountReceivedThroughIntent() throws TimeoutException {
     Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), MyExpenses.class)
         .putExtra(KEY_ROWID, account1.getId());
-    mActivityRule.launchActivity(i);
+    activityScenario = ActivityScenario.launch(i);
     waitForAdapter();
     onView(allOf(
         withText(accountLabel1),
@@ -60,8 +59,9 @@ public final class MyExpensesIntentTest extends BaseUiTest {
         .check(matches(isDisplayed()));
   }
 
+  @NonNull
   @Override
-  protected ActivityTestRule<? extends ProtectedFragmentActivity> getTestRule() {
-    return mActivityRule;
+  protected ActivityScenario<? extends ProtectedFragmentActivity> getTestScenario() {
+    return Objects.requireNonNull(activityScenario);
   }
 }
