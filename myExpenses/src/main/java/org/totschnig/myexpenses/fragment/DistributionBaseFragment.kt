@@ -3,8 +3,10 @@ package org.totschnig.myexpenses.fragment
 import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
+import android.view.ContextMenu
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.viewbinding.ViewBinding
 import com.squareup.sqlbrite3.QueryObservable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -189,22 +191,14 @@ abstract class DistributionBaseFragment<ROW_BINDING : ViewBinding?> : AbstractCa
     }
 
     protected abstract fun updateIncomeAndExpense(income: Long, expense: Long)
-
-    override fun hasSelectSingle(): Boolean {
-        return true
+    
+    override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {
+        requireActivity().menuInflater.inflate(R.menu.distribution_base_context, menu)
+        super.onCreateContextMenu(menu, v, menuInfo)
     }
 
-    override fun hasSelectMultiple(): Boolean {
-        return false
-    }
-
-    override fun configureMenuInternal(menu: Menu, hasChildren: Boolean) {
-        menu.findItem(R.id.EDIT_COMMAND).isVisible = false
-        menu.findItem(R.id.DELETE_COMMAND).isVisible = false
-        menu.findItem(R.id.SELECT_ALL_COMMAND).isVisible = false
-        menu.findItem(R.id.SELECT_COMMAND).setTitle(R.string.menu_show_transactions)
-        menu.findItem(R.id.CREATE_SUB_COMMAND).isVisible = false
-        menu.findItem(R.id.MOVE_COMMAND).isVisible = false
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        return dispatchCommandSingle(item.itemId, item.menuInfo)
     }
 
     override fun doSingleSelection(cat_id: Long, label: String, icon: String, isMain: Boolean) {
