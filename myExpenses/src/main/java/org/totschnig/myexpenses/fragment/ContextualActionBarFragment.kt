@@ -31,7 +31,7 @@ abstract class ContextualActionBarFragment : Fragment(), OnGroupClickListener, O
     @JvmField
     var expandableListSelectionType = ExpandableListView.PACKED_POSITION_TYPE_NULL
     private val menuSingleIds = intArrayOf(R.id.EDIT_COMMAND,
-            R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND, R.id.CREATE_PLAN_INSTANCE_SAVE_COMMAND,
+            R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND,
             R.id.SELECT_COMMAND, R.id.VIEW_COMMAND,R.id.CREATE_INSTANCE_EDIT_COMMAND,
             R.id.CREATE_TEMPLATE_COMMAND, R.id.CLONE_TRANSACTION_COMMAND)
     private val menuSingleGroupIds = intArrayOf(R.id.CREATE_SUB_COMMAND, R.id.COLOR_COMMAND)

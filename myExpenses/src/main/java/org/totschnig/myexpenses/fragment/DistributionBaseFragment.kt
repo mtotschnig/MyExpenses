@@ -191,7 +191,7 @@ abstract class DistributionBaseFragment<ROW_BINDING : ViewBinding?> : AbstractCa
     }
 
     protected abstract fun updateIncomeAndExpense(income: Long, expense: Long)
-    
+
     override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {
         requireActivity().menuInflater.inflate(R.menu.distribution_base_context, menu)
         super.onCreateContextMenu(menu, v, menuInfo)
