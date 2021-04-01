@@ -12,6 +12,7 @@ import android.view.Menu
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import icepick.Icepick
@@ -28,7 +29,6 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.util.CurrencyFormatter
-import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.getDateTimeFormatter
 import org.totschnig.myexpenses.viewmodel.PlannerViewModel
 import org.totschnig.myexpenses.viewmodel.data.EventObserver
@@ -91,8 +91,8 @@ class PlannerFragment : BaseDialogFragment() {
                         intArrayOf()
                 ),
                 intArrayOf(
-                        UiUtils.getColor(requireContext(), R.attr.colorControlActivated),
-                        resources.getColor(R.color.cardBackground)
+                        ResourcesCompat.getColor(resources, R.color.activatedBackground, null),
+                        ResourcesCompat.getColor(resources, R.color.cardBackground, null)
                 )
         )
     }
@@ -239,8 +239,8 @@ class PlannerFragment : BaseDialogFragment() {
                 })
                 colorAccount.setBackgroundColor(planInstance.color)
                 amount.text = currencyFormatter.formatCurrency(planInstance.amount)
-                amount.setTextColor((root.context.resources.getColor(
-                        if (planInstance.amount.amountMinor < 0) R.color.colorExpense else R.color.colorIncome)))
+                amount.setTextColor(ResourcesCompat.getColor(resources,
+                        if (planInstance.amount.amountMinor < 0) R.color.colorExpense else R.color.colorIncome, null))
                 val templatesList = parentFragment as? TemplatesList
                 root.setOnLongClickListener {
                     return@setOnLongClickListener if (planInstance.sealed) {
