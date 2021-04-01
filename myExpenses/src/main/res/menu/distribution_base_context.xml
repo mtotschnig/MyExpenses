@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@id/SELECT_COMMAND"
+        android:orderInCategory="0"
+        android:title="@string/menu_show_transactions" />
+    <item
+        android:id="@id/COLOR_COMMAND"
+        android:orderInCategory="3"
+        android:title="@string/menu_color" />
+</menu>
