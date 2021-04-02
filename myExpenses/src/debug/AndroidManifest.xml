@@ -34,5 +34,14 @@
                 <action android:name="TRIGGER_PLANNER"/>
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".activity.TestExpenseEdit"
+            android:theme="@style/EditDialog">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 </manifest>

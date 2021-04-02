@@ -4,7 +4,6 @@ import android.os.Build;
 import android.view.View;
 
 import org.hamcrest.Matcher;
-import org.jetbrains.annotations.NotNull;
 import org.junit.After;
 import org.junit.Assume;
 import org.junit.Before;
@@ -176,7 +175,7 @@ public class SettingsTest extends BaseUiTest {
     intended(hasComponent(ManageCurrencies.class.getName()));
   }
 
-  @NotNull
+  @NonNull
   @Override
   protected ActivityScenario<? extends ProtectedFragmentActivity> getTestScenario() {
     return scenarioRule.getScenario();

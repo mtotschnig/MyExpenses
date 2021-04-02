@@ -4,7 +4,6 @@ import android.content.ContentUris;
 import android.content.OperationApplicationException;
 import android.os.RemoteException;
 
-import org.jetbrains.annotations.NotNull;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -26,6 +25,7 @@ import org.totschnig.myexpenses.testutils.Matchers;
 import java.util.Currency;
 import java.util.concurrent.TimeoutException;
 
+import androidx.annotation.NonNull;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.matcher.CursorMatchers;
 import androidx.test.espresso.matcher.ViewMatchers;
@@ -145,7 +145,7 @@ public final class MyExpensesCategorySearchFilterTest extends BaseUiTest {
             CursorMatchers.withRowLong(DatabaseConstants.KEY_ROWID, id)))));
   }
 
-  @NotNull
+  @NonNull
   @Override
   protected ActivityScenario<? extends ProtectedFragmentActivity> getTestScenario() {
     return scenarioRule.getScenario();

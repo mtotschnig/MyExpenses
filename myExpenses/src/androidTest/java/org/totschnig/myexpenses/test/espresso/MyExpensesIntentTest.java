@@ -18,7 +18,6 @@ import java.util.concurrent.TimeoutException;
 
 import androidx.annotation.NonNull;
 import androidx.test.core.app.ActivityScenario;
-import androidx.test.platform.app.InstrumentationRegistry;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -49,7 +48,7 @@ public final class MyExpensesIntentTest extends BaseUiTest {
 
   @Test
   public void shouldNavigateToAccountReceivedThroughIntent() throws TimeoutException {
-    Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), MyExpenses.class)
+    Intent i = new Intent(getTargetContext(), MyExpenses.class)
         .putExtra(KEY_ROWID, account1.getId());
     activityScenario = ActivityScenario.launch(i);
     waitForAdapter();

@@ -17,6 +17,7 @@ import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.platform.app.InstrumentationRegistry
+import org.assertj.core.api.Assertions
 import org.hamcrest.Matcher
 import org.junit.Assert
 import org.junit.Before
@@ -30,14 +31,19 @@ import java.util.*
 import java.util.concurrent.TimeoutException
 
 abstract class BaseUiTest {
-    lateinit var app: TestApp
-    private lateinit var testContext: Context
     private var isLarge = false
+
+    val testContext: Context
+        get() = InstrumentationRegistry.getInstrumentation().context
+
+    val targetContext: Context
+        get() = InstrumentationRegistry.getInstrumentation().targetContext
+
+    val app: TestApp
+        get() = targetContext.applicationContext as TestApp
 
     @Before
     fun setUp() {
-        app = InstrumentationRegistry.getInstrumentation().targetContext.applicationContext as TestApp
-        testContext = InstrumentationRegistry.getInstrumentation().context
         isLarge = testContext.resources.getBoolean(org.totschnig.myexpenses.debug.test.R.bool.isLarge)
     }
 
@@ -51,6 +57,7 @@ abstract class BaseUiTest {
                 ViewMatchers.isAssignableFrom(AdapterView::class.java),
                 ViewMatchers.isDescendantOfA(ViewMatchers.withId(R.id.list)),
                 ViewMatchers.isDisplayed())
+
     /**
      * @param menuItemId id of menu item rendered in CAB on Honeycomb and higher
      * Click on a menu item, that might be visible or hidden in overflow menu
@@ -100,6 +107,15 @@ abstract class BaseUiTest {
         testScenario.onActivity {
             it.requestedOrientation = if (it.requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) ActivityInfo.SCREEN_ORIENTATION_PORTRAIT else ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         }
+    }
+
+    fun assertCanceled() {
+        assertFinishing(Activity.RESULT_CANCELED)
+    }
+
+    @JvmOverloads
+    fun assertFinishing(resultCode: Int = Activity.RESULT_OK) {
+        Assertions.assertThat(testScenario.result.resultCode).isEqualTo(resultCode)
     }
 
     private val list: ViewGroup?

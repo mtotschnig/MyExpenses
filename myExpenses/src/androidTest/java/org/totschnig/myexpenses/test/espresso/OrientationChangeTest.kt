@@ -76,7 +76,7 @@ class OrientationChangeTest : BaseUiTest() {
         val transaction = Transaction.getNewInstance(account1.id)
         transaction.amount = Money(currency1, 500L)
         transaction.save()
-        val i = Intent(InstrumentationRegistry.getInstrumentation().targetContext, ExpenseEdit::class.java)
+        val i = Intent(targetContext, ExpenseEdit::class.java)
         i.putExtra(DatabaseConstants.KEY_ROWID, transaction.id)
         activityScenario = ActivityScenario.launch(i)
         onView(withId(R.id.Account)).perform(click())
@@ -94,7 +94,7 @@ class OrientationChangeTest : BaseUiTest() {
         transaction.amount = Money(currency1, -500L)
         transaction.methodId = PaymentMethod.find(PaymentMethod.PreDefined.DIRECTDEBIT.name)
         transaction.save()
-        val i = Intent(InstrumentationRegistry.getInstrumentation().targetContext, ExpenseEdit::class.java)
+        val i = Intent(targetContext, ExpenseEdit::class.java)
         i.putExtra(DatabaseConstants.KEY_ROWID, transaction.id)
         activityScenario = ActivityScenario.launch(i)
         //Thread.sleep(100) //unfortunately needed if test starts in landscape
@@ -116,7 +116,7 @@ class OrientationChangeTest : BaseUiTest() {
         transaction.amount = Money(currency1, -500L)
         transaction.crStatus = CrStatus.UNRECONCILED
         transaction.save()
-        val i = Intent(InstrumentationRegistry.getInstrumentation().targetContext, ExpenseEdit::class.java)
+        val i = Intent(targetContext, ExpenseEdit::class.java)
         i.putExtra(DatabaseConstants.KEY_ROWID, transaction.id)
         activityScenario = ActivityScenario.launch(i)
         //Thread.sleep(100) //unfortunately needed if test starts in landscape
@@ -135,7 +135,7 @@ class OrientationChangeTest : BaseUiTest() {
     @Test
     fun shouldHandleNewInstanceAfterOrientationChange() {
         activityScenario = ActivityScenario.launch(
-                Intent(InstrumentationRegistry.getInstrumentation().targetContext, ExpenseEdit::class.java).apply {
+                Intent(targetContext, ExpenseEdit::class.java).apply {
                     putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
                 })
         rotate()
@@ -154,7 +154,7 @@ class OrientationChangeTest : BaseUiTest() {
             id
         }
         activityScenario = ActivityScenario.launch(
-                Intent(InstrumentationRegistry.getInstrumentation().targetContext, ExpenseEdit::class.java).apply {
+                Intent(targetContext, ExpenseEdit::class.java).apply {
                     putExtra(DatabaseConstants.KEY_ROWID, id)
                 })
         rotate()

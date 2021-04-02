@@ -34,6 +34,7 @@ import androidx.annotation.NonNull;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.espresso.contrib.DrawerActions;
+import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.matcher.CursorMatchers;
 import androidx.viewpager.widget.ViewPager;
 
@@ -74,15 +75,17 @@ public final class MyExpensesTest extends BaseUiTest {
     account = new Account("Test account 1", new CurrencyUnit(Currency.getInstance("EUR")), 0, "",
         AccountType.CASH, Account.DEFAULT_COLOR);
     account.save();
-    Intent i = new Intent();
+    Intent i = new Intent(getTargetContext(), MyExpenses.class);
     i.putExtra(KEY_ROWID, account.getId());
     configureLocale(Locale.GERMANY);
     activityScenario = ActivityScenario.launch(i);
+    Intents.init();
   }
 
   @After
   public void tearDown() throws RemoteException, OperationApplicationException {
     Account.delete(account.getId());
+    Intents.release();
   }
 
   @Test
@@ -112,7 +115,7 @@ public final class MyExpensesTest extends BaseUiTest {
         .check(matches(isDisplayed()));
     onView(allOf(
         isAssignableFrom(Button.class),
-        withText(is(app.getString(android.R.string.ok)))))
+        withText(is(getApp().getString(android.R.string.ok)))))
         .check(matches(isDisplayed()));
   }
 

@@ -25,8 +25,8 @@ import java.util.Currency;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
-import androidx.test.InstrumentationRegistry;
 import androidx.test.core.app.ActivityScenario;
+import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.matcher.CursorMatchers;
 
 import static androidx.test.espresso.Espresso.onData;
@@ -57,8 +57,9 @@ public class ManageTemplatesTest extends BaseUiTest {
     account2.save();
     createInstances(Template.Action.SAVE);
     createInstances(Template.Action.EDIT);
-    Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ManageTemplates.class);
+    Intent i = new Intent(getTargetContext(), ManageTemplates.class);
     activityScenario = ActivityScenario.launch(i);
+    Intents.init();
   }
 
   public void createInstances(Template.Action defaultAction) {
@@ -86,6 +87,7 @@ public class ManageTemplatesTest extends BaseUiTest {
   @After
   public void tearDown() throws RemoteException, OperationApplicationException {
     Account.delete(account1.getId());
+    Intents.release();
   }
 
   private void verifyEditAction() {
@@ -103,7 +105,7 @@ public class ManageTemplatesTest extends BaseUiTest {
   }
 
   @Test
-  public void defaultActionSavetWithTransaction() {
+  public void defaultActionSaveWithTransaction() {
     doTheTest("SAVE", "Transaction");
   }
 
@@ -140,7 +142,7 @@ public class ManageTemplatesTest extends BaseUiTest {
   }
 
   private void unlock() {
-    final AppComponent appComponent = app.getAppComponent();
+    final AppComponent appComponent = getApp().getAppComponent();
     LicenceHandler licenceHandler = appComponent.licenceHandler();
     licenceHandler.setLockState(false);
   }

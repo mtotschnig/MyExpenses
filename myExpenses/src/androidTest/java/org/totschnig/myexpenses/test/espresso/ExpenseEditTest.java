@@ -23,7 +23,6 @@ import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.test.core.app.ActivityScenario;
-import androidx.test.platform.app.InstrumentationRegistry;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -75,7 +74,7 @@ public class ExpenseEditTest extends BaseUiTest {
 
   @Test
   public void formForTransactionIsPrepared() {
-    Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
+    Intent i = new Intent(getTargetContext(), ExpenseEdit.class);
     i.putExtra(OPERATION_TYPE, TYPE_TRANSACTION);
     activityScenario = ActivityScenario.launch(i);
     checkEffectiveVisible(R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
@@ -93,7 +92,7 @@ public class ExpenseEditTest extends BaseUiTest {
 
   @Test
   public void statusIsShownWhenBankAccountIsSelected() {
-    Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
+    Intent i = new Intent(getTargetContext(), ExpenseEdit.class);
     i.putExtra(OPERATION_TYPE, TYPE_TRANSACTION);
     i.putExtra(KEY_ACCOUNTID, account2.getId());
     activityScenario = ActivityScenario.launch(i);
@@ -102,7 +101,7 @@ public class ExpenseEditTest extends BaseUiTest {
 
   @Test
   public void formForTransferIsPrepared() {
-    Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
+    Intent i = new Intent(getTargetContext(), ExpenseEdit.class);
     i.putExtra(OPERATION_TYPE, TYPE_TRANSFER);
     activityScenario = ActivityScenario.launch(i);
     checkEffectiveVisible(R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.AccountRow,
@@ -115,7 +114,7 @@ public class ExpenseEditTest extends BaseUiTest {
 
   @Test
   public void formForSplitIsPrepared() {
-    Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
+    Intent i = new Intent(getTargetContext(), ExpenseEdit.class);
     i.putExtra(OPERATION_TYPE, TYPE_SPLIT);
     activityScenario = ActivityScenario.launch(i);
     checkEffectiveVisible(R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.SplitContainer,
@@ -128,7 +127,7 @@ public class ExpenseEditTest extends BaseUiTest {
 
   @Test
   public void formForTemplateIsPrepared() {
-    Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
+    Intent i = new Intent(getTargetContext(), ExpenseEdit.class);
     i.putExtra(OPERATION_TYPE, TYPE_TRANSACTION);
     i.putExtra(KEY_NEW_TEMPLATE, true);
     activityScenario = ActivityScenario.launch(i);
@@ -141,7 +140,7 @@ public class ExpenseEditTest extends BaseUiTest {
   public void accountIdInExtraShouldPopulateSpinner() {
     Account[] allAccounts = {account1, account2};
     for (Account a : allAccounts) {
-      Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
+      Intent i = new Intent(getTargetContext(), ExpenseEdit.class);
       i.putExtra(OPERATION_TYPE, TYPE_TRANSACTION);
       i.putExtra(DatabaseConstants.KEY_ACCOUNTID, a.getId());
       activityScenario = ActivityScenario.launch(i);
@@ -154,7 +153,7 @@ public class ExpenseEditTest extends BaseUiTest {
     CurrencyUnit[] allCurrencies = {currency1, currency2};
     for (CurrencyUnit c : allCurrencies) {
       //we assume that Fixture has set up the default account with id 1
-      Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
+      Intent i = new Intent(getTargetContext(), ExpenseEdit.class);
       i.putExtra(OPERATION_TYPE, TYPE_TRANSACTION);
       i.putExtra(DatabaseConstants.KEY_CURRENCY, c.getCode());
       activityScenario = ActivityScenario.launch(i);
@@ -165,7 +164,7 @@ public class ExpenseEditTest extends BaseUiTest {
 
   @Test
   public void saveAsNewWorksMultipleTimesInARow() {
-    Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
+    Intent i = new Intent(getTargetContext(), ExpenseEdit.class);
     i.putExtra(OPERATION_TYPE, TYPE_TRANSACTION);
     i.putExtra(DatabaseConstants.KEY_ACCOUNTID, account1.getId());
     activityScenario = ActivityScenario.launch(i);
@@ -188,7 +187,7 @@ public class ExpenseEditTest extends BaseUiTest {
     template.setTransferAccountId(account2.getId());
     template.setTitle("Test template");
     template.save();
-    Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
+    Intent i = new Intent(getTargetContext(), ExpenseEdit.class);
     i.putExtra(KEY_TEMPLATEID, template.getId());
     activityScenario = ActivityScenario.launch(i);
     int amount = 2;

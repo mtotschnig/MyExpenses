@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.test.espresso;
 
-import org.jetbrains.annotations.NotNull;
 import org.junit.AfterClass;
 import org.junit.Rule;
 import org.junit.Test;
@@ -13,6 +12,7 @@ import org.totschnig.myexpenses.testutils.BaseUiTest;
 
 import java.util.concurrent.TimeoutException;
 
+import androidx.annotation.NonNull;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
@@ -41,7 +41,7 @@ public class ManageCategoriesTest extends BaseUiTest {
     assertThat(waitForAdapter().getCount()).isGreaterThan(0);
   }
 
-  @NotNull
+  @NonNull
   @Override
   protected ActivityScenario<? extends ProtectedFragmentActivity> getTestScenario() {
     return scenarioRule.getScenario();

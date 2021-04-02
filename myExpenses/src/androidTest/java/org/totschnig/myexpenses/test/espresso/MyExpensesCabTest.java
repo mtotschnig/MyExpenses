@@ -66,7 +66,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
     for (int i = 0; i < times; i++) {
       op0.saveAsNew();
     }
-    Intent i = new Intent();
+    Intent i = new Intent(getTargetContext(), MyExpenses.class);
     i.putExtra(KEY_ROWID, account.getId());
     activityScenario = ActivityScenario.launch(i);
   }

@@ -28,7 +28,6 @@ import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.contrib.DrawerActions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
-import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.GrantPermissionRule;
 import tools.fastlane.screengrab.Screengrab;
 import tools.fastlane.screengrab.locale.LocaleTestRule;
@@ -119,7 +118,7 @@ public class TestMain extends BaseUiTest {
         takeScreenshot("distribution");
         Espresso.pressBack();
 
-        onView(first(withText(containsString(InstrumentationRegistry.getInstrumentation().getContext().getString(org.totschnig.myexpenses.debug.test.R.string.testData_transaction1SubCat))))).perform(click());
+        onView(first(withText(containsString(getTestContext().getString(org.totschnig.myexpenses.debug.test.R.string.testData_transaction1SubCat))))).perform(click());
         onView(withId(android.R.id.button1)).perform(click());
         Espresso.pressBack();//close keyboard
         onView(withId(R.id.PictureContainer)).perform(click());
@@ -139,20 +138,20 @@ public class TestMain extends BaseUiTest {
     if (testLocale != null) {//if run from Android Studio and not via Screengrab
       configureLocale(testLocale);
     }
-    SharedPreferences pref = app.getSettings();
+    SharedPreferences pref = getApp().getSettings();
     if (pref == null)
       Assert.fail("Could not find prefs");
     pref.edit().putString(PrefKey.HOME_CURRENCY.getKey(), Utils.getSaveDefault().getCurrencyCode()).apply();
-    app.getLicenceHandler().setLockState(false);
+    getApp().getLicenceHandler().setLockState(false);
 
-    app.fixture.setup(withPicture);
+    getApp().fixture.setup(withPicture);
     int current_version = DistributionHelper.getVersionNumber();
     pref.edit()
-        .putLong(PrefKey.CURRENT_ACCOUNT.getKey(), app.fixture.getAccount1().getId())
+        .putLong(PrefKey.CURRENT_ACCOUNT.getKey(), getApp().fixture.getAccount1().getId())
         .putInt(PrefKey.CURRENT_VERSION.getKey(), current_version)
         .putInt(PrefKey.FIRST_INSTALL_VERSION.getKey(), current_version)
         .apply();
-    final Intent startIntent = new Intent(app, MyExpenses.class);
+    final Intent startIntent = new Intent(getApp(), MyExpenses.class);
     activityScenario = ActivityScenario.launch(startIntent);
   }
 

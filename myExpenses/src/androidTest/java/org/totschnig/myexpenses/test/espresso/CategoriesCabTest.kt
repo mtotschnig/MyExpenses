@@ -42,7 +42,7 @@ class CategoriesCabTest : BaseUiTest() {
     private lateinit var activityScenario: ActivityScenario<ManageCategories>
 
     private val contentResolver
-        get() = InstrumentationRegistry.getInstrumentation().targetContext.contentResolver
+        get() = targetContext.contentResolver
 
     val currency = CurrencyUnit(Currency.getInstance("EUR"))
     private lateinit var account: Account

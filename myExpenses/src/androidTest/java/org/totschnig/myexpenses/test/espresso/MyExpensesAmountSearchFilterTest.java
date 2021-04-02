@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.test.espresso;
 import android.content.OperationApplicationException;
 import android.os.RemoteException;
 
-import org.jetbrains.annotations.NotNull;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -23,6 +22,7 @@ import org.totschnig.myexpenses.testutils.Matchers;
 import java.util.Currency;
 import java.util.concurrent.TimeoutException;
 
+import androidx.annotation.NonNull;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.matcher.CursorMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
@@ -93,7 +93,7 @@ public final class MyExpensesAmountSearchFilterTest extends BaseUiTest {
             CursorMatchers.withRowLong(DatabaseConstants.KEY_AMOUNT, amount)))));
   }
 
-  @NotNull
+  @NonNull
   @Override
   protected ActivityScenario<? extends ProtectedFragmentActivity> getTestScenario() {
     return scenarioRule.getScenario();

@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.test.espresso;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.os.RemoteException;
@@ -22,9 +21,7 @@ import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.test.core.app.ActivityScenario;
-import androidx.test.platform.app.InstrumentationRegistry;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 
@@ -58,11 +55,11 @@ public class ForeignTransferEditTest extends BaseUiTest {
 
   @Test
   public void shouldSaveForeignTransfer() {
-    Intent i = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), ExpenseEdit.class);
+    Intent i = new Intent(getTargetContext(), ExpenseEdit.class);
     i.putExtra(KEY_ROWID, transfer.getId());
     activityScenario = ActivityScenario.launch(i);
     closeKeyboardAndSave();
-    assertThat(activityScenario.getResult().getResultCode()).isEqualTo(Activity.RESULT_OK);
+    assertFinishing();
   }
 
   @NonNull
