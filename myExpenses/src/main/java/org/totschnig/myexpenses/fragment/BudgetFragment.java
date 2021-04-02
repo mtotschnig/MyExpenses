@@ -175,14 +175,14 @@ public class BudgetFragment extends DistributionBaseFragment<BudgetRowBinding> i
   private void showEditBudgetDialog(Category category, Category parentItem) {
     final Money amount, max, min;
     final SimpleFormDialog simpleFormDialog = SimpleFormDialog.build()
-        .title(category == null ? getString(R.string.dialog_title_edit_budget) : category.label)
+        .title(category == null ? getString(R.string.dialog_title_edit_budget) : category.getLabel())
         .neg();
     if (category != null) {
       long allocated = parentItem == null ? getAllocated() :
-          Stream.of(parentItem.getChildren()).mapToLong(category1 -> category1.budget).sum();
-      final long budgetAmount = parentItem == null ? budget.getAmount().getAmountMinor() : parentItem.budget;
+          Stream.of(parentItem.getChildren()).mapToLong(category1 -> category1.getBudget()).sum();
+      final long budgetAmount = parentItem == null ? budget.getAmount().getAmountMinor() : parentItem.getBudget();
       long allocatable = budgetAmount - allocated;
-      final long maxLong = allocatable + category.budget;
+      final long maxLong = allocatable + category.getBudget();
       if (maxLong <= 0) {
         ((ProtectedFragmentActivity) requireActivity()).showSnackbar(TextUtils.concatResStrings(getActivity(), " ",
             parentItem == null ? R.string.budget_exceeded_error_1_2 : R.string.sub_budget_exceeded_error_1_2,
@@ -190,11 +190,11 @@ public class BudgetFragment extends DistributionBaseFragment<BudgetRowBinding> i
         return;
       }
       Bundle bundle = new Bundle(1);
-      bundle.putLong(KEY_CATID, category.id);
+      bundle.putLong(KEY_CATID, category.getId());
       simpleFormDialog.extra(bundle);
-      amount = new Money(budget.getCurrency(), category.budget);
+      amount = new Money(budget.getCurrency(), category.getBudget());
       max = new Money(budget.getCurrency(), maxLong);
-      min = parentItem != null ? null : new Money(budget.getCurrency(), Stream.of(category.getChildren()).mapToLong(category1 -> category1.budget).sum());
+      min = parentItem != null ? null : new Money(budget.getCurrency(), Stream.of(category.getChildren()).mapToLong(Category::getBudget).sum());
     } else {
       amount = budget.getAmount();
       max = null;
@@ -313,7 +313,7 @@ public class BudgetFragment extends DistributionBaseFragment<BudgetRowBinding> i
   @Override
   protected void onLoadFinished() {
     super.onLoadFinished();
-    allocated = Stream.of(mAdapter.getMainCategories()).mapToLong(category -> category.budget).sum();
+    allocated = Stream.of(mAdapter.getMainCategories()).mapToLong(category -> category.getBudget()).sum();
     budgetSummary.setAllocated(currencyFormatter.formatCurrency(new Money(budget.getCurrency(),
         allocated)));
   }

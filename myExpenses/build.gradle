@@ -126,6 +126,13 @@ android {
                 java.srcDirs += 'src/conscriptDebug/java'
             }
         }
+        test {
+            java.srcDirs += "src/testShared/java"
+        }
+
+        androidTest {
+            java.srcDirs += "src/testShared/java"
+        }
     }
 
     lintOptions {
@@ -289,6 +296,9 @@ dependencies {
     implementation "androidx.core:core-ktx:$ktxVersion"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     androidTestImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+    testImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+    testImplementation "androidx.test:rules:$androidSupportTestVersion"
+    testImplementation "androidx.test.ext:junit:$androidxTextExtJunit"
 
     // Room components
     implementation "androidx.room:room-runtime:$roomVersion"

@@ -211,14 +211,14 @@ public abstract class AbstractCategoryList<ROW_BINDING extends ViewBinding> exte
             c = mAdapter.getGroup(group);
           }
           Bundle extras = ctx.getIntent().getExtras();
-          if ((extras == null || extras.getLong(KEY_ROWID) != c.id)) {
+          if ((extras == null || extras.getLong(KEY_ROWID) != c.getId())) {
             if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP && c.hasChildren()) {
               hasChildrenCount++;
             }
-            if (c.hasMappedBudgets) {
+            if (c.getHasMappedBudgets()) {
               mappedBudgetsCount++;
             }
-            idList.add(c.id);
+            idList.add(c.getId());
           } else {
             ctx.showSnackbar(getResources().getQuantityString(R.plurals.not_deletable_mapped_transactions,
                 1, 1));
@@ -264,7 +264,7 @@ public abstract class AbstractCategoryList<ROW_BINDING extends ViewBinding> exte
             } else {
               c = mAdapter.getGroup(group);
             }
-            labelList.add(c.label);
+            labelList.add(c.getLabel());
           }
         }
         Intent intent = new Intent();
@@ -288,7 +288,7 @@ public abstract class AbstractCategoryList<ROW_BINDING extends ViewBinding> exte
             int position = positions.keyAt(i);
             long pos = getListView().getExpandableListPosition(position);
             int group = ExpandableListView.getPackedPositionGroup(pos);
-            idList.add(mAdapter.getGroup(group).id);
+            idList.add(mAdapter.getGroup(group).getId());
           }
         }
         excludedIds = idList.toArray(new Long[0]);
@@ -324,7 +324,7 @@ public abstract class AbstractCategoryList<ROW_BINDING extends ViewBinding> exte
       category = mAdapter.getGroup(group);
       isMain = true;
     }
-    String label = category.label;
+    String label = category.getLabel();
     if (command == R.id.COLOR_COMMAND) {
       ctx.editCategoryColor(category);
       return true;
@@ -333,9 +333,9 @@ public abstract class AbstractCategoryList<ROW_BINDING extends ViewBinding> exte
       return true;
     } else if (command == R.id.SELECT_COMMAND) {
       if (!isMain && action.equals(ACTION_SELECT_MAPPING)) {
-        label = mAdapter.getGroup(group).label + TransactionList.CATEGORY_SEPARATOR + label;
+        label = mAdapter.getGroup(group).getLabel() + TransactionList.CATEGORY_SEPARATOR + label;
       }
-      doSingleSelection(elcmi.id, label, category.icon, isMain);
+      doSingleSelection(elcmi.id, label, category.getIcon(), isMain);
       finishActionMode();
       return true;
     } else if (command == R.id.CREATE_SUB_COMMAND) {
@@ -377,9 +377,9 @@ public abstract class AbstractCategoryList<ROW_BINDING extends ViewBinding> exte
     }
     String label = ((TextView) v.findViewById(R.id.label)).getText().toString();
     if (action.equals(ACTION_SELECT_MAPPING)) {
-      label = mAdapter.getGroup(groupPosition).label + TransactionList.CATEGORY_SEPARATOR + label;
+      label = mAdapter.getGroup(groupPosition).getLabel() + TransactionList.CATEGORY_SEPARATOR + label;
     }
-    doSingleSelection(id, label, mAdapter.getChild(groupPosition, childPosition).icon, false);
+    doSingleSelection(id, label, mAdapter.getChild(groupPosition, childPosition).getIcon(), false);
     return true;
   }
 
@@ -396,11 +396,11 @@ public abstract class AbstractCategoryList<ROW_BINDING extends ViewBinding> exte
       return false;
     }
     String label = ((TextView) v.findViewById(R.id.label)).getText().toString();
-    doSingleSelection(id, label, mAdapter.getGroup(groupPosition).icon, true);
+    doSingleSelection(id, label, mAdapter.getGroup(groupPosition).getIcon(), true);
     return true;
   }
 
-  protected void doSingleSelection(long cat_id, String label, String icon, boolean isMain) {
+  protected void doSingleSelection(long cat_id, String label, @Nullable String icon, boolean isMain) {
     Activity ctx = requireActivity();
     Intent intent = new Intent();
     intent.putExtra(KEY_CATID, cat_id);

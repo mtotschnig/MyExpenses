@@ -201,7 +201,7 @@ abstract class DistributionBaseFragment<ROW_BINDING : ViewBinding?> : AbstractCa
         return dispatchCommandSingle(item.itemId, item.menuInfo)
     }
 
-    override fun doSingleSelection(cat_id: Long, label: String, icon: String, isMain: Boolean) {
+    override fun doSingleSelection(cat_id: Long, label: String, icon: String?, isMain: Boolean) {
         newInstance(
                 accountInfo.id, cat_id, isMain, grouping, buildFilterClause(VIEW_EXTENDED), filterSelectionArgs(), label, 0, true)
                 .show(parentFragmentManager, TransactionListDialogFragment::class.java.name)

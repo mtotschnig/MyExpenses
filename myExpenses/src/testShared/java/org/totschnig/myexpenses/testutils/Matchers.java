@@ -94,7 +94,7 @@ public class Matchers {
     return new TypeSafeMatcher<Category>() {
       @Override
       public boolean matchesSafely(Category category) {
-        return nameMatcher.matches(category.label);
+        return nameMatcher.matches(category.getLabel());
       }
 
       @Override

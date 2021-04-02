@@ -78,10 +78,10 @@ class DistributionFragment : DistributionBaseFragment<CategoryRowBinding?>() {
 
         val ctx = requireActivity() as ProtectedFragmentActivity
         showChart = prefHandler.getBoolean(PrefKey.DISTRIBUTION_SHOW_CHART, true)
-        val b = savedInstanceState ?: ctx.intent.extras!!
-        grouping = b.getString(DatabaseConstants.KEY_GROUPING)?.let { Grouping.valueOf(it) } ?: Grouping.NONE
-        groupingYear = b.getInt(DatabaseConstants.KEY_YEAR)
-        groupingSecond = b.getInt(DatabaseConstants.KEY_SECOND_GROUP)
+        val b = savedInstanceState ?: ctx.intent?.extras
+        grouping = b?.getString(DatabaseConstants.KEY_GROUPING)?.let { Grouping.valueOf(it) } ?: Grouping.NONE
+        groupingYear = b?.getInt(DatabaseConstants.KEY_YEAR) ?: 0
+        groupingSecond = b?.getInt(DatabaseConstants.KEY_SECOND_GROUP) ?: 0
         ctx.invalidateOptionsMenu()
         _binding = DistributionListBinding.inflate(inflater, container, false)
         _innerBinding = DistributionListInnerBinding.bind(binding.root)
@@ -328,7 +328,7 @@ class DistributionFragment : DistributionBaseFragment<CategoryRowBinding?>() {
             categories = mAdapter.getSubCategories(lastExpandedPosition)
         }
         with(chart) {
-            data = PieData(PieDataSet(categories.map { PieEntry(abs(it.sum.toFloat()), it.label) }, "").apply {
+            data = PieData(PieDataSet(categories.map { PieEntry(abs(it.sum?.toFloat() ?: 0F), it.label) }, "").apply {
                 colors = parent?.let { mAdapter.getSubColors(it.color) }
                         ?: categories.map(Category::color)
                 sliceSpace = 2f
