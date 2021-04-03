@@ -20,7 +20,6 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import javax.inject.Inject
 
-
 const val WIDGET_CLICK = "org.totschnig.myexpenses.WIDGET_CLICK"
 const val KEY_CLICK_ACTION = "clickAction"
 const val WIDGET_LIST_DATA_CHANGED = "org.totschnig.myexpenses.LIST_DATA_CHANGED"

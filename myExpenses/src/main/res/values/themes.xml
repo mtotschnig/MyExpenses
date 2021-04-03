@@ -112,4 +112,10 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <!-- Inactive track color(30% transparency) -->
         <item name="android:colorForeground">@color/colorExpense</item>
     </style>
+
+    <style name="WidgetConfiguration" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorSecondary">@color/primaryLightColor</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
 </resources>

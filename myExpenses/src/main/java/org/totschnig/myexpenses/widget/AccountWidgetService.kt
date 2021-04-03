@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.widget
 
+import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
 import android.database.Cursor
@@ -8,6 +9,7 @@ import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.fragment.AccountWidgetConfigurationFragment
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -28,12 +30,20 @@ class AccountRemoteViewsFactory(
         val context: Context,
         intent: Intent
 ) : AbstractRemoteViewsFactory(context, intent) {
+    val accountId = AccountWidgetConfigurationFragment.loadSelectionPref(context, intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID))
 
     override fun buildCursor(): Cursor? {
         val builder = TransactionProvider.ACCOUNTS_URI.buildUpon()
-        builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES, "1")
+        var selection = "${DatabaseConstants.KEY_HIDDEN} = 0"
+        var selectionArgs: Array<String>? = null
+        if (accountId.toLong().let { it > 0L && it != Long.MAX_VALUE }) {
+            selection += " AND $KEY_ROWID = ?"
+            selectionArgs = arrayOf(accountId)
+        } else {
+            builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES, accountId.takeIf { it != Long.MAX_VALUE.toString() } ?: "1")
+        }
         return context.contentResolver.query(
-                builder.build(), null, DatabaseConstants.KEY_HIDDEN + " = 0", null, null)
+                builder.build(), null, selection, selectionArgs, null)
     }
 
     override fun RemoteViews.populate(cursor: Cursor) {

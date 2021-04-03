@@ -795,4 +795,13 @@
         <item>vie</item>
         <item>yor</item>
     </string-array>
+
+    <string-array name="account_widget_configuration_sum_entries">
+        <item>@string/current_balance</item>
+        <item>@string/account_widget_configuration_sum_total</item>
+    </string-array>
+    <string-array name="account_widget_configuration_sum_values">
+        <item>current_balance</item>
+        <item>total</item>
+    </string-array>
 </resources>

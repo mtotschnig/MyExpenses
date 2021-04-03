@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:my="http://schemas.android.com/apk/res-auto">
+    <ListPreference android:title="@string/accounts"
+        my:useSimpleSummaryProvider="true"
+        />
+    <ListPreference android:title="@string/account_widget_configuration_sum"
+        my:useSimpleSummaryProvider="true"
+        android:defaultValue="current_balance"
+        android:entries="@array/account_widget_configuration_sum_entries"
+        android:entryValues="@array/account_widget_configuration_sum_values"
+        />
+</PreferenceScreen>

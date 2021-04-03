@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.widget
 
-import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
 import android.database.Cursor
