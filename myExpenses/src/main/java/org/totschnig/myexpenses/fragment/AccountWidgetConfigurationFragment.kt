@@ -22,7 +22,7 @@ class AccountWidgetConfigurationFragment: PreferenceFragmentCompat() {
                 ?.takeIf { it !=  AppWidgetManager.INVALID_APPWIDGET_ID }?.also {
                     val accountPreference: ListPreference = preferenceScreen.getPreference(0) as ListPreference
                     accountPreference.key = selectionKey(it)
-                    preferenceScreen.getPreference(1).key = "ACCOUNT_WIDGET_SUM_$it"
+                    preferenceScreen.getPreference(1).key = sumKey(it)
                     viewModel.getAccountsMinimal().observe(this) {
                         with(accountPreference) {
                             entries = (it.map { it.label } + "All accounts").toTypedArray()
@@ -34,8 +34,22 @@ class AccountWidgetConfigurationFragment: PreferenceFragmentCompat() {
     }
     companion object {
         const val PREFS_NAME = "account_widget"
+
         fun selectionKey(appWidgetId: Int) = "ACCOUNT_WIDGET_SELECTION_$appWidgetId"
+
+        fun sumKey(appWidgetId: Int) = "ACCOUNT_WIDGET_SUM_$appWidgetId"
+
         fun loadSelectionPref(context: Context, appWidgetId: Int) =
-                context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE).getString(selectionKey(appWidgetId), Long.MAX_VALUE.toString())!!
+                sharedPreferences(context).getString(selectionKey(appWidgetId), Long.MAX_VALUE.toString())!!
+
+        fun loadSumPref(context: Context, appWidgetId: Int) =
+                sharedPreferences(context).getString(sumKey(appWidgetId), "current_balance")!!
+
+        private fun sharedPreferences(context: Context) =
+                context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
+
+        fun clearPreferences(context: Context, appWidgetId: Int) {
+            sharedPreferences(context).edit().remove(selectionKey(appWidgetId)).remove(sumKey(appWidgetId)).apply()
+        }
     }
 }

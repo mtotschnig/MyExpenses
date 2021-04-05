@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.widget.AccountWidget
+import org.totschnig.myexpenses.widget.updateWidgets
 
 
 class AccountWidgetConfigure : AppCompatActivity() {
@@ -15,12 +17,13 @@ class AccountWidgetConfigure : AppCompatActivity() {
         setResult(RESULT_CANCELED)
     }
 
-    fun createWidget(view: View) {
+    fun createWidget(@Suppress("UNUSED_PARAMETER") view: View) {
         val appWidgetId = intent.extras!!.getInt(
             AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
         setResult(RESULT_OK, Intent().apply {
             putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
         })
+        updateWidgets(this, AccountWidget::class.java, AppWidgetManager.ACTION_APPWIDGET_UPDATE)
         finish()
     }
 }

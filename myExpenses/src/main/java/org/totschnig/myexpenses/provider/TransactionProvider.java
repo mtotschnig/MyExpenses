@@ -685,8 +685,10 @@ public class TransactionProvider extends BaseTransactionProvider {
                 "0 AS " + KEY_HAS_CLEARED,
                 "0 AS " + KEY_SORT_KEY_TYPE,
                 "0 AS " + KEY_LAST_USED}; //ignored
-            groupBy = "1";// we are grouping by the 1st column, i.e. the literal row id, this allows us to suppress the row, if the having clause is false
-            having = "(select count(distinct " + KEY_CURRENCY + ") from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " != '" + homeCurrency + "') > 0";
+            if (mergeAggregate.equals("1")) {
+              groupBy = "1";// we are grouping by the 1st column, i.e. the literal row id, this allows us to suppress the row, if the having clause is false
+              having = "(select count(distinct " + KEY_CURRENCY + ") from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " != '" + homeCurrency + "') > 0";
+            }
             subQueries.add(qb.buildQuery(projection, null, groupBy, having, null, null));
           }
           String grouping = KEY_IS_AGGREGATE;

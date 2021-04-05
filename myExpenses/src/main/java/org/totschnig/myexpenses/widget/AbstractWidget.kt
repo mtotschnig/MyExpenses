@@ -33,14 +33,16 @@ fun onConfigurationChanged(context: Context) {
     updateWidgets(context, TemplateWidget::class.java, WIDGET_CONTEXT_CHANGED)
 }
 
-fun updateWidgets(context: Context, provider: Class<out AppWidgetProvider?>, action: String?) =
+fun updateWidgets(context: Context, provider: Class<out AppWidgetProvider?>, action: String) =
         context.sendBroadcast(Intent(context, provider).apply {
             this.action = action
             putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,
                     AppWidgetManager.getInstance(context).getAppWidgetIds(ComponentName(context, provider)))
         })
 
-abstract class AbstractWidget(private val clazz: Class<out RemoteViewsService>, private val emptyTextResourceId: Int, private val protectionKey: PrefKey) : AppWidgetProvider() {
+abstract class AbstractWidget(private val clazz: Class<out RemoteViewsService>, private val protectionKey: PrefKey) : AppWidgetProvider() {
+    abstract fun emptyTextResourceId(context: Context, appWidgetId: Int): Int
+
     @Inject
     lateinit  var prefHandler: PrefHandler
 
@@ -89,7 +91,7 @@ abstract class AbstractWidget(private val clazz: Class<out RemoteViewsService>, 
             // into the data so that the extras will not be ignored.
             svcIntent.data = Uri.parse(svcIntent.toUri(Intent.URI_INTENT_SCHEME))
             widget.setRemoteAdapter(R.id.list, svcIntent)
-            widget.setTextViewText(R.id.emptyView, context.getString(emptyTextResourceId))
+            widget.setTextViewText(R.id.emptyView, context.getString(emptyTextResourceId(context, appWidgetId)))
             widget.setPendingIntentTemplate(R.id.list, clickPI)
         }
         appWidgetManager.updateAppWidget(appWidgetId, widget)

@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.activity
 
 import android.os.Bundle
+import org.totschnig.myexpenses.viewmodel.data.Account
 
 class TestExpenseEdit: ExpenseEdit() {
     var splitPartListUpdateCalled = 0
@@ -12,7 +13,7 @@ class TestExpenseEdit: ExpenseEdit() {
         }
     }
 
-    override fun updateSplitPartList(account: org.totschnig.myexpenses.viewmodel.data.Account, rowId: Long) {
+    override fun updateSplitPartList(account: Account, rowId: Long) {
         super.updateSplitPartList(account, rowId)
         if (activityIsRecreated) {
             activityIsRecreated = false
