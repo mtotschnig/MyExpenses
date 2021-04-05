@@ -277,7 +277,7 @@
         </activity>
 
         <activity android:name=".activity.AccountWidgetConfigure"
-            android:label="Account Widget Configuration"
+            android:label="@string/account_widget_configuration"
             android:theme="@style/WidgetConfiguration">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>

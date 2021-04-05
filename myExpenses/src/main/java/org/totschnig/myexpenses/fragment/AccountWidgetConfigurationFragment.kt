@@ -25,13 +25,14 @@ class AccountWidgetConfigurationFragment: PreferenceFragmentCompat() {
                     preferenceScreen.getPreference(1).key = sumKey(it)
                     viewModel.getAccountsMinimal().observe(this) {
                         with(accountPreference) {
-                            entries = (it.map { it.label } + "All accounts").toTypedArray()
+                            entries = (it.map { it.label } + getString(R.string.budget_filter_all_accounts)).toTypedArray()
                             entryValues = (it.map { it.id.toString() } + Long.MAX_VALUE.toString()).toTypedArray()
                             value = Long.MAX_VALUE.toString()
                         }
                     }
                 } ?: kotlin.run { requireActivity().finish() }
     }
+
     companion object {
         const val PREFS_NAME = "account_widget"
 
