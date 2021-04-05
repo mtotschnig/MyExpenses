@@ -8,7 +8,7 @@ import java.util.Locale;
 import androidx.annotation.Nullable;
 
 public enum LicenceStatus {
-  CONTRIB(R.string.contrib_key), EXTENDED(R.string.extended_key), PROFESSIONAL(R.string.professional_key) {
+  CONTRIB(R.string.contrib_key), EXTENDED(R.string.extended_key), EXTENDED_FALLBACK(R.string.extended_key), PROFESSIONAL(R.string.professional_key) {
     @Override
     public boolean isUpgradeable() {
       return false;
