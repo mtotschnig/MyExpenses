@@ -69,9 +69,9 @@ class TransactionList : BaseTransactionList() {
     private fun setColor (text : String , count : Int) : SpannableString {
         val spanText = SpannableString(text)
         if(transactionsum <= 0) {
-            spanText.setSpan(ForegroundColorSpan(Color.RED), count.toString().count(), spanText.length,0)
+            spanText.setSpan(ForegroundColorSpan(resources.getColor(R.color.colorExpense)), count.toString().count(), spanText.length,0)
         } else {
-            spanText.setSpan(ForegroundColorSpan(Color.GREEN), count.toString().count(),spanText.length,0)
+            spanText.setSpan(ForegroundColorSpan(resources.getColor(R.color.colorIncome)), count.toString().count(),spanText.length,0)
         }
         return spanText
     }
