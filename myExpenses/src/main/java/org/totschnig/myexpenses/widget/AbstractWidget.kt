@@ -33,18 +33,18 @@ fun onConfigurationChanged(context: Context) {
     updateWidgets(context, TemplateWidget::class.java, WIDGET_CONTEXT_CHANGED)
 }
 
-fun updateWidgets(context: Context, provider: Class<out AppWidgetProvider?>, action: String) =
+fun updateWidgets(context: Context, provider: Class<out AppWidgetProvider?>, action: String,
+                  appWidgetIds: IntArray = AppWidgetManager.getInstance(context).getAppWidgetIds(ComponentName(context, provider))) =
         context.sendBroadcast(Intent(context, provider).apply {
             this.action = action
-            putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,
-                    AppWidgetManager.getInstance(context).getAppWidgetIds(ComponentName(context, provider)))
+            putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds)
         })
 
 abstract class AbstractWidget(private val clazz: Class<out RemoteViewsService>, private val protectionKey: PrefKey) : AppWidgetProvider() {
     abstract fun emptyTextResourceId(context: Context, appWidgetId: Int): Int
 
     @Inject
-    lateinit  var prefHandler: PrefHandler
+    lateinit var prefHandler: PrefHandler
 
     override fun onReceive(context: Context, intent: Intent) {
         MyApplication.getInstance().appComponent.inject(this)
@@ -106,6 +106,7 @@ abstract class AbstractWidget(private val clazz: Class<out RemoteViewsService>, 
             updateWidget(context, appWidgetManager, appWidgetId)
         }
     }
+
     protected open fun isProtected(): Boolean {
         return MyApplication.getInstance().isProtected &&
                 !prefHandler.getBoolean(protectionKey, false)

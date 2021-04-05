@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.fragment
 
-import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
@@ -8,29 +7,28 @@ import androidx.fragment.app.viewModels
 import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.AccountWidgetConfigure
 import org.totschnig.myexpenses.viewmodel.AccountWidgetConfigurationViewModel
 
 @Suppress("unused")
-class AccountWidgetConfigurationFragment: PreferenceFragmentCompat() {
+class AccountWidgetConfigurationFragment : PreferenceFragmentCompat() {
     val viewModel: AccountWidgetConfigurationViewModel by viewModels()
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         preferenceManager.sharedPreferencesName = PREFS_NAME
         setPreferencesFromResource(R.xml.account_widget_configuration, rootKey)
-        requireActivity().intent.extras?.getInt(
-                AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
-                ?.takeIf { it !=  AppWidgetManager.INVALID_APPWIDGET_ID }?.also {
-                    val accountPreference: ListPreference = preferenceScreen.getPreference(0) as ListPreference
-                    accountPreference.key = selectionKey(it)
-                    preferenceScreen.getPreference(1).key = sumKey(it)
-                    viewModel.getAccountsMinimal().observe(this) {
-                        with(accountPreference) {
-                            entries = (it.map { it.label } + getString(R.string.budget_filter_all_accounts)).toTypedArray()
-                            entryValues = (it.map { it.id.toString() } + Long.MAX_VALUE.toString()).toTypedArray()
-                            value = Long.MAX_VALUE.toString()
-                        }
-                    }
-                } ?: kotlin.run { requireActivity().finish() }
+        (requireActivity() as AccountWidgetConfigure).appWidgetId?.also {
+            val accountPreference: ListPreference = preferenceScreen.getPreference(0) as ListPreference
+            accountPreference.key = selectionKey(it)
+            preferenceScreen.getPreference(1).key = sumKey(it)
+            viewModel.accountsMinimal.observe(this) {
+                with(accountPreference) {
+                    entries = (it.map { it.label } + getString(R.string.budget_filter_all_accounts)).toTypedArray()
+                    entryValues = (it.map { it.id.toString() } + Long.MAX_VALUE.toString()).toTypedArray()
+                    value = Long.MAX_VALUE.toString()
+                }
+            }
+        } ?: kotlin.run { requireActivity().finish() }
     }
 
     companion object {

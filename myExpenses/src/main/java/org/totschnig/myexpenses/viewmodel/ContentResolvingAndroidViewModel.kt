@@ -42,7 +42,7 @@ abstract class ContentResolvingAndroidViewModel(application: Application) : Andr
             ContextHelper.wrap(this, appComponent.userLocaleProvider().getUserPreferredLocale())
         }
 
-    private val accountsMinimal by lazy {
+    val accountsMinimal: LiveData<List<AccountMinimal>> by lazy {
         val liveData = MutableLiveData<List<AccountMinimal>>()
         disposable = briteContentResolver.createQuery(TransactionProvider.ACCOUNTS_MINIMAL_URI, null, null, null, null, false)
                 .mapToList { cursor ->
@@ -55,8 +55,6 @@ abstract class ContentResolvingAndroidViewModel(application: Application) : Andr
                 }
         return@lazy liveData
     }
-
-    fun getAccountsMinimal(): LiveData<List<AccountMinimal>> = accountsMinimal
 
     init {
         (application as MyApplication).appComponent.inject(this)

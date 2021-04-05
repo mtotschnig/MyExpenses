@@ -17,13 +17,17 @@ class AccountWidgetConfigure : AppCompatActivity() {
         setResult(RESULT_CANCELED)
     }
 
+    val appWidgetId: Int?
+        get() = intent.extras?.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
+                ?.takeIf { it != AppWidgetManager.INVALID_APPWIDGET_ID }
+
     fun createWidget(@Suppress("UNUSED_PARAMETER") view: View) {
-        val appWidgetId = intent.extras!!.getInt(
-            AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
-        setResult(RESULT_OK, Intent().apply {
-            putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
-        })
-        updateWidgets(this, AccountWidget::class.java, AppWidgetManager.ACTION_APPWIDGET_UPDATE)
+        appWidgetId?.let {
+            setResult(RESULT_OK, Intent().apply {
+                putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, it)
+            })
+            updateWidgets(this, AccountWidget::class.java, AppWidgetManager.ACTION_APPWIDGET_UPDATE, intArrayOf(it))
+        }
         finish()
     }
 }

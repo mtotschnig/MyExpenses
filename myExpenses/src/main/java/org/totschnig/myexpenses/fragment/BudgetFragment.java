@@ -141,7 +141,7 @@ public class BudgetFragment extends DistributionBaseFragment<BudgetRowBinding> i
       }
     });
     final long budgetId = requireActivity().getIntent().getLongExtra(KEY_ROWID, 0);
-    loadBudget(budgetId);
+    viewModel.loadBudget(budgetId, false);
     filterPersistence = new FilterPersistence(prefHandler, BudgetViewModel.Companion.prefNameForCriteria(budgetId), null, false, true);
   }
 
@@ -244,10 +244,6 @@ public class BudgetFragment extends DistributionBaseFragment<BudgetRowBinding> i
     }
 
     return false;
-  }
-
-  public void loadBudget(long budgetId) {
-    viewModel.loadBudget(budgetId, false);
   }
 
   private void setBudget(@NonNull Budget budget) {
