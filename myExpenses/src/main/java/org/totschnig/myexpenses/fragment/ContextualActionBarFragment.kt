@@ -18,6 +18,7 @@ import android.widget.ListView
 import androidx.fragment.app.Fragment
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
+import org.totschnig.myexpenses.model.Template
 
 /**
  * @author Michael Totschnig
@@ -31,7 +32,7 @@ abstract class ContextualActionBarFragment : Fragment(), OnGroupClickListener, O
     @JvmField
     var expandableListSelectionType = ExpandableListView.PACKED_POSITION_TYPE_NULL
     private val menuSingleIds = intArrayOf(R.id.EDIT_COMMAND,
-            R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND,
+            R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND, R.id.CREATE_PLAN_INSTANCE_SAVE_COMMAND,
             R.id.SELECT_COMMAND, R.id.VIEW_COMMAND,R.id.CREATE_INSTANCE_EDIT_COMMAND,
             R.id.CREATE_TEMPLATE_COMMAND, R.id.CLONE_TRANSACTION_COMMAND)
     private val menuSingleGroupIds = intArrayOf(R.id.CREATE_SUB_COMMAND, R.id.COLOR_COMMAND)
@@ -77,6 +78,11 @@ abstract class ContextualActionBarFragment : Fragment(), OnGroupClickListener, O
 
     protected open fun shouldStartActionMode() = true
 
+    open fun setTitle(mode : ActionMode ,lv: AbsListView, position: Int, checked: Boolean) {
+        val count = lv.checkedItemCount
+        mode.title = count.toString()
+    }
+
     fun registerForContextualActionBar(lv: AbsListView) {
         lv.choiceMode = ListView.CHOICE_MODE_MULTIPLE_MODAL
         lv.setMultiChoiceModeListener(object : MultiChoiceModeListener {
@@ -87,7 +93,8 @@ abstract class ContextualActionBarFragment : Fragment(), OnGroupClickListener, O
                     expandableListSelectionType = ExpandableListView.getPackedPositionType(
                             lv.getExpandableListPosition(position))
                 }
-                mode.title = count.toString()
+                setTitle(mode, lv, position, checked)
+                //val test = lv.getItemAtPosition(position)
                 configureMenu(mode.menu, lv)
             }
 

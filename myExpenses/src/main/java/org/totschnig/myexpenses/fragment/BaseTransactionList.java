@@ -33,6 +33,7 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.util.SparseBooleanArray;
 import android.util.SparseIntArray;
+import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -52,6 +53,7 @@ import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.jetbrains.annotations.NotNull;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.temporal.ChronoUnit;
 import org.totschnig.myexpenses.MyApplication;
@@ -273,7 +275,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
       columnIndexPayee, columnIndexCrStatus, columnIndexYearOfMonthStart,
       columnIndexLabelMain, columnIndexAccountId, columnIndexAmount, columnIndexCurrency;
   private boolean indexesCalculated = false;
-  private Account mAccount;
+  protected Account mAccount;
   private Money budget = null;
   protected TransactionListViewModel viewModel;
   @Nullable
@@ -350,6 +352,13 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
           true, budgetsObserver);
     }
   }
+  /*
+  @Override
+  public void setTitle(@NotNull ActionMode mode, @NotNull AbsListView lv, int position, boolean checked) {
+    Object test = binding.list.getItemAtPosition(position).getClass();
+    super.setTitle(mode, lv, position, checked);
+  }
+   */
 
   @Override
   public void onDestroy() {
