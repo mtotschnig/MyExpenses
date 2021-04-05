@@ -352,13 +352,6 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
           true, budgetsObserver);
     }
   }
-  /*
-  @Override
-  public void setTitle(@NotNull ActionMode mode, @NotNull AbsListView lv, int position, boolean checked) {
-    Object test = binding.list.getItemAtPosition(position).getClass();
-    super.setTitle(mode, lv, position, checked);
-  }
-   */
 
   @Override
   public void onDestroy() {

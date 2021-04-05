@@ -94,7 +94,6 @@ abstract class ContextualActionBarFragment : Fragment(), OnGroupClickListener, O
                             lv.getExpandableListPosition(position))
                 }
                 setTitle(mode, lv, position, checked)
-                //val test = lv.getItemAtPosition(position)
                 configureMenu(mode.menu, lv)
             }
 
