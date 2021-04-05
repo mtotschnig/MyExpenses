@@ -186,6 +186,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String URI_SEGMENT_UNSPLIT = "unsplit";
   public static final String URI_SEGMENT_LINK_TRANSFER = "link_transfer";
   public static final String URI_SEGMENT_SORT_DIRECTION = "sortDirection";
+  //"1" merge all currency aggregates, < 0 only return one specific aggregate
   public static final String QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES = "mergeCurrencyAggregates";
   public static final String QUERY_PARAMETER_EXTENDED = "extended";
   public static final String QUERY_PARAMETER_DISTINCT = "distinct";
@@ -511,24 +512,25 @@ public class TransactionProvider extends BaseTransactionProvider {
       case ACCOUNTS_MINIMAL:
         qb.setTables(TABLE_ACCOUNTS);
         final boolean minimal = uriMatch == ACCOUNTS_MINIMAL;
-        boolean mergeCurrencyAggregates = minimal ||
-            uri.getQueryParameter(QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES) != null;
+        final String mergeAggregate = minimal ? "1" : uri.getQueryParameter(QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES);
         if (sortOrder == null) {
           sortOrder = minimal ? KEY_LABEL : Sort.preferredOrderByForAccounts(PrefKey.SORT_ORDER_ACCOUNTS, prefHandler, Sort.LABEL);
         }
-        if (mergeCurrencyAggregates) {
+        if (mergeAggregate != null) {
           if (projection != null) {
             CrashHandler.report(
                 "When calling accounts cursor with mergeCurrencyAggregates, projection is ignored ");
           }
-          String accountSubquery = qb.buildQuery(minimal ?
-                  new String[]{KEY_ROWID, KEY_LABEL, KEY_CURRENCY, "0 AS " + KEY_IS_AGGREGATE} :
-                  Account.PROJECTION_FULL, selection, null,
-              null, null, null);
-          //Currency query
-          String homeCurrency = prefHandler.getString(PrefKey.HOME_CURRENCY, null);
+          List<String> subQueries = new ArrayList<>();
+          if (mergeAggregate.equals("1")) {
+            subQueries.add(qb.buildQuery(minimal ?
+                    new String[]{KEY_ROWID, KEY_LABEL, KEY_CURRENCY, "0 AS " + KEY_IS_AGGREGATE} :
+                    Account.PROJECTION_FULL, selection, null,
+                null, null, null));
+          }
           String currencyJoin = String.format(Locale.ROOT, " LEFT JOIN %1$s ON (%2$s = t.%3$s)",
               TABLE_CURRENCIES, KEY_CODE, KEY_CURRENCY);
+          String homeCurrency = prefHandler.getString(PrefKey.HOME_CURRENCY, null);
           final StringBuilder stringBuilder = new StringBuilder().append("(SELECT ")
               .append(KEY_ROWID)
               .append(",")
@@ -605,52 +607,54 @@ public class TransactionProvider extends BaseTransactionProvider {
               .append(" = 0) as t")
               .append(currencyJoin).toString();
           qb.setTables(inTables);
-          groupBy = KEY_CURRENCY;
-          having = "count(*) > 1";
-          String rowIdColumn = "0 - (SELECT " + KEY_ROWID + " FROM " + TABLE_CURRENCIES
-              + " WHERE " + KEY_CODE + "= " + KEY_CURRENCY + ")  AS " + KEY_ROWID;
-          String labelColumn = KEY_CURRENCY + " AS " + KEY_LABEL;
-          String currencyColumn = KEY_CURRENCY;
-          String aggregateColumn = "1 AS " + KEY_IS_AGGREGATE;
-          projection = minimal ? new String[]{rowIdColumn, labelColumn, currencyColumn, aggregateColumn} : new String[]{
-              rowIdColumn,//we use negative ids for aggregate accounts
-              labelColumn,
-              "'' AS " + KEY_DESCRIPTION,
-              "sum(" + KEY_OPENING_BALANCE + ") AS " + KEY_OPENING_BALANCE,
-              currencyColumn,
-              "-1 AS " + KEY_COLOR,
-              "t." + KEY_GROUPING,
-              "'AGGREGATE' AS " + KEY_TYPE,
-              "0 AS " + KEY_SORT_KEY,
-              "0 AS " + KEY_EXCLUDE_FROM_TOTALS,
-              "null AS " + KEY_SYNC_ACCOUNT_NAME,
-              "null AS " + KEY_UUID,
-              "'DESC' AS " + KEY_SORT_DIRECTION,
-              "1 AS " + KEY_EXCHANGE_RATE,
-              "0 AS " + KEY_CRITERION,
-              "0 AS " + KEY_SEALED,
-              "sum(" + KEY_CURRENT_BALANCE + ") AS " + KEY_CURRENT_BALANCE,
-              "sum(" + KEY_SUM_INCOME + ") AS " + KEY_SUM_INCOME,
-              "sum(" + KEY_SUM_EXPENSES + ") AS " + KEY_SUM_EXPENSES,
-              "sum(" + KEY_SUM_TRANSFERS + ") AS " + KEY_SUM_TRANSFERS,
-              "sum(" + KEY_TOTAL + ") AS " + KEY_TOTAL,
-              "0 AS " + KEY_CLEARED_TOTAL, //we do not calculate cleared and reconciled totals for aggregate accounts
-              "0 AS " + KEY_RECONCILED_TOTAL,
-              "0 AS " + KEY_USAGES,
-              aggregateColumn,
-              "max(" + KEY_HAS_FUTURE + ") AS " + KEY_HAS_FUTURE,
-              "0 AS " + KEY_HAS_CLEARED,
-              "0 AS " + KEY_SORT_KEY_TYPE,
-              "0 AS " + KEY_LAST_USED}; //ignored
-          String currencySubquery = qb.buildQuery(projection, null, groupBy, having, null, null);
+          //Currency query
+          if (!mergeAggregate.equals(String.valueOf(Account.HOME_AGGREGATE_ID))) {
+            groupBy = KEY_CURRENCY;
+            having = mergeAggregate.equals("1") ? "count(*) > 1" :  TABLE_CURRENCIES + "." +  KEY_ROWID + " = " + mergeAggregate.substring(1); //strip - in order to compare with currency id
+            String rowIdColumn = "0 - (SELECT " + KEY_ROWID + " FROM " + TABLE_CURRENCIES
+                + " WHERE " + KEY_CODE + "= " + KEY_CURRENCY + ")  AS " + KEY_ROWID;
+            String labelColumn = KEY_CURRENCY + " AS " + KEY_LABEL;
+            String currencyColumn = KEY_CURRENCY;
+            String aggregateColumn = "1 AS " + KEY_IS_AGGREGATE;
+            projection = minimal ? new String[]{rowIdColumn, labelColumn, currencyColumn, aggregateColumn} : new String[]{
+                rowIdColumn,//we use negative ids for aggregate accounts
+                labelColumn,
+                "'' AS " + KEY_DESCRIPTION,
+                "sum(" + KEY_OPENING_BALANCE + ") AS " + KEY_OPENING_BALANCE,
+                currencyColumn,
+                "-1 AS " + KEY_COLOR,
+                "t." + KEY_GROUPING,
+                "'AGGREGATE' AS " + KEY_TYPE,
+                "0 AS " + KEY_SORT_KEY,
+                "0 AS " + KEY_EXCLUDE_FROM_TOTALS,
+                "null AS " + KEY_SYNC_ACCOUNT_NAME,
+                "null AS " + KEY_UUID,
+                "'DESC' AS " + KEY_SORT_DIRECTION,
+                "1 AS " + KEY_EXCHANGE_RATE,
+                "0 AS " + KEY_CRITERION,
+                "0 AS " + KEY_SEALED,
+                "sum(" + KEY_CURRENT_BALANCE + ") AS " + KEY_CURRENT_BALANCE,
+                "sum(" + KEY_SUM_INCOME + ") AS " + KEY_SUM_INCOME,
+                "sum(" + KEY_SUM_EXPENSES + ") AS " + KEY_SUM_EXPENSES,
+                "sum(" + KEY_SUM_TRANSFERS + ") AS " + KEY_SUM_TRANSFERS,
+                "sum(" + KEY_TOTAL + ") AS " + KEY_TOTAL,
+                "0 AS " + KEY_CLEARED_TOTAL, //we do not calculate cleared and reconciled totals for aggregate accounts
+                "0 AS " + KEY_RECONCILED_TOTAL,
+                "0 AS " + KEY_USAGES,
+                aggregateColumn,
+                "max(" + KEY_HAS_FUTURE + ") AS " + KEY_HAS_FUTURE,
+                "0 AS " + KEY_HAS_CLEARED,
+                "0 AS " + KEY_SORT_KEY_TYPE,
+                "0 AS " + KEY_LAST_USED}; //ignored
+            subQueries.add(qb.buildQuery(projection, null, groupBy, having, null, null));
+          }
           //home query
-          String[] subQueries;
-          if (homeCurrency != null) {
+          if (homeCurrency != null && (mergeAggregate.equals(String.valueOf(Account.HOME_AGGREGATE_ID)) || mergeAggregate.equals("1"))) {
             String grouping = prefHandler.getString(GROUPING_AGGREGATE, "NONE");
-            rowIdColumn = Account.HOME_AGGREGATE_ID + " AS " + KEY_ROWID;
-            labelColumn = "'' AS " + KEY_LABEL;
-            currencyColumn = "'" + AGGREGATE_HOME_CURRENCY_CODE + "' AS " + KEY_CURRENCY;
-            aggregateColumn = AggregateAccount.AGGREGATE_HOME + " AS " + KEY_IS_AGGREGATE;
+            String rowIdColumn = Account.HOME_AGGREGATE_ID + " AS " + KEY_ROWID;
+            String labelColumn = "'' AS " + KEY_LABEL;
+            String currencyColumn = "'" + AGGREGATE_HOME_CURRENCY_CODE + "' AS " + KEY_CURRENCY;
+            String aggregateColumn = AggregateAccount.AGGREGATE_HOME + " AS " + KEY_IS_AGGREGATE;
             projection = minimal ? new String[]{rowIdColumn, labelColumn, currencyColumn, aggregateColumn} : new String[]{
                 rowIdColumn,
                 labelColumn,
@@ -681,12 +685,11 @@ public class TransactionProvider extends BaseTransactionProvider {
                 "0 AS " + KEY_HAS_CLEARED,
                 "0 AS " + KEY_SORT_KEY_TYPE,
                 "0 AS " + KEY_LAST_USED}; //ignored
-            groupBy = "1";// we are grouping by the 1st column, i.e. the literal row id, this allows us to suppress the row, if the having clause is false
-            having = "(select count(distinct " + KEY_CURRENCY + ") from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " != '" + homeCurrency + "') > 0";
-            String homeSubquery = qb.buildQuery(projection, null, groupBy, having, null, null);
-            subQueries = new String[]{accountSubquery, currencySubquery, homeSubquery};
-          } else {
-            subQueries = new String[]{accountSubquery, currencySubquery};
+            if (mergeAggregate.equals("1")) {
+              groupBy = "1";// we are grouping by the 1st column, i.e. the literal row id, this allows us to suppress the row, if the having clause is false
+              having = "(select count(distinct " + KEY_CURRENCY + ") from " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY + " != '" + homeCurrency + "') > 0";
+            }
+            subQueries.add(qb.buildQuery(projection, null, groupBy, having, null, null));
           }
           String grouping = KEY_IS_AGGREGATE;
           if (!minimal) {
@@ -707,7 +710,7 @@ public class TransactionProvider extends BaseTransactionProvider {
             }
           }
           String sql = qb.buildUnionQuery(
-              subQueries,
+              subQueries.toArray(new String[0]),
               grouping + "," + sortOrder,
               null);
           log("Query : %s", sql);

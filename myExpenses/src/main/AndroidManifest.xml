@@ -276,6 +276,14 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".activity.AccountWidgetConfigure"
+            android:label="@string/account_widget_configuration"
+            android:theme="@style/WidgetConfiguration">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+            </intent-filter>
+        </activity>
+
         <activity android:name=".activity.RoadmapVoteActivity">
             <meta-data
                 android:name="android.app.searchable"
@@ -391,7 +399,7 @@
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/widget_info_generic" />
+                android:resource="@xml/account_widget_info" />
         </receiver>
 
         <receiver

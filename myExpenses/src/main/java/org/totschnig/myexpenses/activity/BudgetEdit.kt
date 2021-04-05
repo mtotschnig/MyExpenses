@@ -39,7 +39,7 @@ import org.totschnig.myexpenses.provider.filter.PayeeCriteria
 import org.totschnig.myexpenses.provider.filter.TagCriteria
 import org.totschnig.myexpenses.ui.SpinnerHelper
 import org.totschnig.myexpenses.ui.filter.ScrollingChip
-import org.totschnig.myexpenses.viewmodel.Account
+import org.totschnig.myexpenses.viewmodel.data.AccountMinimal
 import org.totschnig.myexpenses.viewmodel.BudgetEditViewModel
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel.Companion.prefNameForCriteria
 import org.totschnig.myexpenses.viewmodel.data.Budget
@@ -147,14 +147,16 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         setContentView(binding.root)
         setupToolbar()
         viewModel = ViewModelProvider(this).get(BudgetEditViewModel::class.java)
-        viewModel.accounts.observe(this, { list ->
+        pendingBudgetLoad = if (savedInstanceState == null) budgetId else 0L
+        viewModel.accountsMinimal.observe(this, { list ->
             binding.Accounts.adapter = AccountAdapter(this, list)
             (accountId.takeIf { it != 0L } ?: list.getOrNull(0)?.id)?.let { populateAccount(it) }
+            if (pendingBudgetLoad != 0L) {
+                viewModel.loadBudget(pendingBudgetLoad, true)
+            }
         })
         viewModel.budget.observe(this, { populateData(it) })
         mNewInstance = budgetId == 0L
-        pendingBudgetLoad = if (savedInstanceState == null) budgetId else 0L
-        viewModel.loadData(pendingBudgetLoad)
         viewModel.databaseResult.observe(this, {
             if (it > -1) {
                 finish()
@@ -343,7 +345,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
                 if (end != null && start != null && end < start) {
                     showDismissibleSnackbar(R.string.budget_date_end_after_start)
                 } else {
-                    val account: Account = selectedAccount()
+                    val account: AccountMinimal = selectedAccount()
                     val currencyUnit = currencyContext[account.currency]
                     val budget = Budget(budgetId, account.id,
                             binding.Title.text.toString(), binding.Description.text.toString(), currencyUnit,
@@ -361,7 +363,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         return super.dispatchCommand(command, tag)
     }
 
-    private fun selectedAccount() = binding.Accounts.selectedItem as Account
+    private fun selectedAccount() = binding.Accounts.selectedItem as AccountMinimal
 }
 
 class GroupingAdapter(context: Context) : ArrayAdapter<Grouping>(context, android.R.layout.simple_spinner_item, android.R.id.text1, Grouping.values()) {
