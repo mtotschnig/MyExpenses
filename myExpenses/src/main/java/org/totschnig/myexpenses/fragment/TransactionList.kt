@@ -89,12 +89,13 @@ class TransactionList : BaseTransactionList() {
     }
 
     override fun onSelectionChanged(position: Int, checked: Boolean) {
-        mTransactionsCursor.moveToPosition(position)
-        val amount = mTransactionsCursor.getLong(mTransactionsCursor.getColumnIndex(KEY_AMOUNT))
-        if (checked) {
-            selectedTransactionSum += amount
-        } else {
-            selectedTransactionSum -= amount
+        if (mTransactionsCursor.moveToPosition(position)) {
+            val amount = mTransactionsCursor.getLong(mTransactionsCursor.getColumnIndex(KEY_AMOUNT))
+            if (checked) {
+                selectedTransactionSum += amount
+            } else {
+                selectedTransactionSum -= amount
+            }
         }
     }
 
