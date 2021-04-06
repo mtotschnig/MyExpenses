@@ -81,7 +81,7 @@ abstract class ContextualActionBarFragment : Fragment(), OnGroupClickListener, O
         mode.title = count.toString()
     }
 
-    open fun onSelectionChanged(position : Int, checked: Boolean) {}
+    open fun onSelectionChanged(position: Int, checked: Boolean) {}
 
     open fun onFinishActionMode() {}
 
@@ -95,7 +95,7 @@ abstract class ContextualActionBarFragment : Fragment(), OnGroupClickListener, O
                     expandableListSelectionType = getPackedPositionType(
                             lv.getExpandableListPosition(position))
                 }
-                onSelectionChanged(position,checked)
+                onSelectionChanged(position, checked)
                 setTitle(mode, lv)
                 configureMenu(mode.menu, lv)
             }
