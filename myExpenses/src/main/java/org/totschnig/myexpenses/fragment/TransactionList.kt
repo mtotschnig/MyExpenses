@@ -15,6 +15,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
+import icepick.State
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.CONFIRM_MAP_TAG_REQUEST
 import org.totschnig.myexpenses.activity.MAP_TAG_REQUEST
@@ -28,7 +29,9 @@ const val KEY_REPLACE = "replace"
 
 class TransactionList : BaseTransactionList() {
 
-    private var transactionsum : Long = 0
+    @JvmField
+    @State
+    var transactionsum : Long = 0
 
     private fun handleTagResult(intent: Intent) {
         ConfirmTagDialogFragment().also {
