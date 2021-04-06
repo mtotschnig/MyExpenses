@@ -10,15 +10,12 @@ import android.widget.AbsListView
 import android.widget.AbsListView.MultiChoiceModeListener
 import android.widget.AdapterView.AdapterContextMenuInfo
 import android.widget.ExpandableListView
-import android.widget.ExpandableListView.ExpandableListContextMenuInfo
-import android.widget.ExpandableListView.OnChildClickListener
-import android.widget.ExpandableListView.OnGroupClickListener
+import android.widget.ExpandableListView.*
 import android.widget.HeaderViewListAdapter
 import android.widget.ListView
 import androidx.fragment.app.Fragment
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
-import org.totschnig.myexpenses.model.Template
 
 /**
  * @author Michael Totschnig
