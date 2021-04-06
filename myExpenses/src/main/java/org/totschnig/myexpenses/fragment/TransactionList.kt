@@ -5,10 +5,12 @@ import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.SpannableString
+import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.view.ActionMode
 import android.view.Menu
 import android.widget.AbsListView
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import com.afollestad.materialdialogs.MaterialDialog
@@ -29,6 +31,10 @@ class TransactionList : BaseTransactionList() {
     @JvmField
     @State
     var selectedTransactionSum: Long = 0
+
+    @JvmField
+    @State
+    var selectedTransactionSumFormatted: String? = null
 
     private fun handleTagResult(intent: Intent) {
         ConfirmTagDialogFragment().also {
@@ -58,32 +64,37 @@ class TransactionList : BaseTransactionList() {
         }
     }
 
-    override fun resetTransactionSum() {
+    override fun onFinishActionMode() {
+        super.onFinishActionMode()
         selectedTransactionSum = 0
     }
 
     override fun setTitle(mode: ActionMode, lv: AbsListView) {
         val count = lv.checkedItemCount
-        mode.title = setColor(count.toString() + " " + currencyFormatter.convAmount(selectedTransactionSum, mAccount.currencyUnit), count + 1)
+        mAccount?.let {
+            selectedTransactionSumFormatted = currencyFormatter.convAmount(selectedTransactionSum, it.currencyUnit)
+        }
+        mode.title = TextUtils.concat(count.toString(), " ", setColor(selectedTransactionSumFormatted
+                ?: ""))
     }
 
-    private fun setColor(text: String, count: Int): SpannableString {
+    private fun setColor(text: String): SpannableString {
         val spanText = SpannableString(text)
         if (selectedTransactionSum <= 0) {
-            spanText.setSpan(ForegroundColorSpan(resources.getColor(R.color.colorExpense)), count.toString().count(), spanText.length, 0)
+            spanText.setSpan(ForegroundColorSpan(ResourcesCompat.getColor(resources, R.color.colorExpense, null)), 0, spanText.length, 0)
         } else {
-            spanText.setSpan(ForegroundColorSpan(resources.getColor(R.color.colorIncome)), count.toString().count(), spanText.length, 0)
+            spanText.setSpan(ForegroundColorSpan(ResourcesCompat.getColor(resources, R.color.colorIncome, null)), 0, spanText.length, 0)
         }
         return spanText
     }
 
-    override fun onSelectionChanged (position: Int, checked: Boolean) {
+    override fun onSelectionChanged(position: Int, checked: Boolean) {
         mTransactionsCursor.moveToPosition(position)
-        val cost = mTransactionsCursor.getLong(mTransactionsCursor.getColumnIndex(KEY_AMOUNT))
+        val amount = mTransactionsCursor.getLong(mTransactionsCursor.getColumnIndex(KEY_AMOUNT))
         if (checked) {
-            selectedTransactionSum += cost
+            selectedTransactionSum += amount
         } else {
-            selectedTransactionSum -= cost
+            selectedTransactionSum -= amount
         }
     }
 
