@@ -4,22 +4,38 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.TextUtils
+import android.text.style.ForegroundColorSpan
+import android.view.ActionMode
 import android.view.Menu
 import android.widget.AbsListView
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
+import icepick.State
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.CONFIRM_MAP_TAG_REQUEST
 import org.totschnig.myexpenses.activity.MAP_TAG_REQUEST
 import org.totschnig.myexpenses.activity.MyExpenses
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.viewmodel.data.Tag
 
 const val KEY_REPLACE = "replace"
 
 class TransactionList : BaseTransactionList() {
+
+    @JvmField
+    @State
+    var selectedTransactionSum: Long = 0
+
+    @JvmField
+    @State
+    var selectedTransactionSumFormatted: String? = null
+
     private fun handleTagResult(intent: Intent) {
         ConfirmTagDialogFragment().also {
             it.arguments = Bundle().apply {
@@ -47,6 +63,41 @@ class TransactionList : BaseTransactionList() {
             }
         }
     }
+
+    override fun onFinishActionMode() {
+        super.onFinishActionMode()
+        selectedTransactionSum = 0
+    }
+
+    override fun setTitle(mode: ActionMode, lv: AbsListView) {
+        val count = lv.checkedItemCount
+        mAccount?.let {
+            selectedTransactionSumFormatted = currencyFormatter.convAmount(selectedTransactionSum, it.currencyUnit)
+        }
+        mode.title = TextUtils.concat(count.toString(), " ", setColor(selectedTransactionSumFormatted
+                ?: ""))
+    }
+
+    private fun setColor(text: String): SpannableString {
+        val spanText = SpannableString(text)
+        if (selectedTransactionSum <= 0) {
+            spanText.setSpan(ForegroundColorSpan(ResourcesCompat.getColor(resources, R.color.colorExpense, null)), 0, spanText.length, 0)
+        } else {
+            spanText.setSpan(ForegroundColorSpan(ResourcesCompat.getColor(resources, R.color.colorIncome, null)), 0, spanText.length, 0)
+        }
+        return spanText
+    }
+
+    override fun onSelectionChanged(position: Int, checked: Boolean) {
+        mTransactionsCursor.moveToPosition(position)
+        val amount = mTransactionsCursor.getLong(mTransactionsCursor.getColumnIndex(KEY_AMOUNT))
+        if (checked) {
+            selectedTransactionSum += amount
+        } else {
+            selectedTransactionSum -= amount
+        }
+    }
+
 
     override fun configureMenu(menu: Menu, lv: AbsListView) {
         super.configureMenu(menu, lv)
@@ -111,7 +162,7 @@ class TransactionList : BaseTransactionList() {
                 if (mTransactionsCursor.moveToPosition(position2)) {
                     //we either have two transactions with different currencies or with the same amount
                     return accountId1 != mTransactionsCursor.getLong(columnIndexAccountId) &&
-                            (amount1 == - mTransactionsCursor.getLong(columnIndexAmount) || currency1 != currencyAtPosition)
+                            (amount1 == -mTransactionsCursor.getLong(columnIndexAmount) || currency1 != currencyAtPosition)
                 }
             }
         }
@@ -123,7 +174,7 @@ class TransactionList : BaseTransactionList() {
 
     override fun showDetails(transactionId: Long) {
         lifecycleScope.launchWhenResumed {
-            with(parentFragmentManager)  {
+            with(parentFragmentManager) {
                 if (findFragmentByTag(TransactionDetailFragment::class.java.name) == null) {
                     TransactionDetailFragment.newInstance(transactionId).show(this, TransactionDetailFragment::class.java.name)
                 }

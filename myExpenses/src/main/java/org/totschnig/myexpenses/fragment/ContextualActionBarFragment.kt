@@ -10,9 +10,7 @@ import android.widget.AbsListView
 import android.widget.AbsListView.MultiChoiceModeListener
 import android.widget.AdapterView.AdapterContextMenuInfo
 import android.widget.ExpandableListView
-import android.widget.ExpandableListView.ExpandableListContextMenuInfo
-import android.widget.ExpandableListView.OnChildClickListener
-import android.widget.ExpandableListView.OnGroupClickListener
+import android.widget.ExpandableListView.*
 import android.widget.HeaderViewListAdapter
 import android.widget.ListView
 import androidx.fragment.app.Fragment
@@ -29,10 +27,11 @@ abstract class ContextualActionBarFragment : Fragment(), OnGroupClickListener, O
     var mActionMode: ActionMode? = null
 
     @JvmField
-    var expandableListSelectionType = ExpandableListView.PACKED_POSITION_TYPE_NULL
+    var expandableListSelectionType = PACKED_POSITION_TYPE_NULL
+
     private val menuSingleIds = intArrayOf(R.id.EDIT_COMMAND,
             R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND,
-            R.id.SELECT_COMMAND, R.id.VIEW_COMMAND,R.id.CREATE_INSTANCE_EDIT_COMMAND,
+            R.id.SELECT_COMMAND, R.id.VIEW_COMMAND, R.id.CREATE_INSTANCE_EDIT_COMMAND,
             R.id.CREATE_TEMPLATE_COMMAND, R.id.CLONE_TRANSACTION_COMMAND)
     private val menuSingleGroupIds = intArrayOf(R.id.CREATE_SUB_COMMAND, R.id.COLOR_COMMAND)
 
@@ -77,6 +76,15 @@ abstract class ContextualActionBarFragment : Fragment(), OnGroupClickListener, O
 
     protected open fun shouldStartActionMode() = true
 
+    open fun setTitle(mode: ActionMode, lv: AbsListView) {
+        val count = lv.checkedItemCount
+        mode.title = count.toString()
+    }
+
+    open fun onSelectionChanged(position : Int, checked: Boolean) {}
+
+    open fun onFinishActionMode() {}
+
     fun registerForContextualActionBar(lv: AbsListView) {
         lv.choiceMode = ListView.CHOICE_MODE_MULTIPLE_MODAL
         lv.setMultiChoiceModeListener(object : MultiChoiceModeListener {
@@ -84,10 +92,11 @@ abstract class ContextualActionBarFragment : Fragment(), OnGroupClickListener, O
                                                    id: Long, checked: Boolean) {
                 val count = lv.checkedItemCount
                 if (lv is ExpandableListView && count == 1 && checked) {
-                    expandableListSelectionType = ExpandableListView.getPackedPositionType(
+                    expandableListSelectionType = getPackedPositionType(
                             lv.getExpandableListPosition(position))
                 }
-                mode.title = count.toString()
+                onSelectionChanged(position,checked)
+                setTitle(mode, lv)
                 configureMenu(mode.menu, lv)
             }
 
@@ -100,9 +109,9 @@ abstract class ContextualActionBarFragment : Fragment(), OnGroupClickListener, O
                 //this workaround works because orientation change collapses the groups
                 //so we never restore the CAB for PACKED_POSITION_TYPE_CHILD
                 if (!shouldStartActionMode()) return false
-                expandableListSelectionType = if (lv is ExpandableListView) ExpandableListView.PACKED_POSITION_TYPE_GROUP else ExpandableListView.PACKED_POSITION_TYPE_NULL
+                expandableListSelectionType = if (lv is ExpandableListView) PACKED_POSITION_TYPE_GROUP else PACKED_POSITION_TYPE_NULL
                 inflateContextualActionBar(menu, lv.id)
-                mode.title = lv.checkedItemCount.toString()
+                setTitle(mode, lv)
                 mActionMode = mode
                 return true
             }
@@ -123,7 +132,7 @@ abstract class ContextualActionBarFragment : Fragment(), OnGroupClickListener, O
                         var shouldCheck = true
                         if (lv is ExpandableListView) {
                             val pos = lv.getExpandableListPosition(i)
-                            shouldCheck = expandableListSelectionType == ExpandableListView.getPackedPositionType(pos)
+                            shouldCheck = expandableListSelectionType == getPackedPositionType(pos)
                         }
                         lv.setItemChecked(i, shouldCheck)
                     }
@@ -132,7 +141,7 @@ abstract class ContextualActionBarFragment : Fragment(), OnGroupClickListener, O
                 val checkedItemPositions = lv.checkedItemPositions
                 val checkedItemCount = checkedItemPositions.size()
                 var result = false
-                if (isSingleCommamd(item) || isSingleGroupCommand(item)) {
+                if (isSingleCommand(item) || isSingleGroupCommand(item)) {
                     for (i in 0 until checkedItemCount) {
                         if (checkedItemPositions.valueAt(i)) {
                             val position = checkedItemPositions.keyAt(i)
@@ -140,11 +149,11 @@ abstract class ContextualActionBarFragment : Fragment(), OnGroupClickListener, O
                             val id: Long
                             if (lv is ExpandableListView) {
                                 val pos = lv.getExpandableListPosition(position)
-                                val groupPos = ExpandableListView.getPackedPositionGroup(pos)
-                                id = if (ExpandableListView.getPackedPositionType(pos) == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+                                val groupPos = getPackedPositionGroup(pos)
+                                id = if (getPackedPositionType(pos) == PACKED_POSITION_TYPE_GROUP) {
                                     lv.expandableListAdapter.getGroupId(groupPos)
                                 } else {
-                                    val childPos = ExpandableListView.getPackedPositionChild(pos)
+                                    val childPos = getPackedPositionChild(pos)
                                     lv.expandableListAdapter.getChildId(groupPos, childPos)
                                 }
                                 //getChildAt returned null in some cases
@@ -167,11 +176,11 @@ abstract class ContextualActionBarFragment : Fragment(), OnGroupClickListener, O
                             if (checkedItemPositions.valueAt(i)) {
                                 val position = checkedItemPositions.keyAt(i)
                                 val pos = lv.getExpandableListPosition(position)
-                                val groupPos = ExpandableListView.getPackedPositionGroup(pos)
-                                if (ExpandableListView.getPackedPositionType(pos) == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+                                val groupPos = getPackedPositionGroup(pos)
+                                if (getPackedPositionType(pos) == PACKED_POSITION_TYPE_GROUP) {
                                     itemIdsObj[i] = lv.expandableListAdapter.getGroupId(groupPos)
                                 } else {
-                                    val childPos = ExpandableListView.getPackedPositionChild(pos)
+                                    val childPos = getPackedPositionChild(pos)
                                     itemIdsObj[i] = lv.expandableListAdapter.getChildId(groupPos, childPos)
                                 }
                             }
@@ -194,6 +203,7 @@ abstract class ContextualActionBarFragment : Fragment(), OnGroupClickListener, O
             }
 
             override fun onDestroyActionMode(mode: ActionMode) {
+                onFinishActionMode()
                 mActionMode = null
             }
         })
@@ -205,8 +215,8 @@ abstract class ContextualActionBarFragment : Fragment(), OnGroupClickListener, O
 
     override fun onGroupClick(parent: ExpandableListView, v: View, groupPosition: Int, id: Long): Boolean {
         if (mActionMode != null) {
-            if (expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-                val flatPosition = parent.getFlatListPosition(ExpandableListView.getPackedPositionForGroup(groupPosition))
+            if (expandableListSelectionType == PACKED_POSITION_TYPE_GROUP) {
+                val flatPosition = parent.getFlatListPosition(getPackedPositionForGroup(groupPosition))
                 parent.setItemChecked(
                         flatPosition,
                         !parent.isItemChecked(flatPosition))
@@ -219,9 +229,9 @@ abstract class ContextualActionBarFragment : Fragment(), OnGroupClickListener, O
     override fun onChildClick(parent: ExpandableListView, v: View,
                               groupPosition: Int, childPosition: Int, id: Long): Boolean {
         if (mActionMode != null) {
-            if (expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+            if (expandableListSelectionType == PACKED_POSITION_TYPE_CHILD) {
                 val flatPosition = parent.getFlatListPosition(
-                        ExpandableListView.getPackedPositionForChild(groupPosition, childPosition))
+                        getPackedPositionForChild(groupPosition, childPosition))
                 parent.setItemChecked(
                         flatPosition,
                         !parent.isItemChecked(flatPosition))
@@ -232,10 +242,10 @@ abstract class ContextualActionBarFragment : Fragment(), OnGroupClickListener, O
     }
 
     protected open fun configureMenu(menu: Menu, lv: AbsListView) {
-        val inGroup = expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP
+        val inGroup = expandableListSelectionType == PACKED_POSITION_TYPE_GROUP
         for (i in 0 until menu.size()) {
             with(menu.getItem(i)) {
-                if (isSingleCommamd(this)) {
+                if (isSingleCommand(this)) {
                     isVisible = lv.checkedItemCount == 1
                 }
                 if (isSingleGroupCommand(this)) {
@@ -245,17 +255,15 @@ abstract class ContextualActionBarFragment : Fragment(), OnGroupClickListener, O
         }
     }
 
-    private fun isSingleCommamd(item: MenuItem) = menuSingleIds.contains(item.itemId)
+    private fun isSingleCommand(item: MenuItem) = menuSingleIds.contains(item.itemId)
     private fun isSingleGroupCommand(item: MenuItem) = menuSingleGroupIds.contains(item.itemId)
 
     fun finishActionMode() {
-        if (mActionMode != null) mActionMode!!.finish()
+        mActionMode?.finish()
+        onFinishActionMode()
     }
 
     fun invalidateCAB() {
-        if (mActionMode != null) {
-            //upon orientation change when action mode is restores the cursor might not yet been loaded
-            mActionMode!!.invalidate()
-        }
+        mActionMode?.invalidate()
     }
 }

@@ -273,7 +273,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
       columnIndexPayee, columnIndexCrStatus, columnIndexYearOfMonthStart,
       columnIndexLabelMain, columnIndexAccountId, columnIndexAmount, columnIndexCurrency;
   private boolean indexesCalculated = false;
-  private Account mAccount;
+  protected Account mAccount;
   private Money budget = null;
   protected TransactionListViewModel viewModel;
   @Nullable
