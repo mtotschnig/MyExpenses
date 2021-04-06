@@ -94,7 +94,8 @@ abstract class ContextualActionBarFragment : Fragment(), OnGroupClickListener, O
                     expandableListSelectionType = ExpandableListView.getPackedPositionType(
                             lv.getExpandableListPosition(position))
                 }
-                setTitle(mode, lv, position, checked)
+                onSelectionChanged(position,checked)
+                setTitle(mode, lv)
                 configureMenu(mode.menu, lv)
             }
 
@@ -109,7 +110,8 @@ abstract class ContextualActionBarFragment : Fragment(), OnGroupClickListener, O
                 if (!shouldStartActionMode()) return false
                 expandableListSelectionType = if (lv is ExpandableListView) ExpandableListView.PACKED_POSITION_TYPE_GROUP else ExpandableListView.PACKED_POSITION_TYPE_NULL
                 inflateContextualActionBar(menu, lv.id)
-                mode.title = lv.checkedItemCount.toString()
+                resetTransactionSum()
+                setTitle(mode, lv)
                 mActionMode = mode
                 return true
             }

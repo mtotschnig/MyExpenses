@@ -19,14 +19,13 @@ import org.totschnig.myexpenses.activity.MAP_TAG_REQUEST
 import org.totschnig.myexpenses.activity.MyExpenses
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
-import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.viewmodel.data.Tag
 
 const val KEY_REPLACE = "replace"
 
 class TransactionList : BaseTransactionList() {
 
-    private var transactionsum : Long = 0
+    private var selectedTransactionSum: Long = 0
 
     private fun handleTagResult(intent: Intent) {
         ConfirmTagDialogFragment().also {
