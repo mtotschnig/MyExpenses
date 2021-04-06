@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_327">
+        <item>Две съществуващи транзакции могат да бъдат свързани като прехвърляне.</item>
+    </string-array>
     <string-array name="whats_new_326">
         <item>Транзакциите могат да се повторят в последния ден от месеца.</item>
     </string-array>

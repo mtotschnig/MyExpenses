@@ -15,6 +15,9 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_327">
+        <item>Duas transações existentes podem ser unidas como uma transferência.</item>
+    </string-array>
     <string-array name="whats_new_326">
         <item>Transações podem se repetir no último dia do mês.</item>
     </string-array>

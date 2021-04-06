@@ -15,6 +15,10 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_328">
+        <item>Account widget can be configured to display single account and to take future transactions into account.</item>
+        <item>Show total amount of selected transactions.</item>
+    </string-array>
     <string-array name="whats_new_327">
         <item>Two existing transactions can be linked as transfer.</item>
     </string-array>

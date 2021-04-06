@@ -38,9 +38,9 @@
   <string name="help_ManageParties_floating_action_button">Le bouton d\'action flottant permet d\'ajouter une nouvelle entrée.</string>
   <!--ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_plans_title">Calendrier</string>
-  <string name="help_ManageTemplates_planner_title">Récurrences à venir</string>
+  <string name="help_ManageTemplates_planner_title">Echéances à venir</string>
   <string name="help_ManageTemplates_templates_info"><![CDATA[<img src=\"ic_menu_template\">Tandis que les modèles peuvent être issus des transactions par le biais de leur menu de contexte, ici vous pouvez créer de nouveaux modèles à partir de rien (pour les transactions ou transferts) en cliquant sur le bouton d\'action. En cliquant sur un modèle, vous créez une nouvelle instance pour elle.<br><img src=\"ic_event\">Une échéance est un modèle pour lequel vous avez créé un événement (unique ou répétitif) dans le calendrier de l\'échéancier. Cliquez sur un échéancier, pour ouvrir un calendrier, qui affichera ses instances passées et futures.]]></string>
-  <string name="help_ManageTemplates_planner_intro">Un appui long sur une instance ouverte démarre la multi-sélection. Taper sur le début ou la fin de la plage de dates permet d\'étendre la plage dans le passé ou le futur.</string>
+  <string name="help_ManageTemplates_planner_intro">Un appui long sur une instance ouverte démarre la sélection multiple. Taper sur le début ou la fin de la plage de dates permet d\'étendre la plage dans le passé ou le futur.</string>
   <string name="help_ManageTemplates_plans_intro">Chaque date en surbrillance représente une instance de l\'échéancier.</string>
   <string name="help_ManageTemplates_plans_info"><![CDATA[L\'état d\'une instance est indiqué par les icônes suivantes :<br><img src=\"ic_stat_open\">L\'opération n\'a pas encore été appliquée.<br><img src=\"ic_stat_applied\">L\'opération a été appliquée.<br><img src=\"ic_stat_cancelled\"> L\'opération a été annulée, c\'est-à-dire que vous avez décidé qu\'aucune ne sera créée à la date indiquée.]]></string>
   <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Appliquer les modèles selectionnés et les sauvegarder immédiatement</string>
@@ -96,7 +96,7 @@
   <string name="form_comment_help_text">Entrez une note sur l\'objet.</string>
   <string name="form_method_help_text">Ce champ n\'est disponible que si le compte courant est d\'un type lié à n\'importe quel mode de paiement. Par défaut, uniquement les comptes bancaires sont liées aux moyens de paiement (chèque, carte de crédit, dépôt, prélèvement). Allez dans Paramètres -&gt; Gérer -&gt; modes de paiement pour configurer la liaison entre les types de compte et les modes de paiement. Lorsque vous sélectionnez une méthode qui est définie comme étant numérotée, un champ supplémentaire pour entrer un numéro de référence devient disponible.</string>
   <string name="form_attach_image_help_text"><![CDATA[le <img src=\"android:ic_menu_camera\"> bouton vous permet d\'attacher une image (par exemple de la galerie ou l\'appareil photo) à l\'objet.]]></string>
-  <string name="form_default_action_help_text">Pour chaque modèle, vous pouvez configurer si un appui court dessus dans la liste des modèles enregistrera l\'instance immédiatement ou entrera dans son formulaire d\'édition où vous pourrez la modifier avant de l\'enregistrer. Vous pouvez toujours accéder aux deux actions par un appui long.</string>
+  <string name="form_default_action_help_text">Pour chaque modèle, vous pouvez configurer si un appui court dans la liste des modèles enregistrera l\'instance immédiatement ou entrera dans son formulaire d\'édition où vous pourrez la modifier avant de l\'enregistrer. Vous pouvez toujours accéder aux deux actions par un appui long.</string>
   <string name="form_category_help_text">Ce bouton ouvre la liste des catégories, où vous pouvez sélectionner la catégorie dont vous souhaitez attribuer à l\'opération.</string>
   <string name="form_split_parts_heading_help_text">Utilisez le bouton d\'action flottant pour la saisie des ventilations nécessaires. La différence entre la somme des parties et l\'opération est affichée au bas de l\'écran. Vous ne pourrez  enregistrer l\'opération ventilée que si le montant total est exactement attribué.</string>
   <string name="form_ExpenseEdit_splitPartCategory_category_help_text">Sélectionnez une catégorie pour cette partie ventilée.</string>
@@ -114,7 +114,7 @@
   <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">Si les devises des comptes  \"De\"  et  \"Vers\" sont différentes, vous ne spécifiez le montant que pour un seul des deux. L\'autre sera calculée lorsque vous créerez des instances du modèle.</string>
   <string name="form_goal_or_limit_help_text">Ce champ permet de spécifier soit un objectif d\'économie positif, soit une limite de crédit négative. Dans les deux cas, sur la liste des comptes, un indicateur de progression visualise la distance entre le solde actuel et le but ou la limite.</string>
   <string name="menu_templates_help_text">Ouvrez un menu qui répertorie tous les modèles permettant de les charger rapidement dans le formulaire.</string>
-  <string name="menu_create_template_from_transaction_help_text">Si cette case est cochée, l\'opération sera également enregistrée comme modèle. Vous pouvez définir son titre et éventuellement définir un plan de récurrence automatique.</string>
+  <string name="menu_create_template_from_transaction_help_text">Si cette case est cochée, l\'opération sera également enregistrée comme modèle. Vous pouvez définir son titre et éventuellement définir un plan d\'échéance automatique.</string>
   <!--AccountEdit-->
   <string name="help_AccountEdit_title">Formulaire pour comptes</string>
   <string name="form_AccountEdit_label_help_text">L\'étiquette identifie le compte dans la liste des comptes.</string>

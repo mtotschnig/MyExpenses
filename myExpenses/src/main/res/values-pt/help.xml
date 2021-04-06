@@ -28,6 +28,7 @@
   <string name="cab_clone_transaction_help_text">As transações selecionadas serão clonadas com a data e hora atuais. Você pode fazer alterações antes de salvar a cópia.</string>
   <string name="cab_split_help_text">Posteriormente, você pode editar a transação para criar partes adicionais, conforme necessário.</string>
   <string name="menu_scan_mode_help_text">Ative o modo de digitalização para digitalizar rapidamente os recibos.</string>
+  <string name="cab_link_help_text">Uma despesa em uma conta pode ser vinculada a uma receita em outra conta. Se as contas tiverem a mesma moeda, as duas transações devem ter valores idênticos.</string>
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Esta tela lista as formas de pagamento predefinidas (cheque, cartão de crédito, depósito, débito direto) e permite definir novas formas. Use o botão de ação flutuante para abrir o formulário e criar uma nova forma.</string>
   <!--ManageParties title is in keys-->

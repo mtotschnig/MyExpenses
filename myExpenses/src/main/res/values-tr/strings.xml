@@ -977,4 +977,5 @@
     <string name="single_feature_info">Alternatif olarak sadece bu işlev için sınırsız erişim satın alabilirsiniz.</string>
     <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
     <string name="recurrence_last_day_of_month">Son gün</string>
-    </resources>
+    <string name="warning_link_transfer">Seçili iki muamele bir transfer olarak ilişkilendirilecektir. Alacaklı/Ödeyen ve kategori bilgileri bırakılacaktır.</string>
+</resources>
