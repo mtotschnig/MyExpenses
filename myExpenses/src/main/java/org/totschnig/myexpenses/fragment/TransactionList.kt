@@ -56,29 +56,32 @@ class TransactionList : BaseTransactionList() {
         }
     }
 
-    override fun setTitle(mode: ActionMode, lv: AbsListView, position: Int, checked: Boolean) {
-        mTransactionsCursor.moveToPosition(position)
-        val cost = mTransactionsCursor.getLong(mTransactionsCursor.getColumnIndex(KEY_AMOUNT))
-        getSum(cost, checked)
-        val count = lv.checkedItemCount
-        mode.title = setColor(count.toString() + " " + currencyFormatter.convAmount(transactionsum, mAccount.currencyUnit), count+1)
+    override fun resetTransactionSum() {
+        selectedTransactionSum = 0
     }
 
-    private fun setColor (text : String , count : Int) : SpannableString {
+    override fun setTitle(mode: ActionMode, lv: AbsListView) {
+        val count = lv.checkedItemCount
+        mode.title = setColor(count.toString() + " " + currencyFormatter.convAmount(selectedTransactionSum, mAccount.currencyUnit), count + 1)
+    }
+
+    private fun setColor(text: String, count: Int): SpannableString {
         val spanText = SpannableString(text)
-        if(transactionsum <= 0) {
-            spanText.setSpan(ForegroundColorSpan(resources.getColor(R.color.colorExpense)), count.toString().count(), spanText.length,0)
+        if (selectedTransactionSum <= 0) {
+            spanText.setSpan(ForegroundColorSpan(resources.getColor(R.color.colorExpense)), count.toString().count(), spanText.length, 0)
         } else {
-            spanText.setSpan(ForegroundColorSpan(resources.getColor(R.color.colorIncome)), count.toString().count(),spanText.length,0)
+            spanText.setSpan(ForegroundColorSpan(resources.getColor(R.color.colorIncome)), count.toString().count(), spanText.length, 0)
         }
         return spanText
     }
 
-    private fun getSum(cost: Long, checked: Boolean) {
-        if(checked) {
-            transactionsum += cost
+    override fun onSelectionChanged (position: Int, checked: Boolean) {
+        mTransactionsCursor.moveToPosition(position)
+        val cost = mTransactionsCursor.getLong(mTransactionsCursor.getColumnIndex(KEY_AMOUNT))
+        if (checked) {
+            selectedTransactionSum += cost
         } else {
-            transactionsum -= cost
+            selectedTransactionSum -= cost
         }
     }
 

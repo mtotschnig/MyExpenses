@@ -75,10 +75,14 @@ abstract class ContextualActionBarFragment : Fragment(), OnGroupClickListener, O
 
     protected open fun shouldStartActionMode() = true
 
-    open fun setTitle(mode : ActionMode ,lv: AbsListView, position: Int, checked: Boolean) {
+    open fun setTitle(mode: ActionMode, lv: AbsListView) {
         val count = lv.checkedItemCount
         mode.title = count.toString()
     }
+
+    open fun onSelectionChanged(position : Int, checked: Boolean) {}
+
+    open fun resetTransactionSum () {}
 
     fun registerForContextualActionBar(lv: AbsListView) {
         lv.choiceMode = ListView.CHOICE_MODE_MULTIPLE_MODAL
