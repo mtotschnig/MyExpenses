@@ -149,7 +149,7 @@ class TransactionList : BaseTransactionList() {
                 if (mTransactionsCursor.moveToPosition(position2)) {
                     //we either have two transactions with different currencies or with the same amount
                     return accountId1 != mTransactionsCursor.getLong(columnIndexAccountId) &&
-                            (amount1 == - mTransactionsCursor.getLong(columnIndexAmount) || currency1 != currencyAtPosition)
+                            (amount1 == -mTransactionsCursor.getLong(columnIndexAmount) || currency1 != currencyAtPosition)
                 }
             }
         }
@@ -161,7 +161,7 @@ class TransactionList : BaseTransactionList() {
 
     override fun showDetails(transactionId: Long) {
         lifecycleScope.launchWhenResumed {
-            with(parentFragmentManager)  {
+            with(parentFragmentManager) {
                 if (findFragmentByTag(TransactionDetailFragment::class.java.name) == null) {
                     TransactionDetailFragment.newInstance(transactionId).show(this, TransactionDetailFragment::class.java.name)
                 }
