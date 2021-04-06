@@ -6,6 +6,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.MyExpenses
 import org.totschnig.myexpenses.contract.TransactionsContract
+import org.totschnig.myexpenses.fragment.AccountWidgetConfigurationFragment
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -14,7 +15,13 @@ const val CLICK_ACTION_NEW_TRANSACTION = "newTransaction"
 const val CLICK_ACTION_NEW_TRANSFER = "newTransfer"
 const val CLICK_ACTION_NEW_SPLIT = "newSplit"
 
-class AccountWidget : AbstractWidget(AccountWidgetService::class.java, R.string.no_accounts, PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET) {
+class AccountWidget : AbstractWidget(AccountWidgetService::class.java, PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET) {
+    override fun emptyTextResourceId(context: Context, appWidgetId: Int): Int {
+        val accountSelection = AccountWidgetConfigurationFragment.loadSelectionPref(context, appWidgetId)
+        return if (accountSelection == Long.MAX_VALUE.toString() || accountSelection.first() == '-') //widget is configured to show all accounts or an aggregate account
+            R.string.no_accounts else R.string.account_deleted
+    }
+
     override fun handleWidgetClick(context: Context, intent: Intent) {
         val accountId = intent.getLongExtra(DatabaseConstants.KEY_ROWID, 0)
         when (val clickAction = intent.getStringExtra(KEY_CLICK_ACTION)) {
@@ -40,6 +47,12 @@ class AccountWidget : AbstractWidget(AccountWidgetService::class.java, R.string.
                     else -> throw IllegalArgumentException()
                 })
             })
+        }
+    }
+
+    override fun onDeleted(context: Context, appWidgetIds: IntArray) {
+        appWidgetIds.forEach { appWidgetId ->
+           AccountWidgetConfigurationFragment.clearPreferences(context, appWidgetId)
         }
     }
 

@@ -20,7 +20,6 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import javax.inject.Inject
 
-
 const val WIDGET_CLICK = "org.totschnig.myexpenses.WIDGET_CLICK"
 const val KEY_CLICK_ACTION = "clickAction"
 const val WIDGET_LIST_DATA_CHANGED = "org.totschnig.myexpenses.LIST_DATA_CHANGED"
@@ -34,16 +33,18 @@ fun onConfigurationChanged(context: Context) {
     updateWidgets(context, TemplateWidget::class.java, WIDGET_CONTEXT_CHANGED)
 }
 
-fun updateWidgets(context: Context, provider: Class<out AppWidgetProvider?>, action: String?) =
+fun updateWidgets(context: Context, provider: Class<out AppWidgetProvider?>, action: String,
+                  appWidgetIds: IntArray = AppWidgetManager.getInstance(context).getAppWidgetIds(ComponentName(context, provider))) =
         context.sendBroadcast(Intent(context, provider).apply {
             this.action = action
-            putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,
-                    AppWidgetManager.getInstance(context).getAppWidgetIds(ComponentName(context, provider)))
+            putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds)
         })
 
-abstract class AbstractWidget(private val clazz: Class<out RemoteViewsService>, private val emptyTextResourceId: Int, private val protectionKey: PrefKey) : AppWidgetProvider() {
+abstract class AbstractWidget(private val clazz: Class<out RemoteViewsService>, private val protectionKey: PrefKey) : AppWidgetProvider() {
+    abstract fun emptyTextResourceId(context: Context, appWidgetId: Int): Int
+
     @Inject
-    lateinit  var prefHandler: PrefHandler
+    lateinit var prefHandler: PrefHandler
 
     override fun onReceive(context: Context, intent: Intent) {
         MyApplication.getInstance().appComponent.inject(this)
@@ -90,7 +91,7 @@ abstract class AbstractWidget(private val clazz: Class<out RemoteViewsService>, 
             // into the data so that the extras will not be ignored.
             svcIntent.data = Uri.parse(svcIntent.toUri(Intent.URI_INTENT_SCHEME))
             widget.setRemoteAdapter(R.id.list, svcIntent)
-            widget.setTextViewText(R.id.emptyView, context.getString(emptyTextResourceId))
+            widget.setTextViewText(R.id.emptyView, context.getString(emptyTextResourceId(context, appWidgetId)))
             widget.setPendingIntentTemplate(R.id.list, clickPI)
         }
         appWidgetManager.updateAppWidget(appWidgetId, widget)
@@ -105,6 +106,7 @@ abstract class AbstractWidget(private val clazz: Class<out RemoteViewsService>, 
             updateWidget(context, appWidgetManager, appWidgetId)
         }
     }
+
     protected open fun isProtected(): Boolean {
         return MyApplication.getInstance().isProtected &&
                 !prefHandler.getBoolean(protectionKey, false)
