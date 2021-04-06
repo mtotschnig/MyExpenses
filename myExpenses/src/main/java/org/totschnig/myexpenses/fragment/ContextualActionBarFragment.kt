@@ -10,15 +10,12 @@ import android.widget.AbsListView
 import android.widget.AbsListView.MultiChoiceModeListener
 import android.widget.AdapterView.AdapterContextMenuInfo
 import android.widget.ExpandableListView
-import android.widget.ExpandableListView.ExpandableListContextMenuInfo
-import android.widget.ExpandableListView.OnChildClickListener
-import android.widget.ExpandableListView.OnGroupClickListener
+import android.widget.ExpandableListView.*
 import android.widget.HeaderViewListAdapter
 import android.widget.ListView
 import androidx.fragment.app.Fragment
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
-import org.totschnig.myexpenses.model.Template
 
 /**
  * @author Michael Totschnig
@@ -32,8 +29,8 @@ abstract class ContextualActionBarFragment : Fragment(), OnGroupClickListener, O
     @JvmField
     var expandableListSelectionType = ExpandableListView.PACKED_POSITION_TYPE_NULL
     private val menuSingleIds = intArrayOf(R.id.EDIT_COMMAND,
-            R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND, R.id.CREATE_PLAN_INSTANCE_SAVE_COMMAND,
-            R.id.SELECT_COMMAND, R.id.VIEW_COMMAND,R.id.CREATE_INSTANCE_EDIT_COMMAND,
+            R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND,
+            R.id.SELECT_COMMAND, R.id.VIEW_COMMAND, R.id.CREATE_INSTANCE_EDIT_COMMAND,
             R.id.CREATE_TEMPLATE_COMMAND, R.id.CLONE_TRANSACTION_COMMAND)
     private val menuSingleGroupIds = intArrayOf(R.id.CREATE_SUB_COMMAND, R.id.COLOR_COMMAND)
 
@@ -78,10 +75,14 @@ abstract class ContextualActionBarFragment : Fragment(), OnGroupClickListener, O
 
     protected open fun shouldStartActionMode() = true
 
-    open fun setTitle(mode : ActionMode ,lv: AbsListView, position: Int, checked: Boolean) {
+    open fun setTitle(mode: ActionMode, lv: AbsListView) {
         val count = lv.checkedItemCount
         mode.title = count.toString()
     }
+
+    open fun onSelectionChanged(position : Int, checked: Boolean) {}
+
+    open fun resetTransactionSum () {}
 
     fun registerForContextualActionBar(lv: AbsListView) {
         lv.choiceMode = ListView.CHOICE_MODE_MULTIPLE_MODAL
@@ -93,7 +94,8 @@ abstract class ContextualActionBarFragment : Fragment(), OnGroupClickListener, O
                     expandableListSelectionType = ExpandableListView.getPackedPositionType(
                             lv.getExpandableListPosition(position))
                 }
-                setTitle(mode, lv, position, checked)
+                onSelectionChanged(position,checked)
+                setTitle(mode, lv)
                 configureMenu(mode.menu, lv)
             }
 
@@ -108,7 +110,8 @@ abstract class ContextualActionBarFragment : Fragment(), OnGroupClickListener, O
                 if (!shouldStartActionMode()) return false
                 expandableListSelectionType = if (lv is ExpandableListView) ExpandableListView.PACKED_POSITION_TYPE_GROUP else ExpandableListView.PACKED_POSITION_TYPE_NULL
                 inflateContextualActionBar(menu, lv.id)
-                mode.title = lv.checkedItemCount.toString()
+                resetTransactionSum()
+                setTitle(mode, lv)
                 mActionMode = mode
                 return true
             }

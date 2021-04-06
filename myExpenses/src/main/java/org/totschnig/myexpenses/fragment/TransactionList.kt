@@ -3,8 +3,6 @@ package org.totschnig.myexpenses.fragment
 import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
-import android.database.Cursor
-import android.graphics.Color
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
@@ -22,7 +20,6 @@ import org.totschnig.myexpenses.activity.MAP_TAG_REQUEST
 import org.totschnig.myexpenses.activity.MyExpenses
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
-import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.viewmodel.data.Tag
 
 const val KEY_REPLACE = "replace"
@@ -31,7 +28,7 @@ class TransactionList : BaseTransactionList() {
 
     @JvmField
     @State
-    var transactionsum : Long = 0
+    var selectedTransactionSum: Long = 0
 
     private fun handleTagResult(intent: Intent) {
         ConfirmTagDialogFragment().also {
@@ -61,29 +58,32 @@ class TransactionList : BaseTransactionList() {
         }
     }
 
-    override fun setTitle(mode: ActionMode, lv: AbsListView, position: Int, checked: Boolean) {
-        mTransactionsCursor.moveToPosition(position)
-        val cost = mTransactionsCursor.getLong(mTransactionsCursor.getColumnIndex(KEY_AMOUNT))
-        getSum(cost, checked)
-        val count = lv.checkedItemCount
-        mode.title = setColor(count.toString() + " " + currencyFormatter.convAmount(transactionsum, mAccount.currencyUnit), count+1)
+    override fun resetTransactionSum() {
+        selectedTransactionSum = 0
     }
 
-    private fun setColor (text : String , count : Int) : SpannableString {
+    override fun setTitle(mode: ActionMode, lv: AbsListView) {
+        val count = lv.checkedItemCount
+        mode.title = setColor(count.toString() + " " + currencyFormatter.convAmount(selectedTransactionSum, mAccount.currencyUnit), count + 1)
+    }
+
+    private fun setColor(text: String, count: Int): SpannableString {
         val spanText = SpannableString(text)
-        if(transactionsum <= 0) {
-            spanText.setSpan(ForegroundColorSpan(resources.getColor(R.color.colorExpense)), count.toString().count(), spanText.length,0)
+        if (selectedTransactionSum <= 0) {
+            spanText.setSpan(ForegroundColorSpan(resources.getColor(R.color.colorExpense)), count.toString().count(), spanText.length, 0)
         } else {
-            spanText.setSpan(ForegroundColorSpan(resources.getColor(R.color.colorIncome)), count.toString().count(),spanText.length,0)
+            spanText.setSpan(ForegroundColorSpan(resources.getColor(R.color.colorIncome)), count.toString().count(), spanText.length, 0)
         }
         return spanText
     }
 
-    private fun getSum(cost: Long, checked: Boolean) {
-        if(checked) {
-            transactionsum += cost
+    override fun onSelectionChanged (position: Int, checked: Boolean) {
+        mTransactionsCursor.moveToPosition(position)
+        val cost = mTransactionsCursor.getLong(mTransactionsCursor.getColumnIndex(KEY_AMOUNT))
+        if (checked) {
+            selectedTransactionSum += cost
         } else {
-            transactionsum -= cost
+            selectedTransactionSum -= cost
         }
     }
 
@@ -151,7 +151,7 @@ class TransactionList : BaseTransactionList() {
                 if (mTransactionsCursor.moveToPosition(position2)) {
                     //we either have two transactions with different currencies or with the same amount
                     return accountId1 != mTransactionsCursor.getLong(columnIndexAccountId) &&
-                            (amount1 == - mTransactionsCursor.getLong(columnIndexAmount) || currency1 != currencyAtPosition)
+                            (amount1 == -mTransactionsCursor.getLong(columnIndexAmount) || currency1 != currencyAtPosition)
                 }
             }
         }
@@ -163,7 +163,7 @@ class TransactionList : BaseTransactionList() {
 
     override fun showDetails(transactionId: Long) {
         lifecycleScope.launchWhenResumed {
-            with(parentFragmentManager)  {
+            with(parentFragmentManager) {
                 if (findFragmentByTag(TransactionDetailFragment::class.java.name) == null) {
                     TransactionDetailFragment.newInstance(transactionId).show(this, TransactionDetailFragment::class.java.name)
                 }
