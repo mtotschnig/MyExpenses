@@ -11,6 +11,7 @@ import android.view.ActionMode
 import android.view.Menu
 import android.widget.AbsListView
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.util.keyIterator
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import com.afollestad.materialdialogs.MaterialDialog
@@ -137,7 +138,8 @@ class TransactionList : BaseTransactionList() {
             }
         }
         if (lv.checkedItemCount == 2 && !hasSplit && !hasTransfer) {
-            canLinkAsTransfer = canLinkPositions(checkedItemPositions.keyAt(0), checkedItemPositions.keyAt(1))
+            val checked = checkedItemPositions.keyIterator().asSequence().filter { checkedItemPositions.get(it) }.toList()
+            canLinkAsTransfer = checked.size == 2 && canLinkPositions(checked[0], checked[1])
         }
 
         with(menu) {
