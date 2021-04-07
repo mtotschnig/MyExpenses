@@ -126,15 +126,11 @@ abstract class ContextualActionBarFragment : Fragment(), OnGroupClickListener, O
                 //this allows us to have main menu entries without id that just open the submenu
                 if (itemId == 0) return false
                 if (itemId == R.id.SELECT_ALL_COMMAND) {
-                    var adapter = lv.adapter
-                    if (adapter is HeaderViewListAdapter) adapter = adapter.wrappedAdapter
+                    val adapter = lv.adapter.let { (it as? HeaderViewListAdapter)?.wrappedAdapter ?: it }
                     for (i in 0 until adapter.count) {
-                        var shouldCheck = true
-                        if (lv is ExpandableListView) {
-                            val pos = lv.getExpandableListPosition(i)
-                            shouldCheck = expandableListSelectionType == getPackedPositionType(pos)
+                        if (!lv.isItemChecked(i)) {
+                            lv.setItemChecked(i, (lv as? ExpandableListView)?.getExpandableListPosition(i)?.let { expandableListSelectionType == getPackedPositionType(it) } ?: true)
                         }
-                        lv.setItemChecked(i, shouldCheck)
                     }
                     return true
                 }
