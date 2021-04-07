@@ -83,7 +83,7 @@ sealed class AddOnPackage(defaultPrice: Long, val feature: ContribFeature) : Pac
     val sku: String
         get() = this::class.simpleName!!.toLowerCase(Locale.ROOT)
 
-    override fun payPalButtonId(isSandBox: Boolean) = if (isSandBox) "9VF4Z9KSLHXZN" else TODO()
+    override fun payPalButtonId(isSandBox: Boolean) = if (isSandBox) "9VF4Z9KSLHXZN" else "FNEEWJWU5YJ44"
 
     @Parcelize @Keep object SplitTemplate : AddOnPackage(430, ContribFeature.SPLIT_TEMPLATE)
     @Parcelize @Keep object History : AddOnPackage(430, ContribFeature.HISTORY)
