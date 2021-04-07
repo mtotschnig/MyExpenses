@@ -68,7 +68,7 @@ class DistributionTest {
 
     @Test
     fun testSelectCommand() {
-    launchWithContextCommand(R.id.SELECT_COMMAND)
+        launchWithContextCommand(R.id.SELECT_COMMAND)
         onView(allOf(withText(containsString("TestCategory")), withText(containsString("12"))))
                 .inRoot(isDialog())
                 .check(matches(isDisplayed()))
