@@ -82,11 +82,7 @@ public class DialogUtils {
           ctx.dismissDialog(R.id.FTP_DIALOG);
           Intent intent = new Intent(Intent.ACTION_VIEW);
           intent.setData(Uri.parse(DistributionHelper.getMarketPrefix() + "org.totschnig.sendwithftp"));
-          if (Utils.isIntentAvailable(ctx, intent)) {
-            ctx.startActivity(intent);
-          } else {
-            ctx.showSnackbar(R.string.error_accessing_market);
-          }
+          ctx.startActivity(intent, R.string.error_accessing_market, null);
         })
         .setNegativeButton(android.R.string.no, (dialog, id) -> ctx.dismissDialog(R.id.FTP_DIALOG)).create();
   }

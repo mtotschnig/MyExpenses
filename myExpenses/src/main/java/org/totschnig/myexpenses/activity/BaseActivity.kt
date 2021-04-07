@@ -49,6 +49,17 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         }
     }
 
+    fun startActivity(intent: Intent, notAvailableMessage: Int, forResultRequestCode: Int? = null) {
+        try {
+            if (forResultRequestCode != null)
+                startActivityForResult(intent, forResultRequestCode)
+            else
+                startActivity(intent)
+        } catch (e: ActivityNotFoundException) {
+            showSnackbar(notAvailableMessage)
+        }
+    }
+
     private fun onDownloadComplete() {
         downloadPending?.let {
             showSnackbar(getString(R.string.download_completed, it))

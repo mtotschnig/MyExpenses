@@ -615,11 +615,7 @@ public class MyExpenses extends BaseMyExpenses implements
       Uri data = AppDirHelper.ensureContentUri(Uri.parse((String) tag));
       i.setDataAndType(data, "application/pdf");
       i.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-      if (!Utils.isIntentAvailable(this, i)) {
-        showSnackbar(R.string.no_app_handling_pdf_available);
-      } else {
-        startActivity(i);
-      }
+      startActivity(i, R.string.no_app_handling_pdf_available, null);
       return true;
     } else if (command == R.id.SHARE_PDF_COMMAND) {
       Result shareResult = ShareUtils.share(this,

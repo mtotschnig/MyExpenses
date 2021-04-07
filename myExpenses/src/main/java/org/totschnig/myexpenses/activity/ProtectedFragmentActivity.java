@@ -385,11 +385,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     if (command == R.id.RATE_COMMAND) {
       i = new Intent(Intent.ACTION_VIEW);
       i.setData(Uri.parse(getMarketSelfUri()));
-      if (Utils.isIntentAvailable(this, i)) {
-        startActivity(i);
-      } else {
-        showSnackbar(R.string.error_accessing_market);
-      }
+      startActivity(i, R.string.error_accessing_market, null);
       return true;
     } else if (command == R.id.SETTINGS_COMMAND) {
       i = new Intent(this, MyPreferenceActivity.class);
@@ -427,11 +423,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
           licenceInfo);
       Timber.d("Install info: %s", messageBody);
       i.putExtra(Intent.EXTRA_TEXT, messageBody);
-      if (!Utils.isIntentAvailable(this, i)) {
-        showSnackbar(R.string.no_app_handling_email_available);
-      } else {
-        startActivity(i);
-      }
+      startActivity(i, R.string.no_app_handling_email_available, null);
     } else if (command == R.id.CONTRIB_INFO_COMMAND) {
       showContribDialog(null, null);
       return true;

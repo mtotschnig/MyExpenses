@@ -156,11 +156,7 @@ public class ContribInfoDialogActivity extends ProtectedFragmentActivity
           "Please send an invoice for %s to:\nName: (optional)\nCountry: %s (required)",
           packageLabel, userCountry != null ? userCountry : "");
       intent.putExtra(Intent.EXTRA_TEXT, messageBody);
-      if (!Utils.isIntentAvailable(this, intent)) {
-        complain(getString(R.string.no_app_handling_email_available));
-      } else {
-        startActivityForResult(intent, INVOICE_REQUEST);
-      }
+      startActivity(intent, R.string.no_app_handling_email_available, INVOICE_REQUEST);
     }
   }
 

@@ -1087,20 +1087,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         //intent.putExtra(CalendarContractCompat.EXTRA_EVENT_BEGIN_TIME, mPlan!!.dtstart)
         //intent.putExtra(CalendarContractCompat.EXTRA_EVENT_END_TIME, mPlan!!.dtstart)
         intent.data = ContentUris.withAppendedId(CalendarContractCompat.Events.CONTENT_URI, planId)
-        if (Utils.isIntentAvailable(this, intent)) {
-            try {
-                if (forResult) {
-                    startActivityForResult(intent, PLAN_REQUEST)
-                } else {
-                    startActivity(intent)
-                }
-                return
-            } catch (e: ActivityNotFoundException) {
-                Timber.w("Component: %s", intent.resolveActivity(packageManager))
-                CrashHandler.report(e)
-            }
-        }
-        showSnackbar(R.string.no_calendar_app_installed, Snackbar.LENGTH_SHORT)
+        startActivity(intent, R.string.no_calendar_app_installed, if (forResult) PLAN_REQUEST else null)
     }
 
     override fun onLoaderReset(loader: Loader<Cursor?>) { //should not be necessary to empty the autoCompleteTextView
