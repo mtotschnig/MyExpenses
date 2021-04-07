@@ -40,4 +40,9 @@ public class Help extends ProtectedFragmentActivity {
     String variant = getIntent().getStringExtra(HelpDialogFragment.KEY_VARIANT);
     HelpDialogFragment.newInstance(context, variant).show(getSupportFragmentManager(), "HELP");
   }
+
+  @Override
+  protected int getSnackbarContainerId() {
+    return android.R.id.content;
+  }
 }

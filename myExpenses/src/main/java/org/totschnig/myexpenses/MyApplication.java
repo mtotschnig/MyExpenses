@@ -317,11 +317,7 @@ public class MyApplication extends Application implements
     Timber.i("reading last pause : %d", lastPause);
     boolean isPostDelay = System.nanoTime() - lastPause > (prefHandler.getInt(PrefKey.PROTECTION_DELAY_SECONDS, 15) * 1000000000L);
     boolean isDataEntryEnabled = prefHandler.getBoolean(PrefKey.PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET, false);
-    if (isProtected && isPostDelay && !(isDataEntryEnabled && isStartFromWidget)) {
-      setLocked(true);
-      return true;
-    }
-    return false;
+    return isProtected && isPostDelay && !(isDataEntryEnabled && isStartFromWidget);
   }
 
   public boolean isProtected() {

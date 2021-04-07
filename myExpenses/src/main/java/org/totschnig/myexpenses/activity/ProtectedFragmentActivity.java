@@ -165,12 +165,16 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   public ColorStateList getTextColorSecondary() {
     return textColorSecondary;
   }
+  
+  MyApplication requireApplication() {
+    return ((MyApplication) getApplication());
+  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     Icepick.restoreInstanceState(this, savedInstanceState);
-    if (MyApplication.getInstance().isProtected()) {
+    if (requireApplication().isProtected()) {
       getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,
           WindowManager.LayoutParams.FLAG_SECURE);
     }
@@ -190,7 +194,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
       final MyApplication application = MyApplication.getInstance();
       final int customFontScale = application.getAppComponent().prefHandler().getInt(UI_FONTSIZE, 0);
-      if (customFontScale > 0 || !MyApplication.getInstance().getAppComponent().userLocaleProvider().getPreferredLanguage().equals(MyApplication.DEFAULT_LANGUAGE)) {
+      if (customFontScale > 0 || !application.getAppComponent().userLocaleProvider().getPreferredLanguage().equals(MyApplication.DEFAULT_LANGUAGE)) {
         Configuration config = new Configuration();
         config.fontScale = getFontScale(customFontScale, application.getContentResolver());
         applyOverrideConfiguration(config);
@@ -207,7 +211,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
 
   @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
   private Configuration updateConfigurationIfSupported(Configuration config) {
-    final UserLocaleProvider userLocaleProvider = MyApplication.getInstance().getAppComponent().userLocaleProvider();
+    final UserLocaleProvider userLocaleProvider = requireApplication().getAppComponent().userLocaleProvider();
     if (userLocaleProvider.getPreferredLanguage().equals(MyApplication.DEFAULT_LANGUAGE)) {
       return config;
     }
@@ -272,7 +276,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   @Override
   protected void onPause() {
     super.onPause();
-    MyApplication app = MyApplication.getInstance();
+    MyApplication app = requireApplication();
     if (app.isLocked() && pwDialog != null) {
       pwDialog.dismiss();
     } else {
@@ -300,7 +304,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
         }
         confirmCredentialResult = Optional.empty();
       } else {
-        MyApplication app = MyApplication.getInstance();
+        MyApplication app = requireApplication();
         if (app.shouldLock(this)) {
           confirmCredentials(CONFIRM_DEVICE_CREDENTIALS_UNLOCK_REQUEST, null, true);
         }
@@ -316,6 +320,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
         if (shouldHideWindow) hideWindow();
         try {
           startActivityForResult(intent, requestCode);
+          requireApplication().setLocked(true);
         } catch (ActivityNotFoundException e) {
           showSnackbar("No activity found for confirming device credentials");
         }
@@ -331,6 +336,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
         pwDialog = DialogUtils.passwordDialog(this, false);
       }
       DialogUtils.showPasswordDialog(this, pwDialog, legacyUnlockCallback);
+      requireApplication().setLocked(true);
     }
   }
 
@@ -575,8 +581,11 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
       // is it not enough to set mLastPause to zero, since it would be
       // overwritten by the callings activity onpause
       // hence we need to set isLocked if necessary
-      MyApplication.getInstance().resetLastPause();
-      MyApplication.getInstance().shouldLock(this);
+      final MyApplication myApplication = requireApplication();
+      myApplication.resetLastPause();
+      if (myApplication.shouldLock(this)) {
+        myApplication.setLocked(true);
+      }
     }
   }
 
@@ -717,7 +726,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
       if (resultCode == RESULT_OK) {
         confirmCredentialResult = Optional.of(true);
         showWindow();
-        MyApplication.getInstance().setLocked(false);
+        requireApplication().setLocked(false);
       } else {
         confirmCredentialResult = Optional.of(false);
       }
