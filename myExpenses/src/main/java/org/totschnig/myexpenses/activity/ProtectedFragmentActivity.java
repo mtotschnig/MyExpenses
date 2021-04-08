@@ -211,7 +211,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
 
   @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
   private Configuration updateConfigurationIfSupported(Configuration config) {
-    final UserLocaleProvider userLocaleProvider = requireApplication().getAppComponent().userLocaleProvider();
+    final UserLocaleProvider userLocaleProvider = MyApplication.getInstance().getAppComponent().userLocaleProvider();
     if (userLocaleProvider.getPreferredLanguage().equals(MyApplication.DEFAULT_LANGUAGE)) {
       return config;
     }
