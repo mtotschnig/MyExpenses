@@ -10,4 +10,6 @@
     <string name="autofill">"ස්වයංක්‍රිය පිරවුම"</string>
     <string name="discard">"ඉවත ලන්න"</string>
     <string name="dialog_dismiss">"ඉවත ලන්න"</string>
+    <string name="response_yes">"ඔව්"</string>
+    <string name="response_no">"නැත"</string>
 </resources>

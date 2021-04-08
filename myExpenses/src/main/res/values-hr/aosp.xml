@@ -15,5 +15,7 @@
     <string name="autofill">"Automatsko popunjavanje"</string>
     <string name="discard">"Odbaci"</string>
     <string name="dialog_dismiss">"Odbaci"</string>
+    <string name="response_yes">"Da"</string>
+    <string name="response_no">"Ne"</string>
 </resources>
 

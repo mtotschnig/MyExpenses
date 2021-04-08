@@ -490,8 +490,6 @@
     <string name="comparison_operator_date_after">después</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Compra fallida o cancelada.</string>
     <string name="hint_auto_fill">¿Los datos deberían de rellenarse automáticamente a partir de la última transacción para el mismo acreedor/ordenante? Siempre podrá cambiarlo desde configuración.</string>
-    <string name="yes">Sí</string>
-    <string name="no">No</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d cuentas con moneda de %2$s han sido actualizadas.</string>
     <string name="learn_more">Más información</string>
     <string name="import_source_file">Archivo</string>

@@ -15,5 +15,7 @@
     <string name="autofill">"Автозаповнення"</string>
     <string name="discard">"Відхилити"</string>
     <string name="dialog_dismiss">"Закрити"</string>
+    <string name="response_yes">"Так"</string>
+    <string name="response_no">"Ні"</string>
 </resources>
 

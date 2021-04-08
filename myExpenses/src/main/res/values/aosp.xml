@@ -22,5 +22,9 @@
     <string name="discard">Discard</string>
     <!--  packages/apps/Camera2/res/values/strings.xml-->
     <string name="dialog_dismiss">Dismiss</string>
+    <!--  packages/apps/Calendar/res/values/strings.xml-->
+    <string name="response_yes">Yes</string>
+    <string name="response_no">No</string>
+
 </resources>
 

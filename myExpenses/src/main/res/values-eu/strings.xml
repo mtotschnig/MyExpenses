@@ -486,8 +486,6 @@
     <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">beranduago</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Erosketak huts egin du eta bertan behera utzi da.</string>
-    <string name="yes">Bai</string>
-    <string name="no">Ez</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%2$s monetako %1$d kontu eguneratu dira.</string>
     <string name="learn_more">Ikasi gehiago</string>
     <string name="import_source_file">Fitxategia</string>

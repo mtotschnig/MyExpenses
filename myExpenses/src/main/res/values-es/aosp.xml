@@ -14,5 +14,7 @@
     <string name="autofill">"Autocompletar"</string>
     <string name="discard">"Descartar"</string>
     <string name="dialog_dismiss">"Aceptar"</string>
+    <string name="response_yes">"Sí"</string>
+    <string name="response_no">"No"</string>
 </resources>
 

@@ -15,5 +15,7 @@
     <string name="autofill">"ಸ್ವಯಂತುಂಬುವಿಕೆ"</string>
     <string name="discard">"ತಿರಸ್ಕರಿಸು"</string>
     <string name="dialog_dismiss">"ವಜಾಗೊಳಿಸು"</string>
+    <string name="response_yes">"ಹೌದು"</string>
+    <string name="response_no">"ಇಲ್ಲ"</string>
 </resources>
 

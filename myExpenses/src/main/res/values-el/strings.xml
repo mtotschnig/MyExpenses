@@ -487,8 +487,6 @@
     <string name="comparison_operator_date_after">μετά από</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Η αγορά απέτυχε ή ακυρώθηκε.</string>
     <string name="hint_auto_fill">Θα πρέπει τα δεδομένα να συμπληρώνονται αυτόματα από την τελευταία συναλλαγή για τον ίδιο δικαιούχο/πληρωτή; Μπορείτε πάντα να αλλάξετε αυτήν τη συμπεριφορά από τις ρυθμίσεις.</string>
-    <string name="yes">Ναι</string>
-    <string name="no">Όχι</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d λογαριασμοί με νόμισμα %2$s έχουν ενημερωθεί.</string>
     <string name="learn_more">Μάθετε περισσότερα</string>
     <string name="import_source_file">Αρχείο</string>

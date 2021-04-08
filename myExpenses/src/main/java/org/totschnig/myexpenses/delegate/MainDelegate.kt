@@ -107,8 +107,8 @@ abstract class MainDelegate<T : ITransaction>(viewBinding: OneExpenseBinding, da
                             b.putInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE, R.id.AUTO_FILL_COMMAND)
                             b.putString(ConfirmationDialogFragment.KEY_PREFKEY,
                                     prefHandler.getKey(PrefKey.AUTO_FILL_HINT_SHOWN))
-                            b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.yes)
-                            b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, R.string.no)
+                            b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.response_yes)
+                            b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, R.string.response_no)
                             ConfirmationDialogFragment.newInstance(b).show((context as FragmentActivity).supportFragmentManager,
                                     "AUTO_FILL_HINT")
                         }

@@ -482,8 +482,6 @@
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">購買失敗或取消</string>
     <string name="hint_auto_fill">當交易對象(收款人/付款人)相同時，是否自動填入上次交易的內容？
 您始終可以通過系統設定更改此決定。</string>
-    <string name="yes">是</string>
-    <string name="no">否</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate"> %2$s 貨幣的 %1$d 帳戶已經被更新了</string>
     <string name="learn_more">了解更多</string>
     <string name="import_source_file">檔案</string>

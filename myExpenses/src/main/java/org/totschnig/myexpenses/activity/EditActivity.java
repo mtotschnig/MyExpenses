@@ -111,8 +111,8 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
         mNewInstance ? getDiscardNewMessage() : R.string.dialog_confirm_discard_changes));
     //noinspection InlinedApi
     b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, android.R.id.home);
-    b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.yes);
-    b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, R.string.no);
+    b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.response_yes);
+    b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, R.string.response_no);
     ConfirmationDialogFragment.newInstance(b)
         .show(getSupportFragmentManager(), "DISCARD");
   }

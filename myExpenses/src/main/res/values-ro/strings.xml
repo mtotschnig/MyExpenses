@@ -452,8 +452,6 @@
     <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">după</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Cumpărare eşuată sau anulată.</string>
-    <string name="yes">Da</string>
-    <string name="no">Nu</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d  conturi cu moneda %2$s au fost actualizate.</string>
     <string name="learn_more">Învaţă mai mult</string>
     <string name="import_source_file">Fişier</string>

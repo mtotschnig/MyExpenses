@@ -14,5 +14,7 @@
     <string name="autofill">"បំពេញ​ដោយស្វ័យ​ប្រវត្តិ"</string>
     <string name="discard">"បោះបង់"</string>
     <string name="dialog_dismiss">"បដិសេធ"</string>
+    <string name="response_yes">"បាទ/ចាស"</string>
+    <string name="response_no">"ទេ"</string>
 </resources>
 

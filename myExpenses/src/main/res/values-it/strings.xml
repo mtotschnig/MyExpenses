@@ -490,8 +490,6 @@
     <string name="comparison_operator_date_after">dopo</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Acquisto non riuscito o annullato.</string>
     <string name="hint_auto_fill">I dati devono essere compilati automaticamente dall\'ultima transazione per lo stesso beneficiario / pagatore? È sempre possibile modificare questo comportamento dalle impostazioni.</string>
-    <string name="yes">Sì</string>
-    <string name="no">No</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d conti in valuta %2$s sono stati aggiornati.</string>
     <string name="learn_more">Per saperne di più</string>
     <string name="import_source_file">File</string>

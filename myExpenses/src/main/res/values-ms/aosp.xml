@@ -18,5 +18,7 @@
     <string name="autofill">"Autolengkap"</string>
     <string name="discard">"Buang"</string>
     <string name="dialog_dismiss">"Ketepikan"</string>
+    <string name="response_yes">"Ya"</string>
+    <string name="response_no">"Tidak"</string>
 </resources>
 

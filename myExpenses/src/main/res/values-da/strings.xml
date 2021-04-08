@@ -431,8 +431,6 @@
     <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">efter</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Køb mislykkedes eller annulleret.</string>
-    <string name="yes">Ja</string>
-    <string name="no">Nej</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d konti med valuta %2$s opdateret.</string>
     <string name="learn_more">Læs mere</string>
     <string name="import_source_file">Fil</string>

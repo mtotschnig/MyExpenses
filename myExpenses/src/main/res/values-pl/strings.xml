@@ -481,8 +481,6 @@
     <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">po</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Zakup nie udał się lub został anulowany.</string>
-    <string name="yes">Tak</string>
-    <string name="no">Nie</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$dkonta z walutą %2$s zostały zaktualizowane. </string>
     <string name="learn_more">Dowiedz się więcej</string>
     <string name="import_source_file">Plik</string>

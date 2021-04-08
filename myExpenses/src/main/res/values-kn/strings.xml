@@ -489,8 +489,6 @@
     <string name="comparison_operator_date_after">ನಂತರ</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">ಖರೀದಿ ವಿಫಲವಾಗಿದೆ ಅಥವಾ ರದ್ದುಗೊಂಡಿದೆ.</string>
     <string name="hint_auto_fill">ಅದೇ ಪಾವತಿದಾರ / ಪಾವತಿಸುವವರಿಗೆ ಕೊನೆಯ ವಹಿವಾಟಿನಿಂದ ಡೇಟಾವನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಭರ್ತಿ ಮಾಡಬೇಕೇ? ನೀವು ಯಾವಾಗಲೂ ಈ ನಡವಳಿಕೆಯನ್ನು ಸೆಟ್ಟಿಂಗ್‌ಗಳಿಂದ ಬದಲಾಯಿಸಬಹುದು.</string>
-    <string name="yes">ಹೌದು</string>
-    <string name="no">ಇಲ್ಲ</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d ಕರೆನ್ಸಿ %2$s ಹೊಂದಿರುವ ಖಾತೆಗಳನ್ನು ನವೀಕರಿಸಲಾಗಿದೆ.</string>
     <string name="learn_more">ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ</string>
     <string name="import_source_file">ಫೈಲ್</string>

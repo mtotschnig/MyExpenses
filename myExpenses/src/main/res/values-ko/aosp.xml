@@ -15,5 +15,7 @@
     <string name="autofill">"자동완성"</string>
     <string name="discard">"취소"</string>
     <string name="dialog_dismiss">"닫기"</string>
+    <string name="response_yes">"예"</string>
+    <string name="response_no">"아니요"</string>
 </resources>
 

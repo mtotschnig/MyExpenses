@@ -526,8 +526,6 @@
     <string name="comparison_operator_date_after">بعد</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">.عملية الشراء فشلت أو ألغيت</string>
     <string name="hint_auto_fill">هل يجب ملء البيانات تلقائياً من آخر معاملة لنفس المستفيد / الدافع؟ يمكنك دائماً تغيير هذا السلوك من الإعدادات.</string>
-    <string name="yes">نعم</string>
-    <string name="no">لا</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">تم تحديث %1$d حسابات بعملة %2$s.</string>
     <string name="learn_more">معرفة المزيد</string>
     <string name="import_source_file">ملف</string>

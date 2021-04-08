@@ -14,5 +14,7 @@
     <string name="autofill">"Automatické vyplňování"</string>
     <string name="discard">"Zahodit"</string>
     <string name="dialog_dismiss">"Zavřít"</string>
+    <string name="response_yes">"Ano"</string>
+    <string name="response_no">"Ne"</string>
 </resources>
 

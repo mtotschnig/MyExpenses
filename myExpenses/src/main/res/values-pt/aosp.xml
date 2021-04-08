@@ -14,5 +14,7 @@
     <string name="autofill">"Preenchimento automático"</string>
     <string name="discard">"Odrzuć"</string>
     <string name="dialog_dismiss">"Dispensar"</string>
+    <string name="response_yes">"Sim"</string>
+    <string name="response_no">"Não"</string>
 </resources>
 

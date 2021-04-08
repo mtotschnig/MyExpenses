@@ -481,8 +481,6 @@
     <string name="comparison_operator_date_after">之后</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">购买失败或取消</string>
     <string name="hint_auto_fill">当交易对象(收款人/付款人)相同时，是否自动填入上次交易的内容？您始终可以通过系统设置更改此决定。</string>
-    <string name="yes">是</string>
-    <string name="no">否</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">货币为%2$s的%1$d帐户已更新。</string>
     <string name="learn_more">了解更多</string>
     <string name="import_source_file">文件</string>

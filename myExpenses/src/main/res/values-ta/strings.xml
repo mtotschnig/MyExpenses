@@ -490,8 +490,6 @@
     <string name="comparison_operator_date_after">பின்</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">வாங்குதல் தோல்வியுற்றது அல்லது ரத்துசெய்யப்பட்டது.</string>
     <string name="hint_auto_fill">அதே பணம் பெறுபவர்/செலுத்துபவர் கொண்ட முந்தய பரிவர்த்தனையிலிருந்து தரவு தானாகவே நிரப்பப்பட வேண்டுமா? இதை  அமைப்புகளிலிருந்து எப்போதும் மாற்றிக்கொள்ளலாம்.</string>
-    <string name="yes">ஆம்</string>
-    <string name="no">இல்லை</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%2$s-ஐ நாணயமாக கொண்ட %1$d கணக்குகள் புதுப்பிக்கப்பட்டன.</string>
     <string name="learn_more">மேலும் அறிக</string>
     <string name="import_source_file">கோப்பு</string>

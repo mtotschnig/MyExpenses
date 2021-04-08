@@ -508,8 +508,6 @@
     <string name="comparison_operator_date_after">אחרי</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">הרכישה נכשלה או בוטלה.</string>
     <string name="hint_auto_fill">האם הנתונים צריכים להיות מלאים באופן אוטומטי מהעסקה האחרונה עבור אותו מקבל / המשלם? תוכל תמיד לשנות התנהגות זו מההגדרות.</string>
-    <string name="yes">כן</string>
-    <string name="no">לא</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d חשבון עם מטבע %2$sעודכן.</string>
     <string name="learn_more">למד עוד</string>
     <string name="import_source_file">קובץ</string>

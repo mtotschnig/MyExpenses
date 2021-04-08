@@ -267,7 +267,7 @@ public class TemplatesList extends SortableListFragment
               R.id.DELETE_COMMAND_DO,
               itemIds),
           null,
-          new MessageDialogFragment.Button(android.R.string.no, R.id.CANCEL_CALLBACK_COMMAND, null))
+          new MessageDialogFragment.Button(R.string.response_no, R.id.CANCEL_CALLBACK_COMMAND, null))
           .show(getActivity().getSupportFragmentManager(), "DELETE_TEMPLATE");
       return true;
     } else if (command == R.id.CREATE_INSTANCE_SAVE_COMMAND) {

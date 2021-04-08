@@ -490,8 +490,6 @@
     <string name="comparison_operator_date_after">after</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Purchasing failed or cancelled.</string>
     <string name="hint_auto_fill">Should data be filled in automatically from last transaction for same payee/payer? You can always change this behaviour from the settings.</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d accounts with currency %2$s have been updated.</string>
     <string name="learn_more">Learn more</string>
     <string name="import_source_file">File</string>

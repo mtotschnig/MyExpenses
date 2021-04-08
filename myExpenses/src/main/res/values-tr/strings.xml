@@ -490,8 +490,6 @@
     <string name="comparison_operator_date_after">sonra</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Satın alma başarısız oldu veya iptal edildi.</string>
     <string name="hint_auto_fill">Aynı alacaklı/ödeyici için veriler son muameleden doldurulsun mu? Bu davranışı ayarlardan değiştirmeniz mümkündür.</string>
-    <string name="yes">Evet</string>
-    <string name="no">Hayır</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%2$s para birimini kullanan %1$d hesap güncellendi.</string>
     <string name="learn_more">Dahasını öğrenin</string>
     <string name="import_source_file">Dosya</string>

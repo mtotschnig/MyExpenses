@@ -15,5 +15,7 @@
     <string name="autofill">"מילוי אוטומטי"</string>
     <string name="discard">"מחק"</string>
     <string name="dialog_dismiss">"סגור"</string>
+    <string name="response_yes">"כן"</string>
+    <string name="response_no">"לא"</string>
 </resources>
 

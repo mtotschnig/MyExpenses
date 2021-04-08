@@ -490,8 +490,6 @@
     <string name="comparison_operator_date_after">след</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Закупуването е неуспешно или отменено.</string>
     <string name="hint_auto_fill">Да се попълват ли автоматично данните от последната транзакция за същия получател / платец? Винаги можете да промените това поведение от настройките.</string>
-    <string name="yes">Да</string>
-    <string name="no">Не</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">Актуализирани са %1$d сметки с валута %2$s .</string>
     <string name="learn_more">Научете повече</string>
     <string name="import_source_file">Файл</string>

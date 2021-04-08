@@ -15,5 +15,7 @@
     <string name="autofill">"Betetze automatikoa"</string>
     <string name="discard">"Baztertu"</string>
     <string name="dialog_dismiss">"Baztertu"</string>
+    <string name="response_yes">"Bai"</string>
+    <string name="response_no">"Ez"</string>
 </resources>
 

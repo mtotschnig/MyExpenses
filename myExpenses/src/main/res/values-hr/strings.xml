@@ -420,8 +420,6 @@
     <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions between two specified dates. -->
     <string name="comparison_operator_between">između</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Kupovina neuspjela ili otkazana.</string>
-    <string name="yes">Da</string>
-    <string name="no">Ne</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d računi sa valutom %2$s su ažurirani.</string>
     <string name="learn_more">Saznaj više</string>
     <string name="import_source_file">Datoteka</string>

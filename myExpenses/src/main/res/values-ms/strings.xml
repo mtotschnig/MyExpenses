@@ -477,8 +477,6 @@
     <string name="comparison_operator_date_after">selepas</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Pembelian gagal atau dibatalkan.</string>
     <string name="hint_auto_fill">Sepatutnya data terisi secara automatik dari transaksi terakhir bagi penerima/pembayar yang sama? Tetapi anda boleh ubah kelakuan ini melalui tetapan.</string>
-    <string name="yes">Ya</string>
-    <string name="no">Tidak</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d akaun dengan matawang %2$s telah dikemaskini.</string>
     <string name="learn_more">Ketahui lagi</string>
     <string name="import_source_file">Fail</string>

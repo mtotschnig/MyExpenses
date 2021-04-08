@@ -479,8 +479,6 @@
     <string name="comparison_operator_date_after">以降</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">購入が失敗またはキャンセルされました。</string>
     <string name="hint_auto_fill">同じ受取人/支払人の場合、前回の取引から自動的にデータを入力する必要がありますか? この動作はいつでも設定から変更できます。</string>
-    <string name="yes">はい</string>
-    <string name="no">いいえ</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">通貨 %2$s の %1$d 勘定が更新されました。</string>
     <string name="learn_more">さらに詳しく</string>
     <string name="import_source_file">ファイル</string>

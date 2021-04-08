@@ -442,8 +442,6 @@
     <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">이후에</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">구매에 실패했거나 취소되었습니다.</string>
-    <string name="yes">예</string>
-    <string name="no">아니오</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%2$s 화폐의 %1$d 계좌가 업데이트 되었습니다.</string>
     <string name="learn_more">자세히 알아보기</string>
     <string name="import_source_file">파일</string>

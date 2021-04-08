@@ -239,9 +239,9 @@ public abstract class AbstractCategoryList<ROW_BINDING extends ViewBinding> exte
           MessageDialogFragment.newInstance(
               getString(R.string.dialog_title_warning_delete_category),
               message,
-              new MessageDialogFragment.Button(android.R.string.yes, R.id.DELETE_COMMAND_DO, objectIds),
+              new MessageDialogFragment.Button(R.string.response_yes, R.id.DELETE_COMMAND_DO, objectIds),
               null,
-              new MessageDialogFragment.Button(android.R.string.no, R.id.CANCEL_CALLBACK_COMMAND, null))
+              new MessageDialogFragment.Button(R.string.response_no, R.id.CANCEL_CALLBACK_COMMAND, null))
               .show(ctx.getSupportFragmentManager(), "DELETE_CATEGORY");
         } else {
           ctx.dispatchCommand(R.id.DELETE_COMMAND_DO, objectIds);

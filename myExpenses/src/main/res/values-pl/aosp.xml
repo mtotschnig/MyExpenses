@@ -14,5 +14,7 @@
     <string name="autofill">"Autouzupełnianie"</string>
     <string name="discard">"Odrzuć"</string>
     <string name="dialog_dismiss">"Zamknij"</string>
+    <string name="response_yes">"Tak"</string>
+    <string name="response_no">"Nie"</string>
 </resources>
 

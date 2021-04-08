@@ -78,13 +78,13 @@ public class DialogUtils {
   public static Dialog sendWithFTPDialog(final ProtectedFragmentActivity ctx) {
     return new MaterialAlertDialogBuilder(ctx)
         .setMessage(R.string.no_app_handling_ftp_available)
-        .setPositiveButton(android.R.string.yes, (dialog, id) -> {
+        .setPositiveButton(R.string.response_yes, (dialog, id) -> {
           ctx.dismissDialog(R.id.FTP_DIALOG);
           Intent intent = new Intent(Intent.ACTION_VIEW);
           intent.setData(Uri.parse(DistributionHelper.getMarketPrefix() + "org.totschnig.sendwithftp"));
           ctx.startActivity(intent, R.string.error_accessing_market, null);
         })
-        .setNegativeButton(android.R.string.no, (dialog, id) -> ctx.dismissDialog(R.id.FTP_DIALOG)).create();
+        .setNegativeButton(R.string.response_no, (dialog, id) -> ctx.dismissDialog(R.id.FTP_DIALOG)).create();
   }
 
   public static void showPasswordDialog(final ProtectedFragmentActivity ctx, AlertDialog dialog,
