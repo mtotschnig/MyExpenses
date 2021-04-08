@@ -511,6 +511,7 @@
     <string name="pref_manage_stale_images_summary">Verwalten Sie Bilder aus gelöschten Buchungen</string>
     <string name="image_deleted">Bild wurde gelöscht</string>
     <string name="transaction_deleted">Buchung wurde gelöscht</string>
+    <string name="account_deleted">Konto wurde gelöscht</string>
     <string name="dialog_export_applied_to_filter">Nur Buchungen, die mit dem aktuellen Suchfilter übereinstimmen, werden berücksichtigt.</string>
     <string name="export_handle_deleted_create_helper">Hilfsbuchung erstellen</string>
     <string name="export_handle_deleted_update_balance">Anfangssaldo aktualisieren</string>
@@ -977,4 +978,10 @@
     <string name="single_feature_info">Alternativ können Sie uneingeschränkten Zugriff nur auf diese Funktion erwerben.</string>
     <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
     <string name="recurrence_last_day_of_month">Letzter Tag</string>
-    </resources>
+    <string name="warning_link_transfer">Die beiden ausgewählten Buchungen werden als Umbuchung verknüpft. Informationen zu Empfängern / Zahlern und Kategorien werden gelöscht.</string>
+    <!-- This is the title of an entry on the configuration screen for the account widget. It allows to decide which number should be displayed for each account: the current balance or the total (which included future transactions) -->
+    <string name="account_widget_configuration_sum">Art der angezeigten Summe</string>
+    <string name="account_widget_configuration_sum_total">Zukünftige Buchungen einschließen</string>
+    <!-- Title of dialogue that allows to configure account widget -->
+    <string name="account_widget_configuration">Konfiguration des Konten-Widgets</string>
+</resources>

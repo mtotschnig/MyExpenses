@@ -15,6 +15,10 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_328">
+        <item>Das Konten-Widget kann so konfiguriert werden, dass ein einzelnes Konto angezeigt wird und zukünftige Buchungen berücksichtigt werden.</item>
+        <item>Gesamtbetrag der ausgewählten Buchungen anzeigen.</item>
+    </string-array>
     <string-array name="whats_new_327">
         <item>Zwei bestehende Transaktionen können als Umbuchung verknüpft werden.</item>
     </string-array>

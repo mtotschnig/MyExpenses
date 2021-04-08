@@ -15,6 +15,10 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_328">
+        <item>Il widget del conto può essere configurato per visualizzare un solo account e per tenere conto delle transazioni future.</item>
+        <item>Mostra l\'importo totale delle transazioni selezionate.</item>
+    </string-array>
     <string-array name="whats_new_327">
         <item>Due transazioni esistenti possono essere collegate come trasferimento.</item>
     </string-array>

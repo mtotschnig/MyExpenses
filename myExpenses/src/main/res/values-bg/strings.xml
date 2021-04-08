@@ -978,4 +978,4 @@
     <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
     <string name="recurrence_last_day_of_month">Последния ден</string>
     <string name="warning_link_transfer">Двете избрани транзакции ще бъдат свързани като прехвърляне. Информацията за получател/платец и категория ще бъде премахната.</string>
-</resources>
+    </resources>

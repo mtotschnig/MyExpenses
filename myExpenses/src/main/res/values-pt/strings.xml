@@ -978,4 +978,4 @@
     <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
     <string name="recurrence_last_day_of_month">Último dia</string>
     <string name="warning_link_transfer">As duas transações selecionadas serão vinculadas como uma transferência. As informações de beneficiário/pagador e da categoria serão descartadas.</string>
-</resources>
+    </resources>

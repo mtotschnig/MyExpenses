@@ -511,6 +511,7 @@
     <string name="pref_manage_stale_images_summary">Gestisci le immagini lasciate da transazioni eliminate</string>
     <string name="image_deleted">L\'immagine è stata cancellata</string>
     <string name="transaction_deleted">Transazione è stata eliminata</string>
+    <string name="account_deleted">Il conto è stato elminato</string>
     <string name="dialog_export_applied_to_filter">Saranno considerate solo le transazioni che corrispondono al filtro corrente.</string>
     <string name="export_handle_deleted_create_helper">Creare transazione ausiliario</string>
     <string name="export_handle_deleted_update_balance">Aggiornare il saldo iniziale</string>
@@ -977,4 +978,10 @@
     <string name="single_feature_info">In alternativa puoi acquistare l\'accesso illimitato solamente a questa funzione.</string>
     <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
     <string name="recurrence_last_day_of_month">Ultimo giorno</string>
-    </resources>
+    <string name="warning_link_transfer">Le due transazioni selezionate saranno collegate come trasferimento. Le informazioni sul beneficiario/pagatore e sulla categoria verranno scartate.</string>
+    <!-- This is the title of an entry on the configuration screen for the account widget. It allows to decide which number should be displayed for each account: the current balance or the total (which included future transactions) -->
+    <string name="account_widget_configuration_sum">Tipo di somma visualizzata</string>
+    <string name="account_widget_configuration_sum_total">Includi transazioni future</string>
+    <!-- Title of dialogue that allows to configure account widget -->
+    <string name="account_widget_configuration">Configurazione del widget del conto</string>
+</resources>

@@ -511,6 +511,7 @@
     <string name="pref_manage_stale_images_summary">Silinmiş muamelelerden kalan resimleri yönet</string>
     <string name="image_deleted">Resim silinmiştir</string>
     <string name="transaction_deleted">Muamele silinmiştir</string>
+    <string name="account_deleted">Hesap silindi</string>
     <string name="dialog_export_applied_to_filter">Sadece güncel filtre ile eşleşen muameleler dikkate alınacaktır.</string>
     <string name="export_handle_deleted_create_helper">Yardımcı muamele oluştur</string>
     <string name="export_handle_deleted_update_balance">Açılış bakiyesini güncelle</string>
@@ -978,4 +979,9 @@
     <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
     <string name="recurrence_last_day_of_month">Son gün</string>
     <string name="warning_link_transfer">Seçili iki muamele bir transfer olarak ilişkilendirilecektir. Alacaklı/Ödeyen ve kategori bilgileri bırakılacaktır.</string>
+    <!-- This is the title of an entry on the configuration screen for the account widget. It allows to decide which number should be displayed for each account: the current balance or the total (which included future transactions) -->
+    <string name="account_widget_configuration_sum">Görüntülenen toplam türü</string>
+    <string name="account_widget_configuration_sum_total">Gelecek muameleleri dahil et</string>
+    <!-- Title of dialogue that allows to configure account widget -->
+    <string name="account_widget_configuration">Hesap widget\'i yapılandırması</string>
 </resources>

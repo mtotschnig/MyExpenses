@@ -76,7 +76,7 @@
     <string name="dialog_command_disabled_balance">沒有已結算或已入帳的交易需要去對帳</string>
     <string name="dialog_command_disabled_insert_transfer">需要建立第二個帳戶才可以互相轉帳。</string>
     <string name="dialog_command_disabled_reset_account">沒有交易資料可以輸出</string>
-    <string name="dialog_command_disabled_distribution">這個帳戶內的交易項目沒有被分類</string>
+    <string name="dialog_command_disabled_distribution">此帳戶中，沒有交易對應到此類別。</string>
     <!-- Button for accessing trial of premium feature -->
     <string name="dialog_contrib_no">試用</string>
     <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
@@ -150,7 +150,7 @@
     <string name="menu_aggregates">總金額</string>
     <!-- Shown in a notification; allows to apply a template (instantiate a new transaction from it) -->
     <string name="menu_apply_template">套用此範本</string>
-    <string name="menu_back">上一步</string>
+    <string name="menu_back">上一頁</string>
     <string name="menu_backup">備份</string>
     <!-- Balance: compare cleared balance in app with balance on statement received from bank -->
     <string name="menu_balance">結平帳戶</string>
@@ -189,7 +189,7 @@
     <string name="menu_edit_transaction">編輯交易</string>
     <string name="menu_edit_transfer">編輯轉帳</string>
     <string name="menu_exclude_from_totals">不算入總計中</string>
-    <string name="menu_forward">下一步</string>
+    <string name="menu_forward">下一頁</string>
     <string name="menu_grouping">分組歸類</string>
     <string name="menu_help">幫助</string>
     <!-- This command inverts the direction of a transfer -->
@@ -222,7 +222,7 @@
     <string name="no_filemanager_installed">沒有安裝檔案管理程式</string>
     <string name="no_calendar_app_installed">找不到用於編輯日曆事件的應用程式</string>
     <string name="image_capture_not_installed">找不到用於拍照的應用程式</string>
-    <string name="no_mapped_transactions">在此期間，沒有交易被分類到類別。</string>
+    <string name="no_mapped_transactions">在此期間，沒有交易對應到此類別。</string>
     <string name="no_methods">沒有付款方式</string>
     <string name="no_parties">沒有交易對象</string>
     <string name="no_split_parts">沒有分割款項</string>
@@ -230,13 +230,13 @@
     <string name="no_accounts">沒有帳戶</string>
     <string name="no_title_given">您尚未輸入任何文字。</string>
     <plurals name="not_deletable_mapped_transactions">
-        <item quantity="other">有交易項目被分類到%1$d之中，所以無法刪除。</item>
+        <item quantity="other">有交易項目對應到%1$d，所以無法刪除。</item>
     </plurals>
     <plurals name="not_deletable_mapped_templates">
-        <item quantity="other">有範本被分類到%1$d之中，所以無法刪除。</item>
+        <item quantity="other">有範本對應到%1$d，所以無法刪除。</item>
     </plurals>
     <string name="numbered">是否加註參考編號?</string>
-    <string name="opening_balance">起始結餘</string>
+    <string name="opening_balance">初始餘額</string>
     <string name="parse_error_file_not_found">找不到檔案%1$s</string>
     <string name="parse_error_grisbi_version_not_supported">無法支援的 Grisbi 檔案版本: %1$s</string>
     <string name="parse_error_no_data_found">檔案中找不到可匯入的數據。</string>
@@ -368,7 +368,7 @@
     <string name="save_transaction_and_new_success">存檔成功</string>
     <string name="save_transaction_error">無法從範本儲存新的交易</string>
     <plurals name="save_transaction_from_template_success">
-        <item quantity="other">%1$d新交易已成功地從範本中存檔。</item>
+        <item quantity="other">%1$d個新交易已成功地從範本中存檔。</item>
     </plurals>
     <string name="save_transaction_template_deleted">範本已被移除</string>
     <string name="select">選取</string>
@@ -457,7 +457,7 @@
     <string name="widget_title_accounts">我的帳戶</string>
     <string name="widget_title_templates">我的範本</string>
     <string name="app_dir_not_accessible">無法使用您所選的檔案夾(%1$s)，請選擇其他檔案夾。</string>
-    <string name="app_dir_not_compatible_with_nougat">當前用來備份和匯出所配置的統一資源識別碼(URI) ，(%1$s)不被安卓牛軋糖版本(Android Nougat ) 所支援。請再次選擇一個檔案夾。</string>
+    <string name="app_dir_not_compatible_with_nougat">當前用來備份和匯出所設定的統一資源識別碼URI (%1$s)不被安卓牛軋糖版本Android Nougat 所支援。請再次選擇一個檔案夾。</string>
     <string name="search_amount">以金額來搜尋</string>
     <string name="search_category">以類別來搜尋</string>
     <string name="search_comment">以備註來搜尋</string>
@@ -487,25 +487,25 @@
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate"> %2$s 貨幣的 %1$d 帳戶已經被更新了</string>
     <string name="learn_more">了解更多</string>
     <string name="import_source_file">檔案</string>
-    <string name="restore_calendar_handling">日曆數據處理</string>
-    <string name="restore_calendar_handling_configured">將計畫復原到當前配置的日曆中</string>
-    <string name="restore_calendar_handling_backup">如果有計畫的話，將其復原到備份檔中設置的日曆</string>
-    <string name="restore_calendar_handling_ignore">不要復原計畫</string>
-    <string name="restore_not_possible_target_calendar_missing">備份中設置的日曆 %s 已經不存在於本機設備。復原動作已被終止了。</string>
+    <string name="restore_calendar_handling">日曆資料處理中</string>
+    <string name="restore_calendar_handling_configured">將計畫復原到當前設定的日曆中</string>
+    <string name="restore_calendar_handling_backup">將計畫還原到備份中設定的日曆（如果有的話）</string>
+    <string name="restore_calendar_handling_ignore">不要還原計畫</string>
+    <string name="restore_not_possible_target_calendar_missing">備份中設定的日曆 %s 已經不存在於本機裝置。還原動作已被中止了。</string>
     <string name="restore_not_possible_local_calendar_missing">當前的收支計畫日曆無法使用。</string>
     <string name="menu_view_picture">查看圖片</string>
     <string name="menu_delete_picture">刪除圖片</string>
-    <string name="menu_change_picture">附加不同的圖片</string>
+    <string name="menu_change_picture">附加其他圖片</string>
     <string name="menu_distribution_show_pie_char">顯示圓餅統計圖</string>
-    <string name="menu_distribution_aggreate">總支出和收入</string>
+    <string name="menu_distribution_aggreate">合計支出和收入</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">陳舊圖檔</string>
-    <string name="pref_manage_stale_images_summary">管理已刪除交易後留下的圖片</string>
+    <string name="pref_manage_stale_images_summary">管理已刪除交易後，所留下的圖片</string>
     <string name="image_deleted">圖片已被刪除</string>
     <string name="transaction_deleted">交易已刪除</string>
-    <string name="dialog_export_applied_to_filter">僅與當前篩選器匹配的交易才會被考慮。</string>
-    <string name="export_handle_deleted_create_helper">創建交易助手</string>
-    <string name="export_handle_deleted_update_balance">更新起始結餘</string>
+    <string name="dialog_export_applied_to_filter">僅與當前篩選器相符合的交易才會被考慮。</string>
+    <string name="export_handle_deleted_create_helper">新建交易助手</string>
+    <string name="export_handle_deleted_update_balance">更新初始餘額</string>
     <string name="file_name">檔案名稱</string>
     <string name="folder_name">檔案夾名稱</string>
     <string name="mark_void_instead_of_delete">不刪除交易，而是將其標記成無效交易</string>
@@ -516,23 +516,23 @@
     <string name="pref_csv_import_delimiter">分隔符號</string>
     <string name="csv_import_preview">預覽</string>
     <string name="menu_parse">解析</string>
-    <string name="csv_import_field_mapped_more_than_once">%s 被重覆分類</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d紀錄無法被匯入。</string>
-    <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d紀錄被丟棄了。</string>
-    <string name="csv_import_subcategory_requires_category">如果要分類到子類別，您必須先分類主類別。</string>
+    <string name="csv_import_field_mapped_more_than_once">%s已對應多次。</string>
+    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d個紀錄無法被匯入。</string>
+    <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d個紀錄被捨棄了。</string>
+    <string name="csv_import_subcategory_requires_category">如果您要對應子類別，則還必須對應主類別。</string>
     <string name="cvs_import_set_first_line_as_header">是否將第一行當作標題行？</string>
-    <string name="csv_import_delimiter_comma">逗點</string>
+    <string name="csv_import_delimiter_comma">逗號</string>
     <string name="csv_import_delimiter_semicolon">分號</string>
-    <string name="csv_import_delimiter_tab">Tab定界符</string>
+    <string name="csv_import_delimiter_tab">Tab製表鍵</string>
     <string name="csv_import_no_mapping_found_for_amount">請對應到金額、收入或支出其中一欄。</string>
     <string name="menu_show_transactions">顯示交易紀錄</string>
     <string name="pref_custom_decimal_format_title">數字格式</string>
     <string name="pref_custom_decimal_format_summary">如果您對目前的預設格式不滿意，請根據您的需要進行調整。若留置空白，則可以恢復成預設格式。</string>
-    <string name="pref_auto_backup_title">自動備份</string>
-    <string name="pref_auto_backup_summary">每天在指定時間備份資料庫(僅當數據有變動時)。</string>
+    <string name="pref_auto_backup_title">啟動自動備份</string>
+    <string name="pref_auto_backup_summary">每天在指定時間備份資料庫(僅當資料有變動時)。</string>
     <string name="pref_auto_backup_time_title">自動備份的時間</string>
-    <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">成功完成自動備份%d後，將停用自動備份的功能。</string>
-    <string name="calendar_permission_required"><i>{app_name}</i>此應用程式需要進入行事曆的存取權限，才能預設未來交易計畫與定期交易計畫。</string>
+    <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">成功完成自動備份%d次後，將停用自動備份的功能。</string>
+    <string name="calendar_permission_required"><i>{app_name}</i>此應用程式需要日曆的存取權限，才能新建未來交易計畫與定期交易計畫。</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">授予存取權限</string>
     <string name="switch_on_text">開啟</string>
     <string name="switch_off_text">關閉</string>
@@ -546,16 +546,16 @@
     <string name="exchange_rate">匯率</string>
     <string name="date_format_hour">小時</string>
     <string name="date_format_minute">分鐘</string>
-    <string name="menu_sort">排序</string>
-    <string name="pref_sort_order_last_used">最後一次使用的</string>
+    <string name="menu_sort">排序依據</string>
+    <string name="pref_sort_order_last_used">最後使用的</string>
     <string name="pref_sort_order_custom">自訂</string>
     <string name="content_description_calculator">計算機</string>
     <!-- describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list. -->
-    <string name="plan_instance_state_open">尚未應用</string>
+    <string name="plan_instance_state_open">尚未被套用過</string>
     <!-- describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list. -->
     <string name="plan_instance_state_cancelled">已取消</string>
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
-    <string name="plan_instance_state_applied">已使用</string>
+    <string name="plan_instance_state_applied">已套用</string>
     <string name="progress_dialog_updating_split_parts">更新分割款項中...</string>
     <string name="warning_cannot_move_split_transaction">此分割交易無法移動到帳戶%1$s中，因為有部分轉帳已經引用到此帳戶。</string>
     <string name="content_description_calculator_clear_button">重置所有</string>
@@ -565,7 +565,7 @@
     <!-- Sort plans (recurring transactions) by the next instance  -->
     <string name="pref_sort_order_next_instance">下一個範例</string>
     <string name="crash_dialog_title">{app_name} 已停止運作</string>
-    <string name="crash_dialog_text">一個意外錯誤的發生，導致應用程序被強制停止。請您通過向我們發送錯誤數據來幫助我們解決此問題，您只需點選“確定”即可。</string>
+    <string name="crash_dialog_text">一個意外錯誤的發生，導致應用程式被強制停止。請您通過向我們發送錯誤數據來幫助我們解決此問題，您只需點選“確定”即可。</string>
     <string name="crash_dialog_comment_prompt">您可以在下面填入有關當機問題的意見：</string>
     <string name="synchronization">同步化</string>
     <string name="synchronization_none">沒有同步</string>
@@ -652,7 +652,7 @@
     <string name="contributed_by">由%s貢獻</string>
     <string name="pref_sync_notification_summary">通知有關同步的進度</string>
     <string name="pref_debug_logging_summary">將故障資訊寫入系統日誌</string>
-    <string name="plan_custom_recurrence_info">請您先將範本存檔。然後，該計畫將可以在日曆的應用程式中打開，您便能在其中自訂定期交易。</string>
+    <string name="plan_custom_recurrence_info">請您先將範本存檔。然後，該計畫將可以在日曆的應用程式中打開，您便能在其中自訂重複週期。</string>
     <string name="storage_permission_required">只有當您授權允許讀取外部儲存空間時，才能讀取所選的原始資料。</string>
     <string name="picture">圖片</string>
     <string name="menu_create_template_for_split">新建分割款項用的範本</string>
@@ -722,7 +722,7 @@
     <string name="split_transaction_group_error">無法將這些交易組成一個分割交易。</string>
     <string name="split_transaction_not_possible">只有具有相同帳戶、收款人和狀態的交易，才能被組成一個分割交易。</string>
     <string name="pref_transaction_time_summary">允許設定確切的交易時間。</string>
-    <string name="pref_value_date_summary">除了帳面交易日期(booking date)外，還可以設置生效日期(value date)。交易時間將被隱藏。此設定不適用於現金帳戶。</string>
+    <string name="pref_value_date_summary">除了\"帳面交易日期(booking date)\"外，還可以設定\"生效日期(value date)\"。交易時間將被隱藏。此設定不適用於現金帳戶。</string>
     <!-- the date on which the transaction took place, aka transaction date, as opposed to value date -->
     <string name="booking_date">帳面交易日期</string>
     <!-- the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date -->
@@ -738,7 +738,7 @@
     <string name="gdpr_consent_message">我們與{ad_provider}合作，所以想徵得您的同意，通過向您展示廣告來支援{app_name}的維護和開發。如果您不想看到任何廣告，請為無廣告版本付費。</string>
     <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">是的，繼續看廣告</string>
     <string name="gdpr_consent_button_no">支付無廣告版本</string>
-    <string name="sort_order">排序次序</string>
+    <string name="sort_order">排序順序</string>
     <string name="navigation_drawer_accounts_title">管理帳戶</string>
     <string name="pref_sync_wifi_only_summary">僅在連接Wi-Fi時同步</string>
     <string name="pref_sync_changes_immediately_summary">立即將本機異動之處寫入後端</string>
@@ -783,7 +783,7 @@
     <!-- In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.   -->
-    <string name="unmapped_filter_only_single">“未分類項目”只能被單獨篩選，不能包含在多個選擇中</string>
+    <string name="unmapped_filter_only_single">“未分類項目”只能被單獨篩選，不能包含在多個篩選條件中</string>
     <string name="upgrade_information_cloud_sync_storage_format">在版本2.9.8中，同步後端上的資料儲存方式已變更。請將所有同步裝置升級到該版本後，才能在其中的裝置上輸入任何新記錄。</string>
     <string name="pref_security_export_passphrase_title">設置備份密碼</string>
     <string name="pref_security_export_passphrase_summary">備份檔案將用此密碼加密</string>
@@ -857,19 +857,19 @@
     <!-- Label for checkbox that allows to configure an object as the default, for example a default budget will be shown in the transaction list. -->
     <string name="checkbox_is_default">採用系統預設</string>
     <!-- Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method" -->
-    <string name="menu_remap">重新分類</string>
-    <string name="dialog_title_confirm_remap">確定更改分類(%s)?</string>
+    <string name="menu_remap">重新分配對應</string>
+    <string name="dialog_title_confirm_remap">確定變更對應(%s)?</string>
     <string name="remap_category">所有選定的交易都將被分類到%s此類別。</string>
-    <string name="remap_payee">所有選定的交易將被分類到%s此付款人/收款人。</string>
-    <string name="remap_method">所有選定的交易都將分類到%s此付款方式。</string>
-    <string name="remap_account">所有選定的交易都將被分類到%s此帳戶。</string>
-    <string name="remapping_result">所選交易已被重新分類。</string>
-    <string name="clone_and_remap_result">所選交易已被複製並重新分類。</string>
+    <string name="remap_payee">所有選定的交易都將被對應到%s此付款人/收款人。</string>
+    <string name="remap_method">所有選定的交易都將被對應到%s此付款方式。</string>
+    <string name="remap_account">所有選定的交易都將被對應到%s此帳戶。</string>
+    <string name="remapping_result">所選交易已被重新分配對應。</string>
+    <string name="clone_and_remap_result">所選交易已被複製並重新分配對應。</string>
     <!-- If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
         because no payment method is configured for all of the given account types.-->
-    <string name="remap_empty_list">系統找不到可符合所有選定交易的分類項目。</string>
+    <string name="remap_empty_list">找不到一個項目可以對應到所有選定的交易。</string>
     <!-- The label for the button, where user confirms that he wants to clone the selected transactions and then remap them. -->
-    <string name="button_label_clone_and_remap">複製並重新分類</string>
+    <string name="button_label_clone_and_remap">複製並重新分配對應</string>
     <!-- The summary of a preference toggle. If switched on cloned transactions have the date set to the current date -->
     <string name="pref_clone_with_current_date_summary_on">複製的交易採用當前日期</string>
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
@@ -885,16 +885,16 @@
     <string name="menu_tag">標記標籤</string>
     <!-- %s will be replaced with the labels of all tags that user has selected. -->
     <string name="dialog_multi_tag">所有選定的交易都將被標記為%s。</string>
-    <string name="dialog_multi_tag_clear">所有標籤將從選定的交易中移除。</string>
+    <string name="dialog_multi_tag_clear">所有的標籤都將從選定的交易中移除。</string>
     <plurals name="warning_delete_tag">
-        <item quantity="other">%1$s此標籤已被%2$d此交易用來標記。它應該被刪除嗎？</item>
+        <item quantity="other">%1$s此標籤已被%2$d個交易用來標記。它應該被刪除嗎？</item>
     </plurals>
     <string name="dialog_multi_tag_append">將新標籤添加到現有的標籤中</string>
     <string name="dialog_multi_tag_replace">用新標籤取代現有的標籤</string>
     <string name="new_tag_hint">輸入新標籤</string>
     <string name="language_download_requested">要求 Google Play商店翻譯%s語言</string>
     <!-- Title for a preference that allows to decide how the time will be set for a new instance of a recurring transaction -->
-    <string name="pref_planner_manual_time_title">手動執行定期計畫的時間</string>
+    <string name="pref_planner_manual_time_title">定期交易執行的時間</string>
     <!-- Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction -->
     <string name="pref_planner_manual_time_noon">中午12點</string>
     <!-- Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application) -->
@@ -967,4 +967,4 @@
     <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
     <string name="recurrence_last_day_of_month">每月的最後一天</string>
     <string name="warning_link_transfer">選定的兩個交易項目將鏈結為轉帳。收款人/付款人和類別等訊息將被刪除。</string>
-</resources>
+    </resources>
