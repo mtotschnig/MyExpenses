@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.activity.MAP_TAG_REQUEST
 import org.totschnig.myexpenses.activity.MyExpenses
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_SAME_CURRENCY
 import org.totschnig.myexpenses.viewmodel.data.Tag
 
 const val KEY_REPLACE = "replace"
@@ -92,10 +93,15 @@ class TransactionList : BaseTransactionList() {
     override fun onSelectionChanged(position: Int, checked: Boolean) {
         if (mTransactionsCursor.moveToPosition(position)) {
             val amount = mTransactionsCursor.getLong(mTransactionsCursor.getColumnIndex(KEY_AMOUNT))
-            if (checked) {
-                selectedTransactionSum += amount
-            } else {
-                selectedTransactionSum -= amount
+            val shouldCount = if(isTransferAtPosition(position) && mAccount.isAggregate) {
+                if (mAccount.isHomeAggregate) false else mTransactionsCursor.getInt(mTransactionsCursor.getColumnIndex(KEY_IS_SAME_CURRENCY)) != 1
+            } else true
+            if (shouldCount) {
+                if (checked) {
+                    selectedTransactionSum += amount
+                } else {
+                    selectedTransactionSum -= amount
+                }
             }
         }
     }
