@@ -15,6 +15,19 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_328">
+        <item>El widget de cuenta puede configurarse para mostrar una sola cuenta y tener en cuenta las transacciones futuras.</item>
+        <item>Muestre el importe total de las transacciones seleccionadas.</item>
+    </string-array>
+    <string-array name="whats_new_327">
+        <item>Dos transacciones existentes pueden vincularse como una transferencia.</item>
+    </string-array>
+    <string-array name="whats_new_326">
+        <item>Las transacciones pueden repetirse el último día del mes.</item>
+    </string-array>
+    <string-array name="whats_new_324">
+        <item>Interfaz de usuario web</item>
+    </string-array>
     <string-array name="whats_new_323">
         <item>El botón de fecha permite una navegación rápida al día anterior y al siguiente.</item>
     </string-array>

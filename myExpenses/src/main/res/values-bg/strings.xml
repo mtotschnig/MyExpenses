@@ -509,6 +509,7 @@
     <string name="pref_manage_stale_images_summary">Управление на изображения, останали след изтриване на транзакция</string>
     <string name="image_deleted">Изображението е изтрито</string>
     <string name="transaction_deleted">Транзакцията е изтрита</string>
+    <string name="account_deleted">Сметката е изтрита</string>
     <string name="dialog_export_applied_to_filter">Ще се отчитат само транзакции, избрани с текущия филтър</string>
     <string name="export_handle_deleted_create_helper">Създай помощна транзакция</string>
     <string name="export_handle_deleted_update_balance">Обнови началното салдо</string>
@@ -976,4 +977,9 @@
     <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
     <string name="recurrence_last_day_of_month">Последния ден</string>
     <string name="warning_link_transfer">Двете избрани транзакции ще бъдат свързани като прехвърляне. Информацията за получател/платец и категория ще бъде премахната.</string>
-    </resources>
+    <!-- This is the title of an entry on the configuration screen for the account widget. It allows to decide which number should be displayed for each account: the current balance or the total (which included future transactions) -->
+    <string name="account_widget_configuration_sum">Показвана сума</string>
+    <string name="account_widget_configuration_sum_total">Включи бъдещи транзакции</string>
+    <!-- Title of dialogue that allows to configure account widget -->
+    <string name="account_widget_configuration">Конфигуриране на уйджет за сметка</string>
+</resources>

@@ -47,7 +47,7 @@
     <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">圆饼统计图 (会根据每个类别作出统计图表)</string>
     <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">无限数量的收支计划</string>
     <string name="contrib_feature_print_label" tools:ignore="UnusedResources">可将交易记录清单以PDF的文件型式导出</string>
-    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">模板插件</string>
+    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">模板小部件</string>
     <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">可以使用CVS的文件型式导入</string>
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">无限数量的拆分款项模板</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>电子邮件支持</b>，保证在2个工作日内回复</string>
@@ -256,7 +256,7 @@
     <string name="plan_automatic">自动应用</string>
     <!-- this is the label for the calendar where plans for future and recurrent transactions are stored -->
     <string name="plan_calendar_name">{app_name} 规划日历</string>
-    <string name="planner_notification_channel_name">规划设置</string>
+    <string name="planner_notification_channel_name">规划日历</string>
     <string name="plan_event_deleted">与此模板关联的计划已从日历中删除。</string>
     <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">计划执行已取消</string>
@@ -557,19 +557,101 @@
     <string name="warning_cannot_move_split_transaction">此拆分交易无法移动到帐户%1$s中，因为有部分转帐已经引用到此帐户。</string>
     <string name="content_description_calculator_clear_button">重置所有</string>
     <string name="content_description_calculator_delete_button">删除上一个数字</string>
+    <string name="paypal_callback_info">您的交易已经完成，购买收据已经通过电子邮件发送给您。您可以从www.paypal.com登录您的帐户以查看该交易的详细信息。</string>
+    <string name="search_transfer">搜索转账</string>
+    <!-- Sort plans (recurring transactions) by the next instance  -->
+    <string name="pref_sort_order_next_instance">下一个实例</string>
+    <string name="crash_dialog_title">{app_name}已故障崩溃</string>
     <string name="crash_dialog_text">一个意外错误的发生，导致应用程序被强制停止。请通过向我们发送错误数据来帮助我们解决此问题，您所要做的就是单击“确定”。</string>
+    <string name="crash_dialog_comment_prompt">您可以在下面添加有关故障问题的说明：</string>
+    <string name="synchronization">同步化</string>
+    <string name="synchronization_none">没有同步</string>
+    <string name="hint_url">网址</string>
+    <string name="description_webdav_url">请输入WebDAV服务器上特殊文件夹的网址。 {app_name}会将其数据存储在此文件夹中，不会触及其外的任何内容。</string>
+    <string name="description_webdav_trust_certificate">该网站使用的证书不受Android信任。</string>
+    <string name="hint_user_name">用户名</string>
+    <string name="hint_password">密码</string>
+    <string name="label_trust_certificate">信任此证书</string>
+    <string name="no_sync_backends">没有同步后端</string>
     <string name="menu_create_sync_backend">新建同步后端</string>
+    <string name="validate_error_not_empty">不能为空</string>
+    <string name="validate_error_webdav_invalid_certificate">证书不可信。它似乎无效。</string>
+    <string name="validate_error_webdav_not_compliant">该网址不指向WebDAV资源。</string>
+    <string name="validate_error_webdav_404">该网址在服务器上不存在。</string>
+    <string name="url_not_valid">网址无效</string>
+    <string name="menu_sync_unlink">停止同步</string>
+    <string name="menu_sync_link">开始同步</string>
+    <string name="menu_sync_download">下载并同步</string>
+    <string name="menu_sync_now">立即同步</string>
+    <string name="pref_sync_frequency_title">同步频率</string>
+    <string name="pref_sync_frequency_summary">数据应多久同步一次（以小时为单位）</string>
+    <string name="dialog_confirm_sync_unlink">如果您将该帐户从%s取消链接，则同步状态将丢失。当您稍后再次链接它们时，则需要重新执行完整的同步。</string>
+    <string name="dialog_sync_link">具有通用唯一识别码UUID %s的帐户在本地数据库和远程后端中都存在的情况下。当您链接两者时，首先要确认是要将本地数据上载到远程后端，还是要将远端数据下载到本地数据库。</string>
+    <string name="dialog_command_sync_link_remote">从远程下载</string>
+    <string name="dialog_command_sync_link_local">从本地上载</string>
+    <string name="dialog_synced_to_other">具有uuid %s的帐户已存在于本地数据库中，并且已链接到其他远程后端。</string>
+    <string name="menu_remove">移除</string>
+    <string name="dialog_confirm_sync_remove_backend">远程后端%s将被移除。这不会影响本地或远程存储的数据，但是同步状态会丢失。</string>
     <string name="dialog_confirm_sync_link_local">该帐户的远程数据将被删除。请确保没有其他设备与它相链接。</string>
+    <string name="dialog_confirm_sync_link_remote">该帐户的本地数据将被删除。</string>
+    <string name="warning_limited_trial">%1$s此功能可以试用到%2$s之前。</string>
+    <string name="warning_trial_limit_reached">%s功能的试用期已经结束。</string>
     <string name="warning_synchronization_folder_usage">{app_name}安装在不同设备上时，两者之间的数据同步在此文件夹里。请不要手动修改其任何内容。</string>
+    <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">您选择的文件夹对应于现有后端的一个帐户。您需要选择其上层文件夹才能重用此后端。</string>
+    <string name="select_unsynced_accounts">选择要同步到此后端的帐户</string>
+    <string name="link_account_success" tools:ignore="PluralsCandidate">已将%d帐户配置为与后端同步。</string>
+    <string name="link_account_failure_1" tools:ignore="PluralsCandidate">无法将%d帐户配置为与后端同步。</string>
+    <string name="link_account_failure_2">具有相同uuid的帐户已存在于远程后端上。</string>
+    <string name="link_account_failure_3">可以从进入帐户列表的快显菜单中手动解决冲突。</string>
+    <string name="progress_dialog_checking_sync_backend">验证后端</string>
+    <string name="template">模板</string>
+    <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">云同步</string>
+    <string name="all_contrib_key_features">贡献版密钥(Contrib Key) 的所有功能</string>
+    <string name="all_extended_key_features">延伸版密钥(Extended Key) 的所有功能</string>
+    <!-- button leading user to purchase flow for licence keys -->
+    <string name="upgrade_now">升级</string>
+    <string name="pref_backup_cloud_title">存储在同步后端</string>
     <string name="pref_backup_cloud_summary">除了存储在本地设备之外，备份文件还可以复制到远程后端或云存储。</string>
+    <string name="auto_backup_cloud_create_backend">请从“系统设置”的主屏幕处，创建一个同步后端</string>
+    <string name="auto_backup_cloud_failure">尝试在后端%2$s上存储备份文件%1$s时发生错误：</string>
+    <string name="auto_backup_cloud_success">备份文件%1$s已成功存储在后端%2$s上。</string>
+    <string name="home_screen_shortcuts_nougate_info">可以通过长按主屏幕上的应用程序图标来添加快捷方式。</string>
+    <string name="currency_symbol">货币符号</string>
+    <string name="number_of_fraction_digits">小数位数</string>
+    <string name="warning_auto_backup_deactivated">自动备份已停用。解决问题后（例如 : 选择其他文件夹进行备份），您可以从设置中再次将其打开。</string>
+    <string name="pref_tracking_summary">允许我们收集有关使用模式的匿名数据，以帮助我们计划改进。</string>
+    <string name="pref_tracking_title">使用情况数据收集</string>
+    <string name="sync_database_error">同步期间发生数据库错误。</string>
+    <string name="sync_io_error_cannot_connect">无法连接到同步后端。</string>
+    <string name="sync_error_will_try_again_later">稍后会再试。</string>
+    <string name="sync_io_exception_reset_account_data">重置远程帐户时出错。</string>
+    <string name="sync_success_reset_account_data">帐户%s的远程数据已删除。</string>
+    <string name="sync_io_exception_setup_remote_account">设置远程帐户时出错。</string>
+    <string name="sync_io_exception_syncing">与服务器同步变更的数据时出错。</string>
+    <string name="sync_io_exception_unlocking">从远程后端移除锁定时出错。</string>
+    <string name="sync_io_exception_locking">远程后端已锁定或无法锁定。</string>
+    <string name="synchronization_start">正在启动帐户%s的同步。</string>
+    <string name="synchronization_end_success">%1$d远程更改的数据已写入本地数据库。 %2$d本地更改的数据已写入远程后端。</string>
+    <string name="synchronization_end_success_none">没有需要同步的变更数据。</string>
+    <string name="pref_webdav_timeout_title">WebDAV 超时（以秒为单位）</string>
+    <string name="sync_state_restored">已为%d帐户恢复了同步状态。</string>
+    <string name="sync_state_could_not_be_restored">无法为%d帐户恢复同步状态。</string>
+    <string name="onboarding_ui_title">{app_name}适应您的偏好</string>
+    <string name="onboarding_data_title">让我们建立您的第一个帐户</string>
+    <string name="onboarding_get_started">开始吧!</string>
+    <string name="onboarding_more_options">更多的选择</string>
+    <string name="onboarding_restore_from_cloud">从云同步还原</string>
+    <string name="contributed_by">由%s贡献</string>
     <string name="plan_custom_recurrence_info">请先保存模板。然后，该计划将在日历应用程序中打开，您可以在其中设置自定义重复周期。</string>
     <string name="menu_create_template_for_split">新建拆分款项用的模板</string>
     <string name="licence_validation_error_device_limit_exceeded">超出设备限制。请从其他设备上删除许可证。</string>
     <string name="licence_removal_information">如果您不再需要此设备上的高级功能，则可以删除许可证密钥。这样可以释放密钥，以便在另一台设备上激活。该密钥最多可以在%d台设备上激活。</string>
     <string name="licence_removal_success">许可证密钥已成功地从该设备释放。</string>
+    <string name="progress_dialog_fetching_data_from_sync_backend">从远程后端获取数据中。这可能要花点时间。</string>
     <string name="menu_sort_direction">排序方向</string>
     <string name="pref_protection_device_lock_screen_title">使用设备的锁定屏幕功能</string>
     <string name="warning_device_lock_screen_not_set_up_1">尚未设置设备的锁定屏幕功能。</string>
+    <string name="home_currency_change_warning">如果您更改本地货币，则将丢失等值金额和汇率的数据，因此需要重新定义。</string>
     <string name="warning_split_transactions">选定的交易将被组成一个拆分交易。它们原有的日期数据将会遗失，改由它们的平均值来替换。</string>
     <string name="warning_ungroup_split_transactions">您所选定的拆分交易将被取消分组，也就是说，它们的拆分款项将各自成为一般交易。</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->
@@ -583,9 +665,11 @@
     <string name="split_transaction_group_success">%1$d数笔交易已成功地组成一个拆分交易。</string>
     <string name="split_transaction_group_error">无法将这些交易组成一个拆分交易。</string>
     <string name="split_transaction_not_possible">只有具有相同帐户、收款人和状态的交易，才能被组成一个拆分交易。</string>
+    <string name="pref_transaction_time_summary">允许设置确切的交易时间。</string>
     <string name="pref_value_date_summary">除了\"帐面交易日期(booking date)\"外，还可以设置\"生效日期(value date)\"。交易时间将被隐藏。此设置不适用于现金帐户。</string>
     <string name="gdpr_consent_message">我们与{ad_provider}合作，所以我们想征得您的同意，通过向您展示广告来维持{app_name}的维护和开发。如果您不想看到任何广告，请为无广告版本付费。</string>
     <string name="sort_order">排序顺序</string>
+    <string name="pref_sync_changes_immediately_summary">立即将本地更改的数据写入后端</string>
     <string name="wifi_not_connected">设备未连接到无线网络Wi-Fi。同步被推迟。</string>
     <string name="professional_key_fallback_info">\"专业版密钥(Professional Key)\"的认购已激活满一年且未续订的情况下，将自动转换为无限期的\"延伸版密钥( Extended Key)\"。</string>
     <string name="dialog_title_new_currency">新建货币</string>
@@ -600,9 +684,16 @@
     <string name="menu_close">关闭</string>
     <string name="warning_no_account">为了创建新交易，请至少开设一个非隐藏的帐户。</string>
     <string name="roadmap_vote">程序开发蓝图投票</string>
+    <string name="content_description_download_exchange_rate">下载汇率</string>
+    <string name="exchange_rate_not_supported">配置的汇率提供程序不提供汇率%1$s：%2$s。您可以尝试在\"系统设置\"中选择其他提供程序。</string>
     <string name="pref_category_exchange_rates">汇率</string>
+    <string name="pref_exchange_rate_provider_summary">选择提供者以下载汇率</string>
+    <string name="pref_exchange_rate_provider_title">汇率提供者</string>
+    <string name="pref_openexchangerates_app_id_summary">请在 OpenExchangeRates 注册免费帐号后，在此输入注册后的 App ID</string>
+    <string name="pref_plan_executor_time_title">规划日历通知时间</string>
     <string name="synchronization_select_folder_dialog_title">选择一个现有文件夹或创建一个新文件夹</string>
     <string name="menu_create_budget">新建预算</string>
+    <string name="budget_onetime">一次性</string>
     <string name="dialog_confirm_discard_new_budget">放弃新建的预算？</string>
     <string name="budget_duration_from">从</string>
     <string name="budget_duration_to">到</string>
@@ -653,16 +744,22 @@
     <string name="pref_planner_manual_time_current">当初创建定期交易的时间</string>
     <string name="feature_downloaded">已安装功能%s。</string>
     <string name="pref_ocr_total_indicators_summary">这是字符串列表，用来标识收据中的全部数值。请将每个数值放在新的一行上。若留置空白，可以恢复成默认格式。</string>
+    <string name="pref_ocr_time_formats_title">时间格式</string>
+    <!-- Option for a preference that allows to decide that only transactions before current time are considered past transactions -->
+    <string name="pref_criterion_future_current">当前时间</string>
     <string name="pref_feature_uninstall_title">要求卸载\"功能\"和\"语言\"</string>
     <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
     <string name="discover_feature_fab_long_press">长按浮动操作钮可以直接打开表单，选择创建收支、转帐或拆分交易等选项。</string>
     <string name="pref_clone_with_current_date_title">复制交易使用的日期</string>
     <string name="default_action">系统默认动作</string>
     <string name="template_default_action_without_amount_hint">没有金额的模板应该使用默认操作，即以“编辑”来保存文件。</string>
+    <string name="content_description_edit_plan">在日历应用程序中编辑计划</string>
     <string name="menu_save_and_new_content_description">交易保存后，表单仍维持打开状态并保留相同的数据内容，方便多次新建类似的交易。</string>
     <string name="ocr_download_info">文本识别功能由外部应用程序提供。</string>
     <!-- %s is replaced with the title of the preference for setting a passphrase for backups (pref_security_export_passphrase_title) -->
     <string name="warning_unencrypted_backup">目前设备创建的是不加密的备份文件，它可以防止未经授权的访问。但若您要求加密的备份文件，请配置%s。</string>
     <!-- Title of a menu item and a dialogue that allow to adjust the current balance. User can enter the new balance, and transaction form is opened with the amount prefiled to the difference between old and new balance  -->
     <string name="new_balance">更新帐户余额</string>
-    </resources>
+    <!-- Title of dialogue that allows to configure account widget -->
+    <string name="account_widget_configuration">配置帐户小部件widget</string>
+</resources>

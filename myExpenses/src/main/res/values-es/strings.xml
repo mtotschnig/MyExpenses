@@ -52,7 +52,7 @@
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Número ilimitado de plantillas divididas</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Soporte por correo electrónico</b> con respuesta garantizada en 2 días laborales</string>
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Derecho a participar en la <b>hoja de ruta de desarrollo</b></string>
-    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Gráfico de historial</string>
+    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Historial gráfico</string>
     <string name="licence_status_free">Gratis</string>
     <string name="contrib_key">Clave Contrib</string>
     <string name="extended_key">Clave Extendida</string>
@@ -509,6 +509,7 @@
     <string name="pref_manage_stale_images_summary">Administrar imágenes restantes de transacciones eliminadas</string>
     <string name="image_deleted">La imagen ha sido eliminada</string>
     <string name="transaction_deleted">La transacción ha sido eliminada</string>
+    <string name="account_deleted">Se ha eliminado la cuenta</string>
     <string name="dialog_export_applied_to_filter">Se considerarán sólo las transacciones que coincidan con el filtro actual.</string>
     <string name="export_handle_deleted_create_helper">Crear transacción de ayuda</string>
     <string name="export_handle_deleted_update_balance">Actualizar saldo inicial</string>
@@ -971,4 +972,14 @@
     <string name="pref_group_header_show_details_summary">Mostrar sumas detalladas en la cabecera del grupo</string>
     <!-- Title of a menu item and a dialogue that allow to adjust the current balance. User can enter the new balance, and transaction form is opened with the amount prefiled to the difference between old and new balance  -->
     <string name="new_balance">Nuevo balance</string>
-    </resources>
+    <string name="title_webui">Interfaz de usuario web</string>
+    <string name="single_feature_info">También puede comprar ilimitado sólo a esta función.</string>
+    <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
+    <string name="recurrence_last_day_of_month">Último día</string>
+    <string name="warning_link_transfer">Las dos transacciones seleccionadas se vincularán como transferencia. Se eliminará la información sobre el acreedor/ordenante y la categoría.</string>
+    <!-- This is the title of an entry on the configuration screen for the account widget. It allows to decide which number should be displayed for each account: the current balance or the total (which included future transactions) -->
+    <string name="account_widget_configuration_sum">Tipo de suma mostrada</string>
+    <string name="account_widget_configuration_sum_total">Incluir transacciones futuras</string>
+    <!-- Title of dialogue that allows to configure account widget -->
+    <string name="account_widget_configuration">Configuración del widget de cuenta</string>
+</resources>
