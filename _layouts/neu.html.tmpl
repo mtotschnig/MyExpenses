@@ -119,20 +119,20 @@
 			{% endcase %}
           </div>
           <div class="col-xs-12 col-ms-6 col-sm-6 fdroid-logo">
-            <a id="fdroid" class="track" href="https://f-droid.org/repository/browse/?fdid=org.totschnig.myexpenses">
+            <a id="fdroid" href="https://f-droid.org/repository/browse/?fdid=org.totschnig.myexpenses">
               <img alt="Get it on F-Droid" src="/visuals/getitonfdroid.png" />
             </a>
           </div>
         </div> <!-- /row -->
         <div class="row">
           <div class="col-xs-12 col-ms-6 col-sm-6">
-            <a id="amazon" class="track" href="http://{{amazon}}/gp/product/B00FEFVFOQ?ref=mas_pm_MyExpenses">
+            <a id="amazon" href="http://{{amazon}}/gp/product/B00FEFVFOQ?ref=mas_pm_MyExpenses">
               <img alt="Get it on Amazon" src="/visuals/amazon-apps-store-{% if pagelang == "es" or pagelang == "de" or pagelang == "fr" or pagelang == "it" %}{{pagelang}}{% else %}en{% endif %}-black.png" />
             </a>
           </div>
           <div class="col-xs-12 col-ms-6 col-sm-6">
-            <a id="bbworld" class="track" href="http://appworld.blackberry.com/webstore/content/54472888">
-              <img alt="Get it on Blackberry World" src="/visuals/bbworld_{% if pagelang == "ar" or pagelang == "de" or pagelang == "es" or pagelang == "fr" or pagelang == "it" or pagelang == "pt" or pagelang == "tr" %}{{pagelang}}{% else %}en{% endif %}.png" />
+            <a id="huawei" href="https://appgallery.cloud.huawei.com/appDetail?pkgName=org.totschnig.myexpenses&channelId=website&detailType=0&callType=AGDLINK">
+              <img alt="Get it on Huawei AppGallery" src="/visuals/huawei-{% if pagelang == "ar" or pagelang == "bg" or pagelang == "cs" or pagelang == "el" or pagelang == "es" or pagelang == "fr" or pagelang == "hr" or pagelang == "hu" or pagelang == "it" or pagelang == "ja" or pagelang == "ko" or pagelang == "ms" or pagelang == "pl" or pagelang == "pt" or pagelang == "ru" or pagelang == "tr" or pagelang == "uk" %}{{pagelang}}{% else %}en{% endif %}.png" />
             </a>
           </div>
         </div> <!-- /row -->
@@ -263,9 +263,6 @@
              mkActive(location.hash);
           });
         }, 0);
-      });
-      $('.track').on('click', function() {
-        ga('send', 'event', 'track', 'click',$(this).attr('id'));
       });
     </script>
   </body>
