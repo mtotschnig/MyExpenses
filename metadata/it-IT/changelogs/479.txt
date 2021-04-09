@@ -1,0 +1,2 @@
+• Il widget del conto può essere configurato per visualizzare un solo account e per tenere conto delle transazioni future.
+• Mostra l'importo totale delle transazioni selezionate.

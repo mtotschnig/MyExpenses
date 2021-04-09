@@ -1,0 +1,2 @@
+• Account widget can be configured to display single account and to take future transactions into account.
+• Show total amount of selected transactions.

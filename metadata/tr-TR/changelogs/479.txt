@@ -1,0 +1,2 @@
+• Hesap wigdet'ı tek bir hesabı gösterecek ve gelecek muameleleri dikkate alacak şekilde yapılandırılabilir.
+• Seçili muamelelerin toplam meblağını göster.

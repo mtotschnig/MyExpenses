@@ -1,0 +1,2 @@
+• Das Konten-Widget kann so konfiguriert werden, dass ein einzelnes Konto angezeigt wird und zukünftige Buchungen berücksichtigt werden.
+• Gesamtbetrag der ausgewählten Buchungen anzeigen.

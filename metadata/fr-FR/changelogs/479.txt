@@ -1,0 +1,2 @@
+• Le widget "Mes comptes" peut être configuré pour afficher un seul compte et pour prendre en compte les futures transactions.
+• Afficher le montant total des transactions sélectionnées.
