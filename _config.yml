@@ -120,8 +120,72 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 3.2.8
+    - "2021-04-09"
+    -
+      bg: |
+        Уйджета за сметка може да бъде конфигуриран да показва една сметка и да взема предвид бъдещи транзакции. Показване на общата сума на избраните транзакции.
+      de: |
+        Das Konten-Widget kann so konfiguriert werden, dass ein einzelnes Konto angezeigt wird und zukünftige Buchungen berücksichtigt werden. Gesamtbetrag der ausgewählten Buchungen anzeigen.
+      es: |
+        El widget de cuenta puede configurarse para mostrar una sola cuenta y tener en cuenta las transacciones futuras. Muestre el importe total de las transacciones seleccionadas.
+      fr: |
+        Le widget "Mes comptes" peut être configuré pour afficher un seul compte et pour prendre en compte les futures transactions. Afficher le montant total des transactions sélectionnées.
+      it: |
+        Il widget del conto può essere configurato per visualizzare un solo account e per tenere conto delle transazioni future. Mostra l'importo totale delle transazioni selezionate.
+      pt: |
+        O widget de conta pode ser configurado para exibir uma única conta e levar em consideração futuras transações. Exibe a quantidade total de transações selecionadas.
+      tr: |
+        Hesap wigdet'ı tek bir hesabı gösterecek ve gelecek muameleleri dikkate alacak şekilde yapılandırılabilir. Seçili muamelelerin toplam meblağını göster.
+      en: |
+        Account widget can be configured to display single account and to take future transactions into account. Show total amount of selected transactions.
+  -
+    - 3.2.7
+    - "2021-04-02"
+    -
+      bg: |
+        Две съществуващи транзакции могат да бъдат свързани като прехвърляне.
+      de: |
+        Zwei bestehende Transaktionen können als Umbuchung verknüpft werden.
+      es: |
+        Dos transacciones existentes pueden vincularse como una transferencia.
+      fr: |
+        Deux transactions existantes peuvent être liées en tant que transfert.
+      it: |
+        Due transazioni esistenti possono essere collegate come trasferimento.
+      iw: |
+        ניתן לקשר שתי עסקאות קיימות כהעברה.
+      pt: |
+        Duas transações existentes podem ser unidas como uma transferência.
+      tr: |
+        İki mevcut muamele, transfer olarak ilişkilendirilebilir.
+      en: |
+        Two existing transactions can be linked as transfer.
+  -
+    - 3.2.6
+    - "2021-03-20"
+    -
+      bg: |
+        Транзакциите могат да се повторят в последния ден от месеца.
+      de: |
+        Buchungen können am letzten Tag des Monats wiederholt werden.
+      es: |
+        Las transacciones pueden repetirse el último día del mes.
+      fr: |
+        Les opérations peuvent se répéter le dernier jour du mois.
+      it: |
+        Le transazioni possono essere ripetute l'ultimo giorno del mese.
+      iw: |
+        עסקאות יכולות לחזור ביום האחרון של החודש.
+      pt: |
+        Transações podem se repetir no último dia do mês.
+      tr: |
+        Muameleler ayın son gününde tekrarlanabilir.
+      en: |
+        Transactions can repeat on last day of month.
+  -
     - 3.2.5
-    - "2021-01-25"
+    - "2021-03-12"
     -
       ar: |
         إستيراد ملف CSV: الملء التلقائي
@@ -181,7 +245,7 @@ versions:
         CSV import: Autofill
   -
     - 3.2.4
-    - "2021-01-25"
+    - "2021-02-22"
     -
       bg: |
         Уеб потребителски интерфейс
@@ -201,7 +265,7 @@ versions:
         Web User Interface
   -
     - 3.2.3
-    - "2021-01-25"
+    - "2021-01-30"
     -
       bg: |
         Бутонът за дата позволява бърза навигация до вчера и утре.
@@ -560,196 +624,284 @@ versions:
     - 3.0.8
     - "2020-03-09"
     -
-      en: |
-        Multiple accounts can now be exported into one file. Account metadata is now synchronized. Improved homescreen widgets.
-      fr: |
-        Plusieurs comptes peuvent désormais être exportés dans un seul fichier. Les métadonnées du compte sont maintenant synchronisées. Amélioration des widgets de l'écran d'accueil.
+       ar: |
+        يمكن الآن تصدير حسابات متعددة إلى ملف واحد. تتم الآن مزامنة بيانات تعريف الحساب. تحسين مصغرات الشاشة الرئيسية.
+      bg: |
+        Вече могат да бъдат експортирани няколко сметки в един файл. Метаданните на сметките вече са синхронизирани. Подобрени уйджети на началния екран.
       de: |
         Es können jetzt mehrere Konten in eine Datei exportiert werden. Kontometadaten werden jetzt synchronisiert. Verbesserte Homescreen-Widgets.
+      es: |
+        Ahora se pueden exportar múltiples cuentas a un único archivo. Ahora se sincroniza el metadata de la cuenta. Widgets mejorados para la pantalla de inicio.
+      fr: |
+        Plusieurs comptes peuvent désormais être exportés dans un seul fichier. Les métadonnées du compte sont maintenant synchronisées. Amélioration des widgets de l'écran d'accueil.
       it: |
-        É ora possibile esportare più account in un unico file. I metadati del conto sono ora sincronizzati. Migliorati i widget della homescreen.
-      tr: |
-        Birden fazla hesap artık tek bir dosyaya dışa aktarılabilir. Hesap üst verileri artık eşleştirilebilir. İyileştirilmiş ana ekran widget'ları.
+        É ora possibile esportare più account in un unico file. I metadati del conto sono ora sincronizzati. Migliorati i widget della schermata principale.
+      iw: |
+        כעת ניתן לייצא מספר חשבונות לקובץ אחד. מטא נתונים של חשבון מסונכרנים כעת. ווידג'טים משופרים של מסך הבית.
       ja: |
         複数の勘定を1つのファイルにエクスポートできるようになりました. 勘定のメタデータが同期されるようになりました. ホーム画面ウィジェットの改善.
+      pt: |
+        Múltiplas contas agora podem ser exportadas para um único arquivo.. Os metadados da conta agora são sincronizados.. Widgets da tela inicial aprimorados.
+      ta: |
+        பல கணக்குகளை இப்போது ஒரே கோப்பில் ஏற்றுமதி செய்யலாம். கணக்கு மெட்டாடேட்டா இப்போது ஒத்திசைக்கப்படுகிறது. மேம்படுத்தப்பட்ட முகப்புத் திரை நிரல் பலகைகள்.
+      tr: |
+        Birden fazla hesap artık tek bir dosyaya dışa aktarılabilir. Hesap üst verileri artık eşleştirilebilir. İyileştirilmiş ana ekran widget'ları.
+      en: |
+        Multiple accounts can now be exported into one file. Account metadata is now synchronized. Improved homescreen widgets.
   -
     - 3.0.7
     - "2019-12-11"
     -
-      en: |
-        Bulk editing.
-      fr: |
-        Édition en masse.
-      de: |
-        Mehrere Buchungen gleichzeitig bearbeiten.
-      it: |
-        Modifica in blocco.
-      es: |
-        Editar en bloque.
-      tr: |
-        Toplu düzenleme.
+      ar: |
+        تحرير بالجملة.
       bg: |
         Групово редактиране.
-      ja: |
-        一括編集.
+      de: |
+        Mehrere Buchungen gleichzeitig bearbeiten.
+      es: |
+        Editar en bloque.
+      fr: |
+        Édition en masse.
+      it: |
+        Modifica in blocco.
       iw: |
         עריכה בכמות גדולה.
+      ja: |
+        一括編集.
+      pt: |
+        Edição em massa..
       ta: |
         மொத்த திருத்தம்.
+      tr: |
+        Toplu düzenleme.
+      en: |
+        Bulk editing.
   -
     - 3.0.6
     - "2019-10-28"
     -
-      en: |
-        Budgeting 2.0.
-      fr: |
-        Budgétisation 2.0.
-      de: |
-        Budgetierung 2.0.
-      it: |
-        Bilancio 2.0.
-      es: |
-        Presupuestos 2.0.
-      pt: |
-        Orçamento 2.0.
-      tr: |
-        Bütçeleme 2.0.
+      ar: |
+        الميزانية 2.0.
       bg: |
         Бюджетиране 2.0.
-      ms: |
-        Pembelanjawan 2.0.
-      ja: |
-        予算作成 2.0.
-      pl: |
-        Przydzielanie budżetu 2.0.
+      de: |
+        Budgetierung 2.0.
+      es: |
+        Presupuestos 2.0.
+      fr: |
+        Budgétisation 2.0.
+      it: |
+        Bilancio 2.0.
       iw: |
         תקצוב 2.0.
+      ja: |
+        予算作成 2.0.
+      ms: |
+        Pembelanjawan 2.0.
+      pl: |
+        Przydzielanie budżetu 2.0.
+      pt: |
+        Orçamento 2.0.
       ta: |
         வரவு செலவுத் திட்டம் 2.0.
+      tr: |
+        Bütçeleme 2.0.
+      vi: |
+        Ngân quỹ 2.0.
+      en: |
+        Budgeting 2.0.
   -
     - 3.0.5
     - "2019-09-13"
     -
-      en: |
-        New implementation for synchronization via Dropbox and Drive.
-      fr: |
-        Nouvelle implémentation pour la synchronisation via Dropbox et Drive.
+      ar: |
+        تطبيق جديد للمزامنة عبر Dropbox و Drive.
+      bg: |
+        Нова реализация на синхронизацията чрез Dropbox и Drive.
       de: |
         Neue Implementierung für die Synchronisation über Dropbox und Drive.
+      es: |
+        Nueva implementación para la sincronización con Dropbox y Drive.
+      fr: |
+        Nouvelle implémentation pour la synchronisation via Dropbox et Drive.
       it: |
         Nuova implementazione per la sincronizzazione tramite Dropbox e Drive.
-      tr: |
-        Dropbox ve Drive ile eşleşme için yeni yöntem.
-      ja: |
-        Dropbox と Drive を経由した同期の新しい実装.
       iw: |
         יישום חדש לסנכרון באמצעות Dropbox ו- Drive.
+      ja: |
+        Dropbox と Drive を経由した同期の新しい実装.
+      ms: |
+        Perlaksanan baharu untuk penyegerakan melalui Dropbox dan Drive.
+      pt: |
+        Nova implementação da sincronização via Dropbox e Drive..
+      ta: |
+        டிராப்பாக்ஸ் மற்றும் டிரைவ் வழியாக ஒத்திசைக்க புதிய செயலாக்கம்.
+      tr: |
+        Dropbox ve Drive ile eşleşme için yeni yöntem.
+      en: |
+        New implementation for synchronization via Dropbox and Drive.
   -
     - 3.0.4
     - "2019-09-01"
     -
-      en: |
-        Download exchange rates.
-      fr: |
-        Télécharger les taux de change.
-      de: |
-        Wechselkurse herunterladen.
-      it: |
-        Download dei tassi di cambio.
-      tr: |
-        Döviz kurları indirme imkânı.
+      ar: |
+        تحميل التغيرات علي سعر الصرف.
       bg: |
         Изтегляне на валутни курсове.
-      ru: |
-        Скачать курсы валют.
-      ja: |
-        為替レートのダウンロード.
+      de: |
+        Wechselkurse herunterladen.
+      es: |
+        Descargue tipos de cambios.
+      fr: |
+        Télécharger les taux de change.
+      it: |
+        Download dei tassi di cambio.
       iw: |
         עדכן שערי חליפין.
+      ja: |
+        為替レートのダウンロード.
+      ms: |
+        Muat turun kadar pertukaran.
+      pt: |
+        Obtenção de taxas de câmbio..
+      ru: |
+        Скачать курсы валют.
+      ta: |
+        மாற்று விகிதங்களைப் பதிவிறக்குக.
+      tr: |
+        Döviz kurları indirme imkânı.
+      en: |
+        Download exchange rates.
   -
     - 3.0.3
     - "2019-06-12"
     -
-      en: |
-        Tamil translation. Sync now button in main menu. Immediate synchronization after local changes can be disabled.
-      fr: |
-        Traduction en tamoul. Bouton Synchroniser maintenant dans le menu principal. La synchronisation immédiate suite aux modifications locales peut être désactivée.
-      de: |
-        Tamilische Übersetzung. Schaltfläche Jetzt synchronisieren im Hauptmenü. Die sofortige Synchronisation nach lokalen Änderungen kann deaktiviert werden.
-      it: |
-        Traduzione Tamil. Pulsante "Sincronizza ora" nel menù principale. La sincronizzazione immediata dopo aver effettuato modifiche in locale può essere disabilitata.
-      es: |
-        Traducción a Tamil. Botón de sincronizar en el menú principal. Puede deshabilitar la sincronización inmediata después de cambios locales.
+      ar: |
+        الترجمة للتاميل. زر مزامنة الآن في القائمة الرئيسية. يمكن تعطيل المزامنة الفورية بعد التغييرات.
       bg: |
         Превод на тамилски. Бутон в главното меню Синхронизирай сега. Незабавния запис в отдалеченото хранилище може да бъде деактивиран.
-      ja: |
-        タミル語翻訳. メインメニューに今すぐ同期ボタン. ローカルの変更をすぐに同期が無効にできます.
+      de: |
+        Tamilische Übersetzung. Schaltfläche Jetzt synchronisieren im Hauptmenü. Die sofortige Synchronisation nach lokalen Änderungen kann deaktiviert werden.
+      es: |
+        Traducción a Tamil. Botón de sincronizar en el menú principal. Puede deshabilitar la sincronización inmediata después de cambios locales.
+      fr: |
+        Traduction en tamoul. Bouton Synchroniser maintenant dans le menu principal. La synchronisation immédiate suite aux modifications locales peut être désactivée.
+      it: |
+        Traduzione Tamil. Pulsante "Sincronizza ora" nel menù principale. La sincronizzazione immediata dopo aver effettuato modifiche in locale può essere disabilitata.
       iw: |
         תרגום לטמילית. סנכרן עכשיו בתפריט הראשי. סנכרון מיידי לאחר ביטול השינויים המקומיים.
+      ja: |
+        タミル語翻訳. メインメニューに今すぐ同期ボタン. ローカルの変更をすぐに同期が無効にできます.
+      ms: |
+        Terjemahan bahasa Tamil. Butang segerak sekarang dalam menu utama. Penyegerakan serta-merta selepas perubahan setempat dilumpuhkan.
+      pt: |
+        Tradução para tâmil. Botão Sincronizar agora no menu principal.. A sincronização imediata após alterações locais pode ser desativada..
+      ru: |
+        Тамильский перевод. Кнопка Синхронизировать сейчас в главном меню. Немедленная синхронизация после локальных изменений может быть отключена.
+      ta: |
+        தமிழ் மொழிபெயர்ப்பு. முக்கிய பட்டியலில் 'இப்போது ஒத்திசை' பொத்தான். உள் மாற்றங்களைத் தொடர்ந்து உடனடியாக ஒத்திசை நிகழ்வதை முடக்கலாம்.
+      tr: |
+        Tamilce tercüme. Ana menüde şimdi eşleştir düğmesi. Yerel değişimlerden sonra anında eşleşme devre dışı bırakılabilir.
+      en: |
+        Tamil translation. Sync now button in main menu. Immediate synchronization after local changes can be disabled.
   -
     - 3.0.2
     - "2019-05-31"
     -
-      en: |
-        Icons for categories.
-      fr: |
-        Icônes pour les catégories.
-      de: |
-        Symbole für Kategorien.
-      it: |
-        Icone per le categorie.
-      es: |
-        Iconos por categorías.
+      ar: |
+        ايقونات الفئات.
       bg: |
         Икони за категориите.
-      ja: |
-        分類のアイコン.
+      de: |
+        Symbole für Kategorien.
+      es: |
+        Iconos por categorías.
+      fr: |
+        Icônes pour les catégories.
+      it: |
+        Icone per le categorie.
       iw: |
         סמלים לקטגוריות.
+      ja: |
+        分類のアイコン.
+      ms: |
+        Ikon-ikon untuk kategori-kategori.
+      pt: |
+        Ícones para categorias.
+      ru: |
+        Иконки для категорий.
+      ta: |
+        வகைகளுக்கான ஐகான்கள்.
+      tr: |
+        Kategoriler için ikonlar.
+      en: |
+        Icons for categories.
   -
     - 3.0.1
     - "2019-02-14"
     -
-      en: |
-        Accounts can be closed and/or hidden.
-      fr: |
-        Les comptes peuvent être fermés et / ou cachés.
-      de: |
-        Konten können geschlossen und / oder verborgen werden.
-      it: |
-        I conti possono essere chiusi e/o nascosti.
-      es: |
-        Se pueden cerrar y/o ocultar las cuentas.
+      ar: |
+        يمكن أن تكون الحسابات مغلقة أو مخفية.
       bg: |
         Сметките могат да бъдат затворени и/или скрити..
-      ja: |
-        勘定を閉じて非表示にできます.
+      de: |
+        Konten können geschlossen und / oder verborgen werden.
+      es: |
+        Se pueden cerrar y/o ocultar las cuentas.
+      fr: |
+        Les comptes peuvent être fermés et / ou cachés.
+      it: |
+        I conti possono essere chiusi e/o nascosti.
       iw: |
         חשבונות יכולים להיות סגורים או מוסתרים.
+      ja: |
+        勘定を閉じて非表示にできます.
+      ms: |
+        Akaun boleh ditutup dan/atau disembunyikan.
+      pt: |
+        As contas podem ser encerradas e/ou ocultadas..
+      ru: |
+        Аккаунт может быть закрыт и/или скрыт.
+      ta: |
+        கணக்குகளை மூடலாம் மற்றும் / அல்லது மறைக்கலாம்.
+      tr: |
+        Hesaplar kapatılabilir ve/veya gizlenebilir.
+      en: |
+        Accounts can be closed and/or hidden.
   -
     - 3.0.0
     - "2019-01-19"
     -
-      en: |
-        Ukrainian translation. CSV export: Delimiter made configurable.
-      fr: |
-        Traduction ukrainienne. Exportation CSV: séparateur de champ configurable.
-      de: |
-        Ukrainische Übersetzung. CSV-Export: Trennzeichen konfigurierbar gemacht.
-      it: |
-        Traduzione ucraina. Esportazione CSV: reso personalizzabile il delimitatore.
-      es: |
-        Traducción a Ucraniano. Exportación a CSV: delimitador configurable.
+      ar: |
+        الترجمة للأوكرانية. البيانات المملوءة مسبقا أصبحت قابلة للتعديل.
       bg: |
         Превод на украйнски. Избор на символа-разделител при CSV експорт.
-      ru: |
-        Перевод на украинский. Экспорт в CSV: настраиваемый разделитель.
-      ja: |
-        ウクライナ語翻訳. CSV エクスポート: 区切り文字が設定可能です.
-      pl: |
-        Tłumaczenie na ukraiński. Eksport CSV: Konfigurowalny separator pól.
+      de: |
+        Ukrainische Übersetzung. CSV-Export: Trennzeichen konfigurierbar gemacht.
+      es: |
+        Traducción a Ucraniano. Exportación a CSV: delimitador configurable.
+      fr: |
+        Traduction ukrainienne. Exportation CSV: séparateur de champ configurable.
+      it: |
+        Traduzione ucraina. Esportazione CSV: reso personalizzabile il delimitatore.
       iw: |
         תרגום אוקראיני. ייצוא CSV: Delimiter הפך להגדרה.
+      ja: |
+        ウクライナ語翻訳. CSV エクスポート: 区切り文字が設定可能です.
+      ms: |
+        Terjemahan bahasa Ukraine. Eksport CSV: Pembatas boleh dikonfigur.
+      pl: |
+        Tłumaczenie na ukraiński. Eksport CSV: Konfigurowalny separator pól.
+      pt: |
+        Tradução para ucraniano.. Exportação de CSV: o delimitador agora é configurável..
+      ru: |
+        Перевод на украинский. Экспорт в CSV: настраиваемый разделитель.
+      ta: |
+        உக்ரைனியன் மொழிபெயர்ப்பு. CSV ஏற்றுமதி: டிலிமிட்டர் விருப்பமைக்கலாம்.
+      tr: |
+        Ukraynaca tercüme. CSV dışa aktarımı: Sınırlayıcı artık yapılandırılabilir.
+      en: |
+        Ukrainian translation. CSV export: Delimiter made configurable.
   -
     - 2.9.9
     - "2019-01-11"
