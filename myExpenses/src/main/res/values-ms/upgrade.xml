@@ -15,30 +15,6 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
-    <string-array name="whats_new_306">
-        <item>Pembelanjawan 2.0</item>
-    </string-array>
-    <string-array name="whats_new_305">
-        <item>Perlaksanan baharu untuk penyegerakan melalui Dropbox dan Drive</item>
-    </string-array>
-    <string-array name="whats_new_304">
-        <item>Muat turun kadar pertukaran</item>
-    </string-array>
-    <string-array name="whats_new_303">
-        <item>Terjemahan bahasa Tamil</item>
-        <item>Butang segerak sekarang dalam menu utama</item>
-        <item>Penyegerakan serta-merta selepas perubahan setempat dilumpuhkan</item>
-    </string-array>
-    <string-array name="whats_new_302">
-        <item>Ikon-ikon untuk kategori-kategori</item>
-    </string-array>
-    <string-array name="whats_new_301">
-        <item>Akaun boleh ditutup dan/atau disembunyikan</item>
-    </string-array>
-    <string-array name="whats_new_300">
-        <item>Terjemahan bahasa Ukraine</item>
-        <item>Eksport CSV: Pembatas boleh dikonfigur</item>
-    </string-array>
     <string name="bug_fixes">Pembaikan pepijat</string>
     <string name="performance_enhancement">Penambahbaikan prestasi</string>
     <string name="stability_improvements">Penambahbaikan kestabilan</string>

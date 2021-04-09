@@ -68,38 +68,6 @@
     <string-array name="whats_new_310">
         <item>Las transacciones pueden asignarse a varias etiquetas</item>
     </string-array>
-    <string-array name="whats_new_308">
-        <item>Ahora se pueden exportar múltiples cuentas a un único archivo</item>
-        <item>Ahora se sincroniza el metadata de la cuenta</item>
-        <item>Widgets mejorados para la pantalla de inicio</item>
-    </string-array>
-    <string-array name="whats_new_307">
-        <item>Editar en bloque</item>
-    </string-array>
-    <string-array name="whats_new_306">
-        <item>Presupuestos 2.0</item>
-    </string-array>
-    <string-array name="whats_new_305">
-        <item>Nueva implementación para la sincronización con Dropbox y Drive</item>
-    </string-array>
-    <string-array name="whats_new_304">
-        <item>Descargue tipos de cambios</item>
-    </string-array>
-    <string-array name="whats_new_303">
-        <item>Traducción a Tamil</item>
-        <item>Botón de sincronizar en el menú principal</item>
-        <item>Puede deshabilitar la sincronización inmediata después de cambios locales</item>
-    </string-array>
-    <string-array name="whats_new_302">
-        <item>Iconos por categorías</item>
-    </string-array>
-    <string-array name="whats_new_301">
-        <item>Se pueden cerrar y/o ocultar las cuentas</item>
-    </string-array>
-    <string-array name="whats_new_300">
-        <item>Traducción a Ucraniano</item>
-        <item>Exportación a CSV: delimitador configurable</item>
-    </string-array>
     <string name="ui_refinement">Interfaz de usuario mejorada</string>
     <string name="bug_fixes">Corrección de errores</string>
     <string name="performance_enhancement">Mejora de rendimiento</string>

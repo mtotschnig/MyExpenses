@@ -15,24 +15,6 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
-    <string-array name="whats_new_304">
-        <item>Скачать курсы валют</item>
-    </string-array>
-    <string-array name="whats_new_303">
-        <item>Тамильский перевод</item>
-        <item>Кнопка Синхронизировать сейчас в главном меню</item>
-        <item>Немедленная синхронизация после локальных изменений может быть отключена</item>
-    </string-array>
-    <string-array name="whats_new_302">
-        <item>Иконки для категорий</item>
-    </string-array>
-    <string-array name="whats_new_301">
-        <item>Аккаунт может быть закрыт и/или скрыт</item>
-    </string-array>
-    <string-array name="whats_new_300">
-        <item>Перевод на украинский</item>
-        <item>Экспорт в CSV: настраиваемый разделитель</item>
-    </string-array>
     <string name="bug_fixes">Исправления ошибок</string>
     <string name="performance_enhancement">Улучшение производительности</string>
     <string name="stability_improvements">Улучшение стабильности</string>

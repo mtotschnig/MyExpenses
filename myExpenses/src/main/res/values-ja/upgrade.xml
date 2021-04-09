@@ -26,38 +26,6 @@
     <string-array name="whats_new_310">
         <item>取引が複数のタグに配置できます</item>
     </string-array>
-    <string-array name="whats_new_308">
-        <item>複数の勘定を1つのファイルにエクスポートできるようになりました</item>
-        <item>勘定のメタデータが同期されるようになりました</item>
-        <item>ホーム画面ウィジェットの改善</item>
-    </string-array>
-    <string-array name="whats_new_307">
-        <item>一括編集</item>
-    </string-array>
-    <string-array name="whats_new_306">
-        <item>予算作成 2.0</item>
-    </string-array>
-    <string-array name="whats_new_305">
-        <item>Dropbox と Drive を経由した同期の新しい実装</item>
-    </string-array>
-    <string-array name="whats_new_304">
-        <item>為替レートのダウンロード</item>
-    </string-array>
-    <string-array name="whats_new_303">
-        <item>タミル語翻訳</item>
-        <item>メインメニューに今すぐ同期ボタン</item>
-        <item>ローカルの変更をすぐに同期が無効にできます</item>
-    </string-array>
-    <string-array name="whats_new_302">
-        <item>分類のアイコン</item>
-    </string-array>
-    <string-array name="whats_new_301">
-        <item>勘定を閉じて非表示にできます</item>
-    </string-array>
-    <string-array name="whats_new_300">
-        <item>ウクライナ語翻訳</item>
-        <item>CSV エクスポート: 区切り文字が設定可能です</item>
-    </string-array>
     <string name="bug_fixes">バグ修正</string>
     <string name="performance_enhancement">パフォーマンスの向上</string>
     <string name="stability_improvements">安定性の向上</string>

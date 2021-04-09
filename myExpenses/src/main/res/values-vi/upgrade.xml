@@ -15,8 +15,5 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
-    <string-array name="whats_new_306">
-        <item>Ngân quỹ 2.0</item>
-    </string-array>
     <string name="stability_improvements">Cải thiện độ ổn định</string>
 </resources>

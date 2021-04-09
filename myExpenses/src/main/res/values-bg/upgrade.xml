@@ -68,38 +68,6 @@
     <string-array name="whats_new_310">
         <item>Транзакциите може да бъдат отбелязани с множество маркери</item>
     </string-array>
-    <string-array name="whats_new_308">
-        <item>Вече могат да бъдат експортирани няколко сметки в един файл</item>
-        <item>Метаданните на сметките вече са синхронизирани</item>
-        <item>Подобрени уйджети на началния екран</item>
-    </string-array>
-    <string-array name="whats_new_307">
-        <item>Групово редактиране</item>
-    </string-array>
-    <string-array name="whats_new_306">
-        <item>Бюджетиране 2.0</item>
-    </string-array>
-    <string-array name="whats_new_305">
-        <item>Нова реализация на синхронизацията чрез Dropbox и Drive</item>
-    </string-array>
-    <string-array name="whats_new_304">
-        <item>Изтегляне на валутни курсове</item>
-    </string-array>
-    <string-array name="whats_new_303">
-        <item>Превод на тамилски</item>
-        <item>Бутон в главното меню Синхронизирай сега</item>
-        <item>Незабавния запис в отдалеченото хранилище може да бъде деактивиран</item>
-    </string-array>
-    <string-array name="whats_new_302">
-        <item>Икони за категориите</item>
-    </string-array>
-    <string-array name="whats_new_301">
-        <item>Сметките могат да бъдат затворени и/или скрити.</item>
-    </string-array>
-    <string-array name="whats_new_300">
-        <item>Превод на украйнски</item>
-        <item>Избор на символа-разделител при CSV експорт</item>
-    </string-array>
     <string name="ui_refinement">Подобрения в потребителския интерфейс</string>
     <string name="bug_fixes">Поправени грешки</string>
     <string name="performance_enhancement">Подобрено бързодействие</string>

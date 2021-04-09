@@ -68,38 +68,6 @@
     <string-array name="whats_new_310">
         <item>Muameleler çoklu etiketlerle eşleştirilebilir.</item>
     </string-array>
-    <string-array name="whats_new_308">
-        <item>Birden fazla hesap artık tek bir dosyaya dışa aktarılabilir</item>
-        <item>Hesap üst verileri artık eşleştirilebilir</item>
-        <item>İyileştirilmiş ana ekran widget\'ları</item>
-    </string-array>
-    <string-array name="whats_new_307">
-        <item>Toplu düzenleme</item>
-    </string-array>
-    <string-array name="whats_new_306">
-        <item>Bütçeleme 2.0</item>
-    </string-array>
-    <string-array name="whats_new_305">
-        <item>Dropbox ve Drive ile eşleşme için yeni yöntem</item>
-    </string-array>
-    <string-array name="whats_new_304">
-        <item>Döviz kurları indirme imkânı</item>
-    </string-array>
-    <string-array name="whats_new_303">
-        <item>Tamilce tercüme</item>
-        <item>Ana menüde şimdi eşleştir düğmesi</item>
-        <item>Yerel değişimlerden sonra anında eşleşme devre dışı bırakılabilir</item>
-    </string-array>
-    <string-array name="whats_new_302">
-        <item>Kategoriler için ikonlar</item>
-    </string-array>
-    <string-array name="whats_new_301">
-        <item>Hesaplar kapatılabilir ve/veya gizlenebilir</item>
-    </string-array>
-    <string-array name="whats_new_300">
-        <item>Ukraynaca tercüme</item>
-        <item>CSV dışa aktarımı: Sınırlayıcı artık yapılandırılabilir</item>
-    </string-array>
     <string name="ui_refinement">Kullanıcı arayüzü iyileştirildi</string>
     <string name="bug_fixes">Hata düzeltmeleri</string>
     <string name="performance_enhancement">Performans arttırıldı</string>

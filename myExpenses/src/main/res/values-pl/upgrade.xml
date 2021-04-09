@@ -15,12 +15,5 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
-    <string-array name="whats_new_306">
-        <item>Przydzielanie budżetu 2.0</item>
-    </string-array>
-    <string-array name="whats_new_300">
-        <item>Tłumaczenie na ukraiński</item>
-        <item>Eksport CSV: Konfigurowalny separator pól</item>
-    </string-array>
     <string name="bug_fixes">Poprawki błędów</string>
     </resources>

@@ -15,13 +15,6 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
-    <string-array name="whats_new_306">
-        <item>Бюджетування 2.0</item>
-    </string-array>
-    <string-array name="whats_new_300">
-        <item>Переклад українською</item>
-        <item>Експорт CSV: можливість задати розділовий знак</item>
-    </string-array>
     <string name="bug_fixes">Виправлення помилок</string>
     <string name="performance_enhancement">Покращення швидкодії</string>
     <string name="stability_improvements">Покращення стабільності</string>

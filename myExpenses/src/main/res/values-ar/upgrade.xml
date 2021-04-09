@@ -52,38 +52,6 @@
     <string-array name="whats_new_310">
         <item>يمكن تعيين المعاملات لعلامات متعددة</item>
     </string-array>
-    <string-array name="whats_new_308">
-        <item>يمكن الآن تصدير حسابات متعددة إلى ملف واحد</item>
-        <item>تتم الآن مزامنة بيانات تعريف الحساب</item>
-        <item>تحسين مصغرات الشاشة الرئيسية</item>
-    </string-array>
-    <string-array name="whats_new_307">
-        <item>تحرير بالجملة</item>
-    </string-array>
-    <string-array name="whats_new_306">
-        <item>الميزانية 2.0</item>
-    </string-array>
-    <string-array name="whats_new_305">
-        <item>تطبيق جديد للمزامنة عبر Dropbox و Drive</item>
-    </string-array>
-    <string-array name="whats_new_304">
-        <item>تحميل التغيرات علي سعر الصرف</item>
-    </string-array>
-    <string-array name="whats_new_303">
-        <item>الترجمة للتاميل</item>
-        <item>زر مزامنة الآن في القائمة الرئيسية</item>
-        <item>يمكن تعطيل المزامنة الفورية بعد التغييرات</item>
-    </string-array>
-    <string-array name="whats_new_302">
-        <item>ايقونات الفئات</item>
-    </string-array>
-    <string-array name="whats_new_301">
-        <item>يمكن أن تكون الحسابات مغلقة أو مخفية</item>
-    </string-array>
-    <string-array name="whats_new_300">
-        <item>الترجمة للأوكرانية</item>
-        <item>البيانات المملوءة مسبقا أصبحت قابلة للتعديل</item>
-    </string-array>
     <string name="ui_refinement">صقل واجهة المستخدم</string>
     <string name="bug_fixes">إصلاح الأخطاء</string>
     <string name="performance_enhancement">تحسينات علي الأداء</string>

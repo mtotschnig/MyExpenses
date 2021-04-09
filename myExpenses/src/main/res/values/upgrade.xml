@@ -68,38 +68,6 @@
     <string-array name="whats_new_310">
         <item>Transactions can be mapped to multiple tags</item>
     </string-array>
-    <string-array name="whats_new_308">
-        <item>Multiple accounts can now be exported into one file</item>
-        <item>Account metadata is now synchronized</item>
-        <item>Improved homescreen widgets</item>
-    </string-array>
-    <string-array name="whats_new_307">
-        <item>Bulk editing</item>
-    </string-array>
-    <string-array name="whats_new_306">
-        <item>Budgeting 2.0</item>
-    </string-array>
-    <string-array name="whats_new_305">
-        <item>New implementation for synchronization via Dropbox and Drive</item>
-    </string-array>
-    <string-array name="whats_new_304">
-        <item>Download exchange rates</item>
-    </string-array>
-    <string-array name="whats_new_303">
-        <item>Tamil translation</item>
-        <item>Sync now button in main menu</item>
-        <item>Immediate synchronization after local changes can be disabled</item>
-    </string-array>
-    <string-array name="whats_new_302">
-        <item>Icons for categories</item>
-    </string-array>
-    <string-array name="whats_new_301">
-        <item>Accounts can be closed and/or hidden</item>
-    </string-array>
-    <string-array name="whats_new_300">
-        <item>Ukrainian translation</item>
-        <item>CSV export: Delimiter made configurable</item>
-    </string-array>
     <string name="ui_refinement">Refinement of the user interface</string>
     <string name="bug_fixes">Bug fixes</string>
     <string name="performance_enhancement">Performance enhancement</string>

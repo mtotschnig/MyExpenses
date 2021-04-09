@@ -68,38 +68,6 @@
     <string-array name="whats_new_310">
         <item>Buchungen können mehreren Markierungen zugeordnet werden</item>
     </string-array>
-    <string-array name="whats_new_308">
-        <item>Es können jetzt mehrere Konten in eine Datei exportiert werden</item>
-        <item>Kontometadaten werden jetzt synchronisiert</item>
-        <item>Verbesserte Homescreen-Widgets</item>
-    </string-array>
-    <string-array name="whats_new_307">
-        <item>Mehrere Buchungen gleichzeitig bearbeiten</item>
-    </string-array>
-    <string-array name="whats_new_306">
-        <item>Budgetierung 2.0</item>
-    </string-array>
-    <string-array name="whats_new_305">
-        <item>Neue Implementierung für die Synchronisation über Dropbox und Drive</item>
-    </string-array>
-    <string-array name="whats_new_304">
-        <item>Wechselkurse herunterladen</item>
-    </string-array>
-    <string-array name="whats_new_303">
-        <item>Tamilische Übersetzung</item>
-        <item>Schaltfläche Jetzt synchronisieren im Hauptmenü</item>
-        <item>Die sofortige Synchronisation nach lokalen Änderungen kann deaktiviert werden</item>
-    </string-array>
-    <string-array name="whats_new_302">
-        <item>Symbole für Kategorien</item>
-    </string-array>
-    <string-array name="whats_new_301">
-        <item>Konten können geschlossen und / oder verborgen werden</item>
-    </string-array>
-    <string-array name="whats_new_300">
-        <item>Ukrainische Übersetzung</item>
-        <item>CSV-Export: Trennzeichen konfigurierbar gemacht</item>
-    </string-array>
     <string name="ui_refinement">Verfeinerung der Benutzeroberfläche</string>
     <string name="bug_fixes">Bugs behoben</string>
     <string name="performance_enhancement">Performance-Verbesserung</string>

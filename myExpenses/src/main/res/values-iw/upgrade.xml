@@ -64,38 +64,6 @@
     <string-array name="whats_new_310">
         <item>ניתן למפות עסקאות לתגיות מרובות</item>
     </string-array>
-    <string-array name="whats_new_308">
-        <item>כעת ניתן לייצא מספר חשבונות לקובץ אחד</item>
-        <item>מטא נתונים של חשבון מסונכרנים כעת</item>
-        <item>ווידג\'טים משופרים של מסך הבית</item>
-    </string-array>
-    <string-array name="whats_new_307">
-        <item>עריכה בכמות גדולה</item>
-    </string-array>
-    <string-array name="whats_new_306">
-        <item>תקצוב 2.0</item>
-    </string-array>
-    <string-array name="whats_new_305">
-        <item>יישום חדש לסנכרון באמצעות Dropbox ו- Drive</item>
-    </string-array>
-    <string-array name="whats_new_304">
-        <item>עדכן שערי חליפין</item>
-    </string-array>
-    <string-array name="whats_new_303">
-        <item>תרגום לטמילית</item>
-        <item>סנכרן עכשיו בתפריט הראשי</item>
-        <item>סנכרון מיידי לאחר ביטול השינויים המקומיים</item>
-    </string-array>
-    <string-array name="whats_new_302">
-        <item>סמלים לקטגוריות</item>
-    </string-array>
-    <string-array name="whats_new_301">
-        <item>חשבונות יכולים להיות סגורים או מוסתרים</item>
-    </string-array>
-    <string-array name="whats_new_300">
-        <item>תרגום אוקראיני</item>
-        <item>ייצוא CSV: Delimiter הפך להגדרה</item>
-    </string-array>
     <string name="ui_refinement">חידוד ממשק המשתמש</string>
     <string name="bug_fixes">תיקוני באגים</string>
     <string name="performance_enhancement">שיפור בעיצועים</string>

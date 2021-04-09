@@ -224,16 +224,6 @@
     <string name="roadmap_vote_failure">Failure while submitting your vote</string>
     <string name="roadmap_vote_outdated">Your vote cannot be recorded, because your locally cached issue list is outdated. Please select Refresh from the menu and submit your vote again.</string>
     <string name="reminder_vote_update">The list of issues on the roadmap might have changed since you last voted. You might want to update your vote.</string>
-    <string-array name="whats_new_294" tools:ignore="UnusedResources">
-        <item>@string/pref_scroll_to_current_date_summary</item>
-    </string-array>
-    <string-array name="whats_new_296" tools:ignore="UnusedResources">
-        <item>@string/menu_budget</item>
-    </string-array>
-    <string-array name="whats_new_309" tools:ignore="UnusedResources">
-        <item>@android:string/selectAll</item>
-        <item>@string/button_label_clone_and_remap</item>
-    </string-array>
     <string-array name="whats_new_314">
         <item>@string/title_scan_receipt_feature</item>
     </string-array>
