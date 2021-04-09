@@ -1,2 +1,2 @@
-versionName=3.2.7
-versionCode=476
+versionName=3.2.8
+versionCode=479
