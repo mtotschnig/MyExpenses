@@ -236,8 +236,8 @@ class CsvImportDataFragment : Fragment() {
                         putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
                                 R.id.SET_HEADER_COMMAND)
                         putInt(KEY_HEADER_LINE_POSITION, position)
-                        putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.yes)
-                        putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, R.string.no)
+                        putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.response_yes)
+                        putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, R.string.response_no)
                     }).show(
                             parentFragmentManager, "SET_HEADER_CONFIRMATION")
                 }
