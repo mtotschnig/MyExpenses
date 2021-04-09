@@ -5,12 +5,14 @@ import android.content.Context
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.database.Cursor
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Adapter
 import android.widget.AdapterView
 import android.widget.ListView
 import androidx.test.core.app.ActivityScenario
+import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
@@ -18,6 +20,8 @@ import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.platform.app.InstrumentationRegistry
 import org.assertj.core.api.Assertions
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.Matcher
 import org.junit.Assert
 import org.junit.Before
@@ -204,5 +208,12 @@ abstract class BaseUiTest {
                 ?: run {
                     Assert.fail("Could not find prefs")
                 }
+    }
+
+    fun openCab() {
+        onData(`is`(instanceOf(Cursor::class.java)))
+                .inAdapterView(wrappedList)
+                .atPosition(1)
+                .perform(ViewActions.longClick())
     }
 }

@@ -33,7 +33,6 @@ import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.longClick;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
@@ -84,13 +83,6 @@ public final class MyExpensesCabTest extends BaseUiTest {
     clickMenuItem(R.id.CLONE_TRANSACTION_COMMAND, true);
     closeKeyboardAndSave();
     assertThat(waitForAdapter().getCount()).isEqualTo(origListSize + 1);
-  }
-
-  private void openCab() {
-    onData(is(instanceOf(Cursor.class)))
-        .inAdapterView(getWrappedList())
-        .atPosition(1)
-        .perform(longClick());
   }
 
   @Test
