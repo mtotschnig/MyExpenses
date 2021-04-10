@@ -179,7 +179,7 @@ public class BudgetFragment extends DistributionBaseFragment<BudgetRowBinding> i
         .neg();
     if (category != null) {
       long allocated = parentItem == null ? getAllocated() :
-          Stream.of(parentItem.getChildren()).mapToLong(category1 -> category1.getBudget()).sum();
+          Stream.of(parentItem.getChildren()).mapToLong(Category::getBudget).sum();
       final long budgetAmount = parentItem == null ? budget.getAmount().getAmountMinor() : parentItem.getBudget();
       long allocatable = budgetAmount - allocated;
       final long maxLong = allocatable + category.getBudget();
@@ -261,10 +261,10 @@ public class BudgetFragment extends DistributionBaseFragment<BudgetRowBinding> i
       getListView().setAdapter(mAdapter);
     }
 
-    grouping = budget.getGrouping();
+    setGrouping(budget.getGrouping());
     setGroupingYear(0);
     setGroupingSecond(0);
-    if (grouping == Grouping.NONE) {
+    if (getGrouping() == Grouping.NONE) {
       updateSum();
       loadData();
       setSubTitle(budget.durationPrettyPrint());
@@ -309,7 +309,7 @@ public class BudgetFragment extends DistributionBaseFragment<BudgetRowBinding> i
   @Override
   protected void onLoadFinished() {
     super.onLoadFinished();
-    allocated = Stream.of(mAdapter.getMainCategories()).mapToLong(category -> category.getBudget()).sum();
+    allocated = Stream.of(mAdapter.getMainCategories()).mapToLong(Category::getBudget).sum();
     budgetSummary.setAllocated(currencyFormatter.formatCurrency(new Money(budget.getCurrency(),
         allocated)));
   }
@@ -350,6 +350,7 @@ public class BudgetFragment extends DistributionBaseFragment<BudgetRowBinding> i
     return KEY_BUDGET;
   }
 
+  @NonNull
   @Override
   protected Uri getCategoriesUri() {
     final Uri.Builder builder = super.getCategoriesUri().buildUpon()

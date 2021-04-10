@@ -293,6 +293,7 @@ public class DbUtils {
     return contentResolver.insert(TransactionProvider.SETTINGS_URI, values);
   }
 
+  @Nullable
   public static String loadSetting(ContentResolver contentResolver, String key) {
     String result = null;
     Cursor cursor = contentResolver.query(TransactionProvider.SETTINGS_URI, new String[]{KEY_VALUE},

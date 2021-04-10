@@ -57,14 +57,14 @@ import static org.totschnig.myexpenses.sync.json.Utils.getChanges;
 abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   static final String KEY_LOCK_TOKEN = "lockToken";
   static final String BACKUP_FOLDER_NAME = "BACKUPS";
-  private static final String MIMETYPE_JSON = "application/json";
+  private static final String MIME_TYPE_JSON = "application/json";
   private static final String ACCOUNT_METADATA_FILENAME = "metadata";
   protected static final Pattern FILE_PATTERN = Pattern.compile("_\\d+");
   private static final String KEY_OWNED_BY_US = "ownedByUs";
   private static final String KEY_TIMESTAMP = "timestamp";
   private static final long LOCK_TIMEOUT_MILLIS = TimeUnit.MINUTES.toMillis(LOCK_TIMEOUT_MINUTES);
   protected static final String ENCRYPTION_TOKEN_FILE_NAME = "ENCRYPTION_TOKEN";
-  private static final String MIMETYPE_OCTET_STREAM = "application/octet-stream";
+  private static final String MIME_TYPE_OCTET_STREAM = "application/octet-stream";
 
   /**
    * this holds the uuid of the db account which data is currently synced
@@ -89,8 +89,8 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     sharedPreferences = context.getSharedPreferences(getSharedPreferencesName(), 0);
   }
 
-  public String getMimetypeForData() {
-    return isEncrypted() ? MIMETYPE_JSON : MIMETYPE_OCTET_STREAM;
+  public String getMimeTypeForData() {
+    return isEncrypted() ? MIME_TYPE_JSON : MIME_TYPE_OCTET_STREAM;
   }
 
   protected boolean isEncrypted() {
@@ -115,11 +115,11 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   @Override
   public void initEncryption() throws GeneralSecurityException, IOException {
     saveFileContentsToBase(ENCRYPTION_TOKEN_FILE_NAME,
-        encrypt(EncryptionHelper.generateRandom(10)), MIMETYPE_OCTET_STREAM, false);
+        encrypt(EncryptionHelper.generateRandom(10)), MIME_TYPE_OCTET_STREAM, false);
   }
 
   @Override
-  public Exceptional<Void> setUp(String authToken, String encryptionPassword, boolean create) {
+  public Exceptional<Void> setUp(@Nullable String authToken, @Nullable String encryptionPassword, boolean create) {
     this.encryptionPassword = encryptionPassword;
     try {
       String encryptionToken = readEncryptionToken();
@@ -343,7 +343,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     String fileContents = gson.toJson(changeSetMutable);
     log().i("Writing to %s", fileName);
     log().i(fileContents);
-    saveFileContentsToAccountDir(nextSequence.shard == 0 ? null : "_" + nextSequence.shard, fileName, fileContents, getMimetypeForData(), true);
+    saveFileContentsToAccountDir(nextSequence.shard == 0 ? null : "_" + nextSequence.shard, fileName, fileContents, getMimeTypeForData(), true);
     return nextSequence;
   }
 
@@ -359,7 +359,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   @NonNull
   String getMimeType(String fileName) {
     String result = MimeTypeMap.getSingleton().getMimeTypeFromExtension(getFileExtension(fileName));
-    return result != null ? result : MIMETYPE_OCTET_STREAM;
+    return result != null ? result : MIME_TYPE_OCTET_STREAM;
   }
 
   String getLastFileNamePart(String fileName) {
@@ -396,9 +396,9 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
 
   @Override
   public void lock() throws IOException {
-    String existingLockTocken = getExistingLockToken();
-    log().i("ExistingLockTocken: %s", existingLockTocken);
-    if (TextUtils.isEmpty(existingLockTocken) || shouldOverrideLock(existingLockTocken)) {
+    String existingLockToken = getExistingLockToken();
+    log().i("ExistingLockToken: %s", existingLockToken);
+    if (TextUtils.isEmpty(existingLockToken) || shouldOverrideLock(existingLockToken)) {
       String lockToken = Model.generateUuid();
       writeLockToken(lockToken);
       saveLockTokenToPreferences(lockToken, System.currentTimeMillis(), true);
@@ -407,7 +407,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     }
   }
 
-  private boolean shouldOverrideLock(String locktoken) {
+  private boolean shouldOverrideLock(String lockToken) {
     boolean result;
     long now = System.currentTimeMillis();
     String storedLockToken = sharedPreferences.getString(accountPrefKey(KEY_LOCK_TOKEN), "");
@@ -415,20 +415,20 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     long timestamp = sharedPreferences.getLong(accountPrefKey(KEY_TIMESTAMP), 0);
     long since = now - timestamp;
     log().i("Stored: %s, ownedByUs : %b, since: %d", storedLockToken, ownedByUs, since);
-    if (locktoken.equals(storedLockToken)) {
+    if (lockToken.equals(storedLockToken)) {
       result = ownedByUs || since > LOCK_TIMEOUT_MILLIS;
       log().i("tokens are equal, result: %b", result);
     } else {
-      saveLockTokenToPreferences(locktoken, now, false);
+      saveLockTokenToPreferences(lockToken, now, false);
       result = false;
-      log().i("tokens are not equal, result: %b", result);
+      log().i("tokens are not equal, result: %b", false);
     }
     return result;
   }
 
   @SuppressLint("ApplySharedPref")
-  private void saveLockTokenToPreferences(String locktoken, long timestamp, boolean ownedByUs) {
-    sharedPreferences.edit().putString(accountPrefKey(KEY_LOCK_TOKEN), locktoken)
+  private void saveLockTokenToPreferences(String lockToken, long timestamp, boolean ownedByUs) {
+    sharedPreferences.edit().putString(accountPrefKey(KEY_LOCK_TOKEN), lockToken)
         .putLong(accountPrefKey(KEY_TIMESTAMP), timestamp)
         .putBoolean(accountPrefKey(KEY_OWNED_BY_US), ownedByUs).commit();
   }

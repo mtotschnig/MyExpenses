@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
 
 public class DropboxBackendProvider extends AbstractSyncBackendProvider {
@@ -47,7 +48,7 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  public Exceptional<Void> setUp(String authToken, String encryptionPassword, boolean create) {
+  public Exceptional<Void> setUp(@Nullable String authToken, @Nullable String encryptionPassword, boolean create) {
     if (authToken == null) {
       return Exceptional.of(new Exception("authToken is null"));
     }
@@ -86,7 +87,7 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
     requireFolder(accountPath);
     String metadataPath = getResourcePath(getAccountMetadataFilename());
     if (!exists(metadataPath)) {
-      saveFileContentsToAccountDir(null, getAccountMetadataFilename(), buildMetadata(account), getMimetypeForData(), true);
+      saveFileContentsToAccountDir(null, getAccountMetadataFilename(), buildMetadata(account), getMimeTypeForData(), true);
       createWarningFile();
     }
   }
@@ -95,7 +96,7 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
   protected void writeAccount(Account account, boolean update) throws IOException {
     String metadataPath = getResourcePath(getAccountMetadataFilename());
     if (update || !exists(metadataPath)) {
-      saveFileContentsToAccountDir(null, getAccountMetadataFilename(), buildMetadata(account), getMimetypeForData(), true);
+      saveFileContentsToAccountDir(null, getAccountMetadataFilename(), buildMetadata(account), getMimeTypeForData(), true);
       if (!update) {
         createWarningFile();
       }

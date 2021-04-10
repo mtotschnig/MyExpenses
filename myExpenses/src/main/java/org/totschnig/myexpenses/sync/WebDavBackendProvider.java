@@ -49,7 +49,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   public static final String KEY_WEB_DAV_CERTIFICATE = "webDavCertificate";
   public static final String KEY_WEB_DAV_FALLBACK_TO_CLASS1 = "fallbackToClass1";
   public static final String KEY_ALLOW_UNVERIFIED= "allow_unverified";
-  private final MediaType MIME_JSON = MediaType.parse(getMimetypeForData() + "; charset=utf-8");
+  private final MediaType MIME_JSON = MediaType.parse(getMimeTypeForData() + "; charset=utf-8");
   private static final String FALLBACK_LOCK_FILENAME = ".lock";
 
   private WebDavClient webDavClient;
@@ -92,7 +92,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
     final String accountMetadataFilename = getAccountMetadataFilename();
     LockableDavResource metaData = webDavClient.getResource(accountMetadataFilename, accountUuid);
     if (update || !metaData.exists()) {
-      saveFileContentsToAccountDir(null, accountMetadataFilename, buildMetadata(account), getMimetypeForData(), true);
+      saveFileContentsToAccountDir(null, accountMetadataFilename, buildMetadata(account), getMimeTypeForData(), true);
       if (!update) {
         createWarningFile();
       }
@@ -176,7 +176,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   private ChangeSet getChangeSetFromDavResource(Pair<Integer, DavResource> davResource) throws IOException {
     try {
       return getChangeSetFromInputStream(new SequenceNumber(davResource.first, getSequenceFromFileName(davResource.second.fileName())),
-          davResource.second.get(getMimetypeForData()).byteStream());
+          davResource.second.get(getMimeTypeForData()).byteStream());
     } catch (HttpException | DavException e) {
       throw new IOException(e);
     }
@@ -433,7 +433,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
 
   private Exceptional<AccountMetaData> getAccountMetaDataFromDavResource(LockableDavResource lockableDavResource) {
     try {
-      return getAccountMetaDataFromInputStream(lockableDavResource.get(getMimetypeForData()).byteStream());
+      return getAccountMetaDataFromInputStream(lockableDavResource.get(getMimeTypeForData()).byteStream());
     } catch (DavException | HttpException | IOException e) {
       return Exceptional.of(e);
     }

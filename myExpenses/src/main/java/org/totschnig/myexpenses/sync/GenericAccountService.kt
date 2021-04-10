@@ -146,7 +146,7 @@ class GenericAccountService : Service() {
         }
 
         @JvmStatic
-        fun loadPassword(contentResolver: ContentResolver?, accountName: String): String {
+        fun loadPassword(contentResolver: ContentResolver?, accountName: String): String? {
             return DbUtils.loadSetting(contentResolver, getPasswordKey(accountName))
         }
 
