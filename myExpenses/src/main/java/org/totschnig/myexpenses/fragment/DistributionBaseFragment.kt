@@ -29,7 +29,7 @@ import java.util.*
 import javax.inject.Inject
 
 abstract class DistributionBaseFragment<ROW_BINDING : ViewBinding?> : AbstractCategoryList<ROW_BINDING>() {
-    lateinit var grouping: Grouping
+    var grouping: Grouping = Grouping.NONE
     protected var isIncome = false
     var groupingYear = 0
     var groupingSecond = 0
@@ -314,9 +314,8 @@ abstract class DistributionBaseFragment<ROW_BINDING : ViewBinding?> : AbstractCa
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        val m = menu.findItem(R.id.TOGGLE_AGGREGATE_TYPES)
-        if (m != null) {
-            m.isChecked = aggregateTypes
+        menu.findItem(R.id.TOGGLE_AGGREGATE_TYPES)?.let {
+            it.isChecked = aggregateTypes
         }
         val grouped = grouping != Grouping.NONE
         Utils.menuItemSetEnabledAndVisible(menu.findItem(R.id.FORWARD_COMMAND), grouped)
