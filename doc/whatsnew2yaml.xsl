@@ -6,6 +6,7 @@
     <xsl:param name="version" />
     <xsl:param name="version_date" select='"2014-xx-xx"' />
     <xsl:param name="languages" select="$all-languages" />
+    <xsl:param name="appendDot" select="false" />
 
     <xsl:template match="/">
         <xsl:value-of select="str:padding(2, '&#032;')"/>
@@ -84,6 +85,7 @@
     <xsl:template match="string-array">
         <xsl:for-each select="item">
             <xsl:apply-templates mode="unescape" select='.' />
+            <xsl:if test="$appendDot"><xsl:text>.</xsl:text></xsl:if>
             <xsl:if test="position() != last()">
                 <xsl:text>&#032;</xsl:text>
             </xsl:if>
