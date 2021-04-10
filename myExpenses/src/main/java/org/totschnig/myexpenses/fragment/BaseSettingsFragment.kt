@@ -25,7 +25,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.service.DailyScheduler
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.TextUtils
-import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import org.totschnig.myexpenses.util.setNightMode
@@ -220,7 +219,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         } else if (key == getKey(PrefKey.AUTO_BACKUP_TIME)) {
             DailyScheduler.updateAutoBackupAlarms(activity())
         } else if (key == getKey(PrefKey.SYNC_FREQUCENCY)) {
-            for (account in GenericAccountService.getAccountsAsArray(activity())) {
+            for (account in GenericAccountService.getAccounts(activity())) {
                 ContentResolver.addPeriodicSync(account, TransactionProvider.AUTHORITY, Bundle.EMPTY,
                         prefHandler.getInt(PrefKey.SYNC_FREQUCENCY, GenericAccountService.DEFAULT_SYNC_FREQUENCY_HOURS).toLong() * GenericAccountService.HOUR_IN_SECONDS)
             }

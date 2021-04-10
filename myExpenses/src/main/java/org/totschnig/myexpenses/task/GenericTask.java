@@ -533,7 +533,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           return Result.FAILURE;
         }
         AccountManager accountManager = AccountManager.get(context);
-        android.accounts.Account syncAccount = GenericAccountService.GetAccount(syncAccountName);
+        android.accounts.Account syncAccount = GenericAccountService.getAccount(syncAccountName);
         accountManager.setUserData(syncAccount, SyncAdapter.KEY_LAST_SYNCED_LOCAL(account.getId()), null);
         accountManager.setUserData(syncAccount, SyncAdapter.KEY_LAST_SYNCED_REMOTE(account.getId()), null);
         account.setSyncAccountName(null);
@@ -552,7 +552,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
         bundle.putString(KEY_UUID, account.getUuid());
         bundle.putBoolean(SyncAdapter.KEY_RESET_REMOTE_ACCOUNT, true);
-        ContentResolver.requestSync(GenericAccountService.GetAccount(syncAccountName),
+        ContentResolver.requestSync(GenericAccountService.getAccount(syncAccountName),
             TransactionProvider.AUTHORITY, bundle);
         account.save();
         return Result.SUCCESS;
@@ -567,7 +567,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       }
       case TaskExecutionFragment.TASK_SYNC_REMOVE_BACKEND: {
         AccountManagerFuture<Boolean> accountManagerFuture = AccountManager.get(context).removeAccount(
-            GenericAccountService.GetAccount((String) ids[0]), null, null);
+            GenericAccountService.getAccount((String) ids[0]), null, null);
         try {
           return accountManagerFuture.getResult() ? Result.SUCCESS : Result.FAILURE;
         } catch (OperationCanceledException | AuthenticatorException | IOException e) {
@@ -677,7 +677,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
             Bundle bundle = new Bundle();
             bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
             bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-            ContentResolver.requestSync(GenericAccountService.GetAccount(syncAccountName),
+            ContentResolver.requestSync(GenericAccountService.getAccount(syncAccountName),
                 TransactionProvider.AUTHORITY, bundle);
             return Result.SUCCESS;
           }
@@ -722,7 +722,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
   private Exceptional<SyncBackendProvider> getSyncBackendProviderFromExtra() {
     String syncAccountName = ((String) mExtra);
     try {
-      final android.accounts.Account account = GenericAccountService.GetAccount(syncAccountName);
+      final android.accounts.Account account = GenericAccountService.getAccount(syncAccountName);
       final Context context = MyApplication.getInstance();
       return Exceptional.of(() -> SyncBackendProviderFactory.get(context, account, false).getOrThrow());
     } catch (Throwable throwable) {

@@ -231,7 +231,7 @@ public class DbUtils {
           String accountName = cursor.getString(1);
           String localKey = SyncAdapter.KEY_LAST_SYNCED_LOCAL(accountId);
           String remoteKey = SyncAdapter.KEY_LAST_SYNCED_REMOTE(accountId);
-          android.accounts.Account account = GenericAccountService.GetAccount(accountName);
+          android.accounts.Account account = GenericAccountService.getAccount(accountName);
           editor.putString(localKey, accountManager.getUserData(account, localKey));
           editor.putString(remoteKey, accountManager.getUserData(account, remoteKey));
         } while (cursor.moveToNext());

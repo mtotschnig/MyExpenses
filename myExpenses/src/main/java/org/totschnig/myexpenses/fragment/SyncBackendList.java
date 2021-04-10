@@ -15,6 +15,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.BaseActivity;
 import org.totschnig.myexpenses.activity.ManageSyncBackends;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.SyncBackendAdapter;
@@ -144,20 +145,21 @@ public class SyncBackendList extends Fragment implements
     long packedPosition = ((ExpandableListView.ExpandableListContextMenuInfo) item.getMenuInfo())
         .packedPosition;
     int itemId = item.getItemId();
+    ((BaseActivity) requireActivity()).trackCommand(itemId);
     if (itemId == R.id.SYNC_COMMAND) {
       requestSync(packedPosition);
       return true;
     } else if (itemId == R.id.SYNC_UNLINK_COMMAND) {
       final Account accountForSync = getAccountForSync(packedPosition);
       if (accountForSync != null) {
-        DialogUtils.showSyncUnlinkConfirmationDialog(getActivity(),
+        DialogUtils.showSyncUnlinkConfirmationDialog(requireActivity(),
             accountForSync);
       }
       return true;
     } else if (itemId == R.id.SYNCED_TO_OTHER_COMMAND) {
       Account account = getAccountForSync(packedPosition);
       if (account != null) {
-        ((ProtectedFragmentActivity) getActivity()).showMessage(
+        ((ProtectedFragmentActivity) requireActivity()).showMessage(
             getString(R.string.dialog_synced_to_other, account.getUuid()));
       }
       return true;
@@ -190,7 +192,7 @@ public class SyncBackendList extends Fragment implements
 
   private void requestSync(long packedPosition) {
     String syncAccountName = syncBackendAdapter.getSyncAccountName(packedPosition);
-    android.accounts.Account account = GenericAccountService.GetAccount(syncAccountName);
+    android.accounts.Account account = GenericAccountService.getAccount(syncAccountName);
     if (ContentResolver.getIsSyncable(account, TransactionProvider.AUTHORITY) > 0) {
       Bundle bundle = new Bundle();
       bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
@@ -218,7 +220,7 @@ public class SyncBackendList extends Fragment implements
 
   @Override
   public void onGroupExpand(int groupPosition) {
-    if (!syncBackendAdapter.hasAccountMetdata(groupPosition)) {
+    if (!syncBackendAdapter.hasAccountMetadata(groupPosition)) {
       metadataLoadingCount++;
       if (!snackbar.isShownOrQueued()) {
         snackbar.show();
@@ -251,7 +253,7 @@ public class SyncBackendList extends Fragment implements
   @Override
   public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
     if (dialogTag.equals(DIALOG_INACTIVE_BACKEND) && which == BUTTON_POSITIVE) {
-      GenericAccountService.activateSync(GenericAccountService.GetAccount(extras.getString(KEY_SYNC_ACCOUNT_NAME)));
+      GenericAccountService.activateSync(GenericAccountService.getAccount(extras.getString(KEY_SYNC_ACCOUNT_NAME)), prefHandler);
     }
     return false;
   }

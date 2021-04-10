@@ -109,9 +109,10 @@ public class OnboardingDataFragment extends OnboardingFragment implements Adapte
     Menu menu = toolbar.getMenu();
     SubMenu subMenu = menu.findItem(R.id.SetupFromRemote).getSubMenu();
     subMenu.clear();
-    ((SyncBackendSetupActivity) getActivity()).addSyncProviderMenuEntries(subMenu);
-    GenericAccountService.getAccountsAsStream(getActivity()).forEach(
-        account -> subMenu.add(Menu.NONE, Menu.NONE, Menu.NONE, account.name));
+    ((SyncBackendSetupActivity) requireActivity()).addSyncProviderMenuEntries(subMenu);
+    for (String account: GenericAccountService.getAccountNames(requireActivity())) {
+      subMenu.add(Menu.NONE, Menu.NONE, Menu.NONE, account);
+    }
     toolbar.setOnMenuItemClickListener(this::onRestoreMenuItemSelected);
   }
 

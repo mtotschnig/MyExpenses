@@ -32,10 +32,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.annimon.stream.Collectors;
-import com.annimon.stream.Stream;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
 import org.threeten.bp.LocalDate;
 import org.totschnig.myexpenses.R;
@@ -185,12 +184,9 @@ public class AccountEdit extends AmountActivity implements ExchangeRateEdit.Host
   }
 
   private void configureSyncBackendAdapter() {
-    ArrayAdapter syncBackendAdapter =
+    ArrayAdapter<String> syncBackendAdapter =
         new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
-            Stream.concat(
-                Stream.of(getString(R.string.synchronization_none)),
-                GenericAccountService.getAccountsAsStream(this).map(account -> account.name))
-                .collect(Collectors.toList()));
+            ArrayUtils.insert(0, GenericAccountService.getAccountNames(this), getString(R.string.synchronization_none)));
     syncBackendAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
     mSyncSpinner.setAdapter(syncBackendAdapter);
     if (mAccount.getSyncAccountName() != null) {

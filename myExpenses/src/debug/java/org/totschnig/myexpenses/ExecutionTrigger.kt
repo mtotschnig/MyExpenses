@@ -18,7 +18,7 @@ class ExecutionTrigger : BroadcastReceiver() {
                     putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true)
                     putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true)
                 }
-                ContentResolver.requestSync(GenericAccountService.GetAccount(intent.getStringExtra("ACCOUNT")),
+                ContentResolver.requestSync(GenericAccountService.getAccount(intent.getStringExtra("ACCOUNT")),
                         TransactionProvider.AUTHORITY, bundle)
             }
             "TRIGGER_PLANNER" -> {

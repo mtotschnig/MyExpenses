@@ -26,7 +26,7 @@ import static android.accounts.AccountManager.KEY_ACCOUNT_NAME;
 import static android.accounts.AccountManager.KEY_PASSWORD;
 import static android.accounts.AccountManager.KEY_USERDATA;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
-import static org.totschnig.myexpenses.sync.GenericAccountService.Authenticator.AUTH_TOKEN_TYPE;
+import static org.totschnig.myexpenses.sync.GenericAccountService.AUTH_TOKEN_TYPE;
 import static org.totschnig.myexpenses.sync.GenericAccountService.KEY_ENCRYPTED;
 import static org.totschnig.myexpenses.sync.GenericAccountService.KEY_PASSWORD_ENCRYPTION;
 
@@ -59,9 +59,10 @@ public class SyncAccountTask extends AsyncTask<Void, Void, Exceptional<SyncAccou
 
   @Override
   protected Exceptional<Result> doInBackground(Void... params) {
-    Account account = GenericAccountService.GetAccount(accountName);
+    Account account = GenericAccountService.getAccount(accountName);
     if (create) {
-      AccountManager accountManager = AccountManager.get(MyApplication.getInstance());
+      final MyApplication application = MyApplication.getInstance();
+      AccountManager accountManager = AccountManager.get(application);
       if (accountManager.addAccountExplicitly(account, password, userData)) {
         if (authToken != null) {
           accountManager.setAuthToken(account, AUTH_TOKEN_TYPE, authToken);
@@ -69,10 +70,10 @@ public class SyncAccountTask extends AsyncTask<Void, Void, Exceptional<SyncAccou
         if (encryptionPassword != null) {
           accountManager.setUserData(account, KEY_ENCRYPTED, Boolean.toString(true));
         }
-        GenericAccountService.storePassword(MyApplication.getInstance().getContentResolver(), accountName, encryptionPassword);
+        GenericAccountService.storePassword(application.getContentResolver(), accountName, encryptionPassword);
         final Exceptional<Result> result = buildResult();
         if (result.isPresent()) {
-          GenericAccountService.activateSync(account);
+          GenericAccountService.activateSync(account, application.getAppComponent().prefHandler());
         } else {
           //we try to remove a failed account immediately, otherwise user would need to do it, before
           //being able to try again
@@ -95,7 +96,7 @@ public class SyncAccountTask extends AsyncTask<Void, Void, Exceptional<SyncAccou
   private Exceptional<Result> buildResult() {
     final int localUnsynced = org.totschnig.myexpenses.model.Account.count(
         KEY_SYNC_ACCOUNT_NAME + " IS NULL", null);
-    Account account = GenericAccountService.GetAccount(accountName);
+    Account account = GenericAccountService.getAccount(accountName);
     SyncBackendProvider syncBackendProvider;
     try {
       syncBackendProvider = SyncBackendProviderFactory.get(taskExecutionFragment.getActivity(),

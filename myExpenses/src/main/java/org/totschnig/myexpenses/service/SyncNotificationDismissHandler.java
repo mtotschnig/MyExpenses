@@ -26,7 +26,7 @@ public class SyncNotificationDismissHandler extends IntentService {
     if (intent != null) {
       String accountName = intent.getStringExtra(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME);
       if (accountName != null) {
-        Account account = GenericAccountService.GetAccount(accountName);
+        Account account = GenericAccountService.getAccount(accountName);
         if (!ContentResolver.isSyncActive(account, TransactionProvider.AUTHORITY)) {
           Bundle bundle = new Bundle();
           bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);

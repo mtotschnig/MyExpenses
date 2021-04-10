@@ -295,9 +295,7 @@ public class Account extends Model {
   }
 
   public static void checkSyncAccounts(Context context) {
-    String[] validAccounts = GenericAccountService.getAccountsAsStream(context)
-        .map(account -> account.name)
-        .toArray(size -> new String[size]);
+    String[] validAccounts = GenericAccountService.getAccountNames(context);
     ContentValues values = new ContentValues(1);
     values.putNull(KEY_SYNC_ACCOUNT_NAME);
     String where = validAccounts.length > 0 ?
@@ -314,7 +312,7 @@ public class Account extends Model {
     }
     if (account.getSyncAccountName() != null) {
       AccountManager accountManager = AccountManager.get(MyApplication.getInstance());
-      android.accounts.Account syncAccount = GenericAccountService.GetAccount(account.getSyncAccountName());
+      android.accounts.Account syncAccount = GenericAccountService.getAccount(account.getSyncAccountName());
       accountManager.setUserData(syncAccount, SyncAdapter.KEY_LAST_SYNCED_LOCAL(account.getId()), null);
       accountManager.setUserData(syncAccount, SyncAdapter.KEY_LAST_SYNCED_REMOTE(account.getId()), null);
     }
@@ -869,7 +867,7 @@ public class Account extends Model {
       bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
       bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
       bundle.putString(DatabaseConstants.KEY_UUID, getUuid());
-      ContentResolver.requestSync(GenericAccountService.GetAccount(syncAccountName),
+      ContentResolver.requestSync(GenericAccountService.getAccount(syncAccountName),
           TransactionProvider.AUTHORITY, bundle);
     }
   }

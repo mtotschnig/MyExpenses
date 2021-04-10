@@ -152,8 +152,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         tracker.logEvent(event, params)
     }
 
-    @CallSuper
-    override fun dispatchCommand(command: Int, tag: Any?): Boolean {
+    fun trackCommand(command: Int) {
         try {
             resources.getResourceName(command)
         } catch (e: Resources.NotFoundException) {
@@ -163,6 +162,11 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 putString(Tracker.EVENT_PARAM_ITEM_ID, fullResourceName.substring(fullResourceName.indexOf('/') + 1))
             })
         }
+    }
+
+    @CallSuper
+    override fun dispatchCommand(command: Int, tag: Any?): Boolean {
+        trackCommand(command)
         if (command == R.id.TESSERACT_DOWNLOAD_COMMAND) {
             ocrViewModel.downloadTessData().observe(this, {
                 downloadPending = it

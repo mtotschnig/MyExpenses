@@ -29,7 +29,6 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 import java.util.*
 import java.util.concurrent.TimeUnit
-import kotlin.collections.HashSet
 
 open class LicenceHandler(protected val context: MyApplication, var licenseStatusPrefs: PreferenceObfuscator, private val crashHandler: CrashHandler, protected val prefHandler: PrefHandler) {
     private var hasOurLicence = false
@@ -107,7 +106,7 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
         CoroutineScope(Dispatchers.IO).launch {
             Template.updateNewPlanEnabled()
             Account.updateNewAccountEnabled()
-            GenericAccountService.updateAccountsIsSyncable(context, this@LicenceHandler)
+            GenericAccountService.updateAccountsIsSyncable(context, this@LicenceHandler, prefHandler)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
                 ShortcutHelper.configureSplitShortcut(context, isContribEnabled)
             }

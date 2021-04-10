@@ -3,13 +3,9 @@ package org.totschnig.myexpenses.preference;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.annimon.stream.Collectors;
-
+import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.sync.GenericAccountService;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import androidx.preference.ListPreference;
 
@@ -19,13 +15,9 @@ public class AccountPreference extends ListPreference {
 
   public AccountPreference(Context context, AttributeSet attrs) {
     super(context, attrs);
-    List<String> entries = GenericAccountService.getAccountsAsStream(context).map(account -> account.name).collect(Collectors.toList());
-    List<String> entryValues = new ArrayList<>(entries);
-    entries.add(0, getContext().getString(R.string.synchronization_none));
-    entryValues.add(0, SYNCHRONIZATION_NONE);
-
-    setEntries(entries.toArray(new String[0]));
-    setEntryValues(entryValues.toArray(new String[0]));
+    String[] accounts = GenericAccountService.getAccountNames(context);
+    setEntries(ArrayUtils.insert(0, accounts, context.getString(R.string.synchronization_none)));
+    setEntryValues(ArrayUtils.insert(0, accounts, SYNCHRONIZATION_NONE));
   }
 
   public AccountPreference(Context context) {
@@ -35,6 +27,6 @@ public class AccountPreference extends ListPreference {
   @Override
   public int findIndexOfValue(String value) {
     int indexOfValue = super.findIndexOfValue(value);
-    return indexOfValue > 0 ? indexOfValue : 0;
+    return Math.max(indexOfValue, 0);
   }
 }

@@ -17,7 +17,6 @@ import android.os.RemoteException;
 import android.text.TextUtils;
 
 import com.android.calendar.CalendarContractCompat.Calendars;
-import com.annimon.stream.Collectors;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
@@ -47,6 +46,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -111,7 +111,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       SyncBackendProvider syncBackendProvider;
       boolean isEncrypted;
       if (syncAccountName != null) {
-        android.accounts.Account account = GenericAccountService.GetAccount(syncAccountName);
+        android.accounts.Account account = GenericAccountService.getAccount(syncAccountName);
         try {
           syncBackendProvider = SyncBackendProviderFactory.get(MyApplication.getInstance(), account, false)
               .getOrThrow();
@@ -409,9 +409,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
     Result result = null;
     MyApplication application = MyApplication.getInstance();
     AccountManager accountManager = AccountManager.get(application);
-    List<String> accounts = GenericAccountService.getAccountsAsStream(application)
-        .map(account -> account.name)
-        .collect(Collectors.toList());
+    List<String> accounts = Arrays.asList(GenericAccountService.getAccountNames(application));
     ContentResolver cr = application.getContentResolver();
     String[] projection = {KEY_ROWID, KEY_SYNC_ACCOUNT_NAME};
     Cursor cursor = cr.query(TransactionProvider.ACCOUNTS_URI, projection,
@@ -427,7 +425,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
           String localKey = SyncAdapter.KEY_LAST_SYNCED_LOCAL(accountId);
           String remoteKey = SyncAdapter.KEY_LAST_SYNCED_REMOTE(accountId);
           if (accounts.contains(accountName)) {
-            android.accounts.Account account = GenericAccountService.GetAccount(accountName);
+            android.accounts.Account account = GenericAccountService.getAccount(accountName);
             accountManager.setUserData(account, localKey, sharedPreferences.getString(localKey, null));
             accountManager.setUserData(account, remoteKey, sharedPreferences.getString(remoteKey, null));
             restored++;

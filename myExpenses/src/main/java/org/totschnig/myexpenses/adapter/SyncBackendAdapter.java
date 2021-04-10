@@ -34,10 +34,10 @@ public class SyncBackendAdapter extends BaseExpandableListAdapter {
   }
 
   private List<Pair<String, Boolean>> syncAccounts;
-  private SparseArray<List<Exceptional<AccountMetaData>>> accountMetaDataMap = new SparseArray<>();
-  private LayoutInflater layoutInflater;
+  private final SparseArray<List<Exceptional<AccountMetaData>>> accountMetaDataMap = new SparseArray<>();
+  private final LayoutInflater layoutInflater;
   private Map<String, String> localAccountInfo;
-  private CurrencyContext currencyContext;
+  private final CurrencyContext currencyContext;
 
   public SyncBackendAdapter(Context context, CurrencyContext currencyContext, List<Pair<String, Boolean>> syncAccounts) {
     this.layoutInflater = LayoutInflater.from(context);
@@ -97,7 +97,7 @@ public class SyncBackendAdapter extends BaseExpandableListAdapter {
 
   @Override
   public int getChildrenCount(int groupPosition) {
-    List childList = getChildList(groupPosition);
+    List<Exceptional<AccountMetaData>> childList = getChildList(groupPosition);
     return childList != null ? childList.size() : 0;
   }
 
@@ -156,7 +156,7 @@ public class SyncBackendAdapter extends BaseExpandableListAdapter {
     notifyDataSetChanged();
   }
 
-  public boolean hasAccountMetdata(int groupPosition) {
+  public boolean hasAccountMetadata(int groupPosition) {
     return accountMetaDataMap.get(groupPosition) != null;
   }
 

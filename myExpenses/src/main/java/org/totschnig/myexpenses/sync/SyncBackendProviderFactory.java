@@ -33,7 +33,7 @@ public abstract class SyncBackendProviderFactory {
             try {
               Exceptional<Void> result = syncBackendProviderExceptional.get().setUp(
                   accountManager.blockingGetAuthToken(account,
-                      GenericAccountService.Authenticator.AUTH_TOKEN_TYPE, true),
+                      GenericAccountService.AUTH_TOKEN_TYPE, true),
                   GenericAccountService.loadPassword(context.getContentResolver(), account.name), create);
               if (!result.isPresent()) {
                 return Exceptional.of(result.getException());

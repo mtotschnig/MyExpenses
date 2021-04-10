@@ -106,7 +106,7 @@ public class AutoBackupService extends JobIntentService {
             }
             DbUtils.storeSetting(getContentResolver(), SyncAdapter.KEY_UPLOAD_AUTO_BACKUP_NAME, backupFileName);
             DbUtils.storeSetting(getContentResolver(), SyncAdapter.KEY_UPLOAD_AUTO_BACKUP_URI, backupFile.getUri().toString());
-            ContentResolver.requestSync(GenericAccountService.GetAccount(syncAccount), TransactionProvider.AUTHORITY, bundle);
+            ContentResolver.requestSync(GenericAccountService.getAccount(syncAccount), TransactionProvider.AUTHORITY, bundle);
           }
         }
       } else {

@@ -69,8 +69,8 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
       final String accessToken = Auth.getOAuth2Token();
       if (accessToken != null) {
         AccountManager.get(this).setAuthToken(
-            GenericAccountService.GetAccount(dropBoxTokenRequestPendingForAccount),
-            GenericAccountService.Authenticator.AUTH_TOKEN_TYPE,
+            GenericAccountService.getAccount(dropBoxTokenRequestPendingForAccount),
+            GenericAccountService.AUTH_TOKEN_TYPE,
             accessToken);
       } else {
         showSnackbar("Dropbox Oauth Token is null");
