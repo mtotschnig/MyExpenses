@@ -28,6 +28,8 @@ interface ITransaction: IModel {
     var pictureUri: Uri?
     var originPlanInstanceId: Long?
     var originPlanId: Long?
+    var isPeriodicTag: Boolean
+    var periodicTag: Tag
 
     val isTransfer: Boolean
     val isSplit: Boolean
@@ -36,6 +38,7 @@ interface ITransaction: IModel {
     fun setValueDate(zonedDateTime: ZonedDateTime)
     fun setInitialPlan(initialPlan: Triple<String, Recurrence, LocalDate>)
     fun save(withCommit: Boolean): Uri?
+    fun setPeriodicTag(Enddate: Long)
 
     fun linkedTagsUri(): Uri
     fun linkColumn(): String
