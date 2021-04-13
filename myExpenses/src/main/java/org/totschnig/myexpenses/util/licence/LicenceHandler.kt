@@ -88,7 +88,7 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
             this.licenceStatus?.compareTo(licenceStatus) ?: -1 >= 0
 
     val isUpgradeable: Boolean
-        get() = licenceStatus?.isUpgradeable ?: false
+        get() = licenceStatus?.isUpgradeable ?: true
 
     open fun init() {
         this.licenceStatus = licenseStatusPrefs.getString(LICENSE_STATUS_KEY, null)?.let {
