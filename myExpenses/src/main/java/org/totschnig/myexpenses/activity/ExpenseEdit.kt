@@ -17,7 +17,6 @@ package org.totschnig.myexpenses.activity
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.app.NotificationManager
-import android.content.ActivityNotFoundException
 import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
@@ -1294,7 +1293,13 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         startActivityForResult(i, SELECT_TAGS_REQUEST)
     }
 
-    fun editPlan(view: View) {
+    fun editPlan(@Suppress("UNUSED_PARAMETER") view: View) {
         delegate.planId?.let { launchPlanView(false, it) }
+    }
+
+    fun copyUnsplitAmount(@Suppress("UNUSED_PARAMETER") view: View) {
+        findSplitPartList()?.unsplitAmountFormatted()?.let {
+            copyToClipboard(it)
+        }
     }
 }
