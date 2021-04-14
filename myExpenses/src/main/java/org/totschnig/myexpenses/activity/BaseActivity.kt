@@ -54,12 +54,13 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     }
 
     fun copyToClipboard(text: String) {
-        try {
+        showSnackbar(try {
             ContextCompat.getSystemService(this, ClipboardManager::class.java)?.setPrimaryClip(ClipData.newPlainText(null, text))
-            showSnackbar("${getString(R.string.toast_text_copied)}: $text")
+            "${getString(R.string.toast_text_copied)}: $text"
         } catch (e: RuntimeException) {
             Timber.e(e)
-        }
+            e.message ?: "Error"
+        })
     }
 
     fun startActivity(intent: Intent, notAvailableMessage: Int, forResultRequestCode: Int? = null) {
@@ -288,11 +289,12 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         }
     }
 
-    @JvmOverloads open fun showMessage(message: CharSequence,
-                                       positive: MessageDialogFragment.Button = MessageDialogFragment.okButton(),
-                                       neutral: MessageDialogFragment.Button? = null,
-                                       negative: MessageDialogFragment.Button? = null,
-                                       cancellable: Boolean = true) {
+    @JvmOverloads
+    open fun showMessage(message: CharSequence,
+                         positive: MessageDialogFragment.Button = MessageDialogFragment.okButton(),
+                         neutral: MessageDialogFragment.Button? = null,
+                         negative: MessageDialogFragment.Button? = null,
+                         cancellable: Boolean = true) {
         lifecycleScope.launchWhenResumed {
             MessageDialogFragment.newInstance(null, message, positive, neutral, negative).apply {
                 isCancelable = cancellable
