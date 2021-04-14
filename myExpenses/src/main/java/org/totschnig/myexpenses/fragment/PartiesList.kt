@@ -36,7 +36,6 @@ import androidx.lifecycle.ViewModelProvider
 import eltos.simpledialogfragment.input.SimpleInputDialog
 import icepick.Icepick
 import icepick.State
-import org.apache.commons.lang3.ArrayUtils
 import org.totschnig.myexpenses.ACTION_MANAGE
 import org.totschnig.myexpenses.ACTION_SELECT_FILTER
 import org.totschnig.myexpenses.ACTION_SELECT_MAPPING
@@ -45,7 +44,6 @@ import org.totschnig.myexpenses.activity.ManageParties
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.util.configureSearch
 import org.totschnig.myexpenses.util.prepareSearch
 import org.totschnig.myexpenses.viewmodel.PartyListViewModel
@@ -57,6 +55,7 @@ class PartiesList : ContextualActionBarFragment() {
     lateinit var viewModel: PartyListViewModel
 
     @State
+    @JvmField
     var filter: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -103,7 +102,7 @@ class PartiesList : ContextualActionBarFragment() {
     }
 
     override fun dispatchCommandMultiple(command: Int,
-                                         positions: SparseBooleanArray?, itemIds: Array<Long?>?): Boolean {
+                                         positions: SparseBooleanArray, itemIds: LongArray): Boolean {
         if (super.dispatchCommandMultiple(command, positions, itemIds)) {
             return true
         }
@@ -111,30 +110,34 @@ class PartiesList : ContextualActionBarFragment() {
         if (command == R.id.DELETE_COMMAND) {
             var hasMappedTransactionsCount = 0
             var hasMappedTemplatesCount = 0
-            val idList = ArrayList<Long>()
-            for (i in 0 until positions!!.size()) {
+            val idList = mutableListOf<Long>()
+            for (i in 0 until positions.size()) {
                 if (positions.valueAt(i)) {
                     var deletable = true
-                    val party = mAdapter.getItem(positions.keyAt(i))
-                    if (party!!.mappedTransactions) {
-                        hasMappedTransactionsCount++
-                        deletable = false
-                    }
-                    if (party.mappedTemplates) {
-                        hasMappedTemplatesCount++
-                        deletable = false
-                    }
-                    if (deletable) {
-                        idList.add(party.id)
+                    mAdapter.getItem(positions.keyAt(i))?.let {
+                        if (it.mappedTransactions) {
+                            hasMappedTransactionsCount++
+                            deletable = false
+                        }
+                        if (it.mappedTemplates) {
+                            hasMappedTemplatesCount++
+                            deletable = false
+                        }
+                        if (deletable) {
+                            idList.add(it.id)
+                        }
                     }
                 }
             }
             if (idList.isNotEmpty()) {
-                activity.startTaskExecution(
-                        TaskExecutionFragment.TASK_DELETE_PAYEES,
-                        idList.toTypedArray(),
-                        null,
-                        R.string.progress_dialog_deleting)
+                activity.showSnackbar(R.string.progress_dialog_deleting)
+                viewModel.deleteParties(idList).observe(viewLifecycleOwner) { result ->
+                    result.onSuccess {
+                        activity.showSnackbar(activity.resources.getQuantityString(R.plurals.delete_success, it, it))
+                    }.onFailure {
+                        activity.showDeleteFailureFeedback()
+                    }
+                }
             }
             if (hasMappedTransactionsCount > 0 || hasMappedTemplatesCount > 0) {
                 var message = ""
@@ -154,16 +157,15 @@ class PartiesList : ContextualActionBarFragment() {
             }
             return true
         } else if (command == R.id.SELECT_COMMAND_MULTIPLE) {
-            if (itemIds!!.size == 1 || !listOf(*itemIds).contains(CategoryTreeBaseAdapter.NULL_ITEM_ID)) {
+            if (itemIds.size == 1 || itemIds.contains(CategoryTreeBaseAdapter.NULL_ITEM_ID)) {
                 val labelList = ArrayList<String?>()
-                for (i in 0 until positions!!.size()) {
+                for (i in 0 until positions.size()) {
                     if (positions.valueAt(i)) {
-                        val party = mAdapter.getItem(positions.keyAt(i))
-                        labelList.add(party!!.name)
+                        mAdapter.getItem(positions.keyAt(i))?.let { labelList.add(it.name) }
                     }
                 }
                 val intent = Intent()
-                intent.putExtra(DatabaseConstants.KEY_PAYEEID, ArrayUtils.toPrimitive(itemIds))
+                intent.putExtra(DatabaseConstants.KEY_PAYEEID, itemIds)
                 intent.putExtra(DatabaseConstants.KEY_LABEL, TextUtils.join(",", labelList))
                 activity.setResult(Activity.RESULT_FIRST_USER, intent)
                 activity.finish()

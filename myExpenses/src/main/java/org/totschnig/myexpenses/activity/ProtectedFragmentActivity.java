@@ -548,13 +548,10 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
       case TaskExecutionFragment.TASK_DELETE_TRANSACTION:
       case TaskExecutionFragment.TASK_DELETE_ACCOUNT:
       case TaskExecutionFragment.TASK_DELETE_PAYMENT_METHODS:
-      case TaskExecutionFragment.TASK_DELETE_CATEGORY:
-      case TaskExecutionFragment.TASK_DELETE_PAYEES:
-      case TaskExecutionFragment.TASK_DELETE_TEMPLATES:
-      case TaskExecutionFragment.TASK_UNDELETE_TRANSACTION: {
+      case TaskExecutionFragment.TASK_DELETE_CATEGORY: {
         Result result = (Result) o;
         if (!result.isSuccess()) {
-          showSnackbar("There was an error deleting the object. Please contact support@myexenses.mobi !");
+          showDeleteFailureFeedback();
         }
         break;
       }

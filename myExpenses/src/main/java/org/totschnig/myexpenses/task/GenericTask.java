@@ -28,10 +28,8 @@ import org.totschnig.myexpenses.fragment.AbstractCategoryList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.ExportFormat;
-import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Plan;
-import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -153,16 +151,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           return Result.FAILURE;
         }
         return Result.SUCCESS;
-      case TaskExecutionFragment.TASK_UNDELETE_TRANSACTION:
-        try {
-          for (long id : (Long[]) ids) {
-            Transaction.undelete(id);
-          }
-        } catch (SQLiteConstraintException e) {
-          CrashHandler.reportWithDbSchema(e);
-          return Result.FAILURE;
-        }
-        return Result.SUCCESS;
       case TaskExecutionFragment.TASK_DELETE_ACCOUNT: {
         boolean success = true;
         for (long id : (Long[]) ids) {
@@ -174,16 +162,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         try {
           for (long id : (Long[]) ids) {
             PaymentMethod.delete(id);
-          }
-        } catch (SQLiteConstraintException e) {
-          CrashHandler.reportWithDbSchema(e);
-          return Result.FAILURE;
-        }
-        return Result.SUCCESS;
-      case TaskExecutionFragment.TASK_DELETE_PAYEES:
-        try {
-          for (long id : (Long[]) ids) {
-            Payee.delete(id);
           }
         } catch (SQLiteConstraintException e) {
           CrashHandler.reportWithDbSchema(e);
@@ -239,16 +217,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           CrashHandler.reportWithDbSchema(e);
           return Result.ofFailure(e.getMessage());
         }
-      case TaskExecutionFragment.TASK_DELETE_TEMPLATES:
-        try {
-          for (long id : (Long[]) ids) {
-            Template.delete(id, ((Boolean) mExtra));
-          }
-        } catch (SQLiteConstraintException e) {
-          CrashHandler.reportWithDbSchema(e);
-          return Result.FAILURE;
-        }
-        return Result.SUCCESS;
       case TaskExecutionFragment.TASK_TOGGLE_CRSTATUS:
         cr.update(
             TransactionProvider.TRANSACTIONS_URI

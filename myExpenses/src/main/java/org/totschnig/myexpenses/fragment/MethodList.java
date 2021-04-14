@@ -106,7 +106,7 @@ public class MethodList extends ContextualActionBarFragment implements LoaderMan
 
   @Override
   public boolean dispatchCommandMultiple(int command,
-                                         SparseBooleanArray positions, Long[] itemIds) {
+                                         @NonNull SparseBooleanArray positions, @NonNull long[] itemIds) {
     if (super.dispatchCommandMultiple(command, positions, itemIds)) {
       return true;
     }

@@ -67,7 +67,7 @@ public class StaleImagesList extends ContextualActionBarFragment implements Load
 
   @Override
   public boolean dispatchCommandMultiple(int command,
-                                         SparseBooleanArray positions, Long[] itemIds) {
+                                         @NonNull SparseBooleanArray positions, @NonNull long[] itemIds) {
     if (super.dispatchCommandMultiple(command, positions, itemIds)) {
       return true;
     }
@@ -83,11 +83,12 @@ public class StaleImagesList extends ContextualActionBarFragment implements Load
       return false;
     }
     finishActionMode();
-    ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
+    //TODO
+    /*((ProtectedFragmentActivity) getActivity()).startTaskExecution(
         taskId,
         itemIds,
         null,
-        progressMessage);
+        progressMessage);*/
     return true;
   }
 

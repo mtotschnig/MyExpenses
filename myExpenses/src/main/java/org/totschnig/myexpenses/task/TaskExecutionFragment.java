@@ -58,8 +58,6 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_DELETE_TRANSACTION = 6;
   public static final int TASK_DELETE_ACCOUNT = 7;
   public static final int TASK_DELETE_PAYMENT_METHODS = 8;
-  public static final int TASK_DELETE_PAYEES = 9;
-  public static final int TASK_DELETE_TEMPLATES = 10;
   public static final int TASK_TOGGLE_CRSTATUS = 11;
   public static final int TASK_MOVE = 12;
   public static final int TASK_NEW_FROM_TEMPLATE = 13;
@@ -80,7 +78,6 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_REVOKE_SPLIT = 31;
   public static final int TASK_DELETE_IMAGES = 32;
   public static final int TASK_SAVE_IMAGES = 33;
-  public static final int TASK_UNDELETE_TRANSACTION = 34;
   public static final int TASK_EXPORT_CATEGORIES = 35;
   public static final int TASK_MOVE_CATEGORY = 38;
   public static final int TASK_SWAP_SORT_KEY = 39;

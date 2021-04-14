@@ -51,11 +51,11 @@ import com.annimon.stream.Stream;
 import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.google.android.material.snackbar.Snackbar;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.temporal.ChronoUnit;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.BaseActivity;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.activity.ManageParties;
@@ -460,7 +460,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
 
   @Override
   public boolean dispatchCommandMultiple(int command,
-                                         SparseBooleanArray positions, Long[] itemIds) {
+                                         @NonNull SparseBooleanArray positions, @NonNull long[] itemIds) {
     if (super.dispatchCommandMultiple(command, positions, itemIds)) {
       return true;
     }
@@ -489,7 +489,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
       }
       boolean finalHasReconciled = hasReconciled;
       boolean finalHasNotVoid = hasNotVoid;
-      checkSealed(ArrayUtils.toPrimitive(itemIds), () -> {
+      checkSealed(itemIds, () -> {
         String message = getResources().getQuantityString(R.plurals.warning_delete_transaction, itemIds.length, itemIds.length);
         if (finalHasReconciled) {
           message += " " + getString(R.string.warning_delete_reconciled);
@@ -504,52 +504,50 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
           b.putInt(ConfirmationDialogFragment.KEY_CHECKBOX_LABEL,
               R.string.mark_void_instead_of_delete);
         }
-        b.putLongArray(TaskExecutionFragment.KEY_OBJECT_IDS, ArrayUtils.toPrimitive(itemIds));
+        b.putLongArray(TaskExecutionFragment.KEY_OBJECT_IDS, itemIds);
         ConfirmationDialogFragment.newInstance(b).show(fm, "DELETE_TRANSACTION");
       });
       return true;
     } else if (command == R.id.SPLIT_TRANSACTION_COMMAND) {
-      checkSealed(ArrayUtils.toPrimitive(itemIds), () -> ctx.contribFeatureRequested(ContribFeature.SPLIT_TRANSACTION, ArrayUtils.toPrimitive(itemIds)));
+      checkSealed(itemIds, () -> ctx.contribFeatureRequested(ContribFeature.SPLIT_TRANSACTION, itemIds));
     } else if (command == R.id.UNGROUP_SPLIT_COMMAND) {
-      checkSealed(ArrayUtils.toPrimitive(itemIds), () -> {
+      checkSealed(itemIds, () -> {
         Bundle b = new Bundle();
         b.putString(KEY_MESSAGE, getString(R.string.warning_ungroup_split_transactions));
         b.putInt(KEY_COMMAND_POSITIVE, R.id.UNGROUP_SPLIT_COMMAND);
         b.putInt(KEY_COMMAND_NEGATIVE, R.id.CANCEL_CALLBACK_COMMAND);
         b.putInt(KEY_POSITIVE_BUTTON_LABEL, R.string.menu_ungroup_split_transaction);
-        b.putLongArray(KEY_LONG_IDS, ArrayUtils.toPrimitive(itemIds));
+        b.putLongArray(KEY_LONG_IDS, itemIds);
         ConfirmationDialogFragment.newInstance(b).show(fm, "UNSPLIT_TRANSACTION");
       });
       return true;
     } else if (command == R.id.UNDELETE_COMMAND) {
-      checkSealed(ArrayUtils.toPrimitive(itemIds), () -> ctx.startTaskExecution(
-          TaskExecutionFragment.TASK_UNDELETE_TRANSACTION,
-          itemIds,
-          null,
-          0));
+      checkSealed(itemIds, () -> viewModel.undeleteTransactions(itemIds).observe(getViewLifecycleOwner(), result -> {
+        if (result == 0) ((BaseActivity) requireActivity()).showDeleteFailureFeedback();
+      }));
     } else if (command == R.id.REMAP_CATEGORY_COMMAND) {
-      checkSealed(ArrayUtils.toPrimitive(itemIds), () -> {
+      checkSealed(itemIds, () -> {
         Intent i = new Intent(getActivity(), ManageCategories.class);
         i.setAction(ACTION_SELECT_MAPPING);
         startActivityForResult(i, MAP_CATEGORY_REQUEST);
       });
       return true;
     } else if (command == R.id.MAP_TAG_COMMAND) {
-      checkSealed(ArrayUtils.toPrimitive(itemIds), () -> {
+      checkSealed(itemIds, () -> {
         Intent i = new Intent(getActivity(), ManageTags.class);
         i.setAction(ACTION_SELECT_MAPPING);
         startActivityForResult(i, MAP_TAG_REQUEST);
       });
       return true;
     } else if (command == R.id.REMAP_PAYEE_COMMAND) {
-      checkSealed(ArrayUtils.toPrimitive(itemIds), () -> {
+      checkSealed(itemIds, () -> {
         Intent i = new Intent(getActivity(), ManageParties.class);
         i.setAction(ACTION_SELECT_MAPPING);
         startActivityForResult(i, MAP_PAYEE_REQUEST);
       });
       return true;
     } else if (command == R.id.REMAP_METHOD_COMMAND) {
-      checkSealed(ArrayUtils.toPrimitive(itemIds), () -> {
+      checkSealed(itemIds, () -> {
         boolean hasExpense = false, hasIncome = false;
         Set<String> accountTypes = new HashSet<>();
         for (int i = 0; i < positions.size(); i++) {
@@ -571,7 +569,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
       });
       return true;
     } else if (command == R.id.REMAP_ACCOUNT_COMMAND) {
-      checkSealed(ArrayUtils.toPrimitive(itemIds), () -> {
+      checkSealed(itemIds, () -> {
         List<Long> excludedIds = new ArrayList<>();
         List<Long> splitIds = new ArrayList<>();
         if (!mAccount.isAggregate()) {
@@ -599,13 +597,13 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
       });
       return true;
     } else if (command == R.id.LINK_TRANSFER_COMMAND) {
-      checkSealed(ArrayUtils.toPrimitive(itemIds), () -> {
+      checkSealed(itemIds, () -> {
         Bundle b = new Bundle();
         b.putString(KEY_MESSAGE, getString(R.string.warning_link_transfer) + " " + getString(R.string.continue_confirmation));
         b.putInt(KEY_COMMAND_POSITIVE, R.id.LINK_TRANSFER_COMMAND);
         b.putInt(KEY_COMMAND_NEGATIVE, R.id.CANCEL_CALLBACK_COMMAND);
         b.putInt(KEY_POSITIVE_BUTTON_LABEL, R.string.menu_create_transfer);
-        b.putLongArray(KEY_LONG_IDS, ArrayUtils.toPrimitive(itemIds));
+        b.putLongArray(KEY_LONG_IDS, itemIds);
         ConfirmationDialogFragment.newInstance(b).show(fm, "UNSPLIT_TRANSACTION");
       });
       return true;

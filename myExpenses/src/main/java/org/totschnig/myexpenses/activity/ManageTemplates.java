@@ -39,7 +39,6 @@ import androidx.core.app.TaskStackBuilder;
 
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.OPERATION_TYPE;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
-import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class ManageTemplates extends ProtectedFragmentActivity implements
     ConfirmationDialogListener, ContribIFace {
@@ -103,11 +102,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
       return true;
     } else if (command == R.id.DELETE_COMMAND_DO) {
       finishActionMode();
-      startTaskExecution(
-          TaskExecutionFragment.TASK_DELETE_TEMPLATES,
-          (Long[]) tag,
-          CALENDAR.hasPermission(this),
-          R.string.progress_dialog_deleting);
+      mListFragment.dispatchDeleteDo((long[]) tag);
       return true;
     } else if (command == R.id.CANCEL_CALLBACK_COMMAND) {
       finishActionMode();
@@ -160,8 +155,8 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
     if (feature.equals(ContribFeature.SPLIT_TRANSACTION)) {
       if (tag instanceof Long) {
         mListFragment.dispatchCreateInstanceEditDo((Long) tag);
-      } else if (tag instanceof Long[]) {
-        mListFragment.dispatchCreateInstanceSaveDo((Long[]) tag, null);
+      } else if (tag instanceof long[]) {
+        mListFragment.dispatchCreateInstanceSaveDo((long[]) tag, null);
       }
     }
   }

@@ -1283,6 +1283,9 @@ public class TransactionProvider extends BaseTransactionProvider {
       case BUDGETS:
         count = db.delete(TABLE_BUDGETS, where, whereArgs);
         break;
+      case PAYEES:
+        count = db.delete(TABLE_PAYEES, where, whereArgs);
+        break;
       case TAG_ID:
         count = db.delete(TABLE_TAGS,
             KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);

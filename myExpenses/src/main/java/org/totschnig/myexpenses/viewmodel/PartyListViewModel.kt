@@ -4,6 +4,7 @@ import android.app.Application
 import android.text.TextUtils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.liveData
 import org.jetbrains.annotations.Nullable
 import org.totschnig.myexpenses.dialog.select.SelectFromMappedTableDialogFragment
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
@@ -12,12 +13,15 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.viewmodel.data.Party
 
 class PartyListViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
     private val parties = MutableLiveData<List<Party>>()
+
     fun getParties(): LiveData<List<Party>> = parties
+
     fun loadParties(filter: @Nullable String?, accountId: Long) {
         val filterSelection = if (TextUtils.isEmpty(filter)) null else "$KEY_PAYEE_NAME_NORMALIZED LIKE ?"
         val filterSelectionArgs = if (TextUtils.isEmpty(filter)) null else
@@ -44,5 +48,13 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
                 .subscribe {
                     parties.postValue(it)
                 }
+    }
+
+    fun deleteParties(idList: List<Long>): LiveData<Result<Int>> = liveData(context = coroutineContext()) {
+        try {
+            emit(Result.success(contentResolver.delete(TransactionProvider.PAYEES_URI, "$KEY_ROWID ${WhereFilter.Operation.IN.getOp(idList.size)}", idList.map(Long::toString).toTypedArray())))
+        } catch (e: Exception) {
+            emit(Result.failure<Int>(e))
+        }
     }
 }

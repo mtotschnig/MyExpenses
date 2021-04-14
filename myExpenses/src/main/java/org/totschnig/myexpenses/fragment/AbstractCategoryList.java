@@ -53,7 +53,6 @@ import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.viewmodel.data.Category;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import javax.inject.Inject;
 
@@ -188,7 +187,7 @@ public abstract class AbstractCategoryList<ROW_BINDING extends ViewBinding> exte
 
   @Override
   public boolean dispatchCommandMultiple(int command,
-                                         SparseBooleanArray positions, Long[] itemIds) {
+                                         @NonNull SparseBooleanArray positions, @NonNull long[] itemIds) {
     if (super.dispatchCommandMultiple(command, positions, itemIds)) {
       return true;
     }
@@ -249,7 +248,7 @@ public abstract class AbstractCategoryList<ROW_BINDING extends ViewBinding> exte
       }
       return true;
     } else if (command == R.id.SELECT_COMMAND_MULTIPLE) {
-      if (itemIds.length == 1 || !Arrays.asList(itemIds).contains(NULL_ITEM_ID)) {
+      if (itemIds.length == 1 || !ArrayUtils.contains(itemIds, NULL_ITEM_ID)) {
         ArrayList<String> labelList = new ArrayList<>();
         for (int i = 0; i < positions.size(); i++) {
           Category c;
@@ -268,7 +267,7 @@ public abstract class AbstractCategoryList<ROW_BINDING extends ViewBinding> exte
           }
         }
         Intent intent = new Intent();
-        intent.putExtra(KEY_CATID, ArrayUtils.toPrimitive(itemIds));
+        intent.putExtra(KEY_CATID, itemIds);
         intent.putExtra(KEY_LABEL, TextUtils.join(",", labelList));
         ctx.setResult(RESULT_FIRST_USER, intent);
         ctx.finish();
@@ -277,7 +276,7 @@ public abstract class AbstractCategoryList<ROW_BINDING extends ViewBinding> exte
       }
       return true;
     } else if (command == R.id.MOVE_COMMAND) {
-      final Long[] excludedIds;
+      final long[] excludedIds;
       final boolean inGroup = expandableListSelectionType == ExpandableListView.PACKED_POSITION_TYPE_GROUP;
       if (inGroup) {
         excludedIds = itemIds;
@@ -291,12 +290,12 @@ public abstract class AbstractCategoryList<ROW_BINDING extends ViewBinding> exte
             idList.add(mAdapter.getGroup(group).getId());
           }
         }
-        excludedIds = idList.toArray(new Long[0]);
+        excludedIds = ArrayUtils.toPrimitive(idList.toArray(new Long[0]));
       }
       Bundle args = new Bundle(3);
       args.putBoolean(SelectMainCategoryDialogFragment.KEY_WITH_ROOT, !inGroup);
-      args.putLongArray(SelectMainCategoryDialogFragment.KEY_EXCLUDED_ID, ArrayUtils.toPrimitive(excludedIds));
-      args.putLongArray(TaskExecutionFragment.KEY_OBJECT_IDS, ArrayUtils.toPrimitive(itemIds));
+      args.putLongArray(SelectMainCategoryDialogFragment.KEY_EXCLUDED_ID, excludedIds);
+      args.putLongArray(TaskExecutionFragment.KEY_OBJECT_IDS, itemIds);
       SelectMainCategoryDialogFragment.newInstance(args)
           .show(getParentFragmentManager(), "SELECT_TARGET");
       return true;

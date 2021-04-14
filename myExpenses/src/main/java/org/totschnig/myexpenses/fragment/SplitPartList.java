@@ -28,6 +28,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.BaseActivity;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.SplitPartAdapter;
@@ -38,12 +39,14 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.viewmodel.SplitPartListViewModel;
 import org.totschnig.myexpenses.viewmodel.data.Account;
 
 import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
@@ -65,6 +68,7 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
   private static final int SUM_CURSOR = 6;
 
   private SplitPartsListBinding binding;
+  private SplitPartListViewModel viewModel;
 
   private SplitPartAdapter mAdapter;
   private long transactionSum = 0;
@@ -102,6 +106,7 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
       Icepick.restoreInstanceState(this, savedInstanceState);
     }
     ((MyApplication) requireActivity().getApplication()).getAppComponent().inject(this);
+    viewModel = new ViewModelProvider(this).get(SplitPartListViewModel.class);
   }
 
   @Override
@@ -155,11 +160,23 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
   public boolean onContextItemSelected(android.view.MenuItem item) {
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
     if (item.getItemId() == R.id.DELETE_COMMAND) {
-      ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
-          parentIsTemplate() ? TaskExecutionFragment.TASK_DELETE_TEMPLATES : TaskExecutionFragment.TASK_DELETE_TRANSACTION,
-          new Long[]{info.id},
-          Boolean.FALSE,
-          0);
+      if (parentIsTemplate()) {
+        viewModel.deleteTemplates(new long[]{info.id}, false).observe(getViewLifecycleOwner(), result -> {
+          final BaseActivity activity = (BaseActivity) requireActivity();
+          if (result > 0) {
+            activity.showSnackbar(activity.getResources().getQuantityString(R.plurals.delete_success, result, result));
+          } else {
+            activity.showDeleteFailureFeedback();
+          }
+        });
+      } else {
+        //TODO
+        ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
+            TaskExecutionFragment.TASK_DELETE_TRANSACTION,
+            new Long[]{info.id},
+            Boolean.FALSE,
+            0);
+      }
       return true;
     }
     return super.onContextItemSelected(item);
