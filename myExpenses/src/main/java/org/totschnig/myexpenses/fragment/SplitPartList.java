@@ -218,7 +218,11 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
     if (unsplitAmount == null)
       return;
     unsplitAmount = new Money(unsplitAmount.getCurrencyUnit(), unsplitAmount.getAmountMinor() - transactionSum);
-    binding.end.setText(currencyFormatter.formatCurrency(unsplitAmount));
+    binding.end.setText(unsplitAmountFormatted());
+  }
+
+  public String unsplitAmountFormatted() {
+    return currencyFormatter.formatCurrency(unsplitAmount);
   }
 
   public boolean splitComplete() {
