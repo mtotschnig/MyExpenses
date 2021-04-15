@@ -27,12 +27,16 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AbsListView
 import android.widget.AdapterView
 import android.widget.AdapterView.AdapterContextMenuInfo
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.ArrayAdapter
-import android.widget.ListView
 import androidx.lifecycle.ViewModelProvider
+import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
+import eltos.simpledialogfragment.form.Hint
+import eltos.simpledialogfragment.form.SimpleFormDialog
+import eltos.simpledialogfragment.form.Spinner
 import eltos.simpledialogfragment.input.SimpleInputDialog
 import icepick.Icepick
 import icepick.State
@@ -40,19 +44,27 @@ import org.totschnig.myexpenses.ACTION_MANAGE
 import org.totschnig.myexpenses.ACTION_SELECT_FILTER
 import org.totschnig.myexpenses.ACTION_SELECT_MAPPING
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.activity.ManageParties
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter
+import org.totschnig.myexpenses.databinding.PartiesListBinding
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
+import org.totschnig.myexpenses.util.asTrueSequence
 import org.totschnig.myexpenses.util.configureSearch
 import org.totschnig.myexpenses.util.prepareSearch
 import org.totschnig.myexpenses.viewmodel.PartyListViewModel
 import org.totschnig.myexpenses.viewmodel.data.Party
 import java.util.*
 
-class PartiesList : ContextualActionBarFragment() {
+class PartiesList : ContextualActionBarFragment(), OnDialogResultListener {
     lateinit var mAdapter: ArrayAdapter<Party>
     lateinit var viewModel: PartyListViewModel
+    private var _binding: PartiesListBinding? = null
+
+    // This property is only valid between onCreateView and onDestroyView.
+    private val binding get() = _binding!!
 
     @State
     @JvmField
@@ -64,6 +76,11 @@ class PartiesList : ContextualActionBarFragment() {
         Icepick.restoreInstanceState(this, savedInstanceState)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         Icepick.saveInstanceState(this, outState)
@@ -73,29 +90,34 @@ class PartiesList : ContextualActionBarFragment() {
         return action != ACTION_SELECT_FILTER
     }
 
+    override val menuResource = R.menu.parties_context
+
     override fun dispatchCommandSingle(command: Int, info: ContextMenuInfo?): Boolean {
         if (super.dispatchCommandSingle(command, info)) {
             return true
         }
-        val menuInfo = info as AdapterContextMenuInfo?
-        val party = mAdapter.getItem(menuInfo!!.position)
-        if (command == R.id.EDIT_COMMAND) {
-            val args = Bundle()
-            args.putLong(DatabaseConstants.KEY_ROWID, menuInfo.id)
-            SimpleInputDialog.build()
-                    .title(R.string.menu_edit_party)
-                    .cancelable(false)
-                    .inputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
-                    .hint(R.string.label)
-                    .text(party!!.name)
-                    .pos(R.string.menu_save)
-                    .neut()
-                    .extra(args)
-                    .show(this, DIALOG_EDIT_PARTY)
-            return true
-        } else if (command == R.id.SELECT_COMMAND) {
-            doSingleSelection(party)
-            finishActionMode()
+        val menuInfo = info as AdapterContextMenuInfo
+        mAdapter.getItem(menuInfo.position)?.let { party ->
+            when (command) {
+                R.id.EDIT_COMMAND -> {
+                    SimpleInputDialog.build()
+                            .title(R.string.menu_edit_party)
+                            .cancelable(false)
+                            .inputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
+                            .hint(R.string.label)
+                            .text(party.name)
+                            .pos(R.string.menu_save)
+                            .neut()
+                            .extra(Bundle().apply {
+                                putLong(DatabaseConstants.KEY_ROWID, menuInfo.id)
+                            })
+                            .show(this, DIALOG_EDIT_PARTY)
+                }
+                R.id.SELECT_COMMAND -> {
+                    doSingleSelection(party)
+                    finishActionMode()
+                }
+            }
             return true
         }
         return false
@@ -107,74 +129,87 @@ class PartiesList : ContextualActionBarFragment() {
             return true
         }
         val activity = requireActivity() as ProtectedFragmentActivity
-        if (command == R.id.DELETE_COMMAND) {
-            var hasMappedTransactionsCount = 0
-            var hasMappedTemplatesCount = 0
-            val idList = mutableListOf<Long>()
-            for (i in 0 until positions.size()) {
-                if (positions.valueAt(i)) {
-                    var deletable = true
-                    mAdapter.getItem(positions.keyAt(i))?.let {
-                        if (it.mappedTransactions) {
-                            hasMappedTransactionsCount++
-                            deletable = false
-                        }
-                        if (it.mappedTemplates) {
-                            hasMappedTemplatesCount++
-                            deletable = false
-                        }
-                        if (deletable) {
-                            idList.add(it.id)
-                        }
-                    }
-                }
+        return when (command) {
+            R.id.MERGE_COMMAND -> {
+                val selected = with(positions.asTrueSequence().iterator()) { Array(itemIds.size) { (mAdapter.getItem(next()) as Party).name } }
+                SimpleFormDialog.build()
+                        .fields(
+                                Hint.plain(R.string.merge_parties_select),
+                                Spinner.plain(KEY_PAYEEID).items(*selected).required().preset(0))
+                        .autofocus(false)
+                        .show(this, DIALOG_MERGE_PARTY)
+                true
             }
-            if (idList.isNotEmpty()) {
-                activity.showSnackbar(R.string.progress_dialog_deleting)
-                viewModel.deleteParties(idList).observe(viewLifecycleOwner) { result ->
-                    result.onSuccess {
-                        activity.showSnackbar(activity.resources.getQuantityString(R.plurals.delete_success, it, it))
-                    }.onFailure {
-                        activity.showDeleteFailureFeedback()
-                    }
-                }
-            }
-            if (hasMappedTransactionsCount > 0 || hasMappedTemplatesCount > 0) {
-                var message = ""
-                if (hasMappedTransactionsCount > 0) {
-                    message += resources.getQuantityString(
-                            R.plurals.not_deletable_mapped_transactions,
-                            hasMappedTransactionsCount,
-                            hasMappedTransactionsCount)
-                }
-                if (hasMappedTemplatesCount > 0) {
-                    message += resources.getQuantityString(
-                            R.plurals.not_deletable_mapped_templates,
-                            hasMappedTemplatesCount,
-                            hasMappedTemplatesCount)
-                }
-                activity.showSnackbar(message)
-            }
-            return true
-        } else if (command == R.id.SELECT_COMMAND_MULTIPLE) {
-            if (itemIds.size == 1 || itemIds.contains(CategoryTreeBaseAdapter.NULL_ITEM_ID)) {
-                val labelList = ArrayList<String?>()
+            R.id.DELETE_COMMAND -> {
+                var hasMappedTransactionsCount = 0
+                var hasMappedTemplatesCount = 0
+                val idList = mutableListOf<Long>()
                 for (i in 0 until positions.size()) {
                     if (positions.valueAt(i)) {
-                        mAdapter.getItem(positions.keyAt(i))?.let { labelList.add(it.name) }
+                        var deletable = true
+                        mAdapter.getItem(positions.keyAt(i))?.let {
+                            if (it.mappedTransactions) {
+                                hasMappedTransactionsCount++
+                                deletable = false
+                            }
+                            if (it.mappedTemplates) {
+                                hasMappedTemplatesCount++
+                                deletable = false
+                            }
+                            if (deletable) {
+                                idList.add(it.id)
+                            }
+                        }
                     }
                 }
-                val intent = Intent()
-                intent.putExtra(DatabaseConstants.KEY_PAYEEID, itemIds)
-                intent.putExtra(DatabaseConstants.KEY_LABEL, TextUtils.join(",", labelList))
-                activity.setResult(Activity.RESULT_FIRST_USER, intent)
-                activity.finish()
-            } else {
-                activity.showSnackbar(R.string.unmapped_filter_only_single)
+                if (idList.isNotEmpty()) {
+                    activity.showSnackbar(R.string.progress_dialog_deleting)
+                    viewModel.deleteParties(idList).observe(viewLifecycleOwner) { result ->
+                        result.onSuccess {
+                            activity.showSnackbar(activity.resources.getQuantityString(R.plurals.delete_success, it, it))
+                        }.onFailure {
+                            activity.showDeleteFailureFeedback()
+                        }
+                    }
+                }
+                if (hasMappedTransactionsCount > 0 || hasMappedTemplatesCount > 0) {
+                    var message = ""
+                    if (hasMappedTransactionsCount > 0) {
+                        message += resources.getQuantityString(
+                                R.plurals.not_deletable_mapped_transactions,
+                                hasMappedTransactionsCount,
+                                hasMappedTransactionsCount)
+                    }
+                    if (hasMappedTemplatesCount > 0) {
+                        message += resources.getQuantityString(
+                                R.plurals.not_deletable_mapped_templates,
+                                hasMappedTemplatesCount,
+                                hasMappedTemplatesCount)
+                    }
+                    activity.showSnackbar(message)
+                }
+                true
             }
-            return true
+            R.id.SELECT_COMMAND_MULTIPLE -> {
+                if (itemIds.size == 1 || itemIds.contains(CategoryTreeBaseAdapter.NULL_ITEM_ID)) {
+                    val labelList = ArrayList<String?>()
+                    for (i in 0 until positions.size()) {
+                        if (positions.valueAt(i)) {
+                            mAdapter.getItem(positions.keyAt(i))?.let { labelList.add(it.name) }
+                        }
+                    }
+                    val intent = Intent()
+                    intent.putExtra(KEY_PAYEEID, itemIds)
+                    intent.putExtra(DatabaseConstants.KEY_LABEL, TextUtils.join(",", labelList))
+                    activity.setResult(Activity.RESULT_FIRST_USER, intent)
+                    activity.finish()
+                } else {
+                    activity.showSnackbar(R.string.unmapped_filter_only_single)
+                }
+                true
+            }
+            else -> false
         }
-        return false
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -208,20 +243,19 @@ class PartiesList : ContextualActionBarFragment() {
     private fun doSingleSelection(party: Party?) {
         val ctx: Activity? = activity
         val intent = Intent()
-        intent.putExtra(DatabaseConstants.KEY_PAYEEID, party!!.id)
+        intent.putExtra(KEY_PAYEEID, party!!.id)
         intent.putExtra(DatabaseConstants.KEY_LABEL, party.name)
         ctx!!.setResult(Activity.RESULT_OK, intent)
         ctx.finish()
     }
 
     @SuppressLint("InlinedApi")
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val v = inflater.inflate(R.layout.parties_list, container, false)
-        val lv = v.findViewById<ListView>(R.id.list)
-        lv.itemsCanFocus = false
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        _binding = PartiesListBinding.inflate(inflater, container, false)
+        binding.list.itemsCanFocus = false
         val action = action
         if (action != ACTION_MANAGE) {
-            lv.onItemClickListener = OnItemClickListener { _: AdapterView<*>?, _: View?, position: Int, _: Long -> doSingleSelection(mAdapter.getItem(position)) }
+            binding.list.onItemClickListener = OnItemClickListener { _: AdapterView<*>?, _: View?, position: Int, _: Long -> doSingleSelection(mAdapter.getItem(position)) }
         }
         mAdapter = object : ArrayAdapter<Party>(requireContext(), android.R.layout.simple_list_item_activated_1) {
             override fun hasStableIds(): Boolean {
@@ -233,9 +267,9 @@ class PartiesList : ContextualActionBarFragment() {
                 return if (position < count) getItem(position)!!.id else -1
             }
         }
-        lv.adapter = mAdapter
-        lv.emptyView = v.findViewById(R.id.empty)
-        registerForContextualActionBar(lv)
+        binding.list.adapter = mAdapter
+        binding.list.emptyView = binding.empty
+        registerForContextualActionBar(binding.list)
         viewModel.getParties().observe(viewLifecycleOwner, { parties: List<Party> ->
             with(mAdapter) {
                 setNotifyOnChange(false)
@@ -248,7 +282,12 @@ class PartiesList : ContextualActionBarFragment() {
             }
         })
         loadData()
-        return v
+        return binding.root
+    }
+
+    override fun configureMenu(menu: Menu, lv: AbsListView) {
+        super.configureMenu(menu, lv)
+        menu.findItem(R.id.MERGE_COMMAND).isVisible = lv.checkedItemCount >= 2
     }
 
     override fun inflateContextualActionBar(menu: Menu, listId: Int) {
@@ -272,5 +311,13 @@ class PartiesList : ContextualActionBarFragment() {
 
     companion object {
         const val DIALOG_EDIT_PARTY = "dialogEditParty"
+        const val DIALOG_MERGE_PARTY = "dialogMergeParty"
     }
+
+    override fun onResult(dialogTag: String, which: Int, extras: Bundle) =
+            if (dialogTag == DIALOG_MERGE_PARTY && which == OnDialogResultListener.BUTTON_POSITIVE) {
+                val selected = mAdapter.getItem(binding.list.checkedItemPositions.asTrueSequence().elementAt(extras.getInt(KEY_PAYEEID))) as Party
+                (activity as? BaseActivity)?.showSnackbar(selected.name)
+                true
+            } else false
 }

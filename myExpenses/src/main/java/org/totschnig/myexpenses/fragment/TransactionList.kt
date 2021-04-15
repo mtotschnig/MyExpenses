@@ -24,6 +24,7 @@ import org.totschnig.myexpenses.activity.MyExpenses
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_SAME_CURRENCY
+import org.totschnig.myexpenses.util.asTrueSequence
 import org.totschnig.myexpenses.viewmodel.data.Tag
 
 const val KEY_REPLACE = "replace"
@@ -144,7 +145,7 @@ class TransactionList : BaseTransactionList() {
             }
         }
         if (lv.checkedItemCount == 2 && !hasSplit && !hasTransfer) {
-            val checked = checkedItemPositions.keyIterator().asSequence().filter { checkedItemPositions.get(it) }.toList()
+            val checked = checkedItemPositions.asTrueSequence().toList()
             canLinkAsTransfer = checked.size == 2 && canLinkPositions(checked[0], checked[1])
         }
 

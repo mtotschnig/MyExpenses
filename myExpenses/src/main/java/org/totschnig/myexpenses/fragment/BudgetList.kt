@@ -134,13 +134,13 @@ class BudgetList : Fragment(), SimpleDialog.OnDialogResultListener {
                     }
                     budgetSummary.bind(budget, -spent, currencyFormatter)
                     budgetSummary.setOnBudgetClickListener {
-                        val bundle = Bundle(2)
-                        bundle.putSerializable(KEY_CURRENCY, budget.currency)
-                        bundle.putLong(KEY_ROWID, budget.id)
                         SimpleFormDialog.build()
                                 .title(getString(R.string.dialog_title_edit_budget))
                                 .neg()
-                                .extra(bundle)
+                                .extra(Bundle(2).apply {
+                                    putSerializable(KEY_CURRENCY, budget.currency)
+                                    putLong(KEY_ROWID, budget.id)
+                                })
                                 .fields(buildAmountField(budget.amount, context))
                                 .show(this@BudgetList, EDIT_BUDGET_DIALOG)
                     }
