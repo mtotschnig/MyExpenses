@@ -131,6 +131,21 @@
                 <TableRow>
 
                     <TextView
+                        android:id="@+id/active_tag_label"
+                        style="@style/FormLabel"
+                        android:text="@string/active_tag" />
+
+                    <EditText
+                        android:id="@+id/active_tag"
+                        style="@style/FormField"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapSentences" />
+                    
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
                         android:id="@+id/SyncLabel"
                         style="@style/FormLabel"
                         android:labelFor="@+id/Sync"
