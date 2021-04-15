@@ -120,6 +120,7 @@ public class DatabaseConstants {
   public static final String KEY_COLOR = "color";
   public static final String KEY_TYPE = "type";
   public static final String KEY_CURRENCY = "currency";
+  public static final String KEY_ACTIVETAG = "activetag";
   public static final String KEY_DESCRIPTION = "description";
   public static final String KEY_OPENING_BALANCE = "opening_balance";
   public static final String KEY_USAGES = "usages";
@@ -293,6 +294,7 @@ public class DatabaseConstants {
   static final String TABLE_ACCOUNT_EXCHANGE_RATES = "account_exchangerates";
   static final String TABLE_TAGS = "tags";
   public static final String TABLE_TRANSACTIONS_TAGS = "transactions_tags";
+  public static final String TABLE_ACCOUNT_TAGS = "account_tags";
   public static final String TABLE_TEMPLATES_TAGS = "templates_tags";
   /**
    * used on backup and restore
