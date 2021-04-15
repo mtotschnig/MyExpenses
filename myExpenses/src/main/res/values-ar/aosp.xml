@@ -6,6 +6,7 @@
 <resources>
     <string name="drawer_open">"فتح ساحب التنقل"</string>
     <string name="drawer_close">"إغلاق ساحب التنقل"</string>
+    <string name="saving">"جارٍ الحفظ..."</string>
     <string name="toast_text_copied">"تم نسخ النص"</string>
     <string name="copy_text">"نسخ إلى الحافظة"</string>
     <string name="stop">"إيقاف"</string>

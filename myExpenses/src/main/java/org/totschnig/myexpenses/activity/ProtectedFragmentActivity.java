@@ -545,7 +545,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   public void onPostExecute(int taskId, @Nullable Object o) {
     removeAsyncTaskFragment(shouldKeepProgress(taskId));
     switch (taskId) {
-      case TaskExecutionFragment.TASK_DELETE_TRANSACTION:
       case TaskExecutionFragment.TASK_DELETE_ACCOUNT:
       case TaskExecutionFragment.TASK_DELETE_PAYMENT_METHODS:
       case TaskExecutionFragment.TASK_DELETE_CATEGORY: {
@@ -672,7 +671,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   public void startDbWriteTask() {
     getSupportFragmentManager().beginTransaction()
         .add(DbWriteFragment.newInstance(), SAVE_TAG)
-        .add(ProgressDialogFragment.newInstance(getString(R.string.progress_dialog_saving)),
+        .add(ProgressDialogFragment.newInstance(getString(R.string.saving)),
             PROGRESS_TAG)
         .commitAllowingStateLoss();
   }

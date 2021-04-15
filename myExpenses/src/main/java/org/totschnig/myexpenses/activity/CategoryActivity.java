@@ -112,7 +112,7 @@ public abstract class CategoryActivity<T extends AbstractCategoryList<?>> extend
           TaskExecutionFragment.TASK_CATEGORY_COLOR,
           new Long[]{extras.getLong(KEY_ROWID)},
           extras.getInt(SimpleColorDialog.COLOR),
-          R.string.progress_dialog_saving);
+          R.string.saving);
       finishActionMode();
       return true;
     }

@@ -205,11 +205,11 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_METHODS
 import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_PAYEES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_TAGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.KEY_LONG_IDS;
 import static org.totschnig.myexpenses.util.ColorUtils.getComplementColor;
 import static org.totschnig.myexpenses.util.DateUtilsKt.localDateTime2Epoch;
 import static org.totschnig.myexpenses.util.MoreUiUtilsKt.addChipsBulk;
 import static org.totschnig.myexpenses.util.TextUtils.concatResStrings;
+import static org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModelKt.KEY_ROW_IDS;
 
 public abstract class BaseTransactionList extends ContextualActionBarFragment implements
     LoaderManager.LoaderCallbacks<Cursor>, OnHeaderClickListener, SimpleDialog.OnDialogResultListener {
@@ -504,7 +504,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
           b.putInt(ConfirmationDialogFragment.KEY_CHECKBOX_LABEL,
               R.string.mark_void_instead_of_delete);
         }
-        b.putLongArray(TaskExecutionFragment.KEY_OBJECT_IDS, itemIds);
+        b.putLongArray(KEY_ROW_IDS, itemIds);
         ConfirmationDialogFragment.newInstance(b).show(fm, "DELETE_TRANSACTION");
       });
       return true;
@@ -517,7 +517,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         b.putInt(KEY_COMMAND_POSITIVE, R.id.UNGROUP_SPLIT_COMMAND);
         b.putInt(KEY_COMMAND_NEGATIVE, R.id.CANCEL_CALLBACK_COMMAND);
         b.putInt(KEY_POSITIVE_BUTTON_LABEL, R.string.menu_ungroup_split_transaction);
-        b.putLongArray(KEY_LONG_IDS, itemIds);
+        b.putLongArray(TaskExecutionFragment.KEY_LONG_IDS, itemIds);
         ConfirmationDialogFragment.newInstance(b).show(fm, "UNSPLIT_TRANSACTION");
       });
       return true;
@@ -603,8 +603,8 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         b.putInt(KEY_COMMAND_POSITIVE, R.id.LINK_TRANSFER_COMMAND);
         b.putInt(KEY_COMMAND_NEGATIVE, R.id.CANCEL_CALLBACK_COMMAND);
         b.putInt(KEY_POSITIVE_BUTTON_LABEL, R.string.menu_create_transfer);
-        b.putLongArray(KEY_LONG_IDS, itemIds);
-        ConfirmationDialogFragment.newInstance(b).show(fm, "UNSPLIT_TRANSACTION");
+        b.putLongArray(KEY_ROW_IDS, itemIds);
+        ConfirmationDialogFragment.newInstance(b).show(fm, "LINK_TRANSFER");
       });
       return true;
     }
@@ -1636,7 +1636,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     if (column == null) return;
     if (shouldClone) {
       final ProgressDialogFragment progressDialog = ProgressDialogFragment.newInstance(
-          getString(R.string.progress_dialog_saving), null, ProgressDialog.STYLE_HORIZONTAL, false);
+          getString(R.string.saving), null, ProgressDialog.STYLE_HORIZONTAL, false);
       progressDialog.setMax(checkedItemIds.length);
       getParentFragmentManager()
           .beginTransaction()

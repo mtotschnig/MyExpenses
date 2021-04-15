@@ -1,4 +1,5 @@
 <resources>
     <string name="discard">"Rejeitar"</string>
     <string name="dialog_dismiss">"Ignorar"</string>
+    <string name="saving">"A guardar..."</string>
 </resources>

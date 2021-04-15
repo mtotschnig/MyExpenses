@@ -35,7 +35,6 @@ import org.totschnig.myexpenses.adapter.SplitPartAdapter;
 import org.totschnig.myexpenses.databinding.SplitPartsListBinding;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.util.Utils;
@@ -46,6 +45,7 @@ import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
@@ -160,22 +160,18 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
   public boolean onContextItemSelected(android.view.MenuItem item) {
     AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
     if (item.getItemId() == R.id.DELETE_COMMAND) {
+      final Observer<Integer> resultObserver = result -> {
+        final BaseActivity activity = (BaseActivity) requireActivity();
+        if (result > 0) {
+          activity.showSnackbar(activity.getResources().getQuantityString(R.plurals.delete_success, result, result));
+        } else {
+          activity.showDeleteFailureFeedback();
+        }
+      };
       if (parentIsTemplate()) {
-        viewModel.deleteTemplates(new long[]{info.id}, false).observe(getViewLifecycleOwner(), result -> {
-          final BaseActivity activity = (BaseActivity) requireActivity();
-          if (result > 0) {
-            activity.showSnackbar(activity.getResources().getQuantityString(R.plurals.delete_success, result, result));
-          } else {
-            activity.showDeleteFailureFeedback();
-          }
-        });
+        viewModel.deleteTemplates(new long[]{info.id}, false).observe(getViewLifecycleOwner(), resultObserver);
       } else {
-        //TODO
-        ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
-            TaskExecutionFragment.TASK_DELETE_TRANSACTION,
-            new Long[]{info.id},
-            Boolean.FALSE,
-            0);
+        viewModel.deleteTransactions(new long[]{info.id}, false).observe(getViewLifecycleOwner(), resultObserver);
       }
       return true;
     }

@@ -7,6 +7,7 @@
 <resources>
     <string name="drawer_open">"Åbn navigationsskuffen"</string>
     <string name="drawer_close">"Luk navigationsskuffen"</string>
+    <string name="saving">"Gemmer..."</string>
     <string name="toast_text_copied">"Kopieret tekst"</string>
     <string name="copy_text">"Kopier til udklipsholder"</string>
     <string name="stop">"Stop"</string>

@@ -19,12 +19,15 @@ import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Account.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.model.Template
+import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.ui.ContextHelper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.AccountMinimal
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+
+const val KEY_ROW_IDS = "rowIds"
 
 abstract class ContentResolvingAndroidViewModel(application: Application) : AndroidViewModel(application) {
     @Inject
@@ -107,6 +110,19 @@ abstract class ContentResolvingAndroidViewModel(application: Application) : Andr
         emit(ids.sumBy {
             try {
                 Template.delete(it, deletePlan)
+                1
+            } catch (e: SQLiteConstraintException) {
+                CrashHandler.reportWithDbSchema(e)
+                0
+            }
+        })
+    }
+
+
+    fun deleteTransactions(ids: LongArray, markAsVoid: Boolean): LiveData<Int> = liveData(context = coroutineContext()) {
+        emit(ids.sumBy {
+            try {
+                Transaction.delete(it, markAsVoid)
                 1
             } catch (e: SQLiteConstraintException) {
                 CrashHandler.reportWithDbSchema(e)

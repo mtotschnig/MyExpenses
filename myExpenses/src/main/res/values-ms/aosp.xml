@@ -4,15 +4,12 @@
      Licensed to The Android Open Source Project.
 -->
 <resources>
-    <!-- packages/apps/UnifiedEmail/res/values/strings.xml -->
     <string name="drawer_open">"Buka laci navigasi"</string>
     <string name="drawer_close">"Tutup laci navigasi"</string>
-    <!-- packages/apps/Contacts/res/values/strings.xml -->
+    <string name="saving">"Menyimpan…"</string>
     <string name="toast_text_copied">Teks disalin</string>
     <string name="copy_text">Salin ke papan keratan</string>
-    <!--  packages/apps/DeskClock/res/values/strings.xml -->
     <string name="stop">Berhenti</string>
-    <!-- packages/apps/Settings/res/values/strings.xml -->
     <string name="no_network">Tiada sambungan rangkaian.</string>
     <string name="button_label_continue">Teruskan</string>
     <string name="autofill">"Autolengkap"</string>

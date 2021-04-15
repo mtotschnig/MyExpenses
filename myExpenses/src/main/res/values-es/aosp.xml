@@ -6,6 +6,7 @@
 <resources>
     <string name="drawer_open">"Abrir control de navegación"</string>
     <string name="drawer_close">"Cerrar control de navegación"</string>
+    <string name="saving">"Guardando…"</string>
     <string name="toast_text_copied">"Texto copiado"</string>
     <string name="copy_text">"Copiar en el portapapeles"</string>
     <string name="stop">"Detener"</string>

@@ -7,6 +7,7 @@
 <resources>
     <string name="drawer_open">"ナビゲーションドロワーを開く"</string>
     <string name="drawer_close">"ナビゲーションドロワーを閉じる"</string>
+    <string name="saving">"保存中…"</string>
     <string name="toast_text_copied">"テキストをコピーしました"</string>
     <string name="copy_text">"クリップボードにコピー"</string>
     <string name="stop">"停止"</string>

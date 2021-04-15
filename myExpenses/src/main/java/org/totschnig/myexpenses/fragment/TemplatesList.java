@@ -350,9 +350,10 @@ public class TemplatesList extends SortableListFragment
     ((ProtectedFragmentActivity) getActivity()).contribFeatureRequested(ContribFeature.SPLIT_TRANSACTION, tag);
   }
 
-  public void dispatchCreateInstanceSaveDo(long[] itemIds, Long[][] extra) {
-    //TODO
-    //dispatchTask(TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE, itemIds, extra);
+  public void dispatchCreateInstanceSaveDo(long[] itemIds, Long[][] extraInfo) {
+    viewModel.newFromTemplate(itemIds, extraInfo).observe(getViewLifecycleOwner(), successCount ->
+        showSnackbar(successCount == 0 ? getString(R.string.save_transaction_error) :
+            getResources().getQuantityString(R.plurals.save_transaction_from_template_success, successCount, successCount)));
   }
 
   public void dispatchTask(int taskId, Long[] itemIds, Long[][] extra) {

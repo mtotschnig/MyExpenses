@@ -7,6 +7,7 @@
 <resources>
     <string name="drawer_open">"வழிசெலுத்தல் டிராயரைத் திற"</string>
     <string name="drawer_close">"வழிசெலுத்தல் டிராயரை மூடு"</string>
+    <string name="saving">"சேமிக்கிறது…"</string>
     <string name="toast_text_copied">"உரை நகலெடுக்கப்பட்டது"</string>
     <string name="copy_text">"கிளிப்போர்டுக்கு நகலெடு"</string>
     <string name="stop">"நிறுத்து"</string>

@@ -25,7 +25,6 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.fragment.TemplatesList;
 import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.PermissionHelper;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
@@ -121,17 +120,6 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
     } else {
       // Stay in same task
       NavUtils.navigateUpTo(this, upIntent);
-    }
-  }
-
-  @Override
-  public void onPostExecute(int taskId, Object o) {
-    super.onPostExecute(taskId, o);
-    if (taskId == TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE) {
-      Integer successCount = (Integer) o;
-      String msg = successCount == 0 ? getString(R.string.save_transaction_error) :
-          getResources().getQuantityString(R.plurals.save_transaction_from_template_success, successCount, successCount);
-      mListFragment.showSnackbar(msg);
     }
   }
 

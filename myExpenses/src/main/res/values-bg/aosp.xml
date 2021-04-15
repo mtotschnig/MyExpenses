@@ -7,6 +7,7 @@
 <resources>
     <string name="drawer_open">"Отваряне на слоя за навигация"</string>
     <string name="drawer_close">"Затваряне на чекмеджето за навигация"</string>
+    <string name="saving">"Запазва се…"</string>
     <string name="toast_text_copied">"Текстът бе копиран"</string>
     <string name="copy_text">"Копиране в буфера"</string>
     <string name="stop">"Спиране"</string>
