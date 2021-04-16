@@ -350,7 +350,6 @@
     <string name="progress_dialog_deleting">Memadam objek</string>
     <string name="progress_dialog_loading">Memuatkan objek dari pangkalan data</string>
     <string name="progress_dialog_printing">Menjana PDF</string>
-    <string name="progress_dialog_saving">Menyimpan objek ke pangkalan data</string>
     <string name="qif_parse_result">Dihurai: %1$s akaun; %2$s kategori dan %3$s pihak</string>
     <string name="qif_parse_failure_found_multiple_accounts">Akaun berbilang ditemui dalam fail QIF.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Tidak dapat gabung ia ke dalam akaun sedia ada.</string>

@@ -361,7 +361,6 @@
     <string name="progress_dialog_deleting">מחיקת אובייקטים</string>
     <string name="progress_dialog_loading">טוען אובייקט ממסד הנתונים</string>
     <string name="progress_dialog_printing">מיצר קובץ PDF</string>
-    <string name="progress_dialog_saving">שומר אובייקט למסד הנתונים</string>
     <string name="qif_parse_result">מנותח:%1$sחשבונות; %2$s קטגוריות %3$sוחלקים</string>
     <string name="qif_parse_failure_found_multiple_accounts">נמצאו מספר חשבונות בקובץ QIF.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">לא ניתן למזג אותם בחשבון קיים.</string>

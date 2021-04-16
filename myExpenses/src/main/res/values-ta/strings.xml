@@ -355,7 +355,6 @@
     <string name="progress_dialog_deleting">பொருட்கள் நீக்கப்படுகிறது</string>
     <string name="progress_dialog_loading">தரவுத்தளத்திலிருந்து பொருளை ஏற்றுகிறது</string>
     <string name="progress_dialog_printing">PDF உருவாக்கப்படுகிறது</string>
-    <string name="progress_dialog_saving">தரவுத்தளத்திற்கு பொருளை சேமிக்கிறது</string>
     <string name="qif_parse_result">பாகுபடுத்தப்பட்டவை: %1$s கணக்குகள்; %2$s வகைகள் மற்றும் %3$s தரப்புகள்</string>
     <string name="qif_parse_failure_found_multiple_accounts">QIF கோப்பில் பல கணக்குகள் கண்டுபிடிக்கப்பட்டன.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">ஏற்கனவே உள்ள கணக்குடன் அவற்றை ஒன்றிணைக்க முடியாது.</string>

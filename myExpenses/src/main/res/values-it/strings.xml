@@ -355,7 +355,6 @@
     <string name="progress_dialog_deleting">Cancellazione di oggetti</string>
     <string name="progress_dialog_loading">Caricamento di oggetti dal database</string>
     <string name="progress_dialog_printing">Creazione di PDF</string>
-    <string name="progress_dialog_saving">Salvando oggetto al database</string>
     <string name="qif_parse_result">Esito dell\'analisi: %1$s conti. %2$s categorie e %3$s beneficiari</string>
     <string name="qif_parse_failure_found_multiple_accounts">Più conti sono stati trovati nel file QIF.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Non è possibile unirli nel conto esistente.</string>
@@ -982,4 +981,4 @@
     <string name="account_widget_configuration_sum_total">Includi transazioni future</string>
     <!-- Title of dialogue that allows to configure account widget -->
     <string name="account_widget_configuration">Configurazione del widget del conto</string>
-</resources>
+    </resources>

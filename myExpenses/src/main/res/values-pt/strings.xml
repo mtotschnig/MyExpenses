@@ -355,7 +355,6 @@
     <string name="progress_dialog_deleting">Excluindo objetos</string>
     <string name="progress_dialog_loading">Carregando objeto do banco de dados</string>
     <string name="progress_dialog_printing">Gerando PDF</string>
-    <string name="progress_dialog_saving">Salvando objeto no banco de dados</string>
     <string name="qif_parse_result">Analisada: %1$s contas, %2$s categorias e %3$s parceiros</string>
     <string name="qif_parse_failure_found_multiple_accounts">Foram encontradas várias contas no arquivo QIF.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Não é possível mesclá-las na conta atual.</string>
@@ -982,4 +981,4 @@
     <string name="account_widget_configuration_sum_total">Incluir transações futuras</string>
     <!-- Title of dialogue that allows to configure account widget -->
     <string name="account_widget_configuration">Configuração do widget de conta</string>
-</resources>
+    </resources>

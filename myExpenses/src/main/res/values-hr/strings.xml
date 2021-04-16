@@ -309,7 +309,6 @@
     <string name="progress_dialog_deleting">Brisanje stavki</string>
     <string name="progress_dialog_loading">Učitavanje stavki iz baze podataka</string>
     <string name="progress_dialog_printing">Generiranje PDF-a</string>
-    <string name="progress_dialog_saving">Spremanje stavki u bazu podataka</string>
     <string name="qif_parse_result">Analizirano: %1$s računa; %2$s kategorija i %3$s stranki</string>
     <string name="qif_parse_failure_found_multiple_accounts">Pronađeno je više računa u QIF datoteci.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Nemoguće spojiti s postojećim računom.</string>

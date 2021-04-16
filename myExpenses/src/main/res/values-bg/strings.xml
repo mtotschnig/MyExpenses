@@ -355,7 +355,6 @@
     <string name="progress_dialog_deleting">Изтриване на обекти</string>
     <string name="progress_dialog_loading">Зареждане обекти от база данни</string>
     <string name="progress_dialog_printing">Генериране на PDF</string>
-    <string name="progress_dialog_saving">Записване на обект в база данни</string>
     <string name="qif_parse_result">Анализирани: %1$s сметки; %2$s категории и %3$s страни</string>
     <string name="qif_parse_failure_found_multiple_accounts">Открити са множество сметки в QIF файла.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Не могат да бъдат обединени в съществуваща сметка.</string>
@@ -982,4 +981,4 @@
     <string name="account_widget_configuration_sum_total">Включи бъдещи транзакции</string>
     <!-- Title of dialogue that allows to configure account widget -->
     <string name="account_widget_configuration">Конфигуриране на уйджет за сметка</string>
-</resources>
+    </resources>

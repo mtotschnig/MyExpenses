@@ -355,7 +355,6 @@
     <string name="progress_dialog_deleting">Nesneler siliniyor</string>
     <string name="progress_dialog_loading">Veritabanından nesne yükleniyor</string>
     <string name="progress_dialog_printing">PDF oluşturuluyor</string>
-    <string name="progress_dialog_saving">Nesne veritabanına kaydediliyor</string>
     <string name="qif_parse_result">Ayrıştırıldı:  %1$s hesap,  %2$s kategori ve %3$s kişi</string>
     <string name="qif_parse_failure_found_multiple_accounts">QIF dosyasında birden çok hesap bulundu.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Bunlar mevcut bir hesapla birleştirilemez.</string>
@@ -982,4 +981,4 @@
     <string name="account_widget_configuration_sum_total">Gelecek muameleleri dahil et</string>
     <!-- Title of dialogue that allows to configure account widget -->
     <string name="account_widget_configuration">Hesap widget\'i yapılandırması</string>
-</resources>
+    </resources>

@@ -355,7 +355,6 @@
     <string name="progress_dialog_deleting">Eliminar objetivos</string>
     <string name="progress_dialog_loading">Cargar objetivo desde base de datos</string>
     <string name="progress_dialog_printing">Generar PDF</string>
-    <string name="progress_dialog_saving">Guardar objetivo en la base de datos</string>
     <string name="qif_parse_result">Analizado: %1$s cuentas, %2$s categorías y %3$s grupos</string>
     <string name="qif_parse_failure_found_multiple_accounts">Se han encontrado varias cuenta en el archivo QIF.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">No se ha podido combinar con la cuenta existente.</string>
@@ -982,4 +981,4 @@
     <string name="account_widget_configuration_sum_total">Incluir transacciones futuras</string>
     <!-- Title of dialogue that allows to configure account widget -->
     <string name="account_widget_configuration">Configuración del widget de cuenta</string>
-</resources>
+    </resources>

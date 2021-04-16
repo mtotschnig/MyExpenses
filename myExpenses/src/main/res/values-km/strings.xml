@@ -281,7 +281,6 @@
     <string name="pref_visit_website_title">សូមចូលទស្សនាគេហទំព័រ</string>
     <string name="progress_dialog_deleting">កំពុងលុប​អ្វីផ្សេងៗ</string>
     <string name="progress_dialog_loading">ផ្ទុកវត្ថុពីមូលដ្ឋានទិន្នន័យ</string>
-    <string name="progress_dialog_saving">កំពុង​ផ្ទុក​ទៅមូលដ្ឋាន​ទិន្នន័យ​</string>
     <string name="reference_number">លេខ​យោង</string>
     <string name="restore_db_failure">ការ​ restore មូលដ្ឋានទិន្នន័យមិនបានសំរេច</string>
     <string name="restore_db_success">មូលដ្ឋានទិន្នន័យត្រូវបានស្តារឡើងវិញពីការបម្រុងទុក។</string>
