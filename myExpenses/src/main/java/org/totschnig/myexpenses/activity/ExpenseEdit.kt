@@ -397,7 +397,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
     }
 
     private fun loadAccounts(fromSavedState: Boolean) {
-        viewModel.getAccounts().observe(this, { accounts ->
+        viewModel.getAccounts().observe(this) { accounts ->
             if (accounts.isEmpty()) {
                 abortWithMessage(getString(R.string.warning_no_account))
             } else if (accounts.size == 1 && operationType == TYPE_TRANSFER) {
@@ -409,7 +409,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
                     if (mIsResumed) setupListeners()
                 }
             }
-        })
+        }
     }
 
     private fun loadCurrencies() {

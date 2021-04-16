@@ -165,8 +165,6 @@ public class Transaction extends AbstractTransaction {
   private Long payeeId = null;
   private String categoryIcon = null;
   private boolean isSealed = false;
-  private boolean isPeriodicTag = false;
-  private Tag periodicTag;
 
   transient private Triple<String, ? extends Plan.Recurrence, LocalDate> initialPlan;
 
@@ -1272,36 +1270,6 @@ public class Transaction extends AbstractTransaction {
 
   public void setPictureUri(Uri pictureUriIn) {
     this.pictureUri = pictureUriIn;
-  }
-
-  @Override
-  public void setPeriodicTag(long Enddate) {
-    if(getDate() < Enddate) {
-      setPeriodicTag(true);
-    } else {
-      setPeriodicTag(false);
-    }
-  }
-
-  @Override
-  public boolean isPeriodicTag() {
-    return isPeriodicTag;
-  }
-
-  @Override
-  public void setPeriodicTag(boolean isPeriodicTag) {
-    this.isPeriodicTag = isPeriodicTag;
-  }
-
-  @NotNull
-  @Override
-  public Tag getPeriodicTag() {
-    return periodicTag;
-  }
-
-  @Override
-  public void setPeriodicTag(@NotNull Tag periodicTag) {
-    this.periodicTag = periodicTag;
   }
 
   public static class ExternalStorageNotAvailableException extends IllegalStateException {
