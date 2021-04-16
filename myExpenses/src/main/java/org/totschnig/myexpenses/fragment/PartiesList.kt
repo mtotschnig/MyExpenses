@@ -316,8 +316,6 @@ class PartiesList : ContextualActionBarFragment(), OnDialogResultListener {
 
     override fun onResult(dialogTag: String, which: Int, extras: Bundle) =
             if (dialogTag == DIALOG_MERGE_PARTY && which == OnDialogResultListener.BUTTON_POSITIVE) {
-                Timber.d("checkedItemIds: %s", binding.list.checkedItemIds.joinToString())
-                Timber.d("checkedItemPositions : %s", binding.list.checkedItemPositions.asTrueSequence().joinToString())
                 val index = extras.getInt(KEY_PAYEEID)
                 val position = binding.list.checkedItemPositions.asTrueSequence().elementAt(index)
                 val selected = mAdapter.getItem(position) as Party

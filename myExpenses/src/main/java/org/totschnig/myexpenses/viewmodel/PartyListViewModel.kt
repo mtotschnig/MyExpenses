@@ -6,9 +6,12 @@ import android.text.TextUtils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import org.jetbrains.annotations.Nullable
 import org.totschnig.myexpenses.dialog.select.SelectFromMappedTableDialogFragment
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES
@@ -19,6 +22,7 @@ import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.replace
 import org.totschnig.myexpenses.viewmodel.data.Party
+import timber.log.Timber
 
 class PartyListViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
     private val parties = MutableLiveData<List<Party>>()
@@ -62,29 +66,56 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
     }
 
     private fun updatePartyFilters(old: Set<Long>, new: Long) {
-        contentResolver.query(TransactionProvider.ACCOUNTS_MINIMAL_URI, null, null, null, null)?.use {
-            val payeeFilterKey = TransactionListViewModel.prefNameForCriteria(it.getLong(0)).format(KEY_PAYEEID)
-            val criteria = prefHandler.getString(payeeFilterKey, null)?.let {
-                PayeeCriteria.fromStringExtra(it)
+        contentResolver.query(TransactionProvider.ACCOUNTS_MINIMAL_URI, null, null, null, null)?.use { cursor ->
+            cursor.moveToFirst()
+            while (!cursor.isAfterLast) {
+                val payeeFilterKey = TransactionListViewModel.prefNameForCriteria(cursor.getLong(0)).format(KEY_PAYEEID)
+                val oldPayeeFilterValue = prefHandler.getString(payeeFilterKey, null)
+                val oldCriteria = oldPayeeFilterValue?.let {
+                    PayeeCriteria.fromStringExtra(it)
+                }
+                if (oldCriteria != null) {
+                    val oldSet = oldCriteria.values.map { it.toLong() }.toSet()
+                    val newSet: Set<Long> = oldSet.replace(old, new)
+                    if (oldSet != newSet) {
+                        val labelList = mutableListOf<String>()
+                        contentResolver.query(TransactionProvider.PAYEES_URI, arrayOf(KEY_PAYEE_NAME),
+                                "$KEY_ROWID ${WhereFilter.Operation.IN.getOp(newSet.size)}",
+                                newSet.map(Long::toString).toTypedArray(), null)?.use {
+                            it.moveToFirst()
+                            while (!it.isAfterLast) {
+                                labelList.add(it.getString(0))
+                                it.moveToNext()
+                            }
+                        }
+                        val newPayeeFilterValue = PayeeCriteria(labelList.joinToString(","), *newSet.toLongArray()).toStringExtra()
+                        Timber.d("Updating %s (%s -> %s", payeeFilterKey, oldPayeeFilterValue, newPayeeFilterValue)
+                        prefHandler.putString(payeeFilterKey, newPayeeFilterValue)
+                    }
+                }
+                cursor.moveToNext()
             }
-            val newSet = criteria?.values?.map { it.toLong() }?.replace(old, new)
         }
     }
 
     fun mergeParties(itemIds: LongArray, keepId: Long) {
-        check(itemIds.contains(keepId))
+        viewModelScope.launch(context = coroutineContext()) {
+            check(itemIds.contains(keepId))
 
-        val contentValues = ContentValues(1).apply {
-            put(KEY_PAYEEID, keepId)
-        }
-        itemIds.subtract(listOf(keepId)).let {
-            val inOp = WhereFilter.Operation.IN.getOp(it.size)
-            val where = "$KEY_PAYEEID $inOp"
-            val selectionArgs = it.map(Long::toString).toTypedArray()
-            contentResolver.update(TransactionProvider.TRANSACTIONS_URI, contentValues, where, selectionArgs)
-            contentResolver.update(TransactionProvider.TEMPLATES_URI, contentValues, where, selectionArgs)
-            contentResolver.update(TransactionProvider.CHANGES_URI, contentValues, where, selectionArgs)
-            contentResolver.delete(TransactionProvider.PAYEES_URI, "$KEY_ROWID $inOp", selectionArgs)
+            val contentValues = ContentValues(1).apply {
+                put(KEY_PAYEEID, keepId)
+            }
+            itemIds.subtract(listOf(keepId)).let {
+                val inOp = WhereFilter.Operation.IN.getOp(it.size)
+                val where = "$KEY_PAYEEID $inOp"
+                val selectionArgs = it.map(Long::toString).toTypedArray()
+                contentResolver.update(TransactionProvider.TRANSACTIONS_URI, contentValues, where, selectionArgs)
+                contentResolver.update(TransactionProvider.TEMPLATES_URI, contentValues, where, selectionArgs)
+                //TODO Unknown URL
+                //contentResolver.update(TransactionProvider.CHANGES_URI, contentValues, where, selectionArgs)
+                contentResolver.delete(TransactionProvider.PAYEES_URI, "$KEY_ROWID $inOp", selectionArgs)
+                updatePartyFilters(it, keepId)
+            }
         }
     }
 }
