@@ -21,6 +21,9 @@ import org.totschnig.myexpenses.model.Account.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.ui.ContextHelper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -33,10 +36,13 @@ const val KEY_ROW_IDS = "rowIds"
 abstract class ContentResolvingAndroidViewModel(application: Application) : AndroidViewModel(application) {
     @Inject
     lateinit var briteContentResolver: BriteContentResolver
+
     @Inject
     lateinit var coroutineDispatcher: CoroutineDispatcher
+
     @Inject
     lateinit var repository: Repository
+
     @Inject
     lateinit var prefHandler: PrefHandler
 
@@ -56,8 +62,13 @@ abstract class ContentResolvingAndroidViewModel(application: Application) : Andr
         val liveData = MutableLiveData<List<AccountMinimal>>()
         disposable = briteContentResolver.createQuery(TransactionProvider.ACCOUNTS_MINIMAL_URI, null, null, null, null, false)
                 .mapToList { cursor ->
-                    val id = cursor.getLong(0)
-                    AccountMinimal(id, if (id == HOME_AGGREGATE_ID) getApplication<MyApplication>().getString(R.string.grand_total) else cursor.getString(1), cursor.getString(2))
+                    val id = cursor.getLong(cursor.getColumnIndex(KEY_ROWID))
+                    AccountMinimal(id,
+                            if (id == HOME_AGGREGATE_ID)
+                                getApplication<MyApplication>().getString(R.string.grand_total)
+                            else
+                                cursor.getString(cursor.getColumnIndex(KEY_LABEL)),
+                            cursor.getString(cursor.getColumnIndex(KEY_CURRENCY)))
                 }
                 .subscribe {
                     liveData.postValue(it)

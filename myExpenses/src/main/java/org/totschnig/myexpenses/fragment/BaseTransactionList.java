@@ -22,6 +22,7 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
@@ -212,7 +213,8 @@ import static org.totschnig.myexpenses.util.TextUtils.concatResStrings;
 import static org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModelKt.KEY_ROW_IDS;
 
 public abstract class BaseTransactionList extends ContextualActionBarFragment implements
-    LoaderManager.LoaderCallbacks<Cursor>, OnHeaderClickListener, SimpleDialog.OnDialogResultListener {
+    LoaderManager.LoaderCallbacks<Cursor>, OnHeaderClickListener, SimpleDialog.OnDialogResultListener,
+    SharedPreferences.OnSharedPreferenceChangeListener {
 
   public static final String NEW_TEMPLATE_DIALOG = "dialogNewTempl";
   public static final String FILTER_COMMENT_DIALOG = "dialogFilterCom";
@@ -289,6 +291,8 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
   UserLocaleProvider userLocaleProvider;
   @Inject
   LicenceHandler licenceHandler;
+  @Inject
+  SharedPreferences settings;
   FilterPersistence filterPersistence;
 
   @State
@@ -399,6 +403,8 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     }
     configureListView();
     registerForContextualActionBar(binding.list.getWrappedList());
+    configureFilterCard();
+    settings.registerOnSharedPreferenceChangeListener(this);
     return binding.getRoot();
   }
 
@@ -448,12 +454,14 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     }
     if (invalidateMenu) {
       requireActivity().invalidateOptionsMenu();
+      configureFilterCard();
     }
   }
 
   @Override
   public void onDestroyView() {
     listState = binding.list.getWrappedList().onSaveInstanceState();
+    settings.unregisterOnSharedPreferenceChangeListener(this);
     binding = null;
     super.onDestroyView();
   }
@@ -1343,6 +1351,13 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     inflater.inflate(R.menu.grouping, menu);
   }
 
+  private void configureFilterCard() {
+    binding.filterCard.setVisibility(getFilter().isEmpty() ? View.GONE : View.VISIBLE);
+    if (!getFilter().isEmpty()) {
+      addChipsBulk(binding.filter, Stream.of(getFilter().getCriteria()).map(criterion -> criterion.prettyPrint(getContext())).collect(Collectors.toList()), null);
+    }
+  }
+
   @Override
   public void onPrepareOptionsMenu(@NonNull Menu menu) {
     super.onPrepareOptionsMenu(menu);
@@ -1353,12 +1368,8 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     }
     MenuItem searchMenu = menu.findItem(R.id.SEARCH_COMMAND);
     if (searchMenu != null) {
-      binding.filterCard.setVisibility(getFilter().isEmpty() ? View.GONE : View.VISIBLE);
       searchMenu.setChecked(!getFilter().isEmpty());
       MenuUtilsKt.checkMenuIcon(searchMenu);
-      if (!getFilter().isEmpty()) {
-        addChipsBulk(binding.filter, Stream.of(getFilter().getCriteria()).map(criterion -> criterion.prettyPrint(getContext())).collect(Collectors.toList()), null);
-      }
       SubMenu filterMenu = searchMenu.getSubMenu();
       for (int i = 0; i < filterMenu.size(); i++) {
         MenuItem filterItem = filterMenu.getItem(i);
@@ -1596,6 +1607,14 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
       b.putInt(ConfirmationDialogFragment.KEY_CHECKBOX_LABEL, R.string.menu_clone_transaction);
       b.putInt(KEY_COMMAND_POSITIVE, R.id.REMAP_COMMAND);
       ConfirmationDialogFragment.newInstance(b).show(getParentFragmentManager(), REMAP_DIALOG);
+    }
+  }
+
+  @Override
+  public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+    if (key.equals(String.format(Locale.ROOT, prefNameForCriteria(), KEY_PAYEEID))) {
+      filterPersistence = new FilterPersistence(prefHandler, prefNameForCriteria(), null, true, true);
+      refreshAfterFilterChange();
     }
   }
 

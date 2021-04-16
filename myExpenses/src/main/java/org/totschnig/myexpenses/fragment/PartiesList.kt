@@ -287,7 +287,7 @@ class PartiesList : ContextualActionBarFragment(), OnDialogResultListener {
 
     override fun configureMenu(menu: Menu, lv: AbsListView) {
         super.configureMenu(menu, lv)
-        menu.findItem(R.id.MERGE_COMMAND).isVisible = lv.checkedItemCount >= 2
+        menu.findItem(R.id.MERGE_COMMAND).isVisible = action == ACTION_MANAGE && lv.checkedItemCount >= 2
     }
 
     override fun inflateContextualActionBar(menu: Menu, listId: Int) {

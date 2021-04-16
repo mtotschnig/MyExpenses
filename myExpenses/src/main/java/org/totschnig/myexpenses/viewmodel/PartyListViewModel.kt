@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
 import android.content.ContentValues
+import android.database.Cursor
 import android.text.TextUtils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,6 +15,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGETS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -23,6 +25,7 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.replace
 import org.totschnig.myexpenses.viewmodel.data.Party
 import timber.log.Timber
+import java.util.*
 
 class PartyListViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
     private val parties = MutableLiveData<List<Party>>()
@@ -67,34 +70,45 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
 
     private fun updatePartyFilters(old: Set<Long>, new: Long) {
         contentResolver.query(TransactionProvider.ACCOUNTS_MINIMAL_URI, null, null, null, null)?.use { cursor ->
-            cursor.moveToFirst()
-            while (!cursor.isAfterLast) {
-                val payeeFilterKey = TransactionListViewModel.prefNameForCriteria(cursor.getLong(0)).format(KEY_PAYEEID)
-                val oldPayeeFilterValue = prefHandler.getString(payeeFilterKey, null)
-                val oldCriteria = oldPayeeFilterValue?.let {
-                    PayeeCriteria.fromStringExtra(it)
-                }
-                if (oldCriteria != null) {
-                    val oldSet = oldCriteria.values.map { it.toLong() }.toSet()
-                    val newSet: Set<Long> = oldSet.replace(old, new)
-                    if (oldSet != newSet) {
-                        val labelList = mutableListOf<String>()
-                        contentResolver.query(TransactionProvider.PAYEES_URI, arrayOf(KEY_PAYEE_NAME),
-                                "$KEY_ROWID ${WhereFilter.Operation.IN.getOp(newSet.size)}",
-                                newSet.map(Long::toString).toTypedArray(), null)?.use {
-                            it.moveToFirst()
-                            while (!it.isAfterLast) {
-                                labelList.add(it.getString(0))
-                                it.moveToNext()
-                            }
-                        }
-                        val newPayeeFilterValue = PayeeCriteria(labelList.joinToString(","), *newSet.toLongArray()).toStringExtra()
-                        Timber.d("Updating %s (%s -> %s", payeeFilterKey, oldPayeeFilterValue, newPayeeFilterValue)
-                        prefHandler.putString(payeeFilterKey, newPayeeFilterValue)
-                    }
-                }
-                cursor.moveToNext()
+            updateFilterHelper(old, new, cursor, TransactionListViewModel::prefNameForCriteria)
+        }
+    }
+
+
+    private fun updatePartyBudgets(old: Set<Long>, new: Long) {
+        contentResolver.query(TransactionProvider.BUDGETS_URI, arrayOf("$TABLE_BUDGETS.$KEY_ROWID"), null, null, null)?.use { cursor ->
+            updateFilterHelper(old, new, cursor, BudgetViewModel::prefNameForCriteria)
+        }
+    }
+
+    private fun updateFilterHelper(old: Set<Long>, new: Long, cursor: Cursor, prefNameCreator: (Long) -> String) {
+        cursor.moveToFirst()
+        while (!cursor.isAfterLast) {
+            val payeeFilterKey = prefNameCreator(cursor.getLong(cursor.getColumnIndex(KEY_ROWID))).format(Locale.ROOT, KEY_PAYEEID)
+            val oldPayeeFilterValue = prefHandler.getString(payeeFilterKey, null)
+            val oldCriteria = oldPayeeFilterValue?.let {
+                PayeeCriteria.fromStringExtra(it)
             }
+            if (oldCriteria != null) {
+                val oldSet = oldCriteria.values.map { it.toLong() }.toSet()
+                val newSet: Set<Long> = oldSet.replace(old, new)
+                if (oldSet != newSet) {
+                    val labelList = mutableListOf<String>()
+                    contentResolver.query(TransactionProvider.PAYEES_URI, arrayOf(KEY_PAYEE_NAME),
+                            "$KEY_ROWID ${WhereFilter.Operation.IN.getOp(newSet.size)}",
+                            newSet.map(Long::toString).toTypedArray(), null)?.use {
+                        it.moveToFirst()
+                        while (!it.isAfterLast) {
+                            labelList.add(it.getString(0))
+                            it.moveToNext()
+                        }
+                    }
+                    val newPayeeFilterValue = PayeeCriteria(labelList.joinToString(","), *newSet.toLongArray()).toStringExtra()
+                    Timber.d("Updating %s (%s -> %s", payeeFilterKey, oldPayeeFilterValue, newPayeeFilterValue)
+                    prefHandler.putString(payeeFilterKey, newPayeeFilterValue)
+                }
+            }
+            cursor.moveToNext()
         }
     }
 
@@ -115,6 +129,7 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
                 //contentResolver.update(TransactionProvider.CHANGES_URI, contentValues, where, selectionArgs)
                 contentResolver.delete(TransactionProvider.PAYEES_URI, "$KEY_ROWID $inOp", selectionArgs)
                 updatePartyFilters(it, keepId)
+                updatePartyBudgets(it, keepId)
             }
         }
     }
