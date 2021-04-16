@@ -1613,7 +1613,8 @@ public class TransactionProvider extends BaseTransactionProvider {
           }
           count = 1;
         } else {
-          throw unknownUri(uri);
+          count = db.update(TABLE_CHANGES, values, where, whereArgs);
+          break;
         }
         break;
       case ACCOUNT_ID_GROUPING: {

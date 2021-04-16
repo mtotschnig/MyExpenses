@@ -1,6 +1,9 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
+import android.content.ContentProviderOperation
+import android.content.ContentProviderOperation.newDelete
+import android.content.ContentProviderOperation.newUpdate
 import android.content.ContentValues
 import android.database.Cursor
 import android.text.TextUtils
@@ -22,6 +25,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.PayeeCriteria
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.replace
 import org.totschnig.myexpenses.viewmodel.data.Party
 import timber.log.Timber
@@ -123,13 +127,19 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
                 val inOp = WhereFilter.Operation.IN.getOp(it.size)
                 val where = "$KEY_PAYEEID $inOp"
                 val selectionArgs = it.map(Long::toString).toTypedArray()
-                contentResolver.update(TransactionProvider.TRANSACTIONS_URI, contentValues, where, selectionArgs)
-                contentResolver.update(TransactionProvider.TEMPLATES_URI, contentValues, where, selectionArgs)
-                //TODO Unknown URL
-                //contentResolver.update(TransactionProvider.CHANGES_URI, contentValues, where, selectionArgs)
-                contentResolver.delete(TransactionProvider.PAYEES_URI, "$KEY_ROWID $inOp", selectionArgs)
-                updatePartyFilters(it, keepId)
-                updatePartyBudgets(it, keepId)
+                val operations = ArrayList<ContentProviderOperation>().apply {
+                    add(newUpdate(TransactionProvider.TRANSACTIONS_URI).withValues(contentValues).withSelection(where, selectionArgs).build())
+                    add(newUpdate(TransactionProvider.TEMPLATES_URI).withValues(contentValues).withSelection(where, selectionArgs).build())
+                    add(newUpdate(TransactionProvider.CHANGES_URI).withValues(contentValues).withSelection(where, selectionArgs).build())
+                    add(newDelete(TransactionProvider.PAYEES_URI).withSelection("$KEY_ROWID $inOp", selectionArgs).build())
+                }
+                val size = contentResolver.applyBatch(TransactionProvider.AUTHORITY, operations).size
+                if (size == operations.size) {
+                    updatePartyFilters(it, keepId)
+                    updatePartyBudgets(it, keepId)
+                } else {
+                    CrashHandler.report("Unexpected result while merging Parties, result size is : " + size)
+                }
             }
         }
     }
