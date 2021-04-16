@@ -194,7 +194,7 @@ abstract class ContextualActionBarFragment : Fragment(), OnGroupClickListener, O
                                         })
                             }
                         }
-                        list.toTypedArray().toLongArray()
+                        list.toLongArray()
                     } else {
                         lv.checkedItemIds
                     }

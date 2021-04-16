@@ -15,6 +15,7 @@ class CollectionUtilsTest {
         Assertions.assertThat(input.replace(replace, new)).isEqualTo(expected)
     }
 
+    @Suppress("unused")
     private fun parametersToTestReplace(): Array<Any> {
         return arrayOf(
                 arrayOf(setOf<Long>(1, 2, 3), listOf<Long>(2), 3, setOf<Long>(1, 3)),

@@ -55,7 +55,6 @@ import org.totschnig.myexpenses.util.configureSearch
 import org.totschnig.myexpenses.util.prepareSearch
 import org.totschnig.myexpenses.viewmodel.PartyListViewModel
 import org.totschnig.myexpenses.viewmodel.data.Party
-import timber.log.Timber
 import java.util.*
 
 class PartiesList : ContextualActionBarFragment(), OnDialogResultListener {
@@ -224,11 +223,7 @@ class PartiesList : ContextualActionBarFragment(), OnDialogResultListener {
     }
 
     private fun onQueryTextChange(newText: String?): Boolean {
-        filter = if (TextUtils.isEmpty(newText)) {
-            ""
-        } else {
-            newText
-        }
+        filter = if (TextUtils.isEmpty(newText)) "" else newText
         loadData()
         return true
     }
