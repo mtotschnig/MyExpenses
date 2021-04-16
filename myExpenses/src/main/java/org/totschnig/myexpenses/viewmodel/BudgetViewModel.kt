@@ -35,8 +35,6 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
     @Inject
     lateinit var currencyContext: CurrencyContext
     @Inject
-    lateinit var prefHandler: PrefHandler
-    @Inject
     lateinit var licenceHandler: LicenceHandler
     private val databaseHandler: DatabaseHandler = DatabaseHandler(application.contentResolver)
     private val budgetCreatorFunction: (Cursor) -> Budget = { cursor ->
@@ -89,7 +87,7 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
         this.budget.postValue(budget)
     }
 
-    fun loadBudgetSpend(position: Int, budget: Budget, prefHandler: PrefHandler) {
+    fun loadBudgetSpend(position: Int, budget: Budget) {
         val builder = TransactionProvider.TRANSACTIONS_SUM_URI.buildUpon()
         if (prefHandler.getBoolean(PrefKey.BUDGET_AGGREGATE_TYPES, true)) {
             builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_AGGREGATE_TYPES, "1")

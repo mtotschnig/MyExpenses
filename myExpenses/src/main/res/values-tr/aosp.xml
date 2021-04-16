@@ -6,6 +6,7 @@
 <resources>
     <string name="drawer_open">"Gezinme menüsünü aç"</string>
     <string name="drawer_close">"Gezinme menüsünü kapat"</string>
+    <string name="saving">"Kaydediliyor…"</string>
     <string name="toast_text_copied">"Metin kopyalandı"</string>
     <string name="copy_text">"Panoya kopyala"</string>
     <string name="stop">"Durdur"</string>

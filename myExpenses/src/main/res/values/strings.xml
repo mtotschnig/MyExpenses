@@ -355,7 +355,6 @@
     <string name="progress_dialog_deleting">Deleting objects</string>
     <string name="progress_dialog_loading">Loading object from database</string>
     <string name="progress_dialog_printing">Generating PDF</string>
-    <string name="progress_dialog_saving">Saving object to database</string>
     <string name="qif_parse_result">Parsed: %1$s accounts; %2$s categories and %3$s parties</string>
     <string name="qif_parse_failure_found_multiple_accounts">Multiple accounts found in QIF file.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Cannot merge them into existing account.</string>
@@ -982,4 +981,8 @@
     <string name="account_widget_configuration_sum_total">Include future transactions</string>
     <!-- Title of dialogue that allows to configure account widget -->
     <string name="account_widget_configuration">Account widget configuration</string>
+    <!-- Title of a menu entry allowing to merge duplicate entries in the parties table (payee/payer) -->
+    <string name="menu_merge">Merge</string>
+    <!-- When user selects duplicate parties to be merged, he sees this prompt asking him to select which name should be selected for the merged party -->
+    <string name="merge_parties_select">Select name of merged party:</string>
 </resources>

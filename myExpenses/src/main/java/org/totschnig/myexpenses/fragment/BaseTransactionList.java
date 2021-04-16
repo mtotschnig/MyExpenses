@@ -22,6 +22,7 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
@@ -51,11 +52,11 @@ import com.annimon.stream.Stream;
 import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.google.android.material.snackbar.Snackbar;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.temporal.ChronoUnit;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.BaseActivity;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.activity.ManageParties;
@@ -205,14 +206,15 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_METHODS
 import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_PAYEES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_TAGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.KEY_LONG_IDS;
 import static org.totschnig.myexpenses.util.ColorUtils.getComplementColor;
 import static org.totschnig.myexpenses.util.DateUtilsKt.localDateTime2Epoch;
 import static org.totschnig.myexpenses.util.MoreUiUtilsKt.addChipsBulk;
 import static org.totschnig.myexpenses.util.TextUtils.concatResStrings;
+import static org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModelKt.KEY_ROW_IDS;
 
 public abstract class BaseTransactionList extends ContextualActionBarFragment implements
-    LoaderManager.LoaderCallbacks<Cursor>, OnHeaderClickListener, SimpleDialog.OnDialogResultListener {
+    LoaderManager.LoaderCallbacks<Cursor>, OnHeaderClickListener, SimpleDialog.OnDialogResultListener,
+    SharedPreferences.OnSharedPreferenceChangeListener {
 
   public static final String NEW_TEMPLATE_DIALOG = "dialogNewTempl";
   public static final String FILTER_COMMENT_DIALOG = "dialogFilterCom";
@@ -289,6 +291,8 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
   UserLocaleProvider userLocaleProvider;
   @Inject
   LicenceHandler licenceHandler;
+  @Inject
+  SharedPreferences settings;
   FilterPersistence filterPersistence;
 
   @State
@@ -399,6 +403,8 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     }
     configureListView();
     registerForContextualActionBar(binding.list.getWrappedList());
+    configureFilterCard();
+    settings.registerOnSharedPreferenceChangeListener(this);
     return binding.getRoot();
   }
 
@@ -448,19 +454,21 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     }
     if (invalidateMenu) {
       requireActivity().invalidateOptionsMenu();
+      configureFilterCard();
     }
   }
 
   @Override
   public void onDestroyView() {
     listState = binding.list.getWrappedList().onSaveInstanceState();
+    settings.unregisterOnSharedPreferenceChangeListener(this);
     binding = null;
     super.onDestroyView();
   }
 
   @Override
   public boolean dispatchCommandMultiple(int command,
-                                         SparseBooleanArray positions, Long[] itemIds) {
+                                         @NonNull SparseBooleanArray positions, @NonNull long[] itemIds) {
     if (super.dispatchCommandMultiple(command, positions, itemIds)) {
       return true;
     }
@@ -489,7 +497,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
       }
       boolean finalHasReconciled = hasReconciled;
       boolean finalHasNotVoid = hasNotVoid;
-      checkSealed(ArrayUtils.toPrimitive(itemIds), () -> {
+      checkSealed(itemIds, () -> {
         String message = getResources().getQuantityString(R.plurals.warning_delete_transaction, itemIds.length, itemIds.length);
         if (finalHasReconciled) {
           message += " " + getString(R.string.warning_delete_reconciled);
@@ -504,52 +512,50 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
           b.putInt(ConfirmationDialogFragment.KEY_CHECKBOX_LABEL,
               R.string.mark_void_instead_of_delete);
         }
-        b.putLongArray(TaskExecutionFragment.KEY_OBJECT_IDS, ArrayUtils.toPrimitive(itemIds));
+        b.putLongArray(KEY_ROW_IDS, itemIds);
         ConfirmationDialogFragment.newInstance(b).show(fm, "DELETE_TRANSACTION");
       });
       return true;
     } else if (command == R.id.SPLIT_TRANSACTION_COMMAND) {
-      checkSealed(ArrayUtils.toPrimitive(itemIds), () -> ctx.contribFeatureRequested(ContribFeature.SPLIT_TRANSACTION, ArrayUtils.toPrimitive(itemIds)));
+      checkSealed(itemIds, () -> ctx.contribFeatureRequested(ContribFeature.SPLIT_TRANSACTION, itemIds));
     } else if (command == R.id.UNGROUP_SPLIT_COMMAND) {
-      checkSealed(ArrayUtils.toPrimitive(itemIds), () -> {
+      checkSealed(itemIds, () -> {
         Bundle b = new Bundle();
         b.putString(KEY_MESSAGE, getString(R.string.warning_ungroup_split_transactions));
         b.putInt(KEY_COMMAND_POSITIVE, R.id.UNGROUP_SPLIT_COMMAND);
         b.putInt(KEY_COMMAND_NEGATIVE, R.id.CANCEL_CALLBACK_COMMAND);
         b.putInt(KEY_POSITIVE_BUTTON_LABEL, R.string.menu_ungroup_split_transaction);
-        b.putLongArray(KEY_LONG_IDS, ArrayUtils.toPrimitive(itemIds));
+        b.putLongArray(TaskExecutionFragment.KEY_LONG_IDS, itemIds);
         ConfirmationDialogFragment.newInstance(b).show(fm, "UNSPLIT_TRANSACTION");
       });
       return true;
     } else if (command == R.id.UNDELETE_COMMAND) {
-      checkSealed(ArrayUtils.toPrimitive(itemIds), () -> ctx.startTaskExecution(
-          TaskExecutionFragment.TASK_UNDELETE_TRANSACTION,
-          itemIds,
-          null,
-          0));
+      checkSealed(itemIds, () -> viewModel.undeleteTransactions(itemIds).observe(getViewLifecycleOwner(), result -> {
+        if (result == 0) ((BaseActivity) requireActivity()).showDeleteFailureFeedback();
+      }));
     } else if (command == R.id.REMAP_CATEGORY_COMMAND) {
-      checkSealed(ArrayUtils.toPrimitive(itemIds), () -> {
+      checkSealed(itemIds, () -> {
         Intent i = new Intent(getActivity(), ManageCategories.class);
         i.setAction(ACTION_SELECT_MAPPING);
         startActivityForResult(i, MAP_CATEGORY_REQUEST);
       });
       return true;
     } else if (command == R.id.MAP_TAG_COMMAND) {
-      checkSealed(ArrayUtils.toPrimitive(itemIds), () -> {
+      checkSealed(itemIds, () -> {
         Intent i = new Intent(getActivity(), ManageTags.class);
         i.setAction(ACTION_SELECT_MAPPING);
         startActivityForResult(i, MAP_TAG_REQUEST);
       });
       return true;
     } else if (command == R.id.REMAP_PAYEE_COMMAND) {
-      checkSealed(ArrayUtils.toPrimitive(itemIds), () -> {
+      checkSealed(itemIds, () -> {
         Intent i = new Intent(getActivity(), ManageParties.class);
         i.setAction(ACTION_SELECT_MAPPING);
         startActivityForResult(i, MAP_PAYEE_REQUEST);
       });
       return true;
     } else if (command == R.id.REMAP_METHOD_COMMAND) {
-      checkSealed(ArrayUtils.toPrimitive(itemIds), () -> {
+      checkSealed(itemIds, () -> {
         boolean hasExpense = false, hasIncome = false;
         Set<String> accountTypes = new HashSet<>();
         for (int i = 0; i < positions.size(); i++) {
@@ -571,7 +577,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
       });
       return true;
     } else if (command == R.id.REMAP_ACCOUNT_COMMAND) {
-      checkSealed(ArrayUtils.toPrimitive(itemIds), () -> {
+      checkSealed(itemIds, () -> {
         List<Long> excludedIds = new ArrayList<>();
         List<Long> splitIds = new ArrayList<>();
         if (!mAccount.isAggregate()) {
@@ -599,14 +605,14 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
       });
       return true;
     } else if (command == R.id.LINK_TRANSFER_COMMAND) {
-      checkSealed(ArrayUtils.toPrimitive(itemIds), () -> {
+      checkSealed(itemIds, () -> {
         Bundle b = new Bundle();
         b.putString(KEY_MESSAGE, getString(R.string.warning_link_transfer) + " " + getString(R.string.continue_confirmation));
         b.putInt(KEY_COMMAND_POSITIVE, R.id.LINK_TRANSFER_COMMAND);
         b.putInt(KEY_COMMAND_NEGATIVE, R.id.CANCEL_CALLBACK_COMMAND);
         b.putInt(KEY_POSITIVE_BUTTON_LABEL, R.string.menu_create_transfer);
-        b.putLongArray(KEY_LONG_IDS, ArrayUtils.toPrimitive(itemIds));
-        ConfirmationDialogFragment.newInstance(b).show(fm, "UNSPLIT_TRANSACTION");
+        b.putLongArray(KEY_ROW_IDS, itemIds);
+        ConfirmationDialogFragment.newInstance(b).show(fm, "LINK_TRANSFER");
       });
       return true;
     }
@@ -1331,7 +1337,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
   }
 
   private String prefNameForCriteria() {
-    return String.format(Locale.ROOT, "%s_%%s_%d", KEY_FILTER, getArguments().getLong(KEY_ACCOUNTID));
+    return TransactionListViewModel.Companion.prefNameForCriteria(getArguments().getLong(KEY_ACCOUNTID));
   }
 
   public void clearFilter() {
@@ -1345,6 +1351,13 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     inflater.inflate(R.menu.grouping, menu);
   }
 
+  private void configureFilterCard() {
+    binding.filterCard.setVisibility(getFilter().isEmpty() ? View.GONE : View.VISIBLE);
+    if (!getFilter().isEmpty()) {
+      addChipsBulk(binding.filter, Stream.of(getFilter().getCriteria()).map(criterion -> criterion.prettyPrint(getContext())).collect(Collectors.toList()), null);
+    }
+  }
+
   @Override
   public void onPrepareOptionsMenu(@NonNull Menu menu) {
     super.onPrepareOptionsMenu(menu);
@@ -1355,12 +1368,8 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     }
     MenuItem searchMenu = menu.findItem(R.id.SEARCH_COMMAND);
     if (searchMenu != null) {
-      binding.filterCard.setVisibility(getFilter().isEmpty() ? View.GONE : View.VISIBLE);
       searchMenu.setChecked(!getFilter().isEmpty());
       MenuUtilsKt.checkMenuIcon(searchMenu);
-      if (!getFilter().isEmpty()) {
-        addChipsBulk(binding.filter, Stream.of(getFilter().getCriteria()).map(criterion -> criterion.prettyPrint(getContext())).collect(Collectors.toList()), null);
-      }
       SubMenu filterMenu = searchMenu.getSubMenu();
       for (int i = 0; i < filterMenu.size(); i++) {
         MenuItem filterItem = filterMenu.getItem(i);
@@ -1602,6 +1611,14 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
   }
 
   @Override
+  public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+    if (key.equals(String.format(Locale.ROOT, prefNameForCriteria(), KEY_PAYEEID))) {
+      filterPersistence = new FilterPersistence(prefHandler, prefNameForCriteria(), null, true, true);
+      refreshAfterFilterChange();
+    }
+  }
+
+  @Override
   public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
     if (which == BUTTON_POSITIVE) {
       if (NEW_TEMPLATE_DIALOG.equals(dialogTag)) {
@@ -1638,7 +1655,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     if (column == null) return;
     if (shouldClone) {
       final ProgressDialogFragment progressDialog = ProgressDialogFragment.newInstance(
-          getString(R.string.progress_dialog_saving), null, ProgressDialog.STYLE_HORIZONTAL, false);
+          getString(R.string.saving), null, ProgressDialog.STYLE_HORIZONTAL, false);
       progressDialog.setMax(checkedItemIds.length);
       getParentFragmentManager()
           .beginTransaction()

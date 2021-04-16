@@ -25,9 +25,6 @@ open class TransactionViewModel(application: Application) : ContentResolvingAndr
     }
 
     @Inject
-    lateinit var prefHandler: PrefHandler
-
-    @Inject
     lateinit var currencyContext: CurrencyContext
 
     protected val tags = MutableLiveData<MutableList<Tag>>()

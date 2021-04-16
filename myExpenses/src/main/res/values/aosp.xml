@@ -7,6 +7,7 @@
     <!-- packages/apps/UnifiedEmail/res/values/strings.xml -->
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+    <string name="saving">Saving&#8230;</string>
     <!-- packages/apps/Contacts/res/values/strings.xml -->
     <string name="toast_text_copied">Text copied</string>
     <string name="copy_text">Copy to clipboard</string>

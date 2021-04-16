@@ -7,6 +7,7 @@
 <resources>
     <string name="drawer_open">"Висунути навігаційну панель"</string>
     <string name="drawer_close">"Сховати навігаційну панель"</string>
+    <string name="saving">"Збереження…"</string>
     <string name="toast_text_copied">"Текст скопійовано"</string>
     <string name="copy_text">"Копіювати в буфер обміну"</string>
     <string name="stop">"Зупинити"</string>

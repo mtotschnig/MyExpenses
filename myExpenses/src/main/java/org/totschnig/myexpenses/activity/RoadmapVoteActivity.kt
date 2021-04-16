@@ -213,9 +213,6 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
             startActionView("https://github.com/mtotschnig/MyExpenses/issues/" + info.id)
             return true
         } else if (itemId == R.id.ROADMAP_ISSUE_VOTE_COMMAND) {
-            val extra = Bundle(1)
-            extra.putInt(DatabaseConstants.KEY_ROWID, info.id.toInt())
-            extra.putInt(KEY_POSITION, info.position)
             val value = voteWeights[info.id.toInt()]
             var available = totalAvailableWeight - currentTotalWeight
             if (value != null) {
@@ -225,7 +222,10 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
                 val dialog = SimpleSeekBarDialog.build()
                         .title(dataSetFiltered!![info.position].title)
                         .max(available)
-                        .extra(extra)
+                        .extra(Bundle(2).apply {
+                            putInt(DatabaseConstants.KEY_ROWID, info.id.toInt())
+                            putInt(KEY_POSITION, info.position)
+                        })
                 if (value != null) {
                     dialog.value(value)
                 }

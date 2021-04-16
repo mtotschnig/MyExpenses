@@ -323,4 +323,8 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     fun showMessage(resId: Int) {
         showMessage(getString(resId))
     }
+
+    fun showDeleteFailureFeedback() {
+        showSnackbar("There was an error deleting the object. Please contact support@myexenses.mobi !")
+    }
 }

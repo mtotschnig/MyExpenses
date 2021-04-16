@@ -54,6 +54,7 @@
   <string name="help_ManageParties_select_mapping_info">Select a party by tapping on it.</string>
   <string name="help_ManageParties_select_filter_info">Tap on a party for filtering the transaction list. Long tap for selecting multiple parties.</string>
   <string name="help_ManageParties_floating_action_button">Use the floating action button to add a new entry.</string>
+  <string name="cab_merge_help_text">If the same party appears multiple times in the list with different spelling variations, you can merge them together. You will be prompted to select which variant to keep.</string>
   
   <!-- ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_plans_title">Plan calendar view</string>

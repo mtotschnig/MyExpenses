@@ -6,6 +6,7 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="drawer_open">"បើក​ផ្ទាំង​បញ្ជីកម្មវិធី"</string>
     <string name="drawer_close">"បិទ​​​ផ្ទាំង​​​បញ្ជី​កម្មវិធី"</string>
+    <string name="saving">"កំពុង​រក្សាទុក…"</string>
     <string name="toast_text_copied">"បាន​ចម្លង​អត្ថបទ"</string>
     <string name="copy_text">"ចម្លង​ទៅអង្គចងចាំ"</string>
     <string name="stop">"ឈប់"</string>

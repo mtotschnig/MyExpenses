@@ -203,7 +203,7 @@ public class ManageCategories extends CategoryActivity implements
         TaskExecutionFragment.TASK_MOVE_CATEGORY,
         ArrayUtils.toObject(args.getLongArray(TaskExecutionFragment.KEY_OBJECT_IDS)),
         target == 0L ? null : target,
-        R.string.progress_dialog_saving);
+        R.string.saving);
   }
 
   @Override

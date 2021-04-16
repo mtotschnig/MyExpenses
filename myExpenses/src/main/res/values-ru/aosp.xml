@@ -6,6 +6,7 @@
 <resources>
     <string name="drawer_open">"Открыть панель навигации"</string>
     <string name="drawer_close">"Закрыть панель навигации"</string>
+    <string name="saving">"Сохранение…"</string>
     <string name="toast_text_copied">"Текст скопирован"</string>
     <string name="copy_text">"Копировать в буфер обмена"</string>
     <string name="stop">"Стоп"</string>
