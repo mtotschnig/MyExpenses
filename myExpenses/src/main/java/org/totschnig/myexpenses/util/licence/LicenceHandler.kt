@@ -88,7 +88,7 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
             this.licenceStatus?.compareTo(licenceStatus) ?: -1 >= 0
 
     val isUpgradeable: Boolean
-        get() = licenceStatus?.isUpgradeable ?: false
+        get() = licenceStatus?.isUpgradeable ?: true
 
     open fun init() {
         this.licenceStatus = licenseStatusPrefs.getString(LICENSE_STATUS_KEY, null)?.let {
@@ -253,15 +253,11 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
         return uri
     }
 
-    val backendUri: String
-        get() =
-            if (isSandbox)
-                if (localBackend)
-                    "http://10.0.2.2:3000/"
-                else
-                    "https://myexpenses-licencedb-staging.herokuapp.com"
-            else
-                "https://licencedb.myexpenses.mobi/"
+    val backendUri = when {
+        localBackend -> "http://10.0.2.2:3000/"
+        isSandbox -> "https://myexpenses-licencedb-staging.herokuapp.com"
+        else -> "https://licencedb.myexpenses.mobi/"
+    }
 
     private val paypalLocale: String
         get() {

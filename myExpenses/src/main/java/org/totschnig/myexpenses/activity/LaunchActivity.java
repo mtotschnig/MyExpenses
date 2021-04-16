@@ -16,8 +16,6 @@ import org.totschnig.myexpenses.util.ContribUtils;
 import org.totschnig.myexpenses.util.PermissionHelper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.distrib.DistributionHelper;
-import org.totschnig.myexpenses.util.licence.BillingListener;
-import org.totschnig.myexpenses.util.licence.BillingManager;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.licence.LicenceStatus;
 import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel;
@@ -46,16 +44,18 @@ import static org.totschnig.myexpenses.preference.PreferenceUtilsKt.enableAutoFi
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
-public abstract class LaunchActivity extends ProtectedFragmentActivity implements BillingListener {
+public abstract class LaunchActivity extends IapActivity {
 
-  private BillingManager billingManager;
   private UpgradeHandlerViewModel upgradeHandlerViewModel;
+
+  @Override
+  public boolean getShouldQueryIap() {
+    return true;
+  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
-    billingManager = licenceHandler.initBillingManager(this, true);
 
     upgradeHandlerViewModel = new ViewModelProvider(this).get(UpgradeHandlerViewModel.class);
   }
@@ -231,11 +231,6 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity implement
   }
 
   @Override
-  public void onBillingSetupFinished() {
-
-  }
-
-  @Override
   public void onBillingSetupFailed(@NonNull String reason) {
     LicenceHandler.Companion.log().w("Billing setup failed (%s)", reason);
   }
@@ -247,14 +242,5 @@ public abstract class LaunchActivity extends ProtectedFragmentActivity implement
     } else {
       showSnackbar(R.string.licence_validation_failure);
     }
-  }
-
-  @Override
-  protected void onDestroy() {
-    super.onDestroy();
-    if (billingManager != null) {
-      billingManager.destroy();
-    }
-    billingManager = null;
   }
 }

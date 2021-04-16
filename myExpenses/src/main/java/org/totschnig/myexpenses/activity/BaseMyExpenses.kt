@@ -1,7 +1,5 @@
 package org.totschnig.myexpenses.activity
 
-import android.content.ClipData
-import android.content.ClipboardManager
 import android.content.ComponentName
 import android.content.Intent
 import android.database.Cursor
@@ -13,7 +11,6 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.lifecycle.ViewModelProvider
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
@@ -330,12 +327,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     private fun copyToClipBoard() {
-        try {
-            ContextCompat.getSystemService(this, ClipboardManager::class.java)?.setPrimaryClip(ClipData.newPlainText(null, currentBalance))
-            showSnackbar(R.string.toast_text_copied)
-        } catch (e: RuntimeException) {
-            Timber.e(e)
-        }
+        currentBalance?.let { copyToClipboard(it) }
     }
 
     fun updateFab() {

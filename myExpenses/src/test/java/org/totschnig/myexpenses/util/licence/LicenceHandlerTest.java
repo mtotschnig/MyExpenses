@@ -12,6 +12,7 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.util.Objects;
 
+import androidx.annotation.Nullable;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 
@@ -55,6 +56,7 @@ public class LicenceHandlerTest {
 
   @Test
   @Parameters({
+      "null, true",
       "CONTRIB, true",
       "EXTENDED, true",
       "PROFESSIONAL, false"
@@ -83,6 +85,7 @@ public class LicenceHandlerTest {
     assertEquals(expected, Objects.requireNonNull(parse(self)).greaterOrEqual(parse(other)));
   }
 
+  @Nullable
   private LicenceStatus parse(String licenceStatus) {
     try {
       return LicenceStatus.valueOf(licenceStatus);

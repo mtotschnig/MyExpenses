@@ -106,7 +106,7 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
 
     private fun validateWeights() {
         dataSet?.takeIf { voteWeights.isNotEmpty() }?.let { dataSet ->
-            voteWeights =  voteWeights.filter { entry -> dataSet.any { it.number == entry.key } }.toMutableMap()
+            voteWeights = voteWeights.filter { entry -> dataSet.any { it.number == entry.key } }.toMutableMap()
         }
     }
 
@@ -256,11 +256,16 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
                 DIALOG_TAG_SUBMIT_VOTE -> {
                     showSnackbar("Submitting vote ...", Snackbar.LENGTH_INDEFINITE)
                     isLoading = true
-                    roadmapViewModel.submitVote(Vote(lastVote?.key ?: licenceHandler.buildRoadmapVoteKey(),
+                    val vote = Vote(
+                            lastVote?.key ?: licenceHandler.buildRoadmapVoteKey(),
                             HashMap(voteWeights),
                             isPro,
-                            email ?: extras.getString(KEY_EMAIL)!!, versionFromPref)).observe(this,
-                            { result -> publishResult(getString(result)) })
+                            email ?: extras.getString(KEY_EMAIL)!!, versionFromPref)
+                    roadmapViewModel.submitVote(vote
+                    ).observe(this, { result ->
+                        lastVote = vote
+                        publishResult(getString(result))
+                    })
                     return true
                 }
             }

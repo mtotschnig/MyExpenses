@@ -30,7 +30,13 @@ class RoadmapRepository @Inject constructor(private val gson: Gson, private val 
     companion object {
         const val ISSUE_CACHE = "issue_cache.json"
         const val ROADMAP_VOTE = "roadmap_vote.json"
-        val ROADMAP_URL = if (BuildConfig.DEBUG) "https://votedb-staging.herokuapp.com/" else "https://roadmap.myexpenses.mobi/"
+        private val isSandbox = BuildConfig.DEBUG
+        private const val localBackend = true
+        val ROADMAP_URL = when {
+            localBackend -> "http://10.0.2.2:3000/"
+            isSandbox -> "https://votedb-staging.herokuapp.com/"
+            else -> "https://roadmap.myexpenses.mobi/"
+        }
     }
 
     private val data = MutableLiveData<List<Issue>?>()

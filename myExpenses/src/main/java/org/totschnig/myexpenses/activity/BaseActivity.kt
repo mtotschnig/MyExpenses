@@ -3,6 +3,8 @@ package org.totschnig.myexpenses.activity
 import android.app.DownloadManager
 import android.content.ActivityNotFoundException
 import android.content.BroadcastReceiver
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
@@ -17,6 +19,7 @@ import androidx.annotation.CallSuper
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ContextThemeWrapper
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
@@ -39,6 +42,7 @@ import org.totschnig.myexpenses.util.tracking.Tracker
 import org.totschnig.myexpenses.viewmodel.FeatureViewModel
 import org.totschnig.myexpenses.viewmodel.OcrViewModel
 import org.totschnig.myexpenses.viewmodel.data.EventObserver
+import timber.log.Timber
 import javax.inject.Inject
 
 abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.MessageDialogListener {
@@ -47,6 +51,16 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         override fun onReceive(context: Context?, intent: Intent?) {
             onDownloadComplete()
         }
+    }
+
+    fun copyToClipboard(text: String) {
+        showSnackbar(try {
+            ContextCompat.getSystemService(this, ClipboardManager::class.java)?.setPrimaryClip(ClipData.newPlainText(null, text))
+            "${getString(R.string.toast_text_copied)}: $text"
+        } catch (e: RuntimeException) {
+            Timber.e(e)
+            e.message ?: "Error"
+        })
     }
 
     fun startActivity(intent: Intent, notAvailableMessage: Int, forResultRequestCode: Int? = null) {
@@ -275,11 +289,12 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         }
     }
 
-    @JvmOverloads open fun showMessage(message: CharSequence,
-                                       positive: MessageDialogFragment.Button = MessageDialogFragment.okButton(),
-                                       neutral: MessageDialogFragment.Button? = null,
-                                       negative: MessageDialogFragment.Button? = null,
-                                       cancellable: Boolean = true) {
+    @JvmOverloads
+    open fun showMessage(message: CharSequence,
+                         positive: MessageDialogFragment.Button = MessageDialogFragment.okButton(),
+                         neutral: MessageDialogFragment.Button? = null,
+                         negative: MessageDialogFragment.Button? = null,
+                         cancellable: Boolean = true) {
         lifecycleScope.launchWhenResumed {
             MessageDialogFragment.newInstance(null, message, positive, neutral, negative).apply {
                 isCancelable = cancellable
