@@ -1329,7 +1329,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
   }
 
   private String prefNameForCriteria() {
-    return String.format(Locale.ROOT, "%s_%%s_%d", KEY_FILTER, getArguments().getLong(KEY_ACCOUNTID));
+    return TransactionListViewModel.Companion.prefNameForCriteria(getArguments().getLong(KEY_ACCOUNTID));
   }
 
   public void clearFilter() {

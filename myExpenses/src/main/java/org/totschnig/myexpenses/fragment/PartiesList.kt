@@ -44,7 +44,6 @@ import org.totschnig.myexpenses.ACTION_MANAGE
 import org.totschnig.myexpenses.ACTION_SELECT_FILTER
 import org.totschnig.myexpenses.ACTION_SELECT_MAPPING
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.activity.ManageParties
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter
@@ -56,6 +55,7 @@ import org.totschnig.myexpenses.util.configureSearch
 import org.totschnig.myexpenses.util.prepareSearch
 import org.totschnig.myexpenses.viewmodel.PartyListViewModel
 import org.totschnig.myexpenses.viewmodel.data.Party
+import timber.log.Timber
 import java.util.*
 
 class PartiesList : ContextualActionBarFragment(), OnDialogResultListener {
@@ -191,7 +191,9 @@ class PartiesList : ContextualActionBarFragment(), OnDialogResultListener {
                 true
             }
             R.id.SELECT_COMMAND_MULTIPLE -> {
-                if (itemIds.size == 1 || itemIds.contains(CategoryTreeBaseAdapter.NULL_ITEM_ID)) {
+                if (itemIds.size != 1 && itemIds.contains(CategoryTreeBaseAdapter.NULL_ITEM_ID)) {
+                    activity.showSnackbar(R.string.unmapped_filter_only_single)
+                } else {
                     val labelList = ArrayList<String?>()
                     for (i in 0 until positions.size()) {
                         if (positions.valueAt(i)) {
@@ -203,8 +205,6 @@ class PartiesList : ContextualActionBarFragment(), OnDialogResultListener {
                     intent.putExtra(DatabaseConstants.KEY_LABEL, TextUtils.join(",", labelList))
                     activity.setResult(Activity.RESULT_FIRST_USER, intent)
                     activity.finish()
-                } else {
-                    activity.showSnackbar(R.string.unmapped_filter_only_single)
                 }
                 true
             }
@@ -316,8 +316,12 @@ class PartiesList : ContextualActionBarFragment(), OnDialogResultListener {
 
     override fun onResult(dialogTag: String, which: Int, extras: Bundle) =
             if (dialogTag == DIALOG_MERGE_PARTY && which == OnDialogResultListener.BUTTON_POSITIVE) {
-                val selected = mAdapter.getItem(binding.list.checkedItemPositions.asTrueSequence().elementAt(extras.getInt(KEY_PAYEEID))) as Party
-                (activity as? BaseActivity)?.showSnackbar(selected.name)
+                Timber.d("checkedItemIds: %s", binding.list.checkedItemIds.joinToString())
+                Timber.d("checkedItemPositions : %s", binding.list.checkedItemPositions.asTrueSequence().joinToString())
+                val index = extras.getInt(KEY_PAYEEID)
+                val position = binding.list.checkedItemPositions.asTrueSequence().elementAt(index)
+                val selected = mAdapter.getItem(position) as Party
+                viewModel.mergeParties(binding.list.checkedItemIds, selected.id)
                 true
             } else false
 }

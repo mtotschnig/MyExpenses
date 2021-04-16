@@ -20,6 +20,7 @@ import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Account.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.ui.ContextHelper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -36,6 +37,8 @@ abstract class ContentResolvingAndroidViewModel(application: Application) : Andr
     lateinit var coroutineDispatcher: CoroutineDispatcher
     @Inject
     lateinit var repository: Repository
+    @Inject
+    lateinit var prefHandler: PrefHandler
 
     var disposable: Disposable? = null
 

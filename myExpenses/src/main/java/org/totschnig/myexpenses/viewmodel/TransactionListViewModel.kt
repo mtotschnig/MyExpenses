@@ -118,5 +118,9 @@ class TransactionListViewModel(application: Application) : BudgetViewModel(appli
             }
         })
     }
+
+    companion object {
+        fun prefNameForCriteria(accountId: Long) = "filter_%s_${accountId}"
+    }
 }
 

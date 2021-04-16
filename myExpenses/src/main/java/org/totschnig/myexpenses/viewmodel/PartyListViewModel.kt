@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
+import android.content.ContentValues
 import android.text.TextUtils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,8 +14,10 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.filter.PayeeCriteria
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.replace
 import org.totschnig.myexpenses.viewmodel.data.Party
 
 class PartyListViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
@@ -55,6 +58,33 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
             emit(Result.success(contentResolver.delete(TransactionProvider.PAYEES_URI, "$KEY_ROWID ${WhereFilter.Operation.IN.getOp(idList.size)}", idList.map(Long::toString).toTypedArray())))
         } catch (e: Exception) {
             emit(Result.failure<Int>(e))
+        }
+    }
+
+    private fun updatePartyFilters(old: Set<Long>, new: Long) {
+        contentResolver.query(TransactionProvider.ACCOUNTS_MINIMAL_URI, null, null, null, null)?.use {
+            val payeeFilterKey = TransactionListViewModel.prefNameForCriteria(it.getLong(0)).format(KEY_PAYEEID)
+            val criteria = prefHandler.getString(payeeFilterKey, null)?.let {
+                PayeeCriteria.fromStringExtra(it)
+            }
+            val newSet = criteria?.values?.map { it.toLong() }?.replace(old, new)
+        }
+    }
+
+    fun mergeParties(itemIds: LongArray, keepId: Long) {
+        check(itemIds.contains(keepId))
+
+        val contentValues = ContentValues(1).apply {
+            put(KEY_PAYEEID, keepId)
+        }
+        itemIds.subtract(listOf(keepId)).let {
+            val inOp = WhereFilter.Operation.IN.getOp(it.size)
+            val where = "$KEY_PAYEEID $inOp"
+            val selectionArgs = it.map(Long::toString).toTypedArray()
+            contentResolver.update(TransactionProvider.TRANSACTIONS_URI, contentValues, where, selectionArgs)
+            contentResolver.update(TransactionProvider.TEMPLATES_URI, contentValues, where, selectionArgs)
+            contentResolver.update(TransactionProvider.CHANGES_URI, contentValues, where, selectionArgs)
+            contentResolver.delete(TransactionProvider.PAYEES_URI, "$KEY_ROWID $inOp", selectionArgs)
         }
     }
 }
