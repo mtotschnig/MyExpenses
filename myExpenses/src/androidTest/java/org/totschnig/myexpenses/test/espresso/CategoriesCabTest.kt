@@ -122,7 +122,7 @@ class CategoriesCabTest : BaseUiTest() {
         val origListSize = launchAndOpenCab()
         clickMenuItem(R.id.DELETE_COMMAND, true)
         onView(withText(R.string.warning_delete_category_with_budget)).check(matches(isDisplayed()))
-        onView(withText(android.R.string.cancel)).perform(click())
+        onView(withText(R.string.response_no)).perform(click())
         assertThat(waitForAdapter().count).isEqualTo(origListSize)
     }
 

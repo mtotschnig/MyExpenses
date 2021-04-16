@@ -981,4 +981,8 @@
     <string name="account_widget_configuration_sum_total">Zukünftige Buchungen einschließen</string>
     <!-- Title of dialogue that allows to configure account widget -->
     <string name="account_widget_configuration">Konfiguration des Konten-Widgets</string>
-    </resources>
+    <!-- Title of a menu entry allowing to merge duplicate entries in the parties table (payee/payer) -->
+    <string name="menu_merge">Zusammenführen</string>
+    <!-- When user selects duplicate parties to be merged, he sees this prompt asking him to select which name should be selected for the merged party -->
+    <string name="merge_parties_select">Wählen Sie den Namen der zusammengeführten Partei:</string>
+</resources>

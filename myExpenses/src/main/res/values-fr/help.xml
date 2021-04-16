@@ -36,6 +36,7 @@
   <string name="help_ManageParties_select_mapping_info">Sélectionnez un tiers en appuyant dessus.</string>
   <string name="help_ManageParties_select_filter_info">Appuyez sur un tiers pour filtrer la liste des opérations. Appuyez longuement pour sélectionner plusieurs tiers.</string>
   <string name="help_ManageParties_floating_action_button">Le bouton d\'action flottant permet d\'ajouter une nouvelle entrée.</string>
+  <string name="cab_merge_help_text">Si le même tiers apparaît plusieurs fois dans la liste avec différentes variantes orthographiques, vous pouvez les fusionner. Vous serez invité à sélectionner la variante à conserver.</string>
   <!--ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_plans_title">Calendrier</string>
   <string name="help_ManageTemplates_planner_title">Echéances à venir</string>

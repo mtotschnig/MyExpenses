@@ -36,6 +36,7 @@
   <string name="help_ManageParties_select_mapping_info">Wählen Sie eine Partei aus, indem Sie darauf tippen.</string>
   <string name="help_ManageParties_select_filter_info">Tippen Sie auf eine Partei, um die Buchungsliste zu filtern. Langes Tippen ermöglicht die Auswahl mehrerer Parteien.</string>
   <string name="help_ManageParties_floating_action_button">Verwenden Sie die schwebende Aktionsschaltfläche um einen Eintrag hinzuzufügen.</string>
+  <string name="cab_merge_help_text">Wenn dieselbe Partei mehrmals in der Liste mit unterschiedlichen Rechtschreibvarianten angezeigt wird, können Sie diese zusammenführen. Sie werden aufgefordert, die beizubehaltende Variante auszuwählen.</string>
   <!--ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_plans_title">Plan-Kalender Ansicht</string>
   <string name="help_ManageTemplates_planner_title">Bevorstehende Wiederholungen</string>
