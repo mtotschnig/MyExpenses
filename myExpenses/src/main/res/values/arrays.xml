@@ -120,6 +120,7 @@
     <string-array name="ManageParties_manage_cabitems" tools:ignore="UnusedResources">
         <item>edit</item>
         <item>delete</item>
+        <item>merge</item>
     </string-array>
 
     <string-array name="ManageParties_select_mapping_cabitems" tools:ignore="UnusedResources">

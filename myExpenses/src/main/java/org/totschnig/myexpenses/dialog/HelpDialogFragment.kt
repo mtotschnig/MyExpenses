@@ -112,7 +112,8 @@ class HelpDialogFragment : BaseDialogFragment(), ImageGetter {
                 "remap" to null,
                 "scan_mode" to R.drawable.ic_scan,
                 "save_and_new" to R.drawable.ic_action_save_new,
-                "link" to R.drawable.ic_hchain
+                "link" to R.drawable.ic_hchain,
+                "merge" to R.drawable.ic_menu_split_transaction
         )
 
         @JvmStatic
