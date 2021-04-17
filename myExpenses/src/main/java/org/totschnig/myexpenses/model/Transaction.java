@@ -1049,10 +1049,6 @@ public class Transaction extends AbstractTransaction {
     return save();
   }
 
-  /**
-   * @param whichTransactionId
-   * @param whereAccountId
-   */
   public static void move(long whichTransactionId, long whereAccountId) {
     ContentValues args = new ContentValues();
     args.put(KEY_ACCOUNTID, whereAccountId);

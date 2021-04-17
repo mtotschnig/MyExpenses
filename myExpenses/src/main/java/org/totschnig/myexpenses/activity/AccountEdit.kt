@@ -47,6 +47,7 @@ import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccountNames
 import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.ui.AmountInput
@@ -148,7 +149,11 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PREFERENCES_REQUEST) {
-            configureSyncBackendAdapter()
+            if (resultCode == RESULT_FIRST_USER) {
+                finish()
+            } else {
+                configureSyncBackendAdapter()
+            }
         }
     }
 
@@ -342,7 +347,9 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
                 return true
             }
             R.id.SYNC_SETTINGS_COMMAND -> {
-                val i = Intent(this, ManageSyncBackends::class.java)
+                val i = Intent(this, ManageSyncBackends::class.java).apply {
+                    putExtra(KEY_UUID, account.uuid)
+                }
                 startActivityForResult(i, PREFERENCES_REQUEST)
                 return true
             }

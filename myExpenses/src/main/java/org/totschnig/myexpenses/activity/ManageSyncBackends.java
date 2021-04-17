@@ -29,6 +29,7 @@ import java.io.Serializable;
 
 import icepick.State;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_REPAIR_SYNC_BACKEND;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_LINK_LOCAL;
@@ -47,6 +48,9 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
 
   @State
   String dropBoxTokenRequestPendingForAccount = null;
+
+  @State
+  boolean incomingAccountDeleted = false;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -128,11 +132,38 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
       return;
     } else if (anInt == R.id.SYNC_LINK_COMMAND_REMOTE_DO) {
       Account account = (Account) args.getSerializable(KEY_ACCOUNT);
+      if (account.getUuid().equals(getIntent().getStringExtra(KEY_UUID))) {
+        incomingAccountDeleted = true;
+      }
       startTaskExecution(TASK_SYNC_LINK_REMOTE,
           null, account, 0);
       return;
     }
     super.onPositive(args);
+  }
+
+  @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+  private boolean finishWithIncomingAccountDeleted() {
+    if (incomingAccountDeleted) {
+      setResult(RESULT_FIRST_USER);
+      finish();
+      return true;
+    }
+    return false;
+  }
+
+  @Override
+  protected void doHome() {
+    if (!finishWithIncomingAccountDeleted()) {
+      super.doHome();
+    }
+  }
+
+  @Override
+  public void onBackPressed() {
+    if (!finishWithIncomingAccountDeleted()) {
+      super.onBackPressed();
+    }
   }
 
   @Override

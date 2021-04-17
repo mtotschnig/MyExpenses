@@ -651,7 +651,7 @@ public class Account extends Model {
       setId(ContentUris.parseId(uri));
     } else {
       uri = ContentUris.withAppendedId(CONTENT_URI, getId());
-      cr().update(uri, initialValues, null, null);
+      if (cr().update(uri, initialValues, null, null) == 0) return null;
     }
     if (hasForeignCurrency()) {
       storeExchangeRate();
