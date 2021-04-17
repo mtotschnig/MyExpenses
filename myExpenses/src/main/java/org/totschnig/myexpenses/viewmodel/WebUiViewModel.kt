@@ -17,21 +17,24 @@ import org.totschnig.myexpenses.feature.WebUiBinder
 class WebUiViewModel(application: Application) : AndroidViewModel(application) {
     private lateinit var webInputService: IWebInputService
     private var webInputServiceBound: Boolean = false
-    private val serviceState: MutableLiveData<String?> = MutableLiveData()
-    fun getServiceState(): LiveData<String?> = serviceState
+    private val serviceState: MutableLiveData<Result<String?>> = MutableLiveData()
+    fun getServiceState(): LiveData<Result<String?>> = serviceState
     private val serviceConnection: ServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
             webInputService = (service as WebUiBinder).getService()
             webInputServiceBound = true
             webInputService.registerObserver(object: ServerStateObserver {
                 override fun postAddress(address: String) {
-                    serviceState.postValue(address)
+                    serviceState.postValue(Result.success(address))
+                }
+
+                override fun postException(throwable: Throwable) {
+                    serviceState.postValue(Result.failure(throwable))
                 }
 
                 override fun onStopped() {
-                    serviceState.postValue(null)
+                    serviceState.postValue(Result.success(null))
                 }
-
             })
         }
 

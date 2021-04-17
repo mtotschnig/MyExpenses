@@ -47,9 +47,10 @@ import org.totschnig.myexpenses.util.NotificationBuilderWrapper
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper.NOTIFICATION_WEB_UI
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
+import java.io.IOException
+import java.net.ServerSocket
 import javax.inject.Inject
 
-private const val PORT = 9000
 private const val STOP_CLICK_ACTION = "STOP_CLICK_ACTION"
 
 class WebInputService : Service(), IWebInputService {
@@ -76,6 +77,8 @@ class WebInputService : Service(), IWebInputService {
     private var serverStateObserver: ServerStateObserver? = null
 
     private var count = 0
+
+    private var port: Int = 0
 
     inner class LocalBinder : WebUiBinder() {
         override fun getService() = this@WebInputService
@@ -106,7 +109,7 @@ class WebInputService : Service(), IWebInputService {
     }
 
     private val address: String
-        get() = "http://${(applicationContext.getSystemService(WIFI_SERVICE) as WifiManager).connectionInfo.ipAddress.let { Formatter.formatIpAddress(it) }}:$PORT"
+        get() = "http://${(applicationContext.getSystemService(WIFI_SERVICE) as WifiManager).connectionInfo.ipAddress.let { Formatter.formatIpAddress(it) }}:$port"
 
 
     private fun readFromAssets(fileName: String) = assets.open(fileName).bufferedReader()
@@ -126,8 +129,13 @@ class WebInputService : Service(), IWebInputService {
                 }
             }
             START_ACTION -> {
-                if (server == null) {
-                    server = embeddedServer(CIO, PORT, watchPaths = emptyList()) {
+                if (server == null && try {
+                            (9000..9050).first { isAvailable(it) }
+                        } catch (e: NoSuchElementException) {
+                            serverStateObserver?.postException(IOException("No available port found in range 9000..9050"))
+                            0
+                        }.let { port = it; it != 0 }) {
+                    server = embeddedServer(CIO, port, watchPaths = emptyList()) {
                         install(ContentNegotiation) {
                             gson {
                                 registerTypeAdapter(LocalDate::class.java, localDateJsonDeserializer)
@@ -237,6 +245,12 @@ class WebInputService : Service(), IWebInputService {
             }
         }
         return START_NOT_STICKY
+    }
+
+    private fun isAvailable(portNr: Int) = try {
+        ServerSocket(portNr).use { true }
+    } catch (e: IOException) {
+        false
     }
 
     private fun t(@StringRes resId: Int) = wrappedContext.getString(resId)

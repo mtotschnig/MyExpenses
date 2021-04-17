@@ -43,7 +43,7 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "androidx.annotation:annotation:$annotations"
 
-    implementation "io.ktor:ktor:1.5.0"
-    implementation "io.ktor:ktor-server-cio:1.5.0"
-    implementation "io.ktor:ktor-gson:1.5.0"
+    implementation "io.ktor:ktor:$ktor"
+    implementation "io.ktor:ktor-server-cio:$ktor"
+    implementation "io.ktor:ktor-gson:$ktor"
 }
