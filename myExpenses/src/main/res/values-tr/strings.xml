@@ -981,4 +981,8 @@
     <string name="account_widget_configuration_sum_total">Gelecek muameleleri dahil et</string>
     <!-- Title of dialogue that allows to configure account widget -->
     <string name="account_widget_configuration">Hesap widget\'i yapılandırması</string>
-    </resources>
+    <!-- Title of a menu entry allowing to merge duplicate entries in the parties table (payee/payer) -->
+    <string name="menu_merge">Birleştir</string>
+    <!-- When user selects duplicate parties to be merged, he sees this prompt asking him to select which name should be selected for the merged party -->
+    <string name="merge_parties_select">Birleştirilecek tarafın ismini seçin:</string>
+</resources>

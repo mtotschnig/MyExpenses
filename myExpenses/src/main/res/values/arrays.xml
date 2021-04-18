@@ -505,7 +505,7 @@
     </string-array>
 
     <string-array name="versions">
-        <item>480;3.2.9</item>
+        <item>481;3.2.9</item>
         <item>479;3.2.8</item>
         <item>476;3.2.7</item>
         <item>475;3.2.6</item>
@@ -552,6 +552,7 @@
     <string name="version_more_info_326" tools:ignore="UnusedResources">2850988161829310</string>
     <string name="version_more_info_327" tools:ignore="UnusedResources">2855988281329298</string>
     <string name="version_more_info_328" tools:ignore="UnusedResources">2864490073812452</string>
+    <string name="version_more_info_329" tools:ignore="UnusedResources">2872230116371781</string>
 
     <!-- Github -->
     <string name="project_board_314">30#column-10686300</string>

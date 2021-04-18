@@ -36,6 +36,7 @@
   <string name="help_ManageParties_select_mapping_info">Muameleye müdahil bir taraf seçmek için üzerine dokunun.</string>
   <string name="help_ManageParties_select_filter_info">Muamele listesine filtre uygulamak için muameleye müdahil bir tarafa dokunun. Birden fazla taraf seçmek için uzun dokunun.</string>
   <string name="help_ManageParties_floating_action_button">Yeni bir unsur eklemek için kayan eylem düğmesini kullanın.</string>
+  <string name="cab_merge_help_text">Şayet aynı taraf listede imla değişiklikleriyle birden fazla defa mevcutsa, bunları birleştirebilirsiniz. Hangisinin muhafaza edileceğini seçmeniz istenecektir.</string>
   <!--ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_plans_title">Planlama takvim görünümü</string>
   <string name="help_ManageTemplates_planner_title">Gelecek tekrarlamalar</string>

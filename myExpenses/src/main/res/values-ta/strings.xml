@@ -508,6 +508,7 @@
     <string name="pref_manage_stale_images_summary">நீக்கப்பட்ட பரிவர்த்தனைகளில் இருந்து மீதமுள்ள படங்களை நிர்வகிக்கவும்</string>
     <string name="image_deleted">படம் நீக்கப்பட்டது</string>
     <string name="transaction_deleted">பரிவர்த்தனை நீக்கப்பட்டது</string>
+    <string name="account_deleted">கணக்கு நீக்கப்பட்டது</string>
     <string name="dialog_export_applied_to_filter">தற்போதைய வடிப்பான் மூலம் பொருந்திய பரிவர்த்தனைகள் மட்டுமே கருதப்படும்.</string>
     <string name="export_handle_deleted_create_helper">உதவி பரிவர்த்தனையை உருவாக்கவும்</string>
     <string name="export_handle_deleted_update_balance">தொடக்க இருப்பை புதுப்பிக்கவும்</string>
@@ -853,6 +854,7 @@
     <string name="budget_filter_all_methods">அனைத்து முறைகள்</string>
     <string name="budget_filter_all_states">அனைத்து நிலைகள்</string>
     <string name="budget_filter_all_tags">அனைத்து குறிச்சொற்களும்</string>
+    <string name="budget_filter_all_accounts">அனைத்து கணக்குகளும்</string>
     <string name="budget_form_label_filter">வடிப்பான்</string>
     <string name="dialog_title_warning_delete_budget">வரவு செலவுத் திட்டத்தை நீக்கவா?</string>
     <string name="warning_delete_budget">வரவு செலவுத் திட்டம் \"%1$s\" நீக்கப்படும்.</string>
@@ -948,7 +950,21 @@
     <string name="pref_clone_with_current_date_title">நகல் எடுக்கப்பட்ட பரிவர்த்தனைகளின் தேதி</string>
     <string name="default_action">இயல்புநிலை செயல்</string>
     <string name="template_default_action_without_amount_hint">தொகை இல்லாத வார்ப்புருக்கள் இயல்புநிலை நடவடிக்கை \'திருத்து\' உடன் சேமிக்கப்பட வேண்டும்</string>
+    <string name="plan_automatic_without_amount_hint">தொகை இல்லாத திட்டம் தன்னியக்க திட்ட செயல்படுத்தலுடன் சேமிக்கப்படக்கூடாது</string>
     <string name="content_description_edit_plan">நாட்காட்டி செயலியில் திட்டத்தைத் திருத்து</string>
     <string name="reset_equivalent_amounts_success">சமமான தொகைகள் நிலை கொணரப்பட்டன</string>
     <string name="menu_save_and_new_content_description">தரவைச் சேமிக்கவும், அதே தரவுடன் புதிய பரிவர்த்தனையை உருவாக்க படிவத்தைத் திறந்து விடவும்.</string>
+    <!-- %s is replaced with language -->
+    <string name="download_completed">பதிவிறக்கம் (%s) முடிந்தது.</string>
+    <!-- Title of a menu item and a dialogue that allow to adjust the current balance. User can enter the new balance, and transaction form is opened with the amount prefiled to the difference between old and new balance  -->
+    <string name="new_balance">புதிய இருப்பு</string>
+    <string name="title_webui">வலை பயனர் இடைமுகம்</string>
+    <string name="single_feature_info">மாற்றாக இந்த அம்சத்திற்கு மட்டுமே நீங்கள் வரம்பற்ற அணுகலை வாங்க முடியும்.</string>
+    <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
+    <string name="recurrence_last_day_of_month">கடைசி நாள்</string>
+    <string name="account_widget_configuration_sum_total">எதிர்கால பரிவர்த்தனைகளை உள்ளடக்கு</string>
+    <!-- Title of dialogue that allows to configure account widget -->
+    <string name="account_widget_configuration">கணக்கு நிரல் பலகை வடிவமைப்பு</string>
+    <!-- Title of a menu entry allowing to merge duplicate entries in the parties table (payee/payer) -->
+    <string name="menu_merge">ஒன்றிணை</string>
     </resources>
