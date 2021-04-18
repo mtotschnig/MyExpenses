@@ -87,7 +87,7 @@ class CsvImportViewModel(application: Application) : ContentResolvingAndroidView
                 return@liveData
             }
             val m = Money(account.currencyUnit, amount)
-            if (!autoFill && !isSplitParent && columnIndexCategory != -1) {
+            if (!isSplitParent && columnIndexCategory != -1) {
                 val category: String = saveGetFromRecord(record, columnIndexCategory)
                 if (category != "") {
                     val subCategory = if (columnIndexSubcategory != -1) saveGetFromRecord(record, columnIndexSubcategory) else ""
@@ -139,7 +139,7 @@ class CsvImportViewModel(application: Application) : ContentResolvingAndroidView
                 val payee: String = saveGetFromRecord(record, columnIndexPayee)
                 if (payee != "") {
                     val payeeInfo = payeeCache[payee] ?: run {
-                        repository.findOrWritePayeeInfo(payee, autoFill)
+                        repository.findOrWritePayeeInfo(payee, autoFill && t.catId == null)
                     }
                     t.payeeId = payeeInfo.first
                     payeeInfo.second?.categoryId?.let {
