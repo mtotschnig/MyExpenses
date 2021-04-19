@@ -28,6 +28,8 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
@@ -37,8 +39,11 @@ import org.threeten.bp.LocalDate
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.CurrencyAdapter
 import org.totschnig.myexpenses.databinding.OneAccountBinding
+import org.totschnig.myexpenses.delegate.TransactionDelegate
 import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
+import org.totschnig.myexpenses.fragment.KEY_DELETED_IDS
+import org.totschnig.myexpenses.fragment.KEY_TAG_LIST
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
@@ -56,10 +61,13 @@ import org.totschnig.myexpenses.util.Result
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
+import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.Currency.Companion.create
+import org.totschnig.myexpenses.viewmodel.data.Tag
 import java.io.Serializable
 import java.math.BigDecimal
+import java.util.ArrayList
 
 /**
  * Activity for editing an account
@@ -73,14 +81,17 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
     private lateinit var syncSpinner: SpinnerHelper
     private lateinit var currencyAdapter: CurrencyAdapter
     private lateinit var currencyViewModel: CurrencyViewModel
+    private lateinit var viewModel: TransactionEditViewModel
+    lateinit var delegate: TransactionDelegate<*>
     private var _account: Account? = null
+    private lateinit var tags: MutableList<Tag>
     private val account: Account
         get() {
             if (_account == null) {
                 val extras = intent.extras
                 val rowId = extras?.getLong(DatabaseConstants.KEY_ROWID) ?: 0
                 _account = if (rowId != 0L) {
-                    Account.getInstanceFromDb(rowId)
+                    Account.getInstanceFromDbWithTags(rowId).first
                 } else {
                     Account().apply {
                         setCurrency(currencyContext[extras?.getString(DatabaseConstants.KEY_CURRENCY)
@@ -112,6 +123,7 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
         } else {
             setTitle(R.string.menu_create_account)
         }
+        tags = Account.getInstanceFromDbWithTags(rowId).second
         configureForCurrency(account.currencyUnit)
         currencySpinner = SpinnerHelper(findViewById(R.id.Currency))
         currencyAdapter = CurrencyAdapter(this, android.R.layout.simple_spinner_item)
@@ -147,10 +159,27 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == PREFERENCES_REQUEST) {
-            configureSyncBackendAdapter()
+        when (requestCode) {
+            PREFERENCES_REQUEST -> configureSyncBackendAdapter()
+            SELECT_TAGS_REQUEST -> intent?.also {
+                if (resultCode == RESULT_OK) {
+                    (intent.getParcelableArrayListExtra<Tag>(KEY_TAG_LIST))?.let {
+                        //viewModel.updateTags(it)
+                        //setDirty()
+                        tags.addAll(it)
+                    }
+                } /*
+                    else if (resultCode == RESULT_CANCELED) {
+                    intent.getLongArrayExtra(KEY_DELETED_IDS)?.let {
+                        tags.clear()
+                        tags.addAll()
+                    }
+                    */
+
+                }
+            }
         }
-    }
+
 
     private fun configureSyncBackendAdapter() {
         val syncBackendAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item,
@@ -186,6 +215,14 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
             binding.Criterion.setAmount(criterion.amountMajor)
             updateCriterionLabel()
         }
+        viewModel.getTags().observe(this, { tags ->
+            if (::delegate.isInitialized) {
+                delegate.showTags(tags) { tag ->
+                    viewModel.removeTag(tag)
+                    setDirty()
+                }
+            }
+        })
     }
 
     private fun setExchangeRateVisibility(currencyUnit: CurrencyUnit) {
@@ -429,4 +466,11 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
         get() = binding.Amount
     override val exchangeRateEdit: ExchangeRateEdit
         get() = binding.ERR.ExchangeRate
+
+    fun startActiveTagSelection(@Suppress("UNUSED_PARAMETER") view: View) {
+        val i = Intent(this, ManageTags::class.java).apply {
+            putParcelableArrayListExtra(KEY_TAG_LIST, tags.let { ArrayList(it) })
+        }
+        startActivityForResult(i, SELECT_TAGS_REQUEST)
+    }
 }
