@@ -35,11 +35,11 @@ import javax.inject.Inject
 class TemplateWidgetService : RemoteViewsService() {
 
     override fun onGetViewFactory(intent: Intent): RemoteViewsFactory {
-        return TemplatetRemoteViewsFactory(this.applicationContext, intent)
+        return TemplateRemoteViewsFactory(this.applicationContext, intent)
     }
 }
 
-class TemplatetRemoteViewsFactory(
+class TemplateRemoteViewsFactory(
         val context: Context,
         intent: Intent
 ) : AbstractRemoteViewsFactory(context, intent) {
@@ -102,7 +102,7 @@ class TemplatetRemoteViewsFactory(
             setViewVisibility(buttonId, View.GONE)
         } else {
             setViewVisibility(buttonId, View.VISIBLE)
-            setImageViewVectorDrawable(buttonId, drawableResId)
+            setImageViewVectorDrawable(context, buttonId, drawableResId)
             setContentDescription(buttonId, context.getString(contentDescriptionResId))
             setOnClickFillInIntent(buttonId, Intent().apply {
                 putExtra(KEY_ROWID, templateId)
