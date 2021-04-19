@@ -48,6 +48,7 @@ import org.totschnig.myexpenses.viewmodel.data.Tag;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
@@ -98,6 +99,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_EXPENSE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_INCOME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT_PART;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_TRANSFER;
+import static org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_TAGS_URI;
 
 /**
  * Account represents an account stored in the database.
@@ -262,6 +264,25 @@ public class Account extends Model {
     account = new Account(c);
     c.close();
     return account;
+  }
+
+  public static kotlin.Pair<Account, List<Tag>> getInstanceFromDbWithTags(long id) {
+    Account t = getInstanceFromDb(id);
+    return t == null ? null : new kotlin.Pair<>(t, t.loadTags());
+  }
+
+  protected List<Tag> loadTags() {
+    List<Tag> tags = new ArrayList<>();
+    Cursor c = cr().query(ACCOUNTS_TAGS_URI, null, KEY_ACCOUNTID + " = ?", new String[]{String.valueOf(getId())}, null);
+    if (c != null) {
+      c.moveToFirst();
+      while (!c.isAfterLast()) {
+        tags.add(new Tag(c.getLong(c.getColumnIndex(DatabaseConstants.KEY_ROWID)), c.getString(c.getColumnIndex(DatabaseConstants.KEY_LABEL)), true, 0));
+        c.moveToNext();
+      }
+      c.close();
+    }
+    return tags;
   }
 
   private Uri buildExchangeRateUri() {
@@ -998,4 +1019,6 @@ public class Account extends Model {
   public boolean isSealed() {
     return sealed;
   }
+
+
 }
