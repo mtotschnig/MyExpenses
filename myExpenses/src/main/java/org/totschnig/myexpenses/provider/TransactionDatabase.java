@@ -656,13 +656,6 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + KEY_TEMPLATEID + " integer references " + TABLE_TEMPLATES + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
           + "primary key (" + KEY_TAGID + "," + KEY_TEMPLATEID + "));";
 
-  private static final String ACCOUNT_TAGS_CREATE =
-      "CREATE TABLE " + TABLE_ACCOUNTS_TAGS
-          + " ( " + KEY_TAGID + " integer references " + TABLE_TAGS + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
-          + KEY_ACCOUNTID + " integer references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
-          + "primary key (" + KEY_TAGID + "," + KEY_ACCOUNTID + "));";
-
-
   public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
   public static final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
 

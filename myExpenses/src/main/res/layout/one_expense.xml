@@ -246,7 +246,7 @@
                         <TextView
                             android:id="@+id/TagLabel"
                             style="@style/FormLabel"
-                            android:text="@string/active_tag" />
+                            android:text="@string/tags" />
 
                         <LinearLayout
                             style="@style/FormField"

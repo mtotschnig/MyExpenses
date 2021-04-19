@@ -133,7 +133,7 @@
                     <TextView
                         android:id="@+id/TagLabel"
                         style="@style/FormLabel"
-                        android:text="@string/tags" />
+                        android:text="@string/active_tag" />
 
                     <LinearLayout
                         style="@style/FormField"
@@ -153,7 +153,7 @@
                             android:layout_gravity="center"
                             android:contentDescription="@string/tags_create_or_select"
                             android:focusable="true"
-                            android:onClick="startTagSelection"
+                            android:onClick="startActiveTagSelection"
                             app:srcCompat="@drawable/ic_menu_add" />
                     </LinearLayout>
                 </TableRow>
