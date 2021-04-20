@@ -296,7 +296,6 @@ public class DatabaseConstants {
   public static final String TABLE_TRANSACTIONS_TAGS = "transactions_tags";
   public static final String TABLE_ACCOUNT_TAGS = "account_tags";
   public static final String TABLE_TEMPLATES_TAGS = "templates_tags";
-  public static final String TABLE_ACCOUNTS_TAGS = "accounts_tags";
   /**
    * used on backup and restore
    */

@@ -215,14 +215,6 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
             binding.Criterion.setAmount(criterion.amountMajor)
             updateCriterionLabel()
         }
-        viewModel.getTags().observe(this, { tags ->
-            if (::delegate.isInitialized) {
-                delegate.showTags(tags) { tag ->
-                    viewModel.removeTag(tag)
-                    setDirty()
-                }
-            }
-        })
     }
 
     private fun setExchangeRateVisibility(currencyUnit: CurrencyUnit) {
