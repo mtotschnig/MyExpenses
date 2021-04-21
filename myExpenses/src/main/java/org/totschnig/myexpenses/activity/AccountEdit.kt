@@ -59,7 +59,9 @@ import org.totschnig.myexpenses.ui.ExchangeRateEdit
 import org.totschnig.myexpenses.ui.SpinnerHelper
 import org.totschnig.myexpenses.util.Result
 import org.totschnig.myexpenses.util.UiUtils
+import org.totschnig.myexpenses.util.addChipsBulk
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.viewmodel.AccountEditViewModel
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
 import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel
 import org.totschnig.myexpenses.viewmodel.data.Currency
@@ -81,17 +83,16 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
     private lateinit var syncSpinner: SpinnerHelper
     private lateinit var currencyAdapter: CurrencyAdapter
     private lateinit var currencyViewModel: CurrencyViewModel
-    private lateinit var viewModel: TransactionEditViewModel
+    private lateinit var viewModel: AccountEditViewModel
     lateinit var delegate: TransactionDelegate<*>
     private var _account: Account? = null
-    private lateinit var tags: MutableList<Tag>
     private val account: Account
         get() {
             if (_account == null) {
                 val extras = intent.extras
                 val rowId = extras?.getLong(DatabaseConstants.KEY_ROWID) ?: 0
                 _account = if (rowId != 0L) {
-                    Account.getInstanceFromDbWithTags(rowId).first
+                    viewModel.accountWithTags(rowId).value
                 } else {
                     Account().apply {
                         setCurrency(currencyContext[extras?.getString(DatabaseConstants.KEY_CURRENCY)
@@ -113,6 +114,7 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
         setContentView(binding.root)
         setupToolbar()
         currencyViewModel = ViewModelProvider(this).get(CurrencyViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(AccountEditViewModel::class.java)
         val extras = intent.extras
         val rowId = extras?.getLong(DatabaseConstants.KEY_ROWID) ?: 0
         if (rowId != 0L) {
@@ -123,7 +125,6 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
         } else {
             setTitle(R.string.menu_create_account)
         }
-        tags = Account.getInstanceFromDbWithTags(rowId).second
         configureForCurrency(account.currencyUnit)
         currencySpinner = SpinnerHelper(findViewById(R.id.Currency))
         currencyAdapter = CurrencyAdapter(this, android.R.layout.simple_spinner_item)
@@ -133,7 +134,6 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
         accountTypeSpinner = SpinnerHelper(spinner)
         syncSpinner = SpinnerHelper(findViewById(R.id.Sync))
         configureSyncBackendAdapter()
-        populateFields()
         currencyViewModel.getCurrencies().observe(this, { currencies: List<Currency?> ->
             currencyAdapter.addAll(currencies)
             if (savedInstanceState == null) {
@@ -161,21 +161,17 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             PREFERENCES_REQUEST -> configureSyncBackendAdapter()
-            SELECT_TAGS_REQUEST -> intent?.also {
+            SELECT_TAGS_REQUEST -> data?.also {
                 if (resultCode == RESULT_OK) {
-                    (intent.getParcelableArrayListExtra<Tag>(KEY_TAG_LIST))?.let {
-                        //viewModel.updateTags(it)
-                        //setDirty()
-                        tags.addAll(it)
+                    (data.getParcelableArrayListExtra<Tag>(KEY_TAG_LIST))?.let {
+                        viewModel.updateTags(it)
+                        setDirty()
                     }
-                } /*
-                    else if (resultCode == RESULT_CANCELED) {
-                    intent.getLongArrayExtra(KEY_DELETED_IDS)?.let {
-                        tags.clear()
-                        tags.addAll()
+                } else if (resultCode == RESULT_CANCELED) {
+                    data.getLongArrayExtra(KEY_DELETED_IDS)?.let {
+                        viewModel.removeTags(it)
                     }
-                    */
-
+                }
                 }
             }
         }
@@ -201,6 +197,7 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
     override fun onResume() {
         super.onResume()
         setupListeners()
+        populateFields()
     }
 
     /**
@@ -214,6 +211,17 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
         if (criterion != null) {
             binding.Criterion.setAmount(criterion.amountMajor)
             updateCriterionLabel()
+        }
+        showTags(viewModel.getTags().value) { tag ->
+            viewModel.getTags().value?.remove(tag)
+            setDirty()
+        }
+    }
+
+    private fun showTags(tags: Iterable<Tag>?, closeFunction: (Tag) -> Unit) {
+        with(binding.TagGroup) {
+            removeAllViews()
+            tags?.let { addChipsBulk(it, closeFunction) }
         }
     }
 
@@ -461,7 +469,7 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
 
     fun startActiveTagSelection(@Suppress("UNUSED_PARAMETER") view: View) {
         val i = Intent(this, ManageTags::class.java).apply {
-            putParcelableArrayListExtra(KEY_TAG_LIST, tags.let { ArrayList(it) })
+            putParcelableArrayListExtra(KEY_TAG_LIST, viewModel.getTags().value?.let { ArrayList(it) })
         }
         startActivityForResult(i, SELECT_TAGS_REQUEST)
     }

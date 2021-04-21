@@ -107,7 +107,7 @@ import static org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_TAG
  *
  * @author Michael Totschnig
  */
-public class Account extends Model {
+public class Account extends AbstractAccount {
 
   public static final int EXPORT_HANDLE_DELETED_DO_NOTHING = -1;
   public static final int EXPORT_HANDLE_DELETED_UPDATE_BALANCE = 0;
@@ -131,6 +131,8 @@ public class Account extends Model {
   private SortDirection sortDirection = SortDirection.DESC;
 
   private Money criterion;
+
+  public List<Tag> activeTags;
 
   /**
    * exchange rate comparing major units
@@ -683,6 +685,7 @@ public class Account extends Model {
     updateTransferShortcut();
     return uri;
   }
+
 
   private void ensureCurrency(CurrencyUnit currencyUnit) {
     Cursor cursor = cr().query(TransactionProvider.CURRENCIES_URI, new String[]{"count(*)"},
