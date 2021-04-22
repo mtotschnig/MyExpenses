@@ -7,6 +7,7 @@
     <string name="drawer_open">"Navigációs fiók kinyitása"</string>
     <string name="drawer_close">"Navigációs fiók bezárása"</string>
     <string name="saving">"Mentés…"</string>
+    <string name="default_action">"Alapértelmezett művelet"</string>
     <string name="toast_text_copied">"Másolt szöveg"</string>
     <string name="copy_text">"Másolás vágólapra"</string>
     <string name="stop">"Leállítás"</string>

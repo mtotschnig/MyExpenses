@@ -948,7 +948,6 @@
     <!-- When user opens a template from the transaction form, existing data is discarded. This message appears in a dialgoue to confirm the action -->
     <string name="confirmation_load_template_discard_data">Os dados presentes no formulário serão descartados.</string>
     <string name="pref_clone_with_current_date_title">Data das transações clonadas</string>
-    <string name="default_action">Ação padrão</string>
     <string name="template_default_action_without_amount_hint">O modelo sem quantia deve ser salvo com a ação padrão \'Editar\'</string>
     <string name="plan_automatic_without_amount_hint">Um plano sem quantia não deve ser salvo com a execução automática ativada</string>
     <string name="content_description_edit_plan">Editar o plano no aplicativo de agenda</string>

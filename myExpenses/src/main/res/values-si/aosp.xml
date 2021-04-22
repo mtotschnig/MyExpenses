@@ -3,6 +3,7 @@
     <string name="drawer_open">"සංචාලන ඇදීම විවෘත කරන්න"</string>
     <string name="drawer_close">"සංචාලන ඇදීම වසන්න"</string>
     <string name="saving">"සුරැකේ…"</string>
+    <string name="default_action">"සුපුරුදු ක්‍රියාව"</string>
     <string name="toast_text_copied">"පෙළ පිටපත් කරන ලදී"</string>
     <string name="copy_text">"පසුරු පුවරුවට පිටපත් කරන්න"</string>
     <string name="stop">"නතර කරන්න"</string>

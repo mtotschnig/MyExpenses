@@ -972,7 +972,6 @@
     <!-- When user opens a template from the transaction form, existing data is discarded. This message appears in a dialgoue to confirm the action -->
     <string name="confirmation_load_template_discard_data">Data existujícího formuláře budou zahozena.</string>
     <string name="pref_clone_with_current_date_title">Datum klonovaných transakcí</string>
-    <string name="default_action">Výchozí akce</string>
     <string name="template_default_action_without_amount_hint">Šablona bez částky by měla být uložena s výchozí akcí „Upravit“</string>
     <string name="plan_automatic_without_amount_hint">Plán bez částky nebude uložen automatickým vykonáním plánu</string>
     <string name="content_description_edit_plan">Upravit plán v aplikaci kalendáře</string>

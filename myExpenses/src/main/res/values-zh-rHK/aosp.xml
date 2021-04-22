@@ -6,7 +6,8 @@
 <resources>
     <string name="drawer_open">"開啟導覽列"</string>
     <string name="drawer_close">"關閉導覽列"</string>
-    <string name="saving">"正在儲存..."</string>
+    <string name="saving">"正在儲存…"</string>
+    <string name="default_action">"預設動作"</string>
     <string name="toast_text_copied">"文字已複製"</string>
     <string name="copy_text">"複製到剪貼簿"</string>
     <string name="stop">"停止"</string>

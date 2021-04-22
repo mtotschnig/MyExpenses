@@ -936,7 +936,6 @@
     <!-- When user opens a template from the transaction form, existing data is discarded. This message appears in a dialgoue to confirm the action -->
     <string name="confirmation_load_template_discard_data">现有的表格数据将被丢弃。</string>
     <string name="pref_clone_with_current_date_title">复制交易使用的日期</string>
-    <string name="default_action">程序默认动作</string>
     <string name="template_default_action_without_amount_hint">没有金额的模板应该使用默认操作，即以“编辑”来保存文件。</string>
     <string name="plan_automatic_without_amount_hint">没有金额的计划不应该将其储存成自动执行模式</string>
     <string name="content_description_edit_plan">在日历应用程序中编辑计划</string>
@@ -969,4 +968,8 @@
     <string name="account_widget_configuration_sum_total">包括未来交易</string>
     <!-- Title of dialogue that allows to configure account widget -->
     <string name="account_widget_configuration">配置账户小部件widget</string>
-    </resources>
+    <!-- Title of a menu entry allowing to merge duplicate entries in the parties table (payee/payer) -->
+    <string name="menu_merge">合并</string>
+    <!-- When user selects duplicate parties to be merged, he sees this prompt asking him to select which name should be selected for the merged party -->
+    <string name="merge_parties_select">请选择要合并的交易对象：</string>
+</resources>

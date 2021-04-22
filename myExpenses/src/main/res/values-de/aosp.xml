@@ -7,6 +7,7 @@
     <string name="drawer_open">"Navigationsleiste öffnen"</string>
     <string name="drawer_close">"Navigationsleiste schließen"</string>
     <string name="saving">"Speichern…"</string>
+    <string name="default_action">"Standardaktion"</string>
     <string name="toast_text_copied">"Text kopiert"</string>
     <string name="copy_text">"In Zwischenablage kopieren"</string>
     <string name="stop">"Anhalten"</string>

@@ -951,7 +951,6 @@
     <!-- When user opens a template from the transaction form, existing data is discarded. This message appears in a dialgoue to confirm the action -->
     <string name="confirmation_load_template_discard_data">A meglévő űrlapadatok elvetésre kerülnek.</string>
     <string name="pref_clone_with_current_date_title">Klónozott tranzakció dátuma</string>
-    <string name="default_action">Alapértelmezett művelet</string>
     <string name="template_default_action_without_amount_hint">Az összeg nélküli sablont el kell menteni az alapértelmezett \"Szerkesztés\" művelettel</string>
     <string name="plan_automatic_without_amount_hint">Az összeg nélküli terveket ne mentse el automatikus végrehajtással</string>
     <string name="content_description_edit_plan">Terv szerkesztése a naptár alkalmazásban</string>
