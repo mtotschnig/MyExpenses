@@ -93,6 +93,13 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
         viewModel = ViewModelProvider(this).get(AccountEditViewModel::class.java)
         val extras = intent.extras
         val rowId = extras?.getLong(DatabaseConstants.KEY_ROWID) ?: 0
+        currencySpinner = SpinnerHelper(findViewById(R.id.Currency))
+        currencyAdapter = CurrencyAdapter(this, android.R.layout.simple_spinner_item)
+        currencySpinner.adapter = currencyAdapter
+        val spinner = findViewById<Spinner>(R.id.AccountType)
+        DialogUtils.configureTypeSpinner(spinner)
+        accountTypeSpinner = SpinnerHelper(spinner)
+        syncSpinner = SpinnerHelper(findViewById(R.id.Sync))
         if (rowId != 0L) {
             mNewInstance = false
             setTitle(R.string.menu_edit_account)
@@ -115,13 +122,6 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
             setTitle(R.string.menu_create_account)
             populateFields(savedInstanceState)
         }
-        currencySpinner = SpinnerHelper(findViewById(R.id.Currency))
-        currencyAdapter = CurrencyAdapter(this, android.R.layout.simple_spinner_item)
-        currencySpinner.adapter = currencyAdapter
-        val spinner = findViewById<Spinner>(R.id.AccountType)
-        DialogUtils.configureTypeSpinner(spinner)
-        accountTypeSpinner = SpinnerHelper(spinner)
-        syncSpinner = SpinnerHelper(findViewById(R.id.Sync))
         linkInputsWithLabels()
         viewModel.getTags().observe(this) {
             showTags(it) { tag ->
