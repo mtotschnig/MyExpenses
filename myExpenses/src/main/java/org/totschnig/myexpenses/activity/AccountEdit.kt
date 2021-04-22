@@ -84,7 +84,6 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
     private lateinit var currencyAdapter: CurrencyAdapter
     private lateinit var currencyViewModel: CurrencyViewModel
     private lateinit var viewModel: AccountEditViewModel
-    lateinit var delegate: TransactionDelegate<*>
     private var _account: Account? = null
     private val account: Account
         get() {
@@ -134,6 +133,7 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
         accountTypeSpinner = SpinnerHelper(spinner)
         syncSpinner = SpinnerHelper(findViewById(R.id.Sync))
         configureSyncBackendAdapter()
+        populateFields()
         currencyViewModel.getCurrencies().observe(this, { currencies: List<Currency?> ->
             currencyAdapter.addAll(currencies)
             if (savedInstanceState == null) {
@@ -141,6 +141,12 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
             }
         })
         linkInputsWithLabels()
+        viewModel.getTags().observe(this) {
+            showTags(it) { tag ->
+                viewModel.removeTag(tag)
+                setDirty()
+            }
+        }
     }
 
     override fun afterTextChanged(s: Editable) {
@@ -197,7 +203,6 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
     override fun onResume() {
         super.onResume()
         setupListeners()
-        populateFields()
     }
 
     /**
@@ -211,10 +216,6 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
         if (criterion != null) {
             binding.Criterion.setAmount(criterion.amountMajor)
             updateCriterionLabel()
-        }
-        showTags(viewModel.getTags().value) { tag ->
-            viewModel.getTags().value?.remove(tag)
-            setDirty()
         }
     }
 
@@ -262,13 +263,19 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
             }
         }
         account.setCriterion(binding.Criterion.typedValue)
-        //EditActivity.saveState calls DbWriteFragment
-        super.saveState()
+        viewModel.save(account).observe(this) {
+            if(it < 0) {
+                showSnackbar("ERROR")
+            } else {
+                account.requestSync()
+                intent.putExtra(DatabaseConstants.KEY_ROWID, it)
+                setResult(RESULT_OK, intent)
+                currencyContext.ensureFractionDigitsAreCached(account.currencyUnit)
+                finish()
+            }
+        }
     }
 
-    override fun getObject(): Model {
-        return account
-    }
 
     override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int,
                                 id: Long) {
@@ -296,24 +303,6 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
         // TODO Auto-generated method stub
     }
 
-    /*
-   * callback of DbWriteFragment
-   */
-    override fun onPostExecute(result: Uri?) {
-        if (result == null) {
-            complain()
-            super.onPostExecute(result)
-        } else {
-            val intent = Intent()
-            val id = ContentUris.parseId(result)
-            account.requestSync()
-            intent.putExtra(DatabaseConstants.KEY_ROWID, id)
-            setResult(RESULT_OK, intent)
-            currencyContext.ensureFractionDigitsAreCached(account.currencyUnit)
-            finish()
-        }
-        //no need to call super after finish
-    }
 
     override fun onPostExecute(taskId: Int, o: Any?) {
         super.onPostExecute(taskId, o)
