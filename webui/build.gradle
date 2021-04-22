@@ -33,7 +33,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-service:$archLifecycleVersion"
     //at the moment, we need to stick with the last version that supports java 6
     //noinspection GradleDependency
-    implementation "org.apache.commons:commons-lang3:$commonsLang"
+    implementation "org.apache.commons:commons-text:$commonsText"
     implementation "com.jakewharton.threetenabp:threetenabp:$threetenabp"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
     implementation "com.google.dagger:dagger:$rootProject.daggerVersion"

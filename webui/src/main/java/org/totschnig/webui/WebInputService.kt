@@ -21,7 +21,7 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.server.cio.*
 import io.ktor.server.engine.*
-import org.apache.commons.lang3.text.StrSubstitutor
+import org.apache.commons.text.StringSubstitutor
 import org.threeten.bp.LocalDate
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
@@ -212,7 +212,7 @@ class WebInputService : Service(), IWebInputService {
                                                     .toList()
                                         },
                                 )
-                                val text = StrSubstitutor.replace(readFromAssets("form.html"), mapOf(
+                                val text = StringSubstitutor.replace(readFromAssets("form.html"), mapOf(
                                         "i18n_title" to "${t(R.string.app_name)} ${getString(R.string.title_webui)}",
                                         "i18n_account" to t(R.string.account),
                                         "i18n_amount" to t(R.string.amount),
