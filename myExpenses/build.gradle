@@ -170,7 +170,7 @@ android {
     //It does not seem possible to define dynamicFeatures dependent on variant
     //If you want to build intern variant, you need to include mlkit and/or tesseract module
     //dynamicFeatures = [':ocr', ':mlkit', ':tesseract']
-    //dynamicFeatures = [':ocr', ':webui']
+    dynamicFeatures = [':ocr', ':webui']
 }
 
 configurations {
