@@ -63,7 +63,8 @@ class CsvImportDataFragment : Fragment() {
             R.string.method to "METHOD",
             R.string.status to "STATUS",
             R.string.reference_number to "NUMBER",
-            R.string.split_transaction to "SPLIT"
+            R.string.split_transaction to "SPLIT",
+            R.string.tags to "TAGS"
     )
 
     private lateinit var fields: List<Pair<Int, String?>>

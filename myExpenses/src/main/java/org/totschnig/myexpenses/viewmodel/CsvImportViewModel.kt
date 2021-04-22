@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
+import android.content.ContentProviderOperation
 import android.net.Uri
 import android.text.TextUtils
 import androidx.lifecycle.LiveData
@@ -8,6 +9,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVRecord
+import org.apache.commons.text.StringTokenizer
+import org.apache.commons.text.matcher.StringMatcherFactory
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.AutoFillInfo
 import org.totschnig.myexpenses.export.CategoryInfo
@@ -21,10 +24,11 @@ import org.totschnig.myexpenses.model.PaymentMethod.PreDefined
 import org.totschnig.myexpenses.model.SplitTransaction
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model.Transfer
+import org.totschnig.myexpenses.model.extractTagIds
+import org.totschnig.myexpenses.model.saveTagLinks
 import org.totschnig.myexpenses.provider.TransactionProvider
 import java.io.InputStreamReader
 import java.math.BigDecimal
-import java.util.*
 
 class CsvImportViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
     private val _progress: MutableLiveData<Int> = MutableLiveData()
@@ -171,7 +175,18 @@ class CsvImportViewModel(application: Application) : ContentResolvingAndroidView
             if (columnIndexNumber != -1) {
                 t.referenceNumber = saveGetFromRecord(record, columnIndexNumber)
             }
-            if (t.save() != null) {
+            val ops = ArrayList<ContentProviderOperation>()
+            ops.addAll(t.buildSaveOperations(false))
+            columnToFieldMap.indexOf(R.string.tags).takeIf { it != -1 }?.let { it ->
+                saveGetFromRecord(record, it).takeIf { it != "" }?.let { tagList ->
+                    val tokenizer = StringTokenizer(tagList)
+                    tokenizer.quoteMatcher = StringMatcherFactory.INSTANCE.quoteMatcher()
+                    tokenizer.delimiterMatcher = StringMatcherFactory.INSTANCE.commaMatcher()
+                    ops.addAll(saveTagLinks(extractTagIds(tokenizer.tokenList, java.util.HashMap()), null, 0, false))
+                }
+            }
+
+            if (contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops).size == ops.size) {
                 if (isSplitParent) {
                     splitParent = t.id
                 }

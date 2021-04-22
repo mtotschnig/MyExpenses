@@ -10,11 +10,12 @@ import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Category
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.ExportFormat
-import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DbUtils
+import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.Utils
@@ -77,10 +78,11 @@ abstract class AbstractExporter
                             var splits: Cursor? = null
                             var readCat: Cursor
                             val isSplit = DatabaseConstants.SPLIT_CATID == catId
+                            val rowId = cursor.getLong(cursor.getColumnIndex(DatabaseConstants.KEY_ROWID))
                             if (isSplit) {
                                 //split transactions take their full_label from the first split part
-                                splits = Model.cr().query(Transaction.CONTENT_URI, null,
-                                        DatabaseConstants.KEY_PARENTID + " = " + cursor.getLong(cursor.getColumnIndex(DatabaseConstants.KEY_ROWID)), null, null)
+                                splits = context.contentResolver.query(Transaction.CONTENT_URI, null,
+                                        "${DatabaseConstants.KEY_PARENTID} = ?", arrayOf(rowId.toString()), null)
                                 readCat = if (splits != null && splits.moveToFirst()) {
                                     splits
                                 } else {
@@ -115,7 +117,18 @@ abstract class AbstractExporter
                             val referenceNumber = DbUtils.getString(cursor, DatabaseConstants.KEY_REFERENCE_NUMBER)
                             val methodLabel = cursor.getString(cursor.getColumnIndex(DatabaseConstants.KEY_METHOD_LABEL))
                             val pictureFileName = StringUtils.substringAfterLast(DbUtils.getString(cursor, DatabaseConstants.KEY_PICTURE_URI), "/")
-                            val tagList: String = DbUtils.getString(cursor, DatabaseConstants.KEY_TAGLIST)
+                            val tagList = context.contentResolver.query(TransactionProvider.TRANSACTIONS_TAGS_URI, arrayOf(KEY_LABEL),
+                                    "${DatabaseConstants.KEY_TRANSACTIONID} = ?", arrayOf(rowId.toString()), null)?.use {
+                                if (it.moveToFirst())
+                                    sequence {
+                                        while (!it.isAfterLast()) {
+                                            yield(it.getString(0).let {
+                                                if (it.contains(',')) "'$it'" else it
+                                            })
+                                            it.moveToNext()
+                                        }
+                                    }.joinToString(", ") else null
+                            } ?: ""
                             out.write(line(isSplit, dateStr, payee, bdAmount, labelMain, labelSub, fullLabel, comment,
                                     methodLabel, status, referenceNumber, pictureFileName, tagList))
                             out.write("\n")
