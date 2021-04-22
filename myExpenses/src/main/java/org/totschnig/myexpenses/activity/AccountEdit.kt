@@ -336,8 +336,8 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
             } else {
                 item.isChecked = account.excludeFromTotals
             }
-            return super.onPrepareOptionsMenu(menu)
         }
+        return super.onPrepareOptionsMenu(menu)
     }
 
     override fun dispatchCommand(command: Int, tag: Any?): Boolean {
