@@ -61,5 +61,6 @@ ext {
     assertjVersionAndroid = "2.9.1"
     annotations = "1.2.0"
     commonsLang = "3.12.0"
+    commonsText = "1.9"
     ktor = "1.5.3"
 }
