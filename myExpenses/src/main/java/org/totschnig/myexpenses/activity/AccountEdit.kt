@@ -15,9 +15,7 @@
 package org.totschnig.myexpenses.activity
 
 import android.annotation.SuppressLint
-import android.content.ContentUris
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.view.Menu
@@ -28,8 +26,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
@@ -39,7 +35,6 @@ import org.threeten.bp.LocalDate
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.CurrencyAdapter
 import org.totschnig.myexpenses.databinding.OneAccountBinding
-import org.totschnig.myexpenses.delegate.TransactionDelegate
 import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.fragment.KEY_DELETED_IDS
@@ -48,7 +43,6 @@ import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -63,7 +57,6 @@ import org.totschnig.myexpenses.util.addChipsBulk
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.AccountEditViewModel
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
-import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.Currency.Companion.create
 import org.totschnig.myexpenses.viewmodel.data.Tag
@@ -84,23 +77,7 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
     private lateinit var currencyAdapter: CurrencyAdapter
     private lateinit var currencyViewModel: CurrencyViewModel
     private lateinit var viewModel: AccountEditViewModel
-    private var _account: Account? = null
-    private val account: Account
-        get() {
-            if (_account == null) {
-                val extras = intent.extras
-                val rowId = extras?.getLong(DatabaseConstants.KEY_ROWID) ?: 0
-                _account = if (rowId != 0L) {
-                    viewModel.accountWithTags(rowId).value
-                } else {
-                    Account().apply {
-                        setCurrency(currencyContext[extras?.getString(DatabaseConstants.KEY_CURRENCY)
-                                ?: currencyViewModel.default.code])
-                    }
-                }
-            }
-            return _account!!
-        }
+    private lateinit var account: Account
 
     public override fun getDiscardNewMessage(): Int {
         return R.string.dialog_confirm_discard_new_account
@@ -119,10 +96,24 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
         if (rowId != 0L) {
             mNewInstance = false
             setTitle(R.string.menu_edit_account)
-            binding.Label.setText(account.label)
-            binding.Description.setText(account.description)
+            viewModel.accountWithTags(rowId).observe(this) {
+                if (it != null) {
+                    account = it
+                    binding.Label.setText(account.label)
+                    binding.Description.setText(account.description)
+                    populateFields(savedInstanceState)
+                } else {
+                    showSnackbar("Error loading account")
+                    finish()
+                }
+            }
         } else {
+            account = Account().apply {
+                setCurrency(currencyContext[extras?.getString(DatabaseConstants.KEY_CURRENCY)
+                        ?: currencyViewModel.default.code])
+            }
             setTitle(R.string.menu_create_account)
+            populateFields(savedInstanceState)
         }
         configureForCurrency(account.currencyUnit)
         currencySpinner = SpinnerHelper(findViewById(R.id.Currency))
@@ -133,13 +124,6 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
         accountTypeSpinner = SpinnerHelper(spinner)
         syncSpinner = SpinnerHelper(findViewById(R.id.Sync))
         configureSyncBackendAdapter()
-        populateFields()
-        currencyViewModel.getCurrencies().observe(this, { currencies: List<Currency?> ->
-            currencyAdapter.addAll(currencies)
-            if (savedInstanceState == null) {
-                currencySpinner.setSelection(currencyAdapter.getPosition(create(account.currencyUnit.code, this)))
-            }
-        })
         linkInputsWithLabels()
         viewModel.getTags().observe(this) {
             showTags(it) { tag ->
@@ -208,7 +192,13 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
     /**
      * populates the input field either from the database or with default value for currency (from Locale)
      */
-    private fun populateFields() {
+    private fun populateFields(savedInstanceState: Bundle?) {
+        currencyViewModel.getCurrencies().observe(this, { currencies: List<Currency?> ->
+            currencyAdapter.addAll(currencies)
+            if (savedInstanceState == null) {
+                currencySpinner.setSelection(currencyAdapter.getPosition(create(account.currencyUnit.code, this)))
+            }
+        })
         binding.Amount.setAmount(account.openingBalance.amountMajor)
         accountTypeSpinner.setSelection(account.type.ordinal)
         UiUtils.setBackgroundOnButton(binding.colorInput.ColorIndicator, account.color)
