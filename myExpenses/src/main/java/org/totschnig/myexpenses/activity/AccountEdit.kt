@@ -115,7 +115,6 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
             setTitle(R.string.menu_create_account)
             populateFields(savedInstanceState)
         }
-        configureForCurrency(account.currencyUnit)
         currencySpinner = SpinnerHelper(findViewById(R.id.Currency))
         currencyAdapter = CurrencyAdapter(this, android.R.layout.simple_spinner_item)
         currencySpinner.adapter = currencyAdapter
@@ -123,7 +122,6 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
         DialogUtils.configureTypeSpinner(spinner)
         accountTypeSpinner = SpinnerHelper(spinner)
         syncSpinner = SpinnerHelper(findViewById(R.id.Sync))
-        configureSyncBackendAdapter()
         linkInputsWithLabels()
         viewModel.getTags().observe(this) {
             showTags(it) { tag ->
@@ -193,6 +191,8 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
      * populates the input field either from the database or with default value for currency (from Locale)
      */
     private fun populateFields(savedInstanceState: Bundle?) {
+        configureForCurrency(account.currencyUnit)
+        configureSyncBackendAdapter()
         currencyViewModel.getCurrencies().observe(this, { currencies: List<Currency?> ->
             currencyAdapter.addAll(currencies)
             if (savedInstanceState == null) {
@@ -329,13 +329,15 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        val item = menu.findItem(R.id.EXCLUDE_FROM_TOTALS_COMMAND)
-        if (item == null) {
-            CrashHandler.report(NullPointerException("EXCLUDE_FROM_TOTALS_COMMAND menu item not found"))
-        } else {
-            item.isChecked = account.excludeFromTotals
+        if (::account.isInitialized) {
+            val item = menu.findItem(R.id.EXCLUDE_FROM_TOTALS_COMMAND)
+            if (item == null) {
+                CrashHandler.report(NullPointerException("EXCLUDE_FROM_TOTALS_COMMAND menu item not found"))
+            } else {
+                item.isChecked = account.excludeFromTotals
+            }
+            return super.onPrepareOptionsMenu(menu)
         }
-        return super.onPrepareOptionsMenu(menu)
     }
 
     override fun dispatchCommand(command: Int, tag: Any?): Boolean {
