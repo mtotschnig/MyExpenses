@@ -6,8 +6,5 @@ import org.totschnig.myexpenses.viewmodel.data.Tag
 
 interface IAccount: IModel {
 
-    fun linkedTagsUri(): Uri
-    fun linkColumn(): String
-
     fun saveTags(tags: List<Tag>?, contentResolver: ContentResolver): Boolean
 }

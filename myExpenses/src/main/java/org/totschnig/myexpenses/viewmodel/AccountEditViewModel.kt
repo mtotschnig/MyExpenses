@@ -30,16 +30,6 @@ class AccountEditViewModel(application: Application) : ContentResolvingAndroidVi
     fun save (account: Account) : LiveData<Long> = liveData(context = coroutineContext()) {
         val result = try {
             account.save()?.let { ContentUris.parseId(it) } ?: ERROR_UNKNOWN
-        } catch (e: Transaction.ExternalStorageNotAvailableException) {
-            ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE
-        } catch (e: Transaction.UnknownPictureSaveException) {
-            val customData = HashMap<String, String>()
-            customData["pictureUri"] = e.pictureUri.toString()
-            customData["homeUri"] = e.homeUri.toString()
-            CrashHandler.report(e, customData)
-            ERROR_PICTURE_SAVE_UNKNOWN
-        } catch (e: Plan.CalendarIntegrationNotAvailableException) {
-            ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE
         } catch (e: Exception) {
             CrashHandler.report(e)
             ERROR_UNKNOWN
