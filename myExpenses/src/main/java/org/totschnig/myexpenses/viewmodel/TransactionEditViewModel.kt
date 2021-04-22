@@ -34,9 +34,10 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACCOUNTY_TYPE_LIST
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import org.totschnig.myexpenses.viewmodel.data.Account
+import org.totschnig.myexpenses.model.Account as Account_model
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import org.totschnig.myexpenses.viewmodel.data.Tag
+import org.totschnig.myexpenses.viewmodel.data.Account
 import java.util.*
 import kotlin.math.pow
 import org.totschnig.myexpenses.viewmodel.data.Template as DataTemplate
@@ -141,6 +142,14 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
     private fun adjustExchangeRate(raw: Double, currencyUnit: CurrencyUnit): Double {
         val minorUnitDelta: Int = currencyUnit.fractionDigits - Utils.getHomeCurrency().fractionDigits
         return raw * 10.0.pow(minorUnitDelta.toDouble())
+    }
+
+    fun loadActiveTags(id: Long) {
+        Account_model.getInstanceFromDbWithTags(id).also { pair ->
+            pair.second?.takeIf { it.size > 0 }?.let {
+                tags.postValue(it.toMutableList())
+            }
+        }
     }
 
     fun updateTags(it: MutableList<Tag>) {

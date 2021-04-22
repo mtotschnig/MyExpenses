@@ -1293,6 +1293,10 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         startActivityForResult(i, SELECT_TAGS_REQUEST)
     }
 
+    fun loadTags(id: Long) {
+        viewModel.loadActiveTags(id)
+    }
+
     fun editPlan(@Suppress("UNUSED_PARAMETER") view: View) {
         delegate.planId?.let { launchPlanView(false, it) }
     }
