@@ -2,19 +2,19 @@ package org.totschnig.myexpenses.model
 
 import android.content.ContentProviderOperation
 import android.content.ContentResolver
-import android.view.Display
+import android.net.Uri
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.viewmodel.data.Tag
 
 abstract class AbstractAccount: Model(), IAccount {
-    val linkedTagsUri = TransactionProvider.ACCOUNTS_TAGS_URI
-    val linkColumn = DatabaseConstants.KEY_ACCOUNTID
+    private val linkedTagsUri: Uri = TransactionProvider.ACCOUNTS_TAGS_URI
+    private val linkColumn = DatabaseConstants.KEY_ACCOUNTID
 
     override fun saveTags(tags: List<Tag>?, contentResolver: ContentResolver): Boolean {
         val ops = ArrayList<ContentProviderOperation>()
         ops.add(ContentProviderOperation.newDelete(linkedTagsUri)
-                .withSelection(linkColumn + " = ?", arrayOf(id.toString()))
+                .withSelection("$linkColumn = ?", arrayOf(id.toString()))
                 .build())
         tags?.let {
             val (newTags, existingTags) = it.partition { tag -> tag.id == -1L }

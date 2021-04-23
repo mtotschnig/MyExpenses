@@ -153,7 +153,7 @@ public class SyncBackendList extends Fragment implements
       final Account accountForSync = getAccountForSync(packedPosition);
       if (accountForSync != null) {
         DialogUtils.showSyncUnlinkConfirmationDialog(requireActivity(),
-            accountForSync);
+            accountForSync.getSyncAccountName(), accountForSync.getUuid());
       }
       return true;
     } else if (itemId == R.id.SYNCED_TO_OTHER_COMMAND) {

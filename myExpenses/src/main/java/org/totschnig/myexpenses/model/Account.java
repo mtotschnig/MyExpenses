@@ -659,6 +659,7 @@ public class Account extends AbstractAccount {
     initialValues.put(KEY_COLOR, color);
     initialValues.put(KEY_SYNC_ACCOUNT_NAME, syncAccountName);
     initialValues.put(KEY_UUID, requireUuid());
+    initialValues.put(KEY_EXCLUDE_FROM_TOTALS, excludeFromTotals);
     if (criterion != null) {
       initialValues.put(KEY_CRITERION, criterion.getAmountMinor());
     } else {

@@ -48,14 +48,13 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.AccountTypeAdapter;
 import org.totschnig.myexpenses.adapter.CurrencyAdapter;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
-import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.util.distrib.DistributionHelper;
 import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.distrib.DistributionHelper;
 
 import java.util.Arrays;
 import java.util.List;
@@ -335,11 +334,11 @@ public class DialogUtils {
     }
   }
 
-  public static void showSyncUnlinkConfirmationDialog(FragmentActivity context, Account account) {
+  public static void showSyncUnlinkConfirmationDialog(FragmentActivity context, String syncAccountName, String uuid) {
     Bundle b = new Bundle();
     b.putString(ConfirmationDialogFragment.KEY_MESSAGE,
-        context.getString(R.string.dialog_confirm_sync_unlink, account.getSyncAccountName()));
-    b.putString(DatabaseConstants.KEY_UUID, account.getUuid());
+        context.getString(R.string.dialog_confirm_sync_unlink, syncAccountName));
+    b.putString(DatabaseConstants.KEY_UUID, uuid);
     b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.SYNC_UNLINK_COMMAND);
     b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.menu_sync_unlink);
     b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, android.R.string.cancel);
