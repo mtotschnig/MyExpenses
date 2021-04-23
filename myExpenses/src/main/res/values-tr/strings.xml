@@ -355,7 +355,6 @@
     <string name="progress_dialog_deleting">Nesneler siliniyor</string>
     <string name="progress_dialog_loading">Veritabanından nesne yükleniyor</string>
     <string name="progress_dialog_printing">PDF oluşturuluyor</string>
-    <string name="progress_dialog_saving">Nesne veritabanına kaydediliyor</string>
     <string name="qif_parse_result">Ayrıştırıldı:  %1$s hesap,  %2$s kategori ve %3$s kişi</string>
     <string name="qif_parse_failure_found_multiple_accounts">QIF dosyasında birden çok hesap bulundu.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Bunlar mevcut bir hesapla birleştirilemez.</string>
@@ -949,7 +948,6 @@
     <!-- When user opens a template from the transaction form, existing data is discarded. This message appears in a dialgoue to confirm the action -->
     <string name="confirmation_load_template_discard_data">Mevcut form verileri silinecektir.</string>
     <string name="pref_clone_with_current_date_title">Klonlanmış muamelelerin tarihi</string>
-    <string name="default_action">Varsayılan eylem</string>
     <string name="template_default_action_without_amount_hint">Meblağı olmayan şablon \'Düzenleme\' varsayılan eylemi ile kaydedilmelidir.</string>
     <string name="plan_automatic_without_amount_hint">Meblağsız planlama otomatik planlama uygulamasıyla kaydedilmemelidir</string>
     <string name="content_description_edit_plan">Planlamayı takvim uygulamasında düzenle</string>
@@ -982,4 +980,8 @@
     <string name="account_widget_configuration_sum_total">Gelecek muameleleri dahil et</string>
     <!-- Title of dialogue that allows to configure account widget -->
     <string name="account_widget_configuration">Hesap widget\'i yapılandırması</string>
+    <!-- Title of a menu entry allowing to merge duplicate entries in the parties table (payee/payer) -->
+    <string name="menu_merge">Birleştir</string>
+    <!-- When user selects duplicate parties to be merged, he sees this prompt asking him to select which name should be selected for the merged party -->
+    <string name="merge_parties_select">Birleştirilecek tarafın ismini seçin:</string>
 </resources>

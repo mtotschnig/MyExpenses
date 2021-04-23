@@ -1,7 +1,9 @@
 package org.totschnig.myexpenses.widget
 
+import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
+import android.widget.RemoteViews
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.MyExpenses
@@ -16,10 +18,26 @@ const val CLICK_ACTION_NEW_TRANSFER = "newTransfer"
 const val CLICK_ACTION_NEW_SPLIT = "newSplit"
 
 class AccountWidget : AbstractWidget(AccountWidgetService::class.java, PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET) {
-    override fun emptyTextResourceId(context: Context, appWidgetId: Int): Int {
-        val accountSelection = AccountWidgetConfigurationFragment.loadSelectionPref(context, appWidgetId)
-        return if (accountSelection == Long.MAX_VALUE.toString() || accountSelection.first() == '-') //widget is configured to show all accounts or an aggregate account
-            R.string.no_accounts else R.string.account_deleted
+    override fun emptyTextResourceId(context: Context, appWidgetId: Int) =
+            if (AccountWidgetConfigurationFragment.loadSelectionPref(context, appWidgetId).let {
+                        it == Long.MAX_VALUE.toString() || it.first() == '-'
+                    })
+                R.string.no_accounts else R.string.account_deleted
+
+    override fun updateWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
+        val accountId = AccountRemoteViewsFactory.accountId(context, appWidgetId)
+        if (accountId != Long.MAX_VALUE.toString()  && !isProtected()) {
+            val widget = RemoteViews(context.packageName, R.layout.widget_row)
+            AccountRemoteViewsFactory.buildCursor(context, accountId)?.use {
+                it.moveToFirst()
+                AccountRemoteViewsFactory.populate(context, widget, it,
+                        AccountRemoteViewsFactory.sumColumn(context, appWidgetId),
+                        availableWidth(context, appWidgetManager, appWidgetId))
+            }
+            appWidgetManager.updateAppWidget(appWidgetId, widget)
+        } else {
+            super.updateWidget(context, appWidgetManager, appWidgetId)
+        }
     }
 
     override fun handleWidgetClick(context: Context, intent: Intent) {
@@ -40,8 +58,8 @@ class AccountWidget : AbstractWidget(AccountWidgetService::class.java, PrefKey.P
                 }
                 putExtra(EXTRA_START_FROM_WIDGET, true)
                 putExtra(EXTRA_START_FROM_WIDGET_DATA_ENTRY, true)
-                putExtra(TransactionsContract.Transactions.OPERATION_TYPE, when(clickAction) {
-                    CLICK_ACTION_NEW_TRANSACTION ->  TransactionsContract.Transactions.TYPE_TRANSACTION
+                putExtra(TransactionsContract.Transactions.OPERATION_TYPE, when (clickAction) {
+                    CLICK_ACTION_NEW_TRANSACTION -> TransactionsContract.Transactions.TYPE_TRANSACTION
                     CLICK_ACTION_NEW_TRANSFER -> TransactionsContract.Transactions.TYPE_TRANSFER
                     CLICK_ACTION_NEW_SPLIT -> TransactionsContract.Transactions.TYPE_SPLIT
                     else -> throw IllegalArgumentException()
@@ -52,7 +70,7 @@ class AccountWidget : AbstractWidget(AccountWidgetService::class.java, PrefKey.P
 
     override fun onDeleted(context: Context, appWidgetIds: IntArray) {
         appWidgetIds.forEach { appWidgetId ->
-           AccountWidgetConfigurationFragment.clearPreferences(context, appWidgetId)
+            AccountWidgetConfigurationFragment.clearPreferences(context, appWidgetId)
         }
     }
 

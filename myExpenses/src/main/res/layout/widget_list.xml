@@ -11,8 +11,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/material_grey_700">
+    android:layout_height="match_parent">
 
     <ListView
         android:id="@+id/list"

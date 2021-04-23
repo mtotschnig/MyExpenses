@@ -356,7 +356,6 @@
     <string name="progress_dialog_deleting">Deleting objects</string>
     <string name="progress_dialog_loading">Loading object from database</string>
     <string name="progress_dialog_printing">Generating PDF</string>
-    <string name="progress_dialog_saving">Saving object to database</string>
     <string name="qif_parse_result">Parsed: %1$s accounts; %2$s categories and %3$s parties</string>
     <string name="qif_parse_failure_found_multiple_accounts">Multiple accounts found in QIF file.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Cannot merge them into existing account.</string>
@@ -950,7 +949,6 @@
     <!-- When user opens a template from the transaction form, existing data is discarded. This message appears in a dialgoue to confirm the action -->
     <string name="confirmation_load_template_discard_data">Existing form data will be discarded.</string>
     <string name="pref_clone_with_current_date_title">Date of cloned transactions</string>
-    <string name="default_action">Default action</string>
     <string name="template_default_action_without_amount_hint">Template without amount should be saved with default action \'Edit\'</string>
     <string name="plan_automatic_without_amount_hint">Plan without amount should not be saved with automatic plan execution</string>
     <string name="content_description_edit_plan">Edit plan in calendar app</string>
@@ -983,4 +981,8 @@
     <string name="account_widget_configuration_sum_total">Include future transactions</string>
     <!-- Title of dialogue that allows to configure account widget -->
     <string name="account_widget_configuration">Account widget configuration</string>
+    <!-- Title of a menu entry allowing to merge duplicate entries in the parties table (payee/payer) -->
+    <string name="menu_merge">Merge</string>
+    <!-- When user selects duplicate parties to be merged, he sees this prompt asking him to select which name should be selected for the merged party -->
+    <string name="merge_parties_select">Select name of merged party:</string>
 </resources>

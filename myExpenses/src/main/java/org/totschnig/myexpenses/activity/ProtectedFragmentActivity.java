@@ -545,16 +545,12 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   public void onPostExecute(int taskId, @Nullable Object o) {
     removeAsyncTaskFragment(shouldKeepProgress(taskId));
     switch (taskId) {
-      case TaskExecutionFragment.TASK_DELETE_TRANSACTION:
       case TaskExecutionFragment.TASK_DELETE_ACCOUNT:
       case TaskExecutionFragment.TASK_DELETE_PAYMENT_METHODS:
-      case TaskExecutionFragment.TASK_DELETE_CATEGORY:
-      case TaskExecutionFragment.TASK_DELETE_PAYEES:
-      case TaskExecutionFragment.TASK_DELETE_TEMPLATES:
-      case TaskExecutionFragment.TASK_UNDELETE_TRANSACTION: {
+      case TaskExecutionFragment.TASK_DELETE_CATEGORY: {
         Result result = (Result) o;
         if (!result.isSuccess()) {
-          showSnackbar("There was an error deleting the object. Please contact support@myexenses.mobi !");
+          showDeleteFailureFeedback();
         }
         break;
       }
@@ -675,7 +671,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   public void startDbWriteTask() {
     getSupportFragmentManager().beginTransaction()
         .add(DbWriteFragment.newInstance(), SAVE_TAG)
-        .add(ProgressDialogFragment.newInstance(getString(R.string.progress_dialog_saving)),
+        .add(ProgressDialogFragment.newInstance(getString(R.string.saving)),
             PROGRESS_TAG)
         .commitAllowingStateLoss();
   }

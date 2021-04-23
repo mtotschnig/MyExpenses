@@ -11,7 +11,6 @@ import android.view.ActionMode
 import android.view.Menu
 import android.widget.AbsListView
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.util.keyIterator
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import com.afollestad.materialdialogs.MaterialDialog
@@ -24,6 +23,7 @@ import org.totschnig.myexpenses.activity.MyExpenses
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_SAME_CURRENCY
+import org.totschnig.myexpenses.util.asTrueSequence
 import org.totschnig.myexpenses.viewmodel.data.Tag
 
 const val KEY_REPLACE = "replace"
@@ -144,7 +144,7 @@ class TransactionList : BaseTransactionList() {
             }
         }
         if (lv.checkedItemCount == 2 && !hasSplit && !hasTransfer) {
-            val checked = checkedItemPositions.keyIterator().asSequence().filter { checkedItemPositions.get(it) }.toList()
+            val checked = checkedItemPositions.asTrueSequence().toList()
             canLinkAsTransfer = checked.size == 2 && canLinkPositions(checked[0], checked[1])
         }
 

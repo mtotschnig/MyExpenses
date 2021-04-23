@@ -10,7 +10,17 @@ import android.widget.AbsListView
 import android.widget.AbsListView.MultiChoiceModeListener
 import android.widget.AdapterView.AdapterContextMenuInfo
 import android.widget.ExpandableListView
-import android.widget.ExpandableListView.*
+import android.widget.ExpandableListView.ExpandableListContextMenuInfo
+import android.widget.ExpandableListView.OnChildClickListener
+import android.widget.ExpandableListView.OnGroupClickListener
+import android.widget.ExpandableListView.PACKED_POSITION_TYPE_CHILD
+import android.widget.ExpandableListView.PACKED_POSITION_TYPE_GROUP
+import android.widget.ExpandableListView.PACKED_POSITION_TYPE_NULL
+import android.widget.ExpandableListView.getPackedPositionChild
+import android.widget.ExpandableListView.getPackedPositionForChild
+import android.widget.ExpandableListView.getPackedPositionForGroup
+import android.widget.ExpandableListView.getPackedPositionGroup
+import android.widget.ExpandableListView.getPackedPositionType
 import android.widget.HeaderViewListAdapter
 import android.widget.ListView
 import androidx.fragment.app.Fragment
@@ -49,7 +59,7 @@ abstract class ContextualActionBarFragment : Fragment(), OnGroupClickListener, O
      * subclasses that override this method should not assume that the count and order of positions
      * is in parallel with the itemIds, it should do its work either based on positions or based on itemIds
      */
-    open fun dispatchCommandMultiple(command: Int, positions: SparseBooleanArray?, itemIds: Array<Long?>?): Boolean {
+    open fun dispatchCommandMultiple(command: Int, positions: SparseBooleanArray, itemIds: LongArray): Boolean {
         val ctx = requireActivity() as ProtectedFragmentActivity
         //we send only the positions to the default dispatch command mechanism,
         //but subclasses can provide a method that handles the itemIds
@@ -126,10 +136,13 @@ abstract class ContextualActionBarFragment : Fragment(), OnGroupClickListener, O
                 //this allows us to have main menu entries without id that just open the submenu
                 if (itemId == 0) return false
                 if (itemId == R.id.SELECT_ALL_COMMAND) {
-                    val adapter = lv.adapter.let { (it as? HeaderViewListAdapter)?.wrappedAdapter ?: it }
+                    val adapter = lv.adapter.let {
+                        (it as? HeaderViewListAdapter)?.wrappedAdapter ?: it
+                    }
                     for (i in 0 until adapter.count) {
                         if (!lv.isItemChecked(i)) {
-                            lv.setItemChecked(i, (lv as? ExpandableListView)?.getExpandableListPosition(i)?.let { expandableListSelectionType == getPackedPositionType(it) } ?: true)
+                            lv.setItemChecked(i, (lv as? ExpandableListView)?.getExpandableListPosition(i)?.let { expandableListSelectionType == getPackedPositionType(it) }
+                                    ?: true)
                         }
                     }
                     return true
@@ -165,28 +178,25 @@ abstract class ContextualActionBarFragment : Fragment(), OnGroupClickListener, O
                         }
                     }
                 } else {
-                    val itemIdsObj: Array<Long?>
+                    val itemIdsObj: LongArray =
                     if (lv is ExpandableListView) {
-                        itemIdsObj = arrayOfNulls(checkedItemCount)
+                        val list = mutableListOf<Long>()
                         for (i in 0 until checkedItemCount) {
                             if (checkedItemPositions.valueAt(i)) {
                                 val position = checkedItemPositions.keyAt(i)
                                 val pos = lv.getExpandableListPosition(position)
                                 val groupPos = getPackedPositionGroup(pos)
-                                if (getPackedPositionType(pos) == PACKED_POSITION_TYPE_GROUP) {
-                                    itemIdsObj[i] = lv.expandableListAdapter.getGroupId(groupPos)
-                                } else {
-                                    val childPos = getPackedPositionChild(pos)
-                                    itemIdsObj[i] = lv.expandableListAdapter.getChildId(groupPos, childPos)
-                                }
+                                list.add(
+                                        if (getPackedPositionType(pos) == PACKED_POSITION_TYPE_GROUP) {
+                                            lv.expandableListAdapter.getGroupId(groupPos)
+                                        } else {
+                                            lv.expandableListAdapter.getChildId(groupPos, getPackedPositionChild(pos))
+                                        })
                             }
                         }
+                        list.toLongArray()
                     } else {
-                        val itemIdsPrim = lv.checkedItemIds
-                        itemIdsObj = arrayOfNulls(itemIdsPrim.size)
-                        for (i in itemIdsPrim.indices) {
-                            itemIdsObj[i] = itemIdsPrim[i]
-                        }
+                        lv.checkedItemIds
                     }
                     //TODO:should we convert the flat positions here?
                     result = dispatchCommandMultiple(

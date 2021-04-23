@@ -332,7 +332,6 @@
     <string name="progress_dialog_deleting">Ştergere obiecte</string>
     <string name="progress_dialog_loading">Încărcare obiect din baza de date</string>
     <string name="progress_dialog_printing">Generare PDF</string>
-    <string name="progress_dialog_saving">Salvare obiect în baza de date</string>
     <string name="qif_parse_result">Analizat: %1$s conturi; %2$s categorii şi %3$s terţi</string>
     <string name="qif_parse_failure_found_multiple_accounts">Multiple conturi găsite în  fişierul QIF .</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Nu se pot imbina în contul existent.</string>

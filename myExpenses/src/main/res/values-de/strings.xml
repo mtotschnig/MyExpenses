@@ -355,7 +355,6 @@
     <string name="progress_dialog_deleting">Objekte werden gelöscht</string>
     <string name="progress_dialog_loading">Buchung wird von Datenbank geladen</string>
     <string name="progress_dialog_printing">Generierung von PDF</string>
-    <string name="progress_dialog_saving">Objekt wird in Datenbank gespeichert</string>
     <string name="qif_parse_result">Gefunden: %1$s Konten, %2$s Kategorien und %3$s parteien.</string>
     <string name="qif_parse_failure_found_multiple_accounts">In der QIF Datei wurden mehrere Konten gefunden.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Diese konten nicht mit einem bestehendes Konto zusammengefügt werden.</string>
@@ -949,7 +948,6 @@
     <!-- When user opens a template from the transaction form, existing data is discarded. This message appears in a dialgoue to confirm the action -->
     <string name="confirmation_load_template_discard_data">Vorhandene Formulardaten werden verworfen.</string>
     <string name="pref_clone_with_current_date_title">Datum der geklonten Buchungen</string>
-    <string name="default_action">Standardaktion</string>
     <string name="template_default_action_without_amount_hint">Vorlage ohne Betrag sollte mit der Standardaktion \'Bearbeiten\' gespeichert werden.</string>
     <string name="plan_automatic_without_amount_hint">Plan ohne Betrag sollte nicht mit automatischer Ausführung gespeichert werden</string>
     <string name="content_description_edit_plan">Plan in Kalender-App bearbeiten</string>
@@ -982,4 +980,8 @@
     <string name="account_widget_configuration_sum_total">Zukünftige Buchungen einschließen</string>
     <!-- Title of dialogue that allows to configure account widget -->
     <string name="account_widget_configuration">Konfiguration des Konten-Widgets</string>
+    <!-- Title of a menu entry allowing to merge duplicate entries in the parties table (payee/payer) -->
+    <string name="menu_merge">Zusammenführen</string>
+    <!-- When user selects duplicate parties to be merged, he sees this prompt asking him to select which name should be selected for the merged party -->
+    <string name="merge_parties_select">Wählen Sie den Namen der zusammengeführten Partei:</string>
 </resources>

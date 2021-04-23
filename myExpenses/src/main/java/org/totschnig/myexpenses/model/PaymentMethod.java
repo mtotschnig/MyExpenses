@@ -221,7 +221,7 @@ public class PaymentMethod extends Model {
       setId(Long.parseLong(uri.getLastPathSegment()));
     } else {
       uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build();
-      cr().update(uri, initialValues, null, null);
+      if (cr().update(uri, initialValues, null, null) == 0) return null;
     }
     setMethodAccountTypes();
     if (!methods.containsKey(getId()))

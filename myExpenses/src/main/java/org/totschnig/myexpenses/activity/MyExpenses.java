@@ -38,7 +38,6 @@ import com.google.android.material.snackbar.Snackbar;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.MyGroupedAdapter;
@@ -134,7 +133,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOU
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.KEY_LONG_IDS;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_BALANCE;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_EXPORT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_PRINT;
@@ -142,6 +140,7 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_REVOKE_SP
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SET_ACCOUNT_HIDDEN;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SET_ACCOUNT_SEALED;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SPLIT;
+import static org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModelKt.KEY_ROW_IDS;
 import static org.totschnig.myexpenses.viewmodel.MyExpensesViewModelKt.ERROR_INIT_DOWNGRADE;
 
 /**
@@ -801,7 +800,7 @@ public class MyExpenses extends BaseMyExpenses implements
           b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.SPLIT_TRANSACTION_COMMAND);
           b.putInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE, R.id.CANCEL_CALLBACK_COMMAND);
           b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.menu_split_transaction);
-          b.putLongArray(KEY_LONG_IDS, (long[]) tag);
+          b.putLongArray(TaskExecutionFragment.KEY_LONG_IDS, (long[]) tag);
           ConfirmationDialogFragment.newInstance(b).show(getSupportFragmentManager(), "SPLIT_TRANSACTION");
         } else {
           createRowDo(TYPE_SPLIT, false);
@@ -1144,13 +1143,13 @@ public class MyExpenses extends BaseMyExpenses implements
       onPositive(args, false);
     } else if (anInt == R.id.SPLIT_TRANSACTION_COMMAND) {
       finishActionMode();
-      startTaskExecution(TASK_SPLIT, args, R.string.progress_dialog_saving);
+      startTaskExecution(TASK_SPLIT, args, R.string.saving);
     } else if (anInt == R.id.UNGROUP_SPLIT_COMMAND) {
       finishActionMode();
-      startTaskExecution(TASK_REVOKE_SPLIT, args, R.string.progress_dialog_saving);
+      startTaskExecution(TASK_REVOKE_SPLIT, args, R.string.saving);
     } else  if (anInt == R.id.LINK_TRANSFER_COMMAND) {
       finishActionMode();
-      viewModel.linkTransfer(args.getLongArray(KEY_LONG_IDS));
+      viewModel.linkTransfer(args.getLongArray(KEY_ROW_IDS));
     }
   }
 
@@ -1159,11 +1158,16 @@ public class MyExpenses extends BaseMyExpenses implements
     int anInt = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE);
     if (anInt == R.id.DELETE_COMMAND_DO) {
       finishActionMode();
-      startTaskExecution(
-          TaskExecutionFragment.TASK_DELETE_TRANSACTION,
-          ArrayUtils.toObject(args.getLongArray(TaskExecutionFragment.KEY_OBJECT_IDS)),
-          checked,
-          R.string.progress_dialog_deleting);
+      showSnackbar(R.string.progress_dialog_deleting);
+      viewModel.deleteTransactions(args.getLongArray(KEY_ROW_IDS), checked).observe(this, result -> {
+        if (result > 0) {
+          if (!checked) {
+            showSnackbar(getResources().getQuantityString(R.plurals.delete_success, result, result));
+          }
+        } else {
+          showDeleteFailureFeedback();
+        }
+      });
     } else if (anInt == R.id.BALANCE_COMMAND_DO) {
       startTaskExecution(TASK_BALANCE,
           new Long[]{args.getLong(KEY_ROWID)},
@@ -1308,7 +1312,7 @@ public class MyExpenses extends BaseMyExpenses implements
   public void onSortOrderConfirmed(long[] sortedIds) {
     Bundle extras = new Bundle(1);
     extras.putLongArray(KEY_SORT_KEY, sortedIds);
-    startTaskExecution(TaskExecutionFragment.TASK_ACCOUNT_SORT, extras, R.string.progress_dialog_saving);
+    startTaskExecution(TaskExecutionFragment.TASK_ACCOUNT_SORT, extras, R.string.saving);
   }
 
   public void clearFilter(View view) {

@@ -367,7 +367,6 @@
     <string name="progress_dialog_deleting">جارِ حذف الكائنات</string>
     <string name="progress_dialog_loading">جاري التحميل من قاعدة البيانات</string>
     <string name="progress_dialog_printing">انشاء ملف PDF</string>
-    <string name="progress_dialog_saving">جارِ حفظ الكائن في قاعدة البيانات</string>
     <string name="qif_parse_result">تم إيجاد: %1$s حسابات; %2$s تصنيفات و %3$s أطراف</string>
     <string name="qif_parse_failure_found_multiple_accounts">تم العثور على أكثر من حساب في ملف QIF.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">لا يمكن دمجهم لحساب موجود. </string>
@@ -996,7 +995,6 @@
     <!-- When user opens a template from the transaction form, existing data is discarded. This message appears in a dialgoue to confirm the action -->
     <string name="confirmation_load_template_discard_data">سيتم تجاهل بيانات النموذج الموجودة.</string>
     <string name="pref_clone_with_current_date_title">تاريخ المعاملات المستنسخة</string>
-    <string name="default_action">الإجراء الافتراضي</string>
     <string name="template_default_action_without_amount_hint">يجب حفظ النموذج الذي لا يحتوى على مبلغ بالإجراء الافتراضي \"تحرير\"</string>
     <string name="plan_automatic_without_amount_hint">لا يجب حفظ الخطة بدون مبلغ مع تنفيذ الخطة تلقائياً</string>
     <string name="content_description_edit_plan">تحرير الخطة في تطبيق التقويم</string>

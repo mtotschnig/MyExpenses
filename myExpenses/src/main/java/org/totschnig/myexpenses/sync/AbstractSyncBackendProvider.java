@@ -310,7 +310,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
       } catch (IOException e) {
         if (e instanceof FileNotFoundException) {
           newUri = null;
-          log().e(e, "Picture was deleted, %s", transactionChange.pictureUri());
+          log().w(e, "Picture was deleted, %s", transactionChange.pictureUri());
         } else {
           throw e;
         }

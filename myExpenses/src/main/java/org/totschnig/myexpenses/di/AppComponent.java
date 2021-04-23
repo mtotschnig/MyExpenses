@@ -74,7 +74,7 @@ import org.totschnig.myexpenses.viewmodel.TransactionDetailViewModel;
 import org.totschnig.myexpenses.viewmodel.TransactionViewModel;
 import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel;
 import org.totschnig.myexpenses.widget.AbstractWidget;
-import org.totschnig.myexpenses.widget.TemplatetRemoteViewsFactory;
+import org.totschnig.myexpenses.widget.TemplateRemoteViewsFactory;
 
 import java.util.Locale;
 
@@ -234,7 +234,7 @@ public interface AppComponent {
 
   void inject(RemindRateDialogFragment remindRateDialogFragment);
 
-  void inject(TemplatetRemoteViewsFactory templatetRemoteViewsFactory);
+  void inject(TemplateRemoteViewsFactory templateRemoteViewsFactory);
 
   void inject(AbstractWidget abstractWidget);
 

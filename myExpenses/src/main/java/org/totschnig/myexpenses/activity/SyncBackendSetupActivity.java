@@ -14,7 +14,6 @@ import com.google.android.material.snackbar.Snackbar;
 import org.jetbrains.annotations.NotNull;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.EditTextDialog;
-import org.totschnig.myexpenses.dialog.NewMessageDialogFragment;
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.SetupWebdavDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
@@ -204,7 +203,7 @@ public abstract class SyncBackendSetupActivity extends ProtectedFragmentActivity
         if (exceptional.isPresent()) {
           recordUsage(ContribFeature.SYNCHRONIZATION);
           if ("xiaomi".equalsIgnoreCase(android.os.Build.MANUFACTURER)) {
-            NewMessageDialogFragment.Companion.newInstance("On some Xiaomi devices, synchronization does not work without Autostart permission. Visit <a href=\"https://github.com/mtotschnig/MyExpenses/wiki/FAQ:-Synchronization#q2\">MyExpenses FAQ</a> for more information.", true).show(getSupportFragmentManager(), "XIAOMI_WARNING");
+            showMessage("On some Xiaomi devices, synchronization does not work without AutoStart permission. Visit <a href=\"https://github.com/mtotschnig/MyExpenses/wiki/FAQ:-Synchronization#q2\">MyExpenses FAQ</a> for more information.");
           }
         } else {
           Throwable throwable = exceptional.getException();

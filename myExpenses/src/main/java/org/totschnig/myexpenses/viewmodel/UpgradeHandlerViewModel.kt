@@ -47,7 +47,6 @@ class UpgradeHandlerViewModel(application: Application) : ContentResolvingAndroi
         }
         if (fromVersion < 391) {
             val dateFilterList = settings.all.entries.map { it.key }.filter { it.startsWith("filter_date") }
-            val prefHandler = getApplication<MyApplication>().appComponent.prefHandler()
             dateFilterList.forEach { key ->
                 prefHandler.getString(key, null)?.let { legacy ->
                     try {

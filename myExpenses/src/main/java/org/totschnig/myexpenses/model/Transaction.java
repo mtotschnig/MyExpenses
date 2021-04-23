@@ -547,11 +547,13 @@ public class Transaction extends AbstractTransaction {
     return t;
   }
 
+  @Nullable
   public static kotlin.Pair<Transaction, List<Tag>> getInstanceFromDbWithTags(long id) {
     Transaction t = getInstanceFromDb(id);
     return t == null ? null : new kotlin.Pair<>(t, t.loadTags());
   }
 
+  @Nullable
   public static kotlin.Pair<Transaction, List<Tag>> getInstanceFromTemplateWithTags(long id) {
     Template te = Template.getInstanceFromDb(id);
     return te == null ? null : getInstanceFromTemplateWithTags(te);
@@ -1048,10 +1050,6 @@ public class Transaction extends AbstractTransaction {
     return save();
   }
 
-  /**
-   * @param whichTransactionId
-   * @param whereAccountId
-   */
   public static void move(long whichTransactionId, long whereAccountId) {
     ContentValues args = new ContentValues();
     args.put(KEY_ACCOUNTID, whereAccountId);

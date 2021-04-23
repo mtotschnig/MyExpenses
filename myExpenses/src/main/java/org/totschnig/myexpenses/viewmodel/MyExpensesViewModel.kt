@@ -30,9 +30,6 @@ const val ERROR_INIT_UPGRADE = -2
 
 class MyExpensesViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
 
-    @Inject
-    lateinit var prefHandler: PrefHandler
-
     private val hasHiddenAccounts = MutableLiveData<Boolean>()
 
     fun getHasHiddenAccounts(): LiveData<Boolean> {

@@ -355,7 +355,6 @@
     <string name="progress_dialog_deleting">Изтриване на обекти</string>
     <string name="progress_dialog_loading">Зареждане обекти от база данни</string>
     <string name="progress_dialog_printing">Генериране на PDF</string>
-    <string name="progress_dialog_saving">Записване на обект в база данни</string>
     <string name="qif_parse_result">Анализирани: %1$s сметки; %2$s категории и %3$s страни</string>
     <string name="qif_parse_failure_found_multiple_accounts">Открити са множество сметки в QIF файла.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Не могат да бъдат обединени в съществуваща сметка.</string>
@@ -949,7 +948,6 @@
     <!-- When user opens a template from the transaction form, existing data is discarded. This message appears in a dialgoue to confirm the action -->
     <string name="confirmation_load_template_discard_data">Сегашните данни на страницата ще бъдат премахнати.</string>
     <string name="pref_clone_with_current_date_title">Дата на клонирани транзакции</string>
-    <string name="default_action">Действие по подразбиране</string>
     <string name="template_default_action_without_amount_hint">Шаблон без сума трябва да бъде запазен с действие по подразбиране „Редактиране“</string>
     <string name="plan_automatic_without_amount_hint">План без сума не трябва да се записва при автоматично изпълнение на плана</string>
     <string name="content_description_edit_plan">Редактиране на план в приложението календар</string>
@@ -982,4 +980,8 @@
     <string name="account_widget_configuration_sum_total">Включи бъдещи транзакции</string>
     <!-- Title of dialogue that allows to configure account widget -->
     <string name="account_widget_configuration">Конфигуриране на уйджет за сметка</string>
+    <!-- Title of a menu entry allowing to merge duplicate entries in the parties table (payee/payer) -->
+    <string name="menu_merge">Обединяване</string>
+    <!-- When user selects duplicate parties to be merged, he sees this prompt asking him to select which name should be selected for the merged party -->
+    <string name="merge_parties_select">Изберете име за обединена страна:</string>
 </resources>

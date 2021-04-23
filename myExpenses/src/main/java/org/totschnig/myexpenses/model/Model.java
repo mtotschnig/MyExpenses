@@ -22,6 +22,7 @@ import org.totschnig.myexpenses.MyApplication;
 
 import java.util.UUID;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 
 public abstract class Model implements IModel {
@@ -69,5 +70,6 @@ public abstract class Model implements IModel {
     return uuid;
   }
 
+  @Nullable
   public abstract Uri save();
 }

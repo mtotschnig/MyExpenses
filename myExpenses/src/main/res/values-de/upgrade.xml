@@ -15,6 +15,10 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_329">
+        <item>Duplikate bei den Parteien können zusammengeführt werden.</item>
+        <item>Der verbleibende Betrag bei mehrteiligen Buchungen kann in die Zwischenablage kopiert werden.</item>
+    </string-array>
     <string-array name="whats_new_328">
         <item>Das Konten-Widget kann so konfiguriert werden, dass ein einzelnes Konto angezeigt wird und zukünftige Buchungen berücksichtigt werden.</item>
         <item>Gesamtbetrag der ausgewählten Buchungen anzeigen.</item>

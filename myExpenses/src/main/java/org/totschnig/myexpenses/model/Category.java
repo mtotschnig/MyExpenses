@@ -144,8 +144,7 @@ public class Category extends Model {
     } else {
       uri = CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build();
       try {
-        cr().update(CONTENT_URI.buildUpon().appendPath(String.valueOf(getId())).build(),
-            initialValues, null, null);
+        if (cr().update(uri, initialValues, null, null) == 0) return null;
       } catch (SQLiteConstraintException e) {
         uri = null;
       }
@@ -203,8 +202,7 @@ public class Category extends Model {
     ContentValues values = new ContentValues();
     values.put(KEY_PARENTID, newParent);
     try {
-      cr().update(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), values, null, null);
-      return true;
+      return cr().update(CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build(), values, null, null) > 0;
     } catch (SQLiteConstraintException e) {
       return false;
     }

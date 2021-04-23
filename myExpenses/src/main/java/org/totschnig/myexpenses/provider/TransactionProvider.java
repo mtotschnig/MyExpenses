@@ -1295,6 +1295,9 @@ public class TransactionProvider extends BaseTransactionProvider {
       case BUDGETS:
         count = db.delete(TABLE_BUDGETS, where, whereArgs);
         break;
+      case PAYEES:
+        count = db.delete(TABLE_PAYEES, where, whereArgs);
+        break;
       case TAG_ID:
         count = db.delete(TABLE_TAGS,
             KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
@@ -1626,7 +1629,8 @@ public class TransactionProvider extends BaseTransactionProvider {
           }
           count = 1;
         } else {
-          throw unknownUri(uri);
+          count = db.update(TABLE_CHANGES, values, where, whereArgs);
+          break;
         }
         break;
       case ACCOUNT_ID_GROUPING: {

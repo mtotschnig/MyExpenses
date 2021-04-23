@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.viewmodel
 import android.app.Application
 import android.content.ContentProviderOperation
 import android.content.ContentValues
+import android.database.sqlite.SQLiteConstraintException
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
@@ -20,6 +21,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.Tag
 
@@ -49,7 +51,7 @@ class TransactionListViewModel(application: Application) : BudgetViewModel(appli
         budgetAmount.postValue(budget.amount)
     }
 
-    fun cloneAndRemap(transactionIds: LongArray, column: String, rowId: Long)  {
+    fun cloneAndRemap(transactionIds: LongArray, column: String, rowId: Long) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 var successCount = 0
@@ -79,7 +81,7 @@ class TransactionListViewModel(application: Application) : BudgetViewModel(appli
 
     fun remap(transactionIds: LongArray, column: String, rowId: Long): LiveData<Int> = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
         emit(run {
-            var selection = "%s %s".format(KEY_ROWID, WhereFilter.Operation.IN.getOp(transactionIds.size))
+            var selection = "$KEY_ROWID ${WhereFilter.Operation.IN.getOp(transactionIds.size)}"
             var selectionArgs = transactionIds.map(Long::toString).toTypedArray()
             if (column == DatabaseConstants.KEY_ACCOUNTID) {
                 selection += " OR %s %s".format(DatabaseConstants.KEY_PARENTID, WhereFilter.Operation.IN.getOp(transactionIds.size))
@@ -103,6 +105,22 @@ class TransactionListViewModel(application: Application) : BudgetViewModel(appli
                 contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops)
             }
         }
+    }
+
+    fun undeleteTransactions(itemIds: LongArray): LiveData<Int> = liveData(context = coroutineContext()) {
+        emit(itemIds.sumBy {
+            try {
+                Transaction.undelete(it)
+                1
+            } catch (e: SQLiteConstraintException) {
+                CrashHandler.reportWithDbSchema(e)
+                0
+            }
+        })
+    }
+
+    companion object {
+        fun prefNameForCriteria(accountId: Long) = "filter_%s_${accountId}"
     }
 }
 

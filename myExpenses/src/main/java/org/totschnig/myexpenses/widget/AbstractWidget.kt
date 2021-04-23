@@ -67,7 +67,14 @@ abstract class AbstractWidget(private val clazz: Class<out RemoteViewsService>, 
 
     abstract fun handleWidgetClick(context: Context, intent: Intent)
 
-    private fun updateWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
+    fun availableWidth(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int): Int =
+            appWidgetManager.getAppWidgetOptions(appWidgetId).getInt(
+                    when ((context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.rotation) {
+                        ROTATION_0, ROTATION_180 -> /*ORIENTATION_PORTRAIT*/ AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH
+                        else -> /*ORIENTATION_LANDSCAPE*/ AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH
+                    })
+
+    open fun updateWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
         val widget = RemoteViews(context.packageName, R.layout.widget_list)
         widget.setEmptyView(R.id.list, R.id.emptyView)
         val clickIntent = Intent(WIDGET_CLICK, null, context, javaClass)
@@ -81,11 +88,7 @@ abstract class AbstractWidget(private val clazz: Class<out RemoteViewsService>, 
             val svcIntent = Intent(context, clazz)
             svcIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                val options = appWidgetManager.getAppWidgetOptions(appWidgetId)
-                svcIntent.putExtra(KEY_WIDTH, when ((context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.rotation) {
-                    ROTATION_0, ROTATION_180 -> /*ORIENTATION_PORTRAIT*/ options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)
-                    else -> /*ORIENTATION_LANDSCAPE*/ options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH)
-                })
+                svcIntent.putExtra(KEY_WIDTH, availableWidth(context, appWidgetManager, appWidgetId))
             }
             // When intents are compared, the extras are ignored, so we need to embed the extras
             // into the data so that the extras will not be ignored.

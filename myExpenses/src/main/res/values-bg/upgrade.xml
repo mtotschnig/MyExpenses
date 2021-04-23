@@ -15,6 +15,10 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_329">
+        <item>Дублирани страни може да бъдат обединени.</item>
+        <item>Останалата сума при разпределена транзакция може да бъде копирана в клипборда.</item>
+    </string-array>
     <string-array name="whats_new_328">
         <item>Уйджета за сметка може да бъде конфигуриран да показва една сметка и да взема предвид бъдещи транзакции.</item>
         <item>Показване на общата сума на избраните транзакции.</item>

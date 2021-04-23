@@ -16,5 +16,6 @@ interface IWebInputService {
 
 interface ServerStateObserver {
     fun postAddress(address: String)
+    fun postException(throwable: Throwable)
     fun onStopped()
 }

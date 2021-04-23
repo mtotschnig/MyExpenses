@@ -10,7 +10,6 @@ import android.content.Context;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.RemoteException;
@@ -28,10 +27,8 @@ import org.totschnig.myexpenses.fragment.AbstractCategoryList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.ExportFormat;
-import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Plan;
-import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -49,11 +46,9 @@ import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.BackupUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
-import org.totschnig.myexpenses.util.io.FileCopyUtils;
 import org.totschnig.myexpenses.util.io.FileUtils;
 import org.totschnig.myexpenses.viewmodel.data.Tag;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Serializable;
@@ -63,7 +58,6 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.documentfile.provider.DocumentFile;
-import timber.log.Timber;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
@@ -122,47 +116,8 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
     Cursor c;
     int successCount = 0, failureCount = 0;
     switch (mTaskId) {
-      case TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE:
-        for (int i = 0; i < ids.length; i++) {
-          kotlin.Pair<Transaction, List<Tag>> pair = Transaction.getInstanceFromTemplateWithTags((Long) ids[i]);
-          Transaction t = pair.getFirst();
-          if (t != null) {
-            if (mExtra != null) {
-              extraInfo2d = (Long[][]) mExtra;
-              final long date = extraInfo2d[i][1] / 1000;
-              t.setDate(date);
-              t.setValueDate(date);
-              t.setOriginPlanInstanceId(extraInfo2d[i][0]);
-            }
-            t.setStatus(STATUS_NONE);
-            if (t.save(true) != null && t.saveTags(pair.getSecond(), cr)) {
-              successCount++;
-            }
-          }
-        }
-        return successCount;
       case TaskExecutionFragment.TASK_INSTANTIATE_PLAN:
         return Plan.getInstanceFromDb((Long) ids[0]);
-      case TaskExecutionFragment.TASK_DELETE_TRANSACTION:
-        try {
-          for (long id : (Long[]) ids) {
-            Transaction.delete(id, (boolean) mExtra);
-          }
-        } catch (SQLiteConstraintException e) {
-          CrashHandler.reportWithDbSchema(e);
-          return Result.FAILURE;
-        }
-        return Result.SUCCESS;
-      case TaskExecutionFragment.TASK_UNDELETE_TRANSACTION:
-        try {
-          for (long id : (Long[]) ids) {
-            Transaction.undelete(id);
-          }
-        } catch (SQLiteConstraintException e) {
-          CrashHandler.reportWithDbSchema(e);
-          return Result.FAILURE;
-        }
-        return Result.SUCCESS;
       case TaskExecutionFragment.TASK_DELETE_ACCOUNT: {
         boolean success = true;
         for (long id : (Long[]) ids) {
@@ -174,16 +129,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         try {
           for (long id : (Long[]) ids) {
             PaymentMethod.delete(id);
-          }
-        } catch (SQLiteConstraintException e) {
-          CrashHandler.reportWithDbSchema(e);
-          return Result.FAILURE;
-        }
-        return Result.SUCCESS;
-      case TaskExecutionFragment.TASK_DELETE_PAYEES:
-        try {
-          for (long id : (Long[]) ids) {
-            Payee.delete(id);
           }
         } catch (SQLiteConstraintException e) {
           CrashHandler.reportWithDbSchema(e);
@@ -239,16 +184,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           CrashHandler.reportWithDbSchema(e);
           return Result.ofFailure(e.getMessage());
         }
-      case TaskExecutionFragment.TASK_DELETE_TEMPLATES:
-        try {
-          for (long id : (Long[]) ids) {
-            Template.delete(id, ((Boolean) mExtra));
-          }
-        } catch (SQLiteConstraintException e) {
-          CrashHandler.reportWithDbSchema(e);
-          return Result.FAILURE;
-        }
-        return Result.SUCCESS;
       case TaskExecutionFragment.TASK_TOGGLE_CRSTATUS:
         cr.update(
             TransactionProvider.TRANSACTIONS_URI
@@ -334,84 +269,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         return updateBooleanAccountFieldFromExtra(cr, (Long[]) ids, DatabaseConstants.KEY_SEALED) ? Result.SUCCESS : Result.FAILURE;
       case TaskExecutionFragment.TASK_SET_ACCOUNT_HIDDEN:
         return updateBooleanAccountFieldFromExtra(cr, (Long[]) ids, DatabaseConstants.KEY_HIDDEN) ? Result.SUCCESS : Result.FAILURE;
-      case TaskExecutionFragment.TASK_DELETE_IMAGES: {
-        for (long id : (Long[]) ids) {
-          Uri staleImageUri = TransactionProvider.STALE_IMAGES_URI.buildUpon().appendPath(String.valueOf(id)).build();
-          c = cr.query(
-              staleImageUri,
-              null,
-              null, null, null);
-          if (c == null)
-            continue;
-          if (c.moveToFirst()) {
-            Uri imageFileUri = Uri.parse(c.getString(0));
-            if (checkImagePath(imageFileUri.getLastPathSegment())) {
-              boolean success;
-              if (imageFileUri.getScheme().equals("file")) {
-                success = new File(imageFileUri.getPath()).delete();
-              } else {
-                success = cr.delete(imageFileUri, null, null) > 0;
-              }
-              if (success) {
-                Timber.d("Successfully deleted file %s", imageFileUri.toString());
-              } else {
-                CrashHandler.reportWithFormat("Unable to delete file %s ", imageFileUri.toString());
-              }
-            } else {
-              Timber.d("%s not deleted since it might still be in use", imageFileUri.toString());
-            }
-            cr.delete(staleImageUri, null, null);
-          }
-          c.close();
-        }
-        return null;
-      }
-      case TaskExecutionFragment.TASK_SAVE_IMAGES: {
-        File staleFileDir = new File(context.getExternalFilesDir(null), "images.old");
-        staleFileDir.mkdir();
-        if (!staleFileDir.isDirectory()) {
-          return null;
-        }
-        for (long id : (Long[]) ids) {
-          Uri staleImageUri = TransactionProvider.STALE_IMAGES_URI.buildUpon().appendPath(String.valueOf(id)).build();
-          c = cr.query(
-              staleImageUri,
-              null,
-              null, null, null);
-          if (c == null)
-            continue;
-          if (c.moveToFirst()) {
-            boolean success = false;
-            Uri imageFileUri = Uri.parse(c.getString(0));
-            if (checkImagePath(imageFileUri.getLastPathSegment())) {
-              if (imageFileUri.getScheme().equals("file")) {
-                File staleFile = new File(imageFileUri.getPath());
-                success = staleFile.renameTo(new File(staleFileDir, staleFile.getName()));
-              } else {
-                try {
-                  FileCopyUtils.copy(imageFileUri, Uri.fromFile(new File(staleFileDir, imageFileUri.getLastPathSegment())));
-                  success = cr.delete(imageFileUri, null, null) > 0;
-                } catch (IOException e) {
-                  Timber.e(e);
-                }
-              }
-              if (success) {
-                Timber.d("Successfully moved file %s", imageFileUri.toString());
-              }
-            } else {
-              success = true; //we do not move the file but remove its uri from the table
-              Timber.d("%s not moved since it might still be in use", imageFileUri.toString());
-            }
-            if (success) {
-              cr.delete(staleImageUri, null, null);
-            } else {
-              CrashHandler.reportWithFormat("Unable to move file %s", imageFileUri.toString());
-            }
-          }
-          c.close();
-        }
-        return null;
-      }
       case TaskExecutionFragment.TASK_EXPORT_CATEGORIES:
         DocumentFile appDir = AppDirHelper.getAppDir(context);
         if (appDir == null) {
@@ -740,21 +597,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
       return false;
     }
     return true;
-  }
-
-  private boolean checkImagePath(String lastPathSegment) {
-    boolean result = false;
-    Cursor c = MyApplication.getInstance().getContentResolver().query(
-        TransactionProvider.TRANSACTIONS_URI,
-        new String[]{"count(*)"},
-        DatabaseConstants.KEY_PICTURE_URI + " LIKE '%" + lastPathSegment + "'", null, null);
-    if (c != null) {
-      if (c.moveToFirst() && c.getInt(0) == 0) {
-        result = true;
-      }
-      c.close();
-    }
-    return result;
   }
 
   @Override

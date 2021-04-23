@@ -66,7 +66,7 @@ class Plan private constructor(id: Long, var dtStart: Long, var rRule: String?, 
      *
      * @return the id of the created object
      */
-    override fun save(): Uri {
+    override fun save(): Uri? {
         val uri: Uri
         val values = ContentValues()
         values.put(CalendarContractCompat.Events.TITLE, title)
@@ -97,7 +97,7 @@ class Plan private constructor(id: Long, var dtStart: Long, var rRule: String?, 
             DailyScheduler.updatePlannerAlarms(MyApplication.getInstance(), true, true)
         } else {
             uri = ContentUris.withAppendedId(CalendarContractCompat.Events.CONTENT_URI, id)
-            cr().update(uri, values, null, null)
+            if (cr().update(uri, values, null, null) == 0) return null
         }
         return uri
     }

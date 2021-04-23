@@ -354,7 +354,6 @@
     <string name="progress_dialog_deleting">ವಸ್ತುಗಳನ್ನು ಅಳಿಸಲಾಗುತ್ತಿದೆ</string>
     <string name="progress_dialog_loading">ಡೇಟಾಬೇಸ್‌ನಿಂದ ವಸ್ತುವನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ</string>
     <string name="progress_dialog_printing">ಪಿಡಿಎಫ್ ರಚಿಸಲಾಗುತ್ತಿದೆ</string>
-    <string name="progress_dialog_saving">ಡೇಟಾಬೇಸ್‌ಗೆ ವಸ್ತುವನ್ನು ಉಳಿಸಲಾಗುತ್ತಿದೆ</string>
     <string name="qif_parse_result">ಪಾರ್ಸ್ ಮಾಡಲಾಗಿದೆ: %1$s ಖಾತೆಗಳು; %2$s ವಿಭಾಗಗಳು ಮತ್ತು %3$s ಪಕ್ಷಗಳು</string>
     <string name="qif_parse_failure_found_multiple_accounts">QIF ಫೈಲ್‌ನಲ್ಲಿ ಬಹು ಖಾತೆಗಳು ಕಂಡುಬರುತ್ತವೆ.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">ಅವುಗಳನ್ನು ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ಖಾತೆಗೆ ವಿಲೀನಗೊಳಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ.</string>

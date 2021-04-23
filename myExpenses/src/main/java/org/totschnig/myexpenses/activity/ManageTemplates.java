@@ -25,7 +25,6 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.fragment.TemplatesList;
 import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.PermissionHelper;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
@@ -39,7 +38,6 @@ import androidx.core.app.TaskStackBuilder;
 
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.OPERATION_TYPE;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
-import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class ManageTemplates extends ProtectedFragmentActivity implements
     ConfirmationDialogListener, ContribIFace {
@@ -103,11 +101,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
       return true;
     } else if (command == R.id.DELETE_COMMAND_DO) {
       finishActionMode();
-      startTaskExecution(
-          TaskExecutionFragment.TASK_DELETE_TEMPLATES,
-          (Long[]) tag,
-          CALENDAR.hasPermission(this),
-          R.string.progress_dialog_deleting);
+      mListFragment.dispatchDeleteDo((long[]) tag);
       return true;
     } else if (command == R.id.CANCEL_CALLBACK_COMMAND) {
       finishActionMode();
@@ -126,17 +120,6 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
     } else {
       // Stay in same task
       NavUtils.navigateUpTo(this, upIntent);
-    }
-  }
-
-  @Override
-  public void onPostExecute(int taskId, Object o) {
-    super.onPostExecute(taskId, o);
-    if (taskId == TaskExecutionFragment.TASK_NEW_FROM_TEMPLATE) {
-      Integer successCount = (Integer) o;
-      String msg = successCount == 0 ? getString(R.string.save_transaction_error) :
-          getResources().getQuantityString(R.plurals.save_transaction_from_template_success, successCount, successCount);
-      mListFragment.showSnackbar(msg);
     }
   }
 
@@ -160,8 +143,8 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
     if (feature.equals(ContribFeature.SPLIT_TRANSACTION)) {
       if (tag instanceof Long) {
         mListFragment.dispatchCreateInstanceEditDo((Long) tag);
-      } else if (tag instanceof Long[]) {
-        mListFragment.dispatchCreateInstanceSaveDo((Long[]) tag, null);
+      } else if (tag instanceof long[]) {
+        mListFragment.dispatchCreateInstanceSaveDo((long[]) tag, null);
       }
     }
   }

@@ -84,7 +84,7 @@ class ExportTest {
 
     private fun insertData1(): Account {
         val tag1Id = org.totschnig.myexpenses.model.write("Tag One")
-        val tag2Id = org.totschnig.myexpenses.model.write("Tag Two")
+        val tag2Id = org.totschnig.myexpenses.model.write("Tags, Tags, Tags")
         val account1 = Account("Account 1", openingBalance, "Account 1")
         account1.type = AccountType.BANK
         account1.save()
@@ -256,7 +256,7 @@ class ExportTest {
         val linesCSV = arrayOf(
                 csvHeader(';', false),
                 "\"\";\"" + date + "\";\"\";\"0\";\"0.10\";\"\";\"\";\"\";\"" + context.getString(R.string.pm_cheque)
-                        + "\";\"*\";\"1\";\"\";\"Tag One, Tag Two\"",
+                        + "\";\"*\";\"1\";\"\";\"Tag One, 'Tags, Tags, Tags'\"",
                 "\"\";\"" + date + "\";\"N.N.\";\"0\";\"0.20\";\"Main\";\"\";\"\";\"" + context.getString(R.string.pm_cheque)
                         + "\";\"\";\"2\";\"\";\"\"",
                 "\"\";\"$date\";\"\";\"0.30\";\"0\";\"Main\";\"Sub\";\"\";\"\";\"\";\"\";\"picture.png\";\"\"",
@@ -284,7 +284,7 @@ class ExportTest {
         val linesCSV = arrayOf(
                 csvHeader(',', false),
                 "\"\",\"" + date + "\",\"\",\"0\",\"0,10\",\"\",\"\",\"\",\"" + context.getString(R.string.pm_cheque)
-                        + "\",\"*\",\"1\",\"\",\"Tag One, Tag Two\"",
+                        + "\",\"*\",\"1\",\"\",\"Tag One, 'Tags, Tags, Tags'\"",
                 "\"\",\"" + date + "\",\"N.N.\",\"0\",\"0,20\",\"Main\",\"\",\"\",\"" + context.getString(R.string.pm_cheque)
                         + "\",\"\",\"2\",\"\",\"\"",
                 "\"\",\"$date\",\"\",\"0,30\",\"0\",\"Main\",\"Sub\",\"\",\"\",\"\",\"\",\"picture.png\",\"\"",

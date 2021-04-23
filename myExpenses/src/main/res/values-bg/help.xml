@@ -36,6 +36,7 @@
   <string name="help_ManageParties_select_mapping_info">Изберете старна (платец/получател), като я докоснете.</string>
   <string name="help_ManageParties_select_filter_info">Докоснете страна за филтриране на списъка с транзакции. Дълго докосване за избор на няколко страни (платци/получатели).</string>
   <string name="help_ManageParties_floating_action_button">Използвайте плаващия бутон за да добавите нов платец/получател.</string>
+  <string name="cab_merge_help_text">Ако една и съща страна се появява няколко пъти в списъка с различни варианти на правопис, може да ги обедините в едно. Ще бъдете подканени да изберете кой вариант да запазите.</string>
   <!--ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_plans_title">Изглед на план-календар</string>
   <string name="help_ManageTemplates_planner_title">Предстоящи повтаряеми</string>

@@ -46,6 +46,7 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccountNames
 import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.ui.AmountInput
@@ -62,7 +63,7 @@ import org.totschnig.myexpenses.viewmodel.data.Currency.Companion.create
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import java.io.Serializable
 import java.math.BigDecimal
-import java.util.ArrayList
+import java.util.*
 
 /**
  * Activity for editing an account
@@ -148,7 +149,12 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-            PREFERENCES_REQUEST -> configureSyncBackendAdapter()
+            PREFERENCES_REQUEST -> if (resultCode == RESULT_FIRST_USER) {
+                finish()
+            } else {
+                configureSyncBackendAdapter()
+            }
+
             SELECT_TAGS_REQUEST -> data?.also {
                 if (resultCode == RESULT_OK) {
                     (data.getParcelableArrayListExtra<Tag>(KEY_TAG_LIST))?.let {
@@ -160,9 +166,9 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
                         viewModel.removeTags(it)
                     }
                 }
-                }
             }
         }
+    }
 
 
     private fun configureSyncBackendAdapter() {
@@ -254,7 +260,7 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
         }
         account.setCriterion(binding.Criterion.typedValue)
         viewModel.save(account).observe(this) {
-            if(it < 0) {
+            if (it < 0) {
                 showSnackbar("ERROR")
             } else {
                 account.requestSync()
@@ -360,7 +366,9 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
                 return true
             }
             R.id.SYNC_SETTINGS_COMMAND -> {
-                val i = Intent(this, ManageSyncBackends::class.java)
+                val i = Intent(this, ManageSyncBackends::class.java).apply {
+                    putExtra(KEY_UUID, account.uuid)
+                }
                 startActivityForResult(i, PREFERENCES_REQUEST)
                 return true
             }

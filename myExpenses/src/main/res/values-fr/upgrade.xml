@@ -15,6 +15,10 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_329">
+        <item>Les tiers en double peuvent être fusionnés.</item>
+        <item>Le montant restant des opérations ventilées peut être copié dans le presse-papiers.</item>
+    </string-array>
     <string-array name="whats_new_328">
         <item>Le widget \"Mes comptes\" peut être configuré pour afficher un seul compte et pour prendre en compte les futures transactions.</item>
         <item>Afficher le montant total des transactions sélectionnées.</item>

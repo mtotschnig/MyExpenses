@@ -203,4 +203,9 @@
         <url>https://github.com/ArthurHub/Android-Image-Cropper</url>
         <licence>Apache License, Version 2.0</licence>
     </project>
+    <project>
+        <name>Ktor</name>
+        <url>https://ktor.io/</url>
+        <licence>Apache License, Version 2.0</licence>
+    </project>
 </credits>

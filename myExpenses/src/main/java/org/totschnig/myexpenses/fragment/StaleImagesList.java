@@ -35,17 +35,19 @@ import com.squareup.picasso.Picasso;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.BaseActivity;
 import org.totschnig.myexpenses.activity.ImageViewIntentProvider;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.io.FileUtils;
+import org.totschnig.myexpenses.viewmodel.StaleImagesViewModel;
 
 import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
@@ -53,6 +55,7 @@ import androidx.loader.content.Loader;
 public class StaleImagesList extends ContextualActionBarFragment implements LoaderManager.LoaderCallbacks<Cursor> {
   SimpleCursorAdapter mAdapter;
   private Cursor mImagesCursor;
+  private StaleImagesViewModel viewModel;
 
   @Inject
   ImageViewIntentProvider imageViewIntentProvider;
@@ -63,31 +66,24 @@ public class StaleImagesList extends ContextualActionBarFragment implements Load
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     ((MyApplication) requireActivity().getApplication()).getAppComponent().inject(this);
+    viewModel = new ViewModelProvider(this).get(StaleImagesViewModel.class);
   }
 
   @Override
   public boolean dispatchCommandMultiple(int command,
-                                         SparseBooleanArray positions, Long[] itemIds) {
+                                         @NonNull SparseBooleanArray positions, @NonNull long[] itemIds) {
     if (super.dispatchCommandMultiple(command, positions, itemIds)) {
       return true;
     }
-    int taskId = 0, progressMessage = 0;
+    BaseActivity activity = (BaseActivity) requireActivity();
     if (command == R.id.SAVE_COMMAND) {
-      taskId = TaskExecutionFragment.TASK_SAVE_IMAGES;
-      progressMessage = R.string.progress_dialog_saving;
+      activity.showSnackbar(R.string.saving);
+      viewModel.saveImages(itemIds);
     } else if (command == R.id.DELETE_COMMAND) {
-      taskId = TaskExecutionFragment.TASK_DELETE_IMAGES;
-      progressMessage = R.string.progress_dialog_deleting;
-    }
-    if (taskId == 0) {
-      return false;
+      activity.showSnackbar(R.string.progress_dialog_deleting);
+      viewModel.deleteImages(itemIds);
     }
     finishActionMode();
-    ((ProtectedFragmentActivity) getActivity()).startTaskExecution(
-        taskId,
-        itemIds,
-        null,
-        progressMessage);
     return true;
   }
 

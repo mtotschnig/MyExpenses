@@ -210,10 +210,9 @@ dependencies {
     implementation 'com.itextpdf:itextpdf:5.5.13.1'
     implementation "ch.acra:acra-mail:$acraVersion"
     implementation "ch.acra:acra-dialog:$acraVersion"
-    //at the moment, we need to stick with the last version that supports java 6
-    //noinspection GradleDependency
     implementation "org.apache.commons:commons-lang3:$commonsLang"
     implementation 'org.apache.commons:commons-csv:1.8'
+    implementation "org.apache.commons:commons-text:$commonsText"
     implementation "com.squareup.picasso:picasso:$picassoVersion"
     implementation 'com.github.mtotschnig:MPAndroidChart:6fcf34d9d4'
     implementation 'com.github.mtotschnig:Caldroid:d217ebc306'

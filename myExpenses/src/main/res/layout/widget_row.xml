@@ -4,6 +4,7 @@
     android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/material_grey_700"
     android:gravity="start"
     android:orientation="horizontal">
 

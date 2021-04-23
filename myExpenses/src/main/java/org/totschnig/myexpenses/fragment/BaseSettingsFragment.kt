@@ -60,11 +60,16 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         super.onCreate(savedInstanceState)
         (activity().application as MyApplication).appComponent.inject(this)
         webUiViewModel = ViewModelProvider(this)[WebUiViewModel::class.java]
-        webUiViewModel.getServiceState().observe(this) { serverAddress ->
+        webUiViewModel.getServiceState().observe(this) { result ->
             findPreference<SwitchPreferenceCompat>(PrefKey.UI_WEB)?.let { preference ->
-                serverAddress?.let { preference.summaryOn = it }
-                if (preference.isChecked && serverAddress == null) {
-                    preference.isChecked = false
+                result.onSuccess { serverAddress ->
+                    serverAddress?.let { preference.summaryOn = it }
+                    if (preference.isChecked && serverAddress == null) {
+                        preference.isChecked = false
+                    }
+                }.onFailure {
+                    if (preference.isChecked) preference.isChecked = false
+                    activity().showSnackbar(it.message ?: "ERROR")
                 }
             }
         }
@@ -282,9 +287,9 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         } else {
             licenceKeyPref?.isVisible = false
         }
-        val contribPurchaseTitle: String = licenceHandler.prettyPrintStatus(requireContext()) ?:
-        getString(R.string.pref_contrib_purchase_title) + (if (licenceHandler.doesUseIAP)
-            " (${getString(R.string.pref_contrib_purchase_title_in_app)})" else "")
+        val contribPurchaseTitle: String = licenceHandler.prettyPrintStatus(requireContext())
+                ?: getString(R.string.pref_contrib_purchase_title) + (if (licenceHandler.doesUseIAP)
+                    " (${getString(R.string.pref_contrib_purchase_title_in_app)})" else "")
         var contribPurchaseSummary: String
         val licenceStatus = licenceHandler.licenceStatus
         if (licenceStatus == null && licenceHandler.addOnFeatures.isEmpty()) {

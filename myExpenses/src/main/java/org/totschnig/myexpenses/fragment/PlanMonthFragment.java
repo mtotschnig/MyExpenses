@@ -29,6 +29,7 @@ import com.roomorama.caldroid.CaldroidListener;
 import com.roomorama.caldroid.CalendarHelper;
 import com.roomorama.caldroid.CellView;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
@@ -318,7 +319,7 @@ public class PlanMonthFragment extends CaldroidFragment
           objectIdsAL.add(arguments.getLong(KEY_ROWID));
         }
       }
-      templatesList.dispatchCreateInstanceSaveDo(objectIdsAL.toArray(new Long[0]),
+      templatesList.dispatchCreateInstanceSaveDo(ArrayUtils.toPrimitive(objectIdsAL.toArray(new Long[0])),
           extra2dAL.toArray(new Long[extra2dAL.size()][2]));
     } else if (command == R.id.CANCEL_PLAN_INSTANCE_COMMAND) {
       for (int i = 0; i < positions.size(); i++) {

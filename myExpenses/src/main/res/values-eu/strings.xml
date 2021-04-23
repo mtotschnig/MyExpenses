@@ -353,7 +353,6 @@
     <string name="progress_dialog_deleting">Objektuak ezabatzen</string>
     <string name="progress_dialog_loading">Objektua datu-basetik kargatzen</string>
     <string name="progress_dialog_printing">PDFa sortzen</string>
-    <string name="progress_dialog_saving">Objektua datu-basera gordetzen</string>
     <string name="qif_parse_result">Aztertuta: %1$s kontu; %2$s kategoria eta %3$s onuradun/ordaintzaile</string>
     <string name="qif_parse_failure_found_multiple_accounts">Hainbat kontu aurkitu dira QIF fitxategian.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Ezin dira uneko kontuan bateratu</string>

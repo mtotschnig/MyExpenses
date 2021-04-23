@@ -31,54 +31,66 @@ class AccountRemoteViewsFactory(
         val context: Context,
         intent: Intent
 ) : AbstractRemoteViewsFactory(context, intent) {
-    val accountId = AccountWidgetConfigurationFragment.loadSelectionPref(context, intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID))
-    val sumColumn = if (AccountWidgetConfigurationFragment.loadSumPref(context, intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)) == "current_balance")
-        KEY_CURRENT_BALANCE  else KEY_TOTAL
+    private val appWidgetId= intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
+    private val accountId = accountId(context, appWidgetId)
+    private val sumColumn = sumColumn(context, appWidgetId)
 
-    override fun buildCursor(): Cursor? {
-        val builder = TransactionProvider.ACCOUNTS_URI.buildUpon()
-        var selection = "${DatabaseConstants.KEY_HIDDEN} = 0"
-        var selectionArgs: Array<String>? = null
-        var projection: Array<String>? = null
-        if (accountId.toLong().let { it > 0L && it != Long.MAX_VALUE }) {
-            selection += " AND $KEY_ROWID = ?"
-            selectionArgs = arrayOf(accountId)
-            projection = Account.PROJECTION_FULL
-        } else {
-            builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES, accountId.takeIf { it != Long.MAX_VALUE.toString() }
-                    ?: "1")
-        }
-        return context.contentResolver.query(
-                builder.build(), projection, selection, selectionArgs, null)
-    }
+    override fun buildCursor() = buildCursor(context, accountId)
 
     override fun RemoteViews.populate(cursor: Cursor) {
-        val account = Account.fromCursor(cursor)
-        setBackgroundColorSave(R.id.divider3, account.color)
-        val currentBalance = Money(account.currencyUnit,
-                cursor.getLong(cursor.getColumnIndexOrThrow(sumColumn)))
-        setTextViewText(R.id.line1, account.getLabelForScreenTitle(context))
-        setTextViewText(R.id.note, (context.applicationContext as MyApplication).appComponent.currencyFormatter().formatCurrency(currentBalance))
-        setOnClickFillInIntent(R.id.object_info, Intent().apply {
-            putExtra(KEY_ROWID, account.id)
-        })
-        configureButton(R.id.command1, R.drawable.ic_menu_add, CLICK_ACTION_NEW_TRANSACTION, R.string.menu_create_transaction, account, 175)
-        configureButton(R.id.command2, R.drawable.ic_menu_forward, CLICK_ACTION_NEW_TRANSFER, R.string.menu_create_transfer, account, 223)
-        configureButton(R.id.command3, R.drawable.ic_menu_split, CLICK_ACTION_NEW_SPLIT, R.string.menu_create_split, account, 271)
+        populate(context, this, cursor, sumColumn, width)
     }
 
-    private fun RemoteViews.configureButton(buttonId: Int, drawableResId: Int, action: String, contentDescriptionResId: Int, account: Account, minimumWidth: Int) {
-        if (account.isSealed || width < minimumWidth) {
-            setViewVisibility(buttonId, View.GONE)
-        } else {
-            setViewVisibility(buttonId, View.VISIBLE)
-            setImageViewVectorDrawable(buttonId, drawableResId)
-            setContentDescription(buttonId, context.getString(contentDescriptionResId))
-            setOnClickFillInIntent(buttonId, Intent().apply {
-                putExtra(KEY_ROWID, account.id)
-                putExtra(KEY_CURRENCY, account.currencyUnit.code)
-                putExtra(KEY_CLICK_ACTION, action)
-            })
+    companion object {
+        fun accountId(context: Context, appWidgetId: Int) = AccountWidgetConfigurationFragment.loadSelectionPref(context, appWidgetId)
+        fun sumColumn(context: Context, appWidgetId: Int) = if (AccountWidgetConfigurationFragment.loadSumPref(context, appWidgetId) == "current_balance")
+            KEY_CURRENT_BALANCE  else KEY_TOTAL
+
+                private fun RemoteViews.configureButton(context: Context, buttonId: Int, drawableResId: Int, action: String, contentDescriptionResId: Int, account: Account, availableWidth: Int, minimumWidth: Int) {
+            if (account.isSealed || availableWidth < minimumWidth) {
+                setViewVisibility(buttonId, View.GONE)
+            } else {
+                setViewVisibility(buttonId, View.VISIBLE)
+                setImageViewVectorDrawable(context, buttonId, drawableResId)
+                setContentDescription(buttonId, context.getString(contentDescriptionResId))
+                setOnClickFillInIntent(buttonId, Intent().apply {
+                    putExtra(KEY_ROWID, account.id)
+                    putExtra(KEY_CURRENCY, account.currencyUnit.code)
+                    putExtra(KEY_CLICK_ACTION, action)
+                })
+            }
+        }
+       fun populate(context: Context, remoteViews: RemoteViews, cursor: Cursor, sumColumn: String, availableWidth: Int) {
+            with(remoteViews) {
+                val account = Account.fromCursor(cursor)
+                setBackgroundColorSave(R.id.divider3, account.color)
+                val currentBalance = Money(account.currencyUnit,
+                        cursor.getLong(cursor.getColumnIndexOrThrow(sumColumn)))
+                setTextViewText(R.id.line1, account.getLabelForScreenTitle(context))
+                setTextViewText(R.id.note, (context.applicationContext as MyApplication).appComponent.currencyFormatter().formatCurrency(currentBalance))
+                setOnClickFillInIntent(R.id.object_info, Intent().apply {
+                    putExtra(KEY_ROWID, account.id)
+                })
+                configureButton(context, R.id.command1, R.drawable.ic_menu_add, CLICK_ACTION_NEW_TRANSACTION, R.string.menu_create_transaction, account, availableWidth , 175)
+                configureButton(context, R.id.command2, R.drawable.ic_menu_forward, CLICK_ACTION_NEW_TRANSFER, R.string.menu_create_transfer, account, availableWidth, 223)
+                configureButton(context, R.id.command3, R.drawable.ic_menu_split, CLICK_ACTION_NEW_SPLIT, R.string.menu_create_split, account, availableWidth, 271)
+            }
+        }
+        fun buildCursor(context: Context, accountId: String): Cursor? {
+            val builder = TransactionProvider.ACCOUNTS_URI.buildUpon()
+            var selection = "${DatabaseConstants.KEY_HIDDEN} = 0"
+            var selectionArgs: Array<String>? = null
+            var projection: Array<String>? = null
+            if (accountId.toLong().let { it > 0L && it != Long.MAX_VALUE }) {
+                selection += " AND $KEY_ROWID = ?"
+                selectionArgs = arrayOf(accountId)
+                projection = Account.PROJECTION_FULL
+            } else {
+                builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES, accountId.takeIf { it != Long.MAX_VALUE.toString() }
+                        ?: "1")
+            }
+            return context.contentResolver.query(
+                    builder.build(), projection, selection, selectionArgs, null)
         }
     }
 }

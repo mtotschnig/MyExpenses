@@ -17,11 +17,7 @@ abstract class AbstractRemoteViewsFactory(
         intent: Intent
 ) : RemoteViewsService.RemoteViewsFactory {
     protected var cursor: Cursor? = null
-    protected val width: Int
-
-    init {
-        width = intent.getIntExtra(KEY_WIDTH, 0).takeIf { it > 0 } ?: Int.MAX_VALUE
-    }
+    protected val width: Int = intent.getIntExtra(KEY_WIDTH, 0).takeIf { it > 0 } ?: Int.MAX_VALUE
 
     override fun onCreate() {}
 
@@ -65,15 +61,15 @@ abstract class AbstractRemoteViewsFactory(
         }
     }
 
-    protected fun RemoteViews.setBackgroundColorSave(res: Int, color: Int) {
-        setInt(res, "setBackgroundColor", color)
-    }
-
-    //http://stackoverflow.com/a/35633411/1199911
-    protected fun RemoteViews.setImageViewVectorDrawable(viewId: Int, resId: Int) {
-        setImageViewBitmap(viewId, UiUtils.getTintedBitmapForTheme(context, resId,
-                R.style.DarkBackground))
-    }
-
     abstract fun RemoteViews.populate(cursor: Cursor)
+}
+
+//http://stackoverflow.com/a/35633411/1199911
+fun RemoteViews.setImageViewVectorDrawable(context: Context, viewId: Int, resId: Int) {
+    setImageViewBitmap(viewId, UiUtils.getTintedBitmapForTheme(context, resId,
+            R.style.DarkBackground))
+}
+
+fun RemoteViews.setBackgroundColorSave(res: Int, color: Int) {
+    setInt(res, "setBackgroundColor", color)
 }
