@@ -6,7 +6,9 @@ import android.database.Cursor
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -49,6 +51,8 @@ const val ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE = -4L
 const val ERROR_WHILE_SAVING_TAGS = -5L
 
 class TransactionEditViewModel(application: Application) : TransactionViewModel(application) {
+
+    private var userHasUpdatedTags = false
 
     private val disposables = CompositeDisposable()
     //TODO move to lazyMap
@@ -144,20 +148,22 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
         return raw * 10.0.pow(minorUnitDelta.toDouble())
     }
 
-    fun loadActiveTags(id: Long) {
-        Account_model.getInstanceFromDbWithTags(id).also { pair ->
-            pair.second?.takeIf { it.size > 0 }?.let {
-                tags.postValue(it.toMutableList())
-            }
+    fun loadActiveTags(id: Long) = viewModelScope.launch(coroutineContext()) {
+        if (!userHasUpdatedTags) {
+            updateTags(Account_model.loadTags(id), false)
         }
     }
 
-    fun updateTags(it: MutableList<Tag>) {
+    fun updateTags(it: MutableList<Tag>, fromUser: Boolean) {
+        if (fromUser) {
+            userHasUpdatedTags = true
+        }
         tags.postValue(it)
     }
 
     fun removeTag(tag: Tag) {
-        tags.value?.remove(tag)
+        userHasUpdatedTags = true
+        tags.value = tags.value?.minus(tag)
     }
 
     fun removeTags(tagIds: LongArray) {

@@ -30,9 +30,9 @@ open class TransactionViewModel(application: Application) : ContentResolvingAndr
     @Inject
     lateinit var currencyContext: CurrencyContext
 
-    protected val tags = MutableLiveData<MutableList<Tag>>()
+    protected val tags = MutableLiveData<List<Tag>>()
 
-    fun getTags(): LiveData<MutableList<Tag>> {
+    fun getTags(): LiveData<List<Tag>> {
         return tags
     }
 

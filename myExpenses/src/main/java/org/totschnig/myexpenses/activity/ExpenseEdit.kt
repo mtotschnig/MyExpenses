@@ -382,6 +382,20 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         loadAccounts(fromSavedState)
         loadTemplates()
         linkInputsWithLabels()
+        loadTags()
+    }
+
+    private fun loadTags() {
+        if (!isSplitPart) {
+            viewModel.getTags().observe(this, { tags ->
+                if (::delegate.isInitialized) {
+                    delegate.showTags(tags) { tag ->
+                        viewModel.removeTag(tag)
+                        setDirty()
+                    }
+                }
+            })
+        }
     }
 
     private fun loadTemplates() {
@@ -533,16 +547,6 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         setTitle()
         operationType = transaction.operationType()
         shouldShowCreateTemplate = transaction.originTemplateId == null
-        if (!isSplitPart) {
-            viewModel.getTags().observe(this, { tags ->
-                if (::delegate.isInitialized) {
-                    delegate.showTags(tags) { tag ->
-                        viewModel.removeTag(tag)
-                        setDirty()
-                    }
-                }
-            })
-        }
         if (!isTemplate) {
             createNew = mNewInstance && prefHandler.getBoolean(saveAndNewPrefKey, false)
             updateFab()
@@ -870,7 +874,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             SELECT_TAGS_REQUEST -> intent?.also {
                 if (resultCode == RESULT_OK) {
                     (intent.getParcelableArrayListExtra<Tag>(KEY_TAG_LIST))?.let {
-                        viewModel.updateTags(it)
+                        viewModel.updateTags(it, true)
                         setDirty()
                     }
                 } else if (resultCode == RESULT_CANCELED) {
@@ -1293,7 +1297,7 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         startActivityForResult(i, SELECT_TAGS_REQUEST)
     }
 
-    fun loadTags(id: Long) {
+    fun loadActiveTags(id: Long) {
         viewModel.loadActiveTags(id)
     }
 

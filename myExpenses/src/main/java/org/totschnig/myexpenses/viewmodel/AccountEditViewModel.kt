@@ -14,9 +14,9 @@ import java.util.HashMap
 
 class AccountEditViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
 
-    protected val tags = MutableLiveData<MutableList<Tag>>()
+    protected val tags = MutableLiveData<List<Tag>>()
 
-    fun getTags(): LiveData<MutableList<Tag>> {
+    fun getTags(): LiveData<List<Tag>> {
         return tags
     }
 
@@ -42,7 +42,7 @@ class AccountEditViewModel(application: Application) : ContentResolvingAndroidVi
     }
 
     fun removeTag(tag: Tag) {
-        tags.value?.remove(tag)
+        tags.value = tags.value?.minus(tag)
     }
 
     fun removeTags(tagIds: LongArray) {

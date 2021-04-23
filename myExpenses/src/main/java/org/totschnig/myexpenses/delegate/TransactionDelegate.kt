@@ -814,7 +814,7 @@ abstract class TransactionDelegate<T : ITransaction>(
 
     open fun updateAccount(account: Account) {
         accountId = account.id
-        host.loadTags(account.id)
+        host.loadActiveTags(account.id)
         configureAccountDependent(account)
     }
 

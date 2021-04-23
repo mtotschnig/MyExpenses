@@ -56,7 +56,6 @@ import androidx.annotation.VisibleForTesting;
 import static android.content.ContentProviderOperation.newUpdate;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_CLEARED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACTIVETAG;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CLEARED_TOTAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
@@ -270,12 +269,12 @@ public class Account extends AbstractAccount {
 
   public static kotlin.Pair<Account, List<Tag>> getInstanceFromDbWithTags(long id) {
     Account t = getInstanceFromDb(id);
-    return t == null ? null : new kotlin.Pair<>(t, t.loadTags());
+    return t == null ? null : new kotlin.Pair<>(t, loadTags(id));
   }
 
-  protected List<Tag> loadTags() {
+  public static List<Tag> loadTags(long id) {
     List<Tag> tags = new ArrayList<>();
-    Cursor c = cr().query(ACCOUNTS_TAGS_URI, null, KEY_ACCOUNTID + " = ?", new String[]{String.valueOf(getId())}, null);
+    Cursor c = cr().query(ACCOUNTS_TAGS_URI, null, KEY_ACCOUNTID + " = ?", new String[]{String.valueOf(id)}, null);
     if (c != null) {
       c.moveToFirst();
       while (!c.isAfterLast()) {
