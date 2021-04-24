@@ -1298,7 +1298,9 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
     }
 
     fun loadActiveTags(id: Long) {
-        viewModel.loadActiveTags(id)
+        if (withAutoFill) {
+            viewModel.loadActiveTags(id)
+        }
     }
 
     fun editPlan(@Suppress("UNUSED_PARAMETER") view: View) {
