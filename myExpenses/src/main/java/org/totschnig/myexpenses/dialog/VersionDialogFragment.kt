@@ -37,6 +37,7 @@ import javax.inject.Inject
 class VersionDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListener {
     private var _binding: VersiondialogBinding? = null
     private val binding get() = _binding!!
+
     @Inject
     lateinit var licenceHandler: LicenceHandler
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -116,7 +117,9 @@ class VersionDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
         val nameCondensed = name.replace(".", "")
         fun getChanges(ctx: Context): Array<String?>? {
             when (nameCondensed) {
-                "325" -> return arrayOf(ctx.getString(R.string.contrib_feature_csv_import_label) + ": " + ctx.getString(R.string.autofill))
+                "325" -> return arrayOf("${ctx.getString(R.string.contrib_feature_csv_import_label)}: ${ctx.getString(R.string.autofill)}")
+                "330" -> return arrayOf("${ctx.getString(R.string.contrib_feature_csv_import_label)}: ${ctx.getString(R.string.tags)}",
+                        ctx.getString(R.string.active_tags))
             }
             val res = ctx.resources
             var resId = res.getIdentifier("whats_new_$nameCondensed", "array", ctx.packageName) //new based on name
