@@ -18,7 +18,7 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import javax.inject.Inject
 
-open class TransactionViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
+open class TransactionViewModel(application: Application) : TagHandlingViewModel(application) {
 
     init {
         (application as MyApplication).appComponent.inject(this)
@@ -26,12 +26,6 @@ open class TransactionViewModel(application: Application) : ContentResolvingAndr
 
     @Inject
     lateinit var currencyContext: CurrencyContext
-
-    protected val tags = MutableLiveData<List<Tag>>()
-
-    fun getTags(): LiveData<List<Tag>> {
-        return tags
-    }
 
     enum class InstantiationTask { TRANSACTION, TEMPLATE, TRANSACTION_FROM_TEMPLATE, FROM_INTENT_EXTRAS }
 

@@ -49,11 +49,9 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccountNames
-import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.ExchangeRateEdit
 import org.totschnig.myexpenses.ui.SpinnerHelper
-import org.totschnig.myexpenses.util.Result
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.addChipsBulk
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -72,14 +70,13 @@ import java.util.*
  *
  * @author Michael Totschnig
  */
-class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemSelectedListener, ContribIFace, OnDialogResultListener {
+class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Host, AdapterView.OnItemSelectedListener, ContribIFace, OnDialogResultListener {
     lateinit var binding: OneAccountBinding
     private lateinit var currencySpinner: SpinnerHelper
     private lateinit var accountTypeSpinner: SpinnerHelper
     private lateinit var syncSpinner: SpinnerHelper
     private lateinit var currencyAdapter: CurrencyAdapter
     private lateinit var currencyViewModel: CurrencyViewModel
-    private lateinit var viewModel: AccountEditViewModel
     private lateinit var syncViewModel: SyncBackendViewModel
 
     @State
@@ -181,26 +178,13 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
         binding.CriterionLabel.setText(criterionLabel)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
+        super.onActivityResult(requestCode, resultCode, intent)
         when (requestCode) {
             PREFERENCES_REQUEST -> if (resultCode == RESULT_FIRST_USER) {
                 finish()
             } else {
                 configureSyncBackendAdapter()
-            }
-
-            SELECT_TAGS_REQUEST -> data?.also {
-                if (resultCode == RESULT_OK) {
-                    (data.getParcelableArrayListExtra<Tag>(KEY_TAG_LIST))?.let {
-                        viewModel.updateTags(it)
-                        setDirty()
-                    }
-                } else if (resultCode == RESULT_CANCELED) {
-                    data.getLongArrayExtra(KEY_DELETED_IDS)?.let {
-                        viewModel.removeTags(it)
-                    }
-                }
             }
         }
     }
@@ -460,10 +444,4 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
     override val exchangeRateEdit: ExchangeRateEdit
         get() = binding.ERR.ExchangeRate
 
-    fun startActiveTagSelection(@Suppress("UNUSED_PARAMETER") view: View) {
-        val i = Intent(this, ManageTags::class.java).apply {
-            putParcelableArrayListExtra(KEY_TAG_LIST, viewModel.getTags().value?.let { ArrayList(it) })
-        }
-        startActivityForResult(i, SELECT_TAGS_REQUEST)
-    }
 }

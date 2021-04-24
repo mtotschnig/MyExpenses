@@ -36,12 +36,12 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACCOUNTY_TYPE_LIST
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import org.totschnig.myexpenses.model.Account as Account_model
+import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import org.totschnig.myexpenses.viewmodel.data.Tag
-import org.totschnig.myexpenses.viewmodel.data.Account
 import java.util.*
 import kotlin.math.pow
+import org.totschnig.myexpenses.model.Account as Account_model
 import org.totschnig.myexpenses.viewmodel.data.Template as DataTemplate
 
 const val ERROR_UNKNOWN = -1L
@@ -52,9 +52,8 @@ const val ERROR_WHILE_SAVING_TAGS = -5L
 
 class TransactionEditViewModel(application: Application) : TransactionViewModel(application) {
 
-    private var userHasUpdatedTags = false
-
     private val disposables = CompositeDisposable()
+
     //TODO move to lazyMap
     private val methods = MutableLiveData<List<PaymentMethod>>()
 
@@ -152,22 +151,6 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
         if (!userHasUpdatedTags) {
             Account_model.loadTags(id)?.let { updateTags(it, false) }
         }
-    }
-
-    fun updateTags(it: MutableList<Tag>, fromUser: Boolean) {
-        if (fromUser) {
-            userHasUpdatedTags = true
-        }
-        tags.postValue(it)
-    }
-
-    fun removeTag(tag: Tag) {
-        userHasUpdatedTags = true
-        tags.value = tags.value?.minus(tag)
-    }
-
-    fun removeTags(tagIds: LongArray) {
-        tags.value?.let { tags.postValue(it.filter { tag -> !tagIds.contains(tag.id) }.toMutableList()) }
     }
 
     fun newTemplate(operationType: Int, accountId: Long, parentId: Long?): LiveData<Template?> = liveData(context = coroutineContext()) {

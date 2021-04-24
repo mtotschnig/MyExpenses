@@ -9,13 +9,7 @@ import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.Tag
 
-class AccountEditViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
-
-    private val tags = MutableLiveData<List<Tag>>()
-
-    fun getTags(): LiveData<List<Tag>> {
-        return tags
-    }
+class AccountEditViewModel(application: Application) : TagHandlingViewModel(application) {
 
     fun accountWithTags (Id: Long) : LiveData<Account?> = liveData(context = coroutineContext()) {
         Account.getInstanceFromDbWithTags(Id)?.also { pair ->
@@ -33,17 +27,4 @@ class AccountEditViewModel(application: Application) : ContentResolvingAndroidVi
         }
         emit(if (result > 0 && !account.saveTags(tags.value)) ERROR_WHILE_SAVING_TAGS else result)
     }
-
-    fun updateTags(it: MutableList<Tag>) {
-        tags.postValue(it)
-    }
-
-    fun removeTag(tag: Tag) {
-        tags.value = tags.value?.minus(tag)
-    }
-
-    fun removeTags(tagIds: LongArray) {
-        tags.value?.let { tags.postValue(it.filter { tag -> !tagIds.contains(tag.id) }.toMutableList()) }
-    }
-
 }

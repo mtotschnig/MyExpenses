@@ -127,7 +127,7 @@ import org.totschnig.myexpenses.viewmodel.data.Template as DataTemplate
  *
  * @author Michael Totschnig
  */
-open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?>, ContribIFace, ConfirmationDialogListener, ButtonWithDialog.Host, ExchangeRateEdit.Host {
+open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManager.LoaderCallbacks<Cursor?>, ContribIFace, ConfirmationDialogListener, ButtonWithDialog.Host, ExchangeRateEdit.Host {
     private lateinit var rootBinding: OneExpenseBinding
     private lateinit var dateEditBinding: DateEditBinding
     private lateinit var methodRowBinding: MethodRowBinding
@@ -181,7 +181,6 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
     private var accountsLoaded = false
     private var shouldRecordAttachPictureFeature = false
     private var pObserver: ContentObserver? = null
-    private lateinit var viewModel: TransactionEditViewModel
     private lateinit var currencyViewModel: CurrencyViewModel
     override fun getDate(): LocalDate {
         return dateEditBinding.Date2Button.date
@@ -871,18 +870,6 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
             EDIT_REQUEST -> if (resultCode == RESULT_OK) {
                 setDirty()
             }
-            SELECT_TAGS_REQUEST -> intent?.also {
-                if (resultCode == RESULT_OK) {
-                    (intent.getParcelableArrayListExtra<Tag>(KEY_TAG_LIST))?.let {
-                        viewModel.updateTags(it, true)
-                        setDirty()
-                    }
-                } else if (resultCode == RESULT_CANCELED) {
-                    intent.getLongArrayExtra(KEY_DELETED_IDS)?.let {
-                        viewModel.removeTags(it)
-                    }
-                }
-            }
         }
     }
 
@@ -1288,13 +1275,6 @@ open class ExpenseEdit : AmountActivity(), LoaderManager.LoaderCallbacks<Cursor?
         private const val KEY_AUTOFILL_OVERRIDE_PREFERENCES = "autoFillOverridePreferences"
         const val AUTOFILL_CURSOR = 8
         const val KEY_INCOME = "income"
-    }
-
-    fun startTagSelection(@Suppress("UNUSED_PARAMETER") view: View) {
-        val i = Intent(this, ManageTags::class.java).apply {
-            putParcelableArrayListExtra(KEY_TAG_LIST, viewModel.getTags().value?.let { ArrayList(it) })
-        }
-        startActivityForResult(i, SELECT_TAGS_REQUEST)
     }
 
     fun loadActiveTags(id: Long) {
