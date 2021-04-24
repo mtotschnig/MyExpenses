@@ -121,13 +121,13 @@ public class Template extends Transaction implements ITransfer, ISplit {
 
   @NonNull
   @Override
-  public Uri getLinkedTagsUri() {
+  public Uri linkedTagsUri() {
     return TransactionProvider.TEMPLATES_TAGS_URI;
   }
 
   @NonNull
   @Override
-  public String getLinkColumn() {
+  public String linkColumn() {
     return KEY_TEMPLATEID;
   }
 

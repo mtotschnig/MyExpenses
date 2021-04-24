@@ -39,8 +39,6 @@ import org.totschnig.myexpenses.adapter.CurrencyAdapter
 import org.totschnig.myexpenses.databinding.OneAccountBinding
 import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
-import org.totschnig.myexpenses.fragment.KEY_DELETED_IDS
-import org.totschnig.myexpenses.fragment.KEY_TAG_LIST
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
@@ -111,6 +109,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = OneAccountBinding.inflate(layoutInflater)
+        binding.TagRow.TagLabel.setText(R.string.active_tags)
         setContentView(binding.root)
         setupToolbar()
         currencyViewModel = ViewModelProvider(this).get(CurrencyViewModel::class.java)
@@ -236,7 +235,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
     }
 
     private fun showTags(tags: Iterable<Tag>?, closeFunction: (Tag) -> Unit) {
-        with(binding.TagGroup) {
+        with(binding.TagRow.TagGroup) {
             removeAllViews()
             tags?.let { addChipsBulk(it, closeFunction) }
         }
@@ -388,8 +387,9 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
     override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
         if (!mNewInstance) {
             showSnackbar(R.string.progress_dialog_checking_sync_backend)
-            uuid?.let { syncViewModel.syncCheck(it, syncSpinner.selectedItem as String).observe(this) {
-                it.onFailure {
+            uuid?.let { uuid ->
+                syncViewModel.syncCheck(uuid, syncSpinner.selectedItem as String).observe(this) { result ->
+                    result.onFailure {
                     syncSpinner.setSelection(0)
                     showHelp(it.message ?: "ERROR")
                 }

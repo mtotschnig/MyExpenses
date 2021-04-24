@@ -681,7 +681,6 @@ public class Account extends Model {
     return uri;
   }
 
-
   private void ensureCurrency(CurrencyUnit currencyUnit) {
     Cursor cursor = cr().query(TransactionProvider.CURRENCIES_URI, new String[]{"count(*)"},
         KEY_CODE + " = ?", new String[]{currencyUnit.getCode()}, null);
@@ -791,7 +790,7 @@ public class Account extends Model {
       }
       return Result.SUCCESS;
     } catch (Exception e) {
-     return Result.ofFailure(e.getMessage());
+      return Result.ofFailure(e.getMessage());
     }
   }
 

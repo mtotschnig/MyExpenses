@@ -634,7 +634,7 @@ public class Transaction extends Model implements ITransaction {
   @Nullable
   public List<Tag> loadTags() {
     if (getParentId() == null) {
-      return ModelWithLinkedTagsKt.loadTags(getLinkedTagsUri(), getLinkColumn(), getId());
+      return ModelWithLinkedTagsKt.loadTags(linkedTagsUri(), linkColumn(), getId());
     } else {
       return null;
     }
@@ -642,7 +642,7 @@ public class Transaction extends Model implements ITransaction {
 
   @Override
   public boolean saveTags(@Nullable List<Tag> tags) {
-    return ModelWithLinkedTagsKt.saveTags(getLinkedTagsUri(), getLinkColumn(), tags, getId());
+    return ModelWithLinkedTagsKt.saveTags(linkedTagsUri(), linkColumn(), tags, getId());
   }
 
   /**
@@ -1266,12 +1266,12 @@ public class Transaction extends Model implements ITransaction {
   }
 
   @NonNull
-  public Uri getLinkedTagsUri() {
+  public Uri linkedTagsUri() {
     return TRANSACTIONS_TAGS_URI;
   }
 
   @NonNull
-  public String getLinkColumn() {
+  public String linkColumn() {
     return KEY_TRANSACTIONID;
   }
 

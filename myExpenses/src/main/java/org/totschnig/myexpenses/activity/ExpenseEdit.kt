@@ -244,6 +244,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManag
         super.onCreate(savedInstanceState)
         setHelpVariant(HelpVariant.transaction)
         rootBinding = OneExpenseBinding.inflate(LayoutInflater.from(this))
+        rootBinding.TagRow.TagLabel.setText(R.string.tags)
         dateEditBinding = DateEditBinding.bind(rootBinding.root)
         methodRowBinding = MethodRowBinding.bind(rootBinding.root)
         setContentView(rootBinding.root)
