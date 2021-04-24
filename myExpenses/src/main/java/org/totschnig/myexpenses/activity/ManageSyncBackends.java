@@ -36,7 +36,6 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_LINK
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_LINK_REMOTE;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_LINK_SAVE;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_REMOVE_BACKEND;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_UNLINK;
 
 public class ManageSyncBackends extends SyncBackendSetupActivity implements ContribIFace {
 
@@ -118,8 +117,7 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
   public void onPositive(Bundle args) {
     int anInt = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE);
     if (anInt == R.id.SYNC_UNLINK_COMMAND) {
-      startTaskExecution(TASK_SYNC_UNLINK,
-          new String[]{args.getString(DatabaseConstants.KEY_UUID)}, null, 0);
+      getListFragment().syncUnlink(args.getString(DatabaseConstants.KEY_UUID));
       return;
     } else if (anInt == R.id.SYNC_REMOVE_BACKEND_COMMAND) {
       startTaskExecution(TASK_SYNC_REMOVE_BACKEND,
@@ -234,7 +232,6 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
         showDismissibleSnackbar(result.print(this));
         //fall through
       }
-      case TASK_SYNC_UNLINK:
       case TASK_SYNC_LINK_LOCAL:
       case TASK_SYNC_LINK_REMOTE: {
         Result result = (Result) o;

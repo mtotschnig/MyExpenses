@@ -240,7 +240,6 @@
     </plurals>
     <string name="numbered">numbered</string>
     <string name="opening_balance">Opening balance</string>
-    <string name="active_tag">Active Tag</string>
     <string name="parse_error_file_not_found">Could not find file %1$s</string>
     <string name="parse_error_grisbi_version_not_supported">Unsupported Grisbi File Version: %1$s</string>
     <string name="parse_error_no_data_found">No importable data found in file.</string>
@@ -985,4 +984,5 @@
     <string name="menu_merge">Merge</string>
     <!-- When user selects duplicate parties to be merged, he sees this prompt asking him to select which name should be selected for the merged party -->
     <string name="merge_parties_select">Select name of merged party:</string>
+    <string name="active_tags">Active Tags</string>
 </resources>

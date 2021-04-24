@@ -59,6 +59,7 @@ import org.totschnig.myexpenses.util.addChipsBulk
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.AccountEditViewModel
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
+import org.totschnig.myexpenses.viewmodel.SyncBackendViewModel
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.Currency.Companion.create
 import org.totschnig.myexpenses.viewmodel.data.Tag
@@ -79,6 +80,7 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
     private lateinit var currencyAdapter: CurrencyAdapter
     private lateinit var currencyViewModel: CurrencyViewModel
     private lateinit var viewModel: AccountEditViewModel
+    private lateinit var syncViewModel: SyncBackendViewModel
 
     @State
     @JvmField
@@ -115,6 +117,7 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
         setupToolbar()
         currencyViewModel = ViewModelProvider(this).get(CurrencyViewModel::class.java)
         viewModel = ViewModelProvider(this).get(AccountEditViewModel::class.java)
+        syncViewModel = ViewModelProvider(this).get(SyncBackendViewModel::class.java)
         val extras = intent.extras
         currencySpinner = SpinnerHelper(findViewById(R.id.Currency))
         currencyAdapter = CurrencyAdapter(this, android.R.layout.simple_spinner_item)
@@ -322,23 +325,6 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
 
     override fun onNothingSelected(parent: AdapterView<*>?) {}
 
-
-    override fun onPostExecute(taskId: Int, o: Any?) {
-        super.onPostExecute(taskId, o)
-        val r = o as Result<*>?
-        when (taskId) {
-            TaskExecutionFragment.TASK_SYNC_UNLINK -> if (r!!.isSuccess) {
-                syncSpinner.setSelection(0)
-                syncSpinner.isEnabled = true
-                binding.SyncUnlink.visibility = View.GONE
-            }
-            TaskExecutionFragment.TASK_SYNC_CHECK -> if (!r!!.isSuccess) {
-                syncSpinner.setSelection(0)
-                showHelp(r.print(this))
-            }
-        }
-    }
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
         menu.add(Menu.NONE, R.id.EXCLUDE_FROM_TOTALS_COMMAND, 0, R.string.menu_exclude_from_totals)
@@ -367,9 +353,17 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
                 return true
             }
             R.id.SYNC_UNLINK_COMMAND -> {
-                syncAccountName = null
-                startTaskExecution(
-                        TaskExecutionFragment.TASK_SYNC_UNLINK, arrayOf(uuid), null, 0)
+                uuid?.let { uuid ->
+                    syncViewModel.syncUnlink(uuid).observe(this) { result ->
+                        result.onSuccess {
+                            syncSpinner.setSelection(0)
+                            syncSpinner.isEnabled = true
+                            binding.SyncUnlink.visibility = View.GONE
+                        }.onFailure {
+                            showSnackbar(it.message ?: "ERROR")
+                        }
+                    }
+                }
                 return true
             }
             R.id.SYNC_SETTINGS_COMMAND -> {
@@ -403,10 +397,13 @@ class AccountEdit : AmountActivity(), ExchangeRateEdit.Host, AdapterView.OnItemS
 
     override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
         if (!mNewInstance) {
-            startTaskExecution(
-                    TaskExecutionFragment.TASK_SYNC_CHECK, arrayOf(uuid),
-                    syncSpinner.selectedItem as String,
-                    R.string.progress_dialog_checking_sync_backend)
+            showSnackbar(R.string.progress_dialog_checking_sync_backend)
+            uuid?.let { syncViewModel.syncCheck(it, syncSpinner.selectedItem as String).observe(this) {
+                it.onFailure {
+                    syncSpinner.setSelection(0)
+                    showHelp(it.message ?: "ERROR")
+                }
+            } }
         }
     }
 
