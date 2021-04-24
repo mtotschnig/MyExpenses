@@ -984,4 +984,5 @@
     <string name="menu_merge">Merge</string>
     <!-- When user selects duplicate parties to be merged, he sees this prompt asking him to select which name should be selected for the merged party -->
     <string name="merge_parties_select">Select name of merged party:</string>
+    <string name="active_tags">Active Tags</string>
 </resources>

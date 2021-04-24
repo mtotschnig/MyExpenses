@@ -15,7 +15,6 @@ import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AggregateAccount
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.SortDirection
-import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteDowngradeFailedException
@@ -23,7 +22,6 @@ import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteUpgradeFailed
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.sync.ServiceLoader
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import javax.inject.Inject
 
 const val ERROR_INIT_DOWNGRADE = -1
 const val ERROR_INIT_UPGRADE = -2
@@ -34,10 +32,6 @@ class MyExpensesViewModel(application: Application) : ContentResolvingAndroidVie
 
     fun getHasHiddenAccounts(): LiveData<Boolean> {
         return hasHiddenAccounts
-    }
-
-    init {
-        (application as MyApplication).appComponent.inject(this)
     }
 
     fun initialize(): LiveData<Int> = liveData(context = coroutineContext()) {

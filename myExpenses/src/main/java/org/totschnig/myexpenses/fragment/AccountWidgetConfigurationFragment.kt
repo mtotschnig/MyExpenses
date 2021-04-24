@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.AccountWidgetConfigure
 import org.totschnig.myexpenses.viewmodel.AccountWidgetConfigurationViewModel
@@ -13,6 +14,11 @@ import org.totschnig.myexpenses.viewmodel.AccountWidgetConfigurationViewModel
 @Suppress("unused")
 class AccountWidgetConfigurationFragment : PreferenceFragmentCompat() {
     val viewModel: AccountWidgetConfigurationViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        (requireActivity().application as MyApplication).appComponent.inject(viewModel)
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         preferenceManager.sharedPreferencesName = PREFS_NAME

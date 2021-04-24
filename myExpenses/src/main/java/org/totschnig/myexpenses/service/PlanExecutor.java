@@ -193,7 +193,7 @@ public class PlanExecutor extends JobIntentService {
                       Transaction t = pair.getFirst();
                       t.setOriginPlanInstanceId(instanceId);
                       t.setDate(new Date(date));
-                      if (t.save(true) != null && t.saveTags(pair.getSecond(), getContentResolver())) {
+                      if (t.save(true) != null && t.saveTags(pair.getSecond())) {
                         Intent displayIntent = new Intent(this, MyExpenses.class)
                             .putExtra(KEY_ROWID, template.getAccountId())
                             .putExtra(KEY_TRANSACTIONID, t.getId());

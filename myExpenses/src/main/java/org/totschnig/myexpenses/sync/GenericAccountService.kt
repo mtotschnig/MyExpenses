@@ -26,6 +26,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.IBinder
 import androidx.core.util.Pair
+import com.annimon.stream.Exceptional
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.activity.ManageSyncBackends
@@ -133,6 +134,18 @@ class GenericAccountService : Service() {
             // This string should *not* be localized. If the user switches locale, we would not be
             // able to locate the old account, and may erroneously register multiple accounts.
             return Account(accountName, ACCOUNT_TYPE)
+        }
+
+        //TODO migrate to kotlin Result
+        fun getSyncBackendProvider(context: Context, syncAccountName: String): Exceptional<SyncBackendProvider> {
+            return try {
+                val account = getAccount(syncAccountName)
+                Exceptional.of { SyncBackendProviderFactory.get(context, account, false).orThrow }
+            } catch (throwable: Throwable) {
+                CrashHandler.report(Exception(String.format("Unable to get sync backend provider for %s",
+                        syncAccountName), throwable))
+                Exceptional.of(throwable)
+            }
         }
 
         fun getAccountNamesWithEncryption(context: Context): List<Pair<String, Boolean>> {

@@ -38,6 +38,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.BaseActivity;
 import org.totschnig.myexpenses.activity.ImageViewIntentProvider;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.di.AppComponent;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.io.FileUtils;
@@ -65,8 +66,10 @@ public class StaleImagesList extends ContextualActionBarFragment implements Load
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    ((MyApplication) requireActivity().getApplication()).getAppComponent().inject(this);
+    final AppComponent appComponent = ((MyApplication) requireActivity().getApplication()).getAppComponent();
+    appComponent.inject(this);
     viewModel = new ViewModelProvider(this).get(StaleImagesViewModel.class);
+    appComponent.inject(viewModel);
   }
 
   @Override

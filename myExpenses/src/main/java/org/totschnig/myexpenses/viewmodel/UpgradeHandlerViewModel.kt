@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.viewmodel
 import android.app.Application
 import android.content.SharedPreferences
 import android.os.Build
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.model.Template
@@ -25,10 +24,7 @@ class UpgradeHandlerViewModel(application: Application) : ContentResolvingAndroi
     @Inject
     lateinit var discoveryHelper: IDiscoveryHelper
 
-    init {
-        (application as MyApplication).appComponent.inject(this)
-    }
-    fun upgrade(fromVersion: Int, toVersion: Int) {
+    fun upgrade(fromVersion: Int, @Suppress("UNUSED_PARAMETER") toVersion: Int) {
         if (fromVersion < 385) {
             val hasIncomeColumn = "max(amount * (transfer_peer is null)) > 0 "
             val projection = arrayOf(hasIncomeColumn)
@@ -61,7 +57,6 @@ class UpgradeHandlerViewModel(application: Application) : ContentResolvingAndroi
             }
         }
         if (fromVersion < 393) {
-            val prefHandler = getApplication<MyApplication>().appComponent.prefHandler()
             arrayOf(PrefKey.SORT_ORDER_ACCOUNTS, PrefKey.SORT_ORDER_CATEGORIES, PrefKey.SORT_ORDER_BUDGET_CATEGORIES).forEach {
                 if (Sort.TITLE.name == prefHandler.getString(it, null)) {
                     prefHandler.putString(it, Sort.LABEL.name)
@@ -69,7 +64,6 @@ class UpgradeHandlerViewModel(application: Application) : ContentResolvingAndroi
             }
         }
         if (fromVersion < 417) {
-            val prefHandler = getApplication<MyApplication>().appComponent.prefHandler()
             prefHandler.getString(PrefKey.CUSTOM_DATE_FORMAT, null)?.let {
                 if (validateDateFormat(it) != null) {
                     Timber.d("Removed erroneous dateFormat %s ", it)
@@ -94,7 +88,6 @@ class UpgradeHandlerViewModel(application: Application) : ContentResolvingAndroi
                     }
         }
         if (fromVersion < 429 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            val prefHandler = getApplication<MyApplication>().appComponent.prefHandler()
             prefHandler.putString(PrefKey.UI_THEME_KEY, "default")
         }
     }

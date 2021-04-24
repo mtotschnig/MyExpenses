@@ -6,7 +6,9 @@ import android.database.Cursor
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -36,9 +38,9 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
-import org.totschnig.myexpenses.viewmodel.data.Tag
 import java.util.*
 import kotlin.math.pow
+import org.totschnig.myexpenses.model.Account as Account_model
 import org.totschnig.myexpenses.viewmodel.data.Template as DataTemplate
 
 const val ERROR_UNKNOWN = -1L
@@ -50,6 +52,7 @@ const val ERROR_WHILE_SAVING_TAGS = -5L
 class TransactionEditViewModel(application: Application) : TransactionViewModel(application) {
 
     private val disposables = CompositeDisposable()
+
     //TODO move to lazyMap
     private val methods = MutableLiveData<List<PaymentMethod>>()
 
@@ -129,7 +132,7 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
             CrashHandler.report(e)
             ERROR_UNKNOWN
         }
-        emit(if (result > 0 && !transaction.saveTags(tags.value, getApplication<Application>().contentResolver)) ERROR_WHILE_SAVING_TAGS else result)
+        emit(if (result > 0 && !transaction.saveTags(tags.value)) ERROR_WHILE_SAVING_TAGS else result)
     }
 
     fun cleanupSplit(id: Long, isTemplate: Boolean): LiveData<Unit> = liveData(context = coroutineContext()) {
@@ -143,16 +146,10 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
         return raw * 10.0.pow(minorUnitDelta.toDouble())
     }
 
-    fun updateTags(it: MutableList<Tag>) {
-        tags.postValue(it)
-    }
-
-    fun removeTag(tag: Tag) {
-        tags.value?.remove(tag)
-    }
-
-    fun removeTags(tagIds: LongArray) {
-        tags.value?.let { tags.postValue(it.filter { tag -> !tagIds.contains(tag.id) }.toMutableList()) }
+    fun loadActiveTags(id: Long) = viewModelScope.launch(coroutineContext()) {
+        if (!userHasUpdatedTags) {
+            Account_model.loadTags(id)?.let { updateTags(it, false) }
+        }
     }
 
     fun newTemplate(operationType: Int, accountId: Long, parentId: Long?): LiveData<Template?> = liveData(context = coroutineContext()) {

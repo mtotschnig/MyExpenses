@@ -111,6 +111,10 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     override fun onCreate(savedInstanceState: Bundle?) {
         ocrViewModel = ViewModelProvider(this).get(OcrViewModel::class.java)
         featureViewModel = ViewModelProvider(this).get(FeatureViewModel::class.java)
+        with((applicationContext as MyApplication).appComponent) {
+            inject(ocrViewModel)
+            inject(featureViewModel)
+        }
         featureViewModel.getFeatureState().observe(this, EventObserver { featureState ->
             when (featureState) {
                 is FeatureViewModel.FeatureState.FeatureLoading -> showSnackbar(getString(R.string.feature_download_requested, getString(featureState.feature.labelResId)))

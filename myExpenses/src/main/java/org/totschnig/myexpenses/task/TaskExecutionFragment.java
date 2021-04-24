@@ -81,15 +81,10 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_REPAIR_PLAN = 41;
   public static final int TASK_WEBDAV_TEST_LOGIN = 42;
   public static final int TASK_CREATE_SYNC_ACCOUNT = 43;
-  public static final int TASK_SYNC_UNLINK = 44;
   public static final int TASK_SYNC_LINK_LOCAL = 45;
   public static final int TASK_SYNC_LINK_REMOTE = 46;
   public static final int TASK_SYNC_REMOVE_BACKEND = 47;
   public static final int TASK_SYNC_LINK_SAVE = 48;
-  /**
-   * verify if a given uuid exists in a given backend
-   */
-  public static final int TASK_SYNC_CHECK = 49;
 
   public static final int TASK_FETCH_SYNC_ACCOUNT_DATA = 51;
   public static final int TASK_SETUP_FROM_SYNC_ACCOUNTS = 52;

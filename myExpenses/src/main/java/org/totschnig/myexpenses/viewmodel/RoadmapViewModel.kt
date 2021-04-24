@@ -8,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.launch
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.retrofit.Issue
@@ -25,7 +24,7 @@ class RoadmapViewModel(application: Application) : AndroidViewModel(application)
     @Inject
     lateinit var prefHandler: PrefHandler
 
-    private val gson: Gson
+    private val gson: Gson = Gson()
 
     fun getData(): LiveData<List<Issue>?> = roadmapRepository.getData()
 
@@ -58,8 +57,4 @@ class RoadmapViewModel(application: Application) : AndroidViewModel(application)
         const val VOTE_REMINDER_DAYS = 100L
     }
 
-    init {
-        (application as MyApplication).appComponent.inject(this)
-        gson = Gson()
-    }
 }

@@ -14,18 +14,26 @@
  */
 package org.totschnig.myexpenses.activity
 
+import android.content.Intent
+import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import org.totschnig.myexpenses.fragment.KEY_DELETED_IDS
+import org.totschnig.myexpenses.fragment.KEY_TAG_LIST
 import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.ExchangeRateEdit
+import org.totschnig.myexpenses.viewmodel.TagHandlingViewModel
+import org.totschnig.myexpenses.viewmodel.data.Tag
 import java.math.BigDecimal
+import java.util.ArrayList
 
-abstract class AmountActivity : EditActivity() {
+abstract class AmountActivity<T: TagHandlingViewModel> : EditActivity() {
     abstract val amountLabel: TextView
     abstract val amountRow: ViewGroup
     abstract val exchangeRateRow: ViewGroup
     abstract val amountInput: AmountInput
     abstract val exchangeRateEdit: ExchangeRateEdit
+    lateinit var viewModel: T
 
     /**
      * @return true for income, false for expense
@@ -47,5 +55,30 @@ abstract class AmountActivity : EditActivity() {
     override fun setupListeners() {
         amountInput.addTextChangedListener(this)
         amountInput.setTypeChangedListener { isChecked: Boolean -> onTypeChanged(isChecked) }
+    }
+
+    fun startTagSelection(@Suppress("UNUSED_PARAMETER") view: View) {
+        val i = Intent(this, ManageTags::class.java).apply {
+            putParcelableArrayListExtra(KEY_TAG_LIST, viewModel.getTags().value?.let { ArrayList(it) })
+        }
+        startActivityForResult(i, SELECT_TAGS_REQUEST)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
+        super.onActivityResult(requestCode, resultCode, intent)
+        when (requestCode) {
+            SELECT_TAGS_REQUEST -> intent?.also {
+                if (resultCode == RESULT_OK) {
+                    (intent.getParcelableArrayListExtra<Tag>(KEY_TAG_LIST))?.let {
+                        viewModel.updateTags(it, true)
+                        setDirty()
+                    }
+                } else if (resultCode == RESULT_CANCELED) {
+                    intent.getLongArrayExtra(KEY_DELETED_IDS)?.let {
+                        viewModel.removeTags(it)
+                    }
+                }
+            }
+        }
     }
 }

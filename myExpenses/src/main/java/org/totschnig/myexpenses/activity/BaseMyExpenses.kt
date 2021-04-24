@@ -98,6 +98,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this)[MyExpensesViewModel::class.java]
+        (applicationContext as MyApplication).appComponent.inject(viewModel)
     }
 
     override fun injectDependencies() {

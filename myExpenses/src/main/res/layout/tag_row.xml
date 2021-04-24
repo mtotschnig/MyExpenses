@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/TagRow">
+
+    <TextView
+        android:id="@+id/TagLabel"
+        style="@style/FormLabel"
+        android:text="@string/tags" />
+
+    <LinearLayout
+        style="@style/FormField"
+        android:orientation="horizontal">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/TagGroup"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <ImageView
+            style="?actionButtonStyle"
+            app:srcCompat="@drawable/ic_menu_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:contentDescription="@string/tags_create_or_select"
+            android:focusable="true"
+            android:onClick="startTagSelection" />
+    </LinearLayout>
+</TableRow>

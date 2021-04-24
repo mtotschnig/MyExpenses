@@ -21,11 +21,6 @@ import java.io.File
 import javax.inject.Inject
 
 class OcrViewModel(application: Application) : AndroidViewModel(application) {
-
-    init {
-        (application as MyApplication).appComponent.inject(this)
-    }
-
     @Inject
     lateinit var prefHandler: PrefHandler
 
@@ -58,7 +53,7 @@ class OcrViewModel(application: Application) : AndroidViewModel(application) {
 
     fun getScanUri(file: File): Uri = try {
         AppDirHelper.getContentUriForFile(file)
-    }  catch (e: IllegalArgumentException) {
+    } catch (e: IllegalArgumentException) {
         Uri.fromFile(file)
     }
 

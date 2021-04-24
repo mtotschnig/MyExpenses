@@ -14,6 +14,7 @@ import android.widget.Button;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.databinding.EditCurrencyBinding;
+import org.totschnig.myexpenses.di.AppComponent;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.util.Utils;
@@ -57,8 +58,10 @@ public class EditCurrencyDialog extends BaseDialogFragment {
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    ((MyApplication) requireActivity().getApplication()).getAppComponent().inject(this);
+    final AppComponent appComponent = ((MyApplication) requireActivity().getApplication()).getAppComponent();
+    appComponent.inject(this);
     editCurrencyViewModel = new ViewModelProvider(this).get(EditCurrencyViewModel.class);
+    appComponent.inject(editCurrencyViewModel);
     editCurrencyViewModel.getUpdateComplete().observe(this, this::dismiss);
     editCurrencyViewModel.getInsertComplete().observe(this, success -> {
       if (success != null && success) {

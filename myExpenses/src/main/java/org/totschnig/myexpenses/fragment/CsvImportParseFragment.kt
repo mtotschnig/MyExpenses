@@ -126,8 +126,11 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, LoaderManager.L
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        (requireActivity().application as MyApplication).appComponent.inject(this)
         currencyViewModel = ViewModelProvider(this).get(CurrencyViewModel::class.java)
+        with((requireActivity().application as MyApplication).appComponent) {
+            inject(this@CsvImportParseFragment)
+            inject(currencyViewModel)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

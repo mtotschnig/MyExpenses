@@ -33,6 +33,7 @@ import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.SplitPartAdapter;
 import org.totschnig.myexpenses.databinding.SplitPartsListBinding;
+import org.totschnig.myexpenses.di.AppComponent;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
@@ -105,8 +106,10 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
     } else {
       Icepick.restoreInstanceState(this, savedInstanceState);
     }
-    ((MyApplication) requireActivity().getApplication()).getAppComponent().inject(this);
+    final AppComponent appComponent = ((MyApplication) requireActivity().getApplication()).getAppComponent();
+    appComponent.inject(this);
     viewModel = new ViewModelProvider(this).get(SplitPartListViewModel.class);
+    appComponent.inject(viewModel);
   }
 
   @Override

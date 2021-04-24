@@ -22,6 +22,7 @@ import eltos.simpledialogfragment.input.SimpleInputDialog
 import org.totschnig.myexpenses.ACTION_MANAGE
 import org.totschnig.myexpenses.ACTION_SELECT_FILTER
 import org.totschnig.myexpenses.ACTION_SELECT_MAPPING
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ManageTags
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
@@ -48,6 +49,7 @@ class TagList : Fragment(), OnDialogResultListener {
         super.onCreate(savedInstanceState)
         val factory = SavedStateViewModelFactory(requireActivity().application, this, null)
         viewModel = ViewModelProvider(this, factory)[TagListViewModel::class.java]
+        (requireActivity().application as MyApplication).appComponent.inject(viewModel)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

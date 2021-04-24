@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.provider
 
 import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteStatement
 import org.totschnig.myexpenses.model.PaymentMethod
@@ -80,3 +81,6 @@ fun mapPaymentMethodProjection(projection: Array<String>, ctx: Context): Array<S
         }
     }.toTypedArray()
 }
+
+val Cursor.asSequence: Sequence<Cursor>
+    get() = generateSequence { takeIf { it.moveToNext() } }

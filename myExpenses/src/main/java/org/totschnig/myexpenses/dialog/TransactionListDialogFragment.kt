@@ -66,7 +66,10 @@ class TransactionListDialogFragment : BaseDialogFragment(), LoaderManager.Loader
             isMain = getBoolean(KEY_IS_MAIN)
             catId = getLong(DatabaseConstants.KEY_CATID)
         }
-        (requireActivity().applicationContext as MyApplication).appComponent.inject(this)
+        with((requireActivity().applicationContext as MyApplication).appComponent) {
+            inject(this@TransactionListDialogFragment)
+            inject(viewModel)
+        }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

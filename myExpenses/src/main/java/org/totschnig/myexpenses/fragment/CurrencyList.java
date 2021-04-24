@@ -15,6 +15,7 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.CurrencyAdapter;
+import org.totschnig.myexpenses.di.AppComponent;
 import org.totschnig.myexpenses.dialog.EditCurrencyDialog;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.CurrencyUnit;
@@ -45,9 +46,11 @@ public class CurrencyList extends ListFragment {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    ((MyApplication) requireActivity().getApplication()).getAppComponent().inject(this);
+    final AppComponent appComponent = ((MyApplication) requireActivity().getApplication()).getAppComponent();
+    appComponent.inject(this);
     setAdapter();
     currencyViewModel = new ViewModelProvider(this).get(EditCurrencyViewModel.class);
+    appComponent.inject(currencyViewModel);
     currencyViewModel.getCurrencies().observe(this, currencies -> {
       currencyAdapter.clear();
       currencyAdapter.addAll(currencies);

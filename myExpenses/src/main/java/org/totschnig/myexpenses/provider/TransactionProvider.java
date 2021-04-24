@@ -173,6 +173,8 @@ public class TransactionProvider extends BaseTransactionProvider {
 
   public static final Uri TEMPLATES_TAGS_URI = Uri.parse("content://" + AUTHORITY + "/templates/tags");
 
+  public static final Uri ACCOUNTS_TAGS_URI = Uri.parse("content://" + AUTHORITY + "/accounts/tags");
+
   public static final String URI_SEGMENT_MOVE = "move";
   public static final String URI_SEGMENT_TOGGLE_CRSTATUS = "toggleCrStatus";
   public static final String URI_SEGMENT_UNDELETE = "undelete";
@@ -285,6 +287,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   private static final int UNCOMMITTED_ID = 59;
   private static final int PLANINSTANCE_STATUS_SINGLE = 60;
   private static final int TRANSACTION_LINK_TRANSFER = 61;
+  private static final int ACCOUNTS_TAGS = 62;
 
   private boolean bulkInProgress = false;
 
@@ -996,6 +999,9 @@ public class TransactionProvider extends BaseTransactionProvider {
       case TEMPLATES_TAGS:
         qb.setTables(TABLE_TEMPLATES_TAGS + " LEFT JOIN " + TABLE_TAGS + " ON (" + KEY_TAGID + " = " + KEY_ROWID + ")");
         break;
+      case ACCOUNTS_TAGS:
+        qb.setTables(TABLE_ACCOUNT_TAGS + " LEFT JOIN " + TABLE_TAGS + " ON (" + KEY_TAGID + " = " + KEY_ROWID + ")");
+        break;
       default:
         throw unknownUri(uri);
     }
@@ -1160,6 +1166,12 @@ public class TransactionProvider extends BaseTransactionProvider {
         notifyChange(uri, false);
         return TEMPLATES_TAGS_URI;
       }
+      case ACCOUNTS_TAGS: {
+        db.insertWithOnConflict(TABLE_ACCOUNT_TAGS, null, values, SQLiteDatabase.CONFLICT_IGNORE);
+        //the table does not have primary ids, we return the base uri
+        notifyChange(uri, false);
+        return ACCOUNTS_TAGS_URI;
+      }
       default:
         throw unknownUri(uri);
     }
@@ -1317,6 +1329,10 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case TEMPLATES_TAGS: {
         count = db.delete(TABLE_TEMPLATES_TAGS, where, whereArgs);
+        break;
+      }
+      case ACCOUNTS_TAGS: {
+        count = db.delete(TABLE_ACCOUNT_TAGS, where, whereArgs);
         break;
       }
       default:
@@ -1892,6 +1908,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "tags/#", TAG_ID);
     URI_MATCHER.addURI(AUTHORITY, "templates/tags", TEMPLATES_TAGS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_LINK_TRANSFER + "/*", TRANSACTION_LINK_TRANSFER);
+    URI_MATCHER.addURI(AUTHORITY, "accounts/tags", ACCOUNTS_TAGS);
   }
 
   /**

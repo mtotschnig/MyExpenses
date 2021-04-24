@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
 import org.totschnig.myexpenses.activity.FolderBrowser;
 import org.totschnig.myexpenses.activity.MyPreferenceActivity;
+import org.totschnig.myexpenses.di.AppComponent;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.feature.Feature;
@@ -184,8 +185,10 @@ public class SettingsFragment extends BaseSettingsFragment implements
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    requireApplication().getAppComponent().inject(this);
+    final AppComponent appComponent = requireApplication().getAppComponent();
+    appComponent.inject(this);
     currencyViewModel = new ViewModelProvider(this).get(CurrencyViewModel.class);
+    appComponent.inject(currencyViewModel);
     super.onCreate(savedInstanceState);
     prefHandler.preparePreferenceFragment(this);
   }

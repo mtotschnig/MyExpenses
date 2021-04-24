@@ -77,10 +77,6 @@ abstract class ContentResolvingAndroidViewModel(application: Application) : Andr
         return@lazy liveData
     }
 
-    init {
-        (application as MyApplication).appComponent.inject(this)
-    }
-
     private val accountLiveData: Map<Long, LiveData<Account>> = lazyMap { accountId ->
         val liveData = MutableLiveData<Account>()
         disposeAccount()

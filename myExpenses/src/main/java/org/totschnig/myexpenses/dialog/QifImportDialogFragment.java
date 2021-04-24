@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.QifImport;
 import org.totschnig.myexpenses.adapter.CurrencyAdapter;
@@ -59,6 +60,7 @@ public class QifImportDialogFragment extends TextSourceDialogFragment implements
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     currencyViewModel = new ViewModelProvider(this).get(CurrencyViewModel.class);
+    ((MyApplication) requireActivity().getApplication()).getAppComponent().inject(currencyViewModel);
   }
 
   @NonNull

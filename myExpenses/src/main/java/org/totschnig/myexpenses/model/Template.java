@@ -119,6 +119,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
 
   public static final Uri CONTENT_URI = TransactionProvider.TEMPLATES_URI;
 
+  @NonNull
   @Override
   public Uri linkedTagsUri() {
     return TransactionProvider.TEMPLATES_TAGS_URI;

@@ -16,6 +16,7 @@ import com.google.android.material.snackbar.Snackbar
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.form.Input
 import eltos.simpledialogfragment.form.SimpleFormDialog
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.RoadmapBinding
 import org.totschnig.myexpenses.model.ContribFeature
@@ -56,6 +57,7 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
         isPro = licenceHandler.hasAccessTo(ContribFeature.ROADMAP_VOTING)
         showIsLoading()
         roadmapViewModel = ViewModelProvider(this).get(RoadmapViewModel::class.java)
+        (applicationContext as MyApplication).appComponent.inject(roadmapViewModel)
         voteWeights = roadmapViewModel.restoreWeights()
         roadmapViewModel.getData().observe(this, { data: List<Issue>? ->
             dataSet = data?.also {

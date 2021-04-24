@@ -47,7 +47,6 @@ import org.totschnig.myexpenses.util.BackupUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.io.FileUtils;
-import org.totschnig.myexpenses.viewmodel.data.Tag;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -68,12 +67,10 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
-import static org.totschnig.myexpenses.util.TextUtils.concatResStrings;
 import static org.totschnig.myexpenses.util.TextUtils.formatQifCategory;
 
 /**
@@ -372,31 +369,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           }
         }
         return true;
-      case TaskExecutionFragment.TASK_SYNC_UNLINK: {
-        String uuid = (String) ids[0];
-        if (TextUtils.isEmpty(uuid)) {
-          return Result.FAILURE;
-        }
-        final long id = Account.findByUuid(uuid);
-        if (id == -1) {
-          return Result.FAILURE;
-        }
-        Account account = Account.getInstanceFromDb(id);
-        if (account == null) {
-          return Result.FAILURE;
-        }
-        final String syncAccountName = account.getSyncAccountName();
-        if (syncAccountName == null) {
-          return Result.FAILURE;
-        }
-        AccountManager accountManager = AccountManager.get(context);
-        android.accounts.Account syncAccount = GenericAccountService.getAccount(syncAccountName);
-        accountManager.setUserData(syncAccount, SyncAdapter.KEY_LAST_SYNCED_LOCAL(account.getId()), null);
-        accountManager.setUserData(syncAccount, SyncAdapter.KEY_LAST_SYNCED_REMOTE(account.getId()), null);
-        account.setSyncAccountName(null);
-        account.save();
-        return Result.SUCCESS;
-      }
       case TaskExecutionFragment.TASK_SYNC_LINK_LOCAL: {
         Account account = Account.getInstanceFromDb(Account.findByUuid((String) ids[0]));
         if (account.isSealed()) {
@@ -487,29 +459,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         }
         return requested == result ? Result.ofSuccess(message) : Result.ofFailure(message);
       }
-      case TaskExecutionFragment.TASK_SYNC_CHECK: {
-        String accountUuid = (String) ids[0];
-        Exceptional<SyncBackendProvider> syncBackendProvider = getSyncBackendProviderFromExtra();
-        if (!syncBackendProvider.isPresent()) {
-          return Result.ofFailure(syncBackendProvider.getException().getMessage());
-        }
-        try {
-          if (syncBackendProvider.get().getRemoteAccountList()
-              .filter(Exceptional::isPresent)
-              .map(Exceptional::get)
-              .anyMatch(metadata -> metadata.uuid().equals(accountUuid))) {
-            return Result.ofFailure(concatResStrings(context, " ",
-                R.string.link_account_failure_2, R.string.link_account_failure_3)
-                + "(" + concatResStrings(context, ", ", R.string.menu_settings,
-                R.string.pref_manage_sync_backends_title) + ")");
-          }
-          return Result.SUCCESS;
-        } catch (IOException e) {
-          return Result.ofFailure(e.getMessage());
-        } finally {
-          syncBackendProvider.get().tearDown();
-        }
-      }
       case TaskExecutionFragment.TASK_SETUP_FROM_SYNC_ACCOUNTS: {
         String syncAccountName = (String) mExtra;
         Exceptional<SyncBackendProvider> syncBackendProvider = getSyncBackendProviderFromExtra();
@@ -577,16 +526,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
 
   @NonNull
   private Exceptional<SyncBackendProvider> getSyncBackendProviderFromExtra() {
-    String syncAccountName = ((String) mExtra);
-    try {
-      final android.accounts.Account account = GenericAccountService.getAccount(syncAccountName);
-      final Context context = MyApplication.getInstance();
-      return Exceptional.of(() -> SyncBackendProviderFactory.get(context, account, false).getOrThrow());
-    } catch (Throwable throwable) {
-      CrashHandler.report(new Exception(String.format("Unable to get sync backend provider for %s",
-          syncAccountName), throwable));
-      return Exceptional.of(throwable);
-    }
+    return GenericAccountService.Companion.getSyncBackendProvider(MyApplication.getInstance(), (String) mExtra);
   }
 
   private boolean deleteAccount(Long anId) {

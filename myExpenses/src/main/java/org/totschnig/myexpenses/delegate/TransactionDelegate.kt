@@ -206,7 +206,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         originTemplateId?.let { host.loadOriginTemplate(it) }
         if (isSplitPart) {
             disableAccountSpinner()
-            viewBinding.TagRow.visibility = View.GONE
+            viewBinding.TagRow.root.visibility = View.GONE
         }
 
         if (isMainTemplate) {
@@ -814,6 +814,7 @@ abstract class TransactionDelegate<T : ITransaction>(
 
     open fun updateAccount(account: Account) {
         accountId = account.id
+        host.loadActiveTags(account.id)
         configureAccountDependent(account)
     }
 
@@ -928,7 +929,7 @@ abstract class TransactionDelegate<T : ITransaction>(
     }
 
     fun showTags(tags: Iterable<Tag>?, closeFunction: (Tag) -> Unit) {
-        with(viewBinding.TagGroup) {
+        with(viewBinding.TagRow.TagGroup) {
             removeAllViews()
             tags?.let { addChipsBulk(it, closeFunction) }
         }
