@@ -36,6 +36,7 @@
   <string name="help_ManageParties_select_mapping_info">בחר קבוצה על ידי הקשה עליה.</string>
   <string name="help_ManageParties_select_filter_info">הקש על קבוצה לסינון רשימת העסקאות. לחץ לחיצה ארוכה  לבחירת מספר צדדים.</string>
   <string name="help_ManageParties_floating_action_button">הפעולה הצפה כדי להוסיף רשומה חדשה.</string>
+  <string name="cab_merge_help_text">אם אותה צד מופיעה מספר פעמים ברשימה עם וריאציות איות שונות, תוכל למזג אותן יחד. תתבקש לבחור איזה גרסה תשמור.</string>
   <!--ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_plans_title">תצוגת תוכנית בלוח שנה</string>
   <string name="help_ManageTemplates_planner_title">אירועים חוזרים צפויים</string>

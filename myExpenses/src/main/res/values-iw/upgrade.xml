@@ -15,6 +15,14 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_329">
+        <item>ניתן למזג צדדים כפולים.</item>
+        <item>ניתן להעתיק את הסכום הנותר בעסקאות מפוצלות ללוח.</item>
+    </string-array>
+    <string-array name="whats_new_328">
+        <item>ניתן להגדיר את יישומון החשבון כך שיציג חשבון יחיד וייקח בחשבון עסקאות עתידיות.</item>
+        <item>הצג את הסכום הכולל של העסקאות שנבחרו.</item>
+    </string-array>
     <string-array name="whats_new_327">
         <item>ניתן לקשר שתי עסקאות קיימות כהעברה.</item>
     </string-array>
