@@ -39,6 +39,7 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import org.jetbrains.annotations.NotNull;
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.MyGroupedAdapter;
 import org.totschnig.myexpenses.databinding.ActivityMainBinding;
@@ -311,6 +312,7 @@ public class MyExpenses extends BaseMyExpenses implements
       accountId = prefHandler.getLong(PrefKey.CURRENT_ACCOUNT, 0L);
     }
     roadmapViewModel = new ViewModelProvider(this).get(RoadmapViewModel.class);
+    ((MyApplication) getApplicationContext()).getAppComponent().inject(roadmapViewModel);
     viewModel.getHasHiddenAccounts().observe(this,
         result -> navigationView().getMenu().findItem(R.id.HIDDEN_ACCOUNTS_COMMAND).setVisible(result != null && result));
     if (savedInstanceState != null) {

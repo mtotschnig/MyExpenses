@@ -51,6 +51,7 @@ import org.totschnig.myexpenses.activity.BaseActivity;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
+import org.totschnig.myexpenses.di.AppComponent;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
@@ -155,8 +156,10 @@ public class TemplatesList extends SortableListFragment
     super.onCreate(savedInstanceState);
     setHasOptionsMenu(true);
     Icepick.restoreInstanceState(this, savedInstanceState);
-    ((MyApplication) requireActivity().getApplication()).getAppComponent().inject(this);
+    final AppComponent appComponent = ((MyApplication) requireActivity().getApplication()).getAppComponent();
+    appComponent.inject(this);
     viewModel = new ViewModelProvider(this).get(TemplatesListViewModel.class);
+    appComponent.inject(viewModel);
   }
 
   @Override

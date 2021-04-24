@@ -38,7 +38,6 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
-import org.totschnig.myexpenses.viewmodel.data.Tag
 import java.util.*
 import kotlin.math.pow
 import org.totschnig.myexpenses.model.Account as Account_model

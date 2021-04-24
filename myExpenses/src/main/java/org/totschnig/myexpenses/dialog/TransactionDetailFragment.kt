@@ -57,6 +57,7 @@ import javax.inject.Inject
 class TransactionDetailFragment : BaseDialogFragment(), DialogInterface.OnClickListener {
     private var transactionData: List<Transaction>? = null
     private var _binding: TransactionDetailBinding? = null
+    private lateinit var viewModel: TransactionDetailViewModel
 
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
@@ -79,7 +80,8 @@ class TransactionDetailFragment : BaseDialogFragment(), DialogInterface.OnClickL
         val builder = initBuilderWithBinding {
             TransactionDetailBinding.inflate(materialLayoutInflater).also { _binding = it }
         }
-        val viewModel = ViewModelProvider(this).get(TransactionDetailViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(TransactionDetailViewModel::class.java)
+        (requireActivity().applicationContext as MyApplication).appComponent.inject(viewModel)
         val rowId = requireArguments().getLong(DatabaseConstants.KEY_ROWID)
         viewModel.transaction(rowId).observe(this, { o -> fillData(o) })
         viewModel.getTags().observe(this, { tags ->

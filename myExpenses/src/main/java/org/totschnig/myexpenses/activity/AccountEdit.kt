@@ -33,6 +33,7 @@ import eltos.simpledialogfragment.color.SimpleColorDialog
 import icepick.State
 import org.apache.commons.lang3.ArrayUtils
 import org.threeten.bp.LocalDate
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.CurrencyAdapter
 import org.totschnig.myexpenses.databinding.OneAccountBinding
@@ -115,6 +116,11 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         currencyViewModel = ViewModelProvider(this).get(CurrencyViewModel::class.java)
         viewModel = ViewModelProvider(this).get(AccountEditViewModel::class.java)
         syncViewModel = ViewModelProvider(this).get(SyncBackendViewModel::class.java)
+        with((applicationContext as MyApplication).appComponent) {
+            inject(viewModel)
+            inject(currencyViewModel)
+            inject(syncViewModel)
+        }
         val extras = intent.extras
         currencySpinner = SpinnerHelper(findViewById(R.id.Currency))
         currencyAdapter = CurrencyAdapter(this, android.R.layout.simple_spinner_item)

@@ -5,7 +5,6 @@ import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.feature.Callback
 import org.totschnig.myexpenses.feature.Feature
@@ -16,9 +15,6 @@ import javax.inject.Inject
 class FeatureViewModel (application: Application) : AndroidViewModel(application) {
     @Inject
     lateinit var featureManager: FeatureManager
-    init {
-        (application as MyApplication).appComponent.inject(this)
-    }
 
     private fun postAsEvent(state: FeatureState) {
         featureState.postValue(Event(state))

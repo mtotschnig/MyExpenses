@@ -67,6 +67,7 @@ import org.totschnig.myexpenses.adapter.TransactionAdapter;
 import org.totschnig.myexpenses.databinding.ExpensesListBinding;
 import org.totschnig.myexpenses.databinding.HeaderBinding;
 import org.totschnig.myexpenses.databinding.HeaderWithBudgetBinding;
+import org.totschnig.myexpenses.di.AppComponent;
 import org.totschnig.myexpenses.dialog.AmountFilterDialog;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.DateFilterDialog;
@@ -312,6 +313,9 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     Icepick.restoreInstanceState(this, savedInstanceState);
     setHasOptionsMenu(true);
     viewModel = new ViewModelProvider(this).get(TransactionListViewModel.class);
+    final AppComponent appComponent = ((MyApplication) requireActivity().getApplication()).getAppComponent();
+    appComponent.inject(this);
+    appComponent.inject(viewModel);
     viewModel.account(getArguments().getLong(KEY_ACCOUNTID)).observe(this, account -> {
       mAccount = account;
       shouldStartActionMode = mAccount != null && (mAccount.isAggregate() || !mAccount.isSealed());
@@ -345,7 +349,6 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         }
       }
     });
-    ((MyApplication) requireActivity().getApplication()).getAppComponent().inject(this);
     firstLoadCompleted = (savedInstanceState != null);
     if (licenceHandler.hasTrialAccessTo(ContribFeature.BUDGET)) {
       budgetsObserver = new BudgetObserver();

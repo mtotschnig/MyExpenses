@@ -251,6 +251,10 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManag
         mManager = LoaderManager.getInstance(this)
         viewModel = ViewModelProvider(this).get(TransactionEditViewModel::class.java)
         currencyViewModel = ViewModelProvider(this).get(CurrencyViewModel::class.java)
+        with((applicationContext as MyApplication).appComponent) {
+            inject(viewModel)
+            inject(currencyViewModel)
+        }
         //we enable it only after accountCursor has been loaded, preventing NPE when user clicks on it early
         amountInput.setTypeEnabled(false)
 

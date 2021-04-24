@@ -7,12 +7,10 @@ import android.database.Cursor
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.model.AggregateAccount
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -58,10 +56,6 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
                 cursor.getString(cursor.getColumnIndex(KEY_ACCOUNT_LABEL)),
                 getDefault(accountId, grouping) == budgetId
         )
-    }
-
-    init {
-        (application as MyApplication).appComponent.inject(this)
     }
 
     fun loadAllBudgets() {

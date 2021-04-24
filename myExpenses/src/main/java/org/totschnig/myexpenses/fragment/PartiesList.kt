@@ -43,6 +43,7 @@ import icepick.State
 import org.totschnig.myexpenses.ACTION_MANAGE
 import org.totschnig.myexpenses.ACTION_SELECT_FILTER
 import org.totschnig.myexpenses.ACTION_SELECT_MAPPING
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ManageParties
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
@@ -72,6 +73,7 @@ class PartiesList : ContextualActionBarFragment(), OnDialogResultListener {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
         viewModel = ViewModelProvider(this).get(PartyListViewModel::class.java)
+        (requireActivity().application as MyApplication).appComponent.inject(viewModel)
         Icepick.restoreInstanceState(this, savedInstanceState)
     }
 

@@ -6,6 +6,7 @@ import android.view.Menu
 import androidx.lifecycle.ViewModelProvider
 import icepick.State
 import org.apache.commons.csv.CSVRecord
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
@@ -45,6 +46,7 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
         super.onCreate(savedInstanceState)
         supportActionBar?.title = getString(R.string.pref_import_title, "CSV")
         csvImportViewModel = ViewModelProvider(this)[CsvImportViewModel::class.java]
+        (applicationContext as MyApplication).appComponent.inject(csvImportViewModel)
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {

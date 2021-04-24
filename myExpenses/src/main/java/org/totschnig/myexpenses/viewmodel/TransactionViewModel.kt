@@ -4,13 +4,10 @@ import android.app.Application
 import android.net.Uri
 import android.os.Bundle
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Transaction
-import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.ProviderUtils
@@ -19,10 +16,6 @@ import org.totschnig.myexpenses.viewmodel.data.Tag
 import javax.inject.Inject
 
 open class TransactionViewModel(application: Application) : TagHandlingViewModel(application) {
-
-    init {
-        (application as MyApplication).appComponent.inject(this)
-    }
 
     @Inject
     lateinit var currencyContext: CurrencyContext

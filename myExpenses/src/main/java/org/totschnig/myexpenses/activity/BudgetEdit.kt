@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import icepick.State
 import org.threeten.bp.LocalDate
 import org.totschnig.myexpenses.ACTION_SELECT_FILTER
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.AccountAdapter
 import org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter.NULL_ITEM_ID
@@ -147,6 +148,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         setContentView(binding.root)
         setupToolbar()
         viewModel = ViewModelProvider(this).get(BudgetEditViewModel::class.java)
+        (applicationContext as MyApplication).appComponent.inject(viewModel)
         pendingBudgetLoad = if (savedInstanceState == null) budgetId else 0L
         viewModel.accountsMinimal.observe(this, { list ->
             binding.Accounts.adapter = AccountAdapter(this, list)

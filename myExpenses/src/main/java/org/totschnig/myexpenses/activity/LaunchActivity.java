@@ -4,6 +4,7 @@ import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.os.Bundle;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ExtendProLicenceDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
@@ -58,6 +59,7 @@ public abstract class LaunchActivity extends IapActivity {
     super.onCreate(savedInstanceState);
 
     upgradeHandlerViewModel = new ViewModelProvider(this).get(UpgradeHandlerViewModel.class);
+    ((MyApplication) getApplicationContext()).getAppComponent().inject(upgradeHandlerViewModel);
   }
 
   @Override

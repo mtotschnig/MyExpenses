@@ -5,7 +5,6 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.net.Uri;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
@@ -57,8 +56,6 @@ public class EditCurrencyViewModel extends CurrencyViewModel {
     super(application);
     final ContentResolver contentResolver = application.getContentResolver();
     asyncDatabaseHandler = new DatabaseHandler(contentResolver);
-
-    ((MyApplication) application).getAppComponent().inject(this);
   }
 
   public void save(String currency, String symbol, int fractionDigits, String label, boolean withUpdate) {

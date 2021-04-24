@@ -102,7 +102,10 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (requireActivity().application as MyApplication).appComponent.inject(this)
+        with((requireActivity().application as MyApplication).appComponent) {
+            inject(this@HistoryChart)
+            inject(viewModel)
+        }
         setHasOptionsMenu(true)
         if (savedInstanceState == null) {
             grouping =  requireActivity().intent.getStringExtra(DatabaseConstants.KEY_GROUPING)?.let { Grouping.valueOf(it) }?.takeIf { it != Grouping.NONE }  ?: Grouping.MONTH

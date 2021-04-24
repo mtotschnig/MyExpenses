@@ -65,6 +65,7 @@ class BudgetList : Fragment(), SimpleDialog.OnDialogResultListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val adapter = requireActivity().let {
             viewModel = ViewModelProvider(it)[BudgetViewModel::class.java]
+            (requireActivity().application as MyApplication).appComponent.inject(viewModel)
             BudgetsAdapter(it)
         }
         with(binding.recyclerView) {

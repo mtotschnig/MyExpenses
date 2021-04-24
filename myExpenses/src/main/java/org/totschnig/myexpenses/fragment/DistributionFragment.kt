@@ -62,8 +62,10 @@ class DistributionFragment : DistributionBaseFragment<CategoryRowBinding?>() {
         get() = innerBinding.chart1
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        (requireActivity().application as MyApplication).appComponent.inject(this)
+        val appComponent = (requireActivity().application as MyApplication).appComponent
+        appComponent.inject(this)
         super.onCreate(savedInstanceState)
+        appComponent.inject(viewModel)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

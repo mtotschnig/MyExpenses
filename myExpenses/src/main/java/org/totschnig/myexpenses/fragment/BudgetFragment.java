@@ -128,6 +128,7 @@ public class BudgetFragment extends DistributionBaseFragment<BudgetRowBinding> i
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     viewModel = new ViewModelProvider(this).get(BudgetViewModel.class);
+    ((MyApplication) requireActivity().getApplication()).getAppComponent().inject(viewModel);
     viewModel.getBudget().observe(getViewLifecycleOwner(), this::setBudget);
     viewModel.getDatabaseResult().observe(getViewLifecycleOwner(), success -> {
       Activity activity = getActivity();
