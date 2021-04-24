@@ -177,7 +177,7 @@ class PlannerViewModel(application: Application) : ContentResolvingAndroidViewMo
                         it.originPlanInstanceId = instanceId
                         it.status = DatabaseConstants.STATUS_NONE
                         if (it.save(true) != null) {
-                            it.saveTags(pair.second, contentResolver)
+                            it.saveTags(pair.second)
                         }
                     }
                 }

@@ -28,7 +28,7 @@ class TemplatesListViewModel(application: Application) : ContentResolvingAndroid
                     t.originPlanInstanceId = extraInfo.get(index).get(0)
                 }
                 t.status = DatabaseConstants.STATUS_NONE
-                t.save(true) != null && t.saveTags(tagList, contentResolver)
+                t.save(true) != null && t.saveTags(tagList)
             }
         }.sumBy { if (it == true) 1 else 0 })
     }

@@ -134,7 +134,7 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
             CrashHandler.report(e)
             ERROR_UNKNOWN
         }
-        emit(if (result > 0 && !transaction.saveTags(tags.value, getApplication<Application>().contentResolver)) ERROR_WHILE_SAVING_TAGS else result)
+        emit(if (result > 0 && !transaction.saveTags(tags.value)) ERROR_WHILE_SAVING_TAGS else result)
     }
 
     fun cleanupSplit(id: Long, isTemplate: Boolean): LiveData<Unit> = liveData(context = coroutineContext()) {
@@ -150,7 +150,7 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
 
     fun loadActiveTags(id: Long) = viewModelScope.launch(coroutineContext()) {
         if (!userHasUpdatedTags) {
-            updateTags(Account_model.loadTags(id), false)
+            Account_model.loadTags(id)?.let { updateTags(it, false) }
         }
     }
 

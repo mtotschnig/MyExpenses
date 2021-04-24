@@ -26,7 +26,6 @@ import android.net.Uri;
 import android.os.RemoteException;
 
 import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.ZonedDateTime;
 import org.totschnig.myexpenses.MyApplication;
@@ -136,6 +135,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.getWeekStart;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart;
 import static org.totschnig.myexpenses.provider.DbUtils.getLongOrNull;
+import static org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_TAGS_URI;
 import static org.totschnig.myexpenses.provider.TransactionProvider.UNCOMMITTED_URI;
 
 /**
@@ -143,7 +143,7 @@ import static org.totschnig.myexpenses.provider.TransactionProvider.UNCOMMITTED_
  *
  * @author Michael Totschnig
  */
-public class Transaction extends AbstractTransaction {
+public class Transaction extends Model implements ITransaction {
   private String comment = "";
   private String payee = "";
   private String referenceNumber = "";
@@ -631,23 +631,18 @@ public class Transaction extends AbstractTransaction {
     return new kotlin.Pair<>(getInstanceFromTemplate(te), te.loadTags());
   }
 
-  protected List<Tag> loadTags() {
-    List<Tag> tags;
+  @Nullable
+  public List<Tag> loadTags() {
     if (getParentId() == null) {
-      tags = new ArrayList<>();
-      Cursor c = cr().query(linkedTagsUri(), null, linkColumn() + " = ?", new String[]{String.valueOf(getId())}, null);
-      if (c != null) {
-        c.moveToFirst();
-        while (!c.isAfterLast()) {
-          tags.add(new Tag(c.getLong(c.getColumnIndex(DatabaseConstants.KEY_ROWID)), c.getString(c.getColumnIndex(DatabaseConstants.KEY_LABEL)), true, 0));
-          c.moveToNext();
-        }
-        c.close();
-      }
+      return ModelWithLinkedTagsKt.loadTags(getLinkedTagsUri(), getLinkColumn(), getId());
     } else {
-      tags = null;
+      return null;
     }
-    return tags;
+  }
+
+  @Override
+  public boolean saveTags(@Nullable List<Tag> tags) {
+    return ModelWithLinkedTagsKt.saveTags(getLinkedTagsUri(), getLinkColumn(), tags, getId());
   }
 
   /**
@@ -1268,6 +1263,16 @@ public class Transaction extends AbstractTransaction {
 
   public void setPictureUri(Uri pictureUriIn) {
     this.pictureUri = pictureUriIn;
+  }
+
+  @NonNull
+  public Uri getLinkedTagsUri() {
+    return TRANSACTIONS_TAGS_URI;
+  }
+
+  @NonNull
+  public String getLinkColumn() {
+    return KEY_TRANSACTIONID;
   }
 
   public static class ExternalStorageNotAvailableException extends IllegalStateException {

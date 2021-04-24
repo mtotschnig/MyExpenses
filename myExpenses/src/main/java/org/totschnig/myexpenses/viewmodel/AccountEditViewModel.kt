@@ -6,15 +6,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.model.Plan
-import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.Tag
-import java.util.HashMap
 
 class AccountEditViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
 
-    protected val tags = MutableLiveData<List<Tag>>()
+    private val tags = MutableLiveData<List<Tag>>()
 
     fun getTags(): LiveData<List<Tag>> {
         return tags
@@ -34,7 +31,7 @@ class AccountEditViewModel(application: Application) : ContentResolvingAndroidVi
             CrashHandler.report(e)
             ERROR_UNKNOWN
         }
-        emit(if (result > 0 && !account.saveTags(tags.value, getApplication<Application>().contentResolver)) ERROR_WHILE_SAVING_TAGS else result)
+        emit(if (result > 0 && !account.saveTags(tags.value)) ERROR_WHILE_SAVING_TAGS else result)
     }
 
     fun updateTags(it: MutableList<Tag>) {

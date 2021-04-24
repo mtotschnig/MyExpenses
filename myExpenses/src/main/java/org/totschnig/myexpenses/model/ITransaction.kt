@@ -37,8 +37,5 @@ interface ITransaction: IModel {
     fun setInitialPlan(initialPlan: Triple<String, Recurrence, LocalDate>)
     fun save(withCommit: Boolean): Uri?
 
-    fun linkedTagsUri(): Uri
-    fun linkColumn(): String
-
-    fun saveTags(tags: List<Tag>?, contentResolver: ContentResolver): Boolean
+    fun saveTags(tags: List<Tag>?): Boolean
 }

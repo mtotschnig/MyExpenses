@@ -61,7 +61,7 @@ public class PlanNotificationClickHandler extends IntentService {
           Transaction t = pair.getFirst();
           t.setDate(new Date(extras.getLong(DatabaseConstants.KEY_DATE)));
           t.setOriginPlanInstanceId(instanceId);
-          if (t.save(true) != null && t.saveTags(pair.getSecond(), getContentResolver())) {
+          if (t.save(true) != null && t.saveTags(pair.getSecond())) {
             message = getResources().getQuantityString(
                 R.plurals.save_transaction_from_template_success, 1, 1);
             Intent displayIntent = new Intent(this, MyExpenses.class)

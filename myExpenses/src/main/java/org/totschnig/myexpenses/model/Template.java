@@ -119,14 +119,15 @@ public class Template extends Transaction implements ITransfer, ISplit {
 
   public static final Uri CONTENT_URI = TransactionProvider.TEMPLATES_URI;
 
+  @NonNull
   @Override
-  public Uri linkedTagsUri() {
+  public Uri getLinkedTagsUri() {
     return TransactionProvider.TEMPLATES_TAGS_URI;
   }
 
   @NonNull
   @Override
-  public String linkColumn() {
+  public String getLinkColumn() {
     return KEY_TEMPLATEID;
   }
 

@@ -106,12 +106,14 @@ import static org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_TAG
  *
  * @author Michael Totschnig
  */
-public class Account extends AbstractAccount {
+public class Account extends Model {
 
   public static final int EXPORT_HANDLE_DELETED_DO_NOTHING = -1;
   public static final int EXPORT_HANDLE_DELETED_UPDATE_BALANCE = 0;
   public static final int EXPORT_HANDLE_DELETED_CREATE_HELPER = 1;
   public final static long HOME_AGGREGATE_ID = Integer.MIN_VALUE;
+  private final static Uri LINKED_TAGS_URI = ACCOUNTS_TAGS_URI;
+  private final static String LINKED_TAGS_COLUMN = KEY_ACCOUNTID;
 
   private String label;
 
@@ -130,8 +132,6 @@ public class Account extends AbstractAccount {
   private SortDirection sortDirection = SortDirection.DESC;
 
   private Money criterion;
-
-  public List<Tag> activeTags;
 
   /**
    * exchange rate comparing major units
@@ -272,18 +272,13 @@ public class Account extends AbstractAccount {
     return t == null ? null : new kotlin.Pair<>(t, loadTags(id));
   }
 
+  @Nullable
   public static List<Tag> loadTags(long id) {
-    List<Tag> tags = new ArrayList<>();
-    Cursor c = cr().query(ACCOUNTS_TAGS_URI, null, KEY_ACCOUNTID + " = ?", new String[]{String.valueOf(id)}, null);
-    if (c != null) {
-      c.moveToFirst();
-      while (!c.isAfterLast()) {
-        tags.add(new Tag(c.getLong(c.getColumnIndex(DatabaseConstants.KEY_ROWID)), c.getString(c.getColumnIndex(DatabaseConstants.KEY_LABEL)), true, 0));
-        c.moveToNext();
-      }
-      c.close();
-    }
-    return tags;
+    return ModelWithLinkedTagsKt.loadTags(LINKED_TAGS_URI, LINKED_TAGS_COLUMN, id);
+  }
+
+  public boolean saveTags(@Nullable List<Tag> tags) {
+    return ModelWithLinkedTagsKt.saveTags(LINKED_TAGS_URI, LINKED_TAGS_COLUMN, tags, getId());
   }
 
   private Uri buildExchangeRateUri() {
@@ -1022,6 +1017,5 @@ public class Account extends AbstractAccount {
   public boolean isSealed() {
     return sealed;
   }
-
 
 }
