@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.test.espresso
 
 import android.content.Intent
 import android.content.OperationApplicationException
-import android.os.Bundle
 import android.os.RemoteException
 import android.widget.ListView
 import androidx.test.core.app.ActivityScenario

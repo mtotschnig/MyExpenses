@@ -292,6 +292,7 @@ dependencies {
     testImplementation "org.assertj:assertj-core:$assertjVersion"
     //noinspection GradleDependency
     androidTestImplementation "org.assertj:assertj-core:$assertjVersionAndroid"
+    androidTestImplementation "com.google.truth:truth:1.1.2"
     implementation "androidx.core:core-ktx:$ktxVersion"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     androidTestImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"

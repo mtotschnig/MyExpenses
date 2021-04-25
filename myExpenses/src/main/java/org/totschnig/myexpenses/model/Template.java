@@ -45,7 +45,6 @@ import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import timber.log.Timber;
 
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
@@ -291,11 +290,13 @@ public class Template extends Transaction implements ITransfer, ISplit {
     return template.getAccountId();
   }
 
+  @Override
+  public void setDate(long unixEpoch) {
+    //Templates do not have a date
+  }
+
   /**
    * @param c Cursor positioned at the row we want to extract into the object
-   */
-  /**
-   * @param c
    */
   public Template(Cursor c) {
     super();
@@ -388,8 +389,6 @@ public class Template extends Transaction implements ITransfer, ISplit {
   }
 
   /**
-   * @param planId
-   * @param instanceId
    * @return a template that is linked to the calendar event with id planId, but only if the instance instanceId
    * has not yet been dealt with
    */
@@ -604,43 +603,34 @@ public class Template extends Transaction implements ITransfer, ISplit {
     if (this == obj)
       return true;
     if (!super.equals(obj)) {
-      Timber.d("Template differs %d" , 1);
       return false;
     }
     if (getClass() != obj.getClass()) {
-      Timber.d("Template differs %d" , 2);
       return false;
     }
     Template other = (Template) obj;
     if (isPlanExecutionAutomatic() != other.isPlanExecutionAutomatic()) {
-      Timber.d("Template differs %d" , 3);
       return false;
     }
     if (planId == null) {
       if (other.planId != null) {
-        Timber.d("Template differs %d" , 4);
         return false;
       }
     } else if (!planId.equals(other.planId)) {
-      Timber.d("Template differs %d" , 5);
       return false;
     }
     if (getTitle() == null) {
       if (other.getTitle() != null) {
-        Timber.d("Template differs %d" , 6);
         return false;
       }
     } else if (!getTitle().equals(other.getTitle())) {
-      Timber.d("Template differs %d" , 7);
       return false;
     }
     if (getUuid() == null) {
       if (other.getUuid() != null) {
-        Timber.d("Template differs %d" , 8);
         return false;
       }
     } else if (!getUuid().equals(other.getUuid())) {
-      Timber.d("Template differs %d" , 9);
       return false;
     }
     return true;
