@@ -2150,7 +2150,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         createOrRefreshAccountMetadataTrigger(db);
       }
       if (oldVersion < 116) {
-        db.execSQL("CREATE TABLE accounts_tags ( tag_id integer references tags(_id) ON DELETE CASCADE, acccount_id integer references accounts(_id) ON DELETE CASCADE, primary key (tag_id,account_id));");
+        db.execSQL("CREATE TABLE accounts_tags ( tag_id integer references tags(_id) ON DELETE CASCADE, account_id integer references accounts(_id) ON DELETE CASCADE, primary key (tag_id,account_id));");
       }
       TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {
