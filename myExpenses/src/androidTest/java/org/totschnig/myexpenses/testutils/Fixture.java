@@ -223,7 +223,7 @@ public class Fixture {
     split.save(true);
     split.save(true);
     List<Tag> tagList = Collections.singletonList(new Tag(-1, testContext.getString(R.string.testData_tag_project), false, 0));
-    split.saveTags(tagList, MyApplication.getInstance().getContentResolver());
+    split.saveTags(tagList);
 
     new TransactionBuilder(testContext)
         .accountId(account1.getId()).parentId(split.getId())

@@ -44,7 +44,7 @@ import org.totschnig.myexpenses.dialog.VersionDialogFragment;
  * 1) For each class an info (no longer the case)
  * 2) If there are no variants a title for the class
  * 3) If there are variants a title and an info (no longer the case) for each variant
- * 4) If there are menuitems defined either for the class or the variants, we need for each menuitem
+ * 4) If there are menuItems defined either for the class or the variants, we need for each menuItem
  * 4a) title
  * 4b) icon ((no longer the case)
  * 4c) help_text
@@ -148,13 +148,14 @@ public class HelpTest extends android.test.InstrumentationTestCase {
     String resIdString;
     for (String item : menuItems) {
       //assertTrue("icon not found for " + item,HelpDialogFragment.iconMap.containsKey(item));
+      final String format = String.format("title not found for %s-%s-%s-%s", activityName, variant, prefix, item);
       if (prefix.equals("form")) {
         for (String resIdPart : item.split("\\.")) {
-          assertTrue(String.format("title not found for %s-%s-%s-%s", activityName, variant, prefix, item), resources.getIdentifier(resIdPart, "string", pack) != 0);
+          assertTrue(format, resources.getIdentifier(resIdPart, "string", pack) != 0);
         }
       } else {
         resIdString = "menu_" + item;
-        assertTrue(String.format("title not found for %s-%s-%s-%s", activityName, variant, prefix, item), resources.getIdentifier(resIdString, "string", pack) != 0);
+        assertTrue(format, resources.getIdentifier(resIdString, "string", pack) != 0);
       }
       if (!resolveStringOrArray(prefix + "_" + activityName + "_" + variant + "_" + item + "_help_text")) {
         if (!resolveStringOrArray(prefix + "_" + activityName + "_" + item + "_help_text")) {

@@ -59,8 +59,8 @@ import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 115;
-  private Context mCtx;
+  public static final int DATABASE_VERSION = 116;
+  private final Context mCtx;
 
   /**
    * SQL statement for expenses TABLE
@@ -2148,6 +2148,9 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         createOrRefreshTransactionTriggers(db);
         createOrRefreshAccountTriggers(db);
         createOrRefreshAccountMetadataTrigger(db);
+      }
+      if (oldVersion < 116) {
+        db.execSQL("CREATE TABLE accounts_tags ( tag_id integer references tags(_id) ON DELETE CASCADE, acccount_id integer references accounts(_id) ON DELETE CASCADE, primary key (tag_id,account_id));");
       }
       TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {
