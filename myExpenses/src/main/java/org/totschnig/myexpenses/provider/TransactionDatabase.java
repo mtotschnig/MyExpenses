@@ -629,7 +629,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
           + "primary key (" + KEY_TAGID + "," + KEY_TRANSACTIONID + "));";
 
   private static final String ACCOUNT_TAGS_CREATE =
-          "CREATE TABLE " + TABLE_ACCOUNT_TAGS
+          "CREATE TABLE " + TABLE_ACCOUNTS_TAGS
             + " ( " + KEY_TAGID + " integer references " + TABLE_TAGS + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
             + KEY_ACCOUNTID + " integer references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
             + "primary key (" + KEY_TAGID + "," + KEY_ACCOUNTID + "));";

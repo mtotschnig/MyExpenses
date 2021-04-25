@@ -293,7 +293,7 @@ public class DatabaseConstants {
   static final String TABLE_ACCOUNT_EXCHANGE_RATES = "account_exchangerates";
   static final String TABLE_TAGS = "tags";
   public static final String TABLE_TRANSACTIONS_TAGS = "transactions_tags";
-  public static final String TABLE_ACCOUNT_TAGS = "account_tags";
+  public static final String TABLE_ACCOUNTS_TAGS = "accounts_tags";
   public static final String TABLE_TEMPLATES_TAGS = "templates_tags";
   /**
    * used on backup and restore

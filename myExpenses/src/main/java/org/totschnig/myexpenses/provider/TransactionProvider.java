@@ -1000,7 +1000,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         qb.setTables(TABLE_TEMPLATES_TAGS + " LEFT JOIN " + TABLE_TAGS + " ON (" + KEY_TAGID + " = " + KEY_ROWID + ")");
         break;
       case ACCOUNTS_TAGS:
-        qb.setTables(TABLE_ACCOUNT_TAGS + " LEFT JOIN " + TABLE_TAGS + " ON (" + KEY_TAGID + " = " + KEY_ROWID + ")");
+        qb.setTables(TABLE_ACCOUNTS_TAGS + " LEFT JOIN " + TABLE_TAGS + " ON (" + KEY_TAGID + " = " + KEY_ROWID + ")");
         break;
       default:
         throw unknownUri(uri);
@@ -1167,7 +1167,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         return TEMPLATES_TAGS_URI;
       }
       case ACCOUNTS_TAGS: {
-        db.insertWithOnConflict(TABLE_ACCOUNT_TAGS, null, values, SQLiteDatabase.CONFLICT_IGNORE);
+        db.insertWithOnConflict(TABLE_ACCOUNTS_TAGS, null, values, SQLiteDatabase.CONFLICT_IGNORE);
         //the table does not have primary ids, we return the base uri
         notifyChange(uri, false);
         return ACCOUNTS_TAGS_URI;
@@ -1332,7 +1332,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         break;
       }
       case ACCOUNTS_TAGS: {
-        count = db.delete(TABLE_ACCOUNT_TAGS, where, whereArgs);
+        count = db.delete(TABLE_ACCOUNTS_TAGS, where, whereArgs);
         break;
       }
       default:
