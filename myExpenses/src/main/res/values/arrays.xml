@@ -379,6 +379,7 @@
         <item>currency</item>
         <item>type</item>
         <item>color</item>
+        <item>active_tags</item>
         <item>synchronization</item>
         <item>exchange_rate</item>
         <item>goal_or_limit</item>
