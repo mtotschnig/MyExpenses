@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -12,8 +13,7 @@
   
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+ --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">Счёт</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">Типы счетов</string>
@@ -57,7 +57,7 @@
     <string name="contrib_key">Contrib-ключ</string>
     <string name="extended_key">Расширенный ключ</string>
     <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
-    <string name="contrib_key_requires">требуется %s.</string>
+    <string name="contrib_key_requires">Требуется %1$s.</string>
     <string name="currency">Валюта</string>
     <string name="current_balance">Текущий баланс</string>
     <string name="date">Дата</string>
@@ -68,7 +68,7 @@
     <string name="default_account_name">Финансовая смета</string>
     <string name="description">Описание</string>
     <string name="dialog_balance_delete">Удалить согласованные операции</string>
-    <string name="dialog_confirm_discard_changes">Отменить изменения</string>
+    <string name="dialog_confirm_discard_changes">Отменить изменения\?</string>
     <string name="dialog_confirm_discard_new_transaction">Отменить новую операцию?</string>
     <string name="dialog_confirm_discard_new_template">Отменить создание шаблона?</string>
     <string name="dialog_confirm_discard_new_account">Отменить создание счета?</string>
@@ -111,10 +111,10 @@
     <string name="dialog_title_balance_account">Баланс %1$s</string>
     <string name="dialog_title_contrib_feature">Премиум функция</string>
     <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">Удалить аккаунт?</item>
-        <item quantity="few">Удалить аккаунты %1$d?</item>
-        <item quantity="many">Удалить аккаунты %1$d?</item>
-        <item quantity="other">Удалить аккаунты %1$d?</item>
+        <item quantity="one">Удалить аккаунт\?</item>
+        <item quantity="few">Удалить %1$d аккаунта\?</item>
+        <item quantity="many">Удалить %1$d аккаунтов\?</item>
+        <item quantity="other">Удалить %1$d аккаунтов\?</item>
     </plurals>
     <string name="dialog_title_warning_delete_category">Удалить категорию?</string>
     <string name="dialog_title_warning_delete_template">Удалить шаблон?</string>
@@ -217,7 +217,7 @@
     <string name="menu_split_transaction">Разделить</string>
     <string name="method">Способ оплаты</string>
     <string name="no_amount_given">Вы не ввели какую-либо сумму.</string>
-    <string name="no_app_handling_email_available">Не доступно приложение для обработки e-mail</string>
+    <string name="no_app_handling_email_available">Нет доступных приложений для обработки электронной почты.</string>
     <string name="no_app_handling_ftp_available">Нет приложения, связанного с ftp. Установить, <i>Send With FTP</i>?</string>
     <string name="no_app_handling_pdf_available">Не доступно приложение для чтения PDF.</string>
     <string name="no_categories">Нет категорий.</string>
@@ -228,21 +228,21 @@
     <string name="no_mapped_transactions">Нет операций с сопоставленными категориями в этот период.</string>
     <string name="no_methods">Нет методов оплаты.</string>
     <string name="no_parties">Нет участников.</string>
-    <string name="no_split_parts">Нет разделённых частей</string>
+    <string name="no_split_parts">Нет разделённых частей.</string>
     <string name="no_templates">Нет шаблонов.</string>
     <string name="no_accounts">Нет аккаунтов.</string>
     <string name="no_title_given">Вы не ввели какое-либо название.</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="one">Выбранный объект связан с операцией и не может быть удален.</item>
-        <item quantity="few">%1$d объектов связаны с операциями и не могут быть удалены.</item>
+        <item quantity="few">%1$d объекта связаны с операциями и не могут быть удалены.</item>
         <item quantity="many">%1$d объектов связаны с операциями и не могут быть удалены.</item>
         <item quantity="other">%1$d объектов связаны с операциями и не могут быть удалены.</item>
     </plurals>
     <plurals name="not_deletable_mapped_templates">
         <item quantity="one">Выбранный объект связан с шаблоном и не может быть удален.</item>
-        <item quantity="few">%1$d объекты связаны с шаблонами и не могут быть удалены.</item>
-        <item quantity="many">%1$d объекты связаны с шаблонами и не могут быть удалены.</item>
-        <item quantity="other">%1$d объекты связаны с шаблонами и не могут быть удалены.</item>
+        <item quantity="few">%1$d объекта связаны с шаблонами и не могут быть удалены.</item>
+        <item quantity="many">%1$d объектов связаны с шаблонами и не могут быть удалены.</item>
+        <item quantity="other">%1$d объектов связаны с шаблонами и не могут быть удалены.</item>
     </plurals>
     <string name="numbered">пронумерованный</string>
     <string name="opening_balance">Начальный баланс</string>
@@ -332,8 +332,8 @@
     <string name="pref_protection_delay_seconds_summary">Секунд простоя, прежде чем приложение будет заблокировано паролем.</string>
     <string name="pref_protection_delay_seconds_title">Задержка до защиты</string>
     <string name="pref_protection_enable_data_entry_from_widget_title">Ввод данных из виджетов и ярлыков</string>
-    <string name="pref_protection_enable_data_entry_from_widget_summary_on">Разрешено без пароля</string>
-    <string name="pref_protection_enable_data_entry_from_widget_summary_off">Требуется пароль</string>
+    <string name="pref_protection_enable_data_entry_from_widget_summary_on">Разрешено без пароля.</string>
+    <string name="pref_protection_enable_data_entry_from_widget_summary_off">Требуется пароль.</string>
     <string name="pref_qif_export_file_encoding_title">Кодировка</string>
     <string name="pref_request_licence_title">Запросить ключ</string>
     <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
@@ -370,7 +370,7 @@
     <string name="restore_db_failure">Восстановление БД не удалось.</string>
     <string name="restore_db_success">БД была восстановлена из рез.копии.</string>
     <string name="restore_no_backup_found">Резервная копия не найдена.</string>
-    <string name="restore_preferences_failure">Восстановление настроек не удалось.</string>
+    <string name="restore_preferences_failure">Восстановление настроек не удалось</string>
     <string name="restore_backup_archive_not_valid">Архив %1$s не пригоден</string>
     <string name="restore_backup_file_not_found">Нет файла %1$s, найденного в каталоге \"%2$s\"</string>
     <string name="restore_preferences_success">Настройки были восстановлены из рез.копии.</string>
@@ -379,7 +379,7 @@
     <string name="save_transaction_error">Невозможно сохранить новую операцию из шаблона</string>
     <plurals name="save_transaction_from_template_success">
         <item quantity="one">Новая операция успешно сохранена из шаблона.</item>
-        <item quantity="few">%1$d новых операций успешно сохранены из шаблонов.</item>
+        <item quantity="few">%1$d новые операции успешно сохранены из шаблонов.</item>
         <item quantity="many">%1$d новых операций успешно сохранены из шаблонов.</item>
         <item quantity="other">%1$d новых операций успешно сохранены из шаблонов.</item>
     </plurals>
@@ -419,35 +419,35 @@
     <string name="continue_confirmation">Вы хотите продолжить?</string>
     <string name="warning_delete_account">Счет \"%1$s\" будет удален со всеми операциями.</string>
     <plurals name="warning_delete_main_category">
-        <item quantity="one">В одной из выбранной категории есть подкатегории, которые также будут удалены.</item>
-        <item quantity="few"> %1$d выбранных категорий есть подкатегории, которые также будут удалены.</item>
-        <item quantity="many"> %1$d выбранных категорий есть подкатегории, которые также будут удалены.</item>
-        <item quantity="other"> %1$d выбранных категорий есть подкатегории, которые также будут удалены.</item>
+        <item quantity="one">В одной выбранной категории есть подкатегории, которые также будут удалены.</item>
+        <item quantity="few">В %1$d выбранных категориях есть подкатегории, которые также будут удалены.</item>
+        <item quantity="many">В %1$d выбранных категориях есть подкатегории, которые также будут удалены.</item>
+        <item quantity="other">В %1$d выбранных категориях есть подкатегории, которые также будут удалены.</item>
     </plurals>
     <string name="warning_delete_category_with_budget">Для одной выбранной категории (как минимум) есть бюджетные ассигнования, которые тоже будут удалены.</string>
     <plurals name="warning_delete_template">
         <item quantity="one">Выбранный шаблон будет удалён</item>
-        <item quantity="few">%1$d выбранных шаблонов будут удалены.</item>
+        <item quantity="few">%1$d выбранных шаблона будут удалены.</item>
         <item quantity="many">%1$d выбранных шаблонов будут удалены.</item>
         <item quantity="other">%1$d выбранных шаблонов будут удалены.</item>
     </plurals>
     <plurals name="warning_delete_transaction">
         <item quantity="one">Выбранная операций будет удалена.</item>
-        <item quantity="few">%1$d выбранных операций будут удалены.</item>
+        <item quantity="few">%1$d выбранные операции будут удалены.</item>
         <item quantity="many">%1$d выбранных операций будут удалены.</item>
         <item quantity="other">%1$d выбранных операций будут удалены.</item>
     </plurals>
     <plurals name="move_category_success">
         <item quantity="one">Одна категория была успешно перемещена..</item>
-        <item quantity="few">%d категорий были успешно перемещены.</item>
+        <item quantity="few">%d категории были успешно перемещены.</item>
         <item quantity="many">%d категорий были успешно перемещены.</item>
         <item quantity="other">%d категорий были успешно перемещены.</item>
     </plurals>
     <plurals name="move_category_failure">
         <item quantity="one">Одна категория не была перемещена, поскольку тот же ярлык уже существует в целевом объекте.</item>
-        <item quantity="few">Категории %d не были перемещены, поскольку такая же метка уже существует в целевом объекте.</item>
-        <item quantity="many">Категории %d не были перемещены, поскольку такая же метка уже существует в целевом объекте.</item>
-        <item quantity="other">Категории %d не были перемещены, поскольку такая же метка уже существует в целевом объекте.</item>
+        <item quantity="few">%d категории не были перемещены, поскольку такая же метка уже существует в целевом объекте.</item>
+        <item quantity="many">%d категорий не были перемещены, поскольку такая же метка уже существует в целевом объекте.</item>
+        <item quantity="other">%d категорий не были перемещены, поскольку такая же метка уже существует в целевом объекте.</item>
     </plurals>
     <string name="warning_delete_reconciled">Удаление согласованных операций может привести к расхождениям с банковской счет-выпиской</string>
     <string name="warning_balance_account">Пожалуйста, сравните итог с конечным балансом в вашем счете-выписке. Если Вы продолжите, то утвержденные операции будут отмечены как согласованные.</string>
@@ -531,7 +531,7 @@
     <string name="export_handle_deleted_update_balance">Обновить начальный баланс</string>
     <string name="file_name">Имя файла</string>
     <string name="folder_name">Имя папки</string>
-    <string name="mark_void_instead_of_delete">Не удалять транзакцию, а отметить как \"недействительную\"</string>
+    <string name="mark_void_instead_of_delete">Не удалять транзакцию, а отметить как \"недействительную\".</string>
     <string name="menu_undelete_transaction">Восстановить</string>
     <string name="slash_forbidden_in_filename">Символ / не допускается в именах файлов</string>
     <string name="io_error_unable_to_create_file">Невозможно создать файл %1$s в папке %2$s</string>
@@ -547,12 +547,12 @@
     <string name="csv_import_delimiter_comma">Запятая</string>
     <string name="csv_import_delimiter_semicolon">Точка с запятой</string>
     <string name="csv_import_delimiter_tab">Tab</string>
-    <string name="csv_import_no_mapping_found_for_amount">Пожалуйста, сопоставьте один столбец с доходами или расходами</string>
+    <string name="csv_import_no_mapping_found_for_amount">Пожалуйста, сопоставьте один столбец с доходами или расходами.</string>
     <string name="menu_show_transactions">Показать список транзакций</string>
     <string name="pref_custom_decimal_format_title">Формат числа</string>
     <string name="pref_custom_decimal_format_summary">Если вас не устраивает формат по умолчанию для ваших региональных параметров, адаптируйте его под свои нужды. Оставьте пустым, чтобы восстановить формат по умолчанию.</string>
     <string name="pref_auto_backup_title">Включить авто-бэкап</string>
-    <string name="pref_auto_backup_summary">Резервная копия базы данных ежедневно в указанное время (только если данные были изменены)</string>
+    <string name="pref_auto_backup_summary">Создавать резервную копию базы данных ежедневно в указанное время (только если данные были изменены).</string>
     <string name="pref_auto_backup_time_title">Время авто-бэкапа</string>
     <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">После успешных автоматических резервных копий %d автоматическое резервное копирование будет отключено.</string>
     <string name="calendar_permission_required"><i>{app_name}</i> необходимо разрешение на доступ к Вашему календарю, для создания графиков будущих и повторяющихся операций.</string>
@@ -713,7 +713,7 @@
     <string name="sync_loading_accounts_from_backend">Загрузка доступных аккаунтов из бэкэнда.</string>
     <plurals name="delete_success">
         <item quantity="one">Объект был успешно удален.</item>
-        <item quantity="few">%d объектов было успешно удалено.</item>
+        <item quantity="few">%d объекта были успешно удалены.</item>
         <item quantity="many">%d объектов было успешно удалено.</item>
         <item quantity="other">%d объектов было успешно удалено.</item>
     </plurals>
@@ -741,7 +741,7 @@
     <string name="menu_ungroup_split_transaction">Разгруппировать расщепленную операцию</string>
     <plurals name="ungroup_split_transaction_success">
         <item quantity="one">Дробная операция была успешно разгруппирована.</item>
-        <item quantity="few">%1$d дробных операций было успешно разгруппировано.</item>
+        <item quantity="few">%1$d дробных операции было успешно разгруппировано.</item>
         <item quantity="many">%1$d дробных операций было успешно разгруппировано.</item>
         <item quantity="other">%1$d дробных операций было успешно разгруппировано.</item>
     </plurals>
@@ -784,7 +784,7 @@
     <string name="saving_goal">Сохранение цели</string>
     <string name="credit_limit">Кредитный лимит</string>
     <string name="clear_all_filters">Очистите все фильтры</string>
-    <string name="pref_scroll_to_current_date_summary">После запуска приложения прокрутите список транзакций до текущей даты.</string>
+    <string name="pref_scroll_to_current_date_summary">После запуска приложения прокрутите список транзакций до текущей даты</string>
     <string name="professional_key_fallback_info">Подписка на Профессиональный ключ, действующая не менее одного года и которая не продлена, будет автоматически преобразована в неограниченный продленный ключ.</string>
     <string name="menu_budget">составление бюджета</string>
     <string name="dialog_title_edit_budget">Изменить бюджет</string>
@@ -929,4 +929,51 @@
     <string name="pref_category_title_features">Особенности</string>
     <string name="button_download">Скачать</string>
     <string name="menu_save_and_new_content_description">Сохранить данные, открыть форму для создания новой операции с теми же данными.</string>
-    </resources>
+    <string name="pref_feature_uninstall_summary">Play Store пытается в конечном итоге удалить эти модули в фоновом режиме.</string>
+    <string name="pref_feature_uninstall_title">Запросить удаление функций и языков</string>
+    <string name="scan_result_no_amount">Сумма не найдена</string>
+    <string name="pref_ocr_total_indicators_summary">Список строк, определяющих общую стоимость квитанции. Поместите каждое значение в новую строку. Оставьте поле пустым, чтобы восстановить значение по умолчанию.</string>
+    <string name="pref_ocr_total_indicators_title">Показатели на общую сумму</string>
+    <string name="feature_download_requested">Функция %s запрашивается из Play Store.</string>
+    <string name="pref_planner_manual_time_current">Время применения</string>
+    <string name="pref_planner_manual_time_noon">12 часов дня</string>
+    <string name="budget_filter_all_accounts">Все счета</string>
+    <string name="single_feature_info">В качестве альтернативы вы можете купить неограниченный доступ только к этой функции.</string>
+    <string name="title_webui">Веб-интерфейс пользователя</string>
+    <string name="new_balance">Новый баланс</string>
+    <string name="pref_group_header_show_details_summary">Показать подробные суммы в заголовке группы</string>
+    <string name="warning_unencrypted_backup">Хотя ваши данные защищены от несанкционированного доступа на этом устройстве, резервные копии создаются без шифрования, если вы не настроите %s.</string>
+    <string name="ocr_download_info">Возможность распознавания текста обеспечивается внешним приложением.</string>
+    <string name="ocr_recognition_info">Распознавание текста с помощью %s</string>
+    <string name="download_completed">Загрузка (%s) завершена.</string>
+    <string name="tesseract_download_confirmation">Вы хотите загрузить данные распознавания текста для %s\?</string>
+    <string name="pref_tesseract_language_title">Язык для Tesseract</string>
+    <string name="pref_ocr_engine_title">Движок распознавания текста</string>
+    <string name="reset_equivalent_amounts_success">Эквивалентные суммы сброшены</string>
+    <string name="content_description_edit_plan">Изменить план в приложении календаря</string>
+    <string name="plan_automatic_without_amount_hint">План без суммы не следует сохранять при автоматическом выполнении плана</string>
+    <string name="template_default_action_without_amount_hint">Шаблон без суммы должен быть сохранен с действием по умолчанию «Редактировать»</string>
+    <string name="default_action">Действие по умолчанию</string>
+    <string name="pref_clone_with_current_date_title">Дата клонированных транзакций</string>
+    <string name="confirmation_load_template_discard_data">Существующие данные формы будут удалены.</string>
+    <string name="warning_balance_account_delete">Если вы продолжите, все согласованные транзакции этой учетной записи будут удалены из базы данных, и вы не сможете их восстановить.</string>
+    <string name="advance_exexcution_in_days">Досрочное исполнение (в днях)</string>
+    <string name="discover_feature_fab_long_press">Нажмите и удерживайте плавающую кнопку действия, чтобы напрямую открыть форму для переводов, разделения транзакций или дохода.</string>
+    <string name="select_package">Пожалуйста, выберите пакет лицензий.</string>
+    <string name="pref_feature_uninstall_languages_title">Языки</string>
+    <string name="scan_result_no_payee">Получатель платежа не найден</string>
+    <string name="scan_result_no_date">Дата не найдена</string>
+    <string name="scan_result_multiple_candidates_dialog_title">Найдено несколько кандидатов. Пожалуйста, выберите:</string>
+    <string name="scan_result_no_data">Нет данных</string>
+    <string name="pref_criterion_future_current">Текущее время</string>
+    <string name="pref_criterion_future_end_of_day">Конец дня</string>
+    <string name="pref_criterion_futur_title">Критерий для будущих транзакций</string>
+    <string name="pref_ocr_time_formats_title">Форматы времени</string>
+    <string name="pref_ocr_date_formats_title">Форматы даты</string>
+    <string name="button_scan">Сканировать</string>
+    <string name="menu_scan_mode">Режим сканирования</string>
+    <string name="feature_downloaded">Функция %s была установлена.</string>
+    <string name="title_scan_receipt_feature">Скан чека</string>
+    <string name="pref_planner_manual_time_title">Время для ручной запланированной транзакции</string>
+    <string name="image_capture_not_installed">Нет приложения для съемки.</string>
+</resources>
