@@ -762,9 +762,8 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
     //Views
     createOrRefreshViews(db);
-    //Run on ForTest build type
     //insertTestData(db, 50, 50);
-    PrefKey.FIRST_INSTALL_DB_SCHEMA_VERSION.putInt(DATABASE_VERSION);
+    super.onCreate(db);
   }
 
   public void createOrRefreshTransferTagsTriggers(SQLiteDatabase db) {

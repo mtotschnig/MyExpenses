@@ -23,9 +23,9 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
-import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.SyncAdapter;
@@ -184,11 +184,11 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
           null,
           SQLiteDatabase.OPEN_READONLY);
       int version = db.getVersion();
-      if (version > TransactionDatabase.DATABASE_VERSION) {
+      if (version > BaseTransactionDatabaseKt.DATABASE_VERSION) {
         db.close();
         return Result.ofFailure(
             R.string.restore_cannot_downgrade,
-            version, TransactionDatabase.DATABASE_VERSION);
+            version, BaseTransactionDatabaseKt.DATABASE_VERSION);
       }
       db.close();
     } catch (SQLiteException e) {
