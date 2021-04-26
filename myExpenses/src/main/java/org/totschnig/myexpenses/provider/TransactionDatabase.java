@@ -23,7 +23,6 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.os.Build;
@@ -58,8 +57,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
-public class TransactionDatabase extends SQLiteOpenHelper {
-  public static final int DATABASE_VERSION = 117;
+public class TransactionDatabase extends BaseTransactionDatabase {
   private final Context mCtx;
 
   /**
@@ -660,7 +658,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   public static final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
 
   TransactionDatabase(Context context, String databaseName) {
-    super(context, databaseName, null, DATABASE_VERSION);
+    super(context, databaseName);
     mCtx = context;
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
       setWriteAheadLoggingEnabled(false);
@@ -2152,31 +2150,12 @@ public class TransactionDatabase extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE accounts_tags ( tag_id integer references tags(_id) ON DELETE CASCADE, account_id integer references accounts(_id) ON DELETE CASCADE, primary key (tag_id,account_id));");
       }
       if (oldVersion < 117) {
-        migrateCurrency(db, "VEB", CurrencyEnum.VES);
-        migrateCurrency(db, "MRO", CurrencyEnum.MRU);
-        migrateCurrency(db, "STD", CurrencyEnum.STN);
+        upgradeTo117(db);
       }
       TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {
       throw new SQLiteUpgradeFailedException(oldVersion, newVersion, e);
     }
-  }
-
-  private void migrateCurrency(SQLiteDatabase db, String oldCurrency, CurrencyEnum newCurrency) {
-    db.execSQL("PRAGMA foreign_keys=ON;");
-    try {
-      db.delete("currency", "code = ?", new String[] {oldCurrency});
-      Timber.d("Currency %s deleted", oldCurrency);
-    } catch (SQLiteConstraintException e) {
-      Timber.w(e, "Currency is in use");
-    }
-    ContentValues initialValues = new ContentValues();
-    initialValues.put("code", newCurrency.name());
-    //if new currency is already defined, error is logged
-    if (db.insert("currency", null, initialValues) != -1) {
-      Timber.d("Currency %s inserted", newCurrency.name());
-    }
-    db.execSQL("PRAGMA foreign_keys=OFF;");
   }
 
   public void repairTransferUuids(SQLiteDatabase db) {
