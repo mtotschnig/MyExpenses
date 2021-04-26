@@ -126,7 +126,7 @@
   <string name="form_color_help_text">Il colore sull\'elenco delle operazioni per un conto verrà usato come colore principale dell\'interfaccia utente.</string>
   <string name="form_synchronization_help_text_select">Seleziona un backend per la sincronizzazione cloud.</string>
   <string name="form_synchronization_help_text_add">I backend possono essere aggiunti dalla schermata Impostazioni.</string>
-  <string name="form_AccountEdit_active_tags_help_text">Puoi associare una o più categorie attive a ciascun account. Quando creerai una nuova transazione, essa verrà automaticamente contrassegnata con quelle, in base all\'account selezionato.</string>
+  <string name="form_AccountEdit_active_tags_help_text">Puoi associare uno o più tag attivi a ciascun account. Quando creerai una nuova transazione, essa verrà automaticamente contrassegnata con quelli, in base all\'account selezionato.</string>
   <string name="menu_exclude_from_totals_help_text">Se si seleziona questa opzione, questo conto non sarà incluso in aggregati per ogni valuta.</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Modulo per i metodi di pagamento</string>
@@ -192,8 +192,8 @@
   <string name="form_BudgetEdit_type_help_text">Un budget è definito come ricorrente (giornaliero, mensile, settimanale, annuale) o una tantum. Per i budget una tantum, specifica l\'inizio e la fine della loro durata. Un budget ricorrente (che non è filtrato) può essere impostato come predefinito: ciò significa che l\'elenco delle transazioni (se configurato per raggruppare i dati per giorno, settimana, mese o anno) mostrerà lo stato di avanzamento di questo budget per ciascun periodo.</string>
   <string name="cab_remap_help_text">Usa i comandi in questo sottomenu se desideri modificare la proprietà specificata (conto, categoria, pagatore / beneficiario o metodo di pagamento) per tutte le transazioni selezionate.</string>
   <!--Tags-->
-  <string name="form_tags_help_text">L\'icona + consente di selezionare le categorie esistenti e di crearne di nuove. L\'icona x su ciascuna categoria consente di rimuovere l\'associazione fra la transazione e la categoria.</string>
-  <string name="help_ManageTags_select_filter_info">Per filtrare l\'elenco delle transazioni, seleziona o deseleziona le categorie premendoci sopra. Utilizza il pulsante fluttuante per confermare la selezione.</string>
-  <string name="help_ManageTags_manage_info">Crea nuove categorie inserendole nel campo di testo. L\'icona x su ogni categoria la rimuove dal database. Premere a lungo su una categoria consente di modificarla.</string>
-  <string name="help_ManageTags_select_mapping_info">Assegna o rimuovi le categorie premendoci sopra. Utilizza il pulsante fluttuante per confermare l\'assegnazione.</string>
+  <string name="form_tags_help_text">L\'icona + consente di selezionare i tag esistenti e di crearne di nuovi. L\'icona x su ciascun tag consente di rimuovere l\'associazione fra la transazione e la categoria.</string>
+  <string name="help_ManageTags_select_filter_info">Per filtrare l\'elenco delle transazioni, seleziona o deseleziona i tag premendoci sopra. Utilizza il pulsante fluttuante per confermare la selezione.</string>
+  <string name="help_ManageTags_manage_info">Crea nuovi tag inserendoli nel campo di testo. L\'icona x su ciascun tag lo rimuove dal database. Premere a lungo su di un tag consente di modificarlo.</string>
+  <string name="help_ManageTags_select_mapping_info">Assegna o rimuovi i tag premendoci sopra. Utilizza il pulsante fluttuante per confermare l\'assegnazione.</string>
 </resources>

@@ -20,9 +20,19 @@
         <xsl:param name="strings"/>
         <xsl:param name="aosp"/>
         <xsl:if test="$version = '3.2.5'">
+            <xsl-text>•&#032;</xsl-text>
             <xsl:apply-templates select="document($strings)/resources/string[@name='contrib_feature_csv_import_label']" mode="unescape"/>
             <xsl:text>: </xsl:text>
             <xsl:apply-templates select="document($aosp)/resources/string[@name='autofill']" mode="unescape"/>
+        </xsl:if>
+        <xsl:if test="$version = '3.3.0'">
+            <xsl-text>•&#032;</xsl-text>
+            <xsl:apply-templates select="document($strings)/resources/string[@name='contrib_feature_csv_import_label']" mode="unescape"/>
+            <xsl:text>: </xsl:text>
+            <xsl:apply-templates select="document($strings)/resources/string[@name='tags']" mode="unescape"/>
+            <xsl:value-of select="$newline" />
+            <xsl-text>•&#032;</xsl-text>
+            <xsl:apply-templates select="document($strings)/resources/string[@name='active_tags']" mode="unescape"/>
         </xsl:if>
     </xsl:template>
 

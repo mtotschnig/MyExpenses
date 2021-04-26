@@ -895,8 +895,8 @@
     <string name="dialog_multi_tag">Tutte le transazioni selezionate saranno taggate con %s.</string>
     <string name="dialog_multi_tag_clear">Tutti i tag saranno rimossi dalle transazioni selezionate.</string>
     <plurals name="warning_delete_tag">
-        <item quantity="one">Il tag %1$s è associato a una transazione. Dovrebbe essere cancellato?</item>
-        <item quantity="other">Il tag %1$s è assegnata a %2$d transazioni. Vuoi eliminarla?</item>
+        <item quantity="one">Il tag %1$s è associato a una transazione. Vuoi eliminarlo?</item>
+        <item quantity="other">Il tag %1$s è assegnata a %2$d transazioni. Vuoi eliminarlo?</item>
     </plurals>
     <string name="dialog_multi_tag_append">Aggiungi nuovi tag ai tag esistenti</string>
     <string name="dialog_multi_tag_replace">Sostituisci tag esistenti con nuovi tag</string>

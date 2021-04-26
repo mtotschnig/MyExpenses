@@ -45,7 +45,6 @@
                 </xsl:variable>
                 <xsl:choose>
                     <xsl:when test="$special-version-info != ''">
-                        <xsl-text>•&#032;</xsl-text>
                         <xsl:value-of select="$special-version-info" />
                     </xsl:when>
                     <xsl:otherwise>
