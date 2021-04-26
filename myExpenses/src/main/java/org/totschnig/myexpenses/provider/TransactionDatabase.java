@@ -2163,6 +2163,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
   }
 
   private void migrateCurrency(SQLiteDatabase db, String oldCurrency, CurrencyEnum newCurrency) {
+    db.execSQL("PRAGMA foreign_keys=ON;");
     try {
       db.delete("currency", "code = ?", new String[] {oldCurrency});
       Timber.d("Currency %s deleted", oldCurrency);
@@ -2175,6 +2176,7 @@ public class TransactionDatabase extends SQLiteOpenHelper {
     if (db.insert("currency", null, initialValues) != -1) {
       Timber.d("Currency %s inserted", newCurrency.name());
     }
+    db.execSQL("PRAGMA foreign_keys=OFF;");
   }
 
   public void repairTransferUuids(SQLiteDatabase db) {
