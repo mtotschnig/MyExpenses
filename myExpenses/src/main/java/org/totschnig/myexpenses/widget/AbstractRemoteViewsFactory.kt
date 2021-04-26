@@ -55,8 +55,7 @@ abstract class AbstractRemoteViewsFactory(
     abstract fun buildCursor(): Cursor?
 
     override fun getViewAt(position: Int) = RemoteViews(context.packageName, R.layout.widget_row).apply {
-        cursor?.let {
-            it.moveToPosition(position)
+        cursor?.takeIf { it.moveToPosition(position) }?.let {
             populate(it)
         }
     }
