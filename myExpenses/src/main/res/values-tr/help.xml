@@ -126,6 +126,7 @@
   <string name="form_color_help_text">Bir hesabın muamele listesindeki renk, birincil kullanıcı arayüzü rengi olarak kullanılacaktır.</string>
   <string name="form_synchronization_help_text_select">Bulut eşleştirmesi için bir arka uç seç.</string>
   <string name="form_synchronization_help_text_add">Arka uçlar Ayarlar ekranından eklenebilir.</string>
+  <string name="form_AccountEdit_active_tags_help_text">Her hesapla bir veya daha fazla faal etiket ilişkilendirebilirsiniz. Yeni bir muamele oluşturduğunuzda bu, seçili hesap temel alınarak otomatik olarak bu etiketlerle etiketlenecektir.</string>
   <string name="menu_exclude_from_totals_help_text">Bu şıkkı seçerseniz, bu hesap para birimine dayalı gruplara dahil edilmeyecektir.</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Ödeme metotları için form</string>

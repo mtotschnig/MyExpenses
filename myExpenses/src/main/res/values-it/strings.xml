@@ -251,8 +251,8 @@
     <string name="password_prompt">Inserisci la tua password</string>
     <string name="password_security_answer_not_valid">Risposta sbagliata. Riprova!</string>
     <string name="payee">Beneficiario</string>
-    <string name="payer">Ordinante</string>
-    <string name="payer_or_payee">Beneficiario/Pagatore</string>
+    <string name="payer">Pagante</string>
+    <string name="payer_or_payee">Beneficiario / Pagante</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">Pianifica</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
@@ -276,7 +276,7 @@
     <string name="pm_type_debit">Debito</string>
     <string name="pm_type_neutral">Neutro</string>
     <string name="pref_app_dir_title">Cartella per backup ed esportazioni</string>
-    <string name="pref_auto_fill_summary">Compila i dati dell\'ultima transazione per lo stesso beneficiario / pagatore</string>
+    <string name="pref_auto_fill_summary">Compila i dati dell\'ultima transazione per lo stesso beneficiario / pagante</string>
     <string name="pref_backup_summary">Crea un backup del database e delle preferenze.</string>
     <string name="pref_sort_order_usages">Frequenza d\'uso</string>
     <string name="pref_category_title_advanced">Avanzata</string>
@@ -310,7 +310,7 @@
     <string name="pref_manage_categories_title">Categorie</string>
     <string name="pref_manage_methods_summary">Crea e modifica modalità di pagamento ed associale ai tipi di conto.</string>
     <string name="pref_manage_methods_title">Metodi di pagamento</string>
-    <string name="pref_manage_parties_summary">Aggiungere, modificare, cancellare beneficiari.</string>
+    <string name="pref_manage_parties_summary">Aggiungi, modifica, cancella parti (paganti e beneficiari).</string>
     <string name="pref_manage_parties_title">Beneficiari</string>
     <string name="pref_manage_sync_backends_title">Back-end di sincronizzazione</string>
     <!-- %s will be replaced with list of backends -->
@@ -376,7 +376,7 @@
     <string name="save_transaction_template_deleted">Modello è stato cancellato</string>
     <string name="select">Selezionare</string>
     <string name="select_category">Selezionare una categoria</string>
-    <string name="select_payee">Seleziona pagatore/beneficiario</string>
+    <string name="select_payee">Seleziona pagante / beneficiario</string>
     <string name="share_scheme_not_supported">Schema %1$s non supportato</string>
     <string name="share_sending">Invia file export</string>
     <string name="split_parts_heading">Importi frazionati</string>
@@ -471,7 +471,7 @@
     <string name="search_comment">Cerca per note</string>
     <string name="search_date">Ricerca per data</string>
     <string name="search_status">Cerca per stato</string>
-    <string name="search_payee">Cerca per beneficiario/pagatore</string>
+    <string name="search_payee">Cerca per beneficiario / pagante</string>
     <string name="search_method">Cerca per metodo.</string>
     <string name="search_tag">Cerca per tag</string>
     <string name="and">e</string>
@@ -488,7 +488,7 @@
     <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">dopo</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Acquisto non riuscito o annullato.</string>
-    <string name="hint_auto_fill">I dati devono essere compilati automaticamente dall\'ultima transazione per lo stesso beneficiario / pagatore? È sempre possibile modificare questo comportamento dalle impostazioni.</string>
+    <string name="hint_auto_fill">Compilare automaticamente i dati beneficiario / pagante in base all\'ultima transazione? È sempre possibile modificare questo comportamento dalle impostazioni.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d conti in valuta %2$s sono stati aggiornati.</string>
     <string name="learn_more">Per saperne di più</string>
     <string name="import_source_file">File</string>
@@ -868,7 +868,7 @@
     <string name="menu_remap">Riassegna</string>
     <string name="dialog_title_confirm_remap">Riassegnare (%s) ?</string>
     <string name="remap_category">Tutte le transazioni selezionate verranno associate alla categoria %s.</string>
-    <string name="remap_payee">Tutte le transazioni selezionate verranno assegnate al pagatore / beneficiario %s.</string>
+    <string name="remap_payee">Tutte le transazioni selezionate verranno assegnate al pagante / beneficiario %s.</string>
     <string name="remap_method">Tutte le transazioni selezionate verranno assegnate al metodo %s.</string>
     <string name="remap_account">Tutte le transazioni selezionate verranno assegnate al conto %s.</string>
     <string name="remapping_result">Le transazioni selezionate sono state riassegnate.</string>
@@ -974,10 +974,16 @@
     <string name="single_feature_info">In alternativa puoi acquistare l\'accesso illimitato solamente a questa funzione.</string>
     <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
     <string name="recurrence_last_day_of_month">Ultimo giorno</string>
-    <string name="warning_link_transfer">Le due transazioni selezionate saranno collegate come trasferimento. Le informazioni sul beneficiario/pagatore e sulla categoria verranno scartate.</string>
+    <string name="warning_link_transfer">Le due transazioni selezionate saranno collegate come trasferimento. Le informazioni sul beneficiario / pagante e sulla categoria verranno scartate.</string>
     <!-- This is the title of an entry on the configuration screen for the account widget. It allows to decide which number should be displayed for each account: the current balance or the total (which included future transactions) -->
     <string name="account_widget_configuration_sum">Tipo di somma visualizzata</string>
     <string name="account_widget_configuration_sum_total">Includi transazioni future</string>
     <!-- Title of dialogue that allows to configure account widget -->
     <string name="account_widget_configuration">Configurazione del widget del conto</string>
-    </resources>
+    <!-- Title of a menu entry allowing to merge duplicate entries in the parties table (payee/payer) -->
+    <string name="menu_merge">Raggruppa</string>
+    <!-- When user selects duplicate parties to be merged, he sees this prompt asking him to select which name should be selected for the merged party -->
+    <string name="merge_parties_select">Seleziona il nuovo nome del beneficiario/pagante</string>
+    <!-- This is the label for a field for accounts. Active tags are automatically added to new transactions when an account is selected. -->
+    <string name="active_tags">Tag attivi</string>
+</resources>

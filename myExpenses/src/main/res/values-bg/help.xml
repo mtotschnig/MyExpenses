@@ -126,6 +126,7 @@
   <string name="form_color_help_text">Цвета на сметката ще бъде използван като основен на плаващия бутон в списъка с транзакции.</string>
   <string name="form_synchronization_help_text_select">Изберете отдалечено място за съхранение за синхронизация чрез облак.</string>
   <string name="form_synchronization_help_text_add">Отдалечени места за съхранение могат да бъдат добавяни от менюто Настройки</string>
+  <string name="form_AccountEdit_active_tags_help_text">Може да направите активен един или повече маркери за всяка сметка. Когато създавате нова транзакция, тя автоматично се отбелязва с тези маркери, според избранната сметка.</string>
   <string name="menu_exclude_from_totals_help_text">Ако активирате тази опция, сметката няма да се включва в обобщаването на валутата.</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Бланка за начини на плащане</string>

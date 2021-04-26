@@ -15,6 +15,10 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_329">
+        <item>Le parti duplicate possono essere raggruppate.</item>
+        <item>L\'importo rimanente nelle transazioni frazionate può essere copiato negli appunti.</item>
+    </string-array>
     <string-array name="whats_new_328">
         <item>Il widget del conto può essere configurato per visualizzare un solo account e per tenere conto delle transazioni future.</item>
         <item>Mostra l\'importo totale delle transazioni selezionate.</item>
@@ -63,7 +67,7 @@
         <item>Lo stato dei gruppi, espanso o collassato, all\'interno dell\'elenco delle transazioni viene memorizzato</item>
     </string-array>
     <string-array name="whats_new_311">
-        <item>L\'elenco delle parti (pagatori e beneficiari) è ricercabile</item>
+        <item>L\'elenco delle parti (paganti e beneficiari) è ricercabile</item>
     </string-array>
     <string-array name="whats_new_310">
         <item>Le transazioni possono essere associate a più tag</item>

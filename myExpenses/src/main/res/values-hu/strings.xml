@@ -987,4 +987,4 @@
     <string name="menu_merge">Egyesítés</string>
     <!-- When user selects duplicate parties to be merged, he sees this prompt asking him to select which name should be selected for the merged party -->
     <string name="merge_parties_select">Válassza ki az egyesített fél nevét:</string>
-</resources>
+    </resources>

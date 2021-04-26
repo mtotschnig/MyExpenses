@@ -26,7 +26,7 @@ abstract class BaseTransactionDatabase(context: Context, databaseName: String): 
             it.moveToFirst()
             it.getInt(0)
         } > 0) {
-            Timber.w("Currency is in use")
+            Timber.w("Currency %s is in use", oldCurrency)
         } else if (db.delete("currency", "code = ?", arrayOf(oldCurrency)) == 1) {
             Timber.d("Currency %s deleted", oldCurrency)
         }

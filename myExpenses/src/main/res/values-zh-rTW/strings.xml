@@ -973,4 +973,4 @@
     <string name="menu_merge">合併</string>
     <!-- When user selects duplicate parties to be merged, he sees this prompt asking him to select which name should be selected for the merged party -->
     <string name="merge_parties_select">請選擇要合併的交易對象：</string>
-</resources>
+    </resources>

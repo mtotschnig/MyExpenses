@@ -127,6 +127,7 @@
   <string name="form_color_help_text">Sur la liste des opérations d\'un compte, sa couleur servira comme couleur d\'interface de l\'utilisateur principal.</string>
   <string name="form_synchronization_help_text_select">Sélectionnez unutilitaire pour la synchronisation dans le cloud.</string>
   <string name="form_synchronization_help_text_add">les backends peuvent être ajoutés à partir de l\'écran Paramètres.</string>
+  <string name="form_AccountEdit_active_tags_help_text">Vous pouvez associer une ou plusieurs étiquettes actives à chaque compte. Lorsque vous créez une nouvelle opération, elle est automatiquement identifiée avec celles-ci, en fonction du compte sélectionné.</string>
   <string name="menu_exclude_from_totals_help_text">Si vous cochez cette option, ce compte ne sera pas inclus dans les totaux par devise.</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Formulaire pour méthodes de paiement</string>

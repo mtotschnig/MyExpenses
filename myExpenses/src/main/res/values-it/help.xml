@@ -14,7 +14,7 @@
   <string name="popup_MyExpenses_toolbar_copy_text">Copia il saldo corrente negli appunti.</string>
   <string name="popup_MyExpenses_toolbar_new_balance">Calcola la differenza tra il saldo corrente e un nuovo valore.</string>
   <string name="help_MyExpenses_crStatus_info">Lo stato della transazione è indicato da un rettangolo colorato: grigio per non riconciliata, blu per compensata, verde per riconciliata . Facendo clic sul rettangolo si modifica lo stato.</string>
-  <string name="menu_reset_help_text">Questo comando consente di esportare tutte le operazioni del conto attuale in un file sulla scheda SD in formato QIF o CSV. Si può decidere di eliminare le operazioni esportate, nel qual caso il saldo di apertura viene ricalcolato automaticamente. In alternativa, se le operazioni non vengono eliminate, saranno marcate come esportate. Immediatamente dopo l\'esportazione, Le mie spese può condividere il file tramite FTP, email, o qualsiasi altra applicazione di file sharing, se appropriatamente configurato dalle Impostazioni. Se un filtro di ricerca è attivo, solo le operazioni selezionate dal filtro verranno prese in considerazione.</string>
+  <string name="menu_reset_help_text">Questo comando consente di esportare tutte le operazioni del conto attuale in un file sulla scheda SD in formato QIF o CSV. Si può decidere di eliminare le operazioni esportate, nel qual caso il saldo di apertura verrà ricalcolato automaticamente. In alternativa, se le operazioni non vengono eliminate, saranno marcate come esportate. Immediatamente dopo l\'esportazione, Le mie spese può condividere il file tramite FTP, email, o qualsiasi altra applicazione di file sharing, se appropriatamente configurato dalle Impostazioni. Se un filtro di ricerca è attivo, solo le operazioni selezionate dal filtro verranno prese in considerazione.</string>
   <string name="menu_grouping_help_text">È possibile raggruppare le transazioni per giorno, settimana, mese o anno. Per ogni gruppo, le somme di redditi, spese e trasferimenti vengono calcolate e visualizzate. Quando si fa clic su un\'intestazione di gruppo, il gruppo delle transazioni viene compresso e viene visualizzata solo l\'intestazione. Fare nuovamente clic per espandere.</string>
   <string name="menu_sort_direction_help_text">Le transazioni possono essere disposte in ordine ascendente (la più vecchia in alto) o discendente (la più recente in alto).</string>
   <string name="menu_distribution_help_text">Visualizzare la distribuzione delle vostre spese per categoria. È anche possibile fare un tocco prolungato su un\'intestazione di gruppo per controllare la distribuzione di un gruppo specifico.</string>
@@ -23,7 +23,7 @@
   <string name="menu_manage_plans_help_text">Apre l\'elenco dei modelli e piani, dove è possibile impostarli, modificarli o cancellarli, e anche definire la pianificazione di operazioni future e ricorrenti.</string>
   <string name="menu_balance_help_text">Questo comando apre una finestra di dialogo con l\'ultimo saldo riconciliato e il saldo liquidato. È possibile confrontare quest\'ultimo al tuo estratto conto e contrassegnare le transazioni liqudiate come riconciliate. Facoltativamente, è possibile decidere di eliminare le transazioni riconciliate.</string>
   <string name="menu_print_help_text">Crea una visualizzazione stampabile delle operazioni visualizzate attualmente.</string>
-  <string name="menu_search_help_text">Questa voce apre un sottomenù che permette di definire i criteri di ricerca basati su categoria, quantità, commento, stato, metodo di pagamento e beneficiario/pagatore. Quando è attivo un filtro di ricerca, puoi semplicemente cliccare sulla relativa voce del sottomenù per disattivarla.</string>
+  <string name="menu_search_help_text">Questa voce apre un sottomenù che permette di definire i criteri di ricerca basati su categoria, quantità, commento, stato, metodo di pagamento e beneficiario / pagante. Quando è attivo un filtro di ricerca, puoi semplicemente cliccare sulla relativa voce del sottomenù per disattivarla.</string>
   <string name="cab_create_template_from_transaction_help_text">Definire un nuovo modello basato sulla transazione selezionata. Verrà richiesto il nome del modello.</string>
   <string name="cab_clone_transaction_help_text">Le operazioni selezionate verranno clonate con la data corrente e l\'ora. È possibile modificare prima di salvare la copia.</string>
   <string name="cab_split_help_text">Puoi modificare successivamente la transazione per creare parti aggiuntive secondo necessità.</string>
@@ -32,10 +32,11 @@
   <!--ManageMethods title is in keys-->
   <string name="help_ManageMethods_info">Questa schermata elenca i metodi di pagamento predefiniti (assegno, carta di credito, deposito, addebito diretto) e consente di definirne nuovi. Utilizzare il pulsante fluttuante per aprire il modulo per la creazione di un nuovo metodo.</string>
   <!--ManageParties title is in keys-->
-  <string name="help_ManageParties_manage_info">Questa schermata elenca i nomi utilizzati per il completamento automatico del campo Ordinante / Beneficiario. </string>
+  <string name="help_ManageParties_manage_info">Questa schermata elenca i nomi utilizzati per il completamento automatico del campo Pagante / Beneficiario. </string>
   <string name="help_ManageParties_select_mapping_info">Seleziona una delle parti con un tocco.</string>
   <string name="help_ManageParties_select_filter_info">Tocca una delle parti per filtrare la lista delle transazioni. Tieni premuto a lungo per selezionare più parti.</string>
   <string name="help_ManageParties_floating_action_button">Utilizzare il pulsante fluttuante per aggiungere una nuova voce.</string>
+  <string name="cab_merge_help_text">Se lo stesso beneficiario / pagante compare più volte nell\'elenco con diverse varianti ortografiche, puoi raggrupparle. Ti verrà chiesto di selezionare quale variante mantenere.</string>
   <!--ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_plans_title">Calendario</string>
   <string name="help_ManageTemplates_planner_title">Prossime ricorrenze</string>
@@ -68,7 +69,7 @@
   <string name="menu_categories_export_help_text">Categorie verranno esportate in file QIF.</string>
   <string name="menu_distribution_show_pie_char_help_text">Attiva o disattiva la visibilità del grafico a torta.</string>
   <string name="menu_distribution_aggreate_help_text">Per impostazione predefinita, le somme calcolate includono sia le spese che i proventi. È possibile decidere di mostrare loro separatamente, un pulsante nella barra delle azioni consente di alternare tra spese e proventi.</string>
-  <string name="cab_ManageCategories_select_filter_select_help_text">La categoria selezionata si utilizzerà per filtrare l\'elenco delle transazioni.</string>
+  <string name="cab_ManageCategories_select_filter_select_help_text">La categoria selezionata verrà utilizzata per filtrare l\'elenco delle transazioni.</string>
   <string name="menu_ManageCategories_search_help_text">Solo la categoria principale e le sottocategorie che corrispondono alla tua query verranno visualizzate.</string>
   <string name="menu_ManageCategories_sort_help_text">Elenco categoria possa essere ordinato per titolo (in ordine alfabetico), per frequenza di utilizzi, o in base all\'ultima volta che una transazione è stata mappata ad esso.</string>
   <string name="cab_ManageCategories_color_help_text">Puoi assegnare un colore alle categorie principali. Questo colore sarà utilizzato per rappresentare la categoria nei grafici. Le sottocategorie utilizzeranno le sfumature del colore della loro categoria principale.</string>
@@ -125,6 +126,7 @@
   <string name="form_color_help_text">Il colore sull\'elenco delle operazioni per un conto verrà usato come colore principale dell\'interfaccia utente.</string>
   <string name="form_synchronization_help_text_select">Seleziona un backend per la sincronizzazione cloud.</string>
   <string name="form_synchronization_help_text_add">I backend possono essere aggiunti dalla schermata Impostazioni.</string>
+  <string name="form_AccountEdit_active_tags_help_text">Puoi associare una o più categorie attive a ciascun account. Quando creerai una nuova transazione, essa verrà automaticamente contrassegnata con quelle, in base all\'account selezionato.</string>
   <string name="menu_exclude_from_totals_help_text">Se si seleziona questa opzione, questo conto non sarà incluso in aggregati per ogni valuta.</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Modulo per i metodi di pagamento</string>
