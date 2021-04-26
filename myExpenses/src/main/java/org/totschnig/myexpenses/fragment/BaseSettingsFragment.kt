@@ -6,7 +6,7 @@ import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.os.Bundle
 import android.text.TextUtils.isEmpty
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.preference.ListPreference
 import androidx.preference.MultiSelectListPreference
 import androidx.preference.Preference
@@ -15,6 +15,7 @@ import androidx.preference.SwitchPreferenceCompat
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.MyPreferenceActivity
+import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.model.ContribFeature
@@ -28,6 +29,8 @@ import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import org.totschnig.myexpenses.util.setNightMode
+import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
+import org.totschnig.myexpenses.viewmodel.SettingsViewModel
 import org.totschnig.myexpenses.viewmodel.WebUiViewModel
 import org.totschnig.myexpenses.widget.AccountWidget
 import org.totschnig.myexpenses.widget.TemplateWidget
@@ -54,12 +57,35 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     @Inject
     lateinit var licenceHandler: LicenceHandler
 
-    private lateinit var webUiViewModel: WebUiViewModel
+    private val webUiViewModel: WebUiViewModel by viewModels()
+    val currencyViewModel: CurrencyViewModel by viewModels()
+    val viewModel: SettingsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        (activity().application as MyApplication).appComponent.inject(this)
-        webUiViewModel = ViewModelProvider(this)[WebUiViewModel::class.java]
+        with((requireActivity().application as MyApplication).appComponent) {
+            inject(currencyViewModel)
+            inject(viewModel)
+            super.onCreate(savedInstanceState)
+            inject(this@BaseSettingsFragment)
+        }
+        viewModel.appDirInfo.observe(this) { result ->
+            val pref = requirePreference<Preference>(PrefKey.APP_DIR)
+            result.onSuccess { appDirInfo ->
+                pref.summary = if (appDirInfo.second) {
+                    appDirInfo.first
+                } else {
+                    getString(R.string.app_dir_not_accessible, appDirInfo.first)
+                }
+            }.onFailure {
+                pref.setSummary(when (it) {
+                    is ExternalStorageNotAvailableException -> R.string.external_storage_unavailable
+                    else -> {
+                        pref.isEnabled = false
+                        R.string.io_error_appdir_null
+                    }
+                })
+            }
+        }
         webUiViewModel.getServiceState().observe(this) { result ->
             findPreference<SwitchPreferenceCompat>(PrefKey.UI_WEB)?.let { preference ->
                 result.onSuccess { serverAddress ->
@@ -295,10 +321,10 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         if (licenceStatus == null && licenceHandler.addOnFeatures.isEmpty()) {
             contribPurchaseSummary = getString(R.string.pref_contrib_purchase_summary)
         } else {
-            if (licenceStatus?.isUpgradeable != false) {
-                contribPurchaseSummary = getString(R.string.pref_contrib_purchase_title_upgrade)
+            contribPurchaseSummary = if (licenceStatus?.isUpgradeable != false) {
+                getString(R.string.pref_contrib_purchase_title_upgrade)
             } else {
-                contribPurchaseSummary = licenceHandler.getProLicenceAction(requireContext())
+                licenceHandler.getProLicenceAction(requireContext())
             }
             if (!isEmpty(contribPurchaseSummary)) {
                 contribPurchaseSummary += "\n"

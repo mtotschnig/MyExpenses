@@ -30,6 +30,8 @@ import org.threeten.bp.LocalDate;
 import org.threeten.bp.ZonedDateTime;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException;
+import org.totschnig.myexpenses.exception.UnknownPictureSaveException;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -1273,19 +1275,6 @@ public class Transaction extends Model implements ITransaction {
   @NonNull
   public String linkColumn() {
     return KEY_TRANSACTIONID;
-  }
-
-  public static class ExternalStorageNotAvailableException extends IllegalStateException {
-  }
-
-  public static class UnknownPictureSaveException extends IllegalStateException {
-    public Uri pictureUri, homeUri;
-
-    public UnknownPictureSaveException(Uri pictureUri, Uri homeUri, IOException e) {
-      super(e);
-      this.pictureUri = pictureUri;
-      this.homeUri = homeUri;
-    }
   }
 
   public static long findByAccountAndUuid(long accountId, String uuid) {

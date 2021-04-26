@@ -19,8 +19,8 @@ import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.model.SplitTransaction
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Transaction
-import org.totschnig.myexpenses.model.Transaction.ExternalStorageNotAvailableException
-import org.totschnig.myexpenses.model.Transaction.UnknownPictureSaveException
+import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException
+import org.totschnig.myexpenses.exception.UnknownPictureSaveException
 import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
