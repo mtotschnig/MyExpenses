@@ -12,6 +12,7 @@ import androidx.preference.MultiSelectListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
+import com.google.android.material.snackbar.Snackbar
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.MyPreferenceActivity
@@ -60,6 +61,18 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     private val webUiViewModel: WebUiViewModel by viewModels()
     val currencyViewModel: CurrencyViewModel by viewModels()
     val viewModel: SettingsViewModel by viewModels()
+
+    //TODO: these settings need to be authoritatively stored in Database, instead of just mirrored
+    val storeInDatabaseChangeListener = Preference.OnPreferenceChangeListener { preference, newValue ->
+        (activity as? MyPreferenceActivity)?.let { activity ->
+            activity.showSnackbar(R.string.saving, Snackbar.LENGTH_INDEFINITE)
+            viewModel.storeSetting(preference.getKey(), newValue.toString()).observe(this@BaseSettingsFragment, { result ->
+                activity.dismissSnackbar()
+                if ((!result)) activity.showSnackbar("ERROR")
+            })
+            true
+        } ?: false
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         with((requireActivity().application as MyApplication).appComponent) {
@@ -333,5 +346,26 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         }
         contribPurchasePref.summary = contribPurchaseSummary
         contribPurchasePref.title = contribPurchaseTitle
+    }
+
+    fun updateHomeCurrency(currencyCode: String) {
+        (activity as? MyPreferenceActivity)?.let { activity ->
+            findPreference<ListPreference>(PrefKey.HOME_CURRENCY)?.let {
+                it.value = currencyCode
+            } ?: run {
+                prefHandler.putString(PrefKey.HOME_CURRENCY, currencyCode)
+            }
+            activity.invalidateHomeCurrency()
+            activity.showSnackbar(R.string.saving, Snackbar.LENGTH_INDEFINITE)
+            viewModel.resetEquivalentAmounts().observe(this, { integer ->
+                activity.dismissSnackbar()
+                if (integer != null) {
+                    activity.showSnackbar(String.format(getResources().getConfiguration().locale,
+                            "%s (%d)", getString(R.string.reset_equivalent_amounts_success), integer))
+                } else {
+                    activity.showSnackbar("Equivalent amount reset failed")
+                }
+            })
+        }
     }
 }

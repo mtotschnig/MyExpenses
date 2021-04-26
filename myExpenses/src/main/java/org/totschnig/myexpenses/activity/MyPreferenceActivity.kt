@@ -249,14 +249,6 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace, Preferen
                     fragment.configureContribPrefs()
                 }
             }
-            TaskExecutionFragment.TASK_RESET_EQUIVALENT_AMOUNTS -> {
-                val r = o as Result<Int>
-                if (r.isSuccess) {
-                    showSnackbar(String.format(resources.configuration.locale, "%s (%d)", getString(R.string.reset_equivalent_amounts_success), r.extra))
-                } else {
-                    showSnackbar("Equivalent amount reset failed")
-                }
-            }
         }
     }
 
@@ -282,7 +274,7 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace, Preferen
             return true
         }
         if (command == R.id.CHANGE_COMMAND) {
-            fragment.updateHomeCurrency(tag as String?)
+            fragment.updateHomeCurrency(tag as String)
             return true
         }
         return false

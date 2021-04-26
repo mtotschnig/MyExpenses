@@ -89,11 +89,9 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_FETCH_SYNC_ACCOUNT_DATA = 51;
   public static final int TASK_SETUP_FROM_SYNC_ACCOUNTS = 52;
   public static final int TASK_REPAIR_SYNC_BACKEND = 53;
-  public static final int TASK_STORE_SETTING = 54;
   public static final int TASK_VALIDATE_LICENCE = 55;
   public static final int TASK_REMOVE_LICENCE = 56;
   public static final int TASK_BUILD_TRANSACTION_FROM_INTENT_EXTRAS = 57;
-  public static final int TASK_RESET_EQUIVALENT_AMOUNTS = 59;
   public static final int TASK_ACCOUNT_SORT = 60;
   public static final int TASK_CATEGORY_COLOR = 61;
   public static final int TASK_SETUP_CATEGORIES = 62;
@@ -250,9 +248,6 @@ public class TaskExecutionFragment<T> extends Fragment {
         break;
       case TASK_BUILD_TRANSACTION_FROM_INTENT_EXTRAS:
         new BuildTransactionTask(this, taskId).execute(args);
-        break;
-      case TASK_RESET_EQUIVALENT_AMOUNTS:
-        new ResetEquivalentAmountsTask(this, taskId).execute(args);
         break;
       case TASK_SPLIT:
         new SplitCommandTask(this, taskId).execute(args);

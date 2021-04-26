@@ -3,9 +3,11 @@ package org.totschnig.myexpenses.viewmodel
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException
+import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.io.FileUtils
@@ -27,7 +29,7 @@ class SettingsViewModel(application: Application) : ContentResolvingAndroidViewM
         viewModelScope.launch(context = coroutineContext()) {
             if (AppDirHelper.isExternalStorageAvailable()) {
                 AppDirHelper.getAppDir(getApplication())?.let {
-                    _appDirInfo.postValue(Result.success(Pair(FileUtils.getPath(getApplication(), it.uri),AppDirHelper.isWritableDirectory(it))))
+                    _appDirInfo.postValue(Result.success(Pair(FileUtils.getPath(getApplication(), it.uri), AppDirHelper.isWritableDirectory(it))))
                 } ?: run {
                     _appDirInfo.postValue(Result.failure(IOException()))
                 }
@@ -35,5 +37,15 @@ class SettingsViewModel(application: Application) : ContentResolvingAndroidViewM
                 _appDirInfo.postValue(Result.failure(ExternalStorageNotAvailableException()))
             }
         }
+    }
+
+    fun storeSetting(key: String, value: String) = liveData(context = coroutineContext()) {
+        emit(DbUtils.storeSetting(contentResolver, key, value) != null)
+    }
+
+    fun resetEquivalentAmounts() = liveData(context = coroutineContext()) {
+        emit(contentResolver.call(TransactionProvider.DUAL_URI,
+                TransactionProvider.METHOD_RESET_EQUIVALENT_AMOUNTS, null, null)
+                ?.getInt(TransactionProvider.KEY_RESULT))
     }
 }

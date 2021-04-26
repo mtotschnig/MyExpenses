@@ -43,7 +43,6 @@ import org.totschnig.myexpenses.preference.TimePreference;
 import org.totschnig.myexpenses.preference.TimePreferenceDialogFragmentCompat;
 import org.totschnig.myexpenses.sync.ServiceLoader;
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
-import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.ShareUtils;
@@ -216,14 +215,6 @@ public class SettingsFragment extends BaseSettingsFragment implements
         return false;
       };
 
-  //TODO: these settings need to be authoritatively stored in Database, instead of just mirrored
-  private final Preference.OnPreferenceChangeListener storeInDatabaseChangeListener =
-      (preference, newValue) -> {
-        activity().startTaskExecution(TaskExecutionFragment.TASK_STORE_SETTING,
-            new String[]{preference.getKey()}, newValue.toString(), R.string.saving);
-        return true;
-      };
-
   private void trackPreferenceClick(Preference preference) {
     Bundle bundle = new Bundle();
     bundle.putString(Tracker.EVENT_PARAM_ITEM_ID, preference.getKey());
@@ -373,7 +364,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
     else if (rootKey.equals(getKey(AUTO_BACKUP))) {
       requirePreference(AUTO_BACKUP_INFO).setSummary(getString(R.string.pref_auto_backup_summary) + " " +
           ContribFeature.AUTO_BACKUP.buildRequiresString(requireActivity()));
-      requirePreference(AUTO_BACKUP_CLOUD).setOnPreferenceChangeListener(storeInDatabaseChangeListener);
+      requirePreference(AUTO_BACKUP_CLOUD).setOnPreferenceChangeListener(getStoreInDatabaseChangeListener());
     }
     //GROUP start screen
     else if (rootKey.equals(getKey(GROUPING_START_SCREEN))) {
@@ -435,8 +426,8 @@ public class SettingsFragment extends BaseSettingsFragment implements
                   .map(SyncBackendProviderFactory::getLabel)
                   .collect(Collectors.joining(", "))) +
               " " + ContribFeature.SYNCHRONIZATION.buildRequiresString(requireActivity()));
-      requirePreference(SYNC_NOTIFICATION).setOnPreferenceChangeListener(storeInDatabaseChangeListener);
-      requirePreference(SYNC_WIFI_ONLY).setOnPreferenceChangeListener(storeInDatabaseChangeListener);
+      requirePreference(SYNC_NOTIFICATION).setOnPreferenceChangeListener(getStoreInDatabaseChangeListener());
+      requirePreference(SYNC_WIFI_ONLY).setOnPreferenceChangeListener(getStoreInDatabaseChangeListener());
     } else if (rootKey.equals(getKey(FEATURE_UNINSTALL))) {
       configureUninstallPrefs();
     } else if (rootKey.equals(getKey(EXCHANGE_RATES))) {
@@ -628,8 +619,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
         }
       }
       return true;
-    }
-    else if (matches(pref, UI_WEB)) {
+    } else if (matches(pref, UI_WEB)) {
       if ((Boolean) value) {
         if (!NetworkUtilsKt.isNetworkConnected(requireContext())) {
           activity().showSnackbar(R.string.no_network);
@@ -894,18 +884,4 @@ public class SettingsFragment extends BaseSettingsFragment implements
     return true;
   }
 
-  public void updateHomeCurrency(String currencyCode) {
-    final MyPreferenceActivity activity = ((MyPreferenceActivity) getActivity());
-    if (activity != null) {
-      final ListPreference preference = findPreference(HOME_CURRENCY);
-      if (preference != null) {
-        preference.setValue(currencyCode);
-      } else {
-        prefHandler.putString(HOME_CURRENCY, currencyCode);
-      }
-      activity.invalidateHomeCurrency();
-      activity.startTaskExecution(TaskExecutionFragment.TASK_RESET_EQUIVALENT_AMOUNTS,
-          null, null, R.string.saving);
-    }
-  }
 }
