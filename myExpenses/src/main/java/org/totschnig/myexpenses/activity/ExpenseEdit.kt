@@ -250,8 +250,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManag
         setContentView(rootBinding.root)
         setupToolbar()
         mManager = LoaderManager.getInstance(this)
-        viewModel = ViewModelProvider(this).get(TransactionEditViewModel::class.java)
-        currencyViewModel = ViewModelProvider(this).get(CurrencyViewModel::class.java)
+        val viewModelProvider = ViewModelProvider(this)
+        viewModel = viewModelProvider.get(TransactionEditViewModel::class.java)
+        currencyViewModel = viewModelProvider.get(CurrencyViewModel::class.java)
         with((applicationContext as MyApplication).appComponent) {
             inject(viewModel)
             inject(currencyViewModel)

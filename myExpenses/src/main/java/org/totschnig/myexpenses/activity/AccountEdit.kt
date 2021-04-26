@@ -112,9 +112,10 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         binding.TagRow.TagLabel.setText(R.string.active_tags)
         setContentView(binding.root)
         setupToolbar()
-        currencyViewModel = ViewModelProvider(this).get(CurrencyViewModel::class.java)
-        viewModel = ViewModelProvider(this).get(AccountEditViewModel::class.java)
-        syncViewModel = ViewModelProvider(this).get(SyncBackendViewModel::class.java)
+        val viewModelProvider = ViewModelProvider(this)
+        currencyViewModel = viewModelProvider.get(CurrencyViewModel::class.java)
+        viewModel = viewModelProvider.get(AccountEditViewModel::class.java)
+        syncViewModel = viewModelProvider.get(SyncBackendViewModel::class.java)
         with((applicationContext as MyApplication).appComponent) {
             inject(viewModel)
             inject(currencyViewModel)

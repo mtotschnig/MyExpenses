@@ -6,11 +6,9 @@ import android.app.KeyguardManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.icu.text.ListFormatter;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -43,19 +41,18 @@ import org.totschnig.myexpenses.preference.SimplePasswordDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.SimplePasswordPreference;
 import org.totschnig.myexpenses.preference.TimePreference;
 import org.totschnig.myexpenses.preference.TimePreferenceDialogFragmentCompat;
-import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.sync.ServiceLoader;
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
-import org.totschnig.myexpenses.util.distrib.DistributionHelper;
 import org.totschnig.myexpenses.util.ShareUtils;
 import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.util.distrib.DistributionHelper;
 import org.totschnig.myexpenses.util.io.FileUtils;
 import org.totschnig.myexpenses.util.io.NetworkUtilsKt;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
@@ -63,6 +60,7 @@ import org.totschnig.myexpenses.util.licence.Package;
 import org.totschnig.myexpenses.util.licence.ProfessionalPackage;
 import org.totschnig.myexpenses.util.tracking.Tracker;
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel;
+import org.totschnig.myexpenses.viewmodel.SettingsViewModel;
 import org.totschnig.myexpenses.viewmodel.data.Currency;
 import org.totschnig.myexpenses.widget.AbstractWidgetKt;
 
@@ -182,13 +180,17 @@ public class SettingsFragment extends BaseSettingsFragment implements
   CurrencyFormatter currencyFormatter;
 
   private CurrencyViewModel currencyViewModel;
+  private SettingsViewModel settingsViewModel;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     final AppComponent appComponent = requireApplication().getAppComponent();
     appComponent.inject(this);
-    currencyViewModel = new ViewModelProvider(this).get(CurrencyViewModel.class);
+    final ViewModelProvider viewModelProvider = new ViewModelProvider(this);
+    currencyViewModel = viewModelProvider.get(CurrencyViewModel.class);
+    settingsViewModel = viewModelProvider.get(SettingsViewModel.class);
     appComponent.inject(currencyViewModel);
+    appComponent.inject(settingsViewModel);
     super.onCreate(savedInstanceState);
     prefHandler.preparePreferenceFragment(this);
   }
@@ -297,29 +299,9 @@ public class SettingsFragment extends BaseSettingsFragment implements
       csvPref.setSummary(getString(R.string.pref_import_summary, "CSV"));
       csvPref.setTitle(getString(R.string.pref_import_title, "CSV"));
 
-      new AsyncTask<Void, Void, Boolean>() {
-        @Override
-        protected Boolean doInBackground(Void... params) {
-          if (getActivity() == null) return false;
-          Cursor c = getActivity().getContentResolver().query(
-              TransactionProvider.STALE_IMAGES_URI,
-              new String[]{"count(*)"},
-              null, null, null);
-          if (c == null)
-            return false;
-          boolean hasImages = false;
-          if (c.moveToFirst() && c.getInt(0) > 0)
-            hasImages = true;
-          c.close();
-          return hasImages;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean result) {
-          if (getActivity() != null && !getActivity().isFinishing() && result)
-            requirePreference(MANAGE_STALE_IMAGES).setVisible(true);
-        }
-      }.execute();
+      settingsViewModel.hasStaleImages().observe(this, result -> {
+        requirePreference(MANAGE_STALE_IMAGES).setVisible(result);
+      });
 
       final PreferenceCategory privacyCategory = requirePreference(CATEGORY_PRIVACY);
       if (!DistributionHelper.getDistribution().getSupportsTrackingAndCrashReporting()) {

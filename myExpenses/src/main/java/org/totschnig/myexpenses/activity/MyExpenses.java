@@ -362,7 +362,6 @@ public class MyExpenses extends BaseMyExpenses implements
     if (firstCreate) {
       mManager.initLoader(ACCOUNTS_CURSOR, null, this);
     }
-
   }
 
   private void voteReminderCheck() {

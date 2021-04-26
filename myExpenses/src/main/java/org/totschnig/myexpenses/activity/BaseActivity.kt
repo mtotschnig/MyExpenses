@@ -109,8 +109,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     open fun onFeatureAvailable(feature: Feature) {}
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        ocrViewModel = ViewModelProvider(this).get(OcrViewModel::class.java)
-        featureViewModel = ViewModelProvider(this).get(FeatureViewModel::class.java)
+        val viewModelProvider = ViewModelProvider(this)
+        ocrViewModel = viewModelProvider.get(OcrViewModel::class.java)
+        featureViewModel = viewModelProvider.get(FeatureViewModel::class.java)
         with((applicationContext as MyApplication).appComponent) {
             inject(ocrViewModel)
             inject(featureViewModel)
