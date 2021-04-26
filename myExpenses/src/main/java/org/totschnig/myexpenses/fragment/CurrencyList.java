@@ -34,7 +34,7 @@ import androidx.lifecycle.ViewModelProvider;
 import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_REQUEST;
 import static org.totschnig.myexpenses.dialog.EditCurrencyDialog.KEY_RESULT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
-import static org.totschnig.myexpenses.util.Utils.isFrameworkCurrency;
+import static org.totschnig.myexpenses.util.Utils.isKnownCurrency;
 
 public class CurrencyList extends ListFragment {
   private EditCurrencyViewModel currencyViewModel;
@@ -71,7 +71,7 @@ public class CurrencyList extends ListFragment {
   @Override
   public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
     Currency currency = currencyAdapter.getItem(((AdapterView.AdapterContextMenuInfo) menuInfo).position);
-    if (!isFrameworkCurrency(currency.getCode())) {
+    if (!isKnownCurrency(currency.getCode())) {
       menu.add(0, R.id.DELETE_COMMAND, 0, R.string.menu_delete);
     }
   }

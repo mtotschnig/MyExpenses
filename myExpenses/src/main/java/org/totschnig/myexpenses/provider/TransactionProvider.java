@@ -1312,7 +1312,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case CURRENCIES_CODE: {
         String currency = uri.getLastPathSegment();
-        if (Utils.isFrameworkCurrency(currency)) {
+        if (Utils.isKnownCurrency(currency)) {
           throw new IllegalArgumentException("Can only delete custom currencies");
         }
         try {

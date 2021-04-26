@@ -35,7 +35,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
-import static org.totschnig.myexpenses.util.Utils.isFrameworkCurrency;
+import static org.totschnig.myexpenses.util.Utils.isKnownCurrency;
 
 public class EditCurrencyDialog extends BaseDialogFragment {
   private EditCurrencyBinding binding;
@@ -95,7 +95,7 @@ public class EditCurrencyDialog extends BaseDialogFragment {
       binding.edtCurrencyCode.setText(currency.getCode());
 
       final String displayName = currency.toString();
-      frameworkCurrency = isFrameworkCurrency(currency.getCode());
+      frameworkCurrency = isKnownCurrency(currency.getCode());
       if (frameworkCurrency) {
         binding.edtCurrencySymbol.requestFocus();
         title = String.format(Locale.ROOT, "%s (%s)", displayName, currency.getCode());
@@ -207,7 +207,7 @@ public class EditCurrencyDialog extends BaseDialogFragment {
         editCurrencyViewModel.newCurrency(readCodeFromUI(), symbol, fractionDigits, label);
         setButtonState(false);
       } else {
-        final boolean frameworkCurrency = isFrameworkCurrency(currency.getCode());
+        final boolean frameworkCurrency = isKnownCurrency(currency.getCode());
         editCurrencyViewModel.save(currency.getCode(), symbol, fractionDigits, frameworkCurrency ? null : label, withUpdate);
         if (!withUpdate && frameworkCurrency) {
           dismiss();
