@@ -37,6 +37,8 @@ professional:
   - roadmap_voting
   - history_chart
   - budgeting
+  - scan_receipt
+  - webui
 extra:
   cloud_sync: "(Webdav, Dropbox, Google Drive)"
 extra_fdroid:

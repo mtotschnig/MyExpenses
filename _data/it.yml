@@ -2,7 +2,7 @@ it:
   imprint: Imprint
   imprint_text: Responsabile per il contenuto di questo sito web e per lo sviluppo, la manutenzione e la distribuzione di <i>{app_name}</i>
   privacy_policy_heading: Informativa sulla privacy
-  privacy_policy_text: " <i>{app_name}</i> non accede a alcuni dati di suo apparecchio al di fuori della database e la cartella proprie sulla scheda SD. Se si utilizza la funzionalità dei piani per le transazioni future e ricorrenti, si assegnano il calendario, in cui sono memorizzati questi piani."
+  privacy_policy_text: "<i>{app_name}</i> non accede a alcuni dati di suo apparecchio al di fuori della database e la cartella proprie sulla scheda SD. Se si utilizza la funzionalità dei piani per le transazioni future e ricorrenti, si assegnano il calendario, in cui sono memorizzati questi piani."
   hero_main: "Gestione delle finanze personali per Android"
   hero_sub:
     use: "Facile da usare"
@@ -58,6 +58,7 @@ it:
       history_chart: <b> Grafico storico </b> (flusso di cassa)
       budgeting: "<b> Bilancio </b>: confronta le tue spese con i limiti imposti per categoria su base giornaliera, settimanale, mensile o annuale."
       scan_receipt: "<b>Scansiona gli scontrini</b> : estrai automaticamente l'importo, la data ed il beneficiario"
+      webui: Interfaccia utente Web
     one-time-payment: Pagamento unico
     subscription: Sottoscrizione
   store:

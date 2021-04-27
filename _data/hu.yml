@@ -20,9 +20,13 @@ hu:
   contrib:
     thank_you: |
         Köszönjük! Támogatásával nagyban segíti a Kiadásaim további fejlesztését!
+    feature:
+      webui: Webes felhasználói kezelőfelület
   permissions:
     internet:
       explanation_cloud_sync: Felhő szinkronizálás
     accounts:
       label: Számlák
   contrib-key: Contrib Kulcs
+  extended-key: Kiterjesztett Kulcs
+  professional-key: Szakmai kulcs

@@ -20,6 +20,15 @@ pt:
     licence: Licença
     sourcecode: Código-fonte
     links: Links
+  screenshots:
+    group: Agrupe suas transações por dia, semana, mês e ano
+    summarize: Resuma todas as suas contas (tratando, de forma sofisticada, as taxas de câmbio por conta e por transação)
+    budget: Defina quanto você pretende gastar em orçamentos anuais, mensais ou semanais
+    split: Divida uma transação em várias categorias
+    distribution: Visualize a distribuição por categoria
+    history: Entenda como sua situação financeira evolui ao longo do tempo
+    export: Imprima em PDF e movimente via QIF e CSV.
+    sync: Sincronize dados de contas criptografados em vários dispositivos por meio de serviços de nuvem privada ou pública.
   features:
     manage_accounts: Até cinco contas com <b>transferências</b> (também entre moedas diferentes)
     plans: Número ilimitado de <b>modelos</b> e até três planos para transações <b>recorrentes</b>
@@ -47,6 +56,9 @@ pt:
       email_support: <b>Suporte por e-mail</b> com garantia de resposta em até 2 dias úteis
       roadmap_voting: Direito de voto no <b>roteiro de desenvolvimento</b>
       history_chart: <b>Diagrama histórico</b> (fluxo de caixa)
+      budgeting: "<b>Orçamento</b> : compare seus gastos com os limites definidos por categoria em uma base diária, semanal, mensal ou anual."
+      scan_receipt: "<b>Digitalizar recibos</b>: Extraia automaticamente a quantia, a data e o beneficiário"
+      webui: Interface web do usuário
     one-time-payment: Pagamento único
     subscription: Assinatura
   store:

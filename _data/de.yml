@@ -58,6 +58,7 @@ de:
       history_chart: <b>Verlaufsdiagramm</b> (Cashflow)
       budgeting: "<b>Budgetierung</b>: Vergleichen Sie Ihre Ausgaben mit den von Ihnen festgelegten Grenzwerten pro Kategorie, täglich, wöchentlich, monatlich oder jährlich."
       scan_receipt: "<b>Quittungen scannen</b> : Betrag, Datum und Zahlungsempfänger automatisch extrahieren"
+      webui: Web-Benutzeroberfläche
     one-time-payment: Einmalige Zahlung
     subscription: Abonnement
   store:

@@ -58,6 +58,7 @@ tr:
       history_chart: <b>Tarihçe grafiği</b> (Nakit akışı)
       budgeting: "<b>Bütçeleme</b>: Harcamalarınızı kategori başına günlük, haftalık, aylık veya senelik olarak belirlediğiniz sınırlarla karşılaştırın."
       scan_receipt: "<b>Makbuz tarama</b>: Otomatik olarak meblağ, tarih ve alacaklı bilgilerini çıkar"
+      webui: İnternet Kullanıcı Arayüzü
     one-time-payment: Bir defalık ödeme
     subscription: Abonlelik
   store:
