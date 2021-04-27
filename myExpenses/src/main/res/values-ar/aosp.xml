@@ -8,6 +8,8 @@
     <string name="drawer_close">"إغلاق ساحب التنقل"</string>
     <string name="saving">"جارٍ الحفظ…"</string>
     <string name="default_action">"إجراء افتراضي"</string>
+    <string name="full_name">"الاسم"</string>
+    <string name="postal_country">"البلد"</string>
     <string name="toast_text_copied">"تم نسخ النص"</string>
     <string name="copy_text">"نسخ إلى الحافظة"</string>
     <string name="stop">"إيقاف"</string>

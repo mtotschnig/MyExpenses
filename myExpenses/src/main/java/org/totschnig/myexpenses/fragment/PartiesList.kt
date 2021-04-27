@@ -105,7 +105,7 @@ class PartiesList : ContextualActionBarFragment(), OnDialogResultListener {
                             .title(R.string.menu_edit_party)
                             .cancelable(false)
                             .inputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
-                            .hint(R.string.label)
+                            .hint(R.string.full_name)
                             .text(party.name)
                             .pos(R.string.menu_save)
                             .neut()

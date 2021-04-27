@@ -141,11 +141,14 @@ public class ContribInfoDialogActivity extends IapActivity {
       intent.putExtra(Intent.EXTRA_EMAIL, new String[]{MyApplication.INVOICES_EMAIL});
       String packageLabel = licenceHandler.getButtonLabel(aPackage);
       intent.putExtra(Intent.EXTRA_SUBJECT,
-          "[" + getString(R.string.app_name) + "] " + getString(R.string.donate_button_invoice));
+          "[" + getString(R.string.app_name) + "] " + getString(R.string.request_for_invoice));
       String userCountry = Utils.getCountryFromTelephonyManager(this);
       String messageBody = String.format(
-          "Please send an invoice for %s to:\nName: (optional)\nCountry: %s (required)",
-          packageLabel, userCountry != null ? userCountry : "");
+          "%s: %s\n%s:\n%s: %s",
+          getString(R.string.licence_key), packageLabel,
+          getString(R.string.full_name),
+          getString(R.string.postal_country),
+          userCountry != null ? userCountry : "");
       intent.putExtra(Intent.EXTRA_TEXT, messageBody);
       startActivity(intent, R.string.no_app_handling_email_available, INVOICE_REQUEST);
     }

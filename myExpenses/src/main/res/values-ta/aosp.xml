@@ -9,6 +9,8 @@
     <string name="drawer_close">"வழிசெலுத்தல் டிராயரை மூடு"</string>
     <string name="saving">"சேமிக்கிறது…"</string>
     <string name="default_action">"இயல்புநிலை செயல்"</string>
+    <string name="full_name">"பெயர்"</string>
+    <string name="postal_country">"நாடு"</string>
     <string name="toast_text_copied">"உரை நகலெடுக்கப்பட்டது"</string>
     <string name="copy_text">"கிளிப்போர்டுக்கு நகலெடு"</string>
     <string name="stop">"நிறுத்து"</string>

@@ -8,6 +8,8 @@
     <string name="drawer_close">关闭导航抽屉</string>
     <string name="saving">"正在保存…"</string>
     <string name="default_action">"默认操作"</string>
+    <string name="full_name">"姓名"</string>
+    <string name="postal_country">"国家/地区"</string>
     <string name="toast_text_copied">"文本已复制"</string>
     <string name="copy_text">"复制到剪贴板"</string>
     <string name="stop">"停止"</string>

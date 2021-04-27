@@ -9,6 +9,8 @@
     <string name="drawer_close">"내비게이션 폴더 닫기"</string>
     <string name="saving">"저장 중…"</string>
     <string name="default_action">"기본 작업"</string>
+    <string name="full_name">"이름"</string>
+    <string name="postal_country">"국가"</string>
     <string name="toast_text_copied">"텍스트 복사됨"</string>
     <string name="copy_text">"클립보드에 복사"</string>
     <string name="stop">"중지"</string>

@@ -8,6 +8,8 @@
     <string name="drawer_close">"關閉導覽匣"</string>
     <string name="saving">"儲存中…"</string>
     <string name="default_action">"預設動作"</string>
+    <string name="full_name">"姓名"</string>
+    <string name="postal_country">"國家/地區"</string>
     <string name="toast_text_copied">"文字已複製"</string>
     <string name="copy_text">"複製到剪貼簿"</string>
     <string name="stop">"停止"</string>

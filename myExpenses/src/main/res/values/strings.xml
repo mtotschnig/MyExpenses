@@ -986,4 +986,6 @@
     <string name="merge_parties_select">Select name of merged party:</string>
     <!-- This is the label for a field for accounts. Active tags are automatically added to new transactions when an account is selected. -->
     <string name="active_tags">Active Tags</string>
+    <!-- This is used in the title of the email by which user requests an invoice for payment via bank transfer -->
+    <string name="request_for_invoice">Request for Invoice</string>
 </resources>

@@ -9,6 +9,8 @@
     <string name="drawer_close">"Itxi nabigazio-panel lerrakorra"</string>
     <string name="saving">"Gordetzen…"</string>
     <string name="default_action">"Ekintza lehenetsia"</string>
+    <string name="full_name">"Izena"</string>
+    <string name="postal_country">"Herrialdea"</string>
     <string name="toast_text_copied">"Testua kopiatu da"</string>
     <string name="copy_text">"Kopiatu arbelean"</string>
     <string name="stop">"Gelditu"</string>

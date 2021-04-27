@@ -9,6 +9,8 @@
     <string name="drawer_close">"Zatvaranje pretinca za navigaciju"</string>
     <string name="saving">"Spremanje…"</string>
     <string name="default_action">"Zadana radnja"</string>
+    <string name="full_name">"Ime"</string>
+    <string name="postal_country">"Zemlja"</string>
     <string name="toast_text_copied">"Tekst kopiran"</string>
     <string name="copy_text">"Kopiraj u međuspremnik"</string>
     <string name="stop">"Zaustavi"</string>

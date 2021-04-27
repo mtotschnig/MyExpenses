@@ -83,7 +83,7 @@ public class ManageParties extends ProtectedFragmentActivity implements
           .title(R.string.menu_create_party)
           .cancelable(false)
           .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
-          .hint(R.string.label)
+          .hint(R.string.full_name)
           .pos(R.string.dialog_button_add)
           .neut()
           .show(this, DIALOG_NEW_PARTY);

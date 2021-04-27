@@ -8,6 +8,8 @@
     <string name="drawer_close">"Zamknij szufladę nawigacji"</string>
     <string name="saving">"Zapisuję…"</string>
     <string name="default_action">"Domyślne działanie"</string>
+    <string name="full_name">"Nazwa"</string>
+    <string name="postal_country">"Kraj"</string>
     <string name="toast_text_copied">"Tekst skopiowany"</string>
     <string name="copy_text">"Kopiuj do schowka"</string>
     <string name="stop">"Stop"</string>

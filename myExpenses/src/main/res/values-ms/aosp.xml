@@ -8,6 +8,8 @@
     <string name="drawer_close">"Tutup laci navigasi"</string>
     <string name="saving">"Menyimpan…"</string>
     <string name="default_action">"Tindakan lalai"</string>
+    <string name="full_name">"Nama"</string>
+    <string name="postal_country">"Negara"</string>
     <string name="toast_text_copied">Teks disalin</string>
     <string name="copy_text">Salin ke papan keratan</string>
     <string name="stop">Berhenti</string>

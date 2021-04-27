@@ -9,6 +9,8 @@
     <string name="drawer_close">"Затваряне на чекмеджето за навигация"</string>
     <string name="saving">"Запазва се…"</string>
     <string name="default_action">"Действие по подразбиране"</string>
+    <string name="full_name">"Име"</string>
+    <string name="postal_country">"Държава"</string>
     <string name="toast_text_copied">"Текстът бе копиран"</string>
     <string name="copy_text">"Копиране в буфера"</string>
     <string name="stop">"Спиране"</string>

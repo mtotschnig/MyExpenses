@@ -9,6 +9,8 @@
     <string name="drawer_close">"ナビゲーションドロワーを閉じる"</string>
     <string name="saving">"保存中…"</string>
     <string name="default_action">"既定の動作"</string>
+    <string name="full_name">"名前"</string>
+    <string name="postal_country">"国"</string>
     <string name="toast_text_copied">"テキストをコピーしました"</string>
     <string name="copy_text">"クリップボードにコピー"</string>
     <string name="stop">"停止"</string>

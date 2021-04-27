@@ -9,6 +9,8 @@
     <string name="drawer_close">"Сховати навігаційну панель"</string>
     <string name="saving">"Збереження…"</string>
     <string name="default_action">"Дія за умовчанням"</string>
+    <string name="full_name">"Ім’я"</string>
+    <string name="postal_country">"Країна"</string>
     <string name="toast_text_copied">"Текст скопійовано"</string>
     <string name="copy_text">"Копіювати в буфер обміну"</string>
     <string name="stop">"Зупинити"</string>
