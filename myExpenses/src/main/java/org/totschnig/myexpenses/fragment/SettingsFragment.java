@@ -98,6 +98,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.APP_DIR;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP_CLOUD;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP_INFO;
+import static org.totschnig.myexpenses.preference.PrefKey.AUTO_FILL_SWITCH;
 import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_PRIVACY;
 import static org.totschnig.myexpenses.preference.PrefKey.CONTRIB_PURCHASE;
 import static org.totschnig.myexpenses.preference.PrefKey.CRASHREPORT_ENABLED;
@@ -456,6 +457,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
     actionBar.setTitle(title);
     boolean hasMasterSwitch = handleScreenWithMasterSwitch(PERFORM_SHARE);
     hasMasterSwitch = handleScreenWithMasterSwitch(AUTO_BACKUP) || hasMasterSwitch;
+    hasMasterSwitch = handleScreenWithMasterSwitch(AUTO_FILL_SWITCH) || hasMasterSwitch;
     if (!hasMasterSwitch) {
       actionBar.setCustomView(null);
     }
