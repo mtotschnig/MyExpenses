@@ -26,13 +26,14 @@ class AccountWidget : AbstractWidget(AccountWidgetService::class.java, PrefKey.P
 
     override fun updateWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
         val accountId = AccountRemoteViewsFactory.accountId(context, appWidgetId)
-        if (accountId != Long.MAX_VALUE.toString()  && !isProtected()) {
+        if (accountId != Long.MAX_VALUE.toString() && !isProtected(context)) {
             val widget = RemoteViews(context.packageName, R.layout.widget_row)
             AccountRemoteViewsFactory.buildCursor(context, accountId)?.use {
                 it.moveToFirst()
                 AccountRemoteViewsFactory.populate(context, widget, it,
                         AccountRemoteViewsFactory.sumColumn(context, appWidgetId),
-                        availableWidth(context, appWidgetManager, appWidgetId))
+                        availableWidth(context, appWidgetManager, appWidgetId),
+                        Pair(appWidgetId, clickBaseIntent(context)))
             }
             appWidgetManager.updateAppWidget(appWidgetId, widget)
         } else {
