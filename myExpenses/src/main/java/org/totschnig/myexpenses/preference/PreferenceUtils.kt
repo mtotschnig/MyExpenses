@@ -1,21 +1,16 @@
 package org.totschnig.myexpenses.preference
 
 fun shouldStartAutoFill(prefHandler: PrefHandler) = with(prefHandler) {
-    getBoolean(PrefKey.AUTO_FILL_SWITCH, true) && oneOfMany(prefHandler)
+    getBoolean(PrefKey.AUTO_FILL_SWITCH, true) &&
+            (getBoolean(PrefKey.AUTO_FILL_AMOUNT, false)
+                    || getBoolean(PrefKey.AUTO_FILL_CATEGORY, false)
+                    || getBoolean(PrefKey.AUTO_FILL_COMMENT, false)
+                    || getBoolean(PrefKey.AUTO_FILL_METHOD, false)
+                    || getString(PrefKey.AUTO_FILL_ACCOUNT, "never") != "never")
 }
 
-fun oneOfMany(prefHandler: PrefHandler) : Boolean {
-    with(prefHandler) {
-        if(getBoolean(PrefKey.AUTO_FILL_AMOUNT, true))
-            return true
-        else if(getBoolean(PrefKey.AUTO_FILL_CATEGORY, true))
-            return true
-        else if(getBoolean(PrefKey.AUTO_FILL_COMMENT, true))
-            return true
-        else if(getBoolean(PrefKey.AUTO_FILL_METHOD, true))
-            return true
-    }
-    return false
+fun shouldStartAutoFillWithFocus(prefHandler: PrefHandler) = with(prefHandler) {
+    shouldStartAutoFill(prefHandler) && getBoolean(PrefKey.AUTO_FILL_FOCUS, true)
 }
 
 fun enableAutoFill(prefHandler: PrefHandler) {
@@ -25,6 +20,7 @@ fun enableAutoFill(prefHandler: PrefHandler) {
         putBoolean(PrefKey.AUTO_FILL_CATEGORY, true)
         putBoolean(PrefKey.AUTO_FILL_COMMENT, true)
         putBoolean(PrefKey.AUTO_FILL_METHOD, true)
+        putBoolean(PrefKey.AUTO_FILL_FOCUS, true)
         putString(PrefKey.AUTO_FILL_ACCOUNT, "aggregate")
     }
 }
@@ -36,6 +32,7 @@ fun disableAutoFill(prefHandler: PrefHandler) {
         putBoolean(PrefKey.AUTO_FILL_CATEGORY, false)
         putBoolean(PrefKey.AUTO_FILL_COMMENT, false)
         putBoolean(PrefKey.AUTO_FILL_METHOD, false)
+        putBoolean(PrefKey.AUTO_FILL_FOCUS, false)
         putString(PrefKey.AUTO_FILL_ACCOUNT, "never")
     }
 }

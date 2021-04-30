@@ -17,6 +17,7 @@ import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.shouldStartAutoFill
+import org.totschnig.myexpenses.preference.shouldStartAutoFillWithFocus
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
 import org.totschnig.myexpenses.provider.DbUtils
@@ -88,7 +89,7 @@ class CategoryDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
 
     override fun populateFields(transaction: ITransaction, withAutoFill: Boolean) {
         super.populateFields(transaction, withAutoFill)
-        if (withAutoFill && !isTemplate && !isSplitPart && shouldStartAutoFill(prefHandler)) {
+        if (withAutoFill && !isTemplate && !isSplitPart && shouldStartAutoFillWithFocus(prefHandler)) {
             viewBinding.Payee.requestFocus()
         }
     }
