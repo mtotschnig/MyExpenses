@@ -67,6 +67,7 @@ public enum PrefKey {
   AUTO_FILL_CATEGORY(R.string.pref_auto_fill_category_key),
   AUTO_FILL_COMMENT(R.string.pref_auto_fill_comment_key),
   AUTO_FILL_METHOD(R.string.pref_auto_fill_method_key),
+  AUTO_FILL_FOCUS(R.string.pref_auto_fill_focus_key),
   AUTO_FILL_HINT_SHOWN("auto_fill_hint_shown"),
   TEMPLATE_CLICK_DEFAULT(R.string.pref_template_click_default_key),
   NEXT_REMINDER_RATE("nextReminderRate"),
