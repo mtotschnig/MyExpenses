@@ -10,6 +10,7 @@
     <string name="saving">"Se salvează…"</string>
     <string name="default_action">"Acțiune prestabilită"</string>
     <string name="full_name">"Nume"</string>
+    <string name="postal_country">"Țară"</string>
     <string name="toast_text_copied">"Text copiat"</string>
     <string name="copy_text">"Copiați în clipboard"</string>
     <string name="stop">"Opriți"</string>

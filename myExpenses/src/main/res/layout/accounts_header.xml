@@ -9,7 +9,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@color/my_material_grey_300"
+        android:background="@color/material_grey_300"
         />
 
     <TextView

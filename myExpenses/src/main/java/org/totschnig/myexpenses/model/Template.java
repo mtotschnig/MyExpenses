@@ -295,6 +295,14 @@ public class Template extends Transaction implements ITransfer, ISplit {
     //Templates do not have a date
   }
 
+  @Override
+  public long getDate() {
+    if (plan != null) {
+      return plan.getDtStart() / 1000;
+    } else
+    return template.getDate();
+  }
+
   /**
    * @param c Cursor positioned at the row we want to extract into the object
    */

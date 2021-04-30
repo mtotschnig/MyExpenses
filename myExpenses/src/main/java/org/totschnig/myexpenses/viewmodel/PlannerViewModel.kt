@@ -37,6 +37,7 @@ import org.totschnig.myexpenses.viewmodel.data.Event
 import org.totschnig.myexpenses.viewmodel.data.PlanInstance
 import org.totschnig.myexpenses.viewmodel.data.PlanInstanceState
 import org.totschnig.myexpenses.viewmodel.data.PlanInstanceUpdate
+import java.lang.IllegalStateException
 
 class PlannerViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
     data class Month(val year: Int, val month: Int) {
@@ -152,6 +153,9 @@ class PlannerViewModel(application: Application) : ContentResolvingAndroidViewMo
             }
             updateDisposables.add(briteContentResolver.createQuery(uri, null, null, null, null, false)
                     .mapToOneOrDefault(mapper, PlanInstanceUpdate(templateId, instanceId, PlanInstanceState.OPEN, null, null))
+                    .doOnError {
+                        CrashHandler.report(IllegalStateException("Query for uri failed: $uri", it))
+                    }
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe {
                         updates.value = it
