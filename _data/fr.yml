@@ -58,7 +58,7 @@ fr:
       history_chart: <b>Graphique historique</b> (flux de trésorerie)
       budgeting: "<b>Budgétisation</b>: comparez vos dépenses aux limites que vous définissez par catégorie sur une base quotidienne, hebdomadaire, mensuelle ou annuelle."
       scan_receipt: "<b>Numériser les reçus</b> : extraire automatiquement le montant, la date et le bénéficiaire"
-      webui: Interface utilisateur Web
+      webui: <b>Interface utilisateur Web</b>
     one-time-payment: Paiement unique
     subscription: Abonnement
   store:

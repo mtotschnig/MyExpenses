@@ -21,7 +21,7 @@ hu:
     thank_you: |
         Köszönjük! Támogatásával nagyban segíti a Kiadásaim további fejlesztését!
     feature:
-      webui: Webes felhasználói kezelőfelület
+      webui: <b>Webes felhasználói kezelőfelület</b>
   permissions:
     internet:
       explanation_cloud_sync: Felhő szinkronizálás

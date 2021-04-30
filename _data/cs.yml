@@ -23,7 +23,7 @@ cs:
     feature-list-title: "Proveďte upgrade aplikace <i>{app_name}</i> a získejte neomezený přístup k následujícím funkcím:"
     feature:
       email_support: <b>Emailová podpora</b> s garantovanou odpovědí během 2 pracovních dnů
-      webui: Webové uživatelské rozhraní
+      webui: <b>Webové uživatelské rozhraní</b>
   permissions:
     internet:
       explanation_crash_reporting: Hlášení o pádech
