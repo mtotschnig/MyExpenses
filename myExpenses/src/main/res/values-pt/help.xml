@@ -36,6 +36,7 @@
   <string name="help_ManageParties_select_mapping_info">Selecione um parceiro tocando nele.</string>
   <string name="help_ManageParties_select_filter_info">Toque em um parceiro para filtrar a lista de transações. Dê um toque longo para selecionar vários parceiros.</string>
   <string name="help_ManageParties_floating_action_button">Use o botão de ação flutuante para adicionar uma nova entrada.</string>
+  <string name="cab_merge_help_text">Se o mesmo parceiro aparecer várias vezes na lista com diferentes variações de grafia, você pode mesclá-los. Você será solicitado a selecionar qual variante manter.</string>
   <!--ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_plans_title">Visualização do calendário de planos</string>
   <string name="help_ManageTemplates_planner_title">Próximas recorrências</string>
@@ -125,6 +126,7 @@
   <string name="form_color_help_text">Na lista de transações de uma conta, sua cor será usada como a cor principal da interface do usuário.</string>
   <string name="form_synchronization_help_text_select">Selecione um destino para sincronização em nuvem.</string>
   <string name="form_synchronization_help_text_add">Os destinos podem ser adicionados na tela Configurações.</string>
+  <string name="form_AccountEdit_active_tags_help_text">Você pode associar uma ou mais etiquetas ativas a cada conta. Quando você cria uma nova transação, ela é automaticamente marcada com essas etiquetas, baseada na conta selecionada.</string>
   <string name="menu_exclude_from_totals_help_text">Se você marcar esta opção, esta conta não será incluída nos agregados por moeda.</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Formulário para formas de pagamento</string>

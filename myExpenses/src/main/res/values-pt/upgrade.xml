@@ -15,6 +15,10 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_329">
+        <item>Parceiros duplicados podem ser mesclados.</item>
+        <item>A quantia restante nas transações divididas pode ser copiada para a área de transferência.</item>
+    </string-array>
     <string-array name="whats_new_328">
         <item>O widget de conta pode ser configurado para exibir uma única conta e levar em consideração futuras transações.</item>
         <item>Exibe a quantidade total de transações selecionadas.</item>

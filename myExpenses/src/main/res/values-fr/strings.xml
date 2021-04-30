@@ -986,4 +986,4 @@
     <string name="merge_parties_select">Sélectionnez le nom du tiers fusionné:</string>
     <!-- This is the label for a field for accounts. Active tags are automatically added to new transactions when an account is selected. -->
     <string name="active_tags">Étiquettes actives</string>
-</resources>
+    </resources>

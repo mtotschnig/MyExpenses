@@ -36,6 +36,7 @@
   <string name="help_ManageParties_select_mapping_info">Seleccione un grupo pulsando sobre él.</string>
   <string name="help_ManageParties_select_filter_info">Pulse sobre un grupo para aplicar filtros a la lista de transacciones. Una pulsación larga permitirá seleccionar varios grupos.</string>
   <string name="help_ManageParties_floating_action_button">Utilice el botón de acción flotante para añadir una nueva entrada.</string>
+  <string name="cab_merge_help_text">Si el mismo grupo aparece varias veces en la lista con diferentes variantes ortográficas, puede fusionarlas. Se le pedirá que seleccione la variante que desea conservar.</string>
   <!--ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_plans_title">Vista en calendario</string>
   <string name="help_ManageTemplates_planner_title">Nuevas actualizaciones</string>
