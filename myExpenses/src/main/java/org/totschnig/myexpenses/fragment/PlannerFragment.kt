@@ -91,7 +91,7 @@ class PlannerFragment : BaseDialogFragment() {
                         intArrayOf()
                 ),
                 intArrayOf(
-                        ResourcesCompat.getColor(resources, R.color.activatedBackground, null),
+                        ResourcesCompat.getColor(resources, R.color.activatedBackgroundPlanner, null),
                         ResourcesCompat.getColor(resources, R.color.cardBackground, null)
                 )
         )
