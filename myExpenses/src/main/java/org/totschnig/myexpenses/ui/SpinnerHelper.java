@@ -6,6 +6,8 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
+import androidx.annotation.Nullable;
+
 /**
  * Spinner Helper class that works around some common issues
  * with the stock Android Spinner
@@ -149,6 +151,7 @@ public class SpinnerHelper implements OnItemSelectedListener {
     return spinner.getItemIdAtPosition(position);
   }
 
+  @Nullable
   public Object getSelectedItem() {
     return spinner.getSelectedItem();
   }

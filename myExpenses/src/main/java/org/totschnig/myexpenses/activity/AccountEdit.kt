@@ -297,8 +297,9 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         val parentId = parent.id
         if (parentId == R.id.Currency) {
             try {
-                val currency = (currencySpinner.selectedItem as Currency).code
-                configureForCurrency(currencyContext[currency])
+                (currencySpinner.selectedItem as? Currency)?.code?.let {
+                    configureForCurrency(currencyContext[it])
+                }
             } catch (e: IllegalArgumentException) {
                 //will be reported to user when he tries so safe
             }
