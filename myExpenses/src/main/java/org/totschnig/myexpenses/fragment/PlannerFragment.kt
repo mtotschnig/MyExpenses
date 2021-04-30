@@ -83,7 +83,7 @@ class PlannerFragment : BaseDialogFragment() {
         super.onCreate(savedInstanceState)
         Icepick.restoreInstanceState(this, savedInstanceState)
         stateObserver = StateObserver()
-        context?.contentResolver?.registerContentObserver(TransactionProvider.PLAN_INSTANCE_STATUS_URI,
+        requireContext().contentResolver.registerContentObserver(TransactionProvider.PLAN_INSTANCE_STATUS_URI,
                 true, stateObserver)
         backgroundColor = ColorStateList(
                 arrayOf(
