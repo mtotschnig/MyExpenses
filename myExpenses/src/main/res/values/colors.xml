@@ -34,7 +34,7 @@
     <color name="colorExpenseHistoryChart">@color/colorExpenseLight</color>
     <color name="colorIncomeHistoryChart">@color/colorIncomeLight</color>
     <color name="colorTransfer">#000080</color>
-    <color name="colorAggregate">@color/my_material_grey_600</color>
+    <color name="colorAggregate">@color/material_grey_600</color>
     <color name="cardHighlightForeground">#4080cbc4</color>
     <color name="colorExpenseDark">#800000</color>
     <color name="colorIncomeDark">#006800</color>
@@ -47,9 +47,7 @@
     <color name="material_indigo">#3F51B5</color>
     <color name="material_grey">#9E9E9E</color>
 
-    <color name="my_material_grey_600">#757575</color>
     <color name="material_grey_400">#BDBDBD</color>
-    <color name="my_material_grey_300">#ffe0e0e0</color>
     <color name="material_grey_700">#ff616161</color>
 
     <color name="premium_licence">#250D47A1</color>
@@ -62,5 +60,6 @@
     <color name="future_background">#11000000</color>
     <color name="myColorBackground">@color/material_grey_50</color>
     <color name="toolbarBackground">#FFFFFF</color>
-    <color name="activatedBackground">@color/my_material_grey_300</color>
+    <color name="activatedBackground">@color/material_grey_300</color>
+    <color name="activatedBackgroundPlanner">@color/material_grey_400</color>
 </resources>

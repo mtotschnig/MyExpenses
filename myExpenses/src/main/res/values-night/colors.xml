@@ -21,4 +21,5 @@
     <color name="myColorBackground">#ff202124</color>
     <color name="toolbarBackground">@color/material_grey_850</color>
     <color name="activatedBackground">@color/material_grey_700</color>
+    <color name="activatedBackgroundPlanner">@color/material_grey_600</color>
 </resources>
