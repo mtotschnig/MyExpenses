@@ -57,6 +57,8 @@ ms:
       roadmap_voting: Hak mengundi dalam </b>peta jalan pembangunan</b>
       history_chart: <b>Carta sejarah</b> (Aliran tunai)
       budgeting: "<b>Belanjawan</b>: Bandingkan perbelanjaan anda untuk anda hadkan per kategori mengikut harian, mingguan, bulanan atau tahunan."
+      scan_receipt: "<b>Imbas resit</b> : Ekstrak jumlah, tarikh dan penerima secara automatik"
+      webui: <b>Antara Muka Pengguna Web</b>
     one-time-payment: Pembayaran sekali sahaja
     subscription: Langganan
   store:

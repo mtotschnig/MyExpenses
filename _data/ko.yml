@@ -57,6 +57,8 @@ ko:
       roadmap_voting: <b>개발 로드맵에</b> 바로 투표
       history_chart: <b>히스토리 차트</b> (현금 흐름)
       budgeting: "<b>예산</b> : 지출을 일일, 주별, 월별 또는 매년 범주별로 설정 한 한도와 비교하십시오."
+      scan_receipt: "<b>영수증 스캔</b> : 금액, 날짜, 수취인 자동 추출"
+      webui: <b>웹 사용자 인터페이스</b>
     one-time-payment: 일회성 결제
     subscription: 신청
   store:

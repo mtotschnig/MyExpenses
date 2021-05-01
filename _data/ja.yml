@@ -57,6 +57,8 @@ ja:
       roadmap_voting: <b>開発ロードマップ</b> の投票権
       history_chart: <b>履歴チャート</b> (キャッシュフロー)
       budgeting: "<b>予算</b>: 毎日、毎週、毎月、または毎年の分類ごとに設定した限度と支出を比較します。"
+      scan_receipt: "<b>領収書のスキャン</b>：金額、日付、受取人を自動的に抽出します"
+      webui: <b>Webユーザーインターフェイス</b>
     one-time-payment: １回限りの課金
     subscription: 定期購入
   store:
