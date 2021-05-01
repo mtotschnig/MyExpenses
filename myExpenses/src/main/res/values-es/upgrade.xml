@@ -15,6 +15,10 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
+    <string-array name="whats_new_329">
+        <item>Los grupos duplicados pueden combinarse.</item>
+        <item>El importe restante de las transacciones divididas puede copiarse en el portapapeles.</item>
+    </string-array>
     <string-array name="whats_new_328">
         <item>El widget de cuenta puede configurarse para mostrar una sola cuenta y tener en cuenta las transacciones futuras.</item>
         <item>Muestre el importe total de las transacciones seleccionadas.</item>

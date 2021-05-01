@@ -612,6 +612,7 @@
     <string name="template">Txantiloia</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sinkronizazioa hodeian</string>
     <string name="all_contrib_key_features">Kontribuzio gakoaren eginbide guztiak</string>
+    <string name="all_extended_key_features">Giltza hedatuaren ezaugarri guztiak</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">Eguneratu</string>
     <string name="pref_backup_cloud_title">Biltegiratu sinkronizazio atzealdekoan</string>

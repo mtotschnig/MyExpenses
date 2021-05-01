@@ -980,4 +980,12 @@
     <string name="account_widget_configuration_sum_total">Incluir transacciones futuras</string>
     <!-- Title of dialogue that allows to configure account widget -->
     <string name="account_widget_configuration">Configuración del widget de cuenta</string>
-    </resources>
+    <!-- Title of a menu entry allowing to merge duplicate entries in the parties table (payee/payer) -->
+    <string name="menu_merge">Combinar</string>
+    <!-- When user selects duplicate parties to be merged, he sees this prompt asking him to select which name should be selected for the merged party -->
+    <string name="merge_parties_select">Seleccionar nombre de grupo combinado:</string>
+    <!-- This is the label for a field for accounts. Active tags are automatically added to new transactions when an account is selected. -->
+    <string name="active_tags">Etiquetas activas</string>
+    <!-- This is used in the title of the email by which user requests an invoice for payment via bank transfer -->
+    <string name="request_for_invoice">Solicitar factura</string>
+</resources>

@@ -126,6 +126,7 @@
   <string name="form_color_help_text">En la lista de transacciones para una cuenta, se utilizará su color como color de la interfaz de usuario principal.</string>
   <string name="form_synchronization_help_text_select">Seleccione un servicio para la sincronización en la nube.</string>
   <string name="form_synchronization_help_text_add">Se pueden añadir servicios desde la pantalla de Configuración.</string>
+  <string name="form_AccountEdit_active_tags_help_text">Puede asociar una o varias etiquetas activas a cada cuenta. Cuando se crea una nueva transacción, se etiqueta automáticamente con ellas, en función de la cuenta seleccionada.</string>
   <string name="menu_exclude_from_totals_help_text">Si selecciona esta opción, esta cuenta no será incluida dentro del conjunto clasificado por moneda.</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">Formulario para métodos de pago</string>
