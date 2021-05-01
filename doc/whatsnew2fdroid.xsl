@@ -50,7 +50,6 @@
                     </xsl:variable>
                     <xsl:choose>
                         <xsl:when test="$special-version-info != ''">
-                            <xsl-text>•&#032;</xsl-text>
                             <xsl:value-of select="$special-version-info" />
                         </xsl:when>
                         <xsl:otherwise>
@@ -69,7 +68,7 @@
         <xsl:if test="$changelog != ''">
             <xsl:variable name="output">
                 <xsl:text>../metadata/</xsl:text>
-                <xsl:call-template name="lang-play">
+                <xsl:call-template name="lang-metadata">
                     <xsl:with-param name="lang" select="$lang" />
                 </xsl:call-template>
                 <xsl:text>/changelogs/</xsl:text>

@@ -94,4 +94,25 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
+    <xsl:template name="lang-metadata">
+        <xsl:param name="lang" />
+        <xsl:choose>
+            <xsl:when test="$lang = 'bg'">bg-BG</xsl:when>
+            <xsl:when test="$lang = 'de'">de-DE</xsl:when>
+            <xsl:when test="$lang = 'en'">en-US</xsl:when>
+            <xsl:when test="$lang = 'es'">es-ES</xsl:when>
+            <xsl:when test="$lang = 'fr'">fr-FR</xsl:when>
+            <xsl:when test="$lang = 'it'">it-IT</xsl:when>
+            <xsl:when test="$lang = 'iw'">he</xsl:when>
+            <xsl:when test="$lang = 'ja'">ja-JP</xsl:when>
+            <xsl:when test="$lang = 'pl'">pl-PL</xsl:when>
+            <xsl:when test="$lang = 'pt'">pt-PT</xsl:when>
+            <xsl:when test="$lang = 'ru'">ru-RU</xsl:when>
+            <xsl:when test="$lang = 'tr'">tr-TR</xsl:when>
+            <xsl:when test="$lang = 'zh'">zh_Hans</xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="$lang" />
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
 </xsl:stylesheet>
