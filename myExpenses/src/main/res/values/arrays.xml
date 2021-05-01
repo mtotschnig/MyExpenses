@@ -576,6 +576,7 @@
     <string name="project_board_328">48#column-13591495</string>
     <string name="project_board_329">49#column-13853714</string>
     <string name="project_board_330">50#column-13929647</string>
+    <string name="project_board_3301">51#column-14080356</string>
 
     <string-array name="comparison_operator_entries">
         <item>@string/comparison_operator_equal</item>

@@ -32,6 +32,8 @@ Les fonctions Premium sont déverrouillées en achetant l'une des clés de licen
 - Toutes les fonctions de la Clé Étendue
 - <b>Budgétisation</b>: comparez vos dépenses aux limites que vous définissez par catégorie sur une base quotidienne, hebdomadaire, mensuelle ou annuelle.
 - <b>Graphique historique</b> (flux de trésorerie)
+- <b>Numériser les reçus</b> : extraire automatiquement le montant, la date et le bénéficiaire
+- <b>Interface utilisateur Web</b>
 - Nombre illimité <b>de modèles et d'échéances pour les opérations ventilées</b>
 - <b>Assistance par e-mail</b> avec réponse garantie sous 2 jours ouvrables
 - Voter sur la <b>feuille de route pour le développement</b>

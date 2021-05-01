@@ -32,6 +32,8 @@ Funkcje premium są odblokowywane przez zakup jednego z następujących kluczy l
 - Wszystkie funkcje Extended Key
 - <b>Budgeting</b>: Compare your spending to limits you set per category on a daily, weekly, monthly or yearly basis.
 - <b>History chart</b> (Cash flow)
+- <b>Scan receipts</b>: Automatically extract amount, date and payee
+- <b>Web User Interface</b>
 - Nieograniczona liczba <b>szablonów i planów podziału transakcji</b>
 - <b>Wysyłaj pocztę e-mail</b> z reakcją gwarantowaną po upływie 2 dni roboczych
 - Głosowanie bezpośrednio na mapie drogowej <b>rozwoju</b>

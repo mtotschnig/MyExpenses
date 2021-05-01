@@ -32,6 +32,8 @@ Fitur Premium berikut boleh dibuka dengan membeli salah satu kunci lesen berikut
 - Semua fitur Kunci Lanjutan
 - <b>Belanjawan</b>: Bandingkan perbelanjaan anda untuk anda hadkan per kategori mengikut harian, mingguan, bulanan atau tahunan.
 - <b>Carta sejarah</b> (Aliran tunai)
+- <b>Imbas resit</b> : Ekstrak jumlah, tarikh dan penerima secara automatik
+- <b>Antara Muka Pengguna Web</b>
 - Bilangan <b>templat dan plan tanpa had untuk transaksi berasingan</b>
 - <b>Sokongan emel</b> dengan maklumbalas dijamin selepas 2 hari bekerja
 - Hak mengundi dalam </b>peta jalan pembangunan</b>

@@ -32,6 +32,8 @@ Las características premium se desbloquean al comprar una de la siguientes llav
 - Todas las características de la llave Extendida
 - <b>Presupuestar</b>: Compare sus gastos con los límites que establezca por categoría de forma diaria, semanal o anual.
 - <b>Gráfico del historial</b> (Flujo de efectivo)
+- <b>Escanear los recibos</b>: Extrae automáticamente el importe, la fecha y el acreedor
+- <b>Interfaz de usuario web</b>
 - Número ilimitado de <b>plantillas y proyectos para transacciones divididas</b>
 - <b>Soporte por correo electrónico</b> con respuesta garantizada en 2 días laborales
 - Derecho a participar en la <b>hoja de ruta de desarrollo</b>

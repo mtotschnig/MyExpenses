@@ -30,8 +30,10 @@ Os recursos premium são desbloqueados pela compra de uma das seguintes chaves d
 <b>Chave profissional</b>
 
 - Todos os recursos da chave estendida
-- <b>Budgeting</b>: Compare your spending to limits you set per category on a daily, weekly, monthly or yearly basis.
+- <b>Orçamento</b> : compare seus gastos com os limites definidos por categoria em uma base diária, semanal, mensal ou anual.
 - <b>Diagrama histórico</b> (fluxo de caixa)
+- <b>Digitalizar recibos</b>: Extraia automaticamente a quantia, a data e o beneficiário
+- <b>Interface web do usuário</b>
 - Número ilimitado de <b>modelos e planos para transações divididas</b>
 - <b>Suporte por e-mail</b> com garantia de resposta em até 2 dias úteis
 - Direito de voto no <b>roteiro de desenvolvimento</b>

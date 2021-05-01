@@ -32,6 +32,8 @@ Le funzionalità premium sono sbloccate con l'acquisto di una delle seguenti lic
 - Tutte le funzionalità della Licenza Funzionalità Estese
 - <b> Bilancio </b>: confronta le tue spese con i limiti imposti per categoria su base giornaliera, settimanale, mensile o annuale.
 - <b> Grafico storico </b> (flusso di cassa)
+- <b>Scansiona gli scontrini</b> : estrai automaticamente l'importo, la data ed il beneficiario
+- <b>Interfaccia utente Web</b>
 - Numero illimitato di <b> modelli e piani per le transazioni frazionate </b>
 - <b> Supporto email </b> con risposta garantita entro 2 giorni lavorativi
 - Votare direttamente sulla <b>roadmap di sviluppo</b>

@@ -32,6 +32,8 @@ Premium işlevlerin kilidi aşağıdaki lisans anahtarlarının satın alınmas�
 - Genişletilmiş Anahtar'ın tüm işlevleri
 - <b>Bütçeleme</b>: Harcamalarınızı kategori başına günlük, haftalık, aylık veya senelik olarak belirlediğiniz sınırlarla karşılaştırın.
 - <b>Tarihçe grafiği</b> (Nakit akışı)
+- <b>Makbuz tarama</b>: Otomatik olarak meblağ, tarih ve alacaklı bilgilerini çıkar
+- <b>İnternet Kullanıcı Arayüzü</b>
 - Sınırsız sayıda <b>şablon ve bölünmüş muameleler için planlama</b>
 - 2 iş günü sonrasında cevap garantili <b>e-posta desteği</b>
 - <b>Geliştirme yol haritası</b> hakkında oy verme hakkı

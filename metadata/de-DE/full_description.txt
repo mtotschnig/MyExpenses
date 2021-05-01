@@ -32,6 +32,8 @@ Premium-Funktionen werden durch den Kauf eines der folgenden Lizenzschlüssel fr
 - Alle Funktionen des erweiterten Schlüssels
 - <b>Budgetierung</b>: Vergleichen Sie Ihre Ausgaben mit den von Ihnen festgelegten Grenzwerten pro Kategorie, täglich, wöchentlich, monatlich oder jährlich.
 - <b>Verlaufsdiagramm</b> (Cashflow)
+- <b>Quittungen scannen</b> : Betrag, Datum und Zahlungsempfänger automatisch extrahieren
+- <b>Web-Benutzeroberfläche</b>
 - Unbegrenzte Anzahl von <b>Vorlagen und Plänen für mehrteilige Buchungen</b>
 - <b>E-Mail-Support</b> mit garantierter Antwort innerhalb von 2 Werktagen
 - Stimmrecht zum <b>Entwicklungsfahrplan</b>
