@@ -18,7 +18,6 @@ fun enableAutoFill(prefHandler: PrefHandler) =
 
 fun disableAutoFill(prefHandler: PrefHandler) =
         prefHandler.putBoolean(PrefKey.AUTO_FILL_SWITCH, false)
-}
 
 fun PrefHandler.putLongList(key: String, value: List<Long>) {
     putString(key, value.joinToString(separator = ","))
