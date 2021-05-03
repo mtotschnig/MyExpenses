@@ -21,6 +21,7 @@ import javax.inject.Inject
 class UpgradeHandlerViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
     @Inject
     lateinit var settings: SharedPreferences
+
     @Inject
     lateinit var discoveryHelper: IDiscoveryHelper
 
@@ -89,6 +90,15 @@ class UpgradeHandlerViewModel(application: Application) : ContentResolvingAndroi
         }
         if (fromVersion < 429 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             prefHandler.putString(PrefKey.UI_THEME_KEY, "default")
+        }
+        if (fromVersion < 486) {
+            with(prefHandler) {
+                putBoolean(PrefKey.AUTO_FILL_SWITCH, (getBoolean(PrefKey.AUTO_FILL_AMOUNT, false)
+                        || getBoolean(PrefKey.AUTO_FILL_CATEGORY, false)
+                        || getBoolean(PrefKey.AUTO_FILL_COMMENT, false)
+                        || getBoolean(PrefKey.AUTO_FILL_METHOD, false)
+                        || getString(PrefKey.AUTO_FILL_ACCOUNT, "never") != "never"))
+            }
         }
     }
 }

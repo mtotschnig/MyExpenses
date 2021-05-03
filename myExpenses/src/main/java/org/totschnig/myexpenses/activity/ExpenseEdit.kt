@@ -1036,24 +1036,24 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManag
         when (id) {
             AUTOFILL_CURSOR -> {
                 val dataToLoad: MutableList<String> = ArrayList()
-                val autoFillAccountFromPreference = prefHandler.getString(PrefKey.AUTO_FILL_ACCOUNT, "never")
+                val autoFillAccountFromPreference = prefHandler.getString(PrefKey.AUTO_FILL_ACCOUNT, "aggregate")
                 val autoFillAccountFromExtra = intent.getBooleanExtra(KEY_AUTOFILL_MAY_SET_ACCOUNT, false)
                 val overridePreferences = args!!.getBoolean(KEY_AUTOFILL_OVERRIDE_PREFERENCES)
                 val mayLoadAccount = overridePreferences && autoFillAccountFromExtra || autoFillAccountFromPreference == "always" ||
                         autoFillAccountFromPreference == "aggregate" && autoFillAccountFromExtra
-                if (overridePreferences || prefHandler.getBoolean(PrefKey.AUTO_FILL_AMOUNT, false)) {
+                if (overridePreferences || prefHandler.getBoolean(PrefKey.AUTO_FILL_AMOUNT, true)) {
                     dataToLoad.add(DatabaseConstants.KEY_CURRENCY)
                     dataToLoad.add(KEY_AMOUNT)
                 }
-                if (overridePreferences || prefHandler.getBoolean(PrefKey.AUTO_FILL_CATEGORY, false)) {
+                if (overridePreferences || prefHandler.getBoolean(PrefKey.AUTO_FILL_CATEGORY, true)) {
                     dataToLoad.add(DatabaseConstants.KEY_CATID)
                     dataToLoad.add(DatabaseConstants.CAT_AS_LABEL)
                     dataToLoad.add(DatabaseConstants.CATEGORY_ICON)
                 }
-                if (overridePreferences || prefHandler.getBoolean(PrefKey.AUTO_FILL_COMMENT, false)) {
+                if (overridePreferences || prefHandler.getBoolean(PrefKey.AUTO_FILL_COMMENT, true)) {
                     dataToLoad.add(DatabaseConstants.KEY_COMMENT)
                 }
-                if (overridePreferences || prefHandler.getBoolean(PrefKey.AUTO_FILL_METHOD, false)) {
+                if (overridePreferences || prefHandler.getBoolean(PrefKey.AUTO_FILL_METHOD, true)) {
                     dataToLoad.add(DatabaseConstants.KEY_METHODID)
                 }
                 if (mayLoadAccount) {
