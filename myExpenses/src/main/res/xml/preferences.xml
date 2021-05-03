@@ -131,6 +131,9 @@
             <SwitchPreferenceCompat
                 android:key="@string/pref_auto_fill_method_key"
                 android:title="@string/method" />
+            <SwitchPreferenceCompat
+                android:key="@string/pref_auto_fill_focus_key"
+                android:title="@string/auto_fill_focus"/>
         </PreferenceScreen>
 
         <PreferenceScreen
