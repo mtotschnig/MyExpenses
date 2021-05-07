@@ -126,6 +126,7 @@
   <string name="form_color_help_text">ברשימת הפעולות עבור חשבון, צבעו ישמש כצבע ממשק משתמש ראשי.</string>
   <string name="form_synchronization_help_text_select">בחר backend עבור סנכרון ענן.</string>
   <string name="form_synchronization_help_text_add">ניתן להוסיף Backends ממסך ההגדרות.</string>
+  <string name="form_AccountEdit_active_tags_help_text">אתה יכול לשייך מספר תגים פעילים או יותר לכל חשבון. כשאתה יוצר עסקה חדשה, היא מתויגת אוטומטית עם אלה, על סמך החשבון שנבחר.</string>
   <string name="menu_exclude_from_totals_help_text">אם תסמן אפשרות זו, חשבון זה לא ייכלל במצטבר למטבע.</string>
   <!--MethodEdit-->
   <string name="help_MethodEdit_title">טופס לשיטות תשלום</string>

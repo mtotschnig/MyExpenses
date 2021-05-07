@@ -107,6 +107,7 @@
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Saldo %1$s</string>
     <string name="dialog_title_contrib_feature">Funkcja premium</string>
+    <string name="dialog_title_warning_delete_category">Usunąć kategorię?</string>
     <string name="dialog_title_warning_delete_template">Usunąć szablon?</string>
     <string name="dialog_title_warning_delete_transaction">Usunąć transakcję?</string>
     <string name="expense">Wydatek</string>
@@ -215,6 +216,7 @@
     <string name="no_exportable_expenses">Nie ma transakcji które nie zostały jeszcze wyeksportowane.</string>
     <string name="no_filemanager_installed">Nie zainstalowano menedżera plików</string>
     <string name="no_calendar_app_installed">Nie znaleziono aplikacji do edytowania wydarzenia w kalendarzu.</string>
+    <string name="image_capture_not_installed">Nie odnaleziono aplikacji do robienia zdjęć.</string>
     <string name="no_mapped_transactions">Żadne z transakcji nie zostały zmapowane do kategorii podczas tego okresu.</string>
     <string name="no_methods">Brak metod płatności.</string>
     <string name="no_parties">Brak partii.</string>
@@ -607,6 +609,8 @@
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Synchronizacja w chmurze</string>
     <string name="all_contrib_key_features">Wszystkie funkcje Contrib Key</string>
     <string name="all_extended_key_features">Wszystkie funkcje Extended Key</string>
+    <!-- button leading user to purchase flow for licence keys -->
+    <string name="upgrade_now">Aktualizuj</string>
     <string name="pref_backup_cloud_title">Przechowuj na serwerze synchronizacji</string>
     <string name="pref_backup_cloud_summary">Oprócz przechowywania lokalnego na urządzeniu, plik kopii zapasowej można skopiować do zdalnego serwera.</string>
     <string name="auto_backup_cloud_create_backend">Utwórz serwer synchronizacji z głównego ekranu ustawień.</string>
@@ -636,6 +640,8 @@
     <string name="onboarding_get_started">Zacznij</string>
     <string name="onboarding_more_options">Więcej opcji</string>
     <string name="onboarding_restore_from_cloud">Przywróć z synchronizowanej chmury</string>
+    <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
+    <string name="onboarding_restore_from_cloud_backup">Kopie zapasowe</string>
     <string name="onboarding_restore_from_local">Przywróć lokalną kopię</string>
     <string name="dialog_button_add">Dodaj</string>
     <string name="template_create_error">Błąd podczas zapisywania szablonu</string>
@@ -764,6 +770,7 @@
     <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
     <string name="content_description_encrypted">Szyfrowane</string>
     <string name="translated_by">Tłumaczenie</string>
+    <string name="warning_no_account">Przynajmniej jedno konto musi zostać założone, aby móc dodać pierwszą transakcję.</string>
     <string name="pref_category_exchange_rates">Kursy wymiany</string>
     <string name="menu_create_budget">Nowy budżet</string>
     <string name="budget_duration_from">Od</string>

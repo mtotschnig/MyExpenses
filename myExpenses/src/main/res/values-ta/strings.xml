@@ -953,17 +953,39 @@
     <string name="content_description_edit_plan">நாட்காட்டி செயலியில் திட்டத்தைத் திருத்து</string>
     <string name="reset_equivalent_amounts_success">சமமான தொகைகள் நிலை கொணரப்பட்டன</string>
     <string name="menu_save_and_new_content_description">தரவைச் சேமிக்கவும், அதே தரவுடன் புதிய பரிவர்த்தனையை உருவாக்க படிவத்தைத் திறந்து விடவும்.</string>
+    <!-- Title of a preference where user can select between Ml Kit and Tesseract as Engine for Optical character recognition -->
+    <string name="pref_ocr_engine_title">உரை அறிதலுக்கான இயந்திரம்</string>
+    <!-- Title of a preference where user can select language for text recognition with Tesseract -->
+    <string name="pref_tesseract_language_title">Tesseract-க்கான மொழி</string>
+    <!-- %s is replaced with language -->
+    <string name="tesseract_download_confirmation">%s க்கான உரை அறிதல் தரவைப் பதிவிறக்க விரும்புகிறீர்களா?</string>
     <!-- %s is replaced with language -->
     <string name="download_completed">பதிவிறக்கம் (%s) முடிந்தது.</string>
+    <!-- %s is replaced with information on the engine or application used for running text recognition -->
+    <string name="ocr_recognition_info">%s உடன் உரை அறிதலை இயக்குகிறது</string>
+    <string name="ocr_download_info">உரை அறிதல் திறன் வெளிப்புற செயலியால் வழங்கப்படுகிறது.</string>
+    <!-- %s is replaced with the title of the preference for setting a passphrase for backups (pref_security_export_passphrase_title) -->
+    <string name="warning_unencrypted_backup">இந்தச் சாதனத்தில் அங்கீகரிக்கப்படாத அணுகலிலிருந்து உங்கள் தரவு பாதுகாக்கப்பட்டாலும், நீங்கள் %s ஐ விருப்பமைக்காவிட்டால், குறியாக்கம் இல்லாமல் காப்புப்பிரதிகள் உருவாக்கப்படுகின்றன.</string>
+    <!-- Title of a preference switch that allows to configure display of group header. If switched on sums for income/expense/transfer are shown -->
+    <string name="pref_group_header_show_details_summary">குழு தலைப்பில் விவரமான கூட்டு தொகைகளைக் காட்டு</string>
     <!-- Title of a menu item and a dialogue that allow to adjust the current balance. User can enter the new balance, and transaction form is opened with the amount prefiled to the difference between old and new balance  -->
     <string name="new_balance">புதிய இருப்பு</string>
     <string name="title_webui">வலை பயனர் இடைமுகம்</string>
     <string name="single_feature_info">மாற்றாக இந்த அம்சத்திற்கு மட்டுமே நீங்கள் வரம்பற்ற அணுகலை வாங்க முடியும்.</string>
     <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
     <string name="recurrence_last_day_of_month">கடைசி நாள்</string>
+    <string name="warning_link_transfer">தேர்ந்தெடுக்கப்பட்ட இரண்டு பரிவர்த்தனைகளும் பரிமாற்றமாக இணைக்கப்படும். பணம்  பெறுபவர் / செலுத்துபவர் மற்றும் வகை விவரங்கள் கைவிடப்படும்.</string>
+    <!-- This is the title of an entry on the configuration screen for the account widget. It allows to decide which number should be displayed for each account: the current balance or the total (which included future transactions) -->
+    <string name="account_widget_configuration_sum">காட்டப்படும் கூட்டு தொகையின் வகை</string>
     <string name="account_widget_configuration_sum_total">எதிர்கால பரிவர்த்தனைகளை உள்ளடக்கு</string>
     <!-- Title of dialogue that allows to configure account widget -->
     <string name="account_widget_configuration">கணக்கு நிரல் பலகை வடிவமைப்பு</string>
     <!-- Title of a menu entry allowing to merge duplicate entries in the parties table (payee/payer) -->
     <string name="menu_merge">ஒன்றிணை</string>
-    </resources>
+    <!-- When user selects duplicate parties to be merged, he sees this prompt asking him to select which name should be selected for the merged party -->
+    <string name="merge_parties_select">இணைக்கப்பட்ட தரப்பின் பெயரைத் தேர்ந்தெடுக்கவும்:</string>
+    <!-- This is the label for a field for accounts. Active tags are automatically added to new transactions when an account is selected. -->
+    <string name="active_tags">செயலிலுள்ள குறிச்சொற்கள்</string>
+    <!-- This is used in the title of the email by which user requests an invoice for payment via bank transfer -->
+    <string name="request_for_invoice">விலைப்பட்டியலை கோரு</string>
+</resources>
