@@ -133,11 +133,12 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, LoaderManager.L
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         if (requestCode == IMPORT_FILENAME_REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK && data != null) {
+            if (resultCode == Activity.RESULT_OK && intent != null) {
                 try {
-                    uri = ImportFileResultHandler.handleFilenameRequestResult(this, data)
+                    uri = intent.data
+                    ImportFileResultHandler.handleFilenameRequestResult(this, uri)
                 } catch (throwable: Throwable) {
                     uri = null
                     (requireActivity() as ProtectedFragmentActivity).showSnackbar(throwable.message!!)

@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.util;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.widget.EditText;
 
@@ -20,8 +19,7 @@ public class ImportFileResultHandler {
   private ImportFileResultHandler() {
   }
 
-  public static Uri handleFilenameRequestResult(FileNameHostFragment hostFragment, Intent data) throws Throwable {
-    Uri uri = data.getData();
+  public static void handleFilenameRequestResult(FileNameHostFragment hostFragment, Uri uri) throws Throwable {
     String errorMsg;
     Context context = hostFragment.getContext();
     EditText fileNameEditText = hostFragment.getFilenameEditText();
@@ -34,7 +32,7 @@ public class ImportFileResultHandler {
         if (displayName == null) {
           //SecurityException raised during getDisplayName
           errorMsg = "Error while retrieving document";
-          handleError(errorMsg, context, fileNameEditText);
+          handleError(errorMsg, fileNameEditText);
         } else {
           String type = context.getContentResolver().getType(uri);
           if (type != null) {
@@ -42,7 +40,7 @@ public class ImportFileResultHandler {
             if (typeParts.length == 0 ||
                 !hostFragment.checkTypeParts(typeParts, FileUtils.getExtension(displayName))) {
               errorMsg = context.getString(R.string.import_source_select_error, hostFragment.getTypeName());
-              handleError(errorMsg, context, fileNameEditText);
+              handleError(errorMsg, fileNameEditText);
             }
           }
         }
@@ -61,10 +59,9 @@ public class ImportFileResultHandler {
         }
       }*/
     }
-    return uri;
   }
 
-  private static void handleError(String errorMsg, Context context, EditText fileNameEditText) throws Throwable {
+  private static void handleError(String errorMsg, EditText fileNameEditText) throws Throwable {
     fileNameEditText.setError(errorMsg);
     throw new Throwable(errorMsg);
   }
@@ -84,9 +81,9 @@ public class ImportFileResultHandler {
   public static void handleFileNameHostOnResume(FileNameHostFragment hostFragment, PrefHandler prefHandler) {
     if (hostFragment.getUri() == null) {
       String restoredUriString = prefHandler.getString(hostFragment.getPrefKey(), "");
-      if (!restoredUriString.equals("")) {
+      if (!"".equals(restoredUriString)) {
         Uri restoredUri = Uri.parse(restoredUriString);
-        if (!FileUtils.isDocumentUri(hostFragment.getContext(), restoredUri)) {
+        if (PermissionHelper.canReadUri(restoredUri, hostFragment.getContext())) {
           String displayName = DialogUtils.getDisplayName(restoredUri);
           if (displayName != null) {
             hostFragment.setUri(restoredUri);

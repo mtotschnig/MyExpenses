@@ -160,8 +160,18 @@
             android:exported="false" />
         <activity
             android:name=".activity.BackupRestoreActivity"
-            android:exported="false"
-            android:theme="@style/Translucent" />
+            android:exported="true"
+            android:theme="@style/Translucent">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="content" />
+                <data android:mimeType="application/zip" />
+                <data android:mimeType="application/octet-stream" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".activity.GrisbiImport"
@@ -276,11 +286,12 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.AccountWidgetConfigure"
+        <activity
+            android:name=".activity.AccountWidgetConfigure"
             android:label="@string/account_widget_configuration"
             android:theme="@style/WidgetConfiguration">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
 

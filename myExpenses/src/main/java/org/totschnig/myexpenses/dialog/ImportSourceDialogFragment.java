@@ -47,30 +47,35 @@ public abstract class ImportSourceDialogFragment extends BaseDialogFragment
   public ImportSourceDialogFragment() {
     super();
   }
+
   abstract int getLayoutId();
+
   abstract String getLayoutTitle();
+
   public boolean checkTypeParts(String[] typeParts, String extension) {
-   return ImportFileResultHandler.checkTypePartsDefault(typeParts);
+    return ImportFileResultHandler.checkTypePartsDefault(typeParts);
   }
 
   @Override
-  public void onCancel (DialogInterface dialog) {
-    if (getActivity()==null) {
+  public void onCancel(DialogInterface dialog) {
+    if (getActivity() == null) {
       return;
     }
     //TODO: we should not depend on 
     ((MessageDialogListener) getActivity()).onMessageDialogDismissOrCancel();
   }
+
   @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     AlertDialog.Builder builder = initBuilderWithView(getLayoutId());
     setupDialogView(dialogView);
     return builder.setTitle(getLayoutTitle())
-      .setPositiveButton(android.R.string.ok,this)
-      .setNegativeButton(android.R.string.cancel,this)
-      .create();
+        .setPositiveButton(android.R.string.ok, this)
+        .setNegativeButton(android.R.string.cancel, this)
+        .create();
   }
+
   @Override
   public void onDestroyView() {
     super.onDestroyView();
@@ -84,16 +89,21 @@ public abstract class ImportSourceDialogFragment extends BaseDialogFragment
   }
 
   @Override
-  public void onActivityResult(int requestCode, int resultCode, Intent data) {
+  public void onActivityResult(int requestCode, int resultCode, Intent intent) {
     if (requestCode == IMPORT_FILENAME_REQUEST_CODE) {
-      if (resultCode == Activity.RESULT_OK && data != null) {
-        try {
-          mUri = ImportFileResultHandler.handleFilenameRequestResult(this, data);
-        } catch (Throwable throwable) {
-          mUri = null;
-          showSnackbar(throwable.getMessage(), Snackbar.LENGTH_LONG, null);
-        }
+      if (resultCode == Activity.RESULT_OK && intent != null) {
+        mUri = intent.getData();
+        handleUri();
       }
+    }
+  }
+
+  public void handleUri() {
+    try {
+      ImportFileResultHandler.handleFilenameRequestResult(this, mUri);
+    } catch (Throwable throwable) {
+      mUri = null;
+      showSnackbar(throwable.getMessage(), Snackbar.LENGTH_LONG, null);
     }
   }
 
@@ -103,6 +113,7 @@ public abstract class ImportSourceDialogFragment extends BaseDialogFragment
       onCancel(dialog);
     }
   }
+
   @Override
   public void onResume() {
     super.onResume();
@@ -117,7 +128,7 @@ public abstract class ImportSourceDialogFragment extends BaseDialogFragment
 
   @Override
   public void onClick(View v) {
-   DialogUtils.openBrowse(mUri, this);
+    DialogUtils.openBrowse(mUri, this);
   }
 
   protected boolean isReady() {
@@ -127,6 +138,7 @@ public abstract class ImportSourceDialogFragment extends BaseDialogFragment
   protected void setButtonState() {
     ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(isReady());
   }
+
   @Override
   public void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
@@ -134,6 +146,7 @@ public abstract class ImportSourceDialogFragment extends BaseDialogFragment
       outState.putString(getPrefKey(), mUri.toString());
     }
   }
+
   @Override
   public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);

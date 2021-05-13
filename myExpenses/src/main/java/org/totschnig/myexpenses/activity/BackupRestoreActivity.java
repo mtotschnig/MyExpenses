@@ -16,6 +16,7 @@
 package org.totschnig.myexpenses.activity;
 
 import android.content.ComponentName;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -48,7 +49,6 @@ import eltos.simpledialogfragment.SimpleDialog;
 import eltos.simpledialogfragment.form.Input;
 import eltos.simpledialogfragment.form.SimpleFormDialog;
 import icepick.State;
-import timber.log.Timber;
 
 import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_DEVICE_LOCK_SCREEN;
 import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_LEGACY;
@@ -59,8 +59,6 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
   public static final String FRAGMENT_TAG = "BACKUP_SOURCE";
   private static final String DIALOG_TAG_PASSWORD = "PASSWORD";
 
-  private boolean calledFromOnboarding = false;
-
   public static final String ACTION_BACKUP = "BACKUP";
   public static final String ACTION_RESTORE = "RESTORE";
   public static final String ACTION_RESTORE_LEGACY = "RESTORE_LEGACY";
@@ -70,12 +68,6 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
 
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    ComponentName callingActivity = getCallingActivity();
-    if (callingActivity != null && Utils.getSimpleClassNameFromComponentName(callingActivity)
-        .equals(OnboardingActivity.class.getSimpleName())) {
-      calledFromOnboarding = true;
-      Timber.i("Called from onboarding");
-    }
     if (savedInstanceState != null) {
       return;
     }
@@ -120,8 +112,9 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
         }
         break;
       }
-      case ACTION_RESTORE: {
-        BackupSourcesDialogFragment.newInstance().show(
+      case ACTION_RESTORE:
+      case Intent.ACTION_VIEW: {
+        BackupSourcesDialogFragment.newInstance(getIntent().getData()).show(
             getSupportFragmentManager(), FRAGMENT_TAG);
         break;
 
@@ -133,10 +126,9 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
     showMessage(message);
   }
 
-  private void showRestoreDialog(Uri fileUri, int restorePlanStrategy) {
-    Bundle bundle = buildRestoreArgs(fileUri, restorePlanStrategy);
+  private void showRestoreDialog(Bundle bundle) {
     bundle.putInt(ConfirmationDialogFragment.KEY_TITLE, R.string.pref_restore_title);
-    final String message = getString(R.string.warning_restore, DialogUtils.getDisplayName(fileUri))
+    final String message = getString(R.string.warning_restore, DialogUtils.getDisplayName(bundle.getParcelable(TaskExecutionFragment.KEY_FILE_PATH)))
         + " " + getString(R.string.continue_confirmation);
     bundle.putString(
         ConfirmationDialogFragment.KEY_MESSAGE,
@@ -228,19 +220,31 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
     }
   }
 
+  public boolean calledExternally() {
+    return Intent.ACTION_VIEW.equals(getIntent().getAction());
+  }
+
+  private boolean calledFromOnboarding() {
+    ComponentName callingActivity = getCallingActivity();
+    return callingActivity != null && Utils.getSimpleClassNameFromComponentName(callingActivity)
+        .equals(OnboardingActivity.class.getSimpleName());
+  }
+
   public void onSourceSelected(Uri mUri, int restorePlanStrategy) {
-    if (calledFromOnboarding) {
-      final Bundle args = buildRestoreArgs(mUri, restorePlanStrategy);
+    final Bundle args = buildRestoreArgs(mUri, restorePlanStrategy);
+    if (calledFromOnboarding() || calledExternally()) {
       if (FileUtils.getPath(this, mUri).endsWith("enc")) {
         SimpleFormDialog.build().msg(R.string.backup_is_encrypted)
             .fields(Input.password(KEY_PASSWORD).required())
             .extra(args)
             .show(this, DIALOG_TAG_PASSWORD);
-      } else {
-        doRestore(args);
+        return;
       }
+    }
+    if (calledFromOnboarding()) {
+      doRestore(args);
     } else {
-      showRestoreDialog(mUri, restorePlanStrategy);
+      showRestoreDialog(args);
     }
   }
 
@@ -248,7 +252,11 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
   public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
     if (DIALOG_TAG_PASSWORD.equals(dialogTag)) {
       if (which == BUTTON_POSITIVE) {
-        doRestore(extras);
+        if (calledFromOnboarding()) {
+          doRestore(extras);
+        } else {
+          showRestoreDialog(extras);
+        }
       } else {
         abort();
       }
@@ -302,8 +310,12 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
 
   @Override
   public void onProgressDialogDismiss() {
-    setResult(taskResult);
-    finish();
+    if (calledExternally()) {
+      restartAfterRestore();
+    } else {
+      setResult(taskResult);
+      finish();
+    }
   }
 
   @Override
@@ -327,6 +339,6 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
 
   @Override
   protected int getSnackbarContainerId() {
-    return  android.R.id.content;
+    return android.R.id.content;
   }
 }

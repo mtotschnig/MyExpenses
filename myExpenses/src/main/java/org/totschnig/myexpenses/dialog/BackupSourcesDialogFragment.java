@@ -1,12 +1,16 @@
 package org.totschnig.myexpenses.dialog;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
+import android.net.Uri;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioGroup;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.BackupRestoreActivity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import timber.log.Timber;
 
@@ -15,17 +19,33 @@ public class BackupSourcesDialogFragment extends ImportSourceDialogFragment
   RadioGroup mRestorePlanStrategie;
   RadioGroup.OnCheckedChangeListener mCalendarRestoreButtonCheckedChangeListener;
 
-  
-  public static BackupSourcesDialogFragment newInstance() {
-    return new BackupSourcesDialogFragment();
+  public BackupSourcesDialogFragment() {
+    super();
   }
+
+  //Normally, it is recommended to pass configuration to fragment via setArguments,
+  //but since we safe uri in instance state, it is safe to set it in constructor
+  public BackupSourcesDialogFragment(Uri data) {
+    this();
+    mUri = data;
+  }
+
+  public static BackupSourcesDialogFragment newInstance(Uri data) {
+    return new BackupSourcesDialogFragment(data);
+  }
+
   @Override
   protected int getLayoutId() {
     return R.layout.backup_restore_dialog;
   }
+
   @Override
   protected void setupDialogView(View view) {
     super.setupDialogView(view);
+    final int selectorVisibility = ((BackupRestoreActivity) requireActivity()).calledExternally()
+        ? View.GONE : View.VISIBLE;
+    view.findViewById(R.id.summary).setVisibility(selectorVisibility);
+    view.findViewById(R.id.btn_browse).setVisibility(selectorVisibility);
     mRestorePlanStrategie = DialogUtils.configureCalendarRestoreStrategy(view);
     if (mRestorePlanStrategie != null) {
       mCalendarRestoreButtonCheckedChangeListener =
@@ -33,6 +53,17 @@ public class BackupSourcesDialogFragment extends ImportSourceDialogFragment
       mRestorePlanStrategie.setOnCheckedChangeListener(mCalendarRestoreButtonCheckedChangeListener);
     }
   }
+
+  @NonNull
+  @Override
+  public Dialog onCreateDialog(Bundle savedInstanceState) {
+    final Dialog dialog = super.onCreateDialog(savedInstanceState);
+    if (savedInstanceState == null && mUri != null) {
+      handleUri();
+    }
+    return dialog;
+  }
+
   @Override
   protected String getLayoutTitle() {
     return getString(R.string.pref_restore_title);
@@ -42,6 +73,7 @@ public class BackupSourcesDialogFragment extends ImportSourceDialogFragment
   public String getTypeName() {
     return "Zip";
   }
+
   @Override
   public String getPrefKey() {
     return "backup_restore_file_uri";
@@ -61,11 +93,10 @@ public class BackupSourcesDialogFragment extends ImportSourceDialogFragment
 
   @Override
   public void onClick(DialogInterface dialog, int id) {
-    if (getActivity()==null) {
+    if (getActivity() == null) {
       return;
     }
     if (id == AlertDialog.BUTTON_POSITIVE) {
-      maybePersistUri();
       ((BackupRestoreActivity) getActivity()).onSourceSelected(
           mUri,
           mRestorePlanStrategie == null ? R.id.restore_calendar_handling_ignore :
@@ -74,6 +105,7 @@ public class BackupSourcesDialogFragment extends ImportSourceDialogFragment
       super.onClick(dialog, id);
     }
   }
+
   @Override
   protected boolean isReady() {
     if (super.isReady()) {

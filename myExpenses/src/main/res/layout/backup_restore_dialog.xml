@@ -24,6 +24,7 @@
         android:stretchColumns="*">
 
         <TextView
+            android:id="@+id/summary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/pref_restore_summary"/>
