@@ -143,7 +143,7 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
                 position = XAxis.XAxisPosition.BOTTOM
                 granularity = 1f
                 valueFormatter = IAxisValueFormatter { value: Float, axis: AxisBase -> if (axis.axisMinimum == value) "" else formatXValue(value) }
-                textColor = textColor
+                textColor = this@HistoryChart.textColor
             }
             configureYAxis(axisLeft)
             configureYAxis(axisRight)
