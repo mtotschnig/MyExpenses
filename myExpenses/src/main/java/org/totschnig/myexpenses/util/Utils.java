@@ -389,11 +389,6 @@ public class Utils {
     return "";
   }
 
-  /**
-   * Credit:
-   * https://groups.google.com/forum/?fromgroups#!topic/actionbarsherlock
-   * /Z8Ic8djq-3o
-   */
   public static void menuItemSetEnabledAndVisible(@NonNull MenuItem item, boolean enabled) {
     item.setEnabled(enabled).setVisible(enabled);
   }
