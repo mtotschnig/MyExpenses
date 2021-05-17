@@ -135,6 +135,7 @@ public class OnboardingActivity extends SyncBackendSetupActivity {
               if (Stream.of(result.syncAccounts).map(AccountMetaData::uuid).distinct().count() < result.syncAccounts.size()) {
                 showSnackbar("Found accounts with duplicate uuids");
               } else {
+                //TODO after migration to Kotlin wrap with launchWhenResumed to prevent IllegalStateException
                 RestoreFromCloudDialogFragment.newInstance(result.backups, result.syncAccounts)
                     .show(getSupportFragmentManager(), "RESTORE_FROM_CLOUD");
               }
