@@ -241,11 +241,15 @@ public class MyApplication extends Application implements
     Timber.uprootAll();
     if (prefHandler.getBoolean(PrefKey.DEBUG_LOGGING, BuildConfig.DEBUG)) {
       Timber.plant(new Timber.DebugTree());
-      Timber.plant(new TagFilterFileLoggingTree(this, PlanExecutor.TAG));
-      Timber.plant(new TagFilterFileLoggingTree(this, SyncAdapter.TAG));
-      Timber.plant(new TagFilterFileLoggingTree(this, LicenceHandler.TAG));
-      Timber.plant(new TagFilterFileLoggingTree(this, TransactionProvider.TAG));
-      Timber.plant(new TagFilterFileLoggingTree(this, OcrFeature.TAG));
+      try {
+        Timber.plant(new TagFilterFileLoggingTree(this, PlanExecutor.TAG));
+        Timber.plant(new TagFilterFileLoggingTree(this, SyncAdapter.TAG));
+        Timber.plant(new TagFilterFileLoggingTree(this, LicenceHandler.TAG));
+        Timber.plant(new TagFilterFileLoggingTree(this, TransactionProvider.TAG));
+        Timber.plant(new TagFilterFileLoggingTree(this, OcrFeature.TAG));
+      } catch (Exception e) {
+        CrashHandler.report(e);
+      }
     }
     crashHandler.setupLogging(this);
   }
