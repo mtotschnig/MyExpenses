@@ -172,7 +172,6 @@ public class DatabaseConstants {
   public static final String KEY_MAPPED_TRANSACTIONS = "mapped_transactions";
   public static final String KEY_MAPPED_BUDGETS = "mapped_budgets";
   public static final String KEY_HAS_CLEARED = "has_cleared";
-  public static final String KEY_HAS_EXPORTED = "has_exported";
   public static final String KEY_IS_AGGREGATE = "is_aggregate";
   public static final String KEY_HAS_FUTURE = "has_future"; //has the accounts transactions stored for future dates
   public static final String KEY_SUM = "sum";

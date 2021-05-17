@@ -12,12 +12,12 @@ enum class Sort(val commandId: Int, private val isDescending: Boolean = true) {
     private fun toDatabaseColumn() = when (this) {
         USAGES -> DatabaseConstants.KEY_USAGES
         LAST_USED -> DatabaseConstants.KEY_LAST_USED
-        AMOUNT -> "abs(" + DatabaseConstants.KEY_AMOUNT + ")"
+        AMOUNT -> "abs(${DatabaseConstants.KEY_AMOUNT})"
         TITLE -> DatabaseConstants.KEY_TITLE + " COLLATE LOCALIZED"
         LABEL -> DatabaseConstants.KEY_LABEL + " COLLATE LOCALIZED"
         CUSTOM -> DatabaseConstants.KEY_SORT_KEY
         ALLOCATED -> DatabaseConstants.KEY_BUDGET
-        SPENT -> DatabaseConstants.KEY_SUM
+        SPENT -> "-${DatabaseConstants.KEY_SUM}"
         else -> null
     }
 
