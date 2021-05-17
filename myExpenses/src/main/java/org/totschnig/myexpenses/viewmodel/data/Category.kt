@@ -2,16 +2,21 @@ package org.totschnig.myexpenses.viewmodel.data
 
 import java.util.*
 
-data class Category(val id: Long, val parentId: Long?, val label: String, val sum: Long?,
-               val hasMappedBudgets: Boolean?, val color: Int, val budget: Long?, val icon: String?) {
+data class Category(
+    val id: Long,
+    val parentId: Long?,
+    val label: String,
+    val sum: Long?,
+    val hasMappedBudgets: Boolean?,
+    val color: Int,
+    val budget: Long?,
+    val icon: String?,
+    val hasChildren: Boolean = false
+) {
     private val children: MutableList<Category> = ArrayList()
     fun addChild(child: Category) {
         check(child.parentId == id) { "Cannot accept child with wrong parent" }
         children.add(child)
-    }
-
-    fun hasChildren(): Boolean {
-        return children.isNotEmpty()
     }
 
     val childCount: Int

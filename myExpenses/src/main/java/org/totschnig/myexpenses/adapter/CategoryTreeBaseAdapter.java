@@ -26,6 +26,7 @@ import androidx.collection.LongSparseArray;
 import androidx.viewbinding.ViewBinding;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CHILD_COUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
@@ -177,7 +178,7 @@ public abstract class CategoryTreeBaseAdapter<ROWBINDING extends ViewBinding> ex
         LongSparseArray<Integer> positionMap = new LongSparseArray<>();
         int position = 0;
         if (withNullCategory) {
-          newList.add(new Category(NULL_ITEM_ID, null, context.getString(R.string.unmapped), null, null, 0, null, null));
+          newList.add(new Category(NULL_ITEM_ID, null, context.getString(R.string.unmapped), null, null, 0, null, null, false));
           position = 1;
         }
         final int columnIndexRowId = cursor.getColumnIndex(KEY_ROWID);
@@ -187,6 +188,7 @@ public abstract class CategoryTreeBaseAdapter<ROWBINDING extends ViewBinding> ex
         final int columnIndexMapBudgets = cursor.getColumnIndex(KEY_MAPPED_BUDGETS);
         final int columnIndexColor = cursor.getColumnIndex(KEY_COLOR);
         final int columnIndexIcon = cursor.getColumnIndex(KEY_ICON);
+        final int columnIndexChildcount = cursor.getColumnIndex(KEY_CHILD_COUNT);
         while (cursor.moveToNext()) {
           final long id = cursor.getLong(columnIndexRowId);
           final Long parentId = DbUtils.getLongOrNull(cursor, columnIndexParentId);
@@ -195,7 +197,9 @@ public abstract class CategoryTreeBaseAdapter<ROWBINDING extends ViewBinding> ex
               columnIndexSum == -1 ? null : cursor.getLong(columnIndexSum),
               columnIndexMapBudgets == -1 ? null : cursor.getInt(columnIndexMapBudgets) > 0,
               cursor.getInt(columnIndexColor),
-              columnIndexBudget == -1 ? null : cursor.getLong(columnIndexBudget), cursor.getString(columnIndexIcon));
+              columnIndexBudget == -1 ? null : cursor.getLong(columnIndexBudget), cursor.getString(columnIndexIcon),
+              columnIndexChildcount != -1 && cursor.getInt(columnIndexChildcount) > 0
+          );
           if (parentId == null) {
             newList.add(category);
             positionMap.put(id, position);

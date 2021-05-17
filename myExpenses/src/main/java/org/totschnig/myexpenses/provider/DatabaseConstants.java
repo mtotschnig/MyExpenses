@@ -248,6 +248,12 @@ public class DatabaseConstants {
   public static final String KEY_ICON = "icon";
 
   /**
+   * used in CategoryList to query number of children of main category
+   * we cannot rely just on the categories returned, because children could be filtered out by query
+   */
+  public static final String KEY_CHILD_COUNT = "childCount";
+
+  /**
    * No special status
    */
   public static final int STATUS_NONE = 0;

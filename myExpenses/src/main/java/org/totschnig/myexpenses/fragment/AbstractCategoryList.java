@@ -73,6 +73,7 @@ import static org.totschnig.myexpenses.ConstantsKt.ACTION_SELECT_FILTER;
 import static org.totschnig.myexpenses.ConstantsKt.ACTION_SELECT_MAPPING;
 import static org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter.NULL_ITEM_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CHILD_COUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
@@ -152,8 +153,11 @@ public abstract class AbstractCategoryList<ROW_BINDING extends ViewBinding> exte
         KEY_LABEL,
         KEY_COLOR,
         KEY_ICON,
+        "(SELECT count(*) FROM " + TABLE_CATEGORIES + " subtree WHERE " + KEY_PARENTID + " = "
+            + TABLE_CATEGORIES + "." + KEY_ROWID + ") as " + KEY_CHILD_COUNT,
+
         //here we do not filter out void transactions since they need to be considered as mapped
-        "(select 1 FROM " + TABLE_BUDGET_CATEGORIES + " WHERE " + CAT_TREE_WHERE_CLAUSE + ") AS " + DatabaseConstants.KEY_MAPPED_BUDGETS
+        "(SELECT 1 FROM " + TABLE_BUDGET_CATEGORIES + " WHERE " + CAT_TREE_WHERE_CLAUSE + ") AS " + DatabaseConstants.KEY_MAPPED_BUDGETS
     };
     boolean isFiltered = !TextUtils.isEmpty(mFilter);
     if (isFiltered) {
@@ -211,7 +215,7 @@ public abstract class AbstractCategoryList<ROW_BINDING extends ViewBinding> exte
           }
           Bundle extras = ctx.getIntent().getExtras();
           if ((extras == null || extras.getLong(KEY_ROWID) != c.getId())) {
-            if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP && c.hasChildren()) {
+            if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP && c.getHasChildren()) {
               hasChildrenCount++;
             }
             if (c.getHasMappedBudgets()) {
@@ -391,7 +395,7 @@ public abstract class AbstractCategoryList<ROW_BINDING extends ViewBinding> exte
       return false;
     }
     String action = getAction();
-    if (action.equals(ACTION_MANAGE) || mAdapter.getGroup(groupPosition).hasChildren()) {
+    if (action.equals(ACTION_MANAGE) || mAdapter.getGroup(groupPosition).getHasChildren()) {
       return false;
     }
     String label = ((TextView) v.findViewById(R.id.label)).getText().toString();
@@ -470,7 +474,7 @@ public abstract class AbstractCategoryList<ROW_BINDING extends ViewBinding> exte
   }
 
   private boolean hasChildren(int position) {
-    return position != -1 && mAdapter.getGroup(position).hasChildren();
+    return position != -1 && mAdapter.getGroup(position).getHasChildren();
   }
 
   protected void configureMenuInternal(Menu menu, boolean hasChildren) {
