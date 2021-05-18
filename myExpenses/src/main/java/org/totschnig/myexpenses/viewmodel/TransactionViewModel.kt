@@ -34,7 +34,10 @@ open class TransactionViewModel(application: Application) : TagHandlingViewModel
             }
             emit(pair.first)
             pair.second?.takeIf { it.size > 0 }?.let { tags.postValue(it.toMutableList()) }
-        } ?: CrashHandler.report("Received null for task $task")
+        } ?: run {
+            emit(null)
+            CrashHandler.report("Received null for task $task")
+        }
     }
 
     fun loadOriginalTags(id: Long, uri: Uri, column: String) {
