@@ -480,7 +480,7 @@ public abstract class AbstractCategoryList<ROW_BINDING extends ViewBinding> exte
   protected void configureMenuInternal(Menu menu, boolean hasChildren) {
     String action = getAction();
     final boolean isFilter = action.equals(ACTION_SELECT_FILTER);
-    maybeHide(menu, R.id.CREATE_COMMAND, isFilter);
+    maybeHide(menu, R.id.CREATE_SUB_COMMAND, isFilter);
     menu.findItem(R.id.MOVE_COMMAND).setVisible(!(isFilter || hasChildren));
     maybeHide(menu, R.id.COLOR_COMMAND, !isWithMainColors());
   }
