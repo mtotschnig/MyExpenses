@@ -36,7 +36,6 @@ import com.annimon.stream.Stream;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
 
 import org.jetbrains.annotations.NotNull;
 import org.totschnig.myexpenses.MyApplication;
@@ -53,7 +52,6 @@ import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment;
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment;
 import org.totschnig.myexpenses.dialog.select.SelectFilterDialog;
 import org.totschnig.myexpenses.dialog.select.SelectHiddenAccountDialogFragment;
-import org.totschnig.myexpenses.feature.Feature;
 import org.totschnig.myexpenses.fragment.ContextualActionBarFragment;
 import org.totschnig.myexpenses.fragment.TransactionList;
 import org.totschnig.myexpenses.model.Account;
@@ -84,7 +82,6 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.distrib.DistributionHelper;
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
 
-import java.io.Serializable;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -92,6 +89,7 @@ import java.util.List;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.util.Pair;
 import androidx.core.view.GravityCompat;
@@ -103,7 +101,6 @@ import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
 import androidx.viewpager.widget.ViewPager;
 import eltos.simpledialogfragment.list.MenuDialog;
-import kotlin.Unit;
 import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
@@ -113,11 +110,9 @@ import static org.totschnig.myexpenses.activity.ConstantsKt.CREATE_ACCOUNT_REQUE
 import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_ACCOUNT_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.OCR_REQUEST;
-import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 import static org.totschnig.myexpenses.preference.PrefKey.OCR;
 import static org.totschnig.myexpenses.preference.PreferenceUtilsKt.requireString;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CLEARED_TOTAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
@@ -128,12 +123,10 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED_TOTAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_BALANCE;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_EXPORT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_PRINT;
@@ -766,97 +759,6 @@ public class MyExpenses extends BaseMyExpenses implements
     }
   }
 
-  @SuppressWarnings("incomplete-switch")
-  @Override
-  public void contribFeatureCalled(ContribFeature feature, Serializable tag) {
-    switch (feature) {
-      case DISTRIBUTION: {
-        getAccountsCursor().moveToPosition(getCurrentPosition());
-        recordUsage(feature);
-        Intent i = new Intent(this, Distribution.class);
-        i.putExtra(KEY_ACCOUNTID, accountId);
-        i.putExtra(KEY_GROUPING, getAccountsCursor().getString(getColumnIndexGrouping()));
-        if (tag != null) {
-          int year = (int) ((Long) tag / 1000);
-          int groupingSecond = (int) ((Long) tag % 1000);
-          i.putExtra(KEY_YEAR, year);
-          i.putExtra(KEY_SECOND_GROUP, groupingSecond);
-        }
-        startActivity(i);
-        break;
-      }
-      case HISTORY: {
-        recordUsage(feature);
-        getAccountsCursor().moveToPosition(getCurrentPosition());
-        Intent i = new Intent(this, HistoryActivity.class);
-        i.putExtra(KEY_ACCOUNTID, accountId);
-        i.putExtra(KEY_GROUPING, getAccountsCursor().getString(getColumnIndexGrouping()));
-        startActivity(i);
-        break;
-      }
-      case SPLIT_TRANSACTION: {
-        if (tag != null) {
-          Bundle b = new Bundle();
-          b.putString(ConfirmationDialogFragment.KEY_MESSAGE, getString(R.string.warning_split_transactions));
-          b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.SPLIT_TRANSACTION_COMMAND);
-          b.putInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE, R.id.CANCEL_CALLBACK_COMMAND);
-          b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.menu_split_transaction);
-          b.putLongArray(TaskExecutionFragment.KEY_LONG_IDS, (long[]) tag);
-          ConfirmationDialogFragment.newInstance(b).show(getSupportFragmentManager(), "SPLIT_TRANSACTION");
-        } else {
-          createRowDo(TYPE_SPLIT, false);
-        }
-        break;
-      }
-      case PRINT: {
-        TransactionList tl = getCurrentFragment();
-        if (tl != null) {
-          Bundle args = new Bundle();
-          args.putParcelableArrayList(TransactionList.KEY_FILTER, tl.getFilterCriteria());
-          args.putLong(KEY_ROWID, accountId);
-          if (!getSupportFragmentManager().isStateSaved()) {
-            getSupportFragmentManager().beginTransaction()
-                .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_PRINT), ASYNC_TAG)
-                .add(ProgressDialogFragment.newInstance(getString(R.string.progress_dialog_printing)), PROGRESS_TAG)
-                .commit();
-          }
-        }
-        break;
-      }
-      case BUDGET: {
-        if (accountId != 0 && getCurrentCurrency() != null) {
-          recordUsage(feature);
-          Intent i = new Intent(this, ManageBudgets.class);
-          startActivity(i);
-        }
-        break;
-      }
-      case OCR: {
-        if (featureViewModel.isFeatureAvailable(this, Feature.OCR)) {
-          if ((Boolean) tag) {
-        /*scanFile = new File("/sdcard/OCR_bg.jpg");
-        ocrViewModel.startOcrFeature(scanFile, getSupportFragmentManager());*/
-            ocrViewModel.getScanFiles(pair -> {
-              scanFile = pair.getSecond();
-              CropImage.activity()
-                  .setCameraOnly(true)
-                  .setAllowFlipping(false)
-                  .setOutputUri(Uri.fromFile(scanFile))
-                  .setCaptureImageOutputUri(ocrViewModel.getScanUri(pair.getFirst()))
-                  .setGuidelines(CropImageView.Guidelines.ON)
-                  .start(this);
-              return Unit.INSTANCE;
-            });
-          } else {
-            activateOcrMode();
-          }
-        } else {
-          featureViewModel.requestFeature(this, Feature.OCR);
-        }
-      }
-    }
-  }
-
   @Override
   public void contribFeatureNotCalled(ContribFeature feature) {
     if (!DistributionHelper.isGithub() && feature == ContribFeature.AD_FREE) {
@@ -1120,6 +1022,7 @@ public class MyExpenses extends BaseMyExpenses implements
     return handleGrouping(item) || handleSortDirection(item) || super.onOptionsItemSelected(item);
   }
 
+  @Nullable
   public TransactionList getCurrentFragment() {
     if (mViewPagerAdapter == null)
       return null;

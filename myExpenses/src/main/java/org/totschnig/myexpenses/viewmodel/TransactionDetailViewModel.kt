@@ -14,15 +14,21 @@ class TransactionDetailViewModel(application: Application) : TransactionViewMode
 
     private val transactionLiveData: Map<Long, LiveData<List<TData>>> = lazyMap { transactionId ->
         val liveData = MutableLiveData<List<TData>>()
-        disposable =  briteContentResolver.createQuery(
-                Transaction.EXTENDED_URI,
-                projection(application), "$KEY_ROWID = ? OR $KEY_PARENTID = ?", Array(2) { transactionId.toString() }, "$KEY_PARENTID IS NULL DESC", false)
-                .mapToList { fromCursor(it, currencyContext) }
-                .subscribe { list ->
-                    liveData.postValue(list)
-                }
+        disposable = briteContentResolver.createQuery(
+            Transaction.EXTENDED_URI,
+            projection(application),
+            "$KEY_ROWID = ? OR $KEY_PARENTID = ?",
+            Array(2) { transactionId.toString() },
+            "$KEY_PARENTID IS NULL DESC",
+            false
+        )
+            .mapToList { fromCursor(it, currencyContext) }
+            .subscribe { list ->
+                liveData.postValue(list)
+            }
         return@lazyMap liveData
     }
 
-    fun transaction(transactionId: Long): LiveData<List<TData>> = transactionLiveData.getValue(transactionId)
+    fun transaction(transactionId: Long): LiveData<List<TData>> =
+        transactionLiveData.getValue(transactionId)
 }

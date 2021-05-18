@@ -839,6 +839,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   }
 
   @VisibleForTesting
+  @Nullable
   public Fragment getCurrentFragment() {
     return null;
   }

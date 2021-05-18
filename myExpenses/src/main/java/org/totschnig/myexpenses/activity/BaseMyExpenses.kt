@@ -11,8 +11,11 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.lifecycle.ViewModelProvider
+import com.theartofdev.edmodo.cropper.CropImage
+import com.theartofdev.edmodo.cropper.CropImageView
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.form.AmountEdit
 import eltos.simpledialogfragment.form.Hint
@@ -25,11 +28,15 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit.Companion.KEY_OCR_RESULT
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
+import org.totschnig.myexpenses.dialog.ProgressDialogFragment
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.OcrHost
 import org.totschnig.myexpenses.feature.OcrResult
 import org.totschnig.myexpenses.feature.OcrResultFlat
 import org.totschnig.myexpenses.feature.Payee
+import org.totschnig.myexpenses.fragment.BaseTransactionList
+import org.totschnig.myexpenses.fragment.TransactionList
 import org.totschnig.myexpenses.model.AggregateAccount
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -39,6 +46,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
 import org.totschnig.myexpenses.util.TextUtils
@@ -46,6 +54,7 @@ import org.totschnig.myexpenses.util.distrib.ReviewManager
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
 import timber.log.Timber
 import java.io.File
+import java.io.Serializable
 import java.math.BigDecimal
 import java.util.*
 import javax.inject.Inject
@@ -272,7 +281,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             }
             popupMenu.add(Menu.NONE, R.string.expense, Menu.NONE, R.string.expense).setIcon(R.drawable.ic_expense)
             popupMenu.add(Menu.NONE, R.string.income, Menu.NONE, R.string.income).icon = AppCompatResources.getDrawable(this, R.drawable.ic_menu_add)?.also {
-                DrawableCompat.setTint(it, resources.getColor(R.color.colorIncome))
+                DrawableCompat.setTint(it, ResourcesCompat.getColor(resources, R.color.colorIncome, null))
             }
             popupMenu.add(Menu.NONE, R.string.transfer, Menu.NONE, R.string.transfer).setIcon(R.drawable.ic_menu_forward)
             popupMenu.add(Menu.NONE, R.string.split_transaction, Menu.NONE, R.string.split_transaction).setIcon(R.drawable.ic_menu_split)
@@ -321,7 +330,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         currencyFormatter.formatCurrency(Money(currencyUnit, balance)))
                 title = if (isHome) getString(R.string.grand_total) else label
                 toolbar.subtitle = currentBalance
-                toolbar.setSubtitleTextColor(resources.getColor(if (balance < 0) R.color.colorExpense else R.color.colorIncome))
+                toolbar.setSubtitleTextColor(ResourcesCompat.getColor(resources, if (balance < 0) R.color.colorExpense else R.color.colorIncome, null))
             }
         }
 
@@ -350,4 +359,123 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         updateFab()
         invalidateOptionsMenu()
     }
+
+    override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
+        @Suppress("NON_EXHAUSTIVE_WHEN")
+        when (feature) {
+            ContribFeature.DISTRIBUTION -> {
+                accountsCursor?.let {
+                    it.moveToPosition(currentPosition)
+                    recordUsage(feature)
+                    val i = Intent(this, Distribution::class.java)
+                    i.putExtra(DatabaseConstants.KEY_ACCOUNTID, accountId)
+                    i.putExtra(
+                        DatabaseConstants.KEY_GROUPING,
+                        it.getString(columnIndexGrouping)
+                    )
+                    if (tag != null) {
+                        val year = ((tag as Long?)!! / 1000).toInt()
+                        val groupingSecond = ((tag as Long?)!! % 1000).toInt()
+                        i.putExtra(DatabaseConstants.KEY_YEAR, year)
+                        i.putExtra(DatabaseConstants.KEY_SECOND_GROUP, groupingSecond)
+                    }
+                    startActivity(i)
+                }
+            }
+            ContribFeature.HISTORY -> {
+                accountsCursor?.let {
+                    recordUsage(feature)
+                    it.moveToPosition(currentPosition)
+                    val i = Intent(this, HistoryActivity::class.java)
+                    i.putExtra(DatabaseConstants.KEY_ACCOUNTID, accountId)
+                    i.putExtra(
+                        DatabaseConstants.KEY_GROUPING,
+                        it.getString(columnIndexGrouping)
+                    )
+                    startActivity(i)
+                }
+            }
+            ContribFeature.SPLIT_TRANSACTION -> {
+                if (tag != null) {
+                    val b = Bundle()
+                    b.putString(
+                        ConfirmationDialogFragment.KEY_MESSAGE,
+                        getString(R.string.warning_split_transactions)
+                    )
+                    b.putInt(
+                        ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+                        R.id.SPLIT_TRANSACTION_COMMAND
+                    )
+                    b.putInt(
+                        ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE,
+                        R.id.CANCEL_CALLBACK_COMMAND
+                    )
+                    b.putInt(
+                        ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
+                        R.string.menu_split_transaction
+                    )
+                    b.putLongArray(TaskExecutionFragment.KEY_LONG_IDS, tag as LongArray?)
+                    ConfirmationDialogFragment.newInstance(b)
+                        .show(supportFragmentManager, "SPLIT_TRANSACTION")
+                } else {
+                    createRowDo(Transactions.TYPE_SPLIT, false)
+                }
+            }
+            ContribFeature.PRINT -> {
+                currentFragment?.let {
+                    val args = Bundle()
+                    args.putParcelableArrayList(
+                        BaseTransactionList.KEY_FILTER,
+                        it.filterCriteria
+                    )
+                    args.putLong(DatabaseConstants.KEY_ROWID, accountId)
+                    if (!supportFragmentManager.isStateSaved) {
+                        supportFragmentManager.beginTransaction()
+                            .add(
+                                TaskExecutionFragment.newInstanceWithBundle(
+                                    args,
+                                    TaskExecutionFragment.TASK_PRINT
+                                ), ProtectedFragmentActivity.ASYNC_TAG
+                            )
+                            .add(
+                                ProgressDialogFragment.newInstance(getString(R.string.progress_dialog_printing)),
+                                ProtectedFragmentActivity.PROGRESS_TAG
+                            )
+                            .commit()
+                    }
+                }
+            }
+            ContribFeature.BUDGET -> {
+                if (accountId != 0L && currentCurrency != null) {
+                    recordUsage(feature)
+                    val i = Intent(this, ManageBudgets::class.java)
+                    startActivity(i)
+                }
+            }
+            ContribFeature.OCR -> {
+                if (featureViewModel.isFeatureAvailable(this, Feature.OCR)) {
+                    if ((tag as Boolean?)!!) {
+                        /*scanFile = new File("/sdcard/OCR_bg.jpg");
+                               ocrViewModel.startOcrFeature(scanFile, getSupportFragmentManager());*/
+                        ocrViewModel.getScanFiles { pair ->
+                            scanFile = pair.second
+                            CropImage.activity()
+                                .setCameraOnly(true)
+                                .setAllowFlipping(false)
+                                .setOutputUri(Uri.fromFile(scanFile))
+                                .setCaptureImageOutputUri(ocrViewModel.getScanUri(pair.first))
+                                .setGuidelines(CropImageView.Guidelines.ON)
+                                .start(this)
+                        }
+                    } else {
+                        activateOcrMode()
+                    }
+                } else {
+                    featureViewModel.requestFeature(this, Feature.OCR)
+                }
+            }
+        }
+    }
+
+    abstract override fun getCurrentFragment(): TransactionList?
 }
