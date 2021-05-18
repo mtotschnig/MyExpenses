@@ -242,7 +242,10 @@ class WebInputService : Service(), IWebInputService {
     }
 
     private fun isAvailable(portNr: Int) = try {
-        ServerSocket(portNr).use { true }
+        ServerSocket(portNr).let {
+            it.close()
+            true
+        }
     } catch (e: IOException) {
         false
     }
