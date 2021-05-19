@@ -37,7 +37,6 @@ import org.totschnig.myexpenses.viewmodel.data.Event
 import org.totschnig.myexpenses.viewmodel.data.PlanInstance
 import org.totschnig.myexpenses.viewmodel.data.PlanInstanceState
 import org.totschnig.myexpenses.viewmodel.data.PlanInstanceUpdate
-import java.lang.IllegalStateException
 
 class PlannerViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
     data class Month(val year: Int, val month: Int) {
@@ -120,18 +119,30 @@ class PlannerViewModel(application: Application) : ContentResolvingAndroidViewMo
             val plannerCalendarId = withContext(Dispatchers.Default) {
                 MyApplication.getInstance().checkPlanner()
             }
-            disposable = briteContentResolver.createQuery(builder.build(), null,
-                    CalendarContractCompat.Events.CALENDAR_ID + " = " + plannerCalendarId,
-                    null, CalendarContractCompat.Instances.BEGIN + " ASC", false)
-                    .mapToList(PlanInstance.Companion::fromEventCursor)
-                    .subscribe {
-                        val start = SpannableString(first.startDate().format(formatter))
-                        val end = SpannableString(last.endDate().format(formatter))
-                        start.setSpan(ClickableDateSpan(false), 0, start.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                        end.setSpan(ClickableDateSpan(true), 0, end.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                        title.postValue(TextUtils.concat(start, " - ", end))
-                        instances.postValue(Event(Pair(later ?: false, it.filterNotNull())))
-                    }
+            disposable = briteContentResolver.createQuery(
+                builder.build(), null,
+                CalendarContractCompat.Events.CALENDAR_ID + " = " + plannerCalendarId,
+                null, CalendarContractCompat.Instances.BEGIN + " ASC", false
+            )
+                .mapToList(PlanInstance.Companion::fromEventCursor)
+                .subscribe {
+                    val start = SpannableString(first.startDate().format(formatter))
+                    val end = SpannableString(last.endDate().format(formatter))
+                    start.setSpan(
+                        ClickableDateSpan(false),
+                        0,
+                        start.length,
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                    end.setSpan(
+                        ClickableDateSpan(true),
+                        0,
+                        end.length,
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                    title.postValue(TextUtils.concat(start, " - ", end))
+                    instances.postValue(Event(Pair(later ?: false, it.filterNotNull())))
+                }
         }
     }
 
@@ -147,19 +158,30 @@ class PlannerViewModel(application: Application) : ContentResolvingAndroidViewMo
             val instanceId = uri.pathSegments[2].toLong()
             val mapper = { cursor: Cursor ->
                 val transactionId = DbUtils.getLongOrNull(cursor, KEY_TRANSACTIONID)
-                val newState = if (transactionId == null) PlanInstanceState.CANCELLED else PlanInstanceState.APPLIED
+                val newState =
+                    if (transactionId == null) PlanInstanceState.CANCELLED else PlanInstanceState.APPLIED
                 val amount = DbUtils.getLongOrNull(cursor, KEY_AMOUNT)
                 PlanInstanceUpdate(templateId, instanceId, newState, transactionId, amount)
             }
-            updateDisposables.add(briteContentResolver.createQuery(uri, null, null, null, null, false)
-                    .mapToOneOrDefault(mapper, PlanInstanceUpdate(templateId, instanceId, PlanInstanceState.OPEN, null, null))
-                    .doOnError {
-                        CrashHandler.report(IllegalStateException("Query for uri failed: $uri", it))
-                    }
+            updateDisposables.add(
+                briteContentResolver.createQuery(uri, null, null, null, null, false)
+                    .mapToOneOrDefault(
+                        mapper,
+                        PlanInstanceUpdate(
+                            templateId,
+                            instanceId,
+                            PlanInstanceState.OPEN,
+                            null,
+                            null
+                        )
+                    )
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe {
+                    .subscribe({
                         updates.value = it
+                    }, {
+                        CrashHandler.report(IllegalStateException("Query for uri failed: $uri", it))
                     })
+            )
         } catch (e: Exception) {
             CrashHandler.report(java.lang.IllegalArgumentException("Cannot provide update for uri $uri"))
         }
@@ -175,7 +197,10 @@ class PlannerViewModel(application: Application) : ContentResolvingAndroidViewMo
             withContext(Dispatchers.Default) {
                 selectedInstances.forEach { planInstance ->
                     val instanceId = planInstance.instanceId
-                    val pair = Transaction.getInstanceFromTemplateIfOpen(planInstance.templateId, instanceId)
+                    val pair = Transaction.getInstanceFromTemplateIfOpen(
+                        planInstance.templateId,
+                        instanceId
+                    )
                     pair?.first?.let {
                         it.date = planInstance.date / 1000
                         it.originPlanInstanceId = instanceId
