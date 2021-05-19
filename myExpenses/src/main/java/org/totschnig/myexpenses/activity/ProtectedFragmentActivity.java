@@ -134,13 +134,9 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   private AlertDialog pwDialog;
   private boolean scheduledRestart = false;
   private Optional<Boolean> confirmCredentialResult = Optional.empty();
-  private Enum<?> helpVariant = null;
   protected ColorStateList textColorSecondary;
   @Nullable
   protected FloatingActionButton floatingActionButton;
-
-  @Inject
-  protected CrashHandler crashHandler;
 
   @Inject
   protected AdHandlerFactory adHandlerFactory;
@@ -293,7 +289,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   @Override
   protected void onResume() {
     super.onResume();
-    crashHandler.addBreadcrumb(getClass().getSimpleName());
+    getCrashHandler().addBreadcrumb(getClass().getSimpleName());
     if (scheduledRestart) {
       scheduledRestart = false;
       recreate();
@@ -858,17 +854,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
 
   public void checkGdprConsent(boolean forceShow) {
     adHandlerFactory.gdprConsent(this, forceShow);
-  }
-
-  public String getHelpVariant() {
-    return helpVariant != null ? helpVariant.name() : null;
-  }
-
-  protected void setHelpVariant(@Nullable Enum<?> helpVariant) {
-    this.helpVariant = helpVariant;
-    if (helpVariant != null) {
-      crashHandler.addBreadcrumb(helpVariant.toString());
-    }
   }
 
   public void invalidateHomeCurrency() {
