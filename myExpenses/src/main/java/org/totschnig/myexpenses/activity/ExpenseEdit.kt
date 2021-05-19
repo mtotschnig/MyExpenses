@@ -242,7 +242,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManag
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHelpVariant(HelpVariant.transaction)
+        setHelpVariant(HelpVariant.transaction, false)
         rootBinding = OneExpenseBinding.inflate(LayoutInflater.from(this))
         rootBinding.TagRow.TagLabel.setText(R.string.tags)
         dateEditBinding = DateEditBinding.bind(rootBinding.root)

@@ -94,8 +94,13 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     @Inject
     lateinit var userLocaleProvider: UserLocaleProvider
 
+    @Inject
+    lateinit var crashHandler: CrashHandler
+
     lateinit var ocrViewModel: OcrViewModel
     lateinit var featureViewModel: FeatureViewModel
+    private var helpVariant: Enum<*>? = null
+
 
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(newBase)
@@ -331,5 +336,14 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     fun showDeleteFailureFeedback() {
         showSnackbar("There was an error deleting the object. Please contact support@myexenses.mobi !")
+    }
+
+    fun getHelpVariant() = helpVariant?.name
+
+    fun setHelpVariant(helpVariant: Enum<*>, addBreadCrumb: Boolean = false) {
+        this.helpVariant = helpVariant
+        if (addBreadCrumb) {
+            crashHandler.addBreadcrumb(helpVariant.toString())
+        }
     }
 }
