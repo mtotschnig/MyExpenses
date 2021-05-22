@@ -84,15 +84,15 @@ public class ManageCategories extends CategoryActivity implements
     switch (action) {
       case Intent.ACTION_MAIN:
       case ACTION_MANAGE:
-        setHelpVariant(HelpVariant.manage);
+        setHelpVariant(HelpVariant.manage, true);
         title = R.string.pref_manage_categories_title;
         break;
       case ACTION_SELECT_FILTER:
-        setHelpVariant(HelpVariant.select_filter);
+        setHelpVariant(HelpVariant.select_filter, true);
         title = R.string.search_category;
         break;
       case ACTION_SELECT_MAPPING:
-        setHelpVariant(HelpVariant.select_mapping);
+        setHelpVariant(HelpVariant.select_mapping, true);
         title = R.string.select_category;
     }
     if (title != 0) getSupportActionBar().setTitle(title);
