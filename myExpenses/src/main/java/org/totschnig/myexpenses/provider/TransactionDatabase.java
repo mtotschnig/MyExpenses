@@ -314,7 +314,8 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       "CREATE TABLE " + TABLE_PLAN_INSTANCE_STATUS
           + " ( " + KEY_TEMPLATEID + " integer references " + TABLE_TEMPLATES + "(" + KEY_ROWID + ") ON DELETE CASCADE," +
           KEY_INSTANCEID + " integer," + // NO LONGER references Instances._ID in calendar content provider; instanceId is calculated from day
-          KEY_TRANSACTIONID + " integer UNIQUE references " + TABLE_TRANSACTIONS + "(" + KEY_ROWID + ") ON DELETE CASCADE);";
+          KEY_TRANSACTIONID + " integer UNIQUE references " + TABLE_TRANSACTIONS + "(" + KEY_ROWID + ") ON DELETE CASCADE, " +
+          "primary key (" + KEY_TEMPLATEID + "," + KEY_INSTANCEID + "));";
 
   private static final String STALE_URIS_CREATE =
       "CREATE TABLE " + TABLE_STALE_URIS
@@ -2150,6 +2151,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       }
       if (oldVersion < 117) {
         upgradeTo117(db);
+      }
+      if (oldVersion < 118) {
+        upgradeTo118(db);
       }
       TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {

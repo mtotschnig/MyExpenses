@@ -8,13 +8,34 @@ import org.totschnig.myexpenses.model.CurrencyEnum
 import org.totschnig.myexpenses.preference.PrefKey
 import timber.log.Timber
 
-const val DATABASE_VERSION = 117
+const val DATABASE_VERSION = 118
 abstract class BaseTransactionDatabase(context: Context, databaseName: String): SQLiteOpenHelper(context, databaseName, null, DATABASE_VERSION) {
 
     fun upgradeTo117(db: SQLiteDatabase) {
         migrateCurrency(db, "VEB", CurrencyEnum.VES)
         migrateCurrency(db, "MRO", CurrencyEnum.MRU)
         migrateCurrency(db, "STD", CurrencyEnum.STN)
+    }
+
+    fun upgradeTo118(db: SQLiteDatabase) {
+        //delete duplicate entries
+        db.execSQL("DELETE FROM planinstance_transaction WHERE transaction_id in (SELECT min(transaction_id) FROM planinstance_transaction GROUP BY template_id, instance_id HAVING count(*) > 1);")
+        db.execSQL("ALTER TABLE planinstance_transaction RENAME to planinstance_transaction_old")
+        //make sure we have ony instance per template
+        db.execSQL(
+            "CREATE TABLE planinstance_transaction " +
+                    "(template_id integer references templates(_id) ON DELETE CASCADE, " +
+                    "instance_id integer, " +
+                    "transaction_id integer unique references transactions(_id) ON DELETE CASCADE," +
+                    "primary key (template_id, instance_id));"
+        )
+        db.execSQL(
+            ("INSERT INTO planinstance_transaction " +
+                    "(template_id,instance_id,transaction_id)" +
+                    "SELECT " +
+                    "template_id,instance_id,transaction_id FROM planinstance_transaction_old")
+        )
+        db.execSQL("DROP TABLE planinstance_transaction_old")
     }
 
     override fun onCreate(db: SQLiteDatabase?) {

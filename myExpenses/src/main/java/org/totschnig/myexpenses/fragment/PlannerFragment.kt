@@ -75,6 +75,8 @@ class PlannerFragment : BaseDialogFragment() {
     @JvmField
     var selectedInstances: PlanInstanceSet = PlanInstanceSet()
 
+    var popup: PopupMenu? = null
+
     private lateinit var backgroundColor: ColorStateList
 
     private lateinit var stateObserver: ContentObserver
@@ -250,6 +252,10 @@ class PlannerFragment : BaseDialogFragment() {
                     } else onSelection(planInstance, position)
                 }
                 root.setOnClickListener {
+                    if (popup != null) {
+                        Timber.d("Caught double click")
+                        return@setOnClickListener
+                    }
                     if (planInstance.sealed) {
                         templatesList?.showSnackbar(this@PlannerFragment, getString(R.string.object_sealed))
                         return@setOnClickListener
@@ -258,41 +264,45 @@ class PlannerFragment : BaseDialogFragment() {
                         if (onSelection(planInstance, position))
                             return@setOnClickListener
                     }
-                    val popup = PopupMenu(root.context, root)
-                    popup.inflate(R.menu.planlist_context)
-                    configureMenuInternalPlanInstances(popup.menu, planInstance.state)
-                    popup.setOnMenuItemClickListener { item ->
-                        val instanceId = planInstance.instanceId
-                        when (item.itemId) {
-                            R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND -> {
-                                templatesList?.dispatchCreateInstanceEdit(
+                    popup = PopupMenu(root.context, root).apply {
+                        inflate(R.menu.planlist_context)
+                        configureMenuInternalPlanInstances(menu, planInstance.state)
+                        setOnMenuItemClickListener { item ->
+                            val instanceId = planInstance.instanceId
+                            when (item.itemId) {
+                                R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND -> {
+                                    templatesList?.dispatchCreateInstanceEdit(
                                         planInstance.templateId, instanceId,
                                         planInstance.date)
-                                true
-                            }
-                            R.id.CREATE_PLAN_INSTANCE_SAVE_COMMAND -> {
-                                viewModel.applyBulk(listOf(planInstance))
-                                true
+                                    true
+                                }
+                                R.id.CREATE_PLAN_INSTANCE_SAVE_COMMAND -> {
+                                    viewModel.applyBulk(listOf(planInstance))
+                                    true
 
+                                }
+                                R.id.EDIT_PLAN_INSTANCE_COMMAND -> {
+                                    instanceUriToUpdate = TransactionProvider.PLAN_INSTANCE_SINGLE_URI(planInstance.templateId, instanceId)
+                                    templatesList?.dispatchEditInstance(planInstance.transactionId)
+                                    true
+                                }
+                                R.id.CANCEL_PLAN_INSTANCE_COMMAND -> {
+                                    templatesList?.dispatchTask(TaskExecutionFragment.TASK_CANCEL_PLAN_INSTANCE, arrayOf(instanceId), arrayOf(arrayOf(planInstance.templateId, planInstance.transactionId)))
+                                    true
+                                }
+                                R.id.RESET_PLAN_INSTANCE_COMMAND -> {
+                                    templatesList?.dispatchTask(TaskExecutionFragment.TASK_RESET_PLAN_INSTANCE, arrayOf(instanceId), arrayOf(arrayOf(planInstance.templateId, planInstance.transactionId)))
+                                    true
+                                }
+                                else -> false
                             }
-                            R.id.EDIT_PLAN_INSTANCE_COMMAND -> {
-                                instanceUriToUpdate = TransactionProvider.PLAN_INSTANCE_SINGLE_URI(planInstance.templateId, instanceId)
-                                templatesList?.dispatchEditInstance(planInstance.transactionId)
-                                true
-                            }
-                            R.id.CANCEL_PLAN_INSTANCE_COMMAND -> {
-                                templatesList?.dispatchTask(TaskExecutionFragment.TASK_CANCEL_PLAN_INSTANCE, arrayOf(instanceId), arrayOf(arrayOf(planInstance.templateId, planInstance.transactionId)))
-                                true
-                            }
-                            R.id.RESET_PLAN_INSTANCE_COMMAND -> {
-                                templatesList?.dispatchTask(TaskExecutionFragment.TASK_RESET_PLAN_INSTANCE, arrayOf(instanceId), arrayOf(arrayOf(planInstance.templateId, planInstance.transactionId)))
-                                true
-                            }
-                            else -> false
                         }
+                        setOnDismissListener {
+                            popup = null
+                        }
+                        //displaying the popup
+                        show()
                     }
-                    //displaying the popup
-                    popup.show()
                 }
             }
         }
