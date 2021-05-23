@@ -144,7 +144,7 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
       if (tag instanceof Long) {
         mListFragment.dispatchCreateInstanceEditDo((Long) tag);
       } else if (tag instanceof long[]) {
-        mListFragment.dispatchCreateInstanceSaveDo((long[]) tag, null);
+        mListFragment.dispatchCreateInstanceSaveDo((long[]) tag);
       }
     }
   }

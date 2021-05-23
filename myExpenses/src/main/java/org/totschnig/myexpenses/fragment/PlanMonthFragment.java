@@ -29,17 +29,16 @@ import com.roomorama.caldroid.CaldroidListener;
 import com.roomorama.caldroid.CalendarHelper;
 import com.roomorama.caldroid.CellView;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.provider.CalendarProviderProxy;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.ColorUtils;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.viewmodel.PlanInstanceInfo;
 import org.totschnig.myexpenses.viewmodel.data.PlanInstanceState;
 
 import java.util.ArrayList;
@@ -300,13 +299,13 @@ public class PlanMonthFragment extends CaldroidFragment
   }
 
   public void dispatchCommandMultiple(int command, SparseBooleanArray positions) {
-    ArrayList<Long[]> extra2dAL = new ArrayList<>();
-    ArrayList<Long> objectIdsAL = new ArrayList<>();
     final ProtectedFragmentActivity activity = (ProtectedFragmentActivity) getActivity();
     final Bundle arguments = getArguments();
     final TemplatesList templatesList = (TemplatesList) getParentFragment();
     if (activity == null || arguments == null || templatesList == null) return;
+    final long templateId = arguments.getLong(KEY_ROWID);
     if (command == R.id.CREATE_PLAN_INSTANCE_SAVE_COMMAND) {
+      ArrayList<PlanInstanceInfo> planInfos = new ArrayList<>();
       for (int i = 0; i < positions.size(); i++) {
         if (positions.valueAt(i)) {
           int position = positions.keyAt(i);
@@ -314,46 +313,34 @@ public class PlanMonthFragment extends CaldroidFragment
           //ignore instances that are not open
           if (instanceId == -1 || instance2TransactionMap.get(instanceId) != null)
             continue;
-          //pass event instance id and date as extra
-          extra2dAL.add(new Long[]{instanceId, getDateForPosition(position)});
-          objectIdsAL.add(arguments.getLong(KEY_ROWID));
+          planInfos.add(new PlanInstanceInfo(templateId, instanceId, getDateForPosition(position), null));
         }
       }
-      templatesList.dispatchCreateInstanceSaveDo(ArrayUtils.toPrimitive(objectIdsAL.toArray(new Long[0])),
-          extra2dAL.toArray(new Long[extra2dAL.size()][2]));
+      templatesList.dispatchCreateInstanceSaveDo(planInfos.toArray(new PlanInstanceInfo[0]));
     } else if (command == R.id.CANCEL_PLAN_INSTANCE_COMMAND) {
+      ArrayList<PlanInstanceInfo> planInfos = new ArrayList<>();
       for (int i = 0; i < positions.size(); i++) {
         if (positions.valueAt(i)) {
           int position = positions.keyAt(i);
           long instanceId = getPlanInstanceForPosition(position);
           if (instanceId == -1)
             continue;
-          objectIdsAL.add(instanceId);
-          extra2dAL.add(new Long[]{arguments.getLong(KEY_ROWID),
-              instance2TransactionMap.get(instanceId)});
+          planInfos.add(new PlanInstanceInfo(templateId, instanceId, null, instance2TransactionMap.get(instanceId)));
         }
       }
-      templatesList.dispatchTask(
-          TaskExecutionFragment.TASK_CANCEL_PLAN_INSTANCE,
-          objectIdsAL.toArray(new Long[0]),
-          extra2dAL.toArray(new Long[extra2dAL.size()][2]));
+      templatesList.dispatchCancelInstance(planInfos.toArray(new PlanInstanceInfo[0]));
     } else if (command == R.id.RESET_PLAN_INSTANCE_COMMAND) {
+      ArrayList<PlanInstanceInfo> planInfos = new ArrayList<>();
       for (int i = 0; i < positions.size(); i++) {
         if (positions.valueAt(i)) {
           int position = positions.keyAt(i);
           long instanceId = getPlanInstanceForPosition(position);
           if (instanceId == -1)
             continue;
-          objectIdsAL.add(instanceId);
-          //pass transactionId in extra
-          extra2dAL.add(new Long[]{arguments.getLong(KEY_ROWID),
-              instance2TransactionMap.get(instanceId)});
+          planInfos.add(new PlanInstanceInfo(templateId, instanceId, null, instance2TransactionMap.get(instanceId)));
         }
       }
-      templatesList.dispatchTask(
-          TaskExecutionFragment.TASK_RESET_PLAN_INSTANCE,
-          objectIdsAL.toArray(new Long[0]),
-          extra2dAL.toArray(new Long[extra2dAL.size()][2]));
+      templatesList.dispatchResetInstance(planInfos.toArray(new PlanInstanceInfo[0]));
     }
   }
 

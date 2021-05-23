@@ -27,9 +27,9 @@ import org.totschnig.myexpenses.databinding.PlannerFragmentBinding
 import org.totschnig.myexpenses.dialog.BaseDialogFragment
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.getDateTimeFormatter
+import org.totschnig.myexpenses.viewmodel.PlanInstanceInfo
 import org.totschnig.myexpenses.viewmodel.PlannerViewModel
 import org.totschnig.myexpenses.viewmodel.data.EventObserver
 import org.totschnig.myexpenses.viewmodel.data.PlanInstance
@@ -287,11 +287,11 @@ class PlannerFragment : BaseDialogFragment() {
                                     true
                                 }
                                 R.id.CANCEL_PLAN_INSTANCE_COMMAND -> {
-                                    templatesList?.dispatchTask(TaskExecutionFragment.TASK_CANCEL_PLAN_INSTANCE, arrayOf(instanceId), arrayOf(arrayOf(planInstance.templateId, planInstance.transactionId)))
+                                    templatesList?.dispatchCancelInstance(planInstance.let { PlanInstanceInfo(it.templateId, it.instanceId, transactionId = it.transactionId) })
                                     true
                                 }
                                 R.id.RESET_PLAN_INSTANCE_COMMAND -> {
-                                    templatesList?.dispatchTask(TaskExecutionFragment.TASK_RESET_PLAN_INSTANCE, arrayOf(instanceId), arrayOf(arrayOf(planInstance.templateId, planInstance.transactionId)))
+                                    templatesList?.dispatchResetInstance(planInstance.let { PlanInstanceInfo(it.templateId, it.instanceId, transactionId = it.transactionId) })
                                     true
                                 }
                                 else -> false
