@@ -580,9 +580,10 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
     }
 
     fun confirmDeleteTransactionsForPlanInstances(
-        planInstances: Array<out PlanInstanceInfo>, dialogTag: String
+        planInstances: Array<out PlanInstanceInfo>, dialogTag: String, title: Int
     ) {
         SimpleDialog.build()
+            .title(title)
             .extra(Bundle().apply {
                 putParcelableArray(KEY_INSTANCES, planInstances)
             })
@@ -592,34 +593,34 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
                 R.string.warning_plan_instance_delete,
                 R.string.continue_confirmation
             ))
+            .pos(R.string.response_yes)
+            .neg(R.string.response_no)
             .show(this, dialogTag)
     }
 
     fun dispatchCancelInstance(vararg planInstances: PlanInstanceInfo) {
         val countInstantiated = planInstances.count { it.transactionId != null }
         if (countInstantiated > 0) {
-            confirmDeleteTransactionsForPlanInstances(planInstances, DIALOG_TAG_CONFIRM_CANCEL)
+            confirmDeleteTransactionsForPlanInstances(
+                planInstances,
+                DIALOG_TAG_CONFIRM_CANCEL,
+                R.string.menu_cancel_plan_instance
+            )
         } else {
-            Toast.makeText(requireContext(), "Grünes Licht", Toast.LENGTH_LONG).show()
-            /*dispatchTask(
-                TaskExecutionFragment.TASK_CANCEL_PLAN_INSTANCE,
-                arrayOf(planInstance.instanceId),
-                arrayOf(arrayOf(planInstance.templateId, planInstance.transactionId))
-            )*/
+            viewModel.cancel(planInstances)
         }
     }
 
     fun dispatchResetInstance(vararg planInstances: PlanInstanceInfo) {
         val countInstantiated = planInstances.count { it.transactionId != null }
         if (countInstantiated > 0) {
-            confirmDeleteTransactionsForPlanInstances(planInstances, DIALOG_TAG_CONFIRM_RESET)
+            confirmDeleteTransactionsForPlanInstances(
+                planInstances,
+                DIALOG_TAG_CONFIRM_RESET,
+                R.string.menu_reset_plan_instance
+            )
         } else {
-            Toast.makeText(requireContext(), "Grünes Licht", Toast.LENGTH_LONG).show()
-            /*dispatchTask(
-                TaskExecutionFragment.TASK_RESET_PLAN_INSTANCE,
-                arrayOf(planInstance.instanceId),
-                arrayOf(arrayOf(planInstance.templateId, planInstance.transactionId))
-            )*/
+            viewModel.reset(planInstances)
         }
     }
 
@@ -858,7 +859,14 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
         const val PLANNER_FRAGMENT_TAG = "PLANNER_FRAGMENT"
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
-        TODO("Not yet implemented")
+        if (which == SimpleDialog.OnDialogResultListener.BUTTON_POSITIVE) {
+            when(dialogTag) {
+                DIALOG_TAG_CONFIRM_RESET -> viewModel.reset(extras.getParcelableArray(KEY_INSTANCES) as Array<PlanInstanceInfo>)
+                DIALOG_TAG_CONFIRM_CANCEL -> viewModel.cancel(extras.getParcelableArray(KEY_INSTANCES) as Array<PlanInstanceInfo>)
+            }
+        }
+        return true
     }
 }

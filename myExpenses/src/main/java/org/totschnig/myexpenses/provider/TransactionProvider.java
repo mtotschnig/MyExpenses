@@ -129,7 +129,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final Uri PLAN_INSTANCE_STATUS_URI =
       Uri.parse("content://" + AUTHORITY + "/planinstance_transaction");
 
-  public static final Uri PLAN_INSTANCE_SINGLE_URI(long templateId, long instanceId) {
+  public static Uri PLAN_INSTANCE_SINGLE_URI(long templateId, long instanceId) {
     return ContentUris.appendId(ContentUris.appendId(
         TransactionProvider.PLAN_INSTANCE_STATUS_URI.buildUpon(), templateId), instanceId)
         .build();

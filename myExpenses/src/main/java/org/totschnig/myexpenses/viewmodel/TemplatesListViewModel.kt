@@ -4,10 +4,15 @@ import android.app.Application
 import android.content.ContentValues
 import android.os.Parcelable
 import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 
@@ -35,5 +40,38 @@ class TemplatesListViewModel(application: Application) : ContentResolvingAndroid
                 t.save(true) != null && t.saveTags(tagList)
             }
         }.sumBy { if (it == true) 1 else 0 })
+    }
+
+    fun reset(instances: Array<out PlanInstanceInfo>) {
+        viewModelScope.launch(coroutineContext()) {
+            instances.forEach { instance ->
+                instance.transactionId?.let {
+                    Transaction.delete(it, false)
+                }
+                contentResolver.delete(
+                    TransactionProvider.PLAN_INSTANCE_SINGLE_URI(
+                        instance.templateId,
+                        instance.instanceId!!
+                    ), null, null
+                )
+            }
+        }
+    }
+
+    fun cancel(instances: Array<out PlanInstanceInfo>) {
+        viewModelScope.launch(coroutineContext()) {
+            instances.forEach { instance ->
+                instance.transactionId?.let {
+                    Transaction.delete(it, false)
+                }
+                contentResolver.insert(
+                    TransactionProvider.PLAN_INSTANCE_STATUS_URI,
+                    ContentValues(3).apply {
+                        putNull(KEY_TRANSACTIONID)
+                        put(KEY_TEMPLATEID, instance.templateId)
+                        put(KEY_INSTANCEID, instance.instanceId!!)
+                    })
+            }
+        }
     }
 }
