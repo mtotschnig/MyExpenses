@@ -33,7 +33,6 @@ import org.totschnig.myexpenses.viewmodel.PlanInstanceInfo;
 import org.totschnig.myexpenses.viewmodel.data.PlanInstanceState;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -98,10 +97,6 @@ public class PlanMonthFragment extends CaldroidFragment
     readOnly = requireArguments().getBoolean(KEY_READ_ONLY);
     Icepick.restoreInstanceState(this, savedInstanceState);
     setCaldroidListener(new CaldroidListener() {
-      @Override
-      public void onSelectDate(Date date, View view) {
-      }
-
       @Override
       public void onChangeMonth(int month, int year) {
         requireLoader(INSTANCES_CURSOR);

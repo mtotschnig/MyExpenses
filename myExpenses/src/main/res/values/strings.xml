@@ -990,5 +990,7 @@
     <string name="request_for_invoice">Request for Invoice</string>
     <!-- Enables Focus on the Payee field for Auto fill -->
     <string name="auto_fill_focus">Set Focus on Payee</string>
-    <string name="warning_plan_instance_delete">Transactions created at the selected dates will be deleted.</string>
+    <!-- This warning is shown when a user calls the Reset or Cancel commands on a scheduled transaction, for a date
+     where the transaction has already been created.  -->
+    <string name="warning_plan_instance_delete">The transaction created for the selected date will be deleted.</string>
 </resources>
