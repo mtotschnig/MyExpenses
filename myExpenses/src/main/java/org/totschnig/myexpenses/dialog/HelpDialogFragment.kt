@@ -228,9 +228,9 @@ class HelpDialogFragment : BaseDialogFragment(), ImageGetter {
                 .create()
     }
 
-    private fun showLongTapHint(componentName: String): Boolean {
-        return componentName != "ManageTemplates_planner_cabitems"
-    }
+    private fun showLongTapHint(componentName: String) =
+        !arrayOf("ManageTemplates_plans_cabitems", "ManageTemplates_planner_cabitems")
+            .contains(componentName)
 
     private fun findComponentArray(type: String) = resolveArray(buildComponentName(type)).takeIf { it != 0 || variant == null }
             ?: resolveArray(context + "_" + type)

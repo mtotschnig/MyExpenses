@@ -32,7 +32,6 @@ import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.sync.GenericAccountService;
@@ -58,14 +57,11 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.documentfile.provider.DocumentFile;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
@@ -221,34 +217,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           resultMsg += context.getResources().getQuantityString(R.plurals.move_category_failure, failureCount, failureCount);
         }
         return successCount > 0 ? Result.ofSuccess(resultMsg) : Result.ofFailure(resultMsg);
-      case TaskExecutionFragment.TASK_CANCEL_PLAN_INSTANCE:
-        for (int i = 0; i < ids.length; i++) {
-          extraInfo2d = (Long[][]) mExtra;
-          transactionId = extraInfo2d[i][1];
-          Long templateId = extraInfo2d[i][0];
-          if (transactionId != null && transactionId > 0L) {
-            Transaction.delete(transactionId, false);
-          } else {
-            cr.delete(TransactionProvider.PLAN_INSTANCE_SINGLE_URI(templateId, (Long) ids[i]), null, null);
-          }
-          values = new ContentValues();
-          values.putNull(KEY_TRANSACTIONID);
-          values.put(KEY_TEMPLATEID, templateId);
-          values.put(KEY_INSTANCEID, (Long) ids[i]);
-          cr.insert(TransactionProvider.PLAN_INSTANCE_STATUS_URI, values);
-        }
-        return null;
-      case TaskExecutionFragment.TASK_RESET_PLAN_INSTANCE:
-        for (int i = 0; i < ids.length; i++) {
-          extraInfo2d = (Long[][]) mExtra;
-          transactionId = extraInfo2d[i][1];
-          Long templateId = extraInfo2d[i][0];
-          if (transactionId != null && transactionId > 0L) {
-            Transaction.delete(transactionId, false);
-          }
-          cr.delete(TransactionProvider.PLAN_INSTANCE_SINGLE_URI(templateId, (Long) ids[i]), null, null);
-        }
-        return null;
       case TaskExecutionFragment.TASK_BACKUP:
         return BackupUtils.doBackup(((String) mExtra), context);
       case TaskExecutionFragment.TASK_BALANCE:

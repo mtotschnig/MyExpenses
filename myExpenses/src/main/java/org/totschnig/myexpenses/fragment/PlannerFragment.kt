@@ -27,9 +27,9 @@ import org.totschnig.myexpenses.databinding.PlannerFragmentBinding
 import org.totschnig.myexpenses.dialog.BaseDialogFragment
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.getDateTimeFormatter
+import org.totschnig.myexpenses.viewmodel.PlanInstanceInfo
 import org.totschnig.myexpenses.viewmodel.PlannerViewModel
 import org.totschnig.myexpenses.viewmodel.data.EventObserver
 import org.totschnig.myexpenses.viewmodel.data.PlanInstance
@@ -40,22 +40,15 @@ import timber.log.Timber
 import javax.inject.Inject
 
 fun configureMenuInternalPlanInstances(menu: Menu, state: PlanInstanceState) {
-    configureMenuInternalPlanInstances(menu, 1, state == PlanInstanceState.OPEN,
-            state == PlanInstanceState.APPLIED,
-            state == PlanInstanceState.CANCELLED)
-}
-
-fun configureMenuInternalPlanInstances(menu: Menu, count: Int, withOpen: Boolean,
-                                       withApplied: Boolean, withCancelled: Boolean) {
     //state open
-    menu.findItem(R.id.CREATE_PLAN_INSTANCE_SAVE_COMMAND).isVisible = withOpen
-    menu.findItem(R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND).isVisible = count == 1 && withOpen
+    menu.findItem(R.id.CREATE_PLAN_INSTANCE_SAVE_COMMAND).isVisible = state == PlanInstanceState.OPEN
+    menu.findItem(R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND).isVisible = state == PlanInstanceState.OPEN
     //state open or applied
-    menu.findItem(R.id.CANCEL_PLAN_INSTANCE_COMMAND).isVisible = withOpen || withApplied
+    menu.findItem(R.id.CANCEL_PLAN_INSTANCE_COMMAND).isVisible = state == PlanInstanceState.OPEN || state == PlanInstanceState.APPLIED
     //state cancelled or applied
-    menu.findItem(R.id.RESET_PLAN_INSTANCE_COMMAND).isVisible = withApplied || withCancelled
+    menu.findItem(R.id.RESET_PLAN_INSTANCE_COMMAND).isVisible = state == PlanInstanceState.APPLIED || state == PlanInstanceState.CANCELLED
     //state applied
-    menu.findItem(R.id.EDIT_PLAN_INSTANCE_COMMAND).isVisible = count == 1 && withApplied
+    menu.findItem(R.id.EDIT_PLAN_INSTANCE_COMMAND).isVisible = state == PlanInstanceState.APPLIED
 }
 
 class PlannerFragment : BaseDialogFragment() {
@@ -85,17 +78,19 @@ class PlannerFragment : BaseDialogFragment() {
         super.onCreate(savedInstanceState)
         Icepick.restoreInstanceState(this, savedInstanceState)
         stateObserver = StateObserver()
-        requireContext().contentResolver.registerContentObserver(TransactionProvider.PLAN_INSTANCE_STATUS_URI,
-                true, stateObserver)
+        requireContext().contentResolver.registerContentObserver(
+            TransactionProvider.PLAN_INSTANCE_STATUS_URI,
+            true, stateObserver
+        )
         backgroundColor = ColorStateList(
-                arrayOf(
-                        intArrayOf(android.R.attr.state_selected),
-                        intArrayOf()
-                ),
-                intArrayOf(
-                        ResourcesCompat.getColor(resources, R.color.activatedBackgroundPlanner, null),
-                        ResourcesCompat.getColor(resources, R.color.cardBackground, null)
-                )
+            arrayOf(
+                intArrayOf(android.R.attr.state_selected),
+                intArrayOf()
+            ),
+            intArrayOf(
+                ResourcesCompat.getColor(resources, R.color.activatedBackgroundPlanner, null),
+                ResourcesCompat.getColor(resources, R.color.cardBackground, null)
+            )
         )
         (requireActivity().application as MyApplication).appComponent.inject(viewModel)
     }
@@ -141,22 +136,29 @@ class PlannerFragment : BaseDialogFragment() {
         })
         viewModel.getBulkCompleted().observe(this, EventObserver { list ->
             list.forEach { planInstance ->
-                viewModel.getUpdateFor(TransactionProvider.PLAN_INSTANCE_SINGLE_URI(planInstance.templateId, planInstance.instanceId))
+                viewModel.getUpdateFor(
+                    TransactionProvider.PLAN_INSTANCE_SINGLE_URI(
+                        planInstance.templateId,
+                        planInstance.instanceId
+                    )
+                )
             }
         })
         viewModel.loadInstances()
         val alertDialog = builder
-                .setPositiveButton(android.R.string.ok, null)
-                .setNeutralButton(R.string.menu_create_instance_save, null)
-                .create()
+            .setPositiveButton(android.R.string.ok, null)
+            .setNeutralButton(R.string.menu_create_instance_save, null)
+            .create()
         alertDialog.setOnShowListener {
             alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener { onBulkApply() }
             configureBulkApplyButton()
 
         }
         binding.HELPCOMMAND.setOnClickListener { view ->
-            (activity as? ProtectedFragmentActivity)?.dispatchCommand(view.id,
-                    ManageTemplates.HelpVariant.planner.name)
+            (activity as? ProtectedFragmentActivity)?.dispatchCommand(
+                view.id,
+                ManageTemplates.HelpVariant.planner.name
+            )
         }
         return alertDialog
     }
@@ -188,7 +190,8 @@ class PlannerFragment : BaseDialogFragment() {
     inner class PlannerAdapter : RecyclerView.Adapter<PlanInstanceViewHolder>() {
         val data = mutableListOf<PlanInstance>()
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlanInstanceViewHolder {
-            val itemBinding = PlanInstanceBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            val itemBinding =
+                PlanInstanceBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             itemBinding.root.setCardBackgroundColor(backgroundColor)
             return PlanInstanceViewHolder(itemBinding)
         }
@@ -210,18 +213,27 @@ class PlannerFragment : BaseDialogFragment() {
 
         fun postUpdate(update: PlanInstanceUpdate) {
             data.indexOfFirst { planInstance -> planInstance.templateId == update.templateId && planInstance.instanceId == update.instanceId }
-                    .takeIf { it != -1 }?.let { index ->
-                        val oldInstance = data[index]
-                        val amount = update.amount?.let { Money(oldInstance.amount.currencyUnit, it) }
-                                ?: oldInstance.amount
-                        data[index] = PlanInstance(oldInstance.templateId, update.transactionId, oldInstance.title, oldInstance.date, oldInstance.color,
-                                amount, update.newState, oldInstance.sealed)
-                        notifyItemChanged(index)
-                    }
+                .takeIf { it != -1 }?.let { index ->
+                    val oldInstance = data[index]
+                    val amount = update.amount?.let { Money(oldInstance.amount.currencyUnit, it) }
+                        ?: oldInstance.amount
+                    data[index] = PlanInstance(
+                        oldInstance.templateId,
+                        update.transactionId,
+                        oldInstance.title,
+                        oldInstance.date,
+                        oldInstance.color,
+                        amount,
+                        update.newState,
+                        oldInstance.sealed
+                    )
+                    notifyItemChanged(index)
+                }
         }
     }
 
-    inner class PlanInstanceViewHolder(private val itemBinding: PlanInstanceBinding) : RecyclerView.ViewHolder(itemBinding.root) {
+    inner class PlanInstanceViewHolder(private val itemBinding: PlanInstanceBinding) :
+        RecyclerView.ViewHolder(itemBinding.root) {
         @Inject
         lateinit var currencyFormatter: CurrencyFormatter
         private val formatter: DateTimeFormatter = getDateTimeFormatter(itemBinding.root.context)
@@ -235,98 +247,98 @@ class PlannerFragment : BaseDialogFragment() {
                 root.isSelected = selectedInstances.contains(planInstance)
                 date.text = planInstance.localDate.format(formatter)
                 label.text = planInstance.title
-                state.setImageResource(when (planInstance.state) {
-                    PlanInstanceState.OPEN -> R.drawable.ic_stat_open
-                    PlanInstanceState.APPLIED -> R.drawable.ic_stat_applied
-                    PlanInstanceState.CANCELLED -> R.drawable.ic_stat_cancelled
-                })
+                state.setImageResource(
+                    when (planInstance.state) {
+                        PlanInstanceState.OPEN -> R.drawable.ic_stat_open
+                        PlanInstanceState.APPLIED -> R.drawable.ic_stat_applied
+                        PlanInstanceState.CANCELLED -> R.drawable.ic_stat_cancelled
+                    }
+                )
                 colorAccount.setBackgroundColor(planInstance.color)
                 amount.text = currencyFormatter.formatCurrency(planInstance.amount)
-                amount.setTextColor(ResourcesCompat.getColor(resources,
-                        if (planInstance.amount.amountMinor < 0) R.color.colorExpense else R.color.colorIncome, null))
-                val templatesList = parentFragment as? TemplatesList
+                amount.setTextColor(
+                    ResourcesCompat.getColor(
+                        resources,
+                        if (planInstance.amount.amountMinor < 0) R.color.colorExpense else R.color.colorIncome,
+                        null
+                    )
+                )
+                val templatesList = parentFragment as TemplatesList
                 root.setOnLongClickListener {
-                    return@setOnLongClickListener if (planInstance.sealed) {
-                        templatesList?.showSnackbar(this@PlannerFragment, getString(R.string.object_sealed))
+                    if (planInstance.sealed) {
+                        warnSealed(templatesList)
                         true
                     } else onSelection(planInstance, position)
                 }
-                root.setOnClickListener {
-                    if (popup != null) {
-                        Timber.d("Caught double click")
-                        return@setOnClickListener
-                    }
-                    if (planInstance.sealed) {
-                        templatesList?.showSnackbar(this@PlannerFragment, getString(R.string.object_sealed))
-                        return@setOnClickListener
-                    }
-                    if (selectedInstances.size > 0) {
-                        if (onSelection(planInstance, position))
-                            return@setOnClickListener
-                    }
-                    popup = PopupMenu(root.context, root).apply {
-                        inflate(R.menu.planlist_context)
-                        configureMenuInternalPlanInstances(menu, planInstance.state)
-                        setOnMenuItemClickListener { item ->
-                            val instanceId = planInstance.instanceId
-                            when (item.itemId) {
-                                R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND -> {
-                                    templatesList?.dispatchCreateInstanceEdit(
-                                        planInstance.templateId, instanceId,
-                                        planInstance.date)
-                                    true
-                                }
-                                R.id.CREATE_PLAN_INSTANCE_SAVE_COMMAND -> {
-                                    viewModel.applyBulk(listOf(planInstance))
-                                    true
-
-                                }
-                                R.id.EDIT_PLAN_INSTANCE_COMMAND -> {
-                                    instanceUriToUpdate = TransactionProvider.PLAN_INSTANCE_SINGLE_URI(planInstance.templateId, instanceId)
-                                    templatesList?.dispatchEditInstance(planInstance.transactionId)
-                                    true
-                                }
-                                R.id.CANCEL_PLAN_INSTANCE_COMMAND -> {
-                                    templatesList?.dispatchTask(TaskExecutionFragment.TASK_CANCEL_PLAN_INSTANCE, arrayOf(instanceId), arrayOf(arrayOf(planInstance.templateId, planInstance.transactionId)))
-                                    true
-                                }
-                                R.id.RESET_PLAN_INSTANCE_COMMAND -> {
-                                    templatesList?.dispatchTask(TaskExecutionFragment.TASK_RESET_PLAN_INSTANCE, arrayOf(instanceId), arrayOf(arrayOf(planInstance.templateId, planInstance.transactionId)))
-                                    true
-                                }
-                                else -> false
+                templatesList.configureOnClickPopup(root,
+                    planInstance.let {
+                        PlanInstanceInfo(
+                            it.templateId,
+                            it.instanceId,
+                            it.date,
+                            it.transactionId,
+                            it.state
+                        )
+                    },
+                    onClick = {
+                        if (planInstance.sealed) {
+                            warnSealed(templatesList)
+                            return@configureOnClickPopup true
+                        } else if (selectedInstances.size > 0) {
+                            if (onSelection(planInstance, position))
+                                return@configureOnClickPopup true
+                        }
+                        false
+                    },
+                    handleMenuItemClick = { itemId ->
+                        when (itemId) {
+                            R.id.CREATE_PLAN_INSTANCE_SAVE_COMMAND -> {
+                                viewModel.applyBulk(listOf(planInstance))
+                                return@configureOnClickPopup true
                             }
+                            R.id.EDIT_PLAN_INSTANCE_COMMAND ->
+                                instanceUriToUpdate =
+                                    TransactionProvider.PLAN_INSTANCE_SINGLE_URI(
+                                        planInstance.templateId,
+                                        planInstance.instanceId
+                                    )
                         }
-                        setOnDismissListener {
-                            popup = null
-                        }
-                        //displaying the popup
-                        show()
+                        false
                     }
-                }
+                )
             }
         }
 
+        private fun warnSealed(templatesList: TemplatesList) {
+            templatesList.showSnackbar(
+                this@PlannerFragment,
+                getString(R.string.object_sealed)
+            )
+        }
+
         private fun onSelection(planInstance: PlanInstance, position: Int) =
-                if (planInstance.state == PlanInstanceState.OPEN) {
-                    if (selectedInstances.contains(planInstance)) {
-                        selectedInstances.remove(planInstance)
-                    } else {
-                        selectedInstances.add(planInstance)
-                    }
-                    adapter?.notifyItemChanged(position)
-                    configureBulkApplyButton()
-                    true
+            if (planInstance.state == PlanInstanceState.OPEN) {
+                if (selectedInstances.contains(planInstance)) {
+                    selectedInstances.remove(planInstance)
                 } else {
-                    false
+                    selectedInstances.add(planInstance)
                 }
+                adapter?.notifyItemChanged(position)
+                configureBulkApplyButton()
+                true
+            } else {
+                false
+            }
     }
 
     private fun configureBulkApplyButton() {
         (dialog as? AlertDialog)?.getButton(AlertDialog.BUTTON_NEUTRAL)?.let {
             val enabled = selectedInstances.size > 0
             it.isEnabled = enabled
-            it.text = if (enabled) "%s (%d)".format(getString(R.string.menu_create_instance_save), selectedInstances.size) else ""
+            it.text = if (enabled) "%s (%d)".format(
+                getString(R.string.menu_create_instance_save),
+                selectedInstances.size
+            ) else ""
         }
     }
 

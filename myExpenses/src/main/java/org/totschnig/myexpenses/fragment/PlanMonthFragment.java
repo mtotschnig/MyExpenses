@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.fragment;
 
-import android.app.Dialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
@@ -9,17 +8,9 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.SparseBooleanArray;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.android.calendar.CalendarContractCompat;
@@ -29,22 +20,19 @@ import com.roomorama.caldroid.CaldroidListener;
 import com.roomorama.caldroid.CalendarHelper;
 import com.roomorama.caldroid.CellView;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.provider.CalendarProviderProxy;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.ColorUtils;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.viewmodel.PlanInstanceInfo;
 import org.totschnig.myexpenses.viewmodel.data.PlanInstanceState;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -53,7 +41,7 @@ import java.util.TimeZone;
 import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentActivity;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
@@ -61,7 +49,6 @@ import hirondelle.date4j.DateTime;
 import icepick.Icepick;
 import icepick.State;
 
-import static org.totschnig.myexpenses.fragment.PlannerFragmentKt.configureMenuInternalPlanInstances;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
@@ -80,12 +67,12 @@ public class PlanMonthFragment extends CaldroidFragment
   StateListDrawable stateListDrawable;
 
   @State
-  protected HashMap<Long, Long> instance2TransactionMap = new HashMap<>();
+  HashMap<Long, Long> instance2TransactionMap = new HashMap<>();
 
   //caldroid fragment operates on Dates set to Midnight. We want to store the exact timestamp in order
-  //create the transactions with the exact date provided by the caldendar
+  //create the transactions with the exact date provided by the calendar
   @State
-  protected HashMap<DateTime, Long> dateTime2TimeStampMap = new HashMap<>();
+  HashMap<DateTime, Long> dateTime2TimeStampMap = new HashMap<>();
 
   public static PlanMonthFragment newInstance(String title, long templateId, long planId, int color,
                                               boolean readOnly) {
@@ -107,33 +94,19 @@ public class PlanMonthFragment extends CaldroidFragment
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    readOnly = getArguments().getBoolean(KEY_READ_ONLY);
+    readOnly = requireArguments().getBoolean(KEY_READ_ONLY);
     Icepick.restoreInstanceState(this, savedInstanceState);
     setCaldroidListener(new CaldroidListener() {
       @Override
-      public void onSelectDate(Date date, View view) {
-        //not our concern
-      }
-
-      @Override
       public void onChangeMonth(int month, int year) {
-        if (!readOnly && isVisible()) {
-          ((ContextualActionBarFragment) getParentFragment()).finishActionMode();
-        }
         requireLoader(INSTANCES_CURSOR);
-      }
-
-      @Override
-      public void onGridCreated(GridView gridView) {
-        if (!readOnly)
-          ((TemplatesList) getParentFragment()).registerForContextualActionBar(gridView);
       }
     });
     setupStateListDrawable();
   }
 
   private void setupStateListDrawable() {
-    int accountColor = getArguments().getInt(DatabaseConstants.KEY_COLOR);
+    int accountColor = requireArguments().getInt(DatabaseConstants.KEY_COLOR);
     stateListDrawable = new StateListDrawable();
     final int surfaceColor = UiUtils.getColor(requireContext(), R.attr.colorSurface);
     int todayDrawableResId = R.drawable.red_border;
@@ -142,7 +115,7 @@ public class PlanMonthFragment extends CaldroidFragment
     todaySelected.setColor(accountColor);
     today.setColor(surfaceColor);
     stateListDrawable.addState(new int[]{android.R.attr.state_activated},
-        new ColorDrawable(getContext().getResources().getColor(R.color.appDefault)));
+        new ColorDrawable(ResourcesCompat.getColor(getResources(), R.color.appDefault, null)));
     stateListDrawable.addState(
         new int[]{R.attr.state_date_selected, R.attr.state_date_today},
         todaySelected);
@@ -154,25 +127,10 @@ public class PlanMonthFragment extends CaldroidFragment
         today);
     stateListDrawable.addState(
         new int[]{R.attr.state_date_prev_next_month},
-        new ColorDrawable(getContext().getResources().getColor(R.color.caldroid_state_date_prev_next_month)));
+        new ColorDrawable(ResourcesCompat.getColor(getResources(), R.color.caldroid_state_date_prev_next_month, null)));
     stateListDrawable.addState(
         new int[]{},
         new ColorDrawable(surfaceColor));
-  }
-
-  @NonNull
-  @Override
-  public Dialog onCreateDialog(Bundle savedInstanceState) {
-    return new Dialog(getActivity(), getTheme()) {
-      @Override
-      public boolean onMenuItemSelected(int featureId, @NonNull MenuItem item) {
-        if (featureId == Window.FEATURE_CONTEXT_MENU) {
-          return getParentFragment().onContextItemSelected(item);
-        } else {
-          return super.onMenuItemSelected(featureId, item);
-        }
-      }
-    };
   }
 
   private void requireLoader(int loaderId) {
@@ -185,12 +143,12 @@ public class PlanMonthFragment extends CaldroidFragment
     View view = super.onCreateView(inflater, container, savedInstanceState);
     Toolbar toolbar = view.findViewById(R.id.calendar_toolbar);
     toolbar.setOnMenuItemClickListener(item -> {
-      ((ProtectedFragmentActivity) getActivity()).dispatchCommand(item.getItemId(),
+      ((ProtectedFragmentActivity) requireActivity()).dispatchCommand(item.getItemId(),
           ManageTemplates.HelpVariant.plans.name());
       return true;
     });
     toolbar.inflateMenu(R.menu.help_with_icon);
-    toolbar.setTitle(getArguments().getString(TOOLBAR_TITLE));
+    toolbar.setTitle(requireArguments().getString(TOOLBAR_TITLE));
 
     requireLoader(INSTANCE_STATUS_CURSOR);
     return view;
@@ -223,16 +181,16 @@ public class PlanMonthFragment extends CaldroidFragment
         ContentUris.appendId(builder, start);
         ContentUris.appendId(builder, end);
         return new CursorLoader(
-            getActivity(),
+            requireActivity(),
             builder.build(),
             null,
             String.format(Locale.US, CalendarContractCompat.Instances.EVENT_ID + " = %d",
-                getArguments().getLong(DatabaseConstants.KEY_PLANID)),
+                requireArguments().getLong(DatabaseConstants.KEY_PLANID)),
             null,
             null);
       case INSTANCE_STATUS_CURSOR:
         return new CursorLoader(
-            getActivity(),
+            requireActivity(),
             TransactionProvider.PLAN_INSTANCE_STATUS_URI,
             new String[]{
                 KEY_TEMPLATEID,
@@ -240,10 +198,14 @@ public class PlanMonthFragment extends CaldroidFragment
                 KEY_TRANSACTIONID
             },
             KEY_TEMPLATEID + " = ?",
-            new String[]{String.valueOf(getArguments().getLong(KEY_ROWID))},
+            new String[]{String.valueOf(getTemplateId())},
             null);
     }
-    return null;
+    throw new IllegalArgumentException();
+  }
+
+  private long getTemplateId() {
+    return requireArguments().getLong(KEY_ROWID);
   }
 
   @Override
@@ -284,79 +246,6 @@ public class PlanMonthFragment extends CaldroidFragment
 
   }
 
-  public void dispatchCommandSingle(int command, int position) {
-    long instanceId = getPlanInstanceForPosition(position);
-    final FragmentActivity activity = getActivity();
-    final Bundle arguments = getArguments();
-    final TemplatesList templatesList = (TemplatesList) getParentFragment();
-    if (activity == null || arguments == null || templatesList == null) return;
-    if (instanceId != -1) {
-      if (command == R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND) {
-        templatesList.dispatchCreateInstanceEdit(arguments.getLong(KEY_ROWID), instanceId, getDateForPosition(position));
-      } else if (command == R.id.EDIT_PLAN_INSTANCE_COMMAND) {
-        templatesList.dispatchEditInstance(instance2TransactionMap.get(instanceId));
-      }
-    }
-  }
-
-  public void dispatchCommandMultiple(int command, SparseBooleanArray positions) {
-    ArrayList<Long[]> extra2dAL = new ArrayList<>();
-    ArrayList<Long> objectIdsAL = new ArrayList<>();
-    final ProtectedFragmentActivity activity = (ProtectedFragmentActivity) getActivity();
-    final Bundle arguments = getArguments();
-    final TemplatesList templatesList = (TemplatesList) getParentFragment();
-    if (activity == null || arguments == null || templatesList == null) return;
-    if (command == R.id.CREATE_PLAN_INSTANCE_SAVE_COMMAND) {
-      for (int i = 0; i < positions.size(); i++) {
-        if (positions.valueAt(i)) {
-          int position = positions.keyAt(i);
-          long instanceId = getPlanInstanceForPosition(position);
-          //ignore instances that are not open
-          if (instanceId == -1 || instance2TransactionMap.get(instanceId) != null)
-            continue;
-          //pass event instance id and date as extra
-          extra2dAL.add(new Long[]{instanceId, getDateForPosition(position)});
-          objectIdsAL.add(arguments.getLong(KEY_ROWID));
-        }
-      }
-      templatesList.dispatchCreateInstanceSaveDo(ArrayUtils.toPrimitive(objectIdsAL.toArray(new Long[0])),
-          extra2dAL.toArray(new Long[extra2dAL.size()][2]));
-    } else if (command == R.id.CANCEL_PLAN_INSTANCE_COMMAND) {
-      for (int i = 0; i < positions.size(); i++) {
-        if (positions.valueAt(i)) {
-          int position = positions.keyAt(i);
-          long instanceId = getPlanInstanceForPosition(position);
-          if (instanceId == -1)
-            continue;
-          objectIdsAL.add(instanceId);
-          extra2dAL.add(new Long[]{arguments.getLong(KEY_ROWID),
-              instance2TransactionMap.get(instanceId)});
-        }
-      }
-      templatesList.dispatchTask(
-          TaskExecutionFragment.TASK_CANCEL_PLAN_INSTANCE,
-          objectIdsAL.toArray(new Long[0]),
-          extra2dAL.toArray(new Long[extra2dAL.size()][2]));
-    } else if (command == R.id.RESET_PLAN_INSTANCE_COMMAND) {
-      for (int i = 0; i < positions.size(); i++) {
-        if (positions.valueAt(i)) {
-          int position = positions.keyAt(i);
-          long instanceId = getPlanInstanceForPosition(position);
-          if (instanceId == -1)
-            continue;
-          objectIdsAL.add(instanceId);
-          //pass transactionId in extra
-          extra2dAL.add(new Long[]{arguments.getLong(KEY_ROWID),
-              instance2TransactionMap.get(instanceId)});
-        }
-      }
-      templatesList.dispatchTask(
-          TaskExecutionFragment.TASK_RESET_PLAN_INSTANCE,
-          objectIdsAL.toArray(new Long[0]),
-          extra2dAL.toArray(new Long[extra2dAL.size()][2]));
-    }
-  }
-
   private long getPlanInstanceForPosition(int position) {
     final Long date = dateTime2TimeStampMap.get(dateInMonthsList.get(position));
     return date != null ? CalendarProviderProxy.calculateId(date) : -1;
@@ -365,37 +254,6 @@ public class PlanMonthFragment extends CaldroidFragment
   private long getDateForPosition(int position) {
     final Long date = dateTime2TimeStampMap.get(dateInMonthsList.get(position));
     return date != null ? date : System.currentTimeMillis();
-  }
-
-  public void configureMenu11(Menu menu, int count, AbsListView lv) {
-    boolean withOpen = false, withApplied = false, withCancelled = false;
-    SparseBooleanArray checkedItemPositions = lv.getCheckedItemPositions();
-    for (int i = 0; i < checkedItemPositions.size(); i++) {
-      if (checkedItemPositions.valueAt(i)) {
-        long instanceId = getPlanInstanceForPosition(checkedItemPositions.keyAt(i));
-        if (instanceId == -1)
-          continue;
-        switch (getState(instanceId)) {
-          case APPLIED:
-            withApplied = true;
-            break;
-          case CANCELLED:
-            withCancelled = true;
-            break;
-          case OPEN:
-            withOpen = true;
-            break;
-        }
-        configureMenuInternalPlanInstances(menu, count, withOpen, withApplied, withCancelled);
-      }
-    }
-  }
-
-  public void configureMenuLegacy(Menu menu, ContextMenu.ContextMenuInfo menuInfo) {
-    long instanceId = getPlanInstanceForPosition(((AdapterView.AdapterContextMenuInfo) menuInfo).position);
-    if (instanceId != -1) {
-      configureMenuInternalPlanInstances(menu, getState(instanceId));
-    }
   }
 
   private PlanInstanceState getState(Long id) {
@@ -424,7 +282,6 @@ public class PlanMonthFragment extends CaldroidFragment
 
       // For reuse
       if (convertView == null) {
-        //TODO investigate why passing parent to inflate leads to corrupted display
         //noinspection InflateParams
         frameLayout = localInflater.inflate(R.layout.plan_calendar_cell, null);
       } else {
@@ -440,24 +297,35 @@ public class PlanMonthFragment extends CaldroidFragment
 
       if (selectedDates.contains(dateTime)) {
         state.setVisibility(View.VISIBLE);
-        Long transactionId = instance2TransactionMap.get(CalendarProviderProxy.calculateId(dateTime));
-        boolean brightColor = ColorUtils.isBrightColor(getArguments().getInt(DatabaseConstants.KEY_COLOR));
+        PlanInstanceState planInstanceState = getState(CalendarProviderProxy.calculateId(dateTime));
+        boolean brightColor = ColorUtils.isBrightColor(requireArguments().getInt(DatabaseConstants.KEY_COLOR));
         int themeResId = brightColor ? R.style.LightBackground : R.style.DarkBackground;
-        if (transactionId == null) {
-          state.setImageBitmap(UiUtils.getTintedBitmapForTheme(getContext(), R.drawable.ic_stat_open, themeResId));
-          frameLayout.setContentDescription(getString(R.string.plan_instance_state_open));
-        } else if (transactionId == 0L) {
-          state.setImageBitmap(UiUtils.getTintedBitmapForTheme(getContext(), R.drawable.ic_stat_cancelled, themeResId));
-          frameLayout.setContentDescription(getString(R.string.plan_instance_state_cancelled));
-        } else {
-          state.setImageBitmap(UiUtils.getTintedBitmapForTheme(getContext(), R.drawable.ic_stat_applied, themeResId));
-          frameLayout.setContentDescription(getString(R.string.plan_instance_state_applied));
+        switch (planInstanceState) {
+          case OPEN:
+            state.setImageBitmap(UiUtils.getTintedBitmapForTheme(getContext(), R.drawable.ic_stat_open, themeResId));
+            frameLayout.setContentDescription(getString(R.string.plan_instance_state_open));
+            break;
+          case APPLIED:
+            state.setImageBitmap(UiUtils.getTintedBitmapForTheme(getContext(), R.drawable.ic_stat_applied, themeResId));
+            frameLayout.setContentDescription(getString(R.string.plan_instance_state_applied));
+            break;
+          case CANCELLED:
+            state.setImageBitmap(UiUtils.getTintedBitmapForTheme(getContext(), R.drawable.ic_stat_cancelled, themeResId));
+            frameLayout.setContentDescription(getString(R.string.plan_instance_state_cancelled));
+            break;
         }
 
-        cell.setTextColor(getContext().getResources().getColor(
-            brightColor ? R.color.cell_text_color : R.color.cell_text_color_dark));
+        cell.setTextColor(ResourcesCompat.getColor(getResources(),
+            brightColor ? R.color.cell_text_color : R.color.cell_text_color_dark, null));
+        if (!readOnly) {
+          final TemplatesList templatesList = (TemplatesList) requireParentFragment();
+          final long instanceId = getPlanInstanceForPosition(position);
+          templatesList.configureOnClickPopup(frameLayout,
+              new PlanInstanceInfo(getTemplateId(), instanceId, getDateForPosition(position), instance2TransactionMap.get(instanceId), planInstanceState), null, null);
+        }
       } else {
         state.setVisibility(View.GONE);
+        frameLayout.setOnClickListener(null);
       }
 
       return frameLayout;

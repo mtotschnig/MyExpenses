@@ -210,7 +210,7 @@ dependencies {
     implementation "org.apache.commons:commons-text:$commonsText"
     implementation "com.squareup.picasso:picasso:$picassoVersion"
     implementation 'com.github.mtotschnig:MPAndroidChart:6fcf34d9d4'
-    implementation 'com.github.mtotschnig:Caldroid:d217ebc306'
+    implementation 'com.github.mtotschnig:Caldroid:2fcb748f0e'
     implementation 'com.github.eltos:simpledialogfragments:v3.3.2'
     implementation 'com.annimon:stream:1.2.1'
     implementation 'com.getkeepsafe.taptargetview:taptargetview:1.13.2'
