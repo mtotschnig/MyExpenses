@@ -540,8 +540,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManag
             }
             setDirty()
         } else {
-            intent.getLongExtra(KEY_DATE, 0).takeIf { it != 0L }?.let {
-                transaction.date = it / 1000
+            intent.getLongExtra(KEY_DATE, 0).takeIf { it != 0L }?.let { it/1000 }?.let {
+                transaction.date = it
+                transaction.valueDate = it
             }
         }
         delegate = TransactionDelegate.create(transaction, rootBinding, dateEditBinding, methodRowBinding, prefHandler)

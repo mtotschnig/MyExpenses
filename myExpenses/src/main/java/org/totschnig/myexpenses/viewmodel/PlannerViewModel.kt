@@ -66,9 +66,9 @@ class PlannerViewModel(application: Application) : ContentResolvingAndroidViewMo
 
         fun endMillis() = localDateTime2EpochMillis(endDate().atTime(LocalTime.MAX))
 
-        fun endDate() = startDate().with(TemporalAdjusters.lastDayOfMonth())
+        fun endDate(): LocalDate = startDate().with(TemporalAdjusters.lastDayOfMonth())
 
-        fun startDate() = LocalDate.of(year, month, 1)
+        fun startDate(): LocalDate = LocalDate.of(year, month, 1)
     }
 
     var first: Month
@@ -117,7 +117,7 @@ class PlannerViewModel(application: Application) : ContentResolvingAndroidViewMo
         ContentUris.appendId(builder, endMonth.endMillis())
         viewModelScope.launch {
             val plannerCalendarId = withContext(Dispatchers.Default) {
-                MyApplication.getInstance().checkPlanner()
+                getApplication<MyApplication>().checkPlanner()
             }
             disposable = briteContentResolver.createQuery(
                 builder.build(), null,
@@ -202,7 +202,9 @@ class PlannerViewModel(application: Application) : ContentResolvingAndroidViewMo
                         instanceId
                     )
                     pair?.first?.let {
-                        it.date = planInstance.date / 1000
+                        val date = planInstance.date / 1000
+                        it.date = date
+                        it.valueDate = date
                         it.originPlanInstanceId = instanceId
                         it.status = DatabaseConstants.STATUS_NONE
                         if (it.save(true) != null) {

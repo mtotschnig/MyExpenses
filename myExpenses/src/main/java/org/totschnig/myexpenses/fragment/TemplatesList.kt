@@ -41,6 +41,7 @@ import android.widget.ImageView
 import android.widget.SimpleCursorAdapter
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
@@ -81,6 +82,7 @@ import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.viewmodel.PlanInstanceInfo
 import org.totschnig.myexpenses.viewmodel.TemplatesListViewModel
+import timber.log.Timber
 import java.io.Serializable
 import java.lang.ref.WeakReference
 import java.util.*
@@ -92,6 +94,7 @@ const val DIALOG_TAG_CONFIRM_RESET = "confirm_reset"
 
 class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Cursor?>,
     SimpleDialog.OnDialogResultListener {
+    private var popup: PopupMenu? = null
     override val menuResource: Int
         get() = R.menu.templateslist_context
     private var mTemplatesCursor: Cursor? = null
@@ -263,57 +266,57 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
         if (super.dispatchCommandMultiple(command, positions, itemIds)) {
             return true
         }
-        if (command == R.id.DEFAULT_ACTION_EDIT_COMMAND) {
-            bulkUpdateDefaultAction(
-                itemIds,
-                Template.Action.EDIT,
-                R.string.menu_create_instance_edit
-            )
-            return true
-        } else if (command == R.id.DEFAULT_ACTION_SAVE_COMMAND) {
-            bulkUpdateDefaultAction(
-                itemIds,
-                Template.Action.SAVE,
-                R.string.menu_create_instance_save
-            )
-            return true
-        } else if (command == R.id.DELETE_COMMAND) {
-            MessageDialogFragment.newInstance(
-                getString(R.string.dialog_title_warning_delete_template),  //TODO check if template
-                resources.getQuantityString(
-                    R.plurals.warning_delete_template,
-                    itemIds.size,
-                    itemIds.size
-                ),
-                MessageDialogFragment.Button(
-                    R.string.menu_delete,
-                    R.id.DELETE_COMMAND_DO,
-                    itemIds
-                ),
-                null,
-                MessageDialogFragment.Button(
-                    R.string.response_no,
-                    R.id.CANCEL_CALLBACK_COMMAND,
-                    null
+        when (command) {
+            R.id.DEFAULT_ACTION_EDIT_COMMAND -> {
+                bulkUpdateDefaultAction(
+                    itemIds,
+                    Template.Action.EDIT,
+                    R.string.menu_create_instance_edit
                 )
-            )
-                .show(requireActivity().supportFragmentManager, "DELETE_TEMPLATE")
-            return true
-        } else if (command == R.id.CREATE_INSTANCE_SAVE_COMMAND) {
-            if (hasSplitAtPositions(positions)) {
-                requestSplitTransaction(itemIds)
-            } else {
-                dispatchCreateInstanceSaveDo(itemIds)
+                return true
             }
-            finishActionMode()
-            return true
-        } else if (command == R.id.CREATE_PLAN_INSTANCE_SAVE_COMMAND || command == R.id.CANCEL_PLAN_INSTANCE_COMMAND || command == R.id.RESET_PLAN_INSTANCE_COMMAND) {
-            val planMonthFragment = planMonthFragment
-            planMonthFragment?.dispatchCommandMultiple(command, positions)
-            finishActionMode()
-            return true
+            R.id.DEFAULT_ACTION_SAVE_COMMAND -> {
+                bulkUpdateDefaultAction(
+                    itemIds,
+                    Template.Action.SAVE,
+                    R.string.menu_create_instance_save
+                )
+                return true
+            }
+            R.id.DELETE_COMMAND -> {
+                MessageDialogFragment.newInstance(
+                    getString(R.string.dialog_title_warning_delete_template),  //TODO check if template
+                    resources.getQuantityString(
+                        R.plurals.warning_delete_template,
+                        itemIds.size,
+                        itemIds.size
+                    ),
+                    MessageDialogFragment.Button(
+                        R.string.menu_delete,
+                        R.id.DELETE_COMMAND_DO,
+                        itemIds
+                    ),
+                    null,
+                    MessageDialogFragment.Button(
+                        R.string.response_no,
+                        R.id.CANCEL_CALLBACK_COMMAND,
+                        null
+                    )
+                )
+                    .show(requireActivity().supportFragmentManager, "DELETE_TEMPLATE")
+                return true
+            }
+            R.id.CREATE_INSTANCE_SAVE_COMMAND -> {
+                if (hasSplitAtPositions(positions)) {
+                    requestSplitTransaction(itemIds)
+                } else {
+                    dispatchCreateInstanceSaveDo(itemIds)
+                }
+                finishActionMode()
+                return true
+            }
+            else -> return false
         }
-        return false
     }
 
     override fun dispatchCommandSingle(command: Int, info: ContextMenuInfo?): Boolean {
@@ -336,11 +339,6 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
             i.putExtra(DatabaseConstants.KEY_TEMPLATEID, menuInfo.id)
             //TODO check what to do on Result
             startActivityForResult(i, EDIT_REQUEST)
-            return true
-        } else if (command == R.id.EDIT_PLAN_INSTANCE_COMMAND || command == R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND) {
-            val planMonthFragment = planMonthFragment
-            planMonthFragment?.dispatchCommandSingle(command, menuInfo.position)
-            finishActionMode()
             return true
         }
         return false
@@ -379,10 +377,10 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
     }
 
     fun dispatchCreateInstanceSaveDo(templateIds: LongArray) {
-        dispatchCreateInstanceSaveDo(templateIds.map { PlanInstanceInfo(it) }.toTypedArray())
+        dispatchCreateInstanceSaveDo(*templateIds.map { PlanInstanceInfo(it) }.toTypedArray())
     }
 
-    fun dispatchCreateInstanceSaveDo(plans: Array<PlanInstanceInfo>) {
+    private fun dispatchCreateInstanceSaveDo(vararg plans: PlanInstanceInfo) {
         viewModel.newFromTemplate(plans).observe(
             viewLifecycleOwner,
             { successCount: Int ->
@@ -394,15 +392,6 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
                     )
                 )
             })
-    }
-
-    fun dispatchTask(taskId: Int, itemIds: Array<Long>?, extra: Array<Array<Long?>?>?) {
-        (requireActivity() as ProtectedFragmentActivity).startTaskExecution(
-            taskId,
-            itemIds,
-            extra,
-            0
-        )
     }
 
     fun dispatchCreateInstanceEditDo(itemId: Long) {
@@ -587,19 +576,21 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
             .extra(Bundle().apply {
                 putParcelableArray(KEY_INSTANCES, planInstances)
             })
-            .msg(concatResStrings(
-                context,
-                " ",
-                R.string.warning_plan_instance_delete,
-                R.string.continue_confirmation
-            ))
+            .msg(
+                concatResStrings(
+                    context,
+                    " ",
+                    R.string.warning_plan_instance_delete,
+                    R.string.continue_confirmation
+                )
+            )
             .pos(R.string.response_yes)
             .neg(R.string.response_no)
             .show(this, dialogTag)
     }
 
     fun dispatchCancelInstance(vararg planInstances: PlanInstanceInfo) {
-        val countInstantiated = planInstances.count { it.transactionId != null }
+        val countInstantiated = planInstances.count { planInstanceInfo -> planInstanceInfo.transactionId?.takeIf { it != 0L } != null }
         if (countInstantiated > 0) {
             confirmDeleteTransactionsForPlanInstances(
                 planInstances,
@@ -612,7 +603,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
     }
 
     fun dispatchResetInstance(vararg planInstances: PlanInstanceInfo) {
-        val countInstantiated = planInstances.count { it.transactionId != null }
+        val countInstantiated = planInstances.count { planInstanceInfo -> planInstanceInfo.transactionId?.takeIf { it != 0L } != null }
         if (countInstantiated > 0) {
             confirmDeleteTransactionsForPlanInstances(
                 planInstances,
@@ -776,9 +767,6 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
                 hasPlan,
                 hasSealed
             )
-        } else if (id == R.id.calendar_gridview) {
-            val planMonthFragment = planMonthFragment
-            planMonthFragment?.configureMenu11(menu, lv.checkedItemCount, lv)
         }
     }
 
@@ -862,11 +850,74 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
     @Suppress("UNCHECKED_CAST")
     override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
         if (which == SimpleDialog.OnDialogResultListener.BUTTON_POSITIVE) {
-            when(dialogTag) {
+            when (dialogTag) {
                 DIALOG_TAG_CONFIRM_RESET -> viewModel.reset(extras.getParcelableArray(KEY_INSTANCES) as Array<PlanInstanceInfo>)
-                DIALOG_TAG_CONFIRM_CANCEL -> viewModel.cancel(extras.getParcelableArray(KEY_INSTANCES) as Array<PlanInstanceInfo>)
+                DIALOG_TAG_CONFIRM_CANCEL -> viewModel.cancel(
+                    extras.getParcelableArray(
+                        KEY_INSTANCES
+                    ) as Array<PlanInstanceInfo>
+                )
             }
         }
         return true
+    }
+
+    fun configureOnClickPopup(
+        view: View,
+        planInstance: PlanInstanceInfo,
+        onClick: (() -> Boolean)?,
+        handleMenuItemClick: ((Int) -> Boolean)?
+    ) {
+        view.setOnClickListener {
+            if (popup != null) {
+                Timber.d("Caught double click")
+                return@setOnClickListener
+            }
+            if (onClick?.invoke() == true) {
+                return@setOnClickListener
+            }
+
+            popup = PopupMenu(requireContext(), view).apply {
+                inflate(R.menu.planlist_context)
+                configureMenuInternalPlanInstances(menu, planInstance.state)
+                setOnMenuItemClickListener { item ->
+                    if (handleMenuItemClick?.invoke(item.itemId) == true) {
+                        return@setOnMenuItemClickListener true
+                    }
+                    when (item.itemId) {
+                        R.id.CREATE_PLAN_INSTANCE_EDIT_COMMAND -> {
+                            dispatchCreateInstanceEdit(
+                                planInstance.templateId, planInstance.instanceId!!,
+                                planInstance.date!!
+                            )
+                            true
+                        }
+                        R.id.CREATE_PLAN_INSTANCE_SAVE_COMMAND -> {
+                            dispatchCreateInstanceSaveDo(planInstance)
+                            true
+
+                        }
+                        R.id.EDIT_PLAN_INSTANCE_COMMAND -> {
+                            dispatchEditInstance(planInstance.transactionId)
+                            true
+                        }
+                        R.id.CANCEL_PLAN_INSTANCE_COMMAND -> {
+                            dispatchCancelInstance(planInstance)
+                            true
+                        }
+                        R.id.RESET_PLAN_INSTANCE_COMMAND -> {
+                            dispatchResetInstance(planInstance)
+                            true
+                        }
+                        else -> false
+                    }
+                }
+                setOnDismissListener {
+                    popup = null
+                }
+                //displaying the popup
+                show()
+            }
+        }
     }
 }

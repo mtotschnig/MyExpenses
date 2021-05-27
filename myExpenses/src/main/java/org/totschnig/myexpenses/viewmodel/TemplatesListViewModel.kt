@@ -15,9 +15,10 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.WhereFilter
+import org.totschnig.myexpenses.viewmodel.data.PlanInstanceState
 
 @Parcelize
-data class PlanInstanceInfo(val templateId: Long, val instanceId: Long? = null, val date: Long? = null, val transactionId: Long? = null): Parcelable
+data class PlanInstanceInfo(val templateId: Long, val instanceId: Long? = null, val date: Long? = null, val transactionId: Long? = null, val state: PlanInstanceState = PlanInstanceState.OPEN): Parcelable
 
 class TemplatesListViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
     fun updateDefaultAction(itemIds: LongArray, action: Template.Action) = liveData(context = coroutineContext()) {
@@ -27,13 +28,14 @@ class TemplatesListViewModel(application: Application) : ContentResolvingAndroid
                 itemIds.map(Long::toString).toTypedArray()) == itemIds.size)
     }
 
-    fun newFromTemplate(plans: Array<PlanInstanceInfo>) = liveData(context = coroutineContext()) {
+    fun newFromTemplate(plans: Array<out PlanInstanceInfo>) = liveData(context = coroutineContext()) {
         emit(plans.map { plan ->
             Transaction.getInstanceFromTemplateWithTags(plan.templateId)?.let {
                 val (t, tagList) = it
                 if (plan.date != null) {
-                    t.date = plan.date
-                    t.valueDate = plan.date
+                    val date = plan.date / 1000
+                    t.date = date
+                    t.valueDate = date
                     t.originPlanInstanceId = plan.instanceId
                 }
                 t.status = DatabaseConstants.STATUS_NONE
