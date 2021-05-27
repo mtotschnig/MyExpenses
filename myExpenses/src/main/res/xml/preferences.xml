@@ -57,7 +57,9 @@
         </Preference>
         <ListPreference
             android:key="@string/pref_home_currency_key"
-            android:title="@string/pref_home_currency_title" />
+            android:title="@string/pref_home_currency_title"
+            android:enabled="false"
+            my:useSimpleSummaryProvider="true"/>
         <Preference
             android:key="manage_tags"
             android:summary="@string/pref_manage_tags_summary"

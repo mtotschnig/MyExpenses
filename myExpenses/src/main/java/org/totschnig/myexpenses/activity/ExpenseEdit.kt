@@ -62,8 +62,6 @@ import org.totschnig.myexpenses.delegate.TransferDelegate
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
 import org.totschnig.myexpenses.feature.OcrResultFlat
-import org.totschnig.myexpenses.fragment.KEY_DELETED_IDS
-import org.totschnig.myexpenses.fragment.KEY_TAG_LIST
 import org.totschnig.myexpenses.fragment.PlanMonthFragment
 import org.totschnig.myexpenses.fragment.SplitPartList
 import org.totschnig.myexpenses.fragment.TemplatesList
@@ -113,7 +111,6 @@ import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask
 import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask.TRANSACTION
 import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask.TRANSACTION_FROM_TEMPLATE
 import org.totschnig.myexpenses.viewmodel.data.Account
-import org.totschnig.myexpenses.viewmodel.data.Tag
 import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET
 import timber.log.Timber
 import java.io.Serializable

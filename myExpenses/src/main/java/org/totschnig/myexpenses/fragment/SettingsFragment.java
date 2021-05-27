@@ -6,19 +6,15 @@ import android.app.KeyguardManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.icu.text.ListFormatter;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalTime;
-import org.threeten.bp.chrono.IsoChronology;
 import org.threeten.bp.format.DateTimeFormatter;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
@@ -33,7 +29,6 @@ import org.totschnig.myexpenses.preference.CalendarListPreferenceDialogFragmentC
 import org.totschnig.myexpenses.preference.FontSizeDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogPreference;
 import org.totschnig.myexpenses.preference.LegacyPasswordPreferenceDialogFragmentCompat;
-import org.totschnig.myexpenses.preference.LocalizedFormatEditTextPreference;
 import org.totschnig.myexpenses.preference.PopupMenuPreference;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.preference.SecurityQuestionDialogFragmentCompat;
@@ -41,28 +36,17 @@ import org.totschnig.myexpenses.preference.SimplePasswordDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.SimplePasswordPreference;
 import org.totschnig.myexpenses.preference.TimePreference;
 import org.totschnig.myexpenses.preference.TimePreferenceDialogFragmentCompat;
-import org.totschnig.myexpenses.sync.ServiceLoader;
-import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.ShareUtils;
-import org.totschnig.myexpenses.util.ShortcutHelper;
-import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
-import org.totschnig.myexpenses.util.ads.AdHandlerFactory;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.distrib.DistributionHelper;
 import org.totschnig.myexpenses.util.io.NetworkUtilsKt;
-import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.licence.Package;
 import org.totschnig.myexpenses.util.licence.ProfessionalPackage;
-import org.totschnig.myexpenses.util.tracking.Tracker;
-import org.totschnig.myexpenses.viewmodel.data.Currency;
-import org.totschnig.myexpenses.widget.AbstractWidgetKt;
 
 import java.net.URI;
-import java.text.DateFormatSymbols;
-import java.util.Calendar;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -70,62 +54,36 @@ import javax.inject.Inject;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.SwitchCompat;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.documentfile.provider.DocumentFile;
 import androidx.fragment.app.DialogFragment;
-import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
-import androidx.preference.PreferenceCategory;
-import androidx.preference.PreferenceGroup;
 import androidx.preference.PreferenceScreen;
 import eltos.simpledialogfragment.SimpleDialog;
 import eltos.simpledialogfragment.form.Input;
 import eltos.simpledialogfragment.form.SimpleFormDialog;
 import eltos.simpledialogfragment.input.SimpleInputDialog;
 
-import static org.threeten.bp.format.DateTimeFormatterBuilder.getLocalizedDateTimePattern;
-import static org.threeten.bp.format.FormatStyle.MEDIUM;
-import static org.threeten.bp.format.FormatStyle.SHORT;
 import static org.totschnig.myexpenses.activity.ConstantsKt.RESTORE_REQUEST;
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.RESULT_RESTORE_OK;
-import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT;
-import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
-import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER;
 import static org.totschnig.myexpenses.model.ContribFeature.CSV_IMPORT;
-import static org.totschnig.myexpenses.preference.PrefKey.ACRA_INFO;
 import static org.totschnig.myexpenses.preference.PrefKey.APP_DIR;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP_CLOUD;
-import static org.totschnig.myexpenses.preference.PrefKey.AUTO_BACKUP_INFO;
 import static org.totschnig.myexpenses.preference.PrefKey.AUTO_FILL_SWITCH;
-import static org.totschnig.myexpenses.preference.PrefKey.CATEGORY_PRIVACY;
 import static org.totschnig.myexpenses.preference.PrefKey.CONTRIB_PURCHASE;
 import static org.totschnig.myexpenses.preference.PrefKey.CRASHREPORT_ENABLED;
-import static org.totschnig.myexpenses.preference.PrefKey.CRASHREPORT_SCREEN;
 import static org.totschnig.myexpenses.preference.PrefKey.CRASHREPORT_USEREMAIL;
-import static org.totschnig.myexpenses.preference.PrefKey.CUSTOM_DATE_FORMAT;
 import static org.totschnig.myexpenses.preference.PrefKey.CUSTOM_DECIMAL_FORMAT;
-import static org.totschnig.myexpenses.preference.PrefKey.EXCHANGE_RATES;
 import static org.totschnig.myexpenses.preference.PrefKey.EXCHANGE_RATE_PROVIDER;
-import static org.totschnig.myexpenses.preference.PrefKey.FEATURE_UNINSTALL;
-import static org.totschnig.myexpenses.preference.PrefKey.GROUPING_START_SCREEN;
-import static org.totschnig.myexpenses.preference.PrefKey.GROUP_MONTH_STARTS;
-import static org.totschnig.myexpenses.preference.PrefKey.GROUP_WEEK_STARTS;
 import static org.totschnig.myexpenses.preference.PrefKey.HOME_CURRENCY;
 import static org.totschnig.myexpenses.preference.PrefKey.IMPORT_CSV;
-import static org.totschnig.myexpenses.preference.PrefKey.IMPORT_QIF;
 import static org.totschnig.myexpenses.preference.PrefKey.LICENCE_EMAIL;
-import static org.totschnig.myexpenses.preference.PrefKey.MANAGE_STALE_IMAGES;
-import static org.totschnig.myexpenses.preference.PrefKey.MANAGE_SYNC_BACKENDS;
 import static org.totschnig.myexpenses.preference.PrefKey.MORE_INFO_DIALOG;
 import static org.totschnig.myexpenses.preference.PrefKey.NEW_LICENCE;
 import static org.totschnig.myexpenses.preference.PrefKey.NEXT_REMINDER_RATE;
-import static org.totschnig.myexpenses.preference.PrefKey.OCR;
 import static org.totschnig.myexpenses.preference.PrefKey.OCR_DATE_FORMATS;
-import static org.totschnig.myexpenses.preference.PrefKey.OCR_ENGINE;
 import static org.totschnig.myexpenses.preference.PrefKey.OCR_TIME_FORMATS;
-import static org.totschnig.myexpenses.preference.PrefKey.OCR_TOTAL_INDICATORS;
 import static org.totschnig.myexpenses.preference.PrefKey.PERFORM_PROTECTION_SCREEN;
 import static org.totschnig.myexpenses.preference.PrefKey.PERFORM_SHARE;
 import static org.totschnig.myexpenses.preference.PrefKey.PERSONALIZED_AD_CONSENT;
@@ -139,22 +97,11 @@ import static org.totschnig.myexpenses.preference.PrefKey.ROOT_SCREEN;
 import static org.totschnig.myexpenses.preference.PrefKey.SECURITY_QUESTION;
 import static org.totschnig.myexpenses.preference.PrefKey.SEND_FEEDBACK;
 import static org.totschnig.myexpenses.preference.PrefKey.SHARE_TARGET;
-import static org.totschnig.myexpenses.preference.PrefKey.SHORTCUT_CREATE_SPLIT;
-import static org.totschnig.myexpenses.preference.PrefKey.SHORTCUT_CREATE_TRANSACTION;
-import static org.totschnig.myexpenses.preference.PrefKey.SHORTCUT_CREATE_TRANSFER;
-import static org.totschnig.myexpenses.preference.PrefKey.SYNC;
-import static org.totschnig.myexpenses.preference.PrefKey.SYNC_NOTIFICATION;
-import static org.totschnig.myexpenses.preference.PrefKey.SYNC_WIFI_ONLY;
-import static org.totschnig.myexpenses.preference.PrefKey.TRACKING;
-import static org.totschnig.myexpenses.preference.PrefKey.TRANSLATION;
-import static org.totschnig.myexpenses.preference.PrefKey.UI_HOME_SCREEN_SHORTCUTS;
-import static org.totschnig.myexpenses.preference.PrefKey.UI_LANGUAGE;
 import static org.totschnig.myexpenses.preference.PrefKey.UI_WEB;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 import static org.totschnig.myexpenses.util.TextUtils.concatResStrings;
 
 public class SettingsFragment extends BaseSettingsFragment implements
-    Preference.OnPreferenceClickListener,
     SimpleInputDialog.OnDialogResultListener {
 
   private static final String DIALOG_VALIDATE_LICENCE = "validateLicence";
@@ -166,10 +113,6 @@ public class SettingsFragment extends BaseSettingsFragment implements
   private static final int CONTRIB_PURCHASE_REQUEST = 3;
   private static final int PICK_FOLDER_REQUEST_LEGACY = 4;
 
-  @Inject
-  LicenceHandler licenceHandler;
-  @Inject
-  AdHandlerFactory adHandlerFactory;
   @Inject
   CrashHandler crashHandler;
   @Inject
@@ -183,266 +126,6 @@ public class SettingsFragment extends BaseSettingsFragment implements
     prefHandler.preparePreferenceFragment(this);
   }
 
-  private final Preference.OnPreferenceClickListener homeScreenShortcutPrefClickHandler =
-      preference -> {
-        trackPreferenceClick(preference);
-        Bundle extras = new Bundle();
-        extras.putBoolean(AbstractWidgetKt.EXTRA_START_FROM_WIDGET, true);
-        extras.putBoolean(AbstractWidgetKt.EXTRA_START_FROM_WIDGET_DATA_ENTRY, true);
-        int nameId = 0, operationType = 0;
-        Bitmap bitmap = null;
-        if (matches(preference, SHORTCUT_CREATE_TRANSACTION)) {
-          nameId = R.string.transaction;
-          bitmap = getBitmapForShortcut(R.drawable.shortcut_create_transaction_icon,
-              R.drawable.shortcut_create_transaction_icon_lollipop);
-          operationType = TYPE_TRANSACTION;
-        }
-        if (matches(preference, SHORTCUT_CREATE_TRANSFER)) {
-          nameId = R.string.transfer;
-          bitmap = getBitmapForShortcut(R.drawable.shortcut_create_transfer_icon,
-              R.drawable.shortcut_create_transfer_icon_lollipop);
-          operationType = TYPE_TRANSFER;
-        }
-        if (matches(preference, SHORTCUT_CREATE_SPLIT)) {
-          nameId = R.string.split_transaction;
-          bitmap = getBitmapForShortcut(R.drawable.shortcut_create_split_icon,
-              R.drawable.shortcut_create_split_icon_lollipop);
-          operationType = TYPE_SPLIT;
-        }
-        if (nameId != 0) {
-          addShortcut(nameId, operationType, bitmap);
-          return true;
-        }
-        return false;
-      };
-
-  private void trackPreferenceClick(Preference preference) {
-    Bundle bundle = new Bundle();
-    bundle.putString(Tracker.EVENT_PARAM_ITEM_ID, preference.getKey());
-    activity().logEvent(Tracker.EVENT_PREFERENCE_CLICK, bundle);
-  }
-
-  private void setListenerRecursive(PreferenceGroup preferenceGroup, Preference.OnPreferenceClickListener listener) {
-    for (int i = 0; i < preferenceGroup.getPreferenceCount(); i++) {
-      final Preference preference = preferenceGroup.getPreference(i);
-      if (preference instanceof PreferenceCategory) {
-        setListenerRecursive(((PreferenceCategory) preference), listener);
-      } else {
-        preference.setOnPreferenceClickListener(listener);
-      }
-    }
-  }
-
-
-  private void unsetIconSpaceReservedRecursive(PreferenceGroup preferenceGroup) {
-    for (int i = 0; i < preferenceGroup.getPreferenceCount(); i++) {
-      final Preference preference = preferenceGroup.getPreference(i);
-      if (preference instanceof PreferenceCategory) {
-        unsetIconSpaceReservedRecursive(((PreferenceCategory) preference));
-      }
-      preference.setIconSpaceReserved(false);
-    }
-  }
-
-  @Override
-  public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-    setPreferencesFromResource(R.xml.preferences, rootKey);
-
-    final PreferenceScreen preferenceScreen = getPreferenceScreen();
-    setListenerRecursive(preferenceScreen, getKey(UI_HOME_SCREEN_SHORTCUTS).equals(rootKey) ?
-        homeScreenShortcutPrefClickHandler : this);
-    unsetIconSpaceReservedRecursive(preferenceScreen);
-
-    if (rootKey == null) { //ROOT screen
-      requirePreference(HOME_CURRENCY).setOnPreferenceChangeListener(this);
-      requirePreference(UI_WEB).setOnPreferenceChangeListener(this);
-
-      requirePreference(RESTORE).setTitle(getString(R.string.pref_restore_title) + " (ZIP)");
-
-      Preference restoreLegacyPref = requirePreference(RESTORE_LEGACY);
-      if (Utils.hasApiLevel(Build.VERSION_CODES.KITKAT)) {
-        restoreLegacyPref.setVisible(false);
-      } else {
-        restoreLegacyPref.setTitle(getString(R.string.pref_restore_title) + " (" + getString(R.string.pref_restore_alternative) + ")");
-      }
-
-      this.<LocalizedFormatEditTextPreference>requirePreference(CUSTOM_DECIMAL_FORMAT).setOnValidationErrorListener(this);
-
-      this.<LocalizedFormatEditTextPreference>requirePreference(CUSTOM_DATE_FORMAT).setOnValidationErrorListener(this);
-
-      loadAppDirSummary();
-
-      Preference qifPref = requirePreference(IMPORT_QIF);
-      qifPref.setSummary(getString(R.string.pref_import_summary, "QIF"));
-      qifPref.setTitle(getString(R.string.pref_import_title, "QIF"));
-      Preference csvPref = requirePreference(IMPORT_CSV);
-      csvPref.setSummary(getString(R.string.pref_import_summary, "CSV"));
-      csvPref.setTitle(getString(R.string.pref_import_title, "CSV"));
-
-      getViewModel().getHasStaleImages().observe(this,
-          result -> requirePreference(MANAGE_STALE_IMAGES).setVisible(result));
-
-      final PreferenceCategory privacyCategory = requirePreference(CATEGORY_PRIVACY);
-      if (!DistributionHelper.getDistribution().getSupportsTrackingAndCrashReporting()) {
-        privacyCategory.removePreference(requirePreference(TRACKING));
-        privacyCategory.removePreference(requirePreference(CRASHREPORT_SCREEN));
-      }
-      if (adHandlerFactory.isAdDisabled() || !adHandlerFactory.isRequestLocationInEeaOrUnknown()) {
-        privacyCategory.removePreference(requirePreference(PERSONALIZED_AD_CONSENT));
-      }
-      if (privacyCategory.getPreferenceCount() == 0) {
-        preferenceScreen.removePreference(privacyCategory);
-      }
-
-      ListPreference languagePref = requirePreference(UI_LANGUAGE);
-      if (Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN_MR1)) {
-        languagePref.setEntries(getLocaleArray());
-      } else {
-        languagePref.setVisible(false);
-      }
-
-      getCurrencyViewModel().getCurrencies().observe(this, currencies -> {
-        ListPreference homeCurrencyPref = requirePreference(PrefKey.HOME_CURRENCY);
-        homeCurrencyPref.setEntries(Stream.of(currencies).map(Currency::toString).toArray(CharSequence[]::new));
-        homeCurrencyPref.setEntryValues(Stream.of(currencies).map(Currency::getCode).toArray(CharSequence[]::new));
-        homeCurrencyPref.setSummaryProvider(ListPreference.SimpleSummaryProvider.getInstance());
-      });
-
-      final int translatorsArrayResId = getTranslatorsArrayResId();
-      if (translatorsArrayResId != 0) {
-        String[] translatorsArray = getResources().getStringArray(translatorsArrayResId);
-        final String translators;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-          translators = ListFormatter.getInstance().format((Object[]) translatorsArray);
-        } else {
-          translators = TextUtils.join(", ", translatorsArray);
-        }
-        requirePreference(TRANSLATION).setSummary(String.format("%s: %s", getString(R.string.translated_by), translators));
-      }
-
-      if (!featureManager.allowsUninstall()) {
-        requirePreference(FEATURE_UNINSTALL).setVisible(false);
-      }
-    }
-    //SHORTCUTS screen
-    else if (rootKey.equals(getKey(UI_HOME_SCREEN_SHORTCUTS))) {
-      Preference shortcutSplitPref = requirePreference(SHORTCUT_CREATE_SPLIT);
-      shortcutSplitPref.setEnabled(licenceHandler.isContribEnabled());
-      shortcutSplitPref.setSummary(
-          getString(R.string.pref_shortcut_summary) + " " +
-              ContribFeature.SPLIT_TRANSACTION.buildRequiresString(requireActivity()));
-
-    }
-    //Password screen
-    else if (rootKey.equals(getKey(PERFORM_PROTECTION_SCREEN))) {
-      setProtectionDependentsState();
-      Preference preferenceLegacy = requirePreference(PROTECTION_LEGACY);
-      Preference preferenceSecurityQuestion = requirePreference(SECURITY_QUESTION);
-      Preference preferenceDeviceLock = requirePreference(PROTECTION_DEVICE_LOCK_SCREEN);
-      if (Utils.hasApiLevel(Build.VERSION_CODES.LOLLIPOP)) {
-        final PreferenceCategory preferenceCategory = new PreferenceCategory(requireContext());
-        preferenceCategory.setTitle(R.string.feature_deprecated);
-        preferenceScreen.addPreference(preferenceCategory);
-        preferenceScreen.removePreference(preferenceLegacy);
-        preferenceScreen.removePreference(preferenceSecurityQuestion);
-        preferenceCategory.addPreference(preferenceLegacy);
-        preferenceCategory.addPreference(preferenceSecurityQuestion);
-        preferenceDeviceLock.setOnPreferenceChangeListener(this);
-      } else {
-        preferenceDeviceLock.setVisible(false);
-      }
-    }
-    //SHARE screen
-    else if (rootKey.equals(getKey(PERFORM_SHARE))) {
-      Preference sharePref = requirePreference(SHARE_TARGET);
-      //noinspection AuthLeak
-      sharePref.setSummary(getString(R.string.pref_share_target_summary) + ":\n" +
-          "ftp: \"ftp://login:password@my.example.org:port/my/directory/\"\n" +
-          "mailto: \"mailto:john@my.example.com\"");
-      sharePref.setOnPreferenceChangeListener(this);
-    }
-    //BACKUP screen
-    else if (rootKey.equals(getKey(AUTO_BACKUP))) {
-      requirePreference(AUTO_BACKUP_INFO).setSummary(getString(R.string.pref_auto_backup_summary) + " " +
-          ContribFeature.AUTO_BACKUP.buildRequiresString(requireActivity()));
-      requirePreference(AUTO_BACKUP_CLOUD).setOnPreferenceChangeListener(getStoreInDatabaseChangeListener());
-    }
-    //GROUP start screen
-    else if (rootKey.equals(getKey(GROUPING_START_SCREEN))) {
-      ListPreference startPref = requirePreference(GROUP_WEEK_STARTS);
-      final Locale locale = Locale.getDefault();
-      DateFormatSymbols dfs = new DateFormatSymbols(locale);
-      String[] entries = new String[7];
-      System.arraycopy(dfs.getWeekdays(), 1, entries, 0, 7);
-      startPref.setEntries(entries);
-      startPref.setEntryValues(new String[]{
-          String.valueOf(Calendar.SUNDAY),
-          String.valueOf(Calendar.MONDAY),
-          String.valueOf(Calendar.TUESDAY),
-          String.valueOf(Calendar.WEDNESDAY),
-          String.valueOf(Calendar.THURSDAY),
-          String.valueOf(Calendar.FRIDAY),
-          String.valueOf(Calendar.SATURDAY),
-      });
-      if (!prefHandler.isSet(GROUP_WEEK_STARTS)) {
-        startPref.setValue(String.valueOf(Utils.getFirstDayOfWeek(locale)));
-      }
-
-      startPref = requirePreference(GROUP_MONTH_STARTS);
-      String[] daysEntries = new String[31], daysValues = new String[31];
-      for (int i = 1; i <= 31; i++) {
-        daysEntries[i - 1] = Utils.toLocalizedString(i);
-        daysValues[i - 1] = String.valueOf(i);
-      }
-      startPref.setEntries(daysEntries);
-      startPref.setEntryValues(daysValues);
-    } else if (rootKey.equals(getKey(CRASHREPORT_SCREEN))) {
-      requirePreference(ACRA_INFO).setSummary(Utils.getTextWithAppName(getContext(), R.string.crash_reports_user_info));
-      requirePreference(CRASHREPORT_ENABLED).setOnPreferenceChangeListener(this);
-      requirePreference(CRASHREPORT_USEREMAIL).setOnPreferenceChangeListener(this);
-    } else if (rootKey.equals(getKey(OCR))) {
-      if ("".equals(prefHandler.getString(OCR_TOTAL_INDICATORS, ""))) {
-        this.<EditTextPreference>requirePreference(OCR_TOTAL_INDICATORS).setText(getString(R.string.pref_ocr_total_indicators_default));
-      }
-      EditTextPreference ocrDatePref = requirePreference(OCR_DATE_FORMATS);
-      ocrDatePref.setOnPreferenceChangeListener(this);
-      if ("".equals(prefHandler.getString(OCR_DATE_FORMATS, ""))) {
-        String shortFormat = getLocalizedDateTimePattern(SHORT, null, IsoChronology.INSTANCE, userLocaleProvider.getSystemLocale());
-        String mediumFormat = getLocalizedDateTimePattern(MEDIUM, null, IsoChronology.INSTANCE, userLocaleProvider.getSystemLocale());
-        ocrDatePref.setText(shortFormat + "\n" + mediumFormat);
-      }
-      EditTextPreference ocrTimePref = requirePreference(OCR_TIME_FORMATS);
-      ocrTimePref.setOnPreferenceChangeListener(this);
-      if ("".equals(prefHandler.getString(OCR_TIME_FORMATS, ""))) {
-        String shortFormat = getLocalizedDateTimePattern(null, SHORT, IsoChronology.INSTANCE, userLocaleProvider.getSystemLocale());
-        String mediumFormat = getLocalizedDateTimePattern(null, MEDIUM, IsoChronology.INSTANCE, userLocaleProvider.getSystemLocale());
-        ocrTimePref.setText(shortFormat + "\n" + mediumFormat);
-      }
-      this.<ListPreference>requirePreference(OCR_ENGINE).setVisible(activity().ocrViewModel.shouldShowEngineSelection());
-      configureTesseractLanguagePref();
-    } else if (rootKey.equals(getKey(SYNC))) {
-      requirePreference(MANAGE_SYNC_BACKENDS).setSummary(
-          getString(R.string.pref_manage_sync_backends_summary,
-              Stream.of(ServiceLoader.load(getContext()))
-                  .map(SyncBackendProviderFactory::getLabel)
-                  .collect(Collectors.joining(", "))) +
-              " " + ContribFeature.SYNCHRONIZATION.buildRequiresString(requireActivity()));
-      requirePreference(SYNC_NOTIFICATION).setOnPreferenceChangeListener(getStoreInDatabaseChangeListener());
-      requirePreference(SYNC_WIFI_ONLY).setOnPreferenceChangeListener(getStoreInDatabaseChangeListener());
-    } else if (rootKey.equals(getKey(FEATURE_UNINSTALL))) {
-      configureUninstallPrefs();
-    } else if (rootKey.equals(getKey(EXCHANGE_RATES))) {
-      requirePreference(EXCHANGE_RATE_PROVIDER).setOnPreferenceChangeListener(this);
-      configureOpenExchangeRatesPreference(prefHandler.getString(PrefKey.EXCHANGE_RATE_PROVIDER, "RATESAPI"));
-    }
-  }
-
-  private int getTranslatorsArrayResId() {
-    Locale locale = Locale.getDefault();
-    String language = locale.getLanguage().toLowerCase(Locale.US);
-    String country = locale.getCountry().toLowerCase(Locale.US);
-    return activity().getTranslatorsArrayResId(language, country);
-  }
 
   @Override
   public void onResume() {
@@ -640,10 +323,6 @@ public class SettingsFragment extends BaseSettingsFragment implements
     return true;
   }
 
-  private void configureOpenExchangeRatesPreference(String provider) {
-    requirePreference(PrefKey.OPEN_EXCHANGE_RATES_APP_ID).setEnabled(provider.equals("OPENEXCHANGERATES"));
-  }
-
   @Override
   public boolean onPreferenceClick(Preference preference) {
     trackPreferenceClick(preference);
@@ -753,37 +432,6 @@ public class SettingsFragment extends BaseSettingsFragment implements
     intent = new Intent(getActivity(), FolderBrowser.class);
     intent.putExtra(FolderBrowser.PATH, appDir.getUri().getPath());
     startActivityForResult(intent, PICK_FOLDER_REQUEST_LEGACY);
-  }
-
-  private void loadAppDirSummary() {
-    getViewModel().loadAppDirInfo();
-  }
-
-  private Bitmap getBitmapForShortcut(int iconIdLegacy, int iconIdLollipop) {
-    if (Utils.hasApiLevel(Build.VERSION_CODES.LOLLIPOP)) {
-      return UiUtils.drawableToBitmap(ResourcesCompat.getDrawable(getResources(), iconIdLollipop, null));
-    } else {
-      return UiUtils.getTintedBitmapForTheme(getActivity(), iconIdLegacy, R.style.DarkBackground);
-    }
-  }
-
-  // credits Financisto
-  // src/ru/orangesoftware/financisto/activity/PreferencesActivity.java
-  private void addShortcut(int nameId, int operationType, Bitmap bitmap) {
-    Intent shortcutIntent = ShortcutHelper.createIntentForNewTransaction(requireContext(), operationType);
-
-    Intent intent = new Intent();
-    intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
-    intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, getString(nameId));
-    intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, bitmap);
-    intent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
-
-    if (Utils.isIntentReceiverAvailable(requireActivity(), intent)) {
-      requireActivity().sendBroadcast(intent);
-      activity().showSnackbar(getString(R.string.pref_shortcut_added));
-    } else {
-      activity().showSnackbar(getString(R.string.pref_shortcut_not_added));
-    }
   }
 
   @Override
