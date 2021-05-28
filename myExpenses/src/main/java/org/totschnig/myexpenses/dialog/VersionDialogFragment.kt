@@ -120,6 +120,7 @@ class VersionDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
                 "325" -> return arrayOf("${ctx.getString(R.string.contrib_feature_csv_import_label)}: ${ctx.getString(R.string.autofill)}")
                 "330" -> return arrayOf("${ctx.getString(R.string.contrib_feature_csv_import_label)}: ${ctx.getString(R.string.tags)}",
                         ctx.getString(R.string.active_tags))
+                "331" -> return arrayOf("${ctx.getString(R.string.menu_settings)} - ${ctx.getString(R.string.autofill)}: ${ctx.getString(R.string.ui_refinement)}")
             }
             val res = ctx.resources
             var resId = res.getIdentifier("whats_new_$nameCondensed", "array", ctx.packageName) //new based on name
