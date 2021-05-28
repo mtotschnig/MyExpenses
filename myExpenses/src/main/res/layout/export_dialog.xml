@@ -270,7 +270,7 @@
 
         <TextView
             android:id="@+id/warning_reset"
-            style="@style/dialog_text.bold"
+            style="@style/dialog_text.bold.warning"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/warning_reset_account"

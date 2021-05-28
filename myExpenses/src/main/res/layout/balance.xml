@@ -14,7 +14,6 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="0dp"
     android:layout_weight="1">
@@ -78,14 +77,12 @@
 
         <TextView
             android:id="@+id/balance_delete_warning"
-            style="@style/dialog_text.bold"
+            style="@style/dialog_text.bold.warning"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
             android:layout_marginBottom="@dimen/general_padding"
-            android:text="@string/warning_balance_account_delete"
-            android:drawablePadding="10dp"
-            app:drawableStartCompat="@drawable/ic_warning" />
+            android:text="@string/warning_balance_account_delete" />
 
     </LinearLayout>
 </ScrollView>

@@ -11,7 +11,7 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package org.totschnig.myexpenses.dialog;
 
@@ -65,6 +65,7 @@ import androidx.core.text.HtmlCompat;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.util.MoreUiUtilsKt.postScrollToBottom;
 
 public class ExportDialogFragment extends BaseDialogFragment implements OnClickListener, OnCheckedChangeListener {
   private static final String KEY_IS_FILTERED = "is_filtered";
@@ -302,10 +303,9 @@ public class ExportDialogFragment extends BaseDialogFragment implements OnClickL
     }
 
     builder.setTitle(allP ? R.string.menu_reset_all : R.string.menu_reset)
-        .setNegativeButton(android.R.string.cancel, null)
-        .setIcon(R.drawable.ic_warning);
+        .setNegativeButton(android.R.string.cancel, null);
     if (a != null) {
-        builder.setPositiveButton(android.R.string.ok, this);
+      builder.setPositiveButton(android.R.string.ok, this);
     }
 
     mDialog = builder.create();
@@ -393,7 +393,7 @@ public class ExportDialogFragment extends BaseDialogFragment implements OnClickL
     prefHandler.putInt(ExportTask.KEY_EXPORT_HANDLE_DELETED, handleDeleted);
 
     boolean deleteP = binding.exportDelete.isChecked();
-    boolean notYetExportedP =  binding.exportNotYetExported.isChecked();
+    boolean notYetExportedP = binding.exportNotYetExported.isChecked();
     String fileName = binding.fileName.getText().toString();
     Result appDirStatus = AppDirHelper.checkAppDir(getActivity());
     if (appDirStatus.isSuccess()) {
@@ -438,9 +438,12 @@ public class ExportDialogFragment extends BaseDialogFragment implements OnClickL
   @Override
   public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
     configure(isChecked);
+    if (isChecked) {
+      postScrollToBottom(binding.getRoot());
+    }
   }
 
-  /* 
+  /*
    * if we are in the situation, where there are already exported transactions
    * we suggest to the user the default of again exporting without deleting
    * but if the user now changes to deleting, we enforce a complete export/reset
@@ -450,8 +453,8 @@ public class ExportDialogFragment extends BaseDialogFragment implements OnClickL
   private void configure(boolean delete) {
     binding.exportNotYetExported.setEnabled(!delete);
     binding.exportNotYetExported.setChecked(!delete);
-    binding.warningReset.setVisibility(delete ? View.VISIBLE: View.GONE);
-    binding.handleDeleted.setVisibility(delete ? View.VISIBLE: View.GONE);
+    binding.warningReset.setVisibility(delete ? View.VISIBLE : View.GONE);
+    binding.handleDeleted.setVisibility(delete ? View.VISIBLE : View.GONE);
   }
 
   private void configureButton() {

@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.activity.MyExpenses
 import org.totschnig.myexpenses.databinding.BalanceBinding
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.UiUtils
+import org.totschnig.myexpenses.util.postScrollToBottom
 
 class BalanceDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListener {
     private var _binding: BalanceBinding? = null
@@ -40,6 +41,9 @@ class BalanceDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
         binding.TotalCleared.text = requireArguments().getString(DatabaseConstants.KEY_CLEARED_TOTAL)
         binding.balanceDelete.setOnCheckedChangeListener { _, isChecked ->
             binding.balanceDeleteWarning.visibility = if (isChecked) View.VISIBLE else View.GONE
+            if (isChecked) {
+                binding.root.postScrollToBottom()
+            }
         }
         return builder
                 .setTitle(getString(R.string.dialog_title_balance_account, requireArguments().getString(DatabaseConstants.KEY_LABEL)))

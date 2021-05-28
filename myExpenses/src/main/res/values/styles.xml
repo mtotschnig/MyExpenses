@@ -85,6 +85,14 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="dialog_text.bold.warning">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorErrorDialog</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:drawablePadding">10dp</item>
+        <item name="drawableStartCompat">@drawable/ic_warning</item>
+    </style>
+
     <style name="titleTextStyle">
         <item name="android:textStyle">bold</item>
     </style>
