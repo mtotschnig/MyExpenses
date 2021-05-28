@@ -988,4 +988,4 @@
     <string name="active_tags">Активни маркери</string>
     <!-- This is used in the title of the email by which user requests an invoice for payment via bank transfer -->
     <string name="request_for_invoice">Искане за фактура</string>
-</resources>
+    </resources>

@@ -988,4 +988,4 @@
     <string name="active_tags">Etkin Etiketler</string>
     <!-- This is used in the title of the email by which user requests an invoice for payment via bank transfer -->
     <string name="request_for_invoice">Fatura Talebi</string>
-</resources>
+    </resources>

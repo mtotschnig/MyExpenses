@@ -1014,4 +1014,4 @@
     <string name="active_tags">תגים פעילים</string>
     <!-- This is used in the title of the email by which user requests an invoice for payment via bank transfer -->
     <string name="request_for_invoice">בקשה לחשבונית</string>
-</resources>
+    </resources>

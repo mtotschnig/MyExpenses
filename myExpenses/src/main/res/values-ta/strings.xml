@@ -988,4 +988,4 @@
     <string name="active_tags">செயலிலுள்ள குறிச்சொற்கள்</string>
     <!-- This is used in the title of the email by which user requests an invoice for payment via bank transfer -->
     <string name="request_for_invoice">விலைப்பட்டியலை கோரு</string>
-</resources>
+    </resources>

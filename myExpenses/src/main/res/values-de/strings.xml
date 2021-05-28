@@ -988,4 +988,9 @@
     <string name="active_tags">Aktive Schlagwörter</string>
     <!-- This is used in the title of the email by which user requests an invoice for payment via bank transfer -->
     <string name="request_for_invoice">Rechnungsanfrage</string>
+    <!-- Enables Focus on the Payee field for Auto fill -->
+    <string name="auto_fill_focus">Stellen Sie den Fokus auf den Zahlungsempfänger</string>
+    <!-- This warning is shown when a user calls the Reset or Cancel commands on a scheduled transaction, for a date
+     where the transaction has already been created.  -->
+    <string name="warning_plan_instance_delete">Die für das ausgewählte Datum erstellte Buchung wird gelöscht.</string>
 </resources>

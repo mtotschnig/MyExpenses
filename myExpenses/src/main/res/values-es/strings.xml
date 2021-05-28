@@ -988,4 +988,4 @@
     <string name="active_tags">Etiquetas activas</string>
     <!-- This is used in the title of the email by which user requests an invoice for payment via bank transfer -->
     <string name="request_for_invoice">Solicitar factura</string>
-</resources>
+    </resources>
