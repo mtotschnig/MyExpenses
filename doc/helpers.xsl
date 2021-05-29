@@ -2,7 +2,7 @@
 <xsl:stylesheet xmlns:str="http://exslt.org/strings"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" extension-element-prefixes="str" version="1.0">
     <xsl:variable name="all-languages"
-        select="'ar bg ca cs da de el es eu fr hr hu it iw ja ms km ko pl pt ro ru si ta tr vi zh en'" />
+        select="'ar bg ca cs da de el es eu fr hr hu it iw ja ms km kn ko pl pt ro ru si ta tr vi zh zh-TW en'" />
     <xsl:variable name='newline'>
         <xsl:text>&#xa;</xsl:text>
     </xsl:variable>
@@ -19,6 +19,7 @@
         <xsl:param name="version"/>
         <xsl:param name="strings"/>
         <xsl:param name="aosp"/>
+        <xsl:param name="upgrade"/>
         <xsl:if test="$version = '3.2.5'">
             <xsl-text>•&#032;</xsl-text>
             <xsl:apply-templates select="document($strings)/resources/string[@name='contrib_feature_csv_import_label']" mode="unescape"/>
@@ -33,6 +34,14 @@
             <xsl:value-of select="$newline" />
             <xsl-text>•&#032;</xsl-text>
             <xsl:apply-templates select="document($strings)/resources/string[@name='active_tags']" mode="unescape"/>
+        </xsl:if>
+        <xsl:if test="$version = '3.3.1'">
+            <xsl-text>•&#032;</xsl-text>
+            <xsl:apply-templates select="document($strings)/resources/string[@name='menu_settings']" mode="unescape"/>
+            <xsl:text> - </xsl:text>
+            <xsl:apply-templates select="document($aosp)/resources/string[@name='autofill']" mode="unescape"/>
+            <xsl:text>: </xsl:text>
+            <xsl:apply-templates select="document($upgrade)/resources/string[@name='ui_refinement']" mode="unescape"/>
         </xsl:if>
     </xsl:template>
 
@@ -57,7 +66,8 @@
         <xsl:param name="lang" />
         <xsl:choose>
             <xsl:when test="$lang='en'" />
-            <xsl:when test="$lang='zh'">-zh-rTW</xsl:when>
+            <xsl:when test="$lang='zh'">-zh-rCN</xsl:when>
+            <xsl:when test="$lang='zh-TW'">-zh-rTW</xsl:when>
             <xsl:otherwise>
                 <xsl:text>-</xsl:text>
                 <xsl:value-of select="$lang" />
@@ -81,6 +91,7 @@
             <xsl:when test="$lang = 'iw'">iw-IL</xsl:when>
             <xsl:when test="$lang = 'ja'">ja-JP</xsl:when>
             <xsl:when test="$lang = 'km'">km-KH</xsl:when>
+            <xsl:when test="$lang = 'kn'">kn-IN</xsl:when>
             <xsl:when test="$lang = 'ko'">ko-KR</xsl:when>
             <xsl:when test="$lang = 'pl'">pl-PL</xsl:when>
             <xsl:when test="$lang = 'pt'">pt-PT</xsl:when>
@@ -88,7 +99,7 @@
             <xsl:when test="$lang = 'si'">si-LK</xsl:when>
             <xsl:when test="$lang = 'ta'">ta-IN</xsl:when>
             <xsl:when test="$lang = 'tr'">tr-TR</xsl:when>
-            <xsl:when test="$lang = 'zh'">zh-TW</xsl:when>
+            <xsl:when test="$lang = 'zh'">zh-CN</xsl:when>
             <xsl:otherwise>
                 <xsl:value-of select="$lang" />
             </xsl:otherwise>

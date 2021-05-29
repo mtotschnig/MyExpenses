@@ -46,6 +46,7 @@
                             <xsl:with-param name="version" select="." />
                             <xsl:with-param name="strings" select="$strings" />
                             <xsl:with-param name="aosp" select="$aosp" />
+                            <xsl:with-param name="upgrade" select="$upgrade" />
                         </xsl:call-template>
                     </xsl:variable>
                     <xsl:choose>
