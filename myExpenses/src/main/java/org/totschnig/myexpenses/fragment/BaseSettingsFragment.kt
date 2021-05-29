@@ -11,6 +11,8 @@ import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils.isEmpty
 import android.text.TextUtils.join
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
 import androidx.preference.EditTextPreference
@@ -530,7 +532,8 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             requirePreference<Preference>(PrefKey.HOME_CURRENCY).onPreferenceChangeListener = this
             requirePreference<Preference>(PrefKey.UI_WEB).onPreferenceChangeListener = this
 
-            requirePreference<Preference>(PrefKey.RESTORE).title = getString(R.string.pref_restore_title) + " (ZIP)"
+            requirePreference<Preference>(PrefKey.RESTORE).title =
+                getString(R.string.pref_restore_title) + " (ZIP)"
 
             val restoreLegacyPref = requirePreference<Preference>(PrefKey.RESTORE_LEGACY)
             if (hasApiLevel(Build.VERSION_CODES.KITKAT)) {
@@ -557,8 +560,8 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             csvPref.title = getString(R.string.pref_import_title, "CSV")
 
             viewModel.hasStaleImages.observe(this) { result ->
-                    requirePreference<Preference>(PrefKey.MANAGE_STALE_IMAGES).isVisible = result
-                }
+                requirePreference<Preference>(PrefKey.MANAGE_STALE_IMAGES).isVisible = result
+            }
 
             val privacyCategory = requirePreference<PreferenceCategory>(PrefKey.CATEGORY_PRIVACY)
             if (!DistributionHelper.distribution.supportsTrackingAndCrashReporting) {
@@ -591,8 +594,12 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             if (translatorsArrayResId != 0) {
                 val translatorsArray = resources.getStringArray(translatorsArrayResId)
                 val translators = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-                    ListFormatter.getInstance().format(*translatorsArray) else join(", ", translatorsArray)
-                requirePreference<Preference>(PrefKey.TRANSLATION).summary = "${getString(R.string.translated_by)}: $translators"
+                    ListFormatter.getInstance().format(*translatorsArray) else join(
+                    ", ",
+                    translatorsArray
+                )
+                requirePreference<Preference>(PrefKey.TRANSLATION).summary =
+                    "${getString(R.string.translated_by)}: $translators"
             }
 
             if (!featureManager.allowsUninstall()) {
@@ -631,8 +638,9 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     "mailto: \"mailto:john@my.example.com\"")
             sharePref.onPreferenceChangeListener = this
         } else if (rootKey == getKey(PrefKey.AUTO_BACKUP)) {
-            requirePreference<Preference>(PrefKey.AUTO_BACKUP_INFO).summary = (getString(R.string.pref_auto_backup_summary) + " " +
-                    ContribFeature.AUTO_BACKUP.buildRequiresString(requireActivity()))
+            requirePreference<Preference>(PrefKey.AUTO_BACKUP_INFO).summary =
+                (getString(R.string.pref_auto_backup_summary) + " " +
+                        ContribFeature.AUTO_BACKUP.buildRequiresString(requireActivity()))
             requirePreference<Preference>(PrefKey.AUTO_BACKUP_CLOUD).onPreferenceChangeListener =
                 storeInDatabaseChangeListener
         } else if (rootKey == getKey(PrefKey.GROUPING_START_SCREEN)) {
@@ -675,7 +683,8 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 this
         } else if (rootKey == getKey(PrefKey.OCR)) {
             if ("" == prefHandler.getString(PrefKey.OCR_TOTAL_INDICATORS, "")) {
-                requirePreference<EditTextPreference>(PrefKey.OCR_TOTAL_INDICATORS).text = getString(R.string.pref_ocr_total_indicators_default)
+                requirePreference<EditTextPreference>(PrefKey.OCR_TOTAL_INDICATORS).text =
+                    getString(R.string.pref_ocr_total_indicators_default)
             }
             val ocrDatePref = requirePreference<EditTextPreference>(PrefKey.OCR_DATE_FORMATS)
             ocrDatePref.onPreferenceChangeListener = this
@@ -711,12 +720,14 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 )
                 ocrTimePref.text = shortFormat + "\n" + mediumFormat
             }
-            this.requirePreference<ListPreference>(PrefKey.OCR_ENGINE).isVisible = activity().ocrViewModel.shouldShowEngineSelection()
+            this.requirePreference<ListPreference>(PrefKey.OCR_ENGINE).isVisible =
+                activity().ocrViewModel.shouldShowEngineSelection()
             configureTesseractLanguagePref()
         } else if (rootKey == getKey(PrefKey.SYNC)) {
             requirePreference<Preference>(PrefKey.MANAGE_SYNC_BACKENDS).summary = (getString(
                 R.string.pref_manage_sync_backends_summary,
-                ServiceLoader.load(context).map { it.label }.joinToString()) +
+                ServiceLoader.load(context).map { it.label }.joinToString()
+            ) +
                     " " + ContribFeature.SYNCHRONIZATION.buildRequiresString(requireActivity()))
             requirePreference<Preference>(PrefKey.SYNC_NOTIFICATION).onPreferenceChangeListener =
                 storeInDatabaseChangeListener
@@ -744,7 +755,8 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     }
 
     fun configureOpenExchangeRatesPreference(provider: String) {
-        requirePreference<Preference>(PrefKey.OPEN_EXCHANGE_RATES_APP_ID).isEnabled = provider == "OPENEXCHANGERATES"
+        requirePreference<Preference>(PrefKey.OPEN_EXCHANGE_RATES_APP_ID).isEnabled =
+            provider == "OPENEXCHANGERATES"
     }
 
     fun loadAppDirSummary() {
@@ -787,6 +799,71 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             activity().showSnackbar(getString(R.string.pref_shortcut_added))
         } else {
             activity().showSnackbar(getString(R.string.pref_shortcut_not_added))
+        }
+    }
+
+    /**
+     * Configures the current screen with a Master Switch, if it has the given key
+     * if we are on the root screen, the preference summary for the given key is updated with the
+     * current value (On/Off)
+     *
+     * @param prefKey PrefKey of screen
+     * @return true if we have handle the given key as a subScreen
+     */
+    fun handleScreenWithMasterSwitch(prefKey: PrefKey): Boolean {
+        if (matches(preferenceScreen, prefKey)) {
+            activity().supportActionBar?.let { actionBar ->
+                val status = prefHandler.getBoolean(prefKey, false)
+                val actionBarSwitch = requireActivity().layoutInflater.inflate(
+                    R.layout.pref_master_switch, null
+                ) as SwitchCompat
+                actionBar.setDisplayOptions(
+                    ActionBar.DISPLAY_SHOW_CUSTOM,
+                    ActionBar.DISPLAY_SHOW_CUSTOM
+                )
+                actionBar.customView = actionBarSwitch
+                actionBarSwitch.isChecked = status
+                actionBarSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+                    //TODO factor out to call site
+                    if (prefKey == PrefKey.AUTO_BACKUP) {
+                        if (isChecked && !licenceHandler.hasAccessTo(ContribFeature.AUTO_BACKUP)) {
+                            (activity as? MyPreferenceActivity)?.let {
+                                it.showContribDialog(ContribFeature.AUTO_BACKUP, null)
+                                if (ContribFeature.AUTO_BACKUP.usagesLeft(prefHandler) <= 0) {
+                                    buttonView.isChecked = false
+                                    return@setOnCheckedChangeListener
+                                }
+                            }
+                        }
+                    }
+                    prefHandler.putBoolean(prefKey, isChecked)
+                    updateDependents(isChecked)
+                }
+                updateDependents(status)
+            }
+            return true
+        } else if (matches(preferenceScreen, PrefKey.ROOT_SCREEN)) {
+            setOnOffSummary(prefKey)
+        }
+        return false
+    }
+
+    private fun setOnOffSummary(prefKey: PrefKey) {
+        setOnOffSummary(prefKey, prefHandler.getBoolean(prefKey, false))
+    }
+
+    private fun setOnOffSummary(key: PrefKey, status: Boolean) {
+        requirePreference<Preference>(key).summary = getString(
+            if (status)
+                R.string.switch_on_text
+            else
+                R.string.switch_off_text
+        )
+    }
+
+    private fun updateDependents(enabled: Boolean) {
+        for (i in 0 until preferenceScreen.preferenceCount) {
+            preferenceScreen.getPreference(i).isEnabled = enabled
         }
     }
 }

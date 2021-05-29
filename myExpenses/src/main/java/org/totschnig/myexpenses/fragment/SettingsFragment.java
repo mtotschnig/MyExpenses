@@ -30,7 +30,6 @@ import org.totschnig.myexpenses.preference.FontSizeDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.FontSizeDialogPreference;
 import org.totschnig.myexpenses.preference.LegacyPasswordPreferenceDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.PopupMenuPreference;
-import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.preference.SecurityQuestionDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.SimplePasswordDialogFragmentCompat;
 import org.totschnig.myexpenses.preference.SimplePasswordPreference;
@@ -53,7 +52,6 @@ import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.documentfile.provider.DocumentFile;
 import androidx.fragment.app.DialogFragment;
 import androidx.preference.ListPreference;
@@ -157,65 +155,6 @@ public class SettingsFragment extends BaseSettingsFragment implements
         preference.setSummary(R.string.pref_planning_calendar_summary);
       }
       configureContribPrefs();
-    }
-  }
-
-  /**
-   * Configures the current screen with a Master Switch, if it has the given key
-   * if we are on the root screen, the preference summary for the given key is updated with the
-   * current value (On/Off)
-   *
-   * @param prefKey PrefKey of screen
-   * @return true if we have handle the given key as a subScreen
-   */
-  private boolean handleScreenWithMasterSwitch(final PrefKey prefKey) {
-    PreferenceScreen screen = getPreferenceScreen();
-    final ActionBar actionBar = activity().getSupportActionBar();
-    final boolean status = prefHandler.getBoolean(prefKey, false);
-    if (matches(screen, prefKey)) {
-      //noinspection InflateParams
-      SwitchCompat actionBarSwitch = (SwitchCompat) requireActivity().getLayoutInflater().inflate(
-          R.layout.pref_master_switch, null);
-      actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM,
-          ActionBar.DISPLAY_SHOW_CUSTOM);
-      actionBar.setCustomView(actionBarSwitch);
-      actionBarSwitch.setChecked(status);
-      actionBarSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-        //TODO factor out to call site
-        if (prefKey.equals(AUTO_BACKUP)) {
-          if (isChecked && !licenceHandler.hasAccessTo(ContribFeature.AUTO_BACKUP)) {
-            activity().showContribDialog(ContribFeature.AUTO_BACKUP, null);
-            if (ContribFeature.AUTO_BACKUP.usagesLeft(prefHandler) <= 0) {
-              buttonView.setChecked(false);
-              return;
-            }
-          }
-        }
-        prefHandler.putBoolean(prefKey, isChecked);
-        updateDependents(isChecked);
-      });
-      updateDependents(status);
-      return true;
-    } else if (matches(screen, ROOT_SCREEN)) {
-      setOnOffSummary(prefKey);
-    }
-    return false;
-  }
-
-  private void setOnOffSummary(PrefKey prefKey) {
-    setOnOffSummary(prefKey, prefHandler.getBoolean(prefKey, false));
-  }
-
-  private void setOnOffSummary(PrefKey key, boolean status) {
-    requirePreference(key).setSummary(status ? getString(R.string.switch_on_text) :
-        getString(R.string.switch_off_text));
-  }
-
-  private void updateDependents(boolean enabled) {
-    int count = getPreferenceScreen().getPreferenceCount();
-    for (int i = 0; i < count; ++i) {
-      Preference pref = getPreferenceScreen().getPreference(i);
-      pref.setEnabled(enabled);
     }
   }
 
