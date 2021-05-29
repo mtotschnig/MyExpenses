@@ -40,6 +40,9 @@ class MyExpensesViewModel(application: Application) : ContentResolvingAndroidVie
         }
         try {
             contentResolver.call(TransactionProvider.DUAL_URI, TransactionProvider.METHOD_INIT, null, null)
+            getApplication<MyApplication>().appComponent.licenceHandler().update()
+            Account.updateTransferShortcut()
+            emit(0)
         } catch (e: SQLiteDowngradeFailedException) {
             CrashHandler.report(e)
             emit(ERROR_INIT_DOWNGRADE)
@@ -47,9 +50,6 @@ class MyExpensesViewModel(application: Application) : ContentResolvingAndroidVie
             CrashHandler.report(e)
             emit(ERROR_INIT_UPGRADE)
         }
-        getApplication<MyApplication>().appComponent.licenceHandler().update()
-        Account.updateTransferShortcut()
-        emit(0)
     }
 
     fun loadHiddenAccountCount() {

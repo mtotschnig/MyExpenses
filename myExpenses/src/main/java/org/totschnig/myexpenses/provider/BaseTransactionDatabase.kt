@@ -18,8 +18,6 @@ abstract class BaseTransactionDatabase(context: Context, databaseName: String): 
     }
 
     fun upgradeTo118(db: SQLiteDatabase) {
-        //delete duplicate entries
-        db.execSQL("DELETE FROM planinstance_transaction WHERE transaction_id in (SELECT min(transaction_id) FROM planinstance_transaction GROUP BY template_id, instance_id HAVING count(*) > 1);")
         db.execSQL("ALTER TABLE planinstance_transaction RENAME to planinstance_transaction_old")
         //make sure we have ony instance per template
         db.execSQL(
@@ -30,7 +28,7 @@ abstract class BaseTransactionDatabase(context: Context, databaseName: String): 
                     "primary key (template_id, instance_id));"
         )
         db.execSQL(
-            ("INSERT INTO planinstance_transaction " +
+            ("INSERT OR IGNORE INTO planinstance_transaction " +
                     "(template_id,instance_id,transaction_id)" +
                     "SELECT " +
                     "template_id,instance_id,transaction_id FROM planinstance_transaction_old")
