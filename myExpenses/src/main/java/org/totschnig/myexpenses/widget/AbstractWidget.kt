@@ -32,14 +32,20 @@ fun onConfigurationChanged(context: Context) {
     updateWidgets(context, TemplateWidget::class.java, WIDGET_CONTEXT_CHANGED)
 }
 
-fun updateWidgets(context: Context, provider: Class<out AppWidgetProvider?>, action: String,
-                  appWidgetIds: IntArray = AppWidgetManager.getInstance(context).getAppWidgetIds(ComponentName(context, provider))) =
-        context.sendBroadcast(Intent(context, provider).apply {
-            this.action = action
-            putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds)
-        })
+fun updateWidgets(
+    context: Context, provider: Class<out AppWidgetProvider?>, action: String,
+    appWidgetIds: IntArray = AppWidgetManager.getInstance(context)
+        .getAppWidgetIds(ComponentName(context, provider))
+) =
+    context.sendBroadcast(Intent(context, provider).apply {
+        this.action = action
+        putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds)
+    })
 
-abstract class AbstractWidget(private val clazz: Class<out RemoteViewsService>, private val protectionKey: PrefKey) : AppWidgetProvider() {
+abstract class AbstractWidget(
+    private val clazz: Class<out RemoteViewsService>,
+    private val protectionKey: PrefKey
+) : AppWidgetProvider() {
     abstract fun emptyTextResourceId(context: Context, appWidgetId: Int): Int
 
     @Inject
@@ -48,12 +54,13 @@ abstract class AbstractWidget(private val clazz: Class<out RemoteViewsService>, 
     override fun onReceive(context: Context, intent: Intent) {
         (context.applicationContext as MyApplication).appComponent.inject(this)
         val instance = AppWidgetManager.getInstance(context)
+        val appWidgetIds = intent.extras?.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS)
         when (intent.action) {
             WIDGET_LIST_DATA_CHANGED -> {
-                instance.notifyAppWidgetViewDataChanged(intent.extras!!.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS), R.id.list)
+                appWidgetIds?.let { instance.notifyAppWidgetViewDataChanged(it, R.id.list) }
             }
             WIDGET_CONTEXT_CHANGED -> {
-                intent.extras?.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS)?.let { onUpdate(context, instance, it) }
+                appWidgetIds?.let { onUpdate(context, instance, it) }
             }
             WIDGET_CLICK -> {
                 handleWidgetClick(context, intent)
@@ -67,23 +74,35 @@ abstract class AbstractWidget(private val clazz: Class<out RemoteViewsService>, 
     abstract fun handleWidgetClick(context: Context, intent: Intent)
 
     @Suppress("DEPRECATION")
-    fun availableWidth(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int): Int =
-            appWidgetManager.getAppWidgetOptions(appWidgetId).getInt(
-                    when ((context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.rotation) {
-                        ROTATION_0, ROTATION_180 -> /*ORIENTATION_PORTRAIT*/ AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH
-                        else -> /*ORIENTATION_LANDSCAPE*/ AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH
-                    })
+    fun availableWidth(
+        context: Context,
+        appWidgetManager: AppWidgetManager,
+        appWidgetId: Int
+    ): Int =
+        appWidgetManager.getAppWidgetOptions(appWidgetId).getInt(
+            when ((context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.rotation) {
+                ROTATION_0, ROTATION_180 -> /*ORIENTATION_PORTRAIT*/ AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH
+                else -> /*ORIENTATION_LANDSCAPE*/ AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH
+            }
+        )
 
     fun clickBaseIntent(context: Context) = Intent(WIDGET_CLICK, null, context, javaClass)
 
     open fun updateWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
         val widget = RemoteViews(context.packageName, R.layout.widget_list)
         widget.setEmptyView(R.id.list, R.id.emptyView)
-        val clickPI = PendingIntent.getBroadcast(context, appWidgetId, clickBaseIntent(context), PendingIntent.FLAG_UPDATE_CURRENT)
+        val clickPI = PendingIntent.getBroadcast(
+            context,
+            appWidgetId,
+            clickBaseIntent(context),
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
         widget.setOnClickPendingIntent(R.id.emptyView, clickPI)
         if (isProtected(context)) {
-            widget.setTextViewText(R.id.emptyView, context.getString(R.string.warning_password_protected) + " " +
-                    context.getString(R.string.warning_widget_disabled))
+            widget.setTextViewText(
+                R.id.emptyView, context.getString(R.string.warning_password_protected) + " " +
+                        context.getString(R.string.warning_widget_disabled)
+            )
         } else {
             val svcIntent = Intent(context, clazz)
             svcIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
@@ -92,17 +111,29 @@ abstract class AbstractWidget(private val clazz: Class<out RemoteViewsService>, 
             // into the data so that the extras will not be ignored.
             svcIntent.data = Uri.parse(svcIntent.toUri(Intent.URI_INTENT_SCHEME))
             widget.setRemoteAdapter(R.id.list, svcIntent)
-            widget.setTextViewText(R.id.emptyView, context.getString(emptyTextResourceId(context, appWidgetId)))
+            widget.setTextViewText(
+                R.id.emptyView,
+                context.getString(emptyTextResourceId(context, appWidgetId))
+            )
             widget.setPendingIntentTemplate(R.id.list, clickPI)
         }
         appWidgetManager.updateAppWidget(appWidgetId, widget)
     }
 
-    override fun onAppWidgetOptionsChanged(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int, newOptions: Bundle) {
+    override fun onAppWidgetOptionsChanged(
+        context: Context,
+        appWidgetManager: AppWidgetManager,
+        appWidgetId: Int,
+        newOptions: Bundle
+    ) {
         updateWidget(context, appWidgetManager, appWidgetId)
     }
 
-    override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
+    override fun onUpdate(
+        context: Context,
+        appWidgetManager: AppWidgetManager,
+        appWidgetIds: IntArray
+    ) {
         appWidgetIds.forEach { appWidgetId ->
             updateWidget(context, appWidgetManager, appWidgetId)
         }
