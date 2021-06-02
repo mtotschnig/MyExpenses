@@ -217,6 +217,7 @@ public class PlanMonthFragment extends CaldroidFragment
       case INSTANCES_CURSOR:
         Calendar calendar = Calendar.getInstance();
         data.moveToFirst();
+        clearSelectedDates();
         while (!data.isAfterLast()) {
           long timeInMillis = data.getLong(
               data.getColumnIndex(CalendarContractCompat.Instances.BEGIN));
@@ -244,16 +245,6 @@ public class PlanMonthFragment extends CaldroidFragment
   @Override
   public void onLoaderReset(@NonNull Loader<Cursor> loader) {
 
-  }
-
-  private long getPlanInstanceForPosition(int position) {
-    final Long date = dateTime2TimeStampMap.get(dateInMonthsList.get(position));
-    return date != null ? CalendarProviderProxy.calculateId(date) : -1;
-  }
-
-  private long getDateForPosition(int position) {
-    final Long date = dateTime2TimeStampMap.get(dateInMonthsList.get(position));
-    return date != null ? date : System.currentTimeMillis();
   }
 
   private PlanInstanceState getState(Long id) {
@@ -329,6 +320,16 @@ public class PlanMonthFragment extends CaldroidFragment
       }
 
       return frameLayout;
+    }
+
+    private long getPlanInstanceForPosition(int position) {
+      final Long date = dateTime2TimeStampMap.get(datetimeList.get(position));
+      return date != null ? CalendarProviderProxy.calculateId(date) : -1;
+    }
+
+    private long getDateForPosition(int position) {
+      final Long date = dateTime2TimeStampMap.get(datetimeList.get(position));
+      return date != null ? date : System.currentTimeMillis();
     }
 
     @Override
