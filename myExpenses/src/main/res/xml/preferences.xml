@@ -139,6 +139,7 @@
                 android:key="@string/pref_auto_fill_method_key"
                 android:title="@string/method" />
             <SwitchPreferenceCompat
+                my:singleLineTitle="false"
                 android:defaultValue="true"
                 android:key="@string/pref_auto_fill_focus_key"
                 android:title="@string/auto_fill_focus"/>
