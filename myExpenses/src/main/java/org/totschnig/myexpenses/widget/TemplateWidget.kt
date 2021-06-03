@@ -16,7 +16,7 @@ const val CLICK_ACTION_SAVE = "save"
 const val CLICK_ACTION_EDIT = "edit"
 
 class TemplateWidget: AbstractWidget(TemplateWidgetService::class.java, PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET) {
-    override fun emptyTextResourceId(context: Context, appWidgetId: Int) = R.string.no_templates
+    override val emptyTextResourceId = R.string.no_templates
 
     override fun handleWidgetClick(context: Context, intent: Intent) {
         val templateId = intent.getLongExtra(DatabaseConstants.KEY_ROWID, 0)

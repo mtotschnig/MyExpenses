@@ -100,14 +100,17 @@ class AccountRemoteViewsFactory(
 
         fun buildCursor(context: Context, accountId: String): Cursor? {
             val builder = TransactionProvider.ACCOUNTS_URI.buildUpon()
-            var selection = "${DatabaseConstants.KEY_HIDDEN} = 0"
-            var selectionArgs: Array<String>? = null
-            var projection: Array<String>? = null
+            val selection: String
+            val selectionArgs: Array<String>?
+            val projection: Array<String>?
             if (accountId.toLong().let { it > 0L && it != Long.MAX_VALUE }) {
-                selection += " AND $KEY_ROWID = ?"
+                selection = "$KEY_ROWID = ?"
                 selectionArgs = arrayOf(accountId)
                 projection = Account.PROJECTION_FULL
             } else {
+                selection = "${DatabaseConstants.KEY_HIDDEN} = 0"
+                selectionArgs = null
+                projection = null
                 builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES, accountId.takeIf { it != Long.MAX_VALUE.toString() }
                         ?: "1")
             }

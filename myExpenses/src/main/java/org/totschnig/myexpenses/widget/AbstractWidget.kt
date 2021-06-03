@@ -46,7 +46,7 @@ abstract class AbstractWidget(
     private val clazz: Class<out RemoteViewsService>,
     private val protectionKey: PrefKey
 ) : AppWidgetProvider() {
-    abstract fun emptyTextResourceId(context: Context, appWidgetId: Int): Int
+    abstract val emptyTextResourceId: Int
 
     @Inject
     lateinit var prefHandler: PrefHandler
@@ -113,7 +113,7 @@ abstract class AbstractWidget(
             widget.setRemoteAdapter(R.id.list, svcIntent)
             widget.setTextViewText(
                 R.id.emptyView,
-                context.getString(emptyTextResourceId(context, appWidgetId))
+                context.getString(emptyTextResourceId)
             )
             widget.setPendingIntentTemplate(R.id.list, clickPI)
         }

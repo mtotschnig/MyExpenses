@@ -21,6 +21,7 @@ import org.totschnig.myexpenses.model.Account.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
@@ -58,9 +59,11 @@ abstract class ContentResolvingAndroidViewModel(application: Application) : Andr
             ContextHelper.wrap(this, appComponent.userLocaleProvider().getUserPreferredLocale())
         }
 
-    val accountsMinimal: LiveData<List<AccountMinimal>> by lazy {
+    fun accountsMinimal(withHidden: Boolean = true): LiveData<List<AccountMinimal>> {
         val liveData = MutableLiveData<List<AccountMinimal>>()
-        disposable = briteContentResolver.createQuery(TransactionProvider.ACCOUNTS_MINIMAL_URI, null, null, null, null, false)
+        disposable = briteContentResolver.createQuery(TransactionProvider.ACCOUNTS_MINIMAL_URI, null,
+            if (withHidden) null else "${DatabaseConstants.KEY_HIDDEN} = 0",
+            null, null, false)
                 .mapToList { cursor ->
                     val id = cursor.getLong(cursor.getColumnIndex(KEY_ROWID))
                     AccountMinimal(id,
@@ -74,7 +77,7 @@ abstract class ContentResolvingAndroidViewModel(application: Application) : Andr
                     liveData.postValue(it)
                     dispose()
                 }
-        return@lazy liveData
+        return liveData
     }
 
     private val accountLiveData: Map<Long, LiveData<Account>> = lazyMap { accountId ->

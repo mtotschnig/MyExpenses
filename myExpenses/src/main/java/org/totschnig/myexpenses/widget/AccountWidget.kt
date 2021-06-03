@@ -75,11 +75,7 @@ class AccountWidget :
         }
     }
 
-    override fun emptyTextResourceId(context: Context, appWidgetId: Int) =
-        if (AccountRemoteViewsFactory.accountId(context, appWidgetId).let {
-                it == Long.MAX_VALUE.toString() || it.first() == '-'
-            })
-            R.string.no_accounts else R.string.account_deleted
+    override val emptyTextResourceId = R.string.no_accounts
 
     private fun updateSingleAccountWidget(
         context: Context,
@@ -87,15 +83,21 @@ class AccountWidget :
         appWidgetId: Int,
         accountId: String
     ) {
-        val widget = RemoteViews(context.packageName, R.layout.widget_row)
-        AccountRemoteViewsFactory.buildCursor(context, accountId)?.use {
-            it.moveToFirst()
-            AccountRemoteViewsFactory.populate(
-                context, widget, it,
-                AccountRemoteViewsFactory.sumColumn(context, appWidgetId),
-                availableWidth(context, appWidgetManager, appWidgetId),
-                Pair(appWidgetId, clickBaseIntent(context))
-            )
+        val widget = AccountRemoteViewsFactory.buildCursor(context, accountId)?.use { cursor ->
+            if (cursor.moveToFirst()) {
+                RemoteViews(context.packageName, R.layout.widget_row).also { widget ->
+                    AccountRemoteViewsFactory.populate(
+                        context, widget, cursor,
+                        AccountRemoteViewsFactory.sumColumn(context, appWidgetId),
+                        availableWidth(context, appWidgetManager, appWidgetId),
+                        Pair(appWidgetId, clickBaseIntent(context))
+                    )
+                }
+            } else RemoteViews(context.packageName, R.layout.widget_list).apply {
+                setTextViewText(R.id.emptyView, context.getString(R.string.account_deleted))
+            }
+        } ?: RemoteViews(context.packageName, R.layout.widget_list).apply {
+            setTextViewText(R.id.emptyView, "Cursor returned null")
         }
         appWidgetManager.updateAppWidget(appWidgetId, widget)
     }

@@ -150,7 +150,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
         viewModel = ViewModelProvider(this).get(BudgetEditViewModel::class.java)
         (applicationContext as MyApplication).appComponent.inject(viewModel)
         pendingBudgetLoad = if (savedInstanceState == null) budgetId else 0L
-        viewModel.accountsMinimal.observe(this, { list ->
+        viewModel.accountsMinimal().observe(this, { list ->
             binding.Accounts.adapter = AccountAdapter(this, list)
             (accountId.takeIf { it != 0L } ?: list.getOrNull(0)?.id)?.let { populateAccount(it) }
             if (pendingBudgetLoad != 0L) {
