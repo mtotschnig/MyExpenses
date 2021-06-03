@@ -542,10 +542,23 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManag
                 transaction.valueDate = it
             }
         }
-        delegate = TransactionDelegate.create(transaction, rootBinding, dateEditBinding, methodRowBinding, prefHandler)
-        setupObservers(false)
+        //if we populate from template that user has selected from menu, delegate is already initialized
+        if (!::delegate.isInitialized) {
+            delegate = TransactionDelegate.create(
+                transaction,
+                rootBinding,
+                dateEditBinding,
+                methodRowBinding,
+                prefHandler
+            )
+            setupObservers(false)
+        }
         delegate.bindUnsafe(transaction, isCalendarPermissionPermanentlyDeclined, mNewInstance, null, intent.getSerializableExtra(KEY_CACHED_RECURRENCE) as? Recurrence,
                 withAutoFill)
+        //if we populate from template that user has selected from menu, accounts are allready loaded
+        if (accountsLoaded) {
+            delegate.setAccount(null)
+        }
         setHelpVariant(delegate.helpVariant)
         setTitle()
         operationType = transaction.operationType()
