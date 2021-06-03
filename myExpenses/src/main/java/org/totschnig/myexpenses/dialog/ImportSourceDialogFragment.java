@@ -93,17 +93,13 @@ public abstract class ImportSourceDialogFragment extends BaseDialogFragment
     if (requestCode == IMPORT_FILENAME_REQUEST_CODE) {
       if (resultCode == Activity.RESULT_OK && intent != null) {
         mUri = intent.getData();
-        handleUri();
+        try {
+          ImportFileResultHandler.handleFilenameRequestResult(this, mUri);
+        } catch (Throwable throwable) {
+          mUri = null;
+          showSnackbar(throwable.getMessage(), Snackbar.LENGTH_LONG, null);
+        }
       }
-    }
-  }
-
-  public void handleUri() {
-    try {
-      ImportFileResultHandler.handleFilenameRequestResult(this, mUri);
-    } catch (Throwable throwable) {
-      mUri = null;
-      showSnackbar(throwable.getMessage(), Snackbar.LENGTH_LONG, null);
     }
   }
 

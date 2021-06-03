@@ -6,9 +6,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.BackupRestoreActivity;
+import org.totschnig.myexpenses.util.ImportFileResultHandler;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -59,7 +62,14 @@ public class BackupSourcesDialogFragment extends ImportSourceDialogFragment
   public Dialog onCreateDialog(Bundle savedInstanceState) {
     final Dialog dialog = super.onCreateDialog(savedInstanceState);
     if (savedInstanceState == null && mUri != null) {
-      handleUri();
+      try {
+        ImportFileResultHandler.handleFilenameRequestResult(this, mUri);
+      } catch (Throwable throwable) {
+        mUri = null;
+        CrashHandler.report(throwable);
+        Toast.makeText(requireContext(), throwable.getMessage(), Toast.LENGTH_LONG).show();
+        requireActivity().finish();
+      }
     }
     return dialog;
   }
