@@ -988,4 +988,9 @@
     <string name="active_tags">Etiquetas ativas</string>
     <!-- This is used in the title of the email by which user requests an invoice for payment via bank transfer -->
     <string name="request_for_invoice">Pedido de fatura</string>
-    </resources>
+    <!-- Enables Focus on the Payee field for Auto fill -->
+    <string name="auto_fill_focus">Definir foco no beneficiário</string>
+    <!-- This warning is shown when a user calls the Reset or Cancel commands on a scheduled transaction, for a date
+     where the transaction has already been created.  -->
+    <string name="warning_plan_instance_delete">A transação criada para a data selecionada será excluída.</string>
+</resources>

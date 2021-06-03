@@ -988,4 +988,9 @@
     <string name="active_tags">Активни маркери</string>
     <!-- This is used in the title of the email by which user requests an invoice for payment via bank transfer -->
     <string name="request_for_invoice">Искане за фактура</string>
-    </resources>
+    <!-- Enables Focus on the Payee field for Auto fill -->
+    <string name="auto_fill_focus">Задайте фокуса да бъде върху полето за получател</string>
+    <!-- This warning is shown when a user calls the Reset or Cancel commands on a scheduled transaction, for a date
+     where the transaction has already been created.  -->
+    <string name="warning_plan_instance_delete">Създадената вече транзакция за избраната дата, ще бъде изтрита.</string>
+</resources>
