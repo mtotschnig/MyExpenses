@@ -52,7 +52,7 @@ ext {
     appcompatVersion = "1.3.0"
     picassoVersion = "2.71828"
     threetenabp = "1.3.0"
-    recyclerview = "1.2.0"
+    recyclerview = "1.2.1"
     materialComponents = "1.3.0"
     junitVersion = "4.13.2"
     timberVersion = "4.7.1"
