@@ -182,16 +182,19 @@ public abstract class SelectFromTableDialogFragment extends BaseDialogFragment i
         });
 
     final int neutralButton = getNeutralButton();
+    final int negativeButton = getNegativeButton();
     final AlertDialog.Builder builder = new MaterialAlertDialogBuilder(getActivity())
         .setAdapter(adapter, null)
-        .setPositiveButton(getPositiveButton(), null)
-        .setNegativeButton(getNegativeButton(), null);
+        .setPositiveButton(getPositiveButton(), null);
     int dialogTitle = getDialogTitle();
     if (dialogTitle != 0) {
       builder.setTitle(dialogTitle);
     }
     if (neutralButton != 0) {
       builder.setNeutralButton(neutralButton, null);
+    }
+    if (negativeButton != 0) {
+      builder.setNegativeButton(negativeButton, null);
     }
     final AlertDialog alertDialog = builder.create();
     alertDialog.getListView().setItemsCanFocus(false);

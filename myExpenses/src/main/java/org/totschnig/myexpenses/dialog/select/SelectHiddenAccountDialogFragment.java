@@ -48,7 +48,7 @@ public class SelectHiddenAccountDialogFragment extends SelectMultipleDialogFragm
   }
 
   @Override
-  protected boolean onResult(List<String> labelList, long[] itemIds, int which) {
+  protected boolean onResult(@NonNull List<String> labelList, @NonNull long[] itemIds, int which) {
     switch (which) {
       case DialogInterface.BUTTON_POSITIVE:
         if (itemIds.length > 0) {
@@ -88,5 +88,10 @@ public class SelectHiddenAccountDialogFragment extends SelectMultipleDialogFragm
   @Override
   protected int getNeutralButton() {
     return R.string.menu_delete;
+  }
+
+  @Override
+  protected int getNegativeButton() {
+    return 0;
   }
 }
