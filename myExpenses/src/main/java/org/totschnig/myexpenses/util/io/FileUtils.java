@@ -18,7 +18,6 @@
 package org.totschnig.myexpenses.util.io;
 
 import android.annotation.TargetApi;
-import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
@@ -126,7 +125,11 @@ public class FileUtils {
         if (DEBUG)
           DatabaseUtils.dumpCursor(cursor);
 
-        final int column_index = cursor.getColumnIndexOrThrow(column);
+        final int column_index = cursor.getColumnIndex(column);
+        if (column_index == -1) {
+          CrashHandler.report("column '_data' does not exist for uri " + uri);
+          return null;
+        }
         return cursor.getString(column_index);
       }
     } catch (Exception e) {
@@ -176,22 +179,6 @@ public class FileUtils {
         //there is no documented way of returning a path to a file on non primary storage.
         //so what we do is displaying the documentId to the user which is better than just null
         return docId;
-      }
-      // DownloadsProvider
-      else if (isDownloadsDocument(uri)) {
-
-        final String docId = DocumentsContract.getDocumentId(uri);
-        final Uri contentUri;
-        try {
-          contentUri = ContentUris.withAppendedId(
-              Uri.parse("content://downloads/public_downloads"), Long.parseLong(docId));
-          dataColumn = getDataColumn(context, contentUri, null, null);
-        } catch (NumberFormatException e) {
-          final String[] split = docId.split(":");
-          if (split.length > 1) {
-            return split[1];
-          }
-        }
       }
       // MediaProvider
       else if (isMediaDocument(uri)) {
