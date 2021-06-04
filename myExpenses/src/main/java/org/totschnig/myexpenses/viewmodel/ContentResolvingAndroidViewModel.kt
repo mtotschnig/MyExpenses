@@ -59,7 +59,7 @@ abstract class ContentResolvingAndroidViewModel(application: Application) : Andr
             ContextHelper.wrap(this, appComponent.userLocaleProvider().getUserPreferredLocale())
         }
 
-    fun accountsMinimal(withHidden: Boolean = true): LiveData<List<AccountMinimal>> {
+    protected fun accountsMinimal(withHidden: Boolean = true): LiveData<List<AccountMinimal>> {
         val liveData = MutableLiveData<List<AccountMinimal>>()
         disposable = briteContentResolver.createQuery(TransactionProvider.ACCOUNTS_MINIMAL_URI, null,
             if (withHidden) null else "${DatabaseConstants.KEY_HIDDEN} = 0",
