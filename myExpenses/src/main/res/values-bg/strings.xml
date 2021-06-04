@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -12,8 +13,7 @@
   
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+ --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">Сметка</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">Типове сметки</string>
@@ -35,8 +35,8 @@
     <string name="already_defined">%1$s вече е дефинирана</string>
     <string name="amount">Сума</string>
     <string name="app_name">Моите разходи</string>
-    <string name="backup_failure">Неуспешно архивиране в \"%1$s\".</string>
-    <string name="backup_success">Успешен запис на база данни и предпочитания в \"%1$s\".</string>
+    <string name="backup_failure">Неуспешно архивиране в „%1$s“.</string>
+    <string name="backup_success">Успешен запис на база данни и предпочитания в „%1$s“.</string>
     <string name="category">Категория</string>
     <string name="color">Цвят</string>
     <string name="comment">Бележки</string>
@@ -119,9 +119,9 @@
     <string name="expense">Разход</string>
     <string name="export_expenses">Експорт на Разходи</string>
     <!-- 1$s is replaced with path to file, 2$s with error message -->
-    <string name="export_sdcard_failure">Неуспешен експорт на Разходи в \"%1$s\": %2$s</string>
+    <string name="export_sdcard_failure">Неуспешен експорт на Разходи в „%1$s“: %2$s</string>
     <!-- 1$s is replaced with path to file -->
-    <string name="export_sdcard_success">Успешен експорт на Разходи във файл \"%1$s\"</string>
+    <string name="export_sdcard_success">Успешен експорт на Разходи във файл „%1$s“</string>
     <string name="external_storage_unavailable">Не е достъпна външна памет (sdcard)!</string>
     <string name="feedback">Обратна връзка</string>
     <string name="ftp_uri_malformed">Неправилен URI %1$s</string>
@@ -364,7 +364,7 @@
     <string name="restore_no_backup_found">Не е намерен архивен файл.</string>
     <string name="restore_preferences_failure">Неуспешно възстановяване на предпочитания</string>
     <string name="restore_backup_archive_not_valid">Архива %1$s не е валиден</string>
-    <string name="restore_backup_file_not_found">Няма файл %1$s в архива \"%2$s\"</string>
+    <string name="restore_backup_file_not_found">Няма файл %1$s в архива „%2$s“</string>
     <string name="restore_preferences_success">Предпочитанията са възстановени успешно.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">Успешно възстановени %d плана.</string>
     <string name="save_transaction_and_new_success">Успешно запаметено.</string>
@@ -405,9 +405,9 @@
     <string name="type">Тип</string>
     <string name="unsplit_amount">Неразпределена сума</string>
     <string name="unsplit_amount_greater_than_zero">Останала е неразпределена сума.</string>
-    <string name="warning_backup">База данни и предпочитания ще бъдат запаметени в \"%1$s\".</string>
+    <string name="warning_backup">База данни и предпочитания ще бъдат запаметени в „%1$s“.</string>
     <string name="continue_confirmation">Искате ли да продължите?</string>
-    <string name="warning_delete_account">Сметка \"%1$s\" ще бъде изтрита с всички нейни плащания.</string>
+    <string name="warning_delete_account">Сметка „%1$s“ ще бъде изтрита с всички нейни плащания.</string>
     <plurals name="warning_delete_main_category">
         <item quantity="one">Избраната категория има подкатегории, които също ще бъдат изтрити.</item>
         <item quantity="other">%1$d избрани категории имат подкатегори, които също ще бъдат изтрити.</item>
@@ -439,7 +439,7 @@
     <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">Ако продължите, всички транзакции с валута %1$s, по всички сметки, ще бъдат изтрити от базата данни и не могат да бъдат възстановени.</string>
     <string name="warning_reset_account_matched">Ако продължите, транзакциите, избрани с текущия филтър, ще бъдат изтрити от базата данни и не могат да бъдат възстановени.</string>
-    <string name="warning_restore">База данни и предпочитания ще бъдат възстановени от файл \"%1$s\". Текущите данни ще бъдат изтрити.</string>
+    <string name="warning_restore">База данни и предпочитания ще бъдат възстановени от файл „%1$s“. Текущите данни ще бъдат изтрити.</string>
     <string name="warning_app_folder_will_be_deleted_upon_uninstall">Текущо избраната папка за архив и експорт ще се изтрие автоматично от Андроид, ако деинсталирате {app_name}. Може да избегнете това, като изберете различна папка от Настройки.</string>
     <string name="warning_splitpartcategory_context">Преводите, които са част от разпределяне, могат да се редактират само в контекста на разпределянето.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Моля задайте число между %1$d и %2$d</string>
@@ -701,7 +701,7 @@
     <string name="pref_protection_device_lock_screen_title">Екран за заключено устройство</string>
     <string name="pref_warning_only_one_protection">Преди да можете да използвате защита от %1$s, трябва да изключите защитата от %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">Защитният екран за заключено устройството не е настроен.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Отидете на \"Настройки -&gt; Настройки -&gt; Заключен екран\", за да настроите заключен екран.</string>
+    <string name="warning_device_lock_screen_not_set_up_2">Отидете на „Настройки -&gt; Настройки -&gt; Заключен екран“, за да настроите заключен екран.</string>
     <string name="menu_history_show_balance">Показване на салдото</string>
     <string name="menu_history_transfers">Включи преводите</string>
     <string name="menu_history">История</string>
@@ -791,7 +791,7 @@
     <!-- In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.   -->
-    <string name="unmapped_filter_only_single">Филтъра \"без категория\" не може да се включва в множествена селекция</string>
+    <string name="unmapped_filter_only_single">Филтъра „без категория“ не може да се включва в множествена селекция</string>
     <string name="upgrade_information_cloud_sync_storage_format">От версия 2.9.8, е променен начинът, по който данните се съхраняват в отдалечените хранилища. Моля, преди да въведете нови записи надстройте до тази версия на всички синхронизирани устройства.</string>
     <string name="pref_security_export_passphrase_title">Парола за архивиране</string>
     <string name="pref_security_export_passphrase_summary">Архивните файлове ще бъдат шифровани с тази парола</string>

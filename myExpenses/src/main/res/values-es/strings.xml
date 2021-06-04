@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -12,8 +13,7 @@
   
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+ --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">Cuenta</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">Tipos de cuentas</string>
@@ -32,11 +32,11 @@
     <string name="account_type_liability">Cuenta de deudas</string>
     <!-- Plural form to be used in account list where accounts are grouped by type -->
     <string name="account_type_liability_plural">Cuentas de deudas</string>
-    <string name="already_defined">%1$s ya existe.</string>
+    <string name="already_defined">%1$s ya existe</string>
     <string name="amount">Importe</string>
     <string name="app_name">Mis Gastos</string>
-    <string name="backup_failure">La copia de seguridad de \"%1$s\" ha fallado.</string>
-    <string name="backup_success">La base de datos y las configuraciones han sido escritas en \"%1$s\" correctamente.</string>
+    <string name="backup_failure">La copia de seguridad de «%1$s» ha fallado.</string>
+    <string name="backup_success">La base de datos y las configuraciones han sido escritas en «%1$s» correctamente.</string>
     <string name="category">Categoría</string>
     <string name="color">Color</string>
     <string name="comment">Notas</string>
@@ -89,7 +89,7 @@
     <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Puede usarlo por %1$d días con su actual licencia (%2$s).</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Su actual licencia (%2$s) le permite crear %1$d cuentas.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Su licencia actual (%2$s) le permite crear %1$d proyectos.</string>
-    <string name="dialog_contrib_usage_limit_split_templates">El estado actual de su licencia (%1$s) le permite crear 1 plantilla dividida</string>
+    <string name="dialog_contrib_usage_limit_split_templates">El estado actual de su licencia (%1$s) le permite crear 1 plantilla dividida.</string>
     <string name="dialog_export_delete">Borrar transacciones exportadas</string>
     <string name="dialog_export_not_yet_exported">Exportar sólo las transacciones aún no exportadas</string>
     <string name="dialog_password_activate_protection">Activar protección por contraseña</string>
@@ -119,9 +119,9 @@
     <string name="expense">Gasto</string>
     <string name="export_expenses">Exportar gastos</string>
     <!-- 1$s is replaced with path to file, 2$s with error message -->
-    <string name="export_sdcard_failure">Exportar al archivo %1$s ha fallado: %2$s</string>
+    <string name="export_sdcard_failure">Exportar al archivo «%1$s» ha fallado: %2$s</string>
     <!-- 1$s is replaced with path to file -->
-    <string name="export_sdcard_success">Los datos han sido exportado al archivo \"%1$s\" correctamente</string>
+    <string name="export_sdcard_success">Los datos han sido exportado al archivo «%1$s» correctamente</string>
     <string name="external_storage_unavailable">La memoria externa (tarjeta SD) no está disponible</string>
     <string name="feedback">Comentarios</string>
     <string name="ftp_uri_malformed">URI %1$s inválido</string>
@@ -228,7 +228,7 @@
     <string name="no_parties">No hay grupos.</string>
     <string name="no_split_parts">No hay partes divididas.</string>
     <string name="no_templates">No hay plantillas.</string>
-    <string name="no_accounts">Sin cuentas</string>
+    <string name="no_accounts">Sin cuentas.</string>
     <string name="no_title_given">No ha introducido ningún título.</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="one">El objeto seleccionado está asignado a una transacción y no se puede eliminar.</item>
@@ -298,7 +298,7 @@
     <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Si ha recibido una clave, puede desbloquear las características Premium.</string>
     <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Introduzcir clave</string>
     <string name="pref_export_format_title">Formato de datos</string>
-    <string name="pref_import_from_grisbi_summary">Importar categorías y grupos desde un archivo Grisbi XML.</string>
+    <string name="pref_import_from_grisbi_summary">Importar categorías y grupos desde un archivo Grisbi XML</string>
     <string name="pref_import_from_grisbi_title">Importar desde Grisbi</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_summary">Importar transacciones, categorías y grupos desde el archivo %s</string>
@@ -310,7 +310,7 @@
     <string name="pref_manage_categories_title">Categorías</string>
     <string name="pref_manage_methods_summary">Crear y editar métodos de pago y asociarlos con tipos de cuenta.</string>
     <string name="pref_manage_methods_title">Métodos de pago</string>
-    <string name="pref_manage_parties_summary">Añadir, modificar y borrar partidos (ordenante y acreedor)</string>
+    <string name="pref_manage_parties_summary">Añadir, modificar y borrar partidos (ordenante y acreedor).</string>
     <string name="pref_manage_parties_title">Grupos</string>
     <string name="pref_manage_sync_backends_title">Servicios de sincronización</string>
     <!-- %s will be replaced with list of backends -->
@@ -337,7 +337,7 @@
     <string name="pref_security_question_summary">Le permite desbloquear la aplicación, en caso de olvidar la contraseña.</string>
     <string name="pref_security_question_title">Pregunta de seguridad</string>
     <string name="pref_send_feedback_title">Enviar comentario</string>
-    <string name="pref_share_target_summary">Déjelo en blanco si quiere elegir entre las aplicaciones correspondientes (correo electrónico, Dropbox, Google Docs, …) o indique la URL de uno de los programas soportados</string>
+    <string name="pref_share_target_summary">Déjelo en blanco si quiere elegir entre las aplicaciones correspondientes (correo electrónico, Dropbox, Google Docs…) o indique la URL de uno de los programas soportados</string>
     <string name="pref_share_target_title">Subir URL</string>
     <string name="pref_shortcut_added">Acceso directo añadido a la pantalla de inicio</string>
     <string name="pref_shortcut_not_added">No hay pantalla de inicio disponible que acepte atajos.</string>
@@ -362,9 +362,9 @@
     <string name="restore_db_failure">La restauración de la base de datos ha fallado.</string>
     <string name="restore_db_success">La base de datos ha sido restaurada desde la copia de seguridad.</string>
     <string name="restore_no_backup_found">No hay ninguna copia de seguridad.</string>
-    <string name="restore_preferences_failure">La restauración de preferencias ha fallado.</string>
+    <string name="restore_preferences_failure">La restauración de preferencias ha fallado</string>
     <string name="restore_backup_archive_not_valid">El archivo %1$s no es válido</string>
-    <string name="restore_backup_file_not_found">No se ha encontrado el fichero %1$s en el archivo \"%2$s\"</string>
+    <string name="restore_backup_file_not_found">No se ha encontrado el fichero %1$s en el archivo «%2$s»</string>
     <string name="restore_preferences_success">Preferencias restauradas desde la copia de seguridad.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d proyectos han sido restaurados desde la copia de seguridad</string>
     <string name="save_transaction_and_new_success">Guardado con éxito</string>
@@ -377,7 +377,7 @@
     <string name="select">Seleccionar</string>
     <string name="select_category">Seleccionar categoría</string>
     <string name="select_payee">Seleccionar ordenante/acreedor</string>
-    <string name="share_scheme_not_supported">El programa %1$s no soportado.</string>
+    <string name="share_scheme_not_supported">El programa %1$s no soportado</string>
     <string name="share_sending">Enviar el archivo de exportación</string>
     <string name="split_parts_heading">Partes divididas</string>
     <string name="split_transaction">Transacción dividida</string>
@@ -404,10 +404,10 @@
     <!-- Type refers to the type of an account, eg. Cash account, bank account -->
     <string name="type">Tipo</string>
     <string name="unsplit_amount">Importe sin dividir</string>
-    <string name="unsplit_amount_greater_than_zero">Todavía hay importes sin dividir</string>
-    <string name="warning_backup">La base de datos y configuraciones se guardarán en \"%1$s\".</string>
+    <string name="unsplit_amount_greater_than_zero">Todavía hay importes sin dividir.</string>
+    <string name="warning_backup">La base de datos y configuraciones se guardarán en «%1$s».</string>
     <string name="continue_confirmation">¿Quiere continuar?</string>
-    <string name="warning_delete_account">La cuenta \"%1$s\" se eliminará con todas las transacciones.</string>
+    <string name="warning_delete_account">La cuenta «%1$s» se eliminará con todas las transacciones.</string>
     <plurals name="warning_delete_main_category">
         <item quantity="one">La categoría seleccionada tiene subcategorías, que se eliminará también.</item>
         <item quantity="other">%1$d categorías seleccionadas tienen subcategorías, que también serán eliminadas.</item>
@@ -439,7 +439,7 @@
     <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">Si continúa, en todas las cuentas%1$s las transacciones serán eliminadas de la base de datos y no podrán ser restauradas.</string>
     <string name="warning_reset_account_matched">Si continúa, las transacciones que coincidan con el filtro actual serán eliminadas de la base de datos y no podrán ser restauradas.</string>
-    <string name="warning_restore">La base de datos y preferencias serán restauradas desde el archivo \"%1$s\". Los datos actuales serán eliminados,</string>
+    <string name="warning_restore">La base de datos y preferencias serán restauradas desde el archivo «%1$s». Los datos actuales serán eliminados.</string>
     <string name="warning_app_folder_will_be_deleted_upon_uninstall">La carpeta seleccionada actualmente para copias de seguridad y exportaciones será eliminada automáticamente por Android si desinstala {app_name}. Podrá evitarlo, al seleccionar una carpeta diferente desde la pantalla de configuración.</string>
     <string name="warning_splitpartcategory_context">Las transferencias que forman parte de una división sólo podrán ser editadas en el contexto de la división.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Por favor, introduzca un número entre %1$d y %2$d</string>
@@ -494,7 +494,7 @@
     <string name="import_source_file">Archivo</string>
     <string name="restore_calendar_handling">Manejo de datos desde el calendario</string>
     <string name="restore_calendar_handling_configured">Restaurar los proyectos en el calendario configurado actualmente</string>
-    <string name="restore_calendar_handling_backup">Restaurar los proyectos en el calendario configurado en la copia de seguridad, si es posible.</string>
+    <string name="restore_calendar_handling_backup">Restaurar los proyectos en el calendario configurado en la copia de seguridad, si es posible</string>
     <string name="restore_calendar_handling_ignore">No restaurar los proyectos</string>
     <string name="restore_not_possible_target_calendar_missing">El calendario %s configurado en la copia de seguridad no existe a nivel loca. La restauración ha sido cancelada.</string>
     <string name="restore_not_possible_local_calendar_missing">El actual calendario de planificación no está disponible.</string>
@@ -612,7 +612,7 @@
     <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d cuentas no pudieron ser configuradas para ser sincronizadas con el servicio.</string>
     <string name="link_account_failure_2">Una cuenta con el mismo UUID ya existe en el servicio remoto.</string>
     <string name="link_account_failure_3">El conflicto puede resolverse manualmente desde el menú de contexto de la entrada.</string>
-    <string name="progress_dialog_checking_sync_backend">Comprobación de servicio.</string>
+    <string name="progress_dialog_checking_sync_backend">Comprobación de servicio</string>
     <string name="template">Plantilla</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sincronización en la nube</string>
     <string name="all_contrib_key_features">Todas las características de licencia Contrib</string>
@@ -623,7 +623,7 @@
     <string name="pref_backup_cloud_summary">Además del almacenamiento local del dispositivo, la copia de seguridad puede copiarse a un servicio remoto.</string>
     <string name="auto_backup_cloud_create_backend">Crear un servicio de sincronización desde la pantalla de configuración principal.</string>
     <string name="auto_backup_cloud_failure">Ha ocurrido un error al intentar almacenar la copia de seguridad %1$s en el servicio %2$s:</string>
-    <string name="auto_backup_cloud_success">El respaldo del archivo %1$s ha sido guardado correctamente en %2$s</string>
+    <string name="auto_backup_cloud_success">El respaldo del archivo %1$s ha sido guardado correctamente en %2$s.</string>
     <string name="home_screen_shortcuts_nougate_info">Se pueden añadir accesos directos con una pulsación larga en el icono de la aplicación desde la Pantalla Inicio.</string>
     <string name="currency_symbol">Símbolo de moneda</string>
     <string name="number_of_fraction_digits">Número de dígitos de fracción</string>
@@ -677,7 +677,7 @@
     <string name="valid_until">Hasta %s</string>
     <!-- %1$s date, %2$s price  -->
     <string name="extend_until">Extendida hasta %1$s por %2$s</string>
-    <string name="extended_upgrade_goodie_github">Se han añadido %d meses adicionales a los usuarios que ya tuvieran una licencia Extendida.</string>
+    <string name="extended_upgrade_goodie_github">Se han añadido %d meses adicionales a los usuarios que ya tuvieran una licencia Extendida</string>
     <string name="extended_upgrade_goodie_subscription" tools:ignore="UnusedResources">Para los usuarios que ya posean una licencia Extendida, se aplicará un 50%% del precio normal (%s) durante el primer año.</string>
     <string name="extended_upgrade_goodie_subscription_amazon" tools:ignore="UnusedResources">Los usuarios que actualmente posean una Licencia Extendida, también disponen de un %1$d%% de descuento para el precio (%2$s) de la suscripción anual.</string>
     <string name="switch_to_yearly" tools:ignore="UnusedResources">Cambiar a suscripción anual</string>
@@ -697,7 +697,7 @@
         <item quantity="one">Un objeto fue eliminado correctamente.</item>
         <item quantity="other">%d objetos fueron eliminados correctamente.</item>
     </plurals>
-    <string name="feature_deprecated">Descartado.</string>
+    <string name="feature_deprecated">Descartado</string>
     <string name="pref_protection_device_lock_screen_title">Bloqueo de pantalla</string>
     <string name="pref_warning_only_one_protection">Antes de que pueda usar la protección por %1$s, tiene que desactivar la protección por %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">La seguridad en el bloqueo de pantalla no ha sido configurada.</string>
@@ -791,7 +791,7 @@
     <!-- In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.   -->
-    <string name="unmapped_filter_only_single">El filtro \'sin asignar\" no puede incluirse en selección múltiple</string>
+    <string name="unmapped_filter_only_single">El filtro «sin asignar» no puede incluirse en selección múltiple</string>
     <string name="upgrade_information_cloud_sync_storage_format">Con la versión 2.9.8, la manera en que los datos son almacenados en los servicios de sincronización ha cambiado. Por favor, actualice a esta versión en todos sus dispositivos sincronizados antes de introducir ninguna nueva entrada en cualquiera de ellos.</string>
     <string name="pref_security_export_passphrase_title">Frase de contraseña para copias de seguridad</string>
     <string name="pref_security_export_passphrase_summary">Las copias de seguridad se encriptarán con esta frase de contraseña</string>
@@ -807,7 +807,7 @@
     <string name="button_label_no_encryption">Sin encriptación</string>
     <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->
     <string name="joining_or">o</string>
-    <string name="pref_account_list_fast_scroll_summary">Habilitar desplazamiento rápido para la lista de cuentas. Puede producir error en la visualización en algunos dispositivos.</string>
+    <string name="pref_account_list_fast_scroll_summary">Habilitar desplazamiento rápido para la lista de cuentas. Puede producir error en la visualización en algunos dispositivos</string>
     <string name="menu_hide">Ocultar</string>
     <!-- Action of closing an account. A closed account does not allow any modifications on its data. -->
     <string name="menu_close">Cerrar</string>
@@ -857,7 +857,7 @@
     <string name="budget_filter_all_accounts">Todas las cuentas</string>
     <string name="budget_form_label_filter">Filtro</string>
     <string name="dialog_title_warning_delete_budget">¿Borrar presupuesto?</string>
-    <string name="warning_delete_budget">El presupuesto \"%1$s\" será eliminado.</string>
+    <string name="warning_delete_budget">El presupuesto «%1$s» será eliminado.</string>
     <string name="menu_edit_budget">Editar presupuesto</string>
     <string name="onboarding_privacy_title">Tu información se queda contigo</string>
     <string name="onboarding_privacy_intro">Tu información financiera no se envía a ningún servidor, así como tampoco son tratadas por terceros o nosotros.</string>
@@ -948,9 +948,9 @@
     <!-- When user opens a template from the transaction form, existing data is discarded. This message appears in a dialgoue to confirm the action -->
     <string name="confirmation_load_template_discard_data">Los datos de formulario existentes serán descartados.</string>
     <string name="pref_clone_with_current_date_title">Fecha de las transacciones clonadas</string>
-    <string name="template_default_action_without_amount_hint">La plantilla sin importe debe guardarse con la acción predeterminada \"Editar\".</string>
+    <string name="template_default_action_without_amount_hint">La plantilla sin importe debe guardarse con la acción predeterminada «Editar»</string>
     <string name="plan_automatic_without_amount_hint">No se guardar el plan sin cantidad con la ejecución automática del plan</string>
-    <string name="content_description_edit_plan">Editar planificación en la aplicación del calendario.</string>
+    <string name="content_description_edit_plan">Editar planificación en la aplicación del calendario</string>
     <string name="reset_equivalent_amounts_success">Se han reiniciado las cantidades equivalentes</string>
     <string name="menu_save_and_new_content_description">Guardar los datos, dejando abierto el formulario para crear una nueva transacción con los mismos datos.</string>
     <!-- Title of a preference where user can select between Ml Kit and Tesseract as Engine for Optical character recognition -->
@@ -971,7 +971,7 @@
     <!-- Title of a menu item and a dialogue that allow to adjust the current balance. User can enter the new balance, and transaction form is opened with the amount prefiled to the difference between old and new balance  -->
     <string name="new_balance">Nuevo balance</string>
     <string name="title_webui">Interfaz de usuario web</string>
-    <string name="single_feature_info">También puede comprar ilimitado sólo a esta función.</string>
+    <string name="single_feature_info">Alternativamente, puede comprar acceso ilimitado solo a esta función.</string>
     <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
     <string name="recurrence_last_day_of_month">Último día</string>
     <string name="warning_link_transfer">Las dos transacciones seleccionadas se vincularán como transferencia. Se eliminará la información sobre el acreedor/ordenante y la categoría.</string>

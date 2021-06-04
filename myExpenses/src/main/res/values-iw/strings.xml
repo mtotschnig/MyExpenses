@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -12,8 +13,7 @@
   
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+ --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">חשבון</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">סוגי חשבון</string>
@@ -997,7 +997,7 @@
     <!-- Title of a menu item and a dialogue that allow to adjust the current balance. User can enter the new balance, and transaction form is opened with the amount prefiled to the difference between old and new balance  -->
     <string name="new_balance">איזון חדש</string>
     <string name="title_webui">ממשק משתמש באינטרנט</string>
-    <string name="single_feature_info">לחלופין תוכלו לקנות גישה בלתי מוגבלת רק לתכונה זו.</string>
+    <string name="single_feature_info">לחלופין ניתן לרכוש גישה בלתי מוגבלת ליכולת זו בלבד.</string>
     <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
     <string name="recurrence_last_day_of_month">יום אחרון</string>
     <string name="warning_link_transfer">שתי העסקאות שנבחרו יקושרו כהעברה. מידע על מקבל / משלם וקטגוריה יימחק.</string>

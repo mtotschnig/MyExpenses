@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -12,8 +13,7 @@
   
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+ --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">Hesap</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">Hesap türleri</string>
@@ -36,7 +36,7 @@
     <string name="amount">Miktar</string>
     <string name="app_name">Harcamalarım</string>
     <string name="backup_failure">SD kartına yedekleme başarısız oldu (%1$s).</string>
-    <string name="backup_success">Veritabanı ve tercihler SD karta başarılı bir şekilde yazıldı (%1$s).</string>
+    <string name="backup_success">Veri tabanı ve tercihler \"%1$s\" konumuna başarıyla yazıldı.</string>
     <string name="category">Kategori</string>
     <string name="color">Renk</string>
     <string name="comment">Notlar</string>
@@ -57,7 +57,7 @@
     <string name="contrib_key">Katkı Anahtarı</string>
     <string name="extended_key">Genişletilmiş Anahtarı</string>
     <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
-    <string name="contrib_key_requires">%s gerektirir.</string>
+    <string name="contrib_key_requires">%1$s gerektirir.</string>
     <string name="currency">Döviz</string>
     <string name="current_balance">Güncel bakiye</string>
     <string name="date">Tarih</string>
@@ -277,7 +277,7 @@
     <string name="pm_type_neutral">Nötr</string>
     <string name="pref_app_dir_title">Yedekleme ve dışa aktarmalar için klasör</string>
     <string name="pref_auto_fill_summary">Aynı alacaklı/ödeyici için verileri son muameleden doldur</string>
-    <string name="pref_backup_summary">SD kartına veritabanı ve tercihlerin bir yedeklemesini yap.</string>
+    <string name="pref_backup_summary">Veri tabanı ve tercihlerin bir yedeğini oluşturun.</string>
     <string name="pref_sort_order_usages">Kullanım sayacı</string>
     <string name="pref_category_title_advanced">Gelişmiş</string>
     <string name="pref_category_title_export">Dışa aktar</string>
@@ -298,7 +298,7 @@
     <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Eğer anahtarı aldıysanız tüm işlevlere erişim kazanın.</string>
     <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Anahtarını gir</string>
     <string name="pref_export_format_title">Veri biçimi</string>
-    <string name="pref_import_from_grisbi_summary">Kategori (ve bölüm) içeri aktar Grisbi XML.</string>
+    <string name="pref_import_from_grisbi_summary">Kategorileri ve tarafları Grisbi XML dosyasından içe aktarın</string>
     <string name="pref_import_from_grisbi_title">Grisbi\'den içeri aktar</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_summary">Muameleleri, kategorileri ve parçaları %s dosyasından içe aktar</string>
@@ -323,7 +323,7 @@
     <string name="pref_planning_calendar_create_local">Yeni yerel planlama takvimi oluştur</string>
     <string name="pref_planning_calendar_summary">Gelecekteki ve tekrar eden muamelelerin saklanacağı takvimi seç</string>
     <string name="pref_planning_calendar_title">Planlama takvimi</string>
-    <string name="pref_protection_delay_seconds_summary">Uygulamanın parola ile kilitlenmesinden önce beklenecek saniye sayısı</string>
+    <string name="pref_protection_delay_seconds_summary">Uygulamanın parola ile kilitlenmesinden önce saniye cinsinden beklenecek süre.</string>
     <string name="pref_protection_delay_seconds_title">Korumanın başlamasından önceki süre</string>
     <string name="pref_protection_enable_data_entry_from_widget_title">Kısayollar ve wigdet\'lardan veri girişi</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Parola olmasa da izinli.</string>
@@ -331,13 +331,13 @@
     <string name="pref_qif_export_file_encoding_title">Karakter kodlaması</string>
     <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
     <string name="pref_restore_alternative">Alternatif</string>
-    <string name="pref_restore_alternative_summary">Eğer cihazınızda kurulu bir dosya yöneticisi yoksa istiyorsanız bu alternatif metodu kullanınız.</string>
-    <string name="pref_restore_summary">Veritabanı ve tercihlerin geri alınacağı yedeklemeyi seç</string>
+    <string name="pref_restore_alternative_summary">Aygıtınızda herhangi bir dosya yöneticisi kurulu değilse bu alternatif yöntemi kullanın.</string>
+    <string name="pref_restore_summary">Veri tabanını ve tercihleri geri yüklemek için bir yedekleme seçin.</string>
     <string name="pref_restore_title">Geri al</string>
     <string name="pref_security_question_summary">Parolanızı unuttuysanız uygulamanın kilidini açmanıza izin verir.</string>
     <string name="pref_security_question_title">Güvenlik sorusu</string>
     <string name="pref_send_feedback_title">Geri bildirim gönder</string>
-    <string name="pref_share_target_summary">Uygulamalar (e-posta, Dropbox, Google Docs, …) arası seçim yapmak istiyorsanız boş bırakın, yoksa desteklenen şemada bir URL girin.</string>
+    <string name="pref_share_target_summary">Uygun uygulamalar (E-posta, Dropbox, Google Dokümanlar, …) arasından seçim yapmak istiyorsanız boş bırakın, veya desteklenen bir URL şeması girin</string>
     <string name="pref_share_target_title">Yükleme adresi</string>
     <string name="pref_shortcut_added">Ana ekrana kısayol eklenmiştir</string>
     <string name="pref_shortcut_not_added">Kısayolları kabul edecek ana ekran mevcut değil.</string>
@@ -353,14 +353,14 @@
     <string name="pref_visit_website_summary">Değişiklikler ve SSS</string>
     <string name="pref_visit_website_title">Siteyi ziyaret et</string>
     <string name="progress_dialog_deleting">Nesneler siliniyor</string>
-    <string name="progress_dialog_loading">Veritabanından nesne yükleniyor</string>
+    <string name="progress_dialog_loading">Veri tabanından nesne yükleniyor</string>
     <string name="progress_dialog_printing">PDF oluşturuluyor</string>
     <string name="qif_parse_result">Ayrıştırıldı:  %1$s hesap,  %2$s kategori ve %3$s kişi</string>
     <string name="qif_parse_failure_found_multiple_accounts">QIF dosyasında birden çok hesap bulundu.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Bunlar mevcut bir hesapla birleştirilemez.</string>
     <string name="reference_number">Referans sayısı</string>
-    <string name="restore_db_failure">Veritabanının yüklenmesi başarısız oldu</string>
-    <string name="restore_db_success">Veritabanı yedeklemeden restore edilmiştir.</string>
+    <string name="restore_db_failure">Veri tabanı geri yüklemesi başarısız oldu.</string>
+    <string name="restore_db_success">Veri tabanı yedekten geri yüklendi.</string>
     <string name="restore_no_backup_found">Yedek bulunamadı.</string>
     <string name="restore_preferences_failure">Tercihlerin yüklenmesi başarısız oldu</string>
     <string name="restore_backup_archive_not_valid">%1$s arşivi geçerli bir arşiv değildir</string>
@@ -405,7 +405,7 @@
     <string name="type">Tip</string>
     <string name="unsplit_amount">Atanmamış meblağ</string>
     <string name="unsplit_amount_greater_than_zero">Hala atanmamış bir miktar var.</string>
-    <string name="warning_backup">Veritabanı ve tercihler \"%1$s\" konumuna yazılacaktır.</string>
+    <string name="warning_backup">Veri tabanı ve tercihler \"%1$s\" konumuna yazılacak.</string>
     <string name="continue_confirmation">Devam etmek istiyor musunuz?</string>
     <string name="warning_delete_account">\"%1$s\" hesabı tüm muameleleriyle silinecektir.</string>
     <plurals name="warning_delete_main_category">
@@ -435,19 +435,19 @@
     <string name="warning_widget_disabled">Bu widget\'i uygulama ayarlarında etkinleştirmeniz gerekir.</string>
     <string name="warning_instantiate_template_from_widget_password_protected">Şablonların bu widget\'ten hızlı örneklenmeleri sadece uygulama ayarlarında widget\'lerden parola olmadan veri girilmesine izin verdiyseniz mümkündür.</string>
     <string name="warning_password_contrib">Bir güvenlik sorusu ayarlamanız parolanızı unutursanız uygulamanın kilidini açmanıza imkân sağlar.</string>
-    <string name="warning_reset_account">Devam ederseniz bu hesabın tüm muameleleri veritabanından silinecek ve bu geri alınamayacaktır.</string>
+    <string name="warning_reset_account">Devam ederseniz, bu hesabın tüm işlemleri veri tabanından silinir ve geri yüklenemez.</string>
     <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
-    <string name="warning_reset_account_all">Devam ederseniz, tüm hesaplar%1$s için muameleler veritabanından silinecek ve bu geri alınamayacaktır.</string>
-    <string name="warning_reset_account_matched">Eğer devam ederseniz, güncel filtre ile eşleşen muameleler veritabanından silinecek ve bu geri alınamayacaktır.</string>
-    <string name="warning_restore">Veritabanı ve tercihler \"%1$s\" yedekleme dosyasından yüklenecektir. Güncel veriler silinecektir.</string>
+    <string name="warning_reset_account_all">Devam ederseniz, tüm hesaplar%1$s için işlemler veri tabanından silinecek ve geri yüklenemeyecektir.</string>
+    <string name="warning_reset_account_matched">Devam ederseniz, geçerli filtre ile eşleşen işlemler veri tabanından silinecek ve geri yüklenemeyecektir.</string>
+    <string name="warning_restore">Veri tabanı ve tercihler \"%1$s\" dosyasından geri yüklenecek. Mevcut veriler silinecek.</string>
     <string name="warning_app_folder_will_be_deleted_upon_uninstall">Eğer {app_name}\'ı kaldırırsanız şu anda seçili olan dışa aktarmalar ve yedeklemeler klasörü Android tarafından otomatik olarak silinecektir. Buna mani olmak için Ayarlar ekranından başka bir klasör seçebilirsiniz.</string>
     <string name="warning_splitpartcategory_context">Bölünmüş muamelelerin bir parçası olan transferler sadece bu bölünmüş muamele bağlamında düzenlenebilirler.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">%1$d ilâ %2$d arası bir sayı ayarlayınız</string>
-    <string name="warning_change_fraction_digits_1">Yeni kesir basamak sayısıyla eşleşmesi için veritabanındaki meblağların güncellenmesi gerekmektedir.</string>
+    <string name="warning_change_fraction_digits_1">Yeni kesir basamak sayısıyla eşleşmesi için veri tabanındaki meblağların güncellenmesi gerekmektedir.</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Eğer meblağlar güncellenmezse, değişiklikten sonra %d ile çarpılmış olarak gösterileceklerdir.</string>
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Eğer meblağlar güncellenmezse, değişiklikten sonra %d ile bölünmüş olarak gösterileceklerdir.</string>
     <string name="warning_change_fraction_digits_3">Eğer meblağlar güncellenirse, onların kesirli bölümü hakkında bilgi kaybedersiniz.</string>
-    <string name="warning_change_fraction_digits_checkbox_label">Veritabanındaki meblağları güncelle</string>
+    <string name="warning_change_fraction_digits_checkbox_label">Veri tabanındaki meblağları güncelle</string>
     <string name="import_categories_success">%1$s kategori başarıyla içe aktarıldı</string>
     <string name="import_parties_success">%1$s bölüm başarıyla içe aktarıldı</string>
     <string name="import_accounts_success">%1$s hesap başarılı bir şekilde içe aktarıldı</string>
@@ -535,10 +535,10 @@
     <string name="pref_custom_decimal_format_title">Sayı biçimi</string>
     <string name="pref_custom_decimal_format_summary">Eğer tercümenin varsayılan biçiminden memnun değilseniz, ihtiyacınıza göre uyarlayın. Varsayılan biçimi geri getirmek için boş bırakın.</string>
     <string name="pref_auto_backup_title">Otomatik yedekleme</string>
-    <string name="pref_auto_backup_summary">Veritabanını belirtilen zamanda (sadece verilerde değişiklik varsa) her gün yedekle.</string>
+    <string name="pref_auto_backup_summary">Veri tabanını belirtilen zamanda (sadece verilerde değişiklik varsa) her gün yedekle.</string>
     <string name="pref_auto_backup_time_title">Otomatik yedekleme zamanı</string>
     <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">%d başarılı otomatik yedekleme ardından otomatik yedekleme devre dışı bırakılacaktır.</string>
-    <string name="calendar_permission_required">Gelecek ve tekrar eden muameleler oluşturabilmek amacıyla <i>{app_name}</i>\'ın takviminize erişmek için müsaadeye ihtiyacı vardır. </string>
+    <string name="calendar_permission_required">&lt;i&gt;{app_name}&lt;/i&gt;, gelecekteki ve yinelenen işlemlere yönelik planlar oluşturmak üzere takviminize erişmek için izne ihtiyaç duyuyor.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">İzin ver</string>
     <string name="switch_on_text">Açık</string>
     <string name="switch_off_text">Kapalı</string>
@@ -546,7 +546,7 @@
     <string name="dialog_title_select_target">Hedef seç</string>
     <string name="transform_subcategory_to_main">Ana kategoriye dönüştür</string>
     <string name="preferences_week_start_day_title">Haftanın ilk günü</string>
-    <string name="preferences_month_start_date_title">Ay şu gün başlar:</string>
+    <string name="preferences_month_start_date_title">Ay başlangıcı</string>
     <!-- this is the title of the section in the preferences, where user can set start day for weekly and monthly groups -->
     <string name="pref_grouping_periods">Gruplandırma periyotları</string>
     <string name="exchange_rate">Döviz kuru</string>
@@ -595,10 +595,10 @@
     <string name="pref_sync_frequency_title">Eşleştirme sıklığı</string>
     <string name="pref_sync_frequency_summary">Verilerin hangi sıklıkla eşleştirilecekleri (saat olarak)</string>
     <string name="dialog_confirm_sync_unlink">Bu hesabın %s ile bağlantısını kaldırırsanız, eşleşme durumu kaybolur. Daha sonra bağlantıyı tekrar kurmak tam bir eşleşmenin tekrar yapılmasını gerektirir.</string>
-    <string name="dialog_sync_link">uuid %s ile bir hesap hem yerel veritabanında hem de uzaktaki arka uçta mevcuttur. Bu ikisini ilişkilendirdiğinizde, ilk olarak yerel verileri uzaktaki arka uca mı yükleyeceğinize ya da uzaktan yerel veritabanına mı indireceğinize karar vermeniz gerekir.</string>
+    <string name="dialog_sync_link">uuid %s ile bir hesap hem yerel veri tabanında hem de uzaktaki arka uçta mevcuttur. Bu ikisini ilişkilendirdiğinizde, ilk olarak yerel verileri uzaktaki arka uca mı yükleyeceğinize ya da uzaktan yerel veri tabanına mı indireceğinize karar vermeniz gerekir.</string>
     <string name="dialog_command_sync_link_remote">Uzaktan indir</string>
     <string name="dialog_command_sync_link_local">Yerelden gönder</string>
-    <string name="dialog_synced_to_other">uuid %s ile bir hesap zaten yerel veritabanında mevcuttur ve uzaktaki  başka bir arka uca bağlıdır.</string>
+    <string name="dialog_synced_to_other">uuid %s ile bir hesap zaten yerel veri tabanında mevcuttur ve uzaktaki başka bir arka uca bağlıdır.</string>
     <string name="menu_remove">Kaldır</string>
     <string name="dialog_confirm_sync_remove_backend">Uzaktaki %s arka ucu kaldırılacaktır. Bu, yerel verileri ve uzaktaki verileri etkilemez, ancak eşleşme durumu kaybolacaktır.</string>
     <string name="dialog_confirm_sync_link_local">Bu hesap için uzaktaki veriler silinecektir. Başka hiçbir cihazın ona bağlı olmadığından emin olun.</string>
@@ -630,7 +630,7 @@
     <string name="warning_auto_backup_deactivated">Otomatik yedekleme devre dışıdır. Problemi çözdükten sonra (yani yedeklemeler için yeni bir klasör seçtikten sonra) onu ayarlarda tekrar etkinleştirebilirsiniz.</string>
     <string name="pref_tracking_summary">Geliştirme planlamamıza yardımcı olan kullanım modelleri hakkında anonim veriler toplamamıza izin verin.</string>
     <string name="pref_tracking_title">Kullanım hakkında veri toplama</string>
-    <string name="sync_database_error">Eşleşme sırasında bir veritabanı hatası meydana geldi.</string>
+    <string name="sync_database_error">Eşleşme sırasında bir veri tabanı hatası meydana geldi.</string>
     <string name="sync_io_error_cannot_connect">Eşleşme arka ucuna bağlanılamadı.</string>
     <string name="sync_error_will_try_again_later">Daha sonra tekrar denenecektir.</string>
     <string name="sync_io_exception_reset_account_data">Uzaktaki hesabın sıfırlanması sırasında hata.</string>
@@ -640,7 +640,7 @@
     <string name="sync_io_exception_unlocking">Uzaktaki arka uçtan kilit kaldırılırken hata oluştu.</string>
     <string name="sync_io_exception_locking">Uzaktaki arka uç kilitli ya da kilitlenemez.</string>
     <string name="synchronization_start">%s hesabı için eşleştirme başlatılıyor.</string>
-    <string name="synchronization_end_success">Uzaktaki %1$d değişiklik yerel veritabanına yazıldı. Yerel %2$d değişiklik uzaktaki arka uca yazıldı.</string>
+    <string name="synchronization_end_success">Uzaktaki %1$d değişiklik yerel veri tabanına yazıldı. Yerel %2$d değişiklik uzaktaki arka uca yazıldı.</string>
     <string name="synchronization_end_success_none">Eşleştirilecek hiçbir değişiklik yok.</string>
     <string name="pref_webdav_timeout_title">WebDAV Zaman Aşımı (saniye olarak)</string>
     <string name="sync_state_restored">%d hesap için eşleştirme durumu geri getirildi.</string>
@@ -752,7 +752,7 @@
     <string name="pref_sync_changes_immediately_summary">Yerel değişimleri derhal arka uca yaz</string>
     <string name="wifi_not_connected">Cihaz Wi-Fi ile bağlı değil. Eşleşme sonraya bırakıldı.</string>
     <!-- title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project -->
-    <string name="pref_translation_title">Tercüme</string>
+    <string name="pref_translation_title">Çeviri</string>
     <!-- Content description for accessibility on image that allows to collapse content  -->
     <string name="content_description_collapse">Küçült</string>
     <!-- Content description for accessibility on image that allows to expand content  -->
@@ -822,14 +822,14 @@
     <!-- Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data. -->
     <string name="content_description_closed">Kapatılmış</string>
     <string name="warning_synced_account_cannot_be_closed">Herhangi bir eşleşme arka ucuna bağlı bir hesap kapatılamaz</string>
-    <string name="translated_by">Tercümanlar</string>
+    <string name="translated_by">Çevirenler</string>
     <string name="warning_no_account">Yeni muamele oluşturabilmek için en az bir hesabın görüntülenebilir ve açık olması gerekir.</string>
     <string name="content_description_dates_are_linked">Muamele tarihi ve değer tarihi birlikte güncellenir</string>
     <string name="content_description_dates_are_not_linked">Muamele tarihi ve değer tarihi birlikte güncellenmez</string>
     <string name="icon">İkon</string>
     <string name="pref_debug_title">Hata ayıklama</string>
     <string name="roadmap_vote">Gelecek işlevler Oylaması</string>
-    <string name="warning_account_for_transaction_is_closed">Seçili muamelelerden en az biri düzenlenemez.</string>
+    <string name="warning_account_for_transaction_is_closed">Seçili muamelelerden en az biri düzenlenemez:</string>
     <string name="object_sealed">Nesne kapalı bir hesaba atıfta bulunmaktadır.</string>
     <string name="content_description_download_exchange_rate">Döviz kurunu indir</string>
     <string name="exchange_rate_not_supported">Yapılandırılmış döviz kuru sağlayıcısı %1$s: %2$s kurunu sağlamamaktadır. Ayarlarda başka birini seçmeyi deneyebilirsiniz.</string>
@@ -840,7 +840,7 @@
     <string name="pref_plan_executor_time_title">Planlayıcı bildirim zamanı</string>
     <string name="synchronization_select_folder_dialog_title">Mevcut bir klasör seçin veya yeni bir klasör oluşturun</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->
-    <string name="discover_feature_expense_income_switch">Gelirleri kaydetmek için geçiş düğmesini kullanın</string>
+    <string name="discover_feature_expense_income_switch">Gelirleri kaydetmek için bu geçiş düğmesini kullanın.</string>
     <string name="menu_create_budget">Yeni bütçe</string>
     <string name="budget_onetime">Bir kerelik</string>
     <string name="dialog_confirm_discard_new_budget">Yeni bütçe atılsın mı?</string>
@@ -901,7 +901,7 @@
     <string name="dialog_multi_tag_append">Mevcut etiketlere yeni etiket ekle</string>
     <string name="dialog_multi_tag_replace">Mevcut etiketleri yeni etiketlerle değiştir</string>
     <string name="new_tag_hint">Yeni etiket gir</string>
-    <string name="language_download_requested">%s lisanı için tercümeler Play Store\'dan isteniyor</string>
+    <string name="language_download_requested">%s dilinin çevirileri Play Store\'dan isteniyor</string>
     <!-- Title for a preference that allows to decide how the time will be set for a new instance of a recurring transaction -->
     <string name="pref_planner_manual_time_title">Elle uygulanan planlanmış muamele zamanı</string>
     <!-- Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction -->
@@ -927,7 +927,7 @@
     <!-- Option for a preference that allows to decide that only transactions before current time are considered past transactions -->
     <string name="pref_criterion_future_current">Şimdiki zaman</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
-    <string name="pref_category_title_features">Features</string>
+    <string name="pref_category_title_features">Özellikler</string>
     <string name="scan_result_no_data">Veri yok</string>
     <!-- After text recognition has been run on an image, if multiple strings are found that can be interpreted as date, amount or payee, a dialogue is shown allowing to select between these "candidates". This message is the title of this dialogue.  -->
     <string name="scan_result_multiple_candidates_dialog_title">Birden çok aday bulundu. Lütfen seçin:</string>
@@ -944,11 +944,11 @@
     <string name="discover_feature_fab_long_press">Transferler, bölünmüş muameleler veya gelirler için formu doğrudan açmak için kayan eylem düğmesine dokunun ve basılı tutun.</string>
     <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
     <string name="advance_exexcution_in_days">Önceden uygulama (gün olarak)</string>
-    <string name="warning_balance_account_delete">Eğer devam ederseniz, bu hesabın tüm uzlaşmış muameleleri veritabanından silinecektir ve onlar geri getirmeniz mümkün olmayacaktır.</string>
+    <string name="warning_balance_account_delete">Devam ederseniz, bu hesabın tüm uzlaşmış işlemleri veri tabanından silinecek ve bunları geri yükleyemeyeceksiniz.</string>
     <!-- When user opens a template from the transaction form, existing data is discarded. This message appears in a dialgoue to confirm the action -->
     <string name="confirmation_load_template_discard_data">Mevcut form verileri silinecektir.</string>
     <string name="pref_clone_with_current_date_title">Klonlanmış muamelelerin tarihi</string>
-    <string name="template_default_action_without_amount_hint">Meblağı olmayan şablon \'Düzenleme\' varsayılan eylemi ile kaydedilmelidir.</string>
+    <string name="template_default_action_without_amount_hint">Meblağı olmayan şablon öntanımlı \'Düzenle\' eylemi ile kaydedilmelidir</string>
     <string name="plan_automatic_without_amount_hint">Meblağsız planlama otomatik planlama uygulamasıyla kaydedilmemelidir</string>
     <string name="content_description_edit_plan">Planlamayı takvim uygulamasında düzenle</string>
     <string name="reset_equivalent_amounts_success">Eşdeğer meblağlar sıfırlandı</string>
@@ -971,7 +971,7 @@
     <!-- Title of a menu item and a dialogue that allow to adjust the current balance. User can enter the new balance, and transaction form is opened with the amount prefiled to the difference between old and new balance  -->
     <string name="new_balance">Yeni bakiye</string>
     <string name="title_webui">İnternet Kullanıcı Arayüzü</string>
-    <string name="single_feature_info">Alternatif olarak sadece bu işlev için sınırsız erişim satın alabilirsiniz.</string>
+    <string name="single_feature_info">Alternatif olarak, yalnızca bu özelliğe sınırsız erişim satın alabilirsiniz.</string>
     <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
     <string name="recurrence_last_day_of_month">Son gün</string>
     <string name="warning_link_transfer">Seçili iki muamele bir transfer olarak ilişkilendirilecektir. Alacaklı/Ödeyen ve kategori bilgileri bırakılacaktır.</string>

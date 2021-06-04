@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -12,8 +13,7 @@
   
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+ --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">Konto</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">Kontotypen</string>
@@ -35,8 +35,8 @@
     <string name="already_defined">%1$s existiert bereits</string>
     <string name="amount">Betrag</string>
     <string name="app_name">Meine Ausgaben</string>
-    <string name="backup_failure">Das Backup nach \"%1$s\" ist gescheitert.</string>
-    <string name="backup_success">Die Datenbank und die Einstellungen wurden erfolgreich nach \"%1$s\" gesichert.</string>
+    <string name="backup_failure">Die Datensicherung nach „%1$s“ ist gescheitert.</string>
+    <string name="backup_success">Die Datenbank und die Einstellungen wurden erfolgreich nach „%1$s“ gesichert.</string>
     <string name="category">Kategorie</string>
     <string name="color">Farbe</string>
     <string name="comment">Notizen</string>
@@ -57,7 +57,7 @@
     <string name="contrib_key">Contrib-Schlüssel</string>
     <string name="extended_key">Erweiterungsschlüssel</string>
     <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
-    <string name="contrib_key_requires">Benötigt %s.</string>
+    <string name="contrib_key_requires">Benötigt %1$s.</string>
     <string name="currency">Währung</string>
     <string name="current_balance">Aktueller Saldo</string>
     <string name="date">Datum</string>
@@ -119,11 +119,11 @@
     <string name="expense">Ausgabe</string>
     <string name="export_expenses">Ausgaben-Export</string>
     <!-- 1$s is replaced with path to file, 2$s with error message -->
-    <string name="export_sdcard_failure">Fehler beim Export nach \"%1$s\": %2$s</string>
+    <string name="export_sdcard_failure">Fehler beim Export nach „%1$s“: %2$s</string>
     <!-- 1$s is replaced with path to file -->
-    <string name="export_sdcard_success">Daten in Datei \"%1$s\" exportiert</string>
+    <string name="export_sdcard_success">Daten in Datei „%1$s“ exportiert</string>
     <string name="external_storage_unavailable">Externer Speicher (SD Karte) ist nicht verfügbar</string>
-    <string name="feedback">Feedback</string>
+    <string name="feedback">Rückmeldung</string>
     <string name="ftp_uri_malformed">Ungültige URI %1$s</string>
     <string name="grisbi_import_categories_loading">Kategorien werden von %1$s geladen</string>
     <string name="grisbi_import_parties_loading">Parteien werden von %1$s geladen</string>
@@ -214,7 +214,7 @@
     <string name="menu_split_transaction">Zu mehrteiliger Buchung zusammenfassen</string>
     <string name="method">Zahlungsweise</string>
     <string name="no_amount_given">Sie haben keinen Betrag eingegeben.</string>
-    <string name="no_app_handling_email_available">Keine App für das Versenden von Email gefunden.</string>
+    <string name="no_app_handling_email_available">Keine Anwendung für das Versenden von E-Mails gefunden.</string>
     <string name="no_app_handling_ftp_available">Keine App für FTP gefunden. <i>Mit FTP Senden</i> installieren?</string>
     <string name="no_app_handling_pdf_available">Keine App für das Öffnen von PDF Dateien gefunden.</string>
     <string name="no_categories">Noch keine Kategorien vorhanden.</string>
@@ -275,9 +275,9 @@
     <string name="pm_type_credit">Einnahmen</string>
     <string name="pm_type_debit">Ausgaben</string>
     <string name="pm_type_neutral">Neutral</string>
-    <string name="pref_app_dir_title">Ordner für Backups und Exports</string>
+    <string name="pref_app_dir_title">Ordner für Datensicherungen und Exporte</string>
     <string name="pref_auto_fill_summary">Daten von der letzten Buchung für denselben Empfänger/Zahler ausfüllen</string>
-    <string name="pref_backup_summary">Erzeugt ein Backup der Datenbank und der Einstellungen</string>
+    <string name="pref_backup_summary">Erzeugt eine Datensicherung der Datenbank und der Einstellungen.</string>
     <string name="pref_sort_order_usages">Häufigkeit der Benutzung</string>
     <string name="pref_category_title_advanced">Erweitert</string>
     <string name="pref_category_title_export">Export</string>
@@ -298,7 +298,7 @@
     <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Wenn Sie einen Schlüssel erhalten haben, können Sie hier Premium-Funktionen freischalten.</string>
     <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Schlüssel eingeben</string>
     <string name="pref_export_format_title">Datenformat</string>
-    <string name="pref_import_from_grisbi_summary">Kategorien und Parteien aus Grisbi XML importieren.</string>
+    <string name="pref_import_from_grisbi_summary">Kategorien und Parteien aus Grisbi XML importieren</string>
     <string name="pref_import_from_grisbi_title">Import aus Grisbi</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_summary">Buchungen, Kategorien und Parteien aus %s Datei importieren</string>
@@ -318,10 +318,10 @@
     <string name="pref_more_info_dialog_title">Lizenz &amp; Abspann</string>
     <string name="pref_password_not_equal">Passwörter stimmen nicht überein</string>
     <string name="pref_perform_protection_title">Schutz</string>
-    <string name="pref_perform_share_title">Export und Sicherheitskopie versenden</string>
+    <string name="pref_perform_share_title">Exporte und Sicherungskopie versenden</string>
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">Neuen lokalen Planer anlegen</string>
-    <string name="pref_planning_calendar_summary">Wählen Sie den Kalender aus, in dem Pläne für zukünftige und wiederkehrende Buchungen gespeichert werden sollen.</string>
+    <string name="pref_planning_calendar_summary">Wählen Sie den Kalender aus, in dem Pläne für zukünftige und wiederkehrende Buchungen gespeichert werden sollen</string>
     <string name="pref_planning_calendar_title">Planer</string>
     <string name="pref_protection_delay_seconds_summary">Anzahl untätiger Sekunden, bevor die App durch ein Passwort geschützt wird.</string>
     <string name="pref_protection_delay_seconds_title">Wartezeit für Passwortschutz</string>
@@ -337,7 +337,7 @@
     <string name="pref_security_question_summary">Erlaubt den Passwortschutz aufzuheben, sollten Sie das Passwort vergessen.</string>
     <string name="pref_security_question_title">Sicherheitsfrage</string>
     <string name="pref_send_feedback_title">Feedback senden</string>
-    <string name="pref_share_target_summary">Sie können dies leer lassen, wenn Sie zwischen passenden Apps wählen wollen (Email, Dropbox, Google Docs, …) oder eine URL in einer der unterstützten Schemen angeben</string>
+    <string name="pref_share_target_summary">Sie können dies leer lassen, wenn Sie zwischen passenden Anwendungen wählen wollen (E-Mail, Dropbox, Google Docs …) oder eine URL in einer der unterstützten Schemen angeben</string>
     <string name="pref_share_target_title">Upload URL</string>
     <string name="pref_shortcut_added">Verknüpfung dem Start-Bildschirm hinzugefügt</string>
     <string name="pref_shortcut_not_added">Es steht kein Start-Bildschirm zur Verfügung, der Verknüpfungen akzeptiert.</string>
@@ -355,18 +355,18 @@
     <string name="progress_dialog_deleting">Objekte werden gelöscht</string>
     <string name="progress_dialog_loading">Buchung wird von Datenbank geladen</string>
     <string name="progress_dialog_printing">Generierung von PDF</string>
-    <string name="qif_parse_result">Gefunden: %1$s Konten, %2$s Kategorien und %3$s parteien.</string>
+    <string name="qif_parse_result">Gefunden: %1$s Konten, %2$s Kategorien und %3$s parteien</string>
     <string name="qif_parse_failure_found_multiple_accounts">In der QIF Datei wurden mehrere Konten gefunden.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Diese konten nicht mit einem bestehendes Konto zusammengefügt werden.</string>
     <string name="reference_number">Referenznummer</string>
     <string name="restore_db_failure">Fehler bei der Wiederherstellung der Datenbank.</string>
-    <string name="restore_db_success">Die Datenbank wurde aus dem Backup wiederhergestellt.</string>
-    <string name="restore_no_backup_found">Keine Backup-Datei gefunden.</string>
+    <string name="restore_db_success">Die Datenbank wurde aus der Datensicherung wiederhergestellt.</string>
+    <string name="restore_no_backup_found">Keine Sicherungsdatei gefunden.</string>
     <string name="restore_preferences_failure">Fehler bei der Wiederherstellung der Einstellungen</string>
     <string name="restore_backup_archive_not_valid">Archiv %1$s ist nicht gültig</string>
-    <string name="restore_backup_file_not_found">Keine Datei %1$s im Archiv \"%2$s\" gefunden.</string>
-    <string name="restore_preferences_success">Die Einstellungen wurden aus dem Backup wiederhergestellt.</string>
-    <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d Pläne wurden aus dem Backup wiederhergestellt.</string>
+    <string name="restore_backup_file_not_found">Keine Datei %1$s im Archiv „%2$s“ gefunden</string>
+    <string name="restore_preferences_success">Die Einstellungen wurden aus der Datensicherung wiederhergestellt.</string>
+    <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d Pläne wurden aus der Datensicherung wiederhergestellt</string>
     <string name="save_transaction_and_new_success">Erfolgreich gespeichert</string>
     <string name="save_transaction_error">Neue Buchung aus Vorlage konnte nicht gespeichert werden.</string>
     <plurals name="save_transaction_from_template_success">
@@ -405,9 +405,9 @@
     <string name="type">Typ</string>
     <string name="unsplit_amount">Ungesplitteter Betrag</string>
     <string name="unsplit_amount_greater_than_zero">Es wurde noch nicht der gesamte Betrag aufgesplittet.</string>
-    <string name="warning_backup">Die Datenbank und die Einstellungen werden nach \"%1$s\" gesichert.</string>
+    <string name="warning_backup">Die Datenbank und die Einstellungen werden nach „%1$s“ gesichert.</string>
     <string name="continue_confirmation">Möchten Sie fortfahren?</string>
-    <string name="warning_delete_account">Konto \"%1$s\" wird mit all seinen Buchungen gelöscht.</string>
+    <string name="warning_delete_account">Konto „%1$s“ wird mit all seinen Buchungen gelöscht.</string>
     <plurals name="warning_delete_main_category">
         <item quantity="one">Die ausgewählte Kategorie hat Unterkategorien. Diese werden ebenfalls gelöscht.</item>
         <item quantity="other">%1$d ausgewählte Kategorien haben Unterkategorien. Diese werden ebenfalls gelöscht.</item>
@@ -439,7 +439,7 @@
     <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">Wenn Sie fortfahren, werden alle Buchungen aller Konten%1$s aus der Datenbank gelöscht. Dies kann nicht rückgängig gemacht werden.</string>
     <string name="warning_reset_account_matched">Wenn Sie fortfahren, werden alle mit dem aktuellen Suchfilter übereinstimmenden Buchungen aus der Datenbank gelöscht. Dies kann nicht rückgängig gemacht werden.</string>
-    <string name="warning_restore">Datenbank und Einstellungen werden aus dem Backup (%1$s) wiederhergestellt. Aktuelle Daten werden gelöscht.</string>
+    <string name="warning_restore">Datenbank und Einstellungen werden aus der Datensicherung (%1$s) wiederhergestellt. Aktuelle Daten werden gelöscht.</string>
     <string name="warning_app_folder_will_be_deleted_upon_uninstall">Der aktuell ausgewählte Ordner für Sicherungskopien und Exporte wird von Android automatisch gelöscht wenn Sie {app_name} deinstallieren. Sie können dies verhindern, indem Sie einen anderen Ordner in den Einstellungen auswählen.</string>
     <string name="warning_splitpartcategory_context">Umbuchungen, die Teil einer mehrteiligen Buchung sind, können nur im Kontext der mehrteiligen Buchung geändert werden.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Bitte eine Zahl zwischen %1$d und %2$d angeben</string>
@@ -465,7 +465,7 @@
     <string name="widget_title_accounts">Meine Konten</string>
     <string name="widget_title_templates">Meine Vorlagen</string>
     <string name="app_dir_not_accessible">Der aktuell ausgewählte Ordner für Sicherungen und Exporte (%1$s) ist nicht zugänglich. Bitte wählen Sie einen anderen.</string>
-    <string name="app_dir_not_compatible_with_nougat">Die aktuell konfigurierte URI für Backups und Exporte (%1$s) wird unter Android Nougat nicht unterstützt. Bitte wählen Sie erneut einen Ordner aus.</string>
+    <string name="app_dir_not_compatible_with_nougat">Die aktuell konfigurierte URI für Datensicherungen und Exporte (%1$s) wird unter Android Nougat nicht unterstützt. Bitte wählen Sie erneut einen Ordner aus.</string>
     <string name="search_amount">Suche nach Betrag</string>
     <string name="search_category">Suche nach Kategorie</string>
     <string name="search_comment">Suche nach Notizen</string>
@@ -494,9 +494,9 @@
     <string name="import_source_file">Datei</string>
     <string name="restore_calendar_handling">Verarbeitung der Kalender-Daten</string>
     <string name="restore_calendar_handling_configured">Pläne werden in dem aktuell konfigurierten Kalender gespeichert</string>
-    <string name="restore_calendar_handling_backup">Pläne werden in dem im Backup festgelegten Kalender gespeichert, falls dieser verfügbar ist</string>
+    <string name="restore_calendar_handling_backup">Pläne werden in dem in der Datensicherung festgelegten Kalender gespeichert, falls dieser verfügbar ist</string>
     <string name="restore_calendar_handling_ignore">Pläne nicht wiederherstellen</string>
-    <string name="restore_not_possible_target_calendar_missing">Der im Backup festgelegte Kalender %s ist nicht lokal vorhanden. Wiederherstellung wurde abgebrochen.</string>
+    <string name="restore_not_possible_target_calendar_missing">Der in der Datensicherung festgelegte Kalender %s ist nicht lokal vorhanden. Wiederherstellung wurde abgebrochen.</string>
     <string name="restore_not_possible_local_calendar_missing">Der aktuell konfigurierte Kalender ist nicht vorhanden.</string>
     <string name="menu_view_picture">Bild anzeigen</string>
     <string name="menu_delete_picture">Bild löschen</string>
@@ -534,8 +534,8 @@
     <string name="menu_show_transactions">Buchungen anzeigen</string>
     <string name="pref_custom_decimal_format_title">Zahlenformat</string>
     <string name="pref_custom_decimal_format_summary">Wenn Sie mit dem Standardformat für Ihr Gebietsschema nicht zufrieden sind, können Sie es an Ihre Bedürfnisse anpassen. Leer lassen, um das Standardformat wiederherzustellen. </string>
-    <string name="pref_auto_backup_title">Automatisches Backup</string>
-    <string name="pref_auto_backup_summary">Sichere Datenbank täglich zur angegebenen Zeit (nur wenn sich die Daten verändert haben)</string>
+    <string name="pref_auto_backup_title">Automatische Datensicherung</string>
+    <string name="pref_auto_backup_summary">Sichere Datenbank täglich zur angegebenen Zeit (nur wenn sich die Daten verändert haben).</string>
     <string name="pref_auto_backup_time_title">Zeit für automatische Sicherung</string>
     <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">Nach %d erfolgreichen automatischen Sicherungen wird automatische Sicherung deaktiviert werden.</string>
     <string name="calendar_permission_required"><i>{app_name}</i> benötigt die Berechtigung, auf Ihren Kalender zugreifen, um Pläne für zukünftige und wiederkehrende Buchungen zu erstellen.</string>
@@ -571,7 +571,7 @@
     <!-- Sort plans (recurring transactions) by the next instance  -->
     <string name="pref_sort_order_next_instance">Nächstes Vorkommen</string>
     <string name="crash_dialog_title">{app_name} ist abgestürzt</string>
-    <string name="crash_dialog_text">Ein unerwarteter Fehler ist aufgetreten ist und hat zum Absturz der Anwendung geführt. Bitte helfen Sie uns, dieses Problem zu beheben, indem Sie uns Fehlerdaten senden. Alles, was Sie tun müssen, ist auf \"OK\" zu klicken.</string>
+    <string name="crash_dialog_text">Ein unerwarteter Fehler ist aufgetreten ist und hat zum Absturz der Anwendung geführt. Bitte helfen Sie uns, dieses Problem zu beheben, indem Sie uns Fehlerdaten senden. Alles, was Sie tun müssen, ist auf OK zu klicken.</string>
     <string name="crash_dialog_comment_prompt">Sie können Ihre Anmerkungen zum Problem unten hinzufügen:</string>
     <string name="synchronization">Synchronisierung</string>
     <string name="synchronization_none">Keine Synchronisierung</string>
@@ -607,7 +607,7 @@
     <string name="warning_trial_limit_reached">Die Probezeit für die Funktion %s ist abgelaufen.</string>
     <string name="warning_synchronization_folder_usage">Dieser Ordner wird für die Synchronisierung von Daten zwischen den Installationen von {app_name} auf verschiedenen Geräten verwendet. Bitte ändern Sie dessen Inhalt nicht manuell.</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Der Ordner, den Sie ausgewählt haben, entspricht einem Konto eines bestehenden Backends. Sie müssen den übergeordneten Ordner auswählen, um dieses Backend wiederzuverwenden.</string>
-    <string name="select_unsynced_accounts">Wählen Sie die Konten aus, die mit diesem Backend synchronisiert werden sollen.</string>
+    <string name="select_unsynced_accounts">Wählen Sie die Konten aus, die mit diesem Backend synchronisiert werden sollen</string>
     <string name="link_account_success" tools:ignore="PluralsCandidate">%d Konten wurden konfiguriert, um mit dem Backend synchronisiert zu werden.</string>
     <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d Konten konnten nicht für die Synchronisierung mit dem Backend konfiguriert werden.</string>
     <string name="link_account_failure_2">Ein Konto mit der gleichen UUID existiert bereits auf dem entfernten Backend.</string>
@@ -618,11 +618,11 @@
     <string name="all_contrib_key_features">Alle Funktionen des Contrib Schlüssels</string>
     <string name="all_extended_key_features">Alle Funktionen des erweiterten Schlüssels</string>
     <!-- button leading user to purchase flow for licence keys -->
-    <string name="upgrade_now">Upgrade</string>
+    <string name="upgrade_now">Lizenz kaufen</string>
     <string name="pref_backup_cloud_title">Auf Synchronisierung-Backend speichern</string>
     <string name="pref_backup_cloud_summary">Zusätzlich zur lokalen Speicherung auf dem Gerät kann die Sicherungsdatei auf ein entferntes Backend kopiert werden.</string>
     <string name="auto_backup_cloud_create_backend">Erstellen Sie eine Synchronisierung Backend vom Hauptbildschirm der Einstellungen.</string>
-    <string name="auto_backup_cloud_failure">Beim Versuch, Backup-Datei %1$s auf Backend %2$s zu speichern, ist ein Fehler aufgetreten:</string>
+    <string name="auto_backup_cloud_failure">Beim Versuch, Sicherungsdatei %1$s auf Backend %2$s zu speichern, ist ein Fehler aufgetreten:</string>
     <string name="auto_backup_cloud_success">Die Sicherungsdatei %1$s wurde erfolgreich im Backend %2$s gespeichert.</string>
     <string name="home_screen_shortcuts_nougate_info">Verknüfpungen können durch langes Antippen des App-Icons auf dem Start-Bildschirm hinzugefügt werden.</string>
     <string name="currency_symbol">Währungssymbol</string>
@@ -633,7 +633,7 @@
     <string name="sync_database_error">Während der Synchronisation ist ein Datenbankfehler aufgetreten.</string>
     <string name="sync_io_error_cannot_connect">Kann keine Verbindung zum Synchronisations-Backend herstellen.</string>
     <string name="sync_error_will_try_again_later">Werde es später noch einmal versuchen.</string>
-    <string name="sync_io_exception_reset_account_data">Fehler beim Zurücksetzen des entfernten Kontos</string>
+    <string name="sync_io_exception_reset_account_data">Fehler beim Zurücksetzen des entfernten Kontos.</string>
     <string name="sync_success_reset_account_data">Daten am Backend für Konto %s wurden gelöscht.</string>
     <string name="sync_io_exception_setup_remote_account">Fehler beim Einrichten des entfernten Kontos.</string>
     <string name="sync_io_exception_syncing">Fehler beim Synchronisieren von Änderungen mit dem Server.</string>
@@ -651,7 +651,7 @@
     <string name="onboarding_more_options">Mehr Optionen</string>
     <string name="onboarding_restore_from_cloud">Wiederherstellung von Cloud-Synchronisation</string>
     <!-- During onboarding, user can select to restore data from automatically saved backup files . This is the title for the tab where the backup files are listed -->
-    <string name="onboarding_restore_from_cloud_backup">Backups</string>
+    <string name="onboarding_restore_from_cloud_backup">Datensicherungen</string>
     <string name="onboarding_restore_from_local">Wiederherstellung einer lokalen Sicherungsdatei</string>
     <string name="dialog_button_add">Hinzufügen</string>
     <string name="template_create_error">Fehler beim Speichern der Vorlage</string>
@@ -701,7 +701,7 @@
     <string name="pref_protection_device_lock_screen_title">Gerätesperrbildschirm</string>
     <string name="pref_warning_only_one_protection">Bevor Sie den Schutz durch %1$s verwenden können, müssen Sie den Schutz durch %2$s ausschalten.</string>
     <string name="warning_device_lock_screen_not_set_up_1">Der sichere Gerätesperrbildschirm wurde nicht eingerichtet.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Gehen Sie zu \'Einstellungen -&gt; Sicherheit -&gt; Bildschirmsperre\', um einen Sperrbildschirm einzurichten.</string>
+    <string name="warning_device_lock_screen_not_set_up_2">Gehen Sie zu Einstellungen -&gt; Sicherheit -&gt; Bildschirmsperre, um einen Sperrbildschirm einzurichten.</string>
     <string name="menu_history_show_balance">Saldo anzeigen</string>
     <string name="menu_history_transfers">Umbuchungen einschließen</string>
     <string name="menu_history">Verlauf</string>
@@ -791,9 +791,9 @@
     <!-- In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.   -->
-    <string name="unmapped_filter_only_single">Der Filter \"Nicht zugeordnet\" kann nicht in die Mehrfachauswahl aufgenommen werden</string>
+    <string name="unmapped_filter_only_single">Der Filter „Nicht zugeordnet“ kann nicht in die Mehrfachauswahl aufgenommen werden</string>
     <string name="upgrade_information_cloud_sync_storage_format">Mit der Version 2.9.8 hat sich die Art und Weise geändert, wie Daten auf Synchronisations-Backends gespeichert werden. Aktualisieren Sie diese Version auf allen synchronisierten Geräten, bevor Sie neue Datensätze eingeben.</string>
-    <string name="pref_security_export_passphrase_title">Passphrase für Backups</string>
+    <string name="pref_security_export_passphrase_title">Passwortsatz für Datensicherungen</string>
     <string name="pref_security_export_passphrase_summary">Sicherungsdateien werden mit dieser Passphrase verschlüsselt</string>
     <string name="backup_is_encrypted">Die Sicherungsdatei ist verschlüsselt. Um diese zu entschlüsseln, müssen Sie deren Passphrase angeben.</string>
     <string name="backup_wrong_password">Die Sicherungsdatei scheint mit einer anderen Passphrase verschlüsselt zu sein.</string>
@@ -802,8 +802,8 @@
     <string name="sync_backend_wrong_passphrase">Das Backend scheint mit einer anderen Passphrase verschlüsselt zu sein.</string>
     <string name="sync_backend_is_not_encrypted">Das Backend ist nicht verschlüsselt.</string>
     <string name="warning_backup_protected">Das Archiv wird durch Ihre Passphrase geschützt.</string>
-    <string name="dialog_title_backup_protected">Backup (verschlüsselt)</string>
-    <string name="input_label_passphrase">Passphrase</string>
+    <string name="dialog_title_backup_protected">Datensicherung (verschlüsselt)</string>
+    <string name="input_label_passphrase">Passwortsatz</string>
     <string name="button_label_no_encryption">Ohne Verschlüsselung</string>
     <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->
     <string name="joining_or">oder</string>
@@ -857,7 +857,7 @@
     <string name="budget_filter_all_accounts">Alle Konten</string>
     <string name="budget_form_label_filter">Filter</string>
     <string name="dialog_title_warning_delete_budget">Budget löschen?</string>
-    <string name="warning_delete_budget">Budget \"%1$s\" wird gelöscht.</string>
+    <string name="warning_delete_budget">Budget „%1$s“ wird gelöscht.</string>
     <string name="menu_edit_budget">Budget bearbeiten</string>
     <string name="onboarding_privacy_title">Ihre Daten bleiben in Ihren Händen</string>
     <string name="onboarding_privacy_intro">Ihre Finanzdaten werden an keine Server gesendet, weder von uns noch von Dritten betrieben.</string>
@@ -915,7 +915,7 @@
     <!-- If this mode is active, the action button will open the camera for scanning a receipt  -->
     <string name="menu_scan_mode">Scanmodus</string>
     <!-- Button that triggers the scan operation -->
-    <string name="button_scan">Scan</string>
+    <string name="button_scan">Scannen</string>
     <string name="pref_ocr_total_indicators_title">Anzeiger für Gesamtbetrag</string>
     <string name="pref_ocr_total_indicators_summary">Eine Liste von Zeichenketten, welche den Gesamtbetrag in einer Quittung bezeichnen. Nutzen Sie für jeden Betrag eine neue Zeile. Leer lassen, um den Standardbetrag wiederherzustellen.</string>
     <string name="pref_ocr_date_formats_title">Datumsformate</string>
@@ -948,11 +948,11 @@
     <!-- When user opens a template from the transaction form, existing data is discarded. This message appears in a dialgoue to confirm the action -->
     <string name="confirmation_load_template_discard_data">Vorhandene Formulardaten werden verworfen.</string>
     <string name="pref_clone_with_current_date_title">Datum der geklonten Buchungen</string>
-    <string name="template_default_action_without_amount_hint">Vorlage ohne Betrag sollte mit der Standardaktion \'Bearbeiten\' gespeichert werden.</string>
+    <string name="template_default_action_without_amount_hint">Vorlage ohne Betrag sollte mit der Standardaktion „Bearbeiten“ gespeichert werden</string>
     <string name="plan_automatic_without_amount_hint">Plan ohne Betrag sollte nicht mit automatischer Ausführung gespeichert werden</string>
     <string name="content_description_edit_plan">Plan in Kalender-App bearbeiten</string>
     <string name="reset_equivalent_amounts_success">Gleichwertige Beträge wurden zurückgesetzt</string>
-    <string name="menu_save_and_new_content_description">Abspeichern, und das Formular für das Erfassen einer neuen  Buchung mit denselben Daten offen lassen</string>
+    <string name="menu_save_and_new_content_description">Abspeichern, und das Formular für das Erfassen einer neuen Buchung mit denselben Daten offen lassen.</string>
     <!-- Title of a preference where user can select between Ml Kit and Tesseract as Engine for Optical character recognition -->
     <string name="pref_ocr_engine_title">Engine für Texterkennung</string>
     <!-- Title of a preference where user can select language for text recognition with Tesseract -->

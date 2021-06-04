@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -12,8 +13,7 @@
   
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+ --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">Λογαριασμός</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">Τύποι λογαριασμού</string>
@@ -131,7 +131,7 @@
     <string name="grouping_last_week">Την προηγούμενη εβδομάδα</string>
     <string name="grouping_month">Μήνας</string>
     <string name="grouping_none">Μη ομαδοποίημένο</string>
-    <string name="grouping_this_week">Αυτή την εβδομάδα</string>
+    <string name="grouping_this_week">Αυτήν την εβδομάδα</string>
     <string name="grouping_today">Σήμερα</string>
     <string name="grouping_week">Εβδομάδα</string>
     <string name="grouping_year">Έτος</string>
@@ -675,7 +675,7 @@
     <string name="pref_protection_device_lock_screen_title">Οθόνη κλειδώματος συσκευής</string>
     <string name="pref_warning_only_one_protection">Για να μπορέσετε να χρησιμοποιήσετε την προστασία από %1$s, πρέπει να απενεργοποιήσετε την προστασία από %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">Η ασφαλής οθόνη κλειδώματος συσκευής δεν έχει ρυθμιστεί.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Μεταβείτε στην ενότητα \"Ρυθμίσεις -> Ασφάλεια -> Προστασία\" για να ρυθμίσετε την οθόνη κλειδώματος.</string>
+    <string name="warning_device_lock_screen_not_set_up_2">Μεταβείτε στην ενότητα \"Ρυθμίσεις -&gt; Ασφάλεια -&gt; Προστασία\" για να ρυθμίσετε την οθόνη κλειδώματος.</string>
     <string name="menu_history_show_balance">Εμφάνιση υπολοίπου</string>
     <string name="menu_history_transfers">Συμπερίληψη μεταφορών</string>
     <string name="menu_history">Ιστορικό</string>
@@ -805,4 +805,4 @@
     <string name="ocr_download_info">Η δυνατότητα αναγνώρισης κειμένου παρέχεται από μια εξωτερική εφαρμογή.</string>
     <!-- %s is replaced with the title of the preference for setting a passphrase for backups (pref_security_export_passphrase_title) -->
     <string name="warning_unencrypted_backup">Ενώ τα δεδομένα σας προστατεύονται από μη εξουσιοδοτημένη πρόσβαση σε αυτήν τη συσκευή, τα αντίγραφα ασφαλείας δημιουργούνται χωρίς κρυπτογράφηση, εκτός εάν ρυθμίσετε τις παραμέτρους του %s.</string>
-    </resources>
+</resources>
