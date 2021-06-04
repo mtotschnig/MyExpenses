@@ -164,7 +164,6 @@ public class MyApplication extends Application implements
     crashHandler.initProcess(this, syncService);
     setupLogging();
     if (!syncService) {
-      // sets up mSettings
       if (prefHandler.getBoolean(UI_WEB, false)) {
         if (NetworkUtilsKt.isNetworkConnected(this)) {
           controlWebUi(true);
@@ -538,15 +537,17 @@ public class MyApplication extends Application implements
 
   private void controlWebUi(boolean start) {
     final Intent intent = WebUiViewModel.Companion.getServiceIntent();
-    intent.setAction(start ? START_ACTION : STOP_ACTION);
-    ComponentName componentName;
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && start) {
-      componentName = startForegroundService(intent);
-    } else {
-      componentName = startService(intent);
-    }
-    if (componentName == null) {
-      CrashHandler.report("Start of Web User Interface failed");
+    if (intent != null) {
+      intent.setAction(start ? START_ACTION : STOP_ACTION);
+      ComponentName componentName;
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && start) {
+        componentName = startForegroundService(intent);
+      } else {
+        componentName = startService(intent);
+      }
+      if (componentName == null) {
+        CrashHandler.report("Start of Web User Interface failed");
+      }
     }
   }
 

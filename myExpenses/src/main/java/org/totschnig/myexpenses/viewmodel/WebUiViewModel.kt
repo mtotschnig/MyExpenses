@@ -13,6 +13,7 @@ import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.feature.IWebInputService
 import org.totschnig.myexpenses.feature.ServerStateObserver
 import org.totschnig.myexpenses.feature.WebUiBinder
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 
 class WebUiViewModel(application: Application) : AndroidViewModel(application) {
     private lateinit var webInputService: IWebInputService
@@ -44,8 +45,7 @@ class WebUiViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun bind(context: Context) {
-        context.bindService(serviceIntent, serviceConnection, Context.BIND_AUTO_CREATE)
-
+        serviceIntent?.let { context.bindService(it, serviceConnection, Context.BIND_AUTO_CREATE) }
     }
 
     fun unbind(context: Context) {
@@ -56,9 +56,18 @@ class WebUiViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     companion object {
-        val serviceIntent: Intent
-            get() = Intent().apply {
-                setClassName(BuildConfig.APPLICATION_ID, "org.totschnig.webui.WebInputService")
+        val serviceIntent: Intent?
+            get() = try {
+                Class.forName("org.totschnig.webui.WebInputService")
+            } catch (e: ClassNotFoundException) {
+                CrashHandler.report(e)
+                null
+            }?.let {
+                Intent().apply {
+                    setClassName(BuildConfig.APPLICATION_ID, it.name)
+                }
             }
+
+
     }
 }
