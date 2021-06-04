@@ -57,7 +57,7 @@
     <string name="contrib_key">Contrib κλειδί</string>
     <string name="extended_key">Κλειδί Εκτεταμένης λειτουργίας</string>
     <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
-    <string name="contrib_key_requires">Απαιτεί το %s.</string>
+    <string name="contrib_key_requires">Απαιτεί το %1$s.</string>
     <string name="currency">Νόμισμα</string>
     <string name="current_balance">Τρέχον υπόλοιπο</string>
     <string name="date">Ημερομηνία</string>
@@ -74,21 +74,21 @@
     <string name="dialog_confirm_discard_new_account">Απόρριψη νέου λογαριασμού;</string>
     <string name="dialog_confirm_discard_new_method">Απόρριψη νέας μεθόδου πληρωμής;</string>
     <string name="dialog_command_disabled_balance">Δεν υπάρχουν εκκαθαρισμένες συναλλαγές που πρέπει να διακανονιστούν.</string>
-    <string name="dialog_command_disabled_insert_transfer">Οι συναλλαγές μεταφοράς απαιτούν ένα δεύτερο λογαριασμό</string>
+    <string name="dialog_command_disabled_insert_transfer">Οι συναλλαγές μεταφοράς απαιτούν ένα δεύτερο λογαριασμό.</string>
     <string name="dialog_command_disabled_reset_account">Συναλλαγές για την εξαγωγή.</string>
     <string name="dialog_command_disabled_distribution">Συναλλαγές δεν έχουν καταχωρηθεί σε κατηγορίες σε αυτό το λογαριασμό.</string>
     <!-- Button for accessing trial of premium feature -->
     <string name="dialog_contrib_no">Δοκιμή</string>
     <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
     <string name="dialog_contrib_premium_feature">%1$s είναι ένα αναβαθμισμένο χαρακτηριστικό (%2$s).</string>
-    <string name="dialog_contrib_reminder_remove_limitation">Αφαιρέστε αυτόν τον περιορισμό και αποκτήστε πρόσβαση σε περισσότερες δυνατότητες αναβαθμίζοντας το <i>{app_name}</i></string>
+    <string name="dialog_contrib_reminder_remove_limitation">Αφαιρέστε αυτόν τον περιορισμό και αποκτήστε πρόσβαση σε περισσότερες δυνατότητες αναβαθμίζοντας το <i>{app_name}</i>.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> είναι ανοικτού κώδικα.</string>
-    <string name="dialog_contrib_text_2">Παρακαλώ συνεισφέρετε αναβαθμίζοντας το <i>{app_name}</i> και αποκτήσετε απεριόριστη πρόσβαση στις παρακάτω δυνατότητες</string>
+    <string name="dialog_contrib_text_2">Παρακαλώ συνεισφέρετε αναβαθμίζοντας το <i>{app_name}</i> και αποκτήσετε απεριόριστη πρόσβαση στις παρακάτω δυνατότητες:</string>
     <string name="dialog_contrib_usage_count">Εναπομείνουσες ελεύθερες χρήσεις</string>
     <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">Μπορείτε να το χρησιμοποιήσετε μέχρι %1$d φορές με την τωρινή σας άδεια (%2$s).</string>
     <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Μπορείτε να το χρησιμοποιήσετε για %1$d ημέρες με την τωρινή σας άδεια (%2$s).</string>
-    <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Η άδεια που κατέχετε (%2$s) σας επιτρέπει να δημιουργήσετε %1$d λογαριασμούς</string>
-    <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Η άδεια που κατέχετε (%2$s) σας επιτρέπει να δημιουργήσετε %1$d πλάνα</string>
+    <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Η άδεια που κατέχετε (%2$s) σας επιτρέπει να δημιουργήσετε %1$d λογαριασμούς.</string>
+    <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Η άδεια που κατέχετε (%2$s) σας επιτρέπει να δημιουργήσετε %1$d πλάνα.</string>
     <string name="dialog_contrib_usage_limit_split_templates">Η τρέχουσα άδεια χρήσης σας (%1$s), σας επιτρέπει να δημιουργήσετε 1 πρότυπο διαίρεσης.</string>
     <string name="dialog_export_delete">Διαγράψετε εξαγόμενες συναλλαγές</string>
     <string name="dialog_export_not_yet_exported">Εξαγάγετε μόνο τις συναλλαγές που δεν έχει ακόμη εξαχθεί</string>
@@ -97,7 +97,7 @@
     <string name="dialog_password_new_password">Νέος κωδικός πρόσβασης</string>
     <string name="dialog_password_new_password_confirmation">Νέος κωδικός πρόσβασης (επιβεβαίωση)</string>
     <string name="dialog_remind_later">Αργότερα</string>
-    <string name="dialog_remind_rate_how_many_stars">Πόσα αστέρια θα δίνατε στο \"{app_name}\".</string>
+    <string name="dialog_remind_rate_how_many_stars">Πόσα αστέρια θα δίνατε στο \"{app_name}\"\?</string>
     <string name="dialog_remind_rate_1">Αφιερώστε λίγο χρόνο για την αξιολόγηση και κριτική του \"{app_name}\".</string>
     <string name="dialog_remind_rate_2">Τα σχόλιά σας θα μας επιτρέψουν να το βελτιώνω συνεχώς και να το εμπλουτίζω.</string>
     <string name="dialog_remind_rate_1_suggest_improvement">Παρακαλώ αφιερώστε λίγο χρόνο για να μας στείλετε τις προτάσεις σας για βελτιώσεις.</string>
@@ -110,8 +110,8 @@
     <string name="dialog_title_balance_account">Υπόλοιπο %1$s</string>
     <string name="dialog_title_contrib_feature">Αναβαθμισμένο χαρακτηριστικό</string>
     <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">Διαγραφή λογαριασμού;</item>
-        <item quantity="other">Διαγραφή %1$d λογαριασμών</item>
+        <item quantity="one">Διαγραφή λογαριασμού\?</item>
+        <item quantity="other">Διαγραφή %1$d λογαριασμών\?</item>
     </plurals>
     <string name="dialog_title_warning_delete_category">Διαγραφή κατηγορίας;</string>
     <string name="dialog_title_warning_delete_template">Θέλετε να διαγράψετε το πρότυπο;</string>
@@ -226,7 +226,7 @@
     <string name="no_mapped_transactions">Συναλλαγές δεν έχουν καταχωρηθεί σε κατηγορίες κατά τη διάρκεια αυτής της περιόδου.</string>
     <string name="no_methods">Δεν υπάρχουν τρόποι πληρωμής.</string>
     <string name="no_parties">Δεν υπάρχουν μέρη/πρόσωπα.</string>
-    <string name="no_split_parts">Κανένας διαχωρισμός των μερών </string>
+    <string name="no_split_parts">Κανένας διαχωρισμός των μερών.</string>
     <string name="no_templates">Δεν υπαρχουν πρότυπα.</string>
     <string name="no_accounts">Δεν υπάρχουν λογαριασμοί.</string>
     <string name="no_title_given">Δεν έγινε καμία εισαγωγή τίτλου κυριότητας.</string>
@@ -298,7 +298,7 @@
     <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Εάν λάβατε ένα κλειδί, έχετε πρόσβαση σε αναβαθμισμένα χαρακτηριστικά.</string>
     <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Εισάγετε το κλειδί</string>
     <string name="pref_export_format_title"> Μορφή δεδομένων</string>
-    <string name="pref_import_from_grisbi_summary">Κάνετε εισαγωγή κατηγοριών και μερών Grisbi XML.</string>
+    <string name="pref_import_from_grisbi_summary">Κάνετε εισαγωγή κατηγοριών και μερών Grisbi XML</string>
     <string name="pref_import_from_grisbi_title">Εισαγωγή από Grisbi</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_summary">Εισαγωγή συναλλαγών, κατηγοριών και μερών από το αρχείο %s</string>
@@ -335,7 +335,7 @@
     <string name="pref_security_question_summary">Σας επιτρέπει να ξεκλειδώσετε το app, αν έχετε ξεχάσει τον κωδικό πρόσβασής σας.</string>
     <string name="pref_security_question_title">Ερώτηση για ασφάλεια</string>
     <string name="pref_send_feedback_title">Αποστολή σχολίων</string>
-    <string name="pref_share_target_summary">Αφήστε κενό εάν θέλετε να επιλέξετε μεταξύ κατάλληλων apps (Email, Dropbox, Google Docs, …), ή της παροχής URL σε ένα από τα υποστηριζόμενα συστήματα.</string>
+    <string name="pref_share_target_summary">Αφήστε κενό εάν θέλετε να επιλέξετε μεταξύ κατάλληλων apps (Email, Dropbox, Google Docs, …), ή της παροχής URL σε ένα από τα υποστηριζόμενα συστήματα</string>
     <string name="pref_share_target_title">Ανεβάσετε URL</string>
     <string name="pref_shortcut_added">Έχει προστεθεί συντόμευση στην αρχική οθόνη</string>
     <string name="pref_shortcut_not_added">Δεν υπάρχει διαθέσιμη αρχική οθόνη που να δέχεται συντομεύσεις.</string>
@@ -440,10 +440,10 @@
     <string name="warning_app_folder_will_be_deleted_upon_uninstall">Ο τρέχων επιλεγμένος φάκελος για αντίγραφα ασφαλείας και εξαγωγές θα διαγραφεί αυτόματα από το Android αν απεγκαταστήσετε το \"{app_name}\". Μπορείτε να αποτρέψετε ένα τέτοιο ενδεχόμενο, επιλέγοντας ένα διαφορετικό φάκελο από την οθόνη Ρυθμίσεις.</string>
     <string name="warning_splitpartcategory_context">Μεταφορές που αποτελούν μέρος διαχωρισμού μπορούν να τύχουν επεξεργασίας μόνο στο πλαίσιο της διαίρεσης.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Παρακαλώ να ορίσετε έναν αριθμό μεταξύ %1$d και %2$d</string>
-    <string name="warning_change_fraction_digits_1">Τα ποσά στην βάση δεδομένων πρέπει να ενημερωθούν ώστε να ταιριάζουν με το νέο αριθμό δεκαδικών ψηφίων</string>
-    <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Εάν δεν γίνει ενημέρωση ποσών, θα εμφανίζονται πολλαπλασιασμένα με %d μετά την αλλαγή</string>
-    <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Εάν δεν γίνει ενημέρωση ποσών, θα εμφανίζονται διαιρεμένα με %d μετά την αλλαγή</string>
-    <string name="warning_change_fraction_digits_3">Εάν γίνει ενημέρωση ποσών, θα χαθεί πληροφορία για το δεκαδικό μέρος</string>
+    <string name="warning_change_fraction_digits_1">Τα ποσά στην βάση δεδομένων πρέπει να ενημερωθούν ώστε να ταιριάζουν με το νέο αριθμό δεκαδικών ψηφίων.</string>
+    <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Εάν δεν γίνει ενημέρωση ποσών, θα εμφανίζονται πολλαπλασιασμένα με %d μετά την αλλαγή.</string>
+    <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Εάν δεν γίνει ενημέρωση ποσών, θα εμφανίζονται διαιρεμένα με %d μετά την αλλαγή.</string>
+    <string name="warning_change_fraction_digits_3">Εάν γίνει ενημέρωση ποσών, θα χαθεί πληροφορία για το δεκαδικό μέρος.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Ενημέρωση ποσών στην βάση δεδομένων</string>
     <string name="import_categories_success">%1$s κατηγορίες που εισάγονται με επιτυχία</string>
     <string name="import_parties_success">%1$s μέρη που εισάγονται με επιτυχία</string>
@@ -521,7 +521,7 @@
     <string name="csv_import_field_mapped_more_than_once">%s έχει αντιστοιχιστεί πάνω από μία φορά.</string>
     <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d εγγραφές δεν μπορούν να εισαχθούν.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d εγγραφές απορρίφθηκαν.</string>
-    <string name="csv_import_subcategory_requires_category">If you map subcategory, you must also map category.</string>
+    <string name="csv_import_subcategory_requires_category"></string>
     <string name="cvs_import_set_first_line_as_header">Θα έπρεπε η πρώτη γραμμή να αντιμετωπίζεται ως επικεφαλίδα;</string>
     <string name="csv_import_delimiter_comma">Κόμμα</string>
     <string name="csv_import_delimiter_semicolon">Άνω τελεία</string>
@@ -541,8 +541,8 @@
     <string name="menu_move">Μετακίνηση</string>
     <string name="dialog_title_select_target">Επιλέξτε στόχο</string>
     <string name="transform_subcategory_to_main">Μεταμόρφωση στην κύρια κατηγορία</string>
-    <string name="preferences_week_start_day_title">Έναρξη εβδομάδας:</string>
-    <string name="preferences_month_start_date_title">Έναρξη μήνα:</string>
+    <string name="preferences_week_start_day_title">Έναρξη εβδομάδας</string>
+    <string name="preferences_month_start_date_title">Έναρξη μήνα</string>
     <!-- this is the title of the section in the preferences, where user can set start day for weekly and monthly groups -->
     <string name="pref_grouping_periods">Περίοδοι ομαδοποίησης</string>
     <string name="exchange_rate">Ισοτιμία</string>
@@ -559,7 +559,7 @@
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">εφαρμοσμένο</string>
     <string name="progress_dialog_updating_split_parts">Ενημέρωση διεσπασμένων μερών</string>
-    <string name="warning_cannot_move_split_transaction">Αυτή η διεσπασμένη συναλλαγή δεν μπορεί να μετακινηθεί στον λογαριασμό %1$s γιατί υπάρχει μέρη μεταφοράς που αναφέρονται σε αυτόν τον λογαριασμό</string>
+    <string name="warning_cannot_move_split_transaction">Αυτή η διεσπασμένη συναλλαγή δεν μπορεί να μετακινηθεί στον λογαριασμό %1$s γιατί υπάρχει μέρη μεταφοράς που αναφέρονται σε αυτόν τον λογαριασμό,</string>
     <string name="content_description_calculator_clear_button">Επαναφορά όλων</string>
     <string name="content_description_calculator_delete_button">Διαγραφή τελευταίου ψηφίου</string>
     <string name="paypal_callback_info">Η συναλλαγή σας έχει ολοκληρωθεί, και μια απόδειξη για την αγορά σας έχει αποσταλεί με email. Μπορείτε να συνδεθείτε στο λογαριασμό σας στο www.paypal.com για να δείτε τις λεπτομέρειες της συναλλαγής.</string>
@@ -580,7 +580,7 @@
     <string name="validate_error_not_empty">Δεν πρέπει να είναι κενό</string>
     <string name="validate_error_webdav_invalid_certificate">Το πιστοποιητικό δεν μπορεί να επαληθευτεί. Φαίνεται άκυρο.</string>
     <string name="validate_error_webdav_not_compliant">Η διεύθυνση URL δεν κατευθύνει σε έναν πόρο WebDAV.</string>
-    <string name="validate_error_webdav_404">Το URL δεν υπάρχει στον εξυπηρετητή</string>
+    <string name="validate_error_webdav_404">Το URL δεν υπάρχει στον εξυπηρετητή.</string>
     <string name="url_not_valid">Η διεύθυνση URL δεν είναι έγκυρη</string>
     <string name="menu_sync_unlink">Διακοπή συγχρονισμού</string>
     <string name="menu_sync_link">Έναρξη συγχρονισμού</string>
