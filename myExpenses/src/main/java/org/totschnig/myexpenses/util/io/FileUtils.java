@@ -127,7 +127,6 @@ public class FileUtils {
 
         final int column_index = cursor.getColumnIndex(column);
         if (column_index == -1) {
-          CrashHandler.report("column '_data' does not exist for uri " + uri);
           return null;
         }
         return cursor.getString(column_index);
