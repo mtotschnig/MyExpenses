@@ -6,11 +6,10 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
+import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
 
 internal const val CURRENCIES_USAGES =
-    "(SELECT count(*) from $TABLE_ACCOUNTS where $KEY_CURRENCY = $KEY_CODE)  + (SELECT count(*) from $TABLE_TRANSACTIONS WHERE $KEY_ORIGINAL_CURRENCY = $KEY_CODE) as $KEY_USAGES"
+    "(SELECT count(*) from $VIEW_EXTENDED where $KEY_CURRENCY = $KEY_CODE OR $KEY_ORIGINAL_CURRENCY = $KEY_CODE) as $KEY_USAGES"
 
 abstract class BaseTransactionProvider: ContentProvider() {
     var dirty = false
