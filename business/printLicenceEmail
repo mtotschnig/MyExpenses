@@ -17,6 +17,7 @@ then
 fi
 
 package=Contrib
+type=Licence
 lang=en_US
 #endpoint=http://127.0.0.1:3000/users
 endpoint=https://licencedb.myexpenses.mobi/users
@@ -45,7 +46,8 @@ then
   exit 1
 fi
 
-available_locales='bg cs de el en es eu fr he it ja ms pl pt ru tr vi'
+available_locales='ar bg cs de el en es eu fr he it ja kn ms pl pt ru tr vi'
+available_addons='SplitTemplate History Budget Ocr WebUi'
 
 if [[ -z "${lang// }" || ! " $available_locales " =~ .*\ $lang\ .* ]]
 then
@@ -53,7 +55,12 @@ then
     exit 1
 fi
 
-mapfile -t HTTP < <(curl -H "Authorization: Token $TOKEN" -H "Accept-Language: $lang" --silent --write-out "\n%{http_code}" -X POST $endpoint -d email=$email -d package=$package)
+if [[ " $available_addons " =~ .*\ $package\ .* ]]
+then
+  type=AddOn
+fi
+
+mapfile -t HTTP < <(curl -H "Authorization: Token $TOKEN" -H "Accept-Language: $lang" --silent --write-out "\n%{http_code}" -X POST $endpoint -d email=$email -d package=$package -d type=$type)
 
 status=${HTTP[-1]}
 
