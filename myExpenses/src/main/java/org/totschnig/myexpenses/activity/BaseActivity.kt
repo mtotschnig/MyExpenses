@@ -162,8 +162,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         super.onPause()
         try {
             unregisterReceiver(downloadReceiver)
-        } catch (e: Exception) {
-            CrashHandler.report(e)
+        } catch (e: IllegalArgumentException) {
+            //Mainly hits Android 4, 5 and 6, no need to report
+            //CrashHandler.report(e)
         }
         featureViewModel.unregisterCallback()
     }
