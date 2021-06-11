@@ -215,7 +215,7 @@
     <string name="method">ಪಾವತಿ ವಿಧಾನ</string>
     <string name="no_amount_given">ನೀವು ಯಾವುದೇ ಮೊತ್ತವನ್ನು ನಮೂದಿಸಿಲ್ಲ.</string>
     <string name="no_app_handling_email_available">ಯಾವುದೇ ಅಪ್ಲಿಕೇಶನ್ ನಿರ್ವಹಣಾ ಇಮೇಲ್ ಲಭ್ಯವಿಲ್ಲ.</string>
-    <string name="no_app_handling_ftp_available">ಯಾವುದೇ ಅಪ್ಲಿಕೇಶನ್ ಹ್ಯಾಂಡ್ಲಿಂಗ್ ftp ಲಭ್ಯವಿಲ್ಲ. <i>FTP</i> ಯೊಂದಿಗೆ <i>ಕಳುಹಿಸುವುದನ್ನು</i> ಸ್ಥಾಪಿಸುವುದೇ?</string>
+    <string name="no_app_handling_ftp_available">ಯಾವುದೇ ಅಪ್ಲಿಕೇಶನ್ ಹ್ಯಾಂಡ್ಲಿಂಗ್ ftp ಲಭ್ಯವಿಲ್ಲ. ಸ್ಥಾಪಿಸಿ <i> ಎಫ್‌ಟಿಪಿ ಯೊಂದಿಗೆ ಕಳುಹಿಸಿ </i>\?</string>
     <string name="no_app_handling_pdf_available">ಪಿಡಿಎಫ್ ಫೈಲ್‌ಗಳನ್ನು ನಿರ್ವಹಿಸುವ ಯಾವುದೇ ಅಪ್ಲಿಕೇಶನ್ ಲಭ್ಯವಿಲ್ಲ.</string>
     <string name="no_categories">ಯಾವುದೇ ವರ್ಗಗಳಿಲ್ಲ.</string>
     <string name="no_expenses">ಇನ್ನೂ ವೆಚ್ಚಗಳಿಲ್ಲ!</string>
@@ -251,7 +251,7 @@
     <string name="password_security_answer_not_valid">ತಪ್ಪು ಉತ್ತರ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ!</string>
     <string name="payee">ಪಾವತಿಸುವವರು</string>
     <string name="payer">ಪಾವತಿಸುವವರು</string>
-    <string name="payer_or_payee">ಪಾವತಿಸುವವರು / ಪಾವತಿಸುವವರು</string>
+    <string name="payer_or_payee">ಪಾವತಿಸುವವರು / ಪಾವತಿಸಿದವರು</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">ಯೋಜನೆ</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
@@ -709,7 +709,7 @@
     <string name="history_chart_in_label">ಆದಾಯ</string>
     <string name="menu_history_totals">ಮೊತ್ತವನ್ನು ತೋರಿಸಿ</string>
     <string name="pref_home_currency_title">ಮನೆ ಕರೆನ್ಸಿ</string>
-    <string name="grand_total">ಒಟ್ಟು ಒಟ್ಟು</string>
+    <string name="grand_total">ಒಟ್ಟು ಮೊತ್ತ</string>
     <string name="menu_original_amount">ಮೂಲ ಮೊತ್ತ</string>
     <string name="menu_equivalent_amount">ಸಮಾನ ಮೊತ್ತ</string>
     <string name="home_currency_change_warning">ನಿಮ್ಮ ಮನೆಯ ಕರೆನ್ಸಿಯನ್ನು ನೀವು ಬದಲಾಯಿಸಿದರೆ, ಸಮಾನ ಮೊತ್ತ ಮತ್ತು ವಿನಿಮಯ ದರಗಳು ಕಳೆದುಹೋಗುತ್ತವೆ, ಮತ್ತು ಅದನ್ನು ಮತ್ತೆ ವ್ಯಾಖ್ಯಾನಿಸಬೇಕಾಗುತ್ತದೆ.</string>
@@ -865,7 +865,7 @@
     <string name="menu_remap">ರೀಮ್ಯಾಪ್</string>
     <string name="dialog_title_confirm_remap">ಮ್ಯಾಪಿಂಗ್ ಅನ್ನು ಬದಲಾಯಿಸಿ (%s)?</string>
     <string name="remap_category">ಎಲ್ಲಾ ಆಯ್ದ ವಹಿವಾಟುಗಳನ್ನು %s ವರ್ಗಕ್ಕೆ ಮ್ಯಾಪ್ ಮಾಡಲಾಗುತ್ತದೆ.</string>
-    <string name="remap_payee">ಎಲ್ಲಾ ಆಯ್ದ ವಹಿವಾಟುಗಳನ್ನು ಪಾವತಿಸುವವರು / ಪಾವತಿಸುವವರು %s ಗೆ ಮ್ಯಾಪ್ ಮಾಡಲಾಗುತ್ತದೆ.</string>
+    <string name="remap_payee">ಎಲ್ಲಾ ಆಯ್ದ ವಹಿವಾಟುಗಳನ್ನು ಪಾವತಿಸುವವರು / ಪಾವತಿಸಿದವರು %s ಗೆ ಮ್ಯಾಪ್ ಮಾಡಲಾಗುತ್ತದೆ.</string>
     <string name="remap_method">ಎಲ್ಲಾ ಆಯ್ದ ವಹಿವಾಟುಗಳನ್ನು %s ವಿಧಾನಕ್ಕೆ ಮ್ಯಾಪ್ ಮಾಡಲಾಗುತ್ತದೆ.</string>
     <string name="remap_account">ಎಲ್ಲಾ ಆಯ್ದ ವಹಿವಾಟುಗಳನ್ನು %s ಖಾತೆಗೆ ಮ್ಯಾಪ್ ಮಾಡಲಾಗುತ್ತದೆ.</string>
     <string name="remapping_result">ಆಯ್ದ ವಹಿವಾಟುಗಳನ್ನು ಮರುರೂಪಿಸಲಾಯಿತು.</string>
@@ -933,4 +933,32 @@
     <string name="budget_filter_all_accounts">ಎಲ್ಲಾ ಖಾತೆಗಳು</string>
     <string name="account_deleted">ಖಾತೆಯನ್ನು ಅಳಿಸಲಾಗಿದೆ</string>
     <string name="image_capture_not_installed">ಚಿತ್ರ ತೆಗೆದುಕೊಳ್ಳಲು ಯಾವುದೇ ಅಪ್ಲಿಕೇಶನ್ ಕಂಡುಬಂದಿಲ್ಲ.</string>
+    <string name="tesseract_download_confirmation">%s ಗಾಗಿ ಪಠ್ಯ ಗುರುತಿಸುವಿಕೆ ಡೇಟಾವನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಲು ನೀವು ಬಯಸುವಿರಾ\?</string>
+    <string name="ocr_recognition_info">%s ನೊಂದಿಗೆ ಪಠ್ಯ ಗುರುತಿಸುವಿಕೆಯನ್ನು ನಡೆಸಲಾಗುತ್ತಿದೆ</string>
+    <string name="warning_link_transfer">ಆಯ್ದ ಎರಡು ವಹಿವಾಟುಗಳನ್ನು ವರ್ಗಾವಣೆಯಂತೆ ಲಿಂಕ್ ಮಾಡಲಾಗುತ್ತದೆ. ಪಾವತಿಸುವವರು / ಪಾವತಿಸಿದವರು ಮತ್ತು ವರ್ಗದ ಮಾಹಿತಿಯನ್ನು ಕೈಬಿಡಲಾಗುತ್ತದೆ.</string>
+    <string name="download_completed">ಡೌನ್‌ಲೋಡ್ (%s) ಪೂರ್ಣಗೊಂಡಿದೆ.</string>
+    <string name="warning_plan_instance_delete">ಆಯ್ದ ದಿನಾಂಕಕ್ಕಾಗಿ ರಚಿಸಲಾದ ವಹಿವಾಟನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.</string>
+    <string name="auto_fill_focus">ಪಾವತಿಸುವವರ ಮೇಲೆ ಕೇಂದ್ರೀಕರಿಸಿ</string>
+    <string name="request_for_invoice">ಸರಕುಪಟ್ಟಿಗಾಗಿ ವಿನಂತಿ</string>
+    <string name="active_tags">ಸಕ್ರಿಯ ಟ್ಯಾಗ್‌ಗಳು</string>
+    <string name="merge_parties_select">ವಿಲೀನಗೊಂಡ ಪಕ್ಷದ ಹೆಸರನ್ನು ಆಯ್ಕೆಮಾಡಿ:</string>
+    <string name="menu_merge">ವಿಲೀನಗೊಳ್ಳಲು</string>
+    <string name="account_widget_configuration">ಖಾತೆ ವಿಜೆಟ್ ಕಾನ್ಫಿಗರೇಶನ್</string>
+    <string name="account_widget_configuration_sum_total">ಭವಿಷ್ಯದ ವಹಿವಾಟುಗಳನ್ನು ಸೇರಿಸಿ</string>
+    <string name="account_widget_configuration_sum">ಪ್ರದರ್ಶಿತ ಮೊತ್ತದ ಪ್ರಕಾರ</string>
+    <string name="recurrence_last_day_of_month">ಕೊನೆಯ ದಿನ</string>
+    <string name="single_feature_info">ಪರ್ಯಾಯವಾಗಿ ನೀವು ಈ ವೈಶಿಷ್ಟ್ಯಕ್ಕೆ ಮಾತ್ರ ಅನಿಯಮಿತ ಪ್ರವೇಶವನ್ನು ಖರೀದಿಸಬಹುದು.</string>
+    <string name="title_webui">ವೆಬ್ ಬಳಕೆದಾರ ಇಂಟರ್ಫೇಸ್</string>
+    <string name="new_balance">ಹೊಸ ಸಮತೋಲನ</string>
+    <string name="pref_group_header_show_details_summary">ಗುಂಪು ಹೆಡರ್ನಲ್ಲಿ ವಿವರ ಮೊತ್ತವನ್ನು ತೋರಿಸಿ</string>
+    <string name="warning_unencrypted_backup">ಈ ಸಾಧನದಲ್ಲಿನ ಅನಧಿಕೃತ ಪ್ರವೇಶದಿಂದ ನಿಮ್ಮ ಡೇಟಾವನ್ನು ರಕ್ಷಿಸಲಾಗಿದ್ದರೂ, ನೀವು %s ಅನ್ನು ಕಾನ್ಫಿಗರ್ ಮಾಡದ ಹೊರತು ಎನ್‌ಕ್ರಿಪ್ಶನ್ ಇಲ್ಲದೆ ಬ್ಯಾಕಪ್‌ಗಳನ್ನು ರಚಿಸಲಾಗುತ್ತದೆ.</string>
+    <string name="ocr_download_info">ಪಠ್ಯ ಗುರುತಿಸುವ ಸಾಮರ್ಥ್ಯವನ್ನು ಬಾಹ್ಯ ಅಪ್ಲಿಕೇಶನ್‌ನಿಂದ ಒದಗಿಸಲಾಗಿದೆ.</string>
+    <string name="pref_tesseract_language_title">ಟೆಸ್ಸೆರಾಕ್ಟ್ ಭಾಷೆ</string>
+    <string name="pref_ocr_engine_title">ಪಠ್ಯ ಗುರುತಿಸುವಿಕೆಗಾಗಿ ಎಂಜಿನ್</string>
+    <string name="reset_equivalent_amounts_success">ಸಮಾನ ಮೊತ್ತವನ್ನು ಮರುಹೊಂದಿಸಲಾಗಿದೆ</string>
+    <string name="content_description_edit_plan">ಕ್ಯಾಲೆಂಡರ್ ಅಪ್ಲಿಕೇಶನ್‌ನಲ್ಲಿ ಯೋಜನೆಯನ್ನು ಸಂಪಾದಿಸಿ</string>
+    <string name="plan_automatic_without_amount_hint">ಮೊತ್ತವಿಲ್ಲದ ಯೋಜನೆಯನ್ನು ಸ್ವಯಂಚಾಲಿತ ಯೋಜನೆ ಕಾರ್ಯಗತಗೊಳಿಸುವಿಕೆಯೊಂದಿಗೆ ಉಳಿಸಬಾರದು</string>
+    <string name="template_default_action_without_amount_hint">ಮೊತ್ತವಿಲ್ಲದ ಟೆಂಪ್ಲೇಟ್ ಅನ್ನು ಡೀಫಾಲ್ಟ್ ಕ್ರಿಯೆಯೊಂದಿಗೆ ಉಳಿಸಬೇಕು \'ಸಂಪಾದಿಸು\'</string>
+    <string name="pref_clone_with_current_date_title">ಅಬೀಜ ವಹಿವಾಟಿನ ದಿನಾಂಕ</string>
+    <string name="confirmation_load_template_discard_data">ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ಫಾರ್ಮ್ ಡೇಟಾವನ್ನು ತ್ಯಜಿಸಲಾಗುತ್ತದೆ.</string>
 </resources>
