@@ -32,7 +32,8 @@ open class CurrencyViewModel(application: Application) : ContentResolvingAndroid
                 .subscribe { currencies ->
                     if (collator != null) {
                         currencies.sortWith { lhs, rhs ->
-                            Utils.compare(lhs.sortClass(), rhs.sortClass()).takeIf { it != 0 }
+                            rhs.usages.compareTo(lhs.usages).takeIf { it != 0 }
+                                ?: lhs.sortClass.compareTo(rhs.sortClass).takeIf { it != 0 }
                                     ?: collator.compare(lhs.toString(), rhs.toString())
                         }
                     }

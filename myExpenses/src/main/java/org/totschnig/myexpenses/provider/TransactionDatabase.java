@@ -556,7 +556,6 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + buildChangeTriggerDefinitionForColumn(KEY_REFERENCE_NUMBER) + ", "
           + buildChangeTriggerDefinitionForColumn(KEY_PICTURE_URI) + "); END;";
 
-
   private static final String INCREASE_CATEGORY_USAGE_ACTION = " BEGIN UPDATE " + TABLE_CATEGORIES + " SET " + KEY_USAGES + " = " +
       KEY_USAGES + " + 1, " + KEY_LAST_USED + " = strftime('%s', 'now')  WHERE " + KEY_ROWID +
       " IN (new." + KEY_CATID + " , (SELECT " + KEY_PARENTID +
@@ -566,7 +565,6 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       + "AFTER INSERT ON " + TABLE_TRANSACTIONS
       + " WHEN new." + KEY_CATID + " IS NOT NULL AND new." + KEY_CATID + " != " + SPLIT_CATID + ""
       + INCREASE_CATEGORY_USAGE_ACTION;
-
 
   private static final String INCREASE_CATEGORY_USAGE_UPDATE_TRIGGER = "CREATE TRIGGER update_increase_category_usage "
       + "AFTER UPDATE ON " + TABLE_TRANSACTIONS

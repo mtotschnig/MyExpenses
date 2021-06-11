@@ -684,15 +684,6 @@ public class Utils {
   }
 
   /**
-   * backport of {@link Long#compare(long, long)} which is API 19
-   * returns -1, 0 or 1
-   * TODO remove now desugared
-   */
-  public static int compare(long x, long y) {
-    return Long.compare(x, y);
-  }
-
-  /**
    * backport of {@link java.util.Objects#compare(Object, Object, Comparator)} which is API 19
    */
   public static <T> int compare(T a, T b, Comparator<? super T> c) {

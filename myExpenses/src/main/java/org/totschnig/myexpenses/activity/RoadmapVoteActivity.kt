@@ -100,7 +100,7 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
             if (weight2 != null) {
                 return@sortedWith 1
             }
-            Utils.compare(issue2.number, issue1.number)
+            issue2.number.compareTo(issue1.number)
         }
         filterData()
         updateVoteMenuItem()

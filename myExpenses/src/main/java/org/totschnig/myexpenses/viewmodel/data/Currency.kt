@@ -9,13 +9,11 @@ import org.totschnig.myexpenses.util.Utils
 import java.io.Serializable
 import java.util.*
 
-data class Currency(val code: String, val displayName: String) : Serializable {
-    fun sortClass(): Int {
-        return when (code) {
-            "XXX" -> 3
-            "XAU", "XPD", "XPT", "XAG" -> 2
-            else -> 1
-        }
+data class Currency(val code: String, val displayName: String, val usages: Int = 0) : Serializable {
+    val sortClass = when (code) {
+        "XXX" -> 3
+        "XAU", "XPD", "XPT", "XAG" -> 2
+        else -> 1
     }
 
     override fun toString(): String {
@@ -42,12 +40,14 @@ data class Currency(val code: String, val displayName: String) : Serializable {
 
         fun create(code: String, locale: Locale) = Currency(code, findDisplayName(code, locale))
 
-        fun create(cursor: Cursor, locale: Locale) =
-                cursor.getString(cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_CODE)).let {
-                    Currency(it,
-                            cursor.getString(cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_LABEL))
-                                    ?: findDisplayName(it, locale))
+        fun create(cursor: Cursor, locale: Locale): Currency {
+            val code = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_CODE))
+            val label = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_LABEL))
+            val usages = cursor.getColumnIndex(DatabaseConstants.KEY_USAGES).takeIf { it != -1 }?.let {
+                    cursor.getInt(it)
                 }
+            return Currency(code, label ?: findDisplayName(code, locale), usages ?: 0)
+        }
 
         private fun findDisplayName(code: String, locale: Locale): String {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {

@@ -77,6 +77,7 @@ import timber.log.Timber;
 
 import static org.totschnig.myexpenses.model.AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE;
 import static org.totschnig.myexpenses.model.AggregateAccount.GROUPING_AGGREGATE;
+import static org.totschnig.myexpenses.provider.BaseTransactionProviderKt.CURRENCIES_USAGES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import static org.totschnig.myexpenses.provider.DbUtils.suggestNewCategoryColor;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.groupByForPaymentMethodQuery;
@@ -314,8 +315,8 @@ public class TransactionProvider extends BaseTransactionProvider {
   }
 
   @Override
-  public Cursor query(@NonNull Uri uri,@Nullable String[] projection, String selection,
-                      String[] selectionArgs, String sortOrder) {
+  public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection,
+                      @Nullable String[] selectionArgs, @Nullable String sortOrder) {
     SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
     SQLiteDatabase db;
     db = mOpenHelper.getReadableDatabase();
@@ -613,7 +614,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           //Currency query
           if (!mergeAggregate.equals(String.valueOf(Account.HOME_AGGREGATE_ID))) {
             groupBy = KEY_CURRENCY;
-            having = mergeAggregate.equals("1") ? "count(*) > 1" :  TABLE_CURRENCIES + "." +  KEY_ROWID + " = " + mergeAggregate.substring(1); //strip - in order to compare with currency id
+            having = mergeAggregate.equals("1") ? "count(*) > 1" : TABLE_CURRENCIES + "." + KEY_ROWID + " = " + mergeAggregate.substring(1); //strip - in order to compare with currency id
             String rowIdColumn = "0 - (SELECT " + KEY_ROWID + " FROM " + TABLE_CURRENCIES
                 + " WHERE " + KEY_CODE + "= " + KEY_CURRENCY + ")  AS " + KEY_ROWID;
             String labelColumn = KEY_CURRENCY + " AS " + KEY_LABEL;
@@ -911,6 +912,11 @@ public class TransactionProvider extends BaseTransactionProvider {
         break;
       //only called from unit test
       case CURRENCIES:
+        if (projection == null) {
+          projection = new String[] {
+              KEY_ROWID, KEY_CODE, KEY_GROUPING, KEY_LABEL, CURRENCIES_USAGES
+          };
+        }
         qb.setTables(TABLE_CURRENCIES);
         break;
       case DUAL:
