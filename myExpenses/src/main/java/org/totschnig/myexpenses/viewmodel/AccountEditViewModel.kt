@@ -3,11 +3,9 @@ package org.totschnig.myexpenses.viewmodel
 import android.app.Application
 import android.content.ContentUris
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import org.totschnig.myexpenses.viewmodel.data.Tag
 
 class AccountEditViewModel(application: Application) : TagHandlingViewModel(application) {
 

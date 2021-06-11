@@ -61,6 +61,7 @@ import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.Currency.Companion.create
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import java.io.Serializable
+import java.lang.IllegalStateException
 import java.math.BigDecimal
 import java.util.*
 
@@ -80,11 +81,18 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
 
     @State
     @JvmField
+    var dataLoaded: Boolean = false
+
+    @State
+    @JvmField
     var syncAccountName: String? = null
 
     @State
     @JvmField
-    var currencyUnit: CurrencyUnit? = null
+    var _currencyUnit: CurrencyUnit? = null
+
+    val currencyUnit: CurrencyUnit
+        get() = if (dataLoaded) _currencyUnit!! else throw IllegalStateException()
 
     @State
     @JvmField
@@ -131,7 +139,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         syncSpinner = SpinnerHelper(findViewById(R.id.Sync))
         mNewInstance = rowId == 0L
         setTitle(if (rowId != 0L) R.string.menu_edit_account else R.string.menu_create_account)
-        if (savedInstanceState == null) {
+        if (savedInstanceState == null || !dataLoaded) {
             if (rowId != 0L) {
                 viewModel.accountWithTags(rowId).observe(this) {
                     if (it != null) {
@@ -148,7 +156,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
                 })
             }
         } else {
-            configureForCurrency(currencyUnit!!)
+            configureForCurrency(currencyUnit)
             setup()
         }
         linkInputsWithLabels()
@@ -164,7 +172,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         configureSyncBackendAdapter()
         currencyViewModel.getCurrencies().observe(this, { currencies: List<Currency?> ->
             currencyAdapter.addAll(currencies)
-            currencySpinner.setSelection(currencyAdapter.getPosition(create(currencyUnit!!.code, this)))
+            currencySpinner.setSelection(currencyAdapter.getPosition(create(currencyUnit.code, this)))
         })
         UiUtils.setBackgroundOnButton(binding.colorInput.ColorIndicator, color)
         setupListeners()
@@ -216,15 +224,16 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
      * populates the input field either from the database or with default value for currency (from Locale)
      */
     private fun populateFields(account: Account) {
+        dataLoaded = true
         binding.Label.setText(account.label)
         binding.Description.setText(account.description)
         syncAccountName = account.syncAccountName
-        currencyUnit = account.currencyUnit
+        _currencyUnit = account.currencyUnit
         binding.ERR.ExchangeRate.setRate(BigDecimal(account.exchangeRate), true)
         color = account.color
         excludeFromTotals = account.excludeFromTotals
         uuid = account.uuid
-        configureForCurrency(currencyUnit!!)
+        configureForCurrency(currencyUnit)
         binding.Amount.setAmount(account.openingBalance.amountMajor)
         accountTypeSpinner.setSelection(account.type.ordinal)
         val criterion = account.criterion
