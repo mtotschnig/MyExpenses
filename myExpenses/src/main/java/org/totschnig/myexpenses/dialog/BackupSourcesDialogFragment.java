@@ -65,8 +65,8 @@ public class BackupSourcesDialogFragment extends ImportSourceDialogFragment
       try {
         ImportFileResultHandler.handleFilenameRequestResult(this, mUri);
       } catch (Throwable throwable) {
+        CrashHandler.report(throwable, "URI", mUri.toString());
         mUri = null;
-        CrashHandler.report(throwable);
         Toast.makeText(requireContext(), throwable.getMessage(), Toast.LENGTH_LONG).show();
         requireActivity().finish();
       }

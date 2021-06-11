@@ -12,7 +12,6 @@ import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.util.io.FileUtils;
 
 import androidx.annotation.Nullable;
-import timber.log.Timber;
 
 public class ImportFileResultHandler {
 
@@ -24,7 +23,6 @@ public class ImportFileResultHandler {
     Context context = hostFragment.getContext();
     EditText fileNameEditText = hostFragment.getFilenameEditText();
     if (uri != null) {
-      Timber.d(uri.toString());
       fileNameEditText.setError(null);
       String displayName = DialogUtils.getDisplayName(uri);
       fileNameEditText.setText(displayName);

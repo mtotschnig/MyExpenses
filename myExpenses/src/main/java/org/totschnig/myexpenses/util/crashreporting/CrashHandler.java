@@ -22,31 +22,31 @@ public abstract class CrashHandler {
   private String currentBreadCrumb;
   private boolean enabled;
 
-  public static void reportWithDbSchema(Exception e) {
+  public static void reportWithDbSchema(Throwable e) {
     report(e, DbUtils.getSchemaDetails());
   }
 
-  public static void report(Exception e, Map<String, String> customData) {
+  public static void report(Throwable e, Map<String, String> customData) {
     for (Map.Entry<String, String> entry : customData.entrySet()) {
       Timber.w("%s: %s", entry.getKey(), entry.getValue());
     }
     report(e);
   }
 
-  public static void report(Exception e, String key, String data) {
+  public static void report(Throwable e, String key, String data) {
     Timber.w("%s: %s", key, data);
     report(e);
   }
 
   public static void report(Throwable e) {
-    report(e, null);
+    Timber.e(e);
   }
 
   public static void report(Throwable e, String tag) {
     if (tag != null) {
       Timber.tag(tag);
     }
-    Timber.e(e);
+    report(e);
   }
 
   public static void reportWithTag(String message, String tag) {
