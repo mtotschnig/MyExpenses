@@ -672,7 +672,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManag
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
-        if (!isTemplate && mNewInstance) {
+        if (!isTemplate) {
             menu.add(Menu.NONE, R.id.SAVE_AND_NEW_COMMAND, 0, R.string.menu_save_and_new)
                     .setCheckable(true)
                     .setIcon(R.drawable.ic_action_save_new)
