@@ -41,7 +41,6 @@ import org.totschnig.myexpenses.util.io.FileCopyUtils;
 import org.totschnig.myexpenses.util.io.FileUtils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.GeneralSecurityException;
@@ -153,7 +152,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
         }
 
       }
-    } catch (FileNotFoundException | SecurityException | GeneralSecurityException e) {
+    } catch (Exception e) {
       Map<String, String> customData = new HashMap<>();
       customData.put("fileUri", fileUri != null ? fileUri.toString() : "null");
       customData.put("syncAccountName", syncAccountName);
