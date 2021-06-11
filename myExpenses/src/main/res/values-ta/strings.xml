@@ -988,4 +988,9 @@
     <string name="active_tags">செயலிலுள்ள குறிச்சொற்கள்</string>
     <!-- This is used in the title of the email by which user requests an invoice for payment via bank transfer -->
     <string name="request_for_invoice">விலைப்பட்டியலை கோரு</string>
-    </resources>
+    <!-- Enables Focus on the Payee field for Auto fill -->
+    <string name="auto_fill_focus">பணம் பெறுபவர் உள்ளீட்டில் கவனம் செலுத்து</string>
+    <!-- This warning is shown when a user calls the Reset or Cancel commands on a scheduled transaction, for a date
+     where the transaction has already been created.  -->
+    <string name="warning_plan_instance_delete">தேர்ந்தெடுக்கப்பட்ட தேதிக்கு உருவாக்கப்பட்ட பரிவர்த்தனை நீக்கப்படும்.</string>
+</resources>
