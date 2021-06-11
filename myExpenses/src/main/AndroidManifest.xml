@@ -51,6 +51,17 @@
         android:name="android.hardware.wifi"
         android:required="false" />
 
+    <queries>
+        <intent>
+            <action android:name="org.totschnig.ocr.action.RECOGNIZE" />
+            <data android:mimeType="image/jpeg" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="market" android:host="details" />
+        </intent>
+    </queries>
+
     <application
         android:name="org.totschnig.myexpenses.MyApplication"
         android:allowBackup="true"

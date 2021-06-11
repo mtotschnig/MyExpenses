@@ -253,7 +253,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
         if (command == R.id.OCR_DOWNLOAD_COMMAND) {
             val intent = Intent(Intent.ACTION_VIEW).apply {
-                data = Uri.parse("market://details?id=org.totschnig.myexpenses.ocr.tesseract")
+                data = Uri.parse("market://details?id=org.totschnig.ocr.tesseract")
             }
             packageManager.queryIntentActivities(intent, 0).find { it.activityInfo.packageName == "org.fdroid.fdroid" }
                     ?.activityInfo?.let {
