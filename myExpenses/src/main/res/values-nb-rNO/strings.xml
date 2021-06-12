@@ -125,8 +125,6 @@
     <string name="restore_calendar_handling_ignore">Ikke gjenopprett planer</string>
     <string name="import_source_file">Fil</string>
     <string name="learn_more">Lær mer</string>
-    <string name="no">Nei</string>
-    <string name="yes">Ja</string>
     <string name="comparison_operator_date_after">etter</string>
     <string name="comparison_operator_date_before">før</string>
     <string name="comparison_operator_between">mellom</string>
@@ -176,7 +174,6 @@
     <string name="save_transaction_and_new_success">Lagret</string>
     <string name="reference_number">Referansenummer</string>
     <string name="qif_parse_failure_found_multiple_accounts">Fant flere kontoer i QIF-filen.</string>
-    <string name="progress_dialog_saving">Lagrer objekt i database …</string>
     <string name="progress_dialog_printing">Genererer PDF …</string>
     <string name="progress_dialog_deleting">Sletter objekter …</string>
     <string name="progress_dialog_loading">Laster inn objekt fra database …</string>
@@ -192,7 +189,6 @@
     <string name="pref_security_question_title">Sikkerhetsspørsmål</string>
     <string name="pref_restore_title">Gjenopprett</string>
     <string name="pref_restore_alternative">Alternativ</string>
-    <string name="pref_request_licence_title">Forespør en nøkkel</string>
     <string name="pref_qif_export_file_encoding_title">Tegnkoding</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Passord kreves.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Tillatt uten passord.</string>

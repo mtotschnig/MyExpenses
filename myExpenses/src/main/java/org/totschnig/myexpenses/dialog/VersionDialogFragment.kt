@@ -32,6 +32,7 @@ import org.totschnig.myexpenses.databinding.VersiondialogBinding
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.licence.LicenceHandler
+import java.util.*
 import javax.inject.Inject
 
 class VersionDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListener {
@@ -116,20 +117,27 @@ class VersionDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
     class VersionInfo(private val code: Int, val name: String) {
         val nameCondensed = name.replace(".", "")
         fun getChanges(ctx: Context): Array<String?>? {
-            when (nameCondensed) {
-                "325" -> return arrayOf("${ctx.getString(R.string.contrib_feature_csv_import_label)}: ${ctx.getString(R.string.autofill)}")
-                "330" -> return arrayOf("${ctx.getString(R.string.contrib_feature_csv_import_label)}: ${ctx.getString(R.string.tags)}",
-                        ctx.getString(R.string.active_tags))
-                "331" -> return arrayOf("${ctx.getString(R.string.menu_settings)} - ${ctx.getString(R.string.autofill)}: ${ctx.getString(R.string.ui_refinement)}")
-            }
             val res = ctx.resources
-            var resId = res.getIdentifier("whats_new_$nameCondensed", "array", ctx.packageName) //new based on name
-            return if (resId == 0) {
-                CrashHandler.reportWithFormat("missing change log entry for version %d", code)
-                null
-            } else {
-                val changesArray = res.getStringArray(resId)
-                resId = res.getIdentifier("contributors_$nameCondensed", "array", ctx.packageName)
+            val changesArray =  when (nameCondensed) {
+                "325" -> arrayOf("${ctx.getString(R.string.contrib_feature_csv_import_label)}: ${ctx.getString(R.string.autofill)}")
+                "330" -> arrayOf("${ctx.getString(R.string.contrib_feature_csv_import_label)}: ${ctx.getString(R.string.tags)}",
+                    ctx.getString(R.string.active_tags))
+                "331" -> arrayOf("${ctx.getString(R.string.menu_settings)} - ${ctx.getString(R.string.autofill)}: ${ctx.getString(R.string.ui_refinement)}")
+                "332" -> arrayOf("${ctx.getString(R.string.pref_translation_title)} : ${Locale("te").displayLanguage}",
+                    "${ctx.getString(R.string.currency)}: ${ctx.getString(R.string.ui_refinement)}"
+                )
+                else -> {
+                    val resId = res.getIdentifier("whats_new_$nameCondensed", "array", ctx.packageName) //new based on name
+                    if (resId == 0) {
+                        CrashHandler.reportWithFormat("missing change log entry for version %d", code)
+                        null
+                    } else {
+                        res.getStringArray(resId)
+                    }
+                }
+            }
+            if (changesArray != null) {
+                val resId = res.getIdentifier("contributors_$nameCondensed", "array", ctx.packageName)
                 if (resId != 0) {
                     val contributorArray = res.getStringArray(resId)
                     val resultArray = arrayOfNulls<String>(changesArray.size)
@@ -139,8 +147,8 @@ class VersionDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
                     }
                     return resultArray
                 }
-                changesArray
             }
+            return changesArray
         }
 
     }

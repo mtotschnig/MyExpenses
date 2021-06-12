@@ -91,6 +91,7 @@
 
     <string-array name="translators_kn">
         <item>Vishwa Prakash HV</item>
+        <item>niranjan pr</item>
     </string-array>
 
     <string-array name="translators_ko">
@@ -139,6 +140,10 @@
 
     <string-array name="translators_ta">
         <item>Kaartic Sivaraam</item>
+    </string-array>
+
+    <string-array name="translators_te">
+        <item>niranjan pr</item>
     </string-array>
 
     <string-array name="translators_tr">
