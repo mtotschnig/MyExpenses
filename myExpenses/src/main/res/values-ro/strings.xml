@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -12,8 +13,7 @@
   
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+ --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">Cont</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">Tipuri cont</string>
@@ -525,4 +525,5 @@
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Funcţionalităţi</string>
     <string name="menu_save_and_new_content_description">Salvaţi datele, lăsaţi formularul deschis pentru a crea o nouă tranzacţie cu aceleaşi date.</string>
-    </resources>
+    <string name="pref_translation_title">Traducere</string>
+</resources>
