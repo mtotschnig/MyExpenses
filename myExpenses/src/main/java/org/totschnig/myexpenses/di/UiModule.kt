@@ -25,7 +25,7 @@ open class UiModule {
 
     @Provides
     @Singleton
-    fun provideAdHandlerFactory(application: MyApplication, prefHandler: PrefHandler, @Named(AppComponent.USER_COUNTRY) userCountry: String, licenceHandler: LicenceHandler): AdHandlerFactory =
+    open fun provideAdHandlerFactory(application: MyApplication, prefHandler: PrefHandler, @Named(AppComponent.USER_COUNTRY) userCountry: String, licenceHandler: LicenceHandler): AdHandlerFactory =
            try {
                Class.forName("org.totschnig.myexpenses.util.ads.PlatformAdHandlerFactory")
                        .getConstructor(Context::class.java, PrefHandler::class.java, String::class.java, LicenceHandler::class.java)

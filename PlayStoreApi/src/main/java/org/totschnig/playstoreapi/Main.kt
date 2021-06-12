@@ -3,8 +3,6 @@ package org.totschnig.playstoreapi
 import com.google.api.services.androidpublisher.AndroidPublisher
 import com.google.api.services.androidpublisher.model.InAppProduct
 import com.google.api.services.androidpublisher.model.InAppProductListing
-import com.google.api.services.androidpublisher.model.InappproductsListResponse
-import com.google.api.services.androidpublisher.model.Listing
 import org.apache.commons.logging.Log
 import org.apache.commons.logging.LogFactory
 import java.io.IOException
