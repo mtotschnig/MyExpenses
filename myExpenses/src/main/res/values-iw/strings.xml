@@ -35,7 +35,7 @@
     <string name="already_defined">%1$sכבר מוגדר</string>
     <string name="amount">סכום</string>
     <string name="app_name">ההוצאות שלי</string>
-    <string name="backup_failure">גיבוי ל- \"%1$s\" נכשל</string>
+    <string name="backup_failure">הגיבוי אל „%1$s” נכשל.</string>
     <string name="backup_success">מסד הנתונים וההעדפות נכתבים בהצלחה ל- \"%1$s\".</string>
     <string name="category">קטגוריה</string>
     <string name="color">צבע</string>
@@ -224,14 +224,14 @@
     <string name="no_exportable_expenses">אין עסקאות שטרם יוצאו.</string>
     <string name="no_filemanager_installed">לא נמצאה אפליקציה לניהול קבצים</string>
     <string name="no_calendar_app_installed">לא נמצאה אפליקציה לעריכת אירוע ביומן.</string>
-    <string name="image_capture_not_installed">.No app found for taking picture</string>
+    <string name="image_capture_not_installed"></string>
     <string name="no_mapped_transactions">במהלך תקופה זו לא היו עסקאות ממופות לקטגוריות.</string>
-    <string name="no_methods">אין שיטת תשלום</string>
-    <string name="no_parties">אין חלקים מפוצלים</string>
-    <string name="no_split_parts">אין חלק מפוצל</string>
-    <string name="no_templates">אין תבניות</string>
-    <string name="no_accounts">אין חשבונות</string>
-    <string name="no_title_given">לא הוכנסה כותרת כל שהיא</string>
+    <string name="no_methods">אין שיטת תשלום.</string>
+    <string name="no_parties">אין חלקים מפוצלים.</string>
+    <string name="no_split_parts">אין חלק מפוצל.</string>
+    <string name="no_templates">אין תבניות.</string>
+    <string name="no_accounts">אין חשבונות.</string>
+    <string name="no_title_given">לא הוכנסה כותרת כל שהיא.</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="one">האובייקט שנבחר ממופה לעסקה ולא ניתן למחוק אותו.</item>
         <item quantity="two">%1$d אובייקטים  ממופים לעסקאות ולא ניתן למחוק אותם.</item>
@@ -333,7 +333,7 @@
     <string name="pref_protection_delay_seconds_title">עיכוב ללא פעילות עד להגנה</string>
     <string name="pref_protection_enable_data_entry_from_widget_title">הזנת נתונים מווידג\'טים וקיצורי דרך</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">מותרת ללא סיסמה.</string>
-    <string name="pref_protection_enable_data_entry_from_widget_summary_off">נדרשת סיסמה</string>
+    <string name="pref_protection_enable_data_entry_from_widget_summary_off">נדרשת סיסמה.</string>
     <string name="pref_qif_export_file_encoding_title">קידוד תווים</string>
     <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
     <string name="pref_restore_alternative">חלופה</string>
@@ -343,7 +343,7 @@
     <string name="pref_security_question_summary">מאפשר לך לבטל את הנעילה של האפליקציה, אם שכחת את הסיסמה.</string>
     <string name="pref_security_question_title">שאלת בטחון</string>
     <string name="pref_send_feedback_title">שלח משוב</string>
-    <string name="pref_share_target_summary">השאר ריק אם אתה רוצה לבחור בין אפליקציות מתאימות (דוא\"ל, Dropbox, Google Docs, ...), או לספק כתובת אתר באחת התוכניות הנתמכות.</string>
+    <string name="pref_share_target_summary">השאר ריק אם אתה רוצה לבחור בין אפליקציות מתאימות (דוא\"ל, Dropbox, Google Docs, ...), או לספק כתובת אתר באחת התוכניות הנתמכות</string>
     <string name="pref_share_target_title">העלה כתובת אתר</string>
     <string name="pref_shortcut_added">קיצור דרך נוסף למסך הבית</string>
     <string name="pref_shortcut_not_added">אין במסך הבית מקום זמין לקבלת קיצורי דרך.</string>
@@ -449,7 +449,7 @@
     </plurals>
     <string name="warning_delete_reconciled">מחיקת עסקאות שהושלמו תגרום לרשומות שלך להיות שונות מהצהרת הבנק.</string>
     <string name="warning_balance_account">השווה את הסכום הכולל שסומן cleared עם יתרת הסיום בהצהרת הבנק שלך. אם תמשיך, עסקאות מסומנות יסומנו reconciled.</string>
-    <string name="warning_password_protected">האפליקציה מוגנת בסיסמה</string>
+    <string name="warning_password_protected">האפליקציה מוגנת בסיסמה.</string>
     <string name="warning_widget_disabled">עליך להפעיל את הווידג\'ט בהגדרות האפליקציה.</string>
     <string name="warning_instantiate_template_from_widget_password_protected">הפעלה מהירה של תבניות מווידג\'ט זה פועלת רק אם אתה מאפשר הזנת נתונים מווידג\'טים ללא סיסמה בהגדרות האפליקציה.</string>
     <string name="warning_password_contrib">הגדרת שאלת אבטחה מאפשרת לך לבטל את נעילת האפליקציה, למקרה שתשכח את הסיסמה.</string>
@@ -542,7 +542,7 @@
     <string name="menu_parse">ביטוי</string>
     <string name="csv_import_field_mapped_more_than_once">%s משוייך יחותר מפעם אחת.</string>
     <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d רשומות לא ניתנות ליבוא..</string>
-    <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d רשומות נמחקו</string>
+    <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d רשומות נמחקו.</string>
     <string name="csv_import_subcategory_requires_category">אם אתה ממפה קטגוריית משנה, עליך גם למפות את הקטגוריה.</string>
     <string name="cvs_import_set_first_line_as_header">האם יש להתייחס לקו הראשון כאל שורת כותרת?</string>
     <string name="csv_import_delimiter_comma">פסיק</string>
@@ -553,7 +553,7 @@
     <string name="pref_custom_decimal_format_title">מבנה מספר</string>
     <string name="pref_custom_decimal_format_summary">אם אינך מרוצה מתבנית ברירת המחדל עבור האזור שלך, התאם אותו לצרכיך. השאר ריק כדי לשחזר את פורמט ברירת המחדל.</string>
     <string name="pref_auto_backup_title">גיבוי אוטומטי</string>
-    <string name="pref_auto_backup_summary">גיבוי יומי למסד נתונים בשעה שצוין (רק אם הנתונים השתנו)</string>
+    <string name="pref_auto_backup_summary">גיבוי יומי למסד נתונים בשעה שצוין (רק אם הנתונים השתנו).</string>
     <string name="pref_auto_backup_time_title">זמן גיבוי אוטומטי</string>
     <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">לאחר %d גיבויים אוטומטיים מוצלחים, גיבוי אוטומטי יופסק.</string>
     <string name="calendar_permission_required"><i>{app_name}</i> צרכה רשות לגשת ליומן שלך, על מנת ליצור תוכניות עבור עסקאות עתידיות חוזרות.</string>
@@ -622,7 +622,7 @@
     <string name="dialog_confirm_sync_link_local">נתונים מרוחקים עבור החשבון הזה יימחקו. ודא שאין התקנים אחרים מקושרים אליו.</string>
     <string name="dialog_confirm_sync_link_remote">נתונים מקומיים עבור החשבון הזה יימחקו.</string>
     <string name="warning_limited_trial">תכונה %1$s ניתנת לבדיקה עד %2$s.</string>
-    <string name="warning_trial_limit_reached">תקופת הזמן לבדיקת התכונה %s הסתיימה</string>
+    <string name="warning_trial_limit_reached">תקופת הזמן לבדיקת התכונה %s הסתיימה.</string>
     <string name="warning_synchronization_folder_usage">תיקייה זו משמשת לסנכרון נתונים בין התקנות של האפליקציה {app_name} במכשירים שונים. נא לא לשנות את התוכן שלו באופן ידני.</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">התיקייה שבחרת מסומנת לחשבון אחד של backend קיים. עליך לבחור את תיקיית האב כדי לעשות שימוש חוזר ב- backend זה.</string>
     <string name="select_unsynced_accounts">בחר חשבונות לסנכרון עם backend זה</string>
@@ -652,7 +652,7 @@
     <string name="sync_io_error_cannot_connect">לא ניתן להתחבר לסנכרון beckend.</string>
     <string name="sync_error_will_try_again_later">ינסה שוב מאוחר יותר.</string>
     <string name="sync_io_exception_reset_account_data">שגיאה בעת איפוס חשבון מרוחק.</string>
-    <string name="sync_success_reset_account_data">נתונים מרוחקים עבור החשבון %sנמחקו</string>
+    <string name="sync_success_reset_account_data">נתונים מרוחקים עבור החשבון %sנמחקו.</string>
     <string name="sync_io_exception_setup_remote_account">שגיאה בעת הגדרת חשבון מרוחק.</string>
     <string name="sync_io_exception_syncing">שגיאה בעת סינכרון השינויים עם השרת.</string>
     <string name="sync_io_exception_unlocking">שגיאה בעת הסרת נעילה מן backend מרוחק.</string>
@@ -721,7 +721,7 @@
     <string name="pref_protection_device_lock_screen_title">מסך נעילת מכשיר</string>
     <string name="pref_warning_only_one_protection">לפני שתוכל להשתמש בהגנה על ידי%1$s, עליך לבטל את ההגנה על ידי%2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">מסך נעילת המכשיר המאובטח לא הוגדר.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">גש להגדרות, בחר אבטחה,בחר נעילת מסך כדי להגדיר נעילת מסך</string>
+    <string name="warning_device_lock_screen_not_set_up_2">גש להגדרות, בחר אבטחה,בחר נעילת מסך כדי להגדיר נעילת מסך.</string>
     <string name="menu_history_show_balance">הצג את היתרה</string>
     <string name="menu_history_transfers">כלול העברות</string>
     <string name="menu_history">היסטוריה</string>
@@ -772,7 +772,7 @@
     <string name="navigation_drawer_accounts_title">נהל חשבונות</string>
     <string name="pref_sync_wifi_only_summary">סנכרן רק באמצעות  Wi-Fi</string>
     <string name="pref_sync_changes_immediately_summary">רשום אוטומטית שינויים מקומיים ל- backend</string>
-    <string name="wifi_not_connected">המכשיר אינו מחובר לרשת אלחוטית, הסנכרון הושהה</string>
+    <string name="wifi_not_connected">המכשיר אינו מחובר לרשת אלחוטית, הסנכרון הושהה.</string>
     <!-- title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project -->
     <string name="pref_translation_title">תרגום</string>
     <!-- Content description for accessibility on image that allows to collapse content  -->
@@ -793,7 +793,7 @@
     <string name="budget_table_header_spent">הוצאה</string>
     <string name="budget_table_header_remainder">תזכורת</string>
     <string name="budget_allocated_amount">סכום מוקצה</string>
-    <string name="budget_exceeded_error_1_1">הכול פרט ל-%sמהתקציב שלך הוקצה לקטגוריות אחרות</string>
+    <string name="budget_exceeded_error_1_1">הכול פרט ל-%sמהתקציב שלך הוקצה לקטגוריות אחרות.</string>
     <string name="budget_exceeded_error_1_2">כל התקציב שלך הוקצה לקטגוריות אחרות.</string>
     <string name="budget_exceeded_error_2">הגדל את הסכום המתוקצב, או הסר כסף מקטגוריות אחרות.</string>
     <string name="budget_under_allocated_error">%sכבר הוקצו לקטגוריות. אלא אם כן אתה מסיר כסף מהם, אתה חייב לפחות לתקצב סכום זה.
