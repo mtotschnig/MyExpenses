@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -12,8 +13,7 @@
   
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+ --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">帳戶</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">帳戶類型</string>
@@ -424,7 +424,7 @@
     <string name="warning_balance_account">請核對\"已入帳/已結算\"的交易總額與銀行對帳單期末結餘。如果繼續操作，\"已入帳/已結算\"的交易將被更改標記成\"已對帳\"。</string>
     <string name="warning_password_protected">應用程式受密碼保護。</string>
     <string name="warning_widget_disabled">您需要在應用程式的\"程式設定\"中啟用此小工具 widget。</string>
-    <string name="warning_instantiate_template_from_widget_password_protected">只有\"程式設定\"->\"保護設定\"->\"從小工具和捷徑輸入數據\"->\"無需密碼即可允許此操作\"的設定時，您才能從小工具 widget 上快速實例化範本。</string>
+    <string name="warning_instantiate_template_from_widget_password_protected">只有\"程式設定\"-&gt;\"保護設定\"-&gt;\"從小工具和捷徑輸入數據\"-&gt;\"無需密碼即可允許此操作\"的設定時，您才能從小工具 widget 上快速實例化範本。</string>
     <string name="warning_password_contrib">以防萬一您忘記了密碼，記得設置一個安全問題可讓您再次解鎖此應用程式。</string>
     <string name="warning_reset_account">如果繼續此操作，此帳戶的所有交易將從數據庫中刪除，並且無法還原。</string>
     <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
@@ -692,7 +692,7 @@
     <string name="pref_protection_device_lock_screen_title">採用裝置的螢幕鎖定功能</string>
     <string name="pref_warning_only_one_protection">使用%1$s保護之前，您必須透過%2$s關閉保護。</string>
     <string name="warning_device_lock_screen_not_set_up_1">尚未設定裝置的螢幕鎖定功能。</string>
-    <string name="warning_device_lock_screen_not_set_up_2">請到本機裝置的 \"設定\" -> \"安全性\" -> \"鎖定螢幕\" 裡去設定一個螢幕鎖定 </string>
+    <string name="warning_device_lock_screen_not_set_up_2">請到本機裝置的 \"設定\" -&gt; \"安全性\" -&gt; \"鎖定螢幕\" 裡去設定一個螢幕鎖定 </string>
     <string name="menu_history_show_balance">顯示收支結餘</string>
     <string name="menu_history_transfers">包括轉帳</string>
     <string name="menu_history">收支歷史紀錄</string>
@@ -742,7 +742,7 @@
     <string name="pref_sync_changes_immediately_summary">立即將本機變更的資料寫入後端</string>
     <string name="wifi_not_connected">裝置未連接到無線網路Wi-Fi。資料同步已被推遲。</string>
     <!-- title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project -->
-    <string name="pref_translation_title">優化翻譯</string>
+    <string name="pref_translation_title">翻譯</string>
     <!-- Content description for accessibility on image that allows to collapse content  -->
     <string name="content_description_collapse">收摺</string>
     <!-- Content description for accessibility on image that allows to expand content  -->
@@ -973,4 +973,4 @@
     <string name="menu_merge">合併</string>
     <!-- When user selects duplicate parties to be merged, he sees this prompt asking him to select which name should be selected for the merged party -->
     <string name="merge_parties_select">請選擇要合併的交易對象：</string>
-    </resources>
+</resources>
