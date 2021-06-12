@@ -58,7 +58,7 @@
     <string name="extended_key">ವಿಸ್ತೃತ ಕೀ</string>
     <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
     <string name="contrib_key_requires">%1$s ಅಗತ್ಯವಿದೆ.</string>
-    <string name="currency">currency</string>
+    <string name="currency">ಕರೆನ್ಸಿ</string>
     <string name="current_balance">ಪ್ರಸ್ತುತ ಬಾಕಿ</string>
     <string name="date">ದಿನಾಂಕ</string>
     <string name="date_format">ದಿನಾಂಕ ಸ್ವರೂಪ</string>
