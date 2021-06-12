@@ -824,7 +824,7 @@
     <string name="passphrase_for_synchronization">הזן ביטוי סיסמה, אם ברצונך להצפין נתוני סנכרון ב- backend זה.</string>
     <string name="sync_backend_is_encrypted">Backend מרחוק מוצפן. עליך לציין ביטוי סיסמה.</string>
     <string name="sync_backend_wrong_passphrase">Backend מרחוק נראה מוצפן עם ביטוי סיסמה שונה.</string>
-    <string name="sync_backend_is_not_encrypted">גיבוי מרחוק אינו מוצפן</string>
+    <string name="sync_backend_is_not_encrypted">גיבוי מרחוק אינו מוצפן.</string>
     <string name="warning_backup_protected">הארכיון יהיה מוגן על ידי ביטוי הסיסמה שלך.</string>
     <string name="dialog_title_backup_protected">גיבוי (מוצפן)</string>
     <string name="input_label_passphrase">ביטוי סיסמה</string>
@@ -881,7 +881,7 @@
     <string name="budget_filter_all_accounts">כל החשבונות</string>
     <string name="budget_form_label_filter">מסנן</string>
     <string name="dialog_title_warning_delete_budget">האם למחוק חשבון?</string>
-    <string name="warning_delete_budget">התקציב \"%1$s\" ימחק?</string>
+    <string name="warning_delete_budget">התקציב \"%1$s\" ימחק.</string>
     <string name="menu_edit_budget">ערוך תקציב</string>
     <string name="onboarding_privacy_title">הנתונים שלך נשארים בידיים שלך</string>
     <string name="onboarding_privacy_intro">הנתונים הכספיים שלך לא נשלחים לשום שרת, לא מופעל על ידינו ולא על ידי גורם שלישי כלשהו.</string>
@@ -910,7 +910,7 @@
     <string name="tags_create_or_select">צור או בחר תג</string>
     <string name="content_description_tags_confirm">אשר</string>
     <string name="tags">תגים</string>
-    <string name="pref_manage_tags_summary">הוסף, ערוך, מחק תגים</string>
+    <string name="pref_manage_tags_summary">הוסף, ערוך, מחק תגים.</string>
     <string name="dialog_title_warning_delete_tag">האם למחוק תג?</string>
     <string name="menu_edit_tag">ערוך תג</string>
     <!-- This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction -->
@@ -936,7 +936,7 @@
     <string name="pref_planner_manual_time_current">זמן היישום</string>
     <!-- Title in Settings screen, and title of dynamically loaded feature module -->
     <string name="title_scan_receipt_feature">סריקת קבלה</string>
-    <string name="feature_download_requested">מתבקשת  תכונה %s מחנות Play</string>
+    <string name="feature_download_requested">מתבקשת תכונה %s מחנות Play.</string>
     <string name="feature_downloaded">התכונה %s הותקנה.</string>
     <!-- If this mode is active, the action button will open the camera for scanning a receipt  -->
     <string name="menu_scan_mode">מצב סריקה</string>
@@ -976,7 +976,7 @@
     <string name="pref_clone_with_current_date_title">תאריך העסקאות המשובטות</string>
     <string name="template_default_action_without_amount_hint">יש לשמור תבנית ללא סכום עם פעולת ברירת המחדל \'ערוך\'</string>
     <string name="plan_automatic_without_amount_hint">אין לשמור תוכנית ללא סכום עם ביצוע תוכנית אוטומטית</string>
-    <string name="content_description_edit_plan">Edit plan in calendar app</string>
+    <string name="content_description_edit_plan"></string>
     <string name="reset_equivalent_amounts_success">סכומים שווים אופסו</string>
     <string name="menu_save_and_new_content_description">שמור את הנתונים, השאר את הטופס פתוח ליצירת עסקה חדשה עם אותם נתונים.</string>
     <!-- Title of a preference where user can select between Ml Kit and Tesseract as Engine for Optical character recognition -->
@@ -986,7 +986,7 @@
     <!-- %s is replaced with language -->
     <string name="tesseract_download_confirmation">האם אתה רוצה להוריד נתוני זיהוי טקסט עבור%s?</string>
     <!-- %s is replaced with language -->
-    <string name="download_completed">הורדת %s הסתיימה</string>
+    <string name="download_completed">הורדת %s הסתיימה.</string>
     <!-- %s is replaced with information on the engine or application used for running text recognition -->
     <string name="ocr_recognition_info">הפעלת זיהוי טקסט עם%s</string>
     <string name="ocr_download_info">יכולת זיהוי טקסט ניתנת על ידי יישום חיצוני.</string>
@@ -1018,5 +1018,5 @@
     <string name="auto_fill_focus">הגדר מיקוד על מקבל התשלום</string>
     <!-- This warning is shown when a user calls the Reset or Cancel commands on a scheduled transaction, for a date
      where the transaction has already been created.  -->
-    <string name="warning_plan_instance_delete">העסקה שנוצרה עבור התאריך שנבחר תימחק</string>
+    <string name="warning_plan_instance_delete">העסקה שנוצרה עבור התאריך שנבחר תימחק.</string>
 </resources>
