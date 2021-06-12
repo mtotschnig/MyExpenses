@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -12,8 +13,7 @@
   
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+ --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">账户</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">账户类型</string>
@@ -424,7 +424,7 @@
     <string name="warning_balance_account">请核对\"已入帐/已结算\"的交易总额与银行对帐单期末结余。如果继续操作，\"已入帐/已结算\"的交易将被更改标记成\"已对帐\"。</string>
     <string name="warning_password_protected">应用程序被密码保护中。</string>
     <string name="warning_widget_disabled">您需要在应用程序的\"程序设置\"中启用此小部件widget 。</string>
-    <string name="warning_instantiate_template_from_widget_password_protected">只有\"程序设置\"->\"保护设置\"->\"从小部件和快捷方式输入数据\"->\"无需密码即可允许此操作\"的设置时，您才能从小部件widget上快速实例化模板。</string>
+    <string name="warning_instantiate_template_from_widget_password_protected">只有\"程序设置\"-&gt;\"保护设置\"-&gt;\"从小部件和快捷方式输入数据\"-&gt;\"无需密码即可允许此操作\"的设置时，您才能从小部件widget上快速实例化模板。</string>
     <string name="warning_password_contrib">设置安全问题可让您解锁应用程序，以防万一您忘记密码。</string>
     <string name="warning_reset_account">如果继续，此账户的所有交易将从数据库中删除，并且无法还原。</string>
     <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
@@ -691,7 +691,7 @@
     <string name="pref_protection_device_lock_screen_title">使用设备的锁定屏幕功能</string>
     <string name="pref_warning_only_one_protection">您必须先通过%2$s关闭保护，然后才能使用%1$s进行保护。</string>
     <string name="warning_device_lock_screen_not_set_up_1">尚未设置设备的锁定屏幕功能。</string>
-    <string name="warning_device_lock_screen_not_set_up_2">请到设备的 \"设置\" -> \"安全\" -> \"屏幕锁\" 里去设置一个屏幕锁定</string>
+    <string name="warning_device_lock_screen_not_set_up_2">请到设备的 \"设置\" -&gt; \"安全\" -&gt; \"屏幕锁\" 里去设置一个屏幕锁定</string>
     <string name="menu_history_show_balance">显示收支结余</string>
     <string name="menu_history_transfers">包括转帐</string>
     <string name="menu_history">历史记录</string>
@@ -741,7 +741,7 @@
     <string name="pref_sync_changes_immediately_summary">立即将本地更改的数据写入后端</string>
     <string name="wifi_not_connected">设备未连接到无线网络Wi-Fi。同步被推迟。</string>
     <!-- title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project -->
-    <string name="pref_translation_title">优化翻译</string>
+    <string name="pref_translation_title">翻译</string>
     <!-- Content description for accessibility on image that allows to collapse content  -->
     <string name="content_description_collapse">折叠</string>
     <!-- Content description for accessibility on image that allows to expand content  -->
@@ -972,4 +972,4 @@
     <string name="menu_merge">合并</string>
     <!-- When user selects duplicate parties to be merged, he sees this prompt asking him to select which name should be selected for the merged party -->
     <string name="merge_parties_select">请选择要合并的交易对象：</string>
-    </resources>
+</resources>

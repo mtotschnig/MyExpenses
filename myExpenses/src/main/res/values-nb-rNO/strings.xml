@@ -344,4 +344,7 @@
     <string name="account_type_bank">Bankkonto</string>
     <string name="account_types">Kontotyper</string>
     <string name="account">Konto</string>
+    <string name="export_sdcard_success">Data eksportert til filen «%1$s»</string>
+    <string name="dialog_remind_later">Senere</string>
+    <string name="dialog_password_new_password_confirmation">Nytt passord (bekreftelse)</string>
 </resources>
