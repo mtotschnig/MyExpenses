@@ -449,8 +449,8 @@
     </plurals>
     <string name="warning_delete_reconciled">מחיקת עסקאות שהושלמו תגרום לרשומות שלך להיות שונות מהצהרת הבנק.</string>
     <string name="warning_balance_account">השווה את הסכום הכולל שסומן cleared עם יתרת הסיום בהצהרת הבנק שלך. אם תמשיך, עסקאות מסומנות יסומנו reconciled.</string>
-    <string name="warning_password_protected">האפליקציה מוגנת בסיסמה.</string>
-    <string name="warning_widget_disabled">עליך להפעיל את הווידג\'ט בהגדרות האפליקציה.</string>
+    <string name="warning_password_protected">היישויון מוגן בסיסמה.</string>
+    <string name="warning_widget_disabled">עליך להפעיל את הווידג׳ט בהגדרות היישומוו.</string>
     <string name="warning_instantiate_template_from_widget_password_protected">הפעלה מהירה של תבניות מווידג\'ט זה פועלת רק אם אתה מאפשר הזנת נתונים מווידג\'טים ללא סיסמה בהגדרות האפליקציה.</string>
     <string name="warning_password_contrib">הגדרת שאלת אבטחה מאפשרת לך לבטל את נעילת האפליקציה, למקרה שתשכח את הסיסמה.</string>
     <string name="warning_reset_account">אם תמשיך, כל העסקאות בחשבון זה יימחקו ממסד הנתונים ולא ניתן לשחזר אותן.</string>
