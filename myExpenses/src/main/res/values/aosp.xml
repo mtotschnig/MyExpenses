@@ -8,6 +8,7 @@
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="saving">Saving&#8230;</string>
+    <!-- prefDialogTitle_removal_action -->
     <string name="default_action">"Default action"</string>
     <!-- packages/apps/ContactsCommon/res/values/strings.xml -->
     <string name="full_name">Name</string>
@@ -21,7 +22,7 @@
     <string name="no_network">There is no network connection.</string>
     <!-- Settings name="encryption_continue_button" -->
     <string name="button_label_continue">Continue</string>
-    <!-- AndroidSDK/platforms/android-30/data/res -->
+    <!-- AndroidSDK/platforms/android-30/data/res autofill_this_form -->
     <string name="autofill">Autofill</string>
     <!--  packages/apps/SoundRecorder/res/values/strings.xml-->
     <string name="discard">Discard</string>
