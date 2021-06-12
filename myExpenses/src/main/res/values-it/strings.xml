@@ -983,7 +983,7 @@
     <!-- Title of a menu entry allowing to merge duplicate entries in the parties table (payee/payer) -->
     <string name="menu_merge">Raggruppa</string>
     <!-- When user selects duplicate parties to be merged, he sees this prompt asking him to select which name should be selected for the merged party -->
-    <string name="merge_parties_select">Seleziona il nuovo nome del beneficiario/pagante</string>
+    <string name="merge_parties_select">Seleziona il nuovo nome del beneficiario/pagante:</string>
     <!-- This is the label for a field for accounts. Active tags are automatically added to new transactions when an account is selected. -->
     <string name="active_tags">Tag attivi</string>
     <!-- This is used in the title of the email by which user requests an invoice for payment via bank transfer -->
