@@ -35,7 +35,7 @@
     <string name="already_defined">%1$sכבר מוגדר</string>
     <string name="amount">סכום</string>
     <string name="app_name">ההוצאות שלי</string>
-    <string name="backup_failure">גיבוי ל- \"%1$s\" נכשל</string>
+    <string name="backup_failure">גיבוי ל- \"%1$s\" נכשל.</string>
     <string name="backup_success">מסד הנתונים וההעדפות נכתבים בהצלחה ל- \"%1$s\".</string>
     <string name="category">קטגוריה</string>
     <string name="color">צבע</string>
