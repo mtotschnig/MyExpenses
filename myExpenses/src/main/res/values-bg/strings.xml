@@ -57,7 +57,7 @@
     <string name="contrib_key">ключ за Основен вариант</string>
     <string name="extended_key">ключ за Разширен вариант</string>
     <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
-    <string name="contrib_key_requires">Изисква %s.</string>
+    <string name="contrib_key_requires">Изисква %1$s.</string>
     <string name="currency">Валута</string>
     <string name="current_balance">Настоящ баланс</string>
     <string name="date">Дата</string>
@@ -122,7 +122,7 @@
     <string name="export_sdcard_failure">Неуспешен експорт на Разходи в „%1$s“: %2$s</string>
     <!-- 1$s is replaced with path to file -->
     <string name="export_sdcard_success">Успешен експорт на Разходи във файл „%1$s“</string>
-    <string name="external_storage_unavailable">Не е достъпна външна памет (sdcard)!</string>
+    <string name="external_storage_unavailable">Не е достъпна външна памет (sdcard)</string>
     <string name="feedback">Обратна връзка</string>
     <string name="ftp_uri_malformed">Неправилен URI %1$s</string>
     <string name="grisbi_import_categories_loading">Зареждане на категории от %1$s</string>
@@ -244,11 +244,11 @@
     <string name="parse_error_grisbi_version_not_supported">Неподдържана версия на Grisbi файл: %1$s</string>
     <string name="parse_error_no_data_found">Във файла няма данни за внасяне.</string>
     <string name="parse_error_other_exception">Възникна грешка: %1$s</string>
-    <string name="parse_error_parse_exception">Не мога да анализирам файлa.</string>
+    <string name="parse_error_parse_exception">Не мога да анализирам файлa</string>
     <string name="password_disabled_reenable">Защитатa с парола е прекратена. Може да я възстановите в Настройки.</string>
     <string name="password_lost">Загубена парола</string>
     <string name="password_not_valid">Невалидна парола. Опитайте отново!</string>
-    <string name="password_prompt">Въведете парола:</string>
+    <string name="password_prompt">Въведете парола</string>
     <string name="password_security_answer_not_valid">Грешно! Опитайте отново!</string>
     <string name="payee">Получател</string>
     <string name="payer">Платец</string>
@@ -366,8 +366,8 @@
     <string name="restore_backup_archive_not_valid">Архива %1$s не е валиден</string>
     <string name="restore_backup_file_not_found">Няма файл %1$s в архива „%2$s“</string>
     <string name="restore_preferences_success">Предпочитанията са възстановени успешно.</string>
-    <string name="restore_calendar_success" tools:ignore="PluralsCandidate">Успешно възстановени %d плана.</string>
-    <string name="save_transaction_and_new_success">Успешно запаметено.</string>
+    <string name="restore_calendar_success" tools:ignore="PluralsCandidate">Успешно възстановени %d плана</string>
+    <string name="save_transaction_and_new_success">Успешно запаметено</string>
     <string name="save_transaction_error">Неуспешен запис на превод от шаблон.</string>
     <plurals name="save_transaction_from_template_success">
         <item quantity="one">Успешно записана транзакция от шаблон.</item>
@@ -509,7 +509,7 @@
     <string name="image_deleted">Изображението е изтрито</string>
     <string name="transaction_deleted">Транзакцията е изтрита</string>
     <string name="account_deleted">Сметката е изтрита</string>
-    <string name="dialog_export_applied_to_filter">Ще се отчитат само транзакции, избрани с текущия филтър</string>
+    <string name="dialog_export_applied_to_filter">Ще се отчитат само транзакции, избрани с текущия филтър.</string>
     <string name="export_handle_deleted_create_helper">Създай помощна транзакция</string>
     <string name="export_handle_deleted_update_balance">Обнови началното салдо</string>
     <string name="file_name">Име на файл</string>
@@ -607,7 +607,7 @@
     <string name="warning_trial_limit_reached">Периодът за тестване на %s е изтекъл.</string>
     <string name="warning_synchronization_folder_usage">Тази папка се използва за синхронизиране на данните между инсталации на {app_name} на различни устройства. Моля, не променяйте ръчно нейното съдържание.</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Папката, която избрахте, съответства на сметка от съществуващо отдалечено хранилище. Трябва да изберете родителската й папка, за да използвате отново това отдалечено хранилище.</string>
-    <string name="select_unsynced_accounts">Изберете сметки, които да бъдат синхронизирани с това отдалечено хранилище.</string>
+    <string name="select_unsynced_accounts">Изберете сметки, които да бъдат синхронизирани с това отдалечено хранилище</string>
     <string name="link_account_success" tools:ignore="PluralsCandidate">%d сметки са избрани да бъдат синхронизирани с отдалеченото хранилище.</string>
     <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d сметки не могат да бъдат избрани за синхронизиране с отдалеченото хранилище.</string>
     <string name="link_account_failure_2">Сметка със същото име вече съществува на отдалеченото хранилище.</string>
@@ -621,13 +621,13 @@
     <string name="upgrade_now">Надстрой</string>
     <string name="pref_backup_cloud_title">Запазване в отдалечено хранилище</string>
     <string name="pref_backup_cloud_summary">Освен локално - в това устройство, архивният файл може да бъде запазен и в отдалечено хранилище.</string>
-    <string name="auto_backup_cloud_create_backend">Задаване на отдалечено хранилище за синхронизация от основния екран на менюто Настройки</string>
+    <string name="auto_backup_cloud_create_backend">Задаване на отдалечено хранилище за синхронизация от основния екран на менюто Настройки.</string>
     <string name="auto_backup_cloud_failure">Възникна грешка при опит за запис на архивен файл %1$s в отдалеченото хранилище %2$s:</string>
     <string name="auto_backup_cloud_success">Файлът архив %1$s е съхранен успешно в хранилище %2$s.</string>
     <string name="home_screen_shortcuts_nougate_info">Може да се добавят шорткъти чрез продължително натискане върху иконата на приложението на начален екран.</string>
     <string name="currency_symbol">Знак за валута</string>
     <string name="number_of_fraction_digits">Брой дробни символи (цифри след десетичния знак)</string>
-    <string name="warning_auto_backup_deactivated">Автоматичното архивиране е деактивирано. Може да го включите отново от Настройки след разрешаване на проблема (напр. изберете друга папка за записване на архивите)</string>
+    <string name="warning_auto_backup_deactivated">Автоматичното архивиране е деактивирано. Може да го включите отново от Настройки след разрешаване на проблема (напр. изберете друга папка за записване на архивите).</string>
     <string name="pref_tracking_summary">Разрешете ни да събираме анонимни данни относно начина на употреба, което ще ни помогне да планираме подобрения.</string>
     <string name="pref_tracking_title">Събиране на данни за употреба на приложението</string>
     <string name="sync_database_error">Възникна грешка в базата данни при синхронизиране.</string>
@@ -962,7 +962,7 @@
     <!-- %s is replaced with language -->
     <string name="download_completed">Изтеглянето на данните за %s завърши.</string>
     <!-- %s is replaced with information on the engine or application used for running text recognition -->
-    <string name="ocr_recognition_info">Разпознаваме текст с %s ...</string>
+    <string name="ocr_recognition_info">Разпознаваме текст с %s</string>
     <string name="ocr_download_info">Възможността за разпознаване на текст се осигурява от външно приложение.</string>
     <!-- %s is replaced with the title of the preference for setting a passphrase for backups (pref_security_export_passphrase_title) -->
     <string name="warning_unencrypted_backup">Въпреки че данните ви са защитени от неоторизиран достъп на това устройство, архивите се създават без криптиране, освен ако не зададете %s.</string>
