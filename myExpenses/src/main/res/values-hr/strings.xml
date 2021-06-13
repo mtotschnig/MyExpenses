@@ -52,7 +52,7 @@
     <string name="current_balance">Trenutačno stanje računa</string>
     <string name="date">Datum</string>
     <string name="date_format">Format datuma</string>
-    <string name="date_format_illegal">Nedozvoljeni format datuma</string>
+    <string name="date_format_illegal">Nedozvoljen format datuma</string>
     <string name="decimal_separator">Decimalni djelitelj</string>
     <string name="default_account_name">Proračunska knjiga</string>
     <string name="description">Opis</string>
@@ -443,4 +443,5 @@
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Mogućnosti</string>
     <string name="pref_translation_title">Prijevod</string>
+    <string name="number_format_illegal">Nedozvoljen format brojeva</string>
 </resources>
