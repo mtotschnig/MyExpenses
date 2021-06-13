@@ -1,200 +1,200 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-  <string name="help_menu_commands">Menu de commandes</string>
-  <string name="help_contextual_actions">Actions contextuelles</string>
-  <string name="help_contextual_actions_help">Le menu des actions contextuelles s\'affiche en appuyant longuement sur une entrée de la liste.</string>
-  <string name="help_form_fields">Champs de formulaire</string>
-  <string name="cab_delete_help_text">Supprimer les éléments sélectionnés.</string>
-  <string name="cab_edit_help_text">Modifier l\'élément sélectionné.</string>
-  <!--My Expenses Transaction list-->
-  <string name="help_MyExpenses_title">Liste des opérations</string>
-  <string name="help_MyExpenses_info">Cet écran répertorie toutes les opérations du compte courant. Utilisez le bouton d\'action pour ouvrir le formulaire de création d\'une nouvelle opération.</string>
-  <string name="help_MyExpenses_fab_long_press">Un appui long sur le bouton d\'action flottant ouvre un menu qui permet de préparer le formulaire pour un transfert, une operátion ventilée ou du revenu.</string>
-  <string name="popup_MyExpenses_toolbar_intro">En appuyant sur la barre d\'outils (libellé de compte ou solde actuel), un menu apparaît avec les entrées suivantes:</string>
-  <string name="popup_MyExpenses_toolbar_copy_text">Copiez le solde actuel dans le presse-papiers.</string>
-  <string name="popup_MyExpenses_toolbar_new_balance">Calculez la différence entre le solde actuel et une nouvelle valeur.</string>
-  <string name="help_MyExpenses_crStatus_info">L\'état de la transaction est indiquée par la couleur du rectangle : gris pour non-rapprochée, bleu pour pointé, vert pour rapprochée. Cliquer sur le rectangle modifie l\'état.</string>
-  <string name="menu_reset_help_text">Cette commande exporte toutes les opérations du compte courant vers un fichier sur la carte SD au format QIF ou CSV. Vous pouvez décider de supprimer les transactions exportées, dans ce cas, le solde d\'ouverture s\'ajuste automatiquement. Par ailleurs, si les opérations ne sont pas supprimées, elles seront marquése comme exportées. Mes dépenses peuvent partager le fichier immédiatement après l\'exportation via FTP, e-mail ou tout autre fichier, partage de photos, si vous le configurez pour ce faire dans les paramètres. Si un filtre de recherche est activé, seules les opérations définies par ce filtre seront prises en considération.</string>
-  <string name="menu_grouping_help_text">Les opérations peuvent être regroupées par jour, semaine, mois ou année. Pour chaque groupe, les totaux de revenus, dépenses et transferts sont calculés et affichés. Lorsque vous cliquez sur une entête de groupe, le groupe des opérations est réduit et seul l\'entête s\'affiche. Recliquez pour l\'élargir.</string>
-  <string name="menu_sort_direction_help_text">Les opérations peuvent être triées en direction ascendante (les plus anciennes en haut) ou descendante (les plus récentes en haut).</string>
-  <string name="menu_distribution_help_text">Visualisez la répartition de vos dépenses et entrées par catégorie. Vous pouvez aussi cliquer longuement sur un groupe pour inspecter une répartition spécifique.</string>
-  <string name="menu_budget_help_text">Gérez les budgets quotidiens, hebdomadaires, mensuels ou annuels du compte actuellement affiché.</string>
-  <string name="menu_history_help_text">Afficher un diagramme des flux de trésorerie: Comment vos dépenses et vos revenus ont évolué au fil des jours, semaines, mois ou années ?</string>
-  <string name="menu_manage_plans_help_text">Ouvre la liste des modèles et des échéances, où vous pouvez les appliquer, modifier ou supprimez et également définir d\'autres pour des opérations futures et répétitives.</string>
-  <string name="menu_balance_help_text">Cette commande ouvre une boîte de dialogue affichant le dernier solde rapproché et le solde pointé. Vous pouvez comparer ce dernier à votre relevé bancaire et marquer toutes les opérations pointées comme rapprochées. Facultativement, vous pourrez décider de supprimer ces opérations rapprochées.</string>
-  <string name="menu_print_help_text">Crée une vue imprimable des opérations affichées actuellement.</string>
-  <string name="menu_search_help_text">Cette entrée ouvre un sous-menu qui permet de définir des critères de recherche basés sur la catégorie, le montant, le commentaire, le statut, le tiers et le mode de paiement. Lorsqu\'un filtre de recherche est actif, vous pouvez simplement cliquer sur son entrée dans le sous-menu pour le désactiver.</string>
-  <string name="cab_create_template_from_transaction_help_text">Définir un nouveau modèle à partir de l\'opération sélectionnée. Vous indiquerez le titre du modèle.</string>
-  <string name="cab_clone_transaction_help_text">Les opérations sélectionnées seront clonées avec la date et l\'heure. Vous pourrez apporter des modifications avant d\'enregistrer la copie.</string>
-  <string name="cab_split_help_text">Vous pouvez ensuite modifier l\'opération pour créer des sous-opérations supplémentaires si nécessaire.</string>
-  <string name="menu_scan_mode_help_text">Activez le mode de numérisation afin de numériser rapidement les reçus.</string>
-  <string name="cab_link_help_text">Une dépense dans un compte peut être liée à un revenu dans un autre compte. Si les comptes ont la même devise, les deux transactions doivent avoir des montants identiques.</string>
-  <!--ManageMethods title is in keys-->
-  <string name="help_ManageMethods_info">Cet écran répertorie les méthodes de paiement prédéfinies (chèque, carte de crédit, dépôt, prélèvement) et vous permet d\'en définir de nouvelles. Utilisez le bouton d\'action pour ouvrir le formulaire pour la création d\'un nouveau type.</string>
-  <!--ManageParties title is in keys-->
-  <string name="help_ManageParties_manage_info">Cet écran répertorie les parties utilisées pour la complétion automatique du champ payeur/bénéficiaire.</string>
-  <string name="help_ManageParties_select_mapping_info">Sélectionnez un tiers en appuyant dessus.</string>
-  <string name="help_ManageParties_select_filter_info">Appuyez sur un tiers pour filtrer la liste des opérations. Appuyez longuement pour sélectionner plusieurs tiers.</string>
-  <string name="help_ManageParties_floating_action_button">Le bouton d\'action flottant permet d\'ajouter une nouvelle entrée.</string>
-  <string name="cab_merge_help_text">Si le même tiers apparaît plusieurs fois dans la liste avec différentes variantes orthographiques, vous pouvez les fusionner. Vous serez invité à sélectionner la variante à conserver.</string>
-  <!--ManageTemplates title is in keys-->
-  <string name="help_ManageTemplates_plans_title">Calendrier</string>
-  <string name="help_ManageTemplates_planner_title">Echéances à venir</string>
-  <string name="help_ManageTemplates_templates_info"><![CDATA[<img src=\"ic_menu_template\">Tandis que les modèles peuvent être issus des transactions par le biais de leur menu de contexte, ici vous pouvez créer de nouveaux modèles à partir de rien (pour les transactions ou transferts) en cliquant sur le bouton d\'action. En cliquant sur un modèle, vous créez une nouvelle instance pour elle.<br><img src=\"ic_event\">Une échéance est un modèle pour lequel vous avez créé un événement (unique ou répétitif) dans le calendrier de l\'échéancier. Cliquez sur un échéancier, pour ouvrir un calendrier, qui affichera ses instances passées et futures.]]></string>
-  <string name="help_ManageTemplates_planner_intro">Un appui long sur une instance ouverte démarre la sélection multiple. Taper sur le début ou la fin de la plage de dates permet d\'étendre la plage dans le passé ou le futur.</string>
-  <string name="help_ManageTemplates_plans_intro">Chaque date en surbrillance représente une instance de l\'échéancier.</string>
-  <string name="help_ManageTemplates_plans_info"><![CDATA[L\'état d\'une instance est indiqué par les icônes suivantes :<br><img src=\"ic_stat_open\">L\'opération n\'a pas encore été appliquée.<br><img src=\"ic_stat_applied\">L\'opération a été appliquée.<br><img src=\"ic_stat_cancelled\"> L\'opération a été annulée, c\'est-à-dire que vous avez décidé qu\'aucune ne sera créée à la date indiquée.]]></string>
-  <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Appliquer les modèles selectionnés et les sauvegarder immédiatement</string>
-  <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">Créer le modèle sélectionné et aller dans l\'édition pour le modifier avant de l\'enregistrer.</string>
-  <string name="cab_ManageTemplates_delete_help_text">Supprimer le modèle sélectionné et toute échéance associée.</string>
-  <string name="cab_ManageTemplates_edit_help_text">Modifier le modèle sélectionné et créer ou modifier une échéance associée.</string>
-  <string name="cab_ManageTemplates_plans_create_instance_save_help_text">Créer une opération à l’échéance sélectionnée et l\'enregistrer immédiatement.</string>
-  <string name="cab_ManageTemplates_plans_create_instance_edit_help_text">Créer une opération à l\'échéance sélectionnée et entrer en édition afin de la modifier avant enregistrement.</string>
-  <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">Indique que pour l\'échéance sélectionnée, aucune opération ne devra être créée. Si une opération a été créée pour l\'événement sélectionné, elle sera supprimée.</string>
-  <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Si une opération a été créée pour l\'événement sélectionné, elle sera supprimée, si elle a été signalée comme annulée, l\'indicateur sera enlevé.</string>
-  <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Modifier l\'opération qui a été créée pour l\'échéance choisie.</string>
-  <string name="menu_ManageTemplates_templates_sort_help_text">La liste des modèles peut être triée par titre (ordre alphabétique), par montant, par la fréquence des utilisations ou de la date de dernière création d\'une opération.
+    <string name="help_menu_commands">Menu de commandes</string>
+    <string name="help_contextual_actions">Actions contextuelles</string>
+    <string name="help_contextual_actions_help">Le menu des actions contextuelles s\'affiche en appuyant longuement sur une entrée de la liste.</string>
+    <string name="help_form_fields">Champs de formulaire</string>
+    <string name="cab_delete_help_text">Supprimer les éléments sélectionnés.</string>
+    <string name="cab_edit_help_text">Modifier l\'élément sélectionné.</string>
+    <!--My Expenses Transaction list-->
+    <string name="help_MyExpenses_title">Liste des opérations</string>
+    <string name="help_MyExpenses_info">Cet écran répertorie toutes les opérations du compte courant. Utilisez le bouton d\'action pour ouvrir le formulaire de création d\'une nouvelle opération.</string>
+    <string name="help_MyExpenses_fab_long_press">Un appui long sur le bouton d\'action flottant ouvre un menu qui permet de préparer le formulaire pour un transfert, une operátion ventilée ou du revenu.</string>
+    <string name="popup_MyExpenses_toolbar_intro">En appuyant sur la barre d\'outils (libellé de compte ou solde actuel), un menu apparaît avec les entrées suivantes :</string>
+    <string name="popup_MyExpenses_toolbar_copy_text">Copiez le solde actuel dans le presse-papiers.</string>
+    <string name="popup_MyExpenses_toolbar_new_balance">Calculez la différence entre le solde actuel et une nouvelle valeur.</string>
+    <string name="help_MyExpenses_crStatus_info">L\'état de la transaction est indiquée par la couleur du rectangle : gris pour non-rapprochée, bleu pour pointé, vert pour rapprochée. Cliquer sur le rectangle modifie l\'état.</string>
+    <string name="menu_reset_help_text">Cette commande exporte toutes les opérations du compte courant vers un fichier sur la carte SD au format QIF ou CSV. Vous pouvez décider de supprimer les transactions exportées, dans ce cas, le solde d\'ouverture s\'ajuste automatiquement. Par ailleurs, si les opérations ne sont pas supprimées, elles seront marquése comme exportées. Mes dépenses peuvent partager le fichier immédiatement après l\'exportation via FTP, courriel ou tout autre fichier, partage de photos, si vous le configurez pour ce faire dans les paramètres. Si un filtre de recherche est activé, seules les opérations définies par ce filtre seront prises en considération.</string>
+    <string name="menu_grouping_help_text">Les opérations peuvent être regroupées par jour, semaine, mois ou année. Pour chaque groupe, les totaux de revenus, dépenses et transferts sont calculés et affichés. Lorsque vous cliquez sur une entête de groupe, le groupe des opérations est réduit et seul l\'entête s\'affiche. Recliquez pour l\'élargir.</string>
+    <string name="menu_sort_direction_help_text">Les opérations peuvent être triées en direction ascendante (les plus anciennes en haut) ou descendante (les plus récentes en haut).</string>
+    <string name="menu_distribution_help_text">Visualisez la répartition de vos dépenses et entrées par catégorie. Vous pouvez aussi cliquer longuement sur un groupe pour inspecter une répartition spécifique.</string>
+    <string name="menu_budget_help_text">Gérez les budgets quotidiens, hebdomadaires, mensuels ou annuels du compte actuellement affiché.</string>
+    <string name="menu_history_help_text">Afficher un diagramme des flux de trésorerie : Comment vos dépenses et vos revenus ont évolué au fil des jours, semaines, mois ou années \?</string>
+    <string name="menu_manage_plans_help_text">Ouvre la liste des modèles et des échéances, où vous pouvez les appliquer, modifier ou supprimez et également définir d\'autres pour des opérations futures et répétitives.</string>
+    <string name="menu_balance_help_text">Cette commande ouvre une boîte de dialogue affichant le dernier solde rapproché et le solde pointé. Vous pouvez comparer ce dernier à votre relevé bancaire et marquer toutes les opérations pointées comme rapprochées. Facultativement, vous pourrez décider de supprimer ces opérations rapprochées.</string>
+    <string name="menu_print_help_text">Crée une vue imprimable des opérations affichées actuellement.</string>
+    <string name="menu_search_help_text">Cette entrée ouvre un sous-menu qui permet de définir des critères de recherche basés sur la catégorie, le montant, le commentaire, le statut, le tiers et le mode de paiement. Lorsqu\'un filtre de recherche est actif, vous pouvez simplement cliquer sur son entrée dans le sous-menu pour le désactiver.</string>
+    <string name="cab_create_template_from_transaction_help_text">Définir un nouveau modèle à partir de l\'opération sélectionnée. Vous indiquerez le titre du modèle.</string>
+    <string name="cab_clone_transaction_help_text">Les opérations sélectionnées seront clonées avec la date et l\'heure. Vous pourrez apporter des modifications avant d\'enregistrer la copie.</string>
+    <string name="cab_split_help_text">Vous pouvez ensuite modifier l\'opération pour créer des sous-opérations supplémentaires si nécessaire.</string>
+    <string name="menu_scan_mode_help_text">Activez le mode de numérisation afin de numériser rapidement les reçus.</string>
+    <string name="cab_link_help_text">Une dépense dans un compte peut être liée à un revenu dans un autre compte. Si les comptes ont la même devise, les deux transactions doivent avoir des montants identiques.</string>
+    <!--ManageMethods title is in keys-->
+    <string name="help_ManageMethods_info">Cet écran répertorie les méthodes de paiement prédéfinies (chèque, carte de crédit, dépôt, prélèvement) et vous permet d\'en définir de nouvelles. Utilisez le bouton d\'action pour ouvrir le formulaire pour la création d\'un nouveau type.</string>
+    <!--ManageParties title is in keys-->
+    <string name="help_ManageParties_manage_info">Cet écran répertorie les parties utilisées pour la complétion automatique du champ payeur/bénéficiaire.</string>
+    <string name="help_ManageParties_select_mapping_info">Sélectionnez un tiers en appuyant dessus.</string>
+    <string name="help_ManageParties_select_filter_info">Appuyez sur un tiers pour filtrer la liste des opérations. Appuyez longuement pour sélectionner plusieurs tiers.</string>
+    <string name="help_ManageParties_floating_action_button">Le bouton d\'action flottant permet d\'ajouter une nouvelle entrée.</string>
+    <string name="cab_merge_help_text">Si le même tiers apparaît plusieurs fois dans la liste avec différentes variantes orthographiques, vous pouvez les fusionner. Vous serez invité à sélectionner la variante à conserver.</string>
+    <!--ManageTemplates title is in keys-->
+    <string name="help_ManageTemplates_plans_title">Calendrier</string>
+    <string name="help_ManageTemplates_planner_title">Echéances à venir</string>
+    <string name="help_ManageTemplates_templates_info"><![CDATA[<img src=\"ic_menu_template\">Tandis que les modèles peuvent être issus des transactions par le biais de leur menu de contexte, ici vous pouvez créer de nouveaux modèles à partir de rien (pour les transactions ou transferts) en cliquant sur le bouton d\'action. En cliquant sur un modèle, vous créez une nouvelle instance pour elle.<br><img src=\"ic_event\">Une échéance est un modèle pour lequel vous avez créé un événement (unique ou répétitif) dans le calendrier de l\'échéancier. Cliquez sur un échéancier, pour ouvrir un calendrier, qui affichera ses instances passées et futures.]]></string>
+    <string name="help_ManageTemplates_planner_intro">Un appui long sur une instance ouverte démarre la sélection multiple. Taper sur le début ou la fin de la plage de dates permet d\'étendre la plage dans le passé ou le futur.</string>
+    <string name="help_ManageTemplates_plans_intro">Chaque date en surbrillance représente une instance de l\'échéancier.</string>
+    <string name="help_ManageTemplates_plans_info"><![CDATA[L\'état d\'une instance est indiqué par les icônes suivantes :<br><img src=\"ic_stat_open\">L\'opération n\'a pas encore été appliquée.<br><img src=\"ic_stat_applied\">L\'opération a été appliquée.<br><img src=\"ic_stat_cancelled\"> L\'opération a été annulée, c\'est-à-dire que vous avez décidé qu\'aucune ne sera créée à la date indiquée.]]></string>
+    <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Appliquer les modèles selectionnés et les sauvegarder immédiatement.</string>
+    <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">Créer le modèle sélectionné et aller dans l\'édition pour le modifier avant de l\'enregistrer.</string>
+    <string name="cab_ManageTemplates_delete_help_text">Supprimer le modèle sélectionné et toute échéance associée.</string>
+    <string name="cab_ManageTemplates_edit_help_text">Modifier le modèle sélectionné et créer ou modifier une échéance associée.</string>
+    <string name="cab_ManageTemplates_plans_create_instance_save_help_text">Créer une opération à l’échéance sélectionnée et l\'enregistrer immédiatement.</string>
+    <string name="cab_ManageTemplates_plans_create_instance_edit_help_text">Créer une opération à l\'échéance sélectionnée et entrer en édition afin de la modifier avant enregistrement.</string>
+    <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">Indique que pour l\'échéance sélectionnée, aucune opération ne devra être créée. Si une opération a été créée pour l\'événement sélectionné, elle sera supprimée.</string>
+    <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">Si une opération a été créée pour l\'événement sélectionné, elle sera supprimée, si elle a été signalée comme annulée, l\'indicateur sera enlevé.</string>
+    <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">Modifier l\'opération qui a été créée pour l\'échéance choisie.</string>
+    <string name="menu_ManageTemplates_templates_sort_help_text">La liste des modèles peut être triée par titre (ordre alphabétique), par montant, par la fréquence des utilisations ou de la date de dernière création d\'une opération.
 </string>
-  <!--ManageCategories_* titles are in keys-->
-  <string name="help_ManageCategories_distribution_info">Cet écran indique la répartition des dépenses et des revenus par catégories, pour toutes les opérations sur un compte ou un groupe spécifique. Si vous développez une catégorie principale dans la liste, le graphique à secteurs affiche la distribution de ses sous-catégories. Si vous sélectionnez une catégorie dans la liste, il sera mis en évidence dans le diagramme circulaire et vice versa. Appui long sur une catégorie pour afficher une liste agrégée des transactions sélectionnées.</string>
-  <string name="help_ManageCategories_select_mapping_info">En plus des actions que vous pouvez effectuer dans la gestion de catégories de l\'écran Préférences (créer, modifier, supprimer), sur cet écran, vous pouvez lier une opération à une catégorie sélectionnée. Vous sélectionnez une sous-catégorie pour la liaison de la transaction en cours en cliquant simplement dessus. Afin de lier une catégorie principale, vous devez appeler son menu contextuel.</string>
-  <string name="help_ManageCategories_select_filter_info">Sélectionnez la catégorie pour filtrer la liste des transactions. Afin de rechercher une catégorie principale, vous devez appeler le menu contextuel.</string>
-  <string name="help_ManageCategories_manage_info">Sur cet écran, vous créez, éditez et supprimez les catégories. Par défaut, les catégories sont triées par la fréquence d\'utilisation (l\'ordre alphabétique est utilisé comme critère secondaire). Ce fonctionnement vous permet un accès rapide aux catégories associées aux opérations les plus utilisées. Si vous préférez voir apparaître les catégories dans l\'ordre alphabétique, vous pouvez configurer ceci dans les paramètres. Cliquez sur une catégorie principale pour ouvrir ses sous-catégories. Dans le menu contextuel des catégories, vous pouvez ajouter de nouvelles sous-catégories, effacer ou modifier une catégorie principale. Les sous-catégories ont aussi leur menu contextuel afin de les effacer ou de les modifier.</string>
-  <string name="menu_ManageCategories_distribution_grouping_help_text">Définit le type de regroupement et affiche la distribution par jour, mois, semaine ou année.</string>
-  <string name="menu_back_help_text">Naviguer vers le groupe précédent. Peut aussi être fait par le glissement de gauche à droite.</string>
-  <string name="menu_forward_help_text">Naviguer vers le groupe suivant. Peut aussi être fait par le glissement de droite à gauche.</string>
-  <string name="cab_ManageCategories_create_sub_cat_help_text">Ouvre une fenêtre pour spécifier le titre d\'une nouvelle sous-catégorie en dessous de la catégorie sélectionnée.</string>
-  <string name="cab_ManageCategories_move_help_text">Les sous-catégories peuvent être déplacées vers une autre catégorie principale ou être transformées en catégories principales. Une catégorie principale seule peut être changée en sous-catégorie d\'une autre principale.</string>
-  <string name="cab_ManageCategories_select_help_text">Attribuer la catégorie sélectionnée à l\'opération en cours et revenir à celle-ci.</string>
-  <string name="menu_categories_setup_default_help_text">Un ensemble de catégories par défaut sera importé.</string>
-  <string name="menu_categories_export_help_text">Les catégories seront exportées vers le fichier QIF.</string>
-  <string name="menu_distribution_show_pie_char_help_text">Activer/désactiver la visibilité du graphique à secteurs.</string>
-  <string name="menu_distribution_aggreate_help_text">Par défaut, les sommes calculées incluent les dépenses et les revenus. Vous pouvez décider de les montrer séparément : un bouton dans la barre d\'action permet de basculer entre les dépenses et revenus.</string>
-  <string name="cab_ManageCategories_select_filter_select_help_text">La catégorie sélectionnée sera utilisée pour filtrer la liste des transactions.</string>
-  <string name="menu_ManageCategories_search_help_text">Seulement la catégorie principal et les sous catégories qui correspondent à votre requête seront affichées.</string>
-  <string name="menu_ManageCategories_sort_help_text">La liste des catégories peut être triée par titre (ordre alphabétique), par la fréquence d\'utilisation ou de la date de dernière création d\'une transaction.</string>
-  <string name="cab_ManageCategories_color_help_text">Vous pouvez attribuer une couleur aux catégories principales. Cette couleur sera utilisée pour représenter la catégorie dans les graphiques. Les sous-catégories utiliseront les nuances de la couleur de leur catégorie principale.</string>
-  <!--ExpenseEdit-->
-  <string name="help_ExpenseEdit_transaction_title">Formulaire pour opérations</string>
-  <string name="help_ExpenseEdit_transfer_title">Formulaire pour transferts</string>
-  <string name="help_ExpenseEdit_split_title">Formulaire pour opérations ventilées</string>
-  <string name="help_ExpenseEdit_splitPartCategory_title">Formulaire pour sous-opérations ventilées (catégorie)</string>
-  <string name="help_ExpenseEdit_splitPartTransfer_title">Formulaire pour sous-opérations ventilées (transfert)</string>
-  <string name="help_ExpenseEdit_templateCategory_title">Formulaire pour les modèles d\'opération</string>
-  <string name="help_ExpenseEdit_templateTransfer_title">Formulaire pour les modèles de transfert</string>
-  <string name="help_ExpenseEdit_templateSplit_title">Formulaire pour les modèles ventilés.</string>
-  <string name="help_ExpenseEdit_transaction_info">Utilisez ce formulaire pour entrer une nouvelle opération ou pour en modifier une existante. Utilisez le menu déroulant dans la barre d\'action pour basculer vers le formulaire d\'ajout d\'une nouvelle opération de transfert ou de ventilation.</string>
-  <string name="help_ExpenseEdit_templateCategory_info">Utilisez ce formulaire pour entrer un nouveau modèle ou pour en modifier un existant. Utilisez le menu déroulant de la barre d\'actions pour basculer entre les modèles pour les transactions, transferts et opérations ventilées.</string>
-  <string name="help_ExpenseEdit_split_info">Une opération ventilée est une opération unique, séparé en parties, où chaque partie peut être assignée à une catégorie différente, ou un transfert vers un autre compte.</string>
-  <string name="form_account_help_text">Sélectionnez le compte auquel appartient l\'opération.</string>
-  <string name="form_date_time_help_text">Entrez la date et l\'heure auxquelles l\'opération a eu lieu.</string>
-  <string name="form_date_time_help_text_configuration">Dans les paramètres, vous pouvez désactiver la saisie de l\'heure et activer la différenciation entre la date d\'enregistrement et la date de valeur.</string>
-  <string name="form_date_time_help_text_link"><![CDATA[Si la bascule <img src=\"ic_hchain\">/<img src=\"ic_hchain_broken\"> est dans son état lié, définir la date de valeur ou la date de réservation mettra également à jour l’autre date.]]></string>
-  <string name="form_payer_or_payee_help_text">Ce champ se souvient des valeurs que vous avez entré et vous les proposera à l\'avenir.</string>
-  <string name="form_amount_switch_help_text">Utilisez le commutateur pour basculer entre dépenses et revenus.</string>
-  <string name="form_calculator_help_text"><![CDATA[Le <img src=\"?calcIcon\"> bouton permettant d\'ouvrir la calculatrice.]]></string>
-  <string name="form_crstatus_help_text">Pour les opérations de comptes bancaires, vous pouvez modifier le statut de l\'opération à pointée. Pour mettre à rapproché, vous devez utiliser la commande \"Rapprocher le compte\" de la liste des transactions. Si le statut n\'est pas défini, l\'opération n\'est pas prise en compte.</string>
-  <string name="form_comment_help_text">Entrez une note sur l\'objet.</string>
-  <string name="form_method_help_text">Ce champ n\'est disponible que si le compte courant est d\'un type lié à n\'importe quel mode de paiement. Par défaut, uniquement les comptes bancaires sont liées aux moyens de paiement (chèque, carte de crédit, dépôt, prélèvement). Allez dans Paramètres -&gt; Gérer -&gt; modes de paiement pour configurer la liaison entre les types de compte et les modes de paiement. Lorsque vous sélectionnez une méthode qui est définie comme étant numérotée, un champ supplémentaire pour entrer un numéro de référence devient disponible.</string>
-  <string name="form_attach_image_help_text"><![CDATA[le <img src=\"android:ic_menu_camera\"> bouton vous permet d\'attacher une image (par exemple de la galerie ou l\'appareil photo) à l\'objet.]]></string>
-  <string name="form_default_action_help_text">Pour chaque modèle, vous pouvez configurer si un appui court dans la liste des modèles enregistrera l\'instance immédiatement ou entrera dans son formulaire d\'édition où vous pourrez la modifier avant de l\'enregistrer. Vous pouvez toujours accéder aux deux actions par un appui long.</string>
-  <string name="form_category_help_text">Ce bouton ouvre la liste des catégories, où vous pouvez sélectionner la catégorie dont vous souhaitez attribuer à l\'opération.</string>
-  <string name="form_split_parts_heading_help_text">Utilisez le bouton d\'action flottant pour la saisie des ventilations nécessaires. La différence entre la somme des parties et l\'opération est affichée au bas de l\'écran. Vous ne pourrez  enregistrer l\'opération ventilée que si le montant total est exactement attribué.</string>
-  <string name="form_ExpenseEdit_splitPartCategory_category_help_text">Sélectionnez une catégorie pour cette partie ventilée.</string>
-  <string name="form_transfer_from_account_transfer_to_account_help_text">Affecter les comptes desquels ou vers lesquels cet objet est transféré.</string>
-  <string name="form_exchange_rate_help_text">Vous pouvez spécifier le taux dans une des deux directions du transfert. Le taux inverse et le montant correspondant à la partie dépendante du taux de change seront calculés automatiquement.</string>
-  <string name="form_title_help_text">Entrez un titre qui identifie le modèle.</string>
-  <string name="form_plan_help_text">Quand vous créez une échéance pour un modèle, celui-ci est ajouté dans un calendrier privé géré par votre application Calendrier. Vous pouvez définir l\'échéance comme événement unique ou périodique : quotidien, hebdomadaire, mensuel ou annuel.</string>
-  <string name="form_plan_help_text_advanced">Après la sauvegarde de l\'échéance, vous pouvez configurer plus de types de récurrence en utilisant votre Calendrier.</string>
-  <string name="form_plan_help_text_mode">Une échéance peut être définie comme automatique ou manuelle. Quand une instance automatique de l\'échéancier se produit une opération est créée et une notification est envoyée. Quand l\'échéance est manuelle, vous recevez une notification qui vous laisse le choix d\'annuler,  modifier ou de créer le modèle.</string>
-  <string name="menu_save_help_text">Sauvegarder les données et fermer le formulaire.</string>
-  <string name="menu_save_and_new_help_text">Si cette case est cochée, après avoir enregistré les données, le formulaire est laissé ouvert pour créer une nouvelle transaction avec les mêmes données.</string>
-  <string name="menu_original_amount_help_text">Afficher un champ permettant de définir un montant supplémentaire. Par exemple, si vous payez avec votre carte de crédit dans une devise étrangère, vous pouvez  enregistrer le prix d\'origine en plus du montant débité de votre carte. Le montant d\'origine est ignoré pour le calcul des sommes.</string>
-  <string name="menu_equivalent_amount_help_text">Pour calculer une somme finale pour tous les comptes, les opérations de comptes en devises étrangères sont multipliées par le taux de change que vous avez défini pour le compte. Mais vous pouvez également remplacer ce montant implicitement calculé en définissant un montant équivalent pour chaque opération individuelle.</string>
-  <string name="menu_invert_transfer_help_text">Inverser la direction du transfert en inversant \"De\" et \"Vers\" le compte.</string>
-  <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">Si les devises des comptes  \"De\"  et  \"Vers\" sont différentes, vous ne spécifiez le montant que pour un seul des deux. L\'autre sera calculée lorsque vous créerez des instances du modèle.</string>
-  <string name="form_goal_or_limit_help_text">Ce champ permet de spécifier soit un objectif d\'économie positif, soit une limite de crédit négative. Dans les deux cas, sur la liste des comptes, un indicateur de progression visualise la distance entre le solde actuel et le but ou la limite.</string>
-  <string name="menu_templates_help_text">Ouvrez un menu qui répertorie tous les modèles permettant de les charger rapidement dans le formulaire.</string>
-  <string name="menu_create_template_from_transaction_help_text">Si cette case est cochée, l\'opération sera également enregistrée comme modèle. Vous pouvez définir son titre et éventuellement définir un plan d\'échéance automatique.</string>
-  <!--AccountEdit-->
-  <string name="help_AccountEdit_title">Formulaire pour comptes</string>
-  <string name="form_AccountEdit_label_help_text">L\'étiquette identifie le compte dans la liste des comptes.</string>
-  <string name="form_description_help_text">La description a un but uniquement informatif.</string>
-  <string name="form_AccountEdit_amount_switch_help_text">Utilisez le commutateur pour démarrer avec un solde négatif.</string>
-  <string name="form_currency_help_text">Sélectionnez une devise dans la liste de toutes les monnaies actuelles.</string>
-  <string name="form_AccountEdit_type_help_text">Vous pouvez définir le type d\'un compte comme étant espèces, banque, actifs, passifs, ou carte de crédit. Le type détermine les modes de paiement disponibles que vous pouvez configurer sous Paramètres -&gt; Gérer -&gt; modes de paiement.</string>
-  <string name="form_AccountEdit_type_help_text_reconciliation">La fonction de rapprochement est disponible pour tous sauf pour les comptes de caisse: il permet de pointer une opération, une fois que celle-ci est confirmée, et rapprocher le compte avec votre relevé bancaire par le biais de la commande \"Rapprocher le compte\".</string>
-  <string name="form_color_help_text">Sur la liste des opérations d\'un compte, sa couleur servira comme couleur d\'interface de l\'utilisateur principal.</string>
-  <string name="form_synchronization_help_text_select">Sélectionnez unutilitaire pour la synchronisation dans le cloud.</string>
-  <string name="form_synchronization_help_text_add">les backends peuvent être ajoutés à partir de l\'écran Paramètres.</string>
-  <string name="form_AccountEdit_active_tags_help_text">Vous pouvez associer une ou plusieurs étiquettes actives à chaque compte. Lorsque vous créez une nouvelle opération, elle est automatiquement identifiée avec celles-ci, en fonction du compte sélectionné.</string>
-  <string name="menu_exclude_from_totals_help_text">Si vous cochez cette option, ce compte ne sera pas inclus dans les totaux par devise.</string>
-  <!--MethodEdit-->
-  <string name="help_MethodEdit_title">Formulaire pour méthodes de paiement</string>
-  <string name="form_MethodEdit_label_help_text">L\'étiquette identifie la méthode lorsque vous lui attribuez une transaction.</string>
-  <string name="form_MethodEdit_type_help_text">Grâce au type de mode, vous déterminez si elle s\'applique pour les dépenses (débit), revenu (crédit) ou les deux (neutre).</string>
-  <string name="form_MethodEdit_numbered_help_text">Lorsqu\'un mode est numéroté, les opérations qui lui sont attribuées, auront un champ supplémentaire pour entrer un numéro de référence.</string>
-  <string name="form_MethodEdit_account_types_help_text">Sélectionnez les types de comptes pour lesquels ce mode est applicable.</string>
-  <!--ManageCurrencies-->
-  <string name="help_ManageCurrencies_info">Pour chaque devise, vous pouvez modifier le nombre de décimales utilisées. Par exemple, si pour l\'Euro, vous devez gérer 1/10ème de ¢, c\'est-à-dire 1/1000ème d\'Euro, vous définirez le nombre à trois. Les comptes existants qui utilisent la devise, seront actualisés avec ce nouveau paramètre.</string>
-  <string name="help_ManageCurrencies_symbol">Vous pouvez également configurer le symbole monétaire utilisé lors de la mise en forme de montants dans une devise spécifique.</string>
-  <string name="help_ManageCurrencies_new">Pour les devises personnalisées, vous définissez en outre une étiquette, affichée dans les menus permettant de sélectionner une devise, et un code alphabétique, composé par convention de trois caractères.</string>
-  <!--FolderBrowser title is in keys-->
-  <string name="help_FolderBrowser_info">Le dossier sélectionné ici sera utilisé pour stocker les sauvegardes et exportations. Naviguez dans la hiérarchie jusqu\'à ce que vous trouviez le dossier souhaité.</string>
-  <string name="menu_create_folder_help_text">Créer un nouveau dossier dans le dossier actuel.</string>
-  <string name="menu_FolderBrowser_select_help_text">Sélectionner le dossier actuel comme cible de stockage pour les sauvegardes et exportations.</string>
-  <string name="menu_up_help_text">Naviguer vers le dossier parent de celui-ci</string>
-  <!--StaleImages-->
-  <string name="help_ManageStaleImages_info">Cet écran vous permet de traiter des fichiers d\'images qui ont fait partie des transactions supprimées. Cliquez longuement sur une entrée afin de la supprimer ou la déplacer hors du dossier de stockage (éventuellement interne) vers un dossier de sauvegarde (Android/data/org.totschnig.mxexpenses/files/images.old) sur le stockage externe.</string>
-  <!--CSV Import-->
-  <string name="help_CsvImportActivity_info"><![CDATA[Après avoir sélectionné le fichier à importer, vous devez configurer la façon dont le fichier est encodé (UTF-8 ou ISO-8859-1), quel caractère sépare les champs (virgule, point-virgule ou tabulation), et comment les dates sont formatées. Les données peuvent être importées dans un compte existant ou un nouveau, où vous pourrez configurer sa devise et son type de compte.<br><br>Après avoir tapé le bouton d\'Analyse de la barre d\'action, les données vous seront présentées dans un tableau. Avant de déclencher l\'importation par le bouton dans la barre d\'action, vous pouvez sélectionner les lignes que vous souhaitez supprimer, et vous devez attribuer aux colonnes les champs de données respectifs.<br><br>Lorsque vous supprimez la première colonne, il vous est demandé si vous voulez qu\'elle soit traitée comme ligne d\'en-tête, auquel cas <i>Mes dépenses</i> va essayer d\'attribuer automatiquement les colonnes basées sur le contenu des cellules d\'en-tête. Il peut se souvenir de votre présentation basée sur la ligne d\'en-tête et la restaurer, lorsque, la prochaine fois, vous importerez un fichier avec ce même format d\'en-tête.]]></string>
-  <string name="help_ExportDialog_date_format"><![CDATA[Le texte peut être entouré de guillemets simples (\') pour éviter d\'être interprété. \'\' (deux apostrophes) représentent un guillemet simple. Consulter la page de<a href="http://developer.android.com/reference/java/text/SimpleDateFormat.html"> spécification</a> pour plus de détails, ou contacter support@myexpenses.mobi pour de l\'aide.]]></string>
-  <string name="help_NavigationDrawer_info">La liste des comptes vous permet de naviguer facilement entre les comptes en cliquant simplement sur une entrée.</string>
-  <string name="menu_create_account_help_text">Créer un nouveau compte. La version gratuite est limitée à cinq comptes.</string>
-  <string name="menu_NavigationDrawer_sort_help_text">La liste des comptes peut être triée par titre (ordre alphabétique), par la fréquence d\'utilisation, ou de la dernière fois qu\'une transaction a été créée pour elle.</string>
-  <string name="menu_NavigationDrawer_sort_help_text_custom">En cliquant sur \"Personnalisé\", vous pouvez configurer librement la position de chaque compte.</string>
-  <string name="menu_NavigationDrawer_grouping_help_text">La liste des comptes peut être affichée groupés par type de compte, de devises, ou dissociés.</string>
-  <string name="menu_NavigationDrawer_hidden_accounts_help_text">Affiche une liste de tous les comptes cachés, où ils peuvent à nouveau être affichés ou supprimés.</string>
-  <string name="cab_NavigationDrawer_hide_help_text">Supprimer le compte de la liste.</string>
-  <string name="cab_NavigationDrawer_close_reopen_help_text">En fermant un compte, vous pouvez empêcher toute modification (ajouts, suppressions, modifications) de ses données, tout en lui permettant d\'être prise en compte pour tous les calculs statistiques.</string>
-  <!--SyncBackends-->
-  <string name="help_ManageSyncBackends_intro">Mes Dépenses permet de configurer différents utilitaires de synchronisation pour chaque compte. Par exemple, vous pouvez synchroniser un compte avec un dossier partagé, alors que vous synchronisez un autre compte avec un dossier privé. Sur cet écran, vous ajoutez ou supprimez les utilitaires de synchronisation, démarrer ou arrêter la synchronisation avec les comptes disponibles à distance. Alors que la synchronisation se fait automatiquement de façon périodique, ici, vous pouvez également la déclencher manuellement. Faites attention à ce que Mes Dépenses a besoin d\'un contrôle total sur le dossier distant. Vous ne devrez pas utiliser d\'autres outils ou interfaces pour modifier son contenu, car cela conduira très probablement à des défaillances lors de la synchronisation.</string>
-  <string name="help_ManageSyncBackends_webdav">WebDAV: Si votre fournisseur de stockage supporte ce protocole, Mes dépenses sera en mesure de synchroniser les données avec celui-ci. Il suffit de fournir l\'URL d\'un dossier avec votre nom d\'utilisateur et mot de passe. Si vous utilisez https et votre serveur utilise un certificat auto-signé, vous serez en mesure de faire confiance explicitement.</string>
-  <string name="help_ManageSyncBackends_drive">Google Drive: Choisissez un dossier que vous possédez ou qui est partagé avec vous.</string>
-  <string name="help_ManageSyncBackends_encryption">Pour chaque backend, vous pouvez définir une phrase secrète différente pour le cryptage des données de synchronisation. Vous ne pouvez pas basculer un backend existant de non crypté à crypté. Dans ce cas, vous devez recréer un nouveau backend. Si vous utilisez la fonctionnalité de stockage de sauvegardes automatiques sur le backend de synchronisation, ces fichiers ne seront pas chiffrés avec la phrase secrète spécifique du backend. Au lieu de cela, vous pouvez définir une phrase secrète qui s\'applique à tous les fichiers de sauvegarde, dans la section Sécurité de l\'écran Paramètres.</string>
-  <string name="menu_create_sync_backend_help_text">Dans le sous-menu sélectionnez le type d\'utilitaire que vous souhaitez ajouter, et de fournissez les détails spécifiques à chacun.</string>
-  <string name="cab_sync_now_help_text">Déclencher une synchronisation immédiate avec le backend sélectionné.</string>
-  <string name="cab_remove_help_text">Supprimez l\'utilitaire sélectionné.</string>
-  <string name="cab_sync_download_help_text">Télécharger un compte qui est disponible sur l\'utilitaire. Un compte sera créé localement et être configuré pour la synchronisation avec celui-ci.</string>
-  <string name="cab_sync_link_help_text">Démarrer la synchronisation pour un compte qui existe à la fois localement et à distance. Vous devez décider si les données locales ou distantes doivent être conservés sur la première synchronisation.</string>
-  <string name="cab_sync_unlink_help_text">Le compte sélectionné ne sera plus synchronisé avec le backend</string>
-  <!--History-->
-  <string name="help_HistoryActivity_info">Cet écran affiche votre flux de trésorerie, la façon dont vos dépenses et vos revenus évoluent au fil des années,  mois, semaines ou jours.</string>
-  <string name="menu_HistoryActivity_grouping_help_text">Basculez entre le regroupement quotidien, hebdomadaire, mensuel ou annuel de vos données de flux de trésorerie.</string>
-  <string name="menu_HistoryActivity_history_show_balance_help_text">Basculer l\'affichage du solde.</string>
-  <string name="menu_HistoryActivity_history_transfers_help_text">Basculer, si les transferts doivent être traités comme un revenu ou une dépense régulière.</string>
-  <!--Budget-->
-  <string name="help_BudgetActivity_info" tools:ignore="UnusedResources">En définissant un budget, vous définissez un montant global que vous souhaitez dépenser au cours d\'une période donnée. Vous pouvez également affecter des montants pour des catégories et des sous-catégories. Vous surveillerez ensuite combien vous avez dépensé et combien il reste à dépenser.</string>
-  <string name="help_Budget_amount_click"> Vous pouvez modifier les montants budgétés en cliquant dessus.</string>
-  <string name="cab_show_transactions_help_text">Ouvre une boîte de dialogue répertoriant toutes les transactions associées à la catégorie sélectionnée dans le compte actuel.</string>
-  <string name="menu_BudgetActivity_back_forward_help_text">Comparez le budget aux dépenses des périodes passées et futures.</string>
-  <string name="menu_BudgetActivity_edit_help_text">Changer la définition du budget.</string>
-  <string name="menu_budget_aggregate_help_text">Par défaut, les sommes calculées incluent à la fois les dépenses et les revenus. Si vous désactivez cette option, les revenus sont ignorés, seules les dépenses sont prises en compte.</string>
-  <string name="menu_budget_allocated_only_help_text">En activant cette option, seules les catégories pour lesquelles un montant a été attribué sont affichées.</string>
-  <string name="menu_BudgetActivity_delete_help_text">Le budget actuellement affiché sera supprimé.</string>
-  <string name="help_ManageBudgets_title">Liste de tous les budgets</string>
-  <string name="help_ManageBudgets_info">Cet écran affiche un récapitulatif de tous les budgets que vous avez créés. Utilisez le bouton d\'action flottante pour en créer un nouveau. En cliquant sur une entrée, un seul budget est affiché.</string>
-  <string name="help_BudgetEdit_title">Formulaire pour les budgets</string>
-  <string name="help_BudgetEdit_info">Utilisez ce formulaire pour créer un nouveau budget ou pour éditer un budget existant.</string>
-  <string name="form_BudgetEdit_title_help_text">Le titre d\'un budget aide à l\'identifier dans la liste des budgets.</string>
-  <string name="form_BudgetEdit_amount_help_text">Combien d\'argent est disponible dans le cadre de ce budget?</string>
-  <string name="form_BudgetEdit_accounts_help_text">Un budget est soit limité à un seul compte; soit il couvre tous les comptes avec la même devise; ou il fait référence à l\'agrégat total dans toutes les devises.</string>
-  <string name="form_BudgetEdit_filter_help_text">Les budgets peuvent être filtrés par catégories, parties, méthodes ou états. Seules les opérations correspondantes à ces filtres sont prises en compte.</string>
-  <string name="form_BudgetEdit_type_help_text">Un budget est défini comme étant régulier (quotidien, mensuel, hebdomadaire, annuel) ou ponctuel. Pour les budgets uniques, vous spécifiez le début et la fin de sa durée. Un budget normal (non filtré) peut être défini en tant que défaut: cela signifie que la liste des opérations (si elle est configurée pour regrouper des données par jour, semaine, mois ou année) indiquera l\'avancement de ce budget pour chaque période.</string>
-  <string name="cab_remap_help_text">Utilisez les commandes de ce sous-menu si vous souhaitez modifier la propriété donnée (compte, catégorie, tiers ou mode de paiement) pour toutes les opérations sélectionnées.</string>
-  <!--Tags-->
-  <string name="form_tags_help_text">L\'icône + permet de sélectionner des étiquettes existantes et de créer de nouvelles étiquettes. L\'icône x sur chaque étiquette permet de supprimer la correspondance entre l\'opération et la balise.</string>
-  <string name="help_ManageTags_select_filter_info">Sélectionnez ou désélectionnez les étiquettes pour filtrer la liste des opérations en appuyant dessus. Utilisez le bouton d\'action flottant pour confirmer la sélection.</string>
-  <string name="help_ManageTags_manage_info">Créez de nouvelles étiquettes en les saisissant dans le champ de texte. L\'icône x sur chaque étiquettes la supprime de la base de données. Un appui long sur une étiquette permet de la modifier.</string>
-  <string name="help_ManageTags_select_mapping_info">Changez la sélection des étiquettes en appuyant dessus. Utilisez le bouton d\'action flottant pour confirmer la mise en correspondance.</string>
+    <!--ManageCategories_* titles are in keys-->
+    <string name="help_ManageCategories_distribution_info">Cet écran indique la répartition des dépenses et des revenus par catégories, pour toutes les opérations sur un compte ou un groupe spécifique. Si vous développez une catégorie principale dans la liste, le graphique à secteurs affiche la distribution de ses sous-catégories. Si vous sélectionnez une catégorie dans la liste, il sera mis en évidence dans le diagramme circulaire et vice versa. Appui long sur une catégorie pour afficher une liste agrégée des transactions sélectionnées.</string>
+    <string name="help_ManageCategories_select_mapping_info">En plus des actions que vous pouvez effectuer dans la gestion de catégories de l\'écran Préférences (créer, modifier, supprimer), sur cet écran, vous pouvez lier une opération à une catégorie sélectionnée. Vous sélectionnez une sous-catégorie pour la liaison de la transaction en cours en cliquant simplement dessus. Afin de lier une catégorie principale, vous devez appeler son menu contextuel.</string>
+    <string name="help_ManageCategories_select_filter_info">Sélectionnez la catégorie pour filtrer la liste des transactions. Afin de rechercher une catégorie principale, vous devez appeler le menu contextuel.</string>
+    <string name="help_ManageCategories_manage_info">Sur cet écran, vous créez, éditez et supprimez les catégories. Par défaut, les catégories sont triées par la fréquence d\'utilisation (l\'ordre alphabétique est utilisé comme critère secondaire). Ce fonctionnement vous permet un accès rapide aux catégories associées aux opérations les plus utilisées. Si vous préférez voir apparaître les catégories dans l\'ordre alphabétique, vous pouvez configurer ceci dans les paramètres. Cliquez sur une catégorie principale pour ouvrir ses sous-catégories. Dans le menu contextuel des catégories, vous pouvez ajouter de nouvelles sous-catégories, effacer ou modifier une catégorie principale. Les sous-catégories ont aussi leur menu contextuel afin de les effacer ou de les modifier.</string>
+    <string name="menu_ManageCategories_distribution_grouping_help_text">Définit le type de regroupement et affiche la distribution par jour, mois, semaine ou année.</string>
+    <string name="menu_back_help_text">Naviguer vers le groupe précédent. Peut aussi être fait par le glissement de gauche à droite.</string>
+    <string name="menu_forward_help_text">Naviguer vers le groupe suivant. Peut aussi être fait par le glissement de droite à gauche.</string>
+    <string name="cab_ManageCategories_create_sub_cat_help_text">Ouvre une fenêtre pour spécifier le titre d\'une nouvelle sous-catégorie en dessous de la catégorie sélectionnée.</string>
+    <string name="cab_ManageCategories_move_help_text">Les sous-catégories peuvent être déplacées vers une autre catégorie principale ou être transformées en catégories principales. Une catégorie principale seule peut être changée en sous-catégorie d\'une autre principale.</string>
+    <string name="cab_ManageCategories_select_help_text">Attribuer la catégorie sélectionnée à l\'opération en cours et revenir à celle-ci.</string>
+    <string name="menu_categories_setup_default_help_text">Un ensemble de catégories par défaut sera importé.</string>
+    <string name="menu_categories_export_help_text">Les catégories seront exportées vers le fichier QIF.</string>
+    <string name="menu_distribution_show_pie_char_help_text">Activer/désactiver la visibilité du graphique à secteurs.</string>
+    <string name="menu_distribution_aggreate_help_text">Par défaut, les sommes calculées incluent les dépenses et les revenus. Vous pouvez décider de les montrer séparément : un bouton dans la barre d\'action permet de basculer entre les dépenses et revenus.</string>
+    <string name="cab_ManageCategories_select_filter_select_help_text">La catégorie sélectionnée sera utilisée pour filtrer la liste des transactions.</string>
+    <string name="menu_ManageCategories_search_help_text">Seulement la catégorie principal et les sous catégories qui correspondent à votre requête seront affichées.</string>
+    <string name="menu_ManageCategories_sort_help_text">La liste des catégories peut être triée par titre (ordre alphabétique), par la fréquence d\'utilisation ou de la date de dernière création d\'une transaction.</string>
+    <string name="cab_ManageCategories_color_help_text">Vous pouvez attribuer une couleur aux catégories principales. Cette couleur sera utilisée pour représenter la catégorie dans les graphiques. Les sous-catégories utiliseront les nuances de la couleur de leur catégorie principale.</string>
+    <!--ExpenseEdit-->
+    <string name="help_ExpenseEdit_transaction_title">Formulaire pour opérations</string>
+    <string name="help_ExpenseEdit_transfer_title">Formulaire pour transferts</string>
+    <string name="help_ExpenseEdit_split_title">Formulaire pour opérations ventilées</string>
+    <string name="help_ExpenseEdit_splitPartCategory_title">Formulaire pour sous-opérations ventilées (catégorie)</string>
+    <string name="help_ExpenseEdit_splitPartTransfer_title">Formulaire pour sous-opérations ventilées (transfert)</string>
+    <string name="help_ExpenseEdit_templateCategory_title">Formulaire pour les modèles d\'opération</string>
+    <string name="help_ExpenseEdit_templateTransfer_title">Formulaire pour les modèles de transfert</string>
+    <string name="help_ExpenseEdit_templateSplit_title">Formulaire pour les modèles ventilés</string>
+    <string name="help_ExpenseEdit_transaction_info">Utilisez ce formulaire pour entrer une nouvelle opération ou pour en modifier une existante. Utilisez le menu déroulant dans la barre d\'action pour basculer vers le formulaire d\'ajout d\'une nouvelle opération de transfert ou de ventilation.</string>
+    <string name="help_ExpenseEdit_templateCategory_info">Utilisez ce formulaire pour entrer un nouveau modèle ou pour en modifier un existant. Utilisez le menu déroulant de la barre d\'actions pour basculer entre les modèles pour les transactions, transferts et opérations ventilées.</string>
+    <string name="help_ExpenseEdit_split_info">Une opération ventilée est une opération unique, séparé en parties, où chaque partie peut être assignée à une catégorie différente, ou un transfert vers un autre compte.</string>
+    <string name="form_account_help_text">Sélectionnez le compte auquel appartient l\'opération.</string>
+    <string name="form_date_time_help_text">Entrez la date et l\'heure auxquelles l\'opération a eu lieu.</string>
+    <string name="form_date_time_help_text_configuration">Dans les paramètres, vous pouvez désactiver la saisie de l\'heure et activer la différenciation entre la date d\'enregistrement et la date de valeur.</string>
+    <string name="form_date_time_help_text_link"><![CDATA[Si la bascule <img src=\"ic_hchain\">/<img src=\"ic_hchain_broken\"> est dans son état lié, définir la date de valeur ou la date de réservation mettra également à jour l’autre date.]]></string>
+    <string name="form_payer_or_payee_help_text">Ce champ se souvient des valeurs que vous avez entré et vous les proposera à l\'avenir.</string>
+    <string name="form_amount_switch_help_text">Utilisez le commutateur pour basculer entre dépenses et revenus.</string>
+    <string name="form_calculator_help_text"><![CDATA[Le <img src=\"?calcIcon\"> bouton permettant d\'ouvrir la calculatrice.]]></string>
+    <string name="form_crstatus_help_text">Pour les opérations de comptes bancaires, vous pouvez modifier le statut de l\'opération à pointée. Pour mettre à rapproché, vous devez utiliser la commande \"Rapprocher le compte\" de la liste des transactions. Si le statut n\'est pas défini, l\'opération n\'est pas prise en compte.</string>
+    <string name="form_comment_help_text">Entrez une note sur l\'objet.</string>
+    <string name="form_method_help_text">Ce champ n\'est disponible que si le compte courant est d\'un type lié à n\'importe quel mode de paiement. Par défaut, uniquement les comptes bancaires sont liées aux moyens de paiement (chèque, carte de crédit, dépôt, prélèvement). Allez dans Paramètres -&gt; Gérer -&gt; modes de paiement pour configurer la liaison entre les types de compte et les modes de paiement. Lorsque vous sélectionnez une méthode qui est définie comme étant numérotée, un champ supplémentaire pour entrer un numéro de référence devient disponible.</string>
+    <string name="form_attach_image_help_text"><![CDATA[le <img src=\"android:ic_menu_camera\"> bouton vous permet d\'attacher une image (par exemple de la galerie ou l\'appareil photo) à l\'objet.]]></string>
+    <string name="form_default_action_help_text">Pour chaque modèle, vous pouvez configurer si un appui court dans la liste des modèles enregistrera l\'instance immédiatement ou entrera dans son formulaire d\'édition où vous pourrez la modifier avant de l\'enregistrer. Vous pouvez toujours accéder aux deux actions par un appui long.</string>
+    <string name="form_category_help_text">Ce bouton ouvre la liste des catégories, où vous pouvez sélectionner la catégorie dont vous souhaitez attribuer à l\'opération.</string>
+    <string name="form_split_parts_heading_help_text">Utilisez le bouton d\'action flottant pour la saisie des ventilations nécessaires. La différence entre la somme des parties et l\'opération est affichée au bas de l\'écran. Vous ne pourrez  enregistrer l\'opération ventilée que si le montant total est exactement attribué.</string>
+    <string name="form_ExpenseEdit_splitPartCategory_category_help_text">Sélectionnez une catégorie pour cette partie ventilée.</string>
+    <string name="form_transfer_from_account_transfer_to_account_help_text">Affecter les comptes desquels ou vers lesquels cet objet est transféré.</string>
+    <string name="form_exchange_rate_help_text">Vous pouvez spécifier le taux dans une des deux directions du transfert. Le taux inverse et le montant correspondant à la partie dépendante du taux de change seront calculés automatiquement.</string>
+    <string name="form_title_help_text">Entrez un titre qui identifie le modèle.</string>
+    <string name="form_plan_help_text">Quand vous créez une échéance pour un modèle, celui-ci est ajouté dans un calendrier privé géré par votre application Calendrier. Vous pouvez définir l\'échéance comme événement unique ou périodique : quotidien, hebdomadaire, mensuel ou annuel.</string>
+    <string name="form_plan_help_text_advanced">Après la sauvegarde de l\'échéance, vous pouvez configurer plus de types de récurrence en utilisant votre Calendrier.</string>
+    <string name="form_plan_help_text_mode">Une échéance peut être définie comme automatique ou manuelle. Quand une instance automatique de l\'échéancier se produit une opération est créée et une notification est envoyée. Quand l\'échéance est manuelle, vous recevez une notification qui vous laisse le choix d\'annuler,  modifier ou de créer le modèle.</string>
+    <string name="menu_save_help_text">Sauvegarder les données et fermer le formulaire.</string>
+    <string name="menu_save_and_new_help_text">Si cette case est cochée, après avoir enregistré les données, le formulaire est laissé ouvert pour créer une nouvelle transaction avec les mêmes données.</string>
+    <string name="menu_original_amount_help_text">Afficher un champ permettant de définir un montant supplémentaire. Par exemple, si vous payez avec votre carte de crédit dans une devise étrangère, vous pouvez  enregistrer le prix d\'origine en plus du montant débité de votre carte. Le montant d\'origine est ignoré pour le calcul des sommes.</string>
+    <string name="menu_equivalent_amount_help_text">Pour calculer une somme finale pour tous les comptes, les opérations de comptes en devises étrangères sont multipliées par le taux de change que vous avez défini pour le compte. Mais vous pouvez également remplacer ce montant implicitement calculé en définissant un montant équivalent pour chaque opération individuelle.</string>
+    <string name="menu_invert_transfer_help_text">Inverser la direction du transfert en inversant \"De\" et \"Vers\" le compte.</string>
+    <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">Si les devises des comptes  \"De\"  et  \"Vers\" sont différentes, vous ne spécifiez le montant que pour un seul des deux. L\'autre sera calculée lorsque vous créerez des instances du modèle.</string>
+    <string name="form_goal_or_limit_help_text">Ce champ permet de spécifier soit un objectif d\'économie positif, soit une limite de crédit négative. Dans les deux cas, sur la liste des comptes, un indicateur de progression visualise la distance entre le solde actuel et le but ou la limite.</string>
+    <string name="menu_templates_help_text">Ouvrez un menu qui répertorie tous les modèles permettant de les charger rapidement dans le formulaire.</string>
+    <string name="menu_create_template_from_transaction_help_text">Si cette case est cochée, l\'opération sera également enregistrée comme modèle. Vous pouvez définir son titre et éventuellement définir un plan d\'échéance automatique.</string>
+    <!--AccountEdit-->
+    <string name="help_AccountEdit_title">Formulaire pour comptes</string>
+    <string name="form_AccountEdit_label_help_text">L\'étiquette identifie le compte dans la liste des comptes.</string>
+    <string name="form_description_help_text">La description a un but uniquement informatif.</string>
+    <string name="form_AccountEdit_amount_switch_help_text">Utilisez le commutateur pour démarrer avec un solde négatif.</string>
+    <string name="form_currency_help_text">Sélectionnez une devise dans la liste de toutes les monnaies actuelles.</string>
+    <string name="form_AccountEdit_type_help_text">Vous pouvez définir le type d\'un compte comme étant espèces, banque, actifs, passifs, ou carte de crédit. Le type détermine les modes de paiement disponibles que vous pouvez configurer sous Paramètres -&gt; Gérer -&gt; modes de paiement.</string>
+    <string name="form_AccountEdit_type_help_text_reconciliation">La fonction de rapprochement est disponible pour tous sauf pour les comptes de caisse : il permet de pointer une opération, une fois que celle-ci est confirmée, et rapprocher le compte avec votre relevé bancaire par le biais de la commande « Rapprocher le compte ».</string>
+    <string name="form_color_help_text">Sur la liste des opérations d\'un compte, sa couleur servira comme couleur d\'interface de l\'utilisateur principal.</string>
+    <string name="form_synchronization_help_text_select">Sélectionnez unutilitaire pour la synchronisation dans le cloud.</string>
+    <string name="form_synchronization_help_text_add">les backends peuvent être ajoutés à partir de l\'écran Paramètres.</string>
+    <string name="form_AccountEdit_active_tags_help_text">Vous pouvez associer une ou plusieurs étiquettes actives à chaque compte. Lorsque vous créez une nouvelle opération, elle est automatiquement identifiée avec celles-ci, en fonction du compte sélectionné.</string>
+    <string name="menu_exclude_from_totals_help_text">Si vous cochez cette option, ce compte ne sera pas inclus dans les totaux par devise.</string>
+    <!--MethodEdit-->
+    <string name="help_MethodEdit_title">Formulaire pour méthodes de paiement</string>
+    <string name="form_MethodEdit_label_help_text">L\'étiquette identifie la méthode lorsque vous lui attribuez une transaction.</string>
+    <string name="form_MethodEdit_type_help_text">Grâce au type de mode, vous déterminez si elle s\'applique pour les dépenses (débit), revenu (crédit) ou les deux (neutre).</string>
+    <string name="form_MethodEdit_numbered_help_text">Lorsqu\'un mode est numéroté, les opérations qui lui sont attribuées, auront un champ supplémentaire pour entrer un numéro de référence.</string>
+    <string name="form_MethodEdit_account_types_help_text">Sélectionnez les types de comptes pour lesquels ce mode est applicable.</string>
+    <!--ManageCurrencies-->
+    <string name="help_ManageCurrencies_info">Pour chaque devise, vous pouvez modifier le nombre de décimales utilisées. Par exemple, si pour l\'Euro, vous devez gérer 1/10ème de ¢, c\'est-à-dire 1/1000ème d\'Euro, vous définirez le nombre à trois. Les comptes existants qui utilisent la devise, seront actualisés avec ce nouveau paramètre.</string>
+    <string name="help_ManageCurrencies_symbol">Vous pouvez également configurer le symbole monétaire utilisé lors de la mise en forme de montants dans une devise spécifique.</string>
+    <string name="help_ManageCurrencies_new">Pour les devises personnalisées, vous définissez en outre une étiquette, affichée dans les menus permettant de sélectionner une devise, et un code alphabétique, composé par convention de trois caractères.</string>
+    <!--FolderBrowser title is in keys-->
+    <string name="help_FolderBrowser_info">Le dossier sélectionné ici sera utilisé pour stocker les sauvegardes et exportations. Naviguez dans la hiérarchie jusqu\'à ce que vous trouviez le dossier souhaité.</string>
+    <string name="menu_create_folder_help_text">Créer un nouveau dossier dans le dossier actuel.</string>
+    <string name="menu_FolderBrowser_select_help_text">Sélectionner le dossier actuel comme cible de stockage pour les sauvegardes et exportations.</string>
+    <string name="menu_up_help_text">Naviguer vers le dossier parent de celui-ci.</string>
+    <!--StaleImages-->
+    <string name="help_ManageStaleImages_info">Cet écran vous permet de traiter des fichiers d\'images qui ont fait partie des transactions supprimées. Cliquez longuement sur une entrée afin de la supprimer ou la déplacer hors du dossier de stockage (éventuellement interne) vers un dossier de sauvegarde (Android/data/org.totschnig.mxexpenses/files/images.old) sur le stockage externe.</string>
+    <!--CSV Import-->
+    <string name="help_CsvImportActivity_info"><![CDATA[Après avoir sélectionné le fichier à importer, vous devez configurer la façon dont le fichier est encodé (UTF-8 ou ISO-8859-1), quel caractère sépare les champs (virgule, point-virgule ou tabulation), et comment les dates sont formatées. Les données peuvent être importées dans un compte existant ou un nouveau, où vous pourrez configurer sa devise et son type de compte.<br><br>Après avoir tapé le bouton d\'Analyse de la barre d\'action, les données vous seront présentées dans un tableau. Avant de déclencher l\'importation par le bouton dans la barre d\'action, vous pouvez sélectionner les lignes que vous souhaitez supprimer, et vous devez attribuer aux colonnes les champs de données respectifs.<br><br>Lorsque vous supprimez la première colonne, il vous est demandé si vous voulez qu\'elle soit traitée comme ligne d\'en-tête, auquel cas <i>Mes dépenses</i> va essayer d\'attribuer automatiquement les colonnes basées sur le contenu des cellules d\'en-tête. Il peut se souvenir de votre présentation basée sur la ligne d\'en-tête et la restaurer, lorsque, la prochaine fois, vous importerez un fichier avec ce même format d\'en-tête.]]></string>
+    <string name="help_ExportDialog_date_format"><![CDATA[Le texte peut être entouré de guillemets simples (\') pour éviter d\'être interprété. \'\' (deux apostrophes) représentent un guillemet simple. Consulter la page de<a href="http://developer.android.com/reference/java/text/SimpleDateFormat.html"> spécification</a> pour plus de détails, ou contacter support@myexpenses.mobi pour de l\'aide.]]></string>
+    <string name="help_NavigationDrawer_info">La liste des comptes vous permet de naviguer facilement entre les comptes en cliquant simplement sur une entrée.</string>
+    <string name="menu_create_account_help_text">Créer un nouveau compte. La version gratuite est limitée à cinq comptes.</string>
+    <string name="menu_NavigationDrawer_sort_help_text">La liste des comptes peut être triée par titre (ordre alphabétique), par la fréquence d\'utilisation, ou de la dernière fois qu\'une transaction a été créée pour elle.</string>
+    <string name="menu_NavigationDrawer_sort_help_text_custom">En cliquant sur \"Personnalisé\", vous pouvez configurer librement la position de chaque compte.</string>
+    <string name="menu_NavigationDrawer_grouping_help_text">La liste des comptes peut être affichée groupés par type de compte, de devises, ou dissociés.</string>
+    <string name="menu_NavigationDrawer_hidden_accounts_help_text">Affiche une liste de tous les comptes cachés, où ils peuvent à nouveau être affichés ou supprimés.</string>
+    <string name="cab_NavigationDrawer_hide_help_text">Supprimer le compte de la liste.</string>
+    <string name="cab_NavigationDrawer_close_reopen_help_text">En fermant un compte, vous pouvez empêcher toute modification (ajouts, suppressions, modifications) de ses données, tout en lui permettant d\'être prise en compte pour tous les calculs statistiques.</string>
+    <!--SyncBackends-->
+    <string name="help_ManageSyncBackends_intro">Mes Dépenses permet de configurer différents utilitaires de synchronisation pour chaque compte. Par exemple, vous pouvez synchroniser un compte avec un dossier partagé, alors que vous synchronisez un autre compte avec un dossier privé. Sur cet écran, vous ajoutez ou supprimez les utilitaires de synchronisation, démarrer ou arrêter la synchronisation avec les comptes disponibles à distance. Alors que la synchronisation se fait automatiquement de façon périodique, ici, vous pouvez également la déclencher manuellement. Faites attention à ce que Mes Dépenses a besoin d\'un contrôle total sur le dossier distant. Vous ne devrez pas utiliser d\'autres outils ou interfaces pour modifier son contenu, car cela conduira très probablement à des défaillances lors de la synchronisation.</string>
+    <string name="help_ManageSyncBackends_webdav">WebDAV : Si votre fournisseur de stockage supporte ce protocole, Mes dépenses sera en mesure de synchroniser les données avec celui-ci. Il suffit de fournir l\'URL d\'un dossier avec votre nom d\'utilisateur et mot de passe. Si vous utilisez https et votre serveur utilise un certificat auto-signé, vous serez en mesure de faire confiance explicitement.</string>
+    <string name="help_ManageSyncBackends_drive">Google Drive : choisissez un dossier que vous possédez ou qui est partagé avec vous.</string>
+    <string name="help_ManageSyncBackends_encryption">Pour chaque backend, vous pouvez définir une phrase secrète différente pour le cryptage des données de synchronisation. Vous ne pouvez pas basculer un backend existant de non crypté à crypté. Dans ce cas, vous devez recréer un nouveau backend. Si vous utilisez la fonctionnalité de stockage de sauvegardes automatiques sur le backend de synchronisation, ces fichiers ne seront pas chiffrés avec la phrase secrète spécifique du backend. Au lieu de cela, vous pouvez définir une phrase secrète qui s\'applique à tous les fichiers de sauvegarde, dans la section Sécurité de l\'écran Paramètres.</string>
+    <string name="menu_create_sync_backend_help_text">Dans le sous-menu sélectionnez le type d\'utilitaire que vous souhaitez ajouter, et de fournissez les détails spécifiques à chacun.</string>
+    <string name="cab_sync_now_help_text">Déclencher une synchronisation immédiate avec le backend sélectionné.</string>
+    <string name="cab_remove_help_text">Supprimez l\'utilitaire sélectionné.</string>
+    <string name="cab_sync_download_help_text">Télécharger un compte qui est disponible sur l\'utilitaire. Un compte sera créé localement et être configuré pour la synchronisation avec celui-ci.</string>
+    <string name="cab_sync_link_help_text">Démarrer la synchronisation pour un compte qui existe à la fois localement et à distance. Vous devez décider si les données locales ou distantes doivent être conservés sur la première synchronisation.</string>
+    <string name="cab_sync_unlink_help_text">Le compte sélectionné ne sera plus synchronisé avec le backend</string>
+    <!--History-->
+    <string name="help_HistoryActivity_info">Cet écran affiche votre flux de trésorerie, la façon dont vos dépenses et vos revenus évoluent au fil des années,  mois, semaines ou jours.</string>
+    <string name="menu_HistoryActivity_grouping_help_text">Basculez entre le regroupement quotidien, hebdomadaire, mensuel ou annuel de vos données de flux de trésorerie.</string>
+    <string name="menu_HistoryActivity_history_show_balance_help_text">Basculer l\'affichage du solde.</string>
+    <string name="menu_HistoryActivity_history_transfers_help_text">Basculer, si les transferts doivent être traités comme un revenu ou une dépense régulière.</string>
+    <!--Budget-->
+    <string name="help_BudgetActivity_info" tools:ignore="UnusedResources">En définissant un budget, vous définissez un montant global que vous souhaitez dépenser au cours d\'une période donnée. Vous pouvez également affecter des montants pour des catégories et des sous-catégories. Vous surveillerez ensuite combien vous avez dépensé et combien il reste à dépenser.</string>
+    <string name="help_Budget_amount_click"> Vous pouvez modifier les montants budgétés en cliquant dessus.</string>
+    <string name="cab_show_transactions_help_text">Ouvre une boîte de dialogue répertoriant toutes les transactions associées à la catégorie sélectionnée dans le compte actuel.</string>
+    <string name="menu_BudgetActivity_back_forward_help_text">Comparez le budget aux dépenses des périodes passées et futures.</string>
+    <string name="menu_BudgetActivity_edit_help_text">Changer la définition du budget.</string>
+    <string name="menu_budget_aggregate_help_text">Par défaut, les sommes calculées incluent à la fois les dépenses et les revenus. Si vous désactivez cette option, les revenus sont ignorés, seules les dépenses sont prises en compte.</string>
+    <string name="menu_budget_allocated_only_help_text">En activant cette option, seules les catégories pour lesquelles un montant a été attribué sont affichées.</string>
+    <string name="menu_BudgetActivity_delete_help_text">Le budget actuellement affiché sera supprimé.</string>
+    <string name="help_ManageBudgets_title">Liste de tous les budgets</string>
+    <string name="help_ManageBudgets_info">Cet écran affiche un récapitulatif de tous les budgets que vous avez créés. Utilisez le bouton d\'action flottante pour en créer un nouveau. En cliquant sur une entrée, un seul budget est affiché.</string>
+    <string name="help_BudgetEdit_title">Formulaire pour les budgets</string>
+    <string name="help_BudgetEdit_info">Utilisez ce formulaire pour créer un nouveau budget ou pour éditer un budget existant.</string>
+    <string name="form_BudgetEdit_title_help_text">Le titre d\'un budget aide à l\'identifier dans la liste des budgets.</string>
+    <string name="form_BudgetEdit_amount_help_text">Combien d\'argent est disponible dans le cadre de ce budget.</string>
+    <string name="form_BudgetEdit_accounts_help_text">Un budget est soit limité à un seul compte ; soit il couvre tous les comptes avec la même devise ; ou il fait référence à l\'agrégat total dans toutes les devises.</string>
+    <string name="form_BudgetEdit_filter_help_text">Les budgets peuvent être filtrés par catégories, parties, méthodes ou états. Seules les opérations correspondantes à ces filtres sont prises en compte.</string>
+    <string name="form_BudgetEdit_type_help_text">Un budget est défini comme étant régulier (quotidien, mensuel, hebdomadaire, annuel) ou ponctuel. Pour les budgets uniques, vous spécifiez le début et la fin de sa durée. Un budget normal (non filtré) peut être défini en tant que défaut : ceci signifie que la liste des opérations (si elle est configurée pour regrouper des données par jour, semaine, mois ou année) indiquera l\'avancement de ce budget pour chaque période.</string>
+    <string name="cab_remap_help_text">Utilisez les commandes de ce sous-menu si vous souhaitez modifier la propriété donnée (compte, catégorie, tiers ou mode de paiement) pour toutes les opérations sélectionnées.</string>
+    <!--Tags-->
+    <string name="form_tags_help_text">L\'icône + permet de sélectionner des étiquettes existantes et de créer de nouvelles étiquettes. L\'icône x sur chaque étiquette permet de supprimer la correspondance entre l\'opération et la balise.</string>
+    <string name="help_ManageTags_select_filter_info">Sélectionnez ou désélectionnez les étiquettes pour filtrer la liste des opérations en appuyant dessus. Utilisez le bouton d\'action flottant pour confirmer la sélection.</string>
+    <string name="help_ManageTags_manage_info">Créez de nouvelles étiquettes en les saisissant dans le champ de texte. L\'icône x sur chaque étiquettes la supprime de la base de données. Un appui long sur une étiquette permet de la modifier.</string>
+    <string name="help_ManageTags_select_mapping_info">Changez la sélection des étiquettes en appuyant dessus. Utilisez le bouton d\'action flottant pour confirmer la mise en correspondance.</string>
 </resources>
