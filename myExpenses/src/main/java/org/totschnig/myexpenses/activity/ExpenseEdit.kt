@@ -380,11 +380,11 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManag
     }
 
     private fun setupObservers(fromSavedState: Boolean) {
-        loadCurrencies()
         loadAccounts(fromSavedState)
         loadTemplates()
         linkInputsWithLabels()
         loadTags()
+        loadCurrencies()
     }
 
     private fun loadTags() {

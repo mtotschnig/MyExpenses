@@ -77,7 +77,7 @@ import timber.log.Timber;
 
 import static org.totschnig.myexpenses.model.AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE;
 import static org.totschnig.myexpenses.model.AggregateAccount.GROUPING_AGGREGATE;
-import static org.totschnig.myexpenses.provider.BaseTransactionProviderKt.CURRENCIES_USAGES;
+import static org.totschnig.myexpenses.provider.BaseTransactionProviderKt.CURRENCIES_USAGES_TABLE_EXPRESSION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import static org.totschnig.myexpenses.provider.DbUtils.suggestNewCategoryColor;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.groupByForPaymentMethodQuery;
@@ -914,10 +914,10 @@ public class TransactionProvider extends BaseTransactionProvider {
       case CURRENCIES:
         if (projection == null) {
           projection = new String[] {
-              KEY_ROWID, KEY_CODE, KEY_GROUPING, KEY_LABEL, CURRENCIES_USAGES
+              KEY_ROWID, KEY_CODE, KEY_GROUPING, KEY_LABEL, KEY_USAGES
           };
         }
-        qb.setTables(TABLE_CURRENCIES);
+        qb.setTables(CURRENCIES_USAGES_TABLE_EXPRESSION);
         break;
       case DUAL:
         qb.setTables("sqlite_master");
