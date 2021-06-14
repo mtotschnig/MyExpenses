@@ -1206,7 +1206,7 @@ public class Transaction extends Model implements ITransaction {
         return false;
     } else if (!getComment().equals(other.getComment()))
       return false;
-    if (getDate() != other.getDate())
+    if (date != other.date)
       return false;
     if (getId() != other.getId())
       return false;
