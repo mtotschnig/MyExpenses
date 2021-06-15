@@ -22,6 +22,10 @@ import io.ktor.routing.*
 import io.ktor.server.cio.*
 import io.ktor.server.engine.*
 import org.apache.commons.text.StringSubstitutor
+import org.apache.commons.text.StringSubstitutor.DEFAULT_ESCAPE
+import org.apache.commons.text.StringSubstitutor.DEFAULT_PREFIX
+import org.apache.commons.text.StringSubstitutor.DEFAULT_SUFFIX
+import org.apache.commons.text.lookup.StringLookup
 import org.threeten.bp.LocalDate
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
@@ -87,7 +91,8 @@ class WebInputService : Service(), IWebInputService {
 
     override fun onCreate() {
         super.onCreate()
-        DaggerWebUiComponent.builder().appComponent((application as MyApplication).appComponent).build().inject(this)
+        DaggerWebUiComponent.builder().appComponent((application as MyApplication).appComponent)
+            .build().inject(this)
         wrappedContext = ContextHelper.wrap(this, userLocaleProvider.getUserPreferredLocale())
     }
 
@@ -110,13 +115,19 @@ class WebInputService : Service(), IWebInputService {
     }
 
     private val address: String
-        get() = "http://${(applicationContext.getSystemService(WIFI_SERVICE) as WifiManager).connectionInfo.ipAddress.let { Formatter.formatIpAddress(it) }}:$port"
+        get() = "http://${
+            (applicationContext.getSystemService(WIFI_SERVICE) as WifiManager).connectionInfo.ipAddress.let {
+                Formatter.formatIpAddress(
+                    it
+                )
+            }
+        }:$port"
 
 
     private fun readFromAssets(fileName: String) = assets.open(fileName).bufferedReader()
-            .use {
-                it.readText()
-            }
+        .use {
+            it.readText()
+        }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
@@ -131,20 +142,27 @@ class WebInputService : Service(), IWebInputService {
             }
             START_ACTION -> {
                 if (server == null && try {
-                            (9000..9050).first { isAvailable(it) }
-                        } catch (e: NoSuchElementException) {
-                            serverStateObserver?.postException(IOException("No available port found in range 9000..9050"))
-                            0
-                        }.let { port = it; it != 0 }) {
+                        (9000..9050).first { isAvailable(it) }
+                    } catch (e: NoSuchElementException) {
+                        serverStateObserver?.postException(IOException("No available port found in range 9000..9050"))
+                        0
+                    }.let { port = it; it != 0 }
+                ) {
                     server = embeddedServer(CIO, port, watchPaths = emptyList()) {
                         install(ContentNegotiation) {
                             gson {
-                                registerTypeAdapter(LocalDate::class.java, localDateJsonDeserializer)
+                                registerTypeAdapter(
+                                    LocalDate::class.java,
+                                    localDateJsonDeserializer
+                                )
                             }
                         }
                         install(StatusPages) {
                             exception<Throwable> { cause ->
-                                call.respond(HttpStatusCode.InternalServerError, "Internal Server Error")
+                                call.respond(
+                                    HttpStatusCode.InternalServerError,
+                                    "Internal Server Error"
+                                )
                                 CrashHandler.report(cause)
                                 throw cause
                             }
@@ -153,9 +171,15 @@ class WebInputService : Service(), IWebInputService {
                             post("/") {
                                 if (repository.createTransaction(call.receive()) != null) {
                                     count++
-                                    call.respond(HttpStatusCode.Created, "${getString(R.string.save_transaction_and_new_success)} ($count)")
+                                    call.respond(
+                                        HttpStatusCode.Created,
+                                        "${getString(R.string.save_transaction_and_new_success)} ($count)"
+                                    )
                                 } else {
-                                    call.respond(HttpStatusCode.Conflict, "Error while saving transaction.")
+                                    call.respond(
+                                        HttpStatusCode.Conflict,
+                                        "Error while saving transaction."
+                                    )
                                 }
                             }
                             get("/styles.css") {
@@ -163,62 +187,105 @@ class WebInputService : Service(), IWebInputService {
                             }
                             get("/") {
                                 val data = mapOf(
-                                        "accounts" to contentResolver.query(TransactionProvider.ACCOUNTS_BASE_URI,
-                                                arrayOf(KEY_ROWID, KEY_LABEL, KEY_TYPE),
-                                                DatabaseConstants.KEY_SEALED + " = 0", null, null)?.use {
-                                            it.asSequence.map {
-                                                mapOf(
-                                                        "id" to it.getLong(0),
-                                                        "label" to it.getString(1),
-                                                        "type" to it.getString(2)
-                                                )
-                                            }.toList()
-                                        },
-                                        "payees" to contentResolver.query(TransactionProvider.PAYEES_URI,
-                                                arrayOf(KEY_ROWID, KEY_PAYEE_NAME),
-                                                null, null, null)?.use {
-                                            it.asSequence.map { mapOf("id" to it.getLong(0), "name" to it.getString(1)) }
-                                                    .toList()
-                                        },
-                                        "categories" to contentResolver.query(TransactionProvider.CATEGORIES_URI,
-                                                arrayOf(KEY_ROWID, KEY_PARENTID, KEY_LABEL),
-                                                null, null, null)?.use {
-                                            it.asSequence.map { mapOf("id" to it.getLong(0), "parent" to it.getLong(1), "label" to it.getString(2)) }
-                                                    .toList()
-                                        },
-                                        "tags" to contentResolver.query(TransactionProvider.TAGS_URI,
-                                                arrayOf(KEY_ROWID, KEY_LABEL),
-                                                null, null, null)?.use {
-                                            it.asSequence.map { mapOf("id" to it.getLong(0), "label" to it.getString(1)) }
-                                                    .toList()
-                                        },
-                                        "methods" to contentResolver.query(TransactionProvider.METHODS_URI,
-                                                arrayOf(KEY_ROWID, KEY_LABEL, KEY_IS_NUMBERED, KEY_TYPE, KEY_ACCOUNT_TPYE_LIST),
-                                                null, null, null)?.use {
-                                            it.asSequence.map {
-                                                mapOf(
-                                                        "id" to it.getLong(0),
-                                                        "label" to it.getString(1),
-                                                        "isNumbered" to (it.getInt(2) > 0),
-                                                        "type" to it.getInt(3),
-                                                        "accountTypes" to it.getString(4)?.split(',')
-                                                )
-                                            }.toList()
-                                        },
+                                    "accounts" to contentResolver.query(
+                                        TransactionProvider.ACCOUNTS_BASE_URI,
+                                        arrayOf(KEY_ROWID, KEY_LABEL, KEY_TYPE),
+                                        DatabaseConstants.KEY_SEALED + " = 0", null, null
+                                    )?.use {
+                                        it.asSequence.map {
+                                            mapOf(
+                                                "id" to it.getLong(0),
+                                                "label" to it.getString(1),
+                                                "type" to it.getString(2)
+                                            )
+                                        }.toList()
+                                    },
+                                    "payees" to contentResolver.query(
+                                        TransactionProvider.PAYEES_URI,
+                                        arrayOf(KEY_ROWID, KEY_PAYEE_NAME),
+                                        null, null, null
+                                    )?.use {
+                                        it.asSequence.map {
+                                            mapOf(
+                                                "id" to it.getLong(0),
+                                                "name" to it.getString(1)
+                                            )
+                                        }
+                                            .toList()
+                                    },
+                                    "categories" to contentResolver.query(
+                                        TransactionProvider.CATEGORIES_URI,
+                                        arrayOf(KEY_ROWID, KEY_PARENTID, KEY_LABEL),
+                                        null, null, null
+                                    )?.use {
+                                        it.asSequence.map {
+                                            mapOf(
+                                                "id" to it.getLong(0),
+                                                "parent" to it.getLong(1),
+                                                "label" to it.getString(2)
+                                            )
+                                        }
+                                            .toList()
+                                    },
+                                    "tags" to contentResolver.query(
+                                        TransactionProvider.TAGS_URI,
+                                        arrayOf(KEY_ROWID, KEY_LABEL),
+                                        null, null, null
+                                    )?.use {
+                                        it.asSequence.map {
+                                            mapOf(
+                                                "id" to it.getLong(0),
+                                                "label" to it.getString(1)
+                                            )
+                                        }
+                                            .toList()
+                                    },
+                                    "methods" to contentResolver.query(
+                                        TransactionProvider.METHODS_URI,
+                                        arrayOf(
+                                            KEY_ROWID,
+                                            KEY_LABEL,
+                                            KEY_IS_NUMBERED,
+                                            KEY_TYPE,
+                                            KEY_ACCOUNT_TPYE_LIST
+                                        ),
+                                        null, null, null
+                                    )?.use {
+                                        it.asSequence.map {
+                                            mapOf(
+                                                "id" to it.getLong(0),
+                                                "label" to it.getString(1),
+                                                "isNumbered" to (it.getInt(2) > 0),
+                                                "type" to it.getInt(3),
+                                                "accountTypes" to it.getString(4)?.split(',')
+                                            )
+                                        }.toList()
+                                    },
                                 )
-                                val text = StringSubstitutor.replace(readFromAssets("form.html"), mapOf(
-                                        "i18n_title" to "${t(R.string.app_name)} ${getString(R.string.title_webui)}",
-                                        "i18n_account" to t(R.string.account),
-                                        "i18n_amount" to t(R.string.amount),
-                                        "i18n_date" to t(R.string.date),
-                                        "i18n_payee" to t(R.string.payer_or_payee),
-                                        "i18n_category" to t(R.string.category),
-                                        "i18n_tags" to t(R.string.tags),
-                                        "i18n_notes" to t(R.string.comment),
-                                        "i18n_method" to t(R.string.method),
-                                        "i18n_submit" to t(R.string.menu_save),
-                                        "i18n_number" to t(R.string.reference_number),
-                                        "data" to gson.toJson(data)))
+                                val lookup = StringLookup { key ->
+                                    when (key) {
+                                        "i18n_title" -> "${t(R.string.app_name)} ${getString(R.string.title_webui)}"
+                                        "i18n_account" -> t(R.string.account)
+                                        "i18n_amount" -> t(R.string.amount)
+                                        "i18n_date" -> t(R.string.date)
+                                        "i18n_payee" -> t(R.string.payer_or_payee)
+                                        "i18n_category" -> t(R.string.category)
+                                        "i18n_tags" -> t(R.string.tags)
+                                        "i18n_notes" -> t(R.string.comment)
+                                        "i18n_method" -> t(R.string.method)
+                                        "i18n_submit" -> t(R.string.menu_save)
+                                        "i18n_number" -> t(R.string.reference_number)
+                                        "data" -> gson.toJson(data)
+                                        else -> throw IllegalStateException("Unknown substitution key $key")
+                                    }
+                                }
+                                val stringSubstitutor = StringSubstitutor(
+                                    lookup,
+                                    DEFAULT_PREFIX,
+                                    DEFAULT_SUFFIX,
+                                    DEFAULT_ESCAPE
+                                )
+                                val text = stringSubstitutor.replace(readFromAssets("form.html"))
                                 call.respondText(text, ContentType.Text.Html)
                             }
                         }
@@ -229,8 +296,18 @@ class WebInputService : Service(), IWebInputService {
                     val stopIntent = Intent(this, WebInputService::class.java).apply {
                         action = STOP_CLICK_ACTION
                     }
-                    val notification: Notification = NotificationBuilderWrapper.defaultBigTextStyleBuilder(this, getString(R.string.title_webui), address)
-                            .addAction(0, 0, getString(R.string.stop), PendingIntent.getService(this, 0, stopIntent, FLAG_ONE_SHOT))
+                    val notification: Notification =
+                        NotificationBuilderWrapper.defaultBigTextStyleBuilder(
+                            this,
+                            getString(R.string.title_webui),
+                            address
+                        )
+                            .addAction(
+                                0,
+                                0,
+                                getString(R.string.stop),
+                                PendingIntent.getService(this, 0, stopIntent, FLAG_ONE_SHOT)
+                            )
                             .build()
 
                     startForeground(NOTIFICATION_WEB_UI, notification)
