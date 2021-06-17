@@ -25,6 +25,7 @@ import android.view.View;
 import org.apache.commons.lang3.ArrayUtils;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.select.SelectMainCategoryDialogFragment;
+import org.totschnig.myexpenses.fragment.CategoryList;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -53,7 +54,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
  *
  * @author Michael Totschnig
  */
-public class ManageCategories extends CategoryActivity implements
+public class ManageCategories extends CategoryActivity<CategoryList> implements
     SimpleInputDialog.OnDialogResultListener, SelectMainCategoryDialogFragment.CategorySelectedListener {
 
   public enum HelpVariant {
