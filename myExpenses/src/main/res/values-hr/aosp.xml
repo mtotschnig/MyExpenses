@@ -5,9 +5,9 @@
      android-source/packages/apps/UnifiedEmail/res/values/strings.xmlls
 -->
 <resources>
-    <string name="drawer_open">"Otvaranje pretinca za navigaciju"</string>
-    <string name="drawer_close">"Zatvaranje pretinca za navigaciju"</string>
-    <string name="saving">"Spremanje…"</string>
+    <string name="drawer_open">"Otvori navigaciju"</string>
+    <string name="drawer_close">"Zatvori navigaciju"</string>
+    <string name="saving">"Spremanje …"</string>
     <string name="default_action">"Zadana radnja"</string>
     <string name="full_name">"Ime"</string>
     <string name="postal_country">"Zemlja"</string>
@@ -16,7 +16,7 @@
     <string name="stop">"Zaustavi"</string>
     <string name="no_network">"Nema mrežne veze."</string>
     <string name="button_label_continue">Nastavi</string>
-    <string name="autofill">"Automatsko popunjavanje"</string>
+    <string name="autofill">"Automatsko ispunjavanje"</string>
     <string name="discard">"Odbaci"</string>
     <string name="dialog_dismiss">"Odbaci"</string>
     <string name="response_yes">"Da"</string>
