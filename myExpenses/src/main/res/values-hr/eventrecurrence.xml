@@ -18,30 +18,30 @@
     <string name="endByDate">"; do <xliff:g id="DATE">%s</xliff:g>"</string>
     <plurals name="endByCount">
         <item quantity="one">"; jedanput"</item>
-        <item quantity="other">"; toliko puta: <xliff:g id="NUMBER">%d</xliff:g>"</item>
+        <item quantity="other">"; <xliff:g id="NUMBER">%d</xliff:g> puta"</item>
     </plurals>
     <plurals name="daily">
         <item quantity="one">"Dnevno"</item>
-        <item quantity="other">"Svakih toliko dana: <xliff:g id="NUMBER">%d</xliff:g>"</item>
+        <item quantity="other">"Svakih ovoliko dana: <xliff:g id="NUMBER">%d</xliff:g>"</item>
     </plurals>
-    <string name="every_weekday">"Svaki dan u tjednu (pon–pet)"</string>
+    <string name="every_weekday">"Svaki dan u tjednu (pon – pet)"</string>
     <plurals name="weekly">
-        <item quantity="one">"Svaki tjedan, <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
-        <item quantity="other">"Svaki <xliff:g id="NUMBER">%1$d</xliff:g>. tjedan, <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
+        <item quantity="one">"Tjedno u <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
+        <item quantity="other">"Svaki <xliff:g id="NUMBER">%1$d</xliff:g>. tjedan u <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
     </plurals>
     <plurals name="monthly">
         <item quantity="one">Mjesečno</item>
-        <item quantity="other">Svakog <xliff:g id="COUNT">%d</xliff:g>. mjeseca</item>
+        <item quantity="other">Svaki <xliff:g id="COUNT">%d</xliff:g>. mjesec</item>
     </plurals>
     <plurals name="yearly">
         <item quantity="one">Godišnje</item>
         <item quantity="other">Svake <xliff:g id="COUNT">%d</xliff:g>. godine</item>
     </plurals>
-    <string name="monthly_on_day">" (na dan <xliff:g id="DAY_OF_MONTH">%s</xliff:g>)"</string>
-    <string name="yearly_on_day">" (na dan <xliff:g id="DATES">%s</xliff:g>)"</string>
+    <string name="monthly_on_day">" (<xliff:g id="DAY_OF_MONTH">%s</xliff:g>. dan)"</string>
+    <string name="yearly_on_day">" (<xliff:g id="DATES">%s</xliff:g>)"</string>
     <string name="yearly_plain">Godišnje</string>
     <string name="daily_plain">Dnevno</string>
-    <string name="weekly_plain">Svaki tjedan</string>
+    <string name="weekly_plain">Tjedno</string>
     <string name="monthly_plain">"Mjesečno"</string>
 
     <string-array name="repeat_by_nth_sun">

@@ -13,29 +13,29 @@
     <!-- Subcategory under "Other income" -->
     <string name="Sub_1_5">Uzajamno osiguranje</string>
     <!-- Subcategory under "Other income" -->
-    <string name="Sub_1_6">Socijalne sigurnosti</string>
+    <string name="Sub_1_6">Socijalno osiguranje</string>
     <!-- Main category -->
-    <string name="Main_2">Odlazak u mirovinu</string>
+    <string name="Main_2">Mirovina</string>
     <!-- Subcategory under "Retirement" -->
     <string name="Sub_2_1">Mirovinski fond</string>
     <!-- Subcategory under "Retirement" -->
-    <string name="Sub_2_2">Smještaj</string>
+    <string name="Sub_2_2">Penzija</string>
     <!-- Subcategory under "Retirement" -->
-    <string name="Sub_2_3">Dopunsku mirovinu</string>
+    <string name="Sub_2_3">Dopunska penzija</string>
     <!-- Main category -->
-    <string name="Main_3">Dohodak od ulaganja</string>
+    <string name="Main_3">Prihod od ulaganja</string>
     <!-- Subcategory under "Investment income" -->
     <string name="Sub_3_1">Dividende</string>
     <!-- Subcategory under "Investment income" -->
-    <string name="Sub_3_2">Interes</string>
+    <string name="Sub_3_2">Kamate</string>
     <!-- Subcategory under "Investment income" -->
-    <string name="Sub_3_3">Kapitalni dobitak</string>
+    <string name="Sub_3_3">Povečanje kapitala</string>
     <!-- Main category -->
-    <string name="Main_4">Plaće</string>
+    <string name="Main_4">Plaća</string>
     <!-- Subcategory under "Salary" -->
     <string name="Sub_4_1">Prekovremeni rad</string>
     <!-- Subcategory under "Salary" -->
-    <string name="Sub_4_2">Ostavite doplatak</string>
+    <string name="Sub_4_2">Doplatak</string>
     <!-- Subcategory under "Salary" -->
     <string name="Sub_4_3">Ostale premije</string>
     <!-- Subcategory under "Salary" -->
@@ -47,15 +47,15 @@
     <!-- Subcategory under "Misc. income" -->
     <string name="Sub_5_1">Pokloni</string>
     <!-- Subcategory under "Misc. income" -->
-    <string name="Sub_5_2">Povrata</string>
+    <string name="Sub_5_2">Povrat</string>
     <!-- Subcategory under "Misc. income" -->
-    <string name="Sub_5_3">Prodaja rabljenih</string>
+    <string name="Sub_5_3">Prodaja rabljenih stvari</string>
     <!-- Main category -->
     <string name="Main_6">Hrana</string>
     <!-- Subcategory under "Food" -->
     <string name="Sub_6_1">Bar</string>
     <!-- Subcategory under "Food" -->
-    <string name="Sub_6_2">Baker</string>
+    <string name="Sub_6_2">Pekarnica</string>
     <!-- Subcategory under "Food" -->
     <string name="Sub_6_3">Kantina</string>
     <!-- Subcategory under "Food" -->
@@ -65,9 +65,9 @@
     <!-- Subcategory under "Food" -->
     <string name="Sub_6_6">Restoran</string>
     <!-- Subcategory under "Food" -->
-    <string name="Sub_6_7">Samoposluživanje</string>
+    <string name="Sub_6_7">Samoposluga</string>
     <!-- Subcategory under "Food" -->
-    <string name="Sub_6_8">Supermarketa</string>
+    <string name="Sub_6_8">Supermarket</string>
     <!-- Main category -->
     <string name="Main_7">Kućni ljubimci</string>
     <!-- Subcategory under "Pets" -->
@@ -75,23 +75,23 @@
     <!-- Subcategory under "Pets" -->
     <string name="Sub_7_2">Razne potrepštine</string>
     <!-- Subcategory under "Pets" -->
-    <string name="Sub_7_3">Konjušar</string>
+    <string name="Sub_7_3">Briga</string>
     <!-- Subcategory under "Pets" -->
-    <string name="Sub_7_4">Veterinara</string>
+    <string name="Sub_7_4">Veterinar</string>
     <!-- Main category -->
     <string name="Main_8">Osiguranje</string>
     <!-- Subcategory under "Insurance" -->
-    <string name="Sub_8_1">Automobil</string>
+    <string name="Sub_8_1">Vozilo</string>
     <!-- Subcategory under "Insurance" -->
     <string name="Sub_8_2">Zdravlje</string>
     <!-- Subcategory under "Insurance" -->
-    <string name="Sub_8_3">kuća</string>
+    <string name="Sub_8_3">Kuća</string>
     <!-- Subcategory under "Insurance" -->
-    <string name="Sub_8_4">Građanskopravna odgovornost</string>
+    <string name="Sub_8_4">Osiguranje od odgovornosti</string>
     <!-- Subcategory under "Insurance" -->
     <string name="Sub_8_5">Život</string>
     <!-- Main category -->
-    <string name="Main_9">Automobil</string>
+    <string name="Main_9">Vozilo</string>
     <!-- Subcategory under "Car" -->
     <string name="Sub_9_1">Gorivo</string>
     <!-- Subcategory under "Car" -->
@@ -107,31 +107,31 @@
     <!-- Main category -->
     <string name="Main_11">Djeca</string>
     <!-- Subcategory under "Children" -->
-    <string name="Sub_11_1">Medicinska sestra</string>
+    <string name="Sub_11_1">Dadilja</string>
     <!-- Subcategory under "Children" -->
-    <string name="Sub_11_2">Studije</string>
+    <string name="Sub_11_2">Poduka</string>
     <!-- Main category -->
-    <string name="Main_12">Studije</string>
+    <string name="Main_12">Studij</string>
     <!-- Subcategory under "Studies" -->
-    <string name="Sub_12_1">Lekcije</string>
+    <string name="Sub_12_1">Predavanja</string>
     <!-- Subcategory under "Studies" -->
-    <string name="Sub_12_2">Školarina</string>
+    <string name="Sub_12_2">Školarine</string>
     <!-- Subcategory under "Studies" -->
-    <string name="Sub_12_3">Knjiga</string>
+    <string name="Sub_12_3">Knjige</string>
     <!-- Main category -->
-    <string name="Main_13">Financijski rashodi</string>
+    <string name="Main_13">Financijski troškovi</string>
     <!-- Subcategory under "Financial expenses" -->
     <string name="Sub_13_1">Bankovne naknade</string>
     <!-- Subcategory under "Financial expenses" -->
-    <string name="Sub_13_2">Kredita/hipoteke</string>
+    <string name="Sub_13_2">Kredit/hipoteka</string>
     <!-- Subcategory under "Financial expenses" -->
-    <string name="Sub_13_3">Troškovi</string>
+    <string name="Sub_13_3">Naknade</string>
     <!-- Subcategory under "Financial expenses" -->
     <string name="Sub_13_4">Povrat</string>
     <!-- Main category -->
     <string name="Main_14">Stručni troškovi</string>
     <!-- Subcategory under "Professional expenses" -->
-    <string name="Sub_14_1">Sobe bez povrata novca</string>
+    <string name="Sub_14_1">Nepovratni</string>
     <!-- Subcategory under "Professional expenses" -->
     <string name="Sub_14_2">Povratni</string>
     <!-- Main category -->
@@ -139,29 +139,29 @@
     <!-- Subcategory under "Taxes" -->
     <string name="Sub_15_1">Porez na dohodak</string>
     <!-- Subcategory under "Taxes" -->
-    <string name="Sub_15_2">Zemljišni porez</string>
+    <string name="Sub_15_2">Porez na zamljište</string>
     <!-- Subcategory under "Taxes" -->
     <string name="Sub_15_3">Porez na promet</string>
     <!-- Main category -->
-    <string name="Main_16">Kućište</string>
+    <string name="Main_16">Udomljivanje</string>
     <!-- Subcategory under "Housing" -->
-    <string name="Sub_16_1">Hotela</string>
+    <string name="Sub_16_1">Hotel</string>
     <!-- Subcategory under "Housing" -->
-    <string name="Sub_16_2">Iznajmljivanje</string>
+    <string name="Sub_16_2">Najamnina</string>
     <!-- Subcategory under "Housing" -->
-    <string name="Sub_16_3">televizor</string>
+    <string name="Sub_16_3">Televizor</string>
     <!-- Subcategory under "Housing" -->
     <string name="Sub_16_4">Namještaj</string>
     <!-- Subcategory under "Housing" -->
-    <string name="Sub_16_5">Troškovi</string>
+    <string name="Sub_16_5">Naknade</string>
     <!-- Subcategory under "Housing" -->
     <string name="Sub_16_6">Grijanje</string>
     <!-- Subcategory under "Housing" -->
     <string name="Sub_16_7">Dekoracija</string>
     <!-- Subcategory under "Housing" -->
-    <string name="Sub_16_8">Vode</string>
+    <string name="Sub_16_8">Voda</string>
     <!-- Subcategory under "Housing" -->
-    <string name="Sub_16_9">Električne energije</string>
+    <string name="Sub_16_9">Struja</string>
     <!-- Subcategory under "Housing" -->
     <string name="Sub_16_10">Bijela tehnika</string>
     <!-- Subcategory under "Housing" -->
@@ -171,13 +171,13 @@
     <!-- Subcategory under "Housing" -->
     <string name="Sub_16_13">Vrt</string>
     <!-- Subcategory under "Housing" -->
-    <string name="Sub_16_14">Kuća čuvar</string>
+    <string name="Sub_16_14">Domar</string>
     <!-- Subcategory under "Housing" -->
     <string name="Sub_16_15">Telefon</string>
     <!-- Subcategory under "Housing" -->
-    <string name="Sub_16_16">Mobilni telefon</string>
+    <string name="Sub_16_16">Mobitel</string>
     <!-- Main category -->
-    <string name="Main_17">Leisures</string>
+    <string name="Main_17">Rekreacija</string>
     <!-- Subcategory under "Leisures" -->
     <string name="Sub_17_1">Biljar</string>
     <!-- Subcategory under "Leisures" -->
@@ -187,11 +187,11 @@
     <!-- Subcategory under "Leisures" -->
     <string name="Sub_17_4">Noćni klub</string>
     <!-- Subcategory under "Leisures" -->
-    <string name="Sub_17_5">TO</string>
+    <string name="Sub_17_5">Računalo</string>
     <!-- Subcategory under "Leisures" -->
     <string name="Sub_17_6">Igre</string>
     <!-- Subcategory under "Leisures" -->
-    <string name="Sub_17_7">Knjiga</string>
+    <string name="Sub_17_7">Knjige</string>
     <!-- Subcategory under "Leisures" -->
     <string name="Sub_17_8">Parkovi</string>
     <!-- Subcategory under "Leisures" -->
@@ -205,33 +205,33 @@
     <!-- Subcategory under "Leisures" -->
     <string name="Sub_17_13">Oprema</string>
     <!-- Subcategory under "Leisures" -->
-    <string name="Sub_17_14">Muzeje, izložbe</string>
+    <string name="Sub_17_14">Muzeji/izložbe</string>
     <!-- Main category -->
-    <string name="Main_18">Kredita/hipoteke</string>
+    <string name="Main_18">Kredit/hipoteka</string>
     <!-- Subcategory under "Loan/Mortgage" -->
-    <string name="Sub_18_1">Kapitala</string>
+    <string name="Sub_18_1">Kapital</string>
     <!-- Main category -->
     <string name="Main_19">Zdravlje</string>
     <!-- Subcategory under "Health" -->
     <string name="Sub_19_1">Osiguranje</string>
     <!-- Subcategory under "Health" -->
-    <string name="Sub_19_2">Stomatolog</string>
+    <string name="Sub_19_2">Zubar</string>
     <!-- Subcategory under "Health" -->
     <string name="Sub_19_3">Bolnica</string>
     <!-- Subcategory under "Health" -->
-    <string name="Sub_19_4">Kinesitherapist</string>
+    <string name="Sub_19_4">Fizioterapija</string>
     <!-- Subcategory under "Health" -->
-    <string name="Sub_19_5">Doktor</string>
+    <string name="Sub_19_5">Lječnik</string>
     <!-- Subcategory under "Health" -->
-    <string name="Sub_19_6">Ophtalmologist</string>
+    <string name="Sub_19_6">Oftalmolog</string>
     <!-- Subcategory under "Health" -->
     <string name="Sub_19_7">Osteopat</string>
     <!-- Subcategory under "Health" -->
     <string name="Sub_19_8">Kemičar</string>
     <!-- Subcategory under "Health" -->
-    <string name="Sub_19_9">Socijalne sigurnosti</string>
+    <string name="Sub_19_9">Socijalno osiguranje</string>
     <!-- Main category -->
-    <string name="Main_20">Zanima me</string>
+    <string name="Main_20">Osobna njega</string>
     <!-- Subcategory under "Care" -->
     <string name="Sub_20_1">Frizerski salon</string>
     <!-- Subcategory under "Care" -->
@@ -243,17 +243,17 @@
     <!-- Subcategory under "Transport" -->
     <string name="Sub_21_2">Podzemna željeznica</string>
     <!-- Subcategory under "Transport" -->
-    <string name="Sub_21_3">Cestarine</string>
+    <string name="Sub_21_3">Cestarina</string>
     <!-- Subcategory under "Transport" -->
     <string name="Sub_21_4">Vlak</string>
     <!-- Subcategory under "Transport" -->
     <string name="Sub_21_5">Tramvaj</string>
     <!-- Subcategory under "Transport" -->
-    <string name="Sub_21_6">Zrakoplov</string>
+    <string name="Sub_21_6">Avion</string>
     <!-- Main category -->
     <string name="Main_22">Odmor</string>
     <!-- Subcategory under "Holidays" -->
-    <string name="Sub_22_1">Kućište</string>
+    <string name="Sub_22_1">Smještaj</string>
     <!-- Subcategory under "Holidays" -->
     <string name="Sub_22_2">Posjeta</string>
     <!-- Subcategory under "Holidays" -->
