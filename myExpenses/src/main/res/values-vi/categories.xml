@@ -1,195 +1,261 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources tools:ignore="UnusedResources, InconsistentArrays" xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources, InconsistentArrays">
+    <!-- Main category -->
     <string name="Main_1">Thu nhập khác</string>
-    <!-- Subcategories under "Other income" -->
-    <string-array name="Sub_1">
-        <item>Trợ cấp thất nghiệp</item>
-        <item>Phụ cấp gia đình</item>
-        <item>Tín dụng thuế</item>
-        <item>Cờ bạc</item>
-        <item>Bảo hiểm tương trợ</item>
-        <item>Phúc lợi xã hội</item>
-    </string-array>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_1">Trợ cấp thất nghiệp</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_2">Phụ cấp gia đình</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_3">Tín dụng thuế</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_4">Cờ bạc</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_5">Bảo hiểm tương trợ</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_6">Phúc lợi xã hội</string>
+    <!-- Main category -->
     <string name="Main_2">Nghỉ hưu</string>
-    <!-- Subcategories under "Retirement" -->
-    <string-array name="Sub_2">
-        <item>Quỹ hưu bổng</item>
-        <item>Lương hưu</item>
-        <item>Hưu bổng bổ sung</item>
-    </string-array>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_1">Quỹ hưu bổng</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_2">Lương hưu</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_3">Hưu bổng bổ sung</string>
+    <!-- Main category -->
     <string name="Main_3">Thu nhập đầu tư</string>
-    <!-- Subcategories under "Investment income" -->
-    <string-array name="Sub_3">
-        <item>Cổ tức</item>
-        <item>Lãi suất</item>
-        <item>Lời vốn</item>
-    </string-array>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_1">Cổ tức</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_2">Lãi suất</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_3">Lời vốn</string>
+    <!-- Main category -->
     <string name="Main_4">Lương</string>
-    <!-- Subcategories under "Salary" -->
-    <string-array name="Sub_4">
-        <item>Thêm giờ</item>
-        <item>Trợ cấp nghỉ làm</item>
-        <item>Tiền các linh tinh</item>
-        <item>Phí thành đạt</item>
-        <item>Lương ròng</item>
-    </string-array>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_1">Thêm giờ</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_2">Trợ cấp nghỉ làm</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_3">Tiền các linh tinh</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_4">Phí thành đạt</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_5">Lương ròng</string>
+    <!-- Main category -->
     <string name="Main_5">Thu nhập linh tinh</string>
-    <!-- Subcategories under "Misc. income" -->
-    <string-array name="Sub_5">
-        <item>Quà cáp</item>
-        <item>Hoàn trả</item>
-        <item>Bán hàng cũ</item>
-    </string-array>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_1">Quà cáp</string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_2">Hoàn trả</string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_3">Bán hàng cũ</string>
+    <!-- Main category -->
     <string name="Main_6">Thức ăn</string>
-    <!-- Subcategories under "Food" -->
-    <string-array name="Sub_6">
-        <item>Bar</item>
-        <item>Bánh</item>
-        <item>Căng tin</item>
-        <item>Đồ ngọt</item>
-        <item>Siêu thị</item>
-        <item>Khách sạn</item>
-        <item>Tự phục vụ</item>
-        <item>Siêu thị</item>
-    </string-array>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_1">Bar</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_2">Bánh</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_3">Căng tin</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_4">Đồ ngọt</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_5">Siêu thị</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_6">Khách sạn</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_7">Tự phục vụ</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_8">Siêu thị</string>
+    <!-- Main category -->
     <string name="Main_7">Thú cưng</string>
-    <!-- Subcategories under "Pets" -->
-    <string-array name="Sub_7">
-        <item>Thức ăn</item>
-        <item>Phụ kiện linh tinh</item>
-        <item>Đồ chú rể</item>
-        <item>Phẫu thuật thú y</item>
-    </string-array>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_1">Thức ăn</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_2">Phụ kiện linh tinh</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_3">Đồ chú rể</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_4">Phẫu thuật thú y</string>
+    <!-- Main category -->
     <string name="Main_8">Bảo hiểm</string>
-    <!-- Subcategories under "Insurance" -->
-    <string-array name="Sub_8">
-        <item>Ô tô</item>
-        <item>Sức khỏe</item>
-        <item>Nhà cửa</item>
-        <item>Trách nhiệm dân sự</item>
-        <item>Đời sống</item>
-    </string-array>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_1">Ô tô</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_2">Sức khỏe</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_3">Nhà cửa</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_4">Trách nhiệm dân sự</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_5">Đời sống</string>
+    <!-- Main category -->
     <string name="Main_9">Ô tô</string>
-    <!-- Subcategories under "Car" -->
-    <string-array name="Sub_9">
-        <item>Xăng</item>
-        <item>Sửa chữa</item>
-        <item>Bảo trì</item>
-        <item>Bến bãi</item>
-        <item>Phí</item>
-    </string-array>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_1">Xăng</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_2">Sửa chữa</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_3">Bảo trì</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_4">Bến bãi</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_5">Phí</string>
+    <!-- Main category -->
     <string name="Main_10">Quà cáp</string>
+    <!-- Main category -->
     <string name="Main_11">Trẻ nhỏ</string>
-    <!-- Subcategories under "Children" -->
-    <string-array name="Sub_11">
-        <item>Y tá</item>
-        <item>Học tập</item>
-    </string-array>
+    <!-- Subcategory under "Children" -->
+    <string name="Sub_11_1">Y tá</string>
+    <!-- Subcategory under "Children" -->
+    <string name="Sub_11_2">Học tập</string>
+    <!-- Main category -->
     <string name="Main_12">Học tập</string>
-    <!-- Subcategories under "Studies" -->
-    <string-array name="Sub_12">
-        <item>Lớp học</item>
-        <item>Học phí</item>
-        <item>Sách vở</item>
-    </string-array>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_1">Lớp học</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_2">Học phí</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_3">Sách vở</string>
+    <!-- Main category -->
     <string name="Main_13">Phí tài chính</string>
-    <!-- Subcategories under "Financial expenses" -->
-    <string-array name="Sub_13">
-        <item>Phí ngân hàng</item>
-        <item>Vay/Thế chấp</item>
-        <item>Phí</item>
-        <item>Hoàn trả</item>
-    </string-array>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_1">Phí ngân hàng</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_2">Vay/Thế chấp</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_3">Phí</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_4">Hoàn trả</string>
+    <!-- Main category -->
     <string name="Main_14">Chi phí cao cấp</string>
-    <!-- Subcategories under "Professional expenses" -->
-    <string-array name="Sub_14">
-        <item>Không hoàn trả được</item>
-        <item>Hoàn trả được</item>
-    </string-array>
+    <!-- Subcategory under "Professional expenses" -->
+    <string name="Sub_14_1">Không hoàn trả được</string>
+    <!-- Subcategory under "Professional expenses" -->
+    <string name="Sub_14_2">Hoàn trả được</string>
+    <!-- Main category -->
     <string name="Main_15">Thuế</string>
-    <!-- Subcategories under "Taxes" -->
-    <string-array name="Sub_15">
-        <item>Thuế thu nhập</item>
-        <item>Thuế đất</item>
-        <item>Thuế doanh thu</item>
-    </string-array>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_1">Thuế thu nhập</string>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_2">Thuế đất</string>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_3">Thuế doanh thu</string>
+    <!-- Main category -->
     <string name="Main_16">Nhà ở</string>
-    <!-- Subcategories under "Housing" -->
-    <string-array name="Sub_16">
-        <item>Khách sạn</item>
-        <item>Thuê nhà</item>
-        <item>Ti vi</item>
-        <item>Đồ đạc</item>
-        <item>Phí</item>
-        <item>Sưởi ấm</item>
-        <item>Trang trí</item>
-        <item>Nước</item>
-        <item>Điện</item>
-        <item>Đồ điện gia dụng</item>
-        <item>Đồ trang bị</item>
-        <item>Nhiên liệu</item>
-        <item>Làm vườn</item>
-        <item>Trông nhà</item>
-        <item>Điện thoại</item>
-        <item>Điện thoại di động</item>
-    </string-array>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_1">Khách sạn</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_2">Thuê nhà</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_3">Ti vi</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_4">Đồ nội thất</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_5">Phí</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_6">Sưởi ấm</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_7">Trang trí</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_8">Nước</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_9">Điện</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_10">Đồ điện gia dụng</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_11">Đồ trang bị</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_12">Nhiên liệu</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_13">Làm vườn</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_14">Trông nhà</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_15">Điện thoại</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_16">Điện thoại di động</string>
+    <!-- Main category -->
     <string name="Main_17">Giải trí</string>
-    <!-- Subcategories under "Leisures" -->
-    <string-array name="Sub_17">
-        <item>Bi-a</item>
-        <item>Bowling</item>
-        <item>Xem phim</item>
-        <item>Hộp đêm</item>
-        <item>CNTT</item>
-        <item>Trò chơi</item>
-        <item>Sách vở</item>
-        <item>Công viên</item>
-        <item>Buổi hòa nhạc</item>
-        <item>Thể thao</item>
-        <item>Video</item>
-        <item>Du lịch</item>
-        <item>Đồ trang bị</item>
-        <item>Bảo tàng/Triển lãm</item>
-    </string-array>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_1">Bi-a</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_2">Bowling</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_3">Xem phim</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_4">Hộp đêm</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_5">CNTT</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_6">Trò chơi</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_7">Sách vở</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_8">Công viên</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_9">Buổi hòa nhạc</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_10">Thể thao</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_11">Video</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_12">Du lịch</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_13">Đồ trang bị</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_14">Bảo tàng/Triển lãm</string>
+    <!-- Main category -->
     <string name="Main_18">Vay/Thế chấp</string>
-    <!-- Subcategories under "Loan/Mortgage" -->
-    <string-array name="Sub_18">
-        <item>Vốn</item>
-    </string-array>
+    <!-- Subcategory under "Loan/Mortgage" -->
+    <string name="Sub_18_1">Vốn</string>
+    <!-- Main category -->
     <string name="Main_19">Sức khỏe</string>
-    <!-- Subcategories under "Health" -->
-    <string-array name="Sub_19">
-        <item>Bảo hiểm</item>
-        <item>Khám răng</item>
-        <item>Bệnh viện</item>
-        <item>Vật lý trị liệu</item>
-        <item>Bác sĩ</item>
-        <item>Phẫu thuật mắt</item>
-        <item>Bó bột</item>
-        <item>Dược phẩm</item>
-        <item>Phúc lợi xã hội</item>
-    </string-array>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_1">Bảo hiểm</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_2">Khám răng</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_3">Bệnh viện</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_4">Vật lý trị liệu</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_5">Bác sĩ</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_6">Phẫu thuật mắt</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_7">Bó bột</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_8">Dược phẩm</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_9">Phúc lợi xã hội</string>
+    <!-- Main category -->
     <string name="Main_20">Chăm sóc y tế</string>
-    <!-- Subcategories under "Care" -->
-    <string-array name="Sub_20">
-        <item>Làm tóc</item>
-        <item>Áo quần</item>
-    </string-array>
+    <!-- Subcategory under "Care" -->
+    <string name="Sub_20_1">Làm tóc</string>
+    <!-- Subcategory under "Care" -->
+    <string name="Sub_20_2">Áo quần</string>
+    <!-- Main category -->
     <string name="Main_21">Di chuyển</string>
-    <!-- Subcategories under "Transport" -->
-    <string-array name="Sub_21">
-        <item>Xe buýt</item>
-        <item>Tàu điện ngầm</item>
-        <item>Phí cầu đường</item>
-        <item>Tàu hoả</item>
-        <item>Xe điện</item>
-        <item>Máy bay</item>
-    </string-array>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_1">Xe buýt</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_2">Tàu điện ngầm</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_3">Phí cầu đường</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_4">Tàu hoả</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_5">Xe điện</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_6">Máy bay</string>
+    <!-- Main category -->
     <string name="Main_22">Kỳ nghỉ</string>
-    <!-- Subcategories under "Holidays" -->
-    <string-array name="Sub_22">
-        <item>Nhà ở</item>
-        <item>Tham quan</item>
-        <item>Du lịch</item>
-    </string-array>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_1">Nhà ở</string>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_2">Tham quan</string>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_3">Du lịch</string>
 </resources>

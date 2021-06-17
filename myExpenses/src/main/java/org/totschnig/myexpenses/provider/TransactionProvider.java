@@ -1832,7 +1832,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case METHOD_SETUP_CATEGORIES: {
         Bundle result = new Bundle(1);
-        result.putInt(KEY_RESULT, DbUtils.setupDefaultCategories(mOpenHelper.getWritableDatabase(), wrappedContext()));
+        result.putInt(KEY_RESULT, MoreDbUtilsKt.setupDefaultCategories(mOpenHelper.getWritableDatabase(), wrappedContext().getResources()));
         notifyChange(CATEGORIES_URI, false);
         return result;
       }

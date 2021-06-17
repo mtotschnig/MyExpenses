@@ -1,195 +1,261 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources tools:ignore="UnusedResources, InconsistentArrays" xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources, InconsistentArrays">
+    <!-- Main category -->
     <string name="Main_1">其他收入</string>
-    <!-- Subcategories under "Other income" -->
-    <string-array name="Sub_1">
-        <item>失業救濟金</item>
-        <item>家庭津貼</item>
-        <item>免稅額</item>
-        <item>博彩</item>
-        <item>互助保險</item>
-        <item>社會保障</item>
-    </string-array>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_1">失業救濟金</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_2">家庭津貼</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_3">免稅額</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_4">博彩</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_5">互助保險</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_6">社會保險</string>
+    <!-- Main category -->
     <string name="Main_2">退休</string>
-    <!-- Subcategories under "Retirement" -->
-    <string-array name="Sub_2">
-        <item>退休基金</item>
-        <item>養老金或補助津貼</item>
-        <item>額外補助金</item>
-    </string-array>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_1">退休基金</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_2">養老金或補助津貼</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_3">額外補助金</string>
+    <!-- Main category -->
     <string name="Main_3">投資收益</string>
-    <!-- Subcategories under "Investment income" -->
-    <string-array name="Sub_3">
-        <item>紅利</item>
-        <item>利息</item>
-        <item>資本收益</item>
-    </string-array>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_1">紅利</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_2">利息</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_3">資本收益</string>
+    <!-- Main category -->
     <string name="Main_4">薪金</string>
-    <!-- Subcategories under "Salary" -->
-    <string-array name="Sub_4">
-        <item>超時加班費</item>
-        <item>休假津貼</item>
-        <item>成功費</item>
-        <item>成功費</item>
-        <item>淨工資</item>
-    </string-array>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_1">超時加班費</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_2">休假津貼</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_3">雜項獎金</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_4">成功費</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_5">淨工資</string>
+    <!-- Main category -->
     <string name="Main_5">雜項收入</string>
-    <!-- Subcategories under "Misc. income" -->
-    <string-array name="Sub_5">
-        <item>禮品</item>
-        <item>退款</item>
-        <item>二手銷售</item>
-    </string-array>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_1">禮品</string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_2">退款</string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_3">二手銷售</string>
+    <!-- Main category -->
     <string name="Main_6">食物</string>
-    <!-- Subcategories under "Food" -->
-    <string-array name="Sub_6">
-        <item>酒吧</item>
-        <item>糕點類</item>
-        <item>食堂</item>
-        <item>甜點</item>
-        <item>雜貨</item>
-        <item>餐廳</item>
-        <item>自助服務</item>
-        <item>超級市場</item>
-    </string-array>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_1">酒吧</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_2">糕點類</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_3">食堂</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_4">甜點</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_5">雜貨</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_6">餐廳</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_7">自助餐</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_8">超級市場</string>
+    <!-- Main category -->
     <string name="Main_7">寵物</string>
-    <!-- Subcategories under "Pets" -->
-    <string-array name="Sub_7">
-        <item>食物</item>
-        <item>各種用品</item>
-        <item>美容</item>
-        <item>獸醫</item>
-    </string-array>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_1">食物</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_2">各種用品</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_3">美容</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_4">獸醫</string>
+    <!-- Main category -->
     <string name="Main_8">保險</string>
-    <!-- Subcategories under "Insurance" -->
-    <string-array name="Sub_8">
-        <item>車</item>
-        <item>健康保險</item>
-        <item>房屋保險</item>
-        <item>民事責任</item>
-        <item>生活</item>
-    </string-array>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_1">車</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_2">健康</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_3">房屋保險</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_4">民事責任</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_5">生活</string>
+    <!-- Main category -->
     <string name="Main_9">車</string>
-    <!-- Subcategories under "Car" -->
-    <string-array name="Sub_9">
-        <item>燃油</item>
-        <item>維修</item>
-        <item>保養</item>
-        <item>停車</item>
-        <item>罰款</item>
-    </string-array>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_1">燃油</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_2">維修</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_3">保養</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_4">停車</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_5">罰款</string>
+    <!-- Main category -->
     <string name="Main_10">禮品</string>
+    <!-- Main category -->
     <string name="Main_11">兒童</string>
-    <!-- Subcategories under "Children" -->
-    <string-array name="Sub_11">
-        <item>兒童護理</item>
-        <item>學業</item>
-    </string-array>
+    <!-- Subcategory under "Children" -->
+    <string name="Sub_11_1">兒童護理</string>
+    <!-- Subcategory under "Children" -->
+    <string name="Sub_11_2">學業</string>
+    <!-- Main category -->
     <string name="Main_12">學業</string>
-    <!-- Subcategories under "Studies" -->
-    <string-array name="Sub_12">
-        <item>課程</item>
-        <item>學費</item>
-        <item>圖書</item>
-    </string-array>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_1">課程</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_2">學費</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_3">圖書</string>
+    <!-- Main category -->
     <string name="Main_13">財務經費</string>
-    <!-- Subcategories under "Financial expenses" -->
-    <string-array name="Sub_13">
-        <item>銀行收費</item>
-        <item>貸款/抵押</item>
-        <item>財務費用(Finance Charges)</item>
-        <item>退款</item>
-    </string-array>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_1">銀行收費</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_2">貸款/抵押</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_3">財務費用(Finance Charges)</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_4">退款</string>
+    <!-- Main category -->
     <string name="Main_14">專業費用</string>
-    <!-- Subcategories under "Professional expenses" -->
-    <string-array name="Sub_14">
-        <item>不可退的款項</item>
-        <item>退款</item>
-    </string-array>
+    <!-- Subcategory under "Professional expenses" -->
+    <string name="Sub_14_1">不可退的款項</string>
+    <!-- Subcategory under "Professional expenses" -->
+    <string name="Sub_14_2">退款</string>
+    <!-- Main category -->
     <string name="Main_15">稅</string>
-    <!-- Subcategories under "Taxes" -->
-    <string-array name="Sub_15">
-        <item>所得稅</item>
-        <item>土地稅</item>
-        <item>銷售稅</item>
-    </string-array>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_1">所得稅</string>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_2">土地稅</string>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_3">銷售稅</string>
+    <!-- Main category -->
     <string name="Main_16">住房</string>
-    <!-- Subcategories under "Housing" -->
-    <string-array name="Sub_16">
-        <item>飯店</item>
-        <item>房租</item>
-        <item>電視</item>
-        <item>家具</item>
-        <item>電話</item>
-        <item>暖氣</item>
-        <item>裝飾裝潢</item>
-        <item>水</item>
-        <item>電力</item>
-        <item>大型家電</item>
-        <item>設備</item>
-        <item>瓦斯費</item>
-        <item>花園</item>
-        <item>管家</item>
-        <item>電話</item>
-        <item>手機</item>
-    </string-array>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_1">飯店</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_2">房租</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_3">電視</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_4">家具</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_5">財務費用(Finance Charges)</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_6">暖氣</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_7">裝飾裝潢</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_8">水</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_9">電力</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_10">大型家電</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_11">設備</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_12">瓦斯費</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_13">花園</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_14">管家</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_15">電話</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_16">手機</string>
+    <!-- Main category -->
     <string name="Main_17">休閒活動</string>
-    <!-- Subcategories under "Leisures" -->
-    <string-array name="Sub_17">
-        <item>英式撞球</item>
-        <item>保齡球</item>
-        <item>電影</item>
-        <item>夜店</item>
-        <item>資訊科技</item>
-        <item>遊戲</item>
-        <item>圖書</item>
-        <item>公園</item>
-        <item>音樂會</item>
-        <item>體育</item>
-        <item>視頻</item>
-        <item>旅行</item>
-        <item>設備</item>
-        <item>博物館/展覽</item>
-    </string-array>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_1">英式撞球(Snooker)</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_2">保齡球</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_3">電影</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_4">夜店</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_5">資訊科技</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_6">遊戲</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_7">圖書</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_8">公園</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_9">音樂會</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_10">體育</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_11">視頻</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_12">旅遊花費</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_13">設備</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_14">博物館/展覽</string>
+    <!-- Main category -->
     <string name="Main_18">貸款/抵押</string>
-    <!-- Subcategories under "Loan/Mortgage" -->
-    <string-array name="Sub_18">
-        <item>資本</item>
-    </string-array>
+    <!-- Subcategory under "Loan/Mortgage" -->
+    <string name="Sub_18_1">資本</string>
+    <!-- Main category -->
     <string name="Main_19">健康</string>
-    <!-- Subcategories under "Health" -->
-    <string-array name="Sub_19">
-        <item>健康保險</item>
-        <item>牙醫</item>
-        <item>醫院</item>
-        <item>物理治療師</item>
-        <item>醫生</item>
-        <item>眼科醫師</item>
-        <item>整骨醫生</item>
-        <item>藥費</item>
-        <item>社會保險</item>
-    </string-array>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_1">健康保險</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_2">牙醫</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_3">醫院</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_4">物理治療師</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_5">醫生</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_6">眼科醫師</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_7">整骨醫生</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_8">藥費</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_9">社會保險</string>
+    <!-- Main category -->
     <string name="Main_20">保養</string>
-    <!-- Subcategories under "Care" -->
-    <string-array name="Sub_20">
-        <item>美髮師</item>
-        <item>服裝</item>
-    </string-array>
+    <!-- Subcategory under "Care" -->
+    <string name="Sub_20_1">美髮師</string>
+    <!-- Subcategory under "Care" -->
+    <string name="Sub_20_2">服裝</string>
+    <!-- Main category -->
     <string name="Main_21">運輸</string>
-    <!-- Subcategories under "Transport" -->
-    <string-array name="Sub_21">
-        <item>公車</item>
-        <item>地鐵</item>
-        <item>過路費</item>
-        <item>火車</item>
-        <item>電車</item>
-        <item>飛機</item>
-    </string-array>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_1">公車</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_2">地鐵</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_3">過路費</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_4">火車</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_5">電車</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_6">飛機</string>
+    <!-- Main category -->
     <string name="Main_22">假期</string>
-    <!-- Subcategories under "Holidays" -->
-    <string-array name="Sub_22">
-        <item>旅遊住房</item>
-        <item>旅遊參觀</item>
-        <item>旅遊花費</item>
-    </string-array>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_1">旅遊住房</string>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_2">旅遊參觀</string>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_3">旅遊花費</string>
 </resources>

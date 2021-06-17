@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="Cat_1">
+        <item>@string/Main_1</item>
+        <item>@string/Sub_1_1</item>
+        <item>@string/Sub_1_2</item>
+        <item>@string/Sub_1_3</item>
+        <item>@string/Sub_1_4</item>
+        <item>@string/Sub_1_5</item>
+        <item>@string/Sub_1_6</item>
+    </string-array>
+    <string-array name="Cat_2">
+        <item>@string/Main_2</item>
+        <item>@string/Sub_2_1</item>
+        <item>@string/Sub_2_1</item>
+        <item>@string/Sub_2_3</item>
+    </string-array>
+    <string-array name="Cat_3">
+        <item>@string/Main_3</item>
+        <item>@string/Sub_3_1</item>
+        <item>@string/Sub_3_2</item>
+        <item>@string/Sub_3_3</item>
+    </string-array>
+    <string-array name="Cat_4">
+        <item>@string/Main_4</item>
+        <item>@string/Sub_4_1</item>
+        <item>@string/Sub_4_2</item>
+        <item>@string/Sub_4_3</item>
+        <item>@string/Sub_4_4</item>
+        <item>@string/Sub_4_5</item>
+    </string-array>
+    <string-array name="Cat_5">
+        <item>@string/Main_5</item>
+        <item>@string/Sub_5_1</item>
+        <item>@string/Sub_5_2</item>
+        <item>@string/Sub_5_3</item>
+    </string-array>
+    <string-array name="Cat_6">
+        <item>@string/Main_6</item>
+        <item>@string/Sub_6_1</item>
+        <item>@string/Sub_6_2</item>
+        <item>@string/Sub_6_3</item>
+        <item>@string/Sub_6_4</item>
+        <item>@string/Sub_6_5</item>
+        <item>@string/Sub_6_6</item>
+        <item>@string/Sub_6_7</item>
+        <item>@string/Sub_6_8</item>
+    </string-array>
+    <string-array name="Cat_7">
+        <item>@string/Main_7</item>
+        <item>@string/Sub_7_1</item>
+        <item>@string/Sub_7_2</item>
+        <item>@string/Sub_7_3</item>
+        <item>@string/Sub_7_4</item>
+    </string-array>
+    <string-array name="Cat_8">
+        <item>@string/Main_8</item>
+        <item>@string/Sub_8_1</item>
+        <item>@string/Sub_8_2</item>
+        <item>@string/Sub_8_3</item>
+        <item>@string/Sub_8_4</item>
+        <item>@string/Sub_8_5</item>
+    </string-array>
+    <string-array name="Cat_9">
+        <item>@string/Main_9</item>
+        <item>@string/Sub_9_1</item>
+        <item>@string/Sub_9_2</item>
+        <item>@string/Sub_9_3</item>
+        <item>@string/Sub_9_4</item>
+        <item>@string/Sub_9_5</item>
+    </string-array>
+    <string-array name="Cat_10">
+        <item>@string/Main_10</item>
+    </string-array>
+    <string-array name="Cat_11">
+        <item>@string/Main_11</item>
+        <item>@string/Sub_11_1</item>
+        <item>@string/Sub_11_2</item>
+    </string-array>
+    <string-array name="Cat_12">
+        <item>@string/Main_12</item>
+        <item>@string/Sub_12_1</item>
+        <item>@string/Sub_12_2</item>
+        <item>@string/Sub_12_3</item>
+    </string-array>
+    <string-array name="Cat_13">
+        <item>@string/Main_13</item>
+        <item>@string/Sub_13_1</item>
+        <item>@string/Sub_13_2</item>
+        <item>@string/Sub_13_3</item>
+        <item>@string/Sub_13_4</item>
+    </string-array>
+    <string-array name="Cat_14">
+        <item>@string/Main_14</item>
+        <item>@string/Sub_14_1</item>
+        <item>@string/Sub_14_2</item>
+    </string-array>
+    <string-array name="Cat_15">
+        <item>@string/Main_15</item>
+        <item>@string/Sub_15_1</item>
+        <item>@string/Sub_15_2</item>
+        <item>@string/Sub_15_3</item>
+    </string-array>
+    <string-array name="Cat_16">
+        <item>@string/Main_16</item>
+        <item>@string/Sub_16_1</item>
+        <item>@string/Sub_16_2</item>
+        <item>@string/Sub_16_3</item>
+        <item>@string/Sub_16_4</item>
+        <item>@string/Sub_16_5</item>
+        <item>@string/Sub_16_6</item>
+        <item>@string/Sub_16_7</item>
+        <item>@string/Sub_16_8</item>
+        <item>@string/Sub_16_9</item>
+        <item>@string/Sub_16_10</item>
+        <item>@string/Sub_16_11</item>
+        <item>@string/Sub_16_12</item>
+        <item>@string/Sub_16_13</item>
+        <item>@string/Sub_16_14</item>
+        <item>@string/Sub_16_15</item>
+        <item>@string/Sub_16_16</item>
+    </string-array>
+    <string-array name="Cat_17">
+        <item>@string/Main_17</item>
+        <item>@string/Sub_17_1</item>
+        <item>@string/Sub_17_2</item>
+        <item>@string/Sub_17_3</item>
+        <item>@string/Sub_17_4</item>
+        <item>@string/Sub_17_5</item>
+        <item>@string/Sub_17_6</item>
+        <item>@string/Sub_17_7</item>
+        <item>@string/Sub_17_8</item>
+        <item>@string/Sub_17_9</item>
+        <item>@string/Sub_17_10</item>
+        <item>@string/Sub_17_11</item>
+        <item>@string/Sub_17_12</item>
+        <item>@string/Sub_17_13</item>
+        <item>@string/Sub_17_14</item>
+    </string-array>
+    <string-array name="Cat_18">
+        <item>@string/Main_18</item>
+        <item>@string/Sub_18_1</item>
+    </string-array>
+    <string-array name="Cat_19">
+        <item>@string/Main_19</item>
+        <item>@string/Sub_19_1</item>
+        <item>@string/Sub_19_2</item>
+        <item>@string/Sub_19_3</item>
+        <item>@string/Sub_19_4</item>
+        <item>@string/Sub_19_5</item>
+        <item>@string/Sub_19_6</item>
+        <item>@string/Sub_19_7</item>
+        <item>@string/Sub_19_8</item>
+        <item>@string/Sub_19_9</item>
+    </string-array>
+    <string-array name="Cat_20">
+        <item>@string/Main_20</item>
+        <item>@string/Sub_20_1</item>
+        <item>@string/Sub_20_2</item>
+    </string-array>
+    <string-array name="Cat_21">
+        <item>@string/Main_21</item>
+        <item>@string/Sub_21_1</item>
+        <item>@string/Sub_21_2</item>
+        <item>@string/Sub_21_3</item>
+        <item>@string/Sub_21_4</item>
+        <item>@string/Sub_21_5</item>
+        <item>@string/Sub_21_6</item>
+    </string-array>
+    <string-array name="Cat_22">
+        <item>@string/Main_22</item>
+        <item>@string/Sub_22_1</item>
+        <item>@string/Sub_22_2</item>
+        <item>@string/Sub_22_3</item>
+    </string-array>
+</resources>

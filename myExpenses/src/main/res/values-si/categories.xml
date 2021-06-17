@@ -1,195 +1,261 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources tools:ignore="UnusedResources, InconsistentArrays" xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources, InconsistentArrays">
+    <!-- Main category -->
     <string name="Main_1">වෙනත් ආදායම් </string>
-    <!-- Subcategories under "Other income" -->
-    <string-array name="Sub_1">
-        <item>සේවා වියුක්ති ප්‍රතිලාභ </item>
-        <item>පවුල් දීමනාව </item>
-        <item>බදු ණය </item>
-        <item>සූදූ ක්‍රීඩාව </item>
-        <item>පොදු රක්ෂණය </item>
-        <item>සමාජ ශුරක්ෂිතභාවය </item>
-    </string-array>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_1">සේවා වියුක්ති ප්‍රතිලාභ </string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_2">පවුල් දීමනාව </string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_3">බදු ණය </string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_4">සූදූ ක්‍රීඩාව </string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_5">පොදු රක්ෂණය </string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_6">සමාජ ශුරක්ෂිතභාවය </string>
+    <!-- Main category -->
     <string name="Main_2">විශ්‍රාම ගැනීම </string>
-    <!-- Subcategories under "Retirement" -->
-    <string-array name="Sub_2">
-        <item> විශ්‍රාමික අරමුදල </item>
-        <item>විශ්‍රාම වැටුප </item>
-        <item>ඌනපූඋරක  විශ්‍රාමික මුදල </item>
-    </string-array>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_1"> විශ්‍රාමික අරමුදල </string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_2">විශ්‍රාම වැටුප </string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_3">ඌනපූඋරක  විශ්‍රාමික මුදල </string>
+    <!-- Main category -->
     <string name="Main_3">ආයෝජන ආදායම</string>
-    <!-- Subcategories under "Investment income" -->
-    <string-array name="Sub_3">
-        <item>ලාභාංශ </item>
-        <item>පොළිය </item>
-        <item>ප්‍රාග්ධන ලාභය </item>
-    </string-array>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_1">ලාභාංශ </string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_2">පොළිය </string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_3">ප්‍රාග්ධන ලාභය </string>
+    <!-- Main category -->
     <string name="Main_4">වැටුප </string>
-    <!-- Subcategories under "Salary" -->
-    <string-array name="Sub_4">
-        <item>අතිකාල </item>
-        <item>නිවාඩු  දීමනාව </item>
-        <item>විවිධ අධිමිල  </item>
-        <item>පාරිතෝෂිකය </item>
-        <item> ශුද්ධ වැටුප</item>
-    </string-array>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_1">අතිකාල </string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_2">නිවාඩු  දීමනාව </string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_3">විවිධ අධිමිල  </string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_4">පාරිතෝෂිකය </string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_5"> ශුද්ධ වැටුප</string>
+    <!-- Main category -->
     <string name="Main_5">විවිධ ආදායම  </string>
-    <!-- Subcategories under "Misc. income" -->
-    <string-array name="Sub_5">
-        <item>තෑගි </item>
-        <item>ආපසු දුන් අරමුදල් </item>
-        <item>නැවත විකුණුම් </item>
-    </string-array>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_1">තෑගි </string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_2">ආපසු දුන් අරමුදල් </string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_3">නැවත විකුණුම් </string>
+    <!-- Main category -->
     <string name="Main_6">ආහාර </string>
-    <!-- Subcategories under "Food" -->
-    <string-array name="Sub_6">
-        <item>බීමහල  </item>
-        <item>බක්කරේ </item>
-        <item>ආපනශාලාව </item>
-        <item>රසකැවිලි </item>
-        <item>සිල්ලර භාණ්ඩ </item>
-        <item>අවන්හල </item>
-        <item>ස්වයං සේවා </item>
-        <item>සුපිරි වෙළදසැල </item>
-    </string-array>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_1">බීමහල  </string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_2">බක්කරේ </string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_3">ආපනශාලාව </string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_4">රසකැවිලි </string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_5">සිල්ලර භාණ්ඩ </string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_6">අවන්හල </string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_7">ස්වයං සේවා </string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_8">සුපිරි වෙළදසැල </string>
+    <!-- Main category -->
     <string name="Main_7">සුරතල් සතුන් </string>
-    <!-- Subcategories under "Pets" -->
-    <string-array name="Sub_7">
-        <item>ආහාර </item>
-        <item>විවිධ සපයන්නන්  </item>
-        <item>විවාහ වෙනවා</item>
-        <item>ශල්‍ය වෛද්‍යවරයා</item>
-    </string-array>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_1">ආහාර </string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_2">විවිධ සපයන්නන්  </string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_3">විවාහ වෙනවා</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_4">ශල්‍ය වෛද්‍යවරයා</string>
+    <!-- Main category -->
     <string name="Main_8">රක්ෂණය </string>
-    <!-- Subcategories under "Insurance" -->
-    <string-array name="Sub_8">
-        <item>රථය </item>
-        <item>සැපය </item>
-        <item>නිවහන </item>
-        <item>මහජන වගකීම </item>
-        <item>ජීවිතය </item>
-    </string-array>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_1">රථය </string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_2">සැපය </string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_3">නිවහන </string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_4">මහජන වගකීම </string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_5">ජීවිතය </string>
+    <!-- Main category -->
     <string name="Main_9">රථය </string>
-    <!-- Subcategories under "Car" -->
-    <string-array name="Sub_9">
-        <item>ඉන්ධන </item>
-        <item>අලුත්වැඩියා කිරීම </item>
-        <item>නඩත්තු කිරීම </item>
-        <item>ගාල් කරනවා </item>
-        <item>දඩ</item>
-    </string-array>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_1">ඉන්ධන </string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_2">අලුත්වැඩියා කිරීම </string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_3">නඩත්තු කිරීම </string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_4">ගාල් කරනවා </string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_5">දඩ</string>
+    <!-- Main category -->
     <string name="Main_10">තෑගි </string>
+    <!-- Main category -->
     <string name="Main_11">දරුවන් </string>
-    <!-- Subcategories under "Children" -->
-    <string-array name="Sub_11">
-        <item>හෙදිය</item>
-        <item>අධ්‍යනයන් </item>
-    </string-array>
+    <!-- Subcategory under "Children" -->
+    <string name="Sub_11_1">හෙදිය</string>
+    <!-- Subcategory under "Children" -->
+    <string name="Sub_11_2">අධ්‍යනයන් </string>
+    <!-- Main category -->
     <string name="Main_12">අධ්‍යනයන් </string>
-    <!-- Subcategories under "Studies" -->
-    <string-array name="Sub_12">
-        <item>පාඩම් </item>
-        <item>පාසල් ගාස්තු</item>
-        <item>පොත් </item>
-    </string-array>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_1">පාඩම් </string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_2">පාසල් ගාස්තු</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_3">පොත් </string>
+    <!-- Main category -->
     <string name="Main_13"> මූල්‍ය වියදම් </string>
-    <!-- Subcategories under "Financial expenses" -->
-    <string-array name="Sub_13">
-        <item>බැංකු අයකිරීම් </item>
-        <item>ණය/උකස </item>
-        <item>අයකිරීම් </item>
-        <item>නැවත ලබා දීම </item>
-    </string-array>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_1">බැංකු අයකිරීම් </string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_2">ණය/උකස </string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_3">අයකිරීම් </string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_4">නැවත ලබා දීම </string>
+    <!-- Main category -->
     <string name="Main_14">  වෞර්තිමය වියදම් </string>
-    <!-- Subcategories under "Professional expenses" -->
-    <string-array name="Sub_14">
-        <item>නැවත ලබා දිය නොහැකි </item>
-        <item>නැවත ලබා දිය හැකි </item>
-    </string-array>
+    <!-- Subcategory under "Professional expenses" -->
+    <string name="Sub_14_1">නැවත ලබා දිය නොහැකි </string>
+    <!-- Subcategory under "Professional expenses" -->
+    <string name="Sub_14_2">නැවත ලබා දිය හැකි </string>
+    <!-- Main category -->
     <string name="Main_15">බදු  </string>
-    <!-- Subcategories under "Taxes" -->
-    <string-array name="Sub_15">
-        <item>ආදායම් බදු</item>
-        <item>ඉඩම් බද්ද</item>
-        <item>විකුණුම් බද්ද</item>
-    </string-array>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_1">ආදායම් බදු</string>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_2">ඉඩම් බද්ද</string>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_3">විකුණුම් බද්ද</string>
+    <!-- Main category -->
     <string name="Main_16">නිවාස </string>
-    <!-- Subcategories under "Housing" -->
-    <string-array name="Sub_16">
-        <item>හෝටලය </item>
-        <item>බදු කුළිය </item>
-        <item>රූපවාහිනී  </item>
-        <item>ලී බඩු </item>
-        <item>අයකිරීම් </item>
-        <item>රත්වීම </item>
-        <item>සැරසිලි</item>
-        <item>ජලය </item>
-        <item>විදුලිය </item>
-        <item>නිත්‍යානුකූල භාණ්ඩ </item>
-        <item>උපකරණය </item>
-        <item>වායූ </item>
-        <item>වත්ත </item>
-        <item>ප්‍රධාන මෙහෙකරුවා </item>
-        <item>දුරකථනය</item>
-        <item>ජංගම දුරකථනය </item>
-    </string-array>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_1">හෝටලය </string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_2">බදු කුළිය </string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_3">රූපවාහිනී  </string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_4">ලී බඩු</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_5">අයකිරීම් </string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_6">රත්වීම </string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_7">සැරසිලි</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_8">ජලය </string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_9">විදුලිය </string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_10">නිත්‍යානුකූල භාණ්ඩ </string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_11">උපකරණය </string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_12">වායූ </string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_13">වත්ත </string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_14">ප්‍රධාන මෙහෙකරුවා </string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_15">දුරකථනය</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_16">ජංගම දුරකථනය </string>
+    <!-- Main category -->
     <string name="Main_17">විවේක කාලයන් </string>
-    <!-- Subcategories under "Leisures" -->
-    <string-array name="Sub_17">
-        <item>ස්නූකර් ක්‍රීඩාව</item>
-        <item>පෙරළීම </item>
-        <item>චිත්‍රපට </item>
-        <item>රාත්‍රී  සමාජ ශාලාව </item>
-        <item>තොරතුරු තාක්ෂණය </item>
-        <item>ක්‍රීඩා </item>
-        <item>පොත් </item>
-        <item>උද්‍යාන </item>
-        <item>ප්‍රසංග</item>
-        <item>ක්‍රීඩා </item>
-        <item>රූපමය  </item>
-        <item>චාරිකා </item>
-        <item>උපකරණය </item>
-        <item>කෞතුකාගාර/ප්‍රදර්ශන </item>
-    </string-array>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_1">ස්නූකර් ක්‍රීඩාව</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_2">පෙරළීම </string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_3">චිත්‍රපට </string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_4">රාත්‍රී  සමාජ ශාලාව </string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_5">තොරතුරු තාක්ෂණය </string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_6">ක්‍රීඩා </string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_7">පොත් </string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_8">උද්‍යාන </string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_9">ප්‍රසංග</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_10">ක්‍රීඩා </string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_11">රූපමය  </string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_12">චාරිකා </string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_13">උපකරණය </string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_14">කෞතුකාගාර/ප්‍රදර්ශන </string>
+    <!-- Main category -->
     <string name="Main_18">ණය/උකස </string>
-    <!-- Subcategories under "Loan/Mortgage" -->
-    <string-array name="Sub_18">
-        <item>ප්‍රාග්ධනය </item>
-    </string-array>
+    <!-- Subcategory under "Loan/Mortgage" -->
+    <string name="Sub_18_1">ප්‍රාග්ධනය </string>
+    <!-- Main category -->
     <string name="Main_19">සැපය </string>
-    <!-- Subcategories under "Health" -->
-    <string-array name="Sub_19">
-        <item>රක්ෂණය </item>
-        <item>දන්ත  වෛද්‍යවරයා </item>
-        <item>රෝහල </item>
-        <item>භෞතික වෛද්‍යවරයා</item>
-        <item>වෛද්‍යවරයා </item>
-        <item>අක්ෂි වෛද්‍යවරයා</item>
-        <item>අස්ථි ශාස්ත්‍ර වෛද්‍යවරයා</item>
-        <item> රසායන විද්‍යාඤයා </item>
-        <item>සමාජ ශුරක්ෂිතභාවය </item>
-    </string-array>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_1">රක්ෂණය </string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_2">දන්ත  වෛද්‍යවරයා </string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_3">රෝහල </string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_4">භෞතික වෛද්‍යවරයා</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_5">වෛද්‍යවරයා </string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_6">අක්ෂි වෛද්‍යවරයා</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_7">අස්ථි ශාස්ත්‍ර වෛද්‍යවරයා</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_8"> රසායන විද්‍යාඤයා </string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_9">සමාජ ශුරක්ෂිතභාවය </string>
+    <!-- Main category -->
     <string name="Main_20">පරිස්සම </string>
-    <!-- Subcategories under "Care" -->
-    <string-array name="Sub_20">
-        <item>බාබර් </item>
-        <item>වස්ත්‍ර</item>
-    </string-array>
+    <!-- Subcategory under "Care" -->
+    <string name="Sub_20_1">බාබර් </string>
+    <!-- Subcategory under "Care" -->
+    <string name="Sub_20_2">වස්ත්‍ර</string>
+    <!-- Main category -->
     <string name="Main_21">ගමනාගමනය </string>
-    <!-- Subcategories under "Transport" -->
-    <string-array name="Sub_21">
-        <item>බස් රථය </item>
-        <item>මීටරය </item>
-        <item>රේන්ද </item>
-        <item>දුම්රිය </item>
-        <item>ගුවන් රැහැන් මඟ </item>
-        <item>ගුවන්යානය</item>
-    </string-array>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_1">බස් රථය </string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_2">මීටරය </string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_3">රේන්ද </string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_4">දුම්රිය </string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_5">ගුවන් රැහැන් මඟ </string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_6">ගුවන්යානය</string>
+    <!-- Main category -->
     <string name="Main_22">නිවාඩු දිනයන්</string>
-    <!-- Subcategories under "Holidays" -->
-    <string-array name="Sub_22">
-        <item>නිවාස </item>
-        <item>ගමන් </item>
-        <item>චාරිකා </item>
-    </string-array>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_1">නිවාස </string>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_2">ගමන් </string>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_3">චාරිකා </string>
 </resources>

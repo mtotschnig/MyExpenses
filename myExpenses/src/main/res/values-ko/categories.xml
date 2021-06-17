@@ -1,195 +1,261 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources tools:ignore="UnusedResources, InconsistentArrays" xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources, InconsistentArrays">
+    <!-- Main category -->
     <string name="Main_1">이 외의 수입</string>
-    <!-- Subcategories under "Other income" -->
-    <string-array name="Sub_1">
-        <item>실업 수당</item>
-        <item>가족 수당</item>
-        <item>세금 공제</item>
-        <item>도박</item>
-        <item>상호 보험</item>
-        <item>사회 보장</item>
-    </string-array>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_1">실업 수당</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_2">가족 수당</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_3">세금 공제</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_4">도박</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_5">상호 보험</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_6">사회 보장</string>
+    <!-- Main category -->
     <string name="Main_2">은퇴 자금</string>
-    <!-- Subcategories under "Retirement" -->
-    <string-array name="Sub_2">
-        <item>퇴직 기금</item>
-        <item>연금</item>
-        <item>보충 연금</item>
-    </string-array>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_1">퇴직 기금</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_2">연금</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_3">보충 연금</string>
+    <!-- Main category -->
     <string name="Main_3">투자 수익</string>
-    <!-- Subcategories under "Investment income" -->
-    <string-array name="Sub_3">
-        <item>배당금</item>
-        <item>이자</item>
-        <item>자본 이득</item>
-    </string-array>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_1">배당금</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_2">이자</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_3">자본 이득</string>
+    <!-- Main category -->
     <string name="Main_4">급여</string>
-    <!-- Subcategories under "Salary" -->
-    <string-array name="Sub_4">
-        <item>초과 근무 수당</item>
-        <item>연차 휴가 수당</item>
-        <item>기타 프리미엄</item>
-        <item>성공 보수</item>
-        <item>실수령 급여</item>
-    </string-array>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_1">초과 근무 수당</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_2">연차 휴가 수당</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_3">기타 프리미엄</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_4">성공 보수</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_5">실수령 급여</string>
+    <!-- Main category -->
     <string name="Main_5">기타 수입</string>
-    <!-- Subcategories under "Misc. income" -->
-    <string-array name="Sub_5">
-        <item>선물</item>
-        <item>환불</item>
-        <item>중고 판매</item>
-    </string-array>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_1">선물</string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_2">환불</string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_3">중고 판매</string>
+    <!-- Main category -->
     <string name="Main_6">음식</string>
-    <!-- Subcategories under "Food" -->
-    <string-array name="Sub_6">
-        <item>주점</item>
-        <item>제과점</item>
-        <item>구내식당/매점</item>
-        <item>과자</item>
-        <item>식료품</item>
-        <item>식당</item>
-        <item>무인 점포</item>
-        <item>슈퍼마켓</item>
-    </string-array>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_1">주점</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_2">제과점</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_3">구내식당/매점</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_4">과자</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_5">식료품</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_6">식당</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_7">무인 점포</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_8">슈퍼마켓</string>
+    <!-- Main category -->
     <string name="Main_7">반려동물</string>
-    <!-- Subcategories under "Pets" -->
-    <string-array name="Sub_7">
-        <item>음식</item>
-        <item>다양한 용품들</item>
-        <item>미용</item>
-        <item>수의사</item>
-    </string-array>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_1">음식</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_2">다양한 용품들</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_3">미용</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_4">수의사</string>
+    <!-- Main category -->
     <string name="Main_8">보험</string>
-    <!-- Subcategories under "Insurance" -->
-    <string-array name="Sub_8">
-        <item>자동차</item>
-        <item>건강</item>
-        <item>주택</item>
-        <item>민사 책임</item>
-        <item>삶</item>
-    </string-array>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_1">자동차</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_2">건강</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_3">주택</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_4">민사 책임</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_5">삶</string>
+    <!-- Main category -->
     <string name="Main_9">자동차</string>
-    <!-- Subcategories under "Car" -->
-    <string-array name="Sub_9">
-        <item>연료</item>
-        <item>수리</item>
-        <item>유지 보수 관리</item>
-        <item>주차</item>
-        <item>벌금/과태료</item>
-    </string-array>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_1">연료</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_2">수리</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_3">유지 보수 관리</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_4">주차</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_5">벌금/과태료</string>
+    <!-- Main category -->
     <string name="Main_10">선물</string>
+    <!-- Main category -->
     <string name="Main_11">어린이</string>
-    <!-- Subcategories under "Children" -->
-    <string-array name="Sub_11">
-        <item>간호사</item>
-        <item>공부</item>
-    </string-array>
+    <!-- Subcategory under "Children" -->
+    <string name="Sub_11_1">간호사</string>
+    <!-- Subcategory under "Children" -->
+    <string name="Sub_11_2">공부</string>
+    <!-- Main category -->
     <string name="Main_12">공부</string>
-    <!-- Subcategories under "Studies" -->
-    <string-array name="Sub_12">
-        <item>교습</item>
-        <item>수업료</item>
-        <item>도서</item>
-    </string-array>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_1">교습</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_2">수업료</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_3">도서</string>
+    <!-- Main category -->
     <string name="Main_13">재무 비용</string>
-    <!-- Subcategories under "Financial expenses" -->
-    <string-array name="Sub_13">
-        <item>은행 수수료</item>
-        <item>대출/융자</item>
-        <item>요금</item>
-        <item>변제/상환</item>
-    </string-array>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_1">은행 수수료</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_2">대출/융자</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_3">요금</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_4">변제/상환</string>
+    <!-- Main category -->
     <string name="Main_14">전문 서비스 비용</string>
-    <!-- Subcategories under "Professional expenses" -->
-    <string-array name="Sub_14">
-        <item>환급 불가</item>
-        <item>환급 가능</item>
-    </string-array>
+    <!-- Subcategory under "Professional expenses" -->
+    <string name="Sub_14_1">환급 불가</string>
+    <!-- Subcategory under "Professional expenses" -->
+    <string name="Sub_14_2">환급 가능</string>
+    <!-- Main category -->
     <string name="Main_15">세금</string>
-    <!-- Subcategories under "Taxes" -->
-    <string-array name="Sub_15">
-        <item>소득세</item>
-        <item>토지 세</item>
-        <item>판매 세</item>
-    </string-array>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_1">소득세</string>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_2">토지 세</string>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_3">판매 세</string>
+    <!-- Main category -->
     <string name="Main_16">주거</string>
-    <!-- Subcategories under "Housing" -->
-    <string-array name="Sub_16">
-        <item>호텔</item>
-        <item>임대료</item>
-        <item>TV</item>
-        <item>가구</item>
-        <item>요금</item>
-        <item>난방</item>
-        <item>장식</item>
-        <item>수도</item>
-        <item>전기</item>
-        <item>백색 가전</item>
-        <item>장비</item>
-        <item>가스</item>
-        <item>정원</item>
-        <item>하우스키퍼</item>
-        <item>전화</item>
-        <item>이동전화</item>
-    </string-array>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_1">호텔</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_2">임대료</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_3">TV</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_4">가구</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_5">요금</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_6">난방</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_7">장식</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_8">수도</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_9">전기</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_10">백색 가전</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_11">장비</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_12">가스</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_13">정원</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_14">하우스키퍼</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_15">전화</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_16">이동전화</string>
+    <!-- Main category -->
     <string name="Main_17">여가</string>
-    <!-- Subcategories under "Leisures" -->
-    <string-array name="Sub_17">
-        <item>당구</item>
-        <item>볼링</item>
-        <item>영화</item>
-        <item>클럽</item>
-        <item>IT</item>
-        <item>게임</item>
-        <item>도서</item>
-        <item>공원</item>
-        <item>콘서트</item>
-        <item>스포츠</item>
-        <item>비디오</item>
-        <item>여행</item>
-        <item>장비</item>
-        <item>박물관/전시회</item>
-    </string-array>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_1">당구</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_2">볼링</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_3">영화</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_4">클럽</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_5">IT</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_6">게임</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_7">도서</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_8">공원</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_9">콘서트</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_10">스포츠</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_11">비디오</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_12">여행</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_13">장비</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_14">박물관/전시회</string>
+    <!-- Main category -->
     <string name="Main_18">대출/융자</string>
-    <!-- Subcategories under "Loan/Mortgage" -->
-    <string-array name="Sub_18">
-        <item>자본</item>
-    </string-array>
+    <!-- Subcategory under "Loan/Mortgage" -->
+    <string name="Sub_18_1">자본</string>
+    <!-- Main category -->
     <string name="Main_19">건강</string>
-    <!-- Subcategories under "Health" -->
-    <string-array name="Sub_19">
-        <item>보험</item>
-        <item>치과 의사</item>
-        <item>병원</item>
-        <item>운동 요법 치료사</item>
-        <item>의사</item>
-        <item>안과 의사</item>
-        <item>정골요법사/카이로프랙터</item>
-        <item>약사</item>
-        <item>사회 보장</item>
-    </string-array>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_1">보험</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_2">치과 의사</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_3">병원</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_4">운동 요법 치료사</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_5">의사</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_6">안과 의사</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_7">정골요법사/카이로프랙터</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_8">약사</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_9">사회 보장</string>
+    <!-- Main category -->
     <string name="Main_20">치료</string>
-    <!-- Subcategories under "Care" -->
-    <string-array name="Sub_20">
-        <item>미용사/헤어디자이너</item>
-        <item>의류</item>
-    </string-array>
+    <!-- Subcategory under "Care" -->
+    <string name="Sub_20_1">미용사/헤어디자이너</string>
+    <!-- Subcategory under "Care" -->
+    <string name="Sub_20_2">의류</string>
+    <!-- Main category -->
     <string name="Main_21">교통</string>
-    <!-- Subcategories under "Transport" -->
-    <string-array name="Sub_21">
-        <item>버스</item>
-        <item>지하철</item>
-        <item>통행료</item>
-        <item>열차</item>
-        <item>트램</item>
-        <item>비행기</item>
-    </string-array>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_1">버스</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_2">지하철</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_3">통행료</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_4">열차</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_5">트램</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_6">비행기</string>
+    <!-- Main category -->
     <string name="Main_22">휴일</string>
-    <!-- Subcategories under "Holidays" -->
-    <string-array name="Sub_22">
-        <item>주거</item>
-        <item>방문</item>
-        <item>여행</item>
-    </string-array>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_1">주거</string>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_2">방문</string>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_3">여행</string>
 </resources>

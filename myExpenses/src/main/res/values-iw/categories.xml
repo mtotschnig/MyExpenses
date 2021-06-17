@@ -1,195 +1,261 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources tools:ignore="UnusedResources, InconsistentArrays" xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources, InconsistentArrays">
+    <!-- Main category -->
     <string name="Main_1">הכנסה אחרת</string>
-    <!-- Subcategories under "Other income" -->
-    <string-array name="Sub_1">
-        <item>דמי אבטלה</item>
-        <item>קצבת משפחה</item>
-        <item>זיכוי מס</item>
-        <item>הימורים</item>
-        <item>ביטוח הדדי</item>
-        <item>ביטוח לאומי</item>
-    </string-array>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_1">דמי אבטלה</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_2">קצבת משפחה</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_3">זיכוי מס</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_4">הימורים</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_5">ביטוח הדדי</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_6">ביטוח לאומי</string>
+    <!-- Main category -->
     <string name="Main_2">פרישה לגמלאות</string>
-    <!-- Subcategories under "Retirement" -->
-    <string-array name="Sub_2">
-        <item>קרן פנסיה</item>
-        <item>פנסיה</item>
-        <item>פנסיה משלימה</item>
-    </string-array>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_1">קרן פנסיה</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_2">פנסיה</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_3">פנסיה משלימה</string>
+    <!-- Main category -->
     <string name="Main_3">הכנסה מהשקעה</string>
-    <!-- Subcategories under "Investment income" -->
-    <string-array name="Sub_3">
-        <item>דיבידנד</item>
-        <item>ריבית</item>
-        <item>רווח הון</item>
-    </string-array>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_1">דיבידנד</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_2">ריבית</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_3">רווח הון</string>
+    <!-- Main category -->
     <string name="Main_4">שכר</string>
-    <!-- Subcategories under "Salary" -->
-    <string-array name="Sub_4">
-        <item>שעות נוספות</item>
-        <item>קצבת שארים</item>
-        <item>פרמיות שונות</item>
-        <item>מס הצלחה</item>
-        <item>שכר נטו</item>
-    </string-array>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_1">שעות נוספות</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_2">קצבת שארים</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_3">פרמיות שונות</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_4">מס הצלחה</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_5">שכר נטו</string>
+    <!-- Main category -->
     <string name="Main_5">הכנסות שונות</string>
-    <!-- Subcategories under "Misc. income" -->
-    <string-array name="Sub_5">
-        <item>מתנות</item>
-        <item>החזרים כספיים</item>
-        <item>מכירות יד שניה</item>
-    </string-array>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_1">מתנות</string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_2">החזרים כספיים</string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_3">מכירות יד שניה</string>
+    <!-- Main category -->
     <string name="Main_6">מזון</string>
-    <!-- Subcategories under "Food" -->
-    <string-array name="Sub_6">
-        <item>בר</item>
-        <item>אופה</item>
-        <item>קנטינה</item>
-        <item>ממתקים</item>
-        <item>מכולת</item>
-        <item>מסעדה</item>
-        <item>שרות עצמי</item>
-        <item>סופר מרקט</item>
-    </string-array>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_1">בר</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_2">אופה</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_3">קנטינה</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_4">ממתקים</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_5">מכולת</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_6">מסעדה</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_7">שרות עצמי</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_8">סופר מרקט</string>
+    <!-- Main category -->
     <string name="Main_7">חיות מחמד</string>
-    <!-- Subcategories under "Pets" -->
-    <string-array name="Sub_7">
-        <item>מזון</item>
-        <item>אספקות שונות</item>
-        <item>מטפלת</item>
-        <item>מנתח ווטרינרי</item>
-    </string-array>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_1">מזון</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_2">אספקות שונות</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_3">מטפלת</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_4">מנתח ווטרינרי</string>
+    <!-- Main category -->
     <string name="Main_8">ביטוח</string>
-    <!-- Subcategories under "Insurance" -->
-    <string-array name="Sub_8">
-        <item>רכב</item>
-        <item>בריאות</item>
-        <item>בית</item>
-        <item>נאמנות אזרחית</item>
-        <item>חיים</item>
-    </string-array>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_1">רכב</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_2">בריאות</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_3">בית</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_4">נאמנות אזרחית</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_5">חיים</string>
+    <!-- Main category -->
     <string name="Main_9">רכב</string>
-    <!-- Subcategories under "Car" -->
-    <string-array name="Sub_9">
-        <item>דלק</item>
-        <item>תיקונים</item>
-        <item>תחזוקה</item>
-        <item>חנייה</item>
-        <item>קנסות</item>
-    </string-array>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_1">דלק</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_2">תיקונים</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_3">תחזוקה</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_4">חנייה</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_5">קנסות</string>
+    <!-- Main category -->
     <string name="Main_10">מתנות</string>
+    <!-- Main category -->
     <string name="Main_11">ילדים</string>
-    <!-- Subcategories under "Children" -->
-    <string-array name="Sub_11">
-        <item>אחות</item>
-        <item>לימודים</item>
-    </string-array>
+    <!-- Subcategory under "Children" -->
+    <string name="Sub_11_1">אחות</string>
+    <!-- Subcategory under "Children" -->
+    <string name="Sub_11_2">לימודים</string>
+    <!-- Main category -->
     <string name="Main_12">לימודים</string>
-    <!-- Subcategories under "Studies" -->
-    <string-array name="Sub_12">
-        <item>שיעורים</item>
-        <item>שכר לימוד</item>
-        <item>ספרים</item>
-    </string-array>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_1">שיעורים</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_2">שכר לימוד</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_3">ספרים</string>
+    <!-- Main category -->
     <string name="Main_13">הוצאות מימון</string>
-    <!-- Subcategories under "Financial expenses" -->
-    <string-array name="Sub_13">
-        <item>עמלות בנק</item>
-        <item>הלוואה/משכנתה</item>
-        <item>חיובים</item>
-        <item>החזר כספי</item>
-    </string-array>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_1">עמלות בנק</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_2">הלוואה/משכנתה</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_3">חיובים</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_4">החזר כספי</string>
+    <!-- Main category -->
     <string name="Main_14">הוצאות מקצועיות</string>
-    <!-- Subcategories under "Professional expenses" -->
-    <string-array name="Sub_14">
-        <item>לא ניתן לקבל החזיר</item>
-        <item>ניתן לקבל החזר</item>
-    </string-array>
+    <!-- Subcategory under "Professional expenses" -->
+    <string name="Sub_14_1">לא ניתן לקבל החזיר</string>
+    <!-- Subcategory under "Professional expenses" -->
+    <string name="Sub_14_2">ניתן לקבל החזר</string>
+    <!-- Main category -->
     <string name="Main_15">מיסים</string>
-    <!-- Subcategories under "Taxes" -->
-    <string-array name="Sub_15">
-        <item>מס הכנסה</item>
-        <item>מס קרקע</item>
-        <item>מס מכירה</item>
-    </string-array>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_1">מס הכנסה</string>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_2">מס קרקע</string>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_3">מס מכירה</string>
+    <!-- Main category -->
     <string name="Main_16">דיור</string>
-    <!-- Subcategories under "Housing" -->
-    <string-array name="Sub_16">
-        <item>מלון</item>
-        <item>שכירות</item>
-        <item>טלביזיה</item>
-        <item>ריהוט</item>
-        <item>חיובים</item>
-        <item>בריאות</item>
-        <item>תפאורה</item>
-        <item>מים</item>
-        <item>חשמל</item>
-        <item>מוצרים לבנים</item>
-        <item>ציוד</item>
-        <item>גז</item>
-        <item>גן</item>
-        <item>אב בית</item>
-        <item>טלפון</item>
-        <item>טלפון נייד</item>
-    </string-array>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_1">מלון</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_2">שכירות</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_3">טלביזיה</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_4">ריהוט</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_5">חיובים</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_6">בריאות</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_7">תפאורה</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_8">מים</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_9">חשמל</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_10">מוצרים לבנים</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_11">ציוד</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_12">גז</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_13">גן</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_14">אב בית</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_15">טלפון</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_16">טלפון נייד</string>
+    <!-- Main category -->
     <string name="Main_17">פנאי</string>
-    <!-- Subcategories under "Leisures" -->
-    <string-array name="Sub_17">
-        <item>סנוקר</item>
-        <item>באוליניג</item>
-        <item>סרטים</item>
-        <item>מועדון לילה</item>
-        <item>זה</item>
-        <item>משחקים</item>
-        <item>ספרים</item>
-        <item>פארקים</item>
-        <item>קונצרטים</item>
-        <item>ספורט</item>
-        <item>וידאו</item>
-        <item>נסיעות</item>
-        <item>ציוד</item>
-        <item>מוזאונים/תערוכות</item>
-    </string-array>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_1">סנוקר</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_2">באוליניג</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_3">סרטים</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_4">מועדון לילה</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_5">זה</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_6">משחקים</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_7">ספרים</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_8">פארקים</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_9">קונצרטים</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_10">ספורט</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_11">וידאו</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_12">נסיעות</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_13">ציוד</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_14">מוזאונים/תערוכות</string>
+    <!-- Main category -->
     <string name="Main_18">הלוואה/משכנתה</string>
-    <!-- Subcategories under "Loan/Mortgage" -->
-    <string-array name="Sub_18">
-        <item>עיר בירה</item>
-    </string-array>
+    <!-- Subcategory under "Loan/Mortgage" -->
+    <string name="Sub_18_1">עיר בירה</string>
+    <!-- Main category -->
     <string name="Main_19">בריאות</string>
-    <!-- Subcategories under "Health" -->
-    <string-array name="Sub_19">
-        <item>ביטוח</item>
-        <item>רופא שיניים</item>
-        <item>בית חולים</item>
-        <item>Kinesitherapist</item>
-        <item>רופא</item>
-        <item>רופא עינים</item>
-        <item>אוסטיאופת</item>
-        <item>כימאי</item>
-        <item>ביטוח לאומי</item>
-    </string-array>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_1">ביטוח</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_2">רופא שיניים</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_3">בית חולים</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_4">Kinesitherapist</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_5">רופא</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_6">רופא עינים</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_7">אוסטיאופת</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_8">כימאי</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_9">ביטוח לאומי</string>
+    <!-- Main category -->
     <string name="Main_20">מטפל</string>
-    <!-- Subcategories under "Care" -->
-    <string-array name="Sub_20">
-        <item>מעצב שיער</item>
-        <item>הלבשה</item>
-    </string-array>
+    <!-- Subcategory under "Care" -->
+    <string name="Sub_20_1">מעצב שיער</string>
+    <!-- Subcategory under "Care" -->
+    <string name="Sub_20_2">הלבשה</string>
+    <!-- Main category -->
     <string name="Main_21">תחבורה</string>
-    <!-- Subcategories under "Transport" -->
-    <string-array name="Sub_21">
-        <item>אוטובוס</item>
-        <item>רַכֶּבֶת תַחְתִית</item>
-        <item>אגרה</item>
-        <item>רכבת</item>
-        <item>חשמלית</item>
-        <item>מטוס</item>
-    </string-array>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_1">אוטובוס</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_2">רַכֶּבֶת תַחְתִית</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_3">אגרה</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_4">רכבת</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_5">חשמלית</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_6">מטוס</string>
+    <!-- Main category -->
     <string name="Main_22">חגים</string>
-    <!-- Subcategories under "Holidays" -->
-    <string-array name="Sub_22">
-        <item>דיור</item>
-        <item>ביקורים</item>
-        <item>נסיעות</item>
-    </string-array>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_1">דיור</string>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_2">ביקורים</string>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_3">נסיעות</string>
 </resources>
