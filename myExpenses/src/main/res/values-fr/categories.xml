@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources, InconsistentArrays">
     <!-- Main category -->
     <string name="Main_1">Autre revenu</string>
     <!-- Subcategory under "Other income" -->
-    <string name="Sub_1_1">Assurance chômage</string>
+    <string name="Sub_1_1">Allocation chômage</string>
     <!-- Subcategory under "Other income" -->
     <string name="Sub_1_2">Allocation familiale</string>
     <!-- Subcategory under "Other income" -->
@@ -65,7 +65,7 @@
     <!-- Subcategory under "Food" -->
     <string name="Sub_6_6">Restaurant</string>
     <!-- Subcategory under "Food" -->
-    <string name="Sub_6_7">Self</string>
+    <string name="Sub_6_7">Self-service</string>
     <!-- Subcategory under "Food" -->
     <string name="Sub_6_8">Supermarché</string>
     <!-- Main category -->
@@ -125,7 +125,7 @@
     <!-- Subcategory under "Financial expenses" -->
     <string name="Sub_13_2">Prêt / hypothèque</string>
     <!-- Subcategory under "Financial expenses" -->
-    <string name="Sub_13_3">Charges</string>
+    <string name="Sub_13_3">Frais</string>
     <!-- Subcategory under "Financial expenses" -->
     <string name="Sub_13_4">Remboursement</string>
     <!-- Main category -->
@@ -135,7 +135,7 @@
     <!-- Subcategory under "Professional expenses" -->
     <string name="Sub_14_2">Remboursable</string>
     <!-- Main category -->
-    <string name="Main_15">Taxes</string>
+    <string name="Main_15">Impôts</string>
     <!-- Subcategory under "Taxes" -->
     <string name="Sub_15_1">Impôt sur le revenu</string>
     <!-- Subcategory under "Taxes" -->
@@ -153,7 +153,7 @@
     <!-- Subcategory under "Housing" -->
     <string name="Sub_16_4">Meubles</string>
     <!-- Subcategory under "Housing" -->
-    <string name="Sub_16_5">Charges</string>
+    <string name="Sub_16_5">Frais</string>
     <!-- Subcategory under "Housing" -->
     <string name="Sub_16_6">Chauffage</string>
     <!-- Subcategory under "Housing" -->
@@ -223,7 +223,7 @@
     <!-- Subcategory under "Health" -->
     <string name="Sub_19_5">Médecin</string>
     <!-- Subcategory under "Health" -->
-    <string name="Sub_19_6">Ophtalmologiste</string>
+    <string name="Sub_19_6">Ophtalmologue</string>
     <!-- Subcategory under "Health" -->
     <string name="Sub_19_7">Ostéopathe</string>
     <!-- Subcategory under "Health" -->
@@ -239,7 +239,7 @@
     <!-- Main category -->
     <string name="Main_21">Transport</string>
     <!-- Subcategory under "Transport" -->
-    <string name="Sub_21_1">Autobus</string>
+    <string name="Sub_21_1">Bus</string>
     <!-- Subcategory under "Transport" -->
     <string name="Sub_21_2">Métro</string>
     <!-- Subcategory under "Transport" -->

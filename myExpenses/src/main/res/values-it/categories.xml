@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources, InconsistentArrays">
     <!-- Main category -->
     <string name="Main_1">Altre entrate</string>
@@ -185,7 +185,7 @@
     <!-- Subcategory under "Leisures" -->
     <string name="Sub_17_3">Film</string>
     <!-- Subcategory under "Leisures" -->
-    <string name="Sub_17_4">Night club</string>
+    <string name="Sub_17_4">Discoteca</string>
     <!-- Subcategory under "Leisures" -->
     <string name="Sub_17_5">Tecnologia</string>
     <!-- Subcategory under "Leisures" -->
