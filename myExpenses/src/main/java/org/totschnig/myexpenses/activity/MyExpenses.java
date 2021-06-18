@@ -546,7 +546,7 @@ public class MyExpenses extends BaseMyExpenses implements
           ExportDialogFragment.newInstance(accountId, tl.isFiltered())
               .show(this.getSupportFragmentManager(), "WARNING_RESET");
         } else {
-          showSnackbar(appDirStatus.print(this));
+          showDismissibleSnackbar(appDirStatus.print(this));
         }
       } else {
         showExportDisabledCommand();

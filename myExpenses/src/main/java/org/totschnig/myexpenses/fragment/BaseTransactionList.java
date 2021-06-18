@@ -50,7 +50,6 @@ import com.annimon.stream.Collectors;
 import com.annimon.stream.IntStream;
 import com.annimon.stream.Stream;
 import com.github.lzyzsd.circleprogress.DonutProgress;
-import com.google.android.material.snackbar.Snackbar;
 
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.temporal.ChronoUnit;
@@ -1516,7 +1515,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         if (appDirStatus.isSuccess()) {
           ctx.contribFeatureRequested(ContribFeature.PRINT, null);
         } else {
-          ctx.showSnackbar(appDirStatus.print(ctx), Snackbar.LENGTH_LONG);
+          ctx.showDismissibleSnackbar(appDirStatus.print(ctx));
         }
       } else {
         ctx.showExportDisabledCommand();
