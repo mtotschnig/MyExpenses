@@ -126,6 +126,108 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 3.3.2
+    - "2021-06-15"
+    -
+      ar: |
+        الترجمة: التيلوغوية. العملة: صقل واجهة المستخدم.
+      bg: |
+        Превод: телугу. Валута: Подобрения в потребителския интерфейс.
+      de: |
+        Übersetzung: Telugu. Währung: Verfeinerung der Benutzeroberfläche.
+      es: |
+        Traducción: telugu. Moneda: Interfaz de usuario mejorada.
+      fr: |
+        Traduction: télougou. Devise: Raffinement de l'interface utilisateur.
+      it: |
+        Traduzione: telugu. Valuta: Miglioramento dell'interfaccia utente.
+      iw: |
+        תרגום: טלוגו. מטבע: חידוד ממשק המשתמש.
+      pt: |
+        Tradução: télugo. Moeda: Refinamento da interface do usuário..
+      tr: |
+        Çeviri: Telugu dili. Döviz: Kullanıcı arayüzü iyileştirildi.
+      en: |
+        Translation: Telugu. Currency: Refinement of the user interface.
+  -
+    - 3.3.1
+    - "2021-05-31"
+    -
+      ar: |
+        الاعدادات - الملء التلقائي: صقل واجهة المستخدم.
+      bg: |
+        Настройки - Автоматично попълване: Подобрения в потребителския интерфейс.
+      de: |
+        Einstellungen - AutoFill: Verfeinerung der Benutzeroberfläche.
+      es: |
+        Configuraciones - Autocompletar: Interfaz de usuario mejorada.
+      fr: |
+        Paramètres - Saisie automatique: Raffinement de l'interface utilisateur.
+      it: |
+        Impostazioni - Compilazione automatica: Miglioramento dell'interfaccia utente.
+      iw: |
+        הגדרות - מילוי אוטומטי: חידוד ממשק המשתמש.
+      pt: |
+        Configurações - Preenchimento automático: Refinamento da interface do usuário..
+      tr: |
+        Ayarlar - Otomatik Doldur: Kullanıcı arayüzü iyileştirildi.
+      en: |
+        Settings - Autofill: Refinement of the user interface.
+  -
+    - 3.3.0
+    - "2014-xx-xx"
+    -
+      ar: |
+        إستيراد ملف CSV: العلامات. .
+      bg: |
+        Импорт от CSV: Маркери. Активни маркери.
+      de: |
+        CSV import: Schlagwörter. Aktive Schlagwörter.
+      es: |
+        Importar desde CSV: Etiquetas. Etiquetas activas.
+      fr: |
+        Import CSV: Étiquettes. Étiquettes actives.
+      hr: |
+        CSV uvoz: Oznake. Aktivne oznake.
+      hu: |
+        CSV-importálás: Címkék. Aktív cimkék.
+      it: |
+        Importazione CSV: Etichette. Tag attivi.
+      iw: |
+        ייבוא CSV: תגים. תגים פעילים.
+      kn: |
+        ಸಿಎಸ್ವಿ ಆಮದು: ಟ್ಯಾಗ್ಗಳು. ಸಕ್ರಿಯ ಟ್ಯಾಗ್‌ಗಳು.
+      pt: |
+        Importação CSV: Etiquetas. Etiquetas ativas.
+      ta: |
+        CSV இறக்குமதி: குறிச்சொற்கள். செயலிலுள்ள குறிச்சொற்கள்.
+      tr: |
+        CSV içe aktar: Etiketler. Etkin Etiketler.
+      en: |
+        CSV import: Tags. Active Tags.
+  -
+    - 3.2.9
+    - "2014-xx-xx"
+    -
+      bg: |
+        Дублирани страни може да бъдат обединени. Останалата сума при разпределена транзакция може да бъде копирана в клипборда.
+      de: |
+        Duplikate bei den Parteien können zusammengeführt werden. Der verbleibende Betrag bei mehrteiligen Buchungen kann in die Zwischenablage kopiert werden.
+      es: |
+        Los grupos duplicados pueden combinarse. El importe restante de las transacciones divididas puede copiarse en el portapapeles.
+      fr: |
+        Les tiers en double peuvent être fusionnés. Le montant restant des opérations ventilées peut être copié dans le presse-papiers.
+      it: |
+        Le parti duplicate possono essere raggruppate. L'importo rimanente nelle transazioni frazionate può essere copiato negli appunti.
+      iw: |
+        ניתן למזג צדדים כפולים. ניתן להעתיק את הסכום הנותר בעסקאות מפוצלות ללוח.
+      pt: |
+        Parceiros duplicados podem ser mesclados. A quantia restante nas transações divididas pode ser copiada para a área de transferência.
+      tr: |
+        Yinelenen taraflar birleştirilebilir. Bölünmüş muamelelerdeki kalan meblağ panoya kopyalanabilir.
+      en: |
+        Duplicate parties can be merged. Remaining amount in split transactions can be copied to clipboard.
+  -
     - 3.2.8
     - "2021-04-09"
     -
