@@ -448,7 +448,7 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Ако сумите не бъдат обновени, след промяната ще бъдат показвани като разделени на %d.</string>
     <string name="warning_change_fraction_digits_3">Ако сумите бъдат обновени ще загубите информацията от тяхната дробна част.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Обнови сумите в базата данни</string>
-    <string name="import_categories_success">Успешно са внесени %1$s категории</string>
+    <string name="import_categories_success">Успешно са внесени %1$d категории</string>
     <string name="import_parties_success">Успешно са внесени %1$s страни</string>
     <string name="import_accounts_success">Успешно са внесени %1$s сметки</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">Успешно са внесени %1$d транзакции в сметка %2$s</string>

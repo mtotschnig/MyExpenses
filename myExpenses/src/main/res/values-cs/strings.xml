@@ -466,7 +466,7 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Pokud nedojde k aktualizaci částek, po změně se zobrazí jako rozdělené podle %d.</string>
     <string name="warning_change_fraction_digits_3">Pokud budou částky aktualizovány, přijdete o informace o jejich desetinné části.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Aktualizovat částky v databázi</string>
-    <string name="import_categories_success">%1$s kategorie byly úspěšně naimportovány.</string>
+    <string name="import_categories_success">%1$d kategorie byly úspěšně naimportovány.</string>
     <string name="import_parties_success">%1$s strany byly úspěšně naimportovány.</string>
     <string name="import_accounts_success">Účty (celkem %1$s) byly úspěšně importovány</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transakcí úspěšně importováno na účet %2$s</string>

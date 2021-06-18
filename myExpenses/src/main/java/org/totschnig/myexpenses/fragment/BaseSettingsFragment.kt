@@ -95,7 +95,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     val storeInDatabaseChangeListener =
         Preference.OnPreferenceChangeListener { preference, newValue ->
             (activity as? MyPreferenceActivity)?.let { activity ->
-                activity.showSnackbar(R.string.saving, Snackbar.LENGTH_INDEFINITE)
+                activity.showSnackbarIndefinite(R.string.saving)
                 viewModel.storeSetting(preference.key, newValue.toString())
                     .observe(this@BaseSettingsFragment, { result ->
                         activity.dismissSnackbar()
@@ -432,7 +432,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 prefHandler.putString(PrefKey.HOME_CURRENCY, currencyCode)
             }
             activity.invalidateHomeCurrency()
-            activity.showSnackbar(R.string.saving, Snackbar.LENGTH_INDEFINITE)
+            activity.showSnackbarIndefinite(R.string.saving)
             viewModel.resetEquivalentAmounts().observe(this, { integer ->
                 activity.dismissSnackbar()
                 if (integer != null) {

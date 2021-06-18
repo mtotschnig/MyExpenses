@@ -403,7 +403,7 @@
     <string name="warning_app_folder_will_be_deleted_upon_uninstall">{app_name} 앱을 제거하게 되면 백업과 내보내기를 위해 선택된 현재의 폴더는 자동적으로 삭제됩니다. 설정 화면에서 다른 폴더를 선택하여 이것을 예방할 수 있습니다.</string>
     <string name="warning_splitpartcategory_context">분할 거래의 일부분인 이체 내역은 분할 거래의 맥락에서만 편집될 수 있습니다.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">%1$d과 %2$d 사이의 숫자를 설정하세요</string>
-    <string name="import_categories_success">%1$s 카테고리를 성공적으로 가져왔습니다</string>
+    <string name="import_categories_success">%1$d 카테고리를 성공적으로 가져왔습니다</string>
     <string name="import_parties_success">%1$s 구성원을 성공적으로 가져왔습니다</string>
     <string name="import_accounts_success">%1$s 계좌를 성공적으로 가져왔습니다</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d 거래 내역을 %2$s 계좌로 성공적으로 가져왔습니다</string>

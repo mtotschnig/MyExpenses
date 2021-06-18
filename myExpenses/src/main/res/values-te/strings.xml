@@ -312,7 +312,7 @@
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d లావాదేవీలు విజయవంతంగా %2$s లోకి దిగుమతి చేయబడ్డాయి</string>
     <string name="import_accounts_success">%1$s ఖాతాలు విజయవంతంగా దిగుమతి చేయబడ్డాయి</string>
     <string name="import_parties_success">%1$s పార్టీలు విజయవంతంగా దిగుమతి చేయబడ్డాయి</string>
-    <string name="import_categories_success">%1$s వర్గాలు విజయవంతంగా దిగుమతి చేయబడ్డాయి</string>
+    <string name="import_categories_success">%1$d వర్గాలు విజయవంతంగా దిగుమతి చేయబడ్డాయి</string>
     <string name="warning_change_fraction_digits_checkbox_label">డేటాబేస్లో మొత్తాలను నవీకరించండి</string>
     <string name="warning_change_fraction_digits_3">మొత్తాలు నవీకరించబడితే, మీరు వారి పాక్షిక భాగం గురించి సమాచారాన్ని కోల్పోతారు.</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">మొత్తాలు నవీకరించబడకపోతే, మార్పు తర్వాత అవి %d గుణించబడతాయి.</string>

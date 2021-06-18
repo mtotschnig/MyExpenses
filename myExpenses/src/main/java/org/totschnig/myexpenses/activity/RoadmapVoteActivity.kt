@@ -114,7 +114,7 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
 
     private fun showIsLoading() {
         isLoading = true
-        showSnackbar("Loading issues ...", Snackbar.LENGTH_INDEFINITE)
+        showSnackbarIndefinite(R.string.roadmap_loading)
     }
 
     private fun publishResult(message: String) {
@@ -256,7 +256,7 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
                     return true
                 }
                 DIALOG_TAG_SUBMIT_VOTE -> {
-                    showSnackbar("Submitting vote ...", Snackbar.LENGTH_INDEFINITE)
+                    showSnackbarIndefinite(R.string.roadmap_submitting)
                     isLoading = true
                     val vote = Vote(
                             lastVote?.key ?: licenceHandler.buildRoadmapVoteKey(),

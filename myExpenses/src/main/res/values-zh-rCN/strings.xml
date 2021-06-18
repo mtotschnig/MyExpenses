@@ -439,7 +439,7 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">如果未更新金额，则更改后它们将显示为除以%d。</string>
     <string name="warning_change_fraction_digits_3">如果金额被更新，您将丢失有关其小数部分的信息。</string>
     <string name="warning_change_fraction_digits_checkbox_label">更新数据库中的金额</string>
-    <string name="import_categories_success">%1$s 类别  被导入成功</string>
+    <string name="import_categories_success">%1$d 类别  被导入成功</string>
     <string name="import_parties_success">%1$s交易对象(付款人/收款人)已成功地导入</string>
     <string name="import_accounts_success">%1$s账户已导入成功</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">已成功地将%1$d交易导入账户%2$s</string>

@@ -317,7 +317,7 @@
     <string name="warning_reset_account_all">Si continueu, per tots els comptes%1$s, les operacions s\'eliminaran de la base de dades i no es podran restaurar.</string>
     <string name="warning_restore">La base de dades i les preferències es restauraran des de la còpia de seguretat (%1$s). S\'esborraran les dades actuals.</string>
     <string name="warning_splitpartcategory_context">Transferències que formen part d\'una transacció dividida només es poden editar en el marc de la divisió.</string>
-    <string name="import_categories_success">%1$s categories s\'han importat correctament.</string>
+    <string name="import_categories_success">%1$d categories s\'han importat correctament.</string>
     <string name="import_parties_success">%1$s tercers s\'han importat correctament.</string>
     <string name="import_accounts_none">No s\'ha importat cap compte!</string>
     <string name="create_new_folder_fail">No s\'ha pogut crear la carpeta</string>

@@ -218,6 +218,10 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 SnackbarAction(R.string.dialog_dismiss) { snackbar?.dismiss() })
     }
 
+    fun showSnackbarIndefinite(message: Int) {
+        showSnackbar(message, Snackbar.LENGTH_INDEFINITE)
+    }
+
     @JvmOverloads
     fun showSnackbar(message: Int, duration: Int = Snackbar.LENGTH_LONG) {
         showSnackbar(getText(message), duration)

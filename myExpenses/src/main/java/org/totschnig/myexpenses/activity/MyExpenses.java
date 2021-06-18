@@ -1062,7 +1062,7 @@ public class MyExpenses extends BaseMyExpenses implements
     int anInt = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE);
     if (anInt == R.id.DELETE_COMMAND_DO) {
       finishActionMode();
-      showSnackbar(R.string.progress_dialog_deleting);
+      showSnackbarIndefinite(R.string.progress_dialog_deleting);
       viewModel.deleteTransactions(args.getLongArray(KEY_ROW_IDS), checked).observe(this, result -> {
         if (result > 0) {
           if (!checked) {

@@ -338,7 +338,7 @@
     <string name="warning_reset_account_all">បើ​អ្នក​បាន​ដំណើរការហើយ សម្រាប់​គណនី​ %1$s ប្រតិបត្តិការ​ទាំង​អស់ នឹង​ត្រូវបាន​លុប​ចេញពី​មូលដ្ឋាន​ទិន្នន័យ និង​មិន​អាច​យក​មកវិញ​បាន​ទេ។</string>
     <string name="warning_restore">មូលដ្ឋានទិន្នន័យ និងចំណង់ចំណូលចិត្ត នឹងត្រូវបានស្ដារឡើងវិញពីការបម្រុងទុក។ (%1$s) ទិន្នន័យបច្ចុប្បន្ន នឹងត្រូវបានលុប។</string>
     <string name="warning_splitpartcategory_context">ការផ្លាស់ប្តូរដែលជាផ្នែកមួយ នៃការបំបែកអាចត្រូវបាន កែសម្រួល បានតែនៅក្នុងបរិបទនេះទេ។</string>
-    <string name="import_categories_success">%1$s ចំណាត់ថ្នាក់ បាន​នាំចូល​ដោយជោគជ័យ</string>
+    <string name="import_categories_success">%1$d ចំណាត់ថ្នាក់ បាន​នាំចូល​ដោយជោគជ័យ</string>
     <string name="import_parties_success">%1$s ភាគី​បាន​នាំចូល​ដោយជោគជ័យ</string>
     <string name="import_accounts_none">គ្មាន​គណនី​នាំចូលទេ</string>
     <string name="import_categories_none">គ្មាន​ចំណាត់ថ្នាក់​កំណត់នាំចូលទេ</string>

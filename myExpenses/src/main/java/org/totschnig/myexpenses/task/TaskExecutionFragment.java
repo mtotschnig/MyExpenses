@@ -92,7 +92,6 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_BUILD_TRANSACTION_FROM_INTENT_EXTRAS = 57;
   public static final int TASK_ACCOUNT_SORT = 60;
   public static final int TASK_CATEGORY_COLOR = 61;
-  public static final int TASK_SETUP_CATEGORIES = 62;
   public static final int TASK_SET_ACCOUNT_HIDDEN = 63;
   public static final int TASK_SET_ACCOUNT_SEALED = 64;
 
@@ -239,8 +238,6 @@ public class TaskExecutionFragment<T> extends Fragment {
         new SyncAccountTask(this, args, false).execute();
         break;
       case TASK_VALIDATE_LICENCE:
-        new LicenceApiTask(this, taskId).execute();
-        break;
       case TASK_REMOVE_LICENCE:
         new LicenceApiTask(this, taskId).execute();
         break;
@@ -256,10 +253,6 @@ public class TaskExecutionFragment<T> extends Fragment {
       case TASK_ACCOUNT_SORT:
         new AccountSortTask(this, taskId).execute(args);
         break;
-      case TASK_SETUP_CATEGORIES:
-        new CategoriesSetupTask(this, taskId).execute(args);
-        break;
-
       default:
         try {
           new GenericTask<T>(this, taskId, args.getSerializable(KEY_EXTRA))
