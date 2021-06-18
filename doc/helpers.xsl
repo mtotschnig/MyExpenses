@@ -1,6 +1,6 @@
 <?xml version='1.0' ?>
-<xsl:stylesheet xmlns:str="http://exslt.org/strings"
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" extension-element-prefixes="str" version="1.0">
+<xsl:stylesheet xmlns:my="http://myexpenses.mobi/" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    version="2.0">
     <xsl:variable name="all-languages"
         select="'ar bg ca cs da de el es eu fr hr hu it iw ja ms km kn ko pl pt ro ru si ta tr vi zh zh-TW en'" />
     <xsl:variable name='newline'>
@@ -8,40 +8,104 @@
     </xsl:variable>
 
     <xsl:template name="values-dir">
-        <xsl:param name="lang"/>
+        <xsl:param name="lang" />
         <xsl:text>../myExpenses/src/main/res/values</xsl:text>
         <xsl:call-template name="lang-file">
-            <xsl:with-param name="lang" select="$lang"/>
+            <xsl:with-param name="lang" select="$lang" />
         </xsl:call-template>
     </xsl:template>
 
+    <xsl:template name="upgrade-with-fallback">
+        <xsl:param name="dir" />
+        <xsl:variable name="upgradeLocal">
+            <xsl:value-of select="$dir" />
+            <xsl:text>/upgrade.xml</xsl:text>
+        </xsl:variable>
+        <xsl:choose>
+            <xsl:when test="doc-available($upgradeLocal)">
+                <xsl:value-of select="$upgradeLocal" />
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:call-template name="values-dir">
+                    <xsl:with-param name="lang" select="'en'" />
+                </xsl:call-template>
+                <xsl:text>/upgrade.xml</xsl:text>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+
     <xsl:template name="special-version-info">
-        <xsl:param name="version"/>
-        <xsl:param name="strings"/>
-        <xsl:param name="aosp"/>
-        <xsl:param name="upgrade"/>
+        <xsl:param name="version" />
+        <xsl:param name="strings" />
+        <xsl:param name="aosp" />
+        <xsl:param name="upgrade" />
+        <xsl:param name="lang" />
+        <xsl:param name="itemize" select="true()" />
+        <xsl:variable name="separator">
+            <xsl:choose>
+                <xsl:when test="$itemize">
+                    <xsl:value-of select="$newline" />
+                    <xsl-text>•&#032;</xsl-text>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:text>.&#032;</xsl:text>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
         <xsl:if test="$version = '3.2.5'">
-            <xsl-text>•&#032;</xsl-text>
-            <xsl:apply-templates select="document($strings)/resources/string[@name='contrib_feature_csv_import_label']" mode="unescape"/>
-            <xsl:text>: </xsl:text>
-            <xsl:apply-templates select="document($aosp)/resources/string[@name='autofill']" mode="unescape"/>
+            <xsl:if test="$itemize">
+                <xsl-text>•&#032;</xsl-text>
+            </xsl:if>
+            <xsl:apply-templates mode="unescape"
+                select="document($strings)/resources/string[@name='contrib_feature_csv_import_label']" />
+            <xsl:text>:&#032;</xsl:text>
+            <xsl:apply-templates mode="unescape"
+                select="document($aosp)/resources/string[@name='autofill']" />
+            <xsl:text>.</xsl:text>
         </xsl:if>
         <xsl:if test="$version = '3.3.0'">
-            <xsl-text>•&#032;</xsl-text>
-            <xsl:apply-templates select="document($strings)/resources/string[@name='contrib_feature_csv_import_label']" mode="unescape"/>
-            <xsl:text>: </xsl:text>
-            <xsl:apply-templates select="document($strings)/resources/string[@name='tags']" mode="unescape"/>
-            <xsl:value-of select="$newline" />
-            <xsl-text>•&#032;</xsl-text>
-            <xsl:apply-templates select="document($strings)/resources/string[@name='active_tags']" mode="unescape"/>
+            <xsl:if test="$itemize">
+                <xsl-text>•&#032;</xsl-text>
+            </xsl:if>
+            <xsl:apply-templates mode="unescape"
+                select="document($strings)/resources/string[@name='contrib_feature_csv_import_label']" />
+            <xsl:text>:&#032;</xsl:text>
+            <xsl:apply-templates mode="unescape"
+                select="document($strings)/resources/string[@name='tags']" />
+            <xsl:value-of select="$separator" />
+            <xsl:apply-templates mode="unescape"
+                select="document($strings)/resources/string[@name='active_tags']" />
+            <xsl:text>.</xsl:text>
         </xsl:if>
         <xsl:if test="$version = '3.3.1'">
-            <xsl-text>•&#032;</xsl-text>
-            <xsl:apply-templates select="document($strings)/resources/string[@name='menu_settings']" mode="unescape"/>
-            <xsl:text> - </xsl:text>
-            <xsl:apply-templates select="document($aosp)/resources/string[@name='autofill']" mode="unescape"/>
-            <xsl:text>: </xsl:text>
-            <xsl:apply-templates select="document($upgrade)/resources/string[@name='ui_refinement']" mode="unescape"/>
+            <xsl:if test="$itemize">
+                <xsl-text>•&#032;</xsl-text>
+            </xsl:if>
+            <xsl:apply-templates mode="unescape"
+                select="document($strings)/resources/string[@name='menu_settings']" />
+            <xsl:text>&#032;-&#032;</xsl:text>
+            <xsl:apply-templates mode="unescape"
+                select="document($aosp)/resources/string[@name='autofill']" />
+            <xsl:text>:&#032;</xsl:text>
+            <xsl:apply-templates mode="unescape"
+                select="document($upgrade)/resources/string[@name='ui_refinement']" />
+            <xsl:text>.</xsl:text>
+        </xsl:if>
+        <xsl:if test="$version = '3.3.2'">
+            <xsl:if test="$itemize">
+                <xsl-text>•&#032;</xsl-text>
+            </xsl:if>
+            <xsl:apply-templates mode="unescape"
+                select="document($strings)/resources/string[@name='pref_translation_title']" />
+            <xsl:text>:&#032;</xsl:text>
+            <xsl:value-of select="my:displayNameForLanguage('te', $lang)" />
+            <xsl:value-of select="$separator" />
+            <xsl:apply-templates mode="unescape"
+                select="document($strings)/resources/string[@name='currency']" />
+            <xsl:text>:&#032;</xsl:text>
+            <xsl:apply-templates mode="unescape"
+                select="document($upgrade)/resources/string[@name='ui_refinement']" />
+            <xsl:text>.</xsl:text>
         </xsl:if>
     </xsl:template>
 
@@ -59,7 +123,7 @@
             </xsl:choose>
         </xsl:variable>
         <xsl:value-of
-            select="str:replace(str:replace($trim,concat('\',apostrophe),apostrophe),concat('\',$quote),$quote)" />
+            select="replace(replace($trim,concat('\\',$apostrophe),$apostrophe),concat('\\',$quote),$quote)" />
     </xsl:template>
 
     <xsl:template name="lang-file">
@@ -126,4 +190,9 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
+
+    <xsl:function name="my:changeLogResourceName">
+        <xsl:param name="version" />
+        <xsl:value-of select="concat('whats_new_',replace($version,'\.',''))" />
+    </xsl:function>
 </xsl:stylesheet>

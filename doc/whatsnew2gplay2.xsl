@@ -1,13 +1,14 @@
 <?xml version='1.0' ?>
-<xsl:stylesheet xmlns:str="http://exslt.org/strings"
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" extension-element-prefixes="str" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:my="http://myexpenses.mobi/"
+    version="2.0">
     <xsl:output encoding="UTF-8" method="xml" />
     <xsl:include href="helpers.xsl" />
     <xsl:param name="version" />
     <xsl:param name="languages" select="$all-languages" />
 
-    <xsl:template match="/">
-        <xsl:for-each select="str:tokenize($languages)">
+    <xsl:template name="main" match="/">
+        <xsl:for-each select="tokenize($languages, ' ')">
             <xsl:call-template name="extract">
                 <xsl:with-param name="lang" select="." />
             </xsl:call-template>
@@ -22,8 +23,9 @@
             </xsl:call-template>
         </xsl:variable>
         <xsl:variable name="upgrade">
-            <xsl:value-of select="$dir" />
-            <xsl:text>/upgrade.xml</xsl:text>
+            <xsl:call-template name="upgrade-with-fallback">
+                <xsl:with-param name="dir" select="$dir" />
+            </xsl:call-template>
         </xsl:variable>
         <xsl:variable name="strings">
             <xsl:value-of select="$dir" />
@@ -34,26 +36,27 @@
             <xsl:text>/aosp.xml</xsl:text>
         </xsl:variable>
         <xsl:variable name="changelog">
-            <xsl:for-each select="str:tokenize($version)">
+            <xsl:for-each select="tokenize($version, ' ')">
                 <xsl:variable name="entry">
-                <xsl:variable name="special-version-info">
-                    <xsl:call-template name="special-version-info">
-                        <xsl:with-param name="version" select="." />
-                        <xsl:with-param name="strings" select="$strings" />
-                        <xsl:with-param name="aosp" select="$aosp" />
-                        <xsl:with-param name="upgrade" select="$upgrade" />
-                    </xsl:call-template>
-                </xsl:variable>
-                <xsl:choose>
-                    <xsl:when test="$special-version-info != ''">
-                        <xsl:value-of select="$special-version-info" />
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <xsl:apply-templates select="document($upgrade)/resources/string-array">
+                    <xsl:variable name="special-version-info">
+                        <xsl:call-template name="special-version-info">
                             <xsl:with-param name="version" select="." />
-                        </xsl:apply-templates>
-                    </xsl:otherwise>
-                </xsl:choose>
+                            <xsl:with-param name="strings" select="$strings" />
+                            <xsl:with-param name="aosp" select="$aosp" />
+                            <xsl:with-param name="upgrade" select="$upgrade" />
+                            <xsl:with-param name="lang" select="$lang" />
+                        </xsl:call-template>
+                    </xsl:variable>
+                    <xsl:choose>
+                        <xsl:when test="$special-version-info != ''">
+                            <xsl:value-of select="$special-version-info" />
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:apply-templates select="document($upgrade)/resources/string-array">
+                                <xsl:with-param name="version" select="." />
+                            </xsl:apply-templates>
+                        </xsl:otherwise>
+                    </xsl:choose>
                 </xsl:variable>
                 <xsl:if test="$entry != ''">
                     <xsl:value-of select="$entry" />
@@ -80,8 +83,7 @@
 
     <xsl:template match="string-array">
         <xsl:param name="version" />
-        <xsl:variable name="version_short" select="str:replace($version,'.','')" />
-        <xsl:if test="@name=concat('whats_new_',$version_short)">
+        <xsl:if test="@name=my:changeLogResourceName($version)">
             <xsl:apply-templates select='item' />
         </xsl:if>
     </xsl:template>
@@ -93,4 +95,5 @@
             <xsl:value-of select="$newline" />
         </xsl:if>
     </xsl:template>
+
 </xsl:stylesheet>

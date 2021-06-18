@@ -1,29 +1,30 @@
 <?xml version='1.0' ?>
 <xsl:stylesheet xmlns:str="http://exslt.org/strings"
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" extension-element-prefixes="str" version="1.0">
+    xmlns:my="http://myexpenses.mobi/"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
     <xsl:output encoding="UTF-8" method="text" />
     <xsl:include href="helpers.xsl" />
     <xsl:param name="version" />
     <xsl:param name="version_date" select='"2014-xx-xx"' />
     <xsl:param name="languages" select="$all-languages" />
-    <xsl:param name="appendDot" select="false" />
+    <xsl:param name="appendDot" select="false()" />
 
-    <xsl:template match="/">
-        <xsl:value-of select="str:padding(2, '&#032;')"/>
+    <xsl:template match="/" name="main">
+        <xsl:value-of select="str:padding(2, '&#032;')" />
         <xsl:text>-</xsl:text>
         <xsl:value-of select="$newline" />
-        <xsl:value-of select="str:padding(4, '&#032;')"/>
+        <xsl:value-of select="str:padding(4, '&#032;')" />
         <xsl:text>-&#032;</xsl:text>
         <xsl:value-of select="$version" />
         <xsl:value-of select="$newline" />
-        <xsl:value-of select="str:padding(4, '&#032;')"/>
+        <xsl:value-of select="str:padding(4, '&#032;')" />
         <xsl:text>-&#032;"</xsl:text>
         <xsl:value-of select="$version_date" />
         <xsl:text>"</xsl:text>
         <xsl:value-of select="$newline" />
-        <xsl:value-of select="str:padding(4, '&#032;')"/>
+        <xsl:value-of select="str:padding(4, '&#032;')" />
         <xsl:text>-</xsl:text>
-        <xsl:for-each select="str:tokenize($languages)">
+        <xsl:for-each select="tokenize($languages)">
             <xsl:call-template name="extract">
                 <xsl:with-param name="lang" select="." />
             </xsl:call-template>
@@ -33,15 +34,15 @@
 
     <xsl:template name="extract">
         <xsl:param name="lang" />
-        <xsl:variable name="version_short" select="str:replace($version,'.','')" />
         <xsl:variable name="dir">
             <xsl:call-template name="values-dir">
                 <xsl:with-param name="lang" select="$lang" />
             </xsl:call-template>
         </xsl:variable>
         <xsl:variable name="upgrade">
-            <xsl:value-of select="$dir" />
-            <xsl:text>/upgrade.xml</xsl:text>
+            <xsl:call-template name="upgrade-with-fallback">
+                <xsl:with-param name="dir" select="$dir" />
+            </xsl:call-template>
         </xsl:variable>
         <xsl:variable name="strings">
             <xsl:value-of select="$dir" />
@@ -52,13 +53,15 @@
             <xsl:text>/aosp.xml</xsl:text>
         </xsl:variable>
         <xsl:variable name="changelog">
-            <xsl:for-each select="str:tokenize($version)">
+            <xsl:for-each select="tokenize($version)">
                 <xsl:variable name="special-version-info">
                     <xsl:call-template name="special-version-info">
                         <xsl:with-param name="version" select="." />
                         <xsl:with-param name="strings" select="$strings" />
                         <xsl:with-param name="aosp" select="$aosp" />
                         <xsl:with-param name="upgrade" select="$upgrade" />
+                        <xsl:with-param name="lang" select="$lang" />
+                        <xsl:with-param name="itemize" select="false()" />
                     </xsl:call-template>
                 </xsl:variable>
                 <xsl:choose>
@@ -67,18 +70,18 @@
                     </xsl:when>
                     <xsl:otherwise>
                         <xsl:apply-templates
-                            select="document($upgrade)/resources/string-array[@name=concat('whats_new_',$version_short)]" />
+                            select="document($upgrade)/resources/string-array[@name=my:changeLogResourceName($version)]" />
                     </xsl:otherwise>
                 </xsl:choose>
             </xsl:for-each>
         </xsl:variable>
         <xsl:if test="$changelog != ''">
             <xsl:value-of select="$newline" />
-            <xsl:value-of select="str:padding(6, '&#032;')"/>
+            <xsl:value-of select="str:padding(6, '&#032;')" />
             <xsl:value-of select="$lang" />
             <xsl:text>: |</xsl:text>
             <xsl:value-of select="$newline" />
-            <xsl:value-of select="str:padding(8, '&#032;')"/>
+            <xsl:value-of select="str:padding(8, '&#032;')" />
             <xsl:value-of select="$changelog" />
         </xsl:if>
     </xsl:template>
@@ -86,11 +89,32 @@
     <xsl:template match="string-array">
         <xsl:for-each select="item">
             <xsl:apply-templates mode="unescape" select='.' />
-            <xsl:if test="$appendDot"><xsl:text>.</xsl:text></xsl:if>
+            <xsl:if test="$appendDot">
+                <xsl:text>.</xsl:text>
+            </xsl:if>
             <xsl:if test="position() != last()">
                 <xsl:text>&#032;</xsl:text>
             </xsl:if>
         </xsl:for-each>
     </xsl:template>
 
+    <xsl:function name="str:padding">
+        <xsl:param name="length" />
+        <xsl:param name="chars" />
+        <xsl:choose>
+            <xsl:when test="not($length) or not($chars)" />
+            <xsl:otherwise>
+                <xsl:variable name="string"
+                    select="concat($chars, $chars, $chars, $chars, $chars, $chars, $chars, $chars, $chars, $chars)" />
+                <xsl:choose>
+                    <xsl:when test="string-length($string) >= $length">
+                        <xsl:value-of select="substring($string, 1, $length)" />
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:value-of select="str:padding($length, $string)" />
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:function>
 </xsl:stylesheet>
