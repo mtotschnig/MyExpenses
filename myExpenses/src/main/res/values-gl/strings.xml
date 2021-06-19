@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="account">Conta</string>
+    <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
+    <string name="account_types">Tipos de conta</string>
+    <string name="account_type_bank">Conta bancaria</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_bank_plural">Contas bancarias</string>
+    <string name="account_type_ccard">Tarxeta de crédito</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_ccard_plural">Tarxetas de crédito</string>
+    <string name="already_defined">%1$s xa definida</string>
+    <string name="amount">Importe</string>
+    <string name="app_name">Os meus gastos</string>
+    <string name="backup_failure">Erro na copia de seguranza \"%1$s\".</string>
+    <string name="category">Categoría</string>
+    <string name="color">Cor</string>
+    <string name="comment">Notas</string>
+    <string name="confirmation_dialog_dont_show_again">Non volver mostrar</string>
+    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Sen anuncios</string>
+    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Número ilimitado de contas</string>
+    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Anexar imaxe á transacción</string>
+    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Número de plans ilimitado</string>
+    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Exportar a listaxe de transaccións a PDF</string>
+    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Modelo de widget</string>
+    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Importar CSV</string>
+    <string name="currency">Moeda</string>
+    <string name="current_balance">Saldo actual</string>
+    <string name="date">Data</string>
+    <string name="date_format">Formata da data</string>
+    <string name="date_format_illegal">Formato de data non válido</string>
+    <string name="number_format_illegal">Formato numérico incorrecto</string>
+    <string name="decimal_separator">Separador de decimais</string>
+    <string name="description">Descrición</string>
+    <string name="dialog_confirm_discard_changes">Rexeitar os cambios?</string>
+    <string name="dialog_confirm_discard_new_transaction">Rexeitar a nova transacción?</string>
+    <string name="dialog_confirm_discard_new_template">Rexeitar o novo modelo?</string>
+    <string name="dialog_confirm_discard_new_account">Rexeitar a nova conta¿</string>
+    <string name="dialog_confirm_discard_new_method">Rexeitar o novo método de pagamento?</string>
+    <string name="dialog_command_disabled_reset_account">Sen transaccións para exportar.</string>
+    <string name="dialog_export_not_yet_exported">Exportar só as transaccións aínda non exportadas</string>
+    <string name="dialog_password_activate_protection">Activar a protección con contrasinal</string>
+    <string name="dialog_password_change_password">Cambiar contrasinal</string>
+    <string name="dialog_password_new_password">Novo contrasinal</string>
+    <string name="dialog_password_new_password_confirmation">Novo contrasinal (confirmación)</string>
+    <string name="dialog_remind_later">Máis tarde</string>
+    <string name="dialog_remind_rate_yes">Valorar agora</string>
+    <string name="dialog_security_answer">Resposta</string>
+    <string name="dialog_security_question">Pregunta</string>
+    <string name="dialog_title_attention">Atención</string>
+    <string name="dialog_title_information">Información</string>
+    <string name="dialog_title_contrib_feature">Funcionalidade Premium</string>
+    <string name="dialog_title_warning_delete_template">Eliminar modelo?</string>
+    <string name="dialog_title_warning_delete_transaction">Eliminar transacción?</string>
+    <string name="expense">Gasto</string>
+    <string name="export_expenses">Exportar os gastos</string>
+    <!-- 1$s is replaced with path to file -->
+    <string name="export_sdcard_success">Datos exportados satisfactoriamente ao ficheiro \"%1$s!</string>
+    <string name="external_storage_unavailable">O almacenamento externo da tarxeta SD non está dispoñible</string>
+    <string name="feedback">Comentarios (feedback)</string>
+    <string name="ftp_uri_malformed">URI %1$s non válido</string>
+    <string name="grisbi_import_categories_loading">A cargar categorías desde %1$s</string>
+    <string name="grouping_day">Día</string>
+    <string name="grouping_last_week">Semana pasada</string>
+    <string name="grouping_month">Mes</string>
+    <string name="grouping_none">Sen agrupar</string>
+    <string name="grouping_this_week">Esta semana</string>
+    <string name="grouping_today">Hoxe</string>
+    <string name="grouping_week">Semana</string>
+    <string name="grouping_year">Ano</string>
+    <string name="grouping_yesterday">Onte</string>
+    <string name="help_button_rate">Valorar ou comentar</string>
+    <string name="help_heading_credits">Créditos</string>
+    <string name="help_heading_license">Licenza</string>
+    <string name="help_heading_whats_new">Novidades</string>
+    <string name="important_upgrade_information_heading">Información importante</string>
+    <string name="import_select_transactions">Transaccións</string>
+    <string name="income">Ingresos</string>
+    <string name="label">Etiqueta</string>
+    <string name="licence_validation_failure">Non se pode validar a clave da licenza.</string>
+    <string name="menu_aggregates">Total</string>
+    <!-- Shown in a notification; allows to apply a template (instantiate a new transaction from it) -->
+    <string name="menu_apply_template">Aplicar</string>
+    <string name="menu_back">Volver</string>
+    <string name="menu_backup">Copia de seguranza</string>
+    <!-- Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction -->
+    <string name="menu_cancel_plan_instance">Cancelar</string>
+    <string name="menu_clone_transaction">Clonar</string>
+    <string name="menu_contrib">Contribuír</string>
+    <string name="menu_create_account">Nova conta</string>
+    <string name="menu_create_instance_edit">Aplicar e editar</string>
+    <string name="menu_create_instance_save">Aplicar e gardar</string>
+    <string name="menu_create_main_cat">Nova categoría principal</string>
+    <string name="menu_create_method">Novo método de pagamento</string>
+    <string name="menu_create_sub_cat">Nova subcategoría</string>
+    <string name="menu_create_template">Novo modelo</string>
+    <string name="menu_create_template_from_transaction">Gardar como modelo</string>
+    <string name="menu_create_template_for_transaction">Novo modelo de transacción</string>
+    <string name="menu_create_template_for_transfer">Novo modelo de transferencia</string>
+    <string name="menu_create_transaction">Nova transacción</string>
+    <string name="menu_create_transfer">Nova transferencia</string>
+    <string name="menu_delete">Borrar</string>
+    <string name="menu_distribution">Distribución</string>
+    <string name="menu_edit">Editar</string>
+    <string name="menu_edit_account">Editar conta</string>
+    <string name="menu_edit_cat">Editar categoría</string>
+    <string name="menu_edit_method">Editar método de pagamento</string>
+    <string name="menu_edit_template">Editar modelo</string>
+    <string name="menu_edit_transaction">Editar transacción</string>
+    <string name="menu_edit_transfer">Editar transferencia</string>
+    <string name="menu_exclude_from_totals">Excluír dos totais</string>
+    <string name="menu_help">Axuda</string>
+    <string name="menu_manage_plans">Modelos e plans</string>
+    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
+    <string name="menu_open">Abrir</string>
+    <string name="menu_import">Importar</string>
+    <string name="menu_print">Imprimir</string>
+    <string name="menu_reset">Exportar e restablecer</string>
+    <string name="menu_reset_all">Exportar e restablecer todo</string>
+    <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
+    <string name="menu_reset_plan_instance">Restablecer</string>
+    <string name="menu_save">Gardar</string>
+    <string name="menu_settings">Axustes</string>
+    <string name="menu_share">Dillo a unha amizade</string>
+    <string name="no_amount_given">Non introduciches cantidade ningunha.</string>
+    <string name="no_categories">Sen categorías.</string>
+    <string name="no_expenses">Sen gastos aínda!</string>
+    <string name="no_filemanager_installed">Ningún xestor de ficheiros instalado</string>
+    <string name="no_methods">Ningún método de pagamento.</string>
+    <string name="no_templates">Sen modelos.</string>
+    <string name="no_title_given">Non introduciches título ningún.</string>
+    <string name="parse_error_file_not_found">Non se puido atopar o ficheiro %1$s</string>
+    <string name="parse_error_other_exception">Produciuse un erro: %1$s</string>
+    <string name="password_lost">Contrasinal perdido</string>
+    <string name="password_not_valid">Contrasinal incorrecto. Vólveo tentar!</string>
+    <string name="password_prompt">Introduce o teu contrasinal</string>
+    <string name="password_security_answer_not_valid">Resposta incorrecta. Téntao outra vez!</string>
+    <!-- Plan for future and recurring transactions -->
+    <string name="plan">Plan</string>
+    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
+    <string name="plan_automatic">automático</string>
+    <!-- This message is shown, after a user decides to not apply a manual plan -->
+    <string name="plan_execution_canceled">Execución do plan cancelada</string>
+    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
+    <string name="plan_manual">manual</string>
+    <!-- payment methods -->
+    <string name="pm_cheque">Cheque</string>
+    <string name="pm_creditcard">Tarxeta de crédito</string>
+    <string name="pm_deposit">Depósito</string>
+    <string name="pm_type_credit">Crédito</string>
+    <string name="pm_type_debit">Débito</string>
+    <string name="pref_backup_summary">Crear unha copia de seguranza da base de datos e as preferencias.</string>
+    <string name="pref_category_title_export">Exportar</string>
+    <string name="pref_category_title_import">Importar</string>
+    <string name="pref_category_title_more_information">Máis información</string>
+    <string name="pref_category_title_security">Seguranza</string>
+    <string name="pref_category_title_ui">Interface de usuario</string>
+    <string name="pref_custom_currency_title">Personalizar moedas</string>
+    <string name="pref_import_from_grisbi_title">Importar desde Grisbi</string>
+    <string name="pref_like_facebook_title">Síguenos no Facebook</string>
+    <string name="pref_manage_accounts_title">Contas</string>
+    <string name="pref_manage_categories_summary">Engadir, editar, eliminar categorías.</string>
+    <string name="pref_manage_categories_title">Categorías</string>
+    <string name="pref_manage_methods_summary">Crear e editar os métodos de pagamento e asocialos cos tipos de conta.</string>
+    <string name="pref_manage_methods_title">Métodos de pagamento</string>
+    <string name="pref_more_info_dialog_title">Licenza &amp; créditos</string>
+    <string name="pref_password_not_equal">Os contrasinais non coinciden</string>
+    <string name="pref_qif_export_file_encoding_title">Codificación de caracteres</string>
+    <string name="pref_restore_title">Restaurar</string>
+    <string name="pref_security_question_title">Pregunta de seguridade</string>
+    <string name="pref_send_feedback_title">Enviar comentarios (feedback)</string>
+    <string name="pref_ui_fontsize_title">Tamaño da fonte</string>
+    <string name="pref_ui_home_screen_shortcuts">Atallos da pantalla de inicio</string>
+    <!-- Title of the preference for selecting the UI language -->
+    <string name="pref_ui_language_title">Idioma</string>
+    <string name="pref_ui_theme_title">Tema</string>
+    <string name="pref_visit_website_summary">Rexistro de cambios e FAQ</string>
+    <string name="pref_visit_website_title">Visitar o sitio web</string>
+    <string name="progress_dialog_printing">Xerando PDF</string>
+    <string name="reference_number">Número de referencia</string>
+    <string name="restore_db_failure">Erro ao restaurar a base de datos.</string>
+    <string name="restore_db_success">A base de datos restaurouse desde a copia de seguranza.</string>
+    <string name="restore_no_backup_found">Ningunha copia de seguranza atopada.</string>
+    <string name="restore_preferences_failure">Erro ao restaurar as preferencias</string>
+    <string name="restore_preferences_success">As preferencias restauráronse desde a copia de seguranza.</string>
+    <string name="save_transaction_and_new_success">Gardouse satisfactoriamente</string>
+    <string name="save_transaction_template_deleted">O modelo foi eliminado</string>
+    <string name="select">Seleccionar</string>
+    <string name="select_category">Seleccionar categoría</string>
+    <string name="status">Estado</string>
+    <string name="subcategory">Subcategoría</string>
+    <string name="sum_expenses">Gastos</string>
+    <string name="sum_income">Ingresos</string>
+    <string name="sum_transfer">Transferencias</string>
+    <string name="thank_you">Grazas polo teu apoio!</string>
+    <string name="time">Hora</string>
+    <string name="title">Título</string>
+    <string name="transaction">Transacción</string>
+    <string name="transfer">Transferencia</string>
+    <string name="transfer_from_account">Desde</string>
+    <string name="transfer_to_account">Para</string>
+    <!-- Type refers to the type of an account, eg. Cash account, bank account -->
+    <string name="type">Tipo</string>
+    <string name="warning_password_protected">Aplicación protexida por contrasinal.</string>
+    <string name="warning_change_fraction_digits_checkbox_label">Actualizar importes na base de datos</string>
+    <string name="import_categories_success">%1$s categorías importadas satisfactoriamente</string>
+    <string name="import_accounts_success">%1$s contas importadas satisfactoriamente</string>
+    <string name="import_accounts_none">Ningunha conta importada</string>
+    <string name="import_categories_none">Ningunha categoría importada</string>
+    <string name="menu_create_folder">Novo cartafol</string>
+    <!-- This string is used for navigating up in the folder browser -->
+    <string name="menu_up">Arriba</string>
+    <string name="create_new_folder_fail">Erro ao crear o cartafol</string>
+    <string name="widget_title_accounts">As miñas contas</string>
+    <string name="widget_title_templates">Os meus modelos</string>
+    <string name="app_dir_not_accessible">O cartafol seleccionado para copias de seguranza e exportacións (%1$s) non está accesible. Selecciona, por favor, un outro distinto.</string>
+    <string name="and">e</string>
+    <string name="between_and">entre %1$s e %2$s</string>
+    <string name="before">antes de %s</string>
+    <string name="after">despois de %s</string>
+    <string name="comparison_operator_equal">igual a</string>
+    <string name="comparison_operator_greater_than">maior que</string>
+    <string name="comparison_operator_lesser_than">menor que</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions between two specified dates. -->
+    <string name="comparison_operator_between">entre</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions before a specified date.  -->
+    <string name="comparison_operator_date_before">antes</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
+    <string name="comparison_operator_date_after">despois</string>
+    <string name="learn_more">Saber máis</string>
+    <string name="import_source_file">Ficheiro</string>
+    <string name="restore_calendar_handling_ignore">Non restaurar plans</string>
+    <string name="file_name">Nome do ficheiro</string>
+    <string name="folder_name">Nome do cartafol</string>
+    <string name="menu_categories_export">Exportar a QIF</string>
+    <string name="csv_import_delimiter_comma">Coma</string>
+    <string name="csv_import_delimiter_semicolon">Punto e coma</string>
+    <string name="menu_show_transactions">Mostrar transaccións</string>
+    <string name="pref_custom_decimal_format_title">Formato de número</string>
+    <string name="pref_auto_backup_title">Copia de seguranza automática</string>
+    <string name="menu_move">Mover</string>
+    <string name="transform_subcategory_to_main">Converter na categoría principal</string>
+    <string name="preferences_week_start_day_title">A semana comeza o</string>
+    <string name="preferences_month_start_date_title">O mes comeza o</string>
+    <string name="date_format_hour">Hora</string>
+    <string name="date_format_minute">Minuto</string>
+    <string name="menu_sort">Ordenar por</string>
+    <string name="pref_sort_order_custom">Personalizar</string>
+    <string name="content_description_calculator">Calculadora</string>
+    <!-- describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list. -->
+    <string name="plan_instance_state_open">abrir</string>
+    <string name="content_description_calculator_clear_button">Restablecer todo</string>
+    <string name="content_description_calculator_delete_button">Borrar último díxito</string>
+    <string name="template">Modelo</string>
+    <string name="budget_duration_from">Desde</string>
+    <string name="budget_duration_to">Para</string>
+    <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
+    <string name="pref_category_title_features">Funcións</string>
+    </resources>

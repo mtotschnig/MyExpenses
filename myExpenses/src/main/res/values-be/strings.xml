@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="account">Рахунак</string>
+    <string name="account_type_asset">Рахунак актываў</string>
+    <string name="account_type_bank">Банкаўскі рахунак</string>
+    <string name="account_type_cash">Грашовы рахунак</string>
+    <string name="account_type_ccard">Крэдытная картка</string>
+    <string name="account_type_liability">Рахунак абавязкаў</string>
+    <string name="amount">Колькасць</string>
+    <string name="app_name">Мае выдаткі</string>
+    <string name="category">Катэгорыя</string>
+    <string name="color">Колер</string>
+    <string name="comment">нататкі</string>
+    <string name="currency">Валюта</string>
+    <string name="current_balance">Баланс сродкаў</string>
+    <string name="date">Дата</string>
+    <string name="description">Апісанне</string>
+    <string name="dialog_title_warning_delete_template">Выдаліць шаблон?</string>
+    <string name="dialog_title_warning_delete_transaction">Выдаліць транзакцыю?</string>
+    <string name="export_expenses">Экспарт выдаткаў</string>
+    <string name="feedback">Зваротная сувязь</string>
+    <string name="help_heading_credits">Крэдыты</string>
+    <string name="help_heading_license">Ліцэнзія</string>
+    <string name="pm_creditcard">Крэдытная картка</string>
+    <string name="pref_manage_accounts_title">Рахункі</string>
+    <string name="pref_manage_categories_title">Катэгорыі</string>
+    <string name="pref_manage_methods_title">Метады плацяжу</string>
+    <!-- Title of the preference for selecting the UI language -->
+    <string name="pref_ui_language_title">Мова</string>
+    <string name="pref_ui_theme_title">Тэма</string>
+    <string name="save_transaction_template_deleted">Шаблон быў выдалены</string>
+    <string name="template">Шаблон</string>
+    </resources>

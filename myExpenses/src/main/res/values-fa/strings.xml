@@ -1,0 +1,529 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="account">حساب</string>
+    <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
+    <string name="account_types">نوع حساب</string>
+    <string name="account_type_asset">حساب دارایی</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_asset_plural">حساب های دارایی</string>
+    <string name="account_type_bank">حساب بانک</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_bank_plural">حساب های بانک</string>
+    <string name="account_type_cash">حساب نقد</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_cash_plural">حساب های نقد</string>
+    <string name="account_type_ccard">کارت اعتباری</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_ccard_plural">کارت های اعتباری</string>
+    <string name="account_type_liability">حساب اعتباری</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_liability_plural">حساب های اعتباری</string>
+    <string name="already_defined">%1$s  تعریف شده</string>
+    <string name="amount">مقدار</string>
+    <string name="app_name">My Expenses</string>
+    <string name="backup_failure">پشتیبان به %1$sشکست خورد</string>
+    <string name="backup_success">پایگاه داده و ترجیحات به صورت موفقیت آمیز روی %1$s نوشته شده است</string>
+    <string name="category">دسته بندی</string>
+    <string name="color">رنگ</string>
+    <string name="comment">یادداشت</string>
+    <string name="confirmation_dialog_dont_show_again">دیگر نشان نده</string>
+    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">بدون تبلیغ</string>
+    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">تعداد نامحدود حساب ها</string>
+    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">تصویر را به تراکنش اضافه کنید</string>
+    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">نمودار پایه (توزیع در هر رده)</string>
+    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">تعداد نامحدودی از برنامه ها</string>
+    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">صادرات لیست معامله به PDF</string>
+    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">ویجت الگو</string>
+    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">واردات CSV</string>
+    <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">تعداد نامحدودی از قالب های تقسیم شده</string>
+    <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>پشتیبانی از طریق رایانامه</b> با ضمانت پاسخگویی در حداکثر مدت ۲ روز کاری</string>
+    <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">حق رای دادن در <b> نقشه راه توسعه</b></string>
+    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">نمودار جریان</string>
+    <string name="licence_status_free">آزاد</string>
+    <string name="contrib_key">Contrib Key</string>
+    <string name="extended_key">Extended Key</string>
+    <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
+    <string name="contrib_key_requires">نیاز به %1$s.</string>
+    <string name="currency">واحد پول</string>
+    <string name="current_balance">موجودی فعلی</string>
+    <string name="date">تاریخ</string>
+    <string name="date_format">فرمت تاریخ</string>
+    <string name="date_format_illegal">فرمت تاریخ غیرقانونی</string>
+    <string name="number_format_illegal">فرمت شماره غیرقانونی</string>
+    <string name="decimal_separator">جدا کننده دهدهی</string>
+    <string name="default_account_name">کتاب بودجه</string>
+    <string name="description">شرح</string>
+    <string name="dialog_balance_delete">حذف معاملات منطبق</string>
+    <string name="dialog_confirm_discard_changes">لغو تغییرات؟</string>
+    <string name="dialog_confirm_discard_new_transaction">معامله جدید را نادیده بگیرید؟</string>
+    <string name="dialog_confirm_discard_new_template">الگو جدید را رد کنید؟</string>
+    <string name="dialog_confirm_discard_new_account">حساب جدید را رد کنید؟</string>
+    <string name="dialog_confirm_discard_new_method">روش پرداخت جدید را لغو کنید؟</string>
+    <string name="dialog_command_disabled_balance">بدون تراکنش واضح برای وفق دادن.</string>
+    <string name="dialog_command_disabled_insert_transfer">تراکنشهای انتقال نیاز به حساب دوم دارند</string>
+    <string name="dialog_command_disabled_reset_account">هیچ معاملهای برای صادرات وجود ندارد.</string>
+    <string name="dialog_command_disabled_distribution">هیچ تراکنشی به دسته‌بندیهای این حساب اضافه نشده است.</string>
+    <!-- Button for accessing trial of premium feature -->
+    <string name="dialog_contrib_no">امتحان کردن</string>
+    <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
+    <string name="dialog_contrib_premium_feature">%1$sمخصوص نسخه سفارشی است (%2$s).</string>
+    <string name="dialog_contrib_reminder_remove_limitation">رفع این محدودیت و دسترسی به ویژگی‌های بیشتر از طریق ارتقاء <i>{app_name}</i></string>
+    <string name="dialog_contrib_text_1"><i>{app_name}</i> به صورت متن‌باز ارائه شده است.</string>
+    <string name="dialog_contrib_text_2">لطفاً با ارتقاء <i>{app_name}</i> به برنامه کمک کنید و به ویژگی‌های زیر دسترسی نامحدود پیدا کنید:</string>
+    <string name="dialog_contrib_usage_count">فضای خالی باقی‌مانده</string>
+    <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">شما با لایسنس فعلی خود می‌تواند %1$d بار دیگر از این استفاده کنید (%2$s).</string>
+    <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">شما با لایسنس فعلی می‌توانید %1$d روز دیگر از این استفاده کنید (%2$s).</string>
+    <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">شما با لایسنس فعلی (%2$s) می‌توانید %1$d حساب ایجاد کنید.</string>
+    <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">شما با لایسنس فعلی (%2$s) می‌توانید %1$d برنامه ایجاد کنید.</string>
+    <string name="dialog_contrib_usage_limit_split_templates">شما با لایسنس فعلی (%1$s) می‌توانید 1 قالب تقسیم‌بندی بسازید.</string>
+    <string name="dialog_export_delete">حذف کردن تراکنش‌های استخراج شده</string>
+    <string name="dialog_export_not_yet_exported">فقط تراکنش‌هایی که تا به‌حال استخراج نشده‌اند استخراج شود.</string>
+    <string name="dialog_password_activate_protection">فعال کردن محافظت با گذرواژه</string>
+    <string name="dialog_password_change_password">تعویض گذرواژه</string>
+    <string name="dialog_password_new_password">گذرواژه جدید</string>
+    <string name="dialog_password_new_password_confirmation">گذرواژه جدید (برای تایید)</string>
+    <string name="dialog_remind_later">بعداً</string>
+    <string name="dialog_remind_rate_how_many_stars">مایلید چند ستاره به {app_name} بدهید؟</string>
+    <string name="dialog_remind_rate_1">لطفاً چند لحظه وقت بگذارید و به {app_name} امتیاز و نظر بدهید.</string>
+    <string name="dialog_remind_rate_2">دیدگاه شما باعث می‌شود تا بتوانیم به ارتقاء و بهبود ادامه دهیم.</string>
+    <string name="dialog_remind_rate_1_suggest_improvement">لطفاً چند لحظه وقت بگذارید و نظرتان را جهت ارتقاء برنامه برایمان ارسال کنید.</string>
+    <string name="dialog_remind_rate_yes">همن حالا امتیاز دهید</string>
+    <string name="dialog_security_answer">پاسخ</string>
+    <string name="dialog_security_question">پرسش</string>
+    <string name="dialog_title_attention">توجه</string>
+    <string name="dialog_title_information">اطلاعات</string>
+    <!-- %1$s is replace with account label -->
+    <string name="dialog_title_balance_account">توازن %1$s</string>
+    <string name="dialog_title_contrib_feature">ویژگی نسخه سفارشی</string>
+    <string name="dialog_title_warning_delete_category">دسته‌بندی حذف شود؟</string>
+    <string name="dialog_title_warning_delete_template">قالب حذف شود؟</string>
+    <string name="dialog_title_warning_delete_transaction">تراکنش حذف شود؟</string>
+    <string name="expense">هزینه</string>
+    <string name="export_expenses">استخراج هزینه‌ها</string>
+    <!-- 1$s is replaced with path to file, 2$s with error message -->
+    <string name="export_sdcard_failure">استخراج در فایل «%1$s» انجام نشد: %2$s</string>
+    <!-- 1$s is replaced with path to file -->
+    <string name="export_sdcard_success">داده‌ها با موفقیت در فایل «%1$s» استخراج شدند</string>
+    <string name="external_storage_unavailable">حافظه جانبی (مموری کارت) موجود نمی‌باشد</string>
+    <string name="feedback">بازخورد</string>
+    <string name="ftp_uri_malformed">نقص URI %1$s</string>
+    <string name="grisbi_import_categories_loading">بارگیری دسته‌بندی‌ها از %1$s</string>
+    <string name="grisbi_import_parties_loading">بارگذاری بخش ها از %1$s</string>
+    <string name="grouping_day">روز</string>
+    <string name="grouping_last_week">هفته پیش</string>
+    <string name="grouping_month">ماه</string>
+    <string name="grouping_none">گروه‌بندی نشده</string>
+    <string name="grouping_this_week">این هفته</string>
+    <string name="grouping_today">امروز</string>
+    <string name="grouping_week">هفته</string>
+    <string name="grouping_year">سال</string>
+    <string name="grouping_yesterday">دیروز</string>
+    <string name="help_button_rate">امتیاز یا نظر دادن</string>
+    <string name="help_heading_credits">اعتبارها</string>
+    <string name="help_heading_license">لایسنس</string>
+    <string name="help_heading_whats_new">چیزهای جدید</string>
+    <string name="important_upgrade_information_heading">اطلاعات مهم</string>
+    <string name="import_select_transactions">تراکنش‌ها</string>
+    <string name="income">درآمد</string>
+    <string name="invalid_number_format">قالب دهدهی توسط محلی شما تشخیص داده نمی شود. خواهش می کنم از %1$s استفاده کنید</string>
+    <string name="label">برچسب</string>
+    <string name="licence_validation_failure">کلید لایسنس نامعتبر است.</string>
+    <string name="licence_validation_success">کلید لایسنس با موفقیت تایید شد:</string>
+    <string name="licence_validation_premium">ویژگی‌های نسخه سفارشی فعال شدند.</string>
+    <string name="menu_aggregates">مجموع</string>
+    <!-- Shown in a notification; allows to apply a template (instantiate a new transaction from it) -->
+    <string name="menu_apply_template">اعمال کردن</string>
+    <string name="menu_back">عقب رفتن</string>
+    <string name="menu_backup">پشتیبان‌گیری</string>
+    <!-- Balance: compare cleared balance in app with balance on statement received from bank -->
+    <string name="menu_balance">توازن حساب</string>
+    <!-- Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction -->
+    <string name="menu_cancel_plan_instance">لغو</string>
+    <string name="menu_clone_transaction">شبیه</string>
+    <string name="menu_contrib">کمک کردن</string>
+    <string name="menu_create_account">حساب جدید</string>
+    <string name="menu_create_instance_edit">اعمال و ویرایش</string>
+    <string name="menu_create_instance_save">اعمال و ذخیره</string>
+    <string name="menu_create_main_cat">دسته‌بندی اصلی جدید</string>
+    <string name="menu_create_method">روش پرداخت جدید</string>
+    <string name="menu_create_party">بخش جدید</string>
+    <string name="menu_create_split">انشعاب جدید</string>
+    <string name="menu_create_sub_cat">زیررده جدید</string>
+    <string name="menu_create_template">قالب جدید</string>
+    <string name="menu_create_template_from_transaction">ذخیره به عنوان قالب</string>
+    <string name="menu_create_template_for_transaction">قالب تراکنش جدید</string>
+    <string name="menu_create_template_for_transfer">قالب انتقال جدید</string>
+    <string name="menu_create_transaction">تراکنش جدید</string>
+    <string name="menu_create_transfer">انتقال جدید</string>
+    <string name="menu_delete">حذف</string>
+    <string name="menu_distribution">توزیع</string>
+    <string name="menu_edit">ویرایش</string>
+    <string name="menu_edit_account">ویرایش حساب</string>
+    <string name="menu_edit_cat">ویرایش دسته‌بندی</string>
+    <string name="menu_edit_method">ویرایش روش پرداخت</string>
+    <string name="menu_edit_split">ویرایش انشعاب</string>
+    <string name="menu_edit_template">ویرایش قالب</string>
+    <string name="menu_edit_transaction">ویرایش تراکنش</string>
+    <string name="menu_edit_transfer">ویرایش انتقال</string>
+    <string name="menu_grouping">گروه‌بندی</string>
+    <string name="menu_help">کمک</string>
+    <!-- This command inverts the direction of a transfer -->
+    <string name="menu_invert_transfer">معکوس</string>
+    <string name="menu_manage_plans">قالب‌ها به‌عنوان برنامه‌ها</string>
+    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
+    <string name="menu_open">باز کردن</string>
+    <string name="menu_import">درون‌ریزی</string>
+    <string name="menu_print">چاپ</string>
+    <string name="menu_reset">استخراج و تنظیم مجدد</string>
+    <string name="menu_reset_all">استخراج و تنظیم مجدد همه</string>
+    <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
+    <string name="menu_reset_plan_instance">تنظیم مجدد</string>
+    <string name="menu_save">ذخیره</string>
+    <string name="menu_save_and_new">ذخیره و جدید</string>
+    <string name="menu_search">جست‌ و جو</string>
+    <string name="menu_settings">تنظیمات</string>
+    <string name="menu_share">گفتن به دوستان</string>
+    <string name="button_label_share_file">اشتراک گذاری</string>
+    <string name="button_label_close">بستن</string>
+    <string name="method">روش پرداخت</string>
+    <string name="no_amount_given">شما هیچ مقداری وارد نکردید</string>
+    <string name="no_app_handling_email_available">هیچ اپلیکیشنی برای استفاده از ایمیل دردسترس نیست</string>
+    <string name="no_app_handling_ftp_available">هیچ اپلیکیشنی برای استفاده از اف‌تی‌پی دردسترس نیست. <i>Send With FTP</i> نصب شود؟</string>
+    <string name="no_app_handling_pdf_available">هیچ اپلیکیشنی برای استفاده از فایل‌های پی‌دی‌اف دردسترس نیست.</string>
+    <string name="no_categories">بدون دسته‌بندی</string>
+    <string name="no_expenses">هنوز هیچ هزینه‌ای وجود ندارد!</string>
+    <string name="no_exportable_expenses">هیچ تراکنشی که تابه‌حال استخراج نشده‌ باشد وجود ندارد.</string>
+    <string name="no_filemanager_installed">هیچ فایل‌منیجری نصب نشده است</string>
+    <string name="no_calendar_app_installed">هیچ اپلیکیشنی برای ویرایش کردن رویدادهای تقویم پیدا نشد.</string>
+    <string name="no_templates">بدون قالب</string>
+    <string name="no_accounts">بدون حساب</string>
+    <string name="no_title_given">شما هیچ عنوانی وارد نکردید.</string>
+    <string name="opening_balance">تراز باز</string>
+    <string name="parse_error_file_not_found">فایل %1$s پیدا نشد</string>
+    <string name="parse_error_grisbi_version_not_supported">نسخه فایل Grisbi پشتیبانی نشده است: %1$s</string>
+    <string name="parse_error_no_data_found">هیچ دادهٔ قابل واردکردنی درفایل پیدا نشد.</string>
+    <string name="parse_error_other_exception">یک خطا رخ داد : %1$s</string>
+    <string name="parse_error_parse_exception">فایل تجزیه نشد</string>
+    <string name="password_disabled_reenable">حفاظت از طریق گذرواژه غیرفعال شد. شما می‌توانید آن را در تنظیمات، مجدد فعال کنید.</string>
+    <string name="password_lost">گذرواژه‌ام را گم کرده‌ام</string>
+    <string name="password_not_valid">گذرواژه نامعتبر است. لطفاً مجدداً تلاش کنید!</string>
+    <string name="password_prompt">گذرواژهٔ خود را وارد کنید</string>
+    <string name="password_security_answer_not_valid">جواب اشتباه است. لطفاً مجدداً تلاش کنید!</string>
+    <string name="payee">گیرنده وجه</string>
+    <string name="payer">پرداخت کننده</string>
+    <string name="payer_or_payee">گیرنده / پرداخت کننده</string>
+    <!-- Plan for future and recurring transactions -->
+    <string name="plan">برنامه</string>
+    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
+    <string name="plan_automatic">خودکار</string>
+    <!-- this is the label for the calendar where plans for future and recurrent transactions are stored -->
+    <string name="plan_calendar_name">برنامه‌ریز {app_name}</string>
+    <string name="planner_notification_channel_name">برنامه‌ریز</string>
+    <string name="plan_event_deleted">برنامه اختصاص داده شده به این قالب از تقویم حذف شده است.</string>
+    <!-- This message is shown, after a user decides to not apply a manual plan -->
+    <string name="plan_execution_canceled">اجرای برنامه لغو شد</string>
+    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
+    <string name="plan_manual">دستی</string>
+    <string name="planner_create_calendar_failure">ایجاد تقویم برنامه ریز محلی امکان پذیر نیست</string>
+    <string name="planner_create_calendar_success">تقویم برنامه ریز محلی با موفقیت ایجاد شد</string>
+    <!-- payment methods -->
+    <string name="pm_cheque">چک</string>
+    <string name="pm_creditcard">کارت اعتباری</string>
+    <string name="pm_deposit">سپرده</string>
+    <string name="pm_directdebit">بدهی مستقیم</string>
+    <string name="pm_type_credit">اعتباری</string>
+    <string name="pm_type_debit">بدهی</string>
+    <string name="pm_type_neutral">خنثی</string>
+    <string name="pref_app_dir_title">پوشه برای بک‌آپ‌ها و خروجی‌ها</string>
+    <string name="pref_auto_fill_summary">اطلاعات مربوط به آخرین تراکنش را برای همان گیرنده / پرداخت کننده وجه پر کنید</string>
+    <string name="pref_backup_summary">ساخت بک‌آپ از پایگاه داده و ترجیحات</string>
+    <string name="pref_category_title_advanced">پیشرفته</string>
+    <string name="pref_category_title_export">خروجی</string>
+    <string name="pref_category_title_import">درون‌ریزی</string>
+    <string name="pref_category_title_manage">مدیریت</string>
+    <string name="pref_category_title_more_information">اطلاعات بیشتر</string>
+    <string name="pref_category_title_security">امنیت</string>
+    <string name="pref_category_title_ui">رابط کاربری</string>
+    <string name="pref_checkbox_enabled">فعال شد</string>
+    <string name="pref_checkbox_disabled">غیرفعال شد</string>
+    <string name="pref_contrib_purchase_title">کلید فعال‌سازی</string>
+    <string name="pref_contrib_purchase_title_upgrade">کلید ارتقاء</string>
+    <string name="pref_contrib_purchase_title_in_app">پرداخت درون‌برنامه‌ای</string>
+    <string name="pref_custom_currency_title">سفارشی‌سازی واحد پول</string>
+    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">کلید را وارد کنید</string>
+    <string name="pref_export_format_title">فرمت تاریخ</string>
+    <!-- %s is replaced with QIF or CSV -->
+    <string name="pref_import_title">وارد کردن %s</string>
+    <string name="pref_like_facebook_title">ما را در فیس‌بوک لاک کنید</string>
+    <string name="pref_manage_accounts_title">حساب‌ها</string>
+    <string name="pref_manage_categories_summary">افزودن، ویرایش و پاک‌کردن دسته‌بندی‌ها</string>
+    <string name="pref_manage_categories_title">دسته‌بندی‌ها</string>
+    <string name="pref_manage_methods_summary">ساخت و ویرایش روش‌های پرداخت و اختصاص دادن آن‌ها به نوع حساب</string>
+    <string name="pref_manage_methods_title">روش‌های پرداخت</string>
+    <string name="pref_password_not_equal">گذرواژه تطابق ندارد</string>
+    <string name="pref_perform_protection_title">محافظت</string>
+    <string name="pref_perform_share_title">به‌اشتراک‌گذاری خروجی‌ها و بک‌آپ‌ها</string>
+    <string name="pref_protection_delay_seconds_title">تاخیر تا محافظت</string>
+    <string name="pref_protection_enable_data_entry_from_widget_summary_off">گذرواژه نیاز است.</string>
+    <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
+    <string name="pref_restore_alternative">جایگزین</string>
+    <string name="pref_restore_alternative_summary">اگر هیچ فایل‌منیجری بر روی دستگاه نصب نشده بود از این روش جایگزین استفاده کت.</string>
+    <string name="pref_restore_summary">یک بک‌آپ برای بازیابی پایگاه داده و ترجیحات انتخاب کنید.</string>
+    <string name="pref_restore_title">بازیابی</string>
+    <string name="pref_security_question_summary">اگر گذرواژه را فراموش کرده بودید، قفل اپلیکیش باز شود</string>
+    <string name="pref_security_question_title">سوال امنیتی</string>
+    <string name="pref_send_feedback_title">ارسال بازخورد</string>
+    <string name="pref_share_target_title">بارگیری URL</string>
+    <string name="pref_shortcut_added">میانبر به صفحهٔ اصلی اضافه شد</string>
+    <string name="pref_shortcut_not_added">صفحه اصلی شما از میانبر پشتیبانی نمی‌کند</string>
+    <string name="pref_shortcut_summary">افزودن میانبر به صفحهٔ اصلی</string>
+    <string name="pref_ui_fontsize_title">اندازهٔ فونت</string>
+    <string name="pref_ui_home_screen_shortcuts">میانبرهای صفحهٔ اصلی</string>
+    <string name="pref_ui_language_default">پیش‌فرض سیستم</string>
+    <!-- Title of the preference for selecting the UI language -->
+    <string name="pref_ui_language_title">زبان</string>
+    <string name="pref_ui_theme_dark">تاریک</string>
+    <string name="pref_ui_theme_light">روشن</string>
+    <string name="pref_ui_theme_title">تم</string>
+    <string name="pref_visit_website_summary">تغییرات و سوالات متداول</string>
+    <string name="pref_visit_website_title">دیدن وبسایت</string>
+    <string name="progress_dialog_deleting">حذف کردن اشیاء</string>
+    <string name="progress_dialog_loading">بارگیری شیٔ از پایگاه داده</string>
+    <string name="progress_dialog_printing">ساخت پی‌دی‌اف</string>
+    <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">نمی‌توان آن‌ها را در حساب موجود ادغام نمود.</string>
+    <string name="restore_db_failure">بازیابی پایگاه داده شکست خورد.</string>
+    <string name="restore_db_success">پایگاه داده از فایل بک‌آپ بازیابی شد.</string>
+    <string name="restore_no_backup_found">هیچ بک‌‌آپی پیدا نشد.</string>
+    <string name="restore_preferences_failure">بازیابی ترجیحات شکست خورد</string>
+    <string name="restore_backup_archive_not_valid">بایگانی %1$s معتبر نیست</string>
+    <string name="restore_preferences_success">ترجیحات از فایل بک‌آپ بازیابی شدند.</string>
+    <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%dبرنامه از فایل بک‌آپ بازیابی شدند</string>
+    <string name="save_transaction_and_new_success">با موفقیت دخیره شد</string>
+    <string name="save_transaction_template_deleted">قالب حذف شد.</string>
+    <string name="select">انتخاب</string>
+    <string name="select_category">انتخاب دسته‌بندی</string>
+    <string name="share_sending">ارسال فایل خروجی</string>
+    <string name="split_transaction">تراکنش سرشکن</string>
+    <string name="status">وضعیت</string>
+    <string name="status_cleared">پاک شد</string>
+    <string name="subcategory">زیررده‌بندی</string>
+    <string name="sum_expenses">هزینه‌ها</string>
+    <string name="sum_income">درآمد</string>
+    <string name="sum_transfer">انتقالات</string>
+    <!-- platform is replaced with Android or Blackberry -->
+    <string name="tell_a_friend_message">{app_name} را بررسی کنید، یک برنامهٔ مدیریت مالی شخصی برای {platform} از {website} است</string>
+    <string name="thank_you">ممنون از حمایتتان!</string>
+    <string name="time">زمان</string>
+    <string name="title">عنوان</string>
+    <string name="transaction">تراکنش</string>
+    <string name="transfer">انتقال</string>
+    <string name="transfer_from_account">از</string>
+    <string name="transfer_to_account">به</string>
+    <!-- Type refers to the type of an account, eg. Cash account, bank account -->
+    <string name="type">نوع</string>
+    <string name="unsplit_amount">مقدار تقسیم نشده</string>
+    <string name="unsplit_amount_greater_than_zero">هنوز مقداری تقسیم نشده وجود دارد</string>
+    <string name="warning_backup">پایگاه داده و ترجیحات در «%1$s» ذخیره می‌شوند.</string>
+    <string name="continue_confirmation">می‌خواهید ادامه دهید؟</string>
+    <string name="warning_delete_account">حساب «%1$s» با تمام تراکنش‌های حذف خواهد شد.</string>
+    <string name="warning_password_protected">اپلیکیشن از طریق گذرواژه محافظت می‌شود.</string>
+    <string name="warning_widget_disabled">شما باید این ویجت در تنظیمات اپلیکیشن فعال کنید.</string>
+    <string name="warning_password_contrib">تنظیم یک سوال امنیتی به شما اجازه می‌دهد درصورتی که گذرواژه را فراموش کردید، بتوانید قفل اپلیکیش را باز کنید.</string>
+    <string name="warning_reset_account">اگر ادامه بدهید، تمام تراکنش‌های این حساب از پایگاه داده پاک می‌شوند و قابل بازیابی نخواهند بود.</string>
+    <string name="warning_reset_account_matched">اگر ادامه بدهید، تراکنش‌های منطبق با این فیلتر از پایگاه داده حذف خواهند شد و قابل بازیابی نخواهند بود.</string>
+    <string name="warning_restore">پایگاه داده و ترجیحات از فایل «%1$s» بازبابی خواهند شد. داده‌های فعلی حذف خواهند شد.</string>
+    <string name="warning_app_folder_will_be_deleted_upon_uninstall">اگر شما {app_name} را حذف کنید، پوشهٔ انتخاب شدهٔ فعلی برای بک‌آپ و خرجی به‌طور خودکار توسط اندروید حذف خواهد شد. برای جلوگیری از این کار می‌توانید از صفحهٔ تنظیمات، پوشهٔ دیگری را انتخاب کنید.</string>
+    <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">لطفاً یک عدد از بین %1$d تا %2$d بگذارید</string>
+    <string name="import_categories_success">%1$s دسته‌بندی با موفقیت درون‌ریزی شد</string>
+    <string name="import_accounts_success">%1$sحساب با موفقیت درون‌ریزی شد</string>
+    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d تراکنش با موفقیت به حساب %2$s درون‌ریزی شد</string>
+    <string name="import_accounts_none">هیچ حسابی درون‌ریزی نشد</string>
+    <string name="import_categories_none">هیچ دسته‌بندی‌ای درون‌ریزی نشد</string>
+    <string name="import_transactions_none">هیچ تراکنشی به حساب %1$s درون‌ریزی نشد</string>
+    <string name="import_source_select_error">لطفاً یک فایل از نوع %1$s ارائه دهید</string>
+    <string name="menu_create_folder">پوشهٔ جدید</string>
+    <!-- This string is used for navigating up in the folder browser -->
+    <string name="menu_up">بالا</string>
+    <string name="create_new_folder_fail">ساخت پوشه شکست خورد</string>
+    <string name="widget_title_accounts">حساب‌های من</string>
+    <string name="widget_title_templates">قالب‌های من</string>
+    <string name="app_dir_not_accessible">پوشهٔ فعلی انتخاب شده برای بک‌آپ و خروجی (%1$s) در دسترس نمی‌باشد. لطفاً یک پوشه دیگر انتخاب کنید</string>
+    <string name="search_amount">جست‌وجو کردن مقدار</string>
+    <string name="search_category">جست‌وجو کردن دسته‌بندی</string>
+    <string name="search_comment">جست‌وجو کردن یادداشت</string>
+    <string name="search_date">جست‌وجو کردن تاریخ</string>
+    <string name="search_status">جست‌وجو کردن وضعیت</string>
+    <string name="search_payee">جست‌وجو کردن گیرنده/پرداخت‌کننده</string>
+    <string name="search_method">جست‌وجو کردن روش</string>
+    <string name="and">و</string>
+    <string name="between_and">بین %1$s و %2$s</string>
+    <string name="before">قبل از %s</string>
+    <string name="after">بعد از%s</string>
+    <string name="comparison_operator_equal">برابر با</string>
+    <string name="comparison_operator_greater_than">بزرگ‌تر از</string>
+    <string name="comparison_operator_lesser_than">کوچک‌تر از</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions between two specified dates. -->
+    <string name="comparison_operator_between">بین</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions before a specified date.  -->
+    <string name="comparison_operator_date_before">قبل</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
+    <string name="comparison_operator_date_after">بعد</string>
+    <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">خریدن شکست خورد یا متوقف شد.</string>
+    <string name="learn_more">بیشتر بدانید</string>
+    <string name="import_source_file">فایل</string>
+    <string name="restore_calendar_handling_ignore">برنامه‌ها را بازیابی نکن</string>
+    <string name="restore_not_possible_local_calendar_missing">تقویم برنامه‌ریزی فعلی در دسترس نیست.</string>
+    <string name="menu_view_picture">دیدن تصویر</string>
+    <string name="menu_delete_picture">حذف تصویر</string>
+    <string name="menu_change_picture">ضمیمه کردن تصویری دیگر</string>
+    <string name="menu_distribution_show_pie_char">نمایش نمودار دایره‌ای</string>
+    <string name="menu_distribution_aggreate">مجموع دخل و خرج</string>
+    <string name="image_deleted">تصویر حذف شده‌است</string>
+    <string name="transaction_deleted">تراکنش حذف شده‌است</string>
+    <string name="dialog_export_applied_to_filter">فقط تراکنش‌های مطابق با فیلتر فعلی درنظر گرفته خواهندشد.</string>
+    <string name="export_handle_deleted_create_helper">ایجاد تراکنش کمک‌کننده</string>
+    <string name="file_name">نام فایل</string>
+    <string name="folder_name">نام پوشه</string>
+    <string name="mark_void_instead_of_delete">تراکنش را پاک نکن، درعوض آن را پوچ درنظر بگیر.</string>
+    <string name="menu_undelete_transaction">بازگردانی حذف</string>
+    <string name="slash_forbidden_in_filename">کاراکتر / برای نام فایل‌ها مجاز نیست</string>
+    <string name="io_error_unable_to_create_file">امکان ساخت فایل %1$s در پوشهٔ %2$s نیست</string>
+    <string name="menu_categories_export">برون ریزی به QIF</string>
+    <string name="csv_import_preview">پیش‌نمایش</string>
+    <string name="csv_import_delimiter_comma">ویرگول</string>
+    <string name="csv_import_delimiter_semicolon">نقطه‌ویرگول</string>
+    <string name="csv_import_delimiter_tab">تب</string>
+    <string name="menu_show_transactions">نمایش تراکنش‌ها</string>
+    <string name="pref_custom_decimal_format_title">فرمت عدد</string>
+    <string name="pref_auto_backup_title">بک‌آپ‌ گیری خودکار</string>
+    <string name="pref_auto_backup_summary">از پایگاه داده روزانه و در زمان مشخص بک‌آپ بگیر (فقط در صورتی که داده‌ها تغییر یافته‌اند).</string>
+    <string name="pref_auto_backup_time_title">زمان بک‌آپ خودکار</string>
+    <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">بعد از %d بک‌آپ خودکار موفق، بک‌آپ خودکار غیر فعال خواهد شد.</string>
+    <string name="switch_on_text">روشن</string>
+    <string name="switch_off_text">خاموش</string>
+    <string name="menu_move">انتقال</string>
+    <string name="dialog_title_select_target">انتخاب هدف</string>
+    <string name="preferences_week_start_day_title">روز شروع هفته</string>
+    <string name="preferences_month_start_date_title">روز شروع ماه</string>
+    <string name="exchange_rate">نرخ تبدیل</string>
+    <string name="date_format_hour">ساعت</string>
+    <string name="date_format_minute">دقیقه</string>
+    <string name="menu_sort">مرتب‌سازی بر اساس</string>
+    <string name="pref_sort_order_last_used">آخرین استفاده</string>
+    <string name="pref_sort_order_custom">سفارشی</string>
+    <string name="content_description_calculator">ماشین‌حساب</string>
+    <!-- describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list. -->
+    <string name="plan_instance_state_open">باز</string>
+    <!-- describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list. -->
+    <string name="plan_instance_state_cancelled">لغو شده</string>
+    <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
+    <string name="plan_instance_state_applied">اعمال شد</string>
+    <string name="content_description_calculator_clear_button">ریست کردن همه</string>
+    <string name="crash_dialog_title">{app_name} بسته شد</string>
+    <string name="crash_dialog_comment_prompt">اگر مایلید نظرتان را راجع به مشکل در زیر بیان کنید:</string>
+    <string name="synchronization">همگام‌سازی</string>
+    <string name="hint_user_name">نام کاربری</string>
+    <string name="hint_password">گذرواژه</string>
+    <string name="label_trust_certificate">اعتماد کردن به این گواهی</string>
+    <string name="validate_error_not_empty">نباید خالی باشد</string>
+    <string name="validate_error_webdav_invalid_certificate">به گواهی نمی‌شود اعتماد کرد. به‌نظر نامعتبر است.</string>
+    <string name="validate_error_webdav_not_compliant">URL به یک منبع WebDAV اشاره نمی کند.</string>
+    <string name="validate_error_webdav_404">URL در سرور وجود ندارد.</string>
+    <string name="menu_sync_unlink">همگام‌سازی را متوقف کن</string>
+    <string name="menu_sync_link">همگام‌سازی را شروع کن</string>
+    <string name="menu_sync_download">بارگیری و همگام‌سازی</string>
+    <string name="menu_sync_now">الان همگام‌سازی کن</string>
+    <string name="pref_sync_frequency_title">مرتباً همگام‌سازی کن</string>
+    <string name="pref_sync_frequency_summary">چند بار داده‌ها باید همگام‌سازی شوند (در ساعت)</string>
+    <string name="menu_remove">حذف</string>
+    <string name="dialog_confirm_sync_link_remote">داده‌های محلی این حساب حذف خواهند شد.</string>
+    <string name="warning_limited_trial">ویژگی %1$sتا %2$s مهلت تست دارد.</string>
+    <string name="warning_trial_limit_reached">دورهٔ امتحانی تست کردن ویژگی %s تمام شده‌است.</string>
+    <string name="template">قالب</string>
+    <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">همگام‌سازی ابری</string>
+    <string name="all_contrib_key_features">کلیهٔ قابلیت‌های کلید مشارکت</string>
+    <string name="all_extended_key_features">کلیهٔ قابلیت‌های کلید اکستندد</string>
+    <!-- button leading user to purchase flow for licence keys -->
+    <string name="upgrade_now">ارتقاء</string>
+    <string name="currency_symbol">نماد واحد پول</string>
+    <string name="pref_tracking_summary">اجازه دهید تا داده‌های الگوی مصرف به صورت ناشناس جمع‌آوری شود تا بتوانیم برای بهبود برنامه از آن‌ها کمک بگیریم.</string>
+    <string name="picture">تصویر</string>
+    <string name="professional_key">Professional Key</string>
+    <string name="valid_until">تا %s</string>
+    <!-- %1$s date, %2$s price  -->
+    <string name="extend_until">تا %1$s تمدید کنید برای %2$s</string>
+    <string name="donate_button_invoice">فاکتور</string>
+    <string name="sort_direction_ascending">صعودی</string>
+    <string name="sort_direction_descending">نزولی</string>
+    <string name="never">هرگز</string>
+    <string name="always">هميشه </string>
+    <string name="auto_fill_account_from_aggregate_only">فقط وقتی از حساب جمع شروع می شود.</string>
+    <string name="sync_auth_exception_login_again">مجوز ناموفق بود. لطفا دوباره وارد شوید.</string>
+    <string name="sync_loading_accounts_from_backend">بارگیری حساب های موجود از backend.</string>
+    <!-- the date on which the transaction took place, aka transaction date, as opposed to value date -->
+    <string name="booking_date">تاریخ رزور</string>
+    <!-- the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date -->
+    <string name="value_date">تاریخ ارزش</string>
+    <!-- title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project -->
+    <string name="pref_translation_title">تراکنش</string>
+    <!-- Content description for accessibility on image that allows to collapse content  -->
+    <string name="content_description_collapse">بسته شده</string>
+    <!-- Content description for accessibility on image that allows to expand content  -->
+    <string name="content_description_expand">باز شده</string>
+    <!-- Short label for the amount input where user can set either saving goal or credit limit -->
+    <string name="goal_or_limit">هدف / محدودیت</string>
+    <string name="saving_goal">ذخیره هدف</string>
+    <string name="menu_budget">بودجه بندی</string>
+    <string name="dialog_title_edit_budget">ویرایش بودجه</string>
+    <string name="budget_table_header_budgeted">بودجه بندی شده</string>
+    <string name="budget_table_header_spent">خرج شده</string>
+    <string name="budget_table_header_remainder">باقیمانده</string>
+    <!-- Description for button that allows to clear the selected category -->
+    <string name="content_description_clear_category">دسته را پاک کن</string>
+    <string name="currency_code">کد</string>
+    <string name="dialog_title_new_currency">یکای پول جدید</string>
+    <string name="currency_code_already_definded">کد ارز قبلاً تعریف شده است.</string>
+    <string name="pref_security_export_passphrase_title">رمز عبور برای پشتیبان گیری</string>
+    <!-- Action of closing an account. A closed account does not allow any modifications on its data. -->
+    <string name="menu_close">بستن</string>
+    <!-- Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data. -->
+    <string name="content_description_closed">بسته شده</string>
+    <string name="translated_by">ترجمه شده بوسیله</string>
+    <string name="icon">آیکون</string>
+    <string name="pref_debug_title">اشکال‌زدایی</string>
+    <string name="warning_account_for_transaction_is_closed">دست کم یکی از تراکنش‌های انتخاب‌شده نمی‌توانند ویراش شوند:</string>
+    <string name="content_description_download_exchange_rate">دانلود نرخ تبدیل</string>
+    <string name="budget_duration_from">از</string>
+    <string name="budget_duration_to">به</string>
+    <string name="budget_form_label_filter">فیلتر</string>
+    <string name="dialog_title_warning_delete_budget">حذف بودجه؟</string>
+    <string name="warning_delete_budget">بودجه \" %1$s \" حذف خواهد شد.</string>
+    <string name="menu_edit_budget">ویرایش بودجه</string>
+    <string name="content_description_tags_confirm">تایید</string>
+    <string name="tags">برچسب</string>
+    <!-- If this mode is active, the action button will open the camera for scanning a receipt  -->
+    <string name="menu_scan_mode">حالت اسکن</string>
+    <!-- Button that triggers the scan operation -->
+    <string name="button_scan">اسکن</string>
+    <string name="pref_ocr_total_indicators_title">شاخص برای مقدار کل</string>
+    <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
+    <string name="pref_category_title_features">ویژگی‌ها</string>
+    <string name="menu_save_and_new_content_description">ذخیرهٔ داده‌ها و باز گذاشتن فرم برای ثبت تراکنش جدید با همین داده‌ها.</string>
+    <!-- Title of a menu item and a dialogue that allow to adjust the current balance. User can enter the new balance, and transaction form is opened with the amount prefiled to the difference between old and new balance  -->
+    <string name="new_balance">تراز تازه</string>
+    <string name="title_webui">رابط کاربری وب</string>
+    </resources>

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="account">Sąskaita</string>
+    <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
+    <string name="account_types">Sąskaitų tipai</string>
+    <string name="account_type_asset">Turto (aktyvų) sąskaita</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_asset_plural">Turto (aktyvų) sąskaitos</string>
+    <string name="account_type_bank">Banko sąskaita</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_bank_plural">Banko sąskaitos</string>
+    <string name="account_type_cash">Grynųjų pinigų sąskaita</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_cash_plural">Grynųjų pinigų sąskaitos</string>
+    <string name="account_type_ccard">Kreditinė kortelė</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_ccard_plural">Kreditinės kortelės</string>
+    <string name="account_type_liability">Įsipareigojimų (skolų) sąskaita</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_liability_plural">Įsipareigojimų (skolų) sąskaitos</string>
+    <string name="amount">Suma</string>
+    <string name="app_name">Mano išlaidos</string>
+    <string name="backup_success">Duomenų bazė bei nustatymai sėkmingai įrašyti į \"%1$s\".</string>
+    <string name="category">Kategorija</string>
+    <string name="color">Spalva</string>
+    <string name="comment">Pastabos</string>
+    <string name="confirmation_dialog_dont_show_again">Neberodyti daugiau</string>
+    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Neribotas sąskaitų kiekis</string>
+    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Neribotas planų kiekis</string>
+    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Eksportuoti operacijų sąrašą į PDF dokumentą</string>
+    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Importavimas iš CSV (tekstinių) failų</string>
+    <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
+    <string name="contrib_key_requires">Reikalauja %1$s.</string>
+    <string name="currency">Valiuta</string>
+    <string name="current_balance">Einamasis balansas</string>
+    <string name="date">Data</string>
+    <string name="date_format">Datos formatas</string>
+    <string name="date_format_illegal">Netinkamas datos formatas</string>
+    <string name="number_format_illegal">Netinkamas skaičių formatas</string>
+    <string name="default_account_name">Biudžeto knyga</string>
+    <string name="description">Aprašymas</string>
+    <string name="dialog_balance_delete">Ištrinti patvirtintas operacijas</string>
+    <string name="dialog_confirm_discard_changes">Atsisakyti pakeitimų?</string>
+    <string name="dialog_confirm_discard_new_transaction">Panaikinti naują operaciją?</string>
+    <string name="dialog_confirm_discard_new_template">Panaikinti naują šabloną?</string>
+    <string name="dialog_confirm_discard_new_account">Panaikinti naują sąskaitą?</string>
+    <string name="dialog_password_change_password">Keisti slaptažodį</string>
+    <string name="dialog_password_new_password">Naujas slaptažodis</string>
+    <string name="dialog_password_new_password_confirmation">Naujas slaptažodis (patvirtinimui)</string>
+    <string name="dialog_remind_later">Vėliau</string>
+    <string name="dialog_security_question">Klausimas</string>
+    <string name="dialog_title_information">Informacija</string>
+    <string name="dialog_title_warning_delete_template">Ištrinti šabloną?</string>
+    <string name="dialog_title_warning_delete_transaction">Ištrinti operaciją?</string>
+    <string name="grouping_day">Diena</string>
+    <string name="grouping_month">Mėnuo</string>
+    <string name="grouping_this_week">Ši savaitė</string>
+    <string name="grouping_today">Šiandien</string>
+    <string name="grouping_week">Savaitė</string>
+    <string name="grouping_year">Metai</string>
+    <string name="grouping_yesterday">Vakar</string>
+    <string name="help_heading_credits">Padėkos</string>
+    <string name="help_heading_license">Licencija</string>
+    <string name="help_heading_whats_new">Kas naujo</string>
+    <string name="important_upgrade_information_heading">Svarbi informacija</string>
+    <string name="import_select_transactions">Operacijos</string>
+    <string name="income">Pajamos</string>
+    <!-- Shown in a notification; allows to apply a template (instantiate a new transaction from it) -->
+    <string name="menu_apply_template">Taikyti</string>
+    <string name="menu_back">Atgal</string>
+    <!-- Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction -->
+    <string name="menu_cancel_plan_instance">Atsisakyti</string>
+    <string name="menu_clone_transaction">Klonuoti</string>
+    <string name="menu_create_account">Nauja sąskaita</string>
+    <string name="menu_create_template">Naujas šablonas</string>
+    <string name="menu_create_template_from_transaction">Įrašyti kaip šabloną</string>
+    <string name="menu_create_template_for_transaction">Naujas operacijos šablonas</string>
+    <string name="menu_create_transaction">Nauja operacija</string>
+    <string name="menu_delete">Ištrinti</string>
+    <string name="menu_edit">Keisti</string>
+    <string name="menu_edit_account">Keisti sąskaitą</string>
+    <string name="menu_edit_method">Keisti mokėjimo būdą</string>
+    <string name="menu_edit_template">Keisti šabloną</string>
+    <string name="menu_edit_transaction">Keisti operaciją</string>
+    <string name="menu_help">Pagalba</string>
+    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
+    <string name="menu_open">Atverti</string>
+    <string name="menu_print">Spausdinti</string>
+    <string name="menu_save">Įrašyti</string>
+    <string name="menu_search">Ieškoti</string>
+    <string name="menu_settings">Nustatymai</string>
+    <string name="no_methods">Nėra mokėjimo būdų.</string>
+    <string name="password_prompt">Įveskite slaptažodį</string>
+    <string name="payee">Gavėjas</string>
+    <string name="payer">Mokėtojas</string>
+    <string name="payer_or_payee">Gavėjas/mokėtojas</string>
+    <string name="pm_creditcard">Kreditinė kortelė</string>
+    <string name="pref_category_title_more_information">Daugiau informacijos</string>
+    <string name="pref_category_title_ui">Naudotojo sąsaja</string>
+    <string name="pref_export_format_title">Duomenų formatas</string>
+    <string name="pref_import_from_grisbi_title">Importuoti iš Grisbi programos</string>
+    <string name="pref_manage_accounts_title">Sąskaitos</string>
+    <string name="pref_manage_categories_summary">Pridėti, keisti ar trinti kategorijas.</string>
+    <string name="pref_manage_categories_title">Kategorijos</string>
+    <string name="pref_manage_methods_title">Mokėjimo būdai</string>
+    <string name="pref_more_info_dialog_title">Licencija bei kūrėjai</string>
+    <string name="pref_password_not_equal">Slaptažodžiai nesutampa</string>
+    <string name="pref_protection_enable_data_entry_from_widget_summary_off">Slaptažodis privalomas.</string>
+    <string name="pref_qif_export_file_encoding_title">Rašmenų koduotė</string>
+    <string name="pref_security_question_title">Apsaugos klausimas</string>
+    <!-- Title of the preference for selecting the UI language -->
+    <string name="pref_ui_language_title">Kalba</string>
+    <string name="pref_ui_theme_title">Tema</string>
+    <string name="restore_no_backup_found">Nerasta atsarginių kopijų</string>
+    <string name="save_transaction_and_new_success">Sėkmingai įrašyta</string>
+    <string name="select">Pasirinkite</string>
+    <string name="select_category">Pasirinkite kategoriją</string>
+    <string name="split_transaction">Išskaidytos operacijos</string>
+    <string name="status">Būsena</string>
+    <string name="sum_expenses">Išlaidos</string>
+    <string name="sum_income">Pajamos</string>
+    <string name="time">Laikas</string>
+    <string name="transaction">Operacija</string>
+    <!-- Type refers to the type of an account, eg. Cash account, bank account -->
+    <string name="type">Tipas</string>
+    <string name="warning_password_protected">Programa yra apsaugota slaptažodžiu.</string>
+    <string name="menu_create_folder">Naujas aplankas</string>
+    <string name="widget_title_accounts">Mano sąskaitos</string>
+    <string name="widget_title_templates">Mano šablonai</string>
+    <string name="menu_show_transactions">Rodyti operacijas</string>
+    <string name="template">Šablonas</string>
+    <string name="split_transaction_one_error">Nepavyko transformuoti operacijos į išskaidytą.</string>
+    </resources>

@@ -1,0 +1,229 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources, InconsistentArrays">
+    <!-- Main category -->
+    <string name="Main_1">अन्य आमदनी</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_1">बेरोजगारी भत्ता</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_2">परिवार भत्ता</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_3">टैक्स क्रेडिट</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_4">जुआ</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_5">म्युचुअल बीमा</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_6">सामाजिक सुरक्षा</string>
+    <!-- Main category -->
+    <string name="Main_2">निवृत्ति</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_1">सेवानिवृत्ति कोष</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_2">पेंशन</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_3">अनुपूरक पेंशन</string>
+    <!-- Main category -->
+    <string name="Main_3">निवेश आय</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_1">लाभांश</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_2">ब्याज</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_3">पूंजी लाभ</string>
+    <!-- Main category -->
+    <string name="Main_4">वेतन</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_1">ओवरटाइम</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_2">छुट्टी भत्ता</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_4">सफलता शुल्क</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_5">कुल वेतन</string>
+    <!-- Main category -->
+    <string name="Main_5">विविध आय</string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_1">उपहार</string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_2">रिफंड</string>
+    <!-- Main category -->
+    <string name="Main_6">भोजन</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_1">बार</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_2">बेकर</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_3">जलपान गृह</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_4">मिठाइयाँ</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_5">किराना</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_6">रेस्टोरेंट</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_7">स्वयं सेवा</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_8">सुपरमार्केट</string>
+    <!-- Main category -->
+    <string name="Main_7">पालतू जानवर</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_1">भोजन</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_2">विभिन्न आपूर्ति</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_4">पशु चिकित्सा सर्जन</string>
+    <!-- Main category -->
+    <string name="Main_8">बीमा</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_1">गाड़ी</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_2">स्वास्थ्य</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_3">मकान</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_5">जीवन</string>
+    <!-- Main category -->
+    <string name="Main_9">गाड़ी</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_1">ईंधन</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_2">मरम्मत</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_3">रखरखाव</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_4">पार्किंग</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_5">जुर्माना</string>
+    <!-- Main category -->
+    <string name="Main_10">उपहार</string>
+    <!-- Main category -->
+    <string name="Main_11">बच्चे</string>
+    <!-- Subcategory under "Children" -->
+    <string name="Sub_11_1">नर्स</string>
+    <!-- Subcategory under "Children" -->
+    <string name="Sub_11_2">पढ़ाई</string>
+    <!-- Main category -->
+    <string name="Main_12">पढ़ाई</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_1">पाठ</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_2">स्कूल की फीस</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_3">पुस्तकें</string>
+    <!-- Main category -->
+    <string name="Main_13">वित्तीय खर्च</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_1">बैंक प्रभार</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_2">कर्ज़/गिरवी</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_3">प्रभार</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_4">धन-वापसी</string>
+    <!-- Subcategory under "Professional expenses" -->
+    <string name="Sub_14_1">नॉन रिफंडेबल</string>
+    <!-- Subcategory under "Professional expenses" -->
+    <string name="Sub_14_2">रिफंडेबल</string>
+    <!-- Main category -->
+    <string name="Main_15">कर</string>
+    <!-- Main category -->
+    <string name="Main_16">आवास</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_1">होटल</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_2">किराया</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_3">टीवी</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_5">प्रभार</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_7">सजावट</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_8">पानी</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_9">बिजली</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_11">उपकरण</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_12">गैस</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_13">बगीचा</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_14">हाउस कीपर</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_15">फ़ोन</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_16">मोबाइल फोन</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_1">स्नूकर</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_2">बॉलिंग</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_3">फ़िल्में</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_4">नाइट क्लब</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_5">आईटी</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_6">खेल</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_7">पुस्तकें</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_8">पार्क</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_9">संगीत कार्यक्रम</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_10">स्पोर्ट्स</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_11">वीडियो</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_12">ट्रेवल्स</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_13">उपकरण</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_14">संग्रहालय / प्रदर्शन</string>
+    <!-- Main category -->
+    <string name="Main_18">कर्ज़/गिरवी</string>
+    <!-- Subcategory under "Loan/Mortgage" -->
+    <string name="Sub_18_1">पूंजी</string>
+    <!-- Main category -->
+    <string name="Main_19">स्वास्थ्य</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_1">बीमा</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_2">दंत चिकित्सक</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_3">अस्पताल</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_5">चिकित्सक</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_7">अस्थिरोगचिकित्सा</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_8">रसायनज्ञ</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_9">सामाजिक सुरक्षा</string>
+    <!-- Main category -->
+    <string name="Main_20">देखभाल</string>
+    <!-- Subcategory under "Care" -->
+    <string name="Sub_20_1">नाई</string>
+    <!-- Subcategory under "Care" -->
+    <string name="Sub_20_2">कपड़ा</string>
+    <!-- Main category -->
+    <string name="Main_21">ट्रांसपोर्ट</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_1">बस</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_2">मेट्रो</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_3">टोल</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_4">रेल गाडी</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_5">ट्रामवे</string>
+    <!-- Main category -->
+    <string name="Main_22">छुट्टियां</string>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_1">आवास</string>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_3">ट्रेवल्स</string>
+</resources>

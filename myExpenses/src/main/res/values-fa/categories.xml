@@ -1,0 +1,259 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources, InconsistentArrays">
+    <!-- Main category -->
+    <string name="Main_1">سایر درآمدها </string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_1">حقوق بیکاری</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_2">کمک هزینه خانواده</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_3">اعتبار مالیاتی</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_4">قمار</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_5">بیمه تعاونی</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_6">امنیت اجتماعی</string>
+    <!-- Main category -->
+    <string name="Main_2">بازنشستگی</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_1">صندوق بازنشستگی</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_2">حقوق بازنشستگی</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_3">اضافه حقوق بازنشستگی</string>
+    <!-- Main category -->
+    <string name="Main_3">درآمد سرمایه گذاری</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_1">تقسیم سود</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_2">سود</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_3">افزایش سرمایه</string>
+    <!-- Main category -->
+    <string name="Main_4">حقوق</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_1">اضافه کاری</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_2">مرخصی با حقوق</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_3">متفرقه. حق الزحمه</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_4">بهای موفقیت</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_5">حقوق و دستمزد خالص</string>
+    <!-- Main category -->
+    <string name="Main_5">درآمد متفرقه</string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_1">هدایا</string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_2">بازپرداخت</string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_3">فروش دست دوم</string>
+    <!-- Main category -->
+    <string name="Main_6">غذا</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_1">میکده</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_2">نانوایی</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_3">سالن غذاخوری</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_4">شیرینی</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_5">بقالی</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_6">رستوران</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_7">سلف سرویس</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_8">سوپرمارکت</string>
+    <!-- Main category -->
+    <string name="Main_7">حیوانات خانگی</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_1">غذا</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_2">منابع مختلف</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_3">مراقبت از مو</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_4">جراح دامپزشکی</string>
+    <!-- Main category -->
+    <string name="Main_8">بیمه</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_1">خودرو</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_2">سلامت</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_3">خانه</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_4">مسئولیت مدنی</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_5">زندگی</string>
+    <!-- Main category -->
+    <string name="Main_9">خودرو</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_1">سوخت</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_2">تعمیرات</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_3">نگهداری</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_4">پارکینگ</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_5">جریمه</string>
+    <!-- Main category -->
+    <string name="Main_10">هدایا</string>
+    <!-- Main category -->
+    <string name="Main_11">کودک</string>
+    <!-- Subcategory under "Children" -->
+    <string name="Sub_11_1">پرستار</string>
+    <!-- Subcategory under "Children" -->
+    <string name="Sub_11_2">مطالعات</string>
+    <!-- Main category -->
+    <string name="Main_12">مطالعات</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_1">دروس</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_2">هزینه های مدرسه</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_3">کتاب</string>
+    <!-- Main category -->
+    <string name="Main_13">هزینه های مالی</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_1">عوارض بانکی</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_2">وام / رهن</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_3">عوارض</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_4">بازپرداخت</string>
+    <!-- Main category -->
+    <string name="Main_14">هزینه های حرفه ای</string>
+    <!-- Subcategory under "Professional expenses" -->
+    <string name="Sub_14_1">غیر قابل بازگشت</string>
+    <!-- Subcategory under "Professional expenses" -->
+    <string name="Sub_14_2">برگشت‌پذیر</string>
+    <!-- Main category -->
+    <string name="Main_15">مالیات</string>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_1">مالیات بر درآمد</string>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_2">مالیات زمین</string>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_3">مالیات فروش</string>
+    <!-- Main category -->
+    <string name="Main_16">مسکن</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_1">هتل</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_2">اجاره</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_3">تلویزیون</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_5">عوارض</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_6">گرمایش</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_7">تزیین</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_8">آب</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_9">برق</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_10">ابزار و وسایل خانگی سفید</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_11">تجهیزات</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_12">گاز</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_13">باغ</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_14">خانه داری</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_15">تلفن</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_16">تلفن همراه</string>
+    <!-- Main category -->
+    <string name="Main_17">بازدیدها</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_1">اسنوکر</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_2">بولینگ</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_3">فیلم ها</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_4">کلوپ شبانه</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_5">آی تی</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_6">بازی‌ها</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_7">کتاب</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_8">پارک ها</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_9">کنسرت ها</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_10">ورزش ها</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_11">ویدئو</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_12">سفر‌ها</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_13">تجهیزات</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_14">موزه ها / نمایشگاه ها</string>
+    <!-- Main category -->
+    <string name="Main_18">وام / وام مسکن</string>
+    <!-- Subcategory under "Loan/Mortgage" -->
+    <string name="Sub_18_1">سرمایه</string>
+    <!-- Main category -->
+    <string name="Main_19">سلامت</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_1">بیمه</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_2">دندانپزشک</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_3">بیمارستان</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_4">کینیست جراحی</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_5">دکتر</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_6">چشم پزشک</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_7">استئوپات</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_8">شیمیدان</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_9">امنیت اجتماعی</string>
+    <!-- Main category -->
+    <string name="Main_20">مراقبت</string>
+    <!-- Subcategory under "Care" -->
+    <string name="Sub_20_1">آرایشگاه</string>
+    <!-- Subcategory under "Care" -->
+    <string name="Sub_20_2">پوشاک</string>
+    <!-- Main category -->
+    <string name="Main_21">حمل و نقل</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_1">اتوبوس</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_2">مترو</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_3">هزینه</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_4">قطار</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_5">تراموای شهری</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_6">هواپیما</string>
+    <!-- Main category -->
+    <string name="Main_22">تعطیلات</string>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_1">مسکن</string>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_2">ملاقات‌ها</string>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_3">سفر‌ها</string>
+</resources>

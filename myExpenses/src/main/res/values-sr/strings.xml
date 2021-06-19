@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="account">Рачун</string>
+    <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
+    <string name="account_types">Врсте рачуна</string>
+    <string name="account_type_asset">Сретство на рачуну</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_asset_plural">Сретства на рачунима</string>
+    <string name="account_type_bank">Банковни рачун</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_bank_plural">Банковни рачуни</string>
+    <string name="account_type_cash">Готовина на рачуну</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_cash_plural">Готовина на рачунима</string>
+    <string name="account_type_ccard">Кредитна картица</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_ccard_plural">Кредитне картице</string>
+    <string name="account_type_liability">Дуговни рачун</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_liability_plural">Дуговни рачуни</string>
+    <string name="already_defined">%1$s је већ дефинисана</string>
+    <string name="amount">Износ</string>
+    <string name="app_name">Моји Трошкови</string>
+    <string name="backup_failure">Грешка у копирању \"%1$s\"</string>
+    <string name="backup_success">База података и приоритета успешно уписана у \"%1$s\".</string>
+    <string name="category">Категорија</string>
+    <string name="color">Боја</string>
+    <string name="comment">Нотес</string>
+    <string name="income">Приход</string>
+    <string name="pm_creditcard">Кредитна картица</string>
+    <string name="sum_income">Приход</string>
+    <string name="split_transaction_one_error">Није могао да трансформише трансакцију за дељење</string>
+    </resources>

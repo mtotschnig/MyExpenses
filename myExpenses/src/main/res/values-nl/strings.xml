@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="account">rekening</string>
+    <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
+    <string name="account_types">soort rekening</string>
+    <string name="account_type_asset">activa</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_asset_plural">activa rekening</string>
+    <string name="account_type_bank">bank rekening</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_bank_plural">bank rekeningen</string>
+    <string name="account_type_cash">kasboek</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_cash_plural">kasboek rekeningen</string>
+    <string name="account_type_ccard">credit card</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_ccard_plural">credit kaarten</string>
+    <string name="already_defined">%1$s bestaat al</string>
+    <string name="amount">Bedrag</string>
+    <string name="app_name">My Expenses</string>
+    <string name="backup_failure">Backup in \"%1$s\" is mislukt.</string>
+    <string name="backup_success">Database en voorkeuren succesvol geschreven naar \"%1$s\".</string>
+    <string name="category">Categorie</string>
+    <string name="color">Kleur</string>
+    <string name="comment">Notities</string>
+    <string name="confirmation_dialog_dont_show_again">Niet meer weergeven</string>
+    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Geen advertenties</string>
+    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Onbeperkt aantal accounts</string>
+    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Abeelding als bijlage bij transactie toevoegen</string>
+    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Taartdiagram (verdeling per categorie)</string>
+    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Onbeperkt aantal ingeplande transacties.</string>
+    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Transactielijst exporteren naar PDF-bestand</string>
+    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Sjabloon widget</string>
+    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV importeren</string>
+    <string name="income">inkomen</string>
+    <string name="pm_creditcard">credit card</string>
+    <string name="pref_security_question_title">Beveiligingsvraag</string>
+    <string name="split_transaction">Gesplitte transactie</string>
+    <string name="sum_income">inkomen</string>
+    <string name="split_transaction_one_error">Kon de transactie niet omzetten in gesplitte transactie.</string>
+    </resources>

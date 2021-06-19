@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources, InconsistentArrays">
+    <!-- Main category -->
+    <string name="Main_1">Kitos pajamos</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_1">Bedarbio pašalpos</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_2">Pašalpos šeimai</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_4">Lošimai</string>
+    <!-- Main category -->
+    <string name="Main_2">Pensijinės pajamos</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_1">Pensijų fondas</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_2">Pensija</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_3">Papildomos pensijos</string>
+    <!-- Main category -->
+    <string name="Main_3">Investavimo pajamos</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_1">Dividendai</string>
+    <!-- Main category -->
+    <string name="Main_4">Alga</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_1">Viršvalandžiai</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_2">Išeitinė (atostogų) išmoka</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_3">Įvairios premijos</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_5">Pagrindinė mėnesinė alga</string>
+    <!-- Main category -->
+    <string name="Main_5">Papildomos pajamos</string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_1">Dovanos</string>
+    <!-- Main category -->
+    <string name="Main_6">Maistas</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_1">Barai</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_3">Valgyklos</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_4">Saldumynai</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_5">Bakalėja (arbatinės ir pan.)</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_6">Restoranai</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_8">Prekybos centrai</string>
+    <!-- Main category -->
+    <string name="Main_7">Augintiniai</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_1">Maistas</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_2">Įvairūs reikmenys</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_3">Priežiūra</string>
+    <!-- Main category -->
+    <string name="Main_8">Draudimas</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_1">Autotransporto</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_2">Sveikatos</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_3">Nekilnojamo turto</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_4">Civilinės atsakomybės</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_5">Gyvybės</string>
+    <!-- Main category -->
+    <string name="Main_9">Autotransporto</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_1">Degalai</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_2">Remontai</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_3">Techninė priežiūra</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_5">Baudos</string>
+    <!-- Main category -->
+    <string name="Main_10">Dovanos</string>
+    <!-- Main category -->
+    <string name="Main_11">Vaikams</string>
+    <!-- Subcategory under "Children" -->
+    <string name="Sub_11_1">Auklė</string>
+    <!-- Subcategory under "Children" -->
+    <string name="Sub_11_2">Mokslai ir studijos</string>
+    <!-- Main category -->
+    <string name="Main_12">Mokslai ir studijos</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_1">Pamokos</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_2">Mokyklos mokesčiai</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_3">Knygos</string>
+    <!-- Main category -->
+    <string name="Main_13">Finansinės išlaidos</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_1">Banko rinkliavos</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_3">Rinkliavos</string>
+    <!-- Main category -->
+    <string name="Main_15">Mokesčiai</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_1">Viešbutis</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_2">Nuoma</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_3">TV</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_5">Rinkliavos</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_6">Šildymas</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_8">Vanduo</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_9">Elektros energija</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_11">Įranga</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_12">Dujos</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_15">Telefonas</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_16">Mobilusis telefonas</string>
+    <!-- Main category -->
+    <string name="Main_17">Laisvalaikis ir pramogos</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_2">Boulingas</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_3">Kinas ir filmai</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_4">Naktiniai klubai</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_6">Žaidimai</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_7">Knygos</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_9">Koncertai</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_10">Sportas</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_12">Kelionės</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_13">Įranga</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_14">Muziejai ir parodos</string>
+    <!-- Main category -->
+    <string name="Main_19">Sveikatos</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_1">Draudimas</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_2">Dantų gydymas</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_5">Gydytojas</string>
+    <!-- Subcategory under "Care" -->
+    <string name="Sub_20_1">Kirpykla</string>
+    <!-- Subcategory under "Care" -->
+    <string name="Sub_20_2">Drabužiai</string>
+    <!-- Main category -->
+    <string name="Main_21">Transportas</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_1">Autobusai</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_2">Metro</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_4">Traukiniai</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_5">Tramvajai</string>
+    <!-- Main category -->
+    <string name="Main_22">Atostogos</string>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_3">Kelionės</string>
+</resources>

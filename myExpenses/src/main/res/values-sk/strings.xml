@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="account">Účet</string>
+    <string name="account_type_asset">Účet aktív</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_asset_plural">Účty aktív</string>
+    <string name="account_type_bank">Bankový účet</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_bank_plural">Bankové účty</string>
+    <string name="account_type_cash">Peňažný účet</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_cash_plural">Peňažné účty</string>
+    <string name="account_type_ccard">Kreditná karta</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_ccard_plural">Kreditné karty</string>
+    <string name="account_type_liability">Účet záväzkov</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_liability_plural">Účty záväzkov</string>
+    <string name="already_defined">%1$s je definované</string>
+    <string name="amount">Čiastka</string>
+    <string name="app_name">Moje výdavky</string>
+    <string name="backup_failure">Zálohovanie do \"%1$s\" zlyhalo.</string>
+    <string name="backup_success">Databáza a nastavenia sa úspešne uložili do \"%1$s\".</string>
+    <string name="category">Kategória</string>
+    <string name="color">Farba</string>
+    <string name="comment">Poznámky</string>
+    <string name="confirmation_dialog_dont_show_again">Nezobrazovať znova</string>
+    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Neobmedzený počet účtov</string>
+    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Neobmedzený počet plánov</string>
+    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Exportovať zoznam transakcií do PDF</string>
+    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Widget šablóny</string>
+    <string name="help_heading_credits">Poďakovania</string>
+    <string name="pm_creditcard">Kreditná karta</string>
+    <string name="pref_category_title_more_information">Ďalšie informácie</string>
+    <string name="pref_security_question_title">Bezpečnostná otázka</string>
+    <string name="split_transaction">Delená transakcia</string>
+    <string name="content_description_calculator">Kalkulačka</string>
+    <string name="split_transaction_one_error">Nepodarilo sa premeniť transakciu na rozdelenú.</string>
+    <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
+    <string name="pref_category_title_features">Funkcie</string>
+    </resources>
