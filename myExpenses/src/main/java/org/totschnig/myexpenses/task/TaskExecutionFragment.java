@@ -72,7 +72,6 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_SET_EXCLUDE_FROM_TOTALS = 29;
   public static final int TASK_SPLIT = 30;
   public static final int TASK_REVOKE_SPLIT = 31;
-  public static final int TASK_EXPORT_CATEGORIES = 35;
   public static final int TASK_MOVE_CATEGORY = 38;
   public static final int TASK_SWAP_SORT_KEY = 39;
   public static final int TASK_MOVE_UNCOMMITED_SPLIT_PARTS = 40;

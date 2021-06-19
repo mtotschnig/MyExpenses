@@ -244,7 +244,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         CrashHandler.report(String.format("Class %s is unable to display snackbar", javaClass))
     }
 
-    fun showProgressSnackBar(message: String, total: Int = 0, progress: Int = 0) {
+    fun showProgressSnackBar(message: CharSequence, total: Int = 0, progress: Int = 0) {
         findViewById<View>(getSnackbarContainerId())?.let {
             val displayMessage = if (total > 0) "$message ($progress/$total)" else message
             if (progress > 0) {
@@ -257,6 +257,12 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 }
             }
         } ?: showSnackBarFallBack(message)
+    }
+
+    fun updateSnackBar(message: CharSequence) {
+        snackbar?.setText(message) ?: run {
+            CrashHandler.report("updateSnackBar called without snackbar being instantiated")
+        }
     }
 
     fun showSnackbar(message: CharSequence, duration: Int, snackbarAction: SnackbarAction?,
@@ -276,6 +282,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     fun dismissSnackbar() {
         snackbar?.dismiss()
+        snackbar = null
     }
 
     @IdRes

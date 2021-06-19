@@ -35,11 +35,9 @@ import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.task.TaskExecutionFragment
-import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.Result
 import org.totschnig.myexpenses.util.ShareUtils
 import org.totschnig.myexpenses.viewmodel.ManageCategoriesViewModel
-import java.util.*
 
 /**
  * SelectCategory activity allows to select categories while editing a transaction
@@ -47,7 +45,7 @@ import java.util.*
  *
  * @author Michael Totschnig
  */
-class ManageCategories : CategoryActivity<CategoryList?>(), OnDialogResultListener,
+class ManageCategories : CategoryActivity<CategoryList>(), OnDialogResultListener,
     CategorySelectedListener {
     lateinit var viewModel: ManageCategoriesViewModel
 
@@ -111,49 +109,64 @@ class ManageCategories : CategoryActivity<CategoryList?>(), OnDialogResultListen
         if (super.dispatchCommand(command, tag)) {
             return true
         }
-        if (command == R.id.CREATE_COMMAND) {
-            createCat(null)
-            return true
-        } else if (command == R.id.DELETE_COMMAND_DO) {
-            finishActionMode()
-            startTaskExecution(
-                TaskExecutionFragment.TASK_DELETE_CATEGORY,
-                tag as Array<Long?>?,
-                null,
-                R.string.progress_dialog_deleting
-            )
-            return true
-        } else if (command == R.id.CANCEL_CALLBACK_COMMAND) {
-            finishActionMode()
-            return true
-        } else if (command == R.id.SETUP_CATEGORIES_DEFAULT_COMMAND) {
-            showSnackbarIndefinite(R.string.menu_categories_setup_default)
-            viewModel.importCats().observe(this) {
-                showSnackbar(if (it == 0) getString(R.string.import_categories_none)
-                else getString(R.string.import_categories_success, it))
+        when (command) {
+            R.id.CREATE_COMMAND -> {
+                createCat(null)
+                return true
             }
-            return true
-        } else if (command == R.id.EXPORT_CATEGORIES_COMMAND_ISO88591) {
-            exportCats("ISO-8859-1")
-            return true
-        } else if (command == R.id.EXPORT_CATEGORIES_COMMAND_UTF8) {
-            exportCats("UTF-8")
-            return true
+            R.id.DELETE_COMMAND_DO -> {
+                finishActionMode()
+                startTaskExecution(
+                    TaskExecutionFragment.TASK_DELETE_CATEGORY,
+                    tag as Array<Long?>?,
+                    null,
+                    R.string.progress_dialog_deleting
+                )
+                return true
+            }
+            R.id.CANCEL_CALLBACK_COMMAND -> {
+                finishActionMode()
+                return true
+            }
+            R.id.SETUP_CATEGORIES_DEFAULT_COMMAND -> {
+                showSnackbarIndefinite(R.string.menu_categories_setup_default)
+                viewModel.importCats().observe(this) {
+                    showSnackbar(if (it == 0) getString(R.string.import_categories_none)
+                    else getString(R.string.import_categories_success, it))
+                }
+                return true
+            }
+            R.id.EXPORT_CATEGORIES_COMMAND_ISO88591 -> {
+                exportCats("ISO-8859-1")
+                return true
+            }
+            R.id.EXPORT_CATEGORIES_COMMAND_UTF8 -> {
+                exportCats("UTF-8")
+                return true
+            }
+            else -> return false
         }
-        return false
     }
 
     private fun exportCats(encoding: String) {
-        val appDirStatus = AppDirHelper.checkAppDir(this)
-        if (appDirStatus.isSuccess) {
-            startTaskExecution<Any>(
-                TaskExecutionFragment.TASK_EXPORT_CATEGORIES,
-                null,
-                encoding,
-                R.string.menu_categories_export
-            )
-        } else {
-            showSnackbar(appDirStatus.print(this))
+        showDismissibleSnackbar(R.string.menu_categories_export)
+        viewModel.exportCats(encoding).observe(this) { result ->
+            result.onSuccess { pair ->
+                updateSnackBar(getString(R.string.export_sdcard_success, pair.second))
+                if (prefHandler.getBoolean(PrefKey.PERFORM_SHARE, false)) {
+                    val shareResult = ShareUtils.share(
+                        this, listOf(pair.first),
+                        prefHandler.getString(PrefKey.SHARE_TARGET, "")?.trim { it <= ' ' },
+                        "text/qif"
+                    )
+                    if (!shareResult.isSuccess) {
+                        updateSnackBar(shareResult.print(this))
+                    }
+                }
+            }.onFailure {
+                updateSnackBar(it.message ?: "ERROR")
+            }
+
         }
     }
 
@@ -190,12 +203,12 @@ class ManageCategories : CategoryActivity<CategoryList?>(), OnDialogResultListen
         )
     }
 
-    override fun onPostExecute(result: Uri) {
+    override fun onPostExecute(result: Uri?) {
         if (result == null) {
             showSnackbar(
                 getString(
                     R.string.already_defined,
-                    if (mCategory != null) mCategory!!.label else ""
+                    mCategory?.label ?: ""
                 )
             )
         }
@@ -210,23 +223,7 @@ class ManageCategories : CategoryActivity<CategoryList?>(), OnDialogResultListen
         val r = result
         if (r.isSuccess) {
             when (taskId) {
-                TaskExecutionFragment.TASK_EXPORT_CATEGORIES -> {
-                    val uriResult = result as Result<Uri>
-                    val uri = uriResult.extra
-                    if (PrefKey.PERFORM_SHARE.getBoolean(false)) {
-                        val uris = ArrayList<Uri?>()
-                        uris.add(uri)
-                        val shareResult = ShareUtils.share(
-                            this, uris,
-                            PrefKey.SHARE_TARGET.getString("").trim { it <= ' ' },
-                            "text/qif"
-                        )
-                        if (!shareResult.isSuccess) {
-                            showSnackbar(shareResult.print(this))
-                        }
-                    }
-                }
-                TaskExecutionFragment.TASK_MOVE_CATEGORY -> mListFragment!!.reset()
+                TaskExecutionFragment.TASK_MOVE_CATEGORY -> mListFragment.reset()
                 TaskExecutionFragment.TASK_DELETE_CATEGORY -> {
                     showSnackbar(r.print(this))
                 }

@@ -579,7 +579,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   }
 
   @Override
-  public void onPostExecute(Uri result) {
+  public void onPostExecute(@Nullable Uri result) {
     FragmentManager m = getSupportFragmentManager();
     FragmentTransaction t = m.beginTransaction();
     t.remove(m.findFragmentByTag(SAVE_TAG));
@@ -664,6 +664,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     m.executePendingTransactions();
   }
 
+  @Deprecated
   public void startDbWriteTask() {
     getSupportFragmentManager().beginTransaction()
         .add(DbWriteFragment.newInstance(), SAVE_TAG)

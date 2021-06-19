@@ -26,7 +26,6 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.fragment.AbstractCategoryList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
-import org.totschnig.myexpenses.model.ExportFormat;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.Transaction;
@@ -41,33 +40,25 @@ import org.totschnig.myexpenses.sync.SyncBackendProvider;
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.ui.ContextHelper;
-import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.BackupUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
-import org.totschnig.myexpenses.util.io.FileUtils;
 
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.documentfile.provider.DocumentFile;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
-import static org.totschnig.myexpenses.util.TextUtils.formatQifCategory;
 
 /**
  * Note that we need to check if the callbacks are null in each method in case
@@ -234,65 +225,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         return updateBooleanAccountFieldFromExtra(cr, (Long[]) ids, DatabaseConstants.KEY_SEALED) ? Result.SUCCESS : Result.FAILURE;
       case TaskExecutionFragment.TASK_SET_ACCOUNT_HIDDEN:
         return updateBooleanAccountFieldFromExtra(cr, (Long[]) ids, DatabaseConstants.KEY_HIDDEN) ? Result.SUCCESS : Result.FAILURE;
-      case TaskExecutionFragment.TASK_EXPORT_CATEGORIES:
-        DocumentFile appDir = AppDirHelper.getAppDir(context);
-        if (appDir == null) {
-          return Result.ofFailure(R.string.external_storage_unavailable);
-        }
-        String mainLabel =
-            "CASE WHEN " +
-                KEY_PARENTID +
-                " THEN " +
-                "(SELECT " + KEY_LABEL + " FROM " + TABLE_CATEGORIES + " parent WHERE parent." + KEY_ROWID + " = " + TABLE_CATEGORIES + "." + KEY_PARENTID + ")" +
-                " ELSE " + KEY_LABEL +
-                " END";
-        String subLabel = "CASE WHEN " + KEY_PARENTID +
-            " THEN " + KEY_LABEL +
-            " END";
-
-        //sort sub categories immediately after their main category
-        String sort = "CASE WHEN parent_id then parent_id else _id END";
-        String fileName = "categories";
-        DocumentFile outputFile = AppDirHelper.timeStampedFile(
-            appDir,
-            fileName,
-            ExportFormat.QIF.getMimeType(), null);
-        if (outputFile == null) {
-          return Result.ofFailure(
-              R.string.io_error_unable_to_create_file,
-              fileName,
-              FileUtils.getPath(context, appDir.getUri()));
-        }
-        try {
-          OutputStreamWriter out = new OutputStreamWriter(
-              cr.openOutputStream(outputFile.getUri()),
-              ((String) mExtra));
-          c = cr.query(
-              Category.CONTENT_URI,
-              new String[]{mainLabel, subLabel},
-              null, null, sort);
-          if (c.getCount() == 0) {
-            c.close();
-            outputFile.delete();
-            return Result.ofFailure(R.string.no_categories);
-          }
-          out.write("!Type:Cat");
-          c.moveToFirst();
-          while (c.getPosition() < c.getCount()) {
-            StringBuilder sb = new StringBuilder();
-            sb.append("\nN")
-                .append(formatQifCategory(c.getString(0), c.getString(1)))
-                .append("\n^");
-            out.write(sb.toString());
-            c.moveToNext();
-          }
-          c.close();
-          out.close();
-          return Result.ofSuccess(R.string.export_sdcard_success, outputFile.getUri(), FileUtils.getPath(context, outputFile.getUri()));
-        } catch (IOException e) {
-          return Result.ofFailure(R.string.export_sdcard_failure,
-              appDir.getName(), e.getMessage());
-        }
       case TaskExecutionFragment.TASK_MOVE_UNCOMMITED_SPLIT_PARTS: {
         //we need to check if there are transfer parts that refer to the account we try to move to,
         //if yes we cannot move
