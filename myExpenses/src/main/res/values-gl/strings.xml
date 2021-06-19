@@ -270,4 +270,6 @@
     <string name="budget_duration_to">Para</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Funcións</string>
-    </resources>
+    <string name="pref_acra_user_email">O correo electrónico do usuario vai incluído no informe de erros.</string>
+    <string name="pref_acra_user_email_summary">Por favor, insire o teu enderezo electrónico se queres axudar na depuración de erros e permites que contactemos contigo.</string>
+</resources>

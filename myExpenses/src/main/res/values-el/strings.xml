@@ -805,4 +805,9 @@
     <string name="ocr_download_info">Η δυνατότητα αναγνώρισης κειμένου παρέχεται από μια εξωτερική εφαρμογή.</string>
     <!-- %s is replaced with the title of the preference for setting a passphrase for backups (pref_security_export_passphrase_title) -->
     <string name="warning_unencrypted_backup">Ενώ τα δεδομένα σας προστατεύονται από μη εξουσιοδοτημένη πρόσβαση σε αυτήν τη συσκευή, τα αντίγραφα ασφαλείας δημιουργούνται χωρίς κρυπτογράφηση, εκτός εάν ρυθμίσετε τις παραμέτρους του %s.</string>
+    <string name="crash_reports_user_info">\"{app_name}\" θα διαβιβάζουν εκθέσεις σχετικά με τα λάθη εφαρμογής αυτόματα στους προγραμματιστές, που τους επιτρέπει να διορθώσουν προβλήματα πιο γρήγορα.</string>
+    <string name="pref_category_title_crash_reports">Αναφορές σφαλμάτων</string>
+    <string name="pref_enable_acra">Επιτρέπεται η αυτόματη αποστολή των αναφορές σφαλμάτων</string>
+    <string name="pref_acra_user_email">Διεύθυνση ηλεκτρονικού ταχυδρομείου του χρήστη πρέπει να περιλαμβάνεται στην έκθεση σφάλματος.</string>
+    <string name="pref_acra_user_email_summary">Παρακαλούμε εισάγετε τη Διεύθυνση ηλεκτρονικού ταχυδρομείου σας, αν είστε πρόθυμοι να βοηθήσετε στον εντοπισμό σφαλμάτων και να μας επιτρέψετε να επικοινωνήσουμε μαζί σας.</string>
 </resources>

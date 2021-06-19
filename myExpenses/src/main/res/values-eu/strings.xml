@@ -713,4 +713,9 @@
     <string name="pref_category_title_features">Ezaugarriak</string>
     <string name="button_download">Deskargatu</string>
     <string name="menu_save_and_new_content_description">Gorde datuak, laga formularioa irekita beste transakzio bat sortzeko datu berberekin.</string>
-    </resources>
+    <string name="crash_reports_user_info">{app_name} aplikazioaren kraskatzeen txostena bidaliko die automatikoki garatzaileei, honek arazoak azkarrago konpontzea baimentzen die.</string>
+    <string name="pref_category_title_crash_reports">Kraskatze txostenak</string>
+    <string name="pref_enable_acra">Baimendu kraskatze txostenak automatikoki bidaltzea</string>
+    <string name="pref_acra_user_email">Erabiltzailearen helbide elektronikoa txostenera gehituko da</string>
+    <string name="pref_acra_user_email_summary">Mesedez sartu zure helbide elektronikoa arazketan lagundu nahi baduzu eta gu zurekin kontaktuan jartzea onartzen baduzu.</string>
+</resources>

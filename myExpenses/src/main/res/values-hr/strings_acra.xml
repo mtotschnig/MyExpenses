@@ -1,8 +1,0 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<resources>
-  <string name="crash_reports_user_info">{app_name} automatski šalje izvještaje o prekidu rada programa programerima kako bi se greške brže ispravile.</string>
-  <string name="pref_category_title_crash_reports">Izvještaji o prekidu rada programa</string>
-  <string name="pref_enable_acra">Omogući automatsko slanje izvještaja o prekidu rada programa</string>
-  <string name="pref_acra_user_email">Korisnički e-mail će biti sadržan u izvještaju o prekidu rada programa</string>
-  <string name="pref_acra_user_email_summary">Upiši tvoju email adresu ako želiš pomoći ispraviti greške i ako nam želiš dozvoliti da te kontaktiramo.</string>
-</resources>

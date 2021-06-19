@@ -993,4 +993,9 @@
     <!-- This warning is shown when a user calls the Reset or Cancel commands on a scheduled transaction, for a date
      where the transaction has already been created.  -->
     <string name="warning_plan_instance_delete">The transaction created for the selected date will be deleted.</string>
+    <string name="crash_reports_user_info">{app_name} will send reports about application crashes automatically to its developers, which allows them to fix problems more quickly.</string>
+    <string name="pref_category_title_crash_reports">Crash reports</string>
+    <string name="pref_enable_acra">Allow automatic sending of crash reports</string>
+    <string name="pref_acra_user_email">User email to be included in crash report</string>
+    <string name="pref_acra_user_email_summary">Please enter your email address if you are willing to help debugging and allow us to contact you.</string>
 </resources>
