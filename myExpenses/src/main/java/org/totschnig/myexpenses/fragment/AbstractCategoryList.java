@@ -239,6 +239,7 @@ public abstract class AbstractCategoryList<ROW_BINDING extends ViewBinding> exte
             }
             message += getString(R.string.warning_delete_category_with_budget);
           }
+          message += " " + getString(R.string.continue_confirmation);
           MessageDialogFragment.newInstance(
               getString(R.string.dialog_title_warning_delete_category),
               message,

@@ -533,7 +533,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
       return true;
     } else if (command == R.id.UNDELETE_COMMAND) {
       checkSealed(itemIds, () -> viewModel.undeleteTransactions(itemIds).observe(getViewLifecycleOwner(), result -> {
-        if (result == 0) ((BaseActivity) requireActivity()).showDeleteFailureFeedback();
+        if (result == 0) ((BaseActivity) requireActivity()).showDeleteFailureFeedback(null);
       }));
     } else if (command == R.id.REMAP_CATEGORY_COMMAND) {
       checkSealed(itemIds, () -> {

@@ -21,6 +21,7 @@ import android.view.Menu
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
+import icepick.State
 import org.apache.commons.lang3.ArrayUtils
 import org.totschnig.myexpenses.ACTION_MANAGE
 import org.totschnig.myexpenses.ACTION_SELECT_FILTER
@@ -53,6 +54,14 @@ class ManageCategories : CategoryActivity<CategoryList>(), OnDialogResultListene
         manage, select_mapping, select_filter
     }
 
+    enum class OperationInProgress {
+        Import, Export, Delete
+    }
+
+    @State
+    @JvmField
+    var operationInProgress: OperationInProgress? = null
+
     private var mCategory: Category? = null
     override fun getAction(): String {
         val intent = intent
@@ -84,6 +93,13 @@ class ManageCategories : CategoryActivity<CategoryList>(), OnDialogResultListene
         } else {
             findViewById<View>(R.id.CREATE_COMMAND).visibility = View.GONE
         }
+        if (savedInstanceState != null && operationInProgress != null) {
+            when (operationInProgress) {
+                OperationInProgress.Import -> observeImportCatResult()
+                OperationInProgress.Export -> observeExportCatResult()
+                OperationInProgress.Delete -> observeDeleteResult()
+            }
+        }
     }
 
     /*  @Override
@@ -105,6 +121,13 @@ class ManageCategories : CategoryActivity<CategoryList>(), OnDialogResultListene
         return true
     }
 
+    private fun isTaskRunning(): Boolean {
+        return if (operationInProgress != null) {
+            showSnackbar("Previous task still executing, please try again later")
+            true
+        } else false
+    }
+
     override fun dispatchCommand(command: Int, tag: Any?): Boolean {
         if (super.dispatchCommand(command, tag)) {
             return true
@@ -115,13 +138,15 @@ class ManageCategories : CategoryActivity<CategoryList>(), OnDialogResultListene
                 return true
             }
             R.id.DELETE_COMMAND_DO -> {
-                finishActionMode()
-                startTaskExecution(
-                    TaskExecutionFragment.TASK_DELETE_CATEGORY,
-                    tag as Array<Long?>?,
-                    null,
-                    R.string.progress_dialog_deleting
-                )
+                if (!isTaskRunning()) {
+                    finishActionMode()
+                    showSnackbarIndefinite(R.string.progress_dialog_deleting)
+                    operationInProgress = OperationInProgress.Delete
+                    @Suppress("UNCHECKED_CAST")
+                    viewModel.deleteCategories((tag as Array<Long>).toLongArray())
+                    observeDeleteResult()
+
+                }
                 return true
             }
             R.id.CANCEL_CALLBACK_COMMAND -> {
@@ -129,10 +154,10 @@ class ManageCategories : CategoryActivity<CategoryList>(), OnDialogResultListene
                 return true
             }
             R.id.SETUP_CATEGORIES_DEFAULT_COMMAND -> {
-                showSnackbarIndefinite(R.string.menu_categories_setup_default)
-                viewModel.importCats().observe(this) {
-                    showSnackbar(if (it == 0) getString(R.string.import_categories_none)
-                    else getString(R.string.import_categories_success, it))
+                if (!isTaskRunning()) {
+                    showSnackbarIndefinite(R.string.menu_categories_setup_default)
+                    viewModel.importCats()
+                    observeImportCatResult()
                 }
                 return true
             }
@@ -148,9 +173,19 @@ class ManageCategories : CategoryActivity<CategoryList>(), OnDialogResultListene
         }
     }
 
-    private fun exportCats(encoding: String) {
-        showDismissibleSnackbar(R.string.menu_categories_export)
-        viewModel.exportCats(encoding).observe(this) { result ->
+    private fun observeImportCatResult() {
+        viewModel.importCatResult?.observe(this) {
+            operationInProgress = null
+            showSnackbar(
+                if (it == 0) getString(R.string.import_categories_none)
+                else getString(R.string.import_categories_success, it)
+            )
+        }
+    }
+
+    private fun observeExportCatResult() {
+        viewModel.exportCatResult?.observe(this) { result ->
+            operationInProgress = null
             result.onSuccess { pair ->
                 updateSnackBar(getString(R.string.export_sdcard_success, pair.second))
                 if (prefHandler.getBoolean(PrefKey.PERFORM_SHARE, false)) {
@@ -166,7 +201,25 @@ class ManageCategories : CategoryActivity<CategoryList>(), OnDialogResultListene
             }.onFailure {
                 updateSnackBar(it.message ?: "ERROR")
             }
+        }
+    }
 
+    private fun observeDeleteResult() {
+        viewModel.deleteResult?.observe(this) { result ->
+            operationInProgress = null
+            result.onSuccess {
+                showDismissibleSnackbar(it)
+            }.onFailure {
+                showDeleteFailureFeedback(it.message)
+            }
+        }
+    }
+
+    private fun exportCats(encoding: String) {
+        if (!isTaskRunning()) {
+            showDismissibleSnackbar(R.string.menu_categories_export)
+            viewModel.exportCats(encoding)
+            observeExportCatResult()
         }
     }
 
@@ -220,19 +273,13 @@ class ManageCategories : CategoryActivity<CategoryList>(), OnDialogResultListene
         if (result !is Result<*>) {
             return
         }
-        val r = result
-        if (r.isSuccess) {
+        if (result.isSuccess) {
             when (taskId) {
                 TaskExecutionFragment.TASK_MOVE_CATEGORY -> mListFragment.reset()
-                TaskExecutionFragment.TASK_DELETE_CATEGORY -> {
-                    showSnackbar(r.print(this))
-                }
             }
         }
-        if (taskId != TaskExecutionFragment.TASK_DELETE_CATEGORY /*handled in super*/) {
-            val print = r.print0(this)
-            print?.let { showSnackbar(it) }
-        }
+        val print = result.print0(this)
+        print?.let { showSnackbar(it) }
     }
 
     override fun getObject(): Model {

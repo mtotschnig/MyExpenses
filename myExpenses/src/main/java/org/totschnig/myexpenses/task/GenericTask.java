@@ -23,7 +23,6 @@ import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.fragment.AbstractCategoryList;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Category;
 import org.totschnig.myexpenses.model.PaymentMethod;
@@ -46,7 +45,6 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -57,8 +55,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
 
 /**
  * Note that we need to check if the callbacks are null in each method in case
@@ -119,55 +115,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           return Result.FAILURE;
         }
         return Result.SUCCESS;
-      case TaskExecutionFragment.TASK_DELETE_CATEGORY:
-        try (Cursor cursor = cr.query(TransactionProvider.CATEGORIES_URI,
-            new String[]{KEY_ROWID,
-                "(select 1 FROM " + TABLE_TRANSACTIONS + " WHERE " + AbstractCategoryList.CAT_TREE_WHERE_CLAUSE + ") AS " + DatabaseConstants.KEY_MAPPED_TRANSACTIONS,
-                "(select 1 FROM " + TABLE_TEMPLATES + " WHERE " + AbstractCategoryList.CAT_TREE_WHERE_CLAUSE + ") AS " + DatabaseConstants.KEY_MAPPED_TEMPLATES
-            }, DatabaseConstants.KEY_ROWID + " " + WhereFilter.Operation.IN.getOp(ids.length), Stream.of(((Long[]) ids)).map(String::valueOf).toArray(String[]::new), null)) {
-          if (cursor == null) return Result.ofFailure("Cursor is null");
-          int deleted = 0, mappedToTransaction = 0, mappedToTemplate = 0;
-          if (cursor.moveToFirst()) {
-            while (!cursor.isAfterLast()) {
-              boolean deletable = true;
-              if (cursor.getInt(1) > 0) {
-                deletable = false;
-                mappedToTransaction++;
-              }
-              if (cursor.getInt(2) > 0) {
-                deletable = false;
-                mappedToTemplate++;
-              }
-              if (deletable) {
-                Category.delete(cursor.getLong(0));
-                deleted++;
-              }
-              cursor.moveToNext();
-            }
-            List<String> messages = new ArrayList<>();
-            if (deleted > 0) {
-              messages.add(context.getResources().getQuantityString(R.plurals.delete_success, deleted, deleted));
-            }
-            if (mappedToTransaction > 0) {
-              messages.add(context.getResources().getQuantityString(
-                  R.plurals.not_deletable_mapped_transactions,
-                  mappedToTransaction,
-                  mappedToTransaction));
-            }
-            if (mappedToTemplate > 0) {
-              messages.add(context.getResources().getQuantityString(
-                  R.plurals.not_deletable_mapped_templates,
-                  mappedToTemplate,
-                  mappedToTemplate));
-            }
-            return Result.ofSuccess(Stream.of(messages).collect(Collectors.joining(" ")));
-          } else {
-            return Result.ofFailure("Cursor is empty");
-          }
-        } catch (SQLiteConstraintException e) {
-          CrashHandler.reportWithDbSchema(e);
-          return Result.ofFailure(e.getMessage());
-        }
       case TaskExecutionFragment.TASK_TOGGLE_CRSTATUS:
         cr.update(
             TransactionProvider.TRANSACTIONS_URI

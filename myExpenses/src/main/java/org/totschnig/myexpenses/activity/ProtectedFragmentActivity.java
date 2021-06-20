@@ -542,11 +542,10 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     removeAsyncTaskFragment(shouldKeepProgress(taskId));
     switch (taskId) {
       case TaskExecutionFragment.TASK_DELETE_ACCOUNT:
-      case TaskExecutionFragment.TASK_DELETE_PAYMENT_METHODS:
-      case TaskExecutionFragment.TASK_DELETE_CATEGORY: {
+      case TaskExecutionFragment.TASK_DELETE_PAYMENT_METHODS: {
         Result result = (Result) o;
         if (!result.isSuccess()) {
-          showDeleteFailureFeedback();
+          showDeleteFailureFeedback(null);
         }
         break;
       }
@@ -620,7 +619,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     ft.commit();
   }
 
-  public boolean hasPendingTask(boolean shouldWarn) {
+  private boolean hasPendingTask(boolean shouldWarn) {
     FragmentManager m = getSupportFragmentManager();
     final boolean result = m.findFragmentByTag(ASYNC_TAG) != null;
     if (result && shouldWarn) {

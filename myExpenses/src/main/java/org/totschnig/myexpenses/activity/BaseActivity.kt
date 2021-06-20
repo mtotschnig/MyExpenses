@@ -346,8 +346,8 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         showMessage(getString(resId))
     }
 
-    fun showDeleteFailureFeedback() {
-        showSnackbar("There was an error deleting the object. Please contact support@myexenses.mobi !")
+    fun showDeleteFailureFeedback(message: String? = null) {
+        showDismissibleSnackbar("There was an error deleting the object${message?.let { " ($it)" } ?: ""}. Please contact support@myexenses.mobi !")
     }
 
     fun getHelpVariant() = helpVariant?.name

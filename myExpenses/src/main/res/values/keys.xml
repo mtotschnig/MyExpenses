@@ -219,6 +219,8 @@
     <string name="roadmap_intro_update">You need to update your vote in order to have it counted.</string>
     <string name="roadmap_loading">Loading issues …</string>
     <string name="roadmap_submitting">Submitting vote …</string>
+    <string name="db_error_cursor_null">Cursor is null</string>
+    <string name="db_error_cursor_empty">Cursor is empty</string>
     <!--<string name="roadmap_particpate">Participate</string>-->
     <string name="amount_digits">١٢٣٤٥٦٧٨٩۱۲۳۴۵۶۷۸۹1234567890,.٫</string>
     <string name="roadmap_update_confirmation">Your vote will be updated</string>

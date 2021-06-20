@@ -1069,7 +1069,7 @@ public class MyExpenses extends BaseMyExpenses implements
             showSnackbar(getResources().getQuantityString(R.plurals.delete_success, result, result));
           }
         } else {
-          showDeleteFailureFeedback();
+          showDeleteFailureFeedback(null);
         }
       });
     } else if (anInt == R.id.BALANCE_COMMAND_DO) {
