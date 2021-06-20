@@ -117,7 +117,7 @@
     <string name="licence_validation_success">Licencni ključ je uspješno provjeren:</string>
     <string name="menu_aggregates">Ukupno</string>
     <!-- Shown in a notification; allows to apply a template (instantiate a new transaction from it) -->
-    <string name="menu_apply_template">Primjeni</string>
+    <string name="menu_apply_template">Primijeni</string>
     <string name="menu_back">Natrag</string>
     <string name="menu_backup">Sigurnosna kopija</string>
     <!-- Balance: compare cleared balance in app with balance on statement received from bank -->
