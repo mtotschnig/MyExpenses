@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources, InconsistentArrays">
     <!-- Main category -->
     <string name="Main_1">Ostali prihodi</string>
@@ -139,7 +139,7 @@
     <!-- Subcategory under "Taxes" -->
     <string name="Sub_15_1">Porez na dohodak</string>
     <!-- Subcategory under "Taxes" -->
-    <string name="Sub_15_2">Porez na zamljište</string>
+    <string name="Sub_15_2">Porez na zemljište</string>
     <!-- Subcategory under "Taxes" -->
     <string name="Sub_15_3">Porez na promet</string>
     <!-- Main category -->
