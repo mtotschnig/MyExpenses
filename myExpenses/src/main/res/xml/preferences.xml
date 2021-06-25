@@ -283,7 +283,7 @@
             android:key="@string/pref_exchange_rates_key"
             android:title="@string/pref_category_exchange_rates">
             <ListPreference
-                android:defaultValue="RATESAPI"
+                android:defaultValue="EXCHANGE_RATE_HOST"
                 android:entries="@array/exchange_rate_provider_entries"
                 android:entryValues="@array/exchange_rate_provider_values"
                 android:key="@string/pref_exchange_rate_provider_key"

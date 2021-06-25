@@ -7,7 +7,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface OpenExchangeRatesApi {
+interface OpenExchangeRates {
     @GET("api/historical/{date}.json")
     fun getRate(@Path("date") date: LocalDate, @Query("symbols") symbol: String, @Query("app_id") appId: String): Call<Result>
     @Keep

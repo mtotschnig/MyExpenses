@@ -649,12 +649,12 @@
     </string-array>
 
     <string-array name="exchange_rate_provider_entries">
-        <item>https://ratesapi.io/</item>
+        <item>https://exchangerate.host/</item>
         <item>https://openexchangerates.org</item>
     </string-array>
 
     <string-array name="exchange_rate_provider_values">
-        <item>RATESAPI</item>
+        <item>EXCHANGE_RATE_HOST</item>
         <item>OPENEXCHANGERATES</item>
     </string-array>
     <string-array name="multi_tag_options">

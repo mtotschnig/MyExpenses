@@ -48,8 +48,8 @@ import org.totschnig.myexpenses.fragment.SyncBackendList;
 import org.totschnig.myexpenses.fragment.TemplatesList;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.preference.PrefHandler;
-import org.totschnig.myexpenses.provider.ExchangeRateRepository;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.retrofit.ExchangeRateService;
 import org.totschnig.myexpenses.service.AutoBackupService;
 import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.sync.webdav.WebDavClient;
@@ -112,6 +112,8 @@ public interface AppComponent {
 
     Builder uiModule(UiModule uiModule);
 
+    Builder networkModule(NetworkModule networkModule);
+
     AppComponent build();
   }
 
@@ -130,7 +132,7 @@ public interface AppComponent {
 
   CurrencyFormatter currencyFormatter();
 
-  ExchangeRateRepository exchangeRateRepository();
+  ExchangeRateService exchangeRateService();
 
   UserLocaleProvider userLocaleProvider();
 

@@ -89,6 +89,7 @@ android {
             manifestPlaceholders = [appName: "My Expenses Debug", debug: "true"]
             buildConfigField "int", "TEST_SCENARIO", getPropertyIfDefined('testScenario', "1")
             buildConfigField "String", "BUILD_DATE", "\"now\""
+            buildConfigField "String", "OPEN_EXCHANGE_RATES_API_KEY", "\"" + getPropertyIfDefined('OPEN_EXCHANGE_RATES_API_KEY', "") + "\""
         }
     }
 
@@ -253,6 +254,9 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
 
     implementation "com.jakewharton.threetenabp:threetenabp:$threetenabp"
+    testImplementation ('org.threeten:threetenbp:1.5.0'){
+        exclude group:'com.jakewharton.threetenabp', module:'threetenabp'
+    }
 
     implementation 'com.github.lzyzsd:circleprogress:1.2.1'
 
@@ -292,6 +296,7 @@ dependencies {
     //noinspection GradleDependency
     androidTestImplementation "org.assertj:assertj-core:$assertjVersionAndroid"
     androidTestImplementation "com.google.truth:truth:1.1.2"
+    testImplementation "com.google.truth:truth:1.1.2"
     implementation "androidx.core:core-ktx:$ktxVersion"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     androidTestImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"

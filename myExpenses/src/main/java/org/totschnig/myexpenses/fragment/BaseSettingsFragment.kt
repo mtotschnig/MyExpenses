@@ -741,7 +741,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             configureOpenExchangeRatesPreference(
                 prefHandler.getString(
                     PrefKey.EXCHANGE_RATE_PROVIDER,
-                    "RATESAPI"
+                    "EXCHANGE_RATE_HOST"
                 )!!
             )
         }

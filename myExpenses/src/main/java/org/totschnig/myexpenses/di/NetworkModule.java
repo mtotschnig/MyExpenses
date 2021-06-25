@@ -13,9 +13,9 @@ import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.provider.ExchangeRateRepository;
+import org.totschnig.myexpenses.retrofit.ExchangeRateHost;
 import org.totschnig.myexpenses.retrofit.ExchangeRateService;
-import org.totschnig.myexpenses.retrofit.OpenExchangeRatesApi;
-import org.totschnig.myexpenses.retrofit.RatesApi;
+import org.totschnig.myexpenses.retrofit.OpenExchangeRates;
 import org.totschnig.myexpenses.retrofit.RoadmapService;
 import org.totschnig.myexpenses.room.ExchangeRateDatabase;
 import org.totschnig.myexpenses.util.DelegatingSocketFactory;
@@ -30,6 +30,7 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Singleton;
 import javax.net.SocketFactory;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import dagger.Module;
 import dagger.Provides;
@@ -46,7 +47,7 @@ import timber.log.Timber;
 import static okhttp3.logging.HttpLoggingInterceptor.Level.BODY;
 
 @Module
-class NetworkModule {
+public class NetworkModule {
 
   @Provides
   static Picasso providePicasso() {
@@ -64,7 +65,7 @@ class NetworkModule {
     if (BuildConfig.DEBUG) {
       builder.eventListener(new EventListener() {
         @Override
-        public void connectFailed(Call call, InetSocketAddress inetSocketAddress, Proxy proxy, Protocol protocol, IOException ioe) {
+        public void connectFailed(@NonNull Call call, @NonNull InetSocketAddress inetSocketAddress, @NonNull Proxy proxy, Protocol protocol, @NonNull IOException ioe) {
           super.connectFailed(call, inetSocketAddress, proxy, protocol, ioe);
           Timber.e(ioe, "Connect failed");
         }
@@ -75,7 +76,7 @@ class NetworkModule {
 
   @Provides
   @Singleton
-  static SocketFactory provideSocketFactory() {
+  protected SocketFactory provideSocketFactory() {
     return new DelegatingSocketFactory(SocketFactory.getDefault()) {
       @Override
       protected Socket configureSocket(Socket socket) throws IOException {
@@ -114,31 +115,31 @@ class NetworkModule {
 
   @Provides
   @Singleton
-  static RatesApi provideRatesApi(OkHttpClient.Builder builder, Gson gson, Cache cache) {
+  static ExchangeRateHost provideExchangeRateHost(OkHttpClient.Builder builder, Gson gson, Cache cache) {
     builder.cache(cache);
     Retrofit retrofit = new Retrofit.Builder()
-        .baseUrl("https://api.ratesapi.io/")
+        .baseUrl("https://api.exchangerate.host/")
         .addConverterFactory(GsonConverterFactory.create(gson))
         .client(builder.build())
         .build();
-    return retrofit.create(RatesApi.class);
+    return retrofit.create(ExchangeRateHost.class);
   }
 
   @Provides
   @Singleton
-  static OpenExchangeRatesApi provideOpenExchangeRatesApi(OkHttpClient.Builder builder, Gson gson, Cache cache) {
+  static OpenExchangeRates provideOpenExchangeRates(OkHttpClient.Builder builder, Gson gson, Cache cache) {
     builder.cache(cache);
     Retrofit retrofit = new Retrofit.Builder()
         .baseUrl("https://openexchangerates.org/")
         .addConverterFactory(GsonConverterFactory.create(gson))
         .client(builder.build())
         .build();
-    return retrofit.create(OpenExchangeRatesApi.class);
+    return retrofit.create(OpenExchangeRates.class);
   }
 
   @Provides
   @Singleton
-  static ExchangeRateService provideExchangeRateService(RatesApi api1, OpenExchangeRatesApi api2) {
+  static ExchangeRateService provideExchangeRateService(ExchangeRateHost api1, OpenExchangeRates api2) {
     return new ExchangeRateService(api1, api2);
   }
 
