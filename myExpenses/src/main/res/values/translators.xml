@@ -20,6 +20,7 @@
 
     <string-array name="translators_cs">
         <item>Jan Šplíchal</item>
+        <item>https://gengo.com/</item>
     </string-array>
 
     <string-array name="translators_da">
@@ -65,6 +66,7 @@
 
     <string-array name="translators_hu">
         <item>Csipai Roland</item>
+        <item>https://gengo.com/</item>
     </string-array>
 
     <string-array name="translators_it">
