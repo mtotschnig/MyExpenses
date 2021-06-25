@@ -386,7 +386,6 @@
     <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">Ako nastaviš, transakcije će se nepovratno izbrisati iz baze podataka za SVE račune%1$s.</string>
     <string name="warning_restore">Baza podataka i osobne postavke obnovit će se iz datoteke „%1$s”. Sadašnji podaci će se izbrisati.</string>
-    <string name="warning_app_folder_will_be_deleted_upon_uninstall">Ako deinstaliraš {app_name}, Android će izbrisati odabranu mapu za sigurnosne kopije i izvoze. To možeš izbjeći biranjem jedne druge mape unutar ekrana postavaka.</string>
     <string name="warning_splitpartcategory_context">Prijenosi koje su dio višedjelne transakcije mogu se urediti samo u kontekstu višedjelne transakcije.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Odaberi broj između %1$d i %2$d</string>
     <string name="import_categories_success">%1$d kategorije uspješno uvezene</string>

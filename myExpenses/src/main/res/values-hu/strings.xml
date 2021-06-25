@@ -440,7 +440,6 @@
     <string name="warning_reset_account_all">Ha folytatja minden számla%1$s és tranzakció visszavonhatatlanul törlésre kerül az adatbázisból.</string>
     <string name="warning_reset_account_matched">Ha folytatja, az aktuális szűrőnek megfelelő tranzakciók törlődnek az adatbázisból, és nem állíthatók vissza.</string>
     <string name="warning_restore">Adatbázis és beállítások visszaállítása a korábbi mentésből (%1$s). A jelenlegi adatok törlésre kerülnek.</string>
-    <string name="warning_app_folder_will_be_deleted_upon_uninstall">A biztonsági mentésekre és exportálásokra kijelölt jelenlegi mappát a(z) {app_name} eltávolításakor automatikusan törli az Android. Ez elkerülhető, ha választ egy másik mappát a beállítások képernyőn.</string>
     <string name="warning_splitpartcategory_context">Azon tranzakciók, melyek felosztott tételek között szerepelnek, csak a felosztásoknál szerkeszthetők, vagy törölhetők.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Állítson be egy %1$d és %2$d közötti számot</string>
     <string name="warning_change_fraction_digits_1">Az adatbázisban lévő összegeket frissíteni kell, hogy megfeleljenek az új törtrészjegyek számának.</string>

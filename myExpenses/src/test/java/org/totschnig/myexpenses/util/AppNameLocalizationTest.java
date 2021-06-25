@@ -32,7 +32,6 @@ public class AppNameLocalizationTest {
             R.string.dialog_remind_rate_how_many_stars,
             R.string.dialog_remind_rate_1,
             R.string.plan_calendar_name,
-            R.string.warning_app_folder_will_be_deleted_upon_uninstall,
             R.string.calendar_permission_required,
             R.string.description_webdav_url,
             R.string.warning_synchronization_folder_usage,

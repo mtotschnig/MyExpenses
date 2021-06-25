@@ -440,7 +440,6 @@
     <string name="warning_reset_account_all">Se si continua, tutte le transazioni dei conti in%1$s verranno eliminate dalla base di dati e non potranno essere ripristinate.</string>
     <string name="warning_reset_account_matched">Se si continua, le transazioni che corrispondono al filtro corrente verranno eliminate dalla base di dati e non potranno essere ripristinate.</string>
     <string name="warning_restore">Base di dati e impostazioni verranno ripristinate dal backup «%1$s». I dati attuali verranno cancellati.</string>
-    <string name="warning_app_folder_will_be_deleted_upon_uninstall">La cartella correntemente selezionata per i backup e le esportazioni verrà automaticamente eliminata da Android se si disinstalla {app_name}. È possibile impedire che questo accada selezionando una cartella diversa dalla schermata Impostazioni.</string>
     <string name="warning_splitpartcategory_context">I trasferimenti che sono parte di un\'operazione frazionata possono essere modificati solamente nell\'ambito del frazionamento.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Si prega di impostare un numero compreso tra %1$d e %2$d</string>
     <string name="warning_change_fraction_digits_1">Gli importi nella base di dati devono essere aggiornati al fine di corrispondere al nuovo numero di cifre frazionarie.</string>

@@ -458,7 +458,6 @@
     <string name="warning_reset_account_all">Budete-li pokračovat, pro všechny účty %1$s, budou transakce odstraněny z databáze a nepůjde je obnovit.</string>
     <string name="warning_reset_account_matched">Pokud budete pokračovat, transakce odpovídající aktuálnímu filtru budou odstraněny z databáze a nebudete je moci obnovit.</string>
     <string name="warning_restore">Databáze a předvolby budou obnoveny ze zálohy (%1$s). Aktuální data budou odstraněna.</string>
-    <string name="warning_app_folder_will_be_deleted_upon_uninstall">Pokud odinstalujete {app_name}, aktuálně zvolená složka pro zálohy a exporty bude automaticky smazána. Tomu můžete zabránit zvolením jiné složky v obrazovce Nastavení.</string>
     <string name="warning_splitpartcategory_context">Převody, které jsou součástí rozdělení, lze pouze upravovat nebo odstranit v souvislosti s rozdělením.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Nastavte číslo mezi %1$d a %2$d</string>
     <string name="warning_change_fraction_digits_1">Částky v databázi musí být aktualizovány, aby se shodovaly s novým počtem číslic zlomku.</string>

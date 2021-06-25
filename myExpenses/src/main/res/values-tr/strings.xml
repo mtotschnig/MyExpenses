@@ -440,7 +440,6 @@
     <string name="warning_reset_account_all">Devam ederseniz, tüm hesaplar%1$s için işlemler veri tabanından silinecek ve geri yüklenemeyecektir.</string>
     <string name="warning_reset_account_matched">Devam ederseniz, geçerli filtre ile eşleşen işlemler veri tabanından silinecek ve geri yüklenemeyecektir.</string>
     <string name="warning_restore">Veri tabanı ve tercihler \"%1$s\" dosyasından geri yüklenecek. Mevcut veriler silinecek.</string>
-    <string name="warning_app_folder_will_be_deleted_upon_uninstall">Eğer {app_name}\'ı kaldırırsanız şu anda seçili olan dışa aktarmalar ve yedeklemeler klasörü Android tarafından otomatik olarak silinecektir. Buna mani olmak için Ayarlar ekranından başka bir klasör seçebilirsiniz.</string>
     <string name="warning_splitpartcategory_context">Bölünmüş muamelelerin bir parçası olan transferler sadece bu bölünmüş muamele bağlamında düzenlenebilirler.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">%1$d ilâ %2$d arası bir sayı ayarlayınız</string>
     <string name="warning_change_fraction_digits_1">Yeni kesir basamak sayısıyla eşleşmesi için veri tabanındaki meblağların güncellenmesi gerekmektedir.</string>

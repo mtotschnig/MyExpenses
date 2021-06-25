@@ -476,7 +476,6 @@
     <string name="warning_reset_account_all">إذا قمت بالمتابعة ، كل الحسابات والعمليات%1$s سيتم حذفها من قاعدة البيانات ولا يمكنك استرجاعها لاحقاً.</string>
     <string name="warning_reset_account_matched">إذا تابعت، فسيتم حذف المعاملات المطابقة بواسطة عامل التصفية الحالي من قاعدة البيانات ولا يمكن استعادتها.</string>
     <string name="warning_restore">سيتم استرجاع قاعدة البيانات والتفضيلات من النسخة احتياطية %1$s. سيتم حذف البيانات الحالية.</string>
-    <string name="warning_app_folder_will_be_deleted_upon_uninstall">سيتم حذف المجلد المحدد حالياً للنسخ الاحتياطية والتصدير تلقائياً بواسطة Android إذا قمت بإلغاء تثبيت {app_name}. يمكنك منع حدوث ذلك عن طريق تحديد مجلد مختلف من شاشة الإعدادات.</string>
     <string name="warning_splitpartcategory_context">لا يمكن تعديل أو حذف التحويلات التي تكون جزء من تقسيم إلا إذا كانت في سياق التقسيم.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">يُرجى تعيين رقم بين %1$d و%2$d</string>
     <string name="warning_change_fraction_digits_1">يجب تحديث المبالغ الموجودة في قاعدة البيانات لمطابقة العدد الجديد لأرقام الكسور.</string>

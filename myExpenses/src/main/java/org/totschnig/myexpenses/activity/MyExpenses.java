@@ -1030,20 +1030,22 @@ public class MyExpenses extends BaseMyExpenses implements
         mViewPagerAdapter.getFragmentName(getCurrentPosition()));
   }
 
+  public void startExport(Bundle args) {
+    args.putParcelableArrayList(TransactionList.KEY_FILTER,
+        getCurrentFragment().getFilterCriteria());
+    getSupportFragmentManager().beginTransaction()
+        .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_EXPORT),
+            ASYNC_TAG)
+        .add(ProgressDialogFragment.newInstance(
+            getString(R.string.pref_category_title_export), null, ProgressDialog.STYLE_SPINNER, true), PROGRESS_TAG)
+        .commit();
+  }
+
   @Override
   public void onPositive(Bundle args) {
     super.onPositive(args);
     int anInt = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE);
-    if (anInt == R.id.START_EXPORT_COMMAND) {
-      args.putParcelableArrayList(TransactionList.KEY_FILTER,
-          getCurrentFragment().getFilterCriteria());
-      getSupportFragmentManager().beginTransaction()
-          .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_EXPORT),
-              ASYNC_TAG)
-          .add(ProgressDialogFragment.newInstance(
-              getString(R.string.pref_category_title_export), null, ProgressDialog.STYLE_SPINNER, true), PROGRESS_TAG)
-          .commit();
-    } else if (anInt == R.id.DELETE_COMMAND_DO) {//Confirmation dialog was shown without Checkbox, because it was called with only void transactions
+    if (anInt == R.id.DELETE_COMMAND_DO) {//Confirmation dialog was shown without Checkbox, because it was called with only void transactions
       onPositive(args, false);
     } else if (anInt == R.id.SPLIT_TRANSACTION_COMMAND) {
       finishActionMode();

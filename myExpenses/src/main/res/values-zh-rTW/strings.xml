@@ -431,7 +431,6 @@
     <string name="warning_reset_account_all">如果繼續此操作，%1$s所有帳戶和其中的所有交易項目將從資料庫中刪除，並且無法還原。</string>
     <string name="warning_reset_account_matched">如果繼續此操作，與當前篩選器相符合的交易項目將從資料庫中刪除，並且無法還原。</string>
     <string name="warning_restore">資料數據與偏好設定將會從檔案\"%1$s\"復原。而現有的資料將被刪除。</string>
-    <string name="warning_app_folder_will_be_deleted_upon_uninstall">如果您解除安裝{app_name}，Android將自動刪除當前選定用來備份和匯出的檔案夾。您可以在“程式設定”裡選擇其它檔案夾來防止這種情況發生。</string>
     <string name="warning_splitpartcategory_context">當轉帳項目是分割款項的一部分時，它只能在分割表單裡被編輯或刪除。</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">請在%1$d與%2$d之間設置一個數字</string>
     <string name="warning_change_fraction_digits_1">需要更新資料庫中的金額以符合新的小數位數。</string>

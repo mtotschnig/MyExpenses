@@ -346,7 +346,6 @@
     <string name="warning_reset_account">اگر ادامه بدهید، تمام تراکنش‌های این حساب از پایگاه داده پاک می‌شوند و قابل بازیابی نخواهند بود.</string>
     <string name="warning_reset_account_matched">اگر ادامه بدهید، تراکنش‌های منطبق با این فیلتر از پایگاه داده حذف خواهند شد و قابل بازیابی نخواهند بود.</string>
     <string name="warning_restore">پایگاه داده و ترجیحات از فایل «%1$s» بازبابی خواهند شد. داده‌های فعلی حذف خواهند شد.</string>
-    <string name="warning_app_folder_will_be_deleted_upon_uninstall">اگر شما {app_name} را حذف کنید، پوشهٔ انتخاب شدهٔ فعلی برای بک‌آپ و خرجی به‌طور خودکار توسط اندروید حذف خواهد شد. برای جلوگیری از این کار می‌توانید از صفحهٔ تنظیمات، پوشهٔ دیگری را انتخاب کنید.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">لطفاً یک عدد از بین %1$d تا %2$d بگذارید</string>
     <string name="import_categories_success">%1$d دسته‌بندی با موفقیت درون‌ریزی شد</string>
     <string name="import_accounts_success">%1$sحساب با موفقیت درون‌ریزی شد</string>

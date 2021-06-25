@@ -320,7 +320,6 @@
     <string name="warning_change_fraction_digits_1">క్రొత్త సంఖ్యలో భిన్న అంకెలతో సరిపోలడానికి డేటాబేస్లోని మొత్తాలను నవీకరించాలి.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">దయచేసి %1$d మరియు %2$d మధ్య సంఖ్యను సెట్ చేయండి</string>
     <string name="warning_splitpartcategory_context">స్ప్లిట్‌లో భాగమైన బదిలీలు స్ప్లిట్ సందర్భంలో మాత్రమే సవరించబడతాయి.</string>
-    <string name="warning_app_folder_will_be_deleted_upon_uninstall">మీరు {app_name un ను అన్‌ఇన్‌స్టాల్ చేస్తే బ్యాకప్‌లు మరియు ఎగుమతుల కోసం ప్రస్తుతం ఎంచుకున్న ఫోల్డర్ Android ద్వారా స్వయంచాలకంగా తొలగించబడుతుంది. సెట్టింగుల స్క్రీన్ నుండి వేరే ఫోల్డర్‌ను ఎంచుకోవడం ద్వారా మీరు ఇది జరగకుండా నిరోధించవచ్చు.</string>
     <string name="warning_restore">డేటాబేస్ మరియు ప్రాధాన్యతలు \"%1$s\" ఫైల్ నుండి పునరుద్ధరించబడతాయి. ప్రస్తుత డేటా తొలగించబడుతుంది.</string>
     <string name="warning_reset_account_all">మీరు కొనసాగితే, అన్ని ఖాతాల %1$s కోసం, లావాదేవీలు డేటాబేస్ నుండి తొలగించబడతాయి మరియు పునరుద్ధరించబడవు.</string>
     <string name="warning_reset_account_matched">మీరు కొనసాగితే, ప్రస్తుత ఫిల్టర్‌తో సరిపోలిన లావాదేవీలు డేటాబేస్ నుండి తొలగించబడతాయి మరియు పునరుద్ధరించబడవు.</string>

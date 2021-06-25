@@ -27,9 +27,9 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.BackupListDialogFragment;
 import org.totschnig.myexpenses.dialog.BackupSourcesDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogCheckedListener;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.dialog.DialogUtils;
-import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.task.RestoreTask;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
@@ -55,7 +55,7 @@ import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_LEGACY;
 import static org.totschnig.myexpenses.task.RestoreTask.KEY_PASSWORD;
 
 public class BackupRestoreActivity extends ProtectedFragmentActivity
-    implements ConfirmationDialogListener, SimpleDialog.OnDialogResultListener {
+    implements ConfirmationDialogListener, ConfirmationDialogCheckedListener, SimpleDialog.OnDialogResultListener {
   public static final String FRAGMENT_TAG = "BACKUP_SOURCE";
   private static final String DIALOG_TAG_PASSWORD = "PASSWORD";
 
@@ -94,12 +94,18 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
           message.append(unencryptedBackupWarning()).append(" ");
         }
         message.append(getString(R.string.continue_confirmation));
-        MessageDialogFragment.newInstance(
-            getString(isProtected ? R.string.dialog_title_backup_protected : R.string.menu_backup),
-            message.toString(),
-            new MessageDialogFragment.Button(R.string.response_yes,
-                R.id.BACKUP_COMMAND, null), null,
-            MessageDialogFragment.noButton(), isProtected ? R.drawable.ic_lock : 0)
+        Bundle bundle = new Bundle();
+        bundle.putInt(ConfirmationDialogFragment.KEY_TITLE,
+            isProtected ? R.string.dialog_title_backup_protected : R.string.menu_backup);
+        bundle.putString(
+            ConfirmationDialogFragment.KEY_MESSAGE,
+            message.toString());
+        bundle.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+            R.id.BACKUP_COMMAND);
+        bundle.putInt(ConfirmationDialogFragment.KEY_ICON, isProtected ? R.drawable.ic_lock : 0);
+        bundle.putString(ConfirmationDialogFragment.KEY_CHECKBOX_LABEL, "Store on ....");
+
+        ConfirmationDialogFragment.newInstance(bundle)
             .show(getSupportFragmentManager(), "BACKUP");
         break;
       }
@@ -151,22 +157,7 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
     if (super.dispatchCommand(command, tag))
       return true;
     if (command == R.id.BACKUP_COMMAND) {
-      if (AppDirHelper.checkAppFolderWarning(this)) {
-        doBackup();
-      } else {
-        Bundle b = new Bundle();
-        b.putInt(ConfirmationDialogFragment.KEY_TITLE,
-            R.string.dialog_title_attention);
-        b.putCharSequence(
-            ConfirmationDialogFragment.KEY_MESSAGE,
-            Utils.getTextWithAppName(this, R.string.warning_app_folder_will_be_deleted_upon_uninstall));
-        b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
-            R.id.BACKUP_COMMAND_DO);
-        b.putString(ConfirmationDialogFragment.KEY_PREFKEY,
-            PrefKey.APP_FOLDER_WARNING_SHOWN.getKey());
-        ConfirmationDialogFragment.newInstance(b).show(
-            getSupportFragmentManager(), "APP_FOLDER_WARNING");
-      }
+      doBackup();
       return true;
     }
     return false;
@@ -267,11 +258,15 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
 
   @Override
   public void onPositive(Bundle args) {
-    int anInt = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE);
-    if (anInt == R.id.BACKUP_COMMAND_DO) {
-      doBackup();
-    } else if (anInt == R.id.RESTORE_COMMAND) {
+    if (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE) == R.id.RESTORE_COMMAND) {
       doRestore(args);
+    }
+  }
+
+  @Override
+  public void onPositive(Bundle args, boolean checked) {
+    if (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE) == R.id.BACKUP_COMMAND_DO) {
+      doBackup();
     }
   }
 
@@ -341,4 +336,5 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
   protected int getSnackbarContainerId() {
     return android.R.id.content;
   }
+
 }

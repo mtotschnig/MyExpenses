@@ -458,7 +458,6 @@
     <string name="warning_reset_account_all">אם תמשיך, עבור כל החשבונות%1$s, עסקאות יימחקו ממסד הנתונים ולא ניתן לשחזר אותן.</string>
     <string name="warning_reset_account_matched">אם תמשיך, עסקאות התואמות את המסנן הנוכחי יימחקו ממסד הנתונים ולא ניתן לשחזר אותן.</string>
     <string name="warning_restore">אם תמשיך, עסקאות התואמות את המסנן הנוכחי יישוחזרו ממסד הנתונים וההעדפות מקובץ \"%1$s\". הנתונים הנוכחיים יימחקו. </string>
-    <string name="warning_app_folder_will_be_deleted_upon_uninstall">התיקיה שנבחרה עבור גיבויים ויצוא תימחק אוטומטית על ידי Android אם תסיר את אפליקציית  {app_name}. תוכל למנוע זאת על ידי בחירה בתיקייה אחרת ממסך ההגדרות.</string>
     <string name="warning_splitpartcategory_context">העברות, שהן חלק מפיצול, ניתנות לעריכה רק בהקשר של הפיצול.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">אנא הגדר מספר בין %1$dו- %2$d</string>
     <string name="warning_change_fraction_digits_1">סכומים בבסיס הנתונים צריכים להיות מעודכנים על מנת להתאים את המספר החדש של ספרות חלקיות.</string>

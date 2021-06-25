@@ -59,7 +59,6 @@ public enum PrefKey {
   FIRST_INSTALL_DB_SCHEMA_VERSION("first_install_db_schema_version"),
   CURRENT_ACCOUNT("current_account"),
   PLANNER_LAST_EXECUTION_TIMESTAMP("planner_last_execution_timestamp"),
-  APP_FOLDER_WARNING_SHOWN("app_folder_warning_shown"),
   AUTO_FILL_SWITCH(R.string.pref_auto_fill_key),
   AUTO_FILL_LEGACY("auto_fill"),
   AUTO_FILL_ACCOUNT(R.string.pref_auto_fill_account_key),
