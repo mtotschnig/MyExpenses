@@ -867,4 +867,9 @@
     <string name="pref_ocr_total_indicators_title">మొత్తం మొత్తానికి సూచికలు</string>
     <string name="button_scan">స్కాన్</string>
     <string name="menu_scan_mode">స్కాన్ మోడ్</string>
+    <string name="pref_acra_user_email_summary">డీబగ్గింగ్‌కు సహాయం చేయడానికి మీరు సిద్ధంగా ఉంటే దయచేసి మీ ఇమెయిల్ చిరునామాను నమోదు చేయండి మరియు మిమ్మల్ని సంప్రదించడానికి మమ్మల్ని అనుమతించండి.</string>
+    <string name="pref_acra_user_email">క్రాష్ నివేదికలో చేర్చవలసిన వినియోగదారు ఇమెయిల్</string>
+    <string name="pref_enable_acra">క్రాష్ నివేదికలను స్వయంచాలకంగా పంపడానికి అనుమతించండి</string>
+    <string name="pref_category_title_crash_reports">క్రాష్ నివేదికలు</string>
+    <string name="crash_reports_user_info">{app_name} అనువర్తన క్రాష్‌ల గురించి దాని డెవలపర్‌లకు స్వయంచాలకంగా నివేదికలను పంపుతుంది, ఇది సమస్యలను మరింత త్వరగా పరిష్కరించడానికి అనుమతిస్తుంది.</string>
 </resources>
