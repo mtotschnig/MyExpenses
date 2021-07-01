@@ -6,6 +6,7 @@ import android.os.Environment;
 import android.text.TextUtils;
 
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.provider.BackupUtilsKt;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.crypt.EncryptionHelper;
@@ -45,15 +46,15 @@ public class ZipUtils {
    * @throws IOException
    * @throws GeneralSecurityException
    */
-  static void zipBackup(File cacheDir, DocumentFile destZipFile, String password)
+  public static void zipBackup(File cacheDir, DocumentFile destZipFile, String password)
       throws IOException, GeneralSecurityException {
     final OutputStream out = MyApplication.getInstance().getContentResolver().openOutputStream(destZipFile.getUri());
     ZipOutputStream zip = new ZipOutputStream(TextUtils.isEmpty(password) ? out : EncryptionHelper.encrypt(out, password));
     /*
      * add the folder to the zip
      */
-    addFileToZip("", BackupUtils.getBackupDbFile(cacheDir), zip);
-    addFileToZip("", BackupUtils.getBackupPrefFile(cacheDir), zip);
+    addFileToZip("", BackupUtilsKt.getBackupDbFile(cacheDir), zip);
+    addFileToZip("", BackupUtilsKt.getBackupPrefFile(cacheDir), zip);
     Cursor c = MyApplication.getInstance().getContentResolver()
         .query(TransactionProvider.TRANSACTIONS_URI.buildUpon().appendQueryParameter(
             TransactionProvider.QUERY_PARAMETER_DISTINCT, "1").build(),

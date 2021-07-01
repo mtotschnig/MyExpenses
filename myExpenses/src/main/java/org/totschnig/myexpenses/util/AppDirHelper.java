@@ -69,6 +69,7 @@ public class AppDirHelper {
    * prefix as name, if the file already exists it appends a numeric
    * postfix
    */
+  @Nullable
   public static DocumentFile timeStampedFile(@NonNull DocumentFile parentDir, String prefix,
                                              String mimeType, String addExtension) {
     String now = new SimpleDateFormat("yyyMMdd-HHmmss", Locale.US)

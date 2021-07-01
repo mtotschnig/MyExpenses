@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.provider.BackupUtilsKt;
 import org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
@@ -32,7 +33,6 @@ import org.totschnig.myexpenses.sync.SyncAdapter;
 import org.totschnig.myexpenses.sync.SyncBackendProvider;
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 import org.totschnig.myexpenses.util.AppDirHelper;
-import org.totschnig.myexpenses.util.BackupUtils;
 import org.totschnig.myexpenses.util.PictureDirHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.ZipUtils;
@@ -163,17 +163,17 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
           e.getMessage());
     }
 
-    File backupFile = BackupUtils.getBackupDbFile(workingDir);
-    File backupPrefFile = BackupUtils.getBackupPrefFile(workingDir);
+    File backupFile = BackupUtilsKt.getBackupDbFile(workingDir);
+    File backupPrefFile = BackupUtilsKt.getBackupPrefFile(workingDir);
     if (!backupFile.exists()) {
       return Result.ofFailure(
           R.string.restore_backup_file_not_found,
-          BackupUtils.BACKUP_DB_FILE_NAME, workingDir);
+          BackupUtilsKt.BACKUP_DB_FILE_NAME, workingDir);
     }
     if (!backupPrefFile.exists()) {
       return Result.ofFailure(
           R.string.restore_backup_file_not_found,
-          BackupUtils.BACKUP_PREF_FILE_NAME, workingDir);
+          BackupUtilsKt.BACKUP_PREF_FILE_NAME, workingDir);
     }
 
     //peek into file to inspect version

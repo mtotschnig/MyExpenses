@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.annimon.stream.Stream;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.BackupListDialogFragment;
@@ -39,12 +40,14 @@ import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.ShareUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.io.FileUtils;
+import org.totschnig.myexpenses.viewmodel.BackupViewModel;
 
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.documentfile.provider.DocumentFile;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import eltos.simpledialogfragment.SimpleDialog;
 import eltos.simpledialogfragment.form.Input;
 import eltos.simpledialogfragment.form.SimpleFormDialog;
@@ -63,11 +66,43 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
   public static final String ACTION_RESTORE = "RESTORE";
   public static final String ACTION_RESTORE_LEGACY = "RESTORE_LEGACY";
 
+  BackupViewModel backupViewModel;
+
   @State
   int taskResult = RESULT_OK;
 
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    backupViewModel = new ViewModelProvider(this).get(BackupViewModel.class);
+    requireApplication().getAppComponent().inject(backupViewModel);
+    backupViewModel.getBackupState().observe(this, backupState -> {
+      Snackbar.Callback onDismissed = new Snackbar.Callback() {
+        @Override
+        public void onDismissed(Snackbar transientBottomBar, int event) {
+          setResult(taskResult);
+          finish();
+        }
+      };
+      if (backupState instanceof BackupViewModel.BackupState.Running) {
+        showSnackbarIndefinite(R.string.menu_backup);
+      } else if (backupState instanceof BackupViewModel.BackupState.Error) {
+        showDismissibleSnackbar(((BackupViewModel.BackupState.Error) backupState).getThrowable().getMessage(), onDismissed);
+      } else if (backupState instanceof BackupViewModel.BackupState.Success) {
+        String message = getString(R.string.backup_success, ((BackupViewModel.BackupState.Success) backupState).getResult().getSecond());
+        if (prefHandler.getBoolean(PrefKey.PERFORM_SHARE, false)) {
+          ArrayList<Uri> uris = new ArrayList<>();
+          uris.add(((BackupViewModel.BackupState.Success) backupState).getResult().getFirst().getUri());
+          Result shareResult = ShareUtils.share(this, uris,
+              prefHandler.getString(PrefKey.SHARE_TARGET, "").trim(),
+              "application/zip");
+          if (!shareResult.isSuccess()) {
+            message += " " + shareResult.print(this);
+          }
+        }
+        showDismissibleSnackbar(message, onDismissed);
+      }
+    });
+
     if (savedInstanceState != null) {
       return;
     }
@@ -153,51 +188,6 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
   }
 
   @Override
-  public boolean dispatchCommand(int command, Object tag) {
-    if (super.dispatchCommand(command, tag))
-      return true;
-    if (command == R.id.BACKUP_COMMAND) {
-      doBackup();
-      return true;
-    }
-    return false;
-  }
-
-  protected void doBackup() {
-    Result appDirStatus = AppDirHelper.checkAppDir(this);//TODO this check leads to strict mode violation, can we get rid of it ?
-    if (appDirStatus.isSuccess()) {
-      startTaskExecution(TaskExecutionFragment.TASK_BACKUP, null, prefHandler.getString(PrefKey.EXPORT_PASSWORD, null),
-          R.string.menu_backup, true);
-    } else {
-      abort(appDirStatus.print(this));
-    }
-  }
-
-  @Override
-  public void onPostExecute(int taskId, Object result) {
-    super.onPostExecute(taskId, result);
-    Result<DocumentFile> r = (Result<DocumentFile>) result;
-    if (taskId == TaskExecutionFragment.TASK_BACKUP) {
-      if (!r.isSuccess()) {
-        onProgressUpdate(r.print(this));
-      } else {
-        Uri backupFileUri = r.getExtra().getUri();
-        onProgressUpdate(getString(r.getMessage(), FileUtils.getPath(this, backupFileUri)));
-        if (PrefKey.PERFORM_SHARE.getBoolean(false)) {
-          ArrayList<Uri> uris = new ArrayList<>();
-          uris.add(backupFileUri);
-          Result shareResult = ShareUtils.share(this, uris,
-              PrefKey.SHARE_TARGET.getString("").trim(),
-              "application/zip");
-          if (!shareResult.isSuccess()) {
-            onProgressUpdate(shareResult.print(this));
-          }
-        }
-      }
-    }
-  }
-
-  @Override
   protected boolean shouldKeepProgress(int taskId) {
     return true;
   }
@@ -265,8 +255,8 @@ public class BackupRestoreActivity extends ProtectedFragmentActivity
 
   @Override
   public void onPositive(Bundle args, boolean checked) {
-    if (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE) == R.id.BACKUP_COMMAND_DO) {
-      doBackup();
+    if (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE) == R.id.BACKUP_COMMAND) {
+      backupViewModel.doBackup(prefHandler.getString(PrefKey.EXPORT_PASSWORD, null), checked);
     }
   }
 

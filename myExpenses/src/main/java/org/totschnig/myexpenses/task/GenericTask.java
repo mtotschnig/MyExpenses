@@ -39,7 +39,6 @@ import org.totschnig.myexpenses.sync.SyncBackendProvider;
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.ui.ContextHelper;
-import org.totschnig.myexpenses.util.BackupUtils;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
@@ -155,8 +154,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           resultMsg += context.getResources().getQuantityString(R.plurals.move_category_failure, failureCount, failureCount);
         }
         return successCount > 0 ? Result.ofSuccess(resultMsg) : Result.ofFailure(resultMsg);
-      case TaskExecutionFragment.TASK_BACKUP:
-        return BackupUtils.doBackup(((String) mExtra), context);
       case TaskExecutionFragment.TASK_BALANCE:
         return Account.getInstanceFromDb((Long) ids[0]).balance((Boolean) mExtra);
       case TaskExecutionFragment.TASK_UPDATE_SORT_KEY:

@@ -57,8 +57,7 @@ public class BackupListDialogFragment extends BaseDialogFragment
   }
 
   public static BackupListDialogFragment newInstance() {
-    BackupListDialogFragment f = new BackupListDialogFragment();
-    return f;
+    return new BackupListDialogFragment();
   }
   @Override
   public void onCancel (DialogInterface dialog) {
