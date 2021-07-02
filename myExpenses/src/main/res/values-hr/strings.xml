@@ -49,7 +49,7 @@
     <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
     <string name="contrib_key_requires">Zahtijeva %1$s.</string>
     <string name="currency">Valuta</string>
-    <string name="current_balance">Trenutačno stanje računa</string>
+    <string name="current_balance">Trenutačni saldo</string>
     <string name="date">Datum</string>
     <string name="date_format">Format datuma</string>
     <string name="date_format_illegal">Nedozvoljen format datuma</string>
@@ -80,7 +80,7 @@
     <string name="dialog_title_attention">Oprez</string>
     <string name="dialog_title_information">Informacije</string>
     <!-- %1$s is replace with account label -->
-    <string name="dialog_title_balance_account">Saldo %1$s</string>
+    <string name="dialog_title_balance_account">Uskladi saldo računa %1$s</string>
     <string name="dialog_title_contrib_feature">Premium opcija</string>
     <string name="dialog_title_warning_delete_template">Izbrisati predložak\?</string>
     <string name="dialog_title_warning_delete_transaction">Izbrisati transakciju\?</string>
@@ -117,11 +117,11 @@
     <string name="licence_validation_success">Licencni ključ je uspješno provjeren:</string>
     <string name="menu_aggregates">Ukupno</string>
     <!-- Shown in a notification; allows to apply a template (instantiate a new transaction from it) -->
-    <string name="menu_apply_template">Primjeni</string>
+    <string name="menu_apply_template">Primijeni</string>
     <string name="menu_back">Natrag</string>
     <string name="menu_backup">Sigurnosna kopija</string>
     <!-- Balance: compare cleared balance in app with balance on statement received from bank -->
-    <string name="menu_balance">Saldo računa</string>
+    <string name="menu_balance">Uskladi saldo računa</string>
     <!-- Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction -->
     <string name="menu_cancel_plan_instance">Odustani</string>
     <string name="menu_clone_transaction">Dupliciraj</string>

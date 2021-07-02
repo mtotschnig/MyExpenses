@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="popup_MyExpenses_toolbar_copy_text">Kopier nåværende saldo til utklippstavlen.</string>
+    <string name="cab_edit_help_text">Rediger det valgte elementet.</string>
+    <string name="cab_delete_help_text">Slett de valgte elementene.</string>
+    <string name="help_form_fields">Skjemafelter</string>
+    <string name="help_menu_commands">Menykommandoer</string>
+</resources>
