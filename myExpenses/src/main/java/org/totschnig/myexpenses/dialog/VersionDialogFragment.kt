@@ -126,6 +126,8 @@ class VersionDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
                 "332" -> arrayOf("${ctx.getString(R.string.pref_translation_title)} : ${Locale("te").displayLanguage}",
                     "${ctx.getString(R.string.currency)}: ${ctx.getString(R.string.ui_refinement)}"
                 )
+                "333" -> arrayOf("${ctx.getString(R.string.pref_exchange_rate_provider_title)}: https://exchangerate.host",
+                    ctx.getString(R.string.pref_backup_cloud_summary))
                 else -> {
                     val resId = res.getIdentifier("whats_new_$nameCondensed", "array", ctx.packageName) //new based on name
                     if (resId == 0) {

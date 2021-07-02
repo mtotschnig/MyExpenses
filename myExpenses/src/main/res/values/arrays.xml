@@ -506,6 +506,7 @@
     </string-array>
 
     <string-array name="versions">
+        <item>492;3.3.3</item>
         <item>491;3.3.2</item>
         <item>488;3.3.1</item>
         <item>484;3.3.0</item>
@@ -585,6 +586,7 @@
     <string name="project_board_330">50#column-13929647</string>
     <string name="project_board_331">52#column-14150674</string>
     <string name="project_board_332">54#column-14601926</string>
+    <string name="project_board_333">55#column-14888706</string>
 
     <string-array name="comparison_operator_entries">
         <item>@string/comparison_operator_equal</item>
