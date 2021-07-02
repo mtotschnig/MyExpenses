@@ -11,7 +11,7 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 package org.totschnig.myexpenses.dialog;
 
@@ -37,9 +37,8 @@ import androidx.appcompat.app.AlertDialog;
  * in {@link #newInstance(Bundle)} provides an entry with key {@link #KEY_PREFKEY}, the value of the
  * checkbox will be stored in a preference with this key, and R.string.confirmation_dialog_dont_show_again
  * will be set as text for the checkbox. If the Bundle provides {@link #KEY_CHECKBOX_LABEL}, this will
- * be used as text for the checkbox label. In that case, the calling activity
- * must implement {@link org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogCheckedListener}
- * and handle {@link #KEY_COMMAND_POSITIVE} in {@link org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogCheckedListener#onPositive(Bundle, boolean)}
+ * be used as text for the checkbox label. In that case, the state of the checkbox will be communicated
+ * in the second argument of {@link org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener#onPositive(Bundle, boolean)}
  */
 public class ConfirmationDialogFragment extends BaseDialogFragment implements OnClickListener {
 
@@ -110,7 +109,7 @@ public class ConfirmationDialogFragment extends BaseDialogFragment implements On
 
   @Override
   public void onCancel(@NonNull DialogInterface dialog) {
-    ConfirmationDialogBaseListener ctx = (ConfirmationDialogBaseListener) getActivity();
+    ConfirmationDialogListener ctx = (ConfirmationDialogListener) getActivity();
     if (ctx != null) {
       ctx.onDismissOrCancel(getArguments());
     }
@@ -118,43 +117,33 @@ public class ConfirmationDialogFragment extends BaseDialogFragment implements On
 
   @Override
   public void onClick(DialogInterface dialog, int which) {
-    ConfirmationDialogBaseListener ctx = (ConfirmationDialogBaseListener) getActivity();
+    ConfirmationDialogListener ctx = (ConfirmationDialogListener) getActivity();
     if (ctx == null) {
       return;
     }
-    Bundle bundle = getArguments();
-    String prefKey = bundle.getString(KEY_PREFKEY);
+    Bundle arguments = requireArguments();
+    String prefKey = arguments.getString(KEY_PREFKEY);
     if (prefKey != null && checkBox.isChecked()) {
       prefHandler.putBoolean(prefKey, true);
     }
     if (which == AlertDialog.BUTTON_POSITIVE) {
-      if (bundle.getString(KEY_CHECKBOX_LABEL) == null) {
-        ((ConfirmationDialogListener) ctx).onPositive(bundle);
-      } else {
-        ((ConfirmationDialogCheckedListener) ctx).onPositive(bundle, checkBox.isChecked());
-      }
+      ctx.onPositive(arguments, arguments.getString(KEY_CHECKBOX_LABEL) != null && checkBox.isChecked());
     } else {
-      int negativeCommand = getArguments().getInt(KEY_COMMAND_NEGATIVE);
+      int negativeCommand = arguments.getInt(KEY_COMMAND_NEGATIVE);
       if (negativeCommand != 0) {
-        ctx.onNegative(bundle);
+        ctx.onNegative(arguments);
       } else {
         onCancel(dialog);
       }
     }
   }
 
-  public interface ConfirmationDialogBaseListener {
+  public interface ConfirmationDialogListener {
     void onNegative(Bundle args);
 
     void onDismissOrCancel(Bundle args);
-  }
 
-  public interface ConfirmationDialogListener extends ConfirmationDialogBaseListener {
-    void onPositive(Bundle args);
-
-  }
-
-  public interface ConfirmationDialogCheckedListener extends ConfirmationDialogBaseListener {
     void onPositive(Bundle args, boolean checked);
+
   }
 }

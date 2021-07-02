@@ -29,10 +29,10 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.BackupListDialogFragment
 import org.totschnig.myexpenses.dialog.BackupSourcesDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogCheckedListener
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
 import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.dialog.DialogUtils.CalendarRestoreStrategyChangedListener
+import org.totschnig.myexpenses.preference.AccountPreference
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.task.RestoreTask
 import org.totschnig.myexpenses.task.TaskExecutionFragment
@@ -48,7 +48,7 @@ import org.totschnig.myexpenses.viewmodel.BackupViewModel.BackupState.Running
 import java.util.*
 
 class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogListener,
-    ConfirmationDialogCheckedListener, OnDialogResultListener {
+    OnDialogResultListener {
     lateinit var backupViewModel: BackupViewModel
 
     @JvmField
@@ -143,7 +143,13 @@ class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogLis
                     ConfirmationDialogFragment.KEY_ICON,
                     if (isProtected) R.drawable.ic_lock else 0
                 )
-                bundle.putString(ConfirmationDialogFragment.KEY_CHECKBOX_LABEL, "Store on ....")
+                val withSync = prefHandler.getString(
+                    PrefKey.AUTO_BACKUP_CLOUD,
+                    AccountPreference.SYNCHRONIZATION_NONE
+                )
+                if (withSync != AccountPreference.SYNCHRONIZATION_NONE) {
+                    bundle.putString(ConfirmationDialogFragment.KEY_CHECKBOX_LABEL, getString(R.string.backup_save_to_sync_backend, withSync))
+                }
                 ConfirmationDialogFragment.newInstance(bundle)
                     .show(supportFragmentManager, "BACKUP")
             }
@@ -251,18 +257,15 @@ class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogLis
         return false
     }
 
-    override fun onPositive(args: Bundle) {
-        if (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE) == R.id.RESTORE_COMMAND) {
-            doRestore(args)
-        }
-    }
-
     override fun onPositive(args: Bundle, checked: Boolean) {
-        if (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE) == R.id.BACKUP_COMMAND) {
+        val command = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)
+        if (command == R.id.BACKUP_COMMAND) {
             backupViewModel.doBackup(
                 prefHandler.getString(PrefKey.EXPORT_PASSWORD, null),
                 checked
             )
+        } else if (command == R.id.RESTORE_COMMAND) {
+            doRestore(args)
         }
     }
 
@@ -317,10 +320,8 @@ class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogLis
     ) {
         if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR) {
             if (!PermissionHelper.allGranted(grantResults)) {
-                val fragment = supportFragmentManager.findFragmentByTag(FRAGMENT_TAG)
-                if (fragment is CalendarRestoreStrategyChangedListener) {
-                    (fragment as CalendarRestoreStrategyChangedListener).onCalendarPermissionDenied()
-                }
+                (supportFragmentManager.findFragmentByTag(FRAGMENT_TAG) as? CalendarRestoreStrategyChangedListener)
+                    ?.onCalendarPermissionDenied()
             }
             return
         }

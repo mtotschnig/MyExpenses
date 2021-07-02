@@ -620,7 +620,6 @@
     <string name="upgrade_now">Upgrade</string>
     <string name="pref_backup_cloud_title">Store on synchronization backend</string>
     <string name="pref_backup_cloud_summary">In addition to local storage on the device, the backup file can be copied to a remote backend.</string>
-    <string name="auto_backup_cloud_create_backend">Create a synchronization backend from the main settings screen.</string>
     <string name="auto_backup_cloud_failure">An error occurred while trying to store backup file %1$s on backend %2$s:</string>
     <string name="auto_backup_cloud_success">Backup file %1$s has been successfully stored on backend %2$s.</string>
     <string name="home_screen_shortcuts_nougate_info">Shortcuts can be added by long-tapping the app icon on the Home Screen.</string>
@@ -997,4 +996,5 @@
     <string name="pref_enable_acra">Allow automatic sending of crash reports</string>
     <string name="pref_acra_user_email">User email to be included in crash report</string>
     <string name="pref_acra_user_email_summary">Please enter your email address if you are willing to help debugging and allow us to contact you.</string>
+    <string name="backup_save_to_sync_backend">Save to %s</string>
 </resources>

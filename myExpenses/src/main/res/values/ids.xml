@@ -16,7 +16,6 @@
  -->
 <resources>
     <item name="BACKUP_COMMAND" type="id"/>
-    <item name="BACKUP_COMMAND_DO" type="id"/>
     <item name="CLONE_TRANSACTION_COMMAND" type="id"/>
     <item name="CONTRIB_INFO_COMMAND" type="id"/>
     <item name="CONTRIB_INFO_DIALOG" type="id"/>
