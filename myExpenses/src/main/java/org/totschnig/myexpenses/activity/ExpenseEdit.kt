@@ -1083,8 +1083,10 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManag
             return
         }
         when (loader.id) {
-            AUTOFILL_CURSOR ->
+            AUTOFILL_CURSOR -> {
                 (delegate as? CategoryDelegate)?.autoFill(data, currencyContext)
+                mManager.destroyLoader(AUTOFILL_CURSOR)
+            }
         }
     }
 
