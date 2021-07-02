@@ -6,7 +6,7 @@
 * if applicable publish announcement on Google+ and Facebook and add links
 * Test and assemble
   * ./gradlew lintConscriptExternRelease
-  * ./gradlew testConscriptExternReleaseUnitTest
+  * ./gradlew testConscriptExternDebugUnitTest
   * ./gradlew disableSystemAnimations clean connectedConscriptExternDebugAndroidTest
   * ./gradlew clean :myExpenses:packageConscriptExternReleaseUniversalApk
 * test upgrade mechanism
