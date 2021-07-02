@@ -213,9 +213,10 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         showDismissibleSnackbar(getText(message))
     }
 
-    fun showDismissibleSnackbar(message: CharSequence) {
+    @JvmOverloads
+    fun showDismissibleSnackbar(message: CharSequence, callback: Snackbar.Callback? = null) {
         showSnackbar(message, Snackbar.LENGTH_INDEFINITE,
-                SnackbarAction(R.string.dialog_dismiss) { snackbar?.dismiss() })
+                SnackbarAction(R.string.dialog_dismiss) { snackbar?.dismiss() }, callback)
     }
 
     fun showSnackbarIndefinite(message: Int) {

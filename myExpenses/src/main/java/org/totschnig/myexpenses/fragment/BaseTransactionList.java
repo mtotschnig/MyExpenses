@@ -511,8 +511,8 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         b.putInt(KEY_COMMAND_NEGATIVE, R.id.CANCEL_CALLBACK_COMMAND);
         b.putInt(KEY_POSITIVE_BUTTON_LABEL, R.string.menu_delete);
         if (finalHasNotVoid) {
-          b.putInt(ConfirmationDialogFragment.KEY_CHECKBOX_LABEL,
-              R.string.mark_void_instead_of_delete);
+          b.putString(ConfirmationDialogFragment.KEY_CHECKBOX_LABEL,
+              getString(R.string.mark_void_instead_of_delete));
         }
         b.putLongArray(KEY_ROW_IDS, itemIds);
         ConfirmationDialogFragment.newInstance(b).show(fm, "DELETE_TRANSACTION");
@@ -1606,7 +1606,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
       b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_CHECKED_LABEL, R.string.button_label_clone_and_remap);
       b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, android.R.string.cancel);
       b.putString(KEY_MESSAGE, getString(confirmationStringResId, intent.getStringExtra(KEY_LABEL)) + " " + getString(R.string.continue_confirmation));
-      b.putInt(ConfirmationDialogFragment.KEY_CHECKBOX_LABEL, R.string.menu_clone_transaction);
+      b.putString(ConfirmationDialogFragment.KEY_CHECKBOX_LABEL, getString(R.string.menu_clone_transaction));
       b.putInt(KEY_COMMAND_POSITIVE, R.id.REMAP_COMMAND);
       ConfirmationDialogFragment.newInstance(b).show(getParentFragmentManager(), REMAP_DIALOG);
     }

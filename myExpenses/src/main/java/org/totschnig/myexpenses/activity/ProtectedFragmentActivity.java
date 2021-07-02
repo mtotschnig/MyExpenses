@@ -808,7 +808,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   }
 
   @Override
-  public void onPositive(Bundle args) {
+  public void onPositive(Bundle args, boolean checked) {
     dispatchCommand(args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE),
         args.getSerializable(ConfirmationDialogFragment.KEY_TAG_POSITIVE));
   }

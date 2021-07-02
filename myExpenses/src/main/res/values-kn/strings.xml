@@ -439,7 +439,6 @@
     <string name="warning_reset_account_all">ನೀವು ಮುಂದುವರಿದರೆ, ಎಲ್ಲಾ ಖಾತೆಗಳಿಗೆ%1$s, ವ್ಯವಹಾರಗಳನ್ನು ಡೇಟಾಬೇಸ್‌ನಿಂದ ಅಳಿಸಲಾಗುತ್ತದೆ ಮತ್ತು ಅದನ್ನು ಮರುಸ್ಥಾಪಿಸಲಾಗುವುದಿಲ್ಲ.</string>
     <string name="warning_reset_account_matched">ನೀವು ಮುಂದುವರಿದರೆ, ಪ್ರಸ್ತುತ ಫಿಲ್ಟರ್‌ಗೆ ಹೊಂದಿಕೆಯಾಗುವ ವಹಿವಾಟುಗಳನ್ನು ಡೇಟಾಬೇಸ್‌ನಿಂದ ಅಳಿಸಲಾಗುತ್ತದೆ ಮತ್ತು ಅದನ್ನು ಮರುಸ್ಥಾಪಿಸಲಾಗುವುದಿಲ್ಲ.</string>
     <string name="warning_restore">ಡೇಟಾಬೇಸ್ ಮತ್ತು ಆದ್ಯತೆಗಳನ್ನು \"%1$s\" ಫೈಲ್‌ನಿಂದ ಮರುಸ್ಥಾಪಿಸಲಾಗುತ್ತದೆ. ಪ್ರಸ್ತುತ ಡೇಟಾವನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.</string>
-    <string name="warning_app_folder_will_be_deleted_upon_uninstall">ನೀವು {app_name} ಅನ್ನು ಅಸ್ಥಾಪಿಸಿದರೆ ಬ್ಯಾಕ್‌ಅಪ್‌ಗಳು ಮತ್ತು ರಫ್ತುಗಳಿಗಾಗಿ ಪ್ರಸ್ತುತ ಆಯ್ಕೆ ಮಾಡಲಾದ ಫೋಲ್ಡರ್ ಆಂಡ್ರಾಯ್ಡ್‌ನಿಂದ ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಅಳಿಸಲ್ಪಡುತ್ತದೆ. ಸೆಟ್ಟಿಂಗ್‌ಗಳ ಪರದೆಯಿಂದ ಬೇರೆ ಫೋಲ್ಡರ್ ಆಯ್ಕೆ ಮಾಡುವ ಮೂಲಕ ನೀವು ಇದನ್ನು ತಡೆಯಬಹುದು.</string>
     <string name="warning_splitpartcategory_context">ವಿಭಜನೆಯ ಭಾಗವಾಗಿರುವ ವರ್ಗಾವಣೆಗಳನ್ನು ವಿಭಜನೆಯ ಸಂದರ್ಭದಲ್ಲಿ ಮಾತ್ರ ಸಂಪಾದಿಸಬಹುದು.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">ದಯವಿಟ್ಟು %1$d ಮತ್ತು %2$d ನಡುವೆ ಸಂಖ್ಯೆಯನ್ನು ಹೊಂದಿಸಿ</string>
     <string name="warning_change_fraction_digits_1">ಹೊಸ ಸಂಖ್ಯೆಯ ಭಿನ್ನರಾಶಿ ಅಂಕೆಗಳಿಗೆ ಹೊಂದಿಕೆಯಾಗಲು ಡೇಟಾಬೇಸ್‌ನಲ್ಲಿನ ಮೊತ್ತವನ್ನು ನವೀಕರಿಸಬೇಕಾಗಿದೆ.</string>
@@ -619,7 +618,6 @@
     <string name="upgrade_now">ನವೀಕರಿಸಿ</string>
     <string name="pref_backup_cloud_title">ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಬ್ಯಾಕೆಂಡ್‌ನಲ್ಲಿ ಸಂಗ್ರಹಿಸಿ</string>
     <string name="pref_backup_cloud_summary">ಸಾಧನದಲ್ಲಿನ ಸ್ಥಳೀಯ ಸಂಗ್ರಹಣೆಯ ಜೊತೆಗೆ, ಬ್ಯಾಕಪ್ ಫೈಲ್ ಅನ್ನು ದೂರಸ್ಥ ಬ್ಯಾಕೆಂಡ್‌ಗೆ ನಕಲಿಸಬಹುದು.</string>
-    <string name="auto_backup_cloud_create_backend">ಮುಖ್ಯ ಸೆಟ್ಟಿಂಗ್‌ಗಳ ಪರದೆಯಿಂದ ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಬ್ಯಾಕೆಂಡ್ ರಚಿಸಿ.</string>
     <string name="auto_backup_cloud_failure">ಬ್ಯಾಕೆಂಡ್ %2$s ನಲ್ಲಿ ಬ್ಯಾಕಪ್ ಫೈಲ್ %1$s ಅನ್ನು ಸಂಗ್ರಹಿಸಲು ಪ್ರಯತ್ನಿಸುವಾಗ ದೋಷ ಸಂಭವಿಸಿದೆ:</string>
     <string name="auto_backup_cloud_success">ಬ್ಯಾಕಪ್ ಫೈಲ್ %1$s ಅನ್ನು ಬ್ಯಾಕೆಂಡ್ %2$s ನಲ್ಲಿ ಯಶಸ್ವಿಯಾಗಿ ಸಂಗ್ರಹಿಸಲಾಗಿದೆ.</string>
     <string name="home_screen_shortcuts_nougate_info">ಹೋಮ್ ಸ್ಕ್ರೀನ್‌ನಲ್ಲಿ ಅಪ್ಲಿಕೇಶನ್ ಐಕಾನ್ ಅನ್ನು ದೀರ್ಘ-ಟ್ಯಾಪ್ ಮಾಡುವ ಮೂಲಕ ಶಾರ್ಟ್‌ಕಟ್‌ಗಳನ್ನು ಸೇರಿಸಬಹುದು.</string>

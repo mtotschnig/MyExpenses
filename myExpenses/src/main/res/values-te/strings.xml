@@ -171,7 +171,6 @@
     <string name="home_screen_shortcuts_nougate_info">హోమ్ స్క్రీన్‌లో అనువర్తన చిహ్నాన్ని దీర్ఘ-నొక్కడం ద్వారా సత్వరమార్గాలను జోడించవచ్చు.</string>
     <string name="auto_backup_cloud_success">%1$s బ్యాకప్ ఫైల్ విజయవంతంగా బ్యాకెండ్ %2$s లో నిల్వ చేయబడింది.</string>
     <string name="auto_backup_cloud_failure">బ్యాకెండ్ %2$s లో బ్యాకప్ ఫైల్ %1$s ని నిల్వ చేయడానికి ప్రయత్నిస్తున్నప్పుడు లోపం సంభవించింది:</string>
-    <string name="auto_backup_cloud_create_backend">ప్రధాన సెట్టింగ్‌ల స్క్రీన్ నుండి సమకాలీకరణ బ్యాకెండ్‌ను సృష్టించండి.</string>
     <string name="pref_backup_cloud_summary">పరికరంలో స్థానిక నిల్వతో పాటు, బ్యాకప్ ఫైల్‌ను రిమోట్ బ్యాకెండ్‌కు కాపీ చేయవచ్చు.</string>
     <string name="pref_backup_cloud_title">సింక్రొనైజేషన్ బ్యాకెండ్‌లో నిల్వ చేయండి</string>
     <string name="upgrade_now">అప్‌గ్రేడ్ చేయండి</string>
@@ -320,7 +319,6 @@
     <string name="warning_change_fraction_digits_1">క్రొత్త సంఖ్యలో భిన్న అంకెలతో సరిపోలడానికి డేటాబేస్లోని మొత్తాలను నవీకరించాలి.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">దయచేసి %1$d మరియు %2$d మధ్య సంఖ్యను సెట్ చేయండి</string>
     <string name="warning_splitpartcategory_context">స్ప్లిట్‌లో భాగమైన బదిలీలు స్ప్లిట్ సందర్భంలో మాత్రమే సవరించబడతాయి.</string>
-    <string name="warning_app_folder_will_be_deleted_upon_uninstall">మీరు {app_name un ను అన్‌ఇన్‌స్టాల్ చేస్తే బ్యాకప్‌లు మరియు ఎగుమతుల కోసం ప్రస్తుతం ఎంచుకున్న ఫోల్డర్ Android ద్వారా స్వయంచాలకంగా తొలగించబడుతుంది. సెట్టింగుల స్క్రీన్ నుండి వేరే ఫోల్డర్‌ను ఎంచుకోవడం ద్వారా మీరు ఇది జరగకుండా నిరోధించవచ్చు.</string>
     <string name="warning_restore">డేటాబేస్ మరియు ప్రాధాన్యతలు \"%1$s\" ఫైల్ నుండి పునరుద్ధరించబడతాయి. ప్రస్తుత డేటా తొలగించబడుతుంది.</string>
     <string name="warning_reset_account_all">మీరు కొనసాగితే, అన్ని ఖాతాల %1$s కోసం, లావాదేవీలు డేటాబేస్ నుండి తొలగించబడతాయి మరియు పునరుద్ధరించబడవు.</string>
     <string name="warning_reset_account_matched">మీరు కొనసాగితే, ప్రస్తుత ఫిల్టర్‌తో సరిపోలిన లావాదేవీలు డేటాబేస్ నుండి తొలగించబడతాయి మరియు పునరుద్ధరించబడవు.</string>

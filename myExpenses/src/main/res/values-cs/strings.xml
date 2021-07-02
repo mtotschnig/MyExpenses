@@ -458,7 +458,6 @@
     <string name="warning_reset_account_all">Budete-li pokračovat, pro všechny účty %1$s, budou transakce odstraněny z databáze a nepůjde je obnovit.</string>
     <string name="warning_reset_account_matched">Pokud budete pokračovat, transakce odpovídající aktuálnímu filtru budou odstraněny z databáze a nebudete je moci obnovit.</string>
     <string name="warning_restore">Databáze a předvolby budou obnoveny ze zálohy (%1$s). Aktuální data budou odstraněna.</string>
-    <string name="warning_app_folder_will_be_deleted_upon_uninstall">Pokud odinstalujete {app_name}, aktuálně zvolená složka pro zálohy a exporty bude automaticky smazána. Tomu můžete zabránit zvolením jiné složky v obrazovce Nastavení.</string>
     <string name="warning_splitpartcategory_context">Převody, které jsou součástí rozdělení, lze pouze upravovat nebo odstranit v souvislosti s rozdělením.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Nastavte číslo mezi %1$d a %2$d</string>
     <string name="warning_change_fraction_digits_1">Částky v databázi musí být aktualizovány, aby se shodovaly s novým počtem číslic zlomku.</string>
@@ -639,7 +638,6 @@
     <string name="upgrade_now">Upgradovat</string>
     <string name="pref_backup_cloud_title">Ukládat na synchronizačním back-endu</string>
     <string name="pref_backup_cloud_summary">Kromě lokálního úložiště na zařízení může být zálohovací soubor zkopírován na vzdálený back-end.</string>
-    <string name="auto_backup_cloud_create_backend">Vytvořit synchronizační back-end z hlavní obrazovky nastavení.</string>
     <string name="auto_backup_cloud_failure">Při pokusu o uložení souboru zálohy %1$s v rozhraní backend %2$s došlo k chybě:</string>
     <string name="auto_backup_cloud_success">Záložní soubor %1$s byl úspěšně uložen do rozhraní backend %2$s.</string>
     <string name="home_screen_shortcuts_nougate_info">Zkratky lze přidat podržením ikony aplikace na Domovské obrazovce.</string>

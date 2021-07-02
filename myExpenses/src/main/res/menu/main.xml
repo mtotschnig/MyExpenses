@@ -28,4 +28,10 @@
         app:showAsAction="never"
         android:title="@string/menu_settings">
     </item>
+    <item
+        android:id="@id/BACKUP_COMMAND"
+        android:orderInCategory="40"
+        app:showAsAction="never"
+        android:title="@string/menu_backup">
+    </item>
 </menu>

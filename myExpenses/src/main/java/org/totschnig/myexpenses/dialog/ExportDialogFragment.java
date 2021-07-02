@@ -40,8 +40,8 @@ import com.google.android.material.snackbar.Snackbar;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.databinding.ExportDialogBinding;
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.task.ExportTask;
@@ -417,19 +417,7 @@ public class ExportDialogFragment extends BaseDialogFragment implements OnClickL
       b.putInt(ExportTask.KEY_EXPORT_HANDLE_DELETED, handleDeleted);
       b.putString(ExportTask.KEY_FILE_NAME, fileName);
       b.putChar(ExportTask.KEY_DELIMITER, delimiter);
-      if (AppDirHelper.checkAppFolderWarning(getActivity())) {
-        ((ConfirmationDialogListener) getActivity())
-            .onPositive(b);
-      } else {
-        b.putInt(ConfirmationDialogFragment.KEY_TITLE,
-            R.string.dialog_title_attention);
-        b.putCharSequence(
-            ConfirmationDialogFragment.KEY_MESSAGE,
-            Utils.getTextWithAppName(getContext(), R.string.warning_app_folder_will_be_deleted_upon_uninstall));
-        b.putString(ConfirmationDialogFragment.KEY_PREFKEY, prefHandler.getKey(PrefKey.APP_FOLDER_WARNING_SHOWN));
-        ConfirmationDialogFragment.newInstance(b)
-            .show(getParentFragmentManager(), "APP_FOLDER_WARNING");
-      }
+      ((MyExpenses) getActivity()).startExport(b);
     } else {
       showSnackbar(appDirStatus.print(ctx), Snackbar.LENGTH_LONG, null);
     }

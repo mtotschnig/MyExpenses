@@ -440,7 +440,6 @@
     <string name="warning_reset_account_all">நீங்கள் தொடர்ந்தால், எல்லா கணக்குகளுக்கும் %1$s, பரிவர்த்தனைகள் தரவுத்தளத்தில் இருந்து நீக்கப்படும். மேலும் அவற்றை மீட்டமைக்க முடியாது.</string>
     <string name="warning_reset_account_matched">நீங்கள் தொடர்ந்தால், தற்போதைய வடிப்பான் மூலம் பொருந்தும் பரிவர்த்தனைகள் தரவுத்தளத்தில் இருந்து நீக்கப்படும். மேலும் அவற்றை மீட்டமைக்க முடியாது.</string>
     <string name="warning_restore">தரவுத்தளம் மற்றும் விருப்பத்தேர்வுகள் \"%1$s\" கோப்பில் இருந்து மீட்டமைக்கப்படும். தற்போதைய தரவு நீக்கப்படும்.</string>
-    <string name="warning_app_folder_will_be_deleted_upon_uninstall">காப்புப்பிரதிகள் மற்றும் ஏற்றுமதிகளுக்காக தற்போது தேர்ந்தெடுத்திருக்கும் கோப்புறையானது நீங்கள் {app_name} இன் நிறுவலை நீக்கும்போது ஆண்ட்ராய்டால் தானாகவே நீக்கப்படும். வேறு கோப்புறையை அமைப்புகள் திரையில் இருந்து  தேர்ந்தெடுப்பதன் மூலம் இதைத் தடுக்கலாம்.</string>
     <string name="warning_splitpartcategory_context">ஒரு பிரிவின் பகுதியாக இருக்கும் பரிமாற்றங்கள் பிரிவின் பின்னணியில் மட்டுமே திருத்தப்பட முடியும்.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">%1$d மற்றும் %2$d இடையே ஒரு எண்ணை அமைக்கவும்</string>
     <string name="warning_change_fraction_digits_1">புதிய பின்ன இலக்கங்களின் எண்ணிக்கைக்கு பொருந்த தரவுத்தளத்தில் உள்ள தொகைகளை புதுப்பிக்க வேண்டும்.</string>
@@ -621,7 +620,6 @@
     <string name="upgrade_now">மேம்படுத்து</string>
     <string name="pref_backup_cloud_title">ஒத்திசைவு பின்தளத்தில் சேமிக்கவும்</string>
     <string name="pref_backup_cloud_summary">காப்புப்பிரதி கோப்பை, கருவியில் உள்ள உள்சேமிப்புக்கு கூடுதலாக ஒரு தொலை பின்தளத்திற்கு நகலெடுத்துக் கொள்ளலாம்.</string>
-    <string name="auto_backup_cloud_create_backend">பிரதான அமைப்புகள் திரையில் இருந்து ஒத்திசைவு பின்தளம் ஒன்றை உருவாக்கவும்.</string>
     <string name="auto_backup_cloud_failure">காப்புப்பிரதி கோப்பு %1$s-ஐ, %2$s எனும் பின்தளத்தில் சேமிக்க முயற்சிக்கும் போது பிழை ஏற்பட்டது:</string>
     <string name="auto_backup_cloud_success">காப்புப்பிரதி கோப்பு %1$s, %2$s எனும் பின்தளத்தில் வெற்றிகரமாக சேமிக்கப்பட்டது.</string>
     <string name="home_screen_shortcuts_nougate_info">முகப்பு திரையில் செயலியின் ஐகானை நீண்ட நேரம் தட்டுவதன் மூலம் குறுக்குவழிகளைச் சேர்க்கலாம்.</string>

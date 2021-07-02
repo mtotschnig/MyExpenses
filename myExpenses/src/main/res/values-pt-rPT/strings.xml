@@ -419,7 +419,6 @@
     <string name="warning_reset_account_all">Caso você prossiga, as transações de todas as contas%1$s serão excluídas do banco de dados e não poderão ser restauradas.</string>
     <string name="warning_reset_account_matched">Caso você prossiga, as transações correspondentes ao filtro atual serão excluídas do banco de dados e não poderão ser restauradas.</string>
     <string name="warning_restore">O banco de dados e as preferências serão restauradas do ficheiro \"%1$s\". Os dados atuais serão excluídos.</string>
-    <string name="warning_app_folder_will_be_deleted_upon_uninstall">A pasta atualmente selecionada para backups e exportações será automaticamente excluída pelo Android se você desinstalar o {app_name}. Você pode impedir que isto aconteça selecionando uma pasta diferente na tela de configurações.</string>
     <string name="warning_splitpartcategory_context">Transferências que fazem parte de uma transação com divisões só podem ser editadas no contexto da divisão.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Por favor, defina um número entre %1$d e %2$d</string>
     <string name="warning_change_fraction_digits_1">As quantias no banco de dados precisam ser atualizadas para corresponder ao novo número de casas decimais.</string>
@@ -592,7 +591,6 @@
     <string name="all_contrib_key_features">Todas os recursos da Chave Contrib</string>
     <string name="pref_backup_cloud_title">Armazenar no destino de sincronização</string>
     <string name="pref_backup_cloud_summary">Além do armazenamento local no dispositivo, o ficheiro de backup também pode ser copiado para um destino remoto.</string>
-    <string name="auto_backup_cloud_create_backend">Crie um servidor de sincronização a partir do tela principal de configurações.</string>
     <string name="auto_backup_cloud_failure">Ocorreu um erro ao tentar armazenar o ficheiro de backup %1$s no destino %2$s:</string>
     <string name="home_screen_shortcuts_nougate_info">Atalhos podem ser adicionados ao se pressionar longamente o ícone do app na tela inicial.</string>
     <string name="currency_symbol">Símbolo da moeda</string>

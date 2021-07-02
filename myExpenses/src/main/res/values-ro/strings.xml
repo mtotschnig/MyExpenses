@@ -410,7 +410,6 @@
     <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">Dacă veţi continua, pentru toate conturile%1$s, tranzacţiile vor fi şterse din baza de date şi nu se vor putea restaura.</string>
     <string name="warning_restore">Baza de date si preferinţele  vor fi restaurate din fişierul \"%1$s\". Datele actuale vor fi şterse.</string>
-    <string name="warning_app_folder_will_be_deleted_upon_uninstall">Folderul selectat pentru backup-uri şi exporturile vor fi şterse automat de Android dacă dezinstalați {app_name}.  Puteţi preveni acest lucru selectând un alt folder din ecranul Setări.</string>
     <string name="warning_splitpartcategory_context">Transferurile care fac parte dintr-o repartizare pot fi editate numai în contextul repartizării.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Setează un număr între %1$d şi %2$d, te rog</string>
     <string name="warning_change_fraction_digits_checkbox_label">Actualizarea sumelor în baza de date</string>

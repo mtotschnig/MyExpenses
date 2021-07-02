@@ -15,9 +15,6 @@ public class AccountPreference extends ListPreference {
 
   public AccountPreference(Context context, AttributeSet attrs) {
     super(context, attrs);
-    String[] accounts = GenericAccountService.getAccountNames(context);
-    setEntries(ArrayUtils.insert(0, accounts, context.getString(R.string.synchronization_none)));
-    setEntryValues(ArrayUtils.insert(0, accounts, SYNCHRONIZATION_NONE));
   }
 
   public AccountPreference(Context context) {
@@ -28,5 +25,11 @@ public class AccountPreference extends ListPreference {
   public int findIndexOfValue(String value) {
     int indexOfValue = super.findIndexOfValue(value);
     return Math.max(indexOfValue, 0);
+  }
+
+  public void setData(Context context) {
+    String[] accounts = GenericAccountService.getAccountNames(context);
+    setEntries(ArrayUtils.insert(0, accounts, context.getString(R.string.synchronization_none)));
+    setEntryValues(ArrayUtils.insert(0, accounts, SYNCHRONIZATION_NONE));
   }
 }

@@ -51,7 +51,6 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 import org.totschnig.myexpenses.ui.ContextHelper;
-import org.totschnig.myexpenses.util.BackupUtils;
 import org.totschnig.myexpenses.util.PlanInfoCursorWrapper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
@@ -1935,9 +1934,9 @@ public class TransactionProvider extends BaseTransactionProvider {
     mOpenHelper.getReadableDatabase().beginTransaction();
     try {
       File backupPrefFile, sharedPrefFile;
-      Result result = backupDb(new File(backupDir, BackupUtils.BACKUP_DB_FILE_NAME), currentDb);
+      Result result = backupDb(new File(backupDir, BackupUtilsKt.BACKUP_DB_FILE_NAME), currentDb);
       if (result.isSuccess()) {
-        backupPrefFile = new File(backupDir, BackupUtils.BACKUP_PREF_FILE_NAME);
+        backupPrefFile = new File(backupDir, BackupUtilsKt.BACKUP_PREF_FILE_NAME);
         // Samsung has special path on some devices
         // http://stackoverflow.com/questions/5531289/copy-the-shared-preferences-xml-file-from-data-on-samsung-device-failed
         final MyApplication application = MyApplication.getInstance();

@@ -457,7 +457,6 @@
     <string name="warning_reset_account_all">Если вы продолжите, для всех счетов %1$s операции будут удалены из базы данных и не могут быть восстановлены.</string>
     <string name="warning_reset_account_matched">Если вы продолжите, транзакции, соответствующие текущему фильтру, будут удалены из базы данных и не могут быть восстановлены.</string>
     <string name="warning_restore">Базы данных и настройки будут восстановлены из файла \"%1$s\". Текущие данные будут удалены.</string>
-    <string name="warning_app_folder_will_be_deleted_upon_uninstall">Текущая папка для резервного копирования и экспортирования будет автоматически удалена Android если Вы удалите {app_name}. Вы можете предотвратить это, выбрав другую папку из меню Настройки.</string>
     <string name="warning_splitpartcategory_context">Переводы, которые являются разделённой частью можно редактировать только в контексте разделения.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Пожалуйста, укажите число между %1$d и %2$d</string>
     <string name="warning_change_fraction_digits_1">Суммы в базе данных должны быть обновлены, чтобы соответствовать новому числу цифр дроби.</string>
@@ -637,7 +636,6 @@
     <string name="upgrade_now">Обновить</string>
     <string name="pref_backup_cloud_title">Сохраните на синхронизационном бэкенде</string>
     <string name="pref_backup_cloud_summary">Помимо локального хранилища на устройстве, файл резервной копии можно скопировать на удаленный бэкенд.</string>
-    <string name="auto_backup_cloud_create_backend">Создайте синхронизационный бэкенд на главном экране настроек.</string>
     <string name="auto_backup_cloud_failure">Произошла ошибка при попытке сохранить файл резервной копии %1$s на бэкенде %2$s:</string>
     <string name="auto_backup_cloud_success">Файл резервной копии %1$s был успешно сохранен на бэкенде%2$s.</string>
     <string name="home_screen_shortcuts_nougate_info">Ярлыки можно добавить, нажав значок приложения на главном экране.</string>
