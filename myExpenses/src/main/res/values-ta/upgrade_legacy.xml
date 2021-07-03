@@ -33,7 +33,4 @@
     <string-array name="whats_new_310">
         <item>பரிவர்த்தனைகளை பல குறிச்சொற்களுடன் தொடற்பு படுத்தலாம்</item>
     </string-array>
-    <string name="bug_fixes">பிழை திருத்தங்கள்</string>
-    <string name="performance_enhancement">செயல்திறன் மேம்பாடு</string>
-    <string name="stability_improvements">நிலைப்புத்தன்மை மேம்பாடுகள்</string>
 </resources>

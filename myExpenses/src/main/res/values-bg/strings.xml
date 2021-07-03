@@ -996,4 +996,8 @@
     <string name="pref_enable_acra">Разрешeние за автоматично изпращане</string>
     <string name="pref_acra_user_email">Електронна поща на потребителя</string>
     <string name="pref_acra_user_email_summary">Моля, въведете адрес на вашата електронна поща, който да се включи в доклад за срив, за връзка с вас, ако желаете да помогнете за отстраняване на проблеми.</string>
+    <string name="ui_refinement">Подобрения в потребителския интерфейс</string>
+    <string name="bug_fixes">Поправени грешки</string>
+    <string name="performance_enhancement">Подобрено бързодействие</string>
+    <string name="stability_improvements">Подобрения на стабилността</string>
 </resources>

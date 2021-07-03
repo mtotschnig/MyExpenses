@@ -716,4 +716,5 @@
     <string name="pref_enable_acra">Baimendu kraskatze txostenak automatikoki bidaltzea</string>
     <string name="pref_acra_user_email">Erabiltzailearen helbide elektronikoa txostenera gehituko da</string>
     <string name="pref_acra_user_email_summary">Mesedez sartu zure helbide elektronikoa arazketan lagundu nahi baduzu eta gu zurekin kontaktuan jartzea onartzen baduzu.</string>
+    <string name="bug_fixes">Konpondutako akatsak</string>
 </resources>

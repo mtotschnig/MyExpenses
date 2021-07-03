@@ -997,4 +997,12 @@
     <string name="pref_acra_user_email">User email to be included in crash report</string>
     <string name="pref_acra_user_email_summary">Please enter your email address if you are willing to help debugging and allow us to contact you.</string>
     <string name="backup_save_to_sync_backend">Save to %s</string>
+    <!-- This is used on a recurring basis in Changelog entries -->
+    <string name="ui_refinement">Refinement of the user interface</string>
+    <!-- This is used on a recurring basis in Changelog entries -->
+    <string name="bug_fixes">Bug fixes</string>
+    <!-- This is used on a recurring basis in Changelog entries -->
+    <string name="performance_enhancement">Performance enhancement</string>
+    <!-- This is used on a recurring basis in Changelog entries -->
+    <string name="stability_improvements">Stability improvements</string>
 </resources>

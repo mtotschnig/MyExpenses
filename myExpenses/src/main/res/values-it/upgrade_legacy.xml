@@ -72,8 +72,4 @@
     <string-array name="whats_new_310">
         <item>Le transazioni possono essere associate a più tag</item>
     </string-array>
-    <string name="ui_refinement">Miglioramento dell\'interfaccia utente</string>
-    <string name="bug_fixes">Correzione di bug</string>
-    <string name="performance_enhancement">Miglioramento delle prestazioni</string>
-    <string name="stability_improvements">Miglioramenti della stabilità</string>
 </resources>

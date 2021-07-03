@@ -26,7 +26,4 @@
     <string-array name="whats_new_310">
         <item>取引が複数のタグに配置できます</item>
     </string-array>
-    <string name="bug_fixes">バグ修正</string>
-    <string name="performance_enhancement">パフォーマンスの向上</string>
-    <string name="stability_improvements">安定性の向上</string>
 </resources>

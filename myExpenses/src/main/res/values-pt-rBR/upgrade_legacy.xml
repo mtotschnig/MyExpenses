@@ -72,8 +72,4 @@
     <string-array name="whats_new_310">
         <item>As transações podem ser mapeadas para várias etiquetas.</item>
     </string-array>
-    <string name="ui_refinement">Refinamento da interface do usuário.</string>
-    <string name="bug_fixes">Correções de erros</string>
-    <string name="performance_enhancement">Melhoria de performance</string>
-    <string name="stability_improvements">Melhorias de estabilidade</string>
 </resources>

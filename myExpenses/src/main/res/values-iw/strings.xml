@@ -343,7 +343,7 @@
     <string name="pref_security_question_summary">מאפשר לך לבטל את הנעילה של האפליקציה, אם שכחת את הסיסמה.</string>
     <string name="pref_security_question_title">שאלת בטחון</string>
     <string name="pref_send_feedback_title">שלח משוב</string>
-    <string name="pref_share_target_summary">השאר ריק אם אתה רוצה לבחור בין אפליקציות מתאימות (דוא\"ל, Dropbox, Google Docs, ...), או לספק כתובת אתר באחת התוכניות הנתמכות</string>
+    <string name="pref_share_target_summary">השאר ריק אם אתה רוצה לבחור בין אפליקציות מתאימות (דוא\"ל, Dropbox, Google Docs, …), או לספק כתובת אתר באחת התוכניות הנתמכות</string>
     <string name="pref_share_target_title">העלה כתובת אתר</string>
     <string name="pref_shortcut_added">קיצור דרך נוסף למסך הבית</string>
     <string name="pref_shortcut_not_added">אין במסך הבית מקום זמין לקבלת קיצורי דרך.</string>
@@ -1022,4 +1022,8 @@
     <string name="pref_enable_acra">אפשר שליחה אוטומטית של דוחות קריסה</string>
     <string name="pref_acra_user_email">כתובת האימייל של המשתמש תיכלל בדוח הקריסה</string>
     <string name="pref_acra_user_email_summary">הזן את כתובת הדוא\"ל שלך אם אתה מוכן לעזור באיתור באגים ולאפשר לנו ליצור איתך קשר.</string>
+    <string name="ui_refinement">חידוד ממשק המשתמש</string>
+    <string name="bug_fixes">תיקוני באגים</string>
+    <string name="performance_enhancement">שיפור בעיצועים</string>
+    <string name="stability_improvements">שיפורים ביציבות</string>
 </resources>

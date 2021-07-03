@@ -817,4 +817,7 @@
     <string name="pref_enable_acra">Benarkan penghantaran laporan kerosakan secara automatik</string>
     <string name="pref_acra_user_email">Emel pengguna disertakan dalam laporan kerosakan</string>
     <string name="pref_acra_user_email_summary">Sila masukkan alamat emel anda jika anda mahu bantu menyahpepijat dan membolehkan kami menghubungi anda.</string>
+    <string name="bug_fixes">Pembaikan pepijat</string>
+    <string name="performance_enhancement">Penambahbaikan prestasi</string>
+    <string name="stability_improvements">Penambahbaikan kestabilan</string>
 </resources>

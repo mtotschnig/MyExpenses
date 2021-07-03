@@ -996,4 +996,8 @@
     <string name="pref_enable_acra">Automatischen Versand von Absturzberichten zulassen</string>
     <string name="pref_acra_user_email">Email-Adresse für Absturzberichte</string>
     <string name="pref_acra_user_email_summary">Bitte geben Sie Ihre Email-Adresse an, falls Sie bereit sind beim Aufspüren der Fehler zu helfen, und erlauben, dass wir Sie kontaktieren.</string>
+    <string name="ui_refinement">Verfeinerung der Benutzeroberfläche</string>
+    <string name="bug_fixes">Bugs behoben</string>
+    <string name="performance_enhancement">Performance-Verbesserung</string>
+    <string name="stability_improvements">Stabilitätsverbesserungen</string>
 </resources>

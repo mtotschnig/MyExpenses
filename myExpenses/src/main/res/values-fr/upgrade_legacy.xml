@@ -72,8 +72,4 @@
     <string-array name="whats_new_310">
         <item>Les opérations peuvent être mises en correspondance avec plusieurs étiquettes</item>
     </string-array>
-    <string name="ui_refinement">Raffinement de l\'interface utilisateur</string>
-    <string name="bug_fixes">Corrections des erreurs</string>
-    <string name="performance_enhancement">Amélioration de performance</string>
-    <string name="stability_improvements">Améliorations de la stabilité</string>
 </resources>

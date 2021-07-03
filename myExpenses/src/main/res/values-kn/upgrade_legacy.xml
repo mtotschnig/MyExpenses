@@ -30,7 +30,4 @@
     <string-array name="whats_new_310">
         <item>ವಹಿವಾಟುಗಳನ್ನು ಬಹು ಟ್ಯಾಗ್‌ಗಳಿಗೆ ಮ್ಯಾಪ್ ಮಾಡಬಹುದು</item>
     </string-array>
-    <string name="bug_fixes">ದೋಷ ಪರಿಹಾರಗಳನ್ನು</string>
-    <string name="performance_enhancement">ಕಾರ್ಯಕ್ಷಮತೆ ವರ್ಧನೆ</string>
-    <string name="stability_improvements">ಸ್ಥಿರತೆ ಸುಧಾರಣೆಗಳು</string>
 </resources>

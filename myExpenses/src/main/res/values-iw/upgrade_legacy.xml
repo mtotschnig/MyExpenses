@@ -72,8 +72,4 @@
     <string-array name="whats_new_310">
         <item>ניתן למפות עסקאות לתגיות מרובות</item>
     </string-array>
-    <string name="ui_refinement">חידוד ממשק המשתמש</string>
-    <string name="bug_fixes">תיקוני באגים</string>
-    <string name="performance_enhancement">שיפור בעיצועים</string>
-    <string name="stability_improvements">שיפורים ביציבות</string>
 </resources>

@@ -917,4 +917,5 @@
     <string name="pref_enable_acra">Permitir o envio automático de relatórios de falhas</string>
     <string name="pref_acra_user_email">Endereço de email a ser incluído no relatório de falha</string>
     <string name="pref_acra_user_email_summary">Por favor introduza o seu endereço de email se estiver disposto a ajudar na depuração e permite que nós o contactemos.</string>
+    <string name="bug_fixes">Correções de erros</string>
 </resources>

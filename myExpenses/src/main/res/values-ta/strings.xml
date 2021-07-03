@@ -996,4 +996,7 @@
     <string name="pref_enable_acra">தன்னியக்கமாக செயலிழப்பு அறிக்கைகளை அனுப்ப அனுமதி</string>
     <string name="pref_acra_user_email">செயலிழப்பு அறிக்கையில் பயனர் மின்னஞ்சல் உள்ளடக்கப்பட்டுள்ளது</string>
     <string name="pref_acra_user_email_summary">நீங்கள் வழு நீக்க உதவ விரும்பினால் உங்கள் மின்னஞ்சல் முகவரியை உள்ளிட்டு உங்களை தொடர்பு கொள்ள எங்களை அனுமதிக்கவும்.</string>
+    <string name="bug_fixes">பிழை திருத்தங்கள்</string>
+    <string name="performance_enhancement">செயல்திறன் மேம்பாடு</string>
+    <string name="stability_improvements">நிலைப்புத்தன்மை மேம்பாடுகள்</string>
 </resources>

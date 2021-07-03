@@ -52,8 +52,4 @@
     <string-array name="whats_new_310">
         <item>يمكن تعيين المعاملات لعلامات متعددة</item>
     </string-array>
-    <string name="ui_refinement">صقل واجهة المستخدم</string>
-    <string name="bug_fixes">إصلاح الأخطاء</string>
-    <string name="performance_enhancement">تحسينات علي الأداء</string>
-    <string name="stability_improvements">رفع مستوي ثبات البرنامج</string>
 </resources>

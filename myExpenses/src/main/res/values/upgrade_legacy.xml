@@ -72,8 +72,4 @@
     <string-array name="whats_new_310">
         <item>Transactions can be mapped to multiple tags</item>
     </string-array>
-    <string name="ui_refinement">Refinement of the user interface</string>
-    <string name="bug_fixes">Bug fixes</string>
-    <string name="performance_enhancement">Performance enhancement</string>
-    <string name="stability_improvements">Stability improvements</string>
 </resources>

@@ -996,4 +996,8 @@
     <string name="pref_enable_acra">Consenti l\'invio automatico delle segnalazioni di arresto anomalo</string>
     <string name="pref_acra_user_email">e-mail utente da includere nella segnalazione di arresto anomalo</string>
     <string name="pref_acra_user_email_summary">Inserisci il tuo indirizzo e-mail se desideri aiutarci nella risoluzione dei problemi, permettendoci di contattarti in merito.</string>
+    <string name="ui_refinement">Miglioramento dell\'interfaccia utente</string>
+    <string name="bug_fixes">Correzione di bug</string>
+    <string name="performance_enhancement">Miglioramento delle prestazioni</string>
+    <string name="stability_improvements">Miglioramenti della stabilità</string>
 </resources>

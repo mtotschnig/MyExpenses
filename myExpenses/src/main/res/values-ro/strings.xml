@@ -530,4 +530,5 @@
     <string name="pref_enable_acra">Permite trimiterea automată de rapoarte de blocare</string>
     <string name="pref_acra_user_email">E-mail utilizator ce va fi inclus în raportul de blocare</string>
     <string name="pref_acra_user_email_summary">Vă rugăm să introduceţi adresa de e-mail în cazul în care sunteţi dispus să ajutaţi la depanare şi să ne permiteţi să vă contactăm.</string>
+    <string name="bug_fixes">Bug fixat</string>
 </resources>

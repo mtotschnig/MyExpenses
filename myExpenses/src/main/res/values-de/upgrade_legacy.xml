@@ -72,8 +72,4 @@
     <string-array name="whats_new_310">
         <item>Buchungen können mehreren Markierungen zugeordnet werden</item>
     </string-array>
-    <string name="ui_refinement">Verfeinerung der Benutzeroberfläche</string>
-    <string name="bug_fixes">Bugs behoben</string>
-    <string name="performance_enhancement">Performance-Verbesserung</string>
-    <string name="stability_improvements">Stabilitätsverbesserungen</string>
 </resources>

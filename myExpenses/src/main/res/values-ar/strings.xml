@@ -1020,4 +1020,8 @@
     <string name="pref_enable_acra">السماح بالإرسال التلقائي لتقارير الأعطال</string>
     <string name="pref_acra_user_email">بريد المستخدم ليتم إدراجه في تقرير المشكلة </string>
     <string name="pref_acra_user_email_summary">رجاءاً أدخل بريدك الإلكتروني إذا كنت ترغب بالمساعدة</string>
+    <string name="ui_refinement">صقل واجهة المستخدم</string>
+    <string name="bug_fixes">إصلاح الأخطاء</string>
+    <string name="performance_enhancement">تحسينات علي الأداء</string>
+    <string name="stability_improvements">رفع مستوي ثبات البرنامج</string>
 </resources>
