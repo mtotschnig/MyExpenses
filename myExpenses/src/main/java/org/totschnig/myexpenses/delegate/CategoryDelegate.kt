@@ -128,7 +128,7 @@ class CategoryDelegate(viewBinding: OneExpenseBinding, dateEditBinding: DateEdit
             if (columnIndexAccountId != -1) {
                 val accountId = data.getLong(columnIndexAccountId)
                 var i = 0
-                while (i < accountsAdapter.count) {
+                while (i < mAccounts.size) {
                     if (mAccounts[i].id == accountId) {
                         accountSpinner.setSelection(i)
                         updateAccount(mAccounts[i])

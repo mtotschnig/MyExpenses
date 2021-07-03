@@ -70,12 +70,10 @@ abstract class TransactionDelegate<T : ITransaction>(
     private val statusSpinner = SpinnerHelper(viewBinding.Status)
     private val operationTypeSpinner = SpinnerHelper(viewBinding.toolbar.OperationType)
     val recurrenceSpinner = SpinnerHelper(viewBinding.Recurrence)
-    lateinit var accountsAdapter: AccountAdapter
     private lateinit var methodsAdapter: ArrayAdapter<PaymentMethod>
     private lateinit var operationTypeAdapter: ArrayAdapter<OperationType>
 
     init {
-        createAccountAdapter()
         createMethodAdapter()
         viewBinding.advanceExecutionSeek.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
@@ -491,12 +489,6 @@ abstract class TransactionDelegate<T : ITransaction>(
         statusSpinner.adapter = sAdapter
     }
 
-    private fun createAccountAdapter() {
-        accountsAdapter = AccountAdapter(context)
-        accountsAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
-        accountSpinner.adapter = accountsAdapter
-    }
-
     private fun createMethodAdapter() {
         methodsAdapter = object : ArrayAdapter<PaymentMethod>(context, android.R.layout.simple_spinner_item) {
             override fun getItemId(position: Int): Long {
@@ -798,8 +790,9 @@ abstract class TransactionDelegate<T : ITransaction>(
     open fun setAccounts(data: List<Account>, currencyExtra: String?) {
         mAccounts.clear()
         mAccounts.addAll(data)
-        accountsAdapter.clear()
-        accountsAdapter.addAll(data)
+        accountSpinner.adapter = AccountAdapter(context, data).apply {
+            setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+        }
 
         viewBinding.Amount.setTypeEnabled(true)
         configureType()
