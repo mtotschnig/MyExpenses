@@ -55,7 +55,6 @@ import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.temporal.ChronoUnit;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.BaseActivity;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.activity.ManageParties;
@@ -74,8 +73,6 @@ import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.dialog.select.SelectCrStatusDialogFragment;
 import org.totschnig.myexpenses.dialog.select.SelectMethodDialogFragment;
 import org.totschnig.myexpenses.dialog.select.SelectMultipleAccountDialogFragment;
-import org.totschnig.myexpenses.dialog.select.SelectSingleAccountDialogFragment;
-import org.totschnig.myexpenses.dialog.select.SelectSingleMethodDialogFragment;
 import org.totschnig.myexpenses.dialog.select.SelectTransferAccountDialogFragment;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
@@ -92,7 +89,6 @@ import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.preference.PreferenceUtilsKt;
 import org.totschnig.myexpenses.provider.CheckSealedHandler;
-import org.totschnig.myexpenses.provider.CheckTransferAccountOfSplitPartsHandler;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -103,7 +99,6 @@ import org.totschnig.myexpenses.provider.filter.FilterPersistence;
 import org.totschnig.myexpenses.provider.filter.PayeeCriteria;
 import org.totschnig.myexpenses.provider.filter.TagCriteria;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
-import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.ExpansionHandle;
 import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
@@ -121,10 +116,7 @@ import org.totschnig.myexpenses.viewmodel.data.Tag;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -132,7 +124,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.collection.LongSparseArray;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
@@ -148,7 +139,6 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView.OnHeaderClic
 import timber.log.Timber;
 
 import static org.totschnig.myexpenses.ConstantsKt.ACTION_SELECT_FILTER;
-import static org.totschnig.myexpenses.ConstantsKt.ACTION_SELECT_MAPPING;
 import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.FILTER_CATEGORY_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.FILTER_PAYEE_REQUEST;
@@ -157,20 +147,16 @@ import static org.totschnig.myexpenses.activity.ConstantsKt.MAP_ACCOUNT_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.MAP_CATEGORY_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.MAP_METHOD_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.MAP_PAYEE_REQUEST;
-import static org.totschnig.myexpenses.activity.ConstantsKt.MAP_TAG_REQUEST;
 import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.PROGRESS_TAG;
 import static org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter.NULL_ITEM_ID;
-import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE;
 import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_COMMAND_POSITIVE;
 import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_MESSAGE;
 import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL;
-import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_TITLE;
 import static org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.KEY_TITLE_STRING;
 import static org.totschnig.myexpenses.fragment.TagListKt.KEY_TAG_LIST;
 import static org.totschnig.myexpenses.preference.PrefKey.NEW_SPLIT_TEMPLATE_ENABLED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.HAS_TRANSFERS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TYPE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
@@ -210,7 +196,6 @@ import static org.totschnig.myexpenses.util.ColorUtils.getComplementColor;
 import static org.totschnig.myexpenses.util.DateUtilsKt.localDateTime2Epoch;
 import static org.totschnig.myexpenses.util.MoreUiUtilsKt.addChipsBulk;
 import static org.totschnig.myexpenses.util.TextUtils.concatResStrings;
-import static org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModelKt.KEY_ROW_IDS;
 
 public abstract class BaseTransactionList extends ContextualActionBarFragment implements
     LoaderManager.LoaderCallbacks<Cursor>, OnHeaderClickListener, SimpleDialog.OnDialogResultListener,
@@ -449,6 +434,8 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
 
   protected abstract void showDetails(long id);
 
+  protected abstract void showConfirmationDialog(Bundle bundle, String tag);
+
   protected void refresh(boolean invalidateMenu) {
     if (mAccount != null) { //if we are refreshed from onActivityResult, it might happen, that mAccount is not yet set (report 5c1754c8f8b88c29631ef140)
       mManager.restartLoader(TRANSACTION_CURSOR, null, this);
@@ -468,160 +455,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     super.onDestroyView();
   }
 
-  @Override
-  public boolean dispatchCommandMultiple(int command,
-                                         @NonNull SparseBooleanArray positions, @NonNull long[] itemIds) {
-    if (super.dispatchCommandMultiple(command, positions, itemIds)) {
-      return true;
-    }
-    MyExpenses ctx = (MyExpenses) getActivity();
-    if (ctx == null) return false;
-    FragmentManager fm = getParentFragmentManager();
-    if (command == R.id.DELETE_COMMAND) {
-      boolean hasReconciled = false, hasNotVoid = false;
-      for (int i = 0; i < positions.size(); i++) {
-        if (positions.valueAt(i)) {
-          mTransactionsCursor.moveToPosition(positions.keyAt(i));
-          CrStatus status;
-          try {
-            status = CrStatus.valueOf(mTransactionsCursor.getString(columnIndexCrStatus));
-          } catch (IllegalArgumentException ex) {
-            status = CrStatus.UNRECONCILED;
-          }
-          if (status == CrStatus.RECONCILED) {
-            hasReconciled = true;
-          }
-          if (status != CrStatus.VOID) {
-            hasNotVoid = true;
-          }
-          if (hasNotVoid && hasReconciled) break;
-        }
-      }
-      boolean finalHasReconciled = hasReconciled;
-      boolean finalHasNotVoid = hasNotVoid;
-      checkSealed(itemIds, () -> {
-        String message = getResources().getQuantityString(R.plurals.warning_delete_transaction, itemIds.length, itemIds.length);
-        if (finalHasReconciled) {
-          message += " " + getString(R.string.warning_delete_reconciled);
-        }
-        Bundle b = new Bundle();
-        b.putInt(KEY_TITLE, R.string.dialog_title_warning_delete_transaction);
-        b.putString(KEY_MESSAGE, message);
-        b.putInt(KEY_COMMAND_POSITIVE, R.id.DELETE_COMMAND_DO);
-        b.putInt(KEY_COMMAND_NEGATIVE, R.id.CANCEL_CALLBACK_COMMAND);
-        b.putInt(KEY_POSITIVE_BUTTON_LABEL, R.string.menu_delete);
-        if (finalHasNotVoid) {
-          b.putString(ConfirmationDialogFragment.KEY_CHECKBOX_LABEL,
-              getString(R.string.mark_void_instead_of_delete));
-        }
-        b.putLongArray(KEY_ROW_IDS, itemIds);
-        ConfirmationDialogFragment.newInstance(b).show(fm, "DELETE_TRANSACTION");
-      });
-      return true;
-    } else if (command == R.id.SPLIT_TRANSACTION_COMMAND) {
-      checkSealed(itemIds, () -> ctx.contribFeatureRequested(ContribFeature.SPLIT_TRANSACTION, itemIds));
-    } else if (command == R.id.UNGROUP_SPLIT_COMMAND) {
-      checkSealed(itemIds, () -> {
-        Bundle b = new Bundle();
-        b.putString(KEY_MESSAGE, getString(R.string.warning_ungroup_split_transactions));
-        b.putInt(KEY_COMMAND_POSITIVE, R.id.UNGROUP_SPLIT_COMMAND);
-        b.putInt(KEY_COMMAND_NEGATIVE, R.id.CANCEL_CALLBACK_COMMAND);
-        b.putInt(KEY_POSITIVE_BUTTON_LABEL, R.string.menu_ungroup_split_transaction);
-        b.putLongArray(TaskExecutionFragment.KEY_LONG_IDS, itemIds);
-        ConfirmationDialogFragment.newInstance(b).show(fm, "UNSPLIT_TRANSACTION");
-      });
-      return true;
-    } else if (command == R.id.UNDELETE_COMMAND) {
-      checkSealed(itemIds, () -> viewModel.undeleteTransactions(itemIds).observe(getViewLifecycleOwner(), result -> {
-        if (result == 0) ((BaseActivity) requireActivity()).showDeleteFailureFeedback(null);
-      }));
-    } else if (command == R.id.REMAP_CATEGORY_COMMAND) {
-      checkSealed(itemIds, () -> {
-        Intent i = new Intent(getActivity(), ManageCategories.class);
-        i.setAction(ACTION_SELECT_MAPPING);
-        startActivityForResult(i, MAP_CATEGORY_REQUEST);
-      });
-      return true;
-    } else if (command == R.id.MAP_TAG_COMMAND) {
-      checkSealed(itemIds, () -> {
-        Intent i = new Intent(getActivity(), ManageTags.class);
-        i.setAction(ACTION_SELECT_MAPPING);
-        startActivityForResult(i, MAP_TAG_REQUEST);
-      });
-      return true;
-    } else if (command == R.id.REMAP_PAYEE_COMMAND) {
-      checkSealed(itemIds, () -> {
-        Intent i = new Intent(getActivity(), ManageParties.class);
-        i.setAction(ACTION_SELECT_MAPPING);
-        startActivityForResult(i, MAP_PAYEE_REQUEST);
-      });
-      return true;
-    } else if (command == R.id.REMAP_METHOD_COMMAND) {
-      checkSealed(itemIds, () -> {
-        boolean hasExpense = false, hasIncome = false;
-        Set<String> accountTypes = new HashSet<>();
-        for (int i = 0; i < positions.size(); i++) {
-          if (positions.valueAt(i)) {
-            mTransactionsCursor.moveToPosition(positions.keyAt(i));
-            long amount = mTransactionsCursor.getLong(mTransactionsCursor.getColumnIndex(KEY_AMOUNT));
-            if (amount > 0) hasIncome = true;
-            if (amount < 0) hasExpense = true;
-            accountTypes.add(mTransactionsCursor.getString(mTransactionsCursor.getColumnIndex(KEY_ACCOUNT_TYPE)));
-          }
-        }
-        int type = 0;
-        if (hasExpense && !hasIncome) type = -1;
-        else if (hasIncome && !hasExpense) type = 1;
-        final SelectSingleMethodDialogFragment dialogFragment = SelectSingleMethodDialogFragment.newInstance(
-            R.string.menu_remap, R.string.remap_empty_list, accountTypes.toArray(new String[0]), type);
-        dialogFragment.setTargetFragment(this, MAP_METHOD_REQUEST);
-        dialogFragment.show(getActivity().getSupportFragmentManager(), "REMAP_METHOD");
-      });
-      return true;
-    } else if (command == R.id.REMAP_ACCOUNT_COMMAND) {
-      checkSealed(itemIds, () -> {
-        List<Long> excludedIds = new ArrayList<>();
-        List<Long> splitIds = new ArrayList<>();
-        if (!mAccount.isAggregate()) {
-          excludedIds.add(mAccount.getId());
-        }
-        for (int i = 0; i < positions.size(); i++) {
-          if (positions.valueAt(i)) {
-            mTransactionsCursor.moveToPosition(positions.keyAt(i));
-            long transferAccount = DbUtils.getLongOr0L(mTransactionsCursor, KEY_TRANSFER_ACCOUNT);
-            if (transferAccount != 0) {
-              excludedIds.add(transferAccount);
-            }
-            if (SPLIT_CATID.equals(DbUtils.getLongOrNull(mTransactionsCursor, KEY_CATID))) {
-              splitIds.add(DbUtils.getLongOr0L(mTransactionsCursor, KEY_ROWID));
-            }
-          }
-        }
-        new CheckTransferAccountOfSplitPartsHandler(getActivity().getContentResolver()).check(splitIds, result -> {
-          excludedIds.addAll(result);
-          final SelectSingleAccountDialogFragment dialogFragment = SelectSingleAccountDialogFragment.newInstance(
-              R.string.menu_remap, R.string.remap_empty_list, excludedIds);
-          dialogFragment.setTargetFragment(this, MAP_ACCOUNT_REQUEST);
-          dialogFragment.show(getActivity().getSupportFragmentManager(), "REMAP_ACCOUNT");
-        });
-      });
-      return true;
-    } else if (command == R.id.LINK_TRANSFER_COMMAND) {
-      checkSealed(itemIds, () -> {
-        Bundle b = new Bundle();
-        b.putString(KEY_MESSAGE, getString(R.string.warning_link_transfer) + " " + getString(R.string.continue_confirmation));
-        b.putInt(KEY_COMMAND_POSITIVE, R.id.LINK_TRANSFER_COMMAND);
-        b.putInt(KEY_COMMAND_NEGATIVE, R.id.CANCEL_CALLBACK_COMMAND);
-        b.putInt(KEY_POSITIVE_BUTTON_LABEL, R.string.menu_create_transfer);
-        b.putLongArray(KEY_ROW_IDS, itemIds);
-        ConfirmationDialogFragment.newInstance(b).show(fm, "LINK_TRANSFER");
-      });
-      return true;
-    }
-    return false;
-  }
-
-  private void checkSealed(long[] itemIds, Runnable onChecked) {
+  void checkSealed(long[] itemIds, Runnable onChecked) {
     new CheckSealedHandler(requireActivity().getContentResolver()).check(itemIds, result -> {
       if (result) {
         onChecked.run();
@@ -1608,7 +1442,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
       b.putString(KEY_MESSAGE, getString(confirmationStringResId, intent.getStringExtra(KEY_LABEL)) + " " + getString(R.string.continue_confirmation));
       b.putString(ConfirmationDialogFragment.KEY_CHECKBOX_LABEL, getString(R.string.menu_clone_transaction));
       b.putInt(KEY_COMMAND_POSITIVE, R.id.REMAP_COMMAND);
-      ConfirmationDialogFragment.newInstance(b).show(getParentFragmentManager(), REMAP_DIALOG);
+      showConfirmationDialog(b, REMAP_DIALOG);
     }
   }
 

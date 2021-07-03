@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.text.SpannableString
 import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
+import android.util.SparseBooleanArray
 import android.view.ActionMode
 import android.view.Menu
 import android.widget.AbsListView
@@ -16,15 +17,34 @@ import androidx.lifecycle.lifecycleScope
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
 import icepick.State
+import org.totschnig.myexpenses.ACTION_SELECT_MAPPING
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.activity.CONFIRM_MAP_TAG_REQUEST
+import org.totschnig.myexpenses.activity.MAP_ACCOUNT_REQUEST
+import org.totschnig.myexpenses.activity.MAP_CATEGORY_REQUEST
+import org.totschnig.myexpenses.activity.MAP_METHOD_REQUEST
+import org.totschnig.myexpenses.activity.MAP_PAYEE_REQUEST
 import org.totschnig.myexpenses.activity.MAP_TAG_REQUEST
+import org.totschnig.myexpenses.activity.ManageCategories
+import org.totschnig.myexpenses.activity.ManageParties
+import org.totschnig.myexpenses.activity.ManageTags
 import org.totschnig.myexpenses.activity.MyExpenses
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment
+import org.totschnig.myexpenses.dialog.select.SelectSingleMethodDialogFragment
+import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.provider.CheckTransferAccountOfSplitPartsHandler
+import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_SAME_CURRENCY
+import org.totschnig.myexpenses.provider.DbUtils
+import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.util.asTrueSequence
+import org.totschnig.myexpenses.viewmodel.KEY_ROW_IDS
 import org.totschnig.myexpenses.viewmodel.data.Tag
+import java.util.*
 
 const val KEY_REPLACE = "replace"
 
@@ -39,12 +59,17 @@ class TransactionList : BaseTransactionList() {
     var selectedTransactionSumFormatted: String? = null
 
     private fun handleTagResult(intent: Intent) {
-        ConfirmTagDialogFragment().also {
-            it.arguments = Bundle().apply {
-                putParcelableArrayList(KEY_TAG_LIST, intent.getParcelableArrayListExtra(KEY_TAG_LIST))
-            }
-            it.setTargetFragment(this, CONFIRM_MAP_TAG_REQUEST)
-        }.show(parentFragmentManager, "CONFIRM")
+        lifecycleScope.launchWhenResumed {
+            ConfirmTagDialogFragment().also {
+                it.arguments = Bundle().apply {
+                    putParcelableArrayList(
+                        KEY_TAG_LIST,
+                        intent.getParcelableArrayListExtra(KEY_TAG_LIST)
+                    )
+                }
+                it.setTargetFragment(this@TransactionList, CONFIRM_MAP_TAG_REQUEST)
+            }.show(parentFragmentManager, "CONFIRM")
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
@@ -52,7 +77,11 @@ class TransactionList : BaseTransactionList() {
             when (requestCode) {
                 CONFIRM_MAP_TAG_REQUEST -> {
                     intent?.let {
-                        viewModel.tag(binding.list.checkedItemIds, it.getParcelableArrayListExtra(KEY_TAG_LIST)!!, it.getBooleanExtra(KEY_REPLACE, false))
+                        viewModel.tag(
+                            binding.list.checkedItemIds,
+                            it.getParcelableArrayListExtra(KEY_TAG_LIST)!!,
+                            it.getBooleanExtra(KEY_REPLACE, false)
+                        )
                     }
                     finishActionMode()
                 }
@@ -66,6 +95,247 @@ class TransactionList : BaseTransactionList() {
         }
     }
 
+    override fun dispatchCommandMultiple(
+        command: Int,
+        positions: SparseBooleanArray,
+        itemIds: LongArray
+    ): Boolean {
+        if (super.dispatchCommandMultiple(command, positions, itemIds)) {
+            return true
+        }
+        val ctx = activity as MyExpenses? ?: return false
+        if (command == R.id.DELETE_COMMAND) {
+            var hasReconciled = false
+            var hasNotVoid = false
+            for (i in 0 until positions.size()) {
+                if (positions.valueAt(i)) {
+                    mTransactionsCursor.moveToPosition(positions.keyAt(i))
+                    val status: CrStatus = try {
+                        CrStatus.valueOf(mTransactionsCursor.getString(columnIndexCrStatus))
+                    } catch (ex: IllegalArgumentException) {
+                        CrStatus.UNRECONCILED
+                    }
+                    if (status == CrStatus.RECONCILED) {
+                        hasReconciled = true
+                    }
+                    if (status != CrStatus.VOID) {
+                        hasNotVoid = true
+                    }
+                    if (hasNotVoid && hasReconciled) break
+                }
+            }
+            val finalHasReconciled = hasReconciled
+            val finalHasNotVoid = hasNotVoid
+            checkSealed(itemIds) {
+                var message = resources.getQuantityString(
+                    R.plurals.warning_delete_transaction,
+                    itemIds.size,
+                    itemIds.size
+                )
+                if (finalHasReconciled) {
+                    message += " " + getString(R.string.warning_delete_reconciled)
+                }
+                val b = Bundle()
+                b.putInt(
+                    ConfirmationDialogFragment.KEY_TITLE,
+                    R.string.dialog_title_warning_delete_transaction
+                )
+                b.putString(ConfirmationDialogFragment.KEY_MESSAGE, message)
+                b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.DELETE_COMMAND_DO)
+                b.putInt(
+                    ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE,
+                    R.id.CANCEL_CALLBACK_COMMAND
+                )
+                b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.menu_delete)
+                if (finalHasNotVoid) {
+                    b.putString(
+                        ConfirmationDialogFragment.KEY_CHECKBOX_LABEL,
+                        getString(R.string.mark_void_instead_of_delete)
+                    )
+                }
+                b.putLongArray(KEY_ROW_IDS, itemIds)
+                showConfirmationDialog(b, "DELETE_TRANSACTION")
+            }
+            return true
+        } else if (command == R.id.SPLIT_TRANSACTION_COMMAND) {
+            checkSealed(itemIds) {
+                ctx.contribFeatureRequested(
+                    ContribFeature.SPLIT_TRANSACTION,
+                    itemIds
+                )
+            }
+        } else if (command == R.id.UNGROUP_SPLIT_COMMAND) {
+            checkSealed(itemIds) {
+                val b = Bundle()
+                b.putString(
+                    ConfirmationDialogFragment.KEY_MESSAGE,
+                    getString(R.string.warning_ungroup_split_transactions)
+                )
+                b.putInt(
+                    ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+                    R.id.UNGROUP_SPLIT_COMMAND
+                )
+                b.putInt(
+                    ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE,
+                    R.id.CANCEL_CALLBACK_COMMAND
+                )
+                b.putInt(
+                    ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
+                    R.string.menu_ungroup_split_transaction
+                )
+                b.putLongArray(TaskExecutionFragment.KEY_LONG_IDS, itemIds)
+                showConfirmationDialog(b, "UNSPLIT_TRANSACTION")
+            }
+            return true
+        } else if (command == R.id.UNDELETE_COMMAND) {
+            checkSealed(itemIds) {
+                viewModel.undeleteTransactions(itemIds).observe(
+                    viewLifecycleOwner,
+                    { result: Int ->
+                        if (result == 0) (requireActivity() as BaseActivity).showDeleteFailureFeedback(
+                            null
+                        )
+                    })
+            }
+        } else if (command == R.id.REMAP_CATEGORY_COMMAND) {
+            checkSealed(itemIds) {
+                val i = Intent(activity, ManageCategories::class.java)
+                i.action = ACTION_SELECT_MAPPING
+                startActivityForResult(i, MAP_CATEGORY_REQUEST)
+            }
+            return true
+        } else if (command == R.id.MAP_TAG_COMMAND) {
+            checkSealed(itemIds) {
+                val i = Intent(activity, ManageTags::class.java)
+                i.action = ACTION_SELECT_MAPPING
+                startActivityForResult(i, MAP_TAG_REQUEST)
+            }
+            return true
+        } else if (command == R.id.REMAP_PAYEE_COMMAND) {
+            checkSealed(itemIds) {
+                val i = Intent(activity, ManageParties::class.java)
+                i.action = ACTION_SELECT_MAPPING
+                startActivityForResult(i, MAP_PAYEE_REQUEST)
+            }
+            return true
+        } else if (command == R.id.REMAP_METHOD_COMMAND) {
+            checkSealed(itemIds) {
+                var hasExpense = false
+                var hasIncome = false
+                val accountTypes: MutableSet<String> = HashSet()
+                for (i in 0 until positions.size()) {
+                    if (positions.valueAt(i)) {
+                        mTransactionsCursor.moveToPosition(positions.keyAt(i))
+                        val amount = mTransactionsCursor.getLong(
+                            mTransactionsCursor.getColumnIndex(KEY_AMOUNT)
+                        )
+                        if (amount > 0) hasIncome = true
+                        if (amount < 0) hasExpense = true
+                        accountTypes.add(
+                            mTransactionsCursor.getString(
+                                mTransactionsCursor.getColumnIndex(
+                                    DatabaseConstants.KEY_ACCOUNT_TYPE
+                                )
+                            )
+                        )
+                    }
+                }
+                var type = 0
+                if (hasExpense && !hasIncome) type = -1 else if (hasIncome && !hasExpense) type = 1
+                lifecycleScope.launchWhenResumed {
+                    val dialogFragment = SelectSingleMethodDialogFragment.newInstance(
+                        R.string.menu_remap,
+                        R.string.remap_empty_list,
+                        accountTypes.toTypedArray(),
+                        type
+                    )
+                    dialogFragment.setTargetFragment(this@TransactionList, MAP_METHOD_REQUEST)
+                    dialogFragment.show(requireActivity().supportFragmentManager, "REMAP_METHOD")
+                }
+            }
+            return true
+        } else if (command == R.id.REMAP_ACCOUNT_COMMAND) {
+            checkSealed(itemIds) {
+                val excludedIds: MutableList<Long> = ArrayList()
+                val splitIds: MutableList<Long> = ArrayList()
+                if (!mAccount.isAggregate) {
+                    excludedIds.add(mAccount.id)
+                }
+                for (i in 0 until positions.size()) {
+                    if (positions.valueAt(i)) {
+                        mTransactionsCursor.moveToPosition(positions.keyAt(i))
+                        val transferAccount = DbUtils.getLongOr0L(
+                            mTransactionsCursor,
+                            DatabaseConstants.KEY_TRANSFER_ACCOUNT
+                        )
+                        if (transferAccount != 0L) {
+                            excludedIds.add(transferAccount)
+                        }
+                        if (DatabaseConstants.SPLIT_CATID == DbUtils.getLongOrNull(
+                                mTransactionsCursor,
+                                DatabaseConstants.KEY_CATID
+                            )
+                        ) {
+                            splitIds.add(
+                                DbUtils.getLongOr0L(
+                                    mTransactionsCursor,
+                                    DatabaseConstants.KEY_ROWID
+                                )
+                            )
+                        }
+                    }
+                }
+                CheckTransferAccountOfSplitPartsHandler(requireActivity().contentResolver).check(
+                    splitIds, object : CheckTransferAccountOfSplitPartsHandler.ResultListener {
+                        override fun onResult(result: List<Long>) {
+                            lifecycleScope.launchWhenResumed {
+                                excludedIds.addAll(result)
+                                val dialogFragment =
+                                    org.totschnig.myexpenses.dialog.select.SelectSingleAccountDialogFragment.newInstance(
+                                        R.string.menu_remap,
+                                        R.string.remap_empty_list,
+                                        excludedIds
+                                    )
+                                dialogFragment.setTargetFragment(
+                                    this@TransactionList,
+                                    MAP_ACCOUNT_REQUEST
+                                )
+                                dialogFragment.show(
+                                    requireActivity().supportFragmentManager,
+                                    "REMAP_ACCOUNT"
+                                )
+                            }
+                        }
+                    })
+            }
+            return true
+        } else if (command == R.id.LINK_TRANSFER_COMMAND) {
+            checkSealed(itemIds) {
+                val b = Bundle()
+                b.putString(
+                    ConfirmationDialogFragment.KEY_MESSAGE,
+                    getString(R.string.warning_link_transfer) + " " + getString(R.string.continue_confirmation)
+                )
+                b.putInt(
+                    ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+                    R.id.LINK_TRANSFER_COMMAND
+                )
+                b.putInt(
+                    ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE,
+                    R.id.CANCEL_CALLBACK_COMMAND
+                )
+                b.putInt(
+                    ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
+                    R.string.menu_create_transfer
+                )
+                b.putLongArray(KEY_ROW_IDS, itemIds)
+                showConfirmationDialog(b, "LINK_TRANSFER")
+            }
+            return true
+        }
+        return false
+    }
+
     override fun onFinishActionMode() {
         super.onFinishActionMode()
         selectedTransactionSum = 0
@@ -74,18 +344,39 @@ class TransactionList : BaseTransactionList() {
     override fun setTitle(mode: ActionMode, lv: AbsListView) {
         val count = lv.checkedItemCount
         mAccount?.let {
-            selectedTransactionSumFormatted = currencyFormatter.convAmount(selectedTransactionSum, it.currencyUnit)
+            selectedTransactionSumFormatted =
+                currencyFormatter.convAmount(selectedTransactionSum, it.currencyUnit)
         }
-        mode.title = TextUtils.concat(count.toString(), " ", setColor(selectedTransactionSumFormatted
-                ?: ""))
+        mode.title = TextUtils.concat(
+            count.toString(), " ", setColor(
+                selectedTransactionSumFormatted
+                    ?: ""
+            )
+        )
     }
 
     private fun setColor(text: String): SpannableString {
         val spanText = SpannableString(text)
         if (selectedTransactionSum <= 0) {
-            spanText.setSpan(ForegroundColorSpan(ResourcesCompat.getColor(resources, R.color.colorExpense, null)), 0, spanText.length, 0)
+            spanText.setSpan(
+                ForegroundColorSpan(
+                    ResourcesCompat.getColor(
+                        resources,
+                        R.color.colorExpense,
+                        null
+                    )
+                ), 0, spanText.length, 0
+            )
         } else {
-            spanText.setSpan(ForegroundColorSpan(ResourcesCompat.getColor(resources, R.color.colorIncome, null)), 0, spanText.length, 0)
+            spanText.setSpan(
+                ForegroundColorSpan(
+                    ResourcesCompat.getColor(
+                        resources,
+                        R.color.colorIncome,
+                        null
+                    )
+                ), 0, spanText.length, 0
+            )
         }
         return spanText
     }
@@ -93,8 +384,10 @@ class TransactionList : BaseTransactionList() {
     override fun onSelectionChanged(position: Int, checked: Boolean) {
         if (mTransactionsCursor.moveToPosition(position)) {
             val amount = mTransactionsCursor.getLong(mTransactionsCursor.getColumnIndex(KEY_AMOUNT))
-            val shouldCount = if(isTransferAtPosition(position) && mAccount.isAggregate) {
-                if (mAccount.isHomeAggregate) false else mTransactionsCursor.getInt(mTransactionsCursor.getColumnIndex(KEY_IS_SAME_CURRENCY)) != 1
+            val shouldCount = if (isTransferAtPosition(position) && mAccount.isAggregate) {
+                if (mAccount.isHomeAggregate) false else mTransactionsCursor.getInt(
+                    mTransactionsCursor.getColumnIndex(KEY_IS_SAME_CURRENCY)
+                ) != 1
             } else true
             if (shouldCount) {
                 if (checked) {
@@ -154,7 +447,8 @@ class TransactionList : BaseTransactionList() {
             findItem(R.id.UNGROUP_SPLIT_COMMAND).isVisible = !hasNotSplit && !hasVoid
             findItem(R.id.UNDELETE_COMMAND).isVisible = hasVoid
             findItem(R.id.EDIT_COMMAND).isVisible = lv.checkedItemCount == 1 && !hasVoid
-            findItem(R.id.REMAP_ACCOUNT_COMMAND).isVisible = (activity as? MyExpenses)?.accountCount ?: 0 > 1
+            findItem(R.id.REMAP_ACCOUNT_COMMAND).isVisible =
+                (activity as? MyExpenses)?.accountCount ?: 0 > 1
             findItem(R.id.REMAP_PAYEE_COMMAND).isVisible = !hasTransfer
             findItem(R.id.REMAP_CATEGORY_COMMAND).isVisible = !hasTransfer && !hasSplit
             findItem(R.id.REMAP_METHOD_COMMAND).isVisible = !hasTransfer
@@ -185,11 +479,19 @@ class TransactionList : BaseTransactionList() {
         lifecycleScope.launchWhenResumed {
             with(parentFragmentManager) {
                 if (findFragmentByTag(TransactionDetailFragment::class.java.name) == null) {
-                    TransactionDetailFragment.newInstance(transactionId).show(this, TransactionDetailFragment::class.java.name)
+                    TransactionDetailFragment.newInstance(transactionId)
+                        .show(this, TransactionDetailFragment::class.java.name)
                 }
             }
         }
     }
+
+    override fun showConfirmationDialog(bundle: Bundle?, tag: String?) {
+        lifecycleScope.launchWhenResumed {
+            ConfirmationDialogFragment.newInstance(bundle).show(parentFragmentManager, tag)
+        }
+    }
+
 }
 
 class ConfirmTagDialogFragment : DialogFragment() {
@@ -199,21 +501,28 @@ class ConfirmTagDialogFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val isEmpty = tagList.size == 0
         val dialog = MaterialDialog(requireContext())
-                .title(R.string.menu_tag)
-                .message(text = if (isEmpty) getString(R.string.dialog_multi_tag_clear) else getString(R.string.dialog_multi_tag, tagList.joinToString(", ") { tag -> tag.label }))
-                .negativeButton(android.R.string.cancel)
+            .title(R.string.menu_tag)
+            .message(
+                text = if (isEmpty) getString(R.string.dialog_multi_tag_clear) else getString(
+                    R.string.dialog_multi_tag,
+                    tagList.joinToString(", ") { tag -> tag.label })
+            )
+            .negativeButton(android.R.string.cancel)
         return if (isEmpty) {
             dialog.positiveButton(R.string.menu_remove) { confirm(true) }
         } else {
             dialog.listItemsSingleChoice(R.array.multi_tag_options) { _, index, _ -> confirm(index == 1) }
-                    .positiveButton(R.string.menu_tag)
+                .positiveButton(R.string.menu_tag)
         }
     }
 
     private fun confirm(replace: Boolean) {
-        targetFragment?.onActivityResult(CONFIRM_MAP_TAG_REQUEST, Activity.RESULT_OK, Intent().apply {
-            putExtra(KEY_REPLACE, replace)
-            putParcelableArrayListExtra(KEY_TAG_LIST, tagList)
-        })
+        targetFragment?.onActivityResult(
+            CONFIRM_MAP_TAG_REQUEST,
+            Activity.RESULT_OK,
+            Intent().apply {
+                putExtra(KEY_REPLACE, replace)
+                putParcelableArrayListExtra(KEY_TAG_LIST, tagList)
+            })
     }
 }

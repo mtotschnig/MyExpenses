@@ -4,7 +4,6 @@ import android.content.AsyncQueryHandler
 import android.content.ContentResolver
 import android.database.Cursor
 import android.widget.Toast
-import org.jetbrains.annotations.Nullable
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
 import org.totschnig.myexpenses.provider.filter.WhereFilter
@@ -19,7 +18,7 @@ class CheckTransferAccountOfSplitPartsHandler(cr: ContentResolver) : AsyncQueryH
     }
 
     private val TOKEN = 1
-    fun check(itemIds: MutableList<Long>, listener: @Nullable ResultListener) {
+    fun check(itemIds: MutableList<Long>, listener: ResultListener) {
         if (itemIds.size == 0) {
             listener.onResult(emptyList())
         } else {
