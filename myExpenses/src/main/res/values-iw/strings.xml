@@ -87,7 +87,7 @@
     <string name="dialog_contrib_usage_count">נותרו שימושים בחינם</string>
     <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">אתה יכול להשתמש בזה עד %1$dפעמים במצב הנוכחי של רשיונך (%2$s).</string>
     <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">אתה יכול להשתמש בזה ל- %1$dימים במצב הנוכחי של רשיונך (%2$s).</string>
-    <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">המצב הנוכחי של רשיונך (%2$s) מאפשר לך ליצור %1$dחשבונות</string>
+    <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">מצב הרישיון הנוכחי שלך (%2$s) מאפשר לך ליצור %1$d חשבונות.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">המצב הנוכחי של רשיונך (%2$s)מאפש רך ליצור%1$dתוכניות.</string>
     <string name="dialog_contrib_usage_limit_split_templates">המצב הנוכחי של רשיונך (%1$s) מאפשר לך ליצור תבנית מפוצלת אחת.</string>
     <string name="dialog_export_delete">מחק עסקאות שיוצאו</string>
@@ -141,7 +141,7 @@
     <string name="help_button_rate">דרג או כתוב סקירה</string>
     <string name="help_heading_credits">נקודות זכות</string>
     <string name="help_heading_license">רשיון</string>
-    <string name="help_heading_whats_new">מה חדש?</string>
+    <string name="help_heading_whats_new">מה חדש</string>
     <string name="important_upgrade_information_heading">מידע חשוב</string>
     <string name="import_select_transactions">עסקאות</string>
     <string name="income">הכנסה</string>
@@ -219,7 +219,7 @@
     <string name="no_app_handling_email_available">אין ישום המטפל בדוא\"ל.</string>
     <string name="no_app_handling_ftp_available">אין ישום זמין המטפל ב- FTP . האם להתקין <i>שלח עם FTP</i>?</string>
     <string name="no_app_handling_pdf_available">אין אפליקציה זמינה המטפלת בקבצי PDF.</string>
-    <string name="no_categories">אין קטגוריות</string>
+    <string name="no_categories">אין קטגוריות.</string>
     <string name="no_expenses">אין עדין הוצאות!</string>
     <string name="no_exportable_expenses">אין עסקאות שטרם יוצאו.</string>
     <string name="no_filemanager_installed">לא נמצאה אפליקציה לניהול קבצים</string>
@@ -829,7 +829,7 @@
     <string name="button_label_no_encryption">ללא הצפנה</string>
     <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->
     <string name="joining_or">או</string>
-    <string name="pref_account_list_fast_scroll_summary">הפעלת גלילה מהירה עבור רשימת חשבונות. עלול להוביל להצגה שגויה במכשירים מסוימים.</string>
+    <string name="pref_account_list_fast_scroll_summary">הפעלת גלילה מהירה עבור רשימת חשבונות. עלול להוביל להצגה שגויה במכשירים מסוימים</string>
     <string name="menu_hide">הסתר</string>
     <!-- Action of closing an account. A closed account does not allow any modifications on its data. -->
     <string name="menu_close">סגור</string>
@@ -1022,6 +1022,7 @@
     <string name="pref_enable_acra">אפשר שליחה אוטומטית של דוחות קריסה</string>
     <string name="pref_acra_user_email">כתובת האימייל של המשתמש תיכלל בדוח הקריסה</string>
     <string name="pref_acra_user_email_summary">הזן את כתובת הדוא\"ל שלך אם אתה מוכן לעזור באיתור באגים ולאפשר לנו ליצור איתך קשר.</string>
+    <string name="backup_save_to_sync_backend">שמירה אל %s</string>
     <string name="ui_refinement">חידוד ממשק המשתמש</string>
     <string name="bug_fixes">תיקוני באגים</string>
     <string name="performance_enhancement">שיפור בעיצועים</string>
