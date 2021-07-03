@@ -36,7 +36,6 @@ open class TransactionViewModel(application: Application) : TagHandlingViewModel
             pair.second?.takeIf { it.size > 0 }?.let { tags.postValue(it.toMutableList()) }
         } ?: run {
             emit(null)
-            CrashHandler.report("Received null for task $task")
         }
     }
 
