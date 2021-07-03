@@ -971,4 +971,9 @@
     <!-- When user selects duplicate parties to be merged, he sees this prompt asking him to select which name should be selected for the merged party -->
     <string name="merge_parties_select">请选择要合并的交易对象：</string>
     <string name="pref_category_title_crash_reports">故障报告</string>
-    </resources>
+    <string name="backup_save_to_sync_backend">保存至%s</string>
+    <string name="pref_acra_user_email_summary">如果您愿意协助除错并允许我们联系您，请留下您的电子邮件地址。</string>
+    <string name="pref_enable_acra">允许自动发送崩溃报告</string>
+    <string name="crash_reports_user_info">{app_name} 将会自动向开发者发送应用程序崩溃报告，以便开发者可以快速解决问题。</string>
+    <string name="warning_plan_instance_delete">为选定日期创建的交易将被删除。</string>
+</resources>
