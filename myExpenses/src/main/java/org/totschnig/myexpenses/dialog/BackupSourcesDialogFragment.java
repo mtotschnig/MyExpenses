@@ -11,7 +11,6 @@ import android.widget.Toast;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.BackupRestoreActivity;
 import org.totschnig.myexpenses.util.ImportFileResultHandler;
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -65,7 +64,6 @@ public class BackupSourcesDialogFragment extends ImportSourceDialogFragment
       try {
         ImportFileResultHandler.handleFilenameRequestResult(this, mUri);
       } catch (Throwable throwable) {
-        CrashHandler.report(throwable, "URI", mUri.toString());
         mUri = null;
         Toast.makeText(requireContext(), throwable.getMessage(), Toast.LENGTH_LONG).show();
         requireActivity().finish();
