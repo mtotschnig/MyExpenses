@@ -124,7 +124,9 @@ import org.totschnig.myexpenses.viewmodel.data.Template as DataTemplate
  *
  * @author Michael Totschnig
  */
-open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManager.LoaderCallbacks<Cursor?>, ContribIFace, ConfirmationDialogListener, ButtonWithDialog.Host, ExchangeRateEdit.Host {
+open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
+    LoaderManager.LoaderCallbacks<Cursor?>, ContribIFace, ConfirmationDialogListener,
+    ButtonWithDialog.Host, ExchangeRateEdit.Host {
     private lateinit var rootBinding: OneExpenseBinding
     private lateinit var dateEditBinding: DateEditBinding
     private lateinit var methodRowBinding: MethodRowBinding
@@ -258,9 +260,23 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManag
         amountInput.setTypeEnabled(false)
 
         if (savedInstanceState != null) {
-            delegate = TransactionDelegate.create(operationType, isTemplate, rootBinding, dateEditBinding, methodRowBinding, prefHandler)
+            delegate = TransactionDelegate.create(
+                operationType,
+                isTemplate,
+                rootBinding,
+                dateEditBinding,
+                methodRowBinding,
+                prefHandler
+            )
             setupObservers(true)
-            delegate.bind(null, isCalendarPermissionPermanentlyDeclined, mNewInstance, savedInstanceState, null, withAutoFill)
+            delegate.bind(
+                null,
+                isCalendarPermissionPermanentlyDeclined,
+                mNewInstance,
+                savedInstanceState,
+                null,
+                withAutoFill
+            )
             setTitle()
             refreshPlanData()
             floatingActionButton?.show()
@@ -287,7 +303,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManag
             //were we called from a notification
             val notificationId = intent.getIntExtra(MyApplication.KEY_NOTIFICATION_ID, 0)
             if (notificationId > 0) {
-                (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).cancel(notificationId)
+                (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).cancel(
+                    notificationId
+                )
             }
             if (Intent.ACTION_INSERT == intent.action && extras != null) {
                 task = FROM_INTENT_EXTRAS
@@ -298,7 +316,8 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManag
                     populateFromTask(it, task)
                 })
             } else {
-                operationType = intent.getIntExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
+                operationType =
+                    intent.getIntExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
                 if (!isValidType(operationType)) {
                     operationType = Transactions.TYPE_TRANSACTION
                 }
@@ -321,10 +340,18 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManag
                 parentId = intent.getLongExtra(DatabaseConstants.KEY_PARENTID, 0)
                 var accountId = intent.getLongExtra(DatabaseConstants.KEY_ACCOUNTID, 0)
                 if (isNewTemplate) {
-                    viewModel.newTemplate(operationType, accountId, if (parentId != 0L) parentId else null).observe(this, {
+                    viewModel.newTemplate(
+                        operationType,
+                        accountId,
+                        if (parentId != 0L) parentId else null
+                    ).observe(this, {
                         if (it != null) {
                             mRowId = it.id
-                            it.defaultAction = getEnumFromPreferencesWithDefault(prefHandler, PrefKey.TEMPLATE_CLICK_DEFAULT, Template.Action.SAVE)
+                            it.defaultAction = getEnumFromPreferencesWithDefault(
+                                prefHandler,
+                                PrefKey.TEMPLATE_CLICK_DEFAULT,
+                                Template.Action.SAVE
+                            )
                         }
                         populateWithNewInstance(it)
                     })
@@ -333,27 +360,42 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManag
                     when (operationType) {
                         Transactions.TYPE_TRANSACTION -> {
                             if (accountId == 0L) {
-                                accountId = prefHandler.getLong(PrefKey.TRANSACTION_LAST_ACCOUNT_FROM_WIDGET, 0L)
+                                accountId = prefHandler.getLong(
+                                    PrefKey.TRANSACTION_LAST_ACCOUNT_FROM_WIDGET,
+                                    0L
+                                )
                             }
-                            viewModel.newTransaction(accountId, if (parentId != 0L) parentId else null).observe(this, {
+                            viewModel.newTransaction(
+                                accountId,
+                                if (parentId != 0L) parentId else null
+                            ).observe(this, {
                                 populateWithNewInstance(it)
                             })
                         }
                         TYPE_TRANSFER -> {
                             var transferAccountId = 0L
                             if (accountId == 0L) {
-                                accountId = prefHandler.getLong(PrefKey.TRANSFER_LAST_ACCOUNT_FROM_WIDGET, 0L)
-                                transferAccountId = prefHandler.getLong(PrefKey.TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET, 0L)
+                                accountId = prefHandler.getLong(
+                                    PrefKey.TRANSFER_LAST_ACCOUNT_FROM_WIDGET,
+                                    0L
+                                )
+                                transferAccountId = prefHandler.getLong(
+                                    PrefKey.TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET,
+                                    0L
+                                )
                             }
-                            viewModel.newTransfer(accountId,
-                                    if (transferAccountId != 0L) transferAccountId else null,
-                                    if (parentId != 0L) parentId else null).observe(this, {
+                            viewModel.newTransfer(
+                                accountId,
+                                if (transferAccountId != 0L) transferAccountId else null,
+                                if (parentId != 0L) parentId else null
+                            ).observe(this, {
                                 populateWithNewInstance(it)
                             })
                         }
                         Transactions.TYPE_SPLIT -> {
                             if (accountId == 0L) {
-                                accountId = prefHandler.getLong(PrefKey.SPLIT_LAST_ACCOUNT_FROM_WIDGET, 0L)
+                                accountId =
+                                    prefHandler.getLong(PrefKey.SPLIT_LAST_ACCOUNT_FROM_WIDGET, 0L)
                             }
                             viewModel.newSplit(accountId).observe(this, {
                                 if (it != null) {
@@ -367,8 +409,10 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManag
             }
             if (mNewInstance) {
                 if (operationType != TYPE_TRANSFER) {
-                    discoveryHelper.discover(this, amountInput.typeButton(), 1,
-                            DiscoveryHelper.Feature.expense_income_switch)
+                    discoveryHelper.discover(
+                        this, amountInput.typeButton(), 1,
+                        DiscoveryHelper.Feature.expense_income_switch
+                    )
                 }
             }
         }
@@ -419,7 +463,10 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManag
                 abortWithMessage(getString(R.string.dialog_command_disabled_insert_transfer))
             } else {
                 if (::delegate.isInitialized) {
-                    delegate.setAccounts(accounts, if (fromSavedState) null else intent.getStringExtra(DatabaseConstants.KEY_CURRENCY))
+                    delegate.setAccounts(
+                        accounts,
+                        if (fromSavedState) null else intent.getStringExtra(DatabaseConstants.KEY_CURRENCY)
+                    )
                     accountsLoaded = true
                     if (mIsResumed) setupListeners()
                 }
@@ -462,7 +509,10 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManag
         findSplitPartList()?.updateBalance()
     }
 
-    private fun populateFromTask(transaction: Transaction?, task: TransactionViewModel.InstantiationTask) {
+    private fun populateFromTask(
+        transaction: Transaction?,
+        task: TransactionViewModel.InstantiationTask
+    ) {
         transaction?.let {
             if (transaction.isSealed) {
                 abortWithMessage("This transaction refers to a closed account and can no longer be edited")
@@ -471,11 +521,13 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManag
 
             }
         } ?: run {
-            abortWithMessage(when (task) {
-                TRANSACTION, TEMPLATE -> "Object has been deleted from db"
-                TRANSACTION_FROM_TEMPLATE -> getString(R.string.save_transaction_template_deleted)
-                FROM_INTENT_EXTRAS -> "Unable to build transaction from extras"
-            })
+            abortWithMessage(
+                when (task) {
+                    TRANSACTION, TEMPLATE -> "Object has been deleted from db"
+                    TRANSACTION_FROM_TEMPLATE -> getString(R.string.save_transaction_template_deleted)
+                    FROM_INTENT_EXTRAS -> "Unable to build transaction from extras"
+                }
+            )
         }
     }
 
@@ -537,25 +589,27 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManag
             }
             setDirty()
         } else {
-            intent.getLongExtra(KEY_DATE, 0).takeIf { it != 0L }?.let { it/1000 }?.let {
+            intent.getLongExtra(KEY_DATE, 0).takeIf { it != 0L }?.let { it / 1000 }?.let {
                 transaction.date = it
                 transaction.valueDate = it
             }
         }
-        //if we populate from template that user has selected from menu, delegate is already initialized
-        if (!::delegate.isInitialized) {
-            delegate = TransactionDelegate.create(
-                transaction,
-                rootBinding,
-                dateEditBinding,
-                methodRowBinding,
-                prefHandler
-            )
-            setupObservers(false)
-        }
-        delegate.bindUnsafe(transaction, isCalendarPermissionPermanentlyDeclined, mNewInstance, null, intent.getSerializableExtra(KEY_CACHED_RECURRENCE) as? Recurrence,
-                withAutoFill)
-        //if we populate from template that user has selected from menu, accounts are allready loaded
+        delegate = TransactionDelegate.create(
+            transaction,
+            rootBinding,
+            dateEditBinding,
+            methodRowBinding,
+            prefHandler
+        )
+        setupObservers(false)
+        delegate.bindUnsafe(
+            transaction,
+            isCalendarPermissionPermanentlyDeclined,
+            mNewInstance,
+            null,
+            intent.getSerializableExtra(KEY_CACHED_RECURRENCE) as? Recurrence,
+            withAutoFill
+        )
         if (accountsLoaded) {
             delegate.setAccount(null)
         }
@@ -607,15 +661,17 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManag
         }
     }
 
+    @Suppress("unused")
     fun toggleDateLink(view: View) {
         areDatesLinked = !areDatesLinked
-        prefHandler.putBoolean(PrefKey.DATES_ARE_LINKED, areDatesLinked);
+        prefHandler.putBoolean(PrefKey.DATES_ARE_LINKED, areDatesLinked)
         updateDateLink()
     }
 
     private fun updateDateLink() {
         dateEditBinding.DateLink.setImageResource(if (areDatesLinked) R.drawable.ic_hchain else R.drawable.ic_hchain_broken)
-        dateEditBinding.DateLink.contentDescription = getString(if (areDatesLinked) R.string.content_description_dates_are_linked else R.string.content_description_dates_are_not_linked)
+        dateEditBinding.DateLink.contentDescription =
+            getString(if (areDatesLinked) R.string.content_description_dates_are_linked else R.string.content_description_dates_are_not_linked)
     }
 
     override fun setupListeners() {
@@ -650,7 +706,10 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManag
             }
             val currentAccount = currentAccount
             menu.findItem(R.id.EQUIVALENT_AMOUNT_COMMAND)?.let {
-                Utils.menuItemSetEnabledAndVisible(it, !(currentAccount == null || hasHomeCurrency(currentAccount)))
+                Utils.menuItemSetEnabledAndVisible(
+                    it,
+                    !(currentAccount == null || hasHomeCurrency(currentAccount))
+                )
                 it.isChecked = delegate.equivalentAmountVisible
             }
             menu.findItem(R.id.MANAGE_TEMPLATES_COMMAND)?.let {
@@ -674,47 +733,62 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManag
         super.onCreateOptionsMenu(menu)
         if (!isTemplate) {
             menu.add(Menu.NONE, R.id.SAVE_AND_NEW_COMMAND, 0, R.string.menu_save_and_new)
-                    .setCheckable(true)
-                    .setIcon(R.drawable.ic_action_save_new)
-                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+                .setCheckable(true)
+                .setIcon(R.drawable.ic_action_save_new)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
         }
         if (!isSplitPartOrTemplate) {
-            menu.addSubMenu(Menu.NONE, R.id.MANAGE_TEMPLATES_COMMAND, 0, R.string.widget_title_templates).apply {
-                item.setIcon(R.drawable.ic_menu_template).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+            menu.addSubMenu(
+                Menu.NONE,
+                R.id.MANAGE_TEMPLATES_COMMAND,
+                0,
+                R.string.widget_title_templates
+            ).apply {
+                item.setIcon(R.drawable.ic_menu_template)
+                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
             }
             if (shouldShowCreateTemplate) {
-                menu.add(Menu.NONE, R.id.CREATE_TEMPLATE_COMMAND, 0, R.string.menu_create_template_from_transaction)
-                        .setCheckable(true)
-                        .setIcon(R.drawable.ic_action_template_add)
-                        .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+                menu.add(
+                    Menu.NONE,
+                    R.id.CREATE_TEMPLATE_COMMAND,
+                    0,
+                    R.string.menu_create_template_from_transaction
+                )
+                    .setCheckable(true)
+                    .setIcon(R.drawable.ic_action_template_add)
+                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
             }
         }
         if (operationType == TYPE_TRANSFER) {
             menu.add(Menu.NONE, R.id.INVERT_TRANSFER_COMMAND, 0, R.string.menu_invert_transfer)
-                    .setIcon(R.drawable.ic_menu_move)
-                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+                .setIcon(R.drawable.ic_menu_move)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
         } else if (isMainTransaction) {
             menu.add(Menu.NONE, R.id.ORIGINAL_AMOUNT_COMMAND, 0, R.string.menu_original_amount)
-                    .setCheckable(true)
-                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER)
+                .setCheckable(true)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER)
             menu.add(Menu.NONE, R.id.EQUIVALENT_AMOUNT_COMMAND, 0, R.string.menu_equivalent_amount)
-                    .setCheckable(true)
-                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER)
+                .setCheckable(true)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER)
         }
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem) =
-            handleTemplateMenuItem(item) || super.onOptionsItemSelected(item)
+        handleTemplateMenuItem(item) || super.onOptionsItemSelected(item)
 
     private fun handleTemplateMenuItem(item: MenuItem): Boolean {
         return menuItem2TemplateMap[item.itemId]?.let {
             if (isDirty) {
                 Bundle().apply {
-                    putString(ConfirmationDialogFragment.KEY_MESSAGE, getString(R.string.confirmation_load_template_discard_data))
+                    putString(
+                        ConfirmationDialogFragment.KEY_MESSAGE,
+                        getString(R.string.confirmation_load_template_discard_data)
+                    )
                     putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.LOAD_TEMPLATE_DO)
                     putLong(KEY_ROWID, it.id)
-                    ConfirmationDialogFragment.newInstance(this).show(supportFragmentManager, "CONFIRM_LOAD")
+                    ConfirmationDialogFragment.newInstance(this)
+                        .show(supportFragmentManager, "CONFIRM_LOAD")
                 }
             } else {
                 loadTemplate(it.id)
@@ -724,7 +798,13 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManag
     }
 
     private fun loadTemplate(id: Long) {
-        viewModel.transaction(id, TRANSACTION_FROM_TEMPLATE, clone = false, forEdit = true, extras = null).observe(this, {
+        viewModel.transaction(
+            id,
+            TRANSACTION_FROM_TEMPLATE,
+            clone = false,
+            forEdit = true,
+            extras = null
+        ).observe(this, {
             populateFromTask(it, TRANSACTION_FROM_TEMPLATE)
         })
     }
@@ -733,7 +813,10 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManag
         if (operationType == Transactions.TYPE_SPLIT) {
             findSplitPartList()?.let {
                 if (!it.splitComplete()) {
-                    showSnackbar(getString(R.string.unsplit_amount_greater_than_zero), Snackbar.LENGTH_SHORT)
+                    showSnackbar(
+                        getString(R.string.unsplit_amount_greater_than_zero),
+                        Snackbar.LENGTH_SHORT
+                    )
                     return
                 }
             } ?: kotlin.run { return }
@@ -757,7 +840,10 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManag
             R.id.CREATE_TEMPLATE_COMMAND -> {
                 if (::delegate.isInitialized) {
                     createTemplate = !createTemplate
-                    delegate.setCreateTemplate(createTemplate, isCalendarPermissionPermanentlyDeclined)
+                    delegate.setCreateTemplate(
+                        createTemplate,
+                        isCalendarPermissionPermanentlyDeclined
+                    )
                     invalidateOptionsMenu()
                 }
             }
@@ -852,14 +938,26 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManag
                 })
                 if (intent.getBooleanExtra(EXTRA_START_FROM_WIDGET, false)) {
                     when (operationType) {
-                        Transactions.TYPE_TRANSACTION -> prefHandler.putLong(PrefKey.TRANSACTION_LAST_ACCOUNT_FROM_WIDGET, accountId)
+                        Transactions.TYPE_TRANSACTION -> prefHandler.putLong(
+                            PrefKey.TRANSACTION_LAST_ACCOUNT_FROM_WIDGET,
+                            accountId
+                        )
                         TYPE_TRANSFER -> {
-                            prefHandler.putLong(PrefKey.TRANSFER_LAST_ACCOUNT_FROM_WIDGET, accountId)
+                            prefHandler.putLong(
+                                PrefKey.TRANSFER_LAST_ACCOUNT_FROM_WIDGET,
+                                accountId
+                            )
                             (delegate as? TransferDelegate)?.mTransferAccountId?.let {
-                                prefHandler.putLong(PrefKey.TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET, it)
+                                prefHandler.putLong(
+                                    PrefKey.TRANSFER_LAST_TRANSFER_ACCOUNT_FROM_WIDGET,
+                                    it
+                                )
                             }
                         }
-                        Transactions.TYPE_SPLIT -> prefHandler.putLong(PrefKey.SPLIT_LAST_ACCOUNT_FROM_WIDGET, accountId)
+                        Transactions.TYPE_SPLIT -> prefHandler.putLong(
+                            PrefKey.SPLIT_LAST_ACCOUNT_FROM_WIDGET,
+                            accountId
+                        )
                     }
                 }
             }
@@ -870,9 +968,11 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManag
         super.onActivityResult(requestCode, resultCode, intent)
         when (requestCode) {
             SELECT_CATEGORY_REQUEST -> if (intent != null) {
-                (delegate as? CategoryDelegate)?.setCategory(intent.getStringExtra(DatabaseConstants.KEY_LABEL),
-                        intent.getStringExtra(DatabaseConstants.KEY_ICON),
-                        intent.getLongExtra(DatabaseConstants.KEY_CATID, 0))
+                (delegate as? CategoryDelegate)?.setCategory(
+                    intent.getStringExtra(DatabaseConstants.KEY_LABEL),
+                    intent.getStringExtra(DatabaseConstants.KEY_ICON),
+                    intent.getLongExtra(DatabaseConstants.KEY_CATID, 0)
+                )
                 setDirty()
             }
             CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE -> {
@@ -990,7 +1090,10 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManag
                         restartIntent.putExtra(KEY_CACHED_PICTURE_URI, it.pictureUri)
                     }
                 }
-                restartIntent.putExtra(KEY_CACHED_RECURRENCE, delegate.recurrenceSpinner.selectedItem as? Recurrence)
+                restartIntent.putExtra(
+                    KEY_CACHED_RECURRENCE,
+                    delegate.recurrenceSpinner.selectedItem as? Recurrence
+                )
             }
             finish()
             startActivity(restartIntent)
@@ -999,19 +1102,21 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManag
 
     private fun onSaved(result: Long, transaction: ITransaction) {
         if (result < 0L) {
-            showSnackbar(when (result) {
-                ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE -> getString(R.string.external_storage_unavailable)
-                ERROR_PICTURE_SAVE_UNKNOWN -> "Error while saving picture"
-                ERROR_WHILE_SAVING_TAGS -> "Error while saving tags"
-                ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE -> {
-                    delegate.recurrenceSpinner.setSelection(0)
-                    "Recurring transactions are not available, because calendar integration is not functional on this device."
+            showSnackbar(
+                when (result) {
+                    ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE -> getString(R.string.external_storage_unavailable)
+                    ERROR_PICTURE_SAVE_UNKNOWN -> "Error while saving picture"
+                    ERROR_WHILE_SAVING_TAGS -> "Error while saving tags"
+                    ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE -> {
+                        delegate.recurrenceSpinner.setSelection(0)
+                        "Recurring transactions are not available, because calendar integration is not functional on this device."
+                    }
+                    else -> {
+                        (delegate as? CategoryDelegate)?.resetCategory()
+                        "Error while saving transaction"
+                    }
                 }
-                else -> {
-                    (delegate as? CategoryDelegate)?.resetCategory()
-                    "Error while saving transaction"
-                }
-            })
+            )
         } else {
             if (operationType == Transactions.TYPE_SPLIT) {
                 recordUsage(ContribFeature.SPLIT_TRANSACTION)
@@ -1023,7 +1128,10 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManag
                 delegate.prepareForNew()
                 mNewInstance = true
                 clearDirty()
-                showSnackbar(getString(R.string.save_transaction_and_new_success), Snackbar.LENGTH_SHORT)
+                showSnackbar(
+                    getString(R.string.save_transaction_and_new_success),
+                    Snackbar.LENGTH_SHORT
+                )
             } else {
                 if (delegate.recurrenceSpinner.selectedItem === Recurrence.CUSTOM) {
                     if (isTemplate) {
@@ -1047,21 +1155,32 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManag
         when (id) {
             AUTOFILL_CURSOR -> {
                 val dataToLoad: MutableList<String> = ArrayList()
-                val autoFillAccountFromPreference = prefHandler.getString(PrefKey.AUTO_FILL_ACCOUNT, "aggregate")
-                val autoFillAccountFromExtra = intent.getBooleanExtra(KEY_AUTOFILL_MAY_SET_ACCOUNT, false)
+                val autoFillAccountFromPreference =
+                    prefHandler.getString(PrefKey.AUTO_FILL_ACCOUNT, "aggregate")
+                val autoFillAccountFromExtra =
+                    intent.getBooleanExtra(KEY_AUTOFILL_MAY_SET_ACCOUNT, false)
                 val overridePreferences = args!!.getBoolean(KEY_AUTOFILL_OVERRIDE_PREFERENCES)
-                val mayLoadAccount = overridePreferences && autoFillAccountFromExtra || autoFillAccountFromPreference == "always" ||
-                        autoFillAccountFromPreference == "aggregate" && autoFillAccountFromExtra
+                val mayLoadAccount =
+                    overridePreferences && autoFillAccountFromExtra || autoFillAccountFromPreference == "always" ||
+                            autoFillAccountFromPreference == "aggregate" && autoFillAccountFromExtra
                 if (overridePreferences || prefHandler.getBoolean(PrefKey.AUTO_FILL_AMOUNT, true)) {
                     dataToLoad.add(DatabaseConstants.KEY_CURRENCY)
                     dataToLoad.add(KEY_AMOUNT)
                 }
-                if (overridePreferences || prefHandler.getBoolean(PrefKey.AUTO_FILL_CATEGORY, true)) {
+                if (overridePreferences || prefHandler.getBoolean(
+                        PrefKey.AUTO_FILL_CATEGORY,
+                        true
+                    )
+                ) {
                     dataToLoad.add(DatabaseConstants.KEY_CATID)
                     dataToLoad.add(DatabaseConstants.CAT_AS_LABEL)
                     dataToLoad.add(DatabaseConstants.CATEGORY_ICON)
                 }
-                if (overridePreferences || prefHandler.getBoolean(PrefKey.AUTO_FILL_COMMENT, true)) {
+                if (overridePreferences || prefHandler.getBoolean(
+                        PrefKey.AUTO_FILL_COMMENT,
+                        true
+                    )
+                ) {
                     dataToLoad.add(DatabaseConstants.KEY_COMMENT)
                 }
                 if (overridePreferences || prefHandler.getBoolean(PrefKey.AUTO_FILL_METHOD, true)) {
@@ -1070,9 +1189,14 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManag
                 if (mayLoadAccount) {
                     dataToLoad.add(DatabaseConstants.KEY_ACCOUNTID)
                 }
-                return CursorLoader(this,
-                        ContentUris.withAppendedId(TransactionProvider.AUTOFILL_URI, args.getLong(KEY_ROWID)),
-                        dataToLoad.toTypedArray(), null, null, null)
+                return CursorLoader(
+                    this,
+                    ContentUris.withAppendedId(
+                        TransactionProvider.AUTOFILL_URI,
+                        args.getLong(KEY_ROWID)
+                    ),
+                    dataToLoad.toTypedArray(), null, null, null
+                )
             }
         }
         throw IllegalStateException()
@@ -1096,7 +1220,11 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManag
         //intent.putExtra(CalendarContractCompat.EXTRA_EVENT_BEGIN_TIME, mPlan!!.dtstart)
         //intent.putExtra(CalendarContractCompat.EXTRA_EVENT_END_TIME, mPlan!!.dtstart)
         intent.data = ContentUris.withAppendedId(CalendarContractCompat.Events.CONTENT_URI, planId)
-        startActivity(intent, R.string.no_calendar_app_installed, if (forResult) PLAN_REQUEST else null)
+        startActivity(
+            intent,
+            R.string.no_calendar_app_installed,
+            if (forResult) PLAN_REQUEST else null
+        )
     }
 
     override fun onLoaderReset(loader: Loader<Cursor?>) { //should not be necessary to empty the autoCompleteTextView
@@ -1152,7 +1280,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManag
     }
 
     fun findSplitPartList() =
-            supportFragmentManager.findFragmentByTag(SPLIT_PART_LIST) as SplitPartList?
+        supportFragmentManager.findFragmentByTag(SPLIT_PART_LIST) as SplitPartList?
 
     override fun getCurrentFragment() = findSplitPartList()
 
@@ -1170,7 +1298,12 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManag
     private fun handlePicturePopupMenuClick(command: Int) {
         when (command) {
             R.id.DELETE_COMMAND -> unsetPicture()
-            R.id.VIEW_COMMAND -> delegate.pictureUri?.let { imageViewIntentProvider.startViewIntent(this, it) }
+            R.id.VIEW_COMMAND -> delegate.pictureUri?.let {
+                imageViewIntentProvider.startViewIntent(
+                    this,
+                    it
+                )
+            }
             R.id.CHANGE_COMMAND -> startMediaChooserDo()
         }
     }
@@ -1186,14 +1319,16 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManag
 
     private fun startMediaChooserDo() {
         CropImage.activity()
-                .setAllowFlipping(false)
-                .setCaptureImageOutputUri(PictureDirHelper.getOutputMediaUri(true))
-                .setGuidelines(CropImageView.Guidelines.ON)
-                .start(this)
+            .setAllowFlipping(false)
+            .setCaptureImageOutputUri(PictureDirHelper.getOutputMediaUri(true))
+            .setGuidelines(CropImageView.Guidelines.ON)
+            .start(this)
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int,
-                                            permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>, grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         val granted = PermissionHelper.allGranted(grantResults)
         when (requestCode) {
@@ -1222,7 +1357,8 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManag
     private fun updateFab() {
         floatingActionButton?.let {
             it.setImageResource(if (createNew) R.drawable.ic_action_save_new else R.drawable.ic_menu_done)
-            it.contentDescription = getString(if (createNew) R.string.menu_save_and_new_content_description else R.string.menu_save_help_text)
+            it.contentDescription =
+                getString(if (createNew) R.string.menu_save_and_new_content_description else R.string.menu_save_help_text)
         }
     }
 
@@ -1236,19 +1372,26 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManag
 
     fun showPlanMonthFragment(originTemplate: Template, color: Int) {
         PlanMonthFragment.newInstance(
-                originTemplate.title,
-                originTemplate.id,
-                originTemplate.planId,
-                color, true).show(supportFragmentManager,
-                TemplatesList.CALDROID_DIALOG_FRAGMENT_TAG)
+            originTemplate.title,
+            originTemplate.id,
+            originTemplate.planId,
+            color, true
+        ).show(
+            supportFragmentManager,
+            TemplatesList.CALDROID_DIALOG_FRAGMENT_TAG
+        )
     }
 
     fun addSplitPartList(rowId: Long) {
         val fm = supportFragmentManager
         if (findSplitPartList() == null && !fm.isStateSaved) {
             fm.beginTransaction()
-                    .add(R.id.scrollableContent, SplitPartList.newInstance(rowId, isTemplate, currentAccount!!), SPLIT_PART_LIST)
-                    .commit()
+                .add(
+                    R.id.scrollableContent,
+                    SplitPartList.newInstance(rowId, isTemplate, currentAccount!!),
+                    SPLIT_PART_LIST
+                )
+                .commit()
             fm.executePendingTransactions()
         }
     }
@@ -1258,9 +1401,10 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManag
             it.updateAccount(account)
             if (it.splitCount > 0) { //call background task for moving parts to new account
                 startTaskExecution(
-                        TaskExecutionFragment.TASK_MOVE_UNCOMMITED_SPLIT_PARTS, arrayOf(rowId),
-                        account.id,
-                        R.string.progress_dialog_updating_split_parts)
+                    TaskExecutionFragment.TASK_MOVE_UNCOMMITED_SPLIT_PARTS, arrayOf(rowId),
+                    account.id,
+                    R.string.progress_dialog_updating_split_parts
+                )
                 return
             }
         }
@@ -1270,16 +1414,18 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), LoaderManag
         if (pObserver == null) {
             pObserver = PlanObserver().also {
                 contentResolver.registerContentObserver(
-                        ContentUris.withAppendedId(CalendarContractCompat.Events.CONTENT_URI, planId),
-                        false, it)
+                    ContentUris.withAppendedId(CalendarContractCompat.Events.CONTENT_URI, planId),
+                    false, it
+                )
             }
         }
     }
 
     fun loadOriginTemplate(templateId: Long) {
-        viewModel.transaction(templateId, TEMPLATE, clone = false, forEdit = false, extras = null).observe(this, { transaction ->
-            (transaction as? Template)?.let { delegate.originTemplateLoaded(it) }
-        })
+        viewModel.transaction(templateId, TEMPLATE, clone = false, forEdit = false, extras = null)
+            .observe(this, { transaction ->
+                (transaction as? Template)?.let { delegate.originTemplateLoaded(it) }
+            })
     }
 
     companion object {
