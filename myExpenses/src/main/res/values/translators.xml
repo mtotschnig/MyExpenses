@@ -29,7 +29,7 @@
 
     <string-array name="translators_de">
         <item>Michael Totschnig</item>
-        <item>J. Lavoie</item>
+        <item>J. Lavoie (j.lavoie@net-c.ca)</item>
     </string-array>
 
     <string-array name="translators_el">
@@ -45,7 +45,7 @@
         <item>Gudrun Totschnig</item>
         <item>Christof Totschnig</item>
         <item>Laurent Collombet</item>
-        <item>Guille</item>
+        <item>Guille (willelopz+weblate@gmail.com)</item>
     </string-array>
 
     <string-array name="translators_eu">
@@ -57,11 +57,12 @@
         <item>Laurent Collombet</item>
         <item>Michael Totschnig</item>
         <item>Alexandre Beelen</item>
+        <item>J. Lavoie (j.lavoie@net-c.ca)</item>
     </string-array>
 
     <string-array name="translators_hr">
         <item>Mihovil Nakić-Vojnović</item>
-        <item>Milo Ivir</item>
+        <item>Milo Ivir (mail@milotype.de)</item>
     </string-array>
 
     <string-array name="translators_hu">
@@ -80,12 +81,12 @@
         <item>Silvia Delpero</item>
         <item>Gudrun Totschnig</item>
         <item>Pierluigi Rufo</item>
-        <item>Alessandro Mandelli</item>
+        <item>Alessandro Mandelli (mandelli.alessandro@ngi.it)</item>
     </string-array>
 
     <string-array name="translators_iw">
         <item>צבי  פנחסוביץ</item>
-        <item>Yaron Shahrabani</item>
+        <item>Yaron Shahrabani (sh.yaron@gmail.com)</item>
     </string-array>
 
     <string-array name="translators_ja">
@@ -123,12 +124,12 @@
         <item>Frederico Gonçalves Guimarães</item>
         <item>Fernando Maia</item>
         <item>Maria Gabriel</item>
-        <item>ssantos</item>
+        <item>ssantos (ssantos@web.de)</item>
     </string-array>
 
     <string-array name="translators_pt_pt">
         <item>Sérgio Marques</item>
-        <item>ssantos</item>
+        <item>ssantos (ssantos@web.de)</item>
     </string-array>
 
     <string-array name="translators_ro">
@@ -139,7 +140,7 @@
         <item>Дмитрий Стрельников</item>
         <item>Дмитрий Куренков</item>
         <item>Kirill Arkhipkin</item>
-        <item>Nikita Epifanov</item>
+        <item>Nikita Epifanov (nikgreens@protonmail.com)</item>
     </string-array>
 
     <string-array name="translators_si">
@@ -153,13 +154,13 @@
     </string-array>
 
     <string-array name="translators_te">
-        <item>niranjan pr</item>
+        <item>niranjan pr (urstrulyman150@gmail.com)</item>
     </string-array>
 
     <string-array name="translators_tr">
         <item>mauron</item>
         <item>Caner Başaran</item>
-        <item>Oğuz Ersen</item>
+        <item>Oğuz Ersen (oguzersen@protonmail.com)</item>
     </string-array>
 
     <string-array name="translators_uk">
@@ -183,5 +184,7 @@
 
     <string-array name="translators_zh">
         <item>hhggit</item>
+        <item>frankxue (keshan.xue@outlook.com)</item>
+        <item>Eric (spice2wolf@gmail.com)</item>
     </string-array>
 </resources>
