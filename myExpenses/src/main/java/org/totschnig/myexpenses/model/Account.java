@@ -684,21 +684,21 @@ public class Account extends Model {
   private void ensureCurrency(CurrencyUnit currencyUnit) {
     Cursor cursor = cr().query(TransactionProvider.CURRENCIES_URI, new String[]{"count(*)"},
         KEY_CODE + " = ?", new String[]{currencyUnit.getCode()}, null);
-    if (cursor != null) {
-      cursor.moveToFirst();
-      int result = cursor.getInt(0);
-      cursor.close();
-      if (result == 1) {
-        return;
-      }
-      ContentValues contentValues = new ContentValues(2);
-      contentValues.put(KEY_LABEL, currencyUnit.getCode());
-      contentValues.put(KEY_CODE, currencyUnit.getCode());
-      if (cr().insert(TransactionProvider.CURRENCIES_URI, contentValues) != null) {
-        return;
-      }
+    if (cursor == null) {
+      throw new IllegalStateException("Unable to ensure currency (" + currencyUnit + "). Cursor is null");
     }
-    throw new IllegalStateException("Unable to ensure currency" + currencyUnit);
+    cursor.moveToFirst();
+    int result = cursor.getInt(0);
+    cursor.close();
+    if (result == 1) {
+      return;
+    }
+    ContentValues contentValues = new ContentValues(2);
+    contentValues.put(KEY_LABEL, currencyUnit.getCode());
+    contentValues.put(KEY_CODE, currencyUnit.getCode());
+    if (cr().insert(TransactionProvider.CURRENCIES_URI, contentValues) == null) {
+      throw new IllegalStateException("Unable to ensure currency (" + currencyUnit + "). Insert failed");
+    }
   }
 
   public static int count(String selection, String[] selectionArgs) {
