@@ -148,7 +148,14 @@ class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogLis
                     AccountPreference.SYNCHRONIZATION_NONE
                 )
                 if (withSync != AccountPreference.SYNCHRONIZATION_NONE) {
-                    bundle.putString(ConfirmationDialogFragment.KEY_CHECKBOX_LABEL, getString(R.string.backup_save_to_sync_backend, withSync))
+                    bundle.putString(
+                        ConfirmationDialogFragment.KEY_CHECKBOX_LABEL,
+                        getString(R.string.backup_save_to_sync_backend, withSync)
+                    )
+                    bundle.putBoolean(
+                        ConfirmationDialogFragment.KEY_CHECKBOX_INITIALLY_CHHECKED,
+                        prefHandler.getBoolean(PrefKey.SAVE_TO_SYNC_BACKEND_CHECKED, false)
+                    )
                 }
                 ConfirmationDialogFragment.newInstance(bundle)
                     .show(supportFragmentManager, "BACKUP")
@@ -260,6 +267,7 @@ class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogLis
     override fun onPositive(args: Bundle, checked: Boolean) {
         val command = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)
         if (command == R.id.BACKUP_COMMAND) {
+            prefHandler.putBoolean(PrefKey.SAVE_TO_SYNC_BACKEND_CHECKED, checked)
             backupViewModel.doBackup(
                 prefHandler.getString(PrefKey.EXPORT_PASSWORD, null),
                 checked

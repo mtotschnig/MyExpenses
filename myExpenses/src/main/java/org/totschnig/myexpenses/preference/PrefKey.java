@@ -152,7 +152,9 @@ public enum PrefKey {
   GROUP_HEADER(R.string.pref_group_header_show_details_key),
   UI_WEB(R.string.pref_web_ui_key),
   DATES_ARE_LINKED("dates_are_linked"),
-  VOTE_REMINDER_LAST_CHECK("vote_reminder_last_check");
+  VOTE_REMINDER_LAST_CHECK("vote_reminder_last_check"),
+  SAVE_TO_SYNC_BACKEND_CHECKED("save_to_sync_backend_checked")
+  ;
 
   int resId = 0;
   String key = null;

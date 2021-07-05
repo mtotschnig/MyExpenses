@@ -52,6 +52,7 @@ public class ConfirmationDialogFragment extends BaseDialogFragment implements On
   public static final String KEY_TAG_POSITIVE = "positiveTag";
   public static final String KEY_PREFKEY = "prefKey";
   public static final String KEY_CHECKBOX_LABEL = "checkboxLabel";
+  public static final String KEY_CHECKBOX_INITIALLY_CHHECKED = "checkboxInitiallyChecked";
   public static final String KEY_POSITIVE_BUTTON_LABEL = "positiveButtonLabel";
   public static final String KEY_POSITIVE_BUTTON_CHECKED_LABEL = "positiveButtonCheckedLabel";
   public static final String KEY_NEGATIVE_BUTTON_LABEL = "negativeButtonLabel";
@@ -92,6 +93,7 @@ public class ConfirmationDialogFragment extends BaseDialogFragment implements On
       checkBox.setText(
           checkboxLabel != null ? checkboxLabel :
               getString(R.string.confirmation_dialog_dont_show_again));
+      checkBox.setChecked(bundle.getBoolean(KEY_CHECKBOX_INITIALLY_CHHECKED, false));
       builder.setView(cb);
     }
     int positiveLabel = bundle.getInt(KEY_POSITIVE_BUTTON_LABEL);
