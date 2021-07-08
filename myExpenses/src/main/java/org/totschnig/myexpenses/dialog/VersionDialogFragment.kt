@@ -22,6 +22,7 @@ import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AlertDialog
@@ -50,22 +51,41 @@ class VersionDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
         val from = requireArguments().getInt(KEY_FROM)
         val res = resources
         val versions = res.getStringArray(R.array.versions)
-                .map { version: String -> version.split(";") }
-                .takeWhile { parts -> parts[0].toInt() > from }
-                .map { parts -> VersionInfo(parts[0].toInt(), parts[1]) }
+            .map { version: String -> version.split(";") }
+            .takeWhile { parts -> parts[0].toInt() > from }
+            .map { parts -> VersionInfo(parts[0].toInt(), parts[1]) }
         val builder = initBuilderWithBinding {
             VersiondialogBinding.inflate(materialLayoutInflater).also { _binding = it }
         }
-        binding.list.adapter = object : ArrayAdapter<VersionInfo>(requireActivity(),
-                R.layout.version_row, R.id.versionInfoName, versions) {
+        binding.list.adapter = object : ArrayAdapter<VersionInfo>(
+            requireActivity(),
+            R.layout.version_row, R.id.versionInfoName, versions
+        ) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val row = super.getView(position, convertView, parent) as ViewGroup
                 val version = versions[position]
                 val heading = row.findViewById<TextView>(R.id.versionInfoName)
                 heading.text = version.name
-                (row.findViewById<View>(R.id.versionInfoChanges) as TextView).text = version.getChanges(context)?.map { "\u25b6 $it" }?.joinToString(separator = "\n")
-                configureMoreInfo(row.findViewById(R.id.versionInfoFacebook), version, "version_more_info_", "https://www.facebook.com/MyExpenses/posts/")
-                configureMoreInfo(row.findViewById(R.id.versionInfoGithub), version, "project_board_", "https://github.com/mtotschnig/MyExpenses/projects/")
+                (row.findViewById<View>(R.id.versionInfoChanges) as TextView).text =
+                    version.getChanges(context)?.map { "\u25b6 $it" }
+                        ?.joinToString(separator = "\n")
+                val imageButton = row.findViewById<ImageView>(R.id.versionInfo)
+                val useMastodon = version.code >= 493
+                imageButton.setImageResource(if (useMastodon) R.drawable.ic_mastodon else R.drawable.ic_facebook)
+                imageButton.contentDescription = if (useMastodon) "Mastodon" else "Facebook"
+                configureMoreInfo(
+                    imageButton,
+                    version,
+                    "version_more_info_",
+                    if (useMastodon) "https://mastodon.social/@myexpenses/" else
+                        "https://www.facebook.com/MyExpenses/posts/"
+                )
+                configureMoreInfo(
+                    row.findViewById(R.id.versionInfoGithub),
+                    version,
+                    "project_board_",
+                    "https://github.com/mtotschnig/MyExpenses/projects/"
+                )
                 return row
             }
         }
@@ -84,14 +104,23 @@ class VersionDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
       });*/
         }
         builder.setTitle(getString(R.string.help_heading_whats_new))
-                .setIcon(R.mipmap.ic_myexpenses)
-                .setNegativeButton(android.R.string.ok, this)
+            .setIcon(R.mipmap.ic_myexpenses)
+            .setNegativeButton(android.R.string.ok, this)
         if (!licenceHandler.isContribEnabled) builder.setPositiveButton(R.string.menu_contrib, this)
         return builder.create()
     }
 
-    private fun configureMoreInfo(imageButton: View, version: VersionInfo, resPrefix: String, baseUri: String) {
-        val resId = resources.getIdentifier(resPrefix + version.nameCondensed, "string", requireContext().packageName)
+    private fun configureMoreInfo(
+        imageButton: View,
+        version: VersionInfo,
+        resPrefix: String,
+        baseUri: String
+    ) {
+        val resId = resources.getIdentifier(
+            resPrefix + version.nameCondensed,
+            "string",
+            requireContext().packageName
+        )
         if (resId == 0) {
             imageButton.visibility = View.GONE
         } else {
@@ -105,7 +134,10 @@ class VersionDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
     }
 
     override fun onClick(dialog: DialogInterface, which: Int) {
-        if (which == AlertDialog.BUTTON_POSITIVE) (activity as? MessageDialogListener)?.dispatchCommand(R.id.CONTRIB_INFO_COMMAND, null)
+        if (which == AlertDialog.BUTTON_POSITIVE) (activity as? MessageDialogListener)?.dispatchCommand(
+            R.id.CONTRIB_INFO_COMMAND,
+            null
+        )
     }
 
     override fun onDestroyView() {
@@ -114,24 +146,48 @@ class VersionDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
     }
 
     @VisibleForTesting
-    class VersionInfo(private val code: Int, val name: String) {
+    class VersionInfo(val code: Int, val name: String) {
         val nameCondensed = name.replace(".", "")
         fun getChanges(ctx: Context): Array<String?>? {
             val res = ctx.resources
-            val changesArray =  when (nameCondensed) {
-                "325" -> arrayOf("${ctx.getString(R.string.contrib_feature_csv_import_label)}: ${ctx.getString(R.string.autofill)}")
-                "330" -> arrayOf("${ctx.getString(R.string.contrib_feature_csv_import_label)}: ${ctx.getString(R.string.tags)}",
-                    ctx.getString(R.string.active_tags))
-                "331" -> arrayOf("${ctx.getString(R.string.menu_settings)} - ${ctx.getString(R.string.autofill)}: ${ctx.getString(R.string.ui_refinement)}")
-                "332" -> arrayOf("${ctx.getString(R.string.pref_translation_title)} : ${Locale("te").displayLanguage}",
+            val changesArray = when (nameCondensed) {
+                "325" -> arrayOf(
+                    "${ctx.getString(R.string.contrib_feature_csv_import_label)}: ${
+                        ctx.getString(
+                            R.string.autofill
+                        )
+                    }"
+                )
+                "330" -> arrayOf(
+                    "${ctx.getString(R.string.contrib_feature_csv_import_label)}: ${ctx.getString(R.string.tags)}",
+                    ctx.getString(R.string.active_tags)
+                )
+                "331" -> arrayOf(
+                    "${ctx.getString(R.string.menu_settings)} - ${ctx.getString(R.string.autofill)}: ${
+                        ctx.getString(
+                            R.string.ui_refinement
+                        )
+                    }"
+                )
+                "332" -> arrayOf(
+                    "${ctx.getString(R.string.pref_translation_title)} : ${Locale("te").displayLanguage}",
                     "${ctx.getString(R.string.currency)}: ${ctx.getString(R.string.ui_refinement)}"
                 )
-                "333" -> arrayOf("${ctx.getString(R.string.pref_exchange_rate_provider_title)}: https://exchangerate.host",
-                    ctx.getString(R.string.pref_backup_cloud_summary))
+                "333" -> arrayOf(
+                    "${ctx.getString(R.string.pref_exchange_rate_provider_title)}: https://exchangerate.host",
+                    ctx.getString(R.string.pref_backup_cloud_summary)
+                )
                 else -> {
-                    val resId = res.getIdentifier("whats_new_$nameCondensed", "array", ctx.packageName) //new based on name
+                    val resId = res.getIdentifier(
+                        "whats_new_$nameCondensed",
+                        "array",
+                        ctx.packageName
+                    ) //new based on name
                     if (resId == 0) {
-                        CrashHandler.reportWithFormat("missing change log entry for version %d", code)
+                        CrashHandler.reportWithFormat(
+                            "missing change log entry for version %d",
+                            code
+                        )
                         null
                     } else {
                         res.getStringArray(resId)
@@ -139,13 +195,17 @@ class VersionDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
                 }
             }
             if (changesArray != null) {
-                val resId = res.getIdentifier("contributors_$nameCondensed", "array", ctx.packageName)
+                val resId =
+                    res.getIdentifier("contributors_$nameCondensed", "array", ctx.packageName)
                 if (resId != 0) {
                     val contributorArray = res.getStringArray(resId)
                     val resultArray = arrayOfNulls<String>(changesArray.size)
                     for (i in changesArray.indices) {
                         resultArray[i] = changesArray[i].toString() +
-                                if (contributorArray.size <= i || TextUtils.isEmpty(contributorArray[i])) "" else String.format(" (%s)", ctx.getString(R.string.contributed_by, contributorArray[i]))
+                                if (contributorArray.size <= i || TextUtils.isEmpty(contributorArray[i])) "" else String.format(
+                                    " (%s)",
+                                    ctx.getString(R.string.contributed_by, contributorArray[i])
+                                )
                     }
                     return resultArray
                 }
@@ -159,12 +219,12 @@ class VersionDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
         private const val KEY_FROM = "from"
         private const val KEY_WITH_IMPORTANT_UPGRADE_INFO = "withImportantUpgradeInfo"
         fun newInstance(from: Int, withImportantUpgradeInfo: Boolean) =
-                VersionDialogFragment().apply {
-                    arguments = Bundle().apply {
-                        putInt(KEY_FROM, from)
-                        putBoolean(KEY_WITH_IMPORTANT_UPGRADE_INFO, withImportantUpgradeInfo)
-                    }
-                    isCancelable = false
+            VersionDialogFragment().apply {
+                arguments = Bundle().apply {
+                    putInt(KEY_FROM, from)
+                    putBoolean(KEY_WITH_IMPORTANT_UPGRADE_INFO, withImportantUpgradeInfo)
                 }
+                isCancelable = false
+            }
     }
 }
