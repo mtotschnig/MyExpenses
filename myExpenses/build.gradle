@@ -347,7 +347,7 @@ task copyFileForFixture(type: Files) {
 
 task echoPublishTag() {
     doLast {
-        println "ChangeLog/build/install/ChangeLog/bin/ChangeLog fdroid ${versionName} ${versionCode}"
+        println "ChangeLog.install/bin/ChangeLog fdroid ${versionName} ${versionCode}"
         println "git add metadata/*/changelogs/${versionCode}.txt"
         println "git commit -m \"Release ${versionName}\""
         println "git push"
