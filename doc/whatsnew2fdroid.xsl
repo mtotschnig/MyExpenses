@@ -29,7 +29,7 @@
         </xsl:variable>
         <xsl:variable name="upgrade">
             <xsl:value-of select="$dir" />
-            <xsl:text>/upgrade.xml</xsl:text>
+            <xsl:text>/upgrade_legacy.xml</xsl:text>
         </xsl:variable>
         <xsl:variable name="strings">
             <xsl:value-of select="$dir" />
@@ -47,7 +47,6 @@
                             <xsl:with-param name="version" select="." />
                             <xsl:with-param name="strings" select="$strings" />
                             <xsl:with-param name="aosp" select="$aosp" />
-                            <xsl:with-param name="upgrade" select="$upgrade" />
                             <xsl:with-param name="lang" select="$lang" />
                         </xsl:call-template>
                     </xsl:variable>

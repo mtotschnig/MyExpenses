@@ -1,0 +1,2 @@
+• Proveedor de tipo de cambio: https://exchangerate.host
+• Además del almacenamiento local del dispositivo, la copia de seguridad puede copiarse a un servicio remoto.

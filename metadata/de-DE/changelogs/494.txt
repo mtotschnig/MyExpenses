@@ -1,0 +1,2 @@
+• Anbieter für Wechselkurse: https://exchangerate.host
+• Zusätzlich zur lokalen Speicherung auf dem Gerät kann die Sicherungsdatei auf ein entferntes Backend kopiert werden.

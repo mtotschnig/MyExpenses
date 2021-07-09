@@ -1,0 +1,2 @@
+• https://exchangerate.host
+• Oprócz przechowywania lokalnego na urządzeniu, plik kopii zapasowej można skopiować do zdalnego serwera.

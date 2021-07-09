@@ -15,30 +15,10 @@
         </xsl:call-template>
     </xsl:template>
 
-    <xsl:template name="upgrade-with-fallback">
-        <xsl:param name="dir" />
-        <xsl:variable name="upgradeLocal">
-            <xsl:value-of select="$dir" />
-            <xsl:text>/upgrade.xml</xsl:text>
-        </xsl:variable>
-        <xsl:choose>
-            <xsl:when test="doc-available($upgradeLocal)">
-                <xsl:value-of select="$upgradeLocal" />
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:call-template name="values-dir">
-                    <xsl:with-param name="lang" select="'en'" />
-                </xsl:call-template>
-                <xsl:text>/upgrade.xml</xsl:text>
-            </xsl:otherwise>
-        </xsl:choose>
-    </xsl:template>
-
     <xsl:template name="special-version-info">
         <xsl:param name="version" />
         <xsl:param name="strings" />
         <xsl:param name="aosp" />
-        <xsl:param name="upgrade" />
         <xsl:param name="lang" />
         <xsl:param name="itemize" select="true()" />
         <xsl:variable name="separator">
@@ -88,7 +68,7 @@
                 select="document($aosp)/resources/string[@name='autofill']" />
             <xsl:text>:&#032;</xsl:text>
             <xsl:apply-templates mode="unescape"
-                select="document($upgrade)/resources/string[@name='ui_refinement']" />
+                select="document($strings)/resources/string[@name='ui_refinement']" />
             <xsl:text>.</xsl:text>
         </xsl:if>
         <xsl:if test="$version = '3.3.2'">
@@ -104,8 +84,19 @@
                 select="document($strings)/resources/string[@name='currency']" />
             <xsl:text>:&#032;</xsl:text>
             <xsl:apply-templates mode="unescape"
-                select="document($upgrade)/resources/string[@name='ui_refinement']" />
+                select="document($strings)/resources/string[@name='ui_refinement']" />
             <xsl:text>.</xsl:text>
+        </xsl:if>
+        <xsl:if test="$version = '3.3.3'">
+            <xsl:if test="$itemize">
+                <xsl-text>•&#032;</xsl-text>
+            </xsl:if>
+            <xsl:apply-templates mode="unescape"
+                select="document($strings)/resources/string[@name='pref_exchange_rate_provider_title']" />
+            <xsl:text>:&#032;https://exchangerate.host</xsl:text>
+            <xsl:value-of select="$separator" />
+            <xsl:apply-templates mode="unescape"
+                select="document($strings)/resources/string[@name='pref_backup_cloud_summary']" />
         </xsl:if>
     </xsl:template>
 
@@ -132,6 +123,7 @@
             <xsl:when test="$lang='en'" />
             <xsl:when test="$lang='zh'">-zh-rCN</xsl:when>
             <xsl:when test="$lang='zh-TW'">-zh-rTW</xsl:when>
+            <xsl:when test="$lang='pt'">-pt-rBR</xsl:when>
             <xsl:otherwise>
                 <xsl:text>-</xsl:text>
                 <xsl:value-of select="$lang" />
