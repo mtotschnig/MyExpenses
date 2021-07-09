@@ -966,4 +966,6 @@
     <string name="bug_fixes">ದೋಷ ಪರಿಹಾರಗಳನ್ನು</string>
     <string name="performance_enhancement">ಕಾರ್ಯಕ್ಷಮತೆ ವರ್ಧನೆ</string>
     <string name="stability_improvements">ಸ್ಥಿರತೆ ಸುಧಾರಣೆಗಳು</string>
+    <string name="ui_refinement">ಬಳಕೆದಾರ ಇಂಟರ್ಫೇಸ್ನ ಪರಿಷ್ಕರಣೆ</string>
+    <string name="backup_save_to_sync_backend">%s ಗೆ ಉಳಿಸಿ</string>
 </resources>
