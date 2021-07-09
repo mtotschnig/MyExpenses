@@ -869,4 +869,9 @@
     <string name="pref_enable_acra">క్రాష్ నివేదికలను స్వయంచాలకంగా పంపడానికి అనుమతించండి</string>
     <string name="pref_category_title_crash_reports">క్రాష్ నివేదికలు</string>
     <string name="crash_reports_user_info">{app_name} అనువర్తన క్రాష్‌ల గురించి దాని డెవలపర్‌లకు స్వయంచాలకంగా నివేదికలను పంపుతుంది, ఇది సమస్యలను మరింత త్వరగా పరిష్కరించడానికి అనుమతిస్తుంది.</string>
+    <string name="stability_improvements">స్థిరత్వం మెరుగుదలలు</string>
+    <string name="performance_enhancement">పనితీరు మెరుగుదల</string>
+    <string name="bug_fixes">బగ్ పరిష్కారాలను</string>
+    <string name="ui_refinement">వినియోగదారు ఇంటర్ఫేస్ యొక్క శుద్ధీకరణ</string>
+    <string name="backup_save_to_sync_backend">%s కు సేవ్ చేయండి</string>
 </resources>
