@@ -58,7 +58,7 @@ class Main {
             when(args.getOrNull(0)) {
                 "fdroid" -> {
                     if (args.size != 3) usage()
-                    runTransform("doc/whatsnew2gplay2.xsl", args[1], "changelog.xml", args[2])
+                    runTransform("doc/whatsnew2fdroid.xsl", args[1], "changelog.xml", args[2])
                 }
                 "gplay" -> {
                     if (args.size != 2) usage()
@@ -85,7 +85,7 @@ class Main {
             transformer.initialTemplate = QName("main")
             transformer.setParameter(QName("version"), XdmAtomicValue(version))
             versionCode?.let {
-                transformer.setParameter(QName("version"), XdmAtomicValue(it))
+                transformer.setParameter(QName("versionCode"), XdmAtomicValue(it))
             }
             transformer.destination = out
             transformer.transform()

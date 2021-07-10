@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="testData_account1Label">ನನ್ನ ವಾಲೆಟ್</string>
+  <string name="testData_account1Description">ದೈನಂದಿನ ವೆಚ್ಚಗಳು</string>
+  <!--Account 2 is used as an example for a short term budget used for a travel to a country with
+    a different currency-->
+  <string name="testData_account2Label">ಪ್ಯಾರಿಸ್ನಲ್ಲಿ ವಾರಾಂತ್ಯ</string>
+  <!--Account 3 is a bank account at an institution well known in the locale region-->
+  <string name="testData_account3Label">ಬ್ಯಾಂಕ್ ಖಾತೆ</string>
+  <string name="testData_account3Description">ಬ್ಯಾಂಕ್ ಆಫ್ ಅಮೇರಿಕಾ</string>
+  <!--the cats must exist in the categories of the locale-->
+  <!--just an example of how one could describe by a comment a specific purchase-->
+  <string name="testData_transaction2Comment">ಹಣ್ಣುಗಳು ಮತ್ತು ತರಕಾರಿಗಳು</string>
+  <!--should be the name of a typical restaurant-->
+  <string name="testData_transaction4Payee">ಪಿಜ್ಜೇರಿಯಾ ಆಂಟೊನೆಲ್ಲಾ</string>
+  <!--a name typically used as example name-->
+  <string name="testData_templatePayee">ಜಾನ್ ಡೋ</string>
+  <string name="testData_tag_project">ಶೀರ್ಷಿಕೆರಹಿತ ಯೋಜನೆ</string>
+</resources>
