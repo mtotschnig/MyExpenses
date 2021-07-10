@@ -999,4 +999,5 @@
     <string name="bug_fixes">Correzione di bug</string>
     <string name="performance_enhancement">Miglioramento delle prestazioni</string>
     <string name="stability_improvements">Miglioramenti della stabilità</string>
+    <string name="backup_save_to_sync_backend">Salvato in %s</string>
 </resources>
