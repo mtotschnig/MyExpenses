@@ -1,0 +1,32 @@
+hu:
+  imprint: Impresszum
+  hero_main: "A személyes pénzügyi nyilvántartás - Android"
+  hero_sub:
+    use: "Egyszerű használat"
+    functionality: "Sok szolgáltatás"
+    source: "Nyílt forráskód"
+  menu_title:
+    more_information: További információ
+  sections:
+    features: Features
+    premium: Válts a Prémium változatra
+    participate: Támogatás
+    faq: GYIK
+    versionlist: Újdonságok
+    credits: Közreműködők
+    licence: Licensz
+    sourcecode: Forráskód
+    links: Linkek
+  contrib:
+    thank_you: |
+        Köszönjük! Támogatásával nagyban segíti a Kiadásaim további fejlesztését!
+    feature:
+      webui: <b>Webes felhasználói kezelőfelület</b>
+  permissions:
+    internet:
+      explanation_cloud_sync: Felhő szinkronizálás
+    accounts:
+      label: Számlák
+  contrib-key: Contrib Kulcs
+  extended-key: Kiterjesztett Kulcs
+  professional-key: Szakmai kulcs

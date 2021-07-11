@@ -1,0 +1,67 @@
+---
+layout: post
+title: Plans for future and recurrent transactions
+
+excerpt: This post explains how to create plans for future and recurrent transactions.
+
+---
+Starting with version 1.10, My Expenses allows to create plans for expenses or income that occur in
+the future and may be recurrent. These plans are stored in the calendar storage available on your
+Android device, and thus can be visualized with your favorite Calendar app, and can make use of standard
+Calendar features like reminders. This post is the first one to be published again on this
+website, after I had switched from a previous posting mechanism for [older posts](/en/news/news5.html)
+to publishing shorter news on My Expenses' [Google Plus](https://plus.google.com/116736113799210525299/) page.
+I will walk you through the workflow of setting up a plan.
+
+Plans build upon the existing feature of templates. In order to create a new plan, from the transactions
+list you call the menu command "Templates and plans". From here you can create a template for normal
+transactions or for transfers. If you call "New transaction template", you will see the following
+form:
+
+<div class="screenshot" style="text-align:center">
+<img src="/visuals/screenshots/blog/2013-12-02/template_form.png" alt="Template Form" title="Template Form">
+</div>
+
+When you click on the button for creating a plan for the first time, My Expenses will ask you where
+you want to store your plans. If you are using Android 4.1 or above, it will offer you the option of
+creating a dedicated local calendar, otherwise you need to select a calendar already available on your
+device. The reason for not creating a local calendar on lower Android versions, is that due to a bug
+in the Calendar app on these versions, simple local calendars will lead to a crash, when you open the
+list of calendars to sync. If you still prefer a local calendar, I suggest you install the excellent
+[Offline Calendar](https://play.google.com/store/apps/details?id=org.sufficientlysecure.localcalendar)
+app by Dominik Schürmann which allows to create local calendars that are not affected
+by this bug.
+
+<div class="screenshot" style="text-align:center">
+<img src="/visuals/screenshots/blog/2013-12-02/calendar_setup.png" alt="Calendar setup" title="Calendar setup">
+</div>
+
+When you have created or selected a calendar for storing plans, creating a plan will now create an
+event in this calendar, you will be shown the calendar view of this event. Originally the event will
+be a one-time event with the current time, so to make it useful, you will change the time, and optionally
+create a recurrence. When you confirm the modifications to the event, the Calendar app will bring you
+to an overview of your calendar, and you have to use the BACK key to return to My Expenses. You can
+change the event any time, either from My Expenses, or through the Calendar.
+
+<div class="screenshot" style="text-align:center">
+<img src="/visuals/screenshots/blog/2013-12-02/event_view.png" alt="Event view" title="Event view">
+</div>
+
+Before saving the template, you can configure the plan to be automatic or manual. When an instance of
+an automatic plan occurs, the transaction will be created, and you receive a notification. When the
+plan is manual, you also receive a notification, which leaves the choice of canceling, modifying or
+applying the template to you. Back at the template list for the current account, you will see
+the ![Plan icon](/visuals/ic_menu_my_calendar.png) icon in the beginning of the entry to indicate that this template is linked to a plan.
+Since it is a template, you can still apply it independently from the plan, by clicking on the
+![Apply icon](/visuals/ic_menu_set_as.png) icon.
+
+MyExpenses is configured to check every six hours if a plan occurence has arrived. For a manual plan,
+you will see the following notification.
+
+<div class="screenshot" style="text-align:center">
+<img src="/visuals/screenshots/blog/2013-12-02/notification.png" alt="Notification" title="Notification">
+</div>
+
+I hope, this new feature increases the usefulness of MyExpenses. If you like it or have a suggestion
+on how to improve it, please leave a comment on the Google Plus 
+[item](https://plus.google.com/116736113799210525299/posts/EJKJw8i6U4t) linked to this post. 

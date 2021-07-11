@@ -1,0 +1,31 @@
+si:
+  imprint: මුද්‍රණය
+  hero_main: "ඇන්ඩ්‍රොයිඩ් සඳහා පුද්ගලික මූල්‍ය කළමනාකරන පද්ධතිය"
+  hero_sub:
+    use: "භාවිතා කිරීමේ පහසුව"
+    functionality: "ඉතා උසස් කාර්‍යක්ශමතාවය"
+    source: "විවෘත මූලාශ්‍ර"
+  menu_title:
+    more_information: තවත් විස්තර
+  sections:
+    features: ලක්ෂණ
+    premium: අධි මිල සඳහා පිවිසීම
+    participate: සහභාගී වීම
+    faq: බහුලව අසනා ප්‍රශ්ණ
+    versionlist: මාරු කිරීම් පිළිබඳ ලොගය
+    credits: 'ස්තුති  ප්‍රකාශ කිරීම '
+    licence: බලපත්‍රය
+    sourcecode: ප්‍රභව කේතය
+    links: බන්ධන
+  contrib:
+    thank_you: |
+        ඔබගේ දායකත්වය මයි එෂ්පෙන්සෙස් වැඩිදුර දියුණුවට උපකාර වේ  . ඔබට ස්තුතියි !
+  permissions:
+    internet:
+      explanation_crash_reporting: බිඳවැටීම් වාර්තා
+      explanation_cloud_sync: වලාකුළු සමමුහුර්තකරණය
+    accounts:
+      label: 'ගිණුම් '
+  contrib-key: 'කොන්ට්‍රිබ් යතුර '
+  extended-key: දිගු කළ යතුර
+  professional-key: වෘත්තීය යතුර

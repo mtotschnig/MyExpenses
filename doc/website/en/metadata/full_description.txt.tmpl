@@ -1,0 +1,48 @@
+---
+lang: en
+---
+{% assign msg = site.data[page.lang][page.lang] %}{% assign placeholder = '{app_name}' %}{{t.store.full_description_intro | replace:placeholder, site.title[page.lang]}}
+
+- {{t.features.manage_accounts}}
+- {{t.features.plans}}
+- {{t.features.export}}
+- {{t.features.password}}
+- {{t.features.light_theme}}
+- {{t.features.reconciliation}}
+- {{t.features.homescreen}}
+
+{{t.store.full_description_contrib}}
+
+<b>{{t.contrib-key}}</b>
+
+- {{t.contrib.feature.ad_free}}
+- {{t.contrib.feature.accounts_unlimited}}
+- {{t.contrib.feature.plans_unlimited}}
+- {{t.contrib.feature.distribution}}
+- {{t.contrib.feature.split_transaction}}
+- {{t.contrib.feature.print}}
+- {{t.contrib.feature.attach_picture}}
+
+<b>{{t.extended-key}}</b>
+
+- {{t.all_contrib_key_features}}
+- {{t.contrib.feature.cloud_sync}} {{site.extra.cloud_sync}}
+- {{t.contrib.feature.auto_backup}}
+- {{t.contrib.feature.csv_import}}
+
+<b>{{t.professional-key}}</b>
+
+- {{t.all_extended_key_features}}
+- {{t.contrib.feature.budgeting}}
+- {{t.contrib.feature.history_chart}}
+- {{t.contrib.feature.scan_receipt}}
+- {{t.contrib.feature.webui}}
+- {{t.contrib.feature.split_template}}
+- {{t.contrib.feature.email_support}}
+- {{t.contrib.feature.roadmap_voting}}
+
+{{t.permissions.heading | replace:placeholder, site.title[page.lang]}}:
+- <i>{{t.permissions.calendar.label}}</i>: {{t.permissions.calendar.explanation}}
+- <i>{{t.permissions.external-storage.label}}</i>: {{t.permissions.external-storage.explanation}}
+- <i>{{t.permissions.internet.label}}</i>: {{t.permissions.internet.explanation_usage_tracking}}, {{t.permissions.internet.explanation_crash_reporting}}, {{t.permissions.internet.explanation_cloud_sync}}.
+- <i>{{t.permissions.accounts.label}}</i>: {{t.permissions.accounts.explanation}}

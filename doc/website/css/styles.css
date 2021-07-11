@@ -1,0 +1,188 @@
+.well {
+  text-align: center;
+}
+.well .row div {
+ padding: 5px; 
+}
+.nav li.active .caret {
+    border-bottom-color: #ffffff;
+    border-top-color: #ffffff;
+}
+.dropdown-menu {
+  min-width:0px; 
+}
+dl.versionlist {
+  position: relative;
+}
+dl.versionlist dt {
+  float: left; clear:left; font-weight: bold; margin-bottom: -1px; margin-right: 2px;
+}
+dl.versionlist dd {
+  margin-left: 4.5em;
+}
+.versioncode {
+  display: inline-block;
+  width: 4.5em;
+  }
+.versiondate {
+  display: inline-block;
+  width: 6em;
+}
+.jumbotron {
+  text-align: center;
+  border-bottom: 1px solid #e5e5e5;
+}
+.jumbotron .btn {
+  cursor: default;
+  margin: 5px;
+  font-size: 14px;
+}
+
+@media screen and (max-width: 450px) {
+  .nav-pills > li {
+    float: none;
+  }
+}
+
+/*
+Back to top button
+*/
+#back-top {
+	position: fixed;
+	bottom: 30px;
+}
+#back-top a {
+	width: 54px;
+	display: block;
+	text-align: center;
+	font: 11px/100% Arial, Helvetica, sans-serif;
+	text-transform: uppercase;
+	text-decoration: none;
+	color: #bbb;
+	/* background color transition */
+	-webkit-transition: 1s;
+	-moz-transition: 1s;
+	transition: 1s;
+}
+#back-top a:hover {
+	color: #000;
+}
+/* arrow icon (span tag) */
+#back-top span {
+	width: 54px;
+	height: 54px;
+	display: block;
+	margin-bottom: 7px;
+	background: #ddd url(/visuals/up-arrow.png) no-repeat center center;
+	/* rounded corners */
+	-webkit-border-radius: 15px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+	/* background color transition */
+	-webkit-transition: 1s;
+	-moz-transition: 1s;
+	transition: 1s;
+}
+#back-top a:hover span {
+	background-color: #777;
+}
+@media screen and (min-width: 700px) {
+  #back-top {
+	  margin-left: -75px;
+  }
+}
+
+.application {
+  font-style: italic;
+}
+.guimenuitem, .guilabel {
+        font-weight: bold;
+}
+.guibutton, .guimenu {
+        background-color: #FFFFFF;
+        padding: 2px;
+}
+.footer {
+ text-align: center; 
+}
+
+.play-logo a img {
+	height: 65px;
+	width: auto;
+}
+
+.fdroid-logo a img {
+	padding: 10px;
+}
+
+td.checked {
+  text-align: center;
+  vertical-align: middle !important;
+  color: darkgreen;
+  font-size: x-large; 
+}
+
+.target img {
+  height: 480px;
+  width: 270px;
+}
+
+
+#features nav a {
+    padding: 5px;
+    display: block;
+    margin: 0 5px;
+}
+
+#features nav a.active {
+    background: #369;
+    border-radius: 5px;
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+@media screen and (max-width: 599px) {
+  .target {
+    display: none;
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  .target.active  {
+    display: block;
+  }
+}
+  
+@media screen and (min-width: 600px) {
+  #features {
+    position: relative;
+    min-height: 500px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+  #features nav {
+    width: 50%;
+    display: block;
+  }
+  
+  #features nav ul {
+   list-style-type: square;
+   margin: 0 0 0 -20px;
+  }
+
+  .target {
+    position: absolute;
+    top: -640px;
+    left: 50%;
+    -webkit-transition: 1s;
+       -moz-transition: 1s;
+        -ms-transition: 1s;
+         -o-transition: 1s;
+            transition: 1s;
+  }
+  .target.active  {
+      top: 10px;
+  }
+}

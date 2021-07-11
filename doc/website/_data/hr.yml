@@ -1,0 +1,31 @@
+hr:
+  imprint: O autoru
+  hero_main: "Osobni upravitelj financijama za Android"
+  hero_sub:
+    use: "Lako za uporabu"
+    functionality: "Bogatstvo funkcija"
+    source: "Open Source"
+  menu_title:
+    more_information: VIše informacija
+  sections:
+    features: Mogućnosti
+    premium: Premium
+    participate: Uključi se
+    faq: FAQ
+    versionlist: Izmjene
+    credits: Zasluge
+    licence: Licenca
+    sourcecode: Izvorni kod
+    links: Poveznice
+  contrib:
+    thank_you: |
+        Vaš doprinos omogućava daljnji razvoj My Expensesa. Hvala Vam!
+  permissions:
+    internet:
+      explanation_crash_reporting: Izvještaji o prestanku rada aplikacije
+      explanation_cloud_sync: Sinhronizacija u oblaku
+    accounts:
+      label: Računi
+  contrib-key: Contrib Ključ
+  extended-key: Prošireni ključ
+  professional-key: Profesionalni ključ

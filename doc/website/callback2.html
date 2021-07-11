@@ -1,0 +1,225 @@
+---
+---
+<html>
+<head>
+<script type="text/javascript" src="/script/utils.js" charset="UTF-8"> </script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<script type="text/javascript">
+function getURLParameter(name) {
+  return decodeURI(
+    (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,''])[1]
+   );
+}
+function findDestination() {
+  lang = findLang();
+  result = window.location.protocol + "//" + window.location.host + "/" + lang;
+  return result;
+}
+
+function findLang() {
+  userLang = (getURLParameter("lang") || window.navigator.userLanguage || window.navigator.language).substring(0,2);
+  if (userLang == 'zh')
+    userLang = 'zh-tw';
+  translations = ["en","de","fr","it","es","tr","bg","pt","ms"];
+  return translations.indexOf(userLang) > -1 ? userLang : "en";
+}
+//text_0 and customer_support translated via Google Translate
+var translation_data = {
+
+        "text_0": {
+            "ar": "شكرا لتسديدك. تم إكمال معاملتك ، وتم إرسال إيصال الشراء عبر البريد الإلكتروني إليك. قم بتسجيل الدخول إلى حساب PayPal الخاص بك لعرض تفاصيل المعاملة."
+            "en": "Your transaction has been completed, and a receipt for your purchase has been emailed to you. You may log into your account at www.paypal.com to view details of this transaction.",
+            "bg": "Транзакцията е завършена и квитанцията за покупката Ви е изпратена на електронната поща. За подробности по транзакцията вижте профила си във www.paypal.com.",
+            "de": "Danke für Ihre Zahlung. Ihre Transaktion wurde abgeschlossen und Sie erhalten per E-Mail eine Bestätigung für Ihren Kauf. Sie können sich unter www.paypal.de in Ihr Konto einloggen, um die Transaktionsdetails anzuzeigen.",
+            "el": "Η συναλλαγή σας έχει ολοκληρωθεί, και μια απόδειξη για την αγορά σας έχει αποσταλεί με email. Μπορείτε να συνδεθείτε στο λογαριασμό σας στο www.paypal.com για να δείτε τις λεπτομέρειες της συναλλαγής.",
+            "es": "La transacción se ha completado y el recibo de compra ha sido enviado a su correo electrónico. Puede iniciar sesión en su cuenta en www.paypal.com para ver los detalles de la transacción.",
+            "eu": "Zure transakzioa burutu da, eta zure erosketaren egiaztagiri bat bidali da zure e-postara. Zure kontura sartu zaitezke www.paypal.com helbidean eta transakzioaren xehetasunak ikusi.",
+            "fr": "Votre transaction s'est bien terminée,  et un reçu de votre achat vous a été envoyé par courriel. Vous pouvez vous connecter sur votre compte PayPal pour voir les détails de cette transaction.",
+            "it": "La transazione è stata completata e una ricevuta per l'acquisto è stata inviata a voi. Può accedere al suo account su www.paypal.com per visualizzare i dettagli di questa transazione.",
+            "iw": "העסקה שלך הושלמה, וקבלה עבור הרכישה שלך נשלחה אליך בדוא\"ל. תוכל להיכנס לחשבון שלך בכתובת www.paypal.com כדי להציג פרטים על עסקה זו.",
+            "ja": "取引は完了しました。ご購入の領収書をメールで送信しました。www.paypal.com にあなたのアカウントでログインして、この取引の詳細を表示することができます。",
+            "kn": "ನಿಮ್ಮ ವಹಿವಾಟು ಪೂರ್ಣಗೊಂಡಿದೆ, ಮತ್ತು ನಿಮ್ಮ ಖರೀದಿಗೆ ರಶೀದಿಯನ್ನು ನಿಮಗೆ ಇಮೇಲ್ ಮಾಡಲಾಗಿದೆ. ಈ ವಹಿವಾಟಿನ ವಿವರಗಳನ್ನು ವೀಕ್ಷಿಸಲು ನೀವು www.paypal.com ನಲ್ಲಿ ನಿಮ್ಮ ಖಾತೆಗೆ ಲಾಗ್ ಇನ್ ಮಾಡಬಹುದು.",
+            "ms": "Transaksi anda telah selesai, dan satu resip pembelian anda telah diemelkan kepada anda. Anda boleh daftar masuk ke akaun anda di www.paypal.com untuk melihat perincian transaksi ini.",
+            "pt-rPT": "A sua transação foi concluída e um recibo da sua compra foi enviado para o seu email. Pode aceder à sua conta em www.paypal.com para ver os detalhes desta transação.",
+            "tr": "Muameleniz tamamlanmış ve alışverişiniz hakkında bir makbuz e-posta ile size gönderilmiştir. Bu muamelenin ayrıntılarını görüntülemek için hesabınıza www.paypal.com adresinde bağlanabilirsiniz.",
+            "vi": "Giao dịch của bạn đã hoàn tất và biên lai mua hàng của bạn đã được gửi qua email cho bạn. Bạn có thể đăng nhập vào tài khoản của bạn tại www.paypal.com để xem chi tiết giao dịch này."
+        },
+
+        "text_1":  {
+             "ar": "افتح هذا الرابط على جهاز Android الخاص بك باستخدام تطبيق مصروفاتي.",
+
+             "bg": "Отвори тази връзка от приложението Моите разходи на своето устройство с Андроид.",
+
+             "cs": "Otevře tento odkaz na vašem Android zařízení v aplikaci My Expenses.",
+
+             "de": "Öffnen Sie diesen Link auf Ihrem Android-Gerät mit der App Meine Ausgaben.",
+
+             "el": "Ανοίξτε αυτό το σύνδεσμο στην Android συσκευή σας με την εφαρμογή Έξοδά μου.",
+
+             "en": "Open this link on your Android device with the My Expenses app.",
+
+             "es": "Abrir este enlace en tu dispositivo Android con la aplicación de Mis Gastos.",
+
+             "eu": "Ireki lotura hau zure Nire Gastuak aplikazioa duen Android gailuan.",
+
+             "fr": "Ouvrez ce lien sur votre appareil Android avec l'application Mes dépenses",
+
+             "it": "Aprire questo link sul tuo dispositivo Android con l'app My spese.",
+
+             "iw": "פתח את הקישור הזה במכשיר האנדרואיד שלך באמצעות האפליקציה 'ההוצאות שלי'.",
+             
+             "kn": "ಮೈ ಎಕ್ಸಪೆನ್ಸಸ್ ಅಪ್ಲಿಕೇಶನ್‌ನೊಂದಿಗೆ ನಿಮ್ಮ ಆಂಡ್ರಾಯ್ಡ್ ಸಾಧನದಲ್ಲಿ ಈ ಲಿಂಕ್ ತೆರೆಯಿರಿ.",
+             
+             "ja": "お使いの Android 上のマイエクスペンス アプリでリンクを開きます。",
+
+             "ms": "Buka pautan ini melalui peranti Android anda dengan apl My Expenses.",
+
+             "pt": "Abra este link no seu dispositivo Android com a aplicação Minhas despesas.",
+
+             "ru": "Откройте эту ссылку на вашем Android устройстве с помощью приложения Мои расходы.",
+
+             "tr": "Bu bağlantıyı Android cihazınızda Harcamalarım uygulamasıyla açın.",
+
+             "vi": "Mở liên kết này trên thiết bị Android của bạn với ứng dụng Quản lý chi tiêu.",
+
+        },
+        "text_2": {
+             "ar": "بدلاً من ذلك ، يمكنك إدخال %s من شاشة الإعدادات داخل التطبي",
+
+             "bg": "Друг начин е да въведеш %s от екрана с Настройки от приложението.",
+
+             "de": "Alternativ können Sie %s innerhalb der App im Bereich Einstellungen eingeben.",
+
+             "el": "Εναλλακτικά, μπορείτε να εισάγετε %s από την οθόνη ρυθμίσεων μέσα στην εφαρμογή.",
+
+             "en": "Alternatively you can enter %s from the Settings screen within the app.",
+
+             "es": "Alternativamente puede ingresar %s en la pantalla de configuración dentro de la aplicación.",
+
+             "eu":  "Bestela %s sartu dezakezu aplikazio barneko Ezarpen pantailan.",
+
+             "fr": "Autrement vous pouvez entrer %s à partir de l'écran des Paramètres dans l'application.",
+
+             "it": "In alternativa è possibile immettere %s dalla schermata delle impostazioni all'interno dell'app.",
+
+             "iw": "לחלופין, תוכל להזין%s ממסך ההגדרות בתוך האפליקציה.",
+
+             "ja": "代わりに、アプリの設定画面から %s を入力することができます。",
+             
+             "kn": "ಪರ್ಯಾಯವಾಗಿ ನೀವು ಅಪ್ಲಿಕೇಶನ್‌ನಲ್ಲಿನ ಸೆಟ್ಟಿಂಗ್‌ಗಳ ಪರದೆಯಿಂದ %{key} ಅನ್ನು ನಮೂದಿಸಬಹುದು.",
+
+             "ms": "Selain itu, anda boleh masukkan %s menerusi skrin Tetapan di dalam apl.",
+
+             "pt": "Em alternativa pode introduzir %s a partir do ecrã de Definições da aplicação.",
+
+             "ru": "В качестве альтернативы вы можете ввести %s через настройки внутри приложения.",
+
+             "tr": "Ya da %s unsurunu uygulamanın Ayarlar ekranında girebilirsiniz.",
+
+             "vi": "Mặt khác, bạn có thể nhập %s từ phần Cài đặt trong ứng dụng."
+
+        },
+        "customer_support": {
+            "ar": "دعم العملاء",
+
+            "bg": "Поддръжка на клиенти",
+
+            "de": "Kundendienst",
+
+            "el": "Υποστήριξη πελατών",
+
+            "en": "Customer support",
+
+            "es": "Atención al cliente",
+
+            "eu": "Bezeroarentzako arreta",
+
+            "fr": "Service client",
+
+            "it": "Servizio Clienti",
+
+            "iw": "שירות לקוחות",
+
+            "ja": "顧客サポート",
+            
+            "kn": "ಗ್ರಾಹಕರ ಬೆಂಬಲ",
+
+            "ms": "Sokongan pengguna",
+
+            "pt": "Suporte ao cliente",
+
+            "ru": "Служба поддержки",
+
+            "tr": "Müşteri desteği",
+
+            "vi": "Hỗ trợ khách hàng"
+        }
+   };
+
+function buildLocalizedAlert() {
+   lang = findLang();
+   isPdt = getURLParameter("isPdt") != "false";
+
+   return ((isPdt ?  getLocalized("text_0", lang) : "") + " ")
+      + getLocalized("text_1", lang) + " "
+      + sprintf(getLocalized("text_2", lang), getURLParameter("key"))
+      + " <a href='mailto:support@myexpenses.mobi'>" + getLocalized("customer_support", lang)  + "</a>";
+}
+
+function getLocalized(key, lang) {
+  if (translation_data[key][lang] == "") {
+    return translation_data[key]["en"];
+  } else {
+    return translation_data[key][lang];
+  }
+}
+
+//http://stackoverflow.com/a/4795914/1199911
+function sprintf() {
+    var args = arguments,
+    string = args[0],
+    i = 1;
+    return string.replace(/%((%)|s|d)/g, function (m) {
+        // m is the matched format, e.g. %s, %d
+        var val = null;
+        if (m[2]) {
+            val = m[2];
+        } else {
+            val = args[i];
+            // A switch statement so that the formatter can be extended. Default is %s
+            switch (m) {
+                case '%d':
+                    val = parseFloat(val);
+                    if (isNaN(val)) {
+                        val = 0;
+                    }
+                    break;
+            }
+            i++;
+        }
+        return val;
+    });
+}
+
+
+switch(window.location.hash) {
+case '#verify':
+  document.write(buildLocalizedAlert());
+  break;
+default:
+  window.location.replace(findDestination());
+  break;
+}
+</script>
+</head>
+<body>
+<noscript>
+<ul>
+{% for title in site.title %}
+    <li><a href="{{title[0]}}">{{title[1]}}</a></li>
+{% endfor %}
+</ul>
+</noscript> 
+</body>
+
+

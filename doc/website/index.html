@@ -1,0 +1,58 @@
+---
+---
+<html>
+<head>
+<script type="text/javascript" src="/script/utils.js" charset="UTF-8"> </script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<script type="text/javascript">
+function getURLParameter(name) {
+  return decodeURI(
+    (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,''])[1]
+   );
+}
+function findDestination() {
+  var translations, lang;
+  var userLang = (getURLParameter("lang") || window.navigator.userLanguage || window.navigator.language).substring(0,2);
+  if (userLang == 'zh')
+    userLang = 'zh-tw';
+  var hash = window.location.hash;
+  switch (hash) {
+    case "#tutorial":
+    case "#tutorial_r4":
+      translations = ["en","de","fr","it","es"];
+      lang = translations.indexOf(userLang) > -1 ? userLang : "en";
+      return "http://" + window.location.host + "/" + lang + "/tutorial_r4/introduction.html"
+    case "#paypal":
+      return "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A7ZPSCUTS23K6";
+    case "#flattr":
+      return "https://flattr.com/thing/1028216/My-Expenses-GPL-licenced-Android-Expense-Tracking-App";
+    case "#news":
+      return "https://plus.google.com/116736113799210525299";
+    case "#changelog":
+      hash = "#versionlist";
+      break;
+    case "#privacy":
+      hash = "#imprint";
+      break;
+    case "#donate":
+      hash = "#premium";
+    break
+  }
+  translations = ["en","de","fr","it","es","tr","vi","ar","hu","ca","zh-tw","pt","pl","cs","ru","ro","ja","ms","hr","eu","da","bg","el","iw"];
+  lang = translations.indexOf(userLang) > -1 ? userLang : "en";
+  return "https://" + window.location.host + "/" + lang + hash;
+}
+window.location.replace(findDestination());
+</script>
+</head>
+<body>
+<noscript>
+<ul>
+{% for title in site.title %}
+    <li><a href="{{title[0]}}">{{title[1]}}</a></li>
+{% endfor %}
+</ul>
+</noscript> 
+</body>
+
+
