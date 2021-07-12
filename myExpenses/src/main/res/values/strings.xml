@@ -1005,4 +1005,5 @@
     <string name="performance_enhancement">Performance enhancement</string>
     <!-- This is used on a recurring basis in Changelog entries -->
     <string name="stability_improvements">Stability improvements</string>
+    <string name="new_version">New version</string>
 </resources>

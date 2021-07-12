@@ -460,11 +460,10 @@
                 </intent>
             </Preference>
             <Preference
-                android:key="translation_join_transifex"
-                android:title="Join My Exepenses @ Transifex">
+                android:title="Join My Exepenses @ Weblate">
                 <intent
                     android:action="android.intent.action.VIEW"
-                    android:data="https://www.transifex.com/mtotschnig/my-expenses/" />
+                    android:data="https://hosted.weblate.org/engage/my-expenses/" />
             </Preference>
 
         </PreferenceScreen>

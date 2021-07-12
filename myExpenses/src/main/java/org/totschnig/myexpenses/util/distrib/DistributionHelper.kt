@@ -55,6 +55,10 @@ object DistributionHelper {
     val versionNumber: Int
         get() = BuildConfig.VERSION_CODE
 
+    @JvmStatic
+    val versionName: String
+        get() = BuildConfig.VERSION_NAME
+
     enum class Distribution {
         PLAY,
         AMAZON {

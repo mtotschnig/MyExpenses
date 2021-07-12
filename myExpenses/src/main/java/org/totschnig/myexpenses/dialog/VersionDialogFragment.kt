@@ -15,25 +15,22 @@
 package org.totschnig.myexpenses.dialog
 
 import android.app.Dialog
-import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AlertDialog
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.databinding.VersiondialogBinding
 import org.totschnig.myexpenses.dialog.MessageDialogFragment.MessageDialogListener
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.util.licence.LicenceHandler
-import java.util.*
+import org.totschnig.myexpenses.viewmodel.data.VersionInfo
 import javax.inject.Inject
 
 class VersionDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListener {
@@ -57,54 +54,62 @@ class VersionDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
         val builder = initBuilderWithBinding {
             VersiondialogBinding.inflate(materialLayoutInflater).also { _binding = it }
         }
-        binding.list.adapter = object : ArrayAdapter<VersionInfo>(
-            requireActivity(),
-            R.layout.version_row, R.id.versionInfoName, versions
-        ) {
-            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val row = super.getView(position, convertView, parent) as ViewGroup
-                val version = versions[position]
-                val heading = row.findViewById<TextView>(R.id.versionInfoName)
-                heading.text = version.name
-                (row.findViewById<View>(R.id.versionInfoChanges) as TextView).text =
-                    version.getChanges(context)?.map { "\u25b6 $it" }
-                        ?.joinToString(separator = "\n")
-                val imageButton = row.findViewById<ImageView>(R.id.versionInfo)
-                val useMastodon = version.code >= 493
-                imageButton.setImageResource(if (useMastodon) R.drawable.ic_mastodon else R.drawable.ic_facebook)
-                imageButton.contentDescription = if (useMastodon) "Mastodon" else "Facebook"
-                configureMoreInfo(
-                    imageButton,
-                    version,
-                    "version_more_info_",
-                    if (useMastodon) "https://mastodon.social/@myexpenses/" else
-                        "https://www.facebook.com/MyExpenses/posts/"
-                )
-                configureMoreInfo(
-                    row.findViewById(R.id.versionInfoGithub),
-                    version,
-                    "project_board_",
-                    "https://github.com/mtotschnig/MyExpenses/projects/"
-                )
-                return row
+        if (versions.isNotEmpty()) {
+            binding.list.adapter = object : ArrayAdapter<VersionInfo>(
+                requireActivity(),
+                R.layout.version_row, R.id.versionInfoName, versions
+            ) {
+                override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                    val row = super.getView(position, convertView, parent) as ViewGroup
+                    val version = versions[position]
+                    val heading = row.findViewById<TextView>(R.id.versionInfoName)
+                    heading.text = version.name
+                    (row.findViewById<View>(R.id.versionInfoChanges) as TextView).text =
+                        version.getChanges(context)?.joinToString(separator = "\n") { "\u25b6 $it" }
+                    val imageButton = row.findViewById<ImageView>(R.id.versionInfo)
+                    val useMastodon = version.code >= 493
+                    imageButton.setImageResource(if (useMastodon) R.drawable.ic_mastodon else R.drawable.ic_facebook)
+                    imageButton.contentDescription = if (useMastodon) "Mastodon" else "Facebook"
+                    configureMoreInfo(
+                        imageButton,
+                        version,
+                        "version_more_info_",
+                        if (useMastodon) "https://mastodon.social/@myexpenses/" else
+                            "https://www.facebook.com/MyExpenses/posts/"
+                    )
+                    configureMoreInfo(
+                        row.findViewById(R.id.versionInfoGithub),
+                        version,
+                        "project_board_",
+                        "https://github.com/mtotschnig/MyExpenses/projects/"
+                    )
+                    return row
+                }
             }
-        }
-        if (requireArguments().getBoolean(KEY_WITH_IMPORTANT_UPGRADE_INFO)) {
-            binding.ImportantUpgradeInfoHeading.visibility = View.VISIBLE
-            with(binding.ImportantUpgradeInfoBody) {
-                visibility = View.VISIBLE
-                setText(R.string.upgrade_information_cloud_sync_storage_format)
-            }
-            /*      TextView importantUpgradeInfoLearnMore = view.findViewById(R.id.ImportantUpgradeInfoLearnMore);
+            if (requireArguments().getBoolean(KEY_WITH_IMPORTANT_UPGRADE_INFO)) {
+                binding.ImportantUpgradeInfoHeading.visibility = View.VISIBLE
+                with(binding.ImportantUpgradeInfoBody) {
+                    visibility = View.VISIBLE
+                    setText(R.string.upgrade_information_cloud_sync_storage_format)
+                }
+                /*      TextView importantUpgradeInfoLearnMore = view.findViewById(R.id.ImportantUpgradeInfoLearnMore);
       makeVisibleAndClickable(importantUpgradeInfoLearnMore, R.string.roadmap_particpate, new ClickableSpan() {
         @Override
         public void onClick(View widget) {
          getActivity().startActivity(new Intent(getContext(), RoadmapVoteActivity.class));
         }
       });*/
+            }
+            builder.setTitle(R.string.help_heading_whats_new)
+        } else {
+            with(binding.ImportantUpgradeInfoBody) {
+                visibility = View.VISIBLE
+                //noinspection SetTextI18n
+                text = "${DistributionHelper.versionName} ($from -> ${DistributionHelper.versionNumber})"
+            }
+            builder.setTitle(R.string.new_version)
         }
-        builder.setTitle(getString(R.string.help_heading_whats_new))
-            .setIcon(R.mipmap.ic_myexpenses)
+        builder.setIcon(R.mipmap.ic_myexpenses)
             .setNegativeButton(android.R.string.ok, this)
         if (!licenceHandler.isContribEnabled) builder.setPositiveButton(R.string.menu_contrib, this)
         return builder.create()
@@ -143,76 +148,6 @@ class VersionDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    @VisibleForTesting
-    class VersionInfo(val code: Int, val name: String) {
-        val nameCondensed = name.replace(".", "")
-        fun getChanges(ctx: Context): Array<String?>? {
-            val res = ctx.resources
-            val changesArray = when (nameCondensed) {
-                "325" -> arrayOf(
-                    "${ctx.getString(R.string.contrib_feature_csv_import_label)}: ${
-                        ctx.getString(
-                            R.string.autofill
-                        )
-                    }"
-                )
-                "330" -> arrayOf(
-                    "${ctx.getString(R.string.contrib_feature_csv_import_label)}: ${ctx.getString(R.string.tags)}",
-                    ctx.getString(R.string.active_tags)
-                )
-                "331" -> arrayOf(
-                    "${ctx.getString(R.string.menu_settings)} - ${ctx.getString(R.string.autofill)}: ${
-                        ctx.getString(
-                            R.string.ui_refinement
-                        )
-                    }"
-                )
-                "332" -> arrayOf(
-                    "${ctx.getString(R.string.pref_translation_title)} : ${Locale("te").displayLanguage}",
-                    "${ctx.getString(R.string.currency)}: ${ctx.getString(R.string.ui_refinement)}"
-                )
-                "333" -> arrayOf(
-                    "${ctx.getString(R.string.pref_exchange_rate_provider_title)}: https://exchangerate.host",
-                    ctx.getString(R.string.pref_backup_cloud_summary)
-                )
-                else -> {
-                    val resId = res.getIdentifier(
-                        "whats_new_$nameCondensed",
-                        "array",
-                        ctx.packageName
-                    ) //new based on name
-                    if (resId == 0) {
-                        CrashHandler.reportWithFormat(
-                            "missing change log entry for version %d",
-                            code
-                        )
-                        null
-                    } else {
-                        res.getStringArray(resId)
-                    }
-                }
-            }
-            if (changesArray != null) {
-                val resId =
-                    res.getIdentifier("contributors_$nameCondensed", "array", ctx.packageName)
-                if (resId != 0) {
-                    val contributorArray = res.getStringArray(resId)
-                    val resultArray = arrayOfNulls<String>(changesArray.size)
-                    for (i in changesArray.indices) {
-                        resultArray[i] = changesArray[i].toString() +
-                                if (contributorArray.size <= i || TextUtils.isEmpty(contributorArray[i])) "" else String.format(
-                                    " (%s)",
-                                    ctx.getString(R.string.contributed_by, contributorArray[i])
-                                )
-                    }
-                    return resultArray
-                }
-            }
-            return changesArray
-        }
-
     }
 
     companion object {
