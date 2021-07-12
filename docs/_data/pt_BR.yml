@@ -1,1 +1,54 @@
-{}
+contrib:
+  feature-list-title: 'Por favor, contribua atualizando o <i>{app_name}</i> e ganhe
+    acesso irrestrito aos seguintes recursos:'
+  thank_you: "Sua contribuição apoia a continuidade do desenvolvimento do Minhas Despesas.\
+    \ Obrigado!\n"
+features:
+  homescreen: <b>Widget</b> da tela inicial e <b>atalhos</b> para entrada rápida de
+    dados.
+  reconciliation: '<b>Reconciliação</b>: compare facilmente o status da transação
+    com seus extratos bancários.'
+  light_theme: <b>O tema</b> (escuro e claro) e o <b>tamanho da fonte</b> podem ser
+    personalizados.
+  password: Os dados podem ser protegidos por <b>senha</b> ou pela <b>tela de bloqueio</b>
+    do dispositivo.
+  export: <b>Exportação</b> para QIF e CSV. <b>Importação</b> do QIF.
+  plans: Número ilimitado de <b>modelos</b> e até três planos para transações <b>recorrentes</b>.
+  manage_accounts: Até cinco contas com <b>transferências</b> (também entre moedas
+    diferentes).
+screenshots:
+  sync: Sincronize dados criptografados das contas em vários dispositivos por meio
+    de serviços de nuvem privada ou pública.
+  history: Entenda como sua situação financeira evolui ao longo do tempo.
+  distribution: Visualize a distribuição por categoria.
+  split: Divida uma transação em várias categorias.
+  budget: Defina o quanto você pretende gastar em orçamentos anuais, mensais ou semanais.
+  summarize: Some todas as suas contas (tratando, de forma sofisticada, taxas de câmbio
+    por conta e por transação).
+  group: Agrupe suas transações por dia, semana, mês e ano.
+  export: Imprima em PDF e transfira via QIF e CSV.
+sections:
+  versionlist: Atualizações
+  links: Links
+  sourcecode: Código-fonte
+  licence: Licença
+  credits: Créditos
+  faq: FAQ
+  participate: Participe
+  premium: Ir para Premium
+  features: Recursos
+imprint: Expediente
+menu_title:
+  more_information: Mais informações
+hero_sub:
+  source: Código aberto
+  functionality: Repleto de funcionalidades
+  use: Fácil de usar
+hero_main: Gerenciador de finanças pessoais para o Android
+privacy_policy_text: <i>{app_name}</i> não acessa nenhum dado em seu dispositivo além
+  de seu próprio banco de dados e sua própria pasta no cartão SD. Se você usar o recurso
+  de planos para transações futuras e recorrentes, você associará também o calendário,
+  onde esses planos são armazenados.
+privacy_policy_heading: Política de privacidade
+imprint_text: Responsável pelo conteúdo deste site e pelo desenvolvimento, manutenção
+  e distribuição do <i> {app_name} </i>
