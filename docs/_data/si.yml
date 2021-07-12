@@ -29,3 +29,21 @@ si:
   contrib-key: 'කොන්ට්‍රිබ් යතුර '
   extended-key: දිගු කළ යතුර
   professional-key: වෘත්තීය යතුර
+  screenshot_testdata:
+    account1Label: මාගේ පසුම්බිය
+    account1Description: දෛනික වියදම්
+    account2Label:  පැරිසියේ සති අන්තය
+    account3Label: බැංකු ගිණුම
+    account3Description: අමෙරිකානු බැංකුව
+    transaction2Comment: පලතුරු සහ එළවලු
+    transaction4Payee: පීසීරියා ඇන්ටනෙල්ලා
+    tag_project: නම් නොකළ ව්‍යාපෘතිය
+  screenshot_titles:
+    group: වර්ෂය, මාසය හෝ සතිය අනුව කණ්ඩායම් කරන්න
+    summarize: ඔබගේ සියලු ගිණුම් සාරාංශ කරන්න
+    budget: වාර්ෂික, මාසික සහ සතිපතා අයවැය
+    split: විවිධ කාණ්ඩවලට බෙදන්න
+    distribution: පයි සටහන සටහන
+    history: ඔබේ මූල්‍ය තත්වයේ ඉතිහාසය
+    export: PDF, QIF සහ CSV වෙත අපනයනය කරන්න
+    sync: වලාකුළු සමමුහුර්තකරණය

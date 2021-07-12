@@ -31,3 +31,22 @@ ro:
   contrib-key: Cheie Contrib
   extended-key: Cheie Extinse
   professional-key: Cheie profesională
+  screenshot_testdata:
+    account1Label: Portofelul meu
+    account1Description: Cheltuieli zilnice
+    account2Label: weekend la Paris
+    account3Label: Cont bancar
+    account3Description: Bank of America
+    transaction2Comment: Fructe si legume
+    transaction4Payee: Prăvălia
+    templatePayee: Ion Popescu
+    tag_project: Proiect fără titlu
+  screenshot_titles:
+    group: Grupați după an, lună sau săptămână
+    summarize: Sumați toate conturile
+    budget: Bugetele anuale, lunare și săptămânale
+    split: Împărțiți la mai multe categorii
+    distribution: Diagrama graficului de piese
+    history: Istoricul situației tale financiare
+    export: Exportați în PDF, QIF și CSV
+    sync: Sincronizare în cloud

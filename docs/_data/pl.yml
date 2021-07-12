@@ -72,3 +72,22 @@ pl:
   professional-key: Profesjonalny Klucz
   all_contrib_key_features: Wszystkie funkcje Contrib Key
   all_extended_key_features: Wszystkie funkcje Extended Key
+  screenshot_testdata:
+    account1Label: Mój portfel
+    account1Description: Dzienne wydatki
+    account2Label: weekend w Paryżu
+    account3Label: Konto bankowe
+    account3Description: Bank Ameryki
+    transaction2Comment: Owoce i Warzywa
+    transaction4Payee: Mały Książę
+    templatePayee: Jan Kowalski
+    tag_project: Projekt bez tytułu
+  screenshot_titles:
+    group: Grupuj według roku, miesiąca lub tygodnia
+    summarize: Zsumuj wszystkie swoje konta
+    budget: Budżety roczne, miesięczne i tygodniowe
+    split: Podziel na wiele kategorii
+    distribution: Wykres kołowy
+    history: Historia twojej sytuacji finansowej
+    export: Eksport do formatu PDF, QIF i CSV
+    sync: Synchronizacja w chmurze

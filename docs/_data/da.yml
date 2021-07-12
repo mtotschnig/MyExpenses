@@ -26,3 +26,22 @@ da:
   contrib-key: Contrib Nøgle
   extended-key: Nøgle til udvidet version
   professional-key: Professionel nøgle
+  screenshot_testdata:
+    account1Label: Min pengepung
+    account1Description: Daglige udgifter
+    account2Label: Weekend i Paris
+    account3Label: Bankkonto
+    account3Description: Bank of America
+    transaction2Comment: Frugt og grønt
+    transaction4Payee: Restaurant Saeson
+    templatePayee: John Doe
+    tag_project: Unavngivet projekt
+  screenshot_titles:
+    group: Grupper efter år, måned eller uge
+    summarize: Resumér alle dine konti
+    budget: Årlige, månedlige og ugentlige budgetter
+    split: Del op til flere kategorier
+    distribution: Cirkeldiagram
+    history: Historik om din økonomiske situation
+    export: Eksport til PDF, QIF og CSV
+    sync: Cloud synkronisering
