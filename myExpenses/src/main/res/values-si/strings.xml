@@ -18,33 +18,33 @@
     <string name="account_type_asset">වත්කම් ගිණුම </string>
     <string name="account_type_bank">බැංකු ගිණුම </string>
     <string name="account_type_cash">මුදල් ගිණුම   </string>
-    <string name="account_type_ccard">ණය කාඩ් පත </string>
+    <string name="account_type_ccard">ණය පත</string>
     <string name="account_type_liability">වගකීම් ගිණුම </string>
-    <string name="already_defined">%1$s මුලින්ම අර්ථ දක්වා ඇත </string>
-    <string name="amount">ප්‍රමානය </string>
-    <string name="app_name">මගේ වියදම් </string>
-    <string name="backup_failure"> \"%1$s\"ට උපස්ථ කිරීම අසමත් වෙයි</string>
-    <string name="backup_success">පරිගණක දත්ත ගබඩාව සහ අභිමත සාර්ථක ලෙස  \"%1$s\" ට ලියන ලදී </string>
-    <string name="category">ප්‍රබේදය </string>
+    <string name="already_defined">%1$s දැනටමත් අර්ථ දක්වා ඇත</string>
+    <string name="amount">ප්‍රමාණය</string>
+    <string name="app_name">මාගේ වියදම්</string>
+    <string name="backup_failure">\\1$s\" ට උපස්ථ කිරීම අසමත්විය</string>
+    <string name="backup_success">දත්ත සමූහය සහ අභිමත සාර්ථකව \"%1$s\" ට ලියන ලදි.</string>
+    <string name="category">ප්‍රවර්ගය</string>
     <string name="color">පාට </string>
     <string name="comment">සටහන් </string>
     <string name="confirmation_dialog_dont_show_again">නැවත පෙන්වන්න එපා </string>
     <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">සීමා රහිත ගිණුම් ගණනක්</string>
-    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">සීමා රහිත ක්‍රම ගණනක්</string>
-    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">විජට් අච්චුව </string>
-    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV ආනයනය</string>
-    <string name="contrib_key">කොන්ට්‍රිබ් යතුර </string>
-    <string name="extended_key">දිගු කළ යතුර</string>
+    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">සීමා රහිත සැලසුම් ගණනක්</string>
+    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources"></string>
+    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">අ.වි.අ. (CSV) ආයාත කරන්න</string>
+    <string name="contrib_key">සහදායක යතුර</string>
+    <string name="extended_key">දීර්ඝ කළ යතුර</string>
     <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
-    <string name="contrib_key_requires">මයි එක්ස්පෙන්සස් %1$s අවශ්‍ය වේ </string>
+    <string name="contrib_key_requires">%1$s අවශ්‍යය යි</string>
     <string name="currency">මුදල් </string>
     <string name="current_balance">දැනට පවතින ශේෂය </string>
     <string name="date">දිනය </string>
     <string name="date_format">දින ආකෘතිය </string>
-    <string name="date_format_illegal">නීතිමය නොවන දින ආකෘතිය </string>
-    <string name="decimal_separator">දශම ස්ථාන වෙන්කිර්මේ උපකරණය </string>
-    <string name="description">විස්තරය </string>
-    <string name="dialog_command_disabled_reset_account">අපනයන සදහා ගනුදෙනු නොමැත </string>
+    <string name="date_format_illegal">අයුතු දින ආකෘතිය කි</string>
+    <string name="decimal_separator"></string>
+    <string name="description">සවිස්තරය</string>
+    <string name="dialog_command_disabled_reset_account">නිර්යාත කිරීමට ගනුදෙනු නැත.</string>
     <string name="dialog_command_disabled_distribution">ප්‍රබේධ සදහා වෙන්කළ ගනුදෙනු මෙම ගිණුමෙහි නොමැත </string>
     <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
     <string name="dialog_contrib_premium_feature">%1$s පාරිතෝෂික අංගයකි (%2$s)</string>
@@ -83,7 +83,7 @@
     <string name="grouping_year">අවුරුද්ද </string>
     <string name="grouping_yesterday">ඊයෙ </string>
     <string name="help_button_rate">තරාතිරම හෝ නැවත විචාරීම </string>
-    <string name="help_heading_credits">ස්තුති  ප්‍රකාශ කිරම් </string>
+    <string name="help_heading_credits"></string>
     <string name="help_heading_license">බලපත්‍රය </string>
     <string name="help_heading_whats_new">කුමක්ද අලුත් </string>
     <string name="important_upgrade_information_heading">වැදගත් තොරතුරු </string>
@@ -370,4 +370,5 @@
     <string name="pref_acra_user_email">පාවිච්චි කරන්නාගේ විද්‍යුත් තැපැල් ලිපිනය බිඳවැටීම් වාර්තා තුල ඇතුළත් කිරීමට වේ</string>
     <string name="pref_acra_user_email_summary">අනවශ්‍ය දේවල් ඉවත් කීරීමට ඔබ බලාපොරොත්තු  වන්නේ නම් කරුණාකර ඔබගේ විද්‍යුත් තැපැල් ලිපිනය ඇතුළත් කර ඔබව සම්බන්ධ කරගැනීමට අපිට ඉඩදෙන්න</string>
     <string name="bug_fixes">දෝෂ නිවැරදි කිරීම්</string>
+    <string name="account_types">ගිණුම් වර්ග</string>
 </resources>
