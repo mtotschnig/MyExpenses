@@ -999,4 +999,5 @@
     <string name="bug_fixes">Поправени грешки</string>
     <string name="performance_enhancement">Подобрено бързодействие</string>
     <string name="stability_improvements">Подобрения на стабилността</string>
+    <string name="backup_save_to_sync_backend">Запази в %s</string>
 </resources>
