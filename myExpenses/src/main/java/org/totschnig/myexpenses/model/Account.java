@@ -690,14 +690,17 @@ public class Account extends Model {
     cursor.moveToFirst();
     int result = cursor.getInt(0);
     cursor.close();
-    if (result == 1) {
-      return;
-    }
-    ContentValues contentValues = new ContentValues(2);
-    contentValues.put(KEY_LABEL, currencyUnit.getCode());
-    contentValues.put(KEY_CODE, currencyUnit.getCode());
-    if (cr().insert(TransactionProvider.CURRENCIES_URI, contentValues) == null) {
-      throw new IllegalStateException("Unable to ensure currency (" + currencyUnit + "). Insert failed");
+    switch (result) {
+      case 0: {
+        ContentValues contentValues = new ContentValues(2);
+        contentValues.put(KEY_LABEL, currencyUnit.getCode());
+        contentValues.put(KEY_CODE, currencyUnit.getCode());
+        if (cr().insert(TransactionProvider.CURRENCIES_URI, contentValues) == null) {
+          throw new IllegalStateException("Unable to ensure currency (" + currencyUnit + "). Insert failed");
+        }
+      }
+      case 1: return;
+      default: throw new IllegalStateException("Unable to ensure currency (" + currencyUnit + "). Inconsistent query result");
     }
   }
 

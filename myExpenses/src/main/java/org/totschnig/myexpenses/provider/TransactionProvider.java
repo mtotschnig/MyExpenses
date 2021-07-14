@@ -915,8 +915,10 @@ public class TransactionProvider extends BaseTransactionProvider {
           projection = new String[] {
               KEY_ROWID, KEY_CODE, KEY_GROUPING, KEY_LABEL, KEY_USAGES
           };
+          qb.setTables(CURRENCIES_USAGES_TABLE_EXPRESSION);
+        } else {
+          qb.setTables(TABLE_CURRENCIES);
         }
-        qb.setTables(CURRENCIES_USAGES_TABLE_EXPRESSION);
         break;
       case DUAL:
         qb.setTables("sqlite_master");
