@@ -332,7 +332,6 @@ public class SettingsFragment extends BaseSettingsFragment implements
             .pos(R.string.button_validate)
             .neg(R.string.menu_remove)
             .show(this, DIALOG_MANAGE_LICENCE);
-
       } else {
         String licenceKey = prefHandler.getString(NEW_LICENCE, "");
         String licenceEmail = prefHandler.getString(LICENCE_EMAIL, "");

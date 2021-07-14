@@ -28,6 +28,7 @@ import kotlin.Unit;
  *
  * @author Michael Totschnig
  */
+@Deprecated
 public class Result<T> {
 
   public static final Result<Unit> SUCCESS = new Result<>(true);
