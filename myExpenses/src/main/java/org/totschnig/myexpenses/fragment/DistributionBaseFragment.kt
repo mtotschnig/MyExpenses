@@ -110,16 +110,18 @@ abstract class DistributionBaseFragment<ROW_BINDING : ViewBinding?> : AbstractCa
     }
 
     fun setDefaults() {
-        groupingYear = when (grouping) {
-            Grouping.WEEK -> dateInfo.thisYearOfWeekStart
-            Grouping.MONTH -> dateInfo.thisYearOfMonthStart
-            else -> dateInfo.thisYear
-        }
-        groupingSecond = when (grouping) {
-            Grouping.DAY -> dateInfo.thisDay
-            Grouping.WEEK -> dateInfo.thisWeek
-            Grouping.MONTH -> dateInfo.thisMonth
-            else -> 0
+        if (::dateInfo.isInitialized) {
+            groupingYear = when (grouping) {
+                Grouping.WEEK -> dateInfo.thisYearOfWeekStart
+                Grouping.MONTH -> dateInfo.thisYearOfMonthStart
+                else -> dateInfo.thisYear
+            }
+            groupingSecond = when (grouping) {
+                Grouping.DAY -> dateInfo.thisDay
+                Grouping.WEEK -> dateInfo.thisWeek
+                Grouping.MONTH -> dateInfo.thisMonth
+                else -> 0
+            }
         }
     }
 
