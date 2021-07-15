@@ -180,7 +180,7 @@ public abstract class AbstractCategoryList<ROW_BINDING extends ViewBinding> exte
   }
 
   protected Object getSecondarySort() {
-    return Sort.preferredOrderByForCategories(getSortOrderPrefKey(), prefHandler, getDefaultSortOrder());
+    return Sort.Companion.preferredOrderByForCategories(getSortOrderPrefKey(), prefHandler, getDefaultSortOrder());
   }
 
   private void disposeCategory() {

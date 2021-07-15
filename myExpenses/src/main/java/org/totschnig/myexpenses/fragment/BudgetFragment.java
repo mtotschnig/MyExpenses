@@ -85,7 +85,7 @@ public class BudgetFragment extends DistributionBaseFragment<BudgetRowBinding> i
 
   @Override
   protected Object getSecondarySort() {
-    return Sort.preferredOrderByForBudgets(getSortOrderPrefKey(), prefHandler, getDefaultSortOrder());
+    return Sort.Companion.preferredOrderByForBudgets(getSortOrderPrefKey(), prefHandler, getDefaultSortOrder());
   }
 
   @Override

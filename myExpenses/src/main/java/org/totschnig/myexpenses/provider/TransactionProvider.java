@@ -517,7 +517,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         final boolean minimal = uriMatch == ACCOUNTS_MINIMAL;
         final String mergeAggregate = minimal ? "1" : uri.getQueryParameter(QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES);
         if (sortOrder == null) {
-          sortOrder = minimal ? KEY_LABEL : Sort.preferredOrderByForAccounts(PrefKey.SORT_ORDER_ACCOUNTS, prefHandler, Sort.LABEL);
+          sortOrder = minimal ? KEY_LABEL : Sort.Companion.preferredOrderByForAccounts(PrefKey.SORT_ORDER_ACCOUNTS, prefHandler, Sort.LABEL);
         }
         if (mergeAggregate != null) {
           if (projection != null) {
