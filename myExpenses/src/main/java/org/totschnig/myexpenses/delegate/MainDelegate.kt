@@ -22,6 +22,7 @@ import org.totschnig.myexpenses.preference.shouldStartAutoFill
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.Account
 
 //Transaction or Split
@@ -120,10 +121,14 @@ abstract class MainDelegate<T : ITransaction>(viewBinding: OneExpenseBinding, da
     }
 
     override fun onDestroy() {
-        payeeAdapter.cursor?.let {
-            if (!it.isClosed) {
-                it.close()
+        if (::payeeAdapter.isInitialized) {
+            payeeAdapter.cursor?.let {
+                if (!it.isClosed) {
+                    it.close()
+                }
             }
+        } else {
+            CrashHandler.report(IllegalStateException("PayeeAdapter not initialized"))
         }
     }
 }
