@@ -95,6 +95,12 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
     }
   }
 
+  private Result failure(Exception e) {
+    return Result.ofFailure(
+        R.string.parse_error_other_exception,
+        e.getMessage());
+  }
+
   @Override
   protected Result doInBackground(Void... ignored) {
     File workingDir;
@@ -124,7 +130,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
           is = syncBackendProvider.getInputStreamForBackup(backupFromSync);
           isEncrypted = backupFromSync.endsWith("enc");
         } catch (IOException e) {
-          return Result.ofFailure(e.getMessage());
+          return failure(e);
         }
       } else {
         is = cr.openInputStream(fileUri);
@@ -143,7 +149,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       } catch (IOException e) {
         return e.getCause() instanceof GeneralSecurityException ?
             Result.ofFailure(R.string.backup_wrong_password) :
-            Result.ofFailure(R.string.restore_backup_archive_not_valid, fileUri);
+            failure(e);
       } finally {
         try {
           is.close();
@@ -158,9 +164,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       customData.put("syncAccountName", syncAccountName);
       customData.put("backupFromSync", backupFromSync);
       CrashHandler.report(e, customData);
-      return Result.ofFailure(
-          R.string.parse_error_other_exception,
-          e.getMessage());
+      return failure(e);
     }
 
     File backupFile = BackupUtilsKt.getBackupDbFile(workingDir);
@@ -237,7 +241,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
               new String[]{calendarPath},
               null);
         } catch (SecurityException e) {
-          return Result.ofFailure(e.getMessage());
+          return failure(e);
         }
         if (c != null) {
           if (c.moveToFirst()) {

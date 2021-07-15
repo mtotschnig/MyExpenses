@@ -309,7 +309,6 @@
     <string name="restore_db_success">پایگاه داده از فایل بک‌آپ بازیابی شد.</string>
     <string name="restore_no_backup_found">هیچ بک‌‌آپی پیدا نشد.</string>
     <string name="restore_preferences_failure">بازیابی ترجیحات شکست خورد</string>
-    <string name="restore_backup_archive_not_valid">بایگانی %1$s معتبر نیست</string>
     <string name="restore_preferences_success">ترجیحات از فایل بک‌آپ بازیابی شدند.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%dبرنامه از فایل بک‌آپ بازیابی شدند</string>
     <string name="save_transaction_and_new_success">با موفقیت دخیره شد</string>

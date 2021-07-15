@@ -363,7 +363,6 @@
     <string name="restore_db_success">Базата данни е възстановена успешно.</string>
     <string name="restore_no_backup_found">Не е намерен архивен файл.</string>
     <string name="restore_preferences_failure">Неуспешно възстановяване на предпочитания</string>
-    <string name="restore_backup_archive_not_valid">Архива %1$s не е валиден</string>
     <string name="restore_backup_file_not_found">Няма файл %1$s в архива „%2$s“</string>
     <string name="restore_preferences_success">Предпочитанията са възстановени успешно.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">Успешно възстановени %d плана</string>

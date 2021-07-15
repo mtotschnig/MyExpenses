@@ -333,7 +333,6 @@
     <string name="restore_db_success">데이터베이스를 백업으로부터 복원했습니다.</string>
     <string name="restore_no_backup_found">백업 파일을 찾을 수 없습니다.</string>
     <string name="restore_preferences_failure">설정값 복원에 실패했습니다</string>
-    <string name="restore_backup_archive_not_valid">%1$s 압축 파일은 올바르지 않습니다.</string>
     <string name="restore_backup_file_not_found">%1$s 파일을 압축 파일 \"%2$s\"에서 찾을 수 없습니다</string>
     <string name="restore_preferences_success">설정값이 백업 파일으로부터 복원되었습니다.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d 재무 계획이 백업 파일으로부터 복원되었습니다.</string>

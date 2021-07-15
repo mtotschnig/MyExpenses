@@ -361,7 +361,6 @@
     <string name="restore_db_success">Datu-basea berreskuratu da babeskopiatik.</string>
     <string name="restore_no_backup_found">Ez da babeskopiarik aurkitu.</string>
     <string name="restore_preferences_failure">Huts egin du hobespenak berreskuratzean</string>
-    <string name="restore_backup_archive_not_valid">%1$s artxiboa baliogabea da</string>
     <string name="restore_backup_file_not_found">Ez da %1$s fitxategia aurkitu \"%2$s\" artxiboan</string>
     <string name="restore_preferences_success">Hobespenak berreskuratu dira babeskopiatik.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d plan berreskuratu dira babeskopiatik</string>

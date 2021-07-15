@@ -363,7 +363,6 @@
     <string name="restore_db_success">Veri tabanı yedekten geri yüklendi.</string>
     <string name="restore_no_backup_found">Yedek bulunamadı.</string>
     <string name="restore_preferences_failure">Tercihlerin yüklenmesi başarısız oldu</string>
-    <string name="restore_backup_archive_not_valid">%1$s arşivi geçerli bir arşiv değildir</string>
     <string name="restore_backup_file_not_found">\"%2$s\" arşivinde %1$s dosyası bulunamadı</string>
     <string name="restore_preferences_success">Tercihler yedeklemeden restore edilmiştir.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">Yedeklemeden %d planlama geri alınmıştır</string>

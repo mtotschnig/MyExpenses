@@ -275,7 +275,6 @@
     <string name="restore_db_success">දත්ත ගබඩාව උපස්ථය උපයෝගී කරගෙන  නැවත පිහිටුවන ලදී </string>
     <string name="restore_no_backup_found">උපස්තයක් සමුවුයේ නැත </string>
     <string name="restore_preferences_failure">මනාප නැවත පිහිටුවීම අසාර්ථකයි </string>
-    <string name="restore_backup_archive_not_valid">%1$s ලේකනාගාරය වලංගු නැත </string>
     <string name="restore_backup_file_not_found"> \"%2$s\" ලේඛනාගාරයෙන් ලිපිගොනු %1$s සොයාගත නොහැකි විය </string>
     <string name="restore_preferences_success">උපස්ථා වලින් මනාප නැවත පිහිටුවන ලදී </string>
     <string name="save_transaction_and_new_success">සාර්ථකව සුරකින ලදී </string>

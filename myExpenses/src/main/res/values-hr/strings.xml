@@ -317,7 +317,6 @@
     <string name="restore_db_success">Baza podataka je uspješno obnovljena iz sigurnosne kopije.</string>
     <string name="restore_no_backup_found">Nijedna sigurnosna kopija nije pronađena.</string>
     <string name="restore_preferences_failure">Obnavljanje osobnih postavaka nije uspjelo</string>
-    <string name="restore_backup_archive_not_valid">Arhiva %1$s nije valjana</string>
     <string name="restore_backup_file_not_found">U arhivi „%2$s” nije pronađena nijedna datoteka %1$s</string>
     <string name="restore_preferences_success">Osobne postavke su obnovljene iz sigurnosne kopije.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d planovi su obnovljeni iz sigurnosne kopije</string>

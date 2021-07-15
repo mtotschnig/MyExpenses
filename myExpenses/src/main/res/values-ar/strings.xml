@@ -375,7 +375,6 @@
     <string name="restore_db_success">تم استعادة قاعدة البيانات من النسخة الاحتياطية.</string>
     <string name="restore_no_backup_found">لا يوجد نسخة احتياطية.</string>
     <string name="restore_preferences_failure">فشلت عملية استعادة التفضيلات.</string>
-    <string name="restore_backup_archive_not_valid">الأرشيف %1$s غير صالح</string>
     <string name="restore_backup_file_not_found">لم يتم إيجاد الملف %1$s في أرشيف \"%2$s\"</string>
     <string name="restore_preferences_success">تم استعادة التفضيلات من النسخة الاحتياطية.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d خطط تم استعادتها من النسخة الإحتياطية</string>

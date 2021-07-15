@@ -344,7 +344,6 @@
     <string name="restore_db_success">O banco de dados foi restaurado a partir do backup.</string>
     <string name="restore_no_backup_found">Não foi encontrado nenhum backup.</string>
     <string name="restore_preferences_failure">Não foi possível restaurar as preferências</string>
-    <string name="restore_backup_archive_not_valid">O arquivo %1$s não é válido</string>
     <string name="restore_backup_file_not_found">Não foi encontrado nenhum ficheiro %1$s encontrado no arquivo \"%2$s\"</string>
     <string name="restore_preferences_success">As preferências foram restauradas a partir do backup.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d planos foram restaurados do backup</string>

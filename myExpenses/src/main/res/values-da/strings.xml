@@ -323,7 +323,6 @@
     <string name="restore_db_success">Databasen blev gendannet fra backup.</string>
     <string name="restore_no_backup_found">Ingen backup fundet.</string>
     <string name="restore_preferences_failure">Gendannelse af indstillinger mislykkedes</string>
-    <string name="restore_backup_archive_not_valid">Arkiv %1$s er ikke gyldigt</string>
     <string name="restore_backup_file_not_found">Der findes ingen fil %1$s i arkivet \"%2$s\"</string>
     <string name="restore_preferences_success">Indstillingerne blev gendannet fra backup.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d planer blev gendannet fra backup</string>

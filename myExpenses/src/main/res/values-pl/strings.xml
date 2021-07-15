@@ -363,7 +363,6 @@
     <string name="restore_db_success">Baza danych została przywrócona z kopii zapasowej.</string>
     <string name="restore_no_backup_found">Nie znaleziono kopii zapasowej.</string>
     <string name="restore_preferences_failure">Przywracanie preferencji nie powiodło się</string>
-    <string name="restore_backup_archive_not_valid">Archiwum %1$s jest niepoprawne</string>
     <string name="restore_backup_file_not_found">Brak pliku %1$s w archiwum \"%2$s\"</string>
     <string name="restore_preferences_success">Preferencje zostały przywrócone z kopii zapasowej.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%dplanów zostały przywrócone z kopii zapasowej</string>

@@ -361,7 +361,6 @@
     <string name="restore_db_success">Η βάση δεδομένων έχει αποκατασταθεί από την δημιουργία αντιγράφων.</string>
     <string name="restore_no_backup_found">Δεν βρέθηκε αντίγραφο ασφαλείας.</string>
     <string name="restore_preferences_failure">Επαναφορά προτιμήσεων απέτυχε</string>
-    <string name="restore_backup_archive_not_valid">Το αρχείο %1$s δεν είναι έγκυρο</string>
     <string name="restore_backup_file_not_found">Κανένα αρχείο %1$s δεν βρέθηκε στο αρχείο \"%2$s\"</string>
     <string name="restore_preferences_success">Προτιμήσεις έχουν αποκατασταθεί από τη δημιουργία αντιγράφων.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d σχέδια έχουν αποκατασταθεί από το αντίγραφο ασφαλείας</string>

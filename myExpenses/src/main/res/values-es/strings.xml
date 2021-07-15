@@ -363,7 +363,6 @@
     <string name="restore_db_success">La base de datos ha sido restaurada desde la copia de seguridad.</string>
     <string name="restore_no_backup_found">No hay ninguna copia de seguridad.</string>
     <string name="restore_preferences_failure">La restauración de preferencias ha fallado</string>
-    <string name="restore_backup_archive_not_valid">El archivo %1$s no es válido</string>
     <string name="restore_backup_file_not_found">No se ha encontrado el fichero %1$s en el archivo «%2$s»</string>
     <string name="restore_preferences_success">Preferencias restauradas desde la copia de seguridad.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d proyectos han sido restaurados desde la copia de seguridad</string>

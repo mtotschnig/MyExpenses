@@ -358,7 +358,6 @@
     <string name="restore_db_success">База даних була відновлена ​​з резервної копії.</string>
     <string name="restore_no_backup_found">Резервування не знайдено.</string>
     <string name="restore_preferences_failure">Помилка відновлення налаштувань</string>
-    <string name="restore_backup_archive_not_valid">Архів %1$s недійсний</string>
     <string name="restore_backup_file_not_found">Не знайдено файлу %1$s в архіві \"%2$s\"</string>
     <string name="restore_preferences_success">Налаштування відновлено з резервної копії.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d плани було відновлено з резервної копії</string>

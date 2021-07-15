@@ -354,7 +354,6 @@
     <string name="restore_db_success">Cơ sở dữ liệu đã được phục hồi từ phần sao lưu</string>
     <string name="restore_no_backup_found">Không tìm thấy bản sao lưu nào.</string>
     <string name="restore_preferences_failure">Xảy ra lỗi khi khôi phục phần tùy biến</string>
-    <string name="restore_backup_archive_not_valid">Bản lưu trữ %1$s không hợp lệ</string>
     <string name="restore_backup_file_not_found">Không tìm thấy tập tin %1$s trong tập lưu trữ \"%2$s\"</string>
     <string name="restore_preferences_success">Tùy biến đã được phục hồi từ phần sao lưu.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d kế hoạch đã được khôi phục từ bản sao lưu</string>

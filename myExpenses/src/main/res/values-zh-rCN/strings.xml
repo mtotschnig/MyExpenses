@@ -360,7 +360,6 @@
     <string name="restore_db_success">数据库已从备份还原。</string>
     <string name="restore_no_backup_found">找不到备份。</string>
     <string name="restore_preferences_failure">首选项还原失败</string>
-    <string name="restore_backup_archive_not_valid">文件夾%1$s无效</string>
     <string name="restore_backup_file_not_found">在文件夾 \"%2$s\" 中没有找到文件 %1$s </string>
     <string name="restore_preferences_success">首选项已从备份中还原。</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d计划已从备份中还原</string>

@@ -358,7 +358,6 @@
     <string name="restore_db_success">Pangkalan data telah dipulihkan dari sandar.</string>
     <string name="restore_no_backup_found">Tiada sandar ditemui.</string>
     <string name="restore_preferences_failure">Pemulihan keutamaan gagal</string>
-    <string name="restore_backup_archive_not_valid">Arkib %1$s tidak sah</string>
     <string name="restore_backup_file_not_found">Tiada fail %1$s ditemui dalam arkib \"%2$s\"</string>
     <string name="restore_preferences_success">Keutamaan telah dipulihkan dari sandar.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d plan telah dipulihkan dari sandar</string>

@@ -363,7 +363,6 @@
     <string name="restore_db_success">காப்புப்பிரதியில் இருந்து தரவுத்தளம் மீட்டமைக்கப்பட்டது.</string>
     <string name="restore_no_backup_found">காப்புப்பிரதி ஏதும் கிடைக்கவில்லை.</string>
     <string name="restore_preferences_failure">விருப்பத்தேர்வுகளின் மீட்டமைப்பு தோல்வியடைந்தது.</string>
-    <string name="restore_backup_archive_not_valid">ஆவணக்கிடங்கு %1$s செல்லுபடியாகாது</string>
     <string name="restore_backup_file_not_found">\"%2$s\" ஆவணக்கிடங்கில் %1$s எனும் கோப்பு இல்லை</string>
     <string name="restore_preferences_success">காப்புப்பிரதியில் இருந்து விருப்பத்தேர்வுகள் மீட்டமைக்கப்பட்டன.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d திட்டங்கள் காப்புப்பிரதியில் இருந்து மீட்டமைக்கப்பட்டன.</string>

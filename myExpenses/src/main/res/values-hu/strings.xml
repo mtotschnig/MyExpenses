@@ -363,7 +363,6 @@
     <string name="restore_db_success">Az adatbázis sikeresen visszaállítva korábbi mentésből.</string>
     <string name="restore_no_backup_found">Nem található biztonsági mentés.</string>
     <string name="restore_preferences_failure">Beállítások visszaállítása sikertelen</string>
-    <string name="restore_backup_archive_not_valid">%1$s archívum érvénytelen</string>
     <string name="restore_backup_file_not_found">Nincs %1$s fájl a(z) \"%2$s\" archívumban</string>
     <string name="restore_preferences_success">Beállítások sikeresen visszaállítva a korábbi mentésből.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d terv visszaállításra került a biztonsági másolatból</string>

@@ -369,7 +369,6 @@
     <string name="restore_db_success">Databáze byla obnovena ze zálohy.</string>
     <string name="restore_no_backup_found">Nenalezena žádná záloha.</string>
     <string name="restore_preferences_failure">Nastavení obnovení se nezdařilo.</string>
-    <string name="restore_backup_archive_not_valid">Archiv %1$s není platný</string>
     <string name="restore_backup_file_not_found">V archivu „%2$s“ nebyl nalezen žádný soubor %1$s</string>
     <string name="restore_preferences_success">Preference byly obnoveny ze zálohy.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">Ze zálohy bylo obnoveno %d plánů</string>

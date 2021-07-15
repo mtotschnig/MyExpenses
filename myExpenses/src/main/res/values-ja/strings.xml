@@ -358,7 +358,6 @@
     <string name="restore_db_success">バックアップからデータベースが復元されました。</string>
     <string name="restore_no_backup_found">バックアップが見つかりません。</string>
     <string name="restore_preferences_failure">プリファレンスの復元に失敗しました。</string>
-    <string name="restore_backup_archive_not_valid">アーカイブ %1$s が正しくありません</string>
     <string name="restore_backup_file_not_found">アーカイブ \"%2$s\" に、ファイル %1$s が見つかりません</string>
     <string name="restore_preferences_success">バックアップからプリファレンスが復元されました。</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d の計画がバックアップから復元されました</string>

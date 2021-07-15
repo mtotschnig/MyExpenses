@@ -407,7 +407,6 @@
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d ప్రణాళికలు బ్యాకప్ నుండి పునరుద్ధరించబడ్డాయి</string>
     <string name="restore_preferences_success">ప్రాధాన్యతలు బ్యాకప్ నుండి పునరుద్ధరించబడ్డాయి.</string>
     <string name="restore_backup_file_not_found">\"%2$s\" ఆర్కైవ్‌లో %1$s ఫైల్ కనుగొనబడలేదు</string>
-    <string name="restore_backup_archive_not_valid">%1$s ఆర్కైవ్ చెల్లదు</string>
     <string name="restore_preferences_failure">ప్రాధాన్యతల పునరుద్ధరణ విఫలమైంది</string>
     <string name="restore_no_backup_found">బ్యాకప్ కనుగొనబడలేదు.</string>
     <string name="restore_db_success">డేటాబేస్ బ్యాకప్ నుండి పునరుద్ధరించబడింది.</string>

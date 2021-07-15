@@ -368,7 +368,6 @@
     <string name="restore_db_success">БД была восстановлена из рез.копии.</string>
     <string name="restore_no_backup_found">Резервная копия не найдена.</string>
     <string name="restore_preferences_failure">Восстановление настроек не удалось</string>
-    <string name="restore_backup_archive_not_valid">Архив %1$s не пригоден</string>
     <string name="restore_backup_file_not_found">Нет файла %1$s, найденного в каталоге \"%2$s\"</string>
     <string name="restore_preferences_success">Настройки были восстановлены из рез.копии.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d планы были восстановлены из резервной копии</string>

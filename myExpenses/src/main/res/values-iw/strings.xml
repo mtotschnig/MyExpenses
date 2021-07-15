@@ -369,7 +369,6 @@
     <string name="restore_db_success">מסד הנתונים שוחזר מהגיבוי.</string>
     <string name="restore_no_backup_found">לא נמצא גיבוי.</string>
     <string name="restore_preferences_failure">שחזור ההעדפות נכשל</string>
-    <string name="restore_backup_archive_not_valid">הארכיון %1$s אינו חוקי</string>
     <string name="restore_backup_file_not_found">קובץ %1$sלא נמצא בארכיון \"%2$s\"</string>
     <string name="restore_preferences_success">ההעדפות שוחזרו מהגיבוי.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d התוכניות שוחזרו מהגיבוי</string>

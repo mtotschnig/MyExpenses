@@ -340,7 +340,6 @@
     <string name="restore_db_success">Baza de date a fost restaurată din backup.</string>
     <string name="restore_no_backup_found">Nici un backup găsit.</string>
     <string name="restore_preferences_failure">Restaurare preferinţe eşuată</string>
-    <string name="restore_backup_archive_not_valid">Arhiva %1$s nu este validă</string>
     <string name="restore_backup_file_not_found">Nici un fişier %1$s  găsit în arhiva \"%2$s\"</string>
     <string name="restore_preferences_success">Preferinţele au fost restaurate din backup.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d  scadenţe au fost restaurate din backup</string>

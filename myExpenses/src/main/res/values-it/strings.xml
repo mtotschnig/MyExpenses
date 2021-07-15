@@ -363,7 +363,6 @@
     <string name="restore_db_success">La base di dati è stato ripristinato dal backup.</string>
     <string name="restore_no_backup_found">Nessun backup è stato trovato.</string>
     <string name="restore_preferences_failure">Ripristino delle preferenze non riuscito</string>
-    <string name="restore_backup_archive_not_valid">L\'archivio %1$s non è valido</string>
     <string name="restore_backup_file_not_found">Nessun file %1$s trovato in archivio «%2$s»</string>
     <string name="restore_preferences_success">Le preferenze sono state ripristinate dal backup.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d piani sono stati ripristinati dal backup</string>
