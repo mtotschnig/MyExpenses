@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -12,8 +13,7 @@
   
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+ --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">Conta</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">Tipos de conta</string>
@@ -272,4 +272,5 @@
     <string name="pref_category_title_features">Funcións</string>
     <string name="pref_acra_user_email">O correo electrónico do usuario vai incluído no informe de erros.</string>
     <string name="pref_acra_user_email_summary">Por favor, insire o teu enderezo electrónico se queres axudar na depuración de erros e permites que contactemos contigo.</string>
+    <string name="new_version">Versión nova</string>
 </resources>
