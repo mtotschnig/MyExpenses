@@ -1000,4 +1000,5 @@
     <string name="performance_enhancement">Melhoria de performance</string>
     <string name="stability_improvements">Melhorias de estabilidade</string>
     <string name="backup_save_to_sync_backend">Salvar em %s</string>
+    <string name="new_version">Nova versão</string>
 </resources>
