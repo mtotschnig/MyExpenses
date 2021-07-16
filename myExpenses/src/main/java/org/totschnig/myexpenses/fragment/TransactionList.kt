@@ -30,17 +30,20 @@ import org.totschnig.myexpenses.activity.ManageCategories
 import org.totschnig.myexpenses.activity.ManageParties
 import org.totschnig.myexpenses.activity.ManageTags
 import org.totschnig.myexpenses.activity.MyExpenses
+import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment
 import org.totschnig.myexpenses.dialog.select.SelectSingleMethodDialogFragment
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.provider.CheckSealedHandler
 import org.totschnig.myexpenses.provider.CheckTransferAccountOfSplitPartsHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_SAME_CURRENCY
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.task.TaskExecutionFragment
+import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.asTrueSequence
 import org.totschnig.myexpenses.viewmodel.KEY_ROW_IDS
 import org.totschnig.myexpenses.viewmodel.data.Tag
@@ -93,6 +96,38 @@ class TransactionList : BaseTransactionList() {
                 }
             }
         }
+    }
+
+    private fun warnSealedAccount() {
+        (requireActivity() as ProtectedFragmentActivity).showSnackbar(
+            concatResStrings(
+                context,
+                " ",
+                R.string.warning_account_for_transaction_is_closed,
+                R.string.object_sealed
+            )
+        )
+    }
+
+    override fun checkSealed(itemIds: LongArray, onChecked: Runnable) {
+        CheckSealedHandler(requireActivity().contentResolver).check(
+            itemIds, object : CheckSealedHandler.ResultListener {
+                override fun onResult(result: Result<Boolean>) {
+                    lifecycleScope.launchWhenResumed {
+                        result.onSuccess {
+                            if (it) {
+                                onChecked.run()
+                            } else {
+                                warnSealedAccount()
+                            }
+                        }.onFailure(showFailure)
+                    }
+                }
+            })
+    }
+
+    val showFailure: (exception: Throwable) -> Unit = {
+        (requireActivity() as ProtectedFragmentActivity).showSnackbar(it.message!!)
     }
 
     override fun dispatchCommandMultiple(
@@ -287,23 +322,25 @@ class TransactionList : BaseTransactionList() {
                 }
                 CheckTransferAccountOfSplitPartsHandler(requireActivity().contentResolver).check(
                     splitIds, object : CheckTransferAccountOfSplitPartsHandler.ResultListener {
-                        override fun onResult(result: List<Long>) {
+                        override fun onResult(result: Result<List<Long>>) {
                             lifecycleScope.launchWhenResumed {
-                                excludedIds.addAll(result)
-                                val dialogFragment =
-                                    org.totschnig.myexpenses.dialog.select.SelectSingleAccountDialogFragment.newInstance(
-                                        R.string.menu_remap,
-                                        R.string.remap_empty_list,
-                                        excludedIds
+                                result.onSuccess {
+                                    excludedIds.addAll(it)
+                                    val dialogFragment =
+                                        org.totschnig.myexpenses.dialog.select.SelectSingleAccountDialogFragment.newInstance(
+                                            R.string.menu_remap,
+                                            R.string.remap_empty_list,
+                                            excludedIds
+                                        )
+                                    dialogFragment.setTargetFragment(
+                                        this@TransactionList,
+                                        MAP_ACCOUNT_REQUEST
                                     )
-                                dialogFragment.setTargetFragment(
-                                    this@TransactionList,
-                                    MAP_ACCOUNT_REQUEST
-                                )
-                                dialogFragment.show(
-                                    requireActivity().supportFragmentManager,
-                                    "REMAP_ACCOUNT"
-                                )
+                                    dialogFragment.show(
+                                        requireActivity().supportFragmentManager,
+                                        "REMAP_ACCOUNT"
+                                    )
+                                }.onFailure(showFailure)
                             }
                         }
                     })

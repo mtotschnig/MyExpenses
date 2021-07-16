@@ -88,7 +88,6 @@ import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.preference.PreferenceUtilsKt;
-import org.totschnig.myexpenses.provider.CheckSealedHandler;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -195,7 +194,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
 import static org.totschnig.myexpenses.util.ColorUtils.getComplementColor;
 import static org.totschnig.myexpenses.util.DateUtilsKt.localDateTime2Epoch;
 import static org.totschnig.myexpenses.util.MoreUiUtilsKt.addChipsBulk;
-import static org.totschnig.myexpenses.util.TextUtils.concatResStrings;
 
 public abstract class BaseTransactionList extends ContextualActionBarFragment implements
     LoaderManager.LoaderCallbacks<Cursor>, OnHeaderClickListener, SimpleDialog.OnDialogResultListener,
@@ -455,15 +453,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     super.onDestroyView();
   }
 
-  void checkSealed(long[] itemIds, Runnable onChecked) {
-    new CheckSealedHandler(requireActivity().getContentResolver()).check(itemIds, result -> {
-      if (result) {
-        onChecked.run();
-      } else {
-        warnSealedAccount();
-      }
-    });
-  }
+  abstract void checkSealed(long[] itemIds, Runnable onChecked);
 
   @Override
   public boolean dispatchCommandSingle(int command, ContextMenu.ContextMenuInfo info) {
@@ -518,11 +508,6 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
       return true;
     }
     return false;
-  }
-
-  private void warnSealedAccount() {
-    ((ProtectedFragmentActivity) requireActivity()).showSnackbar(
-        concatResStrings(getContext(), " ", R.string.warning_account_for_transaction_is_closed, R.string.object_sealed));
   }
 
   private WhereFilter getFilter() {
