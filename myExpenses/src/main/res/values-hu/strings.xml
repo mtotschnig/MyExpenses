@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -12,8 +13,7 @@
   
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+ --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">Számla</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">Számlák</string>
@@ -700,7 +700,7 @@
     <string name="pref_protection_device_lock_screen_title">Eszköz zárolási képernyője</string>
     <string name="pref_warning_only_one_protection">Mielőtt használhatná a(z) %1$s általi védelmet, ki kell kapcsolnia a(z) %2$s általi védelmet.</string>
     <string name="warning_device_lock_screen_not_set_up_1">Nincs beállítva biztonságos zárolási képernyő a készüléken.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">A zárolási képernyő beállításához lépjen a „Beállítások -> Biztonság -> Képernyőzár” menüpontra.</string>
+    <string name="warning_device_lock_screen_not_set_up_2">A zárolási képernyő beállításához lépjen a „Beállítások -&gt; Biztonság -&gt; Képernyőzár” menüpontra.</string>
     <string name="menu_history_show_balance">Egyenleg mutatása</string>
     <string name="menu_history_transfers">Tartalmazza az átutalásokat</string>
     <string name="menu_history">Előzmények</string>
@@ -986,4 +986,5 @@
     <string name="merge_parties_select">Válassza ki az egyesített fél nevét:</string>
     <!-- This is the label for a field for accounts. Active tags are automatically added to new transactions when an account is selected. -->
     <string name="active_tags">Aktív cimkék</string>
-    </resources>
+    <string name="new_version">Új verzió</string>
+</resources>
