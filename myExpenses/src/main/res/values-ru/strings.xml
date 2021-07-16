@@ -978,4 +978,5 @@
     <string name="bug_fixes">Исправления ошибок</string>
     <string name="performance_enhancement">Улучшение производительности</string>
     <string name="stability_improvements">Улучшение стабильности</string>
+    <string name="new_version">Новая версия</string>
 </resources>
