@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -12,8 +13,7 @@
   
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+ --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">الحساب</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">أنواع الحسابات</string>
@@ -737,7 +737,7 @@
     <string name="pref_protection_device_lock_screen_title">شاشة قفل الجهاز</string>
     <string name="pref_warning_only_one_protection">قبل أن تتمكن من استخدام الحماية بنسبة %1$s، يجب إيقاف تشغيل الحماية بنسبة %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">لم يتم إعداد شاشة تأمين الجهاز الآمن.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">انتقل إلى \"الإعدادات -> الأمان -> قفل الشاشة\" لإعداد شاشة القفل.</string>
+    <string name="warning_device_lock_screen_not_set_up_2">انتقل إلى \"الإعدادات -&gt; الأمان -&gt; قفل الشاشة\" لإعداد شاشة القفل.</string>
     <string name="menu_history_show_balance">إظهار الرصيد</string>
     <string name="menu_history_transfers">تضمين التحويلات</string>
     <string name="menu_history">السجل</string>
@@ -1023,4 +1023,5 @@
     <string name="bug_fixes">إصلاح الأخطاء</string>
     <string name="performance_enhancement">تحسينات علي الأداء</string>
     <string name="stability_improvements">رفع مستوي ثبات البرنامج</string>
+    <string name="new_version">الإصدار الجديد</string>
 </resources>
