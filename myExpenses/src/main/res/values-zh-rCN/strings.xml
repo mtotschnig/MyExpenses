@@ -604,8 +604,8 @@
     <string name="progress_dialog_checking_sync_backend">验证后端</string>
     <string name="template">模板</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">云同步</string>
-    <string name="all_contrib_key_features">贡献版密钥(Contrib Key) 的所有功能</string>
-    <string name="all_extended_key_features">延伸版密钥(Extended Key) 的所有功能</string>
+    <string name="all_contrib_key_features">贡献版密钥的所有功能</string>
+    <string name="all_extended_key_features">延伸版密钥的所有功能</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">升级</string>
     <string name="pref_backup_cloud_title">存储在同步后端</string>
@@ -975,4 +975,13 @@
     <string name="pref_enable_acra">允许自动发送崩溃报告</string>
     <string name="crash_reports_user_info">{app_name} 将会自动向开发者发送应用程序崩溃报告，以便开发者可以快速解决问题。</string>
     <string name="warning_plan_instance_delete">为选定日期创建的交易将被删除。</string>
+    <string name="new_version">新版本</string>
+    <string name="stability_improvements">稳定性改进</string>
+    <string name="performance_enhancement">性能增强</string>
+    <string name="bug_fixes">错误修复</string>
+    <string name="ui_refinement">用户界面的改进</string>
+    <string name="pref_acra_user_email">用户电子信箱地址将被包含在崩溃报告中</string>
+    <string name="auto_fill_focus">设置聚焦收款人字段</string>
+    <string name="request_for_invoice">请求发票</string>
+    <string name="active_tags">活跃标签</string>
 </resources>
