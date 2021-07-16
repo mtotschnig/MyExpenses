@@ -1000,4 +1000,5 @@
     <string name="bug_fixes">Bugs behoben</string>
     <string name="performance_enhancement">Performance-Verbesserung</string>
     <string name="stability_improvements">Stabilitätsverbesserungen</string>
+    <string name="new_version">Neue Version</string>
 </resources>
