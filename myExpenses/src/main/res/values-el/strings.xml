@@ -519,7 +519,7 @@
     <string name="csv_import_field_mapped_more_than_once">%s έχει αντιστοιχιστεί πάνω από μία φορά.</string>
     <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d εγγραφές δεν μπορούν να εισαχθούν.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d εγγραφές απορρίφθηκαν.</string>
-    <string name="csv_import_subcategory_requires_category"></string>
+    <string name="csv_import_subcategory_requires_category"/>
     <string name="cvs_import_set_first_line_as_header">Θα έπρεπε η πρώτη γραμμή να αντιμετωπίζεται ως επικεφαλίδα;</string>
     <string name="csv_import_delimiter_comma">Κόμμα</string>
     <string name="csv_import_delimiter_semicolon">Άνω τελεία</string>
@@ -809,4 +809,5 @@
     <string name="pref_acra_user_email">Διεύθυνση ηλεκτρονικού ταχυδρομείου του χρήστη πρέπει να περιλαμβάνεται στην έκθεση σφάλματος.</string>
     <string name="pref_acra_user_email_summary">Παρακαλούμε εισάγετε τη Διεύθυνση ηλεκτρονικού ταχυδρομείου σας, αν είστε πρόθυμοι να βοηθήσετε στον εντοπισμό σφαλμάτων και να μας επιτρέψετε να επικοινωνήσουμε μαζί σας.</string>
     <string name="bug_fixes">Διορθώσεις σφαλμάτων</string>
+    <string name="new_version">Νέα έκδοση</string>
 </resources>
