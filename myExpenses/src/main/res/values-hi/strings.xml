@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -12,8 +13,7 @@
   
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+ --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">खाता</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">खाते के प्रकार</string>
@@ -295,4 +295,5 @@
     <string name="pref_enable_acra">क्रैश रिपोर्टों को स्वत: भेजने की अनुमति दें</string>
     <string name="pref_acra_user_email">उपयोगकर्ता ईमेल क्रैश रिपोर्ट में शामिल करें</string>
     <string name="pref_acra_user_email_summary">यदि आप डिबगिंग में सहायता करने और आपसे संपर्क करने की अनुमति देने के लिए तैयार हैं तो कृपया अपना ईमेल पता दर्ज करें।</string>
+    <string name="new_version">नया संस्करण</string>
 </resources>
