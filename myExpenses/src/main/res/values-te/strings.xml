@@ -561,8 +561,8 @@
     <string name="dialog_remind_rate_yes">ఇప్పుడే రేట్ చేయండి</string>
     <string name="dialog_remind_rate_1_suggest_improvement">దయచేసి మెరుగుదలల కోసం మీ సూచనలను మాకు పంపండి.</string>
     <string name="dialog_remind_rate_2">మీ వ్యాఖ్యలు నిరంతరం మెరుగుదలలు మరియు మెరుగుదలలను జోడించడానికి మాకు అనుమతిస్తాయి.</string>
-    <string name="dialog_remind_rate_1">Rate app_name rate ను రేట్ చేయడానికి మరియు సమీక్షించడానికి కొంత సమయం కేటాయించండి.</string>
-    <string name="dialog_remind_rate_how_many_stars">{App_name} to కు మీరు ఎన్ని నక్షత్రాలు ఇస్తారు\?</string>
+    <string name="dialog_remind_rate_1">రేట్ చేయడానికి మరియు {app_name}ని సమీక్షించడానికి దయచేసి ఒక్క క్షణం తీసుకోండి.</string>
+    <string name="dialog_remind_rate_how_many_stars">{app_name}కు మీరు ఎన్ని నక్షత్రాలను ఇస్తారు\?</string>
     <string name="dialog_remind_later">తరువాత</string>
     <string name="dialog_password_new_password_confirmation">ಹೊಸ ಪಾಸ್‌ವರ್ಡ್ (నిర్ధారణ)</string>
     <string name="dialog_password_new_password">ಹೊಸ ಪಾಸ್‌ವರ್ಡ್</string>
