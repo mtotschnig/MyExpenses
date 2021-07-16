@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -12,8 +13,7 @@
   
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+ --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">Konto</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">Typy konta</string>
@@ -698,7 +698,7 @@
     <string name="feature_deprecated">Wycofano</string>
     <string name="pref_protection_device_lock_screen_title">Ekran blokady</string>
     <string name="warning_device_lock_screen_not_set_up_1">Ekran bezpiecznej blokady dla urządzenia nie został ustawiony.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Udaj się do  \'Ustawienia -> Bezpieczeństwo -> Blokada Ekranu\' w celu ustawienia blokady ekranu.</string>
+    <string name="warning_device_lock_screen_not_set_up_2">Udaj się do  \'Ustawienia -&gt; Bezpieczeństwo -&gt; Blokada Ekranu\' w celu ustawienia blokady ekranu.</string>
     <string name="menu_history_show_balance">Pokaż bilans</string>
     <string name="menu_history_transfers">Uwzględnij transfery</string>
     <string name="menu_history">Historia</string>
@@ -815,4 +815,5 @@
     <string name="pref_acra_user_email">Adres E-mail użytkownika dołączany do raportu o awarii.</string>
     <string name="pref_acra_user_email_summary">Proszę wprowadzić swój adres E-mail jeżeli jesteś chętny w pomocy naprawienia błędu i pozwoli nam na kontakt z tobą.</string>
     <string name="bug_fixes">Poprawki błędów</string>
+    <string name="new_version">Nowa wersja</string>
 </resources>
