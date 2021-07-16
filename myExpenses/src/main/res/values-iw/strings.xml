@@ -231,7 +231,7 @@
     <string name="no_split_parts">אין חלק מפוצל.</string>
     <string name="no_templates">אין תבניות.</string>
     <string name="no_accounts">אין חשבונות.</string>
-    <string name="no_title_given">לא הוכנסה כותרת כל שהיא.</string>
+    <string name="no_title_given">לא מילאת כותרת.</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="one">האובייקט שנבחר ממופה לעסקה ולא ניתן למחוק אותו.</item>
         <item quantity="two">%1$d אובייקטים  ממופים לעסקאות ולא ניתן למחוק אותם.</item>
@@ -343,9 +343,9 @@
     <string name="pref_security_question_summary">מאפשר לך לבטל את הנעילה של האפליקציה, אם שכחת את הסיסמה.</string>
     <string name="pref_security_question_title">שאלת בטחון</string>
     <string name="pref_send_feedback_title">שלח משוב</string>
-    <string name="pref_share_target_summary">השאר ריק אם אתה רוצה לבחור בין אפליקציות מתאימות (דוא\"ל, Dropbox, Google Docs, …), או לספק כתובת אתר באחת התוכניות הנתמכות</string>
-    <string name="pref_share_target_title">העלה כתובת אתר</string>
-    <string name="pref_shortcut_added">קיצור דרך נוסף למסך הבית</string>
+    <string name="pref_share_target_summary">יש להשאיר ריק כדי לבחור בין יישומים מתאימים (דוא״ל, Dropbox,‏ Google Docs, …), או לספק כתובת באחת הסכמות הנתמכות</string>
+    <string name="pref_share_target_title">כתובת העלאה</string>
+    <string name="pref_shortcut_added">נוסף קיצור דרך למסך הבית</string>
     <string name="pref_shortcut_not_added">אין במסך הבית מקום זמין לקבלת קיצורי דרך.</string>
     <string name="pref_shortcut_summary">הוסף את קיצור הדרך למסך הבית.</string>
     <string name="pref_ui_fontsize_title">גוגל גופן</string>
@@ -718,9 +718,9 @@
     <string name="pref_protection_device_lock_screen_title">מסך נעילת מכשיר</string>
     <string name="pref_warning_only_one_protection">לפני שתוכל להשתמש בהגנה על ידי%1$s, עליך לבטל את ההגנה על ידי%2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">מסך נעילת המכשיר המאובטח לא הוגדר.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">גש להגדרות, בחר אבטחה,בחר נעילת מסך כדי להגדיר נעילת מסך.</string>
-    <string name="menu_history_show_balance">הצג את היתרה</string>
-    <string name="menu_history_transfers">כלול העברות</string>
+    <string name="warning_device_lock_screen_not_set_up_2">יש לגשת להגדרות -&gt; אבטחה -&gt; נעילת מסך כדי להגדיר מסך נעילה.</string>
+    <string name="menu_history_show_balance">הצגת היתרה</string>
+    <string name="menu_history_transfers">לכלול העברות</string>
     <string name="menu_history">היסטוריה</string>
     <!-- A label indicating the color for the sum of expenses -->
     <string name="history_chart_out_label">הוצאה</string>
