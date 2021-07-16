@@ -513,4 +513,5 @@
     <string name="pref_enable_acra">충돌 오류 보고서를 자동으로 전송하기</string>
     <string name="pref_acra_user_email">충돌 오류 보고서에 사용자 이메일 포함</string>
     <string name="pref_acra_user_email_summary">만약 디버그를 도와주시거나 연락을 받고 싶으시면 이메일 주소를 입력해주세요.</string>
+    <string name="new_version">새 버전</string>
 </resources>
