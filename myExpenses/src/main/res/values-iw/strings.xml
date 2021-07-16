@@ -1026,4 +1026,5 @@
     <string name="bug_fixes">תיקוני באגים</string>
     <string name="performance_enhancement">שיפור בעיצועים</string>
     <string name="stability_improvements">שיפורים ביציבות</string>
+    <string name="new_version">גרסה חדשה</string>
 </resources>
