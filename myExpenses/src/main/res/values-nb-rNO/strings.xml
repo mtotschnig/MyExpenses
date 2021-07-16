@@ -347,4 +347,5 @@
     <string name="export_sdcard_success">Data eksportert til filen «%1$s»</string>
     <string name="dialog_remind_later">Senere</string>
     <string name="dialog_password_new_password_confirmation">Nytt passord (bekreftelse)</string>
+    <string name="new_version">Ny versjon</string>
 </resources>
