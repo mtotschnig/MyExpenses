@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.provider
 import android.content.AsyncQueryHandler
 import android.content.ContentResolver
 import android.database.Cursor
-import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 
 class CheckSealedHandler(cr: ContentResolver) : AsyncQueryHandler(cr) {
@@ -16,7 +15,7 @@ class CheckSealedHandler(cr: ContentResolver) : AsyncQueryHandler(cr) {
 
     fun check(itemIds: LongArray, listener: ResultListener) {
         startQuery(TOKEN, listener, TransactionProvider.TRANSACTIONS_URI, arrayOf("MAX(" + DatabaseConstants.CHECK_SEALED(DatabaseConstants.VIEW_COMMITTED, DatabaseConstants.TABLE_TRANSACTIONS) + ")"),
-                DatabaseConstants.KEY_ROWID + " " + WhereFilter.Operation.IN.getOp(itemIds.size), itemIds.map(Long::toString).toTypedArray(), null)
+            "${DatabaseConstants.KEY_ROWID} IN (${itemIds.joinToString()})", null, null)
     }
 
     override fun onQueryComplete(token: Int, cookie: Any, cursor: Cursor?) {

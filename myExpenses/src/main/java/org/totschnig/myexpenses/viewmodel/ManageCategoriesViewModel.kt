@@ -7,7 +7,6 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.LiveDataScope
 import androidx.lifecycle.liveData
-import kotlinx.coroutines.delay
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.fragment.AbstractCategoryList.CAT_TREE_WHERE_CLAUSE
 import org.totschnig.myexpenses.model.Category
@@ -21,7 +20,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -138,9 +136,8 @@ class ManageCategoriesViewModel(application: Application) :
                         "(select 1 FROM $TABLE_TRANSACTIONS WHERE $CAT_TREE_WHERE_CLAUSE) AS $KEY_MAPPED_TRANSACTIONS",
                         "(select 1 FROM $TABLE_TEMPLATES WHERE $CAT_TREE_WHERE_CLAUSE) AS $KEY_MAPPED_TEMPLATES"
                     ),
-                    "$KEY_ROWID ${WhereFilter.Operation.IN.getOp(ids.size)}",
-                    ids.map(Long::toString).toTypedArray(),
-                    null
+                    "$KEY_ROWID IN (${ids.joinToString()})",
+                    null, null
                 ).use { cursor ->
                     if (cursor == null) {
                         failure<String>(R.string.db_error_cursor_null)
@@ -149,7 +146,7 @@ class ManageCategoriesViewModel(application: Application) :
                         var mappedToTransaction = 0
                         var mappedToTemplate = 0
                         if (cursor.moveToFirst()) {
-                            while (!cursor.isAfterLast()) {
+                            while (!cursor.isAfterLast) {
                                 var deletable = true
                                 if (cursor.getInt(1) > 0) {
                                     deletable = false

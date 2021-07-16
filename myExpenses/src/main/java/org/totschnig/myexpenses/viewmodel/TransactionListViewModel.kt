@@ -16,11 +16,11 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model.saveTagLinks
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
-import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.Tag
@@ -81,16 +81,15 @@ class TransactionListViewModel(application: Application) : BudgetViewModel(appli
 
     fun remap(transactionIds: LongArray, column: String, rowId: Long): LiveData<Int> = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
         emit(run {
-            var selection = "$KEY_ROWID ${WhereFilter.Operation.IN.getOp(transactionIds.size)}"
-            var selectionArgs = transactionIds.map(Long::toString).toTypedArray()
-            if (column == DatabaseConstants.KEY_ACCOUNTID) {
-                selection += " OR %s %s".format(DatabaseConstants.KEY_PARENTID, WhereFilter.Operation.IN.getOp(transactionIds.size))
-                selectionArgs = arrayOf(*selectionArgs, *selectionArgs)
+            val list = transactionIds.joinToString()
+            var selection = "$KEY_ROWID IN ($list)"
+            if (column == KEY_ACCOUNTID) {
+                selection += " OR $KEY_PARENTID IN ($list)"
             }
             contentResolver.update(TRANSACTIONS_URI,
                     ContentValues().apply { put(column, rowId) },
                     selection,
-                    selectionArgs)
+                    null)
         })
     }
 

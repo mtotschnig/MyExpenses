@@ -23,7 +23,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.PayeeCriteria
-import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.replace
@@ -66,7 +65,8 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
 
     fun deleteParties(idList: List<Long>): LiveData<Result<Int>> = liveData(context = coroutineContext()) {
         try {
-            emit(Result.success(contentResolver.delete(TransactionProvider.PAYEES_URI, "$KEY_ROWID ${WhereFilter.Operation.IN.getOp(idList.size)}", idList.map(Long::toString).toTypedArray())))
+            emit(Result.success(contentResolver.delete(TransactionProvider.PAYEES_URI,
+                "$KEY_ROWID IN (${idList.joinToString()})",null)))
         } catch (e: Exception) {
             emit(Result.failure<Int>(e))
         }
@@ -99,8 +99,7 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
                 if (oldSet != newSet) {
                     val labelList = mutableListOf<String>()
                     contentResolver.query(TransactionProvider.PAYEES_URI, arrayOf(KEY_PAYEE_NAME),
-                            "$KEY_ROWID ${WhereFilter.Operation.IN.getOp(newSet.size)}",
-                            newSet.map(Long::toString).toTypedArray(), null)?.use {
+                        "$KEY_ROWID IN (${newSet.joinToString()})", null, null)?.use {
                         it.moveToFirst()
                         while (!it.isAfterLast) {
                             labelList.add(it.getString(0))
@@ -124,21 +123,20 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
                 put(KEY_PAYEEID, keepId)
             }
             itemIds.subtract(listOf(keepId)).let {
-                val inOp = WhereFilter.Operation.IN.getOp(it.size)
+                val inOp = "IN (${it.joinToString()})"
                 val where = "$KEY_PAYEEID $inOp"
-                val selectionArgs = it.map(Long::toString).toTypedArray()
                 val operations = ArrayList<ContentProviderOperation>().apply {
-                    add(newUpdate(TransactionProvider.TRANSACTIONS_URI).withValues(contentValues).withSelection(where, selectionArgs).build())
-                    add(newUpdate(TransactionProvider.TEMPLATES_URI).withValues(contentValues).withSelection(where, selectionArgs).build())
-                    add(newUpdate(TransactionProvider.CHANGES_URI).withValues(contentValues).withSelection(where, selectionArgs).build())
-                    add(newDelete(TransactionProvider.PAYEES_URI).withSelection("$KEY_ROWID $inOp", selectionArgs).build())
+                    add(newUpdate(TransactionProvider.TRANSACTIONS_URI).withValues(contentValues).withSelection(where, null).build())
+                    add(newUpdate(TransactionProvider.TEMPLATES_URI).withValues(contentValues).withSelection(where, null).build())
+                    add(newUpdate(TransactionProvider.CHANGES_URI).withValues(contentValues).withSelection(where, null).build())
+                    add(newDelete(TransactionProvider.PAYEES_URI).withSelection("$KEY_ROWID $inOp", null).build())
                 }
                 val size = contentResolver.applyBatch(TransactionProvider.AUTHORITY, operations).size
                 if (size == operations.size) {
                     updatePartyFilters(it, keepId)
                     updatePartyBudgets(it, keepId)
                 } else {
-                    CrashHandler.report("Unexpected result while merging Parties, result size is : " + size)
+                    CrashHandler.report("Unexpected result while merging Parties, result size is : $size")
                 }
             }
         }
