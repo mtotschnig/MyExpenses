@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -12,8 +13,7 @@
   
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+ --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">Účet</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">Typy účtů</string>
@@ -718,7 +718,7 @@
     <string name="pref_protection_device_lock_screen_title">Zamykací obrazovka zařízení</string>
     <string name="pref_warning_only_one_protection">Než použijete ochranu %1$s, musíte vypnout ochranu %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">Není nastaven bezpečný zámek obrazovky.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Zamykací obrazovku vytvoříte, když přejdete do Nastavení -> Zabezpečení -> Zámek obrazovky.</string>
+    <string name="warning_device_lock_screen_not_set_up_2">Zamykací obrazovku vytvoříte, když přejdete do Nastavení -&gt; Zabezpečení -&gt; Zámek obrazovky.</string>
     <string name="menu_history_show_balance">Ukázat zůstatek</string>
     <string name="menu_history_transfers">Zahrnout převody</string>
     <string name="menu_history">Historie</string>
@@ -1011,4 +1011,5 @@
     <string name="pref_acra_user_email">Uživatelský email bude zahrnut v záznamu pádu</string>
     <string name="pref_acra_user_email_summary">Prosím zadejte vaši emailovou adresu pokud chcete pomoci při ladění a pokud nám chcete umožnit kontaktovat vás.</string>
     <string name="bug_fixes">Opravy chyb</string>
+    <string name="new_version">Nová verze</string>
 </resources>
