@@ -365,7 +365,7 @@
     <string name="title">శీర్షిక</string>
     <string name="time">సమయం</string>
     <string name="thank_you">మీ మద్దతుకు ధన్యవాదాలు!</string>
-    <string name="tell_a_friend_message">{వెబ్‌సైట్ నుండి {ప్లాట్‌ఫాం for కోసం {app_name}, వ్యక్తిగత ఫైనాన్స్ మేనేజర్ చూడండి</string>
+    <string name="tell_a_friend_message">{website} నుండి {platform} కోసం వ్యక్తిగత ఫైనాన్స్ మేనేజర్ {app_name} ని చూడండి</string>
     <string name="sum_transfer">బదిలీలు</string>
     <string name="sum_income">ఆదాయం</string>
     <string name="sum_expenses">ఖర్చులు</string>
