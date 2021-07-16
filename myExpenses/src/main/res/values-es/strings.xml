@@ -999,4 +999,5 @@
     <string name="bug_fixes">Corrección de errores</string>
     <string name="performance_enhancement">Mejora de rendimiento</string>
     <string name="stability_improvements">Mejoras en la estabilidad</string>
+    <string name="new_version">Nueva versión</string>
 </resources>
