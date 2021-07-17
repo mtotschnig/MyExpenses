@@ -816,4 +816,5 @@
     <string name="pref_acra_user_email_summary">Proszę wprowadzić swój adres E-mail jeżeli jesteś chętny w pomocy naprawienia błędu i pozwoli nam na kontakt z tobą.</string>
     <string name="bug_fixes">Poprawki błędów</string>
     <string name="new_version">Nowa wersja</string>
+    <string name="pref_news_title">Aktualności</string>
 </resources>
