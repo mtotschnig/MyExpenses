@@ -214,7 +214,7 @@
     <string name="hint_password">పాస్వర్డ్</string>
     <string name="hint_user_name">వినియోగదారు పేరు</string>
     <string name="description_webdav_trust_certificate">వెబ్‌సైట్ సర్టిఫికెట్‌ను ఉపయోగిస్తుంది, ఇది Android ద్వారా విశ్వసించబడదు.</string>
-    <string name="description_webdav_url">దయచేసి మీ వెబ్‌డావ్ సర్వర్‌లోని ప్రత్యేక ఫోల్డర్‌కు URL ను నమోదు చేయండి. {app_name its దాని డేటాను ఈ ఫోల్డర్‌లో నిల్వ చేస్తుంది, దాని వెలుపల దేనినీ తాకదు.</string>
+    <string name="description_webdav_url">దయచేసి మీ వెబ్‌డావ్ సర్వర్‌లోని ప్రత్యేక ఫోల్డర్‌కు URL ను నమోదు చేయండి. {app_name} దాని డేటాను ఈ ఫోల్డర్‌లో నిల్వ చేస్తుంది, దాని వెలుపల దేనినీ తాకదు.</string>
     <string name="hint_url">URL</string>
     <string name="synchronization_none">సమకాలీకరణ లేదు</string>
     <string name="synchronization">సమకాలీకరణ</string>
