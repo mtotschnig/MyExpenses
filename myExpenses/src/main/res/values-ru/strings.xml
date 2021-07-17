@@ -979,4 +979,5 @@
     <string name="performance_enhancement">Улучшение производительности</string>
     <string name="stability_improvements">Улучшение стабильности</string>
     <string name="new_version">Новая версия</string>
+    <string name="pref_news_title">Новости</string>
 </resources>
