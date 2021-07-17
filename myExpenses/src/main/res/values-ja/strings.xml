@@ -902,4 +902,5 @@
     <string name="performance_enhancement">パフォーマンスの向上</string>
     <string name="stability_improvements">安定性の向上</string>
     <string name="new_version">新バージョン</string>
+    <string name="pref_news_title">ニュース</string>
 </resources>
