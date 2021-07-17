@@ -1024,4 +1024,5 @@
     <string name="performance_enhancement">تحسينات علي الأداء</string>
     <string name="stability_improvements">رفع مستوي ثبات البرنامج</string>
     <string name="new_version">الإصدار الجديد</string>
+    <string name="pref_news_title">الأخبار</string>
 </resources>
