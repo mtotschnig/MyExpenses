@@ -430,11 +430,11 @@
                 android:data="@string/website" />
         </Preference>
         <Preference
-            android:key="like_facebook"
-            android:title="@string/pref_like_facebook_title">
+            android:key="@string/pref_news_key"
+            android:title="@string/pref_news_title">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://www.facebook.com/MyExpenses" />
+                android:data="https://mastodon.social/@myexpenses" />
         </Preference>
         <Preference
             android:key="@string/pref_more_info_dialog_key"

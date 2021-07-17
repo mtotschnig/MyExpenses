@@ -570,6 +570,7 @@
 
     <!-- Mastodon -->
     <string name="version_more_info_333" tools:ignore="UnusedResources">106547283868308478</string>
+    <string name="version_more_info_3331" tools:ignore="UnusedResources">106597177266390788</string>
 
     <!-- Github -->
     <string name="project_board_314">30#column-10686300</string>
@@ -592,6 +593,7 @@
     <string name="project_board_331">52#column-14150674</string>
     <string name="project_board_332">54#column-14601926</string>
     <string name="project_board_333">55#column-14888706</string>
+    <string name="project_board_3331">56#column-15144599</string>
 
     <string-array name="comparison_operator_entries">
         <item>@string/comparison_operator_equal</item>

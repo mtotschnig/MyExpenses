@@ -304,7 +304,8 @@
     <string name="pref_import_summary">Import transactions, categories and parties from %s file</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">%s import</string>
-    <string name="pref_like_facebook_title">Like us on Facebook</string>
+    <!-- Title of an entry on the Preferences Screen, that links to the MyExpenses page on Mastodon, where news about new releases is published -->
+    <string name="pref_news_title">News</string>
     <string name="pref_manage_accounts_title">Accounts</string>
     <string name="pref_manage_categories_summary">Add, edit, delete categories.</string>
     <string name="pref_manage_categories_title">Categories</string>

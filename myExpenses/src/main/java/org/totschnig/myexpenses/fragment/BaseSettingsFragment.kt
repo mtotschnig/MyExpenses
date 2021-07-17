@@ -611,6 +611,9 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             }
             requirePreference<Preference>(PrefKey.AUTO_BACKUP_CLOUD).onPreferenceChangeListener =
                 storeInDatabaseChangeListener
+
+            requirePreference<Preference>(PrefKey.NEWS).title =
+                "${getString(R.string.pref_news_title)} (Mastodon)"
         } else if (rootKey == getKey(PrefKey.UI_HOME_SCREEN_SHORTCUTS)) {
             val shortcutSplitPref = requirePreference<Preference>(PrefKey.SHORTCUT_CREATE_SPLIT)
             shortcutSplitPref.isEnabled = licenceHandler.isContribEnabled
