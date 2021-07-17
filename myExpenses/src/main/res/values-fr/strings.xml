@@ -1001,4 +1001,5 @@
     <string name="performance_enhancement">Amélioration de performance</string>
     <string name="stability_improvements">Améliorations de la stabilité</string>
     <string name="new_version">Nouvelle version</string>
+    <string name="pref_news_title">Nouveautés</string>
 </resources>
