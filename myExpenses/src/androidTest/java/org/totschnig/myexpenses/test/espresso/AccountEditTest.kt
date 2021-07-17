@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.test.espresso
 
-import android.app.Activity
 import android.content.Intent
 import android.content.OperationApplicationException
 import android.os.RemoteException

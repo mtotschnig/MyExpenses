@@ -110,6 +110,11 @@ public class SyncBackendAdapter extends BaseExpandableListAdapter {
     return ((Pair<String, Boolean>) getGroup(groupPosition)).first;
   }
 
+  public boolean isEncrypted(long packedPosition) {
+    int groupPosition = ExpandableListView.getPackedPositionGroup(packedPosition);
+    return ((Pair<String, Boolean>) getGroup(groupPosition)).second;
+  }
+
   @Override
   public int getGroupCount() {
     return syncAccounts.size();
