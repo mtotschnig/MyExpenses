@@ -310,4 +310,5 @@
     <string name="pref_acra_user_email">用戶的電子郵件被包含到崩潰報告</string>
     <string name="pref_acra_user_email_summary">如果你願意幫助調試，請輸入您的電子郵件地址，讓我們與您聯繫。</string>
     <string name="new_version">新版本</string>
+    <string name="pref_news_title">新闻</string>
 </resources>
