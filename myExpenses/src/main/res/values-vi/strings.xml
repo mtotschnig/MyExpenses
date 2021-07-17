@@ -771,4 +771,5 @@
     <string name="pref_acra_user_email_summary">Vui lòng nhập email của bạn nếu bạn có ý định giúp chúng tôi gỡ lỗi và liên hệ với bạn</string>
     <string name="stability_improvements">Cải thiện độ ổn định</string>
     <string name="new_version">Phiên bản mới</string>
+    <string name="pref_news_title">Tin tức</string>
 </resources>
