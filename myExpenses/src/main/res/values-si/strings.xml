@@ -31,7 +31,7 @@
     <string name="confirmation_dialog_dont_show_again">නැවත පෙන්වන්න එපා </string>
     <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">සීමා රහිත ගිණුම් ගණනක්</string>
     <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">සීමා රහිත සැලසුම් ගණනක්</string>
-    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources"></string>
+    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources"/>
     <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">අ.වි.අ. (CSV) ආයාත කරන්න</string>
     <string name="contrib_key">සහදායක යතුර</string>
     <string name="extended_key">දීර්ඝ කළ යතුර</string>
@@ -42,7 +42,7 @@
     <string name="date">දිනය </string>
     <string name="date_format">දින ආකෘතිය </string>
     <string name="date_format_illegal">අයුතු දින ආකෘතිය කි</string>
-    <string name="decimal_separator"></string>
+    <string name="decimal_separator"/>
     <string name="description">සවිස්තරය</string>
     <string name="dialog_command_disabled_reset_account">නිර්යාත කිරීමට ගනුදෙනු නැත.</string>
     <string name="dialog_command_disabled_distribution">ප්‍රබේධ සදහා වෙන්කළ ගනුදෙනු මෙම ගිණුමෙහි නොමැත </string>
@@ -83,7 +83,7 @@
     <string name="grouping_year">අවුරුද්ද </string>
     <string name="grouping_yesterday">ඊයෙ </string>
     <string name="help_button_rate">තරාතිරම හෝ නැවත විචාරීම </string>
-    <string name="help_heading_credits"></string>
+    <string name="help_heading_credits"/>
     <string name="help_heading_license">බලපත්‍රය </string>
     <string name="help_heading_whats_new">කුමක්ද අලුත් </string>
     <string name="important_upgrade_information_heading">වැදගත් තොරතුරු </string>
@@ -371,4 +371,5 @@
     <string name="pref_acra_user_email_summary">අනවශ්‍ය දේවල් ඉවත් කීරීමට ඔබ බලාපොරොත්තු  වන්නේ නම් කරුණාකර ඔබගේ විද්‍යුත් තැපැල් ලිපිනය ඇතුළත් කර ඔබව සම්බන්ධ කරගැනීමට අපිට ඉඩදෙන්න</string>
     <string name="bug_fixes">දෝෂ නිවැරදි කිරීම්</string>
     <string name="account_types">ගිණුම් වර්ග</string>
+    <string name="pref_news_title">පුවත්</string>
 </resources>
