@@ -229,7 +229,6 @@
     <string name="pref_contrib_purchase_title_in_app">इन-ऐप भुगतान</string>
     <string name="pref_enter_licence_title" tools:ignore="UnusedResources">कुंजी दर्ज करें</string>
     <string name="pref_export_format_title">डाटा प्रारूप</string>
-    <string name="pref_like_facebook_title">हमे फेसबूक पर लाइक करे</string>
     <string name="pref_manage_accounts_title">हिसाब किताब</string>
     <string name="pref_manage_categories_title">श्रेणियाँ</string>
     <string name="pref_manage_methods_title">भुगतान की विधियां</string>

@@ -278,7 +278,6 @@
     <string name="pref_import_summary">%s 파일에서 거래 내역, 카테고리, 구성원 가져오기</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">%s 가져오기</string>
-    <string name="pref_like_facebook_title">페이스북에서 좋아요 누르기</string>
     <string name="pref_manage_accounts_title">계좌</string>
     <string name="pref_manage_categories_summary">카테고리를 추가, 편집, 삭제합니다.</string>
     <string name="pref_manage_categories_title">카테고리</string>

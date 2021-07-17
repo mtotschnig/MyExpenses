@@ -303,7 +303,6 @@
     <string name="pref_import_summary">%s ಫೈಲ್‌ನಿಂದ ವ್ಯವಹಾರಗಳು, ವಿಭಾಗಗಳು ಮತ್ತು ಪಕ್ಷಗಳನ್ನು ಆಮದು ಮಾಡಿ</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">%s ಆಮದು</string>
-    <string name="pref_like_facebook_title">ಫೇಸ್ಬುಕ್ ನಲ್ಲಿ ನಮಗೆ ಲೈಕ್ ಕೊಡಿ</string>
     <string name="pref_manage_accounts_title">ಖಾತೆಗಳು</string>
     <string name="pref_manage_categories_summary">ವರ್ಗಗಳನ್ನು ಸೇರಿಸಿ, ಸಂಪಾದಿಸಿ, ಅಳಿಸಿ.</string>
     <string name="pref_manage_categories_title">ವರ್ಗಗಳು</string>

@@ -304,7 +304,6 @@
     <string name="pref_import_summary">%s கோப்பில் இருந்து பரிவர்த்தனைகள், வகைகள் மற்றும் தரப்புகளை இறக்குமதி செய்</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">%s இறக்குமதி</string>
-    <string name="pref_like_facebook_title">ஃபேஸ்புக்கில் எங்களைப் விரும்புங்கள்</string>
     <string name="pref_manage_accounts_title">கணக்குகள்</string>
     <string name="pref_manage_categories_summary">வகைகளை புதிதாக சேர், திருத்து, நீக்கு.</string>
     <string name="pref_manage_categories_title">வகைகள்</string>

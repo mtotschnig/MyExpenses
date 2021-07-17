@@ -267,7 +267,6 @@
     <string name="pref_import_summary">Importer posteringer, kategorier og parter fra %s fil</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">%s import</string>
-    <string name="pref_like_facebook_title">Like os på Facebook</string>
     <string name="pref_manage_accounts_title">Konti</string>
     <string name="pref_manage_categories_summary">Tilføj, rediger, slet kategorier.</string>
     <string name="pref_manage_categories_title">Kategorier</string>

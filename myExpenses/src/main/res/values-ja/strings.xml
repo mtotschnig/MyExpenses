@@ -299,7 +299,6 @@
     <string name="pref_import_summary">%s ファイルから取引、分類、および取引先をインポートします</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">%s インポート</string>
-    <string name="pref_like_facebook_title">Facebook でいいね</string>
     <string name="pref_manage_accounts_title">勘定</string>
     <string name="pref_manage_categories_summary">分類を追加/編集/削除します。</string>
     <string name="pref_manage_categories_title">分類</string>

@@ -304,7 +304,6 @@
     <string name="pref_import_summary">Εισαγωγή συναλλαγών, κατηγοριών και μερών από το αρχείο %s</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">%s εισαγωγή</string>
-    <string name="pref_like_facebook_title">Πατήστε Like στο Facebook</string>
     <string name="pref_manage_accounts_title">Λογαριασμοί</string>
     <string name="pref_manage_categories_summary">Προσθέσετε, επεξεργαστείτε, διαγράψατε κατηγορίες.</string>
     <string name="pref_manage_categories_title">Κατηγορίες</string>

@@ -316,7 +316,6 @@
     <string name="pref_import_summary">استيراد العمليات والتصنيفات والحفلات من الملف %s</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">استيراد %s</string>
-    <string name="pref_like_facebook_title">الإعجاب بصفحتنا في الفيسبوك</string>
     <string name="pref_manage_accounts_title">الحسابات</string>
     <string name="pref_manage_categories_summary">إضافة، تعديل، حذف التصنيفات.</string>
     <string name="pref_manage_categories_title">التصنيفات</string>

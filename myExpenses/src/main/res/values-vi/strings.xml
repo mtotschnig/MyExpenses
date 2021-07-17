@@ -295,7 +295,6 @@
     <string name="pref_import_summary">Nhập các giao dich, danh mục và người giao dịch từ tập tin %s</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">Nhập từ %s</string>
-    <string name="pref_like_facebook_title">\"Thích\" chúng tôi trên Facebook</string>
     <string name="pref_manage_accounts_title">Tài khoản</string>
     <string name="pref_manage_categories_summary">Thêm, chỉnh sửa, xóa phân loại.</string>
     <string name="pref_manage_categories_title">Phân loại</string>

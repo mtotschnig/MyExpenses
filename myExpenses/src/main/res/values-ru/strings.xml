@@ -309,7 +309,6 @@
     <string name="pref_import_summary">Импорт операций, категорий и участников из %s файла</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">Импорт %s</string>
-    <string name="pref_like_facebook_title">Поставить like на Facebook</string>
     <string name="pref_manage_accounts_title">Счета</string>
     <string name="pref_manage_categories_summary">Добавление, редактирование, удаление категорий.</string>
     <string name="pref_manage_categories_title">Категории</string>

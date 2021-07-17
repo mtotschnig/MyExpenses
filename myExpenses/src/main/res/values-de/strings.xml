@@ -304,7 +304,6 @@
     <string name="pref_import_summary">Buchungen, Kategorien und Parteien aus %s Datei importieren</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">%s Import</string>
-    <string name="pref_like_facebook_title">Empfehlen Sie uns auf Facebook</string>
     <string name="pref_manage_accounts_title">Konten</string>
     <string name="pref_manage_categories_summary">Hinzufügen, Editieren und Löschen von Kategorien.</string>
     <string name="pref_manage_categories_title">Kategorien</string>

@@ -310,7 +310,6 @@
     <string name="pref_import_summary">ייבוא עסקאות, קטגוריות וקבוצות מקובץ%s</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">%sיובא</string>
-    <string name="pref_like_facebook_title">עשה לנו לייק בפייסבוק</string>
     <string name="pref_manage_accounts_title">חשבונות</string>
     <string name="pref_manage_categories_summary">הוסף, ערוך, מחק קטגוריות.</string>
     <string name="pref_manage_categories_title">קטגוריות</string>

@@ -301,7 +301,6 @@
     <string name="pref_import_summary">從%s檔案匯入交易項目、類別項目和交易對象(收款人/付款人)</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">%s檔案匯入</string>
-    <string name="pref_like_facebook_title">請在臉書上幫我們按讚</string>
     <string name="pref_manage_accounts_title">帳戶</string>
     <string name="pref_manage_categories_summary">新增、編輯或刪除類別。</string>
     <string name="pref_manage_categories_title">類別設定</string>

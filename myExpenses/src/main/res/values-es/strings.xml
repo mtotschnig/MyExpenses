@@ -304,7 +304,6 @@
     <string name="pref_import_summary">Importar transacciones, categorías y grupos desde el archivo %s</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">Importar %s</string>
-    <string name="pref_like_facebook_title">Síguenos en Facebook</string>
     <string name="pref_manage_accounts_title">Cuentas</string>
     <string name="pref_manage_categories_summary">Añadir, modificar y borrar categorías.</string>
     <string name="pref_manage_categories_title">Categorías</string>

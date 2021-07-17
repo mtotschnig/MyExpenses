@@ -304,7 +304,6 @@
     <string name="pref_import_summary">Importazione di operazioni, categorie e beneficiari da %s</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">Importazione %s</string>
-    <string name="pref_like_facebook_title">Mi piace su Facebook</string>
     <string name="pref_manage_accounts_title">Conti</string>
     <string name="pref_manage_categories_summary">Aggiungere, modificare, eliminare categorie.</string>
     <string name="pref_manage_categories_title">Categorie</string>

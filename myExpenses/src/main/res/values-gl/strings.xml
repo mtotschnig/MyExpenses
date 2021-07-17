@@ -171,7 +171,6 @@
     <string name="pref_category_title_ui">Interface de usuario</string>
     <string name="pref_custom_currency_title">Personalizar moedas</string>
     <string name="pref_import_from_grisbi_title">Importar desde Grisbi</string>
-    <string name="pref_like_facebook_title">Síguenos no Facebook</string>
     <string name="pref_manage_accounts_title">Contas</string>
     <string name="pref_manage_categories_summary">Engadir, editar, eliminar categorías.</string>
     <string name="pref_manage_categories_title">Categorías</string>

@@ -461,7 +461,6 @@
     <string name="pref_manage_categories_title">కేటగిరీలు</string>
     <string name="pref_manage_categories_summary">వర్గాలను జోడించండి, సవరించండి, తొలగించండి.</string>
     <string name="pref_manage_accounts_title">ఖాతాలు</string>
-    <string name="pref_like_facebook_title">ఫేస్‌బుక్‌లో లైక్ చేయండి</string>
     <string name="pref_import_title">%s దిగుమతి</string>
     <string name="pref_import_summary">%s ఫైల్ నుండి లావాదేవీలు, వర్గాలు మరియు పార్టీలను దిగుమతి చేయండి</string>
     <string name="pref_import_from_grisbi_title">గ్రిస్బీ నుండి దిగుమతి</string>

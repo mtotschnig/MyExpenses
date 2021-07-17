@@ -302,7 +302,6 @@
     <string name="pref_import_summary">Inportatu transakzioak, kategoriak, eta onuradun/ordaintzaileak %s fitxategitik</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">%s inportazioa</string>
-    <string name="pref_like_facebook_title">Esan gogoko gaituzula Facebooken</string>
     <string name="pref_manage_accounts_title">Kontuak</string>
     <string name="pref_manage_categories_summary">Gehitu, editatu, ezabatu kategoriak.</string>
     <string name="pref_manage_categories_title">Kategoriak</string>

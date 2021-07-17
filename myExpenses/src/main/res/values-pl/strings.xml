@@ -304,7 +304,6 @@
     <string name="pref_import_summary">Importuj transakcje, kategorie i partie z pliku %s</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">Import %s</string>
-    <string name="pref_like_facebook_title">Polub nas na Facebook\'u</string>
     <string name="pref_manage_accounts_title">Konta</string>
     <string name="pref_manage_categories_summary">Utwórz, edytuj, usuń kategorie.</string>
     <string name="pref_manage_categories_title">Kategorie</string>

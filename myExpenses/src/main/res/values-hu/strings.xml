@@ -304,7 +304,6 @@
     <string name="pref_import_summary">Tranzakciók, kategóriák és felek importálása a(z) %s fájlból</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">%s importálás</string>
-    <string name="pref_like_facebook_title">Kedveljen minket a Facebookon</string>
     <string name="pref_manage_accounts_title">Számlák</string>
     <string name="pref_manage_categories_summary">Kategóriák hozzáadása, szerkesztése, törlése.</string>
     <string name="pref_manage_categories_title">Kategóriák</string>
