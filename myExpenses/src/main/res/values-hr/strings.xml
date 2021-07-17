@@ -932,4 +932,5 @@
     <string name="pref_acra_user_email_summary">Molimo unesite vašu e-mail adresu ako želite pomoći u ispravljanju grešaka i dopustiti nam da vas kontaktiramo.</string>
     <string name="bug_fixes">Popravci grešaka</string>
     <string name="new_version">Nova verzija</string>
+    <string name="pref_news_title">Novosti</string>
 </resources>
