@@ -987,4 +987,5 @@
     <!-- This is the label for a field for accounts. Active tags are automatically added to new transactions when an account is selected. -->
     <string name="active_tags">Aktív cimkék</string>
     <string name="new_version">Új verzió</string>
+    <string name="pref_news_title">Hírek</string>
 </resources>
