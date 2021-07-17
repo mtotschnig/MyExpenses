@@ -717,4 +717,5 @@
     <string name="pref_acra_user_email_summary">Mesedez sartu zure helbide elektronikoa arazketan lagundu nahi baduzu eta gu zurekin kontaktuan jartzea onartzen baduzu.</string>
     <string name="bug_fixes">Konpondutako akatsak</string>
     <string name="new_version">Bertsio berria</string>
+    <string name="pref_news_title">Berriak</string>
 </resources>
