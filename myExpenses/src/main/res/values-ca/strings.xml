@@ -352,4 +352,5 @@
     <string name="pref_acra_user_email_summary">Escriviu la vostra adreça de correu electrònic si ens voleu ajudar a esmenar les penjades i a entrar en contacte amb vós.</string>
     <string name="bug_fixes">Correccions</string>
     <string name="new_version">Nova versió</string>
+    <string name="pref_news_title">Notícies</string>
 </resources>
