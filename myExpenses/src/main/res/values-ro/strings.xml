@@ -531,4 +531,5 @@
     <string name="pref_acra_user_email_summary">Vă rugăm să introduceţi adresa de e-mail în cazul în care sunteţi dispus să ajutaţi la depanare şi să ne permiteţi să vă contactăm.</string>
     <string name="bug_fixes">Bug fixat</string>
     <string name="new_version">Versiune nouă</string>
+    <string name="pref_news_title">Știri</string>
 </resources>
