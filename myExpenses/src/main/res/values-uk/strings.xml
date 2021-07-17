@@ -830,4 +830,5 @@
     <string name="performance_enhancement">Покращення швидкодії</string>
     <string name="stability_improvements">Покращення стабільності</string>
     <string name="new_version">Нова версія</string>
+    <string name="pref_news_title">Новини</string>
 </resources>
