@@ -23,27 +23,22 @@ import kotlin.system.exitProcess
 @Suppress("unused")
 class Main {
     companion object {
-        var function: ExtensionFunction = object : ExtensionFunction {
-            override fun getName(): QName {
-                return QName("http://myexpenses.mobi/", "displayNameForLanguage")
-            }
+        var displayNameForLanguage: ExtensionFunction = object : ExtensionFunction {
+            override fun getName() =
+                QName("http://myexpenses.mobi/", "displayNameForLanguage")
 
-            override fun getResultType(): SequenceType {
-                return SequenceType.makeSequenceType(
+            override fun getResultType() = SequenceType.makeSequenceType(
+                ItemType.STRING, OccurrenceIndicator.ONE
+            )
+
+            override fun getArgumentTypes() = arrayOf(
+                SequenceType.makeSequenceType(
+                    ItemType.STRING, OccurrenceIndicator.ONE
+                ),
+                SequenceType.makeSequenceType(
                     ItemType.STRING, OccurrenceIndicator.ONE
                 )
-            }
-
-            override fun getArgumentTypes(): Array<SequenceType> {
-                return arrayOf(
-                    SequenceType.makeSequenceType(
-                        ItemType.STRING, OccurrenceIndicator.ONE
-                    ),
-                    SequenceType.makeSequenceType(
-                        ItemType.STRING, OccurrenceIndicator.ONE
-                    )
-                )
-            }
+            )
 
             @Throws(SaxonApiException::class)
             override fun call(arguments: Array<XdmValue>): XdmValue {
@@ -52,6 +47,27 @@ class Main {
                 return XdmAtomicValue(Locale(targetLanguage).getDisplayLanguage(Locale(displayLanguage)))
             }
         }
+
+        var fileExists: ExtensionFunction = object : ExtensionFunction {
+            override fun getName() = QName("http://myexpenses.mobi/", "fileExists")
+
+            override fun getResultType() = SequenceType.makeSequenceType(
+                ItemType.BOOLEAN, OccurrenceIndicator.ONE
+            )
+
+            override fun getArgumentTypes() = arrayOf(
+                SequenceType.makeSequenceType(
+                    ItemType.STRING, OccurrenceIndicator.ONE
+                )
+            )
+
+            @Throws(SaxonApiException::class)
+            override fun call(arguments: Array<XdmValue>): XdmValue {
+                val path = (arguments[0].itemAt(0) as XdmAtomicValue).stringValue
+                return XdmAtomicValue(File(path).exists())
+            }
+        }
+
         @JvmStatic
         fun main(args: Array<String>) {
             Locale.setDefault(Locale("en"))
@@ -76,7 +92,8 @@ class Main {
 
         private fun runTransform(styleSheet: String, version: String, outFile: String? = null, versionCode: String? = null) {
             val processor = Processor(false)
-            processor.registerExtensionFunction(function)
+            processor.registerExtensionFunction(displayNameForLanguage)
+            processor.registerExtensionFunction(fileExists)
             val out: Serializer = outFile?.let { processor.newSerializer(File(it)) } ?: processor.newSerializer(System.out)
             val compiler: XsltCompiler = processor.newXsltCompiler()
             val stylesheet: XsltExecutable =
@@ -92,7 +109,7 @@ class Main {
         }
 
         private fun usage() {
-            System.err.println("Usage:\nChangelog fdroid <version> <versionCode>\nChangelog gplay\nChangelog yaml")
+            System.err.println("Usage:\nChangelog fdroid <version> <versionCode>\nChangelog gplay <version>\nChangelog yaml <version>")
             exitProcess(0)
         }
     }

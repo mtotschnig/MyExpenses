@@ -54,11 +54,12 @@
                         <xsl:when test="$special-version-info != ''">
                             <xsl:value-of select="$special-version-info" />
                         </xsl:when>
-                        <xsl:otherwise>
+                        <xsl:when test="my:fileExists($upgrade)">
                             <xsl:apply-templates select="document($upgrade)/resources/string-array">
                                 <xsl:with-param name="version" select="." />
                             </xsl:apply-templates>
-                        </xsl:otherwise>
+                        </xsl:when>
+                        <xsl:otherwise/>
                     </xsl:choose>
                 </xsl:variable>
                 <xsl:if test="$entry != ''">

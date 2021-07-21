@@ -15,6 +15,7 @@ import androidx.test.core.app.ApplicationProvider;
 import static junit.framework.Assert.fail;
 import static org.totschnig.myexpenses.util.Utils.PLACEHOLDER_APP_NAME;
 
+//TODO migrate to parameterized test
 @RunWith(RobolectricTestRunner.class)
 public class AppNameLocalizationTest {
 
