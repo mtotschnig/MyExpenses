@@ -40,13 +40,13 @@ features:
 screenshots:
   sync: Sincronize dados criptografados das contas em vários dispositivos por meio
     de serviços de nuvem privada ou pública.
-  history: Entenda como sua situação financeira evolui ao longo do tempo.
-  distribution: Visualize a distribuição por categoria.
-  split: Divida uma transação em várias categorias.
-  budget: Defina o quanto você pretende gastar em orçamentos anuais, mensais ou semanais.
+  history: Entenda como sua situação financeira evolui ao longo do tempo
+  distribution: Visualize a distribuição por categoria
+  split: Divida uma transação em várias categorias
+  budget: Defina o quanto você pretende gastar em orçamentos anuais, mensais ou semanais
   summarize: Some todas as suas contas (tratando, de forma sofisticada, taxas de câmbio
-    por conta e por transação).
-  group: Agrupe suas transações por dia, semana, mês e ano.
+    por conta e por transação)
+  group: Agrupe suas transações por dia, semana, mês e ano
   export: Imprima em PDF e transfira via QIF e CSV.
 sections:
   versionlist: Atualizações
