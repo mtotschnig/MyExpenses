@@ -873,4 +873,6 @@
     <string name="bug_fixes">బగ్ పరిష్కారాలను</string>
     <string name="ui_refinement">వినియోగదారు ఇంటర్ఫేస్ యొక్క శుద్ధీకరణ</string>
     <string name="backup_save_to_sync_backend">%s కు సేవ్ చేయండి</string>
+    <string name="new_version">క్రొత్త సంస్కరణ</string>
+    <string name="pref_news_title">వార్తలు</string>
 </resources>
