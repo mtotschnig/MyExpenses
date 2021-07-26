@@ -19,7 +19,7 @@ hr:
     links: Poveznice
   contrib:
     thank_you: |
-        Vaš doprinos omogućava daljnji razvoj My Expensesa. Hvala Vam!
+      Vaš doprinos omogućava daljnji razvoj My Expensesa. Hvala Vam!
   permissions:
     internet:
       explanation_crash_reporting: Izvještaji o prestanku rada aplikacije
@@ -48,3 +48,5 @@ hr:
     history: Povijest vaše financijske situacije
     export: Izvezi u PDF, QIF i CSV
     sync: Sinhronizacija u oblaku
+  all_extended_key_features: Sve funkcije za prošireni ključ
+  all_contrib_key_features: Sve funkcije za ključ doprinositelja
