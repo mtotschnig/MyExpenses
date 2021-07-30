@@ -92,3 +92,8 @@ zh-cn:
   all_contrib_key_features: '贡献版密钥的所有功能'
   all_extended_key_features: '延伸版密钥的所有功能'
   customer_support: 客户支持
+  screenshot_testdata:
+    account1Label: 我的钱包
+  screenshot_titles:
+    sync: 云同步
+    export: 导出为 PDF、QIF 和 CSV
