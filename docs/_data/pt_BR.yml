@@ -24,6 +24,8 @@ contrib:
       transações por categoria em diferentes períodos (anos, meses, semanas, dias)'
     plans_unlimited: Número ilimitado de planos para transações <b>recorrentes</b>
     accounts_unlimited: Número ilimitado de <b>contas</b>
+    budgeting: '<b>Orçamento</b> : compare seus gastos com os limites definidos por
+      categoria em uma base diária, semanal, mensal ou anual.'
 features:
   homescreen: <b>Widget</b> da tela inicial e <b>atalhos</b> para entrada rápida de
     dados.
@@ -73,3 +75,5 @@ privacy_policy_text: <i>{app_name}</i> não acessa nenhum dado em seu dispositiv
 privacy_policy_heading: Política de privacidade
 imprint_text: Responsável pelo conteúdo deste site e pelo desenvolvimento, manutenção
   e distribuição do <i> {app_name} </i>
+all_extended_key_features: Todos os recursos da chave Estendida
+all_contrib_key_features: Todas os recursos da chave Contrib
