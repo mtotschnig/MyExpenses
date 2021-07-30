@@ -612,8 +612,8 @@
     <string name="progress_dialog_checking_sync_backend">Verificando o destino</string>
     <string name="template">Modelo</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sincronização na nuvem</string>
-    <string name="all_contrib_key_features">Todas os recursos da Chave Contrib</string>
-    <string name="all_extended_key_features">Todos os recursos da Chave Estendida</string>
+    <string name="all_contrib_key_features">Todas os recursos da chave Contrib</string>
+    <string name="all_extended_key_features">Todos os recursos da chave Estendida</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">Atualizar</string>
     <string name="pref_backup_cloud_title">Armazenar no destino de sincronização</string>
@@ -994,7 +994,7 @@
     <string name="pref_enable_acra">Permitir o envio automático de relatórios de falhas</string>
     <string name="pref_acra_user_email">E-mail do usuário a ser incluído no relatório de falhas</string>
     <string name="pref_acra_user_email_summary">Por favor, digite seu endereço de e-mail se você estiver disposto a ajudar na depuração e nos permitir entrar em contato com você.</string>
-    <string name="ui_refinement">Refinamento da interface do usuário.</string>
+    <string name="ui_refinement">Melhorias na interface do usuário.</string>
     <string name="bug_fixes">Correções de erros</string>
     <string name="performance_enhancement">Melhoria de performance</string>
     <string name="stability_improvements">Melhorias de estabilidade</string>
