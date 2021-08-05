@@ -612,7 +612,7 @@
     <string name="progress_dialog_checking_sync_backend">Sto verificando il back-end</string>
     <string name="template">Modello</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sincronizzazione con il cloud</string>
-    <string name="all_contrib_key_features">Tutte le caratteristiche di Licenza Contributore</string>
+    <string name="all_contrib_key_features">Tutte le funzionalità della Licenza Contributore</string>
     <string name="all_extended_key_features">Tutte le funzionalità della Licenza Funzionalità Estese</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">Acquista una licenza</string>
