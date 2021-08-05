@@ -3,10 +3,11 @@ it:
   imprint_text: Responsabile per il contenuto di questo sito web e per lo sviluppo,
     la manutenzione e la distribuzione di <i>{app_name}</i>
   privacy_policy_heading: Informativa sulla privacy
-  privacy_policy_text: "<i>{app_name}</i> non accede a alcuni dati di suo apparecchio\
-    \ al di fuori della database e la cartella proprie sulla scheda SD. Se si utilizza\
-    \ la funzionalità dei piani per le transazioni future e ricorrenti, si assegnano\
-    \ il calendario, in cui sono memorizzati questi piani."
+  privacy_policy_text: "<i>{app_name}</i> non accede ad alcuna informazione sul tuo\
+    \ dispositivo, al di fuori del proprio database e della propria cartella sulla\
+    \ scheda SD. Se si utilizza la funzionalità dei piani per le transazioni future\
+    \ e ricorrenti, dovrà essere assegnato il calendario su cui saranno memorizzati\
+    \ questi piani."
   hero_main: "Gestione delle finanze personali per Android"
   hero_sub:
     use: "Facile da usare"
@@ -132,7 +133,7 @@ it:
     account3Label: Conto bancario
     account3Description: Unicredit
     transaction2Comment: Frutta e verdura
-    transaction4Payee: Pizzeria Antonella
+    transaction4Payee: Pizzeria Bella Napoli
     templatePayee: Piero Pers
     tag_project: Progetto senza titolo
   screenshot_titles:
