@@ -517,7 +517,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
             if (transaction.isSealed) {
                 abortWithMessage("This transaction refers to a closed account and can no longer be edited")
             } else {
-                populate(it)
+                populate(it, withAutoFill && task != TRANSACTION_FROM_TEMPLATE)
 
             }
         } ?: run {
@@ -532,7 +532,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     }
 
     private fun populateWithNewInstance(transaction: Transaction?) {
-        transaction?.let { populate(it) } ?: run {
+        transaction?.let { populate(it, withAutoFill) } ?: run {
             val errMsg = getString(R.string.warning_no_account)
             abortWithMessage(errMsg)
         }
@@ -554,7 +554,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         (intent.getSerializableExtra(KEY_AMOUNT) as? BigDecimal)?.let { amountInput.setAmount(it) }
     }
 
-    private fun populate(transaction: Transaction) {
+    private fun populate(transaction: Transaction, withAutoFill: Boolean) {
         parentId = transaction.parentId ?: 0L
         if (isClone) {
             transaction.crStatus = CrStatus.UNRECONCILED
