@@ -1,2 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="help_contextual_actions">சூழ்நிலை நடவடிக்கைகள்</string>
+    <string name="help_menu_commands">பட்டி கட்டளைகள்</string>
+</resources>
