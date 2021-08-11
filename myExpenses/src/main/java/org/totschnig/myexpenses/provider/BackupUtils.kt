@@ -117,10 +117,6 @@ private fun requireBackupFile(appDir: DocumentFile, encrypted: Boolean): Documen
     )
 }
 
-fun getBackupDbFile(backupDir: File?): File {
-    return File(backupDir, BACKUP_DB_FILE_NAME)
-}
+fun getBackupDbFile(backupDir: File?) = File(backupDir, BACKUP_DB_FILE_NAME)
 
-fun getBackupPrefFile(backupDir: File?): File {
-    return File(backupDir, BACKUP_PREF_FILE_NAME)
-}
+fun getBackupPrefFile(backupDir: File?) = File(backupDir, BACKUP_PREF_FILE_NAME)

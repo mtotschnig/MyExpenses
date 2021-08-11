@@ -1936,9 +1936,9 @@ public class TransactionProvider extends BaseTransactionProvider {
     mOpenHelper.getReadableDatabase().beginTransaction();
     try {
       File backupPrefFile, sharedPrefFile;
-      Result result = backupDb(new File(backupDir, BackupUtilsKt.BACKUP_DB_FILE_NAME), currentDb);
+      Result result = backupDb(BackupUtilsKt.getBackupDbFile(backupDir), currentDb);
       if (result.isSuccess()) {
-        backupPrefFile = new File(backupDir, BackupUtilsKt.BACKUP_PREF_FILE_NAME);
+        backupPrefFile = BackupUtilsKt.getBackupPrefFile(backupDir);
         // Samsung has special path on some devices
         // http://stackoverflow.com/questions/5531289/copy-the-shared-preferences-xml-file-from-data-on-samsung-device-failed
         final MyApplication application = MyApplication.getInstance();
@@ -1957,6 +1957,11 @@ public class TransactionProvider extends BaseTransactionProvider {
         if (FileCopyUtils.copy(sharedPrefFile, backupPrefFile)) {
           prefHandler.putBoolean(PrefKey.AUTO_BACKUP_DIRTY, false);
           setDirty(false);
+        } else {
+          final String message = "Unable to copy preference file from  " +
+              sharedPrefFile.getPath() + " to " + backupPrefFile.getPath();
+          CrashHandler.report(message);
+          return Result.ofFailure(message);
         }
       }
       return result;
