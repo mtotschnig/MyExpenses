@@ -1,0 +1,2 @@
+• Provedor de taxa de câmbio: https://exchangerate.host
+• Além do armazenamento local no aparelho, o ficheiro de backup também pode ser copiado para um destino remoto.

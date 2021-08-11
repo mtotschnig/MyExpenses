@@ -1,0 +1,146 @@
+---
+---
+<html>
+<head>
+<script type="text/javascript" src="/script/utils.js" charset="UTF-8"> </script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<script type="text/javascript">
+function getURLParameter(name) {
+  return decodeURI(
+    (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,''])[1]
+   );
+}
+function findDestination() {
+  lang = findLang();
+  hash = "#thankyou";
+  result = window.location.protocol + "//" + window.location.host + "/" + lang;
+  if (getURLParameter("tx") != "") {
+      result += location.search + "#thankyou";
+  }
+  return result;
+}
+
+function findLang() {
+  userLang = (getURLParameter("lang") || window.navigator.userLanguage || window.navigator.language).substring(0,2);
+  if (userLang == 'zh')
+    userLang = 'zh-tw';
+  translations = ["en","de","fr","it","es","tr","bg","pt","ms"];
+  return translations.indexOf(userLang) > -1 ? userLang : "en";
+}
+
+var translation_data = {
+
+        "text_1":  {
+
+             "pt": "Abra este link no seu dispositivo Android com a aplicação Minhas despesas.",
+
+             "de": "Öffnen Sie diesen Link auf Ihrem Android-Gerät mit der App Meine Ausgaben.",
+
+             "fr": "Ouvrez ce lien sur votre appareil Android avec l'application Mes dépenses",
+
+             "ja": "お使いの Android 上のマイエクスペンス アプリでリンクを開きます。",
+
+             "es": "Abrir este enlace en tu dispositivo Android con la aplicación de Mis Gastos.",
+
+             "bg": "Отвори тази връзка от приложението Моите разходи на своето устройство с Андроид.",
+
+             "ms": "Buka pautan ini melalui peranti Android anda dengan apl My Expenses.",
+
+             "en": "Open this link on your Android device with the My Expenses app.",
+
+             "it": "Aprire questo link sul tuo dispositivo Android con l'app My spese.",
+
+             "tr": "Bu bağlantıyı Android cihazınızda Harcamalarım uygulamasıyla açın.",
+
+             "ru": "Откройте эту ссылку на вашем Android устройстве с помощью приложения Мои расходы."
+
+        },
+        "text_2": {
+
+             "pt": "Em alternativa pode introduzir %s a partir do ecrã de Definições da aplicação.",
+
+             "de": "Alternativ können Sie %s innerhalb der App im Bereich Einstellungen eingeben.",
+
+             "fr": "Autrement vous pouvez entrer %s à partir de l'écran des Paramètres dans l'application.",
+
+             "ja": "代わりに、アプリの設定画面から %s を入力することができます。",
+
+             "es": "Alternativamente puede ingresar %s en la pantalla de configuración dentro de la aplicación.",
+
+             "bg": "Друг начин е да въведеш %s от екрана с Настройки от приложението.",
+
+             "ms": "Selain itu, anda boleh masukkan %s menerusi skrin Tetapan di dalam apl.",
+
+             "en": "Alternatively you can enter %s from the Settings screen within the app.",
+
+             "it": "In alternativa è possibile immettere %s dalla schermata delle impostazioni all'interno dell'app.",
+
+             "tr": "Ya da %s unsurunu uygulamanın Ayarlar ekranında girebilirsiniz.",
+
+             "ru": "В качестве альтернативы вы можете ввести %s через настройки внутри приложения."
+
+        }
+   };
+
+function buildLocalizedAlert() {
+   lang = findLang();
+   return getLocalized("text_1", lang) + " " + sprintf(getLocalized("text_2", lang), getURLParameter("key"));
+}
+
+function getLocalized(key, lang) {
+  if (translation_data[key][lang] == "") {
+    return translation_data[key]["en"];
+  } else {
+    return translation_data[key][lang];
+  }
+}
+
+//http://stackoverflow.com/a/4795914/1199911
+function sprintf() {
+    var args = arguments,
+    string = args[0],
+    i = 1;
+    return string.replace(/%((%)|s|d)/g, function (m) {
+        // m is the matched format, e.g. %s, %d
+        var val = null;
+        if (m[2]) {
+            val = m[2];
+        } else {
+            val = args[i];
+            // A switch statement so that the formatter can be extended. Default is %s
+            switch (m) {
+                case '%d':
+                    val = parseFloat(val);
+                    if (isNaN(val)) {
+                        val = 0;
+                    }
+                    break;
+            }
+            i++;
+        }
+        return val;
+    });
+}
+
+
+switch(window.location.hash) {
+case '#verify':
+  alert(buildLocalizedAlert());
+  break;
+default:
+  window.location.replace(findDestination());
+  break;
+}
+</script>
+</head>
+<body>
+<noscript>
+<ul>
+{% for title in site.title %}
+    <li><a href="{{title[0]}}">{{title[1]}}</a></li>
+{% endfor %}
+</ul>
+</noscript> 
+</body>
+
+

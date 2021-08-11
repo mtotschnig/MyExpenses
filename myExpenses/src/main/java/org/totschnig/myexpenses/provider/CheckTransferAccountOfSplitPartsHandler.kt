@@ -3,11 +3,7 @@ package org.totschnig.myexpenses.provider
 import android.content.AsyncQueryHandler
 import android.content.ContentResolver
 import android.database.Cursor
-import android.widget.Toast
-import org.jetbrains.annotations.Nullable
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
-import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 
 class CheckTransferAccountOfSplitPartsHandler(cr: ContentResolver) : AsyncQueryHandler(cr) {
@@ -15,17 +11,15 @@ class CheckTransferAccountOfSplitPartsHandler(cr: ContentResolver) : AsyncQueryH
         /**
          * @param result list of all transfer accounts of parts of the passed in split transactions
          */
-        fun onResult(result: List<Long>)
+        fun onResult(result: Result<List<Long>>)
     }
 
-    private val TOKEN = 1
-    fun check(itemIds: MutableList<Long>, listener: @Nullable ResultListener) {
+    fun check(itemIds: MutableList<Long>, listener: ResultListener) {
         if (itemIds.size == 0) {
-            listener.onResult(emptyList())
+            listener.onResult(Result.success(emptyList()))
         } else {
             startQuery(TOKEN, listener, TransactionProvider.TRANSACTIONS_URI, arrayOf("distinct $KEY_TRANSFER_ACCOUNT"),
-                    KEY_TRANSFER_ACCOUNT + " is not null AND " +
-                            DatabaseConstants.KEY_PARENTID + " " + WhereFilter.Operation.IN.getOp(itemIds.size), itemIds.map(Long::toString).toTypedArray(), null)
+                "$KEY_TRANSFER_ACCOUNT is not null AND ${DatabaseConstants.KEY_PARENTID} IN (${itemIds.joinToString()})", null, null)
         }
     }
 
@@ -39,11 +33,15 @@ class CheckTransferAccountOfSplitPartsHandler(cr: ContentResolver) : AsyncQueryH
                 } while (moveToNext())
             }
             close()
-            (cookie as ResultListener).onResult(ids)
+            (cookie as ResultListener).onResult(Result.success(ids))
         } ?: kotlin.run {
-            val errorMessage = "Error while cheching transfer account of split parts"
-            CrashHandler.report(errorMessage)
-            Toast.makeText(MyApplication.getInstance(), errorMessage, Toast.LENGTH_LONG).show()
+            val error = Exception("Error while checking transfer account of split parts")
+            CrashHandler.report(error)
+            (cookie as CheckSealedHandler.ResultListener).onResult(Result.failure(error))
         }
+    }
+
+    companion object {
+        private const val TOKEN = 1
     }
 }

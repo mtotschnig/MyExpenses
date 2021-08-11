@@ -1,0 +1,113 @@
+en:
+  imprint: Imprint
+  imprint_text: Responsible for the content of this website and for development, maintenance and distribution of <i>{app_name}</i>
+  privacy_policy_heading: Privacy policy
+  privacy_policy_text: "<i>{app_name}</i> does not access any data on your device other than its own database, its own folder on the SD card. If you use the feature of plans for future and recurrent transactions, you assign the calendar, where these plans are stored."
+  hero_main: "Personal finance manager for Android"
+  hero_sub:
+    use: "Easy to use"
+    functionality: "Rich functionality"
+    source: "Open Source"
+  menu_title:
+    more_information: More information
+  sections:
+    features: Features
+    premium: Go Premium
+    participate: Participate
+    faq: FAQ
+    versionlist: Changelog
+    credits: Credits
+    licence: Licence
+    sourcecode: Source code
+    links: Links
+  screenshots:
+    group: Group your transactions per day, week, month and year
+    summarize: Sum up all your accounts (Sophisticated handling of exchange rates per account and per transaction)
+    budget: Define how much you intend to spend in yearly, monthly or weekly budgets
+    split: Split one transaction to multiple categories
+    distribution: Visualize the distribution per category
+    history: Understand how your financial situation evolves over time
+    export: Print to PDF and exchange via QIF and CSV.
+    sync: Sync encrypted account data on multiple devices via private or public cloud services.
+  features:
+    manage_accounts: Up to five accounts with <b>transfers</b> (also between different currencies)
+    plans: Unlimited number of <b>templates</b> and up to three plans for <b>recurring</b> transactions
+    export: <b>Export</b> to QIF and CSV. <b>Import</b> from QIF
+    password: Data can be protected by <b>password</b> or device <b>lock screen</b>
+    light_theme: <b>Theme</b> (dark and light) and <b>font size</b> can be customized
+    reconciliation: "<b>Reconciliation</b>: Easily compare transaction status with your bank statements"
+    homescreen: Homescreen <b>widget</b> and <b>shortcuts</b> for quick data entry
+  contrib:
+    thank_you: |
+      Your contribution supports the further development of My Expenses. Thank you!
+    feature-list-title: "Please contribute by upgrading <i>{app_name}</i> and gain unrestricted access to the following features:"
+    feature:
+      accounts_unlimited: Unlimited number of <b>accounts</b>
+      plans_unlimited: Unlimited number of plans for <b>recurring</b> transactions
+      distribution: "<b>Pie chart</b>: Visualize the statistical distribution of transactions per category over different periods (years, months, weeks, days)"
+      split_transaction: "<b>Split transaction</b>: A single transaction can be split into multiple parts (categories and transfers)"
+      print: <b>Print</b> the transaction list to a PDF file
+      attach_picture: "<b>Image attachment</b>: Capture via camera or select from gallery"
+      ad_free: <b>No ads</b>
+      csv_import: Sophisticated, customizable <b>CSV import</b> (spreadsheet applications)
+      auto_backup: Daily <b>automated backup</b> with optional upload to cloud storage
+      cloud_sync: "<b>Cloud synchronization</b>: Data can be synced between multiple devices"
+      split_template: Unlimited number of <b>templates and plans for split transactions</b>
+      email_support: <b>Email support</b> with guaranteed response within 2 business days
+      roadmap_voting: Voting right on <b>development roadmap</b>
+      history_chart: <b>History chart</b> (Cash flow)
+      budgeting: "<b>Budgeting</b>: Compare your spending to limits you set per category on a daily, weekly, monthly or yearly basis."
+      scan_receipt: "<b>Scan receipts</b>: Automatically extract amount, date and payee"
+      webui: <b>Web User Interface</b>
+    one-time-payment: One-time payment
+    subscription: Subscription
+  store:
+    short_description: "Easy to use personal finance manager: rich functionality and Open Source"
+    full_description_intro: "{app_name} keeps track of your expenses and your income, directly on your smartphone and on your tablet."
+    full_description_contrib: "Premium features are unlocked by purchase of one of the following licence keys:"
+    full_description_contrib_amazon: "Many additional features are unlocked by purchase of one of the licence keys, e.g.:"
+    highlight_1: "Keep track of your expenses and income with multiple accounts, templates and categories"
+    highlight_2: "Share your data between multiple phones and tablets via WebDAV and Google Drive"
+    highlight_3: "Summarize your financial situation per day, week, month or year"
+  permissions:
+    heading: <i>{app_name}</i> requires the following <u>permissions</u>
+    calendar:
+      label: Calendar
+      explanation: Plans for future and recurrent transactions are stored either in a special local calendar or in any other calendar you assign.
+    external-storage:
+      label: Storage
+      explanation: Storage of QIF and CSV exports and backup files.
+    internet:
+      label: Internet
+      explanation_usage_tracking: Anonymous usage tracking
+      explanation_crash_reporting: Crash reports
+      explanation_key_validation: Licence key validation
+      explanation_cloud_sync: Cloud synchronization
+    accounts:
+      label: Accounts
+      explanation: Synchronization across devices via cloud services.
+  contrib-key: Contrib Key
+  extended-key: Extended Key
+  professional-key: Professional Key
+  all_contrib_key_features: All features of Contrib Key
+  all_extended_key_features: All features of Extended Key
+  customer_support: Customer support
+  screenshot_testdata:
+    account1Label: My wallet
+    account1Description: Daily expenses
+    account2Label: weekend in Paris
+    account3Label: Bank account
+    account3Description: Bank of America
+    transaction2Comment: Fruits & Vegetables
+    transaction4Payee: Pizzeria Antonella
+    templatePayee: John Doe
+    tag_project: Untitled project
+  screenshot_titles:
+    group: Group by year, month or week
+    summarize: Sum up all your accounts
+    budget: Yearly, monthly and weekly budgets
+    split: Split to multiple categories
+    distribution: Pie chart diagram
+    history: History of your financial situation
+    export: Export to PDF, QIF and CSV
+    sync: Cloud synchronization

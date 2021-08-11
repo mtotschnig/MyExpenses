@@ -1,0 +1,54 @@
+cs:
+  imprint: Tiráž
+  hero_main: "Správa osobních výdajů pro Android"
+  hero_sub:
+    use: "Snadné použití"
+    functionality: "Bohaté funkce"
+    source: "Otevřený vývoj"
+  menu_title:
+    more_information: Více informací
+  sections:
+    features: Funkce
+    premium: Přejít na Premium
+    participate: Zapojte se
+    faq: FAQ
+    versionlist: Seznam změn
+    credits: Na vývoji se podíleli
+    licence: Licence
+    sourcecode: Zdrojový kód
+    links: Odkazy
+  contrib:
+    thank_you: |
+        Váš příspěvek podporuje další rozvoj Moje výdaje. Děkuji!
+    feature-list-title: "Proveďte upgrade aplikace <i>{app_name}</i> a získejte neomezený přístup k následujícím funkcím:"
+    feature:
+      email_support: <b>Emailová podpora</b> s garantovanou odpovědí během 2 pracovních dnů
+      webui: <b>Webové uživatelské rozhraní</b>
+  permissions:
+    internet:
+      explanation_crash_reporting: Hlášení o pádech
+      explanation_cloud_sync: Cloudová synchronizace
+    accounts:
+      label: Účty
+  contrib-key: Klíč Contrib
+  extended-key: Rozšířený klíč
+  professional-key: Profesionální klíč
+  screenshot_testdata:
+    account1Label: Moje peněženka
+    account1Description: Denní výdaje
+    account2Label: víkend v Paříži
+    account3Label: Bankovní účet
+    account3Description: Bank of America
+    transaction2Comment: Ovoce a zelenina
+    transaction4Payee: Do české vesnice
+    templatePayee: Jan Novák
+    tag_project: Projekt bez názvu
+  screenshot_titles:
+    group: Seskupit podle roku, měsíce nebo týdne
+    summarize: Sečtěte všechny své účty
+    budget: Roční, měsíční a týdenní rozpočty
+    split: Rozdělit do více kategorií
+    distribution: Výsečový graf
+    history: Historie vaší finanční situace
+    export: Export do PDF, QIF a CSV
+    sync: Cloudová synchronizace

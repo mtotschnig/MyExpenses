@@ -5,6 +5,8 @@ import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
 import android.database.sqlite.SQLiteConstraintException
+import androidx.annotation.PluralsRes
+import androidx.annotation.StringRes
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -68,7 +70,7 @@ abstract class ContentResolvingAndroidViewModel(application: Application) : Andr
                     val id = cursor.getLong(cursor.getColumnIndex(KEY_ROWID))
                     AccountMinimal(id,
                             if (id == HOME_AGGREGATE_ID)
-                                getApplication<MyApplication>().getString(R.string.grand_total)
+                                getString(R.string.grand_total)
                             else
                                 cursor.getString(cursor.getColumnIndex(KEY_LABEL)),
                             cursor.getString(cursor.getColumnIndex(KEY_CURRENCY)))
@@ -79,6 +81,12 @@ abstract class ContentResolvingAndroidViewModel(application: Application) : Andr
                 }
         return liveData
     }
+
+    fun getString(@StringRes resId: Int, vararg formatArgs: Any?) =
+        getApplication<MyApplication>().getString(resId, *formatArgs)
+
+    fun getQuantityString(@PluralsRes resId: Int, quantity: Int, vararg formatArgs: Any?) =
+        getApplication<MyApplication>().resources.getQuantityString(resId, quantity, *formatArgs)
 
     private val accountLiveData: Map<Long, LiveData<Account>> = lazyMap { accountId ->
         val liveData = MutableLiveData<Account>()

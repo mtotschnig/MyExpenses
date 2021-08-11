@@ -228,6 +228,11 @@
                 android:summary="@string/pref_share_target_summary"
                 android:title="@string/pref_share_target_title" />
         </PreferenceScreen>
+        <org.totschnig.myexpenses.preference.AccountPreference
+            android:dependency="@string/pref_auto_backup_key"
+            android:key="@string/pref_auto_backup_cloud_key"
+            android:summary="@string/pref_backup_cloud_summary"
+            android:title="@string/pref_backup_cloud_title" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -254,11 +259,6 @@
                 android:key="@string/pref_auto_backup_time_key"
                 android:title="@string/pref_auto_backup_time_title" />
 
-            <org.totschnig.myexpenses.preference.AccountPreference
-                android:dependency="@string/pref_auto_backup_key"
-                android:key="@string/pref_auto_backup_cloud_key"
-                android:summary="@string/pref_backup_cloud_summary"
-                android:title="@string/pref_backup_cloud_title" />
         </PreferenceScreen>
         <Preference
             android:key="@string/pref_restore_key"
@@ -283,7 +283,7 @@
             android:key="@string/pref_exchange_rates_key"
             android:title="@string/pref_category_exchange_rates">
             <ListPreference
-                android:defaultValue="RATESAPI"
+                android:defaultValue="EXCHANGE_RATE_HOST"
                 android:entries="@array/exchange_rate_provider_entries"
                 android:entryValues="@array/exchange_rate_provider_values"
                 android:key="@string/pref_exchange_rate_provider_key"
@@ -430,11 +430,11 @@
                 android:data="@string/website" />
         </Preference>
         <Preference
-            android:key="like_facebook"
-            android:title="@string/pref_like_facebook_title">
+            android:key="@string/pref_news_key"
+            android:title="@string/pref_news_title">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://www.facebook.com/MyExpenses" />
+                android:data="https://mastodon.social/@myexpenses" />
         </Preference>
         <Preference
             android:key="@string/pref_more_info_dialog_key"
@@ -460,11 +460,10 @@
                 </intent>
             </Preference>
             <Preference
-                android:key="translation_join_transifex"
-                android:title="Join My Exepenses @ Transifex">
+                android:title="Join My Exepenses @ Weblate">
                 <intent
                     android:action="android.intent.action.VIEW"
-                    android:data="https://www.transifex.com/mtotschnig/my-expenses/" />
+                    android:data="https://hosted.weblate.org/engage/my-expenses/" />
             </Preference>
 
         </PreferenceScreen>

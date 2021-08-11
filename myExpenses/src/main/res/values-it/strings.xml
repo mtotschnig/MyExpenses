@@ -304,7 +304,6 @@
     <string name="pref_import_summary">Importazione di operazioni, categorie e beneficiari da %s</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">Importazione %s</string>
-    <string name="pref_like_facebook_title">Mi piace su Facebook</string>
     <string name="pref_manage_accounts_title">Conti</string>
     <string name="pref_manage_categories_summary">Aggiungere, modificare, eliminare categorie.</string>
     <string name="pref_manage_categories_title">Categorie</string>
@@ -363,7 +362,6 @@
     <string name="restore_db_success">La base di dati è stato ripristinato dal backup.</string>
     <string name="restore_no_backup_found">Nessun backup è stato trovato.</string>
     <string name="restore_preferences_failure">Ripristino delle preferenze non riuscito</string>
-    <string name="restore_backup_archive_not_valid">L\'archivio %1$s non è valido</string>
     <string name="restore_backup_file_not_found">Nessun file %1$s trovato in archivio «%2$s»</string>
     <string name="restore_preferences_success">Le preferenze sono state ripristinate dal backup.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d piani sono stati ripristinati dal backup</string>
@@ -440,7 +438,6 @@
     <string name="warning_reset_account_all">Se si continua, tutte le transazioni dei conti in%1$s verranno eliminate dalla base di dati e non potranno essere ripristinate.</string>
     <string name="warning_reset_account_matched">Se si continua, le transazioni che corrispondono al filtro corrente verranno eliminate dalla base di dati e non potranno essere ripristinate.</string>
     <string name="warning_restore">Base di dati e impostazioni verranno ripristinate dal backup «%1$s». I dati attuali verranno cancellati.</string>
-    <string name="warning_app_folder_will_be_deleted_upon_uninstall">La cartella correntemente selezionata per i backup e le esportazioni verrà automaticamente eliminata da Android se si disinstalla {app_name}. È possibile impedire che questo accada selezionando una cartella diversa dalla schermata Impostazioni.</string>
     <string name="warning_splitpartcategory_context">I trasferimenti che sono parte di un\'operazione frazionata possono essere modificati solamente nell\'ambito del frazionamento.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Si prega di impostare un numero compreso tra %1$d e %2$d</string>
     <string name="warning_change_fraction_digits_1">Gli importi nella base di dati devono essere aggiornati al fine di corrispondere al nuovo numero di cifre frazionarie.</string>
@@ -448,7 +445,7 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Se gli importi non vengono aggiornati, verranno visualizzati come divisi per %d dopo la modifica.</string>
     <string name="warning_change_fraction_digits_3">Se gli importi sono aggiornati, si perderanno le informazioni sulla loro parte frazionaria.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Aggiornamento degli importi in base di dati</string>
-    <string name="import_categories_success">%1$s categorie state importate</string>
+    <string name="import_categories_success">%1$d categorie state importate</string>
     <string name="import_parties_success">%1$s beneficiari state importate</string>
     <string name="import_accounts_success">%1$s conti importati correttamente</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transazioni importate correttamente nel conto %2$s</string>
@@ -621,7 +618,6 @@
     <string name="upgrade_now">Acquista una licenza</string>
     <string name="pref_backup_cloud_title">Salva sul back-end di sincronizzazione</string>
     <string name="pref_backup_cloud_summary">Oltre nella memoria locale del dispositivo, il file di backup può essere copiato su un back-end remoto.</string>
-    <string name="auto_backup_cloud_create_backend">Crea un back-end di sincronizzazione dalla schermata principale delle impostazioni.</string>
     <string name="auto_backup_cloud_failure">Si è verificato un errore durante il backup del file %1$s sul back-end %2$s:</string>
     <string name="auto_backup_cloud_success">Il file di backup %1$s è stato salvato correttamente sul back-end %2$s.</string>
     <string name="home_screen_shortcuts_nougate_info">Le scorciatoie possono essere aggiunte premendo a lungo sull\'icona dell\'applicazione nella schermata principale.</string>
@@ -993,4 +989,16 @@
     <!-- This warning is shown when a user calls the Reset or Cancel commands on a scheduled transaction, for a date
      where the transaction has already been created.  -->
     <string name="warning_plan_instance_delete">La transazione creata per la data selezionata verrà eliminata.</string>
+    <string name="crash_reports_user_info">{app_name} invierà automaticamente segnalazioni di arresto anomalo dell\'applicazione agli sviluppatori, al fine di risolvere i problemi il prima possibile.</string>
+    <string name="pref_category_title_crash_reports">Segnalazioni di arresto anomalo</string>
+    <string name="pref_enable_acra">Consenti l\'invio automatico delle segnalazioni di arresto anomalo</string>
+    <string name="pref_acra_user_email">e-mail utente da includere nella segnalazione di arresto anomalo</string>
+    <string name="pref_acra_user_email_summary">Inserisci il tuo indirizzo e-mail se desideri aiutarci nella risoluzione dei problemi, permettendoci di contattarti in merito.</string>
+    <string name="ui_refinement">Miglioramento dell\'interfaccia utente</string>
+    <string name="bug_fixes">Correzione di bug</string>
+    <string name="performance_enhancement">Miglioramento delle prestazioni</string>
+    <string name="stability_improvements">Miglioramenti della stabilità</string>
+    <string name="backup_save_to_sync_backend">Salvato in %s</string>
+    <string name="new_version">Nuova versione</string>
+    <string name="pref_news_title">Notizie</string>
 </resources>

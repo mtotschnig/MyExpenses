@@ -74,19 +74,18 @@ abstract class BaseDialogFragment : DialogFragment() {
         showSnackbar(getString(resId), Snackbar.LENGTH_LONG, null)
     }
 
-    fun showSnackbar(message: CharSequence?, duration: Int, snackbarAction: SnackbarAction?) {
-        val view = if (dialogView != null) dialogView!! else dialog!!.window!!.decorView
-        snackbar = Snackbar.make(view, message!!, duration)
-        UiUtils.increaseSnackbarMaxLines(snackbar)
-        if (snackbarAction != null) {
-            snackbar!!.setAction(snackbarAction.resId, snackbarAction.listener)
+    fun showSnackbar(message: CharSequence, duration: Int, snackbarAction: SnackbarAction?) {
+        val view = dialogView ?: dialog!!.window!!.decorView
+        snackbar = Snackbar.make(view, message, duration).also {
+            UiUtils.increaseSnackbarMaxLines(it)
+            if (snackbarAction != null) {
+                it.setAction(snackbarAction.resId, snackbarAction.listener)
+            }
+            it.show()
         }
-        snackbar!!.show()
     }
 
     protected fun dismissSnackbar() {
-        if (snackbar != null) {
-            snackbar!!.dismiss()
-        }
+        snackbar?.dismiss()
     }
 }

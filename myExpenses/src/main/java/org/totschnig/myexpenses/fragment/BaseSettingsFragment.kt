@@ -23,7 +23,6 @@ import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceGroup
 import androidx.preference.SwitchPreferenceCompat
-import com.google.android.material.snackbar.Snackbar
 import org.threeten.bp.chrono.IsoChronology
 import org.threeten.bp.format.DateTimeFormatterBuilder
 import org.threeten.bp.format.FormatStyle
@@ -35,6 +34,7 @@ import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.preference.AccountPreference
 import org.totschnig.myexpenses.preference.LocalizedFormatEditTextPreference
 import org.totschnig.myexpenses.preference.LocalizedFormatEditTextPreference.OnValidationErrorListener
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -95,7 +95,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     val storeInDatabaseChangeListener =
         Preference.OnPreferenceChangeListener { preference, newValue ->
             (activity as? MyPreferenceActivity)?.let { activity ->
-                activity.showSnackbar(R.string.saving, Snackbar.LENGTH_INDEFINITE)
+                activity.showSnackbarIndefinite(R.string.saving)
                 viewModel.storeSetting(preference.key, newValue.toString())
                     .observe(this@BaseSettingsFragment, { result ->
                         activity.dismissSnackbar()
@@ -380,7 +380,11 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         }: ${prefHandler.getString(PrefKey.NEW_LICENCE, "")}"
     }
 
-    open fun configureContribPrefs() {
+    fun loadSyncAccountData() {
+        requirePreference<AccountPreference>(PrefKey.AUTO_BACKUP_CLOUD).setData(requireContext())
+    }
+
+    fun configureContribPrefs() {
         if (!matches(preferenceScreen, PrefKey.ROOT_SCREEN)) {
             return
         }
@@ -432,7 +436,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 prefHandler.putString(PrefKey.HOME_CURRENCY, currencyCode)
             }
             activity.invalidateHomeCurrency()
-            activity.showSnackbar(R.string.saving, Snackbar.LENGTH_INDEFINITE)
+            activity.showSnackbarIndefinite(R.string.saving)
             viewModel.resetEquivalentAmounts().observe(this, { integer ->
                 activity.dismissSnackbar()
                 if (integer != null) {
@@ -605,6 +609,11 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             if (!featureManager.allowsUninstall()) {
                 requirePreference<Preference>(PrefKey.FEATURE_UNINSTALL).isVisible = false
             }
+            requirePreference<Preference>(PrefKey.AUTO_BACKUP_CLOUD).onPreferenceChangeListener =
+                storeInDatabaseChangeListener
+
+            requirePreference<Preference>(PrefKey.NEWS).title =
+                "${getString(R.string.pref_news_title)} (Mastodon)"
         } else if (rootKey == getKey(PrefKey.UI_HOME_SCREEN_SHORTCUTS)) {
             val shortcutSplitPref = requirePreference<Preference>(PrefKey.SHORTCUT_CREATE_SPLIT)
             shortcutSplitPref.isEnabled = licenceHandler.isContribEnabled
@@ -641,8 +650,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             requirePreference<Preference>(PrefKey.AUTO_BACKUP_INFO).summary =
                 (getString(R.string.pref_auto_backup_summary) + " " +
                         ContribFeature.AUTO_BACKUP.buildRequiresString(requireActivity()))
-            requirePreference<Preference>(PrefKey.AUTO_BACKUP_CLOUD).onPreferenceChangeListener =
-                storeInDatabaseChangeListener
         } else if (rootKey == getKey(PrefKey.GROUPING_START_SCREEN)) {
             var startPref = requirePreference<ListPreference>(PrefKey.GROUP_WEEK_STARTS)
             val locale = Locale.getDefault()
@@ -741,7 +748,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             configureOpenExchangeRatesPreference(
                 prefHandler.getString(
                     PrefKey.EXCHANGE_RATE_PROVIDER,
-                    "RATESAPI"
+                    "EXCHANGE_RATE_HOST"
                 )!!
             )
         }

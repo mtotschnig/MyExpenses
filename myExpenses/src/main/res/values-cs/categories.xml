@@ -1,195 +1,261 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources tools:ignore="UnusedResources, InconsistentArrays" xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources, InconsistentArrays">
+    <!-- Main category -->
     <string name="Main_1">Ostatní příjmy</string>
-    <!-- Subcategories under "Other income" -->
-    <string-array name="Sub_1">
-        <item>Dávka v nezaměstnanosti</item>
-        <item>Rodinné přídavky</item>
-        <item>Daňový úvěr</item>
-        <item>Hazardní hry</item>
-        <item>Vzájemné pojištění</item>
-        <item>Sociální zabezpečení</item>
-    </string-array>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_1">Dávka v nezaměstnanosti</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_2">Rodinné přídavky</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_3">Daňový úvěr</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_4">Hazardní hry</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_5">Vzájemné pojištění</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_6">Sociální zabezpečení</string>
+    <!-- Main category -->
     <string name="Main_2">Odchod do důchodu</string>
-    <!-- Subcategories under "Retirement" -->
-    <string-array name="Sub_2">
-        <item>Penzijní fond</item>
-        <item>Důchod</item>
-        <item>Penzijní připojištění</item>
-    </string-array>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_1">Penzijní fond</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_2">Důchod</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_3">Penzijní připojištění</string>
+    <!-- Main category -->
     <string name="Main_3">Výnosy z investic</string>
-    <!-- Subcategories under "Investment income" -->
-    <string-array name="Sub_3">
-        <item>Dividenda</item>
-        <item>Úroky</item>
-        <item>Kapitálový zisk</item>
-    </string-array>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_1">Dividenda</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_2">Úroky</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_3">Kapitálový zisk</string>
+    <!-- Main category -->
     <string name="Main_4">Plat</string>
-    <!-- Subcategories under "Salary" -->
-    <string-array name="Sub_4">
-        <item>Přesčasy</item>
-        <item>Placené volno</item>
-        <item>Různé prémie</item>
-        <item>Success fee</item>
-        <item>Čistý plat</item>
-    </string-array>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_1">Přesčasy</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_2">Placené volno</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_3">Různé prémie</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_4">Success fee</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_5">Čistý plat</string>
+    <!-- Main category -->
     <string name="Main_5">Růžný příjem</string>
-    <!-- Subcategories under "Misc. income" -->
-    <string-array name="Sub_5">
-        <item>Dárky</item>
-        <item>Náhrady</item>
-        <item>Prodej z druhé ruky</item>
-    </string-array>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_1">Dárky</string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_2">Náhrady</string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_3">Prodej z druhé ruky</string>
+    <!-- Main category -->
     <string name="Main_6">Jídlo</string>
-    <!-- Subcategories under "Food" -->
-    <string-array name="Sub_6">
-        <item>Bar</item>
-        <item>Pekařství</item>
-        <item>Kantýna</item>
-        <item>Sladkosti</item>
-        <item>Smíšené zboží</item>
-        <item>Restaurace</item>
-        <item>Samoobsluha</item>
-        <item>Supermarket</item>
-    </string-array>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_1">Bar</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_2">Pekařství</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_3">Kantýna</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_4">Sladkosti</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_5">Smíšené zboží</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_6">Restaurace</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_7">Samoobsluha</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_8">Supermarket</string>
+    <!-- Main category -->
     <string name="Main_7">Domácí zvířata</string>
-    <!-- Subcategories under "Pets" -->
-    <string-array name="Sub_7">
-        <item>Jídlo</item>
-        <item>Různé potřeby</item>
-        <item>Péče o zevnějšek</item>
-        <item>Veterinární lékař</item>
-    </string-array>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_1">Jídlo</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_2">Různé potřeby</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_3">Péče o zevnějšek</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_4">Veterinární lékař</string>
+    <!-- Main category -->
     <string name="Main_8">Pojištění</string>
-    <!-- Subcategories under "Insurance" -->
-    <string-array name="Sub_8">
-        <item>Auto</item>
-        <item>Zdraví</item>
-        <item>Dům</item>
-        <item>Občanskoprávní odpovědnost</item>
-        <item>Život</item>
-    </string-array>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_1">Auto</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_2">Zdraví</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_3">Dům</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_4">Občanskoprávní odpovědnost</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_5">Život</string>
+    <!-- Main category -->
     <string name="Main_9">Auto</string>
-    <!-- Subcategories under "Car" -->
-    <string-array name="Sub_9">
-        <item>Palivo</item>
-        <item>Opravy</item>
-        <item>Údržba</item>
-        <item>Parkování</item>
-        <item>Pokuty</item>
-    </string-array>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_1">Palivo</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_2">Opravy</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_3">Údržba</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_4">Parkování</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_5">Pokuty</string>
+    <!-- Main category -->
     <string name="Main_10">Dárky</string>
+    <!-- Main category -->
     <string name="Main_11">Děti</string>
-    <!-- Subcategories under "Children" -->
-    <string-array name="Sub_11">
-        <item>Zdravotní sestra</item>
-        <item>Studia</item>
-    </string-array>
+    <!-- Subcategory under "Children" -->
+    <string name="Sub_11_1">Zdravotní sestra</string>
+    <!-- Subcategory under "Children" -->
+    <string name="Sub_11_2">Studia</string>
+    <!-- Main category -->
     <string name="Main_12">Studia</string>
-    <!-- Subcategories under "Studies" -->
-    <string-array name="Sub_12">
-        <item>Lekce</item>
-        <item>Školné</item>
-        <item>Knihy</item>
-    </string-array>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_1">Lekce</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_2">Školné</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_3">Knihy</string>
+    <!-- Main category -->
     <string name="Main_13">Finanční výdaje</string>
-    <!-- Subcategories under "Financial expenses" -->
-    <string-array name="Sub_13">
-        <item>Bankovní poplatky</item>
-        <item>Půjčky a hypotéky</item>
-        <item>Poplatky</item>
-        <item>Refundace</item>
-    </string-array>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_1">Bankovní poplatky</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_2">Půjčky a hypotéky</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_3">Poplatky</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_4">Refundace</string>
+    <!-- Main category -->
     <string name="Main_14">Profesní výdaje</string>
-    <!-- Subcategories under "Professional expenses" -->
-    <string-array name="Sub_14">
-        <item>Non vratná</item>
-        <item>Vratná</item>
-    </string-array>
+    <!-- Subcategory under "Professional expenses" -->
+    <string name="Sub_14_1">Non vratná</string>
+    <!-- Subcategory under "Professional expenses" -->
+    <string name="Sub_14_2">Vratná</string>
+    <!-- Main category -->
     <string name="Main_15">Daně</string>
-    <!-- Subcategories under "Taxes" -->
-    <string-array name="Sub_15">
-        <item>Daň z příjmu</item>
-        <item>Pozemková daň</item>
-        <item>Prodejní daň</item>
-    </string-array>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_1">Daň z příjmu</string>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_2">Pozemková daň</string>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_3">Prodejní daň</string>
+    <!-- Main category -->
     <string name="Main_16">Bydlení</string>
-    <!-- Subcategories under "Housing" -->
-    <string-array name="Sub_16">
-        <item>Hotel</item>
-        <item>Nájemné</item>
-        <item>TV</item>
-        <item>Nábytek</item>
-        <item>Poplatky</item>
-        <item>Topení</item>
-        <item>Dekorace</item>
-        <item>Voda</item>
-        <item>Elektřina</item>
-        <item>Bílé zboží</item>
-        <item>Zařízení</item>
-        <item>Plyn</item>
-        <item>Zahrada</item>
-        <item>Údržba domu</item>
-        <item>Telefon</item>
-        <item>Mobilní telefon</item>
-    </string-array>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_1">Hotel</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_2">Nájemné</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_3">TV</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_4">Nábytek</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_5">Poplatky</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_6">Topení</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_7">Dekorace</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_8">Voda</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_9">Elektřina</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_10">Bílé zboží</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_11">Zařízení</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_12">Plyn</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_13">Zahrada</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_14">Údržba domu</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_15">Telefon</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_16">Mobilní telefon</string>
+    <!-- Main category -->
     <string name="Main_17">Volný čas</string>
-    <!-- Subcategories under "Leisures" -->
-    <string-array name="Sub_17">
-        <item>Kulečník</item>
-        <item>Bowling</item>
-        <item>Filmy</item>
-        <item>Noční klub</item>
-        <item>Počítače</item>
-        <item>Hry</item>
-        <item>Knihy</item>
-        <item>Parky</item>
-        <item>Koncerty</item>
-        <item>Sport</item>
-        <item>Video</item>
-        <item>Cesty</item>
-        <item>Zařízení</item>
-        <item>Muzea a výstavy</item>
-    </string-array>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_1">Kulečník</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_2">Bowling</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_3">Filmy</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_4">Noční klub</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_5">Počítače</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_6">Hry</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_7">Knihy</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_8">Parky</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_9">Koncerty</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_10">Sport</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_11">Video</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_12">Cesty</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_13">Zařízení</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_14">Muzea a výstavy</string>
+    <!-- Main category -->
     <string name="Main_18">Půjčky a hypotéky</string>
-    <!-- Subcategories under "Loan/Mortgage" -->
-    <string-array name="Sub_18">
-        <item>Kapitál</item>
-    </string-array>
+    <!-- Subcategory under "Loan/Mortgage" -->
+    <string name="Sub_18_1">Kapitál</string>
+    <!-- Main category -->
     <string name="Main_19">Zdraví</string>
-    <!-- Subcategories under "Health" -->
-    <string-array name="Sub_19">
-        <item>Pojištění</item>
-        <item>Zubař</item>
-        <item>Nemocnice</item>
-        <item>Fyzioterapeut</item>
-        <item>Doktor</item>
-        <item>Oftalmolog</item>
-        <item>Osteopat</item>
-        <item>Lékárna</item>
-        <item>Sociální zabezpečení</item>
-    </string-array>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_1">Pojištění</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_2">Zubař</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_3">Nemocnice</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_4">Fyzioterapeut</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_5">Doktor</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_6">Oftalmolog</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_7">Osteopat</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_8">Lékárna</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_9">Sociální zabezpečení</string>
+    <!-- Main category -->
     <string name="Main_20">Péče</string>
-    <!-- Subcategories under "Care" -->
-    <string-array name="Sub_20">
-        <item>Kadeřnice</item>
-        <item>Oblečení</item>
-    </string-array>
+    <!-- Subcategory under "Care" -->
+    <string name="Sub_20_1">Kadeřnice</string>
+    <!-- Subcategory under "Care" -->
+    <string name="Sub_20_2">Oblečení</string>
+    <!-- Main category -->
     <string name="Main_21">Doprava</string>
-    <!-- Subcategories under "Transport" -->
-    <string-array name="Sub_21">
-        <item>Autobus</item>
-        <item>Metro</item>
-        <item>Mýtné</item>
-        <item>Vlak</item>
-        <item>Šalina</item>
-        <item>Letoun</item>
-    </string-array>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_1">Autobus</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_2">Metro</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_3">Mýtné</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_4">Vlak</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_5">Šalina</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_6">Letoun</string>
+    <!-- Main category -->
     <string name="Main_22">Svátky</string>
-    <!-- Subcategories under "Holidays" -->
-    <string-array name="Sub_22">
-        <item>Bydlení</item>
-        <item>Návštěvy</item>
-        <item>Cesty</item>
-    </string-array>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_1">Bydlení</string>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_2">Návštěvy</string>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_3">Cesty</string>
 </resources>

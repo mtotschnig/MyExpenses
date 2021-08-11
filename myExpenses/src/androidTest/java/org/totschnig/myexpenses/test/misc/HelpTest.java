@@ -35,7 +35,7 @@ import org.totschnig.myexpenses.activity.ManageTags;
 import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.activity.MethodEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
-import org.totschnig.myexpenses.dialog.VersionDialogFragment;
+import org.totschnig.myexpenses.viewmodel.data.VersionInfo;
 
 //TODO use parameterized test
 
@@ -133,7 +133,7 @@ public class HelpTest extends android.test.InstrumentationTestCase {
       String[] parts = version.split(";");
       Assert.assertEquals(2, parts.length);
       Assert.assertNotNull("Could not get changes for version " + parts[1],
-          new VersionDialogFragment.VersionInfo(Integer.parseInt(parts[0]), parts[1]).getChanges(ctx));
+          new VersionInfo(Integer.parseInt(parts[0]), parts[1]).getChanges(ctx));
     }
   }
 

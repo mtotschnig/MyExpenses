@@ -20,15 +20,11 @@ import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
 import android.net.Uri;
-import android.text.TextUtils;
 
 import com.android.calendar.CalendarContractCompat;
 
@@ -41,7 +37,6 @@ import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.SyncAdapter;
 import org.totschnig.myexpenses.util.ColorUtils;
 import org.totschnig.myexpenses.util.Result;
-import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.File;
@@ -51,20 +46,13 @@ import java.util.Map;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
-import timber.log.Timber;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_KEY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_NORMALIZED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_END;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_START;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getCountFromWeekStartZero;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getWeekMax;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getWeekMin;
@@ -307,88 +295,6 @@ public class DbUtils {
     return result;
   }
 
-  static int setupDefaultCategories(SQLiteDatabase database, Context context) {
-    Resources resources = context.getResources();
-    String packageName = context.getPackageName();
-    int total = 0;
-    long catIdMain;
-    database.beginTransaction();
-    String sql = "INSERT INTO " + TABLE_CATEGORIES + " " +
-        "(" + KEY_LABEL + ", " + KEY_LABEL_NORMALIZED + ", " + KEY_PARENTID + ", " + KEY_COLOR + ", " + KEY_ICON +
-        ") VALUES (?, ?, ?, ?, ?)";
-
-    SQLiteStatement stmt = database.compileStatement(sql);
-    for (int index = 1; true; index++) {
-      int resIdMain = resources.getIdentifier("Main_" + index, "string", packageName);
-      int resIdMainIcons = resources.getIdentifier("Main_" + index + "_Icon", "string", packageName);
-      if (resIdMain == 0) {
-        break;
-      }
-      final String label = getStringSafe(resources, resIdMain);
-      if (TextUtils.isEmpty(label)) {
-        break;
-      }
-      final String iconName = getStringSafe(resources, resIdMainIcons);
-      catIdMain = findMainCategory(database, label);
-      if (catIdMain != -1) {
-        Timber.i("category with label %s already defined", label);
-      } else {
-        stmt.bindString(1, label);
-        stmt.bindString(2, Utils.normalize(label));
-        stmt.bindNull(3);
-        stmt.bindLong(4, suggestNewCategoryColor(database));
-        if (iconName == null) {
-          stmt.bindNull(5);
-        } else {
-          stmt.bindString(5, iconName);
-        }
-        catIdMain = stmt.executeInsert();
-        if (catIdMain != -1) {
-          total++;
-        } else {
-          // this should not happen
-          Timber.w("could neither retrieve nor store main category %s", label);
-          continue;
-        }
-      }
-      int resIdSub = resources.getIdentifier("Sub_" + index, "array", packageName);
-      int resIdSubIcons = resources.getIdentifier("Sub_" + index + "_Icons", "array", packageName);
-      if (resIdSub == 0) {
-        continue;
-      }
-      final String[] subLabels = getArraySave(resources, resIdSub);
-      if (subLabels == null) {
-        continue;
-      }
-      final String[] subIconNames = getArraySave(resources, resIdSubIcons);
-      for (int i = 0; i < subLabels.length; i++) {
-        String subLabel = subLabels[i];
-        stmt.bindString(1, subLabel);
-        stmt.bindString(2, Utils.normalize(subLabel));
-        stmt.bindLong(3, catIdMain);
-        stmt.bindNull(4);
-        if (subIconNames == null || subIconNames.length <= i) {
-          stmt.bindNull(5);
-        } else {
-          stmt.bindString(5, subIconNames[i]);
-        }
-        try {
-          if (stmt.executeInsert() != -1) {
-            total++;
-          } else {
-            Timber.i("could not store sub category %s", subLabel);
-          }
-        } catch (SQLiteConstraintException e) {
-          Timber.i("could not store sub category %s", subLabel);
-        }
-      }
-    }
-    stmt.close();
-    database.setTransactionSuccessful();
-    database.endTransaction();
-    return total;
-  }
-
   static int suggestNewCategoryColor(SQLiteDatabase db) {
     String[] projection = new String[]{
         "color",
@@ -403,21 +309,6 @@ public class DbUtils {
     }
     return result;
   }
-
-  private static long findMainCategory(SQLiteDatabase database, String label) {
-    String selection = KEY_PARENTID + " is null and " + KEY_LABEL + " = ?";
-    String[] selectionArgs = new String[]{label};
-    long result;
-    Cursor cursor = database.query(TABLE_CATEGORIES, new String[]{KEY_ROWID}, selection, selectionArgs, null, null, null);
-    if (cursor.moveToFirst()) {
-      result = cursor.getLong(0);
-    } else {
-      result = -1;
-    }
-    cursor.close();
-    return result;
-  }
-
 
   @Nullable
   private static String[] getArraySave(Resources resources, int resId) {

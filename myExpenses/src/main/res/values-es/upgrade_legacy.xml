@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<resources>
+    <string-array name="whats_new_329">
+        <item>Los grupos duplicados pueden combinarse.</item>
+        <item>El importe restante de las transacciones divididas puede copiarse en el portapapeles.</item>
+    </string-array>
+    <string-array name="whats_new_328">
+        <item>El widget de cuenta puede configurarse para mostrar una sola cuenta y tener en cuenta las transacciones futuras.</item>
+        <item>Muestre el importe total de las transacciones seleccionadas.</item>
+    </string-array>
+    <string-array name="whats_new_327">
+        <item>Dos transacciones existentes pueden vincularse como una transferencia.</item>
+    </string-array>
+    <string-array name="whats_new_326">
+        <item>Las transacciones pueden repetirse el último día del mes.</item>
+    </string-array>
+    <string-array name="whats_new_324">
+        <item>Interfaz de usuario web</item>
+    </string-array>
+    <string-array name="whats_new_323">
+        <item>El botón de fecha permite una navegación rápida al día anterior y al siguiente.</item>
+    </string-array>
+    <string-array name="whats_new_322">
+        <item>Pueden ocultarse los importes de gastos, ingresos y transferencias en las cabeceras de los grupos.</item>
+        <item>Calcular la diferencia entre el saldo actual y un nuevo valor.</item>
+        <item>Se pueden definir filtros y presupuestos para un subconjunto de cuentas.</item>
+    </string-array>
+    <string-array name="whats_new_321">
+        <item>El reconocimiento de texto ahora funciona con más idiomas.</item>
+    </string-array>
+    <string-array name="whats_new_320">
+        <item>Se pueden recortar imágenes.</item>
+    </string-array>
+    <string-array name="whats_new_318">
+        <item>La acción de clic predeterminada puede definirse por plantilla.</item>
+    </string-array>
+    <string-array name="whats_new_317">
+        <item>Las plantillas pueden cargarse desde el formulario de transacción.</item>
+    </string-array>
+    <string-array name="whats_new_316">
+        <item>El botón de guardar en el formulario de transacción queda más destacado.</item>
+        <item>Una pulsación prolongada del botón de acción flotante abre un menú que permite preparar el formulario para transferencia, división de la transacción o ingreso.</item>
+    </string-array>
+    <string name="whats_new_315_dark_theme_q">El tema oscuro vinculado al sistema por defecto</string>
+    <string-array name="whats_new_313">
+        <item>Manejo de transacciones recurrentes mejorado</item>
+        <item>Traducción a Canarés</item>
+    </string-array>
+    <string-array name="whats_new_312">
+        <item>Formato de fecha personalizado</item>
+        <item>Las etiquetas podrán exportarse a CSV</item>
+        <item>Se memoriza el estado colapsado de los grupos de transacciones</item>
+    </string-array>
+    <string-array name="whats_new_311">
+        <item>Se puede buscar entre las listas de grupos (ordenantes y acreedores)</item>
+    </string-array>
+    <string-array name="whats_new_310">
+        <item>Las transacciones pueden asignarse a varias etiquetas</item>
+    </string-array>
+</resources>

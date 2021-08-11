@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -12,8 +13,7 @@
   
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+ --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">Konto</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">Typy konta</string>
@@ -77,6 +77,8 @@
     <string name="dialog_command_disabled_insert_transfer">Transakcje transferowe wymagają drugiego konta.</string>
     <string name="dialog_command_disabled_reset_account">Brak transakcji do eksportu</string>
     <string name="dialog_command_disabled_distribution">Żadna z transakcji nie została zmapowana do kategorii na tym koncie.</string>
+    <!-- Button for accessing trial of premium feature -->
+    <string name="dialog_contrib_no">Próbuj</string>
     <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
     <string name="dialog_contrib_premium_feature">%1$s jest funkcją premium (%2$s).</string>
     <string name="dialog_contrib_reminder_remove_limitation">Usuń to ograniczenie i uzyskaj dostęp do dodatkowych funkcji, aktualizując <i>{app_name} </i>.</string>
@@ -222,6 +224,7 @@
     <string name="no_parties">Brak partii.</string>
     <string name="no_split_parts">Brak części podziałów</string>
     <string name="no_templates">Brak szablonów.</string>
+    <string name="no_accounts">Brak kont</string>
     <string name="no_title_given">Nie wprowadziłeś tytułu.</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="one">Wybrany obiekt jest zmapowany do transakcji i nie może zostać usunięty.</item>
@@ -301,7 +304,6 @@
     <string name="pref_import_summary">Importuj transakcje, kategorie i partie z pliku %s</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">Import %s</string>
-    <string name="pref_like_facebook_title">Polub nas na Facebook\'u</string>
     <string name="pref_manage_accounts_title">Konta</string>
     <string name="pref_manage_categories_summary">Utwórz, edytuj, usuń kategorie.</string>
     <string name="pref_manage_categories_title">Kategorie</string>
@@ -360,7 +362,6 @@
     <string name="restore_db_success">Baza danych została przywrócona z kopii zapasowej.</string>
     <string name="restore_no_backup_found">Nie znaleziono kopii zapasowej.</string>
     <string name="restore_preferences_failure">Przywracanie preferencji nie powiodło się</string>
-    <string name="restore_backup_archive_not_valid">Archiwum %1$s jest niepoprawne</string>
     <string name="restore_backup_file_not_found">Brak pliku %1$s w archiwum \"%2$s\"</string>
     <string name="restore_preferences_success">Preferencje zostały przywrócone z kopii zapasowej.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%dplanów zostały przywrócone z kopii zapasowej</string>
@@ -424,6 +425,12 @@
         <item quantity="many">%1$d wybranych transakcji zostanie usuniętych.</item>
         <item quantity="other">%1$d wybranych transakcji zostanie usuniętych.</item>
     </plurals>
+    <plurals name="move_category_success">
+        <item quantity="one">Kategoria została pomyślnie przeniesiona.</item>
+        <item quantity="few">%d kategorii zostało pomyślnie przeniesionych.</item>
+        <item quantity="many">%dkategorii zostało pomyślnie przeniesionych.</item>
+        <item quantity="other">%dkategorii zostało pomyślnie przeniesionych.</item>
+    </plurals>
     <string name="warning_delete_reconciled">Usunięcie pojednanych transakcji spowoduje powstanie różnicy twoich rekordów z wyciągiem z konta bankowego.</string>
     <string name="warning_balance_account">Porównaj rozliczoną sumę z saldem końcowym na wyciągu bankowym. Jeśli kontynuujesz, wyczyszczone transakcje zostaną oznaczone jako uzgodnione.</string>
     <string name="warning_password_protected">Aplikacja jest chroniona hasłem.</string>
@@ -435,7 +442,6 @@
     <string name="warning_reset_account_all">Jeżeli będziesz kontynuować, dla wszystkich kont %1$s, transakcje zostaną usunięte z bazy danych i nie będą mogły być przywrócone.</string>
     <string name="warning_reset_account_matched">Jeśli kontynuujesz, transakcje dopasowane do bieżącego filtru zostaną usunięte z bazy danych i nie będzie można ich przywrócić.</string>
     <string name="warning_restore">Baza danych oraz preferencje zostaną przywrócone z kopii zapasowej (%1$s). Bieżące dane zostaną usunięte.</string>
-    <string name="warning_app_folder_will_be_deleted_upon_uninstall">Aktualnie wybrany folder dla kopii zapasowych i eksportów zostanie automatycznie usunięty przez system Android jeżeli odinstalujesz {app_name}. Może temu zapobiec poprzez wybranie innego folderu z ekranu Ustawień.</string>
     <string name="warning_splitpartcategory_context">Przelewy które są częścią podziału mogą być tylko edytowane w kontekście podziału.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Ustaw liczbę pomiędzy %1$d i %2$d</string>
     <string name="warning_change_fraction_digits_1">Kwoty w bazie danych należy zaktualizować, aby pasowały do ​​nowej liczby cyfr ułamkowych.</string>
@@ -443,7 +449,7 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Jeśli kwoty nie zostaną zaktualizowane, po zmianie będą wyświetlane jako podzielone przez %d.</string>
     <string name="warning_change_fraction_digits_3">Jeśli kwoty zostaną zaktualizowane, utracisz informacje o ich ułamkowej części.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Zaktualizuj kwoty w bazie danych</string>
-    <string name="import_categories_success">Kategorie %1$s zostały zaimportowane pomyślnie</string>
+    <string name="import_categories_success">Kategorie %1$d zostały zaimportowane pomyślnie</string>
     <string name="import_parties_success">Partie %1$s zostały zaimportowane pomyślnie</string>
     <string name="import_accounts_success">%1$s kont pomyślnie zaimportowano</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transakcji pomyślnie zaimportowano do konta %2$s</string>
@@ -468,6 +474,7 @@
     <string name="search_status">Szukaj statusu</string>
     <string name="search_payee">Wyszukaj odbiorcę/płatnika</string>
     <string name="search_method">Szukaj metody</string>
+    <string name="search_tag">Szukaj tagu</string>
     <string name="and">i</string>
     <string name="between_and">pomiędzy %1$s a %2$s</string>
     <string name="before">przed %s</string>
@@ -501,6 +508,7 @@
     <string name="pref_manage_stale_images_summary">Zarządzaj zdjęciami pozostałymi po usuniętych transakcjach</string>
     <string name="image_deleted">Obrazek został usunięty</string>
     <string name="transaction_deleted">Transakcja została usunięta</string>
+    <string name="account_deleted">Konto zostało usunięte</string>
     <string name="dialog_export_applied_to_filter">Tylko transakcje dopasowane do obecnego filtra będą brane pod uwagę.</string>
     <string name="export_handle_deleted_create_helper">Stwórz transakcję pomocniczą</string>
     <string name="export_handle_deleted_update_balance">Zaktualizuj kwoty w bazie danych</string>
@@ -613,7 +621,6 @@
     <string name="upgrade_now">Aktualizuj</string>
     <string name="pref_backup_cloud_title">Przechowuj na serwerze synchronizacji</string>
     <string name="pref_backup_cloud_summary">Oprócz przechowywania lokalnego na urządzeniu, plik kopii zapasowej można skopiować do zdalnego serwera.</string>
-    <string name="auto_backup_cloud_create_backend">Utwórz serwer synchronizacji z głównego ekranu ustawień.</string>
     <string name="auto_backup_cloud_failure">Wystąpił błąd podczas próby zapisania pliku kopii zapasowej %1$s na serwerze %2$s:</string>
     <string name="home_screen_shortcuts_nougate_info">Skróty można dodać, naciskając długo ikonę aplikacji na ekranie głównym.</string>
     <string name="currency_symbol">Symbol waluty</string>
@@ -690,6 +697,7 @@
     <string name="feature_deprecated">Wycofano</string>
     <string name="pref_protection_device_lock_screen_title">Ekran blokady</string>
     <string name="warning_device_lock_screen_not_set_up_1">Ekran bezpiecznej blokady dla urządzenia nie został ustawiony.</string>
+    <string name="warning_device_lock_screen_not_set_up_2">Udaj się do  \'Ustawienia -&gt; Bezpieczeństwo -&gt; Blokada Ekranu\' w celu ustawienia blokady ekranu.</string>
     <string name="menu_history_show_balance">Pokaż bilans</string>
     <string name="menu_history_transfers">Uwzględnij transfery</string>
     <string name="menu_history">Historia</string>
@@ -765,8 +773,17 @@
     but we warn the user if he includes this special item in the selection.   -->
     <string name="unmapped_filter_only_single">Filtr \'Bez mapowania\' nie może być użyty przy wielokrotnym wyborze.</string>
     <string name="upgrade_information_cloud_sync_storage_format">Wraz z wersją 2.9.8 zmienił się sposób przechowywania danych zdalnych. Proszę wykonać aktualizację na wszystkich urządzeniach korzystających z synchronizacji przed dodaniem nowych rekordów na tych urządzeniach.</string>
+    <string name="dialog_title_backup_protected">Backup (zaszyfrowany)</string>
+    <string name="button_label_no_encryption">Bez szyfrowania</string>
+    <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->
+    <string name="joining_or">lub</string>
+    <string name="menu_hide">Ukryj</string>
     <!-- Action of closing an account. A closed account does not allow any modifications on its data. -->
     <string name="menu_close">Zamknij</string>
+    <!-- Menu entry for opening a list of all hidden accounts. -->
+    <string name="menu_hidden_accounts">Ukryte konta</string>
+    <!-- Action of showing an account again that had previously been hidden. -->
+    <string name="button_label_show">Pokaż</string>
     <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
     <string name="content_description_encrypted">Szyfrowane</string>
     <string name="translated_by">Tłumaczenie</string>
@@ -775,9 +792,28 @@
     <string name="menu_create_budget">Nowy budżet</string>
     <string name="budget_duration_from">Od</string>
     <string name="budget_duration_to">Do</string>
+    <string name="budget_filter_all_categories">Wszystkie kategorie</string>
     <string name="menu_edit_budget">Edycja budżetu</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Funkcje</string>
     <string name="button_download">Pobierz</string>
     <string name="menu_save_and_new_content_description">Zapisuje dane, zostawia formularz włączony dla tworzenia nowej transakcji z tymi samymi danymi.</string>
-    </resources>
+    <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
+    <string name="recurrence_last_day_of_month">Ostatni dzień</string>
+    <!-- This is the title of an entry on the configuration screen for the account widget. It allows to decide which number should be displayed for each account: the current balance or the total (which included future transactions) -->
+    <string name="account_widget_configuration_sum">Typ wyświetlanej sumy</string>
+    <!-- Title of dialogue that allows to configure account widget -->
+    <string name="account_widget_configuration">Konfiguracja widżetu konta</string>
+    <!-- Title of a menu entry allowing to merge duplicate entries in the parties table (payee/payer) -->
+    <string name="menu_merge">Scal</string>
+    <!-- This is the label for a field for accounts. Active tags are automatically added to new transactions when an account is selected. -->
+    <string name="active_tags">Aktywne tagi</string>
+    <string name="crash_reports_user_info">Aplikacja {app_name} będzie wysyłać raporty o awariach automatycznie do jego twórców, które pozwolą im szybciej naprawić problem.</string>
+    <string name="pref_category_title_crash_reports">Raporty o awariach</string>
+    <string name="pref_enable_acra">Pozwól na automatyczne wysyłanie raportów o awariach.</string>
+    <string name="pref_acra_user_email">Adres E-mail użytkownika dołączany do raportu o awarii.</string>
+    <string name="pref_acra_user_email_summary">Proszę wprowadzić swój adres E-mail jeżeli jesteś chętny w pomocy naprawienia błędu i pozwoli nam na kontakt z tobą.</string>
+    <string name="bug_fixes">Poprawki błędów</string>
+    <string name="new_version">Nowa wersja</string>
+    <string name="pref_news_title">Aktualności</string>
+</resources>

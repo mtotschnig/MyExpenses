@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -12,8 +13,7 @@
   
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+ --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">Účet</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">Typy účtů</string>
@@ -310,7 +310,6 @@
     <string name="pref_import_summary">Importujte transakce, kategorie a součásti ze souboru %s</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">Import ve formátu %s</string>
-    <string name="pref_like_facebook_title">Dejte nám like na Facebooku</string>
     <string name="pref_manage_accounts_title">Účty</string>
     <string name="pref_manage_categories_summary">Přidání, úprava a odstranění kategorií.</string>
     <string name="pref_manage_categories_title">Kategorie</string>
@@ -369,7 +368,6 @@
     <string name="restore_db_success">Databáze byla obnovena ze zálohy.</string>
     <string name="restore_no_backup_found">Nenalezena žádná záloha.</string>
     <string name="restore_preferences_failure">Nastavení obnovení se nezdařilo.</string>
-    <string name="restore_backup_archive_not_valid">Archiv %1$s není platný</string>
     <string name="restore_backup_file_not_found">V archivu „%2$s“ nebyl nalezen žádný soubor %1$s</string>
     <string name="restore_preferences_success">Preference byly obnoveny ze zálohy.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">Ze zálohy bylo obnoveno %d plánů</string>
@@ -458,7 +456,6 @@
     <string name="warning_reset_account_all">Budete-li pokračovat, pro všechny účty %1$s, budou transakce odstraněny z databáze a nepůjde je obnovit.</string>
     <string name="warning_reset_account_matched">Pokud budete pokračovat, transakce odpovídající aktuálnímu filtru budou odstraněny z databáze a nebudete je moci obnovit.</string>
     <string name="warning_restore">Databáze a předvolby budou obnoveny ze zálohy (%1$s). Aktuální data budou odstraněna.</string>
-    <string name="warning_app_folder_will_be_deleted_upon_uninstall">Pokud odinstalujete {app_name}, aktuálně zvolená složka pro zálohy a exporty bude automaticky smazána. Tomu můžete zabránit zvolením jiné složky v obrazovce Nastavení.</string>
     <string name="warning_splitpartcategory_context">Převody, které jsou součástí rozdělení, lze pouze upravovat nebo odstranit v souvislosti s rozdělením.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Nastavte číslo mezi %1$d a %2$d</string>
     <string name="warning_change_fraction_digits_1">Částky v databázi musí být aktualizovány, aby se shodovaly s novým počtem číslic zlomku.</string>
@@ -466,7 +463,7 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Pokud nedojde k aktualizaci částek, po změně se zobrazí jako rozdělené podle %d.</string>
     <string name="warning_change_fraction_digits_3">Pokud budou částky aktualizovány, přijdete o informace o jejich desetinné části.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Aktualizovat částky v databázi</string>
-    <string name="import_categories_success">%1$s kategorie byly úspěšně naimportovány.</string>
+    <string name="import_categories_success">%1$d kategorie byly úspěšně naimportovány.</string>
     <string name="import_parties_success">%1$s strany byly úspěšně naimportovány.</string>
     <string name="import_accounts_success">Účty (celkem %1$s) byly úspěšně importovány</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transakcí úspěšně importováno na účet %2$s</string>
@@ -482,7 +479,7 @@
     <string name="create_new_folder_fail">Vytvoření složky selhalo</string>
     <string name="widget_title_accounts">Moje účty</string>
     <string name="widget_title_templates">Moje šablony</string>
-    <string name="app_dir_not_accessible">Momentálně zvolená složka pro zálohy a exporty (%1$s) is not accessible. Please select a different one.</string>
+    <string name="app_dir_not_accessible">Momentálně zvolená složka pro zálohy a exporty (%1$s) není přístupná. Zvolte prosím jinou.</string>
     <string name="app_dir_not_compatible_with_nougat">Aktuálně nakonfigurovaný identifikátor URI pro zálohování a export (%1$s) není v systému Android Nougat podporován. Vyberte složku znovu.</string>
     <string name="search_amount">Hledat částku</string>
     <string name="search_category">Hledat kategorii</string>
@@ -639,7 +636,6 @@
     <string name="upgrade_now">Upgradovat</string>
     <string name="pref_backup_cloud_title">Ukládat na synchronizačním back-endu</string>
     <string name="pref_backup_cloud_summary">Kromě lokálního úložiště na zařízení může být zálohovací soubor zkopírován na vzdálený back-end.</string>
-    <string name="auto_backup_cloud_create_backend">Vytvořit synchronizační back-end z hlavní obrazovky nastavení.</string>
     <string name="auto_backup_cloud_failure">Při pokusu o uložení souboru zálohy %1$s v rozhraní backend %2$s došlo k chybě:</string>
     <string name="auto_backup_cloud_success">Záložní soubor %1$s byl úspěšně uložen do rozhraní backend %2$s.</string>
     <string name="home_screen_shortcuts_nougate_info">Zkratky lze přidat podržením ikony aplikace na Domovské obrazovce.</string>
@@ -721,7 +717,7 @@
     <string name="pref_protection_device_lock_screen_title">Zamykací obrazovka zařízení</string>
     <string name="pref_warning_only_one_protection">Než použijete ochranu %1$s, musíte vypnout ochranu %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">Není nastaven bezpečný zámek obrazovky.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Zamykací obrazovku vytvoříte, když přejdete do Nastavení -> Zabezpečení -> Zámek obrazovky.</string>
+    <string name="warning_device_lock_screen_not_set_up_2">Zamykací obrazovku vytvoříte, když přejdete do Nastavení -&gt; Zabezpečení -&gt; Zámek obrazovky.</string>
     <string name="menu_history_show_balance">Ukázat zůstatek</string>
     <string name="menu_history_transfers">Zahrnout převody</string>
     <string name="menu_history">Historie</string>
@@ -1008,4 +1004,12 @@
     <string name="menu_merge">Spojit</string>
     <!-- When user selects duplicate parties to be merged, he sees this prompt asking him to select which name should be selected for the merged party -->
     <string name="merge_parties_select">Vyberte název sloučené strany:</string>
-    </resources>
+    <string name="crash_reports_user_info">{app_name} pošle automaticky záznamy o pádech aplikace vývojářům, což umožní napravení chyb mnohem rychleji.</string>
+    <string name="pref_category_title_crash_reports">Hlášení o pádech</string>
+    <string name="pref_enable_acra">Povolí automatické posílání záznamů o pádech</string>
+    <string name="pref_acra_user_email">Uživatelský email bude zahrnut v záznamu pádu</string>
+    <string name="pref_acra_user_email_summary">Prosím zadejte vaši emailovou adresu pokud chcete pomoci při ladění a pokud nám chcete umožnit kontaktovat vás.</string>
+    <string name="bug_fixes">Opravy chyb</string>
+    <string name="new_version">Nová verze</string>
+    <string name="pref_news_title">Novinky</string>
+</resources>

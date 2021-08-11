@@ -1,0 +1,94 @@
+zh-cn:
+  imprint: 版权说明
+  imprint_text: 负责本网站的内容以及<i>{app_name}</i>的开发、维护和配置
+  privacy_policy_heading: 隐私政策
+  privacy_policy_text: "除了应用程序自己的数据库和SD卡上所属的文件夹之外，<i>{app_name}</i>无法访问您设备上其他的任何数据。如果您使用到未来和定期交易计划的功能，应用程序会将这些计划存储在您指定的日历中。"
+  hero_main: "Android个人理财管理工具"
+  hero_sub:
+    use: "简易的操作使用"
+    functionality: "丰富的功能"
+    source: "开放源代码"
+  menu_title:
+    more_information: 更多资讯
+  sections:
+    features: 功能
+    premium: 进入高级版
+    participate: 参加
+    faq: 常见问答
+    versionlist: 活动日志
+    credits: 所有权
+    licence: 授权
+    sourcecode: 源代码
+    links: 链接
+  screenshots:
+    group: 对交易数据进行每天、每周、每月和每年的分组
+    summarize: 汇总所有账户（对每个账户和每个交易的汇率进行复杂的数据处理）
+    budget: 您可以自行定义每年、每月或每周的支出预算
+    split: 您可以将一笔交易分到多个类别
+    distribution: 您可视化每个类别的交易数据统计分布
+    history: 了解您的财务状况如何随着时间变化
+    export: 可以将交易数据打印成PDF文件，和存储为QIF或CSV文件。
+    sync: 通过私有或公共云服务在多个设备上同步加密的账户数据。
+  features:
+    manage_accounts: 可创建最多五个可进行互相<b>转账的账户</b>（也可以在不同货币之间进行转账）。
+    plans: 可创建无限数量的<b>模板</b>和最多三个<b>定期交易计划</b>。
+    export: <b>导出</b>为QIF和CSV文件。从QIF文件<b>导入</b>。
+    password: 数据可以通过<b>密码</b>或设备的<b>锁定屏幕</b>进行保护。
+    light_theme: <b>界面主题</b>（黑色或白色）与<b>字体大小</b>可以自定义
+    reconciliation: "<b>对帐</b>：轻松地将交易状态与银行对帐单进行比较"
+    homescreen: 可以从主屏幕的<b>小部件 widget</b>和<b>快捷方式</b>快速输入交易数据
+  contrib:
+    thank_you: |
+        您的捐款赞助“开支助手”的进一步发展。谢谢您！
+    feature-list-title: "请透过升级来赞助<i>{app_name}</i>，还可以解锁得到以下更多的功能:"
+    feature:
+      accounts_unlimited: 可创建无限数量的<b>账户</b>
+      plans_unlimited: 可创建无限数量的<b>定期交易计划</b>
+      distribution: "<b>饼状统计图</b>：可视化不同时期（年、月、周、天）中，每个类别的交易统计分布"
+      split_transaction: "<b>拆分交易</b>：单个交易可以拆分成多个部分（转账或分属于不同的类别）"
+      print: <b>打印</b>：可以将交易清单打印成PDF文件
+      attach_picture: "<b>附加图片</b>：通过相机拍摄或从图库中选择图片附件"
+      ad_free: <b>无广告</b>
+      csv_import: 可自定义复杂的<b>CSV导入文件</b>（电子表格应用程序）
+      auto_backup: 每日<b>自动备份</b>并上载到自选的云盘/云服务
+      cloud_sync: "<b>云同步</b>：可以在多个设备之间同步数据"
+      split_template: 无限数量的<b>模板和拆分交易计划</b>
+      email_support: <b>电子邮件支持</b>：保证在2个工作日内回复
+      roadmap_voting: 对<b>程序开发者的未来蓝图 </b>进行投票
+      history_chart: <b>收支历史图表</b>（可观察现金流向）
+      budgeting: "<b>预算</b>：将您的支出与每个类别 (每天、每周、每月或每年) 设置的限额进行比较。"
+      scan_receipt: "<b>扫描收据</b>：自动读取金额、日期和收款人等数据"
+      webui: <b>网络的用户界面</b>
+    one-time-payment: 一次性支付
+    subscription: 订阅
+  store:
+    short_description: "易于使用的个人理财管理工具 ：丰富的功能和开放源代码"
+    full_description_intro: "{app_name}可以直接在智能手机和平板电脑上跟踪您的支出和收入。"
+    full_description_contrib: "购买以下许可证密钥，即可解锁不同的高级功能："
+    full_description_contrib_amazon: "购买许可证密钥，即可解锁许多其他的功能，例如："
+    highlight_1: "通过多个账户、模板和类别跟踪您的支出和收入"
+    highlight_2: "通过 WebDAV 和 Google云盘 在多部手机和平板电脑之间共享您的数据"
+    highlight_3: "总结每天、每周、每月或每年的财务状况"
+  permissions:
+    heading: <i>{app_name}</i>需要以下<u>权限</u>
+    calendar:
+      label: 日历
+      explanation: 未来和定期交易的计划存储在特殊的本地日历或您设置的任何其他日历中。
+    external-storage:
+      label: 存储空间
+      explanation: 存储导出和备份的QIF和CSV文件。
+    internet:
+      label: 互联网
+      explanation_usage_tracking: 匿名使用情况跟踪
+      explanation_crash_reporting: 故障报告
+      explanation_key_validation: 许可证密钥验证
+      explanation_cloud_sync: 云同步
+    accounts:
+      label: 帐号
+      explanation: 通过云服务跨设备同步。
+  contrib-key: 贡献版密钥(Contrib Key)
+  extended-key: 延伸版密钥(Extended Key)
+  professional-key: 专业版密钥(Professional Key)
+  all_contrib_key_features: '"贡献版密钥(Contrib Key)" 的所有功能'
+  all_extended_key_features: '"延伸版密钥(Extended Key)" 的所有功能'
+  customer_support: 客户支持

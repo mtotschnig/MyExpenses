@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<resources>
+    <string-array name="whats_new_329">
+        <item>ניתן למזג צדדים כפולים.</item>
+        <item>ניתן להעתיק את הסכום הנותר בעסקאות מפוצלות ללוח.</item>
+    </string-array>
+    <string-array name="whats_new_328">
+        <item>ניתן להגדיר את יישומון החשבון כך שיציג חשבון יחיד וייקח בחשבון עסקאות עתידיות.</item>
+        <item>הצג את הסכום הכולל של העסקאות שנבחרו.</item>
+    </string-array>
+    <string-array name="whats_new_327">
+        <item>ניתן לקשר שתי עסקאות קיימות כהעברה.</item>
+    </string-array>
+    <string-array name="whats_new_326">
+        <item>עסקאות יכולות לחזור ביום האחרון של החודש.</item>
+    </string-array>
+    <string-array name="whats_new_324">
+        <item>ממשק משתמש באינטרנט</item>
+    </string-array>
+    <string-array name="whats_new_323">
+        <item>כפתור תאריך מאפשר ניווט מהיר ליום הקודם ולמחרת.</item>
+    </string-array>
+    <string-array name="whats_new_322">
+        <item>ניתן להסתיר את סכומי ההוצאות, ההכנסות וההעברות בכותרות הקבוצה.</item>
+        <item>חשב את ההפרש בין היתרה הנוכחית לערך חדש.</item>
+        <item>ניתן להגדיר סינון ותקציבים עבור קבוצת משנה של חשבונות.</item>
+    </string-array>
+    <string-array name="whats_new_321">
+        <item>זיהוי טקסט פועל כעת עם יותר שפות.</item>
+    </string-array>
+    <string-array name="whats_new_320">
+        <item>ניתן לחתוך תמונות.</item>
+    </string-array>
+    <string-array name="whats_new_318">
+        <item>ניתן להגדיר פעולת קליק ברירת מחדל לכל תבנית.</item>
+    </string-array>
+    <string-array name="whats_new_317">
+        <item>ניתן לטעון תבניות מטופס העסקה.</item>
+    </string-array>
+    <string-array name="whats_new_316">
+        <item>לחצן שמור בטופס העסקה בולט יותר.</item>
+        <item>לחיצה ארוכה על כפתור הפעולה הצף פותחת תפריט המאפשר להכין את הטופס להעברה, לעסקה מפוצלת או להכנסה.</item>
+    </string-array>
+    <string name="whats_new_315_dark_theme_q">עיצוב כהה מקושר לברירת המחדל של המערכת</string>
+    <string-array name="whats_new_313">
+        <item>ניהול משופר של עסקאות חוזרות</item>
+        <item>תרגום קנאדה</item>
+    </string-array>
+    <string-array name="whats_new_312">
+        <item>פורמט תאריך מותאם אישית</item>
+        <item>התגים מיוצאים ל- CSV</item>
+        <item>שונן מצב של קבוצות מכווצות ברשימת העסקאות</item>
+    </string-array>
+    <string-array name="whats_new_311">
+        <item>ניתן לחפש ברשימת הצדדים (משלמים ומשלמים)</item>
+    </string-array>
+    <string-array name="whats_new_310">
+        <item>ניתן למפות עסקאות לתגיות מרובות</item>
+    </string-array>
+</resources>

@@ -12,7 +12,7 @@ import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.viewmodel.data.Event
 import javax.inject.Inject
 
-class FeatureViewModel (application: Application) : AndroidViewModel(application) {
+class FeatureViewModel(application: Application) : AndroidViewModel(application) {
     @Inject
     lateinit var featureManager: FeatureManager
 
@@ -51,9 +51,9 @@ class FeatureViewModel (application: Application) : AndroidViewModel(application
 
     sealed class FeatureState {
         class Error(val throwable: Throwable) : FeatureState()
-        class FeatureLoading(val feature: Feature): FeatureState()
-        class LanguageLoading(val language: String): FeatureState()
-        class FeatureAvailable(val modules: List<String>): FeatureState()
+        class FeatureLoading(val feature: Feature) : FeatureState()
+        class LanguageLoading(val language: String) : FeatureState()
+        class FeatureAvailable(val modules: List<String>) : FeatureState()
         object LanguageAvailable : FeatureState()
     }
 
@@ -63,7 +63,9 @@ class FeatureViewModel (application: Application) : AndroidViewModel(application
         return featureState
     }
 
-    fun isFeatureAvailable(context: Context, feature: Feature) = featureManager.isFeatureInstalled(feature, context)
+    fun isFeatureAvailable(context: Context, feature: Feature) =
+        featureManager.isFeatureInstalled(feature, context)
 
-    fun requestFeature(activity: BaseActivity, feature: Feature) = featureManager.requestFeature(feature, activity)
+    fun requestFeature(activity: BaseActivity, feature: Feature) =
+        featureManager.requestFeature(feature, activity)
 }

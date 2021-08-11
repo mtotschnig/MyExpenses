@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<resources>
+    <string-array name="whats_new_329">
+        <item>Дублирани страни може да бъдат обединени.</item>
+        <item>Останалата сума при разпределена транзакция може да бъде копирана в клипборда.</item>
+    </string-array>
+    <string-array name="whats_new_328">
+        <item>Уйджета за сметка може да бъде конфигуриран да показва една сметка и да взема предвид бъдещи транзакции.</item>
+        <item>Показване на общата сума на избраните транзакции.</item>
+    </string-array>
+    <string-array name="whats_new_327">
+        <item>Две съществуващи транзакции могат да бъдат свързани като прехвърляне.</item>
+    </string-array>
+    <string-array name="whats_new_326">
+        <item>Транзакциите могат да се повторят в последния ден от месеца.</item>
+    </string-array>
+    <string-array name="whats_new_324">
+        <item>Уеб потребителски интерфейс</item>
+    </string-array>
+    <string-array name="whats_new_323">
+        <item>Бутонът за дата позволява бърза навигация до вчера и утре.</item>
+    </string-array>
+    <string-array name="whats_new_322">
+        <item>Сумите в заглавията на групата могат да бъдат скрити.</item>
+        <item>Изчисляване на разликата между текущото салдо и новата му стойност.</item>
+        <item>Филтър и бюджет могат да бъдат дефинирани за част от сметките.</item>
+    </string-array>
+    <string-array name="whats_new_321">
+        <item>Разпознаването на текст вече работи на повече езици.</item>
+    </string-array>
+    <string-array name="whats_new_320">
+        <item>Изображенията могат да бъдат изрязани.</item>
+    </string-array>
+    <string-array name="whats_new_318">
+        <item>Дефиниране на действието по подразбиране за всеки шаблон.</item>
+    </string-array>
+    <string-array name="whats_new_317">
+        <item>От страницата за транзакции може да се зареди шаблон.</item>
+    </string-array>
+    <string-array name="whats_new_316">
+        <item>Бутонът за запис във формата за транзакция е по забележим.</item>
+        <item>Дълго натискане на плаващия бутон отваря меню, където ще подготвите форма за превод, разпределена транзакция или приход.</item>
+    </string-array>
+    <string name="whats_new_315_dark_theme_q">Тъмната тема е свързана със системната настройка по подразбиране</string>
+    <string-array name="whats_new_313">
+        <item>Подобрено управление на повтарящи се транзакции</item>
+        <item>Превод на език каннада (Индия)</item>
+    </string-array>
+    <string-array name="whats_new_312">
+        <item>Избираем формат за дата</item>
+        <item>Експорт на етикетите в CSV</item>
+        <item>Запомняне на свитото състояние на групите в списъка с транзакции</item>
+    </string-array>
+    <string-array name="whats_new_311">
+        <item>Може да се търси в списъка на страните (платци и получатели)</item>
+    </string-array>
+    <string-array name="whats_new_310">
+        <item>Транзакциите може да бъдат отбелязани с множество маркери</item>
+    </string-array>
+</resources>

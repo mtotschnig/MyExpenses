@@ -563,7 +563,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
                             )
                         )
                     } else {
-                        activity.showDeleteFailureFeedback()
+                        activity.showDeleteFailureFeedback(null)
                     }
                 })
     }

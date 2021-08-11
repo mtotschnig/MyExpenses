@@ -1,195 +1,261 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<resources tools:ignore="UnusedResources, InconsistentArrays" xmlns:tools="http://schemas.android.com/tools">
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources, InconsistentArrays">
+    <!-- Main category -->
     <string name="Main_1">Altre entrate</string>
-    <!-- Subcategories under "Other income" -->
-    <string-array name="Sub_1">
-        <item>Indennità di disoccupazione</item>
-        <item>Assegno familiare</item>
-        <item>Credito d\'imposta</item>
-        <item>Gioco d\'azzardo</item>
-        <item>Mutua assicurazione</item>
-        <item>Previdenza sociale</item>
-    </string-array>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_1">Indennità di disoccupazione</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_2">Assegno familiare</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_3">Credito d\'imposta</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_4">Gioco d\'azzardo</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_5">Mutua assicurazione</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_6">Previdenza sociale</string>
+    <!-- Main category -->
     <string name="Main_2">Pensionamento</string>
-    <!-- Subcategories under "Retirement" -->
-    <string-array name="Sub_2">
-        <item>Fondo pensione</item>
-        <item>Pensione</item>
-        <item>Pensione integrativa</item>
-    </string-array>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_1">Fondo pensione</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_2">Pensione</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_3">Pensione integrativa</string>
+    <!-- Main category -->
     <string name="Main_3">Proventi da investimenti</string>
-    <!-- Subcategories under "Investment income" -->
-    <string-array name="Sub_3">
-        <item>Dividendi</item>
-        <item>Guadagno/interesse</item>
-        <item>Reddito da capitale</item>
-    </string-array>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_1">Dividendi</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_2">Guadagno/interesse</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_3">Reddito da capitale</string>
+    <!-- Main category -->
     <string name="Main_4">Stipendio</string>
-    <!-- Subcategories under "Salary" -->
-    <string-array name="Sub_4">
-        <item>Straordinario</item>
-        <item>Liquidazione</item>
-        <item>Bonus vari</item>
-        <item>Bonus raggiungimento obiettivo</item>
-        <item>Salario netto</item>
-    </string-array>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_1">Straordinario</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_2">Liquidazione</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_3">Bonus vari</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_4">Bonus raggiungimento obiettivo</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_5">Salario netto</string>
+    <!-- Main category -->
     <string name="Main_5">Redditi vari</string>
-    <!-- Subcategories under "Misc. income" -->
-    <string-array name="Sub_5">
-        <item>Regali</item>
-        <item>Rimborsi</item>
-        <item>Vendite di seconda mano</item>
-    </string-array>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_1">Regali</string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_2">Rimborsi</string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_3">Vendite di seconda mano</string>
+    <!-- Main category -->
     <string name="Main_6">Cibo</string>
-    <!-- Subcategories under "Food" -->
-    <string-array name="Sub_6">
-        <item>Bar</item>
-        <item>Fornaio</item>
-        <item>Mensa</item>
-        <item>Dolci</item>
-        <item>Alimentari</item>
-        <item>Ristorante</item>
-        <item>Self-service</item>
-        <item>Supermercato</item>
-    </string-array>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_1">Bar</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_2">Fornaio</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_3">Mensa</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_4">Dolci</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_5">Alimentari</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_6">Ristorante</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_7">Self-service</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_8">Supermercato</string>
+    <!-- Main category -->
     <string name="Main_7">Animali domestici</string>
-    <!-- Subcategories under "Pets" -->
-    <string-array name="Sub_7">
-        <item>Cibo</item>
-        <item>Forniture varie</item>
-        <item>Cura personale</item>
-        <item>Veterinario</item>
-    </string-array>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_1">Cibo</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_2">Forniture varie</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_3">Cura personale</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_4">Veterinario</string>
+    <!-- Main category -->
     <string name="Main_8">Assicurazione</string>
-    <!-- Subcategories under "Insurance" -->
-    <string-array name="Sub_8">
-        <item>Auto</item>
-        <item>Salute</item>
-        <item>Casa</item>
-        <item>Responsabilità civile</item>
-        <item>Vita</item>
-    </string-array>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_1">Auto</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_2">Salute</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_3">Casa</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_4">Responsabilità civile</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_5">Vita</string>
+    <!-- Main category -->
     <string name="Main_9">Auto</string>
-    <!-- Subcategories under "Car" -->
-    <string-array name="Sub_9">
-        <item>Carburante</item>
-        <item>Riparazioni</item>
-        <item>Manutenzione</item>
-        <item>Parcheggio</item>
-        <item>Multe</item>
-    </string-array>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_1">Carburante</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_2">Riparazioni</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_3">Manutenzione</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_4">Parcheggio</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_5">Multe</string>
+    <!-- Main category -->
     <string name="Main_10">Regali</string>
+    <!-- Main category -->
     <string name="Main_11">Bambini</string>
-    <!-- Subcategories under "Children" -->
-    <string-array name="Sub_11">
-        <item>Baby sitter</item>
-        <item>Studi</item>
-    </string-array>
+    <!-- Subcategory under "Children" -->
+    <string name="Sub_11_1">Baby sitter</string>
+    <!-- Subcategory under "Children" -->
+    <string name="Sub_11_2">Studi</string>
+    <!-- Main category -->
     <string name="Main_12">Studi</string>
-    <!-- Subcategories under "Studies" -->
-    <string-array name="Sub_12">
-        <item>Lezioni</item>
-        <item>Tasse scolastiche</item>
-        <item>Libri</item>
-    </string-array>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_1">Lezioni</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_2">Tasse scolastiche</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_3">Libri</string>
+    <!-- Main category -->
     <string name="Main_13">Oneri finanziari</string>
-    <!-- Subcategories under "Financial expenses" -->
-    <string-array name="Sub_13">
-        <item>Spese bancarie</item>
-        <item>Prestito/Mutuo ipotecario</item>
-        <item>Addebiti</item>
-        <item>Rimborso</item>
-    </string-array>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_1">Spese bancarie</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_2">Prestito/Mutuo ipotecario</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_3">Addebiti</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_4">Rimborso</string>
+    <!-- Main category -->
     <string name="Main_14">Spese professionali</string>
-    <!-- Subcategories under "Professional expenses" -->
-    <string-array name="Sub_14">
-        <item>Non rimborsabile</item>
-        <item>Rimborsabile</item>
-    </string-array>
+    <!-- Subcategory under "Professional expenses" -->
+    <string name="Sub_14_1">Non rimborsabile</string>
+    <!-- Subcategory under "Professional expenses" -->
+    <string name="Sub_14_2">Rimborsabile</string>
+    <!-- Main category -->
     <string name="Main_15">Tasse</string>
-    <!-- Subcategories under "Taxes" -->
-    <string-array name="Sub_15">
-        <item>Tassa sul reddito</item>
-        <item>IMU</item>
-        <item>Imposta sul valore aggiunto</item>
-    </string-array>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_1">Tassa sul reddito</string>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_2">IMU</string>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_3">Imposta sul valore aggiunto</string>
+    <!-- Main category -->
     <string name="Main_16">Abitazione</string>
-    <!-- Subcategories under "Housing" -->
-    <string-array name="Sub_16">
-        <item>Albergo</item>
-        <item>Affitto</item>
-        <item>TV</item>
-        <item>Arredamento</item>
-        <item>Addebiti</item>
-        <item>Riscaldamento</item>
-        <item>Decorazione</item>
-        <item>Acqua</item>
-        <item>Elettricità</item>
-        <item>Elettrodomestici</item>
-        <item>Attrezzatura</item>
-        <item>Gas</item>
-        <item>Giardino</item>
-        <item>Domestica</item>
-        <item>Telefono</item>
-        <item>Telefono cellulare</item>
-    </string-array>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_1">Albergo</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_2">Affitto</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_3">TV</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_4">Arredamento</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_5">Addebiti</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_6">Riscaldamento</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_7">Decorazione</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_8">Acqua</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_9">Elettricità</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_10">Elettrodomestici</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_11">Attrezzatura</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_12">Gas</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_13">Giardino</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_14">Domestica</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_15">Telefono</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_16">Telefono cellulare</string>
+    <!-- Main category -->
     <string name="Main_17">Tempo libero</string>
-    <!-- Subcategories under "Leisures" -->
-    <string-array name="Sub_17">
-        <item>Biliardo</item>
-        <item>Bowling</item>
-        <item>Film</item>
-        <item>Night club</item>
-        <item>Tecnologia</item>
-        <item>Giochi</item>
-        <item>Libri</item>
-        <item>Parchi</item>
-        <item>Concerti</item>
-        <item>Sport</item>
-        <item>Video</item>
-        <item>Viaggi</item>
-        <item>Attrezzatura</item>
-        <item>Musei/mostre</item>
-    </string-array>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_1">Biliardo</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_2">Bowling</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_3">Film</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_4">Discoteca</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_5">Tecnologia</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_6">Giochi</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_7">Libri</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_8">Parchi</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_9">Concerti</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_10">Sport</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_11">Video</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_12">Viaggi</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_13">Attrezzatura</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_14">Musei/mostre</string>
+    <!-- Main category -->
     <string name="Main_18">Prestito/Mutuo ipotecario</string>
-    <!-- Subcategories under "Loan/Mortgage" -->
-    <string-array name="Sub_18">
-        <item>Capitale</item>
-    </string-array>
+    <!-- Subcategory under "Loan/Mortgage" -->
+    <string name="Sub_18_1">Capitale</string>
+    <!-- Main category -->
     <string name="Main_19">Salute</string>
-    <!-- Subcategories under "Health" -->
-    <string-array name="Sub_19">
-        <item>Assicurazione</item>
-        <item>Dentista</item>
-        <item>Ospedale</item>
-        <item>Cinesiterapista</item>
-        <item>Medico</item>
-        <item>Oftalmologo</item>
-        <item>Osteopata</item>
-        <item>Farmacista</item>
-        <item>Previdenza sociale</item>
-    </string-array>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_1">Assicurazione</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_2">Dentista</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_3">Ospedale</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_4">Cinesiterapista</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_5">Medico</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_6">Oftalmologo</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_7">Osteopata</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_8">Farmacista</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_9">Previdenza sociale</string>
+    <!-- Main category -->
     <string name="Main_20">Cura personale</string>
-    <!-- Subcategories under "Care" -->
-    <string-array name="Sub_20">
-        <item>Parrucchiere</item>
-        <item>Abbigliamento</item>
-    </string-array>
+    <!-- Subcategory under "Care" -->
+    <string name="Sub_20_1">Parrucchiere</string>
+    <!-- Subcategory under "Care" -->
+    <string name="Sub_20_2">Abbigliamento</string>
+    <!-- Main category -->
     <string name="Main_21">Trasporto</string>
-    <!-- Subcategories under "Transport" -->
-    <string-array name="Sub_21">
-        <item>Bus</item>
-        <item>Metropolitana</item>
-        <item>Pedaggio</item>
-        <item>Treno</item>
-        <item>Tram</item>
-        <item>Aereo</item>
-    </string-array>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_1">Bus</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_2">Metropolitana</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_3">Pedaggio</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_4">Treno</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_5">Tram</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_6">Aereo</string>
+    <!-- Main category -->
     <string name="Main_22">Vacanze</string>
-    <!-- Subcategories under "Holidays" -->
-    <string-array name="Sub_22">
-        <item>Alloggio</item>
-        <item>Visite</item>
-        <item>Viaggi</item>
-    </string-array>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_1">Alloggio</string>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_2">Visite</string>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_3">Viaggi</string>
 </resources>

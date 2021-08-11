@@ -303,7 +303,6 @@
     <string name="pref_import_summary">%s ಫೈಲ್‌ನಿಂದ ವ್ಯವಹಾರಗಳು, ವಿಭಾಗಗಳು ಮತ್ತು ಪಕ್ಷಗಳನ್ನು ಆಮದು ಮಾಡಿ</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">%s ಆಮದು</string>
-    <string name="pref_like_facebook_title">ಫೇಸ್ಬುಕ್ ನಲ್ಲಿ ನಮಗೆ ಲೈಕ್ ಕೊಡಿ</string>
     <string name="pref_manage_accounts_title">ಖಾತೆಗಳು</string>
     <string name="pref_manage_categories_summary">ವರ್ಗಗಳನ್ನು ಸೇರಿಸಿ, ಸಂಪಾದಿಸಿ, ಅಳಿಸಿ.</string>
     <string name="pref_manage_categories_title">ವರ್ಗಗಳು</string>
@@ -362,7 +361,6 @@
     <string name="restore_db_success">ಡೇಟಾಬೇಸ್ ಅನ್ನು ಬ್ಯಾಕಪ್‌ನಿಂದ ಮರುಸ್ಥಾಪಿಸಲಾಗಿದೆ.</string>
     <string name="restore_no_backup_found">ಯಾವುದೇ ಬ್ಯಾಕಪ್ ಕಂಡುಬಂದಿಲ್ಲ.</string>
     <string name="restore_preferences_failure">ಆದ್ಯತೆಗಳ ಮರುಸ್ಥಾಪನೆ ವಿಫಲವಾಗಿದೆ</string>
-    <string name="restore_backup_archive_not_valid">ಆರ್ಕೈವ್ %1$s ಮಾನ್ಯವಾಗಿಲ್ಲ</string>
     <string name="restore_backup_file_not_found">"%2$s" ಆರ್ಕೈವ್‌ನಲ್ಲಿ %1$s ಫೈಲ್ ಕಂಡುಬಂದಿಲ್ಲ</string>
     <string name="restore_preferences_success">ಆದ್ಯತೆಗಳನ್ನು ಬ್ಯಾಕಪ್‌ನಿಂದ ಮರುಸ್ಥಾಪಿಸಲಾಗಿದೆ.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d ಯೋಜನೆಗಳನ್ನು ಬ್ಯಾಕಪ್‌ನಿಂದ ಮರುಸ್ಥಾಪಿಸಲಾಗಿದೆ</string>
@@ -439,7 +437,6 @@
     <string name="warning_reset_account_all">ನೀವು ಮುಂದುವರಿದರೆ, ಎಲ್ಲಾ ಖಾತೆಗಳಿಗೆ%1$s, ವ್ಯವಹಾರಗಳನ್ನು ಡೇಟಾಬೇಸ್‌ನಿಂದ ಅಳಿಸಲಾಗುತ್ತದೆ ಮತ್ತು ಅದನ್ನು ಮರುಸ್ಥಾಪಿಸಲಾಗುವುದಿಲ್ಲ.</string>
     <string name="warning_reset_account_matched">ನೀವು ಮುಂದುವರಿದರೆ, ಪ್ರಸ್ತುತ ಫಿಲ್ಟರ್‌ಗೆ ಹೊಂದಿಕೆಯಾಗುವ ವಹಿವಾಟುಗಳನ್ನು ಡೇಟಾಬೇಸ್‌ನಿಂದ ಅಳಿಸಲಾಗುತ್ತದೆ ಮತ್ತು ಅದನ್ನು ಮರುಸ್ಥಾಪಿಸಲಾಗುವುದಿಲ್ಲ.</string>
     <string name="warning_restore">ಡೇಟಾಬೇಸ್ ಮತ್ತು ಆದ್ಯತೆಗಳನ್ನು \"%1$s\" ಫೈಲ್‌ನಿಂದ ಮರುಸ್ಥಾಪಿಸಲಾಗುತ್ತದೆ. ಪ್ರಸ್ತುತ ಡೇಟಾವನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.</string>
-    <string name="warning_app_folder_will_be_deleted_upon_uninstall">ನೀವು {app_name} ಅನ್ನು ಅಸ್ಥಾಪಿಸಿದರೆ ಬ್ಯಾಕ್‌ಅಪ್‌ಗಳು ಮತ್ತು ರಫ್ತುಗಳಿಗಾಗಿ ಪ್ರಸ್ತುತ ಆಯ್ಕೆ ಮಾಡಲಾದ ಫೋಲ್ಡರ್ ಆಂಡ್ರಾಯ್ಡ್‌ನಿಂದ ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಅಳಿಸಲ್ಪಡುತ್ತದೆ. ಸೆಟ್ಟಿಂಗ್‌ಗಳ ಪರದೆಯಿಂದ ಬೇರೆ ಫೋಲ್ಡರ್ ಆಯ್ಕೆ ಮಾಡುವ ಮೂಲಕ ನೀವು ಇದನ್ನು ತಡೆಯಬಹುದು.</string>
     <string name="warning_splitpartcategory_context">ವಿಭಜನೆಯ ಭಾಗವಾಗಿರುವ ವರ್ಗಾವಣೆಗಳನ್ನು ವಿಭಜನೆಯ ಸಂದರ್ಭದಲ್ಲಿ ಮಾತ್ರ ಸಂಪಾದಿಸಬಹುದು.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">ದಯವಿಟ್ಟು %1$d ಮತ್ತು %2$d ನಡುವೆ ಸಂಖ್ಯೆಯನ್ನು ಹೊಂದಿಸಿ</string>
     <string name="warning_change_fraction_digits_1">ಹೊಸ ಸಂಖ್ಯೆಯ ಭಿನ್ನರಾಶಿ ಅಂಕೆಗಳಿಗೆ ಹೊಂದಿಕೆಯಾಗಲು ಡೇಟಾಬೇಸ್‌ನಲ್ಲಿನ ಮೊತ್ತವನ್ನು ನವೀಕರಿಸಬೇಕಾಗಿದೆ.</string>
@@ -447,7 +444,7 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">ಮೊತ್ತವನ್ನು ನವೀಕರಿಸದಿದ್ದರೆ, ಬದಲಾವಣೆಯ ನಂತರ ಅವುಗಳನ್ನು %d ನಿಂದ ಭಾಗಿಸಿದಂತೆ ಪ್ರದರ್ಶಿಸಲಾಗುತ್ತದೆ.</string>
     <string name="warning_change_fraction_digits_3">ಮೊತ್ತವನ್ನು ನವೀಕರಿಸಿದರೆ, ಅವುಗಳ ಭಾಗಶಃ ಮಾಹಿತಿಯನ್ನು ನೀವು ಕಳೆದುಕೊಳ್ಳುತ್ತೀರಿ.</string>
     <string name="warning_change_fraction_digits_checkbox_label">ಡೇಟಾಬೇಸ್‌ನಲ್ಲಿ ಮೊತ್ತವನ್ನು ನವೀಕರಿಸಿ</string>
-    <string name="import_categories_success">%1$s ವಿಭಾಗಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಆಮದು ಮಾಡಲಾಗಿದೆ</string>
+    <string name="import_categories_success">%1$d ವಿಭಾಗಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಆಮದು ಮಾಡಲಾಗಿದೆ</string>
     <string name="import_parties_success">%1$s ಪಕ್ಷಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಆಮದು ಮಾಡಲಾಗಿದೆ</string>
     <string name="import_accounts_success">%1$s ಖಾತೆಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಆಮದು ಮಾಡಲಾಗಿದೆ</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d ವಹಿವಾಟುಗಳನ್ನು %2$s ಖಾತೆಗೆ ಯಶಸ್ವಿಯಾಗಿ ಆಮದು ಮಾಡಲಾಗಿದೆ</string>
@@ -619,7 +616,6 @@
     <string name="upgrade_now">ನವೀಕರಿಸಿ</string>
     <string name="pref_backup_cloud_title">ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಬ್ಯಾಕೆಂಡ್‌ನಲ್ಲಿ ಸಂಗ್ರಹಿಸಿ</string>
     <string name="pref_backup_cloud_summary">ಸಾಧನದಲ್ಲಿನ ಸ್ಥಳೀಯ ಸಂಗ್ರಹಣೆಯ ಜೊತೆಗೆ, ಬ್ಯಾಕಪ್ ಫೈಲ್ ಅನ್ನು ದೂರಸ್ಥ ಬ್ಯಾಕೆಂಡ್‌ಗೆ ನಕಲಿಸಬಹುದು.</string>
-    <string name="auto_backup_cloud_create_backend">ಮುಖ್ಯ ಸೆಟ್ಟಿಂಗ್‌ಗಳ ಪರದೆಯಿಂದ ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಬ್ಯಾಕೆಂಡ್ ರಚಿಸಿ.</string>
     <string name="auto_backup_cloud_failure">ಬ್ಯಾಕೆಂಡ್ %2$s ನಲ್ಲಿ ಬ್ಯಾಕಪ್ ಫೈಲ್ %1$s ಅನ್ನು ಸಂಗ್ರಹಿಸಲು ಪ್ರಯತ್ನಿಸುವಾಗ ದೋಷ ಸಂಭವಿಸಿದೆ:</string>
     <string name="auto_backup_cloud_success">ಬ್ಯಾಕಪ್ ಫೈಲ್ %1$s ಅನ್ನು ಬ್ಯಾಕೆಂಡ್ %2$s ನಲ್ಲಿ ಯಶಸ್ವಿಯಾಗಿ ಸಂಗ್ರಹಿಸಲಾಗಿದೆ.</string>
     <string name="home_screen_shortcuts_nougate_info">ಹೋಮ್ ಸ್ಕ್ರೀನ್‌ನಲ್ಲಿ ಅಪ್ಲಿಕೇಶನ್ ಐಕಾನ್ ಅನ್ನು ದೀರ್ಘ-ಟ್ಯಾಪ್ ಮಾಡುವ ಮೂಲಕ ಶಾರ್ಟ್‌ಕಟ್‌ಗಳನ್ನು ಸೇರಿಸಬಹುದು.</string>
@@ -961,4 +957,14 @@
     <string name="template_default_action_without_amount_hint">ಮೊತ್ತವಿಲ್ಲದ ಟೆಂಪ್ಲೇಟ್ ಅನ್ನು ಡೀಫಾಲ್ಟ್ ಕ್ರಿಯೆಯೊಂದಿಗೆ ಉಳಿಸಬೇಕು \'ಸಂಪಾದಿಸು\'</string>
     <string name="pref_clone_with_current_date_title">ಅಬೀಜ ವಹಿವಾಟಿನ ದಿನಾಂಕ</string>
     <string name="confirmation_load_template_discard_data">ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ಫಾರ್ಮ್ ಡೇಟಾವನ್ನು ತ್ಯಜಿಸಲಾಗುತ್ತದೆ.</string>
+    <string name="crash_reports_user_info">{app_name} ಅಪ್ಲಿಕೇಶನ್ ಕ್ರ್ಯಾಶ್‌ಗಳ ಕುರಿತು ಅದರ ಡೆವಲಪರ್‌ಗಳಿಗೆ ಸ್ವಯಂಚಾಲಿತವಾಗಿ ವರದಿಗಳನ್ನು ಕಳುಹಿಸುತ್ತದೆ, ಇದು ಸಮಸ್ಯೆಗಳನ್ನು ತ್ವರಿತವಾಗಿ ಪರಿಹರಿಸಲು ಅನುವು ಮಾಡಿಕೊಡುತ್ತದೆ.</string>
+    <string name="pref_category_title_crash_reports">ಕ್ರ್ಯಾಶ್ ವರದಿಗಳು</string>
+    <string name="pref_enable_acra">ಕ್ರ್ಯಾಶ್ ವರದಿಗಳನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಕಳುಹಿಸಲು ಅನುಮತಿಸಿ</string>
+    <string name="pref_acra_user_email">ಕ್ರ್ಯಾಶ್ ವರದಿಯಲ್ಲಿ ಬಳಕೆದಾರರ ಇಮೇಲ್ ಅನ್ನು ಸೇರಿಸಲಾಗುವುದು</string>
+    <string name="pref_acra_user_email_summary">ಡೀಬಗ್ ಮಾಡಲು ಸಹಾಯ ಮಾಡಲು ನೀವು ಸಿದ್ಧರಿದ್ದರೆ ಮತ್ತು ನಿಮ್ಮನ್ನು ಸಂಪರ್ಕಿಸಲು ನಮಗೆ ಅನುಮತಿಸಿದರೆ ದಯವಿಟ್ಟು ನಿಮ್ಮ ಇಮೇಲ್ ವಿಳಾಸವನ್ನು ನಮೂದಿಸಿ.</string>
+    <string name="bug_fixes">ದೋಷ ಪರಿಹಾರಗಳನ್ನು</string>
+    <string name="performance_enhancement">ಕಾರ್ಯಕ್ಷಮತೆ ವರ್ಧನೆ</string>
+    <string name="stability_improvements">ಸ್ಥಿರತೆ ಸುಧಾರಣೆಗಳು</string>
+    <string name="ui_refinement">ಬಳಕೆದಾರ ಇಂಟರ್ಫೇಸ್ನ ಪರಿಷ್ಕರಣೆ</string>
+    <string name="backup_save_to_sync_backend">%s ಗೆ ಉಳಿಸಿ</string>
 </resources>

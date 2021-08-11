@@ -1,0 +1,113 @@
+it:
+  imprint: Imprint
+  imprint_text: Responsabile per il contenuto di questo sito web e per lo sviluppo, la manutenzione e la distribuzione di <i>{app_name}</i>
+  privacy_policy_heading: Informativa sulla privacy
+  privacy_policy_text: "<i>{app_name}</i> non accede a alcuni dati di suo apparecchio al di fuori della database e la cartella proprie sulla scheda SD. Se si utilizza la funzionalità dei piani per le transazioni future e ricorrenti, si assegnano il calendario, in cui sono memorizzati questi piani."
+  hero_main: "Gestione delle finanze personali per Android"
+  hero_sub:
+    use: "Facile da usare"
+    functionality: "Ricco di funzionalità"
+    source: "Open Source"
+  menu_title:
+    more_information: Maggiori informazioni
+  sections:
+    features: Funzioni
+    premium: Passa a Premium
+    participate: Partecipare
+    faq: FAQ
+    versionlist: Registro delle modifiche (changelog)
+    credits: Credits
+    licence: Licenza
+    sourcecode: Codice sorgente
+    links: Collegamenti
+  screenshots:
+    group: Raggruppa le tue transazioni per giorno, settimana, mese ed anno
+    summarize: Somma tutti i tuoi conti (Gestione sofisticata dei tassi di cambio per account e per transazione)
+    budget: Stabilisci quanto intendi spendere in budget annuali, mensili o settimanali
+    split: Dividi una transazione in più categorie
+    distribution: Visualizza la distribuzione per categoria
+    history: Monitora l'evoluzione della tua situazione finanziaria nel tempo
+    export: Stampa come PDF ed esporta tramite QIF e CSV.
+    sync: Sincronizza i dati dell'account crittografati su più dispositivi tramite servizi cloud privati o pubblici.
+  features:
+    manage_accounts: Fino a cinque conti con <b> trasferimenti </b> (anche tra valute diverse)
+    plans: Numero illimitato di <b> modelli </ b> e fino a tre piani per le transazioni <b> ricorrenti </b>
+    export: <b> Esporta </b> in QIF e CSV. <b> Importa </b> da QIF
+    password: I dati possono essere protetti da <b> password </b> o dal <b> blocco schermo </b> del dispositivo
+    light_theme: <b> Tema </b>(scuro e chiaro) e <b> dimensione caratteri </b> possono essere personalizzati
+    reconciliation: "<b>Riconciliazione</b>: Confronta facilmente lo stato delle transazioni con il tuo estratto conto"
+    homescreen: <b> Widget </b> per la schermata principale e <b> scorciatoie </b> per l'inserimento rapido dei dati
+  contrib:
+    thank_you: |
+        Il tuo contributo permette l'ulteriore sviluppo di Le mie spese. Grazie!
+    feature-list-title: "Si prega di contribuire aggiornando <i>{app_name}</i> e ottenere l'accesso illimitato alle seguenti caratteristiche:"
+    feature:
+      accounts_unlimited: Numero illimitato di <b>conti</b>
+      plans_unlimited: Numero illimitato di piani per le transazioni <b> ricorrenti </b>
+      distribution: "<b> Grafico a torta </b>: visualizza la distribuzione statistica delle transazioni per categoria su periodi diversi (anni, mesi, settimane, giorni)"
+      split_transaction: "<b> Transazione frazionata </b>: una singola transazione può essere suddivisa in più parti (categorie e trasferimenti)"
+      print: <b> Esporta </b>l'elenco delle transazioni in un file PDF
+      attach_picture: "<b> Allega immagine </b>: acquisisci tramite fotocamera o seleziona dalla galleria"
+      ad_free: <b>Nessun annuncio</b>
+      csv_import: <b> Importazione CSV </b>  sofisticata e personalizzabile (applicazioni per fogli di calcolo)
+      auto_backup: <b> Backup automatici </b> giornalieri con caricamento opzionale sul cloud
+      cloud_sync: "<b> Sincronizzazione </b>: I dati possono essere sincronizzati fra più dispositivi"
+      split_template: Numero illimitato di <b> modelli e piani per le transazioni frazionate </b>
+      email_support: <b> Supporto email </b> con risposta garantita entro 2 giorni lavorativi
+      roadmap_voting: Votare direttamente sulla <b>roadmap di sviluppo</b>
+      history_chart: <b> Grafico storico </b> (flusso di cassa)
+      budgeting: "<b> Bilancio </b>: confronta le tue spese con i limiti imposti per categoria su base giornaliera, settimanale, mensile o annuale."
+      scan_receipt: "<b>Scansiona gli scontrini</b> : estrai automaticamente l'importo, la data ed il beneficiario"
+      webui: <b>Interfaccia utente Web</b>
+    one-time-payment: Pagamento unico
+    subscription: Sottoscrizione
+  store:
+    short_description: "Gestore delle finanze personali facile da usare: ricche funzionalità e Open Source"
+    full_description_intro: "{app_name} tiene traccia delle tue spese e delle tue entrate, direttamente sul tuo smartphone e sul tuo tablet."
+    full_description_contrib: "Le funzionalità premium sono sbloccate con l'acquisto di una delle seguenti licenze:"
+    full_description_contrib_amazon: "Numerose funzioni aggiuntive possono essere sbloccate con l'acquisto di una delle licenze, ad esempio:"
+    highlight_1: "Tieni traccia delle tue spese e delle tue entrate attraverso diversi conti, modelli e categorie"
+    highlight_2: "Condividi i tuoi dati fra più telefoni e tablet tramite WebDAV e Google Drive"
+    highlight_3: "Ricapitola la situazione finanziaria del giorno, settimana, mese, o anno"
+  permissions:
+    heading: <i>{app_name}</i> richiede le seguenti <b>autorizzazioni</b>
+    calendar:
+      label: Calendario
+      explanation: Piani futuri e transazioni ricorrenti sono memorizzate o in un apposito calendario locale o in qualsiasi altro calendario venga assegnato.
+    external-storage:
+      label: Archiviazione
+      explanation: Stoccaggio di QIF e CSV esportazioni e file di backup
+    internet:
+      label: Internet
+      explanation_usage_tracking: Statistiche anonime sull'utilizzo
+      explanation_crash_reporting: Segnalazioni di crash
+      explanation_key_validation: Convalida della licenza
+      explanation_cloud_sync: Sincronizzazione cloud
+    accounts:
+      label: Conti
+      explanation: Sincronizzare tra dispositivi attraverso i servizi cloud
+  contrib-key: Licenza Contributore
+  extended-key: Licenza Funzionalità Estese
+  professional-key: Licenza Professionale
+  all_contrib_key_features: Tutte le funzionalità della Licenza Contributore
+  all_extended_key_features: Tutte le funzionalità della Licenza Funzionalità Estese
+  customer_support: Servizio Clienti
+  screenshot_testdata:
+    account1Label: Il mio portafoglio
+    account1Description: Spese quotidiane
+    account2Label: Weekend a Parigi
+    account3Label: Conto bancario
+    account3Description: Unicredit
+    transaction2Comment: Frutta e verdura
+    transaction4Payee: Pizzeria Antonella
+    templatePayee: Piero Pers
+    tag_project: Progetto senza titolo
+  screenshot_titles:
+    group: Raggruppa per anno, mese o settimana
+    summarize: Somma tutti i tuoi account
+    budget: Bilancio annuale,  mensile e settimanale
+    split: Dividi in categorie multiple
+    distribution: Grafico a torta
+    history: Storico del tuo stato finanziario
+    export: Esporta in PDF, QIF e CSV
+    sync: Sincronizzazione con il cloud

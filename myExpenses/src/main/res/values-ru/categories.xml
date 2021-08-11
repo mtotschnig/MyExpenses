@@ -1,195 +1,261 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources tools:ignore="UnusedResources, InconsistentArrays" xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources, InconsistentArrays">
+    <!-- Main category -->
     <string name="Main_1">Прочие поступления</string>
-    <!-- Subcategories under "Other income" -->
-    <string-array name="Sub_1">
-        <item>Пособие по безработице</item>
-        <item>Детское пособие</item>
-        <item>Налоговый кредит</item>
-        <item>Азартные игры</item>
-        <item>Взаимное страхование</item>
-        <item>Социальное обеспечение</item>
-    </string-array>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_1">Пособие по безработице</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_2">Детское пособие</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_3">Налоговый кредит</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_4">Азартные игры</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_5">Взаимное страхование</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_6">Социальное обеспечение</string>
+    <!-- Main category -->
     <string name="Main_2">Выход на пенсию</string>
-    <!-- Subcategories under "Retirement" -->
-    <string-array name="Sub_2">
-        <item>Пенсионный фонд</item>
-        <item>Пенсия</item>
-        <item>Дополнительная пенсия</item>
-    </string-array>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_1">Пенсионный фонд</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_2">Пенсия</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_3">Дополнительная пенсия</string>
+    <!-- Main category -->
     <string name="Main_3">Инвестиционный доход</string>
-    <!-- Subcategories under "Investment income" -->
-    <string-array name="Sub_3">
-        <item>Дивиденд</item>
-        <item>Доля</item>
-        <item>Прирост капитала</item>
-    </string-array>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_1">Дивиденд</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_2">Доля</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_3">Прирост капитала</string>
+    <!-- Main category -->
     <string name="Main_4">Зарплата</string>
-    <!-- Subcategories under "Salary" -->
-    <string-array name="Sub_4">
-        <item>Сверхурочные</item>
-        <item>Оставить пособие</item>
-        <item>Прочие премии</item>
-        <item>Гонорар за успех</item>
-        <item>Чистый оклад</item>
-    </string-array>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_1">Сверхурочные</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_2">Оставить пособие</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_3">Прочие премии</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_4">Гонорар за успех</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_5">Чистый оклад</string>
+    <!-- Main category -->
     <string name="Main_5">Прочий доход</string>
-    <!-- Subcategories under "Misc. income" -->
-    <string-array name="Sub_5">
-        <item>Подарки</item>
-        <item>Возвраты</item>
-        <item>Продажа секонд хенда</item>
-    </string-array>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_1">Подарки</string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_2">Возвраты</string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_3">Продажа секонд хенда</string>
+    <!-- Main category -->
     <string name="Main_6">Еда</string>
-    <!-- Subcategories under "Food" -->
-    <string-array name="Sub_6">
-        <item>Бар</item>
-        <item>Пекарня</item>
-        <item>Столовая</item>
-        <item>Конфеты</item>
-        <item>Бакалея</item>
-        <item>Ресторан</item>
-        <item>Самообслуживание</item>
-        <item>Супермаркет</item>
-    </string-array>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_1">Бар</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_2">Пекарня</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_3">Столовая</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_4">Конфеты</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_5">Бакалея</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_6">Ресторан</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_7">Самообслуживание</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_8">Супермаркет</string>
+    <!-- Main category -->
     <string name="Main_7">Домашние животные</string>
-    <!-- Subcategories under "Pets" -->
-    <string-array name="Sub_7">
-        <item>Еда</item>
-        <item>Различные принадлежности</item>
-        <item>Ухаживание</item>
-        <item>Ветеринарный врач</item>
-    </string-array>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_1">Еда</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_2">Различные принадлежности</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_3">Ухаживание</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_4">Ветеринарный врач</string>
+    <!-- Main category -->
     <string name="Main_8">Страхование</string>
-    <!-- Subcategories under "Insurance" -->
-    <string-array name="Sub_8">
-        <item>Автомобиль</item>
-        <item>Здравоохранение</item>
-        <item>Дом</item>
-        <item>Гражданская ответственность</item>
-        <item>Жизнь</item>
-    </string-array>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_1">Автомобиль</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_2">Здравоохранение</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_3">Дом</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_4">Гражданская ответственность</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_5">Жизнь</string>
+    <!-- Main category -->
     <string name="Main_9">Автомобиль</string>
-    <!-- Subcategories under "Car" -->
-    <string-array name="Sub_9">
-        <item>Топливо</item>
-        <item>Ремонт</item>
-        <item>Обслуживание</item>
-        <item>Парковка</item>
-        <item>Штрафы</item>
-    </string-array>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_1">Топливо</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_2">Ремонт</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_3">Обслуживание</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_4">Парковка</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_5">Штрафы</string>
+    <!-- Main category -->
     <string name="Main_10">Подарки</string>
+    <!-- Main category -->
     <string name="Main_11">Дети</string>
-    <!-- Subcategories under "Children" -->
-    <string-array name="Sub_11">
-        <item>Медсестра</item>
-        <item>Обучение</item>
-    </string-array>
+    <!-- Subcategory under "Children" -->
+    <string name="Sub_11_1">Медсестра</string>
+    <!-- Subcategory under "Children" -->
+    <string name="Sub_11_2">Обучение</string>
+    <!-- Main category -->
     <string name="Main_12">Обучение</string>
-    <!-- Subcategories under "Studies" -->
-    <string-array name="Sub_12">
-        <item>Уроки</item>
-        <item>Школьное обучение</item>
-        <item>Книги</item>
-    </string-array>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_1">Уроки</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_2">Школьное обучение</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_3">Книги</string>
+    <!-- Main category -->
     <string name="Main_13">Финансовые расходы</string>
-    <!-- Subcategories under "Financial expenses" -->
-    <string-array name="Sub_13">
-        <item>Банковские сборы</item>
-        <item>Ипотечный кредит</item>
-        <item>Сборы</item>
-        <item>Возврат</item>
-    </string-array>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_1">Банковские сборы</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_2">Ипотечный кредит</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_3">Сборы</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_4">Возврат</string>
+    <!-- Main category -->
     <string name="Main_14">Расходы на профессиональные услуги</string>
-    <!-- Subcategories under "Professional expenses" -->
-    <string-array name="Sub_14">
-        <item>Не возвращаемое</item>
-        <item>Возвращаемое</item>
-    </string-array>
+    <!-- Subcategory under "Professional expenses" -->
+    <string name="Sub_14_1">Не возвращаемое</string>
+    <!-- Subcategory under "Professional expenses" -->
+    <string name="Sub_14_2">Возвращаемое</string>
+    <!-- Main category -->
     <string name="Main_15">Налоги</string>
-    <!-- Subcategories under "Taxes" -->
-    <string-array name="Sub_15">
-        <item>Подоходный налог</item>
-        <item>Земельный налог</item>
-        <item>Налог на добавленную стоимость</item>
-    </string-array>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_1">Подоходный налог</string>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_2">Земельный налог</string>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_3">Налог на добавленную стоимость</string>
+    <!-- Main category -->
     <string name="Main_16">Размещение в жилье</string>
-    <!-- Subcategories under "Housing" -->
-    <string-array name="Sub_16">
-        <item>Отель</item>
-        <item>Аренда</item>
-        <item>ТВ</item>
-        <item>Мебель</item>
-        <item>Сборы</item>
-        <item>Отопление</item>
-        <item>Украшения</item>
-        <item>Водоснабжение</item>
-        <item>Электричество</item>
-        <item>Кухонная техника</item>
-        <item>Оборудование</item>
-        <item>Газоснабжение</item>
-        <item>Сад</item>
-        <item>Домработник</item>
-        <item>Телефон</item>
-        <item>Мобильный телефон</item>
-    </string-array>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_1">Отель</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_2">Аренда</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_3">ТВ</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_4">Мебель</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_5">Сборы</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_6">Отопление</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_7">Украшения</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_8">Водоснабжение</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_9">Электричество</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_10">Кухонная техника</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_11">Оборудование</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_12">Газоснабжение</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_13">Сад</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_14">Домработник</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_15">Телефон</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_16">Мобильный телефон</string>
+    <!-- Main category -->
     <string name="Main_17">Досуг</string>
-    <!-- Subcategories under "Leisures" -->
-    <string-array name="Sub_17">
-        <item>Бильярд</item>
-        <item>Боулинг</item>
-        <item>Кинотеатр</item>
-        <item>Ночной клуб</item>
-        <item>ИТ</item>
-        <item>Игры</item>
-        <item>Книги</item>
-        <item>Парки отдыха</item>
-        <item>Концерты</item>
-        <item>Спортивные игры</item>
-        <item>Видео</item>
-        <item>Путешествия</item>
-        <item>Оборудование</item>
-        <item>Музеи/выставки</item>
-    </string-array>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_1">Бильярд</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_2">Боулинг</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_3">Кинотеатр</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_4">Ночной клуб</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_5">ИТ</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_6">Игры</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_7">Книги</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_8">Парки отдыха</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_9">Концерты</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_10">Спортивные игры</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_11">Видео</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_12">Путешествия</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_13">Оборудование</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_14">Музеи/выставки</string>
+    <!-- Main category -->
     <string name="Main_18">Ипотечный кредит</string>
-    <!-- Subcategories under "Loan/Mortgage" -->
-    <string-array name="Sub_18">
-        <item>Капитал</item>
-    </string-array>
+    <!-- Subcategory under "Loan/Mortgage" -->
+    <string name="Sub_18_1">Капитал</string>
+    <!-- Main category -->
     <string name="Main_19">Здравоохранение</string>
-    <!-- Subcategories under "Health" -->
-    <string-array name="Sub_19">
-        <item>Страхование</item>
-        <item>Стоматолог</item>
-        <item>Больница</item>
-        <item>Кинезитерапевт</item>
-        <item>Доктор</item>
-        <item>Офтальмолог</item>
-        <item>Остеопат</item>
-        <item>Химик</item>
-        <item>Социальное обеспечение</item>
-    </string-array>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_1">Страхование</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_2">Стоматолог</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_3">Больница</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_4">Кинезитерапевт</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_5">Доктор</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_6">Офтальмолог</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_7">Остеопат</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_8">Химик</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_9">Социальное обеспечение</string>
+    <!-- Main category -->
     <string name="Main_20">Уход за чем-либо</string>
-    <!-- Subcategories under "Care" -->
-    <string-array name="Sub_20">
-        <item>Парикмахер</item>
-        <item>Одежда</item>
-    </string-array>
+    <!-- Subcategory under "Care" -->
+    <string name="Sub_20_1">Парикмахер</string>
+    <!-- Subcategory under "Care" -->
+    <string name="Sub_20_2">Одежда</string>
+    <!-- Main category -->
     <string name="Main_21">Транспорт</string>
-    <!-- Subcategories under "Transport" -->
-    <string-array name="Sub_21">
-        <item>Автобус</item>
-        <item>Метро</item>
-        <item>Пошлина</item>
-        <item>Поезд</item>
-        <item>Трамвай</item>
-        <item>самолет</item>
-    </string-array>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_1">Автобус</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_2">Метро</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_3">Пошлина</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_4">Поезд</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_5">Трамвай</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_6">самолет</string>
+    <!-- Main category -->
     <string name="Main_22">Праздники</string>
-    <!-- Subcategories under "Holidays" -->
-    <string-array name="Sub_22">
-        <item>Размещение в жилье</item>
-        <item>Посещения</item>
-        <item>Путешествия</item>
-    </string-array>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_1">Размещение в жилье</string>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_2">Посещения</string>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_3">Путешествия</string>
 </resources>

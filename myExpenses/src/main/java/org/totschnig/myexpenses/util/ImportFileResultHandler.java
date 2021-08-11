@@ -9,6 +9,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.preference.PrefHandler;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.io.FileUtils;
 
 import androidx.annotation.Nullable;
@@ -30,6 +31,7 @@ public class ImportFileResultHandler {
         if (displayName == null) {
           //SecurityException raised during getDisplayName
           errorMsg = "Error while retrieving document";
+          CrashHandler.report(errorMsg);
           handleError(errorMsg, fileNameEditText);
         } else {
           String type = context.getContentResolver().getType(uri);

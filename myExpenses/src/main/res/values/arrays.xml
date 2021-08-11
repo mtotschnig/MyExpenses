@@ -59,6 +59,7 @@
         <item>ru</item>
         <item>si</item>
         <item>ta</item>
+        <item>te</item>
         <item>tr</item>
         <item>uk</item>
         <item>vi</item>
@@ -506,6 +507,8 @@
     </string-array>
 
     <string-array name="versions">
+        <item>495;3.3.3.1</item>
+        <item>494;3.3.3</item>
         <item>491;3.3.2</item>
         <item>488;3.3.1</item>
         <item>484;3.3.0</item>
@@ -565,6 +568,10 @@
     <string name="version_more_info_331" tools:ignore="UnusedResources">2902101723384620</string>
     <string name="version_more_info_332" tools:ignore="UnusedResources">2913424232252369</string>
 
+    <!-- Mastodon -->
+    <string name="version_more_info_333" tools:ignore="UnusedResources">106547283868308478</string>
+    <string name="version_more_info_3331" tools:ignore="UnusedResources">106597177266390788</string>
+
     <!-- Github -->
     <string name="project_board_314">30#column-10686300</string>
     <string name="project_board_315">31#column-11152071</string>
@@ -585,6 +592,8 @@
     <string name="project_board_330">50#column-13929647</string>
     <string name="project_board_331">52#column-14150674</string>
     <string name="project_board_332">54#column-14601926</string>
+    <string name="project_board_333">55#column-14888706</string>
+    <string name="project_board_3331">56#column-15144599</string>
 
     <string-array name="comparison_operator_entries">
         <item>@string/comparison_operator_equal</item>
@@ -649,12 +658,12 @@
     </string-array>
 
     <string-array name="exchange_rate_provider_entries">
-        <item>https://ratesapi.io/</item>
+        <item>https://exchangerate.host/</item>
         <item>https://openexchangerates.org</item>
     </string-array>
 
     <string-array name="exchange_rate_provider_values">
-        <item>RATESAPI</item>
+        <item>EXCHANGE_RATE_HOST</item>
         <item>OPENEXCHANGERATES</item>
     </string-array>
     <string-array name="multi_tag_options">

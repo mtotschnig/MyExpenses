@@ -309,7 +309,6 @@
     <string name="pref_import_summary">Импорт операций, категорий и участников из %s файла</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">Импорт %s</string>
-    <string name="pref_like_facebook_title">Поставить like на Facebook</string>
     <string name="pref_manage_accounts_title">Счета</string>
     <string name="pref_manage_categories_summary">Добавление, редактирование, удаление категорий.</string>
     <string name="pref_manage_categories_title">Категории</string>
@@ -368,7 +367,6 @@
     <string name="restore_db_success">БД была восстановлена из рез.копии.</string>
     <string name="restore_no_backup_found">Резервная копия не найдена.</string>
     <string name="restore_preferences_failure">Восстановление настроек не удалось</string>
-    <string name="restore_backup_archive_not_valid">Архив %1$s не пригоден</string>
     <string name="restore_backup_file_not_found">Нет файла %1$s, найденного в каталоге \"%2$s\"</string>
     <string name="restore_preferences_success">Настройки были восстановлены из рез.копии.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d планы были восстановлены из резервной копии</string>
@@ -457,7 +455,6 @@
     <string name="warning_reset_account_all">Если вы продолжите, для всех счетов %1$s операции будут удалены из базы данных и не могут быть восстановлены.</string>
     <string name="warning_reset_account_matched">Если вы продолжите, транзакции, соответствующие текущему фильтру, будут удалены из базы данных и не могут быть восстановлены.</string>
     <string name="warning_restore">Базы данных и настройки будут восстановлены из файла \"%1$s\". Текущие данные будут удалены.</string>
-    <string name="warning_app_folder_will_be_deleted_upon_uninstall">Текущая папка для резервного копирования и экспортирования будет автоматически удалена Android если Вы удалите {app_name}. Вы можете предотвратить это, выбрав другую папку из меню Настройки.</string>
     <string name="warning_splitpartcategory_context">Переводы, которые являются разделённой частью можно редактировать только в контексте разделения.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Пожалуйста, укажите число между %1$d и %2$d</string>
     <string name="warning_change_fraction_digits_1">Суммы в базе данных должны быть обновлены, чтобы соответствовать новому числу цифр дроби.</string>
@@ -465,7 +462,7 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Если суммы не обновляются, они будут отображаться как разделенные на %d после изменения.</string>
     <string name="warning_change_fraction_digits_3">Если суммы будут обновлены, вы потеряете информацию об их дробной части.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Обновить данные в базе данных</string>
-    <string name="import_categories_success">%1$s категорий успешно импортированы</string>
+    <string name="import_categories_success">%1$d категорий успешно импортированы</string>
     <string name="import_parties_success">%1$s участников успешно импортированы</string>
     <string name="import_accounts_success">%1$s счета успешно импортированы</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d операций успешно импортированы в счёт %2$s</string>
@@ -637,7 +634,6 @@
     <string name="upgrade_now">Обновить</string>
     <string name="pref_backup_cloud_title">Сохраните на синхронизационном бэкенде</string>
     <string name="pref_backup_cloud_summary">Помимо локального хранилища на устройстве, файл резервной копии можно скопировать на удаленный бэкенд.</string>
-    <string name="auto_backup_cloud_create_backend">Создайте синхронизационный бэкенд на главном экране настроек.</string>
     <string name="auto_backup_cloud_failure">Произошла ошибка при попытке сохранить файл резервной копии %1$s на бэкенде %2$s:</string>
     <string name="auto_backup_cloud_success">Файл резервной копии %1$s был успешно сохранен на бэкенде%2$s.</string>
     <string name="home_screen_shortcuts_nougate_info">Ярлыки можно добавить, нажав значок приложения на главном экране.</string>
@@ -973,4 +969,14 @@
     <string name="title_scan_receipt_feature">Скан чека</string>
     <string name="pref_planner_manual_time_title">Время для ручной запланированной транзакции</string>
     <string name="image_capture_not_installed">Нет приложения для съемки.</string>
+    <string name="crash_reports_user_info">{app_name} будет отправлять сообщения о сбоях приложения автоматически разработчикам, что позволяет им быстрее исправить проблемы.</string>
+    <string name="pref_category_title_crash_reports">Отчёты о сбоях</string>
+    <string name="pref_enable_acra">Разрешить автоматическую отправку отчётов о сбоях</string>
+    <string name="pref_acra_user_email">Пользовательский email, включеный в отчёт о сбое</string>
+    <string name="pref_acra_user_email_summary">Пожалуйста введите Ваш адрес электронной почты, если Вы готовы помочь отладке и позволить нам связываться с Вами.</string>
+    <string name="bug_fixes">Исправления ошибок</string>
+    <string name="performance_enhancement">Улучшение производительности</string>
+    <string name="stability_improvements">Улучшение стабильности</string>
+    <string name="new_version">Новая версия</string>
+    <string name="pref_news_title">Новости</string>
 </resources>

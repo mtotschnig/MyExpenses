@@ -1,0 +1,55 @@
+vi:
+  imprint: Imprint
+  hero_main: "Quản lý tài chính cá nhân trên Android"
+  hero_sub:
+    use: "Dễ dàng sử dụng"
+    functionality: "Sở hữu nhiều chức năng"
+    source: "Mã nguồn mở"
+  menu_title:
+    more_information: Thêm thông tin
+  sections:
+    features: Tính năng
+    premium: Nâng cấp bản đầy đủ
+    participate: Tham gia vào dự án
+    faq: Các câu hỏi thường gặp
+    versionlist: Danh sách các phiên bản
+    credits: Các thành viên trong dự án
+    licence: Giấy phép
+    sourcecode: Mã nguồn
+    links: Liên kết
+  contrib:
+    feature-list-title: "Xin hãy đóng góp bằng cách nâng cấp <i>{app_name}</i> và sử dụng không giới hạn các tính năng sau:"
+    feature:
+      email_support: <b>Hỗ trợ qua email</b> với đảm bảo sẽ nhận được phản hồi sau 2 ngày làm việc
+      roadmap_voting: Có quyền bầu chọn đối với <b>quá trình phát triển ứng dụng</b>
+  permissions:
+    internet:
+      explanation_crash_reporting: Báo cáo lỗi
+      explanation_cloud_sync: Đồng bộ hoá đám mây
+    accounts:
+      label: Tài khoản
+  contrib-key: Bản Contrib
+  extended-key: Bản Extended
+  professional-key: Khoá Cao cấp
+  all_contrib_key_features: Tất cả các tính năng của Khóa đóng góp
+  all_extended_key_features: Tất cả tính năng trong bản Mở rộng
+  customer_support: Hỗ trợ khách hàng
+  screenshot_testdata:
+    account1Label: Ví của tôi
+    account1Description: Chi tiêu hàng ngày
+    account2Label: Du lịch Paris cuối tuần
+    account3Label: Tài khoản ngân hàng
+    account3Description: BIDV
+    transaction2Comment: Trái cây và rau
+    transaction4Payee: Hanoi Cuisine
+    templatePayee: Nguyễn Văn A
+    tag_project: Dự án chưa có tiêu đề
+  screenshot_titles:
+    group: Nhóm theo năm, tháng hoặc tuần
+    summarize: Tổng hợp tất cả các tài khoản của bạn
+    budget: Ngân sách hàng năm, hàng tháng và hàng tuần
+    split: Chia thành nhiều loại
+    distribution: Biểu đồ hình tròn
+    history: Lịch sử tình hình tài chính của bạn
+    export: Xuất sang PDF, QIF và CSV
+    sync: Đồng bộ hoá đám mây

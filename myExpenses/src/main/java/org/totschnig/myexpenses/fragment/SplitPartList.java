@@ -168,7 +168,7 @@ public class SplitPartList extends Fragment implements LoaderManager.LoaderCallb
         if (result > 0) {
           activity.showSnackbar(activity.getResources().getQuantityString(R.plurals.delete_success, result, result));
         } else {
-          activity.showDeleteFailureFeedback();
+          activity.showDeleteFailureFeedback(null);
         }
       };
       if (parentIsTemplate()) {

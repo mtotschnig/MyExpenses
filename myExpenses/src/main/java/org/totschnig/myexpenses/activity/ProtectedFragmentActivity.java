@@ -542,11 +542,10 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     removeAsyncTaskFragment(shouldKeepProgress(taskId));
     switch (taskId) {
       case TaskExecutionFragment.TASK_DELETE_ACCOUNT:
-      case TaskExecutionFragment.TASK_DELETE_PAYMENT_METHODS:
-      case TaskExecutionFragment.TASK_DELETE_CATEGORY: {
+      case TaskExecutionFragment.TASK_DELETE_PAYMENT_METHODS: {
         Result result = (Result) o;
         if (!result.isSuccess()) {
-          showDeleteFailureFeedback();
+          showDeleteFailureFeedback(null);
         }
         break;
       }
@@ -579,7 +578,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   }
 
   @Override
-  public void onPostExecute(Uri result) {
+  public void onPostExecute(@Nullable Uri result) {
     FragmentManager m = getSupportFragmentManager();
     FragmentTransaction t = m.beginTransaction();
     t.remove(m.findFragmentByTag(SAVE_TAG));
@@ -620,7 +619,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     ft.commit();
   }
 
-  public boolean hasPendingTask(boolean shouldWarn) {
+  private boolean hasPendingTask(boolean shouldWarn) {
     FragmentManager m = getSupportFragmentManager();
     final boolean result = m.findFragmentByTag(ASYNC_TAG) != null;
     if (result && shouldWarn) {
@@ -664,6 +663,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     m.executePendingTransactions();
   }
 
+  @Deprecated
   public void startDbWriteTask() {
     getSupportFragmentManager().beginTransaction()
         .add(DbWriteFragment.newInstance(), SAVE_TAG)
@@ -808,7 +808,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   }
 
   @Override
-  public void onPositive(Bundle args) {
+  public void onPositive(Bundle args, boolean checked) {
     dispatchCommand(args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE),
         args.getSerializable(ConfirmationDialogFragment.KEY_TAG_POSITIVE));
   }

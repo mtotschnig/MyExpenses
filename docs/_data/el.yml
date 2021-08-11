@@ -1,0 +1,57 @@
+el:
+  imprint: Αποτύπωμα
+  hero_main: "Προσωπικός διαχειριστής οικονομικών για το Android"
+  hero_sub:
+    use: "Εύχρηστος"
+    functionality: "Πλούσια λειτουργικότητα"
+    source: "Ανοικτού Κώδικα"
+  menu_title:
+    more_information: Περισσότερες πληροφορίες
+  sections:
+    features: Χαρακτηριστικά
+    premium: Μετάβαση σε Προηγμένη λειτουργία
+    participate: Συμμετοχή
+    faq: Συχνές Ερωτήσεις
+    versionlist: Αρχείο αλλαγών
+    credits: Πιστώσεις
+    licence: Άδεια
+    sourcecode: Πηγαίος κώδικας
+    links: Σύνδεσμοι
+  contrib:
+    thank_you: |
+        Η συνεισφορά σας υποστηρίζει την περαιτέρω ανάπτυξη του Έξοδά μου. Ευχαριστώ!
+    feature-list-title: "Παρακαλώ συνεισφέρετε αναβαθμίζοντας το <i>{app_name}</i> και αποκτήσετε απεριόριστη πρόσβαση στις παρακάτω δυνατότητες"
+    feature:
+      email_support: <b>Υποστήριξη ηλεκτρονικού ταχυδρομείου</b> με εγγυημένη απόκριση εντός 2 εργάσιμων ημερών
+      roadmap_voting: Δικαίωμα ψήφου για τον <b>χάρτη πορείας</b>
+  permissions:
+    internet:
+      explanation_crash_reporting: Αναφορές σφαλμάτων
+      explanation_cloud_sync: Συγχρονισμός σύννεφου
+    accounts:
+      label: Λογαριασμοί
+  contrib-key: Contrib κλειδί
+  extended-key: Κλειδί Εκτεταμένης λειτουργίας
+  professional-key: Επαγγελματικό κλειδί
+  all_contrib_key_features: Όλα οι δυνατότητες ενός Contrib κλειδιού
+  all_extended_key_features: Όλες οι δυνατότητες του Εκτεταμένου Κλειδιού
+  customer_support: Υποστήριξη πελατών
+  screenshot_testdata:
+    account1Label: Το πορτοφόλι μου
+    account1Description: Καθημερινά έξοδα
+    account2Label: Σαββατοκύριακο στο Λονδίνο
+    account3Label: Τραπεζικός λογαριασμός
+    account3Description: Τράπεζα της Αμερικής
+    transaction2Comment: Φρούτα & Λαχανικά
+    transaction4Payee: Μύθος εστιατορίου
+    templatePayee: John Doe
+    tag_project: Έργο χωρίς τίτλο
+  screenshot_titles:
+    group: Ομαδοποίηση ανά έτος, μήνα ή εβδομάδα
+    summarize: Συνοψίστε όλους τους λογαριασμούς σας
+    budget: Ετήσιοι, μηνιαίοι και εβδομαδιαίοι προϋπολογισμοί
+    split: Διαχωρισμός σε πολλές κατηγορίες
+    distribution: Διάγραμμα γραφήματος πίτας
+    history: Ιστορικό της οικονομικής σας κατάστασης
+    export: Εξαγωγή σε PDF, QIF και CSV
+    sync: Συγχρονισμός σύννεφου

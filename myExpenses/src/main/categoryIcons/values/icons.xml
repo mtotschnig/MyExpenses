@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="InconsistentArrays">
-    <string name="Main_1_Icon">sign_in_alt</string>
-    <string-array name="Sub_1_Icons">
+    <string-array name="Cat_1_Icons">
+        <item>sign_in_alt</item>
         <item>unemployment</item>
         <item>family</item>
         <item>hand_holding_usd</item>
@@ -9,34 +9,34 @@
         <item>hands_helping</item>
         <item>user_shield</item>
     </string-array>
-    <string name="Main_2_Icon">retirement</string>
-    <string-array name="Sub_2_Icons">
+    <string-array name="Cat_2_Icons">
+        <item>retirement</item>
         <item>retirement_2</item>
         <item>search_dollar</item>
         <item>search_plus</item>
     </string-array>
-    <string name="Main_3_Icon">funding</string>
-    <string-array name="Sub_3_Icons">
+    <string-array name="Cat_3_Icons">
+        <item>funding</item>
         <item>divide</item>
         <item>percent</item>
         <item>chart_line</item>
     </string-array>
-    <string name="Main_4_Icon">envelope</string>
-    <string-array name="Sub_4_Icons">
+    <string-array name="Cat_4_Icons">
+        <item>envelope</item>
         <item>business_time</item>
         <item>calendar_minus</item>
         <item>premium</item>
         <item>thumbs_up</item>
         <item>envelope</item>
     </string-array>
-    <string name="Main_5_Icon">sign_in_alt</string>
-    <string-array name="Sub_5_Icons">
+    <string-array name="Cat_5_Icons">
+        <item>sign_in_alt</item>
         <item>gift</item>
         <item>retweet</item>
         <item>recycle</item>
     </string-array>
-    <string name="Main_6_Icon">pizza_slice</string>
-    <string-array name="Sub_6_Icons">
+    <string-array name="Cat_6_Icons">
+        <item>pizza_slice</item>
         <item>glass_whiskey</item>
         <item>bread_slice</item>
         <item>tray</item>
@@ -46,62 +46,63 @@
         <item>concierge_bell</item>
         <item>shopping_cart</item>
     </string-array>
-    <string name="Main_7_Icon">paw</string>
-    <string-array name="Sub_7_Icons">
+    <string-array name="Cat_7_Icons">
+        <item>paw</item>
         <item>bone</item>
         <item>parachute_box</item>
         <item>comb</item>
         <item>syringe</item>
     </string-array>
-    <string name="Main_8_Icon">shield_alt</string>
-    <string-array name="Sub_8_Icons">
+    <string-array name="Cat_8_Icons">
+        <item>shield_alt</item>
         <item>car_crash</item>
         <item>notes_medical</item>
         <item>house_damage</item>
         <item>heart_broken</item>
         <item>user_shield</item>
     </string-array>
-    <string name="Main_9_Icon">car</string>
-    <string-array name="Sub_9_Icons">
+    <string-array name="Cat_9_Icons">
+        <item>car</item>
         <item>gas_pump</item>
         <item>tools</item>
         <item>car_battery</item>
         <item>parking</item>
         <item>gavel</item>
     </string-array>
-    <string name="Main_10_Icon">gift</string>
-    <string-array name="Sub_10_Icons"/>
-    <string name="Main_11_Icon">child</string>
-    <string-array name="Sub_11_Icons">
+    <string-array name="Cat_10_Icons">
+        <item>gift</item>
+    </string-array>
+    <string-array name="Cat_11_Icons">
+        <item>child</item>
         <item>bottle</item>
         <item>school</item>
     </string-array>
-    <string name="Main_12_Icon">university</string>
-    <string-array name="Sub_12_Icons">
+    <string-array name="Cat_12_Icons">
+        <item>university</item>
         <item>podium</item>
         <item>user_graduate</item>
         <item>book</item>
     </string-array>
-    <string name="Main_13_Icon">sign_out_alt</string>
-    <string-array name="Sub_13_Icons">
+    <string-array name="Cat_13_Icons">
+        <item>sign_out_alt</item>
         <item>piggy_bank</item>
         <item>mortgage</item>
         <item>battery_three_quarters</item>
         <item>retweet</item>
     </string-array>
-    <string name="Main_14_Icon">user_tie</string>
-    <string-array name="Sub_14_Icons">
+    <string-array name="Cat_14_Icons">
+        <item>user_tie</item>
         <item>retweet_cancel</item>
         <item>retweet</item>
     </string-array>
-    <string name="Main_15_Icon">percent</string>
-    <string-array name="Sub_15_Icons">
+    <string-array name="Cat_15_Icons">
+        <item>percent</item>
         <item>taxes</item>
         <item>fence</item>
         <item>plus</item>
     </string-array>
-    <string name="Main_16_Icon">home</string>
-    <string-array name="Sub_16_Icons">
+    <string-array name="Cat_16_Icons">
+        <item>home</item>
         <item>hotel</item>
         <item>key</item>
         <item>tv</item>
@@ -119,8 +120,8 @@
         <item>phone</item>
         <item>mobile</item>
     </string-array>
-    <string name="Main_17_Icon">chess_board</string>
-    <string-array name="Sub_17_Icons">
+    <string-array name="Cat_17_Icons">
+        <item>chess_board</item>
         <item>dot_circle</item>
         <item>bowling_ball</item>
         <item>film</item>
@@ -136,12 +137,12 @@
         <item>campground</item>
         <item>monument</item>
     </string-array>
-    <string name="Main_18_Icon">mortgage</string>
-    <string-array name="Sub_18_Icons">
+    <string-array name="Cat_18_Icons">
+        <item>mortgage</item>
         <item>money_bill</item>
     </string-array>
-    <string name="Main_19_Icon">medkit</string>
-    <string-array name="Sub_19_Icons">
+    <string-array name="Cat_19_Icons">
+        <item>medkit</item>
         <item>notes_medical</item>
         <item>tooth</item>
         <item>hospital</item>
@@ -152,13 +153,13 @@
         <item>prescription_bottle_alt</item>
         <item>user_shield</item>
     </string-array>
-    <string name="Main_20_Icon">portrait</string>
-    <string-array name="Sub_20_Icons">
+    <string-array name="Cat_20_Icons">
+        <item>portrait</item>
         <item>cut</item>
         <item>tshirt</item>
     </string-array>
-    <string name="Main_21_Icon">route</string>
-    <string-array name="Sub_21_Icons">
+    <string-array name="Cat_21_Icons">
+        <item>route</item>
         <item>bus</item>
         <item>subway</item>
         <item>toll</item>
@@ -166,8 +167,8 @@
         <item>tram</item>
         <item>plane</item>
     </string-array>
-    <string name="Main_22_Icon">birthday_cake</string>
-    <string-array name="Sub_22_Icons">
+    <string-array name="Cat_22_Icons">
+        <item>birthday_cake</item>
         <item>home</item>
         <item>monument</item>
         <item>route</item>

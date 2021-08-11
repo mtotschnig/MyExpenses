@@ -4,25 +4,25 @@
     <xsl:template match="resources">
         <resources>
             <string name="testData_transaction1SubCat">
-                <xsl:value-of select="string-array[@name='Sub_21']/item[2]" /><!-- Metro -->
+                <xsl:value-of select="string[@name='Sub_21_2']" /><!-- Metro -->
             </string>
             <string name="testData_transaction1MainCat">
                 <xsl:value-of select="string[@name='Main_21']" /><!-- Transport -->
             </string>
             <string name="testData_transaction2SubCat">
-                <xsl:value-of select="string-array[@name='Sub_6']/item[5]" /><!-- Grocery -->
+                <xsl:value-of select="string[@name='Sub_6_5']" /><!-- Grocery -->
             </string>
             <string name="testData_transaction2MainCat">
                 <xsl:value-of select="string[@name='Main_6']" /><!-- Food -->
             </string>
             <string name="testData_transaction3SubCat">
-                <xsl:value-of select="string-array[@name='Sub_9']/item[1]" /><!-- Fuel -->
+                <xsl:value-of select="string[@name='Sub_9_1']" /><!-- Fuel -->
             </string>
             <string name="testData_transaction3MainCat">
                 <xsl:value-of select="string[@name='Main_9']" /><!-- Car -->
             </string>
             <string name="testData_transaction4SubCat">
-                <xsl:value-of select="string-array[@name='Sub_6']/item[6]" /><!-- Restaurant -->
+                <xsl:value-of select="string[@name='Sub_6_6']" /><!-- Restaurant -->
             </string>
             <string name="testData_transaction6MainCat">
                 <xsl:value-of select="string[@name='Main_10']" /><!-- Gifts -->
@@ -31,10 +31,10 @@
                 <xsl:value-of select="string[@name='Main_16']" /><!-- Housing -->
             </string>
             <string name="testData_templateSubCat">
-                <xsl:value-of select="string-array[@name='Sub_16']/item[2]" /><!-- Rent -->
+                <xsl:value-of select="string[@name='Sub_16_2']" /><!-- Rent -->
             </string>
             <string name="testData_sync_backend_2_name">
-                <xsl:value-of select="string-array[@name='Sub_22']/item[3]" /><!-- Travels -->
+                <xsl:value-of select="string[@name='Sub_22_3']" /><!-- Travels -->
             </string>
         </resources>
     </xsl:template>

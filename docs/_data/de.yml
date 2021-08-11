@@ -1,0 +1,113 @@
+de:
+  imprint: Impressum
+  imprint_text: Verantwortlich für den Inhalt dieser Website und für die Entwicklung, Wartung und Vertrieb von <i>{app_name}</i>
+  privacy_policy_heading: Datenschutzerklärung
+  privacy_policy_text: "<i>{app_name}</i> greift auf keinerlei Daten auf Ihrem Gerät zu mit Ausnahme seiner eigenen Datenbank und seines eigenen Ordners auf der SD Karte. Falls Sie die Funktion der Planung von zukünftigen und wiederkehrenden Buchungen verwenden, bestimmen Sie, in welchem Kalender diese gespeichert werden."
+  hero_main: "Persönliches Finanz-Management für Android"
+  hero_sub:
+    use: "Einfach zu bedienen"
+    functionality: "Reich an Funktionalität"
+    source: "Open Source"
+  menu_title:
+    more_information: Mehr Information
+  sections:
+    features: Funktionen
+    premium: Go Premium
+    participate: Mitmachen
+    faq: FAQ
+    versionlist: Änderungen
+    credits: Abspann
+    licence: Lizenz
+    sourcecode: Quellcode
+    links: Links
+  screenshots:
+    group: Gruppieren Sie Ihre Transaktionen nach Tag, Woche, Monat und Jahr
+    summarize: Fassen Sie alle Ihre Konten zusammen (Wechselkurse können pro Konto und pro Buchung angegeben werden)
+    budget: Legen Sie in jährlichen, monatlichen oder wöchentlichen Budgets fest, wie viel Sie  ausgeben möchten
+    split: Splitten Sie eine Transaktion in mehrere Kategorien
+    distribution: Visualisieren Sie die Verteilung pro Kategorie
+    history: Verstehen Sie, wie sich Ihre finanzielle Situation im Laufe der Zeit entwickelt
+    export: Drucken Sie als PDF und tauschen Sie sie über QIF und CSV aus.
+    sync: Synchronisieren Sie verschlüsselte Kontodaten auf mehreren Geräten über private oder öffentliche Cloud-Dienste.
+  features:
+    manage_accounts: Bis zu fünf Konten mit <b>Umbuchungen</b> (auch zwischen verschiedenen Währungen)
+    plans: Unbegrenzte Anzahl von <b>Vorlagen</b> und bis zu drei Pläne für <b>wiederkehrende</b> Buchungen
+    export: <b>Exportieren</b> nach QIF und CSV. <b>Importieren</b> von QIF
+    password: Daten können durch ein <b>Passwort</b> oder den <b>Sperrbildschirm des Gerätes</b> geschützt werden
+    light_theme: <b>Stil</b> (dunkel und hell) und <b>Schriftgröße</b> können angepasst werden
+    reconciliation: "<b>Abstimmung</b>: Einfacher Vergleich des Status der Buchungen mit Ihren Kontoauszügen"
+    homescreen: Widget und Verknüpfungen für den Startbildschirm zur schnellen Dateneingabe
+  contrib:
+    thank_you: |
+        Mit Ihrem Beitrag unterstützen Sie die Weiterentwicklung von Meine Ausgaben. Danke!
+    feature-list-title: "Bitte leisten Sie einen Beitrag durch ein Upgrade von <i>{app_name}</i> und erhalten Sie uneingeschränkten Zugriff auf die folgenden Funktionen:"
+    feature:
+      accounts_unlimited: Unbegrenzte Anzahl von <b>Konten</b>
+      plans_unlimited: Unbegrenzte Anzahl von Plänen für <b>wiederkehrende</b> Buchungen
+      distribution: "<b>Kreisdiagramm</b>: Visualisieren Sie die statistische Verteilung der Buchungen pro Kategorie über verschiedene Perioden (Jahre, Monate, Wochen, Tage)"
+      split_transaction: "<b>Mehrteilige Buchung</b>: Eine einzelne Buchung kann in mehrere Teile (Kategorien und Umbuchungen) aufgeteilt werden"
+      print: <b>Drucken</b> der Buchungsliste in eine PDF-Datei
+      attach_picture: "<b>Bildanhang</b>: Mit der Kamera aufnehmen oder aus der Galerie auswählen"
+      ad_free: <b>Keine Werbung</b>
+      csv_import: Ausgefeilter, anpassbarer <b>CSV-Import</b>(Tabellenkalkulationsanwendungen)
+      auto_backup: Tägliche <b>automatische Sicherung</b> mit optionalem Upload in den Cloud-Speicher
+      cloud_sync: "<b>Cloud-Synchronisierung</b>: Daten können zwischen mehreren Geräten synchronisiert werden"
+      split_template: Unbegrenzte Anzahl von <b>Vorlagen und Plänen für mehrteilige Buchungen</b>
+      email_support: <b>E-Mail-Support</b> mit garantierter Antwort innerhalb von 2 Werktagen
+      roadmap_voting: Stimmrecht zum <b>Entwicklungsfahrplan</b>
+      history_chart: <b>Verlaufsdiagramm</b> (Cashflow)
+      budgeting: "<b>Budgetierung</b>: Vergleichen Sie Ihre Ausgaben mit den von Ihnen festgelegten Grenzwerten pro Kategorie, täglich, wöchentlich, monatlich oder jährlich."
+      scan_receipt: "<b>Quittungen scannen</b> : Betrag, Datum und Zahlungsempfänger automatisch extrahieren"
+      webui: <b>Web-Benutzeroberfläche</b>
+    one-time-payment: Einmalige Zahlung
+    subscription: Abonnement
+  store:
+    short_description: "Persönliches Finanz-Management: einfach zu bedienen und Open Source"
+    full_description_intro: "{app_name} ist Ihr Haushaltsbuch: Verfolgen Sie Ihre Ausgaben und Einnahmen direkt auf Ihrem Smartphone und auf Ihrem Tablet."
+    full_description_contrib: "Premium-Funktionen werden durch den Kauf eines der folgenden Lizenzschlüssel freigeschaltet:"
+    full_description_contrib_amazon: "Viele zusätzliche Funktionen werden durch den Kauf eines der Lizenzschlüssel freigeschaltet, z.B.:"
+    highlight_1: "Verfolgen Sie Ihre Ausgaben und Einnahmen mit mehreren Konten, Vorlagen und Kategorien"
+    highlight_2: "Teilen Sie Ihre Daten über WebDAV und Google Drive zwischen mehreren Telefonen und Tablets"
+    highlight_3: "Fassen Sie Ihre finanzielle Situation pro Tag, Woche, Monat oder Jahr zusammen"
+  permissions:
+    heading: <i>{app_name}</i> verwendet folgende <u>Berechtigungen</u>
+    calendar:
+      label: Kalender
+      explanation: Pläne für zukünftige und wiederkehrenden Transaktionen werden entweder in einem speziellen lokalen Kalender oder in einem anderen Kalender, den Sie zuweisen, gespeichert.
+    external-storage:
+      label: Speicher
+      explanation: Speichern von QIF und CSV-Export und Backup-Dateien.
+    internet:
+      label: Internet
+      explanation_usage_tracking: Anonyme Nutzungsverfolgung
+      explanation_crash_reporting: Absturzberichte
+      explanation_key_validation: Lizenzschlüssel-Validierung
+      explanation_cloud_sync: Cloud-Synchronisierung
+    accounts:
+      label: Konten
+      explanation: Synchronisierung zwischen mehreren Geräten über Cloud-Dienste
+  contrib-key: Contrib-Schlüssel
+  extended-key: Erweiterungsschlüssel
+  professional-key: Professioneller Schlüssel
+  all_contrib_key_features: Alle Funktionen des Contrib Schlüssels
+  all_extended_key_features: Alle Funktionen des erweiterten Schlüssels
+  customer_support: Kundendienst
+  screenshot_testdata:
+    account1Label: Meine Geldtasche
+    account1Description: Tägliche Ausgaben
+    account2Label: Wochenende in London
+    account3Label: Bankkonto
+    account3Description: Deutsche Bank
+    transaction2Comment: Obst und Gemüse
+    transaction4Payee: Restaurant Zum Nussbaum
+    templatePayee: Erika Musterfrau
+    tag_project: Projekt ohne Titel
+  screenshot_titles:
+    group: Gruppierung nach Jahr, Monat oder Woche
+    summarize: Zusammenfassung aller Konten
+    budget: Jahres-, Monats- und Wochenbudgets
+    split: Aufteilung in mehrere Kategorien
+    distribution: Kreisdiagramm
+    history: Verlauf Ihrer finanziellen Situation
+    export: Export nach PDF, QIF und CSV
+    sync: Cloud-Synchronisierung

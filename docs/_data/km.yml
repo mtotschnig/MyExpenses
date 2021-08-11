@@ -1,0 +1,46 @@
+km:
+  imprint: បោះពុម្ព
+  hero_main: "កម្មវិធី​គ្រប់គ្រង​ហិរញ្ញវត្ថុផ្ទាល់ខ្លួន​ សម្រាប់​ប្រព័ន្ធ​​ប្រតិបត្តិការ Android"
+  hero_sub:
+    use: "ងាយ​ស្រួល​ប្រើ"
+    functionality: "មាន​សមត្ថភាព​ច្រើន"
+    source: "ជាកូដ​បើកទូលាយ"
+  menu_title:
+    more_information: ព័ត៌មានបន្ថែម
+  sections:
+    features: លក្ខណៈសំខាន់
+    premium: ជ្រើសយក Premium
+    participate: ​ចូលរួម
+    faq: សំណួរ​គេសួរ​ញឹក​ញាប់
+    versionlist: ការផ្លាស់ប្ដូរ
+    credits: ក្រេឌីត
+    licence: អាជ្ញាប័ណ្ណ
+    sourcecode: កូដដើម
+    links: វេបសាយភ្ជាប់
+  permissions:
+    internet:
+      explanation_crash_reporting: របាយការណ៍​សាច់​ប្រាក់
+      explanation_cloud_sync: ធ្វើសមកាលកម្មពពក
+    accounts:
+      label: គណនី
+  contrib-key: កូនសោកុងតឺន័រ
+  extended-key: កូនសោពង្រីក
+  professional-key: គន្លឹះវិជ្ជាជីវៈ
+  screenshot_testdata:
+    account1Label: កាបូបលុយខ្ញុំ
+    account1Description: ការចំណាយ​ប្រចាំថ្ងៃ
+    account2Label: ចុងសប្តាហ៍​នៅប៉ារីស
+    account3Label: គណនីធនាគារ
+    account3Description: ធនាគាអាមេរិក
+    transaction2Comment: ផ្លែឈើ & បន្លែ
+    transaction4Payee: ត្បាល់ខ្មែរ​
+    tag_project: គម្រោងគ្មានចំណងជើង
+  screenshot_titles:
+    group: ដាក់ជាក្រុមតាមឆ្នាំខែឬសប្តាហ៍
+    summarize: បូកសរុបគណនីរបស់អ្នកទាំងអស់
+    budget: ថវិកាប្រចាំឆ្នាំ, ប្រចាំខែនិងប្រចាំសប្តាហ៍
+    split: ពុះជាច្រើនប្រភេទ
+    distribution: ដ្យាក្រាមគំនូសតាងចំណិត
+    history: ប្រវត្តិសាស្រ្តនៃស្ថានភាពហិរញ្ញវត្ថុរបស់អ្នក
+    export: នាំចេញទៅជា PDF, QIF និង CSV
+    sync: ធ្វើសមកាលកម្មពពក

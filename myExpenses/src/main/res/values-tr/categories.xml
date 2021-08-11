@@ -1,195 +1,261 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources tools:ignore="UnusedResources, InconsistentArrays" xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources, InconsistentArrays">
+    <!-- Main category -->
     <string name="Main_1">Diğer gelirler</string>
-    <!-- Subcategories under "Other income" -->
-    <string-array name="Sub_1">
-        <item>İşsizlik aylığı</item>
-        <item>Aile yardımı</item>
-        <item>Vergi kredisi</item>
-        <item>Bahis</item>
-        <item>Karşılıklı sigorta</item>
-        <item>Sosyal güvenlik</item>
-    </string-array>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_1">İşsizlik aylığı</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_2">Aile yardımı</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_3">Vergi kredisi</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_4">Bahis</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_5">Karşılıklı sigorta</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_6">Sosyal Güvenlik</string>
+    <!-- Main category -->
     <string name="Main_2">Emeklilik</string>
-    <!-- Subcategories under "Retirement" -->
-    <string-array name="Sub_2">
-        <item>Emekli Sandığı</item>
-        <item>Emeklilik aylığı</item>
-        <item>Ek emekli aylığı</item>
-    </string-array>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_1">Emekli Sandığı</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_2">Emeklilik aylığı</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_3">Ek emekli aylığı</string>
+    <!-- Main category -->
     <string name="Main_3">Yatırım gelirleri</string>
-    <!-- Subcategories under "Investment income" -->
-    <string-array name="Sub_3">
-        <item>Kâr payı</item>
-        <item>Faiz</item>
-        <item>Sermaye kazancı</item>
-    </string-array>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_1">Kâr payı</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_2">Faiz</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_3">Sermaye kazancı</string>
+    <!-- Main category -->
     <string name="Main_4">Maaş</string>
-    <!-- Subcategories under "Salary" -->
-    <string-array name="Sub_4">
-        <item>Fazla mesai</item>
-        <item>Ayrılma ödeneği</item>
-        <item>Çeşitli ikramiyeler</item>
-        <item>Başarı primi</item>
-        <item>Net maaş</item>
-    </string-array>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_1">Fazla mesai</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_2">Ayrılma ödeneği</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_3">Çeşitli ikramiyeler</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_4">Başarı primi</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_5">Net maaş</string>
+    <!-- Main category -->
     <string name="Main_5">Çeşitli gelirler</string>
-    <!-- Subcategories under "Misc. income" -->
-    <string-array name="Sub_5">
-        <item>Hediyeler</item>
-        <item>İadeler</item>
-        <item>Kullanılmış satımlar</item>
-    </string-array>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_1">Hediyeler</string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_2">İadeler</string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_3">Kullanılmış satımlar</string>
+    <!-- Main category -->
     <string name="Main_6">Gıda</string>
-    <!-- Subcategories under "Food" -->
-    <string-array name="Sub_6">
-        <item>Bar</item>
-        <item>Ekmek</item>
-        <item>Kantin</item>
-        <item>Tatlılar</item>
-        <item>Bakkal</item>
-        <item>Lokanta</item>
-        <item>Self servis</item>
-        <item>Süpermarket</item>
-    </string-array>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_1">Bar</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_2">Ekmek</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_3">Kantin</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_4">Tatlılar</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_5">Bakkal</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_6">Lokanta</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_7">Self servis</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_8">Süpermarket</string>
+    <!-- Main category -->
     <string name="Main_7">Evcil Hayvanlar</string>
-    <!-- Subcategories under "Pets" -->
-    <string-array name="Sub_7">
-        <item>Gıda</item>
-        <item>Çeşitli ihtiyaçlar</item>
-        <item>Tımar</item>
-        <item>Veteriner</item>
-    </string-array>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_1">Gıda</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_2">Çeşitli ihtiyaçlar</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_3">Tımar</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_4">Veteriner</string>
+    <!-- Main category -->
     <string name="Main_8">Sigorta</string>
-    <!-- Subcategories under "Insurance" -->
-    <string-array name="Sub_8">
-        <item>Otomobil</item>
-        <item>Sağlık</item>
-        <item>Konut</item>
-        <item>Hukukî sorumluluk</item>
-        <item>Hayat</item>
-    </string-array>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_1">Otomobil</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_2">Sağlık</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_3">Konut</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_4">Hukukî sorumluluk</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_5">Hayat</string>
+    <!-- Main category -->
     <string name="Main_9">Otomobil</string>
-    <!-- Subcategories under "Car" -->
-    <string-array name="Sub_9">
-        <item>Benzin</item>
-        <item>Tamir</item>
-        <item>Bakım</item>
-        <item>Park yeri</item>
-        <item>Cezalar</item>
-    </string-array>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_1">Benzin</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_2">Tamir</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_3">Bakım</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_4">Park yeri</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_5">Cezalar</string>
+    <!-- Main category -->
     <string name="Main_10">Hediyeler</string>
+    <!-- Main category -->
     <string name="Main_11">Çocuklar</string>
-    <!-- Subcategories under "Children" -->
-    <string-array name="Sub_11">
-        <item>Bakıcı</item>
-        <item>Eğitim</item>
-    </string-array>
+    <!-- Subcategory under "Children" -->
+    <string name="Sub_11_1">Bakıcı</string>
+    <!-- Subcategory under "Children" -->
+    <string name="Sub_11_2">Eğitim</string>
+    <!-- Main category -->
     <string name="Main_12">Eğitim</string>
-    <!-- Subcategories under "Studies" -->
-    <string-array name="Sub_12">
-        <item>Ders</item>
-        <item>Okul ücretleri</item>
-        <item>Kitaplar</item>
-    </string-array>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_1">Ders</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_2">Okul ücretleri</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_3">Kitap</string>
+    <!-- Main category -->
     <string name="Main_13">Finansal harcamalar</string>
-    <!-- Subcategories under "Financial expenses" -->
-    <string-array name="Sub_13">
-        <item>Banka ücretleri</item>
-        <item>Kredi / İpotek</item>
-        <item>Masraflar</item>
-        <item>Geri ödemeler</item>
-    </string-array>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_1">Banka ücretleri</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_2">Kredi / İpotek</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_3">Aidatlar</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_4">Geri ödemeler</string>
+    <!-- Main category -->
     <string name="Main_14">Profesyonel giderler</string>
-    <!-- Subcategories under "Professional expenses" -->
-    <string-array name="Sub_14">
-        <item>İadesiz</item>
-        <item>İadesi mümkün</item>
-    </string-array>
+    <!-- Subcategory under "Professional expenses" -->
+    <string name="Sub_14_1">İadesiz</string>
+    <!-- Subcategory under "Professional expenses" -->
+    <string name="Sub_14_2">İadesi mümkün</string>
+    <!-- Main category -->
     <string name="Main_15">Vergiler</string>
-    <!-- Subcategories under "Taxes" -->
-    <string-array name="Sub_15">
-        <item>Gelir vergisi</item>
-        <item>Arazi vergisi</item>
-        <item>Katma değer vergisi</item>
-    </string-array>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_1">Gelir vergisi</string>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_2">Arazi vergisi</string>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_3">Katma değer vergisi</string>
+    <!-- Main category -->
     <string name="Main_16">Konut</string>
-    <!-- Subcategories under "Housing" -->
-    <string-array name="Sub_16">
-        <item>Otel</item>
-        <item>Kira</item>
-        <item>Televizyon</item>
-        <item>Mobilya</item>
-        <item>Aidatlar</item>
-        <item>Isıtma</item>
-        <item>Dekorasyon</item>
-        <item>Su</item>
-        <item>Elektrik</item>
-        <item>Beyaz eşya</item>
-        <item>Ekipman</item>
-        <item>Gaz</item>
-        <item>Bahçe</item>
-        <item>Kapıcı</item>
-        <item>Telefon</item>
-        <item>Cep telefonu</item>
-    </string-array>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_1">Otel</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_2">Kira</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_3">Televizyon</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_4">Mobilya</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_5">Aidatlar</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_6">Isınma</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_7">Dekorasyon</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_8">Su</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_9">Elektrik</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_10">Beyaz eşya</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_11">Ekipman</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_12">Gaz</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_13">Bahçe</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_14">Kapıcı</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_15">Telefon</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_16">Cep telefonu</string>
+    <!-- Main category -->
     <string name="Main_17">Boş vakit</string>
-    <!-- Subcategories under "Leisures" -->
-    <string-array name="Sub_17">
-        <item>Bilardo</item>
-        <item>Bovling</item>
-        <item>Film</item>
-        <item>Gece kulübü</item>
-        <item>Bilgisayar</item>
-        <item>Oyun</item>
-        <item>Kitap</item>
-        <item>Park</item>
-        <item>Konser</item>
-        <item>Spor</item>
-        <item>Video</item>
-        <item>Yolculuk</item>
-        <item>Ekipman</item>
-        <item>Müzeler / Sergiler</item>
-    </string-array>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_1">Bilardo</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_2">Bovling</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_3">Film</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_4">Gece kulübü</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_5">Bilgisayar</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_6">Oyun</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_7">Kitap</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_8">Park</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_9">Konser</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_10">Spor</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_11">Video</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_12">Seyahatler</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_13">Ekipman</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_14">Müzeler / Sergiler</string>
+    <!-- Main category -->
     <string name="Main_18">Kredi / İpotek</string>
-    <!-- Subcategories under "Loan/Mortgage" -->
-    <string-array name="Sub_18">
-        <item>Sermaye</item>
-    </string-array>
+    <!-- Subcategory under "Loan/Mortgage" -->
+    <string name="Sub_18_1">Sermaye</string>
+    <!-- Main category -->
     <string name="Main_19">Sağlık</string>
-    <!-- Subcategories under "Health" -->
-    <string-array name="Sub_19">
-        <item>Sigorta</item>
-        <item>Dişçi</item>
-        <item>Hastane</item>
-        <item>Fizyoterapist</item>
-        <item>Hekim</item>
-        <item>Göz doktoru</item>
-        <item>Kırıkçı</item>
-        <item>Eczacı</item>
-        <item>Sosyal Güvenlik</item>
-    </string-array>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_1">Sigorta</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_2">Dişçi</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_3">Hastane</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_4">Fizyoterapist</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_5">Hekim</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_6">Göz doktoru</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_7">Kırıkçı</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_8">Eczacı</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_9">Sosyal Güvenlik</string>
+    <!-- Main category -->
     <string name="Main_20">Bakım</string>
-    <!-- Subcategories under "Care" -->
-    <string-array name="Sub_20">
-        <item>Kuaför</item>
-        <item>Giyim</item>
-    </string-array>
+    <!-- Subcategory under "Care" -->
+    <string name="Sub_20_1">Kuaför</string>
+    <!-- Subcategory under "Care" -->
+    <string name="Sub_20_2">Giyim</string>
+    <!-- Main category -->
     <string name="Main_21">Ulaşım</string>
-    <!-- Subcategories under "Transport" -->
-    <string-array name="Sub_21">
-        <item>Otobüs</item>
-        <item>Metro</item>
-        <item>Geçiş ücreti</item>
-        <item>Tren</item>
-        <item>Tramvay</item>
-        <item>Uçak</item>
-    </string-array>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_1">Otobüs</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_2">Metro</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_3">Geçiş ücreti</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_4">Tren</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_5">Tramvay</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_6">Uçak</string>
+    <!-- Main category -->
     <string name="Main_22">Tatil</string>
-    <!-- Subcategories under "Holidays" -->
-    <string-array name="Sub_22">
-        <item>Konut</item>
-        <item>Ziyaretler</item>
-        <item>Seyahatleri</item>
-    </string-array>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_1">Konut</string>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_2">Ziyaretler</string>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_3">Seyahatler</string>
 </resources>

@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources, InconsistentArrays">
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_1">Agasallos</string>
+    <!-- Main category -->
+    <string name="Main_6">Alimentación</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_5">Tenda do barrio</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_6">Restaurantes</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_1">Alimentación</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_1">Coche</string>
+    <!-- Main category -->
+    <string name="Main_9">Coche</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_1">Combustible</string>
+    <!-- Main category -->
+    <string name="Main_10">Agasallos</string>
+    <!-- Main category -->
+    <string name="Main_21">Transporte</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_2">Metro</string>
+    </resources>

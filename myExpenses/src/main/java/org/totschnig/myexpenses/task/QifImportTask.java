@@ -200,8 +200,7 @@ public class QifImportTask extends AsyncTask<Void, String, Void> {
       insertCategories(parser.categories);
       publishProgress(totalCategories == 0 ?
           context.getString(R.string.import_categories_none) :
-          context.getString(R.string.import_categories_success,
-              String.valueOf(totalCategories)));
+          context.getString(R.string.import_categories_success, totalCategories));
     }
     if (withTransactionsP) {
       if (accountId == 0) {

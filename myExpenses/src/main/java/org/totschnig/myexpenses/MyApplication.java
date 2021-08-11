@@ -547,6 +547,7 @@ public class MyApplication extends Application implements
       }
       if (componentName == null) {
         CrashHandler.report("Start of Web User Interface failed");
+        prefHandler.putBoolean(UI_WEB, false);
       }
     }
   }

@@ -1,0 +1,18 @@
+plugins {
+    id 'application'
+    id 'kotlin'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_7
+    targetCompatibility = JavaVersion.VERSION_1_7
+}
+
+application {
+    mainClassName = 'org.totschnig.changelog.Main'
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation group: 'net.sf.saxon', name: 'Saxon-HE', version: '10.5'
+}

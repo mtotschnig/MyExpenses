@@ -1,0 +1,113 @@
+tr:
+  imprint: Imprint
+  imprint_text: Bu sitenin içeriği ve <i>{app_name}</i> uygulamasının geliştirmesi, bakımı ve dağıtımından sorumlu olan kişi
+  privacy_policy_heading: Gizlilik
+  privacy_policy_text: "<i>{app_name}</i>, cihazınızda kendi veritabanı ve SD kartındaki kendi klasöründen başka hiçbir veriye erişmez. Eğer gelecekteki ve tekrarlanan muameleler için planlama işlevini kullanıyorsanız bu planlamaların muhafaza edildiği takvimde atama yaparsınız."
+  hero_main: "Android için kişisel finans yöneticisi"
+  hero_sub:
+    use: "Kolay kullanım"
+    functionality: "Zengin işlevsellik"
+    source: "Açık Kaynak"
+  menu_title:
+    more_information: İlâve bilgi
+  sections:
+    features: Features
+    premium: Katkı sürümünü kurun
+    participate: İştirak edin
+    faq: SSS
+    versionlist: Değişiklikler
+    credits: Hazırlayanlar
+    licence: Lisans
+    sourcecode: Kaynak kodu
+    links: Bağlantılar
+  screenshots:
+    group: Muamelelerinizi günlük, haftalık, aylık ve senelik olarak gruplayın
+    summarize: Tüm hesaplarınızın toplamını görün (Hesap başına ve muamele başına gelişmiş döviz kuru yönetimi)
+    budget: Senelik, aylık veya haftalık bütçelerinizde ne kadar harcamak istediğinizi tanımlayın
+    split: Tek bir muameleyi çeşitli kategorilere ayırın
+    distribution: Kategori başına dağılımı görüntüleyin
+    history: Finansal durumunuzun zaman içinde nasıl geliştiğini anlayın
+    export: PDF olarak yazdırın veya QIF ve CSV ile paylaşın.
+    sync: Şifrelenmiş hesap verilerini özel ya da herkese açık bulut hizmetleriyle çeşitli cihazlarda eşleştirin.
+  features:
+    manage_accounts: <b>Havaleler</b> dahil olmak üzere 5 hesap desteği (değişik dövizler arasında da havale yapılabilir)
+    plans: Sınırsız <b>şablon</b> sayısı ve <b>tekrarlanan</b> muameleler için üçe kadar planlama desteği
+    export: QIF ile CSV biçimlerinde <b>dışa aktarma</b>. QIF biçiminden <b>içe aktarma</b>
+    password: Veriler, <b>parola</b> veya <b>ekran kilidi</b> ile korunabilir
+    light_theme: <b>Tema</b> (açık veya koyu) ile <b>yazıtipi boyutu</b> kişiselleştirilebilir
+    reconciliation: "<b>Uzlaştıma</b>: muamele durumlarını kolayca banka dekontlarınız ile karşılaştırın"
+    homescreen: Çabuk veri girişi için ana ekran <b>widget'leri</b> ve <b>kısayolları</b>
+  contrib:
+    thank_you: |
+        Katkınız Harcamalarım uygulamasının geliştirilmesine destek olacaktır. Teşekkür ederiz!
+    feature-list-title: "Lütfen <i>{app_name}</i>'ı yükselterek katkıda bulunun ve aşağıdaki işlevlere sınırsız erişim elde edin:"
+    feature:
+      accounts_unlimited: Sınırsız sayıda <b>hesap</b>
+      plans_unlimited: <b>Tekrarlanan</b> muameleler için sınırsız planlama sayısı
+      distribution: "<b>Yuvarlak diyagram</b>: değişik zaman dilimleri (sene, ay, hafta, gün) ile kategori başına muamelelerin istatistiki dağılımını görüntüleyin"
+      split_transaction: "<b>Bölünmüş muameleler</b>: tek bir muamele birden çok parçalara ayrılabilir (kategoriler ve havaleler)"
+      print: Muamele listesini bir PDF dosyasına <b>yazdırma</b>
+      attach_picture: "<b>Resim ekleme</b>: kamera ile çekme ya da galeriden seçme"
+      ad_free: <b>Reklamsız</b>
+      csv_import: Gelişmiş, özelleştirilebilen <b>CSV içe aktarma</b> (tablolama uygulamaları)
+      auto_backup: Günlük <b>otomatik yedekleme</b> ve seçime bağlı bulut depolama alanına yükleme
+      cloud_sync: "<b>Bulut eşleştirmesi</b>: veriler birden çok cihaz vasıtasıyla eşleştirilebilir"
+      split_template: Sınırsız sayıda <b>şablon ve bölünmüş muameleler için planlama</b>
+      email_support: 2 iş günü sonrasında cevap garantili <b>e-posta desteği</b>
+      roadmap_voting: <b>Geliştirme yol haritası</b> hakkında oy verme hakkı
+      history_chart: <b>Tarihçe grafiği</b> (Nakit akışı)
+      budgeting: "<b>Bütçeleme</b>: Harcamalarınızı kategori başına günlük, haftalık, aylık veya senelik olarak belirlediğiniz sınırlarla karşılaştırın."
+      scan_receipt: "<b>Makbuz tarama</b>: Otomatik olarak meblağ, tarih ve alacaklı bilgilerini çıkar"
+      webui: <b>İnternet Kullanıcı Arayüzü</b>
+    one-time-payment: Bir defalık ödeme
+    subscription: Abonlelik
+  store:
+    short_description: "Kullanımı kolay kişisel finans yöneticisi: zengin işlevsellik ve Açık Kaynak"
+    full_description_intro: "{app_name} harcamalarınızı ve gelirlerinizi doğrudan akıllı telefonunuzda ve tabletinizde takip eder."
+    full_description_contrib: "Premium işlevlerin kilidi aşağıdaki lisans anahtarlarının satın alınmasıyla açılabilir:"
+    full_description_contrib_amazon: "Birçok ek işlevin anahtarı lisans anahtarlarından birinin satın alınmasıyla açılabilir, mesela:"
+    highlight_1: "Birçok hesap, şablon ve kategori ile harcamalarınızı ve gelirlerinizi takip edin"
+    highlight_2: "Birçok telefon ve tablet arasında verilerinizi WebDAV ve Google Drive vasıtasıyla paylaşın"
+    highlight_3: "Finansal durumunuzun günlük, haftalık, aylık veya senelik özetine göz atın"
+  permissions:
+    heading: '<i>{app_name}</i> aşağıdaki <u>izinlere</u> ihtiyaç duyar:'
+    calendar:
+      label: Takvim
+      explanation: Gelecekteki ve tekrar eden muameleler için planlar ya özel bir yerel takvimde ya da atadığınız herhangi başka bir takvimde saklanır.
+    external-storage:
+      label: Depolama
+      explanation: QIF ve CSV dışa aktarmaları ve yedekleme dosyalarının saklanması.
+    internet:
+      label: Internet
+      explanation_usage_tracking: Anonim kullanım takibi
+      explanation_crash_reporting: Çökme raporları
+      explanation_key_validation: Lisans anahtarı teyidi
+      explanation_cloud_sync: Bulut eşleşmesi
+    accounts:
+      label: Hesaplar
+      explanation: Cihazlar arası bulut hizmetleri ile eşleşme.
+  contrib-key: Katkı Anahtarı
+  extended-key: Genişletilmiş Anahtarı
+  professional-key: Profesyonel Anahtar
+  all_contrib_key_features: Katkı Anahtarının tüm işlevleri
+  all_extended_key_features: Genişletilmiş Anahtar'ın tüm işlevleri
+  customer_support: Müşteri desteği
+  screenshot_testdata:
+    account1Label: Cüzdanım
+    account1Description: Günlük giderler
+    account2Label: İngiltere\'ye seyahat
+    account3Label: Banka hesabı
+    account3Description: Türkiye İş Bankası
+    transaction2Comment: Meyve ve sebzeler
+    transaction4Payee: Osmanya Restaurant
+    templatePayee: Sarı Çizmeli Mehmet Ağa
+    tag_project: Adsız proje
+  screenshot_titles:
+    group: Senelik, aylık veya haftalık gruplamalar
+    summarize: Tüm hesapların toplamı
+    budget: Senelik, aylık ve haftalık bütçeler
+    split: Birden fazla kategoriye bölünme
+    distribution: Grafik diyagram
+    history: Finansal durumunuzun tarihçesi
+    export: PDF, QIF ve CSV olarak dışa aktarma
+    sync: Bulut eşleşmesi

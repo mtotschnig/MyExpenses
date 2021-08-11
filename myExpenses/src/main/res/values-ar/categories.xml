@@ -1,195 +1,261 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources tools:ignore="UnusedResources, InconsistentArrays" xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources, InconsistentArrays">
+    <!-- Main category -->
     <string name="Main_1">دخل آخر</string>
-    <!-- Subcategories under "Other income" -->
-    <string-array name="Sub_1">
-        <item>إعانات البطالة</item>
-        <item>إعانة أسرية</item>
-        <item>ضريبة الائتمان</item>
-        <item>مقامرة</item>
-        <item>تأمين تعاوني</item>
-        <item>ضمان اجتماعي</item>
-    </string-array>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_1">إعانات البطالة</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_2">إعانة أسرية</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_3">ضريبة الائتمان</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_4">مقامرة</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_5">تأمين تعاوني</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_6">ضمان اجتماعي</string>
+    <!-- Main category -->
     <string name="Main_2">تقاعد</string>
-    <!-- Subcategories under "Retirement" -->
-    <string-array name="Sub_2">
-        <item>صندوق التقاعد</item>
-        <item>راتب تقاعد</item>
-        <item>تقاعد إضافي</item>
-    </string-array>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_1">صندوق التقاعد</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_2">راتب تقاعد</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_3">تقاعد إضافي</string>
+    <!-- Main category -->
     <string name="Main_3">دخل استثمار</string>
-    <!-- Subcategories under "Investment income" -->
-    <string-array name="Sub_3">
-        <item>حصة أرباح</item>
-        <item>فوائد</item>
-        <item>رأس مال</item>
-    </string-array>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_1">حصة أرباح</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_2">فوائد</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_3">رأس مال</string>
+    <!-- Main category -->
     <string name="Main_4">راتب</string>
-    <!-- Subcategories under "Salary" -->
-    <string-array name="Sub_4">
-        <item>ساعات عمل إضافية</item>
-        <item>بدل إجازة</item>
-        <item>علاوات متفرقة</item>
-        <item>رسوم نجاح</item>
-        <item>الراتب الصافي</item>
-    </string-array>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_1">ساعات عمل إضافية</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_2">بدل إجازة</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_3">علاوات متفرقة</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_4">رسوم نجاح</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_5">الراتب الصافي</string>
+    <!-- Main category -->
     <string name="Main_5">إيرادات متفرقة</string>
-    <!-- Subcategories under "Misc. income" -->
-    <string-array name="Sub_5">
-        <item>هدايا</item>
-        <item>مبالغ مستردة</item>
-        <item>مبيعات المستعمل</item>
-    </string-array>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_1">هدايا</string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_2">مبالغ مستردة</string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_3">مبيعات المستعمل</string>
+    <!-- Main category -->
     <string name="Main_6">طعام</string>
-    <!-- Subcategories under "Food" -->
-    <string-array name="Sub_6">
-        <item>حانة</item>
-        <item>خباز</item>
-        <item>مقصف</item>
-        <item>حلويات</item>
-        <item>بقالة</item>
-        <item>مطعم</item>
-        <item>خدمة ذاتية</item>
-        <item>سوبر ماركت</item>
-    </string-array>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_1">حانة</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_2">خباز</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_3">مقصف</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_4">حلويات</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_5">بقالة</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_6">مطعم</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_7">خدمة ذاتية</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_8">سوبر ماركت</string>
+    <!-- Main category -->
     <string name="Main_7">حيوانات أليفة</string>
-    <!-- Subcategories under "Pets" -->
-    <string-array name="Sub_7">
-        <item>طعام</item>
-        <item>تجهيزات أخرى</item>
-        <item>تدليل</item>
-        <item>طبيب بيطري</item>
-    </string-array>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_1">طعام</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_2">تجهيزات أخرى</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_3">تدليل</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_4">طبيب بيطري</string>
+    <!-- Main category -->
     <string name="Main_8">تأمين</string>
-    <!-- Subcategories under "Insurance" -->
-    <string-array name="Sub_8">
-        <item>سيارة</item>
-        <item>صحة</item>
-        <item>منزل</item>
-        <item>مسؤولية مدنية</item>
-        <item>حياة</item>
-    </string-array>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_1">سيارة</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_2">صحة</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_3">منزل</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_4">مسؤولية مدنية</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_5">حياة</string>
+    <!-- Main category -->
     <string name="Main_9">سيارة</string>
-    <!-- Subcategories under "Car" -->
-    <string-array name="Sub_9">
-        <item>وقود</item>
-        <item>اصلاحات</item>
-        <item>صيانة</item>
-        <item>موقف</item>
-        <item>مخالفات</item>
-    </string-array>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_1">وقود</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_2">اصلاحات</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_3">صيانة</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_4">موقف</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_5">مخالفات</string>
+    <!-- Main category -->
     <string name="Main_10">هدايا</string>
+    <!-- Main category -->
     <string name="Main_11">أطفال</string>
-    <!-- Subcategories under "Children" -->
-    <string-array name="Sub_11">
-        <item>ممرضة</item>
-        <item>دراسة</item>
-    </string-array>
+    <!-- Subcategory under "Children" -->
+    <string name="Sub_11_1">ممرضة</string>
+    <!-- Subcategory under "Children" -->
+    <string name="Sub_11_2">دراسة</string>
+    <!-- Main category -->
     <string name="Main_12">دراسة</string>
-    <!-- Subcategories under "Studies" -->
-    <string-array name="Sub_12">
-        <item>دروس</item>
-        <item>رسوم مدرسة</item>
-        <item>كتب</item>
-    </string-array>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_1">دروس</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_2">رسوم مدرسة</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_3">كتب</string>
+    <!-- Main category -->
     <string name="Main_13">مصروفات مالية</string>
-    <!-- Subcategories under "Financial expenses" -->
-    <string-array name="Sub_13">
-        <item>رسوم بنكية</item>
-        <item>قرض / رهن</item>
-        <item>رسوم</item>
-        <item>استرجاع</item>
-    </string-array>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_1">رسوم بنكية</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_2">قرض / رهن</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_3">رسوم</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_4">استرجاع</string>
+    <!-- Main category -->
     <string name="Main_14">مصروفات المهنة</string>
-    <!-- Subcategories under "Professional expenses" -->
-    <string-array name="Sub_14">
-        <item>غير قابلة للاسترجاع</item>
-        <item>قابلة للاسترجاع</item>
-    </string-array>
+    <!-- Subcategory under "Professional expenses" -->
+    <string name="Sub_14_1">غير قابلة للاسترجاع</string>
+    <!-- Subcategory under "Professional expenses" -->
+    <string name="Sub_14_2">قابلة للاسترجاع</string>
+    <!-- Main category -->
     <string name="Main_15">ضرائب</string>
-    <!-- Subcategories under "Taxes" -->
-    <string-array name="Sub_15">
-        <item>ضريبة الدخل</item>
-        <item>ضريبة الأراضي</item>
-        <item>ضريبة المبيعات</item>
-    </string-array>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_1">ضريبة الدخل</string>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_2">ضريبة الأراضي</string>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_3">ضريبة المبيعات</string>
+    <!-- Main category -->
     <string name="Main_16">سكن</string>
-    <!-- Subcategories under "Housing" -->
-    <string-array name="Sub_16">
-        <item>فندق</item>
-        <item>إيجار</item>
-        <item>تلفزيون</item>
-        <item>أثاث</item>
-        <item>رسوم</item>
-        <item>تدفئة</item>
-        <item>ديكور</item>
-        <item>ماء</item>
-        <item>كهرباء</item>
-        <item>أجهزة</item>
-        <item>معدات</item>
-        <item>غاز</item>
-        <item>حديقة</item>
-        <item>مديرة المنزل</item>
-        <item>هاتف</item>
-        <item>جوال</item>
-    </string-array>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_1">فندق</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_2">إيجار</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_3">تلفزيون</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_4">أثاث</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_5">رسوم</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_6">تدفئة</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_7">ديكور</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_8">ماء</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_9">كهرباء</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_10">أجهزة</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_11">معدات</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_12">غاز</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_13">حديقة</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_14">مديرة المنزل</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_15">هاتف</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_16">جوال</string>
+    <!-- Main category -->
     <string name="Main_17">هوايات</string>
-    <!-- Subcategories under "Leisures" -->
-    <string-array name="Sub_17">
-        <item>سنوكر</item>
-        <item>بولينج</item>
-        <item>أفلام</item>
-        <item>نادي ليلي</item>
-        <item>تكنولوجيا</item>
-        <item>ألعاب</item>
-        <item>كتب</item>
-        <item>منتزهات</item>
-        <item>حفلات</item>
-        <item>رياضات</item>
-        <item>فيديو</item>
-        <item>رحلات</item>
-        <item>معدات</item>
-        <item>متاحف / معارض</item>
-    </string-array>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_1">سنوكر</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_2">بولينج</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_3">أفلام</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_4">نادي ليلي</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_5">تكنولوجيا</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_6">ألعاب</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_7">كتب</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_8">منتزهات</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_9">حفلات</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_10">رياضات</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_11">فيديو</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_12">رحلات</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_13">معدات</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_14">متاحف / معارض</string>
+    <!-- Main category -->
     <string name="Main_18">قرض / رهن</string>
-    <!-- Subcategories under "Loan/Mortgage" -->
-    <string-array name="Sub_18">
-        <item>رأس مال</item>
-    </string-array>
+    <!-- Subcategory under "Loan/Mortgage" -->
+    <string name="Sub_18_1">رأس مال</string>
+    <!-- Main category -->
     <string name="Main_19">صحي</string>
-    <!-- Subcategories under "Health" -->
-    <string-array name="Sub_19">
-        <item>تأمين</item>
-        <item>طبيب أسنان</item>
-        <item>مستشفى</item>
-        <item>معالج الحركة</item>
-        <item>طبيب</item>
-        <item>طبيب عيون</item>
-        <item>عظام</item>
-        <item>كيميائي</item>
-        <item>ضمان اجتماعي</item>
-    </string-array>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_1">تأمين</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_2">طبيب أسنان</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_3">مستشفى</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_4">معالج الحركة</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_5">طبيب</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_6">طبيب عيون</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_7">عظام</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_8">كيميائي</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_9">ضمان اجتماعي</string>
+    <!-- Main category -->
     <string name="Main_20">عناية</string>
-    <!-- Subcategories under "Care" -->
-    <string-array name="Sub_20">
-        <item>تصفيف شعر</item>
-        <item>ملابس</item>
-    </string-array>
+    <!-- Subcategory under "Care" -->
+    <string name="Sub_20_1">تصفيف شعر</string>
+    <!-- Subcategory under "Care" -->
+    <string name="Sub_20_2">ملابس</string>
+    <!-- Main category -->
     <string name="Main_21">مواصلات</string>
-    <!-- Subcategories under "Transport" -->
-    <string-array name="Sub_21">
-        <item>باص</item>
-        <item>مترو</item>
-        <item>رسوم طريق</item>
-        <item>قطار</item>
-        <item>ترام / عربة معلقة</item>
-        <item>طائره</item>
-    </string-array>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_1">باص</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_2">مترو</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_3">رسوم طريق</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_4">قطار</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_5">ترام / عربة معلقة</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_6">طائره</string>
+    <!-- Main category -->
     <string name="Main_22">العطلات</string>
-    <!-- Subcategories under "Holidays" -->
-    <string-array name="Sub_22">
-        <item>سكن</item>
-        <item>زيارات</item>
-        <item>رحلات</item>
-    </string-array>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_1">سكن</string>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_2">زيارات</string>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_3">رحلات</string>
 </resources>

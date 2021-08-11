@@ -286,7 +286,6 @@
     <string name="pref_import_summary">Importa transações, categorias e parceiros do ficheiro %s</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">Importar %s</string>
-    <string name="pref_like_facebook_title">Curta-nos no Facebook</string>
     <string name="pref_manage_accounts_title">Contas</string>
     <string name="pref_manage_categories_summary">Adicionar, editar, excluir categorias.</string>
     <string name="pref_manage_categories_title">Categorias</string>
@@ -344,7 +343,6 @@
     <string name="restore_db_success">O banco de dados foi restaurado a partir do backup.</string>
     <string name="restore_no_backup_found">Não foi encontrado nenhum backup.</string>
     <string name="restore_preferences_failure">Não foi possível restaurar as preferências</string>
-    <string name="restore_backup_archive_not_valid">O arquivo %1$s não é válido</string>
     <string name="restore_backup_file_not_found">Não foi encontrado nenhum ficheiro %1$s encontrado no arquivo \"%2$s\"</string>
     <string name="restore_preferences_success">As preferências foram restauradas a partir do backup.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d planos foram restaurados do backup</string>
@@ -419,7 +417,6 @@
     <string name="warning_reset_account_all">Caso você prossiga, as transações de todas as contas%1$s serão excluídas do banco de dados e não poderão ser restauradas.</string>
     <string name="warning_reset_account_matched">Caso você prossiga, as transações correspondentes ao filtro atual serão excluídas do banco de dados e não poderão ser restauradas.</string>
     <string name="warning_restore">O banco de dados e as preferências serão restauradas do ficheiro \"%1$s\". Os dados atuais serão excluídos.</string>
-    <string name="warning_app_folder_will_be_deleted_upon_uninstall">A pasta atualmente selecionada para backups e exportações será automaticamente excluída pelo Android se você desinstalar o {app_name}. Você pode impedir que isto aconteça selecionando uma pasta diferente na tela de configurações.</string>
     <string name="warning_splitpartcategory_context">Transferências que fazem parte de uma transação com divisões só podem ser editadas no contexto da divisão.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Por favor, defina um número entre %1$d e %2$d</string>
     <string name="warning_change_fraction_digits_1">As quantias no banco de dados precisam ser atualizadas para corresponder ao novo número de casas decimais.</string>
@@ -427,7 +424,7 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Se as quantias não forem atualizadas, elas serão exibidos como multiplicadas por %d após o câmbio.</string>
     <string name="warning_change_fraction_digits_3">Se as quantias forem atualizadas, você perderá a informação acerca da sua parte fracionária.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Atualizar quantias no banco de dados</string>
-    <string name="import_categories_success">%1$s categorias importadas com sucesso</string>
+    <string name="import_categories_success">%1$d categorias importadas com sucesso</string>
     <string name="import_parties_success">%1$s parceiros importados com sucesso</string>
     <string name="import_accounts_success">%1$s contas importadas com sucesso</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transações importadas com sucesso na conta %2$s</string>
@@ -592,7 +589,6 @@
     <string name="all_contrib_key_features">Todas os recursos da Chave Contrib</string>
     <string name="pref_backup_cloud_title">Armazenar no destino de sincronização</string>
     <string name="pref_backup_cloud_summary">Além do armazenamento local no dispositivo, o ficheiro de backup também pode ser copiado para um destino remoto.</string>
-    <string name="auto_backup_cloud_create_backend">Crie um servidor de sincronização a partir do tela principal de configurações.</string>
     <string name="auto_backup_cloud_failure">Ocorreu um erro ao tentar armazenar o ficheiro de backup %1$s no destino %2$s:</string>
     <string name="home_screen_shortcuts_nougate_info">Atalhos podem ser adicionados ao se pressionar longamente o ícone do app na tela inicial.</string>
     <string name="currency_symbol">Símbolo da moeda</string>
@@ -914,4 +910,12 @@
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Suporte por e-mail</b> com garantia de resposta em até 2 dias úteis</string>
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Número ilimitado de modelos de divisão de transações</string>
     <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Gráfico de pizza (distribuição por categoria)</string>
+    <string name="crash_reports_user_info">O {app_name} enviará automaticamente relatórios sobre falhas da aplicação aos seus desenvolvedores, o que permitir-lhes-á corrigir os problemas mais rapidamente.</string>
+    <string name="pref_category_title_crash_reports">Relatórios de falhas</string>
+    <string name="pref_enable_acra">Permitir o envio automático de relatórios de falhas</string>
+    <string name="pref_acra_user_email">Endereço de email a ser incluído no relatório de falha</string>
+    <string name="pref_acra_user_email_summary">Por favor introduza o seu endereço de email se estiver disposto a ajudar na depuração e permite que nós o contactemos.</string>
+    <string name="bug_fixes">Correções de erros</string>
+    <string name="new_version">Nova versão</string>
+    <string name="pref_news_title">Notícias</string>
 </resources>

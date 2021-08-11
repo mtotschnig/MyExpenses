@@ -1,0 +1,18 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "org.totschnig.myexpenses",
+    "sha256_cert_fingerprints":
+    ["38:9F:22:AF:32:48:D6:86:D6:1A:03:8A:7B:4E:92:35:6D:CC:7A:EB:C2:4A:49:FF:6D:BA:6C:FE:CC:09:2E:C1", "CC:73:D1:AF:73:2C:D0:2B:84:A9:C7:D5:6B:7B:64:B9:D6:9D:47:A2:65:EC:34:B0:88:D6:85:7D:9F:BF:97:CE"]
+  }
+},
+{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "org.totschnig.myexpenses.debug",
+    "sha256_cert_fingerprints":
+    ["2C:A3:B8:67:FD:A9:1F:50:8C:1B:9A:A8:AA:1C:7A:FF:D5:15:BC:DF:56:BD:3A:84:12:56:63:54:14:EE:71:F4"]
+  }
+}]

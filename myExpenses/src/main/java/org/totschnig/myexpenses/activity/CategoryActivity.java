@@ -41,7 +41,7 @@ public abstract class CategoryActivity<T extends AbstractCategoryList<?>> extend
     FragmentManager fm = getSupportFragmentManager();
     setContentView(getContentView());
     setupToolbar(true);
-    mListFragment = ((T) fm.findFragmentById(R.id.category_list));
+    mListFragment = (T) fm.findFragmentById(R.id.category_list);
   }
 
   /**

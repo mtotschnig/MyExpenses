@@ -57,7 +57,9 @@ class ScanPreviewFragment : BaseDialogFragment() {
     private fun loadImage() {
         scanFile.let {
             picasso.invalidate(it)
-            picasso.load(it).into(binding.imageView)
+            picasso.load(it)
+                .resize(binding.imageView.width, binding.imageView.height)
+                .into(binding.imageView)
         }
     }
 

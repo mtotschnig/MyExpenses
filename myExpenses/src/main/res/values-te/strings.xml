@@ -171,7 +171,6 @@
     <string name="home_screen_shortcuts_nougate_info">హోమ్ స్క్రీన్‌లో అనువర్తన చిహ్నాన్ని దీర్ఘ-నొక్కడం ద్వారా సత్వరమార్గాలను జోడించవచ్చు.</string>
     <string name="auto_backup_cloud_success">%1$s బ్యాకప్ ఫైల్ విజయవంతంగా బ్యాకెండ్ %2$s లో నిల్వ చేయబడింది.</string>
     <string name="auto_backup_cloud_failure">బ్యాకెండ్ %2$s లో బ్యాకప్ ఫైల్ %1$s ని నిల్వ చేయడానికి ప్రయత్నిస్తున్నప్పుడు లోపం సంభవించింది:</string>
-    <string name="auto_backup_cloud_create_backend">ప్రధాన సెట్టింగ్‌ల స్క్రీన్ నుండి సమకాలీకరణ బ్యాకెండ్‌ను సృష్టించండి.</string>
     <string name="pref_backup_cloud_summary">పరికరంలో స్థానిక నిల్వతో పాటు, బ్యాకప్ ఫైల్‌ను రిమోట్ బ్యాకెండ్‌కు కాపీ చేయవచ్చు.</string>
     <string name="pref_backup_cloud_title">సింక్రొనైజేషన్ బ్యాకెండ్‌లో నిల్వ చేయండి</string>
     <string name="upgrade_now">అప్‌గ్రేడ్ చేయండి</string>
@@ -215,7 +214,7 @@
     <string name="hint_password">పాస్వర్డ్</string>
     <string name="hint_user_name">వినియోగదారు పేరు</string>
     <string name="description_webdav_trust_certificate">వెబ్‌సైట్ సర్టిఫికెట్‌ను ఉపయోగిస్తుంది, ఇది Android ద్వారా విశ్వసించబడదు.</string>
-    <string name="description_webdav_url">దయచేసి మీ వెబ్‌డావ్ సర్వర్‌లోని ప్రత్యేక ఫోల్డర్‌కు URL ను నమోదు చేయండి. {app_name its దాని డేటాను ఈ ఫోల్డర్‌లో నిల్వ చేస్తుంది, దాని వెలుపల దేనినీ తాకదు.</string>
+    <string name="description_webdav_url">దయచేసి మీ వెబ్‌డావ్ సర్వర్‌లోని ప్రత్యేక ఫోల్డర్‌కు URL ను నమోదు చేయండి. {app_name} దాని డేటాను ఈ ఫోల్డర్‌లో నిల్వ చేస్తుంది, దాని వెలుపల దేనినీ తాకదు.</string>
     <string name="hint_url">URL</string>
     <string name="synchronization_none">సమకాలీకరణ లేదు</string>
     <string name="synchronization">సమకాలీకరణ</string>
@@ -312,7 +311,7 @@
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d లావాదేవీలు విజయవంతంగా %2$s లోకి దిగుమతి చేయబడ్డాయి</string>
     <string name="import_accounts_success">%1$s ఖాతాలు విజయవంతంగా దిగుమతి చేయబడ్డాయి</string>
     <string name="import_parties_success">%1$s పార్టీలు విజయవంతంగా దిగుమతి చేయబడ్డాయి</string>
-    <string name="import_categories_success">%1$s వర్గాలు విజయవంతంగా దిగుమతి చేయబడ్డాయి</string>
+    <string name="import_categories_success">%1$d వర్గాలు విజయవంతంగా దిగుమతి చేయబడ్డాయి</string>
     <string name="warning_change_fraction_digits_checkbox_label">డేటాబేస్లో మొత్తాలను నవీకరించండి</string>
     <string name="warning_change_fraction_digits_3">మొత్తాలు నవీకరించబడితే, మీరు వారి పాక్షిక భాగం గురించి సమాచారాన్ని కోల్పోతారు.</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">మొత్తాలు నవీకరించబడకపోతే, మార్పు తర్వాత అవి %d గుణించబడతాయి.</string>
@@ -320,7 +319,6 @@
     <string name="warning_change_fraction_digits_1">క్రొత్త సంఖ్యలో భిన్న అంకెలతో సరిపోలడానికి డేటాబేస్లోని మొత్తాలను నవీకరించాలి.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">దయచేసి %1$d మరియు %2$d మధ్య సంఖ్యను సెట్ చేయండి</string>
     <string name="warning_splitpartcategory_context">స్ప్లిట్‌లో భాగమైన బదిలీలు స్ప్లిట్ సందర్భంలో మాత్రమే సవరించబడతాయి.</string>
-    <string name="warning_app_folder_will_be_deleted_upon_uninstall">మీరు {app_name un ను అన్‌ఇన్‌స్టాల్ చేస్తే బ్యాకప్‌లు మరియు ఎగుమతుల కోసం ప్రస్తుతం ఎంచుకున్న ఫోల్డర్ Android ద్వారా స్వయంచాలకంగా తొలగించబడుతుంది. సెట్టింగుల స్క్రీన్ నుండి వేరే ఫోల్డర్‌ను ఎంచుకోవడం ద్వారా మీరు ఇది జరగకుండా నిరోధించవచ్చు.</string>
     <string name="warning_restore">డేటాబేస్ మరియు ప్రాధాన్యతలు \"%1$s\" ఫైల్ నుండి పునరుద్ధరించబడతాయి. ప్రస్తుత డేటా తొలగించబడుతుంది.</string>
     <string name="warning_reset_account_all">మీరు కొనసాగితే, అన్ని ఖాతాల %1$s కోసం, లావాదేవీలు డేటాబేస్ నుండి తొలగించబడతాయి మరియు పునరుద్ధరించబడవు.</string>
     <string name="warning_reset_account_matched">మీరు కొనసాగితే, ప్రస్తుత ఫిల్టర్‌తో సరిపోలిన లావాదేవీలు డేటాబేస్ నుండి తొలగించబడతాయి మరియు పునరుద్ధరించబడవు.</string>
@@ -367,7 +365,7 @@
     <string name="title">శీర్షిక</string>
     <string name="time">సమయం</string>
     <string name="thank_you">మీ మద్దతుకు ధన్యవాదాలు!</string>
-    <string name="tell_a_friend_message">{వెబ్‌సైట్ నుండి {ప్లాట్‌ఫాం for కోసం {app_name}, వ్యక్తిగత ఫైనాన్స్ మేనేజర్ చూడండి</string>
+    <string name="tell_a_friend_message">{website} నుండి {platform} కోసం వ్యక్తిగత ఫైనాన్స్ మేనేజర్ {app_name} ని చూడండి</string>
     <string name="sum_transfer">బదిలీలు</string>
     <string name="sum_income">ఆదాయం</string>
     <string name="sum_expenses">ఖర్చులు</string>
@@ -409,7 +407,6 @@
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d ప్రణాళికలు బ్యాకప్ నుండి పునరుద్ధరించబడ్డాయి</string>
     <string name="restore_preferences_success">ప్రాధాన్యతలు బ్యాకప్ నుండి పునరుద్ధరించబడ్డాయి.</string>
     <string name="restore_backup_file_not_found">\"%2$s\" ఆర్కైవ్‌లో %1$s ఫైల్ కనుగొనబడలేదు</string>
-    <string name="restore_backup_archive_not_valid">%1$s ఆర్కైవ్ చెల్లదు</string>
     <string name="restore_preferences_failure">ప్రాధాన్యతల పునరుద్ధరణ విఫలమైంది</string>
     <string name="restore_no_backup_found">బ్యాకప్ కనుగొనబడలేదు.</string>
     <string name="restore_db_success">డేటాబేస్ బ్యాకప్ నుండి పునరుద్ధరించబడింది.</string>
@@ -464,7 +461,6 @@
     <string name="pref_manage_categories_title">కేటగిరీలు</string>
     <string name="pref_manage_categories_summary">వర్గాలను జోడించండి, సవరించండి, తొలగించండి.</string>
     <string name="pref_manage_accounts_title">ఖాతాలు</string>
-    <string name="pref_like_facebook_title">ఫేస్‌బుక్‌లో లైక్ చేయండి</string>
     <string name="pref_import_title">%s దిగుమతి</string>
     <string name="pref_import_summary">%s ఫైల్ నుండి లావాదేవీలు, వర్గాలు మరియు పార్టీలను దిగుమతి చేయండి</string>
     <string name="pref_import_from_grisbi_title">గ్రిస్బీ నుండి దిగుమతి</string>
@@ -564,8 +560,8 @@
     <string name="dialog_remind_rate_yes">ఇప్పుడే రేట్ చేయండి</string>
     <string name="dialog_remind_rate_1_suggest_improvement">దయచేసి మెరుగుదలల కోసం మీ సూచనలను మాకు పంపండి.</string>
     <string name="dialog_remind_rate_2">మీ వ్యాఖ్యలు నిరంతరం మెరుగుదలలు మరియు మెరుగుదలలను జోడించడానికి మాకు అనుమతిస్తాయి.</string>
-    <string name="dialog_remind_rate_1">Rate app_name rate ను రేట్ చేయడానికి మరియు సమీక్షించడానికి కొంత సమయం కేటాయించండి.</string>
-    <string name="dialog_remind_rate_how_many_stars">{App_name} to కు మీరు ఎన్ని నక్షత్రాలు ఇస్తారు\?</string>
+    <string name="dialog_remind_rate_1">రేట్ చేయడానికి మరియు {app_name}ని సమీక్షించడానికి దయచేసి ఒక్క క్షణం తీసుకోండి.</string>
+    <string name="dialog_remind_rate_how_many_stars">{app_name}కు మీరు ఎన్ని నక్షత్రాలను ఇస్తారు\?</string>
     <string name="dialog_remind_later">తరువాత</string>
     <string name="dialog_password_new_password_confirmation">ಹೊಸ ಪಾಸ್‌ವರ್ಡ್ (నిర్ధారణ)</string>
     <string name="dialog_password_new_password">ಹೊಸ ಪಾಸ್‌ವರ್ಡ್</string>
@@ -867,4 +863,14 @@
     <string name="pref_ocr_total_indicators_title">మొత్తం మొత్తానికి సూచికలు</string>
     <string name="button_scan">స్కాన్</string>
     <string name="menu_scan_mode">స్కాన్ మోడ్</string>
+    <string name="pref_acra_user_email_summary">డీబగ్గింగ్‌కు సహాయం చేయడానికి మీరు సిద్ధంగా ఉంటే దయచేసి మీ ఇమెయిల్ చిరునామాను నమోదు చేయండి మరియు మిమ్మల్ని సంప్రదించడానికి మమ్మల్ని అనుమతించండి.</string>
+    <string name="pref_acra_user_email">క్రాష్ నివేదికలో చేర్చవలసిన వినియోగదారు ఇమెయిల్</string>
+    <string name="pref_enable_acra">క్రాష్ నివేదికలను స్వయంచాలకంగా పంపడానికి అనుమతించండి</string>
+    <string name="pref_category_title_crash_reports">క్రాష్ నివేదికలు</string>
+    <string name="crash_reports_user_info">{app_name} అనువర్తన క్రాష్‌ల గురించి దాని డెవలపర్‌లకు స్వయంచాలకంగా నివేదికలను పంపుతుంది, ఇది సమస్యలను మరింత త్వరగా పరిష్కరించడానికి అనుమతిస్తుంది.</string>
+    <string name="stability_improvements">స్థిరత్వం మెరుగుదలలు</string>
+    <string name="performance_enhancement">పనితీరు మెరుగుదల</string>
+    <string name="bug_fixes">బగ్ పరిష్కారాలను</string>
+    <string name="ui_refinement">వినియోగదారు ఇంటర్ఫేస్ యొక్క శుద్ధీకరణ</string>
+    <string name="backup_save_to_sync_backend">%s కు సేవ్ చేయండి</string>
 </resources>

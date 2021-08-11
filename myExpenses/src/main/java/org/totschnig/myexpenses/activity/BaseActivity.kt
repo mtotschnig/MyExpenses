@@ -213,9 +213,14 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         showDismissibleSnackbar(getText(message))
     }
 
-    fun showDismissibleSnackbar(message: CharSequence) {
+    @JvmOverloads
+    fun showDismissibleSnackbar(message: CharSequence, callback: Snackbar.Callback? = null) {
         showSnackbar(message, Snackbar.LENGTH_INDEFINITE,
-                SnackbarAction(R.string.dialog_dismiss) { snackbar?.dismiss() })
+                SnackbarAction(R.string.dialog_dismiss) { snackbar?.dismiss() }, callback)
+    }
+
+    fun showSnackbarIndefinite(message: Int) {
+        showSnackbar(message, Snackbar.LENGTH_INDEFINITE)
     }
 
     @JvmOverloads
@@ -240,7 +245,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         CrashHandler.report(String.format("Class %s is unable to display snackbar", javaClass))
     }
 
-    fun showProgressSnackBar(message: String, total: Int = 0, progress: Int = 0) {
+    fun showProgressSnackBar(message: CharSequence, total: Int = 0, progress: Int = 0) {
         findViewById<View>(getSnackbarContainerId())?.let {
             val displayMessage = if (total > 0) "$message ($progress/$total)" else message
             if (progress > 0) {
@@ -253,6 +258,12 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 }
             }
         } ?: showSnackBarFallBack(message)
+    }
+
+    fun updateSnackBar(message: CharSequence) {
+        snackbar?.setText(message) ?: run {
+            CrashHandler.report("updateSnackBar called without snackbar being instantiated")
+        }
     }
 
     fun showSnackbar(message: CharSequence, duration: Int, snackbarAction: SnackbarAction?,
@@ -272,6 +283,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     fun dismissSnackbar() {
         snackbar?.dismiss()
+        snackbar = null
     }
 
     @IdRes
@@ -335,8 +347,8 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         showMessage(getString(resId))
     }
 
-    fun showDeleteFailureFeedback() {
-        showSnackbar("There was an error deleting the object. Please contact support@myexenses.mobi !")
+    fun showDeleteFailureFeedback(message: String? = null) {
+        showDismissibleSnackbar("There was an error deleting the object${message?.let { " ($it)" } ?: ""}. Please contact support@myexenses.mobi !")
     }
 
     fun getHelpVariant() = helpVariant?.name

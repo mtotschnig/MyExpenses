@@ -51,7 +51,6 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 import org.totschnig.myexpenses.ui.ContextHelper;
-import org.totschnig.myexpenses.util.BackupUtils;
 import org.totschnig.myexpenses.util.PlanInfoCursorWrapper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.Utils;
@@ -518,7 +517,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         final boolean minimal = uriMatch == ACCOUNTS_MINIMAL;
         final String mergeAggregate = minimal ? "1" : uri.getQueryParameter(QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES);
         if (sortOrder == null) {
-          sortOrder = minimal ? KEY_LABEL : Sort.preferredOrderByForAccounts(PrefKey.SORT_ORDER_ACCOUNTS, prefHandler, Sort.LABEL);
+          sortOrder = minimal ? KEY_LABEL : Sort.Companion.preferredOrderByForAccounts(PrefKey.SORT_ORDER_ACCOUNTS, prefHandler, Sort.LABEL);
         }
         if (mergeAggregate != null) {
           if (projection != null) {
@@ -916,8 +915,10 @@ public class TransactionProvider extends BaseTransactionProvider {
           projection = new String[] {
               KEY_ROWID, KEY_CODE, KEY_GROUPING, KEY_LABEL, KEY_USAGES
           };
+          qb.setTables(CURRENCIES_USAGES_TABLE_EXPRESSION);
+        } else {
+          qb.setTables(TABLE_CURRENCIES);
         }
-        qb.setTables(CURRENCIES_USAGES_TABLE_EXPRESSION);
         break;
       case DUAL:
         qb.setTables("sqlite_master");
@@ -1832,7 +1833,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       case METHOD_SETUP_CATEGORIES: {
         Bundle result = new Bundle(1);
-        result.putInt(KEY_RESULT, DbUtils.setupDefaultCategories(mOpenHelper.getWritableDatabase(), wrappedContext()));
+        result.putInt(KEY_RESULT, MoreDbUtilsKt.setupDefaultCategories(mOpenHelper.getWritableDatabase(), wrappedContext().getResources()));
         notifyChange(CATEGORIES_URI, false);
         return result;
       }
@@ -1935,9 +1936,9 @@ public class TransactionProvider extends BaseTransactionProvider {
     mOpenHelper.getReadableDatabase().beginTransaction();
     try {
       File backupPrefFile, sharedPrefFile;
-      Result result = backupDb(new File(backupDir, BackupUtils.BACKUP_DB_FILE_NAME), currentDb);
+      Result result = backupDb(new File(backupDir, BackupUtilsKt.BACKUP_DB_FILE_NAME), currentDb);
       if (result.isSuccess()) {
-        backupPrefFile = new File(backupDir, BackupUtils.BACKUP_PREF_FILE_NAME);
+        backupPrefFile = new File(backupDir, BackupUtilsKt.BACKUP_PREF_FILE_NAME);
         // Samsung has special path on some devices
         // http://stackoverflow.com/questions/5531289/copy-the-shared-preferences-xml-file-from-data-on-samsung-device-failed
         final MyApplication application = MyApplication.getInstance();

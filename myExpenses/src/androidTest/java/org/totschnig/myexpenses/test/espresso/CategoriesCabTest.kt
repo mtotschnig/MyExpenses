@@ -15,6 +15,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.assertj.core.api.Assertions.assertThat
+import org.hamcrest.CoreMatchers.containsString
 import org.hamcrest.Matchers
 import org.junit.After
 import org.junit.Test
@@ -75,14 +76,14 @@ class CategoriesCabTest : BaseUiTest() {
     private fun fixtureWithMappedBudget() {
         baseFixture()
         val budget = Budget(0L, account.id, "TITLE", "DESCRIPTION", currency, Money(currency, 200000L), Grouping.MONTH, -1, null as LocalDate?, null as LocalDate?, account.label, true)
-        val budgetId = ContentUris.parseId(contentResolver!!.insert(TransactionProvider.BUDGETS_URI, budget.toContentValues())!!)
+        val budgetId = ContentUris.parseId(contentResolver.insert(TransactionProvider.BUDGETS_URI, budget.toContentValues())!!)
         setCategoryBudget(budgetId, categoryId, 50000)
     }
 
     private fun setCategoryBudget(budgetId: Long, categoryId: Long, @Suppress("SameParameterValue") amount: Long) {
         with(ContentValues(1)) {
             put(DatabaseConstants.KEY_BUDGET, amount)
-            contentResolver!!.update(appendId(appendId(TransactionProvider.BUDGETS_URI.buildUpon(), budgetId), categoryId).build(),
+            contentResolver.update(appendId(appendId(TransactionProvider.BUDGETS_URI.buildUpon(), budgetId), categoryId).build(),
                     this, null, null)
         }
     }
@@ -90,7 +91,7 @@ class CategoriesCabTest : BaseUiTest() {
     @After
     fun tearDown() {
         Account.delete(account.id)
-        contentResolver?.delete(Category.CONTENT_URI, null, null)
+        contentResolver.delete(Category.CONTENT_URI, null, null)
         activityScenario.close()
     }
 
@@ -121,7 +122,7 @@ class CategoriesCabTest : BaseUiTest() {
         fixtureWithMappedBudget()
         val origListSize = launchAndOpenCab()
         clickMenuItem(R.id.DELETE_COMMAND, true)
-        onView(withText(R.string.warning_delete_category_with_budget)).check(matches(isDisplayed()))
+        onView(withText(containsString(getString(R.string.warning_delete_category_with_budget)))).check(matches(isDisplayed()))
         onView(withText(R.string.response_no)).perform(click())
         assertThat(waitForAdapter().count).isEqualTo(origListSize)
     }

@@ -169,7 +169,7 @@ class PartiesList : ContextualActionBarFragment(), OnDialogResultListener {
                         result.onSuccess {
                             activity.showSnackbar(activity.resources.getQuantityString(R.plurals.delete_success, it, it))
                         }.onFailure {
-                            activity.showDeleteFailureFeedback()
+                            activity.showDeleteFailureFeedback(it.message)
                         }
                     }
                 }

@@ -1,0 +1,113 @@
+ms:
+  imprint: Imprint
+  imprint_text: Bertanggungjawab atas kandungan laman sesawang dan juga pembangunan, penyelenggaraan dan pengedaran <i>{app_name}</i>
+  privacy_policy_heading: Polisi kerahsiaan
+  privacy_policy_text: "<i>{app_name}</i> tidak mencapai apa-apa data dalam peranti anda melainkan pangkalan datanya sendiri, ia juga memiliki foldernya sendiri di dalam kad SD. Jika anda guna fitur plan untuk transaksi akan datang dan semasa, anda mengumpuk kalendar yang mana plan itu disimpan."
+  hero_main: "Pengurus kewangan persendirian untuk Android"
+  hero_sub:
+    use: "Mudah digunakan"
+    functionality: "Penuh kefungsian"
+    source: "Sumber Terbuka"
+  menu_title:
+    more_information: Lagi maklumat
+  sections:
+    features: Fitur
+    premium: Dapatkan Premium
+    participate: Sertai
+    faq: FAQ
+    versionlist: Log perubahan
+    credits: Penghargaan
+    licence: Lesen
+    sourcecode: Kod sumber
+    links: Pautan
+  screenshots:
+    group: Kelompokkan transaksi anda mengikut hari, minggu, bulan dan tahun
+    summarize: Jumlahkan semua akaun anda (pengendalian canggih kadar pertukaran per akaun dan per transaksi)
+    budget: Takrif berapa banyak yang anda mahu belanja dalam tempoh bajet tahunan, bulanan atau mingguan
+    split: Asing satu transaksi mengikut berbilang kategori
+    distribution: Visualkan agihan per kategori
+    history: Fahami bagaimana situasi kewangan anda berubah mengikut masa
+    export: Cetak ke PDF dan tukar melalui QIF dan CSV.
+    sync: Segerak data akaun tersulit pada peranti berbilang melalui perkhidmatan awan persendirian atau awam.
+  features:
+    manage_accounts: Sehingga lima akaun dengan <b>pemindahan</b> (juga merentasi matawang berbeza)
+    plans: Bilangan <b>templat</b> tanpa had dan sehingga tiga plan untuk transaksi <b>berulang</b>
+    export: <b>Eksport</b> ke QIF dan CSV. <b>Import</b> dari QIF
+    password: Data boleh dilindungi dengan <b>kata laluan</b> atau <b>skrin kunci</b> peranti
+    light_theme: <b>Tema</b> (gelap dan cerah) serta <b>saiz fon</b> boleh disuaikan
+    reconciliation: "<b>Penyesuaian</b>: Bandingkan status transaksi secara mudah dengan penyata bank anda"
+    homescreen: <b>Widget</b> skrin rumah dan <b>pintasan</b> untuk masukan data secara pantas
+  contrib:
+    thank_you: |
+        Sumbangan anda menyokong pembangunan Perbelanjaan Saya berikutnya. Terima kasih!
+    feature-list-title: "Berilah sumbangan dalam bentuk derma dengan menatar <i>{app_name}</i> dan peroleh capaian tanpa had fitur-fitur berikut:"
+    feature:
+      accounts_unlimited: Bilangan <b>akaun</b> tanpa had
+      plans_unlimited: Bilangan plan tanpa had untuk transaksi <b>berulang</b>
+      distribution: "<b>Carta pai</b>: Visualikan agihan berstatistik bagi transaksi per kategori mengikut tempoh berbeza (tahun, bulan, minggu atau hari)"
+      split_transaction: "<b>Pengasingan transaksi</b>: Satu transaksi boleh diasingkan menjadi berbilang bahagian (kategori dan pemindahan)"
+      print: <b>Cetak</b> senarai transaksi ke dalam fail PDF
+      attach_picture: "<b>Lampiran imej</b>: Tangkap gambar melalui kamera atau pilih dari galeri"
+      ad_free: <b>Tanpa iklan</b>
+      csv_import: <b>Import CSV import</b> (spreadsheet applications) yang canggih dan boleh disuaikan.
+      auto_backup: <b>Sandar berautomatik</b> harian dengan muat naik pilihan ke storan awan
+      cloud_sync: "<b>Penyegerakan awan</b>: Data boleh disegerakkan dalam kalangan peranti"
+      split_template: Bilangan <b>templat dan plan tanpa had untuk transaksi berasingan</b>
+      email_support: <b>Sokongan emel</b> dengan maklumbalas dijamin selepas 2 hari bekerja
+      roadmap_voting: Hak mengundi dalam </b>peta jalan pembangunan</b>
+      history_chart: <b>Carta sejarah</b> (Aliran tunai)
+      budgeting: "<b>Belanjawan</b>: Bandingkan perbelanjaan anda untuk anda hadkan per kategori mengikut harian, mingguan, bulanan atau tahunan."
+      scan_receipt: "<b>Imbas resit</b> : Ekstrak jumlah, tarikh dan penerima secara automatik"
+      webui: <b>Antara Muka Pengguna Web</b>
+    one-time-payment: Pembayaran sekali sahaja
+    subscription: Langganan
+  store:
+    short_description: "Pengurus keawangan peribadi yang mudah digunakan: kefungsian penuh dan Bersumber Terbuka"
+    full_description_intro: "{app_name} menyimpan jejak perbelanjaan dan pendapatan anda, secara langsung dalam telefon pintar dan tablet anda."
+    full_description_contrib: "Fitur Premium berikut boleh dibuka dengan membeli salah satu kunci lesen berikut:"
+    full_description_contrib_amazon: "Banyak lagi fitur tambahan dibuka dengan pembelian salah satu dari kunci lesen, iaitu:"
+    highlight_1: "Menyimpan jejak perbelanjaan dan pendapatan dengan akaun, templat dan kategori berbilang"
+    highlight_2: "Kongsi data anda dengan lebih dari satu telefon dan tablet melalui WebDAV dan Google Drive"
+    highlight_3: "Ringkaskan situasi kewangan anda sama ada mengikut hari, minggu, bulan atau tahun"
+  permissions:
+    heading: <i>{app_name}</i> memerlukan <u>keizinan</u> berikut
+    calendar:
+      label: Kalendar
+      explanation: Plan untuk transaksi akan datang dan semasa disimpan sama ada dalam kalendar setempat khas atau dalam mana-mana  kalendar lain yang anda umpukkan.
+    external-storage:
+      label: Storan
+      explanation: Storan untuk eksport fail QIF dan CSV serta fail sandar.
+    internet:
+      label: Internet
+      explanation_usage_tracking: Penjejakan penggunaan awanama
+      explanation_crash_reporting: Laporan kerosakan
+      explanation_key_validation: Pengesahan kunci lesen
+      explanation_cloud_sync: Penyegerakan awan
+    accounts:
+      label: Akaun
+      explanation: Penyegerakan merentasi peranti melalui perkhidmatan awan.
+  contrib-key: Kunci Contrib
+  extended-key: Kunci Lanjutan
+  professional-key: Kunci profesional
+  all_contrib_key_features: Semua fitur Kunci Contrib
+  all_extended_key_features: Semua fitur Kunci Lanjutan
+  customer_support: Sokongan pengguna
+  screenshot_testdata:
+    account1Label: Dompet saya
+    account1Description: Perbelanjaan harian
+    account2Label: hujung minggu di Paris
+    account3Label: Akaun bank
+    account3Description: Bank of America
+    transaction2Comment: Buah-buahan & Sayuran
+    transaction4Payee: Seri Melayu
+    templatePayee: anu
+    tag_project: Projek tanpa tajuk
+  screenshot_titles:
+    group: Kumpulkan mengikut tahun, bulan atau minggu
+    summarize: Jumlahkan semua akaun anda
+    budget: Anggaran tahunan, bulanan dan mingguan
+    split: Terpisah kepada beberapa kategori
+    distribution: Gambarajah carta pai
+    history: Sejarah keadaan kewangan anda
+    export: Eksport ke PDF, QIF dan CSV
+    sync: Penyegerakan awan

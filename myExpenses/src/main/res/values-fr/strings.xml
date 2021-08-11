@@ -304,7 +304,6 @@
     <string name="pref_import_summary">Importer des transactions, des catégories et des tiers du fichier %s</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">Importer %s</string>
-    <string name="pref_like_facebook_title">Devenez fan sur Facebook</string>
     <string name="pref_manage_accounts_title">Comptes</string>
     <string name="pref_manage_categories_summary">Ajouter, modifier, supprimer des catégories.</string>
     <string name="pref_manage_categories_title">Catégories</string>
@@ -363,7 +362,6 @@
     <string name="restore_db_success">La base de données a été rétablie à partir de la sauvegarde.</string>
     <string name="restore_no_backup_found">Aucun fichier de sauvegarde.</string>
     <string name="restore_preferences_failure">La restauration des paramètres a échoué</string>
-    <string name="restore_backup_archive_not_valid">Archive %1$s invalide</string>
     <string name="restore_backup_file_not_found">Aucun fichier %1$s trouvé dans l\'archive « %2$s »</string>
     <string name="restore_preferences_success">Les paramètres ont été rétablis à partir de la sauvegarde.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d échéances ont été restaurées à partir de la sauvegarde</string>
@@ -440,7 +438,6 @@
     <string name="warning_reset_account_all">Si vous continuez, toutes les opérations de tous les comptes%1$s seront supprimées de la base de données et ne pourront pas être restaurées.</string>
     <string name="warning_reset_account_matched">Si vous continuez, toutes les opérations qui correspondent au filtre actuel  seront supprimées de la base de données et ne pourront plus être restaurées.</string>
     <string name="warning_restore">La base de données et les paramètres seront restaurés à partir du fichier « %1$s ». Les données actuelles seront supprimées.</string>
-    <string name="warning_app_folder_will_be_deleted_upon_uninstall">Le dossier actuellement sélectionné pour les sauvegardes et les exportations est automatiquement supprimé par Android si vous désinstallez {app_name}. Vous pouvez l\'empêcher en sélectionnant un dossier différent dans l\'écran Paramètres.</string>
     <string name="warning_splitpartcategory_context">Les transferts qui font partie d\'une opération ventilée ne peuvent être modifiés que dans celle-ci.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Définissez une décimale entre %1$d et %2$d</string>
     <string name="warning_change_fraction_digits_1">Les montants dans la base de données doivent être mis à jour afin de correspondre au nouveau nombre de chiffres de fraction.</string>
@@ -448,7 +445,7 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Si les montants ne sont pas mis à jour, ils seront affichés comme divisés par %d après le changement.</string>
     <string name="warning_change_fraction_digits_3">Si les montants sont mis à jour, vous perdrez les informations sur leur partie fractionnaire.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Mise à jour des montants de la base de données</string>
-    <string name="import_categories_success">%1$s catégories ont été importés</string>
+    <string name="import_categories_success">%1$d catégories ont été importés</string>
     <string name="import_parties_success">%1$s tiers ont été importés</string>
     <string name="import_accounts_success">%1$s comptes importés avec succès</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d opérations importées avec succès dans le compte %2$s</string>
@@ -621,7 +618,6 @@
     <string name="upgrade_now">Mettre à jour</string>
     <string name="pref_backup_cloud_title">Sauvegarde avec la fonction de synchronisation</string>
     <string name="pref_backup_cloud_summary">Outre le stockage local sur le périphérique, le fichier de sauvegarde peut être copié sur un serveur distant.</string>
-    <string name="auto_backup_cloud_create_backend">Créer un paramètre de synchronisation à partir de l\'écran principal des réglages.</string>
     <string name="auto_backup_cloud_failure">Une erreur est survenue lors de la tentative de stocker le fichier de sauvegarde %1$s sur le backend %2$s :</string>
     <string name="auto_backup_cloud_success">Le fichier de sauvegarde %1$s a été enregistré avec succès sur le backend %2$s.</string>
     <string name="home_screen_shortcuts_nougate_info">Les raccourcis peuvent être ajoutés en appuyant longuement sur l\'icône de l\'application sur l\'écran d\'accueil.</string>
@@ -993,4 +989,16 @@
     <!-- This warning is shown when a user calls the Reset or Cancel commands on a scheduled transaction, for a date
      where the transaction has already been created.  -->
     <string name="warning_plan_instance_delete">L\'opération créée pour la date sélectionnée sera supprimée.</string>
+    <string name="crash_reports_user_info">{app_name} enverra automatiquement des rapports aux développeurs si l\'application se bloque, ce qui leur permettra de résoudre les problèmes plus rapidement.</string>
+    <string name="pref_category_title_crash_reports">Rapports d\'incidents</string>
+    <string name="pref_enable_acra">Autoriser l\'envoi automatique de rapports d\'incidents</string>
+    <string name="pref_acra_user_email">Courriel de l\'utilisateur à inclure dans le rapport d\'incident</string>
+    <string name="pref_acra_user_email_summary">Veuillez entrer votre adresse électronique si vous êtes prêt·e à nous aider à déboguer et nous permettent de vous contacter.</string>
+    <string name="backup_save_to_sync_backend">Enregistrer sur %s</string>
+    <string name="ui_refinement">Raffinement de l\'interface utilisateur</string>
+    <string name="bug_fixes">Corrections des erreurs</string>
+    <string name="performance_enhancement">Amélioration de performance</string>
+    <string name="stability_improvements">Améliorations de la stabilité</string>
+    <string name="new_version">Nouvelle version</string>
+    <string name="pref_news_title">Nouveautés</string>
 </resources>

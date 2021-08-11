@@ -1,195 +1,261 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources tools:ignore="UnusedResources, InconsistentArrays" xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources, InconsistentArrays">
+    <!-- Main category -->
     <string name="Main_1">Alte venituri</string>
-    <!-- Subcategories under "Other income" -->
-    <string-array name="Sub_1">
-        <item>Ajutor de şomaj</item>
-        <item>Alocația de familie</item>
-        <item>Taxe Credit </item>
-        <item>Jocuri de noroc</item>
-        <item>Asigurare mutuală</item>
-        <item>Asigurare socială</item>
-    </string-array>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_1">Ajutor de şomaj</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_2">Alocația de familie</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_3">Taxe Credit </string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_4">Jocuri de noroc</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_5">Asigurare mutuală</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_6">Asigurare socială</string>
+    <!-- Main category -->
     <string name="Main_2">Pensia</string>
-    <!-- Subcategories under "Retirement" -->
-    <string-array name="Sub_2">
-        <item>Fond de pensii</item>
-        <item>Pensiunea</item>
-        <item>Pensie suplimentară</item>
-    </string-array>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_1">Fond de pensii</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_2">Pensiunea</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_3">Pensie suplimentară</string>
+    <!-- Main category -->
     <string name="Main_3">Venituri din investiții</string>
-    <!-- Subcategories under "Investment income" -->
-    <string-array name="Sub_3">
-        <item>Dividende</item>
-        <item>Dobîndă</item>
-        <item>Câştiguri din capital</item>
-    </string-array>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_1">Dividende</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_2">Dobîndă</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_3">Câştiguri din capital</string>
+    <!-- Main category -->
     <string name="Main_4">Salariu</string>
-    <!-- Subcategories under "Salary" -->
-    <string-array name="Sub_4">
-        <item>Ore suplimentare</item>
-        <item>Alocaţia de plecare</item>
-        <item>Prime diverse</item>
-        <item>Onorariu de succes</item>
-        <item>Salariul net</item>
-    </string-array>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_1">Ore suplimentare</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_2">Alocaţia de plecare</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_3">Prime diverse</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_4">Onorariu de succes</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_5">Salariul net</string>
+    <!-- Main category -->
     <string name="Main_5">Diverse venituri</string>
-    <!-- Subcategories under "Misc. income" -->
-    <string-array name="Sub_5">
-        <item>Cadouri</item>
-        <item>Restituiri</item>
-        <item>Vânzări second hand </item>
-    </string-array>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_1">Cadouri</string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_2">Restituiri</string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_3">Vânzări second hand </string>
+    <!-- Main category -->
     <string name="Main_6">Produse alimentare</string>
-    <!-- Subcategories under "Food" -->
-    <string-array name="Sub_6">
-        <item>Bar</item>
-        <item>Brutărie</item>
-        <item>Cantina</item>
-        <item>Dulciuri</item>
-        <item>Macelărie</item>
-        <item>Restaurant</item>
-        <item>Autoservire</item>
-        <item>Supermarket</item>
-    </string-array>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_1">Bar</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_2">Brutărie</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_3">Cantina</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_4">Dulciuri</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_5">Macelărie</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_6">Restaurant</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_7">Autoservire</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_8">Supermarket</string>
+    <!-- Main category -->
     <string name="Main_7">Animale de companie</string>
-    <!-- Subcategories under "Pets" -->
-    <string-array name="Sub_7">
-        <item>Produse alimentare</item>
-        <item>Diverse consumabile</item>
-        <item>Îngrijirea</item>
-        <item>Medic veterinar</item>
-    </string-array>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_1">Produse alimentare</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_2">Diverse consumabile</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_3">Îngrijirea</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_4">Medic veterinar</string>
+    <!-- Main category -->
     <string name="Main_8">Asigurări</string>
-    <!-- Subcategories under "Insurance" -->
-    <string-array name="Sub_8">
-        <item>Masina</item>
-        <item>Sănătate</item>
-        <item>Casa</item>
-        <item>Răspundere civilă</item>
-        <item>Viata</item>
-    </string-array>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_1">Masina</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_2">Sănătate</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_3">Casa</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_4">Răspundere civilă</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_5">Viata</string>
+    <!-- Main category -->
     <string name="Main_9">Masina</string>
-    <!-- Subcategories under "Car" -->
-    <string-array name="Sub_9">
-        <item>Combustibil</item>
-        <item>Reparatii</item>
-        <item>Revizie</item>
-        <item>Parcare</item>
-        <item>Amenzi</item>
-    </string-array>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_1">Combustibil</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_2">Reparatii</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_3">Revizie</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_4">Parcare</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_5">Amenzi</string>
+    <!-- Main category -->
     <string name="Main_10">Cadouri</string>
+    <!-- Main category -->
     <string name="Main_11">Copii</string>
-    <!-- Subcategories under "Children" -->
-    <string-array name="Sub_11">
-        <item>Asistentă medicală</item>
-        <item>Studii</item>
-    </string-array>
+    <!-- Subcategory under "Children" -->
+    <string name="Sub_11_1">Asistentă medicală</string>
+    <!-- Subcategory under "Children" -->
+    <string name="Sub_11_2">Studii</string>
+    <!-- Main category -->
     <string name="Main_12">Studii</string>
-    <!-- Subcategories under "Studies" -->
-    <string-array name="Sub_12">
-        <item>Lecţii</item>
-        <item>Taxe  şcoală</item>
-        <item>Carti</item>
-    </string-array>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_1">Lecţii</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_2">Taxe  şcoală</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_3">Carti</string>
+    <!-- Main category -->
     <string name="Main_13">Cheltuieli financiare</string>
-    <!-- Subcategories under "Financial expenses" -->
-    <string-array name="Sub_13">
-        <item>Spezele bancare</item>
-        <item>Împrumut/Ipoteca</item>
-        <item>Taxe</item>
-        <item>Rambursare</item>
-    </string-array>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_1">Spezele bancare</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_2">Împrumut/Ipoteca</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_3">Taxe</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_4">Rambursare</string>
+    <!-- Main category -->
     <string name="Main_14">Cheltuieli profesionale</string>
-    <!-- Subcategories under "Professional expenses" -->
-    <string-array name="Sub_14">
-        <item>Non rambursabil</item>
-        <item>Rambursabil</item>
-    </string-array>
+    <!-- Subcategory under "Professional expenses" -->
+    <string name="Sub_14_1">Non rambursabil</string>
+    <!-- Subcategory under "Professional expenses" -->
+    <string name="Sub_14_2">Rambursabil</string>
+    <!-- Main category -->
     <string name="Main_15">Impozite</string>
-    <!-- Subcategories under "Taxes" -->
-    <string-array name="Sub_15">
-        <item>Impozit pe venit</item>
-        <item>Taxa pe teren</item>
-        <item>Taxa de vanzari</item>
-    </string-array>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_1">Impozit pe venit</string>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_2">Taxa pe teren</string>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_3">Taxa de vanzari</string>
+    <!-- Main category -->
     <string name="Main_16">Locuinţe</string>
-    <!-- Subcategories under "Housing" -->
-    <string-array name="Sub_16">
-        <item>Hotel</item>
-        <item>Chirie</item>
-        <item>TV</item>
-        <item>Mobila</item>
-        <item>Taxe</item>
-        <item>Încălzire</item>
-        <item>Decorare</item>
-        <item>Apă</item>
-        <item>Energie electrică</item>
-        <item>Electrocasnice</item>
-        <item>Echipamente</item>
-        <item>Gaz</item>
-        <item>Gradina</item>
-        <item>Portar</item>
-        <item>Telefon</item>
-        <item>Telefon mobil</item>
-    </string-array>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_1">Hotel</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_2">Chirie</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_3">TV</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_4">Mobila</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_5">Taxe</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_6">Încălzire</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_7">Decorare</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_8">Apă</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_9">Energie electrică</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_10">Electrocasnice</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_11">Echipamente</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_12">Gaz</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_13">Gradina</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_14">Portar</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_15">Telefon</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_16">Telefon mobil</string>
+    <!-- Main category -->
     <string name="Main_17">Timp liber</string>
-    <!-- Subcategories under "Leisures" -->
-    <string-array name="Sub_17">
-        <item>Snooker</item>
-        <item>Bowling</item>
-        <item>Filme</item>
-        <item>Club de noapte</item>
-        <item>IT</item>
-        <item>Jocuri</item>
-        <item>Carti</item>
-        <item>Parcuri</item>
-        <item>Concerte</item>
-        <item>Sport</item>
-        <item>Video</item>
-        <item>Călătorii</item>
-        <item>Echipamente</item>
-        <item>Muzee/expozitii</item>
-    </string-array>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_1">Snooker</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_2">Bowling</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_3">Filme</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_4">Club de noapte</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_5">IT</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_6">Jocuri</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_7">Carti</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_8">Parcuri</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_9">Concerte</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_10">Sport</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_11">Video</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_12">Călătorii</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_13">Echipamente</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_14">Muzee/expozitii</string>
+    <!-- Main category -->
     <string name="Main_18">Împrumut/Ipoteca</string>
-    <!-- Subcategories under "Loan/Mortgage" -->
-    <string-array name="Sub_18">
-        <item>Capital</item>
-    </string-array>
+    <!-- Subcategory under "Loan/Mortgage" -->
+    <string name="Sub_18_1">Capital</string>
+    <!-- Main category -->
     <string name="Main_19">Sănătate</string>
-    <!-- Subcategories under "Health" -->
-    <string-array name="Sub_19">
-        <item>Asigurări</item>
-        <item>Dentist</item>
-        <item>Spital</item>
-        <item>Kinezioterapist</item>
-        <item>Doctor</item>
-        <item>Oftalmolog</item>
-        <item>Osteopat</item>
-        <item>Chimist</item>
-        <item>Asigurare socială</item>
-    </string-array>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_1">Asigurări</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_2">Dentist</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_3">Spital</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_4">Kinezioterapist</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_5">Doctor</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_6">Oftalmolog</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_7">Osteopat</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_8">Chimist</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_9">Asigurare socială</string>
+    <!-- Main category -->
     <string name="Main_20">Îngrijire</string>
-    <!-- Subcategories under "Care" -->
-    <string-array name="Sub_20">
-        <item>Coafor</item>
-        <item>Îmbrăcăminte</item>
-    </string-array>
+    <!-- Subcategory under "Care" -->
+    <string name="Sub_20_1">Coafor</string>
+    <!-- Subcategory under "Care" -->
+    <string name="Sub_20_2">Îmbrăcăminte</string>
+    <!-- Main category -->
     <string name="Main_21">Transport</string>
-    <!-- Subcategories under "Transport" -->
-    <string-array name="Sub_21">
-        <item>Autobuz</item>
-        <item>Metrou</item>
-        <item>Taxă drum</item>
-        <item>Tren</item>
-        <item>Tramvai</item>
-        <item>Avion</item>
-    </string-array>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_1">Autobuz</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_2">Metrou</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_3">Taxă drum</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_4">Tren</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_5">Tramvai</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_6">Avion</string>
+    <!-- Main category -->
     <string name="Main_22">Sarbatori</string>
-    <!-- Subcategories under "Holidays" -->
-    <string-array name="Sub_22">
-        <item>Locuinţe</item>
-        <item>Vizite</item>
-        <item>Călătorii</item>
-    </string-array>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_1">Locuinţe</string>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_2">Vizite</string>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_3">Călătorii</string>
 </resources>

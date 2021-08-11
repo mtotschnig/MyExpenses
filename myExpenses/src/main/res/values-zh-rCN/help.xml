@@ -1,45 +1,126 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-  <string name="help_menu_commands">菜单命令</string>
-  <string name="cab_delete_help_text">删除所选条目</string>
-  <string name="cab_edit_help_text">编辑所选条目</string>
-  <!--My Expenses Transaction list-->
-  <string name="help_MyExpenses_title">交易清单</string>
-  <string name="cab_create_template_from_transaction_help_text">根据所选交易定义一个新模板.会提示你交易标题</string>
-  <!--ManageMethods title is in keys-->
-  <!--ManageParties title is in keys-->
-  <!--ManageTemplates title is in keys-->
-  <string name="cab_ManageTemplates_delete_help_text">删除所选模板及其关联的计划</string>
-  <string name="cab_ManageTemplates_edit_help_text">编辑所选模板,创建或编辑一个关联的计划</string>
-  <string name="cab_ManageTemplates_plans_create_instance_save_help_text">指示选择事件时候,没有交易应该被创建</string>
-  <string name="cab_ManageTemplates_plans_create_instance_edit_help_text">指示在所选事件时间,创建</string>
-  <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">指示在所选事件时间,不创建交易</string>
-  <!--ManageCategories_* titles are in keys-->
-  <string name="menu_back_help_text">导航到前一组.也可以从左向右滑动手势实现</string>
-  <string name="cab_ManageCategories_create_sub_cat_help_text">打开创建所选类别的子类别对话框</string>
-  <string name="cab_ManageCategories_move_help_text">子类别可以被移动到不同主类别,可以转换为主类别.没有子类别的主类别可以转换为其他主类别的子类别</string>
-  <string name="cab_ManageCategories_select_help_text">映射所选类别到转换,返回转换表格</string>
-  <string name="menu_categories_setup_default_help_text">一套默认类别将会被导入</string>
-  <string name="menu_categories_export_help_text">类别会被导出到QIF文件</string>
-  <string name="cab_ManageCategories_select_filter_select_help_text">所选类别将会被应用与过滤转换列表</string>
-  <string name="menu_ManageCategories_search_help_text">只有显示匹配你查询的主和次类别</string>
-  <!--ExpenseEdit-->
-  <string name="form_comment_help_text">输入关于对象的标注</string>
-  <string name="form_title_help_text">输入代表该模板唯一标识的标题</string>
-  <string name="menu_save_help_text">保存数据并且关闭表格</string>
-  <string name="menu_invert_transfer_help_text">通过交互交易人倒置交易的方向</string>
-  <!--AccountEdit-->
-  <!--MethodEdit-->
-  <!--ManageCurrencies-->
-  <!--FolderBrowser title is in keys-->
-  <string name="menu_create_folder_help_text">在当前文件夹创建新文件夹</string>
-  <string name="menu_FolderBrowser_select_help_text">设置当前文件夹作为导出和备份路径</string>
-  <string name="menu_up_help_text">导航到父文件夹</string>
-  <!--StaleImages-->
-  <!--CSV Import-->
-  <string name="menu_create_account_help_text">创建一个新账户.免费版限制为5个</string>
-  <!--SyncBackends-->
-  <!--History-->
-  <!--Budget-->
-  <!--Tags-->
+    <string name="help_menu_commands">菜单命令</string>
+    <string name="cab_delete_help_text">删除所选条目。</string>
+    <string name="cab_edit_help_text">编辑所选条目。</string>
+    <!--My Expenses Transaction list-->
+    <string name="help_MyExpenses_title">交易清单</string>
+    <string name="cab_create_template_from_transaction_help_text">根据所选交易定义一个新模板.会提示你交易标题。</string>
+    <!--ManageMethods title is in keys-->
+    <!--ManageParties title is in keys-->
+    <!--ManageTemplates title is in keys-->
+    <string name="cab_ManageTemplates_delete_help_text">删除所选模板及其关联的计划。</string>
+    <string name="cab_ManageTemplates_edit_help_text">编辑所选模板并创建或编辑一个关联的计划。</string>
+    <string name="cab_ManageTemplates_plans_create_instance_save_help_text">在选定事件实例时创建交易并立即保存它们。</string>
+    <string name="cab_ManageTemplates_plans_create_instance_edit_help_text">在选定事件实例时创建交易并进入其编辑表格，你可在表格中进行编辑然后保存。</string>
+    <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">表明在选定的事件实例中，不应该创建任何交易。如果已为所选事件实例创建了交易，则将删除它们。</string>
+    <!--ManageCategories_* titles are in keys-->
+    <string name="menu_back_help_text">导航到前一组。也可以通过从左到右的滑动手势来实现。</string>
+    <string name="cab_ManageCategories_create_sub_cat_help_text">打开对话框以指定所选类别之下的新子类别的标题。</string>
+    <string name="cab_ManageCategories_move_help_text">可以把子类别移动到一个不同的主类别，或者将其转换为主类别。没有子类别的主类别可以转换为不同主类别的子类别。</string>
+    <string name="cab_ManageCategories_select_help_text">将选定的类别映射到交易，并返回到交易表单。</string>
+    <string name="menu_categories_setup_default_help_text">将导入一组默认类别。</string>
+    <string name="menu_categories_export_help_text">类别会被导出到QIF文件。</string>
+    <string name="cab_ManageCategories_select_filter_select_help_text">所选类别将用于筛选交易列表。</string>
+    <string name="menu_ManageCategories_search_help_text">只显示与您的查询匹配的主类别和子类别。</string>
+    <!--ExpenseEdit-->
+    <string name="form_comment_help_text">输入有关交易条目的备注信息。</string>
+    <string name="form_title_help_text">输入唯一标识该模板的标题。</string>
+    <string name="menu_save_help_text">保存数据并且关闭表格。</string>
+    <string name="menu_invert_transfer_help_text">交换 “From” 和 “To” 账户反转交易的方向。</string>
+    <!--AccountEdit-->
+    <!--MethodEdit-->
+    <!--ManageCurrencies-->
+    <!--FolderBrowser title is in keys-->
+    <string name="menu_create_folder_help_text">在当前文件夹内创建新文件夹。</string>
+    <string name="menu_FolderBrowser_select_help_text">选择当前文件夹作为导出和备份的存储目标。</string>
+    <string name="menu_up_help_text">导航到当前文件夹的父目录。</string>
+    <!--StaleImages-->
+    <!--CSV Import-->
+    <string name="menu_create_account_help_text">创建一个新账户。免费版仅可创建5个账户。</string>
+    <!--SyncBackends-->
+    <!--History-->
+    <!--Budget-->
+    <!--Tags-->
+    <string name="popup_MyExpenses_toolbar_intro">轻按工具栏（账户标签或当前余额）弹出以下菜单项：</string>
+    <string name="help_MyExpenses_fab_long_press">长按悬浮操作按钮，通过弹出菜单编制转账、分拆交易或收入表单。</string>
+    <string name="help_MyExpenses_info">此界面列明了当前账户的所有交易。请使用悬浮操作按钮打开表单，创建一项新交易。</string>
+    <string name="menu_scan_mode_help_text">激活扫描模式，用以快速扫描收据。</string>
+    <string name="popup_MyExpenses_toolbar_copy_text">将当前余额复制到粘贴板。</string>
+    <string name="help_form_fields">表单字段</string>
+    <string name="help_contextual_actions_help">长按清单输入项，显示情景操作菜单。</string>
+    <string name="help_contextual_actions">场景操作</string>
+    <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">如果“转出“和”转入“账户的币种不同，您只需指明其中一项。另一币种在您从模板中创建示例会进行计算。</string>
+    <string name="cab_remap_help_text">如果您想要对所有选定交易的既定属性（账户、类别、付款人/收款人或支付方式）进行更改，请在子菜单中选择该命令。</string>
+    <string name="form_currency_help_text">从已提供的所有当前币种列表中选择币种。</string>
+    <string name="form_ExpenseEdit_splitPartCategory_category_help_text">选择该拆分部分的类别。</string>
+    <string name="form_synchronization_help_text_select">选择用于云同步的后台。</string>
+    <string name="help_ExpenseEdit_splitPartCategory_title">类别拆分部分表单</string>
+    <string name="help_ExpenseEdit_split_title">拆分表单</string>
+    <string name="help_ExpenseEdit_transfer_title">转账表单</string>
+    <string name="help_ExpenseEdit_transaction_title">交易表单</string>
+    <string name="cab_ManageCategories_color_help_text">您可以对主类别进行颜色设置。设置的颜色可在图表中代指相应类别。子类别将根据其主类别的颜色分色度显示。</string>
+    <string name="menu_ManageCategories_sort_help_text">类别列表可按标题（按字母顺序）、使用频率或交易映射的最后时间进行排序。</string>
+    <string name="form_synchronization_help_text_add">后台可在设置界面进行添加。</string>
+    <string name="help_ManageCurrencies_symbol">您还可配置货币符号，在对特定币种的金额进行格式调整时使用。</string>
+    <string name="help_ManageCurrencies_info">对于每个币种，您均可以修改小数部分的位数。以欧元为例，如果您需要输入0.001欧元,应将小数部分设置到第三位。使用同一币种的现有账户将会切换为新设置。</string>
+    <string name="form_MethodEdit_account_types_help_text">选择应用此方法的账户类型。</string>
+    <string name="menu_NavigationDrawer_sort_help_text">账户列表按标题（按字母顺序）、使用频率或最后创建交易的时间。</string>
+    <string name="help_NavigationDrawer_info">通过账户列表，您只需点击条目即可在账户之间进行切换（待定）。</string>
+    <string name="cab_sync_now_help_text">与选定的后台立即同步。</string>
+    <string name="cab_sync_unlink_help_text">选定的账户将不再同步到后台</string>
+    <string name="menu_NavigationDrawer_grouping_help_text">账户列表可按账户类型、币种、未分组三种方式进行分组显示。</string>
+    <string name="menu_NavigationDrawer_sort_help_text_custom">点击“定制”，您可以自由配置每个 账户的状态。</string>
+    <string name="cab_remove_help_text">移除已选定的后台。</string>
+    <string name="menu_HistoryActivity_grouping_help_text">按日、周、月或年对您的现金流数据进行组别切换。</string>
+    <string name="menu_BudgetActivity_delete_help_text">当前显示的预算将被删除。</string>
+    <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">以实例应用所选模板并输入编辑表单，您可以在保存之前进行修改。</string>
+    <string name="cab_ManageTemplates_templates_create_instance_save_help_text">以实例运用选定的模板并立即保存。</string>
+    <string name="menu_ManageTemplates_templates_sort_help_text">该模板列表可按标题（按字母顺序）、金额、使用频率排序，也可按以模板为示例的交易最后操作时间排序。</string>
+    <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">编辑已为选定计划示例创建的交易。</string>
+    <string name="help_ManageTemplates_planner_title">即将发生的经常项目</string>
+    <string name="help_ManageTemplates_plans_title">计划日历视图</string>
+    <string name="cab_merge_help_text">如果同一交易方在表单中多次出现但写法不同，您可以将其合并。您需按提示选择所要保存写法。</string>
+    <string name="cab_clone_transaction_help_text">复制选定交易并将其设置当前日期和时间。您可在保存之前进行更改。</string>
+    <string name="cab_split_help_text">您可以在之后编辑该条交易，按需创建额外部分。</string>
+    <string name="menu_search_help_text">通过该按钮可打开一子菜单，在此您可按类别、金额、备注、状态、付款人/收款人及支付方式确定搜索标准。在搜索筛选器处于启用状态时，您只需点击子菜单中的相应条目即可解除启用。</string>
+    <string name="menu_print_help_text">将当前显示的交易生成打印视图。</string>
+    <string name="popup_MyExpenses_toolbar_new_balance">计算当前余额与新输入数值的差额。</string>
+    <string name="menu_grouping_help_text">您可以按日、周、月或年对交易进行分组。每一组别单独计算并显示收入、开支或转账的总额。当您在点击组别表头时，该组别的交易将会折叠并仅显示表头部分。再次点击即可展开显示。</string>
+    <string name="help_Budget_amount_click">点击已编制预算的金额，可对其做出更改。</string>
+    <string name="help_BudgetActivity_info" tools:ignore="UnusedResources">通过制定预算，您可设定自己在既定期间想要支出的总金额。您还可以对类别或子类别分配金额。之后，您可以监控自己已支出的金额和待支出的金额。</string>
+    <string name="menu_HistoryActivity_history_transfers_help_text">若转账应该视为正常收入或开支，则进行切换。</string>
+    <string name="menu_HistoryActivity_history_show_balance_help_text">是否显示余额。</string>
+    <string name="help_MyExpenses_crStatus_info">交易状态可通过颜色方框标示：灰色代表未对账、蓝色代表已结算、绿色代表已对账。点击颜色方框，可更改交易状态。</string>
+    <string name="menu_distribution_help_text">按类别显示您的开支分布。您还可以长按某一组别表头来查看特定期间的开支分布。</string>
+    <string name="help_ManageBudgets_info">该界面汇总了您所创建的所有预算。可使用悬浮按钮创建新预算。点击列表条目显示单个预算。</string>
+    <string name="help_ManageBudgets_title">列明所有预算的清单</string>
+    <string name="help_ManageSyncBackends_webdav">WebDAV：如果您的云存储提供商支持此项协议，则My Expenses能够与之进行数据同步。sync data with it. Simply provide the URL to a folder with your username and password. If you use https and your webserver uses a self-signed certificate, you will be able to trust it explicitly.</string>
+    <string name="help_ManageSyncBackends_intro">My Expenses允许为每个账户配置不同的同步后台。例如，您可以将某一账户与共享文件夹同步，同时可以将另一账户与私人文件夹同步。在该界面上，您可以添加或移除同步后台，开始或停止与远程账户进行同步。同步会定期自动进行，您可在此处手动触发与某一后台进行同步。请注意，My Expenses需要对远程文件夹获得全权控制。您不得使用其他工具或接口更改该文件夹内容，因为该操作可能会导致同步失败。</string>
+    <string name="cab_NavigationDrawer_close_reopen_help_text">通过关闭账户，您可以阻止对该账户的数据做出任何更改（增加、删除、编辑），但仍然可在统计计算时将其纳入其中。</string>
+    <string name="cab_NavigationDrawer_hide_help_text">将账户从清单中移除。</string>
+    <string name="menu_NavigationDrawer_hidden_accounts_help_text">以列表方式显示所有隐藏账户，您可将其再次调整为可见状态或删除。</string>
+    <string name="form_category_help_text">该按钮可打开类别列表，您可以选择某一类别来映射该交易。</string>
+    <string name="form_transfer_from_account_transfer_to_account_help_text">指定该项目转出或转入的账户。</string>
+    <string name="help_MethodEdit_title">支付方式表单</string>
+    <string name="help_ManageSyncBackends_drive">Google Drive：选择你自己拥有或与您共享的文件夹。</string>
+    <string name="help_ManageParties_floating_action_button">使用悬浮操作按钮添加一个新条目。</string>
+    <string name="help_ManageParties_select_filter_info">轻按某一交易方，以对交易清单进行筛选。长按可选择多个交易方。</string>
+    <string name="help_ManageParties_manage_info">该界面列出了用以自动填写付款人/收款人字段的交易方。</string>
+    <string name="help_ManageMethods_info">该界面列出了预定义的支付方式（支票、信用卡、转入银行账户、直接借记），您也可以在该界面自定义新的支付方式。通过悬浮操作按钮打开表单，以创建新的支付方法。</string>
+    <string name="cab_link_help_text">一个账户内的支出可以与另一账户的收入建立关联。如果这两个账户的币种相同，则两项交易的金额必须一致。</string>
+    <string name="form_BudgetEdit_amount_help_text">本预算中有多少可用资金。</string>
+    <string name="form_crstatus_help_text">对于属于银行账户的交易，您可以将交易状态改为已结清。若要将其设置为已对账，您必须使用交易清单中的“余额账户”命令。若将状态设为无效，则相应交易将不被计入。</string>
+    <string name="form_calculator_help_text">该 &lt;img src=\?calcIcon&gt; 按钮可打开计算器。</string>
+    <string name="form_amount_switch_help_text">使用开关键来切换支出和收入。</string>
+    <string name="form_payer_or_payee_help_text">该字段会记住您输入的数值，并在以后作出提示。</string>
+    <string name="form_date_time_help_text_link">如果 &lt;img src=ic_hchain&gt;/&lt;img src=ic_hchain_broken&gt; 切换键处于已关联状态，不论设置起息日还是记账日，另一日期也会发生更新。</string>
+    <string name="form_date_time_help_text_configuration">在设置中，您可以禁用时间输入并区分记账日与计息日。</string>
+    <string name="form_account_help_text">选择交易所属的账户。</string>
+    <string name="form_date_time_help_text">输入交易发生的日期和时间。</string>
+    <string name="help_ManageParties_select_mapping_info">轻按某一交易方以将其选中。</string>
+    <string name="menu_manage_plans_help_text">打开模板和计划列表，您可以在这里使用、编辑或删除模板或计划，也可以在这里为未来发生或经常发生的交易制定计划。</string>
+    <string name="menu_history_help_text">显示现金流图表：你在数日、数周、数月或数年的开支和收入情况如何？</string>
+    <string name="menu_budget_help_text">对当前显示的账户，按日、周、月或年进行预算管理。</string>
+    <string name="menu_sort_direction_help_text">交易可按升序(旧交易在先)或降序（新交易在先）排列。</string>
 </resources>

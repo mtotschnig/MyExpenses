@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources, InconsistentArrays">
+    <!-- Main category -->
+    <string name="Main_1">အခြား​သောဝင်​​ငွေများ</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_1">အလုပ်လက်မဲ့ထောက်ပံ့ကြေး</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_2">မိသားစု ထောက်ပံကြေး</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_3">အခွန်ကြွေး</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_4">လောင်းကစား</string>
+    <!-- Main category -->
+    <string name="Main_2">ပင်စင်</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_1">ပင်စင် ရန်ပုံငွေ</string>
+    <!-- Main category -->
+    <string name="Main_3">ရင်းနှီးမြုပ်နှံမှုဝင်ငွေ</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_1">အစုပေါ်အမြတ်</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_2">အတိုး</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_3">ပိုင်ဆိုင်ပစ္စည်းရောင်းချမှု အကျိုးအမြတ်</string>
+    <!-- Main category -->
+    <string name="Main_4">လစာ</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_1">အချိန်ပိုကြေး</string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_1">လက်ဆောင်များ</string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_3">တစ်ပတ်နွမ်းရောင်းချမှုများ</string>
+    <!-- Main category -->
+    <string name="Main_6">အစားအ​​သောက်</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_1">ဘား</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_4">သရေစာများ</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_5">ကုန်စုံဆိုင်</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_6">စာသောက်ဆိုင်</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_8">ကုန်တိုက်မှဈေးဝယ်</string>
+    <!-- Main category -->
+    <string name="Main_7">အိမ်​​​မွေးတိရိစ္ဆာန်များ</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_1">အစားအ​​သောက်</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_2">အမျိုးမျိုးသော ထောက်ပံ့မှုများ</string>
+    <!-- Main category -->
+    <string name="Main_8">အာမခံကြေး</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_1">မော်တော်ယဉ်၊ ကား</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_2">ကျန်းမာ​ရေး</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_3">အိမ်အသုံးစရိတ်</string>
+    <!-- Main category -->
+    <string name="Main_9">မော်တော်ယဉ်၊ ကား</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_1">လောင်စာဆီ</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_2">ပြုပြင်ခ</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_3">ထိန်းသိမ်းမှုကုန်ကျစရိတ်</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_4">ယာဉ်ရပ်နားကြေး</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_5">ဒဏ်ငွေ</string>
+    <!-- Main category -->
+    <string name="Main_10">လက်ဆောင်များ</string>
+    <!-- Main category -->
+    <string name="Main_11">ကလေးသူငယ်</string>
+    <!-- Subcategory under "Children" -->
+    <string name="Sub_11_1">သူနာပြု</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_1">သင်ခန်းစာကြေးများ</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_2">ကျောင်းကြေးများ</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_3">စာအုပ်များ</string>
+    <!-- Main category -->
+    <string name="Main_13">ဝန်ဆောင်ခ ကုန်ကျငွေများ</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_1">ဘဏ်ဝန်ဆောင်ခ</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_3">ကျသင့်ငွေကောက်ခံမှုများ</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_4">ပြန်အမ်းငွေများ</string>
+    <!-- Main category -->
+    <string name="Main_14">အသက်မွေးဝမ်းကြောင်းကုန်ကျစရိတ်များ</string>
+    <!-- Subcategory under "Professional expenses" -->
+    <string name="Sub_14_1">ပြန်မအမ်းနိုင်သော</string>
+    <!-- Main category -->
+    <string name="Main_15">အခွန်</string>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_1">အခွန်ကင်းလွတ်ငွေ</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_3">တီဗွီ</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_5">ကျသင့်ငွေကောက်ခံမှုများ</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_7">အလှဆင်ခြင်း</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_9">လျှပ်စစ်ဖိုး</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_11">ကရိယာ တန်ဆာပလာ</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_13">ဥယာဉ်၊ ခြံ</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_14">အိမ်အကူ</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_15">ဖုန်းဘေလ်</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_16">လက်ကိုင်ဖုန်းဘေလ်</string>
+    <!-- Main category -->
+    <string name="Main_17">အနားယူကုန်ကျစရိတ်များ</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_2">ဘိုးလင်း</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_3">ရုပ်ရှင်</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_4">နိုက်ကလပ်</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_5">အိုင်တီ</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_6">ဂိမ်းခွေ၊ ဂိမ်းစက်</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_7">စာအုပ်များ</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_8">ပန်းခြံ</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_9">ရှိုးပွဲ</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_10">အားကစား</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_11">ဗီဒီယို၊ ဗီဒီယိုခွေ</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_12">ခရီးထွက်</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_13">ကရိယာ တန်ဆာပလာ</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_14">ပြတိုက်၊ ပြပွဲ၊ ပြခန်းများ</string>
+    <!-- Main category -->
+    <string name="Main_19">ကျန်းမာ​ရေး</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_1">အာမခံကြေး</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_3">​ဆေးရုံ</string>
+    <!-- Main category -->
+    <string name="Main_20">တကိုယ်ရည်ထိန်းသိမ်းမှု</string>
+    <!-- Subcategory under "Care" -->
+    <string name="Sub_20_1">ဆံသဆိုင်</string>
+    <!-- Subcategory under "Care" -->
+    <string name="Sub_20_2">အဝတ်အစားများ</string>
+    <!-- Main category -->
+    <string name="Main_21">သယ်ယူပို့​ဆောင်​ရေး</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_6">​လေယာဥ်လက်မှတ်</string>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_3">ခရီးထွက်</string>
+</resources>

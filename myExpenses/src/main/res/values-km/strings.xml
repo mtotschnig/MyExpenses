@@ -338,7 +338,7 @@
     <string name="warning_reset_account_all">បើ​អ្នក​បាន​ដំណើរការហើយ សម្រាប់​គណនី​ %1$s ប្រតិបត្តិការ​ទាំង​អស់ នឹង​ត្រូវបាន​លុប​ចេញពី​មូលដ្ឋាន​ទិន្នន័យ និង​មិន​អាច​យក​មកវិញ​បាន​ទេ។</string>
     <string name="warning_restore">មូលដ្ឋានទិន្នន័យ និងចំណង់ចំណូលចិត្ត នឹងត្រូវបានស្ដារឡើងវិញពីការបម្រុងទុក។ (%1$s) ទិន្នន័យបច្ចុប្បន្ន នឹងត្រូវបានលុប។</string>
     <string name="warning_splitpartcategory_context">ការផ្លាស់ប្តូរដែលជាផ្នែកមួយ នៃការបំបែកអាចត្រូវបាន កែសម្រួល បានតែនៅក្នុងបរិបទនេះទេ។</string>
-    <string name="import_categories_success">%1$s ចំណាត់ថ្នាក់ បាន​នាំចូល​ដោយជោគជ័យ</string>
+    <string name="import_categories_success">%1$d ចំណាត់ថ្នាក់ បាន​នាំចូល​ដោយជោគជ័យ</string>
     <string name="import_parties_success">%1$s ភាគី​បាន​នាំចូល​ដោយជោគជ័យ</string>
     <string name="import_accounts_none">គ្មាន​គណនី​នាំចូលទេ</string>
     <string name="import_categories_none">គ្មាន​ចំណាត់ថ្នាក់​កំណត់នាំចូលទេ</string>
@@ -380,4 +380,8 @@
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">លក្ខណៈសំខាន់</string>
     <string name="pref_translation_title">ការបកប្រែ</string>
+    <string name="pref_category_title_crash_reports">របាយការណ៍​សាច់​ប្រាក់</string>
+    <string name="pref_enable_acra">អនុញ្ញាតិ​ផ្ញើ​របាយការណ៍​សាច់​ប្រាក់​ដោយ​ស្វ័យ​ប្រវត្តិ</string>
+    <string name="pref_acra_user_email">អ៊ីម៉ែល​អ្នក​ប្រើ​ប្រាស់ ត្រូវ​បាន​ដាក់បញ្ចូល​ក្នុង របាយការណ៍​ជាប់គាំង</string>
+    <string name="pref_acra_user_email_summary">សូម​វាយ​បញ្ចូល​ អ៊ីម៉ែល​របស់​អ្នក បើ​អ្នក​ចង់​ជួយ ស្វែង​រកកំហុស​ឆ្គង និង​អនុញ្ញាតិ​អោយ​យើង​ខ្ញុំ​ទាក់ទង​ទៅ​អ្នក។</string>
 </resources>

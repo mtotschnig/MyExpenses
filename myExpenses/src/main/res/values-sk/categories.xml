@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources, InconsistentArrays">
+    <!-- Main category -->
+    <string name="Main_1">Iný príjem</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_1">Dávka v nezamestnanosti</string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_1">Darčeky</string>
+    <!-- Main category -->
+    <string name="Main_6">Jedlo</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_5">Obchod s potravinami</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_6">Reštaurácia</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_1">Jedlo</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_1">Automobil</string>
+    <!-- Main category -->
+    <string name="Main_9">Automobil</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_1">Palivo</string>
+    <!-- Main category -->
+    <string name="Main_10">Darčeky</string>
+    <!-- Main category -->
+    <string name="Main_21">Doprava</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_2">Metro</string>
+    </resources>

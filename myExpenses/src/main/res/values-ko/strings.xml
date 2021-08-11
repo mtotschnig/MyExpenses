@@ -278,7 +278,6 @@
     <string name="pref_import_summary">%s 파일에서 거래 내역, 카테고리, 구성원 가져오기</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">%s 가져오기</string>
-    <string name="pref_like_facebook_title">페이스북에서 좋아요 누르기</string>
     <string name="pref_manage_accounts_title">계좌</string>
     <string name="pref_manage_categories_summary">카테고리를 추가, 편집, 삭제합니다.</string>
     <string name="pref_manage_categories_title">카테고리</string>
@@ -333,7 +332,6 @@
     <string name="restore_db_success">데이터베이스를 백업으로부터 복원했습니다.</string>
     <string name="restore_no_backup_found">백업 파일을 찾을 수 없습니다.</string>
     <string name="restore_preferences_failure">설정값 복원에 실패했습니다</string>
-    <string name="restore_backup_archive_not_valid">%1$s 압축 파일은 올바르지 않습니다.</string>
     <string name="restore_backup_file_not_found">%1$s 파일을 압축 파일 \"%2$s\"에서 찾을 수 없습니다</string>
     <string name="restore_preferences_success">설정값이 백업 파일으로부터 복원되었습니다.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d 재무 계획이 백업 파일으로부터 복원되었습니다.</string>
@@ -400,10 +398,9 @@
     <string name="warning_reset_account_all">계속 진행하면, 모든 계좌의%1$s 거래 내역은 데이터베이스에서 삭제되며 복원할 수 없습니다.</string>
     <string name="warning_reset_account_matched">계속 진행하면, 현재의 필터와 일치하는 거래 내역은 데이터베이스에서 삭제되며 복원할 수 없습니다.</string>
     <string name="warning_restore">데이터베이스와 설정값은 \"%1$s\" 파일로부터 복원될 것입니다. 현재의 데이터는 삭제됩니다.</string>
-    <string name="warning_app_folder_will_be_deleted_upon_uninstall">{app_name} 앱을 제거하게 되면 백업과 내보내기를 위해 선택된 현재의 폴더는 자동적으로 삭제됩니다. 설정 화면에서 다른 폴더를 선택하여 이것을 예방할 수 있습니다.</string>
     <string name="warning_splitpartcategory_context">분할 거래의 일부분인 이체 내역은 분할 거래의 맥락에서만 편집될 수 있습니다.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">%1$d과 %2$d 사이의 숫자를 설정하세요</string>
-    <string name="import_categories_success">%1$s 카테고리를 성공적으로 가져왔습니다</string>
+    <string name="import_categories_success">%1$d 카테고리를 성공적으로 가져왔습니다</string>
     <string name="import_parties_success">%1$s 구성원을 성공적으로 가져왔습니다</string>
     <string name="import_accounts_success">%1$s 계좌를 성공적으로 가져왔습니다</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d 거래 내역을 %2$s 계좌로 성공적으로 가져왔습니다</string>
@@ -510,4 +507,11 @@
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">기능들</string>
     <string name="pref_translation_title">번역</string>
+    <string name="crash_reports_user_info">{app_name}는 앱 충돌 오류와 관련된 보고서를 개발자에게 자동으로 전송해서 문제를 빨리 해결할 수 있도록 합니다.</string>
+    <string name="pref_category_title_crash_reports">충돌 오류 보고서</string>
+    <string name="pref_enable_acra">충돌 오류 보고서를 자동으로 전송하기</string>
+    <string name="pref_acra_user_email">충돌 오류 보고서에 사용자 이메일 포함</string>
+    <string name="pref_acra_user_email_summary">만약 디버그를 도와주시거나 연락을 받고 싶으시면 이메일 주소를 입력해주세요.</string>
+    <string name="new_version">새 버전</string>
+    <string name="pref_news_title">뉴스</string>
 </resources>

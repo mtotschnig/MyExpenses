@@ -1,0 +1,48 @@
+---
+lang: en
+---
+{% assign msg = site.data[page.lang][page.lang] %}{% assign placeholder = '{app_name}' %}{{t.store.full_description_intro | replace:placeholder, site.title[page.lang]}}
+
+- {{t.features.manage_accounts | strip_html}}
+- {{t.features.plans | strip_html}}
+- {{t.features.export | strip_html}}
+- {{t.features.password | strip_html}}
+- {{t.features.light_theme | strip_html}}
+- {{t.features.reconciliation | strip_html}}
+- {{t.features.homescreen | strip_html}}
+
+{{t.store.full_description_contrib}}
+
+{{t.contrib-key}}
+
+- {{t.contrib.feature.ad_free | strip_html}}
+- {{t.contrib.feature.accounts_unlimited | strip_html}}
+- {{t.contrib.feature.plans_unlimited | strip_html}}
+- {{t.contrib.feature.distribution | strip_html}}
+- {{t.contrib.feature.split_transaction | strip_html}}
+- {{t.contrib.feature.print | strip_html}}
+- {{t.contrib.feature.attach_picture | strip_html}}
+
+{{t.extended-key}}
+
+- {{t.all_contrib_key_features | strip_html}}
+- {{t.contrib.feature.cloud_sync | strip_html}}  {{site.extra.cloud_sync}}
+- {{t.contrib.feature.auto_backup | strip_html}}
+- {{t.contrib.feature.csv_import | strip_html}}
+
+{{t.professional-key}}
+
+- {{t.all_extended_key_features | strip_html}}
+- {{t.contrib.feature.budgeting | strip_html}}
+- {{t.contrib.feature.history_chart | strip_html}}
+- {{t.contrib.feature.scan_receipt | strip_html}}
+- {{t.contrib.feature.webui | strip_html}}
+- {{t.contrib.feature.split_template | strip_html}}
+- {{t.contrib.feature.email_support | strip_html}}
+- {{t.contrib.feature.roadmap_voting | strip_html}}
+
+{{t.permissions.heading | replace:placeholder, site.title[page.lang] | strip_html}}:
+- {{t.permissions.calendar.label}}: {{t.permissions.calendar.explanation}}
+- {{t.permissions.external-storage.label}}: {{t.permissions.external-storage.explanation}}
+- {{t.permissions.internet.label}}: {{t.permissions.internet.explanation_usage_tracking}}, {{t.permissions.internet.explanation_crash_reporting}}, {{t.permissions.internet.explanation_cloud_sync}}.
+- {{t.permissions.accounts.label}}: {{t.permissions.accounts.explanation}}

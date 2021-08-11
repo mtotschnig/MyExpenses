@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -12,8 +13,7 @@
   
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+ --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">الحساب</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">أنواع الحسابات</string>
@@ -316,7 +316,6 @@
     <string name="pref_import_summary">استيراد العمليات والتصنيفات والحفلات من الملف %s</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">استيراد %s</string>
-    <string name="pref_like_facebook_title">الإعجاب بصفحتنا في الفيسبوك</string>
     <string name="pref_manage_accounts_title">الحسابات</string>
     <string name="pref_manage_categories_summary">إضافة، تعديل، حذف التصنيفات.</string>
     <string name="pref_manage_categories_title">التصنيفات</string>
@@ -375,7 +374,6 @@
     <string name="restore_db_success">تم استعادة قاعدة البيانات من النسخة الاحتياطية.</string>
     <string name="restore_no_backup_found">لا يوجد نسخة احتياطية.</string>
     <string name="restore_preferences_failure">فشلت عملية استعادة التفضيلات.</string>
-    <string name="restore_backup_archive_not_valid">الأرشيف %1$s غير صالح</string>
     <string name="restore_backup_file_not_found">لم يتم إيجاد الملف %1$s في أرشيف \"%2$s\"</string>
     <string name="restore_preferences_success">تم استعادة التفضيلات من النسخة الاحتياطية.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d خطط تم استعادتها من النسخة الإحتياطية</string>
@@ -476,7 +474,6 @@
     <string name="warning_reset_account_all">إذا قمت بالمتابعة ، كل الحسابات والعمليات%1$s سيتم حذفها من قاعدة البيانات ولا يمكنك استرجاعها لاحقاً.</string>
     <string name="warning_reset_account_matched">إذا تابعت، فسيتم حذف المعاملات المطابقة بواسطة عامل التصفية الحالي من قاعدة البيانات ولا يمكن استعادتها.</string>
     <string name="warning_restore">سيتم استرجاع قاعدة البيانات والتفضيلات من النسخة احتياطية %1$s. سيتم حذف البيانات الحالية.</string>
-    <string name="warning_app_folder_will_be_deleted_upon_uninstall">سيتم حذف المجلد المحدد حالياً للنسخ الاحتياطية والتصدير تلقائياً بواسطة Android إذا قمت بإلغاء تثبيت {app_name}. يمكنك منع حدوث ذلك عن طريق تحديد مجلد مختلف من شاشة الإعدادات.</string>
     <string name="warning_splitpartcategory_context">لا يمكن تعديل أو حذف التحويلات التي تكون جزء من تقسيم إلا إذا كانت في سياق التقسيم.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">يُرجى تعيين رقم بين %1$d و%2$d</string>
     <string name="warning_change_fraction_digits_1">يجب تحديث المبالغ الموجودة في قاعدة البيانات لمطابقة العدد الجديد لأرقام الكسور.</string>
@@ -484,7 +481,7 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">إذا لم يتم تحديث المبالغ، فسيتم عرضها على أنها مقسومة على %d بعد التغيير.</string>
     <string name="warning_change_fraction_digits_3">إذا تم تحديث المبالغ، فستفقد المعلومات حول الجزء الكسري.</string>
     <string name="warning_change_fraction_digits_checkbox_label">تحديث المبالغ في قاعدة البيانات</string>
-    <string name="import_categories_success">تم استيراد %1$s فئات بنجاح</string>
+    <string name="import_categories_success">تم استيراد %1$d فئات بنجاح</string>
     <string name="import_parties_success">تم استيراد %1$s أطراف بنجاح</string>
     <string name="import_accounts_success">تم استيراد %1$s من الحسابات بنجاح</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">تم استيراد %1$d معاملة بنجاح إلى الحساب %2$s</string>
@@ -656,7 +653,6 @@
     <string name="upgrade_now">ترقية</string>
     <string name="pref_backup_cloud_title">تخزين في خلفية المزامنة</string>
     <string name="pref_backup_cloud_summary">بالإضافة إلى التخزين المحلي على الجهاز، يمكن نسخ ملف النسخ الاحتياطي إلى خلفية بعيدة.</string>
-    <string name="auto_backup_cloud_create_backend">قم بإنشاء خلفية مزامنة من شاشة الإعدادات الرئيسية.</string>
     <string name="auto_backup_cloud_failure">حدث خطأ أثناء محاولة تخزين ملف النسخ الاحتياطي %1$s على الواجهة الخلفية %2$s:</string>
     <string name="auto_backup_cloud_success">تم تخزين ملف النسخ الاحتياطي %1$s بنجاح على الواجهة الخلفية %2$s.</string>
     <string name="home_screen_shortcuts_nougate_info">يمكن إضافة إختصار عن طريق الضغط الطويل على الايقونة في الشاشة الرئيسية</string>
@@ -740,7 +736,7 @@
     <string name="pref_protection_device_lock_screen_title">شاشة قفل الجهاز</string>
     <string name="pref_warning_only_one_protection">قبل أن تتمكن من استخدام الحماية بنسبة %1$s، يجب إيقاف تشغيل الحماية بنسبة %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">لم يتم إعداد شاشة تأمين الجهاز الآمن.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">انتقل إلى \"الإعدادات -> الأمان -> قفل الشاشة\" لإعداد شاشة القفل.</string>
+    <string name="warning_device_lock_screen_not_set_up_2">انتقل إلى \"الإعدادات -&gt; الأمان -&gt; قفل الشاشة\" لإعداد شاشة القفل.</string>
     <string name="menu_history_show_balance">إظهار الرصيد</string>
     <string name="menu_history_transfers">تضمين التحويلات</string>
     <string name="menu_history">السجل</string>
@@ -1017,4 +1013,15 @@
     <string name="pref_group_header_show_details_summary"> إظهار المجموع التفصيلي في ترويسة المجموعة</string>
     <!-- Title of a menu item and a dialogue that allow to adjust the current balance. User can enter the new balance, and transaction form is opened with the amount prefiled to the difference between old and new balance  -->
     <string name="new_balance">الرصيد الجديد</string>
-    </resources>
+    <string name="crash_reports_user_info">{app_name} سوف يرسل تقرير عن فشل التطبيق بشكل تلقائي للمبرمجين, هذا سيسمح لهم بإصلاح المشاكل بسرعة أكبر.</string>
+    <string name="pref_category_title_crash_reports">تقارير لمشاكل التطبيق</string>
+    <string name="pref_enable_acra">السماح بالإرسال التلقائي لتقارير الأعطال</string>
+    <string name="pref_acra_user_email">بريد المستخدم ليتم إدراجه في تقرير المشكلة </string>
+    <string name="pref_acra_user_email_summary">رجاءاً أدخل بريدك الإلكتروني إذا كنت ترغب بالمساعدة</string>
+    <string name="ui_refinement">صقل واجهة المستخدم</string>
+    <string name="bug_fixes">إصلاح الأخطاء</string>
+    <string name="performance_enhancement">تحسينات علي الأداء</string>
+    <string name="stability_improvements">رفع مستوي ثبات البرنامج</string>
+    <string name="new_version">الإصدار الجديد</string>
+    <string name="pref_news_title">الأخبار</string>
+</resources>

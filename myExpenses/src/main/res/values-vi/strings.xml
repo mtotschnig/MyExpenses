@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -12,8 +13,7 @@
   
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+ --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">Tài khoản</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">Loại tài khoản</string>
@@ -295,7 +295,6 @@
     <string name="pref_import_summary">Nhập các giao dich, danh mục và người giao dịch từ tập tin %s</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">Nhập từ %s</string>
-    <string name="pref_like_facebook_title">\"Thích\" chúng tôi trên Facebook</string>
     <string name="pref_manage_accounts_title">Tài khoản</string>
     <string name="pref_manage_categories_summary">Thêm, chỉnh sửa, xóa phân loại.</string>
     <string name="pref_manage_categories_title">Phân loại</string>
@@ -354,7 +353,6 @@
     <string name="restore_db_success">Cơ sở dữ liệu đã được phục hồi từ phần sao lưu</string>
     <string name="restore_no_backup_found">Không tìm thấy bản sao lưu nào.</string>
     <string name="restore_preferences_failure">Xảy ra lỗi khi khôi phục phần tùy biến</string>
-    <string name="restore_backup_archive_not_valid">Bản lưu trữ %1$s không hợp lệ</string>
     <string name="restore_backup_file_not_found">Không tìm thấy tập tin %1$s trong tập lưu trữ \"%2$s\"</string>
     <string name="restore_preferences_success">Tùy biến đã được phục hồi từ phần sao lưu.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d kế hoạch đã được khôi phục từ bản sao lưu</string>
@@ -423,7 +421,6 @@
     <string name="warning_reset_account_all">Tất cả giao dịch của tài khoản%1$s này sẽ được xuất trong tập tin %1$s trên thẻ nhớ và bị xóa. Bạn có thực sự muốn tiếp tục?</string>
     <string name="warning_reset_account_matched">Nếu bạn tiếp tục, các giao dịch nằm trong bộ lọc hiện tại sẽ bị xoá khỏi cơ sở dữ liệu và không thể khôi phục.</string>
     <string name="warning_restore">Cơ sở dữ liệu và tùy biến sẽ được phục hồi từ thẻ nhớ (%1$s). Dữ liệu hiện tại sẽ bị xóa.</string>
-    <string name="warning_app_folder_will_be_deleted_upon_uninstall">Thư mục đang được chọn để chứa các bản sao lưu và xuất ra sẽ bị xoá bởi Android nếu bạn gỡ cài đặt {app_name}. Bạn có thể ngăn chặn điều này bằng cách chọn một thư mục chứa khác từ màn hình cài đặt.</string>
     <string name="warning_splitpartcategory_context">Các giao dịch chuyển khoản mà là một phần của giao dịch phân tách có thể được chỉnh sửa và trong phần chỉnh sửa của phần tách.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Vui lòng chọn một số trong khoảng %1$d và %2$d</string>
     <string name="warning_change_fraction_digits_1">Số tiền trong cơ sở dữ liệu cần được cập nhật để khớp với số lượng các chữ số thập phân.</string>
@@ -431,7 +428,7 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Nếu số tiền không được cập nhật, nó sẽ được hiển thị dưới dạng được chia đi %d lần sau khi thay đổi.</string>
     <string name="warning_change_fraction_digits_3">Nếu số tiền được cập nhật, bạn sẽ mất các thông tin về phần thập phân của số tiền các giao dịch đó.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Cập nhật các số tiền</string>
-    <string name="import_categories_success">%1$s phân loại đã được nhập dữ liệu thành công</string>
+    <string name="import_categories_success">%1$d phân loại đã được nhập dữ liệu thành công</string>
     <string name="import_parties_success">%1$s nhóm đã được nhập dữ liệu thành công</string>
     <string name="import_accounts_success">%1$s tài khoản đã được nhập thành công</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d giao dịch đã được nhập vào tài khoản %2$s</string>
@@ -600,7 +597,6 @@
     <string name="all_extended_key_features">Tất cả tính năng trong bản Mở rộng</string>
     <string name="pref_backup_cloud_title">Lưu trữ trên backend đồng bộ</string>
     <string name="pref_backup_cloud_summary">Cùng với bộ nhớ lưu trữ trên máy, tập tin sao lưu cũng có thể được sao chép tới một backend từ xa.</string>
-    <string name="auto_backup_cloud_create_backend">Tạo một backend đồng bộ từ màn hình cài đặt chính.</string>
     <string name="auto_backup_cloud_failure">Một lỗi đã xảy ra khi đang thử lưu tập tin sao lưu %1$s trên backend %2$s:</string>
     <string name="home_screen_shortcuts_nougate_info">Lối tắt có thể được thêm bằng cách nhấn giữ biểu tượng ứng dụng trên Màn hình chính.</string>
     <string name="currency_symbol">Ký hiệu tiền tệ</string>
@@ -767,4 +763,12 @@
     <string name="pref_category_title_features">Tính năng</string>
     <string name="button_download">Tải xuống</string>
     <string name="menu_save_and_new_content_description">Lưu dữ liệu, để trạng thái mở cho mẫu đơn để tạo một giao dịch mới với cùng dữ liệu.</string>
-    </resources>
+    <string name="crash_reports_user_info">{app_name} sẽ tự động gửi báo cáo về những lần ứng dụng bị lỗi tới nhà phát triển của nó, việc này sẽ giúp họ sửa chữa lỗi nhanh hơn.</string>
+    <string name="pref_category_title_crash_reports">Báo cáo lỗi</string>
+    <string name="pref_enable_acra">Cho phép tự động gửi báo cáo lỗi</string>
+    <string name="pref_acra_user_email">Bao gồm email người dùng trong báo cáo lỗi</string>
+    <string name="pref_acra_user_email_summary">Vui lòng nhập email của bạn nếu bạn có ý định giúp chúng tôi gỡ lỗi và liên hệ với bạn</string>
+    <string name="stability_improvements">Cải thiện độ ổn định</string>
+    <string name="new_version">Phiên bản mới</string>
+    <string name="pref_news_title">Tin tức</string>
+</resources>

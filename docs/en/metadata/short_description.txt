@@ -1,0 +1,4 @@
+---
+lang: en
+---
+{% assign msg = site.data[page.lang][page.lang] %}{{msg.store.short_description}}

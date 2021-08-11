@@ -304,7 +304,6 @@
     <string name="pref_import_summary">Muameleleri, kategorileri ve parçaları %s dosyasından içe aktar</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">%s içe aktar</string>
-    <string name="pref_like_facebook_title">Bizi Facebook\'ta beğenin</string>
     <string name="pref_manage_accounts_title">Hesaplar</string>
     <string name="pref_manage_categories_summary">Kategori ekle, düzenle ve sil.</string>
     <string name="pref_manage_categories_title">Kategoriler</string>
@@ -363,7 +362,6 @@
     <string name="restore_db_success">Veri tabanı yedekten geri yüklendi.</string>
     <string name="restore_no_backup_found">Yedek bulunamadı.</string>
     <string name="restore_preferences_failure">Tercihlerin yüklenmesi başarısız oldu</string>
-    <string name="restore_backup_archive_not_valid">%1$s arşivi geçerli bir arşiv değildir</string>
     <string name="restore_backup_file_not_found">\"%2$s\" arşivinde %1$s dosyası bulunamadı</string>
     <string name="restore_preferences_success">Tercihler yedeklemeden restore edilmiştir.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">Yedeklemeden %d planlama geri alınmıştır</string>
@@ -440,7 +438,6 @@
     <string name="warning_reset_account_all">Devam ederseniz, tüm hesaplar%1$s için işlemler veri tabanından silinecek ve geri yüklenemeyecektir.</string>
     <string name="warning_reset_account_matched">Devam ederseniz, geçerli filtre ile eşleşen işlemler veri tabanından silinecek ve geri yüklenemeyecektir.</string>
     <string name="warning_restore">Veri tabanı ve tercihler \"%1$s\" dosyasından geri yüklenecek. Mevcut veriler silinecek.</string>
-    <string name="warning_app_folder_will_be_deleted_upon_uninstall">Eğer {app_name}\'ı kaldırırsanız şu anda seçili olan dışa aktarmalar ve yedeklemeler klasörü Android tarafından otomatik olarak silinecektir. Buna mani olmak için Ayarlar ekranından başka bir klasör seçebilirsiniz.</string>
     <string name="warning_splitpartcategory_context">Bölünmüş muamelelerin bir parçası olan transferler sadece bu bölünmüş muamele bağlamında düzenlenebilirler.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">%1$d ilâ %2$d arası bir sayı ayarlayınız</string>
     <string name="warning_change_fraction_digits_1">Yeni kesir basamak sayısıyla eşleşmesi için veri tabanındaki meblağların güncellenmesi gerekmektedir.</string>
@@ -448,7 +445,7 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Eğer meblağlar güncellenmezse, değişiklikten sonra %d ile bölünmüş olarak gösterileceklerdir.</string>
     <string name="warning_change_fraction_digits_3">Eğer meblağlar güncellenirse, onların kesirli bölümü hakkında bilgi kaybedersiniz.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Veri tabanındaki meblağları güncelle</string>
-    <string name="import_categories_success">%1$s kategori başarıyla içe aktarıldı</string>
+    <string name="import_categories_success">%1$d kategori başarıyla içe aktarıldı</string>
     <string name="import_parties_success">%1$s bölüm başarıyla içe aktarıldı</string>
     <string name="import_accounts_success">%1$s hesap başarılı bir şekilde içe aktarıldı</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d muamele başarılı bir şekilde %2$s hesabına aktarıldı</string>
@@ -621,7 +618,6 @@
     <string name="upgrade_now">Yükselt</string>
     <string name="pref_backup_cloud_title">Eşleşme arka ucunda sakla</string>
     <string name="pref_backup_cloud_summary">Cihazdaki yerel stoklamaya ek olarak, yedekleme dosyası uzaktaki bir arka uca kopyalanabilir.</string>
-    <string name="auto_backup_cloud_create_backend">Ana ayarlar ekranından bir eşleşme arka ucu oluştur.</string>
     <string name="auto_backup_cloud_failure">%1$s dosyasının %2$s arka ucuna kaydedilmesi sırasında bir hata meydana geldi:</string>
     <string name="auto_backup_cloud_success">%1$s yedekleme dosyası başarılı bir şekilde %2$s arka ucunda kaydedildi.</string>
     <string name="home_screen_shortcuts_nougate_info">Kısayollar ana ekrandaki uygulama ikonuna uzunca dokunarak eklenebilir.</string>
@@ -993,4 +989,16 @@
     <!-- This warning is shown when a user calls the Reset or Cancel commands on a scheduled transaction, for a date
      where the transaction has already been created.  -->
     <string name="warning_plan_instance_delete">Seçili tarih için oluşturulmuş muamele silinecektir.</string>
+    <string name="crash_reports_user_info">{app_name}, geliştiricilerine problemleri daha çabuk gidermelerine yardımcı olacak uygulama çökmeleri hakkında rapor gönderecektir.</string>
+    <string name="pref_category_title_crash_reports">Çökme raporları</string>
+    <string name="pref_enable_acra">Çökme raporlarının otomatik olarak gönderilmelerine izin ver</string>
+    <string name="pref_acra_user_email">Kullanıcı e-postası çökme raporlarına dahil edilecek</string>
+    <string name="pref_acra_user_email_summary">Hata ayıklamaya yardım etmek ve sizinle irtibata geçmemize izin vermek istiyorsanız e-posta adresinizi giriniz.</string>
+    <string name="ui_refinement">Kullanıcı arayüzü iyileştirildi</string>
+    <string name="bug_fixes">Hata düzeltmeleri</string>
+    <string name="performance_enhancement">Performans arttırıldı</string>
+    <string name="stability_improvements">Kararlılık geliştirmeleri</string>
+    <string name="backup_save_to_sync_backend">%s\'a kaydet</string>
+    <string name="new_version">Yeni sürüm</string>
+    <string name="pref_news_title">Haberler</string>
 </resources>

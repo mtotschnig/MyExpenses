@@ -32,17 +32,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="Github"
-        app:layout_constraintEnd_toStartOf="@id/versionInfoFacebook"
+        app:layout_constraintEnd_toStartOf="@id/versionInfo"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_github" />
 
     <ImageView
-        android:id="@+id/versionInfoFacebook"
+        android:id="@+id/versionInfo"
         style="?actionButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="Facebook"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_facebook" />
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

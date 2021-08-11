@@ -304,7 +304,8 @@
     <string name="pref_import_summary">Import transactions, categories and parties from %s file</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">%s import</string>
-    <string name="pref_like_facebook_title">Like us on Facebook</string>
+    <!-- Title of an entry on the Preferences Screen, that links to the My Expenses page on Mastodon, where news about new releases is published -->
+    <string name="pref_news_title">News</string>
     <string name="pref_manage_accounts_title">Accounts</string>
     <string name="pref_manage_categories_summary">Add, edit, delete categories.</string>
     <string name="pref_manage_categories_title">Categories</string>
@@ -363,7 +364,6 @@
     <string name="restore_db_success">Database has been restored from backup.</string>
     <string name="restore_no_backup_found">No backup found.</string>
     <string name="restore_preferences_failure">Preferences restore failed</string>
-    <string name="restore_backup_archive_not_valid">Archive %1$s is not valid</string>
     <string name="restore_backup_file_not_found">No file %1$s found in archive \"%2$s\"</string>
     <string name="restore_preferences_success">Preferences have been restored from backup.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d plans have been restored from backup</string>
@@ -440,7 +440,6 @@
     <string name="warning_reset_account_all">If you proceed, for all accounts%1$s, transactions will be deleted from the database and cannot be restored.</string>
     <string name="warning_reset_account_matched">If you proceed, transactions matched by the current filter will be deleted from the database and cannot be restored.</string>
     <string name="warning_restore">Database and preferences will be restored from file \"%1$s\". The current data will be deleted.</string>
-    <string name="warning_app_folder_will_be_deleted_upon_uninstall">The currently selected folder for backups and exports will be automatically deleted by Android if you uninstall {app_name}. You can prevent this from happening by selecting a different folder from the Settings screen.</string>
     <string name="warning_splitpartcategory_context">Transfers that are part of a split can only be edited in the context of the split.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Please set a number between %1$d and %2$d</string>
     <string name="warning_change_fraction_digits_1">Amounts in the database need to be updated in order to match the new number of fraction digits.</string>
@@ -448,7 +447,7 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">If amounts are not updated, they will be displayed as divided by %d after the change.</string>
     <string name="warning_change_fraction_digits_3">If amounts are updated, you will lose the information about their fractional part.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Update amounts in database</string>
-    <string name="import_categories_success">%1$s categories successfully imported</string>
+    <string name="import_categories_success">%1$d categories successfully imported</string>
     <string name="import_parties_success">%1$s parties successfully imported</string>
     <string name="import_accounts_success">%1$s accounts successfully imported</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transactions successfully imported into account %2$s</string>
@@ -621,7 +620,6 @@
     <string name="upgrade_now">Upgrade</string>
     <string name="pref_backup_cloud_title">Store on synchronization backend</string>
     <string name="pref_backup_cloud_summary">In addition to local storage on the device, the backup file can be copied to a remote backend.</string>
-    <string name="auto_backup_cloud_create_backend">Create a synchronization backend from the main settings screen.</string>
     <string name="auto_backup_cloud_failure">An error occurred while trying to store backup file %1$s on backend %2$s:</string>
     <string name="auto_backup_cloud_success">Backup file %1$s has been successfully stored on backend %2$s.</string>
     <string name="home_screen_shortcuts_nougate_info">Shortcuts can be added by long-tapping the app icon on the Home Screen.</string>
@@ -993,4 +991,19 @@
     <!-- This warning is shown when a user calls the Reset or Cancel commands on a scheduled transaction, for a date
      where the transaction has already been created.  -->
     <string name="warning_plan_instance_delete">The transaction created for the selected date will be deleted.</string>
+    <string name="crash_reports_user_info">{app_name} will send reports about application crashes automatically to its developers, which allows them to fix problems more quickly.</string>
+    <string name="pref_category_title_crash_reports">Crash reports</string>
+    <string name="pref_enable_acra">Allow automatic sending of crash reports</string>
+    <string name="pref_acra_user_email">User email to be included in crash report</string>
+    <string name="pref_acra_user_email_summary">Please enter your email address if you are willing to help debugging and allow us to contact you.</string>
+    <string name="backup_save_to_sync_backend">Save to %s</string>
+    <!-- This is used on a recurring basis in Changelog entries -->
+    <string name="ui_refinement">Refinement of the user interface</string>
+    <!-- This is used on a recurring basis in Changelog entries -->
+    <string name="bug_fixes">Bug fixes</string>
+    <!-- This is used on a recurring basis in Changelog entries -->
+    <string name="performance_enhancement">Performance enhancement</string>
+    <!-- This is used on a recurring basis in Changelog entries -->
+    <string name="stability_improvements">Stability improvements</string>
+    <string name="new_version">New version</string>
 </resources>

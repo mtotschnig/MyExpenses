@@ -1,195 +1,261 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources tools:ignore="UnusedResources, InconsistentArrays" xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources, InconsistentArrays">
+    <!-- Main category -->
     <string name="Main_1">Egyéb bevétel</string>
-    <!-- Subcategories under "Other income" -->
-    <string-array name="Sub_1">
-        <item>Munkanélküli segély</item>
-        <item>Családi pótlék</item>
-        <item>Adójóváírás</item>
-        <item>Szerencsejáték</item>
-        <item>Életbiztosítás</item>
-        <item>Társadalombiztosítás</item>
-    </string-array>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_1">Munkanélküli segély</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_2">Családi pótlék</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_3">Adójóváírás</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_4">Szerencsejáték</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_5">Életbiztosítás</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_6">Társadalombiztosítás</string>
+    <!-- Main category -->
     <string name="Main_2">Nyugdíj-hozzájárulás</string>
-    <!-- Subcategories under "Retirement" -->
-    <string-array name="Sub_2">
-        <item>Nyugdíjalap</item>
-        <item>Nyugdíj</item>
-        <item>Nyugdíj-kiegészítés</item>
-    </string-array>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_1">Nyugdíjalap</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_2">Nyugdíj</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_3">Nyugdíj-kiegészítés</string>
+    <!-- Main category -->
     <string name="Main_3">Befektetésből származó bevétel</string>
-    <!-- Subcategories under "Investment income" -->
-    <string-array name="Sub_3">
-        <item>Osztalék</item>
-        <item>Kamat</item>
-        <item>Tőkeemelés</item>
-    </string-array>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_1">Osztalék</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_2">Kamat</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_3">Tőkeemelés</string>
+    <!-- Main category -->
     <string name="Main_4">Fizetés</string>
-    <!-- Subcategories under "Salary" -->
-    <string-array name="Sub_4">
-        <item>Túlóra</item>
-        <item>Végkielégítés</item>
-        <item>Egyéb prémium</item>
-        <item>Sikerdíj</item>
-        <item>Nettó jövedelem</item>
-    </string-array>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_1">Túlóra</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_2">Végkielégítés</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_3">Egyéb prémium</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_4">Sikerdíj</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_5">Nettó jövedelem</string>
+    <!-- Main category -->
     <string name="Main_5">Egyéb bevétel</string>
-    <!-- Subcategories under "Misc. income" -->
-    <string-array name="Sub_5">
-        <item>Ajándék</item>
-        <item>Visszatérítés</item>
-        <item>Eladott cuccok (használt, vatera, stb.)</item>
-    </string-array>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_1">Ajándék</string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_2">Visszatérítés</string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_3">Eladott cuccok (használt, vatera, stb.)</string>
+    <!-- Main category -->
     <string name="Main_6">Étel</string>
-    <!-- Subcategories under "Food" -->
-    <string-array name="Sub_6">
-        <item>Kocsma</item>
-        <item>Pékség</item>
-        <item>Kantin</item>
-        <item>Édesség</item>
-        <item>Élelmiszer</item>
-        <item>Étterem</item>
-        <item>Önkiszolgáló</item>
-        <item>Közért</item>
-    </string-array>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_1">Kocsma</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_2">Pékség</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_3">Kantin</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_4">Édesség</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_5">Élelmiszer</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_6">Étterem</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_7">Önkiszolgáló</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_8">Közért</string>
+    <!-- Main category -->
     <string name="Main_7">Háziállat</string>
-    <!-- Subcategories under "Pets" -->
-    <string-array name="Sub_7">
-        <item>Étel</item>
-        <item>Egyéb szükségletek</item>
-        <item>Ápolás/ellátás</item>
-        <item>Állatorvos</item>
-    </string-array>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_1">Étel</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_2">Egyéb szükségletek</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_3">Ápolás/ellátás</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_4">Állatorvos</string>
+    <!-- Main category -->
     <string name="Main_8">Biztosítás</string>
-    <!-- Subcategories under "Insurance" -->
-    <string-array name="Sub_8">
-        <item>Autó</item>
-        <item>Egészség</item>
-        <item>Ház/lakás</item>
-        <item>Civil kezdeményezések</item>
-        <item>Élet</item>
-    </string-array>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_1">Autó</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_2">Egészség</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_3">Ház/lakás</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_4">Civil kezdeményezések</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_5">Élet</string>
+    <!-- Main category -->
     <string name="Main_9">Autó</string>
-    <!-- Subcategories under "Car" -->
-    <string-array name="Sub_9">
-        <item>Üzemanyag</item>
-        <item>Szervíz/javítás</item>
-        <item>Karbantartás</item>
-        <item>Parkolás</item>
-        <item>Büntetés</item>
-    </string-array>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_1">Üzemanyag</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_2">Szervíz/javítás</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_3">Karbantartás</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_4">Parkolás</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_5">Büntetés</string>
+    <!-- Main category -->
     <string name="Main_10">Ajándék</string>
+    <!-- Main category -->
     <string name="Main_11">Gyerek</string>
-    <!-- Subcategories under "Children" -->
-    <string-array name="Sub_11">
-        <item>Betegápolás</item>
-        <item>Tanulmányok</item>
-    </string-array>
+    <!-- Subcategory under "Children" -->
+    <string name="Sub_11_1">Betegápolás</string>
+    <!-- Subcategory under "Children" -->
+    <string name="Sub_11_2">Tanulmányok</string>
+    <!-- Main category -->
     <string name="Main_12">Tanulmányok</string>
-    <!-- Subcategories under "Studies" -->
-    <string-array name="Sub_12">
-        <item>Leckék/különórák</item>
-        <item>Iskolai költségek</item>
-        <item>Könyv</item>
-    </string-array>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_1">Leckék/különórák</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_2">Iskolai költségek</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_3">Könyv</string>
+    <!-- Main category -->
     <string name="Main_13">Pénzügyi költség</string>
-    <!-- Subcategories under "Financial expenses" -->
-    <string-array name="Sub_13">
-        <item>Banki díj</item>
-        <item>Hitel/Jelzálog</item>
-        <item>Díj</item>
-        <item>Visszatérítés</item>
-    </string-array>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_1">Banki díj</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_2">Hitel/Jelzálog</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_3">Díj</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_4">Visszatérítés</string>
+    <!-- Main category -->
     <string name="Main_14">Szakmai költség</string>
-    <!-- Subcategories under "Professional expenses" -->
-    <string-array name="Sub_14">
-        <item>Vissza nem térítendő</item>
-        <item>Visszatérítendő</item>
-    </string-array>
+    <!-- Subcategory under "Professional expenses" -->
+    <string name="Sub_14_1">Vissza nem térítendő</string>
+    <!-- Subcategory under "Professional expenses" -->
+    <string name="Sub_14_2">Visszatérítendő</string>
+    <!-- Main category -->
     <string name="Main_15">Adó</string>
-    <!-- Subcategories under "Taxes" -->
-    <string-array name="Sub_15">
-        <item>Jövedelemadó</item>
-        <item>Földadó</item>
-        <item>Forgalmi adó</item>
-    </string-array>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_1">Jövedelemadó</string>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_2">Földadó</string>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_3">Forgalmi adó</string>
+    <!-- Main category -->
     <string name="Main_16">Lakhatás</string>
-    <!-- Subcategories under "Housing" -->
-    <string-array name="Sub_16">
-        <item>Hotel</item>
-        <item>Bérlés</item>
-        <item>TV</item>
-        <item>Bútor</item>
-        <item>Díj</item>
-        <item>Fűtés</item>
-        <item>Dekoráció</item>
-        <item>Víz</item>
-        <item>Villany</item>
-        <item>Fehéráru (mosógép, hűtő, stb.)</item>
-        <item>Felszerelés</item>
-        <item>Gáz</item>
-        <item>Kert</item>
-        <item>Gondnok/kertész</item>
-        <item>Telefon</item>
-        <item>Mobil</item>
-    </string-array>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_1">Hotel</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_2">Bérlés</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_3">TV</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_4">Bútor</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_5">Díj</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_6">Fűtés</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_7">Dekoráció</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_8">Víz</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_9">Villany</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_10">Fehéráru (mosógép, hűtő, stb.)</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_11">Felszerelés</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_12">Gáz</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_13">Kert</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_14">Gondnok/kertész</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_15">Telefon</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_16">Mobil</string>
+    <!-- Main category -->
     <string name="Main_17">Szabadidő</string>
-    <!-- Subcategories under "Leisures" -->
-    <string-array name="Sub_17">
-        <item>Snooker</item>
-        <item>Bowling</item>
-        <item>Mozi</item>
-        <item>Night club</item>
-        <item>IT/számtech</item>
-        <item>Játék</item>
-        <item>Könyv</item>
-        <item>Park</item>
-        <item>Koncert</item>
-        <item>Sport</item>
-        <item>Video</item>
-        <item>Utazás</item>
-        <item>Felszerelés</item>
-        <item>Múzeum/Kiállítás</item>
-    </string-array>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_1">Snooker</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_2">Bowling</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_3">Mozi</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_4">Night club</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_5">IT/számtech</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_6">Játék</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_7">Könyv</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_8">Park</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_9">Koncert</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_10">Sport</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_11">Video</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_12">Utazás</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_13">Felszerelés</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_14">Múzeum/Kiállítás</string>
+    <!-- Main category -->
     <string name="Main_18">Hitel/Jelzálog</string>
-    <!-- Subcategories under "Loan/Mortgage" -->
-    <string-array name="Sub_18">
-        <item>Tőke</item>
-    </string-array>
+    <!-- Subcategory under "Loan/Mortgage" -->
+    <string name="Sub_18_1">Tőke</string>
+    <!-- Main category -->
     <string name="Main_19">Egészség</string>
-    <!-- Subcategories under "Health" -->
-    <string-array name="Sub_19">
-        <item>Biztosítás</item>
-        <item>Fogászat</item>
-        <item>Kórház</item>
-        <item>Kineziológus</item>
-        <item>Orvos</item>
-        <item>Szemész</item>
-        <item>Csontkovács</item>
-        <item>Chemist</item>
-        <item>Társadalombiztosítás</item>
-    </string-array>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_1">Biztosítás</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_2">Fogászat</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_3">Kórház</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_4">Kineziológus</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_5">Orvos</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_6">Szemész</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_7">Csontkovács</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_8">Chemist</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_9">Társadalombiztosítás</string>
+    <!-- Main category -->
     <string name="Main_20">Felügyelet</string>
-    <!-- Subcategories under "Care" -->
-    <string-array name="Sub_20">
-        <item>Fodrász</item>
-        <item>Öltözködés</item>
-    </string-array>
+    <!-- Subcategory under "Care" -->
+    <string name="Sub_20_1">Fodrász</string>
+    <!-- Subcategory under "Care" -->
+    <string name="Sub_20_2">Öltözködés</string>
+    <!-- Main category -->
     <string name="Main_21">Közlekedés</string>
-    <!-- Subcategories under "Transport" -->
-    <string-array name="Sub_21">
-        <item>Busz</item>
-        <item>Metro</item>
-        <item>Útdíj</item>
-        <item>Vonat</item>
-        <item>Villamos</item>
-        <item>Repülőgép</item>
-    </string-array>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_1">Busz</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_2">Metro</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_3">Útdíj</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_4">Vonat</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_5">Villamos</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_6">Repülőgép</string>
+    <!-- Main category -->
     <string name="Main_22">Szabadság</string>
-    <!-- Subcategories under "Holidays" -->
-    <string-array name="Sub_22">
-        <item>Lakhatás</item>
-        <item>Látogatások</item>
-        <item>Utazás</item>
-    </string-array>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_1">Lakhatás</string>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_2">Látogatások</string>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_3">Utazás</string>
 </resources>

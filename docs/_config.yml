@@ -1,0 +1,4237 @@
+markdown: kramdown
+include:
+  - .well-known
+sections:
+  - features
+  - premium
+  - participate
+  - versionlist
+  - credits
+  - licence
+  - sourcecode
+  - links
+features:
+  - group
+  - summarize
+  - budget
+  - split
+  - distribution
+  - history
+  - export
+  - sync
+contrib:
+  - accounts_unlimited
+  - distribution
+  - print
+  - plans_unlimited
+  - split_transaction
+  - attach_picture
+  - ad_free
+extended:
+  - csv_import
+  - auto_backup
+  - cloud_sync
+professional:
+  - split_template
+  - email_support
+  - roadmap_voting
+  - history_chart
+  - budgeting
+  - scan_receipt
+  - webui
+extra:
+  cloud_sync: "(Webdav, Dropbox, Google Drive)"
+extra_fdroid:
+  cloud_sync: "(Webdav, Dropbox)"
+title:
+  ar: مصروفاتي
+  en: My Expenses
+  fr: Mes dépenses
+  de: Meine Ausgaben
+  it: Le mie spese
+  es: Mis gastos
+  ca: Les Meves Despeses
+  tr: Harcamalarım
+  vi: Chi Tiêu Của Tôi
+  hu: Kiadásaim
+  zh-tw: 開支助手
+  zh-cn: 开支助手
+  pt: Minhas despesas
+  pl: Moje Wydatki
+  cs: Moje výdaje
+  ru: Мои расходы
+  ro: Cheltuielile Mele
+  ja: マイ エクスペンス
+  ms: Perbelanjaan Saya
+  hr: Moji troškovi
+  eu: Nire gastuak
+  da: Mine udgifter
+  bg: Моите разходи
+  el: Έξοδα μου
+  iw: ההוצאות שלי
+  uk: Мої Витрати
+  ta: எனது செலவுகள்
+  ko: 내 지출
+  kn: ಮೈ ಎಕ್ಸಪೆನ್ಸಸ್
+langs:
+  de: Deutsch
+  en: English
+  it: Italiano
+  fr: Français
+  pt: Português
+  es: Español
+  pl: Polski
+  ru: русский
+  ar: العربية
+  cs: Čeština
+  vi: Tiếng Việt
+  hu: Magyar
+  tr: Türkçe
+  zh-tw: 中文 (繁體)
+  zh-cn: 中文 (中国)
+  ca: Català
+  ro: Română
+  ja: 日本語
+  ms: Bahasa Melayu
+  hr: hrvatski
+  eu: euskara
+  da: Dansk
+  bg: български
+  el: Ελληνικά
+  iw: עברית
+  uk: українська
+  ta: தமிழ்
+  ko: 한국어
+  kn: ಕನ್ನಡ
+paypal-lc:
+  de: DE
+  en: US
+  it: IT
+  fr: FR
+  pt: pt_BR
+  es: ES
+  pl: PL
+  ru: RU
+  tr: tr_TR
+  zh-tw: zh_TW
+  ja: ja_JP
+  da: da_DK
+support-email: "support@myexpenses.mobi"
+amazon:
+  de: "www.amazon.de"
+  fr: "www.amazon.fr"
+  es: "www.amazon.es"
+  it: "www.amazon.it"
+  en: "www.amazon.com"
+  pt: "www.amazon.com.br"
+versions:
+  -
+    - 3.3.2
+    - "2021-06-15"
+    -
+      ar: |
+        الترجمة: التيلوغوية. العملة: صقل واجهة المستخدم.
+      bg: |
+        Превод: телугу. Валута: Подобрения в потребителския интерфейс.
+      de: |
+        Übersetzung: Telugu. Währung: Verfeinerung der Benutzeroberfläche.
+      es: |
+        Traducción: telugu. Moneda: Interfaz de usuario mejorada.
+      fr: |
+        Traduction: télougou. Devise: Raffinement de l'interface utilisateur.
+      it: |
+        Traduzione: telugu. Valuta: Miglioramento dell'interfaccia utente.
+      iw: |
+        תרגום: טלוגו. מטבע: חידוד ממשק המשתמש.
+      pt: |
+        Tradução: télugo. Moeda: Refinamento da interface do usuário..
+      tr: |
+        Çeviri: Telugu dili. Döviz: Kullanıcı arayüzü iyileştirildi.
+      en: |
+        Translation: Telugu. Currency: Refinement of the user interface.
+  -
+    - 3.3.1
+    - "2021-05-31"
+    -
+      ar: |
+        الاعدادات - الملء التلقائي: صقل واجهة المستخدم.
+      bg: |
+        Настройки - Автоматично попълване: Подобрения в потребителския интерфейс.
+      de: |
+        Einstellungen - AutoFill: Verfeinerung der Benutzeroberfläche.
+      es: |
+        Configuraciones - Autocompletar: Interfaz de usuario mejorada.
+      fr: |
+        Paramètres - Saisie automatique: Raffinement de l'interface utilisateur.
+      it: |
+        Impostazioni - Compilazione automatica: Miglioramento dell'interfaccia utente.
+      iw: |
+        הגדרות - מילוי אוטומטי: חידוד ממשק המשתמש.
+      pt: |
+        Configurações - Preenchimento automático: Refinamento da interface do usuário..
+      tr: |
+        Ayarlar - Otomatik Doldur: Kullanıcı arayüzü iyileştirildi.
+      en: |
+        Settings - Autofill: Refinement of the user interface.
+  -
+    - 3.3.0
+    - "2014-xx-xx"
+    -
+      ar: |
+        إستيراد ملف CSV: العلامات. .
+      bg: |
+        Импорт от CSV: Маркери. Активни маркери.
+      de: |
+        CSV import: Schlagwörter. Aktive Schlagwörter.
+      es: |
+        Importar desde CSV: Etiquetas. Etiquetas activas.
+      fr: |
+        Import CSV: Étiquettes. Étiquettes actives.
+      hr: |
+        CSV uvoz: Oznake. Aktivne oznake.
+      hu: |
+        CSV-importálás: Címkék. Aktív cimkék.
+      it: |
+        Importazione CSV: Etichette. Tag attivi.
+      iw: |
+        ייבוא CSV: תגים. תגים פעילים.
+      kn: |
+        ಸಿಎಸ್ವಿ ಆಮದು: ಟ್ಯಾಗ್ಗಳು. ಸಕ್ರಿಯ ಟ್ಯಾಗ್‌ಗಳು.
+      pt: |
+        Importação CSV: Etiquetas. Etiquetas ativas.
+      ta: |
+        CSV இறக்குமதி: குறிச்சொற்கள். செயலிலுள்ள குறிச்சொற்கள்.
+      tr: |
+        CSV içe aktar: Etiketler. Etkin Etiketler.
+      en: |
+        CSV import: Tags. Active Tags.
+  -
+    - 3.2.9
+    - "2014-xx-xx"
+    -
+      bg: |
+        Дублирани страни може да бъдат обединени. Останалата сума при разпределена транзакция може да бъде копирана в клипборда.
+      de: |
+        Duplikate bei den Parteien können zusammengeführt werden. Der verbleibende Betrag bei mehrteiligen Buchungen kann in die Zwischenablage kopiert werden.
+      es: |
+        Los grupos duplicados pueden combinarse. El importe restante de las transacciones divididas puede copiarse en el portapapeles.
+      fr: |
+        Les tiers en double peuvent être fusionnés. Le montant restant des opérations ventilées peut être copié dans le presse-papiers.
+      it: |
+        Le parti duplicate possono essere raggruppate. L'importo rimanente nelle transazioni frazionate può essere copiato negli appunti.
+      iw: |
+        ניתן למזג צדדים כפולים. ניתן להעתיק את הסכום הנותר בעסקאות מפוצלות ללוח.
+      pt: |
+        Parceiros duplicados podem ser mesclados. A quantia restante nas transações divididas pode ser copiada para a área de transferência.
+      tr: |
+        Yinelenen taraflar birleştirilebilir. Bölünmüş muamelelerdeki kalan meblağ panoya kopyalanabilir.
+      en: |
+        Duplicate parties can be merged. Remaining amount in split transactions can be copied to clipboard.
+  -
+    - 3.2.8
+    - "2021-04-09"
+    -
+      bg: |
+        Уйджета за сметка може да бъде конфигуриран да показва една сметка и да взема предвид бъдещи транзакции. Показване на общата сума на избраните транзакции.
+      de: |
+        Das Konten-Widget kann so konfiguriert werden, dass ein einzelnes Konto angezeigt wird und zukünftige Buchungen berücksichtigt werden. Gesamtbetrag der ausgewählten Buchungen anzeigen.
+      es: |
+        El widget de cuenta puede configurarse para mostrar una sola cuenta y tener en cuenta las transacciones futuras. Muestre el importe total de las transacciones seleccionadas.
+      fr: |
+        Le widget "Mes comptes" peut être configuré pour afficher un seul compte et pour prendre en compte les futures transactions. Afficher le montant total des transactions sélectionnées.
+      it: |
+        Il widget del conto può essere configurato per visualizzare un solo account e per tenere conto delle transazioni future. Mostra l'importo totale delle transazioni selezionate.
+      pt: |
+        O widget de conta pode ser configurado para exibir uma única conta e levar em consideração futuras transações. Exibe a quantidade total de transações selecionadas.
+      tr: |
+        Hesap wigdet'ı tek bir hesabı gösterecek ve gelecek muameleleri dikkate alacak şekilde yapılandırılabilir. Seçili muamelelerin toplam meblağını göster.
+      en: |
+        Account widget can be configured to display single account and to take future transactions into account. Show total amount of selected transactions.
+  -
+    - 3.2.7
+    - "2021-04-02"
+    -
+      bg: |
+        Две съществуващи транзакции могат да бъдат свързани като прехвърляне.
+      de: |
+        Zwei bestehende Transaktionen können als Umbuchung verknüpft werden.
+      es: |
+        Dos transacciones existentes pueden vincularse como una transferencia.
+      fr: |
+        Deux transactions existantes peuvent être liées en tant que transfert.
+      it: |
+        Due transazioni esistenti possono essere collegate come trasferimento.
+      iw: |
+        ניתן לקשר שתי עסקאות קיימות כהעברה.
+      pt: |
+        Duas transações existentes podem ser unidas como uma transferência.
+      tr: |
+        İki mevcut muamele, transfer olarak ilişkilendirilebilir.
+      en: |
+        Two existing transactions can be linked as transfer.
+  -
+    - 3.2.6
+    - "2021-03-20"
+    -
+      bg: |
+        Транзакциите могат да се повторят в последния ден от месеца.
+      de: |
+        Buchungen können am letzten Tag des Monats wiederholt werden.
+      es: |
+        Las transacciones pueden repetirse el último día del mes.
+      fr: |
+        Les opérations peuvent se répéter le dernier jour du mois.
+      it: |
+        Le transazioni possono essere ripetute l'ultimo giorno del mese.
+      iw: |
+        עסקאות יכולות לחזור ביום האחרון של החודש.
+      pt: |
+        Transações podem se repetir no último dia do mês.
+      tr: |
+        Muameleler ayın son gününde tekrarlanabilir.
+      en: |
+        Transactions can repeat on last day of month.
+  -
+    - 3.2.5
+    - "2021-03-12"
+    -
+      ar: |
+        إستيراد ملف CSV: الملء التلقائي
+      bg: |
+        Импорт от CSV: Автоматично попълване
+      ca: |
+        Importació CSV: Emplenament automàtic
+      cs: |
+        Import CSV souboru: Automatické vyplňování
+      da: |
+        CSV import: Autofyld
+      de: |
+        CSV import: AutoFill
+      el: |
+        Εισαγωγή CSV: Αυτόματη συμπλήρωση
+      es: |
+        Importar desde CSV: Autocompletar
+      eu: |
+        CSV inportazioa: Betetze automatikoa
+      fr: |
+        Import CSV: Saisie automatique
+      hr: |
+        CSV uvoz: Automatsko popunjavanje
+      hu: |
+        CSV-importálás: Automatikus kitöltés
+      it: |
+        Importazione CSV: Compilazione automatica
+      iw: |
+        ייבוא CSV: מילוי אוטומטי
+      ja: |
+        CSV インポート: 自動入力
+      ms: |
+        Import CSV: Autolengkap
+      km: |
+        ការនាំចូលស៊ីអេសវី: បំពេញ​ដោយស្វ័យ​ប្រវត្តិ
+      ko: |
+        CSV 가져오기: 자동완성
+      pl: |
+        Import CSV: Autouzupełnianie
+      pt: |
+        Importação CSV: Preenchimento automático
+      ro: |
+        CSV import: Completare automată
+      ru: |
+        Импорт данных в формате CSV: Автозаполнение
+      si: |
+        CSV ආනයනය: ස්වයංක්‍රිය පිරවුම
+      ta: |
+        CSV இறக்குமதி: தன்னிரப்பி
+      tr: |
+        CSV içe aktar: Otomatik Doldur
+      vi: |
+        Nhập CSV: Tự động điền
+      zh: |
+        以CSV的檔案型式輸入: 自動填入
+      en: |
+        CSV import: Autofill
+  -
+    - 3.2.4
+    - "2021-02-22"
+    -
+      bg: |
+        Уеб потребителски интерфейс
+      de: |
+        Web-Benutzeroberfläche
+      fr: |
+        Interface utilisateur Web
+      it: |
+        Interfaccia utente Web
+      iw: |
+        ממשק משתמש באינטרנט
+      pt: |
+        Interface web do usuário
+      tr: |
+        İnternet Kullanıcı Arayüzü
+      en: |
+        Web User Interface
+  -
+    - 3.2.3
+    - "2021-01-30"
+    -
+      bg: |
+        Бутонът за дата позволява бърза навигация до вчера и утре.
+      de: |
+        Die Datumsschaltfläche ermöglicht eine schnelle Navigation zum vorherigen und nächsten Tag.
+      es: |
+        El botón de fecha permite una navegación rápida al día anterior y al siguiente.
+      fr: |
+        Le bouton Date permet une navigation rapide vers le jour précédent et suivant.
+      it: |
+        Il pulsante Data consente la navigazione rapida al giorno precedente o successivo.
+      iw: |
+        כפתור תאריך מאפשר ניווט מהיר ליום הקודם ולמחרת.
+      pt: |
+        O botão de data permite uma navegação rápida para o dia anterior e o seguinte.
+      tr: |
+        Tarih düğmesi önceki ve sonraki güne çabuk geçmeye izin verir.
+      en: |
+        Date button allows quick navigation to previous and next day.
+  -
+    - 3.2.2
+    - "2021-01-25"
+    -
+      ar: |
+        يمكن إخفاء مبالغ النفقات والإيرادات والتحويلات في رؤوس المجموعة. احسب الفرق بين الرصيد الحالي والقيمة الجديدة. يمكن تحديد التصفية والميزانيات لمجموعة فرعية من الحسابات.
+      bg: |
+        Сумите в заглавията на групата могат да бъдат скрити. Изчисляване на разликата между текущото салдо и новата му стойност. Филтър и бюджет могат да бъдат дефинирани за част от сметките.
+      de: |
+        Die Beträge für Ausgaben, Einnahmen und Überweisungen in den Gruppenkopfzeilen können ausgeblendet werden. Berechnen Sie die Differenz zwischen dem aktuellen Kontostand und einem neuen Wert. Filter und Budgets können für eine Teilmenge von Konten definiert werden.
+      es: |
+        Pueden ocultarse los importes de gastos, ingresos y transferencias en las cabeceras de los grupos. Calcular la diferencia entre el saldo actual y un nuevo valor. Se pueden definir filtros y presupuestos para un subconjunto de cuentas.
+      fr: |
+        Les sommes des dépenses, des revenus et des transferts dans les en-têtes de groupe peuvent être masquées. Calculez la différence entre le solde actuel et une nouvelle valeur. Le filtre et les budgets peuvent être définis pour un sous-ensemble de comptes.
+      it: |
+        Le somme per spese, entrate e trasferimenti possono essere nascoste dall'intestazione del gruppo. Calcola la differenza fra il saldo corrente e un nuovo valore. È possibile definire filtri e budget per un sottoinsieme di account.
+      iw: |
+        ניתן להסתיר את סכומי ההוצאות, ההכנסות וההעברות בכותרות הקבוצה. חשב את ההפרש בין היתרה הנוכחית לערך חדש. ניתן להגדיר סינון ותקציבים עבור קבוצת משנה של חשבונות.
+      pt: |
+        As somas para despesas, receitas e transferências nos cabeçalhos de grupo podem ser ocultadas. Calcula a diferença entre o saldo atual e um novo valor. Filtro e orçamentos podem ser definidos para um subconjunto de contas.
+      tr: |
+        Grup başlıklarında harcama, gelir ve transfer toplamları gizlenebilir. Yeni bir değer ile güncel bakiye arasındaki fark hesaplanabilir. Filtreler ve bütçeler hesapların alt kümeleri için tanımlanabilir.
+      en: |
+        The sums for expenses, income and transfers in the group headers can be hidden. Calculate the difference between the current balance and a new value. Filter and budgets can be defined for a subset of accounts.
+  -
+    - 3.2.1
+    - "2020-12-21"
+    -
+      ar: |
+       يعمل التعرف على النص الآن مع المزيد من اللغات.
+      bg: |
+       Разпознаването на текст вече работи на повече езици.
+      de: |
+       Die Texterkennung funktioniert jetzt mit mehr Sprachen.
+      es: |
+       El reconocimiento de texto ahora funciona con más idiomas.
+      fr: |
+       La reconnaissance de texte fonctionne désormais avec plus de langues.
+      it: |
+       Il riconoscimento del testo ora funziona con più lingue.
+      iw: |
+       זיהוי טקסט פועל כעת עם יותר שפות.
+      pt: |
+       O reconhecimento de texto agora funciona com mais idiomas.
+      tr: |
+       Metin tanıma artık daha fazla lisan ile çalışıyor.
+      en: |
+       Text recognition now works with more languages.
+  -
+    - 3.2.0
+    - "2020-12-05"
+    -
+      ar: |
+       يمكن اقتصاص الصور.
+      bg: |
+       Изображенията могат да бъдат изрязани.
+      de: |
+       Bilder können zugeschnitten werden.
+      es: |
+       Se pueden recortar imágenes.
+      fr: |
+       Les images peuvent être recadrées.
+      it: |
+       Le immagini possono essere ritagliate.
+      iw: |
+       ניתן לחתוך תמונות.
+      pt: |
+       As imagens podem ser aparadas.
+      tr: |
+       Görüntüler kırpılabilir.
+      en: |
+       Images can be cropped.  
+  -
+    - 3.1.9
+    - "2020-11-29"
+    -
+      en: |
+        Refinement of the user interface.
+      fr: |
+        Raffinement de l'interface utilisateur.
+      de: |
+        Verfeinerung der Benutzeroberfläche.
+      it: |
+        Miglioramento dell'interfaccia utente.
+      tr: |
+        Kullanıcı arayüzü iyileştirildi.
+      bg: |
+        Подобрения в потребителския интерфейс.
+      iw: |
+       חידוד ממשק המשתמש.
+      es: |
+       Interfaz de usuario mejorada
+  -
+    - 3.1.8
+    - "2020-11-19"
+    -
+      en: |
+        Default click action can be defined per template.
+      fr: |
+        L'action de clic par défaut peut être définie par modèle.
+      de: |
+        Die Standardklickaktion kann pro Vorlage definiert werden.
+      it: |
+        L'azione predefinita del tocco può essere definita in base al modello.
+      es: |
+        La acción de clic predeterminada puede definirse por plantilla.
+      tr: |
+        Varsayılan tıklama eylemi şablon başına tanımlanabilir.
+      bg: |
+        Дефиниране на действието по подразбиране за всеки шаблон.
+      iw: |
+        ניתן להגדיר פעולת קליק ברירת מחדל לכל תבנית.
+  -
+    - 3.1.7
+    - "2020-11-14"
+    -
+      en: |
+        Templates can be loaded from transaction form.
+      fr: |
+        Les modèles peuvent être chargés à partir du formulaire de saisie d'opération.
+      de: |
+        Vorlagen können aus dem Buchungsformular heraus geladen werden.
+      it: |
+        I modelli possono essere caricati dal modulo di transazione.
+      es: |
+        Las plantillas pueden cargarse desde el formulario de transacción.
+      tr: |
+        Şablonlar işlem formundan yüklenebilir.
+      bg: |
+        Шаблон може да се зареди от страницата за транзакции.
+      iw: |
+        ניתן לטעון תבניות מטופס העסקה.
+  -
+    - 3.1.6
+    - "2020-10-30"
+    -
+      en: |
+        Save button in transaction form is more salient. Long press on the floating action button opens a menu that allows to prepare the form for transfer, split transaction or income.
+      fr: |
+        Le bouton Enregistrer dans le formulaire d'opération est plus saillant. Un appui long sur le bouton d'action flottant ouvre un menu qui permet de préparer le formulaire pour un transfert, une transaction ventilée ou un revenu.
+      de: |
+        Die Schaltfläche Speichern im Transaktionsformular ist ausgeprägter. Durch langes Drücken der schwebenden Aktionstaste wird ein Menü geöffnet, in dem das Formular für Überweisungen, mehrteilige Buchungen oder Einnahmen vorbereitet werden kann.
+      it: |
+        Il pulsante di salvataggio nei moduli delle transazioni è più accentuato. Premendo a lungo sul pulsante fluttuante si apre un menù che consente di preparare i moduli per trasferimenti, operazioni frazionate o redditi.
+      es: |
+        El botón de guardar en el formulario de transacción queda más destacado. Una pulsación prolongada del botón de acción flotante abre un menú que permite preparar el formulario para transferencia, división de la transacción o ingreso.
+      tr: |
+        Muamele formundaki kaydet düğmesi daha dikkat görünür yapıldı. Kayan eylem düğmesine uzun süre dokunmak, gelir, transfer veya bölünmüş muamele için form hazırlamaya izin veren bir menü açar.
+      bg: |
+        Бутонът за запис във формата за транзакция е по забележим. Дълго натискане на плаващия бутон отваря меню, където ще подготвите форма за превод, разпределена транзакция или приход.
+      iw: |
+        לחצן שמור בטופס העסקה בולט יותר. לחיצה ארוכה על כפתור הפעולה הצף פותחת תפריט המאפשר להכין את הטופס להעברה, לעסקה מפוצלת או להכנסה.
+  -
+    - 3.1.5
+    - "2020-10-22"
+    -
+      en: |
+        Dark theme linked to system default. Refinement of the user interface.
+      fr: |
+        Le style sombre est lié à la valeur par défaut du système. Raffinement de l'interface utilisateur.
+      de: |
+        Dunkler Stil wird mit dem Systemstandard verknüpft. Verfeinerung der Benutzeroberfläche.
+      it: |
+        Il tema scuro è associato alle impostazioni di sistema. Miglioramento dell'interfaccia utente.
+      tr: |
+        Koyu tema sistem varsayılanına bağlandı. Kullanıcı arayüzü iyileştirildi.
+      bg: |
+        Тъмната тема е свързана със системната настройка по подразбиране. Подобрения в потребителския интерфейс.
+      iw: |
+        עיצוב כהה מקושר לברירת המחדל של המערכת. חידוד ממשק המשתמש.
+  -
+    - 3.1.4
+    - "2020-10-03"
+    -
+      en: |
+        Scan receipt.
+      fr: |
+        Scanner le reçu.
+      de: |
+        Quittung scannen.
+      it: |
+        Scansiona lo scontrino.
+      es: |
+        Escanear recibo.
+      tr: |
+        Makbuz tara.
+      bg: |
+        Сканиране на касова бележка.
+      iw: |
+        סריקת קבלה.
+      ta: |
+        ரசீது ஸ்கேன.
+  -
+    - 3.1.3
+    - "2020-08-21"
+    -
+      en: |
+        Enhanced management of recurring transactions. Kannada translation.
+      fr: |
+        Gestion améliorée des opérations récurrentes. Traduction en Kannada.
+      de: |
+        Verbesserte Verwaltung wiederkehrender Buchungen. Kannada Übersetzung.
+      it: |
+        Migliorata la gestione delle transazioni ricorrenti. Traduzione in Kannada.
+      es: |
+        Manejo de transacciones recurrentes mejorado. Traducción a Canarés.
+      tr: |
+        Tekrar eden muamelelerin yönetimi geliştirildi. Kannada lisanında tercüme.
+      bg: |
+        Подобрено управление на повтарящи се транзакции. Превод на език каннада (Индия).
+      iw: |
+        ניהול משופר של עסקאות חוזרות. תרגום קנאדה.
+      ta: |
+        மீண்டும் நிகழ்கின்ற பரிவர்த்தனைகளின் மேம்பட்ட மேலாண்மை. கன்னட மொழிபெயர்ப்பு.
+  
+  -
+    - 3.1.2
+    - "2020-05-23"
+    -
+      en: |
+        Custom date format. Tags are exported to CSV. Collapsed state of groups in transaction list is memorized.
+      fr: |
+        Format de date personnalisé. Les étiquettes sont exportées vers CSV. L'état réduit des groupes dans la liste des opérations est mémorisé.
+      de: |
+        Benutzerdefiniertes Datumsformat. Markierungen werden nach CSV exportiert. Der eingeklappte Status von Gruppen in der Buchungsliste wird gespeichert.
+      tr: |
+        Özel tarih biçimi. Etiketler CSV olarak dışa aktarılabilir. Muamele listesindeki grupların daraltılmış durumu hatırlanır.
+      bg: |
+        Избираем формат за дата. Експорт на етикетите в CSV. Запомняне на свитото състояние на групите в списъка с транзакции.
+      ja: |
+        カスタムデータ形式. タグが CSV にエクスポートされます. 取引リストのグループの折りたたみ状態が記憶されます.
+      iw: |
+        פורמט תאריך מותאם אישית. התגים מיוצאים ל- CSV. שונן מצב של קבוצות מכווצות ברשימת העסקאות.
+  -
+    - 3.1.1
+    - "2020-05-03"
+    -
+      en: |
+        The list of parties (payers and payees) is searchable.
+      fr: |
+        On peut chercher dans la liste des tiers (payeurs et bénéficiaires).
+      de: |
+        Die Liste der Parteien (Zahler und Zahlungsempfänger) kann durchsucht werden.
+      es: |
+        Se puede buscar entre las listas de grupos (ordenantes y acreedores).
+      tr: |
+        Tarafların (ödeme yapanlar ve alacaklılar) listesi aranabilir.
+      bg: |
+        Може да се търси в списъка на страните (платци и получатели).
+      ja: |
+        取引先 (受取人/支払人) のリストが検索できます.
+      iw: |
+        ניתן לחפש ברשימת הצדדים (משלמים ומשלמים).
+  -
+    - 3.1.0
+    - "2020-04-21"
+    -
+      en: |
+        Transactions can be mapped to multiple tags.
+      fr: |
+        Les opérations peuvent être mises en correspondance avec plusieurs étiquettes.
+      de: |
+        Buchungen können mehreren Markierungen zugeordnet werden.
+      it: |
+        Le transazioni possono essere associate a più tag.
+      es: |
+        Las transacciones pueden asignarse a varias etiquetas.
+      tr: |
+        Muameleler çoklu etiketlerle eşleştirilebilir..
+      bg: |
+        Транзакциите може да бъдат отбелязани с множество маркери.
+      ja: |
+        取引が複数のタグに配置できます.
+      iw: |
+        ניתן למפות עסקאות לתגיות מרובות.
+      ta: |
+        பரிவர்த்தனைகளை பல குறிச்சொற்களுடன் தொடற்பு படுத்தலாம்.
+  -
+    - 3.0.9
+    - "2020-03-21"
+    -
+        de: |
+          Alles auswählen. Klonen und neu zuordnen
+        en: |
+          Select all. Clone and remap
+        it: |
+          Seleziona tutto. Clona e riassegna
+        fr: |
+          Tout sélectionner. Cloner et réaffecter
+        pt: |
+          Selecionar tudo
+        es: |
+          Seleccionar todo. Clonar y reasignar
+        pl: |
+          Zaznacz wszystko
+        ru: |
+          Выбрать все. Клонировать и переоформить
+        ar: |
+          تحديد الكل
+        cs: |
+          Vybrat vše
+        vi: |
+          Chọn tất cả
+        hu: |
+          Összes kijelölése
+        tr: |
+          Tümünü seç. Klonla ve yeniden eşleştir
+        zh-tw:
+          全部選取
+        ca: |
+          Selecciona-ho tot
+        ro: |
+          Selectați-le pe toate
+        ja: |
+          すべて選択. 複製と再配置
+        ms: |
+          Pilih semua
+        hr: |
+          Odaberi sve
+        eu: |
+          Hautatu guztiak
+        da: |
+          Markér alt
+        bg: |
+          Избиране на всичко. Клонирай и промени
+        el: |
+          Επιλογή όλων
+        iw: |
+          בחר הכל. הועתק ומופה מחדש
+        uk: |
+          Вибрати все
+        ta: |
+          அனைத்தையும் தேர்ந்தெடு. நகல் எடுத்து மறு தொடற்புப்படுத்து
+        ko: |
+          모두 선택
+  -
+    - 3.0.8
+    - "2020-03-09"
+    -
+      ar: |
+        يمكن الآن تصدير حسابات متعددة إلى ملف واحد. تتم الآن مزامنة بيانات تعريف الحساب. تحسين مصغرات الشاشة الرئيسية.
+      bg: |
+        Вече могат да бъдат експортирани няколко сметки в един файл. Метаданните на сметките вече са синхронизирани. Подобрени уйджети на началния екран.
+      de: |
+        Es können jetzt mehrere Konten in eine Datei exportiert werden. Kontometadaten werden jetzt synchronisiert. Verbesserte Homescreen-Widgets.
+      es: |
+        Ahora se pueden exportar múltiples cuentas a un único archivo. Ahora se sincroniza el metadata de la cuenta. Widgets mejorados para la pantalla de inicio.
+      fr: |
+        Plusieurs comptes peuvent désormais être exportés dans un seul fichier. Les métadonnées du compte sont maintenant synchronisées. Amélioration des widgets de l'écran d'accueil.
+      it: |
+        É ora possibile esportare più account in un unico file. I metadati del conto sono ora sincronizzati. Migliorati i widget della schermata principale.
+      iw: |
+        כעת ניתן לייצא מספר חשבונות לקובץ אחד. מטא נתונים של חשבון מסונכרנים כעת. ווידג'טים משופרים של מסך הבית.
+      ja: |
+        複数の勘定を1つのファイルにエクスポートできるようになりました. 勘定のメタデータが同期されるようになりました. ホーム画面ウィジェットの改善.
+      pt: |
+        Múltiplas contas agora podem ser exportadas para um único arquivo.. Os metadados da conta agora são sincronizados.. Widgets da tela inicial aprimorados.
+      ta: |
+        பல கணக்குகளை இப்போது ஒரே கோப்பில் ஏற்றுமதி செய்யலாம். கணக்கு மெட்டாடேட்டா இப்போது ஒத்திசைக்கப்படுகிறது. மேம்படுத்தப்பட்ட முகப்புத் திரை நிரல் பலகைகள்.
+      tr: |
+        Birden fazla hesap artık tek bir dosyaya dışa aktarılabilir. Hesap üst verileri artık eşleştirilebilir. İyileştirilmiş ana ekran widget'ları.
+      en: |
+        Multiple accounts can now be exported into one file. Account metadata is now synchronized. Improved homescreen widgets.
+  -
+    - 3.0.7
+    - "2019-12-11"
+    -
+      ar: |
+        تحرير بالجملة.
+      bg: |
+        Групово редактиране.
+      de: |
+        Mehrere Buchungen gleichzeitig bearbeiten.
+      es: |
+        Editar en bloque.
+      fr: |
+        Édition en masse.
+      it: |
+        Modifica in blocco.
+      iw: |
+        עריכה בכמות גדולה.
+      ja: |
+        一括編集.
+      pt: |
+        Edição em massa..
+      ta: |
+        மொத்த திருத்தம்.
+      tr: |
+        Toplu düzenleme.
+      en: |
+        Bulk editing.
+  -
+    - 3.0.6
+    - "2019-10-28"
+    -
+      ar: |
+        الميزانية 2.0.
+      bg: |
+        Бюджетиране 2.0.
+      de: |
+        Budgetierung 2.0.
+      es: |
+        Presupuestos 2.0.
+      fr: |
+        Budgétisation 2.0.
+      it: |
+        Bilancio 2.0.
+      iw: |
+        תקצוב 2.0.
+      ja: |
+        予算作成 2.0.
+      ms: |
+        Pembelanjawan 2.0.
+      pl: |
+        Przydzielanie budżetu 2.0.
+      pt: |
+        Orçamento 2.0.
+      ta: |
+        வரவு செலவுத் திட்டம் 2.0.
+      tr: |
+        Bütçeleme 2.0.
+      vi: |
+        Ngân quỹ 2.0.
+      en: |
+        Budgeting 2.0.
+  -
+    - 3.0.5
+    - "2019-09-13"
+    -
+      ar: |
+        تطبيق جديد للمزامنة عبر Dropbox و Drive.
+      bg: |
+        Нова реализация на синхронизацията чрез Dropbox и Drive.
+      de: |
+        Neue Implementierung für die Synchronisation über Dropbox und Drive.
+      es: |
+        Nueva implementación para la sincronización con Dropbox y Drive.
+      fr: |
+        Nouvelle implémentation pour la synchronisation via Dropbox et Drive.
+      it: |
+        Nuova implementazione per la sincronizzazione tramite Dropbox e Drive.
+      iw: |
+        יישום חדש לסנכרון באמצעות Dropbox ו- Drive.
+      ja: |
+        Dropbox と Drive を経由した同期の新しい実装.
+      ms: |
+        Perlaksanan baharu untuk penyegerakan melalui Dropbox dan Drive.
+      pt: |
+        Nova implementação da sincronização via Dropbox e Drive..
+      ta: |
+        டிராப்பாக்ஸ் மற்றும் டிரைவ் வழியாக ஒத்திசைக்க புதிய செயலாக்கம்.
+      tr: |
+        Dropbox ve Drive ile eşleşme için yeni yöntem.
+      en: |
+        New implementation for synchronization via Dropbox and Drive.
+  -
+    - 3.0.4
+    - "2019-09-01"
+    -
+      ar: |
+        تحميل التغيرات علي سعر الصرف.
+      bg: |
+        Изтегляне на валутни курсове.
+      de: |
+        Wechselkurse herunterladen.
+      es: |
+        Descargue tipos de cambios.
+      fr: |
+        Télécharger les taux de change.
+      it: |
+        Download dei tassi di cambio.
+      iw: |
+        עדכן שערי חליפין.
+      ja: |
+        為替レートのダウンロード.
+      ms: |
+        Muat turun kadar pertukaran.
+      pt: |
+        Obtenção de taxas de câmbio..
+      ru: |
+        Скачать курсы валют.
+      ta: |
+        மாற்று விகிதங்களைப் பதிவிறக்குக.
+      tr: |
+        Döviz kurları indirme imkânı.
+      en: |
+        Download exchange rates.
+  -
+    - 3.0.3
+    - "2019-06-12"
+    -
+      ar: |
+        الترجمة للتاميل. زر مزامنة الآن في القائمة الرئيسية. يمكن تعطيل المزامنة الفورية بعد التغييرات.
+      bg: |
+        Превод на тамилски. Бутон в главното меню Синхронизирай сега. Незабавния запис в отдалеченото хранилище може да бъде деактивиран.
+      de: |
+        Tamilische Übersetzung. Schaltfläche Jetzt synchronisieren im Hauptmenü. Die sofortige Synchronisation nach lokalen Änderungen kann deaktiviert werden.
+      es: |
+        Traducción a Tamil. Botón de sincronizar en el menú principal. Puede deshabilitar la sincronización inmediata después de cambios locales.
+      fr: |
+        Traduction en tamoul. Bouton Synchroniser maintenant dans le menu principal. La synchronisation immédiate suite aux modifications locales peut être désactivée.
+      it: |
+        Traduzione Tamil. Pulsante "Sincronizza ora" nel menù principale. La sincronizzazione immediata dopo aver effettuato modifiche in locale può essere disabilitata.
+      iw: |
+        תרגום לטמילית. סנכרן עכשיו בתפריט הראשי. סנכרון מיידי לאחר ביטול השינויים המקומיים.
+      ja: |
+        タミル語翻訳. メインメニューに今すぐ同期ボタン. ローカルの変更をすぐに同期が無効にできます.
+      ms: |
+        Terjemahan bahasa Tamil. Butang segerak sekarang dalam menu utama. Penyegerakan serta-merta selepas perubahan setempat dilumpuhkan.
+      pt: |
+        Tradução para tâmil. Botão Sincronizar agora no menu principal.. A sincronização imediata após alterações locais pode ser desativada..
+      ru: |
+        Тамильский перевод. Кнопка Синхронизировать сейчас в главном меню. Немедленная синхронизация после локальных изменений может быть отключена.
+      ta: |
+        தமிழ் மொழிபெயர்ப்பு. முக்கிய பட்டியலில் 'இப்போது ஒத்திசை' பொத்தான். உள் மாற்றங்களைத் தொடர்ந்து உடனடியாக ஒத்திசை நிகழ்வதை முடக்கலாம்.
+      tr: |
+        Tamilce tercüme. Ana menüde şimdi eşleştir düğmesi. Yerel değişimlerden sonra anında eşleşme devre dışı bırakılabilir.
+      en: |
+        Tamil translation. Sync now button in main menu. Immediate synchronization after local changes can be disabled.
+  -
+    - 3.0.2
+    - "2019-05-31"
+    -
+      ar: |
+        ايقونات الفئات.
+      bg: |
+        Икони за категориите.
+      de: |
+        Symbole für Kategorien.
+      es: |
+        Iconos por categorías.
+      fr: |
+        Icônes pour les catégories.
+      it: |
+        Icone per le categorie.
+      iw: |
+        סמלים לקטגוריות.
+      ja: |
+        分類のアイコン.
+      ms: |
+        Ikon-ikon untuk kategori-kategori.
+      pt: |
+        Ícones para categorias.
+      ru: |
+        Иконки для категорий.
+      ta: |
+        வகைகளுக்கான ஐகான்கள்.
+      tr: |
+        Kategoriler için ikonlar.
+      en: |
+        Icons for categories.
+  -
+    - 3.0.1
+    - "2019-02-14"
+    -
+      ar: |
+        يمكن أن تكون الحسابات مغلقة أو مخفية.
+      bg: |
+        Сметките могат да бъдат затворени и/или скрити..
+      de: |
+        Konten können geschlossen und / oder verborgen werden.
+      es: |
+        Se pueden cerrar y/o ocultar las cuentas.
+      fr: |
+        Les comptes peuvent être fermés et / ou cachés.
+      it: |
+        I conti possono essere chiusi e/o nascosti.
+      iw: |
+        חשבונות יכולים להיות סגורים או מוסתרים.
+      ja: |
+        勘定を閉じて非表示にできます.
+      ms: |
+        Akaun boleh ditutup dan/atau disembunyikan.
+      pt: |
+        As contas podem ser encerradas e/ou ocultadas..
+      ru: |
+        Аккаунт может быть закрыт и/или скрыт.
+      ta: |
+        கணக்குகளை மூடலாம் மற்றும் / அல்லது மறைக்கலாம்.
+      tr: |
+        Hesaplar kapatılabilir ve/veya gizlenebilir.
+      en: |
+        Accounts can be closed and/or hidden.
+  -
+    - 3.0.0
+    - "2019-01-19"
+    -
+      ar: |
+        الترجمة للأوكرانية. البيانات المملوءة مسبقا أصبحت قابلة للتعديل.
+      bg: |
+        Превод на украйнски. Избор на символа-разделител при CSV експорт.
+      de: |
+        Ukrainische Übersetzung. CSV-Export: Trennzeichen konfigurierbar gemacht.
+      es: |
+        Traducción a Ucraniano. Exportación a CSV: delimitador configurable.
+      fr: |
+        Traduction ukrainienne. Exportation CSV: séparateur de champ configurable.
+      it: |
+        Traduzione ucraina. Esportazione CSV: reso personalizzabile il delimitatore.
+      iw: |
+        תרגום אוקראיני. ייצוא CSV: Delimiter הפך להגדרה.
+      ja: |
+        ウクライナ語翻訳. CSV エクスポート: 区切り文字が設定可能です.
+      ms: |
+        Terjemahan bahasa Ukraine. Eksport CSV: Pembatas boleh dikonfigur.
+      pl: |
+        Tłumaczenie na ukraiński. Eksport CSV: Konfigurowalny separator pól.
+      pt: |
+        Tradução para ucraniano.. Exportação de CSV: o delimitador agora é configurável..
+      ru: |
+        Перевод на украинский. Экспорт в CSV: настраиваемый разделитель.
+      ta: |
+        உக்ரைனியன் மொழிபெயர்ப்பு. CSV ஏற்றுமதி: டிலிமிட்டர் விருப்பமைக்கலாம்.
+      tr: |
+        Ukraynaca tercüme. CSV dışa aktarımı: Sınırlayıcı artık yapılandırılabilir.
+      en: |
+        Ukrainian translation. CSV export: Delimiter made configurable.
+  -
+    - 2.9.9
+    - "2019-01-11"
+    -
+      en: |
+        Encryption for backups and synchronization data.
+      fr: |
+        Cryptage des sauvegardes et des données de synchronisation.
+      de: |
+        Verschlüsselung für Backups und Synchronisationsdaten.
+      it: |
+        Crittografia per i backup e per i dati di sincronizzazione.
+      es: |
+        Encriptación para copias de seguridad y sincronización de datos.
+      tr: |
+        Yedeklemeler ve eşleşme verileri için şifreleme.
+      bg: |
+        Шифроване на данните за архивиране и синхронизиране.
+      ru: |
+        Шифрование для резервных копий и синхронизации.
+      ms: |
+        Penyulitan untuk sandar dan penyegerakan data.
+      ja: |
+        バックアップと同期データの暗号化.
+      iw: |
+        הצפנה עבור גיבויים ונתוני סנכרון.
+      ta: |
+        காப்புப்பிரதிகள் மற்றும் ஒத்திசைவு தரவுகளுக்கான மறையாக்கம்.
+  -
+    - 2.9.8
+    - "2018-12-24"
+    -
+      en: |
+        Filter for transactions without mapping to categories, payees or methods. Optimized storage of synchronized data.
+      fr: |
+        Filtrer les opérations qui ne sont pas liées aux catégories, bénéficiaires ou méthodes. Stockage optimisé des données synchronisées.
+      de: |
+        Filter für Buchungen ohne Zuordnung zu Kategorien, Zahlungsempfängern oder Methoden. Optimierte Speicherung synchronisierter Daten.
+      it: |
+        Filtro per le transazioni senza categoria, beneficiario o metodo di pagamento. Ottimizzata la memorizzazione dei dati sincronizzati.
+      es: |
+        Filtrar las transacciones sin asignar a categorías, acreedor o métodos. Almacenamiento de datos sincronizados optimizado.
+      tr: |
+        Muameleler, kategoriler, alacaklılar veya metotlarla eşleşmeden filtrelenebilir. Eşleştirilen verilerin optimize edilmiş depolanması.
+      bg: |
+        Филтър за транзакции без зададена категория, получател или метод на плащане. Оптимизиран e начинa на съхранение на данните за синхронизация.
+      ms: |
+        Tapisan untuk transaksi tanpa pemetaan dengan kategori, penerima atau kaedah. Storan dioptimumkan untuk data tersegerak.
+      ja: |
+        分類、支払先、または方法に配置せずに取引をフィルタリング. 同期データのストレージを最適化.
+      iw: |
+        סינון עבור עסקאות ללא מיפוי לקטגוריות, למשלמים או לשיטות. אחסון אופטימלי של נתונים מסונכרנים.
+      ta: |
+        வகைகள், பணம் பெறுபவர் அல்லது முறைகளுடன் தொடற்பு படுத்தப்படாத பரிவர்த்தனைகளுக்கான வடிகட்டி. ஒத்திசைக்கப்பட்ட தரவின் உகந்த சேமிப்பகம்.
+  -
+    - 2.9.7
+    - "2018-11-29"
+    -
+      en: |
+        Custom currencies.
+      fr: |
+        Devises personnalisées.
+      de: |
+        Benutzerdefinierte Währungen.
+      it: |
+        Personalizza le valute.
+      es: |
+        Divisas personalizadas.
+      pt: |
+        Moedas personalizadas.
+      tr: |
+        Özel para birimleri.
+      bg: |
+        Валути, дефинирани от потребителя.
+      ru: |
+        Свои валюты.
+      ms: |
+        Matawang suai.
+      ja: |
+        通貨のカスタマイズ.
+      iw: |
+        מטבעות מותאמים אישית.
+      ta: |
+        தனி விருப்ப நாணயங்கள்.
+  -
+    - 2.9.6
+    - "2018-11-15"
+    -
+      en: |
+        Budgeting.
+      fr: |
+        Budgétisation.
+      de: |
+        Budgetierung.
+      bg: |
+        Бюджетиране.
+      ja: |
+        予算作成.
+      iw: |
+        תקצוב.
+      pl: |
+        Przydzielanie budżetu.
+      tr: |
+        Bütçeleme
+      uk: |
+        Бюджетування
+      pt: |
+        Orçamento
+      ta: |
+        வரவு செலவுத் திட்டம்
+      vi: |
+        Ngân quỹ
+      ru: |
+        составление бюджета
+      ms: |
+        Pembelanjawan
+      it: |
+        Bilancio
+      es: |
+        Presupuestar
+  -
+    - 2.9.5
+    - "2018-09-27"
+    -
+      en: |
+        Custom colors for main categories.
+      fr: |
+        Couleurs personnalisées pour les catégories principales.
+      de: |
+        Benutzerdefinierte Farben für Hauptkategorien.
+      it: |
+        Colori personalizzati per le categorie principali.
+      es: |
+        Colores personalizados para categorías principales.
+      pt: |
+        Cores personalizadas nas categorias principais.
+      tr: |
+        Ana kategoriler için özel renkler.
+      bg: |
+        Избор на цвят за главните категории.
+      ru: |
+        Свои цвета для главных категорий.
+      ms: |
+        Warna suai untuk kategori utama.
+      ja: |
+        主分類の色をカスタム.
+      iw: |
+        צבעים מותאמים אישית עבור קטגוריות עיקריות.
+      ta: |
+        முக்கிய பிரிவுகளில் தனி விருப்ப வண்ணங்கள்.
+  -
+    - 2.9.4
+    - "2018-09-20"
+    -
+      en: |
+        Upon app start, scroll transaction list to current date.
+      fr: |
+        Au démarrage de l\'application, défiler la liste des opérations jusqu\'à la date actuelle.
+      de: |
+        Beim Starten der App die Transaktionsliste zum aktuellen Datum scrollen.
+      tr: |
+        Uygulama başladığında muamele listesini güncel tarihe kaydı.
+      bg: |
+        При стартиране на приложението превърти списъка с транзакции до текущата дата.
+      ja: |
+        アプリの起動時に、取引リストを現在の日付にスクロールします.
+      iw: |
+        בהפעלת היישום, גלול רשימת עסקאות לתאריך הנוכחי.
+      it: |
+        All'avvio dell'app, scorrere l'elenco delle transazioni sulla data corrente.
+      ms: |
+        Ketika apl mula, tatal senarai transaksi dengan tarikh semasa.
+      pl: |
+        Zaraz po starcie aplikacji, przewiń listę transakcji do bieżącej daty.
+      es: |
+        Al iniciar la aplicación, desplazar la lista de transacciones hasta la fecha actual
+      pt: |
+        Ao iniciar o aplicativo, role a lista de transações até a data atual    
+      ta: |
+        செயலியை தொடங்கும் போது, நடப்பு தேதியின் பரிவர்த்தனை பட்டியலை காட்டு
+      ru: |
+        После запуска приложения прокрутите список транзакций до текущей даты.
+      uk: |
+        Після запуску програми прокручувати список операцій до поточної дати
+  -
+    - 2.9.3
+    - "2018-09-16"
+    -
+      en: |
+        Saving goals and credit limits. Account groups (per type or currency) can be collapsed.
+      fr: |
+        Objectifs d'économie et limites de crédit. Les groupes de comptes (par type ou devise) peuvent être réduits.
+      de: |
+        Sparziele und Kreditlimits. Kontogruppen (pro Typ oder Währung) können zugeklappt werden.
+      it: |
+        Obiettivi di risparmio e limiti di credito. Gruppi di conti (per tipo o valuta) possono essere collassati.
+      es: |
+        Objetivos de ahorro y límites de crédito. Grupo de cuentas (por tipo y divisa) pueden agruparse.
+      pt: |
+        Metas de poupança e limites de crédito. Grupos de contas (por tipo ou por moeda) podem ser retraídos.
+      tr: |
+        Tasarruf hedefleri ve kredi limitleri. Hesap grupları (tür veya para birimine göre) küçültülebilir.
+      bg: |
+        Цел за спестяване и кредитен лимит. Групи от сметки (по тип или валута) могат да бъдат намалени.
+      ms: |
+        Matlamat simpanan dan had kredit. Kumpulan akaun (per jenis atau matawang) boleh dikuncupkan.
+      ja: |
+        貯蓄目標とクレジット限度. 勘定科目グループ (種類または通貨単位) を折りたたむことができます.
+      iw: |
+        שמירת יעדים ומגבלות אשראי. ניתן לצמצם קבוצות חשבון (לפי סוג או מטבע).
+      ta: |
+        சேமிப்பு இலக்குகள் மற்றும் கடன் வரம்புகள். கணக்கு குழுக்களை (வகை அல்லது நாணயம் ஒன்றிற்கு) சுருக்கலாம்.
+  -
+    - 2.9.2
+    - "2018-09-07"
+    -
+      en: |
+        Account list redesign. Synchronization can be limited to Wi-Fi.
+      fr: |
+        Refonte de la liste des comptes. La synchronisation peut être limitée au Wi-Fi.
+      de: |
+        Neugestaltung der Kontoliste. Die Synchronisierung kann auf WLAN beschränkt werden.
+      it: |
+        Riprogettazione dell'elenco degli conti. La sincronizzazione può essere limitata al Wi-Fi.
+      es: |
+        Lista de cuenta rediseñada. La sincronización puede limitarse a vía Wi-Fi.
+      pt: |
+        Redesenho da lista de contas. A sincronização pode ser limitada ao wi-fi.
+      tr: |
+        Hesap listesi yeniden tasarlandı. Eşleşme sadece Wi-Fi ile sınırlanabilir.
+      bg: |
+        Обновен дизайн на списъка на сметките. Синхронизирането може да се ограничи до Wi-Fi.
+      ms: |
+        Senarai akaun direka semula. Penyegerakan boleh dihadkan dengan Wi-Fi.
+      ja: |
+        勘定リストの再設計. 同期を Wi-Fi 接続時に限定.
+      iw: |
+        עצוב מחדש של רשימת החשבונות. סנכרון יכול להיות מוגבל לרשת Wi-Fi.
+      ta: |
+        கணக்குப் பட்டியல் மறுவடிவமைப்பு. ஒத்திசைவை வைஃபையில் (Wi-Fi) மட்டும் நிகழச்செய்.
+  -
+    - 2.9.1
+    - "2018-05-28"
+    -
+      en: |
+        Transaction time is now optional. Optionally distinguish between booking date and value date.
+      fr: |
+        L'heure de l'opération est maintenant optionnelle. Possibilité de distinguer entre la date d'enregistrement et la date de valeur.
+      de: |
+        Buchungszeit ist jetzt optional. Optional kann zwischen Buchungsdatum und Wertstellung unterscheiden werden.
+      it: |
+        La data delle transazioni è ora opzionale. Facoltativamente, distinguere fra la data di prenotazione e la data di valuta.
+      es: |
+        La hora de transacción ahora es opcional. Se diferencia entre fecha de reserva y fecha de valor de forma opcional.
+      pt: |
+        A data da transação agora é opcional. Distinção opcional entre a data do pagamento e a data da contabilização.
+      tr: |
+        Muamele zamanı artık seçime dayalıdır. Seçime dayalı olarak muamele tarihi ve değer tarihi arasında ayrım yapabilirsiniz.
+      bg: |
+        Времето на транзакцията вече е по избор. По желание можете да направите разлика между датата на резервацията и датата на вальора.
+      ms: |
+        Masa transaksi kini adalah pilihan. Boleh bezakan di antara tarikh tempahan dengan tarikh nilai secara pilihan.
+      ja: |
+        取引時刻がオプションになりました. オプションで、予約日と実行日を区別できます.
+      iw: |
+        זמן העסקה אופציונלי כעת. לחלופין, הבחן בין תאריך ההזמנה לבין תאריך הערך.
+      ta: |
+        பரிவர்த்தனையின் நேரம் இப்போது விருப்பத்தேர்வானது. விருப்பத்தேர்வாக பதிவு தேதி மற்றும் மதிப்பு தேதியை வேறுபடுத்தலாம்.
+  -
+    - 2.9.0
+    - "2018-04-07"
+    -
+      en: |
+        Multiple transactions can be grouped into one split transaction. Split transaction can be ungrouped.
+      fr: |
+        Plusieurs opérations peuvent être regroupées en une seule opération ventilée.. L'opération ventilée peut être dissociée..
+      de: |
+        Mehrere Buchungen können zu einer mehrteiligen Buchung zusammengefasst werden. Die Gruppierung einer mehrteiligen Buchung kann aufgelöst werden.
+      it: |
+        Diverse transazioni possono essere raggruppate in una operazione frazionata. Transazioni frazionate possono essere separate.
+      es: |
+        Múltiple transacciones puedes agruparte en una transacción dividida. Las transacciones divididas pueden desagruparse.
+      pt: |
+        Múltiplas transações podem ser agrupadas em uma transação dividida. Transações divididas podem ser desagrupadas.
+      tr: |
+        Birden fazla muamele bir bölünmüş muamele içinde gruplandırılabilir. Bölünmüş muameleler gruplanmamış yapılabilir.
+      bg: |
+        Няколко транзакции могат да бъдат групирани в една разпределена транзакция. Разпределена транзакция може да се раздели на отделни транзакции.
+      ru: |
+        Несколько операций могут быть сгруппированы в одну дробную операцию.. Дробные операции могут быть разгруппированы.
+      ms: |
+        Transaksi berbilang boleh dikumpulkan menjadi satu transaksi pengasingan. Transaksi pengasingan boleh dinyahkumpulkan.
+      ja: |
+        複数の取引を1つの分割取引にグループ化できます. 分割取引がグループ化解除できます.
+      iw: |
+        עסקאות מרובות ניתן לקבץ לעסקה ספליט אחד. ניתן לפצל את העסקה המפוצלת.
+      ta: |
+        பல பரிவர்த்தனைகள் ஒரு பிளவு பரிவர்த்தனையாக குழுவமைக்கலாம். பிரிவு பரிவர்த்தனையை பிரிக்கலாம்.
+  -
+    - 2.8.9
+    - "2018-03-19"
+    -
+      en: |
+        Conversion between foreign currencies and home currency.
+      fr: |
+        Conversion entre devises étrangères et monnaie locale.
+      de: |
+        Umrechnung zwischen Fremdwährung und Heimatwährung.
+      it: |
+        Conversione tra valute straniere e valuta domestica.
+      es: |
+        Conversión entre monedas extranjeras y monedas locales.
+      pt: |
+        Conversão entre moedas estrangeiras e a moeda local.
+      tr: |
+        Yabancı dövizler ile yerel para birimi arasında dönüşüm.
+      bg: |
+        Конвертиране между чуждестранни и национална валути.
+      ru: |
+        Конверсия иностранных и национальных валют.
+      ms: |
+        Pertukaran diantara matawang asing dengan matawang negara sendiri.
+      ja: |
+        外貨と自国通貨間の換算.
+      iw: |
+        המרה בין מטבעות זרים למטבע ביתי.
+      ta: |
+        வெளிநாட்டு நாணயங்களுக்கும் வீட்டு நாணயத்திற்கும் இடையில் மாற்றம்.
+  -
+    - 2.8.8
+    - "2018-02-24"
+    -
+      en: |
+        History chart (Cash flow).
+      fr: |
+        Graphique historique (flux de trésorerie).
+      de: |
+        Verlaufsdiagramm (Cashflow).
+      it: |
+        Grafico storico (flusso di cassa).
+      es: |
+        Gráfico de historial (flujo de efectivo).
+      pt: |
+        Diagrama histórico (fluxo de caixa).
+      tr: |
+        Tarihçe grafiği (Nakit akışı).
+      bg: |
+        Графика на историята (паричен поток).
+      cs: |
+        Graf historie (Hotovost).
+      ru: |
+        История (Cash flow).
+      ms: |
+        Carta sejarah (Aliran tunai).
+      ja: |
+        履歴チャート (キャッシュフロー).
+      pl: |
+        Wykres historii (przepływ gotówki).
+      iw: |
+        תרשים היסטוריה (תזרים מזומנים).
+      ta: |
+        வரலாற்று விளக்கப்படம் (பணப்பாய்வு).
+  -
+    - 2.8.7
+    - "2018-02-01"
+    -
+      en: |
+        Protection by device lock screen.
+      fr: |
+        Protection par écran de verrouillage de l'appareil.
+      de: |
+        Schutz durch Geräteschutzbildschirm.
+      it: |
+        Protezione tramite blocco schermo.
+      es: |
+        Protección por bloqueo de pantalla.
+      pt: |
+        Proteção pelo travamento de tela do dispositivo.
+      tr: |
+        Cihaz ekranı kilitlemeyle koruma.
+      bg: |
+        Защита чрез екрана за заключване на устройството.
+      ru: |
+        Защита данных (блокировка экрана).
+      ms: |
+        Dilindungi oleh skrin kunci peranti.
+      ja: |
+        デバイスのロック画面による保護.
+      iw: |
+        הגנה על ידי נעילת מסך המכשיר.
+      ta: |
+        கருவியின் பூட்டு திரையின் மூலம் பாதுகாப்பு.
+  -
+    - 2.8.6
+    - "2018-01-25"
+    -
+      en: |
+        PDF export (Print) can be shared.
+      fr: |
+        Le ficher exporté PDF (Impression) peut être partagé.
+      de: |
+        Die PDF-Export-Datei (Drucken) kann geteilt werden.
+      it: |
+        Il PDF esportato (Stampa) può essere condiviso.
+      es: |
+        La exportación en PDF (Impresión) puede compartirse.
+      pt: |
+        A exportação para PDF (impressão) pode ser compartilhada.
+      tr: |
+        PDF dışa aktarımı (Yazdırma) paylaşılabilir.
+      bg: |
+        PDF експорт (Печат) може да бъде споделен.
+      ru: |
+        Возможность делиться экспортированными данными (PDF).
+      ms: |
+        Eksport PDF (Cetak) boleh dikongsi.
+      ja: |
+        PDF エクスポート (印刷) が共有できます.
+      iw: |
+        ייצוא PDF (הדפסה) ניתן לשתף.
+      ta: |
+        PDF ஏற்றுமதியை (அச்சு) பகிர்ந்து கொள்ளலாம்.
+  -
+    - 2.8.5
+    - "2018-01-13"
+    -
+      en: |
+        Synchronization via Dropbox.
+      fr: |
+        Synchronisation avec Dropbox.
+      de: |
+        Synchronisation über Dropbox.
+      it: |
+        Sincronizzazione tramite Dropbox.
+      es: |
+        Sincronización por Dropbox.
+      pt: |
+        Sincronização via Dropbox.
+      tr: |
+        Dropbox vasıtasıyla eşleşme.
+      bg: |
+        Синхронизация чрез Dropbox.
+      ru: |
+        Синхронизация через Dropbox.
+      ms: |
+        Penyegerakan melalui Dropbox.
+      ja: |
+        Dropboxで同期.
+      iw: |
+        סינכרון באמצעות Dropbox.
+      ta: |
+        டிராப்பாக்ஸ் (Dropbox) வழியாக ஒத்திசைவு.
+  -
+    - 2.8.4
+    - "2017-11-23"
+    -
+      en: |
+        Auto-fill made configurable.
+      fr: |
+        Remplissage automatique configurable.
+      de: |
+        Automatisches Ausfüllen konfigurierbar gemacht.
+      it: |
+        La compilazione automatica può essere configurata.
+      es: |
+        Auto-relleno configurable.
+      pt: |
+        Preenchimento automático se tornou configurável.
+      tr: |
+        Otomatik doldurma yapılandırılabilir yapıldı.
+      bg: |
+        Автоматичното попълване вече е конфигурируемо.
+      ru: |
+        Настройки автозаполнения.
+      ms: |
+        Auto-isi boleh dikonfigurasikan.
+      ja: |
+        設定可能な自動入力.
+      iw: |
+        מילוי אוטומטי ניתן להגדרה.
+      ta: |
+        தன்னிரப்பியை (Auto-fill) விருப்பமைக்கலாம்.
+  -
+    - 2.8.3
+    - "2017-11-05"
+    -
+      en: |
+        Ascending sort direction (oldest transactions on top).
+      fr: |
+        Direction de tri ascendante (les plus anciennes transactions en haut).
+      de: |
+        Aufsteigende Sortierrichtung (älteste Transaktionen oben).
+      it: |
+        Ordine ascendente (transazioni più vecchie prima).
+      es: |
+        Elegir dirección ascendente (las transacciones más antiguas arriba).
+      pt: |
+        Ordenação ascendente (as transações mais antigas no topo).
+      tr: |
+        Eskiden yeniye sıralama yönü (en eski işlemler en üstte).
+      bg: |
+        Възходящо сортиране (най-старите транзакции отгоре).
+      ru: |
+        Сортировка в возрастающем порядке (самые старые операции - наверху).
+      ms: |
+        Arah isih menaik (transaksi paling lama di bahagian teratas).
+      ja: |
+        昇順のソート (古い取引が先頭).
+      pl: |
+        Rosnący kierunek sortowania (najstarsze transakcje u góry).
+      iw: |
+        מיון בסדר עולה (הישן ביותר בראש).
+      ta: |
+        ஏறுவரிசையின் திசை (பழமையான பரிமாற்றங்கள் மேலே).
+  -
+    - 2.8.2
+    - "2017-10-14"
+    -
+      en: |
+        Templates and plans for split transactions. Introducing Professional Licence Key. Home screen widgets adapt to user-preferred font size.
+      fr: |
+        Modèles et échéances pour les opérations ventilées. Présentation de la clé de licence professionnelle. Les widgets de l'écran d'accueil s'adaptent à la taille de police préférée par l'utilisateur.
+      de: |
+        Vorlagen und Pläne für mehrteilige Buchungen. Einführung des Professionellen Lizenzschlüssels. Widgets für den Startbildschirm passen sich an die benutzerdefinierte Schriftgröße an.
+      it: |
+        Modelli e piani per le operazioni frazionate. Introduzione della Licenza Professionale. I widget della schermata iniziale si adattano alle dimensioni del carattere preferite dall'utente.
+      es: |
+        Plantillas y proyectos para transacciones divididas. Introduciendo licencia de llave Profesional. Los widgets de la pantalla de inicio se adaptan al tamaño de fuente elegida.
+      pt: |
+        Modelos e planos para transações divididas. Introdução da Chave de Licença Profissional. Os widgets da tela inicial se adaptam ao tamanho de fonte definido pelo usuário.
+      tr: |
+        Bölünmüş muameleler için şablonlar ve planlamalar. Profesyonel Lisans Anahtarı. Ana ekran widget'ları kullanıcının tercih ettiği yazı tipi boyutuna uyarlanır.
+      bg: |
+        Шаблони и планове за разпределени транзакции. Представяне на нов лицензен ключ - Професионален. Уиджетите на начален екран се приспособяват към предпочитания от потребителя размер на шрифта.
+      ru: |
+        Шаблоны и планы дробных операций. Представляем лицензионный ключ Professional. Виджеты домашнего экрана подстраиваются под размер шрифта пользователя.
+      ms: |
+        Templat dan plan untuk transaksi berasingan. Memperkenalkan Kunci Lesen Profesional. Widjet skrin rumah diadaptasi dengan saiz fon yang dikehendaki pengguna.
+      ja: |
+        分割取引用のテンプレートと計画. プロフェッショナルライセンスキーの導入. ホーム画面ウィジェットは、ユーザーが好みのフォントサイズに適応します.
+      pl: |
+        Szablony i plany dla transakcji podzielonych. Przedstawiamy Profesjonalny Klucz Licencyjny. Widżety ekranu głównego dostosowują się do preferowanego przez użytkownika rozmiaru czcionki.
+      iw: |
+        תבניות ותוכניות לעסקאות מפוצלות. היכרות עם מפתח רישיון מקצועי. ווידג'טים של מסך הבית מתאימים לגודל גופנים מועדף.
+      ta: |
+        பிளவு பரிவர்த்தனைகளுக்கான வார்ப்புருக்கள் மற்றும் திட்டங்கள். நிபுணத்துவ உரிம திறவுகோல் அறிமுகப்படுத்துகிறது. முகப்புத் திரை நிரல் பலகைகள், பயனரின் விருப்ப எழுத்துரு அளவில் காட்டப்படும்.
+  -
+    - 2.8.1
+    - "2017-09-07"
+    -
+      en: |
+        Option for custom plans. Fix cloud storage of large backups.
+      fr: |
+        Option pour les échéances personnalisées. Correction du stockage dans le cloud de sauvegardes volumineuses.
+      de: |
+        Option für benutzerdefinierte Pläne. Cloud-Speicherung von großen Backups wurde repariert.
+      it: |
+        Opzione per piani personalizzati. Fissa l'archiviazione di nubi di grandi backup.
+      es: |
+        Opción para proyectos personalizados. Arreglar almacenamiento en la nube para copias de seguridad grandes.
+      pt: |
+        Opção para planos personalizados. Corrigir o armazenamento na nuvem de backups grandes.
+      tr: |
+        Özel planlamalar için seçenek. Büyük yedeklemeler için bulut depolamasını düzelt.
+      bg: |
+        Възможност за потребителски планове. Отстранен проблем при съхраняване на голям бекъп на отдалечено място за съхранение.
+      ru: |
+        Настраиваемые планы. Облачное хранение больших объемов данных.
+      ms: |
+        Pilihan untuk plan suai. Baiki storan awan untuk sandar bersaiz besar.
+      ja: |
+        カスタム計画のオプション. 大規模バックアップのクラウドストレージを修正.
+      pl: |
+        Opcja dla niestandardowych planów. Naprawiono dysk w chmurze dla dużych kopii zapasowych.
+      iw: |
+        אפשרות לתוכניות מותאמות אישית. תקן אחסון ענן של גיבויים גדולים.
+      ta: |
+        தனி விருப்ப திட்டங்களுக்கான விருப்பத்தேர்வு. பெரிய காப்புப்பிரதிகளை மேகக்கணினியில் சேமிப்பது சரிசெய்யப்படும்.
+  -
+    - 2.8.0
+    - "2017-08-27"
+    -
+      en: |
+        Hebrew translation. Picker for custom account color.
+      fr: |
+        Traduction en hébreu. Choix personnalisé pour la couleur du compte.
+      de: |
+        Hebräische Übersetzung. Auswahl einer benutzerdefinierten Farbe für Konten.
+      it: |
+        Traduzione ebraica. Selettore per il colore dell'account personalizzato.
+      es: |
+        Traducción a Hebreo. Seleccionar un color de cuenta personalizado.
+      pt: |
+        Tradução hebraica. Selecionador de cores personalizadas para a conta.
+      tr: |
+        İbranice tercüme. Özel hesap rengi için seçici.
+      eu: |
+        Hebreerara itzulpena. Hautatzailea kontu kolore pertsonalizatuarentzat.
+      bg: |
+        Превод на еврейски език . Палитра за избор на цвят на сметка.
+      ru: |
+        Перевод на иврит. Выбор уникального цвета счета.
+      ms: |
+        Terjemahan bahasa Ibrani. Pemilih untuk warna akaun suai.
+      ja: |
+        ヘブライ語翻訳. カスタムアカウント色の選択.
+      pl: |
+        Tłumaczenie hebrajskie. Wybór dla niestandardowego koloru konta.
+      iw: |
+        תרגום לעברית. בחירת צבע חשבון מותאם אישית.
+      ta: |
+        ஹீப்ரு மொழிபெயர்ப்பு. கணக்கிற்கான தனி விருப்ப வண்ணத்தை தேர்வு செய்யலாம்.
+  -
+    - 2.7.9
+    - "2017-04-14"
+    -
+      en: |
+        Currency symbols can be configured.
+      fr: |
+        Les symboles des devises peuvent être configurés.
+      de: |
+        Währungssymbole können konfiguriert werden.
+      it: |
+        È possibile configurare simboli di valuta.
+      es: |
+        Los símbolos de moneda se pueden configurar.
+      tr: |
+        Para birimi sembolleri yapılandırılabilir.
+      eu: |
+        Moneta-ikurrak konfiguratu daitezke.
+      bg: |
+        Може да се задават знаци за валута.
+      ru: |
+        Возможность настройки символов валюты.
+      ms: |
+        Simbol matawang boleh dikonfigurkan.
+      ja: |
+        通貨記号を設定できます.
+      pl: |
+        Możliwość konfiguracji symboli walut.
+      iw: |
+        סמלי המטבע ניתנים להגדרה.
+  -
+    - 2.7.8
+    - "2017-04-01"
+    -
+      en: |
+        App Shortcuts for Android 7.1.
+      fr: |
+        Raccourcis d'application pour Android 7.1.
+      de: |
+        App Verknüpfungen für Android 7.1.
+      it: |
+        Scorciatoia dell'app per Android 7.1.
+      es: |
+        Accesos directos a la aplicación para Android 7.1.
+      tr: |
+        Android 7.1 için uygulama kısayolları.
+      eu: |
+        Lasterbideak aplikaziora Android 7.1-erako.
+      bg: |
+        Шорткъти на приложението за Андроид 7.1.
+      ru: |
+        Ярлыки приложений для Android 7.1.
+      ms: |
+        Pintasan Apl untuk Android 7.1.
+      ja: |
+        Android 7.1 用アプリショートカット.
+      pl: |
+        Skróty aplikacji na Androidzie 7.1.
+      iw: |
+        קיצורי דרך עבור אנדרואיד 7.1.
+  -
+    - 2.7.7
+    - "2017-03-18"
+    -
+      en: |
+        Auto backups can be stored on cloud backend.
+      fr: |
+        Les sauvegardes automatiques peuvent être stockées sur un serveur cloud.
+      de: |
+        Automatische Sicherungen können auf Cloud-Backend gespeichert werden.
+      it: |
+        I backup automatici possono essere memorizzati su backend cloud.
+      es: |
+        Las copias de seguridad automáticas se pueden guardar en los servicios de nube.
+      tr: |
+        Otomatik yedeklemeler bulut arka ucunda stoklanabilir.
+      eu: |
+        Babeskopia automatikoak hodeiko atzealdekoan biltegiratu daitezke.
+      bg: |
+        Автоматичните бекъпи могат да се записват на  отдалечено облачно място.
+      ru: |
+        Автоматическое резервное копирование в облачных сервисах.
+      ms: |
+        Auto sandar boleh disimpan dalam bahagian belakang awan.
+      ja: |
+        自動バックアップはクラウドバックエンドに保存できます.
+      pl: |
+        Automatyczne kopie zapasowe można przechowywać w zapleczu chmury.
+      iw: |
+        גיבויים אוטומטיים ניתן לאחסן על ענן backend.
+  -
+    - 2.7.6
+    - "2017-02-28"
+    -
+      en: |
+        Minor improvements.
+      fr: |
+        Améliorations mineures.
+      de: |
+        Gerinfügige Verbesserungen.
+      it: |
+        Piccoli miglioramenti.
+      es: |
+        Pequeñas mejoras.
+      tr: |
+        Küçük iyileştirmeler.
+      eu: |
+        Bigarren mailako hobekuntzak.
+      bg: |
+        Малки подобрения.
+      ru: |
+        Незначительные улучшения.
+      ms: |
+        Penambahbaikan kecil.
+      ja: |
+        マイナーな改善.
+      pl: |
+        Mniejsze usprawnienia.
+      iw: |
+        שיפורים קלים.
+  -
+    - 2.7.5
+    - "2017-02-10"
+    -
+      en: |
+        Synchronization across devices via cloud services.
+      fr: |
+        Synchronisation des dispositifs via les services cloud.
+      de: |
+        Synchronisierung zwischen mehreren Geräten über Cloud-Dienste.
+      it: |
+        Sincronizzare tra dispositivi attraverso i servizi cloud.
+      es: |
+        Sincronización entre varios dispositivos vía servicios en la nube.
+      tr: |
+        Cihazlar arası bulut hizmetleri ile eşleşme.
+      el: |
+        Συγχρονισμό μεταξύ συσκευών μέσω υπηρεσιών σύννεφου.
+      eu: |
+        Gailuen arteko sinkronizazioa hodeiko zerbitzuen bidez.
+      bg: |
+        Синхронизиране между няколко устройства чрез облачни услуги.
+      ru: |
+        Синхронизация между устройствами через облачные сервисы.
+      ms: |
+        Penyegerakan merentasi peranti melalui perkhidmatan awan.
+      ja: |
+        クラウドサービスを介したデバイス間の同期.
+      pl: |
+        Synchronizacja pomiędzy urządzeniami przez chmurę.
+      iw: |
+        סנכרון בין מכשירים באמצעות שירותי ענן.
+  -
+    - 2.7.1
+    - "2016-08-15"
+    -
+      en: |
+        Problems with plans on Samsung devices are fixed. Edit transactions from distribution screen.
+      fr: |
+        Problèmes avec les échéances sur les appareils Samsung sont résolus. Modifier les opérations à partir de l’écran de distribution.
+      de: |
+        Probleme mit Plänen auf Samsung-Geräten behoben. Buchungen können von der Verteilungsansicht aus bearbeitet werden..
+      it: |
+        Risolti i problemi con i programmi su dispositivi Samsung. Modifica transazioni dalla schermata di distribuzione.
+      es: |
+        Se han resuelto problemas en los proyectos con dispositivos Samsung. Editar transacciones desde la pantalla de distribución.
+      pt: |
+        Problemas com planos em dispositivos Samsung são resolvidos. Editar transações da tela de distribuição.
+      tr: |
+        Samsung cihazlarında planlamalar ile ilgili sorunlar giderildi. Dağıtım ekranında mumaleleri düzenleme.
+      eu: |
+        Planekin Samsung gailuetan zeuden arazoak konpòndu dira. Editatu transakzioak distribuzioaren pantailatik.
+      bg: |
+        Отстранени проблеми с плановете на устройства Samsung. Редактиране на транзакцията на екрана за разпределение.
+      ru: |
+        Исправлены проблемы с планами на устройствах Samsung. Редактирование операций с экрана распределения.
+      ms: |
+        Masalah plan pada peranti Samsung telah dibaiki. Sunting transaksi dari skrin pengagihan.
+      ja: |
+        Samsung デバイスで計画の問題が修正されます. 分布画面から取引の編集.
+      pl: |
+        Problemy z planami na urządzeniach Samsung są naprawione. Edytuj transakcje na ekranie statystyk.
+      iw: |
+        בעיות בתוכניות בהתקני Samsung מתוקנות. ערוך עסקאות ממסך הפצה.
+  -
+    - 2.7.0
+    - "2016-06-18"
+    -
+      en: |
+        New launcher icon. Search for transfers. Sort plans by next instance.
+      fr: |
+        Nouvelle icône de lancement. Recherche de transferts. Tri des échéances par date.
+      de: |
+        Neues Start-Symbol. Suche nach Umbuchung. Pläne können nach dem nächsten Vorkommen sortiert werden.
+      it: |
+        Nuova icona di avvio. Ricerca per i trasferimenti. I piani possono essere ordinati per istanza successiva.
+      es: |
+        Nuevo icono. Búsqueda para transferencias. Los proyectos pueden ser ordenados por futuras instancias.
+      pt: |
+        Novo ícone do lançador. Busca de transferências. Classificar os planos da próxima instância.
+      tr: |
+        Yeni başlatma ikonu. Transferler için arama. Planlamaları sonraki örneklemeye dayalı sıralama.
+      el: |
+        Νέο εικονίδιο εκκίνησης. Αναζήτηση για μεταφορές. Ταξινόμηση σχεδίων με την επόμενη εμφάνιση.
+      eu: |
+        Ikono berria. Tranferentzien bilaketa. Ordenatu planak hurrengo gertaeraren arabera.
+      bg: |
+        Нова икона за стартиране. Търсене на преводи. Сортиране на плановете по следваща инстанция.
+      ru: |
+        Новая иконка. Поиск переводов. Сортировать планы по ближайшему событию.
+      ms: |
+        Ikon pelancar baharu. Gelintar pemindahan. Isih plan pada kejadian berikutnya.
+      ja: |
+        新しいランチャーアイコン. 振替の検索. 次のインスタンスで計画をソート.
+      pl: |
+        Nowa ikona aplikacji. Wyszukaj transfery. Sortuj plany według następnej instancji.
+      iw: |
+        סמל מפעיל חדש. חפש העברות. מיין תוכניות לפי המופע הבא.
+  -
+    - 2.6.9
+    - "2016-05-29"
+    -
+      en: |
+        Transaction form allows to create recurrence directly.
+      fr: |
+        Création directe des échéances à partir des opérations.
+      de: |
+        Buchungsformular ermöglicht Wiederholung direkt einzustellen.
+      it: |
+        Il formulario dell'operazione permette di creare la ricorrenza direttamente.
+      es: |
+        El formulario de transacción permite crear directamente repeticiones.
+      pt: |
+        Forma de transação permite criar recorrência diretamente.
+      tr: |
+        Muamele formu doğrudan tekrar oluşturmaya izin verir.
+      el: |
+        Η φόρμα συναλλαγής σας επιτρέπει να δημιουργήσετε άμεσα επαναλήψεις.
+      eu: |
+        Transakzioaren formularioak errepikakortasuna zuzenean sortzea baimentzen du.
+      bg: |
+        Повтаряне на транзакцията може да се зададе директно от формата при създаването й..
+      ru: |
+        Форма операции позволяет повторить ее.
+      ms: |
+        Borang transaksi membolehkan penciptaan pengulangan secara terus.
+      ja: |
+        直接、繰り返しを作成することができる取引フォーム.
+      pl: |
+        Formularz transakcji pozwala bezpośrednio tworzyć przewalutowanie.
+      iw: |
+        טופס העסקה מאפשר ליצור הישנות ישירה.
+  -
+    - 2.6.8
+    - "2016-05-08"
+    -
+      en: |
+        Setup of recurring and future transactions made easier.
+      fr: |
+        Mise en place des opérations futures et récurrentes plus facile .
+      de: |
+        Einrichtung von wiederkehrenden und zukünftigen Buchungen leichter gemacht.
+      it: |
+        Installazione di transazioni ricorrenti e future facilitata.
+      es: |
+        Configuración más fácil de transacciones recurrentes y futuras.
+      pt: |
+        Instalação de transações futuras e recorrentes facilitado.
+      tr: |
+        Gelecekteki ve tekrar eden muamelelerin oluşturulması artık daha kolay.
+      el: |
+        Η δημιουργία επαναλαμβανόμενων και μελλοντικών συναλλαγών είναι πλέον ευκολότερη.
+      eu: |
+        Etorkizunean errepikatzen diren transakzioak erraztu dira.
+      bg: |
+        Задаването на повтарящи се и бъдещи транзакции вече става по-лесно.
+      ru: |
+        Упрощена настройка повторяющихся и будущих операций.
+      ms: |
+        Persediaan transaksi berulang dan akan datang menjadi lebih mudah. 
+      ja: |
+        繰り返し、および将来の取引の設定が簡単になりました。
+      pl: |
+        Łatwiejsze konfigurowanie powtarzających się i przyszłych transakcji.
+      iw: |
+        ההתקנה של עסקאות חוזרות ועתידיות נעשה קל יותר.
+  -
+    - 2.6.7
+    - "2016-04-30"
+    -
+      en: |
+        Simplified Chinese translation. Improved handling of plan instances.
+      fr: |
+        Traduction en chinois simplifié. Traitement amélioré des instances.
+      de: |
+        Übersetzung vereinfachtes Chinesisch. Verbesserte Verarbeitung von Plan-Instanzen.
+      it: |
+        Traduzione cinese semplificato. Migliorata la gestione delle istanze di piano.
+      es: |
+        Traducción simplificada al chino. Gestión de proyectos de instancias mejorado.
+      pt: |
+        Tradução em chinês simplificado. Melhoria no tratamento de ocorrências de planos.
+      tr: |
+        Sade Çince tercüme. Planlama örneklemelerinin geliştirilmiş yönetimi.
+      eu: |
+        Sinplifikatutako txinerara itzulpena. Planen instantzien kudeaketa hobetua.
+      bg: |
+        Превод на китайски език. Подобрена обработка на инстанциите в плановете.
+      ru: |
+        Упрощенный китайский перевод. Улучшена обработка планов.
+      ms: |
+        Terjemahan Bahasa Cina Mudah. Pengendalian kejadian pelan yang lebih baik.
+      ja: |
+        簡体中国語翻訳. 計画インスタンスの処理を改善しました.
+      pl: |
+        Tłumaczenie chińskie uproszczone. Poprawiona obsługa przykładowego planu.
+      iw: |
+        תרגום סינית פשוטה. טיפול משופר במופעי תוכניות.
+  -
+    - 2.6.6
+    - "2016-03-09"
+    -
+      en: |
+        New menu icons.
+      fr: |
+        Nouvelles icônes de menu.
+      de: |
+        Neue Menü-icons.
+      it: |
+        Nuove icone di menu.
+      es: |
+        Nuevos iconos de menú.
+      pt: |
+        Novos ícones do menu.
+      tr: |
+        Yeni menü ikonları.
+      el: |
+        Νέα εικονίδια μενού.
+      eu: |
+        Ikono berriak menuan.
+      bg: |
+        Нови икони в менюто.
+      ru: |
+        Новые иконки меню.
+      ms: |
+        Ikon menu baharu.
+      ja: |
+        新しいメニューアイコン.
+      ro: |
+        Noi iconuri meniu.
+      pl: |
+        Nowe ikony menu.
+      iw: |
+        סמלי תפריט חדש.
+  -
+    - 2.6.5
+    - "2016-02-19"
+    -
+      en: |
+        Sorting of templates, categories and accounts made easier.
+      fr: |
+        Tri des modèles, des catégories et des comptes rendu plus facile.
+      de: |
+        Sortierung der Vorlagen, Kategorien und Konten leichter gemacht.
+      it: |
+        Ordinamento dei modelli, categorie e dei conti ha reso più facile.
+      es: |
+        Clasificación de plantillas, categorías y cuentas mejorado.
+      pt: |
+        Classificação de modelos, categorias e contas facilitada.
+      tr: |
+        Hesaplar, kategoriler ve şablonların sıralaması artık daha kolay.
+      eu: |
+        Txantiloiak, kategoriak eta kontuak ordenatzea errezagoa da orain.
+      bg: |
+        Подреждането на шаблони, категории и сметки вече става по-лесно.
+      ru: |
+        Упрощена сортировка шаблонов, категорий и счетов.
+      ms: |
+        Pengisihan templat, kategori dan akaun menjadi lebih mudah.
+      ja: |
+        テンプレート、カテゴリ、アカウントのソートが簡単になります.
+      ro: |
+        Sortare de template-uri, categorii şi conturi cu uşurintă.
+      pl: |
+        Łatwiejsze sortowanie szablonów, kategorii i kont.
+      iw: |
+        מיון תבניות, קטגוריות וחשבונות נעשה קל יותר.
+  -
+    - 2.6.4
+    - "2016-01-25"
+    -
+      en: |
+        Categories screen can be searched. Account balance can be copied to clipboard. Paste into calculator from clipboard. Help for date format in export dialog.
+      fr: |
+        Recherches dans l'écran de catégories. Le solde du compte peut être copié dans le presse-papier. Coller dans la calculatrice depuis le presse-papier. Aide pour le format de date dans la boîte de dialogue Exporter.
+      de: |
+        Der Kategorien-Bildschirm kann durchsucht werden. Der Kontostand kann in die Zwischenablage kopiert werden. In den Taschenrechner kann aus der Zwischenablage eingefügt werden. Hilfe für Datumsformat im Export-Dialog.
+      it: |
+        Schermo di categorie possa essere ricercato. Saldo del conto può essere copiato negli appunti. Incolla nella calcolatrice dagli appunti. Aiuto per il formato di data nella finestra di dialogo Esporta.
+      es: |
+        Se pueden buscar pantallas de categorías. El saldo de la cuenta puede copiarse al portapapeles. Pegar en la calculadora desde el portapapeles. Ayuda para formatear fecha en el cuadro de diálogo de exportación.
+      pt: |
+        Tela de categorias pode ser pesquisada. O saldo da conta pode ser copiado para a área de transferência. Colar em calculadora de área de transferência. Ajuda para o formato de data na caixa de diálogo de exportação.
+      tr: |
+        Kategoriler ekranında arama yapılabilir. Hesap bakiyesi panoya kopyalanabilir. Panodan hesap makinesine yapıştırma yapılabilir. Dışa aktarma diyaloğunda tarih biçimi için yardım.
+      eu: |
+        Kategorien pantailan bilatzea dago. Kontuaren saldoa arbelera kopiatu daiteke. Itsatsi kalkulagailuan arbeletik. Data formaturako laguntza esportazio elkarrizketa koadroan.
+      bg: |
+        Може да направите Търсене на екрана с категории. Баланса на сметка може да бъде копиран в клипборда. Вмъкване от клипборда в калкулатора. Помощ за формат на датата в диалога за експорт.
+      ru: |
+        Экран категорий. Баланс счета можно скопировать в буфер обмена. Вставка в калькулятор из буфера обмена. Помощь в диалоге экспорта формат даты.
+      ms: |
+        Skrin kategori boleh digelintar. Imbangan akaun boleh disalin ke dalam papan keratan. Tampal ke dalam kalculator dari papan keratan. Bantuan untuk format tarikh dalam dialog eksport.
+      ja: |
+        分類画面が検索できるようになりました. 勘定の残高がクリップボードにコピーできるようになりました. クリップボードから電卓への貼り付け. エクスポート ダイアログで日付形式のヘルプ.
+      ro: |
+        Categorii ecrane pot fi căutate. Soldul contului poate fi copiat în clipboard. Lipire în calculatorul din clipboard. Ajutor pentru formatul datei în caseta de dialog export.
+      pl: |
+        Ekran kategorii można przeszukiwać. Saldo konta można skopiować do schowka. Wklej do kalkulatora ze schowka. Pomoc dla formatu daty w oknie dialogowym eksportu.
+      iw: |
+        ניתן לחפש את מסך הקטגוריות. ניתן להעתיק את יתרת החשבון ללוח. הדבק לתוך מחשבון מתוך הלוח. עזרה לפורמט תאריך בתיבת הדו-שיח לייצוא.
+  -
+    - 2.6.3
+    - "2016-01-07"
+    -
+      en: |
+        Transfers between accounts with different currencies.
+      fr: |
+        Transferts entre comptes de devises différentes.
+      de: |
+        Umbuchungen zwischen Konten mit verschiedenen Währungen.
+      it: |
+        Trasferimenti tra conti con valute diverse.
+      es: |
+        Transferencias entre cuentas con distintas divisas.
+      pt: |
+        Transferências entre contas com diferentes moedas.
+      tr: |
+        Değişik para birimleri kullanan hesaplar arası virmanlar.
+      eu: |
+        Transferentziak moneta desberdineko kontuen artean.
+      bg: |
+        Преводи между сметки с различни валути..
+      ru: |
+        Переводы между счетами в различных валютах.
+      ms: |
+        Pemindahan diantara akaun dengan matawang yang berlainan.
+      ja: |
+        異なる通貨で口座間の振替.
+      ro: |
+        Transferuri între conturile cu diferite valute.
+      pl: |
+        Transfery między kontami w różnych walutach.
+      iw: |
+        העברות בין חשבונות עם מטבעות שונים.
+  -
+    - 2.6.2
+    - "2015-12-22"
+    -
+      en: |
+        Days where week and month start can be configured.
+      fr: |
+        Les jours de démarrage de la semaine et du mois peuvent être configurés.
+      de: |
+        Die Tage, an denen Woche und Monat beginnen, können konfiguriert werden.
+      it: |
+        Giorni dove può essere configurato inizio settimana e mese.
+      es: |
+        Se puede configurar como inicio días en lugar de semanas y meses.
+      pt: |
+        Dias onde começam a semana e mês podem ser configurados.
+      tr: |
+        Ay ve haftaların başladığı günler yapılandırılabilir.
+      eu: |
+        Astea eta hilabetearen hasierako eguna konfiguratu daiteke.
+      bg: |
+        Възможност да настроите ден от седмицата и дата от месеца за период на групирне на транзакциите..
+      ru: |
+        Можно настроить дни начала недели и месяца.
+      ms: |
+        Hari permulaan minggu dan bulan boleh dikonfigurkan.
+      ja: |
+        週と月の開始日を設定できます.
+      ro: |
+        Zilele în cazul în care pe săptămâna şi luna pot fi configurate.
+      pl: |
+        Dni początku tygodnia i miesiąca można skonfigurować.
+      iw: |
+        ימים שבהם ניתן להגדיר את תצוגת השבוע והחודש.
+  -
+    - 2.6.1
+    - "2015-12-05"
+    -
+      en: |
+        Categories can be moved.
+      fr: |
+        Les catégories peuvent être déplacées.
+      de: |
+        Kategorien können verschoben werden.
+      it: |
+        Categorie possono essere spostate.
+      es: |
+        Se pueden mover las categorías.
+      pt: |
+        Categorias podem ser movidas.
+      tr: |
+        Kategoriler taşınabilir.
+      el: |
+        Επιτρέπεται η μετακίνηση κατηγοριών.
+      eu: |
+        Kategoriak mugitu daitezke.
+      bg: |
+        Местене на категориите - под-категории от една в друга главна, преобразуване на под-категория в главна и обратно..
+      ru: |
+        Категории могут быть перемещены.
+      ms: |
+        Kategori boleh dialih.
+      ja: |
+        分類を移動できます.
+      ro: |
+        Categorii pot fi mutate.
+      pl: |
+        Kategorie można przenosić.
+      iw: |
+        ניתן להעביר קטגוריות.
+  -
+    - 2.6.0
+    - "2015-11-28"
+    -
+      en: |
+        Material design. Improved tablet layout. Support for Samsung Knox.
+      fr: |
+        Material design. Présentation améliorée pour les tablettes. Support pour Samsung Knox.
+      de: |
+        Material design. Verbessertes Layout für Tablets. Unterstützung für Samsung Knox.
+      it: |
+        Material design. Migliore layout tablet. Supporto per Samsung Knox.
+      es: |
+        Material Design. Mejor diseño de tableta. Soporte para Samsung Knox.
+      pt: |
+        Material design. Layout de tablet melhorado. Suporte para Samsung Knox.
+      tr: |
+        Material design tasarımı. Geliştirilmiş tablet düzeni. Samsung Knox desteği.
+      el: |
+        Material design. Βελτίωση εμφάνισης σε ταμπλέτες. Υποστήριξη Samsung Knox.
+      eu: |
+        Material diseinua. Hobetutako tabletarako antolaketa. Samsung Knox euskarria.
+      bg: |
+        Приложена е технологията Material design. Подобрен изглед на таблет. Подръжка на Samsung Knox.
+      ru: |
+        Material design. Улучшенная компоновка в режиме планшета. Поддержка Samsung Knox.
+      ms: |
+        Rekabentuk bahan. Bentangan tablet ditambahbaik. Sokongan untuk Samsung Knox.
+      ja: |
+        マテリアルデザイン. タブレットレイアウトの改善. Samsung Knox のサポート.
+      ro: |
+        Material design. Aspect de tableta îmbunătăţit. Suport pentru Samsung Knox.
+      pl: |
+        Material design. Poprawiony układ dla tabletów. Wsparcie dla Samsung Knox.
+      iw: |
+        עיצוב חומר. פריסת טבלט משופרת. תמיכה עבור Samsung Knox.
+  -
+    - 2.5.2
+    - "2015-09-12"
+    -
+      en: |
+        Auto-Backup
+      eu: |
+        Babeskopia automatikoa
+      ro: |
+        Auto-backup
+      ca: |
+        Còpia de seguretat automàtica
+      zh-tw: |
+        自動備份
+      pl: |
+        Automatyczna kopia zapasowa
+      ru: |
+        Авто-бэкап
+      el: |
+        Αυτόματη δημιουργία αντιγράφων ασφαλείας
+      ko: |
+        자동 백업
+      cs: |
+        Automatická záloha
+      de: |
+        Automatisches Backup
+      tr: |
+        Otomatik yedekleme
+      ms: |
+        Auto-Sandar
+      it: |
+        Backup automatico
+      pt: |
+        Backup automático
+      es: |
+        Backup automática
+      ja: |
+        自動バックアップ
+      bg: |
+        Автоматичен бекъп
+      fr: |
+        Auto-backup
+      ar: |
+        نسخ احتياطي آلي
+  -
+    - 2.5.1
+    - "2015-08-30"
+    -
+      en: |
+        Configurable number format. Danish translation.
+      fr: |
+        Format de nombre configurable. Traduction en danois.
+      de: |
+        Konfigurierbares Zahlenformat. Dänische Übersetzung.
+      it: |
+        Formato numero configurabile. Traduzione in danese.
+      es: |
+        Formato de número configurable. Traducción a danés.
+      pt: |
+        Formato de número configurável. Dinamarquês Tradução.
+      tr: |
+        Yapılandırılabilir sayı biçimi. Danca tercüme.
+      el: |
+        Ρυθμιζόμενος τρόπος εμφάνισης αριθμός. Δανέζικη μετάφραση.
+      eu: |
+        Zenbaki formatu konfiguragarria. Danierara itzulpena.
+      bg: |
+        Канфигуриране на формата на цифрите. Превод на датски.
+      ru: |
+        Настраиваемый числовой формат. Датский Перевод.
+      ms: |
+        Format nombor boleh dikonfigur. Terjemahan bahasa Belanda.
+      ja: |
+        設定可能な数値書式. デンマーク語翻訳.
+      ro: |
+        Formatul numărului configurabil. Traducere Daneză.
+  -
+    - 2.5.0
+    - "2015-08-26"
+    -
+      en: |
+        CSV import. Korean translation.
+      fr: |
+        Importation CSV. Traduction en coréen.
+      de: |
+        Import CSV. Koreanische Übersetzung.
+      it: |
+        Importazione CSV. Traduzione in coreano.
+      es: |
+        Importación a CSV. Traducción a coreano.
+      pt: |
+        Importar de CSV. Coreano Tradução.
+      tr: |
+        CSV içe aktarımı. Korece tercüme.
+      el: |
+        Εισαγωγή CSV. Κορεάτικη μετάφραση.
+      eu: |
+        CSV inportazioa. Korearrera itzulpena.
+      bg: |
+        Импорт от CSV файл. Превод на корейски.
+      ru: |
+        Импорт CSV. Перевод на Корейский.
+      ms: |
+        Import CSV. Terjemahan bahasa Korea.
+      ja: |
+        CSV インポート. 韓国語翻訳.
+      ro: |
+        Import CSV . Traducere Coreeană .
+  -
+    - 2.4.9
+    - "2015-06-15"
+    -
+      en: |
+        Export categories to QIF. Display aggregate sums in home screen widget.
+      fr: |
+        Export des catégories au format QIF. Afficher les sommes globales dans le widget de l'écran d'accueil.
+      de: |
+        Exportieren von Kategorien zu QIF. Anzeige der Gesamtsummen im Start-Bildschirm Widget.
+      it: |
+        Esportare le categorie a QIF. Visualizza somme complessivi in widget di schermata iniziale.
+      es: |
+        Exportación de categorías a QIF. Visualizar sumas acumuladas en el widget de la pantalla de inicio.
+      pt: |
+        Exportação de categorias para QIF. Mostrar somas agregadas em widget da tela inicial.
+      tr: |
+        Kategorileri QIF dosyasına aktar. Ana ekran widget'inde agrega toplamları göster.
+      eu: |
+        Esportatu kategoriak QIF fitxategira. Bistaratu pilatutako baturak hasiera pantailako trepetan.
+      bg: |
+        Експорт на категории в QIF файл. Уиджета на начален екран показва общи суми.
+      ms: |
+        Eksport kategori ke QIF. Papar hasil tambah agregat dalam widjet skrin rumah.
+      ja: |
+        QIF に分類をエクスポート. ホーム画面ウィジェットに集計した合計を表示.
+      ro: |
+        Export categorii catre QIF. Afișează sumele agregate în ecranul de start widget.
+      pl: |
+        Eksport kategorii do formatu QIF. Wyświetl agregację sum na ekranie głównym.
+      ru: |
+        Экспорт категорий в QIF. Отображение общих сумм в виджете на главном экране.
+  -
+    - 2.4.8
+    - "2015-06-04"
+    -
+      en: |
+        The status of cloned transactions is reset to unreconciled. Alternative restore method for devices without file manager.
+      fr: |
+        Le statut des opérations clonées est réinitialisé à non rapproché. Autre méthode de restauration pour les appareils sans gestionnaire de fichiers.
+      de: |
+        Der Status der geklonten Buchungen wird auf nicht abgestimmt zurückgesetzt. Alternative Methode der Widerherstellung von Sicherungskopien für Geräte ohne Datei-Manager.
+      it: |
+        Lo stato delle transazioni clonate viene reimpostato a non riconciliati. Alternative metodo di ripristino per dispositivi senza file manager.
+      es: |
+        El estado de las transacciones clonadas se restablece a reconciliada. Alternativa restaurar el método para dispositivos sin el administrador de archivos.
+      pt: |
+        O status das transações clonados é redefinido para não reconciliadas. Alternativa método de restauração para dispositivos sem gerenciador de arquivos.
+      tr: |
+        Klonlanmış muamemelelerin durumu uzlaşmamışa atanır. Dosya yöneticisi olmayan cihazlar için alternatif geri alma metodu.
+      eu: |
+        Klonatutako transakzioen egoera berdinkatu gabe gisa ezartzen da. Ordezko berreskuratze metodoa fitxategi kudeatzailerik gabeko gailuentzat.
+      bg: |
+        Статусът на клонирани транзакции се връща в несъгласувани. Допълнителен начин на възстановяване за устройства без файлов мениджър.
+      ms: |
+        Status transaksi diklon adalah ditetap semula kepada tidak boleh dikembalikan. Kaedah pemulihan alternatif bagi peranti tanpa pengurus fail.
+      ja: |
+        複製された取引のステータスを未照合にリセットします. ファイルマネージャーのないデバイス用の代替の復元方法.
+      ro: |
+        Statusul tranzacţiilor clonate este resetat la neconciliat. Metoda Alternativă de restabilire pentru dispozitive fără manager fişiere.
+      pl: |
+        Status transakcji sklonowanych zostaje zresetowany do nieuzgodnionego. Alternatywny sposób odzyskania danych dla urządzeń bez menadżera plików.
+      ru: |
+        Статус клонированной операций сбрасывается на несогласованная. Альтернативный метод восстановления для устройств без файлового менеджера.
+  -
+    - 2.4.7
+    - "2015-06-01"
+    -
+      en: |
+        Clone command opens editing form.
+      fr: |
+        La commande de clonage ouvre le formulaire d'édition.
+      de: |
+        Der Befehl Klonen öffnet das Bearbeitungsformular.
+      it: |
+        Clone comando apre modifica forma.
+      es: |
+        Comando clon abre formulario de edición.
+      pt: |
+        Comando clone abre o formulário de edição.
+      tr: |
+        Klonlama komutu düzenleme formunu açar.
+      eu: |
+        Klonatu komandoak edizio formularioa irekitzen du.
+      bg: |
+        Командата Клониране отваря бланка за редактиране.
+      ms: |
+        Perintah klon membuka borang penyuntingan.
+      ja: |
+        複製コマンドで編集フォームを開きます.
+      ro: |
+        Comanda Cloneaza  deschide formularul de editare.
+      pl: |
+        Polecenie klonowania otwiera formularz edycji.
+      ru: |
+        Команда клонировать открывает форму редактирования.
+  -
+    - 2.4.6
+    - "2015-05-16"
+    -
+      en: |
+        Transactions can be set to state "Void".
+      fr: |
+        Les opérations peuvent être mises en état « invalide ».
+      de: |
+        Buchungen können als "ungültig" gekennzeichnet werden.
+      it: |
+        Le transazioni possono essere impostate per stato "invalido".
+      es: |
+        Las transacciones se pueden establecer en estado "Inválida".
+      pt: |
+        Transações podem ser definidas como estado "Vazio".
+      tr: |
+        Muameleler "Hükümsüz" durumuna ayarlanabilir.
+      ms: |
+        Transaksi boleh ditetapkan dalam keadaan "Tidak Sah".
+      ja: |
+        取引のステータスを "無効" にセットできます.
+      eu: |
+        Transakzioak "Indargabetua" egoeran ezarri daitezke.
+      bg: |
+        Транзакцията може да бъде отбелязана като "не отчитай".
+      ro: |
+        Tranzacţiile poate fi setate la starea "Gol".
+      pl: |
+        Transakcje mogą zostać oznaczone jako "Anulowane".
+      el: |
+        Οι συναλλαγές τώρα μπορούν να οριστούν ως "άκυρες".
+      ru: |
+        Операциям можно присвоить состояние «Пустая».
+  -
+    - 2.4.5
+    - "2015-05-04"
+    -
+      en: |
+        Export and reset functionality can now be applied to transactions matched by search filter.
+      fr: |
+        La fonction "Exporter et réinitialiser" peut maintenant être appliquée aux opérations correspondantes des filtres de recherche.
+      de: |
+        Die Funktion "Exportieren und zurücksetzen" kann jetzt auf Buchungen, die durch Suchfilter ausgewählt werden, eingeschränkt werden.
+      it: |
+        La funzionalità "Esportare e reinizializzare" ora può essere applicato alle transazioni rilevate dal filtro di ricerca.
+      es: |
+        La función "Exportar y restablecer" ahora puede ser aplicada a las transacciones igualadas por filtro de búsqueda.
+      pt: |
+        La funcionalidade "Exportação e reset" agora pode ser aplicada a transações correspondidas pelo filtro de pesquisa.
+      tr: |
+        Dışa aktarma ve sıfırlama işlevi artık arama filtresi ile eşleşen muamelelere uygulanabilir.
+      ms: |
+        Kefungsian eksport dan tetap semula kini boleh dilaksana ke transaksi yang dipadankan dengan penapis gelintar.
+      ja: |
+        エクスポートおよびリセット機能が、検索フィルターに一致する取引に適用できるようになりました.
+      eu: |
+        Esportatu eta leheneratu funtzioak bilaketa iragazkiarekin bat datozen transakzioetan aplikatu daitezke orain.
+      bg: |
+        Функцията Експорт и нулиране сега може да се приложи за транзакции, избрани с филтър.
+      ro: |
+        Funcţionalitatile Export si reset pot fi aplicate la operaţiunile de Filtrare cautare.
+      pl: |
+        Funkcja eksportu i resetu może teraz być zastosowana to transakcji pasujących do filtru wyszukiwania.
+      ru: |
+        Функции экспорта и сброса теперь могут применяться к операциям, соответствующим критериям поиска.
+  -
+    - 2.4.4
+    - "2015-04-21"
+    -
+      en: |
+        Search filter for duration. Filters for method, payee, status and category now allow multiple selection. Basque translation.
+      fr: |
+        Filtre de recherche pour une durée. Les filtres de méthode, bénéficiaire, statut et catégorie sont maintenant permis pour la sélection multiple. Traduction en basque.
+      de: |
+        Suchfilter für Dauer. Filter für Methode, Zahlungsempfänger, Status und Kategorie lässt nun Mehrfachauswahl zu. Baskische Übersetzung.
+      it: |
+        Filtro di ricerca per la durata. Filtri per metodo, beneficiario, status e categoria ora consentono la selezione multipla. Traduzione basco.
+      es: |
+        Filtro de búsqueda por duración. Filtros por método, el beneficiario, estado y categoría ahora permiten selección múltiple. Traducción en euskera.
+      pt: |
+        Filtro de pesquisa para a duração. Filtros para método, beneficiário, status e categoria agora permitem a seleção múltipla. Tradução Basco.
+      tr: |
+        Zaman aralığı için arama filtresi. Metot, alacaklı, durum ve kategori filtreleri artık çoklu seçimleri desteklemektedir. Baskça tercüme.
+      ms: |
+        Gelintar penapis untuk tempoh. Tapis kaedah, penerima, status dan kategori sekarang untuk membenarkan pemilihan berbilang. Terjemahan Basque.
+      ja: |
+        期間の検索フィルター. 方法、支払先、ステータス、および分類のフィルターが、複数選択できるようになりました. バスク翻訳.
+      eu: |
+        Iraupenerako bilaketa iragazkia. Metodoa, ordaintzailea, egoera eta kategoriaren arabera bilatzeko iragazkiek hainbat aukera onartzen dituzte orain. Euskarara itzulpena!.
+      bg: |
+        Филтър за период от време. Филтрите за начин на плащане, платец, статус и категория сега позволяват едновременен избор. Превод на баскски език.
+      ro: |
+        Filtru de cautare pentru durata. Filtre pentru metoda, beneficiar, statutul şi categoria acum permite selectarea multipla. Bască Traducere.
+      pl: |
+        Filtr wyszukiwania dla czasu trwania. Filtry dla metod, płatników, statusu i kategorii pozwalają teraz na wielokrotne zaznaczanie. Tłumaczenie Baskijskie.
+      ru: |
+        Фильтр поиска по длительности. Фильтры по методу, получателю, статусу и категории теперь поддерживают множественный выбор. Баскский перевод.
+  -
+    - 2.4.3
+    - "2015-04-03"
+    -
+      en: |
+        If application is password protected, pictures are stored securely in internal storage.
+      fr: |
+        Si l'application est protégée par mot de passe, les photos seront stockées en toute sécurité dans le stockage interne.
+      de: |
+        Wenn die Anwendung passwortgeschützt ist, werden Bilder nun sicher im internen Speicher gespeichert.
+      it: |
+        Se l'applicazione è protetto da password, le immagini sono memorizzate in modo sicuro nella memoria interna.
+      es: |
+        Si la aplicación esta protegida por contraseña , fotos se almacenan en almacenamiento interno.
+      pt: |
+        Se o aplicativo é protegido por senha, fotos são armazenadas com segurança no armazenamento interno.
+      tr: |
+        Eğer uygulama bir parola ile korunmuşsa, resimler dahili depolamada güvenli olarak saklanır.
+      eu: |
+        Aplikazioa pasahitzez babestuta badago, irudiak barne biltegiratzean gordeko dira modu seguruan.
+      bg: |
+        Ако приложението е защитено с парола, изображенията се съхраняват във вътрешно защитено хранилище.
+      ms: |
+        Jika aplikasi dilindungi kata laluan, gambar disimpan secara selamat di dalam storan luaran.
+      ja: |
+        アプリケーションがパスワード保護されている場合、画像は内部ストレージに安全に格納されます.
+      ro: |
+        Daca aplicatia este parolata, imaginile sunt stocate în siguranţă în stocare internă.
+      pl: |
+        Jeżeli aplikacja jest zabezpieczona hasłem, obrazki są przechowywane wewnętrznie w bezpieczny sposób.
+      ru: |
+        Если приложение защищено паролем, изображения надежно хранятся во внутренней памяти.
+  -
+    - 2.4.2
+    - "2015-03-26"
+    -
+      en: |
+        Attach picture to transaction.
+      fr: |
+        Lier une image avec une transaction.
+      de: |
+        Bildanhänge für Buchungen.
+      it: |
+        Allegare immagine per transazione.
+      es: |
+        Adjuntar imagen de transacción.
+      pt: |
+        Anexar imagens de transação.
+      tr: |
+        Muameleye resim ekleme.
+      ms: |
+        Lampir gambar ke dalam transaksi.
+      ja: |
+        取引に写真を添付.
+      eu: |
+        Erantsi irudia transakzioari.
+      bg: |
+        Прикачване на изображение към транзакцията.
+      ro: |
+        Ataşaţi imagine la tranzacţie.
+      pl: |
+        Dopnij obraz do transakcji.
+      ru: |
+        Прикрепить изображение к операции.
+  -
+    - 2.4.1
+    - "2015-02-23"
+    -
+      en: |
+        Pie chart visualizing distribution per category.
+      fr: |
+        Diagramme en camembert de la répartition par catégorie.
+      de: |
+        Kreisdiagramm zeigt Verteilung pro Kategorie.
+      it: |
+        Grafico a torta visualizzando la distribuzione per categoria.
+      es: |
+        Diagrama circular de la distribución por categoría.
+      pt: |
+        Visualização de distribuição por categoria em gráfico de pizza.
+      tr: |
+        Kategori başına dağılımı grafik olarak görüntüle.
+      ms: |
+        Carta pai mengvisualkan agihan per katagori.
+      ja: |
+        分類ごとの分布を可視化する円グラフ.
+      eu: |
+        Tarta diagrama kategoriako distribuzioa bistaratzeko.
+      bg: |
+        Показва графично разпределение по категория.
+      ro: |
+        Diagrama Pie vizualizeaza distribuţia pe categorii.
+      pl: |
+        Wykres kołowy pokazujący rozkład na kategorie.
+      ru: |
+        Круговая диаграмма распределения по категориям.
+  -
+    - 2.4.0
+    - "2014-12-16"
+    -
+      en: |
+        Transform normal transaction into split transaction.
+      fr: |
+        Transformer une transaction normale en opération ventilée.
+      de: |
+        Normale Buchungen in Splittbuchungen verwandeln.
+      it: |
+        Trasformare normali operazione nella operazione frazionate.
+      es: |
+        Transformar el asiento normal en asiento dividido.
+      pt: |
+        Transformar a transação normal, a transação de divisão.
+      tr: |
+        Normal muamelelerin bölünmüş muamelelere dönüştürülmesi.
+      ms: |
+        Ubah transaksi bias menjadi transaksi pisah.
+      ja: |
+        通常の処理を分割処理に変換します.
+      ro: |
+        Transformă tranzacţia normală în tranzacţie repartizată.
+      eu: |
+        Bihurtu transakzio arrunta banatutako transakzioan.
+      bg: |
+        Преобразуване на нормална транзакция в разпределена.
+      pl: |
+        Zamień normalną transakcję w transakcję z podziałem.
+      ru: |
+        Преобразование обычной операции в разделенную.
+  -
+    - 2.3.9
+    - "2014-12-04"
+    -
+      en: |
+        Upon database restore, plans are now recreated. New translations: Bulgarian, Croatian and Romanian.
+      fr: |
+        A partir de la base de données de restauration, les échéances sont maintenant recréées . Nouvelles traductions: bulgare. croate et roumain.
+      de: |
+        Nach Wiederherstellung der Datenbank werden Pläne jetzt neu erstellt. Neue Übersetzungen: Bulgarisch, Kroatisch und Rumänisch.
+      it: |
+        Al ripristino del database, i piani sono ora ricreati. Nuove traduzioni: bulgaro, croato e rumeno.
+      es: |
+        Sobre restaurar base de datos, ahora se recrean los planes. Nuevas traducciones: búlgaro, croata y rumano.
+      pt: |
+        Após a restauração do banco de dados, planos agora são recriados. Novas traduções: Búlgaro, croata e romeno.
+      tr: |
+        Veritabanının geri alınmasında planlamalar yeniden oluşturulur. Yeni tercümeler: Bulgarca, Hırvatça ve Rumence.
+      eu: |
+        Datu-basea berreskuratzean planak berregingo dira orain. Itzulpen berriak: Bulgariera, Kroaziera eta Erromaniera.
+      bg: |
+        Сега плановете се обновяват при възстановяване на базата данни. Нови преводи: български, хърватски и румънски.
+      pl: |
+        Plany są teraz odzyskiwane, podczas odzyskania bazy danych. Nowe tłumaczenia: Bułgarski, Chorwacki, Rumuński.
+      hr: |
+        Prilikom obnavljanja baze podataka, planovi su ponovno kreirani. Novi prijevodi: bugarski, hrvatski i rumunjski.
+      ms: |
+        Ketika pemulihan pangkalan data, pelan kini dicipta semula. Terjemahan baharu: Bahasa Bulgaria, Croatia dan Romania.
+      ja: |
+        データベースの復元時に、計画が再作成されるようになりました. 新しい翻訳: ブルガリア語、クロアチア語、ルーマニア語.
+      ro: |
+        La restaurarea bazei de date, scadenţele sunt acum recreate. Noi traduceri: Bulgară ,croată şi română.
+  -
+    - 2.3.8
+    - "2014-10-31"
+    -
+      en: |
+        Japanese translation. Transaction groups can be collapsed.
+      fr: |
+        Traduction en japonais. Les groupes d'opérations peuvent être réduits.
+      de: |
+        Japanische Übersetzung. Buchungsgruppen können ausgeblendet werden.
+      it: |
+        Traduzione giapponese. Gruppi di transazione possono essere compressi.
+      es: |
+        Traducción en japonés. Grupos de transacciones pueden ser derrumbados.
+      pt: |
+        Tradução em Japonês. Grupos de transação podem ser recolhidos.
+      tr: |
+        Japonca tercüme. Muamele grupları küçültülebilir.
+      ms: |
+        Terjemahan bahasa Jepun. Kumpulan transaksi boleh dikuncupkan.
+      eu: |
+        Japonierara itzulpena. Transakzio taldeak tolestu daitezke.
+      bg: |
+        Превод на японски. Групите транзакции могат да се свиват.
+      pl: |
+        Tłumaczenie Japońskie. Grupy transakcji mogą być zwijane.
+      hr: |
+        Japanski prijevod. Grupe transakcija se mogu sažeti.
+      ms: |
+        Terjemahan bahasa Jepun. Kumpulan transaksi boleh dikuncupkan.
+      ja: |
+        日本語翻訳. 取引のグループを折りたたむことができます.
+      ro: |
+        Traducere Japoneză. Grupurile de tranzactii pot restrânse.
+  -
+    - 2.3.7
+    - "2014-10-25"
+    -
+      en: |
+        Payment methods are sorted alphabetically.
+      fr: |
+        Les modes de paiement sont triés par ordre alphabétique.
+      de: |
+        Zahlungsmethoden werden alphabetisch sortiert.
+      it: |
+        Metodi di pagamento sono ordinati alfabeticamente.
+      es: |
+        Métodos de pago están ordenados por orden alfabético.
+      pt: |
+        Métodos de pagamento são classificados em ordem alfabética.
+      tr: |
+        Ödeme metotları alfabetik olarak sıralanır.
+      ms: |
+        Kaedah pembayaran diisih secara berabjad.
+      eu: |
+        Ordainketa metodoak alfabetikoki ordenatu daitezke.
+      bg: |
+        Начините на плащане се подреждат по азбучен ред.
+      pl: |
+        Metody płatności są sortowane alfabetycznie.
+      hr: |
+        Načini plaćanja sortirani su po abecedi.
+      ms: |
+        Kaedah pembayaran diisih secara berabjad.
+      ja: |
+        支払方法は、アルファベット順にソート.
+      ro: |
+        Metodele de plată sunt sortate alfabetic.
+  -
+    - 2.3.6
+    - "2014-10-21"
+    -
+      en: |
+        Customize grouping of accounts in account list. Group headers now show previous balance and net gain/loss.
+      fr: |
+        Le regroupement des comptes dans la liste des comptes est personnalisable. Les en-têtes de groupe maintenant montrent le solde précédent et gain/perte nette.
+      de: |
+        Gruppierung der Konten in der Kontenliste ist anpassbar. Die Titelzeilen der Gruppen zeigen jetzt den vorhergehenden Kontostand und den Netto Gewinn/Verlust.
+      it: |
+        Personalizza il raggruppamento dei conti nell'elenco dei conti. Intestazioni di gruppo ora mostrano il saldo precedente e guadagno/perdita netta.
+      es: |
+        Personalizar agrupamiento de cuentas en la lista de cuentas. Cabeceras de grupo ahora mostran equilibrio anterior y ganancia/pérdida neta.
+      pt: |
+        Personalizar agrupamento de contas na lista de contas. Cabeçalhos de grupo agora mostram equilíbrio anterior e ganho/perda líquida.
+      eu: |
+        Pertsonalizatu kontuen taldekatzea kontuen zerrendan. Talde goiburuek aurreko saldoa eta irabazi edo galera netoa bistaratzen dute.
+      bg: |
+        Персонализирано групиране на сметките в списъка на сметките. Груповото заглавие сега показва предишно салдо и нетна печалба/загуба.
+      pl: |
+        Własne grupowanie kont na liście kont. Nagłówki grup pokazują teraz poprzedni zysk/stratę netto.
+      hr: |
+        Prilagodite grupirane račune u popisu s računima. Zaglavlja grupa sada prikazuju prethodni saldo i neto dobit/gubitak.
+      ms: |
+        Suaikan pengumpulan akaun dalam senarai akaun. Tajuk kumpulan kini papar baki terdahulu dan untung/rugi bersih.
+      ja: |
+        勘定リスト内の勘定のグループ化をカスタマイズ. グループヘッダーは、前の残高と純利益/損失を示すようになりました.
+      ro: |
+        Particularizarea grupării conturilor în lista de conturi.  Antetele grupelor acum arată soldul precedent şi câştigul/pierderea netă.
+  -
+    - 2.3.5
+    - "2014-10-15"
+    -
+      en: |
+        From distribution screen, display list of transactions per category. Improved payer/payee autocomplete.
+      fr: |
+        Dans l'écran de distribution, afficher la liste de transactions par catégorie. Amélioration du remplissage automatique des tiers.
+      de: |
+        In der Verteilungsansicht die Liste der Buchungen pro Kategorie anzeigen. Verbesserte Vervollständigung von Zahler/Empfänger.
+      it: |
+        Dalla schermata di distribuzione, visualizzare l'elenco delle transazioni per ogni categoria. Miglioramento del completamento automatico Beneficiario/Pagatore.
+      es: |
+        Desde la pantalla de distribución, mostrar la lista de transacciones por categoría. Mejora de la función de autocompletar Beneficiario/Pagador.
+      pt: |
+        Tela de distribuição, exibir a lista de transações por categoria. Melhoria do preenchimento automático Beneficiário/Pagador.
+      eu: |
+        Distribuzio pantailan transakzioak kategoriako zerrendatu. Hobetutako onuradun/ordaintzaile bitarteko osaketa automatikoa.
+      bg: |
+        От екрана с разпределението може да се покаже списък транзакции по категория. Подобрено автоматично попълване според платец/получател.
+      pl: |
+        Z ekranu dystrybucji wyświetlić można listę transakcji z podziałem na kategorię. Udoskonalone auto-uzupełnianie płatnika/beneficjenta.
+      hr: |
+        Sa zaslona za distribuciju, moguć je prikaz transakcija po kategoriji. Poboljšano automatsko dopunjavanje za platitelje/primaoce.
+      ms: |
+        Dari skrin agihan, papar senarai transaksi per kategori. auto-lengkap pembayar/penerima yang ditambahbaik.
+      ja: |
+        分布画面で、分類ごとの取引のリストを表示. 支払人/受取人のオートコンプリートの改善.
+      ro: |
+        Din ecranul de distribuţie, se afişează lista de tranzacţilori pe categorie. Imbunătăţirea autocompletării platitorilor/beneficiarilor .
+  -
+    - 2.3.4
+    - "2014-09-30"
+    -
+      en: |
+        Customizable number of fraction digits for currencies. Allow to exclude accounts from totals.
+      fr: |
+        Le nombre de décimales pour les devises est personnalisable. Des comptes peuvent être exclus des totaux.
+      de: |
+        Anpassbare Anzahl der Nachkommastellen für Währungen. Konten können aus der aggregierten Ansicht ausgeschlossen werden.
+      it: |
+        Personalizzabile numero di cifre della frazione per valute. Consenti di escludere gli conti da totali.
+      es: |
+        Personaliza la cantidad de dígitos de fracción por moneda.. Ahora se pueden excluir las cuentas de los totales.
+      pt: |
+        Personalizável número de dígitos de fração para moedas. Permitir excluir contas de totais.
+      tr: |
+        Para birimleri için kişiselleştirilebilir kesir basamak sayısı. Hesapları toplamlardan dışlamaya izin ver.
+      ms: |
+        Nombor digit pecahan boleh suai untuk matawang. Membolehkan akaun diasing dari jumlah.
+      eu: |
+        Nahieran aldatu dezimal kopurua monetetan. Kontuak guztirakoetatik kanpoan uzteko aukera.
+      bg: |
+        Персонализируем брой на дробните части на числата, отделно за всяка валута. Възможност да се изключват сметки от общите суми.
+      pl: |
+        Możliwość ustawienia liczby miejsc po przecinku dla walut. Opcja, by wykluczać konta z podsumowań.
+      hr: |
+        Podesiv broj razlomačkih znamenaka za valute. Omogućeno isključivanje računa iz totala.
+      ms: |
+        Nombor digit pecahan boleh suai untuk matawang. Membolehkan akaun diasing dari jumlah.
+      ja: |
+        通貨の小数点以下の桁数がカスタマイズ可能. 合計から勘定の除外を許可.
+      ro: |
+        Numărul de  zecimale pentru monede este personalizabil. Permite  excluderea  conturile din totaluri.
+  -
+    - 2.3.3
+    - "2014-09-20"
+    -
+      en: |
+        Redesign of account list: User-defined sort order. Group sums in transaction list takes filters into account.
+      fr: |
+        Refonte de la liste des comptes : ordre de tri défini par l'utilisateur. Les totaux de groupes dans la liste des opérations prend en compte les filtres.
+      de: |
+        Neugestaltung der Kontenliste: benutzerdefinierte Sortierreihenfolge. In der Buchungsliste berücksichtigen die Gruppensummen jetzt die Filter.
+      it: |
+        Riprogettazione dell'elenco dei conti: ordinamento definito dall'utente. Somme di gruppo nell'elenco delle transazioni accetta filtri in considerazione.
+      es: |
+        Rediseño de lista de cuentas: orden definido por el usuario. Sumas de grupo en la lista de transacciones toma en cuenta los filtros.
+      pt: |
+        Redesenho da lista de contas: ordem de classificação definida pelo usuário. Somas de grupo na lista de transação leva filtros em consideração.
+      tr: |
+        Yeni hesap listesi tasarımı: kullanıcı tanımlı sıralama düzeni. Muamele listesindeki grup toplamları filtreleri dikkate alır.
+      eu: |
+        Kontu zerrenda berregina: Erabiltzaileak zehaztutako ordena. Transakzio zerrendako taldeko baturek iragazkiak kontuan hartzen dituzte.
+      bg: |
+        Обновен изглед на списъка на сметките: потребителя може да определи подреждането. Отчитане на приложените филтри при изчисляване на групови суми.
+      ca: |
+        Redisseny de la llista de comptes: ordre definit d'usuari. Sumes de grup en llista de transacció necessita filtres en compte.
+      pl: |
+        Zmieniona lista kont: sortowanie definiowane przez Użytkownika. Sumy grupowe na liście transakcji biorą filtry pod uwagę.
+      hr: |
+        Redizajnirana lista računa: Način sortiranja po korisnikovom kriteriju. Zbrojevi grupa u popisu transakcija sada uzimaju filtere u obzir.
+      ms: |
+        Reka semula senarai akaun: Tertib isih ditakrif-pengguna. Hasil tambah berkumpulan dalam senarai transaksi membawa penapis ke dalam akaun.
+      ja: |
+        勘定リストの再設計: ユーザー定義のソート順. 勘定でフィルターした取引リストのグループ合計.
+      ro: |
+        Redesign al listei de conturi: Ordinea de sortare definită de utilizator. Sume grupate în lista de tranzacţii iau în considerare filtrele.
+  -
+    - 2.3.2
+    - "2014-09-06"
+    -
+      en: |
+        Print to PDF now supports non-Western scripts. Malaya translation.
+      fr: |
+        Imprimer vers PDF maintenant prend en charge les scripts non occidentaux. Traduction en Malais.
+      de: |
+        PDF Druck unterstützt jetzt nicht-westliche Skripts. Malaiische Übersetzung.
+      it: |
+        Stampa in PDF ora supporta gli script non-occidentali. Traduzione di Malese.
+      es: |
+        Imprimir a PDF ahora admite escrituras no occidentales. Traducción de Malayo.
+      pt: |
+        Imprimir para PDF agora suporta scripts não-ocidentais. Tradução de malaio.
+      tr: |
+        PDF dosyasına yazdırmak artık Batılı olmayan yazma sistemlerini destekler. Malayca tercüme.
+      eu: |
+        PDFra inprimatu oran mendebaldekoak ez diren idazkerak onartzen ditu. Malaysierara itzulpena.
+      bg: |
+        Печатането в PDF сега поддържа допълнителни азбуки. Превод на малазийски език.
+      ca: |
+        Print to PDF ara pren en càrrega escriptures no occidentals. Traducció al Malaisi.
+      pl: |
+        Wydruk do PDF wspiera teraz zapisy inne niż zachodnie. Tłumaczenie Malajskie.
+      hr: |
+        Ispis u PDF-u sada podržava nezapadnjačko pismo. Malezijski prijevod.
+      ms: |
+        Cetak ke PDF kini menyokong skrip non-Western. Terjemahan Bahasa Melayu... yay.
+      ja: |
+        PDF に印刷が、非西欧のスクリプトをサポートするようになりました. マラヤ翻訳.
+      ro: |
+        Print ân  PDF acum acceptă script-uri non-occidentale. Traducere Malaya .
+  -
+    - 2.3.1
+    - "2014-09-02"
+    -
+      en: |
+        Autofill from last transaction for same payee/payer. Instantiate template upon short tap on entry in template list. Configurable encoding for QIF import.
+      fr: |
+        Remplissage automatique de la dernière opération pour le même bénéficiaire/payeur. Applique le modèle sur clic court dans la liste des modèles. Encodage configurable pour importation QIF.
+      de: |
+        Automatisches Ausfüllen auf Basis der letzten Buchung für denselben Empfänger/Zahler. Vorlage werden durch kurzes Tippen auf den Eintrag in der Vorlagenliste angewendet. Konfigurierbare Kodierung für QIF-import.
+      it: |
+        Autocompilazione da ultima operazione stesso beneficiario/ordinante. Modello instantiate a breve colpetto sulla voce nell'elenco dei modelli. Codifica configurabile per l'importazione QIF.
+      es: |
+        Autorrellenar con última operación para el mismo beneficiario/ordenante. Crear instancias de plantilla sobre la breve toque en la entrada en la lista de la plantilla. Codificación configurable para QIF importación.
+      pt: |
+        Preenchimento automático da última transação para o mesmo beneficiário/pagador. Instantiate modelo com torneira curta na entrada na lista de modelo. Configurável de codificação para importação QIF.
+      tr: |
+        Aynı alacaklı/ödeyici için son muameleden otomatik doldurma. Şablon listesindeki bir unsura kısa dokunma ile şablon örneklemesi. QIF içe aktarım içen yapılandırılabilir kodlama.
+      eu: |
+        Automatikoki osatu onuradun/ordaintzaile bereko azken transakzioaren informazioa errepikatuz. Txantiloiaren instantzia sortu labur sakatuz txantiloi zerrendako sarrera batean. QIF inportazioan kodeketa konfiguragarria.
+      bg: |
+        Автоматично попълване от последната транзакция за същия получател/платец. Активиране на шаблон с кратко натискане в списъка с шаблони. Конфигуриране на енкодинга при импорт от QIF файл.
+      ca: |
+        Emplenament automàtic de l'última transacció per al mateix beneficiari/pagador. Plantilla instantània amb un toc curt en l'entrada a la llista de plantilles. Codificació per a la importació QIF.
+      pl: |
+        Automatyczne uzupełnianie ostatniej transakcji dla tego samego nadawcy/odbiorcy. Użycie szablonu poprzez krótkie dotknięcie wpisu na liście szablonów. Konfigurowalne kodowanie dla importu z QIF.
+      hr: |
+        Automatsko dopunjavanje iz zadnje transakcije za istog platitelja/primaoca. Prikaz primjera predloška kratkim dodirom na unos u listi predložaka. Podesivo kodiranje za QIF unos.
+      ms: |
+        Autoisi dari transaksi terakhir untuk penerima/pembayar yang sama. Templat segera jika ketuk pantas pada masukan dalam senarai templat. Pengekodan boleh konfigur untuk import QIF.
+      ja: |
+        同じ受取人/支払人の最後の取引から自動入力. テンプレートリストのエントリを短くタップすると、テンプレートをインスタンス化. QIF インポートのエンコーディングを設定可能.
+      ro: |
+        Autocompletare la ultima tranzacţie pentru același terţ. Instanţiere  şablon la click scurt pe intrarea din lista şabloanelor. Codificare configurabilă  pentru import QIF.
+  -
+    - 2.3.0
+    - "2014-08-26"
+    -
+      en: |
+        Print transaction list to PDF file (Premium).
+      fr: |
+        Impression de la liste des opérations dans un fichier PDF (Premium).
+      de: |
+        Buchungsliste als PDF-Datei drucken (Premium).
+      it: |
+        Stampare un elenco dei operazione in file PDF (Premium).
+      es: |
+        Imprimir la lista de operacciones in archivo PDF (Premium).
+      pt: |
+        Exportar lista de transações para PDF (Premium).
+      tr: |
+        Muamele listesini PDF dosyasına yazdır (Katkı sürümünü gerektirir).
+      eu: |
+        Inprimatu transakzioen zerrenda PDF fitxategira (Premium).
+      bg: |
+        Печат на списък транзакции в PDF файл (Премиум функция).
+      ca: |
+        imprimir la llista de transacció en fitxer PDF (Premium).
+      pl: |
+        Wydrukuj listę transakcji do pliku PDF (opcja Premium).
+      hr: |
+        Ispis liste transakcija u PDF datoteci (Premium).
+      ms: |
+        Cetak senarai transaksi menjadi fail PDF (Premium).
+      ja: |
+        PDF ファイルに取引リストを印刷 (プレミアム).
+      ro: |
+        Print lista tranzacţii  în fişier PDF (Premium).
+  -
+    - 2.2.0
+    - "2014-08-09"
+    -
+      en: |
+        Search for transactions per category, amount, comment, status, payee/payer, payment method.
+      fr: |
+         Recherche d'opérations par catégorie, montant, commentaire, statut, tiers et méthode de paiement .
+      de: |
+        Suche nach Buchungen pro Kategorie, Betrag, Notiz, Status, Empfänger/Zahler, Zahlungsweise.
+      it: |
+        Ricerca di transazioni per categoria, quantità, commento, stato, beneficiario/pagatore, metodo di pagamento.
+      es: |
+        Búsqueda para transacciones por categoría, importe, apuntes, estado, beneficiario/pagador, método de pago.
+      pt: |
+        Busca de transações por categoria, quantidade, comentário, status, beneficiário/pagador, método de pagamento.
+      tr: |
+        Muameleleri kategori, meblağ, yorum, durum, alacaklı/mükellef veya ödeme metoduna dayanarak ara.
+      eu: |
+        Bilatu transakzioak kategoria, kopurua, iruzkina, egoera, onuradun/ordaintzailea, edo ordainketa metodoaren arabera.
+      bg: |
+        Търсене на транзакции по категория, сума, бележка, статус, платец/получател, начин на плащане.
+      ca: |
+        Recerca d'operacions per categoria, quantitat, comentari, estatut, beneficiari/pagador, forma de pagament.
+      pl: |
+        Możesz wyszukiwać transakcje według kategorii, kwoty, komentarza, statusu, płatnika/odbiorcy płatności, metody płatności.
+      hr: |
+        Pretražite transakcije po kategoriji, iznosu, komentaru, statusu, platitelju/primaocu, načinu plaćanja.
+      ms: |
+        Gelintar transaksi per kategori, amaun, ulasan,, pembayar/penerima, kaedah pembayaran.
+      ja: |
+        分類、金額、コメント、ステータス、受取人/支払人、支払方法ごとの取引を検索.
+      ro: |
+        Căutare tranzacţii după categorie, cantitatea, comentariu, statut, platitor/beneficiar, metoda de plata.
+  -
+    - 2.1.6
+    - "2014-07-01"
+    -
+      en: |
+        Sinhala translation. Multi-window support on Samsung devices. Reconciliation workflow.
+      fr: |
+        Traduction en Sinhala. Fenêtres multiples sur les appareils Samsung. Procédure de rapprochement.
+      de: |
+        Singhalesische Übersetzung. Multi-Fenster Unterstützung auf Samsung-Geräten. Abstimmung mit Kontoauszug.
+      it: |
+        Traduzione singalese. Supportare il multi-finestra su dispositivi Samsung. Flusso di lavoro di riconciliazione.
+      es: |
+        Traducción en Cingalés. Multi-ventana soporte en dispositivos Samsung. Flujo de trabajo de reconciliación.
+      pt: |
+        Tradução de cingalês. Suporte a várias janelas em dispositivos Samsung. Fluxo de trabalho de reconciliação.
+      tr: |
+        Seylanca tercüme. Samsung cihazlarında çoklu pencere desteği. Uzlaşma çalışma akışı.
+      ca: |
+        Traducció al Sinhala. Suport multi-finestra en dispositius Samsung. Flux de treball de reconciliació.
+      pl: |
+        Tłumaczenie w języku Sinhala. Wsparcie dla trybu kilku-okienkowego na urządzeniach Samsung. Pojednanie postępu pracy.
+      hr: |
+        Sinhala prijevod. Podrška za "multi-window" na Samsung uređajima. Radni slijed usklađivanja.
+      ms: |
+        Terjemahan bahasa Sinhala. Sokongan tetingkap-berbilang pada peranti Samsung. Aliran kerja penyesuaian.
+      ja: |
+        シンハラ語翻訳. Samsung のデバイスでマルチウィンドウをサポート. 照合ワークフロー.
+      ro: |
+        Traducere Sinhala . Suport multi-fereastră pe dispozitive de Samsung. Flux de lucru Reconciliere.
+  -
+    - 2.1.5
+    - "2014-06-02"
+    -
+      en: |
+        Backups are now stored in ZIP archives that can be shared (E-Mail, Drive, Dropbox, …) and restored from external sources.
+      fr: |
+        Maintenant, les sauvegardes sont stockées dans des archives ZIP qui peuvent être partagées (E-Mail, Drive, Dropbox,...) et restaurées à partir de sources externes.
+      de: |
+        Sicherungskopien werden jetzt in ZIP Archiven gespeichert; diese können geteilt (E-Mail, Drive, Dropbox,...) und aus externen Quellen wiederhergestellt werden.
+      it: |
+        I backup sono ora memorizzati in ZIP archivi che possono essere condividono (E-Mail, Drive, Dropbox,...) e restaurata da fonti esterne.
+      es: |
+        Copias de seguridad se almacenan en archivos ZIP que pueden ser compartidos (correo electrónico, Drive, Dropbox,...) y restaurados a partir de fuentes externas.
+      pt: |
+        Backups agora são armazenados no ZIP arquivos que podem ser compartilhados (E-Mail, Drive, Dropbox,...) e restaurado a partir de fontes externas.
+      tr: |
+        Yedeklemeler e-posta, Dropbox vs. ile paylaşılabilecek ve harici kaynaklardan geri getirilebilecek ZİP arşivi biçimindedir..
+      ca: |
+        Les còpies de seguretat es troben actualment emmagatzemades en arxius ZIP que es poden compartir (correu electrònic, Drive, Dropbox,...) i restaurar des de fonts externes.
+      pl: |
+        Kopie zapasowe są teraz przechowywane w formacie ZIP, które mogą być udostępniane (przez E-Mail, Dysk Google, Dropbox itp.) i przywracane z zewnętrznych źródeł.
+      hr: |
+        Sigurnosne kopije su pohranjene u ZIP arhivama koje se mogu dijeliti (E-mail, Dropbox,...) i obnavljati iz vanjskih izvora.
+      ms: |
+        Sandar kini disimpan dalam arkib ZIP yang boleh dikongsi (E-Mel, Pemacu, Dropbox, …) dan dipulihkan melalui sumber luaran.
+      ja: |
+        バックアップが共有 (Eメール、Drive、Dropbox …)、および外部ソースから復元できるように、ZIP アーカイブになりました.
+      ro: |
+        Backup-urile sunt acum stocate în  arhive  ZIP care pot fi partajate (E-Mail, Drive, Dropbox,...) şi restaurate din surse externe.
+      si: |
+        ZIP ලේඛනාගාරයෙහි උපස්ථ ගබඩා කර ඇති අතර එය දැන් බෙදා හැරිය හැක.(විද්‍යුත්-තැපෑල , ඩ්‍රයිව්, ඩ්‍රොප් බොක්ස්, ...) සහ මෙය බාහිර ප්‍රභවයන්හි නැවත ගබඩා කල හැක.
+  -
+    - 2.1.4
+    - "2014-05-29"
+    -
+      en: |
+        Home screen shortcuts for adding transactions and transfers.
+      fr: |
+        Raccourcis d'écran d'accueil permettant d'ajouter des transactions et des transferts.
+      de: |
+        Verknüpfungen für den Start-Bildschirm für das Hinzufügen von Buchungen und Umbuchungen.
+      it: |
+        Collegamenti di schermata Home per l'aggiunta di transazioni e trasferimenti.
+      es: |
+        Atajos de pantalla de Inicio para crear las transacciones y transferencias.
+      pt: |
+        Atalhos de tela inicial para criar transacções e transferências.
+      tr: |
+        Virman ve muamele eklemek için ana ekran kısayolları.
+      ca: |
+        Dreceres de la pantalla inicial per a afegir moviments i transferències.
+      pl: |
+        Skróty do dodawania transakcji oraz transferów.
+      hr: |
+        Prečaci na početnom zaslonu za dodavanje transakcija i plaćanja.
+      ms: |
+        Pintasan skrin rumah untuk penambahan transaksi dan pemindahan.
+      ja: |
+        取引および転記を追加する、ホーム画面のショートカット.
+      ro: |
+        Shortcuturi ecranul Home pentru adăugarea de tranzacţii şi transferuri.
+      si: |
+        ගණුදෙනු එකතුකිරීම් සහ මාරුකිරීම් සඳහා හෝම් තිරයේ කෙටි ක්‍රම.
+  -
+    - 2.1.3
+    - "2014-05-25"
+    -
+      en: |
+        Home screen widgets for quick data entry.
+      fr: |
+        Widgets d'accueil pour l'entrée rapide de données.
+      de: |
+        Widgets für den Startbildschirm zur schnellen Dateneingabe.
+      it: |
+        Widget di schermo di casa per inserimento dati veloce.
+      es: |
+        Widgets de la pantalla de inicio para entrada de datos rápida.
+      pt: |
+        Widgets para entrada de dados rápida.
+      tr: |
+        Çabuk veri girişi için ana ekran widget'leri.
+      ca: |
+        Ginys de pantalla inicial per a l'entrada ràpida de dades.
+      pl: |
+        Widżety do szybkiego wprowadzania danych.
+      hr: |
+        Widgeti na početnom zaslonu za brzi unos podataka.
+      ms: |
+        Widget skrin rumah untuk masukan data pantas.
+      ja: |
+        クイック データ入力用のホーム画面のウィジェット.
+      ro: |
+        Widgeturi ecran Home pentru introducere rapidp de date.
+      si: |
+        ඉක්මන් දත්ත ඇතුලත් කිරිම සඳහා හෝම් තිරයේ මෙවලම්.
+
+  -
+    - 2.1.2
+    - "2014-04-26"
+    -
+      en: |
+        Russian translation.
+      fr: |
+        Traduction en russe.
+      de: |
+        Russische Übersetzung.
+      it: |
+        Traduzione russo.
+      es: |
+        Traducción al ruso.
+      pt: |
+        Tradução russa.
+      tr: |
+        Rusça tercüme.
+      ca: |
+        Traducció al rus.
+      pl: |
+        Tłumaczenie rosyjskie.
+      ru: |
+        Перевод на русский язык.
+      hr: |
+        Ruski prijevod.
+      ms: |
+        Terjemahan bahasa Rusia.
+      ja: |
+        ロシア語翻訳.
+      ro: |
+        Traducere Rusă .
+      si: |
+        රුසියානු පරිවර්තනය
+  -
+    - 2.1.1
+    - "2014-04-21"
+    -
+      en: |
+        Folder location for backups and exports is now configurable.
+      fr: |
+        L'emplacement du dossier pour les sauvegardes et les exportations est maintenant configurable.
+      de: |
+        Ordner für Backups und Exports ist jetzt konfigurierbar.
+      it: |
+        Il percorso della cartella per i backup e le esportazioni è ora configurabile.
+      es: |
+        La ubicación de la carpeta para copias de seguridad y las exportaciones ahora es configurable.
+      pt: |
+        A localização da pasta para backups e exportações é agora configurável.
+      tr: |
+        Yedekleme ve dışa aktarmalar için klasör konumu artık ayarlanabilir.
+      ca: |
+        La localització de la carpeta de còpies de seguretat i exportacions ara és configurable.
+      pl: |
+        Od teraz ścieżka zapisu kopii zapasowych może być dowolnie zmieniana.
+      ru: |
+        Расположение папки для резервного копирования и экспорта теперь настраивается.
+      hr: |
+        Lokacija mape za sigurnosne kopije i eksporte je sada podesiva.
+      ms: |
+        Lokasi folder untuk sandar dan eksport kini boleh dikonfigur.
+      ja: |
+        バックアップとエクスポート用のフォルダの場所が設定できるようになりました.
+      ro: |
+        Locaţie folderului pentru backup şi exporturi este acum configurabil.
+      si: |
+        උපස්ථ සහ නිර්යාත සඳහා වන ෆෝල්ඩරය තිබෙන ස්ථානය දැන් සකස් කල හැකිය
+  -
+    - 2.1.0
+    - "2014-04-16"
+    -
+      en: |
+        Multiple independent backups. QIF import.
+      fr: |
+        Plusieurs sauvegardes indépendantes. Importation QIF.
+      de: |
+        Mehrere unabhängige Sicherungen. QIF import.
+      it: |
+        Backup indipendenti multiple. Importazione QIF.
+      es: |
+        Múltiples copias de seguridad independientes. Importación QIF.
+      pt: |
+        Vários backups independentes. Importar QIF.
+      tr: |
+        Birden fazla bağımsız yedeklemeler. QIF içe aktarımı.
+      ca: |
+        Còpies de seguretat mindependents. Importació QIF.
+      pl: |
+        Wiele niezależnych kopii zapasowych. Import QIF.
+      ru: |
+        Несколько независимых резервных копий. Импорт QIF.
+      hr: |
+        Mogućnost stvaranja više neovisnih sigurnosnih kopija. QIF unos.
+      ms: |
+        Sandar bebas berbilang. Import QIF.
+      ja: |
+        複数の独立したバックアップ. QIF インポート.
+      ro: |
+        Multiple backup-uri independente. QIF import.
+      si: |
+        විවිධ ස්වාධීන උපස්ථ. QIF ආයාතය.
+  -
+    - 2.0.2
+    - "2014-02-23"
+    -
+      en: |
+        Greek translation. Week start made dependent on locale (e.g. Sunday for US).
+      fr: |
+        Traduction grecque. Le début de semaine dépend des paramètres régionaux (par exemple, dimanche aux USA).
+      de: |
+        Griechische Übersetzung. Wochenstart abhängig von Lokale (z.B. Sonntag für USA).
+      it: |
+        Traduzione greca. Inizio settimana dipendente dal paese (ad es. domenica per gli USA).
+      es: |
+        Traducción griega . Inicio de semana hizo dependiente de la configuración regional (por ejemplo, el domingo para EE.UU.).
+      tr: |
+        Yunanca tercüme. Hafta başı yerel ayarlara bağlı hale getirildi (mesela ABD için pazar günü).
+      ca: |
+        Traducció al grec. Inici de setmana que depengui del lloc (p. ex. diumenge per als EUA).
+      pl: |
+        Tłumaczenie w języku greckim. Początek tygodnia zależny od lokalizacji (np. Niedziela dla Stanów Zjednoczonych).
+      ru: |
+        Греческий перевод. Начало недели зависит от языковых стандартов (например, воскресенье для США).
+      hr: |
+        Grčki prijevod. Početak tjedna sada ovisi o mjestu (npr. nedjelja za SAD).
+      ms: |
+        Terjemahan bahasa Yunani. Permulaan minggu menjadi bebas pada lokal (iaitu Ahad untuk AS).
+      ja: |
+        ギリシャ語翻訳. ロケールに従った週の開始 (例 米国は日曜日).
+      ro: |
+        Traducere Greacă . Începutul săptămânii se face depinzând de localizare (de exemplu, duminică pentru SUA).
+      si: |
+        ග්‍රීක පරිවර්තන. සතිය පටන් ගැන්ම රඳාපවතින්නේ ලොකාලේ මතය (උදාහරණ: ඉරිදා දිනය යූඑස් සඳහාය).
+  -
+    - 2.0.1
+    - "2014-02-12"
+    -
+      en: |
+        UI improvements: #115,#117,#120,#122,#124. Made transaction dates timezone aware.
+      fr: |
+        Améliorations de l'interface utilisateur: #115,#117,#120,#122,#124. Les dates des transactions prennent en considération le fuseau horaire.
+      de: |
+        UI Verbesserungen: #115,#117,#120,#122,#124. Buchungsdaten berücksichtigen Zeitzone.
+      it: |
+        Miglioramenti dell'UI: #115,#117,#120,#122,#124. Le date delle transazioni avvenute tengono conto del fuso orario.
+      es: |
+        Mejoras de interfaz de usuario: #115,#117,#120,#122,#124. Fechas de transacción son ahora conscientes de zona horaria.
+      pt: |
+        Aperfeiçoamentos IU: #115,#117,#120,#122,#124. Informa fusos horários das datas de transação.
+      tr: |
+        Arayüz iyileştirmeleri: #115,#117,#120,#122,#124. Muamele tarihleri zaman dilimlerini dikkate alacak.
+      ca: |
+        Millores d'interfície d'usuari: #115, #117, #120, #122, #124. Activa la transacció de dates segons el fus horari.
+      pl: |
+        Ulepszenia interfejsu użytkownika: #115,#117,#120,#122,#124. Daty transakcji świadome strefy czasowej.
+      ru: |
+        Улучшения пользовательского интерфейса: #115, #117, #120, #122, #124. Дата транзакции зависит от часового пояса.
+      hr: |
+        UI poboljšanja: #115,#117,#120,#122,#124. Datumi transakcija usklađeni se sa vremenskim zonama .
+      ms: |
+        Penambahbaikan UI: #115,#117,#120,#122,#124. Jadikan zon waktu tarikh transaksi disedari.
+      ja: |
+        UI の改善: #115,#117,#120,#122,#124. タイムゾーンに従った取引の日付.
+      ro: |
+        Îmbunătăţiri UI : #115,#117,#120,#122,#124. Data tranzacţiei făcută după fusul orar i.
+      si: |
+        යූඅයි වැඩිදියුණු කිරීම්: #115,#117,#120,#122,#124. ගණුදෙනු කල දිනයන්හි කලාපවේලාව  දැනසිටින්න.
+  -
+    - 2.0
+    - "2014-01-31"
+    -
+      en: |
+        Modernized UI: navigation drawer and contextual action bar.
+      fr: |
+        Interface d'utilisateur modernisée : panneau de navigation et barre d'action contextuelle.
+      de: |
+        Modernisierte Benutzeroberfläche: Navigationsleiste und kontextbezogene Aktionsleiste.
+      it: |
+        Interfaccia utente modernizzata: riquadro di navigazione e barra delle azioni contestuali.
+      es: |
+        Interfaz de usuario modernizada: control de navegación y barra de acción contextual.
+      tr: |
+        Modernleştirilmiş arayüz: tarama çekmecesi ve bağlamsal eylem çubuğu .
+      ca: |
+        UI modernitzat: calaix de navegació i barra d'acció contextual.
+      pl: |
+        Zmodernizowany Interfejs Użytkownika: Szuflada nawigacji i kontekstowy pasek akcji.
+      ru: |
+        Модернизация UI: секция навигации и панель контекстных действий.
+      hr: |
+        Modernizirani UI: ladica za navigaciju i kontekstualna radna traka.
+      ms: |
+        UI dimodernkan: laci navigasi dan palang tindakan konteksual.
+      ja: |
+        モダン UI: ナビゲーション ドロワーとコンテキスト アクションバー.
+      ro: |
+        Modernizare UI: panou de navigare şi  bară de acţiune contextuală.
+      si: |
+        නවීකරණය කරන ලද යූඅයි : නැවිගේෂණ අදිනය සහ පද සම්බන්දතා ක්‍රියාකාරී බාරය.
+  -
+    - 1.11.5
+    - "2014-01-12"
+    -
+      en: |
+        Improved handling of plans: Apply upcoming instances in advance. New translations: Portuguese, Polish, Czech.
+      fr: |
+        Traitement des échéances amélioré : appliquez des instances à venir à l'avance. Nouvelles traductions : portugais, polonais, tchèque.
+      de: |
+        Erweiterung der Einsatzmöglichkeit von Plänen: Zukünftige Termine können im Voraus in die Buchungsliste kopiert werden. Neue Übersetzungen: Portugiesisch, Polnisch, Tschechisch.
+      it: |
+        Gestione dei piani migliorata: applicare in anticipo istanze prossime. Nuove traduzioni: portoghese, polacco, ceco.
+      es: |
+        Mejorado manejo de planes: próximas instancias se aplican por adelantado. Nuevas traducciones: Portugués, Polaco, Checo.
+      tr: |
+        Planlamaların yönetimi iyileştirilmiştir: gelecek örneklemeleri önceden uygulama. Yeni tercümeler: Portekizce, Lehçe, Çekçe.
+      ca: |
+        Millores a la gestió de la planificació: Podeu aplicar les instàncies pendents per endavant. Noves traduccions: Portuguès, Polonès, Txec.
+      cs: |
+        Lepší zpracování plánů: možnost plánovat události do budoucna. Nové překlady: portugalština, polština, čestina.
+      pl: |
+        Usprawniona obsługa planów: Z góry zastosowanie nadchodzących instancji. Nowe tłumaczenia: Portugalski, Polski, Czeski.
+      ru: |
+        Улучшена обработка планов: примение предстоящих планов заранее. Новые переводы: Португальский, польский, чешский.
+      hr: |
+        Poboljšano upravljanje planovima: Unaprijed primjenjeni budući slučajevi . Novi prijevodi: portugalski, poljski, češki.
+      ms: |
+        Pengendalian pelan dipertingkat: Laksana kejadian akan datang terlebih dahulu. Terjemahan baharu: Portugis, Poland, Czech.
+      ja: |
+        計画の処理を改善: 事前にこれからのインスタンスを適用. 新しい翻訳: ポルトガル語、ポーランド語、チェコ語.
+      ro: |
+        Îmbunătăţire manager scadenţe: se aplică instanţe viitoare în avans. Noi traduceri: Portugheză, Poloneză, Cehă.
+      si: |
+        වැඩිදියුණු කරන ලද පරිහරණ සැලසුම්: ඉදිරියට පැමිණෙන උදාහරණ කලින් යොදන්න. නවතම පරිවර්තන: පෘතුග්‍රීසි, පොලිෂ්, චෙකොස්ලොවැකියානු.
+  -
+    - 1.11.0
+    - "2013-12-31"
+    - 2.x.x
+    - "2014-xx-xx"
+    -
+      en: |
+        Display transaction list and statistical distribution for aggregates of multiple accounts.
+      fr: |
+        La liste des opérations et la répartition statistique peuvent être affichées pour un ensemble de comptes.
+      de: |
+        Buchungsliste und statistische Verteilung können jetzt auf mehrere Konten gleichzeitig angewendet werden..
+      it: |
+        Visualizza la lista delle transazioni e la distribuzione statistica per gli aggregati di più conti.
+      es: |
+        Mostrar la lista de transacciones y la distribución estadística de los agregados de varias cuentas.
+      tr: |
+        Muamele listesini ve birden çok hesapların agregalarının istatistiksel dağılımını görüntüleme.
+      ca: |
+        Mostra la llista d'operacions i la distribució estadística agrupada dels diferents comptes.
+      cs: |
+        Zobrazit seznam transakcí a statistické rozdělení pro seskupení více účtů.
+      pl: |
+        Wyświetlanie listy transakcji i statystyczną dystrybucję dla sum wielu kont.
+      ru: |
+        Отображение списка транзакций и статистическое распределение для объединения нескольких счетов.
+      hr: |
+        Prikaži listu transakcija i statističku distribuciju za skup više računa.
+      ms: |
+        Papar senarai transaksi dan distribusi statistik untuk aggregat akaun berbilang.
+      ja: |
+        取引リストと、複数の勘定を集約する統計分布の表示.
+      ro: |
+        Afişare listă de tranzacţii şi distribuţia statistică pentru agregate de conturi multiple.
+      si: |
+        විවිධ ගිණුම් වල ගනුදෙනු ලැයිස්තුව සහ සන්ඛයාන දායකත්වය පෙන්වන්න.
+  -
+    - 1.10.5
+    - "2013-12-24"
+    -
+      en: |
+        (Traditional) Chinese translation. Allow selection of account in transaction editing form. Clearer UI for transfers.
+      fr: |
+        Traduction en Chinois (traditionnel). Autoriser la sélection de compte dans l'édition de l'opération. Interface plus claire pour les transferts.
+      de: |
+        Übersetzung ins (traditionelle) Chinesische. Im Buchungsformular kann nun das Konto ausgewählt werden. UI für Umbuchungen verbessert.
+      it: |
+        Traduzione Cinese (tradizionale) . Consentire la selezione del conto nel formato per la modifica della transazione . Interfaccia più chiara per i trasferimenti .
+      es: |
+        Traducción Chino (tradicional) . Permitir la selección de la cuenta en la edición de la operación. Interfaz más clara para las transferencias.
+      pt: |
+        Tradução em Chinês (Tradicional). Permite seleção de conta em formulário de edição da transação. Interfaces de usuário (U.I.) mais claras para transferências.
+      tr: |
+        (Geleneksel) Çince çeviri. Muamele düzenleme formunda hesap seçimi. Transferler için daha temiz arayüz.
+      ca: |
+        Traducció al Xinès (Tradicional). El formulari d'operacions ara permet triar el compte. La interfície de les transferències ara és més clara.
+      cs: |
+        Překlad čínština (tradiční). Povolit výběr účtu ve formuláři úprav transakcí. Jasnější uživatelské rozhraní pro převody.
+      pl: |
+        Tłumaczenie w języku tradycyjnym chińskim. Możliwość wyboru konta w formularzu edytowania transakcji. Bardziej przejrzysty interfejs użytkownika dla przelewów.
+      ru: |
+        Перевод на китайский язык (традиционный). Разрешить выбор счета в форме редактирования транзакции. Яснее пользовательский интерфейс для переводов.
+      hr: |
+        (Tradicionalni) Kineski prijevod. Dostupan odabir računa u obrascu za uređivanje transakcije. Jasniji UI za plaćanja.
+      ms: |
+        Terjemahan Bahasa Cina (Traditsonal). Membolehkan pemilihan akaun dalam bentuk penyuntingan transaksi. UI lebih jelas dalam pemindahan.
+      ja: |
+        (繁体) 中国語訳. 取引編集フォームで勘定の選択が可能. 転記用のより明確な UI.
+      ro: |
+        Traducere Chineză (tradiţională). Permite selectarea contului în formularul editării tranzacţie . UI mai clară pentru transferuri.
+      si: |
+        (පරණ) චීන පරිවර්තන. ගනුදෙනු සංස්කරණය කරන ගිණුම් තෝරාගැනීමට ඉඩදෙන්න. මාරුකිරීම් සඳහා වඩා නිදහස් යූඅයි.
+  -
+    - 1.10.4
+    - "2013-12-16"
+    -
+      en: |
+        UI improvements (#94) and bug fixes (#95,#96).
+      fr: |
+        Améliorations de l'interface utilisateur (#94) et corrections des bogues (#95,#96).
+      de: |
+        UI Verbesserungen (#94) und Bugs (#95,#96) behoben.
+      it: |
+        Miglioramenti dell'UI (#94) e correzione di errori (#95,#96).
+      es: |
+        Mejoras de interfaz de usuario (#94) y corrección de errores (#95,#96).
+      pt: |
+        Aperfeiçoamentos IU (#94) e correções de bugs (#95,#96).
+      tr: |
+        Gelişmiş kullanıcı arayüzü (#94) ve hata düzeltmeleri (#95,#96).
+      ca: |
+        Millores a la interfície (#94). Correccions: Problemes (#95,#96).
+      cs: |
+        Vylepšení uživatelského rozhraní (#94) a opravy chyb (#95, #96).
+      pl: |
+        Ulepszenia interfejsu użytkownika (#94) i poprawki błędów (#95,#96).
+      ru: |
+        Усовершенствования пользовательского интерфейса (#94) и исправления (#95, #96).
+      hr: |
+        UI poboljšanja (#94) i popravci grešaka (#95,#96).
+      ms: |
+        Penambahbaikan UI (#94) dan pembaikan pepijat (#95,#96).
+      ja: |
+        UI の改善 (#94) とバグ修正 fixes (#95,#96).
+      ro: |
+        Îmbunătăţiri UI (#94) şi bug fixat (#95, #96).
+      si: |
+        යූඅයි දියුණු කිරීම් (#94) සහ දෝෂ නිවැරදි කිරීම් (#95,#96).
+  -
+    - 1.10.3
+    - "2013-12-14"
+    -
+      en: |
+        Current balance is displayed more prominently again and show main buttons at bottom, when device orientation is portrait. Bug fixes: Issues #71,#91,#92,#93.
+      fr: |
+        Le solde courant est de nouveau mis plus en évidence et les boutons principaux sont apparents en bas, lorsque l'orientation de l'appareil est en mode portrait.. Corrections des bogues n° 71, 91, 92 et 93.
+      de: |
+        Kontostand wird wieder deutlicher angezeigt; die wichtigsten Schaltflächen werden im Porträt-Modus am unteren Bildschirmrand angezeigt. Bugs #71,#91,#92,#93 behoben.
+      it: |
+        Il saldo corrente viene visualizzato di nuovo in maniera più evidente e mostrare i tasti principali in fondo, quando l'orientamento del dispositivo è verticale. Correzione di errori #71,#91,#92,#93.
+      es: |
+        Se muestra de manera más prominente de nuevo el equilibrio actual y mostrar los botones principales en el fondo, cuando la orientación del dispositivo es el retrato. Corrección de errores #71,#91,#92,#93.
+      pt: |
+        O balanço atual é exibido novamente de forma mais proeminente e mostra os botões principais na porção inferior, quando a orientação do dispositivo é retrato. Correções de erros: Chamados #71,#91,#92,#93.
+      tr: |
+        Güncel bakiye gene daha belirgin olarak görüntülenir ve cihaz portre yönünde kullanıldığında ana düğmeler aşağıda konumlanır. Hata düzeltmeleri: hata #71,#91,#92,#93.
+      ca: |
+        Ara el saldo actual es torna a mostrar de forma més destacada i mostra els botons principals a la part inferior, quan el dispositiu està en orientació vertical. Correccions: Problemes #71,#91,#92,#93.
+      cs: |
+        Aktuální zůstatek je zobrazen více nápadně a hlavní tlačítka jsou zobrazena dole, pokud je zařízení orientováno horizontálně.. Opravy chyb: otázky #71, #91, #92, #93.
+      pl: |
+        Bieżący balans jest wyświetlany bardziej widoczny ponownie i wyświetla główne przyciski na dole, kiedy orientacja urządzenia jest ustawiona pionowo. Poprawki błędów: Issues #71,#91,#92,#93.
+      ru: |
+        Текущий баланс отображается снова на более видном месте, показ основных кнопок в нижней части, когда устройство в портретной ориентации. Исправления ошибок: вопросы #71, #91, #92, #93.
+      hr: |
+        Trenutačni saldo je ponovno istaknutiji i prikazuje glavne tipke na dnu ekrana kada je orijentacija uređaja  u portretskom modu. Popravci grešaka: Problemi #71,#91,#92,#93.
+      ms: |
+        Baki semasa dipaparkan lebih jelas dan tunjukkan butang utama di bahagian bawah, bila orientasi peranti adalah potret. Pembaikan pepijat: Isu #71,#91,#92,#93.
+      ja: |
+        現在の残高を再度より目立つように表示、デバイスの向きが縦の場合にメインボタンを下部に表示. バグ修正: 問題 #71,#91,#92,#93.
+      ro: |
+        Soldul curent este afişat mai proeminent din nou şi arată butoanele principale în jos, atunci când orientarea aparatului este portret. Bug fixat: probleme #71, #91, #92, #93.
+      si: |
+        උපකරණ පෙළගැස්ම පිලිබිගු වී ඇති විට, ජංගම ශේෂය වඩා ප්‍රමුකව නැවත පෙන්වනු ලබන අතර ප්‍රධාන බොත්තම් පහළින් දැක්වේ. දෝෂ නිවැරදි කිරීම්: ප්‍රශ්න #71,#91,#92,#93.
+  -
+    - 1.10.2
+    - "2013-12-12"
+    -
+      en: |
+        When transaction list is grouped, show intermediate balance for each period in group header. Bug fix: Issue #90.
+      fr: |
+        Lorsque la liste des transactions est groupée, afficher le solde intermédiaire pour chaque période dans l'en-tête du groupe. Correction de bogue #90.
+      de: |
+        Wenn die Buchungsliste gruppiert angezeigt wird, erscheint in der Kopfzeile jeder Gruppe der Zwischenstand für den jeweiligen Zeitraum. Bug #90 behoben.
+      it: |
+        Quando la lista delle transazioni è raggruppata, mostrare il bilancio intermedio per ciascun periodo nell'intestazione del gruppo. Correzione di errori #90.
+      es: |
+        Cuando la lista de transacciones se agrupa, mostrar equilibrio intermedio para cada periodo en el encabezado de grupo. Corrección de errores #90.
+      pt: |
+        Quando a lista de transação é agrupada, mostra-se balanço intermediário para cada período no cabeçalho de grupo. Correção de erro: Chamado #90.
+      tr: |
+        Muamele listesi gruplandığında, grup başlığında her dönem için ara bakiyeyi göster. Hata düzeltmesi: Hata #90.
+      hu: |
+        A tranzakcós listán csoportosított kiválasztás során az aktuális egyenleg megjelenik a kiválasztás időszakra vonatkozóan a fejlécben.. Bug fix: #90-es ügy.
+      ca: |
+        Quan la llista d'operacions està agrupada, mostra el balanç intermedi per a cada període a la capçalera del grup. Correcció: Problema #90.
+      cs: |
+        Když je seznam transakcí seskupen zobrazit průběžnou bilanci za každé období v záhlaví skupiny. Oprava: chyb #90.
+      pl: |
+        Kiedy lista transakcji jest pogroupowana, wyświetla pośredni balans dla każdego z okresu w nagłówku grupy. Poprawa błędu: Issue #90.
+      ru: |
+        При группировке списка транзакций показывать промежуточный баланс для каждого периода в верхнем колонтитуле группы. Багфикс: проблема #90.
+      hr: |
+        Kada je popis transakcija grupiran, u zaglavlju su prikazana prijelazna salda za svaki period . Ispravak greške: Problem #90.
+      ms: |
+        Bila drnstsi transaksi dikumpulkan, tunjuk baki pertengahan bagi setiap tempoh dalam pengepala kumpulan. Pembaikan pepijat: Isu #90.
+      ja: |
+        取引リストがグループ化されている場合、グループヘッダーに各期間の中間の残高を表示. バグ修正: 問題 #90.
+      ro: |
+        Atunci când lista de tranzacţii este grupată, arată soldul intermediar pentru fiecare perioadă în antetul de grup. Bug fixat: problema #90.
+      si: |
+        ගණුදෙනු ලැයිස්තුව සමූහික වී ඇති විට, සෑම කාලසීමාවක් සඳහාම අතරමැදි ශේෂය කණ්ඩායම් ශීර්ෂකය තුල පෙන්වන්න.  දෝෂ නිවැරදි කිරීම්: ප්‍රශ්නය #90.
+  -
+    - 1.10.1
+    - "2013-12-06"
+    -
+      en: |
+        UI language configurable. Font size configurable.
+      fr: |
+        Langue de l'interface configurable. Taille de police configurable.
+      de: |
+        Sprache der Bedienoberfläche einstellbar. Schriftgröße einstellbar.
+      it: |
+        Lingua dell'interfaccia configurabile. Dimensione dei caratteri configurabile.
+      es: |
+        Idioma de interfaz de usuario configurable. Tamaño de fuente configurable.
+      tr: |
+        Değiştirilebilir arayüz dili. Değiştirilebilir yazı boyutu.
+      hu: |
+        Kezelőfelület nyelve választható. Betűméret változtatható.
+      ca: |
+        Idioma configurable. Tipus de lletra configurable.
+      cs: |
+        Jazyk uživatelského rozhraní lze konfigurovat. Konfigurovatelná velikost písma.
+      pl: |
+        Możliwość zmiany języka interfejsu użytkownika. Możliwość zmiany rozmiaru czcionki.
+      ru: |
+        Настраиваемый язык пользовательского интерфейса. Настраиваемый размер шрифта.
+      hr: |
+        Podesiv jezik korisničkog sučelja. Podesiva veličina slova.
+      ms: |
+        UI bahasa boleh dikonfigur. Saiz fon boleh dikonfigur.
+      ja: |
+        UI の言語を設定可能. フォントサイズを設定可能.
+      ro: |
+        Limba UI  configurabilă. Dimensiunea fontului configurabilă.
+      si: |
+        යූඅයි භාෂාව සකස් කල හැකිය. මුද්‍රණ අකුරු ප්‍රමාණය සකස් කල හැකිය.
+  -
+    - 1.10.0
+    - "2013-12-01"
+    -
+      en: |
+        Plans for future and recurring transactions. Khmer translation.
+      fr: |
+        Échéancier de transactions futures et périodiques. Traduction en Khmer.
+      de: |
+        Pläne für zukünftige und wiederkehrende Ausgaben. Khmer Übersetzung.
+      it: |
+        Piani per il futuro e operazioni ricorrenti. Traduzione Khmer .
+      es: |
+        Planes par las transacciones futuras y recurrentes. Khmer traducción.
+      tr: |
+        Gelecekteki ve tekrarlanan muameleler için planlamalar. Kmerce tercüme.
+      hu: |
+        Tervek készítése a jövőbeli, vagy ismétlődő tranzakciók kezelésére. Khmer nyelv.
+      ca: |
+        Planificacions per operacions futures i recurrents. Traducció al Khmer.
+      cs: |
+        Plány pro budoucí a opakované transakce. Khmerské¨ý překlad.
+      pl: |
+        Plany na przyszłość i cykliczne transakcje. Tłumaczenie w języku Khmer.
+      ru: |
+        Планы на будущее и повторяющиеся транзакции. Кхмерский перевод.
+      hr: |
+        Planovi za buduće i periodične transakcije. Khmerski prijevod.
+      ms: |
+        Pelan untuk transaksi akan datang dan berulang. Terjemahan bahasa Khmer.
+      ja: |
+        将来および繰り返し取引の計画. クメール語翻訳.
+      ro: |
+        Scadenţe pentru tranzacţii viitoare şi repetative. Traducere Khmeră .
+      si: |
+        අනාගත සැලසුම් සහ සමාවර්ත ගණුදෙනු. ඛ්මෙර් පරිවර්තන.
+  -
+    - 1.9.7
+    - "2013-11-07"
+    -
+      en: |
+        Reference number (cheque payments). Start with account list from launcher. Swipe between periods in distribution view. Configurable date format for QIF and CSV export. UI improvements.
+      fr: |
+        Numéro de référence (paiement par chèque) . Démarrage avec la liste de comptes. Glisser entre les périodes dans la fenêtre de distribution. Format de date configurable pour l'exportation QIF et CSV. Améliorations d'UI.
+      de: |
+        Referenznummer (Scheckzahlungen). Vom Launcher aus direkt in die Kontoliste starten. Swipe zwischen den Perioden in der Verteilung. Datumsformat für QIF/CSV Export konfigurierbar. UI Verbesserungen.
+      it: |
+        Numero di riferimento (pagamenti tramite assegno) . Inizio con la lista di conti. Swipe tra i periodi in vista della distribuzione. Configurazione del formato della data per l'esportazione QIF e CSV. Miglioramenti dell'UI.
+      es: |
+        Número de referencia (cheques). Comience con lista de cuentas de lanzamiento. Swipe entre los períodos de vista de distribución. Formato de fecha configurable para QIF y CSV exportación. Mejoras de interfaz de usuario.
+      tr: |
+        Referans sayısı (çek ile ödemeler). Hesap listesi ile başlangıç. Periyotlar arası kaydırarak geçiş. QIF ve CSV dışa aktarımı için ayarlanabilir tarih biçimi. Gelişmiş kullanıcı arayüzü.
+      hu: |
+        Referencia szám (csekkes fizetéseknél). Helyből a számlák látszanak. Ujjmozdulattal lapozható időszakok a kiadásoknál. Beállítható dátumformátum a QIF és CSV exportoknál. Felhasználói felület javítások.
+      ca: |
+        Número de referència (pagaments per xec). Comenceu a la llista de comptes des del llançador. Feu lliscar el dit per canviar de període a la vista de distribució. Es pot configurar el format de la data per a exportar en formats QIF i CSV. Millores a la interfície.
+      cs: |
+        Referenční číslo (šek platby). Začněte se seznamem účtů z výchozí obrazovky. Přejeďte mezi obdobími v zobrazení rozložení. Konfigurovatelné datum formátu QIF a CSV exportu. Vylepšení uživatelského rozhraní.
+      pl: |
+        Numer odniesienia (płatność czekiem). Uruchom z launchera na listę kont. Zmień między okresami w widoku dystrybucji. Możliwość zmiany formatu daty dla eksportu QIF i CSV. Ulepszenia interfejsu użytkownika.
+  -
+    - 1.9.6
+    - "2013-10-18"
+    -
+      en: |
+        Flag transactions as cleared / reconciled (enabled for bank accounts and credit cards). Parties can now be edited. Hungarian translation.
+      fr: |
+        Marquage des opérations comme pointées / rapprochées ( pour les comptes de banques et cartes de crédit). Les tiers peuvent être désormais édités. Traduction en hongrois.
+      de: |
+        Buchungen (von Bankkonten und Kreditkarten) können als verrechnet / abgestimmt ausgezeichnet werden. Parteien können jetzt editiert werden. Ungarische Übersetzung.
+      it: |
+        Transazioni segnala come liquidati / riconciliati (abilitato per i conti bancari e carte di credito). Le beneficiari possono ora essere modificati. Traduzione ungherese.
+      es: |
+        Marcar asientos como despejado  / reconciliado (cuentas bancarias y tarjetas de crédito). Partidos ahora se pueden editar. Traducción al húngaro.
+      tr: |
+        Muameleler uzlaşmış olarak işaretlenebilir (banka hesapları ve kredi kartları için etkinleştirilmiştir). Borçlu/alacaklılar artık düzenlenebilir.
+      vi: |
+        Cờ đánh dấu giao dịch là đã dọn dẹp / đã hòa hợp (áp dụng cho tài khoản tại ngân hàng và tài khoản tín dụng). Các hội có thể được chỉnh sửa.
+      hu: |
+        Tranzakciók megjelölése, mint jóváhagyott, vagy folyamatban/egyeztetés alatt lévő (Bankszámla és hitelkártya számlatípusnál). A pénzügyi folyamatokban résztvevő felek mostantól szerkeszthetőek.
+      ca: |
+        Marqueu les operacions al aprovar-les / reconciliar-les (activat per a comptes bancaris i targes de crèdit). Ara és possible editar les parts. Traducció a l'hongarès.
+      cs: |
+        Označit transakce jako vymazané / vyřízené (povoleno pro bankovní účty a kreditní karty). Strany lze nyní upravit. Maďarský překlad.
+      pl: |
+        Oznakuj transakcje jako zrobione / uzgodnione (włączone dla kont bankowych i kart kredytowych). Partie mogą być teraz edytowane. Tłumaczenie w języku węgierskim.
+  -
+    - 1.9.5
+    - "2013-10-04"
+    -
+      en: |
+        Distribution of transactions by category (Premium).
+      fr: |
+        Répartition des transactions par catégorie (Premium).
+      de: |
+        Verteilung der Buchungen auf Kategorien (Premium).
+      it: |
+        Distribuzione di transazioni per categoria (Premium).
+      es: |
+        Distribución de las transacciones por categoría (Premium).
+      tr: |
+        Muamelelerin kategori başına dağılımı (Premium).
+      vi: |
+        Phân phối các giao dịch cho mỗi phân loại (Premium).
+      hu: |
+        Egy adott tranzakció több kategóriában történő felosztása (Premium változat).
+      ca: |
+        Distribució d'operacions per categoria (Premium).
+      cs: |
+        Rozdělení transakcí podle kategorií (Premium).
+      pl: |
+        Dystrybucja transakcji według kategorii (Premium).
+  -
+    - 1.9.1
+    - "2013-09-23"
+    -
+      en: |
+        Bug fix: Issue #69. Arab translation.
+      fr: |
+        Correction de bug #69. Traduction en arabe.
+      de: |
+        Bug #69 behoben. Arabische Übersetzung.
+      it: |
+        Correzione di errori #69. Traduzione in arabo.
+      es: |
+        Corrección de errores #69. Traducción árabe.
+      tr: |
+        Hata düzeltmesi: #69. Arap Tercüme.
+      vi: |
+        Sửa lỗi: Vấn đề lỗi #69. Phần dịch tiếng Arab.
+      ar: |
+        اصلاح : خطأ #69. دعم اللغة العربية.
+      hu: |
+        Bug fix: #69-es ügy. Arab nyelv.
+      ca: |
+        Correcció: Problema #69. Traducció a l'àrab.
+      cs: |
+        Oprava:chyba #69. Arabský překlad.
+      pl: |
+        Poprawa błędu: Issue #69. Tłumaczenie w języku arabskim.
+  -
+    - 1.9.0
+    - "2013-08-20"
+    -
+      en: |
+        Group transactions per day, week, month, year and display sums per group.
+        Payee is displayed in transaction list.
+        Accounts list is sorted (by frequency of usage by default)
+      fr: |
+        Regroupement par jour, semaine, mois, année, et affichage des totaux par groupe.
+        Les tiers sont affichés dans la liste des opérations.
+        La liste des contes est trié (par défaut selon la fréquence d'utilisation)
+      de: |
+        Buchungen pro Tag, Woche, Monate, Jahr gruppieren und Summen pro Gruppe anzeigen.
+        Empfänger wird in Buchungsliste angezeigt.
+        Kontenliste wird sortiert (standardmäßig nach Häufigkeit der Benutzung)
+      it: |
+        Raggruppamento al giorno, settimana, mese, anno e visualizzazione delle somme per gruppo.
+        I beneficiari sono visualizzati nell'elenco delle transazioni.
+        L'elenco dei conti è ordinato (per frequenza d'uso di default)
+      es: |
+        Agrupamiento por día, semana, mes, año y visualización sumas por grupo.
+        Beneficiario se muestra en la lista de transacciones.
+        Lista de cuentas está ordenada (por frecuencia de uso de forma predeterminada)
+      tr: |
+        Muameleleri gün, hafta, ay veya yıllık olarak grupla ve grup başına toplamları görüntüle.
+        Alacaklı işlem listesinde görüntülenir.
+        Hesap listesi sıralanır (varsayılan değer kullanım sıklığına göredir)
+      vi: |
+        Gom nhóm các giao dịch theo mỗi ngày, tuần, tháng, năm và hiển thị phần số liệu tổng kết với mỗi nhóm.
+        Người nhận sẽ được hiển thị trên danh sách giao dịch
+        Danh sách các tài khoản được sắp xếp (dựa theo tần số được sử dụng theo mặc định)
+      ar: |
+        تجميع العمليات حسب اليوم أو الاسبوع أو الشهر أو السنة ، وعرض الاجمالي لكل تجميع. عرض المستفيد في قائمة العمليات. عرض الحسابات مرتبة (افتراضيا حسب تكرار الاستخدام).
+      hu: |
+        Tranzakciók összesítése napi, heti, havi és éves viszonylatban. A kedvezményezett a tranzakciós listában megjelenik. A számlák sorrendben látszanak (alapértelmezetten a leggyakrabban használt elöl).
+      ca: |
+        Agrupeu les operacions per dia, setmana, mes, any i mostreu el total per grup. A la llista d'operacions es mostra el beneficiari. La llista de comptes està ordenada (per freqüència d'ús per omissió).
+      cs: |
+        Skupina transakcí za den, týden, měsíc, rok a zobrazení součtu za skupinu. Příjemce se zobrazí v seznamu transakcí. Seznam účtů je seřazený (podle četnosti použití ve výchozím nastavení).
+      pl: |
+        Grupowanie transakcji na dni, tygodnie, miesiące, lata i wyświetlanie sum dla każdej z grup. Odbiorca płatności jest wyświetlany na liście transakcji. Lista kont jest posortowana (domyślnie według częstotliwości użytkowania).
+  -
+    - 1.8.5.
+    - "2013-08-06"
+    -
+      en: Split transactions (Premium).
+      fr: Opérations ventilées (Premium).
+      de: Splitbuchungen (Premium).
+      it: Operazioni suddivise (Premium).
+      es: Asientos divididos (Premium).
+      tr: Bölünmüş muameleler (Premium).
+      vi: Phân tách giao dịch (Premium).
+      ar: |
+        تقسيم العمليات.
+  -
+    - 1.8.1.
+    - "2013-07-11"
+    -
+      en: |
+        Vietnamese translation.
+        Minor improvements.
+      fr: |
+        Traduction en vietnamien.
+        Améliorations mineures.
+      de: |
+        Vietnamesische Übersetzung.
+        Gerinfügige Verbesserungen.
+      it: |
+        Traduzione in vietnamita.
+        Piccoli miglioramenti.
+      es: |
+        Traducción al vietnamita.
+        Pequeñas mejoras.
+      tr: |
+        Vietnamca tercüme.
+        Küçük iyileştirmeler.
+      vi: |
+        Chuyển ngữ tiếng Việt.
+        Cải thiện bổ sung.
+      ar: |
+        دعم اللغة الفيتنامية. تحسينات أخرى.
+  -
+    - 1.8.0.
+    - "2013-07-10"
+    -
+      en: |
+        New UI design based on Holo theme.
+        Integrated help dialogs.
+        Export without reset.
+      fr: |
+        Nouvelle interface utilisateur basée sur le thème Holo.
+        Dialogues d'aide intégrés.
+        Exporter sans réinitialiser.
+      de: |
+        Neues UI Design basierend auf Holo.
+        Integrierte Hilfe.
+        Exportieren ohne Zurücksetzen.
+      it: |
+        Nuovo design dell'interfaccia utente basata sul tema Holo.
+        Dialogo di aiuto integrato.
+        Esportare senza reinizializzare.
+      es: |
+        Nuevo diseño de interfaz de usuario basada en el tema Holo.
+        Diálogo de ayuda integrado.
+        Exportar sin restablecer.
+      tr: |
+        Holo temasına dayalı yeni kullanıcı arayüzü tasarımı.
+        Entegre yardım diyalogları.
+        Sıfırlamadan dışarı aktarım.
+      ar: |
+        واجهة مستخدم جديدة باستخدام مظهر Holo. إضافة نافذة للمساعدة. تصدير بدون حاجة للحذف.
+  -
+    - 1.7.4
+    - "2013-06-18"
+    -
+      en: |
+        Export to CSV.
+        Explicitly declare support for large screens to make app available again for tablets on Google Play.
+        Support for Android 1.6.
+      ca: |
+        Exportació a CSV.
+        Que es declari explícitament suport per a pantalles de grans dimensions per fer aplicació de nou disponible per a les tauletes de Google Play.
+        Suport a Android 1.6.
+      fr: |
+        Exporter au format CSV.
+        Déclarer explicitement le support pour les grands écrans pour rendre l'app à nouveau disponible pour les tablettes sur Google Play.
+        Support pour Android 1.6.
+      de: |
+        CSV Export.
+        explizite Unterstützung für breite Bildschirme, um Verfügbarkeit für Tablets auf Google Play sicherzustellen.
+        Unterstützung für Android 1.6.
+      it: |
+        Esportazione in formato CSV.
+        Dichiarare esplicitamente il supporto per schermi di grandi dimensioni per rendere nuovamente disponibile app per tablet su Google Play.
+        Supporto per Android 1.6.
+      es: |
+        Exportación a CSV.
+        Que se declare explícitamente soporte para pantallas de gran tamaño para hacer aplicación de nuevo disponible para las tabletas en Google Play.
+        Apoyo a Android 1.6.
+      tr: |
+        CSV olarak dışa aktarım.
+        Google Play'de uygulamanın tabletlere sunulması için büyük ekran desteği beyan et.
+        Android 1.6 desteği.
+  -
+    - 1.7.3
+    - "2013-05-23"
+    -
+      en: |
+        Clone transactions (Premium).
+        Save and new.
+      ca: |
+        Clonar les transaccions (Premium).
+        Desar i nova.
+      fr: |
+        Cloner les transactions (Premium).
+        Enregistrer et nouveau.
+      de: |
+        Buchungen klonen (Premium).
+        Speichern und neu.
+      it: |
+        Ricopiare operazioni (Premium).
+        Salvare e nuova.
+      es: |
+        Clonar asientos (Premium).
+        Guardar y nueva.
+      tr: |
+        Muameleleri klonla (Premium).
+        Kaydet ve yenisini aç.
+  -
+    - 1.7.2
+    - "2013-05-21"
+    -
+      en: |
+        Reset all accounts (Premium).
+        Calculator.
+        Security question for lost password (Premium).
+        Configurable delay for password protection.
+        Create templates from scratch.
+      ca: |
+        Restablir tots els comptes (Premium).
+        Calculadora.
+        Pregunta de seguretat de contrasenya perduda (Premium).
+        Retard configurable per a la protecció de contrasenya.
+        Creació de plantilles des de zero.
+      fr: |
+        Réinitialiser tous les comptes (Premium).
+        Calculatrice.
+        Question de sécurité pour oubli de mot de passe (Premium).
+        Battement configurable avant protection.
+        Créer des modèles à partir de zéro.
+      de: |
+        Alle Konten zurücksetzen (Premium).
+        Taschenrechner.
+        Sicherheitsfrage für Vergessen des Passwortes (Premium).
+        Konfigurierbare Wartezeit für Passwortschutz.
+        Vorlagen ohne Ableitung aus bestehender (Um)Buchung erzeugen.
+      it: |
+        Reinitializare tutti i conti (Premium).
+        Calcolatrice.
+        Domanda di sicurezza per la password persa (Premium).
+        Ritardo configurabile per la protezione con password.
+        Creazione di modelli da zero.
+      es: |
+        Restablecer todas las cuentas (Premium).
+        Calculadora.
+        Pregunta de seguridad para recuperar una contraseña perdida (Premium).
+        Configurabilidad del retardo hasta protección por contraseña.
+        Creación de plantillas desde cero.
+      tr: |
+        Tüm hesapları sıfırla (Premium).
+        Hesap makinesi.
+        Unutulmuş parola için güvenlik sorusu (Premium).
+        Parola ile koruma başlama süresini düzenlenebilir yap.
+        Sıfırdan şablon oluşturulması.
+  -
+    - 1.7.1
+    - "2013-05-09"
+    -
+      en: |
+        Password protection.
+        Fixed problem with date handling in some Locales (Arabic, Bengali, Persian, Hindi, Marathi, Pashto, Tamil).
+      ca: |
+        Protecció per contrasenya.
+        Arreglat el problema amb el maneig de la data en alguns idiomes (àrab, bengalí, persa, hindi, marathi, pashto, tamil).
+      fr: |
+        Protection par mot de passe.
+        Correction d'un problème avec la manipulation de dates dans certaines languages (arabe, bengali, persan, hindi, marathi, pachto, tamoul).
+      de: |
+        Passwortschutz.
+        Problem bei Verarbeitung der Zeitangaben in manchen Sprachen (Arabisch, Bengali, Persisch, Hindi, Marathi, Pashto, Tamil) behoben.
+      it: |
+        Protezione con password.
+        Corretto il problema con la gestione della data in alcune versioni locali (arabo, bengali, persiano, hindi, marathi, pashto, tamil).
+      es: |
+        Protección por contraseña
+        Arreglado el problema con el manejo de la fecha en algunos idiomas (árabe, bengalí, persa, hindi, marathi, pashto, tamil).
+      tr: |
+        Parola ile güvenlik.
+        Bazı dillerde (Arapça, Bengalce, Farsça, Hintçe, Marathi, Peştuca, Tamilce) tarihlerin ele alınmasındaki hata düzeltildi.
+  -
+    - 1.7.0
+    - "2013-04-26"
+    -
+      en: |
+        Swipe through accounts.
+        Edit templates (Premium).
+        Restore backup without install/uninstall (Premium).
+        Ask for confirmation when restoring upon install.
+        Display aggregate financial situation in account list (Premium).
+        Resolved flickering issue in light theme.
+      ca: |
+        Passi a través de comptes (Swipe Gesture).
+        Modifica les plantilles (Premium).
+        Restaurar còpia de seguretat sense desinstal·lar / reinstal (Premium).
+        Demanar confirmació a restaurar a install.
+        Visualitzar la situació financera global en llista de comptes (Premium).
+        Resolt problema que oscil·lava en el tema clar.
+      fr: |
+        Changer de compte par geste Swipe.
+        Restauration de la sauvegarde sans déinstallation/reinstallation (Premium).
+        Éditer les modèles (Premium).
+        S'il y a détection de sauvegarde lors de l'installation, demander confirmation avant de la restaurer.
+        Dans la liste des comptes, affichache des sommes totales (Premium).
+        Scintillment dans le thème claire résolu.
+      de: |
+        Zwischen Konten blättern mittels Wischgeste.
+        Vorlagen verändern (Premium).
+        Wiederherstellung der Sicherungskopie ohne Deinstallierung/Reinstallierung (Premium).
+        Bei Installation nachfragen, ob Sicherungskopie wiederhergestellt werden soll.
+        Darstellung der Gesamtsummen in der Kontenübersicht (Premium).
+        Flimmern des Hintergrundes bei hellem Thema behoben.
+      it: |
+        Navigare da un conto a un altro mediante Swipe Gesture.
+        Modificare modelli (Premium).
+        Ripristino del backup senza disinstallare / reinstallare (Premium).
+        Chiedere conferma prima di ripristinare sulla installazione.
+        Visualizzare situazione finanziaria sommata in lista conti (Premium).
+        Problema sfarfallio risolto nel tema chiaro.
+      es: |
+        Pasar a travès de cuentas (Swipe Gesture)
+        Editar plantillas (Premium).
+        Restaurar la copia de seguridad sin desinstalar / reinstalar (Premium).
+        Pedir confirmación al restaurar al realizar la instalación. 
+        Presentar la situación financiera global en la lista de cuentas (Premium). 
+        Problema de parpadeo resuelto en el tema claro.
+      tr: |
+        Hesaplar arası kaydırmayla geçiş.
+        Şablonları düzenle (Premium).
+        Yedeklemeyi uygulamayı kaldırıp yeniden kurmadan yükleme (Premium).
+        Kurulum sırasında yedeklemenin yüklenmesi için teyit isteği.
+        Hesap listesinde genel finansal durumu görüntüleme (Premium).
+        Aydınlık temada titreme sorunu giderildi.
+  -
+    - 1.6.8
+    - "2013-02-23"
+    -
+      ca: |
+        Localitzat icona de l'aplicació i el botó de la data.
+        Les notes es mostren a la llista de transaccions.
+      de: |
+        App-Symbol und Datum-Schaltfläche lokalisiert.
+        Notizen werden in der Buchungsliste angezeigt.
+      en: "Localized app icon and date button. Notes are displayed in transaction list."
+      es: |
+        El icono de la aplicación y el botón de la fecha estan localizados.
+        Los apuntes se muestran en la lista de transacciones.
+      fr: |
+        L'icône de l'application et le bouton de la date sont localisés.
+        Les remarques sont affichées dans la liste des transactions.
+      it: |
+        Localizzata app icona e il pulsante data.
+        Le note sono visualizzate nella lista delle transazioni.
+      tr: |
+        Uygulama ikonu ve tarih düğmesi tercüme edildi.
+        Notlar muamele listesinde görüntüleniyor.
+  -
+    - 1.6.7
+    - "2013-02-08"
+    -
+      ca: |
+        Colors diferents per a cada compte.
+        Traducció al Turc.
+      de: |
+        Konfigurierbare Farben für Konten.
+        Türkische Übersetzung.
+      en: "Configurable colors for accounts. Turkish translation."
+      es: |
+        Colores configurables para las cuentas.
+        Traducción al turco.
+      fr: |
+        Couleurs configurables pour les comptes.
+        Traduction en turc.
+      it: |
+        Colori configurabili per i conti.
+        Traduzione in turco.
+      tr: |
+        Hesaplar için ayarlanabilir renkler.
+        Türkçe tercüme.
+  -
+    - 1.6.6
+    - "2013-01-26"
+    -
+      ca: |
+        Associació entre els tipus de comptes i mètodes de pagament reparats.
+        Utilitza la mida del tipus de lletra estàndard del sistema.
+      de: |
+        Problem bei Verknüpfung von Kontotyp und Zahlungsweise behoben.
+        Standard-Schriftgröße des Systems verwenden.
+      en: |
+        Bug fix: Associating account types with payment methods.
+        Use system default font size.
+      es: |
+        Asociación de tipos de cuenta con métodos de pago reparada.
+        Utilizar el tamaño de la fuente estándar del sistema.
+      fr: |
+        Association entre les types de comptes et les méthodes de paiement réparée.
+        Utiliser la taille de police par défaut du système.
+      it: |
+        Associazione tra i tipi di conto e metodi di pagamento riparati.
+        Utilizare dimensioni carattere standard di sistema.
+      tr: |
+        Hata düzeltmesi: Hesap türlerinin ödeme metotları ile ilişkilendirilmesi.
+        Varsayılan sistem yazıtipi boyutunu kullan.
+  -
+    - 1.6.5
+    - "2013-01-24"
+    -
+      ca: |
+        Aparença: tema fosc.
+        Traducció al català.
+        Nova suma de transferències a la vista dels comptes.
+      de: |
+        Dunkler UI Stil.
+        Übersetzung ins Katalanische.
+        Summe der Umbuchungen in der Kontenübersicht anzeigen.
+      en: |
+        Dark UI theme.
+        Catalan translation.
+        Added sum of transfers in account overview.
+      es: |
+        Tema UI oscuro.
+        Traducción catalán.
+        Añadido suma de las traslados en resumen de cuentas.
+      fr: |
+        Style sombre de l'interface utilisateur.
+        Traduction en catalan.
+        Afficher le total des tansfers dans le sommaire des comptes.
+      it: |
+        Stile buio.
+        Traduzione catalana.
+        La soma dei trasferimenti aggiunta al sommario dei conti.
+  -
+    - 1.6.0
+    - "2012-12-24"
+    -
+      ca: |
+        Creare operazione riguardo modelli.
+        È possibile configurare set di caratteri del file QIF (compatibilità MS Money).
+        Miglioramenti dell'interfaccia utente.
+        Mostra i recenti operazioni in cima.
+        L'elenco degli conti mostra una panoramica della situazione finanziaria.
+      de: |
+        Buchungen aus Vorlagen erzeugen.
+        Zeichensatz des QIF-Exports konfigurierbar zur besseren Unterstützung von MS Money.
+        Verbesserungen der Benutzerschnittstelle.
+        Neueste Buchungen oben.
+        Kontenliste zeigt aktuellen Finanzstatus an.
+      en: "Create transactions from templates. Character encoding of exported QIF file configurable to support MS Money. User interface improvements. Newest transactions on top. Account list gives overview of financial status"
+      es: |
+        Crear asientos a partir de una plantilla.
+        Puede configurar codificación de caracteres (compatibilidad con MS Money).
+        Mejora de la interfaz de usuario.
+        Mostrar más nuevas transacciones en la parte superior.
+        La lista de cuentas muestra el estado financiero actual.
+      fr: |
+        Créer des opérations à partir de modèles.
+        Encodage de l'export QIF configurable en vue de compatibilté avec MS Money.
+        Améliorations de l'interface usager.
+        La liste des opérations est triée avec les plus récentes en haut.
+        La liste des comptes affiche un aperçu de la situation financiere.
+      it: |
+        Creare operazione riguardo modelli.
+        È possibile configurare set di caratteri del file QIF (compatibilità MS Money).
+        Miglioramenti dell'interfaccia utente.
+        Mostra i recenti operazioni in cima.
+        L'elenco degli conti mostra una panoramica della situazione finanziaria.
+  -
+    - 1.5.1
+    - "2012-10-21"
+    -
+      en: "Fixed problem with restore from old backups. Show payment method in transaction details."
+  -
+    - 1.5.0
+    - "2012-10-20"
+    -
+      en: "Payment methods. FTP transfer factored out to SendWithFTP app. Bug fixes (Issues #24, #27, #28 ,#29, #30, #32, #33). Improved QIF format (header and category)."
+  -
+    - 1.4.12
+    - "2012-04-26"
+    -
+      en: "User interface translated to Spanish. Move transaction to different account. Parties list sorted alphabetically."
+  -
+    - 1.4.11
+    - "2012-04-20"
+    -
+      en: "Improved stability of categories import and ftp transfer. Added FAQ. Generic export through any installed file transfer app."
+  -
+    - 1.4.10
+    - "2012-04-14"
+    -
+      en: "Improved usability and added configurability to input of currency amounts."
+  -
+    - 1.4.9
+    - "2012-03-31"
+    -
+      en: "Additional features for list of payers/payees (import from Grisbi, delete). Fixed display of buttons in ICS."
+  -
+    - 1.4.8
+    - "2012-03-26"
+    -
+      en: "Revamped user interface. Some bug-fixes."
+  -
+    - 1.4.7
+    - "2012-03-09"
+    -
+      en: "Improved usability of currency input. Reduced apk size, since tutorial is no longer included, but hosted on Github."
+  -
+    - 1.4.6
+    - "2012-03-04"
+    -
+      en: "Backup and restore of database and preferences. User interface translated to Italian."
+  -
+    - 1.4.5
+    - "2012-02-13"
+    -
+      en: "Support for sending QIF file via email. Reduced memory footprint."
+  -
+    - 1.4.4
+    - "2012-02-08"
+    -
+      en: "FTP upload done in background. Default account created in user's language and currency."
+  -
+    - 1.4.3
+    - "2012-02-03"
+    -
+      en: "Improved parsing of number input in German locale. Upload of QIF file to FTP server."
+  -
+    - 1.4.1
+    - "2012-01-31"
+    -
+      en: "Input of transaction amounts now respects user's locale. Bug fix: Opening balance could not be set."
+  -
+    - 1.4.0
+    - "2012-01-27"
+    -
+      en: "Currencies now handled with java.util.Currency. Support for transfers between accounts."
+  -
+    - 1.3.2
+    - "2012-01-17"
+    -
+      en: "Improved help and included tutorial."
+  -
+    - 1.3.0
+    - "2012-01-13"
+    -
+      en: "Cleaned up UI."
+  -
+    - 1.2.8
+    - "2012-01-08"
+    -
+      en: "Fixed bug in export."
+  -
+    - 1.2.7
+    - "2012-01-07"
+    -
+      en: "Added payee field. Ignore empty fields in QIF export."
+  -
+    - 1.2.6
+    - "2011-11-06"
+    -
+      en: "Better management of categories: Default category files from Grisbi are now included in the app, categories can be deleted and renamed."
+  -
+    - 1.2.0
+    - "2011-10-07"
+    -
+      en: "Support for multiple accounts. No upgrade. You have to uninstall older versions."
+  -
+    - 1.1.3
+    - "2011-06-06"
+    -
+      en: "Use workaround class for bug in SimpleCursorTreeAdapter (NullPointerException when adding the first subcategory) from http://code.google.com/p/android/issues/detail?id=9170; better feedback when category import goes wrong."
+  -
+    - 1.1.2
+    - "2011-05-18"
+    -
+      en: "Sort categories by usages; Allow assignment of main category; Allow manual creation of categories; Improved handling of categories import."
+

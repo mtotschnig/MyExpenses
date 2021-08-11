@@ -156,6 +156,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
         preference.setSummary(R.string.pref_planning_calendar_summary);
       }
       configureContribPrefs();
+      loadSyncAccountData();
     }
   }
 
@@ -333,7 +334,6 @@ public class SettingsFragment extends BaseSettingsFragment implements
             .pos(R.string.button_validate)
             .neg(R.string.menu_remove)
             .show(this, DIALOG_MANAGE_LICENCE);
-
       } else {
         String licenceKey = prefHandler.getString(NEW_LICENCE, "");
         String licenceEmail = prefHandler.getString(LICENCE_EMAIL, "");
@@ -401,7 +401,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
       fragment = SecurityQuestionDialogFragmentCompat.newInstance(key);
     } else if (matches(preference, AUTO_BACKUP_CLOUD)) {
       if (((ListPreference) preference).getEntries().length == 1) {
-        activity().showSnackbar(R.string.auto_backup_cloud_create_backend);
+        activity().showSnackbar(R.string.no_sync_backends);
         return;
       }
     } else if (preference instanceof SimplePasswordPreference) {

@@ -59,7 +59,6 @@ public enum PrefKey {
   FIRST_INSTALL_DB_SCHEMA_VERSION("first_install_db_schema_version"),
   CURRENT_ACCOUNT("current_account"),
   PLANNER_LAST_EXECUTION_TIMESTAMP("planner_last_execution_timestamp"),
-  APP_FOLDER_WARNING_SHOWN("app_folder_warning_shown"),
   AUTO_FILL_SWITCH(R.string.pref_auto_fill_key),
   AUTO_FILL_LEGACY("auto_fill"),
   AUTO_FILL_ACCOUNT(R.string.pref_auto_fill_account_key),
@@ -153,7 +152,10 @@ public enum PrefKey {
   GROUP_HEADER(R.string.pref_group_header_show_details_key),
   UI_WEB(R.string.pref_web_ui_key),
   DATES_ARE_LINKED("dates_are_linked"),
-  VOTE_REMINDER_LAST_CHECK("vote_reminder_last_check");
+  VOTE_REMINDER_LAST_CHECK("vote_reminder_last_check"),
+  SAVE_TO_SYNC_BACKEND_CHECKED("save_to_sync_backend_checked"),
+  NEWS(R.string.pref_news_key)
+  ;
 
   int resId = 0;
   String key = null;

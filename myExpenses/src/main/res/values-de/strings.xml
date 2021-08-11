@@ -304,7 +304,6 @@
     <string name="pref_import_summary">Buchungen, Kategorien und Parteien aus %s Datei importieren</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">%s Import</string>
-    <string name="pref_like_facebook_title">Empfehlen Sie uns auf Facebook</string>
     <string name="pref_manage_accounts_title">Konten</string>
     <string name="pref_manage_categories_summary">Hinzufügen, Editieren und Löschen von Kategorien.</string>
     <string name="pref_manage_categories_title">Kategorien</string>
@@ -363,7 +362,6 @@
     <string name="restore_db_success">Die Datenbank wurde aus der Datensicherung wiederhergestellt.</string>
     <string name="restore_no_backup_found">Keine Sicherungsdatei gefunden.</string>
     <string name="restore_preferences_failure">Fehler bei der Wiederherstellung der Einstellungen</string>
-    <string name="restore_backup_archive_not_valid">Archiv %1$s ist nicht gültig</string>
     <string name="restore_backup_file_not_found">Keine Datei %1$s im Archiv „%2$s“ gefunden</string>
     <string name="restore_preferences_success">Die Einstellungen wurden aus der Datensicherung wiederhergestellt.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d Pläne wurden aus der Datensicherung wiederhergestellt</string>
@@ -440,7 +438,6 @@
     <string name="warning_reset_account_all">Wenn Sie fortfahren, werden alle Buchungen aller Konten%1$s aus der Datenbank gelöscht. Dies kann nicht rückgängig gemacht werden.</string>
     <string name="warning_reset_account_matched">Wenn Sie fortfahren, werden alle mit dem aktuellen Suchfilter übereinstimmenden Buchungen aus der Datenbank gelöscht. Dies kann nicht rückgängig gemacht werden.</string>
     <string name="warning_restore">Datenbank und Einstellungen werden aus der Datensicherung (%1$s) wiederhergestellt. Aktuelle Daten werden gelöscht.</string>
-    <string name="warning_app_folder_will_be_deleted_upon_uninstall">Der aktuell ausgewählte Ordner für Sicherungskopien und Exporte wird von Android automatisch gelöscht wenn Sie {app_name} deinstallieren. Sie können dies verhindern, indem Sie einen anderen Ordner in den Einstellungen auswählen.</string>
     <string name="warning_splitpartcategory_context">Umbuchungen, die Teil einer mehrteiligen Buchung sind, können nur im Kontext der mehrteiligen Buchung geändert werden.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Bitte eine Zahl zwischen %1$d und %2$d angeben</string>
     <string name="warning_change_fraction_digits_1">Beträge in der Datenbank müssen aktualisiert werden, um mit der neuen Anzahl der Nachkommastellen übereinzustimmen.</string>
@@ -448,7 +445,7 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Wenn Beträge nicht aktualisiert werden, erscheinen diese nach der Änderung als dividiert durch %d.</string>
     <string name="warning_change_fraction_digits_3">Wenn Beträge aktualisiert werden, verlieren Sie die Information über deren Bruchteil.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Beträge in der Datenbank aktualisieren</string>
-    <string name="import_categories_success">%1$s Kategorien erfolgreich importiert</string>
+    <string name="import_categories_success">%1$d Kategorien erfolgreich importiert</string>
     <string name="import_parties_success">%1$s Parteien erfolgreich importiert</string>
     <string name="import_accounts_success">%1$s Konten erfolgreich importiert</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d Buchungen erfolgreich in das Konto %2$s importiert</string>
@@ -621,7 +618,6 @@
     <string name="upgrade_now">Lizenz kaufen</string>
     <string name="pref_backup_cloud_title">Auf Synchronisierung-Backend speichern</string>
     <string name="pref_backup_cloud_summary">Zusätzlich zur lokalen Speicherung auf dem Gerät kann die Sicherungsdatei auf ein entferntes Backend kopiert werden.</string>
-    <string name="auto_backup_cloud_create_backend">Erstellen Sie eine Synchronisierung Backend vom Hauptbildschirm der Einstellungen.</string>
     <string name="auto_backup_cloud_failure">Beim Versuch, Sicherungsdatei %1$s auf Backend %2$s zu speichern, ist ein Fehler aufgetreten:</string>
     <string name="auto_backup_cloud_success">Die Sicherungsdatei %1$s wurde erfolgreich im Backend %2$s gespeichert.</string>
     <string name="home_screen_shortcuts_nougate_info">Verknüfpungen können durch langes Antippen des App-Icons auf dem Start-Bildschirm hinzugefügt werden.</string>
@@ -993,4 +989,16 @@
     <!-- This warning is shown when a user calls the Reset or Cancel commands on a scheduled transaction, for a date
      where the transaction has already been created.  -->
     <string name="warning_plan_instance_delete">Die für das ausgewählte Datum erstellte Buchung wird gelöscht.</string>
+    <string name="crash_reports_user_info">{app_name} sendet Berichte über Abstürze automatisch an seine Entwickler, wodurch Probleme schneller gelöst werden können.</string>
+    <string name="pref_category_title_crash_reports">Absturzberichte</string>
+    <string name="pref_enable_acra">Automatischen Versand von Absturzberichten zulassen</string>
+    <string name="pref_acra_user_email">E-Mail-Adresse für Absturzberichte</string>
+    <string name="pref_acra_user_email_summary">Bitte geben Sie Ihre E-Mail-Adresse an, falls Sie bereit sind beim Aufspüren der Fehler zu helfen, und erlauben, dass wir Sie kontaktieren.</string>
+    <string name="backup_save_to_sync_backend">Unter %s speichern</string>
+    <string name="ui_refinement">Verfeinerung der Benutzeroberfläche</string>
+    <string name="bug_fixes">Bugs behoben</string>
+    <string name="performance_enhancement">Performance-Verbesserung</string>
+    <string name="stability_improvements">Stabilitätsverbesserungen</string>
+    <string name="new_version">Neue Version</string>
+    <string name="pref_news_title">Neuigkeiten</string>
 </resources>

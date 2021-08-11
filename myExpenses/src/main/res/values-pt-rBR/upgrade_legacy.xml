@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<resources>
+    <string-array name="whats_new_329">
+        <item>Parceiros duplicados podem ser mesclados.</item>
+        <item>A quantia restante nas transações divididas pode ser copiada para a área de transferência.</item>
+    </string-array>
+    <string-array name="whats_new_328">
+        <item>O widget de conta pode ser configurado para exibir uma única conta e levar em consideração futuras transações.</item>
+        <item>Exibe a quantidade total de transações selecionadas.</item>
+    </string-array>
+    <string-array name="whats_new_327">
+        <item>Duas transações existentes podem ser unidas como uma transferência.</item>
+    </string-array>
+    <string-array name="whats_new_326">
+        <item>Transações podem se repetir no último dia do mês.</item>
+    </string-array>
+    <string-array name="whats_new_324">
+        <item>Interface web do usuário</item>
+    </string-array>
+    <string-array name="whats_new_323">
+        <item>O botão de data permite uma navegação rápida para o dia anterior e o seguinte.</item>
+    </string-array>
+    <string-array name="whats_new_322">
+        <item>As somas para despesas, receitas e transferências nos cabeçalhos de grupo podem ser ocultadas.</item>
+        <item>Calcula a diferença entre o saldo atual e um novo valor.</item>
+        <item>Filtro e orçamentos podem ser definidos para um subconjunto de contas.</item>
+    </string-array>
+    <string-array name="whats_new_321">
+        <item>O reconhecimento de texto agora funciona com mais idiomas.</item>
+    </string-array>
+    <string-array name="whats_new_320">
+        <item>As imagens podem ser aparadas.</item>
+    </string-array>
+    <string-array name="whats_new_318">
+        <item>A ação padrão do clique pode ser definida por modelo.</item>
+    </string-array>
+    <string-array name="whats_new_317">
+        <item>Os modelos podem ser carregados da tela de transação.</item>
+    </string-array>
+    <string-array name="whats_new_316">
+        <item>O botão Salvar na tela de transação está mais destacado.</item>
+        <item>Manter pressionado o botão de ação flutuante abre um menu que permite preparar o formulário para transferência, divisão de transação ou receita.</item>
+    </string-array>
+    <string name="whats_new_315_dark_theme_q">Vinculação do tema escuro  ao padrão do sistema.</string>
+    <string-array name="whats_new_313">
+        <item>Gerenciamento aprimorado de transações recorrentes.</item>
+        <item>Tradução  para canarim.</item>
+    </string-array>
+    <string-array name="whats_new_312">
+        <item>Formato de data personalizado.</item>
+        <item>Exportação das etiquetas para o CSV.</item>
+        <item>Memorização do estado recolhido de grupos na lista de transações.</item>
+    </string-array>
+    <string-array name="whats_new_311">
+        <item>A lista de parceiros (pagadores e beneficiários) está pesquisável.</item>
+    </string-array>
+    <string-array name="whats_new_310">
+        <item>As transações podem ser mapeadas para várias etiquetas.</item>
+    </string-array>
+</resources>

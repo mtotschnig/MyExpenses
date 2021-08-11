@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+{% assign msg = site.data.en.en  %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="My Expenses, Open Source Android App for personal finance management">
+    <meta name="author" content="Michael Totschnig">
+    <link rel="shortcut icon" href="/visuals/favicon.png">
+
+    <title>My Expenses Blog: {{page.title}}</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/css/jumbotron-narrow.css" rel="stylesheet">
+    <link href="/css/styles.css" rel="stylesheet">
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/themes/smoothness/jquery-ui.min.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="/script/html5shiv.js"></script>
+      <script src="/script/respond.min.js"></script>
+    <![endif]-->
+    
+    <style type="text/css">
+    div.screenshot {
+      margin: 15px 0;
+    }
+    div.screenshot img {
+    border: 1px solid #021A40;
+    cursor: pointer;
+    padding: 1px;
+    }
+    </style>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-40789280-1', 'myexpenses.mobi');
+        ga('set', 'anonymizeIp', true);
+        ga('send', 'pageview');
+    </script>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="header">
+        <ul class="nav nav-pills pull-right">
+          <li id="features-link"><a id="menu-features" href="/en"><span class="glyphicon glyphicon-home"></span></a></li>
+          <li id="menu-moreinfo" class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" title="Archive"><span class="glyphicon glyphicon-list"></span><span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              {% for post in site.posts %}
+                {% if post.url == page.url %}
+                <li class="active"><a>{{ post.date | date: '%B %d, %Y' }} <br/> {{ post.title }}</a></li>
+                {% else %}
+                <li>
+                  <a href="{{ post.url }}">
+                  {{ post.date | date: '%B %d, %Y' }} <br/>
+                  {{ post.title }}
+                  </a>
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+        </ul>
+        <h3 class="text-muted">My Expenses Blog</h3>
+      </div>
+      <main>
+      <article>
+        <header>
+            <h2>{{ page.title }}</h2>
+            <span><i class="icon-clock"></i><time datetime="{{page.date|date:"%F"}}">{{page.date|date:"%b %d, %Y"}}</time></span><br/>
+            <span class="exerpt">{{page.excerpt}}</span><br/>
+            <span class="category"><i class="icon-tag"></i> {{ page.categories | category_links }}</span><br/>
+            <span class="author"><i class="icon-user"></i> {% if page.author %}{{page.author}}{% else %}{{site.author}}{% endif%}</span>
+        </header>
+
+        <div class="entry">{{ content }}</div>
+
+        <footer><!-- additional info --></footer>
+
+      </article>
+      </main>
+      <div class="footer">
+        <p>© 2014 Michael Totschnig - <a class="intern" href="#imprint">{% if msg.imprint %}{{msg.imprint}}{% else %}{{site.data.en.en.imprint}}{% endif %}</a> - <a href="mailto:{{site.support-email}}">Feedback</a></p>
+      </div>
+    </div> <!-- /container -->
+    
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/script/images.js" charset="UTF-8"></script>
+  </body>
+</html>

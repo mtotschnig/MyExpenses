@@ -1,168 +1,91 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources,InconsistentArrays">
-    <string name="Main_1">Bankgebühren</string>
-    <string-array name="Sub_1">
-        <item>Depotgebühren</item>
-        <item>Dispozinsen</item>
-        <item>Kontoführung</item>
-    </string-array>
-    <string name="Main_2">Bekleidung</string>
-    <string-array name="Sub_2">
-        <item>Kleidung</item>
-        <item>Schuhe</item>
-    </string-array>
-    <string name="Main_3">Eigenheim</string>
-    <string-array name="Sub_3">
-        <item>Eigenheimversicherung</item>
-        <item>Einrichtung</item>
-        <item>Garten</item>
-        <item>Gemeindeabgaben</item>
-        <item>Grundsteuer</item>
-        <item>Heizkosten</item>
-        <item>Müllabfuhr</item>
-        <item>Rundfunkgebühr</item>
-        <item>Strom</item>
-        <item>Telefon</item>
-        <item>Wasser</item>
-    </string-array>
-    <string name="Main_4">Einkünfte</string>
-    <string-array name="Sub_4">
-        <item>Familienbeihilfe</item>
-        <item>Kindergeld</item>
-        <item>Steuerausgleich</item>
-    </string-array>
-    <string name="Main_5">Erträge</string>
-    <string-array name="Sub_5">
-        <item>Dividenden</item>
-        <item>Kapitalertrag</item>
-    </string-array>
-    <string name="Main_6">Freizeit</string>
-    <string-array name="Sub_6">
-        <item>Bücher</item>
-        <item>Filme</item>
-        <item>Internet</item>
-        <item>Kino</item>
-        <item>Konzerte</item>
-        <item>Mobiltelefon</item>
-        <item>Multimedia</item>
-        <item>Museen</item>
-        <item>Sport</item>
-        <item>Sportartikel</item>
-        <item>Zeitschriften</item>
-    </string-array>
-    <string name="Main_7">Gesundheit</string>
-    <string-array name="Sub_7">
-        <item>Apotheke</item>
-        <item>Facharzt</item>
-        <item>Krankenhaus</item>
-        <item>Krankenversicherung</item>
-        <item>Pflege</item>
-        <item>Praktischer Arzt</item>
-    </string-array>
-    <string name="Main_8">Haushalt</string>
-    <string-array name="Sub_8">
-        <item>Gartengeräte</item>
-        <item>Haushaltsgeräte</item>
-        <item>Werkzeug</item>
-    </string-array>
-    <string name="Main_9">Haustiere</string>
-    <string-array name="Sub_9">
-        <item>Futter</item>
-        <item>Tierarzt</item>
-    </string-array>
-    <string name="Main_10">Kfzkosten</string>
-    <string-array name="Sub_10">
-        <item>Autokauf</item>
-        <item>Autoversicherung</item>
-        <item>Kraftstoff</item>
-        <item>Leasingraten</item>
-        <item>Mautgebühren</item>
-        <item>Parkgebühren</item>
-        <item>Reparaturen</item>
-    </string-array>
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Sub_22_3">Reisen</string>
+    <string name="Main_22">Ferien</string>
+    <string name="Sub_21_6">Flugzeug</string>
+    <string name="Sub_21_5">Straßenbahn</string>
+    <string name="Sub_21_4">Zug</string>
+    <string name="Sub_21_3">Maut</string>
+    <string name="Sub_21_2">U-Bahn</string>
+    <string name="Sub_21_1">Bus</string>
+    <string name="Sub_20_2">Kleidung</string>
+    <string name="Sub_20_1">Friseur</string>
+    <string name="Main_20">Pflege</string>
+    <string name="Sub_19_9">Soziale Sicherheit</string>
+    <string name="Sub_19_8">Apotheker</string>
+    <string name="Sub_19_7">Osteopath</string>
+    <string name="Sub_19_6">Augenarzt</string>
+    <string name="Sub_19_5">Arzt</string>
+    <string name="Sub_19_4">Kinesitherapeut</string>
+    <string name="Sub_19_3">Krankenhaus</string>
+    <string name="Sub_19_2">Zahnarzt</string>
+    <string name="Sub_19_1">Versicherung</string>
+    <string name="Main_19">Gesundheit</string>
+    <string name="Sub_17_14">Museen/Ausstellungen</string>
+    <string name="Sub_17_12">Reisen</string>
+    <string name="Sub_17_11">Video</string>
+    <string name="Sub_17_10">Sports</string>
+    <string name="Sub_17_9">Konzerte</string>
+    <string name="Sub_17_8">Parks</string>
+    <string name="Sub_17_7">Bücher</string>
+    <string name="Sub_17_6">Spiele</string>
+    <string name="Sub_17_5">Technik</string>
+    <string name="Sub_17_4">Diskothek</string>
+    <string name="Sub_17_3">Kino</string>
+    <string name="Sub_17_2">Bowling</string>
+    <string name="Sub_17_1">Snooker</string>
+    <string name="Main_17">Freizeit</string>
+    <string name="Sub_16_16">Mobiltelefon</string>
+    <string name="Sub_16_15">Telefon</string>
+    <string name="Sub_16_13">Garten</string>
+    <string name="Sub_16_12">Gas</string>
+    <string name="Sub_16_10">Haushaltsgeräte</string>
+    <string name="Sub_16_9">Elektrizität</string>
+    <string name="Sub_16_8">Wasser</string>
+    <string name="Sub_16_7">Dekoration</string>
+    <string name="Sub_16_6">Heizung</string>
+    <string name="Sub_16_4">Möbel</string>
+    <string name="Sub_16_3">Fernsehen</string>
+    <string name="Sub_16_2">Miete</string>
+    <string name="Sub_16_1">Hotel</string>
+    <string name="Main_16">Gehäuse</string>
+    <string name="Sub_15_1">Einkommensteuer</string>
+    <string name="Main_15">Steuern</string>
+    <string name="Sub_13_2">Darlehen/Hypothek</string>
+    <string name="Sub_13_1">Bankgebühren</string>
+    <string name="Main_13">Finanzielle Aufwendungen</string>
+    <string name="Sub_12_3">Bücher</string>
+    <string name="Sub_12_2">Schulgebühren</string>
+    <string name="Sub_12_1">Lektionen</string>
+    <string name="Main_12">Studium</string>
+    <string name="Sub_11_2">Studium</string>
     <string name="Main_11">Kinder</string>
-    <string-array name="Sub_11">
-        <item>Betreuung</item>
-        <item>Internat</item>
-        <item>Kindergarten</item>
-        <item>Schulgeld</item>
-        <item>Spielzeug</item>
-        <item>Taschengeld</item>
-    </string-array>
-    <string name="Main_12">Kredit</string>
-    <string-array name="Sub_12">
-        <item>Bearbeitungsgebühr</item>
-        <item>Kreditrate</item>
-        <item>Kreditspesen</item>
-        <item>Kreditversicherung</item>
-        <item>Kreditzinsen</item>
-    </string-array>
-    <string name="Main_13">Lebensmittel</string>
-    <string-array name="Sub_13">
-        <item>Nahrungsmittel</item>
-        <item>Restaurant</item>
-        <item>Supermarkt</item>
-    </string-array>
-    <string name="Main_14">Lohn</string>
-    <string-array name="Sub_14">
-        <item>Nettogehalt</item>
-        <item>Prämien</item>
-        <item>Zuschläge</item>
-    </string-array>
-    <string name="Main_15">Pension</string>
-    <string-array name="Sub_15">
-        <item>Private Rente</item>
-        <item>Staatliche Rente</item>
-        <item>Versehrtenrente</item>
-    </string-array>
-    <string name="Main_16">Sonstige Ausgaben</string>
-    <string-array name="Sub_16">
-        <item>Kirchenbeitrag</item>
-        <item>Sparbeträge</item>
-        <item>Spenden</item>
-        <item>Unterhalt</item>
-    </string-array>
-    <string name="Main_17">Sonstige Einnahmen</string>
-    <string-array name="Sub_17">
-        <item>Abfertigung</item>
-        <item>Alimente</item>
-        <item>Arbeitslosengeld</item>
-        <item>Sozialhilfe</item>
-    </string-array>
-    <string name="Main_18">Urlaub</string>
-    <string-array name="Sub_18">
-        <item>Bahnkarten</item>
-        <item>Flugtickets</item>
-        <item>Hotel</item>
-        <item>Reisebüro</item>
-        <item>Sehenswürdigkeiten</item>
-    </string-array>
-    <string name="Main_19">Versicherungen</string>
-    <string-array name="Sub_19">
-        <item>Haftpflichtversicherung</item>
-        <item>Lebensversicherung</item>
-        <item>Rechtsschutzversicherung</item>
-    </string-array>
-    <string name="Main_20">Wohnung</string>
-    <string-array name="Sub_20">
-        <item>Betriebskosten</item>
-        <item>Einrichtung</item>
-        <item>Haushaltsversicherung</item>
-        <item>Kabeltv</item>
-        <item>Miete</item>
-        <item>Rundfunkgebühr</item>
-        <item>Strom</item>
-        <item>Telefon</item>
-        <item>Wasser</item>
-    </string-array>
-    <string name="Main_21">Geschenke</string>
-    <string-array name="Sub_21">
-    </string-array>
-        <string name="Main_22">Steuer</string>
-    <string-array name="Sub_22">
-        <item>Einkommenssteuer</item>
-        <item>Grundsteuer</item>
-        <item>Mehrwertsteuer</item>
-    </string-array>
-
+    <string name="Main_10">Geschenke</string>
+    <string name="Sub_9_5">Geldbußen</string>
+    <string name="Sub_9_4">Parkplatz</string>
+    <string name="Sub_9_3">Instandhaltung</string>
+    <string name="Sub_9_2">Reparaturen</string>
+    <string name="Sub_9_1">Kraftstoff</string>
+    <string name="Main_9">Auto</string>
+    <string name="Sub_8_5">Leben</string>
+    <string name="Sub_8_4">Zivilrechtliche Haftung</string>
+    <string name="Sub_8_3">Haus</string>
+    <string name="Sub_8_2">Gesundheit</string>
+    <string name="Sub_8_1">Auto</string>
+    <string name="Main_8">Versicherung</string>
+    <string name="Sub_7_4">Tierarzt</string>
+    <string name="Main_4">Gehalt</string>
+    <string name="Sub_7_1">Essen</string>
+    <string name="Main_7">Haustiere</string>
+    <string name="Sub_6_8">Supermarkt</string>
+    <string name="Sub_6_7">Selbstbedienung</string>
+    <string name="Sub_6_6">Restaurant</string>
+    <string name="Sub_6_5">Lebensmittel</string>
+    <string name="Sub_6_4">Süßigkeiten</string>
+    <string name="Sub_6_3">Kantine</string>
+    <string name="Sub_6_2">Bäcker</string>
+    <string name="Sub_6_1">Bar</string>
+    <string name="Sub_1_6">Soziale Sicherheit</string>
+    <string name="Sub_1_3">Steuergutschrift</string>
+    <string name="Main_1">Anderes Einkommen</string>
 </resources>

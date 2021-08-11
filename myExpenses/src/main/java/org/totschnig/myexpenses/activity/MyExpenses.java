@@ -144,7 +144,6 @@ import static org.totschnig.myexpenses.viewmodel.MyExpensesViewModelKt.ERROR_INI
  */
 public class MyExpenses extends BaseMyExpenses implements
     ViewPager.OnPageChangeListener, LoaderManager.LoaderCallbacks<Cursor>,
-    ConfirmationDialogFragment.ConfirmationDialogCheckedListener,
     ConfirmationDialogListener, SortUtilityDialogFragment.OnConfirmListener, SelectFilterDialog.Host {
 
   public static final int ACCOUNTS_CURSOR = -1;
@@ -546,7 +545,7 @@ public class MyExpenses extends BaseMyExpenses implements
           ExportDialogFragment.newInstance(accountId, tl.isFiltered())
               .show(this.getSupportFragmentManager(), "WARNING_RESET");
         } else {
-          showSnackbar(appDirStatus.print(this));
+          showDismissibleSnackbar(appDirStatus.print(this));
         }
       } else {
         showExportDisabledCommand();
@@ -709,6 +708,10 @@ public class MyExpenses extends BaseMyExpenses implements
     } else if (command == R.id.OCR_FAQ_COMMAND) {
       startActionView("https://github.com/mtotschnig/MyExpenses/wiki/FAQ:-OCR");
       return true;
+    } else if (command == R.id.BACKUP_COMMAND) {
+      i = new Intent(this, BackupRestoreActivity.class);
+      i.setAction(BackupRestoreActivity.ACTION_BACKUP);
+      startActivity(i);
     }
     return false;
   }
@@ -1030,54 +1033,48 @@ public class MyExpenses extends BaseMyExpenses implements
         mViewPagerAdapter.getFragmentName(getCurrentPosition()));
   }
 
-  @Override
-  public void onPositive(Bundle args) {
-    super.onPositive(args);
-    int anInt = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE);
-    if (anInt == R.id.START_EXPORT_COMMAND) {
-      args.putParcelableArrayList(TransactionList.KEY_FILTER,
-          getCurrentFragment().getFilterCriteria());
-      getSupportFragmentManager().beginTransaction()
-          .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_EXPORT),
-              ASYNC_TAG)
-          .add(ProgressDialogFragment.newInstance(
-              getString(R.string.pref_category_title_export), null, ProgressDialog.STYLE_SPINNER, true), PROGRESS_TAG)
-          .commit();
-    } else if (anInt == R.id.DELETE_COMMAND_DO) {//Confirmation dialog was shown without Checkbox, because it was called with only void transactions
-      onPositive(args, false);
-    } else if (anInt == R.id.SPLIT_TRANSACTION_COMMAND) {
-      finishActionMode();
-      startTaskExecution(TASK_SPLIT, args, R.string.saving);
-    } else if (anInt == R.id.UNGROUP_SPLIT_COMMAND) {
-      finishActionMode();
-      startTaskExecution(TASK_REVOKE_SPLIT, args, R.string.saving);
-    } else  if (anInt == R.id.LINK_TRANSFER_COMMAND) {
-      finishActionMode();
-      viewModel.linkTransfer(args.getLongArray(KEY_ROW_IDS));
-    }
+  public void startExport(Bundle args) {
+    args.putParcelableArrayList(TransactionList.KEY_FILTER,
+        getCurrentFragment().getFilterCriteria());
+    getSupportFragmentManager().beginTransaction()
+        .add(TaskExecutionFragment.newInstanceWithBundle(args, TASK_EXPORT),
+            ASYNC_TAG)
+        .add(ProgressDialogFragment.newInstance(
+            getString(R.string.pref_category_title_export), null, ProgressDialog.STYLE_SPINNER, true), PROGRESS_TAG)
+        .commit();
   }
 
   @Override
   public void onPositive(Bundle args, boolean checked) {
-    int anInt = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE);
-    if (anInt == R.id.DELETE_COMMAND_DO) {
+    super.onPositive(args, checked);
+    int command = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE);
+    if (command == R.id.DELETE_COMMAND_DO) {
       finishActionMode();
-      showSnackbar(R.string.progress_dialog_deleting);
+      showSnackbarIndefinite(R.string.progress_dialog_deleting);
       viewModel.deleteTransactions(args.getLongArray(KEY_ROW_IDS), checked).observe(this, result -> {
         if (result > 0) {
           if (!checked) {
             showSnackbar(getResources().getQuantityString(R.plurals.delete_success, result, result));
           }
         } else {
-          showDeleteFailureFeedback();
+          showDeleteFailureFeedback(null);
         }
       });
-    } else if (anInt == R.id.BALANCE_COMMAND_DO) {
+    } else if (command == R.id.BALANCE_COMMAND_DO) {
       startTaskExecution(TASK_BALANCE,
           new Long[]{args.getLong(KEY_ROWID)},
           checked, 0);
-    } else if (anInt == R.id.REMAP_COMMAND) {
+    } else if (command == R.id.REMAP_COMMAND) {
       getCurrentFragment().remap(args, checked);
+    } else if (command == R.id.SPLIT_TRANSACTION_COMMAND) {
+      finishActionMode();
+      startTaskExecution(TASK_SPLIT, args, R.string.saving);
+    } else if (command == R.id.UNGROUP_SPLIT_COMMAND) {
+      finishActionMode();
+      startTaskExecution(TASK_REVOKE_SPLIT, args, R.string.saving);
+    } else  if (command == R.id.LINK_TRANSFER_COMMAND) {
+      finishActionMode();
+      viewModel.linkTransfer(args.getLongArray(KEY_ROW_IDS));
     }
   }
 

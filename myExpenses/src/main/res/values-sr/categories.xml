@@ -1,0 +1,251 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources, InconsistentArrays">
+    <!-- Main category -->
+    <string name="Main_1">Остали приходи</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_1">Бенифиција за незапослене</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_2">Дечији додатак</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_3">Порез</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_4">Коцкање</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_5">Узајамно осигурање</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_6">Социјално осигурање</string>
+    <!-- Main category -->
+    <string name="Main_2">Пензионисање</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_1">Пензиони фонд</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_2">Пензија</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_3">Додатна пензија</string>
+    <!-- Main category -->
+    <string name="Main_3">Приходи од инвестиција</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_1">Дивиденда</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_2">Камата</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_3">Капитални добитак</string>
+    <!-- Main category -->
+    <string name="Main_4">Плата</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_1">Прековремено</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_2">Алиментација</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_3">Остале премије</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_4">Накнада за успех</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_5">Нето зарада</string>
+    <!-- Main category -->
+    <string name="Main_5">Остали приходи</string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_1">Поклони</string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_2">Рефундирање</string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_3">Половна продаја</string>
+    <!-- Main category -->
+    <string name="Main_6">Храна</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_1">Шанк</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_2">Пекар</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_3">Кантина</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_4">Слаткиши</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_5">Бакалница</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_6">Ресторан</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_7">Самопослуга</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_8">Супермаркет</string>
+    <!-- Main category -->
+    <string name="Main_7">Кућни љубимци</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_1">Храна</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_2">Разни прибори</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_3">Дотеривање</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_4">Ветеринар</string>
+    <!-- Main category -->
+    <string name="Main_8">Осигурање</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_1">Аутомобил</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_2">Здравље</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_3">Кућа</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_4">Грађанска одговорност</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_5">Живот</string>
+    <!-- Main category -->
+    <string name="Main_9">Аутомобил</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_1">Гориво</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_2">Поправке</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_3">Одржавање</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_4">Паркинг</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_5">Казне</string>
+    <!-- Main category -->
+    <string name="Main_10">Поклони</string>
+    <!-- Main category -->
+    <string name="Main_11">Деца</string>
+    <!-- Subcategory under "Children" -->
+    <string name="Sub_11_1">Медицинска сестра</string>
+    <!-- Subcategory under "Children" -->
+    <string name="Sub_11_2">Студије</string>
+    <!-- Main category -->
+    <string name="Main_12">Студије</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_1">Лекције</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_2">Школарина</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_3">Књиге</string>
+    <!-- Main category -->
+    <string name="Main_13">Финансијски расходи</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_1">Банкарске провизије</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_2">Кредит / Хипотекарни</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_3">Провизија</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_4">Повраћај</string>
+    <!-- Main category -->
+    <string name="Main_14">Професионални трошкови</string>
+    <!-- Subcategory under "Professional expenses" -->
+    <string name="Sub_14_1">Неповратна</string>
+    <!-- Subcategory under "Professional expenses" -->
+    <string name="Sub_14_2">Рефундиран</string>
+    <!-- Main category -->
+    <string name="Main_15">Порези</string>
+    <!-- Main category -->
+    <string name="Main_16">Стан</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_1">Хотел</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_2">Изнајмљивање</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_3">ТВ</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_5">Провизија</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_6">Грејање</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_7">Декорација</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_8">Вода</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_9">Струја</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_10">Бела техника</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_11">Прибор</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_12">Гас</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_13">Башта</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_14">Кућна помоћница</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_15">Телефон</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_16">Мобилни телефон</string>
+    <!-- Main category -->
+    <string name="Main_17">Занимања</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_1">Игра</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_2">Куглање</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_3">Филмови</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_4">Ноћни клуб</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_5">Интернет</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_6">Играње</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_7">Књиге</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_8">Паркинг</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_9">Концерт</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_10">Спорт</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_11">Видео</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_12">Путовања</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_13">Прибор</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_14">Музеји / Изложбе</string>
+    <!-- Main category -->
+    <string name="Main_18">Кредит / Хипотекарни</string>
+    <!-- Subcategory under "Loan/Mortgage" -->
+    <string name="Sub_18_1">Капитал</string>
+    <!-- Main category -->
+    <string name="Main_19">Здравље</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_1">Осигурање</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_2">Стоматолог</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_3">Болница</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_4">Кинезитерапија</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_5">Лекар</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_6">Очни лекар</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_7">Остеопат</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_8">Хемичар</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_9">Социјално осигурање</string>
+    <!-- Main category -->
+    <string name="Main_20">Нега</string>
+    <!-- Subcategory under "Care" -->
+    <string name="Sub_20_1">Фризер</string>
+    <!-- Subcategory under "Care" -->
+    <string name="Sub_20_2">Гардероба</string>
+    <!-- Main category -->
+    <string name="Main_21">Превоз</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_1">Аутобус</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_2">Метро</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_3">Путарина</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_4">Воз</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_5">Трамвај</string>
+    <!-- Main category -->
+    <string name="Main_22">Празник</string>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_1">Стан</string>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_2">Посета</string>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_3">Путовања</string>
+</resources>

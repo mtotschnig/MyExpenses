@@ -1,0 +1,113 @@
+iw:
+  imprint: חותם
+  imprint_text: אחראי לתוכן האתר ולפיתוח, תחזוקה והפצה של<i> {app_name} </i>
+  privacy_policy_heading: מדיניות הפרטיות
+  privacy_policy_text: "<i>{app_name}</i> אין גישה לנתונים כלשהם במכשיר שלך, פרט למסד הנתונים עצמו, לתיקיה שלו בכרטיס SD. אם אתה משתמש בתכונה של תוכניות לעסקאות עתידיות וחוזרות, אתה מקצה את היומן, שבו התוכניות מאוחסנות."
+  hero_main: "מנהל כספים אישי עבור אנדרואיד"
+  hero_sub:
+    use: "קל לשימוש"
+    functionality: "פונקציונליות עשירה"
+    source: "קוד פתוח"
+  menu_title:
+    more_information: מידע נוסף
+  sections:
+    features: מאפיינים
+    premium: שדרג לפרימיום
+    participate: משתתף
+    faq: שאלות נפוצות
+    versionlist: רשימת שינויים
+    credits: נקודות זכות
+    licence: רשיון
+    sourcecode: קוד מקור
+    links: קישורים
+  screenshots:
+    group: קבץ את העסקאות שלך ליום, שבוע, חודש ושנה
+    summarize: סכם את כל החשבונות שלך (טיפול מתוחכם של שערי חליפין לכל חשבון לכל עסקה)
+    budget: הגדר כמה אתה מתכוון להשקיע בתקציב שנתי, חודשי או שבועי
+    split: פצל עסקה אחת למספר קטגוריות
+    distribution: הצג את ההפצה לקטגוריה
+    history: הבן איך המצב הכלכלי שלך מתפתח לאורך זמן
+    export: הדפס ל- PDF והחלפה באמצעות QIF ו- CSV.
+    sync: סנכרן נתוני חשבון מוצפנים במכשירים מרובים באמצעות שירותי ענן פרטיים או ציבוריים.
+  features:
+    manage_accounts: עד חמישה חשבונות עם <b>העברות  (גם בין מטבעות שונים)
+    plans: מספר בלתי מוגבל של templates<b> ועד שלוש תוכניות עבור <b>recurring עסקאות
+    export: <b>ייצא</b> ל- QIG ו- CSV <b>יבא</b> מ- QIF
+    password: הנתונים יכולים להיות מוגנים על ידי <b> סיסמה </b> או מכשיר<b>  מסך נעילה</b>
+    light_theme: <b>ערכת נושא</b> (כהה ובהירה) - <b>גודל פונט</b> נתנים לבחירנ
+    reconciliation: "<b> Reconciliation</b>: להשוות בקלות את סטטוס העסקה עם הצהרות הבנק שלך"
+    homescreen: <b>ישומון</b> במסך הבית ו- <b>קיצור דרך</b> להכנסת נתונים מהירה
+  contrib:
+    thank_you: |
+        התרומה שלך תומכת בפיתוח נוסף של האפליקציה "הוצאות שלי". תודה!
+    feature-list-title: "אנא תרמו על ידי שדרוג <i>{app_name}</i> ולקבל גישה בלתי מוגבלת לתכונות הבאות:"
+    feature:
+      accounts_unlimited: מספר <b>חשבונות</b> בלתי מוגבל
+      plans_unlimited: מספר לא מוגבל של תוכניות לעסקעות <b>חוזרות</b>
+      distribution: "<b>תרשים עוגה</b>: דמיינו את ההתפלגות הסטטיסטית של עסקאות לקטגוריה על פני תקופות שונות (שנים, חודשים, שבועות, ימים)"
+      split_transaction: "<b>עסקה מפוצלת</b>: ניתן לפצל עסקה אחת לחלקים מרובים (קטגוריות והעברות)"
+      print: <b>הדפס</b> את רשימת העסקאות לקובץ PDF
+      attach_picture: "<b>הצמדת תמונה</b> : צלם במצלמה או בחר מגלרית תמונות"
+      ad_free: <b>ללא פרסומות</b>
+      csv_import: מתוחכם וניתן להתאמה אישית  <b>יבוא CSV</b>   (יישומי גיליון אלקטרוני)
+      auto_backup: <b>גבוי אוטומטי</b> יומי עם אפשרות להעלות לענן
+      cloud_sync: "<b>סינכרון בענן</b>: ניתן לסנכרן נתונים בין מכשירים מרובים"
+      split_template: מספר לא מוגבל של <b>תבניות ותוכניות לעסקאות מפוצלות</b>
+      email_support: <b>שלח תמיכה</b> בדוא"ל עם תגובה מובטחת בתוך 2 ימי עסקים
+      roadmap_voting: זכות הצבעה על <b>מפת דרכים לפיתוח</b>
+      history_chart: <b>תרשים היסטוריה</b> (תזרים מזומנים)
+      budgeting: "<b> תקצוב</b>: השווה את ההוצאות שלך למגבלות שהגדרת לפי קטגוריה על בסיס יומי, שבועי, חודשי או שנתי."
+      scan_receipt: "<b>סרוק קבלות</b>:חילוץ אוטומטי של הסכום, התאריך והמקבל"
+      webui: <b>ממשק משתמש באינטרנט</b>
+    one-time-payment: תשלום חד פעמי
+    subscription: מנוי
+  store:
+    short_description: "קל לשימוש מנהל כספים אישי: פונקציונליות עשירה וקוד פתוח"
+    full_description_intro: "{app_name} עוקבת אחר ההוצאות שלך וההכנסות שלך, ישירות בטלפון החכם ובטבלט."
+    full_description_contrib: "תכונות Premium יפתחו לשימוש על ידי רכישה של אחד ממפתחות הרישיון הבאים:"
+    full_description_contrib_amazon: "תכונות רבות נוספות נפתחות על ידי רכישה של אחד ממפתחות הרישיון, למשל:"
+    highlight_1: "עקוב אחר ההוצאות וההכנסות שלך עם חשבונות מרובים, תבניות וקטגוריות"
+    highlight_2: "שתף את הנתונים שלך בין טלפונים וטאבלטים מרובים באמצעות WebDAV ו- Google Drive"
+    highlight_3: "סכם את המצב הכלכלי ליום, שבוע, חודש או שנה"
+  permissions:
+    heading: האפליקציה '<i>{app_name}</i>' מחייבת את <u>ההרשאות</u> הבאות
+    calendar:
+      label: יומן
+      explanation: תוכניות לעסקאות עתידיות וחוזרות מאוחסנות ביומן מקומי מיוחד או בכל לוח שנה אחר שהוקצה לך.
+    external-storage:
+      label: אחסון
+      explanation: אחסון של QIF ו - CSV מייצא ומגבה קבצים.
+    internet:
+      label: אינטרנט
+      explanation_usage_tracking: מעקב אנונימי אחר שימוש
+      explanation_crash_reporting: דוחו"ת קריסה
+      explanation_key_validation: אימות מפתח רישיון
+      explanation_cloud_sync: סנכרון לענן
+    accounts:
+      label: חשבונות
+      explanation: סנכרון בין מכשירים באמצעות שירותי ענן
+  contrib-key: מפתח לתורם
+  extended-key: מפתח מורחב
+  professional-key: מפתח מקצועי
+  all_contrib_key_features: כל התכונות של מפתח Contrib
+  all_extended_key_features: כל התכונות של מפתח מורחב
+  customer_support: שירות לקוחות
+  screenshot_testdata:
+    account1Label: הארנק שלי
+    account1Description: הוצאות יומיות
+    account2Label: סוף שבוע בפריס
+    account3Label: חשבון בנק
+    account3Description: בנק אמריקה
+    transaction2Comment: פירות וירקות
+    transaction4Payee: פיצריה אנטונלה
+    templatePayee: פלוני אלמוני
+    tag_project: פרויקט ללא כותרת
+  screenshot_titles:
+    group: קיבוץ לפי שנה, חודש או שבוע
+    summarize: סכם את כל החשבונות שלך
+    budget: תקציבים שנתי, חודשי ושבועי
+    split: פיצול למספר קטגוריות
+    distribution: תרשים עוגה
+    history: היסטוריה של המצב הכלכלי שלך
+    export: ייצא ל- PDF, QIF ו- CSV
+    sync: סנכרון לענן

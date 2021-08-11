@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+  <string name="help_menu_commands">دستورات منو</string>
+  <string name="help_contextual_actions">اقدامات متنی</string>
+  <string name="help_contextual_actions_help">منو برای عملیات متنی با فشار طولانی در یک لیست نمایش داده می شود.</string>
+  <string name="help_form_fields">فیلدهای فرم</string>
+  <string name="cab_delete_help_text">موارد انتخاب شده را حذف کنید.</string>
+  <string name="cab_edit_help_text">آیتم انتخاب شده را ویرایش کنید</string>
+  <!--My Expenses Transaction list-->
+  <string name="help_MyExpenses_title">لیست تراکنش</string>
+  <string name="help_MyExpenses_info">این صفحه تمام معاملات را برای حساب جاری فهرست می کند. برای باز کردن فرم برای ایجاد یک معامله جدید از دکمه عمل شناور استفاده کنید.</string>
+  <string name="help_MyExpenses_fab_long_press">با فشار طولانی بر روی دکمه اقدام شناور ، منویی باز می شود که به شما امکان می دهد فرم را برای انتقال ، سرشکنی تراکنش یا درآمد آماده کنید.</string>
+  <string name="popup_MyExpenses_toolbar_new_balance">اختلاف بین مانده فعلی و یک مقدار جدید را محاسبه کنید.</string>
+  <string name="help_MyExpenses_crStatus_info">وضعیت تراکنش با یک مستطیل رنگی نشان داده شده است: خاکستری برای غیرقابل قبول، آبی برای روشن، سبز برای آشتی نشان داده شده است. با کلیک بر روی مستطیل، وضعیت را تغییر می دهد.</string>
+  <string name="menu_reset_help_text">این فرمان تمام معاملات حساب جاری را به فایل روی کارت SD در قالب QIF یا CSV صادر می کند. شما می توانید تصمیم بگیرید که معاملات صادراتی را حذف کنید، در این صورت تعادل اولیه به صورت خودکار تنظیم می شود. متناوبا، اگر تراکنش ها حذف نشوند، به عنوان صادر شده علامت گذاری می شوند.  My Expenses  می تواند فایل بلافاصله پس از صادرات از طریق FTP، ایمیل و یا هر برنامه به اشتراک گذاری فایل دیگر، اگر شما آن را پیکربندی کنید برای انجام این کار در تنظیمات. اگر یک فیلتر جستجو فعال باشد، تنها معاملات انجام شده توسط این فیلتر مورد توجه قرار خواهد گرفت.</string>
+  <string name="menu_grouping_help_text">شما می توانید معاملات را روزانه، هفته، ماه یا سال انجام دهید. برای هر گروه، مجموع درآمد، هزینه ها و انتقال ها محاسبه و نمایش داده می شود. هنگامی که شما بر روی هدر گروه کلیک میکنید، گروه معاملات فروپاشیده می شود و فقط هدر نمایش داده می شود. دوباره کلیک کنید تا گسترش یابد.</string>
+  <string name="menu_sort_direction_help_text">معاملات می تواند به ترتیب صعودی (قدیمی ترین در بالا) و یا نزولی (آخرین در بالا) باشد .</string>
+  <string name="menu_distribution_help_text">نمایش توزیع هزینه های شما را در هر رده. شما همچنین می توانید با کلیک طولانی بر روی هدر گروه  برای یک دوره زمانی خاص توزیع را بازرسی کنید.</string>
+  <string name="menu_budget_help_text">مدیریت روزانه، هفتگی، ماهانه و یا سالانهٔ بودجه برای حسابی که نمایش داده شده‌است.</string>
+  <string name="menu_history_help_text">نمودار جریان نقدی را نمایش دهید: چگونه هزینه و درآمد شما در طول روزها، هفته ها، ماه ها یا سال ها تکامل پیدا می کند؟</string>
+  <string name="menu_manage_plans_help_text">لیست قالب ها و برنامه ها را باز می کند، جایی که می توانید آنها را اعمال، ویرایش یا حذف کنید، و همچنین برنامه هایی را برای معاملات آینده و مجدد تعریف کنید.</string>
+  <string name="menu_balance_help_text">این فرمان یک محاوره ای را نشان می دهد که آخرین تعادل آستانه و توازن پاک شده را باز می کند. شما می توانید آن را به صورت حساب بانکی خود مقایسه کنید و همه معاملات پاک شده را با هم منطبق کنید. به صورت اختیاری می توانید تصمیم بگیرید که معاملات متقابل را حذف کنید.</string>
+  <string name="menu_print_help_text">یک نمای قابل چاپ از معاملات موجود در حال حاضر نمایش داده می شود.</string>
+  <string name="menu_search_help_text">این بخش یک زیر منو را باز می کند که به شما اجازه می دهد تا معیارهای جستجو بر اساس دسته بندی، مقدار، نظر، وضعیت، پرداخت کننده / پرداخت کننده و روش پرداخت تعریف کنید. هنگامی که یک فیلتر جستجو فعال است، شما می توانید به سادگی روی ورودی آن در زیر منو کلیک کنید تا آن را غیرفعال کنید.</string>
+  <string name="cab_create_template_from_transaction_help_text">تعریف قالب جدید بر اساس معامله انتخاب شده. شما را برای عنوان الگو راهنمایی می کند.</string>
+  <string name="cab_clone_transaction_help_text">معاملات انتخاب شده با تاریخ و زمان فعلی تکمیل خواهد شد. قبل از ذخیره کپی، می توانید تغییرات ایجاد کنید.</string>
+  <string name="cab_split_help_text">بعدا می توانید معامله را برای ایجاد قسمت های اضافی در صورت لزوم ویرایش کنید.</string>
+  <!--ManageMethods title is in keys-->
+  <string name="help_ManageMethods_info">این صفحه لیست روشهای پرداخت از پیش تعیین شده (چک، کارت اعتباری، سپرده، بدهی مستقیم) را می دهد و به شما اجازه می دهد تا موارد جدید را تعریف کنید. برای باز کردن فرم برای ایجاد یک روش جدید از دکمه عمل شناور استفاده کنید.</string>
+  <!--ManageParties title is in keys-->
+  <!--ManageTemplates title is in keys-->
+  <string name="help_ManageTemplates_plans_title">برنامه نمایش تقویم</string>
+  <string name="help_ManageTemplates_templates_info"><![CDATA[<img src="ic_menu_template"> درحالیکه قالبها را از طریق معاملات از طریق منوی زمینه خود استخراج می شوند، در اینجا میتوانید با کلیک کردن بر روی دکمه عمل شناور، میتوانید قالبهای جدید را از ابتدا (برای معاملات یا انتقال) ایجاد کنید. با کلیک بر روی یک الگو، نمونه ای برای آن ایجاد می شود. <br><img src="ic_event"> یک طرح یک الگو است که شما یک رویداد (یک بار یا تکراری) را در تقویم برنامه ریز ایجاد کرده اید. با کلیک بر روی یک برنامه، یک نمای تقویم باز می شود که نمونه های گذشته و آینده یک برنامه را نشان می دهد.]]></string>
+  <string name="cab_ManageTemplates_templates_create_instance_save_help_text">نمونه اولیه قالب را انتخاب کنید و بلافاصله آن را ذخیره کنید.</string>
+  <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">نمونه اولیه قالب را انتخاب کنید و فرم ویرایش آن را وارد کنید تا بتوانید آن را قبل از صرفه جویی تغییر دهید.</string>
+  <string name="cab_ManageTemplates_delete_help_text">قالب های انتخاب شده و برنامه های مربوطه را حذف کنید.</string>
+  <string name="cab_ManageTemplates_edit_help_text">قالب انتخاب شده را ویرایش کنید و برنامه مربوطه ایجاد یا ویرایش کنید.</string>
+  <string name="cab_ManageTemplates_plans_create_instance_save_help_text">در زمان رویداد انتخاب شده، معاملات را ایجاد کنید و بلافاصله آنها را ذخیره کنید.</string>
+  <string name="cab_ManageTemplates_plans_create_instance_edit_help_text">در زمان رویداد انتخاب شده، یک معامله ایجاد کنید و فرم ویرایش آن را وارد کنید تا بتوانید آن را قبل از صرفه جویی تغییر دهید.</string>
+  <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">نشان می دهد که در موارد رویداد انتخاب شده، هیچ معاملاتی نباید ایجاد شود. اگر معاملات برای نمونه های رویداد انتخاب شده ایجاد شده اند، آنها حذف خواهند شد.</string>
+  <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">اگر معاملات برای نمونه های رویداد انتخاب شده ایجاد شده باشند، اگر آنها لغو شده اند، پرچم ها حذف خواهند شد.</string>
+  <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">معامله ای را که برای نمونه مورد نظر ایجاد شده است، ویرایش کنید.</string>
+  <string name="menu_ManageTemplates_templates_sort_help_text">لیست قالب را می توان بر اساس عنوان (به ترتیب حروف الفبا)، بر اساس مقدار، فرکانس استفاده، و یا آخرین بار که یک معامله از آن نمونه اشیاء مرتب شده است.</string>
+  <!--ManageCategories_* titles are in keys-->
+  <string name="help_ManageCategories_distribution_info">در این صفحه توزیع هزینه ها و درآمد خود را در هر دسته، برای همه معاملات در یک حساب و یا برای یک گروه خاص نمایش می دهد. اگر دسته اصلی را در لیست گسترش دهید، نمودار پایه توزیع زیر شاخه های آن را نمایش می دهد. اگر یک دسته را در لیست انتخاب کنید، در نمودار دایره ای برجسته می شود و بالعکس. برای نمایش یک لیست جمع شده از معاملات که به آن اشاره شده است، یک دسته را به مدت طولانی فشار دهید.</string>
+  <string name="help_ManageCategories_select_mapping_info">علاوه بر اقداماتی که می توانید در هنگام مدیریت دسته ها از روی صفحه تنظیمات (ایجاد، ویرایش، حذف) انجام دهید، در این صفحه شما یک معامله را به یک دسته انتخابی می دهید. شما یک زیر شاخه برای رسد به معامله فعلی را با کلیک کردن روی آن انتخاب می کنید. برای طبقه بندی اصلی، باید آن را به منوی متنی مرتبط کنید.</string>
+  <string name="help_ManageCategories_select_filter_info">دسته بندی را برای فیلتر کردن لیست معامله انتخاب کنید. برای جستجو برای یک دسته اصلی، باید آن را به منوی متنی مرتبط کنید.</string>
+  <string name="help_ManageCategories_manage_info">این صفحه به شما امکان ایجاد، ویرایش و حذف دسته ها را میدهد. به طور پیش فرض، معیارهای مرتب سازی اولیه در لیست دسته، تعداد دفعاتی است که شما از یک دسته استفاده می کنید (معیارهای ثانویه به ترتیب حروف الفبا). این به شما دسترسی سریع به دسته های مورد استفاده شما را اغلب به شما می دهد. در تنظیمات، می توانید مرتب سازی دسته ها را به ترتیب حروف الفبا انتخاب کنید. با کلیک بر روی یک دسته اصلی، زیر شاخه های آن باز می شود. از یک منوی زمینه زمینه دسته اصلی، شما می توانید زیر شاخه های جدیدی اضافه کنید، یک دسته را حذف کنید یا آن را ویرایش کنید. زیر دسته همچنین منوهای زمینه برای حذف و ویرایش هستند.</string>
+  <string name="menu_ManageCategories_distribution_grouping_help_text">نوع گروه بندی را تنظیم کنید و توزیع را در روز، ماه، هفته یا سال به نمایش بگذارید.</string>
+  <string name="menu_back_help_text">حرکت به گروه قبلی همچنین می توان از طریق حرکت ضربه ای از چپ به راست انجام داد.</string>
+  <string name="menu_forward_help_text">رفتن به گروه بعدی همچنین می توان از طریق حرکت کش رفتن از راست به چپ انجام داد.</string>
+  <string name="cab_ManageCategories_create_sub_cat_help_text">محاوره ای را برای مشخص کردن عنوان یک زیر مجموعه جدید زیر رده انتخابی باز می کند.</string>
+  <string name="cab_ManageCategories_move_help_text">دسته های زیر را می توان به یک دسته اصلی دیگر منتقل کرد یا می توان به دسته های اصلی تبدیل کرد. دسته های اصلی که فرزند ندارند را می توان به دسته های زیر از یک دسته اصلی دیگر تبدیل کرد.</string>
+  <string name="cab_ManageCategories_select_help_text">اتصال دسته انتخاب شده به معامله و بازگشت به فرم معامله.</string>
+  <string name="menu_categories_setup_default_help_text">مجموعه ای از مقادیر پیش فرض وارد می شود.</string>
+  <string name="menu_categories_export_help_text">دسته بندی ها به فایل QIF صادر می شود.</string>
+  <string name="menu_distribution_show_pie_char_help_text">قابلیت مشاهده نمودار پایینی را تغییر دهید.</string>
+  <string name="menu_distribution_aggreate_help_text">به طور پیش فرض، مبلغ محاسبه شده شامل هر دو هزینه و درآمد است. شما می توانید تصمیم بگیرید که آنها را به طور جداگانه نشان دهید، یک دکمه در نوار عمل به شما امکان می دهد بین هزینه ها و درآمد را تغییر دهید.</string>
+  <string name="cab_ManageCategories_select_filter_select_help_text">گروه انتخاب شده برای فیلتر کردن لیست معامله استفاده می شود.</string>
+  <string name="menu_ManageCategories_search_help_text">تنها دسته های اصلی و زیر که با پرس و جو شما مطابقت دارند نمایش داده خواهند شد.</string>
+  <string name="cab_ManageCategories_color_help_text">شما می توانید یک رنگ را به دسته های اصلی اختصاص دهید. این رنگ برای نشان دادن رده در نمودار استفاده می شود. زیر شاخه ها از سایه رنگ اصلی آنها استفاده می کنند.</string>
+  <!--ExpenseEdit-->
+  <string name="help_ExpenseEdit_transaction_title">فرم برای معاملات</string>
+  <string name="help_ExpenseEdit_transfer_title">فرم برای انتقال</string>
+  <string name="help_ExpenseEdit_split_title">از برای سرشکنی</string>
+  <string name="help_ExpenseEdit_splitPartCategory_title">از برای بخش های سرشکنی دسته</string>
+  <string name="help_ExpenseEdit_splitPartTransfer_title">از برای بخش های سرشکنی انتقال</string>
+  <string name="help_ExpenseEdit_transaction_info">برای ایجاد تراکنش جدید یا ویرایش تراکش موجود از این فرم استفاده کنید. از منوی کشویی موجود در اکشن بار استفاده کنید تا به فرم افزودن تراکنش جدید انتقال یا تقسیم تغییر وضعیت دهید.</string>
+  <string name="form_ExpenseEdit_splitPartCategory_category_help_text">یک دسته‌بندی برای این قسمت جداشده انتخاب کنید.</string>
+  <string name="form_title_help_text">عنوانی را وارد کنید که منحصراً معرف این قالب باشد.</string>
+  <string name="menu_save_help_text">ذخیرهٔ داده‌ها و بستن فرم.</string>
+  <!--AccountEdit-->
+  <string name="form_description_help_text">توضیحات فقط جنبهٔ آموزشی دارند.</string>
+  <string name="form_currency_help_text">یک واحد پول از لیست ارائه شده از تمام واحد‌های پول انتخاب نمایید.</string>
+  <!--MethodEdit-->
+  <!--ManageCurrencies-->
+  <!--FolderBrowser title is in keys-->
+  <string name="menu_create_folder_help_text">ساختن یک پوشهٔ جدید، درون پوشهٔ فعلی.</string>
+  <string name="menu_FolderBrowser_select_help_text">انتخاب پوشه‌ٔ فعلی به عنوان مقصد ذخیرهٔ نسخه‌های پشتیبان.</string>
+  <!--StaleImages-->
+  <!--CSV Import-->
+  <string name="menu_create_account_help_text">حساب جدیدی بسازید. در نسخهٔ رایگان می‌توانید تا پنج حساب بسازید.</string>
+  <string name="cab_NavigationDrawer_hide_help_text">حذف کردن حساب از لیست.</string>
+  <!--SyncBackends-->
+  <string name="help_ManageSyncBackends_drive">درایو گوگل: یک پوشه که مال شماست یا با شما به اشتراک گذاشته شده‌است انتخاب کنید.</string>
+  <!--History-->
+  <!--Budget-->
+  <!--Tags-->
+</resources>

@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.provider.BackupUtilsKt;
 import org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
@@ -32,7 +33,6 @@ import org.totschnig.myexpenses.sync.SyncAdapter;
 import org.totschnig.myexpenses.sync.SyncBackendProvider;
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 import org.totschnig.myexpenses.util.AppDirHelper;
-import org.totschnig.myexpenses.util.BackupUtils;
 import org.totschnig.myexpenses.util.PictureDirHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.ZipUtils;
@@ -95,6 +95,12 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
     }
   }
 
+  private Result failure(Exception e) {
+    return Result.ofFailure(
+        R.string.parse_error_other_exception,
+        e.getMessage());
+  }
+
   @Override
   protected Result doInBackground(Void... ignored) {
     File workingDir;
@@ -124,7 +130,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
           is = syncBackendProvider.getInputStreamForBackup(backupFromSync);
           isEncrypted = backupFromSync.endsWith("enc");
         } catch (IOException e) {
-          return Result.ofFailure(e.getMessage());
+          return failure(e);
         }
       } else {
         is = cr.openInputStream(fileUri);
@@ -143,7 +149,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       } catch (IOException e) {
         return e.getCause() instanceof GeneralSecurityException ?
             Result.ofFailure(R.string.backup_wrong_password) :
-            Result.ofFailure(R.string.restore_backup_archive_not_valid, fileUri);
+            failure(e);
       } finally {
         try {
           is.close();
@@ -158,22 +164,20 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       customData.put("syncAccountName", syncAccountName);
       customData.put("backupFromSync", backupFromSync);
       CrashHandler.report(e, customData);
-      return Result.ofFailure(
-          R.string.parse_error_other_exception,
-          e.getMessage());
+      return failure(e);
     }
 
-    File backupFile = BackupUtils.getBackupDbFile(workingDir);
-    File backupPrefFile = BackupUtils.getBackupPrefFile(workingDir);
+    File backupFile = BackupUtilsKt.getBackupDbFile(workingDir);
+    File backupPrefFile = BackupUtilsKt.getBackupPrefFile(workingDir);
     if (!backupFile.exists()) {
       return Result.ofFailure(
           R.string.restore_backup_file_not_found,
-          BackupUtils.BACKUP_DB_FILE_NAME, workingDir);
+          BackupUtilsKt.BACKUP_DB_FILE_NAME, workingDir);
     }
     if (!backupPrefFile.exists()) {
       return Result.ofFailure(
           R.string.restore_backup_file_not_found,
-          BackupUtils.BACKUP_PREF_FILE_NAME, workingDir);
+          BackupUtilsKt.BACKUP_PREF_FILE_NAME, workingDir);
     }
 
     //peek into file to inspect version
@@ -237,7 +241,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
               new String[]{calendarPath},
               null);
         } catch (SecurityException e) {
-          return Result.ofFailure(e.getMessage());
+          return failure(e);
         }
         if (c != null) {
           if (c.moveToFirst()) {

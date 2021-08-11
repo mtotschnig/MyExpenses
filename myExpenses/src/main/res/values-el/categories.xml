@@ -1,195 +1,261 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources tools:ignore="UnusedResources, InconsistentArrays" xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources, InconsistentArrays">
+    <!-- Main category -->
     <string name="Main_1">Άλλο εισόδημα</string>
-    <!-- Subcategories under "Other income" -->
-    <string-array name="Sub_1">
-        <item>Επίδομα ανεργίας</item>
-        <item>Χαρτζηλίκι</item>
-        <item>Πίστωση φόρων</item>
-        <item>Τζόγος</item>
-        <item>Αμοιβαία ασφάλιση</item>
-        <item>Κοινωνική ασφάλιση</item>
-    </string-array>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_1">Επίδομα ανεργίας</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_2">Χαρτζηλίκι</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_3">Πίστωση φόρων</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_4">Τζόγος</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_5">Αμοιβαία ασφάλιση</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_6">Κοινωνική ασφάλιση</string>
+    <!-- Main category -->
     <string name="Main_2">Σύνταξη</string>
-    <!-- Subcategories under "Retirement" -->
-    <string-array name="Sub_2">
-        <item>Συνταξιοδοτικό ταμείο</item>
-        <item>Σύνταξη</item>
-        <item>Επικουρική σύνταξη</item>
-    </string-array>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_1">Συνταξιοδοτικό ταμείο</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_2">Σύνταξη</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_3">Επικουρική σύνταξη</string>
+    <!-- Main category -->
     <string name="Main_3">Εισόδημα από επενδύσεις</string>
-    <!-- Subcategories under "Investment income" -->
-    <string-array name="Sub_3">
-        <item>Μέρισμα</item>
-        <item>Τόκοι</item>
-        <item>Κεφαλαιακό κέρδος</item>
-    </string-array>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_1">Μέρισμα</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_2">Τόκοι</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_3">Κεφαλαιακό κέρδος</string>
+    <!-- Main category -->
     <string name="Main_4">Μισθός</string>
-    <!-- Subcategories under "Salary" -->
-    <string-array name="Sub_4">
-        <item>Υπερωρίες</item>
-        <item>Επίδομα αδείας</item>
-        <item>Διάφορα εξτρα</item>
-        <item>αμοιβή επιτυχίας</item>
-        <item>Καθαρός μισθός</item>
-    </string-array>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_1">Υπερωρίες</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_2">Επίδομα αδείας</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_3">Διάφορα εξτρα</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_4">αμοιβή επιτυχίας</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_5">Καθαρός μισθός</string>
+    <!-- Main category -->
     <string name="Main_5">Διάφορα εισοδήματα</string>
-    <!-- Subcategories under "Misc. income" -->
-    <string-array name="Sub_5">
-        <item>Δώρα</item>
-        <item>Επιστροφές</item>
-        <item>Πωλήσεις προιόντων δεύτερο χέρι</item>
-    </string-array>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_1">Δώρα</string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_2">Επιστροφές</string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_3">Πωλήσεις προιόντων δεύτερο χέρι</string>
+    <!-- Main category -->
     <string name="Main_6">Τρόφιμα</string>
-    <!-- Subcategories under "Food" -->
-    <string-array name="Sub_6">
-        <item>Μπαρ</item>
-        <item>Φούρναρης</item>
-        <item>Καντίνα</item>
-        <item>Γλυκά</item>
-        <item>Οπωροπώλης</item>
-        <item>Εστιατόριο</item>
-        <item>Αυτοεξυπηρέτηση</item>
-        <item>Σουπερμάρκετ</item>
-    </string-array>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_1">Μπαρ</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_2">Φούρναρης</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_3">Καντίνα</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_4">Γλυκά</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_5">Οπωροπώλης</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_6">Εστιατόριο</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_7">Αυτοεξυπηρέτηση</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_8">Σουπερμάρκετ</string>
+    <!-- Main category -->
     <string name="Main_7">Κατοικίδια</string>
-    <!-- Subcategories under "Pets" -->
-    <string-array name="Sub_7">
-        <item>Τρόφιμα</item>
-        <item>Διάφορες προμήθειες</item>
-        <item>Περιποίηση</item>
-        <item>Κτηνίατρος</item>
-    </string-array>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_1">Τρόφιμα</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_2">Διάφορες προμήθειες</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_3">Περιποίηση</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_4">Κτηνίατρος</string>
+    <!-- Main category -->
     <string name="Main_8">Ασφάλιση</string>
-    <!-- Subcategories under "Insurance" -->
-    <string-array name="Sub_8">
-        <item>Αυτοκίνητο</item>
-        <item>Υγεία</item>
-        <item>Οικία</item>
-        <item>Αστική ευθύνη</item>
-        <item>Ζωή</item>
-    </string-array>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_1">Αυτοκίνητο</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_2">Υγεία</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_3">Οικία</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_4">Αστική ευθύνη</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_5">Ζωή</string>
+    <!-- Main category -->
     <string name="Main_9">Αυτοκίνητο</string>
-    <!-- Subcategories under "Car" -->
-    <string-array name="Sub_9">
-        <item>Καύσιμα</item>
-        <item>Επισκευές</item>
-        <item>Συντήρηση</item>
-        <item>Πάρκιν</item>
-        <item>Πρόστιμα</item>
-    </string-array>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_1">Καύσιμα</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_2">Επισκευές</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_3">Συντήρηση</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_4">Πάρκιν</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_5">Πρόστιμα</string>
+    <!-- Main category -->
     <string name="Main_10">Δώρα</string>
+    <!-- Main category -->
     <string name="Main_11">Παιδιά</string>
-    <!-- Subcategories under "Children" -->
-    <string-array name="Sub_11">
-        <item>Νοσοκόμα</item>
-        <item>Σπουδές</item>
-    </string-array>
+    <!-- Subcategory under "Children" -->
+    <string name="Sub_11_1">Νοσοκόμα</string>
+    <!-- Subcategory under "Children" -->
+    <string name="Sub_11_2">Σπουδές</string>
+    <!-- Main category -->
     <string name="Main_12">Σπουδές</string>
-    <!-- Subcategories under "Studies" -->
-    <string-array name="Sub_12">
-        <item>Μαθήματα</item>
-        <item>Δίδακτρα</item>
-        <item>Βιβλία</item>
-    </string-array>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_1">Μαθήματα</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_2">Δίδακτρα</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_3">Βιβλία</string>
+    <!-- Main category -->
     <string name="Main_13">Χρηματοοικονομικά έξοδα</string>
-    <!-- Subcategories under "Financial expenses" -->
-    <string-array name="Sub_13">
-        <item>Τραπεζικές χρεώσεις</item>
-        <item>Δάνεια/Υποθήκες</item>
-        <item>Χρεώσεις</item>
-        <item>Aναχρηματοδότηση</item>
-    </string-array>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_1">Τραπεζικές χρεώσεις</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_2">Δάνεια/Υποθήκες</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_3">Χρεώσεις</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_4">Aναχρηματοδότηση</string>
+    <!-- Main category -->
     <string name="Main_14">Επαγγελματικά έξοδα</string>
-    <!-- Subcategories under "Professional expenses" -->
-    <string-array name="Sub_14">
-        <item>Μη επιστρέψιμα</item>
-        <item>Επιστρέψιμα</item>
-    </string-array>
+    <!-- Subcategory under "Professional expenses" -->
+    <string name="Sub_14_1">Μη επιστρέψιμα</string>
+    <!-- Subcategory under "Professional expenses" -->
+    <string name="Sub_14_2">Επιστρέψιμα</string>
+    <!-- Main category -->
     <string name="Main_15">Φόροι</string>
-    <!-- Subcategories under "Taxes" -->
-    <string-array name="Sub_15">
-        <item>Φόρος εισοδήματος</item>
-        <item>Φόρος επί της γης</item>
-        <item>Φόρος επί των πωλήσεων</item>
-    </string-array>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_1">Φόρος εισοδήματος</string>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_2">Φόρος επί της γης</string>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_3">Φόρος επί των πωλήσεων</string>
+    <!-- Main category -->
     <string name="Main_16">Στέγαση</string>
-    <!-- Subcategories under "Housing" -->
-    <string-array name="Sub_16">
-        <item>Ξενοδοχείο</item>
-        <item>Ενοίκιο</item>
-        <item>Τηλεόραση</item>
-        <item>Έπιπλα</item>
-        <item>Χρεώσεις</item>
-        <item>Θέρμανση</item>
-        <item>Διακόσμηση</item>
-        <item>Νερό</item>
-        <item>Ηλεκτρικό</item>
-        <item>Λευκά είδη</item>
-        <item>Εξοπλισμός</item>
-        <item>Βενζίνη</item>
-        <item>Κήπος</item>
-        <item>Οικονόμος</item>
-        <item>Τηλέφωνο</item>
-        <item>Κινητό τηλέφωνο</item>
-    </string-array>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_1">Ξενοδοχείο</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_2">Ενοίκιο</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_3">Τηλεόραση</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_4">Επιπλα</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_5">Χρεώσεις</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_6">Θέρμανση</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_7">Διακόσμηση</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_8">Νερό</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_9">Ηλεκτρικό</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_10">Λευκά είδη</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_11">Εξοπλισμός</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_12">Βενζίνη</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_13">Κήπος</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_14">Οικονόμος</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_15">Τηλέφωνο</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_16">Κινητό τηλέφωνο</string>
+    <!-- Main category -->
     <string name="Main_17">Αναψυχή</string>
-    <!-- Subcategories under "Leisures" -->
-    <string-array name="Sub_17">
-        <item>Σνοοκερ/μπιλιάρδο</item>
-        <item>Μπόουλιν</item>
-        <item>Σινεμά</item>
-        <item>Νυχτερινό κέντρο</item>
-        <item>ΙΤ</item>
-        <item>Παιχνίδια</item>
-        <item>Βιβλία</item>
-        <item>Πάρκα</item>
-        <item>Συναυλίες</item>
-        <item>Σπορ</item>
-        <item>Βίντεο</item>
-        <item>Ταξίδια</item>
-        <item>Εξοπλισμός</item>
-        <item>Μουσεία/Εκθέσεις</item>
-    </string-array>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_1">Σνοοκερ/μπιλιάρδο</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_2">Μπόουλιν</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_3">Σινεμά</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_4">Νυχτερινό κέντρο</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_5">ΙΤ</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_6">Παιχνίδια</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_7">Βιβλία</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_8">Πάρκα</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_9">Συναυλίες</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_10">Σπορ</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_11">Βίντεο</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_12">Ταξίδια</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_13">Εξοπλισμός</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_14">Μουσεία/Εκθέσεις</string>
+    <!-- Main category -->
     <string name="Main_18">Δάνεια/Υποθήκες</string>
-    <!-- Subcategories under "Loan/Mortgage" -->
-    <string-array name="Sub_18">
-        <item>Κεφάλαιο</item>
-    </string-array>
+    <!-- Subcategory under "Loan/Mortgage" -->
+    <string name="Sub_18_1">Κεφάλαιο</string>
+    <!-- Main category -->
     <string name="Main_19">Υγεία</string>
-    <!-- Subcategories under "Health" -->
-    <string-array name="Sub_19">
-        <item>Ασφάλιση</item>
-        <item>Οδοντίατρος</item>
-        <item>Νοσοκομείο</item>
-        <item>Φυσιοθεραπευτής</item>
-        <item>Ιατρός</item>
-        <item>Οφθαλμολόγος</item>
-        <item>Οστεολόγος</item>
-        <item>Χημικός</item>
-        <item>Κοινωνική ασφάλιση</item>
-    </string-array>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_1">Ασφάλιση</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_2">Οδοντίατρος</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_3">Νοσοκομείο</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_4">Φυσιοθεραπευτής</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_5">Ιατρός</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_6">Οφθαλμολόγος</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_7">Οστεολόγος</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_8">Χημικός</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_9">Κοινωνική ασφάλιση</string>
+    <!-- Main category -->
     <string name="Main_20">Φροντίδα</string>
-    <!-- Subcategories under "Care" -->
-    <string-array name="Sub_20">
-        <item>Κομμωτής</item>
-        <item>Ένδυση</item>
-    </string-array>
+    <!-- Subcategory under "Care" -->
+    <string name="Sub_20_1">Κομμωτής</string>
+    <!-- Subcategory under "Care" -->
+    <string name="Sub_20_2">Ένδυση</string>
+    <!-- Main category -->
     <string name="Main_21">Μεταφορές</string>
-    <!-- Subcategories under "Transport" -->
-    <string-array name="Sub_21">
-        <item>Λεωφορείο</item>
-        <item>Μετρό</item>
-        <item>Διόδια</item>
-        <item>Τρένο</item>
-        <item>Τραμ</item>
-        <item>Αεροπλάνο</item>
-    </string-array>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_1">Λεωφορείο</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_2">Μετρό</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_3">Διόδια</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_4">Τρένο</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_5">Τραμ</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_6">Αεροπλάνο</string>
+    <!-- Main category -->
     <string name="Main_22">Διακοπές</string>
-    <!-- Subcategories under "Holidays" -->
-    <string-array name="Sub_22">
-        <item>Στέγαση</item>
-        <item>Επισκέψεις</item>
-        <item>Ταξίδια</item>
-    </string-array>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_1">Στέγαση</string>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_2">Επισκέψεις</string>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_3">Ταξίδια</string>
 </resources>

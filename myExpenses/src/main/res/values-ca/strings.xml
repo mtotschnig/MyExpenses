@@ -317,7 +317,7 @@
     <string name="warning_reset_account_all">Si continueu, per tots els comptes%1$s, les operacions s\'eliminaran de la base de dades i no es podran restaurar.</string>
     <string name="warning_restore">La base de dades i les preferències es restauraran des de la còpia de seguretat (%1$s). S\'esborraran les dades actuals.</string>
     <string name="warning_splitpartcategory_context">Transferències que formen part d\'una transacció dividida només es poden editar en el marc de la divisió.</string>
-    <string name="import_categories_success">%1$s categories s\'han importat correctament.</string>
+    <string name="import_categories_success">%1$d categories s\'han importat correctament.</string>
     <string name="import_parties_success">%1$s tercers s\'han importat correctament.</string>
     <string name="import_accounts_none">No s\'ha importat cap compte!</string>
     <string name="create_new_folder_fail">No s\'ha pogut crear la carpeta</string>
@@ -345,4 +345,12 @@
     <string name="pref_category_title_features">Característiques</string>
     <string name="menu_save_and_new_content_description">Desa les dades, deixa la pantalla oberta per a una nova operació amb les mateixes dades.</string>
     <string name="pref_translation_title">Traducció</string>
+    <string name="crash_reports_user_info">{app_name} enviarà automàticament reports sobre penjades de l\'aplicació als seus desenvolupadors, la qual cosa permet de resoldre problemes més ràpidament.</string>
+    <string name="pref_category_title_crash_reports">Reports sobre penjades de l\'aplicació</string>
+    <string name="pref_enable_acra">Autoritza l\'enviament de reports sobre penjades de l\'aplicació</string>
+    <string name="pref_acra_user_email">El correu electrònic de l\'usuari s\'iclou en el report de penjada</string>
+    <string name="pref_acra_user_email_summary">Escriviu la vostra adreça de correu electrònic si ens voleu ajudar a esmenar les penjades i a entrar en contacte amb vós.</string>
+    <string name="bug_fixes">Correccions</string>
+    <string name="new_version">Nova versió</string>
+    <string name="pref_news_title">Notícies</string>
 </resources>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="MyExpenses" default="localize">
+ <target name="copy">
+  <copy file="_includes/misc_info.html.tmpl" tofile="_includes/misc_info.html" 
+        overwrite="true" encoding="utf-8"/>
+  <copy file="_layouts/neu.html.tmpl" tofile="_layouts/neu.html" 
+        overwrite="true" encoding="utf-8"/>
+  <copy file="_layouts/post.html.tmpl" tofile="_layouts/post.html" 
+        overwrite="true" encoding="utf-8"/>
+ </target>
+ 
+ <target name="localize" depends="copy">
+ <replaceregexp
+               match="\{\{t\.(.*?)( .*)?\}\}"
+               flags="g"
+               replace="{% if msg.\1 %}{{msg.\1\2}}{% else %}{{site.data.en.en.\1\2}}{% endif %}"
+               byline="true">
+   <fileset dir=".">
+    <include name="_includes/misc_info.html"/>
+    <include name="_layouts/neu.html"/>
+    <include name="_layouts/post.html"/>
+   </fileset>
+ </replaceregexp>
+ </target>
+ 
+ <target name="metadata">
+ <copy file="en/metadata/full_description.txt.tmpl" tofile="en/metadata/full_description.txt"
+        overwrite="true" encoding="utf-8"/>
+ <copy file="en/metadata/full_description_fdroid.txt.tmpl" tofile="en/metadata/full_description_fdroid.txt"
+        overwrite="true" encoding="utf-8"/>
+ <copy file="en/metadata/short_description_amazon.txt.tmpl" tofile="en/metadata/short_description_amazon.txt"
+        overwrite="true" encoding="utf-8"/>
+ <copy file="en/metadata/full_description_amazon.txt.tmpl" tofile="en/metadata/full_description_amazon.txt"
+        overwrite="true" encoding="utf-8"/>
+ <copy file="en/metadata/highlights.txt.tmpl" tofile="en/metadata/highlights.txt"
+        overwrite="true" encoding="utf-8"/>
+ <replaceregexp
+               match="\{\{t\.(.*?)( .*)?\}\}"
+               flags="g"
+               replace="{% if msg.\1 %}{{msg.\1\2}}{% else %}{{site.data.en.en.\1\2}}{% endif %}"
+               byline="true">
+   <fileset dir=".">
+    <include name="en/metadata/full_description.txt"/>
+    <include name="en/metadata/full_description_fdroid.txt"/>
+    <include name="en/metadata/short_description_amazon.txt"/>
+    <include name="en/metadata/full_description_amazon.txt"/>
+    <include name="en/metadata/highlights.txt"/>
+   </fileset>
+ </replaceregexp>
+ </target>
+ 
+ <target name="localized_metadata">
+ <copy file="en/metadata/full_description.txt" tofile="${locale}/metadata/full_description.txt" 
+        overwrite="true" encoding="utf-8"/>
+ <copy file="en/metadata/full_description_fdroid.txt" tofile="${locale}/metadata/full_description_fdroid.txt" 
+        overwrite="true" encoding="utf-8"/>
+ <copy file="en/metadata/short_description_amazon.txt" tofile="${locale}/metadata/short_description_amazon.txt"
+        overwrite="true" encoding="utf-8"/>
+ <copy file="en/metadata/full_description_amazon.txt" tofile="${locale}/metadata/full_description_amazon.txt"
+        overwrite="true" encoding="utf-8"/>
+ <copy file="en/metadata/short_description.txt" tofile="${locale}/metadata/short_description.txt"
+       overwrite="true" encoding="utf-8"/>
+ <copy file="en/metadata/highlights.txt" tofile="${locale}/metadata/highlights.txt"
+       overwrite="true" encoding="utf-8"/>
+ <replace dir="${locale}/metadata" value="lang: ${locale}" token="lang: en"/>
+ </target>
+ 
+ <target name="copy_to_project">
+ <copy file="_site/${locale_from}/metadata/full_description_fdroid.txt" tofile="../MyExpenses/metadata/${locale_to}/full_description.txt" 
+        overwrite="true" encoding="utf-8"/>
+ <copy file="_site/${locale_from}/metadata/short_description.txt" tofile="../MyExpenses/metadata/${locale_to}/short_description.txt" 
+        overwrite="true" encoding="utf-8"/>
+ </target>
+ 
+</project>

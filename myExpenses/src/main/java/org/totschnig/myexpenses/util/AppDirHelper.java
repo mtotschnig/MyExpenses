@@ -14,8 +14,6 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.io.FileUtils;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -71,6 +69,7 @@ public class AppDirHelper {
    * prefix as name, if the file already exists it appends a numeric
    * postfix
    */
+  @Nullable
   public static DocumentFile timeStampedFile(@NonNull DocumentFile parentDir, String prefix,
                                              String mimeType, String addExtension) {
     String now = new SimpleDateFormat("yyyMMdd-HHmmss", Locale.US)
@@ -209,38 +208,6 @@ public class AppDirHelper {
   @NonNull
   public static String getFileProviderAuthority() {
     return MyApplication.getInstance().getPackageName() + ".fileprovider";
-  }
-
-  /**
-   * @return false if the configured folder is inside the application folder
-   * that will be deleted upon app uninstall and hence user should be
-   * warned about the situation, unless he already has opted to no
-   * longer see this warning
-   */
-  public static boolean checkAppFolderWarning(Context context) {
-    if (PrefKey.APP_FOLDER_WARNING_SHOWN.getBoolean(false)) {
-      return true;
-    }
-    try {
-      DocumentFile configuredDir = getAppDir(context);
-      if (configuredDir == null) {
-        return true;
-      }
-      File externalFilesDir =context.getExternalFilesDir(null);
-      if (externalFilesDir == null) {
-        return true;
-      }
-      Uri dirUri = configuredDir.getUri();
-      if (!dirUri.getScheme().equals("file")) {
-        return true; //nothing we can do if we can not compare paths
-      }
-      URI defaultDir = externalFilesDir.getParentFile().getCanonicalFile()
-          .toURI();
-      return defaultDir.relativize(new File(dirUri.getPath()).getCanonicalFile().toURI())
-          .isAbsolute();
-    } catch (IOException e) {
-      return true;
-    }
   }
 
 }

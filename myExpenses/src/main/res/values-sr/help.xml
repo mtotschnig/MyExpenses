@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+  <string name="help_menu_commands">Мени команде</string>
+  <string name="help_contextual_actions">Додатне акције</string>
+  <string name="help_form_fields">Поља образаца</string>
+  <string name="cab_delete_help_text">Обрисати одабране ставке.</string>
+  <string name="cab_edit_help_text">Измените изабрану ставку.</string>
+  <!--My Expenses Transaction list-->
+  <string name="help_MyExpenses_title">Листа трансакција</string>
+  <string name="help_MyExpenses_info">Овај екран приказује све трансакције на текућем рачуну. Користите дугме плутајуће акције за отварање форме и стварање нове трансакцију.</string>
+  <!--ManageMethods title is in keys-->
+  <!--ManageParties title is in keys-->
+  <!--ManageTemplates title is in keys-->
+  <!--ManageCategories_* titles are in keys-->
+  <!--ExpenseEdit-->
+  <!--AccountEdit-->
+  <!--MethodEdit-->
+  <!--ManageCurrencies-->
+  <!--FolderBrowser title is in keys-->
+  <!--StaleImages-->
+  <!--CSV Import-->
+  <!--SyncBackends-->
+  <!--History-->
+  <!--Budget-->
+  <!--Tags-->
+</resources>

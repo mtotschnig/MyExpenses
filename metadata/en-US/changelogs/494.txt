@@ -1,0 +1,2 @@
+• Exchange Rate Provider: https://exchangerate.host
+• In addition to local storage on the device, the backup file can be copied to a remote backend.

@@ -15,6 +15,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_BASE_URI
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccount
+import org.totschnig.myexpenses.sync.GenericAccountService.Companion.loadPassword
 import org.totschnig.myexpenses.sync.SyncAdapter
 import org.totschnig.myexpenses.sync.SyncBackendProvider
 import org.totschnig.myexpenses.sync.json.AccountMetaData
@@ -82,5 +83,9 @@ abstract class AbstractSyncBackendViewModel(application: Application) : ContentR
         } finally {
             syncBackendProvider.get().tearDown()
         })
+    }
+
+    fun loadPassword(syncAccountName: String) = liveData(context = coroutineContext()) {
+        emit(loadPassword(contentResolver, syncAccountName))
     }
 }

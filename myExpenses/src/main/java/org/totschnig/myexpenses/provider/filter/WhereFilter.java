@@ -148,7 +148,7 @@ public class WhereFilter {
         "BETWEEN ? AND ?"), ISNULL("is NULL"), LIKE("LIKE ? ESCAPE '" + LIKE_ESCAPE_CHAR + "'"),
     IN(null);
 
-    public final String op;
+    private final String op;
 
     Operation(String op) {
       this.op = op;

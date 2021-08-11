@@ -1,0 +1,51 @@
+hu:
+  imprint: Impresszum
+  hero_main: "A személyes pénzügyi nyilvántartás - Android"
+  hero_sub:
+    use: "Egyszerű használat"
+    functionality: "Sok szolgáltatás"
+    source: "Nyílt forráskód"
+  menu_title:
+    more_information: További információ
+  sections:
+    features: Features
+    premium: Válts a Prémium változatra
+    participate: Támogatás
+    faq: GYIK
+    versionlist: Újdonságok
+    credits: Közreműködők
+    licence: Licensz
+    sourcecode: Forráskód
+    links: Linkek
+  contrib:
+    thank_you: |
+        Köszönjük! Támogatásával nagyban segíti a Kiadásaim további fejlesztését!
+    feature:
+      webui: <b>Webes felhasználói kezelőfelület</b>
+  permissions:
+    internet:
+      explanation_cloud_sync: Felhő szinkronizálás
+    accounts:
+      label: Számlák
+  contrib-key: Contrib Kulcs
+  extended-key: Kiterjesztett Kulcs
+  professional-key: Szakmai kulcs
+  screenshot_testdata:
+    account1Label: Saját pénztárca
+    account1Description: Napi kiadások
+    account2Label: Párizsi hétvége
+    account3Label: Bankszámla
+    account3Description: OTP Bank
+    transaction2Comment: Zöldség, gyümölcs
+    transaction4Payee: Antonella Pizzéria
+    templatePayee: Minta János
+    tag_project: Cím nélküli projekt
+  screenshot_titles:
+    group: Csoportosítás év, hónap vagy hét szerint
+    summarize: Összegezze az összes fiókját
+    budget: Éves, havi és heti költségvetés
+    split: Több kategóriára osztható
+    distribution: Kördiagram diagram
+    history: Pénzügyi helyzetének története
+    export: Exportálás PDF, QIF és CSV formátumba
+    sync: Felhő szinkronizálás

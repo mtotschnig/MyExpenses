@@ -46,6 +46,7 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
         return hasOurLicence
     }
 
+    //called from PlayStoreLicenceHandler
     fun maybeUpgradeAddonFeatures(features: List<ContribFeature>, newPurchase: Boolean) {
         if (!hasOurLicence && !newPurchase) {
             addOnFeatures.clear()
@@ -58,6 +59,7 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
         persistAddonFeatures()
     }
 
+    //called from PlayStoreLicenceHandler
     fun maybeUpgradeLicence(licenceStatus: LicenceStatus?) {
         if (!hasOurLicence || this.licenceStatus?.greaterOrEqual(licenceStatus) != true) {
             this.licenceStatus = licenceStatus
@@ -92,12 +94,13 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
 
     open fun init() {
         this.licenceStatus = licenseStatusPrefs.getString(LICENSE_STATUS_KEY, null)?.let {
-            hasOurLicence = true
             try {
                 LicenceStatus.valueOf(it)
             } catch (e: IllegalArgumentException) {
                 null
             }
+        }?.also {
+            hasOurLicence = true
         }
         restoreAddOnFeatures()
     }
@@ -121,6 +124,7 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
         if (!keepFeatures) {
             addOnFeatures.clear()
             licenseStatusPrefs.remove(LICENSE_FEATURES)
+            hasOurLicence = false
         }
         licenseStatusPrefs.commit()
     }

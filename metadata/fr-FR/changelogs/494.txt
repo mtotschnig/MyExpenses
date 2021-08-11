@@ -1,0 +1,2 @@
+• Fournisseur de taux de change: https://exchangerate.host
+• Outre le stockage local sur le périphérique, le fichier de sauvegarde peut être copié sur un serveur distant.

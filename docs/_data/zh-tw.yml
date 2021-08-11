@@ -1,0 +1,25 @@
+zh-tw:
+  imprint: 版本說明
+  hero_main: "個人理財工具 Android版"
+  hero_sub:
+    use: "易用"
+    functionality: "多功能"
+    source: "開源"
+  menu_title:
+    more_information: 更多資訊
+  sections:
+    features: 特點
+    premium: 升級至高級功能
+    participate: 參與
+    faq: 常見問題
+    versionlist: 活動日誌
+    credits: 積分
+    licence: 許可證
+    sourcecode: 源代碼
+    links: 連結
+  permissions:
+    internet:
+      explanation_crash_reporting: 崩潰報告
+    accounts:
+      label: 賬戶
+  contrib-key: 貢獻密鑰

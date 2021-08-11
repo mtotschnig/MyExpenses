@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -12,8 +13,7 @@
   
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+ --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">Kontua</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">Kontu motak</string>
@@ -302,7 +302,6 @@
     <string name="pref_import_summary">Inportatu transakzioak, kategoriak, eta onuradun/ordaintzaileak %s fitxategitik</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">%s inportazioa</string>
-    <string name="pref_like_facebook_title">Esan gogoko gaituzula Facebooken</string>
     <string name="pref_manage_accounts_title">Kontuak</string>
     <string name="pref_manage_categories_summary">Gehitu, editatu, ezabatu kategoriak.</string>
     <string name="pref_manage_categories_title">Kategoriak</string>
@@ -361,7 +360,6 @@
     <string name="restore_db_success">Datu-basea berreskuratu da babeskopiatik.</string>
     <string name="restore_no_backup_found">Ez da babeskopiarik aurkitu.</string>
     <string name="restore_preferences_failure">Huts egin du hobespenak berreskuratzean</string>
-    <string name="restore_backup_archive_not_valid">%1$s artxiboa baliogabea da</string>
     <string name="restore_backup_file_not_found">Ez da %1$s fitxategia aurkitu \"%2$s\" artxiboan</string>
     <string name="restore_preferences_success">Hobespenak berreskuratu dira babeskopiatik.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d plan berreskuratu dira babeskopiatik</string>
@@ -437,7 +435,6 @@
     <string name="warning_reset_account_all">Jarraitzen baduzu, kontu guztietako %1$s transakzio  datu-basetik ezabatuko dira eta ezin izango dira berreskuratu.</string>
     <string name="warning_reset_account_matched">Aurrera egitekotan, oraingo iragazkiarekin bat datozen transakzioak datu-basetik ezabatuko dira, eta ez dago hau desegiterik.</string>
     <string name="warning_restore">Datu-basea eta hobespenak berreskuratuko dira \"%1$s\" fitxategitik. Oraingo datuak ezabatuko dira.</string>
-    <string name="warning_app_folder_will_be_deleted_upon_uninstall">Babeskopiak eta esportazioak gordetzeko aukeratuta dagoen karpeta Androidek ezabatuko du {app_name} desinstalatzen baduzu. Hau saihesteko aukeratu beste karpeta bat Ezarpenak pantailan.</string>
     <string name="warning_splitpartcategory_context">Banaketa baten zati diren transferentziak banaketaren testuinguruan besterik ezin dira editatu.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Ezarri %1$d eta %2$d bitarteko zenbaki bat</string>
     <string name="warning_change_fraction_digits_1">Datu-baseko kopuruak eguneratu behar dira frakzio zenbaki kopuru berriarekin bat etor daitezen.</string>
@@ -445,7 +442,7 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Kopuruak eguneratzen ez badira, %d aldiz zatituta bistaratuko dira aldaketa eta gero.</string>
     <string name="warning_change_fraction_digits_3">Kopuruak eguneratzen badira, frakzioaren ataleko informazioa galduko duzu.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Eguneratu datu-baseko kopuruak</string>
-    <string name="import_categories_success">%1$s kategoria ondo inportatu dira</string>
+    <string name="import_categories_success">%1$d kategoria ondo inportatu dira</string>
     <string name="import_parties_success">%1$s onuradun/ordaintzaile ondo inportatu dira</string>
     <string name="import_accounts_success">%1$s kontu ondo inportatu dira</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transakzio ondo inportatu dira %2$s kontura</string>
@@ -617,7 +614,6 @@
     <string name="upgrade_now">Eguneratu</string>
     <string name="pref_backup_cloud_title">Biltegiratu sinkronizazio atzealdekoan</string>
     <string name="pref_backup_cloud_summary">Gailuko biltegi lokalaz gain, babeskopia fitxategia urruneko atzealdeko batera kopiatu daiteke.</string>
-    <string name="auto_backup_cloud_create_backend">Sortu sinkronizazio atzealdeko bat ezaugarri nagusien pantailatik.</string>
     <string name="auto_backup_cloud_failure">Errore bat gertatu da %1$s babeskopia fitxategia %2$s atzealdekoan biltegiratzen saiatzean:</string>
     <string name="auto_backup_cloud_success"> %1$s babeskopia-fitxategia ondo gorde da %2$satzealdekoan.</string>
     <string name="home_screen_shortcuts_nougate_info">Lasterbideak gehitu daitezke Hasiera Pantailatik aplikazioaren ikonoa luze sakatuz.</string>
@@ -713,4 +709,12 @@
     <string name="pref_category_title_features">Ezaugarriak</string>
     <string name="button_download">Deskargatu</string>
     <string name="menu_save_and_new_content_description">Gorde datuak, laga formularioa irekita beste transakzio bat sortzeko datu berberekin.</string>
-    </resources>
+    <string name="crash_reports_user_info">{app_name} aplikazioaren kraskatzeen txostena bidaliko die automatikoki garatzaileei, honek arazoak azkarrago konpontzea baimentzen die.</string>
+    <string name="pref_category_title_crash_reports">Kraskatze txostenak</string>
+    <string name="pref_enable_acra">Baimendu kraskatze txostenak automatikoki bidaltzea</string>
+    <string name="pref_acra_user_email">Erabiltzailearen helbide elektronikoa txostenera gehituko da</string>
+    <string name="pref_acra_user_email_summary">Mesedez sartu zure helbide elektronikoa arazketan lagundu nahi baduzu eta gu zurekin kontaktuan jartzea onartzen baduzu.</string>
+    <string name="bug_fixes">Konpondutako akatsak</string>
+    <string name="new_version">Bertsio berria</string>
+    <string name="pref_news_title">Berriak</string>
+</resources>

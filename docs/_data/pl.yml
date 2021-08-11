@@ -1,0 +1,93 @@
+pl:
+  imprint: Stopka
+  imprint_text: Odpowiedzialny za zawartość tej witryny oraz za rozwój, utrzymanie i dystrybucję <i> {app_name} </i>
+  privacy_policy_heading: Polityka prywatności
+  privacy_policy_text: "<i>{app_name}</i> nie ma dostępu do żadnych danych na urządzeniu innych niż jego własna baza danych, własny folder na karcie SD. Jeśli korzystasz z funkcji planów dla przyszłych i cyklicznych transakcji, przypisujesz kalendarz, w którym przechowywane są te plany."
+  hero_main: "Personalny menadżer finansów dla systemu Android"
+  hero_sub:
+    use: "Łatwy w użyciu"
+    functionality: "Bogata funkcjonalność"
+    source: "Open Source"
+  menu_title:
+    more_information: Więcej informacji
+  sections:
+    features: Funkcje
+    premium: Przejdź do Premium
+    participate: Współuczestnicz
+    faq: Często zadawane pytania
+    versionlist: Dziennik zmian
+    credits: Autorzy
+    licence: Licencja
+    sourcecode: Kod źródłowy
+    links: Linki
+  features:
+    manage_accounts: Do pięciu kont z <b>transferem</b> (również między różnymi walutami)
+    plans: Nieograniczona liczba <b>szablonów</b> i do trzech planów dla <b>recurring</b> transakcji
+    export: <b>Eksportuj</b> do QIF i CSV. <b>Importuj</b> z QIF
+    light_theme: <b>Temat</b> (ciemny i jasny) i <b>rozmiary czcionek</b> można dostosować
+    reconciliation: "<b>Porównanie</b>: Łatwe porównywanie statusu transakcji z wyciągami bankowymi"
+    homescreen: <b>Widżet</b> na ekranie głównym i <b>skróty</b> do szybkiego wprowadzania danych
+  contrib:
+    thank_you: |
+        Twój udział wspiera późniejszy rozwój Moich Wydatków. Dziękujemy!
+    feature-list-title: "Proszę przyczyń się ulepszając <i>{app_name}</i> i uzyskaj nieograniczony dostęp do następujących funkcji:"
+    feature:
+      accounts_unlimited: Nielimitowana liczba <b>kont</b>
+      plans_unlimited: Nieograniczona liczba planów dla <b>powtarzających się</b> transakcji
+      distribution: "<b>Wykres kołowy</b>: Wizualizuj rozkład statystyczny transakcji według kategorii w różnych okresach (lata, miesiące, tygodnie, dni)"
+      split_transaction: "<b>Rozdzielaj transakcje</b>: Pojedyncza transakcja może być podzielona na wiele części (kategorie i transfery)"
+      print: <b>Drukuj</b> listę transakcji do pliku PDF
+      attach_picture: "<b>Załącznik obrazu </b>: Przechwyć za pomocą kamery lub wybierz z galerii"
+      ad_free: <b>Brak reklam</b>
+      csv_import: Wyrafinowany, dostosowywany <b>import CSV</b> (aplikacje do arkuszy kalkulacyjnych)
+      auto_backup: Codziennie <b>automatyczna kopia</b> z opcjonalnym przesyłaniem do chmury
+      split_template: Nieograniczona liczba <b>szablonów i planów podziału transakcji</b>
+      email_support: <b>Wysyłaj pocztę e-mail</b> z reakcją gwarantowaną po upływie 2 dni roboczych
+      roadmap_voting: Głosowanie bezpośrednio na mapie drogowej <b>rozwoju</b>
+    one-time-payment: Płatność jednorazowa
+    subscription: Subskrypcja
+  store:
+    short_description: "Łatwy w użyciu osobisty menedżer finansów: bogata funkcjonalność i otwarte oprogramowanie"
+    full_description_intro: "{app_name} śledzi Twoje wydatki i dochody bezpośrednio na smartfonie i tablecie."
+    full_description_contrib: "Funkcje premium są odblokowywane przez zakup jednego z następujących kluczy licencyjnych:"
+  permissions:
+    heading: <i>{app_name}</i> wymaga następujących <u>uprawnień</u>
+    calendar:
+      label: Kalendarz
+      explanation: Plany przyszłych i powtarzających się transakcji są przechowywane w specjalnym kalendarzu lokalnym lub w dowolnym innym kalendarzu, który przypisujesz.
+    external-storage:
+      label: Przechowywanie
+      explanation: Przechowywanie eksportów QIF i CSV oraz plików kopii zapasowych.
+    internet:
+      label: Internet
+      explanation_usage_tracking: Anonimowe śledzenie użycia
+      explanation_crash_reporting: Raporty o awariach
+      explanation_key_validation: Sprawdzenie klucza licencji
+      explanation_cloud_sync: Synchronizacja w chmurze
+    accounts:
+      label: Konta
+      explanation: Synchronizacja między urządzeniami za pośrednictwem usług w chmurze.
+  contrib-key: Klucz Contrib
+  extended-key: Klucz Rozszerzony
+  professional-key: Profesjonalny Klucz
+  all_contrib_key_features: Wszystkie funkcje Contrib Key
+  all_extended_key_features: Wszystkie funkcje Extended Key
+  screenshot_testdata:
+    account1Label: Mój portfel
+    account1Description: Dzienne wydatki
+    account2Label: weekend w Paryżu
+    account3Label: Konto bankowe
+    account3Description: Bank Ameryki
+    transaction2Comment: Owoce i Warzywa
+    transaction4Payee: Mały Książę
+    templatePayee: Jan Kowalski
+    tag_project: Projekt bez tytułu
+  screenshot_titles:
+    group: Grupuj według roku, miesiąca lub tygodnia
+    summarize: Zsumuj wszystkie swoje konta
+    budget: Budżety roczne, miesięczne i tygodniowe
+    split: Podziel na wiele kategorii
+    distribution: Wykres kołowy
+    history: Historia twojej sytuacji finansowej
+    export: Eksport do formatu PDF, QIF i CSV
+    sync: Synchronizacja w chmurze

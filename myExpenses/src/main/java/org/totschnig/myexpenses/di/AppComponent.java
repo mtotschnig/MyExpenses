@@ -6,7 +6,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonDeserializer;
 import com.squareup.picasso.Picasso;
 
-import org.jetbrains.annotations.NotNull;
 import org.threeten.bp.LocalDate;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.BaseActivity;
@@ -48,8 +47,8 @@ import org.totschnig.myexpenses.fragment.SyncBackendList;
 import org.totschnig.myexpenses.fragment.TemplatesList;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.preference.PrefHandler;
-import org.totschnig.myexpenses.provider.ExchangeRateRepository;
 import org.totschnig.myexpenses.provider.TransactionProvider;
+import org.totschnig.myexpenses.retrofit.ExchangeRateService;
 import org.totschnig.myexpenses.service.AutoBackupService;
 import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.sync.webdav.WebDavClient;
@@ -60,6 +59,7 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider;
 import org.totschnig.myexpenses.util.tracking.Tracker;
+import org.totschnig.myexpenses.viewmodel.BackupViewModel;
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel;
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel;
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel;
@@ -112,6 +112,8 @@ public interface AppComponent {
 
     Builder uiModule(UiModule uiModule);
 
+    Builder networkModule(NetworkModule networkModule);
+
     AppComponent build();
   }
 
@@ -130,7 +132,7 @@ public interface AppComponent {
 
   CurrencyFormatter currencyFormatter();
 
-  ExchangeRateRepository exchangeRateRepository();
+  ExchangeRateService exchangeRateService();
 
   UserLocaleProvider userLocaleProvider();
 
@@ -235,23 +237,25 @@ public interface AppComponent {
 
   void inject(OnboardingUiFragment onboardingUiFragment);
 
-  void inject(@NotNull PlannerFragment.PlanInstanceViewHolder planInstanceViewHolder);
+  void inject(PlannerFragment.PlanInstanceViewHolder planInstanceViewHolder);
 
   void inject(BaseSettingsFragment baseSettingsFragment);
 
-  void inject(@NotNull ExtendProLicenceDialogFragment extendProLicenceDialogFragment);
+  void inject(ExtendProLicenceDialogFragment extendProLicenceDialogFragment);
 
   void inject(VersionDialogFragment versionDialogFragment);
 
-  void inject(@NotNull BaseActivity baseActivity);
+  void inject(BaseActivity baseActivity);
 
-  void inject(@NotNull OcrViewModel ocrViewModel);
+  void inject(OcrViewModel ocrViewModel);
 
   void inject(BaseDialogFragment confirmationDialogFragment);
 
   void inject(CsvImportParseFragment csvImportParseFragment);
 
-  void inject(@NotNull FeatureViewModel featureViewModel);
+  void inject(FeatureViewModel featureViewModel);
 
-  void inject(@NotNull CsvImportDataFragment csvImportDataFragment);
+  void inject(CsvImportDataFragment csvImportDataFragment);
+
+  void inject(BackupViewModel backupViewModel);
 }

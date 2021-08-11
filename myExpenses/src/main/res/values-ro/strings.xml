@@ -284,7 +284,6 @@
     <string name="pref_import_summary">Import tranzacţii, categorii şi terţi din fişier %s</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">Import %s</string>
-    <string name="pref_like_facebook_title">Like us pe Facebook</string>
     <string name="pref_manage_accounts_title">Conturi</string>
     <string name="pref_manage_categories_summary">Adaugă, editează, şterge categorii</string>
     <string name="pref_manage_categories_title">Categorii</string>
@@ -340,7 +339,6 @@
     <string name="restore_db_success">Baza de date a fost restaurată din backup.</string>
     <string name="restore_no_backup_found">Nici un backup găsit.</string>
     <string name="restore_preferences_failure">Restaurare preferinţe eşuată</string>
-    <string name="restore_backup_archive_not_valid">Arhiva %1$s nu este validă</string>
     <string name="restore_backup_file_not_found">Nici un fişier %1$s  găsit în arhiva \"%2$s\"</string>
     <string name="restore_preferences_success">Preferinţele au fost restaurate din backup.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d  scadenţe au fost restaurate din backup</string>
@@ -410,11 +408,10 @@
     <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">Dacă veţi continua, pentru toate conturile%1$s, tranzacţiile vor fi şterse din baza de date şi nu se vor putea restaura.</string>
     <string name="warning_restore">Baza de date si preferinţele  vor fi restaurate din fişierul \"%1$s\". Datele actuale vor fi şterse.</string>
-    <string name="warning_app_folder_will_be_deleted_upon_uninstall">Folderul selectat pentru backup-uri şi exporturile vor fi şterse automat de Android dacă dezinstalați {app_name}.  Puteţi preveni acest lucru selectând un alt folder din ecranul Setări.</string>
     <string name="warning_splitpartcategory_context">Transferurile care fac parte dintr-o repartizare pot fi editate numai în contextul repartizării.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Setează un număr între %1$d şi %2$d, te rog</string>
     <string name="warning_change_fraction_digits_checkbox_label">Actualizarea sumelor în baza de date</string>
-    <string name="import_categories_success">%1$s categorii importate</string>
+    <string name="import_categories_success">%1$d categorii importate</string>
     <string name="import_parties_success">%1$s  terţi importaţi</string>
     <string name="import_accounts_success">%1$s conturi importate</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d tranzacţii importate în contul %2$s</string>
@@ -526,4 +523,12 @@
     <string name="pref_category_title_features">Funcţionalităţi</string>
     <string name="menu_save_and_new_content_description">Salvaţi datele, lăsaţi formularul deschis pentru a crea o nouă tranzacţie cu aceleaşi date.</string>
     <string name="pref_translation_title">Traducere</string>
+    <string name="crash_reports_user_info">{app_name} va trimite rapoarte despre blocări automat la dezvoltatorii săi ce le permite să remedieze problemele mult mai repede.</string>
+    <string name="pref_category_title_crash_reports">Rapoarte blocare</string>
+    <string name="pref_enable_acra">Permite trimiterea automată de rapoarte de blocare</string>
+    <string name="pref_acra_user_email">E-mail utilizator ce va fi inclus în raportul de blocare</string>
+    <string name="pref_acra_user_email_summary">Vă rugăm să introduceţi adresa de e-mail în cazul în care sunteţi dispus să ajutaţi la depanare şi să ne permiteţi să vă contactăm.</string>
+    <string name="bug_fixes">Bug fixat</string>
+    <string name="new_version">Versiune nouă</string>
+    <string name="pref_news_title">Știri</string>
 </resources>

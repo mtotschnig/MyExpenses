@@ -1,195 +1,261 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<resources tools:ignore="UnusedResources, InconsistentArrays" xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources, InconsistentArrays">
+    <!-- Main category -->
     <string name="Main_1">ចំណូលផ្សេងៗ</string>
-    <!-- Subcategories under "Other income" -->
-    <string-array name="Sub_1">
-        <item>មាន​ផល​ប្រយោជន៍​ដល់​អ្នក​អត់​ការងារ​ធ្វើ</item>
-        <item>ប្រាក់ឧបត្ថម្ភគ្រួសារ</item>
-        <item>ពន្ធឥណទាន</item>
-        <item>ល្បែងស៊ីសង</item>
-        <item>ការធានារ៉ាប់រងទៅវិញទៅមក</item>
-        <item>សន្តិសុខសង្គម</item>
-    </string-array>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_1">មាន​ផល​ប្រយោជន៍​ដល់​អ្នក​អត់​ការងារ​ធ្វើ</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_2">ប្រាក់ឧបត្ថម្ភគ្រួសារ</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_3">ពន្ធឥណទាន</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_4">ល្បែងស៊ីសង</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_5">ការធានារ៉ាប់រងទៅវិញទៅមក</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_6">សន្តិសុខសង្គម</string>
+    <!-- Main category -->
     <string name="Main_2">ការចូលនិវត្តន៍</string>
-    <!-- Subcategories under "Retirement" -->
-    <string-array name="Sub_2">
-        <item>មូលនិធិការចូលនិវត្តន៍</item>
-        <item>ប្រាក់សោធននិវត្តន៍</item>
-        <item>ប្រាក់សោធននិវត្តន៍បន្ថែម</item>
-    </string-array>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_1">មូលនិធិការចូលនិវត្តន៍</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_2">ប្រាក់សោធននិវត្តន៍</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_3">ប្រាក់សោធននិវត្តន៍បន្ថែម</string>
+    <!-- Main category -->
     <string name="Main_3">ប្រាក់ចំណូលលើការវិនិយោគ</string>
-    <!-- Subcategories under "Investment income" -->
-    <string-array name="Sub_3">
-        <item>ភាគលាភ</item>
-        <item>ការប្រាក់</item>
-        <item>ប្រាក់ចំណូល​ ឬ កំណើនទុន</item>
-    </string-array>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_1">ភាគលាភ</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_2">ការប្រាក់</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_3">ប្រាក់ចំណូល​ ឬ កំណើនទុន</string>
+    <!-- Main category -->
     <string name="Main_4">ប្រាក់បៀវត្តន៍</string>
-    <!-- Subcategories under "Salary" -->
-    <string-array name="Sub_4">
-        <item>បន្ថែមម៉ោង</item>
-        <item>ទុកប្រាក់ឧបត្ថម្ភ</item>
-        <item>ប្រាក់នៃតម្លៃទូទាត់ផ្សេងៗ</item>
-        <item>ថ្លៃទទួលបានភាពជោគជ័យ</item>
-        <item>ប្រាក់ខែសុទ្ធ</item>
-    </string-array>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_1">បន្ថែមម៉ោង</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_2">ទុកប្រាក់ឧបត្ថម្ភ</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_3">ប្រាក់នៃតម្លៃទូទាត់ផ្សេងៗ</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_4">ថ្លៃទទួលបានភាពជោគជ័យ</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_5">ប្រាក់ខែសុទ្ធ</string>
+    <!-- Main category -->
     <string name="Main_5">ចំណូលផ្សេងៗ</string>
-    <!-- Subcategories under "Misc. income" -->
-    <string-array name="Sub_5">
-        <item>អំណោយ</item>
-        <item>ដកវិញ</item>
-        <item>របស់ជជុះសំរាប់លក់</item>
-    </string-array>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_1">អំណោយ</string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_2">ដកវិញ</string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_3">របស់ជជុះសំរាប់លក់</string>
+    <!-- Main category -->
     <string name="Main_6">ម្ហូបអាហារ</string>
-    <!-- Subcategories under "Food" -->
-    <string-array name="Sub_6">
-        <item>កន្លែងស៊ីផឹក</item>
-        <item>អ្នកធ្វើនំ</item>
-        <item>អាហារដ្ឋាន</item>
-        <item>បង្អែម</item>
-        <item>គ្រឿងទេស</item>
-        <item>ភោជនីយដ្ឋាន</item>
-        <item>សេវាកម្មបម្រើដោយខ្លួន​ឯង</item>
-        <item>ផ្សារទំនើប</item>
-    </string-array>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_1">កន្លែងស៊ីផឹក</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_2">អ្នកធ្វើនំ</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_3">អាហារដ្ឋាន</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_4">បង្អែម</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_5">គ្រឿងទេស</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_6">ភោជនីយដ្ឋាន</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_7">សេវាកម្មបម្រើដោយខ្លួន​ឯង</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_8">ផ្សារទំនើប</string>
+    <!-- Main category -->
     <string name="Main_7">សត្វចិញ្ចឹម</string>
-    <!-- Subcategories under "Pets" -->
-    <string-array name="Sub_7">
-        <item>ម្ហូបអាហារ</item>
-        <item>ការផ្គត់ផ្គង់នានា</item>
-        <item>ការហ្វឹកហាត់</item>
-        <item>ពេទ្យវះកាត់សត្វ</item>
-    </string-array>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_1">ម្ហូបអាហារ</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_2">ការផ្គត់ផ្គង់នានា</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_3">ការហ្វឹកហាត់</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_4">ពេទ្យវះកាត់សត្វ</string>
+    <!-- Main category -->
     <string name="Main_8">ការធានារ៉ាប់រង</string>
-    <!-- Subcategories under "Insurance" -->
-    <string-array name="Sub_8">
-        <item>រថយន្ត</item>
-        <item>សុខភាព</item>
-        <item>គេហដ្ឋាន</item>
-        <item>ការទទួលខុសត្រូវស៊ីវិល</item>
-        <item>ជីវិត</item>
-    </string-array>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_1">រថយន្ត</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_2">សុខភាព</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_3">គេហដ្ឋាន</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_4">ការទទួលខុសត្រូវស៊ីវិល</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_5">ជីវិត</string>
+    <!-- Main category -->
     <string name="Main_9">រថយន្ត</string>
-    <!-- Subcategories under "Car" -->
-    <string-array name="Sub_9">
-        <item>ប្រងឥន្ធនៈ</item>
-        <item>ជួសជុល</item>
-        <item>ការថែទាំ</item>
-        <item>ចតរថយន្ត</item>
-        <item>ផាកពិន័យ</item>
-    </string-array>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_1">ប្រងឥន្ធនៈ</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_2">ជួសជុល</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_3">ការថែទាំ</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_4">ចតរថយន្ត</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_5">ផាកពិន័យ</string>
+    <!-- Main category -->
     <string name="Main_10">អំណោយ</string>
+    <!-- Main category -->
     <string name="Main_11">កុមារ</string>
-    <!-- Subcategories under "Children" -->
-    <string-array name="Sub_11">
-        <item>គិលានុបដ្ឋាយិកា</item>
-        <item>ការសិក្សា</item>
-    </string-array>
+    <!-- Subcategory under "Children" -->
+    <string name="Sub_11_1">គិលានុបដ្ឋាយិកា</string>
+    <!-- Subcategory under "Children" -->
+    <string name="Sub_11_2">ការសិក្សា</string>
+    <!-- Main category -->
     <string name="Main_12">ការសិក្សា</string>
-    <!-- Subcategories under "Studies" -->
-    <string-array name="Sub_12">
-        <item>មេរៀន</item>
-        <item>ថ្លៃសាលា</item>
-        <item>សៀវភៅ</item>
-    </string-array>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_1">មេរៀន</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_2">ថ្លៃសាលា</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_3">សៀវភៅ</string>
+    <!-- Main category -->
     <string name="Main_13">ចំណាយហិរញ្ញវត្ថុ</string>
-    <!-- Subcategories under "Financial expenses" -->
-    <string-array name="Sub_13">
-        <item>ធនាគារគិតថ្លៃ</item>
-        <item>ប្រាក់កម្ចី/និក្ខេប</item>
-        <item>ការចោទប្រកាន់</item>
-        <item>ការឲ្យប្រាក់មកវិញ</item>
-    </string-array>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_1">ធនាគារគិតថ្លៃ</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_2">ប្រាក់កម្ចី/និក្ខេប</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_3">ការចោទប្រកាន់</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_4">ការឲ្យប្រាក់មកវិញ</string>
+    <!-- Main category -->
     <string name="Main_14">ចំណាយវិជ្ជាជីវៈ</string>
-    <!-- Subcategories under "Professional expenses" -->
-    <string-array name="Sub_14">
-        <item>មិនអាចដកវិញបានទេ</item>
-        <item>ដកវិញបាន</item>
-    </string-array>
+    <!-- Subcategory under "Professional expenses" -->
+    <string name="Sub_14_1">មិនអាចដកវិញបានទេ</string>
+    <!-- Subcategory under "Professional expenses" -->
+    <string name="Sub_14_2">ដកវិញបាន</string>
+    <!-- Main category -->
     <string name="Main_15">ពន្ធ</string>
-    <!-- Subcategories under "Taxes" -->
-    <string-array name="Sub_15">
-        <item>ពន្ធ​លើ​ប្រាក់​ចំណូល</item>
-        <item>ពន្ធលើដី</item>
-        <item>ពន្ធលើការលក់</item>
-    </string-array>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_1">ពន្ធ​លើ​ប្រាក់​ចំណូល</string>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_2">ពន្ធលើដី</string>
+    <!-- Subcategory under "Taxes" -->
+    <string name="Sub_15_3">ពន្ធលើការលក់</string>
+    <!-- Main category -->
     <string name="Main_16">លំនៅដ្ឋាន</string>
-    <!-- Subcategories under "Housing" -->
-    <string-array name="Sub_16">
-        <item>សណ្ឋគារ</item>
-        <item>ជួល</item>
-        <item>ទូរទស្សន៍</item>
-        <item>គ្រឿងសង្ហារឹម</item>
-        <item>ការចោទប្រកាន់</item>
-        <item>កំដៅ</item>
-        <item>ការតុបតែងលម្អ</item>
-        <item>ទឹក</item>
-        <item>អគ្គិសនី</item>
-        <item>ទំនិញ​ពណ៌​ស</item>
-        <item>គ្រឿងបរិក្ខារ</item>
-        <item>ឧស្ម័ន</item>
-        <item>សួនច្បារ</item>
-        <item>អ្នកថែទាំបោសសំអាតផ្ទះ</item>
-        <item>ទូរស័ព្ទ</item>
-        <item>ទូរស័ព្ទចល័ត</item>
-    </string-array>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_1">សណ្ឋគារ</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_2">ជួល</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_3">ទូរទស្សន៍</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_4">គ្រឿងសង្ហារឹម</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_5">ការចោទប្រកាន់</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_6">កំដៅ</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_7">ការតុបតែងលម្អ</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_8">ទឹក</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_9">អគ្គិសនី</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_10">ទំនិញ​ពណ៌​ស</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_11">គ្រឿងបរិក្ខារ</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_12">ឧស្ម័ន</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_13">សួនច្បារ</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_14">អ្នកថែទាំបោសសំអាតផ្ទះ</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_15">ទូរស័ព្ទ</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_16">ទូរស័ព្ទចល័ត</string>
+    <!-- Main category -->
     <string name="Main_17">លំហែ</string>
-    <!-- Subcategories under "Leisures" -->
-    <string-array name="Sub_17">
-        <item>កីឡាស្នុកឃ័រ</item>
-        <item>ប៊ូលីង ឬ កីឡាបោះប៊ូល</item>
-        <item>ភាពយន្ត</item>
-        <item>ក្លឹបរាត្រីកំសាន្ត</item>
-        <item>បច្ចេកវិទ្យា</item>
-        <item>ល្បែង ឬ​ ការប្រកួត</item>
-        <item>សៀវភៅ</item>
-        <item>ឧទ្យាន</item>
-        <item>ការប្រគុំតន្រ្តី</item>
-        <item>កីឡា</item>
-        <item>វីដេអូ</item>
-        <item>ការធ្វើដំណើរ</item>
-        <item>គ្រឿងបរិក្ខារ</item>
-        <item>សារមន្ទីរ / ការតាំងពិព័រណ៍</item>
-    </string-array>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_1">កីឡាស្នុកឃ័រ</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_2">ប៊ូលីង ឬ កីឡាបោះប៊ូល</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_3">ភាពយន្ត</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_4">ក្លឹបរាត្រីកំសាន្ត</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_5">បច្ចេកវិទ្យា</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_6">ល្បែង ឬ​ ការប្រកួត</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_7">សៀវភៅ</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_8">ឧទ្យាន</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_9">ការប្រគុំតន្រ្តី</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_10">កីឡា</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_11">វីដេអូ</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_12">ការធ្វើដំណើរ</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_13">គ្រឿងបរិក្ខារ</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_14">សារមន្ទីរ / ការតាំងពិព័រណ៍</string>
+    <!-- Main category -->
     <string name="Main_18">ប្រាក់កម្ចី/និក្ខេប</string>
-    <!-- Subcategories under "Loan/Mortgage" -->
-    <string-array name="Sub_18">
-        <item>មូលធន</item>
-    </string-array>
+    <!-- Subcategory under "Loan/Mortgage" -->
+    <string name="Sub_18_1">មូលធន</string>
+    <!-- Main category -->
     <string name="Main_19">សុខភាព</string>
-    <!-- Subcategories under "Health" -->
-    <string-array name="Sub_19">
-        <item>ការធានារ៉ាប់រង</item>
-        <item>ពេទ្យធ្មេញ</item>
-        <item>មន្ទីរពេទ្យ</item>
-        <item>គ្រូពេទ្យវះកាត់</item>
-        <item>វេជ្ជបណ្ឌិត</item>
-        <item>អ្នកជំនាញខាងភ្នែក</item>
-        <item>ពេទ្យឆ្អឹង</item>
-        <item>អ្នកគីមី</item>
-        <item>សន្តិសុខសង្គម</item>
-    </string-array>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_1">ការធានារ៉ាប់រង</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_2">ពេទ្យធ្មេញ</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_3">មន្ទីរពេទ្យ</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_4">គ្រូពេទ្យវះកាត់</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_5">វេជ្ជបណ្ឌិត</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_6">អ្នកជំនាញខាងភ្នែក</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_7">ពេទ្យឆ្អឹង</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_8">អ្នកគីមី</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_9">សន្តិសុខសង្គម</string>
+    <!-- Main category -->
     <string name="Main_20">រថយន្ត</string>
-    <!-- Subcategories under "Care" -->
-    <string-array name="Sub_20">
-        <item>ជាងកាត់សក់</item>
-        <item>សម្លៀកបំពាក់</item>
-    </string-array>
+    <!-- Subcategory under "Care" -->
+    <string name="Sub_20_1">ជាងកាត់សក់</string>
+    <!-- Subcategory under "Care" -->
+    <string name="Sub_20_2">សម្លៀកបំពាក់</string>
+    <!-- Main category -->
     <string name="Main_21">ដឹកជញ្ជូន</string>
-    <!-- Subcategories under "Transport" -->
-    <string-array name="Sub_21">
-        <item>រថយន្តក្រុង</item>
-        <item>រថភ្លើងក្រោមដី</item>
-        <item>ពន្ធចតឆ្លង</item>
-        <item>រថភ្លើង</item>
-        <item>រថភ្លើងក្រោមដី</item>
-        <item>យន្តហោះ</item>
-    </string-array>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_1">រថយន្តក្រុង</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_2">រថភ្លើងក្រោមដី</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_3">ពន្ធចតឆ្លង</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_4">រថភ្លើង</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_5">រថភ្លើងក្រោមដី</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_6">យន្តហោះ</string>
+    <!-- Main category -->
     <string name="Main_22">ថ្ងៃឈប់សម្រាក</string>
-    <!-- Subcategories under "Holidays" -->
-    <string-array name="Sub_22">
-        <item>លំនៅដ្ឋាន</item>
-        <item>ទស្សនា</item>
-        <item>ការធ្វើដំណើរ</item>
-    </string-array>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_1">លំនៅដ្ឋាន</string>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_2">ទស្សនា</string>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_3">ការធ្វើដំណើរ</string>
 </resources>

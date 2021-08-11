@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -12,8 +13,7 @@
   
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+ --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">Akaun</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">Jenis akaun</string>
@@ -299,7 +299,6 @@
     <string name="pref_import_summary">Import transaksi, kategori dan pihak dari fail %s</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">Import %s</string>
-    <string name="pref_like_facebook_title">Sukai kami di Facebook</string>
     <string name="pref_manage_accounts_title">Akaun</string>
     <string name="pref_manage_categories_summary">Tambah, sunting, padam kategori.</string>
     <string name="pref_manage_categories_title">Kategori</string>
@@ -358,7 +357,6 @@
     <string name="restore_db_success">Pangkalan data telah dipulihkan dari sandar.</string>
     <string name="restore_no_backup_found">Tiada sandar ditemui.</string>
     <string name="restore_preferences_failure">Pemulihan keutamaan gagal</string>
-    <string name="restore_backup_archive_not_valid">Arkib %1$s tidak sah</string>
     <string name="restore_backup_file_not_found">Tiada fail %1$s ditemui dalam arkib \"%2$s\"</string>
     <string name="restore_preferences_success">Keutamaan telah dipulihkan dari sandar.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d plan telah dipulihkan dari sandar</string>
@@ -428,7 +426,6 @@
     <string name="warning_reset_account_all">Jika anda teruskan, untuk semua akaun %1$s, transaksi akan dipadam dari pangkalan data dan tidak dapat dipulihkan.</string>
     <string name="warning_reset_account_matched">Jika anda teruskan, transaksi yang sepada dengan penapis semasa akan dipadam dari pangkalan data dan tidak dapat dipulihkan.</string>
     <string name="warning_restore">Pangkalan data dan keutamaan akan dipulih dari fail \"%1$s\". Data semasa akan dipadam.</string>
-    <string name="warning_app_folder_will_be_deleted_upon_uninstall">Folder terpilih semasa untuk sandar dan eksport akan dipadam secara automatik oleh Android jika anda menyahpasang {app_name}. Anda boleh hindari ia dari berlaku dengan memilih folder yang berlainan dari skrin tetapan.</string>
     <string name="warning_splitpartcategory_context">Pemindahan adalah sebahagian pengasingan hanya boleh disunting dalam konteks pengasingan.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Sila tetapkan nombor diantara %1$d hingga %2$d</string>
     <string name="warning_change_fraction_digits_1">Amaun dalam pangkalan data perlu dikemaskini untuk dipadanakn dengan bilangan baharu digit pecahan.</string>
@@ -436,7 +433,7 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Jika amaun tidak dikemaskinikan, ia akan dipapar sebagai per %d selepas perubahan.</string>
     <string name="warning_change_fraction_digits_3">Jika amaun dikemakinikan, anda akan kehilangan maklumat berkenaan bahagian pecahannya.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Kemaskini amaun dalam pangkalan data</string>
-    <string name="import_categories_success">%1$s kategori berjaya diimport</string>
+    <string name="import_categories_success">%1$d kategori berjaya diimport</string>
     <string name="import_parties_success">%1$s pihak berjaya diimport</string>
     <string name="import_accounts_success">%1$s akaun berjaya diimport</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transaksi berjaya diimport ke dalam akaun %2$s</string>
@@ -607,7 +604,6 @@
     <string name="upgrade_now">Tatar</string>
     <string name="pref_backup_cloud_title">Simpan dalam bahagian belakang penyegerakan</string>
     <string name="pref_backup_cloud_summary">Selain dari storan setempat dalam peranti, fail sandar juga boleh disalin ke dalam bahagian belakang jauh.</string>
-    <string name="auto_backup_cloud_create_backend">Cipta bahagian belakang penyegerakan melalui skrin tetapan utama.</string>
     <string name="auto_backup_cloud_failure">Satu ralat berlaku ketika cuba menyimpan fail sandar %1$s pada bahagian belakang %2$s:</string>
     <string name="auto_backup_cloud_success">Fail sandar %1$s berjaya disimpan dalam bahagian belakang %2$s.</string>
     <string name="home_screen_shortcuts_nougate_info">Pintasan boleh ditambah dengan mengetik-lama pada ikon apl di Skrin Rumah.</string>
@@ -814,4 +810,13 @@
     <string name="pref_category_title_features">Fitur</string>
     <string name="button_download">Muat turun</string>
     <string name="menu_save_and_new_content_description">Simpan data, biarkan borang terbuka untuk mencipta transaksi baharu dengan data yang sama.</string>
-    </resources>
+    <string name="crash_reports_user_info">{app_name} akan menghantar laporan mengenai kerosakan aplikasi secara automatik kepada pembangunnya, yang membolehkan mereka membaiki masalah dengan lebih pantas.</string>
+    <string name="pref_category_title_crash_reports">Laporan kerosakan</string>
+    <string name="pref_enable_acra">Benarkan penghantaran laporan kerosakan secara automatik</string>
+    <string name="pref_acra_user_email">Emel pengguna disertakan dalam laporan kerosakan</string>
+    <string name="pref_acra_user_email_summary">Sila masukkan alamat emel anda jika anda mahu bantu menyahpepijat dan membolehkan kami menghubungi anda.</string>
+    <string name="bug_fixes">Pembaikan pepijat</string>
+    <string name="performance_enhancement">Penambahbaikan prestasi</string>
+    <string name="stability_improvements">Penambahbaikan kestabilan</string>
+    <string name="pref_news_title">Berita</string>
+</resources>

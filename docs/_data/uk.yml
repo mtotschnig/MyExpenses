@@ -1,0 +1,60 @@
+uk:
+  imprint: Контакти
+  privacy_policy_heading: Політика конфіденційності
+  hero_main: "Персональний фінансовий менеджер для Android"
+  hero_sub:
+    use: "Простий у використанні"
+    functionality: "Багатофункціональний"
+    source: "Програма з відкритим кодом"
+  menu_title:
+    more_information: Додаткові відомості
+  sections:
+    features: Особливості
+    premium: Отримати Преміум-версію
+    participate: Взяти участь
+    faq: Питання та Відповіді
+    versionlist: Журнал змін
+    credits: Сприяння у створенні
+    licence: Ліцензія
+    sourcecode: Текст програми
+    links: Посилання
+  contrib:
+    thank_you: |
+        Ваш внесок підтримує подальший розвиток програми "Мої Витрати". Дякую!
+    feature-list-title: "Будь ласка, зробіть внесок, оновіть <i> {app_name}</i> та отримайте необмежений доступ до таких функцій:"
+    feature:
+      email_support: <b>Сервіс підтримки</b> через електронну пошту з гарантованою відповіддю протягом 2 робочих днів
+      roadmap_voting: Можливість голосувати <b>в плані розвитку програми</b>
+    subscription: Підписка
+  store:
+    full_description_contrib: "Преміум-функції можна розблокувати, придбавши одну з версій програми:"
+    full_description_contrib_amazon: "Багато додаткових функцій можна розблокувати, придбавши одну з Преміум-версій, наприклад:"
+    highlight_1: "Слідкуйте за своїми витратами та доходами з багатьма рахунками, шаблонами та категоріями"
+  permissions:
+    heading: <i>{app_name}</i> вимагає наступних <u>дозволів</u>
+    calendar:
+      label: Календар
+    internet:
+      label: Інтернет
+      explanation_usage_tracking: Анонімний збір даних про використання
+      explanation_crash_reporting: Звіти про помилки
+      explanation_key_validation: Перевірка ліцензійного ключа
+      explanation_cloud_sync: Синхронізація
+    accounts:
+      label: Облікові записи
+      explanation: Синхронізація між пристроями через хмарні сервіси
+  contrib-key: Платна версія
+  extended-key: Розширена платна версія
+  professional-key: Професійна версія
+  all_contrib_key_features: Всі можливості платної версії
+  all_extended_key_features: Всі можливості розширеної версії
+  screenshot_testdata:
+    account1Label: Мій гаманець
+    account1Description: Щоденні витрати
+    account2Label: вихідні в Парижі
+    account3Label: Банківський рахунок
+    account3Description: Банк Америки
+    transaction2Comment: Фрукти & овочі
+    transaction4Payee: Піцерія Антонелла
+    templatePayee: John Doe
+    tag_project: Без назви проекту

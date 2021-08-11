@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -12,8 +13,7 @@
   
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+ --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">கணக்கு</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">கணக்கு வகைகள்</string>
@@ -304,7 +304,6 @@
     <string name="pref_import_summary">%s கோப்பில் இருந்து பரிவர்த்தனைகள், வகைகள் மற்றும் தரப்புகளை இறக்குமதி செய்</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">%s இறக்குமதி</string>
-    <string name="pref_like_facebook_title">ஃபேஸ்புக்கில் எங்களைப் விரும்புங்கள்</string>
     <string name="pref_manage_accounts_title">கணக்குகள்</string>
     <string name="pref_manage_categories_summary">வகைகளை புதிதாக சேர், திருத்து, நீக்கு.</string>
     <string name="pref_manage_categories_title">வகைகள்</string>
@@ -363,7 +362,6 @@
     <string name="restore_db_success">காப்புப்பிரதியில் இருந்து தரவுத்தளம் மீட்டமைக்கப்பட்டது.</string>
     <string name="restore_no_backup_found">காப்புப்பிரதி ஏதும் கிடைக்கவில்லை.</string>
     <string name="restore_preferences_failure">விருப்பத்தேர்வுகளின் மீட்டமைப்பு தோல்வியடைந்தது.</string>
-    <string name="restore_backup_archive_not_valid">ஆவணக்கிடங்கு %1$s செல்லுபடியாகாது</string>
     <string name="restore_backup_file_not_found">\"%2$s\" ஆவணக்கிடங்கில் %1$s எனும் கோப்பு இல்லை</string>
     <string name="restore_preferences_success">காப்புப்பிரதியில் இருந்து விருப்பத்தேர்வுகள் மீட்டமைக்கப்பட்டன.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d திட்டங்கள் காப்புப்பிரதியில் இருந்து மீட்டமைக்கப்பட்டன.</string>
@@ -440,7 +438,6 @@
     <string name="warning_reset_account_all">நீங்கள் தொடர்ந்தால், எல்லா கணக்குகளுக்கும் %1$s, பரிவர்த்தனைகள் தரவுத்தளத்தில் இருந்து நீக்கப்படும். மேலும் அவற்றை மீட்டமைக்க முடியாது.</string>
     <string name="warning_reset_account_matched">நீங்கள் தொடர்ந்தால், தற்போதைய வடிப்பான் மூலம் பொருந்தும் பரிவர்த்தனைகள் தரவுத்தளத்தில் இருந்து நீக்கப்படும். மேலும் அவற்றை மீட்டமைக்க முடியாது.</string>
     <string name="warning_restore">தரவுத்தளம் மற்றும் விருப்பத்தேர்வுகள் \"%1$s\" கோப்பில் இருந்து மீட்டமைக்கப்படும். தற்போதைய தரவு நீக்கப்படும்.</string>
-    <string name="warning_app_folder_will_be_deleted_upon_uninstall">காப்புப்பிரதிகள் மற்றும் ஏற்றுமதிகளுக்காக தற்போது தேர்ந்தெடுத்திருக்கும் கோப்புறையானது நீங்கள் {app_name} இன் நிறுவலை நீக்கும்போது ஆண்ட்ராய்டால் தானாகவே நீக்கப்படும். வேறு கோப்புறையை அமைப்புகள் திரையில் இருந்து  தேர்ந்தெடுப்பதன் மூலம் இதைத் தடுக்கலாம்.</string>
     <string name="warning_splitpartcategory_context">ஒரு பிரிவின் பகுதியாக இருக்கும் பரிமாற்றங்கள் பிரிவின் பின்னணியில் மட்டுமே திருத்தப்பட முடியும்.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">%1$d மற்றும் %2$d இடையே ஒரு எண்ணை அமைக்கவும்</string>
     <string name="warning_change_fraction_digits_1">புதிய பின்ன இலக்கங்களின் எண்ணிக்கைக்கு பொருந்த தரவுத்தளத்தில் உள்ள தொகைகளை புதுப்பிக்க வேண்டும்.</string>
@@ -448,7 +445,7 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">தொகைகள் புதுப்பிக்கப்படவில்லை என்றால், மாற்றத்திற்குப் பின் அவை %d மூலம் வகுக்கப்பட்டது போல் காட்டப்படும்.</string>
     <string name="warning_change_fraction_digits_3">தொகைகள் புதுப்பிக்கப்பட்டால், நீங்கள் அவைகளின் பின்ன பகுதியை பற்றிய தகவலை இழப்பீர்கள்.</string>
     <string name="warning_change_fraction_digits_checkbox_label">தரவுத்தளத்தில் உள்ள தொகைகளை புதுப்பி</string>
-    <string name="import_categories_success">%1$s வகைகள் வெற்றிகரமாக இறக்குமதி செய்யப்பட்டன</string>
+    <string name="import_categories_success">%1$d வகைகள் வெற்றிகரமாக இறக்குமதி செய்யப்பட்டன</string>
     <string name="import_parties_success">%1$s தரப்புகள் வெற்றிகரமாக இறக்குமதி செய்யப்பட்டன</string>
     <string name="import_accounts_success">%1$s கணக்குகள் வெற்றிகரமாக இறக்குமதி செய்யப்பட்டன</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d பரிவர்த்தனைகள் வெற்றிகரமாக %2$s கணக்கிற்கு இறக்குமதி செய்யப்பட்டன</string>
@@ -621,7 +618,6 @@
     <string name="upgrade_now">மேம்படுத்து</string>
     <string name="pref_backup_cloud_title">ஒத்திசைவு பின்தளத்தில் சேமிக்கவும்</string>
     <string name="pref_backup_cloud_summary">காப்புப்பிரதி கோப்பை, கருவியில் உள்ள உள்சேமிப்புக்கு கூடுதலாக ஒரு தொலை பின்தளத்திற்கு நகலெடுத்துக் கொள்ளலாம்.</string>
-    <string name="auto_backup_cloud_create_backend">பிரதான அமைப்புகள் திரையில் இருந்து ஒத்திசைவு பின்தளம் ஒன்றை உருவாக்கவும்.</string>
     <string name="auto_backup_cloud_failure">காப்புப்பிரதி கோப்பு %1$s-ஐ, %2$s எனும் பின்தளத்தில் சேமிக்க முயற்சிக்கும் போது பிழை ஏற்பட்டது:</string>
     <string name="auto_backup_cloud_success">காப்புப்பிரதி கோப்பு %1$s, %2$s எனும் பின்தளத்தில் வெற்றிகரமாக சேமிக்கப்பட்டது.</string>
     <string name="home_screen_shortcuts_nougate_info">முகப்பு திரையில் செயலியின் ஐகானை நீண்ட நேரம் தட்டுவதன் மூலம் குறுக்குவழிகளைச் சேர்க்கலாம்.</string>
@@ -993,4 +989,13 @@
     <!-- This warning is shown when a user calls the Reset or Cancel commands on a scheduled transaction, for a date
      where the transaction has already been created.  -->
     <string name="warning_plan_instance_delete">தேர்ந்தெடுக்கப்பட்ட தேதிக்கு உருவாக்கப்பட்ட பரிவர்த்தனை நீக்கப்படும்.</string>
+    <string name="crash_reports_user_info">\"{app_name}\" செயலியின் செயலிழப்புகளைப் பற்றிய அறிக்கையை தானாகவே உருவாக்குனருக்கு அனுப்புகிறது. இது சிக்கல்களை விரைவாக சரிசெய்ய அனுமதிக்கிறது.</string>
+    <string name="pref_category_title_crash_reports">செயலிழப்பு அறிக்கைகள்</string>
+    <string name="pref_enable_acra">தன்னியக்கமாக செயலிழப்பு அறிக்கைகளை அனுப்ப அனுமதி</string>
+    <string name="pref_acra_user_email">செயலிழப்பு அறிக்கையில் பயனர் மின்னஞ்சல் உள்ளடக்கப்பட்டுள்ளது</string>
+    <string name="pref_acra_user_email_summary">நீங்கள் வழு நீக்க உதவ விரும்பினால் உங்கள் மின்னஞ்சல் முகவரியை உள்ளிட்டு உங்களை தொடர்பு கொள்ள எங்களை அனுமதிக்கவும்.</string>
+    <string name="bug_fixes">பிழை திருத்தங்கள்</string>
+    <string name="performance_enhancement">செயல்திறன் மேம்பாடு</string>
+    <string name="stability_improvements">நிலைப்புத்தன்மை மேம்பாடுகள்</string>
+    <string name="pref_news_title">செய்தி</string>
 </resources>

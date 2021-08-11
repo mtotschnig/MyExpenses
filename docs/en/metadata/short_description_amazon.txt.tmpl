@@ -1,0 +1,21 @@
+---
+lang: en
+---
+{% assign msg = site.data[page.lang][page.lang] %}{% assign placeholder = '{app_name}' %}{{t.store.full_description_intro | replace:placeholder, site.title[page.lang]}}
+
+- {{t.features.manage_accounts | strip_html}}
+- {{t.features.plans | strip_html}}
+- {{t.features.grouped_list | strip_html}}
+- {{t.features.export | strip_html}}
+- {{t.features.password | strip_html}}
+- {{t.features.light_theme | strip_html}}
+- {{t.features.reconciliation | strip_html}}
+- {{t.features.homescreen | strip_html}}
+
+{{t.store.full_description_contrib_amazon}}
+
+- {{t.contrib.feature.ad_free | strip_html}}
+- {{t.contrib.feature.distribution | strip_html}}
+- {{t.contrib.feature.attach_picture | strip_html}}
+- {{t.contrib.feature.cloud_sync | strip_html}}  {{site.extra.cloud_sync}}
+- {{t.contrib.feature.auto_backup | strip_html}}

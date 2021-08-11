@@ -1,0 +1,253 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources, InconsistentArrays">
+    <!-- Main category -->
+    <string name="Main_1">Ander inkomen</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_1">Werkloze uitkering</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_2">Gezins subsidie</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_3">teruggave belasting</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_4">kansspelen</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_5">zorg verzekering</string>
+    <!-- Subcategory under "Other income" -->
+    <string name="Sub_1_6">sociale voorzieningen2</string>
+    <!-- Main category -->
+    <string name="Main_2">pensioen</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_1">pensioenfonds</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_2">Pensioen</string>
+    <!-- Subcategory under "Retirement" -->
+    <string name="Sub_2_3">Aanvullend pensioen</string>
+    <!-- Main category -->
+    <string name="Main_3">Inkomsten uit beleggen</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_1">Dividend</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_2">Rente</string>
+    <!-- Subcategory under "Investment income" -->
+    <string name="Sub_3_3">Winst uit kapitaal</string>
+    <!-- Main category -->
+    <string name="Main_4">Salaris</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_1">Overuren</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_2">vakantie toeslag</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_3">overige premies</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_4">Promotie toeslag</string>
+    <!-- Subcategory under "Salary" -->
+    <string name="Sub_4_5">netto salaris</string>
+    <!-- Main category -->
+    <string name="Main_5">Overige inkomsten</string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_1">cadeaus2</string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_2">terugbetalingen</string>
+    <!-- Subcategory under "Misc. income" -->
+    <string name="Sub_5_3">2e hands verkoop</string>
+    <!-- Main category -->
+    <string name="Main_6">super markt</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_1">bar</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_2">bakker</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_3">kantine</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_4">versnaperingen</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_5">boodschappen</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_6">Restaurant</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_7">Zelf bediening</string>
+    <!-- Subcategory under "Food" -->
+    <string name="Sub_6_8">Supermarkt</string>
+    <!-- Main category -->
+    <string name="Main_7">huisdieren</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_1">super markt</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_2">overige boodschappen</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_3">dier verzorging</string>
+    <!-- Subcategory under "Pets" -->
+    <string name="Sub_7_4">dierenarts</string>
+    <!-- Main category -->
+    <string name="Main_8">verzekering2</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_1">automobiel</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_2">Gezondheid2</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_3">Huis</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_4">Wettelijke aansprakelijkheid</string>
+    <!-- Subcategory under "Insurance" -->
+    <string name="Sub_8_5">life</string>
+    <!-- Main category -->
+    <string name="Main_9">automobiel</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_1">brandstof</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_2">reparaties</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_3">Onderhoud</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_4">parkeren</string>
+    <!-- Subcategory under "Car" -->
+    <string name="Sub_9_5">Boetes</string>
+    <!-- Main category -->
+    <string name="Main_10">cadeaus2</string>
+    <!-- Main category -->
+    <string name="Main_11">Kinderen</string>
+    <!-- Subcategory under "Children" -->
+    <string name="Sub_11_1">Verpleegster</string>
+    <!-- Subcategory under "Children" -->
+    <string name="Sub_11_2">studies2</string>
+    <!-- Main category -->
+    <string name="Main_12">studies2</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_1">lessen</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_2">schoolkosten</string>
+    <!-- Subcategory under "Studies" -->
+    <string name="Sub_12_3">studie boeken</string>
+    <!-- Main category -->
+    <string name="Main_13">kosten financien</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_1">Bank kosten</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_2">Lening/hypotheek2</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_3">Kosten2</string>
+    <!-- Subcategory under "Financial expenses" -->
+    <string name="Sub_13_4">Vergoeding</string>
+    <!-- Main category -->
+    <string name="Main_14">beroepskosten</string>
+    <!-- Subcategory under "Professional expenses" -->
+    <string name="Sub_14_1">niet terugbetaalbaar</string>
+    <!-- Subcategory under "Professional expenses" -->
+    <string name="Sub_14_2">terugbetaalbaar</string>
+    <!-- Main category -->
+    <string name="Main_15">belastingen</string>
+    <!-- Main category -->
+    <string name="Main_16">Huisvesting2</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_1">Hotel</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_2">Huur</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_3">Tv</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_5">Kosten2</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_6">verwarming</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_7">behangen/verven</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_8">Water</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_9">Electra</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_10">Witgoed</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_11">Reis uitrusting</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_12">Gas</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_13">Tuin</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_14">Huishoudster</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_15">telefoon</string>
+    <!-- Subcategory under "Housing" -->
+    <string name="Sub_16_16">Mobiel</string>
+    <!-- Main category -->
+    <string name="Main_17">Vrije tijd</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_1">Snooker</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_2">Bowling</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_3">Film</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_4">Nachtclub</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_5">IT</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_6">Spellen</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_7">studie boeken</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_8">tuinen</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_9">Koncert</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_10">Sport</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_11">Video</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_12">Reizen2</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_13">Reis uitrusting</string>
+    <!-- Subcategory under "Leisures" -->
+    <string name="Sub_17_14">Muzeum/tentoonstellingen</string>
+    <!-- Main category -->
+    <string name="Main_18">Lening/hypotheek2</string>
+    <!-- Subcategory under "Loan/Mortgage" -->
+    <string name="Sub_18_1">Kapitaal</string>
+    <!-- Main category -->
+    <string name="Main_19">Gezondheid2</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_1">verzekering2</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_2">tandarts</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_3">Ziekenhuis</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_4">Kinesitherapeut</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_5">arts</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_6">oogarts</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_7">Osteopaat</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_8">Apotheek</string>
+    <!-- Subcategory under "Health" -->
+    <string name="Sub_19_9">sociale voorzieningen2</string>
+    <!-- Main category -->
+    <string name="Main_20">Zorg</string>
+    <!-- Subcategory under "Care" -->
+    <string name="Sub_20_1">Kapper</string>
+    <!-- Subcategory under "Care" -->
+    <string name="Sub_20_2">Kleding</string>
+    <!-- Main category -->
+    <string name="Main_21">Transport</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_1">Bus</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_2">metro</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_3">tol</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_4">Trein</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_5">Tram</string>
+    <!-- Subcategory under "Transport" -->
+    <string name="Sub_21_6">Vliegtuig</string>
+    <!-- Main category -->
+    <string name="Main_22">Vakanties</string>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_1">Huisvesting2</string>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_2">Bezoekjes</string>
+    <!-- Subcategory under "Holidays" -->
+    <string name="Sub_22_3">Reizen2</string>
+</resources>

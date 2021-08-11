@@ -267,7 +267,6 @@
     <string name="pref_import_summary">Importer posteringer, kategorier og parter fra %s fil</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">%s import</string>
-    <string name="pref_like_facebook_title">Like os på Facebook</string>
     <string name="pref_manage_accounts_title">Konti</string>
     <string name="pref_manage_categories_summary">Tilføj, rediger, slet kategorier.</string>
     <string name="pref_manage_categories_title">Kategorier</string>
@@ -323,7 +322,6 @@
     <string name="restore_db_success">Databasen blev gendannet fra backup.</string>
     <string name="restore_no_backup_found">Ingen backup fundet.</string>
     <string name="restore_preferences_failure">Gendannelse af indstillinger mislykkedes</string>
-    <string name="restore_backup_archive_not_valid">Arkiv %1$s er ikke gyldigt</string>
     <string name="restore_backup_file_not_found">Der findes ingen fil %1$s i arkivet \"%2$s\"</string>
     <string name="restore_preferences_success">Indstillingerne blev gendannet fra backup.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d planer blev gendannet fra backup</string>
@@ -390,10 +388,9 @@
     <string name="warning_reset_account_all">Hvis du fortsætter, slettes alle posteringer i alle konti %1$s fra databasen og kan ikke gendannes.</string>
     <string name="warning_reset_account_matched">Hvis du fortsætter, slettes alle posteringer fra databasen der svarer til det aktuelle filter og de kan ikke gendannes.</string>
     <string name="warning_restore">Databasen og indstillinger gendannes fra filen \"%1$s\". De aktuelle data slettes.</string>
-    <string name="warning_app_folder_will_be_deleted_upon_uninstall">Den aktuelt valgte mappe til sikkerhedskopier og eksport slettes automatisk af Android, hvis du fjerner {app_name}. Du kan forhindre dette i at ske ved at vælge en anden mappe i skærmbilledet indstillinger.</string>
     <string name="warning_splitpartcategory_context">Overførsler, der er del af en splittet postering kan kun redigeres i forbindelse med opsplitningen.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Angiv et tal mellem %1$d og %2$d</string>
-    <string name="import_categories_success">%1$s kategorier importeret</string>
+    <string name="import_categories_success">%1$d kategorier importeret</string>
     <string name="import_parties_success">%1$s parter importeret</string>
     <string name="import_accounts_success">%1$s regnskaber importeret</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d posteringer importeret i konto %2$s</string>
@@ -485,4 +482,11 @@
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">Funktioner</string>
     <string name="pref_translation_title">Oversættelse</string>
+    <string name="crash_reports_user_info">Hvis app\'en går ned vil {app_name} rapporter fejlen automatisk til udvikleren, så at problemet kan afhjælpes hurtigt.</string>
+    <string name="pref_category_title_crash_reports">Fejlrapporter</string>
+    <string name="pref_enable_acra">Tillad automatisk rapportering af fejl</string>
+    <string name="pref_acra_user_email">Fejlrapporten skal indeholde brugerens e-mail.</string>
+    <string name="pref_acra_user_email_summary">Hvis du gerne vil hjælpe os ved debugging og er indforstået med at vi  tager kontakt til dig, skal du indtaste din e-mail adresse.</string>
+    <string name="new_version">Ny version</string>
+    <string name="pref_news_title">Nyheder</string>
 </resources>

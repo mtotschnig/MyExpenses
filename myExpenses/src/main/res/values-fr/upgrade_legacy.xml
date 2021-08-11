@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<resources>
+    <string-array name="whats_new_329">
+        <item>Les tiers en double peuvent être fusionnés.</item>
+        <item>Le montant restant des opérations ventilées peut être copié dans le presse-papiers.</item>
+    </string-array>
+    <string-array name="whats_new_328">
+        <item>Le widget \"Mes comptes\" peut être configuré pour afficher un seul compte et pour prendre en compte les futures transactions.</item>
+        <item>Afficher le montant total des transactions sélectionnées.</item>
+    </string-array>
+    <string-array name="whats_new_327">
+        <item>Deux transactions existantes peuvent être liées en tant que transfert.</item>
+    </string-array>
+    <string-array name="whats_new_326">
+        <item>Les opérations peuvent se répéter le dernier jour du mois.</item>
+    </string-array>
+    <string-array name="whats_new_324">
+        <item>Interface utilisateur Web</item>
+    </string-array>
+    <string-array name="whats_new_323">
+        <item>Le bouton Date permet une navigation rapide vers le jour précédent et suivant.</item>
+    </string-array>
+    <string-array name="whats_new_322">
+        <item>Les sommes des dépenses, des revenus et des transferts dans les en-têtes de groupe peuvent être masquées.</item>
+        <item>Calculez la différence entre le solde actuel et une nouvelle valeur.</item>
+        <item>Le filtre et les budgets peuvent être définis pour un sous-ensemble de comptes.</item>
+    </string-array>
+    <string-array name="whats_new_321">
+        <item>La reconnaissance de texte fonctionne désormais avec plus de langues.</item>
+    </string-array>
+    <string-array name="whats_new_320">
+        <item>Les images peuvent être recadrées.</item>
+    </string-array>
+    <string-array name="whats_new_318">
+        <item>L\'action de clic par défaut peut être définie par modèle.</item>
+    </string-array>
+    <string-array name="whats_new_317">
+        <item>Les modèles peuvent être chargés à partir du formulaire de saisie d\'opération.</item>
+    </string-array>
+    <string-array name="whats_new_316">
+        <item>Le bouton Enregistrer dans le formulaire d\'opération est plus saillant.</item>
+        <item>Un appui long sur le bouton d\'action flottant ouvre un menu qui permet de préparer le formulaire pour un transfert, une transaction ventilée ou un revenu.</item>
+    </string-array>
+    <string name="whats_new_315_dark_theme_q">Le style sombre est lié à la valeur par défaut du système</string>
+    <string-array name="whats_new_313">
+        <item>Gestion améliorée des opérations récurrentes</item>
+        <item>Traduction en Kannada</item>
+    </string-array>
+    <string-array name="whats_new_312">
+        <item>Format de date personnalisé</item>
+        <item>Les étiquettes sont exportées vers le format CSV</item>
+        <item>L\'état réduit des groupes dans la liste des opérations est mémorisé</item>
+    </string-array>
+    <string-array name="whats_new_311">
+        <item>On peut chercher dans la liste des tiers (payeurs et bénéficiaires)</item>
+    </string-array>
+    <string-array name="whats_new_310">
+        <item>Les opérations peuvent être mises en correspondance avec plusieurs étiquettes</item>
+    </string-array>
+</resources>

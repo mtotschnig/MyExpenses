@@ -59,12 +59,10 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_DELETE_PAYMENT_METHODS = 8;
   public static final int TASK_TOGGLE_CRSTATUS = 11;
   public static final int TASK_MOVE = 12;
-  public static final int TASK_DELETE_CATEGORY = 14;
   public static final int TASK_INSTANTIATE_PLAN = 15;
   public static final int TASK_GRISBI_IMPORT = 19;
   public static final int TASK_QIF_IMPORT = 20;
   public static final int TASK_EXPORT = 21;
-  public static final int TASK_BACKUP = 22;
   public static final int TASK_RESTORE = 23;
   public static final int TASK_BALANCE = 24;
   public static final int TASK_PRINT = 25;
@@ -72,7 +70,6 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_SET_EXCLUDE_FROM_TOTALS = 29;
   public static final int TASK_SPLIT = 30;
   public static final int TASK_REVOKE_SPLIT = 31;
-  public static final int TASK_EXPORT_CATEGORIES = 35;
   public static final int TASK_MOVE_CATEGORY = 38;
   public static final int TASK_SWAP_SORT_KEY = 39;
   public static final int TASK_MOVE_UNCOMMITED_SPLIT_PARTS = 40;
@@ -92,7 +89,6 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_BUILD_TRANSACTION_FROM_INTENT_EXTRAS = 57;
   public static final int TASK_ACCOUNT_SORT = 60;
   public static final int TASK_CATEGORY_COLOR = 61;
-  public static final int TASK_SETUP_CATEGORIES = 62;
   public static final int TASK_SET_ACCOUNT_HIDDEN = 63;
   public static final int TASK_SET_ACCOUNT_SEALED = 64;
 
@@ -239,8 +235,6 @@ public class TaskExecutionFragment<T> extends Fragment {
         new SyncAccountTask(this, args, false).execute();
         break;
       case TASK_VALIDATE_LICENCE:
-        new LicenceApiTask(this, taskId).execute();
-        break;
       case TASK_REMOVE_LICENCE:
         new LicenceApiTask(this, taskId).execute();
         break;
@@ -256,10 +250,6 @@ public class TaskExecutionFragment<T> extends Fragment {
       case TASK_ACCOUNT_SORT:
         new AccountSortTask(this, taskId).execute(args);
         break;
-      case TASK_SETUP_CATEGORIES:
-        new CategoriesSetupTask(this, taskId).execute(args);
-        break;
-
       default:
         try {
           new GenericTask<T>(this, taskId, args.getSerializable(KEY_EXTRA))

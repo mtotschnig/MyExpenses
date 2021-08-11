@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+  
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+  
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ --><resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="account">खाता</string>
+    <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
+    <string name="account_types">खाते के प्रकार</string>
+    <string name="account_type_asset">संपत्ति खाता</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_asset_plural">संपत्ति खाते</string>
+    <string name="account_type_bank">बैंक खाता</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_bank_plural">बैंक खाते</string>
+    <string name="account_type_cash">नकद खाता</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_cash_plural">नकद खाते</string>
+    <string name="account_type_ccard">क्रेडिट कार्ड</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_ccard_plural">क्रेडिट कार्ड</string>
+    <string name="account_type_liability">देयताएं खाता</string>
+    <!-- Plural form to be used in account list where accounts are grouped by type -->
+    <string name="account_type_liability_plural">देयताएं खाते</string>
+    <string name="already_defined">%1$s पहले से ही परिभाषित</string>
+    <string name="amount">राशि</string>
+    <string name="app_name">मेरे खर्च</string>
+    <string name="backup_failure">\"%1$s\"  के लिए बैकअप विफ़ल.</string>
+    <string name="category"> श्रेणी</string>
+    <string name="color">रंग</string>
+    <string name="comment">टिप्पणियाँ</string>
+    <string name="confirmation_dialog_dont_show_again">पुनः न दिखाएँ</string>
+    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">बिना विज्ञापन</string>
+    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">असीमित खातों की संख्या</string>
+    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">लेन-देन से छवि जोड़ें</string>
+    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">असीमित योजनाओं की संख्या</string>
+    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">लेनदेन सूची पीडीएफ में निर्यात करें</string>
+    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">टेम्पलेट विजेट</string>
+    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">सीएसवी आयात</string>
+    <string name="licence_status_free">मुफ़्त</string>
+    <string name="contrib_key">योगदान कुंजी</string>
+    <string name="extended_key">विस्तारित कुंजी</string>
+    <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
+    <string name="contrib_key_requires">%1$s आवश्यक है</string>
+    <string name="currency">मुद्रा</string>
+    <string name="current_balance">वर्तमान शेष</string>
+    <string name="date">तिथि</string>
+    <string name="date_format">तिथि प्रारूप</string>
+    <string name="date_format_illegal">अवैध दिनांक प्रारूप</string>
+    <string name="number_format_illegal">अवैध संख्या प्रारूप</string>
+    <string name="decimal_separator">दशमलव विभाजक</string>
+    <string name="default_account_name">बजट पुस्तिका</string>
+    <string name="description">वर्णन</string>
+    <string name="dialog_balance_delete">मिलान किए गए लेन-देन हटाएं</string>
+    <string name="dialog_confirm_discard_changes">परिवर्तन छोड़ें?</string>
+    <string name="dialog_confirm_discard_new_transaction">नई लेन-देन छोड़ें?</string>
+    <string name="dialog_confirm_discard_new_template">नया टेम्प्लेट छोड़ें?</string>
+    <string name="dialog_confirm_discard_new_account">नया खाता छोड़ें?</string>
+    <string name="dialog_confirm_discard_new_method">नई भुगतान विधि छोड़ें?</string>
+    <string name="dialog_command_disabled_insert_transfer">स्थानांतरण लेन-देन के लिए एक दूसरा खाता आवशयक है.</string>
+    <string name="dialog_command_disabled_reset_account">निर्यात करने के लिए कोई लेन-देन नहीं।</string>
+    <!-- Placeholder: 1 is name of the feature. 2 is required key (Contrib or Extended)-->
+    <string name="dialog_contrib_premium_feature">%1$s एक प्रीमियम सुविधा है (%2$s)</string>
+    <string name="dialog_contrib_usage_count">नि: शुल्क उपयोग शेष</string>
+    <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">आप इसे अपने वर्तमान लाइसेंस स्थिति (%2$s) के साथ %1$d बार तक का उपयोग कर सकते हैं</string>
+    <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">आप अपने वर्तमान लाइसेंस स्थिति (%2$s) के साथ %1$d दिनों के लिए इसका उपयोग कर सकते हैं।</string>
+    <string name="dialog_export_delete">निर्यात किए गए लेन-देन हटाएं</string>
+    <string name="dialog_export_not_yet_exported">केवल वही लेन-देन निर्यात करे जो अभी तक निर्यात नहीं किए गए है</string>
+    <string name="dialog_password_activate_protection">पासवर्ड सुरक्षा को सक्रिय करें</string>
+    <string name="dialog_password_change_password">पासवर्ड बदलें</string>
+    <string name="dialog_password_new_password">नया पासवर्ड</string>
+    <string name="dialog_password_new_password_confirmation">नया पासवर्ड (पुष्टीकरण)</string>
+    <string name="dialog_remind_later">बाद में</string>
+    <string name="dialog_remind_rate_2">आपकी टिप्पणियां हमें लगातार सुधार और संवर्द्धन जोड़ने में मदद करती हैं।</string>
+    <string name="dialog_remind_rate_yes">मूल्यांकन करें</string>
+    <string name="dialog_security_answer">उत्तर</string>
+    <string name="dialog_security_question">प्रश्न</string>
+    <string name="dialog_title_attention">ध्यान दे</string>
+    <string name="dialog_title_information">जानकारी</string>
+    <!-- %1$s is replace with account label -->
+    <string name="dialog_title_balance_account">बैलेंस %1$s</string>
+    <string name="dialog_title_contrib_feature">प्रीमियम सुविधा</string>
+    <string name="dialog_title_warning_delete_template">टेम्पलेट हटाएं?</string>
+    <string name="dialog_title_warning_delete_transaction">लेन-देन हटाएँ?</string>
+    <string name="expense">खर्चा</string>
+    <string name="export_expenses">खर्चे निर्यात</string>
+    <!-- 1$s is replaced with path to file, 2$s with error message -->
+    <string name="export_sdcard_failure"> \"%1$s\" फ़ाइल पर निर्यात असफल: %2$s</string>
+    <string name="external_storage_unavailable">बाह्य संचयन (एसडी कार्ड) उपलब्ध नहीं है</string>
+    <string name="feedback">प्रतिक्रिया</string>
+    <string name="ftp_uri_malformed">विकृत यूआरआई %1$s</string>
+    <string name="grisbi_import_categories_loading">%1$s से श्रेणियां लोड हो रही है</string>
+    <string name="grisbi_import_parties_loading">%1$s से पार्टियां लोड हो रही है</string>
+    <string name="grouping_day">दिवस</string>
+    <string name="grouping_last_week">पिछला सप्ताह</string>
+    <string name="grouping_month">माह</string>
+    <string name="grouping_none">असमूहीकृत</string>
+    <string name="grouping_this_week">इस सप्ताह</string>
+    <string name="grouping_today">आज</string>
+    <string name="grouping_week">सप्ताह</string>
+    <string name="grouping_year">वर्ष</string>
+    <string name="grouping_yesterday"> कल</string>
+    <string name="help_button_rate">मूल्यांकन या समीक्षा करें</string>
+    <string name="help_heading_credits">क्रेडिट</string>
+    <string name="help_heading_license">लाइसेंस</string>
+    <string name="help_heading_whats_new">नया क्या है</string>
+    <string name="important_upgrade_information_heading">महत्वपूर्ण जानकारी</string>
+    <string name="import_select_transactions">लेन-देन</string>
+    <string name="income">आमदनी</string>
+    <string name="label">लेबल</string>
+    <string name="licence_validation_failure">लाइसेंस कुंजी को सत्यापित करने में असमर्थ</string>
+    <string name="licence_validation_success">लाइसेंस कुंजी को सफलतापूर्वक सत्यापित किया गया:</string>
+    <string name="licence_validation_premium">प्रीमियम सुविधाओं को अनलॉक किया गया है</string>
+    <string name="menu_aggregates">कुल</string>
+    <!-- Shown in a notification; allows to apply a template (instantiate a new transaction from it) -->
+    <string name="menu_apply_template">लागू करें</string>
+    <string name="menu_back">वापस</string>
+    <string name="menu_backup">बैकअप</string>
+    <!-- Balance: compare cleared balance in app with balance on statement received from bank -->
+    <string name="menu_balance">बकाया खाता</string>
+    <!-- Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction -->
+    <string name="menu_cancel_plan_instance">रद्द</string>
+    <string name="menu_clone_transaction">क्लोन</string>
+    <string name="menu_contrib">योगदान</string>
+    <string name="menu_create_account">नया खाता</string>
+    <string name="menu_create_instance_edit">लागू करें और संपादित करें</string>
+    <string name="menu_create_instance_save">लागू करें और सहेजें</string>
+    <string name="menu_create_main_cat">नई मुख्य श्रेणी</string>
+    <string name="menu_create_method">नई भुगतान विधि</string>
+    <string name="menu_create_party">नई पार्टी</string>
+    <string name="menu_create_split">नया विभाजन</string>
+    <string name="menu_create_sub_cat">नई उप श्रेणी</string>
+    <string name="menu_create_template">नया टेम्पलेट</string>
+    <string name="menu_create_template_from_transaction">टेम्पलेट के रूप में सहेजें</string>
+    <string name="menu_create_template_for_transaction">नया लेन-देन टेम्पलेट</string>
+    <string name="menu_create_template_for_transfer">नया हस्तांतरण टेम्पलेट</string>
+    <string name="menu_create_transaction">नया लेन-देन</string>
+    <string name="menu_create_transfer">नया हस्तांतरण</string>
+    <string name="menu_delete">हटाएं</string>
+    <string name="menu_distribution">वितरण</string>
+    <string name="menu_edit">संपादित करें</string>
+    <string name="menu_edit_account">खाता संपादित करें</string>
+    <string name="menu_edit_cat">श्रेणी संपादित करें</string>
+    <string name="menu_edit_method">भुगतान विधि संपादित करें</string>
+    <string name="menu_edit_party">पार्टी संपादित करें</string>
+    <string name="menu_edit_template">टेम्पलेट संपादित करें</string>
+    <string name="menu_edit_transaction">लेन-देन संपादित करें</string>
+    <string name="menu_edit_transfer">हस्तांतरण संपादित करें</string>
+    <string name="menu_exclude_from_totals">योग से बाहर निकालें</string>
+    <string name="menu_forward">आगे</string>
+    <string name="menu_grouping">समूहीकरण</string>
+    <string name="menu_help">सहायता</string>
+    <!-- This command inverts the direction of a transfer -->
+    <string name="menu_invert_transfer">उलटें</string>
+    <string name="menu_manage_plans">टेम्पलेट और योजनाएं</string>
+    <!-- Button on the dialog shown after PDF file has been created, allowing to open it with a PDF viewer application -->
+    <string name="menu_open">खोलें</string>
+    <string name="menu_import">आयात</string>
+    <string name="menu_print">प्रिंट</string>
+    <string name="menu_reset">निर्यात और रीसेट करें</string>
+    <string name="menu_reset_all">सभी को निर्यात और रीसेट करें</string>
+    <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
+    <string name="menu_reset_plan_instance">रीसेट</string>
+    <string name="menu_save">सेव</string>
+    <string name="menu_save_and_new">सेव और नया</string>
+    <string name="menu_search">खोजें</string>
+    <string name="menu_settings">सेटिंग्स</string>
+    <string name="menu_share">दोस्त को बताओ</string>
+    <string name="no_amount_given">आपने कोई राशि नहीं डाली.</string>
+    <string name="no_app_handling_email_available">ईमेल सँभालने वाली कोई ऐप उपलब्ध नहीं है।</string>
+    <string name="no_app_handling_pdf_available">पीडीऍफ़ सँभालने वाली कोई ऐप उपलब्ध नहीं है।</string>
+    <string name="no_categories">कोई श्रेणी नहीं</string>
+    <string name="no_expenses">कोई खर्चें नहीं!</string>
+    <string name="no_filemanager_installed">कोई फाइल मैनेजर इंस्टाल्ड नहीं है</string>
+    <string name="no_calendar_app_installed">कैलेंडर ईवेंट को संपादित करने के लिए कोई ऐप नहीं मिली</string>
+    <string name="no_methods">कोई भुगतान विधियां नहीं</string>
+    <string name="no_parties">कोई पार्टियां नहीं</string>
+    <string name="no_templates">कोई टेम्पलेट नहीं</string>
+    <string name="no_title_given">आपने किसी भी शीर्षक को दर्ज नहीं किया।</string>
+    <string name="numbered">क्रमांकित</string>
+    <string name="opening_balance">प्रारंभिक रकम</string>
+    <string name="parse_error_file_not_found">%1$s फ़ाइल नहीं मिली</string>
+    <string name="parse_error_no_data_found">फाइल में निर्यात योग्य डाटा नहीं</string>
+    <string name="parse_error_other_exception">एक त्रुटि हुई: %1$s</string>
+    <string name="password_disabled_reenable">पासवर्ड सुरक्षा अक्षम कर दी गई है। आप सेटिंग्स में इसे फिर से सक्षम कर सकते हैं</string>
+    <string name="password_lost">पासवर्ड खो गया</string>
+    <string name="password_not_valid">गलत पासवर्ड. पुन: प्रयास करें!</string>
+    <string name="password_prompt">अपना पासवर्ड डालें</string>
+    <string name="password_security_answer_not_valid">गलत उत्तर. पुनः प्रयास करें!</string>
+    <string name="payee">आदाता</string>
+    <string name="payer">दाता</string>
+    <string name="payer_or_payee">आदाता/दाता</string>
+    <!-- Plan for future and recurring transactions -->
+    <string name="plan">नियोजन</string>
+    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
+    <string name="plan_automatic">स्वचालित</string>
+    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
+    <string name="plan_manual">गाइड</string>
+    <!-- payment methods -->
+    <string name="pm_cheque">चेक</string>
+    <string name="pm_creditcard">क्रेडिट कार्ड</string>
+    <string name="pm_deposit">जमा</string>
+    <string name="pm_directdebit">सीधे डेबिट</string>
+    <string name="pm_type_credit">क्रेडिट</string>
+    <string name="pm_type_debit">डेबिट</string>
+    <string name="pm_type_neutral">तटस्थ</string>
+    <string name="pref_sort_order_usages">उपयोग की गणना</string>
+    <string name="pref_category_title_advanced">उन्नत</string>
+    <string name="pref_category_title_export">निर्यात</string>
+    <string name="pref_category_title_import">आयात</string>
+    <string name="pref_category_title_manage">प्रबंधित</string>
+    <string name="pref_category_title_more_information">अधिक जानकारी</string>
+    <string name="pref_category_title_security">सुरक्षा</string>
+    <string name="pref_category_title_ui">यूजर इंटरफ़ेस</string>
+    <string name="pref_checkbox_enabled">सक्रिय</string>
+    <string name="pref_checkbox_disabled">निष्क्रिय</string>
+    <string name="pref_contrib_purchase_title">कुंजी ख़रीदें</string>
+    <string name="pref_contrib_purchase_title_upgrade">कुंजी अपग्रेड करें</string>
+    <string name="pref_contrib_purchase_title_in_app">इन-ऐप भुगतान</string>
+    <string name="pref_enter_licence_title" tools:ignore="UnusedResources">कुंजी दर्ज करें</string>
+    <string name="pref_export_format_title">डाटा प्रारूप</string>
+    <string name="pref_manage_accounts_title">हिसाब किताब</string>
+    <string name="pref_manage_categories_title">श्रेणियाँ</string>
+    <string name="pref_manage_methods_title">भुगतान की विधियां</string>
+    <string name="pref_manage_parties_title">पार्टियां</string>
+    <string name="pref_password_not_equal">पासवर्ड मेल नहीं खाते</string>
+    <string name="pref_protection_enable_data_entry_from_widget_summary_off">पासवर्ड आवश्यक है।</string>
+    <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
+    <string name="pref_restore_alternative">विकल्प</string>
+    <string name="pref_restore_title">पुनर्स्थापित</string>
+    <string name="pref_security_question_title">सुरक्षा प्रश्न</string>
+    <string name="pref_send_feedback_title">प्रतिक्रिया भेजें</string>
+    <string name="pref_ui_fontsize_title">फ़ॉन्ट आकार</string>
+    <!-- Title of the preference for selecting the UI language -->
+    <string name="pref_ui_language_title">भाषा</string>
+    <string name="pref_ui_theme_title">थीम</string>
+    <string name="pref_visit_website_title">बेवसाइट देखे</string>
+    <string name="reference_number">संदर्भ संख्या</string>
+    <string name="save_transaction_and_new_success">सफलतापूर्वक संचित कर लिया गया है</string>
+    <string name="select">चुने</string>
+    <string name="select_category">श्रेणी का चयन करें</string>
+    <string name="split_transaction">भाजित लेनदेन</string>
+    <string name="status">स्थिति</string>
+    <string name="sum_income">आमदनी</string>
+    <string name="thank_you">आपके सहयोग के लिए धन्यवाद!</string>
+    <string name="time">समय</string>
+    <string name="title">शीर्षक</string>
+    <string name="transfer_from_account">से</string>
+    <string name="transfer_to_account">को</string>
+    <!-- Type refers to the type of an account, eg. Cash account, bank account -->
+    <string name="type">प्रकार</string>
+    <string name="warning_password_protected">ऐप पासवर्ड संरक्षित है</string>
+    <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">कृपया %1$d और %2$d के बीच एक संख्या सेट करें</string>
+    <string name="menu_create_folder">नया फोल्डर</string>
+    <!-- This string is used for navigating up in the folder browser -->
+    <string name="menu_up">ऊपर</string>
+    <string name="widget_title_accounts">मेरे खाते</string>
+    <string name="widget_title_templates">मेरे टेम्पलेट्स</string>
+    <string name="search_date">तिथि के लिए खोजें</string>
+    <string name="search_status">स्थिति के लिए खोजें</string>
+    <string name="and">तथा</string>
+    <string name="between_and">%1$s और %2$s के बीच</string>
+    <string name="before">%s से पहले</string>
+    <string name="after">%s के बाद</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions before a specified date.  -->
+    <string name="comparison_operator_date_before">से पहले</string>
+    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
+    <string name="comparison_operator_date_after">के बाद</string>
+    <string name="import_source_file">फ़ाइल</string>
+    <string name="menu_view_picture">तस्वीर देखें</string>
+    <string name="menu_delete_picture">चित्र हटाएं</string>
+    <string name="menu_change_picture">अलग तस्वीर संलग्न करें</string>
+    <string name="file_name">फ़ाइल का नाम</string>
+    <string name="folder_name">फोल्डर का नाम</string>
+    <string name="pref_auto_backup_title">ऑटो बैकअप</string>
+    <string name="content_description_calculator">कैलकुलेटर</string>
+    <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">क्लाउड तुल्यकालन</string>
+    <string name="split_transaction_one_error">लेनदेन को विभाजित करने के लिए परिवर्तित नहीं किया जा सका।</string>
+    <string name="budget_duration_from">से</string>
+    <string name="budget_duration_to">को</string>
+    <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
+    <string name="pref_category_title_features">विशेषताएं</string>
+    <string name="pref_category_title_crash_reports">क्रैश रिपोर्टें</string>
+    <string name="pref_enable_acra">क्रैश रिपोर्टों को स्वत: भेजने की अनुमति दें</string>
+    <string name="pref_acra_user_email">उपयोगकर्ता ईमेल क्रैश रिपोर्ट में शामिल करें</string>
+    <string name="pref_acra_user_email_summary">यदि आप डिबगिंग में सहायता करने और आपसे संपर्क करने की अनुमति देने के लिए तैयार हैं तो कृपया अपना ईमेल पता दर्ज करें।</string>
+    <string name="new_version">नया संस्करण</string>
+</resources>

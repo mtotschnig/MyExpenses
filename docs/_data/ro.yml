@@ -1,0 +1,52 @@
+ro:
+  imprint: Imprint
+  hero_main: "Manager finanţe personale pentru Android"
+  hero_sub:
+    use: "Uşor dr utilizat"
+    functionality: "Bogat în funcţionalităţi"
+    source: "Open Source"
+  menu_title:
+    more_information: Mai multe informaţii
+  sections:
+    features: Funcţionalităţi
+    premium: Go Premium
+    participate: Participă
+    faq: FAQ
+    versionlist: Modificări
+    credits: Generic
+    licence: Licență
+    sourcecode: Codul sursă
+    links: Link-uri
+  features:
+    export: <b>Export</b> în QIF și CSV. <b>Import</b> din QIF
+  contrib:
+    thank_you: |
+        Contribuţia dumneavoastră sprijină dezvoltarea ulterioară a  Cheltuielile Mele. Vă mulţumesc!
+  permissions:
+    internet:
+      explanation_crash_reporting: Rapoarte blocare
+      explanation_cloud_sync: Sincronizare în cloud
+    accounts:
+      label: Conturi
+  contrib-key: Cheie Contrib
+  extended-key: Cheie Extinse
+  professional-key: Cheie profesională
+  screenshot_testdata:
+    account1Label: Portofelul meu
+    account1Description: Cheltuieli zilnice
+    account2Label: weekend la Paris
+    account3Label: Cont bancar
+    account3Description: Bank of America
+    transaction2Comment: Fructe si legume
+    transaction4Payee: Prăvălia
+    templatePayee: Ion Popescu
+    tag_project: Proiect fără titlu
+  screenshot_titles:
+    group: Grupați după an, lună sau săptămână
+    summarize: Sumați toate conturile
+    budget: Bugetele anuale, lunare și săptămânale
+    split: Împărțiți la mai multe categorii
+    distribution: Diagrama graficului de piese
+    history: Istoricul situației tale financiare
+    export: Exportați în PDF, QIF și CSV
+    sync: Sincronizare în cloud

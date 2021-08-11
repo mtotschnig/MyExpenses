@@ -15,46 +15,46 @@ import timber.log.Timber
 import java.io.IOException
 
 enum class ExchangeRateSource {
-    RATESAPI, OPENEXCHANGERATES;
+    EXCHANGE_RATE_HOST, OPENEXCHANGERATES;
 }
+
+data class Configuration(val source: ExchangeRateSource, val openExchangeRatesAppId: String = "")
 
 class MissingAppIdException : java.lang.IllegalStateException()
 
-class ExchangeRateService(private val ratesApi: @NotNull RatesApi, val openExchangeRatesApi: @NotNull OpenExchangeRatesApi) {
-    private val ECP_SUPPORTED_CURRENCIES = arrayOf(
-            "USD", "JPY", "BGN", "CZK", "DKK", "GBP", "HUF", "PLN", "RON", "SEK", "CHF", "ISK", "NOK",
-            "HRK", "RUB", "TRY", "AUD", "BRL", "CAD", "CNY", "HKD", "IDR", "ILS", "INR", "KRW", "MXN",
-            "MYR", "NZD", "PHP", "SGD", "THB", "ZAR")
-    private var appId = ""
-    var source = ExchangeRateSource.RATESAPI
-    fun getRate(date: LocalDate, symbol: String, base: String): Pair<LocalDate, Float> = when (source) {
-        ExchangeRateSource.RATESAPI -> {
+class ExchangeRateService(
+    val exchangeRateHost: @NotNull ExchangeRateHost,
+    val openExchangeRates: @NotNull OpenExchangeRates
+) {
+    fun getRate(
+        configuration: Configuration,
+        date: LocalDate,
+        symbol: String,
+        base: String
+    ): Pair<LocalDate, Float> = when (configuration.source) {
+        ExchangeRateSource.EXCHANGE_RATE_HOST -> {
             val error: String
-            val response = ratesApi.getRate(date, symbol, base).execute()
+            val response = exchangeRateHost.getRate(date, date, symbol, base).execute()
             log(response)
-            if (response.isSuccessful) {
+            error = if (response.isSuccessful) {
                 response.body()?.let { result ->
-                    result.rates[symbol]?.let {
-                        return Pair(result.date, it)
+                    result.rates[date]?.get(symbol)?.let {
+                        return Pair(date, it)
                     }
                 }
-                error = "Unable to retrieve rate"
+                "Unable to retrieve rate"
             } else {
-                if (symbol in ECP_SUPPORTED_CURRENCIES && base in ECP_SUPPORTED_CURRENCIES) {
-                    error = response.errorBody()?.let {
-                        JSONObject(it.string()).getString("error")
-                    } ?: "Unknown Error"
-                } else {
-                    throw UnsupportedOperationException()
-                }
+                response.errorBody()?.string() ?: "Unknown Error"
             }
             throw IOException(error)
         }
         ExchangeRateSource.OPENEXCHANGERATES -> {
-            if (appId == "") throw MissingAppIdException()
+            if (configuration.openExchangeRatesAppId == "") throw MissingAppIdException()
             val error: String
-            val response = openExchangeRatesApi.getRate(date,
-                    "$symbol,$base", appId).execute()
+            val response = openExchangeRates.getRate(
+                date,
+                "$symbol,$base", configuration.openExchangeRatesAppId
+            ).execute()
             log(response)
             error = if (response.isSuccessful) {
                 response.body()?.let { result ->
@@ -87,16 +87,23 @@ class ExchangeRateService(private val ratesApi: @NotNull RatesApi, val openExcha
 
     private fun toLocalDate(timestamp: Long): LocalDate {
         return ZonedDateTime.ofInstant(
-                Instant.ofEpochSecond(timestamp), ZoneId.systemDefault()).toLocalDate()
+            Instant.ofEpochSecond(timestamp), ZoneId.systemDefault()
+        ).toLocalDate()
     }
 
-    fun configure(prefHandler: @NotNull PrefHandler): ExchangeRateSource {
-        source = try {
-            ExchangeRateSource.valueOf(prefHandler.requireString(PrefKey.EXCHANGE_RATE_PROVIDER, ExchangeRateSource.RATESAPI.name))
-        } catch (e: IllegalArgumentException) {
-            ExchangeRateSource.RATESAPI
-        }
-        appId = prefHandler.requireString(PrefKey.OPEN_EXCHANGE_RATES_APP_ID, "")
-        return source
+    fun configuration(prefHandler: @NotNull PrefHandler): Configuration {
+        val default = ExchangeRateSource.EXCHANGE_RATE_HOST
+        return Configuration(
+            try {
+                ExchangeRateSource.valueOf(
+                    prefHandler.requireString(
+                        PrefKey.EXCHANGE_RATE_PROVIDER,
+                        default.name
+                    )
+                )
+            } catch (e: IllegalArgumentException) {
+                default
+            }, prefHandler.requireString(PrefKey.OPEN_EXCHANGE_RATES_APP_ID, "")
+        )
     }
 }

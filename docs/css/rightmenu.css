@@ -1,0 +1,94 @@
+#rightmenu {
+	clear:both;
+	float:right;
+	margin:0;
+	padding:0;
+	/* border-bottom:1px solid #000;  black line below menu */
+	font-family:Verdana, Geneva, sans-serif; /* Menu font */
+	font-size:90%; /* Menu text size */
+	z-index:1000; /* This makes the dropdown menus appear above the page content below */
+	position:relative;
+	height: 0;
+}
+
+/* Top menu items */
+#rightmenu ul {
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+#rightmenu ul li {
+	margin:0 0 0 1px;
+	padding:0;
+	text-align: right;
+}
+#rightmenu > ul > li > a {
+  background-color: #3383BB;
+}
+#rightmenu ul li a {
+	display:inline-block;
+	margin:0;
+	padding:.8em;
+	font-size:1em;
+	line-height:1em;
+	text-decoration:none;
+	color:#444;
+	/* border-bottom:1px solid #000; */
+}
+#rightmenu ul li.active a {
+	color:#fff;
+	background:#000;
+}
+#rightmenu > ul li > a:hover {
+	background:#3383BB; /* Top menu items background colour */
+	color:#fff;
+}
+#rightmenu > ul li:hover > a,
+#rightmenu > ul li.hover > a { /* This line is required for IE 6 and below */
+	background:#3383BB; /* Top menu items background colour */
+	color:#fff;
+}
+
+/* Submenu items */
+#rightmenu ul ul {
+	display:none; /* Sub menus are hidden by default */
+	top:2em;
+}
+#rightmenu ul ul li {
+	margin:0; /* Reset the 1px margin from the top menu */
+	clear:left;
+	width:100%;
+}
+#rightmenu ul ul li:hover{
+	background-color: #3383BB;
+}
+#rightmenu ul ul li,
+#rightmenu ul li.active li,
+#rightmenu ul li:hover ul li,
+#rightmenu ul li.hover ul li { /* This line is required for IE 6 and below */
+	font-size:.8em;
+	font-weight:normal; /* resets the bold set for the top level menu items */
+	background:#eee;
+	color:#444;
+	line-height:1.4em; /* overwrite line-height value from top menu */
+	border-bottom:1px solid #ddd; /* sub menu item horizontal lines */
+}
+#rightmenu ul ul li:hover,
+#rightmenu ul li.active ul li:hover,
+#rightmenu ul li:hover ul li:hover,
+#rightmenu ul li.hover ul li:hover { /* This line is required for IE 6 and below */
+	background:#3383BB; /* Sub menu items background colour */
+	color:#fff;
+	float:right;
+}
+/* Flip the last submenu so it stays within the page */
+#rightmenu ul ul.last {
+	right:0; /* Set right value instead */
+}
+
+/* Make the sub menus appear on hover */
+#rightmenu ul li:hover ul,
+#rightmenu ul li.hover ul { /* This line is required for IE 6 and below */
+	display:block; /* Show the sub menus */
+	background:#eee; 
+}

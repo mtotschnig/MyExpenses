@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -12,8 +13,7 @@
   
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+ --><resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">Számla</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">Számlák</string>
@@ -304,7 +304,6 @@
     <string name="pref_import_summary">Tranzakciók, kategóriák és felek importálása a(z) %s fájlból</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">%s importálás</string>
-    <string name="pref_like_facebook_title">Kedveljen minket a Facebookon</string>
     <string name="pref_manage_accounts_title">Számlák</string>
     <string name="pref_manage_categories_summary">Kategóriák hozzáadása, szerkesztése, törlése.</string>
     <string name="pref_manage_categories_title">Kategóriák</string>
@@ -363,7 +362,6 @@
     <string name="restore_db_success">Az adatbázis sikeresen visszaállítva korábbi mentésből.</string>
     <string name="restore_no_backup_found">Nem található biztonsági mentés.</string>
     <string name="restore_preferences_failure">Beállítások visszaállítása sikertelen</string>
-    <string name="restore_backup_archive_not_valid">%1$s archívum érvénytelen</string>
     <string name="restore_backup_file_not_found">Nincs %1$s fájl a(z) \"%2$s\" archívumban</string>
     <string name="restore_preferences_success">Beállítások sikeresen visszaállítva a korábbi mentésből.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d terv visszaállításra került a biztonsági másolatból</string>
@@ -440,7 +438,6 @@
     <string name="warning_reset_account_all">Ha folytatja minden számla%1$s és tranzakció visszavonhatatlanul törlésre kerül az adatbázisból.</string>
     <string name="warning_reset_account_matched">Ha folytatja, az aktuális szűrőnek megfelelő tranzakciók törlődnek az adatbázisból, és nem állíthatók vissza.</string>
     <string name="warning_restore">Adatbázis és beállítások visszaállítása a korábbi mentésből (%1$s). A jelenlegi adatok törlésre kerülnek.</string>
-    <string name="warning_app_folder_will_be_deleted_upon_uninstall">A biztonsági mentésekre és exportálásokra kijelölt jelenlegi mappát a(z) {app_name} eltávolításakor automatikusan törli az Android. Ez elkerülhető, ha választ egy másik mappát a beállítások képernyőn.</string>
     <string name="warning_splitpartcategory_context">Azon tranzakciók, melyek felosztott tételek között szerepelnek, csak a felosztásoknál szerkeszthetők, vagy törölhetők.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Állítson be egy %1$d és %2$d közötti számot</string>
     <string name="warning_change_fraction_digits_1">Az adatbázisban lévő összegeket frissíteni kell, hogy megfeleljenek az új törtrészjegyek számának.</string>
@@ -448,7 +445,7 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Ha az összegek nincsenek frissítve, akkor %d-el osztva jelennek meg a változás után.</string>
     <string name="warning_change_fraction_digits_3">Ha az összegek frissítésre kerülnek, ön elveszíti a törtrészekre vonatkozó információkat.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Összegek frissítése az adatbázisban</string>
-    <string name="import_categories_success">%1$s kategóriák sikeresen beolvasva</string>
+    <string name="import_categories_success">%1$d kategóriák sikeresen beolvasva</string>
     <string name="import_parties_success">%1$s résztvevők sikeresen beolvasva</string>
     <string name="import_accounts_success">%1$s fiók sikeresen importálva</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d tranzakció sikeresen importálva %2$s fiókba</string>
@@ -621,7 +618,6 @@
     <string name="upgrade_now">Frissítés</string>
     <string name="pref_backup_cloud_title">Tárolás a szinkronizálási háttérrendszeren</string>
     <string name="pref_backup_cloud_summary">A készüléken történő helyi tárolás mellett a biztonsági fájlt átmásolhatja egy távoli háttérrendszerre.</string>
-    <string name="auto_backup_cloud_create_backend">Készítsen szinkronizálási háttérrendszert a főbeállítások képernyőn.</string>
     <string name="auto_backup_cloud_failure">Hiba történt %1$s biztonsági mentés tárolásakor a(z) %2$s háttérendszeren:</string>
     <string name="auto_backup_cloud_success">%1$s biztonsági mentés sikeresen tárolva a(z) %2$s háttérrendszeren.</string>
     <string name="home_screen_shortcuts_nougate_info">A kezdőképernyőn az alkalmazás ikonjának hosszas lenyomásával hozhatók létre parancsikonok.</string>
@@ -703,7 +699,7 @@
     <string name="pref_protection_device_lock_screen_title">Eszköz zárolási képernyője</string>
     <string name="pref_warning_only_one_protection">Mielőtt használhatná a(z) %1$s általi védelmet, ki kell kapcsolnia a(z) %2$s általi védelmet.</string>
     <string name="warning_device_lock_screen_not_set_up_1">Nincs beállítva biztonságos zárolási képernyő a készüléken.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">A zárolási képernyő beállításához lépjen a „Beállítások -> Biztonság -> Képernyőzár” menüpontra.</string>
+    <string name="warning_device_lock_screen_not_set_up_2">A zárolási képernyő beállításához lépjen a „Beállítások -&gt; Biztonság -&gt; Képernyőzár” menüpontra.</string>
     <string name="menu_history_show_balance">Egyenleg mutatása</string>
     <string name="menu_history_transfers">Tartalmazza az átutalásokat</string>
     <string name="menu_history">Előzmények</string>
@@ -989,4 +985,6 @@
     <string name="merge_parties_select">Válassza ki az egyesített fél nevét:</string>
     <!-- This is the label for a field for accounts. Active tags are automatically added to new transactions when an account is selected. -->
     <string name="active_tags">Aktív cimkék</string>
-    </resources>
+    <string name="new_version">Új verzió</string>
+    <string name="pref_news_title">Hírek</string>
+</resources>

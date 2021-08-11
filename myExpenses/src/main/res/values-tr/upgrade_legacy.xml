@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<resources>
+    <string-array name="whats_new_329">
+        <item>Yinelenen taraflar birleştirilebilir.</item>
+        <item>Bölünmüş muamelelerdeki kalan meblağ panoya kopyalanabilir.</item>
+    </string-array>
+    <string-array name="whats_new_328">
+        <item>Hesap wigdet\'ı tek bir hesabı gösterecek ve gelecek muameleleri dikkate alacak şekilde yapılandırılabilir.</item>
+        <item>Seçili muamelelerin toplam meblağını göster.</item>
+    </string-array>
+    <string-array name="whats_new_327">
+        <item>İki mevcut muamele, transfer olarak ilişkilendirilebilir.</item>
+    </string-array>
+    <string-array name="whats_new_326">
+        <item>Muameleler ayın son gününde tekrarlanabilir.</item>
+    </string-array>
+    <string-array name="whats_new_324">
+        <item>İnternet Kullanıcı Arayüzü</item>
+    </string-array>
+    <string-array name="whats_new_323">
+        <item>Tarih düğmesi önceki ve sonraki güne çabuk geçmeye izin verir.</item>
+    </string-array>
+    <string-array name="whats_new_322">
+        <item>Grup başlıklarında harcama, gelir ve transfer toplamları gizlenebilir.</item>
+        <item>Yeni bir değer ile güncel bakiye arasındaki fark hesaplanabilir.</item>
+        <item>Filtreler ve bütçeler hesapların alt kümeleri için tanımlanabilir.</item>
+    </string-array>
+    <string-array name="whats_new_321">
+        <item>Metin tanıma artık daha fazla lisan ile çalışıyor.</item>
+    </string-array>
+    <string-array name="whats_new_320">
+        <item>Görüntüler kırpılabilir.</item>
+    </string-array>
+    <string-array name="whats_new_318">
+        <item>Varsayılan tıklama eylemi şablon başına tanımlanabilir.</item>
+    </string-array>
+    <string-array name="whats_new_317">
+        <item>Şablonlar işlem formundan yüklenebilir.</item>
+    </string-array>
+    <string-array name="whats_new_316">
+        <item>Muamele formundaki kaydet düğmesi daha dikkat görünür yapıldı.</item>
+        <item>Kayan eylem düğmesine uzun süre dokunmak, gelir, transfer veya bölünmüş muamele için form hazırlamaya izin veren bir menü açar.</item>
+    </string-array>
+    <string name="whats_new_315_dark_theme_q">Koyu tema sistem varsayılanına bağlandı</string>
+    <string-array name="whats_new_313">
+        <item>Tekrar eden muamelelerin yönetimi geliştirildi</item>
+        <item>Kannada lisanında tercüme</item>
+    </string-array>
+    <string-array name="whats_new_312">
+        <item>Özel tarih biçimi</item>
+        <item>Etiketler CSV olarak dışa aktarılabilir</item>
+        <item>Muamele listesindeki grupların daraltılmış durumu hatırlanır</item>
+    </string-array>
+    <string-array name="whats_new_311">
+        <item>Tarafların (ödeme yapanlar ve alacaklılar) listesi aranabilir</item>
+    </string-array>
+    <string-array name="whats_new_310">
+        <item>Muameleler çoklu etiketlerle eşleştirilebilir.</item>
+    </string-array>
+</resources>

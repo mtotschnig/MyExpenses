@@ -87,7 +87,7 @@
     <string name="dialog_contrib_usage_count">נותרו שימושים בחינם</string>
     <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">אתה יכול להשתמש בזה עד %1$dפעמים במצב הנוכחי של רשיונך (%2$s).</string>
     <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">אתה יכול להשתמש בזה ל- %1$dימים במצב הנוכחי של רשיונך (%2$s).</string>
-    <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">המצב הנוכחי של רשיונך (%2$s) מאפשר לך ליצור %1$dחשבונות</string>
+    <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">מצב הרישיון הנוכחי שלך (%2$s) מאפשר לך ליצור %1$d חשבונות.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">המצב הנוכחי של רשיונך (%2$s)מאפש רך ליצור%1$dתוכניות.</string>
     <string name="dialog_contrib_usage_limit_split_templates">המצב הנוכחי של רשיונך (%1$s) מאפשר לך ליצור תבנית מפוצלת אחת.</string>
     <string name="dialog_export_delete">מחק עסקאות שיוצאו</string>
@@ -141,7 +141,7 @@
     <string name="help_button_rate">דרג או כתוב סקירה</string>
     <string name="help_heading_credits">נקודות זכות</string>
     <string name="help_heading_license">רשיון</string>
-    <string name="help_heading_whats_new">מה חדש?</string>
+    <string name="help_heading_whats_new">מה חדש</string>
     <string name="important_upgrade_information_heading">מידע חשוב</string>
     <string name="import_select_transactions">עסקאות</string>
     <string name="income">הכנסה</string>
@@ -219,7 +219,7 @@
     <string name="no_app_handling_email_available">אין ישום המטפל בדוא\"ל.</string>
     <string name="no_app_handling_ftp_available">אין ישום זמין המטפל ב- FTP . האם להתקין <i>שלח עם FTP</i>?</string>
     <string name="no_app_handling_pdf_available">אין אפליקציה זמינה המטפלת בקבצי PDF.</string>
-    <string name="no_categories">אין קטגוריות</string>
+    <string name="no_categories">אין קטגוריות.</string>
     <string name="no_expenses">אין עדין הוצאות!</string>
     <string name="no_exportable_expenses">אין עסקאות שטרם יוצאו.</string>
     <string name="no_filemanager_installed">לא נמצאה אפליקציה לניהול קבצים</string>
@@ -231,7 +231,7 @@
     <string name="no_split_parts">אין חלק מפוצל.</string>
     <string name="no_templates">אין תבניות.</string>
     <string name="no_accounts">אין חשבונות.</string>
-    <string name="no_title_given">לא הוכנסה כותרת כל שהיא.</string>
+    <string name="no_title_given">לא מילאת כותרת.</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="one">האובייקט שנבחר ממופה לעסקה ולא ניתן למחוק אותו.</item>
         <item quantity="two">%1$d אובייקטים  ממופים לעסקאות ולא ניתן למחוק אותם.</item>
@@ -310,7 +310,6 @@
     <string name="pref_import_summary">ייבוא עסקאות, קטגוריות וקבוצות מקובץ%s</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">%sיובא</string>
-    <string name="pref_like_facebook_title">עשה לנו לייק בפייסבוק</string>
     <string name="pref_manage_accounts_title">חשבונות</string>
     <string name="pref_manage_categories_summary">הוסף, ערוך, מחק קטגוריות.</string>
     <string name="pref_manage_categories_title">קטגוריות</string>
@@ -343,9 +342,9 @@
     <string name="pref_security_question_summary">מאפשר לך לבטל את הנעילה של האפליקציה, אם שכחת את הסיסמה.</string>
     <string name="pref_security_question_title">שאלת בטחון</string>
     <string name="pref_send_feedback_title">שלח משוב</string>
-    <string name="pref_share_target_summary">השאר ריק אם אתה רוצה לבחור בין אפליקציות מתאימות (דוא\"ל, Dropbox, Google Docs, ...), או לספק כתובת אתר באחת התוכניות הנתמכות</string>
-    <string name="pref_share_target_title">העלה כתובת אתר</string>
-    <string name="pref_shortcut_added">קיצור דרך נוסף למסך הבית</string>
+    <string name="pref_share_target_summary">יש להשאיר ריק כדי לבחור בין יישומים מתאימים (דוא״ל, Dropbox,‏ Google Docs, …), או לספק כתובת באחת הסכמות הנתמכות</string>
+    <string name="pref_share_target_title">כתובת העלאה</string>
+    <string name="pref_shortcut_added">נוסף קיצור דרך למסך הבית</string>
     <string name="pref_shortcut_not_added">אין במסך הבית מקום זמין לקבלת קיצורי דרך.</string>
     <string name="pref_shortcut_summary">הוסף את קיצור הדרך למסך הבית.</string>
     <string name="pref_ui_fontsize_title">גוגל גופן</string>
@@ -369,7 +368,6 @@
     <string name="restore_db_success">מסד הנתונים שוחזר מהגיבוי.</string>
     <string name="restore_no_backup_found">לא נמצא גיבוי.</string>
     <string name="restore_preferences_failure">שחזור ההעדפות נכשל</string>
-    <string name="restore_backup_archive_not_valid">הארכיון %1$s אינו חוקי</string>
     <string name="restore_backup_file_not_found">קובץ %1$sלא נמצא בארכיון \"%2$s\"</string>
     <string name="restore_preferences_success">ההעדפות שוחזרו מהגיבוי.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d התוכניות שוחזרו מהגיבוי</string>
@@ -458,7 +456,6 @@
     <string name="warning_reset_account_all">אם תמשיך, עבור כל החשבונות%1$s, עסקאות יימחקו ממסד הנתונים ולא ניתן לשחזר אותן.</string>
     <string name="warning_reset_account_matched">אם תמשיך, עסקאות התואמות את המסנן הנוכחי יימחקו ממסד הנתונים ולא ניתן לשחזר אותן.</string>
     <string name="warning_restore">אם תמשיך, עסקאות התואמות את המסנן הנוכחי יישוחזרו ממסד הנתונים וההעדפות מקובץ \"%1$s\". הנתונים הנוכחיים יימחקו. </string>
-    <string name="warning_app_folder_will_be_deleted_upon_uninstall">התיקיה שנבחרה עבור גיבויים ויצוא תימחק אוטומטית על ידי Android אם תסיר את אפליקציית  {app_name}. תוכל למנוע זאת על ידי בחירה בתיקייה אחרת ממסך ההגדרות.</string>
     <string name="warning_splitpartcategory_context">העברות, שהן חלק מפיצול, ניתנות לעריכה רק בהקשר של הפיצול.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">אנא הגדר מספר בין %1$dו- %2$d</string>
     <string name="warning_change_fraction_digits_1">סכומים בבסיס הנתונים צריכים להיות מעודכנים על מנת להתאים את המספר החדש של ספרות חלקיות.</string>
@@ -466,7 +463,7 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">אם הסכומים אינם מעודכנים, הם יוצגו בחלוקה ב- %d לאחר השינוי.</string>
     <string name="warning_change_fraction_digits_3">אם הסכומים מעודכנים, תאבד את המידע על החלק החלקי שלהם.</string>
     <string name="warning_change_fraction_digits_checkbox_label">עדכן סכומים במסד הנתונים</string>
-    <string name="import_categories_success">%1$s קטגוריות יובאו בהצלחה</string>
+    <string name="import_categories_success">%1$d קטגוריות יובאו בהצלחה</string>
     <string name="import_parties_success">%1$sעסקעות יובאו בהצלחה</string>
     <string name="import_accounts_success">%1$s חשבונות יובאו בהצלחה</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d עסקעות יובאו בהצלחה לחשבון %2$s</string>
@@ -639,7 +636,6 @@
     <string name="upgrade_now">שדרג</string>
     <string name="pref_backup_cloud_title">אחסן על סנכרון backend</string>
     <string name="pref_backup_cloud_summary">בנוסף לאחסון מקומי בהתקן, ניתן להעתיק את קובץ הגיבוי אל ממשק מרוחק.</string>
-    <string name="auto_backup_cloud_create_backend">יצירת backend סינכרון ממסך ההגדרות הראשי.</string>
     <string name="auto_backup_cloud_failure">אירעה שגיאה בעת ניסיון לאחסן קובץ גיבוי %1$s על backend %2$s:</string>
     <string name="auto_backup_cloud_success">קובץ גיבוי %1$sנשמר בהצלחה במערכת גיבוי %2$s.</string>
     <string name="home_screen_shortcuts_nougate_info">קיצורי דרך ניתן להוסיף על ידי הקשה ארוכה על סמל היישום במסך הבית.</string>
@@ -721,9 +717,9 @@
     <string name="pref_protection_device_lock_screen_title">מסך נעילת מכשיר</string>
     <string name="pref_warning_only_one_protection">לפני שתוכל להשתמש בהגנה על ידי%1$s, עליך לבטל את ההגנה על ידי%2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">מסך נעילת המכשיר המאובטח לא הוגדר.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">גש להגדרות, בחר אבטחה,בחר נעילת מסך כדי להגדיר נעילת מסך.</string>
-    <string name="menu_history_show_balance">הצג את היתרה</string>
-    <string name="menu_history_transfers">כלול העברות</string>
+    <string name="warning_device_lock_screen_not_set_up_2">יש לגשת להגדרות -&gt; אבטחה -&gt; נעילת מסך כדי להגדיר מסך נעילה.</string>
+    <string name="menu_history_show_balance">הצגת היתרה</string>
+    <string name="menu_history_transfers">לכלול העברות</string>
     <string name="menu_history">היסטוריה</string>
     <!-- A label indicating the color for the sum of expenses -->
     <string name="history_chart_out_label">הוצאה</string>
@@ -831,7 +827,7 @@
     <string name="button_label_no_encryption">ללא הצפנה</string>
     <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->
     <string name="joining_or">או</string>
-    <string name="pref_account_list_fast_scroll_summary">הפעלת גלילה מהירה עבור רשימת חשבונות. עלול להוביל להצגה שגויה במכשירים מסוימים.</string>
+    <string name="pref_account_list_fast_scroll_summary">הפעלת גלילה מהירה עבור רשימת חשבונות. עלול להוביל להצגה שגויה במכשירים מסוימים</string>
     <string name="menu_hide">הסתר</string>
     <!-- Action of closing an account. A closed account does not allow any modifications on its data. -->
     <string name="menu_close">סגור</string>
@@ -1019,4 +1015,16 @@
     <!-- This warning is shown when a user calls the Reset or Cancel commands on a scheduled transaction, for a date
      where the transaction has already been created.  -->
     <string name="warning_plan_instance_delete">העסקה שנוצרה עבור התאריך שנבחר תימחק.</string>
+    <string name="crash_reports_user_info">{app_name}  ישלחו באופן אוטומטי למפתחים את הדיווחים על קריסת יישומים, דבר שיאפשר להם לתקן בעיות במהירות רבה יותר.</string>
+    <string name="pref_category_title_crash_reports">דוחו\"ת קריסה</string>
+    <string name="pref_enable_acra">אפשר שליחה אוטומטית של דוחות קריסה</string>
+    <string name="pref_acra_user_email">כתובת האימייל של המשתמש תיכלל בדוח הקריסה</string>
+    <string name="pref_acra_user_email_summary">הזן את כתובת הדוא\"ל שלך אם אתה מוכן לעזור באיתור באגים ולאפשר לנו ליצור איתך קשר.</string>
+    <string name="backup_save_to_sync_backend">שמירה אל %s</string>
+    <string name="ui_refinement">חידוד ממשק המשתמש</string>
+    <string name="bug_fixes">תיקוני באגים</string>
+    <string name="performance_enhancement">שיפור בעיצועים</string>
+    <string name="stability_improvements">שיפורים ביציבות</string>
+    <string name="new_version">גרסה חדשה</string>
+    <string name="pref_news_title">חדשות</string>
 </resources>

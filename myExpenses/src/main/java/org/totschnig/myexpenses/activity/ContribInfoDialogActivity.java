@@ -7,13 +7,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
-import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ContribDialogFragment;
 import org.totschnig.myexpenses.dialog.DonateDialogFragment;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.util.ShortcutHelper;
-import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.distrib.DistributionHelper;
 import org.totschnig.myexpenses.util.licence.Package;
@@ -136,21 +134,7 @@ public class ContribInfoDialogActivity extends IapActivity {
         complain("No activity found for opening Paypal");
       }
     } else if (paymentOption == R.string.donate_button_invoice) {
-      intent = new Intent(Intent.ACTION_SEND);
-      intent.setType("message/rfc822");
-      intent.putExtra(Intent.EXTRA_EMAIL, new String[]{MyApplication.INVOICES_EMAIL});
-      String packageLabel = licenceHandler.getButtonLabel(aPackage);
-      intent.putExtra(Intent.EXTRA_SUBJECT,
-          "[" + getString(R.string.app_name) + "] " + getString(R.string.request_for_invoice));
-      String userCountry = Utils.getCountryFromTelephonyManager(this);
-      String messageBody = String.format(
-          "%s: %s\n%s:\n%s: %s",
-          getString(R.string.licence_key), packageLabel,
-          getString(R.string.full_name),
-          getString(R.string.postal_country),
-          userCountry != null ? userCountry : "");
-      intent.putExtra(Intent.EXTRA_TEXT, messageBody);
-      startActivity(intent, R.string.no_app_handling_email_available, INVOICE_REQUEST);
+      sendInvoiceRequest(aPackage);
     }
   }
 

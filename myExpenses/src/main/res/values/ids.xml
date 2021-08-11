@@ -16,7 +16,6 @@
  -->
 <resources>
     <item name="BACKUP_COMMAND" type="id"/>
-    <item name="BACKUP_COMMAND_DO" type="id"/>
     <item name="CLONE_TRANSACTION_COMMAND" type="id"/>
     <item name="CONTRIB_INFO_COMMAND" type="id"/>
     <item name="CONTRIB_INFO_DIALOG" type="id"/>
@@ -190,4 +189,5 @@
     <item name="CLOSE_COMMAND" type="id" />
     <item name="LINK_TRANSFER_COMMAND" type="id" />
     <item name="MERGE_COMMAND" type="id" />
+    <item name="SHOW_PASSWORD_COMMAND" type="id" />
 </resources>

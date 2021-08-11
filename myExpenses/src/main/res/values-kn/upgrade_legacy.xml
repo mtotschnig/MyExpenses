@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  This file is part of My Expenses.
+  My Expenses is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  My Expenses is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<resources>
+    <string-array name="whats_new_313">
+        <item>ಮರುಕಳಿಸುವ ವಹಿವಾಟಿನ ವರ್ಧಿತ ನಿರ್ವಹಣೆ</item>
+        <item>ಕನ್ನಡ ಅನುವಾದ</item>
+    </string-array>
+    <string-array name="whats_new_312">
+        <item>ಕಸ್ಟಮ್ ದಿನಾಂಕ ಸ್ವರೂಪ</item>
+        <item>ಟ್ಯಾಗ್‌ಗಳನ್ನು ಸಿಎಸ್‌ವಿಗೆ ರಫ್ತು ಮಾಡಲಾಗುತ್ತದೆ</item>
+        <item>ವಹಿವಾಟು ಪಟ್ಟಿಯಲ್ಲಿನ ಗುಂಪುಗಳ ಕುಸಿದ ಸ್ಥಿತಿಯನ್ನು ಕಂಠಪಾಠ ಮಾಡಲಾಗುತ್ತದೆ</item>
+    </string-array>
+    <string-array name="whats_new_311">
+        <item>ಪಕ್ಷಗಳ ಪಟ್ಟಿಯನ್ನು (ಪಾವತಿಸುವವರು ಮತ್ತು ಪಾವತಿಸುವವರು) ಹುಡುಕಬಹುದು</item>
+    </string-array>
+    <string-array name="whats_new_310">
+        <item>ವಹಿವಾಟುಗಳನ್ನು ಬಹು ಟ್ಯಾಗ್‌ಗಳಿಗೆ ಮ್ಯಾಪ್ ಮಾಡಬಹುದು</item>
+    </string-array>
+</resources>

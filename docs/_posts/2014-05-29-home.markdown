@@ -1,0 +1,42 @@
+---
+layout: post
+title: Quick data entry from home screen
+excerpt: With the last releases, two different tools were introduced that allow for quickly entering new transactions directly from the home screen.
+---
+My Expenses has been meant from the start to be a tool for efficiently managing information about financial transactions while on the go. Finally it also provides tools for directly jumping into data entry screens from the home screen.
+
+<div class="screenshot" style="text-align:center">
+<img src="/visuals/screenshots/blog/2014-05-29/home.png" alt="Data entry from Home Screen" title="Data entry from Home Screen">
+</div>
+
+### Widgets
+
+Version 2.1.3 introduced two widgets, both having the same layout: On the left navigation buttons allowing to cycle between objects, in the center summary information, and on the right two buttons for accessing data entry functionality.
+
+* The "My accounts" widget presents the list of all accounts with their current balance, and provides two buttons for adding a new transaction or a new transfer for the account currently displayed. Clicking on the account label will lead you to the transaction list for the account.
+
+* The "My templates" widget allows to navigate between all templates and provides two buttons, one for instantiating the template and immediately saving it, one for entering the editing form before saving. Clicking on the template label will lead you to the templates list. This widget is a premium feature that you can try out five times.
+
+The way you add widgets to your home screen differs between Android versions and launcher applications, sometimes this is done through a long press on the home screen, sometimes the application drawer has a second tab enumerating all widgets. 
+
+### Shortcuts
+
+Both widgets occupy a 4x1 rectangle on your home screen. If you just need a quick shortcut into the data entry form, you will be more happy with shortcuts introduced with version 2.1.4. Shortcuts can be added from My Expenses' settings screen.
+
+<div class="screenshot" style="text-align:center">
+<img src="/visuals/screenshots/blog/2014-05-29/settings-shortcuts.png" alt="Shortcut settings" title="Shortcut settings">
+</div>
+
+Just tab on the entry "Home Screen Shortcuts" in the "User interface" section, and you will see three entries for adding shortcuts for new transactions, transfers or splits. Since split transactions are a premium feature, the last one is disabled without the contrib key.
+
+### Handling password protection
+
+Both widgets and shortcuts have been designed to work nicely with password protection: The widgets do not display any information by default, but in the Security section of the app settings you can explicitly enable them. Entering the app from the widgets or shortcuts will prompt for a password by default, and the quick instantiation of templates will not work since it is meant to be executed without a confirmation screen. But you can decide to allow data entry from widgets without password through the last option on the settings screen.
+
+<div class="screenshot" style="text-align:center">
+<img src="/visuals/screenshots/blog/2014-05-29/settings-password.png" alt="Password settings" title="Password settings">
+</div>
+
+If you have a suggestion or a comment on these new features, please leave a comment
+on the Google Plus [item](https://plus.google.com/116736113799210525299/posts/b7erFV4DMm4) linked to this post.
+

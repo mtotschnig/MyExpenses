@@ -169,7 +169,7 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace, Preferen
 
     private fun startValidationTask(taskId: Int, progressResId: Int) {
         startTaskExecution(taskId, arrayOf<String>(), null, 0)
-        showSnackbar(progressResId, Snackbar.LENGTH_INDEFINITE)
+        showSnackbarIndefinite(progressResId)
     }
 
     override fun onFeatureAvailable(feature: Feature) {

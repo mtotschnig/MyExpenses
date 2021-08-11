@@ -114,7 +114,7 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
   }
 
   @Override
-  public void onPositive(Bundle args) {
+  public void onPositive(Bundle args, boolean checked) {
     int anInt = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE);
     if (anInt == R.id.SYNC_UNLINK_COMMAND) {
       getListFragment().syncUnlink(args.getString(DatabaseConstants.KEY_UUID));
@@ -137,7 +137,7 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
           null, account, 0);
       return;
     }
-    super.onPositive(args);
+    super.onPositive(args, checked);
   }
 
   @SuppressWarnings("BooleanMethodIsAlwaysInverted")

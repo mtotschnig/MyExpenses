@@ -1,0 +1,51 @@
+ca_ES:
+  imprint: Impressió
+  privacy_policy_heading: Política de privacitat
+  hero_main: "Gestor de finances personals per Android "
+  hero_sub:
+    use: "Fàcil d'usar"
+    functionality: "Moltes funcions"
+    source: "Codi obert"
+  menu_title:
+    more_information: Més informació
+  sections:
+    features: Característiques
+    premium: Activeu la versió Premium
+    participate: Participa
+    faq: Preguntes més freqüents
+    versionlist: Registre de canvis
+    credits: Crèdits
+    licence: Llicència
+    sourcecode: Codi font
+    links: Enllaços
+  contrib:
+    thank_you: |
+        La vostra contribució ens permet seguir desenvolupant Les meves despeses. Gràcies!
+  permissions:
+    internet:
+      explanation_crash_reporting: Reports sobre penjades de l'aplicació
+      explanation_cloud_sync: Sincronització del núvol
+    accounts:
+      label: Comptes
+  contrib-key: Clau del Contribuïdor
+  extended-key: Clau estesa
+  professional-key: Clau professional
+  screenshot_testdata:
+    account1Label: La meva cartera
+    account1Description: Les despeses diaris
+    account2Label: Cap de setmana a Londres
+    account3Label: Compte bancari
+    account3Description: CatalunyaCaixa
+    transaction2Comment: Fruites i verdures
+    transaction4Payee: Begur
+    templatePayee: Fulano de Tal
+    tag_project: Projecte sense títol
+  screenshot_titles:
+    group: Grup per any, mes o setmana
+    summarize: Resumeix tots els teus comptes
+    budget: Pressupostos anuals, mensuals i setmanals
+    split: Dividiu a diverses categories
+    distribution: Diagrama de gràfics
+    history: Historial de la vostra situació financera
+    export: Exporta a PDF, QIF i CSV
+    sync: Sincronització del núvol

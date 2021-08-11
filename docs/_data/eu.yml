@@ -1,0 +1,113 @@
+eu:
+  imprint: Ardura
+  imprint_text: Webgune honetako edukiaren eta <i>{app_name}</i> garapenaren, mantentze-lanen eta banaketaren arduraduna.
+  privacy_policy_heading: Pribatutasun politika
+  privacy_policy_text: "<i>{app_name} -k</i> ez du zure gailuko datuetara sartzen bere datu-basea ez den SD txarteleko bere karpetara. Planen eginbidea etorkizuneko eta aldizkako transakzioetarako erabiltzen baduzu, egutegia esleituko duzu, non plan horiek gordetzen diren."
+  hero_main: "Finantza pertsonalen kudeatzailea Androiderako"
+  hero_sub:
+    use: "Erabilterraza"
+    functionality: "Funtziotan aberatsa"
+    source: "Librea"
+  menu_title:
+    more_information: Informazio gehiago
+  sections:
+    features: Ezaugarriak
+    premium: Izan Premium
+    participate: Parte hartu
+    faq: FAQ
+    versionlist: Aldaketen erregistroa
+    credits: Kredituak
+    licence: Lizentzia
+    sourcecode: Iturburu kodea
+    links: Estekak
+  screenshots:
+    group: Antolatu zure transakzioak eguna, astea, hila eta urtearen arabera
+    summarize: Laburbildu zure kontu guztiak (truke tasen kudeaketa sofistikatua kontu bakoitzeko eta transakzio bakoitzeko)
+    budget: Definitu zure asmoa zenbat gastatzea den, urte betean, hilabete batean edo asteroko aurrekontuetan
+    split: Banatu transakzio bat kategoria askotan
+    distribution: Bistaratu banaketa kategorien arabera
+    history: Ulertu zure finantzarioaren bilakaera
+    export: Inprimatu PDF formatutik eta editatu via QIF eta CSV.
+    sync: Sinkronizatu zifratutako kontuko datuak hainbat gailutan, bai publiko bai pribatu izan daitezkeen lainoan kokatutako zerbitzuen bidez.
+  features:
+    manage_accounts: Gehienez bost kontu <b>transferentziak</b> eta guzti (hainbat moneta  onartzen dira)
+    plans: ' <b>txantiloi</b> kopuru mugagabea eta  hiru plan baino gehiago <b>errepikatze</b> transakzioetarako.'
+    export: <b>Esportatu</b> QIF eta CSV formatuetara. <b>Inportatu</b>  QIF formatutik
+    password: Datuak babes daitezke <b>pasahitz</b> baten bidez edo <b>pantaila blokeatze </b> sistemekin
+    light_theme: <b>Itxura</b> (itxura, iluna eta argia) eta <b>letra tamaina</b> pertsonalizatu egin daitezke
+    reconciliation: "<b>Bat egite</b>: erraz konpara daitezke zure transakzioen estatusa zure bankuko kontuen laburpenekin"
+    homescreen: Hasiera pantailan <b>widget</b> eta <b>lasterbideak</b> datuak azkar sartzeko
+  contrib:
+    thank_you: |
+        Zure kontribuzioak Nire Gastuak garatzen jarraitzea babesten du. Eskerrik Asko!
+    feature-list-title: "Mesedez lagundu <i>{app_name}</i> bertsio-berrituz eta lortu murriztu gabeko sarbidea ondorengo eginbideetara:"
+    feature:
+      accounts_unlimited: <b>kontuak</b> kopuru mugagabean
+      plans_unlimited: Plan pilo bat <b>errepikakor</b> diren transakzioetarako
+      distribution: "<b>Tarta grafikoa</b> : ikusi transakzioen banaketa estatistikoa kategoria bakoitzeko aldi desberdinetan zehar (urteak, hilabeteak, asteak, egunak)"
+      split_transaction: "<b>Banatutako transakzio</b>: transakzio bat banatu daiteke hainbat zatitan (kategoriak eta transferentziak)"
+      print: <b>Inprimatu</b> transakzioen zerrenda PDF fitxategi baten bidez
+      attach_picture: "<b>Irudi eranskina</b>: egin kaptura kameraren bidez edo hautatu irudia galeriatik"
+      ad_free: <b>iragarkirik ez</b>
+      csv_import: <b>CSV inportazio</b> sofistikatu eta pertsonalizagarria (kalkulu orrien aplikazioak)
+      auto_backup: Eguneroko <b>segurtasun kopia automatikoa</b> hodeiko biltegirako aukerako igoerarekin
+      cloud_sync: "<b>Hodeiaren sinkronizazioa</b> : datuak gailu anitzen artean sinkroniza daitezke"
+      split_template: <b>Zatikako transakzioetarako txantiloi eta plan</b> kopuru mugagabea
+      email_support: <b>E-mail bidezko laguntza</b> 2 lanegunetan erantzuna jasotzeko bermearekin
+      roadmap_voting: <b>Garapen ibilbidean</b> bozkatzeko aukera
+      history_chart: <b>Historia taula</b> (Kutxa fluxua)
+      budgeting: "<b>Aurrekontuak</b> : konparatu zure gastua kategoria bakoitzeko egunero, astero, hilean edo urtean oinarrituta ezartzen dituzun mugekin."
+      scan_receipt: "<b>Eskaneatu ordainagiriak</b> : automatikoki ateratzen da zenbatekoa, data eta hartzailea"
+      webui: <b>Web erabiltzailearen interfazea</b>
+    one-time-payment: Aldi bakarreko ordainketa
+    subscription: Harpidetze
+  store:
+    short_description: "Finantza pertsonalen kudeatzailea erabiltzeko erraza: funtzionalitate aberatsa eta kode irekia"
+    full_description_intro: "{app_name} -k zure gastuen eta diru-sarreren jarraipena egiten du zuzenean telefonoan eta tabletan."
+    full_description_contrib: "Premium funtzioak lizentzia gako hauetako bat erosita desblokeatuko dira:"
+    full_description_contrib_amazon: "Ezaugarri osagarri asko lizentzia gako bat erosita desblokeatzen dira, adibidez:"
+    highlight_1: "Jarrai itzazu zure gastuen eta diru-sarreren kontua hainbat kontu, txantiloi eta kategoriarekin"
+    highlight_2: "Partekatu zure datuak telefono eta tableta anitzen artean WebDAV eta Google Drive bidez"
+    highlight_3: "Laburbildu zure finantza egoera egun, aste, hilabete edo urtean"
+  permissions:
+    heading: <i>{app_name}</i>erabiltzaileak <u>baimen</u> hauek behar ditu
+    calendar:
+      label: Egutegia
+      explanation: Etorkizuneko eta errepikatutako transakzioetarako planak tokiko egutegi berezi batean edo esleitzen duzun beste edozein egutegitan gordetzen dira.
+    external-storage:
+      label: Biltegiratze
+      explanation: Biltegian gordetzen dira QIF eta CSV formatuan esportatutako fitxategiak, eta babeskopien fitxategiak.
+    internet:
+      label: Internet
+      explanation_usage_tracking: Erabilera jarraipen anonimoa
+      explanation_crash_reporting: Kraskatze txostenak
+      explanation_key_validation: Lizentzia gakoaren baliozkotzea
+      explanation_cloud_sync: Sinkronizazioa hodeian
+    accounts:
+      label: Kontuak
+      explanation: Gailuen sinkronizazioa lainoan dauden zerbitzuen bidez.
+  contrib-key: Kontribuzio Gakoa
+  extended-key: Gako hedatua
+  professional-key: Gako profesionala
+  all_contrib_key_features: Kontribuzio gakoaren eginbide guztiak
+  all_extended_key_features: Giltza hedatuaren ezaugarri guztiak
+  customer_support: Bezeroarentzako arreta
+  screenshot_testdata:
+    account1Label: Nire diru-zorroa
+    account1Description: Eguneroko gastuak
+    account2Label: asteburua Parisen
+    account3Label: Banku kontua
+    account3Description: Bank of America
+    transaction2Comment: Frutak eta barazkiak
+    transaction4Payee: On Egin
+    templatePayee: Don Inorrez
+    tag_project: Titulurik gabeko proiektua
+  screenshot_titles:
+    group: Taldeka, hilabetero edo astez
+    summarize: Labur itzazu zure kontu guztiak
+    budget: Urtero, hilero eta astero aurrekontuak
+    split: Zatitu kategoria askotan
+    distribution: Tarteen diagrama
+    history: Zure finantza egoeraren historia
+    export: PDF, QIF eta CSV-ra esportatu
+    sync: Sinkronizazioa hodeian

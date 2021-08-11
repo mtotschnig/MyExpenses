@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="InconsistentArrays">
+    <string-array name="Cat_1">
+        <item>Bankgebühren</item>
+        <item>Depotgebühren</item>
+        <item>Dispozinsen</item>
+        <item>Kontoführung</item>
+    </string-array>
+    <string-array name="Cat_2">
+        <item>Bekleidung</item>
+        <item>Kleidung</item>
+        <item>Schuhe</item>
+    </string-array>
+    <string-array name="Cat_3">
+        <item>Eigenheim</item>
+        <item>Eigenheimversicherung</item>
+        <item>Einrichtung</item>
+        <item>Garten</item>
+        <item>Gemeindeabgaben</item>
+        <item>Grundsteuer</item>
+        <item>Heizkosten</item>
+        <item>Müllabfuhr</item>
+        <item>Rundfunkgebühr</item>
+        <item>Strom</item>
+        <item>Telefon</item>
+        <item>Wasser</item>
+    </string-array>
+    <string-array name="Cat_4">
+        <item>Einkünfte</item>
+        <item>Familienbeihilfe</item>
+        <item>Kindergeld</item>
+        <item>Steuerausgleich</item>
+    </string-array>
+    <string-array name="Cat_5">
+        <item>Erträge</item>
+        <item>Dividenden</item>
+        <item>Kapitalertrag</item>
+    </string-array>
+    <string-array name="Cat_6">
+        <item>Freizeit</item>
+        <item>Bücher</item>
+        <item>Filme</item>
+        <item>Internet</item>
+        <item>Kino</item>
+        <item>Konzerte</item>
+        <item>Mobiltelefon</item>
+        <item>Multimedia</item>
+        <item>Museen</item>
+        <item>Sport</item>
+        <item>Sportartikel</item>
+        <item>Zeitschriften</item>
+    </string-array>
+    <string-array name="Cat_7">
+        <item>Gesundheit</item>
+        <item>Apotheke</item>
+        <item>Facharzt</item>
+        <item>Krankenhaus</item>
+        <item>Krankenversicherung</item>
+        <item>Pflege</item>
+        <item>Praktischer Arzt</item>
+    </string-array>
+    <string-array name="Cat_8">
+        <item>Haushalt</item>
+        <item>Gartengeräte</item>
+        <item>Haushaltsgeräte</item>
+        <item>Werkzeug</item>
+    </string-array>
+    <string-array name="Cat_9">
+        <item>Haustiere</item>
+        <item>Futter</item>
+        <item>Tierarzt</item>
+    </string-array>
+    <string-array name="Cat_10">
+        <item>Kfzkosten</item>
+        <item>Autokauf</item>
+        <item>Autoversicherung</item>
+        <item>Kraftstoff</item>
+        <item>Leasingraten</item>
+        <item>Mautgebühren</item>
+        <item>Parkgebühren</item>
+        <item>Reparaturen</item>
+    </string-array>
+    <string-array name="Cat_11">
+        <item>Kinder</item>
+        <item>Betreuung</item>
+        <item>Internat</item>
+        <item>Kindergarten</item>
+        <item>Schulgeld</item>
+        <item>Spielzeug</item>
+        <item>Taschengeld</item>
+    </string-array>
+    <string-array name="Cat_12">
+        <item>Kredit</item>
+        <item>Bearbeitungsgebühr</item>
+        <item>Kreditrate</item>
+        <item>Kreditspesen</item>
+        <item>Kreditversicherung</item>
+        <item>Kreditzinsen</item>
+    </string-array>
+    <string-array name="Cat_13">
+        <item>Lebensmittel</item>
+        <item>Nahrungsmittel</item>
+        <item>Restaurant</item>
+        <item>Supermarkt</item>
+    </string-array>
+    <string-array name="Cat_14">
+        <item>Lohn</item>
+        <item>Nettogehalt</item>
+        <item>Prämien</item>
+        <item>Zuschläge</item>
+    </string-array>
+    <string-array name="Cat_15">
+        <item>Pension</item>
+        <item>Private Rente</item>
+        <item>Staatliche Rente</item>
+        <item>Versehrtenrente</item>
+    </string-array>
+    <string-array name="Cat_16">
+        <item>Sonstige Ausgaben</item>
+        <item>Kirchenbeitrag</item>
+        <item>Sparbeträge</item>
+        <item>Spenden</item>
+        <item>Unterhalt</item>
+    </string-array>
+    <string-array name="Cat_17">
+        <item>Sonstige Einnahmen</item>
+        <item>Abfertigung</item>
+        <item>Alimente</item>
+        <item>Arbeitslosengeld</item>
+        <item>Sozialhilfe</item>
+    </string-array>
+    <string-array name="Cat_18">
+        <item>Urlaub</item>
+        <item>Bahnkarten</item>
+        <item>Flugtickets</item>
+        <item>Hotel</item>
+        <item>Reisebüro</item>
+        <item>Sehenswürdigkeiten</item>
+    </string-array>
+    <string-array name="Cat_19">
+        <item>Versicherungen</item>
+        <item>Haftpflichtversicherung</item>
+        <item>Lebensversicherung</item>
+        <item>Rechtsschutzversicherung</item>
+    </string-array>
+    <string-array name="Cat_20">
+        <item>Wohnung</item>
+        <item>Betriebskosten</item>
+        <item>Einrichtung</item>
+        <item>Haushaltsversicherung</item>
+        <item>Kabeltv</item>
+        <item>Miete</item>
+        <item>Rundfunkgebühr</item>
+        <item>Strom</item>
+        <item>Telefon</item>
+        <item>Wasser</item>
+    </string-array>
+    <string-array name="Cat_21">
+        <item>Geschenke</item>
+    </string-array>
+    <string-array name="Cat_22">
+        <item>Steuer</item>
+        <item>Einkommenssteuer</item>
+        <item>Grundsteuer</item>
+        <item>Mehrwertsteuer</item>
+    </string-array>
+
+</resources>
