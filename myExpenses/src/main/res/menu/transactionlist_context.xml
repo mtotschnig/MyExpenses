@@ -18,13 +18,13 @@
     <item
         android:id="@id/CREATE_TEMPLATE_COMMAND"
         android:icon="@drawable/ic_action_template_add"
-        android:orderInCategory="10"
+        android:orderInCategory="11"
         android:title="@string/menu_create_template_from_transaction"
         app:showAsAction="ifRoom" />
     <item
         android:id="@id/CLONE_TRANSACTION_COMMAND"
         android:icon="@drawable/ic_menu_copy"
-        android:orderInCategory="11"
+        android:orderInCategory="10"
         android:title="@string/menu_clone_transaction"
         app:showAsAction="ifRoom" />
     <item
