@@ -8,6 +8,7 @@ import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.task.WebVersionApiTask;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -33,6 +34,8 @@ public class ShareUtils {
             return handleFtp(ctx, uriList, target, mimeType);
           case "mailto":
             return handleMailto(ctx, uriList, mimeType, uri);
+          case "http":
+            return handleJson(uriList, target);
           default:
             return complain(ctx.getString(R.string.share_scheme_not_supported, scheme));
         }
@@ -80,6 +83,15 @@ public class ShareUtils {
     }
     intent.putExtra(Intent.EXTRA_SUBJECT, R.string.export_expenses);
     return intent;
+  }
+
+  private static Result handleJson(List<Uri> fileUris, String target) {
+    if (fileUris.size() > 1) {
+      return complain("sending multiple file through Http is not supported");
+    } else {
+      new WebVersionApiTask(target, fileUris.get(0).getPath()).execute();
+    }
+    return Result.SUCCESS;
   }
 
   private static Result handleFtp(Context ctx, List<Uri> fileUris, String target, String mimeType) {

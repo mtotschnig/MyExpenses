@@ -110,6 +110,14 @@
                         android:layout_weight="1"
                         android:text="CSV"
                         tools:ignore="HardcodedText" />
+
+                    <RadioButton
+                        android:id="@+id/json"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="JSON"
+                        tools:ignore="HardcodedText" />
                 </RadioGroup>
             </TableRow>
 

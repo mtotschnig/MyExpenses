@@ -32,6 +32,12 @@ import org.totschnig.myexpenses.util.AppDirHelper;
 import org.totschnig.myexpenses.util.PictureDirHelper;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 import timber.log.Timber;
 
 /**
@@ -222,6 +228,41 @@ public class FileUtils {
   public static boolean isDocumentUri(Context context, Uri uri) {
     final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
     return isKitKat && DocumentsContract.isDocumentUri(context, uri);
+  }
+
+  /**
+   * Given an File, this methid will return its content
+   * @param file
+   * @return String
+   * @throws Exception
+   */
+  public static String getStringFromFile(File file) throws Exception {
+    String content;
+
+    try (FileInputStream fin = new FileInputStream(file)) {
+      content = convertStreamToString(fin);
+    }
+
+    return content;
+  }
+
+  /**
+   * Given an InputStream, this method will convert it to a String, line-separated, if specified
+   * @param is
+   * @return String
+   * @throws Exception
+   */
+  public static String convertStreamToString(InputStream is) throws Exception {
+    String content;
+    try(BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
+      StringBuilder sb = new StringBuilder();
+      String line;
+      while ((line = reader.readLine()) != null) {
+        sb.append(line);
+      }
+      content = sb.toString();
+    }
+    return content;
   }
 
 }

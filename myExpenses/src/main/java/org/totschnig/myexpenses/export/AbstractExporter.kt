@@ -41,7 +41,7 @@ abstract class AbstractExporter
     val nfFormat = Utils.getDecimalFormat(account.currencyUnit, decimalSeparator)
     abstract val format: ExportFormat
     abstract fun header(context: Context): String?
-    abstract fun line(isSplit: Boolean, dateStr: String, payee: String, amount: BigDecimal, labelMain: String, labelSub: String, fullLabel: String, comment: String, methodLabel: String?, status: CrStatus, referenceNumber: String, pictureFileName: String, tagList: String): String
+    abstract fun line(id : String, isSplit: Boolean, dateStr: String, payee: String, amount: BigDecimal, labelMain: String, labelSub: String, fullLabel: String, comment: String, methodLabel: String?, status: CrStatus, referenceNumber: String, pictureFileName: String, tagList: String): String
     abstract fun split(dateStr: String, payee: String, amount: BigDecimal, labelMain: String, labelSub: String, fullLabel: String, comment: String, pictureFileName: String): String
 
     @Throws(IOException::class)
@@ -70,6 +70,7 @@ abstract class AbstractExporter
                         val formatter = SimpleDateFormat(dateFormat, Locale.US)
                         header(context)?.let { out.write(it) }
                         while (cursor.position < cursor.count) {
+                            var id = DbUtils.getString(cursor, 0)
                             var comment = DbUtils.getString(cursor, DatabaseConstants.KEY_COMMENT)
                             var fullLabel = ""
                             var labelSub = ""
@@ -129,7 +130,7 @@ abstract class AbstractExporter
                                         }
                                     }.joinToString(", ") else null
                             } ?: ""
-                            out.write(line(isSplit, dateStr, payee, bdAmount, labelMain, labelSub, fullLabel, comment,
+                            out.write(line(id, isSplit, dateStr, payee, bdAmount, labelMain, labelSub, fullLabel, comment,
                                     methodLabel, status, referenceNumber, pictureFileName, tagList))
                             out.write("\n")
                             splits?.use {
@@ -160,9 +161,18 @@ abstract class AbstractExporter
                                 }
                             }
 
-                            recordDelimiter()?.let { out.write(it) }
+                            // Just print delimiter in the last line if it is not JSON,
+                            // otherwise, keep the same behavior as usual
+                            if(!ExportFormat.JSON.equals(format)){
+                                if(cursor.position < cursor.count -1){
+                                    recordDelimiter()?.let { out.write(it) }
+                                }
+                            } else {
+                                recordDelimiter()?.let { out.write(it) }
+                            }
                             cursor.moveToNext()
                         }
+                        footer()?.let { out.write(it) }
                         Result.success(uri)
                     }
                 }
@@ -171,4 +181,5 @@ abstract class AbstractExporter
     }
 
     open fun recordDelimiter(): String? = null
+    open fun footer(): String? = null
 }

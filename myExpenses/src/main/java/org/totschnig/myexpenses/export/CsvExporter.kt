@@ -41,7 +41,7 @@ class CsvExporter(account: Account, filter: WhereFilter?,
         }.toString()
     } else null
 
-    override fun line(isSplit: Boolean, dateStr: String, payee: String, amount: BigDecimal, labelMain: String, labelSub: String, fullLabel: String, comment: String, methodLabel: String?, status: CrStatus, referenceNumber: String, pictureFileName: String, tagList: String) =
+    override fun line(id: String, isSplit: Boolean, dateStr: String, payee: String, amount: BigDecimal, labelMain: String, labelSub: String, fullLabel: String, comment: String, methodLabel: String?, status: CrStatus, referenceNumber: String, pictureFileName: String, tagList: String): String =
             StringBuilderWrapper().apply {
                 if (withAccountColumn) {
                     appendQ(account.label).append(delimiter)

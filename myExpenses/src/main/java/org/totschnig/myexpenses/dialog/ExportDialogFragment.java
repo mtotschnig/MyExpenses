@@ -361,7 +361,8 @@ public class ExportDialogFragment extends BaseDialogFragment implements OnClickL
     if (ctx == null || accountId == null || accountId == 0) {
       return;
     }
-    String format = binding.format.getCheckedRadioButtonId() == R.id.csv ? "CSV" : "QIF";
+    int exportFormat = binding.format.getCheckedRadioButtonId();
+    String format = exportFormat == R.id.csv ? "CSV" : exportFormat == R.id.qif ? "QIF" : "JSON";
     String dateFormat = binding.dateFormat.getText().toString();
     char decimalSeparator = binding.separator.getCheckedRadioButtonId() == R.id.dot ? '.' : ',';
     final char delimiter;
@@ -451,8 +452,8 @@ public class ExportDialogFragment extends BaseDialogFragment implements OnClickL
    * lead to an inconsistent state
    */
   private void configure(boolean delete) {
-    binding.exportNotYetExported.setEnabled(!delete);
-    binding.exportNotYetExported.setChecked(!delete);
+    binding.exportNotYetExported.setEnabled(true);
+    binding.exportNotYetExported.setChecked(false);
     binding.warningReset.setVisibility(delete ? View.VISIBLE : View.GONE);
     binding.handleDeleted.setVisibility(delete ? View.VISIBLE : View.GONE);
   }
