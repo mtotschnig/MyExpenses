@@ -380,42 +380,32 @@ class TransactionList : BaseTransactionList() {
 
     override fun setTitle(mode: ActionMode, lv: AbsListView) {
         val count = lv.checkedItemCount
-        mAccount?.let {
-            selectedTransactionSumFormatted =
-                currencyFormatter.convAmount(selectedTransactionSum, it.currencyUnit)
-        }
-        mode.title = TextUtils.concat(
-            count.toString(), " ", setColor(
-                selectedTransactionSumFormatted
-                    ?: ""
-            )
-        )
-    }
-
-    private fun setColor(text: String): SpannableString {
-        val spanText = SpannableString(text)
-        if (selectedTransactionSum <= 0) {
-            spanText.setSpan(
-                ForegroundColorSpan(
-                    ResourcesCompat.getColor(
-                        resources,
-                        R.color.colorExpense,
-                        null
-                    )
-                ), 0, spanText.length, 0
+        if (count > 1) {
+            mAccount?.let {
+                selectedTransactionSumFormatted =
+                    currencyFormatter.convAmount(selectedTransactionSum, it.currencyUnit)
+            }
+            mode.title = TextUtils.concat(
+                count.toString(), " ", setColor(
+                    selectedTransactionSumFormatted
+                        ?: ""
+                )
             )
         } else {
-            spanText.setSpan(
-                ForegroundColorSpan(
-                    ResourcesCompat.getColor(
-                        resources,
-                        R.color.colorIncome,
-                        null
-                    )
-                ), 0, spanText.length, 0
-            )
+            super.setTitle(mode, lv)
         }
-        return spanText
+    }
+
+    private fun setColor(text: String) = SpannableString(text).apply {
+        setSpan(
+            ForegroundColorSpan(
+                ResourcesCompat.getColor(
+                    resources,
+                    if (selectedTransactionSum <= 0) R.color.colorExpense else R.color.colorIncome,
+                    null
+                )
+            ), 0, length, 0
+        )
     }
 
     override fun onSelectionChanged(position: Int, checked: Boolean) {
