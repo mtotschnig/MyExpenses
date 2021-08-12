@@ -440,8 +440,8 @@ public class ExportDialogFragment extends BaseDialogFragment implements OnClickL
    * lead to an inconsistent state
    */
   private void configure(boolean delete) {
-    binding.exportNotYetExported.setEnabled(true);
-    binding.exportNotYetExported.setChecked(false);
+    binding.exportNotYetExported.setEnabled(!delete);
+    binding.exportNotYetExported.setChecked(!delete);
     binding.warningReset.setVisibility(delete ? View.VISIBLE : View.GONE);
     binding.handleDeleted.setVisibility(delete ? View.VISIBLE : View.GONE);
   }
