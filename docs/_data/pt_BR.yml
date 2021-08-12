@@ -26,6 +26,11 @@ contrib:
     accounts_unlimited: Número ilimitado de <b>contas</b>
     budgeting: '<b>Orçamento</b> : compare seus gastos com os limites definidos por
       categoria em uma base diária, semanal, mensal ou anual.'
+    webui: <b>Interface web do usuário</b>
+    scan_receipt: '<b>Digitalização de recibos</b>: extraia automaticamente a quantia,
+      a data e o beneficiário'
+  subscription: Assinatura
+  one-time-payment: Pagamento único
 features:
   homescreen: <b>Widget</b> da tela inicial e <b>atalhos</b> para entrada rápida de
     dados.
@@ -77,3 +82,57 @@ imprint_text: Responsável pelo conteúdo deste site e pelo desenvolvimento, man
   e distribuição do <i> {app_name} </i>
 all_extended_key_features: Todos os recursos da chave Estendida
 all_contrib_key_features: Todas os recursos da chave Contrib
+screenshot_titles:
+  sync: Sincronização na nuvem
+  export: Exportar para PDF, QIF e CSV
+  history: Histórico da sua situação financeira
+  distribution: Diagrama em gráfico de pizza
+  split: Dividir em várias categorias
+  budget: Orçamentos anuais, mensais e semanais
+  summarize: Somar todas as suas contas
+  group: Agrupar por ano, mês ou semana
+screenshot_testdata:
+  tag_project: Projeto sem título
+  templatePayee: Fulano de tal
+  transaction4Payee: Mesa do Sábio
+  transaction2Comment: Frutas e verduras
+  account3Description: Banco do Brasil
+  account3Label: Conta em banco
+  account2Label: final de semana em Paris
+  account1Description: Despesas diárias
+  account1Label: Minha carteira
+customer_support: Suporte ao cliente
+professional-key: Chave profissional
+extended-key: Chave estendida
+contrib-key: Chave de contribuição
+permissions:
+  accounts:
+    explanation: Sincronização entre dispositivos por meio de serviços em nuvem.
+    label: Contas
+  internet:
+    explanation_cloud_sync: Sincronização na nuvem
+    explanation_key_validation: Validação da chave de licença
+    explanation_crash_reporting: Relatórios de falhas
+    explanation_usage_tracking: Rastreamento anônimo de uso
+    label: Internet
+  external-storage:
+    explanation: Armazenamento de exportações QIF e CSV e arquivos de backup.
+    label: Armazenamento
+  calendar:
+    explanation: Os planos para transações futuras e recorrentes são armazenados em
+      uma agenda local especial ou em qualquer outra agenda que você escolher.
+    label: Agenda
+  heading: <i>{app_name}</i> requer as seguintes <u>permissões</u>
+store:
+  highlight_3: Resuma sua situação financeira por dia, semana, mês ou ano
+  highlight_2: Compartilhe seus dados entre vários telefones e tablets via WebDAV
+    e Google Drive
+  highlight_1: Acompanhe suas despesas e receitas, com várias contas, modelos e categorias
+  full_description_contrib_amazon: 'Vários recursos adicionais são desbloqueados pela
+    compra de uma das chaves de licença, como, por exemplo:'
+  full_description_contrib: 'Os recursos premium são desbloqueados pela compra de
+    uma das seguintes chaves de licença:'
+  full_description_intro: '{app_name} mantém o controle de suas despesas e de sua
+    receita, diretamente no seu smartphone e/ou tablet.'
+  short_description: 'Gerenciador de finanças pessoais fácil de usar: rico em funcionalidades
+    e de código aberto'
