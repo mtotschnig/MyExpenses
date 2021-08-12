@@ -163,7 +163,7 @@ abstract class AbstractExporter
 
                             // Just print delimiter in the last line if it is not JSON,
                             // otherwise, keep the same behavior as usual
-                            if(!ExportFormat.JSON.equals(format)){
+                            if(ExportFormat.JSON == format){
                                 if(cursor.position < cursor.count -1){
                                     recordDelimiter()?.let { out.write(it) }
                                 }
