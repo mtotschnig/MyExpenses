@@ -919,10 +919,11 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
 
     override fun onPrepareDialog(id: Int, dialog: Dialog) {
         super.onPrepareDialog(id, dialog)
-        try {
-            (findViewById<View>(id) as ButtonWithDialog).onPrepareDialog(dialog)
-        } catch (e: ClassCastException) {
-            Timber.e(e)
+        val buttonWithDialog = findViewById<View>(id) as? ButtonWithDialog
+        if (buttonWithDialog == null) {
+            CrashHandler.report(NullPointerException("view with id $id not found or not a button"))
+        } else {
+            buttonWithDialog.onPrepareDialog(dialog)
         }
     }
 
