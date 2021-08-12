@@ -10,6 +10,7 @@ import android.text.style.ForegroundColorSpan
 import android.util.SparseBooleanArray
 import android.view.ActionMode
 import android.view.Menu
+import android.view.View
 import android.widget.AbsListView
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.DialogFragment
@@ -47,6 +48,7 @@ import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.asTrueSequence
 import org.totschnig.myexpenses.viewmodel.KEY_ROW_IDS
 import org.totschnig.myexpenses.viewmodel.data.Tag
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView
 import java.util.*
 
 const val KEY_REPLACE = "replace"
@@ -98,6 +100,21 @@ class TransactionList : BaseTransactionList() {
         }
     }
 
+    override fun onHeaderLongClick(
+        l: StickyListHeadersListView?, header: View?,
+        itemPosition: Int, headerId: Long, currentlySticky: Boolean
+    ): Boolean {
+        val ctx = requireActivity() as MyExpenses
+        headerData?.get(headerId)?.get(6)?.let {
+            if (it > 0) {
+                ctx.contribFeatureRequested(ContribFeature.DISTRIBUTION, headerId)
+            } else {
+                ctx.showSnackbar(R.string.no_mapped_transactions)
+            }
+        }
+        return true
+    }
+    
     private fun warnSealedAccount() {
         (requireActivity() as ProtectedFragmentActivity).showSnackbar(
             concatResStrings(
