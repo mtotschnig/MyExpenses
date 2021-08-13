@@ -1,2 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="dialog_title_attention">Perhatian</string>
+    <string name="dialog_security_question">Pertanyaan</string>
+    <string name="dialog_security_answer">Jawaban</string>
+    <string name="dialog_remind_rate_1">Sempatkan untuk menilai dan meninjau {app_name}.</string>
+    <string name="dialog_remind_rate_how_many_stars">Berapa banyak bintang yang akan Anda berikan untuk {app_name}\?</string>
+    <string name="dialog_remind_later">Nanti</string>
+    <string name="dialog_password_new_password_confirmation">Konfirmasi kata sandi baru</string>
+    <string name="dialog_password_new_password">Kata sandi baru</string>
+    <string name="dialog_password_change_password">Ganti kata sandi</string>
+    <string name="dialog_contrib_text_1"><i>([app_name]</i> ditawarkan open source.</string>
+    <string name="dialog_contrib_reminder_remove_limitation">Hapus batasan ini dan akses lebih banyak fitur dengan memutakhirkan <i>{app_name}</i>.</string>
+    <string name="dialog_contrib_premium_feature">%1$s adalah fitur premium (%2$s).</string>
+    <string name="dialog_contrib_no">Coba</string>
+    <string name="description">Deskripsi</string>
+    <string name="default_account_name">Buku Anggaran</string>
+    <string name="decimal_separator">Pemisah desimal</string>
+    <string name="number_format_illegal">Format angka ilegal</string>
+    <string name="date_format_illegal">Format tanggal ilegal</string>
+    <string name="date_format">Format tanggal</string>
+    <string name="date">Tanggal</string>
+    <string name="current_balance">Saldo</string>
+    <string name="currency">Mata uang</string>
+    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Impor CSV</string>
+    <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Templat widget</string>
+    <string name="backup_success">Basis data dan preferensi berhasil ditulis ke \"%1$s\".</string>
+    <string name="backup_failure">Pencadangan ke \"%1$s\" gagal.</string>
+    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Tanpa iklan</string>
+    <string name="confirmation_dialog_dont_show_again">Jangan tampilkan lagi</string>
+    <string name="comment">Catatan</string>
+    <string name="color">Warna</string>
+    <string name="category">Kategori</string>
+    <string name="amount">Jumlah</string>
+</resources>
