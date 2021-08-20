@@ -52,7 +52,7 @@ abstract class AmountActivity<T: TagHandlingViewModel> : EditActivity() {
         return validateAmountInput(amountInput, showToUser)
     }
 
-    override fun setupListeners() {
+    open fun setupListeners() {
         amountInput.addTextChangedListener(this)
         amountInput.setTypeChangedListener { isChecked: Boolean -> onTypeChanged(isChecked) }
     }

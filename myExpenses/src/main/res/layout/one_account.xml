@@ -27,7 +27,7 @@
         android:orientation="vertical"
         tools:targetApi="o">
 
-        <include layout="@layout/toolbar_expense_edit" />
+        <include layout="@layout/toolbar" />
 
         <ScrollView
             android:layout_width="match_parent"

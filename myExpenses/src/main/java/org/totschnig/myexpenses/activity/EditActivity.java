@@ -50,8 +50,6 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
     return input.getTypedValue(true, showToUser);
   }
 
-  protected abstract void setupListeners();
-
   @Override
   public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 

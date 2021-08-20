@@ -24,9 +24,9 @@ import org.totschnig.myexpenses.task.RestoreTask;
 import org.totschnig.myexpenses.task.SyncAccountTask;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.ui.FragmentPagerAdapter;
-import org.totschnig.myexpenses.util.distrib.DistributionHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.util.distrib.DistributionHelper;
 
 import java.util.List;
 
@@ -81,7 +81,7 @@ public class OnboardingActivity extends SyncBackendSetupActivity {
 
   private OnboardingDataFragment getDataFragment() {
     return (OnboardingDataFragment) getSupportFragmentManager().findFragmentByTag(
-        pagerAdapter.getFragmentName(pagerAdapter.getCount()-1));
+        pagerAdapter.getFragmentName(pagerAdapter.getCount() - 1));
   }
 
   public void finishOnboarding() {
@@ -210,7 +210,7 @@ public class OnboardingActivity extends SyncBackendSetupActivity {
 
     @Override
     public int getCount() {
-      return showPrivacyPage() ?  3 : 2;
+      return showPrivacyPage() ? 3 : 2;
     }
 
     private boolean showPrivacyPage() {

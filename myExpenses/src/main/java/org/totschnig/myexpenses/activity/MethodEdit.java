@@ -159,6 +159,7 @@ public class MethodEdit extends EditActivity implements CompoundButton.OnChecked
     finish();
     //no need to call super after finish
   }
+
   protected void setupListeners() {
     mLabelText.addTextChangedListener(this);
     mPaymentTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

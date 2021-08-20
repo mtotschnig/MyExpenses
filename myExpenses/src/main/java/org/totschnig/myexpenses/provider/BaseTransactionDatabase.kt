@@ -19,7 +19,7 @@ abstract class BaseTransactionDatabase(context: Context, databaseName: String): 
 
     fun upgradeTo118(db: SQLiteDatabase) {
         db.execSQL("ALTER TABLE planinstance_transaction RENAME to planinstance_transaction_old")
-        //make sure we have ony instance per template
+        //make sure we have only one instance per template
         db.execSQL(
             "CREATE TABLE planinstance_transaction " +
                     "(template_id integer references templates(_id) ON DELETE CASCADE, " +

@@ -66,7 +66,7 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener, DatePicke
     private val allFilterChips: Array<ScrollingChip>
         get() = with(binding) { arrayOf( FILTERCATEGORYCOMMAND, FILTERPAYEECOMMAND, FILTERMETHODCOMMAND, FILTERSTATUSCOMMAND, FILTERTAGCOMMAND, FILTERACCOUNTCOMMAND) }
 
-    override fun setupListeners() {
+    fun setupListeners() {
         val removeFilter: (View) -> Unit = { view -> removeFilter((view.parent as View).id) }
         val startFilterDialog: (View) -> Unit = { view -> startFilterDialog((view.parent as View).id) }
         allFilterChips.forEach {
