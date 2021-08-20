@@ -1,19 +1,31 @@
 package org.totschnig.myexpenses.ui
 
-import android.app.Dialog
 import android.content.Context
 import android.content.ContextWrapper
 import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.View
+import androidx.annotation.CallSuper
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import com.google.android.material.button.MaterialButton
 import icepick.Icepick
-import org.totschnig.myexpenses.preference.PrefHandler
+import icepick.State
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 
-abstract class ButtonWithDialog @JvmOverloads constructor(
+abstract class ButtonWithDialog<T: DialogFragment> @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : MaterialButton(context, attrs, defStyleAttr) {
-    private fun showDialog() {
-        host.hideKeyBoardAndShowDialog(id)
+
+    abstract val fragmentTag: String
+
+    @State
+    @JvmField
+    var dialogShown = false
+
+    @CallSuper
+    open fun showDialog(fragmentManager: FragmentManager) {
+        dialogShown = true
     }
 
     override fun onSaveInstanceState(): Parcelable {
@@ -23,9 +35,22 @@ abstract class ButtonWithDialog @JvmOverloads constructor(
     override fun onRestoreInstanceState(state: Parcelable?) {
         super.onRestoreInstanceState(Icepick.restoreInstanceState(this, state))
         update()
+        if (dialogShown) {
+            reAttachListener((context as FragmentActivity).supportFragmentManager)
+        }
     }
 
-    protected abstract fun update()
+    abstract fun update()
+
+    abstract fun attachListener(dialogFragment: T)
+
+    private fun reAttachListener(supportFragmentManager: FragmentManager) {
+        (supportFragmentManager.findFragmentByTag(fragmentTag) as? T)?.apply {
+            attachListener(this)
+        } ?: kotlin.run {
+            CrashHandler.report("reAttachListener failed")
+        }
+    }
 
     protected val host: Host
         get() {
@@ -40,17 +65,12 @@ abstract class ButtonWithDialog @JvmOverloads constructor(
         }
 
     interface Host {
-        fun hideKeyBoardAndShowDialog(id: Int)
         fun onValueSet(view: View)
     }
 
-    abstract fun onCreateDialog(prefHandler: PrefHandler): Dialog?
-
     open fun onClick() {
-        showDialog()
+        showDialog((context as FragmentActivity).supportFragmentManager)
     }
-
-    abstract fun onPrepareDialog(dialog: Dialog)
 
     init {
         setOnClickListener { onClick() }
