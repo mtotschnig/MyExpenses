@@ -188,7 +188,7 @@
     <string name="menu_edit_template">编辑模板</string>
     <string name="menu_edit_transaction">编辑交易</string>
     <string name="menu_edit_transfer">编辑转帐</string>
-    <string name="menu_exclude_from_totals">不计入总计中</string>
+    <string name="menu_exclude_from_totals">不计入总数</string>
     <string name="menu_forward">时间向后(未来)</string>
     <string name="menu_grouping">分组</string>
     <string name="menu_help">帮助</string>
