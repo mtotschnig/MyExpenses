@@ -175,6 +175,8 @@ public class TransactionProvider extends BaseTransactionProvider {
 
   public static final Uri ACCOUNTS_TAGS_URI = Uri.parse("content://" + AUTHORITY + "/accounts/tags");
 
+  public static final Uri DEBTS_URI = Uri.parse("content://" + AUTHORITY + "/debts");
+
   public static final String URI_SEGMENT_MOVE = "move";
   public static final String URI_SEGMENT_TOGGLE_CRSTATUS = "toggleCrStatus";
   public static final String URI_SEGMENT_UNDELETE = "undelete";
@@ -288,6 +290,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   private static final int PLANINSTANCE_STATUS_SINGLE = 60;
   private static final int TRANSACTION_LINK_TRANSFER = 61;
   private static final int ACCOUNTS_TAGS = 62;
+  private static final int DEBTS = 63;
 
   private boolean bulkInProgress = false;
 
@@ -1179,6 +1182,11 @@ public class TransactionProvider extends BaseTransactionProvider {
         notifyChange(uri, false);
         return ACCOUNTS_TAGS_URI;
       }
+      case DEBTS: {
+        id = db.insertOrThrow(TABLE_DEBTS, null, values);
+        newUri = DEBTS_URI + "/" + id;
+        break;
+      }
       default:
         throw unknownUri(uri);
     }
@@ -1916,6 +1924,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "templates/tags", TEMPLATES_TAGS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_LINK_TRANSFER + "/*", TRANSACTION_LINK_TRANSFER);
     URI_MATCHER.addURI(AUTHORITY, "accounts/tags", ACCOUNTS_TAGS);
+    URI_MATCHER.addURI(AUTHORITY, "debts", DEBTS);
   }
 
   /**

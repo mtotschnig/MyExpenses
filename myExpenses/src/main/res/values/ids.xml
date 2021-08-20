@@ -190,4 +190,5 @@
     <item name="LINK_TRANSFER_COMMAND" type="id" />
     <item name="MERGE_COMMAND" type="id" />
     <item name="SHOW_PASSWORD_COMMAND" type="id" />
+    <item name="DEBT_COMMAND" type="id" />
 </resources>

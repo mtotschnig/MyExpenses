@@ -30,12 +30,14 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import java.util.Locale;
 import java.util.Map;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_DEBTS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TEMPLATES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TRANSACTIONS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_DEBTS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
@@ -62,8 +64,9 @@ public class Payee extends Model {
   public static final String[] PROJECTION = new String[]{
       KEY_ROWID,
       KEY_PAYEE_NAME,
-      "exists (select 1 from " + TABLE_TRANSACTIONS + " WHERE " + KEY_PAYEEID + "=" + TABLE_PAYEES + "." + KEY_ROWID + ") AS " + KEY_MAPPED_TRANSACTIONS,
-      "exists (select 1 from " + TABLE_TEMPLATES + " WHERE " + KEY_PAYEEID + "=" + TABLE_PAYEES + "." + KEY_ROWID + ") AS " + KEY_MAPPED_TEMPLATES
+      "exists (SELECT 1 FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_PAYEEID + "=" + TABLE_PAYEES + "." + KEY_ROWID + ") AS " + KEY_MAPPED_TRANSACTIONS,
+      "exists (SELECT 1 FROM " + TABLE_TEMPLATES + " WHERE " + KEY_PAYEEID + "=" + TABLE_PAYEES + "." + KEY_ROWID + ") AS " + KEY_MAPPED_TEMPLATES,
+      "(SELECT COUNT(*) FROM " + TABLE_DEBTS + " WHERE " + KEY_PAYEEID + "=" + TABLE_PAYEES + "." + KEY_ROWID + ") AS " + KEY_MAPPED_DEBTS
   };
   public static final Uri CONTENT_URI = TransactionProvider.PAYEES_URI;
 

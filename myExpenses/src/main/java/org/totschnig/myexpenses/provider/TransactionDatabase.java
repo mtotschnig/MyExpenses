@@ -92,7 +92,8 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_UUID + " text, "
           + KEY_ORIGINAL_AMOUNT + " integer, "
           + KEY_ORIGINAL_CURRENCY + " text, "
-          + KEY_EQUIVALENT_AMOUNT + " integer);";
+          + KEY_EQUIVALENT_AMOUNT + " integer,  "
+          + KEY_DEBT_ID + " integer references " + TABLE_DEBTS + "(" + KEY_ROWID + "));";
 
   private static final String TRANSACTIONS_UUID_INDEX_CREATE = "CREATE UNIQUE INDEX transactions_account_uuid_index ON "
       + TABLE_TRANSACTIONS + "(" + KEY_ACCOUNTID + "," + KEY_UUID + "," + KEY_STATUS + ")";
@@ -297,6 +298,17 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + " (" + KEY_ROWID + " integer primary key autoincrement, " +
           KEY_PAYEE_NAME + " text UNIQUE not null," +
           KEY_PAYEE_NAME_NORMALIZED + " text);";
+
+  private static final String DEBT_CREATE =
+      "CREATE TABLE " + TABLE_DEBTS
+          + " (" + KEY_ROWID + " integer primary key autoincrement, "
+          + KEY_PAYEEID + " integer references " + TABLE_PAYEES + "(" + KEY_ROWID + "), "
+          + KEY_DATE + " datetime not null, "
+          + KEY_LABEL + " text not null, "
+          + KEY_AMOUNT + " integer, "
+          + KEY_CURRENCY + " text not null, "
+          + KEY_DESCRIPTION + " text, "
+          + KEY_SEALED + " boolean default 0);";
 
   private static final String CURRENCY_CREATE =
       "CREATE TABLE " + TABLE_CURRENCIES
@@ -758,6 +770,8 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     db.execSQL(ACCOUNT_TAGS_CREATE);
     createOrRefreshTransferTagsTriggers(db);
     db.execSQL(TEMPLATES_TAGS_CREATE);
+
+    db.execSQL(DEBT_CREATE);
 
     //Views
     createOrRefreshViews(db);

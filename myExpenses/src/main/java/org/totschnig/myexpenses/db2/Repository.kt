@@ -19,6 +19,8 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.localDate2Epoch
+import org.totschnig.myexpenses.viewmodel.data.Debt
 import java.math.BigDecimal
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -36,7 +38,7 @@ class Repository(val contentResolver: ContentResolver, val currencyContext: Curr
                     ContentValues().apply {
                         put(DatabaseConstants.KEY_ACCOUNTID, account)
                         put(DatabaseConstants.KEY_AMOUNT, Money(currencyUnit, BigDecimal(amount.toString())).amountMinor)
-                        val toEpochSecond = ZonedDateTime.of(date, LocalTime.now(), ZoneId.systemDefault()).toEpochSecond()
+                        val toEpochSecond = localDate2Epoch(date)
                         put(DatabaseConstants.KEY_DATE, toEpochSecond)
                         put(DatabaseConstants.KEY_VALUE_DATE, toEpochSecond)
                         put(DatabaseConstants.KEY_PAYEEID, findOrWritePayee(payee))
@@ -97,6 +99,12 @@ class Repository(val contentResolver: ContentResolver, val currencyContext: Curr
                     arrayOf(DatabaseConstants.KEY_UUID), null, null, null)?.use {
                 if (it.moveToFirst()) it.getString(0) else null
             }
+
+    fun saveDebt(debt: Debt) {
+        if (debt.id == 0L) {
+            contentResolver.insert(TransactionProvider.DEBTS_URI, debt.toContentValues())
+        }
+    }
 }
 
 data class AutoFillInfo(val categoryId: Long)

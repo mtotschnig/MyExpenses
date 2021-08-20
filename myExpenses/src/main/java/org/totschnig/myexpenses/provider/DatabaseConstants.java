@@ -211,6 +211,8 @@ public class DatabaseConstants {
   public static final String KEY_TRANSFER_CURRENCY = "transfer_currency";
   public static final String KEY_COUNT = "count";
   public static final String KEY_TAGLIST = "tag_list";
+  public static final String KEY_DEBT_ID = "debt_id";
+  public static final String KEY_MAPPED_DEBTS = "mapped_debts";
   /**
    * If this field is part of a projection for a query to the Methods URI, only payment methods
    * mapped to account types will be returned
@@ -307,6 +309,8 @@ public class DatabaseConstants {
 
   public static final String TABLE_BUDGETS = "budgets";
   public static final String TABLE_BUDGET_CATEGORIES = "budget_categories";
+
+  public static final String TABLE_DEBTS = "debts";
 
   /**
    * an SQL CASE expression for transactions

@@ -63,6 +63,7 @@ import org.totschnig.myexpenses.viewmodel.BackupViewModel;
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel;
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel;
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel;
+import org.totschnig.myexpenses.viewmodel.DebtViewModel;
 import org.totschnig.myexpenses.viewmodel.EditCurrencyViewModel;
 import org.totschnig.myexpenses.viewmodel.ExchangeRateViewModel;
 import org.totschnig.myexpenses.viewmodel.FeatureViewModel;
@@ -258,4 +259,6 @@ public interface AppComponent {
   void inject(CsvImportDataFragment csvImportDataFragment);
 
   void inject(BackupViewModel backupViewModel);
+
+  void inject(DebtViewModel debtViewModel);
 }

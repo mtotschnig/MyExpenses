@@ -18,48 +18,51 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.text.InputType
 import android.text.TextUtils
-import android.util.SparseBooleanArray
-import android.view.ContextMenu.ContextMenuInfo
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AbsListView
-import android.widget.AdapterView
-import android.widget.AdapterView.AdapterContextMenuInfo
-import android.widget.AdapterView.OnItemClickListener
-import android.widget.ArrayAdapter
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
-import eltos.simpledialogfragment.form.Hint
-import eltos.simpledialogfragment.form.SimpleFormDialog
-import eltos.simpledialogfragment.form.Spinner
-import eltos.simpledialogfragment.input.SimpleInputDialog
 import icepick.Icepick
 import icepick.State
-import org.totschnig.myexpenses.ACTION_MANAGE
 import org.totschnig.myexpenses.ACTION_SELECT_FILTER
 import org.totschnig.myexpenses.ACTION_SELECT_MAPPING
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ManageParties
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter
 import org.totschnig.myexpenses.databinding.PartiesListBinding
+import org.totschnig.myexpenses.databinding.PayeeRowBinding
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
-import org.totschnig.myexpenses.util.asTrueSequence
 import org.totschnig.myexpenses.util.configureSearch
 import org.totschnig.myexpenses.util.prepareSearch
 import org.totschnig.myexpenses.viewmodel.PartyListViewModel
 import org.totschnig.myexpenses.viewmodel.data.Party
 import java.util.*
 
-class PartiesList : ContextualActionBarFragment(), OnDialogResultListener {
-    lateinit var mAdapter: ArrayAdapter<Party>
+class PartiesList : Fragment(), OnDialogResultListener {
+    var parties: MutableList<Party> = mutableListOf()
+    inner class ViewHolder(val binding: PayeeRowBinding) : RecyclerView.ViewHolder(binding.root)
+
+    inner class PayeeAdapter: RecyclerView.Adapter<ViewHolder>() {
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+            ViewHolder(PayeeRowBinding.inflate(LayoutInflater.from(context), parent, false))
+
+        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+            holder.binding.Payee.text = parties[position].name
+        }
+
+        override fun getItemCount() = parties.size
+
+    }
+    lateinit var mAdapter: RecyclerView.Adapter<ViewHolder>
     lateinit var viewModel: PartyListViewModel
     private var _binding: PartiesListBinding? = null
 
@@ -86,13 +89,7 @@ class PartiesList : ContextualActionBarFragment(), OnDialogResultListener {
         super.onSaveInstanceState(outState)
         Icepick.saveInstanceState(this, outState)
     }
-
-    override fun withCommonContext(): Boolean {
-        return action != ACTION_SELECT_FILTER
-    }
-
-    override val menuResource = R.menu.parties_context
-
+/*
     override fun dispatchCommandSingle(command: Int, info: ContextMenuInfo?): Boolean {
         if (super.dispatchCommandSingle(command, info)) {
             return true
@@ -117,6 +114,13 @@ class PartiesList : ContextualActionBarFragment(), OnDialogResultListener {
                 R.id.SELECT_COMMAND -> {
                     doSingleSelection(party)
                     finishActionMode()
+                }
+                R.id.DEBT_COMMAND -> {
+                    finishActionMode()
+                    startActivity(Intent(context, DebtEdit::class.java).apply {
+                        putExtra(KEY_PAYEEID, party.id)
+                        putExtra(KEY_PAYEE_NAME, party.name)
+                    })
                 }
             }
             return true
@@ -211,7 +215,7 @@ class PartiesList : ContextualActionBarFragment(), OnDialogResultListener {
             }
             else -> false
         }
-    }
+    }*/
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         if (activity == null) return
@@ -249,40 +253,30 @@ class PartiesList : ContextualActionBarFragment(), OnDialogResultListener {
     @SuppressLint("InlinedApi")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = PartiesListBinding.inflate(inflater, container, false)
-        binding.list.itemsCanFocus = false
         val action = action
-        if (action != ACTION_MANAGE) {
+/*        if (action != ACTION_MANAGE) {
             binding.list.onItemClickListener = OnItemClickListener { _: AdapterView<*>?, _: View?, position: Int, _: Long -> doSingleSelection(mAdapter.getItem(position)) }
-        }
-        mAdapter = object : ArrayAdapter<Party>(requireContext(), android.R.layout.simple_list_item_activated_1) {
-            override fun hasStableIds(): Boolean {
-                return true
-            }
-
-            override fun getItemId(position: Int): Long {
-                //BUG in AbsListView https://stackoverflow.com/a/15692815/1199911
-                return if (position < count) getItem(position)!!.id else -1
-            }
-        }
+        }*/
+        mAdapter = PayeeAdapter()
         binding.list.adapter = mAdapter
-        binding.list.emptyView = binding.empty
-        registerForContextualActionBar(binding.list)
+        //binding.list.emptyView = binding.empty
+        //registerForContextualActionBar(binding.list)
         viewModel.getParties().observe(viewLifecycleOwner, { parties: List<Party> ->
-            with(mAdapter) {
-                setNotifyOnChange(false)
+            with(this@PartiesList.parties) {
                 clear()
                 if (action == ACTION_SELECT_FILTER) {
-                    add(Party(CategoryTreeBaseAdapter.NULL_ITEM_ID, getString(R.string.unmapped), mappedTransactions = false, mappedTemplates = false))
+                    add(Party(CategoryTreeBaseAdapter.NULL_ITEM_ID, getString(R.string.unmapped),
+                        mappedTransactions = false, mappedTemplates = false, mappedDebts = 0))
                 }
                 addAll(parties)
-                notifyDataSetChanged()
+                mAdapter.notifyDataSetChanged()
             }
         })
         loadData()
         return binding.root
     }
 
-    override fun configureMenu(menu: Menu, lv: AbsListView) {
+/*    override fun configureMenu(menu: Menu, lv: AbsListView) {
         super.configureMenu(menu, lv)
         menu.findItem(R.id.MERGE_COMMAND).isVisible = action == ACTION_MANAGE && lv.checkedItemCount >= 2
     }
@@ -296,7 +290,7 @@ class PartiesList : ContextualActionBarFragment(), OnDialogResultListener {
         if (hasSelectMultiple()) {
             inflater.inflate(R.menu.select_multiple, menu)
         }
-    }
+    }*/
 
     private fun hasSelectSingle(): Boolean {
         return action == ACTION_SELECT_MAPPING
@@ -311,12 +305,12 @@ class PartiesList : ContextualActionBarFragment(), OnDialogResultListener {
         const val DIALOG_MERGE_PARTY = "dialogMergeParty"
     }
 
-    override fun onResult(dialogTag: String, which: Int, extras: Bundle) =
-            if (dialogTag == DIALOG_MERGE_PARTY && which == OnDialogResultListener.BUTTON_POSITIVE) {
-                val index = extras.getInt(KEY_PAYEEID)
-                val position = binding.list.checkedItemPositions.asTrueSequence().elementAt(index)
-                val selected = mAdapter.getItem(position) as Party
-                viewModel.mergeParties(binding.list.checkedItemIds, selected.id)
-                true
-            } else false
+   override fun onResult(dialogTag: String, which: Int, extras: Bundle) = true
+    /*     if (dialogTag == DIALOG_MERGE_PARTY && which == OnDialogResultListener.BUTTON_POSITIVE) {
+            val index = extras.getInt(KEY_PAYEEID)
+            val position = binding.list.checkedItemPositions.asTrueSequence().elementAt(index)
+            val selected = mAdapter.getItem(position) as Party
+            viewModel.mergeParties(binding.list.checkedItemIds, selected.id)
+            true
+        } else false*/
 }
