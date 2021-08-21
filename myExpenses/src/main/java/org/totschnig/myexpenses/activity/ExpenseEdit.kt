@@ -15,7 +15,6 @@
 package org.totschnig.myexpenses.activity
 
 import android.annotation.SuppressLint
-import android.app.Dialog
 import android.app.NotificationManager
 import android.content.ContentUris
 import android.content.Context
@@ -30,7 +29,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.Nullable
@@ -96,7 +94,6 @@ import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.checkMenuIcon
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.getEnumFromPreferencesWithDefault
 import org.totschnig.myexpenses.util.tracking.Tracker
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
@@ -112,7 +109,6 @@ import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask
 import org.totschnig.myexpenses.viewmodel.TransactionViewModel.InstantiationTask.TRANSACTION_FROM_TEMPLATE
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET
-import timber.log.Timber
 import java.io.Serializable
 import java.math.BigDecimal
 import java.util.*
@@ -635,15 +631,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         }
     }
 
-    override fun hideKeyBoardAndShowDialog(id: Int) {
-        hideKeyboard()
-        try {
-            showDialog(id)
-        } catch (e: WindowManager.BadTokenException) {
-            CrashHandler.report(e)
-        }
-    }
-
     override fun onValueSet(view: View) {
         setDirty()
         if (view is DateButton) {
@@ -905,26 +892,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         //to crash upon saving https://github.com/mtotschnig/MyExpenses/issues/71
         i.putExtra(KEY_ROWID, (delegate as? CategoryDelegate)?.catId)
         startActivityForResult(i, SELECT_CATEGORY_REQUEST)
-    }
-
-    override fun onCreateDialog(id: Int): Dialog? {
-        hideKeyboard()
-        return try {
-            (findViewById<View>(id) as ButtonWithDialog).onCreateDialog(prefHandler)
-        } catch (e: ClassCastException) {
-            Timber.e(e)
-            null
-        }
-    }
-
-    override fun onPrepareDialog(id: Int, dialog: Dialog) {
-        super.onPrepareDialog(id, dialog)
-        val buttonWithDialog = findViewById<View>(id) as? ButtonWithDialog
-        if (buttonWithDialog == null) {
-            CrashHandler.report(NullPointerException("view with id $id not found or not a button"))
-        } else {
-            buttonWithDialog.onPrepareDialog(dialog)
-        }
     }
 
     override fun saveState() {
