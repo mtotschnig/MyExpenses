@@ -16,30 +16,19 @@
 package org.totschnig.myexpenses.activity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.text.InputType;
-import android.view.View;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.fragment.ContextualActionBarFragment;
 import org.totschnig.myexpenses.fragment.PartiesList;
-import org.totschnig.myexpenses.model.Model;
-import org.totschnig.myexpenses.model.Payee;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
 
 import androidx.annotation.NonNull;
-import eltos.simpledialogfragment.input.SimpleInputDialog;
 
 import static org.totschnig.myexpenses.ConstantsKt.ACTION_MANAGE;
 import static org.totschnig.myexpenses.ConstantsKt.ACTION_SELECT_FILTER;
 import static org.totschnig.myexpenses.ConstantsKt.ACTION_SELECT_MAPPING;
 
-public class ManageParties extends ProtectedFragmentActivity implements
-    SimpleInputDialog.OnDialogResultListener {
-  private static final String DIALOG_NEW_PARTY = "dialogNewParty";
-  Payee mParty;
-
+public class ManageParties extends ProtectedFragmentActivity {
+  protected PartiesList listFragment;
   public enum HelpVariant {
     manage, select_mapping, select_filter
   }
@@ -59,6 +48,7 @@ public class ManageParties extends ProtectedFragmentActivity implements
         break;
       case ACTION_SELECT_FILTER:
         setHelpVariant(HelpVariant.select_filter, true);
+        configureFloatingActionButton(R.string.select, R.drawable.ic_menu_done);
         title = R.string.search_payee;
         break;
       case ACTION_SELECT_MAPPING:
@@ -68,9 +58,8 @@ public class ManageParties extends ProtectedFragmentActivity implements
     if (title != 0) getSupportActionBar().setTitle(title);
     if (action.equals(ACTION_SELECT_MAPPING) || action.equals(ACTION_MANAGE)) {
       configureFloatingActionButton(R.string.menu_create_party);
-    } else {
-      findViewById(R.id.CREATE_COMMAND).setVisibility(View.GONE);
     }
+    listFragment = (PartiesList) getSupportFragmentManager().findFragmentById(R.id.parties_list);
   }
 
   @Override
@@ -79,51 +68,10 @@ public class ManageParties extends ProtectedFragmentActivity implements
       return true;
     }
     if (command == R.id.CREATE_COMMAND) {
-      SimpleInputDialog.build()
-          .title(R.string.menu_create_party)
-          .cancelable(false)
-          .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
-          .hint(R.string.full_name)
-          .pos(R.string.dialog_button_add)
-          .neut()
-          .show(this, DIALOG_NEW_PARTY);
+      listFragment.dispatchFabClick();
       return true;
     }
     return false;
-  }
-
-  @Override
-  public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
-    if ((DIALOG_NEW_PARTY.equals(dialogTag) || PartiesList.DIALOG_EDIT_PARTY.equals(dialogTag))
-        && which == BUTTON_POSITIVE) {
-      mParty = new Payee(
-          extras.getLong(DatabaseConstants.KEY_ROWID),
-          extras.getString(SimpleInputDialog.TEXT));
-      startDbWriteTask();
-      finishActionMode();
-      return true;
-    }
-    return false;
-  }
-
-  private void finishActionMode() {
-    ContextualActionBarFragment listFragment = ((ContextualActionBarFragment) getSupportFragmentManager().findFragmentById(R.id.parties_list));
-    if (listFragment != null)
-      listFragment.finishActionMode();
-  }
-
-  @Override
-  public void onPostExecute(Uri result) {
-    if (result == null) {
-      showSnackbar(getString(R.string.already_defined,
-              mParty != null ? mParty.getName() : ""));
-    }
-    super.onPostExecute(result);
-  }
-
-  @Override
-  public Model getObject() {
-    return mParty;
   }
 
   @NonNull

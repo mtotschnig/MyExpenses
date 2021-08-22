@@ -5,13 +5,11 @@ import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
-import org.threeten.bp.LocalTime
-import org.threeten.bp.ZoneId
-import org.threeten.bp.ZonedDateTime
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.Payee
 import org.totschnig.myexpenses.model2.Transaction
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
@@ -105,6 +103,8 @@ class Repository(val contentResolver: ContentResolver, val currencyContext: Curr
             contentResolver.insert(TransactionProvider.DEBTS_URI, debt.toContentValues())
         }
     }
+
+    fun saveParty(id: Long, name: String) = Payee(id, name).save()
 }
 
 data class AutoFillInfo(val categoryId: Long)

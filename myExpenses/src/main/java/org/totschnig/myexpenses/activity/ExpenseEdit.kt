@@ -1253,8 +1253,8 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     override fun getCurrentFragment() = findSplitPartList()
 
     @SuppressLint("NewApi")
-    fun showPicturePopupMenu(v: View?) {
-        val popup = PopupMenu(this, v!!)
+    fun showPicturePopupMenu(v: View) {
+        val popup = PopupMenu(this, v)
         popup.setOnMenuItemClickListener { item: MenuItem ->
             handlePicturePopupMenuClick(item.itemId)
             true

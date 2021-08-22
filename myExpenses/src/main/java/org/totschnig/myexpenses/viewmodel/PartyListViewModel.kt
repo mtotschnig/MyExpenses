@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.ContentProviderOperation
 import android.content.ContentProviderOperation.newDelete
 import android.content.ContentProviderOperation.newUpdate
+import android.content.ContentUris
 import android.content.ContentValues
 import android.database.Cursor
 import android.text.TextUtils
@@ -63,10 +64,9 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
                 }
     }
 
-    fun deleteParties(idList: List<Long>): LiveData<Result<Int>> = liveData(context = coroutineContext()) {
+    fun deleteParty(id: Long): LiveData<Result<Int>> = liveData(context = coroutineContext()) {
         try {
-            emit(Result.success(contentResolver.delete(TransactionProvider.PAYEES_URI,
-                "$KEY_ROWID IN (${idList.joinToString()})",null)))
+            emit(Result.success(contentResolver.delete(ContentUris.withAppendedId(TransactionProvider.PAYEES_URI, id), null, null)))
         } catch (e: Exception) {
             emit(Result.failure<Int>(e))
         }
@@ -140,5 +140,9 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
                 }
             }
         }
+    }
+
+    fun saveParty(id: Long, name: String) = liveData(context = coroutineContext()) {
+        emit(repository.saveParty(id, name))
     }
 }

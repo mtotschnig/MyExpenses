@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@id/SELECT_COMMAND"
+        android:icon="@drawable/ic_menu_done"
+        android:title="@string/select"
+        android:visible="false" />
+    <item
+        android:id="@id/EDIT_COMMAND"
+        android:icon="@drawable/ic_menu_edit"
+        android:title="@string/menu_edit" />
+    <item
+        android:id="@id/DELETE_COMMAND"
+        android:icon="@drawable/ic_menu_delete"
+        android:title="@string/menu_delete" />
     <item
         android:id="@id/DEBT_COMMAND"
         android:icon="@drawable/balance_scale"
         android:title="@string/menu_new_debt"
-        app:showAsAction="ifRoom" />
-    <item
-        android:id="@id/MERGE_COMMAND"
-        android:icon="@drawable/ic_menu_split_transaction"
-        android:title="@string/menu_merge"
-        app:showAsAction="ifRoom" />
+        android:visible="false" />
 </menu>
