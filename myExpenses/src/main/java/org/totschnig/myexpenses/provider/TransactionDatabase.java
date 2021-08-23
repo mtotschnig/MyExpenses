@@ -93,7 +93,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_ORIGINAL_AMOUNT + " integer, "
           + KEY_ORIGINAL_CURRENCY + " text, "
           + KEY_EQUIVALENT_AMOUNT + " integer,  "
-          + KEY_DEBT_ID + " integer references " + TABLE_DEBTS + "(" + KEY_ROWID + "));";
+          + KEY_DEBT_ID + " integer references " + TABLE_DEBTS + "(" + KEY_ROWID + ") ON DELETE SET NULL);";
 
   private static final String TRANSACTIONS_UUID_INDEX_CREATE = "CREATE UNIQUE INDEX transactions_account_uuid_index ON "
       + TABLE_TRANSACTIONS + "(" + KEY_ACCOUNTID + "," + KEY_UUID + "," + KEY_STATUS + ")";
@@ -302,7 +302,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
   private static final String DEBT_CREATE =
       "CREATE TABLE " + TABLE_DEBTS
           + " (" + KEY_ROWID + " integer primary key autoincrement, "
-          + KEY_PAYEEID + " integer references " + TABLE_PAYEES + "(" + KEY_ROWID + "), "
+          + KEY_PAYEEID + " integer references " + TABLE_PAYEES + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
           + KEY_DATE + " datetime not null, "
           + KEY_LABEL + " text not null, "
           + KEY_AMOUNT + " integer, "

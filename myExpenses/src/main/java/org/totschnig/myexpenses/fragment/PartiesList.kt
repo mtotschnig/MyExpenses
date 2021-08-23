@@ -33,6 +33,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener.BUTTON_POSITIVE
 import eltos.simpledialogfragment.form.Hint
@@ -56,6 +57,7 @@ import org.totschnig.myexpenses.databinding.PayeeRowBinding
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.util.configureSearch
 import org.totschnig.myexpenses.util.prepareSearch
 import org.totschnig.myexpenses.viewmodel.PartyListViewModel
@@ -80,12 +82,13 @@ class PartiesList : Fragment(), OnDialogResultListener {
             itemCallback.onCheckedChanged(isChecked, bindingAdapterPosition)
         }
 
-        fun bind(name: String, checked: Boolean) {
+        fun bind(name: String, checked: Boolean, hasDebts: Boolean) {
             binding.Payee.text = name
             with(binding.checkBox) {
                 visibility = if (hasSelectMultiple()) View.VISIBLE else View.GONE
                 isChecked = checked
             }
+            binding.Debt.visibility = if (hasDebts) View.VISIBLE else View.GONE
             binding.root.setOnClickListener(if (hasSelectMultiple()) null else this)
         }
     }
@@ -101,7 +104,9 @@ class PartiesList : Fragment(), OnDialogResultListener {
             ViewHolder(PayeeRowBinding.inflate(LayoutInflater.from(context), parent, false), this)
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            holder.bind(getItem(position).name, isChecked(position))
+            with(getItem(position)) {
+                holder.bind(name, isChecked(position), mappedDebts > 0)
+            }
         }
 
         fun getParty(position: Int): Party = getItem(position)
@@ -125,7 +130,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                                 .pos(R.string.menu_save)
                                 .neut()
                                 .extra(Bundle().apply {
-                                    putLong(DatabaseConstants.KEY_ROWID, party.id)
+                                    putLong(KEY_ROWID, party.id)
                                 })
                                 .show(this@PartiesList, DIALOG_EDIT_PARTY)
                         }
@@ -143,26 +148,25 @@ class PartiesList : Fragment(), OnDialogResultListener {
                                     )
                                 }
                                 manageParties?.showSnackbar(message)
+                            } else if (party.mappedDebts > 0) {
+                                SimpleDialog.build()
+                                    .title(R.string.dialog_title_warning_delete_party)
+                                    .extra(Bundle().apply {
+                                        putLong(KEY_ROWID, party.id)
+                                    })
+                                    .msg(
+                                        org.totschnig.myexpenses.util.TextUtils.concatResStrings(
+                                            context,
+                                            " ",
+                                            R.string.warning_party_delete_debt,
+                                            R.string.continue_confirmation
+                                        )
+                                    )
+                                    .pos(R.string.response_yes)
+                                    .neg(R.string.response_no)
+                                    .show(this@PartiesList, DIALOG_DELETE_PARTY)
                             } else {
-                                manageParties?.showSnackbar(R.string.progress_dialog_deleting)
-                                viewModel.deleteParty(party.id)
-                                    .observe(viewLifecycleOwner) { result ->
-                                        result.onSuccess { count ->
-                                            manageParties?.let {
-                                                it.showSnackbar(
-                                                    it.resources.getQuantityString(
-                                                        R.plurals.delete_success,
-                                                        count,
-                                                        count
-                                                    )
-                                                )
-                                            }
-                                        }.onFailure {
-                                            manageParties?.showDeleteFailureFeedback(
-                                                it.message
-                                            )
-                                        }
-                                    }
+                                doDelete(party.id)
                             }
                         }
                         R.id.DEBT_COMMAND -> {
@@ -189,6 +193,28 @@ class PartiesList : Fragment(), OnDialogResultListener {
                     if (mergeMode) 2 else if (action == ACTION_SELECT_FILTER)  1 else 0)
 
         }
+    }
+
+    private fun doDelete(partyId: Long) {
+        manageParties?.showSnackbar(R.string.progress_dialog_deleting)
+        viewModel.deleteParty(partyId)
+            .observe(viewLifecycleOwner) { result ->
+                result.onSuccess { count ->
+                    manageParties?.let {
+                        it.showSnackbar(
+                            it.resources.getQuantityString(
+                                R.plurals.delete_success,
+                                count,
+                                count
+                            )
+                        )
+                    }
+                }.onFailure {
+                    manageParties?.showDeleteFailureFeedback(
+                        it.message
+                    )
+                }
+            }
     }
 
     lateinit var adapter: PayeeAdapter
@@ -314,6 +340,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                 updateUiMergeMode()
             }
             binding.empty.visibility = if (parties.isEmpty()) View.VISIBLE else View.GONE
+            binding.list.visibility = if (parties.isEmpty()) View.GONE else View.VISIBLE
             adapter.submitList(if (action == ACTION_SELECT_FILTER)
                 listOf(Party(
                     CategoryTreeBaseAdapter.NULL_ITEM_ID, getString(R.string.unmapped),
@@ -335,6 +362,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
         const val DIALOG_NEW_PARTY = "dialogNewParty"
         const val DIALOG_EDIT_PARTY = "dialogEditParty"
         const val DIALOG_MERGE_PARTY = "dialogMergeParty"
+        const val DIALOG_DELETE_PARTY = "dialogDeleteParty"
         const val KEY_POSITION = "position"
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Party>() {
             override fun areItemsTheSame(oldItem: Party, newItem: Party): Boolean {
@@ -353,7 +381,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                 DIALOG_NEW_PARTY, DIALOG_EDIT_PARTY -> {
                     val name = extras.getString(SimpleInputDialog.TEXT)!!
                     viewModel.saveParty(
-                        extras.getLong(DatabaseConstants.KEY_ROWID),
+                        extras.getLong(KEY_ROWID),
                         name
                     ).observe(this) {
                         if (it == null)
@@ -367,10 +395,14 @@ class PartiesList : Fragment(), OnDialogResultListener {
                     return true
                 }
                 DIALOG_MERGE_PARTY -> {
+                    mergeMode = false
                     val selectedItemIds = adapter.checkedPositions.map { adapter.getParty(it).id }
                     viewModel.mergeParties(selectedItemIds.toLongArray(),
                         selectedItemIds[extras.getInt(KEY_POSITION)])
                     return true
+                }
+                DIALOG_DELETE_PARTY -> {
+                    doDelete(extras.getLong(KEY_ROWID))
                 }
             }
         }
