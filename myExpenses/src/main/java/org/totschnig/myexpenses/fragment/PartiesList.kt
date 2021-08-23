@@ -66,18 +66,18 @@ class PartiesList : Fragment(), OnDialogResultListener {
     val manageParties: ManageParties?
         get() = (activity as? ManageParties)
 
-    inner class ViewHolder(val binding: PayeeRowBinding, private val itemClickListener: ItemClickListener) : RecyclerView.ViewHolder(binding.root),
+    inner class ViewHolder(val binding: PayeeRowBinding, private val itemCallback: ItemCallback) : RecyclerView.ViewHolder(binding.root),
         View.OnClickListener, CompoundButton.OnCheckedChangeListener {
         init {
             binding.checkBox.setOnCheckedChangeListener(this)
         }
 
         override fun onClick(view: View) {
-            itemClickListener.onItemClick(view, bindingAdapterPosition)
+            itemCallback.onItemClick(view, bindingAdapterPosition)
         }
 
         override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-            adapter.onChecked(bindingAdapterPosition, isChecked)
+            itemCallback.onCheckedChanged(isChecked, bindingAdapterPosition)
         }
 
         fun bind(name: String, checked: Boolean) {
@@ -90,11 +90,12 @@ class PartiesList : Fragment(), OnDialogResultListener {
         }
     }
 
-    interface ItemClickListener {
+    interface ItemCallback {
         fun onItemClick(view: View, position: Int)
+        fun onCheckedChanged(isChecked: Boolean, position: Int)
     }
 
-    inner class PayeeAdapter : ChoiceCapableAdapter<Party, ViewHolder>(MultiChoiceMode(), DIFF_CALLBACK), ItemClickListener {
+    inner class PayeeAdapter : ChoiceCapableAdapter<Party, ViewHolder>(MultiChoiceMode(), DIFF_CALLBACK), ItemCallback {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
             ViewHolder(PayeeRowBinding.inflate(LayoutInflater.from(context), parent, false), this)
@@ -181,6 +182,13 @@ class PartiesList : Fragment(), OnDialogResultListener {
                 show()
             }
         }
+
+        override fun onCheckedChanged(isChecked: Boolean, position: Int) {
+            onChecked(position, isChecked)
+            manageParties?.setFabEnabled(checkedCount >=
+                    if (mergeMode) 2 else if (action == ACTION_SELECT_FILTER)  1 else 0)
+
+        }
     }
 
     lateinit var adapter: PayeeAdapter
@@ -210,6 +218,12 @@ class PartiesList : Fragment(), OnDialogResultListener {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        if (mergeMode) {
+            updateUiMergeMode()
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -242,8 +256,11 @@ class PartiesList : Fragment(), OnDialogResultListener {
             super.onOptionsItemSelected(item)
 
     private fun updateUiMergeMode() {
-        requireActivity().invalidateOptionsMenu()
-        manageParties!!.configureFabMergeMode(mergeMode)
+        with(manageParties!!) {
+            invalidateOptionsMenu()
+            configureFabMergeMode(mergeMode)
+            setFabEnabled(!mergeMode)
+        }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {

@@ -36,6 +36,12 @@ public class ManageParties extends ProtectedFragmentActivity {
         mergeMode ? R.drawable.ic_menu_split_transaction : R.drawable.ic_menu_add_fab);
   }
 
+  public void setFabEnabled(boolean enabled) {
+    if (floatingActionButton != null) {
+      floatingActionButton.setEnabled(enabled);
+    }
+  }
+
   public enum HelpVariant {
     manage, select_mapping, select_filter
   }
@@ -56,6 +62,7 @@ public class ManageParties extends ProtectedFragmentActivity {
       case ACTION_SELECT_FILTER:
         setHelpVariant(HelpVariant.select_filter, true);
         configureFloatingActionButton(R.string.select, R.drawable.ic_menu_done);
+        setFabEnabled(false);
         title = R.string.search_payee;
         break;
       case ACTION_SELECT_MAPPING:
