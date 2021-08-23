@@ -291,13 +291,12 @@ class PartiesList : Fragment(), OnDialogResultListener {
         adapter = PayeeAdapter()
         savedInstanceState?.let { adapter.onRestoreInstanceState(it) }
         binding.list.adapter = adapter
-        //binding.list.emptyView = binding.empty
-        //registerForContextualActionBar(binding.list)
         viewModel.getParties().observe(viewLifecycleOwner, { parties: List<Party> ->
             if (parties.size < 2 && mergeMode) {
                 mergeMode = false
                 updateUiMergeMode()
             }
+            binding.empty.visibility = if (parties.isEmpty()) View.VISIBLE else View.GONE
             adapter.submitList(if (action == ACTION_SELECT_FILTER)
                 listOf(Party(
                     CategoryTreeBaseAdapter.NULL_ITEM_ID, getString(R.string.unmapped),
