@@ -31,6 +31,7 @@ import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener.BUTTON_POSITIVE
@@ -64,22 +65,54 @@ import java.util.*
 class PartiesList : Fragment(), OnDialogResultListener {
     val manageParties: ManageParties?
         get() = (activity as? ManageParties)
-    var parties: MutableList<Party> = mutableListOf()
 
-    inner class ViewHolder(val binding: PayeeRowBinding) : RecyclerView.ViewHolder(binding.root),
+    inner class ViewHolder(val binding: PayeeRowBinding, private val itemClickListener: ItemClickListener) : RecyclerView.ViewHolder(binding.root),
         View.OnClickListener, CompoundButton.OnCheckedChangeListener {
         init {
             binding.checkBox.setOnCheckedChangeListener(this)
         }
 
-        override fun onClick(v: View) {
-            with(PopupMenu(requireContext(), v)) {
+        override fun onClick(view: View) {
+            itemClickListener.onItemClick(view, bindingAdapterPosition)
+        }
+
+        override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
+            adapter.onChecked(bindingAdapterPosition, isChecked)
+        }
+
+        fun bind(name: String, checked: Boolean) {
+            binding.Payee.text = name
+            with(binding.checkBox) {
+                visibility = if (hasSelectMultiple()) View.VISIBLE else View.GONE
+                isChecked = checked
+            }
+            binding.root.setOnClickListener(if (hasSelectMultiple()) null else this)
+        }
+    }
+
+    interface ItemClickListener {
+        fun onItemClick(view: View, position: Int)
+    }
+
+    inner class PayeeAdapter : ChoiceCapableAdapter<Party, ViewHolder>(MultiChoiceMode(), DIFF_CALLBACK), ItemClickListener {
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+            ViewHolder(PayeeRowBinding.inflate(LayoutInflater.from(context), parent, false), this)
+
+        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+            holder.bind(getItem(position).name, isChecked(position))
+        }
+
+        fun getParty(position: Int): Party = getItem(position)
+
+        override fun onItemClick(view: View, position: Int) {
+            with(PopupMenu(requireContext(), view)) {
                 inflate(R.menu.parties_context)
                 menu.findItem(
                     if (action == ACTION_SELECT_MAPPING) R.id.SELECT_COMMAND else R.id.DEBT_COMMAND
                 ).isVisible = true
                 setOnMenuItemClickListener { item ->
-                    val party = parties[bindingAdapterPosition]
+                    val party = getItem(position)
                     when (item.itemId) {
                         R.id.EDIT_COMMAND -> {
                             SimpleInputDialog.build()
@@ -148,32 +181,6 @@ class PartiesList : Fragment(), OnDialogResultListener {
                 show()
             }
         }
-
-        override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-            adapter.onChecked(bindingAdapterPosition, isChecked)
-        }
-
-        fun bind(name: String, checked: Boolean) {
-            binding.Payee.text = name
-            with(binding.checkBox) {
-                visibility = if (hasSelectMultiple()) View.VISIBLE else View.GONE
-                isChecked = checked
-            }
-            binding.root.setOnClickListener(if (hasSelectMultiple()) null else this)
-        }
-    }
-
-    inner class PayeeAdapter : ChoiceCapableAdapter<ViewHolder>(MultiChoiceMode()) {
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-            ViewHolder(PayeeRowBinding.inflate(LayoutInflater.from(context), parent, false))
-
-        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            holder.bind(parties[position].name, isChecked(position))
-        }
-
-        override fun getItemCount() = parties.size
-
     }
 
     lateinit var adapter: PayeeAdapter
@@ -228,6 +235,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
             mergeMode = !mergeMode
             updateUiMergeMode()
             adapter.clearChecks()
+            //noinspection NotifyDataSetChanged
             adapter.notifyDataSetChanged()
             true
         } else
@@ -241,7 +249,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
         menu.findItem(R.id.MERGE_COMMAND)?.let {
-            it.isVisible = parties.size >= 2
+            it.isVisible = adapter.itemCount >= 2
             it.isChecked = mergeMode
         }
         prepareSearch(menu, filter)
@@ -280,33 +288,24 @@ class PartiesList : Fragment(), OnDialogResultListener {
         savedInstanceState: Bundle?
     ): View {
         _binding = PartiesListBinding.inflate(inflater, container, false)
-/*        if (action != ACTION_MANAGE) {
-            binding.list.onItemClickListener = OnItemClickListener { _: AdapterView<*>?, _: View?, position: Int, _: Long -> doSingleSelection(mAdapter.getItem(position)) }
-        }*/
         adapter = PayeeAdapter()
         savedInstanceState?.let { adapter.onRestoreInstanceState(it) }
         binding.list.adapter = adapter
         //binding.list.emptyView = binding.empty
         //registerForContextualActionBar(binding.list)
         viewModel.getParties().observe(viewLifecycleOwner, { parties: List<Party> ->
-            with(this@PartiesList.parties) {
-                clear()
-                if (action == ACTION_SELECT_FILTER) {
-                    add(
-                        Party(
-                            CategoryTreeBaseAdapter.NULL_ITEM_ID, getString(R.string.unmapped),
-                            mappedTransactions = false, mappedTemplates = false, mappedDebts = 0
-                        )
-                    )
-                }
-                addAll(parties)
-                if (parties.size < 2 && mergeMode) {
-                    mergeMode = false
-                    updateUiMergeMode()
-                }
-                adapter.notifyDataSetChanged()
-                activity?.invalidateOptionsMenu()
+            if (parties.size < 2 && mergeMode) {
+                mergeMode = false
+                updateUiMergeMode()
             }
+            adapter.submitList(if (action == ACTION_SELECT_FILTER)
+                listOf(Party(
+                    CategoryTreeBaseAdapter.NULL_ITEM_ID, getString(R.string.unmapped),
+                    mappedTransactions = false, mappedTemplates = false, mappedDebts = 0
+                )).plus(parties)
+            else
+                parties)
+            activity?.invalidateOptionsMenu()
         })
         loadData()
         return binding.root
@@ -321,6 +320,15 @@ class PartiesList : Fragment(), OnDialogResultListener {
         const val DIALOG_EDIT_PARTY = "dialogEditParty"
         const val DIALOG_MERGE_PARTY = "dialogMergeParty"
         const val KEY_POSITION = "position"
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Party>() {
+            override fun areItemsTheSame(oldItem: Party, newItem: Party): Boolean {
+                return oldItem.id == newItem.id
+            }
+
+            override fun areContentsTheSame(oldItem: Party, newItem: Party): Boolean {
+                return oldItem == newItem
+            }
+        }
     }
 
     override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
@@ -343,9 +351,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                     return true
                 }
                 DIALOG_MERGE_PARTY -> {
-                    val selectedItemIds =
-                        parties.filterIndexed { index, _ -> adapter.checkedPositions.contains(index) }
-                            .map { it.id }
+                    val selectedItemIds = adapter.checkedPositions.map { adapter.getParty(it).id }
                     viewModel.mergeParties(selectedItemIds.toLongArray(),
                         selectedItemIds[extras.getInt(KEY_POSITION)])
                     return true
@@ -357,8 +363,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
 
     fun dispatchFabClick() {
         if (action == ACTION_SELECT_FILTER) {
-            val selected =
-                parties.filterIndexed { index, _ -> adapter.checkedPositions.contains(index) }
+            val selected = adapter.checkedPositions.map { adapter.getParty(it) }
             val itemIds = selected.map { it.id }
             val labels = selected.map { it.name }
             if (itemIds.size != 1 && itemIds.contains(CategoryTreeBaseAdapter.NULL_ITEM_ID)) {
@@ -373,13 +378,11 @@ class PartiesList : Fragment(), OnDialogResultListener {
                 }
             }
         } else if (mergeMode) {
-            val selected =
-                parties.filterIndexed { index, _ -> adapter.checkedPositions.contains(index) }
-                    .map { it.name }.toTypedArray()
+            val selected = adapter.checkedPositions.map { adapter.getParty(it).name }.toTypedArray()
             SimpleFormDialog.build()
                 .fields(
                     Hint.plain(R.string.merge_parties_select),
-                    Spinner.plain(Companion.KEY_POSITION).items(*selected).required().preset(0)
+                    Spinner.plain(KEY_POSITION).items(*selected).required().preset(0)
                 )
                 .autofocus(false)
                 .show(this, DIALOG_MERGE_PARTY)

@@ -14,12 +14,17 @@
 package org.totschnig.myexpenses.adapter
 
 import android.os.Bundle
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import org.totschnig.myexpenses.util.SparseBooleanArrayParcelable
 import org.totschnig.myexpenses.util.asTrueSequence
 
-abstract class ChoiceCapableAdapter<T : RecyclerView.ViewHolder?>(private val choiceMode: ChoiceMode) :
-    RecyclerView.Adapter<T>() {
+abstract class ChoiceCapableAdapter<T, VH : RecyclerView.ViewHolder>(
+    private val choiceMode: ChoiceMode,
+    diffCallBack: DiffUtil.ItemCallback<T>
+) :
+    ListAdapter<T, VH>(diffCallBack) {
     fun onChecked(position: Int, isChecked: Boolean) {
         choiceMode.setChecked(position, isChecked)
     }
