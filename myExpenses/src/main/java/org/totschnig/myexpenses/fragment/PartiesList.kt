@@ -23,6 +23,7 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
@@ -33,9 +34,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener.BUTTON_POSITIVE
+import eltos.simpledialogfragment.form.Hint
+import eltos.simpledialogfragment.form.SimpleFormDialog
+import eltos.simpledialogfragment.form.Spinner
 import eltos.simpledialogfragment.input.SimpleInputDialog
 import icepick.Icepick
 import icepick.State
+import org.totschnig.myexpenses.ACTION_MANAGE
 import org.totschnig.myexpenses.ACTION_SELECT_FILTER
 import org.totschnig.myexpenses.ACTION_SELECT_MAPPING
 import org.totschnig.myexpenses.MyApplication
@@ -181,6 +186,12 @@ class PartiesList : Fragment(), OnDialogResultListener {
     @State
     @JvmField
     var filter: String? = null
+
+    @State
+    @JvmField
+    var mergeMode: Boolean = false
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -199,36 +210,31 @@ class PartiesList : Fragment(), OnDialogResultListener {
         Icepick.saveInstanceState(this, outState)
         adapter.onSaveInstanceState(outState)
     }
-/*
-
-    override fun dispatchCommandMultiple(command: Int,
-                                         positions: SparseBooleanArray, itemIds: LongArray): Boolean {
-        if (super.dispatchCommandMultiple(command, positions, itemIds)) {
-            return true
-        }
-        val activity = requireActivity() as ProtectedFragmentActivity
-        return when (command) {
-            R.id.MERGE_COMMAND -> {
-                val selected = with(positions.asTrueSequence().iterator()) { Array(itemIds.size) { (mAdapter.getItem(next()) as Party).name } }
-                SimpleFormDialog.build()
-                        .fields(
-                                Hint.plain(R.string.merge_parties_select),
-                                Spinner.plain(KEY_PAYEEID).items(*selected).required().preset(0))
-                        .autofocus(false)
-                        .show(this, DIALOG_MERGE_PARTY)
-                true
-            }
-        }
-    }*/
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         if (activity == null) return
         inflater.inflate(R.menu.search, menu)
+        if (action == ACTION_MANAGE) {
+            menu.add(Menu.NONE, R.id.MERGE_COMMAND, 0, R.string.menu_merge)
+                .setIcon(R.drawable.ic_menu_split_transaction)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER)
+        }
         configureSearch(requireActivity(), menu) { newText: String? -> onQueryTextChange(newText) }
     }
 
+    override fun onOptionsItemSelected(item: MenuItem) =
+        if (item.itemId == R.id.MERGE_COMMAND) {
+            mergeMode = true
+            requireActivity().invalidateOptionsMenu()
+            manageParties!!.configureFabMergeMode()
+            adapter.notifyDataSetChanged()
+            true
+        } else
+            super.onOptionsItemSelected(item)
+
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
+        menu.findItem(R.id.MERGE_COMMAND)?.isVisible = !mergeMode
         prepareSearch(menu, filter)
     }
 
@@ -292,20 +298,15 @@ class PartiesList : Fragment(), OnDialogResultListener {
         return binding.root
     }
 
-/*    override fun configureMenu(menu: Menu, lv: AbsListView) {
-        super.configureMenu(menu, lv)
-        menu.findItem(R.id.MERGE_COMMAND).isVisible = action == ACTION_MANAGE && lv.checkedItemCount >= 2
-    }
-    }*/
-
     private fun hasSelectMultiple(): Boolean {
-        return action == ACTION_SELECT_FILTER
+        return action == ACTION_SELECT_FILTER || mergeMode
     }
 
     companion object {
         const val DIALOG_NEW_PARTY = "dialogNewParty"
         const val DIALOG_EDIT_PARTY = "dialogEditParty"
         const val DIALOG_MERGE_PARTY = "dialogMergeParty"
+        const val KEY_POSITION = "position"
     }
 
     override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
@@ -327,6 +328,14 @@ class PartiesList : Fragment(), OnDialogResultListener {
                     }
                     return true
                 }
+                DIALOG_MERGE_PARTY -> {
+                    val selectedItemIds =
+                        parties.filterIndexed { index, _ -> adapter.checkedPositions.contains(index) }
+                            .map { it.id }
+                    viewModel.mergeParties(selectedItemIds.toLongArray(),
+                        selectedItemIds[extras.getInt(KEY_POSITION)])
+                    return true
+                }
             }
         }
         return false
@@ -335,7 +344,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
     fun dispatchFabClick() {
         if (action == ACTION_SELECT_FILTER) {
             val selected =
-                parties.filterIndexed { index, party -> adapter.checkedPositions.contains(index) }
+                parties.filterIndexed { index, _ -> adapter.checkedPositions.contains(index) }
             val itemIds = selected.map { it.id }
             val labels = selected.map { it.name }
             if (itemIds.size != 1 && itemIds.contains(CategoryTreeBaseAdapter.NULL_ITEM_ID)) {
@@ -349,6 +358,17 @@ class PartiesList : Fragment(), OnDialogResultListener {
                     finish()
                 }
             }
+        } else if (mergeMode) {
+            val selected =
+                parties.filterIndexed { index, _ -> adapter.checkedPositions.contains(index) }
+                    .map { it.name }.toTypedArray()
+            SimpleFormDialog.build()
+                .fields(
+                    Hint.plain(R.string.merge_parties_select),
+                    Spinner.plain(Companion.KEY_POSITION).items(*selected).required().preset(0)
+                )
+                .autofocus(false)
+                .show(this, DIALOG_MERGE_PARTY)
         } else {
             SimpleInputDialog.build()
                 .title(R.string.menu_create_party)
@@ -360,11 +380,4 @@ class PartiesList : Fragment(), OnDialogResultListener {
                 .show(this, DIALOG_NEW_PARTY)
         }
     }
-    /*     if (dialogTag == DIALOG_MERGE_PARTY && which == OnDialogResultListener.BUTTON_POSITIVE) {
-            val index = extras.getInt(KEY_PAYEEID)
-            val position = binding.list.checkedItemPositions.asTrueSequence().elementAt(index)
-            val selected = mAdapter.getItem(position) as Party
-            viewModel.mergeParties(binding.list.checkedItemIds, selected.id)
-            true
-        } else false*/
 }

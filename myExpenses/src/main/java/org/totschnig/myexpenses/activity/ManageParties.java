@@ -29,6 +29,11 @@ import static org.totschnig.myexpenses.ConstantsKt.ACTION_SELECT_MAPPING;
 
 public class ManageParties extends ProtectedFragmentActivity {
   protected PartiesList listFragment;
+
+  public void configureFabMergeMode() {
+    configureFloatingActionButton(R.string.menu_merge, R.drawable.ic_menu_split_transaction);
+  }
+
   public enum HelpVariant {
     manage, select_mapping, select_filter
   }
