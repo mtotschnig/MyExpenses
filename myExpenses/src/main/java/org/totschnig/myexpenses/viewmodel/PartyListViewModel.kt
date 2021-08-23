@@ -129,6 +129,7 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
                     add(newUpdate(TransactionProvider.TRANSACTIONS_URI).withValues(contentValues).withSelection(where, null).build())
                     add(newUpdate(TransactionProvider.TEMPLATES_URI).withValues(contentValues).withSelection(where, null).build())
                     add(newUpdate(TransactionProvider.CHANGES_URI).withValues(contentValues).withSelection(where, null).build())
+                    add(newUpdate(TransactionProvider.DEBTS_URI).withValues(contentValues).withSelection(where, null).build())
                     add(newDelete(TransactionProvider.PAYEES_URI).withSelection("$KEY_ROWID $inOp", null).build())
                 }
                 val size = contentResolver.applyBatch(TransactionProvider.AUTHORITY, operations).size

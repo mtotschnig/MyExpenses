@@ -69,9 +69,6 @@ class PartiesList : Fragment(), OnDialogResultListener {
     inner class ViewHolder(val binding: PayeeRowBinding) : RecyclerView.ViewHolder(binding.root),
         View.OnClickListener, CompoundButton.OnCheckedChangeListener {
         init {
-            if (action != ACTION_SELECT_FILTER) {
-                binding.root.setOnClickListener(this)
-            }
             binding.checkBox.setOnCheckedChangeListener(this)
         }
 
@@ -155,6 +152,15 @@ class PartiesList : Fragment(), OnDialogResultListener {
         override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
             adapter.onChecked(bindingAdapterPosition, isChecked)
         }
+
+        fun bind(name: String, checked: Boolean) {
+            binding.Payee.text = name
+            with(binding.checkBox) {
+                visibility = if (hasSelectMultiple()) View.VISIBLE else View.GONE
+                isChecked = checked
+            }
+            binding.root.setOnClickListener(if (hasSelectMultiple()) null else this)
+        }
     }
 
     inner class PayeeAdapter : ChoiceCapableAdapter<ViewHolder>(MultiChoiceMode()) {
@@ -163,13 +169,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
             ViewHolder(PayeeRowBinding.inflate(LayoutInflater.from(context), parent, false))
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            holder.binding.Payee.text = parties[position].name
-            if (hasSelectMultiple()) {
-                with(holder.binding.checkBox) {
-                    visibility = View.VISIBLE
-                    isChecked = isChecked(position)
-                }
-            }
+            holder.bind(parties[position].name, isChecked(position))
         }
 
         override fun getItemCount() = parties.size
@@ -217,6 +217,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
         if (action == ACTION_MANAGE) {
             menu.add(Menu.NONE, R.id.MERGE_COMMAND, 0, R.string.menu_merge)
                 .setIcon(R.drawable.ic_menu_split_transaction)
+                .setCheckable(true)
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER)
         }
         configureSearch(requireActivity(), menu) { newText: String? -> onQueryTextChange(newText) }
@@ -224,17 +225,25 @@ class PartiesList : Fragment(), OnDialogResultListener {
 
     override fun onOptionsItemSelected(item: MenuItem) =
         if (item.itemId == R.id.MERGE_COMMAND) {
-            mergeMode = true
-            requireActivity().invalidateOptionsMenu()
-            manageParties!!.configureFabMergeMode()
+            mergeMode = !mergeMode
+            updateUiMergeMode()
+            adapter.clearChecks()
             adapter.notifyDataSetChanged()
             true
         } else
             super.onOptionsItemSelected(item)
 
+    private fun updateUiMergeMode() {
+        requireActivity().invalidateOptionsMenu()
+        manageParties!!.configureFabMergeMode(mergeMode)
+    }
+
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        menu.findItem(R.id.MERGE_COMMAND)?.isVisible = !mergeMode
+        menu.findItem(R.id.MERGE_COMMAND)?.let {
+            it.isVisible = parties.size >= 2
+            it.isChecked = mergeMode
+        }
         prepareSearch(menu, filter)
     }
 
@@ -291,7 +300,12 @@ class PartiesList : Fragment(), OnDialogResultListener {
                     )
                 }
                 addAll(parties)
+                if (parties.size < 2 && mergeMode) {
+                    mergeMode = false
+                    updateUiMergeMode()
+                }
                 adapter.notifyDataSetChanged()
+                activity?.invalidateOptionsMenu()
             }
         })
         loadData()

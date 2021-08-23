@@ -1722,6 +1722,9 @@ public class TransactionProvider extends BaseTransactionProvider {
         count = MoreDbUtilsKt.linkTransfers(db, uri.getPathSegments().get(2), values.getAsString(KEY_UUID), callerIsNotSyncAdatper(uri));
         break;
       }
+      case DEBTS:
+        count = db.update(TABLE_DEBTS, values, where, whereArgs);
+        break;
       default:
         throw unknownUri(uri);
     }

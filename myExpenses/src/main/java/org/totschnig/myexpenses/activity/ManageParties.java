@@ -30,8 +30,10 @@ import static org.totschnig.myexpenses.ConstantsKt.ACTION_SELECT_MAPPING;
 public class ManageParties extends ProtectedFragmentActivity {
   protected PartiesList listFragment;
 
-  public void configureFabMergeMode() {
-    configureFloatingActionButton(R.string.menu_merge, R.drawable.ic_menu_split_transaction);
+  public void configureFabMergeMode(boolean mergeMode) {
+    configureFloatingActionButton(
+        mergeMode ? R.string.menu_merge : R.string.menu_create_party,
+        mergeMode ? R.drawable.ic_menu_split_transaction : R.drawable.ic_menu_add_fab);
   }
 
   public enum HelpVariant {
@@ -62,7 +64,7 @@ public class ManageParties extends ProtectedFragmentActivity {
     }
     if (title != 0) getSupportActionBar().setTitle(title);
     if (action.equals(ACTION_SELECT_MAPPING) || action.equals(ACTION_MANAGE)) {
-      configureFloatingActionButton(R.string.menu_create_party);
+      configureFabMergeMode(false);
     }
     listFragment = (PartiesList) getSupportFragmentManager().findFragmentById(R.id.parties_list);
   }
