@@ -615,7 +615,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         }
     }
 
-    fun setupListeners(watcher: TextWatcher) {
+   open fun setupListeners(watcher: TextWatcher) {
         viewBinding.Comment.addTextChangedListener(watcher)
         viewBinding.Title.addTextChangedListener(watcher)
         viewBinding.Payee.addTextChangedListener(watcher)

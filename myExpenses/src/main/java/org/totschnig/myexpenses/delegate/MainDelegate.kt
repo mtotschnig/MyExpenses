@@ -2,10 +2,12 @@ package org.totschnig.myexpenses.delegate
 
 import android.database.Cursor
 import android.os.Bundle
+import android.text.TextWatcher
 import android.view.View
 import android.widget.AdapterView
 import android.widget.FilterQueryProvider
 import android.widget.SimpleCursorAdapter
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.FragmentActivity
 import icepick.State
 import org.totschnig.myexpenses.R
@@ -209,8 +211,19 @@ abstract class MainDelegate<T : ITransaction>(
     }
 
     private fun handleDebts() {
-        viewBinding.DebtContainer.visibility =
-            if (debts.filter { it.payeeId == payeeId && it.currency == currentAccount()?.currency?.code }
-                    .isNotEmpty()) View.VISIBLE else View.GONE
+        val hasDebts = payeeId != null &&
+            debts.any { it.payeeId == payeeId && it.currency == currentAccount()?.currency?.code }
+        viewBinding.DebtContainer.visibility = if (hasDebts) View.VISIBLE else View.GONE
+        if (!hasDebts) {
+            viewBinding.Debt.isChecked = false
+        }
+    }
+
+    override fun setupListeners(watcher: TextWatcher) {
+        super.setupListeners(watcher)
+        viewBinding.Payee.addTextChangedListener {
+            payeeId = null
+            handleDebts()
+        }
     }
 }
