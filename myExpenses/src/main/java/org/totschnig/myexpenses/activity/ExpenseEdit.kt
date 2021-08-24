@@ -54,6 +54,7 @@ import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
 import org.totschnig.myexpenses.delegate.CategoryDelegate
+import org.totschnig.myexpenses.delegate.MainDelegate
 import org.totschnig.myexpenses.delegate.SplitDelegate
 import org.totschnig.myexpenses.delegate.TransactionDelegate
 import org.totschnig.myexpenses.delegate.TransferDelegate
@@ -208,6 +209,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         get() = isTemplate && !isSplitPart
 
     private val shouldLoadMethods: Boolean
+        get() = operationType != TYPE_TRANSFER && !isSplitPart
+
+    private val shouldLoadDebts: Boolean
         get() = operationType != TYPE_TRANSFER && !isSplitPart
 
     private val isMainTransaction: Boolean
@@ -425,6 +429,17 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         linkInputsWithLabels()
         loadTags()
         loadCurrencies()
+        if (shouldLoadDebts) {
+            loadDebts()
+        }
+    }
+
+    private fun loadDebts() {
+        viewModel.getDebts().observe(this) { debts ->
+            if (::delegate.isInitialized) {
+                (delegate as? MainDelegate)?.setDebts(debts)
+            }
+        }
     }
 
     private fun loadTags() {

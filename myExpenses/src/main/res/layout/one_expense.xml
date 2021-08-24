@@ -196,13 +196,38 @@
                             android:labelFor="@+id/Payee"
                             android:text="@string/payee" />
 
-                        <AutoCompleteTextView
-                            android:id="@+id/Payee"
+                        <LinearLayout
                             style="@style/FormField"
-                            android:layout_height="wrap_content"
-                            android:completionThreshold="1"
-                            android:imeOptions="actionNext"
-                            android:inputType="textPersonName|textCapWords" />
+                            android:orientation="horizontal">
+
+                            <AutoCompleteTextView
+                                android:id="@+id/Payee"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:completionThreshold="1"
+                                android:imeOptions="actionNext"
+                                android:inputType="textPersonName|textCapWords" />
+
+                            <LinearLayout
+                                android:id="@+id/DebtContainer"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:visibility="gone">
+
+                                <CheckBox
+                                    android:id="@+id/Debt"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/debt" />
+                            </LinearLayout>
+
+                        </LinearLayout>
                     </TableRow>
 
                     <TableRow android:id="@+id/CategoryRow">
@@ -241,7 +266,9 @@
                         </LinearLayout>
                     </TableRow>
 
-                    <include android:id="@+id/TagRow" layout="@layout/tag_row" />
+                    <include
+                        android:id="@+id/TagRow"
+                        layout="@layout/tag_row" />
 
                     <TableRow android:id="@+id/CommentRow">
 

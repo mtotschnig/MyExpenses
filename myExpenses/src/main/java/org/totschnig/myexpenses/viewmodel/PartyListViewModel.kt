@@ -37,7 +37,8 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
     fun getParties(): LiveData<List<Party>> = parties
 
     fun loadParties(filter: @Nullable String?, accountId: Long) {
-        val filterSelection = if (TextUtils.isEmpty(filter)) null else "$KEY_PAYEE_NAME_NORMALIZED LIKE ?"
+        val filterSelection =
+            if (TextUtils.isEmpty(filter)) null else "$KEY_PAYEE_NAME_NORMALIZED LIKE ?"
         val filterSelectionArgs = if (TextUtils.isEmpty(filter)) null else
             arrayOf("%${Utils.escapeSqlLikeExpression(Utils.normalize(filter))}%")
         val accountSelection = if (accountId == 0L) null else
@@ -48,7 +49,10 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
                 }
                 append(")")
             }
-        val accountSelectionArgs = if (accountId == 0L) null else SelectFromMappedTableDialogFragment.accountSelectionArgs(accountId)
+        val accountSelectionArgs =
+            if (accountId == 0L) null else SelectFromMappedTableDialogFragment.accountSelectionArgs(
+                accountId
+            )
         val selection = StringBuilder().apply {
             filterSelection?.let { append(it) }
             accountSelection?.let {
@@ -56,39 +60,66 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
                 append(it)
             }
         }.takeIf { it.isNotEmpty() }?.toString()
-        disposable = briteContentResolver.createQuery(TransactionProvider.PAYEES_URI, null,
-                selection, Utils.joinArrays(filterSelectionArgs, accountSelectionArgs), null, true)
-                .mapToList { Party.fromCursor(it) }
-                .subscribe {
-                    parties.postValue(it)
-                }
+        disposable = briteContentResolver.createQuery(
+            TransactionProvider.PAYEES_URI, null,
+            selection, Utils.joinArrays(filterSelectionArgs, accountSelectionArgs), null, true
+        )
+            .mapToList { Party.fromCursor(it) }
+            .subscribe {
+                parties.postValue(it)
+            }
     }
 
     fun deleteParty(id: Long): LiveData<Result<Int>> = liveData(context = coroutineContext()) {
         try {
-            emit(Result.success(contentResolver.delete(ContentUris.withAppendedId(TransactionProvider.PAYEES_URI, id), null, null)))
+            emit(
+                Result.success(
+                    contentResolver.delete(
+                        ContentUris.withAppendedId(
+                            TransactionProvider.PAYEES_URI,
+                            id
+                        ), null, null
+                    )
+                )
+            )
         } catch (e: Exception) {
             emit(Result.failure<Int>(e))
         }
     }
 
     private fun updatePartyFilters(old: Set<Long>, new: Long) {
-        contentResolver.query(TransactionProvider.ACCOUNTS_MINIMAL_URI, null, null, null, null)?.use { cursor ->
-            updateFilterHelper(old, new, cursor, TransactionListViewModel::prefNameForCriteria)
-        }
+        contentResolver.query(TransactionProvider.ACCOUNTS_MINIMAL_URI, null, null, null, null)
+            ?.use { cursor ->
+                updateFilterHelper(old, new, cursor, TransactionListViewModel::prefNameForCriteria)
+            }
     }
 
 
     private fun updatePartyBudgets(old: Set<Long>, new: Long) {
-        contentResolver.query(TransactionProvider.BUDGETS_URI, arrayOf("$TABLE_BUDGETS.$KEY_ROWID"), null, null, null)?.use { cursor ->
+        contentResolver.query(
+            TransactionProvider.BUDGETS_URI,
+            arrayOf("$TABLE_BUDGETS.$KEY_ROWID"),
+            null,
+            null,
+            null
+        )?.use { cursor ->
             updateFilterHelper(old, new, cursor, BudgetViewModel::prefNameForCriteria)
         }
     }
 
-    private fun updateFilterHelper(old: Set<Long>, new: Long, cursor: Cursor, prefNameCreator: (Long) -> String) {
+    private fun updateFilterHelper(
+        old: Set<Long>,
+        new: Long,
+        cursor: Cursor,
+        prefNameCreator: (Long) -> String
+    ) {
         cursor.moveToFirst()
         while (!cursor.isAfterLast) {
-            val payeeFilterKey = prefNameCreator(cursor.getLong(cursor.getColumnIndex(KEY_ROWID))).format(Locale.ROOT, KEY_PAYEEID)
+            val payeeFilterKey =
+                prefNameCreator(cursor.getLong(cursor.getColumnIndex(KEY_ROWID))).format(
+                    Locale.ROOT,
+                    KEY_PAYEEID
+                )
             val oldPayeeFilterValue = prefHandler.getString(payeeFilterKey, null)
             val oldCriteria = oldPayeeFilterValue?.let {
                 PayeeCriteria.fromStringExtra(it)
@@ -98,16 +129,26 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
                 val newSet: Set<Long> = oldSet.replace(old, new)
                 if (oldSet != newSet) {
                     val labelList = mutableListOf<String>()
-                    contentResolver.query(TransactionProvider.PAYEES_URI, arrayOf(KEY_PAYEE_NAME),
-                        "$KEY_ROWID IN (${newSet.joinToString()})", null, null)?.use {
+                    contentResolver.query(
+                        TransactionProvider.PAYEES_URI, arrayOf(KEY_PAYEE_NAME),
+                        "$KEY_ROWID IN (${newSet.joinToString()})", null, null
+                    )?.use {
                         it.moveToFirst()
                         while (!it.isAfterLast) {
                             labelList.add(it.getString(0))
                             it.moveToNext()
                         }
                     }
-                    val newPayeeFilterValue = PayeeCriteria(labelList.joinToString(","), *newSet.toLongArray()).toStringExtra()
-                    Timber.d("Updating %s (%s -> %s", payeeFilterKey, oldPayeeFilterValue, newPayeeFilterValue)
+                    val newPayeeFilterValue = PayeeCriteria(
+                        labelList.joinToString(","),
+                        *newSet.toLongArray()
+                    ).toStringExtra()
+                    Timber.d(
+                        "Updating %s (%s -> %s",
+                        payeeFilterKey,
+                        oldPayeeFilterValue,
+                        newPayeeFilterValue
+                    )
                     prefHandler.putString(payeeFilterKey, newPayeeFilterValue)
                 }
             }
@@ -126,13 +167,31 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
                 val inOp = "IN (${it.joinToString()})"
                 val where = "$KEY_PAYEEID $inOp"
                 val operations = ArrayList<ContentProviderOperation>().apply {
-                    add(newUpdate(TransactionProvider.TRANSACTIONS_URI).withValues(contentValues).withSelection(where, null).build())
-                    add(newUpdate(TransactionProvider.TEMPLATES_URI).withValues(contentValues).withSelection(where, null).build())
-                    add(newUpdate(TransactionProvider.CHANGES_URI).withValues(contentValues).withSelection(where, null).build())
-                    add(newUpdate(TransactionProvider.DEBTS_URI).withValues(contentValues).withSelection(where, null).build())
-                    add(newDelete(TransactionProvider.PAYEES_URI).withSelection("$KEY_ROWID $inOp", null).build())
+                    add(
+                        newUpdate(TransactionProvider.TRANSACTIONS_URI).withValues(contentValues)
+                            .withSelection(where, null).build()
+                    )
+                    add(
+                        newUpdate(TransactionProvider.TEMPLATES_URI).withValues(contentValues)
+                            .withSelection(where, null).build()
+                    )
+                    add(
+                        newUpdate(TransactionProvider.CHANGES_URI).withValues(contentValues)
+                            .withSelection(where, null).build()
+                    )
+                    add(
+                        newUpdate(TransactionProvider.DEBTS_URI).withValues(contentValues)
+                            .withSelection(where, null).build()
+                    )
+                    add(
+                        newDelete(TransactionProvider.PAYEES_URI).withSelection(
+                            "$KEY_ROWID $inOp",
+                            null
+                        ).build()
+                    )
                 }
-                val size = contentResolver.applyBatch(TransactionProvider.AUTHORITY, operations).size
+                val size =
+                    contentResolver.applyBatch(TransactionProvider.AUTHORITY, operations).size
                 if (size == operations.size) {
                     updatePartyFilters(it, keepId)
                     updatePartyBudgets(it, keepId)

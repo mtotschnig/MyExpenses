@@ -27,6 +27,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
@@ -51,6 +52,13 @@ const val ERROR_WHILE_SAVING_TAGS = -5L
 
 class TransactionEditViewModel(application: Application) : TransactionViewModel(application) {
 
+    data class Debt(
+        val id: Long,
+        val label: String,
+        val payeeId: Long,
+        val currency: String
+    )
+
     private val disposables = CompositeDisposable()
 
     //TODO move to lazyMap
@@ -61,6 +69,14 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
         disposables.add(briteContentResolver.createQuery(TransactionProvider.ACCOUNTS_BASE_URI, null, "$KEY_SEALED = 0", null, null, false)
                 .mapToList { buildAccount(it, currencyContext) }
                 .subscribe { liveData.postValue(it) })
+        return@lazy liveData
+    }
+
+    private val debts by lazy {
+        val liveData = MutableLiveData<List<Debt>>()
+        disposables.add(briteContentResolver.createQuery(TransactionProvider.DEBTS_URI, null, "$KEY_SEALED = 0", null, null, false)
+            .mapToList { buildDebt(it) }
+            .subscribe { liveData.postValue(it) })
         return@lazy liveData
     }
 
@@ -83,6 +99,8 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
     fun getAccounts(): LiveData<List<Account>> = accounts
 
     fun getTemplates(): LiveData<List<DataTemplate>> = templates
+
+    fun getDebts(): LiveData<List<Debt>> = debts
 
     fun plan(planId: Long): LiveData<Plan?> = liveData(context = coroutineContext()) {
         emit(Plan.getInstanceFromDb(planId))
@@ -108,6 +126,15 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
                 cursor.getInt(cursor.getColumnIndex(KEY_COLOR)),
                 AccountType.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(KEY_TYPE))),
                 adjustExchangeRate(cursor.getDouble(cursor.getColumnIndex(KEY_EXCHANGE_RATE)), currency))
+    }
+
+    private fun buildDebt(cursor: Cursor): Debt {
+        return Debt(
+            cursor.getLong(cursor.getColumnIndex(KEY_ROWID)),
+            cursor.getString(cursor.getColumnIndex(KEY_LABEL)),
+            cursor.getLong(cursor.getColumnIndex(KEY_PAYEEID)),
+            cursor.getString(cursor.getColumnIndex(KEY_CURRENCY))
+        )
     }
 
     override fun onCleared() {

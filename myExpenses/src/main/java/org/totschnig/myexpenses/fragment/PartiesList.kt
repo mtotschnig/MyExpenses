@@ -105,7 +105,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             with(getItem(position)) {
-                holder.bind(name, isChecked(position), mappedDebts > 0)
+                holder.bind(name, isChecked(position), lastMappedDebt != null)
             }
         }
 
@@ -114,9 +114,17 @@ class PartiesList : Fragment(), OnDialogResultListener {
         override fun onItemClick(view: View, position: Int) {
             with(PopupMenu(requireContext(), view)) {
                 inflate(R.menu.parties_context)
-                menu.findItem(
-                    if (action == ACTION_SELECT_MAPPING) R.id.SELECT_COMMAND else R.id.DEBT_COMMAND
-                ).isVisible = true
+                if (action == ACTION_SELECT_MAPPING) {
+                    menu.findItem(R.id.SELECT_COMMAND).isVisible = true
+                } else {
+                    menu.findItem(R.id.DEBT_COMMAND).apply {
+                        isVisible = true
+                        getItem(position).lastMappedDebt?.let {
+                            title = it
+                        }
+                    }
+                }
+
                 setOnMenuItemClickListener { item ->
                     val party = getItem(position)
                     when (item.itemId) {
@@ -148,7 +156,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                                     )
                                 }
                                 manageParties?.showSnackbar(message)
-                            } else if (party.mappedDebts > 0) {
+                            } else if (party.lastMappedDebt != null) {
                                 SimpleDialog.build()
                                     .title(R.string.dialog_title_warning_delete_party)
                                     .extra(Bundle().apply {
@@ -170,10 +178,14 @@ class PartiesList : Fragment(), OnDialogResultListener {
                             }
                         }
                         R.id.DEBT_COMMAND -> {
-                            startActivity(Intent(context, DebtEdit::class.java).apply {
-                                putExtra(KEY_PAYEEID, party.id)
-                                putExtra(KEY_PAYEE_NAME, party.name)
-                            })
+                            if (party.lastMappedDebt == null) {
+                                startActivity(Intent(context, DebtEdit::class.java).apply {
+                                    putExtra(KEY_PAYEEID, party.id)
+                                    putExtra(KEY_PAYEE_NAME, party.name)
+                                })
+                            } else {
+                                TODO()
+                            }
                         }
                         R.id.SELECT_COMMAND -> {
                             doSingleSelection(party)
@@ -344,7 +356,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
             adapter.submitList(if (action == ACTION_SELECT_FILTER)
                 listOf(Party(
                     CategoryTreeBaseAdapter.NULL_ITEM_ID, getString(R.string.unmapped),
-                    mappedTransactions = false, mappedTemplates = false, mappedDebts = 0
+                    mappedTransactions = false, mappedTemplates = false, lastMappedDebt = null
                 )).plus(parties)
             else
                 parties)
