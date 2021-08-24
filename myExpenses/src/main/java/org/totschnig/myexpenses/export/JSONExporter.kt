@@ -24,7 +24,7 @@ class JSONExporter(account: Account, filter: WhereFilter?,
                    private val withAccountColumn: Boolean) :
         AbstractExporter(account, filter, notYetExportedP, dateFormat,
                 decimalSeparator, encoding) {
-    override val format = ExportFormat.CSV
+    override val format = ExportFormat.JSON
     override fun header(context: Context) = "["
     override fun line(id: String, isSplit: Boolean, dateStr: String, payee: String, amount: BigDecimal, labelMain: String, labelSub: String, fullLabel: String, comment: String, methodLabel: String?, status: CrStatus, referenceNumber: String, pictureFileName: String, tagList: String) =
             TransactionDTO(id, isSplit, dateStr, payee, amount, labelMain, labelSub, fullLabel, comment, methodLabel,
