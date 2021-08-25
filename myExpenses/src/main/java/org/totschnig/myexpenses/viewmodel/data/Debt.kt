@@ -18,16 +18,34 @@ data class Debt(
     val label: String,
     val description: String,
     val payeeId: Long,
-    val amount: BigDecimal,
-    val currency: CurrencyUnit,
-    val date: LocalDate
+    val amount: Long,
+    val currency: String,
+    val date: Long
 ) {
+    constructor(
+        id: Long,
+        label: String,
+        description: String,
+        payeeId: Long,
+        amount: BigDecimal,
+        currency: CurrencyUnit,
+        date: LocalDate
+    ) : this(
+        id,
+        label,
+        description,
+        payeeId,
+        Money(currency, amount).amountMinor,
+        currency.code,
+        localDate2Epoch(date)
+    )
+
     fun toContentValues() = ContentValues().apply {
         put(KEY_LABEL, label)
         put(KEY_DESCRIPTION, description)
-        put(KEY_AMOUNT, Money(currency, amount).amountMinor)
-        put(KEY_CURRENCY, currency.code)
-        put(KEY_DATE, localDate2Epoch(date))
+        put(KEY_AMOUNT, amount)
+        put(KEY_CURRENCY, currency)
+        put(KEY_DATE, date)
         if (id == 0L) {
             //the link between debt and payeeId should not be altered
             put(KEY_PAYEEID, payeeId)

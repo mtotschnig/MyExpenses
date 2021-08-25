@@ -77,6 +77,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DAY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
@@ -165,6 +166,7 @@ public class Transaction extends Model implements ITransaction {
   private String methodLabel = "";
   private Long parentId = null;
   private Long payeeId = null;
+  private Long debtId = null;
   private String categoryIcon = null;
   private boolean isSealed = false;
 
@@ -317,6 +319,14 @@ public class Transaction extends Model implements ITransaction {
     this.payeeId = payeeId;
   }
 
+  public Long getDebtId() {
+    return debtId;
+  }
+
+  public void setDebtId(Long debtId) {
+    this.debtId = debtId;
+  }
+
   /**
    * stores a short label of the category or the account the transaction is linked to
    */
@@ -465,7 +475,7 @@ public class Transaction extends Model implements ITransaction {
     Transaction t;
     final CurrencyContext currencyContext = MyApplication.getInstance().getAppComponent().currencyContext();
     String[] projection = new String[]{KEY_ROWID, KEY_DATE, KEY_VALUE_DATE, KEY_AMOUNT, KEY_COMMENT, KEY_CATID,
-        FULL_LABEL, KEY_PAYEEID, KEY_PAYEE_NAME, KEY_TRANSFER_PEER, KEY_TRANSFER_ACCOUNT,
+        FULL_LABEL, KEY_PAYEEID, KEY_PAYEE_NAME, KEY_TRANSFER_PEER, KEY_TRANSFER_ACCOUNT, KEY_DEBT_ID,
         KEY_ACCOUNTID, KEY_METHODID, KEY_PARENTID, KEY_CR_STATUS, KEY_REFERENCE_NUMBER, KEY_CURRENCY,
         KEY_PICTURE_URI, KEY_METHOD_LABEL, KEY_STATUS, TRANSFER_AMOUNT(VIEW_ALL), KEY_TEMPLATEID, KEY_UUID, KEY_ORIGINAL_AMOUNT, KEY_ORIGINAL_CURRENCY,
         KEY_EQUIVALENT_AMOUNT, CATEGORY_ICON, CHECK_SEALED_WITH_ALIAS(VIEW_ALL, TABLE_TRANSACTIONS)};
@@ -511,6 +521,7 @@ public class Transaction extends Model implements ITransaction {
     t.setCatId(catId);
     t.setPayee(DbUtils.getString(c, KEY_PAYEE_NAME));
     t.setPayeeId(getLongOrNull(c, KEY_PAYEEID));
+    t.setDebtId(getLongOrNull(c, KEY_DEBT_ID));
     t.setId(id);
     final long date = c.getLong(c.getColumnIndexOrThrow(KEY_DATE));
     t.setDate(date);
@@ -976,6 +987,7 @@ public class Transaction extends Model implements ITransaction {
     initialValues.put(KEY_METHODID, getMethodId());
     initialValues.put(KEY_CR_STATUS, crStatus.name());
     initialValues.put(KEY_ACCOUNTID, getAccountId());
+    initialValues.put(KEY_DEBT_ID, getDebtId());
 
     initialValues.put(KEY_ORIGINAL_AMOUNT, originalAmount == null ? null : originalAmount.getAmountMinor());
     initialValues.put(KEY_ORIGINAL_CURRENCY, originalAmount == null ? null : originalAmount.getCurrencyUnit().getCode());

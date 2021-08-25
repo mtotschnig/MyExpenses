@@ -58,6 +58,7 @@ abstract class MainDelegate<T : ITransaction>(
         return buildMainTransaction(accountId).apply {
             this.amount = Money(currentAccount()!!.currency, amount)
             payee = viewBinding.Payee.text.toString()
+            this.debtId = this@MainDelegate.debtId
             this.methodId = this@MainDelegate.methodId
             val originalAmount = validateAmountInput(
                 viewBinding.OriginalAmount,
@@ -227,6 +228,9 @@ abstract class MainDelegate<T : ITransaction>(
             if (hasDebts) {
                 if (debtId != null) {
                     setDebt(applicableDebts.find { it.id == debtId })
+                    if (!viewBinding.DebtCheckBox.isChecked) {
+                        viewBinding.DebtCheckBox.isChecked = true
+                    }
                 } else if (applicableDebts.size == 1) {
                     setDebt(applicableDebts.first())
                 }

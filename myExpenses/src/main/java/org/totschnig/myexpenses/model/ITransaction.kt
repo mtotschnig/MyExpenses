@@ -29,6 +29,7 @@ interface ITransaction: IModel {
     var originPlanInstanceId: Long?
     var originPlanId: Long?
     var payeeId: Long?
+    var debtId: Long?
 
     val isTransfer: Boolean
     val isSplit: Boolean

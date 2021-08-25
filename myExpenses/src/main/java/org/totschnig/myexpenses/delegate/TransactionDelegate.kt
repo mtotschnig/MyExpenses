@@ -228,6 +228,7 @@ abstract class TransactionDelegate<T : ITransaction>(
             originTemplateId = transaction.originTemplateId
             uuid = transaction.uuid
             payeeId = transaction.payeeId
+            debtId = transaction.debtId
             //Setting this early instead of waiting for call to setAccounts
             //works around a bug in some legacy virtual keyboards where configuring the
             //editText too late corrupt inputType
