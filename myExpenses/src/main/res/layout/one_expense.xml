@@ -217,11 +217,16 @@
                                 android:visibility="gone">
 
                                 <CheckBox
-                                    android:id="@+id/Debt"
+                                    android:layout_gravity="center_horizontal"
+                                    android:id="@+id/DebtCheckBox"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content" />
 
                                 <TextView
+                                    android:id="@+id/DebtLabel"
+                                    android:maxWidth="72dp"
+                                    android:maxLines="1"
+                                    android:ellipsize="end"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/debt" />

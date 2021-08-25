@@ -3,13 +3,14 @@ package org.totschnig.myexpenses.delegate
 import android.database.Cursor
 import android.os.Bundle
 import android.text.TextWatcher
+import android.view.Menu
 import android.view.View
 import android.widget.AdapterView
 import android.widget.FilterQueryProvider
 import android.widget.SimpleCursorAdapter
+import androidx.appcompat.widget.PopupMenu
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.FragmentActivity
-import icepick.State
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.MethodRowBinding
@@ -26,7 +27,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel
+import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel.Debt
 import org.totschnig.myexpenses.viewmodel.data.Account
 
 //Transaction or Split
@@ -43,12 +44,8 @@ abstract class MainDelegate<T : ITransaction>(
     prefHandler,
     isTemplate
 ) {
-    private var debts: List<TransactionEditViewModel.Debt> = emptyList()
+    private var debts: List<Debt> = emptyList()
     private lateinit var payeeAdapter: SimpleCursorAdapter
-
-    @JvmField
-    @State
-    var payeeId: Long? = null
 
     override fun buildTransaction(
         forSave: Boolean,
@@ -205,17 +202,37 @@ abstract class MainDelegate<T : ITransaction>(
         }
     }
 
-    fun setDebts(debts: List<TransactionEditViewModel.Debt>) {
+    fun setDebts(debts: List<Debt>) {
         this.debts = debts
         handleDebts()
     }
 
+    private fun setDebt(debt: Debt?) {
+        if (debt == null) {
+            if (viewBinding.DebtCheckBox.isChecked) {
+                viewBinding.DebtCheckBox.isChecked = false
+            }
+            debtId = null
+        }
+        viewBinding.DebtLabel.text = debt?.label ?: context.getString(R.string.debt)
+    }
+
+    private val applicableDebts: List<Debt>
+        get() = debts.filter { it.payeeId == payeeId && it.currency == currentAccount()?.currency?.code }
+
     private fun handleDebts() {
-        val hasDebts = payeeId != null &&
-            debts.any { it.payeeId == payeeId && it.currency == currentAccount()?.currency?.code }
-        viewBinding.DebtContainer.visibility = if (hasDebts) View.VISIBLE else View.GONE
-        if (!hasDebts) {
-            viewBinding.Debt.isChecked = false
+        if (debts.isNotEmpty()) {
+            val hasDebts = applicableDebts.isNotEmpty()
+            viewBinding.DebtContainer.visibility = if (hasDebts) View.VISIBLE else View.GONE
+            if (hasDebts) {
+                if (debtId != null) {
+                    setDebt(applicableDebts.find { it.id == debtId })
+                } else if (applicableDebts.size == 1) {
+                    setDebt(applicableDebts.first())
+                }
+            } else {
+                setDebt(null)
+            }
         }
     }
 
@@ -224,6 +241,36 @@ abstract class MainDelegate<T : ITransaction>(
         viewBinding.Payee.addTextChangedListener {
             payeeId = null
             handleDebts()
+        }
+        viewBinding.DebtCheckBox.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                when (applicableDebts.size) {
+                    0 -> { /*should not happen*/ CrashHandler.throwOrReport(java.lang.IllegalStateException("Debt checked without applicable debt")) }
+                    1 -> { debtId = applicableDebts.first().id }
+                    else -> {
+                        with(PopupMenu(context, viewBinding.DebtContainer)) {
+                            applicableDebts.forEachIndexed { index, debt ->
+                                menu.add(Menu.NONE, index, Menu.NONE, debt.label)
+                            }
+                            setOnMenuItemClickListener { item ->
+                                with(applicableDebts[item.itemId]) {
+                                    setDebt(this)
+                                    debtId = id
+                                }
+                                true
+                            }
+                            setOnDismissListener {
+                                if (debtId == null) {
+                                    viewBinding.DebtCheckBox.isChecked = false
+                                }
+                            }
+                            show()
+                        }
+                    }
+                }
+            } else {
+                setDebt(null)
+            }
         }
     }
 }

@@ -173,6 +173,14 @@ abstract class TransactionDelegate<T : ITransaction>(
     @State
     var uuid: String? = null
 
+    @JvmField
+    @State
+    var payeeId: Long? = null
+
+    @JvmField
+    @State
+    var debtId: Long? = null
+
     val crStatus
         get() = _crStatus ?: CrStatus.UNRECONCILED
 
@@ -219,6 +227,7 @@ abstract class TransactionDelegate<T : ITransaction>(
             _crStatus = transaction.crStatus
             originTemplateId = transaction.originTemplateId
             uuid = transaction.uuid
+            payeeId = transaction.payeeId
             //Setting this early instead of waiting for call to setAccounts
             //works around a bug in some legacy virtual keyboards where configuring the
             //editText too late corrupt inputType

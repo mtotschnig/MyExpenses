@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.util.crashreporting;
 
 import android.content.Context;
 
+import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DbUtils;
@@ -36,6 +37,14 @@ public abstract class CrashHandler {
   public static void report(Throwable e, String key, String data) {
     Timber.w("%s: %s", key, data);
     report(e);
+  }
+
+  public static void throwOrReport(Throwable e) throws Throwable {
+    if (BuildConfig.DEBUG) {
+      throw e;
+    } else {
+      report(e);
+    }
   }
 
   public static void report(Throwable e) {
