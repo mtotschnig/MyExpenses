@@ -208,7 +208,7 @@ abstract class MainDelegate<T : ITransaction>(
         handleDebts()
     }
 
-    private fun setDebt(debt: Debt?) {
+    private fun updateUiWithDebt(debt: Debt?) {
         if (debt == null) {
             if (viewBinding.DebtCheckBox.isChecked) {
                 viewBinding.DebtCheckBox.isChecked = false
@@ -216,6 +216,11 @@ abstract class MainDelegate<T : ITransaction>(
             debtId = null
         }
         viewBinding.DebtLabel.text = debt?.label ?: context.getString(R.string.debt)
+    }
+
+    private fun setDebt(debt: Debt) {
+        updateUiWithDebt(debt)
+        debtId = debt.id
     }
 
     private val applicableDebts: List<Debt>
@@ -227,15 +232,15 @@ abstract class MainDelegate<T : ITransaction>(
             viewBinding.DebtContainer.visibility = if (hasDebts) View.VISIBLE else View.GONE
             if (hasDebts) {
                 if (debtId != null) {
-                    setDebt(applicableDebts.find { it.id == debtId })
+                    updateUiWithDebt(applicableDebts.find { it.id == debtId })
                     if (!viewBinding.DebtCheckBox.isChecked) {
                         viewBinding.DebtCheckBox.isChecked = true
                     }
                 } else if (applicableDebts.size == 1) {
-                    setDebt(applicableDebts.first())
+                    updateUiWithDebt(applicableDebts.first())
                 }
             } else {
-                setDebt(null)
+                updateUiWithDebt(null)
             }
         }
     }
@@ -250,17 +255,14 @@ abstract class MainDelegate<T : ITransaction>(
             if (isChecked) {
                 when (applicableDebts.size) {
                     0 -> { /*should not happen*/ CrashHandler.throwOrReport(java.lang.IllegalStateException("Debt checked without applicable debt")) }
-                    1 -> { debtId = applicableDebts.first().id }
+                    1 -> { setDebt(applicableDebts.first()) }
                     else -> {
                         with(PopupMenu(context, viewBinding.DebtContainer)) {
                             applicableDebts.forEachIndexed { index, debt ->
                                 menu.add(Menu.NONE, index, Menu.NONE, debt.label)
                             }
                             setOnMenuItemClickListener { item ->
-                                with(applicableDebts[item.itemId]) {
-                                    setDebt(this)
-                                    debtId = id
-                                }
+                                setDebt(applicableDebts[item.itemId])
                                 true
                             }
                             setOnDismissListener {
@@ -273,7 +275,9 @@ abstract class MainDelegate<T : ITransaction>(
                     }
                 }
             } else {
-                setDebt(null)
+                if (applicableDebts.size > 1) {
+                    updateUiWithDebt(null)
+                }
             }
         }
     }
