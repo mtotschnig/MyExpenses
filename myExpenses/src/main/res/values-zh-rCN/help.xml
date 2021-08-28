@@ -123,4 +123,10 @@
     <string name="menu_history_help_text">显示现金流图表：你在数日、数周、数月或数年的开支和收入情况如何？</string>
     <string name="menu_budget_help_text">对当前显示的账户，按日、周、月或年进行预算管理。</string>
     <string name="menu_sort_direction_help_text">交易可按升序(旧交易在先)或降序（新交易在先）排列。</string>
+    <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">如果就已选定的事件instance创建交易，则该等交易将被删除，如果该等交易已标注为已删除，则该标记将被删除。</string>
+    <string name="help_ManageTemplates_plans_info">Instance的状态通过以下图标标示：&lt;br&gt;&lt;img src=ic_stat_open&gt; Instance尚未应用。&lt;br&gt;&lt;img src=ic_stat_applied&gt; Instance已经应用。&lt;br&gt;&lt;img src=ic_stat_cancelled&gt; Instance已经取消，即您已将其标记为跳过。该Instance不在创建交易。</string>
+    <string name="help_ManageTemplates_plans_intro">每个高亮日期代表计划的一个 instance。</string>
+    <string name="help_ManageTemplates_planner_intro">长按open instance可进行多选。点按开始日期或结束日期可以将时间范围向后或向前延展。</string>
+    <string name="menu_balance_help_text">通过此项命令可打开对话框，显示上一次已对账的余额和已清算的余额。您可以将后者与您的银行接单进行比较，然后将所有已清算的交易标记为已对账。您也可以选择删除已对账的交易。</string>
+    <string name="menu_reset_help_text">通过此项命令，可将当前账户内的所有交易以QIF或CSV格式导出，放入SD卡内的文件。您可以决定删除已导出的交易，届时期初余额会自动调整。或者，如果交易未删除，则标注为已导出。My Expenses 可以通过FTP、电子邮件或任何其他文件共享应用共享已导出的文件，前提是您已在设置中做好相应配置。如果启用搜索筛选设定，则仅包含该符合该筛选设定的交易。</string>
 </resources>
