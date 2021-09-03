@@ -239,7 +239,6 @@
         if ($(block).length == 0) return;
         $('.block').toggle(false);
         $(block).toggle(true);
-        ga('send', 'pageview', location.pathname + block);
         var targetTitle = $(block + " h2").text();
         document.title = "{{site.title[pagelang]}}" + (targetTitle == "" ? "" : (" | " +targetTitle));
         $('#navigation').find('li.active').first().removeClass('active');
