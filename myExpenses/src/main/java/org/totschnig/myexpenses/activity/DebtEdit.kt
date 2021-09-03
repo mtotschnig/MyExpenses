@@ -9,6 +9,7 @@ import org.totschnig.myexpenses.databinding.OneDebtBinding
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.ui.ButtonWithDialog
+import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.epoch2ZonedDateTime
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
 import org.totschnig.myexpenses.viewmodel.DebtViewModel
@@ -43,14 +44,18 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host {
         currencyViewModel.getCurrencies().observe(this) { list ->
             binding.Amount.setCurrencies(list, currencyContext)
             if (savedInstanceState == null) {
-                viewModel.loadDebt(debtId).observe(this) {
-                    binding.Label.setText(it.label)
-                    binding.Description.setText(it.description)
-                    binding.Amount.setSelectedCurrency(it.currency)
-                    binding.Amount.setAmount(Money(currencyContext[it.currency], it.amount).amountMajor)
-                    binding.DateButton.setDate(epoch2ZonedDateTime(it.date).toLocalDate())
-                    setTitle(it.amount > 0)
-                    setupListeners()
+                if (debtId != 0L) {
+                    viewModel.loadDebt(debtId).observe(this) {
+                        binding.Label.setText(it.label)
+                        binding.Description.setText(it.description)
+                        binding.Amount.setSelectedCurrency(it.currency)
+                        binding.Amount.setAmount(Money(currencyContext[it.currency], it.amount).amountMajor)
+                        binding.DateButton.setDate(epoch2ZonedDateTime(it.date).toLocalDate())
+                        setTitle(it.amount > 0)
+                        setupListeners()
+                    }
+                } else {
+                    binding.Amount.setSelectedCurrency(Utils.getHomeCurrency().code)
                 }
             }
         }
@@ -79,6 +84,11 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host {
     }
 
     override fun saveState() {
+        val label = binding.Label.text.toString()
+        if (label == "") {
+            binding.Label.error = getString(R.string.no_title_given)
+            return
+        }
         binding.Amount.selectedCurrency?.let {
             viewModel.saveDebt(
                 Debt(debtId, binding.Label.text.toString(), binding.Description.text.toString(), payeeId,
