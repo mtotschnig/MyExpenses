@@ -121,11 +121,12 @@ class PartiesList : Fragment(), OnDialogResultListener {
                 menu.add(Menu.NONE, EDIT_COMMAND, Menu.NONE, R.string.menu_edit).setIcon(R.drawable.ic_menu_edit)
                 menu.add(Menu.NONE, DELETE_COMMAND, Menu.NONE, R.string.menu_delete).setIcon(R.drawable.ic_menu_delete)
                 if (action == ACTION_MANAGE) {
+                    val subMenu = menu.addSubMenu(Menu.NONE, DEBT_SUB_MENU, Menu.NONE, R.string.debt).setIcon(R.drawable.balance_scale)
                     viewModel.getDebts(getItem(position).id)?.forEachIndexed { index, debt ->
-                        index2IdMap.put(index, debt.id)
-                        menu.add(Menu.NONE, index, Menu.NONE, debt.label).setIcon(R.drawable.balance_scale)
+                        index2IdMap[index] = debt.id
+                        subMenu.add(Menu.NONE, index, Menu.NONE, debt.label)
                     }
-                    menu.add(Menu.NONE, NEW_DEBT_COMMAND, Menu.NONE, R.string.menu_new_debt).setIcon(R.drawable.balance_scale)
+                    subMenu.add(Menu.NONE, NEW_DEBT_COMMAND, Menu.NONE, R.string.menu_new_debt).setIcon(R.drawable.ic_menu_add)
                 }
 
                 setOnMenuItemClickListener { item ->
@@ -183,6 +184,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                         SELECT_COMMAND -> {
                             doSingleSelection(party)
                         }
+                        DEBT_SUB_MENU -> { /*submenu*/ }
                         else -> {
                             startActivity(Intent(context, DebtEdit::class.java).apply {
                                 putExtra(KEY_PAYEEID, party.id)
@@ -383,6 +385,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
         const val EDIT_COMMAND = -2
         const val DELETE_COMMAND = -3
         const val NEW_DEBT_COMMAND = -4
+        const val DEBT_SUB_MENU = -5
 
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Party>() {
             override fun areItemsTheSame(oldItem: Party, newItem: Party): Boolean {
