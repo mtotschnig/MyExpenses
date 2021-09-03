@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.activity
 
 import android.os.Bundle
-import android.view.View
 import androidx.activity.viewModels
 import org.threeten.bp.LocalDate
 import org.totschnig.myexpenses.MyApplication
@@ -10,6 +9,7 @@ import org.totschnig.myexpenses.databinding.OneDebtBinding
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.ui.ButtonWithDialog
+import org.totschnig.myexpenses.util.epoch2ZonedDateTime
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
 import org.totschnig.myexpenses.viewmodel.DebtViewModel
 import org.totschnig.myexpenses.viewmodel.data.Debt
@@ -25,12 +25,10 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host {
     val payeeId: Long
         get() = intent.getLongExtra(DatabaseConstants.KEY_PAYEEID, 0)
 
-    val debtId: Long
+    private val debtId: Long
         get() = intent.getLongExtra(DatabaseConstants.KEY_DEBT_ID, 0)
 
-    override fun getDiscardNewMessage(): Int {
-        TODO("Not yet implemented")
-    }
+    override fun getDiscardNewMessage() = R.string.dialog_confirm_discard_new_debt
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,20 +40,42 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host {
             inject(viewModel)
             inject(currencyViewModel)
         }
-        currencyViewModel.getCurrencies().observe(this) {
-            binding.Amount.setCurrencies(it, currencyContext)
+        currencyViewModel.getCurrencies().observe(this) { list ->
+            binding.Amount.setCurrencies(list, currencyContext)
+            if (savedInstanceState == null) {
+                viewModel.loadDebt(debtId).observe(this) {
+                    binding.Label.setText(it.label)
+                    binding.Description.setText(it.description)
+                    binding.Amount.setSelectedCurrency(it.currency)
+                    binding.Amount.setAmount(Money(currencyContext[it.currency], it.amount).amountMajor)
+                    binding.DateButton.setDate(epoch2ZonedDateTime(it.date).toLocalDate())
+                    setTitle(it.amount > 0)
+                    setupListeners()
+                }
+            }
         }
         if (savedInstanceState == null) {
             if (debtId == 0L) {
                 binding.DateButton.setDate(LocalDate.now())
                 setTitle(false)
-            } else {
-                //load debt
             }
+        }
+        if (savedInstanceState != null || debtId == 0L) {
+            setupListeners()
+        }
+        if (debtId != 0L) {
+            binding.Amount.disableCurrencySelection()
+            mNewInstance = false
         }
         binding.Amount.setTypeChangedListener {
             setTitle(it)
         }
+    }
+
+    private fun setupListeners() {
+        binding.Amount.addTextChangedListener(this)
+        binding.Label.addTextChangedListener(this)
+        binding.Description.addTextChangedListener(this)
     }
 
     override fun saveState() {
@@ -72,6 +92,4 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host {
     fun setTitle(signum: Boolean) {
         title = getString(if (signum) R.string.debt_owes_me else R.string.debt_I_owe, payeeName)
     }
-
-    override fun onValueSet(view: View) {}
 }

@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.viewmodel.data
 
 import android.content.ContentValues
+import android.database.Cursor
 import org.threeten.bp.LocalDate
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
@@ -10,6 +11,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.util.localDate2Epoch
 import java.math.BigDecimal
 
@@ -50,5 +52,17 @@ data class Debt(
             //the link between debt and payeeId should not be altered
             put(KEY_PAYEEID, payeeId)
         }
+    }
+
+    companion object {
+        fun fromCursor(cursor: Cursor) = Debt(
+            cursor.getLong(cursor.getColumnIndex(KEY_ROWID)),
+            cursor.getString(cursor.getColumnIndex(KEY_LABEL)),
+            cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION)),
+            cursor.getLong(cursor.getColumnIndex(KEY_PAYEEID)),
+            cursor.getLong(cursor.getColumnIndex(KEY_AMOUNT)),
+            cursor.getString(cursor.getColumnIndex(KEY_CURRENCY)),
+            cursor.getLong(cursor.getColumnIndex(KEY_DATE))
+        )
     }
 }

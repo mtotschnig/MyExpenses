@@ -9,14 +9,14 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 
 class AccountEditViewModel(application: Application) : TagHandlingViewModel(application) {
 
-    fun accountWithTags (id: Long) : LiveData<Account?> = liveData(context = coroutineContext()) {
+    fun accountWithTags(id: Long): LiveData<Account?> = liveData(context = coroutineContext()) {
         Account.getInstanceFromDbWithTags(id)?.also { pair ->
             emit(pair.first)
             pair.second?.takeIf { it.size > 0 }?.let { tags.postValue(it.toMutableList()) }
         }
     }
 
-    fun save (account: Account) : LiveData<Long> = liveData(context = coroutineContext()) {
+    fun save(account: Account): LiveData<Long> = liveData(context = coroutineContext()) {
         val result = try {
             account.save()?.let { ContentUris.parseId(it) } ?: ERROR_UNKNOWN
         } catch (e: Exception) {

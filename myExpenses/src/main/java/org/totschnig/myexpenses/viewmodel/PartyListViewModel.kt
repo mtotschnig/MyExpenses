@@ -12,6 +12,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
+import app.cash.copper.flow.mapToList
+import app.cash.copper.flow.observeQuery
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.jetbrains.annotations.Nullable
 import org.totschnig.myexpenses.dialog.select.SelectFromMappedTableDialogFragment
@@ -27,12 +31,17 @@ import org.totschnig.myexpenses.provider.filter.PayeeCriteria
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.replace
+import org.totschnig.myexpenses.viewmodel.data.Debt
 import org.totschnig.myexpenses.viewmodel.data.Party
 import timber.log.Timber
 import java.util.*
 
 class PartyListViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
+
     private val parties = MutableLiveData<List<Party>>()
+    private lateinit var debts: Map<Long, List<Debt>>
+
+    fun getDebts(partyId: Long): List<Debt>? = if (::debts.isInitialized) debts[partyId] else null
 
     fun getParties(): LiveData<List<Party>> = parties
 
@@ -68,6 +77,16 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
             .subscribe {
                 parties.postValue(it)
             }
+    }
+
+    fun loadDebts() {
+        viewModelScope.launch(context = coroutineContext()) {
+            contentResolver.observeQuery(TransactionProvider.DEBTS_URI).mapToList {
+                Debt.fromCursor(it)
+            }.collect {
+                this@PartyListViewModel.debts = it.groupBy { it.payeeId }
+            }
+        }
     }
 
     fun deleteParty(id: Long): LiveData<Result<Int>> = liveData(context = coroutineContext()) {

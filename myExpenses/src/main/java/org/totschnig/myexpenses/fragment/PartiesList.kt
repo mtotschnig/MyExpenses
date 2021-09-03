@@ -55,6 +55,7 @@ import org.totschnig.myexpenses.adapter.MultiChoiceMode
 import org.totschnig.myexpenses.databinding.PartiesListBinding
 import org.totschnig.myexpenses.databinding.PayeeRowBinding
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
@@ -105,30 +106,32 @@ class PartiesList : Fragment(), OnDialogResultListener {
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             with(getItem(position)) {
-                holder.bind(name, isChecked(position), lastMappedDebt != null)
+                holder.bind(name, isChecked(position), mappedDebts > 0)
             }
         }
 
         fun getParty(position: Int): Party = getItem(position)
 
         override fun onItemClick(view: View, position: Int) {
+            val index2IdMap: MutableMap<Int, Long> = mutableMapOf()
             with(PopupMenu(requireContext(), view)) {
-                inflate(R.menu.parties_context)
                 if (action == ACTION_SELECT_MAPPING) {
-                    menu.findItem(R.id.SELECT_COMMAND).isVisible = true
-                } else {
-                    menu.findItem(R.id.DEBT_COMMAND).apply {
-                        isVisible = true
-                        getItem(position).lastMappedDebt?.let {
-                            title = it
-                        }
+                    menu.add(Menu.NONE, SELECT_COMMAND, Menu.NONE, R.string.select).setIcon(R.drawable.ic_menu_done)
+                }
+                menu.add(Menu.NONE, EDIT_COMMAND, Menu.NONE, R.string.menu_edit).setIcon(R.drawable.ic_menu_edit)
+                menu.add(Menu.NONE, DELETE_COMMAND, Menu.NONE, R.string.menu_delete).setIcon(R.drawable.ic_menu_delete)
+                if (action == ACTION_MANAGE) {
+                    viewModel.getDebts(getItem(position).id)?.forEachIndexed { index, debt ->
+                        index2IdMap.put(index, debt.id)
+                        menu.add(Menu.NONE, index, Menu.NONE, debt.label).setIcon(R.drawable.balance_scale)
                     }
+                    menu.add(Menu.NONE, NEW_DEBT_COMMAND, Menu.NONE, R.string.menu_new_debt).setIcon(R.drawable.balance_scale)
                 }
 
                 setOnMenuItemClickListener { item ->
                     val party = getItem(position)
                     when (item.itemId) {
-                        R.id.EDIT_COMMAND -> {
+                        EDIT_COMMAND -> {
                             SimpleInputDialog.build()
                                 .title(R.string.menu_edit_party)
                                 .cancelable(false)
@@ -142,7 +145,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                                 })
                                 .show(this@PartiesList, DIALOG_EDIT_PARTY)
                         }
-                        R.id.DELETE_COMMAND -> {
+                        DELETE_COMMAND -> {
                             if (party.mappedTransactions || party.mappedTemplates) {
                                 var message = ""
                                 if (party.mappedTransactions) {
@@ -156,7 +159,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                                     )
                                 }
                                 manageParties?.showSnackbar(message)
-                            } else if (party.lastMappedDebt != null) {
+                            } else if (party.mappedDebts > 0) {
                                 SimpleDialog.build()
                                     .title(R.string.dialog_title_warning_delete_party)
                                     .extra(Bundle().apply {
@@ -177,18 +180,17 @@ class PartiesList : Fragment(), OnDialogResultListener {
                                 doDelete(party.id)
                             }
                         }
-                        R.id.DEBT_COMMAND -> {
-                            if (party.lastMappedDebt == null) {
-                                startActivity(Intent(context, DebtEdit::class.java).apply {
-                                    putExtra(KEY_PAYEEID, party.id)
-                                    putExtra(KEY_PAYEE_NAME, party.name)
-                                })
-                            } else {
-                                TODO()
-                            }
-                        }
-                        R.id.SELECT_COMMAND -> {
+                        SELECT_COMMAND -> {
                             doSingleSelection(party)
+                        }
+                        else -> {
+                            startActivity(Intent(context, DebtEdit::class.java).apply {
+                                putExtra(KEY_PAYEEID, party.id)
+                                putExtra(KEY_PAYEE_NAME, party.name)
+                                if (item.itemId != NEW_DEBT_COMMAND) {
+                                    putExtra(KEY_DEBT_ID, index2IdMap[item.itemId])
+                                }
+                            })
                         }
                     }
                     true
@@ -250,6 +252,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
         setHasOptionsMenu(true)
         viewModel = ViewModelProvider(this).get(PartyListViewModel::class.java)
         (requireActivity().application as MyApplication).appComponent.inject(viewModel)
+        viewModel.loadDebts()
         Icepick.restoreInstanceState(this, savedInstanceState)
     }
 
@@ -312,11 +315,11 @@ class PartiesList : Fragment(), OnDialogResultListener {
 
     private fun onQueryTextChange(newText: String?): Boolean {
         filter = if (TextUtils.isEmpty(newText)) "" else newText
-        loadData()
+        loadParties()
         return true
     }
 
-    private fun loadData() {
+    private fun loadParties() {
         viewModel.loadParties(
             filter,
             requireActivity().intent.getLongExtra(DatabaseConstants.KEY_ACCOUNTID, 0)
@@ -356,13 +359,13 @@ class PartiesList : Fragment(), OnDialogResultListener {
             adapter.submitList(if (action == ACTION_SELECT_FILTER)
                 listOf(Party(
                     CategoryTreeBaseAdapter.NULL_ITEM_ID, getString(R.string.unmapped),
-                    mappedTransactions = false, mappedTemplates = false, lastMappedDebt = null
+                    mappedTransactions = false, mappedTemplates = false, mappedDebts = 0
                 )).plus(parties)
             else
                 parties)
             activity?.invalidateOptionsMenu()
         })
-        loadData()
+        loadParties()
         return binding.root
     }
 
@@ -376,6 +379,11 @@ class PartiesList : Fragment(), OnDialogResultListener {
         const val DIALOG_MERGE_PARTY = "dialogMergeParty"
         const val DIALOG_DELETE_PARTY = "dialogDeleteParty"
         const val KEY_POSITION = "position"
+        const val SELECT_COMMAND = -1
+        const val EDIT_COMMAND = -2
+        const val DELETE_COMMAND = -3
+        const val NEW_DEBT_COMMAND = -4
+
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Party>() {
             override fun areItemsTheSame(oldItem: Party, newItem: Party): Boolean {
                 return oldItem.id == newItem.id

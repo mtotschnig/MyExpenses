@@ -5,6 +5,7 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_DEBTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TEMPLATES
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TRANSACTIONS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY
@@ -37,7 +38,7 @@ abstract class BaseTransactionProvider: ContentProvider() {
             KEY_PAYEE_NAME,
             "exists (SELECT 1 FROM $TABLE_TRANSACTIONS WHERE $KEY_PAYEEID=$TABLE_PAYEES.$KEY_ROWID) AS $KEY_MAPPED_TRANSACTIONS",
             "exists (SELECT 1 FROM $TABLE_TEMPLATES WHERE $KEY_PAYEEID=$TABLE_PAYEES.$KEY_ROWID) AS $KEY_MAPPED_TEMPLATES",
-            "(SELECT $KEY_LABEL FROM $TABLE_DEBTS WHERE $KEY_PAYEEID = $TABLE_PAYEES.$KEY_ROWID AND $TABLE_DEBTS.$KEY_ROWID = (SELECT max($KEY_ROWID) FROM $TABLE_DEBTS WHERE $KEY_PAYEEID = $TABLE_PAYEES.$KEY_ROWID)) AS $KEY_LABEL"
+            "(SELECT COUNT(*) FROM $TABLE_DEBTS WHERE $KEY_PAYEEID=$TABLE_PAYEES.$KEY_ROWID) AS $KEY_MAPPED_DEBTS"
         )
     }
 }

@@ -647,7 +647,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     }
 
     override fun onValueSet(view: View) {
-        setDirty()
+        super.onValueSet(view)
         if (view is DateButton) {
             val date = view.date
             if (areDatesLinked) {

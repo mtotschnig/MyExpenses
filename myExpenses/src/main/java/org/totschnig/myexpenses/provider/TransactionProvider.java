@@ -286,6 +286,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   private static final int TRANSACTION_LINK_TRANSFER = 61;
   private static final int ACCOUNTS_TAGS = 62;
   private static final int DEBTS = 63;
+  private static final int DEBT_ID = 64;
 
   private boolean bulkInProgress = false;
 
@@ -1004,6 +1005,11 @@ public class TransactionProvider extends BaseTransactionProvider {
         qb.setTables(TABLE_DEBTS);
         break;
       }
+      case DEBT_ID: {
+        qb.setTables(TABLE_DEBTS);
+        qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
+        break;
+      }
       default:
         throw unknownUri(uri);
     }
@@ -1719,6 +1725,11 @@ public class TransactionProvider extends BaseTransactionProvider {
       case DEBTS:
         count = db.update(TABLE_DEBTS, values, where, whereArgs);
         break;
+      case DEBT_ID: {
+        count = db.update(TABLE_DEBTS, values,
+            KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
+        break;
+      }
       default:
         throw unknownUri(uri);
     }
@@ -1921,6 +1932,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_LINK_TRANSFER + "/*", TRANSACTION_LINK_TRANSFER);
     URI_MATCHER.addURI(AUTHORITY, "accounts/tags", ACCOUNTS_TAGS);
     URI_MATCHER.addURI(AUTHORITY, "debts", DEBTS);
+    URI_MATCHER.addURI(AUTHORITY, "debts/#", DEBT_ID);
   }
 
   /**

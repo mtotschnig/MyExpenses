@@ -92,10 +92,9 @@
                         style="@style/FormField" />
                 </TableRow>
 
-                <TableRow android:id="@+id/DateRow">
+                <TableRow>
 
                     <TextView
-                        android:id="@+id/DateLabel"
                         style="@style/FormLabel"
                         android:labelFor="@id/DateButton"
                         android:text="@string/date"
