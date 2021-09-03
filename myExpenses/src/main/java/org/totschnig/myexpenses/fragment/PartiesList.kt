@@ -69,7 +69,8 @@ class PartiesList : Fragment(), OnDialogResultListener {
     val manageParties: ManageParties?
         get() = (activity as? ManageParties)
 
-    inner class ViewHolder(val binding: PayeeRowBinding, private val itemCallback: ItemCallback) : RecyclerView.ViewHolder(binding.root),
+    inner class ViewHolder(val binding: PayeeRowBinding, private val itemCallback: ItemCallback) :
+        RecyclerView.ViewHolder(binding.root),
         View.OnClickListener, CompoundButton.OnCheckedChangeListener {
         init {
             binding.checkBox.setOnCheckedChangeListener(this)
@@ -99,7 +100,8 @@ class PartiesList : Fragment(), OnDialogResultListener {
         fun onCheckedChanged(isChecked: Boolean, position: Int)
     }
 
-    inner class PayeeAdapter : ChoiceCapableAdapter<Party, ViewHolder>(MultiChoiceMode(), DIFF_CALLBACK), ItemCallback {
+    inner class PayeeAdapter :
+        ChoiceCapableAdapter<Party, ViewHolder>(MultiChoiceMode(), DIFF_CALLBACK), ItemCallback {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
             ViewHolder(PayeeRowBinding.inflate(LayoutInflater.from(context), parent, false), this)
@@ -116,17 +118,23 @@ class PartiesList : Fragment(), OnDialogResultListener {
             val index2IdMap: MutableMap<Int, Long> = mutableMapOf()
             with(PopupMenu(requireContext(), view)) {
                 if (action == ACTION_SELECT_MAPPING) {
-                    menu.add(Menu.NONE, SELECT_COMMAND, Menu.NONE, R.string.select).setIcon(R.drawable.ic_menu_done)
+                    menu.add(Menu.NONE, SELECT_COMMAND, Menu.NONE, R.string.select)
+                        .setIcon(R.drawable.ic_menu_done)
                 }
-                menu.add(Menu.NONE, EDIT_COMMAND, Menu.NONE, R.string.menu_edit).setIcon(R.drawable.ic_menu_edit)
-                menu.add(Menu.NONE, DELETE_COMMAND, Menu.NONE, R.string.menu_delete).setIcon(R.drawable.ic_menu_delete)
+                menu.add(Menu.NONE, EDIT_COMMAND, Menu.NONE, R.string.menu_edit)
+                    .setIcon(R.drawable.ic_menu_edit)
+                menu.add(Menu.NONE, DELETE_COMMAND, Menu.NONE, R.string.menu_delete)
+                    .setIcon(R.drawable.ic_menu_delete)
                 if (action == ACTION_MANAGE) {
-                    val subMenu = menu.addSubMenu(Menu.NONE, DEBT_SUB_MENU, Menu.NONE, R.string.debt).setIcon(R.drawable.balance_scale)
+                    val subMenu =
+                        menu.addSubMenu(Menu.NONE, DEBT_SUB_MENU, Menu.NONE, R.string.debt)
+                            .setIcon(R.drawable.balance_scale)
                     viewModel.getDebts(getItem(position).id)?.forEachIndexed { index, debt ->
                         index2IdMap[index] = debt.id
                         subMenu.add(Menu.NONE, index, Menu.NONE, debt.label)
                     }
-                    subMenu.add(Menu.NONE, NEW_DEBT_COMMAND, Menu.NONE, R.string.menu_new_debt).setIcon(R.drawable.ic_menu_add)
+                    subMenu.add(Menu.NONE, NEW_DEBT_COMMAND, Menu.NONE, R.string.menu_new_debt)
+                        .setIcon(R.drawable.ic_menu_add)
                 }
 
                 setOnMenuItemClickListener { item ->
@@ -184,7 +192,8 @@ class PartiesList : Fragment(), OnDialogResultListener {
                         SELECT_COMMAND -> {
                             doSingleSelection(party)
                         }
-                        DEBT_SUB_MENU -> { /*submenu*/ }
+                        DEBT_SUB_MENU -> { /*submenu*/
+                        }
                         else -> {
                             startActivity(Intent(context, DebtEdit::class.java).apply {
                                 putExtra(KEY_PAYEEID, party.id)
@@ -205,8 +214,10 @@ class PartiesList : Fragment(), OnDialogResultListener {
 
         override fun onCheckedChanged(isChecked: Boolean, position: Int) {
             onChecked(position, isChecked)
-            manageParties?.setFabEnabled(checkedCount >=
-                    if (mergeMode) 2 else if (action == ACTION_SELECT_FILTER)  1 else 0)
+            manageParties?.setFabEnabled(
+                checkedCount >=
+                        if (mergeMode) 2 else if (action == ACTION_SELECT_FILTER) 1 else 0
+            )
 
         }
     }
@@ -291,9 +302,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
         if (item.itemId == R.id.MERGE_COMMAND) {
             mergeMode = !mergeMode
             updateUiMergeMode()
-            adapter.clearChecks()
-            //noinspection NotifyDataSetChanged
-            adapter.notifyDataSetChanged()
+            resetAdapter()
             true
         } else
             super.onOptionsItemSelected(item)
@@ -304,6 +313,12 @@ class PartiesList : Fragment(), OnDialogResultListener {
             configureFabMergeMode(mergeMode)
             setFabEnabled(!mergeMode)
         }
+    }
+
+    private fun resetAdapter() {
+        adapter.clearChecks()
+        //noinspection NotifyDataSetChanged
+        adapter.notifyDataSetChanged()
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
@@ -358,13 +373,17 @@ class PartiesList : Fragment(), OnDialogResultListener {
             }
             binding.empty.visibility = if (parties.isEmpty()) View.VISIBLE else View.GONE
             binding.list.visibility = if (parties.isEmpty()) View.GONE else View.VISIBLE
-            adapter.submitList(if (action == ACTION_SELECT_FILTER)
-                listOf(Party(
-                    CategoryTreeBaseAdapter.NULL_ITEM_ID, getString(R.string.unmapped),
-                    mappedTransactions = false, mappedTemplates = false, mappedDebts = 0
-                )).plus(parties)
-            else
-                parties)
+            adapter.submitList(
+                if (action == ACTION_SELECT_FILTER)
+                    listOf(
+                        Party(
+                            CategoryTreeBaseAdapter.NULL_ITEM_ID, getString(R.string.unmapped),
+                            mappedTransactions = false, mappedTemplates = false, mappedDebts = 0
+                        )
+                    ).plus(parties)
+                else
+                    parties
+            )
             activity?.invalidateOptionsMenu()
         })
         loadParties()
@@ -419,9 +438,13 @@ class PartiesList : Fragment(), OnDialogResultListener {
                 }
                 DIALOG_MERGE_PARTY -> {
                     mergeMode = false
+                    updateUiMergeMode()
                     val selectedItemIds = adapter.checkedPositions.map { adapter.getParty(it).id }
-                    viewModel.mergeParties(selectedItemIds.toLongArray(),
-                        selectedItemIds[extras.getInt(KEY_POSITION)])
+                    viewModel.mergeParties(
+                        selectedItemIds.toLongArray(),
+                        selectedItemIds[extras.getInt(KEY_POSITION)]
+                    )
+                    resetAdapter()
                     return true
                 }
                 DIALOG_DELETE_PARTY -> {
