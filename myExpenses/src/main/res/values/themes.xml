@@ -67,6 +67,10 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="searchViewStyle">@style/SearchViewStyle</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
         <item name="simpleDialogTheme">@style/SimpleDialog</item>
+        <item name="materialCalendarStyle">@style/Widget.MaterialComponents.MaterialCalendar</item>
+        <item name="materialCalendarFullscreenTheme">@style/ThemeOverlay.MaterialComponents.MaterialCalendar.Fullscreen</item>
+        <item name="materialCalendarTheme">@style/ThemeOverlay.MaterialComponents.MaterialCalendar</item>
+        <item name="materialTimePickerTheme">@style/ThemeOverlay.MaterialComponents.TimePicker</item>
     </style>
 
     <style name="EditDialog" parent="EditDialogBase" />
