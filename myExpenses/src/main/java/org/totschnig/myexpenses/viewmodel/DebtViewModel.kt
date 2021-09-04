@@ -9,14 +9,13 @@ import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.flow.collect
 import org.threeten.bp.LocalDate
-import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.util.epoch2LocalDate
 import org.totschnig.myexpenses.viewmodel.data.Debt
-import javax.inject.Inject
 
 class DebtViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
 
@@ -40,14 +39,15 @@ class DebtViewModel(application: Application) : ContentResolvingAndroidViewModel
         liveData {
             var runningTotal = initialDebt
             contentResolver.observeQuery(
-                TransactionProvider.TRANSACTIONS_URI,
-                arrayOf(KEY_ROWID, KEY_DATE, "-$KEY_AMOUNT"),
-                "$KEY_DEBT_ID = ?",
-                arrayOf(debtId.toString())
+                uri = TransactionProvider.TRANSACTIONS_URI,
+                projection = arrayOf(KEY_ROWID, KEY_DATE, "-$KEY_AMOUNT"),
+                selection = "$KEY_DEBT_ID = ?",
+                selectionArgs = arrayOf(debtId.toString()),
+                sortOrder = "$KEY_DATE ASC"
             ).mapToList {
                 val amount = it.getLong(2)
                 runningTotal += amount
-                Transaction(it.getLong(0), LocalDate.now(), amount, runningTotal)
+                Transaction(it.getLong(0), epoch2LocalDate(it.getLong(1)), amount, runningTotal)
             }.collect(this::emit)
         }
 

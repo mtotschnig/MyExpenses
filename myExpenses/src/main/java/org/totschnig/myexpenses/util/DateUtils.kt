@@ -14,6 +14,9 @@ import org.threeten.bp.format.FormatStyle
 import org.totschnig.myexpenses.R
 import java.text.SimpleDateFormat
 
+fun epoch2LocalDate(epochSecond: Long): LocalDate = ZonedDateTime.ofInstant(
+    Instant.ofEpochSecond(epochSecond), ZoneId.systemDefault()).toLocalDate()
+
 fun epochMillis2LocalDate(epochMillis: Long): LocalDate = ZonedDateTime.ofInstant(
         Instant.ofEpochMilli(epochMillis), ZoneId.systemDefault()).toLocalDate()
 

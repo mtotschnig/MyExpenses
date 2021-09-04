@@ -25,7 +25,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.util.CurrencyFormatter
-import org.totschnig.myexpenses.util.epochMillis2LocalDate
+import org.totschnig.myexpenses.util.epoch2LocalDate
 import org.totschnig.myexpenses.viewmodel.DebtViewModel
 import org.totschnig.myexpenses.viewmodel.DebtViewModel.Transaction
 import org.totschnig.myexpenses.viewmodel.data.Debt
@@ -59,7 +59,7 @@ class DebtDetailsDialogFragment : BaseDialogFragment() {
                     listOf(
                         Transaction(
                             0,
-                            epochMillis2LocalDate(debt.date * 1000),
+                            epoch2LocalDate(debt.date),
                             null,
                             debt.amount
                         )
@@ -72,8 +72,9 @@ class DebtDetailsDialogFragment : BaseDialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = initBuilder()
         val recyclerView = RecyclerView(builder.context)
-        val padding = resources.getDimensionPixelSize(R.dimen.general_padding)
-        recyclerView.setPadding(padding, 0, padding, 0)
+        val paddingSide = resources.getDimensionPixelSize(R.dimen.padding_dialog_side)
+        val paddingTop = resources.getDimensionPixelSize(R.dimen.padding_dialog_content_top)
+        recyclerView.setPadding(paddingSide, paddingTop, paddingSide, 0)
         recyclerView.layoutManager = LinearLayoutManager(builder.context)
         adapter = Adapter()
         recyclerView.adapter = adapter
