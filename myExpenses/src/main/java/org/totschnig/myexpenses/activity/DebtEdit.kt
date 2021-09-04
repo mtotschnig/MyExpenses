@@ -55,7 +55,7 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host {
                         setupListeners()
                     }
                 } else {
-                    binding.Amount.setSelectedCurrency(Utils.getHomeCurrency().code)
+                    binding.Amount.setSelectedCurrency(Utils.getHomeCurrency())
                 }
             }
         }

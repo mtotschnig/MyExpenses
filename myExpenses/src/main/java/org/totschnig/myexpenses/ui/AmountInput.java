@@ -134,7 +134,7 @@ public class AmountInput extends ConstraintLayout {
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
           String currency = ((Currency) currencySpinner.getSelectedItem()).getCode();
           final CurrencyUnit currencyUnit = currencyContext.get(currency);
-          amountEditText().setFractionDigits(currencyUnit.getFractionDigits());
+          setFractionDigits(currencyUnit.getFractionDigits());
           exchangeRateEdit().setCurrencies(currencyUnit, null);
           getHost().onCurrencySelectionChanged(currencyUnit);
         }
@@ -312,8 +312,13 @@ public class AmountInput extends ConstraintLayout {
     this.currencyContext = currencyContext;
   }
 
-  public void setSelectedCurrency(String originalCurrencyCode) {
-    currencySpinner.setSelection(currencyAdapter.getPosition(Currency.Companion.create(originalCurrencyCode, getContext())));
+  public void setSelectedCurrency(CurrencyUnit currency) {
+    currencySpinner.setSelection(currencyAdapter.getPosition(Currency.Companion.create(currency.getCode(), getContext())));
+    setFractionDigits(currency.getFractionDigits());
+  }
+
+  public void setSelectedCurrency(String currency) {
+    setSelectedCurrency(currencyContext.get(currency));
   }
 
   public void configureExchange(CurrencyUnit currencyUnit, CurrencyUnit homeCurrency) {
