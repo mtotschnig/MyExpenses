@@ -1006,8 +1006,18 @@ public class TransactionProvider extends BaseTransactionProvider {
         break;
       }
       case DEBT_ID: {
-        qb.setTables(TABLE_DEBTS);
-        qb.appendWhere(KEY_ROWID + "=" + uri.getPathSegments().get(1));
+        qb.setTables(TABLE_DEBTS + " LEFT JOIN " + TABLE_PAYEES + " ON (" + KEY_PAYEEID + " = " + TABLE_PAYEES + "." + KEY_ROWID + ")");
+        projection = new String[] {
+            TABLE_DEBTS + "." + KEY_ROWID,
+            KEY_PAYEEID,
+            KEY_DATE,
+            KEY_LABEL,
+            KEY_AMOUNT,
+            KEY_CURRENCY,
+            KEY_DESCRIPTION,
+            KEY_PAYEE_NAME
+        };
+        qb.appendWhere(TABLE_DEBTS + "." + KEY_ROWID + "=" + uri.getPathSegments().get(1));
         break;
       }
       default:

@@ -54,12 +54,14 @@ import org.totschnig.myexpenses.adapter.ChoiceCapableAdapter
 import org.totschnig.myexpenses.adapter.MultiChoiceMode
 import org.totschnig.myexpenses.databinding.PartiesListBinding
 import org.totschnig.myexpenses.databinding.PayeeRowBinding
+import org.totschnig.myexpenses.dialog.DebtDetailsDialogFragment
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.util.configureSearch
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.prepareSearch
 import org.totschnig.myexpenses.viewmodel.PartyListViewModel
 import org.totschnig.myexpenses.viewmodel.data.Party
@@ -194,14 +196,19 @@ class PartiesList : Fragment(), OnDialogResultListener {
                         }
                         DEBT_SUB_MENU -> { /*submenu*/
                         }
-                        else -> {
+                        NEW_DEBT_COMMAND -> {
                             startActivity(Intent(context, DebtEdit::class.java).apply {
                                 putExtra(KEY_PAYEEID, party.id)
                                 putExtra(KEY_PAYEE_NAME, party.name)
-                                if (item.itemId != NEW_DEBT_COMMAND) {
-                                    putExtra(KEY_DEBT_ID, index2IdMap[item.itemId])
-                                }
                             })
+                        }
+                        else -> {
+                            index2IdMap[item.itemId]?.also {
+                                DebtDetailsDialogFragment.newInstance(it).show(
+                                    parentFragmentManager, "DEBT_DETAILS")
+                            } ?: run {
+                                CrashHandler.report(IllegalStateException("debtId not found in map"))
+                            }
                         }
                     }
                     true

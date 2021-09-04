@@ -14,7 +14,6 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.jetbrains.annotations.Nullable
@@ -80,11 +79,11 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
     }
 
     fun loadDebts() {
-        viewModelScope.launch(context = coroutineContext()) {
+        viewModelScope.launch {
             contentResolver.observeQuery(TransactionProvider.DEBTS_URI).mapToList {
                 Debt.fromCursor(it)
-            }.collect {
-                this@PartyListViewModel.debts = it.groupBy { it.payeeId }
+            }.collect { list ->
+                this@PartyListViewModel.debts = list.groupBy { it.payeeId }
             }
         }
     }

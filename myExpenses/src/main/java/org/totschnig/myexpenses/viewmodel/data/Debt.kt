@@ -11,6 +11,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.util.localDate2Epoch
 import java.math.BigDecimal
@@ -22,7 +23,8 @@ data class Debt(
     val payeeId: Long,
     val amount: Long,
     val currency: String,
-    val date: Long
+    val date: Long,
+    val payeeName: String? = null
 ) {
     constructor(
         id: Long,
@@ -62,7 +64,8 @@ data class Debt(
             cursor.getLong(cursor.getColumnIndex(KEY_PAYEEID)),
             cursor.getLong(cursor.getColumnIndex(KEY_AMOUNT)),
             cursor.getString(cursor.getColumnIndex(KEY_CURRENCY)),
-            cursor.getLong(cursor.getColumnIndex(KEY_DATE))
+            cursor.getLong(cursor.getColumnIndex(KEY_DATE)),
+            cursor.getColumnIndex(KEY_PAYEE_NAME).takeIf { it != -1 }?.let { cursor.getString(it) }
         )
     }
 }
