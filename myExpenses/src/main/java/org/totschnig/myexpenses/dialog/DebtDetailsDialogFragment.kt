@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.DebtEdit
+import org.totschnig.myexpenses.activity.EDIT_DEBT_REQUEST
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.databinding.DebtTransactionBinding
 import org.totschnig.myexpenses.model.CurrencyContext
@@ -34,6 +35,7 @@ import javax.inject.Inject
 class DebtDetailsDialogFragment : BaseDialogFragment() {
     @Inject
     lateinit var currencyFormatter: CurrencyFormatter
+
     @Inject
     lateinit var currencyContext: CurrencyContext
 
@@ -86,14 +88,20 @@ class DebtDetailsDialogFragment : BaseDialogFragment() {
             .create()
         alertDialog.setOnShowListener {
             alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener {
-                startActivity(Intent(context, DebtEdit::class.java).apply {
+                startActivityForResult(Intent(context, DebtEdit::class.java).apply {
                     putExtra(KEY_PAYEEID, debt.payeeId)
                     putExtra(KEY_PAYEE_NAME, debt.payeeName)
                     putExtra(KEY_DEBT_ID, debt.id)
-                })
+                }, EDIT_DEBT_REQUEST)
             }
         }
         return alertDialog
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == EDIT_DEBT_REQUEST && resultCode == ProtectedFragmentActivity.RESULT_FIRST_USER) {
+            dismiss()
+        }
     }
 
     companion object {

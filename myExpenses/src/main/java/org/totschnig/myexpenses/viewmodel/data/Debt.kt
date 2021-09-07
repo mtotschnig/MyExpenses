@@ -10,6 +10,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TRANSACTIONS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
@@ -24,7 +25,8 @@ data class Debt(
     val amount: Long,
     val currency: String,
     val date: Long,
-    val payeeName: String? = null
+    val payeeName: String? = null,
+    val mappedTransactions: Int = 0
 ) {
     constructor(
         id: Long,
@@ -65,7 +67,8 @@ data class Debt(
             cursor.getLong(cursor.getColumnIndex(KEY_AMOUNT)),
             cursor.getString(cursor.getColumnIndex(KEY_CURRENCY)),
             cursor.getLong(cursor.getColumnIndex(KEY_DATE)),
-            cursor.getColumnIndex(KEY_PAYEE_NAME).takeIf { it != -1 }?.let { cursor.getString(it) }
+            cursor.getColumnIndex(KEY_PAYEE_NAME).takeIf { it != -1 }?.let { cursor.getString(it) },
+            cursor.getColumnIndex(KEY_MAPPED_TRANSACTIONS).takeIf { it != -1 }?.let { cursor.getInt(it) } ?: 0
         )
     }
 }

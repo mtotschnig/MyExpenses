@@ -25,7 +25,7 @@ class DebtViewModel(application: Application) : ContentResolvingAndroidViewModel
 
     fun loadDebt(debtId: Long): LiveData<Debt> = liveData {
         contentResolver.observeQuery(
-            ContentUris.withAppendedId(TransactionProvider.DEBTS_URI, debtId),
+            singleDebtUri(debtId),
             null,
             null,
             null,
@@ -34,6 +34,9 @@ class DebtViewModel(application: Application) : ContentResolvingAndroidViewModel
             Debt.fromCursor(it)
         }.collect(this::emit)
     }
+
+    private fun singleDebtUri(debtId: Long) =
+        ContentUris.withAppendedId(TransactionProvider.DEBTS_URI, debtId)
 
     fun loadTransactions(debtId: Long, initialDebt: Long): LiveData<List<Transaction>> =
         liveData {
@@ -49,6 +52,11 @@ class DebtViewModel(application: Application) : ContentResolvingAndroidViewModel
                 runningTotal += amount
                 Transaction(it.getLong(0), epoch2LocalDate(it.getLong(1)), amount, runningTotal)
             }.collect(this::emit)
+        }
+
+    fun deleteDebt(debtId: Long): LiveData<Boolean> =
+        liveData(context = coroutineContext()) {
+            emit(contentResolver.delete(singleDebtUri(debtId), null, null) == 1)
         }
 
     data class Transaction(

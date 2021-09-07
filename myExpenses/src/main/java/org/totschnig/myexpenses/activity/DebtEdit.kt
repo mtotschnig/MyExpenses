@@ -1,11 +1,14 @@
 package org.totschnig.myexpenses.activity
 
 import android.os.Bundle
+import android.view.Menu
 import androidx.activity.viewModels
+import icepick.State
 import org.threeten.bp.LocalDate
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.OneDebtBinding
+import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.ui.ButtonWithDialog
@@ -28,6 +31,10 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host {
 
     private val debtId: Long
         get() = intent.getLongExtra(DatabaseConstants.KEY_DEBT_ID, 0)
+
+    @State
+    @JvmField
+    var mappedTransactionCount: Int = 0
 
     override fun getDiscardNewMessage() = R.string.dialog_confirm_discard_new_debt
 
@@ -52,6 +59,7 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host {
                         binding.Amount.setAmount(Money(currencyContext[it.currency], it.amount).amountMajor)
                         binding.DateButton.setDate(epoch2ZonedDateTime(it.date).toLocalDate())
                         setTitle(it.amount > 0)
+                        mappedTransactionCount = it.mappedTransactions
                         setupListeners()
                     }
                 } else {
@@ -74,6 +82,60 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host {
         }
         binding.Amount.setTypeChangedListener {
             setTitle(it)
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        super.onCreateOptionsMenu(menu)
+        if (debtId != 0L) {
+            menuInflater.inflate(R.menu.debt_edit, menu)
+        }
+        return true
+    }
+
+    override fun dispatchCommand(command: Int, tag: Any?): Boolean {
+        if (super.dispatchCommand(command, tag)) {
+            return true
+        }
+        return when(command) {
+            R.id.DELETE_COMMAND -> {
+                MessageDialogFragment.newInstance(
+                    getString(R.string.dialog_title_delete_debt),
+                    "${
+                        resources.getQuantityString(
+                            R.plurals.debt_mapped_transactions,
+                            mappedTransactionCount,
+                            binding.Label.text.toString(),
+                            mappedTransactionCount
+                        )
+                    } ${getString(R.string.continue_confirmation)}",
+                    MessageDialogFragment.Button(
+                        R.string.menu_delete,
+                        R.id.DELETE_COMMAND_DO,
+                        arrayOf(debtId)
+                    ),
+                    null,
+                    MessageDialogFragment.noButton(), 0
+                )
+                    .show(supportFragmentManager, "DELETE_ACCOUNT")
+                true
+            }
+            R.id.DELETE_COMMAND_DO -> {
+                viewModel.deleteDebt(debtId).observe(this) {
+                    if (it) {
+                        setResult(RESULT_FIRST_USER)
+                        finish()
+                    } else {
+                        showSnackbar("ERROR")
+                    }
+                }
+                true
+            }
+            R.id.CLOSE_DEBT_COMMAND -> {
+
+                true
+            }
+            else -> false
         }
     }
 

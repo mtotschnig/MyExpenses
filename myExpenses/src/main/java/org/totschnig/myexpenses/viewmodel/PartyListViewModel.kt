@@ -80,7 +80,7 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
 
     fun loadDebts() {
         viewModelScope.launch {
-            contentResolver.observeQuery(TransactionProvider.DEBTS_URI).mapToList {
+            contentResolver.observeQuery(TransactionProvider.DEBTS_URI, notifyForDescendants = true).mapToList {
                 Debt.fromCursor(it)
             }.collect { list ->
                 this@PartyListViewModel.debts = list.groupBy { it.payeeId }

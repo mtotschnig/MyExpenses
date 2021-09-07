@@ -1015,7 +1015,8 @@ public class TransactionProvider extends BaseTransactionProvider {
             KEY_AMOUNT,
             KEY_CURRENCY,
             KEY_DESCRIPTION,
-            KEY_PAYEE_NAME
+            KEY_PAYEE_NAME,
+            DEBTS_MAPPED_TRANSACTIONS_EXPRESSION
         };
         qb.appendWhere(TABLE_DEBTS + "." + KEY_ROWID + "=" + uri.getPathSegments().get(1));
         break;
@@ -1360,6 +1361,11 @@ public class TransactionProvider extends BaseTransactionProvider {
         count = db.delete(TABLE_ACCOUNTS_TAGS, where, whereArgs);
         break;
       }
+      case DEBT_ID: {
+        count = db.delete(TABLE_DEBTS,
+            KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
+        break;
+      }
       default:
         throw unknownUri(uri);
     }
@@ -1373,6 +1379,9 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       if (uriMatch == TEMPLATES || uriMatch == TEMPLATE_ID) {
         notifyChange(TEMPLATES_UNCOMMITTED_URI, false);
+      }
+      if (uriMatch == DEBT_ID) {
+        notifyChange(PAYEES_URI, false);
       }
       notifyChange(uri, false);
     }

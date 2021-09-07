@@ -4,6 +4,7 @@ import android.content.ContentProvider
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_DEBTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TEMPLATES
@@ -40,5 +41,7 @@ abstract class BaseTransactionProvider: ContentProvider() {
             "exists (SELECT 1 FROM $TABLE_TEMPLATES WHERE $KEY_PAYEEID=$TABLE_PAYEES.$KEY_ROWID) AS $KEY_MAPPED_TEMPLATES",
             "(SELECT COUNT(*) FROM $TABLE_DEBTS WHERE $KEY_PAYEEID=$TABLE_PAYEES.$KEY_ROWID) AS $KEY_MAPPED_DEBTS"
         )
+
+        const val DEBTS_MAPPED_TRANSACTIONS_EXPRESSION = "(SELECT count(*) FROM $TABLE_TRANSACTIONS WHERE $KEY_DEBT_ID=$TABLE_DEBTS.$KEY_ROWID) AS $KEY_MAPPED_TRANSACTIONS"
     }
 }
