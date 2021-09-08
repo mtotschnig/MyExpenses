@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TRANSACTIO
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
 import org.totschnig.myexpenses.util.localDate2Epoch
 import java.math.BigDecimal
 
@@ -26,7 +27,8 @@ data class Debt(
     val currency: String,
     val date: Long,
     val payeeName: String? = null,
-    val mappedTransactions: Int = 0
+    val mappedTransactions: Int = 0,
+    val isSealed: Boolean = false
 ) {
     constructor(
         id: Long,
@@ -68,7 +70,8 @@ data class Debt(
             cursor.getString(cursor.getColumnIndex(KEY_CURRENCY)),
             cursor.getLong(cursor.getColumnIndex(KEY_DATE)),
             cursor.getColumnIndex(KEY_PAYEE_NAME).takeIf { it != -1 }?.let { cursor.getString(it) },
-            cursor.getColumnIndex(KEY_MAPPED_TRANSACTIONS).takeIf { it != -1 }?.let { cursor.getInt(it) } ?: 0
+            cursor.getColumnIndex(KEY_MAPPED_TRANSACTIONS).takeIf { it != -1 }?.let { cursor.getInt(it) } ?: 0,
+            cursor.getInt(cursor.getColumnIndex(KEY_SEALED)) == 1
         )
     }
 }

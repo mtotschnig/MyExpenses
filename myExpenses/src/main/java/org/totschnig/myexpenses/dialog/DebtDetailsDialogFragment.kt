@@ -68,6 +68,14 @@ class DebtDetailsDialogFragment : BaseDialogFragment() {
                     ) + it
                 )
             }
+            configureSealed()
+        }
+    }
+
+    private fun configureSealed() {
+        (dialog as? AlertDialog)?.let {
+            it.setIcon(if (debt.isSealed) R.drawable.ic_lock else R.drawable.balance_scale)
+            it.getButton(AlertDialog.BUTTON_NEUTRAL).setText(if (debt.isSealed) R.string.menu_reopen else R.string.menu_edit)
         }
     }
 
@@ -88,11 +96,17 @@ class DebtDetailsDialogFragment : BaseDialogFragment() {
             .create()
         alertDialog.setOnShowListener {
             alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener {
-                startActivityForResult(Intent(context, DebtEdit::class.java).apply {
-                    putExtra(KEY_PAYEEID, debt.payeeId)
-                    putExtra(KEY_PAYEE_NAME, debt.payeeName)
-                    putExtra(KEY_DEBT_ID, debt.id)
-                }, EDIT_DEBT_REQUEST)
+                if (::debt.isInitialized) {
+                    if (debt.isSealed) {
+                        viewModel.reopenDebt(debt.id)
+                    } else {
+                        startActivityForResult(Intent(context, DebtEdit::class.java).apply {
+                            putExtra(KEY_PAYEEID, debt.payeeId)
+                            putExtra(KEY_PAYEE_NAME, debt.payeeName)
+                            putExtra(KEY_DEBT_ID, debt.id)
+                        }, EDIT_DEBT_REQUEST)
+                    }
+                }
             }
         }
         return alertDialog

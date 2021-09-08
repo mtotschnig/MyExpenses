@@ -123,7 +123,7 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host {
             R.id.DELETE_COMMAND_DO -> {
                 viewModel.deleteDebt(debtId).observe(this) {
                     if (it) {
-                        setResult(RESULT_FIRST_USER)
+                        setResult(RESULT_DEBT_DELETED)
                         finish()
                     } else {
                         showSnackbar("ERROR")
@@ -132,7 +132,14 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host {
                 true
             }
             R.id.CLOSE_DEBT_COMMAND -> {
-
+                viewModel.closeDebt(debtId).observe(this) {
+                    if (it) {
+                        setResult(RESULT_DEBT_CLOSED)
+                        finish()
+                    } else {
+                        showSnackbar("ERROR")
+                    }
+                }
                 true
             }
             else -> false
@@ -163,5 +170,10 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host {
 
     fun setTitle(signum: Boolean) {
         title = getString(if (signum) R.string.debt_owes_me else R.string.debt_I_owe, payeeName)
+    }
+
+    companion object {
+        const val RESULT_DEBT_DELETED = RESULT_FIRST_USER
+        const val RESULT_DEBT_CLOSED = RESULT_FIRST_USER + 1
     }
 }

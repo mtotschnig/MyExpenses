@@ -2,17 +2,21 @@ package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
 import android.content.ContentUris
+import android.content.ContentValues
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.epoch2LocalDate
 import org.totschnig.myexpenses.viewmodel.data.Debt
@@ -58,6 +62,27 @@ class DebtViewModel(application: Application) : ContentResolvingAndroidViewModel
         liveData(context = coroutineContext()) {
             emit(contentResolver.delete(singleDebtUri(debtId), null, null) == 1)
         }
+
+    fun closeDebt(debtId: Long): LiveData<Boolean> =
+        liveData(context = coroutineContext()) {
+            emit(updateSealed(debtId, 1) == 1)
+        }
+
+    fun reopenDebt(debtId: Long) {
+        viewModelScope.launch(coroutineDispatcher) {
+            updateSealed(debtId, 0)
+        }
+    }
+
+    /**
+     * @param isSealed 1 == Sealed, 0 == Open
+     */
+    private fun updateSealed(debtId: Long, isSealed: Int) = contentResolver.update(
+        ContentUris.withAppendedId(TransactionProvider.DEBTS_URI, debtId),
+        ContentValues(1).apply {
+            put(KEY_SEALED, isSealed)
+        }, null, null
+    )
 
     data class Transaction(
         val id: Long,

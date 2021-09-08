@@ -1016,7 +1016,8 @@ public class TransactionProvider extends BaseTransactionProvider {
             KEY_CURRENCY,
             KEY_DESCRIPTION,
             KEY_PAYEE_NAME,
-            DEBTS_MAPPED_TRANSACTIONS_EXPRESSION
+            DEBTS_MAPPED_TRANSACTIONS_EXPRESSION,
+            KEY_SEALED
         };
         qb.appendWhere(TABLE_DEBTS + "." + KEY_ROWID + "=" + uri.getPathSegments().get(1));
         break;

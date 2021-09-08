@@ -132,7 +132,10 @@ class PartiesList : Fragment(), OnDialogResultListener {
                             .setIcon(R.drawable.balance_scale)
                     viewModel.getDebts(getItem(position).id)?.forEachIndexed { index, debt ->
                         index2IdMap[index] = debt.id
-                        subMenu.add(Menu.NONE, index, Menu.NONE, debt.label)
+                        val item = subMenu.add(Menu.NONE, index, Menu.NONE, debt.label)
+                        if (debt.isSealed) {
+                            item.setIcon(R.drawable.ic_lock)
+                        }
                     }
                     subMenu.add(Menu.NONE, NEW_DEBT_COMMAND, Menu.NONE, R.string.menu_new_debt)
                         .setIcon(R.drawable.ic_menu_add)
