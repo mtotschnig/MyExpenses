@@ -40,7 +40,6 @@ class ManageParties : ProtectedFragmentActivity() {
     }
 
     public override fun onCreate(savedInstanceState: Bundle?) {
-        val action = action
         super.onCreate(savedInstanceState)
         setContentView(R.layout.manage_parties)
         setupToolbar(true)
@@ -81,8 +80,6 @@ class ManageParties : ProtectedFragmentActivity() {
 
     val action: String
         get() {
-            val intent = intent
-            val action = intent.action
-            return action ?: ACTION_MANAGE
+            return intent.action ?: ACTION_MANAGE
         }
 }

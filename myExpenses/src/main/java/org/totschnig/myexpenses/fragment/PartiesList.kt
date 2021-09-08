@@ -128,7 +128,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                     .setIcon(R.drawable.ic_menu_delete)
                 if (action == ACTION_MANAGE) {
                     val subMenu =
-                        menu.addSubMenu(Menu.NONE, DEBT_SUB_MENU, Menu.NONE, R.string.debt)
+                        menu.addSubMenu(Menu.NONE, DEBT_SUB_MENU, Menu.NONE, R.string.debts)
                             .setIcon(R.drawable.balance_scale)
                     viewModel.getDebts(getItem(position).id)?.forEachIndexed { index, debt ->
                         index2IdMap[index] = debt.id

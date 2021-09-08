@@ -32,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:contentDescription="@string/debt"
+        android:contentDescription="@string/debts"
         android:visibility="gone"
         app:srcCompat="@drawable/balance_scale" />
 </LinearLayout>

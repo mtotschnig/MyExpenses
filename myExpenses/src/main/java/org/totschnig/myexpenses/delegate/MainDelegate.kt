@@ -215,7 +215,7 @@ abstract class MainDelegate<T : ITransaction>(
             }
             debtId = null
         }
-        viewBinding.DebtLabel.text = debt?.label ?: context.getString(R.string.debt)
+        viewBinding.DebtLabel.text = debt?.label ?: context.getString(R.string.debts)
     }
 
     private fun setDebt(debt: Debt) {

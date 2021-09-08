@@ -233,7 +233,7 @@
                                     android:ellipsize="end"
                                     android:maxWidth="72dp"
                                     android:maxLines="1"
-                                    android:text="@string/debt" />
+                                    android:text="@string/debts" />
                             </LinearLayout>
 
                         </LinearLayout>

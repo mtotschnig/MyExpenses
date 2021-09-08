@@ -712,6 +712,9 @@ public class MyExpenses extends BaseMyExpenses implements
       i = new Intent(this, BackupRestoreActivity.class);
       i.setAction(BackupRestoreActivity.ACTION_BACKUP);
       startActivity(i);
+    } else if (command == R.id.MANAGE_PARTIES_COMMAND) {
+      i = new Intent(this, ManageParties.class);
+      startActivity(i);
     }
     return false;
   }
