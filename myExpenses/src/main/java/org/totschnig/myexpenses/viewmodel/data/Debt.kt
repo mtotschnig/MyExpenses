@@ -27,7 +27,6 @@ data class Debt(
     val currency: String,
     val date: Long,
     val payeeName: String? = null,
-    val mappedTransactions: Int = 0,
     val isSealed: Boolean = false
 ) {
     constructor(
@@ -70,7 +69,6 @@ data class Debt(
             cursor.getString(cursor.getColumnIndex(KEY_CURRENCY)),
             cursor.getLong(cursor.getColumnIndex(KEY_DATE)),
             cursor.getColumnIndex(KEY_PAYEE_NAME).takeIf { it != -1 }?.let { cursor.getString(it) },
-            cursor.getColumnIndex(KEY_MAPPED_TRANSACTIONS).takeIf { it != -1 }?.let { cursor.getInt(it) } ?: 0,
             cursor.getInt(cursor.getColumnIndex(KEY_SEALED)) == 1
         )
     }

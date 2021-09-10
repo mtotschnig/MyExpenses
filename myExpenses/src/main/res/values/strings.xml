@@ -1019,4 +1019,5 @@
         <item quantity="one">Debt "%1$s" has %2$d mapped transaction.</item>
         <item quantity="other">Debt "%1$s" has %2$d mapped transactions.</item>
     </plurals>
+    <string name="object_sealed_debt">Object refers to a closed debt.</string>
 </resources>

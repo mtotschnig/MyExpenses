@@ -542,7 +542,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   public void onPostExecute(int taskId, @Nullable Object o) {
     removeAsyncTaskFragment(shouldKeepProgress(taskId));
     switch (taskId) {
-      case TaskExecutionFragment.TASK_DELETE_ACCOUNT:
       case TaskExecutionFragment.TASK_DELETE_PAYMENT_METHODS: {
         Result result = (Result) o;
         if (!result.isSuccess()) {

@@ -258,7 +258,7 @@ public class PlanExecutor extends JobIntentService {
                   log("Instance is not ready yet (%d days in the future), advance execution is %d", diff, template.getPlanExecutionAdvance());
                 }
               } else {
-                log(template == null ? "Template.getInstanceForPlanIfInstanceIsOpen returned null, instance might already have been dealt with" : "Plan refers to a closed account");
+                log(template == null ? "Template.getInstanceForPlanIfInstanceIsOpen returned null, instance might already have been dealt with" : "Plan refers to a closed account or debt");
               }
               cursor.moveToNext();
             }

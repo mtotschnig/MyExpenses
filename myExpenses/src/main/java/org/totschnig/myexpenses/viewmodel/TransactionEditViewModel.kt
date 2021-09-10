@@ -9,6 +9,8 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.launch
+import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException
+import org.totschnig.myexpenses.exception.UnknownPictureSaveException
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -19,15 +21,12 @@ import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.model.SplitTransaction
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Transaction
-import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException
-import org.totschnig.myexpenses.exception.UnknownPictureSaveException
 import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
@@ -38,6 +37,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACC
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.Account
+import org.totschnig.myexpenses.viewmodel.data.Debt
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import java.util.*
 import kotlin.math.pow
@@ -51,13 +51,6 @@ const val ERROR_CALENDAR_INTEGRATION_NOT_AVAILABLE = -4L
 const val ERROR_WHILE_SAVING_TAGS = -5L
 
 class TransactionEditViewModel(application: Application) : TransactionViewModel(application) {
-
-    data class Debt(
-        val id: Long,
-        val label: String,
-        val payeeId: Long,
-        val currency: String
-    )
 
     private val disposables = CompositeDisposable()
 
@@ -75,7 +68,7 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
     private val debts by lazy {
         val liveData = MutableLiveData<List<Debt>>()
         disposables.add(briteContentResolver.createQuery(TransactionProvider.DEBTS_URI, null, "$KEY_SEALED = 0", null, null, false)
-            .mapToList { buildDebt(it) }
+            .mapToList { Debt.fromCursor(it) }
             .subscribe { liveData.postValue(it) })
         return@lazy liveData
     }
@@ -126,15 +119,6 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
                 cursor.getInt(cursor.getColumnIndex(KEY_COLOR)),
                 AccountType.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(KEY_TYPE))),
                 adjustExchangeRate(cursor.getDouble(cursor.getColumnIndex(KEY_EXCHANGE_RATE)), currency))
-    }
-
-    private fun buildDebt(cursor: Cursor): Debt {
-        return Debt(
-            cursor.getLong(cursor.getColumnIndex(KEY_ROWID)),
-            cursor.getString(cursor.getColumnIndex(KEY_LABEL)),
-            cursor.getLong(cursor.getColumnIndex(KEY_PAYEEID)),
-            cursor.getString(cursor.getColumnIndex(KEY_CURRENCY))
-        )
     }
 
     override fun onCleared() {

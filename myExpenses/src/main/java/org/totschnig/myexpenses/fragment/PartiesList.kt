@@ -207,7 +207,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                         else -> {
                             index2IdMap[item.itemId]?.also {
                                 DebtDetailsDialogFragment.newInstance(it).show(
-                                    parentFragmentManager, "DEBT_DETAILS")
+                                    parentFragmentManager, DIALOG_DEBT_DETAILS)
                             } ?: run {
                                 CrashHandler.report(IllegalStateException("debtId not found in map"))
                             }
@@ -404,6 +404,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
     }
 
     companion object {
+        const val DIALOG_DEBT_DETAILS = "DEBT_DETAILS"
         const val DIALOG_NEW_PARTY = "dialogNewParty"
         const val DIALOG_EDIT_PARTY = "dialogEditParty"
         const val DIALOG_MERGE_PARTY = "dialogMergeParty"

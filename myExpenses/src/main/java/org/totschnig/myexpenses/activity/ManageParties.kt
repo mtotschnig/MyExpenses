@@ -20,6 +20,7 @@ import org.totschnig.myexpenses.ACTION_MANAGE
 import org.totschnig.myexpenses.ACTION_SELECT_FILTER
 import org.totschnig.myexpenses.ACTION_SELECT_MAPPING
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.dialog.DebtDetailsDialogFragment
 import org.totschnig.myexpenses.fragment.PartiesList
 
 class ManageParties : ProtectedFragmentActivity() {
@@ -74,6 +75,10 @@ class ManageParties : ProtectedFragmentActivity() {
         if (command == R.id.CREATE_COMMAND) {
             listFragment.dispatchFabClick()
             return true
+        }
+        if (command == R.id.DELETE_DEBT_COMMAND) {
+            (supportFragmentManager.findFragmentByTag(PartiesList.DIALOG_DEBT_DETAILS) as? DebtDetailsDialogFragment)
+                ?.deleteDebtDo(tag as Long)
         }
         return false
     }

@@ -526,7 +526,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     ) {
         transaction?.let {
             if (transaction.isSealed) {
-                abortWithMessage("This transaction refers to a closed account and can no longer be edited")
+                abortWithMessage("This transaction refers to a closed account or debt and can no longer be edited")
             } else {
                 populate(it, withAutoFill && task != TRANSACTION_FROM_TEMPLATE)
 

@@ -417,19 +417,6 @@ public class DatabaseConstants {
           " ELSE null" +
           " END AS " + KEY_ICON;
 
-  /**
-   * we check if the object is linked to a sealed account, either via its account, it transfer_account, or its children.
-   * For Children, we only need to check for transfer_account, since there account is identical to their parent.
-   */
-  public static String CHECK_SEALED(String baseTable, String innerTable) {
-    return String.format("(SELECT max(%1$s) FROM %2$s WHERE %8$s = %3$s OR %8$s = %4$s OR %8$s in (SELECT %4$s FROM %5$s WHERE %6$s = %7$s.%8$s))",
-        KEY_SEALED, TABLE_ACCOUNTS, KEY_ACCOUNTID, KEY_TRANSFER_ACCOUNT, innerTable, KEY_PARENTID, baseTable, KEY_ROWID);
-  }
-
-  public static String CHECK_SEALED_WITH_ALIAS(String baseTable, String innerTable) {
-    return CHECK_SEALED(baseTable, innerTable) + " AS " + KEY_SEALED;
-  }
-
   public static final Long SPLIT_CATID = 0L;
 
   public static final String WHERE_NOT_SPLIT =

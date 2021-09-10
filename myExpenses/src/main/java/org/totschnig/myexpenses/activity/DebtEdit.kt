@@ -32,10 +32,6 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host {
     private val debtId: Long
         get() = intent.getLongExtra(DatabaseConstants.KEY_DEBT_ID, 0)
 
-    @State
-    @JvmField
-    var mappedTransactionCount: Int = 0
-
     override fun getDiscardNewMessage() = R.string.dialog_confirm_discard_new_debt
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,7 +55,6 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host {
                         binding.Amount.setAmount(Money(currencyContext[it.currency], it.amount).amountMajor)
                         binding.DateButton.setDate(epoch2ZonedDateTime(it.date).toLocalDate())
                         setTitle(it.amount > 0)
-                        mappedTransactionCount = it.mappedTransactions
                         setupListeners()
                     }
                 } else {
@@ -98,43 +93,9 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host {
             return true
         }
         return when(command) {
-            R.id.DELETE_COMMAND -> {
-                MessageDialogFragment.newInstance(
-                    getString(R.string.dialog_title_delete_debt),
-                    "${
-                        resources.getQuantityString(
-                            R.plurals.debt_mapped_transactions,
-                            mappedTransactionCount,
-                            binding.Label.text.toString(),
-                            mappedTransactionCount
-                        )
-                    } ${getString(R.string.continue_confirmation)}",
-                    MessageDialogFragment.Button(
-                        R.string.menu_delete,
-                        R.id.DELETE_COMMAND_DO,
-                        arrayOf(debtId)
-                    ),
-                    null,
-                    MessageDialogFragment.noButton(), 0
-                )
-                    .show(supportFragmentManager, "DELETE_ACCOUNT")
-                true
-            }
-            R.id.DELETE_COMMAND_DO -> {
-                viewModel.deleteDebt(debtId).observe(this) {
-                    if (it) {
-                        setResult(RESULT_DEBT_DELETED)
-                        finish()
-                    } else {
-                        showSnackbar("ERROR")
-                    }
-                }
-                true
-            }
             R.id.CLOSE_DEBT_COMMAND -> {
                 viewModel.closeDebt(debtId).observe(this) {
                     if (it) {
-                        setResult(RESULT_DEBT_CLOSED)
                         finish()
                     } else {
                         showSnackbar("ERROR")
@@ -170,10 +131,5 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host {
 
     fun setTitle(signum: Boolean) {
         title = getString(if (signum) R.string.debt_owes_me else R.string.debt_I_owe, payeeName)
-    }
-
-    companion object {
-        const val RESULT_DEBT_DELETED = RESULT_FIRST_USER
-        const val RESULT_DEBT_CLOSED = RESULT_FIRST_USER + 1
     }
 }

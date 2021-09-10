@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.DbUtils.getLongOr0L
 import org.totschnig.myexpenses.provider.DbUtils.getLongOrNull
 import org.totschnig.myexpenses.provider.DbUtils.getString
+import org.totschnig.myexpenses.provider.checkSealedWithAlias
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.Utils
 import java.io.File
@@ -41,7 +42,7 @@ data class Transaction(
                 KEY_PICTURE_URI, PaymentMethod.localizedLabelSqlColumn(context, KEY_METHOD_LABEL) + " AS " + KEY_METHOD_LABEL,
                 KEY_STATUS, TRANSFER_AMOUNT(VIEW_EXTENDED), KEY_TEMPLATEID,
                 KEY_UUID, KEY_ORIGINAL_AMOUNT, KEY_ORIGINAL_CURRENCY, KEY_EQUIVALENT_AMOUNT, CATEGORY_ICON,
-                CHECK_SEALED_WITH_ALIAS(VIEW_EXTENDED, TABLE_TRANSACTIONS),
+                checkSealedWithAlias(VIEW_EXTENDED, TABLE_TRANSACTIONS),
                 getExchangeRate(VIEW_EXTENDED, KEY_ACCOUNTID) + " AS " + KEY_EXCHANGE_RATE, KEY_ACCOUNT_LABEL, KEY_ACCOUNT_TYPE)
         fun fromCursor(cursor: Cursor, currencyContext: CurrencyContext): Transaction {
             val currencyUnit = currencyContext.get(cursor.getString(cursor.getColumnIndexOrThrow(KEY_CURRENCY)))

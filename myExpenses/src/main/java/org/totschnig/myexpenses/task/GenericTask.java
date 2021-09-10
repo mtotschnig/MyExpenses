@@ -97,13 +97,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
     switch (mTaskId) {
       case TaskExecutionFragment.TASK_INSTANTIATE_PLAN:
         return Plan.getInstanceFromDb((Long) ids[0]);
-      case TaskExecutionFragment.TASK_DELETE_ACCOUNT: {
-        boolean success = true;
-        for (long id : (Long[]) ids) {
-          success = success && deleteAccount(id);
-        }
-        return success ? Result.SUCCESS : Result.FAILURE;
-      }
       case TaskExecutionFragment.TASK_DELETE_PAYMENT_METHODS:
         try {
           for (long id : (Long[]) ids) {

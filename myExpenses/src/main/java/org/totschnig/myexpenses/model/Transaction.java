@@ -62,7 +62,6 @@ import static org.totschnig.myexpenses.contract.TransactionsContract.Transaction
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.CATEGORY_ICON;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.CHECK_SEALED_WITH_ALIAS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.DAY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.FULL_LABEL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.IS_SAME_CURRENCY;
@@ -137,6 +136,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.getWeekEnd;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getWeekStart;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.checkSealedWithAlias;
 import static org.totschnig.myexpenses.provider.DbUtils.getLongOrNull;
 import static org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_TAGS_URI;
 import static org.totschnig.myexpenses.provider.TransactionProvider.UNCOMMITTED_URI;
@@ -478,7 +478,7 @@ public class Transaction extends Model implements ITransaction {
         FULL_LABEL, KEY_PAYEEID, KEY_PAYEE_NAME, KEY_TRANSFER_PEER, KEY_TRANSFER_ACCOUNT, KEY_DEBT_ID,
         KEY_ACCOUNTID, KEY_METHODID, KEY_PARENTID, KEY_CR_STATUS, KEY_REFERENCE_NUMBER, KEY_CURRENCY,
         KEY_PICTURE_URI, KEY_METHOD_LABEL, KEY_STATUS, TRANSFER_AMOUNT(VIEW_ALL), KEY_TEMPLATEID, KEY_UUID, KEY_ORIGINAL_AMOUNT, KEY_ORIGINAL_CURRENCY,
-        KEY_EQUIVALENT_AMOUNT, CATEGORY_ICON, CHECK_SEALED_WITH_ALIAS(VIEW_ALL, TABLE_TRANSACTIONS)};
+        KEY_EQUIVALENT_AMOUNT, CATEGORY_ICON, checkSealedWithAlias(VIEW_ALL, TABLE_TRANSACTIONS)};
 
     Cursor c = cr().query(
         EXTENDED_URI.buildUpon().appendPath(String.valueOf(id)).build(), projection, null, null, null);

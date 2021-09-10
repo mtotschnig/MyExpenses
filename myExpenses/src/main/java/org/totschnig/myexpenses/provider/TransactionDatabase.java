@@ -375,17 +375,6 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           "WHEN (SELECT " + KEY_SEALED + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = old." + KEY_ACCOUNTID + ") = 1 " +
           String.format(Locale.ROOT, "BEGIN %s END", RAISE_UPDATE_SEALED_ACCOUNT);
 
-  private static final String DEBT_PAYEE_CHECK = "WHEN new." + KEY_DEBT_ID + " is not null AND (SELECT " + KEY_PAYEEID + " FROM " + TABLE_DEBTS + " WHERE " + KEY_ROWID + " = new." + KEY_DEBT_ID + ") != new." + KEY_PAYEEID + " " +
-      "BEGIN SELECT RAISE (FAIL, 'attempt to set inconsistent debt'); END";
-
-  private static final String TRANSACTIONS_DEBT_INSERT_TRIGGER_CREATE =
-      "CREATE TRIGGER transaction_debt_insert " +
-          "BEFORE INSERT ON " + TABLE_TRANSACTIONS + " " + DEBT_PAYEE_CHECK;
-
-  private static final String TRANSACTIONS_DEBT_UPDATE_TRIGGER_CREATE =
-      "CREATE TRIGGER transaction_debt_update " +
-          "BEFORE UPDATE ON " + TABLE_TRANSACTIONS + " " + DEBT_PAYEE_CHECK;
-
   private static final String CHANGES_CREATE =
       "CREATE TABLE " + TABLE_CHANGES
           + " ( " + KEY_ACCOUNTID + " integer not null references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE CASCADE,"
@@ -783,6 +772,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     db.execSQL(TEMPLATES_TAGS_CREATE);
 
     db.execSQL(DEBT_CREATE);
+    createOrRefreshTransactionDebtTriggers(db);
 
     //Views
     createOrRefreshViews(db);
@@ -2178,6 +2168,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       if (oldVersion < 118) {
         upgradeTo118(db);
       }
+      if (oldVersion < 119) {
+        upgradeTo119(db);
+      }
       TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {
       throw new SQLiteUpgradeFailedException(oldVersion, newVersion, e);
@@ -2237,11 +2230,8 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
     createOrRefreshTransactionSealedTriggers(db);
 
-    db.execSQL("DROP TRIGGER IF EXISTS transaction_debt_insert");
-    db.execSQL("DROP TRIGGER IF EXISTS transaction_debt_update");
-    db.execSQL(TRANSACTIONS_DEBT_INSERT_TRIGGER_CREATE);
-    db.execSQL(TRANSACTIONS_DEBT_UPDATE_TRIGGER_CREATE);
   }
+
 
   private void createOrRefreshTransactionSealedTriggers(SQLiteDatabase db) {
     db.execSQL("DROP TRIGGER IF EXISTS sealed_account_transaction_insert");

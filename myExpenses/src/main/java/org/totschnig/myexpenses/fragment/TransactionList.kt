@@ -115,32 +115,36 @@ class TransactionList : BaseTransactionList() {
         return true
     }
     
-    private fun warnSealedAccount() {
+    private fun warnSealedAccount(sealedAccount: Boolean, sealedDebt: Boolean) {
+        val resIds = mutableListOf<Int>()
+        resIds.add(R.string.warning_account_for_transaction_is_closed)
+        if (sealedAccount) {
+            resIds.add(R.string.object_sealed)
+        }
+        if (sealedDebt) {
+            resIds.add(R.string.object_sealed_debt)
+        }
         (requireActivity() as ProtectedFragmentActivity).showSnackbar(
             concatResStrings(
                 context,
                 " ",
-                R.string.warning_account_for_transaction_is_closed,
-                R.string.object_sealed
+                *resIds.toTypedArray()
             )
         )
     }
 
     override fun checkSealed(itemIds: LongArray, onChecked: Runnable) {
-        CheckSealedHandler(requireActivity().contentResolver).check(
-            itemIds, object : CheckSealedHandler.ResultListener {
-                override fun onResult(result: Result<Boolean>) {
-                    lifecycleScope.launchWhenResumed {
-                        result.onSuccess {
-                            if (it) {
-                                onChecked.run()
-                            } else {
-                                warnSealedAccount()
-                            }
-                        }.onFailure(showFailure)
+        CheckSealedHandler(requireActivity().contentResolver).check(itemIds) { result ->
+            lifecycleScope.launchWhenResumed {
+                result.onSuccess {
+                    if (it.first && it.second) {
+                        onChecked.run()
+                    } else {
+                        warnSealedAccount(!it.first, !it.second)
                     }
-                }
-            })
+                }.onFailure(showFailure)
+            }
+        }
     }
 
     val showFailure: (exception: Throwable) -> Unit = {
@@ -337,30 +341,27 @@ class TransactionList : BaseTransactionList() {
                         }
                     }
                 }
-                CheckTransferAccountOfSplitPartsHandler(requireActivity().contentResolver).check(
-                    splitIds, object : CheckTransferAccountOfSplitPartsHandler.ResultListener {
-                        override fun onResult(result: Result<List<Long>>) {
-                            lifecycleScope.launchWhenResumed {
-                                result.onSuccess {
-                                    excludedIds.addAll(it)
-                                    val dialogFragment =
-                                        org.totschnig.myexpenses.dialog.select.SelectSingleAccountDialogFragment.newInstance(
-                                            R.string.menu_remap,
-                                            R.string.remap_empty_list,
-                                            excludedIds
-                                        )
-                                    dialogFragment.setTargetFragment(
-                                        this@TransactionList,
-                                        MAP_ACCOUNT_REQUEST
-                                    )
-                                    dialogFragment.show(
-                                        requireActivity().supportFragmentManager,
-                                        "REMAP_ACCOUNT"
-                                    )
-                                }.onFailure(showFailure)
-                            }
-                        }
-                    })
+                CheckTransferAccountOfSplitPartsHandler(requireActivity().contentResolver).check(splitIds) { result ->
+                    lifecycleScope.launchWhenResumed {
+                        result.onSuccess {
+                            excludedIds.addAll(it)
+                            val dialogFragment =
+                                org.totschnig.myexpenses.dialog.select.SelectSingleAccountDialogFragment.newInstance(
+                                    R.string.menu_remap,
+                                    R.string.remap_empty_list,
+                                    excludedIds
+                                )
+                            dialogFragment.setTargetFragment(
+                                this@TransactionList,
+                                MAP_ACCOUNT_REQUEST
+                            )
+                            dialogFragment.show(
+                                requireActivity().supportFragmentManager,
+                                "REMAP_ACCOUNT"
+                            )
+                        }.onFailure(showFailure)
+                    }
+                }
             }
             return true
         } else if (command == R.id.LINK_TRANSFER_COMMAND) {

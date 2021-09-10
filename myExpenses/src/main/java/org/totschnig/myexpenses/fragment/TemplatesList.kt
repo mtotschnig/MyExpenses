@@ -521,36 +521,25 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
         }
     }
 
-    fun showSnackbar(msg: String?) {
-        var childFragment: DialogFragment? = planMonthFragment
-        if (childFragment == null) {
-            childFragment = plannerFragment
-        }
-        if (childFragment != null) {
-            showSnackbar(childFragment, msg)
-        } else {
-            (activity as ProtectedFragmentActivity?)!!.showSnackbar(msg!!)
-        }
+    fun showSnackbar(msg: String) {
+        (planMonthFragment ?: plannerFragment)?.also {
+            showSnackbar(it, msg)
+        } ?: run { (activity as ProtectedFragmentActivity).showSnackbar(msg) }
     }
 
-    fun showSnackbar(dialogFragment: DialogFragment, msg: String?) {
-        val dialog = dialogFragment.dialog
-        if (dialog != null) {
-            val window = dialog.window
-            if (window != null) {
-                val view = window.decorView
-                val snackbar = Snackbar.make(view, msg!!, Snackbar.LENGTH_LONG)
-                UiUtils.increaseSnackbarMaxLines(snackbar)
-                snackbar.show()
-                return
-            }
+    fun showSnackbar(dialogFragment: DialogFragment, msg: String) {
+        dialogFragment.dialog?.window?.also {
+            val snackbar = Snackbar.make(it.decorView, msg, Snackbar.LENGTH_LONG)
+            UiUtils.increaseSnackbarMaxLines(snackbar)
+            snackbar.show()
+        } ?: run {
             Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
         }
     }
 
-    fun dispatchDeleteDo(tag: LongArray?) {
+    fun dispatchDeleteDo(tag: LongArray) {
         showSnackbar(getString(R.string.progress_dialog_deleting))
-        viewModel.deleteTemplates(tag!!, PermissionGroup.CALENDAR.hasPermission(requireContext()))
+        viewModel.deleteTemplates(tag, PermissionGroup.CALENDAR.hasPermission(requireContext()))
             .observe(
                 viewLifecycleOwner, { result: Int ->
                     val activity = requireActivity() as BaseActivity

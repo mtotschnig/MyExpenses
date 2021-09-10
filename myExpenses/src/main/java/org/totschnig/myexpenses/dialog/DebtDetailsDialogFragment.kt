@@ -13,10 +13,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.DebtEdit
-import org.totschnig.myexpenses.activity.EDIT_DEBT_REQUEST
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.databinding.DebtTransactionBinding
 import org.totschnig.myexpenses.model.CurrencyContext
@@ -93,6 +93,7 @@ class DebtDetailsDialogFragment : BaseDialogFragment() {
             .setView(recyclerView)
             .setPositiveButton(android.R.string.ok, null)
             .setNeutralButton(R.string.menu_edit, null)
+            .setNegativeButton(R.string.menu_delete, null)
             .create()
         alertDialog.setOnShowListener {
             alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener {
@@ -100,21 +101,47 @@ class DebtDetailsDialogFragment : BaseDialogFragment() {
                     if (debt.isSealed) {
                         viewModel.reopenDebt(debt.id)
                     } else {
-                        startActivityForResult(Intent(context, DebtEdit::class.java).apply {
+                        startActivity(Intent(context, DebtEdit::class.java).apply {
                             putExtra(KEY_PAYEEID, debt.payeeId)
                             putExtra(KEY_PAYEE_NAME, debt.payeeName)
                             putExtra(KEY_DEBT_ID, debt.id)
-                        }, EDIT_DEBT_REQUEST)
+                        })
                     }
                 }
+            }
+            alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener {
+                val count = adapter.itemCount - 1
+                MessageDialogFragment.newInstance(
+                    getString(R.string.dialog_title_delete_debt),
+                    "${
+                        resources.getQuantityString(
+                            R.plurals.debt_mapped_transactions,
+                            count,
+                            debt.label,
+                            count
+                        )
+                    } ${getString(R.string.continue_confirmation)}",
+                    MessageDialogFragment.Button(
+                        R.string.menu_delete,
+                        R.id.DELETE_DEBT_COMMAND,
+                        debt.id
+                    ),
+                    null,
+                    MessageDialogFragment.noButton(), 0
+                )
+                    .show(parentFragmentManager, "DELETE_DEBT")
             }
         }
         return alertDialog
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == EDIT_DEBT_REQUEST && resultCode == ProtectedFragmentActivity.RESULT_FIRST_USER) {
-            dismiss()
+    fun deleteDebtDo(debtId: Long) {
+        viewModel.deleteDebt(debtId).observe(this) {
+            if (it) {
+                dismiss()
+            } else {
+                showSnackbar("ERROR", Snackbar.LENGTH_LONG, null)
+            }
         }
     }
 
