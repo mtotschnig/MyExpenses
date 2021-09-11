@@ -13,7 +13,6 @@ import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AggregateAccount
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.SortDirection
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteDowngradeFailedException
@@ -21,7 +20,6 @@ import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteUpgradeFailed
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
-import org.totschnig.myexpenses.provider.checkForSealedDebt
 import org.totschnig.myexpenses.sync.ServiceLoader
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 
@@ -121,23 +119,6 @@ class MyExpensesViewModel(application: Application) :
 
     fun deleteAccounts(accountIds: Array<Long>): LiveData<Boolean> =
         liveData(context = coroutineContext()) {
-            if (contentResolver.query(
-                    TRANSACTIONS_URI,
-                    arrayOf("MAX($checkForSealedDebt)"),
-                    "$KEY_ACCOUNTID IN (${accountIds.joinToString()})",
-                    null,
-                    null
-                )?.use {
-                    it.moveToFirst()
-                    it.getInt(0)
-                } == 1
-            ) {
-                emit(false)
-            } else {
-                for (accountId in accountIds) {
-                    Account.delete(accountId)
-                }
-                emit(true)
-            }
+            emit(deleteAccountsInternal(accountIds))
         }
 }

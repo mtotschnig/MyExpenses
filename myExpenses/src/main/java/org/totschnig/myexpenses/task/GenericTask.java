@@ -223,14 +223,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         account.save();
         return Result.SUCCESS;
       }
-      case TaskExecutionFragment.TASK_SYNC_LINK_REMOTE: {
-        Account remoteAccount = (Account) this.mExtra;
-        if (!deleteAccount(Account.findByUuid(remoteAccount.getUuid()))) {
-          return Result.FAILURE;
-        }
-        remoteAccount.save();
-        return Result.SUCCESS;
-      }
       case TaskExecutionFragment.TASK_SYNC_REMOVE_BACKEND: {
         AccountManagerFuture<Boolean> accountManagerFuture = AccountManager.get(context).removeAccount(
             GenericAccountService.getAccount((String) ids[0]), null, null);
