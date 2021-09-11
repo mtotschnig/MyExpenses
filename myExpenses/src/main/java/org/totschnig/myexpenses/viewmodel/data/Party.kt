@@ -1,8 +1,6 @@
 package org.totschnig.myexpenses.viewmodel.data
 
 import android.database.Cursor
-import androidx.core.database.getStringOrNull
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_DEBTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TEMPLATES
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TRANSACTIONS

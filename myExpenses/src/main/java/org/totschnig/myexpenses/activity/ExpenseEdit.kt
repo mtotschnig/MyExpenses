@@ -429,15 +429,15 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         linkInputsWithLabels()
         loadTags()
         loadCurrencies()
-        if (shouldLoadDebts) {
-            loadDebts()
-        }
     }
 
     private fun loadDebts() {
-        viewModel.getDebts().observe(this) { debts ->
-            if (::delegate.isInitialized) {
-                (delegate as? MainDelegate)?.setDebts(debts)
+        if (shouldLoadDebts) {
+            viewModel.getDebts().observe(this) { debts ->
+                (delegate as? MainDelegate)?.let {
+                    it.setDebts(debts)
+                    it.setupDebtChangedListener()
+                }
             }
         }
     }
@@ -478,6 +478,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
                         accounts,
                         if (fromSavedState) null else intent.getStringExtra(DatabaseConstants.KEY_CURRENCY)
                     )
+                    loadDebts()
                     accountsLoaded = true
                     if (mIsResumed) setupListeners()
                 }

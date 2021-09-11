@@ -85,14 +85,19 @@ class TransactionDetailFragment : BaseDialogFragment(), DialogInterface.OnClickL
         val rowId = requireArguments().getLong(DatabaseConstants.KEY_ROWID)
         viewModel.transaction(rowId).observe(this, { o -> fillData(o) })
         viewModel.getTags().observe(this, { tags ->
-            if (tags.size > 0) {
+            if (tags.isNotEmpty()) {
                 binding.TagGroup.addChipsBulk(tags, null)
             } else {
                 binding.TagRow.visibility = View.GONE
             }
         })
-        viewModel.loadOriginalTags(rowId, TransactionProvider.TRANSACTIONS_TAGS_URI, DatabaseConstants.KEY_TRANSACTIONID)
-        val alertDialog = builder.setTitle(R.string.progress_dialog_loading) //.setIcon(android.R.color.transparent)
+        viewModel.loadOriginalTags(
+            rowId,
+            TransactionProvider.TRANSACTIONS_TAGS_URI,
+            DatabaseConstants.KEY_TRANSACTIONID
+        )
+        val alertDialog =
+            builder.setTitle(R.string.progress_dialog_loading) //.setIcon(android.R.color.transparent)
                 .setNegativeButton(android.R.string.ok, this)
                 .setPositiveButton(R.string.menu_edit, null)
                 .setNeutralButton(R.string.menu_view_picture, this)
@@ -101,10 +106,12 @@ class TransactionDetailFragment : BaseDialogFragment(), DialogInterface.OnClickL
             override fun onShow(dialog: DialogInterface) {
                 if (transactionData == null) {
                     super.onShow(dialog)
-                    (dialog as AlertDialog).getButton(AlertDialog.BUTTON_NEUTRAL)?.let { it.visibility = View.GONE }
+                    (dialog as AlertDialog).getButton(AlertDialog.BUTTON_NEUTRAL)
+                        ?.let { it.visibility = View.GONE }
                 }
                 //prevent automatic dismiss on button click
-                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener { onClick(alertDialog, AlertDialog.BUTTON_POSITIVE) }
+                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                    .setOnClickListener { onClick(alertDialog, AlertDialog.BUTTON_POSITIVE) }
             }
         })
         return alertDialog
@@ -151,7 +158,11 @@ class TransactionDetailFragment : BaseDialogFragment(), DialogInterface.OnClickL
                         }
                     } catch (e: IllegalArgumentException) {
                         CrashHandler.report(e)
-                        showSnackbar("Unable to handle image: " + e.message, Snackbar.LENGTH_LONG, null)
+                        showSnackbar(
+                            "Unable to handle image: " + e.message,
+                            Snackbar.LENGTH_LONG,
+                            null
+                        )
                         doShowPicture = false
                     }
                 }
@@ -172,7 +183,12 @@ class TransactionDetailFragment : BaseDialogFragment(), DialogInterface.OnClickL
                     transaction.isSplit -> {
                         binding.SplitContainer.visibility = View.VISIBLE
                         title = R.string.split_transaction
-                        SplitPartRVAdapter(requireContext(), transaction.amount.currencyUnit, currencyFormatter, list.subList(1, list.size)).also {
+                        SplitPartRVAdapter(
+                            requireContext(),
+                            transaction.amount.currencyUnit,
+                            currencyFormatter,
+                            list.subList(1, list.size)
+                        ).also {
                             binding.splitList.adapter = it
                             it.notifyDataSetChanged()
                         }
@@ -188,8 +204,10 @@ class TransactionDetailFragment : BaseDialogFragment(), DialogInterface.OnClickL
                 }
                 val amountText: String
                 if (transaction.isTransfer) {
-                    binding.Account.text = if (isIncome) transaction.label else transaction.accountLabel
-                    binding.Category.text = if (isIncome) transaction.accountLabel else transaction.label
+                    binding.Account.text =
+                        if (isIncome) transaction.label else transaction.accountLabel
+                    binding.Category.text =
+                        if (isIncome) transaction.accountLabel else transaction.label
                     amountText = if (transaction.isSameCurrency) {
                         formatCurrencyAbs(transaction.amount)
                     } else {
@@ -221,11 +239,15 @@ class TransactionDetailFragment : BaseDialogFragment(), DialogInterface.OnClickL
                 if (dateMode == DateMode.BOOKING_VALUE) {
                     binding.DateLabel.setText(R.string.booking_date)
                     binding.Date2Row.visibility = View.VISIBLE
-                    binding.Date2.text = ZonedDateTime.ofInstant(Instant.ofEpochSecond(transaction.valueDate),
-                            ZoneId.systemDefault()).format(dateFormatter)
+                    binding.Date2.text = ZonedDateTime.ofInstant(
+                        Instant.ofEpochSecond(transaction.valueDate),
+                        ZoneId.systemDefault()
+                    ).format(dateFormatter)
                 }
-                val dateTime = ZonedDateTime.ofInstant(Instant.ofEpochSecond(transaction.date),
-                        ZoneId.systemDefault())
+                val dateTime = ZonedDateTime.ofInstant(
+                    Instant.ofEpochSecond(transaction.date),
+                    ZoneId.systemDefault()
+                )
                 var dateText = dateTime.format(dateFormatter)
                 if (dateMode == DateMode.DATE_TIME) {
                     dateText += " " + dateTime.format(timeFormatter)
@@ -242,7 +264,9 @@ class TransactionDetailFragment : BaseDialogFragment(), DialogInterface.OnClickL
                     binding.NumberRow.visibility = View.GONE
                 }
                 if (transaction.payee != "") {
-                    binding.Payee.text = transaction.payee
+                    val payeeInfo = transaction.payee + if (transaction.debtLabel == null) "" else
+                        " (${transaction.debtLabel})"
+                    binding.Payee.text = payeeInfo
                     binding.PayeeLabel.setText(if (isIncome) R.string.payer else R.string.payee)
                 } else {
                     binding.PayeeRow.visibility = View.GONE

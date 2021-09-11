@@ -213,7 +213,6 @@ abstract class MainDelegate<T : ITransaction>(
             if (viewBinding.DebtCheckBox.isChecked) {
                 viewBinding.DebtCheckBox.isChecked = false
             }
-            debtId = null
         }
         viewBinding.DebtLabel.text = debt?.label ?: context.getString(R.string.debts)
     }
@@ -251,7 +250,11 @@ abstract class MainDelegate<T : ITransaction>(
             payeeId = null
             handleDebts()
         }
+    }
+
+    fun setupDebtChangedListener() {
         viewBinding.DebtCheckBox.setOnCheckedChangeListener { _, isChecked ->
+            host.setDirty()
             if (isChecked) {
                 when (applicableDebts.size) {
                     0 -> { /*should not happen*/ CrashHandler.throwOrReport(java.lang.IllegalStateException("Debt checked without applicable debt")) }
@@ -278,6 +281,7 @@ abstract class MainDelegate<T : ITransaction>(
                 if (applicableDebts.size > 1) {
                     updateUiWithDebt(null)
                 }
+                debtId = null
             }
         }
     }
