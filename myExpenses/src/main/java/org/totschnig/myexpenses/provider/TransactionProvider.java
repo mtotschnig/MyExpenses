@@ -76,7 +76,7 @@ import timber.log.Timber;
 import static org.totschnig.myexpenses.model.AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE;
 import static org.totschnig.myexpenses.model.AggregateAccount.GROUPING_AGGREGATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
-import static org.totschnig.myexpenses.provider.DbConstantsKt.checkSealedWithAlias;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.checkForSealedAccount;
 import static org.totschnig.myexpenses.provider.DbUtils.suggestNewCategoryColor;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.groupByForPaymentMethodQuery;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.havingForPaymentMethodQuery;
@@ -2066,7 +2066,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     int baseLength = baseProjection.length;
     String[] projection = new String[baseLength + 1];
     System.arraycopy(baseProjection, 0, projection, 0, baseLength);
-    projection[baseLength] = checkSealedWithAlias(baseTable, TABLE_TEMPLATES);
+    projection[baseLength] = checkForSealedAccount(baseTable, TABLE_TEMPLATES) + " AS " + KEY_SEALED;
     return projection;
   }
 
