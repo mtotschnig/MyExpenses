@@ -186,6 +186,10 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
                 val where = "$KEY_PAYEEID $inOp"
                 val operations = ArrayList<ContentProviderOperation>().apply {
                     add(
+                        newUpdate(TransactionProvider.DEBTS_URI).withValues(contentValues)
+                            .withSelection(where, null).build()
+                    )
+                    add(
                         newUpdate(TransactionProvider.TRANSACTIONS_URI).withValues(contentValues)
                             .withSelection(where, null).build()
                     )
@@ -195,10 +199,6 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
                     )
                     add(
                         newUpdate(TransactionProvider.CHANGES_URI).withValues(contentValues)
-                            .withSelection(where, null).build()
-                    )
-                    add(
-                        newUpdate(TransactionProvider.DEBTS_URI).withValues(contentValues)
                             .withSelection(where, null).build()
                     )
                     add(
