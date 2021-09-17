@@ -285,7 +285,7 @@ class DistributionFragment : DistributionBaseFragment<CategoryRowBinding?>() {
 
     private fun handleGrouping(item: MenuItem): Boolean {
         val newGrouping = Utils.getGroupingFromMenuItemId(item.itemId)
-        if (newGrouping != null) {
+        if (accountInfoIsInitialized && newGrouping != null) {
             if (!item.isChecked) {
                 grouping = newGrouping
                 setDefaults()
