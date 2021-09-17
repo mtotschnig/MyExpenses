@@ -80,7 +80,7 @@
     <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">编辑已为选定计划示例创建的交易。</string>
     <string name="help_ManageTemplates_planner_title">即将发生的经常项目</string>
     <string name="help_ManageTemplates_plans_title">计划日历视图</string>
-    <string name="cab_merge_help_text">如果同一交易方在表单中多次出现但写法不同，您可以将其合并。您需按提示选择所要保存写法。</string>
+    <string name="menu_merge_help_text">如果同一交易方在表单中多次出现但写法不同，您可以将其合并。您需按提示选择所要保存写法。</string>
     <string name="cab_clone_transaction_help_text">复制选定交易并将其设置当前日期和时间。您可在保存之前进行更改。</string>
     <string name="cab_split_help_text">您可以在之后编辑该条交易，按需创建额外部分。</string>
     <string name="menu_search_help_text">通过该按钮可打开一子菜单，在此您可按类别、金额、备注、状态、付款人/收款人及支付方式确定搜索标准。在搜索筛选器处于启用状态时，您只需点击子菜单中的相应条目即可解除启用。</string>

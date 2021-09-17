@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@id/MERGE_COMMAND"
-        android:icon="@drawable/ic_menu_split_transaction"
-        android:title="@string/menu_merge"
+        android:id="@id/CLOSE_DEBT_COMMAND"
+        android:icon="@drawable/ic_lock"
+        android:title="@string/menu_close"
         app:showAsAction="ifRoom" />
 </menu>

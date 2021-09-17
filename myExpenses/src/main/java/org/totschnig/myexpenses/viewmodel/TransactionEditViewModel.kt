@@ -9,6 +9,8 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.launch
+import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException
+import org.totschnig.myexpenses.exception.UnknownPictureSaveException
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -19,8 +21,6 @@ import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.model.SplitTransaction
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Transaction
-import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException
-import org.totschnig.myexpenses.exception.UnknownPictureSaveException
 import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
@@ -37,6 +37,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACC
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.Account
+import org.totschnig.myexpenses.viewmodel.data.Debt
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import java.util.*
 import kotlin.math.pow
@@ -64,6 +65,14 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
         return@lazy liveData
     }
 
+    private val debts by lazy {
+        val liveData = MutableLiveData<List<Debt>>()
+        disposables.add(briteContentResolver.createQuery(TransactionProvider.DEBTS_URI, null, "$KEY_SEALED = 0", null, null, false)
+            .mapToList { Debt.fromCursor(it) }
+            .subscribe { liveData.postValue(it) })
+        return@lazy liveData
+    }
+
     private val templates by lazy {
         val liveData = MutableLiveData<List<DataTemplate>>()
         disposables.add(briteContentResolver.createQuery(TransactionProvider.TEMPLATES_URI.buildUpon()
@@ -83,6 +92,8 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
     fun getAccounts(): LiveData<List<Account>> = accounts
 
     fun getTemplates(): LiveData<List<DataTemplate>> = templates
+
+    fun getDebts(): LiveData<List<Debt>> = debts
 
     fun plan(planId: Long): LiveData<Plan?> = liveData(context = coroutineContext()) {
         emit(Plan.getInstanceFromDb(planId))

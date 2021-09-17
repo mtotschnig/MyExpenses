@@ -19,6 +19,7 @@ open class BaseDbTest : BaseProviderTest() {
     @Throws(Exception::class)
     override fun tearDown() {
         super.tearDown()
+        mDb.delete(DatabaseConstants.TABLE_DEBTS, null, null)
         mDb.delete(DatabaseConstants.TABLE_ACCOUNTS, null, null)
         mDb.delete(DatabaseConstants.TABLE_PAYEES, null, null)
         mDb.delete(DatabaseConstants.TABLE_CATEGORIES, DatabaseConstants.KEY_ROWID + " != ?", arrayOf(DatabaseConstants.SPLIT_CATID.toString()))

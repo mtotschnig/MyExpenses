@@ -7,7 +7,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 
 class CheckTransferAccountOfSplitPartsHandler(cr: ContentResolver) : AsyncQueryHandler(cr) {
-    interface ResultListener {
+    fun interface ResultListener {
         /**
          * @param result list of all transfer accounts of parts of the passed in split transactions
          */

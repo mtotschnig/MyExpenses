@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.viewmodel.data
 import android.content.Context
 import android.database.Cursor
 import android.net.Uri
+import androidx.core.database.getStringOrNull
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
@@ -14,6 +15,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.DbUtils.getLongOr0L
 import org.totschnig.myexpenses.provider.DbUtils.getLongOrNull
 import org.totschnig.myexpenses.provider.DbUtils.getString
+import org.totschnig.myexpenses.provider.checkSealedWithAlias
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.Utils
 import java.io.File
@@ -26,7 +28,7 @@ data class Transaction(
         val label: String, val transferPeer: Long?, val transferAmount: Money?, val  hasTransferPeerParent: Boolean,
         val originalAmount: Money?, val equivalentAmount: Money?, val pictureUri: Uri?,
         val crStatus: CrStatus, val referenceNumber: String, val originTemplate: Template?,
-        val isSealed: Boolean, val accountLabel: String, val accountType: AccountType) {
+        val isSealed: Boolean, val accountLabel: String, val accountType: AccountType, val debtLabel: String?) {
     val isSameCurrency: Boolean
         get() = transferAmount?.let { amount.currencyUnit == it.currencyUnit } ?: true
     val isTransfer
@@ -35,14 +37,16 @@ data class Transaction(
         get() = SPLIT_CATID == catId
 
     companion object {
+        const val KEY_DEBT_LABEL = "debt"
         fun projection(context: Context) = arrayOf(KEY_ROWID, KEY_DATE, KEY_VALUE_DATE, KEY_AMOUNT, KEY_COMMENT, KEY_CATID,
-                FULL_LABEL, KEY_PAYEEID, KEY_PAYEE_NAME, KEY_TRANSFER_PEER, KEY_TRANSFER_ACCOUNT, TRANSFER_CURRENCY,
+                FULL_LABEL, KEY_PAYEE_NAME, KEY_TRANSFER_PEER, KEY_TRANSFER_ACCOUNT, TRANSFER_CURRENCY,
                 KEY_ACCOUNTID, KEY_METHODID, KEY_PARENTID, KEY_CR_STATUS, KEY_REFERENCE_NUMBER, KEY_CURRENCY,
                 KEY_PICTURE_URI, PaymentMethod.localizedLabelSqlColumn(context, KEY_METHOD_LABEL) + " AS " + KEY_METHOD_LABEL,
                 KEY_STATUS, TRANSFER_AMOUNT(VIEW_EXTENDED), KEY_TEMPLATEID,
                 KEY_UUID, KEY_ORIGINAL_AMOUNT, KEY_ORIGINAL_CURRENCY, KEY_EQUIVALENT_AMOUNT, CATEGORY_ICON,
-                CHECK_SEALED_WITH_ALIAS(VIEW_EXTENDED, TABLE_TRANSACTIONS),
-                getExchangeRate(VIEW_EXTENDED, KEY_ACCOUNTID) + " AS " + KEY_EXCHANGE_RATE, KEY_ACCOUNT_LABEL, KEY_ACCOUNT_TYPE)
+                checkSealedWithAlias(VIEW_EXTENDED, TABLE_TRANSACTIONS),
+                getExchangeRate(VIEW_EXTENDED, KEY_ACCOUNTID) + " AS " + KEY_EXCHANGE_RATE, KEY_ACCOUNT_LABEL, KEY_ACCOUNT_TYPE,
+                "(SELECT $KEY_LABEL FROM $TABLE_DEBTS WHERE $KEY_ROWID = $KEY_DEBT_ID) AS $KEY_DEBT_LABEL")
         fun fromCursor(cursor: Cursor, currencyContext: CurrencyContext): Transaction {
             val currencyUnit = currencyContext.get(cursor.getString(cursor.getColumnIndexOrThrow(KEY_CURRENCY)))
             val money = Money(currencyUnit, cursor.getLong(cursor.getColumnIndexOrThrow(KEY_AMOUNT)))
@@ -102,7 +106,8 @@ data class Transaction(
                     } catch (ex: IllegalArgumentException) {
                         AccountType.CASH
                     },
-                    hasTransferPeerParent = org.totschnig.myexpenses.model.Transaction.hasParent(transferPeer)
+                    hasTransferPeerParent = org.totschnig.myexpenses.model.Transaction.hasParent(transferPeer),
+                    debtLabel = cursor.getStringOrNull(cursor.getColumnIndex(KEY_DEBT_LABEL))
             )
         }
     }

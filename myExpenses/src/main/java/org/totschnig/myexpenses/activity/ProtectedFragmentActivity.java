@@ -53,6 +53,7 @@ import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AggregateAccount;
 import org.totschnig.myexpenses.model.ContribFeature;
 import org.totschnig.myexpenses.model.CurrencyContext;
+import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -114,9 +115,9 @@ import static org.totschnig.myexpenses.preference.PrefKey.UI_FONTSIZE;
 import static org.totschnig.myexpenses.preference.PrefKey.UI_LANGUAGE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_RESTORE;
+import static org.totschnig.myexpenses.util.TextUtils.concatResStrings;
 import static org.totschnig.myexpenses.util.distrib.DistributionHelper.getMarketSelfUri;
 import static org.totschnig.myexpenses.util.distrib.DistributionHelper.getVersionInfo;
-import static org.totschnig.myexpenses.util.TextUtils.concatResStrings;
 
 public abstract class ProtectedFragmentActivity extends BaseActivity
     implements OnSharedPreferenceChangeListener,
@@ -161,7 +162,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   public ColorStateList getTextColorSecondary() {
     return textColorSecondary;
   }
-  
+
   MyApplication requireApplication() {
     return ((MyApplication) getApplication());
   }
@@ -530,7 +531,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
       //on DialogWhenLargeTheme we do not want to tint if we are displayed on a large screen as dialog
       return getPackageManager().getActivityInfo(getComponentName(), 0).getThemeResource() != R.style.EditDialog ||
           (getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) <
-          Configuration.SCREENLAYOUT_SIZE_LARGE;
+              Configuration.SCREENLAYOUT_SIZE_LARGE;
     } catch (PackageManager.NameNotFoundException e) {
       CrashHandler.report(e);
       return false;
@@ -541,7 +542,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   public void onPostExecute(int taskId, @Nullable Object o) {
     removeAsyncTaskFragment(shouldKeepProgress(taskId));
     switch (taskId) {
-      case TaskExecutionFragment.TASK_DELETE_ACCOUNT:
       case TaskExecutionFragment.TASK_DELETE_PAYMENT_METHODS: {
         Result result = (Result) o;
         if (!result.isSuccess()) {
@@ -589,6 +589,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   /**
    * starts the given task, only if no task is currently executed,
    * informs user through snackbar in that case
+   *
    * @param progressMessage if 0 no progress dialog will be shown
    */
   @Deprecated
@@ -882,6 +883,10 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   @Override
   public void setFocusAfterRestoreInstanceState(Pair<Integer, Integer> focusView) {
     this.focusAfterRestoreInstanceState = focusView;
+  }
+
+  @Override
+  public void onCurrencySelectionChanged(CurrencyUnit currencyUnit) {
   }
 
   @Override

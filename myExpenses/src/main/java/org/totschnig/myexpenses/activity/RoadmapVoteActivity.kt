@@ -302,10 +302,9 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
         }
     }
 
-    private inner class ViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    private inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textView: TextView = itemView.findViewById(R.id.text)
         val weightView: TextView = itemView.findViewById(R.id.weight)
-
     }
 
     override fun getSnackbarContainerId(): Int {

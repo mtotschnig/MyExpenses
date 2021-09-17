@@ -24,8 +24,8 @@ import javax.inject.Singleton;
 
 @Singleton
 public class CurrencyFormatter {
-  private PrefHandler prefHandler;
-  private UserLocaleProvider userLocaleProvider;
+  private final PrefHandler prefHandler;
+  private final UserLocaleProvider userLocaleProvider;
 
   @Inject
   public CurrencyFormatter(PrefHandler prefHandler, UserLocaleProvider userLocaleProvider) {
@@ -33,7 +33,7 @@ public class CurrencyFormatter {
     this.userLocaleProvider = userLocaleProvider;
   }
 
-  private Map<String, NumberFormat> numberFormats = new HashMap<>();
+  private final Map<String, NumberFormat> numberFormats = new HashMap<>();
 
   public void invalidate(String currency, ContentResolver contentResolver) {
     numberFormats.remove(currency);
@@ -54,7 +54,7 @@ public class CurrencyFormatter {
 
   private NumberFormat initNumberFormat() {
     String prefFormat = prefHandler.getString(PrefKey.CUSTOM_DECIMAL_FORMAT, "");
-    if (!prefFormat.equals("")) {
+    if (!"".equals(prefFormat)) {
       DecimalFormat nf = new DecimalFormat();
       try {
         nf.applyLocalizedPattern(prefFormat);
@@ -76,16 +76,12 @@ public class CurrencyFormatter {
       } catch (Exception ignored) { /*Custom locale}*/ }
       if (fractionDigits <= 3) {
         numberFormat.setMinimumFractionDigits(fractionDigits);
-        numberFormat.setMaximumFractionDigits(fractionDigits);
-      } else {
-        numberFormat.setMaximumFractionDigits(fractionDigits);
       }
+      numberFormat.setMaximumFractionDigits(fractionDigits);
       String currencySymbol = currencyUnit.getSymbol();
-      if (currencySymbol != null) {
-        DecimalFormatSymbols decimalFormatSymbols = ((DecimalFormat) numberFormat).getDecimalFormatSymbols();
-        decimalFormatSymbols.setCurrencySymbol(currencySymbol);
-        ((DecimalFormat) numberFormat).setDecimalFormatSymbols(decimalFormatSymbols);
-      }
+      DecimalFormatSymbols decimalFormatSymbols = ((DecimalFormat) numberFormat).getDecimalFormatSymbols();
+      decimalFormatSymbols.setCurrencySymbol(currencySymbol);
+      ((DecimalFormat) numberFormat).setDecimalFormatSymbols(decimalFormatSymbols);
       numberFormats.put(currencyUnit.getCode(), numberFormat);
     }
     return numberFormat;
@@ -93,9 +89,7 @@ public class CurrencyFormatter {
 
   /**
    * formats an amount with a currency
-   *
-   * @param money
-   * @return formated string
+   * @return formatted string
    */
   public String formatCurrency(Money money) {
     BigDecimal amount = money.getAmountMajor();
@@ -111,8 +105,7 @@ public class CurrencyFormatter {
    * adapters that give us the amount as String
    *
    * @param text     amount as String
-   * @param currency
-   * @return formated string
+   * @return formatted string
    */
   @Deprecated
   public String convAmount(String text, CurrencyUnit currency) {
@@ -128,9 +121,7 @@ public class CurrencyFormatter {
    * utility method that calls formatters for amount this method can be called
    * directly with Long values retrieved from db
    *
-   * @param amount
-   * @param currency
-   * @return formated string
+   * @return formatted string
    */
   public String convAmount(Long amount, CurrencyUnit currency) {
     return formatCurrency(new Money(currency, amount));

@@ -55,7 +55,6 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final String KEY_ENCODING = "encoding";
   public static final String KEY_FORMAT = "format";
 
-  public static final int TASK_DELETE_ACCOUNT = 7;
   public static final int TASK_DELETE_PAYMENT_METHODS = 8;
   public static final int TASK_TOGGLE_CRSTATUS = 11;
   public static final int TASK_MOVE = 12;
@@ -77,7 +76,6 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_WEBDAV_TEST_LOGIN = 42;
   public static final int TASK_CREATE_SYNC_ACCOUNT = 43;
   public static final int TASK_SYNC_LINK_LOCAL = 45;
-  public static final int TASK_SYNC_LINK_REMOTE = 46;
   public static final int TASK_SYNC_REMOVE_BACKEND = 47;
   public static final int TASK_SYNC_LINK_SAVE = 48;
 

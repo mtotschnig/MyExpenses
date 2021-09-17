@@ -208,6 +208,8 @@ public class DatabaseConstants {
   public static final String KEY_TRANSFER_CURRENCY = "transfer_currency";
   public static final String KEY_COUNT = "count";
   public static final String KEY_TAGLIST = "tag_list";
+  public static final String KEY_DEBT_ID = "debt_id";
+  public static final String KEY_MAPPED_DEBTS = "mapped_debts";
   /**
    * If this field is part of a projection for a query to the Methods URI, only payment methods
    * mapped to account types will be returned
@@ -304,6 +306,8 @@ public class DatabaseConstants {
 
   public static final String TABLE_BUDGETS = "budgets";
   public static final String TABLE_BUDGET_CATEGORIES = "budget_categories";
+
+  public static final String TABLE_DEBTS = "debts";
 
   /**
    * an SQL CASE expression for transactions
@@ -409,19 +413,6 @@ public class DatabaseConstants {
           "  (SELECT " + KEY_ICON + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
           " ELSE null" +
           " END AS " + KEY_ICON;
-
-  /**
-   * we check if the object is linked to a sealed account, either via its account, it transfer_account, or its children.
-   * For Children, we only need to check for transfer_account, since there account is identical to their parent.
-   */
-  public static String CHECK_SEALED(String baseTable, String innerTable) {
-    return String.format("(SELECT max(%1$s) FROM %2$s WHERE %8$s = %3$s OR %8$s = %4$s OR %8$s in (SELECT %4$s FROM %5$s WHERE %6$s = %7$s.%8$s))",
-        KEY_SEALED, TABLE_ACCOUNTS, KEY_ACCOUNTID, KEY_TRANSFER_ACCOUNT, innerTable, KEY_PARENTID, baseTable, KEY_ROWID);
-  }
-
-  public static String CHECK_SEALED_WITH_ALIAS(String baseTable, String innerTable) {
-    return CHECK_SEALED(baseTable, innerTable) + " AS " + KEY_SEALED;
-  }
 
   public static final Long SPLIT_CATID = 0L;
 

@@ -24,10 +24,13 @@ import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
+import org.totschnig.myexpenses.provider.checkForSealedDebt
 import org.totschnig.myexpenses.ui.ContextHelper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.AccountMinimal
@@ -36,7 +39,8 @@ import javax.inject.Inject
 
 const val KEY_ROW_IDS = "rowIds"
 
-abstract class ContentResolvingAndroidViewModel(application: Application) : AndroidViewModel(application) {
+abstract class ContentResolvingAndroidViewModel(application: Application) :
+    AndroidViewModel(application) {
     @Inject
     lateinit var briteContentResolver: BriteContentResolver
 
@@ -63,22 +67,26 @@ abstract class ContentResolvingAndroidViewModel(application: Application) : Andr
 
     protected fun accountsMinimal(withHidden: Boolean = true): LiveData<List<AccountMinimal>> {
         val liveData = MutableLiveData<List<AccountMinimal>>()
-        disposable = briteContentResolver.createQuery(TransactionProvider.ACCOUNTS_MINIMAL_URI, null,
+        disposable = briteContentResolver.createQuery(
+            TransactionProvider.ACCOUNTS_MINIMAL_URI, null,
             if (withHidden) null else "${DatabaseConstants.KEY_HIDDEN} = 0",
-            null, null, false)
-                .mapToList { cursor ->
-                    val id = cursor.getLong(cursor.getColumnIndex(KEY_ROWID))
-                    AccountMinimal(id,
-                            if (id == HOME_AGGREGATE_ID)
-                                getString(R.string.grand_total)
-                            else
-                                cursor.getString(cursor.getColumnIndex(KEY_LABEL)),
-                            cursor.getString(cursor.getColumnIndex(KEY_CURRENCY)))
-                }
-                .subscribe {
-                    liveData.postValue(it)
-                    dispose()
-                }
+            null, null, false
+        )
+            .mapToList { cursor ->
+                val id = cursor.getLong(cursor.getColumnIndex(KEY_ROWID))
+                AccountMinimal(
+                    id,
+                    if (id == HOME_AGGREGATE_ID)
+                        getString(R.string.grand_total)
+                    else
+                        cursor.getString(cursor.getColumnIndex(KEY_LABEL)),
+                    cursor.getString(cursor.getColumnIndex(KEY_CURRENCY))
+                )
+            }
+            .subscribe {
+                liveData.postValue(it)
+                dispose()
+            }
         return liveData
     }
 
@@ -91,15 +99,18 @@ abstract class ContentResolvingAndroidViewModel(application: Application) : Andr
     private val accountLiveData: Map<Long, LiveData<Account>> = lazyMap { accountId ->
         val liveData = MutableLiveData<Account>()
         disposeAccount()
-        val base = if (accountId > 0) TransactionProvider.ACCOUNTS_URI else TransactionProvider.ACCOUNTS_AGGREGATE_URI
-        accountDisposable = briteContentResolver.createQuery(ContentUris.withAppendedId(base, accountId),
-                Account.PROJECTION_BASE, null, null, null, true)
-                .mapToOne { Account.fromCursor(it) }
-                .throttleFirst(100, TimeUnit.MILLISECONDS)
-                .subscribe {
-                    liveData.postValue(it)
-                    onAccountLoaded(it)
-                }
+        val base =
+            if (accountId > 0) TransactionProvider.ACCOUNTS_URI else TransactionProvider.ACCOUNTS_AGGREGATE_URI
+        accountDisposable = briteContentResolver.createQuery(
+            ContentUris.withAppendedId(base, accountId),
+            Account.PROJECTION_BASE, null, null, null, true
+        )
+            .mapToOne { Account.fromCursor(it) }
+            .throttleFirst(100, TimeUnit.MILLISECONDS)
+            .subscribe {
+                liveData.postValue(it)
+                onAccountLoaded(it)
+            }
         return@lazyMap liveData
     }
 
@@ -127,30 +138,52 @@ abstract class ContentResolvingAndroidViewModel(application: Application) : Andr
 
     protected fun coroutineContext() = viewModelScope.coroutineContext + coroutineDispatcher
 
-    fun deleteTemplates(ids: LongArray, deletePlan: Boolean): LiveData<Int> = liveData(context = coroutineContext()) {
-        emit(ids.sumBy {
-            try {
-                Template.delete(it, deletePlan)
-                1
-            } catch (e: SQLiteConstraintException) {
-                CrashHandler.reportWithDbSchema(e)
-                0
-            }
-        })
-    }
+    fun deleteTemplates(ids: LongArray, deletePlan: Boolean): LiveData<Int> =
+        liveData(context = coroutineContext()) {
+            emit(ids.sumBy {
+                try {
+                    Template.delete(it, deletePlan)
+                    1
+                } catch (e: SQLiteConstraintException) {
+                    CrashHandler.reportWithDbSchema(e)
+                    0
+                }
+            })
+        }
 
 
-    fun deleteTransactions(ids: LongArray, markAsVoid: Boolean): LiveData<Int> = liveData(context = coroutineContext()) {
-        emit(ids.sumBy {
-            try {
-                Transaction.delete(it, markAsVoid)
-                1
-            } catch (e: SQLiteConstraintException) {
-                CrashHandler.reportWithDbSchema(e)
-                0
+    fun deleteTransactions(ids: LongArray, markAsVoid: Boolean): LiveData<Int> =
+        liveData(context = coroutineContext()) {
+            emit(ids.sumBy {
+                try {
+                    Transaction.delete(it, markAsVoid)
+                    1
+                } catch (e: SQLiteConstraintException) {
+                    CrashHandler.reportWithDbSchema(e)
+                    0
+                }
+            })
+        }
+
+    internal fun deleteAccountsInternal(accountIds: Array<Long>) =
+        if (contentResolver.query(
+                TRANSACTIONS_URI,
+                arrayOf("MAX($checkForSealedDebt)"),
+                "$KEY_ACCOUNTID IN (${accountIds.joinToString()})",
+                null,
+                null
+            )?.use {
+                it.moveToFirst()
+                it.getInt(0)
+            } == 1
+        ) {
+            false
+        } else {
+            for (accountId in accountIds) {
+                Account.delete(accountId)
             }
-        })
-    }
+            true
+        }
 
     companion object {
         fun <K, V> lazyMap(initializer: (K) -> V): Map<K, V> {

@@ -54,6 +54,7 @@ import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
 import org.totschnig.myexpenses.delegate.CategoryDelegate
+import org.totschnig.myexpenses.delegate.MainDelegate
 import org.totschnig.myexpenses.delegate.SplitDelegate
 import org.totschnig.myexpenses.delegate.TransactionDelegate
 import org.totschnig.myexpenses.delegate.TransferDelegate
@@ -122,7 +123,7 @@ import org.totschnig.myexpenses.viewmodel.data.Template as DataTemplate
  */
 open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     LoaderManager.LoaderCallbacks<Cursor?>, ContribIFace, ConfirmationDialogListener,
-    ButtonWithDialog.Host, ExchangeRateEdit.Host {
+    ExchangeRateEdit.Host {
     private lateinit var rootBinding: OneExpenseBinding
     private lateinit var dateEditBinding: DateEditBinding
     private lateinit var methodRowBinding: MethodRowBinding
@@ -208,6 +209,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         get() = isTemplate && !isSplitPart
 
     private val shouldLoadMethods: Boolean
+        get() = operationType != TYPE_TRANSFER && !isSplitPart
+
+    private val shouldLoadDebts: Boolean
         get() = operationType != TYPE_TRANSFER && !isSplitPart
 
     private val isMainTransaction: Boolean
@@ -427,6 +431,17 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         loadCurrencies()
     }
 
+    private fun loadDebts() {
+        if (shouldLoadDebts) {
+            viewModel.getDebts().observe(this) { debts ->
+                (delegate as? MainDelegate)?.let {
+                    it.setDebts(debts)
+                    it.setupDebtChangedListener()
+                }
+            }
+        }
+    }
+
     private fun loadTags() {
         if (!isSplitPart) {
             viewModel.getTags().observe(this, { tags ->
@@ -463,6 +478,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
                         accounts,
                         if (fromSavedState) null else intent.getStringExtra(DatabaseConstants.KEY_CURRENCY)
                     )
+                    loadDebts()
                     accountsLoaded = true
                     if (mIsResumed) setupListeners()
                 }
@@ -511,7 +527,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     ) {
         transaction?.let {
             if (transaction.isSealed) {
-                abortWithMessage("This transaction refers to a closed account and can no longer be edited")
+                abortWithMessage("This transaction refers to a closed account or debt and can no longer be edited")
             } else {
                 populate(it, withAutoFill && task != TRANSACTION_FROM_TEMPLATE)
 
@@ -632,7 +648,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     }
 
     override fun onValueSet(view: View) {
-        setDirty()
+        super.onValueSet(view)
         if (view is DateButton) {
             val date = view.date
             if (areDatesLinked) {
@@ -1253,8 +1269,8 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     override fun getCurrentFragment() = findSplitPartList()
 
     @SuppressLint("NewApi")
-    fun showPicturePopupMenu(v: View?) {
-        val popup = PopupMenu(this, v!!)
+    fun showPicturePopupMenu(v: View) {
+        val popup = PopupMenu(this, v)
         popup.setOnMenuItemClickListener { item: MenuItem ->
             handlePicturePopupMenuClick(item.itemId)
             true

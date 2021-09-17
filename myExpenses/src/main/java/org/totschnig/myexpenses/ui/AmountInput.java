@@ -30,7 +30,6 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.util.Pair;
 import androidx.viewbinding.ViewBinding;
@@ -57,13 +56,6 @@ public class AmountInput extends ConstraintLayout {
         .getRoot();
   }
 
-  private AppCompatSpinner currencySpinner() {
-    return (viewBinding instanceof AmountInputAlternateBinding ?
-        ((AmountInputAlternateBinding) viewBinding).AmountCurrency :
-        ((AmountInputBinding) viewBinding).AmountCurrency)
-        .getRoot();
-  }
-
   private ExchangeRateEdit exchangeRateEdit() {
     return (viewBinding instanceof AmountInputAlternateBinding ?
         ((AmountInputAlternateBinding) viewBinding).AmountExchangeRate :
@@ -83,6 +75,7 @@ public class AmountInput extends ConstraintLayout {
 
   private CurrencyAdapter currencyAdapter;
   private CurrencyContext currencyContext;
+  private SpinnerHelper currencySpinner;
 
   public AmountInput(Context context) {
     super(context);
@@ -109,6 +102,10 @@ public class AmountInput extends ConstraintLayout {
     ta.recycle();
     LayoutInflater inflater = LayoutInflater.from(context);
     viewBinding = alternateLayout ? AmountInputAlternateBinding.inflate(inflater, this) : AmountInputBinding.inflate(inflater, this);
+    currencySpinner = new SpinnerHelper((viewBinding instanceof AmountInputAlternateBinding ?
+        ((AmountInputAlternateBinding) viewBinding).AmountCurrency :
+        ((AmountInputBinding) viewBinding).AmountCurrency)
+        .getRoot());
     updateChildContentDescriptions();
     if (withTypeSwitch) {
       typeButton().setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -131,14 +128,15 @@ public class AmountInput extends ConstraintLayout {
           return view;
         }
       };
-      currencySpinner().setAdapter(currencyAdapter);
-      currencySpinner().setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+      currencySpinner.setAdapter(currencyAdapter);
+      currencySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-          String currency = ((Currency) currencySpinner().getSelectedItem()).getCode();
+          String currency = ((Currency) currencySpinner.getSelectedItem()).getCode();
           final CurrencyUnit currencyUnit = currencyContext.get(currency);
-          amountEditText().setFractionDigits(currencyUnit.getFractionDigits());
+          setFractionDigits(currencyUnit.getFractionDigits());
           exchangeRateEdit().setCurrencies(currencyUnit, null);
+          getHost().onCurrencySelectionChanged(currencyUnit);
         }
 
         @Override
@@ -147,7 +145,7 @@ public class AmountInput extends ConstraintLayout {
         }
       });
     } else {
-      currencySpinner().setVisibility(View.GONE);
+      currencySpinner.getSpinner().setVisibility(View.GONE);
     }
     if (withExchangeRate) {
       exchangeRateEdit().setExchangeRateWatcher((rate, inverse) -> {
@@ -178,7 +176,7 @@ public class AmountInput extends ConstraintLayout {
     //in the neighborhood of this AmountInput directly to amountEdiText with android:labelFor="@id/AmountEditText"
     //setContentDescriptionForChild(amountEditText, null);
     setContentDescriptionForChild(calculator(), getContext().getString(R.string.content_description_calculator));
-    setContentDescriptionForChild(currencySpinner(), getContext().getString(R.string.currency));
+    setContentDescriptionForChild(currencySpinner.getSpinner(), getContext().getString(R.string.currency));
     setContentDescriptionForTypeSwitch();
   }
 
@@ -310,11 +308,17 @@ public class AmountInput extends ConstraintLayout {
 
   public void setCurrencies(List<Currency> currencies, CurrencyContext currencyContext) {
     currencyAdapter.addAll(currencies);
+    currencySpinner.setSelection(0);
     this.currencyContext = currencyContext;
   }
 
-  public void setSelectedCurrency(String originalCurrencyCode) {
-    currencySpinner().setSelection(currencyAdapter.getPosition(Currency.Companion.create(originalCurrencyCode, getContext())));
+  public void setSelectedCurrency(CurrencyUnit currency) {
+    currencySpinner.setSelection(currencyAdapter.getPosition(Currency.Companion.create(currency.getCode(), getContext())));
+    setFractionDigits(currency.getFractionDigits());
+  }
+
+  public void setSelectedCurrency(String currency) {
+    setSelectedCurrency(currencyContext.get(currency));
   }
 
   public void configureExchange(CurrencyUnit currencyUnit, CurrencyUnit homeCurrency) {
@@ -336,7 +340,11 @@ public class AmountInput extends ConstraintLayout {
 
   @Nullable
   public Currency getSelectedCurrency() {
-    return (Currency) currencySpinner().getSelectedItem();
+    return (Currency) currencySpinner.getSelectedItem();
+  }
+
+  public void disableCurrencySelection() {
+    currencySpinner.setEnabled(false);
   }
 
   public void selectAll() {
@@ -374,6 +382,8 @@ public class AmountInput extends ConstraintLayout {
     void showCalculator(BigDecimal amount, int id);
 
     void setFocusAfterRestoreInstanceState(Pair<Integer, Integer> focusView);
+
+    void onCurrencySelectionChanged(CurrencyUnit currencyUnit);
   }
 
   @Override
@@ -381,7 +391,7 @@ public class AmountInput extends ConstraintLayout {
     Parcelable superState = super.onSaveInstanceState();
     final View focusedChild = getFocusedChild();
     return new SavedState(superState, typeButton().onSaveInstanceState(),
-        amountEditText().onSaveInstanceState(), currencySpinner().onSaveInstanceState(),
+        amountEditText().onSaveInstanceState(), currencySpinner.getSpinner().onSaveInstanceState(),
         exchangeRateEdit().getRate(false), focusedChild != null ? focusedChild.getId() : 0);
   }
 
@@ -391,7 +401,7 @@ public class AmountInput extends ConstraintLayout {
     super.onRestoreInstanceState(savedState.getSuperState());
     typeButton().onRestoreInstanceState(savedState.getTypeButtonState());
     amountEditText().onRestoreInstanceState(savedState.getAmountEditTextState());
-    currencySpinner().onRestoreInstanceState(savedState.getCurrencySpinnerState());
+    currencySpinner.getSpinner().onRestoreInstanceState(savedState.getCurrencySpinnerState());
     exchangeRateEdit().setRate(savedState.getExchangeRateState(), true);
     if (savedState.getFocusedId() != 0) {
       getHost().setFocusAfterRestoreInstanceState(Pair.create(getId(), savedState.getFocusedId()));
@@ -413,7 +423,7 @@ public class AmountInput extends ConstraintLayout {
     private final Parcelable amountEditTextState;
     private final Parcelable currencySpinnerState;
     private final BigDecimal exchangeRateState;
-    private int focusedId;
+    private final int focusedId;
 
     private SavedState(Parcel in) {
       super(in);
