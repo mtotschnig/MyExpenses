@@ -75,4 +75,41 @@
     <string name="account_type_bank">Rekening bank</string>
     <string name="account_type_ccard_plural">Kartu kredit</string>
     <string name="account_type_ccard">Kartu kredit</string>
+    <string name="dialog_command_disabled_reset_account">Tidak ada transaksi untuk diekspor.</string>
+    <string name="dialog_confirm_discard_new_method">Buang metode pembayaran baru\?</string>
+    <string name="extended_key">Kunci Diperpanjang</string>
+    <string name="contrib_key">Kunci Contrib</string>
+    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Ekspor daftar transaksi ke PDF</string>
+    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Jumlah paket tidak terbatas</string>
+    <string name="already_defined">%1$s sudah ditentukan</string>
+    <string name="menu_show_transactions">Tampilkan transaksi</string>
+    <string name="switch_off_text">Mati</string>
+    <string name="switch_on_text">Nyala</string>
+    <string name="csv_import_delimiter_tab">Tab</string>
+    <string name="csv_import_delimiter_semicolon">Titik koma</string>
+    <string name="csv_import_delimiter_comma">Koma</string>
+    <string name="menu_categories_export">Ekspor ke QIF</string>
+    <string name="pref_custom_decimal_format_title">Format nomor</string>
+    <string name="dialog_title_select_target">Pilih target</string>
+    <string name="plan_instance_state_applied">diterapkan</string>
+    <string name="plan_instance_state_cancelled">dibatalkan</string>
+    <string name="plan_instance_state_open">buka</string>
+    <string name="content_description_calculator">Kalkulator</string>
+    <string name="pref_sort_order_custom">Kustom</string>
+    <string name="pref_sort_order_last_used">Terakhir digunakan</string>
+    <string name="menu_sort">Urut berdasarkan</string>
+    <string name="date_format_minute">Menit</string>
+    <string name="date_format_hour">Jam</string>
+    <string name="content_description_calculator_delete_button">Hapus digit terakhir</string>
+    <string name="label_trust_certificate">Percayai sertifikat ini</string>
+    <string name="hint_password">Kata sandi</string>
+    <string name="hint_user_name">Nama pengguna</string>
+    <string name="pref_sync_frequency_title">Frekuensi sinkronisasi</string>
+    <string name="menu_sync_now">Sinkronkan sekarang</string>
+    <string name="menu_sync_download">Unduh dan sinkronkan</string>
+    <string name="menu_sync_link">Mulai menyinkronkan</string>
+    <string name="menu_sync_unlink">Berhenti menyinkronkan</string>
+    <string name="url_not_valid">URL tidak valid</string>
+    <string name="menu_remove">Hapus</string>
+    <string name="template">Templat</string>
 </resources>
