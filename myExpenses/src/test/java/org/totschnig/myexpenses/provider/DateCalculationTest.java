@@ -142,7 +142,7 @@ public class DateCalculationTest {
   private class MyDbHelper extends SQLiteOpenHelper {
 
     MyDbHelper(Context context) {
-      super(context, "datecalculationtest", null, 1);
+      super(context, "dateCalculationTest", null, 1);
     }
 
     @Override

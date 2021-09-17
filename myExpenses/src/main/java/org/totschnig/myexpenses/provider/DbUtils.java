@@ -55,7 +55,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_END;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_START;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getCountFromWeekStartZero;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getWeekMax;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.getWeekMin;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 public class DbUtils {
@@ -177,10 +176,6 @@ public class DbUtils {
 
   public static String maximumWeekExpression(int year) {
     return String.format(Locale.US, getWeekMax(), year);
-  }
-
-  public static String minimumWeekExpression(int year) {
-    return String.format(Locale.US, getWeekMin(), year);
   }
 
   public static Map<String, String> getSchemaDetails() {

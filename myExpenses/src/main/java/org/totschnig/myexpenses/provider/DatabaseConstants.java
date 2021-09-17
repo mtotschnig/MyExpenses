@@ -43,7 +43,6 @@ public class DatabaseConstants {
   private static String COUNT_FROM_WEEK_START_ZERO;
   private static String WEEK_START_JULIAN;
   private static String WEEK_MAX;
-  private static String WEEK_MIN;
   private static String WHERE_IN_PAST;
   private static String HAS_FUTURE;
 
@@ -62,8 +61,8 @@ public class DatabaseConstants {
     weekStartsOn = Utils.getFirstDayOfWeekFromPreferenceWithFallbackToLocale(locale);
     monthStartsOn = Integer.parseInt(PrefKey.GROUP_MONTH_STARTS.getString("1"));
     int monthDelta = monthStartsOn - 1;
-    int nextWeekEndSqlite; //Sqlite starts with Sunday = 0
-    int nextWeekStartsSqlite = weekStartsOn - 1;
+    int nextWeekEndSqlite;
+    int nextWeekStartsSqlite = weekStartsOn - 1; //Sqlite starts with Sunday = 0
     if (weekStartsOn == Calendar.SUNDAY) {
       //weekStartsOn Sunday
       nextWeekEndSqlite = 6;
@@ -76,17 +75,16 @@ public class DatabaseConstants {
     WEEK_START = "strftime('%s',date,'unixepoch','localtime','weekday " + nextWeekEndSqlite + "', '-6 day','utc')";
     THIS_YEAR_OF_WEEK_START = "CAST(strftime('%Y','now','localtime','weekday " + nextWeekEndSqlite + "', '-6 day') AS integer)";
     WEEK_END = "strftime('%s',date,'unixepoch','localtime','weekday " + nextWeekEndSqlite + "','utc')";
-    WEEK = "CAST(strftime('%W',date,'unixepoch','localtime','weekday " + nextWeekEndSqlite + "', '-6 day') AS integer)"; //calculated for the beginning of the week
+    WEEK = "CAST((strftime('%j',date,'unixepoch','localtime','weekday " + nextWeekEndSqlite + "', '-6 day') - 1) / 7 + 1 AS integer)"; //calculated for the beginning of the week
     MONTH = "CAST(strftime('%m',date,'unixepoch','localtime','-" + monthDelta + " day') AS integer) - 1"; //convert to 0 based
-    THIS_WEEK = "CAST(strftime('%W','now','localtime','weekday " + nextWeekEndSqlite + "', '-6 day') AS integer)";
+    THIS_WEEK = "CAST((strftime('%j','now','localtime','weekday " + nextWeekEndSqlite + "', '-6 day') - 1) / 7 + 1 AS integer)";
     THIS_MONTH = "CAST(strftime('%m','now','localtime','-" + monthDelta + " day') AS integer) - 1";
     THIS_YEAR_OF_MONTH_START =  "CAST(strftime('%Y','now','localtime','-" + monthDelta + " day') AS integer)";
-    COUNT_FROM_WEEK_START_ZERO = "strftime('%%s','%d-01-01','weekday 1','weekday " + nextWeekStartsSqlite + "', '" +
+    COUNT_FROM_WEEK_START_ZERO = "strftime('%%s','%d-01-01','weekday " + nextWeekStartsSqlite + "', '" +
         "-7 day" +
         "' ,'+%d day','utc')";
     WEEK_START_JULIAN = "julianday(date,'unixepoch','localtime'," + JULIAN_DAY_OFFSET + ",'weekday " + nextWeekEndSqlite + "', '-6 day')";
-    WEEK_MAX= "CAST(strftime('%%W','%d-12-31','weekday " + nextWeekEndSqlite + "', '-6 day') AS integer)";
-    WEEK_MIN= "CAST(strftime('%%W','%d-01-01','weekday " + nextWeekStartsSqlite + "') AS integer)";
+    WEEK_MAX= "CAST((strftime('%%j','%d-12-31','weekday " + nextWeekEndSqlite + "', '-6 day') - 1) / 7 + 1 AS integer)";
     isLocalized = true;
   }
 
@@ -157,7 +155,6 @@ public class DatabaseConstants {
   public static final String KEY_THIS_YEAR_OF_WEEK_START = "this_year_of_week_start";
   public static final String KEY_THIS_YEAR_OF_MONTH_START = "this_year_of_month_start";
   public static final String KEY_MAX_VALUE = "max_value";
-  public static final String KEY_MIN_VALUE = "min_value";
   public static final String KEY_CURRENT_BALANCE = "current_balance";
   public static final String KEY_TOTAL = "total";
   public static final String KEY_CLEARED_TOTAL = "cleared_total";
@@ -545,7 +542,7 @@ public class DatabaseConstants {
    * we want to find out the week range when we are given a week number
    * we find out the first day in the year, that is the firstdayofweek of the locale and is
    * one week behind the first day with week number 1
-   * add (weekNumber-1)*7 days to get at the beginning of the week
+   * add (weekNumber)*7 days to get at the beginning of the week
    */
   static String getCountFromWeekStartZero() {
     ensureLocalized();
@@ -555,11 +552,6 @@ public class DatabaseConstants {
   static String getWeekMax() {
     ensureLocalized();
     return WEEK_MAX;
-  }
-
-  static String getWeekMin() {
-    ensureLocalized();
-    return WEEK_MIN;
   }
 
   public static String getAmountHomeEquivalent(String forTable) {

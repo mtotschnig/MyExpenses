@@ -69,17 +69,12 @@ abstract class DistributionBaseFragment<ROW_BINDING : ViewBinding?> : AbstractCa
                 Grouping.MONTH -> "11"
                 else -> "0"
             }
-            val minValueExpression = when (grouping) {
-                Grouping.WEEK -> DbUtils.minimumWeekExpression(if (groupingSecond > 1) groupingYear + 1 else groupingYear)
-                Grouping.MONTH -> "0"
-                else -> "1"
-            }
+
             projectionList.add("$maxValueExpression AS $KEY_MAX_VALUE")
-            projectionList.add("$minValueExpression AS $KEY_MIN_VALUE")
             if (grouping == Grouping.WEEK) {
                 //we want to find out the week range when we are given a week number
-                //we find out the first Monday in the year, which is the beginning of week 1 and then
-                //add (weekNumber-1)*7 days to get at the beginning of the week
+                //we find out the first day in the year, which is the beginning of week "0" and then
+                //add (weekNumber)*7 days to get at the beginning of the week
                 projectionList.add(DbUtils.weekStartFromGroupSqlExpression(groupingYear, groupingSecond))
                 projectionList.add(DbUtils.weekEndFromGroupSqlExpression(groupingYear, groupingSecond))
             }
@@ -235,7 +230,7 @@ abstract class DistributionBaseFragment<ROW_BINDING : ViewBinding?> : AbstractCa
     fun back() {
         if (grouping == Grouping.YEAR) groupingYear-- else {
             groupingSecond--
-            if (groupingSecond < dateInfo.minValue) {
+            if (groupingSecond < grouping.minValue) {
                 groupingYear--
                 groupingSecond = dateInfo.maxValue
             }
@@ -248,7 +243,7 @@ abstract class DistributionBaseFragment<ROW_BINDING : ViewBinding?> : AbstractCa
             groupingSecond++
             if (groupingSecond > dateInfo.maxValue) {
                 groupingYear++
-                groupingSecond = dateInfo.minValue
+                groupingSecond = grouping.minValue
             }
         }
         reset()
