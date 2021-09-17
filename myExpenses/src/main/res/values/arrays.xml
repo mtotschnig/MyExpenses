@@ -80,6 +80,7 @@
         <item>budget</item>
         <item>distribution</item>
         <item>history</item>
+        <item>parties.debts</item>
         <item>scan_mode</item>
         <item>reset</item>
         <item>grouping</item>
@@ -495,6 +496,11 @@
     <string-array name="help_ManageParties_select_mapping_info" tools:ignore="UnusedResources">
         <item>help_ManageParties_select_mapping_info</item>
         <item>help_ManageParties_floating_action_button</item>
+    </string-array>
+
+    <string-array name="menu_parties_debts_help_text">
+        <item>pref_manage_parties_summary</item>
+        <item>help_debt_managment</item>
     </string-array>
 
     <string-array name="BudgetEdit_formfields" tools:ignore="UnusedResources">

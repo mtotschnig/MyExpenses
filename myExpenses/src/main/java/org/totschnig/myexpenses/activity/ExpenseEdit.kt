@@ -123,7 +123,7 @@ import org.totschnig.myexpenses.viewmodel.data.Template as DataTemplate
  */
 open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     LoaderManager.LoaderCallbacks<Cursor?>, ContribIFace, ConfirmationDialogListener,
-    ButtonWithDialog.Host, ExchangeRateEdit.Host {
+    ExchangeRateEdit.Host {
     private lateinit var rootBinding: OneExpenseBinding
     private lateinit var dateEditBinding: DateEditBinding
     private lateinit var methodRowBinding: MethodRowBinding

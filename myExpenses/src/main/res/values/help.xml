@@ -226,5 +226,5 @@
   <string name="help_ManageTags_select_filter_info">Select or unselect the tags for filtering the transaction list by tapping on them. Use the floating action button to confirm the selection.</string>
   <string name="help_ManageTags_manage_info">Create new tags by entering them into the text field. The x icon on each tag removes it from the database. Long tap on a tag allows to edit it.</string>
   <string name="help_ManageTags_select_mapping_info">Map or unmap the tags by tapping on them. Use the floating action button to confirm the mapping.</string>
-
+  <string name="help_debt_managment">Associate debts with parties, inspect list of transactions and calculate remaining balance.</string>
 </resources>
