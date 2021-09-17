@@ -119,10 +119,14 @@
         <item>delete</item>
     </string-array>
 
+    <string-array name="ManageParties_manage_menuitems" tools:ignore="UnusedResources">
+        <item>merge</item>
+    </string-array>
+
     <string-array name="ManageParties_manage_cabitems" tools:ignore="UnusedResources">
         <item>edit</item>
         <item>delete</item>
-        <item>merge</item>
+        <item>debts</item>
     </string-array>
 
     <string-array name="ManageParties_select_mapping_cabitems" tools:ignore="UnusedResources">
@@ -510,6 +514,13 @@
         <item>accounts</item>
         <item>filter</item>
         <item>type</item>
+    </string-array>
+
+    <string-array name="DebtEdit_formfields" tools:ignore="UnusedResources">
+        <item>label</item>
+        <item>description</item>
+        <item>amount</item>
+        <item>date</item>
     </string-array>
 
     <string-array name="versions">

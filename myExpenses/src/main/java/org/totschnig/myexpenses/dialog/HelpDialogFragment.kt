@@ -115,7 +115,8 @@ class HelpDialogFragment : BaseDialogFragment(), ImageGetter {
             "save_and_new" to R.drawable.ic_action_save_new,
             "link" to R.drawable.ic_hchain,
             "merge" to R.drawable.ic_menu_split_transaction,
-            "parties.debts" to R.drawable.balance_scale
+            "parties.debts" to R.drawable.balance_scale,
+            "debts" to R.drawable.balance_scale
         )
 
         @JvmStatic
@@ -236,7 +237,7 @@ class HelpDialogFragment : BaseDialogFragment(), ImageGetter {
     }
 
     private fun showLongTapHint(componentName: String) =
-        !arrayOf("ManageTemplates_plans_cabitems", "ManageTemplates_planner_cabitems")
+        !arrayOf("ManageTemplates_plans_cabitems", "ManageTemplates_planner_cabitems", "ManageParties_manage_cabitems")
             .contains(componentName)
 
     private fun findComponentArray(type: String) =

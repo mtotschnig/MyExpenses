@@ -36,7 +36,7 @@
     <string name="help_ManageParties_select_mapping_info">Seleziona una delle parti con un tocco.</string>
     <string name="help_ManageParties_select_filter_info">Tocca una delle parti per filtrare la lista delle transazioni. Tieni premuto a lungo per selezionare più parti.</string>
     <string name="help_ManageParties_floating_action_button">Utilizzare il pulsante fluttuante per aggiungere una nuova voce.</string>
-    <string name="cab_merge_help_text">Se lo stesso beneficiario / pagante compare più volte nell\'elenco con diverse varianti ortografiche, puoi raggrupparle. Ti verrà chiesto di selezionare quale variante mantenere.</string>
+    <string name="menu_merge_help_text">Se lo stesso beneficiario / pagante compare più volte nell\'elenco con diverse varianti ortografiche, puoi raggrupparle. Ti verrà chiesto di selezionare quale variante mantenere.</string>
     <!--ManageTemplates title is in keys-->
     <string name="help_ManageTemplates_plans_title">Calendario</string>
     <string name="help_ManageTemplates_planner_title">Prossime ricorrenze</string>

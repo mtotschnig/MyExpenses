@@ -36,7 +36,7 @@
   <string name="help_ManageParties_select_mapping_info">Selecione um parceiro tocando nele.</string>
   <string name="help_ManageParties_select_filter_info">Toque em um parceiro para filtrar a lista de transações. Dê um toque longo para selecionar vários parceiros.</string>
   <string name="help_ManageParties_floating_action_button">Use o botão de ação flutuante para adicionar uma nova entrada.</string>
-  <string name="cab_merge_help_text">Se o mesmo parceiro aparecer várias vezes na lista com diferentes variações de grafia, você pode mesclá-los. Você será solicitado a selecionar qual variante manter.</string>
+  <string name="menu_merge_help_text">Se o mesmo parceiro aparecer várias vezes na lista com diferentes variações de grafia, você pode mesclá-los. Você será solicitado a selecionar qual variante manter.</string>
   <!--ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_plans_title">Visualização do calendário de planos</string>
   <string name="help_ManageTemplates_planner_title">Próximas recorrências</string>
