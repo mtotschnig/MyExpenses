@@ -11,6 +11,7 @@ import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 import com.annimon.stream.Exceptional;
 import com.dropbox.core.android.Auth;
 
+import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.select.SelectUnSyncedAccountDialogFragment;
@@ -24,16 +25,17 @@ import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 import org.totschnig.myexpenses.task.SyncAccountTask;
 import org.totschnig.myexpenses.util.Result;
+import org.totschnig.myexpenses.viewmodel.SyncViewModel;
 
 import java.io.Serializable;
 
+import androidx.lifecycle.ViewModelProvider;
 import icepick.State;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_REPAIR_SYNC_BACKEND;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_LINK_LOCAL;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_LINK_REMOTE;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_LINK_SAVE;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_REMOVE_BACKEND;
 
@@ -44,6 +46,7 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
   private static final String KEY_ACCOUNT = "account";
   public static final String ACTION_REFRESH_LOGIN = "refreshLogin";
   private Account newAccount;
+  private SyncViewModel viewmodel;
 
   @State
   String dropBoxTokenRequestPendingForAccount = null;
@@ -63,6 +66,8 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
       }
       sanityCheck();
     }
+    viewmodel = new ViewModelProvider(this).get(SyncViewModel.class);
+    ((MyApplication) getApplicationContext()).getAppComponent().inject(viewmodel);
   }
 
   @Override
@@ -133,8 +138,11 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
       if (account.getUuid().equals(getIntent().getStringExtra(KEY_UUID))) {
         incomingAccountDeleted = true;
       }
-      startTaskExecution(TASK_SYNC_LINK_REMOTE,
-          null, account, 0);
+      viewmodel.syncLinkRemote(account).observe(this, success -> {
+        if (!success) {
+          showSnackbar(R.string.object_sealed_debt);
+        }
+      });
       return;
     }
     super.onPositive(args, checked);
@@ -232,8 +240,7 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
         showDismissibleSnackbar(result.print(this));
         //fall through
       }
-      case TASK_SYNC_LINK_LOCAL:
-      case TASK_SYNC_LINK_REMOTE: {
+      case TASK_SYNC_LINK_LOCAL: {
         Result result = (Result) o;
         if (!result.isSuccess()) {
           showSnackbar(result.print(this));

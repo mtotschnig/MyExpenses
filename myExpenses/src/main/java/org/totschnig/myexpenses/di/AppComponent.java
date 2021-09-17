@@ -16,6 +16,7 @@ import org.totschnig.myexpenses.db2.Repository;
 import org.totschnig.myexpenses.dialog.AmountFilterDialog;
 import org.totschnig.myexpenses.dialog.BaseDialogFragment;
 import org.totschnig.myexpenses.dialog.ContribDialogFragment;
+import org.totschnig.myexpenses.dialog.DebtDetailsDialogFragment;
 import org.totschnig.myexpenses.dialog.DonateDialogFragment;
 import org.totschnig.myexpenses.dialog.EditCurrencyDialog;
 import org.totschnig.myexpenses.dialog.ExtendProLicenceDialogFragment;
@@ -63,6 +64,7 @@ import org.totschnig.myexpenses.viewmodel.BackupViewModel;
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel;
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel;
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel;
+import org.totschnig.myexpenses.viewmodel.DebtViewModel;
 import org.totschnig.myexpenses.viewmodel.EditCurrencyViewModel;
 import org.totschnig.myexpenses.viewmodel.ExchangeRateViewModel;
 import org.totschnig.myexpenses.viewmodel.FeatureViewModel;
@@ -249,7 +251,7 @@ public interface AppComponent {
 
   void inject(OcrViewModel ocrViewModel);
 
-  void inject(BaseDialogFragment confirmationDialogFragment);
+  void inject(BaseDialogFragment baseDialogFragment);
 
   void inject(CsvImportParseFragment csvImportParseFragment);
 
@@ -258,4 +260,8 @@ public interface AppComponent {
   void inject(CsvImportDataFragment csvImportDataFragment);
 
   void inject(BackupViewModel backupViewModel);
+
+  void inject(DebtViewModel debtViewModel);
+
+  void inject(DebtDetailsDialogFragment debtDetailsDialogFragment);
 }

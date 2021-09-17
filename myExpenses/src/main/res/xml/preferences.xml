@@ -31,14 +31,6 @@
                 android:targetPackage="@string/application_id" />
         </Preference>
         <Preference
-            android:key="manage_parties"
-            android:summary="@string/pref_manage_parties_summary"
-            android:title="@string/pref_manage_parties_title">
-            <intent
-                android:targetClass="org.totschnig.myexpenses.activity.ManageParties"
-                android:targetPackage="@string/application_id" />
-        </Preference>
-        <Preference
             android:key="manage_methods"
             android:summary="@string/pref_manage_methods_summary"
             android:title="@string/pref_manage_methods_title">

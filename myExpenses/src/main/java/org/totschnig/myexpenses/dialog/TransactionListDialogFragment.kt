@@ -63,10 +63,11 @@ class TransactionListDialogFragment : BaseDialogFragment(), LoaderManager.Loader
             inject(viewModel)
         }
         with(requireArguments()) {
-            viewModel.account(getLong(DatabaseConstants.KEY_ACCOUNTID)).observe(this@TransactionListDialogFragment, {
-                mAccount = it
-                fillData()
-            })
+            viewModel.account(getLong(DatabaseConstants.KEY_ACCOUNTID))
+                .observe(this@TransactionListDialogFragment, {
+                    mAccount = it
+                    fillData()
+                })
             isMain = getBoolean(KEY_IS_MAIN)
             catId = getLong(DatabaseConstants.KEY_CATID)
         }
@@ -79,37 +80,47 @@ class TransactionListDialogFragment : BaseDialogFragment(), LoaderManager.Loader
         listView.setPadding(padding, 0, padding, 0)
         listView.scrollBarStyle = ListView.SCROLLBARS_OUTSIDE_INSET
         mAdapter = object : TransactionAdapter(
-                requireArguments().getSerializable(DatabaseConstants.KEY_GROUPING) as Grouping?,
-                activity,
-                R.layout.expense_row,
-                null,
-                0, currencyFormatter, prefHandler, currencyContext) {
-            override fun getCatText(catText: CharSequence,
-                                    label_sub: String?): CharSequence {
-                return if (catId == 0L) super.getCatText(catText, label_sub) else if (isMain && label_sub != null) label_sub else ""
+            requireArguments().getSerializable(DatabaseConstants.KEY_GROUPING) as Grouping?,
+            activity,
+            R.layout.expense_row,
+            null,
+            0, currencyFormatter, prefHandler, currencyContext
+        ) {
+            override fun getCatText(
+                catText: CharSequence,
+                label_sub: String?
+            ): CharSequence {
+                return if (catId == 0L) super.getCatText(
+                    catText,
+                    label_sub
+                ) else if (isMain && label_sub != null) label_sub else ""
             }
         }
         listView.adapter = mAdapter
-        listView.onItemClickListener = OnItemClickListener { _: AdapterView<*>?, _: View?, position: Int, id: Long ->
-            val c = mAdapter.getItem(position) as Cursor
-            val index = c.getColumnIndexOrThrow(DatabaseConstants.KEY_PARENTID)
-            val idToDisplay = if (c.isNull(index)) id else c.getLong(index)
-            lifecycleScope.launchWhenResumed {
-                with(parentFragmentManager)  {
-                    if (findFragmentByTag(TransactionDetailFragment::class.java.name) == null) {
-                        newInstance(idToDisplay).show(this, TransactionDetailFragment::class.java.name)
+        listView.onItemClickListener =
+            OnItemClickListener { _: AdapterView<*>?, _: View?, position: Int, id: Long ->
+                val c = mAdapter.getItem(position) as Cursor
+                val index = c.getColumnIndexOrThrow(DatabaseConstants.KEY_PARENTID)
+                val idToDisplay = if (c.isNull(index)) id else c.getLong(index)
+                lifecycleScope.launchWhenResumed {
+                    with(parentFragmentManager) {
+                        if (findFragmentByTag(TransactionDetailFragment::class.java.name) == null) {
+                            newInstance(idToDisplay).show(
+                                this,
+                                TransactionDetailFragment::class.java.name
+                            )
+                        }
                     }
                 }
             }
-        }
         //TODO prettify layout
 //    View titleView = LayoutInflater.from(getActivity()).inflate(R.layout.transaction_list_dialog_title, null);
 //    ((TextView) titleView.findViewById(R.id.label)).setText(getArguments().getString(KEY_LABEL));
 //    ((TextView) titleView.findViewById(R.id.amount)).setText("TBF");
         return builder.setTitle(R.string.progress_dialog_loading)
-                .setView(listView)
-                .setPositiveButton(android.R.string.ok, null)
-                .create()
+            .setView(listView)
+            .setPositiveButton(android.R.string.ok, null)
+            .create()
     }
 
     private fun fillData() {
@@ -129,7 +140,8 @@ class TransactionListDialogFragment : BaseDialogFragment(), LoaderManager.Loader
             mAccount.isHomeAggregate -> {
                 selection = ""
                 accountSelect = null
-                amountCalculation = DatabaseConstants.getAmountHomeEquivalent(DatabaseConstants.VIEW_EXTENDED)
+                amountCalculation =
+                    DatabaseConstants.getAmountHomeEquivalent(DatabaseConstants.VIEW_EXTENDED)
             }
             mAccount.isAggregate -> {
                 selection = DatabaseConstants.KEY_ACCOUNTID + " IN " +
@@ -157,7 +169,7 @@ class TransactionListDialogFragment : BaseDialogFragment(), LoaderManager.Loader
                     + DatabaseConstants.KEY_ROWID + " = ?)")
             val catSelect = catId.toString()
             selectionArgs = accountSelect?.let { arrayOf(it, catSelect, catSelect) }
-                    ?: arrayOf(catSelect, catSelect)
+                ?: arrayOf(catSelect, catSelect)
         }
         val groupingClause = requireArguments().getString(KEY_GROUPING_CLAUSE)
         if (groupingClause != null) {
@@ -165,7 +177,10 @@ class TransactionListDialogFragment : BaseDialogFragment(), LoaderManager.Loader
                 selection += " AND "
             }
             selection += groupingClause
-            selectionArgs = Utils.joinArrays(selectionArgs, requireArguments().getStringArray(KEY_GROUPING_ARGS))
+            selectionArgs = Utils.joinArrays(
+                selectionArgs,
+                requireArguments().getStringArray(KEY_GROUPING_ARGS)
+            )
         }
         val type = requireArguments().getInt(DatabaseConstants.KEY_TYPE)
         if (type != 0) {
@@ -181,12 +196,19 @@ class TransactionListDialogFragment : BaseDialogFragment(), LoaderManager.Loader
             selection += DatabaseConstants.KEY_TRANSFER_PEER + " is null"
         }
         when (id) {
-            TRANSACTION_CURSOR -> return CursorLoader(requireActivity(),
-                    mAccount.getExtendedUriForTransactionList(type != 0), mAccount.extendedProjectionForTransactionList,
-                    selection, selectionArgs, null)
-            SUM_CURSOR -> return CursorLoader(requireActivity(),
-                    Transaction.EXTENDED_URI, arrayOf("sum($amountCalculation)"), selection,
-                    selectionArgs, null)
+            TRANSACTION_CURSOR -> return CursorLoader(
+                requireActivity(),
+                mAccount.getExtendedUriForTransactionList(type != 0),
+                mAccount.extendedProjectionForTransactionList,
+                selection,
+                selectionArgs,
+                null
+            )
+            SUM_CURSOR -> return CursorLoader(
+                requireActivity(),
+                Transaction.EXTENDED_URI, arrayOf("sum($amountCalculation)"), selection,
+                selectionArgs, null
+            )
         }
         throw IllegalArgumentException()
     }
@@ -217,22 +239,29 @@ class TransactionListDialogFragment : BaseDialogFragment(), LoaderManager.Loader
         const val TRANSACTION_CURSOR = 1
         const val SUM_CURSOR = 2
         private const val TABS = "\u0009\u0009\u0009\u0009"
+
         @JvmStatic
         fun newInstance(
-                account_id: Long, cat_id: Long, isMain: Boolean, grouping: Grouping?, groupingClause: String?,
-                groupingArgs: Array<String?>?, label: String?, type: Int, withTransfers: Boolean): TransactionListDialogFragment {
-            return TransactionListDialogFragment().apply {
-                arguments = Bundle().apply {
-                    putLong(DatabaseConstants.KEY_ACCOUNTID, account_id)
-                    putLong(DatabaseConstants.KEY_CATID, cat_id)
-                    putString(KEY_GROUPING_CLAUSE, groupingClause)
-                    putSerializable(DatabaseConstants.KEY_GROUPING, grouping)
-                    putStringArray(KEY_GROUPING_ARGS, groupingArgs)
-                    putString(DatabaseConstants.KEY_LABEL, label)
-                    putBoolean(KEY_IS_MAIN, isMain)
-                    putInt(DatabaseConstants.KEY_TYPE, type)
-                    putBoolean(KEY_WITH_TRANSFERS, withTransfers)
-                }
+            account_id: Long,
+            cat_id: Long,
+            isMain: Boolean,
+            grouping: Grouping?,
+            groupingClause: String?,
+            groupingArgs: Array<String?>?,
+            label: String?,
+            type: Int,
+            withTransfers: Boolean
+        ) = TransactionListDialogFragment().apply {
+            arguments = Bundle().apply {
+                putLong(DatabaseConstants.KEY_ACCOUNTID, account_id)
+                putLong(DatabaseConstants.KEY_CATID, cat_id)
+                putString(KEY_GROUPING_CLAUSE, groupingClause)
+                putSerializable(DatabaseConstants.KEY_GROUPING, grouping)
+                putStringArray(KEY_GROUPING_ARGS, groupingArgs)
+                putString(DatabaseConstants.KEY_LABEL, label)
+                putBoolean(KEY_IS_MAIN, isMain)
+                putInt(DatabaseConstants.KEY_TYPE, type)
+                putBoolean(KEY_WITH_TRANSFERS, withTransfers)
             }
         }
     }

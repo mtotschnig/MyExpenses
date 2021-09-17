@@ -15,9 +15,14 @@ import java.util.*
 sealed class Package(val defaultPrice: Long) : Parcelable {
     open val optionName = "Licence"
 
-    open fun payPalButtonId(isSandBox: Boolean) = if (isSandBox) "TURRUESSCUG8N" else "LBUDF8DSWJAZ8"
+    open fun payPalButtonId(isSandBox: Boolean) =
+        if (isSandBox) "TURRUESSCUG8N" else "LBUDF8DSWJAZ8"
 
-    fun getFormattedPrice(context: Context, currencyUnit: CurrencyUnit?, withExtra: Boolean): String {
+    fun getFormattedPrice(
+        context: Context,
+        currencyUnit: CurrencyUnit?,
+        withExtra: Boolean
+    ): String {
         val formatted = getFormattedPriceRaw(currencyUnit, context)
         return getFormattedPrice(context, formatted, withExtra)
     }
@@ -26,22 +31,38 @@ sealed class Package(val defaultPrice: Long) : Parcelable {
 
     fun getFormattedPriceRaw(currencyUnit: CurrencyUnit?, context: Context): String {
         return (context.applicationContext as MyApplication).appComponent.currencyFormatter()
-                .formatCurrency(Money(currencyUnit!!, defaultPrice))
+            .formatCurrency(Money(currencyUnit!!, defaultPrice))
     }
 
-    @Parcelize @Keep object Contrib : Package(430)
-    @Parcelize@Keep object Upgrade : Package(300)
-    @Parcelize@Keep object Extended : Package(670)
+    @Parcelize
+    @Keep
+    object Contrib : Package(430)
+    @Parcelize
+    @Keep
+    object Upgrade : Package(300)
+    @Parcelize
+    @Keep
+    object Extended : Package(670)
 }
 
 @Suppress("ClassName")
 @Keep
 sealed class ProfessionalPackage(defaultPrice: Long, val duration: Int) : Package(defaultPrice) {
-    @Parcelize @Keep object Professional_1 : ProfessionalPackage(100, 1)
-    @Parcelize @Keep object Professional_6 : ProfessionalPackage(500, 6)
-    @Parcelize @Keep object Professional_12 : ProfessionalPackage(800, 12)
-    @Parcelize @Keep object Professional_24 : ProfessionalPackage(1500, 24)
-    @Parcelize @Keep object Amazon : ProfessionalPackage(900, 0)
+    @Parcelize
+    @Keep
+    object Professional_1 : ProfessionalPackage(100, 1)
+    @Parcelize
+    @Keep
+    object Professional_6 : ProfessionalPackage(500, 6)
+    @Parcelize
+    @Keep
+    object Professional_12 : ProfessionalPackage(800, 12)
+    @Parcelize
+    @Keep
+    object Professional_24 : ProfessionalPackage(1500, 24)
+    @Parcelize
+    @Keep
+    object Amazon : ProfessionalPackage(900, 0)
 
     fun getDuration(withExtra: Boolean): Int {
         val base = duration
@@ -49,12 +70,16 @@ sealed class ProfessionalPackage(defaultPrice: Long, val duration: Int) : Packag
     }
 
     override fun getFormattedPrice(context: Context, formatted: String, withExtra: Boolean) =
-            formatWithDuration(context, formatted, withExtra)
+        formatWithDuration(context, formatted, withExtra)
 
 /*    fun getMonthlyPrice(withExtra: Boolean) =
             ceil(defaultPrice.toDouble() / getDuration(withExtra)).toLong()*/
 
-    private fun formatWithDuration(context: Context, formattedPrice: String?, withExtra: Boolean): String {
+    private fun formatWithDuration(
+        context: Context,
+        formattedPrice: String?,
+        withExtra: Boolean
+    ): String {
         val duration = getDuration(withExtra)
         val formattedDuration: String
         var format = "%s (%s)"
@@ -83,11 +108,22 @@ sealed class AddOnPackage(defaultPrice: Long, val feature: ContribFeature) : Pac
     val sku: String
         get() = this::class.simpleName!!.toLowerCase(Locale.ROOT)
 
-    override fun payPalButtonId(isSandBox: Boolean) = if (isSandBox) "9VF4Z9KSLHXZN" else "FNEEWJWU5YJ44"
+    override fun payPalButtonId(isSandBox: Boolean) =
+        if (isSandBox) "9VF4Z9KSLHXZN" else "FNEEWJWU5YJ44"
 
-    @Parcelize @Keep object SplitTemplate : AddOnPackage(430, ContribFeature.SPLIT_TEMPLATE)
-    @Parcelize @Keep object History : AddOnPackage(430, ContribFeature.HISTORY)
-    @Parcelize @Keep object Budget : AddOnPackage(430, ContribFeature.BUDGET)
-    @Parcelize @Keep object Ocr : AddOnPackage(430, ContribFeature.OCR)
-    @Parcelize @Keep object WebUi : AddOnPackage(430, ContribFeature.WEB_UI)
+    @Parcelize
+    @Keep
+    object SplitTemplate : AddOnPackage(430, ContribFeature.SPLIT_TEMPLATE)
+    @Parcelize
+    @Keep
+    object History : AddOnPackage(430, ContribFeature.HISTORY)
+    @Parcelize
+    @Keep
+    object Budget : AddOnPackage(430, ContribFeature.BUDGET)
+    @Parcelize
+    @Keep
+    object Ocr : AddOnPackage(430, ContribFeature.OCR)
+    @Parcelize
+    @Keep
+    object WebUi : AddOnPackage(430, ContribFeature.WEB_UI)
 }

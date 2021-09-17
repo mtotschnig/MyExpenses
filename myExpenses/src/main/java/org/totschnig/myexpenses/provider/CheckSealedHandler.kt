@@ -6,25 +6,43 @@ import android.database.Cursor
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 
 class CheckSealedHandler(cr: ContentResolver) : AsyncQueryHandler(cr) {
-    interface ResultListener {
+    fun interface ResultListener {
         /**
-         * @param result true if none of the passed in itemIds are sealed
+         * @param result Pair of
+         * A: true if none of the passed in itemIds is linked to sealed account
+         * B: true if none of the passed in itemIds is linked to sealed debt
          */
-        fun onResult(result: Result<Boolean>)
+        fun onResult(result: Result<Pair<Boolean, Boolean>>)
     }
 
     fun check(itemIds: LongArray, listener: ResultListener) {
-        startQuery(TOKEN, listener, TransactionProvider.TRANSACTIONS_URI, arrayOf("MAX(" + DatabaseConstants.CHECK_SEALED(DatabaseConstants.VIEW_COMMITTED, DatabaseConstants.TABLE_TRANSACTIONS) + ")"),
-            "${DatabaseConstants.KEY_ROWID} IN (${itemIds.joinToString()})", null, null)
+        startQuery(
+            TOKEN,
+            listener,
+            TransactionProvider.TRANSACTIONS_URI,
+            arrayOf(
+                "MAX(" + checkForSealedAccount(
+                    DatabaseConstants.VIEW_COMMITTED,
+                    DatabaseConstants.TABLE_TRANSACTIONS
+                ) + ")",
+                "MAX($checkForSealedDebt)"
+            ),
+            "${DatabaseConstants.KEY_ROWID} IN (${itemIds.joinToString()})",
+            null,
+            null
+        )
     }
 
     override fun onQueryComplete(token: Int, cookie: Any, cursor: Cursor?) {
         if (token != TOKEN) return
         cursor?.apply {
             moveToFirst()
-            val result = getInt(0)
+            val sealedAccount = getInt(0)
+            val sealedDebt = getInt(1)
             close()
-            (cookie as ResultListener).onResult(Result.success(result == 0))
+            (cookie as ResultListener).onResult(
+                Result.success((sealedAccount == 0) to (sealedDebt == 0))
+            )
         } ?: kotlin.run {
             val error = Exception("Error while checking status of transaction")
             CrashHandler.report(error)

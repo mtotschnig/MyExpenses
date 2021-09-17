@@ -585,11 +585,20 @@ public class MyExpenses extends BaseMyExpenses implements
       if (manageHiddenFragment != null) {
         getSupportFragmentManager().beginTransaction().remove(manageHiddenFragment).commit();
       }
-      startTaskExecution(
-          TaskExecutionFragment.TASK_DELETE_ACCOUNT,
-          accountIds,
-          null,
-          R.string.progress_dialog_deleting);
+      showSnackbarIndefinite(R.string.progress_dialog_deleting);
+      viewModel.deleteAccounts(accountIds).observe(this, result -> {
+        if (result) {
+          showSnackbar(
+              getResources().getQuantityString(
+                  R.plurals.delete_success,
+                  accountIds.length,
+                  accountIds.length
+              )
+          );
+        } else {
+          showSnackbar(R.string.object_sealed_debt);
+        }
+      });
       return true;
     } else if (command == R.id.SHARE_COMMAND) {
       i = new Intent();
@@ -711,6 +720,9 @@ public class MyExpenses extends BaseMyExpenses implements
     } else if (command == R.id.BACKUP_COMMAND) {
       i = new Intent(this, BackupRestoreActivity.class);
       i.setAction(BackupRestoreActivity.ACTION_BACKUP);
+      startActivity(i);
+    } else if (command == R.id.MANAGE_PARTIES_COMMAND) {
+      i = new Intent(this, ManageParties.class);
       startActivity(i);
     }
     return false;

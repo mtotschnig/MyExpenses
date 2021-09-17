@@ -41,7 +41,6 @@ import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Model;
-import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.PaymentMethod;
 import org.totschnig.myexpenses.model.Sort;
 import org.totschnig.myexpenses.model.Template;
@@ -76,8 +75,8 @@ import timber.log.Timber;
 
 import static org.totschnig.myexpenses.model.AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE;
 import static org.totschnig.myexpenses.model.AggregateAccount.GROUPING_AGGREGATE;
-import static org.totschnig.myexpenses.provider.BaseTransactionProviderKt.CURRENCIES_USAGES_TABLE_EXPRESSION;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.checkForSealedAccount;
 import static org.totschnig.myexpenses.provider.DbUtils.suggestNewCategoryColor;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.groupByForPaymentMethodQuery;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.havingForPaymentMethodQuery;
@@ -116,8 +115,6 @@ public class TransactionProvider extends BaseTransactionProvider {
       Uri.parse("content://" + AUTHORITY + "/accounts/aggregatesCount");
   public static final Uri PAYEES_URI =
       Uri.parse("content://" + AUTHORITY + "/payees");
-  public static final Uri MAPPED_PAYEES_URI =
-      Uri.parse("content://" + AUTHORITY + "/payees_transactions");
   public static final Uri METHODS_URI =
       Uri.parse("content://" + AUTHORITY + "/methods");
   public static final Uri MAPPED_METHODS_URI =
@@ -174,6 +171,8 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final Uri TEMPLATES_TAGS_URI = Uri.parse("content://" + AUTHORITY + "/templates/tags");
 
   public static final Uri ACCOUNTS_TAGS_URI = Uri.parse("content://" + AUTHORITY + "/accounts/tags");
+
+  public static final Uri DEBTS_URI = Uri.parse("content://" + AUTHORITY + "/debts");
 
   public static final String URI_SEGMENT_MOVE = "move";
   public static final String URI_SEGMENT_TOGGLE_CRSTATUS = "toggleCrStatus";
@@ -255,7 +254,6 @@ public class TransactionProvider extends BaseTransactionProvider {
   private static final int CURRENCIES = 27;
   private static final int AGGREGATES_COUNT = 28;
   private static final int TRANSACTION_TOGGLE_CRSTATUS = 29;
-  private static final int MAPPED_PAYEES = 30;
   private static final int MAPPED_METHODS = 31;
   private static final int DUAL = 32;
   private static final int CURRENCIES_CHANGE_FRACTION_DIGITS = 33;
@@ -288,6 +286,8 @@ public class TransactionProvider extends BaseTransactionProvider {
   private static final int PLANINSTANCE_STATUS_SINGLE = 60;
   private static final int TRANSACTION_LINK_TRANSFER = 61;
   private static final int ACCOUNTS_TAGS = 62;
+  private static final int DEBTS = 63;
+  private static final int DEBT_ID = 64;
 
   private boolean bulkInProgress = false;
 
@@ -787,14 +787,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           sortOrder = KEY_PAYEE_NAME;
         }
         if (projection == null)
-          projection = Payee.PROJECTION;
-        break;
-      case MAPPED_PAYEES:
-        qb.setTables(TABLE_PAYEES + " JOIN " + TABLE_TRANSACTIONS + " ON (" + KEY_PAYEEID + " = " + TABLE_PAYEES + "." + KEY_ROWID + ")");
-        projection = new String[]{"DISTINCT " + TABLE_PAYEES + "." + KEY_ROWID, KEY_PAYEE_NAME + " AS " + KEY_LABEL};
-        if (sortOrder == null) {
-          sortOrder = KEY_PAYEE_NAME;
-        }
+          projection = BaseTransactionProvider.Companion.getPAYEE_PROJECTION();
         break;
       case MAPPED_TRANSFER_ACCOUNTS:
         qb.setTables(TABLE_ACCOUNTS + " JOIN " + TABLE_TRANSACTIONS + " ON (" + KEY_TRANSFER_ACCOUNT + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + ")");
@@ -1009,6 +1002,26 @@ public class TransactionProvider extends BaseTransactionProvider {
       case ACCOUNTS_TAGS:
         qb.setTables(TABLE_ACCOUNTS_TAGS + " LEFT JOIN " + TABLE_TAGS + " ON (" + KEY_TAGID + " = " + KEY_ROWID + ")");
         break;
+      case DEBTS: {
+        qb.setTables(TABLE_DEBTS);
+        break;
+      }
+      case DEBT_ID: {
+        qb.setTables(TABLE_DEBTS + " LEFT JOIN " + TABLE_PAYEES + " ON (" + KEY_PAYEEID + " = " + TABLE_PAYEES + "." + KEY_ROWID + ")");
+        projection = new String[] {
+            TABLE_DEBTS + "." + KEY_ROWID,
+            KEY_PAYEEID,
+            KEY_DATE,
+            KEY_LABEL,
+            KEY_AMOUNT,
+            KEY_CURRENCY,
+            KEY_DESCRIPTION,
+            KEY_PAYEE_NAME,
+            KEY_SEALED
+        };
+        qb.appendWhere(TABLE_DEBTS + "." + KEY_ROWID + "=" + uri.getPathSegments().get(1));
+        break;
+      }
       default:
         throw unknownUri(uri);
     }
@@ -1179,6 +1192,11 @@ public class TransactionProvider extends BaseTransactionProvider {
         notifyChange(uri, false);
         return ACCOUNTS_TAGS_URI;
       }
+      case DEBTS: {
+        id = db.insertOrThrow(TABLE_DEBTS, null, values);
+        newUri = DEBTS_URI + "/" + id;
+        break;
+      }
       default:
         throw unknownUri(uri);
     }
@@ -1192,6 +1210,8 @@ public class TransactionProvider extends BaseTransactionProvider {
       notifyChange(ACCOUNTS_BASE_URI, false);
     } else if (uriMatch == TEMPLATES) {
       notifyChange(TEMPLATES_UNCOMMITTED_URI, false);
+    } else if (uriMatch == DEBTS) {
+      notifyChange(PAYEES_URI, false);
     }
     return id > 0 ? Uri.parse(newUri) : null;
   }
@@ -1342,6 +1362,11 @@ public class TransactionProvider extends BaseTransactionProvider {
         count = db.delete(TABLE_ACCOUNTS_TAGS, where, whereArgs);
         break;
       }
+      case DEBT_ID: {
+        count = db.delete(TABLE_DEBTS,
+            KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
+        break;
+      }
       default:
         throw unknownUri(uri);
     }
@@ -1355,6 +1380,9 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       if (uriMatch == TEMPLATES || uriMatch == TEMPLATE_ID) {
         notifyChange(TEMPLATES_UNCOMMITTED_URI, false);
+      }
+      if (uriMatch == DEBT_ID) {
+        notifyChange(PAYEES_URI, false);
       }
       notifyChange(uri, false);
     }
@@ -1714,6 +1742,14 @@ public class TransactionProvider extends BaseTransactionProvider {
         count = MoreDbUtilsKt.linkTransfers(db, uri.getPathSegments().get(2), values.getAsString(KEY_UUID), callerIsNotSyncAdatper(uri));
         break;
       }
+      case DEBTS:
+        count = db.update(TABLE_DEBTS, values, where, whereArgs);
+        break;
+      case DEBT_ID: {
+        count = db.update(TABLE_DEBTS, values,
+            KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
+        break;
+      }
       default:
         throw unknownUri(uri);
     }
@@ -1892,7 +1928,6 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "currencies", CURRENCIES);
     URI_MATCHER.addURI(AUTHORITY, "currencies/" + URI_SEGMENT_CHANGE_FRACTION_DIGITS + "/*/#", CURRENCIES_CHANGE_FRACTION_DIGITS);
     URI_MATCHER.addURI(AUTHORITY, "accounts/aggregates/*", AGGREGATE_ID);
-    URI_MATCHER.addURI(AUTHORITY, "payees_transactions", MAPPED_PAYEES);
     URI_MATCHER.addURI(AUTHORITY, "methods_transactions", MAPPED_METHODS);
     URI_MATCHER.addURI(AUTHORITY, "dual", DUAL);
     URI_MATCHER.addURI(AUTHORITY, "eventcache", EVENT_CACHE);
@@ -1916,6 +1951,8 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "templates/tags", TEMPLATES_TAGS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_LINK_TRANSFER + "/*", TRANSACTION_LINK_TRANSFER);
     URI_MATCHER.addURI(AUTHORITY, "accounts/tags", ACCOUNTS_TAGS);
+    URI_MATCHER.addURI(AUTHORITY, "debts", DEBTS);
+    URI_MATCHER.addURI(AUTHORITY, "debts/#", DEBT_ID);
   }
 
   /**
@@ -2029,7 +2066,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     int baseLength = baseProjection.length;
     String[] projection = new String[baseLength + 1];
     System.arraycopy(baseProjection, 0, projection, 0, baseLength);
-    projection[baseLength] = CHECK_SEALED_WITH_ALIAS(baseTable, TABLE_TEMPLATES);
+    projection[baseLength] = checkForSealedAccount(baseTable, TABLE_TEMPLATES) + " AS " + KEY_SEALED;
     return projection;
   }
 

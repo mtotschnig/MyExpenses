@@ -54,7 +54,7 @@
   <string name="help_ManageParties_select_mapping_info">Select a party by tapping on it.</string>
   <string name="help_ManageParties_select_filter_info">Tap on a party for filtering the transaction list. Long tap for selecting multiple parties.</string>
   <string name="help_ManageParties_floating_action_button">Use the floating action button to add a new entry.</string>
-  <string name="cab_merge_help_text">If the same party appears multiple times in the list with different spelling variations, you can merge them together. You will be prompted to select which variant to keep.</string>
+  <string name="menu_merge_help_text">If the same party appears multiple times in the list with different spelling variations, you can merge them together. You will be prompted to select which variant to keep.</string>
   
   <!-- ManageTemplates title is in keys-->
   <string name="help_ManageTemplates_plans_title">Plan calendar view</string>
@@ -226,5 +226,11 @@
   <string name="help_ManageTags_select_filter_info">Select or unselect the tags for filtering the transaction list by tapping on them. Use the floating action button to confirm the selection.</string>
   <string name="help_ManageTags_manage_info">Create new tags by entering them into the text field. The x icon on each tag removes it from the database. Long tap on a tag allows to edit it.</string>
   <string name="help_ManageTags_select_mapping_info">Map or unmap the tags by tapping on them. Use the floating action button to confirm the mapping.</string>
+  <string name="help_debt_managment">Associate debts with parties, inspect list of transactions and calculate remaining balance.</string>
 
+  <string name="cab_debts_help_text">This submenu allows to define new debts associated with the selected party, and to manage existing debts: to inspect the transaction history and the remaining balance and to edit, close or delete them.</string>
+
+  <string name="form_DebtEdit_label_help_text">The label allows to select the debt on the form for transactions, in order to mark a transaction as a down payment.</string>
+  <string name="form_DebtEdit_amount_help_text">Enter the original amount of the debt. Transactions linked to the debt will decrease or increase the balance. Use the switch to distinguish between debts you owe and debts that are owed to you. If you select a currency other than your home currency, the debt will only be visible in accounts with the same currency.</string>
+  <string name="form_DebtEdit_date_help_text">Enter the date when the debt was incurred.</string>
 </resources>

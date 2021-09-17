@@ -92,7 +92,8 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_UUID + " text, "
           + KEY_ORIGINAL_AMOUNT + " integer, "
           + KEY_ORIGINAL_CURRENCY + " text, "
-          + KEY_EQUIVALENT_AMOUNT + " integer);";
+          + KEY_EQUIVALENT_AMOUNT + " integer,  "
+          + KEY_DEBT_ID + " integer references " + TABLE_DEBTS + "(" + KEY_ROWID + ") ON DELETE SET NULL);";
 
   private static final String TRANSACTIONS_UUID_INDEX_CREATE = "CREATE UNIQUE INDEX transactions_account_uuid_index ON "
       + TABLE_TRANSACTIONS + "(" + KEY_ACCOUNTID + "," + KEY_UUID + "," + KEY_STATUS + ")";
@@ -297,6 +298,17 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + " (" + KEY_ROWID + " integer primary key autoincrement, " +
           KEY_PAYEE_NAME + " text UNIQUE not null," +
           KEY_PAYEE_NAME_NORMALIZED + " text);";
+
+  private static final String DEBT_CREATE =
+      "CREATE TABLE " + TABLE_DEBTS
+          + " (" + KEY_ROWID + " integer primary key autoincrement, "
+          + KEY_PAYEEID + " integer references " + TABLE_PAYEES + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
+          + KEY_DATE + " datetime not null, "
+          + KEY_LABEL + " text not null, "
+          + KEY_AMOUNT + " integer, "
+          + KEY_CURRENCY + " text not null, "
+          + KEY_DESCRIPTION + " text, "
+          + KEY_SEALED + " boolean default 0);";
 
   private static final String CURRENCY_CREATE =
       "CREATE TABLE " + TABLE_CURRENCIES
@@ -626,10 +638,10 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + "primary key (" + KEY_TAGID + "," + KEY_TRANSACTIONID + "));";
 
   private static final String ACCOUNT_TAGS_CREATE =
-          "CREATE TABLE " + TABLE_ACCOUNTS_TAGS
-            + " ( " + KEY_TAGID + " integer references " + TABLE_TAGS + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
-            + KEY_ACCOUNTID + " integer references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
-            + "primary key (" + KEY_TAGID + "," + KEY_ACCOUNTID + "));";
+      "CREATE TABLE " + TABLE_ACCOUNTS_TAGS
+          + " ( " + KEY_TAGID + " integer references " + TABLE_TAGS + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
+          + KEY_ACCOUNTID + " integer references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
+          + "primary key (" + KEY_TAGID + "," + KEY_ACCOUNTID + "));";
 
   private static final String INSERT_TRANSFER_TAGS_TRIGGER =
       String.format(Locale.ROOT, "CREATE TRIGGER insert_transfer_tags AFTER INSERT ON %1$s "
@@ -758,6 +770,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     db.execSQL(ACCOUNT_TAGS_CREATE);
     createOrRefreshTransferTagsTriggers(db);
     db.execSQL(TEMPLATES_TAGS_CREATE);
+
+    db.execSQL(DEBT_CREATE);
+    createOrRefreshTransactionDebtTriggers(db);
 
     //Views
     createOrRefreshViews(db);
@@ -2153,6 +2168,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       if (oldVersion < 118) {
         upgradeTo118(db);
       }
+      if (oldVersion < 119) {
+        upgradeTo119(db);
+      }
       TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {
       throw new SQLiteUpgradeFailedException(oldVersion, newVersion, e);
@@ -2211,7 +2229,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     db.execSQL(TRANSACTIONS_UPDATE_TRIGGER_CREATE);
 
     createOrRefreshTransactionSealedTriggers(db);
+
   }
+
 
   private void createOrRefreshTransactionSealedTriggers(SQLiteDatabase db) {
     db.execSQL("DROP TRIGGER IF EXISTS sealed_account_transaction_insert");

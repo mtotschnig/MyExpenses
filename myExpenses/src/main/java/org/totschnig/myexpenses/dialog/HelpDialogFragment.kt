@@ -34,8 +34,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.HelpDialogActionRowBinding
 import org.totschnig.myexpenses.databinding.HelpDialogBinding
-import org.totschnig.myexpenses.util.distrib.DistributionHelper.isGithub
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.distrib.DistributionHelper.isGithub
 import java.util.*
 
 /**
@@ -47,73 +47,76 @@ import java.util.*
 class HelpDialogFragment : BaseDialogFragment(), ImageGetter {
     private var _binding: HelpDialogBinding? = null
     private val binding get() = _binding!!
+
     companion object {
         const val KEY_VARIANT = "variant"
         private const val KEY_CONTEXT = "context"
         private val iconMap: Map<String, Int?> = mapOf(
-                "edit" to R.drawable.ic_menu_edit,
-                "back" to R.drawable.ic_menu_back,
-                "balance" to R.drawable.ic_action_balance,
-                "cancel_plan_instance" to R.drawable.ic_menu_close_clear_cancel,
-                "categories_setup_default" to R.drawable.ic_menu_add_list,
-                "clone_transaction" to R.drawable.ic_menu_copy,
-                "create_instance_edit" to R.drawable.ic_action_apply_edit,
-                "create_instance_save" to R.drawable.ic_action_apply_save,
-                "create_account" to R.drawable.ic_menu_add,
-                "create_split" to R.drawable.ic_menu_split,
-                "create_sub_cat" to R.drawable.ic_menu_add,
-                "delete" to R.drawable.ic_menu_delete,
-                "distribution" to R.drawable.ic_menu_chart,
-                "edit_plan_instance" to R.drawable.ic_menu_edit,
-                "forward" to R.drawable.ic_menu_forward,
-                "invert_transfer" to R.drawable.ic_menu_move,
-                "manage_plans" to R.drawable.ic_menu_template,
-                "templates" to R.drawable.ic_menu_template,
-                "reset" to R.drawable.ic_menu_download,
-                "reset_plan_instance" to R.drawable.ic_menu_revert,
-                "save" to R.drawable.ic_menu_done,
-                "search" to R.drawable.ic_menu_search,
-                "select" to R.drawable.ic_menu_done,
-                "print" to R.drawable.ic_menu_print,
-                "create_template_from_transaction" to R.drawable.ic_action_template_add,
-                "create_folder" to R.drawable.ic_menu_add,
-                "up" to R.drawable.ic_arrow_upward,
-                "categories_export" to R.drawable.ic_menu_download,
-                "split_transaction" to R.drawable.ic_menu_split_transaction,
-                "ungroup_split_transaction" to R.drawable.ic_menu_split,
-                "move" to R.drawable.ic_menu_move,
-                "sort" to R.drawable.ic_menu_sort,
-                "sort_direction" to R.drawable.ic_menu_sort,
-                "sort_up" to R.drawable.ic_arrow_upward,
-                "sort_down" to R.drawable.ic_arrow_downward,
-                "grouping" to R.drawable.ic_action_group,
-                "create_sync_backend" to R.drawable.ic_menu_add,
-                "sync_now" to null,
-                "remove" to null,
-                "sync_download" to null,
-                "sync_link" to null,
-                "sync_unlink" to null,
-                "vote" to null,
-                "refresh" to R.drawable.ic_sync,
-                "result" to R.drawable.ic_web,
-                "learn_more" to null,
-                "set_weight" to null,
-                "original_amount" to null,
-                "equivalent_amount" to null,
-                "color" to R.drawable.ic_color,
-                "history" to R.drawable.ic_history,
-                "budget" to R.drawable.ic_budget,
-                "manage_categories" to null,
-                "show_transactions" to null,
-                "back.forward" to null,
-                "hidden_accounts" to R.drawable.design_ic_visibility_off,
-                "hide" to R.drawable.design_ic_visibility_off,
-                "close.reopen" to R.drawable.ic_lock,
-                "remap" to null,
-                "scan_mode" to R.drawable.ic_scan,
-                "save_and_new" to R.drawable.ic_action_save_new,
-                "link" to R.drawable.ic_hchain,
-                "merge" to R.drawable.ic_menu_split_transaction
+            "edit" to R.drawable.ic_menu_edit,
+            "back" to R.drawable.ic_menu_back,
+            "balance" to R.drawable.ic_action_balance,
+            "cancel_plan_instance" to R.drawable.ic_menu_close_clear_cancel,
+            "categories_setup_default" to R.drawable.ic_menu_add_list,
+            "clone_transaction" to R.drawable.ic_menu_copy,
+            "create_instance_edit" to R.drawable.ic_action_apply_edit,
+            "create_instance_save" to R.drawable.ic_action_apply_save,
+            "create_account" to R.drawable.ic_menu_add,
+            "create_split" to R.drawable.ic_menu_split,
+            "create_sub_cat" to R.drawable.ic_menu_add,
+            "delete" to R.drawable.ic_menu_delete,
+            "distribution" to R.drawable.ic_menu_chart,
+            "edit_plan_instance" to R.drawable.ic_menu_edit,
+            "forward" to R.drawable.ic_menu_forward,
+            "invert_transfer" to R.drawable.ic_menu_move,
+            "manage_plans" to R.drawable.ic_menu_template,
+            "templates" to R.drawable.ic_menu_template,
+            "reset" to R.drawable.ic_menu_download,
+            "reset_plan_instance" to R.drawable.ic_menu_revert,
+            "save" to R.drawable.ic_menu_done,
+            "search" to R.drawable.ic_menu_search,
+            "select" to R.drawable.ic_menu_done,
+            "print" to R.drawable.ic_menu_print,
+            "create_template_from_transaction" to R.drawable.ic_action_template_add,
+            "create_folder" to R.drawable.ic_menu_add,
+            "up" to R.drawable.ic_arrow_upward,
+            "categories_export" to R.drawable.ic_menu_download,
+            "split_transaction" to R.drawable.ic_menu_split_transaction,
+            "ungroup_split_transaction" to R.drawable.ic_menu_split,
+            "move" to R.drawable.ic_menu_move,
+            "sort" to R.drawable.ic_menu_sort,
+            "sort_direction" to R.drawable.ic_menu_sort,
+            "sort_up" to R.drawable.ic_arrow_upward,
+            "sort_down" to R.drawable.ic_arrow_downward,
+            "grouping" to R.drawable.ic_action_group,
+            "create_sync_backend" to R.drawable.ic_menu_add,
+            "sync_now" to null,
+            "remove" to null,
+            "sync_download" to null,
+            "sync_link" to null,
+            "sync_unlink" to null,
+            "vote" to null,
+            "refresh" to R.drawable.ic_sync,
+            "result" to R.drawable.ic_web,
+            "learn_more" to null,
+            "set_weight" to null,
+            "original_amount" to null,
+            "equivalent_amount" to null,
+            "color" to R.drawable.ic_color,
+            "history" to R.drawable.ic_history,
+            "budget" to R.drawable.ic_budget,
+            "manage_categories" to null,
+            "show_transactions" to null,
+            "back.forward" to null,
+            "hidden_accounts" to R.drawable.design_ic_visibility_off,
+            "hide" to R.drawable.design_ic_visibility_off,
+            "close.reopen" to R.drawable.ic_lock,
+            "remap" to null,
+            "scan_mode" to R.drawable.ic_scan,
+            "save_and_new" to R.drawable.ic_action_save_new,
+            "link" to R.drawable.ic_hchain,
+            "merge" to R.drawable.ic_menu_split_transaction,
+            "parties.debts" to R.drawable.balance_scale,
+            "debts" to R.drawable.balance_scale
         )
 
         @JvmStatic
@@ -150,7 +153,11 @@ class HelpDialogFragment : BaseDialogFragment(), ImageGetter {
                 val variantInfo = resolveStringOrArray(resIdString, true)
                 if (!TextUtils.isEmpty(variantInfo)) {
                     screenInfo = if (!TextUtils.isEmpty(screenInfo)) {
-                        TextUtils.concat(screenInfo, HtmlCompat.fromHtml("<br>", FROM_HTML_MODE_LEGACY), variantInfo)
+                        TextUtils.concat(
+                            screenInfo,
+                            HtmlCompat.fromHtml("<br>", FROM_HTML_MODE_LEGACY),
+                            variantInfo
+                        )
                     } else {
                         variantInfo
                     }
@@ -197,7 +204,8 @@ class HelpDialogFragment : BaseDialogFragment(), ImageGetter {
             if (menuItems.isEmpty() || !showLongTapHint(buildComponentName("cabitems"))) {
                 binding.cabCommandsHelp.visibility = View.GONE
             }
-            val titleResId = if (variant != null) resolveString("help_" + context + "_" + variant + "_title") else 0
+            val titleResId =
+                if (variant != null) resolveString("help_" + context + "_" + variant + "_title") else 0
             title = if (titleResId == 0) {
                 resolveStringOrThrowIf0("help_" + context + "_title")
             } else {
@@ -206,8 +214,8 @@ class HelpDialogFragment : BaseDialogFragment(), ImageGetter {
         } catch (e: Resources.NotFoundException) {
             CrashHandler.report(e)
             return MaterialAlertDialogBuilder(ctx!!)
-                    .setMessage("Error generating Help dialog")
-                    .create()
+                .setMessage("Error generating Help dialog")
+                .create()
         }
         /*    view.setOnTouchListener(new View.OnTouchListener() {
       @Override
@@ -218,21 +226,22 @@ class HelpDialogFragment : BaseDialogFragment(), ImageGetter {
         return true;
       }
     });*/return builder.setTitle(title)
-                .setIcon(R.drawable.ic_menu_help)
-                .setPositiveButton(android.R.string.ok) { _: DialogInterface?, _: Int ->
-                    if (activity == null) {
-                        return@setPositiveButton
-                    }
-                    requireActivity().finish()
+            .setIcon(R.drawable.ic_menu_help)
+            .setPositiveButton(android.R.string.ok) { _: DialogInterface?, _: Int ->
+                if (activity == null) {
+                    return@setPositiveButton
                 }
-                .create()
+                requireActivity().finish()
+            }
+            .create()
     }
 
     private fun showLongTapHint(componentName: String) =
-        !arrayOf("ManageTemplates_plans_cabitems", "ManageTemplates_planner_cabitems")
+        !arrayOf("ManageTemplates_plans_cabitems", "ManageTemplates_planner_cabitems", "ManageParties_manage_cabitems")
             .contains(componentName)
 
-    private fun findComponentArray(type: String) = resolveArray(buildComponentName(type)).takeIf { it != 0 || variant == null }
+    private fun findComponentArray(type: String) =
+        resolveArray(buildComponentName(type)).takeIf { it != 0 || variant == null }
             ?: resolveArray(context + "_" + type)
 
     private fun buildComponentName(type: String): String {
@@ -246,11 +255,16 @@ class HelpDialogFragment : BaseDialogFragment(), ImageGetter {
      * @throws Resources.NotFoundException
      */
     @Throws(Resources.NotFoundException::class)
-    private fun handleMenuItems(menuItems: ArrayList<String>, prefix: String, container: ViewGroup) {
+    private fun handleMenuItems(
+        menuItems: ArrayList<String>,
+        prefix: String,
+        container: ViewGroup
+    ) {
         var resIdString: String
         var resId: Int?
         for (item in menuItems) {
-            val rowBinding = HelpDialogActionRowBinding.inflate(materialLayoutInflater, container, false)
+            val rowBinding =
+                HelpDialogActionRowBinding.inflate(materialLayoutInflater, container, false)
             var title = ""
             //this allows us to map an item like "date.time" to the concatenation of translations for date and for time
             for (resIdPart in item.split(".").toTypedArray()) {
@@ -278,9 +292,13 @@ class HelpDialogFragment : BaseDialogFragment(), ImageGetter {
             //and last a generic one
             //We look for an array first, which allows us to compose messages of parts
             var helpText: CharSequence?
-            helpText = resolveStringOrArray(prefix + "_" + context + "_" + variant + "_" + item + "_help_text", false)
+            helpText = resolveStringOrArray(
+                prefix + "_" + context + "_" + variant + "_" + item + "_help_text",
+                false
+            )
             if (TextUtils.isEmpty(helpText)) {
-                helpText = resolveStringOrArray(prefix + "_" + context + "_" + item + "_help_text", false)
+                helpText =
+                    resolveStringOrArray(prefix + "_" + context + "_" + item + "_help_text", false)
                 if (TextUtils.isEmpty(helpText)) {
                     resIdString = prefix + "_" + item + "_help_text"
                     helpText = resolveStringOrArray(resIdString, false)
@@ -294,7 +312,10 @@ class HelpDialogFragment : BaseDialogFragment(), ImageGetter {
         }
     }
 
-    private fun resolveStringOrArray(resString: String, separateComponentsByLineFeeds: Boolean): CharSequence? {
+    private fun resolveStringOrArray(
+        resString: String,
+        separateComponentsByLineFeeds: Boolean
+    ): CharSequence? {
         val resIdString = resString.replace('.', '_')
         val arrayId = resolveArray(resIdString)
         return if (arrayId == 0) {
@@ -308,11 +329,18 @@ class HelpDialogFragment : BaseDialogFragment(), ImageGetter {
             val linefeed: CharSequence = HtmlCompat.fromHtml("<br>", FROM_HTML_MODE_LEGACY)
 
             val components = resources.getStringArray(arrayId)
-                    .filter { component -> !shouldSkip(component) }
-                    .map { component -> handle(component) }
+                .filter { component -> !shouldSkip(component) }
+                .map { component -> handle(component) }
             val resolvedComponents = ArrayList<CharSequence>()
             for (i in components.indices) {
-                resolvedComponents.add(HtmlCompat.fromHtml(components[i], FROM_HTML_MODE_LEGACY, this, null))
+                resolvedComponents.add(
+                    HtmlCompat.fromHtml(
+                        components[i],
+                        FROM_HTML_MODE_LEGACY,
+                        this,
+                        null
+                    )
+                )
                 if (i < components.size - 1) {
                     resolvedComponents.add(if (separateComponentsByLineFeeds) linefeed else " ")
                 }
@@ -323,7 +351,11 @@ class HelpDialogFragment : BaseDialogFragment(), ImageGetter {
 
     private fun handle(component: String): String {
         return if (component.startsWith("popup")) {
-            resolveName(component + "_intro") + " " + resources.getStringArray(resolveArray(component + "_items")).joinToString(" ") {
+            resolveName(component + "_intro") + " " + resources.getStringArray(
+                resolveArray(
+                    component + "_items"
+                )
+            ).joinToString(" ") {
                 "<b>${resolveName(it)}</b>: ${resolveName(component + "_" + it)}"
             }
         } else {
@@ -376,11 +408,19 @@ class HelpDialogFragment : BaseDialogFragment(), ImageGetter {
         return resolve(resources, resIdString, defType, requireActivity().packageName)
     }
 
-    private fun resolveSystem(resIdString: String, @Suppress("SameParameterValue") defType: String): Int {
+    private fun resolveSystem(
+        resIdString: String,
+        @Suppress("SameParameterValue") defType: String
+    ): Int {
         return resolve(Resources.getSystem(), resIdString, defType, "android")
     }
 
-    private fun resolve(resources: Resources, resIdString: String, defType: String, packageName: String): Int {
+    private fun resolve(
+        resources: Resources,
+        resIdString: String,
+        defType: String,
+        packageName: String
+    ): Int {
         return resources.getIdentifier(resIdString, defType, packageName)
     }
 
