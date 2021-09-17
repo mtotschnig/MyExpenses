@@ -967,4 +967,6 @@
     <string name="stability_improvements">ಸ್ಥಿರತೆ ಸುಧಾರಣೆಗಳು</string>
     <string name="ui_refinement">ಬಳಕೆದಾರ ಇಂಟರ್ಫೇಸ್ನ ಪರಿಷ್ಕರಣೆ</string>
     <string name="backup_save_to_sync_backend">%s ಗೆ ಉಳಿಸಿ</string>
+    <string name="pref_news_title">ಸುದ್ದಿ</string>
+    <string name="new_version">ಹೊಸ ಆವೃತ್ತಿ</string>
 </resources>

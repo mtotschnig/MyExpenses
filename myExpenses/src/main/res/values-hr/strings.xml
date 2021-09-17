@@ -932,4 +932,8 @@
     <string name="bug_fixes">Popravci grešaka</string>
     <string name="new_version">Nova verzija</string>
     <string name="pref_news_title">Novosti</string>
+    <string name="stability_improvements">Poboljšanje stabilnosti</string>
+    <string name="ui_refinement">Poboljšanje korisničkog sučelja</string>
+    <string name="performance_enhancement">Poboljšanje performanse</string>
+    <string name="backup_save_to_sync_backend">Spremi u %s</string>
 </resources>

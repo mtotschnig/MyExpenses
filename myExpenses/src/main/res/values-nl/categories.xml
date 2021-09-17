@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources, InconsistentArrays">
     <!-- Main category -->
     <string name="Main_1">Ander inkomen</string>
     <!-- Subcategory under "Other income" -->
-    <string name="Sub_1_1">Werkloze uitkering</string>
+    <string name="Sub_1_1">Werkloosheids uitkering</string>
     <!-- Subcategory under "Other income" -->
     <string name="Sub_1_2">Gezins subsidie</string>
     <!-- Subcategory under "Other income" -->
@@ -13,7 +13,7 @@
     <!-- Subcategory under "Other income" -->
     <string name="Sub_1_5">zorg verzekering</string>
     <!-- Subcategory under "Other income" -->
-    <string name="Sub_1_6">sociale voorzieningen2</string>
+    <string name="Sub_1_6">sociale voorzieningen</string>
     <!-- Main category -->
     <string name="Main_2">pensioen</string>
     <!-- Subcategory under "Retirement" -->
@@ -25,7 +25,7 @@
     <!-- Main category -->
     <string name="Main_3">Inkomsten uit beleggen</string>
     <!-- Subcategory under "Investment income" -->
-    <string name="Sub_3_1">Dividend</string>
+    <string name="Sub_3_1">Winst uitkering op aandelen</string>
     <!-- Subcategory under "Investment income" -->
     <string name="Sub_3_2">Rente</string>
     <!-- Subcategory under "Investment income" -->
@@ -45,7 +45,7 @@
     <!-- Main category -->
     <string name="Main_5">Overige inkomsten</string>
     <!-- Subcategory under "Misc. income" -->
-    <string name="Sub_5_1">cadeaus2</string>
+    <string name="Sub_5_1">cadeau</string>
     <!-- Subcategory under "Misc. income" -->
     <string name="Sub_5_2">terugbetalingen</string>
     <!-- Subcategory under "Misc. income" -->
@@ -151,7 +151,7 @@
     <!-- Subcategory under "Housing" -->
     <string name="Sub_16_7">behangen/verven</string>
     <!-- Subcategory under "Housing" -->
-    <string name="Sub_16_8">Water</string>
+    <string name="Sub_16_8">Drinkwater</string>
     <!-- Subcategory under "Housing" -->
     <string name="Sub_16_9">Electra</string>
     <!-- Subcategory under "Housing" -->
@@ -171,9 +171,9 @@
     <!-- Main category -->
     <string name="Main_17">Vrije tijd</string>
     <!-- Subcategory under "Leisures" -->
-    <string name="Sub_17_1">Snooker</string>
+    <string name="Sub_17_1">Biljarten</string>
     <!-- Subcategory under "Leisures" -->
-    <string name="Sub_17_2">Bowling</string>
+    <string name="Sub_17_2">Bowlen</string>
     <!-- Subcategory under "Leisures" -->
     <string name="Sub_17_3">Film</string>
     <!-- Subcategory under "Leisures" -->
@@ -221,7 +221,7 @@
     <!-- Subcategory under "Health" -->
     <string name="Sub_19_8">Apotheek</string>
     <!-- Subcategory under "Health" -->
-    <string name="Sub_19_9">sociale voorzieningen2</string>
+    <string name="Sub_19_9">sociale voorzieningen</string>
     <!-- Main category -->
     <string name="Main_20">Zorg</string>
     <!-- Subcategory under "Care" -->
@@ -231,7 +231,7 @@
     <!-- Main category -->
     <string name="Main_21">Transport</string>
     <!-- Subcategory under "Transport" -->
-    <string name="Sub_21_1">Bus</string>
+    <string name="Sub_21_1">Autobus</string>
     <!-- Subcategory under "Transport" -->
     <string name="Sub_21_2">metro</string>
     <!-- Subcategory under "Transport" -->
@@ -245,9 +245,13 @@
     <!-- Main category -->
     <string name="Main_22">Vakanties</string>
     <!-- Subcategory under "Holidays" -->
-    <string name="Sub_22_1">Huisvesting2</string>
+    <string name="Sub_22_1">Huisvesting</string>
     <!-- Subcategory under "Holidays" -->
     <string name="Sub_22_2">Bezoekjes</string>
     <!-- Subcategory under "Holidays" -->
     <string name="Sub_22_3">Reizen2</string>
+    <string name="Sub_16_4">Woning Inrichting</string>
+    <string name="Sub_15_3">Verkoop belasting</string>
+    <string name="Sub_15_2">Gemeentelijke belasting</string>
+    <string name="Sub_15_1">Inkomsten belasting</string>
 </resources>

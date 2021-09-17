@@ -220,7 +220,7 @@
     <string name="no_amount_given">لم تقم بإدخال قيمة.</string>
     <string name="no_app_handling_email_available">لا يوجد تطبيق للبريد الالكتروني.</string>
     <string name="no_app_handling_ftp_available">لا يوجد تطبيق لـ ftp. تثبيت <i>Send With FTP</i>؟</string>
-    <string name="no_app_handling_pdf_available">لا يوجد تطبيق لمعاينة ملفات الPDF </string>
+    <string name="no_app_handling_pdf_available">لا يوجد تطبيق لمعاينة ملفات الPDF.</string>
     <string name="no_categories">لا يوجد تصنيفات.</string>
     <string name="no_expenses">لا يوجد مصروفات حتى الأن!</string>
     <string name="no_exportable_expenses">لا يوجد عمليات لم يتم تصديرها بعد.</string>
@@ -230,7 +230,7 @@
     <string name="no_mapped_transactions">لا يوجد عمليات لهذا التصنيف خلال هذه الفترة.</string>
     <string name="no_methods">لا يوجد طرق دفع.</string>
     <string name="no_parties">لا يوجد أطراف.</string>
-    <string name="no_split_parts">لا يوجد تقسيمات</string>
+    <string name="no_split_parts">لا يوجد أجزاء مقسمة.</string>
     <string name="no_templates">لا يوجد نماذج.</string>
     <string name="no_accounts">لا توجد حسابات.</string>
     <string name="no_title_given">لم تقم بإدخال عنوان.</string>
@@ -307,7 +307,7 @@
     <string name="pref_contrib_purchase_title_in_app">الشراء داخل التطبيق</string>
     <string name="pref_custom_currency_title">تخصيص العملات</string>
     <!-- premium features refers to features of all three levels (Contrib, Extended, Professional -->
-    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">إذا حصلت على المفتاح, يمكنك الحصول على الميزات الكاملة </string>
+    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">إذا حصلت على المفتاح, يمكنك الحصول على الميزات الكاملة.</string>
     <string name="pref_enter_licence_title" tools:ignore="UnusedResources">أدخل المفتاح</string>
     <string name="pref_export_format_title">تنسيق البيانات</string>
     <string name="pref_import_from_grisbi_summary">استيراد التصنيفات والأطراف  Grisbi XML </string>
@@ -321,7 +321,7 @@
     <string name="pref_manage_categories_title">التصنيفات</string>
     <string name="pref_manage_methods_summary">إضافة وتعديل طرق الدفع وربطها مع أنواع الحسابات.</string>
     <string name="pref_manage_methods_title">طرق الدفع</string>
-    <string name="pref_manage_parties_summary">إضافة، تعديل، حذف الأطراف (المشترين والمستفيدين)</string>
+    <string name="pref_manage_parties_summary">إضافة، تعديل، حذف الأطراف (المشترين والمستفيدين).</string>
     <string name="pref_manage_parties_title">الأطراف</string>
     <string name="pref_manage_sync_backends_title">الخلفية المزامنة</string>
     <!-- %s will be replaced with list of backends -->
@@ -334,7 +334,7 @@
     <string name="pref_planning_calendar_create_local">انشاء مخطِط تقويم محلي جديد</string>
     <string name="pref_planning_calendar_summary">حدد التقويم الذي تم تخزين الخطط المستقبلية والمعاملات المتكررة فيه</string>
     <string name="pref_planning_calendar_title">تخطيط تقويم</string>
-    <string name="pref_protection_delay_seconds_summary">عند الخمول، عدد الثواني قبل طلب الباسوورد</string>
+    <string name="pref_protection_delay_seconds_summary">ثواني دون تفاعل قبل أن يتم قفل التطبيق بكلمة مرور.</string>
     <string name="pref_protection_delay_seconds_title">مهلة الحماية</string>
     <string name="pref_protection_enable_data_entry_from_widget_title">إدخال البيانات عبر الحاجيات والاختصارات</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">بدون باسوورد.</string>
@@ -342,15 +342,15 @@
     <string name="pref_qif_export_file_encoding_title">ترميز الحروف</string>
     <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
     <string name="pref_restore_alternative">بديل</string>
-    <string name="pref_restore_alternative_summary">استخدم هذه الطريقة البديلة إذا لم يكن مدير ملفات مثبتا على الجهاز</string>
-    <string name="pref_restore_summary">اختر نسخة احتياطية لاسترجاع قاعدة البيانات والتفضيلات</string>
+    <string name="pref_restore_alternative_summary">استخدم هذه الطريقة البديلة إذا لم يكن مدير ملفات مثبتا على الجهاز.</string>
+    <string name="pref_restore_summary">اختر نسخة احتياطية لاسترجاع قاعدة البيانات والتفضيلات.</string>
     <string name="pref_restore_title">استعادة</string>
     <string name="pref_security_question_summary">تسمح لك بفتح قفل التطبيق، إذا كنت قد نسيت كلمة المرور.</string>
     <string name="pref_security_question_title">السؤال السري</string>
     <string name="pref_send_feedback_title">ارسال ملاحظة أو تقييم</string>
     <string name="pref_share_target_summary">اتركه فارغا إذا أردت الاختيار بين التطبيقات المناسبة (البريد الالكتروني، دروب بوكس، مستندات قوقل، …) أو قم بإدخل رابط كأحد الطرق المدعومة</string>
     <string name="pref_share_target_title">رابط الرفع</string>
-    <string name="pref_shortcut_added">تمت إضافة اختصار للشاشة الرئيسية.</string>
+    <string name="pref_shortcut_added">تمت إضافة اختصار للشاشة الرئيسية</string>
     <string name="pref_shortcut_not_added">لا يوجد مكان للاختصار في الشاشة الرئيسية.</string>
     <string name="pref_shortcut_summary">إضافة اختصار للشاشة الرئيسية.</string>
     <string name="pref_ui_fontsize_title">زيادة حجم الخط</string>
@@ -373,12 +373,12 @@
     <string name="restore_db_failure">فشلت عملية استعادة قاعدة البيانات.</string>
     <string name="restore_db_success">تم استعادة قاعدة البيانات من النسخة الاحتياطية.</string>
     <string name="restore_no_backup_found">لا يوجد نسخة احتياطية.</string>
-    <string name="restore_preferences_failure">فشلت عملية استعادة التفضيلات.</string>
+    <string name="restore_preferences_failure">فشلت عملية استعادة التفضيلات</string>
     <string name="restore_backup_file_not_found">لم يتم إيجاد الملف %1$s في أرشيف \"%2$s\"</string>
     <string name="restore_preferences_success">تم استعادة التفضيلات من النسخة الاحتياطية.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d خطط تم استعادتها من النسخة الإحتياطية</string>
     <string name="save_transaction_and_new_success">تم حفظ العملية بنجاح</string>
-    <string name="save_transaction_error">لا يمكن حفظ عملية جديدة من نموذج</string>
+    <string name="save_transaction_error">لا يمكن حفظ عملية جديدة من نموذج.</string>
     <plurals name="save_transaction_from_template_success">
         <item quantity="zero">تم حفظ %1$d من المعاملات الجديدة بنجاح من النماذج.</item>
         <item quantity="one">تم حفظ معاملة جديدة بنجاح من النماذج.</item>
@@ -395,7 +395,7 @@
     <string name="share_sending">ارسال الملف المصدّر</string>
     <string name="split_parts_heading">تقسيم</string>
     <string name="split_transaction">تقسيم العمليات</string>
-    <string name="status">الحالات.</string>
+    <string name="status">الحالات</string>
     <string name="status_cleared">تمت تصفيته</string>
     <string name="status_reconciled">تمت تسويته</string>
     <string name="status_uncreconciled">لم تتم تسويتها</string>
@@ -520,7 +520,7 @@
     <string name="comparison_operator_date_before">قبل</string>
     <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">بعد</string>
-    <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">.عملية الشراء فشلت أو ألغيت</string>
+    <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">عملية الشراء فشلت أو ألغيت.</string>
     <string name="hint_auto_fill">هل يجب ملء البيانات تلقائياً من آخر معاملة لنفس المستفيد / الدافع؟ يمكنك دائماً تغيير هذا السلوك من الإعدادات.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">تم تحديث %1$d حسابات بعملة %2$s.</string>
     <string name="learn_more">معرفة المزيد</string>
@@ -555,8 +555,8 @@
     <string name="csv_import_preview">معاينة</string>
     <string name="menu_parse">تحليل</string>
     <string name="csv_import_field_mapped_more_than_once">تم تعيين %s أكثر من مرة.</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d غير قادر على استيراد التسجيلات</string>
-    <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d التسجيلات تم تجاهلها</string>
+    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d غير قادر على استيراد التسجيلات.</string>
+    <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d التسجيلات تم تجاهلها.</string>
     <string name="csv_import_subcategory_requires_category">إذا قمت بتعيين فئة فرعية، يجب عليك أيضاً تعيين الفئة.</string>
     <string name="cvs_import_set_first_line_as_header">هل يتوجب التعامل مع السطر الأول كرأس للجدول؟</string>
     <string name="csv_import_delimiter_comma">فاصلة</string>
@@ -567,7 +567,7 @@
     <string name="pref_custom_decimal_format_title">تنسيق الرقم</string>
     <string name="pref_custom_decimal_format_summary">إذا لم تكن راضي مع التنسيق الافتراضي لجهازك، حوله لما يناسبك. اتركه فارغا لتستعيد التنسيق الافتراضي.</string>
     <string name="pref_auto_backup_title">نسخ احتياطي آلي</string>
-    <string name="pref_auto_backup_summary">نسخ احتياطي لقاعدة البيانات يوميا في وقت محدد (فقط في حالة تغير البيانات)</string>
+    <string name="pref_auto_backup_summary">نسخ احتياطي لقاعدة البيانات يوميا في وقت محدد (فقط في حالة تغير البيانات).</string>
     <string name="pref_auto_backup_time_title">وقت النسخ الاحتياطي الآلي</string>
     <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">بعد %d نسخ احتياطي آلي ناجح، سيتم إيقاف النسخ الاحتياطي الآلي.</string>
     <string name="calendar_permission_required">يحتاج <i>{app_name}</i> إلى الأذن بالوصول إلى التقويم الخاص بك، من أجل وضع خطط للمعاملات المستقبلية والمتكررة.</string>
@@ -655,7 +655,7 @@
     <string name="pref_backup_cloud_summary">بالإضافة إلى التخزين المحلي على الجهاز، يمكن نسخ ملف النسخ الاحتياطي إلى خلفية بعيدة.</string>
     <string name="auto_backup_cloud_failure">حدث خطأ أثناء محاولة تخزين ملف النسخ الاحتياطي %1$s على الواجهة الخلفية %2$s:</string>
     <string name="auto_backup_cloud_success">تم تخزين ملف النسخ الاحتياطي %1$s بنجاح على الواجهة الخلفية %2$s.</string>
-    <string name="home_screen_shortcuts_nougate_info">يمكن إضافة إختصار عن طريق الضغط الطويل على الايقونة في الشاشة الرئيسية</string>
+    <string name="home_screen_shortcuts_nougate_info">يمكن إضافة إختصار عن طريق الضغط الطويل على الايقونة في الشاشة الرئيسية.</string>
     <string name="currency_symbol">رمز العملة</string>
     <string name="number_of_fraction_digits">عدد الكسور</string>
     <string name="warning_auto_backup_deactivated">تم إلغاء تنشيط النسخ الاحتياطي التلقائي. يمكنك تشغيله مرة أخرى من الإعدادات بعد حل المشكلة (على سبيل المثال، اختيار مجلد مختلف للنسخ الاحتياطية).</string>
@@ -663,7 +663,7 @@
     <string name="pref_tracking_title">جمع بيانات الاستخدام</string>
     <string name="sync_database_error">حدث خطأ في قاعدة البيانات أثناء المزامنة.</string>
     <string name="sync_io_error_cannot_connect">لا يمكن الاتصال بخلفية المزامنة.</string>
-    <string name="sync_error_will_try_again_later">سوف أحاول مرة أخرى لاحقا</string>
+    <string name="sync_error_will_try_again_later">سوف أحاول مرة أخرى لاحقا.</string>
     <string name="sync_io_exception_reset_account_data">خطأ أثناء إعادة تعيين الحساب البعيد.</string>
     <string name="sync_success_reset_account_data">تم حذف البيانات البعيدة للحساب %s.</string>
     <string name="sync_io_exception_setup_remote_account">حدث خطأ أثناء إعداد حساب بعيد.</string>
@@ -1017,11 +1017,26 @@
     <string name="pref_category_title_crash_reports">تقارير لمشاكل التطبيق</string>
     <string name="pref_enable_acra">السماح بالإرسال التلقائي لتقارير الأعطال</string>
     <string name="pref_acra_user_email">بريد المستخدم ليتم إدراجه في تقرير المشكلة </string>
-    <string name="pref_acra_user_email_summary">رجاءاً أدخل بريدك الإلكتروني إذا كنت ترغب بالمساعدة</string>
+    <string name="pref_acra_user_email_summary">رجاءاً أدخل بريدك الإلكتروني إذا كنت ترغب بالمساعدة.</string>
     <string name="ui_refinement">صقل واجهة المستخدم</string>
     <string name="bug_fixes">إصلاح الأخطاء</string>
     <string name="performance_enhancement">تحسينات علي الأداء</string>
     <string name="stability_improvements">رفع مستوي ثبات البرنامج</string>
     <string name="new_version">الإصدار الجديد</string>
     <string name="pref_news_title">الأخبار</string>
+    <string name="account_widget_configuration">إعدادات أداة ويدجيت الحساب</string>
+    <string name="backup_save_to_sync_backend">حفظ إلى %s</string>
+    <string name="warning_plan_instance_delete">سيتم حذف المعاملة التي تم إنشاؤها للتاريخ المحدد.</string>
+    <string name="auto_fill_focus">تعيين التركيز على المستفيد</string>
+    <string name="request_for_invoice">طلب فاتورة</string>
+    <string name="active_tags">علامات نشطة</string>
+    <string name="merge_parties_select">حدد اسم الطرف المدمج:</string>
+    <string name="menu_merge">دمج</string>
+    <string name="account_widget_configuration_sum_total">قم بتضمين المعاملات المستقبلية</string>
+    <string name="account_widget_configuration_sum">نوع المبلغ المعروض</string>
+    <string name="warning_link_transfer">سيتم ربط المعاملتين المحددتين كتحويل. سيتم تجاهل معلومات المدفوع له/ الدافع والفئة.</string>
+    <string name="recurrence_last_day_of_month">اليوم الأخير</string>
+    <string name="single_feature_info">بدلاً من ذلك ، يمكنك شراء وصول غير محدود إلى هذه الميزة فقط.</string>
+    <string name="title_webui">واجهة مستخدم الويب</string>
+    <string name="account_deleted">تم حذف الحساب</string>
 </resources>

@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources, InconsistentArrays">
     <!-- Main category -->
     <string name="Main_1">הכנסה אחרת</string>
@@ -133,7 +133,7 @@
     <!-- Subcategory under "Professional expenses" -->
     <string name="Sub_14_1">לא ניתן לקבל החזיר</string>
     <!-- Subcategory under "Professional expenses" -->
-    <string name="Sub_14_2">ניתן לקבל החזר</string>
+    <string name="Sub_14_2">ברות החזר</string>
     <!-- Main category -->
     <string name="Main_15">מיסים</string>
     <!-- Subcategory under "Taxes" -->
@@ -155,23 +155,23 @@
     <!-- Subcategory under "Housing" -->
     <string name="Sub_16_5">חיובים</string>
     <!-- Subcategory under "Housing" -->
-    <string name="Sub_16_6">בריאות</string>
+    <string name="Sub_16_6">חימום</string>
     <!-- Subcategory under "Housing" -->
-    <string name="Sub_16_7">תפאורה</string>
+    <string name="Sub_16_7">עיצוב הבית</string>
     <!-- Subcategory under "Housing" -->
     <string name="Sub_16_8">מים</string>
     <!-- Subcategory under "Housing" -->
     <string name="Sub_16_9">חשמל</string>
     <!-- Subcategory under "Housing" -->
-    <string name="Sub_16_10">מוצרים לבנים</string>
+    <string name="Sub_16_10">מוצרי חשמל גדולים</string>
     <!-- Subcategory under "Housing" -->
     <string name="Sub_16_11">ציוד</string>
     <!-- Subcategory under "Housing" -->
     <string name="Sub_16_12">גז</string>
     <!-- Subcategory under "Housing" -->
-    <string name="Sub_16_13">גן</string>
+    <string name="Sub_16_13">גינון</string>
     <!-- Subcategory under "Housing" -->
-    <string name="Sub_16_14">אב בית</string>
+    <string name="Sub_16_14">ניקיון הבית</string>
     <!-- Subcategory under "Housing" -->
     <string name="Sub_16_15">טלפון</string>
     <!-- Subcategory under "Housing" -->
@@ -187,7 +187,7 @@
     <!-- Subcategory under "Leisures" -->
     <string name="Sub_17_4">מועדון לילה</string>
     <!-- Subcategory under "Leisures" -->
-    <string name="Sub_17_5">זה</string>
+    <string name="Sub_17_5">מחשוב</string>
     <!-- Subcategory under "Leisures" -->
     <string name="Sub_17_6">משחקים</string>
     <!-- Subcategory under "Leisures" -->
