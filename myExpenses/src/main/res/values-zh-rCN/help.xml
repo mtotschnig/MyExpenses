@@ -123,10 +123,20 @@
     <string name="menu_history_help_text">显示现金流图表：你在数日、数周、数月或数年的开支和收入情况如何？</string>
     <string name="menu_budget_help_text">对当前显示的账户，按日、周、月或年进行预算管理。</string>
     <string name="menu_sort_direction_help_text">交易可按升序(旧交易在先)或降序（新交易在先）排列。</string>
-    <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">如果就已选定的事件instance创建交易，则该等交易将被删除，如果该等交易已标注为已删除，则该标记将被删除。</string>
+    <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">如果就已选定的事件实例创建交易，则该等交易将被删除，如果该等交易已标注为已取消，则该标记将被删除。</string>
     <string name="help_ManageTemplates_plans_info">Instance的状态通过以下图标标示：&lt;br&gt;&lt;img src=ic_stat_open&gt; Instance尚未应用。&lt;br&gt;&lt;img src=ic_stat_applied&gt; Instance已经应用。&lt;br&gt;&lt;img src=ic_stat_cancelled&gt; Instance已经取消，即您已将其标记为跳过。该Instance不在创建交易。</string>
     <string name="help_ManageTemplates_plans_intro">每个高亮日期代表计划的一个 instance。</string>
     <string name="help_ManageTemplates_planner_intro">长按open instance可进行多选。点按开始日期或结束日期可以将时间范围向后或向前延展。</string>
     <string name="menu_balance_help_text">通过此项命令可打开对话框，显示上一次已对账的余额和已清算的余额。您可以将后者与您的银行接单进行比较，然后将所有已清算的交易标记为已对账。您也可以选择删除已对账的交易。</string>
     <string name="menu_reset_help_text">通过此项命令，可将当前账户内的所有交易以QIF或CSV格式导出，放入SD卡内的文件。您可以决定删除已导出的交易，届时期初余额会自动调整。或者，如果交易未删除，则标注为已导出。My Expenses 可以通过FTP、电子邮件或任何其他文件共享应用共享已导出的文件，前提是您已在设置中做好相应配置。如果启用搜索筛选设定，则仅包含该符合该筛选设定的交易。</string>
+    <string name="form_BudgetEdit_title_help_text">预算标题有助于在预算列表中识别它。</string>
+    <string name="help_BudgetEdit_info">使用此表单新建预算或编辑已有预算。</string>
+    <string name="help_BudgetEdit_title">预算表单</string>
+    <string name="form_color_help_text">在账户交易列表，此颜色将作为用户界面的主题色。</string>
+    <string name="menu_save_and_new_help_text">如果勾选此项，保存数据后会使用相同的数据创建一个新的交易。</string>
+    <string name="form_attach_image_help_text">&lt;img src=android:ic_menu_camera&gt; 此按钮可以给对象添加图片(例如：从相册选择或者使用相机) 。</string>
+    <string name="help_ExpenseEdit_transaction_info">使用此表单录入一个新的交易或者编辑已有交易。使用操作栏的下拉菜单可在添加新的转账和拆分交易的表单之间进行切换。</string>
+    <string name="menu_distribution_aggreate_help_text">默认情况下，计算的总金额包括支出和收入。你可以设置分开展示，在操作栏的按钮切换支出和收入。</string>
+    <string name="menu_distribution_show_pie_char_help_text">切换为饼图。</string>
+    <string name="menu_forward_help_text">导航到下一组。也可以通过从右到左的滑动手势来实现。</string>
 </resources>
