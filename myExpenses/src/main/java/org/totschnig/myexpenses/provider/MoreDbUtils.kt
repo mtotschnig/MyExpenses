@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.provider
 
+import android.accounts.AccountManager
 import android.content.ContentValues
 import android.content.Context
 import android.content.res.Resources
@@ -7,9 +8,12 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteStatement
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.PaymentMethod
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccount
+import org.totschnig.myexpenses.sync.SyncAdapter
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -125,7 +129,7 @@ fun setupDefaultCategories(database: SQLiteDatabase, resources: Resources): Int 
     for ((categoriesResId, iconsResId) in categoryDefinitions) {
         val categories = resources.getStringArray(categoriesResId)
         val icons = resources.getStringArray(iconsResId)
-        if(categories.size != icons.size) {
+        if (categories.size != icons.size) {
             CrashHandler.report("Inconsistent category definitions")
             return 0
         }
@@ -198,3 +202,34 @@ private fun findMainCategory(database: SQLiteDatabase, label: String): Long {
 
 val Cursor.asSequence: Sequence<Cursor>
     get() = generateSequence { takeIf { it.moveToNext() } }
+
+fun cacheSyncState(context: Context) {
+    val accountManager = AccountManager.get(context)
+    context.contentResolver.query(
+        TransactionProvider.ACCOUNTS_URI,
+        arrayOf(KEY_ROWID, KEY_SYNC_ACCOUNT_NAME),
+        "$KEY_SYNC_ACCOUNT_NAME IS NOT null",
+        null,
+        null
+    )?.use {
+        val editor = (context.applicationContext as MyApplication).settings.edit()
+        if (it.moveToFirst()) {
+            do {
+                val accountId = it.getLong(0)
+                val accountName = it.getString(1)
+                val localKey = SyncAdapter.KEY_LAST_SYNCED_LOCAL(accountId)
+                val remoteKey = SyncAdapter.KEY_LAST_SYNCED_REMOTE(accountId)
+                val account = getAccount(accountName)
+                try {
+                    val localValue = accountManager.getUserData(account, localKey)
+                    val remoteValue = accountManager.getUserData(account, remoteKey)
+                    editor.putString(localKey, localValue)
+                    editor.putString(remoteKey, remoteValue)
+                } catch (e: SecurityException) {
+                    break
+                }
+            } while (it.moveToNext())
+            editor.apply()
+        }
+    }
+}

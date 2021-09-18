@@ -41,7 +41,7 @@ fun doBackup(context: Context, password: String?, withSync: String?): Result<Doc
         CrashHandler.report("CacheDir is null")
         return failure(context, R.string.io_error_cachedir_null)
     }
-    val result = DbUtils.backup(cacheDir)
+    val result = DbUtils.backup(cacheDir, context)
     val failure: Throwable
     if (result.isSuccess) {
         try {
