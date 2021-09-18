@@ -752,8 +752,12 @@ public class MyApplication extends Application implements
   }
 
   public void markDataDirty() {
-    prefHandler.putBoolean(PrefKey.AUTO_BACKUP_DIRTY, true);
-    DailyScheduler.updateAutoBackupAlarms(this);
+    try {
+      prefHandler.putBoolean(PrefKey.AUTO_BACKUP_DIRTY, true);
+      DailyScheduler.updateAutoBackupAlarms(this);
+    } catch (Exception e) {
+      CrashHandler.report(e);
+    }
   }
 
   private void enableStrictMode() {
