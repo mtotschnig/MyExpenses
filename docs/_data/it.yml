@@ -12,14 +12,14 @@ it:
   hero_sub:
     use: "Facile da usare"
     functionality: "Ricco di funzionalità"
-    source: "Open Source"
+    source: "Codice sorgente aperto"
   menu_title:
     more_information: Maggiori informazioni
   sections:
     features: Funzioni
     premium: Passa a Premium
     participate: Partecipare
-    faq: FAQ
+    faq: Domande frequenti
     versionlist: Registro delle modifiche (changelog)
     credits: Crediti
     licence: Licenza
