@@ -11,14 +11,14 @@ de:
   hero_sub:
     use: "Einfach zu bedienen"
     functionality: "Reich an Funktionalität"
-    source: "Open Source"
+    source: "Quelloffen"
   menu_title:
     more_information: Mehr Information
   sections:
     features: Funktionen
     premium: Premium gehen
     participate: Mitmachen
-    faq: FAQ
+    faq: Häufig gestellte Fragen
     versionlist: Änderungen
     credits: Abspann
     licence: Lizenz
