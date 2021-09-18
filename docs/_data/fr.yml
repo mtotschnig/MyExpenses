@@ -11,7 +11,7 @@ fr:
   hero_sub:
     use: "Facile à utiliser"
     functionality: "Riche en fonctions"
-    source: "Open Source"
+    source: "Code source ouvert"
   menu_title:
     more_information: Plus d'informations
   sections:
