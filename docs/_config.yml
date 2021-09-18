@@ -130,51 +130,51 @@ versions:
     - "2021-07-09"
     -
         ar: |
-        مزود سعر الصرف: https://exchangerate.host. بالإضافة إلى التخزين المحلي على الجهاز، يمكن نسخ ملف النسخ الاحتياطي إلى خلفية بعيدة.
+          مزود سعر الصرف: https://exchangerate.host. بالإضافة إلى التخزين المحلي على الجهاز، يمكن نسخ ملف النسخ الاحتياطي إلى خلفية بعيدة.
         bg: |
-        Доставчик на валутни курсове: https://exchangerate.host. Освен локално - в това устройство, архивният файл може да бъде запазен и в отдалечено хранилище.
+          Доставчик на валутни курсове: https://exchangerate.host. Освен локално - в това устройство, архивният файл може да бъде запазен и в отдалечено хранилище.
         cs: |
-        Poskytovatel směnného kurzu: https://exchangerate.host. Kromě lokálního úložiště na zařízení může být zálohovací soubor zkopírován na vzdálený back-end.
+          Poskytovatel směnného kurzu: https://exchangerate.host. Kromě lokálního úložiště na zařízení může být zálohovací soubor zkopírován na vzdálený back-end.
         de: |
-        Anbieter für Wechselkurse: https://exchangerate.host. Zusätzlich zur lokalen Speicherung auf dem Gerät kann die Sicherungsdatei auf ein entferntes Backend kopiert werden.
+          Anbieter für Wechselkurse: https://exchangerate.host. Zusätzlich zur lokalen Speicherung auf dem Gerät kann die Sicherungsdatei auf ein entferntes Backend kopiert werden.
         es: |
-        Proveedor de tipo de cambio: https://exchangerate.host. Además del almacenamiento local del dispositivo, la copia de seguridad puede copiarse a un servicio remoto.
+         Proveedor de tipo de cambio: https://exchangerate.host. Además del almacenamiento local del dispositivo, la copia de seguridad puede copiarse a un servicio remoto.
         eu: |
-        https://exchangerate.host. Gailuko biltegi lokalaz gain, babeskopia fitxategia urruneko atzealdeko batera kopiatu daiteke.
+         https://exchangerate.host. Gailuko biltegi lokalaz gain, babeskopia fitxategia urruneko atzealdeko batera kopiatu daiteke.
         fr: |
-        Fournisseur de taux de change: https://exchangerate.host. Outre le stockage local sur le périphérique, le fichier de sauvegarde peut être copié sur un serveur distant.
+          Fournisseur de taux de change: https://exchangerate.host. Outre le stockage local sur le périphérique, le fichier de sauvegarde peut être copié sur un serveur distant.
         hr: |
-        Usluga za preuzimanje tečajeva: https://exchangerate.host. Pored mogućnosti lokalnog spremanja na uređaju, datoteka sigurnosne kopije može se kopirati u udaljeni pozadinski sustav.
+         Usluga za preuzimanje tečajeva: https://exchangerate.host. Pored mogućnosti lokalnog spremanja na uređaju, datoteka sigurnosne kopije može se kopirati u udaljeni pozadinski sustav.
         hu: |
-        Árfolyamszolgáltató: https://exchangerate.host. A készüléken történő helyi tárolás mellett a biztonsági fájlt átmásolhatja egy távoli háttérrendszerre.
+         Árfolyamszolgáltató: https://exchangerate.host. A készüléken történő helyi tárolás mellett a biztonsági fájlt átmásolhatja egy távoli háttérrendszerre.
         it: |
-        Fornitore dei Tassi di Cambio: https://exchangerate.host. Oltre nella memoria locale del dispositivo, il file di backup può essere copiato su un back-end remoto.
+          Fornitore dei Tassi di Cambio: https://exchangerate.host. Oltre nella memoria locale del dispositivo, il file di backup può essere copiato su un back-end remoto.
         iw: |
-        בחר לספק להוריד שערי חליפין: https://exchangerate.host. בנוסף לאחסון מקומי בהתקן, ניתן להעתיק את קובץ הגיבוי אל ממשק מרוחק.
+         בחר לספק להוריד שערי חליפין: https://exchangerate.host. בנוסף לאחסון מקומי בהתקן, ניתן להעתיק את קובץ הגיבוי אל ממשק מרוחק.
         ja: |
-        為替レートプロバイダー: https://exchangerate.host. デバイスのローカルストレージに加えて、バックアップファイルをリモートバックエンドにコピーすることができます。
+          為替レートプロバイダー: https://exchangerate.host. デバイスのローカルストレージに加えて、バックアップファイルをリモートバックエンドにコピーすることができます。
         ms: |
-        Penyedia Kadar Pertukaran: https://exchangerate.host. Selain dari storan setempat dalam peranti, fail sandar juga boleh disalin ke dalam bahagian belakang jauh.
+         Penyedia Kadar Pertukaran: https://exchangerate.host. Selain dari storan setempat dalam peranti, fail sandar juga boleh disalin ke dalam bahagian belakang jauh.
         kn: |
-        ವಿನಿಮಯ ದರ ಒದಗಿಸುವವರು: https://exchangerate.host. ಸಾಧನದಲ್ಲಿನ ಸ್ಥಳೀಯ ಸಂಗ್ರಹಣೆಯ ಜೊತೆಗೆ, ಬ್ಯಾಕಪ್ ಫೈಲ್ ಅನ್ನು ದೂರಸ್ಥ ಬ್ಯಾಕೆಂಡ್‌ಗೆ ನಕಲಿಸಬಹುದು.
+         ವಿನಿಮಯ ದರ ಒದಗಿಸುವವರು: https://exchangerate.host. ಸಾಧನದಲ್ಲಿನ ಸ್ಥಳೀಯ ಸಂಗ್ರಹಣೆಯ ಜೊತೆಗೆ, ಬ್ಯಾಕಪ್ ಫೈಲ್ ಅನ್ನು ದೂರಸ್ಥ ಬ್ಯಾಕೆಂಡ್‌ಗೆ ನಕಲಿಸಬಹುದು.
         pl: |
-        https://exchangerate.host. Oprócz przechowywania lokalnego na urządzeniu, plik kopii zapasowej można skopiować do zdalnego serwera.
+         https://exchangerate.host. Oprócz przechowywania lokalnego na urządzeniu, plik kopii zapasowej można skopiować do zdalnego serwera.
         pt: |
-        Provedor de taxa de câmbio: https://exchangerate.host. Além do armazenamento local no aparelho, o ficheiro de backup também pode ser copiado para um destino remoto.
+          Provedor de taxa de câmbio: https://exchangerate.host. Além do armazenamento local no aparelho, o ficheiro de backup também pode ser copiado para um destino remoto.
         ru: |
-        Поставщик курсов валют: https://exchangerate.host. Помимо локального хранилища на устройстве, файл резервной копии можно скопировать на удаленный бэкенд.
+          Поставщик курсов валют: https://exchangerate.host. Помимо локального хранилища на устройстве, файл резервной копии можно скопировать на удаленный бэкенд.
         ta: |
-        மாற்று விகித வழங்குநர்: https://exchangerate.host. காப்புப்பிரதி கோப்பை, கருவியில் உள்ள உள்சேமிப்புக்கு கூடுதலாக ஒரு தொலை பின்தளத்திற்கு நகலெடுத்துக் கொள்ளலாம்.
+         மாற்று விகித வழங்குநர்: https://exchangerate.host. காப்புப்பிரதி கோப்பை, கருவியில் உள்ள உள்சேமிப்புக்கு கூடுதலாக ஒரு தொலை பின்தளத்திற்கு நகலெடுத்துக் கொள்ளலாம்.
         tr: |
-        Döviz Kuru Sağlayıcısı: https://exchangerate.host. Cihazdaki yerel stoklamaya ek olarak, yedekleme dosyası uzaktaki bir arka uca kopyalanabilir.
+          Döviz Kuru Sağlayıcısı: https://exchangerate.host. Cihazdaki yerel stoklamaya ek olarak, yedekleme dosyası uzaktaki bir arka uca kopyalanabilir.
         vi: |
-        https://exchangerate.host. Cùng với bộ nhớ lưu trữ trên máy, tập tin sao lưu cũng có thể được sao chép tới một backend từ xa.
+         https://exchangerate.host. Cùng với bộ nhớ lưu trữ trên máy, tập tin sao lưu cũng có thể được sao chép tới một backend từ xa.
         zh: |
-        汇率提供者: https://exchangerate.host. 除了存储在本地设备之外，备份文件还可以复制到远程后端或云存储。
+          汇率提供者: https://exchangerate.host. 除了存储在本地设备之外，备份文件还可以复制到远程后端或云存储。
         zh-TW: |
-        匯率提供者: https://exchangerate.host. 除了儲存在本機裝置中之外，備份檔案還可以複製到遠程後端或雲端儲存空間。
+         匯率提供者: https://exchangerate.host. 除了儲存在本機裝置中之外，備份檔案還可以複製到遠程後端或雲端儲存空間。
         en: |
-        Exchange Rate Provider: https://exchangerate.host. In addition to local storage on the device, the backup file can be copied to a remote backend.
+          Exchange Rate Provider: https://exchangerate.host. In addition to local storage on the device, the backup file can be copied to a remote backend.
   -
     - 3.3.2
     - "2021-06-15"
