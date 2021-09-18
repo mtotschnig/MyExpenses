@@ -969,4 +969,18 @@
     <string name="backup_save_to_sync_backend">%s ಗೆ ಉಳಿಸಿ</string>
     <string name="pref_news_title">ಸುದ್ದಿ</string>
     <string name="new_version">ಹೊಸ ಆವೃತ್ತಿ</string>
+    <string name="debt_managment">ಸಾಲ ನಿರ್ವಹಣೆ</string>
+    <string name="object_sealed_debt">ವಸ್ತುವು ಮುಚ್ಚಿದ ಸಾಲವನ್ನು ಸೂಚಿಸುತ್ತದೆ.</string>
+    <plurals name="debt_mapped_transactions">
+        <item quantity="one">%1$s ಸಾಲವು %2$d ಮ್ಯಾಪ್ ಮಾಡಿದ ವಹಿವಾಟನ್ನು ಹೊಂದಿದೆ.</item>
+        <item quantity="other">%1$s ಸಾಲವು %2$d ಮ್ಯಾಪ್ ಮಾಡಿದ ವಹಿವಾಟುಗಳನ್ನು ಹೊಂದಿದೆ.</item>
+    </plurals>
+    <string name="dialog_title_delete_debt">ಸಾಲವನ್ನು ಅಳಿಸುವುದೇ\?</string>
+    <string name="dialog_confirm_discard_new_debt">ಹೊಸ ಸಾಲವನ್ನು ತಿರಸ್ಕರಿಸುವುದೇ\?</string>
+    <string name="warning_party_delete_debt">ಈ ಪಕ್ಷವನ್ನು ಅಳಿಸುವಾಗ, ಅದಕ್ಕೆ ವ್ಯಾಖ್ಯಾನಿಸಲಾದ ಸಾಲಗಳನ್ನು ಸಹ ಅಳಿಸಲಾಗುತ್ತದೆ.</string>
+    <string name="debts">ಸಾಲಗಳು</string>
+    <string name="debt_I_owe">ನಾನು %s ಗೆ ಣಿಯಾಗಿದ್ದೇನೆ</string>
+    <string name="debt_owes_me">%s ನನಗೆ ಣಿಯಾಗಿದೆ</string>
+    <string name="menu_new_debt">ಹೊಸ ಸಾಲ</string>
+    <string name="dialog_title_warning_delete_party">ಪಾರ್ಟಿಯನ್ನು ಅಳಿಸುವುದೇ\?</string>
 </resources>
