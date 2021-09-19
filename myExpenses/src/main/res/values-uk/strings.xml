@@ -35,7 +35,6 @@
     <string name="already_defined">%1$s уже визначено</string>
     <string name="amount">Сума</string>
     <string name="app_name">Мої Витрати</string>
-    <string name="backup_failure">Не вдалось виконати резервне копіювання до \"%1$s\".</string>
     <string name="backup_success">Бази даних та налаштування успішно записані на \"%1$s\".</string>
     <string name="category">Категорія</string>
     <string name="color">Колір</string>
@@ -102,7 +101,6 @@
     <string name="dialog_remind_rate_yes">Оцінити зараз</string>
     <string name="dialog_security_answer">Відповідь</string>
     <string name="dialog_security_question">Запитання</string>
-    <string name="dialog_title_attention">Увага</string>
     <string name="dialog_title_information">Інформація</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Баланс %1$s</string>
@@ -258,8 +256,6 @@
     <string name="plan_event_deleted">План, пов\'язаний із цим шаблоном, видалено з календаря.</string>
     <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">Виконання плану скасовано</string>
-    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
-    <string name="plan_manual">вручну</string>
     <string name="planner_create_calendar_failure">Неможливо створити локальний календар планів</string>
     <string name="planner_create_calendar_success">Локальний календар планів успішно створено</string>
     <!-- payment methods -->

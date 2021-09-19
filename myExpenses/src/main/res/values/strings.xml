@@ -35,7 +35,6 @@
     <string name="already_defined">%1$s already defined</string>
     <string name="amount">Amount</string>
     <string name="app_name">My Expenses</string>
-    <string name="backup_failure">Backup to \"%1$s\" failed.</string>
     <string name="backup_success">Database and preferences successfully written to \"%1$s\".</string>
     <string name="category">Category</string>
     <string name="color">Color</string>
@@ -104,7 +103,6 @@
     <string name="dialog_remind_rate_yes">Rate now</string>
     <string name="dialog_security_answer">Answer</string>
     <string name="dialog_security_question">Question</string>
-    <string name="dialog_title_attention">Attention</string>
     <string name="dialog_title_information">Information</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Balance %1$s</string>
@@ -265,7 +263,6 @@
     <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">Plan execution canceled</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
-    <string name="plan_manual">manual</string>
     <string name="planner_create_calendar_failure">Unable to create local planner calendar</string>
     <string name="planner_create_calendar_success">Local planner calendar successfully created</string>
     <!-- payment methods -->
@@ -312,7 +309,7 @@
     <string name="pref_manage_categories_title">Categories</string>
     <string name="pref_manage_methods_summary">Create and edit payment methods and associate them with account types.</string>
     <string name="pref_manage_methods_title">Payment methods</string>
-    <string name="pref_manage_parties_summary">Add, edit, delete parties (payers and payees).</string>
+    <string name="pref_manage_parties_summary" tools:ignore="UnusedResources">Add, edit, delete parties (payers and payees).</string>
     <string name="pref_manage_parties_title">Parties</string>
     <string name="pref_manage_sync_backends_title">Synchronization backends</string>
     <!-- %s will be replaced with list of backends -->
@@ -839,7 +836,7 @@
     <string name="pref_plan_executor_time_title">Planner notification time</string>
     <string name="synchronization_select_folder_dialog_title">Select an existing folder or create a new one</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->
-    <string name="discover_feature_expense_income_switch">Use this switch button to record income.</string>
+    <string name="discover_feature_expense_income_switch" tools:ignore="UnusedResources">Use this switch button to record income.</string>
     <string name="menu_create_budget">New budget</string>
     <string name="budget_onetime">One-time</string>
     <string name="dialog_confirm_discard_new_budget">Discard new budget?</string>
@@ -940,7 +937,7 @@
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">Please select a licence package.</string>
     <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
-    <string name="discover_feature_fab_long_press">Tap and hold the flotating action button in order to directly open the form for transfers, split transactions or income.</string>
+    <string name="discover_feature_fab_long_press" tools:ignore="UnusedResources">Tap and hold the floating action button in order to directly open the form for transfers, split transactions or income.</string>
     <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
     <string name="advance_exexcution_in_days">Advance execution (in days)</string>
     <string name="warning_balance_account_delete">If you proceed, all reconciled transactions of this account will be deleted from the database and you will not be able to restore them.</string>
@@ -1001,11 +998,11 @@
     <!-- This is used on a recurring basis in Changelog entries -->
     <string name="ui_refinement">Refinement of the user interface</string>
     <!-- This is used on a recurring basis in Changelog entries -->
-    <string name="bug_fixes">Bug fixes</string>
+    <string name="bug_fixes" tools:ignore="UnusedResources">Bug fixes</string>
     <!-- This is used on a recurring basis in Changelog entries -->
-    <string name="performance_enhancement">Performance enhancement</string>
+    <string name="performance_enhancement" tools:ignore="UnusedResources">Performance enhancement</string>
     <!-- This is used on a recurring basis in Changelog entries -->
-    <string name="stability_improvements">Stability improvements</string>
+    <string name="stability_improvements" tools:ignore="UnusedResources">Stability improvements</string>
     <string name="new_version">New version</string>
     <string name="menu_new_debt">New debt</string>
     <string name="debt_owes_me">%s owes me</string>

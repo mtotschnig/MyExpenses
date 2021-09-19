@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
     <issue id="UnusedResources">
-        <ignore path="src/main/res/values/upgrade.xml" />
+        <ignore path="src/main/res/values/upgrade_legacy.xml" />
+        <ignore path="src/main/res/values/version_info.xml" />
         <ignore path="src/main/categoryIcons" />
     </issue>
     <issue id="UnusedQuantity">

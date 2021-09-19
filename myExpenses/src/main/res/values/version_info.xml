@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Facebook -->
+    <string name="version_more_info_310">793834357808329</string>
+    <string name="version_more_info_311">2590210351240427</string>
+    <string name="version_more_info_312">2604944273100368</string>
+    <string name="version_more_info_313">2677572629170865</string>
+    <string name="version_more_info_314">2716940141900780</string>
+    <string name="version_more_info_315">2733962776865183</string>
+    <string name="version_more_info_316">2741460342782093</string>
+    <string name="version_more_info_317">2755797368015057</string>
+    <string name="version_more_info_318">2760165394244921</string>
+    <string name="version_more_info_319">2768864520041675</string>
+    <string name="version_more_info_320">2773874729540654</string>
+    <string name="version_more_info_321">2786000138328113</string>
+    <string name="version_more_info_322">2811630932431700</string>
+    <string name="version_more_info_323">2815938965334230</string>
+    <string name="version_more_info_324">2829170794011047</string>
+    <string name="version_more_info_325">2844975219097271</string>
+    <string name="version_more_info_326">2850988161829310</string>
+    <string name="version_more_info_327">2855988281329298</string>
+    <string name="version_more_info_328">2864490073812452</string>
+    <string name="version_more_info_329">2872253503036109</string>
+    <string name="version_more_info_330">2878062012455258</string>
+    <string name="version_more_info_331">2902101723384620</string>
+    <string name="version_more_info_332">2913424232252369</string>
+
+    <!-- Mastodon -->
+    <string name="version_more_info_333">106547283868308478</string>
+    <string name="version_more_info_3331">106597177266390788</string>
+
+    <!-- Github -->
+    <string name="project_board_314">30#column-10686300</string>
+    <string name="project_board_315">31#column-11152071</string>
+    <string name="project_board_316">32#column-11377778</string>
+    <string name="project_board_317">34#column-11664847</string>
+    <string name="project_board_318">35#column-11734963</string>
+    <string name="project_board_319">33#column-11450748</string>
+    <string name="project_board_320">36#column-11936717</string>
+    <string name="project_board_321">37#column-11936721</string>
+    <string name="project_board_322">38#column-12291166</string>
+    <string name="project_board_323">41#column-12654018</string>
+    <string name="project_board_324">42#column-12850531</string>
+    <string name="project_board_325">44#column-13183753</string>
+    <string name="project_board_326">46#column-13353640</string>
+    <string name="project_board_327">47#column-13500972</string>
+    <string name="project_board_328">48#column-13591495</string>
+    <string name="project_board_329">49#column-13853714</string>
+    <string name="project_board_330">50#column-13929647</string>
+    <string name="project_board_331">52#column-14150674</string>
+    <string name="project_board_332">54#column-14601926</string>
+    <string name="project_board_333">55#column-14888706</string>
+    <string name="project_board_3331">56#column-15144599</string>
+</resources>

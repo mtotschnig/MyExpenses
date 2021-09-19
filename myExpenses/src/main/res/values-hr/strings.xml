@@ -33,7 +33,6 @@
     <string name="already_defined">%1$s je već spremljen</string>
     <string name="amount">Iznos</string>
     <string name="app_name">Moji troškovi</string>
-    <string name="backup_failure">Izrada sigurnosne kopije na „%1$s” nije uspjela.</string>
     <string name="backup_success">Baza podataka i osobne postavke uspješno su zapisani u „%1$s”.</string>
     <string name="category">Kategorija</string>
     <string name="color">Boja</string>
@@ -77,7 +76,6 @@
     <string name="dialog_remind_rate_yes">Ocijeni</string>
     <string name="dialog_security_answer">Odgovor</string>
     <string name="dialog_security_question">Pitanje</string>
-    <string name="dialog_title_attention">Oprez</string>
     <string name="dialog_title_information">Informacije</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Uskladi saldo računa %1$s</string>
@@ -226,8 +224,6 @@
     <string name="plan_event_deleted">Plan povezan s ovim predloškom je izbrisan iz kalendara.</string>
     <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">Izvedba plana je prekinuta</string>
-    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
-    <string name="plan_manual">ručno</string>
     <string name="planner_create_calendar_failure">Neuspjela izrada lokalnog kalendara planova</string>
     <string name="planner_create_calendar_success">Lokalni kalendar planova uspješno stvoren</string>
     <!-- payment methods -->

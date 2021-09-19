@@ -35,7 +35,6 @@
     <string name="already_defined">%1$s ಅನ್ನು ಈಗಾಗಲೇ ವ್ಯಾಖ್ಯಾನಿಸಲಾಗಿದೆ</string>
     <string name="amount">ಮೊತ್ತ</string>
     <string name="app_name">ಮೈ ಎಕ್ಸಪೆನ್ಸಸ್</string>
-    <string name="backup_failure">\"%1$s\" ಗೆ ಬ್ಯಾಕಪ್ ವಿಫಲವಾಗಿದೆ.</string>
     <string name="backup_success">ಡೇಟಾಬೇಸ್ ಮತ್ತು ಪ್ರಾಶಸ್ತ್ಯಗಳನ್ನು \"%1$s\" ಗೆ ಯಶಸ್ವಿಯಾಗಿ ಬರೆಯಲಾಗಿದೆ.</string>
     <string name="category">ವರ್ಗ</string>
     <string name="color">ಬಣ್ಣ</string>
@@ -104,7 +103,6 @@
     <string name="dialog_remind_rate_yes">ರೇಟ್ ಮಾಡಿ</string>
     <string name="dialog_security_answer">ಉತ್ತರ</string>
     <string name="dialog_security_question">ಪ್ರಶ್ನೆ</string>
-    <string name="dialog_title_attention">ಗಮನ</string>
     <string name="dialog_title_information">ಮಾಹಿತಿ</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">ಬಾಕಿ ಮೊತ್ತ %1$s</string>
@@ -262,8 +260,6 @@
     <string name="plan_event_deleted">ಈ ಟೆಂಪ್ಲೇಟ್‌ಗೆ ಸಂಬಂಧಿಸಿದ ಯೋಜನೆಯನ್ನು ಕ್ಯಾಲೆಂಡರ್‌ನಿಂದ ಅಳಿಸಲಾಗಿದೆ.</string>
     <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">ಯೋಜನೆ ಕಾರ್ಯಗತಗೊಳಿಸುವಿಕೆಯನ್ನು ರದ್ದುಪಡಿಸಲಾಗಿದೆ</string>
-    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
-    <string name="plan_manual">ಕೈಪಿಡಿ</string>
     <string name="planner_create_calendar_failure">ಸ್ಥಳೀಯ ಯೋಜಕ ಕ್ಯಾಲೆಂಡರ್ ರಚಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ</string>
     <string name="planner_create_calendar_success">ಸ್ಥಳೀಯ ಯೋಜಕ ಕ್ಯಾಲೆಂಡರ್ ಅನ್ನು ಯಶಸ್ವಿಯಾಗಿ ರಚಿಸಲಾಗಿದೆ</string>
     <!-- payment methods -->

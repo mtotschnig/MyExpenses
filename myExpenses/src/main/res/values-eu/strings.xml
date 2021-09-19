@@ -35,7 +35,6 @@
     <string name="already_defined">%1$s badago definituta</string>
     <string name="amount">Kopurua</string>
     <string name="app_name">Nire gastuak</string>
-    <string name="backup_failure">Huts egin du \"%1$s\"-ra babeskopiak.</string>
     <string name="backup_success">Datu-basea eta hobespenak ondo idatzi dira \"%1$s\"-ra.</string>
     <string name="category">Kategoria</string>
     <string name="color">Kolorea</string>
@@ -104,7 +103,6 @@
     <string name="dialog_remind_rate_yes">Baloratu orain</string>
     <string name="dialog_security_answer">Erantzuna</string>
     <string name="dialog_security_question">Galdera</string>
-    <string name="dialog_title_attention">Adi</string>
     <string name="dialog_title_information">Informazioa</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">%1$s saldoa</string>
@@ -262,8 +260,6 @@
     <string name="plan_event_deleted">Txantiloi honi lotutako plana egutegitik ezabatu da.</string>
     <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">Planaren exekuzioa bertan behera utzi da</string>
-    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
-    <string name="plan_manual">eskuz</string>
     <string name="planner_create_calendar_failure">Ezin izan da planifikatzailearen tokiko egutegia sortu</string>
     <string name="planner_create_calendar_success">Planifikatzailearen tokiko egutegia ondo sortu da</string>
     <!-- payment methods -->

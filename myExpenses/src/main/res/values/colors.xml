@@ -25,7 +25,6 @@
     <color name="primaryLightColor">#6085DC</color>
     <color name="primaryLightestColor">#96AFE8</color>
     <color name="primaryDarkColor">#002977</color>
-    <color name="primaryTextColor">#ffffff</color>
 
     <color name="appDefault">#ffc107</color>
     <color name="emphasis">#31b6e7</color>

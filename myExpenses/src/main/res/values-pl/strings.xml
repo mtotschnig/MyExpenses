@@ -35,7 +35,6 @@
     <string name="already_defined">%1$s jest już zdefiniowane</string>
     <string name="amount">Kwota</string>
     <string name="app_name">Moje Wydatki</string>
-    <string name="backup_failure">Wykonanie kopii zapasowej na kartę pamięci nie powiodło się (%1$s).</string>
     <string name="backup_success">Baza danych oraz preferencje zostały zapisane na kartę pamięci pomyślnie (%1$s).</string>
     <string name="category">Kategoria</string>
     <string name="color">Kolor</string>
@@ -104,7 +103,6 @@
     <string name="dialog_remind_rate_yes">Oceń teraz</string>
     <string name="dialog_security_answer">Odpowiedź</string>
     <string name="dialog_security_question">Pytanie</string>
-    <string name="dialog_title_attention">Uwaga</string>
     <string name="dialog_title_information">Informacja</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Saldo %1$s</string>
@@ -263,8 +261,6 @@
     <string name="plan_event_deleted">Plan skojarzony z tym szablonem został usunięty z kalendarza.</string>
     <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">Wykonanie planu anulowane</string>
-    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
-    <string name="plan_manual">ręcznie</string>
     <string name="planner_create_calendar_failure">Nie można utworzyć lokalnego kalendarza planowania</string>
     <string name="planner_create_calendar_success">Lokalny kalendarz planowania został utworzony pomyślnie</string>
     <!-- payment methods -->

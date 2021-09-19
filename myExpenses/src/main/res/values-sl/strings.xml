@@ -32,7 +32,6 @@
     <string name="account_type_liability_plural">Računi obveznosti</string>
     <string name="already_defined">%1$s že določeno</string>
     <string name="amount">Znesek</string>
-    <string name="backup_failure">Varnostno kopiranje na \"%1$s\" ni uspelo.</string>
     <string name="color">Barva</string>
     <string name="comment">Zabeležke</string>
     <string name="confirmation_dialog_dont_show_again">Ne prikaži več</string>

@@ -35,7 +35,6 @@
     <string name="already_defined">%1$s già definita</string>
     <string name="amount">Importo</string>
     <string name="app_name">Le mie spese</string>
-    <string name="backup_failure">Il backup su «%1$s» non è riuscito.</string>
     <string name="backup_success">La base di dati e le impostazioni sono state salvate correttamente su «%1$s».</string>
     <string name="category">Categoria</string>
     <string name="color">Colore</string>
@@ -104,7 +103,6 @@
     <string name="dialog_remind_rate_yes">Vota ora</string>
     <string name="dialog_security_answer">Risposta</string>
     <string name="dialog_security_question">Domanda</string>
-    <string name="dialog_title_attention">Attenzione</string>
     <string name="dialog_title_information">Informazioni</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Bilanciare %1$s</string>
@@ -263,8 +261,6 @@
     <string name="plan_event_deleted">Il piano associato a questo modello è stato eliminato dal calendario.</string>
     <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">Esecuzione del piano annullata</string>
-    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
-    <string name="plan_manual">manuale</string>
     <string name="planner_create_calendar_failure">Impossibile creare un calendario di pianificazione locale</string>
     <string name="planner_create_calendar_success">Calendario di pianificazione locale creato con successo</string>
     <!-- payment methods -->

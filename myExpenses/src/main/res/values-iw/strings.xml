@@ -35,7 +35,6 @@
     <string name="already_defined">%1$sכבר מוגדר</string>
     <string name="amount">סכום</string>
     <string name="app_name">ההוצאות שלי</string>
-    <string name="backup_failure">הגיבוי אל „%1$s” נכשל.</string>
     <string name="backup_success">מסד הנתונים וההעדפות נכתבים בהצלחה ל- \"%1$s\".</string>
     <string name="category">קטגוריה</string>
     <string name="color">צבע</string>
@@ -104,7 +103,6 @@
     <string name="dialog_remind_rate_yes">דרג עכשיו</string>
     <string name="dialog_security_answer">תשובה</string>
     <string name="dialog_security_question">שאלה</string>
-    <string name="dialog_title_attention">תשומת לב</string>
     <string name="dialog_title_information">מידע</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">מאזן %1$s</string>
@@ -269,8 +267,6 @@
     <string name="plan_event_deleted">התוכנית המשויכת לתבנית זו נמחקה מהיומן.</string>
     <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">ביצוע התוכנית בוטל</string>
-    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
-    <string name="plan_manual">ידנית</string>
     <string name="planner_create_calendar_failure">לא ניתן ליצור יומן תכנון מקומי</string>
     <string name="planner_create_calendar_success">יומן תכנון מקומי יוצר בהצלחה</string>
     <!-- payment methods -->

@@ -35,7 +35,6 @@
     <string name="already_defined">%1$s 已被定义</string>
     <string name="amount">金额</string>
     <string name="app_name">开支助手</string>
-    <string name="backup_failure">备份到\"%1$s\"失败.</string>
     <string name="backup_success">数据库及喜好设置成功写入到\"%1$s\".</string>
     <string name="category">类别</string>
     <string name="color">颜色</string>
@@ -104,7 +103,6 @@
     <string name="dialog_remind_rate_yes">现在评分</string>
     <string name="dialog_security_answer">答案</string>
     <string name="dialog_security_question">安全问题</string>
-    <string name="dialog_title_attention">注意</string>
     <string name="dialog_title_information">信息</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">结平%1$s</string>
@@ -260,8 +258,6 @@
     <string name="plan_event_deleted">与此模板关联的计划已从日历中删除。</string>
     <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">计划执行已取消</string>
-    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
-    <string name="plan_manual">手动应用</string>
     <string name="planner_create_calendar_failure">无法创建本地规划日历</string>
     <string name="planner_create_calendar_success">本地规划日历已成功创建</string>
     <!-- payment methods -->

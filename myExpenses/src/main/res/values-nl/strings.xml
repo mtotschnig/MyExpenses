@@ -32,7 +32,6 @@
     <string name="already_defined">%1$s bestaat al</string>
     <string name="amount">Bedrag</string>
     <string name="app_name">My Expenses</string>
-    <string name="backup_failure">Backup in \"%1$s\" is mislukt.</string>
     <string name="backup_success">Database en voorkeuren succesvol geschreven naar \"%1$s\".</string>
     <string name="category">Categorie</string>
     <string name="color">Kleur</string>

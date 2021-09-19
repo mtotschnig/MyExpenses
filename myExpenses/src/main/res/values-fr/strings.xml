@@ -35,7 +35,6 @@
     <string name="already_defined">%1$s existe</string>
     <string name="amount">Montant</string>
     <string name="app_name">Mes dépenses</string>
-    <string name="backup_failure">La sauvegarde sur « %1$s » a échoué.</string>
     <string name="backup_success">La base de données et les paramètres ont été sauvegardés sur « %1$s ».</string>
     <string name="category">Catégorie</string>
     <string name="color">Couleur</string>
@@ -104,7 +103,6 @@
     <string name="dialog_remind_rate_yes">D\'accord</string>
     <string name="dialog_security_answer">Réponse</string>
     <string name="dialog_security_question">Question</string>
-    <string name="dialog_title_attention">Attention</string>
     <string name="dialog_title_information">Information</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Rapprochement %1$s</string>
@@ -263,8 +261,6 @@
     <string name="plan_event_deleted">L\'échéance associée à ce modèle a été effacée du calendrier.</string>
     <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">Exécution de l\'échéance annulée</string>
-    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
-    <string name="plan_manual">manuelle</string>
     <string name="planner_create_calendar_failure">Impossible de créer un échéancier local</string>
     <string name="planner_create_calendar_success">Échéancier créé avec succès</string>
     <!-- payment methods -->

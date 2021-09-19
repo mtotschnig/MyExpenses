@@ -35,7 +35,6 @@
     <string name="already_defined">%1$s már létezik</string>
     <string name="amount">Összeg</string>
     <string name="app_name">Kiadásaim</string>
-    <string name="backup_failure">Nem sikerült az adatokat SD-kártyára menteni (%1$s)</string>
     <string name="backup_success">Az adatbázis és beállítások sikeresen az SD-kártyára mentve (%1$s).</string>
     <string name="category">Kategória</string>
     <string name="color">Szín</string>
@@ -104,7 +103,6 @@
     <string name="dialog_remind_rate_yes">Értékelje most</string>
     <string name="dialog_security_answer">Válasz</string>
     <string name="dialog_security_question">Kérdés</string>
-    <string name="dialog_title_attention">Figyelem</string>
     <string name="dialog_title_information">Információk</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Egyenleg %1$s</string>
@@ -263,8 +261,6 @@
     <string name="plan_event_deleted">A sablonhoz kapcsolt tervet töröltük a naptárból.</string>
     <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">Terv futtatása leállítva</string>
-    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
-    <string name="plan_manual">kézi</string>
     <string name="planner_create_calendar_failure">Helyi terv-naptár készítése nem sikerült</string>
     <string name="planner_create_calendar_success">Helyi terv-naptár készítése sikeres</string>
     <!-- payment methods -->

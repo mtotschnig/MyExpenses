@@ -35,7 +35,6 @@
     <string name="already_defined">%1$s पहले से ही परिभाषित</string>
     <string name="amount">राशि</string>
     <string name="app_name">मेरे खर्च</string>
-    <string name="backup_failure">\"%1$s\"  के लिए बैकअप विफ़ल.</string>
     <string name="category"> श्रेणी</string>
     <string name="color">रंग</string>
     <string name="comment">टिप्पणियाँ</string>
@@ -85,7 +84,6 @@
     <string name="dialog_remind_rate_yes">मूल्यांकन करें</string>
     <string name="dialog_security_answer">उत्तर</string>
     <string name="dialog_security_question">प्रश्न</string>
-    <string name="dialog_title_attention">ध्यान दे</string>
     <string name="dialog_title_information">जानकारी</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">बैलेंस %1$s</string>
@@ -204,8 +202,6 @@
     <string name="plan">नियोजन</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
     <string name="plan_automatic">स्वचालित</string>
-    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
-    <string name="plan_manual">गाइड</string>
     <!-- payment methods -->
     <string name="pm_cheque">चेक</string>
     <string name="pm_creditcard">क्रेडिट कार्ड</string>

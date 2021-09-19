@@ -35,7 +35,6 @@
     <string name="already_defined">%1$s вече е дефинирана</string>
     <string name="amount">Сума</string>
     <string name="app_name">Моите разходи</string>
-    <string name="backup_failure">Неуспешно архивиране в „%1$s“.</string>
     <string name="backup_success">Успешен запис на база данни и предпочитания в „%1$s“.</string>
     <string name="category">Категория</string>
     <string name="color">Цвят</string>
@@ -104,7 +103,6 @@
     <string name="dialog_remind_rate_yes">Оценете сега</string>
     <string name="dialog_security_answer">Отговор</string>
     <string name="dialog_security_question">Въпрос</string>
-    <string name="dialog_title_attention">Внимание</string>
     <string name="dialog_title_information">Информация</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Баланс %1$s</string>
@@ -263,8 +261,6 @@
     <string name="plan_event_deleted">Планът, свързан с този шаблон, е изтрит от календара.</string>
     <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">Изпълнението на плана е отменено</string>
-    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
-    <string name="plan_manual">ръчно</string>
     <string name="planner_create_calendar_failure">Не може да се зададе локален календарен план</string>
     <string name="planner_create_calendar_success">Успешно зададен локален календарен план</string>
     <!-- payment methods -->

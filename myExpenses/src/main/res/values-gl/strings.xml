@@ -26,7 +26,6 @@
     <string name="already_defined">%1$s xa definida</string>
     <string name="amount">Importe</string>
     <string name="app_name">Os meus gastos</string>
-    <string name="backup_failure">Erro na copia de seguranza \"%1$s\".</string>
     <string name="category">Categoría</string>
     <string name="color">Cor</string>
     <string name="comment">Notas</string>
@@ -61,7 +60,6 @@
     <string name="dialog_remind_rate_yes">Valorar agora</string>
     <string name="dialog_security_answer">Resposta</string>
     <string name="dialog_security_question">Pregunta</string>
-    <string name="dialog_title_attention">Atención</string>
     <string name="dialog_title_information">Información</string>
     <string name="dialog_title_contrib_feature">Funcionalidade Premium</string>
     <string name="dialog_title_warning_delete_template">Eliminar modelo?</string>
@@ -155,8 +153,6 @@
     <string name="plan_automatic">automático</string>
     <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">Execución do plan cancelada</string>
-    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
-    <string name="plan_manual">manual</string>
     <!-- payment methods -->
     <string name="pm_cheque">Cheque</string>
     <string name="pm_creditcard">Tarxeta de crédito</string>

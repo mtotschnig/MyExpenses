@@ -23,7 +23,6 @@
     <string name="already_defined">%1$s දැනටමත් අර්ථ දක්වා ඇත</string>
     <string name="amount">ප්‍රමාණය</string>
     <string name="app_name">මාගේ වියදම්</string>
-    <string name="backup_failure">\\1$s\" ට උපස්ථ කිරීම අසමත්විය</string>
     <string name="backup_success">දත්ත සමූහය සහ අභිමත සාර්ථකව \"%1$s\" ට ලියන ලදි.</string>
     <string name="category">ප්‍රවර්ගය</string>
     <string name="color">පාට </string>
@@ -58,7 +57,6 @@
     <string name="dialog_remind_rate_yes">වටිනාකම නියම කිරන්න </string>
     <string name="dialog_security_answer">පිළිතුර </string>
     <string name="dialog_security_question">ප්‍රශ්නය </string>
-    <string name="dialog_title_attention">අවධානයයි </string>
     <string name="dialog_title_contrib_feature">පාරිතෝෂික අංග </string>
     <string name="dialog_title_warning_delete_template">අච්චුව මකාදමන්න?</string>
     <string name="dialog_title_warning_delete_transaction">ගනුදෙනුව   මකාදමන්න?</string>
@@ -191,8 +189,6 @@
     <string name="plan_event_deleted">මෙම අච්චුව සමග සම්බන්ද වී තිබු සැලසුම දිනදර්ශනයෙන් ඉවත් කර ඇත </string>
     <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">සැලසුම ක්‍රියාවෙහි යෙදවීම අසාර්තකයි </string>
-    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
-    <string name="plan_manual">කාර්ය සංග්‍රහය</string>
     <string name="planner_create_calendar_failure">පරිස්ථානීය සැලසුම් කිරීමේ දිනදර්ශනයක් නිර්මාණය කිරිමට නොහැකි විය </string>
     <string name="planner_create_calendar_success">පරිස්ථානීය සැලසුම්  දින දර්ශනයක් නිර්මාණය කිරීම සාර්ථකයි </string>
     <!-- payment methods -->

@@ -35,7 +35,6 @@
     <string name="already_defined">%1$s existiert bereits</string>
     <string name="amount">Betrag</string>
     <string name="app_name">Meine Ausgaben</string>
-    <string name="backup_failure">Die Datensicherung nach „%1$s“ ist gescheitert.</string>
     <string name="backup_success">Die Datenbank und die Einstellungen wurden erfolgreich nach „%1$s“ gesichert.</string>
     <string name="category">Kategorie</string>
     <string name="color">Farbe</string>
@@ -104,7 +103,6 @@
     <string name="dialog_remind_rate_yes">Jetzt bewerten</string>
     <string name="dialog_security_answer">Antwort</string>
     <string name="dialog_security_question">Frage</string>
-    <string name="dialog_title_attention">Achtung</string>
     <string name="dialog_title_information">Informationen</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">%1$s abstimmen</string>
@@ -263,8 +261,6 @@
     <string name="plan_event_deleted">Der mit dieser Vorlage verknüpfte Plan wurde aus dem Kalender gelöscht.</string>
     <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">Durchführung des Plans abgebrochen</string>
-    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
-    <string name="plan_manual">manuell</string>
     <string name="planner_create_calendar_failure">Lokaler Kalender konnte nicht angelegt werden</string>
     <string name="planner_create_calendar_success">Lokaler Kalender erfolgreich angelegt</string>
     <!-- payment methods -->

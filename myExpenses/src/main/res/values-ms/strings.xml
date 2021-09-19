@@ -35,7 +35,6 @@
     <string name="already_defined">%1$s sudah ditakrif</string>
     <string name="amount">Amaun</string>
     <string name="app_name">Perbelanjaan Saya</string>
-    <string name="backup_failure">Sandar ke \"%1$s\" mengalami kegagalan.</string>
     <string name="backup_success">Pengkalan data dan keutamaan berjaya ditulis ke \"%1$s\".</string>
     <string name="category">Kategori</string>
     <string name="color">Warna</string>
@@ -104,7 +103,6 @@
     <string name="dialog_remind_rate_yes">Beri penarafan sekarang</string>
     <string name="dialog_security_answer">Jawapan</string>
     <string name="dialog_security_question">Soalan</string>
-    <string name="dialog_title_attention">Perhatian</string>
     <string name="dialog_title_information">Maklumat</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Baki %1$s</string>
@@ -258,8 +256,6 @@
     <string name="plan_event_deleted">Plan berkaitan dengan templat ini telah dipadam dari kalendar.</string>
     <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">Pelakuan plan dibatalkan</string>
-    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
-    <string name="plan_manual">manual</string>
     <string name="planner_create_calendar_failure">Tidak boleh cipta kalendar perancang setempat</string>
     <string name="planner_create_calendar_success">Kalendar perancang setempat berjaya dicipta</string>
     <!-- payment methods -->

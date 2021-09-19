@@ -35,7 +35,6 @@
     <string name="already_defined">%1$s zaten tanımlanmış</string>
     <string name="amount">Miktar</string>
     <string name="app_name">Harcamalarım</string>
-    <string name="backup_failure">SD kartına yedekleme başarısız oldu (%1$s).</string>
     <string name="backup_success">Veri tabanı ve tercihler \"%1$s\" konumuna başarıyla yazıldı.</string>
     <string name="category">Kategori</string>
     <string name="color">Renk</string>
@@ -104,7 +103,6 @@
     <string name="dialog_remind_rate_yes">Şimdi not ver</string>
     <string name="dialog_security_answer">Cevap</string>
     <string name="dialog_security_question">Soru</string>
-    <string name="dialog_title_attention">Dikkat</string>
     <string name="dialog_title_information">Bilgi</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">%1$s unsurunu uzlaştır</string>
@@ -263,8 +261,6 @@
     <string name="plan_event_deleted">Bu şablonla ilişkili planlama takvimden silindi.</string>
     <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">Planı yürütme iptal edildi</string>
-    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
-    <string name="plan_manual">el ile</string>
     <string name="planner_create_calendar_failure">Yerel planlama takvimi oluşturulamadı</string>
     <string name="planner_create_calendar_success">Yerel planlama takvimi başarıyla oluşturuldu</string>
     <!-- payment methods -->

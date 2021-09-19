@@ -35,7 +35,6 @@
     <string name="already_defined">%1$s deja există</string>
     <string name="amount">Valoare</string>
     <string name="app_name">Cheltuielile Mele</string>
-    <string name="backup_failure">Backup la \"%1$s\" eşuat.</string>
     <string name="backup_success">Preferinţele şi baza de date au fost salvate la \"%1$s\".</string>
     <string name="category">Categorie</string>
     <string name="color">Culoare</string>
@@ -87,7 +86,6 @@
     <string name="dialog_remind_rate_yes">De acord</string>
     <string name="dialog_security_answer">Răspuns</string>
     <string name="dialog_security_question">Întrebare</string>
-    <string name="dialog_title_attention">Atenţie</string>
     <string name="dialog_title_information">Informare</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Sold  %1$s</string>
@@ -244,8 +242,6 @@
     <string name="plan_event_deleted">Scadenţa asociată acestui șablon a fost şters din calendar.</string>
     <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">Executarea planului anulată</string>
-    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
-    <string name="plan_manual">manual</string>
     <string name="planner_create_calendar_failure">Imposibil de creat calendar local scadenţă </string>
     <string name="planner_create_calendar_success">Calendar local scadenţă creat </string>
     <!-- payment methods -->

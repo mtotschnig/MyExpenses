@@ -35,7 +35,6 @@
     <string name="already_defined">%1$s již definován.</string>
     <string name="amount">Částka</string>
     <string name="app_name">Moje výdaje</string>
-    <string name="backup_failure">Záloha na \"%1$s\" se nezdařila.</string>
     <string name="backup_success">Databáze a předvolby úspěšně zapsány do \"%1$s\".</string>
     <string name="category">Kategorie</string>
     <string name="color">Barva</string>
@@ -104,7 +103,6 @@
     <string name="dialog_remind_rate_yes">Ohodnoťte nyní</string>
     <string name="dialog_security_answer">Odpověď</string>
     <string name="dialog_security_question">Otázka</string>
-    <string name="dialog_title_attention">Pozor</string>
     <string name="dialog_title_information">Informace</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Zůstatek účtu %1$s</string>
@@ -269,8 +267,6 @@
     <string name="plan_event_deleted">Plán spojený s touto předlohou byl odstraněn z kalendáře.</string>
     <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">Plán vykonání zrušeno</string>
-    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
-    <string name="plan_manual">manuálně</string>
     <string name="planner_create_calendar_failure">Nelze vytvořit místní plánovací kalendář</string>
     <string name="planner_create_calendar_success">Místní plánovací kalendář byl úspěšně vytvořen</string>
     <!-- payment methods -->

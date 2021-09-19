@@ -33,7 +33,6 @@
     <string name="already_defined">%1$s កំណត់​ហើយ</string>
     <string name="amount">ចំនួនទឹកប្រាក់</string>
     <string name="app_name">ការចំណាយរបស់ខ្ញុំ</string>
-    <string name="backup_failure">បម្រុងទុកក្នុង sdcard បានបរាជ័យ។ (%1$s)</string>
     <string name="backup_success">មូលដ្ឋានទិន្នន័យ និងចំណង់ចំណូលចិត្ត​ បានស្តុក ដោយជោគជ័យទៅ sdcard ។ (%1$s)</string>
     <string name="category">ចំណាត់ថ្នាក់</string>
     <string name="color">ពណ៌</string>
@@ -72,7 +71,6 @@
     <string name="dialog_remind_rate_yes">វាយតម្លៃឥលូវ</string>
     <string name="dialog_security_answer">ចម្លើយ</string>
     <string name="dialog_security_question">សំនួរ</string>
-    <string name="dialog_title_attention">ប្រុង​ប្រយ័ត្ន</string>
     <string name="dialog_title_information">ព័ត៌មាន</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">សមតុល្យ %1$s</string>
@@ -214,8 +212,6 @@
     <string name="plan_event_deleted">គម្រោងនេះ​ភ្ជាប់នឹង​ពុម្ពនេះ​ ត្រូវបាន​លុបចេញ​ពី​ប្រតិទិន</string>
     <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">គម្រោង​ដំណើរការ​បាន​​បោះបង់ហើយ</string>
-    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
-    <string name="plan_manual">សៀវភៅតូច</string>
     <string name="planner_create_calendar_failure">មិន​អាច​​បង្កើត​​ប្រតិទិន​​ផែនការ​មូលដ្ឋាន​ទេ</string>
     <string name="planner_create_calendar_success">ប្រតិទិន​ផែនការ​មូលដ្ឋាន​បាន​បង្កើត​ដោយជោគជ័យ</string>
     <!-- payment methods -->

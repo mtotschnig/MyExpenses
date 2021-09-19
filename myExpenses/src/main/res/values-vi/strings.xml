@@ -35,7 +35,6 @@
     <string name="already_defined">%1$s đã được tạo trước đó</string>
     <string name="amount">Số lượng</string>
     <string name="app_name">My Expenses</string>
-    <string name="backup_failure">Xảy ra lỗi khi sao lưu vào \"%1$s\".</string>
     <string name="backup_success">Đã ghi dữ liệu về cơ sở dữ liệu và tùy biến thành công vào \"%1$s\".</string>
     <string name="category">Phân loại</string>
     <string name="color">Màu sắc</string>
@@ -101,7 +100,6 @@
     <string name="dialog_remind_rate_yes">Xếp hạng ngay</string>
     <string name="dialog_security_answer">Trả lời</string>
     <string name="dialog_security_question">Câu hỏi</string>
-    <string name="dialog_title_attention">Chú ý</string>
     <string name="dialog_title_information">Thông tin</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Số dư %1$s</string>
@@ -254,8 +252,6 @@
     <string name="plan_event_deleted">Kế hoạch gắn với bản mẫu này đã bị xoá khỏi lịch.</string>
     <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">Đã hủy bỏ việc thực thi kế hoạch</string>
-    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
-    <string name="plan_manual">thủ công</string>
     <string name="planner_create_calendar_failure">Không thể tạo một lịch kế hoạch trên máy</string>
     <string name="planner_create_calendar_success">Lịch kế hoạch trên máy đã được tạo thành công</string>
     <!-- payment methods -->

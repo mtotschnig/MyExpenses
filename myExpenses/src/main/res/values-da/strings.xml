@@ -33,7 +33,6 @@
     <string name="already_defined">%1$s findes allerede</string>
     <string name="amount">Beløb</string>
     <string name="app_name">Mine udgifter</string>
-    <string name="backup_failure">Sikkerhedskopieringen til \"%1$s\" mislykkedes.</string>
     <string name="backup_success">Databasen og indstillinger blev gemt på \"%1$s\".</string>
     <string name="category">Kategori</string>
     <string name="color">Farve</string>
@@ -79,7 +78,6 @@
     <string name="dialog_remind_rate_yes">Anmeld nu</string>
     <string name="dialog_security_answer">Svar</string>
     <string name="dialog_security_question">Spørgsmål</string>
-    <string name="dialog_title_attention">OBS!</string>
     <string name="dialog_title_information">Information</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Balance %1$s</string>
@@ -228,8 +226,6 @@
     <string name="plan_event_deleted">Planen der var knyttet til denne skabelon er blevet slettet fra kalenderen.</string>
     <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">Udførelsen af planen annulleret</string>
-    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
-    <string name="plan_manual">manuel</string>
     <string name="planner_create_calendar_failure">Lokal kalender kunne ikke oprettes</string>
     <string name="planner_create_calendar_success">Lokal kalender oprettet</string>
     <!-- payment methods -->

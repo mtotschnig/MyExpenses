@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="dialog_title_attention">Perhatian</string>
     <string name="dialog_security_question">Pertanyaan</string>
     <string name="dialog_security_answer">Jawaban</string>
     <string name="dialog_remind_rate_1">Sempatkan untuk menilai dan meninjau {app_name}.</string>
@@ -25,7 +24,6 @@
     <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Impor CSV</string>
     <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Templat widget</string>
     <string name="backup_success">Basis data dan preferensi berhasil ditulis ke \"%1$s\".</string>
-    <string name="backup_failure">Pencadangan ke \"%1$s\" gagal.</string>
     <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Tanpa iklan</string>
     <string name="confirmation_dialog_dont_show_again">Jangan tampilkan lagi</string>
     <string name="comment">Catatan</string>

@@ -35,7 +35,6 @@
     <string name="already_defined">%1$s је већ дефинисана</string>
     <string name="amount">Износ</string>
     <string name="app_name">Моји Трошкови</string>
-    <string name="backup_failure">Грешка у копирању \"%1$s\"</string>
     <string name="backup_success">База података и приоритета успешно уписана у \"%1$s\".</string>
     <string name="category">Категорија</string>
     <string name="color">Боја</string>

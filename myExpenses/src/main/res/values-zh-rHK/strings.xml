@@ -23,7 +23,6 @@
     <string name="already_defined">%1$s 已被定義</string>
     <string name="amount">金額</string>
     <string name="app_name">開支助手</string>
-    <string name="backup_failure">備份到SD卡失敗 (%1$s)。</string>
     <string name="backup_success">數據庫及喜好設定成功寫入到SD卡 (%1$s)。</string>
     <string name="category">類別</string>
     <string name="color">顏色</string>
@@ -172,8 +171,6 @@
     <string name="planner_notification_channel_name">規劃</string>
     <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">計劃執行已取消</string>
-    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
-    <string name="plan_manual">手動</string>
     <string name="planner_create_calendar_failure">無法建立本機日曆</string>
     <string name="planner_create_calendar_success">本機計劃日曆被成功新增</string>
     <!-- payment methods -->

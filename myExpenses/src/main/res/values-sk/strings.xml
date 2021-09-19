@@ -33,7 +33,6 @@
     <string name="already_defined">%1$s je definované</string>
     <string name="amount">Čiastka</string>
     <string name="app_name">Moje výdavky</string>
-    <string name="backup_failure">Zálohovanie do \"%1$s\" zlyhalo.</string>
     <string name="backup_success">Databáza a nastavenia sa úspešne uložili do \"%1$s\".</string>
     <string name="category">Kategória</string>
     <string name="color">Farba</string>

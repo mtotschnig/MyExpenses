@@ -35,7 +35,6 @@
     <string name="already_defined">%1$s 이미 정의됨</string>
     <string name="amount">금액</string>
     <string name="app_name">내 지출</string>
-    <string name="backup_failure">\"%1$s\"(으)로의 백업을 실패했습니다.</string>
     <string name="backup_success">\"%1$s\"에 데이터베이스 및 설정을 성공적으로 기록했습니다.</string>
     <string name="category">카테고리</string>
     <string name="color">색상</string>
@@ -90,7 +89,6 @@
     <string name="dialog_remind_rate_yes">지금 평가하기</string>
     <string name="dialog_security_answer">정답</string>
     <string name="dialog_security_question">질문</string>
-    <string name="dialog_title_attention">주목</string>
     <string name="dialog_title_information">정보</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">잔고 %1$s</string>
@@ -238,8 +236,6 @@
     <string name="plan_event_deleted">이 템플릿과 연관된 재무 계획이 캘린더에서 삭제되었습니다.</string>
     <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">재무 계획 실행 취소됨</string>
-    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
-    <string name="plan_manual">수동</string>
     <string name="planner_create_calendar_failure">로컬 플래너 캘린더를 만들 수 없습니다</string>
     <string name="planner_create_calendar_success">로컬 플래너 캘린더를 만들었습니다</string>
     <!-- payment methods -->

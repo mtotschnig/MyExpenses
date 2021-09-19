@@ -35,7 +35,6 @@
     <string name="already_defined">%1$s 已被定義</string>
     <string name="amount">金額</string>
     <string name="app_name">開支助手</string>
-    <string name="backup_failure">備份到\"%1$s\"失敗了</string>
     <string name="backup_success">數據資料和偏好設定已經成功地寫入到\"%1$s\"中</string>
     <string name="category">類別</string>
     <string name="color">顏色</string>
@@ -104,7 +103,6 @@
     <string name="dialog_remind_rate_yes">馬上評分</string>
     <string name="dialog_security_answer">答案</string>
     <string name="dialog_security_question">安全問題</string>
-    <string name="dialog_title_attention">注意</string>
     <string name="dialog_title_information">資訊</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">結平%1$s </string>
@@ -260,8 +258,6 @@
     <string name="plan_event_deleted">與此範本相關聯的計畫已從日曆中刪除。</string>
     <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">計畫執行已取消</string>
-    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
-    <string name="plan_manual">手動執行</string>
     <string name="planner_create_calendar_failure">無法建立本機計畫日曆</string>
     <string name="planner_create_calendar_success">本機計畫日曆已成功建立</string>
     <!-- payment methods -->

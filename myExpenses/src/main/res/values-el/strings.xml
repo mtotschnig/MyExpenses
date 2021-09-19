@@ -35,7 +35,6 @@
     <string name="already_defined">%1$s ήδη οριστεί</string>
     <string name="amount">Ποσό</string>
     <string name="app_name">Έξοδα μου</string>
-    <string name="backup_failure">Απέτυχε η δημιουργία αντιγράφων ασφαλείας σε sdcard (%1$s).</string>
     <string name="backup_success">Βάση δεδομένων και προτιμήσεις εγγεγραμένα με επιτυχία να sdcard (%1$s).</string>
     <string name="category">Κατηγορία</string>
     <string name="color">Χρώμα</string>
@@ -104,7 +103,6 @@
     <string name="dialog_remind_rate_yes">Βαθμολογήστε Τώρα</string>
     <string name="dialog_security_answer">Απάντηση</string>
     <string name="dialog_security_question">Ερώτηση</string>
-    <string name="dialog_title_attention">Προσοχή</string>
     <string name="dialog_title_information">Πληροφορίες</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Υπόλοιπο %1$s</string>
@@ -263,8 +261,6 @@
     <string name="plan_event_deleted">Το σχέδιο που συνδέεται με αυτό το πρότυπο έχει διαγραφεί από το ημερολόγιο.</string>
     <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">Εκτέλεση σχεδίου ακυρώθηκε</string>
-    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
-    <string name="plan_manual">εγχειρίδιο</string>
     <string name="planner_create_calendar_failure">Δεν είναι δυνατή η δημιουργία τοπικού ημερολογίου προγραμματισμού</string>
     <string name="planner_create_calendar_success">τοπικό Ημερολόγιο προγραμματισμού  δημιουργήθηκε με επιτυχία</string>
     <!-- payment methods -->

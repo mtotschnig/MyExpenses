@@ -33,7 +33,6 @@
     <string name="already_defined">%1$s ja existeix.</string>
     <string name="amount">Import</string>
     <string name="app_name">Les meves despeses</string>
-    <string name="backup_failure">Hi ha hagut un error en fer la còpia de seguretat a \"%1$s\".</string>
     <string name="backup_success">La base de dades i les preferències s\'han desat a \"%1$s\".</string>
     <string name="category">Categoria</string>
     <string name="color">Color</string>
@@ -75,7 +74,6 @@
     <string name="dialog_remind_rate_yes">Valoreu-ho ara</string>
     <string name="dialog_security_answer">Resposta</string>
     <string name="dialog_security_question">Pregunta</string>
-    <string name="dialog_title_attention">Atenció</string>
     <string name="dialog_title_information">Informació</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Balanç %1$s</string>
@@ -207,8 +205,6 @@
     <string name="plan_event_deleted">S\'ha suprimit la planificació del calendari associada amb aquesta plantilla.</string>
     <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">S\'ha anul·lat la planificació</string>
-    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
-    <string name="plan_manual">manual</string>
     <string name="planner_create_calendar_failure">No ha estat possible generar l\'agenda de planificació local</string>
     <string name="planner_create_calendar_success">L\'agenda  de planificació s\'ha generat correctament</string>
     <!-- payment methods -->

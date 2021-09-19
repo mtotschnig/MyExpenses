@@ -35,7 +35,6 @@
     <string name="already_defined">%1$s ஏற்கனவே வரையறுக்கப்பட்டுள்ளது</string>
     <string name="amount">தொகை</string>
     <string name="app_name">எனது செலவுகள்</string>
-    <string name="backup_failure">\"%1$s\" க்கு காப்புப்பிரதி எடுத்தல் தோல்வியடைந்தது.</string>
     <string name="backup_success">தரவுத்தளம் மற்றும் விருப்பத்தேர்வுகள் \"%1$s\" க்கு வெற்றிகரமாக எழுதப்பட்டது.</string>
     <string name="category">வகை</string>
     <string name="color">நிறம்</string>
@@ -104,7 +103,6 @@
     <string name="dialog_remind_rate_yes">இப்போது மதிப்பிடு</string>
     <string name="dialog_security_answer">பதில்</string>
     <string name="dialog_security_question">கேள்வி</string>
-    <string name="dialog_title_attention">கவனம்</string>
     <string name="dialog_title_information">தகவல்</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">இருப்பு %1$s</string>
@@ -263,8 +261,6 @@
     <string name="plan_event_deleted">இந்த வார்ப்புருவுடன் தொடர்புடைய திட்டம் நாட்காட்டியிலிருந்து நீக்கப்பட்டது.</string>
     <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">திட்ட செயல்பாடு ரத்து செய்யப்ப்பட்டது</string>
-    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
-    <string name="plan_manual">கைமுறையாக</string>
     <string name="planner_create_calendar_failure">உள்  திட்டக் நாட்காட்டியை உருவாக்க முடியவில்லை</string>
     <string name="planner_create_calendar_success">உள் திட்ட நாட்காட்டி வெற்றிகரமாக உருவாக்கப்பட்டது</string>
     <!-- payment methods -->

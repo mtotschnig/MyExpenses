@@ -495,7 +495,6 @@
     <string name="pm_cheque">తనిఖీ</string>
     <string name="planner_create_calendar_success">స్థానిక ప్లానర్ క్యాలెండర్ విజయవంతంగా సృష్టించబడింది</string>
     <string name="planner_create_calendar_failure">స్థానిక ప్లానర్ క్యాలెండర్‌ను సృష్టించడం సాధ్యం కాలేదు</string>
-    <string name="plan_manual">మాన్యువల్</string>
     <string name="plan_execution_canceled">ప్రణాళిక అమలు రద్దు చేయబడింది</string>
     <string name="plan_event_deleted">ఈ టెంప్లేట్‌తో అనుబంధించబడిన ప్రణాళిక క్యాలెండర్ నుండి తొలగించబడింది.</string>
     <string name="planner_notification_channel_name">ప్లానర్</string>
@@ -554,7 +553,6 @@
     <string name="dialog_title_contrib_feature">ప్రీమియం ఫీచర్</string>
     <string name="dialog_title_balance_account">బ్యాలెన్స్ %1$s</string>
     <string name="dialog_title_information">సమాచారం</string>
-    <string name="dialog_title_attention">శ్రద్ధ</string>
     <string name="dialog_security_question">ప్రశ్న</string>
     <string name="dialog_security_answer">సమాధానం</string>
     <string name="dialog_remind_rate_yes">ఇప్పుడే రేట్ చేయండి</string>
@@ -641,7 +639,6 @@
     <string name="color">రంగు</string>
     <string name="category">వర్గం</string>
     <string name="backup_success">డేటాబేస్ మరియు ప్రాధాన్యతలు విజయవంతంగా \"%1$s\" కు వ్రాయబడ్డాయి.</string>
-    <string name="backup_failure">\"%1$s\" కు బ్యాకప్ విఫలమైంది.</string>
     <string name="app_name">నా ఖర్చులు</string>
     <string name="amount">మొత్తం</string>
     <string name="already_defined">%1$s ఇప్పటికే నిర్వచించబడింది</string>

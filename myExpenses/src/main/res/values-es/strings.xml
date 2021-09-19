@@ -35,7 +35,6 @@
     <string name="already_defined">%1$s ya existe</string>
     <string name="amount">Importe</string>
     <string name="app_name">Mis Gastos</string>
-    <string name="backup_failure">La copia de seguridad de «%1$s» ha fallado.</string>
     <string name="backup_success">La base de datos y las configuraciones han sido escritas en «%1$s» correctamente.</string>
     <string name="category">Categoría</string>
     <string name="color">Color</string>
@@ -104,7 +103,6 @@
     <string name="dialog_remind_rate_yes">Calificar ahora</string>
     <string name="dialog_security_answer">Respuesta</string>
     <string name="dialog_security_question">Pregunta</string>
-    <string name="dialog_title_attention">Atención</string>
     <string name="dialog_title_information">Información</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Balance %1$s</string>
@@ -263,8 +261,6 @@
     <string name="plan_event_deleted">El proyecto asociada a esta plantilla ha sido eliminado desde el calendario.</string>
     <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">Ejecución del proyecto cancelada</string>
-    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
-    <string name="plan_manual">Manual</string>
     <string name="planner_create_calendar_failure">No se pudo crear un calendario de planificación local</string>
     <string name="planner_create_calendar_success">Calendario de planificación local creado con éxito</string>
     <!-- payment methods -->

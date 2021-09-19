@@ -35,7 +35,6 @@
     <string name="already_defined">%1$s は既に定義されています</string>
     <string name="amount">金額</string>
     <string name="app_name">マイ エクスペンス</string>
-    <string name="backup_failure">\"%1$s\" へのバックアップに失敗しました。</string>
     <string name="backup_success">データベースとプリファレンスを \"%1$s\" に書き込みました。</string>
     <string name="category">分類</string>
     <string name="color">色</string>
@@ -103,7 +102,6 @@
     <string name="dialog_remind_rate_yes">今すぐ評価</string>
     <string name="dialog_security_answer">回答</string>
     <string name="dialog_security_question">質問</string>
-    <string name="dialog_title_attention">注意</string>
     <string name="dialog_title_information">情報</string>
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">%1$s 決算</string>
@@ -258,8 +256,6 @@
     <string name="plan_event_deleted">このテンプレートに関連付けられた計画は予定表から削除されました。</string>
     <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">計画の実行がキャンセルされました</string>
-    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
-    <string name="plan_manual">手動</string>
     <string name="planner_create_calendar_failure">ローカル プランナー カレンダーを作成できません</string>
     <string name="planner_create_calendar_success">ローカル プランナー カレンダーが正常に作成されました</string>
     <!-- payment methods -->

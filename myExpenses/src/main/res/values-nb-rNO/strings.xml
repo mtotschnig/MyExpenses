@@ -334,7 +334,6 @@
     <string name="confirmation_dialog_dont_show_again">Ikke vis igjen</string>
     <string name="color">Farge</string>
     <string name="category">Kategori</string>
-    <string name="backup_failure">Kunne ikke sikkerhetskopiere til «%1$s»</string>
     <string name="app_name">Mine utgifter</string>
     <string name="amount">Beløp</string>
     <string name="already_defined">%1$s finnes allerede</string>

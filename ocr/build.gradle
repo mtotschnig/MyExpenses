@@ -43,7 +43,7 @@ tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile) {
 dependencies {
     api project(':myExpenses')
     implementation "androidx.core:core-ktx:$ktxVersion"
-    implementation 'com.jakewharton.timber:timber:4.7.1'
+    implementation "com.jakewharton.timber:timber:$timberVersion"
     implementation "androidx.appcompat:appcompat:$appcompatVersion"
     implementation "com.squareup.picasso:picasso:$picassoVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$archLifecycleVersion"
