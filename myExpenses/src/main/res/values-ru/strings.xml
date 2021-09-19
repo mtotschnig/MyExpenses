@@ -73,7 +73,7 @@
     <string name="dialog_confirm_discard_new_template">Отменить создание шаблона?</string>
     <string name="dialog_confirm_discard_new_account">Отменить создание счета?</string>
     <string name="dialog_confirm_discard_new_method">Отменить добавление метода оплаты?</string>
-    <string name="dialog_command_disabled_balance">Транзакции не очищается мириться.</string>
+    <string name="dialog_command_disabled_balance">Отсутствуют подтвержденные операций для согласования.</string>
     <string name="dialog_command_disabled_insert_transfer">Для переводов требуется второй счет.</string>
     <string name="dialog_command_disabled_reset_account">Нет операций для экспорта.</string>
     <string name="dialog_command_disabled_distribution">Нет операций, сопоставленных с категориями в этом счёте.</string>
@@ -88,7 +88,7 @@
     <string name="dialog_contrib_usage_limit" tools:ignore="PluralsCandidate">Вы можете это использовать до %1$d раз с вашим текущим лицензионным статусом (%2$s).</string>
     <string name="dialog_contrib_usage_limit_synchronization" tools:ignore="PluralsCandidate">Вы можете использовать это до %1$d дней с Вашим лицензионным статусом (%2$s).</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Ваш текущий лицензионный статус (%2$s) позволяет Вам создать %1$d счетов.</string>
-    <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Ваш текущий лицензионный статус (%2$s) позволяет Вам создавать %1$d планов.</string>
+    <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Ваш текущий лицензионный статус (%2$s) позволяет создавать %1$d планов.</string>
     <string name="dialog_contrib_usage_limit_split_templates">Ваш текущий лицензионный статус (%1$s) позволяет Вам создать 1 расщепленный шаблон.</string>
     <string name="dialog_export_delete">Удалить экспортированные операции</string>
     <string name="dialog_export_not_yet_exported">Экспортировать еще не экспортированные операции</string>
@@ -110,10 +110,10 @@
     <string name="dialog_title_balance_account">Баланс %1$s</string>
     <string name="dialog_title_contrib_feature">Премиум функция</string>
     <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">Удалить аккаунт\?</item>
-        <item quantity="few">Удалить %1$d аккаунта\?</item>
-        <item quantity="many">Удалить %1$d аккаунтов\?</item>
-        <item quantity="other">Удалить %1$d аккаунтов\?</item>
+        <item quantity="one">Удалить счёт\?</item>
+        <item quantity="few">Удалить %1$d счета\?</item>
+        <item quantity="many">Удалить %1$d счетов\?</item>
+        <item quantity="other">Удалить %1$d счетов\?</item>
     </plurals>
     <string name="dialog_title_warning_delete_category">Удалить категорию?</string>
     <string name="dialog_title_warning_delete_template">Удалить шаблон?</string>
@@ -229,7 +229,7 @@
     <string name="no_parties">Нет участников.</string>
     <string name="no_split_parts">Нет разделённых частей.</string>
     <string name="no_templates">Нет шаблонов.</string>
-    <string name="no_accounts">Нет аккаунтов.</string>
+    <string name="no_accounts">Нет счетов.</string>
     <string name="no_title_given">Вы не ввели какое-либо название.</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="one">Выбранный объект связан с операцией и не может быть удален.</item>
@@ -243,7 +243,7 @@
         <item quantity="many">%1$d объектов связаны с шаблонами и не могут быть удалены.</item>
         <item quantity="other">%1$d объектов связаны с шаблонами и не могут быть удалены.</item>
     </plurals>
-    <string name="numbered">пронумерованный</string>
+    <string name="numbered">Пронумерованный</string>
     <string name="opening_balance">Начальный баланс</string>
     <string name="parse_error_file_not_found">Не найден файл %1$s</string>
     <string name="parse_error_grisbi_version_not_supported">Не поддерживаемая версия файла Grisbi: %1$s</string>
@@ -280,8 +280,8 @@
     <string name="pm_type_credit">Кредит</string>
     <string name="pm_type_debit">Дебет</string>
     <string name="pm_type_neutral">Нейтральный</string>
-    <string name="pref_app_dir_title">Каталог для бэкапов и экспортируемых данных</string>
-    <string name="pref_auto_fill_summary">Автозаполнение данных из предыдущей транзакции с тем же получателем / плательщиком</string>
+    <string name="pref_app_dir_title">Каталог для резервного копирования и экспорта</string>
+    <string name="pref_auto_fill_summary">Автозаполнение данных из предыдущей операции с тем же получателем/плательщиком</string>
     <string name="pref_backup_summary">Создать резервную копию базы данных и настроек.</string>
     <string name="pref_sort_order_usages">Количество использований</string>
     <string name="pref_category_title_advanced">Дополнительно</string>
@@ -316,9 +316,9 @@
     <string name="pref_manage_methods_title">Способы оплаты</string>
     <string name="pref_manage_parties_summary">Добавление, редактирование, удаление участников (плательщиков и получателей).</string>
     <string name="pref_manage_parties_title">Участники</string>
-    <string name="pref_manage_sync_backends_title">Выбор хранилища данных</string>
+    <string name="pref_manage_sync_backends_title">Серверы синхронизации</string>
     <!-- %s will be replaced with list of backends -->
-    <string name="pref_manage_sync_backends_summary">Добавьте хранилища для синхронизации учетных записей (%s).</string>
+    <string name="pref_manage_sync_backends_summary">Добавьте сервера для синхронизации счетов (%s).</string>
     <string name="pref_more_info_dialog_title">Лицензия и создатели</string>
     <string name="pref_password_not_equal">Пароли не совпадают</string>
     <string name="pref_perform_protection_title">Безопасность</string>
@@ -400,7 +400,7 @@
     <string name="thank_you">Спасибо вам за вашу поддержку!</string>
     <string name="time">Время</string>
     <string name="title">Название</string>
-    <string name="total_cleared">Всего очищено</string>
+    <string name="total_cleared">Сумма подтвержденных операций</string>
     <string name="total_reconciled">Согласованный итог</string>
     <string name="transaction">Операция</string>
     <string name="transfer">Перевод</string>
@@ -453,7 +453,7 @@
     <string name="warning_reset_account">Если продолжить, все операции этого счёта будут удалены из базы данных и не могут быть восстановлены.</string>
     <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">Если вы продолжите, для всех счетов %1$s операции будут удалены из базы данных и не могут быть восстановлены.</string>
-    <string name="warning_reset_account_matched">Если вы продолжите, транзакции, соответствующие текущему фильтру, будут удалены из базы данных и не могут быть восстановлены.</string>
+    <string name="warning_reset_account_matched">Если вы продолжите, операции, соответствующие текущему фильтру, будут удалены из базы данных и не могут быть восстановлены.</string>
     <string name="warning_restore">Базы данных и настройки будут восстановлены из файла \"%1$s\". Текущие данные будут удалены.</string>
     <string name="warning_splitpartcategory_context">Переводы, которые являются разделённой частью можно редактировать только в контексте разделения.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Пожалуйста, укажите число между %1$d и %2$d</string>
@@ -502,7 +502,7 @@
     <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">после</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Покупка была прервана или отменена.</string>
-    <string name="hint_auto_fill">Позволить автозаполнение на основе последней транзакции для того же получателя/плательщика? Вы всегда можете изменить это поведение в настройках.</string>
+    <string name="hint_auto_fill">Позволить автозаполнение на основе последней операции для того же получателя/плательщика\? Вы всегда можете изменить это поведение в настройках.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d счетов с валютой %2$s было обновлено.</string>
     <string name="learn_more">Узнать больше</string>
     <string name="import_source_file">Файл</string>
@@ -522,7 +522,7 @@
     <string name="pref_manage_stale_images_summary">Управляйте фотографиями, оставшимися от удаленных транзакций</string>
     <string name="image_deleted">Изображение было удалено</string>
     <string name="transaction_deleted">Транзакция была удалена</string>
-    <string name="dialog_export_applied_to_filter">Только транзакции, соответствующие текущему фильтру, будут рассматриваться.</string>
+    <string name="dialog_export_applied_to_filter">Только операции, соответствующие текущему фильтру, будут рассматриваться.</string>
     <string name="export_handle_deleted_create_helper">Создать вспомогательную транзакцию</string>
     <string name="export_handle_deleted_update_balance">Обновить начальный баланс</string>
     <string name="file_name">Имя файла</string>
@@ -547,9 +547,9 @@
     <string name="menu_show_transactions">Показать список транзакций</string>
     <string name="pref_custom_decimal_format_title">Формат числа</string>
     <string name="pref_custom_decimal_format_summary">Если вас не устраивает формат по умолчанию для ваших региональных параметров, адаптируйте его под свои нужды. Оставьте пустым, чтобы восстановить формат по умолчанию.</string>
-    <string name="pref_auto_backup_title">Включить авто-бэкап</string>
+    <string name="pref_auto_backup_title">Автоматическая резервная копия</string>
     <string name="pref_auto_backup_summary">Создавать резервную копию базы данных ежедневно в указанное время (только если данные были изменены).</string>
-    <string name="pref_auto_backup_time_title">Время авто-бэкапа</string>
+    <string name="pref_auto_backup_time_title">Время автоматического резервного копирования</string>
     <string name="warning_auto_backup_limited_trial" tools:ignore="PluralsCandidate">После успешных автоматических резервных копий %d автоматическое резервное копирование будет отключено.</string>
     <string name="calendar_permission_required"><i>{app_name}</i> необходимо разрешение на доступ к Вашему календарю, для создания графиков будущих и повторяющихся операций.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">Предоставить доступ</string>
@@ -579,7 +579,7 @@
     <string name="warning_cannot_move_split_transaction">Эта разделенная транзакция не может быть перемещена на счет %1$s, поскольку имеются другие состовляюшие, которые имеют отношение к этому счету.</string>
     <string name="content_description_calculator_clear_button">Сбросить все</string>
     <string name="content_description_calculator_delete_button">Удалить последнее число</string>
-    <string name="paypal_callback_info">Ваша транзакция была завершена; квитанция об оплате была направлена на Ваш e-mail. Вы можете увидеть детали этой транзакции в своей учетной записи на www.paypal.com</string>
+    <string name="paypal_callback_info">Ваша операция была завершена; квитанция об оплате была направлена на Ваш e-mail. Вы можете увидеть детали этой транзакции в своей учетной записи на www.paypal.com</string>
     <string name="search_transfer">Поиск перевода</string>
     <!-- Sort plans (recurring transactions) by the next instance  -->
     <string name="pref_sort_order_next_instance">Следующий пример </string>
@@ -594,8 +594,8 @@
     <string name="hint_user_name">Имя пользователя</string>
     <string name="hint_password">Пароль</string>
     <string name="label_trust_certificate">Доверять этому сертификату</string>
-    <string name="no_sync_backends">Нет синхронизации бэкэндов</string>
-    <string name="menu_create_sync_backend">Новый бэкэнд синхронизации</string>
+    <string name="no_sync_backends">Нет серверов синхронизации</string>
+    <string name="menu_create_sync_backend">Новый сервер синхронизации</string>
     <string name="validate_error_not_empty">Должен быть заполнен</string>
     <string name="validate_error_webdav_invalid_certificate">Нельзя доверять этому сертификату. Он выглядит недействительным. </string>
     <string name="validate_error_webdav_not_compliant">Этот URL не указывает на ресурс WebDAV.</string>
@@ -607,35 +607,35 @@
     <string name="menu_sync_now">Синхронизировать сейчас</string>
     <string name="pref_sync_frequency_title">Частота синхронизации</string>
     <string name="pref_sync_frequency_summary">Как часто данные должны синхронизироваться (в часах)</string>
-    <string name="dialog_confirm_sync_unlink">Если вы отсоедините эту учетную запись от %s, состояние синхронизации будет потеряно. Чтобы связать их позже, требуется полная синхронизация для повторного выполнения.</string>
-    <string name="dialog_sync_link">Учетная запись с uuid %s существует как в локальной базе данных, так и в удаленном бэкэнде. Когда вы связываете оба, вы должны решить, хотите ли вы изначально загружать локальные данные в удаленный сервер или загружать удаленные данные в локальную базу данных.</string>
+    <string name="dialog_confirm_sync_unlink">Если вы отсоедините этот счет от %s, состояние синхронизации будет потеряно. Чтобы связать их позже, требуется полная синхронизация для повторного выполнения.</string>
+    <string name="dialog_sync_link">Счет с uuid %s существует как в локальной базе данных, так и на удаленном сервере. Когда вы свяжете оба, вам нужно решить, сначала Вы хотите загрузить локальные данные на удаленный сервер, или загрузить удаленные данные в локальную базу данных.</string>
     <string name="dialog_command_sync_link_remote">Загрузить из удаленного хранилища</string>
     <string name="dialog_command_sync_link_local">Загрузить из локального хранилища</string>
-    <string name="dialog_synced_to_other">Учетная запись с uuid %s уже существует в локальной базе данных и связана с другим удаленным бэкэндом.</string>
+    <string name="dialog_synced_to_other">Счет с uuid %s уже существует в локальной базе данных, и привязан к другой удаленной базе данных.</string>
     <string name="menu_remove">Удалить</string>
-    <string name="dialog_confirm_sync_remove_backend">Удаленный бэкэнд %s будет удален. Это не повлияет на данные, хранящиеся локально или удаленно, но состояние синхронизации потеряется.</string>
-    <string name="dialog_confirm_sync_link_local">Удаленные данные для этой учетной записи будут удалены. Убедитесь, что другие устройства не связаны с ним.</string>
+    <string name="dialog_confirm_sync_remove_backend">Удаленный сервер %s будет удален. Это не повлияет на данные, хранящиеся локально или удаленно, но состояние синхронизации потеряется.</string>
+    <string name="dialog_confirm_sync_link_local">Удаленные данные для этого счета будут удалены. Убедитесь, что другие устройства не связаны с ним.</string>
     <string name="dialog_confirm_sync_link_remote">Локальные данные для этого счета будут удалены.</string>
     <string name="warning_limited_trial">Функция %1$s будет доступна до %2$s.</string>
     <string name="warning_trial_limit_reached">Пробный период функции %s завершился.</string>
     <string name="warning_synchronization_folder_usage">Эта папка используется для синхронизации данных между установками {app_name} на разных устройствах. Пожалуйста, не изменяйте его содержимое вручную.</string>
-    <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Папка, которую вы выбрали, соответствует одной учетной записи существующего бэкэнда. Вам нужно выбрать родительскую папку, чтобы использовать этот бэкэнд.</string>
-    <string name="select_unsynced_accounts">Выберите аккаунты для синхронизации с этим бэкэндом</string>
-    <string name="link_account_success" tools:ignore="PluralsCandidate">Аккаунты %d были настроены для синхронизации с бэкэндом.</string>
-    <string name="link_account_failure_1" tools:ignore="PluralsCandidate">Аккаунты %d не могут быть настроены для синхронизации с бэкэндом.</string>
-    <string name="link_account_failure_2">Аккаунт с таким же uuid уже существует на удаленном бэкэндe.</string>
+    <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">Каталог, который вы выбрали, соответствует одному счету существующего сервера. Вам нужно выбрать родительскую папку, чтобы использовать этот сервер.</string>
+    <string name="select_unsynced_accounts">Выберите счета для синхронизации с этим сервером</string>
+    <string name="link_account_success" tools:ignore="PluralsCandidate">%d счетов было настроено на синхронизацию с сервером.</string>
+    <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d счетов не удалось настроить на синхронизацию с сервером.</string>
+    <string name="link_account_failure_2">Счёт с таким же uuid уже существует на удаленном сервере.</string>
     <string name="link_account_failure_3">Этот конфликт может быть решен вручную из контекстного меню записи.</string>
-    <string name="progress_dialog_checking_sync_backend">Проверка бэкэнда</string>
+    <string name="progress_dialog_checking_sync_backend">Проверка сервера</string>
     <string name="template">Шаблон</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Облачная синхронизация</string>
     <string name="all_contrib_key_features">Все возможности Contrib-ключа</string>
     <string name="all_extended_key_features">Все возможности Extended-ключа</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">Обновить</string>
-    <string name="pref_backup_cloud_title">Сохраните на синхронизационном бэкенде</string>
-    <string name="pref_backup_cloud_summary">Помимо локального хранилища на устройстве, файл резервной копии можно скопировать на удаленный бэкенд.</string>
-    <string name="auto_backup_cloud_failure">Произошла ошибка при попытке сохранить файл резервной копии %1$s на бэкенде %2$s:</string>
-    <string name="auto_backup_cloud_success">Файл резервной копии %1$s был успешно сохранен на бэкенде%2$s.</string>
+    <string name="pref_backup_cloud_title">Хранить на сервере синхронизации</string>
+    <string name="pref_backup_cloud_summary">В дополнение к локальному хранению на устройстве, файл резервной копии может быть скопирован на удаленный сервер.</string>
+    <string name="auto_backup_cloud_failure">Произошла ошибка при попытке сохранить файл резервной копии %1$s на сервере %2$s:</string>
+    <string name="auto_backup_cloud_success">Файл резервной копии %1$s был успешно сохранен на сервере %2$s.</string>
     <string name="home_screen_shortcuts_nougate_info">Ярлыки можно добавить, нажав значок приложения на главном экране.</string>
     <string name="currency_symbol">Символ валюты</string>
     <string name="number_of_fraction_digits">Число дробных знаков</string>
@@ -643,20 +643,20 @@
     <string name="pref_tracking_summary">Позволить нам собирать обезличенные данные о вашем пользовательском опыте чтобы улучшить его</string>
     <string name="pref_tracking_title">Сбор данных об использовании</string>
     <string name="sync_database_error">Во время синхронизации произошла ошибка базы данных.</string>
-    <string name="sync_io_error_cannot_connect">Не удается подключиться к серверной части синхронизации.</string>
+    <string name="sync_io_error_cannot_connect">Не удается подключиться к серверу синхронизации.</string>
     <string name="sync_error_will_try_again_later">Попробует еще раз попозже.</string>
-    <string name="sync_io_exception_reset_account_data">Ошибка при сбросе удаленной учетной записи.</string>
-    <string name="sync_success_reset_account_data">Удаленные данные для учетной записи %s были удалены.</string>
-    <string name="sync_io_exception_setup_remote_account">Ошибка при настройке удаленной учетной записи.</string>
+    <string name="sync_io_exception_reset_account_data">Ошибка при сбросе удаленного счета.</string>
+    <string name="sync_success_reset_account_data">Удаленные данные для счета %s были удалены.</string>
+    <string name="sync_io_exception_setup_remote_account">Ошибка при настройке удаленного счета.</string>
     <string name="sync_io_exception_syncing">Ошибка при синхронизации изменений с сервером.</string>
-    <string name="sync_io_exception_unlocking">Ошибка при снятии блокировки с удаленного бэкэнда.</string>
-    <string name="sync_io_exception_locking">Удаленный бэкэнд заблокирован или не может быть заблокирован.</string>
+    <string name="sync_io_exception_unlocking">Ошибка при снятии блокировки с удаленного сервера.</string>
+    <string name="sync_io_exception_locking">Удаленный сервер заблокирован или не может быть заблокирован.</string>
     <string name="synchronization_start">Начинается синхронизация для счета %s.</string>
-    <string name="synchronization_end_success">%1$d удаленные изменения были записаны в локальную базу данных. %2$d локальные изменения были записаны в удаленный бэкэнд.</string>
+    <string name="synchronization_end_success">%1$d удаленные изменения были записаны в локальную базу данных. %2$d локальные изменения были записаны на удаленный сервер.</string>
     <string name="synchronization_end_success_none">Нет изменений для синхронизации.</string>
     <string name="pref_webdav_timeout_title">Время ожидания WebDAV (в секундах)</string>
-    <string name="sync_state_restored">Состояние синхронизации было восстановлено для учетных записей %d.</string>
-    <string name="sync_state_could_not_be_restored">Не удалось восстановить состояние синхронизации для учетных записей %d.</string>
+    <string name="sync_state_restored">Состояние синхронизации было восстановлено для %d счетов.</string>
+    <string name="sync_state_could_not_be_restored">Не удалось восстановить состояние синхронизации для %d счетов.</string>
     <string name="onboarding_ui_title">{app_name} адаптируется к вашим предпочтениям</string>
     <string name="onboarding_data_title">Давайте настроим ваш первый счет</string>
     <string name="onboarding_get_started">Начало</string>
@@ -695,16 +695,16 @@
     <string name="switch_to_yearly" tools:ignore="UnusedResources">Переход на ежегодную подписку</string>
     <string name="switch_to_monthly" tools:ignore="UnusedResources">Переход на ежемесячную подписку</string>
     <string name="extend_validity">Продлить действительность</string>
-    <string name="progress_dialog_fetching_data_from_sync_backend">Выборка данных из удаленного бэкэнда. Это может занять некоторое время.</string>
+    <string name="progress_dialog_fetching_data_from_sync_backend">Получение данных с удаленного сервера. Это может занять некоторое время.</string>
     <string name="donate_button_invoice">Счёт-фактура</string>
     <string name="menu_sort_direction">Направление сортировки</string>
     <string name="sort_direction_ascending">по возрастанию</string>
     <string name="sort_direction_descending">по убыванию</string>
-    <string name="never">никогда</string>
-    <string name="always">всегда</string>
+    <string name="never">Никогда</string>
+    <string name="always">Всегда</string>
     <string name="auto_fill_account_from_aggregate_only">Только при запуске с совокупного счета.</string>
     <string name="sync_auth_exception_login_again">Авторизация провалена. Пожалуйста, представьтесь повторно.</string>
-    <string name="sync_loading_accounts_from_backend">Загрузка доступных аккаунтов из бэкэнда.</string>
+    <string name="sync_loading_accounts_from_backend">Загрузка доступных счетов с сервера.</string>
     <plurals name="delete_success">
         <item quantity="one">Объект был успешно удален.</item>
         <item quantity="few">%d объекта были успешно удалены.</item>
@@ -745,8 +745,8 @@
     <string name="split_transaction_group_success">%1$d операций было успешно сгруппировано в одну дробную операцию.</string>
     <string name="split_transaction_group_error">Операции не были сгруппированы в расщепленную</string>
     <string name="split_transaction_not_possible">Только операции с совпадающим счетом, получателем и статусом могут быть сгруппированы в расщепленную операцию.</string>
-    <string name="pref_transaction_time_summary">Позвольте установить точное время транзакции.  </string>
-    <string name="pref_value_date_summary">Установите дату стоимости в дополнение к дате бронирования. Время транзакции будет скрыто. Эта установка не применяется к кассовым счетам.</string>
+    <string name="pref_transaction_time_summary">Позволять указывать точное время операции.</string>
+    <string name="pref_value_date_summary">Позволить установить дату бронирования в дополнение к дате создания заказа. Время операции будет скрыто. Этот параметр не применяется к денежным счетам.</string>
     <!-- the date on which the transaction took place, aka transaction date, as opposed to value date -->
     <string name="booking_date">Дата бронирования</string>
     <!-- the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date -->
@@ -763,9 +763,9 @@
     <string name="gdpr_consent_button_yes" tools:ignore="UnusedResources">Да, продолжить видеть рекламу</string>
     <string name="gdpr_consent_button_no">Оплатить за версию без рекламы</string>
     <string name="sort_order">Направление сортировки</string>
-    <string name="navigation_drawer_accounts_title">Управление аккаунтами </string>
-    <string name="pref_sync_wifi_only_summary">Синхронизироваться только по Wi-Fi</string>
-    <string name="pref_sync_changes_immediately_summary">Пишите локальные изменения немедленно в бэкэнд</string>
+    <string name="navigation_drawer_accounts_title">Управление счетами</string>
+    <string name="pref_sync_wifi_only_summary">Синхронизировать только по Wi-Fi</string>
+    <string name="pref_sync_changes_immediately_summary">Немедленная запись локальных изменений на сервер</string>
     <string name="wifi_not_connected">Устройство не подключено к Wi-Fi. Синхронизация откладывается.</string>
     <!-- title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project -->
     <string name="pref_translation_title">Перевод</string>
@@ -778,9 +778,9 @@
     <string name="saving_goal">Сохранение цели</string>
     <string name="credit_limit">Кредитный лимит</string>
     <string name="clear_all_filters">Очистите все фильтры</string>
-    <string name="pref_scroll_to_current_date_summary">После запуска приложения прокрутите список транзакций до текущей даты</string>
+    <string name="pref_scroll_to_current_date_summary">После запуска приложения прокручивать список операций до текущей даты</string>
     <string name="professional_key_fallback_info">Подписка на Профессиональный ключ, действующая не менее одного года и которая не продлена, будет автоматически преобразована в неограниченный продленный ключ.</string>
-    <string name="menu_budget">составление бюджета</string>
+    <string name="menu_budget">Бюджетирование</string>
     <string name="dialog_title_edit_budget">Изменить бюджет</string>
     <string name="budget_table_header_budgeted">в бюджете</string>
     <string name="budget_table_header_allocated">Выделено</string>
@@ -808,52 +808,52 @@
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.   -->
     <string name="unmapped_filter_only_single">Фильтр «ненанесенный на карту » не может быть включен в множественный выбор</string>
-    <string name="upgrade_information_cloud_sync_storage_format">В версии 2.9.8, был изменен способ хранения данных в бэкэндах синхронизации. Пожалуйста обновите эту версию на всех синхронизированных устройствах, прежде чем вводить какие-либо новые записи на любом из них.</string>
+    <string name="upgrade_information_cloud_sync_storage_format">В версии 2.9.8, был изменен способ хранения данных на серверах синхронизации. Пожалуйста обновите эту версию на всех синхронизированных устройствах, прежде чем вводить какие-либо новые записи на любом из них.</string>
     <string name="pref_security_export_passphrase_title">Парольная фраза для резервных копий</string>
     <string name="pref_security_export_passphrase_summary">Резервные копии будут зашифрованы этой парольной фразой</string>
     <string name="backup_is_encrypted">Файл резервной копии зашифрован. Чтобы расшифровать его, вам нужно указать его парольную фразу. </string>
     <string name="backup_wrong_password">Файл резервной копии кажется зашифрован с другой парольной фразой.</string>
-    <string name="passphrase_for_synchronization">Введите парольную фразу, если вы хотите, чтобы данные синхронизации на этом бэкенде были зашифрованы.</string>
-    <string name="sync_backend_is_encrypted">Удаленный бэкенд зашифрован. Вам нужно указать парольную фразу.</string>
-    <string name="sync_backend_wrong_passphrase">Удаленный бэкенд кажется зашифрован с другой парольной фразой.</string>
-    <string name="sync_backend_is_not_encrypted">Удаленный бэкенд не зашифрован.</string>
+    <string name="passphrase_for_synchronization">Введите парольную фразу, если вы хотите, чтобы данные синхронизации на этом сервере были зашифрованы.</string>
+    <string name="sync_backend_is_encrypted">Удаленный сервер зашифрован. Вам нужно указать парольную фразу.</string>
+    <string name="sync_backend_wrong_passphrase">Удаленный сервер кажется зашифрован с другой парольной фразой.</string>
+    <string name="sync_backend_is_not_encrypted">Удаленный сервер не зашифрован.</string>
     <string name="warning_backup_protected">Архив будет защищен вашей парольной фразой.</string>
     <string name="dialog_title_backup_protected">Резервное копирование (в зашифрованном виде)</string>
     <string name="input_label_passphrase">Парольная фраза </string>
     <string name="button_label_no_encryption">Без шифрования</string>
     <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->
     <string name="joining_or">или</string>
-    <string name="pref_account_list_fast_scroll_summary">Включите быструю прокрутку для листа учетных записей. Может привести к некорректному отображению на некоторых устройствах</string>
+    <string name="pref_account_list_fast_scroll_summary">Включить быструю прокрутку списка счетов. Может привести к неправильному отображению на некоторых устройствах</string>
     <string name="menu_hide">Скрыть</string>
     <!-- Action of closing an account. A closed account does not allow any modifications on its data. -->
     <string name="menu_close">Закрыть</string>
     <!-- Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data. -->
     <string name="menu_reopen">Открыть вновь </string>
     <!-- Menu entry for opening a list of all hidden accounts. -->
-    <string name="menu_hidden_accounts">Скрытые аккаунты</string>
+    <string name="menu_hidden_accounts">Скрытые счета</string>
     <!-- Action of showing an account again that had previously been hidden. -->
     <string name="button_label_show">Показать</string>
     <!-- Content description for icon that indicates that a synchronization backend is encrypted. -->
     <string name="content_description_encrypted">Зашифрован</string>
     <!-- Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data. -->
     <string name="content_description_closed">Закрыт</string>
-    <string name="warning_synced_account_cannot_be_closed">Аккаунт, связанный с синхронизационым бэкендом, не может быть закрыт</string>
+    <string name="warning_synced_account_cannot_be_closed">Счёт, связанный с сервером синхронизации, не может быть закрыт</string>
     <string name="translated_by">Перевод</string>
-    <string name="warning_no_account">Как минимум один аккаунт должен быть видимым и открыт для создания новых транзакций.</string>
+    <string name="warning_no_account">Как минимум один счёт должен быть видимым и открыт для создания новых транзакций.</string>
     <string name="content_description_dates_are_linked">Дата бронирования и дата стоимости обновятся вместе</string>
     <string name="content_description_dates_are_not_linked">Дата бронирования и дата стоимости не обновятся вместе</string>
     <string name="icon">Значок</string>
     <string name="pref_debug_title">Отладка</string>
-    <string name="roadmap_vote">Дорожная карта действия </string>
+    <string name="roadmap_vote">Дорожная карта и голосование</string>
     <string name="warning_account_for_transaction_is_closed">По крайней мере, одна из выбранных транзакций не может быть отредактирована:</string>
-    <string name="object_sealed">Объект относится к закрытому аккаунту.</string>
+    <string name="object_sealed">Объект относится к закрытому счету.</string>
     <string name="content_description_download_exchange_rate">Скачать курс обмена</string>
     <string name="exchange_rate_not_supported">Сконфигурированный поставщик обменного курса не предоставляет курс %1$s: %2$s. Вы можете попробовать выбрать другой в настройках.</string>
     <string name="pref_category_exchange_rates">Курсы валют</string>
     <string name="pref_exchange_rate_provider_summary">Выбрать поставщика курсов валют для загрузки</string>
     <string name="pref_exchange_rate_provider_title">Поставщик курсов валют</string>
     <string name="pref_openexchangerates_app_id_summary">Пожалуйста зарегистрируйте бесплатный аккаунт в сервисе OpenExchangeRates и введите ваш App ID</string>
-    <string name="pref_plan_executor_time_title">Время оповещения плановика</string>
+    <string name="pref_plan_executor_time_title">Время оповещения планировщика</string>
     <string name="synchronization_select_folder_dialog_title">Выберите существующую папку или создайте новую</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->
     <string name="discover_feature_expense_income_switch">Используйте этот переключатель для записи поступлений.</string>
@@ -882,21 +882,21 @@
     <!-- Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method" -->
     <string name="menu_remap">Переоформления</string>
     <string name="dialog_title_confirm_remap">Изменить сопоставление (%s)?</string>
-    <string name="remap_category">Все выбранные транзакции будут сопоставлены с категорией %s.</string>
-    <string name="remap_payee">Все выбранные транзакции будут сопоставлены плательщику / получателю платежа %s.</string>
-    <string name="remap_method">Все выбранные транзакции будут сопоставлены с методом %s.</string>
-    <string name="remap_account">Все выбранные транзакции будут сопоставлены с аккаунтом %s.</string>
-    <string name="remapping_result">Выбранные транзакции были переоформлены.</string>
-    <string name="clone_and_remap_result">Выбранные транзакции были клонированы и переоформлены.</string>
+    <string name="remap_category">Все выбранные операции будут сопоставлены с категорией %s.</string>
+    <string name="remap_payee">Все выбранные операции будут сопоставлены плательщику/получателю платежа %s.</string>
+    <string name="remap_method">Все выбранные операции будут сопоставлены с методом %s.</string>
+    <string name="remap_account">Все выбранные операции будут сопоставлены с счетом %s.</string>
+    <string name="remapping_result">Выбранные операции были переназначены.</string>
+    <string name="clone_and_remap_result">Выбранные операции были клонированы и переназначены.</string>
     <!-- If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
         because no payment method is configured for all of the given account types.-->
     <string name="remap_empty_list">Не найден ни один элемент, который может быть сопоставлен со всеми выбранными транзакциями.</string>
     <!-- The label for the button, where user confirms that he wants to clone the selected transactions and then remap them. -->
     <string name="button_label_clone_and_remap">Клонировать и переоформить </string>
     <!-- The summary of a preference toggle. If switched on cloned transactions have the date set to the current date -->
-    <string name="pref_clone_with_current_date_summary_on">Клонированные транзакции имеют текущую дату</string>
+    <string name="pref_clone_with_current_date_summary_on">Клонированные операции имеют текущую дату</string>
     <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
-    <string name="pref_clone_with_current_date_summary_off">Клонированные транзакции сохраняют исходную дату</string>
+    <string name="pref_clone_with_current_date_summary_off">Клонированные операции сохраняют исходную дату</string>
     <string name="pref_protection_screenshot_information">При активации защиты устройства захват снимков экрана отключается.</string>
     <string name="tags_create_or_select">Создать или выбрать теги</string>
     <string name="content_description_tags_confirm">Подтверждение</string>
@@ -907,7 +907,7 @@
     <!-- This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction -->
     <string name="menu_tag">Добавить тег</string>
     <!-- %s will be replaced with the labels of all tags that user has selected. -->
-    <string name="dialog_multi_tag">Все выбранные транзакции будут помечены «тегом» %s.</string>
+    <string name="dialog_multi_tag">Все выбранные операции будут помечены тегом %s.</string>
     <string name="dialog_multi_tag_clear">Все теги будут удалены из выбранных трансакций.</string>
     <plurals name="warning_delete_tag">
         <item quantity="one">Тег %1$s сопоставлен с одной транзакцией. Должен ли он быть удален?</item>
@@ -949,7 +949,7 @@
     <string name="template_default_action_without_amount_hint">Шаблон без суммы должен быть сохранен с действием по умолчанию «Редактировать»</string>
     <string name="pref_clone_with_current_date_title">Дата клонированных транзакций</string>
     <string name="confirmation_load_template_discard_data">Существующие данные формы будут удалены.</string>
-    <string name="warning_balance_account_delete">Если вы продолжите, все согласованные транзакции этой учетной записи будут удалены из базы данных, и вы не сможете их восстановить.</string>
+    <string name="warning_balance_account_delete">Если вы продолжите, все согласованные операции этого счета будут удалены из базы данных, и вы не сможете их восстановить.</string>
     <string name="advance_exexcution_in_days">Досрочное исполнение (в днях)</string>
     <string name="discover_feature_fab_long_press">Нажмите и удерживайте плавающую кнопку действия, чтобы напрямую открыть форму для переводов, разделения транзакций или дохода.</string>
     <string name="select_package">Пожалуйста, выберите пакет лицензий.</string>
@@ -967,7 +967,7 @@
     <string name="menu_scan_mode">Режим сканирования</string>
     <string name="feature_downloaded">Функция %s была установлена.</string>
     <string name="title_scan_receipt_feature">Скан чека</string>
-    <string name="pref_planner_manual_time_title">Время для ручной запланированной транзакции</string>
+    <string name="pref_planner_manual_time_title">Время для ручной запланированной операции</string>
     <string name="image_capture_not_installed">Нет приложения для съемки.</string>
     <string name="crash_reports_user_info">{app_name} будет отправлять сообщения о сбоях приложения автоматически разработчикам, что позволяет им быстрее исправить проблемы.</string>
     <string name="pref_category_title_crash_reports">Отчёты о сбоях</string>
@@ -979,4 +979,33 @@
     <string name="stability_improvements">Улучшение стабильности</string>
     <string name="new_version">Новая версия</string>
     <string name="pref_news_title">Новости</string>
+    <plurals name="debt_mapped_transactions">
+        <item quantity="one">Долг %1$s имеет %2$d сопоставленную операцию.</item>
+        <item quantity="few">Долг %1$s имеет %2$d сопоставленные операции.</item>
+        <item quantity="many">Долг %1$s имеет %2$d сопоставленных операций.</item>
+        <item quantity="other">Долг %1$s имеет %2$d сопоставленных операций.</item>
+    </plurals>
+    <string name="account_widget_configuration_sum_total">Включить будущие операции</string>
+    <string name="warning_link_transfer">Две выбранные операции будут связаны как перевод. Информация о получателе/плательщике и категории будет удалена.</string>
+    <string name="warning_party_delete_debt">При удалении этой стороны долги, определенные для нее, также будут удалены.</string>
+    <string name="merge_parties_select">Выберите название объединенной стороны:</string>
+    <string name="account_widget_configuration">Настройка виджета счета</string>
+    <string name="dialog_title_warning_delete_party">Удалить сторону\?</string>
+    <string name="debt_managment">Управление долгом</string>
+    <string name="object_sealed_debt">Объект относится к закрытому долгу.</string>
+    <string name="dialog_title_delete_debt">Удалить долг\?</string>
+    <string name="dialog_confirm_discard_new_debt">Списать новый долг\?</string>
+    <string name="debts">Долги</string>
+    <string name="debt_I_owe">Я должен %s</string>
+    <string name="debt_owes_me">%s должен мне</string>
+    <string name="menu_new_debt">Новый долг</string>
+    <string name="ui_refinement">Усовершенствование пользовательского интерфейса</string>
+    <string name="backup_save_to_sync_backend">Сохранить в %s</string>
+    <string name="warning_plan_instance_delete">Транзакция, созданная на выбранную дату, будет удалена.</string>
+    <string name="auto_fill_focus">Установить фокус на получателе платежа</string>
+    <string name="request_for_invoice">Запрос счета-фактуры</string>
+    <string name="active_tags">Активные теги</string>
+    <string name="menu_merge">Объединить</string>
+    <string name="account_widget_configuration_sum">Тип отображаемой суммы</string>
+    <string name="recurrence_last_day_of_month">Последний день</string>
 </resources>
