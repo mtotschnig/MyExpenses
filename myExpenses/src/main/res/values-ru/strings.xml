@@ -1008,4 +1008,5 @@
     <string name="menu_merge">Объединить</string>
     <string name="account_widget_configuration_sum">Тип отображаемой суммы</string>
     <string name="recurrence_last_day_of_month">Последний день</string>
+    <string name="account_deleted">Счет удален</string>
 </resources>
