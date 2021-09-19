@@ -16,6 +16,7 @@
 
 package com.android.setupwizardlib.view;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -27,9 +28,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-import androidx.annotation.StyleableRes;
-
 import com.android.setupwizardlib.R;
+
+import androidx.annotation.StyleableRes;
 
 /**
  * Custom navigation bar for use with setup wizard. This bar contains a back button, more button and
@@ -58,8 +59,8 @@ public class NavigationBar extends LinearLayout implements View.OnClickListener 
                         android.R.attr.colorForeground,
                         android.R.attr.colorBackground });
         @StyleableRes int suwNavBarTheme = 0;
-        @StyleableRes int colorForeground = 1;
-        @StyleableRes int colorBackground = 2;
+        @SuppressLint("ResourceType") @StyleableRes int colorForeground = 1;
+        @SuppressLint("ResourceType") @StyleableRes int colorBackground = 2;
         int theme = attributes.getResourceId(suwNavBarTheme, 0);
         if (theme == 0) {
             // Compare the value of the foreground against the background color to see if current

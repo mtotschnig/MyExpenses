@@ -126,7 +126,9 @@ android {
     }
 
     lintOptions {
-        disable 'InvalidPackage', 'MissingQuantity', 'MissingTranslation', 'ImpliedQuantity'
+        checkDependencies true
+        //UsingOnClickInXml can be activated again with appcompat 1.4.0
+        disable 'InvalidPackage', 'MissingQuantity', 'MissingTranslation', 'ImpliedQuantity', 'UsingOnClickInXml'
         abortOnError true
     }
 
