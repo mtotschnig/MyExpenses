@@ -15,9 +15,6 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <resources>
-    <string-array name="whats_new_3331">
-        <item>@string/bug_fixes</item>
-    </string-array>
     <string-array name="whats_new_329">
         <item>Duplicate parties can be merged.</item>
         <item>Remaining amount in split transactions can be copied to clipboard.</item>
