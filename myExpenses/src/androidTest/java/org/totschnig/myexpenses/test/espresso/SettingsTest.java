@@ -16,7 +16,6 @@ import org.totschnig.myexpenses.activity.GrisbiImport;
 import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.activity.ManageCurrencies;
 import org.totschnig.myexpenses.activity.ManageMethods;
-import org.totschnig.myexpenses.activity.ManageParties;
 import org.totschnig.myexpenses.activity.ManageSyncBackends;
 import org.totschnig.myexpenses.activity.MyPreferenceActivity;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
@@ -66,14 +65,6 @@ public class SettingsTest extends BaseUiTest {
             click()));
     intended(hasComponent(ManageCategories.class.getName()));
     onView(withText(R.string.pref_manage_categories_title)).check(matches(isDisplayed()));
-  }
-
-  @Test
-  public void manageParties() {
-    onView(getRootMatcher())
-        .perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(R.string.pref_manage_parties_title)),
-            click()));
-    intended(hasComponent(ManageParties.class.getName()));
   }
 
   @NonNull

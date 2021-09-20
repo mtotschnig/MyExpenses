@@ -33,8 +33,8 @@ import java.util.Date;
 public class TransactionTest extends BaseDbTest {
 
   // Contains the test data, as an array of TransactionInfo instances.
-  private TransactionInfo[] TEST_TRANSACTIONS = new TransactionInfo[3];
-  private String PAYEE_NAME = "N.N";
+  private final TransactionInfo[] TEST_TRANSACTIONS = new TransactionInfo[3];
+  private final String PAYEE_NAME = "N.N";
   private long testAccountId;
   private long payeeId;
 
@@ -324,7 +324,7 @@ public class TransactionTest extends BaseDbTest {
     // Tests each column in the returned cursor against the data that was inserted, comparing
     // the field in the TransactionInfo object to the data at the column index in the cursor.
     assertEquals(transaction.getComment(), cursor.getString(commentIndex));
-    assertEquals(transaction.getDate(), cursor.getLong(dateIndex));
+    assertEquals(transaction.getDateAsLong(), cursor.getLong(dateIndex));
     assertEquals(transaction.getAmount(), cursor.getLong(amountIndex));
     assertEquals(PAYEE_NAME, cursor.getString(payeeIndex));
     // Insert subtest 2.

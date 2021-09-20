@@ -11,7 +11,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.databinding.ScanPreviewBinding
+import org.totschnig.ocr.databinding.ScanPreviewBinding
 import org.totschnig.myexpenses.dialog.BaseDialogFragment
 import org.totschnig.myexpenses.feature.OcrHost
 import java.io.File

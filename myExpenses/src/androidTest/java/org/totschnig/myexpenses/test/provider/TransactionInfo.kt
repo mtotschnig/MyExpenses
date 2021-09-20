@@ -14,7 +14,7 @@ data class TransactionInfo @JvmOverloads constructor(
     val payeeId: Long,
     val debtId: Long? = null
 ) {
-    private val dateAsLong: Long
+    val dateAsLong: Long
         get() = date.time / 1000
     val contentValues: ContentValues
         get() {

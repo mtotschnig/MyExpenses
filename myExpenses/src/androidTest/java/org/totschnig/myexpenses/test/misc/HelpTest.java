@@ -22,19 +22,26 @@ import junit.framework.Assert;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.AccountEdit;
+import org.totschnig.myexpenses.activity.BudgetActivity;
 import org.totschnig.myexpenses.activity.BudgetEdit;
+import org.totschnig.myexpenses.activity.CsvImportActivity;
+import org.totschnig.myexpenses.activity.DebtEdit;
 import org.totschnig.myexpenses.activity.Distribution;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.FolderBrowser;
+import org.totschnig.myexpenses.activity.HistoryActivity;
 import org.totschnig.myexpenses.activity.ManageBudgets;
 import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.activity.ManageCurrencies;
 import org.totschnig.myexpenses.activity.ManageMethods;
 import org.totschnig.myexpenses.activity.ManageParties;
+import org.totschnig.myexpenses.activity.ManageStaleImages;
+import org.totschnig.myexpenses.activity.ManageSyncBackends;
 import org.totschnig.myexpenses.activity.ManageTags;
 import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.activity.MethodEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
+import org.totschnig.myexpenses.activity.RoadmapVoteActivity;
 import org.totschnig.myexpenses.viewmodel.data.VersionInfo;
 
 //TODO use parameterized test
@@ -66,20 +73,27 @@ public class HelpTest extends android.test.InstrumentationTestCase {
     int menuItemsIdentifier;
     //TODO complete with new activities
     Class<?>[] activities = new Class<?>[]{
-        ManageParties.class,
-        MethodEdit.class,
-        ExpenseEdit.class,
         AccountEdit.class,
-        ManageMethods.class,
-        ManageTemplates.class,
-        MyExpenses.class,
+        BudgetActivity.class,
+        BudgetEdit.class,
+        CsvImportActivity.class,
+        DebtEdit.class,
+        Distribution.class,
+        ExpenseEdit.class,
+        FolderBrowser.class,
+        HistoryActivity.class,
+        ManageBudgets.class,
         ManageCategories.class,
         ManageCurrencies.class,
+        ManageMethods.class,
+        ManageParties.class,
+        ManageStaleImages.class,
+        ManageSyncBackends.class,
         ManageTags.class,
-        Distribution.class,
-        BudgetEdit.class,
-        ManageBudgets.class,
-        FolderBrowser.class
+        ManageTemplates.class,
+        MethodEdit.class,
+        MyExpenses.class,
+        RoadmapVoteActivity.class
     };
     for (Class<?> activity : activities) {
       String className = activity.getSimpleName();
@@ -147,14 +161,9 @@ public class HelpTest extends android.test.InstrumentationTestCase {
     String pack = context.getPackageName();
     String resIdString;
     for (String item : menuItems) {
-      //assertTrue("icon not found for " + item,HelpDialogFragment.iconMap.containsKey(item));
       final String format = String.format("title not found for %s-%s-%s-%s", activityName, variant, prefix, item);
-      if (prefix.equals("form")) {
-        for (String resIdPart : item.split("\\.")) {
-          assertTrue(format, resources.getIdentifier(resIdPart, "string", pack) != 0);
-        }
-      } else {
-        resIdString = "menu_" + item;
+      for (String resIdPart : item.split("\\.")) {
+        resIdString = (prefix.equals("form") ? "" : "menu_") + resIdPart;
         assertTrue(format, resources.getIdentifier(resIdString, "string", pack) != 0);
       }
       if (!resolveStringOrArray(prefix + "_" + activityName + "_" + variant + "_" + item + "_help_text")) {
@@ -166,8 +175,9 @@ public class HelpTest extends android.test.InstrumentationTestCase {
   }
 
   private boolean resolveStringOrArray(String resString) {
-    if (resources.getIdentifier(resString, "array", context.getPackageName()) != 0)
+    String resIdString = resString.replace('.', '_');
+    if (resources.getIdentifier(resIdString, "array", context.getPackageName()) != 0)
       return true;
-    return resources.getIdentifier(resString, "string", context.getPackageName()) != 0;
+    return resources.getIdentifier(resIdString, "string", context.getPackageName()) != 0;
   }
 }
