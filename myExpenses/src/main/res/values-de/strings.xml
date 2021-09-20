@@ -1000,15 +1000,15 @@
     <string name="debt_managment">Schuldenverwaltung</string>
     <string name="object_sealed_debt">Objekt bezieht sich auf eine geschlossene Schuld.</string>
     <plurals name="debt_mapped_transactions">
-        <item quantity="one">Schuld %1$s hat %2$d zugeordnete Transaktion.</item>
-        <item quantity="other">Schuld %1$s hat %2$d zugeordnete Transaktione.</item>
+        <item quantity="one">Schuld %1$s hat %2$d zugeordnete Buchung.</item>
+        <item quantity="other">Schuld %1$s hat %2$d zugeordnete Buchungen.</item>
     </plurals>
     <string name="dialog_title_delete_debt">Schulden löschen\?</string>
-    <string name="dialog_confirm_discard_new_debt">Neue Schulden abwerfen\?</string>
+    <string name="dialog_confirm_discard_new_debt">Neue Schuld verwerfen\?</string>
     <string name="warning_party_delete_debt">Wenn Sie diese Partei löschen, werden auch die für sie definierten Schulden gelöscht.</string>
     <string name="debts">Schulden</string>
     <string name="debt_I_owe">Ich schulde %s</string>
     <string name="debt_owes_me">%s schuldet mir</string>
-    <string name="menu_new_debt">Neue Schulden</string>
+    <string name="menu_new_debt">Neue Schuld</string>
     <string name="dialog_title_warning_delete_party">Partei löschen\?</string>
 </resources>

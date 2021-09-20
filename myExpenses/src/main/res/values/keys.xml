@@ -206,19 +206,12 @@
     <string name="button_label_try_again">Try again</string>
     <string name="licence_validation_upgrade_needed" tools:ignore="UnusedResources">Please upgrade My Expenses Contrib to version 1.5.</string>
 
-    <string name="menu_vote" tools:ignore="UnusedResources">?/10</string>
+    <string name="menu_vote" tools:ignore="UnusedResources">\?/10</string>
     <string name="menu_refresh">Refresh</string>
     <string name="menu_learn_more">@string/learn_more</string>
     <string name="menu_set_weight">Set weight</string>
     <string name="menu_result">Result</string>
     <string name="menu_color">@string/color</string>
-    <string name="menu_select" tools:ignore="UnusedResources">@string/select</string>
-    <string name="menu_manage_categories">@string/pref_manage_categories_title</string>
-    <string name="menu_templates" tools:ignore="UnusedResources">@string/widget_title_templates</string>
-    <string name="menu_link" tools:ignore="UnusedResources">@string/menu_create_transfer</string>
-    <string name="menu_parties" tools:ignore="UnusedResources">@string/pref_manage_parties_title</string>
-    <string name="menu_debts" tools:ignore="UnusedResources">@string/debts</string>
-    <string name="help_DebtEdit_title" tools:ignore="UnusedResources">@string/debt_managment</string>
     <string name="roadmap_intro">We have launched a new iteration of the Roadmap Vote. Please help us define priorities for the upcoming year.</string>
     <string name="roadmap_intro_update">You need to update your vote in order to have it counted.</string>
     <string name="roadmap_loading">Loading issues …</string>
@@ -247,11 +240,6 @@
     </string-array>
     <!-- During onboarding, user can select to restore data from synchronized account-specific data . This is the title for the tab where the accounts are listed -->
     <string name="onboarding_restore_from_cloud_sync_accounts">@string/pref_manage_accounts_title</string>
-    <string name="cab_ManageTemplates_planner_create_instance_save_help_text" tools:ignore="UnusedResources">@string/cab_ManageTemplates_plans_create_instance_save_help_text</string>
-    <string name="cab_ManageTemplates_planner_create_instance_edit_help_text" tools:ignore="UnusedResources">@string/cab_ManageTemplates_plans_create_instance_edit_help_text</string>
-    <string name="cab_ManageTemplates_planner_cancel_plan_instance_help_text" tools:ignore="UnusedResources">@string/cab_ManageTemplates_plans_cancel_plan_instance_help_text</string>
-    <string name="cab_ManageTemplates_planner_reset_plan_instance_help_text" tools:ignore="UnusedResources">@string/cab_ManageTemplates_plans_reset_plan_instance_help_text</string>
-    <string name="cab_ManageTemplates_planner_edit_plan_instance_help_text" tools:ignore="UnusedResources">@string/cab_ManageTemplates_plans_edit_plan_instance_help_text</string>
     <string name="pref_planner_advanced_key">planner_advanced</string>
     <string name="pref_planner_manual_time_key">planner_manual_time</string>
     <string name="pref_criterion_future_key">criterion_future</string>
