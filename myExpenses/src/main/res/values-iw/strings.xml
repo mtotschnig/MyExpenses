@@ -959,7 +959,7 @@
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">אנא בחר חבילת רישיון.</string>
     <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
-    <string name="discover_feature_fab_long_press">הקש והחזק את כפתור הפעולה הצף על מנת לפתוח ישירות את הטופס להעברות, עסקאות מפוצלות או הכנסה.</string>
+    <string name="discover_feature_fab_long_press">יש לגעת ולהחזיק את כפתור הפעולה הצף על מנת לפתוח ישירות את הטופס להעברות, עסקאות מפוצלות או הכנסה.</string>
     <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
     <string name="advance_exexcution_in_days">ביצוע מראש (בימים)</string>
     <string name="warning_balance_account_delete">אם תמשיך, כל העסקאות המתואמות של חשבון זה יימחקו ממסד הנתונים ולא תוכל לשחזר אותן.</string>
@@ -1023,4 +1023,20 @@
     <string name="stability_improvements">שיפורים ביציבות</string>
     <string name="new_version">גרסה חדשה</string>
     <string name="pref_news_title">חדשות</string>
+    <plurals name="debt_mapped_transactions">
+        <item quantity="one">לחוב %1$s יש העברה ממופת אחת.</item>
+        <item quantity="two">לחוב %1$s יש %2$d העברות ממופות.</item>
+        <item quantity="many">לחוב %1$s יש %2$d העברות ממופות.</item>
+        <item quantity="other">לחוב %1$s יש %2$d העברות ממופות.</item>
+    </plurals>
+    <string name="warning_party_delete_debt">מחיקת הגוף תוביל גם למחיקת החובות שמוגדרים מולו.</string>
+    <string name="dialog_title_warning_delete_party">למחוק גוף\?</string>
+    <string name="debt_managment">ניהול חובות</string>
+    <string name="object_sealed_debt">הפריט מתייחס לחוב שנסגר.</string>
+    <string name="dialog_title_delete_debt">למחוק חוב\?</string>
+    <string name="dialog_confirm_discard_new_debt">להתעלם מחוב חדש\?</string>
+    <string name="debts">חובות</string>
+    <string name="debt_I_owe">חוב ממני לטובת %s</string>
+    <string name="debt_owes_me">חוב כלפי מצד %s</string>
+    <string name="menu_new_debt">חוב חדש</string>
 </resources>
