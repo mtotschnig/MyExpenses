@@ -896,7 +896,7 @@
     <string name="menu_save_and_new_content_description">ಡೇಟಾವನ್ನು ಉಳಿಸಿ, ಅದೇ ಡೇಟಾದೊಂದಿಗೆ ಹೊಸ ವಹಿವಾಟನ್ನು ರಚಿಸಲು ಫಾರ್ಮ್ ಅನ್ನು ಮುಕ್ತವಾಗಿ ಬಿಡಿ.</string>
     <string name="warning_balance_account_delete">ನೀವು ಮುಂದುವರಿದರೆ, ಈ ಖಾತೆಯ ಎಲ್ಲಾ ರಾಜಿ ವ್ಯವಹಾರಗಳನ್ನು ಡೇಟಾಬೇಸ್‌ನಿಂದ ಅಳಿಸಲಾಗುತ್ತದೆ ಮತ್ತು ಅವುಗಳನ್ನು ಮರುಸ್ಥಾಪಿಸಲು ನಿಮಗೆ ಸಾಧ್ಯವಾಗುವುದಿಲ್ಲ.</string>
     <string name="advance_exexcution_in_days">ಮುಂಗಡ ಮರಣದಂಡನೆ (ದಿನಗಳಲ್ಲಿ)</string>
-    <string name="discover_feature_fab_long_press">ವರ್ಗಾವಣೆ, ವಿಭಜಿತ ವಹಿವಾಟು ಅಥವಾ ಆದಾಯಕ್ಕಾಗಿ ಫಾರ್ಮ್ ಅನ್ನು ನೇರವಾಗಿ ತೆರೆಯಲು ಫ್ಲೋಟಿಂಗ್ ಆಕ್ಷನ್ ಬಟನ್ ಟ್ಯಾಪ್ ಮಾಡಿ ಮತ್ತು ಹಿಡಿದುಕೊಳ್ಳಿ.</string>
+    <string name="discover_feature_fab_long_press">ವರ್ಗಾವಣೆ, ವಿಭಜಿತ ವಹಿವಾಟು ಅಥವಾ ಆದಾಯಕ್ಕಾಗಿ ಫಾರ್ಮ್ ಅನ್ನು ನೇರವಾಗಿ ತೆರೆಯಲು ಫ್ಲೋಟಿಂಗ್ ಆಕ್ಷನ್ ಬಟನ್ ಅನ್ನು ಟ್ಯಾಪ್ ಮಾಡಿ ಮತ್ತು ಹಿಡಿದುಕೊಳ್ಳಿ.</string>
     <string name="select_package">ದಯವಿಟ್ಟು ಪರವಾನಗಿ ಪ್ಯಾಕೇಜ್ ಆಯ್ಕೆಮಾಡಿ.</string>
     <string name="pref_feature_uninstall_languages_title">ಭಾಷೆಗಳು</string>
     <string name="pref_feature_uninstall_summary">ಪ್ಲೇ ಸ್ಟೋರ್ ಅಂತಿಮವಾಗಿ ಆ ಮಾಡ್ಯೂಲ್‌ಗಳನ್ನು ಹಿನ್ನೆಲೆಯಲ್ಲಿ ತೆಗೆದುಹಾಕಲು ಪ್ರಯತ್ನಿಸುತ್ತದೆ.</string>
