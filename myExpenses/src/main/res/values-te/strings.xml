@@ -872,4 +872,18 @@
     <string name="backup_save_to_sync_backend">%s కు సేవ్ చేయండి</string>
     <string name="new_version">క్రొత్త సంస్కరణ</string>
     <string name="pref_news_title">వార్తలు</string>
+    <string name="debt_managment">రుణ నిర్వహణ</string>
+    <string name="object_sealed_debt">ఆబ్జెక్ట్ అనేది క్లోజ్డ్ డెట్‌ని సూచిస్తుంది.</string>
+    <plurals name="debt_mapped_transactions">
+        <item quantity="one">%1$s రుణానికి %2$d మ్యాప్ చేసిన లావాదేవీ ఉంది.</item>
+        <item quantity="other">%1$s రుణానికి %2$d మ్యాప్ చేయబడిన లావాదేవీలు ఉన్నాయి.</item>
+    </plurals>
+    <string name="dialog_title_delete_debt">రుణాన్ని తొలగించాలా\?</string>
+    <string name="dialog_confirm_discard_new_debt">కొత్త రుణాన్ని విస్మరించాలా\?</string>
+    <string name="warning_party_delete_debt">ఈ పార్టీని తొలగించేటప్పుడు, దాని కోసం నిర్వచించబడిన అప్పులు కూడా తొలగించబడతాయి.</string>
+    <string name="debts">అప్పులు</string>
+    <string name="debt_I_owe">నేను %s కి రుణపడి ఉన్నాను</string>
+    <string name="debt_owes_me">%s నాకు రుణపడి ఉంది</string>
+    <string name="menu_new_debt">కొత్త అప్పు</string>
+    <string name="dialog_title_warning_delete_party">పార్టీని తొలగించాలా\?</string>
 </resources>

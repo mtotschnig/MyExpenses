@@ -997,4 +997,18 @@
     <string name="backup_save_to_sync_backend">%s\'a kaydet</string>
     <string name="new_version">Yeni sürüm</string>
     <string name="pref_news_title">Haberler</string>
+    <plurals name="debt_mapped_transactions">
+        <item quantity="one">%1$s borcu, %2$d eşlenmiş işleme sahip.</item>
+        <item quantity="other">%1$s borcu, %2$d eşlenmiş işleme sahip.</item>
+    </plurals>
+    <string name="debt_managment">Borç yönetimi</string>
+    <string name="object_sealed_debt">Nesne kapalı bir borca atıfta bulunmaktadır.</string>
+    <string name="dialog_title_delete_debt">Borç silinsin mi\?</string>
+    <string name="dialog_confirm_discard_new_debt">Yeni borç silinsin mi\?</string>
+    <string name="warning_party_delete_debt">Bu taraf silinirken kendisine tanımlanan borçlar da silinecektir.</string>
+    <string name="debts">Borçlar</string>
+    <string name="debt_I_owe">%s\'e borcum var</string>
+    <string name="debt_owes_me">%s bana borçlu</string>
+    <string name="menu_new_debt">Yeni borç</string>
+    <string name="dialog_title_warning_delete_party">Taraf silinsin mi\?</string>
 </resources>

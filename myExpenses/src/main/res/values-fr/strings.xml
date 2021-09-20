@@ -113,7 +113,7 @@
     </plurals>
     <string name="dialog_title_warning_delete_category">Supprimer la catégorie \?</string>
     <string name="dialog_title_warning_delete_template">Supprimer le modèle ?</string>
-    <string name="dialog_title_warning_delete_transaction">Supprimer l\'opération ?</string>
+    <string name="dialog_title_warning_delete_transaction">Supprimer l\'opération \?</string>
     <string name="expense">Dépense</string>
     <string name="export_expenses">Export des dépenses</string>
     <!-- 1$s is replaced with path to file, 2$s with error message -->
@@ -997,4 +997,18 @@
     <string name="stability_improvements">Améliorations de la stabilité</string>
     <string name="new_version">Nouvelle version</string>
     <string name="pref_news_title">Nouveautés</string>
+    <string name="debt_managment">Gestion des dettes</string>
+    <string name="object_sealed_debt">L\'objet fait référence à une dette fermée.</string>
+    <plurals name="debt_mapped_transactions">
+        <item quantity="one">La dette %1$s a %2$d une transaction mappée.</item>
+        <item quantity="other">La dette %1$s a %2$d transactions mappées.</item>
+    </plurals>
+    <string name="dialog_title_delete_debt">Supprimer la dette \?</string>
+    <string name="dialog_confirm_discard_new_debt">Effacer la nouvelle dette \?</string>
+    <string name="warning_party_delete_debt">En supprimant cette partie, les dettes définies pour elle seront également supprimées.</string>
+    <string name="debts">Dettes</string>
+    <string name="debt_I_owe">Je dois à %s</string>
+    <string name="debt_owes_me">%s me doit</string>
+    <string name="menu_new_debt">Nouvelle dette</string>
+    <string name="dialog_title_warning_delete_party">Supprimer la partie \?</string>
 </resources>

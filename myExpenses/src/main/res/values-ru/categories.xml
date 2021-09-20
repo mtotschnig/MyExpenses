@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources, InconsistentArrays">
     <!-- Main category -->
     <string name="Main_1">Прочие поступления</string>
@@ -27,7 +27,7 @@
     <!-- Subcategory under "Investment income" -->
     <string name="Sub_3_1">Дивиденд</string>
     <!-- Subcategory under "Investment income" -->
-    <string name="Sub_3_2">Доля</string>
+    <string name="Sub_3_2">Проценты</string>
     <!-- Subcategory under "Investment income" -->
     <string name="Sub_3_3">Прирост капитала</string>
     <!-- Main category -->
@@ -35,7 +35,7 @@
     <!-- Subcategory under "Salary" -->
     <string name="Sub_4_1">Сверхурочные</string>
     <!-- Subcategory under "Salary" -->
-    <string name="Sub_4_2">Оставить пособие</string>
+    <string name="Sub_4_2">Отпускные</string>
     <!-- Subcategory under "Salary" -->
     <string name="Sub_4_3">Прочие премии</string>
     <!-- Subcategory under "Salary" -->
@@ -49,7 +49,7 @@
     <!-- Subcategory under "Misc. income" -->
     <string name="Sub_5_2">Возвраты</string>
     <!-- Subcategory under "Misc. income" -->
-    <string name="Sub_5_3">Продажа секонд хенда</string>
+    <string name="Sub_5_3">Продажа б/у товаров</string>
     <!-- Main category -->
     <string name="Main_6">Еда</string>
     <!-- Subcategory under "Food" -->
@@ -59,9 +59,9 @@
     <!-- Subcategory under "Food" -->
     <string name="Sub_6_3">Столовая</string>
     <!-- Subcategory under "Food" -->
-    <string name="Sub_6_4">Конфеты</string>
+    <string name="Sub_6_4">Сладости</string>
     <!-- Subcategory under "Food" -->
-    <string name="Sub_6_5">Бакалея</string>
+    <string name="Sub_6_5">Продукты</string>
     <!-- Subcategory under "Food" -->
     <string name="Sub_6_6">Ресторан</string>
     <!-- Subcategory under "Food" -->
@@ -75,7 +75,7 @@
     <!-- Subcategory under "Pets" -->
     <string name="Sub_7_2">Различные принадлежности</string>
     <!-- Subcategory under "Pets" -->
-    <string name="Sub_7_3">Ухаживание</string>
+    <string name="Sub_7_3">Уход</string>
     <!-- Subcategory under "Pets" -->
     <string name="Sub_7_4">Ветеринарный врач</string>
     <!-- Main category -->
@@ -115,7 +115,7 @@
     <!-- Subcategory under "Studies" -->
     <string name="Sub_12_1">Уроки</string>
     <!-- Subcategory under "Studies" -->
-    <string name="Sub_12_2">Школьное обучение</string>
+    <string name="Sub_12_2">Плата за обучение</string>
     <!-- Subcategory under "Studies" -->
     <string name="Sub_12_3">Книги</string>
     <!-- Main category -->
@@ -123,7 +123,7 @@
     <!-- Subcategory under "Financial expenses" -->
     <string name="Sub_13_1">Банковские сборы</string>
     <!-- Subcategory under "Financial expenses" -->
-    <string name="Sub_13_2">Ипотечный кредит</string>
+    <string name="Sub_13_2">Кредит/Ипотека</string>
     <!-- Subcategory under "Financial expenses" -->
     <string name="Sub_13_3">Сборы</string>
     <!-- Subcategory under "Financial expenses" -->
@@ -143,7 +143,7 @@
     <!-- Subcategory under "Taxes" -->
     <string name="Sub_15_3">Налог на добавленную стоимость</string>
     <!-- Main category -->
-    <string name="Main_16">Размещение в жилье</string>
+    <string name="Main_16">Жилье</string>
     <!-- Subcategory under "Housing" -->
     <string name="Sub_16_1">Отель</string>
     <!-- Subcategory under "Housing" -->
@@ -153,7 +153,7 @@
     <!-- Subcategory under "Housing" -->
     <string name="Sub_16_4">Мебель</string>
     <!-- Subcategory under "Housing" -->
-    <string name="Sub_16_5">Сборы</string>
+    <string name="Sub_16_5">Коммунальные платежи</string>
     <!-- Subcategory under "Housing" -->
     <string name="Sub_16_6">Отопление</string>
     <!-- Subcategory under "Housing" -->
@@ -207,7 +207,7 @@
     <!-- Subcategory under "Leisures" -->
     <string name="Sub_17_14">Музеи/выставки</string>
     <!-- Main category -->
-    <string name="Main_18">Ипотечный кредит</string>
+    <string name="Main_18">Кредит/Ипотека</string>
     <!-- Subcategory under "Loan/Mortgage" -->
     <string name="Sub_18_1">Капитал</string>
     <!-- Main category -->
@@ -231,7 +231,7 @@
     <!-- Subcategory under "Health" -->
     <string name="Sub_19_9">Социальное обеспечение</string>
     <!-- Main category -->
-    <string name="Main_20">Уход за чем-либо</string>
+    <string name="Main_20">Уход</string>
     <!-- Subcategory under "Care" -->
     <string name="Sub_20_1">Парикмахер</string>
     <!-- Subcategory under "Care" -->
@@ -249,11 +249,11 @@
     <!-- Subcategory under "Transport" -->
     <string name="Sub_21_5">Трамвай</string>
     <!-- Subcategory under "Transport" -->
-    <string name="Sub_21_6">самолет</string>
+    <string name="Sub_21_6">Самолет</string>
     <!-- Main category -->
     <string name="Main_22">Праздники</string>
     <!-- Subcategory under "Holidays" -->
-    <string name="Sub_22_1">Размещение в жилье</string>
+    <string name="Sub_22_1">Жилье</string>
     <!-- Subcategory under "Holidays" -->
     <string name="Sub_22_2">Посещения</string>
     <!-- Subcategory under "Holidays" -->

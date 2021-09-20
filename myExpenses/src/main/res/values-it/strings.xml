@@ -997,4 +997,18 @@
     <string name="backup_save_to_sync_backend">Salvato in %s</string>
     <string name="new_version">Nuova versione</string>
     <string name="pref_news_title">Notizie</string>
+    <string name="debt_managment">Gestione dei debiti</string>
+    <string name="object_sealed_debt">L\'oggetto si riferisce a un debito chiuso.</string>
+    <plurals name="debt_mapped_transactions">
+        <item quantity="one">Il debito %1$s ha una transazione mappata %2$d.</item>
+        <item quantity="other">Il debito %1$s ha %2$d transazioni mappate.</item>
+    </plurals>
+    <string name="dialog_title_delete_debt">Cancellare il debito\?</string>
+    <string name="dialog_confirm_discard_new_debt">Scarta il nuovo debito\?</string>
+    <string name="dialog_title_warning_delete_party">Eliminare la partite\?</string>
+    <string name="warning_party_delete_debt">Quando si elimina questa parte, anche i debiti definiti per essa saranno eliminati.</string>
+    <string name="debts">Debiti</string>
+    <string name="debt_I_owe">Devo %s</string>
+    <string name="debt_owes_me">%s mi deve</string>
+    <string name="menu_new_debt">Nuovo debito</string>
 </resources>
