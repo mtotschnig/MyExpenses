@@ -933,7 +933,7 @@
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">Lütfen bir lisans paketi seçin.</string>
     <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
-    <string name="discover_feature_fab_long_press">Transferler, bölünmüş muameleler veya gelirler için formu doğrudan açmak için kayan eylem düğmesine dokunun ve basılı tutun.</string>
+    <string name="discover_feature_fab_long_press">Transferler, bölünmüş muameleler veya gelirler için formu doğrudan açmak üzere kayan eylem düğmesine dokunun ve basılı tutun.</string>
     <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
     <string name="advance_exexcution_in_days">Önceden uygulama (gün olarak)</string>
     <string name="warning_balance_account_delete">Devam ederseniz, bu hesabın tüm uzlaşmış işlemleri veri tabanından silinecek ve bunları geri yükleyemeyeceksiniz.</string>
