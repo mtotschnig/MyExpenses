@@ -771,7 +771,7 @@
     <string name="confirmation_load_template_discard_data">ఇప్పటికే ఉన్న ఫారమ్ డేటా విస్మరించబడుతుంది.</string>
     <string name="warning_balance_account_delete">మీరు కొనసాగితే, ఈ ఖాతా యొక్క అన్ని రాజీ లావాదేవీలు డేటాబేస్ నుండి తొలగించబడతాయి మరియు మీరు వాటిని పునరుద్ధరించలేరు.</string>
     <string name="advance_exexcution_in_days">ముందస్తు అమలు (రోజుల్లో)</string>
-    <string name="discover_feature_fab_long_press">బదిలీ, స్ప్లిట్ లావాదేవీలు లేదా ఆదాయం కోసం ఫారమ్‌ను నేరుగా తెరవడానికి ఫ్లోటింగ్ యాక్షన్ బటన్‌ను నొక్కి పట్టుకోండి.</string>
+    <string name="discover_feature_fab_long_press">బదిలీలు, విభజన లావాదేవీలు లేదా ఆదాయం కోసం ఫారమ్‌ను నేరుగా తెరవడానికి ఫ్లోటింగ్ యాక్షన్ బటన్‌ని నొక్కి పట్టుకోండి.</string>
     <string name="select_package">దయచేసి లైసెన్స్ ప్యాకేజీని ఎంచుకోండి.</string>
     <string name="pref_feature_uninstall_languages_title">భాషలు</string>
     <string name="pref_feature_uninstall_summary">ప్లే స్టోర్ చివరికి ఆ మాడ్యూళ్ళను నేపథ్యంలో తొలగించడానికి ప్రయత్నిస్తుంది.</string>

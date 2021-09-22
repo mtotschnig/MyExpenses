@@ -196,4 +196,9 @@
     <string name="help_ManageTags_select_filter_info">Per filtrare l\'elenco delle transazioni, seleziona o deseleziona i tag premendoci sopra. Utilizza il pulsante fluttuante per confermare la selezione.</string>
     <string name="help_ManageTags_manage_info">Crea nuovi tag inserendoli nel campo di testo. L\'icona x su ciascun tag lo rimuove dal database. Premere a lungo su di un tag consente di modificarlo.</string>
     <string name="help_ManageTags_select_mapping_info">Assegna o rimuovi i tag premendoci sopra. Utilizza il pulsante fluttuante per confermare l\'assegnazione.</string>
+    <string name="form_DebtEdit_date_help_text">Immetti la data in cui è stato contratto il debito.</string>
+    <string name="form_DebtEdit_amount_help_text">Inserisci l\'importo originario del debito. Le transazioni legate al debito diminuiranno o aumenteranno il saldo. Usa l\'interruttore per distinguere tra debiti contratti e debiti che ti sono dovuti. Se selezioni una valuta diversa dalla tua valuta locale, il debito sarà visibile solo nei conti con la stessa valuta.</string>
+    <string name="form_DebtEdit_label_help_text">L\'etichetta permette di selezionare il debito sul modulo per le transazioni, al fine di contrassegnare una transazione come un acconto.</string>
+    <string name="cab_debts_help_text">Questo sottomenù permette di definire nuovi debiti associati alla parte selezionata, e di gestire i debiti esistenti: di ispezionare lo storico delle transazioni e il saldo residuo e di modificarli, chiuderli o cancellarli.</string>
+    <string name="help_debt_managment">Associa i debiti alle parti, controlla l\'elenco delle transazioni e calcola il saldo residuo.</string>
 </resources>
