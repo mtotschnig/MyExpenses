@@ -110,4 +110,21 @@
     <string name="url_not_valid">URL tidak valid</string>
     <string name="menu_remove">Hapus</string>
     <string name="template">Templat</string>
+    <string name="validate_error_not_empty">Tidak boleh kosong</string>
+    <string name="dialog_command_sync_link_remote">Unduh dari remote</string>
+    <string name="dialog_command_sync_link_local">Unggah dari lokal</string>
+    <string name="validate_error_webdav_404">URL tidak ada di server.</string>
+    <string name="validate_error_webdav_not_compliant">URL tidak mengarah ke sumber WebDAV.</string>
+    <string name="validate_error_webdav_invalid_certificate">Sertifikat ini tampaknya tidak valid dan tidak bisa dipercaya.</string>
+    <string name="search_transfer">Cari untuk transfer</string>
+    <string name="content_description_calculator_clear_button">Setel ulang semua</string>
+    <string name="synchronization">Sinkronisasi</string>
+    <string name="hint_url">URL</string>
+    <string name="synchronization_none">Tidak ada sinkronisasi</string>
+    <string name="dialog_title_delete_debt">Hapus utang\?</string>
+    <string name="debts">Utang</string>
+    <string name="debt_I_owe">Saya berutang %s</string>
+    <string name="debt_owes_me">%s berutang padaku</string>
+    <string name="menu_new_debt">Utang baru</string>
+    <string name="debt_managment">Manajemen Utang</string>
 </resources>
