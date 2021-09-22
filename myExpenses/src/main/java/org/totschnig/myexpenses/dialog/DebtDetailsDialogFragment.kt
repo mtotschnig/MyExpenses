@@ -22,15 +22,15 @@ import org.totschnig.myexpenses.databinding.DebtTransactionBinding
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Transfer
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.epoch2LocalDate
 import org.totschnig.myexpenses.viewmodel.DebtViewModel
 import org.totschnig.myexpenses.viewmodel.DebtViewModel.Transaction
 import org.totschnig.myexpenses.viewmodel.data.Debt
 import javax.inject.Inject
+import kotlin.math.absoluteValue
+import kotlin.math.sign
 
 class DebtDetailsDialogFragment : BaseDialogFragment() {
     @Inject
@@ -53,7 +53,7 @@ class DebtDetailsDialogFragment : BaseDialogFragment() {
         }
         val debtId = requireArguments().getLong(KEY_DEBT_ID)
         viewModel.loadDebt(debtId).observe(this) { debt ->
-            (dialog as? AlertDialog)?.setTitle(debt.label)
+            (dialog as? AlertDialog)?.setTitle("${debt.label} (${debt.payeeName})")
             this.debt = debt
             this.currency = currencyContext[debt.currency]
             viewModel.loadTransactions(debtId, debt.amount).observe(this) {
@@ -75,7 +75,8 @@ class DebtDetailsDialogFragment : BaseDialogFragment() {
     private fun configureSealed() {
         (dialog as? AlertDialog)?.let {
             it.setIcon(if (debt.isSealed) R.drawable.ic_lock else R.drawable.balance_scale)
-            it.getButton(AlertDialog.BUTTON_NEUTRAL).setText(if (debt.isSealed) R.string.menu_reopen else R.string.menu_edit)
+            it.getButton(AlertDialog.BUTTON_NEUTRAL)
+                .setText(if (debt.isSealed) R.string.menu_reopen else R.string.menu_edit)
         }
     }
 
@@ -170,18 +171,14 @@ class DebtDetailsDialogFragment : BaseDialogFragment() {
         val colorExpense =
             ResourcesCompat.getColor(itemView.context.resources, R.color.colorExpense, null)
 
-        fun bind(item: Transaction, boldBalance: Boolean) {
+        fun bind(item: Transaction, boldBalance: Boolean, trend: Int) {
             binding.Date.text = item.date.toString()
-            item.amount?.let { amount ->
-                binding.Amount.text = currencyFormatter.convAmount(amount, currency)
-                val direction = when {
-                    amount > 0 -> Transfer.RIGHT_ARROW
-                    amount < 0 -> Transfer.LEFT_ARROW
-                    else -> ""
-                }
-                //noinspection SetTextI18n
-                binding.Payee.text = "$direction ${debt.payeeName}"
-            }
+            binding.Amount.text = item.amount?.let { currencyFormatter.convAmount(it, currency) }
+            binding.Trend.setImageResource(when {
+                trend > 0 -> R.drawable.ic_trending_up
+                trend < 0 -> R.drawable.ic_trending_down
+                else -> 0
+            })
             with(binding.RunningBalance) {
                 text = currencyFormatter.convAmount(item.runningTotal, currency)
                 when {
@@ -200,7 +197,18 @@ class DebtDetailsDialogFragment : BaseDialogFragment() {
             ViewHolder(DebtTransactionBinding.inflate(LayoutInflater.from(context), parent, false))
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            holder.bind(getItem(position), position == itemCount - 1)
+            val item = getItem(position)
+            val trend = if (position == 0)
+                0
+            else {
+                val previousBalance = getItem(position - 1).runningTotal
+                if (sign(previousBalance.toDouble()) != sign(item.runningTotal.toDouble()))
+                    0
+                else {
+                    item.runningTotal.absoluteValue.compareTo(previousBalance.absoluteValue)
+                }
+            }
+            holder.bind(item, position == itemCount - 1, trend)
         }
     }
 }
