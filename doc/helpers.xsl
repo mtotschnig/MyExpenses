@@ -104,6 +104,13 @@
                 <xsl:apply-templates mode="unescape"
                     select="document($strings)/resources/string[@name='pref_backup_cloud_summary']" />
             </xsl:when>
+            <xsl:when test="$version = '3.3.4'">
+                <xsl:if test="$itemize">
+                    <xsl-text>•&#032;</xsl-text>
+                </xsl:if>
+                <xsl:apply-templates mode="unescape"
+                    select="document($strings)/resources/string[@name='debt_managment']" />
+            </xsl:when>
             <xsl:otherwise />
         </xsl:choose>
     </xsl:template>
