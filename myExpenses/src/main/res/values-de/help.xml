@@ -196,4 +196,9 @@
     <string name="help_ManageTags_select_filter_info">Aktivieren oder deaktivieren Sie die Markierungen zum Filtern der Buchungssliste, indem Sie darauf tippen. Verwenden Sie die schwebende Aktionsschaltfläche, um die Auswahl zu bestätigen.</string>
     <string name="help_ManageTags_manage_info">Erstellen Sie neue Markierungen, indem Sie sie in das Textfeld eingeben. Das x-Symbol auf jeder Markierung entfernt es aus der Datenbank. Durch langes Tippen auf eine Markierung können Sie diese bearbeiten.</string>
     <string name="help_ManageTags_select_mapping_info">Ändern Sie die Auswahl der Markierungen, indem Sie auf diese tippen. Verwenden Sie die schwebende Aktionsschaltfläche, um die Zuordnung zu bestätigen.</string>
+    <string name="form_DebtEdit_date_help_text">Geben Sie das Datum an, an dem die Schuld entstanden ist.</string>
+    <string name="form_DebtEdit_amount_help_text">Geben Sie den ursprünglichen Betrag der Schuld ein. Buchungen, die mit der Schuld verknüpft sind, verringern oder erhöhen den Saldo. Verwenden Sie den Schalter, um zwischen Schulden, die Sie schulden, und Schulden, die Ihnen geschuldet werden, zu unterscheiden. Wenn Sie eine andere Währung als Ihre Heimatwährung wählen, wird die Schuld nur in Konten mit derselben Währung angezeigt.</string>
+    <string name="form_DebtEdit_label_help_text">Die Bezeichnung ermöglicht die Auswahl der Schuld auf dem Formular für Buchungen, um eine Buchung als Anzahlung zu kennzeichnen.</string>
+    <string name="cab_debts_help_text">In diesem Untermenü können Sie neue Schulden für die ausgewählte Partei definieren und bestehende Schulden verwalten: Sie können den Verlauf an Buchungen und den Restsaldo einsehen und sie bearbeiten, schließen oder löschen.</string>
+    <string name="help_debt_managment">Verknüpfen Sie Schulden mit Parteien, überprüfen Sie die Liste der Buchungen und berechnen Sie den Restbetrag.</string>
 </resources>
