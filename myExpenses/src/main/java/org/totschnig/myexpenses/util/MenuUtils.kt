@@ -12,14 +12,14 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.graphics.drawable.DrawableCompat
 import org.totschnig.myexpenses.R
 
-fun configureSearch(activity: Activity, menu: Menu, callback: (String?) -> Boolean) {
+fun configureSearch(activity: Activity, menu: Menu, callback: (String) -> Boolean) {
     (activity.getSystemService(Context.SEARCH_SERVICE) as? SearchManager)?.let { manager ->
         (menu.findItem(R.id.SEARCH_COMMAND).actionView as? SearchView)?.let {
             it.setSearchableInfo(manager.getSearchableInfo(activity.componentName))
             it.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String?) = false
+                override fun onQueryTextSubmit(query: String) = false
 
-                override fun onQueryTextChange(newText: String?) = callback(newText)
+                override fun onQueryTextChange(newText: String) = callback(newText)
             })
         }
     }

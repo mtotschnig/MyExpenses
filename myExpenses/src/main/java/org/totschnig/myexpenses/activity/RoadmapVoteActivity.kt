@@ -125,7 +125,7 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.search, menu)
-        configureSearch(this, menu) { newText: String? -> onQueryTextChange(newText) }
+        configureSearch(this, menu, ::onQueryTextChange)
         voteMenuItem = menu.add(Menu.NONE, R.id.ROADMAP_SUBMIT_VOTE, 0, "").apply {
             setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
         }

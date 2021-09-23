@@ -19,7 +19,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -32,6 +31,7 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
@@ -50,12 +50,11 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.DebtEdit
 import org.totschnig.myexpenses.activity.ManageParties
 import org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter
-import org.totschnig.myexpenses.adapter.ChoiceCapableAdapter
-import org.totschnig.myexpenses.adapter.MultiChoiceMode
 import org.totschnig.myexpenses.databinding.PartiesListBinding
 import org.totschnig.myexpenses.databinding.PayeeRowBinding
 import org.totschnig.myexpenses.dialog.DebtDetailsDialogFragment
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
@@ -67,8 +66,10 @@ import org.totschnig.myexpenses.viewmodel.data.Party
 import java.util.*
 
 class PartiesList : Fragment(), OnDialogResultListener {
-    val manageParties: ManageParties?
-        get() = (activity as? ManageParties)
+    val manageParties: ManageParties
+        get() = (activity as ManageParties)
+
+    private var mergeMenuItem: MenuItem? = null
 
     inner class ViewHolder(val binding: PayeeRowBinding, private val itemCallback: ItemCallback) :
         RecyclerView.ViewHolder(binding.root),
@@ -85,13 +86,13 @@ class PartiesList : Fragment(), OnDialogResultListener {
             itemCallback.onCheckedChanged(isChecked, bindingAdapterPosition)
         }
 
-        fun bind(name: String, checked: Boolean, hasDebts: Boolean) {
-            binding.Payee.text = name
+        fun bind(party: Party, isChecked: Boolean) {
+            binding.Payee.text = party.name
             with(binding.checkBox) {
                 visibility = if (hasSelectMultiple()) View.VISIBLE else View.GONE
-                isChecked = checked
+                this.isChecked = isChecked
             }
-            binding.Debt.visibility = if (hasDebts) View.VISIBLE else View.GONE
+            binding.Debt.visibility = if (party.mappedDebts > 0) View.VISIBLE else View.GONE
             binding.root.setOnClickListener(if (hasSelectMultiple()) null else this)
         }
     }
@@ -102,18 +103,31 @@ class PartiesList : Fragment(), OnDialogResultListener {
     }
 
     inner class PayeeAdapter :
-        ChoiceCapableAdapter<Party, ViewHolder>(MultiChoiceMode(), DIFF_CALLBACK), ItemCallback {
+        ListAdapter<Party, ViewHolder>(DIFF_CALLBACK), ItemCallback {
+        private var checkStates: MutableSet<Long> = mutableSetOf()
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
             ViewHolder(PayeeRowBinding.inflate(LayoutInflater.from(context), parent, false), this)
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            with(getItem(position)) {
-                holder.bind(name, isChecked(position), mappedDebts > 0)
+            with(getParty(position)) {
+                holder.bind(this, checkStates.contains(this.id))
             }
         }
 
-        fun getParty(position: Int): Party = getItem(position)
+        override fun onCurrentListChanged(
+            previousList: MutableList<Party>,
+            currentList: MutableList<Party>
+        ) {
+            updateFabEnabled()
+        }
+
+        private fun getParty(position: Int): Party = getItem(position)
+
+        fun getSelected(): List<Party> = currentList.filter { checkStates.contains(it.id) }
+
+        val checkedCount: Int
+            get() = getSelected().size
 
         override fun onItemClick(view: View, position: Int) {
             val index2IdMap: MutableMap<Int, Long> = mutableMapOf()
@@ -171,7 +185,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                                         R.plurals.not_deletable_mapped_templates, 1, 1
                                     )
                                 }
-                                manageParties?.showSnackbar(message)
+                                manageParties.showSnackbar(message)
                             } else if (party.mappedDebts > 0) {
                                 SimpleDialog.build()
                                     .title(R.string.dialog_title_warning_delete_party)
@@ -222,21 +236,38 @@ class PartiesList : Fragment(), OnDialogResultListener {
         }
 
         override fun onCheckedChanged(isChecked: Boolean, position: Int) {
-            onChecked(position, isChecked)
-            manageParties?.setFabEnabled(
-                checkedCount >=
-                        if (mergeMode) 2 else if (action == ACTION_SELECT_FILTER) 1 else 0
-            )
+            if (isChecked) {
+                checkStates.add(getParty(position).id)
+            } else {
+                checkStates.remove(getParty(position).id)
+            }
+            updateFabEnabled()
+        }
 
+        fun onSaveInstanceState(state: Bundle) {
+            state.putLongArray(STATE_CHECK_STATES, checkStates.toTypedArray().toLongArray())
+        }
+
+        fun onRestoreInstanceState(state: Bundle) {
+            state.getLongArray(STATE_CHECK_STATES)?.let {
+                checkStates = mutableSetOf(*it.toTypedArray())
+            }
         }
     }
 
+    private fun updateFabEnabled() {
+        manageParties.setFabEnabled(
+            adapter.checkedCount >=
+                    if (mergeMode) 2 else if (action == ACTION_SELECT_FILTER) 1 else 0
+        )
+    }
+
     private fun doDelete(partyId: Long) {
-        manageParties?.showSnackbar(R.string.progress_dialog_deleting)
+        manageParties.showSnackbar(R.string.progress_dialog_deleting)
         viewModel.deleteParty(partyId)
             .observe(viewLifecycleOwner) { result ->
                 result.onSuccess { count ->
-                    manageParties?.let {
+                    manageParties.let {
                         it.showSnackbar(
                             it.resources.getQuantityString(
                                 R.plurals.delete_success,
@@ -246,7 +277,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                         )
                     }
                 }.onFailure {
-                    manageParties?.showDeleteFailureFeedback(
+                    manageParties.showDeleteFailureFeedback(
                         it.message
                     )
                 }
@@ -299,12 +330,13 @@ class PartiesList : Fragment(), OnDialogResultListener {
         if (activity == null) return
         inflater.inflate(R.menu.search, menu)
         if (action == ACTION_MANAGE) {
-            menu.add(Menu.NONE, R.id.MERGE_COMMAND, 0, R.string.menu_merge)
-                .setIcon(R.drawable.ic_menu_split_transaction)
-                .setCheckable(true)
-                .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER)
+            mergeMenuItem = menu.add(Menu.NONE, R.id.MERGE_COMMAND, 0, R.string.menu_merge).apply {
+                setIcon(R.drawable.ic_menu_split_transaction)
+                isCheckable = true
+                setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER)
+            }
         }
-        configureSearch(requireActivity(), menu) { newText: String? -> onQueryTextChange(newText) }
+        configureSearch(requireActivity(), menu, ::onQueryTextChange)
     }
 
     override fun onOptionsItemSelected(item: MenuItem) =
@@ -317,49 +349,50 @@ class PartiesList : Fragment(), OnDialogResultListener {
             super.onOptionsItemSelected(item)
 
     private fun updateUiMergeMode() {
-        with(manageParties!!) {
-            invalidateOptionsMenu()
+        with(manageParties) {
+            mergeMenuItem?.isChecked = mergeMode
             configureFabMergeMode(mergeMode)
             setFabEnabled(!mergeMode)
         }
     }
 
     private fun resetAdapter() {
-        adapter.clearChecks()
+        //adapter.clearChecks()
         //noinspection NotifyDataSetChanged
         adapter.notifyDataSetChanged()
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        menu.findItem(R.id.MERGE_COMMAND)?.let {
-            it.isVisible = adapter.itemCount >= 2
+        mergeMenuItem?.let {
             it.isChecked = mergeMode
         }
         prepareSearch(menu, filter)
     }
 
-    private fun onQueryTextChange(newText: String?): Boolean {
-        filter = if (TextUtils.isEmpty(newText)) "" else newText
-        loadParties()
+    private fun onQueryTextChange(newText: String): Boolean {
+        if (newText != filter) {
+            filter = newText
+            loadParties()
+        }
         return true
     }
 
     private fun loadParties() {
         viewModel.loadParties(
             filter,
-            requireActivity().intent.getLongExtra(DatabaseConstants.KEY_ACCOUNTID, 0)
+            requireActivity().intent.getLongExtra(KEY_ACCOUNTID, 0)
         )
     }
 
     private val action: String
-        get() = manageParties!!.action
+        get() = manageParties.action
 
     private fun doSingleSelection(party: Party) {
         requireActivity().apply {
             setResult(Activity.RESULT_OK, Intent().apply {
                 putExtra(KEY_PAYEEID, party.id)
-                putExtra(DatabaseConstants.KEY_LABEL, party.name)
+                putExtra(KEY_LABEL, party.name)
             })
             finish()
         }
@@ -376,12 +409,10 @@ class PartiesList : Fragment(), OnDialogResultListener {
         savedInstanceState?.let { adapter.onRestoreInstanceState(it) }
         binding.list.adapter = adapter
         viewModel.getParties().observe(viewLifecycleOwner, { parties: List<Party> ->
-            if (parties.size < 2 && mergeMode) {
-                mergeMode = false
-                updateUiMergeMode()
+            if (action != ACTION_SELECT_FILTER) {
+                binding.empty.visibility = if (parties.isEmpty()) View.VISIBLE else View.GONE
+                binding.list.visibility = if (parties.isEmpty()) View.GONE else View.VISIBLE
             }
-            binding.empty.visibility = if (parties.isEmpty()) View.VISIBLE else View.GONE
-            binding.list.visibility = if (parties.isEmpty()) View.GONE else View.VISIBLE
             adapter.submitList(
                 if (action == ACTION_SELECT_FILTER)
                     listOf(
@@ -393,7 +424,6 @@ class PartiesList : Fragment(), OnDialogResultListener {
                 else
                     parties
             )
-            activity?.invalidateOptionsMenu()
         })
         loadParties()
         return binding.root
@@ -415,6 +445,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
         const val DELETE_COMMAND = -3
         const val NEW_DEBT_COMMAND = -4
         const val DEBT_SUB_MENU = -5
+        const val STATE_CHECK_STATES = "checkStates"
 
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Party>() {
             override fun areItemsTheSame(oldItem: Party, newItem: Party): Boolean {
@@ -437,7 +468,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                         name
                     ).observe(this) {
                         if (it == null)
-                            manageParties?.showSnackbar(
+                            manageParties.showSnackbar(
                                 getString(
                                     R.string.already_defined,
                                     name
@@ -449,7 +480,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                 DIALOG_MERGE_PARTY -> {
                     mergeMode = false
                     updateUiMergeMode()
-                    val selectedItemIds = adapter.checkedPositions.map { adapter.getParty(it).id }
+                    val selectedItemIds = adapter.getSelected().map { it.id }
                     viewModel.mergeParties(
                         selectedItemIds.toLongArray(),
                         selectedItemIds[extras.getInt(KEY_POSITION)]
@@ -467,22 +498,22 @@ class PartiesList : Fragment(), OnDialogResultListener {
 
     fun dispatchFabClick() {
         if (action == ACTION_SELECT_FILTER) {
-            val selected = adapter.checkedPositions.map { adapter.getParty(it) }
+            val selected = adapter.getSelected()
             val itemIds = selected.map { it.id }
             val labels = selected.map { it.name }
             if (itemIds.size != 1 && itemIds.contains(CategoryTreeBaseAdapter.NULL_ITEM_ID)) {
-                manageParties?.showSnackbar(R.string.unmapped_filter_only_single)
+                manageParties.showSnackbar(R.string.unmapped_filter_only_single)
             } else {
                 requireActivity().apply {
                     setResult(Activity.RESULT_FIRST_USER, Intent().apply {
                         putExtra(KEY_PAYEEID, itemIds.toLongArray())
-                        putExtra(DatabaseConstants.KEY_LABEL, labels.joinToString(separator = ","))
+                        putExtra(KEY_LABEL, labels.joinToString(separator = ","))
                     })
                     finish()
                 }
             }
         } else if (mergeMode) {
-            val selected = adapter.checkedPositions.map { adapter.getParty(it).name }.toTypedArray()
+            val selected = adapter.getSelected().map { it.name }.toTypedArray()
             SimpleFormDialog.build()
                 .fields(
                     Hint.plain(R.string.merge_parties_select),

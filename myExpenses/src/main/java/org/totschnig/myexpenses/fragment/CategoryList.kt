@@ -44,7 +44,7 @@ class CategoryList: AbstractCategoryList<CategoryRowBinding>() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         if (activity == null) return
         inflater.inflate(R.menu.search, menu)
-        configureSearch(requireActivity(), menu) { newText: String? -> onQueryTextChange(newText) }
+        configureSearch(requireActivity(), menu, this::onQueryTextChange)
     }
 
     private fun onQueryTextChange(newText: String?): Boolean {
