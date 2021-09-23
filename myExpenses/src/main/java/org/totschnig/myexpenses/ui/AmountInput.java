@@ -74,7 +74,6 @@ public class AmountInput extends ConstraintLayout {
   private boolean initialized;
 
   private CurrencyAdapter currencyAdapter;
-  private CurrencyContext currencyContext;
   private SpinnerHelper currencySpinner;
 
   public AmountInput(Context context) {
@@ -133,7 +132,7 @@ public class AmountInput extends ConstraintLayout {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
           String currency = ((Currency) currencySpinner.getSelectedItem()).getCode();
-          final CurrencyUnit currencyUnit = currencyContext.get(currency);
+          final CurrencyUnit currencyUnit = getHost().getCurrencyContext().get(currency);
           setFractionDigits(currencyUnit.getFractionDigits());
           exchangeRateEdit().setCurrencies(currencyUnit, null);
           getHost().onCurrencySelectionChanged(currencyUnit);
@@ -306,10 +305,9 @@ public class AmountInput extends ConstraintLayout {
     typeButton().toggle();
   }
 
-  public void setCurrencies(List<Currency> currencies, CurrencyContext currencyContext) {
+  public void setCurrencies(List<Currency> currencies) {
     currencyAdapter.addAll(currencies);
     currencySpinner.setSelection(0);
-    this.currencyContext = currencyContext;
   }
 
   public void setSelectedCurrency(CurrencyUnit currency) {
@@ -318,7 +316,7 @@ public class AmountInput extends ConstraintLayout {
   }
 
   public void setSelectedCurrency(String currency) {
-    setSelectedCurrency(currencyContext.get(currency));
+    setSelectedCurrency(getHost().getCurrencyContext().get(currency));
   }
 
   public void configureExchange(CurrencyUnit currencyUnit, CurrencyUnit homeCurrency) {
@@ -334,7 +332,7 @@ public class AmountInput extends ConstraintLayout {
     if (withExchangeRate && withCurrencySelection) {
       final Currency selectedCurrency = getSelectedCurrency();
       exchangeRateEdit().setCurrencies(selectedCurrency != null ?
-          currencyContext.get(selectedCurrency.getCode()) : null, currencyUnit);
+          getHost().getCurrencyContext().get(selectedCurrency.getCode()) : null, currencyUnit);
     }
   }
 
@@ -384,6 +382,8 @@ public class AmountInput extends ConstraintLayout {
     void setFocusAfterRestoreInstanceState(Pair<Integer, Integer> focusView);
 
     void onCurrencySelectionChanged(CurrencyUnit currencyUnit);
+
+    CurrencyContext getCurrencyContext();
   }
 
   @Override

@@ -3,12 +3,10 @@ package org.totschnig.myexpenses.activity
 import android.os.Bundle
 import android.view.Menu
 import androidx.activity.viewModels
-import icepick.State
 import org.threeten.bp.LocalDate
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.OneDebtBinding
-import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.ui.ButtonWithDialog
@@ -45,7 +43,7 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host {
             inject(currencyViewModel)
         }
         currencyViewModel.getCurrencies().observe(this) { list ->
-            binding.Amount.setCurrencies(list, currencyContext)
+            binding.Amount.setCurrencies(list)
             if (savedInstanceState == null) {
                 if (debtId != 0L) {
                     viewModel.loadDebt(debtId).observe(this) {

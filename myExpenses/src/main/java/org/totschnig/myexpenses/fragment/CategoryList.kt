@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import org.totschnig.myexpenses.ACTION_SELECT_FILTER
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.adapter.CategoryTreeAdapter
 import org.totschnig.myexpenses.databinding.CategoriesListBinding
 import org.totschnig.myexpenses.databinding.CategoryRowBinding

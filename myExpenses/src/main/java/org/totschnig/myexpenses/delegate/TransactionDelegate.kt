@@ -435,7 +435,7 @@ abstract class TransactionDelegate<T : ITransaction>(
     }
 
     fun setCurrencies(currencies: List<Currency?>?, currencyContext: CurrencyContext?) {
-        viewBinding.OriginalAmount.setCurrencies(currencies, currencyContext)
+        viewBinding.OriginalAmount.setCurrencies(currencies)
         populateOriginalCurrency()
     }
 

@@ -26,7 +26,6 @@ import org.totschnig.myexpenses.retrofit.Issue
 import org.totschnig.myexpenses.retrofit.Vote
 import org.totschnig.myexpenses.ui.ContextAwareRecyclerView.RecyclerContextMenuInfo
 import org.totschnig.myexpenses.ui.SimpleSeekBarDialog
-import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.configureSearch
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel
 import org.totschnig.myexpenses.viewmodel.repository.RoadmapRepository.Companion.ROADMAP_URL

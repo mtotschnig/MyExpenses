@@ -890,6 +890,11 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   }
 
   @Override
+  public CurrencyContext getCurrencyContext() {
+    return currencyContext;
+  }
+
+  @Override
   protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
     super.onRestoreInstanceState(savedInstanceState);
     if (focusAfterRestoreInstanceState != null) {
