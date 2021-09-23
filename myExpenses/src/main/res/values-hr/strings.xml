@@ -932,4 +932,17 @@
     <string name="ui_refinement">Poboljšanje korisničkog sučelja</string>
     <string name="performance_enhancement">Poboljšanje performanse</string>
     <string name="backup_save_to_sync_backend">Spremi u %s</string>
+    <string name="debt_managment">Upravljanje dugovima</string>
+    <string name="object_sealed_debt">Objekt se odnosi na zatvoreni dug.</string>
+    <plurals name="debt_mapped_transactions">
+        <item quantity="one">Dug %1$s ima %2$d mapiranu transakciju.</item>
+        <item quantity="few">Dug %1$s ima %2$d mapirane transakcije.</item>
+        <item quantity="other">Dug %1$s ima %2$d mapiranih transakcija.</item>
+    </plurals>
+    <string name="dialog_title_delete_debt">Izbrisati dug\?</string>
+    <string name="dialog_confirm_discard_new_debt">Odbaciti novi dug\?</string>
+    <string name="debts">Dugovi</string>
+    <string name="debt_I_owe">Ja dugujem %s</string>
+    <string name="debt_owes_me">%s mi duguje</string>
+    <string name="menu_new_debt">Novi dug</string>
 </resources>
