@@ -25,6 +25,9 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
 import icepick.State
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
@@ -54,14 +57,25 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     }
 
     fun copyToClipboard(text: String) {
-        showSnackbar(try {
-            ContextCompat.getSystemService(this, ClipboardManager::class.java)?.setPrimaryClip(ClipData.newPlainText(null, text))
-            "${getString(R.string.toast_text_copied)}: $text"
-        } catch (e: RuntimeException) {
-            Timber.e(e)
-            e.message ?: "Error"
-        })
+        lifecycleScope.launch {
+            showSnackbar(
+                withContext(Dispatchers.IO) {
+                    try {
+                        ContextCompat.getSystemService(
+                            this@BaseActivity,
+                            ClipboardManager::class.java
+                        )
+                            ?.setPrimaryClip(ClipData.newPlainText(null, text))
+                        "${getString(R.string.toast_text_copied)}: $text"
+                    } catch (e: RuntimeException) {
+                        Timber.e(e)
+                        e.message ?: "Error"
+                    }
+                }
+            )
+        }
     }
+
 
     fun startActivity(intent: Intent, notAvailableMessage: Int, forResultRequestCode: Int? = null) {
         try {
@@ -123,10 +137,20 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         }
         featureViewModel.getFeatureState().observe(this, EventObserver { featureState ->
             when (featureState) {
-                is FeatureViewModel.FeatureState.FeatureLoading -> showSnackbar(getString(R.string.feature_download_requested, getString(featureState.feature.labelResId)))
+                is FeatureViewModel.FeatureState.FeatureLoading -> showSnackbar(
+                    getString(
+                        R.string.feature_download_requested,
+                        getString(featureState.feature.labelResId)
+                    )
+                )
                 is FeatureViewModel.FeatureState.FeatureAvailable -> {
                     Feature.values().find { featureState.modules.contains(it.moduleName) }?.let {
-                        showSnackbar(getString(R.string.feature_downloaded, getString(it.labelResId)))
+                        showSnackbar(
+                            getString(
+                                R.string.feature_downloaded,
+                                getString(it.labelResId)
+                            )
+                        )
                         //after the dynamic feature module has been installed, we need to check if data needed by the module (e.g. Tesseract) has been downloaded
                         if (!featureViewModel.isFeatureAvailable(this, it)) {
                             featureViewModel.requestFeature(this, it)
@@ -141,7 +165,12 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                         message?.let { showSnackbar(it) }
                     }
                 }
-                is FeatureViewModel.FeatureState.LanguageLoading -> showSnackbar(getString(R.string.language_download_requested, featureState.language))
+                is FeatureViewModel.FeatureState.LanguageLoading -> showSnackbar(
+                    getString(
+                        R.string.language_download_requested,
+                        featureState.language
+                    )
+                )
                 is FeatureViewModel.FeatureState.LanguageAvailable -> {
                     rebuildDbConstants()
                     recreate()
@@ -184,7 +213,10 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             null
         }?.let { fullResourceName ->
             logEvent(Tracker.EVENT_DISPATCH_COMMAND, Bundle().apply {
-                putString(Tracker.EVENT_PARAM_ITEM_ID, fullResourceName.substring(fullResourceName.indexOf('/') + 1))
+                putString(
+                    Tracker.EVENT_PARAM_ITEM_ID,
+                    fullResourceName.substring(fullResourceName.indexOf('/') + 1)
+                )
             })
         }
     }
@@ -215,8 +247,10 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     @JvmOverloads
     fun showDismissibleSnackbar(message: CharSequence, callback: Snackbar.Callback? = null) {
-        showSnackbar(message, Snackbar.LENGTH_INDEFINITE,
-                SnackbarAction(R.string.dialog_dismiss) { snackbar?.dismiss() }, callback)
+        showSnackbar(
+            message, Snackbar.LENGTH_INDEFINITE,
+            SnackbarAction(R.string.dialog_dismiss) { snackbar?.dismiss() }, callback
+        )
     }
 
     fun showSnackbarIndefinite(message: Int) {
@@ -229,8 +263,12 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     }
 
     @JvmOverloads
-    fun showSnackbar(message: CharSequence, duration: Int = Snackbar.LENGTH_LONG, snackbarAction: SnackbarAction? = null,
-                     callback: Snackbar.Callback? = null) {
+    fun showSnackbar(
+        message: CharSequence,
+        duration: Int = Snackbar.LENGTH_LONG,
+        snackbarAction: SnackbarAction? = null,
+        callback: Snackbar.Callback? = null
+    ) {
         findViewById<View>(getSnackbarContainerId())?.let {
             showSnackbar(message, duration, snackbarAction, callback, it)
         } ?: showSnackBarFallBack(message)
@@ -253,7 +291,14 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             } else {
                 snackbar = Snackbar.make(it, displayMessage, Snackbar.LENGTH_INDEFINITE).apply {
                     (view.findViewById<View>(com.google.android.material.R.id.snackbar_text).parent as ViewGroup)
-                            .addView(ProgressBar(ContextThemeWrapper(this@BaseActivity, R.style.SnackBarTheme)))
+                        .addView(
+                            ProgressBar(
+                                ContextThemeWrapper(
+                                    this@BaseActivity,
+                                    R.style.SnackBarTheme
+                                )
+                            )
+                        )
                     show()
                 }
             }
@@ -266,8 +311,10 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         }
     }
 
-    fun showSnackbar(message: CharSequence, duration: Int, snackbarAction: SnackbarAction?,
-                     callback: Snackbar.Callback?, container: View) {
+    fun showSnackbar(
+        message: CharSequence, duration: Int, snackbarAction: SnackbarAction?,
+        callback: Snackbar.Callback?, container: View
+    ) {
         snackbar = Snackbar.make(container, message, duration).apply {
             UiUtils.increaseSnackbarMaxLines(this)
             if (snackbarAction != null) {
@@ -313,11 +360,13 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     }
 
     @JvmOverloads
-    open fun showMessage(message: CharSequence,
-                         positive: MessageDialogFragment.Button = MessageDialogFragment.okButton(),
-                         neutral: MessageDialogFragment.Button? = null,
-                         negative: MessageDialogFragment.Button? = null,
-                         cancellable: Boolean = true) {
+    open fun showMessage(
+        message: CharSequence,
+        positive: MessageDialogFragment.Button = MessageDialogFragment.okButton(),
+        neutral: MessageDialogFragment.Button? = null,
+        negative: MessageDialogFragment.Button? = null,
+        cancellable: Boolean = true
+    ) {
         lifecycleScope.launchWhenResumed {
             MessageDialogFragment.newInstance(null, message, positive, neutral, negative).apply {
                 isCancelable = cancellable
@@ -328,12 +377,14 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     fun showVersionDialog(prev_version: Int, showImportantUpgradeInfo: Boolean) {
         lifecycleScope.launchWhenResumed {
             VersionDialogFragment.newInstance(prev_version, showImportantUpgradeInfo)
-                    .show(supportFragmentManager, "VERSION_INFO")
+                .show(supportFragmentManager, "VERSION_INFO")
         }
     }
 
-    fun unencryptedBackupWarning() = getString(R.string.warning_unencrypted_backup,
-            getString(R.string.pref_security_export_passphrase_title))
+    fun unencryptedBackupWarning() = getString(
+        R.string.warning_unencrypted_backup,
+        getString(R.string.pref_security_export_passphrase_title)
+    )
 
     override fun onMessageDialogDismissOrCancel() {}
 
