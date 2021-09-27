@@ -16,7 +16,7 @@ zh-cn:
     participate: 参加
     faq: 常见问答
     versionlist: 活动日志
-    credits: 所有权
+    credits: 鸣谢
     licence: 授权
     sourcecode: 源代码
     links: 链接
@@ -34,7 +34,7 @@ zh-cn:
     plans: 可创建无限数量的<b>模板</b>和最多三个<b>循环</b>交易
     export: <b>导出</b>为QIF和CSV文件。从QIF文件<b>导入</b>
     password: 可以通过<b>密码</b>或设备的<b>锁屏</b>保护数据
-    light_theme: <b>界面主题</b>（黑色或白色）与<b>字体大小</b>可以自定义
+    light_theme: 可自定义 <b>界面主题</b>（深色或浅色）与<b>字体大小</b>
     reconciliation: "<b>对帐</b>：轻松地将交易状态与银行对帐单进行比较"
     homescreen: 可以从主屏幕的<b>小部件 widget</b>和<b>快捷方式</b>快速输入交易数据
   contrib:
