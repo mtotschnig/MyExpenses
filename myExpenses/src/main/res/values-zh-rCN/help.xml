@@ -42,7 +42,7 @@
     <!--History-->
     <!--Budget-->
     <!--Tags-->
-    <string name="popup_MyExpenses_toolbar_intro">轻按工具栏（账户标签或当前余额）弹出包含以下条目的菜单：</string>
+    <string name="popup_MyExpenses_toolbar_intro">轻按工具栏（账户文本标签或当前余额）弹出包含以下条目的菜单：</string>
     <string name="help_MyExpenses_fab_long_press">长按悬浮操作按钮，通过弹出菜单编制转账、分拆交易或收入表单。</string>
     <string name="help_MyExpenses_info">此界面列明了当前账户的所有交易。请使用悬浮操作按钮打开表单，创建一项新交易。</string>
     <string name="menu_scan_mode_help_text">激活扫描模式，用以快速扫描收据。</string>
