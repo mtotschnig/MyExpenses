@@ -134,14 +134,14 @@
     <string name="grouping_year">年</string>
     <string name="grouping_yesterday">昨日</string>
     <string name="help_button_rate">评分 或 发表评论</string>
-    <string name="help_heading_credits">信用</string>
+    <string name="help_heading_credits">鸣谢</string>
     <string name="help_heading_license">许可</string>
     <string name="help_heading_whats_new">最新消息</string>
     <string name="important_upgrade_information_heading">重要资讯</string>
     <string name="import_select_transactions">交易</string>
     <string name="income">收入</string>
     <string name="invalid_number_format">本机设备无法辨识十进制格式。请使用%1$s</string>
-    <string name="label">标签</string>
+    <string name="label">文本标签</string>
     <string name="licence_validation_failure">无法验证许可证密钥。</string>
     <string name="licence_validation_success">授权密钥验证成功:</string>
     <string name="licence_validation_premium">高级功能已经解锁。</string>
@@ -197,8 +197,8 @@
     <string name="menu_open">打开</string>
     <string name="menu_import">导入</string>
     <string name="menu_print">打印</string>
-    <string name="menu_reset">导出和重设</string>
-    <string name="menu_reset_all">导出和重设所有</string>
+    <string name="menu_reset">导出和重置</string>
+    <string name="menu_reset_all">导出和重置所有</string>
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
     <string name="menu_reset_plan_instance">重置</string>
     <string name="menu_save">保存</string>
@@ -307,7 +307,7 @@
     <string name="pref_manage_sync_backends_title">同步后端</string>
     <!-- %s will be replaced with list of backends -->
     <string name="pref_manage_sync_backends_summary">添加用于同步账户的后端（%s）。</string>
-    <string name="pref_more_info_dialog_title">许可 &amp; 信用</string>
+    <string name="pref_more_info_dialog_title">许可 &amp; 鸣谢</string>
     <string name="pref_password_not_equal">密码不匹配</string>
     <string name="pref_perform_protection_title">保护设置</string>
     <string name="pref_perform_share_title">分享导出的备份文件</string>
@@ -339,8 +339,8 @@
     <string name="pref_ui_language_default">应用程序系统默认</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">语言</string>
-    <string name="pref_ui_theme_dark">黑</string>
-    <string name="pref_ui_theme_light">白</string>
+    <string name="pref_ui_theme_dark">深色</string>
+    <string name="pref_ui_theme_light">浅色</string>
     <string name="pref_ui_theme_title">界面主题</string>
     <string name="pref_visit_website_summary">活动日志和常见问题</string>
     <string name="pref_visit_website_title">浏览官方网站</string>
@@ -364,8 +364,8 @@
         <item quantity="other">%1$d新交易已成功地从模板保存。</item>
     </plurals>
     <string name="save_transaction_template_deleted">模板已被移除</string>
-    <string name="select">选取</string>
-    <string name="select_category">选取类别</string>
+    <string name="select">选择</string>
+    <string name="select_category">选择类别</string>
     <string name="select_payee">选择付款人/收款人</string>
     <string name="share_scheme_not_supported">不支持方案%1$s</string>
     <string name="share_sending">发送导出文件</string>
@@ -803,7 +803,7 @@
     <!-- Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data. -->
     <string name="content_description_closed">已关闭的</string>
     <string name="warning_synced_account_cannot_be_closed">链接到同步后端的账户无法关闭</string>
-    <string name="translated_by">翻译者：</string>
+    <string name="translated_by">翻译者</string>
     <string name="warning_no_account">为了创建新交易，请至少开设一个非隐藏的账户。</string>
     <string name="content_description_dates_are_linked">账面交易日期(booking date)和生效日期(value date)会一起更新</string>
     <string name="content_description_dates_are_not_linked">账面交易日期(booking date)和生效日期(value date)不会一起更新</string>
@@ -931,7 +931,7 @@
     <string name="template_default_action_without_amount_hint">应该使用默认操作“编辑”来保存没有金额的模板</string>
     <string name="plan_automatic_without_amount_hint">没有金额的计划不应该将其储存成自动执行模式</string>
     <string name="content_description_edit_plan">在日历应用程序中编辑计划</string>
-    <string name="reset_equivalent_amounts_success">等价金额已重设</string>
+    <string name="reset_equivalent_amounts_success">等价金额已重置</string>
     <string name="menu_save_and_new_content_description">交易保存后，表单仍维持打开状态并保留相同的数据内容，方便多次新建类似的交易。</string>
     <!-- Title of a preference where user can select between Ml Kit and Tesseract as Engine for Optical character recognition -->
     <string name="pref_ocr_engine_title">文字识别引擎</string>
