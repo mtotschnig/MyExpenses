@@ -30,7 +30,7 @@ class TimeButton @JvmOverloads constructor(
 
     override fun buildDialog() = PlatformTimePicker().apply {
         arguments = Bundle().apply {
-            putSerializable(KEY_TIME, this@TimeButton.time)
+            putSerializable(KEY_TIME, time)
         }
     }
 
@@ -72,26 +72,26 @@ class TimeButton @JvmOverloads constructor(
             fun onDismiss()
         }
 
-        val time
-            get() = requireArguments().getSerializable(KEY_TIME) as LocalTime
-
         var onTimeSetListener: OnTimeSetListener? = null
         var onDismissListener: OnDismissListener? = null
 
-        override fun onCreateDialog(savedInstanceState: Bundle?) = TimePickerDialog(
-            context, R.style.ThemeOverlay_MaterialComponents_Dialog,
-            { _, hourOfDay, minute ->
-                onTimeSetListener?.onTimeSet(
-                    LocalTime.of(
-                        hourOfDay,
-                        minute
+        override fun onCreateDialog(savedInstanceState: Bundle?): TimePickerDialog {
+            val time = requireArguments().getSerializable(KEY_TIME) as LocalTime
+            return TimePickerDialog(
+                context, R.style.ThemeOverlay_MaterialComponents_Dialog,
+                { _, hourOfDay, minute ->
+                    onTimeSetListener?.onTimeSet(
+                        LocalTime.of(
+                            hourOfDay,
+                            minute
+                        )
                     )
-                )
-            },
-            time.hour,
-            time.minute,
-            DateFormat.is24HourFormat(context)
-        )
+                },
+                time.hour,
+                time.minute,
+                DateFormat.is24HourFormat(context)
+            )
+        }
 
         override fun onDismiss(dialog: DialogInterface) {
             super.onDismiss(dialog)

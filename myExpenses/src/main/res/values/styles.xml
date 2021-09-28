@@ -327,4 +327,6 @@
     <style name="SnackBarTheme">
         <item name="colorAccent">@color/colorAccentSnackbar</item>
     </style>
+
+    <style name="CrashDialogTheme" parent="@android:style/Theme.Holo.Dialog" />
 </resources>
