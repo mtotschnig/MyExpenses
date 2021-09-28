@@ -23,10 +23,14 @@ abstract class ButtonWithDialog<T: DialogFragment> @JvmOverloads constructor(
     @JvmField
     var dialogShown = false
 
-    @CallSuper
-    open fun showDialog(fragmentManager: FragmentManager) {
+    private fun showDialog() {
+        val picker = buildDialog()
+        attachListener(picker)
+        picker.show((context as FragmentActivity).supportFragmentManager, fragmentTag)
         dialogShown = true
     }
+
+    abstract fun buildDialog(): T
 
     override fun onSaveInstanceState(): Parcelable {
         return Icepick.saveInstanceState(this, super.onSaveInstanceState())
@@ -69,7 +73,7 @@ abstract class ButtonWithDialog<T: DialogFragment> @JvmOverloads constructor(
     }
 
     open fun onClick() {
-        showDialog((context as FragmentActivity).supportFragmentManager)
+        showDialog()
     }
 
     init {

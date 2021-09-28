@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.ui
 import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
-import androidx.fragment.app.FragmentManager
 import com.google.android.material.datepicker.MaterialDatePicker
 import icepick.State
 import org.threeten.bp.LocalDate
@@ -89,20 +88,18 @@ class DateButton @JvmOverloads constructor(
     override val fragmentTag: String
         get() = "date_button"
 
-    override fun showDialog(fragmentManager: FragmentManager) {
-        super.showDialog(fragmentManager)
-        val picker = MaterialDatePicker.Builder.datePicker()
-            .setSelection(
-                ZonedDateTime.of(date.atStartOfDay(), ZoneId.of("UTC")).toEpochSecond() * 1000
-            )
-            .build()
-        attachListener(picker)
-        picker.show(fragmentManager, fragmentTag)
-    }
+    override fun buildDialog() = MaterialDatePicker.Builder.datePicker()
+        .setSelection(
+            ZonedDateTime.of(date.atStartOfDay(), ZoneId.of("UTC")).toEpochSecond() * 1000
+        )
+        .build()
 
     override fun attachListener(dialogFragment: MaterialDatePicker<Long>) {
         dialogFragment.addOnPositiveButtonClickListener {
             setDateInternal(epochMillis2LocalDate(it, ZoneId.of("UTC")))
+        }
+        dialogFragment.addOnDismissListener {
+            dialogShown = false
         }
     }
 
