@@ -997,4 +997,18 @@
     <string name="backup_save_to_sync_backend">Salvar em %s</string>
     <string name="new_version">Nova versão</string>
     <string name="pref_news_title">Novidades</string>
+    <string name="debt_owes_me">%s me deve</string>
+    <string name="menu_new_debt">Nova dívida</string>
+    <string name="dialog_title_warning_delete_party">Excluir parceiro\?</string>
+    <string name="debt_managment">Gestão de dívidas</string>
+    <string name="object_sealed_debt">O objeto refere-se a uma dívida encerrada.</string>
+    <plurals name="debt_mapped_transactions">
+        <item quantity="one">A dívida %1$s tem %2$d transação mapeada.</item>
+        <item quantity="other">A dívida %1$s tem %2$d transações mapeadas.</item>
+    </plurals>
+    <string name="dialog_title_delete_debt">Excluir a dívida\?</string>
+    <string name="dialog_confirm_discard_new_debt">Descartar a nova dívida\?</string>
+    <string name="warning_party_delete_debt">Ao excluir esse parceiro, as dívidas associadas a ele serão excluídas também.</string>
+    <string name="debts">Dívidas</string>
+    <string name="debt_I_owe">Eu devo para %s</string>
 </resources>
