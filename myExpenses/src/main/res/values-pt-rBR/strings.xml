@@ -997,4 +997,7 @@
     <string name="backup_save_to_sync_backend">Salvar em %s</string>
     <string name="new_version">Nova versão</string>
     <string name="pref_news_title">Novidades</string>
+    <string name="debt_owes_me">%s me deve</string>
+    <string name="menu_new_debt">Nova dívida</string>
+    <string name="dialog_title_warning_delete_party">Excluir parceiro\?</string>
 </resources>
