@@ -17,8 +17,8 @@ import java.text.SimpleDateFormat
 fun epoch2LocalDate(epochSecond: Long): LocalDate = ZonedDateTime.ofInstant(
     Instant.ofEpochSecond(epochSecond), ZoneId.systemDefault()).toLocalDate()
 
-fun epochMillis2LocalDate(epochMillis: Long): LocalDate = ZonedDateTime.ofInstant(
-        Instant.ofEpochMilli(epochMillis), ZoneId.systemDefault()).toLocalDate()
+fun epochMillis2LocalDate(epochMillis: Long, zoneId: ZoneId?): LocalDate = ZonedDateTime.ofInstant(
+        Instant.ofEpochMilli(epochMillis), zoneId).toLocalDate()
 
 fun epoch2ZonedDateTime(epoch: Long): ZonedDateTime = ZonedDateTime.ofInstant(
         Instant.ofEpochSecond(epoch), ZoneId.systemDefault())

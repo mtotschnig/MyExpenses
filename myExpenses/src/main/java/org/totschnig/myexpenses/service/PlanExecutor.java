@@ -15,6 +15,7 @@ import com.android.calendar.CalendarContractCompat.Events;
 
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.LocalTime;
+import org.threeten.bp.ZoneId;
 import org.threeten.bp.ZonedDateTime;
 import org.threeten.bp.temporal.ChronoUnit;
 import org.totschnig.myexpenses.BuildConfig;
@@ -155,7 +156,7 @@ public class PlanExecutor extends JobIntentService {
             while (!cursor.isAfterLast()) {
               long planId = cursor.getLong(cursor.getColumnIndex(CalendarContractCompat.Instances.EVENT_ID));
               long date = cursor.getLong(cursor.getColumnIndex(CalendarContractCompat.Instances.BEGIN));
-              LocalDate localDate = epochMillis2LocalDate(date);
+              LocalDate localDate = epochMillis2LocalDate(date, ZoneId.systemDefault());
               long diff = ChronoUnit.DAYS.between(today, localDate);
               long instanceId = CalendarProviderProxy.calculateId(date);
               //2) check if they are part of a plan linked to a template

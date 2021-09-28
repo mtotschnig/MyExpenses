@@ -102,7 +102,7 @@ class DateButton @JvmOverloads constructor(
 
     override fun attachListener(dialogFragment: MaterialDatePicker<Long>) {
         dialogFragment.addOnPositiveButtonClickListener {
-            setDateInternal(epochMillis2LocalDate(it))
+            setDateInternal(epochMillis2LocalDate(it, ZoneId.of("UTC")))
         }
     }
 

@@ -5,6 +5,7 @@ import android.os.Parcelable
 import com.android.calendar.CalendarContractCompat
 import kotlinx.parcelize.Parcelize
 import org.threeten.bp.LocalDate
+import org.threeten.bp.ZoneId
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.provider.CalendarProviderProxy
@@ -25,7 +26,7 @@ data class PlanInstance(val templateId: Long, val transactionId: Long?, val titl
                     }, sealed)
 
     val localDate: LocalDate
-        get() = epochMillis2LocalDate(date)
+        get() = epochMillis2LocalDate(date, ZoneId.systemDefault())
 
     val instanceId: Long
         get() = CalendarProviderProxy.calculateId(date)
