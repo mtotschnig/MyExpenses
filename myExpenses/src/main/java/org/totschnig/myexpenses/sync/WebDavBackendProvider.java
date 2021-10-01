@@ -422,7 +422,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
 
   @NonNull
   @Override
-  public Stream<Exceptional<AccountMetaData>> getRemoteAccountList() throws IOException {
+  public Stream<Exceptional<AccountMetaData>> getRemoteAccountStream() throws IOException {
     return Stream.of(webDavClient.getFolderMembers((String[]) null))
         .filter(LockableDavResource::isCollection)
         .filter(davResource -> !getLastPathSegment(davResource.location).equals(BACKUP_FOLDER_NAME))

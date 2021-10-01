@@ -226,11 +226,8 @@ public class TaskExecutionFragment<T> extends Fragment {
       case TASK_WEBDAV_TEST_LOGIN:
         new TestLoginTask(this, args).execute();
         break;
-      case TASK_CREATE_SYNC_ACCOUNT:
-        new SyncAccountTask(this, args, true).execute();
-        break;
       case TASK_FETCH_SYNC_ACCOUNT_DATA:
-        new SyncAccountTask(this, args, false).execute();
+        //new SyncAccountTask(this, args, false).execute();
         break;
       case TASK_VALIDATE_LICENCE:
       case TASK_REMOVE_LICENCE:

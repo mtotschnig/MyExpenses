@@ -264,19 +264,19 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
                 snackbar.show()
             }
             val backendLabel = syncBackendAdapter.getBackendLabel(groupPosition)
-            viewModel.accountMetadata(backendLabel).observe(viewLifecycleOwner) {
+            viewModel.accountMetadata(backendLabel).observe(viewLifecycleOwner) { result ->
                 metadataLoadingCount--
                 if (metadataLoadingCount == 0) {
                     snackbar.dismiss()
                 }
-                try {
-                    syncBackendAdapter.setAccountMetadata(groupPosition, it.orThrow)
-                } catch (throwable: Throwable) {
+                result.onSuccess {
+                    syncBackendAdapter.setAccountMetadata(groupPosition, it)
+                }.onFailure { throwable ->
                     val activity = requireActivity() as ManageSyncBackends
                     if (Utils.getCause(throwable) is InvalidAccessTokenException) {
                         activity.requestDropboxAccess(backendLabel)
                     } else {
-                        activity.showSnackbar(throwable.message!!, Snackbar.LENGTH_SHORT)
+                        activity.showSnackbar(throwable.message ?: "ERROR", Snackbar.LENGTH_SHORT)
                     }
                 }
             }
