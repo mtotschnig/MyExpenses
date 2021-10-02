@@ -454,7 +454,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             }
             ContribFeature.OCR -> {
                 if (featureViewModel.isFeatureAvailable(this, Feature.OCR)) {
-                    if ((tag as Boolean?)!!) {
+                    if ((tag as Boolean)) {
                         /*scanFile = new File("/sdcard/OCR_bg.jpg");
                                ocrViewModel.startOcrFeature(scanFile, getSupportFragmentManager());*/
                         ocrViewModel.getScanFiles { pair ->

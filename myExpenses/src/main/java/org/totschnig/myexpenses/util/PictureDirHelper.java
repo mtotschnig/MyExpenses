@@ -38,6 +38,10 @@ public class PictureDirHelper {
 
     File mediaStorageDir = temp ? AppDirHelper.getCacheDir() : getPictureDir(secure);
     if (mediaStorageDir == null) return null;
+    return getOutputMediaFile(fileName, mediaStorageDir, checkUnique);
+  }
+
+  public static File getOutputMediaFile(String fileName, @NonNull File mediaStorageDir, boolean checkUnique) {
     int postfix = 0;
     File result;
     do {
