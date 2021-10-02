@@ -39,7 +39,7 @@ public interface SyncBackendProvider {
   SequenceNumber writeChangeSet(SequenceNumber lastSequenceNumber, List<TransactionChange> changeSet, Context context) throws IOException;
 
   @NonNull
-  Stream<Exceptional<AccountMetaData>> getRemoteAccountList() throws IOException;
+  Stream<Exceptional<AccountMetaData>> getRemoteAccountStream() throws IOException;
 
   Exceptional<Void> setUp(@Nullable String authToken, @Nullable String encryptionPassword, boolean create);
 

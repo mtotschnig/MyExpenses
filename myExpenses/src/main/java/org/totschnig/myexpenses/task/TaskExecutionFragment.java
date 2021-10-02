@@ -74,12 +74,10 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_MOVE_UNCOMMITED_SPLIT_PARTS = 40;
   public static final int TASK_REPAIR_PLAN = 41;
   public static final int TASK_WEBDAV_TEST_LOGIN = 42;
-  public static final int TASK_CREATE_SYNC_ACCOUNT = 43;
   public static final int TASK_SYNC_LINK_LOCAL = 45;
   public static final int TASK_SYNC_REMOVE_BACKEND = 47;
   public static final int TASK_SYNC_LINK_SAVE = 48;
 
-  public static final int TASK_FETCH_SYNC_ACCOUNT_DATA = 51;
   public static final int TASK_SETUP_FROM_SYNC_ACCOUNTS = 52;
   public static final int TASK_REPAIR_SYNC_BACKEND = 53;
   public static final int TASK_VALIDATE_LICENCE = 55;
@@ -225,12 +223,6 @@ public class TaskExecutionFragment<T> extends Fragment {
         break;
       case TASK_WEBDAV_TEST_LOGIN:
         new TestLoginTask(this, args).execute();
-        break;
-      case TASK_CREATE_SYNC_ACCOUNT:
-        new SyncAccountTask(this, args, true).execute();
-        break;
-      case TASK_FETCH_SYNC_ACCOUNT_DATA:
-        new SyncAccountTask(this, args, false).execute();
         break;
       case TASK_VALIDATE_LICENCE:
       case TASK_REMOVE_LICENCE:

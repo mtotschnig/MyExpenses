@@ -242,7 +242,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         }
         List<String> remoteUuidList;
         try {
-          Stream<AccountMetaData> remoteAccounStream = syncBackendProvider.get().getRemoteAccountList()
+          Stream<AccountMetaData> remoteAccounStream = syncBackendProvider.get().getRemoteAccountStream()
               .filter(Exceptional::isPresent)
               .map(Exceptional::get);
           remoteUuidList = remoteAccounStream
@@ -296,7 +296,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         }
         try {
           List<String> accountUuids = Arrays.asList((String[]) ids);
-          int numberOfRestoredAccounts = syncBackendProvider.get().getRemoteAccountList()
+          int numberOfRestoredAccounts = syncBackendProvider.get().getRemoteAccountStream()
               .filter(Exceptional::isPresent)
               .map(Exceptional::get)
               .filter(accountMetaData -> accountUuids.contains(accountMetaData.uuid()))
@@ -351,7 +351,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
 
   @NonNull
   private Exceptional<SyncBackendProvider> getSyncBackendProviderFromExtra() {
-    return GenericAccountService.Companion.getSyncBackendProvider(MyApplication.getInstance(), (String) mExtra);
+    return GenericAccountService.Companion.getSyncBackendProviderLegacy(MyApplication.getInstance(), (String) mExtra);
   }
 
   private boolean deleteAccount(Long anId) {

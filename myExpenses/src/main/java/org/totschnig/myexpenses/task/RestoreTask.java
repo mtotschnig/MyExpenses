@@ -118,7 +118,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       if (syncAccountName != null) {
         android.accounts.Account account = GenericAccountService.getAccount(syncAccountName);
         try {
-          syncBackendProvider = SyncBackendProviderFactory.get(MyApplication.getInstance(), account, false)
+          syncBackendProvider = SyncBackendProviderFactory.getLegacy(MyApplication.getInstance(), account, false)
               .getOrThrow();
         } catch (Throwable throwable) {
           String errorMessage = String.format("Unable to get sync backend provider for %s",

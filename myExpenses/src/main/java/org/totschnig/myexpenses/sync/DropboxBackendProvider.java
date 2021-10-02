@@ -337,7 +337,7 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
 
   @NonNull
   @Override
-  public Stream<Exceptional<AccountMetaData>> getRemoteAccountList() throws IOException  {
+  public Stream<Exceptional<AccountMetaData>> getRemoteAccountStream() throws IOException  {
     Stream<Exceptional<AccountMetaData>> result;
     try {
       result = Stream.of(mDbxClient.files().listFolder(basePath).getEntries())

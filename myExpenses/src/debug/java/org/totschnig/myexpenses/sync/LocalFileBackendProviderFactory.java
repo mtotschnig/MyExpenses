@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageSyncBackends;
@@ -16,6 +15,8 @@ import org.totschnig.myexpenses.util.Result;
 
 import java.io.Serializable;
 
+import androidx.annotation.NonNull;
+
 import static org.totschnig.myexpenses.util.PermissionHelper.hasExternalReadPermission;
 
 public class LocalFileBackendProviderFactory extends SyncBackendProviderFactory {
@@ -24,8 +25,7 @@ public class LocalFileBackendProviderFactory extends SyncBackendProviderFactory 
 
   @NonNull
   @Override
-  protected LocalFileBackendProvider _fromAccount(Context context, Account account, AccountManager accountManager) {
-    //before API 16, we need to check for write access
+  protected LocalFileBackendProvider fromAccount(Context context, Account account, AccountManager accountManager) {
     if (!hasExternalReadPermission(context)) {
       throw new IllegalStateException("LocalFileBackendProvider needs READ_EXTERNAL_STORAGE permission");
     }
