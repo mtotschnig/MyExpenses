@@ -132,7 +132,7 @@ class Plan private constructor(id: Long, var dtStart: Long, var rRule: String?, 
                                 eventId,
                                 dtStart,
                                 rRule,
-                                title,
+                                title ?: "",
                                 "" // we do not need the description stored in the event
                         )
                     }
