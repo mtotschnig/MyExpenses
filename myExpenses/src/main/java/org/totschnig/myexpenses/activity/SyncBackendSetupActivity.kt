@@ -207,23 +207,16 @@ abstract class SyncBackendSetupActivity : ProtectedFragmentActivity(), EditTextD
     fun checkForDuplicateUuids(data: List<AccountMetaData>) =
         data.map(AccountMetaData::uuid).distinct().count() < data.count()
 
-    fun fetchAccountData(accountName: String?) {
-        val args = Bundle()
-        args.putString(AccountManager.KEY_ACCOUNT_NAME, accountName)
-        args.putBoolean(KEY_RETURN_REMOTE_DATA_LIST, true)
-        supportFragmentManager
-            .beginTransaction()
-            .add(
-                TaskExecutionFragment.newInstanceWithBundle(
-                    args,
-                    TaskExecutionFragment.TASK_FETCH_SYNC_ACCOUNT_DATA
-                ), ASYNC_TAG
-            )
-            .add(
-                ProgressDialogFragment.newInstance(getString(R.string.progress_dialog_fetching_data_from_sync_backend)),
-                PROGRESS_TAG
-            )
-            .commit()
+    fun fetchAccountData(accountName: String) {
+        showSnackbar(R.string.progress_dialog_fetching_data_from_sync_backend, Snackbar.LENGTH_INDEFINITE)
+        viewModel.fetchAccountData(accountName).observe(this) { result ->
+            dismissSnackbar()
+            result.onSuccess {
+                onReceiveSyncAccountData(it)
+            }.onFailure {
+                showSnackbar(it.message ?: "ERROR")
+            }
+        }
     }
 
     protected open fun createAccountTaskShouldReturnDataList(): Boolean {

@@ -34,7 +34,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import icepick.State;
 
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_FETCH_SYNC_ACCOUNT_DATA;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SETUP_FROM_SYNC_ACCOUNTS;
 
 
@@ -141,10 +140,6 @@ public class OnboardingActivity extends SyncBackendSetupActivity {
   public void onPostExecute(int taskId, Object o) {
     super.onPostExecute(taskId, o);
     switch (taskId) {
-      case TASK_FETCH_SYNC_ACCOUNT_DATA: {
-        //TODO
-        break;
-      }
       case TASK_SETUP_FROM_SYNC_ACCOUNTS: {
         Result result = (Result) o;
         if (result.isSuccess()) {

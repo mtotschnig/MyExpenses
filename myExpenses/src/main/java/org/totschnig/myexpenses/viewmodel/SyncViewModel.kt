@@ -86,7 +86,7 @@ class SyncViewModel(application: Application) : ContentResolvingAndroidViewModel
         shouldReturnRemoteDataList: Boolean,
         create: Boolean
     ): Result<SyncAccountData> {
-        val localUnsynced = Account.count(
+        val localNotSynced = Account.count(
             DatabaseConstants.KEY_SYNC_ACCOUNT_NAME + " IS NULL", null
         )
         val account = GenericAccountService.getAccount(accountName)
@@ -103,7 +103,7 @@ class SyncViewModel(application: Application) : ContentResolvingAndroidViewModel
                 accountName,
                 syncAccounts,
                 backups,
-                localUnsynced
+                localNotSynced
             )
         }.onFailure { throwable ->
             if (!(throwable is IOException || throwable is SyncBackendProvider.EncryptionException)) {
@@ -111,6 +111,11 @@ class SyncViewModel(application: Application) : ContentResolvingAndroidViewModel
             }
         }
     }
+
+    fun fetchAccountData(accountName: String): LiveData<Result<SyncAccountData>> =
+        liveData(context = coroutineContext()) {
+            emit(buildResult(accountName, shouldReturnRemoteDataList = true, create = false))
+        }
 
     companion object {
         const val KEY_RETURN_REMOTE_DATA_LIST = "returnRemoteDataList"
@@ -120,6 +125,6 @@ class SyncViewModel(application: Application) : ContentResolvingAndroidViewModel
         val accountName: String,
         val syncAccounts: List<AccountMetaData>?,
         val backups: List<String>?,
-        val localUnsynced: Int
+        val localNotSynced: Int
     )
 }

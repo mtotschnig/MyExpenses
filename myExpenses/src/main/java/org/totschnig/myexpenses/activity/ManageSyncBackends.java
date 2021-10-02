@@ -8,7 +8,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 
-import com.annimon.stream.Exceptional;
 import com.dropbox.core.android.Auth;
 
 import org.totschnig.myexpenses.R;
@@ -31,7 +30,6 @@ import androidx.annotation.NonNull;
 import icepick.State;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_CREATE_SYNC_ACCOUNT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_REPAIR_SYNC_BACKEND;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_LINK_LOCAL;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SYNC_LINK_SAVE;
@@ -209,7 +207,7 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
 
   @Override
   public void onReceiveSyncAccountData(@NonNull SyncViewModel.SyncAccountData data) {
-    if (data.getLocalUnsynced() > 0) {
+    if (data.getLocalNotSynced() > 0) {
       showSelectUnsyncedAccount(data.getAccountName());
     }
   }
