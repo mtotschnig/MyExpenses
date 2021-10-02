@@ -175,11 +175,11 @@ public class RestoreFromCloudDialogFragment extends BaseDialogFragment
       OnboardingActivity activity = (OnboardingActivity) getActivity();
       LinearLayout contentForTab = getActiveContent();
       int id = contentForTab.getId();
-      if (id == R.id.backup_list) {
+      if (id == R.id.backup_list_container) {
         final String password = binding.passwordLayout.passwordLayout.getVisibility() == View.VISIBLE ? binding.passwordLayout.passwordEdit.getText().toString() : null;
         activity.setupFromBackup(backups.get(findListView(contentForTab).getCheckedItemPosition()),
             restorePlanStrategy.getCheckedRadioButtonId(), password);
-      } else if (id == R.id.sync_account_list) {
+      } else if (id == R.id.sync_account_list_container) {
         activity.setupFromSyncAccounts(Stream.of(syncAccounts)
             .filterIndexed((index, value) -> findListView(contentForTab).isItemChecked(index))
             .collect(Collectors.toList()));
