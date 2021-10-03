@@ -35,6 +35,7 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.util.asExceptional
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import timber.log.Timber
@@ -136,17 +137,13 @@ class GenericAccountService : Service() {
             return Account(accountName, ACCOUNT_TYPE)
         }
 
-        //TODO migrate to kotlin Result
-        fun getSyncBackendProvider(context: Context, syncAccountName: String): Exceptional<SyncBackendProvider> {
-            return try {
-                val account = getAccount(syncAccountName)
-                Exceptional.of { SyncBackendProviderFactory.get(context, account, false).orThrow }
-            } catch (throwable: Throwable) {
-                CrashHandler.report(Exception(String.format("Unable to get sync backend provider for %s",
-                        syncAccountName), throwable))
-                Exceptional.of(throwable)
+        fun getSyncBackendProvider(context: Context, syncAccountName: String): Result<SyncBackendProvider> =
+            SyncBackendProviderFactory[context, getAccount(syncAccountName), false].onFailure {
+                CrashHandler.report(it, "Provider", syncAccountName)
             }
-        }
+
+        @Deprecated("temporary wrapper for legacy java code where kotlin.Result is not available")
+        fun getSyncBackendProviderLegacy(context: Context, syncAccountName: String): Exceptional<SyncBackendProvider> = getSyncBackendProvider(context, syncAccountName).asExceptional()
 
         fun getAccountNamesWithEncryption(context: Context): List<Pair<String, Boolean>> {
             return getAccounts(context)

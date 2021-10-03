@@ -29,7 +29,7 @@ public class WebDavBackendProviderFactory extends SyncBackendProviderFactory {
 
   @NonNull
   @Override
-  protected SyncBackendProvider _fromAccount(Context context, Account account, AccountManager accountManager) throws SyncParseException {
+  protected SyncBackendProvider fromAccount(Context context, Account account, AccountManager accountManager) throws SyncParseException {
     return new WebDavBackendProvider(context, account, accountManager);
   }
 

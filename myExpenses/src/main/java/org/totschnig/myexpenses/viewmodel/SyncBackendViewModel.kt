@@ -17,7 +17,7 @@ class SyncBackendViewModel(application: Application) : AbstractSyncBackendViewMo
 
     override fun getAccounts(context: Context) = GenericAccountService.getAccountNamesWithEncryption(context)
 
-    override fun accountMetadata(accountName: String): LiveData<Exceptional<List<Exceptional<AccountMetaData>>>> = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
-        emit(SyncBackendProviderFactory.get(getApplication<MyApplication>(), GenericAccountService.getAccount(accountName), false).map { it.remoteAccountList.collect(Collectors.toList()) })
+    override fun accountMetadata(accountName: String): LiveData<Result<List<Exceptional<AccountMetaData>>>> = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
+        emit(SyncBackendProviderFactory[getApplication<MyApplication>(), GenericAccountService.getAccount(accountName), false].map { it.remoteAccountStream.collect(Collectors.toList()) })
     }
 }
