@@ -20,7 +20,6 @@ import android.content.res.Resources;
 
 import junit.framework.Assert;
 
-import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.AccountEdit;
 import org.totschnig.myexpenses.activity.BudgetActivity;
 import org.totschnig.myexpenses.activity.BudgetEdit;
@@ -42,7 +41,6 @@ import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.activity.MethodEdit;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.RoadmapVoteActivity;
-import org.totschnig.myexpenses.viewmodel.data.VersionInfo;
 
 //TODO use parameterized test
 
@@ -136,18 +134,6 @@ public class HelpTest extends android.test.InstrumentationTestCase {
         //classes with variants can have a generic info that is displayed in all variants, but it is not required
         //Assert.assertTrue("info not defined for "+ className,res.getIdentifier("help_" +className + "_info", "string", pack)!=0);
       }
-    }
-  }
-
-  public void testVersionCodes() {
-    Context ctx = getInstrumentation().getTargetContext();
-    Resources res = ctx.getResources();
-    String[] versions = res.getStringArray(R.array.versions);
-    for (String version : versions) {
-      String[] parts = version.split(";");
-      Assert.assertEquals(2, parts.length);
-      Assert.assertNotNull("Could not get changes for version " + parts[1],
-          new VersionInfo(Integer.parseInt(parts[0]), parts[1]).getChanges(ctx));
     }
   }
 
