@@ -662,8 +662,6 @@ public class Account extends Model {
     }
 
     if (getId() == 0) {
-      //if account is added from sync backend uuid is already set
-
       uri = cr().insert(CONTENT_URI, initialValues);
       if (uri == null) {
         return null;

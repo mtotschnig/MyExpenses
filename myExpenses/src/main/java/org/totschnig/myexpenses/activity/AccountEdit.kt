@@ -275,6 +275,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         val currencyUnit = currencyContext[currency]
         val account = Account(label, currencyUnit, Money(currencyUnit, openingBalance), binding.Description.text.toString(), accountTypeSpinner.selectedItem as AccountType, color).apply {
             id = rowId
+            uuid = this@AccountEdit.uuid
             if (syncSpinner.selectedItemPosition > 0) {
                 syncAccountName = syncSpinner.selectedItem as String
             }

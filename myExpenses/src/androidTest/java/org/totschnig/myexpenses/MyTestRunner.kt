@@ -13,7 +13,11 @@ import org.totschnig.myexpenses.util.Utils
 @Suppress("unused")
 class MyTestRunner : AndroidJUnitRunner() {
 
-    @Throws(ClassNotFoundException::class, IllegalAccessException::class, InstantiationException::class)
+    @Throws(
+        ClassNotFoundException::class,
+        IllegalAccessException::class,
+        InstantiationException::class
+    )
     override fun newApplication(cl: ClassLoader, className: String, context: Context): Application {
         return super.newApplication(cl, TestApp::class.java.name, context)
     }
@@ -21,20 +25,31 @@ class MyTestRunner : AndroidJUnitRunner() {
     @SuppressLint("NewApi")
     override fun onStart() {
         if (!ANIMATION_SETTINGS_MANUALLY_CHECKED) {
-            check(Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN_MR1))
+            check(Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN_MR1)) {
+                "tests do not run on API 16"
+            }
             val animationSettings = arrayOf(
-                    Settings.Global.TRANSITION_ANIMATION_SCALE,
-                    Settings.Global.WINDOW_ANIMATION_SCALE,
-                    Settings.Global.ANIMATOR_DURATION_SCALE)
+                Settings.Global.TRANSITION_ANIMATION_SCALE,
+                Settings.Global.WINDOW_ANIMATION_SCALE,
+                Settings.Global.ANIMATOR_DURATION_SCALE
+            )
             for (setting in animationSettings) {
-                check(try {
-                    settingGlobalFloat(setting)
-                } catch (e: SettingNotFoundException) {
-                    settingSystemFloat(setting)
-                } == 0F)
+                check(
+                    try {
+                        settingGlobalFloat(setting)
+                    } catch (e: SettingNotFoundException) {
+                        settingSystemFloat(setting)
+                    } == 0F
+                ) { "$setting  must be disabled for reliable Espresso tests" }
             }
             //Espresso cannot work with this setting
-            check(Settings.Global.getInt(targetContext.contentResolver, Settings.Global.ALWAYS_FINISH_ACTIVITIES, 0) == 0)
+            check(
+                Settings.Global.getInt(
+                    targetContext.contentResolver,
+                    Settings.Global.ALWAYS_FINISH_ACTIVITIES,
+                    0
+                ) == 0
+            )  { "${Settings.Global.ALWAYS_FINISH_ACTIVITIES}  must be disabled for reliable Espresso tests" }
         }
         super.onStart()
     }
