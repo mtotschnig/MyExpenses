@@ -202,4 +202,8 @@
         <xsl:param name="version" />
         <xsl:value-of select="concat('whats_new_',replace($version,'\.',''))" />
     </xsl:function>
+    <xsl:function name="my:githubBoardResourceName">
+        <xsl:param name="version" />
+        <xsl:value-of select="concat('project_board_',replace($version,'\.',''))" />
+    </xsl:function>
 </xsl:stylesheet>

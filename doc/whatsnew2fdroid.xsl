@@ -39,49 +39,53 @@
             <xsl:value-of select="$dir" />
             <xsl:text>/aosp.xml</xsl:text>
         </xsl:variable>
-        <xsl:variable name="changelog">
-            <xsl:for-each select="tokenize($version)">
-                <xsl:variable name="entry">
-                    <xsl:variable name="special-version-info">
-                        <xsl:call-template name="special-version-info">
-                            <xsl:with-param name="version" select="." />
-                            <xsl:with-param name="strings" select="$strings" />
-                            <xsl:with-param name="aosp" select="$aosp" />
-                            <xsl:with-param name="lang" select="$lang" />
-                        </xsl:call-template>
-                    </xsl:variable>
-                    <xsl:choose>
-                        <xsl:when test="$special-version-info != ''">
-                            <xsl:value-of select="$special-version-info" />
-                        </xsl:when>
-                        <xsl:when test="my:fileExists($upgrade)">
-                            <xsl:apply-templates select="document($upgrade)/resources/string-array">
-                                <xsl:with-param name="version" select="." />
-                            </xsl:apply-templates>
-                        </xsl:when>
-                        <xsl:otherwise/>
-                    </xsl:choose>
-                </xsl:variable>
-                <xsl:if test="$entry != ''">
-                    <xsl:value-of select="$entry" />
-                    <xsl:value-of select="$newline" />
-                </xsl:if>
-            </xsl:for-each>
+        <xsl:variable name="info">
+            <xsl:text>../myExpenses/src/main/res/values/version_info.xml</xsl:text>
         </xsl:variable>
-        <xsl:if test="$changelog != ''">
-            <xsl:variable name="output">
-                <xsl:text>metadata/</xsl:text>
-                <xsl:call-template name="lang-metadata">
-                    <xsl:with-param name="lang" select="$lang" />
-                </xsl:call-template>
-                <xsl:text>/changelogs/</xsl:text>
-                <xsl:value-of select="$versionCode"/>
-                <xsl:text>.txt</xsl:text>
+        <xsl:variable name="changelog">
+            <xsl:variable name="entry">
+                <xsl:variable name="special-version-info">
+                    <xsl:call-template name="special-version-info">
+                        <xsl:with-param name="version" select="$version" />
+                        <xsl:with-param name="strings" select="$strings" />
+                        <xsl:with-param name="aosp" select="$aosp" />
+                        <xsl:with-param name="lang" select="$lang" />
+                    </xsl:call-template>
+                </xsl:variable>
+                <xsl:choose>
+                    <xsl:when test="$special-version-info != ''">
+                        <xsl:value-of select="$special-version-info" />
+                    </xsl:when>
+                    <xsl:when test="my:fileExists($upgrade)">
+                        <xsl:apply-templates select="document($upgrade)/resources/string-array">
+                            <xsl:with-param name="version" select="$version" />
+                        </xsl:apply-templates>
+                    </xsl:when>
+                    <xsl:otherwise/>
+                </xsl:choose>
             </xsl:variable>
-            <xsl:result-document href="{$output}" method="text">
-                <xsl:value-of select="$changelog" />
-            </xsl:result-document>
-        </xsl:if>
+            <xsl:if test="$entry != ''">
+                <xsl:value-of select="$entry" />
+                <xsl:value-of select="$newline" />
+            </xsl:if>
+        </xsl:variable>
+        <xsl:variable name="output">
+            <xsl:text>metadata/</xsl:text>
+            <xsl:call-template name="lang-metadata">
+                <xsl:with-param name="lang" select="$lang" />
+            </xsl:call-template>
+            <xsl:text>/changelogs/</xsl:text>
+            <xsl:value-of select="$versionCode"/>
+            <xsl:text>.txt</xsl:text>
+        </xsl:variable>
+        <xsl:result-document href="{$output}" method="text">
+            <xsl:value-of select="$changelog" />
+            <xsl:value-of select="$newline" />
+            <xsl:text>https://github.com/mtotschnig/MyExpenses/projects/</xsl:text>
+            <xsl:value-of
+                select="document($info)/resources/string[@name=my:githubBoardResourceName($version)]" />
+            <xsl:value-of select="$newline" />
+        </xsl:result-document>
     </xsl:template>
 
     <xsl:template match="string-array">
