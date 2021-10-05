@@ -1,2 +1,2 @@
-versionName=3.3.4.1
-versionCode=499
+versionName=3.3.4.2
+versionCode=500
