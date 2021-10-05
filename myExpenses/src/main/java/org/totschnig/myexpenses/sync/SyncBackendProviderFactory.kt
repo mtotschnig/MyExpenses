@@ -40,7 +40,7 @@ abstract class SyncBackendProviderFactory {
     abstract fun startSetup(activity: ProtectedFragmentActivity?)
 
     @SuppressWarnings("unused")
-    fun isEnabled(context: Context?): Boolean {
+    open fun isEnabled(context: Context?): Boolean {
         return true
     }
 
