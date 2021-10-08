@@ -126,9 +126,9 @@ class TransactionList : BaseTransactionList() {
         }
         (requireActivity() as ProtectedFragmentActivity).showSnackbar(
             concatResStrings(
-                context,
+                requireContext(),
                 " ",
-                *resIds.toTypedArray()
+                *resIds.toIntArray()
             )
         )
     }

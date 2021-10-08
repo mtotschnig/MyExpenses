@@ -567,7 +567,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
             })
             .msg(
                 concatResStrings(
-                    context,
+                    requireContext(),
                     " ",
                     R.string.warning_plan_instance_delete,
                     R.string.continue_confirmation

@@ -37,6 +37,7 @@ import org.totschnig.myexpenses.activity.ContribInfoDialogActivity
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.databinding.ContribDialogBinding
 import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.isGithub
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -200,7 +201,7 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
         //FOOTER
         if (isGithub) {
             binding.githubExtraInfo.visibility = View.VISIBLE
-            binding.githubExtraInfo.text = org.totschnig.myexpenses.util.TextUtils.concatResStrings(activity,
+            binding.githubExtraInfo.text = concatResStrings(requireActivity(),
                     ". ", R.string.professional_key_fallback_info, R.string.eu_vat_info)
         }
         builder.setTitle(if (feature == null) R.string.menu_contrib else R.string.dialog_title_contrib_feature)

@@ -194,7 +194,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                                     })
                                     .msg(
                                         org.totschnig.myexpenses.util.TextUtils.concatResStrings(
-                                            context,
+                                            requireContext(),
                                             " ",
                                             R.string.warning_party_delete_debt,
                                             R.string.continue_confirmation

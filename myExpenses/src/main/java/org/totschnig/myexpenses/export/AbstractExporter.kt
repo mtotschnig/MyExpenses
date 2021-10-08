@@ -100,7 +100,7 @@ abstract class AbstractExporter
                                     labelSub = fullLabel
                                 } else {
                                     labelSub = DbUtils.getString(readCat, DatabaseConstants.KEY_LABEL_SUB)
-                                    fullLabel = TextUtils.formatQifCategory(labelMain, labelSub)
+                                    fullLabel = TextUtils.formatQifCategory(labelMain, labelSub)!!
                                 }
                             }
                             val payee = DbUtils.getString(cursor, DatabaseConstants.KEY_PAYEE_NAME)
@@ -144,7 +144,7 @@ abstract class AbstractExporter
                                             labelSub = fullLabel
                                         } else {
                                             labelSub = DbUtils.getString(splits, DatabaseConstants.KEY_LABEL_SUB)
-                                            fullLabel = TextUtils.formatQifCategory(labelMain, labelSub)
+                                            fullLabel = TextUtils.formatQifCategory(labelMain, labelSub)!!
                                         }
                                     } else {
                                         fullLabel = Category.NO_CATEGORY_ASSIGNED_LABEL

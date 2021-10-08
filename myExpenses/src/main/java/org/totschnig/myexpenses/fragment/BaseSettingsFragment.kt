@@ -395,7 +395,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 if (licenceHandler.hasValidKey()) {
                     it.title = getKeyInfo()
                     it.summary = TextUtils.concatResStrings(
-                        activity, " / ",
+                        requireActivity(), " / ",
                         R.string.button_validate, R.string.menu_remove
                     )
                 } else {
