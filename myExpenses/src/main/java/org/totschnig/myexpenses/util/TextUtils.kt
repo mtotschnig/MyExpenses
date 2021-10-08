@@ -6,15 +6,8 @@ import java.util.*
 
 object TextUtils {
     @JvmStatic
-    fun <E : Enum<E>?> joinEnum(enumClass: Class<E>): String {
-        val result = StringBuilder()
-        val iterator: Iterator<E> = EnumSet.allOf(enumClass).iterator()
-        while (iterator.hasNext()) {
-            result.append("'").append(iterator.next()!!.name).append("'")
-            if (iterator.hasNext()) result.append(",")
-        }
-        return result.toString()
-    }
+    fun <E : Enum<E>> joinEnum(enumClass: Class<E>): String =
+        EnumSet.allOf(enumClass).joinToString(",") { "'${it.name}'" }
 
     @JvmStatic
     fun concatResStrings(ctx: Context, separator: String, vararg resIds: Int): String =
