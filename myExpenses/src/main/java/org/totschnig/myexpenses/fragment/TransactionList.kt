@@ -45,6 +45,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_SAME_CURRENCY
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
+import org.totschnig.myexpenses.util.TextUtils.withAmountColor
 import org.totschnig.myexpenses.util.asTrueSequence
 import org.totschnig.myexpenses.viewmodel.KEY_ROW_IDS
 import org.totschnig.myexpenses.viewmodel.data.Tag
@@ -404,27 +405,14 @@ class TransactionList : BaseTransactionList() {
                     currencyFormatter.convAmount(selectedTransactionSum, it.currencyUnit)
             }
             mode.title = TextUtils.concat(
-                count.toString(), " ", setColor(
-                    selectedTransactionSumFormatted
-                        ?: ""
-                )
+                count.toString(), " ", setColor(selectedTransactionSumFormatted)
             )
         } else {
             super.setTitle(mode, lv)
         }
     }
 
-    private fun setColor(text: String) = SpannableString(text).apply {
-        setSpan(
-            ForegroundColorSpan(
-                ResourcesCompat.getColor(
-                    resources,
-                    if (selectedTransactionSum <= 0) R.color.colorExpense else R.color.colorIncome,
-                    null
-                )
-            ), 0, length, 0
-        )
-    }
+    private fun setColor(text: String?) = text?.withAmountColor(resources, selectedTransactionSum > 0) ?: ""
 
     override fun onSelectionChanged(position: Int, checked: Boolean) {
         if (mTransactionsCursor.moveToPosition(position)) {

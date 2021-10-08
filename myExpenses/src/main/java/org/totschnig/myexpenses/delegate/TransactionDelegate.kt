@@ -32,6 +32,7 @@ import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
+import org.totschnig.myexpenses.di.AppComponent
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CrStatus
@@ -47,6 +48,7 @@ import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.DateButton
 import org.totschnig.myexpenses.ui.MyTextWatcher
 import org.totschnig.myexpenses.ui.SpinnerHelper
+import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.TextUtils.appendCurrencyDescription
 import org.totschnig.myexpenses.util.TextUtils.appendCurrencySymbol
@@ -60,14 +62,21 @@ import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import java.math.BigDecimal
 import java.util.*
+import javax.inject.Inject
 
 abstract class TransactionDelegate<T : ITransaction>(
     val viewBinding: OneExpenseBinding,
     private val dateEditBinding: DateEditBinding,
     private val methodRowBinding: MethodRowBinding,
-    val prefHandler: PrefHandler,
     val isTemplate: Boolean
 ) : AdapterView.OnItemSelectedListener {
+
+    @Inject
+    lateinit var prefHandler: PrefHandler
+    @Inject
+    lateinit var currencyFormatter: CurrencyFormatter
+    @Inject
+    lateinit var currencyContext: CurrencyContext
 
     private val methodSpinner = SpinnerHelper(methodRowBinding.Method.root)
     val accountSpinner = SpinnerHelper(viewBinding.Account)
@@ -434,7 +443,7 @@ abstract class TransactionDelegate<T : ITransaction>(
             appendCurrencyDescription(label.context, textResId, currencyUnit)
     }
 
-    fun setCurrencies(currencies: List<Currency?>?, currencyContext: CurrencyContext?) {
+    fun setCurrencies(currencies: List<Currency?>?) {
         viewBinding.OriginalAmount.setCurrencies(currencies)
         populateOriginalCurrency()
     }
@@ -741,17 +750,15 @@ abstract class TransactionDelegate<T : ITransaction>(
 
     abstract fun buildTransaction(
         forSave: Boolean,
-        currencyContext: CurrencyContext,
         accountId: Long
     ): T?
 
     abstract val operationType: Int
 
-    open fun syncStateAndValidate(forSave: Boolean, currencyContext: CurrencyContext): T? {
+    open fun syncStateAndValidate(forSave: Boolean): T? {
         return currentAccount()?.let {
             buildTransaction(
                 forSave && !isMainTemplate,
-                currencyContext,
                 it.id
             )
         }?.apply {
@@ -1066,9 +1073,11 @@ abstract class TransactionDelegate<T : ITransaction>(
 
     companion object {
         fun create(
-            transaction: ITransaction, viewBinding: OneExpenseBinding,
-            dateEditBinding: DateEditBinding, methodRowBinding: MethodRowBinding,
-            prefHandler: PrefHandler
+            transaction: ITransaction,
+            viewBinding: OneExpenseBinding,
+            dateEditBinding: DateEditBinding,
+            methodRowBinding: MethodRowBinding,
+            injector: AppComponent
         ) =
             (transaction is Template).let { isTemplate ->
                 with(transaction) {
@@ -1077,23 +1086,26 @@ abstract class TransactionDelegate<T : ITransaction>(
                             viewBinding,
                             dateEditBinding,
                             methodRowBinding,
-                            prefHandler,
                             isTemplate
-                        )
+                        ).also {
+                            injector.inject(it)
+                        }
                         isSplit -> SplitDelegate(
                             viewBinding,
                             dateEditBinding,
                             methodRowBinding,
-                            prefHandler,
                             isTemplate
-                        )
+                        ).also {
+                            injector.inject(it)
+                        }
                         else -> CategoryDelegate(
                             viewBinding,
                             dateEditBinding,
                             methodRowBinding,
-                            prefHandler,
                             isTemplate
-                        )
+                        ).also {
+                            injector.inject(it)
+                        }
                     }
                 }
             }
@@ -1101,29 +1113,32 @@ abstract class TransactionDelegate<T : ITransaction>(
         fun create(
             operationType: Int, isTemplate: Boolean, viewBinding: OneExpenseBinding,
             dateEditBinding: DateEditBinding, methodRowBinding: MethodRowBinding,
-            prefHandler: PrefHandler
+            injector: AppComponent
         ) = when (operationType) {
             TYPE_TRANSFER -> TransferDelegate(
                 viewBinding,
                 dateEditBinding,
                 methodRowBinding,
-                prefHandler,
                 isTemplate
-            )
+            ).also {
+                injector.inject(it)
+            }
             TYPE_SPLIT -> SplitDelegate(
                 viewBinding,
                 dateEditBinding,
                 methodRowBinding,
-                prefHandler,
                 isTemplate
-            )
+            ).also {
+                injector.inject(it)
+            }
             else -> CategoryDelegate(
                 viewBinding,
                 dateEditBinding,
                 methodRowBinding,
-                prefHandler,
                 isTemplate
-            )
+            ).also {
+                injector.inject(it)
+            }
         }
     }
 }

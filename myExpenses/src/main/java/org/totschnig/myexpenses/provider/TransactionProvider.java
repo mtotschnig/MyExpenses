@@ -787,7 +787,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           sortOrder = KEY_PAYEE_NAME;
         }
         if (projection == null)
-          projection = BaseTransactionProvider.Companion.getPAYEE_PROJECTION();
+          projection = Companion.getPAYEE_PROJECTION();
         break;
       case MAPPED_TRANSFER_ACCOUNTS:
         qb.setTables(TABLE_ACCOUNTS + " JOIN " + TABLE_TRANSACTIONS + " ON (" + KEY_TRANSFER_ACCOUNT + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + ")");
@@ -1003,22 +1003,27 @@ public class TransactionProvider extends BaseTransactionProvider {
         qb.setTables(TABLE_ACCOUNTS_TAGS + " LEFT JOIN " + TABLE_TAGS + " ON (" + KEY_TAGID + " = " + KEY_ROWID + ")");
         break;
       case DEBTS: {
+        if (projection == null) {
+          projection = Companion.getDEBT_PROJECTION();
+        }
         qb.setTables(TABLE_DEBTS);
         break;
       }
       case DEBT_ID: {
         qb.setTables(TABLE_DEBTS + " LEFT JOIN " + TABLE_PAYEES + " ON (" + KEY_PAYEEID + " = " + TABLE_PAYEES + "." + KEY_ROWID + ")");
-        projection = new String[] {
-            TABLE_DEBTS + "." + KEY_ROWID,
-            KEY_PAYEEID,
-            KEY_DATE,
-            KEY_LABEL,
-            KEY_AMOUNT,
-            KEY_CURRENCY,
-            KEY_DESCRIPTION,
-            KEY_PAYEE_NAME,
-            KEY_SEALED
-        };
+        if (projection == null) {
+          projection = new String[] {
+              TABLE_DEBTS + "." + KEY_ROWID,
+              KEY_PAYEEID,
+              KEY_DATE,
+              KEY_LABEL,
+              KEY_AMOUNT,
+              KEY_CURRENCY,
+              KEY_DESCRIPTION,
+              KEY_PAYEE_NAME,
+              KEY_SEALED
+          };
+        }
         qb.appendWhere(TABLE_DEBTS + "." + KEY_ROWID + "=" + uri.getPathSegments().get(1));
         break;
       }

@@ -15,6 +15,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM
 import org.totschnig.myexpenses.util.localDate2Epoch
 import java.math.BigDecimal
 
@@ -27,7 +28,8 @@ data class Debt(
     val currency: String,
     val date: Long,
     val payeeName: String? = null,
-    val isSealed: Boolean = false
+    val isSealed: Boolean = false,
+    val sum: Long = 0
 ) {
     constructor(
         id: Long,
@@ -46,6 +48,9 @@ data class Debt(
         currency.code,
         localDate2Epoch(date)
     )
+
+    val currentBalance: Long
+        get() = amount - sum
 
     fun toContentValues() = ContentValues().apply {
         put(KEY_LABEL, label)
@@ -69,7 +74,8 @@ data class Debt(
             cursor.getString(cursor.getColumnIndex(KEY_CURRENCY)),
             cursor.getLong(cursor.getColumnIndex(KEY_DATE)),
             cursor.getColumnIndex(KEY_PAYEE_NAME).takeIf { it != -1 }?.let { cursor.getString(it) },
-            cursor.getInt(cursor.getColumnIndex(KEY_SEALED)) == 1
+            cursor.getInt(cursor.getColumnIndex(KEY_SEALED)) == 1,
+            cursor.getColumnIndex(KEY_SUM).takeIf { it != -1 }?.let { cursor.getLong(it) } ?: 0
         )
     }
 }

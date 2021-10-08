@@ -1007,6 +1007,8 @@
     <string name="menu_new_debt">New debt</string>
     <string name="debt_owes_me">%s owes me</string>
     <string name="debt_I_owe">I owe %s</string>
+    <!-- Appears in the transaction form as label for the checkbox that allows to link the transaction to a debt  -->
+    <string name="debt">Debt</string>
     <string name="debts">Debts</string>
     <!-- When user want to delete a party for which debts are defined, we ask for confirmation. -->
     <string name="warning_party_delete_debt">When deleting this party, debts defined for it will be deleted as well.</string>

@@ -85,12 +85,10 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.ui.AmountInput
-import org.totschnig.myexpenses.ui.ButtonWithDialog
 import org.totschnig.myexpenses.ui.DateButton
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.ExchangeRateEdit
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
-import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.Utils
@@ -190,9 +188,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     lateinit var imageViewIntentProvider: ImageViewIntentProvider
 
     @Inject
-    lateinit var currencyFormatter: CurrencyFormatter
-
-    @Inject
     lateinit var discoveryHelper: IDiscoveryHelper
 
     lateinit var delegate: TransactionDelegate<*>
@@ -266,7 +261,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
                 rootBinding,
                 dateEditBinding,
                 methodRowBinding,
-                prefHandler
+                (applicationContext as MyApplication).appComponent
             )
             setupObservers(true)
             delegate.bind(
@@ -489,7 +484,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     private fun loadCurrencies() {
         currencyViewModel.getCurrencies().observe(this, { currencies ->
             if (::delegate.isInitialized) {
-                delegate.setCurrencies(currencies, currencyContext)
+                delegate.setCurrencies(currencies)
             }
         })
     }
@@ -611,7 +606,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
             rootBinding,
             dateEditBinding,
             methodRowBinding,
-            prefHandler
+            (applicationContext as MyApplication).appComponent
         )
         setupObservers(false)
         delegate.bindUnsafe(
@@ -690,6 +685,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         super.onTypeChanged(isChecked)
         if (shouldLoadMethods) {
             loadMethods(currentAccount)
+        }
+        (delegate as? MainDelegate)?.let {
+            it.onAmountChanged()
         }
         discoveryHelper.markDiscovered(DiscoveryHelper.Feature.expense_income_switch)
     }
@@ -912,7 +910,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
 
     override fun saveState() {
         if (::delegate.isInitialized) {
-            delegate.syncStateAndValidate(true, currencyContext)?.let { transaction ->
+            delegate.syncStateAndValidate(true)?.let { transaction ->
                 mIsSaving = true
                 if (planInstanceId > 0L) {
                     transaction.originPlanInstanceId = planInstanceId
@@ -1068,7 +1066,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
             val restartIntent = intent
             restartIntent.putExtra(Transactions.OPERATION_TYPE, newType)
             if (isDirty) {
-                delegate.syncStateAndValidate(false, currencyContext)?.let {
+                delegate.syncStateAndValidate(false)?.let {
                     restartIntent.putExtra(KEY_CACHED_DATA, it)
                     if (it.pictureUri != null) {
                         restartIntent.putExtra(KEY_CACHED_PICTURE_URI, it.pictureUri)
@@ -1192,7 +1190,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         }
         when (loader.id) {
             AUTOFILL_CURSOR -> {
-                (delegate as? CategoryDelegate)?.autoFill(data, currencyContext)
+                (delegate as? CategoryDelegate)?.autoFill(data)
                 mManager.destroyLoader(AUTOFILL_CURSOR)
             }
         }

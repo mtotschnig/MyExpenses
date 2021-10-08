@@ -1,6 +1,11 @@
 package org.totschnig.myexpenses.util
 
 import android.content.Context
+import android.content.res.Resources
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
+import androidx.core.content.res.ResourcesCompat
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.CurrencyUnit
 import java.util.*
 
@@ -40,4 +45,17 @@ object TextUtils {
         val substitute = '|'
         return label?.replace('/', substitute)?.replace(':', substitute)
     }
+
+    fun String.withAmountColor(resources: Resources, isIncome: Boolean) =
+        SpannableString(this).apply {
+            setSpan(
+                ForegroundColorSpan(
+                    ResourcesCompat.getColor(
+                        resources,
+                        if (isIncome) R.color.colorIncome else R.color.colorExpense,
+                        null
+                    )
+                ), 0, length, 0
+            )
+        }
 }

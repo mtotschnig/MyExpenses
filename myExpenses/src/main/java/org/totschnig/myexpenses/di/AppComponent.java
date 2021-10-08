@@ -13,6 +13,9 @@ import org.totschnig.myexpenses.activity.BaseMyExpenses;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.db2.Repository;
+import org.totschnig.myexpenses.delegate.CategoryDelegate;
+import org.totschnig.myexpenses.delegate.SplitDelegate;
+import org.totschnig.myexpenses.delegate.TransferDelegate;
 import org.totschnig.myexpenses.dialog.AmountFilterDialog;
 import org.totschnig.myexpenses.dialog.BaseDialogFragment;
 import org.totschnig.myexpenses.dialog.ContribDialogFragment;
@@ -264,4 +267,8 @@ public interface AppComponent {
   void inject(DebtViewModel debtViewModel);
 
   void inject(DebtDetailsDialogFragment debtDetailsDialogFragment);
+
+  void inject(CategoryDelegate transactionDelegate);
+  void inject(SplitDelegate transactionDelegate);
+  void inject(TransferDelegate transactionDelegate);
 }

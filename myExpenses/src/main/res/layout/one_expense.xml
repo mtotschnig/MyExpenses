@@ -196,47 +196,30 @@
                             android:labelFor="@+id/Payee"
                             android:text="@string/payee" />
 
-                        <LinearLayout
+                        <AutoCompleteTextView
+                            android:id="@+id/Payee"
                             style="@style/FormField"
-                            android:orientation="horizontal">
+                            android:layout_height="wrap_content"
+                            android:completionThreshold="1"
+                            android:imeOptions="actionNext"
+                            android:inputType="textPersonName|textCapWords" />
 
-                            <AutoCompleteTextView
-                                android:id="@+id/Payee"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:completionThreshold="1"
-                                android:imeOptions="actionNext"
-                                android:inputType="textPersonName|textCapWords" />
+                    </TableRow>
 
-                            <LinearLayout
-                                android:id="@+id/DebtContainer"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="4dp"
-                                android:layout_marginLeft="4dp"
-                                android:orientation="vertical"
-                                android:visibility="gone">
+                    <TableRow
+                        android:id="@+id/DebtRow"
+                        android:visibility="gone">
 
-                                <CheckBox
-                                    android:id="@+id/DebtCheckBox"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
-                                    android:minWidth="0dp"
-                                    android:minHeight="0dp" />
+                        <TextView
+                            android:id="@+id/DebtLabel"
+                            style="@style/FormLabel"
+                            android:labelFor="@+id/Debt"
+                            android:text="@string/debt" />
 
-                                <TextView
-                                    android:id="@+id/DebtLabel"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:ellipsize="end"
-                                    android:maxWidth="72dp"
-                                    android:maxLines="1"
-                                    android:text="@string/debts" />
-                            </LinearLayout>
-
-                        </LinearLayout>
+                        <CheckBox
+                            style="@style/FormField"
+                            android:id="@+id/DebtCheckBox"
+                            android:layout_gravity="center_horizontal" />
                     </TableRow>
 
                     <TableRow android:id="@+id/CategoryRow">

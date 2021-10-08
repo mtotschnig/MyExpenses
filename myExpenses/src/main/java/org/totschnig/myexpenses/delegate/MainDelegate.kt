@@ -2,6 +2,8 @@ package org.totschnig.myexpenses.delegate
 
 import android.database.Cursor
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.Menu
 import android.view.View
@@ -16,40 +18,70 @@ import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
-import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.ITransaction
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Payee
-import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.model.Plan
+import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.shouldStartAutoFill
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.ui.MyTextWatcher
+import org.totschnig.myexpenses.util.TextUtils.withAmountColor
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.Debt
+import java.math.BigDecimal
 
 //Transaction or Split
 abstract class MainDelegate<T : ITransaction>(
     viewBinding: OneExpenseBinding,
     dateEditBinding: DateEditBinding,
     methodRowBinding: MethodRowBinding,
-    prefHandler: PrefHandler,
     isTemplate: Boolean
 ) : TransactionDelegate<T>(
     viewBinding,
     dateEditBinding,
     methodRowBinding,
-    prefHandler,
     isTemplate
 ) {
     private var debts: List<Debt> = emptyList()
     private lateinit var payeeAdapter: SimpleCursorAdapter
 
+
+    override fun bind(
+        transaction: T?,
+        isCalendarPermissionPermanentlyDeclined: Boolean,
+        newInstance: Boolean,
+        savedInstanceState: Bundle?,
+        recurrence: Plan.Recurrence?,
+        withAutoFill: Boolean
+    ) {
+        super.bind(
+            transaction,
+            isCalendarPermissionPermanentlyDeclined,
+            newInstance,
+            savedInstanceState,
+            recurrence,
+            withAutoFill
+        )
+        viewBinding.Amount.addTextChangedListener(object : MyTextWatcher() {
+            override fun afterTextChanged(s: Editable) {
+                onAmountChanged()
+            }
+        })
+    }
+
+    fun onAmountChanged() {
+        if (debtId != null ) {
+            updateDebtCheckBox(debts.find { it.id == debtId })
+        }
+    }
+
     override fun buildTransaction(
         forSave: Boolean,
-        currencyContext: CurrencyContext,
         accountId: Long
     ): T? {
         val amount = validateAmountInput(forSave)
@@ -68,7 +100,7 @@ abstract class MainDelegate<T : ITransaction>(
             val selectedItem = viewBinding.OriginalAmount.selectedCurrency
             if (selectedItem != null && originalAmount != null) {
                 val currency = selectedItem.code
-                PrefKey.LAST_ORIGINAL_CURRENCY.putString(currency)
+                prefHandler.putString(PrefKey.LAST_ORIGINAL_CURRENCY, currency)
                 this.originalAmount = Money(currencyContext[currency], originalAmount)
             } else {
                 this.originalAmount = null
@@ -214,7 +246,36 @@ abstract class MainDelegate<T : ITransaction>(
                 viewBinding.DebtCheckBox.isChecked = false
             }
         }
-        viewBinding.DebtLabel.text = debt?.label ?: context.getString(R.string.debts)
+        updateDebtCheckBox(debt)
+    }
+
+    private fun updateDebtCheckBox(debt: Debt?) {
+        viewBinding.DebtCheckBox.text = debt?.let { formatDebt(it, true) } ?: ""
+    }
+
+    private fun formatDebt(debt: Debt, withInstallment: Boolean = false): CharSequence {
+        val amount = debt.currentBalance
+        val currencyUnit = currencyContext[debt.currency]
+        val money = Money(currencyUnit, amount)
+        val elements = mutableListOf<CharSequence>().apply {
+            add(debt.label)
+            add(" ")
+            add(currencyFormatter.formatCurrency(money)
+                .withAmountColor(viewBinding.root.context.resources, amount > 0)
+            )
+        }
+
+        if (withInstallment) {
+            val installment = validateAmountInput(false)
+            if (installment != null) {
+                elements.add(" ${Transfer.RIGHT_ARROW} ")
+                val futureBalance = money.amountMajor - installment
+                elements.add(currencyFormatter.formatCurrency(Money(currencyUnit, futureBalance))
+                    .withAmountColor(viewBinding.root.context.resources, futureBalance > BigDecimal.ZERO)
+                )
+            }
+        }
+        return TextUtils.concat(*elements.toTypedArray())
     }
 
     private fun setDebt(debt: Debt) {
@@ -228,7 +289,7 @@ abstract class MainDelegate<T : ITransaction>(
     private fun handleDebts() {
         if (debts.isNotEmpty()) {
             val hasDebts = applicableDebts.isNotEmpty()
-            viewBinding.DebtContainer.visibility = if (hasDebts) View.VISIBLE else View.GONE
+            viewBinding.DebtRow.visibility = if (hasDebts) View.VISIBLE else View.GONE
             if (hasDebts) {
                 if (debtId != null) {
                     updateUiWithDebt(applicableDebts.find { it.id == debtId })
@@ -257,12 +318,19 @@ abstract class MainDelegate<T : ITransaction>(
             host.setDirty()
             if (isChecked) {
                 when (applicableDebts.size) {
-                    0 -> { /*should not happen*/ CrashHandler.throwOrReport(java.lang.IllegalStateException("Debt checked without applicable debt")) }
-                    1 -> { setDebt(applicableDebts.first()) }
+                    0 -> { /*should not happen*/ CrashHandler.throwOrReport(
+                        java.lang.IllegalStateException(
+                            "Debt checked without applicable debt"
+                        )
+                    )
+                    }
+                    1 -> {
+                        setDebt(applicableDebts.first())
+                    }
                     else -> {
-                        with(PopupMenu(context, viewBinding.DebtContainer)) {
+                        with(PopupMenu(context, viewBinding.DebtCheckBox)) {
                             applicableDebts.forEachIndexed { index, debt ->
-                                menu.add(Menu.NONE, index, Menu.NONE, debt.label)
+                                menu.add(Menu.NONE, index, Menu.NONE, formatDebt(debt))
                             }
                             setOnMenuItemClickListener { item ->
                                 setDebt(applicableDebts[item.itemId])
