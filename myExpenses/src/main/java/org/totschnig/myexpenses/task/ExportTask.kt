@@ -9,6 +9,7 @@ import androidx.documentfile.provider.DocumentFile
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.export.CsvExporter
+import org.totschnig.myexpenses.export.JSONExporter
 import org.totschnig.myexpenses.export.QifExporter
 import org.totschnig.myexpenses.fragment.BaseTransactionList.KEY_FILTER
 import org.totschnig.myexpenses.model.Account
@@ -111,9 +112,11 @@ class ExportTask(private val taskExecutionFragment: TaskExecutionFragment<*>, ex
                 val append = mergeP && i > 0
                 val fileNameForAccount = if (oneFile) fileName else String.format("%s-%s", Utils.escapeForFileName(account.label),
                         simpleDateFormat.format(now))
-                val exporter = if (format === ExportFormat.CSV)
-                    CsvExporter(account, filter, notYetExportedP, dateFormat, decimalSeparator, encoding, !append, delimiter, mergeP) else
-                    QifExporter(account, filter, notYetExportedP, dateFormat, decimalSeparator, encoding)
+                val exporter = when(format) {
+                    ExportFormat.CSV -> CsvExporter(account, filter, notYetExportedP, dateFormat, decimalSeparator, encoding, !append, delimiter, mergeP)
+                    ExportFormat.QIF -> QifExporter(account, filter, notYetExportedP, dateFormat, decimalSeparator, encoding)
+                    ExportFormat.JSON -> JSONExporter(account, filter, notYetExportedP, dateFormat, decimalSeparator, encoding, delimiter, mergeP)
+                }
                 val result = exporter.export(context, lazy {
                     Result.success(AppDirHelper.buildFile(destDir, fileNameForAccount, format.mimeType,
                             append, true) ?: throw createFileFailure(context, destDir, fileName))
