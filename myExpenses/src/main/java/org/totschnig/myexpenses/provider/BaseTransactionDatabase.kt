@@ -19,7 +19,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_DEBTS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 import timber.log.Timber
 
-const val DATABASE_VERSION = 119
+const val DATABASE_VERSION = 120
 const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 
 private const val DEBTS_SEALED_TRIGGER_CREATE = """
@@ -45,17 +45,6 @@ CREATE TRIGGER sealed_debt_transaction_delete
 BEFORE DELETE ON $TABLE_TRANSACTIONS WHEN (SELECT $KEY_SEALED FROM $TABLE_DEBTS WHERE $KEY_ROWID = old.$KEY_DEBT_ID) = 1
 BEGIN $RAISE_UPDATE_SEALED_DEBT END
 """
-
-private const val DEBT_PAYEE_CHECK = """
-WHEN new.$KEY_DEBT_ID is not null AND (SELECT $KEY_PAYEEID FROM $TABLE_DEBTS WHERE $KEY_ROWID = new.$KEY_DEBT_ID) != new.$KEY_PAYEEID 
-BEGIN SELECT RAISE (FAIL, 'attempt to set inconsistent debt'); END
-"""
-
-private const val TRANSACTIONS_DEBT_INSERT_TRIGGER_CREATE =
-    "CREATE TRIGGER transaction_debt_insert BEFORE INSERT ON $TABLE_TRANSACTIONS $DEBT_PAYEE_CHECK"
-
-private const val TRANSACTIONS_DEBT_UPDATE_TRIGGER_CREATE =
-    "CREATE TRIGGER transaction_debt_update BEFORE UPDATE ON $TABLE_TRANSACTIONS $DEBT_PAYEE_CHECK"
 
 abstract class BaseTransactionDatabase(context: Context, databaseName: String) :
     SQLiteOpenHelper(context, databaseName, null, DATABASE_VERSION) {
@@ -93,6 +82,13 @@ abstract class BaseTransactionDatabase(context: Context, databaseName: String) :
         createOrRefreshTransactionDebtTriggers(db)
     }
 
+    fun upgradeTo120(db: SQLiteDatabase) {
+        with(db) {
+            execSQL("DROP TRIGGER IF EXISTS transaction_debt_insert")
+            execSQL("DROP TRIGGER IF EXISTS transaction_debt_update")
+        }
+    }
+
     override fun onCreate(db: SQLiteDatabase?) {
         PrefKey.FIRST_INSTALL_DB_SCHEMA_VERSION.putInt(DATABASE_VERSION)
     }
@@ -128,17 +124,15 @@ abstract class BaseTransactionDatabase(context: Context, databaseName: String) :
     }
 
     fun createOrRefreshTransactionDebtTriggers(db: SQLiteDatabase) {
-        db.execSQL("DROP TRIGGER IF EXISTS transaction_debt_insert")
-        db.execSQL("DROP TRIGGER IF EXISTS transaction_debt_update")
-        db.execSQL("DROP TRIGGER IF EXISTS sealed_debt_update")
-        db.execSQL("DROP TRIGGER IF EXISTS sealed_debt_transaction_insert")
-        db.execSQL("DROP TRIGGER IF EXISTS sealed_debt_transaction_update")
-        db.execSQL("DROP TRIGGER IF EXISTS sealed_debt_transaction_delete")
-        db.execSQL(TRANSACTIONS_DEBT_INSERT_TRIGGER_CREATE)
-        db.execSQL(TRANSACTIONS_DEBT_UPDATE_TRIGGER_CREATE)
-        db.execSQL(DEBTS_SEALED_TRIGGER_CREATE)
-        db.execSQL(TRANSACTIONS_SEALED_DEBT_INSERT_TRIGGER_CREATE)
-        db.execSQL(TRANSACTIONS_SEALED_DEBT_UPDATE_TRIGGER_CREATE)
-        db.execSQL(TRANSACTIONS_SEALED_DEBT_DELETE_TRIGGER_CREATE)
+        with(db) {
+            execSQL("DROP TRIGGER IF EXISTS sealed_debt_update")
+            execSQL("DROP TRIGGER IF EXISTS sealed_debt_transaction_insert")
+            execSQL("DROP TRIGGER IF EXISTS sealed_debt_transaction_update")
+            execSQL("DROP TRIGGER IF EXISTS sealed_debt_transaction_delete")
+            execSQL(DEBTS_SEALED_TRIGGER_CREATE)
+            execSQL(TRANSACTIONS_SEALED_DEBT_INSERT_TRIGGER_CREATE)
+            execSQL(TRANSACTIONS_SEALED_DEBT_UPDATE_TRIGGER_CREATE)
+            execSQL(TRANSACTIONS_SEALED_DEBT_DELETE_TRIGGER_CREATE)
+        }
     }
 }

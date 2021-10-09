@@ -1006,24 +1006,14 @@ public class TransactionProvider extends BaseTransactionProvider {
         if (projection == null) {
           projection = Companion.getDEBT_PROJECTION();
         }
-        qb.setTables(TABLE_DEBTS);
+        qb.setTables(Companion.getDEBT_PAYEE_JOIN());
         break;
       }
       case DEBT_ID: {
-        qb.setTables(TABLE_DEBTS + " LEFT JOIN " + TABLE_PAYEES + " ON (" + KEY_PAYEEID + " = " + TABLE_PAYEES + "." + KEY_ROWID + ")");
         if (projection == null) {
-          projection = new String[] {
-              TABLE_DEBTS + "." + KEY_ROWID,
-              KEY_PAYEEID,
-              KEY_DATE,
-              KEY_LABEL,
-              KEY_AMOUNT,
-              KEY_CURRENCY,
-              KEY_DESCRIPTION,
-              KEY_PAYEE_NAME,
-              KEY_SEALED
-          };
+          projection = Companion.getDEBT_PROJECTION();
         }
+        qb.setTables(Companion.getDEBT_PAYEE_JOIN());
         qb.appendWhere(TABLE_DEBTS + "." + KEY_ROWID + "=" + uri.getPathSegments().get(1));
         break;
       }
