@@ -257,7 +257,7 @@ public class AmountInput extends ConstraintLayout {
     amountEditText().setError(null);
     amountEditText().setAmount(amount.abs());
     if (updateType) {
-      typeButton().setChecked(amount.signum() > -1);
+      setType(amount.signum() > -1);
     }
   }
 

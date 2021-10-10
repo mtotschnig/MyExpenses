@@ -79,6 +79,8 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PICTURE_URI
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
@@ -207,7 +209,13 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         get() = operationType != TYPE_TRANSFER && !isSplitPart
 
     private val shouldLoadDebts: Boolean
-        get() = operationType != TYPE_TRANSFER && !isSplitPart
+        get() = operationType != TYPE_TRANSFER && !parentHasDebt
+
+    private val parentHasDebt: Boolean
+        get() = intent.getBooleanExtra(KEY_PARENT_HAS_DEBT, false)
+
+    val parentPayeeId: Long
+        get() = intent.getLongExtra(KEY_PAYEEID, 0)
 
     private val isMainTransaction: Boolean
         get() = operationType != TYPE_TRANSFER && !isSplitPartOrTemplate
@@ -332,7 +340,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
                         return
                     }
                 }
-                parentId = intent.getLongExtra(DatabaseConstants.KEY_PARENTID, 0)
+                parentId = intent.getLongExtra(KEY_PARENTID, 0)
                 var accountId = intent.getLongExtra(DatabaseConstants.KEY_ACCOUNTID, 0)
                 if (isNewTemplate) {
                     viewModel.newTemplate(
@@ -885,13 +893,16 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
             showSnackbar(R.string.account_list_not_yet_loaded)
             return
         }
-        val i = Intent(this, ExpenseEdit::class.java)
-        forwardDataEntryFromWidget(i)
-        i.putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
-        i.putExtra(DatabaseConstants.KEY_ACCOUNTID, account.id)
-        i.putExtra(DatabaseConstants.KEY_PARENTID, delegate.rowId)
-        i.putExtra(KEY_NEW_TEMPLATE, isMainTemplate)
-        startActivityForResult(i, EDIT_REQUEST)
+        startActivityForResult(Intent(this, ExpenseEdit::class.java).apply {
+            forwardDataEntryFromWidget(this)
+            putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
+            putExtra(DatabaseConstants.KEY_ACCOUNTID, account.id)
+            putExtra(KEY_PARENTID, delegate.rowId)
+            putExtra(KEY_PARENT_HAS_DEBT, (delegate as? MainDelegate)?.debtId != null)
+            putExtra(KEY_PAYEEID, (delegate as? MainDelegate)?.payeeId)
+            putExtra(KEY_NEW_TEMPLATE, isMainTemplate)
+            putExtra(KEY_INCOME, delegate.isIncome)
+        }, EDIT_REQUEST)
     }
 
     /**
@@ -1422,6 +1433,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         private const val KEY_AUTOFILL_OVERRIDE_PREFERENCES = "autoFillOverridePreferences"
         const val AUTOFILL_CURSOR = 8
         const val KEY_INCOME = "income"
+        const val KEY_PARENT_HAS_DEBT = "parentHasSplit"
     }
 
     fun loadActiveTags(id: Long) {

@@ -717,7 +717,7 @@ abstract class TransactionDelegate<T : ITransaction>(
     /**
      * @return true for income, false for expense
      */
-    protected val isIncome: Boolean
+    val isIncome: Boolean
         get() = viewBinding.Amount.type
 
     private fun readZonedDateTime(dateEdit: DateButton): ZonedDateTime {

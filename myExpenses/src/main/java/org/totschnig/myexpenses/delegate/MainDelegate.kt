@@ -74,6 +74,7 @@ abstract class MainDelegate<T : ITransaction>(
                 onAmountChanged()
             }
         })
+        payeeId = host.parentPayeeId
     }
 
     fun onAmountChanged() {
