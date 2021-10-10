@@ -557,7 +557,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         intent.getParcelableExtra<Uri>(KEY_PICTURE_URI)?.let {
             delegate.setPicture(it)
         }
-        amountInput.type = intent.getBooleanExtra(KEY_INCOME, false)
+        if (!intent.hasExtra(KEY_CACHED_DATA)) {
+            amountInput.type = intent.getBooleanExtra(KEY_INCOME, false)
+        }
         (intent.getSerializableExtra(KEY_AMOUNT) as? BigDecimal)?.let { amountInput.setAmount(it) }
     }
 
