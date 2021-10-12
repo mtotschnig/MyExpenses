@@ -12,7 +12,7 @@ it:
   hero_sub:
     use: "Facile da usare"
     functionality: "Ricco di funzionalità"
-    source: "Codice sorgente aperto"
+    source: "Open Source"
   menu_title:
     more_information: Maggiori informazioni
   sections:
