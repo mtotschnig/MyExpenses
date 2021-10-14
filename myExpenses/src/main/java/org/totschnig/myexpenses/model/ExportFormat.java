@@ -13,6 +13,11 @@ public enum ExportFormat {
     public String getMimeType() {
       return "text/csv";
     }
+  }, JSON {
+    @Override
+    public String getMimeType() {
+      return "application/json";
+    }
   };
 
   public abstract String getMimeType();
