@@ -1006,14 +1006,14 @@ public class TransactionProvider extends BaseTransactionProvider {
         if (projection == null) {
           projection = Companion.getDEBT_PROJECTION();
         }
-        qb.setTables(Companion.getDEBT_PAYEE_JOIN());
+        qb.setTables(DEBT_PAYEE_JOIN);
         break;
       }
       case DEBT_ID: {
         if (projection == null) {
           projection = Companion.getDEBT_PROJECTION();
         }
-        qb.setTables(Companion.getDEBT_PAYEE_JOIN());
+        qb.setTables(DEBT_PAYEE_JOIN);
         qb.appendWhere(TABLE_DEBTS + "." + KEY_ROWID + "=" + uri.getPathSegments().get(1));
         break;
       }
@@ -1200,6 +1200,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     //we need to notify it when transactions change
     if (uriMatch == TRANSACTIONS) {
       notifyChange(ACCOUNTS_URI, false);
+      notifyChange(DEBTS_URI, false);
       notifyChange(UNCOMMITTED_URI, false);
     } else if (uriMatch == ACCOUNTS) {
       notifyChange(ACCOUNTS_BASE_URI, false);
@@ -1207,6 +1208,8 @@ public class TransactionProvider extends BaseTransactionProvider {
       notifyChange(TEMPLATES_UNCOMMITTED_URI, false);
     } else if (uriMatch == DEBTS) {
       notifyChange(PAYEES_URI, false);
+    } else if (uriMatch == UNCOMMITTED) {
+      notifyChange(DEBTS_URI, false);
     }
     return id > 0 ? Uri.parse(newUri) : null;
   }
@@ -1368,6 +1371,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTION_ID) {
       notifyChange(TRANSACTIONS_URI, callerIsNotSyncAdatper(uri));
       notifyChange(ACCOUNTS_URI, false);
+      notifyChange(DEBTS_URI, false);
       notifyChange(UNCOMMITTED_URI, false);
     } else {
       if (uriMatch == ACCOUNTS || uriMatch == ACCOUNT_ID) {
@@ -1378,6 +1382,8 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       if (uriMatch == DEBT_ID) {
         notifyChange(PAYEES_URI, false);
+      } else if (uriMatch == UNCOMMITTED) {
+        notifyChange(DEBTS_URI, false);
       }
       notifyChange(uri, false);
     }
@@ -1753,6 +1759,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         uriMatch == TRANSACTION_MOVE || uriMatch == TRANSACTION_TOGGLE_CRSTATUS || uriMatch == TRANSACTION_LINK_TRANSFER) {
       notifyChange(TRANSACTIONS_URI, callerIsNotSyncAdatper(uri));
       notifyChange(ACCOUNTS_URI, false);
+      notifyChange(DEBTS_URI, false);
       notifyChange(UNCOMMITTED_URI, false);
       notifyChange(CATEGORIES_URI, false);
     } else if (

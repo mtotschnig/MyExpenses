@@ -17,9 +17,6 @@ import javax.inject.Inject
 
 open class TransactionViewModel(application: Application) : TagHandlingViewModel(application) {
 
-    @Inject
-    lateinit var currencyContext: CurrencyContext
-
     enum class InstantiationTask { TRANSACTION, TEMPLATE, TRANSACTION_FROM_TEMPLATE, FROM_INTENT_EXTRAS }
 
     fun transaction(transactionId: Long, task: InstantiationTask, clone: Boolean, forEdit: Boolean, extras: Bundle?): LiveData<Transaction?> = liveData(context = coroutineContext()) {

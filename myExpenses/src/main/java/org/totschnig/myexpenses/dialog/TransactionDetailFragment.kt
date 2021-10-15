@@ -186,9 +186,9 @@ class TransactionDetailFragment : BaseDialogFragment(), DialogInterface.OnClickL
                         SplitPartRVAdapter(
                             requireContext(),
                             transaction.amount.currencyUnit,
-                            currencyFormatter,
-                            list.subList(1, list.size)
+                            currencyFormatter
                         ).also {
+                            it.submitList(list.subList(1, list.size))
                             binding.splitList.adapter = it
                             it.notifyDataSetChanged()
                         }

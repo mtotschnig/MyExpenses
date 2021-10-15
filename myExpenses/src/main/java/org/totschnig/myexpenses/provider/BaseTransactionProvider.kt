@@ -46,8 +46,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
             "exists (SELECT 1 FROM $TABLE_TEMPLATES WHERE $KEY_PAYEEID=$TABLE_PAYEES.$KEY_ROWID) AS $KEY_MAPPED_TEMPLATES",
             "(SELECT COUNT(*) FROM $TABLE_DEBTS WHERE $KEY_PAYEEID=$TABLE_PAYEES.$KEY_ROWID) AS $KEY_MAPPED_DEBTS"
         )
-        val DEBT_PAYEE_JOIN =
+        const val DEBT_PAYEE_JOIN =
             "$TABLE_DEBTS LEFT JOIN $TABLE_PAYEES ON ($KEY_PAYEEID = $TABLE_PAYEES.$KEY_ROWID)"
+
         val DEBT_PROJECTION = arrayOf(
             TABLE_DEBTS + "." + KEY_ROWID,
             KEY_PAYEEID,
@@ -60,5 +61,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
             KEY_SEALED,
             "(select sum($KEY_AMOUNT) from $TABLE_TRANSACTIONS where $KEY_DEBT_ID = $TABLE_DEBTS.$KEY_ROWID) AS $KEY_SUM"
         )
+
+        const val KEY_DEBT_LABEL = "debt"
+
+        const val DEBT_LABEL_EXPRESSION = "(SELECT $KEY_LABEL FROM $TABLE_DEBTS WHERE $KEY_ROWID = $KEY_DEBT_ID) AS $KEY_DEBT_LABEL"
     }
 }

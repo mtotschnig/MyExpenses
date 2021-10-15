@@ -20,6 +20,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Account.HOME_AGGREGATE_ID
+import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -52,6 +53,9 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
 
     @Inject
     lateinit var prefHandler: PrefHandler
+
+    @Inject
+    lateinit var currencyContext: CurrencyContext
 
     var disposable: Disposable? = null
 

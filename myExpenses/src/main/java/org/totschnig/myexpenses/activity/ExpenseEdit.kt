@@ -424,6 +424,12 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
                 delegate.setMethods(paymentMethods)
             }
         })
+        viewModel.getDebts().observe(this) { debts ->
+            (delegate as? MainDelegate)?.let {
+                it.setDebts(debts)
+                it.setupDebtChangedListener()
+            }
+        }
     }
 
     private fun setupObservers(fromSavedState: Boolean) {
@@ -436,12 +442,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
 
     private fun loadDebts() {
         if (shouldLoadDebts) {
-            viewModel.getDebts().observe(this) { debts ->
-                (delegate as? MainDelegate)?.let {
-                    it.setDebts(debts)
-                    it.setupDebtChangedListener()
-                }
-            }
+            viewModel.loadDebts(delegate.rowId)
         }
     }
 

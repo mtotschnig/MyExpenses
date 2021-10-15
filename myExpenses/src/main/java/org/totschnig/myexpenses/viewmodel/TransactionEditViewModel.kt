@@ -24,6 +24,7 @@ import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
@@ -32,6 +33,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACCOUNTY_TYPE_LIST
 import org.totschnig.myexpenses.util.Utils
@@ -57,32 +59,35 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
     //TODO move to lazyMap
     private val methods = MutableLiveData<List<PaymentMethod>>()
 
+    private val debts = MutableLiveData<List<Debt>>()
+
     private val accounts by lazy {
         val liveData = MutableLiveData<List<Account>>()
-        disposables.add(briteContentResolver.createQuery(TransactionProvider.ACCOUNTS_BASE_URI, null, "$KEY_SEALED = 0", null, null, false)
-                .mapToList { buildAccount(it, currencyContext) }
-                .subscribe { liveData.postValue(it) })
-        return@lazy liveData
-    }
-
-    private val debts by lazy {
-        val liveData = MutableLiveData<List<Debt>>()
-        disposables.add(briteContentResolver.createQuery(TransactionProvider.DEBTS_URI, null, "$KEY_SEALED = 0", null, null, false)
-            .mapToList { Debt.fromCursor(it) }
+        disposables.add(briteContentResolver.createQuery(
+            TransactionProvider.ACCOUNTS_BASE_URI,
+            null,
+            "$KEY_SEALED = 0",
+            null,
+            null,
+            false
+        )
+            .mapToList { buildAccount(it, currencyContext) }
             .subscribe { liveData.postValue(it) })
         return@lazy liveData
     }
 
     private val templates by lazy {
         val liveData = MutableLiveData<List<DataTemplate>>()
-        disposables.add(briteContentResolver.createQuery(TransactionProvider.TEMPLATES_URI.buildUpon()
+        disposables.add(briteContentResolver.createQuery(
+            TransactionProvider.TEMPLATES_URI.buildUpon()
                 .build(), arrayOf(KEY_ROWID, KEY_TITLE),
-                "$KEY_PLANID is null AND $KEY_PARENTID is null AND $KEY_SEALED = 0",
-                null,
-                Sort.preferredOrderByForTemplatesWithPlans(prefHandler, Sort.USAGES),
-                false)
-                .mapToList { DataTemplate.fromCursor(it) }
-                .subscribe { liveData.postValue(it) }
+            "$KEY_PLANID is null AND $KEY_PARENTID is null AND $KEY_SEALED = 0",
+            null,
+            Sort.preferredOrderByForTemplatesWithPlans(prefHandler, Sort.USAGES),
+            false
+        )
+            .mapToList { DataTemplate.fromCursor(it) }
+            .subscribe { liveData.postValue(it) }
         )
         return@lazy liveData
     }
@@ -100,25 +105,46 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
     }
 
     fun loadMethods(isIncome: Boolean, type: AccountType) {
-        disposables.add(briteContentResolver.createQuery(TransactionProvider.METHODS_URI.buildUpon()
+        disposables.add(briteContentResolver.createQuery(
+            TransactionProvider.METHODS_URI.buildUpon()
                 .appendPath(TransactionProvider.URI_SEGMENT_TYPE_FILTER)
                 .appendPath(if (isIncome) "1" else "-1")
                 .appendQueryParameter(QUERY_PARAMETER_ACCOUNTY_TYPE_LIST, type.name)
-                .build(), null, null, null, null, false)
-                .mapToList { PaymentMethod.create(it) }
-                .subscribe { methods.postValue(it) }
+                .build(), null, null, null, null, false
+        )
+            .mapToList { PaymentMethod.create(it) }
+            .subscribe { methods.postValue(it) }
         )
     }
+
+    /**
+     * @param rowId For split transactions, we check if any of their children is linked to a debt,
+     * in which case the parent should not be linkable to a debt, and we return an empty list
+     */
+    fun loadDebts(rowId: Long) {
+        disposables.add(briteContentResolver.createQuery(
+            TransactionProvider.DEBTS_URI,
+            null,
+            "$KEY_SEALED = 0 AND not exists(select 1 from $TABLE_TRANSACTIONS where $KEY_DEBT_ID is not null and $KEY_PARENTID = ?)",
+            arrayOf(rowId.toString()),
+            null,
+            false
+        )
+            .mapToList { Debt.fromCursor(it) }
+            .subscribe { debts.postValue(it) })
+    }
+
 
     private fun buildAccount(cursor: Cursor, currencyContext: CurrencyContext): Account {
         val currency = currencyContext.get(cursor.getString(cursor.getColumnIndex(KEY_CURRENCY)))
         return Account(
-                cursor.getLong(cursor.getColumnIndex(KEY_ROWID)),
-                cursor.getString(cursor.getColumnIndex(KEY_LABEL)),
-                currency,
-                cursor.getInt(cursor.getColumnIndex(KEY_COLOR)),
-                AccountType.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(KEY_TYPE))),
-                adjustExchangeRate(cursor.getDouble(cursor.getColumnIndex(KEY_EXCHANGE_RATE)), currency))
+            cursor.getLong(cursor.getColumnIndex(KEY_ROWID)),
+            cursor.getString(cursor.getColumnIndex(KEY_LABEL)),
+            currency,
+            cursor.getInt(cursor.getColumnIndex(KEY_COLOR)),
+            AccountType.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(KEY_TYPE))),
+            adjustExchangeRate(cursor.getDouble(cursor.getColumnIndex(KEY_EXCHANGE_RATE)), currency)
+        )
     }
 
     override fun onCleared() {
@@ -146,14 +172,18 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
         emit(if (result > 0 && !transaction.saveTags(tags.value)) ERROR_WHILE_SAVING_TAGS else result)
     }
 
-    fun cleanupSplit(id: Long, isTemplate: Boolean): LiveData<Unit> = liveData(context = coroutineContext()) {
-        emit(
-                if (isTemplate) Template.cleanupCanceledEdit(id) else SplitTransaction.cleanupCanceledEdit(id)
-        )
-    }
+    fun cleanupSplit(id: Long, isTemplate: Boolean): LiveData<Unit> =
+        liveData(context = coroutineContext()) {
+            emit(
+                if (isTemplate) Template.cleanupCanceledEdit(id) else SplitTransaction.cleanupCanceledEdit(
+                    id
+                )
+            )
+        }
 
     private fun adjustExchangeRate(raw: Double, currencyUnit: CurrencyUnit): Double {
-        val minorUnitDelta: Int = currencyUnit.fractionDigits - Utils.getHomeCurrency().fractionDigits
+        val minorUnitDelta: Int =
+            currencyUnit.fractionDigits - Utils.getHomeCurrency().fractionDigits
         return raw * 10.0.pow(minorUnitDelta.toDouble())
     }
 
@@ -163,21 +193,28 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
         }
     }
 
-    fun newTemplate(operationType: Int, accountId: Long, parentId: Long?): LiveData<Template?> = liveData(context = coroutineContext()) {
-        emit(Template.getTypedNewInstance(operationType, accountId, true, parentId))
-    }
+    fun newTemplate(operationType: Int, accountId: Long, parentId: Long?): LiveData<Template?> =
+        liveData(context = coroutineContext()) {
+            emit(Template.getTypedNewInstance(operationType, accountId, true, parentId))
+        }
 
-    fun newTransaction(accountId: Long, parentId: Long?): LiveData<Transaction?> = liveData(context = coroutineContext()) {
-        emit(Transaction.getNewInstance(accountId, parentId))
-    }
+    fun newTransaction(accountId: Long, parentId: Long?): LiveData<Transaction?> =
+        liveData(context = coroutineContext()) {
+            emit(Transaction.getNewInstance(accountId, parentId))
+        }
 
-    fun newTransfer(accountId: Long, transferAccountId: Long?, parentId: Long?): LiveData<Transfer?> = liveData(context = coroutineContext()) {
+    fun newTransfer(
+        accountId: Long,
+        transferAccountId: Long?,
+        parentId: Long?
+    ): LiveData<Transfer?> = liveData(context = coroutineContext()) {
         emit(Transfer.getNewInstance(accountId, transferAccountId, parentId))
     }
 
-    fun newSplit(accountId: Long): LiveData<SplitTransaction?> = liveData(context = coroutineContext()) {
-        emit(SplitTransaction.getNewInstance(accountId))
-    }
+    fun newSplit(accountId: Long): LiveData<SplitTransaction?> =
+        liveData(context = coroutineContext()) {
+            emit(SplitTransaction.getNewInstance(accountId))
+        }
 }
 
 

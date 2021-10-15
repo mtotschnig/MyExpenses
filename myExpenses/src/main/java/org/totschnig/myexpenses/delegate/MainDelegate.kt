@@ -289,28 +289,27 @@ abstract class MainDelegate<T : ITransaction>(
     private fun setDebt(debt: Debt) {
         updateUiWithDebt(debt)
         debtId = debt.id
+        host.setDirty()
     }
 
     private val applicableDebts: List<Debt>
         get() = debts.filter { it.currency == currentAccount()?.currency?.code }
 
     private fun handleDebts() {
-        if (debts.isNotEmpty()) {
-            applicableDebts.let { debts ->
-                val hasDebts = debts.isNotEmpty()
-                viewBinding.DebtRow.visibility = if (hasDebts) View.VISIBLE else View.GONE
-                if (hasDebts) {
-                    if (debtId != null) {
-                        updateUiWithDebt(debts.find { it.id == debtId })
-                        if (!viewBinding.DebtCheckBox.isChecked) {
-                            viewBinding.DebtCheckBox.isChecked = true
-                        }
-                    } else if (debts.size == 1) {
-                        updateUiWithDebt(debts.first())
+        applicableDebts.let { debts ->
+            val hasDebts = debts.isNotEmpty()
+            viewBinding.DebtRow.visibility = if (hasDebts) View.VISIBLE else View.GONE
+            if (hasDebts) {
+                if (debtId != null) {
+                    updateUiWithDebt(debts.find { it.id == debtId })
+                    if (!viewBinding.DebtCheckBox.isChecked) {
+                        viewBinding.DebtCheckBox.isChecked = true
                     }
-                } else {
-                    updateUiWithDebt(null)
+                } else if (debts.size == 1) {
+                    updateUiWithDebt(debts.first())
                 }
+            } else {
+                updateUiWithDebt(null)
             }
         }
     }
@@ -325,7 +324,6 @@ abstract class MainDelegate<T : ITransaction>(
 
     fun setupDebtChangedListener() {
         viewBinding.DebtCheckBox.setOnCheckedChangeListener { _, isChecked ->
-            host.setDirty()
             applicableDebts.let { debts ->
                 if (isChecked) {
                     when (debts.size) {

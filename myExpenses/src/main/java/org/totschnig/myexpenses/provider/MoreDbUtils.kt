@@ -8,6 +8,7 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteStatement
+import androidx.core.database.getStringOrNull
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.PaymentMethod
@@ -202,6 +203,8 @@ private fun findMainCategory(database: SQLiteDatabase, label: String): Long {
 
 val Cursor.asSequence: Sequence<Cursor>
     get() = generateSequence { takeIf { it.moveToNext() } }
+
+fun Cursor.getStringOrNull(column: String) = getStringOrNull(getColumnIndex(column))
 
 fun cacheSyncState(context: Context) {
     val accountManager = AccountManager.get(context)
