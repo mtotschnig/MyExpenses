@@ -69,11 +69,13 @@ abstract class MainDelegate<T : ITransaction>(
             recurrence,
             withAutoFill
         )
-        viewBinding.Amount.addTextChangedListener(object : MyTextWatcher() {
+        val textWatcher = object : MyTextWatcher() {
             override fun afterTextChanged(s: Editable) {
                 onAmountChanged()
             }
-        })
+        }
+        viewBinding.Amount.addTextChangedListener(textWatcher)
+        viewBinding.EquivalentAmount.addTextChangedListener(textWatcher)
         payeeId = host.parentPayeeId
     }
 
@@ -268,9 +270,20 @@ abstract class MainDelegate<T : ITransaction>(
                     .withAmountColor(viewBinding.root.context.resources, amount > 0)
             )
         }
+        val account = currentAccount()
+        if (withInstallment && account != null) {
+            val isForeignExchangeDebt = debt.currency != account.currency.code
 
-        if (withInstallment) {
-            val installment = validateAmountInput(false)
+            val installment = if (isForeignExchangeDebt)
+                with(validateAmountInput(viewBinding.EquivalentAmount,
+                    showToUser = false,
+                    ifPresent = false
+                )){
+                    if (isIncome) this else this?.negate()
+                }
+            else
+                validateAmountInput(false)
+
             if (installment != null) {
                 elements.add(" ${Transfer.RIGHT_ARROW} ")
                 val futureBalance = money.amountMajor - installment
@@ -290,10 +303,16 @@ abstract class MainDelegate<T : ITransaction>(
         updateUiWithDebt(debt)
         debtId = debt.id
         host.setDirty()
+        if (debt.currency != currentAccount()!!.currency.code) {
+            if (!equivalentAmountVisible) {
+                equivalentAmountVisible = true
+                configureEquivalentAmount()
+            }
+        }
     }
 
     private val applicableDebts: List<Debt>
-        get() = debts.filter { it.currency == currentAccount()?.currency?.code }
+        get() = debts.filter { it.currency == currentAccount()?.currency?.code || it.currency == Utils.getHomeCurrency().code }
 
     private fun handleDebts() {
         applicableDebts.let { debts ->

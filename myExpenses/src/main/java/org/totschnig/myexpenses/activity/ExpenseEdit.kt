@@ -879,7 +879,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
             }
             R.id.EQUIVALENT_AMOUNT_COMMAND -> {
                 if (::delegate.isInitialized) {
-                    delegate.toggleEquivalentAmount(currentAccount)
+                    delegate.toggleEquivalentAmount()
                     invalidateOptionsMenu()
                     return true
                 }
