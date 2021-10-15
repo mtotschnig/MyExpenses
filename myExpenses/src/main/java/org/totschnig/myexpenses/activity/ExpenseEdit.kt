@@ -822,7 +822,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     override fun doSave(andNew: Boolean) {
         if (operationType == Transactions.TYPE_SPLIT) {
             findSplitPartList()?.let {
-                if (!it.splitComplete()) {
+                if (!it.splitComplete) {
                     showSnackbar(
                         getString(R.string.unsplit_amount_greater_than_zero),
                         Snackbar.LENGTH_SHORT
@@ -1448,7 +1448,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     }
 
     fun copyUnsplitAmount(@Suppress("UNUSED_PARAMETER") view: View) {
-        findSplitPartList()?.unsplitAmountFormatted()?.let {
+        findSplitPartList()?.unsplitAmountFormatted?.let {
             copyToClipboard(it)
         }
     }

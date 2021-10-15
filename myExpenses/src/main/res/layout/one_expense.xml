@@ -31,7 +31,7 @@
             android:id="@+id/toolbar"
             layout="@layout/toolbar_expense_edit" />
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0px"
             android:layout_weight="1">
@@ -429,7 +429,7 @@
 
 
             </LinearLayout>
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
     </LinearLayout>
 
     <include

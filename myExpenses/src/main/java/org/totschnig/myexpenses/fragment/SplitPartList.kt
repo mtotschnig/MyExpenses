@@ -107,6 +107,7 @@ class SplitPartList : Fragment() {
                 binding.list.visibility = if (transactions.isEmpty()) View.GONE else View.VISIBLE
                 transactionSum = transactions.sumOf { it.amountRaw }
                 adapter.submitList(transactions)
+                updateBalance()
             })
         loadParts()
         registerForContextMenu(binding.list)
@@ -175,22 +176,17 @@ class SplitPartList : Fragment() {
     }
 
     fun updateBalance() {
-        val ctx = activity as ExpenseEdit? ?: return
-        unsplitAmount = ctx.amount
-        //when we are called before transaction is loaded in parent activity
-        if (unsplitAmount == null) return
-        unsplitAmount =
-            Money(unsplitAmount!!.currencyUnit, unsplitAmount!!.amountMinor - transactionSum)
-        binding.end.text = unsplitAmountFormatted()
+        (activity as? ExpenseEdit)?.amount?.let {
+            unsplitAmount = Money(it.currencyUnit, it.amountMinor - transactionSum)
+            binding.end.text = unsplitAmountFormatted
+        }
     }
 
-    fun unsplitAmountFormatted(): String {
-        return currencyFormatter.formatCurrency(unsplitAmount!!)
-    }
+    val unsplitAmountFormatted
+        get() = unsplitAmount?.let { currencyFormatter.formatCurrency(it) }
 
-    fun splitComplete(): Boolean {
-        return unsplitAmount != null && unsplitAmount!!.amountMinor == 0L
-    }
+    val splitComplete
+        get() = unsplitAmount?.amountMinor == 0L
 
     val splitCount: Int
         get() = adapter.itemCount
