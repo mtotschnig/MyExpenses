@@ -179,7 +179,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     private var pObserver: ContentObserver? = null
     private lateinit var currencyViewModel: CurrencyViewModel
     override fun getDate(): LocalDate {
-        return dateEditBinding.Date2Button.date
+        return dateEditBinding.DateButton.date
     }
 
     enum class HelpVariant {
