@@ -31,8 +31,6 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
     val spent = MutableLiveData<Pair<Int, Long>>()
     private var spentDisposables = CompositeDisposable()
     @Inject
-    lateinit var currencyContext: CurrencyContext
-    @Inject
     lateinit var licenceHandler: LicenceHandler
     private val databaseHandler: DatabaseHandler = DatabaseHandler(application.contentResolver)
     private val budgetCreatorFunction: (Cursor) -> Budget = { cursor ->

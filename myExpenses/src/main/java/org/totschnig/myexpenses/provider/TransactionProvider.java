@@ -1003,27 +1003,29 @@ public class TransactionProvider extends BaseTransactionProvider {
         qb.setTables(TABLE_ACCOUNTS_TAGS + " LEFT JOIN " + TABLE_TAGS + " ON (" + KEY_TAGID + " = " + KEY_ROWID + ")");
         break;
       case DEBTS: {
-        if (projection == null) {
-          projection = Companion.getDEBT_PROJECTION();
+        String transactionId = uri.getQueryParameter(KEY_TRANSACTIONID);
+        if (transactionId != null) {
+          qb.appendWhere("not exists(SELECT 1 FROM " +
+              TABLE_TRANSACTIONS +
+              " WHERE " +
+              KEY_DEBT_ID +
+              " IS NOT NULL AND " +
+              KEY_PARENTID +
+              " = " +
+              transactionId +
+              ")");
         }
-        qb.setTables(TABLE_DEBTS);
+        if (projection == null) {
+          projection = Companion.debtProjection(transactionId);
+        }
+        qb.setTables(DEBT_PAYEE_JOIN);
         break;
       }
       case DEBT_ID: {
-        qb.setTables(TABLE_DEBTS + " LEFT JOIN " + TABLE_PAYEES + " ON (" + KEY_PAYEEID + " = " + TABLE_PAYEES + "." + KEY_ROWID + ")");
         if (projection == null) {
-          projection = new String[] {
-              TABLE_DEBTS + "." + KEY_ROWID,
-              KEY_PAYEEID,
-              KEY_DATE,
-              KEY_LABEL,
-              KEY_AMOUNT,
-              KEY_CURRENCY,
-              KEY_DESCRIPTION,
-              KEY_PAYEE_NAME,
-              KEY_SEALED
-          };
+          projection = Companion.debtProjection(null);
         }
+        qb.setTables(DEBT_PAYEE_JOIN);
         qb.appendWhere(TABLE_DEBTS + "." + KEY_ROWID + "=" + uri.getPathSegments().get(1));
         break;
       }
@@ -1210,6 +1212,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     //we need to notify it when transactions change
     if (uriMatch == TRANSACTIONS) {
       notifyChange(ACCOUNTS_URI, false);
+      notifyChange(DEBTS_URI, false);
       notifyChange(UNCOMMITTED_URI, false);
     } else if (uriMatch == ACCOUNTS) {
       notifyChange(ACCOUNTS_BASE_URI, false);
@@ -1217,6 +1220,8 @@ public class TransactionProvider extends BaseTransactionProvider {
       notifyChange(TEMPLATES_UNCOMMITTED_URI, false);
     } else if (uriMatch == DEBTS) {
       notifyChange(PAYEES_URI, false);
+    } else if (uriMatch == UNCOMMITTED) {
+      notifyChange(DEBTS_URI, false);
     }
     return id > 0 ? Uri.parse(newUri) : null;
   }
@@ -1378,6 +1383,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTION_ID) {
       notifyChange(TRANSACTIONS_URI, callerIsNotSyncAdatper(uri));
       notifyChange(ACCOUNTS_URI, false);
+      notifyChange(DEBTS_URI, false);
       notifyChange(UNCOMMITTED_URI, false);
     } else {
       if (uriMatch == ACCOUNTS || uriMatch == ACCOUNT_ID) {
@@ -1388,6 +1394,8 @@ public class TransactionProvider extends BaseTransactionProvider {
       }
       if (uriMatch == DEBT_ID) {
         notifyChange(PAYEES_URI, false);
+      } else if (uriMatch == UNCOMMITTED) {
+        notifyChange(DEBTS_URI, false);
       }
       notifyChange(uri, false);
     }
@@ -1763,6 +1771,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         uriMatch == TRANSACTION_MOVE || uriMatch == TRANSACTION_TOGGLE_CRSTATUS || uriMatch == TRANSACTION_LINK_TRANSFER) {
       notifyChange(TRANSACTIONS_URI, callerIsNotSyncAdatper(uri));
       notifyChange(ACCOUNTS_URI, false);
+      notifyChange(DEBTS_URI, false);
       notifyChange(UNCOMMITTED_URI, false);
       notifyChange(CATEGORIES_URI, false);
     } else if (

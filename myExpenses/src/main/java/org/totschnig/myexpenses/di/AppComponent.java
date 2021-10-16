@@ -73,7 +73,6 @@ import org.totschnig.myexpenses.viewmodel.ExchangeRateViewModel;
 import org.totschnig.myexpenses.viewmodel.FeatureViewModel;
 import org.totschnig.myexpenses.viewmodel.OcrViewModel;
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel;
-import org.totschnig.myexpenses.viewmodel.TransactionViewModel;
 import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.TemplateRemoteViewsFactory;
@@ -195,8 +194,6 @@ public interface AppComponent {
   void inject(RoadmapViewModel roadmapViewModel);
 
   void inject(HistoryChart historyChart);
-
-  void inject(TransactionViewModel transactionViewModel);
 
   void inject(DonateDialogFragment donateDialogFragment);
 

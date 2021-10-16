@@ -278,6 +278,9 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
         get() = if (isPro) 50 else 10
 
     private inner class RoadmapAdapter : RecyclerView.Adapter<ViewHolder>() {
+        init {
+            setHasStableIds(true)
+        }
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val inflater = LayoutInflater.from(this@RoadmapVoteActivity)
             val row = inflater.inflate(R.layout.roadmap_list_item, parent, false)

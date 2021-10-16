@@ -5,7 +5,6 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.net.Uri;
 
-import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 
@@ -26,19 +25,17 @@ public class EditCurrencyViewModel extends CurrencyViewModel {
   private static final int TOKEN_DELETE_CURRENCY = 4;
 
   @Inject
-  protected CurrencyContext currencyContext;
-  @Inject
   protected CurrencyFormatter currencyFormatter;
 
   private final DatabaseHandler asyncDatabaseHandler;
   private int updateOperationsCount = 0;
   private Integer updatedAccountsCount = null;
 
-  private MutableLiveData<Integer> updateComplete = new MutableLiveData<>();
+  private final MutableLiveData<Integer> updateComplete = new MutableLiveData<>();
 
-  private MutableLiveData<Boolean> insertComplete = new MutableLiveData<>();
+  private final MutableLiveData<Boolean> insertComplete = new MutableLiveData<>();
 
-  private MutableLiveData<Boolean> deleteComplete = new MutableLiveData<>();
+  private final MutableLiveData<Boolean> deleteComplete = new MutableLiveData<>();
 
   public LiveData<Integer> getUpdateComplete() {
     return updateComplete;

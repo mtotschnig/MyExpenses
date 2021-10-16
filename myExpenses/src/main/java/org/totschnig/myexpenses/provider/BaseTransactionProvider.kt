@@ -26,14 +26,14 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
 
-abstract class BaseTransactionProvider: ContentProvider() {
+abstract class BaseTransactionProvider : ContentProvider() {
     var dirty = false
-    set(value) {
-        if(!field && value) {
-            (context?.applicationContext as? MyApplication)?.markDataDirty()
+        set(value) {
+            if (!field && value) {
+                (context?.applicationContext as? MyApplication)?.markDataDirty()
+            }
+            field = value
         }
-        field = value
-    }
 
     companion object {
         const val CURRENCIES_USAGES_TABLE_EXPRESSION =
@@ -46,16 +46,32 @@ abstract class BaseTransactionProvider: ContentProvider() {
             "exists (SELECT 1 FROM $TABLE_TEMPLATES WHERE $KEY_PAYEEID=$TABLE_PAYEES.$KEY_ROWID) AS $KEY_MAPPED_TEMPLATES",
             "(SELECT COUNT(*) FROM $TABLE_DEBTS WHERE $KEY_PAYEEID=$TABLE_PAYEES.$KEY_ROWID) AS $KEY_MAPPED_DEBTS"
         )
-        val DEBT_PROJECTION = arrayOf(
-            KEY_ROWID,
-            KEY_PAYEEID,
-            KEY_DATE,
-            KEY_LABEL,
-            KEY_AMOUNT,
-            KEY_CURRENCY,
-            KEY_DESCRIPTION,
-            KEY_SEALED,
-            "(select sum($KEY_AMOUNT) from $TABLE_TRANSACTIONS where $KEY_DEBT_ID = $TABLE_DEBTS.$KEY_ROWID) AS $KEY_SUM"
-        )
+        const val DEBT_PAYEE_JOIN =
+            "$TABLE_DEBTS LEFT JOIN $TABLE_PAYEES ON ($KEY_PAYEEID = $TABLE_PAYEES.$KEY_ROWID)"
+
+        /**
+         * @param transactionId When we edit a transaction, we want it to not be included into the debt sum, since it can be changed in the UI, and the variable amount will be calculated by the UI
+         */
+        fun debtProjection(transactionId: String?): Array<String> {
+            val exclusionClause = transactionId?.let {
+                "AND $KEY_ROWID != $it"
+            } ?: ""
+            return arrayOf(
+                "$TABLE_DEBTS.$KEY_ROWID",
+                KEY_PAYEEID,
+                KEY_DATE,
+                KEY_LABEL,
+                KEY_AMOUNT,
+                KEY_CURRENCY,
+                KEY_DESCRIPTION,
+                KEY_PAYEE_NAME,
+                KEY_SEALED,
+                "(select sum($KEY_AMOUNT) from $TABLE_TRANSACTIONS where $KEY_DEBT_ID = $TABLE_DEBTS.$KEY_ROWID $exclusionClause) AS $KEY_SUM"
+            )
+        }
+
+        const val KEY_DEBT_LABEL = "debt"
+
+        const val DEBT_LABEL_EXPRESSION = "(SELECT $KEY_LABEL FROM $TABLE_DEBTS WHERE $KEY_ROWID = $KEY_DEBT_ID) AS $KEY_DEBT_LABEL"
     }
 }

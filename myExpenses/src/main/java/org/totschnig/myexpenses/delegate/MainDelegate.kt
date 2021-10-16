@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.delegate
 import android.database.Cursor
 import android.os.Bundle
 import android.text.Editable
+import android.text.SpannableStringBuilder
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.Menu
@@ -11,6 +12,7 @@ import android.widget.AdapterView
 import android.widget.FilterQueryProvider
 import android.widget.SimpleCursorAdapter
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.text.bold
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.FragmentActivity
 import org.totschnig.myexpenses.R
@@ -67,15 +69,18 @@ abstract class MainDelegate<T : ITransaction>(
             recurrence,
             withAutoFill
         )
-        viewBinding.Amount.addTextChangedListener(object : MyTextWatcher() {
+        val textWatcher = object : MyTextWatcher() {
             override fun afterTextChanged(s: Editable) {
                 onAmountChanged()
             }
-        })
+        }
+        viewBinding.Amount.addTextChangedListener(textWatcher)
+        viewBinding.EquivalentAmount.addTextChangedListener(textWatcher)
+        payeeId = host.parentPayeeId
     }
 
     fun onAmountChanged() {
-        if (debtId != null ) {
+        if (debtId != null) {
             updateDebtCheckBox(debts.find { it.id == debtId })
         }
     }
@@ -260,18 +265,34 @@ abstract class MainDelegate<T : ITransaction>(
         val elements = mutableListOf<CharSequence>().apply {
             add(debt.label)
             add(" ")
-            add(currencyFormatter.formatCurrency(money)
-                .withAmountColor(viewBinding.root.context.resources, amount > 0)
+            add(
+                currencyFormatter.formatCurrency(money)
+                    .withAmountColor(viewBinding.root.context.resources, amount > 0)
             )
         }
+        val account = currentAccount()
+        if (withInstallment && account != null) {
+            val isForeignExchangeDebt = debt.currency != account.currency.code
 
-        if (withInstallment) {
-            val installment = validateAmountInput(false)
+            val installment = if (isForeignExchangeDebt)
+                with(validateAmountInput(viewBinding.EquivalentAmount,
+                    showToUser = false,
+                    ifPresent = false
+                )){
+                    if (isIncome) this else this?.negate()
+                }
+            else
+                validateAmountInput(false)
+
             if (installment != null) {
                 elements.add(" ${Transfer.RIGHT_ARROW} ")
                 val futureBalance = money.amountMajor - installment
-                elements.add(currencyFormatter.formatCurrency(Money(currencyUnit, futureBalance))
-                    .withAmountColor(viewBinding.root.context.resources, futureBalance > BigDecimal.ZERO)
+                elements.add(
+                    currencyFormatter.formatCurrency(Money(currencyUnit, futureBalance))
+                        .withAmountColor(
+                            viewBinding.root.context.resources,
+                            futureBalance > BigDecimal.ZERO
+                        )
                 )
             }
         }
@@ -281,23 +302,30 @@ abstract class MainDelegate<T : ITransaction>(
     private fun setDebt(debt: Debt) {
         updateUiWithDebt(debt)
         debtId = debt.id
+        host.setDirty()
+        if (debt.currency != currentAccount()!!.currency.code) {
+            if (!equivalentAmountVisible) {
+                equivalentAmountVisible = true
+                configureEquivalentAmount()
+            }
+        }
     }
 
     private val applicableDebts: List<Debt>
-        get() = debts.filter { it.payeeId == payeeId && it.currency == currentAccount()?.currency?.code }
+        get() = debts.filter { it.currency == currentAccount()?.currency?.code || it.currency == Utils.getHomeCurrency().code }
 
     private fun handleDebts() {
-        if (debts.isNotEmpty()) {
-            val hasDebts = applicableDebts.isNotEmpty()
+        applicableDebts.let { debts ->
+            val hasDebts = debts.isNotEmpty()
             viewBinding.DebtRow.visibility = if (hasDebts) View.VISIBLE else View.GONE
             if (hasDebts) {
                 if (debtId != null) {
-                    updateUiWithDebt(applicableDebts.find { it.id == debtId })
+                    updateUiWithDebt(debts.find { it.id == debtId })
                     if (!viewBinding.DebtCheckBox.isChecked) {
                         viewBinding.DebtCheckBox.isChecked = true
                     }
-                } else if (applicableDebts.size == 1) {
-                    updateUiWithDebt(applicableDebts.first())
+                } else if (debts.size == 1) {
+                    updateUiWithDebt(debts.first())
                 }
             } else {
                 updateUiWithDebt(null)
@@ -315,41 +343,71 @@ abstract class MainDelegate<T : ITransaction>(
 
     fun setupDebtChangedListener() {
         viewBinding.DebtCheckBox.setOnCheckedChangeListener { _, isChecked ->
-            host.setDirty()
-            if (isChecked) {
-                when (applicableDebts.size) {
-                    0 -> { /*should not happen*/ CrashHandler.throwOrReport(
-                        java.lang.IllegalStateException(
-                            "Debt checked without applicable debt"
+            applicableDebts.let { debts ->
+                if (isChecked) {
+                    when (debts.size) {
+                        0 -> { /*should not happen*/ CrashHandler.throwOrReport(
+                            java.lang.IllegalStateException(
+                                "Debt checked without applicable debt"
+                            )
                         )
-                    )
-                    }
-                    1 -> {
-                        setDebt(applicableDebts.first())
-                    }
-                    else -> {
-                        with(PopupMenu(context, viewBinding.DebtCheckBox)) {
-                            applicableDebts.forEachIndexed { index, debt ->
-                                menu.add(Menu.NONE, index, Menu.NONE, formatDebt(debt))
-                            }
-                            setOnMenuItemClickListener { item ->
-                                setDebt(applicableDebts[item.itemId])
-                                true
-                            }
-                            setOnDismissListener {
-                                if (debtId == null) {
-                                    viewBinding.DebtCheckBox.isChecked = false
+                        }
+                        else -> {
+                            if (debts.size == 1 && debts.first().payeeId == payeeId) {
+                                setDebt(debts.first())
+                            } else {
+                                val sortedDebts =
+                                    debts.sortedWith(compareBy<Debt> { it.payeeId != payeeId }.thenBy { it.payeeId })
+                                with(PopupMenu(context, viewBinding.DebtCheckBox)) {
+                                    var currentMenu: Menu? = null
+                                    var currentPayee: Long? = null
+                                    sortedDebts.forEachIndexed { index, debt ->
+                                        if (debt.payeeId != currentPayee) {
+                                            currentPayee = debt.payeeId
+                                            val subMenuTitle = if (debt.payeeId == payeeId)
+                                                SpannableStringBuilder().bold { append(debt.payeeName) }
+                                            else
+                                                debt.payeeName
+                                            currentMenu = menu.addSubMenu(
+                                                Menu.NONE,
+                                                -1,
+                                                Menu.NONE,
+                                                subMenuTitle
+                                            )
+                                        }
+                                        currentMenu!!.add(
+                                            Menu.NONE,
+                                            index,
+                                            Menu.NONE,
+                                            formatDebt(debt)
+                                        )
+                                    }
+                                    var subMenuOpen = false
+                                    setOnMenuItemClickListener { item ->
+                                        when (item.itemId) {
+                                            -1 -> subMenuOpen = true
+                                            else -> setDebt(sortedDebts[item.itemId])
+                                        }
+                                        true
+                                    }
+                                    setOnDismissListener {
+                                        if (subMenuOpen) {
+                                            subMenuOpen = false
+                                        } else if (debtId == null) {
+                                            viewBinding.DebtCheckBox.isChecked = false
+                                        }
+                                    }
+                                    show()
                                 }
                             }
-                            show()
                         }
                     }
+                } else {
+                    if (debts.size > 1) {
+                        updateUiWithDebt(null)
+                    }
+                    debtId = null
                 }
-            } else {
-                if (applicableDebts.size > 1) {
-                    updateUiWithDebt(null)
-                }
-                debtId = null
             }
         }
     }

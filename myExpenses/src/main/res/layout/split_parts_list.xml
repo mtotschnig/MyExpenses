@@ -50,8 +50,10 @@
 
     </RelativeLayout>
 
-    <org.totschnig.myexpenses.ui.NonScrollListView
+    <org.totschnig.myexpenses.ui.ContextAwareRecyclerView
         android:id="@+id/list"
+        android:nestedScrollingEnabled="false"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

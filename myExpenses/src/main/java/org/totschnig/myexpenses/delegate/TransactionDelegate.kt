@@ -73,8 +73,10 @@ abstract class TransactionDelegate<T : ITransaction>(
 
     @Inject
     lateinit var prefHandler: PrefHandler
+
     @Inject
     lateinit var currencyFormatter: CurrencyFormatter
+
     @Inject
     lateinit var currencyContext: CurrencyContext
 
@@ -327,10 +329,10 @@ abstract class TransactionDelegate<T : ITransaction>(
         }
 
         if (originalAmountVisible) {
-            showOriginalAmount()
+            configureOriginalAmountVisibility()
         }
         if (equivalentAmountVisible) {
-            showEquivalentAmount()
+            configureEquivalentAmountVisibility()
         }
     }
 
@@ -374,7 +376,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         fillAmount(transaction.amount.amountMajor)
         transaction.originalAmount?.let {
             originalAmountVisible = true
-            showOriginalAmount()
+            configureOriginalAmountVisibility()
             viewBinding.OriginalAmount.setAmount(it.amountMajor)
             originalCurrencyCode = it.currencyUnit.code
         }
@@ -408,7 +410,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         }
     }
 
-    private fun showEquivalentAmount() {
+    private fun configureEquivalentAmountVisibility() {
         setVisibility(viewBinding.EquivalentAmountRow, equivalentAmountVisible)
         viewBinding.EquivalentAmount.setCompoundResultInput(
             if (equivalentAmountVisible) viewBinding.Amount.validate(
@@ -417,7 +419,7 @@ abstract class TransactionDelegate<T : ITransaction>(
         )
     }
 
-    private fun showOriginalAmount() {
+    private fun configureOriginalAmountVisibility() {
         setVisibility(viewBinding.OriginalAmountRow, originalAmountVisible)
     }
 
@@ -450,7 +452,7 @@ abstract class TransactionDelegate<T : ITransaction>(
 
     fun toggleOriginalAmount() {
         originalAmountVisible = !originalAmountVisible
-        showOriginalAmount()
+        configureOriginalAmountVisibility()
         if (originalAmountVisible) {
             viewBinding.OriginalAmount.requestFocus()
         } else {
@@ -458,18 +460,24 @@ abstract class TransactionDelegate<T : ITransaction>(
         }
     }
 
-    fun toggleEquivalentAmount(currentAccount: Account?) {
+    fun toggleEquivalentAmount() {
         equivalentAmountVisible = !equivalentAmountVisible
-        showEquivalentAmount()
+        configureEquivalentAmount()
+    }
+
+    fun configureEquivalentAmount() {
+        configureEquivalentAmountVisibility()
         if (equivalentAmountVisible) {
-            if (validateAmountInput(
-                    viewBinding.EquivalentAmount,
-                    showToUser = false,
-                    ifPresent = true
-                ) == null && currentAccount != null
-            ) {
-                val rate = BigDecimal(currentAccount.exchangeRate)
-                viewBinding.EquivalentAmount.setExchangeRate(rate)
+            currentAccount()?.let {
+                if (validateAmountInput(
+                        viewBinding.EquivalentAmount,
+                        showToUser = false,
+                        ifPresent = true
+                    ) == null
+                ) {
+                    val rate = BigDecimal(it.exchangeRate)
+                    viewBinding.EquivalentAmount.setExchangeRate(rate)
+                }
             }
             viewBinding.EquivalentAmount.requestFocus()
         } else {
@@ -717,7 +725,7 @@ abstract class TransactionDelegate<T : ITransaction>(
     /**
      * @return true for income, false for expense
      */
-    protected val isIncome: Boolean
+    val isIncome: Boolean
         get() = viewBinding.Amount.type
 
     private fun readZonedDateTime(dateEdit: DateButton): ZonedDateTime {

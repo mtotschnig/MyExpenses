@@ -1,23 +1,18 @@
 package org.totschnig.myexpenses.util
 
-import javax.inject.Singleton
-import javax.inject.Inject
-import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import android.content.ContentResolver
-import android.text.TextUtils
-import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import java.lang.Exception
-import java.lang.IllegalArgumentException
-import java.lang.NumberFormatException
+import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import java.math.BigDecimal
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.*
+import javax.inject.Inject
+import javax.inject.Singleton
 
 @Singleton
 class CurrencyFormatter @Inject constructor(
@@ -89,26 +84,6 @@ class CurrencyFormatter @Inject constructor(
 
     fun formatCurrency(amount: BigDecimal?, currency: CurrencyUnit): String {
         return getNumberFormat(currency).format(amount)
-    }
-
-    /**
-     * utility method that calls formatters for amount this method is called from
-     * adapters that give us the amount as String
-     *
-     * @param text     amount as String
-     * @return formatted string
-     */
-    @Deprecated("")
-    fun convAmount(text: String, currency: CurrencyUnit?): String? {
-        return try {
-            convAmount(
-                text.takeIf { it.isNotEmpty() }?.let {text.toDouble().toLong() } ?: 0,
-                currency
-            )
-        } catch (e: NumberFormatException) {
-            CrashHandler.report(e)
-            text
-        }
     }
 
     /**

@@ -30,10 +30,9 @@ public class ContextAwareRecyclerView extends RecyclerView {
 
   @Override
   public boolean showContextMenuForChild(View originalView) {
-    final int longPressPosition = getChildAdapterPosition(originalView);
-    if (longPressPosition >= 0) {
-      final long longPressId = getAdapter().getItemId(longPressPosition);
-      contextMenuInfo = new RecyclerContextMenuInfo(longPressPosition, longPressId);
+    final int position = getChildAdapterPosition(originalView);
+    if (position >= 0) {
+      contextMenuInfo = new RecyclerContextMenuInfo(position, getChildViewHolder(originalView).getItemId());
       return super.showContextMenuForChild(originalView);
     }
     return false;

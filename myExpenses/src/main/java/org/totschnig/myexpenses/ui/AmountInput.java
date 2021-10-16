@@ -133,8 +133,7 @@ public class AmountInput extends ConstraintLayout {
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
           String currency = ((Currency) currencySpinner.getSelectedItem()).getCode();
           final CurrencyUnit currencyUnit = getHost().getCurrencyContext().get(currency);
-          setFractionDigits(currencyUnit.getFractionDigits());
-          exchangeRateEdit().setCurrencies(currencyUnit, null);
+          configureCurrency(currencyUnit);
           getHost().onCurrencySelectionChanged(currencyUnit);
         }
 
@@ -257,7 +256,7 @@ public class AmountInput extends ConstraintLayout {
     amountEditText().setError(null);
     amountEditText().setAmount(amount.abs());
     if (updateType) {
-      typeButton().setChecked(amount.signum() > -1);
+      setType(amount.signum() > -1);
     }
   }
 
@@ -310,9 +309,14 @@ public class AmountInput extends ConstraintLayout {
     currencySpinner.setSelection(0);
   }
 
+  private void configureCurrency(CurrencyUnit currencyUnit) {
+    setFractionDigits(currencyUnit.getFractionDigits());
+    configureExchange(currencyUnit, null);
+  }
+
   public void setSelectedCurrency(CurrencyUnit currency) {
     currencySpinner.setSelection(currencyAdapter.getPosition(Currency.Companion.create(currency.getCode(), getContext())));
-    setFractionDigits(currency.getFractionDigits());
+    configureCurrency(currency);
   }
 
   public void setSelectedCurrency(String currency) {
@@ -329,9 +333,9 @@ public class AmountInput extends ConstraintLayout {
    * sets the second currency on the exchangeEdit, the first one taken from the currency selector
    */
   public void configureExchange(CurrencyUnit currencyUnit) {
-    if (withExchangeRate && withCurrencySelection) {
+    if (withCurrencySelection) {
       final Currency selectedCurrency = getSelectedCurrency();
-      exchangeRateEdit().setCurrencies(selectedCurrency != null ?
+      configureExchange(selectedCurrency != null ?
           getHost().getCurrencyContext().get(selectedCurrency.getCode()) : null, currencyUnit);
     }
   }
