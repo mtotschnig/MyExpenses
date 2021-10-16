@@ -65,7 +65,7 @@ class DebtViewModel(application: Application) : ContentResolvingAndroidViewModel
             ).mapToList {
                 val amount = it.getLong(2)
                 runningTotal -= amount
-                Transaction(it.getLong(0), epoch2LocalDate(it.getLong(1)), amount, runningTotal)
+                Transaction(it.getLong(0), epoch2LocalDate(it.getLong(1)), -amount, runningTotal)
             }.collect(this::emit)
         }
 

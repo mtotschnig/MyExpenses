@@ -24,7 +24,6 @@ import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
@@ -32,8 +31,8 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACCOUNTY_TYPE_LIST
 import org.totschnig.myexpenses.util.Utils
@@ -123,10 +122,10 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
      */
     fun loadDebts(rowId: Long) {
         disposables.add(briteContentResolver.createQuery(
-            TransactionProvider.DEBTS_URI,
+            TransactionProvider.DEBTS_URI.buildUpon().appendQueryParameter(KEY_TRANSACTIONID, rowId.toString()).build(),
             null,
-            "$KEY_SEALED = 0 AND not exists(select 1 from $TABLE_TRANSACTIONS where $KEY_DEBT_ID is not null and $KEY_PARENTID = ?)",
-            arrayOf(rowId.toString()),
+            "$KEY_SEALED = 0",
+            null,
             null,
             false
         )

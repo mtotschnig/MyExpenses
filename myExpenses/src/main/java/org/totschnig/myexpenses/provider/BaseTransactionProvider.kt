@@ -49,18 +49,26 @@ abstract class BaseTransactionProvider : ContentProvider() {
         const val DEBT_PAYEE_JOIN =
             "$TABLE_DEBTS LEFT JOIN $TABLE_PAYEES ON ($KEY_PAYEEID = $TABLE_PAYEES.$KEY_ROWID)"
 
-        val DEBT_PROJECTION = arrayOf(
-            TABLE_DEBTS + "." + KEY_ROWID,
-            KEY_PAYEEID,
-            KEY_DATE,
-            KEY_LABEL,
-            KEY_AMOUNT,
-            KEY_CURRENCY,
-            KEY_DESCRIPTION,
-            KEY_PAYEE_NAME,
-            KEY_SEALED,
-            "(select sum($KEY_AMOUNT) from $TABLE_TRANSACTIONS where $KEY_DEBT_ID = $TABLE_DEBTS.$KEY_ROWID) AS $KEY_SUM"
-        )
+        /**
+         * @param transactionId When we edit a transaction, we want it to not be included into the debt sum, since it can be changed in the UI, and the variable amount will be calculated by the UI
+         */
+        fun debtProjection(transactionId: String?): Array<String> {
+            val exclusionClause = transactionId?.let {
+                "AND $KEY_ROWID != $it"
+            } ?: ""
+            return arrayOf(
+                "$TABLE_DEBTS.$KEY_ROWID",
+                KEY_PAYEEID,
+                KEY_DATE,
+                KEY_LABEL,
+                KEY_AMOUNT,
+                KEY_CURRENCY,
+                KEY_DESCRIPTION,
+                KEY_PAYEE_NAME,
+                KEY_SEALED,
+                "(select sum($KEY_AMOUNT) from $TABLE_TRANSACTIONS where $KEY_DEBT_ID = $TABLE_DEBTS.$KEY_ROWID $exclusionClause) AS $KEY_SUM"
+            )
+        }
 
         const val KEY_DEBT_LABEL = "debt"
 
