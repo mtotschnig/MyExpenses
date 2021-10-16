@@ -1382,7 +1382,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
             fm.beginTransaction()
                 .add(
                     R.id.scrollableContent,
-                    SplitPartList.newInstance(rowId, isTemplate, currentAccount!!),
+                    SplitPartList.newInstance(rowId, isTemplate, currentAccount!!.currency),
                     SPLIT_PART_LIST
                 )
                 .commit()

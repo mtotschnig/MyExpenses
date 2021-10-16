@@ -37,8 +37,10 @@ import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
 import org.totschnig.myexpenses.databinding.SplitPartsListBinding
+import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 import org.totschnig.myexpenses.ui.ContextAwareRecyclerView
@@ -60,10 +62,6 @@ class SplitPartList : Fragment() {
     @State
     var parentId: Long = 0
 
-    @JvmField
-    @State
-    var accountId: Long = 0
-
     @Inject
     lateinit var currencyFormatter: CurrencyFormatter
 
@@ -72,7 +70,6 @@ class SplitPartList : Fragment() {
         setHasOptionsMenu(true)
         if (savedInstanceState == null) {
             parentId = requireArguments().getLong(DatabaseConstants.KEY_PARENTID)
-            accountId = requireArguments().getLong(DatabaseConstants.KEY_ACCOUNTID)
         } else {
             Icepick.restoreInstanceState(this, savedInstanceState)
         }
@@ -94,10 +91,10 @@ class SplitPartList : Fragment() {
     ): View {
         val ctx = requireActivity() as ProtectedFragmentActivity
         _binding = SplitPartsListBinding.inflate(inflater, container, false)
-        val account = requireArguments().getSerializable(KEY_ACCOUNT) as Account
+        val currencyUnit = requireArguments().getSerializable(KEY_CURRENCY) as CurrencyUnit
         adapter = SplitPartRVAdapter(
             requireContext(),
-            account.currency,
+            currencyUnit,
             currencyFormatter
         ) { view, _ -> requireActivity().openContextMenu(view) }
         binding.list.adapter = adapter
@@ -193,7 +190,6 @@ class SplitPartList : Fragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     fun updateAccount(account: Account) {
-        accountId = account.id
         adapter.currencyUnit = account.currency
         adapter.notifyDataSetChanged()
         updateBalance()
@@ -210,19 +206,16 @@ class SplitPartList : Fragment() {
 
     companion object {
         private const val KEY_PARENT_IS_TEMPLATE = "parentIsTemplate"
-        private const val KEY_ACCOUNT = "account"
         fun newInstance(
-            transactionId: Long?,
+            transactionId: Long,
             isTemplate: Boolean,
-            account: Account?
-        ): SplitPartList {
-            val f = SplitPartList()
-            val bundle = Bundle()
-            bundle.putLong(DatabaseConstants.KEY_PARENTID, transactionId!!)
-            bundle.putSerializable(KEY_ACCOUNT, account)
-            bundle.putBoolean(KEY_PARENT_IS_TEMPLATE, isTemplate)
-            f.arguments = bundle
-            return f
+            currencyUnit: CurrencyUnit
+        ) = SplitPartList().apply {
+            arguments = Bundle().apply {
+                putLong(DatabaseConstants.KEY_PARENTID, transactionId)
+                putSerializable(KEY_CURRENCY, currencyUnit)
+                putBoolean(KEY_PARENT_IS_TEMPLATE, isTemplate)
+            }
         }
     }
 }

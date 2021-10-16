@@ -1005,11 +1005,11 @@ public class TransactionProvider extends BaseTransactionProvider {
       case DEBTS: {
         String transactionId = uri.getQueryParameter(KEY_TRANSACTIONID);
         if (transactionId != null) {
-          qb.appendWhere("not exists(select 1 from " +
+          qb.appendWhere("not exists(SELECT 1 FROM " +
               TABLE_TRANSACTIONS +
-              " where " +
+              " WHERE " +
               KEY_DEBT_ID +
-              " is not null and " +
+              " IS NOT NULL AND " +
               KEY_PARENTID +
               " = " +
               transactionId +
