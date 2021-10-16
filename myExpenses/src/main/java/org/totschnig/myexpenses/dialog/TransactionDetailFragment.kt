@@ -263,11 +263,17 @@ class TransactionDetailFragment : BaseDialogFragment(), DialogInterface.OnClickL
                 } else {
                     binding.NumberRow.visibility = View.GONE
                 }
-                if (transaction.payee != "") {
+                if (transaction.payee != "" || transaction.debtLabel != null) {
                     val payeeInfo = transaction.payee + if (transaction.debtLabel == null) "" else
                         " (${transaction.debtLabel})"
                     binding.Payee.text = payeeInfo
-                    binding.PayeeLabel.setText(if (isIncome) R.string.payer else R.string.payee)
+                    binding.PayeeLabel.setText(
+                        when {
+                            transaction.payee == "" -> R.string.debt
+                            isIncome -> R.string.payer
+                            else -> R.string.payee
+                        }
+                    )
                 } else {
                     binding.PayeeRow.visibility = View.GONE
                 }
