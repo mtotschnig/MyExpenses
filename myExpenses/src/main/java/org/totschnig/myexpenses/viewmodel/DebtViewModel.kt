@@ -12,12 +12,17 @@ import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
+import org.totschnig.myexpenses.model.Transaction.EXTENDED_URI
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
+import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
+import org.totschnig.myexpenses.provider.DatabaseConstants.getAmountHomeEquivalent
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.epoch2LocalDate
 import org.totschnig.myexpenses.viewmodel.data.Debt
 
@@ -42,18 +47,24 @@ class DebtViewModel(application: Application) : ContentResolvingAndroidViewModel
     private fun singleDebtUri(debtId: Long) =
         ContentUris.withAppendedId(TransactionProvider.DEBTS_URI, debtId)
 
-    fun loadTransactions(debtId: Long, initialDebt: Long): LiveData<List<Transaction>> =
+    fun loadTransactions(debt: Debt, initialDebt: Long): LiveData<List<Transaction>> =
         liveData {
             var runningTotal = initialDebt
+            val homeCurrency = Utils.getHomeCurrency().code
+            val amountColumn = if (debt.currency == homeCurrency) {
+                "CASE WHEN $KEY_CURRENCY = '$homeCurrency' THEN $KEY_AMOUNT ELSE ${getAmountHomeEquivalent(VIEW_EXTENDED)} END"
+            } else {
+                KEY_AMOUNT
+            }
             contentResolver.observeQuery(
-                uri = TransactionProvider.TRANSACTIONS_URI,
-                projection = arrayOf(KEY_ROWID, KEY_DATE, "-$KEY_AMOUNT"),
+                uri = EXTENDED_URI,
+                projection = arrayOf(KEY_ROWID, KEY_DATE, amountColumn),
                 selection = "$KEY_DEBT_ID = ?",
-                selectionArgs = arrayOf(debtId.toString()),
+                selectionArgs = arrayOf(debt.id.toString()),
                 sortOrder = "$KEY_DATE ASC"
             ).mapToList {
                 val amount = it.getLong(2)
-                runningTotal += amount
+                runningTotal -= amount
                 Transaction(it.getLong(0), epoch2LocalDate(it.getLong(1)), amount, runningTotal)
             }.collect(this::emit)
         }

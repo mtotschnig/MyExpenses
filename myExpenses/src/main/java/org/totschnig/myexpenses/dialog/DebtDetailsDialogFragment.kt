@@ -21,7 +21,6 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.databinding.DebtTransactionBinding
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.epoch2LocalDate
@@ -56,7 +55,7 @@ class DebtDetailsDialogFragment : BaseDialogFragment() {
             (dialog as? AlertDialog)?.setTitle("${debt.label} (${debt.payeeName})")
             this.debt = debt
             this.currency = currencyContext[debt.currency]
-            viewModel.loadTransactions(debtId, debt.amount).observe(this) {
+            viewModel.loadTransactions(debt, debt.amount).observe(this) {
                 adapter.submitList(
                     listOf(
                         Transaction(
