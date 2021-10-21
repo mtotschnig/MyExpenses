@@ -56,6 +56,7 @@ import org.totschnig.myexpenses.retrofit.ExchangeRateService;
 import org.totschnig.myexpenses.service.AutoBackupService;
 import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.sync.webdav.WebDavClient;
+import org.totschnig.myexpenses.task.ExportTask;
 import org.totschnig.myexpenses.task.LicenceApiTask;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.ads.BaseAdHandler;
@@ -266,6 +267,10 @@ public interface AppComponent {
   void inject(DebtDetailsDialogFragment debtDetailsDialogFragment);
 
   void inject(CategoryDelegate transactionDelegate);
+
   void inject(SplitDelegate transactionDelegate);
+
   void inject(TransferDelegate transactionDelegate);
+
+  void inject(ExportTask exportTask);
 }

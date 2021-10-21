@@ -44,6 +44,7 @@ import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.ShortcutHelper;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
+import org.totschnig.myexpenses.viewmodel.data.Debt;
 import org.totschnig.myexpenses.viewmodel.data.Tag;
 
 import java.math.BigDecimal;
@@ -555,8 +556,11 @@ public class Account extends Model {
 
   public void markAsExported(WhereFilter filter) throws OperationApplicationException, RemoteException {
     ArrayList<ContentProviderOperation> ops = new ArrayList<>();
-    Uri acccountUri = ContentUris.withAppendedId(Account.CONTENT_URI, getId());
-    ops.add(newUpdate(acccountUri).withValue(KEY_SEALED, -1)
+    Uri accountUri = ContentUris.withAppendedId(Account.CONTENT_URI, getId());
+    Uri debtUri = Debt.Companion.getCONTENT_URI();
+    ops.add(newUpdate(accountUri).withValue(KEY_SEALED, -1)
+        .withSelection(KEY_SEALED + " = 1", null).build());
+    ops.add(newUpdate(debtUri).withValue(KEY_SEALED, -1)
         .withSelection(KEY_SEALED + " = 1", null).build());
     String selection = KEY_ACCOUNTID + " = ? and " + KEY_PARENTID + " is null";
     String[] selectionArgs = new String[]{String.valueOf(getId())};
@@ -567,9 +571,10 @@ public class Account extends Model {
     ops.add(newUpdate(Transaction.CONTENT_URI)
         .withValue(KEY_STATUS, STATUS_EXPORTED).withSelection(selection, selectionArgs)
         .build());
-    ops.add(newUpdate(acccountUri).withValue(KEY_SEALED, 1)
+    ops.add(newUpdate(accountUri).withValue(KEY_SEALED, 1)
         .withSelection(KEY_SEALED + " = -1", null).build());
-
+    ops.add(newUpdate(debtUri).withValue(KEY_SEALED, 1)
+        .withSelection(KEY_SEALED + " = -1", null).build());
     cr().applyBatch(TransactionProvider.AUTHORITY, ops);
   }
 

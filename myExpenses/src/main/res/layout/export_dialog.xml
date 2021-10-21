@@ -96,19 +96,24 @@
 
                     <RadioButton
                         android:id="@+id/qif"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:checked="true"
                         android:text="QIF"
                         tools:ignore="HardcodedText" />
 
                     <RadioButton
                         android:id="@+id/csv"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:text="CSV"
+                        tools:ignore="HardcodedText" />
+
+                    <RadioButton
+                        android:id="@+id/json"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="JSON"
                         tools:ignore="HardcodedText" />
                 </RadioGroup>
             </TableRow>
@@ -130,26 +135,23 @@
 
                     <RadioButton
                         android:id="@+id/delimiter_comma"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:checked="true"
                         android:text=","
                         tools:ignore="HardcodedText" />
 
                     <RadioButton
                         android:id="@+id/delimiter_semicolon"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:text=";"
                         tools:ignore="HardcodedText" />
 
                     <RadioButton
                         android:id="@+id/delimiter_tab"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:text="@string/csv_import_delimiter_tab"
                         tools:ignore="HardcodedText" />
                 </RadioGroup>
@@ -199,18 +201,16 @@
 
                     <RadioButton
                         android:id="@+id/dot"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:checked="true"
                         android:text="."
                         tools:ignore="HardcodedText" />
 
                     <RadioButton
                         android:id="@+id/comma"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:text=","
                         tools:ignore="HardcodedText" />
                 </RadioGroup>

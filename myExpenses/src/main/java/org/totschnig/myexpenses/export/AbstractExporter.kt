@@ -35,20 +35,58 @@ abstract class AbstractExporter
  * @param decimalSeparator , or .
  * @param encoding         the string describing the desired character encoding.
  */
-(val account: Account, private val filter: WhereFilter?, private val notYetExportedP: Boolean,
- private val dateFormat: String, private val decimalSeparator: Char,
- private val encoding: String) {
+    (
+    val account: Account,
+    private val filter: WhereFilter?,
+    private val notYetExportedP: Boolean,
+    private val dateFormat: String,
+    private val decimalSeparator: Char,
+    private val encoding: String
+) {
     val nfFormat = Utils.getDecimalFormat(account.currencyUnit, decimalSeparator)
+
     abstract val format: ExportFormat
+
     abstract fun header(context: Context): String?
-    abstract fun line(id: String, isSplit: Boolean, dateStr: String, payee: String, amount: BigDecimal, labelMain: String, labelSub: String, fullLabel: String, comment: String, methodLabel: String?, status: CrStatus, referenceNumber: String, pictureFileName: String, tagList: String): String
-    abstract fun split(dateStr: String, payee: String, amount: BigDecimal, labelMain: String, labelSub: String, fullLabel: String, comment: String, pictureFileName: String): String
+
+    abstract fun line(
+        id: String,
+        isSplit: Boolean,
+        dateStr: String,
+        payee: String,
+        amount: BigDecimal,
+        labelMain: String,
+        labelSub: String,
+        fullLabel: String,
+        comment: String,
+        methodLabel: String?,
+        status: CrStatus,
+        referenceNumber: String,
+        pictureFileName: String,
+        tagList: String
+    ): String
+
+    abstract fun split(
+        dateStr: String,
+        payee: String,
+        amount: BigDecimal,
+        labelMain: String,
+        labelSub: String,
+        fullLabel: String,
+        comment: String,
+        pictureFileName: String
+    ): String
 
     @Throws(IOException::class)
-    fun export(context: Context, outputStream: Lazy<Result<DocumentFile>>, append: Boolean): Result<Uri> {
+    fun export(
+        context: Context,
+        outputStream: Lazy<Result<DocumentFile>>,
+        append: Boolean
+    ): Result<Uri> {
         Timber.i("now starting export")
         //first we check if there are any exportable transactions
-        var selection = DatabaseConstants.KEY_ACCOUNTID + " = ? AND " + DatabaseConstants.KEY_PARENTID + " is null"
+        var selection =
+            DatabaseConstants.KEY_ACCOUNTID + " = ? AND " + DatabaseConstants.KEY_PARENTID + " is null"
         var selectionArgs: Array<String?>? = arrayOf(account.id.toString())
         if (notYetExportedP) selection += " AND " + DatabaseConstants.KEY_STATUS + " = " + DatabaseConstants.STATUS_NONE
         if (filter != null && !filter.isEmpty) {
@@ -56,21 +94,22 @@ abstract class AbstractExporter
             selectionArgs = Utils.joinArrays(selectionArgs, filter.getSelectionArgs(false))
         }
         return context.contentResolver.query(
-                Transaction.EXTENDED_URI,
-                null, selection, selectionArgs, DatabaseConstants.KEY_DATE)?.use { cursor ->
+            Transaction.EXTENDED_URI,
+            null, selection, selectionArgs, DatabaseConstants.KEY_DATE
+        )?.use { cursor ->
 
             if (cursor.count == 0) {
                 Result.failure(Exception(context.getString(R.string.no_exportable_expenses)))
             } else {
                 val uri = outputStream.value.getOrThrow().uri
                 (context.contentResolver.openOutputStream(uri, if (append) "wa" else "w")
-                        ?: throw IOException("openOutputStream returned null")).use { outputStream ->
+                    ?: throw IOException("openOutputStream returned null")).use { outputStream ->
                     OutputStreamWriter(outputStream, encoding).use { out ->
                         cursor.moveToFirst()
                         val formatter = SimpleDateFormat(dateFormat, Locale.US)
                         header(context)?.let { out.write(it) }
                         while (cursor.position < cursor.count) {
-                            var id = DbUtils.getString(cursor, 0)
+                            val id = DbUtils.getString(cursor, 0)
                             var comment = DbUtils.getString(cursor, DatabaseConstants.KEY_COMMENT)
                             var fullLabel = ""
                             var labelSub = ""
@@ -79,11 +118,17 @@ abstract class AbstractExporter
                             var splits: Cursor? = null
                             var readCat: Cursor
                             val isSplit = DatabaseConstants.SPLIT_CATID == catId
-                            val rowId = cursor.getLong(cursor.getColumnIndex(DatabaseConstants.KEY_ROWID))
+                            val rowId =
+                                cursor.getLong(cursor.getColumnIndex(DatabaseConstants.KEY_ROWID))
                             if (isSplit) {
                                 //split transactions take their full_label from the first split part
-                                splits = context.contentResolver.query(Transaction.CONTENT_URI, null,
-                                        "${DatabaseConstants.KEY_PARENTID} = ?", arrayOf(rowId.toString()), null)
+                                splits = context.contentResolver.query(
+                                    Transaction.CONTENT_URI,
+                                    null,
+                                    "${DatabaseConstants.KEY_PARENTID} = ?",
+                                    arrayOf(rowId.toString()),
+                                    null
+                                )
                                 readCat = if (splits != null && splits.moveToFirst()) {
                                     splits
                                 } else {
@@ -92,7 +137,8 @@ abstract class AbstractExporter
                             } else {
                                 readCat = cursor
                             }
-                            var transferPeer = DbUtils.getLongOrNull(readCat, DatabaseConstants.KEY_TRANSFER_PEER)
+                            var transferPeer =
+                                DbUtils.getLongOrNull(readCat, DatabaseConstants.KEY_TRANSFER_PEER)
                             labelMain = DbUtils.getString(readCat, DatabaseConstants.KEY_LABEL_MAIN)
                             if (labelMain.isNotEmpty()) {
                                 if (transferPeer != null) {
@@ -100,52 +146,102 @@ abstract class AbstractExporter
                                     labelMain = context.getString(R.string.transfer)
                                     labelSub = fullLabel
                                 } else {
-                                    labelSub = DbUtils.getString(readCat, DatabaseConstants.KEY_LABEL_SUB)
+                                    labelSub =
+                                        DbUtils.getString(readCat, DatabaseConstants.KEY_LABEL_SUB)
                                     fullLabel = TextUtils.formatQifCategory(labelMain, labelSub)!!
                                 }
                             }
                             val payee = DbUtils.getString(cursor, DatabaseConstants.KEY_PAYEE_NAME)
-                            val dateStr = formatter.format(Date(cursor.getLong(
-                                    cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_DATE)) * 1000))
+                            val dateStr = formatter.format(
+                                Date(
+                                    cursor.getLong(
+                                        cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_DATE)
+                                    ) * 1000
+                                )
+                            )
                             var amount = cursor.getLong(
-                                    cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_AMOUNT))
+                                cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_AMOUNT)
+                            )
                             var bdAmount = Money(account.currencyUnit, amount).amountMajor
                             val status = try {
-                                CrStatus.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_CR_STATUS)))
+                                CrStatus.valueOf(
+                                    cursor.getString(
+                                        cursor.getColumnIndexOrThrow(
+                                            DatabaseConstants.KEY_CR_STATUS
+                                        )
+                                    )
+                                )
                             } catch (ex: IllegalArgumentException) {
                                 CrStatus.UNRECONCILED
                             }
-                            val referenceNumber = DbUtils.getString(cursor, DatabaseConstants.KEY_REFERENCE_NUMBER)
-                            val methodLabel = cursor.getString(cursor.getColumnIndex(DatabaseConstants.KEY_METHOD_LABEL))
-                            val pictureFileName = StringUtils.substringAfterLast(DbUtils.getString(cursor, DatabaseConstants.KEY_PICTURE_URI), "/")
-                            val tagList = context.contentResolver.query(TransactionProvider.TRANSACTIONS_TAGS_URI, arrayOf(KEY_LABEL),
-                                    "${DatabaseConstants.KEY_TRANSACTIONID} = ?", arrayOf(rowId.toString()), null)?.use {
-                                if (it.moveToFirst())
+                            val referenceNumber =
+                                DbUtils.getString(cursor, DatabaseConstants.KEY_REFERENCE_NUMBER)
+                            val methodLabel =
+                                cursor.getString(cursor.getColumnIndex(DatabaseConstants.KEY_METHOD_LABEL))
+                            val pictureFileName = StringUtils.substringAfterLast(
+                                DbUtils.getString(
+                                    cursor,
+                                    DatabaseConstants.KEY_PICTURE_URI
+                                ), "/"
+                            )
+                            val tagList = context.contentResolver.query(
+                                TransactionProvider.TRANSACTIONS_TAGS_URI,
+                                arrayOf(KEY_LABEL),
+                                "${DatabaseConstants.KEY_TRANSACTIONID} = ?",
+                                arrayOf(rowId.toString()),
+                                null
+                            )?.use { tagCursor ->
+                                if (tagCursor.moveToFirst())
                                     sequence {
-                                        while (!it.isAfterLast()) {
-                                            yield(it.getString(0).let {
+                                        while (!tagCursor.isAfterLast) {
+                                            yield(tagCursor.getString(0).let {
                                                 if (it.contains(',')) "'$it'" else it
                                             })
-                                            it.moveToNext()
+                                            tagCursor.moveToNext()
                                         }
                                     }.joinToString(", ") else null
                             } ?: ""
-                            out.write(line(id, isSplit, dateStr, payee, bdAmount, labelMain, labelSub, fullLabel, comment,
-                                    methodLabel, status, referenceNumber, pictureFileName, tagList))
+                            out.write(
+                                line(
+                                    id,
+                                    isSplit,
+                                    dateStr,
+                                    payee,
+                                    bdAmount,
+                                    labelMain,
+                                    labelSub,
+                                    fullLabel,
+                                    comment,
+                                    methodLabel,
+                                    status,
+                                    referenceNumber,
+                                    pictureFileName,
+                                    tagList
+                                )
+                            )
                             out.write("\n")
                             splits?.use {
                                 while (splits.position < splits.count) {
-                                    transferPeer = DbUtils.getLongOrNull(splits, DatabaseConstants.KEY_TRANSFER_PEER)
-                                    comment = DbUtils.getString(splits, DatabaseConstants.KEY_COMMENT)
-                                    labelMain = DbUtils.getString(splits, DatabaseConstants.KEY_LABEL_MAIN)
+                                    transferPeer = DbUtils.getLongOrNull(
+                                        splits,
+                                        DatabaseConstants.KEY_TRANSFER_PEER
+                                    )
+                                    comment =
+                                        DbUtils.getString(splits, DatabaseConstants.KEY_COMMENT)
+                                    labelMain =
+                                        DbUtils.getString(splits, DatabaseConstants.KEY_LABEL_MAIN)
                                     if (labelMain.isNotEmpty()) {
                                         if (transferPeer != null) {
                                             fullLabel = "[$labelMain]"
                                             labelMain = context.getString(R.string.transfer)
                                             labelSub = fullLabel
                                         } else {
-                                            labelSub = DbUtils.getString(splits, DatabaseConstants.KEY_LABEL_SUB)
-                                            fullLabel = TextUtils.formatQifCategory(labelMain, labelSub)!!
+                                            labelSub = DbUtils.getString(
+                                                splits,
+                                                DatabaseConstants.KEY_LABEL_SUB
+                                            )
+                                            fullLabel =
+                                                TextUtils.formatQifCategory(labelMain, labelSub)!!
                                         }
                                     } else {
                                         fullLabel = Category.NO_CATEGORY_ASSIGNED_LABEL
@@ -153,23 +249,27 @@ abstract class AbstractExporter
                                         labelSub = ""
                                     }
                                     amount = splits.getLong(
-                                            splits.getColumnIndexOrThrow(DatabaseConstants.KEY_AMOUNT))
+                                        splits.getColumnIndexOrThrow(DatabaseConstants.KEY_AMOUNT)
+                                    )
                                     bdAmount = Money(account.currencyUnit, amount).amountMajor
-                                    out.write(split(dateStr, payee, bdAmount, labelMain, labelSub, fullLabel, comment, pictureFileName))
+                                    out.write(
+                                        split(
+                                            dateStr,
+                                            payee,
+                                            bdAmount,
+                                            labelMain,
+                                            labelSub,
+                                            fullLabel,
+                                            comment,
+                                            pictureFileName
+                                        )
+                                    )
                                     out.write("\n")
                                     splits.moveToNext()
                                 }
                             }
 
-                            // Just print delimiter in the last line if it is not JSON,
-                            // otherwise, keep the same behavior as usual
-                            if(ExportFormat.JSON == format){
-                                if(cursor.position < cursor.count -1){
-                                    recordDelimiter()?.let { out.write(it) }
-                                }
-                            } else {
-                                recordDelimiter()?.let { out.write(it) }
-                            }
+                            recordDelimiter(cursor.position == cursor.count - 1)?.let { out.write(it) }
 
                             cursor.moveToNext()
                         }
@@ -183,6 +283,7 @@ abstract class AbstractExporter
         } ?: Result.failure(Exception("Cursor is null"))
     }
 
-    open fun recordDelimiter(): String? = null
+    open fun recordDelimiter(isLastLine: Boolean): String? = null
+
     open fun footer(): String? = null
 }

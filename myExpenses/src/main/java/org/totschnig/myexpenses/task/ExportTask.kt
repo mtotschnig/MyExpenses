@@ -6,6 +6,7 @@ import android.os.AsyncTask
 import android.os.Bundle
 import androidx.core.util.Pair
 import androidx.documentfile.provider.DocumentFile
+import com.google.gson.Gson
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.export.CsvExporter
@@ -27,8 +28,10 @@ import org.totschnig.myexpenses.util.io.FileUtils
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
-class ExportTask(private val taskExecutionFragment: TaskExecutionFragment<*>, extras: Bundle) : AsyncTask<Void, String, Pair<ExportFormat, List<Uri>>?>() {
+class ExportTask(private val taskExecutionFragment: TaskExecutionFragment<*>, extras: Bundle) :
+    AsyncTask<Void, String, Pair<ExportFormat, List<Uri>>?>() {
     private val result = ArrayList<Uri>()
     private var format: ExportFormat = try {
         ExportFormat.valueOf(extras.getString(TaskExecutionFragment.KEY_FORMAT)!!)
@@ -48,8 +51,12 @@ class ExportTask(private val taskExecutionFragment: TaskExecutionFragment<*>, ex
     private val fileName = extras.getString(KEY_FILE_NAME)!!
     private val delimiter = extras.getChar(KEY_DELIMITER)
 
+    @Inject
+    lateinit var gson: Gson
+
     init {
         check(!(deleteP && notYetExportedP)) { "Deleting exported transactions is only allowed when all transactions are exported" }
+        MyApplication.getInstance().appComponent.inject(this)
     }
 
     override fun onProgressUpdate(vararg values: String) {
@@ -63,19 +70,24 @@ class ExportTask(private val taskExecutionFragment: TaskExecutionFragment<*>, ex
     override fun onPostExecute(result: Pair<ExportFormat, List<Uri>>?) {
         if (taskExecutionFragment.mCallbacks != null) {
             taskExecutionFragment.mCallbacks.onPostExecute(
-                    TaskExecutionFragment.TASK_EXPORT, result)
+                TaskExecutionFragment.TASK_EXPORT, result
+            )
         }
     }
 
     private fun createFileFailure(context: Context, parent: DocumentFile, fileName: String) =
-            IOException(context.getString(R.string.io_error_unable_to_create_file,
-                    fileName, FileUtils.getPath(context, parent.uri)))
+        IOException(
+            context.getString(
+                R.string.io_error_unable_to_create_file,
+                fileName, FileUtils.getPath(context, parent.uri)
+            )
+        )
 
     override fun doInBackground(vararg ignored: Void): Pair<ExportFormat, List<Uri>>? {
-        val accountIds: Array<Long>
         val application = MyApplication.getInstance()
-        if (accountId > 0L) {
-            accountIds = arrayOf(accountId)
+
+        val accountIds: Array<Long> = if (accountId > 0L) {
+            arrayOf(accountId)
         } else {
             var selection: String? = null
             var selectionArgs: Array<String>? = null
@@ -83,14 +95,23 @@ class ExportTask(private val taskExecutionFragment: TaskExecutionFragment<*>, ex
                 selection = DatabaseConstants.KEY_CURRENCY + " = ?"
                 selectionArgs = arrayOf(currency)
             }
-            val c = application.contentResolver.query(TransactionProvider.ACCOUNTS_URI, arrayOf(DatabaseConstants.KEY_ROWID), selection, selectionArgs, null)
-            accountIds = DbUtils.getLongArrayFromCursor(c, DatabaseConstants.KEY_ROWID)
-            c!!.close()
+            application.contentResolver.query(
+                TransactionProvider.ACCOUNTS_URI,
+                arrayOf(DatabaseConstants.KEY_ROWID),
+                selection,
+                selectionArgs,
+                null
+            )?.use {
+                DbUtils.getLongArrayFromCursor(it, DatabaseConstants.KEY_ROWID)
+            } ?: throw IOException("Cursor was null")
         }
         var account: Account?
         val destDir: DocumentFile
         val appDir = AppDirHelper.getAppDir(application)
-        val context = ContextHelper.wrap(application, application.appComponent.userLocaleProvider().getUserPreferredLocale())
+        val context = ContextHelper.wrap(
+            application,
+            application.appComponent.userLocaleProvider().getUserPreferredLocale()
+        )
         if (appDir == null) {
             publishProgress(context.getString(R.string.external_storage_unavailable))
             return null
@@ -99,7 +120,11 @@ class ExportTask(private val taskExecutionFragment: TaskExecutionFragment<*>, ex
         destDir = if (oneFile) {
             appDir
         } else {
-            AppDirHelper.newDirectory(appDir, fileName) ?: throw createFileFailure(context, appDir, fileName)
+            AppDirHelper.newDirectory(appDir, fileName) ?: throw createFileFailure(
+                context,
+                appDir,
+                fileName
+            )
         }
         val successfullyExported = ArrayList<Account>()
         val simpleDateFormat = SimpleDateFormat("yyyMMdd-HHmmss", Locale.US)
@@ -110,31 +135,70 @@ class ExportTask(private val taskExecutionFragment: TaskExecutionFragment<*>, ex
             publishProgress(account.label + " ...")
             try {
                 val append = mergeP && i > 0
-                val fileNameForAccount = if (oneFile) fileName else String.format("%s-%s", Utils.escapeForFileName(account.label),
-                        simpleDateFormat.format(now))
-                val exporter = when(format) {
-                    ExportFormat.CSV -> CsvExporter(account, filter, notYetExportedP, dateFormat, decimalSeparator, encoding, !append, delimiter, mergeP)
-                    ExportFormat.QIF -> QifExporter(account, filter, notYetExportedP, dateFormat, decimalSeparator, encoding)
-                    ExportFormat.JSON -> JSONExporter(account, filter, notYetExportedP, dateFormat, decimalSeparator, encoding, delimiter, mergeP)
+                val fileNameForAccount = if (oneFile) fileName else String.format(
+                    "%s-%s", Utils.escapeForFileName(account.label),
+                    simpleDateFormat.format(now)
+                )
+                val exporter = when (format) {
+                    ExportFormat.CSV -> CsvExporter(
+                        account,
+                        filter,
+                        notYetExportedP,
+                        dateFormat,
+                        decimalSeparator,
+                        encoding,
+                        !append,
+                        delimiter,
+                        mergeP
+                    )
+                    ExportFormat.QIF -> QifExporter(
+                        account,
+                        filter,
+                        notYetExportedP,
+                        dateFormat,
+                        decimalSeparator,
+                        encoding
+                    )
+                    ExportFormat.JSON -> JSONExporter(
+                        account,
+                        filter,
+                        notYetExportedP,
+                        dateFormat,
+                        decimalSeparator,
+                        encoding,
+                        gson
+                    )
                 }
                 val result = exporter.export(context, lazy {
-                    Result.success(AppDirHelper.buildFile(destDir, fileNameForAccount, format.mimeType,
-                            append, true) ?: throw createFileFailure(context, destDir, fileName))
+                    Result.success(
+                        AppDirHelper.buildFile(
+                            destDir, fileNameForAccount, format.mimeType,
+                            append, true
+                        ) ?: throw createFileFailure(context, destDir, fileName)
+                    )
                 }, append)
                 result.onSuccess {
                     if (PrefKey.PERFORM_SHARE.getBoolean(false)) {
                         addResult(it)
                     }
                     successfullyExported.add(account)
-                    publishProgress("..." + context.getString(R.string.export_sdcard_success, FileUtils.getPath(context, it)))
+                    publishProgress(
+                        "..." + context.getString(
+                            R.string.export_sdcard_success,
+                            FileUtils.getPath(context, it)
+                        )
+                    )
                 }.onFailure {
                     publishProgress("... " + it.message)
                 }
             } catch (e: IOException) {
-                publishProgress("... " + context.getString(
+                publishProgress(
+                    "... " + context.getString(
                         R.string.export_sdcard_failure,
                         appDir.name,
-                        e.message))
+                        e.message
+                    )
+                )
             }
         }
         for (a in successfullyExported) {
