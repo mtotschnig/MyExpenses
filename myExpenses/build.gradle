@@ -176,7 +176,7 @@ dependencies {
     compileOnly 'javax.annotation:jsr250-api:1.0'
     implementation 'frankiesardo:icepick:3.2.0'
     kapt 'frankiesardo:icepick-processor:3.2.0'
-    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.google.code.gson:gson:2.8.8'
 
     api 'com.google.auto.value:auto-value-annotations:1.7.4'
     kapt 'com.google.auto.value:auto-value:1.7'

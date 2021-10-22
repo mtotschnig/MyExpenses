@@ -3,11 +3,9 @@ package org.totschnig.myexpenses.export
 import android.content.Context
 import com.google.gson.Gson
 import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.model.TransactionDTO
 import org.totschnig.myexpenses.provider.filter.WhereFilter
-import java.math.BigDecimal
 
 /**
  * @param account          Account to print
@@ -34,59 +32,9 @@ class JSONExporter(
 
     override fun header(context: Context) = "["
 
-    override fun line(
-        id: String,
-        isSplit: Boolean,
-        dateStr: String,
-        payee: String,
-        amount: BigDecimal,
-        labelMain: String,
-        labelSub: String,
-        fullLabel: String,
-        comment: String,
-        methodLabel: String?,
-        status: CrStatus,
-        referenceNumber: String,
-        pictureFileName: String,
-        tagList: String
-    ) =
-        TransactionDTO(
-            id,
-            isSplit,
-            dateStr,
-            payee,
-            amount,
-            labelMain,
-            labelSub,
-            fullLabel,
-            comment,
-            methodLabel,
-            status,
-            referenceNumber,
-            pictureFileName,
-            tagList
-        ).toJson(gson)
+    override fun TransactionDTO.marshall(): String = gson.toJson(this)
 
-    override fun split(
-        dateStr: String,
-        payee: String,
-        amount: BigDecimal,
-        labelMain: String,
-        labelSub: String,
-        fullLabel: String,
-        comment: String,
-        pictureFileName: String
-    ) =
-        TransactionDTO(
-            null, false, dateStr, payee, amount, labelMain, labelSub, fullLabel, comment,
-            null,
-            CrStatus.VOID, null, pictureFileName, null
-        ).toJson(gson)
-
-    override fun recordDelimiter(isLastLine: Boolean): String? {
-        val s = if (isLastLine) null else ","
-        return s
-    }
+    override fun recordDelimiter(isLastLine: Boolean) = if (isLastLine) null else ","
 
     override fun footer(): String = "]"
 }

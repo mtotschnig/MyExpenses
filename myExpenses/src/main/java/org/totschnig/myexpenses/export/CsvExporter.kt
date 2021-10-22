@@ -6,6 +6,7 @@ import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.model.SplitTransaction
+import org.totschnig.myexpenses.model.TransactionDTO
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.StringBuilderWrapper
 import java.math.BigDecimal
@@ -63,95 +64,70 @@ class CsvExporter(
         }.toString()
     } else null
 
-    override fun line(
-        id: String,
-        isSplit: Boolean,
-        dateStr: String,
-        payee: String,
-        amount: BigDecimal,
-        labelMain: String,
-        labelSub: String,
-        fullLabel: String,
-        comment: String,
-        methodLabel: String?,
-        status: CrStatus,
-        referenceNumber: String,
-        pictureFileName: String,
-        tagList: String
-    ) =
-        StringBuilderWrapper().apply {
-            if (withAccountColumn) {
-                appendQ(account.label).append(delimiter)
-            }
-            val splitIndicator = if (isSplit) SplitTransaction.CSV_INDICATOR else ""
-            val amountAbsCSV = nfFormat.format(amount.abs())
-            appendQ(splitIndicator)
-                .append(delimiter)
-                .appendQ(dateStr)
-                .append(delimiter)
-                .appendQ(payee)
-                .append(delimiter)
-                .appendQ((if (amount.signum() == 1) amountAbsCSV else "0"))
-                .append(delimiter)
-                .appendQ((if (amount.signum() == -1) amountAbsCSV else "0"))
-                .append(delimiter)
-                .appendQ(labelMain)
-                .append(delimiter)
-                .appendQ(labelSub)
-                .append(delimiter)
-                .appendQ(comment)
-                .append(delimiter)
-                .appendQ(methodLabel ?: "")
-                .append(delimiter)
-                .appendQ(status.symbol)
-                .append(delimiter)
-                .appendQ(referenceNumber)
-                .append(delimiter)
-                .appendQ(pictureFileName)
-                .append(delimiter)
-                .appendQ(tagList)
-        }.toString()
-
-    override fun split(
-        dateStr: String,
-        payee: String,
-        amount: BigDecimal,
-        labelMain: String,
-        labelSub: String,
-        fullLabel: String,
-        comment: String,
-        pictureFileName: String
-    ) =
-        StringBuilderWrapper().apply {
+    override fun TransactionDTO.marshall() = StringBuilderWrapper().apply {
+        if (withAccountColumn) {
+            appendQ(account.label).append(delimiter)
+        }
+        val splitIndicator = if (splits != null) SplitTransaction.CSV_INDICATOR else ""
+        val amountAbsCSV = nfFormat.format(amount.abs())
+        appendQ(splitIndicator)
+            .append(delimiter)
+            .appendQ(dateStr)
+            .append(delimiter)
+            .appendQ(payee)
+            .append(delimiter)
+            .appendQ((if (amount.signum() == 1) amountAbsCSV else "0"))
+            .append(delimiter)
+            .appendQ((if (amount.signum() == -1) amountAbsCSV else "0"))
+            .append(delimiter)
+            .appendQ(labelMain)
+            .append(delimiter)
+            .appendQ(labelSub)
+            .append(delimiter)
+            .appendQ(comment)
+            .append(delimiter)
+            .appendQ(methodLabel ?: "")
+            .append(delimiter)
+            .appendQ(status?.symbol  ?: "")
+            .append(delimiter)
+            .appendQ(referenceNumber ?: "")
+            .append(delimiter)
+            .appendQ(pictureFileName ?: "")
+            .append(delimiter)
+            .appendQ(tagList ?: "")
+        splits?.forEach {
+            append("\n")
             if (withAccountColumn) {
                 appendQ("").append(delimiter)
             }
-            val amountAbsCSV = nfFormat.format(amount.abs())
-            appendQ(SplitTransaction.CSV_PART_INDICATOR)
-                .append(delimiter)
-                .appendQ(dateStr)
-                .append(delimiter)
-                .appendQ(payee)
-                .append(delimiter)
-                .appendQ((if (amount.signum() == 1) amountAbsCSV else "0"))
-                .append(delimiter)
-                .appendQ((if (amount.signum() == -1) amountAbsCSV else "0"))
-                .append(delimiter)
-                .appendQ(labelMain)
-                .append(delimiter)
-                .appendQ(labelSub)
-                .append(delimiter)
-                .appendQ(comment)
-                .append(delimiter)
-                .appendQ("")
-                .append(delimiter)
-                .appendQ("")
-                .append(delimiter)
-                .appendQ("")
-                .append(delimiter)
-                .appendQ(pictureFileName)
-                .append(delimiter)
-                .appendQ("")
-        }.toString()
-
+            with(it) {
+                val amountAbsCSV = nfFormat.format(amount.abs())
+                appendQ(SplitTransaction.CSV_PART_INDICATOR)
+                    .append(delimiter)
+                    .appendQ(dateStr)
+                    .append(delimiter)
+                    .appendQ(payee)
+                    .append(delimiter)
+                    .appendQ((if (amount.signum() == 1) amountAbsCSV else "0"))
+                    .append(delimiter)
+                    .appendQ((if (amount.signum() == -1) amountAbsCSV else "0"))
+                    .append(delimiter)
+                    .appendQ(labelMain)
+                    .append(delimiter)
+                    .appendQ(labelSub)
+                    .append(delimiter)
+                    .appendQ(comment)
+                    .append(delimiter)
+                    .appendQ("")
+                    .append(delimiter)
+                    .appendQ("")
+                    .append(delimiter)
+                    .appendQ("")
+                    .append(delimiter)
+                    .appendQ(pictureFileName ?: "")
+                    .append(delimiter)
+                    .appendQ("")
+            }
+        }
+    }.toString()
 }
