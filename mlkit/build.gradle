@@ -28,5 +28,5 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:$androidxTextExtJunit"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "androidx.annotation:annotation:$annotations"
-    implementation 'com.google.android.gms:play-services-mlkit-text-recognition:16.2.0'
+    implementation 'com.google.android.gms:play-services-mlkit-text-recognition:17.0.0'
 }

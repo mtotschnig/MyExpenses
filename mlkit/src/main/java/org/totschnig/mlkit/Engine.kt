@@ -6,6 +6,7 @@ import androidx.annotation.Keep
 import com.google.mlkit.common.MlKit
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
+import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -32,14 +33,16 @@ object Engine: org.totschnig.ocr.Engine  {
             withContext(Dispatchers.Default) {
                 initialize(context)
                 val image = InputImage.fromFilePath(context, Uri.fromFile(file))
-                suspendCoroutine { cont ->
-                    TextRecognition.getClient().process(image)
+                TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS).use { recognizer ->
+                    suspendCoroutine { cont ->
+                        recognizer.process(image)
                             .addOnSuccessListener { texts ->
                                 cont.resume(texts.wrap())
                             }
                             .addOnFailureListener { e ->
                                 cont.resumeWithException(e as Throwable)
                             }
+                    }
                 }
             }
 

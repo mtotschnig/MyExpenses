@@ -172,7 +172,7 @@ object Engine : TesseractEngine {
                         delete()
                     }
                     timing("resultIterator")
-                    end()
+                    recycle()
                     timing("end")
                     Text(listOf(TextBlock(lines)))
                 }
