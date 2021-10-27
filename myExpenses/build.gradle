@@ -350,10 +350,6 @@ task echoPublishTag() {
     }
 }
 
-tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile) {
-    kotlinOptions.useOldBackend = true
-}
-
 def categoryIcons() {
     return new File("${projectDir}/src/main/categoryIcons/drawable")
             .listFiles()

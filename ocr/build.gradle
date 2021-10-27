@@ -35,11 +35,6 @@ android {
     }
 }
 
-//https://youtrack.jetbrains.com/issue/KT-47206 (might be fixed in Kotlin 1.5.30
-tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile) {
-    kotlinOptions.useOldBackend = true
-}
-
 dependencies {
     api project(':myExpenses')
     implementation "androidx.core:core-ktx:$ktxVersion"

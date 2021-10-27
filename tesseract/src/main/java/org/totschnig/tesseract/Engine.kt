@@ -4,6 +4,7 @@ import Catalano.Imaging.FastBitmap
 import Catalano.Imaging.Filters.BradleyLocalThreshold
 import Catalano.Imaging.IApplyInPlace
 import android.app.DownloadManager
+import android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
@@ -41,8 +42,8 @@ object Engine : TesseractEngine {
     }
 
     private fun language(context: Context, prefHandler: PrefHandler) =
-            prefHandler.getString(PrefKey.TESSERACT_LANGUAGE, null)
-                    ?: defaultLanguage(context)
+        prefHandler.getString(PrefKey.TESSERACT_LANGUAGE, null)
+            ?: defaultLanguage(context)
 
     private fun defaultLanguage(context: Context): String {
         val default = getLocaleForUserCountry(context)
@@ -60,17 +61,22 @@ object Engine : TesseractEngine {
             }
         }
         if (language == "zho") {
-            val script = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP
-                    && default.script == "Hans") "sim" else "tra"
+            val script =
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP
+                    && default.script == "Hans"
+                ) "sim" else "tra"
             return "chi_${script}"
         }
-        return language.takeIf { context.resources.getStringArray(R.array.pref_tesseract_language_values).indexOf(it) > -1 } ?: "eng"
+        return language.takeIf {
+            context.resources.getStringArray(R.array.pref_tesseract_language_values)
+                .indexOf(it) > -1
+        } ?: "eng"
     }
 
     override fun getLanguageArray(context: Context) =
-            context.resources.getStringArray(R.array.pref_tesseract_language_values)
-                    .map { getTesseractLanguageDisplayName(context, it)}
-                    .toTypedArray()
+        context.resources.getStringArray(R.array.pref_tesseract_language_values)
+            .map { getTesseractLanguageDisplayName(context, it) }
+            .toTypedArray()
 
     private fun getTesseractLanguageDisplayName(context: Context, localeString: String): String {
         val localeParts = localeString.split("_")
@@ -86,7 +92,8 @@ object Engine : TesseractEngine {
                 else -> localeParts[1]
             }
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                Locale.Builder().setLanguage(lang).setScript(script).build().getDisplayName(localeFromContext)
+                Locale.Builder().setLanguage(lang).setScript(script).build()
+                    .getDisplayName(localeFromContext)
             } else {
                 "${Locale(lang).getDisplayName(localeFromContext)} ($script)"
             }
@@ -95,88 +102,115 @@ object Engine : TesseractEngine {
     }
 
     override fun tessDataExists(context: Context, prefHandler: PrefHandler) =
-            File(context.getExternalFilesDir(null), filePath(language(context, prefHandler))).exists()
+        File(context.getExternalFilesDir(null), filePath(language(context, prefHandler))).exists()
 
     override fun offerTessDataDownload(baseActivity: BaseActivity) {
         val language = language(baseActivity, baseActivity.prefHandler)
         if (language != baseActivity.downloadPending) {
             ConfirmationDialogFragment.newInstance(Bundle().apply {
                 putInt(ConfirmationDialogFragment.KEY_TITLE, R.string.button_download)
-                putString(ConfirmationDialogFragment.KEY_MESSAGE,
-                        baseActivity.getString(R.string.tesseract_download_confirmation,
-                                getTesseractLanguageDisplayName(baseActivity, language)))
-                putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.TESSERACT_DOWNLOAD_COMMAND)
+                putString(
+                    ConfirmationDialogFragment.KEY_MESSAGE,
+                    baseActivity.getString(
+                        R.string.tesseract_download_confirmation,
+                        getTesseractLanguageDisplayName(baseActivity, language)
+                    )
+                )
+                putInt(
+                    ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+                    R.id.TESSERACT_DOWNLOAD_COMMAND
+                )
             }).show(baseActivity.supportFragmentManager, "DOWNLOAD_TESSDATA")
         }
     }
 
-    private fun filePath(language: String) = "${TESSERACT_DOWNLOAD_FOLDER}tessdata/${language}.traineddata"
+    private fun filePath(language: String) =
+        "${TESSERACT_DOWNLOAD_FOLDER}tessdata/${language}.traineddata"
 
     private fun fileName(language: String) = "${language}.traineddata"
 
     override fun downloadTessData(context: Context, prefHandler: PrefHandler): String {
         val language = language(context, prefHandler)
-        val uri = Uri.parse("https://github.com/tesseract-ocr/tessdata_fast/raw/4.0.0/${fileName(language)}")
-        ContextCompat.getSystemService(context, DownloadManager::class.java)?.enqueue(DownloadManager.Request(uri)
-                .setTitle(context.getString(R.string.pref_tesseract_language_title))
+        val uri =
+            Uri.parse("https://github.com/tesseract-ocr/tessdata_fast/raw/4.0.0/${fileName(language)}")
+        ContextCompat.getSystemService(context, DownloadManager::class.java)?.enqueue(
+            DownloadManager.Request(uri)
+                .setTitle(
+                    context.getString(R.string.pref_tesseract_language_title) + " : " + getTesseractLanguageDisplayName(
+                        context,
+                        language
+                    )
+                )
                 .setDescription(language)
-                .setDestinationInExternalFilesDir(context, null, filePath(language)))
+                .setDestinationInExternalFilesDir(context, null, filePath(language))
+                .setNotificationVisibility(VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+        )
         return getTesseractLanguageDisplayName(context, language)
     }
 
     override suspend fun run(file: File, context: Context, prefHandler: PrefHandler): Text =
-            withContext(Dispatchers.Default) {
-                initialize()
-                with(TessBaseAPI()) {
-                    timer = System.currentTimeMillis()
-                    if (!init(File(context.getExternalFilesDir(null), TESSERACT_DOWNLOAD_FOLDER).path, language(context, prefHandler))) {
-                        throw IllegalStateException("Could not init Tesseract")
-                    }
-                    timing("Init")
-                    setVariable("tessedit_do_invert", TessBaseAPI.VAR_FALSE)
-                    setVariable("load_system_dawg", TessBaseAPI.VAR_FALSE)
-                    setVariable("load_freq_dawg", TessBaseAPI.VAR_FALSE)
-                    setVariable("load_punc_dawg", TessBaseAPI.VAR_FALSE)
-                    setVariable("load_number_dawg", TessBaseAPI.VAR_FALSE)
-                    setVariable("load_unambig_dawg", TessBaseAPI.VAR_FALSE)
-                    setVariable("load_bigram_dawg", TessBaseAPI.VAR_FALSE)
-                    setVariable("load_fixed_length_dawgs", TessBaseAPI.VAR_FALSE)
-                    pageSegMode = TessBaseAPI.PageSegMode.PSM_AUTO_OSD
-                    var bitmap = with(FastBitmap(file.path)) {
-                        toGrayscale()
-                        val g: IApplyInPlace = BradleyLocalThreshold()
-                        g.applyInPlace(this)
-                        toBitmap()
-                    }
-                    /*if (scale < 10) {
-                        bitmap = Bitmap.createScaledBitmap(bitmap, (bitmap.width * scale / 10), (bitmap.height * scale / 10), true)
-                    }*/
-                    setImage(bitmap)
-                    timing("SetImage")
-                    utF8Text
-                    timing("utF8Text")
-                    val lines = mutableListOf<Line>()
-                    with(resultIterator) {
-                        begin()
-                        do {
-                            val lineText = getUTF8Text(TessBaseAPI.PageIteratorLevel.RIL_TEXTLINE)
-                            val lineBoundingRect = getBoundingRect(TessBaseAPI.PageIteratorLevel.RIL_TEXTLINE)
-                            val elements = mutableListOf<Element>()
-                            do {
-                                val wordText = getUTF8Text(TessBaseAPI.PageIteratorLevel.RIL_WORD)
-                                val wordBoundingRect = getBoundingRect(TessBaseAPI.PageIteratorLevel.RIL_WORD)
-                                elements.add(Element(wordText, wordBoundingRect))
-                            } while (!isAtFinalElement(TessBaseAPI.PageIteratorLevel.RIL_TEXTLINE, TessBaseAPI.PageIteratorLevel.RIL_WORD) && next(TessBaseAPI.PageIteratorLevel.RIL_WORD))
-                            lines.add(Line(lineText, lineBoundingRect, elements))
-                        } while (next(TessBaseAPI.PageIteratorLevel.RIL_TEXTLINE))
-                        delete()
-                    }
-                    timing("resultIterator")
-                    recycle()
-                    timing("end")
-                    Text(listOf(TextBlock(lines)))
+        withContext(Dispatchers.Default) {
+            initialize()
+            with(TessBaseAPI()) {
+                timer = System.currentTimeMillis()
+                if (!init(
+                        File(context.getExternalFilesDir(null), TESSERACT_DOWNLOAD_FOLDER).path,
+                        language(context, prefHandler)
+                    )
+                ) {
+                    throw IllegalStateException("Could not init Tesseract")
                 }
+                timing("Init")
+                setVariable("tessedit_do_invert", TessBaseAPI.VAR_FALSE)
+                setVariable("load_system_dawg", TessBaseAPI.VAR_FALSE)
+                setVariable("load_freq_dawg", TessBaseAPI.VAR_FALSE)
+                setVariable("load_punc_dawg", TessBaseAPI.VAR_FALSE)
+                setVariable("load_number_dawg", TessBaseAPI.VAR_FALSE)
+                setVariable("load_unambig_dawg", TessBaseAPI.VAR_FALSE)
+                setVariable("load_bigram_dawg", TessBaseAPI.VAR_FALSE)
+                setVariable("load_fixed_length_dawgs", TessBaseAPI.VAR_FALSE)
+                pageSegMode = TessBaseAPI.PageSegMode.PSM_AUTO_OSD
+                var bitmap = with(FastBitmap(file.path)) {
+                    toGrayscale()
+                    val g: IApplyInPlace = BradleyLocalThreshold()
+                    g.applyInPlace(this)
+                    toBitmap()
+                }
+                /*if (scale < 10) {
+                    bitmap = Bitmap.createScaledBitmap(bitmap, (bitmap.width * scale / 10), (bitmap.height * scale / 10), true)
+                }*/
+                setImage(bitmap)
+                timing("SetImage")
+                utF8Text
+                timing("utF8Text")
+                val lines = mutableListOf<Line>()
+                with(resultIterator) {
+                    begin()
+                    do {
+                        val lineText = getUTF8Text(TessBaseAPI.PageIteratorLevel.RIL_TEXTLINE)
+                        val lineBoundingRect =
+                            getBoundingRect(TessBaseAPI.PageIteratorLevel.RIL_TEXTLINE)
+                        val elements = mutableListOf<Element>()
+                        do {
+                            val wordText = getUTF8Text(TessBaseAPI.PageIteratorLevel.RIL_WORD)
+                            val wordBoundingRect =
+                                getBoundingRect(TessBaseAPI.PageIteratorLevel.RIL_WORD)
+                            elements.add(Element(wordText, wordBoundingRect))
+                        } while (!isAtFinalElement(
+                                TessBaseAPI.PageIteratorLevel.RIL_TEXTLINE,
+                                TessBaseAPI.PageIteratorLevel.RIL_WORD
+                            ) && next(TessBaseAPI.PageIteratorLevel.RIL_WORD)
+                        )
+                        lines.add(Line(lineText, lineBoundingRect, elements))
+                    } while (next(TessBaseAPI.PageIteratorLevel.RIL_TEXTLINE))
+                    delete()
+                }
+                timing("resultIterator")
+                recycle()
+                timing("end")
+                Text(listOf(TextBlock(lines)))
             }
+        }
 
     override fun info(context: Context, prefHandler: PrefHandler): CharSequence {
         return "Tesseract (${language(context, prefHandler)})"
