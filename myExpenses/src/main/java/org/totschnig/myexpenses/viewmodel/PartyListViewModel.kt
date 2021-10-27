@@ -18,14 +18,21 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.jetbrains.annotations.Nullable
 import org.totschnig.myexpenses.dialog.select.SelectFromMappedTableDialogFragment
+import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGETS
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES
 import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.TransactionProvider.CHANGES_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.DEBTS_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.PAYEES_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.TEMPLATES_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.filter.PayeeCriteria
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -69,7 +76,7 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
             }
         }.takeIf { it.isNotEmpty() }?.toString()
         disposable = briteContentResolver.createQuery(
-            TransactionProvider.PAYEES_URI, null,
+            PAYEES_URI, null,
             selection, Utils.joinArrays(filterSelectionArgs, accountSelectionArgs), null, true
         )
             .mapToList { Party.fromCursor(it) }
@@ -80,9 +87,10 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
 
     fun loadDebts() {
         viewModelScope.launch {
-            contentResolver.observeQuery(TransactionProvider.DEBTS_URI, notifyForDescendants = true).mapToList {
-                Debt.fromCursor(it)
-            }.collect { list ->
+            contentResolver.observeQuery(DEBTS_URI, notifyForDescendants = true)
+                .mapToList {
+                    Debt.fromCursor(it)
+                }.collect { list ->
                 this@PartyListViewModel.debts = list.groupBy { it.payeeId }
             }
         }
@@ -94,7 +102,7 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
                 Result.success(
                     contentResolver.delete(
                         ContentUris.withAppendedId(
-                            TransactionProvider.PAYEES_URI,
+                            PAYEES_URI,
                             id
                         ), null, null
                     )
@@ -148,7 +156,7 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
                 if (oldSet != newSet) {
                     val labelList = mutableListOf<String>()
                     contentResolver.query(
-                        TransactionProvider.PAYEES_URI, arrayOf(KEY_PAYEE_NAME),
+                        PAYEES_URI, arrayOf(KEY_PAYEE_NAME),
                         "$KEY_ROWID IN (${newSet.joinToString()})", null, null
                     )?.use {
                         it.moveToFirst()
@@ -186,26 +194,42 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
                 val where = "$KEY_PAYEEID $inOp"
                 val operations = ArrayList<ContentProviderOperation>().apply {
                     add(
-                        newUpdate(TransactionProvider.DEBTS_URI).withValues(contentValues)
+                        newUpdate(Account.CONTENT_URI).withValue(KEY_SEALED, -1)
+                            .withSelection("$KEY_SEALED = 1", null).build()
+                    )
+                    add(
+                        newUpdate(DEBTS_URI).withValue(KEY_SEALED, -1)
+                            .withSelection("$KEY_SEALED = 1", null).build()
+                    )
+                    add(
+                        newUpdate(DEBTS_URI).withValues(contentValues)
                             .withSelection(where, null).build()
                     )
                     add(
-                        newUpdate(TransactionProvider.TRANSACTIONS_URI).withValues(contentValues)
+                        newUpdate(TRANSACTIONS_URI).withValues(contentValues)
                             .withSelection(where, null).build()
                     )
                     add(
-                        newUpdate(TransactionProvider.TEMPLATES_URI).withValues(contentValues)
+                        newUpdate(TEMPLATES_URI).withValues(contentValues)
                             .withSelection(where, null).build()
                     )
                     add(
-                        newUpdate(TransactionProvider.CHANGES_URI).withValues(contentValues)
+                        newUpdate(CHANGES_URI).withValues(contentValues)
                             .withSelection(where, null).build()
                     )
                     add(
-                        newDelete(TransactionProvider.PAYEES_URI).withSelection(
+                        newDelete(PAYEES_URI).withSelection(
                             "$KEY_ROWID $inOp",
                             null
                         ).build()
+                    )
+                    add(
+                        newUpdate(Account.CONTENT_URI).withValue(KEY_SEALED, 1)
+                            .withSelection("$KEY_SEALED = -1", null).build()
+                    )
+                    add(
+                        newUpdate(DEBTS_URI).withValue(KEY_SEALED, 1)
+                            .withSelection("$KEY_SEALED = -1", null).build()
                     )
                 }
                 val size =
