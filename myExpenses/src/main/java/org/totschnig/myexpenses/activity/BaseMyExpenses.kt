@@ -4,6 +4,7 @@ import android.content.ComponentName
 import android.content.Intent
 import android.database.Cursor
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.widget.Toast
@@ -293,7 +294,13 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        menu.findItem(R.id.SCAN_MODE_COMMAND)?.isChecked = prefHandler.getBoolean(PrefKey.OCR, false)
+        menu.findItem(R.id.SCAN_MODE_COMMAND)?.let {
+            if (isScanFeatureAvailable()) {
+                it.isChecked = prefHandler.getBoolean(PrefKey.OCR, false)
+            } else {
+                it.isVisible = false
+            }
+        }
         return super.onPrepareOptionsMenu(menu)
     }
 
@@ -351,8 +358,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     fun isScanMode(): Boolean {
-        return prefHandler.getBoolean(PrefKey.OCR, false)
+        return isScanFeatureAvailable() && prefHandler.getBoolean(PrefKey.OCR, false)
     }
+
+    fun isScanFeatureAvailable(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
 
     fun activateOcrMode() {
         prefHandler.putBoolean(PrefKey.OCR, true)
