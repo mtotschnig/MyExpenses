@@ -11,10 +11,10 @@ import android.widget.Toast;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.BackupRestoreActivity;
 import org.totschnig.myexpenses.util.ImportFileResultHandler;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import timber.log.Timber;
 
 public class BackupSourcesDialogFragment extends ImportSourceDialogFragment
     implements DialogUtils.CalendarRestoreStrategyChangedListener {
@@ -93,7 +93,9 @@ public class BackupSourcesDialogFragment extends ImportSourceDialogFragment
         (typeParts[1].equals("zip") || typeParts[1].equals("octet-stream")))
       return true;
     if (extension.equals("zip") || extension.equals("enc")) {
-      Timber.e("Found resource with extension %s and unexpeceted mime type %s/%s", extension, typeParts[0], typeParts[1]);
+      CrashHandler.report(String.format(
+          "Found resource with extension %s and unexpeceted mime type %s/%s",
+          extension, typeParts[0], typeParts[1]));
       return true;
     }
     return false;

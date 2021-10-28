@@ -27,6 +27,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PushbackInputStream;
 import java.io.SequenceInputStream;
 import java.nio.charset.Charset;
 import java.security.GeneralSecurityException;
@@ -42,6 +43,9 @@ import javax.crypto.CipherOutputStream;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 //Credits: https://github.com/andOTP/andOTP
 public class EncryptionHelper {
@@ -142,6 +146,18 @@ public class EncryptionHelper {
       total += result;
     }
     return total;
+  }
+
+  public static @Nullable PushbackInputStream wrap(@Nullable InputStream is) {
+    return is == null ? null : new PushbackInputStream(is, MAGIC_NUMBER.length());
+  }
+
+  public static boolean isEncrypted(@NonNull PushbackInputStream pb) throws IOException {
+    byte[] magic = new byte[MAGIC_NUMBER.length()];
+    //noinspection ResultOfMethodCallIgnored
+    pb.read(magic);
+    pb.unread(magic);
+    return MAGIC_NUMBER.equals(new String(magic));
   }
 
   public static InputStream encrypt(InputStream inputStream, String password)

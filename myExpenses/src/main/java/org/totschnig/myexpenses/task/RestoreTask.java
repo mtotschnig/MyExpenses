@@ -37,12 +37,12 @@ import org.totschnig.myexpenses.util.PictureDirHelper;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.ZipUtils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.util.crypt.EncryptionHelper;
 import org.totschnig.myexpenses.util.io.FileCopyUtils;
-import org.totschnig.myexpenses.util.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.PushbackInputStream;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -65,9 +65,11 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
   public static final String KEY_RESTORE_PLAN_STRATEGY = "restorePlanStrategy";
   public static final String KEY_PASSWORD = "passwordEncryption";
   private final TaskExecutionFragment taskExecutionFragment;
-  private int restorePlanStrategy;
-  private Uri fileUri;
-  private String syncAccountName, backupFromSync, password;
+  private final int restorePlanStrategy;
+  private final Uri fileUri;
+  private String syncAccountName;
+  private String backupFromSync;
+  private final String password;
 
   RestoreTask(TaskExecutionFragment taskExecutionFragment, Bundle b) {
     this.taskExecutionFragment = taskExecutionFragment;
@@ -112,7 +114,7 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
       return Result.ofFailure(R.string.external_storage_unavailable);
     }
     try {
-      InputStream is;
+      PushbackInputStream is;
       SyncBackendProvider syncBackendProvider;
       boolean isEncrypted;
       if (syncAccountName != null) {
@@ -127,18 +129,17 @@ public class RestoreTask extends AsyncTask<Void, Result, Result> {
           return Result.ofFailure(errorMessage);
         }
         try {
-          is = syncBackendProvider.getInputStreamForBackup(backupFromSync);
-          isEncrypted = backupFromSync.endsWith("enc");
+          is = EncryptionHelper.wrap(syncBackendProvider.getInputStreamForBackup(backupFromSync));
         } catch (IOException e) {
           return failure(e);
         }
       } else {
-        is = cr.openInputStream(fileUri);
-        isEncrypted = FileUtils.getPath(application, fileUri).endsWith("enc");
+        is = EncryptionHelper.wrap(cr.openInputStream(fileUri));
       }
       if (is == null) {
         return Result.ofFailure("Unable to open backup file");
       }
+      isEncrypted = EncryptionHelper.isEncrypted(is);
       if (isEncrypted) {
         if (TextUtils.isEmpty(password)) {
           return Result.ofFailure(R.string.backup_is_encrypted);
