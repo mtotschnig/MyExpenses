@@ -482,7 +482,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
                         accounts,
                         if (fromSavedState) null else intent.getStringExtra(DatabaseConstants.KEY_CURRENCY)
                     )
-                    loadDebts()
+                    if (!isTemplate) {
+                        loadDebts()
+                    }
                     accountsLoaded = true
                     if (mIsResumed) setupListeners()
                 }
