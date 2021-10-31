@@ -324,7 +324,7 @@ abstract class MainDelegate<T : ITransaction>(
                     if (!viewBinding.DebtCheckBox.isChecked) {
                         viewBinding.DebtCheckBox.isChecked = true
                     }
-                } else if (debts.size == 1) {
+                } else if (isSingleDebtForPayee(debts)) {
                     updateUiWithDebt(debts.first())
                 }
             } else {
@@ -332,6 +332,9 @@ abstract class MainDelegate<T : ITransaction>(
             }
         }
     }
+
+    private fun isSingleDebtForPayee(debts: List<Debt>) =
+        debts.size == 1 && debts.first().payeeId == payeeId
 
     override fun setupListeners(watcher: TextWatcher) {
         super.setupListeners(watcher)
@@ -353,7 +356,7 @@ abstract class MainDelegate<T : ITransaction>(
                         )
                         }
                         else -> {
-                            if (debts.size == 1 && debts.first().payeeId == payeeId) {
+                            if (isSingleDebtForPayee(debts)) {
                                 setDebt(debts.first())
                             } else {
                                 val sortedDebts =
