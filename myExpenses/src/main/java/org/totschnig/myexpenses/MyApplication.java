@@ -35,7 +35,6 @@ import android.os.StrictMode;
 import com.android.calendar.CalendarContractCompat;
 import com.android.calendar.CalendarContractCompat.Calendars;
 import com.android.calendar.CalendarContractCompat.Events;
-import com.jakewharton.threetenabp.AndroidThreeTen;
 
 import org.totschnig.myexpenses.activity.OnboardingActivity;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
@@ -157,7 +156,6 @@ public class MyApplication extends Application implements
     }
     super.onCreate();
     checkAppReplacingState();
-    initThreeTen();
     AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     MoreUiUtilsKt.setNightMode(prefHandler, this);
     final boolean syncService = isSyncService();
@@ -179,13 +177,6 @@ public class MyApplication extends Application implements
     NotificationBuilderWrapper.createChannels(this);
     PRNGFixes.apply();
     SecurityProvider.init(this);
-  }
-
-  private void initThreeTen() {
-    if ("Asia/Hanoi".equals(TimeZone.getDefault().getID())) {
-      TimeZone.setDefault(TimeZone.getTimeZone("Asia/Ho_Chi_Minh"));
-    }
-    AndroidThreeTen.init(this);
   }
 
   private void checkAppReplacingState() {

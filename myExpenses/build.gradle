@@ -264,11 +264,6 @@ dependencies {
     //noinspection GradleDependency
     implementation "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
 
-    implementation "com.jakewharton.threetenabp:threetenabp:$threetenabp"
-    testImplementation('org.threeten:threetenbp:1.5.1') {
-        exclude group: 'com.jakewharton.threetenabp', module: 'threetenabp'
-    }
-
     implementation 'com.github.lzyzsd:circleprogress:1.2.1'
 
     conscriptExternReleaseImplementation 'org.conscrypt:conscrypt-android:2.5.1'
