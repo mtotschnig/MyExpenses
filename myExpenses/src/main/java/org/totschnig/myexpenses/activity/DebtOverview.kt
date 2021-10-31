@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.activity
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -28,6 +29,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.android.material.composethemeadapter.MdcTheme
@@ -57,7 +59,7 @@ class DebtOverview : ProtectedFragmentActivity() {
                 DebtList(
                     viewModel.getDebts().observeAsState(emptyList())
                 ) {
-                    currencyFormatter.convAmount(it.amount, currencyContext[it.currency])
+                    currencyFormatter.convAmount(it.currentBalance, currencyContext[it.currency])
                 }
             }
         }
@@ -72,7 +74,7 @@ class DebtOverview : ProtectedFragmentActivity() {
 @Composable
 fun DebtList(
     debts: State<List<Debt>>,
-    amountFormatter: ((Debt) -> String)? = null
+    balanceFormatter: ((Debt) -> String)? = null
 ) {
     Scaffold(
         topBar = { TopAppBar(title = { Text(stringResource(id = R.string.title_activity_debt_overview)) }) }
@@ -86,7 +88,7 @@ fun DebtList(
 
         ) {
             items(items = debts.value) { item ->
-                ItemRenderer(debt = item, amountFormatter)
+                ItemRenderer(debt = item, balanceFormatter)
             }
         }
     }
@@ -95,40 +97,49 @@ fun DebtList(
 @Composable
 fun ItemRenderer(
     debt: Debt,
-    _amountFormatter: ((Debt) -> String)? = null
+    _balanceFormatter: ((Debt) -> String)? = null
 ) {
-    val amountFormatter = _amountFormatter ?: { DebugCurrencyFormatter.convAmount(it.amount, CurrencyUnit("EUR", "€", 2)) }
+    val balanceFormatter = _balanceFormatter ?: { DebugCurrencyFormatter.convAmount(it.currentBalance, CurrencyUnit("EUR", "€", 2)) }
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(8.dp),
         backgroundColor = colorResource(id = R.color.cardBackground)
     ) {
         Row(
-            modifier = Modifier.padding(8.dp),
+            modifier = Modifier.clickable {
+                TODO()
+            }.padding(8.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Column {
+            val signum = debt.amount > 0
+            Column(modifier = Modifier.weight(1F)) {
                 Text(
                     fontWeight = FontWeight.Bold,
-                    text = debt.label
+                    text = debt.label,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
                 Text(
                     text = stringResource(
-                        id = if (debt.amount > 0) R.string.debt_owes_me else R.string.debt_I_owe,
+                        id = if (signum) R.string.debt_owes_me else R.string.debt_I_owe,
                         debt.payeeName!!
-                    )
+                    ),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
                 debt.description.takeIf { it.isNotEmpty() }?.let {
                     Text(
                         fontStyle = FontStyle.Italic,
-                        text = debt.description
+                        text = debt.description,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
                 }
             }
             Text(
-                text = amountFormatter(debt),
-                color = colorResource(id = if (debt.amount > 0) R.color.colorIncome else R.color.colorExpense)
+                text = balanceFormatter(debt),
+                color = colorResource(id = if (signum) R.color.colorIncome else R.color.colorExpense)
             )
         }
     }
@@ -142,7 +153,7 @@ fun SingleDebtPreview() {
             Debt(
                 id = 1,
                 label = "Debt 1",
-                description = "some description",
+                description = "some long, very long, extremely longgg description",
                 payeeId = -1L,
                 amount = 4000,
                 currency = "EUR",
@@ -168,7 +179,8 @@ fun DebtListPreview() {
                         amount = 4000,
                         currency = "EUR",
                         date = localDate2Epoch(LocalDate.now()),
-                        payeeName = "Joe Doe"
+                        payeeName = "Joe Doe",
+                        sum = 3000
                     ),
                     Debt(
                         id = 2,
@@ -178,7 +190,8 @@ fun DebtListPreview() {
                         amount = -500,
                         currency = "EUR",
                         date = localDate2Epoch(LocalDate.now()),
-                        payeeName = "Klara Masterful"
+                        payeeName = "Klara Masterful",
+                        sum = -200
                     )
                 )
             )
