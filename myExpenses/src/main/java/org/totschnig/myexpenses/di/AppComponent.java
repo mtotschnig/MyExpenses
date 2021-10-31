@@ -6,7 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonDeserializer;
 import com.squareup.picasso.Picasso;
 
-import org.threeten.bp.LocalDate;
+import java.time.LocalDate;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.BaseActivity;
 import org.totschnig.myexpenses.activity.BaseMyExpenses;

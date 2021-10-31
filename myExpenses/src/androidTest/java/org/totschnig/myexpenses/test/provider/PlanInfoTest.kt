@@ -8,7 +8,7 @@ import android.test.mock.MockContentProvider
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import com.android.calendar.CalendarContractCompat
 import org.assertj.core.api.Assertions.assertThat
-import org.threeten.bp.LocalDateTime
+import java.time.LocalDateTime
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.provider.CalendarProviderProxy

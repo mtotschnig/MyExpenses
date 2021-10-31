@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import org.threeten.bp.LocalDate;
+import java.time.LocalDate;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.BaseActivity;

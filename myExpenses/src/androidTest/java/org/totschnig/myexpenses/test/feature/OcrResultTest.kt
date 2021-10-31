@@ -5,8 +5,8 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.totschnig.myexpenses.feature.OcrResult
 import org.totschnig.myexpenses.feature.Payee
-import org.threeten.bp.LocalDate
-import org.threeten.bp.LocalTime
+import java.time.LocalDate
+import java.time.LocalTime
 import org.totschnig.myexpenses.feature.OcrResultFlat
 
 class OcrResultTest {

@@ -19,7 +19,7 @@ import org.hamcrest.CoreMatchers.containsString
 import org.hamcrest.Matchers
 import org.junit.After
 import org.junit.Test
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ManageCategories
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity

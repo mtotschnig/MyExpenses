@@ -15,8 +15,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.ZoneId;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;

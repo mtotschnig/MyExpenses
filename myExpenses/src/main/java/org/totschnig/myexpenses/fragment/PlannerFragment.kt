@@ -17,7 +17,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import icepick.Icepick
 import icepick.State
-import org.threeten.bp.format.DateTimeFormatter
+import java.time.format.DateTimeFormatter
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ManageTemplates

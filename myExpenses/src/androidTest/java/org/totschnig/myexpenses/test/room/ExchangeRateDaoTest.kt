@@ -11,7 +11,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 import org.totschnig.myexpenses.room.ExchangeRate
 import org.totschnig.myexpenses.room.ExchangeRateDao
 import org.totschnig.myexpenses.room.ExchangeRateDatabase

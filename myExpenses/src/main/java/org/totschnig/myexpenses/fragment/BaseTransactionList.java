@@ -51,8 +51,8 @@ import com.annimon.stream.IntStream;
 import com.annimon.stream.Stream;
 import com.github.lzyzsd.circleprogress.DonutProgress;
 
-import org.threeten.bp.LocalDateTime;
-import org.threeten.bp.temporal.ChronoUnit;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;

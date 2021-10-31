@@ -1,7 +1,7 @@
 package org.totschnig.myexpenses.retrofit
 
 import androidx.annotation.Keep
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

@@ -4,8 +4,8 @@ import android.database.Cursor
 import android.os.Parcelable
 import com.android.calendar.CalendarContractCompat
 import kotlinx.parcelize.Parcelize
-import org.threeten.bp.LocalDate
-import org.threeten.bp.ZoneId
+import java.time.LocalDate
+import java.time.ZoneId
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.provider.CalendarProviderProxy

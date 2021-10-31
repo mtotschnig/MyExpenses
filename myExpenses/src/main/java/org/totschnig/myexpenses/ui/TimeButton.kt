@@ -8,9 +8,9 @@ import android.text.format.DateFormat
 import android.util.AttributeSet
 import androidx.fragment.app.DialogFragment
 import icepick.State
-import org.threeten.bp.LocalTime
-import org.threeten.bp.format.DateTimeFormatter
-import org.threeten.bp.format.FormatStyle
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import org.totschnig.myexpenses.R
 
 class TimeButton @JvmOverloads constructor(

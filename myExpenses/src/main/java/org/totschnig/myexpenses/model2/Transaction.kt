@@ -1,7 +1,7 @@
 package org.totschnig.myexpenses.model2
 
 import androidx.annotation.Keep
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 
 @Keep
 data class Transaction(

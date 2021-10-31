@@ -11,8 +11,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.apache.commons.lang3.time.DateUtils
-import org.threeten.bp.LocalTime
-import org.threeten.bp.ZoneId
+import java.time.LocalTime
+import java.time.ZoneId
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R

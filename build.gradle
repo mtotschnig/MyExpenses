@@ -1,6 +1,9 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    ext.kotlin_version = '1.5.31'
+    ext {
+        compose_version = '1.0.4'
+        kotlin_version = '1.5.31'
+    }
     repositories {
         //mavenLocal()
         mavenCentral()
@@ -30,8 +33,8 @@ allprojects {
 ext {
     versionCode = 500
     versionName = '3.3.4.2'
-    compileSdkVersion = 30
-    minSdkVersion = 16
+    compileSdkVersion = 31
+    minSdkVersion = 21
     targetSdkVersion = 30
     espressoVersion = "3.4.0"
     androidSupportTestVersion = "1.4.0"
@@ -42,13 +45,13 @@ ext {
     butterknifeVersion = "10.2.3"
     robolectricVersion = "4.5.1"
     roomVersion = "2.3.0"
-    archLifecycleVersion = '2.3.1'
+    archLifecycleVersion = '2.4.0'
     androidxArchVersion = '2.1.0'
     fragmentVersion = "1.3.6"
     coroutines = '1.5.2'
     mockitoVersion = '3.4.6'
     retrofitVersion = "2.6.4"
-    ktxVersion = "1.6.0"
+    ktxVersion = "1.7.0"
     appcompatVersion = "1.3.1"
     picassoVersion = "2.71828"
     threetenabp = "1.3.1"

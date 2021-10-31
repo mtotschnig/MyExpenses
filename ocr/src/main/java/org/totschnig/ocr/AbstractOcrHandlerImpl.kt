@@ -6,10 +6,10 @@ import android.graphics.Rect
 import android.text.TextUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.threeten.bp.LocalDate
-import org.threeten.bp.LocalTime
-import org.threeten.bp.format.DateTimeFormatter
-import org.threeten.bp.format.FormatStyle
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.feature.OcrFeature
 import org.totschnig.myexpenses.feature.OcrResult

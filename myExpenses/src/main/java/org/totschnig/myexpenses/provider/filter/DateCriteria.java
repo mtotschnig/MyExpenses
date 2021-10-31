@@ -21,12 +21,12 @@ package org.totschnig.myexpenses.provider.filter;
 import android.content.Context;
 import android.os.Parcel;
 
-import org.threeten.bp.Instant;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.LocalTime;
-import org.threeten.bp.ZoneId;
-import org.threeten.bp.format.DateTimeFormatter;
-import org.threeten.bp.format.FormatStyle;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.provider.filter.WhereFilter.Operation;
 

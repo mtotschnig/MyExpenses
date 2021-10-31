@@ -3,7 +3,7 @@ package org.totschnig.myexpenses.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.*
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.provider.ExchangeRateRepository
 import org.totschnig.myexpenses.retrofit.MissingAppIdException

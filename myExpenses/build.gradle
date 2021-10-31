@@ -52,9 +52,11 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
         freeCompilerArgs = ["-Xallow-result-return-type"]
+        useIR = true
     }
 
     compileOptions {
+        coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -134,6 +136,9 @@ android {
 
     packagingOptions {
         exclude 'META-INF/*'
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
     }
 
     variantFilter { variant ->
@@ -154,11 +159,15 @@ android {
 
     buildFeatures {
         viewBinding true
+        compose true
     }
     //It does not seem possible to define dynamicFeatures dependent on variant
     //If you want to build intern variant, you need to include mlkit and/or tesseract module
     //dynamicFeatures = [':ocr', ':mlkit', ':tesseract']
     dynamicFeatures = [':ocr', ':webui']
+    composeOptions {
+        kotlinCompilerExtensionVersion compose_version
+    }
 }
 
 configurations {
@@ -167,9 +176,19 @@ configurations {
 }
 
 dependencies {
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
     implementation project(':transactionscontract')
     implementation "com.jakewharton:butterknife:$butterknifeVersion"
     implementation 'com.squareup.phrase:phrase:1.1.0'
+    implementation "androidx.compose.ui:ui:$compose_version"
+    implementation "androidx.compose.material:material:$compose_version"
+    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.0'
+    implementation 'androidx.activity:activity-compose:1.3.1'
+    implementation "com.google.android.material:compose-theme-adapter:$compose_version"
+    implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
+    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     kapt "com.jakewharton:butterknife-compiler:$butterknifeVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
     implementation "com.google.dagger:dagger:$daggerVersion"
@@ -232,7 +251,7 @@ dependencies {
     api "com.google.android.material:material:$materialComponents"
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
     api 'androidx.preference:preference-ktx:1.1.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
 
     // Revert to com.google.android:flexbox:2.0.1 when https://github.com/google/flexbox-layout/issues/566 is resolved
     implementation("com.github.google:flexbox-layout:2.0.1")

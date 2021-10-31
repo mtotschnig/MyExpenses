@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.viewmodel.data
 import android.content.ContentValues
 import android.database.Cursor
 import android.net.Uri
-import org.threeten.bp.LocalDate
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
@@ -19,6 +18,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.localDate2Epoch
 import java.math.BigDecimal
+import java.time.LocalDate
 
 data class Debt(
     val id: Long,

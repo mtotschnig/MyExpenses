@@ -11,10 +11,10 @@ import android.text.format.Time
 import com.android.calendar.CalendarContractCompat
 import com.android.calendar.EventRecurrenceFormatter
 import com.android.calendarcommon2.EventRecurrence
-import org.threeten.bp.DayOfWeek
-import org.threeten.bp.LocalDate
-import org.threeten.bp.LocalTime
-import org.threeten.bp.temporal.ChronoField
+import java.time.DayOfWeek
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.temporal.ChronoField
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.service.DailyScheduler

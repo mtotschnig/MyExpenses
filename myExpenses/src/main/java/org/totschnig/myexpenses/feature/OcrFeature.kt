@@ -6,8 +6,8 @@ import android.os.Parcelable
 import androidx.fragment.app.FragmentManager
 import androidx.preference.ListPreference
 import kotlinx.parcelize.Parcelize
-import org.threeten.bp.LocalDate
-import org.threeten.bp.LocalTime
+import java.time.LocalDate
+import java.time.LocalTime
 import org.totschnig.myexpenses.activity.BaseActivity
 import java.io.File
 

@@ -3,7 +3,7 @@ package org.totschnig.myexpenses.activity
 import android.os.Bundle
 import android.view.Menu
 import androidx.activity.viewModels
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.OneDebtBinding

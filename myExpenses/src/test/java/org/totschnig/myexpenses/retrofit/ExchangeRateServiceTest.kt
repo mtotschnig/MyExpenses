@@ -3,7 +3,7 @@ package org.totschnig.myexpenses.retrofit
 import com.google.common.truth.Truth
 import org.junit.Test
 import org.mockito.Mockito.mock
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.di.DaggerAppComponent

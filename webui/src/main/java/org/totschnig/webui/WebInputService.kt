@@ -26,7 +26,7 @@ import org.apache.commons.text.StringSubstitutor.DEFAULT_ESCAPE
 import org.apache.commons.text.StringSubstitutor.DEFAULT_PREFIX
 import org.apache.commons.text.StringSubstitutor.DEFAULT_SUFFIX
 import org.apache.commons.text.lookup.StringLookup
-import org.threeten.bp.LocalDate
+import java.time.LocalDate
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.Repository

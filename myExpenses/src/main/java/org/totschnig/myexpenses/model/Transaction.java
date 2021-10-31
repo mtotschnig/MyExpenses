@@ -26,8 +26,8 @@ import android.net.Uri;
 import android.os.RemoteException;
 
 import org.apache.commons.lang3.StringUtils;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.ZonedDateTime;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException;

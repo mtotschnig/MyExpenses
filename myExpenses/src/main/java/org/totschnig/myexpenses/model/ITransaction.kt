@@ -2,8 +2,8 @@ package org.totschnig.myexpenses.model
 
 import android.content.ContentResolver
 import android.net.Uri
-import org.threeten.bp.LocalDate
-import org.threeten.bp.ZonedDateTime
+import java.time.LocalDate
+import java.time.ZonedDateTime
 import org.totschnig.myexpenses.model.Plan.Recurrence
 import org.totschnig.myexpenses.viewmodel.data.Tag
 
