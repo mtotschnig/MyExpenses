@@ -14,12 +14,40 @@ import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
+interface ICurrencyFormatter {
+    fun formatCurrency(amount: BigDecimal, currency: CurrencyUnit): String
+}
+
+object DebugCurrencyFormatter: ICurrencyFormatter {
+    override fun formatCurrency(amount: BigDecimal, currency: CurrencyUnit): String =
+        "${currency.code} $amount"
+}
+
+/**
+ * formats an amount with a currency
+ * @return formatted string
+ */
+fun ICurrencyFormatter.formatMoney(money: Money): String {
+    val amount = money.amountMajor
+    return formatCurrency(amount, money.currencyUnit)
+}
+
+/**
+ * utility method that calls formatters for amount this method can be called
+ * directly with Long values retrieved from db
+ *
+ * @return formatted string
+ */
+fun ICurrencyFormatter.convAmount(amount: Long, currency: CurrencyUnit): String {
+    return formatMoney(Money(currency, amount))
+}
+
 @Singleton
 class CurrencyFormatter @Inject constructor(
     private val prefHandler: PrefHandler,
     private val userLocaleProvider: UserLocaleProvider
-) {
-    private val numberFormats: MutableMap<String, NumberFormat?> = HashMap()
+): ICurrencyFormatter {
+    private val numberFormats: MutableMap<String, NumberFormat> = HashMap()
     fun invalidate(currency: String, contentResolver: ContentResolver) {
         numberFormats.remove(currency)
         notifyUris(contentResolver)
@@ -65,34 +93,15 @@ class CurrencyFormatter @Inject constructor(
             }
             numberFormat.maximumFractionDigits = fractionDigits
             val currencySymbol = currencyUnit.symbol
-            val decimalFormatSymbols = (numberFormat as DecimalFormat?)!!.decimalFormatSymbols
+            val decimalFormatSymbols = (numberFormat as DecimalFormat).decimalFormatSymbols
             decimalFormatSymbols.currencySymbol = currencySymbol
-            (numberFormat as DecimalFormat?)!!.decimalFormatSymbols = decimalFormatSymbols
+            numberFormat.decimalFormatSymbols = decimalFormatSymbols
             numberFormats[currencyUnit.code] = numberFormat
         }
         return numberFormat
     }
 
-    /**
-     * formats an amount with a currency
-     * @return formatted string
-     */
-    fun formatCurrency(money: Money): String {
-        val amount = money.amountMajor
-        return formatCurrency(amount, money.currencyUnit)
-    }
-
-    fun formatCurrency(amount: BigDecimal?, currency: CurrencyUnit): String {
+    override fun formatCurrency(amount: BigDecimal, currency: CurrencyUnit): String {
         return getNumberFormat(currency).format(amount)
-    }
-
-    /**
-     * utility method that calls formatters for amount this method can be called
-     * directly with Long values retrieved from db
-     *
-     * @return formatted string
-     */
-    fun convAmount(amount: Long?, currency: CurrencyUnit?): String {
-        return formatCurrency(Money(currency!!, amount!!))
     }
 }

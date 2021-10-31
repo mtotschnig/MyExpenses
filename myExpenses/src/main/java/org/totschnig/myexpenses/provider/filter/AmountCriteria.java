@@ -31,6 +31,7 @@ import org.totschnig.myexpenses.provider.filter.WhereFilter.Operation;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+import static org.totschnig.myexpenses.util.CurrencyFormatterKt.formatMoney;
 
 public class AmountCriteria extends Criteria {
   static final String COLUMN = KEY_AMOUNT;
@@ -75,7 +76,7 @@ public class AmountCriteria extends Criteria {
     String result = context.getString(type ? R.string.income : R.string.expense) + " ";
     CurrencyContext currencyContext = ((MyApplication) context.getApplicationContext()).getAppComponent().currencyContext();
     CurrencyUnit currencyUnit = currencyContext.get(currency);
-    String amount1 = currencyFormatter.formatCurrency(new Money(currencyUnit, Math.abs(origValue1)));
+    String amount1 = formatMoney(currencyFormatter, new Money(currencyUnit, Math.abs(origValue1)));
     switch (origOperation) {
       case EQ:
         result += "= " + amount1;
@@ -87,7 +88,7 @@ public class AmountCriteria extends Criteria {
         result += "≤ " + amount1;
         break;
       case BTW:
-        String amount2 = currencyFormatter.formatCurrency(new Money(currencyUnit, Math.abs(origValue2)));
+        String amount2 = formatMoney(currencyFormatter, new Money(currencyUnit, Math.abs(origValue2)));
         result += context.getString(R.string.between_and, amount1, amount2);
     }
     return result;

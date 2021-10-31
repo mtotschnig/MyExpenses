@@ -11,13 +11,11 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import icepick.Icepick
 import icepick.State
-import java.time.format.DateTimeFormatter
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ManageTemplates
@@ -28,6 +26,7 @@ import org.totschnig.myexpenses.dialog.BaseDialogFragment
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.CurrencyFormatter
+import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.getDateTimeFormatter
 import org.totschnig.myexpenses.viewmodel.PlanInstanceInfo
 import org.totschnig.myexpenses.viewmodel.PlannerViewModel
@@ -37,6 +36,7 @@ import org.totschnig.myexpenses.viewmodel.data.PlanInstanceSet
 import org.totschnig.myexpenses.viewmodel.data.PlanInstanceState
 import org.totschnig.myexpenses.viewmodel.data.PlanInstanceUpdate
 import timber.log.Timber
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 fun configureMenuInternalPlanInstances(menu: Menu, state: PlanInstanceState) {
@@ -67,8 +67,6 @@ class PlannerFragment : BaseDialogFragment() {
     @State
     @JvmField
     var selectedInstances: PlanInstanceSet = PlanInstanceSet()
-
-    var popup: PopupMenu? = null
 
     private lateinit var backgroundColor: ColorStateList
 
@@ -255,7 +253,7 @@ class PlannerFragment : BaseDialogFragment() {
                     }
                 )
                 colorAccount.setBackgroundColor(planInstance.color)
-                amount.text = currencyFormatter.formatCurrency(planInstance.amount)
+                amount.text = currencyFormatter.formatMoney(planInstance.amount)
                 amount.setTextColor(
                     ResourcesCompat.getColor(
                         resources,

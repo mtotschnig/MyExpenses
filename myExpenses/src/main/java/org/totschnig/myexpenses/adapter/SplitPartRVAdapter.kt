@@ -18,6 +18,7 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.util.CurrencyFormatter
+import org.totschnig.myexpenses.util.formatMoney
 
 class SplitPartRVAdapter(
     context: Context,
@@ -59,7 +60,7 @@ class SplitPartRVAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(transaction: ITransaction) {
             binding.amount.apply {
-                text = currencyFormatter.formatCurrency(Money(currencyUnit, transaction.amountRaw))
+                text = currencyFormatter.formatMoney(Money(currencyUnit, transaction.amountRaw))
                 setTextColor(
                     if (transaction.amountRaw < 0L) {
                         colorExpense

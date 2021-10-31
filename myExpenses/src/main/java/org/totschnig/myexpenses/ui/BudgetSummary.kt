@@ -13,6 +13,7 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.util.ColorUtils.getComplementColor
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.UiUtils
+import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import kotlin.math.roundToInt
 
@@ -43,11 +44,11 @@ class BudgetSummary @JvmOverloads constructor(
     fun bind(budget: Budget, spent: Long, currencyFormatter: CurrencyFormatter) {
         binding.budgetProgressTotal.finishedStrokeColor = budget.color
         binding.budgetProgressTotal.unfinishedStrokeColor = getComplementColor(budget.color)
-        tableBinding.totalBudget.text = currencyFormatter.formatCurrency(budget.amount)
-        tableBinding.totalAmount.text = currencyFormatter.formatCurrency(Money(budget.currency, -spent))
+        tableBinding.totalBudget.text = currencyFormatter.formatMoney(budget.amount)
+        tableBinding.totalAmount.text = currencyFormatter.formatMoney(Money(budget.currency, -spent))
         val allocated = budget.amount.amountMinor
         val available = allocated - spent
-        tableBinding.totalAvailable.text = currencyFormatter.formatCurrency(Money(budget.currency, available))
+        tableBinding.totalAvailable.text = currencyFormatter.formatMoney(Money(budget.currency, available))
         val onBudget = available >= 0
         tableBinding.totalAvailable.setBackgroundResource(getBackgroundForAvailable(onBudget))
         tableBinding.totalAvailable.setTextColor(context.resources.getColor(if (onBudget) R.color.colorIncome else R.color.colorExpense))

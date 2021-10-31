@@ -48,6 +48,7 @@ import org.totschnig.myexpenses.ACTION_SELECT_MAPPING
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.DebtEdit
+import org.totschnig.myexpenses.activity.DebtOverview
 import org.totschnig.myexpenses.activity.ManageParties
 import org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter
 import org.totschnig.myexpenses.databinding.PartiesListBinding
@@ -335,19 +336,26 @@ class PartiesList : Fragment(), OnDialogResultListener {
                 setIcon(R.drawable.ic_menu_split_transaction)
                 isCheckable = true
                 setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER)
+                menu.add(Menu.NONE, R.id.DEBT_COMMAND, 0, R.string.title_activity_debt_overview)
             }
         }
         configureSearch(requireActivity(), menu, ::onQueryTextChange)
     }
 
     override fun onOptionsItemSelected(item: MenuItem) =
-        if (item.itemId == R.id.MERGE_COMMAND) {
-            mergeMode = !mergeMode
-            updateUiMergeMode()
-            resetAdapter()
-            true
-        } else
-            super.onOptionsItemSelected(item)
+        when (item.itemId) {
+            R.id.MERGE_COMMAND -> {
+                mergeMode = !mergeMode
+                updateUiMergeMode()
+                resetAdapter()
+                true
+            }
+            R.id.DEBT_COMMAND -> {
+                startActivity(Intent(context, DebtOverview::class.java))
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
 
     private fun updateUiMergeMode() {
         with(manageParties) {
@@ -369,6 +377,9 @@ class PartiesList : Fragment(), OnDialogResultListener {
             it.isChecked = mergeMode
         }
         prepareSearch(menu, filter)
+        menu.findItem(R.id.DEBT_COMMAND)?.let {
+            it.isVisible = adapter.currentList.any { it.mappedDebts > 0 }
+        }
     }
 
     private fun onQueryTextChange(newText: String): Boolean {

@@ -33,6 +33,6 @@ class CurrencyFormatterTest {
 
         val javaVersion = System.getProperty("java.version")!!.split('.')[0].toInt()
         //newer Java version uses non-breaking space
-        assertThat(currencyFormatter.formatCurrency(Money(eur, 150))).isEqualTo(if (javaVersion >= 10) "1,50 €" else "1,50 €")
+        assertThat(currencyFormatter.formatMoney(Money(eur, 150))).isEqualTo(if (javaVersion >= 10) "1,50 €" else "1,50 €")
     }
 }

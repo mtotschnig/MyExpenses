@@ -16,6 +16,7 @@ import org.totschnig.myexpenses.viewmodel.data.Category;
 
 import static org.totschnig.myexpenses.activity.BudgetActivity.getBackgroundForAvailable;
 import static org.totschnig.myexpenses.util.ColorUtils.getComplementColor;
+import static org.totschnig.myexpenses.util.CurrencyFormatterKt.convAmount;
 
 public class BudgetAdapter extends CategoryTreeBaseAdapter<BudgetRowBinding> {
   OnBudgetClickListener listener;
@@ -32,11 +33,11 @@ public class BudgetAdapter extends CategoryTreeBaseAdapter<BudgetRowBinding> {
   protected View getView(Category item, Category parentItem, View convertView, ViewGroup parent, int color, String icon) {
     final View view = super.getView(item, parentItem, convertView, parent, color, icon);
     ViewHolder holder = (ViewHolder) view.getTag();
-    holder.binding.budgetContainer.budget.setText(currencyFormatter.convAmount(item.getBudget(), currency));
+    holder.binding.budgetContainer.budget.setText(convAmount(currencyFormatter, item.getBudget(), currency));
     holder.binding.budgetContainer.budget.setOnClickListener(view1 -> listener.onBudgetClick(item, parentItem));
     final long available = item.getBudget() + item.getSum();
     final boolean onBudget = available >= 0;
-    holder.binding.budgetContainer.available.setText(currencyFormatter.convAmount(available, currency));
+    holder.binding.budgetContainer.available.setText(convAmount(currencyFormatter, available, currency));
     holder.binding.budgetContainer.available.setBackgroundResource(getBackgroundForAvailable(onBudget));
     holder.binding.budgetContainer.available.setTextColor(context.getResources().getColor(onBudget ?  R.color.colorIncome : R.color.colorExpense));
     int progress = item.getBudget() == 0 ? 100 : Math.round(-item.getSum() * 100F / item.getBudget());

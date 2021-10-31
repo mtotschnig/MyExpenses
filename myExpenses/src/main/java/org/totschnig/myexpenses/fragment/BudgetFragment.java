@@ -54,6 +54,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGETID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.util.CurrencyFormatterKt.formatMoney;
 import static org.totschnig.myexpenses.util.MoreUiUtilsKt.addChipsBulk;
 import static org.totschnig.myexpenses.util.TextUtils.appendCurrencySymbol;
 
@@ -311,7 +312,7 @@ public class BudgetFragment extends DistributionBaseFragment<BudgetRowBinding> i
   protected void onLoadFinished() {
     super.onLoadFinished();
     allocated = Stream.of(mAdapter.getMainCategories()).mapToLong(Category::getBudget).sum();
-    budgetSummary.setAllocated(currencyFormatter.formatCurrency(new Money(budget.getCurrency(),
+    budgetSummary.setAllocated(formatMoney(currencyFormatter, new Money(budget.getCurrency(),
         allocated)));
   }
 

@@ -31,14 +31,12 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACCOUNTY_TYPE_LIST
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.Account
-import org.totschnig.myexpenses.viewmodel.data.Debt
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import java.util.*
 import kotlin.math.pow
@@ -57,8 +55,6 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
 
     //TODO move to lazyMap
     private val methods = MutableLiveData<List<PaymentMethod>>()
-
-    private val debts = MutableLiveData<List<Debt>>()
 
     private val accounts by lazy {
         val liveData = MutableLiveData<List<Account>>()
@@ -97,8 +93,6 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
 
     fun getTemplates(): LiveData<List<DataTemplate>> = templates
 
-    fun getDebts(): LiveData<List<Debt>> = debts
-
     fun plan(planId: Long): LiveData<Plan?> = liveData(context = coroutineContext()) {
         emit(Plan.getInstanceFromDb(planId))
     }
@@ -115,24 +109,6 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
             .subscribe { methods.postValue(it) }
         )
     }
-
-    /**
-     * @param rowId For split transactions, we check if any of their children is linked to a debt,
-     * in which case the parent should not be linkable to a debt, and we return an empty list
-     */
-    fun loadDebts(rowId: Long) {
-        disposables.add(briteContentResolver.createQuery(
-            TransactionProvider.DEBTS_URI.buildUpon().appendQueryParameter(KEY_TRANSACTIONID, rowId.toString()).build(),
-            null,
-            "$KEY_SEALED = 0",
-            null,
-            null,
-            false
-        )
-            .mapToList { Debt.fromCursor(it) }
-            .subscribe { debts.postValue(it) })
-    }
-
 
     private fun buildAccount(cursor: Cursor, currencyContext: CurrencyContext): Account {
         val currency = currencyContext.get(cursor.getString(cursor.getColumnIndex(KEY_CURRENCY)))

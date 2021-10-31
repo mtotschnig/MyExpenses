@@ -36,6 +36,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM;
 import static org.totschnig.myexpenses.util.ColorUtils.getShades;
 import static org.totschnig.myexpenses.util.ColorUtils.getTints;
+import static org.totschnig.myexpenses.util.CurrencyFormatterKt.convAmount;
 
 public abstract class CategoryTreeBaseAdapter<ROWBINDING extends ViewBinding> extends BaseExpandableListAdapter {
   protected final CurrencyUnit currency;
@@ -150,7 +151,7 @@ public abstract class CategoryTreeBaseAdapter<ROWBINDING extends ViewBinding> ex
     label.setText(item.getLabel());
     label.setTypeface(label.getTypeface(), parentItem == null ? Typeface.BOLD : Typeface.NORMAL);
     if (item.getSum() != null && currency != null) {
-      amount(holder).setText(currencyFormatter.convAmount(item.getSum(), currency));
+      amount(holder).setText(convAmount(currencyFormatter, item.getSum(), currency));
     }
     icon(holder).setImageResource(icon != null ? context.getResources().getIdentifier(icon, "drawable", context.getPackageName()) : 0);
     return convertView;

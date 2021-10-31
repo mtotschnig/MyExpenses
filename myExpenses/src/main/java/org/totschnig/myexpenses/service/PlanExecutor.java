@@ -51,6 +51,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
+import static org.totschnig.myexpenses.util.CurrencyFormatterKt.formatMoney;
 import static org.totschnig.myexpenses.util.DateUtilsKt.epochMillis2LocalDate;
 import static org.totschnig.myexpenses.util.DateUtilsKt.localDateTime2EpochMillis;
 
@@ -187,7 +188,7 @@ public class PlanExecutor extends JobIntentService {
                     } else {
                       content += " : ";
                     }
-                    content += currencyFormatter.formatCurrency(template.getAmount());
+                    content += formatMoney(currencyFormatter, template.getAmount());
                     builder.setContentText(content);
                     if (template.isPlanExecutionAutomatic()) {
                       Pair<Transaction, List<Tag>> pair = Transaction.getInstanceFromTemplateWithTags(template);

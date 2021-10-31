@@ -37,6 +37,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.ui.SelectivePieChartRenderer
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.viewmodel.DistributionViewModel
 import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo
 import org.totschnig.myexpenses.viewmodel.data.Category
@@ -279,7 +280,7 @@ class DistributionFragment : DistributionBaseFragment<CategoryRowBinding?>() {
 
     @SuppressLint("SetTextI18n")
     private fun updateSum(prefix: String, tv: TextView, amount: Long) {
-        tv.text = prefix + currencyFormatter.formatCurrency(
+        tv.text = prefix + currencyFormatter.formatMoney(
                 Money(accountInfo.currency, amount))
     }
 

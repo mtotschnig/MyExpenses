@@ -46,6 +46,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 import org.totschnig.myexpenses.ui.ContextAwareRecyclerView
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
+import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.viewmodel.SplitPartListViewModel
 import org.totschnig.myexpenses.viewmodel.data.Account
 import javax.inject.Inject
@@ -180,7 +181,7 @@ class SplitPartList : Fragment() {
     }
 
     val unsplitAmountFormatted
-        get() = unsplitAmount?.let { currencyFormatter.formatCurrency(it) }
+        get() = unsplitAmount?.let { currencyFormatter.formatMoney(it) }
 
     val splitComplete
         get() = unsplitAmount?.amountMinor == 0L

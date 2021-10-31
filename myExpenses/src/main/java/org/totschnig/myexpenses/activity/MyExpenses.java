@@ -134,6 +134,7 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_REVOKE_SP
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SET_ACCOUNT_HIDDEN;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SET_ACCOUNT_SEALED;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SPLIT;
+import static org.totschnig.myexpenses.util.CurrencyFormatterKt.formatMoney;
 import static org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModelKt.KEY_ROW_IDS;
 import static org.totschnig.myexpenses.viewmodel.MyExpensesViewModelKt.ERROR_INIT_DOWNGRADE;
 
@@ -525,10 +526,10 @@ public class MyExpenses extends BaseMyExpenses implements
         bundle.putString(KEY_LABEL,
             getAccountsCursor().getString(getColumnIndexLabel()));
         bundle.putString(KEY_RECONCILED_TOTAL,
-            currencyFormatter.formatCurrency(
+            formatMoney(currencyFormatter,
                 new Money(currency,
                     getAccountsCursor().getLong(getAccountsCursor().getColumnIndex(KEY_RECONCILED_TOTAL)))));
-        bundle.putString(KEY_CLEARED_TOTAL, currencyFormatter.formatCurrency(
+        bundle.putString(KEY_CLEARED_TOTAL, formatMoney(currencyFormatter,
             new Money(currency,
                 getAccountsCursor().getLong(getAccountsCursor().getColumnIndex(KEY_CLEARED_TOTAL)))));
         BalanceDialogFragment.newInstance(bundle)

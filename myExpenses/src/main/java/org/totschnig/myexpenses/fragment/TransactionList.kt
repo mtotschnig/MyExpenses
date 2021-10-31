@@ -47,6 +47,7 @@ import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.TextUtils.withAmountColor
 import org.totschnig.myexpenses.util.asTrueSequence
+import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.viewmodel.KEY_ROW_IDS
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView

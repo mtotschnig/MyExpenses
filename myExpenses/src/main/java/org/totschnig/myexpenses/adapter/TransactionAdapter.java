@@ -15,8 +15,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageCategories;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
@@ -38,6 +36,8 @@ import org.totschnig.myexpenses.util.Utils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Locale;
 
 import androidx.annotation.Nullable;
@@ -69,6 +69,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_HELPER;
+import static org.totschnig.myexpenses.util.CurrencyFormatterKt.convAmount;
 
 public class TransactionAdapter extends ResourceCursorAdapter {
   private int dateEms;
@@ -165,7 +166,7 @@ public class TransactionAdapter extends ResourceCursorAdapter {
     long amount = cursor.getLong(isTransfer || columnIndexEquivalentAmount == -1 ?
         columnIndexAmount : columnIndexEquivalentAmount);
     TextView tv1 = viewHolder.amount;
-    tv1.setText(currencyFormatter.convAmount(amount, currency));
+    tv1.setText(convAmount(currencyFormatter, amount, currency));
 
     tv1.setTextColor(amount < 0 ? colorExpense : colorIncome);
     if (mAccount.isAggregate()) {

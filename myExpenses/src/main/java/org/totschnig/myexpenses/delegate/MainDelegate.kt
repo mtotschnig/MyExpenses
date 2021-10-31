@@ -33,6 +33,7 @@ import org.totschnig.myexpenses.ui.MyTextWatcher
 import org.totschnig.myexpenses.util.TextUtils.withAmountColor
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.Debt
 import java.math.BigDecimal
@@ -266,7 +267,7 @@ abstract class MainDelegate<T : ITransaction>(
             add(debt.label)
             add(" ")
             add(
-                currencyFormatter.formatCurrency(money)
+                currencyFormatter.formatMoney(money)
                     .withAmountColor(viewBinding.root.context.resources, amount > 0)
             )
         }
@@ -288,7 +289,7 @@ abstract class MainDelegate<T : ITransaction>(
                 elements.add(" ${Transfer.RIGHT_ARROW} ")
                 val futureBalance = money.amountMajor - installment
                 elements.add(
-                    currencyFormatter.formatCurrency(Money(currencyUnit, futureBalance))
+                    currencyFormatter.formatMoney(Money(currencyUnit, futureBalance))
                         .withAmountColor(
                             viewBinding.root.context.resources,
                             futureBalance > BigDecimal.ZERO

@@ -20,6 +20,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TOTAL
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.util.formatMoney
 
 
 class AccountWidgetService : RemoteViewsService() {
@@ -82,7 +83,7 @@ class AccountRemoteViewsFactory(
                 val currentBalance = Money(account.currencyUnit,
                         cursor.getLong(cursor.getColumnIndexOrThrow(sumColumn)))
                 setTextViewText(R.id.line1, account.getLabelForScreenTitle(context))
-                setTextViewText(R.id.note, (context.applicationContext as MyApplication).appComponent.currencyFormatter().formatCurrency(currentBalance))
+                setTextViewText(R.id.note, (context.applicationContext as MyApplication).appComponent.currencyFormatter().formatMoney(currentBalance))
                 val block: Intent.() -> Unit = {
                     putExtra(KEY_ROWID, account.id)
                 }

@@ -52,6 +52,7 @@ import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
 import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.distrib.ReviewManager
+import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
 import timber.log.Timber
 import java.io.File
@@ -334,7 +335,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 val label = cursor.getString(columnIndexLabel)
                 val isHome = cursor.getInt(cursor.getColumnIndex(DatabaseConstants.KEY_IS_AGGREGATE)) == AggregateAccount.AGGREGATE_HOME
                 currentBalance = String.format(Locale.getDefault(), "%s%s", if (isHome) " ≈ " else "",
-                        currencyFormatter.formatCurrency(Money(currencyUnit, balance)))
+                        currencyFormatter.formatMoney(Money(currencyUnit, balance)))
                 title = if (isHome) getString(R.string.grand_total) else label
                 toolbar.subtitle = currentBalance
                 toolbar.setSubtitleTextColor(ResourcesCompat.getColor(resources, if (balance < 0) R.color.colorExpense else R.color.colorIncome, null))

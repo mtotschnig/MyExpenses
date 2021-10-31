@@ -192,6 +192,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_PAYEES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.MAPPED_TAGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
 import static org.totschnig.myexpenses.util.ColorUtils.getComplementColor;
+import static org.totschnig.myexpenses.util.CurrencyFormatterKt.convAmount;
 import static org.totschnig.myexpenses.util.DateUtilsKt.localDateTime2Epoch;
 import static org.totschnig.myexpenses.util.MoreUiUtilsKt.addChipsBulk;
 
@@ -844,18 +845,18 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     private void fillSums(HeaderViewHolder holder, long headerId) {
       Long[] data = headerData != null ? headerData.get(headerId) : null;
       if (data != null) {
-        holder.sumIncome().setText("⊕ " + currencyFormatter.convAmount(data[0], mAccount.getCurrencyUnit()));
+        holder.sumIncome().setText("⊕ " + convAmount(currencyFormatter, data[0], mAccount.getCurrencyUnit()));
         final long expensesSum = -data[1];
-        holder.sumExpense().setText("⊖ " + currencyFormatter.convAmount(expensesSum, mAccount.getCurrencyUnit()));
-        holder.sumTransfer().setText(Transfer.BI_ARROW + " " + currencyFormatter.convAmount(
+        holder.sumExpense().setText("⊖ " + convAmount(currencyFormatter, expensesSum, mAccount.getCurrencyUnit()));
+        holder.sumTransfer().setText(Transfer.BI_ARROW + " " + convAmount(currencyFormatter,
             data[2], mAccount.getCurrencyUnit()));
         String formattedDelta = String.format("%s %s", Long.signum(data[4]) > -1 ? "+" : "-",
-            currencyFormatter.convAmount(Math.abs(data[4]), mAccount.getCurrencyUnit()));
-        currencyFormatter.convAmount(Math.abs(data[4]), mAccount.getCurrencyUnit());
+            convAmount(currencyFormatter, Math.abs(data[4]), mAccount.getCurrencyUnit()));
+        convAmount(currencyFormatter, Math.abs(data[4]), mAccount.getCurrencyUnit());
         holder.interimBalance().setText(
             BaseTransactionList.this.getFilter().isEmpty() && !mAccount.isHomeAggregate() ? String.format("%s %s = %s",
-                currencyFormatter.convAmount(data[3], mAccount.getCurrencyUnit()), formattedDelta,
-                currencyFormatter.convAmount(data[5], mAccount.getCurrencyUnit())) :
+                convAmount(currencyFormatter, data[3], mAccount.getCurrencyUnit()), formattedDelta,
+                convAmount(currencyFormatter, data[5], mAccount.getCurrencyUnit())) :
                 formattedDelta);
         final DonutProgress budgetProgress = holder.budgetProgress();
         if (budgetProgress != null && budget != null) {

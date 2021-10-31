@@ -84,6 +84,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR_OF_WEEK_START;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
+import static org.totschnig.myexpenses.util.CurrencyFormatterKt.convAmount;
+import static org.totschnig.myexpenses.util.CurrencyFormatterKt.formatMoney;
 
 public class PdfPrinter {
   private static final String VOID_MARKER = "void";
@@ -190,7 +192,7 @@ public class PdfPrinter {
         java.text.DateFormat.getDateInstance(java.text.DateFormat.FULL).format(new Date()), FontType.BOLD));
     preface.addCell(helper.printToCell(
         context.getString(R.string.current_balance) + " : " +
-            currencyFormatter.formatCurrency(new Money(account.getCurrencyUnit(), currentBalance)), FontType.BOLD));
+            formatMoney(currencyFormatter, new Money(account.getCurrencyUnit(), currentBalance)), FontType.BOLD));
 
     document.add(preface);
     Paragraph empty = new Paragraph();
@@ -304,26 +306,26 @@ public class PdfPrinter {
         long delta = sumIncome + sumExpense + sumTransfer;
         long interimBalance = previousBalance + delta;
         String formattedDelta = String.format("%s %s", Long.signum(delta) > -1 ? "+" : "-",
-            currencyFormatter.convAmount(Math.abs(delta), account.getCurrencyUnit()));
+            convAmount(currencyFormatter, Math.abs(delta), account.getCurrencyUnit()));
         cell = helper.printToCell(
             filter.isEmpty() ? String.format("%s %s = %s",
-                currencyFormatter.convAmount(previousBalance, account.getCurrencyUnit()), formattedDelta,
-                currencyFormatter.convAmount(interimBalance, account.getCurrencyUnit())) :
+                convAmount(currencyFormatter, previousBalance, account.getCurrencyUnit()), formattedDelta,
+                convAmount(currencyFormatter, interimBalance, account.getCurrencyUnit())) :
                 formattedDelta, FontType.HEADER);
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         table.addCell(cell);
         document.add(table);
         table = helper.newTable(3);
         table.setWidthPercentage(100f);
-        cell = helper.printToCell("+ " + currencyFormatter.convAmount(sumIncome,
+        cell = helper.printToCell("+ " + convAmount(currencyFormatter, sumIncome,
             account.getCurrencyUnit()), FontType.NORMAL);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(cell);
-        cell = helper.printToCell("- " + currencyFormatter.convAmount(-sumExpense,
+        cell = helper.printToCell("- " + convAmount(currencyFormatter, -sumExpense,
             account.getCurrencyUnit()), FontType.NORMAL);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(cell);
-        cell = helper.printToCell(Transfer.BI_ARROW + " " + currencyFormatter.convAmount(sumTransfer,
+        cell = helper.printToCell(Transfer.BI_ARROW + " " + convAmount(currencyFormatter, sumTransfer,
             account.getCurrencyUnit()), FontType.NORMAL);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(cell);
@@ -418,7 +420,7 @@ public class PdfPrinter {
             } else {
               splitText = Category.NO_CATEGORY_ASSIGNED_LABEL;
             }
-            splitText += " " + currencyFormatter.convAmount(splits.getLong(
+            splitText += " " + convAmount(currencyFormatter, splits.getLong(
                 splits.getColumnIndexOrThrow(KEY_AMOUNT)), account.getCurrencyUnit());
             String splitComment = DbUtils.getString(splits, KEY_COMMENT);
             if (splitComment != null && splitComment.length() > 0) {
@@ -465,7 +467,7 @@ public class PdfPrinter {
       } else {
         t = amount < 0 ? FontType.EXPENSE : FontType.INCOME;
       }
-      cell = helper.printToCell(currencyFormatter.convAmount(amount, account.getCurrencyUnit()), t);
+      cell = helper.printToCell(convAmount(currencyFormatter, amount, account.getCurrencyUnit()), t);
       cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
       table.addCell(cell);
       String comment = transactionCursor.getString(columnIndexComment);

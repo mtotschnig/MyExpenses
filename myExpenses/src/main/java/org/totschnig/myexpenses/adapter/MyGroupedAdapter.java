@@ -55,6 +55,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TOTAL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 import static org.totschnig.myexpenses.util.ColorUtils.createBackgroundColorDrawable;
 import static org.totschnig.myexpenses.util.ColorUtils.getComplementColor;
+import static org.totschnig.myexpenses.util.CurrencyFormatterKt.convAmount;
 
 public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyListHeadersAdapter {
   private final static String EXPANSION_PREF_PREFIX = "ACCOUNT_EXPANSION_";
@@ -265,14 +266,14 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
 
   private void setConvertedAmount(CurrencyUnit currency, Cursor c, String columnName, boolean isHome, TextView ... tvs) {
     final String result = String.format(Locale.getDefault(), "%s%s", isHome ? " ≈ " : "",
-        currencyFormatter.convAmount(c.getLong(c.getColumnIndex(columnName)), currency));
+        convAmount(currencyFormatter, c.getLong(c.getColumnIndex(columnName)), currency));
     for (TextView tv: tvs) {
       tv.setText(result);
     }
   }
   private void setConvertedAmount(CurrencyUnit currency, long value, boolean isHome, TextView ... tvs) {
     final String result = String.format(Locale.getDefault(), "%s%s", isHome ? " ≈ " : "",
-        currencyFormatter.convAmount(value, currency));
+        convAmount(currencyFormatter, value, currency));
     for (TextView tv: tvs) {
       tv.setText(result);
     }

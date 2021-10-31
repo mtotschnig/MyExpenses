@@ -28,6 +28,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.util.formatMoney
 import java.util.*
 import javax.inject.Inject
 
@@ -68,7 +69,7 @@ class TemplateRemoteViewsFactory(
         val comment = DbUtils.getString(cursor, DatabaseConstants.KEY_COMMENT)
         val payee = DbUtils.getString(cursor, DatabaseConstants.KEY_PAYEE_NAME)
         setTextViewText(R.id.line1,
-                title + " : " + (context.applicationContext as MyApplication).appComponent.currencyFormatter().formatCurrency(amount))
+                title + " : " + (context.applicationContext as MyApplication).appComponent.currencyFormatter().formatMoney(amount))
         val commentSeparator = " / "
         val description = SpannableStringBuilder(if (isTransfer) Transfer.getIndicatorPrefixForLabel(amount.amountMinor) + label else label)
         if (!TextUtils.isEmpty(comment)) {

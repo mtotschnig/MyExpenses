@@ -140,6 +140,7 @@ import static org.totschnig.myexpenses.provider.DbConstantsKt.checkSealedWithAli
 import static org.totschnig.myexpenses.provider.DbUtils.getLongOrNull;
 import static org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_TAGS_URI;
 import static org.totschnig.myexpenses.provider.TransactionProvider.UNCOMMITTED_URI;
+import static org.totschnig.myexpenses.util.CurrencyFormatterKt.formatMoney;
 
 /**
  * Domain class for transactions
@@ -1154,7 +1155,7 @@ public class Transaction extends Model implements ITransaction {
     StringBuilder sb = new StringBuilder();
     sb.append(ctx.getString(R.string.amount));
     sb.append(" : ");
-    sb.append(currencyFormatter.formatCurrency(getAmount()));
+    sb.append(formatMoney(currencyFormatter, getAmount()));
     sb.append("\n");
     if (getCatId() != null && getCatId() > 0) {
       sb.append(ctx.getString(R.string.category));

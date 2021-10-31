@@ -6,10 +6,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonDeserializer;
 import com.squareup.picasso.Picasso;
 
-import java.time.LocalDate;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.activity.BaseActivity;
 import org.totschnig.myexpenses.activity.BaseMyExpenses;
+import org.totschnig.myexpenses.activity.DebtOverview;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.db2.Repository;
@@ -78,6 +78,7 @@ import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel;
 import org.totschnig.myexpenses.widget.AbstractWidget;
 import org.totschnig.myexpenses.widget.TemplateRemoteViewsFactory;
 
+import java.time.LocalDate;
 import java.util.Locale;
 
 import javax.inject.Named;
@@ -159,6 +160,8 @@ public interface AppComponent {
   void inject(ExpenseEdit expenseEdit);
 
   void inject(BaseMyExpenses myExpenses);
+
+  void inject(DebtOverview debtOverview);
 
   void inject(ProtectedFragmentActivity protectedFragmentActivity);
 
