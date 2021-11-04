@@ -69,8 +69,8 @@
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Ikut tentukan <b>peta jalan pengembangan</b></string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Bantuan email</b> dengan respons yang dijamin dalam waktu 2 hari kerja</string>
     <string name="app_name">Pengeluaran Ku</string>
-    <string name="account_type_bank_plural">Rekening bank</string>
-    <string name="account_type_bank">Rekening bank</string>
+    <string name="account_type_bank_plural">Akun bank</string>
+    <string name="account_type_bank">Akun Bank</string>
     <string name="account_type_ccard_plural">Kartu kredit</string>
     <string name="account_type_ccard">Kartu kredit</string>
     <string name="dialog_command_disabled_reset_account">Tidak ada transaksi untuk diekspor.</string>
@@ -127,4 +127,17 @@
     <string name="debt_owes_me">%s berutang padaku</string>
     <string name="menu_new_debt">Utang baru</string>
     <string name="debt_managment">Manajemen Utang</string>
+    <string name="account_type_liability">Akun liabilitas</string>
+    <string name="account">Akun</string>
+    <string name="account_types">Tipe akun</string>
+    <string name="account_type_asset">Akun aset</string>
+    <string name="account_type_asset_plural">Akun aset</string>
+    <string name="account_type_liability_plural">Akun liabilitas</string>
+    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Jumlah akun tidak terbatas</string>
+    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Lampirkan gambar ke transaksi</string>
+    <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Jumlah templat split yang tidak terbatas</string>
+    <string name="account_type_cash">Akun tunai</string>
+    <string name="account_type_cash_plural">Akun tunai</string>
+    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Diagram lingkaran (Distribusi per kategori)</string>
+    <string name="dialog_confirm_discard_new_account">Buang akun baru\?</string>
 </resources>
