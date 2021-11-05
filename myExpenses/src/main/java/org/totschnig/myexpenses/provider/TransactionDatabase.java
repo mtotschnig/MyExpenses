@@ -665,9 +665,6 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_TEMPLATEID + " integer references " + TABLE_TEMPLATES + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
           + "primary key (" + KEY_TAGID + "," + KEY_TEMPLATEID + "));";
 
-  public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-  public static final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
-
   TransactionDatabase(Context context, String databaseName) {
     super(context, databaseName);
     mCtx = context;

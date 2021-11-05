@@ -55,7 +55,6 @@ import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Payee;
 import org.totschnig.myexpenses.model.SortDirection;
 import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.provider.TransactionDatabase;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.task.GrisbiImportTask;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
@@ -74,7 +73,6 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.Normalizer;
 import java.text.NumberFormat;
-import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -223,14 +221,6 @@ public class Utils {
     }
   }
 
-  public static Date dateFromSQL(String dateString) {
-    try {
-      return TransactionDatabase.dateFormat.parse(dateString);
-    } catch (ParseException e) {
-      return null;
-    }
-  }
-
   /**
    * @return a DecimalFormat with the number of fraction digits appropriate for
    * currency, and with the given separator, but without the currency
@@ -247,18 +237,6 @@ public class Utils {
     nf.setMaximumFractionDigits(fractionDigits);
     nf.setGroupingUsed(false);
     return nf;
-  }
-
-  /**
-   * utility method that calls formatter for date
-   * @return formatted string
-   */
-  public static String convDate(String text, DateFormat format) {
-    Date date = dateFromSQL(text);
-    if (date == null)
-      return text;
-    else
-      return format.format(date);
   }
 
   /**

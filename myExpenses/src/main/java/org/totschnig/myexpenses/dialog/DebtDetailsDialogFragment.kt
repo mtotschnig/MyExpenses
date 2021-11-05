@@ -21,16 +21,18 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.databinding.DebtTransactionBinding
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.util.epoch2LocalDate
+import org.totschnig.myexpenses.util.getDateTimeFormatter
 import org.totschnig.myexpenses.viewmodel.DebtViewModel
 import org.totschnig.myexpenses.viewmodel.DebtViewModel.Transaction
 import org.totschnig.myexpenses.viewmodel.data.Debt
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
-import kotlin.math.absoluteValue
-import kotlin.math.sign
 
 class DebtDetailsDialogFragment : BaseDialogFragment() {
     @Inject
@@ -38,6 +40,10 @@ class DebtDetailsDialogFragment : BaseDialogFragment() {
 
     @Inject
     lateinit var currencyContext: CurrencyContext
+
+    private val formatter: DateTimeFormatter by lazy {
+        getDateTimeFormatter(requireContext())
+    }
 
     val viewModel: DebtViewModel by viewModels()
 
@@ -56,13 +62,13 @@ class DebtDetailsDialogFragment : BaseDialogFragment() {
             (dialog as? AlertDialog)?.setTitle("${debt.label} (${debt.payeeName})")
             this.debt = debt
             this.currency = currencyContext[debt.currency]
-            viewModel.loadTransactions(debt, debt.amount).observe(this) {
+            viewModel.loadTransactions(debt).observe(this) {
                 adapter.submitList(
                     listOf(
                         Transaction(
                             0,
                             epoch2LocalDate(debt.date),
-                            null,
+                            0,
                             debt.amount
                         )
                     ) + it
@@ -171,12 +177,12 @@ class DebtDetailsDialogFragment : BaseDialogFragment() {
         val colorExpense =
             ResourcesCompat.getColor(itemView.context.resources, R.color.colorExpense, null)
 
-        fun bind(item: Transaction, boldBalance: Boolean, trend: Int) {
-            binding.Date.text = item.date.toString()
-            binding.Amount.text = item.amount?.let { currencyFormatter.convAmount(it, currency) }
+        fun bind(item: Transaction, boldBalance: Boolean) {
+            binding.Date.text = formatter.format(item.date)
+            binding.Amount.text = item.amount.let { currencyFormatter.convAmount(it, currency) }
             binding.Trend.setImageResource(when {
-                trend > 0 -> R.drawable.ic_trending_up
-                trend < 0 -> R.drawable.ic_trending_down
+                item.trend > 0 -> R.drawable.ic_trending_up
+                item.trend < 0 -> R.drawable.ic_trending_down
                 else -> 0
             })
             with(binding.RunningBalance) {
@@ -198,17 +204,7 @@ class DebtDetailsDialogFragment : BaseDialogFragment() {
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val item = getItem(position)
-            val trend = if (position == 0)
-                0
-            else {
-                val previousBalance = getItem(position - 1).runningTotal
-                if (sign(previousBalance.toDouble()) != sign(item.runningTotal.toDouble()))
-                    0
-                else {
-                    item.runningTotal.absoluteValue.compareTo(previousBalance.absoluteValue)
-                }
-            }
-            holder.bind(item, position == itemCount - 1, trend)
+            holder.bind(item, position == itemCount - 1)
         }
     }
 }

@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.ContentUris
 import android.content.ContentValues
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToList
@@ -11,7 +12,6 @@ import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.time.LocalDate
 import org.totschnig.myexpenses.model.Transaction.EXTENDED_URI
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
@@ -25,6 +25,9 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.epoch2LocalDate
 import org.totschnig.myexpenses.viewmodel.data.Debt
+import java.time.LocalDate
+import kotlin.math.absoluteValue
+import kotlin.math.sign
 
 class DebtViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
 
@@ -47,15 +50,28 @@ class DebtViewModel(application: Application) : ContentResolvingAndroidViewModel
     private fun singleDebtUri(debtId: Long) =
         ContentUris.withAppendedId(TransactionProvider.DEBTS_URI, debtId)
 
-    fun loadTransactions(debt: Debt, initialDebt: Long): LiveData<List<Transaction>> =
-        liveData {
-            var runningTotal = initialDebt
-            val homeCurrency = Utils.getHomeCurrency().code
-            val amountColumn = if (debt.currency == homeCurrency) {
-                "CASE WHEN $KEY_CURRENCY = '$homeCurrency' THEN $KEY_AMOUNT ELSE ${getAmountHomeEquivalent(VIEW_EXTENDED)} END"
-            } else {
-                KEY_AMOUNT
+/*    fun loadDebugTransactions(count: Int = 10): LiveData<List<Transaction>> = liveData {
+        emit(
+            List(count) {
+                Transaction(it.toLong(), LocalDate.now(), 4000L - it, 4000L - it * it, -1)
             }
+        )
+    }*/
+
+    private val transactionsLiveData: Map<Debt, LiveData<List<Transaction>>> = lazyMap { debt ->
+        val liveData = MutableLiveData<List<Transaction>>()
+        var runningTotal = debt.amount
+        val homeCurrency = Utils.getHomeCurrency().code
+        val amountColumn = if (debt.currency == homeCurrency) {
+            "CASE WHEN $KEY_CURRENCY = '$homeCurrency' THEN $KEY_AMOUNT ELSE ${
+                getAmountHomeEquivalent(
+                    VIEW_EXTENDED
+                )
+            } END"
+        } else {
+            KEY_AMOUNT
+        }
+        viewModelScope.launch {
             contentResolver.observeQuery(
                 uri = EXTENDED_URI,
                 projection = arrayOf(KEY_ROWID, KEY_DATE, amountColumn),
@@ -64,10 +80,27 @@ class DebtViewModel(application: Application) : ContentResolvingAndroidViewModel
                 sortOrder = "$KEY_DATE ASC"
             ).mapToList {
                 val amount = it.getLong(2)
+                val previousBalance = runningTotal
                 runningTotal -= amount
-                Transaction(it.getLong(0), epoch2LocalDate(it.getLong(1)), -amount, runningTotal)
-            }.collect(this::emit)
+                val trend =
+                    if (previousBalance.sign != runningTotal.sign)
+                        0
+                    else
+                        runningTotal.absoluteValue.compareTo(previousBalance.absoluteValue)
+                Transaction(
+                    it.getLong(0),
+                    epoch2LocalDate(it.getLong(1)),
+                    -amount,
+                    runningTotal,
+                    trend
+                )
+            }.collect { liveData.postValue(it) }
         }
+        return@lazyMap liveData
+    }
+
+    fun loadTransactions(debt: Debt): LiveData<List<Transaction>> =
+        transactionsLiveData.getValue(debt)
 
     fun deleteDebt(debtId: Long): LiveData<Boolean> =
         liveData(context = coroutineContext()) {
@@ -98,7 +131,8 @@ class DebtViewModel(application: Application) : ContentResolvingAndroidViewModel
     data class Transaction(
         val id: Long,
         val date: LocalDate,
-        val amount: Long?,
-        val runningTotal: Long
+        val amount: Long,
+        val runningTotal: Long,
+        val trend: Int = 0
     )
 }

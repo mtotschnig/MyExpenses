@@ -217,6 +217,25 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
         }
     }
 
+/*    fun loadDebugDebts(count: Int = 10) {
+        debts.postValue(List(
+            count
+        ) {
+            Debt(
+                it.toLong(),
+                "Debt $it",
+                "Description",
+                1,
+                5000,
+                "EUR",
+                System.currentTimeMillis() / 1000,
+                "John doe",
+                false,
+                4123
+            )
+        })
+    }*/
+
     companion object {
         fun <K, V> lazyMap(initializer: (K) -> V): Map<K, V> {
             val map = mutableMapOf<K, V>()
