@@ -7,7 +7,7 @@ GPL licenced Android Expense Tracking App.
   track of your expenses and incomes, and to export them as QIF files into a desktop
   finance tool, like <a href="http://www.grisbi.org">Grisbi</a> (Open Source), <a
   href="http://www.gnucash.org">Gnucash</a> (Open Source), MS Money, Quicken or Wiso Mein Geld.<br />
-  Works on Android 4.1 and above.
+  Works on Android 5.0 and above.
  
 <a href="https://f-droid.org/repository/browse/?fdid=org.totschnig.myexpenses" target="_blank">
 <img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="90"/></a>

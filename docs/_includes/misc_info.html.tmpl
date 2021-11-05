@@ -5,7 +5,8 @@
 <div class="block" id="credits" style="display:none">
     <h2>Credits</h2>
     <ul>
-        <li>App icon and promotional image created by <a href="http://99designs.de/users/349317">Christian
+        <li>Current app icon created by Pierluigi Rufo.</li>
+        <li>Original app icon and promotional image created by <a href="http://99designs.de/users/349317">Christian
             Alban</a>, as the winner of a design contest hosted at <a href="http://99designs.de">99
             designs</a>.
         </li>
@@ -187,7 +188,6 @@
           <dt><a href="https://www.transifex.com/mtotschnig/my-expenses/KeyDeliveryEmailV2/">KeyDeliveryEmail</a></dt>
           <dd>The contents of the message containing the licence key, sent to users after purchase.</dd> -->
     </dl>
-    </p>
     <p>I am looking forward to collaborating with you on making <span class="application">My Expenses</span>
         available in your language!</p>
 </div>
@@ -222,7 +222,9 @@
         {% endfor %}
         {% for feature in site.extended %}
         <tr>
-            <td>{{t.contrib.feature[feature]}} {{site.extra[feature]}}</td>
+            <td>{{t.contrib.feature[feature]}}{% if site.footnote[feature] %}
+                <p class="footnote">{{site.footnote[feature]}}</p>
+                {% endif %}</td>
             <td></td>
             <td class="checked">✓</td>
             <td class="checked">✓</td>

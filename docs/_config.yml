@@ -43,6 +43,9 @@ extra:
   cloud_sync: "(Webdav, Dropbox, Google Drive)"
 extra_fdroid:
   cloud_sync: "(Webdav, Dropbox)"
+footnote:
+  cloud_sync: |
+    F-Droid: Webdav, Dropbox<br>Play Store: Webdav, Dropbox, Google Drive
 title:
   ar: مصروفاتي
   en: My Expenses
