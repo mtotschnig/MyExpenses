@@ -8,8 +8,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -221,14 +223,18 @@ fun TransactionRenderer(
     Row(verticalAlignment = Alignment.CenterVertically) {
         if (transaction.trend != 0) {
             Icon(
-                modifier = Modifier.padding(end = 4.dp),
                 painter = painterResource(
                     id = if (transaction.trend > 0) R.drawable.ic_trending_up else R.drawable.ic_trending_down
                 ),
                 contentDescription = null
             )
+        } else {
+            Spacer(modifier = Modifier.size(24.dp))
         }
-        Text(text = dateFormatter.format(transaction.date))
+        Text(
+            modifier = Modifier.padding(start = 4.dp),
+            text = dateFormatter.format(transaction.date)
+        )
         transaction.amount.takeIf { it != 0L }?.let {
             Text(
                 modifier = Modifier.weight(1F),
@@ -268,7 +274,7 @@ fun SingleDebtPreview() {
                         1, LocalDate.now(), 100, 100, 1
                     ),
                     Transaction(
-                        1, LocalDate.now(), 3000, 1000, -1
+                        1, LocalDate.now(), 3000, 1000, 0
                     ),
                     Transaction(
                         1, LocalDate.now(), 10000, 10000, 1
