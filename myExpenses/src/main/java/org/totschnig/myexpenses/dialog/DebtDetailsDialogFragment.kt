@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.dialog
 
 import android.app.Dialog
-import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,14 +15,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.DebtEdit
+import org.totschnig.myexpenses.activity.DebtActivity
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.databinding.DebtTransactionBinding
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.util.epoch2LocalDate
@@ -108,35 +105,12 @@ class DebtDetailsDialogFragment : BaseDialogFragment() {
                     if (debt.isSealed) {
                         viewModel.reopenDebt(debt.id)
                     } else {
-                        startActivity(Intent(context, DebtEdit::class.java).apply {
-                            putExtra(KEY_PAYEEID, debt.payeeId)
-                            putExtra(KEY_PAYEE_NAME, debt.payeeName)
-                            putExtra(KEY_DEBT_ID, debt.id)
-                        })
+                        (requireActivity() as? DebtActivity)?.editDebt(debt)
                     }
                 }
             }
             alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener {
-                val count = adapter.itemCount - 1
-                MessageDialogFragment.newInstance(
-                    getString(R.string.dialog_title_delete_debt),
-                    "${
-                        resources.getQuantityString(
-                            R.plurals.debt_mapped_transactions,
-                            count,
-                            debt.label,
-                            count
-                        )
-                    } ${getString(R.string.continue_confirmation)}",
-                    MessageDialogFragment.Button(
-                        R.string.menu_delete,
-                        R.id.DELETE_DEBT_COMMAND,
-                        debt.id
-                    ),
-                    null,
-                    MessageDialogFragment.noButton(), 0
-                )
-                    .show(parentFragmentManager, "DELETE_DEBT")
+                (requireActivity() as? DebtActivity)?.deleteDebt(debt, adapter.itemCount - 1)
             }
         }
         return alertDialog

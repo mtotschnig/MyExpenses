@@ -3,8 +3,10 @@ package org.totschnig.myexpenses.activity
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -16,15 +18,22 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -45,6 +54,7 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.DebugCurrencyFormatter
 import org.totschnig.myexpenses.util.convAmount
+import org.totschnig.myexpenses.util.epoch2LocalDate
 import org.totschnig.myexpenses.util.getDateTimeFormatter
 import org.totschnig.myexpenses.util.localDate2Epoch
 import org.totschnig.myexpenses.viewmodel.DebtViewModel
@@ -55,7 +65,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
-class DebtOverview : ProtectedFragmentActivity() {
+class DebtOverview : DebtActivity() {
     val viewModel: DebtViewModel by viewModels()
 
     @Inject
@@ -76,7 +86,9 @@ class DebtOverview : ProtectedFragmentActivity() {
                         amountFormatter = { amount: Long, currency: String ->
                             currencyFormatter.convAmount(amount, currencyContext[currency])
                         },
-                        dateFormatter = getDateTimeFormatter(this)
+                        dateFormatter = getDateTimeFormatter(this),
+                        onEdit = this::editDebt,
+                        onDelete = this::deleteDebt
                     )
                 }
             }
@@ -94,7 +106,9 @@ fun DebtList(
     debts: State<List<Debt>>,
     loadTransactionsForDebt: @Composable (Debt) -> State<List<Transaction>>,
     amountFormatter: ((Long, String) -> String)? = null,
-    dateFormatter: DateTimeFormatter? = null
+    dateFormatter: DateTimeFormatter? = null,
+    onEdit: (Debt) -> Unit = {},
+    onDelete: (Debt, Int) -> Unit = { _, _ -> }
 ) {
     LazyColumn(
         modifier = modifier
@@ -110,10 +124,10 @@ fun DebtList(
                 loadTransactionsForDebt(item),
                 amountFormatter,
                 dateFormatter,
-                expandedState.value,
-            ) {
-                expandedState.value = !expandedState.value
-            }
+                expandedState,
+                onEdit = onEdit,
+                onDelete = onDelete
+            )
         }
     }
 }
@@ -124,70 +138,119 @@ fun DebtRenderer(
     transactions: State<List<Transaction>>,
     _amountFormatter: ((Long, String) -> String)? = null,
     _dateFormatter: DateTimeFormatter? = null,
-    expanded: Boolean,
-    onToggle: () -> Unit
+    expanded: MutableState<Boolean>,
+    onEdit: (Debt) -> Unit = {},
+    onDelete: (Debt, Int) -> Unit = { _, _ -> }
 ) {
     val amountFormatter = _amountFormatter ?: { amount, currency ->
         DebugCurrencyFormatter.convAmount(amount, CurrencyUnit(currency, "€", 2))
     }
     val dateFormatter = _dateFormatter ?: DateTimeFormatter.BASIC_ISO_DATE
-
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .animateContentSize(),
         shape = RoundedCornerShape(8.dp),
         backgroundColor = colorResource(id = R.color.cardBackground)
     ) {
-        Timber.d("rendering Card")
-        Column(
-            modifier = Modifier
-                .clickable(onClick = onToggle)
-                .padding(8.dp)
-        ) {
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+        Box(modifier = Modifier.fillMaxWidth()) {
+
+            Timber.d("rendering Card")
+            Column(
+                modifier = Modifier
+                    .clickable(onClick = { expanded.value = !expanded.value })
+                    .padding(8.dp)
             ) {
-                val signum = debt.amount > 0
-                Column(modifier = Modifier.weight(1F)) {
-                    Text(
-                        fontWeight = FontWeight.Bold,
-                        text = debt.label,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                    Text(
-                        text = stringResource(
-                            id = if (signum) R.string.debt_owes_me else R.string.debt_I_owe,
-                            debt.payeeName!!
-                        ),
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                    debt.description.takeIf { it.isNotEmpty() }?.let {
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    val signum = debt.amount > 0
+                    Column(modifier = Modifier.weight(1F)) {
                         Text(
-                            fontStyle = FontStyle.Italic,
-                            text = debt.description,
+                            style = if (expanded.value) MaterialTheme.typography.h5 else MaterialTheme.typography.h6,
+                            text = debt.label,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
                         )
+                        if (!expanded.value) {
+                            Text(
+                                text = stringResource(
+                                    id = if (signum) R.string.debt_owes_me else R.string.debt_I_owe,
+                                    debt.payeeName!!
+                                ),
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        }
+                        debt.description.takeIf { it.isNotEmpty() }?.let {
+                            Text(
+                                fontStyle = FontStyle.Italic,
+                                text = debt.description,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        }
+                    }
+                    if (!expanded.value) {
+                        ColoredAmountText(
+                            debt.currentBalance,
+                            debt.currency,
+                            amountFormatter
+                        )
                     }
                 }
-                ColoredAmountText(
-                    if (expanded) debt.amount else debt.currentBalance,
-                    debt.currency,
-                    amountFormatter
-                )
-            }
-            if (expanded) {
-                val count = transactions.value.size
-                transactions.value.forEachIndexed { index, transaction ->
+                if (expanded.value) {
                     TransactionRenderer(
-                        transaction = transaction,
+                        transaction = Transaction(
+                            0, epoch2LocalDate(debt.date), 0, debt.amount
+                        ),
                         debt.currency,
                         amountFormatter,
                         dateFormatter,
-                        index == count - 1
+                        false
                     )
+                    val count = transactions.value.size
+                    transactions.value.forEachIndexed { index, transaction ->
+                        TransactionRenderer(
+                            transaction = transaction,
+                            debt.currency,
+                            amountFormatter,
+                            dateFormatter,
+                            index == count - 1
+                        )
+                    }
+                }
+            }
+            if (expanded.value) {
+                var showMenu by remember { mutableStateOf(false) }
+                Box(modifier = Modifier.align(Alignment.TopEnd)) {
+                    IconButton(
+                        onClick = { showMenu = true }) {
+                        Icon(
+                            painterResource(id = R.drawable.abc_ic_menu_overflow_material),
+                            stringResource(id = R.string.abc_action_menu_overflow_description)
+                        )
+                    }
+                    DropdownMenu(
+                        expanded = showMenu,
+                        onDismissRequest = { showMenu = false }
+                    ) {
+                        DropdownMenuItem(
+                            onClick = {
+                                showMenu = false
+                                onEdit(debt)
+                            }) {
+                            Text(stringResource(id = R.string.menu_edit))
+                        }
+                        DropdownMenuItem(
+                            onClick = {
+                                showMenu = false
+                                onDelete(debt, transactions.value.size)
+                            }) {
+                            Text(stringResource(id = R.string.menu_delete))
+                        }
+                    }
                 }
             }
         }
@@ -281,8 +344,7 @@ fun SingleDebtPreview() {
                     ),
                 )
             ),
-            expanded = true,
-            onToggle = {}
+            expanded = mutableStateOf(false)
         )
     }
 }

@@ -23,7 +23,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.DebtDetailsDialogFragment
 import org.totschnig.myexpenses.fragment.PartiesList
 
-class ManageParties : ProtectedFragmentActivity() {
+class ManageParties : DebtActivity() {
     private lateinit var listFragment: PartiesList
     fun configureFabMergeMode(mergeMode: Boolean) {
         configureFloatingActionButton(
