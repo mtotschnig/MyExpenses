@@ -17,7 +17,7 @@
     <color name="caldroid_state_date_prev_next_month">@color/caldroid_333</color>
     <color name="future_background">#11FFFFFF</color>
     <color name="drawerBackground">#222</color>
-    <color name="cardBackground">#555555</color>
+    <color name="cardBackground">#444444</color>
     <color name="myColorBackground">#ff202124</color>
     <color name="toolbarBackground">@color/material_grey_850</color>
     <color name="activatedBackground">@color/material_grey_700</color>
