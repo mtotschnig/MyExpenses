@@ -15,10 +15,8 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
-import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.livedata.observeAsState
@@ -40,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import com.google.android.material.composethemeadapter.MdcTheme
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.compose.Navigation
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.DebugCurrencyFormatter
@@ -65,16 +64,19 @@ class DebtOverview : ProtectedFragmentActivity() {
         viewModel.loadDebts()
         setContent {
             MdcTheme {
-                DebtList(
-                    debts = viewModel.getDebts().observeAsState(emptyList()),
-                    loadTransactionsForDebt = {
-                        viewModel.loadTransactions(it).observeAsState(emptyList())
-                    },
-                    amountFormatter = { amount: Long, currency: String ->
-                        currencyFormatter.convAmount(amount, currencyContext[currency])
-                    },
-                    dateFormatter = getDateTimeFormatter(this)
-                )
+                Navigation(onNavigation = { finish() }) {
+                    DebtList(
+                        modifier = Modifier.padding(paddingValues = it),
+                        debts = viewModel.getDebts().observeAsState(emptyList()),
+                        loadTransactionsForDebt = { debt ->
+                            viewModel.loadTransactions(debt).observeAsState(emptyList())
+                        },
+                        amountFormatter = { amount: Long, currency: String ->
+                            currencyFormatter.convAmount(amount, currencyContext[currency])
+                        },
+                        dateFormatter = getDateTimeFormatter(this)
+                    )
+                }
             }
         }
     }
@@ -84,37 +86,31 @@ class DebtOverview : ProtectedFragmentActivity() {
     }
 }
 
-
 @Composable
 fun DebtList(
+    modifier: Modifier = Modifier,
     debts: State<List<Debt>>,
     loadTransactionsForDebt: @Composable (Debt) -> State<List<Transaction>>,
     amountFormatter: ((Long, String) -> String)? = null,
     dateFormatter: DateTimeFormatter? = null
 ) {
-    Scaffold(
-        topBar = { TopAppBar(title = { Text(stringResource(id = R.string.title_activity_debt_overview)) }) }
-    ) { paddingValues ->
-
-        LazyColumn(
-            modifier = Modifier
-                .padding(paddingValues)
-                .padding(horizontal = dimensionResource(id = R.dimen.padding_form)),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            contentPadding = PaddingValues(vertical = 8.dp)
-        ) {
-            itemsIndexed(items = debts.value) { index, item ->
-                Timber.d("rendering item $index")
-                val expandedState = rememberSaveable { mutableStateOf(false) }
-                DebtRenderer(
-                    debt = item,
-                    loadTransactionsForDebt(item),
-                    amountFormatter,
-                    dateFormatter,
-                    expandedState.value,
-                ) {
-                    expandedState.value = !expandedState.value
-                }
+    LazyColumn(
+        modifier = modifier
+            .padding(horizontal = dimensionResource(id = R.dimen.padding_form)),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        contentPadding = PaddingValues(vertical = 8.dp)
+    ) {
+        itemsIndexed(items = debts.value) { index, item ->
+            Timber.d("rendering item $index")
+            val expandedState = rememberSaveable { mutableStateOf(false) }
+            DebtRenderer(
+                debt = item,
+                loadTransactionsForDebt(item),
+                amountFormatter,
+                dateFormatter,
+                expandedState.value,
+            ) {
+                expandedState.value = !expandedState.value
             }
         }
     }

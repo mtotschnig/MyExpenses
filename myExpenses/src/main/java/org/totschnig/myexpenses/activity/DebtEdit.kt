@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.activity
 import android.os.Bundle
 import android.view.Menu
 import androidx.activity.viewModels
-import java.time.LocalDate
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.OneDebtBinding
@@ -15,6 +14,7 @@ import org.totschnig.myexpenses.util.epoch2ZonedDateTime
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
 import org.totschnig.myexpenses.viewmodel.DebtViewModel
 import org.totschnig.myexpenses.viewmodel.data.Debt
+import java.time.LocalDate
 
 class DebtEdit : EditActivity(), ButtonWithDialog.Host {
     private lateinit var binding: OneDebtBinding
@@ -78,7 +78,7 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
         if (debtId != 0L) {
             menuInflater.inflate(R.menu.debt_edit, menu)
