@@ -35,10 +35,10 @@
     <color name="colorTransfer">#000080</color>
     <color name="colorAggregate">@color/material_grey_600</color>
     <color name="cardHighlightForeground">#4080cbc4</color>
-    <color name="colorExpenseDark">#800000</color>
-    <color name="colorIncomeDark">#006800</color>
-    <color name="colorExpenseLight">#FF5E5E</color>
-    <color name="colorIncomeLight">#00D000</color>
+    <color name="colorExpenseDark">#C62828</color>
+    <color name="colorIncomeDark">#2D7B31</color>
+    <color name="colorExpenseLight">#EF9A9A</color>
+    <color name="colorIncomeLight">#A5D6A7</color>
 
     <color name="drawerBackground">@android:color/white</color>
     <color name="cardBackground">#f0f0f0</color>
