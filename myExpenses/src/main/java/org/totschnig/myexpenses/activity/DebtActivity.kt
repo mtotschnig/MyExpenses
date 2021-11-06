@@ -36,6 +36,18 @@ abstract class DebtActivity: ProtectedFragmentActivity() {
             MessageDialogFragment.noButton(), 0
         )
             .show(supportFragmentManager, "DELETE_DEBT")
-
     }
+
+    override fun dispatchCommand(command: Int, tag: Any?): Boolean {
+        if (super.dispatchCommand(command, tag)) {
+            return true
+        }
+        if (command == R.id.DELETE_DEBT_COMMAND) {
+                deleteDebtDo(tag as Long)
+            return true
+        }
+        return false
+    }
+
+    abstract fun deleteDebtDo(debtId: Long)
 }

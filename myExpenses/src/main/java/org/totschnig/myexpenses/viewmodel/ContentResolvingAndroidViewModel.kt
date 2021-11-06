@@ -210,10 +210,13 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
                     }
                     build()
                 },
-                selection = "${DatabaseConstants.KEY_SEALED} = 0"
+                selection = "${DatabaseConstants.KEY_SEALED} = 0",
+                notifyForDescendants = true
             )
                 .mapToList { Debt.fromCursor(it) }
-                .collect { debts.postValue(it) }
+                .collect {
+                    debts.postValue(it)
+                }
         }
     }
 
