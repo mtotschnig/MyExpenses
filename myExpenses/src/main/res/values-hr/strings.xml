@@ -945,4 +945,6 @@
     <string name="debt_I_owe">Ja dugujem %s</string>
     <string name="debt_owes_me">%s mi duguje</string>
     <string name="menu_new_debt">Novi dug</string>
+    <string name="dialog_title_warning_delete_party">Izbrisati stranku\?</string>
+    <string name="warning_party_delete_debt">Brisanjem ove strane brišu se i za nju definirani dugovi.</string>
 </resources>
