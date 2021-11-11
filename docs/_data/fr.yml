@@ -1,18 +1,22 @@
 fr:
-  imprint: Imprint
-  imprint_text: Responsable du contenu de ce site Web et du développement, de la maintenance et de la distribution de <i>{app_name}</i>
+  imprint: Informations légales
+  imprint_text: Responsable du contenu de ce site Web et du développement, de la maintenance
+    et de la distribution de <i>{app_name}</i>
   privacy_policy_heading: Règles de confidentialité
-  privacy_policy_text: "<i> {app_name}</i> n'accède à aucune donnée sur votre appareil autre que sa propre base de données, son propre dossier sur la carte SD. Si vous utilisez la fonction d'échéancier pour les opérations futures et récurrentes, vous affectez le calendrier, où ces échéances sont stockées."
+  privacy_policy_text: "<i> {app_name}</i> n'accède à aucune donnée sur votre appareil\
+    \ autre que sa propre base de données, son propre dossier sur la carte SD. Si\
+    \ vous utilisez la fonction d'échéancier pour les opérations futures et récurrentes,\
+    \ vous affectez le calendrier, où ces échéances sont stockées."
   hero_main: "Gestionnaire de finances personnelles pour Android"
   hero_sub:
     use: "Facile à utiliser"
     functionality: "Riche en fonctions"
-    source: "Open Source"
+    source: "Code source ouvert"
   menu_title:
     more_information: Plus d'informations
   sections:
     features: Fonctions
-    premium: Aller  sur Premium
+    premium: Passer premium
     participate: Participer
     faq: FAQ
     versionlist: Modifications
@@ -22,58 +26,87 @@ fr:
     links: Liens
   screenshots:
     group: Groupez vos transactions par jour, semaine, mois et année
-    summarize: Faites la synthèse de tous vos comptes (traitement sophistiqué des taux de change par compte et par opération)
-    budget: Définissez combien vous comptez dépenser en budgets annuels, mensuels ou hebdomadaires
+    summarize: Faites la synthèse de tous vos comptes (traitement sophistiqué des
+      taux de change par compte et par opération)
+    budget: Définissez combien vous comptez dépenser en budgets annuels, mensuels
+      ou hebdomadaires
     split: Diviser une opération en plusieurs catégories
     distribution: Visualiser la distribution par catégorie
     history: Comprendre comment votre situation financière évolue avec le temps
     export: Imprimer en PDF et échanger via QIF et CSV.
-    sync: Synchronisez les données de compte chiffrées sur plusieurs appareils via des services de cloud privé ou public.
+    sync: Synchronisez les données de compte chiffrées sur plusieurs appareils via
+      des services de cloud privé ou public.
   features:
-    manage_accounts: Jusqu'à cinq comptes avec <b>virements</b> (également entre différentes monnaies)
-    plans: Nombre illimité de <b>modèles</b> et échéancier avec jusqu'à trois échéances pour les opérations <b>périodiques</b>
+    manage_accounts: Jusqu'à cinq comptes avec <b>virements</b> (également entre différentes
+      monnaies)
+    plans: Nombre illimité de <b>modèles</b> et échéancier avec jusqu'à trois échéances
+      pour les opérations <b>périodiques</b>
     export: <b>Export</b> vers QIF et CSV. <b>Import</b> à partir de QIF
-    password: Les données peuvent être protégées par <b>mot de passe</b> ou par <b>l'écran de verrouillage</b> de l'appareil.
-    light_theme: <b>Thème</b> (sombre et clair) et <b>taille de police</b> peuvent être personnalisés
-    reconciliation: "<b>Rapprochement</b>: comparez facilement l'état des opérations avec vos relevés bancaires"
-    homescreen: Sur l'écran d'accueil, <b>widget</b> et <b>raccourcis</b> permettent une saisie rapide des données
+    password: Les données peuvent être protégées par <b>mot de passe</b> ou par <b>l'écran
+      de verrouillage</b> de l'appareil
+    light_theme: <b>Thème</b> (sombre et clair) et <b>taille de police</b> peuvent
+      être personnalisés
+    reconciliation: "<b>Rapprochement</b> : comparez facilement l'état des opérations\
+      \ avec vos relevés bancaires"
+    homescreen: Sur l'écran d'accueil, <b>widget</b> et <b>raccourcis</b> permettent
+      une saisie rapide des données
   contrib:
     thank_you: |
-        Avec votre contribution, vous soutenez la continuité du développement de Mes dépenses. Merci!
-    feature-list-title: "S'il vous plaît, contribuez par la mise à niveau de <i>{app_name}</i> et vous aurez accès sans restriction aux caractéristiques suivantes:"
+      Avec votre contribution, vous soutenez la continuité du développement de Mes dépenses. Merci !
+    feature-list-title: "S'il vous plaît, contribuez par la mise à niveau de <i>{app_name}</i>\
+      \ et vous aurez accès sans restriction aux caractéristiques suivantes :"
     feature:
       accounts_unlimited: Nombre illimité de <b>comptes</b>
-      plans_unlimited: Nombre illimité d'échéances dans l'échéancier pour les opérations <b>périodiques</b>
-      distribution: "<b>Diagramme circulaire</b>: Visualisez la distribution statistique des opérations par catégorie sur différentes périodes (années, mois, semaines, jours)"
-      split_transaction: "<b>Opération ventilée</b>: une seule opération peut être divisée en plusieurs parties (catégories et transferts)"
+      plans_unlimited: Nombre illimité d'échéances dans l'échéancier pour les opérations
+        <b>périodiques</b>
+      distribution: "<b>Diagramme circulaire</b> : Visualisez la distribution statistique\
+        \ des opérations par catégorie sur différentes périodes (années, mois, semaines,\
+        \ jours)"
+      split_transaction: "<b>Opération ventilée</b> : une seule opération peut être\
+        \ divisée en plusieurs parties (catégories et transferts)"
       print: <b>Imprimer</b> la liste des opérations dans un fichier PDF
-      attach_picture: "<b>Image jointe</b>: Capture par caméra ou sélection dans la galerie"
+      attach_picture: "<b>Image jointe</b> : Capture par caméra ou sélection dans\
+        \ la galerie"
       ad_free: <b>Sans publicité</b>
       csv_import: <b>Import CSV</b> sophistiqué et personnalisable (applications tableur)
-      auto_backup: <b>Sauvegarde automatique</b> quotidienne avec téléchargement facultatif vers le stockage dans le cloud
-      cloud_sync: "<b>Synchronisation dans le cloud</b>: les données peuvent être synchronisées entre plusieurs appareils"
-      split_template: Nombre illimité <b>de modèles et d'échéances pour les opérations ventilées</b>
-      email_support: <b>Assistance par e-mail</b> avec réponse garantie sous 2 jours ouvrables
+      auto_backup: <b>Sauvegarde automatique</b> quotidienne avec téléchargement facultatif
+        vers le stockage dans le cloud
+      cloud_sync: "<b>Synchronisation dans le cloud</b> : les données peuvent être\
+        \ synchronisées entre plusieurs appareils"
+      split_template: Nombre illimité <b>de modèles et d'échéances pour les opérations
+        ventilées</b>
+      email_support: <b>Assistance par e-mail</b> avec réponse garantie sous 2 jours
+        ouvrables
       roadmap_voting: Voter sur la <b>feuille de route pour le développement</b>
       history_chart: <b>Graphique historique</b> (flux de trésorerie)
-      budgeting: "<b>Budgétisation</b>: comparez vos dépenses aux limites que vous définissez par catégorie sur une base quotidienne, hebdomadaire, mensuelle ou annuelle."
-      scan_receipt: "<b>Numériser les reçus</b> : extraire automatiquement le montant, la date et le bénéficiaire"
+      budgeting: "<b>Budgétisation</b> : comparez vos dépenses aux limites que vous\
+        \ définissez par catégorie sur une base quotidienne, hebdomadaire, mensuelle\
+        \ ou annuelle."
+      scan_receipt: "<b>Numériser les reçus</b> : extraire automatiquement le montant,\
+        \ la date et le bénéficiaire"
       webui: <b>Interface utilisateur Web</b>
     one-time-payment: Paiement unique
     subscription: Abonnement
   store:
-    short_description: "Gestionnaire de finances personnelles: facile à utiliser, riche en fonctions."
-    full_description_intro: "{app_name} enregistre vos dépenses et vos revenus, directement sur votre smartphone et sur votre tablette."
-    full_description_contrib: "Les fonctions Premium sont déverrouillées en achetant l'une des clés de licence suivantes:"
-    full_description_contrib_amazon: "De nombreuses fonctions supplémentaires sont déverrouillées en achetant l'une des clés de licence, par exemple:"
-    highlight_1: "Gardez une trace de vos dépenses et revenus avec plusieurs comptes, modèles et catégories"
-    highlight_2: "Partagez vos données entre plusieurs téléphones et tablettes via WebDAV et Google Drive"
+    short_description: "Gestionnaire de finances personnelles : riche en fonctionnalités\
+      \ et à code source ouvert"
+    full_description_intro: "{app_name} enregistre vos dépenses et vos revenus, directement\
+      \ sur votre smartphone et sur votre tablette."
+    full_description_contrib: "Les fonctions Premium sont déverrouillées en achetant\
+      \ l'une des clés de licence suivantes :"
+    full_description_contrib_amazon: "De nombreuses fonctions supplémentaires sont\
+      \ déverrouillées en achetant l'une des clés de licence, par exemple :"
+    highlight_1: "Gardez une trace de vos dépenses et revenus avec plusieurs comptes,\
+      \ modèles et catégories"
+    highlight_2: "Partagez vos données entre plusieurs téléphones et tablettes via\
+      \ WebDAV et Google Drive"
     highlight_3: "Résumez votre situation financière par jour, semaine, mois ou année"
   permissions:
     heading: <i>{app_name}</i> demande les <u>permissions</u> suivantes
     calendar:
       label: Agenda
-      explanation: Les échéances d'opérations futures et périodiques seront stockées dans un calendrier local spécial ou dans celui que vous lui préciserez.
+      explanation: Les échéances d'opérations futures et périodiques seront stockées
+        dans un calendrier local spécial ou dans celui que vous lui préciserez.
     external-storage:
       label: Stockage
       explanation: Enregistrement des fichiers d'exportation QIF et CSV et des sauvegardes.

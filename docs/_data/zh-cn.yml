@@ -16,7 +16,7 @@ zh-cn:
     participate: 参加
     faq: 常见问答
     versionlist: 活动日志
-    credits: 所有权
+    credits: 鸣谢
     licence: 授权
     sourcecode: 源代码
     links: 链接
@@ -30,16 +30,16 @@ zh-cn:
     export: 可以将交易数据打印成PDF文件，和存储为QIF或CSV文件。
     sync: 通过私有或公共云服务在多个设备上同步加密的账户数据。
   features:
-    manage_accounts: 可创建最多五个可进行互相<b>转账的账户</b>（也可以在不同货币之间进行转账）。
-    plans: 可创建无限数量的<b>模板</b>和最多三个<b>定期交易计划</b>。
-    export: <b>导出</b>为QIF和CSV文件。从QIF文件<b>导入</b>。
-    password: 数据可以通过<b>密码</b>或设备的<b>锁定屏幕</b>进行保护。
-    light_theme: <b>界面主题</b>（黑色或白色）与<b>字体大小</b>可以自定义
+    manage_accounts: 可创建最多五个可进行互相<b>转账</b>的账户（也可以在不同货币之间进行转账）
+    plans: 可创建无限数量的<b>模板</b>和最多三个<b>循环</b>交易
+    export: <b>导出</b>为QIF和CSV文件。从QIF文件<b>导入</b>
+    password: 可以通过<b>密码</b>或设备的<b>锁屏</b>保护数据
+    light_theme: 可自定义 <b>界面主题</b>（深色或浅色）与<b>字体大小</b>
     reconciliation: "<b>对帐</b>：轻松地将交易状态与银行对帐单进行比较"
     homescreen: 可以从主屏幕的<b>小部件 widget</b>和<b>快捷方式</b>快速输入交易数据
   contrib:
     thank_you: |
-        您的捐款赞助“开支助手”的进一步发展。谢谢您！
+      您的捐款赞助“开支助手”的进一步发展。谢谢您！
     feature-list-title: "请透过升级来赞助<i>{app_name}</i>，还可以解锁得到以下更多的功能:"
     feature:
       accounts_unlimited: 可创建无限数量的<b>账户</b>
@@ -89,6 +89,25 @@ zh-cn:
   contrib-key: 贡献版密钥(Contrib Key)
   extended-key: 延伸版密钥(Extended Key)
   professional-key: 专业版密钥(Professional Key)
-  all_contrib_key_features: '"贡献版密钥(Contrib Key)" 的所有功能'
-  all_extended_key_features: '"延伸版密钥(Extended Key)" 的所有功能'
+  all_contrib_key_features: '贡献版密钥的所有功能'
+  all_extended_key_features: '延伸版密钥的所有功能'
   customer_support: 客户支持
+  screenshot_testdata:
+    account1Label: 我的钱包
+    tag_project: 未命名项目
+    templatePayee: 张三
+    transaction4Payee: 海底捞
+    transaction2Comment: 水果蔬菜
+    account3Description: 美国银行
+    account3Label: 银行账户
+    account2Label: 周末在巴黎
+    account1Description: 每日支出
+  screenshot_titles:
+    sync: 云同步
+    export: 导出为 PDF、QIF 和 CSV
+    history: 你的财务状况历史
+    distribution: 饼图展示
+    split: 拆分为多个分类
+    budget: 年度、月度和每周预算
+    summarize: 汇总所有账户
+    group: 按年、月或星期分组
