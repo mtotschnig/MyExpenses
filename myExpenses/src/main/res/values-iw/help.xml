@@ -1,199 +1,204 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-  <string name="help_menu_commands">פקודות תפריט</string>
-  <string name="help_contextual_actions">פעולות הקשר</string>
-  <string name="help_contextual_actions_help">התפריט עבור פעולות קשורות מוצג על ידי הקשה ארוכה על ערך רשימה.</string>
-  <string name="help_form_fields">טופס שדות</string>
-  <string name="cab_delete_help_text">מחק את הפריטים שנבחרו.</string>
-  <string name="cab_edit_help_text">ערוך את הפריט שנבחר.</string>
-  <!--My Expenses Transaction list-->
-  <string name="help_MyExpenses_title">רשימת עסקאות</string>
-  <string name="help_MyExpenses_info">מסך זה מפרט את כל העסקאות בחשבון השוטף. השתמש בלחצן פעולה צפה כדי לפתוח את הטופס ליצירת עסקה חדשה.</string>
-  <string name="help_MyExpenses_fab_long_press">לחיצה ארוכה על כפתור הפעולה הצף פותחת תפריט המאפשר להכין את הטופס להעברה, לעסקה מפוצלת או להכנסה.</string>
-  <string name="popup_MyExpenses_toolbar_intro">הקשה על סרגל הכלים (תווית חשבון או יתרה נוכחית) מציגה תפריט עם הערכים הבאים:</string>
-  <string name="popup_MyExpenses_toolbar_copy_text">העתק את היתרה הנוכחית ללוח.</string>
-  <string name="popup_MyExpenses_toolbar_new_balance">חשב את ההפרש בין היתרה הנוכחית לערך חדש.</string>
-  <string name="help_MyExpenses_crStatus_info">הסטטוס של העסקה מסומן על ידי מלבן צבעוני: אפור עבור Unreconciled, כחול עבור Cleared, ירוק עבור Reconcieled. לחיצה על המלבן משנה את הסטטוס.</string>
-  <string name="menu_reset_help_text">פקודה זו תייצא את כל העסקאות של החשבון הנוכחי לקובץ בכרטיס SD בפורמט QIF או CSV. אתה יכול להחליט למחוק את העסקאות המיוצאות, במקרה זה, יתרת הפתיחה מותאמת באופן אוטומטי. לחלופין, אם העסקאות לא נמחקות, הן יסומנו כמיוצאות. האפליקציה \'ההוצאות שלי\' יכולה לשתף את הקובץ מיד לאחר הייצוא באמצעות FTP, דואר אלקטרוני או כל יישום שיתוף קבצים אחר, אם אתה מגדיר את זה כדי לעשות זאת בהגדרות. אם מסנן החיפוש פעיל, רק העסקאות שמופו על ידי מסנן זה יילקחו בחשבון.</string>
-  <string name="menu_grouping_help_text">ניתן לקבץ עסקאות לפי יום, שבוע, חודש או שנה. עבור כל קבוצה, סכום ההכנסות, ההוצאות וההעברות מחושב ומוצג. כאשר תלחץ על כותרת קבוצה, תצוגת קבוצת העסקאות תסגר ורק הכותרת תוצג. לחץ שוב כדי להרחיב.</string>
-  <string name="menu_sort_direction_help_text">עסקאות ניתן למיין בסדר עולה (הישן בראש) או יורד (האחרון בראש).</string>
-  <string name="menu_distribution_help_text">הצג את התפלגות ההוצאות שלך לפי קטגוריה. אתה יכול גם ללחוץ לחיצה ארוכה על כותרת קבוצה כדי לבדוק את החלוקה לתקופה מסוימת של זמן.</string>
-  <string name="menu_budget_help_text">נהל תקציבים יומיים, שבועיים, חודשיים או שנתיים עבור החשבון המוצג כעת.</string>
-  <string name="menu_history_help_text">הצגת דיאגרמת תזרים מזומנים: כיצד חשבונך והכנסותיך התפתחו במשך ימים, שבועות, חודשים או שנים?</string>
-  <string name="menu_manage_plans_help_text">פותח את רשימת התבניות והתוכניות, שבהן ניתן להחיל, לערוך או למחוק אותן, וכן להגדיר תוכניות לעסקאות עתידיות וחוזרות.</string>
-  <string name="menu_balance_help_text">פקודה זו פותחת תיבת דו-שיח המציגה את המאזן האחרון שמסומן reconcield. אתה יכול להשוות את זה האחרון לדוח הבנק שלך, והעביר את כל העסקות המסומנות cleared למצב reconciled. לחלופין, תוכל להחליט למחוק עסקאות המסומנות reconciled.</string>
-  <string name="menu_print_help_text">יוצר תצוגה הניתנת להדפסה של העסקאות המוצגות כעת.</string>
-  <string name="menu_search_help_text">ערך זה פותח תפריט משנה המאפשר לך להגדיר קריטריונים לחיפוש לפי קטגוריה, סכום, תגובה, סטטוס, משלם / מקבל תשלום ושיטת תשלום. כאשר מסנן החיפוש פעיל, אתה יכול פשוט ללחוץ על הערך שלו בתפריט המשנה כדי לבטל את זה.</string>
-  <string name="cab_create_template_from_transaction_help_text">הגדר תבנית חדשה המבוססת על העסקה שנבחרה. תנחה אותך עבור הכותרת של התבנית.</string>
-  <string name="cab_clone_transaction_help_text">העסקאות שנבחרו ישוכפלו עם התאריך והשעה הנוכחיים. באפשרותך לבצע שינויים לפני שמירת העותק.</string>
-  <string name="cab_split_help_text">לאחר מכן תוכל לערוך את העסקה כדי ליצור חלקים נוספים לפי הצורך.</string>
-  <string name="menu_scan_mode_help_text">הפעל את מצב הסריקה על מנת לסרוק קבלות במהירות.</string>
-  <string name="cab_link_help_text">ניתן לקשר הוצאה בחשבון אחד להכנסה בחשבון אחר. אם לחשבונות יש אותו מטבע, שתי העסקאות חייבות להיות בסכומים זהים.</string>
-  <!--ManageMethods title is in keys-->
-  <string name="help_ManageMethods_info">מסך זה מפרט את שיטות התשלום המוגדרות מראש (המחאה, כרטיס אשראי, הפקדה, הוראת קבע) ומאפשר לך להגדיר שיטות חדשות. השתמש בלחצן פעולה הצף כדי לפתוח את הטופס ליצירת שיטה חדשה.</string>
-  <!--ManageParties title is in keys-->
-  <string name="help_ManageParties_manage_info">מסך זה מפרט את הצדדים המשמשים להשלמה האוטומטית של משלם / מקבל התשלום. השתמש בלחצן </string>
-  <string name="help_ManageParties_select_mapping_info">בחר קבוצה על ידי הקשה עליה.</string>
-  <string name="help_ManageParties_select_filter_info">הקש על קבוצה לסינון רשימת העסקאות. לחץ לחיצה ארוכה  לבחירת מספר צדדים.</string>
-  <string name="help_ManageParties_floating_action_button">הפעולה הצפה כדי להוסיף רשומה חדשה.</string>
-  <string name="menu_merge_help_text">אם אותה צד מופיעה מספר פעמים ברשימה עם וריאציות איות שונות, תוכל למזג אותן יחד. תתבקש לבחור איזה גרסה תשמור.</string>
-  <!--ManageTemplates title is in keys-->
-  <string name="help_ManageTemplates_plans_title">תצוגת תוכנית בלוח שנה</string>
-  <string name="help_ManageTemplates_planner_title">אירועים חוזרים צפויים</string>
-  <string name="help_ManageTemplates_templates_info"> <![CDATA[<img src=\"ic_menu_template\"> בעוד שתבניות ניתן לגזור מעסקאות באמצעות תפריט ההקשר שלהם, כאן אתה יכול ליצור תבניות חדשות מאפס (עבור עסקאות או העברות) על ידי לחיצה על כפתור הפעולה הצף. לחיצה על תבנית, תיצור מופע עבורו.<br><img src=\"ic_event\"> תוכנית היא תבנית שעבורה יצרת אירוע (חד פעמי או חוזר) בלוח התכנון. לחיצה על תוכנית, תפתח תצוגת לוח שנה, המציגה מופעים קודמים ועתידים של תוכנית.]]></string>
-  <string name="help_ManageTemplates_planner_intro">הקשה ארוכה על מופע פתוח מתחילה בחירה מרובה. הקשה על התחלה או סיום של טווח התאריכים מאפשרת להרחיב את הטווח לעבר או לעתיד.</string>
-  <string name="help_ManageTemplates_plans_intro">כל תאריך מסומן מייצג מופע של התוכנית.</string>
-  <string name="help_ManageTemplates_plans_info"><![CDATA[ מצב המופע מסומן על ידי הסמלים הבאים: <br><img src=\"ic_stat_open\"> המקרה עדיין לא הוחל .<br><img src=\"ic_stat_applied\"> המקרה הוחל .<br><img src=\"ic_stat_cancelled\"> המקרה בוטל, כלומר, סימנת לדלג עליו. לא תיוצור עסקה עבור המופע הזה.]]></string>
-  <string name="cab_ManageTemplates_templates_create_instance_save_help_text">התאם את התבניות שנבחרו ושמור אותן מיידית.</string>
-  <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">התאם את התבנית שנבחרה והזן את טופס העריכה שלה, שבו תוכל לשנות אותה לפני השמירה.</string>
-  <string name="cab_ManageTemplates_delete_help_text">מחק את התבניות שנבחרו ואת כל התוכניות המשויכות.</string>
-  <string name="cab_ManageTemplates_edit_help_text">ערוך את התבנית שנבחרה וצור או ערוך תוכנית משויכת.</string>
-  <string name="cab_ManageTemplates_plans_create_instance_save_help_text">צור עסקאות בזמן מופעי האירוע שנבחרו ושמור אותם מיידית.</string>
-  <string name="cab_ManageTemplates_plans_create_instance_edit_help_text">צור עסקה בזמן מופע האירוע שנבחר והזן את טופס העריכה שבו תוכל לשנות אותו לפני השמירה.</string>
-  <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">ציין שבמקרים של אירועים נבחרים, אין ליצור עסקאות. אם נוצרו עסקאות עבור מופעי האירועים שנבחרו, הם יימחקו.</string>
-  <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">אם נוצרו עסקאות עבור מופעי האירועים שנבחרו, הם יימחקו, אם הם סומנו כמבוטלים, הסימון יוסר.</string>
-  <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">ערוך את העסקה שנוצרה עבור מופע התוכנית שנבחר.</string>
-  <string name="menu_ManageTemplates_templates_sort_help_text">ניתן לסדר את רשימת התבניות לפי כותרת (לפי סדר אלפביתי), לפי כמות, לפי תדירות השימוש, או בפעם האחרונה שהופקה עסקה ממנה.</string>
-  <!--ManageCategories_* titles are in keys-->
-  <string name="help_ManageCategories_distribution_info">מסך זה מציג את התפלגות ההוצאות וההכנסות לפי קטגוריות, עבור כל העסקאות בחשבון, או עבור קבוצה מסוימת. אם תרחיב קטגוריה ראשית ברשימה, תרשים העוגה יציג את ההפצה של קטגוריות המשנה שלה. אם תבחר קטגוריה ברשימה, היא תודגש בתרשים העוגה, ולהיפך. לחץ לחיצה ארוכה על קטגוריה כדי להציג רשימה מצטברת של העסקאות הממופות אליה.</string>
-  <string name="help_ManageCategories_select_mapping_info">בנוסף לפעולות שבאפשרותך לבצע בעת ניהול קטגוריות ממסך ההעדפות (צור, ערוך, מחק), במסך זה אתה ממפה עסקה לקטגוריה שנבחרה. אתה בוחר קטגוריית משנה למיפוי לעסקה הנוכחית פשוט על ידי לחיצה עליו. כדי למפות קטגוריה ראשית, אתה צריך לקרוא לתפריט ההקשר שלה.</string>
-  <string name="help_ManageCategories_select_filter_info">בחר את הקטגוריה לסינון רשימת העסקאות. כדי לחפש קטגוריה ראשית, אתה צריך לקרוא לתפריט ההקשר שלה.</string>
-  <string name="help_ManageCategories_manage_info">מסך זה מאפשר ליצור, לערוך ולמחוק קטגוריות. כברירת מחדל, קריטריון המיון הראשי ברשימת הקטגוריות הוא מספר הפעמים שבהן אתה משתמש בקטגוריה (הקריטריונים המשניים בסדר אלפביתי). פעולה זו מעניקה לך גישה מהירה לקטגוריות שבהן אתה משתמש בתדירות הגבוהה ביותר. בהגדרות, תוכל לבחור למיין את הקטגוריות בסדר אלפביתי רגיל. לחיצה על קטגוריה ראשית, פותחת את קטגוריות המשנה שלה. מתפריט הקשר של קטגוריה ראשית, ניתן להוסיף קטגוריות משנה חדשות, למחוק קטגוריה או לערוך אותה. לקטגוריות משנה יש גם תפריטים למחיקה ולעריכה.</string>
-  <string name="menu_ManageCategories_distribution_grouping_help_text">הגדר את סוג הקיבוץ לקבוצה והצג את ההפצה ליום, חודש, שבוע או שנה.</string>
-  <string name="menu_back_help_text">נווט אל הקבוצה הקודמת. ניתן לעשות זאת גם באמצעות מחוות החלקה משמאל לימין.</string>
-  <string name="menu_forward_help_text">נווט אל הקבוצה הבאה. ניתן לעשות זאת גם באמצעות תנועת החלקה מימין לשמאל.</string>
-  <string name="cab_ManageCategories_create_sub_cat_help_text">פותח את תיבת הדו-שיח לציון הכותרת של קטגוריית המשנה החדשה מתחת לקטגוריה שנבחרה.</string>
-  <string name="cab_ManageCategories_move_help_text">ניתן להעביר קטגוריות משנה לקטגוריה ראשית אחרת, או להפוך אותן לקטגוריות עיקריות. הקטגוריות העיקריות שאין להן ילדים יכולות להפוך לקטגוריות משנה של קטגוריה ראשית אחרת.</string>
-  <string name="cab_ManageCategories_select_help_text">שייך את הקטגוריה שנבחרה לעסקה וחזור לטופס העסקה.</string>
-  <string name="menu_categories_setup_default_help_text">קבוצה של קטגוריות ברירת מחדל תיובא.</string>
-  <string name="menu_categories_export_help_text">הקטגוריות יוצאו לקובץ QIF.</string>
-  <string name="menu_distribution_show_pie_char_help_text">החלף את הנראות של תרשים העוגה.</string>
-  <string name="menu_distribution_aggreate_help_text">כברירת מחדל, הסכומים המחושבים כוללים הן הוצאות והן הכנסות. אתה יכול להחליט להציג אותם בנפרד, כפתור בסרגל הפעולות מאפשר לך לעבור בין ההוצאות וההכנסות.</string>
-  <string name="cab_ManageCategories_select_filter_select_help_text">הקטגוריה שנבחרה תשמש לסינון רשימת העסקאות.</string>
-  <string name="menu_ManageCategories_search_help_text">רק קטגוריות עיקריות ותת-קטגוריות התואמות את השאילתה שלך יוצגו.</string>
-  <string name="menu_ManageCategories_sort_help_text">ניתן לסווג את רשימת הקטגוריות לפי כותרת (לפי סדר אלפביתי), לפי תדירות השימוש, או לפי הפעם האחרונה ששוייכה לעסקה.</string>
-  <string name="cab_ManageCategories_color_help_text">ניתן להקצות צבע לקטגוריות עיקריות. צבע זה ישמש לייצוג הקטגוריה בתרשימים. קטגוריות משנה ישתמשו בגוונים של צבע הקטגוריה העיקרית שלהם.</string>
-  <!--ExpenseEdit-->
-  <string name="help_ExpenseEdit_transaction_title">טופס לעסקאות</string>
-  <string name="help_ExpenseEdit_transfer_title">טופס להעברות</string>
-  <string name="help_ExpenseEdit_split_title">טופס לעסקה מפוצלת</string>
-  <string name="help_ExpenseEdit_splitPartCategory_title">טופס עבור קטגוריה עם חלקים מפוצלים</string>
-  <string name="help_ExpenseEdit_splitPartTransfer_title">טופס עבור העברה עם חלקים מפוצלים</string>
-  <string name="help_ExpenseEdit_templateCategory_title">טופס לתבניות עסקה</string>
-  <string name="help_ExpenseEdit_templateTransfer_title">טופס לתבניות העברה</string>
-  <string name="help_ExpenseEdit_templateSplit_title">טופס לתבניות מפוצלות</string>
-  <string name="help_ExpenseEdit_transaction_info">השתמש בטופס זה כדי להזין עסקה חדשה או לערוך עסקה קיימת. השתמש בתפריט הנפתח שבשורת הפעולות כדי לעבור לטופס להוספת העברה חדשה או עסקה מפוצלת.</string>
-  <string name="help_ExpenseEdit_templateCategory_info">השתמש בטופס זה כדי להזין תבנית חדשה או לערוך תבנית קיימת. השתמש בתפריט הנפתח בשורת הפעולות כדי לעבור בין תבניות לעסקאות, העברות ופיצולים.</string>
-  <string name="help_ExpenseEdit_split_info">עסקת פיצול היא עסקה אחת המפוצלת בחלקים, שבהם ניתן להקצות כל חלק לקטגוריה אחרת, או להעביר לחשבון אחר.</string>
-  <string name="form_account_help_text">בחר בחשבון שאליו משתייכת העסקה.</string>
-  <string name="form_date_time_help_text">הזן את התאריך והשעה שבהם בוצעה העסקה.</string>
-  <string name="form_date_time_help_text_configuration">בהגדרות ניתן להשבית את קלט הזמן ולאפשר את ההבחנה בין תאריך ההזמנה לבין תאריך הערך.</string>
-  <string name="form_date_time_help_text_link"><![CDATA[אם <img src=\"ic_hchain\"> / <img src=\"ic_hchain_broken\">toggle במצב  מקושר, הגדרת תאריך ערך או תאריך ההזמנה תעדכן את התאריך השני.]]></string>
-  <string name="form_payer_or_payee_help_text">שדה זה זוכר את הערכים שהזנת ויציע אותם בעתיד.</string>
-  <string name="form_amount_switch_help_text">השתמש במתג כדי לעבור בין הוצאה להכנסה.</string>
-  <string name="form_calculator_help_text"><![CDATA[כפתור <img src=\"?calcIcon\"> פותח את המחשבון.]]></string>
-  <string name="form_crstatus_help_text">לגבי עסקאות השייכות לחשבונות בנק, תוכל לשנות את סטטוס העסקה ל- cleared. כדי להגדיר את זה ל- reconciled, עליך להשתמש בפקודה \"יתרת חשבון\" מתוך רשימת עסקאות. אם הסטטוס מוגדר לביטול, העסקה לא תיספר.</string>
-  <string name="form_comment_help_text">הזן כל הערה לגבי האובייקט.</string>
-  <string name="form_method_help_text">שדה זה זמין רק אם החשבון הנוכחי הוא מסוג המקושר לאמצעי תשלום כל שהוא. כברירת מחדל, רק חשבונות בנק מקושרים לשיטות תשלום (המחאה, כרטיס אשראי, הפקדה, הוראת קבע). עבור אל הגדרות - &amp; gt; נהל - &amp; gt; אמצעי תשלום כדי להגדיר את השיוך בין סוגי החשבון ושיטות התשלום. כאשר אתה בוחר שיטה המוגדרת כממוספרת, שדה נוסף להזנת מספר סימוכין הופך לזמין.</string>
-  <string name="form_attach_image_help_text"><![CDATA[כפתור <img src=\"android:ic_menu_camera\"> מאפשר לך לצרף תמונה (למשל מהגלריה או מהמצלמה) לאובייקט.]]></string>
-  <string name="form_default_action_help_text">עבור כל תבנית, תוכל להגדיר אם לחיצה קצרה עליה ברשימת התבניות תשמור את המופע באופן מיידי או שתזין את טופס העריכה שבו תוכל לשנות אותו לפני השמירה. תמיד תוכל לגשת לשתי הפעולות באמצעות הקשה ארוכה.</string>
-  <string name="form_category_help_text">לחצן זה פותח את רשימת הקטגוריות, שבהן תוכל לבחור את הקטגוריה שברצונך למפות לעסקה.</string>
-  <string name="form_split_parts_heading_help_text">השתמש בלחצן הפעולה הצף להזנת חלקים מפוצלים רבים לפי הצורך. ההפרש בין סכום החלקים לעסקה מוצג בתחתית המסך. באפשרותך לשמור רק את העסקה המפוצלת, אם סכום העסקה הוקצה במדויק.</string>
-  <string name="form_ExpenseEdit_splitPartCategory_category_help_text">בחר קטגוריה לחלק המפוצל</string>
-  <string name="form_transfer_from_account_transfer_to_account_help_text">הקצה את החשבונות שאליהם מועבר אובייקט זה מ... או אל.</string>
-  <string name="form_exchange_rate_help_text">תוכל לציין את התעריף באחת משני הכיוונים של ההעברה. ההיוון ההפוך והסכום המתאים לחלק התלותי של שער החליפין מחושבים באופן אוטומטי.</string>
-  <string name="form_title_help_text">הזן כותרת שמזהה את התבנית באופן ייחודי.</string>
-  <string name="form_plan_help_text">כאשר אתה יוצר תכנית עבור תבנית, היא מתווספת ליומן פרטי המטופל באפליקציית היומן שלך. ניתן להגדיר את התוכנית כאירוע חד פעמי, או כ חוזר מדי יום, שבועי, חודשי או שנתי.</string>
-  <string name="form_plan_help_text_advanced">לאחר שתשמור את התבנית, תוכל להגדיר סוגים מתקדמים יותר של הישנות שימוש באפליקציית היומן שלך.</string>
-  <string name="form_plan_help_text_mode">תוכנית ניתן להגדיר אוטומטית או ידנית. כאשר מתרחש מופע של תוכנית אוטומטית, תיווצר העסקה ותתקבל הודעה. כאשר התוכנית ידנית, אתה מקבל גם הודעה, אשר משאירה את הבחירה של ביטול, שינוי או החלת התבנית לך.</string>
-  <string name="menu_save_help_text">שמור את הנתונים וסגור את הטופס.</string>
-  <string name="menu_save_and_new_help_text">אם זה מסומן, לאחר שמירת הנתונים, הטופס נשאר פתוח ליצירת עסקה חדשה עם אותם נתונים.</string>
-  <string name="menu_original_amount_help_text">הצג שדה המאפשר להגדיר סכום נוסף. לדוגמה, אם אתה משלם עם כרטיס האשראי שלך במטבע חוץ, אתה יכול לזכור את המחיר המקורי בנוסף לסכום המחויב הכרטיס שלך. התעלם מהסכום המקורי לצורך חישוב סכומים.</string>
-  <string name="menu_equivalent_amount_help_text">לצורך חישוב סך כולל בכל החשבונות, עסקאות של חשבונות במטבע חוץ, מוכפלים בשער החליפין שקבעת עבור החשבון. אבל אתה יכול גם לעקוף את הסכום המחושב על ידי הגדרת סכום שווה ערך עבור כל עסקה בודדת.</string>
-  <string name="menu_invert_transfer_help_text">הפוך את כיוון ההעברה על ידי החלפת \'מ\' ו \'אל\' חשבון.</string>
-  <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">אם המטבעות של \'מאת\' ו \'אל\' החשבון שונים, אתה מציין את הסכום עבור אחד מהם בלבד. השני יחושב בעת יצירת מופעים מהתבנית.</string>
-  <string name="form_goal_or_limit_help_text">שדה זה מאפשר לציין יעד חיסכון חיובי או מסגרת אשראי שלילית. בכל מקרה, ברשימת החשבונות, מחוון התקדמות מדמה את המרחק בין היתרה הנוכחית לבין היעד או הגבול.</string>
-  <string name="menu_templates_help_text">פתח תפריט המפרט את כל התבניות המאפשרות לטעון אותן במהירות לטופס.</string>
-  <string name="menu_create_template_from_transaction_help_text">אם זה מסומן, העסקה תישמר גם כתבנית. אתה יכול להגדיר את הכותרת שלה ולהגדיר אופציה לחזרה אוטומטית.</string>
-  <!--AccountEdit-->
-  <string name="help_AccountEdit_title">טופס לחשבונות</string>
-  <string name="form_AccountEdit_label_help_text">התווית מזהה את החשבון ברשימת החשבונות.</string>
-  <string name="form_description_help_text">לתיאור יש רק כוונה אינפורמטיבית.</string>
-  <string name="form_AccountEdit_amount_switch_help_text">השתמש במתג כדי להתחיל עם יתרת פתיחה שלילית.</string>
-  <string name="form_currency_help_text">בחר מטבע מהרשימה המסופקת של כל המטבעות הנוכחיים.</string>
-  <string name="form_AccountEdit_type_help_text">ניתן להגדיר את סוג החשבון כחשבון מזומן, בנק, נכס, התחייבויות, כרטיס אשראי. הסוג קובע את אמצעי התשלום הזמינים שתוכל להגדיר במסגרת הגדרות - &amp; gt; נהל - &amp; gt; שיטות תשלום.</string>
-  <string name="form_AccountEdit_type_help_text_reconciliation">התכונה \'reconciliation\' זמינה עבור כל החשבונות, למעט חשבונות מזומנים: היא מאפשרת להגדיר סטטוס של עסקאות לניקוי, לאחר אישורו, ו-reconciel החשבון כולו עם דוח הבנק שלך באמצעות הפקודה \'יתרת חשבון\'.</string>
-  <string name="form_color_help_text">ברשימת הפעולות עבור חשבון, צבעו ישמש כצבע ממשק משתמש ראשי.</string>
-  <string name="form_synchronization_help_text_select">בחר backend עבור סנכרון ענן.</string>
-  <string name="form_synchronization_help_text_add">ניתן להוסיף Backends ממסך ההגדרות.</string>
-  <string name="form_AccountEdit_active_tags_help_text">אתה יכול לשייך מספר תגים פעילים או יותר לכל חשבון. כשאתה יוצר עסקה חדשה, היא מתויגת אוטומטית עם אלה, על סמך החשבון שנבחר.</string>
-  <string name="menu_exclude_from_totals_help_text">אם תסמן אפשרות זו, חשבון זה לא ייכלל במצטבר למטבע.</string>
-  <!--MethodEdit-->
-  <string name="help_MethodEdit_title">טופס לשיטות תשלום</string>
-  <string name="form_MethodEdit_label_help_text">התווית מזהה את השיטה כאשר אתה ממפה עסקה אליה.</string>
-  <string name="form_MethodEdit_type_help_text">באמצעות סוג של שיטה, אתה קובע אם היא חלה על הוצאות (חיוב), הכנסה (אשראי) או שניהם (ניטרלי).</string>
-  <string name="form_MethodEdit_numbered_help_text">כאשר שיטה ממוספרת, לעסקאות שמופו אליה, יהיה שדה נוסף להזנת מספר סימוכין.</string>
-  <string name="form_MethodEdit_account_types_help_text">בחר את סוגי החשבון שעבורם שיטה זו מתאימה.</string>
-  <!--ManageCurrencies-->
-  <string name="help_ManageCurrencies_info">עבור כל מטבע, באפשרותך לשנות את מספר ספרות השבר להתמש בהן. לדוגמה, אם עבור Euro, אתה צריך לטפל 1/10 של סנט, כלומר 1/1000 של היורו, כדאי להגדיר את המספר לשלוש. חשבונות קיימים המשתמשים במטבע, יועברו להגדרה החדשה.</string>
-  <string name="help_ManageCurrencies_symbol">ניתן גם להגדיר את סמל המטבע, שבו נעשה שימוש כאשר סכומים במטבע מסוים מעוצבים.</string>
-  <string name="help_ManageCurrencies_new">במטבעות מותאמים אישית, אתה גם מגדיר תווית, המוצגת בתפריטים לבחירת מטבע וקוד אלפביתי, אשר לפי האמנה מורכב משלושה תווים.</string>
-  <!--FolderBrowser title is in keys-->
-  <string name="help_FolderBrowser_info">התיקיה שתבחר כאן, תשמש לאחסון גיבויים ויצוא. נווט בהיררכית התיקיות עד שתגיע לתיקיה הרצויה.</string>
-  <string name="menu_create_folder_help_text">צור תיקייה חדשה בתוך התיקיה הנוכחית.</string>
-  <string name="menu_FolderBrowser_select_help_text">בחר את התיקייה הנוכחית כיעד אחסון ליצוא ולגיבויים.</string>
-  <string name="menu_up_help_text">נווט אל ההורה של התיקיה הנוכחית.</string>
-  <!--StaleImages-->
-  <string name="help_ManageStaleImages_info">מסך זה מאפשר לך להתמודד עם קבצי תמונה שהושארו מעסקאות שנמחקו. לחץ לחיצה ארוכה על ערכים כדי למחוק אותם, או להעביר אותם מתוך תיקיית האחסון (אולי פנימי) לתיקיית גיבוי (Android / data / org.totschnig.mxexpenses / files / images.old) על אחסון חיצוני.</string>
-  <!--CSV Import-->
-  <string name="help_CsvImportActivity_info"><![CDATA[לאחר בחירת הקובץ שברצונך לייבא, עליך להגדיר את אופן קידוד הקובץ (UTF-8 או ISO-8859-1), איזה תו מפריד בין שדות (פסיק, נקודה פסיק או לשונית) וכיצד תאריכים מעוצבים. ניתן לייבא נתונים לחשבון קיים או לחשבון חדש, שבו תוכל להגדיר את המטבע ואת סוג החשבון.<br><br> לאחר שתלחץ על הלחצן \'ניתוח\' מסרגל הפעולות, הנתונים יוצגו בטבלה. לפני שתפעיל את הייבוא באמצעות הלחצן בסרגל הפעולות, תוכל לבחור שורות שברצונך למחוק, ועליך למפות את העמודות לשדות הנתונים המתאימים. <br><br>כאשר תשליך את השורה הראשונה, תתבקש אם ברצונך להתייחס בתור שורת כותרת, ובמקרה זה <i> אפליקצית \'ההוצאות שלי\'  </i> תנסה באופן אוטומטי למפות את העמודות בהתבסס על התוכן של התאים של הכותרת. היא גם תיזכור את המיפוי שלך על סמך שורת הכותרת, ותשחזר אותו, כאשר אתה מייבא קובץ עם אותו פורמט כותרת בפעם הבאה.]]></string>
-  <string name="help_ExportDialog_date_format"><![CDATA[ניתן לצטט טקסט באמצעות ציטוטים בודדים (\') כדי למנוע פרשנות. \'\' (שתי ציטוטים בודדים) מייצגים ציטוט בודד. היוועץ <a href="http://developer.android.com/reference/java/text/SimpleDateFormat.html"> במפרט המלא </a> למידע נוסף, או פנה אל support@myexpenses.mobi לקבלת עזרה]]></string>
-  <string name="help_NavigationDrawer_info">רשימת החשבונות מאפשרת לך לנווט בקלות בין חשבונות על ידי לחיצה על רשומה.</string>
-  <string name="menu_create_account_help_text">צור חשבון חדש. הגרסה החינמית מוגבלת לחמישה חשבונות.</string>
-  <string name="menu_NavigationDrawer_sort_help_text">ניתן לסווג את רשימת החשבונות לפי כותרת (לפי סדר אלפביתי), לפי תדירות השימוש, או בפעם האחרונה שנוצרה עבורה עסקה.</string>
-  <string name="menu_NavigationDrawer_sort_help_text_custom">לחיצה על \"מותאם אישית\" מאפשרת לך להגדיר באופן חופשי את המיקום של כל חשבון.</string>
-  <string name="menu_NavigationDrawer_grouping_help_text">רשימת החשבונות יכולה להיות מקובצת לפי סוג חשבון, לפי מטבע או לא מקובצים.</string>
-  <string name="menu_NavigationDrawer_hidden_accounts_help_text">מציג רשימה של כל החשבונות המוסתרים, כאן ניתן להציג אותם שוב או למחוק אותם.</string>
-  <string name="cab_NavigationDrawer_hide_help_text">הסר את החשבון מהרשימה</string>
-  <string name="cab_NavigationDrawer_close_reopen_help_text">על ידי סגירת חשבון, תוכל למנוע כל שינוי (תוספות, מחיקות, עריכה) לנתונים שלו, אך עדיין לאפשר להביא בחשבון לכל החישובים הסטטיסטיים.</string>
-  <!--SyncBackends-->
-  <string name="help_ManageSyncBackends_intro">האפליקציה \'ההוצאות שלי\'  מאפשרות להגדיר תצורות סינכרון שונות עבור כל חשבון. לדוגמה, תוכל לסנכרן חשבון אחד עם תיקיה משותפת, תוך סינכרון חשבון אחר עם תיקייה פרטית. במסך זה אתה מוסיף או מסיר backends סינכרון, להתחיל או להפסיק סנכרון עם חשבונות זמינים מרחוק. בעוד הסנכרון קורה באופן אוטומטי באופן תקופתי, כאן אתה יכול גם להפעיל אותו באופן ידני עם backend. לידיעתך, האפליקציה \'הוצאות שלי\' זקוקוה לשליטה מלאה בתיקיה המרוחקת. אתה לא צריך להשתמש בכלים או ממשקים אחרים לשינוי התוכן שלה, שכן זה סביר להניח שזה יוביל לכשלים במהלך הסנכרון.</string>
-  <string name="help_ManageSyncBackends_webdav">WebDAV: אם ספק אחסון הענן שלך תומך בפרוטוקול זה, האפליקציה \'ההוצאות שלי\' תוכל לסנכרן אותה עם הנתונים. כל שעליך לעשות הוא לספק את כתובת האתר ׁ לתיקייה עם שם המשתמש והסיסמה שלך. אם אתה משתמש ב- https ושרת האינטרנט שלך משתמש באישור חתום על עצמו, תוכל לבטוח בו במפורש.</string>
-  <string name="help_ManageSyncBackends_drive">Google Drive: בחר כל תיקיה שבבעלותך או שמשתפת אותך.</string>
-  <string name="help_ManageSyncBackends_encryption">עבור כל backend, באפשרותך להגדיר ביטוי סיסמה שונה להצפנת נתוני הסנכרון. אתה לא יכול לעבור backend הקיים מ מוצפן מוצפן. אתה צריך ליצור מחדש backend חדש במקרה זה. אם אתה משתמש בתכונה של אחסון אוטומטי של גיבויים על backend סינכרון, קבצים אלה אינם מוצפנים עם הסיסמה ספציפית backend. במקום זאת, באפשרותך להגדיר סיסמה החלה על כל קבצי הגיבוי, במקטע אבטחה במסך ההגדרות.</string>
-  <string name="menu_create_sync_backend_help_text">מתפריט המשנה בחר את סוג הסנכרון  backend שברצונך להוסיף, ולספק את הפרטים הספציפיים לכל אחד מהם.</string>
-  <string name="cab_sync_now_help_text">הפעל סינכרון מיידי עם ה- backend שנבחר.</string>
-  <string name="cab_remove_help_text">הסר את ה- backend שנבחר.</string>
-  <string name="cab_sync_download_help_text">הורד חשבון הזמין ב- backend. חשבון ייווצר באופן מקומי ויוגדר עבור סנכרון עם backend.</string>
-  <string name="cab_sync_link_help_text">התחל סנכרון עבור חשבון שקיים הן מקומי והן מרוחק. אתה צריך להחליט אם נתונים מקומיים או מרוחקים ישמרו בהסינכרון הראשון.</string>
-  <string name="cab_sync_unlink_help_text">החשבון שנבחר לא יסונכרן עוד עם ה- backend</string>
-  <!--History-->
-  <string name="help_HistoryActivity_info">מסך זה מציג את תזרים המזומנים שלך, כיצד ההוצאות וההכנסות שלך מתפתחות על פני שנים, חודשים, שבועות או ימים.</string>
-  <string name="menu_HistoryActivity_grouping_help_text">החלף בין קיבוץ יומי, שבועי, חודשי או שנתי של נתוני תזרים המזומנים שלך.</string>
-  <string name="menu_HistoryActivity_history_show_balance_help_text">החלף את החשיפה של היתרה.</string>
-  <string name="menu_HistoryActivity_history_transfers_help_text">החלף, אם העברות צריך להיות מטופל כמו הכנסה קבועה או הוצאה.</string>
-  <!--Budget-->
-  <string name="help_BudgetActivity_info" tools:ignore="UnusedResources">על ידי הגדרת תקציב, אתה מגדיר סכום כולל שתרצה להוציא במהלך תקופה מסוימת. ניתן גם להקצות סכומים לקטגוריות ולקטגוריות משנה. לאחר מכן אתה עוקב אחר השקעתך וכמה נותר לבזבז.</string>
-  <string name="help_Budget_amount_click">לחיצה על הסכומים המתוקצבים מאפשרת לשנות אותם.</string>
-  <string name="cab_show_transactions_help_text">פתיחת תיבת דו-שיח המפרטת את כל העסקאות הממופות לקטגוריה שנבחרה בחשבון הנוכחי.</string>
-  <string name="menu_BudgetActivity_back_forward_help_text">השווה את התקציב עם ההוצאות של תקופות העבר והעתיד.</string>
-  <string name="menu_BudgetActivity_edit_help_text">שנה את הגדרת התקציב.</string>
-  <string name="menu_budget_aggregate_help_text">כברירת מחדל, הסכומים המחושבים כוללים גם הוצאות וגם הכנסות. אם אתה מבטל אפשרות זו, מתעלמים מההכנסה, רק הוצאות נלקחות בחשבון.</string>
-  <string name="menu_budget_allocated_only_help_text">על ידי הפעלת אפשרות זו מוצגות רק קטגוריות, שהוקצו להם סכום מסוים.</string>
-  <string name="menu_BudgetActivity_delete_help_text">התקציב המוצג כעת יימחק.</string>
-  <string name="help_ManageBudgets_title">רשימת כל התקציבים</string>
-  <string name="help_ManageBudgets_info">מסך זה מציג סיכום של כל התקציבים שיצרת. השתמש בלחצן הפעולה הצף ליצירת תקציב חדש. לחיצה על רשומת רשימה מציגה תקציב יחיד.</string>
-  <string name="help_BudgetEdit_title">טופס לתקציבים</string>
-  <string name="help_BudgetEdit_info">השתמש בטופס זה כדי ליצור תקציב חדש או לעריכת תקציב קיים.</string>
-  <string name="form_BudgetEdit_title_help_text">כותרת של תקציב עוזרת בזיהויו ברשימת התקציבים.</string>
-  <string name="form_BudgetEdit_amount_help_text">כמה כסף זמין במסגרת תקציב זה.</string>
-  <string name="form_BudgetEdit_accounts_help_text">תקציב מוגבל לחשבון אחד, הוא מכסה את כל החשבונות באותו מטבע, או שהוא מתייחס לסך הכל המצטבר בכל המטבעות.</string>
-  <string name="form_BudgetEdit_filter_help_text">ניתן לסנן את התקציבים ביחס לקטגוריות, מפלגות, שיטות או מדינות. נלקחים בחשבון רק עסקאות התואמות את המסננים.</string>
-  <string name="form_BudgetEdit_type_help_text">תקציב מוגדר כרגיל (יומי, חודשי, שבועי, שנתי) או חד פעמי. עבור תקציבים חד פעמיים אתה מציין את ההתחלה ואת סיום משך הזמן. ניתן להגדיר כברירת מחדל תקציב רגיל (שאינו מסונן): פירוש הדבר שרשימת העסקאות (אם היא מוגדרת לקבוצת נתונים ביום, שבוע, חודש או שנה) תציג את ההתקדמות לתקציב זה לכל תקופה.</string>
-  <string name="cab_remap_help_text">השתמש בפקודות בתפריט משנה זה, אם ברצונך לשנות את הנושא הנתון (חשבון, קטגוריה, משלם / מקבל תשלום או אמצעי תשלום) עבור כל העסקאות שנבחרו.</string>
-  <!--Tags-->
-  <string name="form_tags_help_text">סמל + מאפשר לבחור תגיות קיימות וליצור תגיות חדשות. סמל ה- x בכל תג מאפשר להסיר את המיפוי בין העסקה לתג.</string>
-  <string name="help_ManageTags_select_filter_info">בחר או בטל את בחירת התגים לסינון רשימת העסקאות על ידי הקשה עליהם. השתמש בלחצן הפעולה הצף כדי לאשר את הבחירה.</string>
-  <string name="help_ManageTags_manage_info">צור תגיות חדשות על ידי הזנתם לשדה הטקסט. סמל ה- x בכל תג מסיר אותו ממסד הנתונים. לחיצה ארוכה על תג מאפשרת לערוך אותו.</string>
-  <string name="help_ManageTags_select_mapping_info">מפה או בטל את המפה של התגים על ידי הקשה עליהם. השתמש בלחצן הפעולה הצף כדי לאשר את המיפוי.</string>
+    <string name="help_menu_commands">פקודות תפריט</string>
+    <string name="help_contextual_actions">פעולות הקשר</string>
+    <string name="help_contextual_actions_help">התפריט עבור פעולות קשורות מוצג על ידי הקשה ארוכה על ערך רשימה.</string>
+    <string name="help_form_fields">טופס שדות</string>
+    <string name="cab_delete_help_text">מחק את הפריטים שנבחרו.</string>
+    <string name="cab_edit_help_text">ערוך את הפריט שנבחר.</string>
+    <!--My Expenses Transaction list-->
+    <string name="help_MyExpenses_title">רשימת עסקאות</string>
+    <string name="help_MyExpenses_info">מסך זה מפרט את כל העסקאות בחשבון השוטף. השתמש בלחצן פעולה צפה כדי לפתוח את הטופס ליצירת עסקה חדשה.</string>
+    <string name="help_MyExpenses_fab_long_press">לחיצה ארוכה על כפתור הפעולה הצף פותחת תפריט המאפשר להכין את הטופס להעברה, לעסקה מפוצלת או להכנסה.</string>
+    <string name="popup_MyExpenses_toolbar_intro">הקשה על סרגל הכלים (תווית חשבון או יתרה נוכחית) מציגה תפריט עם הערכים הבאים:</string>
+    <string name="popup_MyExpenses_toolbar_copy_text">העתק את היתרה הנוכחית ללוח.</string>
+    <string name="popup_MyExpenses_toolbar_new_balance">חשב את ההפרש בין היתרה הנוכחית לערך חדש.</string>
+    <string name="help_MyExpenses_crStatus_info">הסטטוס של העסקה מסומן על ידי מלבן צבעוני: אפור עבור Unreconciled, כחול עבור Cleared, ירוק עבור Reconcieled. לחיצה על המלבן משנה את הסטטוס.</string>
+    <string name="menu_reset_help_text">פקודה זו תייצא את כל העסקאות של החשבון הנוכחי לקובץ בכרטיס SD בפורמט QIF או CSV. אתה יכול להחליט למחוק את העסקאות המיוצאות, במקרה זה, יתרת הפתיחה מותאמת באופן אוטומטי. לחלופין, אם העסקאות לא נמחקות, הן יסומנו כמיוצאות. האפליקציה \'ההוצאות שלי\' יכולה לשתף את הקובץ מיד לאחר הייצוא באמצעות FTP, דואר אלקטרוני או כל יישום שיתוף קבצים אחר, אם אתה מגדיר את זה כדי לעשות זאת בהגדרות. אם מסנן החיפוש פעיל, רק העסקאות שמופו על ידי מסנן זה יילקחו בחשבון.</string>
+    <string name="menu_grouping_help_text">ניתן לקבץ עסקאות לפי יום, שבוע, חודש או שנה. עבור כל קבוצה, סכום ההכנסות, ההוצאות וההעברות מחושב ומוצג. כאשר תלחץ על כותרת קבוצה, תצוגת קבוצת העסקאות תסגר ורק הכותרת תוצג. לחץ שוב כדי להרחיב.</string>
+    <string name="menu_sort_direction_help_text">עסקאות ניתן למיין בסדר עולה (הישן בראש) או יורד (האחרון בראש).</string>
+    <string name="menu_distribution_help_text">הצג את התפלגות ההוצאות שלך לפי קטגוריה. אתה יכול גם ללחוץ לחיצה ארוכה על כותרת קבוצה כדי לבדוק את החלוקה לתקופה מסוימת של זמן.</string>
+    <string name="menu_budget_help_text">נהל תקציבים יומיים, שבועיים, חודשיים או שנתיים עבור החשבון המוצג כעת.</string>
+    <string name="menu_history_help_text">הצגת דיאגרמת תזרים מזומנים: כיצד חשבונך והכנסותיך התפתחו במשך ימים, שבועות, חודשים או שנים?</string>
+    <string name="menu_manage_plans_help_text">פותח את רשימת התבניות והתוכניות, שבהן ניתן להחיל, לערוך או למחוק אותן, וכן להגדיר תוכניות לעסקאות עתידיות וחוזרות.</string>
+    <string name="menu_balance_help_text">פקודה זו פותחת תיבת דו-שיח המציגה את המאזן האחרון שמסומן reconcield. אתה יכול להשוות את זה האחרון לדוח הבנק שלך, והעביר את כל העסקות המסומנות cleared למצב reconciled. לחלופין, תוכל להחליט למחוק עסקאות המסומנות reconciled.</string>
+    <string name="menu_print_help_text">יוצר תצוגה הניתנת להדפסה של העסקאות המוצגות כעת.</string>
+    <string name="menu_search_help_text">ערך זה פותח תפריט משנה המאפשר לך להגדיר קריטריונים לחיפוש לפי קטגוריה, סכום, תגובה, סטטוס, משלם / מקבל תשלום ושיטת תשלום. כאשר מסנן החיפוש פעיל, אתה יכול פשוט ללחוץ על הערך שלו בתפריט המשנה כדי לבטל את זה.</string>
+    <string name="cab_create_template_from_transaction_help_text">הגדר תבנית חדשה המבוססת על העסקה שנבחרה. תנחה אותך עבור הכותרת של התבנית.</string>
+    <string name="cab_clone_transaction_help_text">העסקאות שנבחרו ישוכפלו עם התאריך והשעה הנוכחיים. באפשרותך לבצע שינויים לפני שמירת העותק.</string>
+    <string name="cab_split_help_text">לאחר מכן תוכל לערוך את העסקה כדי ליצור חלקים נוספים לפי הצורך.</string>
+    <string name="menu_scan_mode_help_text">הפעל את מצב הסריקה על מנת לסרוק קבלות במהירות.</string>
+    <string name="cab_link_help_text">ניתן לקשר הוצאה בחשבון אחד להכנסה בחשבון אחר. אם לחשבונות יש אותו מטבע, שתי העסקאות חייבות להיות בסכומים זהים.</string>
+    <!--ManageMethods title is in keys-->
+    <string name="help_ManageMethods_info">מסך זה מפרט את שיטות התשלום המוגדרות מראש (המחאה, כרטיס אשראי, הפקדה, הוראת קבע) ומאפשר לך להגדיר שיטות חדשות. השתמש בלחצן פעולה הצף כדי לפתוח את הטופס ליצירת שיטה חדשה.</string>
+    <!--ManageParties title is in keys-->
+    <string name="help_ManageParties_manage_info">מסך זה מפרט את הצדדים המשמשים להשלמה האוטומטית של שדה משלם / מקבל התשלום.</string>
+    <string name="help_ManageParties_select_mapping_info">בחר קבוצה על ידי הקשה עליה.</string>
+    <string name="help_ManageParties_select_filter_info">הקש על קבוצה לסינון רשימת העסקאות. לחץ לחיצה ארוכה  לבחירת מספר צדדים.</string>
+    <string name="help_ManageParties_floating_action_button">הפעולה הצפה כדי להוסיף רשומה חדשה.</string>
+    <string name="menu_merge_help_text">אם אותה צד מופיעה מספר פעמים ברשימה עם וריאציות איות שונות, תוכל למזג אותן יחד. תתבקש לבחור איזה גרסה תשמור.</string>
+    <!--ManageTemplates title is in keys-->
+    <string name="help_ManageTemplates_plans_title">תצוגת תוכנית בלוח שנה</string>
+    <string name="help_ManageTemplates_planner_title">אירועים חוזרים צפויים</string>
+    <string name="help_ManageTemplates_templates_info"> <![CDATA[<img src=\"ic_menu_template\"> בעוד שתבניות ניתן לגזור מעסקאות באמצעות תפריט ההקשר שלהם, כאן אתה יכול ליצור תבניות חדשות מאפס (עבור עסקאות או העברות) על ידי לחיצה על כפתור הפעולה הצף. לחיצה על תבנית, תיצור מופע עבורו.<br><img src=\"ic_event\"> תוכנית היא תבנית שעבורה יצרת אירוע (חד פעמי או חוזר) בלוח התכנון. לחיצה על תוכנית, תפתח תצוגת לוח שנה, המציגה מופעים קודמים ועתידים של תוכנית.]]></string>
+    <string name="help_ManageTemplates_planner_intro">הקשה ארוכה על מופע פתוח מתחילה בחירה מרובה. הקשה על התחלה או סיום של טווח התאריכים מאפשרת להרחיב את הטווח לעבר או לעתיד.</string>
+    <string name="help_ManageTemplates_plans_intro">כל תאריך מסומן מייצג מופע של התוכנית.</string>
+    <string name="help_ManageTemplates_plans_info"><![CDATA[ מצב המופע מסומן על ידי הסמלים הבאים: <br><img src=\"ic_stat_open\"> המקרה עדיין לא הוחל .<br><img src=\"ic_stat_applied\"> המקרה הוחל .<br><img src=\"ic_stat_cancelled\"> המקרה בוטל, כלומר, סימנת לדלג עליו. לא תיוצור עסקה עבור המופע הזה.]]></string>
+    <string name="cab_ManageTemplates_templates_create_instance_save_help_text">התאם את התבניות שנבחרו ושמור אותן מיידית.</string>
+    <string name="cab_ManageTemplates_templates_create_instance_edit_help_text">התאם את התבנית שנבחרה והזן את טופס העריכה שלה, שבו תוכל לשנות אותה לפני השמירה.</string>
+    <string name="cab_ManageTemplates_delete_help_text">מחק את התבניות שנבחרו ואת כל התוכניות המשויכות.</string>
+    <string name="cab_ManageTemplates_edit_help_text">ערוך את התבנית שנבחרה וצור או ערוך תוכנית משויכת.</string>
+    <string name="cab_ManageTemplates_plans_create_instance_save_help_text">צור עסקאות בזמן מופעי האירוע שנבחרו ושמור אותם מיידית.</string>
+    <string name="cab_ManageTemplates_plans_create_instance_edit_help_text">צור עסקה בזמן מופע האירוע שנבחר והזן את טופס העריכה שבו תוכל לשנות אותו לפני השמירה.</string>
+    <string name="cab_ManageTemplates_plans_cancel_plan_instance_help_text">ציין שבמקרים של אירועים נבחרים, אין ליצור עסקאות. אם נוצרו עסקאות עבור מופעי האירועים שנבחרו, הם יימחקו.</string>
+    <string name="cab_ManageTemplates_plans_reset_plan_instance_help_text">אם נוצרו עסקאות עבור מופעי האירועים שנבחרו, הם יימחקו, אם הם סומנו כמבוטלים, הסימון יוסר.</string>
+    <string name="cab_ManageTemplates_plans_edit_plan_instance_help_text">ערוך את העסקה שנוצרה עבור מופע התוכנית שנבחר.</string>
+    <string name="menu_ManageTemplates_templates_sort_help_text">ניתן לסדר את רשימת התבניות לפי כותרת (לפי סדר אלפביתי), לפי כמות, לפי תדירות השימוש, או בפעם האחרונה שהופקה עסקה ממנה.</string>
+    <!--ManageCategories_* titles are in keys-->
+    <string name="help_ManageCategories_distribution_info">מסך זה מציג את התפלגות ההוצאות וההכנסות לפי קטגוריות, עבור כל העסקאות בחשבון, או עבור קבוצה מסוימת. אם תרחיב קטגוריה ראשית ברשימה, תרשים העוגה יציג את ההפצה של קטגוריות המשנה שלה. אם תבחר קטגוריה ברשימה, היא תודגש בתרשים העוגה, ולהיפך. לחץ לחיצה ארוכה על קטגוריה כדי להציג רשימה מצטברת של העסקאות הממופות אליה.</string>
+    <string name="help_ManageCategories_select_mapping_info">בנוסף לפעולות שבאפשרותך לבצע בעת ניהול קטגוריות ממסך ההעדפות (צור, ערוך, מחק), במסך זה אתה ממפה עסקה לקטגוריה שנבחרה. אתה בוחר קטגוריית משנה למיפוי לעסקה הנוכחית פשוט על ידי לחיצה עליו. כדי למפות קטגוריה ראשית, אתה צריך לקרוא לתפריט ההקשר שלה.</string>
+    <string name="help_ManageCategories_select_filter_info">בחר את הקטגוריה לסינון רשימת העסקאות. כדי לחפש קטגוריה ראשית, אתה צריך לקרוא לתפריט ההקשר שלה.</string>
+    <string name="help_ManageCategories_manage_info">מסך זה מאפשר ליצור, לערוך ולמחוק קטגוריות. כברירת מחדל, קריטריון המיון הראשי ברשימת הקטגוריות הוא מספר הפעמים שבהן אתה משתמש בקטגוריה (הקריטריונים המשניים בסדר אלפביתי). פעולה זו מעניקה לך גישה מהירה לקטגוריות שבהן אתה משתמש בתדירות הגבוהה ביותר. בהגדרות, תוכל לבחור למיין את הקטגוריות בסדר אלפביתי רגיל. לחיצה על קטגוריה ראשית, פותחת את קטגוריות המשנה שלה. מתפריט הקשר של קטגוריה ראשית, ניתן להוסיף קטגוריות משנה חדשות, למחוק קטגוריה או לערוך אותה. לקטגוריות משנה יש גם תפריטים למחיקה ולעריכה.</string>
+    <string name="menu_ManageCategories_distribution_grouping_help_text">הגדר את סוג הקיבוץ לקבוצה והצג את ההפצה ליום, חודש, שבוע או שנה.</string>
+    <string name="menu_back_help_text">נווט אל הקבוצה הקודמת. ניתן לעשות זאת גם באמצעות מחוות החלקה משמאל לימין.</string>
+    <string name="menu_forward_help_text">נווט אל הקבוצה הבאה. ניתן לעשות זאת גם באמצעות תנועת החלקה מימין לשמאל.</string>
+    <string name="cab_ManageCategories_create_sub_cat_help_text">פותח את תיבת הדו-שיח לציון הכותרת של קטגוריית המשנה החדשה מתחת לקטגוריה שנבחרה.</string>
+    <string name="cab_ManageCategories_move_help_text">ניתן להעביר קטגוריות משנה לקטגוריה ראשית אחרת, או להפוך אותן לקטגוריות עיקריות. הקטגוריות העיקריות שאין להן ילדים יכולות להפוך לקטגוריות משנה של קטגוריה ראשית אחרת.</string>
+    <string name="cab_ManageCategories_select_help_text">שייך את הקטגוריה שנבחרה לעסקה וחזור לטופס העסקה.</string>
+    <string name="menu_categories_setup_default_help_text">קבוצה של קטגוריות ברירת מחדל תיובא.</string>
+    <string name="menu_categories_export_help_text">הקטגוריות יוצאו לקובץ QIF.</string>
+    <string name="menu_distribution_show_pie_char_help_text">החלף את הנראות של תרשים העוגה.</string>
+    <string name="menu_distribution_aggreate_help_text">כברירת מחדל, הסכומים המחושבים כוללים הן הוצאות והן הכנסות. אתה יכול להחליט להציג אותם בנפרד, כפתור בסרגל הפעולות מאפשר לך לעבור בין ההוצאות וההכנסות.</string>
+    <string name="cab_ManageCategories_select_filter_select_help_text">הקטגוריה שנבחרה תשמש לסינון רשימת העסקאות.</string>
+    <string name="menu_ManageCategories_search_help_text">רק קטגוריות עיקריות ותת-קטגוריות התואמות את השאילתה שלך יוצגו.</string>
+    <string name="menu_ManageCategories_sort_help_text">ניתן לסווג את רשימת הקטגוריות לפי כותרת (לפי סדר אלפביתי), לפי תדירות השימוש, או לפי הפעם האחרונה ששוייכה לעסקה.</string>
+    <string name="cab_ManageCategories_color_help_text">ניתן להקצות צבע לקטגוריות עיקריות. צבע זה ישמש לייצוג הקטגוריה בתרשימים. קטגוריות משנה ישתמשו בגוונים של צבע הקטגוריה העיקרית שלהם.</string>
+    <!--ExpenseEdit-->
+    <string name="help_ExpenseEdit_transaction_title">טופס לעסקאות</string>
+    <string name="help_ExpenseEdit_transfer_title">טופס להעברות</string>
+    <string name="help_ExpenseEdit_split_title">טופס לעסקה מפוצלת</string>
+    <string name="help_ExpenseEdit_splitPartCategory_title">טופס עבור קטגוריה עם חלקים מפוצלים</string>
+    <string name="help_ExpenseEdit_splitPartTransfer_title">טופס עבור העברה עם חלקים מפוצלים</string>
+    <string name="help_ExpenseEdit_templateCategory_title">טופס לתבניות עסקה</string>
+    <string name="help_ExpenseEdit_templateTransfer_title">טופס לתבניות העברה</string>
+    <string name="help_ExpenseEdit_templateSplit_title">טופס לתבניות מפוצלות</string>
+    <string name="help_ExpenseEdit_transaction_info">השתמש בטופס זה כדי להזין עסקה חדשה או לערוך עסקה קיימת. השתמש בתפריט הנפתח שבשורת הפעולות כדי לעבור לטופס להוספת העברה חדשה או עסקה מפוצלת.</string>
+    <string name="help_ExpenseEdit_templateCategory_info">השתמש בטופס זה כדי להזין תבנית חדשה או לערוך תבנית קיימת. השתמש בתפריט הנפתח בשורת הפעולות כדי לעבור בין תבניות לעסקאות, העברות ופיצולים.</string>
+    <string name="help_ExpenseEdit_split_info">עסקת פיצול היא עסקה אחת המפוצלת בחלקים, שבהם ניתן להקצות כל חלק לקטגוריה אחרת, או להעביר לחשבון אחר.</string>
+    <string name="form_account_help_text">בחר בחשבון שאליו משתייכת העסקה.</string>
+    <string name="form_date_time_help_text">הזן את התאריך והשעה שבהם בוצעה העסקה.</string>
+    <string name="form_date_time_help_text_configuration">בהגדרות ניתן להשבית את קלט הזמן ולאפשר את ההבחנה בין תאריך ההזמנה לבין תאריך הערך.</string>
+    <string name="form_date_time_help_text_link"><![CDATA[אם <img src=\"ic_hchain\"> / <img src=\"ic_hchain_broken\">toggle במצב  מקושר, הגדרת תאריך ערך או תאריך ההזמנה תעדכן את התאריך השני.]]></string>
+    <string name="form_payer_or_payee_help_text">שדה זה זוכר את הערכים שהזנת ויציע אותם בעתיד.</string>
+    <string name="form_amount_switch_help_text">השתמש במתג כדי לעבור בין הוצאה להכנסה.</string>
+    <string name="form_calculator_help_text"><![CDATA[כפתור <img src=\"?calcIcon\"> פותח את המחשבון.]]></string>
+    <string name="form_crstatus_help_text">לגבי עסקאות השייכות לחשבונות בנק, תוכל לשנות את סטטוס העסקה ל- cleared. כדי להגדיר את זה ל- reconciled, עליך להשתמש בפקודה \"יתרת חשבון\" מתוך רשימת עסקאות. אם הסטטוס מוגדר לביטול, העסקה לא תיספר.</string>
+    <string name="form_comment_help_text">הזן כל הערה לגבי האובייקט.</string>
+    <string name="form_method_help_text">שדה זה זמין רק אם החשבון הנוכחי הוא מסוג המקושר לאמצעי תשלום כל שהוא. כברירת מחדל, רק חשבונות בנק מקושרים לשיטות תשלום (המחאה, כרטיס אשראי, הפקדה, הוראת קבע). עבור אל הגדרות - &amp; gt; נהל - &amp; gt; אמצעי תשלום כדי להגדיר את השיוך בין סוגי החשבון ושיטות התשלום. כאשר אתה בוחר שיטה המוגדרת כממוספרת, שדה נוסף להזנת מספר סימוכין הופך לזמין.</string>
+    <string name="form_attach_image_help_text"><![CDATA[כפתור <img src=\"android:ic_menu_camera\"> מאפשר לך לצרף תמונה (למשל מהגלריה או מהמצלמה) לאובייקט.]]></string>
+    <string name="form_default_action_help_text">עבור כל תבנית, תוכל להגדיר אם לחיצה קצרה עליה ברשימת התבניות תשמור את המופע באופן מיידי או שתזין את טופס העריכה שבו תוכל לשנות אותו לפני השמירה. תמיד תוכל לגשת לשתי הפעולות באמצעות הקשה ארוכה.</string>
+    <string name="form_category_help_text">לחצן זה פותח את רשימת הקטגוריות, שבהן תוכל לבחור את הקטגוריה שברצונך למפות לעסקה.</string>
+    <string name="form_split_parts_heading_help_text">השתמש בלחצן הפעולה הצף להזנת חלקים מפוצלים רבים לפי הצורך. ההפרש בין סכום החלקים לעסקה מוצג בתחתית המסך. באפשרותך לשמור רק את העסקה המפוצלת, אם סכום העסקה הוקצה במדויק.</string>
+    <string name="form_ExpenseEdit_splitPartCategory_category_help_text">נא לבחור קטגוריה לחלק המפוצל.</string>
+    <string name="form_transfer_from_account_transfer_to_account_help_text">הקצה את החשבונות שאליהם מועבר אובייקט זה מ... או אל.</string>
+    <string name="form_exchange_rate_help_text">תוכל לציין את התעריף באחת משני הכיוונים של ההעברה. ההיוון ההפוך והסכום המתאים לחלק התלותי של שער החליפין מחושבים באופן אוטומטי.</string>
+    <string name="form_title_help_text">הזן כותרת שמזהה את התבנית באופן ייחודי.</string>
+    <string name="form_plan_help_text">כאשר אתה יוצר תכנית עבור תבנית, היא מתווספת ליומן פרטי המטופל באפליקציית היומן שלך. ניתן להגדיר את התוכנית כאירוע חד פעמי, או כ חוזר מדי יום, שבועי, חודשי או שנתי.</string>
+    <string name="form_plan_help_text_advanced">לאחר שתשמור את התבנית, תוכל להגדיר סוגים מתקדמים יותר של הישנות שימוש באפליקציית היומן שלך.</string>
+    <string name="form_plan_help_text_mode">תוכנית ניתן להגדיר אוטומטית או ידנית. כאשר מתרחש מופע של תוכנית אוטומטית, תיווצר העסקה ותתקבל הודעה. כאשר התוכנית ידנית, אתה מקבל גם הודעה, אשר משאירה את הבחירה של ביטול, שינוי או החלת התבנית לך.</string>
+    <string name="menu_save_help_text">שמור את הנתונים וסגור את הטופס.</string>
+    <string name="menu_save_and_new_help_text">אם זה מסומן, לאחר שמירת הנתונים, הטופס נשאר פתוח ליצירת עסקה חדשה עם אותם נתונים.</string>
+    <string name="menu_original_amount_help_text">הצג שדה המאפשר להגדיר סכום נוסף. לדוגמה, אם אתה משלם עם כרטיס האשראי שלך במטבע חוץ, אתה יכול לזכור את המחיר המקורי בנוסף לסכום המחויב הכרטיס שלך. התעלם מהסכום המקורי לצורך חישוב סכומים.</string>
+    <string name="menu_equivalent_amount_help_text">לצורך חישוב סך כולל בכל החשבונות, עסקאות של חשבונות במטבע חוץ, מוכפלים בשער החליפין שקבעת עבור החשבון. אבל אתה יכול גם לעקוף את הסכום המחושב על ידי הגדרת סכום שווה ערך עבור כל עסקה בודדת.</string>
+    <string name="menu_invert_transfer_help_text">הפוך את כיוון ההעברה על ידי החלפת \'מ\' ו \'אל\' חשבון.</string>
+    <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">אם המטבעות של \'מאת\' ו \'אל\' החשבון שונים, אתה מציין את הסכום עבור אחד מהם בלבד. השני יחושב בעת יצירת מופעים מהתבנית.</string>
+    <string name="form_goal_or_limit_help_text">שדה זה מאפשר לציין יעד חיסכון חיובי או מסגרת אשראי שלילית. בכל מקרה, ברשימת החשבונות, מחוון התקדמות מדמה את המרחק בין היתרה הנוכחית לבין היעד או הגבול.</string>
+    <string name="menu_templates_help_text">פתח תפריט המפרט את כל התבניות המאפשרות לטעון אותן במהירות לטופס.</string>
+    <string name="menu_create_template_from_transaction_help_text">אם זה מסומן, העסקה תישמר גם כתבנית. אתה יכול להגדיר את הכותרת שלה ולהגדיר אופציה לחזרה אוטומטית.</string>
+    <!--AccountEdit-->
+    <string name="help_AccountEdit_title">טופס לחשבונות</string>
+    <string name="form_AccountEdit_label_help_text">התווית מזהה את החשבון ברשימת החשבונות.</string>
+    <string name="form_description_help_text">לתיאור יש רק כוונה אינפורמטיבית.</string>
+    <string name="form_AccountEdit_amount_switch_help_text">השתמש במתג כדי להתחיל עם יתרת פתיחה שלילית.</string>
+    <string name="form_currency_help_text">בחר מטבע מהרשימה המסופקת של כל המטבעות הנוכחיים.</string>
+    <string name="form_AccountEdit_type_help_text">ניתן להגדיר את סוג החשבון כחשבון מזומן, בנק, נכס, התחייבויות, כרטיס אשראי. הסוג קובע את אמצעי התשלום הזמינים שתוכל להגדיר במסגרת הגדרות - &amp; gt; נהל - &amp; gt; שיטות תשלום.</string>
+    <string name="form_AccountEdit_type_help_text_reconciliation">התכונה \'reconciliation\' זמינה עבור כל החשבונות, למעט חשבונות מזומנים: היא מאפשרת להגדיר סטטוס של עסקאות לניקוי, לאחר אישורו, ו-reconciel החשבון כולו עם דוח הבנק שלך באמצעות הפקודה \'יתרת חשבון\'.</string>
+    <string name="form_color_help_text">ברשימת הפעולות עבור חשבון, צבעו ישמש כצבע ממשק משתמש ראשי.</string>
+    <string name="form_synchronization_help_text_select">בחר backend עבור סנכרון ענן.</string>
+    <string name="form_synchronization_help_text_add">ניתן להוסיף Backends ממסך ההגדרות.</string>
+    <string name="form_AccountEdit_active_tags_help_text">אתה יכול לשייך מספר תגים פעילים או יותר לכל חשבון. כשאתה יוצר עסקה חדשה, היא מתויגת אוטומטית עם אלה, על סמך החשבון שנבחר.</string>
+    <string name="menu_exclude_from_totals_help_text">אם תסמן אפשרות זו, חשבון זה לא ייכלל במצטבר למטבע.</string>
+    <!--MethodEdit-->
+    <string name="help_MethodEdit_title">טופס לשיטות תשלום</string>
+    <string name="form_MethodEdit_label_help_text">התווית מזהה את השיטה כאשר אתה ממפה עסקה אליה.</string>
+    <string name="form_MethodEdit_type_help_text">באמצעות סוג של שיטה, אתה קובע אם היא חלה על הוצאות (חיוב), הכנסה (אשראי) או שניהם (ניטרלי).</string>
+    <string name="form_MethodEdit_numbered_help_text">כאשר שיטה ממוספרת, לעסקאות שמופו אליה, יהיה שדה נוסף להזנת מספר סימוכין.</string>
+    <string name="form_MethodEdit_account_types_help_text">בחר את סוגי החשבון שעבורם שיטה זו מתאימה.</string>
+    <!--ManageCurrencies-->
+    <string name="help_ManageCurrencies_info">עבור כל מטבע, באפשרותך לשנות את מספר ספרות השבר להתמש בהן. לדוגמה, אם עבור Euro, אתה צריך לטפל 1/10 של סנט, כלומר 1/1000 של היורו, כדאי להגדיר את המספר לשלוש. חשבונות קיימים המשתמשים במטבע, יועברו להגדרה החדשה.</string>
+    <string name="help_ManageCurrencies_symbol">ניתן גם להגדיר את סמל המטבע, שבו נעשה שימוש כאשר סכומים במטבע מסוים מעוצבים.</string>
+    <string name="help_ManageCurrencies_new">במטבעות מותאמים אישית, אתה גם מגדיר תווית, המוצגת בתפריטים לבחירת מטבע וקוד אלפביתי, אשר לפי האמנה מורכב משלושה תווים.</string>
+    <!--FolderBrowser title is in keys-->
+    <string name="help_FolderBrowser_info">התיקיה שתבחר כאן, תשמש לאחסון גיבויים ויצוא. נווט בהיררכית התיקיות עד שתגיע לתיקיה הרצויה.</string>
+    <string name="menu_create_folder_help_text">צור תיקייה חדשה בתוך התיקיה הנוכחית.</string>
+    <string name="menu_FolderBrowser_select_help_text">בחר את התיקייה הנוכחית כיעד אחסון ליצוא ולגיבויים.</string>
+    <string name="menu_up_help_text">נווט אל ההורה של התיקיה הנוכחית.</string>
+    <!--StaleImages-->
+    <string name="help_ManageStaleImages_info">מסך זה מאפשר לך להתמודד עם קבצי תמונה שהושארו מעסקאות שנמחקו. לחץ לחיצה ארוכה על ערכים כדי למחוק אותם, או להעביר אותם מתוך תיקיית האחסון (אולי פנימי) לתיקיית גיבוי (Android / data / org.totschnig.mxexpenses / files / images.old) על אחסון חיצוני.</string>
+    <!--CSV Import-->
+    <string name="help_CsvImportActivity_info"><![CDATA[לאחר בחירת הקובץ שברצונך לייבא, עליך להגדיר את אופן קידוד הקובץ (UTF-8 או ISO-8859-1), איזה תו מפריד בין שדות (פסיק, נקודה פסיק או לשונית) וכיצד תאריכים מעוצבים. ניתן לייבא נתונים לחשבון קיים או לחשבון חדש, שבו תוכל להגדיר את המטבע ואת סוג החשבון.<br><br> לאחר שתלחץ על הלחצן \'ניתוח\' מסרגל הפעולות, הנתונים יוצגו בטבלה. לפני שתפעיל את הייבוא באמצעות הלחצן בסרגל הפעולות, תוכל לבחור שורות שברצונך למחוק, ועליך למפות את העמודות לשדות הנתונים המתאימים. <br><br>כאשר תשליך את השורה הראשונה, תתבקש אם ברצונך להתייחס בתור שורת כותרת, ובמקרה זה <i> אפליקצית \'ההוצאות שלי\'  </i> תנסה באופן אוטומטי למפות את העמודות בהתבסס על התוכן של התאים של הכותרת. היא גם תיזכור את המיפוי שלך על סמך שורת הכותרת, ותשחזר אותו, כאשר אתה מייבא קובץ עם אותו פורמט כותרת בפעם הבאה.]]></string>
+    <string name="help_ExportDialog_date_format"><![CDATA[ניתן לצטט טקסט באמצעות ציטוטים בודדים (\') כדי למנוע פרשנות. \'\' (שתי ציטוטים בודדים) מייצגים ציטוט בודד. היוועץ <a href="http://developer.android.com/reference/java/text/SimpleDateFormat.html"> במפרט המלא </a> למידע נוסף, או פנה אל support@myexpenses.mobi לקבלת עזרה]]></string>
+    <string name="help_NavigationDrawer_info">רשימת החשבונות מאפשרת לך לנווט בקלות בין חשבונות על ידי לחיצה על רשומה.</string>
+    <string name="menu_create_account_help_text">צור חשבון חדש. הגרסה החינמית מוגבלת לחמישה חשבונות.</string>
+    <string name="menu_NavigationDrawer_sort_help_text">ניתן לסווג את רשימת החשבונות לפי כותרת (לפי סדר אלפביתי), לפי תדירות השימוש, או בפעם האחרונה שנוצרה עבורה עסקה.</string>
+    <string name="menu_NavigationDrawer_sort_help_text_custom">לחיצה על \"מותאם אישית\" מאפשרת לך להגדיר באופן חופשי את המיקום של כל חשבון.</string>
+    <string name="menu_NavigationDrawer_grouping_help_text">רשימת החשבונות יכולה להיות מקובצת לפי סוג חשבון, לפי מטבע או לא מקובצים.</string>
+    <string name="menu_NavigationDrawer_hidden_accounts_help_text">מציג רשימה של כל החשבונות המוסתרים, כאן ניתן להציג אותם שוב או למחוק אותם.</string>
+    <string name="cab_NavigationDrawer_hide_help_text">הסרת החשבון מהרשימה.</string>
+    <string name="cab_NavigationDrawer_close_reopen_help_text">על ידי סגירת חשבון, תוכל למנוע כל שינוי (תוספות, מחיקות, עריכה) לנתונים שלו, אך עדיין לאפשר להביא בחשבון לכל החישובים הסטטיסטיים.</string>
+    <!--SyncBackends-->
+    <string name="help_ManageSyncBackends_intro">האפליקציה \'ההוצאות שלי\'  מאפשרות להגדיר תצורות סינכרון שונות עבור כל חשבון. לדוגמה, תוכל לסנכרן חשבון אחד עם תיקיה משותפת, תוך סינכרון חשבון אחר עם תיקייה פרטית. במסך זה אתה מוסיף או מסיר backends סינכרון, להתחיל או להפסיק סנכרון עם חשבונות זמינים מרחוק. בעוד הסנכרון קורה באופן אוטומטי באופן תקופתי, כאן אתה יכול גם להפעיל אותו באופן ידני עם backend. לידיעתך, האפליקציה \'הוצאות שלי\' זקוקוה לשליטה מלאה בתיקיה המרוחקת. אתה לא צריך להשתמש בכלים או ממשקים אחרים לשינוי התוכן שלה, שכן זה סביר להניח שזה יוביל לכשלים במהלך הסנכרון.</string>
+    <string name="help_ManageSyncBackends_webdav">WebDAV: אם ספק אחסון הענן שלך תומך בפרוטוקול זה, האפליקציה \'ההוצאות שלי\' תוכל לסנכרן אותה עם הנתונים. כל שעליך לעשות הוא לספק את כתובת האתר ׁ לתיקייה עם שם המשתמש והסיסמה שלך. אם אתה משתמש ב- https ושרת האינטרנט שלך משתמש באישור חתום על עצמו, תוכל לבטוח בו במפורש.</string>
+    <string name="help_ManageSyncBackends_drive">Google Drive: בחר כל תיקיה שבבעלותך או שמשתפת אותך.</string>
+    <string name="help_ManageSyncBackends_encryption">עבור כל backend, באפשרותך להגדיר ביטוי סיסמה שונה להצפנת נתוני הסנכרון. אתה לא יכול לעבור backend הקיים מ מוצפן מוצפן. אתה צריך ליצור מחדש backend חדש במקרה זה. אם אתה משתמש בתכונה של אחסון אוטומטי של גיבויים על backend סינכרון, קבצים אלה אינם מוצפנים עם הסיסמה ספציפית backend. במקום זאת, באפשרותך להגדיר סיסמה החלה על כל קבצי הגיבוי, במקטע אבטחה במסך ההגדרות.</string>
+    <string name="menu_create_sync_backend_help_text">מתפריט המשנה בחר את סוג הסנכרון  backend שברצונך להוסיף, ולספק את הפרטים הספציפיים לכל אחד מהם.</string>
+    <string name="cab_sync_now_help_text">הפעל סינכרון מיידי עם ה- backend שנבחר.</string>
+    <string name="cab_remove_help_text">הסר את ה- backend שנבחר.</string>
+    <string name="cab_sync_download_help_text">הורד חשבון הזמין ב- backend. חשבון ייווצר באופן מקומי ויוגדר עבור סנכרון עם backend.</string>
+    <string name="cab_sync_link_help_text">התחל סנכרון עבור חשבון שקיים הן מקומי והן מרוחק. אתה צריך להחליט אם נתונים מקומיים או מרוחקים ישמרו בהסינכרון הראשון.</string>
+    <string name="cab_sync_unlink_help_text">החשבון שנבחר לא יסונכרן עוד עם ה- backend</string>
+    <!--History-->
+    <string name="help_HistoryActivity_info">מסך זה מציג את תזרים המזומנים שלך, כיצד ההוצאות וההכנסות שלך מתפתחות על פני שנים, חודשים, שבועות או ימים.</string>
+    <string name="menu_HistoryActivity_grouping_help_text">החלף בין קיבוץ יומי, שבועי, חודשי או שנתי של נתוני תזרים המזומנים שלך.</string>
+    <string name="menu_HistoryActivity_history_show_balance_help_text">החלף את החשיפה של היתרה.</string>
+    <string name="menu_HistoryActivity_history_transfers_help_text">החלף, אם העברות צריך להיות מטופל כמו הכנסה קבועה או הוצאה.</string>
+    <!--Budget-->
+    <string name="help_BudgetActivity_info" tools:ignore="UnusedResources">על ידי הגדרת תקציב, אתה מגדיר סכום כולל שתרצה להוציא במהלך תקופה מסוימת. ניתן גם להקצות סכומים לקטגוריות ולקטגוריות משנה. לאחר מכן אתה עוקב אחר השקעתך וכמה נותר לבזבז.</string>
+    <string name="help_Budget_amount_click">לחיצה על הסכומים המתוקצבים מאפשרת לשנות אותם.</string>
+    <string name="cab_show_transactions_help_text">פתיחת תיבת דו-שיח המפרטת את כל העסקאות הממופות לקטגוריה שנבחרה בחשבון הנוכחי.</string>
+    <string name="menu_BudgetActivity_back_forward_help_text">השווה את התקציב עם ההוצאות של תקופות העבר והעתיד.</string>
+    <string name="menu_BudgetActivity_edit_help_text">שנה את הגדרת התקציב.</string>
+    <string name="menu_budget_aggregate_help_text">כברירת מחדל, הסכומים המחושבים כוללים גם הוצאות וגם הכנסות. אם אתה מבטל אפשרות זו, מתעלמים מההכנסה, רק הוצאות נלקחות בחשבון.</string>
+    <string name="menu_budget_allocated_only_help_text">על ידי הפעלת אפשרות זו מוצגות רק קטגוריות, שהוקצו להם סכום מסוים.</string>
+    <string name="menu_BudgetActivity_delete_help_text">התקציב המוצג כעת יימחק.</string>
+    <string name="help_ManageBudgets_title">רשימת כל התקציבים</string>
+    <string name="help_ManageBudgets_info">מסך זה מציג סיכום של כל התקציבים שיצרת. השתמש בלחצן הפעולה הצף ליצירת תקציב חדש. לחיצה על רשומת רשימה מציגה תקציב יחיד.</string>
+    <string name="help_BudgetEdit_title">טופס לתקציבים</string>
+    <string name="help_BudgetEdit_info">השתמש בטופס זה כדי ליצור תקציב חדש או לעריכת תקציב קיים.</string>
+    <string name="form_BudgetEdit_title_help_text">כותרת של תקציב עוזרת בזיהויו ברשימת התקציבים.</string>
+    <string name="form_BudgetEdit_amount_help_text">כמה כסף זמין במסגרת תקציב זה.</string>
+    <string name="form_BudgetEdit_accounts_help_text">תקציב מוגבל לחשבון אחד, הוא מכסה את כל החשבונות באותו מטבע, או שהוא מתייחס לסך הכל המצטבר בכל המטבעות.</string>
+    <string name="form_BudgetEdit_filter_help_text">ניתן לסנן את התקציבים ביחס לקטגוריות, מפלגות, שיטות או מדינות. נלקחים בחשבון רק עסקאות התואמות את המסננים.</string>
+    <string name="form_BudgetEdit_type_help_text">תקציב מוגדר כרגיל (יומי, חודשי, שבועי, שנתי) או חד פעמי. עבור תקציבים חד פעמיים אתה מציין את ההתחלה ואת סיום משך הזמן. ניתן להגדיר כברירת מחדל תקציב רגיל (שאינו מסונן): פירוש הדבר שרשימת העסקאות (אם היא מוגדרת לקבוצת נתונים ביום, שבוע, חודש או שנה) תציג את ההתקדמות לתקציב זה לכל תקופה.</string>
+    <string name="cab_remap_help_text">השתמש בפקודות בתפריט משנה זה, אם ברצונך לשנות את הנושא הנתון (חשבון, קטגוריה, משלם / מקבל תשלום או אמצעי תשלום) עבור כל העסקאות שנבחרו.</string>
+    <!--Tags-->
+    <string name="form_tags_help_text">סמל + מאפשר לבחור תגיות קיימות וליצור תגיות חדשות. סמל ה- x בכל תג מאפשר להסיר את המיפוי בין העסקה לתג.</string>
+    <string name="help_ManageTags_select_filter_info">בחר או בטל את בחירת התגים לסינון רשימת העסקאות על ידי הקשה עליהם. השתמש בלחצן הפעולה הצף כדי לאשר את הבחירה.</string>
+    <string name="help_ManageTags_manage_info">צור תגיות חדשות על ידי הזנתם לשדה הטקסט. סמל ה- x בכל תג מסיר אותו ממסד הנתונים. לחיצה ארוכה על תג מאפשרת לערוך אותו.</string>
+    <string name="help_ManageTags_select_mapping_info">מפה או בטל את המפה של התגים על ידי הקשה עליהם. השתמש בלחצן הפעולה הצף כדי לאשר את המיפוי.</string>
+    <string name="form_DebtEdit_label_help_text">התווית מאפשר לבחור את החוב בטופס לעסקה, כדי לסמן עסקה כתשלום מראש.</string>
+    <string name="help_debt_managment">שיוך חובות לגופים מסוים, חקירת רשימת העסקאות וחישוב היתרה.</string>
+    <string name="cab_debts_help_text">תת־התפריט מאפשר להגדיר שיוך לחובות חדשים לגופים מסוימים ולנהל חובות קיימים: כדי לחקור את היסטוריית העסקאות והיתרה וכדי לערוך, לסגור או למחוק אותן.</string>
+    <string name="form_DebtEdit_date_help_text">נא למלא את התאריך בו נוצר החוב.</string>
+    <string name="form_DebtEdit_amount_help_text">יש למלא את סכום החוב המקורי. עסקאות שמקושרות לחוב יקטינו או יגדילו את היתרה. יש להשתמש בבורר כדי להבדיל בין חובות שלך לחובות אליך. אם בחרת במטבע שונה ממטבע הבית שלך, החוב יהיה גלוי רק לחשבונות באותו המטבע.</string>
 </resources>
