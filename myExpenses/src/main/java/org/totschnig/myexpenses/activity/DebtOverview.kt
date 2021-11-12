@@ -53,6 +53,7 @@ import org.totschnig.myexpenses.compose.OverFlowMenu
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.DebugCurrencyFormatter
+import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.util.epoch2LocalDate
 import org.totschnig.myexpenses.util.getDateTimeFormatter
@@ -77,16 +78,35 @@ class DebtOverview : DebtActivity() {
         viewModel.loadDebts()
         setContent {
             MdcTheme {
-                Navigation(onNavigation = { finish() }) {
+                val amountFormatter = { amount: Long, currency: String ->
+                    currencyFormatter.convAmount(amount, currencyContext[currency])
+                }
+                val debts = viewModel.getDebts().observeAsState(emptyList())
+                Navigation(
+                    onNavigation = { finish() },
+                    title = {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(end = dimensionResource(id = R.dimen.padding_form)),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(stringResource(id = R.string.title_activity_debt_overview))
+                            ColoredAmountText(
+                                amount = debts.value.sumOf { it.currentBalance },
+                                currency = Utils.getHomeCurrency().code,
+                                amountFormatter = amountFormatter
+                            )
+                        }
+                    }
+                ) {
                     DebtList(
                         modifier = Modifier.padding(paddingValues = it),
-                        debts = viewModel.getDebts().observeAsState(emptyList()),
+                        debts = debts,
                         loadTransactionsForDebt = { debt ->
                             viewModel.loadTransactions(debt).observeAsState(emptyList())
                         },
-                        amountFormatter = { amount: Long, currency: String ->
-                            currencyFormatter.convAmount(amount, currencyContext[currency])
-                        },
+                        amountFormatter = amountFormatter,
                         dateFormatter = getDateTimeFormatter(this),
                         onEdit = this::editDebt,
                         onDelete = this::deleteDebt
@@ -338,7 +358,9 @@ fun SingleDebtPreview() {
         )
     )
     Column(
-        modifier = Modifier.width(350.dp).padding(8.dp),
+        modifier = Modifier
+            .width(350.dp)
+            .padding(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         DebtRenderer(

@@ -23,12 +23,13 @@ import org.totschnig.myexpenses.R
 @Composable
 fun Navigation(
     onNavigation: () -> Unit,
+    title: @Composable () -> Unit,
     content: @Composable (PaddingValues) -> Unit
 ) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(id = R.string.title_activity_debt_overview)) },
+                title = title,
                 backgroundColor = colorResource(id = R.color.toolbarBackground),
                 navigationIcon = {
                     IconButton(onClick = onNavigation) {
