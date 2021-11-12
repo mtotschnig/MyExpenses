@@ -780,10 +780,8 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         } else if (isMainTransaction) {
             menu.add(Menu.NONE, R.id.ORIGINAL_AMOUNT_COMMAND, 0, R.string.menu_original_amount)
                 .setCheckable(true)
-                .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER)
             menu.add(Menu.NONE, R.id.EQUIVALENT_AMOUNT_COMMAND, 0, R.string.menu_equivalent_amount)
                 .setCheckable(true)
-                .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER)
         }
         return true
     }

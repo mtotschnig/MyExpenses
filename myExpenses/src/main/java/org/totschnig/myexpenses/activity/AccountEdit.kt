@@ -330,7 +330,6 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         super.onCreateOptionsMenu(menu)
         menu.add(Menu.NONE, R.id.EXCLUDE_FROM_TOTALS_COMMAND, 0, R.string.menu_exclude_from_totals)
                 .setCheckable(true)
-                .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER)
         return true
     }
 

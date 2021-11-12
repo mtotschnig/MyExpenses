@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -46,6 +47,7 @@ import com.google.android.material.composethemeadapter.MdcTheme
 import com.google.android.material.snackbar.Snackbar
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.compose.Initials
 import org.totschnig.myexpenses.compose.Navigation
 import org.totschnig.myexpenses.compose.OverFlowMenu
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -175,13 +177,20 @@ fun DebtRenderer(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     val signum = debt.amount > 0
+                    if (expanded.value) {
+                        Initials(
+                            name = debt.payeeName!!,
+                            modifier = Modifier.padding(end = 4.dp)
+                        )
+                    }
                     Column(modifier = Modifier.weight(1F)) {
                         Text(
-                            style = if (expanded.value) MaterialTheme.typography.h5 else MaterialTheme.typography.h6,
+                            style = MaterialTheme.typography.h6,
                             text = debt.label,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
                         )
+
                         if (!expanded.value) {
                             Text(
                                 text = stringResource(
@@ -307,32 +316,40 @@ fun TransactionRenderer(
 @Preview
 @Composable
 fun SingleDebtPreview() {
-    Surface(modifier = Modifier.padding(8.dp)) {
+    val debt = Debt(
+        id = 1,
+        label = "Debt 1",
+        description = "some long, very long, extremely long description",
+        payeeId = -1L,
+        amount = 4000,
+        currency = "EUR",
+        date = localDate2Epoch(LocalDate.now()),
+        payeeName = "Joe Doe"
+    )
+    val transactions = listOf(
+        Transaction(
+            1, LocalDate.now(), 100, 100, 1
+        ),
+        Transaction(
+            1, LocalDate.now(), 3000, 1000, 0
+        ),
+        Transaction(
+            1, LocalDate.now(), 10000, 10000, 1
+        )
+    )
+    Column(
+        modifier = Modifier.width(350.dp).padding(8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
         DebtRenderer(
-            debt = Debt(
-                id = 1,
-                label = "Debt 1",
-                description = "some long, very long, extremely long description",
-                payeeId = -1L,
-                amount = 4000,
-                currency = "EUR",
-                date = localDate2Epoch(LocalDate.now()),
-                payeeName = "Joe Doe"
-            ),
-            transactions = mutableStateOf(
-                listOf(
-                    Transaction(
-                        1, LocalDate.now(), 100, 100, 1
-                    ),
-                    Transaction(
-                        1, LocalDate.now(), 3000, 1000, 0
-                    ),
-                    Transaction(
-                        1, LocalDate.now(), 10000, 10000, 1
-                    ),
-                )
-            ),
+            debt = debt,
+            transactions = mutableStateOf(transactions),
             expanded = mutableStateOf(false)
+        )
+        DebtRenderer(
+            debt = debt,
+            transactions = mutableStateOf(transactions),
+            expanded = mutableStateOf(true)
         )
     }
 }

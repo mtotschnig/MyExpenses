@@ -64,7 +64,6 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.prepareSearch
 import org.totschnig.myexpenses.viewmodel.PartyListViewModel
 import org.totschnig.myexpenses.viewmodel.data.Party
-import java.util.*
 
 class PartiesList : Fragment(), OnDialogResultListener {
     val manageParties: ManageParties
@@ -335,9 +334,10 @@ class PartiesList : Fragment(), OnDialogResultListener {
             mergeMenuItem = menu.add(Menu.NONE, R.id.MERGE_COMMAND, 0, R.string.menu_merge).apply {
                 setIcon(R.drawable.ic_menu_split_transaction)
                 isCheckable = true
-                setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER)
-                menu.add(Menu.NONE, R.id.DEBT_COMMAND, 0, R.string.title_activity_debt_overview)
             }
+            menu.add(Menu.NONE, R.id.DEBT_COMMAND, 0, R.string.title_activity_debt_overview)
+                .setIcon(R.drawable.balance_scale)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
         }
         configureSearch(requireActivity(), menu, ::onQueryTextChange)
     }
