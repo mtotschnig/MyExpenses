@@ -68,7 +68,6 @@ import org.totschnig.myexpenses.util.PermissionHelper;
 import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.UiUtils;
-import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
@@ -84,7 +83,6 @@ import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
@@ -188,25 +186,21 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   @Override
   protected void attachBaseContext(Context newBase) {
     super.attachBaseContext(newBase);
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-      final MyApplication application = MyApplication.getInstance();
-      final int customFontScale = application.getAppComponent().prefHandler().getInt(UI_FONTSIZE, 0);
-      if (customFontScale > 0 || !application.getAppComponent().userLocaleProvider().getPreferredLanguage().equals(MyApplication.DEFAULT_LANGUAGE)) {
-        Configuration config = new Configuration();
-        config.fontScale = getFontScale(customFontScale, application.getContentResolver());
-        applyOverrideConfiguration(config);
-      }
+    final MyApplication application = MyApplication.getInstance();
+    final int customFontScale = application.getAppComponent().prefHandler().getInt(UI_FONTSIZE, 0);
+    if (customFontScale > 0 || !application.getAppComponent().userLocaleProvider().getPreferredLanguage().equals(MyApplication.DEFAULT_LANGUAGE)) {
+      Configuration config = new Configuration();
+      config.fontScale = getFontScale(customFontScale, application.getContentResolver());
+      applyOverrideConfiguration(config);
     }
     featureManager.initActivity(this);
   }
 
-  @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
   @Override
   public void applyOverrideConfiguration(Configuration newConfig) {
     super.applyOverrideConfiguration(updateConfigurationIfSupported(newConfig));
   }
 
-  @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
   private Configuration updateConfigurationIfSupported(Configuration config) {
     final UserLocaleProvider userLocaleProvider = MyApplication.getInstance().getAppComponent().userLocaleProvider();
     if (userLocaleProvider.getPreferredLanguage().equals(MyApplication.DEFAULT_LANGUAGE)) {
@@ -310,7 +304,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   }
 
   protected void confirmCredentials(int requestCode, DialogUtils.PasswordDialogUnlockedCallback legacyUnlockCallback, boolean shouldHideWindow) {
-    if (Utils.hasApiLevel(Build.VERSION_CODES.LOLLIPOP) && prefHandler.getBoolean(PROTECTION_DEVICE_LOCK_SCREEN, false)) {
+    if (prefHandler.getBoolean(PROTECTION_DEVICE_LOCK_SCREEN, false)) {
       Intent intent = ((KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE))
           .createConfirmDeviceCredentialIntent(null, null);
       if (intent != null) {
@@ -505,17 +499,14 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   }
 
   public void tintSystemUi(int color) {
-    if (shouldTintSystemUi() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+    if (shouldTintSystemUi()) {
       Window window = getWindow();
-      //noinspection InlinedApi
       window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-      //noinspection InlinedA
       window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
       int color700 = ColorUtils.get700Tint(color);
       window.setStatusBarColor(color700);
       window.setNavigationBarColor(color700);
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        //noinspection InlinedApi
         window.getDecorView().setSystemUiVisibility(
             ColorUtils.isBrightColor(color700) ? View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR : 0);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

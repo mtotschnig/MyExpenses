@@ -61,10 +61,7 @@ object Engine : TesseractEngine {
             }
         }
         if (language == "zho") {
-            val script =
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP
-                    && default.script == "Hans"
-                ) "sim" else "tra"
+            val script = if (default.script == "Hans") "sim" else "tra"
             return "chi_${script}"
         }
         return language.takeIf {
@@ -91,12 +88,8 @@ object Engine : TesseractEngine {
                 "tra" -> "Hant"
                 else -> localeParts[1]
             }
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                Locale.Builder().setLanguage(lang).setScript(script).build()
-                    .getDisplayName(localeFromContext)
-            } else {
-                "${Locale(lang).getDisplayName(localeFromContext)} ($script)"
-            }
+            Locale.Builder().setLanguage(lang).setScript(script).build()
+                .getDisplayName(localeFromContext)
         } else
             Locale(lang).getDisplayName(localeFromContext)
     }

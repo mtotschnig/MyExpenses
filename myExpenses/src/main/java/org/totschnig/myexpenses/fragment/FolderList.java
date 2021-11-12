@@ -11,7 +11,6 @@ package org.totschnig.myexpenses.fragment;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,8 +20,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.FolderBrowser;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
@@ -31,7 +28,6 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -72,17 +68,6 @@ public class FolderList extends ListFragment {
     FolderBrowser ctx = (FolderBrowser) getActivity();
     int itemId = item.getItemId();
     if (itemId == R.id.SELECT_COMMAND) {
-      if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
-        try {
-          //on Kitkat secondary storage is reported as writable by File.canWrite(),
-          //although in fact it is not
-          File.createTempFile("test", null, selectedFolder).delete();
-        } catch (IOException e) {
-          ctx.showSnackbar(getString(R.string.app_dir_not_accessible,
-              selectedFolder.getPath()), Snackbar.LENGTH_SHORT);
-          return super.onOptionsItemSelected(item);
-        }
-      }
       PrefKey.APP_DIR.putString(Uri.fromFile(selectedFolder).toString());
       ctx.setResult(FolderBrowser.RESULT_OK);
       ctx.finish();

@@ -42,10 +42,7 @@ public class AppDirHelper {
           return DocumentFile.fromFile(appDir);
         }
       } else {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-          //this will return null, if called on a pre-Lolipop device
-          return DocumentFile.fromTreeUri(context, pref);
-        }
+        return DocumentFile.fromTreeUri(context, pref);
       }
     }
     File externalFilesDir = context.getExternalFilesDir(null);
@@ -179,23 +176,21 @@ public class AppDirHelper {
   }
 
   public static Uri ensureContentUri(Uri uri) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-      switch (uri.getScheme()) {
-        case "file":
-          try {
-            uri = getContentUriForFile(new File(uri.getPath()));
-          } catch (IllegalArgumentException e) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-              throw new NougatFileProviderException(e);
-            }
+    switch (uri.getScheme()) {
+      case "file":
+        try {
+          uri = getContentUriForFile(new File(uri.getPath()));
+        } catch (IllegalArgumentException e) {
+          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            throw new NougatFileProviderException(e);
           }
-          break;
-        case "content":
-          break;
-        default:
-          CrashHandler.report(new IllegalStateException(String.format(
-              "Unable to handle scheme of uri %s", uri)));
-      }
+        }
+        break;
+      case "content":
+        break;
+      default:
+        CrashHandler.report(new IllegalStateException(String.format(
+            "Unable to handle scheme of uri %s", uri)));
     }
     return uri;
   }

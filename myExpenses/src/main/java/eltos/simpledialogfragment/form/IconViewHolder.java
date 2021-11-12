@@ -16,7 +16,6 @@
 package eltos.simpledialogfragment.form;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -129,9 +128,7 @@ class IconViewHolder extends FormElementViewHolder<SelectIconField> implements S
     final boolean hasSelection = selected != null;
     icon.setVisibility(hasSelection ? View.VISIBLE : View.GONE);
     select.setVisibility(hasSelection ? View.GONE : View.VISIBLE);
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-      label.setLabelFor(hasSelection ? R.id.icon : R.id.select);
-    }
+    label.setLabelFor(hasSelection ? R.id.icon : R.id.select);
   }
 
   private void onClick(final SimpleFormDialog.DialogActions actions) {

@@ -31,7 +31,6 @@ import android.widget.TextView
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceScreen
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.DialogUtils
@@ -120,7 +119,12 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace, Preferen
                     textView.layoutParams = layoutParams
                     textView.compoundDrawablePadding = drawablePadding
                     textView.text = iconLines[i]
-                    UiUtils.setCompoundDrawablesCompatWithIntrinsicBounds(textView, ar.getResourceId(i, 0), 0, 0, 0)
+                    textView.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                        ar.getResourceId(i, 0),
+                        0,
+                        0,
+                        0
+                    )
                     iconContainer.addView(textView)
                     i++
                 }

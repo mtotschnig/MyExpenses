@@ -11,6 +11,7 @@ import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils.isEmpty
 import android.text.TextUtils.join
+import androidx.annotation.DrawableRes
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.res.ResourcesCompat
@@ -23,9 +24,6 @@ import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceGroup
 import androidx.preference.SwitchPreferenceCompat
-import java.time.chrono.IsoChronology
-import java.time.format.DateTimeFormatterBuilder
-import java.time.format.FormatStyle
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.MyPreferenceActivity
@@ -47,7 +45,6 @@ import org.totschnig.myexpenses.util.ShortcutHelper
 import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.Utils
-import org.totschnig.myexpenses.util.Utils.hasApiLevel
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.util.licence.LicenceHandler
@@ -63,6 +60,9 @@ import org.totschnig.myexpenses.widget.TemplateWidget
 import org.totschnig.myexpenses.widget.WIDGET_CONTEXT_CHANGED
 import org.totschnig.myexpenses.widget.updateWidgets
 import java.text.DateFormatSymbols
+import java.time.chrono.IsoChronology
+import java.time.format.DateTimeFormatterBuilder
+import java.time.format.FormatStyle
 import java.util.*
 import javax.inject.Inject
 
@@ -491,7 +491,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     addShortcut(
                         R.string.transaction, Transactions.TYPE_TRANSACTION,
                         getBitmapForShortcut(
-                            R.drawable.shortcut_create_transaction_icon,
                             R.drawable.shortcut_create_transaction_icon_lollipop
                         )
                     )
@@ -501,7 +500,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     addShortcut(
                         R.string.transfer, Transactions.TYPE_TRANSFER,
                         getBitmapForShortcut(
-                            R.drawable.shortcut_create_transfer_icon,
                             R.drawable.shortcut_create_transfer_icon_lollipop
                         )
                     )
@@ -511,7 +509,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     addShortcut(
                         R.string.split_transaction, Transactions.TYPE_SPLIT,
                         getBitmapForShortcut(
-                            R.drawable.shortcut_create_split_icon,
                             R.drawable.shortcut_create_split_icon_lollipop
                         )
                     )
@@ -538,15 +535,6 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
 
             requirePreference<Preference>(PrefKey.RESTORE).title =
                 getString(R.string.pref_restore_title) + " (ZIP)"
-
-            val restoreLegacyPref = requirePreference<Preference>(PrefKey.RESTORE_LEGACY)
-            if (hasApiLevel(Build.VERSION_CODES.KITKAT)) {
-                restoreLegacyPref.isVisible = false
-            } else {
-                restoreLegacyPref.title = getString(R.string.pref_restore_title) + " (" + getString(
-                    R.string.pref_restore_alternative
-                ) + ")"
-            }
 
             this.requirePreference<LocalizedFormatEditTextPreference>(PrefKey.CUSTOM_DECIMAL_FORMAT).onValidationErrorListener =
                 this
@@ -580,11 +568,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             }
 
             val languagePref = requirePreference<ListPreference>(PrefKey.UI_LANGUAGE)
-            if (hasApiLevel(Build.VERSION_CODES.JELLY_BEAN_MR1)) {
-                languagePref.entries = getLocaleArray()
-            } else {
-                languagePref.isVisible = false
-            }
+            languagePref.entries = getLocaleArray()
 
             currencyViewModel.getCurrencies().observe(this) { currencies ->
                 with(requirePreference<ListPreference>(PrefKey.HOME_CURRENCY)) {
@@ -627,18 +611,14 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 requirePreference<Preference>(PrefKey.SECURITY_QUESTION)
             val preferenceDeviceLock =
                 requirePreference<Preference>(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN)
-            if (hasApiLevel(Build.VERSION_CODES.LOLLIPOP)) {
-                val preferenceCategory = PreferenceCategory(requireContext())
-                preferenceCategory.setTitle(R.string.feature_deprecated)
-                preferenceScreen.addPreference(preferenceCategory)
-                preferenceScreen.removePreference(preferenceLegacy)
-                preferenceScreen.removePreference(preferenceSecurityQuestion)
-                preferenceCategory.addPreference(preferenceLegacy)
-                preferenceCategory.addPreference(preferenceSecurityQuestion)
-                preferenceDeviceLock.onPreferenceChangeListener = this
-            } else {
-                preferenceDeviceLock.isVisible = false
-            }
+            val preferenceCategory = PreferenceCategory(requireContext())
+            preferenceCategory.setTitle(R.string.feature_deprecated)
+            preferenceScreen.addPreference(preferenceCategory)
+            preferenceScreen.removePreference(preferenceLegacy)
+            preferenceScreen.removePreference(preferenceSecurityQuestion)
+            preferenceCategory.addPreference(preferenceLegacy)
+            preferenceCategory.addPreference(preferenceSecurityQuestion)
+            preferenceDeviceLock.onPreferenceChangeListener = this
         } else if (rootKey == getKey(PrefKey.PERFORM_SHARE)) {
             val sharePref = requirePreference<Preference>(PrefKey.SHARE_TARGET)
 
@@ -770,23 +750,13 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         viewModel.loadAppDirInfo()
     }
 
-    private fun getBitmapForShortcut(iconIdLegacy: Int, iconIdLollipop: Int): Bitmap {
-        return if (hasApiLevel(Build.VERSION_CODES.LOLLIPOP)) {
-            UiUtils.drawableToBitmap(
-                ResourcesCompat.getDrawable(
-                    resources,
-                    iconIdLollipop,
-                    null
-                )!!
-            )
-        } else {
-            UiUtils.getTintedBitmapForTheme(
-                activity,
-                iconIdLegacy,
-                R.style.DarkBackground
-            )
-        }
-    }
+    private fun getBitmapForShortcut(@DrawableRes iconId: Int) = UiUtils.drawableToBitmap(
+        ResourcesCompat.getDrawable(
+            resources,
+            iconId,
+            null
+        )!!
+    )
 
     // credits Financisto
     // src/ru/orangesoftware/financisto/activity/PreferencesActivity.java

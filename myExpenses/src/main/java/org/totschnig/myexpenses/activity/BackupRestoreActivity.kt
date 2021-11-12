@@ -18,7 +18,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
-import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
@@ -26,7 +25,6 @@ import eltos.simpledialogfragment.form.Input
 import eltos.simpledialogfragment.form.SimpleFormDialog
 import icepick.State
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.dialog.BackupListDialogFragment
 import org.totschnig.myexpenses.dialog.BackupSourcesDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
@@ -45,7 +43,6 @@ import org.totschnig.myexpenses.util.io.FileUtils
 import org.totschnig.myexpenses.viewmodel.BackupViewModel
 import org.totschnig.myexpenses.viewmodel.BackupViewModel.BackupState
 import org.totschnig.myexpenses.viewmodel.BackupViewModel.BackupState.Running
-import java.util.*
 
 class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogListener,
     OnDialogResultListener {
@@ -58,7 +55,7 @@ class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogLis
         super.onCreate(savedInstanceState)
         backupViewModel = ViewModelProvider(this)[BackupViewModel::class.java]
         requireApplication().appComponent.inject(backupViewModel)
-        backupViewModel.getBackupState().observe(this, { backupState: BackupState? ->
+        backupViewModel.getBackupState().observe(this) { backupState: BackupState? ->
             val onDismissed: Snackbar.Callback = object : Snackbar.Callback() {
                 override fun onDismissed(transientBottomBar: Snackbar, event: Int) {
                     setResult(taskResult)
@@ -89,7 +86,7 @@ class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogLis
                     showDismissibleSnackbar(message, onDismissed)
                 }
             }
-        })
+        }
         if (savedInstanceState != null) {
             return
         }
@@ -159,14 +156,6 @@ class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogLis
                 }
                 ConfirmationDialogFragment.newInstance(bundle)
                     .show(supportFragmentManager, "BACKUP")
-            }
-            ACTION_RESTORE_LEGACY -> {
-                val appDirStatus = AppDirHelper.checkAppDir(this)
-                if (appDirStatus.isSuccess) {
-                    openBrowse()
-                } else {
-                    abort(appDirStatus.print(this))
-                }
             }
             ACTION_RESTORE, Intent.ACTION_VIEW -> {
                 BackupSourcesDialogFragment.newInstance(intent.data).show(
@@ -277,24 +266,6 @@ class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogLis
         }
     }
 
-    fun openBrowse() {
-        if (hasBackups()) {
-            BackupListDialogFragment.newInstance().show(
-                supportFragmentManager, FRAGMENT_TAG
-            )
-        } else {
-            abort(getString(R.string.restore_no_backup_found))
-        }
-    }
-
-    private fun hasBackups(): Boolean {
-        val appDir = AppDirHelper.getAppDir(this)
-        return appDir != null && appDir.listFiles()
-            .any { documentFile: DocumentFile ->
-                documentFile.name?.endsWith(".zip") ?: false
-            }
-    }
-
     override fun onNegative(args: Bundle) {
         abort()
     }
@@ -345,6 +316,5 @@ class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogLis
         private const val DIALOG_TAG_PASSWORD = "PASSWORD"
         const val ACTION_BACKUP = "BACKUP"
         const val ACTION_RESTORE = "RESTORE"
-        const val ACTION_RESTORE_LEGACY = "RESTORE_LEGACY"
     }
 }

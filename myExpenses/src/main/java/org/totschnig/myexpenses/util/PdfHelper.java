@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.util;
 
 import android.annotation.SuppressLint;
-import android.os.Build;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -39,14 +38,8 @@ public class PdfHelper {
   @SuppressLint("NewApi")
   public PdfHelper() {
     final Locale l = Locale.getDefault();
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-      layoutDirectionFromLocaleIsRTL = TextUtils.getLayoutDirectionFromLocale(l)
-          == View.LAYOUT_DIRECTION_RTL;
-    } else {
-      final int directionality = Character.getDirectionality(l.getDisplayName().charAt(0));
-      layoutDirectionFromLocaleIsRTL = directionality == Character.DIRECTIONALITY_RIGHT_TO_LEFT ||
-          directionality == Character.DIRECTIONALITY_RIGHT_TO_LEFT_ARABIC;
-    }
+    layoutDirectionFromLocaleIsRTL = TextUtils.getLayoutDirectionFromLocale(l)
+        == View.LAYOUT_DIRECTION_RTL;
     if (MyApplication.getInstance().getMemoryClass() >= 32) {
       //we want the Default Font to be used first
       try {

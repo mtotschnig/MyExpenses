@@ -110,8 +110,7 @@ class CategoryDelegate(
             viewBinding.ClearCategory.visibility = View.VISIBLE
 
         }
-        UiUtils.setCompoundDrawablesCompatWithIntrinsicBounds(
-            viewBinding.Category,
+        viewBinding.Category.setCompoundDrawablesRelativeWithIntrinsicBounds(
             if (categoryIcon != null) UiUtils.resolveIcon(
                 viewBinding.root.context,
                 categoryIcon

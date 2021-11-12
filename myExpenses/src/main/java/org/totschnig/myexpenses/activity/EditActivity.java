@@ -101,7 +101,6 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
     Bundle b = new Bundle();
     b.putString(ConfirmationDialogFragment.KEY_MESSAGE, getString(
         mNewInstance ? getDiscardNewMessage() : R.string.dialog_confirm_discard_changes));
-    //noinspection InlinedApi
     b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, android.R.id.home);
     b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.response_yes);
     b.putInt(ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL, R.string.response_no);

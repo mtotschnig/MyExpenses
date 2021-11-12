@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Binder;
-import android.os.Build;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -105,11 +104,7 @@ public class PermissionHelper {
   }
 
   public static String[] externalReadPermissionCompat() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-      return new String[] {Manifest.permission.READ_EXTERNAL_STORAGE};
-    } else {
-      return new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE};
-    }
+    return new String[] {Manifest.permission.READ_EXTERNAL_STORAGE};
   }
 
   public static boolean canReadUri(Uri uri, Context context) {

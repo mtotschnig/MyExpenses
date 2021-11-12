@@ -24,7 +24,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
 import android.view.LayoutInflater;
@@ -141,7 +140,7 @@ public class DialogUtils {
   @SuppressLint("NewApi")
   public static String getDisplayName(Uri uri) {
 
-    if (!"file".equalsIgnoreCase(uri.getScheme()) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+    if (!"file".equalsIgnoreCase(uri.getScheme())) {
       // The query, since it only applies to a single document, will only return
       // one row. There's no need to filter, sort, or select fields, since we want
       // all fields for one document.
@@ -313,13 +312,7 @@ public class DialogUtils {
     Intent intent = new Intent(Intent.ACTION_GET_CONTENT);//TODO implement preference that allows to use ACTION_OPEN_DOCUMENT
     intent.addCategory(Intent.CATEGORY_OPENABLE);
 
-    if (Utils.hasApiLevel(Build.VERSION_CODES.KITKAT)) {
-      intent.setType("*/*");
-    } else {
-      //setting uri does not have any affect in Storage Access Framework's file picker,
-      //on Nougat it even can lead to FileURIExposedException if the uri passed is of scheme file
-      intent.setDataAndType(uri, "*/*");
-    }
+    intent.setType("*/*");
 
     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 

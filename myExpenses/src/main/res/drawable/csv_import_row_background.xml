@@ -14,9 +14,7 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<selector xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          tools:targetApi="LOLLIPOP">
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:state_activated="true">
         <shape

@@ -668,9 +668,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
   TransactionDatabase(Context context, String databaseName) {
     super(context, databaseName);
     mCtx = context;
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-      setWriteAheadLoggingEnabled(false);
-    }
+    setWriteAheadLoggingEnabled(false);
   }
 
   @Override

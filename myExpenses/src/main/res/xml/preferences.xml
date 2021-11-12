@@ -260,14 +260,6 @@
                 android:targetClass="org.totschnig.myexpenses.activity.BackupRestoreActivity"
                 android:targetPackage="@string/application_id" />
         </Preference>
-        <Preference
-            android:key="@string/pref_restore_legacy_key"
-            android:summary="@string/pref_restore_alternative_summary">
-            <intent
-                android:action="RESTORE_LEGACY"
-                android:targetClass="org.totschnig.myexpenses.activity.BackupRestoreActivity"
-                android:targetPackage="@string/application_id" />
-        </Preference>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_category_title_features">

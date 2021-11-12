@@ -35,7 +35,6 @@
     <string name="pref_auto_backup_time_key">auto_backup_time</string>
     <string name="pref_auto_backup_cloud_key">auto_backup_cloud</string>
     <string name="pref_restore_key">restore</string>
-    <string name="pref_restore_legacy_key">restore_legacy</string>
     <string name="pref_contrib_purchase_key">contrib_purchase</string>
     <string name="pref_enter_licence_key">pref_enter_licence_key</string>
     <string name="pref_new_licence_key">pref_new_licence_key</string>

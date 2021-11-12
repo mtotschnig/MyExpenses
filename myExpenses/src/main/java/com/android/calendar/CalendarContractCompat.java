@@ -18,20 +18,17 @@ package com.android.calendar;
 
 import android.annotation.SuppressLint;
 import android.net.Uri;
-import android.os.Build;
 import android.provider.BaseColumns;
 import android.provider.CalendarContract;
-
-import org.totschnig.myexpenses.util.Utils;
 
 @SuppressLint({ "NewApi", "InlinedApi" })
 public final class CalendarContractCompat {
     /**
      * True if we have to use the legacy API found on 2.x and 3.x
      */
-    public static final boolean legacyApi = !Utils.hasApiLevel(Build.VERSION_CODES.ICE_CREAM_SANDWICH);
+    public static final boolean legacyApi = false;
 
-    public static String AUTHORITY,
+  public static String AUTHORITY,
       EXTRA_EVENT_BEGIN_TIME,
       EXTRA_EVENT_END_TIME,
       EXTRA_EVENT_ALL_DAY,

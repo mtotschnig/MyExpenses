@@ -7,7 +7,6 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 import android.view.View;
@@ -128,14 +127,6 @@ public class UiUtils {
 
   public static int resolveIcon(Context context, String resourceName) {
     return context.getResources().getIdentifier(resourceName, "drawable", context.getPackageName());
-  }
-
-  public static void setCompoundDrawablesCompatWithIntrinsicBounds(TextView textView, int start, int top, int end, int bottom) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-      textView.setCompoundDrawablesRelativeWithIntrinsicBounds(start, top, end, bottom);
-    } else {
-      textView.setCompoundDrawablesWithIntrinsicBounds(start, top, end, bottom);
-    }
   }
 
   /**

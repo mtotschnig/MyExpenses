@@ -22,7 +22,6 @@ public enum PrefKey {
   RESTORE(R.string.pref_restore_key),
   IMPORT_QIF(R.string.pref_import_qif_key),
   IMPORT_CSV(R.string.pref_import_csv_key),
-  RESTORE_LEGACY(R.string.pref_restore_legacy_key),
   CONTRIB_PURCHASE(R.string.pref_contrib_purchase_key),
   LICENCE_LEGACY(R.string.pref_enter_licence_key),
   NEW_LICENCE(R.string.pref_new_licence_key),

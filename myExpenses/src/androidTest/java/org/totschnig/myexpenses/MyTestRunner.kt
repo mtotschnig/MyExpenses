@@ -1,14 +1,11 @@
 package org.totschnig.myexpenses
 
 import android.annotation.SuppressLint
-import android.annotation.TargetApi
 import android.app.Application
 import android.content.Context
-import android.os.Build
 import android.provider.Settings
 import android.provider.Settings.SettingNotFoundException
 import androidx.test.runner.AndroidJUnitRunner
-import org.totschnig.myexpenses.util.Utils
 
 @Suppress("unused")
 class MyTestRunner : AndroidJUnitRunner() {
@@ -25,9 +22,6 @@ class MyTestRunner : AndroidJUnitRunner() {
     @SuppressLint("NewApi")
     override fun onStart() {
         if (!ANIMATION_SETTINGS_MANUALLY_CHECKED) {
-            check(Utils.hasApiLevel(Build.VERSION_CODES.JELLY_BEAN_MR1)) {
-                "tests do not run on API 16"
-            }
             val animationSettings = arrayOf(
                 Settings.Global.TRANSITION_ANIMATION_SCALE,
                 Settings.Global.WINDOW_ANIMATION_SCALE,
@@ -54,7 +48,6 @@ class MyTestRunner : AndroidJUnitRunner() {
         super.onStart()
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Throws(SettingNotFoundException::class)
     private fun settingGlobalFloat(setting: String?): Float {
         return Settings.Global.getFloat(targetContext.contentResolver, setting)

@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MergeCursor;
-import android.os.Build;
 import android.os.Bundle;
 
 import com.android.calendar.CalendarContractCompat;
@@ -58,7 +57,7 @@ public class CalendarListPreferenceDialogFragmentCompat extends PreferenceDialog
             localExists = true;
         } while (calCursor.moveToNext());
       }
-      if (localExists || Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+      if (localExists) {
         selectionCursor = calCursor;
       } else {
         MatrixCursor extras = new MatrixCursor(new String[]{

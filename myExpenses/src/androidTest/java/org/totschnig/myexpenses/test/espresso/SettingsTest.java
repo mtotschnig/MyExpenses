@@ -1,11 +1,9 @@
 package org.totschnig.myexpenses.test.espresso;
 
-import android.os.Build;
 import android.view.View;
 
 import org.hamcrest.Matcher;
 import org.junit.After;
-import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -125,18 +123,6 @@ public class SettingsTest extends BaseUiTest {
             click()));
     intended(hasComponent(BackupRestoreActivity.class.getName()));
     onView(withText(R.string.pref_restore_title)).check(matches(isDisplayed()));
-  }
-
-  @Test
-  public void restoreLegacy() {
-    Assume.assumeTrue(Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT);
-    onView(getRootMatcher())
-        .perform(RecyclerViewActions.actionOnItem(hasDescendant(
-            withText(getString(R.string.pref_restore_title) + " (" +
-                getString(R.string.pref_restore_alternative) + ")")),
-            click()));
-    intended(hasComponent(BackupRestoreActivity.class.getName()));
-    onView(withText(R.string.restore_no_backup_found)).check(matches(isDisplayed()));
   }
 
   @Test

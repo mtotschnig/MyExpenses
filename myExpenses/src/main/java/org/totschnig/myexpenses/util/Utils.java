@@ -185,10 +185,6 @@ public class Utils {
     }
   }
 
-  public static boolean hasApiLevel(int checkVersion) {
-    return Build.VERSION.SDK_INT >= checkVersion;
-  }
-
   public static char getDefaultDecimalSeparator() {
     char sep = '.';
     NumberFormat nfDLocal = NumberFormat.getNumberInstance();

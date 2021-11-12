@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.ui;
 
 import android.content.Context;
 import android.content.ContextWrapper;
-import android.os.Build;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -10,7 +9,6 @@ import android.view.LayoutInflater;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import java.time.LocalDate;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.BaseActivity;
@@ -23,6 +21,7 @@ import org.totschnig.myexpenses.viewmodel.ExchangeRateViewModel;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -104,14 +103,10 @@ public class ExchangeRateEdit extends ConstraintLayout {
     });
     rate1Edit = binding.ExchangeRate1.ExchangeRateText;
     rate1Edit.setId(R.id.ExchangeRateEdit1);
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-      binding.ExchangeRate1.ExchangeRateLabel1.setLabelFor(R.id.ExchangeRateEdit1);
-    }
+    binding.ExchangeRate1.ExchangeRateLabel1.setLabelFor(R.id.ExchangeRateEdit1);
     rate2Edit =  binding.ExchangeRate2.ExchangeRateText;
     rate2Edit.setId(R.id.ExchangeRateEdit2);
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-      binding.ExchangeRate2.ExchangeRateLabel1.setLabelFor(R.id.ExchangeRateEdit2);
-    }
+    binding.ExchangeRate2.ExchangeRateLabel1.setLabelFor(R.id.ExchangeRateEdit2);
     rate1Edit.setFractionDigits(EXCHANGE_RATE_FRACTION_DIGITS);
     rate2Edit.setFractionDigits(EXCHANGE_RATE_FRACTION_DIGITS);
     rate1Edit.addTextChangedListener(new LinkedExchangeRateTextWatcher(true));

@@ -296,11 +296,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
         menu.findItem(R.id.SCAN_MODE_COMMAND)?.let {
-            if (isScanFeatureAvailable()) {
-                it.isChecked = prefHandler.getBoolean(PrefKey.OCR, false)
-            } else {
-                it.isVisible = false
-            }
+            it.isChecked = prefHandler.getBoolean(PrefKey.OCR, false)
         }
         return super.onPrepareOptionsMenu(menu)
     }
@@ -358,13 +354,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         floatingActionButton!!.setImageResource(if (scanMode) R.drawable.ic_scan else R.drawable.ic_menu_add_fab)
     }
 
-    fun isScanMode(): Boolean {
-        return isScanFeatureAvailable() && prefHandler.getBoolean(PrefKey.OCR, false)
-    }
+    fun isScanMode(): Boolean = prefHandler.getBoolean(PrefKey.OCR, false)
 
-    fun isScanFeatureAvailable(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
-
-    fun activateOcrMode() {
+    private fun activateOcrMode() {
         prefHandler.putBoolean(PrefKey.OCR, true)
         updateFab()
         invalidateOptionsMenu()

@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.viewmodel.data
 
 import android.content.Context
 import android.database.Cursor
-import android.os.Build
 import org.totschnig.myexpenses.model.CurrencyEnum
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.Utils
@@ -50,11 +49,9 @@ data class Currency(val code: String, val displayName: String, val usages: Int =
         }
 
         private fun findDisplayName(code: String, locale: Locale): String {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                try {
-                    return java.util.Currency.getInstance(code).getDisplayName(locale)
-                } catch (ignored: IllegalArgumentException) {
-                }
+            try {
+                return java.util.Currency.getInstance(code).getDisplayName(locale)
+            } catch (ignored: IllegalArgumentException) {
             }
             try {
                 return CurrencyEnum.valueOf(code).description

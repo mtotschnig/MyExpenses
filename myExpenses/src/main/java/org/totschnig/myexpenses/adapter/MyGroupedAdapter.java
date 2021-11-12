@@ -248,11 +248,7 @@ public class MyGroupedAdapter extends ResourceCursorAdapter implements StickyLis
     if (prefHandler.getBoolean(PrefKey.ACCOUNT_LIST_FAST_SCROLL, false)) {
       FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) holder.expansionPanel.getLayoutParams();
       int adjustedMargin = context.getResources().getDimensionPixelSize(R.dimen.fast_scroll_additional_margin);
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-        layoutParams.setMarginEnd(adjustedMargin);
-      } else {
-        layoutParams.rightMargin = adjustedMargin;
-      }
+      layoutParams.setMarginEnd(adjustedMargin);
       holder.expansionPanel.setLayoutParams(layoutParams);
     }
     holder.stateIcon.setVisibility(isSealed ? View.VISIBLE : View.GONE);

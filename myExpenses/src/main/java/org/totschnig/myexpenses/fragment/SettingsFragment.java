@@ -1,21 +1,16 @@
 package org.totschnig.myexpenses.fragment;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.KeyguardManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.annimon.stream.Stream;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ContribInfoDialogActivity;
 import org.totschnig.myexpenses.activity.FolderBrowser;
@@ -46,6 +41,9 @@ import org.totschnig.myexpenses.util.licence.Package;
 import org.totschnig.myexpenses.util.licence.ProfessionalPackage;
 
 import java.net.URI;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -90,7 +88,6 @@ import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_DEVICE_LOCK
 import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_LEGACY;
 import static org.totschnig.myexpenses.preference.PrefKey.RATE;
 import static org.totschnig.myexpenses.preference.PrefKey.RESTORE;
-import static org.totschnig.myexpenses.preference.PrefKey.RESTORE_LEGACY;
 import static org.totschnig.myexpenses.preference.PrefKey.ROOT_SCREEN;
 import static org.totschnig.myexpenses.preference.PrefKey.SECURITY_QUESTION;
 import static org.totschnig.myexpenses.preference.PrefKey.SEND_FEEDBACK;
@@ -232,15 +229,13 @@ public class SettingsFragment extends BaseSettingsFragment implements
         }
       }
     } else if (matches(pref, PROTECTION_DEVICE_LOCK_SCREEN)) {
-      if (Utils.hasApiLevel(Build.VERSION_CODES.LOLLIPOP)) {
-        if (((Boolean) value)) {
-          if (!((KeyguardManager) requireContext().getSystemService(Context.KEYGUARD_SERVICE)).isKeyguardSecure()) {
-            activity().showDeviceLockScreenWarning();
-            return false;
-          } else if (prefHandler.getBoolean(PROTECTION_LEGACY, false)) {
-            showOnlyOneProtectionWarning(true);
-            return false;
-          }
+      if (((Boolean) value)) {
+        if (!((KeyguardManager) requireContext().getSystemService(Context.KEYGUARD_SERVICE)).isKeyguardSecure()) {
+          activity().showDeviceLockScreenWarning();
+          return false;
+        } else if (prefHandler.getBoolean(PROTECTION_LEGACY, false)) {
+          showOnlyOneProtectionWarning(true);
+          return false;
         }
       }
       return true;
@@ -303,22 +298,19 @@ public class SettingsFragment extends BaseSettingsFragment implements
       getActivity().showDialog(R.id.MORE_INFO_DIALOG);
       return true;
     }
-    if (matches(preference, RESTORE) || matches(preference, RESTORE_LEGACY)) {
+    if (matches(preference, RESTORE)) {
       startActivityForResult(preference.getIntent(), RESTORE_REQUEST);
       return true;
     }
     if (matches(preference, APP_DIR)) {
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        //noinspection InlinedApi
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
-        try {
-          pickFolderRequestStart = System.currentTimeMillis();
-          startActivityForResult(intent, PICK_FOLDER_REQUEST);
-          return true;
-        } catch (ActivityNotFoundException e) {
-          CrashHandler.report(e);
-          //fallback to FolderBrowser
-        }
+      Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+      try {
+        pickFolderRequestStart = System.currentTimeMillis();
+        startActivityForResult(intent, PICK_FOLDER_REQUEST);
+        return true;
+      } catch (ActivityNotFoundException e) {
+        CrashHandler.report(e);
+        //fallback to FolderBrowser
       }
       startLegacyFolderRequest(AppDirHelper.getAppDir(getActivity()));
       return true;
@@ -389,7 +381,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
     } else if (preference instanceof TimePreference) {
       fragment = TimePreferenceDialogFragmentCompat.newInstance(key);
     } else if (matches(preference, PROTECTION_LEGACY)) {
-      if (Utils.hasApiLevel(Build.VERSION_CODES.LOLLIPOP) && prefHandler.getBoolean(PROTECTION_DEVICE_LOCK_SCREEN, false)) {
+      if (prefHandler.getBoolean(PROTECTION_DEVICE_LOCK_SCREEN, false)) {
         showOnlyOneProtectionWarning(false);
         return;
       } else {
@@ -414,7 +406,6 @@ public class SettingsFragment extends BaseSettingsFragment implements
     }
   }
 
-  @TargetApi(Build.VERSION_CODES.KITKAT)
   @Override
   public void onActivityResult(int requestCode, int resultCode,
                                Intent intent) {

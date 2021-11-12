@@ -33,8 +33,7 @@ class DateButton @JvmOverloads constructor(
     private val formatter: DateTimeFormatter = getDateTimeFormatter(context)
 
     init {
-        UiUtils.setCompoundDrawablesCompatWithIntrinsicBounds(
-            this,
+        this.setCompoundDrawablesRelativeWithIntrinsicBounds(
             R.drawable.ic_chevron_start,
             0,
             R.drawable.ic_chevron_end,

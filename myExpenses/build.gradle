@@ -94,12 +94,9 @@ android {
         type.resValue "string", 'sync_account_type', defaultConfig.applicationId + type.applicationIdSuffix + ".sync"
     }
 
-    flavorDimensions "security", "textRecognition"
+    flavorDimensions "textRecognition"
 
     productFlavors {
-        conscript {
-            dimension "security"
-        }
         intern {
             dimension "textRecognition"
         }
@@ -110,14 +107,7 @@ android {
 
     sourceSets {
         main.res.srcDirs += 'src/main/categoryIcons'
-        conscript {
-            release {
-                java.srcDirs += 'src/conscriptRelease/java'
-            }
-            debug {
-                java.srcDirs += 'src/conscriptDebug/java'
-            }
-        }
+
         test {
             java.srcDirs += "src/testShared/java"
         }
@@ -168,11 +158,6 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion compose_version
     }
-}
-
-configurations {
-    conscriptExternReleaseImplementation
-    conscriptInternReleaseImplementation
 }
 
 dependencies {
@@ -265,9 +250,6 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
 
     implementation 'com.github.lzyzsd:circleprogress:1.2.1'
-
-    conscriptExternReleaseImplementation 'org.conscrypt:conscrypt-android:2.5.1'
-    conscriptInternReleaseImplementation 'org.conscrypt:conscrypt-android:2.5.1'
 
     implementation 'com.squareup.sqlbrite3:sqlbrite:3.2.0'
     implementation 'app.cash.copper:copper-flow:1.0.0'

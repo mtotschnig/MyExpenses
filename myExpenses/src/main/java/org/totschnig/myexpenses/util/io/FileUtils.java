@@ -17,12 +17,10 @@
 
 package org.totschnig.myexpenses.util.io;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
@@ -152,7 +150,6 @@ public class FileUtils {
    * @param uri     The Uri to query.
    * @author paulburke
    */
-  @TargetApi(Build.VERSION_CODES.KITKAT)
   public static String getPath(final Context context, final Uri uri) {
     Timber.d("Authority: %s, Fragment: %s, Port: %s, Query: %s, Scheme: %s, Host: %s, Segments: %s",
         uri.getAuthority(), uri.getFragment(), uri.getPort(), uri.getQuery(), uri.getScheme(), uri.getHost(),
@@ -218,10 +215,8 @@ public class FileUtils {
     return dataColumn != null ? dataColumn : uri.getPath();
   }
 
-  @TargetApi(Build.VERSION_CODES.KITKAT)
   public static boolean isDocumentUri(Context context, Uri uri) {
-    final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
-    return isKitKat && DocumentsContract.isDocumentUri(context, uri);
+    return DocumentsContract.isDocumentUri(context, uri);
   }
 
 }
