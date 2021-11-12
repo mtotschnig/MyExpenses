@@ -6,7 +6,7 @@
     <dimen name="general_padding">12dp</dimen>
     <dimen name="padding_main_screen">12dp</dimen>
     <dimen name="padding_form">16dp</dimen>
-    <dimen name="margin_list">52dp</dimen>
+    <dimen name="margin_list">44dp</dimen>
     <dimen name="margin_list_expandable">22dp</dimen>
     <!-- smaller than padding_dialog_side to correct for edittext padding-->
     <dimen name="padding_input_dialog_side">20dp</dimen>

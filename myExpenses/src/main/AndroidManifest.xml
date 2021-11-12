@@ -110,7 +110,7 @@
             android:name=".activity.MyExpenses"
             android:label="${appName}"
             android:launchMode="singleTop"
-            android:theme="@style/MyTheme.Main" />
+            android:theme="@style/MyTheme" />
         <activity
             android:name=".activity.DeepLinkActivity"
             android:excludeFromRecents="true"

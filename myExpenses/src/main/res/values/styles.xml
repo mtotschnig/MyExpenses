@@ -42,8 +42,8 @@
     </style>
 
     <style name="newHeadingStyle">
-        <item name="android:textStyle">bold</item>
         <item name="android:textAppearance">?android:textAppearance</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
     <style name="about_text">
@@ -52,17 +52,15 @@
         <item name="android:textColorLink">@drawable/linkcolor</item>
     </style>
 
-    <style name="FormLabelBase">
+    <style name="FormLabel">
         <item name="android:gravity">center_vertical</item>
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:minHeight">50dp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
-    </style>
-
-    <style name="FormLabel" parent="FormLabelBase">
-        <item name="android:paddingRight">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
     <style name="FormField">
@@ -126,13 +124,13 @@
     </style>
 
     <style name="ExpandableListRowWithCustomIndicator">
-        <item name="android:paddingRight">@dimen/general_padding</item>
-        <item name="android:paddingLeft">@dimen/general_padding</item>
+        <item name="android:paddingEnd">@dimen/general_padding</item>
+        <item name="android:paddingStart">@dimen/general_padding</item>
     </style>
 
     <style name="ExpandableListRow">
-        <item name="android:paddingRight">@dimen/general_padding</item>
-        <item name="android:paddingLeft">?android:attr/expandableListPreferredItemPaddingLeft</item>
+        <item name="android:paddingEnd">@dimen/general_padding</item>
+        <item name="android:paddingStart">?android:attr/expandableListPreferredItemPaddingLeft</item>
     </style>
 
     <style name="MyAlertDialogTheme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
@@ -272,7 +270,7 @@
     </style>
 
     <style name="OnboardingSpinner">
-        <item name="android:layout_marginLeft">-8dp</item>
+        <item name="android:layout_marginStart">-8dp</item>
     </style>
 
     <style name="BudgetButton" parent="Widget.AppCompat.Button">
@@ -328,5 +326,5 @@
         <item name="colorAccent">@color/colorAccentSnackbar</item>
     </style>
 
-    <style name="CrashDialogTheme" parent="@android:style/Theme.Holo.Dialog" />
+    <style name="CrashDialogTheme" parent="@android:style/Theme.Material.Dialog" />
 </resources>

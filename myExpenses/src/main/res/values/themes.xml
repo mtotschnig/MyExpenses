@@ -34,9 +34,10 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 
     </style>
 
-    <style name="MyTheme" parent="MyThemeBase" />
-
-    <style name="MyTheme.Main" />
+    <style name="MyTheme" parent="MyThemeBase">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
 
     <style name="DarkBackground">
         <item name="colorControlNormal">@android:color/white</item>
@@ -73,18 +74,18 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="materialTimePickerTheme">@style/ThemeOverlay.MaterialComponents.TimePicker</item>
     </style>
 
-    <style name="EditDialog" parent="EditDialogBase" />
+    <style name="EditDialog" parent="EditDialogBase">
+        <item name="android:statusBarColor">@android:color/black</item>
+    </style>
 
-    <style name="MyTheme.Translucent">
+    <style name="Translucent">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:colorBackground">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowAnimationStyle">@null</item>
-    </style>
-
-    <style name="Translucent" parent="MyTheme.Translucent">
-        <item name="popupMenuStyle">@style/LegacyPopupMenuStyle</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
 
     <style name="OnboardingBase" parent="@style/SuwThemeMaterial">
@@ -99,7 +100,9 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="simpleDialogTheme">@style/SimpleDialog</item>
     </style>
 
-    <style name="Onboarding" parent="OnboardingBase" />
+    <style name="Onboarding" parent="OnboardingBase">
+        <item name="android:statusBarColor">@android:color/black</item>
+    </style>
 
     <style name="Calculator" parent="Theme.MaterialComponents.DayNight.Dialog">
         <item name="colorPrimary">@color/colorPrimary</item>
