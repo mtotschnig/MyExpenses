@@ -8,7 +8,6 @@ import android.test.mock.MockContentProvider
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import com.android.calendar.CalendarContractCompat
 import org.assertj.core.api.Assertions.assertThat
-import java.time.LocalDateTime
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.provider.CalendarProviderProxy
@@ -18,6 +17,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseDbTest
 import timber.log.Timber
+import java.time.LocalDateTime
 import java.util.concurrent.TimeUnit
 
 
@@ -110,8 +110,8 @@ class PlanInfoTest : BaseDbTest() {
         cursor.moveToFirst()
         val orderedElements = LongArray(3)
         do {
-            val planId = cursor.getLong(cursor.getColumnIndex(KEY_PLANID))
-            val planInfo = cursor.getString(cursor.getColumnIndex(DatabaseConstants.KEY_PLAN_INFO))
+            val planId = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_PLANID))
+            val planInfo = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_PLAN_INFO))
             with(getInstrumentation().targetContext) {
                 assertThat(planInfo).contains(when (planId) {
                     dailyPlan.id -> getString(R.string.daily_plain)
@@ -119,7 +119,7 @@ class PlanInfoTest : BaseDbTest() {
                     monthlyPlan.id -> getString(R.string.monthly_on_day, LocalDateTime.now().dayOfMonth)
                     else -> throw IllegalArgumentException()
                 })
-                orderedElements[cursor.position] = cursor.getLong(cursor.getColumnIndex(KEY_PLANID))
+                orderedElements[cursor.position] = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_PLANID))
             }
 
         } while (cursor.moveToNext())

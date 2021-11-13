@@ -4,15 +4,12 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
-import android.text.SpannableString
 import android.text.TextUtils
-import android.text.style.ForegroundColorSpan
 import android.util.SparseBooleanArray
 import android.view.ActionMode
 import android.view.Menu
 import android.view.View
 import android.widget.AbsListView
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import com.afollestad.materialdialogs.MaterialDialog
@@ -51,7 +48,6 @@ import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.viewmodel.KEY_ROW_IDS
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView
-import java.util.*
 
 const val KEY_REPLACE = "replace"
 
@@ -285,13 +281,13 @@ class TransactionList : BaseTransactionList() {
                     if (positions.valueAt(i)) {
                         mTransactionsCursor.moveToPosition(positions.keyAt(i))
                         val amount = mTransactionsCursor.getLong(
-                            mTransactionsCursor.getColumnIndex(KEY_AMOUNT)
+                            mTransactionsCursor.getColumnIndexOrThrow(KEY_AMOUNT)
                         )
                         if (amount > 0) hasIncome = true
                         if (amount < 0) hasExpense = true
                         accountTypes.add(
                             mTransactionsCursor.getString(
-                                mTransactionsCursor.getColumnIndex(
+                                mTransactionsCursor.getColumnIndexOrThrow(
                                     DatabaseConstants.KEY_ACCOUNT_TYPE
                                 )
                             )
@@ -417,10 +413,10 @@ class TransactionList : BaseTransactionList() {
 
     override fun onSelectionChanged(position: Int, checked: Boolean) {
         if (mTransactionsCursor.moveToPosition(position)) {
-            val amount = mTransactionsCursor.getLong(mTransactionsCursor.getColumnIndex(KEY_AMOUNT))
+            val amount = mTransactionsCursor.getLong(mTransactionsCursor.getColumnIndexOrThrow(KEY_AMOUNT))
             val shouldCount = if (isTransferAtPosition(position) && mAccount.isAggregate) {
                 if (mAccount.isHomeAggregate) false else mTransactionsCursor.getInt(
-                    mTransactionsCursor.getColumnIndex(KEY_IS_SAME_CURRENCY)
+                    mTransactionsCursor.getColumnIndexOrThrow(KEY_IS_SAME_CURRENCY)
                 ) != 1
             } else true
             if (shouldCount) {

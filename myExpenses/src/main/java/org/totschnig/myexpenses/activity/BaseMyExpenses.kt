@@ -4,7 +4,6 @@ import android.content.ComponentName
 import android.content.Intent
 import android.database.Cursor
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.widget.Toast
@@ -23,8 +22,6 @@ import eltos.simpledialogfragment.form.Hint
 import eltos.simpledialogfragment.form.SimpleFormDialog
 import eltos.simpledialogfragment.form.Spinner
 import icepick.State
-import java.time.LocalDate
-import java.time.LocalTime
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit.Companion.KEY_OCR_RESULT
@@ -58,6 +55,8 @@ import timber.log.Timber
 import java.io.File
 import java.io.Serializable
 import java.math.BigDecimal
+import java.time.LocalDate
+import java.time.LocalTime
 import java.util.*
 import javax.inject.Inject
 
@@ -237,7 +236,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                 startEdit(
                                         createRowIntent(Transactions.TYPE_TRANSACTION, false).apply {
                                             putExtra(KEY_AMOUNT, (extras.getSerializable(KEY_AMOUNT) as BigDecimal) -
-                                                    Money(currencyUnit, cursor.getLong(cursor.getColumnIndex(DatabaseConstants.KEY_CURRENT_BALANCE))).amountMajor)
+                                                    Money(currencyUnit, cursor.getLong(cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_CURRENT_BALANCE))).amountMajor)
                                         }
                                 )
                             }
@@ -327,9 +326,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     fun setBalance() {
         accountsCursor?.let { cursor ->
             currentCurrencyUnit?.let { currencyUnit ->
-                val balance = cursor.getLong(cursor.getColumnIndex(DatabaseConstants.KEY_CURRENT_BALANCE))
+                val balance = cursor.getLong(cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_CURRENT_BALANCE))
                 val label = cursor.getString(columnIndexLabel)
-                val isHome = cursor.getInt(cursor.getColumnIndex(DatabaseConstants.KEY_IS_AGGREGATE)) == AggregateAccount.AGGREGATE_HOME
+                val isHome = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_IS_AGGREGATE)) == AggregateAccount.AGGREGATE_HOME
                 currentBalance = String.format(Locale.getDefault(), "%s%s", if (isHome) " ≈ " else "",
                         currencyFormatter.formatMoney(Money(currencyUnit, balance)))
                 title = if (isHome) getString(R.string.grand_total) else label

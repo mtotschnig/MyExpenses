@@ -59,7 +59,7 @@ class TemplateRemoteViewsFactory(
     }
 
     override fun RemoteViews.populate(cursor: Cursor) {
-        setBackgroundColorSave(R.id.divider3, cursor.getInt(cursor.getColumnIndex(KEY_COLOR)))
+        setBackgroundColorSave(R.id.divider3, cursor.getInt(cursor.getColumnIndexOrThrow(KEY_COLOR)))
         val title = DbUtils.getString(cursor, DatabaseConstants.KEY_TITLE)
         val currencyContext = MyApplication.getInstance().appComponent.currencyContext()
         val currency = currencyContext.get(DbUtils.getString(cursor, KEY_CURRENCY))

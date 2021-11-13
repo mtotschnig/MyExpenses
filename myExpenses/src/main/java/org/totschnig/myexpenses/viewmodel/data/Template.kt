@@ -7,7 +7,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
 data class Template(val id: Long, val title: String) {
     companion object {
         fun fromCursor(cursor: Cursor) = Template(
-                cursor.getLong(cursor.getColumnIndex(KEY_ROWID)),
-                cursor.getString(cursor.getColumnIndex(KEY_TITLE)))
+                cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ROWID)),
+                cursor.getString(cursor.getColumnIndexOrThrow(KEY_TITLE)))
     }
 }

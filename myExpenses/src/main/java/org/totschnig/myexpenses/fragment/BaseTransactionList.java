@@ -626,11 +626,11 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         break;
       case SUM_CURSOR:
         c.moveToFirst();
-        mappedCategories = c.getInt(c.getColumnIndex(KEY_MAPPED_CATEGORIES)) > 0;
-        mappedPayees = c.getInt(c.getColumnIndex(KEY_MAPPED_PAYEES)) > 0;
-        mappedMethods = c.getInt(c.getColumnIndex(KEY_MAPPED_METHODS)) > 0;
-        hasTransfers = c.getInt(c.getColumnIndex(KEY_HAS_TRANSFERS)) > 0;
-        hasTags = c.getInt(c.getColumnIndex(KEY_MAPPED_TAGS)) > 0;
+        mappedCategories = c.getInt(c.getColumnIndexOrThrow(KEY_MAPPED_CATEGORIES)) > 0;
+        mappedPayees = c.getInt(c.getColumnIndexOrThrow(KEY_MAPPED_PAYEES)) > 0;
+        mappedMethods = c.getInt(c.getColumnIndexOrThrow(KEY_MAPPED_METHODS)) > 0;
+        hasTransfers = c.getInt(c.getColumnIndexOrThrow(KEY_HAS_TRANSFERS)) > 0;
+        hasTags = c.getInt(c.getColumnIndexOrThrow(KEY_MAPPED_TAGS)) > 0;
         requireActivity().invalidateOptionsMenu();
         break;
       case GROUPING_CURSOR:
@@ -668,8 +668,8 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
           final Calendar cal = Calendar.getInstance();
           final SimpleDateFormat dateFormat = new SimpleDateFormat("MMM yy", userLocaleProvider.getUserPreferredLocale());
           do {
-            final int year = c.getInt(c.getColumnIndex(KEY_YEAR));
-            final int month = c.getInt(c.getColumnIndex(KEY_SECOND_GROUP));
+            final int year = c.getInt(c.getColumnIndexOrThrow(KEY_YEAR));
+            final int month = c.getInt(c.getColumnIndexOrThrow(KEY_SECOND_GROUP));
             cal.set(year, month, 1);
             final int position = c.getPosition();
             sections[position] = dateFormat.format(cal.getTime());

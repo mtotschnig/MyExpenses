@@ -1349,7 +1349,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
               ContentValues templateValues = new ContentValues();
               while (c.getPosition() < c.getCount()) {
                 templateValues.put("uuid", Model.generateUuid());
-                long templateId = c.getLong(c.getColumnIndex("_id"));
+                long templateId = c.getLong(c.getColumnIndexOrThrow("_id"));
                 db.update("templates", templateValues, "_id = " + templateId, null);
                 c.moveToNext();
               }

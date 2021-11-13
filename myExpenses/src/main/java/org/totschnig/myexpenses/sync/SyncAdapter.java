@@ -622,7 +622,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                   if (tagCursor.moveToFirst()) {
                     List<String> tags = new ArrayList<>();
                     do {
-                      tags.add(tagCursor.getString(tagCursor.getColumnIndex(DatabaseConstants.KEY_LABEL)));
+                      tags.add(tagCursor.getString(tagCursor.getColumnIndexOrThrow(DatabaseConstants.KEY_LABEL)));
                     } while (tagCursor.moveToNext());
                     transactionChange = transactionChange.toBuilder().setTags(tags).build();
                   }

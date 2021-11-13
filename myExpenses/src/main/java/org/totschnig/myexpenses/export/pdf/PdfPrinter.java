@@ -445,7 +445,7 @@ public class PdfPrinter {
       }
       if (account.getId() < 0) {
         //for aggregate accounts we need to indicate the account name
-        catText = transactionCursor.getString(transactionCursor.getColumnIndex(KEY_ACCOUNT_LABEL))
+        catText = transactionCursor.getString(transactionCursor.getColumnIndexOrThrow(KEY_ACCOUNT_LABEL))
             + " " + catText;
       }
       String referenceNumber = transactionCursor.getString(columnIndexReferenceNumber);
@@ -462,7 +462,7 @@ public class PdfPrinter {
       }
       FontType t;
       if (account.getId() < 0 &&
-          transactionCursor.getInt(transactionCursor.getColumnIndex(KEY_IS_SAME_CURRENCY)) == 1) {
+          transactionCursor.getInt(transactionCursor.getColumnIndexOrThrow(KEY_IS_SAME_CURRENCY)) == 1) {
         t = FontType.NORMAL;
       } else {
         t = amount < 0 ? FontType.EXPENSE : FontType.INCOME;

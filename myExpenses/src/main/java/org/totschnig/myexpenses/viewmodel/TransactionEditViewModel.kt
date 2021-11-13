@@ -38,7 +38,6 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
-import java.util.*
 import kotlin.math.pow
 import org.totschnig.myexpenses.model.Account as Account_model
 import org.totschnig.myexpenses.viewmodel.data.Template as DataTemplate
@@ -111,14 +110,14 @@ class TransactionEditViewModel(application: Application) : TransactionViewModel(
     }
 
     private fun buildAccount(cursor: Cursor, currencyContext: CurrencyContext): Account {
-        val currency = currencyContext.get(cursor.getString(cursor.getColumnIndex(KEY_CURRENCY)))
+        val currency = currencyContext.get(cursor.getString(cursor.getColumnIndexOrThrow(KEY_CURRENCY)))
         return Account(
-            cursor.getLong(cursor.getColumnIndex(KEY_ROWID)),
-            cursor.getString(cursor.getColumnIndex(KEY_LABEL)),
+            cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ROWID)),
+            cursor.getString(cursor.getColumnIndexOrThrow(KEY_LABEL)),
             currency,
-            cursor.getInt(cursor.getColumnIndex(KEY_COLOR)),
+            cursor.getInt(cursor.getColumnIndexOrThrow(KEY_COLOR)),
             AccountType.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(KEY_TYPE))),
-            adjustExchangeRate(cursor.getDouble(cursor.getColumnIndex(KEY_EXCHANGE_RATE)), currency)
+            adjustExchangeRate(cursor.getDouble(cursor.getColumnIndexOrThrow(KEY_EXCHANGE_RATE)), currency)
         )
     }
 

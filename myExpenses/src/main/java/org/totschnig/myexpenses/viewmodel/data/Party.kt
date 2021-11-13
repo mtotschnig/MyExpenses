@@ -17,11 +17,11 @@ data class Party(
 
     companion object {
         fun fromCursor(cursor: Cursor) = Party(
-            cursor.getLong(cursor.getColumnIndex(KEY_ROWID)),
-            cursor.getString(cursor.getColumnIndex(KEY_PAYEE_NAME)),
-            cursor.getInt(cursor.getColumnIndex(KEY_MAPPED_TRANSACTIONS)) > 0,
-            cursor.getInt(cursor.getColumnIndex(KEY_MAPPED_TEMPLATES)) > 0,
-            cursor.getInt(cursor.getColumnIndex(KEY_MAPPED_DEBTS))
+            cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ROWID)),
+            cursor.getString(cursor.getColumnIndexOrThrow(KEY_PAYEE_NAME)),
+            cursor.getInt(cursor.getColumnIndexOrThrow(KEY_MAPPED_TRANSACTIONS)) > 0,
+            cursor.getInt(cursor.getColumnIndexOrThrow(KEY_MAPPED_TEMPLATES)) > 0,
+            cursor.getInt(cursor.getColumnIndexOrThrow(KEY_MAPPED_DEBTS))
         )
     }
 }

@@ -220,7 +220,7 @@ public class PlanMonthFragment extends CaldroidFragment
         clearSelectedDates();
         while (!data.isAfterLast()) {
           long timeInMillis = data.getLong(
-              data.getColumnIndex(CalendarContractCompat.Instances.BEGIN));
+              data.getColumnIndexOrThrow(CalendarContractCompat.Instances.BEGIN));
           calendar.setTimeInMillis(timeInMillis);
           DateTime dateTime = CalendarHelper.convertDateToDateTime(calendar.getTime());
           selectedDates.add(dateTime);
@@ -234,8 +234,8 @@ public class PlanMonthFragment extends CaldroidFragment
         instance2TransactionMap.clear();
         while (!data.isAfterLast()) {
           instance2TransactionMap.put(
-              data.getLong(data.getColumnIndex(KEY_INSTANCEID)),
-              data.getLong(data.getColumnIndex(KEY_TRANSACTIONID)));
+              data.getLong(data.getColumnIndexOrThrow(KEY_INSTANCEID)),
+              data.getLong(data.getColumnIndexOrThrow(KEY_TRANSACTIONID)));
           data.moveToNext();
         }
         refreshView();

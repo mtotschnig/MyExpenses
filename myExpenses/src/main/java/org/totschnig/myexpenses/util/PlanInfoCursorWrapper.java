@@ -44,7 +44,7 @@ public class PlanInfoCursorWrapper extends CursorWrapperHelper {
     if (wrapped.moveToFirst()) {
       ArrayList<Long> plans = new ArrayList<>();
       long planId;
-      int columnIndexPlanId = getColumnIndex(KEY_PLANID);
+      int columnIndexPlanId = getColumnIndexOrThrow(KEY_PLANID);
       while (!wrapped.isAfterLast()) {
         int wrappedPos = wrapped.getPosition();
         if ((planId = getLong(columnIndexPlanId)) != 0L) {
@@ -88,11 +88,11 @@ public class PlanInfoCursorWrapper extends CursorWrapperHelper {
           if (c.moveToFirst()) {
             while (!c.isAfterLast()) {
               planInfo.put(
-                  c.getLong(c.getColumnIndex(Events._ID)),
+                  c.getLong(c.getColumnIndexOrThrow(Events._ID)),
                   Plan.prettyTimeInfo(
                       context,
-                      c.getString(c.getColumnIndex(Events.RRULE)),
-                      c.getLong(c.getColumnIndex(Events.DTSTART))));
+                      c.getString(c.getColumnIndexOrThrow(Events.RRULE)),
+                      c.getLong(c.getColumnIndexOrThrow(Events.DTSTART))));
               c.moveToNext();
             }
           }
@@ -126,7 +126,7 @@ public class PlanInfoCursorWrapper extends CursorWrapperHelper {
           null);
       if (c != null) {
         if (c.moveToFirst()) {
-          result = c.getLong(c.getColumnIndex(CalendarContractCompat.Instances.BEGIN));
+          result = c.getLong(c.getColumnIndexOrThrow(CalendarContractCompat.Instances.BEGIN));
           c.close();
           return result;
         }

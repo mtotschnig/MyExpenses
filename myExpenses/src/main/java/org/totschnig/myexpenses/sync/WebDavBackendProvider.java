@@ -253,7 +253,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
       try (Cursor c = getContext().getContentResolver().query(uri, null, null, null, null)) {
         if (c != null) {
           c.moveToFirst();
-          size = c.getLong(c.getColumnIndex(OpenableColumns.SIZE));
+          size = c.getLong(c.getColumnIndexOrThrow(OpenableColumns.SIZE));
         } else {
           size = -1;
         }

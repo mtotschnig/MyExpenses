@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.model
 
 import android.content.Context
 import android.database.Cursor
-import com.google.gson.Gson
 import org.apache.commons.lang3.StringUtils
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -54,7 +53,7 @@ data class TransactionDTO(
                 }
             }
             return TransactionDTO(
-                cursor.getLong(cursor.getColumnIndex(DatabaseConstants.KEY_ROWID)).toString(),
+                cursor.getLong(cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_ROWID)).toString(),
                 formatter.format(
                     Date(
                         cursor.getLong(
@@ -72,7 +71,7 @@ data class TransactionDTO(
                 labelSub,
                 fullLabel,
                 DbUtils.getString(cursor, DatabaseConstants.KEY_COMMENT),
-                if (isPart) null else cursor.getString(cursor.getColumnIndex(DatabaseConstants.KEY_METHOD_LABEL)),
+                if (isPart) null else cursor.getString(cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_METHOD_LABEL)),
                 if (isPart) null else try {
                     CrStatus.valueOf(
                         cursor.getString(

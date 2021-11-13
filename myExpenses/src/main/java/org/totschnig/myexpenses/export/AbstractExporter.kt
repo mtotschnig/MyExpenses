@@ -79,7 +79,7 @@ abstract class AbstractExporter
                         while (cursor.position < cursor.count) {
                             val catId = DbUtils.getLongOrNull(cursor, DatabaseConstants.KEY_CATID)
                             val rowId =
-                                cursor.getLong(cursor.getColumnIndex(DatabaseConstants.KEY_ROWID))
+                                cursor.getLong(cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_ROWID))
                             val isSplit = DatabaseConstants.SPLIT_CATID == catId
                             val splitCursor = if (isSplit) context.contentResolver.query(
                                 Transaction.CONTENT_URI,

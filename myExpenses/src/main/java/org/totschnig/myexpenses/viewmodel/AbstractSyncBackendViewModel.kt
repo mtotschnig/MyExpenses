@@ -44,9 +44,9 @@ abstract class AbstractSyncBackendViewModel(application: Application) :
                     val uuid2syncMap: MutableMap<String, String?> = HashMap()
                     cursor.moveToFirst()
                     while (!cursor.isAfterLast) {
-                        val columnIndexUuid = cursor.getColumnIndex(DatabaseConstants.KEY_UUID)
+                        val columnIndexUuid = cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_UUID)
                         val columnIndexSyncAccountName =
-                            cursor.getColumnIndex(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)
+                            cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)
                         cursor.getString(columnIndexUuid)?.let {
                             uuid2syncMap[it] = cursor.getString(columnIndexSyncAccountName)
                         }

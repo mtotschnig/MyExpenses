@@ -97,7 +97,7 @@ public class DbUtils {
     String[] result = new String[c.getCount()];
     if (c.moveToFirst()) {
       for (int i = 0; i < c.getCount(); i++) {
-        result[i] = c.getString(c.getColumnIndex(field));
+        result[i] = c.getString(c.getColumnIndexOrThrow(field));
         c.moveToNext();
       }
     }
@@ -108,7 +108,7 @@ public class DbUtils {
     Long[] result = new Long[c.getCount()];
     if (c.moveToFirst()) {
       for (int i = 0; i < c.getCount(); i++) {
-        result[i] = c.getLong(c.getColumnIndex(field));
+        result[i] = c.getLong(c.getColumnIndexOrThrow(field));
         c.moveToNext();
       }
     }

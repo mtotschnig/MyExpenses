@@ -86,7 +86,6 @@ import org.totschnig.myexpenses.viewmodel.TemplatesListViewModel
 import timber.log.Timber
 import java.io.Serializable
 import java.lang.ref.WeakReference
-import java.util.*
 import javax.inject.Inject
 
 const val KEY_INSTANCES = "instances"
@@ -501,7 +500,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
                         ) {
                             missingUuids.add(
                                 mTemplatesCursor!!.getString(
-                                    mTemplatesCursor!!.getColumnIndex(
+                                    mTemplatesCursor!!.getColumnIndexOrThrow(
                                         DatabaseConstants.KEY_UUID
                                     )
                                 )

@@ -153,13 +153,13 @@ data class Transaction(
                 comment = cursor.getStringOrNull(KEY_COMMENT),
                 catId = getLongOrNull(cursor, KEY_CATID),
                 payee = getString(cursor, KEY_PAYEE_NAME),
-                methodLabel = cursor.getString(cursor.getColumnIndex(KEY_METHOD_LABEL)),
+                methodLabel = cursor.getString(cursor.getColumnIndexOrThrow(KEY_METHOD_LABEL)),
                 label = cursor.getStringOrNull(KEY_LABEL),
                 transferPeer = transferPeer,
                 transferAmount = transferAccountId?.let {
                     Money(
                         Account.getInstanceFromDb(it).currencyUnit,
-                        cursor.getLong(cursor.getColumnIndex(KEY_TRANSFER_AMOUNT))
+                        cursor.getLong(cursor.getColumnIndexOrThrow(KEY_TRANSFER_AMOUNT))
                     )
                 },
                 originalAmount = getLongOrNull(cursor, KEY_ORIGINAL_AMOUNT)?.let {
@@ -180,13 +180,13 @@ data class Transaction(
                         homeCurrency, money.amountMajor.multiply(
                             BigDecimal(
                                 Utils.adjustExchangeRate(
-                                    cursor.getDouble(cursor.getColumnIndex(KEY_EXCHANGE_RATE)),
+                                    cursor.getDouble(cursor.getColumnIndexOrThrow(KEY_EXCHANGE_RATE)),
                                     currencyUnit
                                 )
                             )
                         )
                     ),
-                pictureUri = cursor.getString(cursor.getColumnIndex(KEY_PICTURE_URI))?.let { uri ->
+                pictureUri = cursor.getString(cursor.getColumnIndexOrThrow(KEY_PICTURE_URI))?.let { uri ->
                     var parsedUri = Uri.parse(uri)
                     if ("file" == parsedUri.scheme) { // Upgrade from legacy uris
                         parsedUri.path?.let {
@@ -209,7 +209,7 @@ data class Transaction(
                     KEY_TEMPLATEID
                 )?.let { Template.getInstanceFromDb(it) },
                 isSealed = cursor.getInt(cursor.getColumnIndexOrThrow(KEY_SEALED)) > 0,
-                accountLabel = cursor.getString(cursor.getColumnIndex(KEY_ACCOUNT_LABEL)),
+                accountLabel = cursor.getString(cursor.getColumnIndexOrThrow(KEY_ACCOUNT_LABEL)),
                 accountType = try {
                     AccountType.valueOf(
                         cursor.getString(

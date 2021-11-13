@@ -85,14 +85,14 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
             null, null, false
         )
             .mapToList { cursor ->
-                val id = cursor.getLong(cursor.getColumnIndex(KEY_ROWID))
+                val id = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ROWID))
                 AccountMinimal(
                     id,
                     if (id == HOME_AGGREGATE_ID)
                         getString(R.string.grand_total)
                     else
-                        cursor.getString(cursor.getColumnIndex(KEY_LABEL)),
-                    cursor.getString(cursor.getColumnIndex(KEY_CURRENCY))
+                        cursor.getString(cursor.getColumnIndexOrThrow(KEY_LABEL)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(KEY_CURRENCY))
                 )
             }
             .subscribe {

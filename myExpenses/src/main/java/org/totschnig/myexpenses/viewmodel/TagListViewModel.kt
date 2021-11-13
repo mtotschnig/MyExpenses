@@ -26,8 +26,8 @@ class TagListViewModel(application: Application,
             val tagsUri = TransactionProvider.TAGS_URI.buildUpon().appendQueryParameter(TransactionProvider.QUERY_PARAMETER_WITH_COUNT, "1").build()
             disposable = briteContentResolver.createQuery(tagsUri, null, null, null, "$KEY_LABEL COLLATE LOCALIZED", false)
                     .mapToList { cursor ->
-                        val id = cursor.getLong(cursor.getColumnIndex(KEY_ROWID))
-                        val label = cursor.getString(cursor.getColumnIndex(KEY_LABEL))
+                        val id = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ROWID))
+                        val label = cursor.getString(cursor.getColumnIndexOrThrow(KEY_LABEL))
                         val count = cursor.getColumnIndex(KEY_COUNT).takeIf { it > -1 }?.let { cursor.getInt(it) }
                                 ?: -1
                         Tag(id, label, selected?.find { tag -> tag.label == label } != null, count)

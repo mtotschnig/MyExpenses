@@ -265,7 +265,12 @@ fun DebtRenderer(
                     OverFlowMenu(
                         content = listOf(
                             stringResource(id = R.string.menu_edit) to { onEdit(debt) },
-                            stringResource(id = R.string.menu_delete) to { onDelete(debt, transactions.value.size) }
+                            stringResource(id = R.string.menu_delete) to {
+                                onDelete(
+                                    debt,
+                                    transactions.value.size
+                                )
+                            }
                         )
                     )
                 }
@@ -365,13 +370,13 @@ fun SingleDebtPreview() {
     ) {
         DebtRenderer(
             debt = debt,
-            transactions = mutableStateOf(transactions),
-            expanded = mutableStateOf(false)
+            transactions = remember { mutableStateOf(transactions) },
+            expanded = remember { mutableStateOf(false) }
         )
         DebtRenderer(
             debt = debt,
-            transactions = mutableStateOf(transactions),
-            expanded = mutableStateOf(true)
+            transactions = remember { mutableStateOf(transactions) },
+            expanded = remember { mutableStateOf(true) }
         )
     }
 }
@@ -381,32 +386,34 @@ fun SingleDebtPreview() {
 fun DebtListPreview() {
     Surface(modifier = Modifier.padding(8.dp)) {
         DebtList(
-            debts = mutableStateOf(
-                listOf(
-                    Debt(
-                        id = 1,
-                        label = "Debt 1",
-                        description = "some description",
-                        payeeId = 1,
-                        amount = 4000,
-                        currency = "EUR",
-                        date = localDate2Epoch(LocalDate.now()),
-                        payeeName = "Joe Doe",
-                        sum = 3000
-                    ),
-                    Debt(
-                        id = 2,
-                        label = "Debt 2",
-                        description = "",
-                        payeeId = 2,
-                        amount = -500,
-                        currency = "EUR",
-                        date = localDate2Epoch(LocalDate.now()),
-                        payeeName = "Klara Masterful",
-                        sum = -200
+            debts = remember {
+                mutableStateOf(
+                    listOf(
+                        Debt(
+                            id = 1,
+                            label = "Debt 1",
+                            description = "some description",
+                            payeeId = 1,
+                            amount = 4000,
+                            currency = "EUR",
+                            date = localDate2Epoch(LocalDate.now()),
+                            payeeName = "Joe Doe",
+                            sum = 3000
+                        ),
+                        Debt(
+                            id = 2,
+                            label = "Debt 2",
+                            description = "",
+                            payeeId = 2,
+                            amount = -500,
+                            currency = "EUR",
+                            date = localDate2Epoch(LocalDate.now()),
+                            payeeName = "Klara Masterful",
+                            sum = -200
+                        )
                     )
                 )
-            ),
+            },
             loadTransactionsForDebt = {
                 remember {
                     mutableStateOf(emptyList())

@@ -194,7 +194,7 @@ public abstract class CategoryTreeBaseAdapter<ROWBINDING extends ViewBinding> ex
           final long id = cursor.getLong(columnIndexRowId);
           final Long parentId = DbUtils.getLongOrNull(cursor, columnIndexParentId);
           final Category category = new Category(
-              id, parentId, cursor.getString(cursor.getColumnIndex(KEY_LABEL)),
+              id, parentId, cursor.getString(cursor.getColumnIndexOrThrow(KEY_LABEL)),
               columnIndexSum == -1 ? null : cursor.getLong(columnIndexSum),
               columnIndexMapBudgets == -1 ? null : cursor.getInt(columnIndexMapBudgets) > 0,
               cursor.getInt(columnIndexColor),

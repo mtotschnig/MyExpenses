@@ -8,11 +8,38 @@ import androidx.lifecycle.MutableLiveData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import org.totschnig.myexpenses.model.AggregateAccount
-import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.DAY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_END
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_START
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGETS
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CURRENCIES
+import org.totschnig.myexpenses.provider.DatabaseConstants.THIS_DAY
+import org.totschnig.myexpenses.provider.DatabaseConstants.THIS_YEAR
+import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.YEAR
+import org.totschnig.myexpenses.provider.DatabaseConstants.getMonth
+import org.totschnig.myexpenses.provider.DatabaseConstants.getThisMonth
+import org.totschnig.myexpenses.provider.DatabaseConstants.getThisWeek
+import org.totschnig.myexpenses.provider.DatabaseConstants.getThisYearOfMonthStart
+import org.totschnig.myexpenses.provider.DatabaseConstants.getThisYearOfWeekStart
+import org.totschnig.myexpenses.provider.DatabaseConstants.getWeek
+import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart
+import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.util.Utils
@@ -34,24 +61,24 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
     lateinit var licenceHandler: LicenceHandler
     private val databaseHandler: DatabaseHandler = DatabaseHandler(application.contentResolver)
     private val budgetCreatorFunction: (Cursor) -> Budget = { cursor ->
-        val currency = cursor.getString(cursor.getColumnIndex(KEY_CURRENCY))
+        val currency = cursor.getString(cursor.getColumnIndexOrThrow(KEY_CURRENCY))
         val currencyUnit = if (currency.equals(AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE))
             Utils.getHomeCurrency() else currencyContext.get(currency)
-        val budgetId = cursor.getLong(cursor.getColumnIndex(KEY_ROWID))
-        val accountId = cursor.getLong(cursor.getColumnIndex(KEY_ACCOUNTID))
-        val grouping = Grouping.valueOf(cursor.getString(cursor.getColumnIndex(KEY_GROUPING)))
+        val budgetId = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ROWID))
+        val accountId = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ACCOUNTID))
+        val grouping = Grouping.valueOf(cursor.getString(cursor.getColumnIndexOrThrow(KEY_GROUPING)))
         Budget(
                 budgetId,
                 accountId,
-                cursor.getString(cursor.getColumnIndex(KEY_TITLE)),
-                cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION)),
+                cursor.getString(cursor.getColumnIndexOrThrow(KEY_TITLE)),
+                cursor.getString(cursor.getColumnIndexOrThrow(KEY_DESCRIPTION)),
                 currencyUnit,
-                Money(currencyUnit, cursor.getLong(cursor.getColumnIndex(KEY_BUDGET))),
+                Money(currencyUnit, cursor.getLong(cursor.getColumnIndexOrThrow(KEY_BUDGET))),
                 grouping,
-                cursor.getInt(cursor.getColumnIndex(KEY_COLOR)),
-                cursor.getString(cursor.getColumnIndex(KEY_START)),
-                cursor.getString(cursor.getColumnIndex(KEY_END)),
-                cursor.getString(cursor.getColumnIndex(KEY_ACCOUNT_LABEL)),
+                cursor.getInt(cursor.getColumnIndexOrThrow(KEY_COLOR)),
+                cursor.getString(cursor.getColumnIndexOrThrow(KEY_START)),
+                cursor.getString(cursor.getColumnIndexOrThrow(KEY_END)),
+                cursor.getString(cursor.getColumnIndexOrThrow(KEY_ACCOUNT_LABEL)),
                 getDefault(accountId, grouping) == budgetId
         )
     }

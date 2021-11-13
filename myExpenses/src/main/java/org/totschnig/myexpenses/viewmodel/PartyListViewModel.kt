@@ -142,7 +142,7 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
         cursor.moveToFirst()
         while (!cursor.isAfterLast) {
             val payeeFilterKey =
-                prefNameCreator(cursor.getLong(cursor.getColumnIndex(KEY_ROWID))).format(
+                prefNameCreator(cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ROWID))).format(
                     Locale.ROOT,
                     KEY_PAYEEID
                 )

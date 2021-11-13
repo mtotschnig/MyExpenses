@@ -25,7 +25,7 @@ abstract class AbstractRemoteViewsFactory(
 
     override fun getItemId(position: Int) = with(cursor!!) {
         moveToPosition(position)
-        getLong(getColumnIndex(DatabaseConstants.KEY_ROWID))
+        getLong(getColumnIndexOrThrow(DatabaseConstants.KEY_ROWID))
     }
 
     override fun hasStableIds() = true

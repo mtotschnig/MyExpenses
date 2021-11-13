@@ -26,8 +26,6 @@ import android.net.Uri;
 import android.os.RemoteException;
 
 import org.apache.commons.lang3.StringUtils;
-import java.time.LocalDate;
-import java.time.ZonedDateTime;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException;
@@ -45,6 +43,8 @@ import org.totschnig.myexpenses.viewmodel.data.Tag;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -502,7 +502,7 @@ public class Transaction extends Model implements ITransaction {
       Transfer transfer = new Transfer(account_id, money, transferAccountId, parent_id);
       transfer.setTransferPeer(transfer_peer);
       transfer.setTransferAmount(new Money(Account.getInstanceFromDb(transferAccountId).getCurrencyUnit(),
-          c.getLong(c.getColumnIndex(KEY_TRANSFER_AMOUNT))));
+          c.getLong(c.getColumnIndexOrThrow(KEY_TRANSFER_AMOUNT))));
       t = transfer;
     } else {
       if (DatabaseConstants.SPLIT_CATID.equals(catId)) {
@@ -620,7 +620,7 @@ public class Transaction extends Model implements ITransaction {
       if (c != null) {
         c.moveToFirst();
         while (!c.isAfterLast()) {
-          Transaction part = Transaction.getInstanceFromTemplate(c.getLong(c.getColumnIndex(KEY_ROWID)));
+          Transaction part = Transaction.getInstanceFromTemplate(c.getLong(c.getColumnIndexOrThrow(KEY_ROWID)));
           if (part != null) {
             part.status = STATUS_UNCOMMITTED;
             part.setParentId(tr.getId());

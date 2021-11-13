@@ -343,7 +343,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
     planId = DbUtils.getLongOrNull(c, KEY_PLANID);
     setParentId(DbUtils.getLongOrNull(c, KEY_PARENTID));
     setPlanExecutionAutomatic(c.getInt(c.getColumnIndexOrThrow(KEY_PLAN_EXECUTION)) > 0);
-    planExecutionAdvance = c.getInt(c.getColumnIndex(KEY_PLAN_EXECUTION_ADVANCE));
+    planExecutionAdvance = c.getInt(c.getColumnIndexOrThrow(KEY_PLAN_EXECUTION_ADVANCE));
     int uuidColumnIndex = c.getColumnIndexOrThrow(KEY_UUID);
     if (c.isNull(uuidColumnIndex)) {//while upgrade to DB schema 47, uuid is still null
       setUuid(generateUuid());
@@ -352,7 +352,7 @@ public class Template extends Transaction implements ITransfer, ISplit {
     }
     setSealed(c.getInt(c.getColumnIndexOrThrow(KEY_SEALED)) > 0);
     try {
-      defaultAction = Action.valueOf(c.getString(c.getColumnIndex(KEY_DEFAULT_ACTION)));
+      defaultAction = Action.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_DEFAULT_ACTION)));
     } catch (IllegalArgumentException ignored) {}
   }
 
@@ -432,12 +432,12 @@ public class Template extends Transaction implements ITransfer, ISplit {
       if (c != null && c.moveToFirst()) {
         final Long instanceId = getLongOrNull(c, KEY_INSTANCEID);
         final Long transactionId = getLongOrNull(c, KEY_TRANSACTIONID);
-        final long templateId = c.getLong(c.getColumnIndex(KEY_ROWID));
+        final long templateId = c.getLong(c.getColumnIndexOrThrow(KEY_ROWID));
         final CurrencyContext currencyContext = MyApplication.getInstance().getAppComponent().currencyContext();
-        CurrencyUnit currency = currencyContext.get(c.getString(c.getColumnIndex(KEY_CURRENCY)));
-        Money amount = new Money(currency, c.getLong(c.getColumnIndex(KEY_AMOUNT)));
-        planInstance = new PlanInstance(templateId, instanceId, transactionId, c.getString(c.getColumnIndex(KEY_TITLE)), date, c.getInt(c.getColumnIndex(KEY_COLOR)), amount,
-            c.getInt(c.getColumnIndex(KEY_SEALED)) == 1);
+        CurrencyUnit currency = currencyContext.get(c.getString(c.getColumnIndexOrThrow(KEY_CURRENCY)));
+        Money amount = new Money(currency, c.getLong(c.getColumnIndexOrThrow(KEY_AMOUNT)));
+        planInstance = new PlanInstance(templateId, instanceId, transactionId, c.getString(c.getColumnIndexOrThrow(KEY_TITLE)), date, c.getInt(c.getColumnIndexOrThrow(KEY_COLOR)), amount,
+            c.getInt(c.getColumnIndexOrThrow(KEY_SEALED)) == 1);
       }
     }
     return planInstance;

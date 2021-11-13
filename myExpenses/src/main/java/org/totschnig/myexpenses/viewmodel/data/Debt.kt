@@ -68,15 +68,15 @@ data class Debt(
     companion object {
         val CONTENT_URI: Uri = TransactionProvider.DEBTS_URI
         fun fromCursor(cursor: Cursor) = Debt(
-            cursor.getLong(cursor.getColumnIndex(KEY_ROWID)),
-            cursor.getString(cursor.getColumnIndex(KEY_LABEL)),
-            cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION)),
-            cursor.getLong(cursor.getColumnIndex(KEY_PAYEEID)),
-            cursor.getLong(cursor.getColumnIndex(KEY_AMOUNT)),
-            cursor.getString(cursor.getColumnIndex(KEY_CURRENCY)),
-            cursor.getLong(cursor.getColumnIndex(KEY_DATE)),
-            cursor.getString(cursor.getColumnIndex(KEY_PAYEE_NAME)),
-            cursor.getInt(cursor.getColumnIndex(KEY_SEALED)) == 1,
+            cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ROWID)),
+            cursor.getString(cursor.getColumnIndexOrThrow(KEY_LABEL)),
+            cursor.getString(cursor.getColumnIndexOrThrow(KEY_DESCRIPTION)),
+            cursor.getLong(cursor.getColumnIndexOrThrow(KEY_PAYEEID)),
+            cursor.getLong(cursor.getColumnIndexOrThrow(KEY_AMOUNT)),
+            cursor.getString(cursor.getColumnIndexOrThrow(KEY_CURRENCY)),
+            cursor.getLong(cursor.getColumnIndexOrThrow(KEY_DATE)),
+            cursor.getString(cursor.getColumnIndexOrThrow(KEY_PAYEE_NAME)),
+            cursor.getInt(cursor.getColumnIndexOrThrow(KEY_SEALED)) == 1,
             cursor.getColumnIndex(KEY_SUM).takeIf { it != -1 }?.let { cursor.getLong(it) } ?: 0
         )
     }

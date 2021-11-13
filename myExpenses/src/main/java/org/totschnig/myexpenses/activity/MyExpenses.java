@@ -422,7 +422,7 @@ public class MyExpenses extends BaseMyExpenses implements
       MenuInflater inflater = getMenuInflater();
       inflater.inflate(R.menu.accounts_context, menu);
       getAccountsCursor().moveToPosition(((AdapterView.AdapterContextMenuInfo) menuInfo).position);
-      final boolean isSealed = getAccountsCursor().getInt(getAccountsCursor().getColumnIndex(KEY_SEALED)) == 1;
+      final boolean isSealed = getAccountsCursor().getInt(getAccountsCursor().getColumnIndexOrThrow(KEY_SEALED)) == 1;
       menu.findItem(R.id.CLOSE_ACCOUNT_COMMAND).setVisible(!isSealed);
       menu.findItem(R.id.REOPEN_ACCOUNT_COMMAND).setVisible(isSealed);
       menu.findItem(R.id.EDIT_ACCOUNT_COMMAND).setVisible(!isSealed);
@@ -528,10 +528,10 @@ public class MyExpenses extends BaseMyExpenses implements
         bundle.putString(KEY_RECONCILED_TOTAL,
             formatMoney(currencyFormatter,
                 new Money(currency,
-                    getAccountsCursor().getLong(getAccountsCursor().getColumnIndex(KEY_RECONCILED_TOTAL)))));
+                    getAccountsCursor().getLong(getAccountsCursor().getColumnIndexOrThrow(KEY_RECONCILED_TOTAL)))));
         bundle.putString(KEY_CLEARED_TOTAL, formatMoney(currencyFormatter,
             new Money(currency,
-                getAccountsCursor().getLong(getAccountsCursor().getColumnIndex(KEY_CLEARED_TOTAL)))));
+                getAccountsCursor().getLong(getAccountsCursor().getColumnIndexOrThrow(KEY_CLEARED_TOTAL)))));
         BalanceDialogFragment.newInstance(bundle)
             .show(getSupportFragmentManager(), "BALANCE_ACCOUNT");
       } else {
@@ -680,7 +680,7 @@ public class MyExpenses extends BaseMyExpenses implements
       //do nothing if accidentally we are positioned at an aggregate account
       if (accountId > 0) {
         getAccountsCursor().moveToPosition(((AdapterView.AdapterContextMenuInfo) tag).position);
-        if (getAccountsCursor().getString(getAccountsCursor().getColumnIndex(KEY_SYNC_ACCOUNT_NAME)) == null) {
+        if (getAccountsCursor().getString(getAccountsCursor().getColumnIndexOrThrow(KEY_SYNC_ACCOUNT_NAME)) == null) {
           startTaskExecution(
               TASK_SET_ACCOUNT_SEALED,
               new Long[]{accountId},
@@ -815,7 +815,7 @@ public class MyExpenses extends BaseMyExpenses implements
     accountId = newAccountId;
     setCurrentCurrency(getAccountsCursor().getString(getColumnIndexCurrency()));
     setBalance();
-    if (getAccountsCursor().getInt(getAccountsCursor().getColumnIndex(KEY_SEALED)) == 1) {
+    if (getAccountsCursor().getInt(getAccountsCursor().getColumnIndexOrThrow(KEY_SEALED)) == 1) {
       floatingActionButton.hide();
     } else {
       floatingActionButton.show();

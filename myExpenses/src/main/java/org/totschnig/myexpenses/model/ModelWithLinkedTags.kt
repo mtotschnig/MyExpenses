@@ -10,7 +10,7 @@ import org.totschnig.myexpenses.viewmodel.data.Tag
 fun loadTags(linkUri: Uri, column: String, id: Long): List<Tag>? =
         Model.cr().query(linkUri, null, "$column = ?", arrayOf(id.toString()), null)?.use { cursor ->
             cursor.asSequence.map {
-                Tag(it.getLong(it.getColumnIndex(DatabaseConstants.KEY_ROWID)), it.getString(it.getColumnIndex(DatabaseConstants.KEY_LABEL)), true, 0)
+                Tag(it.getLong(it.getColumnIndexOrThrow(DatabaseConstants.KEY_ROWID)), it.getString(it.getColumnIndexOrThrow(DatabaseConstants.KEY_LABEL)), true, 0)
             }.toList()
         }
 

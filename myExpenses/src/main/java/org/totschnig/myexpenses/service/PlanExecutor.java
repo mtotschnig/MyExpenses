@@ -155,8 +155,8 @@ public class PlanExecutor extends JobIntentService {
           if (cursor.moveToFirst()) {
             LocalDate today = LocalDate.now();
             while (!cursor.isAfterLast()) {
-              long planId = cursor.getLong(cursor.getColumnIndex(CalendarContractCompat.Instances.EVENT_ID));
-              long date = cursor.getLong(cursor.getColumnIndex(CalendarContractCompat.Instances.BEGIN));
+              long planId = cursor.getLong(cursor.getColumnIndexOrThrow(CalendarContractCompat.Instances.EVENT_ID));
+              long date = cursor.getLong(cursor.getColumnIndexOrThrow(CalendarContractCompat.Instances.BEGIN));
               LocalDate localDate = epochMillis2LocalDate(date, ZoneId.systemDefault());
               long diff = ChronoUnit.DAYS.between(today, localDate);
               long instanceId = CalendarProviderProxy.calculateId(date);

@@ -11,8 +11,8 @@ internal data class DataHolder(val id: Long, val label: String) {
     companion object {
         @JvmStatic
         fun fromCursor(cursor: Cursor, labelColumn: String?) = DataHolder(
-                cursor.getLong(cursor.getColumnIndex(DatabaseConstants.KEY_ROWID)),
-                cursor.getString(cursor.getColumnIndex(labelColumn)))
+                cursor.getLong(cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_ROWID)),
+                cursor.getString(cursor.getColumnIndexOrThrow(labelColumn)))
     }
 
 }

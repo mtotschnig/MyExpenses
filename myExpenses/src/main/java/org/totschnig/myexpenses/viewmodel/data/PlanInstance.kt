@@ -4,12 +4,12 @@ import android.database.Cursor
 import android.os.Parcelable
 import com.android.calendar.CalendarContractCompat
 import kotlinx.parcelize.Parcelize
-import java.time.LocalDate
-import java.time.ZoneId
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.provider.CalendarProviderProxy
 import org.totschnig.myexpenses.util.epochMillis2LocalDate
+import java.time.LocalDate
+import java.time.ZoneId
 
 enum class PlanInstanceState {
     OPEN, APPLIED, CANCELLED
@@ -33,8 +33,8 @@ data class PlanInstance(val templateId: Long, val transactionId: Long?, val titl
 
     companion object {
         fun fromEventCursor(cursor: Cursor) = Template.getPlanInstance(
-                cursor.getLong(cursor.getColumnIndex(CalendarContractCompat.Instances.EVENT_ID)),
-                cursor.getLong(cursor.getColumnIndex(CalendarContractCompat.Instances.BEGIN)))
+                cursor.getLong(cursor.getColumnIndexOrThrow(CalendarContractCompat.Instances.EVENT_ID)),
+                cursor.getLong(cursor.getColumnIndexOrThrow(CalendarContractCompat.Instances.BEGIN)))
     }
 }
 

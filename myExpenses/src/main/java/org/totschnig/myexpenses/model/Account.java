@@ -420,15 +420,15 @@ public class Account extends Model {
     } catch (IllegalArgumentException ignored) {
     }
     this.color = c.getInt(c.getColumnIndexOrThrow(KEY_COLOR));
-    this.excludeFromTotals = c.getInt(c.getColumnIndex(KEY_EXCLUDE_FROM_TOTALS)) != 0;
-    this.sealed = c.getInt(c.getColumnIndex(KEY_SEALED)) != 0;
+    this.excludeFromTotals = c.getInt(c.getColumnIndexOrThrow(KEY_EXCLUDE_FROM_TOTALS)) != 0;
+    this.sealed = c.getInt(c.getColumnIndexOrThrow(KEY_SEALED)) != 0;
 
-    this.syncAccountName = c.getString(c.getColumnIndex(KEY_SYNC_ACCOUNT_NAME));
+    this.syncAccountName = c.getString(c.getColumnIndexOrThrow(KEY_SYNC_ACCOUNT_NAME));
 
-    this.setUuid(c.getString(c.getColumnIndex(KEY_UUID)));
+    this.setUuid(c.getString(c.getColumnIndexOrThrow(KEY_UUID)));
 
     try {
-      this.sortDirection = SortDirection.valueOf(c.getString(c.getColumnIndex(KEY_SORT_DIRECTION)));
+      this.sortDirection = SortDirection.valueOf(c.getString(c.getColumnIndexOrThrow(KEY_SORT_DIRECTION)));
     } catch (IllegalArgumentException e) {
       this.sortDirection = SortDirection.DESC;
     }

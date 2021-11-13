@@ -105,7 +105,7 @@ public class StaleImagesList extends ContextualActionBarFragment implements Load
   private Uri uriAtPosition(int position) {
     mImagesCursor.moveToPosition(position);
     return Uri.parse(mImagesCursor.getString(
-        mImagesCursor.getColumnIndex(DatabaseConstants.KEY_PICTURE_URI)));
+        mImagesCursor.getColumnIndexOrThrow(DatabaseConstants.KEY_PICTURE_URI)));
   }
 
   @Override
