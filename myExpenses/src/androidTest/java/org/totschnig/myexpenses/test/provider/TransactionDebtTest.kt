@@ -64,21 +64,6 @@ class TransactionDebtTest: BaseDbTest() {
             "$KEY_ROWID = ?", arrayOf(closedDebt.toString()))
     }
 
-    fun testInsertInconsistentDebtShouldFail() {
-        val testTransaction = TransactionInfo("Transaction 0", Date(), 0, testAccountId, payeeId1, debt2)
-
-        try {
-            mDb.insertOrThrow(
-                DatabaseConstants.TABLE_TRANSACTIONS,
-                null,
-                testTransaction.contentValues
-            )
-            kotlin.test.fail("Inconsistent debt insert did not raise SQLiteConstraintException")
-        } catch (e: SQLiteConstraintException) {
-            //Expected
-        }
-    }
-
     fun testUpdateTransactionForSealedDebtShouldFail() {
         try {
             mDb.update(
@@ -103,4 +88,20 @@ class TransactionDebtTest: BaseDbTest() {
             //Expected
         }
     }
+
+    fun testInsertIntoSealedDebtShouldFail() {
+        val testTransaction = TransactionInfo("Transaction 0", Date(), 0, testAccountId, payeeId1, closedDebt)
+
+        try {
+            mDb.insertOrThrow(
+                DatabaseConstants.TABLE_TRANSACTIONS,
+                null,
+                testTransaction.contentValues
+            )
+            kotlin.test.fail("Insert into closed debt dit no raise SQLiteConstraintException")
+        } catch (e: SQLiteConstraintException) {
+            //Expected
+        }
+    }
+
 }

@@ -35,4 +35,6 @@ class TestApp: MyApplication() {
             .applicationContext(this)
             .systemLocale(systemLocale)
             .build()
+
+    override fun enableStrictMode() {}
 }

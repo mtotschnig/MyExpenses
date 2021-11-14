@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.testutils
 
 import android.widget.TextView
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.matcher.BoundedMatcher
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withParent
@@ -28,7 +29,7 @@ fun withMethod(label: String): Matcher<Any> =
 fun withStatus(status: CrStatus): Matcher<Any> =
         object : BoundedMatcher<Any, CrStatus>(CrStatus::class.java) {
             override fun matchesSafely(myObj: CrStatus): Boolean {
-                return myObj.equals(status)
+                return myObj == status
             }
 
             override fun describeTo(description: Description) {
@@ -39,7 +40,7 @@ fun withStatus(status: CrStatus): Matcher<Any> =
 fun withAccount(content: String): Matcher<Any> =
         object : BoundedMatcher<Any, IAccount>(IAccount::class.java) {
             override fun matchesSafely(myObj: IAccount): Boolean {
-                return myObj.toString().equals(content)
+                return myObj.toString() == content
             }
 
             override fun describeTo(description: Description) {
@@ -47,4 +48,4 @@ fun withAccount(content: String): Matcher<Any> =
             }
         }
 
-fun toolbarTitle() = onView(allOf(instanceOf(TextView::class.java), withParent(ViewMatchers.withId(R.id.toolbar))))
+fun toolbarTitle(): ViewInteraction = onView(allOf(instanceOf(TextView::class.java), withParent(ViewMatchers.withId(R.id.toolbar))))

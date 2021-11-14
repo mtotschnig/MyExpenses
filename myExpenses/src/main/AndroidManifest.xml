@@ -90,7 +90,8 @@
             tools:replace="android:theme" />
         <activity
             android:name=".activity.SplashActivity"
-            android:theme="@android:style/Theme.NoDisplay">
+            android:theme="@android:style/Theme.NoDisplay"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -108,12 +109,12 @@
             android:theme="@style/Onboarding" />
         <activity
             android:name=".activity.MyExpenses"
-            android:label="${appName}"
             android:launchMode="singleTop"
             android:theme="@style/MyTheme" />
         <activity
             android:name=".activity.DeepLinkActivity"
             android:excludeFromRecents="true"
+            android:exported="true"
             android:theme="@style/Translucent">
             <intent-filter
                 android:autoVerify="true"

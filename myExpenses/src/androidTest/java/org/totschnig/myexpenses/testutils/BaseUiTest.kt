@@ -13,6 +13,7 @@ import android.widget.AdapterView
 import android.widget.ListView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onData
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
@@ -53,7 +54,7 @@ abstract class BaseUiTest {
 
     protected fun closeKeyboardAndSave() {
         androidx.test.espresso.Espresso.closeSoftKeyboard()
-        androidx.test.espresso.Espresso.onView(ViewMatchers.withId(R.id.CREATE_COMMAND)).perform(ViewActions.click())
+        onView(ViewMatchers.withId(R.id.CREATE_COMMAND)).perform(ViewActions.click())
     }
 
     protected val wrappedList: Matcher<View>
@@ -69,7 +70,7 @@ abstract class BaseUiTest {
     @JvmOverloads
     protected fun clickMenuItem(menuItemId: Int, isCab: Boolean = false) {
         try {
-            val viewInteraction = androidx.test.espresso.Espresso.onView(ViewMatchers.withId(menuItemId))
+            val viewInteraction = onView(ViewMatchers.withId(menuItemId))
             var searchInPlatformPopup = false
             try {
                 searchInPlatformPopup = isCab && isLarge && app.packageManager.getActivityInfo(currentActivity!!.componentName, 0).themeResource == R.style.EditDialog
@@ -89,7 +90,7 @@ abstract class BaseUiTest {
     private val currentActivity: Activity?
         get() {
             val activity = arrayOfNulls<Activity>(1)
-            androidx.test.espresso.Espresso.onView(ViewMatchers.isRoot()).check { view: View, _: NoMatchingViewException? -> activity[0] = view.findViewById<View>(android.R.id.content).context as Activity }
+            onView(ViewMatchers.isRoot()).check { view: View, _: NoMatchingViewException? -> activity[0] = view.findViewById<View>(android.R.id.content).context as Activity }
             return activity[0]
         }
 
@@ -97,11 +98,11 @@ abstract class BaseUiTest {
         if (!app.appComponent.licenceHandler().hasAccessTo(contribFeature!!)) {
             try {
                 //without play service a billing setup error dialog is displayed
-                androidx.test.espresso.Espresso.onView(ViewMatchers.withText(android.R.string.ok)).perform(ViewActions.click())
+                onView(ViewMatchers.withText(android.R.string.ok)).perform(ViewActions.click())
             } catch (ignored: Exception) {
             }
-            androidx.test.espresso.Espresso.onView(ViewMatchers.withText(R.string.dialog_title_contrib_feature)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-            androidx.test.espresso.Espresso.onView(ViewMatchers.withText(R.string.dialog_contrib_no)).perform(ViewActions.scrollTo(), ViewActions.click())
+            onView(ViewMatchers.withText(R.string.dialog_title_contrib_feature)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+            onView(ViewMatchers.withText(R.string.dialog_contrib_no)).perform(ViewActions.scrollTo(), ViewActions.click())
         }
     }
 
@@ -183,7 +184,7 @@ abstract class BaseUiTest {
         var iterations = 0
         while (true) {
             try {
-                androidx.test.espresso.Espresso.onView(ViewMatchers.withId(com.google.android.material.R.id.snackbar_text))
+                onView(ViewMatchers.withId(com.google.android.material.R.id.snackbar_text))
                         .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
             } catch (e: Exception) {
                 return

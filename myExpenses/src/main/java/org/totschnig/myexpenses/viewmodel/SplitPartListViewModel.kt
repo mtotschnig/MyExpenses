@@ -17,7 +17,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.FULL_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
 import org.totschnig.myexpenses.provider.DbUtils.getLongOrNull
 import org.totschnig.myexpenses.provider.TransactionProvider
 
@@ -36,8 +36,8 @@ class SplitPartListViewModel(application: Application) :
                     KEY_AMOUNT,
                     KEY_COMMENT,
                     FULL_LABEL,
-                    KEY_TRANSFER_PEER,
-                    BaseTransactionProvider.DEBT_LABEL_EXPRESSION
+                    KEY_TRANSFER_ACCOUNT,
+                    if (parentIsTemplate) "null" else BaseTransactionProvider.DEBT_LABEL_EXPRESSION
                 ),
                 selection = "${DatabaseConstants.KEY_PARENTID} = ?",
                 selectionArgs = arrayOf(parentId.toString())

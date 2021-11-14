@@ -3,23 +3,23 @@ package org.totschnig.myexpenses.test.espresso
 import android.content.Intent
 import android.content.OperationApplicationException
 import android.os.RemoteException
-import android.widget.ListView
+import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.closeSoftKeyboard
-import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBackUnconditionally
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.replaceText
-import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.contrib.RecyclerViewActions
+import androidx.test.espresso.matcher.ViewMatchers.hasChildCount
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import com.adevinta.android.barista.interaction.BaristaScrollInteractions.scrollTo
+import com.adevinta.android.barista.internal.viewaction.NestedEnabledScrollToAction.nestedScrollToAction
 import org.assertj.core.api.Assertions.assertThat
-import org.hamcrest.Matchers.anything
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -96,7 +96,7 @@ class SplitEditTest : BaseUiTest() {
         }
         repeat(times) {
             closeSoftKeyboard()
-            onView(withId(R.id.CREATE_PART_COMMAND)).perform(scrollTo(), click())
+            onView(withId(R.id.CREATE_PART_COMMAND)).perform(nestedScrollToAction(), click())
             onView(withId(R.id.MANAGE_TEMPLATES_COMMAND)).check(doesNotExist())
             onView(withId(R.id.CREATE_TEMPLATE_COMMAND)).check(doesNotExist())
             enterAmountSave("50")
@@ -110,10 +110,12 @@ class SplitEditTest : BaseUiTest() {
     @Test
     fun loadEditSaveSplit() {
         activityScenario = ActivityScenario.launch(baseIntent.apply { putExtra(KEY_ROWID, prepareSplit()) })
-        assertThat(waitForAdapter().count).isEqualTo(2)
+        onView(withId(R.id.list)).check(matches(hasChildCount(2)))
         closeSoftKeyboard()
-        onView(withId(R.id.list)).perform(scrollTo())
-        onData(anything()).inAdapterView(ViewMatchers.isAssignableFrom(ListView::class.java)).atPosition(0).perform(click())
+        scrollTo(R.id.list)
+        onView(withId(R.id.list))
+            .perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()));
+        onView(withText(R.string.menu_edit)).perform(click());
         onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).perform(replaceText("150"))
         onView(withId(R.id.MANAGE_TEMPLATES_COMMAND)).check(doesNotExist())
         onView(withId(R.id.CREATE_TEMPLATE_COMMAND)).check(doesNotExist())

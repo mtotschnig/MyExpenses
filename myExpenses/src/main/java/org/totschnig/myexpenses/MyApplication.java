@@ -148,7 +148,6 @@ public class MyApplication extends Application implements
   @Override
   public void onCreate() {
     if (BuildConfig.DEBUG) {
-      ///TODO disable in test
       enableStrictMode();
     }
     super.onCreate();
@@ -746,7 +745,7 @@ public class MyApplication extends Application implements
     }
   }
 
-  private void enableStrictMode() {
+  protected void enableStrictMode() {
     StrictMode.ThreadPolicy.Builder threadPolicyBuilder = new StrictMode.ThreadPolicy.Builder()
         .detectAll()
         .penaltyLog()

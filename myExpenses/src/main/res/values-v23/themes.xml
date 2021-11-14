@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="MyTheme" parent="MyThemeBase">
         <item name="android:windowLightStatusBar">?isLightTheme</item>
     </style>
+
     <style name="EditDialog" parent="EditDialogBase">
         <item name="android:windowLightStatusBar">?isLightTheme</item>
     </style>

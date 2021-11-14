@@ -31,7 +31,6 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="alertDialogTheme">@style/MyAlertDialogTheme</item>
         <item name="materialAlertDialogTheme">@style/MyAlertDialogTheme</item>
         <item name="simpleDialogTheme">@style/SimpleDialog</item>
-
     </style>
 
     <style name="MyTheme" parent="MyThemeBase">
@@ -78,7 +77,7 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="android:statusBarColor">@android:color/black</item>
     </style>
 
-    <style name="Translucent">
+    <style name="Translucent" parent="MyTheme">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:colorBackground">@android:color/transparent</item>

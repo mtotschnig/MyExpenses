@@ -13,7 +13,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import java.time.LocalDate;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
@@ -33,6 +32,7 @@ import org.totschnig.myexpenses.testutils.BaseUiTest;
 import org.totschnig.myexpenses.ui.AmountInput;
 
 import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.util.Currency;
 import java.util.Objects;
 
@@ -42,6 +42,7 @@ import androidx.test.rule.GrantPermissionRule;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.hasChildCount;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withSpinnerText;
 import static androidx.test.espresso.matcher.ViewMatchers.withSubstring;
@@ -62,7 +63,6 @@ import static org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone;
 import static org.totschnig.myexpenses.testutils.Espresso.checkEffectiveVisible;
 import static org.totschnig.myexpenses.testutils.Espresso.withIdAndAncestor;
 import static org.totschnig.myexpenses.testutils.Espresso.withIdAndParent;
-import static org.totschnig.myexpenses.testutils.Matchers.withListSize;
 import static org.totschnig.myexpenses.testutils.MoreMatchersKt.toolbarTitle;
 
 public class ExpenseEditLoadDataTest extends BaseUiTest {
@@ -212,7 +212,7 @@ public class ExpenseEditLoadDataTest extends BaseUiTest {
     activityScenario.onActivity(activity -> assertThat(activity.isTemplate).isTrue());
     toolbarTitle().check(matches(withSubstring(getString(R.string.menu_edit_template))));
     checkEffectiveVisible(R.id.SplitContainer);
-    onView(withId(R.id.list)).check(matches(withListSize(1)));
+    onView(withId(R.id.list)).check(matches(hasChildCount(1)));
   }
 
   @Test
@@ -224,7 +224,7 @@ public class ExpenseEditLoadDataTest extends BaseUiTest {
     activityScenario.onActivity(activity -> assertThat(activity.isTemplate).isFalse());
     onView(withId(R.id.OperationType)).check(matches(withSpinnerText(R.string.menu_create_split)));
     checkEffectiveVisible(R.id.SplitContainer);
-    onView(withId(R.id.list)).check(matches(withListSize(1)));
+    onView(withId(R.id.list)).check(matches(hasChildCount(1)));
   }
 
   private long buildSplitTemplate() {
