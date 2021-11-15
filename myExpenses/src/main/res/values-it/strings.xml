@@ -1011,4 +1011,6 @@
     <string name="debt_I_owe">Devo %s</string>
     <string name="debt_owes_me">%s mi deve</string>
     <string name="menu_new_debt">Nuovo debito</string>
+    <string name="debt">Debito</string>
+    <string name="title_activity_debt_overview">Panoramica dei Debiti</string>
 </resources>
