@@ -5,9 +5,9 @@
 * check if version_codes, version_names, upgrade.xml use the correction version code
 * if applicable publish announcement on Google+ and Facebook and add links
 * Test and assemble
-  * ./gradlew lintConscriptExternRelease
-  * ./gradlew testConscriptExternDebugUnitTest
-  * ./gradlew disableSystemAnimations clean connectedConscriptExternDebugAndroidTest
-  * ./gradlew clean :myExpenses:packageConscriptExternReleaseUniversalApk
+  * ./gradlew lintExternRelease
+  * ./gradlew testExternDebugUnitTest
+  * ./gradlew disableSystemAnimations clean connectedExternDebugAndroidTest
+  * ./gradlew clean :myExpenses:packageExternReleaseUniversalApk
 * test upgrade mechanism
 * execute command returned by ./gradlew echoPublishTag

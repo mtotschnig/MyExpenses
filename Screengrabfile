@@ -1,11 +1,11 @@
-# ./gradlew assembleConscriptExternDebug assembleAndroidTest
+# ./gradlew assembleExternDebug assembleAndroidTest
 # fastlane screengrab
 app_package_name('org.totschnig.myexpenses.debug')
 
 use_tests_in_packages(['org.totschnig.myexpenses.test.screenshots'])
 
-app_apk_path('myExpenses/build/outputs/apk/conscriptExtern/debug/myExpenses-conscript-extern-debug.apk')
-tests_apk_path('myExpenses/build/outputs/apk/androidTest/conscriptExtern/debug/myExpenses-conscript-extern-debug-androidTest.apk')
+app_apk_path('myExpenses/build/outputs/apk/Extern/debug/myExpenses-extern-debug.apk')
+tests_apk_path('myExpenses/build/outputs/apk/androidTest/Extern/debug/myExpenses-extern-debug-androidTest.apk')
 
 locales([
     'ar-SA',

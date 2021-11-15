@@ -18,7 +18,7 @@ jobs:
       - android/save-build-cache
       - run:
           name: Lint Test Package
-          command: ./gradlew lintConscriptExternDebug testConscriptExternDebug assembleConscriptExternDebugAndroidTest :myExpenses:packageConscriptExternReleaseUniversalApk --no-daemon
+          command: ./gradlew lintExternDebug testExternDebug assembleExternDebugAndroidTest :myExpenses:packageExternReleaseUniversalApk --no-daemon
       - store_artifacts:
           path: myExpenses/build/reports
           destination: reports
