@@ -186,6 +186,7 @@ public class MyExpenses extends BaseMyExpenses implements
   NavigationView navigationView() {
     return binding.accountPanel.expansionContent;
   }
+
   private ActionBarDrawerToggle mDrawerToggle;
 
   boolean indexesCalculated = false;
@@ -317,7 +318,7 @@ public class MyExpenses extends BaseMyExpenses implements
           setup(true);
         } else {
           showMessage(result == ERROR_INIT_DOWNGRADE ? "Database cannot be downgraded from a newer version. Please either uninstall MyExpenses, before reinstalling, or upgrade to a new version." :
-              "Database upgrade failed. Please contact support@myexpenses.mobi !", new MessageDialogFragment.Button(android.R.string.ok, R.id.QUIT_COMMAND, null),
+                  "Database upgrade failed. Please contact support@myexpenses.mobi !", new MessageDialogFragment.Button(android.R.string.ok, R.id.QUIT_COMMAND, null),
               null,
               null, false);
         }
@@ -459,7 +460,7 @@ public class MyExpenses extends BaseMyExpenses implements
     if (requestCode == CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
       if (resultCode == RESULT_OK) {
         ocrViewModel.startOcrFeature(scanFile, getSupportFragmentManager());
-      } else  {
+      } else {
         processImageCaptureError(resultCode, CropImage.getActivityResult(intent));
       }
     }
@@ -642,16 +643,7 @@ public class MyExpenses extends BaseMyExpenses implements
       long accountId = ((AdapterView.AdapterContextMenuInfo) tag).id;
       //do nothing if accidentally we are positioned at an aggregate account
       if (accountId > 0) {
-        getAccountsCursor().moveToPosition(((AdapterView.AdapterContextMenuInfo) tag).position);
-        String label = getAccountsCursor().getString(getColumnIndexLabel());
-        MessageDialogFragment.newInstance(
-            getResources().getQuantityString(R.plurals.dialog_title_warning_delete_account, 1, 1),
-            getString(R.string.warning_delete_account, label) + " " + getString(R.string.continue_confirmation),
-            new MessageDialogFragment.Button(R.string.menu_delete, R.id.DELETE_ACCOUNT_COMMAND_DO,
-                new Long[]{accountId}),
-            null,
-            MessageDialogFragment.noButton(), 0)
-            .show(getSupportFragmentManager(), "DELETE_ACCOUNT");
+        confirmAccountDelete(accountId);
       }
       return true;
     } else if (command == R.id.GROUPING_ACCOUNTS_COMMAND) {
@@ -866,7 +858,6 @@ public class MyExpenses extends BaseMyExpenses implements
       mViewPagerAdapter.swapCursor(cursor);
     }
   }
-
 
 
   public void moveToAccount() {
@@ -1085,7 +1076,7 @@ public class MyExpenses extends BaseMyExpenses implements
     } else if (command == R.id.UNGROUP_SPLIT_COMMAND) {
       finishActionMode();
       startTaskExecution(TASK_REVOKE_SPLIT, args, R.string.saving);
-    } else  if (command == R.id.LINK_TRANSFER_COMMAND) {
+    } else if (command == R.id.LINK_TRANSFER_COMMAND) {
       finishActionMode();
       viewModel.linkTransfer(args.getLongArray(KEY_ROW_IDS));
     }
