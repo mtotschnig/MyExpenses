@@ -1011,4 +1011,6 @@
     <string name="warning_party_delete_debt">Ao excluir esse parceiro, as dívidas associadas a ele serão excluídas também.</string>
     <string name="debts">Dívidas</string>
     <string name="debt_I_owe">Eu devo para %s</string>
+    <string name="debt">Dívida</string>
+    <string name="title_activity_debt_overview">Visão geral da dívida</string>
 </resources>
