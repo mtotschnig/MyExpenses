@@ -37,6 +37,9 @@ dl.versionlist dd {
   margin: 5px;
   font-size: 14px;
 }
+.footnote {
+   font-size: 75%
+}
 
 @media screen and (max-width: 450px) {
   .nav-pills > li {
