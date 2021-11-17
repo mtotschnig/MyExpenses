@@ -420,7 +420,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       }
       cursor.close();
     }
-    backend.tearDown();
   }
 
   private CurrencyContext getCurrencyConext() {
@@ -496,7 +495,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
   private boolean handleAuthException(SyncBackendProvider backend, Exception e, Account account) {
     if (backend.isAuthException(e)) {
-      backend.tearDown();
       Intent manageSyncBackendsIntent = getManageSyncBackendsIntent();
       manageSyncBackendsIntent.setAction(ManageSyncBackends.ACTION_REFRESH_LOGIN);
       manageSyncBackendsIntent.putExtra(KEY_SYNC_ACCOUNT_NAME, account.name);

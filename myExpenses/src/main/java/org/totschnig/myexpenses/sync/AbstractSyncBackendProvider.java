@@ -190,10 +190,6 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   }
 
   @Override
-  public void tearDown() {
-  }
-
-  @Override
   public boolean isAuthException(Exception e) {
     return false;
   }

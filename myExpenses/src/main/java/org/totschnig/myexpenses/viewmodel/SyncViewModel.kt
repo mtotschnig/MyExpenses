@@ -98,7 +98,6 @@ class SyncViewModel(application: Application) : ContentResolvingAndroidViewModel
                     .toList() else null
             val backups =
                 if (shouldReturnRemoteDataList) syncBackendProvider.storedBackups else null
-            syncBackendProvider.tearDown()
             SyncAccountData(
                 accountName,
                 syncAccounts,

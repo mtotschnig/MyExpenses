@@ -83,25 +83,21 @@ abstract class AbstractSyncBackendViewModel(application: Application) :
     fun syncCheck(uuid: String, syncAccountName: String) = liveData(context = coroutineContext()) {
         emit(GenericAccountService.getSyncBackendProvider(getApplication(), syncAccountName)
             .mapCatching { syncBackendProvider ->
-                try {
-                    if (syncBackendProvider.remoteAccountStream
-                            .filter(Exceptional<AccountMetaData>::isPresent)
-                            .map(Exceptional<AccountMetaData>::get)
-                            .anyMatch { it.uuid() == uuid }
-                    ) {
-                        throw Exception(
-                            TextUtils.concatResStrings(
-                                getApplication(), " ",
-                                R.string.link_account_failure_2, R.string.link_account_failure_3
-                            )
-                                    + "(" + TextUtils.concatResStrings(
-                                getApplication(), ", ", R.string.menu_settings,
-                                R.string.pref_manage_sync_backends_title
-                            ) + ")"
+                if (syncBackendProvider.remoteAccountStream
+                        .filter(Exceptional<AccountMetaData>::isPresent)
+                        .map(Exceptional<AccountMetaData>::get)
+                        .anyMatch { it.uuid() == uuid }
+                ) {
+                    throw Exception(
+                        TextUtils.concatResStrings(
+                            getApplication(), " ",
+                            R.string.link_account_failure_2, R.string.link_account_failure_3
                         )
-                    }
-                } finally {
-                    syncBackendProvider.tearDown()
+                                + "(" + TextUtils.concatResStrings(
+                            getApplication(), ", ", R.string.menu_settings,
+                            R.string.pref_manage_sync_backends_title
+                        ) + ")"
+                    )
                 }
             })
     }

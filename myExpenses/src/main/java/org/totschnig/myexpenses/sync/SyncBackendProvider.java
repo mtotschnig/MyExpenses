@@ -43,8 +43,6 @@ public interface SyncBackendProvider {
 
   Exceptional<Void> setUp(@Nullable String authToken, @Nullable String encryptionPassword, boolean create);
 
-  void tearDown();
-
   void storeBackup(Uri uri, String fileName) throws IOException;
 
   @NonNull
