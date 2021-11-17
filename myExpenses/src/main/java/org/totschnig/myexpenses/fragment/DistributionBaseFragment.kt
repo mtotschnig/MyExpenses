@@ -305,25 +305,33 @@ abstract class DistributionBaseFragment<ROW_BINDING : ViewBinding?> :
     protected abstract val prefKey: PrefKey
 
     fun back() {
-        if (grouping == Grouping.YEAR) groupingYear-- else {
-            groupingSecond--
-            if (groupingSecond < grouping.minValue) {
+        if (::dateInfo.isInitialized) {
+            if (grouping == Grouping.YEAR) {
                 groupingYear--
-                groupingSecond = dateInfo.maxValue
+            } else  {
+                groupingSecond--
+                if (groupingSecond < grouping.minValue) {
+                    groupingYear--
+                    groupingSecond = dateInfo.maxValue
+                }
             }
+            reset()
         }
-        reset()
     }
 
     fun forward() {
-        if (grouping == Grouping.YEAR) groupingYear++ else {
-            groupingSecond++
-            if (groupingSecond > dateInfo.maxValue) {
+        if (::dateInfo.isInitialized) {
+            if (grouping == Grouping.YEAR) {
                 groupingYear++
-                groupingSecond = grouping.minValue
+            } else {
+                groupingSecond++
+                if (groupingSecond > dateInfo.maxValue) {
+                    groupingYear++
+                    groupingSecond = grouping.minValue
+                }
             }
+            reset()
         }
-        reset()
     }
 
     override fun reset() {
