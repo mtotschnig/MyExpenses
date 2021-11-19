@@ -313,7 +313,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
             } catch (e: IllegalArgumentException) {
                 //will be reported to user when he tries so safe
             }
-        } else if (parentId == R.id.Sync) {
+        } else if (parentId == R.id.Sync && position > 0) {
             contribFeatureRequested(ContribFeature.SYNCHRONIZATION, null)
         }
     }
@@ -396,7 +396,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
     }
 
     override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
-        if (!mNewInstance) {
+        if (!mNewInstance && syncSpinner.selectedItemPosition > 0) {
             showSnackbar(R.string.progress_dialog_checking_sync_backend)
             uuid?.let { uuid ->
                 syncViewModel.syncCheck(uuid, syncSpinner.selectedItem as String).observe(this) { result ->
