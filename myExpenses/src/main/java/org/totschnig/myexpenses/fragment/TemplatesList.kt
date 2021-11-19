@@ -541,20 +541,21 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
         showSnackbar(getString(R.string.progress_dialog_deleting))
         viewModel.deleteTemplates(tag, PermissionGroup.CALENDAR.hasPermission(requireContext()))
             .observe(
-                viewLifecycleOwner, { result: Int ->
-                    val activity = requireActivity() as BaseActivity
-                    if (result > 0) {
-                        activity.showSnackbar(
-                            activity.resources.getQuantityString(
-                                R.plurals.delete_success,
-                                result,
-                                result
-                            )
+                viewLifecycleOwner
+            ) { result: Int ->
+                val activity = requireActivity() as BaseActivity
+                if (result > 0) {
+                    activity.showSnackbar(
+                        activity.resources.getQuantityString(
+                            R.plurals.delete_success,
+                            result,
+                            result
                         )
-                    } else {
-                        activity.showDeleteFailureFeedback(null)
-                    }
-                })
+                    )
+                } else {
+                    activity.showDeleteFailureFeedback(null)
+                }
+            }
     }
 
     fun confirmDeleteTransactionsForPlanInstances(
