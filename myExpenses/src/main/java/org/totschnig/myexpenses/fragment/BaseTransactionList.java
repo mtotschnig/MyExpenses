@@ -299,7 +299,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
     final AppComponent appComponent = ((MyApplication) requireActivity().getApplication()).getAppComponent();
     appComponent.inject(this);
     appComponent.inject(viewModel);
-    viewModel.account(getArguments().getLong(KEY_ACCOUNTID)).observe(this, account -> {
+    viewModel.account(getArguments().getLong(KEY_ACCOUNTID), false).observe(this, account -> {
       mAccount = account;
       shouldStartActionMode = mAccount != null && (mAccount.isAggregate() || !mAccount.isSealed());
       mAdapter.setAccount(mAccount);

@@ -33,7 +33,6 @@ import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 
 import com.annimon.stream.Stream;
-import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.theartofdev.edmodo.cropper.CropImage;
 
@@ -41,7 +40,6 @@ import org.jetbrains.annotations.NotNull;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.adapter.MyGroupedAdapter;
-import org.totschnig.myexpenses.databinding.ActivityMainBinding;
 import org.totschnig.myexpenses.dialog.BalanceDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment;
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener;
@@ -101,7 +99,6 @@ import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
 import androidx.viewpager.widget.ViewPager;
 import eltos.simpledialogfragment.list.MenuDialog;
-import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 import static com.theartofdev.edmodo.cropper.CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE;
@@ -124,7 +121,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_RECONCILED
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_BALANCE;
@@ -132,7 +128,6 @@ import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_EXPORT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_PRINT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_REVOKE_SPLIT;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SET_ACCOUNT_HIDDEN;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SET_ACCOUNT_SEALED;
 import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_SPLIT;
 import static org.totschnig.myexpenses.util.CurrencyFormatterKt.formatMoney;
 import static org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModelKt.KEY_ROW_IDS;
@@ -153,7 +148,6 @@ public class MyExpenses extends BaseMyExpenses implements
   private static final String MANAGE_HIDDEN_FRAGMENT_TAG = "MANAGE_HIDDEN";
 
   private LoaderManager mManager;
-  private ActivityMainBinding binding;
 
   private MyViewPagerAdapter mViewPagerAdapter;
   private MyGroupedAdapter mDrawerListAdapter;
@@ -175,18 +169,6 @@ public class MyExpenses extends BaseMyExpenses implements
     }
   }
 
-  ExpandableStickyListHeadersListView accountList() {
-    return binding.accountPanel.accountList;
-  }
-
-  ViewPager viewPager() {
-    return binding.viewPagerMain.viewPager;
-  }
-
-  NavigationView navigationView() {
-    return binding.accountPanel.expansionContent;
-  }
-
   private ActionBarDrawerToggle mDrawerToggle;
 
   boolean indexesCalculated = false;
@@ -196,8 +178,6 @@ public class MyExpenses extends BaseMyExpenses implements
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    binding = ActivityMainBinding.inflate(getLayoutInflater());
-    setContentView(binding.getRoot());
 
     final ViewGroup adContainer = findViewById(R.id.adContainer);
     accountGrouping = readAccountGroupingFromPref();
@@ -671,26 +651,14 @@ public class MyExpenses extends BaseMyExpenses implements
       long accountId = ((AdapterView.AdapterContextMenuInfo) tag).id;
       //do nothing if accidentally we are positioned at an aggregate account
       if (accountId > 0) {
-        getAccountsCursor().moveToPosition(((AdapterView.AdapterContextMenuInfo) tag).position);
-        if (getAccountsCursor().getString(getAccountsCursor().getColumnIndexOrThrow(KEY_SYNC_ACCOUNT_NAME)) == null) {
-          startTaskExecution(
-              TASK_SET_ACCOUNT_SEALED,
-              new Long[]{accountId},
-              true, 0);
-        } else {
-          showSnackbar(getString(R.string.warning_synced_account_cannot_be_closed),
-              Snackbar.LENGTH_LONG, null, null, accountList());
-        }
+        setAccountSealed(accountId, true);
       }
       return true;
     } else if (command == R.id.REOPEN_ACCOUNT_COMMAND) {
       long accountId = ((AdapterView.AdapterContextMenuInfo) tag).id;
       //do nothing if accidentally we are positioned at an aggregate account
       if (accountId > 0) {
-        startTaskExecution(
-            TASK_SET_ACCOUNT_SEALED,
-            new Long[]{accountId},
-            false, 0);
+        setAccountSealed(accountId, false);
       }
       return true;
     } else if (command == R.id.HIDE_ACCOUNT_COMMAND) {

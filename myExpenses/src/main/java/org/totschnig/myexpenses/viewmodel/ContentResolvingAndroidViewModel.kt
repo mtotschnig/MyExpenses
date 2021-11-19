@@ -13,11 +13,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToList
+import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
 import com.squareup.sqlbrite3.BriteContentResolver
 import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
@@ -40,7 +42,6 @@ import org.totschnig.myexpenses.ui.ContextHelper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.AccountMinimal
 import org.totschnig.myexpenses.viewmodel.data.Debt
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 const val KEY_ROW_IDS = "rowIds"
@@ -66,8 +67,6 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
 
     val contentResolver: ContentResolver
         get() = getApplication<MyApplication>().contentResolver
-
-    private var accountDisposable: Disposable? = null
 
     val localizedContext: Context
         get() = with(getApplication<MyApplication>()) {
@@ -108,38 +107,26 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
     fun getQuantityString(@PluralsRes resId: Int, quantity: Int, vararg formatArgs: Any?) =
         getApplication<MyApplication>().resources.getQuantityString(resId, quantity, *formatArgs)
 
-    private val accountLiveData: Map<Long, LiveData<Account>> = lazyMap { accountId ->
-        val liveData = MutableLiveData<Account>()
-        disposeAccount()
+    fun account(accountId: Long, once: Boolean = false) = liveData(context = coroutineContext()) {
         val base =
             if (accountId > 0) TransactionProvider.ACCOUNTS_URI else TransactionProvider.ACCOUNTS_AGGREGATE_URI
-        accountDisposable = briteContentResolver.createQuery(
+        val flow = contentResolver.observeQuery(
             ContentUris.withAppendedId(base, accountId),
             Account.PROJECTION_BASE, null, null, null, true
         )
             .mapToOne { Account.fromCursor(it) }
-            .throttleFirst(100, TimeUnit.MILLISECONDS)
-            .subscribe {
-                liveData.postValue(it)
-                onAccountLoaded(it)
-            }
-        return@lazyMap liveData
+        //.throttleFirst(100, TimeUnit.MILLISECONDS)
+        (if (once) flow.take(1) else flow).collect {
+            this.emit(it)
+            onAccountLoaded(it)
+        }
     }
 
-    fun account(accountId: Long): LiveData<Account> = accountLiveData.getValue(accountId)
 
     open fun onAccountLoaded(account: Account) {}
-    open fun onAccountsLoaded() {}
 
     override fun onCleared() {
         dispose()
-        disposeAccount()
-    }
-
-    private fun disposeAccount() {
-        accountDisposable?.let {
-            if (!it.isDisposed) it.dispose()
-        }
     }
 
     fun dispose() {

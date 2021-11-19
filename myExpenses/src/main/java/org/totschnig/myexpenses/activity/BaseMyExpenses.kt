@@ -14,6 +14,9 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.viewpager.widget.ViewPager
+import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
@@ -26,6 +29,7 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit.Companion.KEY_OCR_RESULT
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
+import org.totschnig.myexpenses.databinding.ActivityMainBinding
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment
@@ -36,7 +40,6 @@ import org.totschnig.myexpenses.feature.OcrResultFlat
 import org.totschnig.myexpenses.feature.Payee
 import org.totschnig.myexpenses.fragment.BaseTransactionList
 import org.totschnig.myexpenses.fragment.TransactionList
-import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AggregateAccount
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -53,6 +56,7 @@ import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.distrib.ReviewManager
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
+import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView
 import timber.log.Timber
 import java.io.File
 import java.io.Serializable
@@ -101,6 +105,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
 
     lateinit var viewModel: MyExpensesViewModel
 
+    lateinit var binding: ActivityMainBinding
+
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         if (savedInstanceState == null) {
@@ -119,6 +125,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this)[MyExpensesViewModel::class.java]
         (applicationContext as MyApplication).appComponent.inject(viewModel)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.getRoot())
     }
 
     override fun injectDependencies() {
@@ -571,9 +579,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     fun confirmAccountDelete(accountId: Long) {
-        viewModel.account(accountId).observe(
-            this
-        ) { account: Account ->
+        viewModel.account(accountId, once = true).observe(this) { account ->
             MessageDialogFragment.newInstance(
                 resources.getQuantityString(
                     R.plurals.dialog_title_warning_delete_account,
@@ -596,5 +602,34 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         }
     }
 
+    fun setAccountSealed(accountId: Long, isSealed: Boolean) {
+        if (isSealed) {
+            viewModel.account(accountId, once = true).observe(this) { account ->
+                if (account.syncAccountName == null) {
+                    viewModel.setSealed(accountId, true)
+                } else {
+                    showSnackbar(
+                        getString(R.string.warning_synced_account_cannot_be_closed),
+                        Snackbar.LENGTH_LONG, null, null, accountList()
+                    )
+                }
+            }
+        } else {
+            viewModel.setSealed(accountId, false)
+        }
+    }
+
     abstract override fun getCurrentFragment(): TransactionList?
+
+    fun accountList(): ExpandableStickyListHeadersListView {
+        return binding.accountPanel.accountList
+    }
+
+    fun viewPager(): ViewPager {
+        return binding.viewPagerMain.viewPager
+    }
+
+    fun navigationView(): NavigationView {
+        return binding.accountPanel.expansionContent
+    }
 }

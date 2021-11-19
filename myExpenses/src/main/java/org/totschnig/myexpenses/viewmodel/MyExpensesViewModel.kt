@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.model.AggregateAccount
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.SortDirection
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HIDDEN
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteDowngradeFailedException
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteUpgradeFailedException
@@ -121,4 +122,17 @@ class MyExpensesViewModel(application: Application) :
         liveData(context = coroutineContext()) {
             emit(deleteAccountsInternal(accountIds))
         }
+
+    fun setSealed(accountId: Long, isSealed: Boolean) {
+        viewModelScope.launch(context = coroutineContext()) {
+            contentResolver.update(
+                ContentUris.withAppendedId(ACCOUNTS_URI, accountId),
+                ContentValues(1).apply {
+                    put(KEY_SEALED, isSealed)
+                },
+                null,
+                null
+            )
+        }
+    }
 }

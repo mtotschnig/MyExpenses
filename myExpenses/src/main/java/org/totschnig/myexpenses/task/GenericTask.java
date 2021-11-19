@@ -148,8 +148,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         return null;
       case TaskExecutionFragment.TASK_SET_EXCLUDE_FROM_TOTALS:
         return updateBooleanAccountFieldFromExtra(cr, (Long[]) ids, DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS) ? Result.SUCCESS : Result.FAILURE;
-      case TaskExecutionFragment.TASK_SET_ACCOUNT_SEALED:
-        return updateBooleanAccountFieldFromExtra(cr, (Long[]) ids, DatabaseConstants.KEY_SEALED) ? Result.SUCCESS : Result.FAILURE;
       case TaskExecutionFragment.TASK_SET_ACCOUNT_HIDDEN:
         return updateBooleanAccountFieldFromExtra(cr, (Long[]) ids, DatabaseConstants.KEY_HIDDEN) ? Result.SUCCESS : Result.FAILURE;
       case TaskExecutionFragment.TASK_MOVE_UNCOMMITED_SPLIT_PARTS: {

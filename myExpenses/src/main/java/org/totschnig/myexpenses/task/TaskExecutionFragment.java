@@ -84,7 +84,6 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_ACCOUNT_SORT = 60;
   public static final int TASK_CATEGORY_COLOR = 61;
   public static final int TASK_SET_ACCOUNT_HIDDEN = 63;
-  public static final int TASK_SET_ACCOUNT_SEALED = 64;
 
 
   /**
