@@ -4,16 +4,23 @@ import android.accounts.AccountManager
 import android.accounts.AuthenticatorException
 import android.accounts.OperationCanceledException
 import android.app.Application
+import android.content.ContentResolver
 import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
+import com.annimon.stream.Exceptional
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.sync.GenericAccountService
+import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccount
+import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getSyncBackendProvider
 import org.totschnig.myexpenses.sync.SyncAdapter
 import org.totschnig.myexpenses.sync.SyncBackendProvider
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory
 import org.totschnig.myexpenses.sync.json.AccountMetaData
+import org.totschnig.myexpenses.util.asSequence
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.io.IOException
 
@@ -39,7 +46,7 @@ class SyncViewModel(application: Application) : ContentResolvingAndroidViewModel
                 args.getBoolean(KEY_RETURN_REMOTE_DATA_LIST)
             val encryptionPassword = args.getString(GenericAccountService.KEY_PASSWORD_ENCRYPTION)
             val accountManager = AccountManager.get(getApplication())
-            val account = GenericAccountService.getAccount(accountName)
+            val account = getAccount(accountName)
             emit(if (accountManager.addAccountExplicitly(account, password, userData)) {
                 if (authToken != null) {
                     accountManager.setAuthToken(
@@ -65,7 +72,7 @@ class SyncViewModel(application: Application) : ContentResolvingAndroidViewModel
                 }.onFailure {
                     //we try to remove a failed account immediately, otherwise user would need to do it, before
                     //being able to try again
-                    val accountManagerFuture = accountManager.removeAccount(account, null, null)
+                    @Suppress("DEPRECATION") val accountManagerFuture = accountManager.removeAccount(account, null, null)
                     try {
                         accountManagerFuture.result
                     } catch (e: OperationCanceledException) {
@@ -77,7 +84,7 @@ class SyncViewModel(application: Application) : ContentResolvingAndroidViewModel
                     }
                 }
             } else {
-                Result.failure<SyncAccountData>(Exception("Error while adding account"))
+                Result.failure(Exception("Error while adding account"))
             })
         }
 
@@ -89,7 +96,7 @@ class SyncViewModel(application: Application) : ContentResolvingAndroidViewModel
         val localNotSynced = Account.count(
             DatabaseConstants.KEY_SYNC_ACCOUNT_NAME + " IS NULL", null
         )
-        val account = GenericAccountService.getAccount(accountName)
+        val account = getAccount(accountName)
         return SyncBackendProviderFactory[getApplication(), account, create].mapCatching { syncBackendProvider ->
             val syncAccounts =
                 if (shouldReturnRemoteDataList) syncBackendProvider.remoteAccountStream
@@ -110,6 +117,45 @@ class SyncViewModel(application: Application) : ContentResolvingAndroidViewModel
             }
         }
     }
+
+    fun setupFromSyncAccounts(
+        accountUuids: List<String>,
+        accountName: String
+    ): LiveData<Result<Unit>> =
+        liveData(context = coroutineContext()) {
+            getSyncBackendProvider(
+                getApplication<MyApplication>(),
+                accountName
+            ).onSuccess { syncBackendProvider ->
+                runCatching {
+                    val numberOfRestoredAccounts = syncBackendProvider.remoteAccountStream.asSequence()
+                        .filter(Exceptional<AccountMetaData>::isPresent)
+                        .map(Exceptional<AccountMetaData>::get)
+                        .filter { accountMetaData -> accountUuids.contains(accountMetaData.uuid()) }
+                        .map { accountMetaData -> accountMetaData.toAccount(getApplication<MyApplication>().appComponent.currencyContext()) }
+                        .sumOf {
+                            it.syncAccountName = accountName
+                            @Suppress("USELESS_CAST")
+                            (if (it.save() == null) 0  else 1) as Int
+                        }
+                    if (numberOfRestoredAccounts == 0) {
+                        emit(Result.failure(Throwable("No accounts were restored")))
+                    } else {
+                        ContentResolver.requestSync(
+                            getAccount(accountName),
+                            TransactionProvider.AUTHORITY, Bundle().apply {
+                                putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true)
+                                putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true)
+                            }
+                        )
+                        emit(Result.success(Unit))
+                    }
+                }
+            }.onFailure {
+                emit(Result.failure(it))
+            }
+        }
+
 
     fun fetchAccountData(accountName: String): LiveData<Result<SyncAccountData>> =
         liveData(context = coroutineContext()) {

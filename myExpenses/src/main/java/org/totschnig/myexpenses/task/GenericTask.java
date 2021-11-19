@@ -44,7 +44,6 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -285,38 +284,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
               + " " + context.getString(R.string.link_account_failure_3);
         }
         return requested == result ? Result.ofSuccess(message) : Result.ofFailure(message);
-      }
-      case TaskExecutionFragment.TASK_SETUP_FROM_SYNC_ACCOUNTS: {
-        String syncAccountName = (String) mExtra;
-        Exceptional<SyncBackendProvider> syncBackendProvider = getSyncBackendProviderFromExtra();
-        if (!syncBackendProvider.isPresent()) {
-          return Result.ofFailure(syncBackendProvider.getException().getMessage());
-        }
-        try {
-          List<String> accountUuids = Arrays.asList((String[]) ids);
-          int numberOfRestoredAccounts = syncBackendProvider.get().getRemoteAccountStream()
-              .filter(Exceptional::isPresent)
-              .map(Exceptional::get)
-              .filter(accountMetaData -> accountUuids.contains(accountMetaData.uuid()))
-              .map(accountMetaData -> accountMetaData.toAccount(application.getAppComponent().currencyContext()))
-              .mapToInt(account -> {
-                account.setSyncAccountName(syncAccountName);
-                return account.save() == null ? 0 : 1;
-              })
-              .sum();
-          if (numberOfRestoredAccounts == 0) {
-            return Result.FAILURE;
-          } else {
-            Bundle bundle = new Bundle();
-            bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-            bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-            ContentResolver.requestSync(GenericAccountService.getAccount(syncAccountName),
-                TransactionProvider.AUTHORITY, bundle);
-            return Result.SUCCESS;
-          }
-        } catch (IOException e) {
-          return Result.FAILURE;
-        }
       }
       case TaskExecutionFragment.TASK_REPAIR_SYNC_BACKEND: {
         Optional<SyncBackendProviderFactory> syncBackendProviderFactoryOptional =

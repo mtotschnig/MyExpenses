@@ -80,7 +80,7 @@ public abstract class OnboardingFragment extends Fragment {
   protected void onNextButtonClicked() {
     final FragmentActivity activity = getActivity();
     if (activity instanceof OnboardingActivity) {
-      ((OnboardingActivity) activity).navigate_next();
+      ((OnboardingActivity) activity).navigateNext();
     }
   }
 
