@@ -106,15 +106,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
           return Result.FAILURE;
         }
         return Result.SUCCESS;
-      case TaskExecutionFragment.TASK_TOGGLE_CRSTATUS:
-        cr.update(
-            TransactionProvider.TRANSACTIONS_URI
-                .buildUpon()
-                .appendPath(String.valueOf(ids[0]))
-                .appendPath(TransactionProvider.URI_SEGMENT_TOGGLE_CRSTATUS)
-                .build(),
-            null, null, null);
-        return null;
       case TaskExecutionFragment.TASK_SWAP_SORT_KEY:
         cr.update(
             TransactionProvider.ACCOUNTS_URI

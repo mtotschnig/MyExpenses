@@ -29,7 +29,6 @@ import org.totschnig.myexpenses.model.Grouping;
 import org.totschnig.myexpenses.model.Transfer;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.provider.DbUtils;
-import org.totschnig.myexpenses.task.TaskExecutionFragment;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
 import org.totschnig.myexpenses.util.UiUtils;
 import org.totschnig.myexpenses.util.Utils;
@@ -110,14 +109,23 @@ public class TransactionAdapter extends ResourceCursorAdapter {
 
   private long futureCriterion;
 
+  @Nullable
+  private final OnToggleCrStatus onToggleCrStatus;
+
+  public interface OnToggleCrStatus {
+    void toggle(long id);
+  }
+
   protected TransactionAdapter(Grouping grouping, Context context, int layout,
                                Cursor c, int flags, CurrencyFormatter currencyFormatter,
-                               PrefHandler prefHandler, CurrencyContext currencyContext) {
+                               PrefHandler prefHandler, CurrencyContext currencyContext,
+                               @Nullable OnToggleCrStatus onToggleCrStatus) {
     super(context, layout, c, flags);
     if (context instanceof ManageCategories) {
       insideFragment = true;
     }
     this.context = context;
+    this.onToggleCrStatus = onToggleCrStatus;
     colorIncome = context.getResources().getColor(R.color.colorIncome);
     colorExpense = context.getResources().getColor(R.color.colorExpense);
     textColorSecondary = ((ProtectedFragmentActivity) context).getTextColorSecondary();
@@ -132,8 +140,8 @@ public class TransactionAdapter extends ResourceCursorAdapter {
 
   public TransactionAdapter(Context context, int layout, Cursor c, int flags,
                             CurrencyFormatter currencyFormatter, PrefHandler prefHandler,
-                            CurrencyContext currencyContext) {
-    this(null, context, layout, c, flags, currencyFormatter, prefHandler, currencyContext);
+                            CurrencyContext currencyContext, OnToggleCrStatus onToggleCrStatus) {
+    this(null, context, layout, c, flags, currencyFormatter, prefHandler, currencyContext, onToggleCrStatus);
   }
 
   @Override
@@ -242,19 +250,17 @@ public class TransactionAdapter extends ResourceCursorAdapter {
       status = CrStatus.UNRECONCILED;
     }
 
-    if (!cursor.getString(columIndexAccountType).equals(AccountType.CASH.name()) && !status.equals(CrStatus.VOID)) {
+    if (onToggleCrStatus == null || cursor.getString(columIndexAccountType).equals(AccountType.CASH.name()) || status.equals(CrStatus.VOID)) {
+      viewHolder.colorContainer.setVisibility(View.GONE);
+    } else {
       viewHolder.color1.setBackgroundColor(status.color);
       viewHolder.colorContainer.setTag(status == CrStatus.RECONCILED ? -1 : cursor.getLong(columnIndexRowId));
       viewHolder.colorContainer.setVisibility(View.VISIBLE);
-    } else {
-      viewHolder.colorContainer.setVisibility(View.GONE);
     }
     viewHolder.voidMarker.setVisibility(status.equals(CrStatus.VOID) ? View.VISIBLE : View.GONE);
   }
 
   /**
-   * @param catText
-   * @param label_sub
    * @return extracts the information that should
    * be displayed about the mapped category, can be overridden by subclass
    * should not be used for handle transfers
@@ -355,15 +361,9 @@ public class TransactionAdapter extends ResourceCursorAdapter {
 
     @OnClick(R.id.colorContainer)
     void toggleCrStatus(View v) {
-      Long id = (Long) v.getTag();
-      if (id != -1 && !mAccount.isSealed()) {
-        ((ProtectedFragmentActivity) context).startTaskExecution(
-            TaskExecutionFragment.TASK_TOGGLE_CRSTATUS,
-            new Long[]{id},
-            null,
-            0);
+      if (onToggleCrStatus != null) {
+        onToggleCrStatus.toggle((Long) v.getTag());
       }
     }
   }
-
 }

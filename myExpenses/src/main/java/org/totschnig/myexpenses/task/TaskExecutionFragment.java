@@ -56,7 +56,6 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final String KEY_FORMAT = "format";
 
   public static final int TASK_DELETE_PAYMENT_METHODS = 8;
-  public static final int TASK_TOGGLE_CRSTATUS = 11;
   public static final int TASK_MOVE = 12;
   public static final int TASK_INSTANTIATE_PLAN = 15;
   public static final int TASK_GRISBI_IMPORT = 19;

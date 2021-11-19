@@ -85,7 +85,7 @@ class TransactionListDialogFragment : BaseDialogFragment(), LoaderManager.Loader
             activity,
             R.layout.expense_row,
             null,
-            0, currencyFormatter, prefHandler, currencyContext
+            0, currencyFormatter, prefHandler, currencyContext, null
         ) {
             override fun getCatText(
                 catText: CharSequence,

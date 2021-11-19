@@ -118,6 +118,17 @@ class TransactionListViewModel(application: Application) : BudgetViewModel(appli
         })
     }
 
+    fun toggleCrStatus(id: Long) {
+        contentResolver.update(
+            TRANSACTIONS_URI
+                .buildUpon()
+                .appendPath(id.toString())
+                .appendPath(TransactionProvider.URI_SEGMENT_TOGGLE_CRSTATUS)
+                .build(),
+            null, null, null
+        )
+    }
+
     companion object {
         fun prefNameForCriteria(accountId: Long) = "filter_%s_${accountId}"
     }

@@ -175,7 +175,6 @@ open class BudgetViewModel(application: Application) : ContentResolvingAndroidVi
 
     fun getDefault(accountId: Long, grouping: Grouping) = prefHandler.getLong(prefNameForDefaultBudget(accountId, grouping), 0)
 
-
     companion object {
         private const val TOKEN = 0
         private val PROJECTION = arrayOf(

@@ -113,9 +113,11 @@ class TransactionList : BaseTransactionList() {
         return true
     }
     
-    private fun warnSealedAccount(sealedAccount: Boolean, sealedDebt: Boolean) {
+    private fun warnSealedAccount(sealedAccount: Boolean, sealedDebt: Boolean, multiple: Boolean) {
         val resIds = mutableListOf<Int>()
-        resIds.add(R.string.warning_account_for_transaction_is_closed)
+        if (multiple) {
+            resIds.add(R.string.warning_account_for_transaction_is_closed)
+        }
         if (sealedAccount) {
             resIds.add(R.string.object_sealed)
         }
@@ -138,7 +140,7 @@ class TransactionList : BaseTransactionList() {
                     if (it.first && it.second) {
                         onChecked.run()
                     } else {
-                        warnSealedAccount(!it.first, !it.second)
+                        warnSealedAccount(!it.first, !it.second, itemIds.size > 1)
                     }
                 }.onFailure(showFailure)
             }
