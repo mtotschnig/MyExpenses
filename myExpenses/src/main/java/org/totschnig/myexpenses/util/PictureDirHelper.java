@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Environment;
 
 import org.totschnig.myexpenses.MyApplication;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -117,7 +118,9 @@ public class PictureDirHelper {
     String pathDomain = pathSegments.get(0);
     switch (pathDomain) {
       case "external-files":
-        Preconditions.checkArgument("directory", Environment.DIRECTORY_PICTURES, pathSegments.get(1));
+        if (!pathSegments.get(1).equals(Environment.DIRECTORY_PICTURES)) {
+          CrashHandler.report("Access to external-files outside pictures");
+        }
         return new File(getPictureDir(false), pathSegments.get(2));
       case "images":
         return new File(getPictureDir(true), pathSegments.get(1));
