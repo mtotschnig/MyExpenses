@@ -40,10 +40,6 @@ class TransferDelegate(
 
     private var transferAccountSpinner = SpinnerHelper(viewBinding.TransferAccount)
 
-    init {
-        createTransferAccountAdapter()
-    }
-
     override val operationType = TransactionsContract.Transactions.TYPE_TRANSFER
 
     private val lastExchangeRateRelevantInputs = intArrayOf(INPUT_EXCHANGE_RATE, INPUT_AMOUNT)
@@ -155,6 +151,7 @@ class TransferDelegate(
                 position++
             }
         }
+        requireTransferAccountsAdapter()
         transferAccountsAdapter.clear()
         transferAccountsAdapter.addAll(list)
         return selectedPosition
@@ -189,11 +186,13 @@ class TransferDelegate(
         )
     }
 
-    private fun createTransferAccountAdapter() {
-        transferAccountsAdapter = AccountAdapter(context)
-        transferAccountsAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
-        transferAccountSpinner.adapter = transferAccountsAdapter
-        transferAccountSpinner.setOnItemSelectedListener(this)
+    private fun requireTransferAccountsAdapter() {
+        if (!::transferAccountsAdapter.isInitialized) {
+            transferAccountsAdapter = AccountAdapter(context)
+            transferAccountsAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+            transferAccountSpinner.adapter = transferAccountsAdapter
+            transferAccountSpinner.setOnItemSelectedListener(this)
+        }
     }
 
     fun configureTransferDirection() {
@@ -285,8 +284,7 @@ class TransferDelegate(
         val currentAccount = currentAccount()!!
         val transferAccount = transferAccount()!!
         val isSame = currentAccount.currency == transferAccount.currency
-        val transferAmount: BigDecimal?
-        transferAmount = if (isSame && amount != null) {
+        val transferAmount: BigDecimal? = if (isSame && amount != null) {
             amount.negate()
         } else {
             validateAmountInput(viewBinding.TransferAmount, forSave, true)?.let {
