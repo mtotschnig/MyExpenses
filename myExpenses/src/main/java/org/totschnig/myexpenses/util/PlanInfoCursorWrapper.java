@@ -139,7 +139,7 @@ public class PlanInfoCursorWrapper extends CursorWrapperHelper {
   @Override
   public int getColumnIndexOrThrow(String columnName) throws IllegalArgumentException {
     int result = getColumnIndex(columnName);
-    if (result > 0) return result;
+    if (result > -1) return result;
     throw new IllegalArgumentException(columnName + " not found");
   }
 
