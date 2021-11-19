@@ -98,7 +98,7 @@ class Repository(val contentResolver: ContentResolver, val currencyContext: Curr
 
     private fun createPayee(name: String) =
         contentResolver.insert(TransactionProvider.PAYEES_URI, ContentValues().apply {
-            put(DatabaseConstants.KEY_PAYEE_NAME, name)
+            put(DatabaseConstants.KEY_PAYEE_NAME, name.trim())
             put(DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED, Utils.normalize(name))
         })?.let { ContentUris.parseId(it) }
 
