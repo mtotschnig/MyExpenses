@@ -39,8 +39,8 @@ import org.totschnig.myexpenses.ui.SelectivePieChartRenderer
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.viewmodel.DistributionViewModel
-import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo
 import org.totschnig.myexpenses.viewmodel.data.Category
+import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo
 import timber.log.Timber
 import kotlin.math.abs
 
@@ -110,7 +110,7 @@ class DistributionFragment : DistributionBaseFragment<CategoryRowBinding?>() {
                 override fun onValueSelected(e: Entry, highlight: Highlight) {
                     val index = highlight.x.toInt()
                     val packedPosition = if (lastExpandedPosition == -1) ExpandableListView.getPackedPositionForGroup(index) else ExpandableListView.getPackedPositionForChild(lastExpandedPosition, index)
-                    Timber.w("%d-%d-%d, %b", index, lastExpandedPosition, packedPosition, showChart)
+                    Timber.w("%d/%d/%d, %b", index, lastExpandedPosition, packedPosition, showChart)
                     val listView = listView
                     val flatPosition = listView.getFlatListPosition(packedPosition)
                     listView.setItemChecked(flatPosition, true)

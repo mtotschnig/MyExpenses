@@ -7,6 +7,8 @@ import android.view.ContextMenu
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.ExpandableListView
+import android.widget.ExpandableListView.ExpandableListContextMenuInfo
 import androidx.viewbinding.ViewBinding
 import com.squareup.sqlbrite3.QueryObservable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -259,6 +261,13 @@ abstract class DistributionBaseFragment<ROW_BINDING : ViewBinding?> :
         menuInfo: ContextMenu.ContextMenuInfo?
     ) {
         requireActivity().menuInflater.inflate(R.menu.distribution_base_context, menu)
+        if (ExpandableListView.getPackedPositionType((menuInfo as ExpandableListContextMenuInfo).packedPosition)
+            == ExpandableListView.PACKED_POSITION_TYPE_CHILD
+        ) {
+            menu.findItem(R.id.COLOR_COMMAND)?.let {
+                Utils.menuItemSetEnabledAndVisible(it, false)
+            }
+        }
         super.onCreateContextMenu(menu, v, menuInfo)
     }
 
@@ -308,7 +317,7 @@ abstract class DistributionBaseFragment<ROW_BINDING : ViewBinding?> :
         if (::dateInfo.isInitialized) {
             if (grouping == Grouping.YEAR) {
                 groupingYear--
-            } else  {
+            } else {
                 groupingSecond--
                 if (groupingSecond < grouping.minValue) {
                     groupingYear--
