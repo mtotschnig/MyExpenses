@@ -12,6 +12,7 @@ import android.widget.Adapter
 import android.widget.AdapterView
 import android.widget.ListView
 import androidx.test.core.app.ActivityScenario
+import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.NoMatchingViewException
@@ -53,7 +54,7 @@ abstract class BaseUiTest {
     }
 
     protected fun closeKeyboardAndSave() {
-        androidx.test.espresso.Espresso.closeSoftKeyboard()
+        closeSoftKeyboard()
         onView(ViewMatchers.withId(R.id.CREATE_COMMAND)).perform(ViewActions.click())
     }
 
@@ -82,7 +83,7 @@ abstract class BaseUiTest {
             viewInteraction.perform(ViewActions.click())
         } catch (e: NoMatchingViewException) {
             Espresso.openActionBarOverflowMenu(isCab)
-            androidx.test.espresso.Espresso.onData(Matchers.menuIdMatcher(menuItemId)).inRoot(RootMatchers.isPlatformPopup()).perform(ViewActions.click())
+            onData(Matchers.menuIdMatcher(menuItemId)).inRoot(RootMatchers.isPlatformPopup()).perform(ViewActions.click())
         }
     }
 
