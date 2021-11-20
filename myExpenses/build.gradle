@@ -225,7 +225,6 @@ dependencies {
     implementation 'com.getkeepsafe.taptargetview:taptargetview:1.13.2'
 
     // WebDAV2
-    //noinspection GradleDependency
     implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
 
     // Dropbox
@@ -258,7 +257,6 @@ dependencies {
     //licence validation
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
-    //noinspection GradleDependency
     implementation "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
 
     implementation 'com.github.lzyzsd:circleprogress:1.2.1'

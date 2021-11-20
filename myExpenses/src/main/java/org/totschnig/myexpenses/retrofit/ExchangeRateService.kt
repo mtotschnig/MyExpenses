@@ -2,10 +2,6 @@ package org.totschnig.myexpenses.retrofit
 
 import org.jetbrains.annotations.NotNull
 import org.json.JSONObject
-import java.time.Instant
-import java.time.LocalDate
-import java.time.ZoneId
-import java.time.ZonedDateTime
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
@@ -13,9 +9,13 @@ import org.totschnig.myexpenses.preference.requireString
 import retrofit2.Response
 import timber.log.Timber
 import java.io.IOException
+import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneId
+import java.time.ZonedDateTime
 
 enum class ExchangeRateSource {
-    EXCHANGE_RATE_HOST, OPENEXCHANGERATES;
+    EXCHANGE_RATE_HOST, OPEN_EXCHANGE_RATES;
 }
 
 data class Configuration(val source: ExchangeRateSource, val openExchangeRatesAppId: String = "")
@@ -23,7 +23,7 @@ data class Configuration(val source: ExchangeRateSource, val openExchangeRatesAp
 class MissingAppIdException : java.lang.IllegalStateException()
 
 class ExchangeRateService(
-    val exchangeRateHost: @NotNull ExchangeRateHost,
+    private val exchangeRateHost: @NotNull ExchangeRateHost,
     val openExchangeRates: @NotNull OpenExchangeRates
 ) {
     fun getRate(
@@ -48,7 +48,7 @@ class ExchangeRateService(
             }
             throw IOException(error)
         }
-        ExchangeRateSource.OPENEXCHANGERATES -> {
+        ExchangeRateSource.OPEN_EXCHANGE_RATES -> {
             if (configuration.openExchangeRatesAppId == "") throw MissingAppIdException()
             val error: String
             val response = openExchangeRates.getRate(
@@ -76,10 +76,10 @@ class ExchangeRateService(
 
     fun log(response: Response<*>) {
         if (BuildConfig.DEBUG) {
-            if (response.raw().cacheResponse() != null) {
+            if (response.raw().cacheResponse != null) {
                 Timber.i("Response was cached")
             }
-            if (response.raw().networkResponse() != null) {
+            if (response.raw().networkResponse != null) {
                 Timber.i("Response was from network")
             }
         }
