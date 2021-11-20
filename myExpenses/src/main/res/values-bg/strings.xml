@@ -1011,4 +1011,6 @@
     <string name="debt_I_owe">Дължа %s</string>
     <string name="menu_new_debt">Ново задължение</string>
     <string name="dialog_title_warning_delete_party">Да изтрия ли тази страна\?</string>
+    <string name="debt">Дълг</string>
+    <string name="title_activity_debt_overview">Преглед на дълга</string>
 </resources>

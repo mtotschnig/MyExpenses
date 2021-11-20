@@ -1039,4 +1039,6 @@
     <string name="debt_I_owe">חוב ממני לטובת %s</string>
     <string name="debt_owes_me">חוב כלפי מצד %s</string>
     <string name="menu_new_debt">חוב חדש</string>
+    <string name="debt">חוב</string>
+    <string name="title_activity_debt_overview">סקירת חוב</string>
 </resources>

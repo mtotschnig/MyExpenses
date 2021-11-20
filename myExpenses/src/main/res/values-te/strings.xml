@@ -886,4 +886,6 @@
     <string name="debt_owes_me">%s నాకు రుణపడి ఉంది</string>
     <string name="menu_new_debt">కొత్త అప్పు</string>
     <string name="dialog_title_warning_delete_party">పార్టీని తొలగించాలా\?</string>
+    <string name="title_activity_debt_overview">రుణ స్థూలదృష్టి</string>
+    <string name="debt">అప్పు</string>
 </resources>

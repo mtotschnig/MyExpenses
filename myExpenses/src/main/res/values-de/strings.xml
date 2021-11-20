@@ -1011,4 +1011,6 @@
     <string name="debt_owes_me">%s schuldet mir</string>
     <string name="menu_new_debt">Neue Schuld</string>
     <string name="dialog_title_warning_delete_party">Partei löschen\?</string>
+    <string name="debt">Schuld</string>
+    <string name="title_activity_debt_overview">Schuldenübersicht</string>
 </resources>

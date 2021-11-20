@@ -1011,4 +1011,6 @@
     <string name="debt_owes_me">%s bana borçlu</string>
     <string name="menu_new_debt">Yeni borç</string>
     <string name="dialog_title_warning_delete_party">Taraf silinsin mi\?</string>
+    <string name="debt">Borç</string>
+    <string name="title_activity_debt_overview">Borç Genel Görünümü</string>
 </resources>
