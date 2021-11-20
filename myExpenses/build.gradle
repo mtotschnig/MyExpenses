@@ -85,6 +85,10 @@ android {
             manifestPlaceholders = [appName: "My Expenses Debug", debug: "true"]
             buildConfigField "int", "TEST_SCENARIO", getPropertyIfDefined('testScenario', "1")
             buildConfigField "String", "BUILD_DATE", "\"now\""
+        }
+        beta {
+            initWith release
+            matchingFallbacks = ['release']
             buildConfigField "String", "OPEN_EXCHANGE_RATES_API_KEY", "\"" + getPropertyIfDefined('OPEN_EXCHANGE_RATES_API_KEY', "") + "\""
         }
     }
@@ -106,6 +110,8 @@ android {
     }
 
     sourceSets {
+        beta.res.srcDirs += 'src/release/res'
+
         main.res.srcDirs += 'src/main/categoryIcons'
 
         test {
@@ -167,7 +173,7 @@ android {
 }
 
 dependencies {
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
+    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$desugarVersion"
     implementation project(':transactionscontract')
     implementation "com.jakewharton:butterknife:$butterknifeVersion"
     implementation 'com.squareup.phrase:phrase:1.1.0'
