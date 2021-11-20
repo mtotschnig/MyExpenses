@@ -42,6 +42,9 @@ class VersionInfo(val code: Int, val name: String): Parcelable {
                 "${ctx.getString(R.string.pref_exchange_rate_provider_title)}: https://exchangerate.host",
                 ctx.getString(R.string.pref_backup_cloud_summary)
             )
+            "335" -> arrayOf(
+                "${ctx.getString(R.string.debt_managment)}: 2.0"
+            )
             else -> {
                 val resId = res.getIdentifier(
                     "whats_new_$nameCondensed",
