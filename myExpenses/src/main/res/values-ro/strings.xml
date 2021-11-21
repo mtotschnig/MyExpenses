@@ -302,8 +302,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Permis fără parolă.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Parola este necesară.</string>
     <string name="pref_qif_export_file_encoding_title">Codificare caractere</string>
-    <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
-    <string name="pref_restore_alternative">Alternativă</string>
     <string name="pref_restore_summary">Selectaţi un backup pentru restaurarea bazei de date şi preferinţe.</string>
     <string name="pref_restore_title">Restaurare</string>
     <string name="pref_security_question_summary">Vă permite să deblocaţi app, dacă aţi uitat parola.</string>
@@ -333,7 +331,6 @@
     <string name="reference_number">Număr referință</string>
     <string name="restore_db_failure">Restaurare  baze de date eşuată.</string>
     <string name="restore_db_success">Baza de date a fost restaurată din backup.</string>
-    <string name="restore_no_backup_found">Nici un backup găsit.</string>
     <string name="restore_preferences_failure">Restaurare preferinţe eşuată</string>
     <string name="restore_backup_file_not_found">Nici un fişier %1$s  găsit în arhiva \"%2$s\"</string>
     <string name="restore_preferences_success">Preferinţele au fost restaurate din backup.</string>

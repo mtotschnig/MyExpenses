@@ -408,7 +408,6 @@
     <string name="restore_preferences_success">ప్రాధాన్యతలు బ్యాకప్ నుండి పునరుద్ధరించబడ్డాయి.</string>
     <string name="restore_backup_file_not_found">\"%2$s\" ఆర్కైవ్‌లో %1$s ఫైల్ కనుగొనబడలేదు</string>
     <string name="restore_preferences_failure">ప్రాధాన్యతల పునరుద్ధరణ విఫలమైంది</string>
-    <string name="restore_no_backup_found">బ్యాకప్ కనుగొనబడలేదు.</string>
     <string name="restore_db_success">డేటాబేస్ బ్యాకప్ నుండి పునరుద్ధరించబడింది.</string>
     <string name="restore_db_failure">డేటాబేస్ పునరుద్ధరణ విఫలమైంది.</string>
     <string name="reference_number">సూచన సంఖ్య</string>
@@ -437,8 +436,6 @@
     <string name="pref_security_question_summary">మీరు మీ పాస్‌వర్డ్‌ను మరచిపోయినట్లయితే, అనువర్తనాన్ని అన్‌లాక్ చేయడానికి మిమ్మల్ని అనుమతిస్తుంది.</string>
     <string name="pref_restore_title">పునరుద్ధరించు</string>
     <string name="pref_restore_summary">డేటాబేస్ మరియు ప్రాధాన్యతలను పునరుద్ధరించడానికి బ్యాకప్‌ను ఎంచుకోండి.</string>
-    <string name="pref_restore_alternative_summary">పరికరంలో ఫైల్ మేనేజర్ ఇన్‌స్టాల్ చేయకపోతే ఈ ప్రత్యామ్నాయ పద్ధతిని ఉపయోగించండి.</string>
-    <string name="pref_restore_alternative">ప్రత్యామ్నాయం</string>
     <string name="pref_qif_export_file_encoding_title">అక్షర ఎన్కోడింగ్</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">పాస్వర్డ్ అవసరం.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">పాస్వర్డ్ లేకుండా అనుమతించబడింది.</string>

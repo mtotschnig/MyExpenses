@@ -319,9 +319,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Dibenarkan tanpa kata laluan.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Kata laluan diperlukan.</string>
     <string name="pref_qif_export_file_encoding_title">Pengekodan aksara</string>
-    <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
-    <string name="pref_restore_alternative">Alternatif</string>
-    <string name="pref_restore_alternative_summary">Guna kaedah alternatif ini jika tiada pengurus fail terpasang dalam peranti.</string>
     <string name="pref_restore_summary">Pilih satu sandar untuk menyimpan pangkalan data dan keutamaan.</string>
     <string name="pref_restore_title">Pulih</string>
     <string name="pref_security_question_summary">Membolehkan anda buka apl, jika anda terlupa kata laluan anda.</string>
@@ -351,7 +348,6 @@
     <string name="reference_number">Nombor Rujukan</string>
     <string name="restore_db_failure">Pemulihan pangkalan data gagal.</string>
     <string name="restore_db_success">Pangkalan data telah dipulihkan dari sandar.</string>
-    <string name="restore_no_backup_found">Tiada sandar ditemui.</string>
     <string name="restore_preferences_failure">Pemulihan keutamaan gagal</string>
     <string name="restore_backup_file_not_found">Tiada fail %1$s ditemui dalam arkib \"%2$s\"</string>
     <string name="restore_preferences_success">Keutamaan telah dipulihkan dari sandar.</string>

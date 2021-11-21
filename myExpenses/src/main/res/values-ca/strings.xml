@@ -272,7 +272,6 @@
     <string name="reference_number">Número de referència</string>
     <string name="restore_db_failure">No ha estat possible restaurar la base de dades.</string>
     <string name="restore_db_success">S\'ha restaurat la base de dades des de la còpia de seguretat.</string>
-    <string name="restore_no_backup_found">No s\'ha trobat la còpia de seguretat.</string>
     <string name="restore_preferences_failure">No ha estat possible restaurar les Preferències</string>
     <string name="restore_preferences_success">S\'han restaurat les preferències des de la còpia de seguretat.</string>
     <string name="save_transaction_and_new_success">S\'ha desat correctament</string>

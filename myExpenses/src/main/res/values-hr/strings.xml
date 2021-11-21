@@ -310,7 +310,6 @@
     <string name="reference_number">Referentni broj</string>
     <string name="restore_db_failure">Obnavljanje baze podataka nije uspjelo.</string>
     <string name="restore_db_success">Baza podataka je uspješno obnovljena iz sigurnosne kopije.</string>
-    <string name="restore_no_backup_found">Nijedna sigurnosna kopija nije pronađena.</string>
     <string name="restore_preferences_failure">Obnavljanje osobnih postavaka nije uspjelo</string>
     <string name="restore_backup_file_not_found">U arhivi „%2$s” nije pronađena nijedna datoteka %1$s</string>
     <string name="restore_preferences_success">Osobne postavke su obnovljene iz sigurnosne kopije.</string>
@@ -907,8 +906,6 @@
     <string name="warning_delete_category_with_budget">Za barem jednu odabranu kategoriju postoje dodijeljivanja proračunu koja će se također izbrisati.</string>
     <string name="status_void">nevažeće</string>
     <string name="select_payee">Odaberi primaoca/platišu</string>
-    <string name="pref_restore_alternative_summary">Koristi ovaj alternativni način ako na uređaju nije instaliran nijedan upravljač datoteka.</string>
-    <string name="pref_restore_alternative">Alternativa</string>
     <string name="pref_perform_protection_title">Zaštita</string>
     <string name="pref_manage_sync_backends_summary">Dodaj pozadinske sustave za sinkroniziranje računa (%s).</string>
     <string name="pref_contrib_purchase_title_upgrade">Nadogradi ključ</string>

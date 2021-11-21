@@ -330,9 +330,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">מותרת ללא סיסמה.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">נדרשת סיסמה.</string>
     <string name="pref_qif_export_file_encoding_title">קידוד תווים</string>
-    <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
-    <string name="pref_restore_alternative">חלופה</string>
-    <string name="pref_restore_alternative_summary">השתמש בשיטה חלופית זו אם אין מנהל קבצים מותקן במכשיר.</string>
     <string name="pref_restore_summary">בחר גיבוי לשחזור מסד נתונים והעדפות.</string>
     <string name="pref_restore_title">שחזר</string>
     <string name="pref_security_question_summary">מאפשר לך לבטל את הנעילה של האפליקציה, אם שכחת את הסיסמה.</string>
@@ -362,7 +359,6 @@
     <string name="reference_number">מספר סימוכין</string>
     <string name="restore_db_failure">שחזור בסיס הנתונים נכשל.</string>
     <string name="restore_db_success">מסד הנתונים שוחזר מהגיבוי.</string>
-    <string name="restore_no_backup_found">לא נמצא גיבוי.</string>
     <string name="restore_preferences_failure">שחזור ההעדפות נכשל</string>
     <string name="restore_backup_file_not_found">קובץ %1$sלא נמצא בארכיון \"%2$s\"</string>
     <string name="restore_preferences_success">ההעדפות שוחזרו מהגיבוי.</string>

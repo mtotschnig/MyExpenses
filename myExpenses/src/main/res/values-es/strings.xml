@@ -324,9 +324,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Permitido sin contraseña.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Contraseña requerida.</string>
     <string name="pref_qif_export_file_encoding_title">Codificación de caracteres</string>
-    <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
-    <string name="pref_restore_alternative">Alternativa</string>
-    <string name="pref_restore_alternative_summary">Utilice este método alternativo si no hay ningún administrador de archivos instalado en el dispositivo.</string>
     <string name="pref_restore_summary">Seleccione una copia de seguridad para restaurar la base de datos y preferencias.</string>
     <string name="pref_restore_title">Restaurar</string>
     <string name="pref_security_question_summary">Le permite desbloquear la aplicación, en caso de olvidar la contraseña.</string>
@@ -356,7 +353,6 @@
     <string name="reference_number">Número de referencia</string>
     <string name="restore_db_failure">La restauración de la base de datos ha fallado.</string>
     <string name="restore_db_success">La base de datos ha sido restaurada desde la copia de seguridad.</string>
-    <string name="restore_no_backup_found">No hay ninguna copia de seguridad.</string>
     <string name="restore_preferences_failure">La restauración de preferencias ha fallado</string>
     <string name="restore_backup_file_not_found">No se ha encontrado el fichero %1$s en el archivo «%2$s»</string>
     <string name="restore_preferences_success">Preferencias restauradas desde la copia de seguridad.</string>

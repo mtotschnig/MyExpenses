@@ -189,7 +189,6 @@
     <string name="reference_number">Número de referencia</string>
     <string name="restore_db_failure">Erro ao restaurar a base de datos.</string>
     <string name="restore_db_success">A base de datos restaurouse desde a copia de seguranza.</string>
-    <string name="restore_no_backup_found">Ningunha copia de seguranza atopada.</string>
     <string name="restore_preferences_failure">Erro ao restaurar as preferencias</string>
     <string name="restore_preferences_success">As preferencias restauráronse desde a copia de seguranza.</string>
     <string name="save_transaction_and_new_success">Gardouse satisfactoriamente</string>

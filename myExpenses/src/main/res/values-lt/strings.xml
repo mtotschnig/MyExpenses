@@ -125,7 +125,6 @@
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Kalba</string>
     <string name="pref_ui_theme_title">Tema</string>
-    <string name="restore_no_backup_found">Nerasta atsarginių kopijų</string>
     <string name="save_transaction_and_new_success">Sėkmingai įrašyta</string>
     <string name="select">Pasirinkite</string>
     <string name="select_category">Pasirinkite kategoriją</string>

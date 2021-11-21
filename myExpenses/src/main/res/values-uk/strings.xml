@@ -319,9 +319,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Дозволено без пароля.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Пароль обовʼязковий.</string>
     <string name="pref_qif_export_file_encoding_title">Кодування символів</string>
-    <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
-    <string name="pref_restore_alternative">Альтернатива</string>
-    <string name="pref_restore_alternative_summary">Використовуйте цю альтернативу, якщо на пристрої не встановлено файловий менеджер.</string>
     <string name="pref_restore_summary">Виберіть резервну копію для відновлення бази даних та налаштувань.</string>
     <string name="pref_restore_title">Відновити</string>
     <string name="pref_security_question_summary">Дозволяє розблокувати програму, якщо ви забули свій пароль.</string>
@@ -351,7 +348,6 @@
     <string name="reference_number">Номер посилання</string>
     <string name="restore_db_failure">Не вдалося відновити базу даних.</string>
     <string name="restore_db_success">База даних була відновлена ​​з резервної копії.</string>
-    <string name="restore_no_backup_found">Резервування не знайдено.</string>
     <string name="restore_preferences_failure">Помилка відновлення налаштувань</string>
     <string name="restore_backup_file_not_found">Не знайдено файлу %1$s в архіві \"%2$s\"</string>
     <string name="restore_preferences_success">Налаштування відновлено з резервної копії.</string>

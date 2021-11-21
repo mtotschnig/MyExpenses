@@ -188,7 +188,6 @@
     <string name="pref_send_feedback_title">Send tilbakemelding</string>
     <string name="pref_security_question_title">Sikkerhetsspørsmål</string>
     <string name="pref_restore_title">Gjenopprett</string>
-    <string name="pref_restore_alternative">Alternativ</string>
     <string name="pref_qif_export_file_encoding_title">Tegnkoding</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Passord kreves.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Tillatt uten passord.</string>

@@ -322,9 +322,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Επιτρέπετε χωρίς κωδικό πρόσβασης.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Απαιτείται κωδικός πρόσβασης.</string>
     <string name="pref_qif_export_file_encoding_title">Κωδικοποίηση χαρακτήρων</string>
-    <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
-    <string name="pref_restore_alternative">Εναλλακτικά</string>
-    <string name="pref_restore_alternative_summary">Χρησιμοποιήστε αυτή την εναλλακτική μέθοδο αν δεν υπάρχει εγκαταστημένος διαχειριστής αρχείων στη συσκευή.</string>
     <string name="pref_restore_summary">Διαλέξτε ένα αντίγραφο ασφαλείας για επαναφορά της βάσης δεδομένων και των προτιμήσεων.</string>
     <string name="pref_restore_title">Επαναφορά</string>
     <string name="pref_security_question_summary">Σας επιτρέπει να ξεκλειδώσετε το app, αν έχετε ξεχάσει τον κωδικό πρόσβασής σας.</string>
@@ -354,7 +351,6 @@
     <string name="reference_number">Αριθμός αναφοράς</string>
     <string name="restore_db_failure">Απέτυχε η επαναφορά της βάσης δεδομένων.</string>
     <string name="restore_db_success">Η βάση δεδομένων έχει αποκατασταθεί από την δημιουργία αντιγράφων.</string>
-    <string name="restore_no_backup_found">Δεν βρέθηκε αντίγραφο ασφαλείας.</string>
     <string name="restore_preferences_failure">Επαναφορά προτιμήσεων απέτυχε</string>
     <string name="restore_backup_file_not_found">Κανένα αρχείο %1$s δεν βρέθηκε στο αρχείο \"%2$s\"</string>
     <string name="restore_preferences_success">Προτιμήσεις έχουν αποκατασταθεί από τη δημιουργία αντιγράφων.</string>

@@ -328,9 +328,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Allowed without password.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Password is required.</string>
     <string name="pref_qif_export_file_encoding_title">Character encoding</string>
-    <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
-    <string name="pref_restore_alternative">Alternative</string>
-    <string name="pref_restore_alternative_summary">Use this alternative method if there is no file manager installed on the device.</string>
     <string name="pref_restore_summary">Select a backup for restoring database and preferences.</string>
     <string name="pref_restore_title">Restore</string>
     <string name="pref_security_question_summary">Allows you to unlock the app, if you have forgotten your password.</string>
@@ -360,7 +357,6 @@
     <string name="reference_number">Reference Number</string>
     <string name="restore_db_failure">Database restore failed.</string>
     <string name="restore_db_success">Database has been restored from backup.</string>
-    <string name="restore_no_backup_found">No backup found.</string>
     <string name="restore_preferences_failure">Preferences restore failed</string>
     <string name="restore_backup_file_not_found">No file %1$s found in archive \"%2$s\"</string>
     <string name="restore_preferences_success">Preferences have been restored from backup.</string>

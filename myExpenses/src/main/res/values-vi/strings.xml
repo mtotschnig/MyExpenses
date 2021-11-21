@@ -315,9 +315,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Được cho phép mà không cần mật khẩu.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Mật khẩu được yêu cầu.</string>
     <string name="pref_qif_export_file_encoding_title">Mã hóa ký tự</string>
-    <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
-    <string name="pref_restore_alternative">Cách khác</string>
-    <string name="pref_restore_alternative_summary">Dùng phương thức này nếu không có trình quản lý tập tinnào được cài đặt trên thiết.</string>
     <string name="pref_restore_summary">Chọn một bản sao lưu để khôi phục cơ sở dữ liệu và các thiết lập.</string>
     <string name="pref_restore_title">Khôi phục</string>
     <string name="pref_security_question_summary">Cho phép bạn khóa ứng dụng, nếu như bạn quên mật khẩu.</string>
@@ -347,7 +344,6 @@
     <string name="reference_number">Số tham chiếu</string>
     <string name="restore_db_failure">Xảy ra lỗi khi khôi phục cơ sở dữ liệu</string>
     <string name="restore_db_success">Cơ sở dữ liệu đã được phục hồi từ phần sao lưu</string>
-    <string name="restore_no_backup_found">Không tìm thấy bản sao lưu nào.</string>
     <string name="restore_preferences_failure">Xảy ra lỗi khi khôi phục phần tùy biến</string>
     <string name="restore_backup_file_not_found">Không tìm thấy tập tin %1$s trong tập lưu trữ \"%2$s\"</string>
     <string name="restore_preferences_success">Tùy biến đã được phục hồi từ phần sao lưu.</string>

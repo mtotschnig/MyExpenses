@@ -319,9 +319,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">パスワードなしを許可。</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">パスワードが必要。</string>
     <string name="pref_qif_export_file_encoding_title">ｷｬﾗｸﾀｰ ｴﾝｺｰﾃﾞｨﾝｸﾞ</string>
-    <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
-    <string name="pref_restore_alternative">代替</string>
-    <string name="pref_restore_alternative_summary">デバイスにファイルマネージャーがインストールされていない、この代替の方法を使用します。</string>
     <string name="pref_restore_summary">データベースとプリファレンスを復元するためのバックアップを選択してください。</string>
     <string name="pref_restore_title">復元</string>
     <string name="pref_security_question_summary">パスワードを忘れた場合に、アプリのロックを解除することができます。</string>
@@ -351,7 +348,6 @@
     <string name="reference_number">参照番号</string>
     <string name="restore_db_failure">データベースの復元に失敗しました。</string>
     <string name="restore_db_success">バックアップからデータベースが復元されました。</string>
-    <string name="restore_no_backup_found">バックアップが見つかりません。</string>
     <string name="restore_preferences_failure">プリファレンスの復元に失敗しました。</string>
     <string name="restore_backup_file_not_found">アーカイブ \"%2$s\" に、ファイル %1$s が見つかりません</string>
     <string name="restore_preferences_success">バックアップからプリファレンスが復元されました。</string>

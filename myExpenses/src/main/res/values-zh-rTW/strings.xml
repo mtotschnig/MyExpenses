@@ -321,9 +321,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">無需密碼即可允許此操作</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">必須輸入密碼才可操作</string>
     <string name="pref_qif_export_file_encoding_title">字符編碼</string>
-    <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
-    <string name="pref_restore_alternative">可替代的</string>
-    <string name="pref_restore_alternative_summary">如果此裝置上沒有安裝檔案管理程式，請使用此替代方法。</string>
     <string name="pref_restore_summary">選擇一個備份檔來復原資料與偏好設定</string>
     <string name="pref_restore_title">還原</string>
     <string name="pref_security_question_summary">如果您忘記密碼，貢獻 開支助手 可讓您解鎖應用程式。</string>
@@ -353,7 +350,6 @@
     <string name="reference_number">參考編號</string>
     <string name="restore_db_failure">資料庫還原失敗。</string>
     <string name="restore_db_success">資料庫已從備份還原。</string>
-    <string name="restore_no_backup_found">找不到備份。</string>
     <string name="restore_preferences_failure">偏好設定還原失敗</string>
     <string name="restore_backup_file_not_found">在檔案夾“ %2$s”中找不到檔案%1$s</string>
     <string name="restore_preferences_success">偏好設定已從備份中還原。</string>

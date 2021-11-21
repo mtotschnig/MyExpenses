@@ -274,9 +274,6 @@
     <string name="pref_perform_share_title">به‌اشتراک‌گذاری خروجی‌ها و بک‌آپ‌ها</string>
     <string name="pref_protection_delay_seconds_title">تاخیر تا محافظت</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">گذرواژه نیاز است.</string>
-    <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
-    <string name="pref_restore_alternative">جایگزین</string>
-    <string name="pref_restore_alternative_summary">اگر هیچ فایل‌منیجری بر روی دستگاه نصب نشده بود از این روش جایگزین استفاده کت.</string>
     <string name="pref_restore_summary">یک بک‌آپ برای بازیابی پایگاه داده و ترجیحات انتخاب کنید.</string>
     <string name="pref_restore_title">بازیابی</string>
     <string name="pref_security_question_summary">اگر گذرواژه را فراموش کرده بودید، قفل اپلیکیش باز شود</string>
@@ -302,7 +299,6 @@
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">نمی‌توان آن‌ها را در حساب موجود ادغام نمود.</string>
     <string name="restore_db_failure">بازیابی پایگاه داده شکست خورد.</string>
     <string name="restore_db_success">پایگاه داده از فایل بک‌آپ بازیابی شد.</string>
-    <string name="restore_no_backup_found">هیچ بک‌‌آپی پیدا نشد.</string>
     <string name="restore_preferences_failure">بازیابی ترجیحات شکست خورد</string>
     <string name="restore_preferences_success">ترجیحات از فایل بک‌آپ بازیابی شدند.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%dبرنامه از فایل بک‌آپ بازیابی شدند</string>

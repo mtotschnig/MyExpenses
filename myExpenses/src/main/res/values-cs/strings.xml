@@ -330,9 +330,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Povoleno bez hesla.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Je vyžadováno heslo.</string>
     <string name="pref_qif_export_file_encoding_title">Kódování znaků</string>
-    <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
-    <string name="pref_restore_alternative">Alternativa</string>
-    <string name="pref_restore_alternative_summary">Tuto alternativní metodu použijte, pokud na zařízení není nainstalovaný žádný správce souborů.</string>
     <string name="pref_restore_summary">Zvolte zálohu pro obnovu databáze a předvoleb.</string>
     <string name="pref_restore_title">Obnovit</string>
     <string name="pref_security_question_summary">Umožňuje odemknout aplikaci, pokud jste zapomněli vaše heslo.</string>
@@ -362,7 +359,6 @@
     <string name="reference_number">Referenční číslo</string>
     <string name="restore_db_failure">Obnovení databáze se nezdařilo.</string>
     <string name="restore_db_success">Databáze byla obnovena ze zálohy.</string>
-    <string name="restore_no_backup_found">Nenalezena žádná záloha.</string>
     <string name="restore_preferences_failure">Nastavení obnovení se nezdařilo.</string>
     <string name="restore_backup_file_not_found">V archivu „%2$s“ nebyl nalezen žádný soubor %1$s</string>
     <string name="restore_preferences_success">Preference byly obnoveny ze zálohy.</string>

@@ -324,9 +324,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Autorisée sans mot de passe.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Le mot de passe est requis.</string>
     <string name="pref_qif_export_file_encoding_title">Encodage du fichier</string>
-    <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
-    <string name="pref_restore_alternative">Alternatif</string>
-    <string name="pref_restore_alternative_summary">Utilisez cette autre méthode si aucun gestionnaire de fichiers n\'est installé sur votre appareil.</string>
     <string name="pref_restore_summary">Sélectionnez la sauvegarde que vous voulez restaurer.</string>
     <string name="pref_restore_title">Restauration</string>
     <string name="pref_security_question_summary">Vous permet de débloquer l\'application, si vous avez oublié votre mot de passe.</string>
@@ -356,7 +353,6 @@
     <string name="reference_number">Numéro de référence</string>
     <string name="restore_db_failure">La restauration de la base de données a échoué.</string>
     <string name="restore_db_success">La base de données a été rétablie à partir de la sauvegarde.</string>
-    <string name="restore_no_backup_found">Aucun fichier de sauvegarde.</string>
     <string name="restore_preferences_failure">La restauration des paramètres a échoué</string>
     <string name="restore_backup_file_not_found">Aucun fichier %1$s trouvé dans l\'archive « %2$s »</string>
     <string name="restore_preferences_success">Les paramètres ont été rétablis à partir de la sauvegarde.</string>

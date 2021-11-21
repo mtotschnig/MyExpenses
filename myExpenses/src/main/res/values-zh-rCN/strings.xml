@@ -321,9 +321,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">无需密码即允许此操作。</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">密码是必需的。</string>
     <string name="pref_qif_export_file_encoding_title">字符编码</string>
-    <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
-    <string name="pref_restore_alternative">可替代的</string>
-    <string name="pref_restore_alternative_summary">如果设备上没有安装文件管理应用程序，请使用此替代方法。</string>
     <string name="pref_restore_summary">选择一个备份来还原数据库和首选项。</string>
     <string name="pref_restore_title">还原</string>
     <string name="pref_security_question_summary">如果您忘记密码，贡献 开支助手 可让您解锁应用程序。</string>
@@ -353,7 +350,6 @@
     <string name="reference_number">参考编号</string>
     <string name="restore_db_failure">数据库还原失败。</string>
     <string name="restore_db_success">数据库已从备份还原。</string>
-    <string name="restore_no_backup_found">找不到备份。</string>
     <string name="restore_preferences_failure">首选项还原失败</string>
     <string name="restore_backup_file_not_found">在文件夾 \"%2$s\" 中没有找到文件 %1$s </string>
     <string name="restore_preferences_success">首选项已从备份中还原。</string>

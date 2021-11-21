@@ -324,9 +324,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Разрешено без парола.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Изисква се парола.</string>
     <string name="pref_qif_export_file_encoding_title">Кодиране на знаците</string>
-    <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
-    <string name="pref_restore_alternative">Алтернатива</string>
-    <string name="pref_restore_alternative_summary">Използвайте алтернативния начин, ако на устройството нямате файлов мениджър.</string>
     <string name="pref_restore_summary">Изберете архивен файл за възстановяване на база данни и предпочитания.</string>
     <string name="pref_restore_title">Възстановяване</string>
     <string name="pref_security_question_summary">Позволява Ви да отключите приложението, ако сте забравили паролата си.</string>
@@ -356,7 +353,6 @@
     <string name="reference_number">Референтен номер</string>
     <string name="restore_db_failure">Неуспешно възстановяване на база данни.</string>
     <string name="restore_db_success">Базата данни е възстановена успешно.</string>
-    <string name="restore_no_backup_found">Не е намерен архивен файл.</string>
     <string name="restore_preferences_failure">Неуспешно възстановяване на предпочитания</string>
     <string name="restore_backup_file_not_found">Няма файл %1$s в архива „%2$s“</string>
     <string name="restore_preferences_success">Предпочитанията са възстановени успешно.</string>

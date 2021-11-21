@@ -324,9 +324,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">கடவுச்சொல் இல்லாமல் அனுமதி.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">கடவுச்சொல் தேவை.</string>
     <string name="pref_qif_export_file_encoding_title">எழுத்து குறியேற்றம்</string>
-    <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
-    <string name="pref_restore_alternative">மாற்று வழி</string>
-    <string name="pref_restore_alternative_summary">கருவியில் கோப்பு நிர்வகிக்கும் செயலி நிறுவப்படவில்லை என்றால், இந்த மாற்று முறையைப் பயன்படுத்தவும்.</string>
     <string name="pref_restore_summary">தரவுத்தளங்கள் மற்றும் விருப்பத்தேர்வுகளை மீட்டமைப்பதற்கு காப்புப்பிரதி ஒன்றைத் தேர்ந்தெடுக்கவும்.</string>
     <string name="pref_restore_title">மீட்டமைப்பு</string>
     <string name="pref_security_question_summary">உங்கள் கடவுச்சொல்லை மறந்துவிட்டால், செயலியைத் திறக்க உங்களை அனுமதிக்கும்.</string>
@@ -356,7 +353,6 @@
     <string name="reference_number">குறிப்பு எண்</string>
     <string name="restore_db_failure">தரவுத்தள மீட்டமைப்பு தோல்வியடைந்தது.</string>
     <string name="restore_db_success">காப்புப்பிரதியில் இருந்து தரவுத்தளம் மீட்டமைக்கப்பட்டது.</string>
-    <string name="restore_no_backup_found">காப்புப்பிரதி ஏதும் கிடைக்கவில்லை.</string>
     <string name="restore_preferences_failure">விருப்பத்தேர்வுகளின் மீட்டமைப்பு தோல்வியடைந்தது.</string>
     <string name="restore_backup_file_not_found">\"%2$s\" ஆவணக்கிடங்கில் %1$s எனும் கோப்பு இல்லை</string>
     <string name="restore_preferences_success">காப்புப்பிரதியில் இருந்து விருப்பத்தேர்வுகள் மீட்டமைக்கப்பட்டன.</string>

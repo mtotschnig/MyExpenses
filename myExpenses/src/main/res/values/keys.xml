@@ -229,13 +229,13 @@
     <string-array name="whats_new_314" tools:ignore="UnusedResources">
         <item>@string/title_scan_receipt_feature</item>
     </string-array>
-    <string-array name="whats_new_315" tools:ignore="UnusedResources">
+    <string-array name="whats_new_315" tools:ignore="InconsistentArrays,UnusedResources">
         <item>@string/ui_refinement</item>
     </string-array>
     <string-array name="whats_new_319" tools:ignore="UnusedResources">
         <item>@string/ui_refinement</item>
     </string-array>
-    <string-array name="whats_new_334">
+    <string-array name="whats_new_334" tools:ignore="UnusedResources">
         <item>@string/debt_managment</item>
     </string-array>
     <!-- During onboarding, user can select to restore data from synchronized account-specific data . This is the title for the tab where the accounts are listed -->

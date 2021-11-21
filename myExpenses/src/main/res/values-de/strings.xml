@@ -324,9 +324,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Ohne Passwort erlaubt.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Passwort wird benötigt.</string>
     <string name="pref_qif_export_file_encoding_title">Zeichenkodierung</string>
-    <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
-    <string name="pref_restore_alternative">Alternativ</string>
-    <string name="pref_restore_alternative_summary">Verwenden Sie diese alternative Methode, wenn kein Datei-Manager auf dem Gerät installiert ist.</string>
     <string name="pref_restore_summary">Wählen Sie die Sicherheitskopie aus, die wiederhergestellt werden soll.</string>
     <string name="pref_restore_title">Wiederherstellung</string>
     <string name="pref_security_question_summary">Erlaubt den Passwortschutz aufzuheben, sollten Sie das Passwort vergessen.</string>
@@ -356,7 +353,6 @@
     <string name="reference_number">Referenznummer</string>
     <string name="restore_db_failure">Fehler bei der Wiederherstellung der Datenbank.</string>
     <string name="restore_db_success">Die Datenbank wurde aus der Datensicherung wiederhergestellt.</string>
-    <string name="restore_no_backup_found">Keine Sicherungsdatei gefunden.</string>
     <string name="restore_preferences_failure">Fehler bei der Wiederherstellung der Einstellungen</string>
     <string name="restore_backup_file_not_found">Keine Datei %1$s im Archiv „%2$s“ gefunden</string>
     <string name="restore_preferences_success">Die Einstellungen wurden aus der Datensicherung wiederhergestellt.</string>

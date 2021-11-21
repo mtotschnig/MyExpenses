@@ -284,9 +284,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Adgang uden adgangskode.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Adgangskode er påkrævet.</string>
     <string name="pref_qif_export_file_encoding_title">Tegnsæt</string>
-    <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
-    <string name="pref_restore_alternative">Alternativ</string>
-    <string name="pref_restore_alternative_summary">Brug denne alternative metode, hvis der ikke er nogen fil manager installeret på enheden.</string>
     <string name="pref_restore_summary">Vælg en sikkerhedskopi for at genoprette databasen og indstillingerne.</string>
     <string name="pref_restore_title">Gendan</string>
     <string name="pref_security_question_summary">Giver dig mulighed for at oplåse app\'en, hvis du har glemt din adgangskode.</string>
@@ -316,7 +313,6 @@
     <string name="reference_number">Referencenummer</string>
     <string name="restore_db_failure">Gendannelse af databasen mislykkedes.</string>
     <string name="restore_db_success">Databasen blev gendannet fra backup.</string>
-    <string name="restore_no_backup_found">Ingen backup fundet.</string>
     <string name="restore_preferences_failure">Gendannelse af indstillinger mislykkedes</string>
     <string name="restore_backup_file_not_found">Der findes ingen fil %1$s i arkivet \"%2$s\"</string>
     <string name="restore_preferences_success">Indstillingerne blev gendannet fra backup.</string>

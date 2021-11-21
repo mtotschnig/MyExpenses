@@ -295,8 +295,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">암호 없이 허가되었습니다.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">암호가 필요합니다.</string>
     <string name="pref_qif_export_file_encoding_title">문자 인코딩</string>
-    <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
-    <string name="pref_restore_alternative">대안</string>
     <string name="pref_restore_summary">데이터베이스와 설정값을 복원할 백업 파일을 선택하세요.</string>
     <string name="pref_restore_title">복원</string>
     <string name="pref_security_question_summary">암호를 잊어버렸을 때 앱을 잠금 해제 할 수 있도록 합니다.</string>
@@ -326,7 +324,6 @@
     <string name="reference_number">참조 번호</string>
     <string name="restore_db_failure">데이터베이스 복원을 실패했습니다.</string>
     <string name="restore_db_success">데이터베이스를 백업으로부터 복원했습니다.</string>
-    <string name="restore_no_backup_found">백업 파일을 찾을 수 없습니다.</string>
     <string name="restore_preferences_failure">설정값 복원에 실패했습니다</string>
     <string name="restore_backup_file_not_found">%1$s 파일을 압축 파일 \"%2$s\"에서 찾을 수 없습니다</string>
     <string name="restore_preferences_success">설정값이 백업 파일으로부터 복원되었습니다.</string>

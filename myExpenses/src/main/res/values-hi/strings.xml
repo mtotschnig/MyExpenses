@@ -231,8 +231,6 @@
     <string name="pref_manage_parties_title">पार्टियां</string>
     <string name="pref_password_not_equal">पासवर्ड मेल नहीं खाते</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">पासवर्ड आवश्यक है।</string>
-    <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
-    <string name="pref_restore_alternative">विकल्प</string>
     <string name="pref_restore_title">पुनर्स्थापित</string>
     <string name="pref_security_question_title">सुरक्षा प्रश्न</string>
     <string name="pref_send_feedback_title">प्रतिक्रिया भेजें</string>

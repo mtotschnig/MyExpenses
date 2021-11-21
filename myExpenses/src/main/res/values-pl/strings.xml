@@ -324,9 +324,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Hasło nie jest wymagane.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Hasło jest wymagane.</string>
     <string name="pref_qif_export_file_encoding_title">Kodowanie znaków</string>
-    <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
-    <string name="pref_restore_alternative">Alternatywny</string>
-    <string name="pref_restore_alternative_summary">Użyj tej alternatywnej metody, jeśli na urządzeniu nie ma zainstalowanego menedżera plików.</string>
     <string name="pref_restore_summary">Wybierz kopię zapasową do przywrócenia bazy danych i ustawień.</string>
     <string name="pref_restore_title">Przywróć</string>
     <string name="pref_security_question_summary">Pozwala na odblokowanie aplikacji, jeżeli zapomniałeś swojego hasła.</string>
@@ -356,7 +353,6 @@
     <string name="reference_number">Numer Odniesienia</string>
     <string name="restore_db_failure">Przywracanie bazy danych nie powiodło się.</string>
     <string name="restore_db_success">Baza danych została przywrócona z kopii zapasowej.</string>
-    <string name="restore_no_backup_found">Nie znaleziono kopii zapasowej.</string>
     <string name="restore_preferences_failure">Przywracanie preferencji nie powiodło się</string>
     <string name="restore_backup_file_not_found">Brak pliku %1$s w archiwum \"%2$s\"</string>
     <string name="restore_preferences_success">Preferencje zostały przywrócone z kopii zapasowej.</string>

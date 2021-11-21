@@ -336,9 +336,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">بدون باسوورد.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">يتطلب كلمة مرور.</string>
     <string name="pref_qif_export_file_encoding_title">ترميز الحروف</string>
-    <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
-    <string name="pref_restore_alternative">بديل</string>
-    <string name="pref_restore_alternative_summary">استخدم هذه الطريقة البديلة إذا لم يكن مدير ملفات مثبتا على الجهاز.</string>
     <string name="pref_restore_summary">اختر نسخة احتياطية لاسترجاع قاعدة البيانات والتفضيلات.</string>
     <string name="pref_restore_title">استعادة</string>
     <string name="pref_security_question_summary">تسمح لك بفتح قفل التطبيق، إذا كنت قد نسيت كلمة المرور.</string>
@@ -368,7 +365,6 @@
     <string name="reference_number">رقم المرجع</string>
     <string name="restore_db_failure">فشلت عملية استعادة قاعدة البيانات.</string>
     <string name="restore_db_success">تم استعادة قاعدة البيانات من النسخة الاحتياطية.</string>
-    <string name="restore_no_backup_found">لا يوجد نسخة احتياطية.</string>
     <string name="restore_preferences_failure">فشلت عملية استعادة التفضيلات</string>
     <string name="restore_backup_file_not_found">لم يتم إيجاد الملف %1$s في أرشيف \"%2$s\"</string>
     <string name="restore_preferences_success">تم استعادة التفضيلات من النسخة الاحتياطية.</string>

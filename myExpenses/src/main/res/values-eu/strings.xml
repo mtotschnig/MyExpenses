@@ -322,9 +322,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Pasahitzik gabe baimenduta.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Pasahitza ezinbestekoa.</string>
     <string name="pref_qif_export_file_encoding_title">Karaktere-kodeketa</string>
-    <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
-    <string name="pref_restore_alternative">Ordezkoa</string>
-    <string name="pref_restore_alternative_summary">Eğer cihazınızda kurulu bir dosya yöneticisi yoksa almak istiyorsanız bu alternatif metodu kullanınız.</string>
     <string name="pref_restore_summary">Aukeratu babeskopia bat datu-basea eta hobespenak berreskuratzeko.</string>
     <string name="pref_restore_title">Berreskuratu</string>
     <string name="pref_security_question_summary">Aplikazioa desblokeatzea ahalbidetzen du pasahitza ahaztu baduzu.</string>
@@ -354,7 +351,6 @@
     <string name="reference_number">Erreferentzia zenbakia</string>
     <string name="restore_db_failure">Huts egin du datu-basea berreskuratzean.</string>
     <string name="restore_db_success">Datu-basea berreskuratu da babeskopiatik.</string>
-    <string name="restore_no_backup_found">Ez da babeskopiarik aurkitu.</string>
     <string name="restore_preferences_failure">Huts egin du hobespenak berreskuratzean</string>
     <string name="restore_backup_file_not_found">Ez da %1$s fitxategia aurkitu \"%2$s\" artxiboan</string>
     <string name="restore_preferences_success">Hobespenak berreskuratu dira babeskopiatik.</string>

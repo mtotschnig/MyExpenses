@@ -329,9 +329,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Разрешено без пароля.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Требуется пароль.</string>
     <string name="pref_qif_export_file_encoding_title">Кодировка</string>
-    <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
-    <string name="pref_restore_alternative">Альтернатива</string>
-    <string name="pref_restore_alternative_summary">Используйте этот альтернативный метод если на устройстве не установлен файл-менеджер.</string>
     <string name="pref_restore_summary">Выберите резервную копию для восстановления базы данных и настроек.</string>
     <string name="pref_restore_title">Восстановить</string>
     <string name="pref_security_question_summary">Позволяет разблокировать приложение, если вы забыли свой пароль.</string>
@@ -361,7 +358,6 @@
     <string name="reference_number">Номер ссылки</string>
     <string name="restore_db_failure">Восстановление БД не удалось.</string>
     <string name="restore_db_success">БД была восстановлена из рез.копии.</string>
-    <string name="restore_no_backup_found">Резервная копия не найдена.</string>
     <string name="restore_preferences_failure">Восстановление настроек не удалось</string>
     <string name="restore_backup_file_not_found">Нет файла %1$s, найденного в каталоге \"%2$s\"</string>
     <string name="restore_preferences_success">Настройки были восстановлены из рез.копии.</string>

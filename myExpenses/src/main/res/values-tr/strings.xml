@@ -324,9 +324,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Parola olmasa da izinli.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Parola gerekli.</string>
     <string name="pref_qif_export_file_encoding_title">Karakter kodlaması</string>
-    <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
-    <string name="pref_restore_alternative">Alternatif</string>
-    <string name="pref_restore_alternative_summary">Aygıtınızda herhangi bir dosya yöneticisi kurulu değilse bu alternatif yöntemi kullanın.</string>
     <string name="pref_restore_summary">Veri tabanını ve tercihleri geri yüklemek için bir yedekleme seçin.</string>
     <string name="pref_restore_title">Geri al</string>
     <string name="pref_security_question_summary">Parolanızı unuttuysanız uygulamanın kilidini açmanıza izin verir.</string>
@@ -356,7 +353,6 @@
     <string name="reference_number">Referans sayısı</string>
     <string name="restore_db_failure">Veri tabanı geri yüklemesi başarısız oldu.</string>
     <string name="restore_db_success">Veri tabanı yedekten geri yüklendi.</string>
-    <string name="restore_no_backup_found">Yedek bulunamadı.</string>
     <string name="restore_preferences_failure">Tercihlerin yüklenmesi başarısız oldu</string>
     <string name="restore_backup_file_not_found">\"%2$s\" arşivinde %1$s dosyası bulunamadı</string>
     <string name="restore_preferences_success">Tercihler yedeklemeden restore edilmiştir.</string>

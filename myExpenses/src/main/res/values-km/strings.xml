@@ -280,7 +280,6 @@
     <string name="reference_number">លេខ​យោង</string>
     <string name="restore_db_failure">ការ​ restore មូលដ្ឋានទិន្នន័យមិនបានសំរេច</string>
     <string name="restore_db_success">មូលដ្ឋានទិន្នន័យត្រូវបានស្តារឡើងវិញពីការបម្រុងទុក។</string>
-    <string name="restore_no_backup_found">គ្មាន​អ្វីដែល​រក្សាទុករកឃើញទេ។</string>
     <string name="restore_preferences_failure">ការស្តារចំណង់ចំណូលចិត្តបានបរាជ័យ</string>
     <string name="restore_backup_file_not_found">គ្មាន​ឯកសារ %1$s នៅក្នុងថត \"%2$s\" ទេ</string>
     <string name="restore_preferences_success">ចំណង់ចំណូលចិត្តត្រូវបានស្តារឡើងវិញពីការបម្រុងទុក។</string>
