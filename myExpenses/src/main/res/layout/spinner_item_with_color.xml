@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
 /* //device/apps/common/assets/res/any/layout/simple_spinner_item.xml
 **
 ** Copyright 2006, The Android Open Source Project
@@ -18,20 +17,20 @@
 */
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:orientation="horizontal">
-<View
-    android:layout_marginLeft="10dp"
-    android:layout_marginStart="10dp"
-    android:layout_marginTop="10dp"
-    android:layout_marginBottom="10dp"
-    android:id="@+id/color1"
-    android:layout_height="15dp"
-    android:layout_width="15dp"/>
-<TextView
-    android:id="@android:id/text1"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content" />
+
+    <View
+        android:id="@+id/color1"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginVertical="10dp"
+        android:layout_marginStart="10dp" />
+
+    <TextView
+        android:id="@android:id/text1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>

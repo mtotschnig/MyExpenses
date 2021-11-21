@@ -36,8 +36,7 @@
                 android:id="@+id/Table"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/padding_form"
-                android:paddingRight="@dimen/padding_form"
+                android:paddingHorizontal="@dimen/padding_form"
                 android:paddingBottom="@dimen/fab_related_bottom_padding"
                 android:shrinkColumns="1"
                 android:stretchColumns="1">
@@ -163,8 +162,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/budget_filter_all_accounts"
-                            android:visibility="gone"
-                            android:theme="@style/Theme.MaterialComponents" />
+                            android:theme="@style/Theme.MaterialComponents"
+                            android:visibility="gone" />
                     </com.google.android.material.chip.ChipGroup>
                 </TableRow>
 
@@ -181,8 +180,8 @@
                         <Spinner
                             android:id="@+id/Type"
                             android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
 
                         <CheckBox
                             android:id="@+id/DefaultBudget"

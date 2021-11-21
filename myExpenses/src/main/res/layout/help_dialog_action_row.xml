@@ -35,9 +35,8 @@
             android:id="@+id/list_image"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:visibility="gone"
             android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
+            android:visibility="gone"
             tools:ignore="ContentDescription"
             tools:src="@drawable/ic_hchain"
             tools:visibility="visible" />

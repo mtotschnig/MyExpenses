@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -14,8 +13,7 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/aboutscrollview"
     android:layout_width="match_parent"
     android:layout_height="0dp"
@@ -26,55 +24,54 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingLeft="@dimen/padding_dialog_side"
-        android:paddingRight="@dimen/padding_dialog_side">
+        android:paddingHorizontal="@dimen/padding_dialog_side">
 
         <TextView
             android:id="@+id/aboutVersionCode"
-            style="@style/about_text"/>
+            style="@style/about_text" />
         <!-- Licence -->
         <TextView
             style="@style/headingStyle.WithMargin.Caps"
-            android:text="@string/help_heading_license"/>
+            android:text="@string/help_heading_license" />
 
         <TextView
             android:id="@+id/help_licence_gpl"
             style="@style/about_text"
-            android:text="@string/help_licence_gpl"/>
+            android:text="@string/help_licence_gpl" />
 
         <!--  Credits -->
         <TextView
             style="@style/headingStyle.WithMargin.Caps"
-            android:text="@string/help_heading_credits"/>
+            android:text="@string/help_heading_credits" />
 
         <TextView
             android:id="@+id/project_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
         <!--  AND -->
         <TextView
             style="@style/headingStyle.WithMargin.Caps"
-            android:text="@string/and"/>
+            android:text="@string/and" />
 
         <TextView
             android:id="@+id/additional_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
         <TextView
             style="@style/headingStyle.WithMargin.Caps"
-            android:text="Icons from the Noun Project (Creative Commons CCBY)"/>
+            android:text="Icons from the Noun Project (Creative Commons CCBY)" />
 
         <LinearLayout
             android:id="@+id/additional_icons_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"/>
+            android:orientation="vertical" />
 
         <TextView
             style="@style/about_text"
-            android:text="© 2011 - 2019 Michael Totschnig"/>
+            android:text="© 2011 - 2019 Michael Totschnig" />
 
     </LinearLayout>
 </ScrollView>

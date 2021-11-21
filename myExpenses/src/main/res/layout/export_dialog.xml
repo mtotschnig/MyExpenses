@@ -28,8 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingLeft="@dimen/padding_dialog_side"
-        android:paddingRight="@dimen/padding_dialog_side">
+        android:paddingHorizontal="@dimen/padding_dialog_side">
 
         <TextView
             android:id="@+id/error"
@@ -70,7 +69,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="false"
-                        android:text="Merge Accounts"
+                        android:text="@string/cb_label_merge_accounts"
                         android:visibility="gone"
                         tools:visibility="visible" />
 
@@ -242,7 +241,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
-            android:layout_marginLeft="25dp"
             android:visibility="gone"
             tools:visibility="visible">
 

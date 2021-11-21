@@ -10,7 +10,7 @@
         android:id="@id/tabs"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"/>
+        android:orientation="vertical" />
 
     <LinearLayout
         android:id="@+id/backup_list_container"
@@ -23,19 +23,18 @@
             android:id="@+id/backup_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <include
             layout="@layout/backup_restore_calendar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/padding_dialog_side"
-            android:layout_marginRight="@dimen/padding_dialog_side"/>
+            android:layout_marginHorizontal="@dimen/padding_dialog_side" />
 
         <include
             android:id="@+id/passwordLayout"
             layout="@layout/simple_password_dialog"
-            android:visibility="gone"/>
+            android:visibility="gone" />
     </LinearLayout>
 
     <LinearLayout
@@ -48,7 +47,7 @@
         <ListView
             android:id="@+id/sync_account_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

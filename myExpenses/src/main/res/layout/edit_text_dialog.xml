@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:paddingLeft="@dimen/padding_input_dialog_side"
-    android:paddingRight="@dimen/padding_input_dialog_side"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingHorizontal="@dimen/padding_input_dialog_side">
 
     <EditText
         android:id="@+id/EditTextDialogInput"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:imeOptions="actionDone"
-        android:inputType="text"
         android:importantForAutofill="no"
+        android:inputType="text"
         tools:targetApi="o">
 
-        <requestFocus/>
+        <requestFocus />
     </EditText>
 </FrameLayout>

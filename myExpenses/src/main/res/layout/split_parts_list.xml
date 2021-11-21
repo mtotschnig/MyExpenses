@@ -21,8 +21,7 @@
     android:layout_height="wrap_content"
     android:background="?android:colorBackground"
     android:orientation="vertical"
-    android:paddingLeft="@dimen/padding_form"
-    android:paddingRight="@dimen/padding_form">
+    android:paddingHorizontal="@dimen/padding_form">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -32,7 +31,6 @@
         <TextView
             style="@style/headingStyle.WithMargin"
             android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
             android:text="@string/split_parts_heading" />
 
         <ImageView
@@ -41,7 +39,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:layout_gravity="center"
             android:focusable="true"
             android:onClick="dispatchCommand"
@@ -52,18 +49,17 @@
 
     <org.totschnig.myexpenses.ui.ContextAwareRecyclerView
         android:id="@+id/list"
-        android:nestedScrollingEnabled="false"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:nestedScrollingEnabled="false"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     <TextView
         android:id="@+id/empty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
+        android:paddingHorizontal="10dp"
         android:text="@string/no_split_parts" />
 
     <View
@@ -72,9 +68,9 @@
         android:background="?android:colorForeground" />
 
     <RelativeLayout
-        android:onClick="copyUnsplitAmount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="copyUnsplitAmount"
         android:orientation="horizontal">
 
         <TextView
@@ -83,9 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
             android:layout_toStartOf="@+id/end"
-            android:layout_toLeftOf="@+id/end"
             android:text="@string/unsplit_amount" />
 
         <TextView
@@ -94,7 +88,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             tools:text="END" />
     </RelativeLayout>
 

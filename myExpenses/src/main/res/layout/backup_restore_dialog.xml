@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of My Expenses. My Expenses is free software: you 
 	can redistribute it and/or modify it under the terms of the GNU General Public 
 	License as published by the Free Software Foundation, either version 3 of 
@@ -11,15 +10,14 @@
 	see <http://www.gnu.org/licenses/>.
 -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1">
 
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/padding_dialog_side"
-        android:paddingRight="@dimen/padding_dialog_side"
+        android:paddingHorizontal="@dimen/padding_dialog_side"
         android:shrinkColumns="*"
         android:stretchColumns="*">
 
@@ -27,11 +25,11 @@
             android:id="@+id/summary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/pref_restore_summary"/>
+            android:text="@string/pref_restore_summary" />
 
-        <include layout="@layout/filename"/>
+        <include layout="@layout/filename" />
 
-        <include layout="@layout/backup_restore_calendar"/>
+        <include layout="@layout/backup_restore_calendar" />
     </TableLayout>
 
 </ScrollView>

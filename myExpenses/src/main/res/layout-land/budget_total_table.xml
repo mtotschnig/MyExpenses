@@ -14,7 +14,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginEnd="@dimen/budget_table_padding"
-            android:layout_marginRight="@dimen/budget_table_padding"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -84,7 +83,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_marginEnd="@dimen/budget_table_padding"
-                    android:layout_marginRight="@dimen/budget_table_padding"
                     tools:text="1000000" />
 
             </LinearLayout>

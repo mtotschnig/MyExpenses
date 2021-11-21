@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -18,7 +17,6 @@
     android:id="@+id/list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="@dimen/margin_list_expandable"
-    android:layout_marginRight="@dimen/margin_list_expandable"
+    android:layout_marginHorizontal="@dimen/margin_list_expandable"
     android:drawSelectorOnTop="false"
     android:groupIndicator="@android:color/transparent" />

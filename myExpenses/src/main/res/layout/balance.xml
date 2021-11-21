@@ -23,8 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingLeft="@dimen/padding_dialog_side"
-        android:paddingRight="@dimen/padding_dialog_side">
+        android:paddingHorizontal="@dimen/padding_dialog_side">
 
         <TableLayout
             android:id="@+id/Table"
@@ -80,9 +79,9 @@
             style="@style/dialog_text.bold.warning"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             android:layout_marginBottom="@dimen/general_padding"
-            android:text="@string/warning_balance_account_delete" />
+            android:text="@string/warning_balance_account_delete"
+            android:visibility="gone" />
 
     </LinearLayout>
 </ScrollView>

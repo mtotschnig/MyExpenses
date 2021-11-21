@@ -9,9 +9,8 @@
         android:layout_height="wrap_content"
         android:importantForAutofill="noExcludeDescendants"
         android:orientation="vertical"
-        android:paddingLeft="@dimen/padding_input_dialog_side"
+        android:paddingHorizontal="@dimen/padding_input_dialog_side"
         android:paddingTop="8dp"
-        android:paddingRight="@dimen/padding_input_dialog_side"
         tools:targetApi="o">
 
         <!-- label (only custom) -->

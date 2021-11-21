@@ -1,42 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/suw_layout_navigation_bar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
+
     <androidx.appcompat.widget.Toolbar
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
         android:id="@+id/onboarding_menu"
         android:layout_width="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true" />
 
     <Button
-        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:id="@+id/suw_navbar_next"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:visibility="gone"
-        android:text="@string/suw_next_button_label"/>
+        android:layout_marginBottom="16dp"
+        android:text="@string/suw_next_button_label"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/suw_navbar_done"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:visibility="gone"
-        android:text="@string/onboarding_get_started"/>
+        android:layout_marginBottom="16dp"
+        android:text="@string/onboarding_get_started"
+        android:visibility="gone" />
 </RelativeLayout>

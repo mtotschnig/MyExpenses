@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="drawer_open" msgid="2285557278907103851">"నావిగేషన్ డ్రాయర్‌ను తెరవండి"</string>
-    <string name="drawer_close" msgid="2065829742127544297">"నావిగేషన్ డ్రాయర్‌ను మూసివేయండి"</string>
-    <string name="saving" msgid="6274238733828387433">"సేవ్ చేస్తోంది…"</string>
-    <string name="default_action" msgid="7914272565548361304">"డిఫాల్ట్ చర్య"</string>
-    <string name="full_name" msgid="885420216812981202">"పేరు"</string>
-    <string name="postal_country" msgid="3988452247038791892">"దేశం"</string>
-    <string name="toast_text_copied" msgid="5143776250008541719">"వచనం కాపీ చేయబడింది"</string>
-    <string name="copy_text" msgid="3257145021583508761">"క్లిప్‌బోర్డ్‌కు కాపీ చేయి"</string>
-    <string name="stop" msgid="3361154678667736722">"ఆపివేయి"</string>
-    <string name="no_network" msgid="3050233675132726155">"నెట్‌వర్క్ కనెక్షన్ లేదు. దయచేసి తర్వాత మళ్లీ ప్రయత్నించండి."</string>
-    <string name="button_label_continue" msgid="1121880322636992402">"కొనసాగించండి"</string>
-    <string name="autofill" msgid="3187132440451621492">"ఆటోఫిల్"</string>
-    <string name="discard" msgid="761613433029406319">"విస్మరించు"</string>
-    <string name="dialog_dismiss" msgid="1382550604990470119">"తీసివేయి"</string>
-    <string name="response_yes" msgid="2027484304899988350">"హాజరవుతారు"</string>
-    <string name="response_no" msgid="561911691884148136">"హాజరు కావడం లేదు"</string>
+    <string name="drawer_open">"నావిగేషన్ డ్రాయర్‌ను తెరవండి"</string>
+    <string name="drawer_close">"నావిగేషన్ డ్రాయర్‌ను మూసివేయండి"</string>
+    <string name="saving">"సేవ్ చేస్తోంది…"</string>
+    <string name="default_action">"డిఫాల్ట్ చర్య"</string>
+    <string name="full_name">"పేరు"</string>
+    <string name="postal_country">"దేశం"</string>
+    <string name="toast_text_copied">"వచనం కాపీ చేయబడింది"</string>
+    <string name="copy_text">"క్లిప్‌బోర్డ్‌కు కాపీ చేయి"</string>
+    <string name="stop">"ఆపివేయి"</string>
+    <string name="no_network">"నెట్‌వర్క్ కనెక్షన్ లేదు. దయచేసి తర్వాత మళ్లీ ప్రయత్నించండి."</string>
+    <string name="button_label_continue">"కొనసాగించండి"</string>
+    <string name="autofill">"ఆటోఫిల్"</string>
+    <string name="discard">"విస్మరించు"</string>
+    <string name="dialog_dismiss">"తీసివేయి"</string>
+    <string name="response_yes">"హాజరవుతారు"</string>
+    <string name="response_no">"హాజరు కావడం లేదు"</string>
+    <string name="add_widget">"విడ్జెట్‌ను జోడించండి"</string>
 </resources>

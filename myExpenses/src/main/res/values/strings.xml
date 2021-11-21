@@ -1021,4 +1021,6 @@
     <string name="object_sealed_debt">Object refers to a closed debt.</string>
     <string name="debt_managment">Debt management</string>
     <string name="title_activity_debt_overview">Debt Overview</string>
+    <!-- Label for a checkbox on the export dialog. If checked, all accounts will be merged into one file -->
+    <string name="cb_label_merge_accounts">Merge accounts</string>
 </resources>

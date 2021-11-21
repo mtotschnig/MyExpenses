@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -14,8 +13,7 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<androidx.core.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_weight="1">
@@ -23,37 +21,41 @@
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/padding_form"
-        android:paddingRight="@dimen/padding_form"
+        android:paddingHorizontal="@dimen/padding_form"
         android:shrinkColumns="*"
         android:stretchColumns="*">
 
-        <include layout="@layout/filename"/>
+        <include layout="@layout/filename" />
 
-        <include layout="@layout/encoding" android:id="@+id/EncodingTable"/>
+        <include
+            android:id="@+id/EncodingTable"
+            layout="@layout/encoding" />
 
         <TableRow>
 
             <TextView
                 style="@style/FormLabel"
-                android:text="@string/pref_csv_import_delimiter"/>
+                android:text="@string/pref_csv_import_delimiter" />
 
             <Spinner
-                style="@style/FormField"
                 android:id="@+id/Delimiter"
-                android:entries="@array/pref_csv_import_delimiter_entries"/>
+                style="@style/FormField"
+                android:entries="@array/pref_csv_import_delimiter_entries" />
         </TableRow>
 
-        <include layout="@layout/date_format" android:id="@+id/DateFormatTable"/>
+        <include
+            android:id="@+id/DateFormatTable"
+            layout="@layout/date_format" />
 
-        <include layout="@layout/import_account" android:id="@+id/AccountTable"/>
+        <include
+            android:id="@+id/AccountTable"
+            layout="@layout/import_account" />
 
-        <TableRow
-            android:gravity="center_vertical">
+        <TableRow android:gravity="center_vertical">
 
             <TextView
                 style="@style/FormLabel"
-                android:text="@string/autofill"/>
+                android:text="@string/autofill" />
 
             <LinearLayout
                 style="@style/FormField"
@@ -64,7 +66,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:text="@string/pref_manage_categories_title"/>
+                    android:text="@string/pref_manage_categories_title" />
             </LinearLayout>
         </TableRow>
 

@@ -3,6 +3,5 @@
     android:id="@+id/timePicker"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/padding_dialog_side"
-    android:paddingTop="@dimen/padding_dialog_content_top"
-    android:paddingRight="@dimen/padding_dialog_side" />
+    android:paddingHorizontal="@dimen/padding_dialog_side"
+    android:paddingTop="@dimen/padding_dialog_content_top" />

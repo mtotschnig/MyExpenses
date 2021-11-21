@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.SwitchCompat
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.SwitchCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center_vertical|end"
     android:paddingEnd="?android:attr/scrollbarSize"
-    android:paddingRight="?android:attr/scrollbarSize"
-    tools:ignore="RtlSymmetry"/>
+    tools:ignore="RtlSymmetry" />

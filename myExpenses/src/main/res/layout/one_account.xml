@@ -38,8 +38,7 @@
                 android:id="@+id/Table"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/padding_form"
-                android:paddingRight="@dimen/padding_form"
+                android:paddingHorizontal="@dimen/padding_form"
                 android:paddingBottom="@dimen/fab_related_bottom_padding"
                 android:shrinkColumns="1"
                 android:stretchColumns="1">
@@ -84,8 +83,8 @@
 
                     <org.totschnig.myexpenses.ui.AmountInput
                         android:id="@+id/Amount"
-                        android:contentDescription="@string/opening_balance"
-                        style="@style/FormField" />
+                        style="@style/FormField"
+                        android:contentDescription="@string/opening_balance" />
                 </TableRow>
 
                 <TableRow>
@@ -128,7 +127,9 @@
                         layout="@layout/color_input" />
                 </TableRow>
 
-                <include android:id="@+id/TagRow" layout="@layout/tag_row" />
+                <include
+                    android:id="@+id/TagRow"
+                    layout="@layout/tag_row" />
 
                 <TableRow>
 
@@ -188,8 +189,8 @@
 
                     <org.totschnig.myexpenses.ui.AmountInput
                         android:id="@+id/Criterion"
-                        android:contentDescription="@string/goal_or_limit"
-                        style="@style/FormField" />
+                        style="@style/FormField"
+                        android:contentDescription="@string/goal_or_limit" />
 
                 </TableRow>
             </TableLayout>

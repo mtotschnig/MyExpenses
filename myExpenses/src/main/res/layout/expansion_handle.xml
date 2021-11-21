@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.totschnig.myexpenses.ui.ExpansionHandle xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    style="?actionButtonStyle"
+<org.totschnig.myexpenses.ui.ExpansionHandle xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/headerIndicator"
+    style="?actionButtonStyle"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical|end"
-    android:layout_marginLeft="16dp"
     android:layout_marginStart="16dp"
     app:srcCompat="@drawable/ic_expand_less" />

@@ -30,8 +30,7 @@
             android:name="org.totschnig.myexpenses.fragment.BudgetList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/general_padding"
-            android:layout_marginRight="@dimen/general_padding" />
+            android:layout_marginHorizontal="@dimen/general_padding" />
 
         <include layout="@layout/floating_action_button" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

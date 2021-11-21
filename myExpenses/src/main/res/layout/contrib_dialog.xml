@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/aboutscrollview"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="0dp"
     android:layout_weight="1"
@@ -11,15 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingLeft="@dimen/padding_dialog_side"
-        android:paddingRight="@dimen/padding_dialog_side">
+        android:paddingHorizontal="@dimen/padding_dialog_side">
 
         <TextView
             android:id="@+id/feature_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/vertical_padding_paragraph"
-            android:textAppearance="?android:attr/textAppearanceSmall"/>
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <TextView
             android:id="@+id/usages_left"
@@ -27,39 +25,38 @@
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/vertical_padding_paragraph"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <include
             android:id="@+id/contrib_feature_container"
-            layout="@layout/package_container"/>
+            layout="@layout/package_container" />
 
         <include
             android:id="@+id/extended_feature_container"
-            layout="@layout/package_container"/>
+            layout="@layout/package_container" />
 
         <include
             android:id="@+id/professional_feature_container"
-            layout="@layout/package_container"/>
+            layout="@layout/package_container" />
 
         <TextView
             android:id="@+id/single_feature_info"
-            android:text="@string/single_feature_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/vertical_padding_paragraph"
+            android:text="@string/single_feature_info"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <include
             android:id="@+id/single_feature_container"
-            layout="@layout/package_container"/>
+            layout="@layout/package_container" />
 
         <TextView
             android:id="@+id/github_extra_info"
-            android:textAppearance="@style/AdaptiveLabelTextAppearance"
-            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            />
+            android:textAppearance="@style/AdaptiveLabelTextAppearance"
+            android:visibility="gone" />
     </LinearLayout>
 </ScrollView>

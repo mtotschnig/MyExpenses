@@ -26,18 +26,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentEnd="true" />
 
     <com.github.lzyzsd.circleprogress.DonutProgress
         android:id="@+id/budgetProgress"
         android:layout_width="@dimen/account_color_diameter"
         android:layout_height="@dimen/account_color_diameter"
         android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginStart="@dimen/general_padding"
-        android:layout_marginLeft="@dimen/general_padding"
         app:donut_finished_stroke_width="3sp"
         app:donut_text_color="?android:textColorPrimary"
         app:donut_text_size="@dimen/textSizeLabel"
@@ -48,9 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/general_padding"
-        android:layout_marginLeft="@dimen/general_padding"
         android:layout_toEndOf="@id/budgetProgress"
-        android:layout_toRightOf="@id/budgetProgress"
         android:orientation="vertical"
         android:paddingTop="@dimen/list_header_vertical_padding"
         android:paddingBottom="@dimen/list_header_vertical_padding">
@@ -82,7 +77,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/general_padding"
-                android:layout_marginRight="@dimen/general_padding"
                 android:gravity="center" />
 
             <TextView
@@ -91,7 +85,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/general_padding"
-                android:layout_marginRight="@dimen/general_padding"
                 android:gravity="center" />
 
             <TextView

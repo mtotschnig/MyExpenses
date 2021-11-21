@@ -47,8 +47,7 @@
                     android:id="@+id/Table"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="@dimen/padding_form"
-                    android:paddingRight="@dimen/padding_form"
+                    android:paddingHorizontal="@dimen/padding_form"
                     android:shrinkColumns="1"
                     android:stretchColumns="1"
                     tools:ignore="UselessParent">
@@ -217,8 +216,8 @@
                             android:text="@string/debt" />
 
                         <CheckBox
-                            style="@style/FormField"
                             android:id="@+id/DebtCheckBox"
+                            style="@style/FormField"
                             android:layout_gravity="center_horizontal" />
                     </TableRow>
 

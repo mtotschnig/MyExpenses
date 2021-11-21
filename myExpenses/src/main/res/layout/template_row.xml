@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- 
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -14,16 +13,14 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?android:attr/activatedBackgroundIndicator"
     android:orientation="horizontal"
-    android:paddingBottom="3dp"
-    android:paddingRight="@dimen/general_padding"
-    android:paddingLeft="@dimen/general_padding"
-    android:paddingTop="3dp">
+    android:paddingHorizontal="@dimen/general_padding"
+    android:paddingTop="3dp"
+    android:paddingBottom="3dp">
 
-    <include layout="@layout/template_row_inner"/>
+    <include layout="@layout/template_row_inner" />
 </LinearLayout>

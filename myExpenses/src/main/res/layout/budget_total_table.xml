@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="@layout/budget_list">
 
@@ -11,29 +10,29 @@
         android:orientation="vertical">
 
         <TextView
-            android:minHeight="48dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:text="@string/budget_table_header_budgeted"/>
+            android:minHeight="48dp"
+            android:text="@string/budget_table_header_budgeted" />
 
         <TextView
             android:id="@+id/allocatedLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/budget_table_header_allocated"/>
+            android:text="@string/budget_table_header_allocated" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/budget_table_header_spent"/>
+            android:text="@string/budget_table_header_spent" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
-            android:text="@string/budget_table_header_remainder"/>
+            android:layout_marginBottom="10dp"
+            android:text="@string/budget_table_header_remainder" />
 
     </LinearLayout>
 
@@ -45,12 +44,12 @@
         tools:showIn="@layout/budget_row">
 
         <TextView
-            style="@style/BudgetButton"
             android:id="@+id/totalBudget"
+            style="@style/BudgetButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            tools:text="1000000"/>
+            tools:text="1000000" />
 
         <TextView
             android:id="@+id/totalAllocated"
@@ -58,27 +57,25 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginEnd="6dp"
-            android:layout_marginRight="6dp"
-            tools:text="1000000"/>
+            tools:text="1000000" />
 
         <TextView
             android:id="@+id/totalAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_marginEnd="6dp"
-            android:layout_marginRight="6dp"/>
+            android:layout_marginEnd="6dp" />
 
         <TextView
-            tools:background="@drawable/round_background_income"
             android:id="@+id/totalAvailable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:padding="6dp"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
-            tools:text="10000"/>
+            android:padding="6dp"
+            tools:background="@drawable/round_background_income"
+            tools:text="10000" />
 
     </LinearLayout>
 </merge>

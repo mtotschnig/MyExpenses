@@ -20,5 +20,6 @@
     <string name="dialog_dismiss">"Ignora"</string>
     <string name="response_yes">"Sí"</string>
     <string name="response_no">"No"</string>
+    <string name="add_widget">"Afegeix un widget"</string>
 </resources>
 

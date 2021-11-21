@@ -28,20 +28,18 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp"
             android:paddingStart="@dimen/padding_main_screen"
-            android:paddingEnd="@dimen/padding_main_screen">
+            android:paddingTop="4dp"
+            android:paddingEnd="@dimen/padding_main_screen"
+            android:paddingBottom="4dp">
 
             <ImageView
                 android:id="@+id/filterIcon"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="12dp"
-                android:layout_marginRight="12dp"
                 android:contentDescription="@string/menu_search"
                 app:srcCompat="@drawable/ic_menu_search"
                 app:tint="#FF00FF00" />
@@ -52,9 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toStartOf="@+id/clearFilter"
-                android:layout_toLeftOf="@+id/clearFilter"
-                android:layout_toEndOf="@+id/filterIcon"
-                android:layout_toRightOf="@+id/filterIcon" />
+                android:layout_toEndOf="@+id/filterIcon" />
 
             <ImageView
                 android:id="@+id/clearFilter"
@@ -62,7 +58,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:contentDescription="@string/clear_all_filters"
                 android:onClick="clearFilter"
@@ -88,7 +83,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
+        android:paddingHorizontal="10dp"
         android:text="@string/no_expenses" />
 </LinearLayout>

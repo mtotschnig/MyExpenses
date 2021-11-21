@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- 
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -14,36 +13,35 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<LinearLayout android:id="@+id/layoutMain"
-              xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical"
-              android:paddingTop="@dimen/padding_dialog_content_top"
-              android:paddingLeft="@dimen/padding_dialog_side"
-              android:paddingRight="@dimen/padding_dialog_side">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layoutMain"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/padding_dialog_side"
+    android:paddingTop="@dimen/padding_dialog_content_top">
 
     <TextView
         android:id="@+id/ImportantUpgradeInfoHeading"
         style="@style/headingStyle.WithMargin"
         android:text="@string/important_upgrade_information_heading"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/ImportantUpgradeInfoBody"
         style="@style/about_text"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/ImportantUpgradeInfoLearnMore"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
+        android:focusable="true"
         android:gravity="end"
         android:textColorLink="@drawable/linkcolor"
         android:textStyle="bold|italic"
-        android:focusable="true"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
 
     <ListView
@@ -51,6 +49,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:drawSelectorOnTop="false"
-        android:listSelector="@android:color/transparent"/>
+        android:listSelector="@android:color/transparent" />
 </LinearLayout>
 

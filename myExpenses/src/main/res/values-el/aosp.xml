@@ -20,5 +20,6 @@
     <string name="dialog_dismiss">"Παράβλεψη"</string>
     <string name="response_yes">"Ναι"</string>
     <string name="response_no">"Όχι"</string>
+    <string name="add_widget">"Προσθήκη γραφικού στοιχείου"</string>
 </resources>
 

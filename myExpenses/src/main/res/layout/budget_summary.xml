@@ -10,9 +10,7 @@
         android:layout_height="@dimen/account_color_diameter"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="-4dp"
-        android:layout_marginLeft="-4dp"
         android:layout_marginEnd="4dp"
-        android:layout_marginRight="4dp"
         android:padding="4dp">
 
         <com.github.lzyzsd.circleprogress.DonutProgress

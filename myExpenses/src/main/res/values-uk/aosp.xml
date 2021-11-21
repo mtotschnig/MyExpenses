@@ -21,5 +21,6 @@
     <string name="dialog_dismiss">"Закрити"</string>
     <string name="response_yes">"Так"</string>
     <string name="response_no">"Ні"</string>
+    <string name="add_widget">"Додати віджет"</string>
 </resources>
 

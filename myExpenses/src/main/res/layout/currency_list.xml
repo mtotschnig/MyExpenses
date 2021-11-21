@@ -16,8 +16,7 @@
             android:name="org.totschnig.myexpenses.fragment.CurrencyList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/margin_list"
-            android:layout_marginRight="@dimen/margin_list"
+            android:layout_marginHorizontal="@dimen/margin_list"
             android:layout_weight="1" />
 
         <include layout="@layout/floating_action_button" />

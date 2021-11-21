@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -17,36 +16,40 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-  <ExpandableListView
-      android:id="@+id/list"
-      android:layout_width="match_parent"
-      android:layout_height="0dp"
-      android:layout_weight="1"
-      android:groupIndicator="@android:color/transparent"
-      android:layout_marginLeft="@dimen/margin_list_expandable"
-      android:layout_marginRight="@dimen/margin_list_expandable"
-      android:drawSelectorOnTop="false" />
-    <RelativeLayout android:id="@+id/empty"
+    android:orientation="vertical">
+
+    <ExpandableListView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="@dimen/margin_list_expandable"
+        android:layout_weight="1"
+        android:drawSelectorOnTop="false"
+        android:groupIndicator="@android:color/transparent" />
+
+    <RelativeLayout
+        android:id="@+id/empty"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical">
-      <TextView
-          android:layout_centerInParent="true"
-          android:id="@+id/emptyText"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="@string/no_categories"/>
-      <Button
-          android:id="@id/SETUP_CATEGORIES_DEFAULT_COMMAND"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_centerInParent="true"
-          android:onClick="dispatchCommand"
-          android:layout_marginTop="15dp"
-          android:layout_below="@id/emptyText"
-          android:drawableTop="@drawable/ic_menu_add_list_indirection"
-          android:text="@string/menu_categories_setup_default" />
+
+        <TextView
+            android:id="@+id/emptyText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/no_categories" />
+
+        <Button
+            android:id="@id/SETUP_CATEGORIES_DEFAULT_COMMAND"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/emptyText"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="15dp"
+            android:drawableTop="@drawable/ic_menu_add_list_indirection"
+            android:onClick="dispatchCommand"
+            android:text="@string/menu_categories_setup_default" />
     </RelativeLayout>
 </LinearLayout>

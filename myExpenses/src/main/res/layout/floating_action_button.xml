@@ -7,11 +7,10 @@
     android:layout_height="wrap_content"
     android:layout_gravity="bottom|end"
     android:layout_marginEnd="@dimen/fab_margin_right"
-    android:layout_marginRight="@dimen/fab_margin_right"
     android:layout_marginBottom="@dimen/fab_margin_bottom"
     android:onClick="dispatchCommand"
     app:elevation="6dp"
     app:fabSize="normal"
     app:srcCompat="@drawable/ic_menu_add_fab"
-    tools:showIn="@layout/activity_main"
-    tools:ignore="ContentDescription" />
+    tools:ignore="ContentDescription"
+    tools:showIn="@layout/activity_main" />

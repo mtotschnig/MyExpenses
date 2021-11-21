@@ -21,5 +21,6 @@
     <string name="dialog_dismiss">"닫기"</string>
     <string name="response_yes">"예"</string>
     <string name="response_no">"아니요"</string>
+    <string name="add_widget">"위젯 추가"</string>
 </resources>
 

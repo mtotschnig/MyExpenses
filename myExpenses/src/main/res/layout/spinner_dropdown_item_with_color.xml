@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:gravity="center"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:orientation="horizontal">
-<View
-    android:layout_marginLeft="10dp"
-    android:layout_marginStart="10dp"
-    android:layout_marginTop="5dp"
-    android:layout_marginBottom="5dp"
-    android:id="@+id/color1"
-    android:layout_height="15dp"
-    android:layout_width="15dp"/>
-<TextView
-    android:id="@android:id/text1"
-    style="?attr/spinnerDropDownItemStyle"
-    android:layout_width="match_parent"
-    android:layout_height="?attr/dropdownListPreferredItemHeight"
-    tools:ignore="PrivateResource"
-    android:maxLines="1"/>
+
+    <View
+        android:id="@+id/color1"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginVertical="5dp"
+        android:layout_marginStart="10dp" />
+
+    <TextView
+        android:id="@android:id/text1"
+        style="?attr/spinnerDropDownItemStyle"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/dropdownListPreferredItemHeight"
+        android:maxLines="1"
+        tools:ignore="PrivateResource" />
 </LinearLayout>

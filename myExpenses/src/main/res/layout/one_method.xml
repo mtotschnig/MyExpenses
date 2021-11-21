@@ -36,8 +36,7 @@
                 android:id="@+id/Table"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/padding_form"
-                android:paddingRight="@dimen/padding_form"
+                android:paddingHorizontal="@dimen/padding_form"
                 android:paddingBottom="@dimen/fab_related_bottom_padding"
                 android:shrinkColumns="1"
                 android:stretchColumns="1">

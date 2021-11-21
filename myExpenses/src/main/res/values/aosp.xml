@@ -31,5 +31,7 @@
     <!--  packages/apps/Calendar/res/values/strings.xml-->
     <string name="response_yes">Yes</string>
     <string name="response_no">No</string>
+    <!-- platform_frameworks_base/core/res/res/values/strings.xml name="keyguard_accessibility_add_widget"-->
+    <string name="add_widget">Add widget</string>
 </resources>
 

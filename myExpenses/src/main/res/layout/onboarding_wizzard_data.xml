@@ -41,7 +41,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="-4dp"
-                android:layout_marginLeft="-4dp"
                 android:contentDescription="@string/opening_balance" />
 
             <TextView
@@ -108,7 +107,9 @@
                     android:labelFor="@+id/Color"
                     android:text="@string/color" />
 
-                <include android:id="@+id/colorInput" layout="@layout/color_input" />
+                <include
+                    android:id="@+id/colorInput"
+                    layout="@layout/color_input" />
             </LinearLayout>
 
         </LinearLayout>

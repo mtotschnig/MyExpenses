@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -14,22 +13,20 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<androidx.appcompat.widget.SwitchCompat
-    android:id="@+id/TaType"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.SwitchCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/TaType"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
-    android:minHeight="@dimen/accessibility_clickable_minimum"
-    android:minWidth="@dimen/accessibility_clickable_minimum"
-    android:switchMinWidth="0dp"
     android:layout_marginEnd="8dp"
-    android:layout_marginRight="8dp"
+    android:minWidth="@dimen/accessibility_clickable_minimum"
+    android:minHeight="@dimen/accessibility_clickable_minimum"
+    android:switchMinWidth="0dp"
     android:textOff="&#8722;"
     android:textOn="+"
     android:theme="@style/AmountSwitch"
     app:showText="true"
     app:switchTextAppearance="@style/SwitchTextAppearance"
-    tools:ignore="HardcodedText,UnusedAttribute"/>
+    tools:ignore="HardcodedText,UnusedAttribute" />

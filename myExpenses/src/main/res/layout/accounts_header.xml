@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -9,20 +8,18 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@color/material_grey_300"
-        />
+        android:background="@color/material_grey_300" />
 
     <TextView
         android:id="@+id/sectionLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
+        android:paddingHorizontal="16dp"
         android:paddingTop="4dp"
         android:paddingBottom="4dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:textColor="@color/material_grey"
         android:textAppearance="?android:textAppearanceMedium"
-        tools:text="Accounts"
-        tools:ignore="UnusedAttribute"/>
+        android:textColor="@color/material_grey"
+        tools:ignore="UnusedAttribute"
+        tools:text="Accounts" />
 </LinearLayout>

@@ -43,8 +43,7 @@
             android:id="@+id/Table"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/padding_dialog_side"
-            android:paddingRight="@dimen/padding_dialog_side"
+            android:paddingHorizontal="@dimen/padding_dialog_side"
             android:visibility="gone">
 
             <TableRow android:id="@+id/AccountRow">
@@ -192,10 +191,8 @@
                         android:id="@+id/Status"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:paddingLeft="5dp"
-                        android:paddingTop="2dp"
-                        android:paddingRight="5dp"
-                        android:paddingBottom="2dp"
+                        android:paddingHorizontal="5dp"
+                        android:paddingVertical="2dp"
                         android:textColor="#000000" />
                 </LinearLayout>
             </TableRow>
@@ -229,8 +226,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/padding_dialog_side"
-            android:paddingRight="@dimen/padding_dialog_side"
+            android:paddingHorizontal="@dimen/padding_dialog_side"
             android:visibility="gone">
 
             <TextView

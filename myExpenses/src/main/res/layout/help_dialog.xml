@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -14,8 +13,7 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/aboutscrollview"
     android:layout_width="match_parent"
     android:layout_height="0dp"
@@ -27,51 +25,50 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingLeft="@dimen/padding_dialog_side"
-        android:paddingRight="@dimen/padding_dialog_side">
+        android:paddingHorizontal="@dimen/padding_dialog_side">
 
         <TextView
             android:id="@+id/screen_info"
-            style="@style/about_text"/>
+            style="@style/about_text" />
 
         <TextView
             android:id="@+id/form_fields_heading"
             style="@style/headingStyle.WithMargin"
-            android:text="@string/help_form_fields"/>
+            android:text="@string/help_form_fields" />
 
         <LinearLayout
             android:id="@+id/form_fields_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"/>
+            android:orientation="vertical" />
 
         <TextView
             android:id="@+id/menu_commands_heading"
             style="@style/headingStyle.WithMargin"
-            android:text="@string/help_menu_commands"/>
+            android:text="@string/help_menu_commands" />
 
         <LinearLayout
             android:id="@+id/menu_commands_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"/>
+            android:orientation="vertical" />
 
         <TextView
             android:id="@+id/cab_commands_heading"
             style="@style/headingStyle.WithMargin"
-            android:text="@string/help_contextual_actions"/>
+            android:text="@string/help_contextual_actions" />
 
         <TextView
             android:id="@+id/cab_commands_help"
             style="@style/about_text"
             android:layout_marginBottom="8dp"
-            android:text="@string/help_contextual_actions_help"/>
+            android:text="@string/help_contextual_actions_help" />
 
         <LinearLayout
             android:id="@+id/cab_commands_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"/>
+            android:orientation="vertical" />
 
     </LinearLayout>
 </ScrollView>

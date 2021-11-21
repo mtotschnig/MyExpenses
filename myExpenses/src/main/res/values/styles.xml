@@ -237,8 +237,8 @@
     <style name="FeatureList">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingLeft">@dimen/general_padding</item>
-        <item name="android:paddingRight">@dimen/general_padding</item>
+        <item name="android:paddingStart">@dimen/general_padding</item>
+        <item name="android:paddingEnd">@dimen/general_padding</item>
         <item name="android:lineSpacingMultiplier">1.2</item>
         <item name="android:textColor">?android:textColorTertiary</item>
     </style>

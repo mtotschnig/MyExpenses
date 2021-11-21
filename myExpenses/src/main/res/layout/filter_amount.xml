@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   This file is part of My Expenses. My Expenses is free software: you 
 	can redistribute it and/or modify it under the terms of the GNU General Public 
 	License as published by the Free Software Foundation, either version 3 of 
@@ -11,16 +10,15 @@
 	see <http://www.gnu.org/licenses/>.
 -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingLeft="@dimen/padding_dialog_side"
-        android:paddingRight="@dimen/padding_dialog_side">
+        android:paddingHorizontal="@dimen/padding_dialog_side">
 
         <RadioGroup
             android:id="@+id/type"
@@ -32,12 +30,12 @@
                 android:id="@+id/expense"
                 android:layout_weight="1"
                 android:checked="true"
-                android:text="@string/expense"/>
+                android:text="@string/expense" />
 
             <RadioButton
                 android:id="@+id/income"
                 android:layout_weight="1"
-                android:text="@string/income"/>
+                android:text="@string/income" />
         </RadioGroup>
 
         <TableLayout
@@ -52,12 +50,12 @@
                     android:id="@+id/Operator"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:entries="@array/comparison_operator_entries"/>
+                    android:entries="@array/comparison_operator_entries" />
 
                 <org.totschnig.myexpenses.ui.AmountEditText
                     android:id="@+id/amount1"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
             </TableRow>
 
             <TableRow
@@ -67,12 +65,12 @@
                 <TextView
                     android:gravity="center_horizontal"
                     android:labelFor="@id/amount2"
-                    android:text="@string/and"/>
+                    android:text="@string/and" />
 
                 <org.totschnig.myexpenses.ui.AmountEditText
                     android:id="@+id/amount2"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
             </TableRow>
         </TableLayout>
     </LinearLayout>

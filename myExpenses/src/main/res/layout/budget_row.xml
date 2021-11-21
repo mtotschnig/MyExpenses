@@ -12,7 +12,6 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:contentDescription="@string/content_description_expand"
         android:src="@drawable/expander_close_mtrl_alpha"
@@ -25,11 +24,8 @@
         android:layout_centerVertical="true"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="-4dp"
-        android:layout_marginLeft="-4dp"
         android:layout_marginEnd="4dp"
-        android:layout_marginRight="4dp"
         android:layout_toEndOf="@+id/explist_indicator"
-        android:layout_toRightOf="@+id/explist_indicator"
         android:padding="4dp">
 
         <com.github.lzyzsd.circleprogress.DonutProgress
@@ -47,8 +43,7 @@
         android:layout_width="@dimen/category_icon_size"
         android:layout_height="@dimen/category_icon_size"
         android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/color1"
-        android:layout_toRightOf="@+id/color1" />
+        android:layout_toEndOf="@+id/color1" />
 
     <TextView
         android:id="@+id/label"
@@ -56,11 +51,8 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_toStartOf="@+id/budgetContainer"
-        android:layout_toLeftOf="@+id/budgetContainer"
         android:layout_toEndOf="@+id/category_icon"
-        android:layout_toRightOf="@+id/category_icon"
         tools:text="LABEL" />
 
     <include
