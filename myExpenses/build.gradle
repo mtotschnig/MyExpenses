@@ -85,6 +85,7 @@ android {
             manifestPlaceholders = [appName: "My Expenses Debug", debug: "true"]
             buildConfigField "int", "TEST_SCENARIO", getPropertyIfDefined('testScenario', "1")
             buildConfigField "String", "BUILD_DATE", "\"now\""
+            buildConfigField "String", "OPEN_EXCHANGE_RATES_API_KEY", "\"" + getPropertyIfDefined('OPEN_EXCHANGE_RATES_API_KEY', "") + "\""
         }
         beta {
             initWith release
