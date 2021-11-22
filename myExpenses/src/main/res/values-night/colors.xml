@@ -10,6 +10,8 @@
     <color name="colorIncome">@color/colorIncomeLight</color>
     <color name="colorExpenseHistoryChart">@color/colorExpenseDark</color>
     <color name="colorIncomeHistoryChart">@color/colorIncomeDark</color>
+    <color name="colorExpenseOnCard">#EF9A9A</color>
+    <color name="colorIncomeOnCard">#A5D6A7</color>
     <color name="colorTransfer">#7777FF</color>
     <color name="colorAggregate">@color/material_grey_400</color>
     <color name="caldroid_custom_gridview_background">@color/caldroid_middle_gray</color>

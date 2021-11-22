@@ -24,6 +24,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.livedata.observeAsState
@@ -47,7 +48,9 @@ import com.google.android.material.composethemeadapter.MdcTheme
 import com.google.android.material.snackbar.Snackbar
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.compose.Colors
 import org.totschnig.myexpenses.compose.Initials
+import org.totschnig.myexpenses.compose.LocalColors
 import org.totschnig.myexpenses.compose.Navigation
 import org.totschnig.myexpenses.compose.OverFlowMenu
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -77,40 +80,47 @@ class DebtOverview : DebtActivity() {
         (applicationContext as MyApplication).appComponent.inject(viewModel)
         viewModel.loadDebts()
         setContent {
-            MdcTheme {
-                val amountFormatter = { amount: Long, currency: String ->
-                    currencyFormatter.convAmount(amount, currencyContext[currency])
-                }
-                val debts = viewModel.getDebts().observeAsState(emptyList())
-                Navigation(
-                    onNavigation = { finish() },
-                    title = {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(end = dimensionResource(id = R.dimen.padding_form)),
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            Text(stringResource(id = R.string.title_activity_debt_overview))
-                            ColoredAmountText(
-                                amount = debts.value.sumOf { it.currentBalance },
-                                currency = Utils.getHomeCurrency().code,
-                                amountFormatter = amountFormatter
-                            )
-                        }
+            CompositionLocalProvider(
+                LocalColors provides Colors(
+                    income = colorResource(id = R.color.colorIncome),
+                    expense = colorResource(id = R.color.colorExpense)
+                )
+            ) {
+                MdcTheme {
+                    val amountFormatter = { amount: Long, currency: String ->
+                        currencyFormatter.convAmount(amount, currencyContext[currency])
                     }
-                ) {
-                    DebtList(
-                        modifier = Modifier.padding(paddingValues = it),
-                        debts = debts,
-                        loadTransactionsForDebt = { debt ->
-                            viewModel.loadTransactions(debt).observeAsState(emptyList())
-                        },
-                        amountFormatter = amountFormatter,
-                        dateFormatter = getDateTimeFormatter(this),
-                        onEdit = this::editDebt,
-                        onDelete = this::deleteDebt
-                    )
+                    val debts = viewModel.getDebts().observeAsState(emptyList())
+                    Navigation(
+                        onNavigation = { finish() },
+                        title = {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(end = dimensionResource(id = R.dimen.padding_form)),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text(stringResource(id = R.string.title_activity_debt_overview))
+                                ColoredAmountText(
+                                    amount = debts.value.sumOf { it.currentBalance },
+                                    currency = Utils.getHomeCurrency().code,
+                                    amountFormatter = amountFormatter
+                                )
+                            }
+                        }
+                    ) {
+                        DebtList(
+                            modifier = Modifier.padding(paddingValues = it),
+                            debts = debts,
+                            loadTransactionsForDebt = { debt ->
+                                viewModel.loadTransactions(debt).observeAsState(emptyList())
+                            },
+                            amountFormatter = amountFormatter,
+                            dateFormatter = getDateTimeFormatter(this),
+                            onEdit = this::editDebt,
+                            onDelete = this::deleteDebt
+                        )
+                    }
                 }
             }
         }
@@ -184,95 +194,102 @@ fun DebtRenderer(
         shape = RoundedCornerShape(8.dp),
         backgroundColor = colorResource(id = R.color.cardBackground)
     ) {
-        Box(modifier = Modifier.fillMaxWidth()) {
+        CompositionLocalProvider(
+            LocalColors provides Colors(
+                income = colorResource(id = R.color.colorIncomeOnCard),
+                expense = colorResource(id = R.color.colorExpenseOnCard)
+            )
+        ) {
+            Box(modifier = Modifier.fillMaxWidth()) {
 
-            Timber.d("rendering Card")
-            Column(
-                modifier = Modifier
-                    .clickable(onClick = { expanded.value = !expanded.value })
-                    .padding(8.dp)
-            ) {
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+                Timber.d("rendering Card")
+                Column(
+                    modifier = Modifier
+                        .clickable(onClick = { expanded.value = !expanded.value })
+                        .padding(8.dp)
                 ) {
-                    val signum = debt.amount > 0
-                    if (expanded.value) {
-                        Initials(
-                            name = debt.payeeName!!,
-                            modifier = Modifier.padding(end = 4.dp)
-                        )
-                    }
-                    Column(modifier = Modifier.weight(1F)) {
-                        Text(
-                            style = MaterialTheme.typography.h6,
-                            text = debt.label,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        val signum = debt.amount > 0
+                        if (expanded.value) {
+                            Initials(
+                                name = debt.payeeName!!,
+                                modifier = Modifier.padding(end = 4.dp)
+                            )
+                        }
+                        Column(modifier = Modifier.weight(1F)) {
+                            Text(
+                                style = MaterialTheme.typography.h6,
+                                text = debt.label,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
 
+                            if (!expanded.value) {
+                                Text(
+                                    text = stringResource(
+                                        id = if (signum) R.string.debt_owes_me else R.string.debt_I_owe,
+                                        debt.payeeName!!
+                                    ),
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+                            }
+                            debt.description.takeIf { it.isNotEmpty() }?.let {
+                                Text(
+                                    fontStyle = FontStyle.Italic,
+                                    text = debt.description,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+                            }
+                        }
                         if (!expanded.value) {
-                            Text(
-                                text = stringResource(
-                                    id = if (signum) R.string.debt_owes_me else R.string.debt_I_owe,
-                                    debt.payeeName!!
-                                ),
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis
-                            )
-                        }
-                        debt.description.takeIf { it.isNotEmpty() }?.let {
-                            Text(
-                                fontStyle = FontStyle.Italic,
-                                text = debt.description,
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis
+                            ColoredAmountText(
+                                debt.currentBalance,
+                                debt.currency,
+                                amountFormatter
                             )
                         }
                     }
-                    if (!expanded.value) {
-                        ColoredAmountText(
-                            debt.currentBalance,
-                            debt.currency,
-                            amountFormatter
-                        )
-                    }
-                }
-                if (expanded.value) {
-                    TransactionRenderer(
-                        transaction = Transaction(
-                            0, epoch2LocalDate(debt.date), 0, debt.amount
-                        ),
-                        debt.currency,
-                        amountFormatter,
-                        dateFormatter,
-                        false
-                    )
-                    val count = transactions.value.size
-                    transactions.value.forEachIndexed { index, transaction ->
+                    if (expanded.value) {
                         TransactionRenderer(
-                            transaction = transaction,
+                            transaction = Transaction(
+                                0, epoch2LocalDate(debt.date), 0, debt.amount
+                            ),
                             debt.currency,
                             amountFormatter,
                             dateFormatter,
-                            index == count - 1
+                            false
                         )
+                        val count = transactions.value.size
+                        transactions.value.forEachIndexed { index, transaction ->
+                            TransactionRenderer(
+                                transaction = transaction,
+                                debt.currency,
+                                amountFormatter,
+                                dateFormatter,
+                                index == count - 1
+                            )
+                        }
                     }
                 }
-            }
-            if (expanded.value) {
-                Box(modifier = Modifier.align(Alignment.TopEnd)) {
-                    OverFlowMenu(
-                        content = listOf(
-                            stringResource(id = R.string.menu_edit) to { onEdit(debt) },
-                            stringResource(id = R.string.menu_delete) to {
-                                onDelete(
-                                    debt,
-                                    transactions.value.size
-                                )
-                            }
+                if (expanded.value) {
+                    Box(modifier = Modifier.align(Alignment.TopEnd)) {
+                        OverFlowMenu(
+                            content = listOf(
+                                stringResource(id = R.string.menu_edit) to { onEdit(debt) },
+                                stringResource(id = R.string.menu_delete) to {
+                                    onDelete(
+                                        debt,
+                                        transactions.value.size
+                                    )
+                                }
+                            )
                         )
-                    )
+                    }
                 }
             }
         }
@@ -293,7 +310,7 @@ fun ColoredAmountText(
         fontWeight = fontWeight,
         textAlign = textAlign,
         text = amountFormatter(amount, currency),
-        color = colorResource(id = if (amount > 0) R.color.colorIncome else R.color.colorExpense)
+        color = if (amount > 0) LocalColors.current.income else LocalColors.current.income
     )
 }
 

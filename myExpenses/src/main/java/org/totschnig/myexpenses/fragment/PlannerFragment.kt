@@ -257,7 +257,7 @@ class PlannerFragment : BaseDialogFragment() {
                 amount.setTextColor(
                     ResourcesCompat.getColor(
                         resources,
-                        if (planInstance.amount.amountMinor < 0) R.color.colorExpense else R.color.colorIncome,
+                        if (planInstance.amount.amountMinor < 0) R.color.colorExpenseOnCard else R.color.colorIncomeOnCard,
                         null
                     )
                 )
