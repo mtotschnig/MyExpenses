@@ -152,11 +152,13 @@ public class EncryptionHelper {
     return is == null ? null : new PushbackInputStream(is, MAGIC_NUMBER.length());
   }
 
-  public static boolean isEncrypted(@NonNull PushbackInputStream pb) throws IOException {
+  public static boolean isEncrypted(@NonNull InputStream pb) throws IOException {
     byte[] magic = new byte[MAGIC_NUMBER.length()];
     //noinspection ResultOfMethodCallIgnored
     pb.read(magic);
-    pb.unread(magic);
+    if (pb instanceof PushbackInputStream) {
+      ((PushbackInputStream) pb).unread(magic);
+    }
     return MAGIC_NUMBER.equals(new String(magic));
   }
 

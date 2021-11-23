@@ -1,24 +1,21 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
+import android.net.Uri
 import androidx.documentfile.provider.DocumentFile
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
-import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.doBackup
+import org.totschnig.myexpenses.util.crypt.EncryptionHelper
 import org.totschnig.myexpenses.util.io.FileUtils
-import javax.inject.Inject
+import java.io.IOException
 
-class BackupViewModel(application: Application) : AndroidViewModel(application) {
-    @Inject
-    lateinit var prefHandler: PrefHandler
-    @Inject
-    lateinit var coroutineDispatcher: CoroutineDispatcher
+class BackupViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
 
     sealed class BackupState {
         object Running : BackupState()
@@ -52,5 +49,15 @@ class BackupViewModel(application: Application) : AndroidViewModel(application) 
                 backupState.postValue(BackupState.Error(it))
             }
         }
+    }
+
+    fun isEncrypted(uri: Uri) = liveData(context = coroutineContext()) {
+        emit(
+            runCatching {
+                getApplication<MyApplication>().contentResolver.openInputStream(uri).use {
+                    if (it == null) throw(IOException("Unable to open file $uri"))
+                    EncryptionHelper.isEncrypted(it)
+            }
+        })
     }
 }

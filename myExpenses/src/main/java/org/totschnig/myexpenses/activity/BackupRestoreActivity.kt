@@ -221,19 +221,23 @@ class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogLis
 
     fun onSourceSelected(mUri: Uri, restorePlanStrategy: Int) {
         val args = buildRestoreArgs(mUri, restorePlanStrategy)
-        if (calledFromOnboarding() || calledExternally()) {
-            if (FileUtils.getPath(this, mUri).endsWith("enc")) {
-                SimpleFormDialog.build().msg(R.string.backup_is_encrypted)
-                    .fields(Input.password(RestoreTask.KEY_PASSWORD).required())
-                    .extra(args)
-                    .show(this, DIALOG_TAG_PASSWORD)
-                return
+        backupViewModel.isEncrypted(mUri).observe(this) {
+            it.onFailure {
+                showSnackbar(it.message ?: "ERROR")
+            }.onSuccess {
+                if (it) {
+                    SimpleFormDialog.build().msg(R.string.backup_is_encrypted)
+                        .fields(Input.password(RestoreTask.KEY_PASSWORD).text(prefHandler.getString(PrefKey.EXPORT_PASSWORD, "")).required())
+                        .extra(args)
+                        .show(this, DIALOG_TAG_PASSWORD)
+                } else {
+                    if (calledFromOnboarding()) {
+                        doRestore(args)
+                    } else {
+                        showRestoreDialog(args)
+                    }
+                }
             }
-        }
-        if (calledFromOnboarding()) {
-            doRestore(args)
-        } else {
-            showRestoreDialog(args)
         }
     }
 
