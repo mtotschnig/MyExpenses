@@ -3,11 +3,11 @@ package org.totschnig.myexpenses.retrofit
 import com.google.common.truth.Truth
 import org.junit.Test
 import org.mockito.Mockito.mock
-import java.time.LocalDate
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.di.DaggerAppComponent
 import org.totschnig.myexpenses.di.NetworkModule
+import java.time.LocalDate
 import java.util.*
 import javax.net.SocketFactory
 
@@ -23,7 +23,7 @@ class ExchangeRateServiceTest {
 
     @Test
     fun openExchangeRateIsAlive() {
-        val configuration = Configuration(ExchangeRateSource.OPEN_EXCHANGE_RATES, BuildConfig.OPEN_EXCHANGE_RATES_API_KEY)
+        val configuration = Configuration(ExchangeRateSource.OPENEXCHANGERATES, BuildConfig.OPEN_EXCHANGE_RATES_API_KEY)
         val rate = service.getRate(configuration, date, "USD", "EUR")
         Truth.assertThat(rate.first).isEqualTo(date)
     }

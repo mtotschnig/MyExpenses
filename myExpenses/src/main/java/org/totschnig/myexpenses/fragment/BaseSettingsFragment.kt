@@ -37,6 +37,7 @@ import org.totschnig.myexpenses.preference.LocalizedFormatEditTextPreference
 import org.totschnig.myexpenses.preference.LocalizedFormatEditTextPreference.OnValidationErrorListener
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.preference.requireString
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.service.DailyScheduler
 import org.totschnig.myexpenses.sync.GenericAccountService
@@ -726,10 +727,10 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             requirePreference<Preference>(PrefKey.EXCHANGE_RATE_PROVIDER).onPreferenceChangeListener =
                 this
             configureOpenExchangeRatesPreference(
-                prefHandler.getString(
+                prefHandler.requireString(
                     PrefKey.EXCHANGE_RATE_PROVIDER,
                     "EXCHANGE_RATE_HOST"
-                )!!
+                )
             )
         }
     }

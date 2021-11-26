@@ -6,6 +6,7 @@ import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.requireString
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import retrofit2.Response
 import timber.log.Timber
 import java.io.IOException
@@ -15,7 +16,10 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 
 enum class ExchangeRateSource {
-    EXCHANGE_RATE_HOST, OPEN_EXCHANGE_RATES;
+    EXCHANGE_RATE_HOST,
+
+    @Suppress("SpellCheckingInspection")
+    OPENEXCHANGERATES;
 }
 
 data class Configuration(val source: ExchangeRateSource, val openExchangeRatesAppId: String = "")
@@ -33,30 +37,52 @@ class ExchangeRateService(
         base: String
     ): Pair<LocalDate, Float> = when (configuration.source) {
         ExchangeRateSource.EXCHANGE_RATE_HOST -> {
-            val error: String
-            val response = exchangeRateHost.getRate(date, date, symbol, base).execute()
-            log(response)
-            error = if (response.isSuccessful) {
-                response.body()?.let { result ->
-                    result.rates[date]?.get(symbol)?.let {
-                        return Pair(date, it)
+            val today = LocalDate.now()
+            val error = if (date < today) {
+                val response = exchangeRateHost.getTimeSeries(date, date, symbol, base).execute()
+                log(response)
+                if (response.isSuccessful) {
+                    response.body()?.let { result ->
+                        result.rates[date]?.get(symbol)?.let {
+                            return Pair(date, it)
+                        }
                     }
+                    null
+                } else {
+                    response.errorBody()?.string() ?: "Unknown Error"
                 }
-                "Unable to retrieve rate"
             } else {
-                response.errorBody()?.string() ?: "Unknown Error"
+                val response = exchangeRateHost.getLatest(symbol, base).execute()
+                log(response)
+                if (response.isSuccessful) {
+                    response.body()?.let { result ->
+                        result.rates[symbol]?.let {
+                            return Pair(today, it)
+                        }
+                    }
+                    null
+                } else {
+                    response.errorBody()?.string() ?: "Unknown Error"
+                }
             }
-            throw IOException(error)
+            throw IOException(error ?: "Unable to retrieve data")
         }
-        ExchangeRateSource.OPEN_EXCHANGE_RATES -> {
+        ExchangeRateSource.OPENEXCHANGERATES -> {
             if (configuration.openExchangeRatesAppId == "") throw MissingAppIdException()
-            val error: String
-            val response = openExchangeRates.getRate(
-                date,
-                "$symbol,$base", configuration.openExchangeRatesAppId
-            ).execute()
+            val today = LocalDate.now()
+            val call = if (date < today) {
+                openExchangeRates.getHistorical(
+                    date,
+                    "$symbol,$base", configuration.openExchangeRatesAppId
+                )
+            } else {
+                openExchangeRates.getLatest(
+                    "$symbol,$base", configuration.openExchangeRatesAppId
+                )
+            }
+            val response = call.execute()
             log(response)
-            error = if (response.isSuccessful) {
+            val error = if (response.isSuccessful) {
                 response.body()?.let { result ->
                     val otherRate = result.rates[symbol]
                     val baseRate = result.rates[base]
@@ -67,43 +93,44 @@ class ExchangeRateService(
                 "Unable to retrieve rate"
             } else {
                 response.errorBody()?.let {
-                    JSONObject(it.string()).getString("error")
+                    JSONObject(it.string()).getString("description")
                 } ?: "Unknown Error"
             }
             throw IOException(error)
+    }
+}
+
+fun log(response: Response<*>) {
+    if (BuildConfig.DEBUG) {
+        if (response.raw().cacheResponse != null) {
+            Timber.i("Response was cached")
+        }
+        if (response.raw().networkResponse != null) {
+            Timber.i("Response was from network")
         }
     }
+}
 
-    fun log(response: Response<*>) {
-        if (BuildConfig.DEBUG) {
-            if (response.raw().cacheResponse != null) {
-                Timber.i("Response was cached")
-            }
-            if (response.raw().networkResponse != null) {
-                Timber.i("Response was from network")
-            }
-        }
-    }
+private fun toLocalDate(timestamp: Long): LocalDate {
+    return ZonedDateTime.ofInstant(
+        Instant.ofEpochSecond(timestamp), ZoneId.systemDefault()
+    ).toLocalDate()
+}
 
-    private fun toLocalDate(timestamp: Long): LocalDate {
-        return ZonedDateTime.ofInstant(
-            Instant.ofEpochSecond(timestamp), ZoneId.systemDefault()
-        ).toLocalDate()
-    }
-
-    fun configuration(prefHandler: @NotNull PrefHandler): Configuration {
-        val default = ExchangeRateSource.EXCHANGE_RATE_HOST
-        return Configuration(
-            try {
-                ExchangeRateSource.valueOf(
-                    prefHandler.requireString(
-                        PrefKey.EXCHANGE_RATE_PROVIDER,
-                        default.name
-                    )
+fun configuration(prefHandler: @NotNull PrefHandler): Configuration {
+    val default = ExchangeRateSource.EXCHANGE_RATE_HOST
+    return Configuration(
+        try {
+            ExchangeRateSource.valueOf(
+                prefHandler.requireString(
+                    PrefKey.EXCHANGE_RATE_PROVIDER,
+                    default.name
                 )
-            } catch (e: IllegalArgumentException) {
-                default
-            }, prefHandler.requireString(PrefKey.OPEN_EXCHANGE_RATES_APP_ID, "")
-        )
-    }
+            )
+        } catch (e: IllegalArgumentException) {
+            CrashHandler.report(e)
+            default
+        }, prefHandler.requireString(PrefKey.OPEN_EXCHANGE_RATES_APP_ID, "")
+    )
+}
 }

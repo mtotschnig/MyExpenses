@@ -632,6 +632,7 @@
         <item>EXCHANGE_RATE_HOST</item>
         <item>OPENEXCHANGERATES</item>
     </string-array>
+
     <string-array name="multi_tag_options">
         <item>@string/dialog_multi_tag_append</item>
         <item>@string/dialog_multi_tag_replace</item>
