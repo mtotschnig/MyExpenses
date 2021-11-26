@@ -71,10 +71,10 @@ abstract class BaseDialogFragment : DialogFragment() {
     }
 
     protected fun showSnackbar(resId: Int) {
-        showSnackbar(getString(resId), Snackbar.LENGTH_LONG, null)
+        showSnackbar(getString(resId))
     }
 
-    fun showSnackbar(message: CharSequence, duration: Int, snackbarAction: SnackbarAction?) {
+    fun showSnackbar(message: CharSequence, duration: Int = Snackbar.LENGTH_LONG, snackbarAction: SnackbarAction? = null) {
         val view = dialogView ?: dialog!!.window!!.decorView
         snackbar = Snackbar.make(view, message, duration).also {
             UiUtils.increaseSnackbarMaxLines(it)
