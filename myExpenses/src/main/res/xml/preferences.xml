@@ -306,6 +306,12 @@
                 android:title="@string/pref_tesseract_language_title"
                 my:isPreferenceVisible="false"
                 my:useSimpleSummaryProvider="true" />
+            <ListPreference
+                android:entryValues="@array/pref_mlkit_script_values"
+                android:key="@string/pref_mlkit_script_key"
+                android:title="@string/pref_mlkit_script_title"
+                my:isPreferenceVisible="false"
+                my:useSimpleSummaryProvider="true" />
         </PreferenceScreen>
         <PreferenceScreen
             android:key="@string/pref_sync_key"

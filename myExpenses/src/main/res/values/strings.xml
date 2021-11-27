@@ -1019,4 +1019,6 @@
     <string name="title_activity_debt_overview">Debt Overview</string>
     <!-- Label for a checkbox on the export dialog. If checked, all accounts will be merged into one file -->
     <string name="cb_label_merge_accounts">Merge accounts</string>
+    <!-- Title of a preference where user can select script for text recognition with MlKit (currently Latin, Chinese, Devanagari, Japanese, Korean) -->
+    <string name="pref_mlkit_script_title">Script for MlKit</string>
 </resources>

@@ -16,3 +16,7 @@ interface TesseractEngine : Engine  {
     fun offerTessDataDownload(baseActivity: BaseActivity)
     fun getLanguageArray(context: Context): Array<String>
 }
+
+interface MlkitEngine: Engine {
+    fun getScriptArray(context: Context): Array<String>
+}

@@ -28,11 +28,11 @@ fun getUserConfiguredOcrEngine(context: Context, prefHandler: PrefHandler) =
         Feature.fromModuleName(prefHandler.getString(PrefKey.OCR_ENGINE, null)) ?: getDefaultOcrEngine(context)
 
 /**
- * check if language has non-latin script and is supported by Tesseract
+ * check if language is unsupported by MlKit, but supported by Tesseract
  */
 fun getDefaultOcrEngine(context: Context) = if (getLocaleForUserCountry(context).language in arrayOf(
-                "am", "ar", "as", "be", "bn", "bo", "bg", "zh", "dz", "el", "fa", "gu", "iw", "hi",
-                "iu", "jv", "kn", "ka", "kk", "km", "ky", "ko", "lo", "ml", "mn", "my", "ne", "or",
+                "am", "ar", "as", "be", "bn", "bo", "bg", "dz", "el", "fa", "gu", "iw",
+                "iu", "jv", "kn", "ka", "kk", "km", "ky", "lo", "ml", "mn", "my", "ne", "or",
                 "pa", "ps", "ru", "si", "sd", "sr", "ta", "te", "tg", "th", "ti", "ug", "uk", "ur"))
     Feature.TESSERACT else Feature.MLKIT
 
@@ -42,7 +42,7 @@ fun getLocaleForUserCountry(context: Context) =
 fun getLocaleForUserCountry(country: String?) = getLocaleForUserCountry(country, Locale.getDefault())
 
 fun getLocaleForUserCountry(country: String?, defaultLocale: Locale): Locale {
-    val localesForCountry = country?.toUpperCase(Locale.ROOT)?.let {
+    val localesForCountry = country?.uppercase(Locale.ROOT)?.let {
         Locale.getAvailableLocales().filter { locale -> it == locale.country }
     }
     return if (localesForCountry?.size ?: 0 == 0) defaultLocale

@@ -126,7 +126,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         viewModel = ViewModelProvider(this)[MyExpensesViewModel::class.java]
         (applicationContext as MyApplication).appComponent.inject(viewModel)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.getRoot())
+        setContentView(binding.root)
     }
 
     override fun injectDependencies() {
@@ -140,7 +140,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     private fun displayDateCandidate(pair: Pair<LocalDate, LocalTime?>) =
-        (pair.second?.let { pair.first.atTime(pair.second) } ?: pair.second).toString()
+        (pair.second?.let { pair.first.atTime(pair.second) } ?: pair.first).toString()
 
     override fun processOcrResult(result: Result<OcrResult>) {
         result.onSuccess {

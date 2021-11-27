@@ -6,10 +6,10 @@ import android.os.Parcelable
 import androidx.fragment.app.FragmentManager
 import androidx.preference.ListPreference
 import kotlinx.parcelize.Parcelize
-import java.time.LocalDate
-import java.time.LocalTime
 import org.totschnig.myexpenses.activity.BaseActivity
 import java.io.File
+import java.time.LocalDate
+import java.time.LocalTime
 
 interface OcrFeature {
     companion object {
@@ -23,8 +23,9 @@ interface OcrFeature {
     fun downloadTessData(context: Context): String? = null
     fun isAvailable(context: Context): Boolean = false
     fun offerInstall(baseActivity: BaseActivity) {}
-    fun configureTesseractLanguagePref(listPreference: ListPreference) {
-        listPreference.isVisible = false
+    fun configureOcrEnginePrefs(tesseract: ListPreference, mlkit: ListPreference) {
+        tesseract.isVisible = false
+        mlkit.isVisible = false
     }
     fun shouldShowEngineSelection() = false
 }

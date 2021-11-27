@@ -248,10 +248,10 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             locale.getDisplayName(locale)
         }
 
-    fun configureTesseractLanguagePref() {
-        requirePreference<ListPreference>(PrefKey.TESSERACT_LANGUAGE).let {
-            activity().ocrViewModel.configureTesseractLanguagePref(it)
-        }
+    fun configureOcrEnginePrefs() {
+        val tesseract = requirePreference<ListPreference>(PrefKey.TESSERACT_LANGUAGE)
+        val mlkit = requirePreference<ListPreference>(PrefKey.MLKIT_SCRIPT)
+        activity().ocrViewModel.configureOcrEnginePrefs(tesseract, mlkit)
     }
 
     fun requireApplication(): MyApplication {
@@ -339,7 +339,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             if (!featureManager.isFeatureInstalled(Feature.OCR, activity())) {
                 featureManager.requestFeature(Feature.OCR, activity())
             }
-            configureTesseractLanguagePref()
+            configureOcrEnginePrefs()
         }
     }
 
@@ -710,7 +710,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             }
             this.requirePreference<ListPreference>(PrefKey.OCR_ENGINE).isVisible =
                 activity().ocrViewModel.shouldShowEngineSelection()
-            configureTesseractLanguagePref()
+            configureOcrEnginePrefs()
         } else if (rootKey == getKey(PrefKey.SYNC)) {
             requirePreference<Preference>(PrefKey.MANAGE_SYNC_BACKENDS).summary = (getString(
                 R.string.pref_manage_sync_backends_summary,

@@ -48,16 +48,14 @@ object Engine : TesseractEngine {
     private fun defaultLanguage(context: Context): String {
         val default = getLocaleForUserCountry(context)
         val language = default.isO3Language
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            if (language == "aze" || language == "uzb") {
-                if (default.script == "Cyrl") {
-                    return language + "_cyrl"
-                }
+        if (language == "aze" || language == "uzb") {
+            if (default.script == "Cyrl") {
+                return language + "_cyrl"
             }
-            if (language == "srp") {
-                if (default.script == "Latn") {
-                    return language + "_latn"
-                }
+        }
+        if (language == "srp") {
+            if (default.script == "Latn") {
+                return language + "_latn"
             }
         }
         if (language == "zho") {
@@ -124,21 +122,21 @@ object Engine : TesseractEngine {
 
     override fun downloadTessData(context: Context, prefHandler: PrefHandler): String {
         val language = language(context, prefHandler)
-        val uri =
-            Uri.parse("https://github.com/tesseract-ocr/tessdata_fast/raw/4.0.0/${fileName(language)}")
+        val uri = Uri.parse(
+            "https://github.com/tesseract-ocr/tessdata_fast/raw/4.0.0/${fileName(language)}"
+        )
+        val displayName = getTesseractLanguageDisplayName(context, language)
+
         ContextCompat.getSystemService(context, DownloadManager::class.java)?.enqueue(
             DownloadManager.Request(uri)
                 .setTitle(
-                    context.getString(R.string.pref_tesseract_language_title) + " : " + getTesseractLanguageDisplayName(
-                        context,
-                        language
-                    )
+                    "${context.getString(R.string.pref_tesseract_language_title)} : $displayName"
                 )
                 .setDescription(language)
                 .setDestinationInExternalFilesDir(context, null, filePath(language))
                 .setNotificationVisibility(VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
         )
-        return getTesseractLanguageDisplayName(context, language)
+        return displayName
     }
 
     override suspend fun run(file: File, context: Context, prefHandler: PrefHandler): Text =

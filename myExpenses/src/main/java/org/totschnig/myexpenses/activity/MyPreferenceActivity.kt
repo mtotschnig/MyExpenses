@@ -182,7 +182,7 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace, Preferen
             activateWebUi()
         }
         if (feature == Feature.OCR) {
-            fragment.configureTesseractLanguagePref()
+            fragment.configureOcrEnginePrefs()
         }
     }
 

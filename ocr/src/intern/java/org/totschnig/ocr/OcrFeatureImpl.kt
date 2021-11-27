@@ -2,8 +2,8 @@ package org.totschnig.ocr
 
 import android.content.Context
 import androidx.annotation.Keep
+import androidx.preference.ListPreference
 import org.totschnig.myexpenses.activity.BaseActivity
-import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.ocr.OcrHandlerImpl.Companion.availableEngines
 import org.totschnig.ocr.OcrHandlerImpl.Companion.getEngine
@@ -20,11 +20,23 @@ class OcrFeatureImpl(val prefHandler: PrefHandler): OcrFeature() {
         (getEngine(baseActivity, prefHandler) as? TesseractEngine)?.offerTessDataDownload(baseActivity)
     }
 
-    override fun configureTesseractLanguagePref(listPreference: androidx.preference.ListPreference) {
-        (getEngine(listPreference.context, prefHandler) as? TesseractEngine)?.let {
-            listPreference.isVisible = true
-            listPreference.entries = it.getLanguageArray(listPreference.context)
-        } ?: run { super.configureTesseractLanguagePref(listPreference) }
+    override fun configureOcrEnginePrefs(
+        tesseract: ListPreference,
+        mlkit: ListPreference
+    ) {
+        val engine = getEngine(tesseract.context, prefHandler)
+        if (engine is TesseractEngine) {
+            tesseract.isVisible = true
+            tesseract.entries = engine.getLanguageArray(tesseract.context)
+        } else {
+            tesseract.isVisible = false
+        }
+        if (engine is MlkitEngine) {
+            mlkit.isVisible = true
+            mlkit.entries = engine.getScriptArray(tesseract.context)
+        } else {
+            mlkit.isVisible = false
+        }
     }
 
     override fun shouldShowEngineSelection() = availableEngines().size > 1

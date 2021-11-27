@@ -765,6 +765,14 @@
         <item>yor</item>
     </string-array>
 
+    <string-array name="pref_mlkit_script_values">
+        <item>Latn</item>
+        <item>Han</item>
+        <item>Deva</item>
+        <item>Jpan</item>
+        <item>Kore</item>
+    </string-array>
+
     <string-array name="account_widget_configuration_sum_entries">
         <item>@string/current_balance</item>
         <item>@string/account_widget_configuration_sum_total</item>

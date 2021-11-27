@@ -232,9 +232,9 @@ dependencies {
     //noinspection GradleCompatible
     implementation 'androidx.multidex:multidex:2.0.1'
 
-    implementation 'org.apache.commons:commons-collections4:4.1'
+    implementation 'org.apache.commons:commons-collections4:4.4'
 
-    implementation "com.jakewharton.timber:timber:$timberVersion"
+    api "com.jakewharton.timber:timber:$timberVersion"
 
     implementation 'org.slf4j:slf4j-api:1.7.30'
     implementation 'com.github.tony19:logback-android:2.0.0'
@@ -246,7 +246,7 @@ dependencies {
     api "com.google.android.material:material:$materialComponents"
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
     api 'androidx.preference:preference-ktx:1.1.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
 
     // Revert to com.google.android:flexbox:2.0.1 when https://github.com/google/flexbox-layout/issues/566 is resolved
     implementation("com.github.google:flexbox-layout:2.0.1")
