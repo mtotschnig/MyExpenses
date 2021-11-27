@@ -250,7 +250,7 @@
     <string name="date_format_unsupported_character">Only Day (d), Month (M), and Year (y) can be used.</string>
     <string name="date_format_specifier_missing">You need to use Day (d), Month (M), and Year (y)</string>
     <string name="pref_ui_theme_default">dark</string>
-    <string name="title_mlkit">Mlkit</string>
+    <string name="title_mlkit">ML Kit</string>
     <string name="title_tesseract">Tesseract</string>
     <string name="pref_tesseract_language_key">tesseract_language</string>
     <string name="pref_mlkit_script_key">mlkit_script</string>

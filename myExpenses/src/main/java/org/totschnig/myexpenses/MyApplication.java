@@ -75,7 +75,6 @@ import javax.inject.Inject;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.multidex.MultiDex;
 import androidx.preference.PreferenceManager;
 import timber.log.Timber;
 
@@ -202,7 +201,6 @@ public class MyApplication extends Application implements
     //has been attached
     final Locale systemLocale = Locale.getDefault();
     super.attachBaseContext(base);
-    MultiDex.install(this);
     appComponent = buildAppComponent(systemLocale);
     appComponent.inject(this);
     featureManager.initApplication(this);

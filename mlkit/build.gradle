@@ -21,25 +21,14 @@ android {
 }
 
 dependencies {
-    implementation project(":ocr")
+    api project(":ocr")
     implementation "androidx.core:core-ktx:$ktxVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxTextExtJunit"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "androidx.annotation:annotation:$annotations"
-    // To recognize Latin script
-    implementation 'com.google.mlkit:text-recognition:16.0.0-beta1'
-
-    // To recognize Chinese script
-    implementation 'com.google.mlkit:text-recognition-chinese:16.0.0-beta1'
-
-    // To recognize Devanagari script
-    implementation 'com.google.mlkit:text-recognition-devanagari:16.0.0-beta1'
-
-    // To recognize Japanese script
-    implementation 'com.google.mlkit:text-recognition-japanese:16.0.0-beta1'
-
-    // To recognize Korean script
-    implementation 'com.google.mlkit:text-recognition-korean:16.0.0-beta1'
+    api 'com.google.android.gms:play-services-mlkit-text-recognition-common:16.0.0'
+    api 'com.google.mlkit:text-recognition-bundled-common:16.0.0-beta1'
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 }

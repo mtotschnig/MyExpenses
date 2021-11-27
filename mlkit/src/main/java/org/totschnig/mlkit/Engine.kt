@@ -7,11 +7,6 @@ import com.google.mlkit.common.MlKit
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.TextRecognizerOptionsInterface
-import com.google.mlkit.vision.text.chinese.ChineseTextRecognizerOptions
-import com.google.mlkit.vision.text.devanagari.DevanagariTextRecognizerOptions
-import com.google.mlkit.vision.text.japanese.JapaneseTextRecognizerOptions
-import com.google.mlkit.vision.text.korean.KoreanTextRecognizerOptions
-import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.R
@@ -43,17 +38,17 @@ object Engine : org.totschnig.ocr.MlkitEngine {
         Latn, Han, Deva, Jpan, Kore
     }
 
+    private fun getOptions(script: Script) =
+        try {
+                (Class.forName("org.totschnig.mlkit_${script.name}.Options").kotlin.objectInstance as RecognizerProvider).textRecognizerOptions
+            } catch (e: Exception) {
+                throw java.lang.IllegalStateException("Recognizer for ${script.name} not found")
+            }
+
     private fun options(
         context: Context,
         prefHandler: PrefHandler
-    ): TextRecognizerOptionsInterface =
-        when (script(context, prefHandler)) {
-            Script.Latn -> TextRecognizerOptions.DEFAULT_OPTIONS
-            Script.Han -> ChineseTextRecognizerOptions.Builder().build()
-            Script.Deva -> DevanagariTextRecognizerOptions.Builder().build()
-            Script.Jpan -> JapaneseTextRecognizerOptions.Builder().build()
-            Script.Kore -> KoreanTextRecognizerOptions.Builder().build()
-        }
+    ): TextRecognizerOptionsInterface = getOptions(script(context, prefHandler))
 
     private fun script(context: Context, prefHandler: PrefHandler) =
         prefHandler.getString(PrefKey.MLKIT_SCRIPT, null)?.let {

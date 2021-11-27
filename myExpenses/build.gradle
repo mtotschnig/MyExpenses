@@ -38,8 +38,6 @@ android {
         targetSdkVersion project.targetSdkVersion
         versionCode project.versionCode
         versionName project.versionName
-        multiDexEnabled true
-        multiDexKeepProguard file('multidex-config.pro')
 
         buildConfigField "String", "DISTRIBUTION", "\"GITHUB\""
         buildConfigField "String[]", "CATEGORY_ICONS", "{" + categoryIcons() + "}"
@@ -168,6 +166,7 @@ android {
     //If you want to build intern variant, you need to include mlkit and/or tesseract module
     //dynamicFeatures = [':ocr', ':mlkit', ':tesseract']
     dynamicFeatures = [':ocr', ':webui']
+    //For mlkit also add at least one of ':mlkit_Latn', ':mlkit_Han', ':mlkit_Deva', ':mlkit_Jpan', ':mlkit_Kore'
     composeOptions {
         kotlinCompilerExtensionVersion compose_version
     }
