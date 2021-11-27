@@ -14,10 +14,10 @@ import java.util.*
 enum class Feature(@StringRes val labelResId: Int) {
     OCR(R.string.title_scan_receipt_feature), WEBUI(R.string.title_webui), TESSERACT(R.string.title_tesseract), MLKIT(R.string.title_mlkit);
     val moduleName
-        get() = name.toLowerCase(Locale.ROOT)
+        get() = name.lowercase(Locale.ROOT)
     companion object {
         fun fromModuleName(moduleName: String?) = try {
-            moduleName?.let { valueOf(it.toUpperCase(Locale.ROOT)) }
+            moduleName?.let { valueOf(it.uppercase(Locale.ROOT)) }
         } catch (e: IllegalArgumentException) {
             null
         }
