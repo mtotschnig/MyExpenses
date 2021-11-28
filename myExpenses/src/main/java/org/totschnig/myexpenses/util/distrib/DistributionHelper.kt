@@ -60,7 +60,9 @@ object DistributionHelper {
         get() = BuildConfig.VERSION_NAME
 
     enum class Distribution {
-        PLAY,
+        PLAY {
+            override val hasDynamicFeatureDelivery = true
+        },
         AMAZON {
             override val marketPrefix = "amzn://apps/android?p="
         },
@@ -77,5 +79,7 @@ object DistributionHelper {
             get() = marketPrefix + "org.totschnig.myexpenses"
 
         open val supportsTrackingAndCrashReporting = true
+
+        open val hasDynamicFeatureDelivery = false
     }
 }

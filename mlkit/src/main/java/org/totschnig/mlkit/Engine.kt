@@ -75,7 +75,7 @@ object Engine : org.totschnig.ocr.MlkitEngine {
         }
 
     override fun info(context: Context, prefHandler: PrefHandler): CharSequence {
-        return "Ml Kit"
+        return "Ml Kit (${getMlkitScriptDisplayName(context, getUserConfiguredMlkitScript(context, prefHandler).name)})"
     }
 }
 

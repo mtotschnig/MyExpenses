@@ -5,19 +5,26 @@ import androidx.annotation.Keep
 import androidx.preference.ListPreference
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.ocr.OcrHandlerImpl.Companion.availableEngines
 import org.totschnig.ocr.OcrHandlerImpl.Companion.getEngine
 
 @Keep
-class OcrFeatureImpl(val prefHandler: PrefHandler): OcrFeature() {
+class OcrFeatureImpl(val prefHandler: PrefHandler) : OcrFeature() {
     override fun downloadTessData(context: Context) =
-            (getEngine(context, prefHandler) as? TesseractEngine)?.downloadTessData(context, prefHandler)
+        (getEngine(context, prefHandler) as? TesseractEngine)?.downloadTessData(
+            context,
+            prefHandler
+        )
 
     override fun isAvailable(context: Context) =
-            (getEngine(context, prefHandler) as? TesseractEngine)?.tessDataExists(context, prefHandler) ?: true
+        (getEngine(context, prefHandler) as? TesseractEngine)?.tessDataExists(context, prefHandler)
+            ?: true
 
     override fun offerInstall(baseActivity: BaseActivity) {
-        (getEngine(baseActivity, prefHandler) as? TesseractEngine)?.offerTessDataDownload(baseActivity)
+        (getEngine(baseActivity, prefHandler) as? TesseractEngine)?.offerTessDataDownload(
+            baseActivity
+        )
     }
 
     override fun configureOcrEnginePrefs(
@@ -39,5 +46,9 @@ class OcrFeatureImpl(val prefHandler: PrefHandler): OcrFeature() {
         }
     }
 
-    override fun shouldShowEngineSelection() = availableEngines().size > 1
+    override fun shouldShowEngineSelection() =
+        if (DistributionHelper.distribution.hasDynamicFeatureDelivery)
+            true
+        else
+            availableEngines().size > 1
 }
