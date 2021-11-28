@@ -235,9 +235,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     fun processImageCaptureError(resultCode: Int, activityResult: CropImage.ActivityResult?) {
         if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-            showSnackbar(activityResult?.error?.let {
-                if (it is ActivityNotFoundException) getString(R.string.image_capture_not_installed) else it.message
-            } ?: "ERROR")
+            val throwable = activityResult?.error ?: Throwable("ERROR")
+            CrashHandler.report(throwable)
+            showSnackbar(if (throwable is ActivityNotFoundException) getString(R.string.image_capture_not_installed) else throwable.message ?: "ERROR")
         }
     }
 
