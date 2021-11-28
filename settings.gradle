@@ -1,5 +1,10 @@
 include ':webui'
 //include ':mlkit'
+//include ':mlkit_Latn'
+//include ':mlkit_Han'
+//include ':mlkit_Deva'
+//include ':mlkit_Jpan'
+//include ':mlkit_Kore'
 //include ":tesseract"
 include ':ocr'
 include ':PlayLicensingOrig', ':transactionscontract'
