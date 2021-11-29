@@ -325,7 +325,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Password richiesta.</string>
     <string name="pref_qif_export_file_encoding_title">Set di caratteri</string>
     <!-- Alternative is used as an adjective designing an alternative method for restoring backups -->
-    <string name="pref_restore_alternative">Alternativo</string>
     <string name="pref_restore_alternative_summary">Utilizzare questo metodo alternativo se non c\'è nessun file manager installato nel dispositivo.</string>
     <string name="pref_restore_summary">Seleziona un backup per il ripristino della base di dati e delle preferenze.</string>
     <string name="pref_restore_title">Ripristina</string>
