@@ -1037,4 +1037,6 @@
     <string name="menu_new_debt">חוב חדש</string>
     <string name="debt">חוב</string>
     <string name="title_activity_debt_overview">סקירת חוב</string>
+    <string name="pref_mlkit_script_title">סקריפט ל־MlKit</string>
+    <string name="cb_label_merge_accounts">מיזוג חשבונות</string>
 </resources>
