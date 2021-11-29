@@ -38,19 +38,15 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 public class Category extends Model {
   public final static String NO_CATEGORY_ASSIGNED_LABEL = "—"; //emdash
   private String label;
-  private Long parentId;
-  private int color;
-  private String icon;
+  private final Long parentId;
+  private final int color;
+  private final String icon;
 
   /**
    * we currently do not need a full representation of a category as an object
    * when we create an instance with an id, we only want to alter its label
    * and are not interested in its parentId
    * when we create an instance with a parentId, it is a new instance
-   *
-   * @param id
-   * @param label
-   * @param parentId
    */
   public Category(Long id, String label, Long parentId) {
     this(id, label, parentId, 0, null);
@@ -71,20 +67,18 @@ public class Category extends Model {
    * inserts a new category if id = 0, or alters an existing one if id != 0
    *
    * @param id       0 if a new instance, database id otherwise
-   * @param label
    * @param parentId a new instance is created under this parent, ignored for existing instances
    * @return id of new record, or -1, if it already exists
    */
   public static long write(long id, String label, Long parentId) {
     Uri uri = new Category(id, label, parentId).save();
+    //noinspection ConstantConditions
     return uri == null ? -1 : Integer.parseInt(uri.getLastPathSegment());
   }
 
   /**
    * Looks for a cat with a label under a given parent
    *
-   * @param label
-   * @param parentId
    * @return id or -1 if not found
    */
   public static long find(String label, Long parentId) {
@@ -101,6 +95,7 @@ public class Category extends Model {
     selection += " and " + KEY_LABEL + " = ?";
     Cursor mCursor = cr().query(CONTENT_URI,
         new String[]{KEY_ROWID}, selection, selectionArgs, null);
+    //noinspection ConstantConditions
     if (mCursor.getCount() == 0) {
       mCursor.close();
       return -1;
@@ -158,6 +153,7 @@ public class Category extends Model {
     }
     Cursor cursor = cr().query(CONTENT_URI,
         new String[]{KEY_PARENTID}, KEY_ROWID + " = ?", new String[]{String.valueOf(id)}, null);
+    //noinspection ConstantConditions
     if (cursor.getCount() == 0) {
       cursor.close();
       return false;
@@ -172,12 +168,12 @@ public class Category extends Model {
   /**
    * How many subcategories under a given parent?
    *
-   * @param parentId
    * @return number of subcategories
    */
   public static int countSub(long parentId) {
     Cursor mCursor = cr().query(CONTENT_URI,
         new String[]{"count(*)"}, KEY_PARENTID + " = ?", new String[]{String.valueOf(parentId)}, null);
+    //noinspection ConstantConditions
     if (mCursor.getCount() == 0) {
       mCursor.close();
       return 0;

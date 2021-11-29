@@ -123,10 +123,13 @@ fun setupDefaultCategories(database: SQLiteDatabase, resources: Resources): Int 
     var total = 0
     var catIdMain: Long
     database.beginTransaction()
-    val sql = "INSERT INTO " + TABLE_CATEGORIES + " " +
-            "(" + KEY_LABEL + ", " + KEY_LABEL_NORMALIZED + ", " + KEY_PARENTID + ", " + KEY_COLOR + ", " + KEY_ICON +
-            ") VALUES (?, ?, ?, ?, ?)"
-    val stmt = database.compileStatement(sql)
+    val stmt = database.compileStatement(
+        "INSERT INTO $TABLE_CATEGORIES ($KEY_LABEL, $KEY_LABEL_NORMALIZED, $KEY_PARENTID, $KEY_COLOR, $KEY_ICON) VALUES (?, ?, ?, ?, ?)"
+    )
+    val stmtUpdateIcon = database.compileStatement(
+        "UPDATE $TABLE_CATEGORIES SET $KEY_ICON = ? WHERE $KEY_ICON IS NULL AND $KEY_ROWID = ?"
+    )
+
     val categoryDefinitions = arrayOf(
         R.array.Cat_1 to R.array.Cat_1_Icons,
         R.array.Cat_2 to R.array.Cat_2_Icons,
@@ -151,6 +154,7 @@ fun setupDefaultCategories(database: SQLiteDatabase, resources: Resources): Int 
         R.array.Cat_21 to R.array.Cat_21_Icons,
         R.array.Cat_22 to R.array.Cat_22_Icons
     )
+
     for ((categoriesResId, iconsResId) in categoryDefinitions) {
         val categories = resources.getStringArray(categoriesResId)
         val icons = resources.getStringArray(iconsResId)
@@ -163,6 +167,9 @@ fun setupDefaultCategories(database: SQLiteDatabase, resources: Resources): Int 
         catIdMain = findMainCategory(database, mainLabel)
         if (catIdMain != -1L) {
             Timber.i("category with label %s already defined", mainLabel)
+            stmtUpdateIcon.bindString(1, mainIcon)
+            stmtUpdateIcon.bindLong(2, catIdMain)
+            total += stmtUpdateIcon.executeUpdateDelete()
         } else {
             stmt.bindString(1, mainLabel)
             stmt.bindString(2, Utils.normalize(mainLabel))
@@ -183,26 +190,55 @@ fun setupDefaultCategories(database: SQLiteDatabase, resources: Resources): Int 
         for (i in subLabels.indices) {
             val subLabel = subLabels[i]
             val subIcon = subIconNames[i]
-            stmt.bindString(1, subLabel)
-            stmt.bindString(2, Utils.normalize(subLabel))
-            stmt.bindLong(3, catIdMain)
-            stmt.bindNull(4)
-            stmt.bindString(5, subIcon)
-            try {
-                if (stmt.executeInsert() != -1L) {
-                    total++
-                } else {
-                    Timber.i("could not store sub category %s", subLabel)
+            val catIdSub = findSubCategory(database, catIdMain, subLabel)
+            if (catIdSub != -1L) {
+                Timber.i("category with label %s already defined", subLabel)
+                stmtUpdateIcon.bindString(1, subIcon)
+                stmtUpdateIcon.bindLong(2, catIdSub)
+                total += stmtUpdateIcon.executeUpdateDelete()
+            } else {
+                stmt.bindString(1, subLabel)
+                stmt.bindString(2, Utils.normalize(subLabel))
+                stmt.bindLong(3, catIdMain)
+                stmt.bindNull(4)
+                stmt.bindString(5, subIcon)
+                try {
+                    if (stmt.executeInsert() != -1L) {
+                        total++
+                    } else {
+                        Timber.i("could not store sub category %s", subLabel)
+                    }
+                } catch (e: SQLiteConstraintException) {
+                    CrashHandler.report(e)
                 }
-            } catch (e: SQLiteConstraintException) {
-                Timber.i("could not store sub category %s", subLabel)
             }
         }
     }
     stmt.close()
+    stmtUpdateIcon.close()
     database.setTransactionSuccessful()
     database.endTransaction()
     return total
+}
+
+private fun findSubCategory(database: SQLiteDatabase, parentId: Long, label: String): Long {
+    val selection = "$KEY_PARENTID = ? and $KEY_LABEL = ?"
+    val selectionArgs = arrayOf(parentId.toString(), label)
+    return database.query(
+        TABLE_CATEGORIES,
+        arrayOf(KEY_ROWID),
+        selection,
+        selectionArgs,
+        null,
+        null,
+        null
+    ).use {
+        if (it.moveToFirst()) {
+            it.getLong(0)
+        } else {
+            -1
+        }
+    }
 }
 
 private fun findMainCategory(database: SQLiteDatabase, label: String): Long {

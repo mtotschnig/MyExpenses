@@ -14,24 +14,14 @@ import org.totschnig.myexpenses.model.Category;
 
 import java.util.Map;
 
+import androidx.annotation.NonNull;
+
 /**
  * Created by IntelliJ IDEA.
  * User: denis.solonenko
  * Date: 5/29/12 2:29 PM
  */
 public class CategoryInfo {
-
-    public static final String SEPARATOR = ":";
-
-//    public static String buildName(Category c) {
-//        StringBuilder sb = new StringBuilder();
-//        sb.append(c.label);
-//        for (Category p = c.parent; p != null; p = p.parent) {
-//            sb.insert(0, SEPARATOR);
-//            sb.insert(0, p.label);
-//        }
-//        return sb.toString();
-//    }
 
     private String name;
     public boolean isIncome;
@@ -64,6 +54,7 @@ public class CategoryInfo {
         return getName() != null ? getName().hashCode() : 0;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "{"+ getName() +"("+(isIncome?"I":"E")+"}";
@@ -73,7 +64,6 @@ public class CategoryInfo {
      * inserts the category to the database if needed
      * @param categoryToId a map which caches the relation between the category name and the database
      *                     id, both the root and the child category are placed in this map
-     * @param stripQifCategoryClass
      * @return the number of new elements added to the database
      */
     public int insert(Map<String, Long> categoryToId, boolean stripQifCategoryClass) {
@@ -93,7 +83,7 @@ public class CategoryInfo {
 
     private String reduceToTwoLevels(String name) {
         if (StringUtils.countMatches(name, ':') > 1) {
-            String parts[] = name.split(":");
+            String[] parts = name.split(":");
             return parts[0]+":"+parts[1];
         }
         return name;

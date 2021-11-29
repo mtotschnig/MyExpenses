@@ -1887,6 +1887,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         notifyChange(CATEGORIES_URI, false);
         return result;
       }
+
       case METHOD_RESET_EQUIVALENT_AMOUNTS: {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         Bundle result = new Bundle(1);
