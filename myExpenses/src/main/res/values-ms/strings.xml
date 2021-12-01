@@ -425,7 +425,7 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Jika amaun tidak dikemaskinikan, ia akan dipapar sebagai per %d selepas perubahan.</string>
     <string name="warning_change_fraction_digits_3">Jika amaun dikemakinikan, anda akan kehilangan maklumat berkenaan bahagian pecahannya.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Kemaskini amaun dalam pangkalan data</string>
-    <string name="import_categories_success">%1$d kategori berjaya diimport</string>
+    <string name="import_categories_success">%1$d kategori berjaya diimport.</string>
     <string name="import_parties_success">%1$s pihak berjaya diimport</string>
     <string name="import_accounts_success">%1$s akaun berjaya diimport</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transaksi berjaya diimport ke dalam akaun %2$s</string>

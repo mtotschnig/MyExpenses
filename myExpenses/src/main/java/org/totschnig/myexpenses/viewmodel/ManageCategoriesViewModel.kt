@@ -26,12 +26,11 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.io.FileUtils
 import java.io.IOException
 import java.io.OutputStreamWriter
-import java.util.*
 
 class ManageCategoriesViewModel(application: Application) :
     ContentResolvingAndroidViewModel(application) {
 
-    var importCatResult: LiveData<Int>? = null
+    var importCatResult: LiveData<Pair<Int, Int>>? = null
     var exportCatResult: LiveData<Result<Pair<Uri, String>>>? = null
     var deleteResult: LiveData<Result<String>>? = null
 
@@ -43,7 +42,7 @@ class ManageCategoriesViewModel(application: Application) :
                     TransactionProvider.METHOD_SETUP_CATEGORIES,
                     null,
                     null
-                )?.getInt(TransactionProvider.KEY_RESULT) ?: 0
+                )?.getSerializable(TransactionProvider.KEY_RESULT) as? Pair<Int, Int> ?: 0 to 0
             )
         }
     }

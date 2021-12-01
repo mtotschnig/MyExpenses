@@ -437,7 +437,7 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Eğer meblağlar güncellenmezse, değişiklikten sonra %d ile bölünmüş olarak gösterileceklerdir.</string>
     <string name="warning_change_fraction_digits_3">Eğer meblağlar güncellenirse, onların kesirli bölümü hakkında bilgi kaybedersiniz.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Veri tabanındaki meblağları güncelle</string>
-    <string name="import_categories_success">%1$d kategori başarıyla içe aktarıldı</string>
+    <string name="import_categories_success">%1$d kategori başarıyla içe aktarıldı.</string>
     <string name="import_parties_success">%1$s bölüm başarıyla içe aktarıldı</string>
     <string name="import_accounts_success">%1$s hesap başarılı bir şekilde içe aktarıldı</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d muamele başarılı bir şekilde %2$s hesabına aktarıldı</string>

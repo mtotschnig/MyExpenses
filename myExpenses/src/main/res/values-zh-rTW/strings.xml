@@ -428,7 +428,7 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">如果不更新金額，則更改後，它們將顯示為除以 %d。</string>
     <string name="warning_change_fraction_digits_3">如果金額被更新，您將遺失有關其小數點部分的資訊。</string>
     <string name="warning_change_fraction_digits_checkbox_label">更新資料庫中的金額</string>
-    <string name="import_categories_success">%1$d類別已成功匯入</string>
+    <string name="import_categories_success">%1$d類別已成功匯入。</string>
     <string name="import_parties_success">%1$s 交易對象已匯入成功</string>
     <string name="import_accounts_success">%1$s 帳戶已匯入成功</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d 交易已成功匯入帳戶%2$s</string>

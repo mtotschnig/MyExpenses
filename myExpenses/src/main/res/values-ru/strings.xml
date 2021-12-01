@@ -454,7 +454,7 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Если суммы не обновляются, они будут отображаться как разделенные на %d после изменения.</string>
     <string name="warning_change_fraction_digits_3">Если суммы будут обновлены, вы потеряете информацию об их дробной части.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Обновить данные в базе данных</string>
-    <string name="import_categories_success">%1$d категорий успешно импортированы</string>
+    <string name="import_categories_success">%1$d категорий успешно импортированы.</string>
     <string name="import_parties_success">%1$s участников успешно импортированы</string>
     <string name="import_accounts_success">%1$s счета успешно импортированы</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d операций успешно импортированы в счёт %2$s</string>

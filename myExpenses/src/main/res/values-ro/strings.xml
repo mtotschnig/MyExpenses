@@ -404,7 +404,7 @@
     <string name="warning_splitpartcategory_context">Transferurile care fac parte dintr-o repartizare pot fi editate numai în contextul repartizării.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Setează un număr între %1$d şi %2$d, te rog</string>
     <string name="warning_change_fraction_digits_checkbox_label">Actualizarea sumelor în baza de date</string>
-    <string name="import_categories_success">%1$d categorii importate</string>
+    <string name="import_categories_success">%1$d categorii importate.</string>
     <string name="import_parties_success">%1$s  terţi importaţi</string>
     <string name="import_accounts_success">%1$s conturi importate</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d tranzacţii importate în contul %2$s</string>

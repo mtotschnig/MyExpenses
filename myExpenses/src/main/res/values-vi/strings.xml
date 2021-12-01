@@ -420,7 +420,7 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Nếu số tiền không được cập nhật, nó sẽ được hiển thị dưới dạng được chia đi %d lần sau khi thay đổi.</string>
     <string name="warning_change_fraction_digits_3">Nếu số tiền được cập nhật, bạn sẽ mất các thông tin về phần thập phân của số tiền các giao dịch đó.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Cập nhật các số tiền</string>
-    <string name="import_categories_success">%1$d phân loại đã được nhập dữ liệu thành công</string>
+    <string name="import_categories_success">%1$d phân loại đã được nhập dữ liệu thành công.</string>
     <string name="import_parties_success">%1$s nhóm đã được nhập dữ liệu thành công</string>
     <string name="import_accounts_success">%1$s tài khoản đã được nhập thành công</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d giao dịch đã được nhập vào tài khoản %2$s</string>

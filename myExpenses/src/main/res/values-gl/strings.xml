@@ -211,7 +211,7 @@
     <string name="type">Tipo</string>
     <string name="warning_password_protected">Aplicación protexida por contrasinal.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Actualizar importes na base de datos</string>
-    <string name="import_categories_success">%1$d categorías importadas satisfactoriamente</string>
+    <string name="import_categories_success">%1$d categorías importadas satisfactoriamente.</string>
     <string name="import_accounts_success">%1$s contas importadas satisfactoriamente</string>
     <string name="import_accounts_none">Ningunha conta importada</string>
     <string name="import_categories_none">Ningunha categoría importada</string>

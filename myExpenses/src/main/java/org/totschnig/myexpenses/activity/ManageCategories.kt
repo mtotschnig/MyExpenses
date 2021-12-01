@@ -173,12 +173,29 @@ class ManageCategories : CategoryActivity<CategoryList>(), OnDialogResultListene
         }
     }
 
+    @OptIn(ExperimentalStdlibApi::class)
     private fun observeImportCatResult() {
-        viewModel.importCatResult?.observe(this) {
+        viewModel.importCatResult?.observe(this) { pair ->
             operationInProgress = null
             showSnackbar(
-                if (it == 0) getString(R.string.import_categories_none)
-                else getString(R.string.import_categories_success, it)
+                if (pair.first == 0 && pair.second == 0) {
+                    getString(R.string.import_categories_none)
+                } else {
+                    buildList {
+                        pair.first.takeIf { it != 0 }?.let {
+                            add(getString(R.string.import_categories_success, it))
+                        }
+                        pair.second.takeIf { it != 0 }?.let {
+                            add(
+                                resources.getQuantityString(
+                                    R.plurals.import_categories_icons_updated,
+                                    it,
+                                    it
+                                )
+                            )
+                        }
+                    }.joinToString(separator = " ")
+                }
             )
         }
     }

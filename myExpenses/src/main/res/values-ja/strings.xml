@@ -426,7 +426,7 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">金額が更新されていない場合は、変更後 %d で割ったように表示されます。</string>
     <string name="warning_change_fraction_digits_3">アカウントが更新された場合は、端数部分に関する情報を失います。</string>
     <string name="warning_change_fraction_digits_checkbox_label">データベースの金額を更新</string>
-    <string name="import_categories_success">%1$d 分類は正常にインポートされました</string>
+    <string name="import_categories_success">%1$d 分類は正常にインポートされました。</string>
     <string name="import_parties_success">%1$s 取引先は正常にインポートされました</string>
     <string name="import_accounts_success">%1$s 勘定は正常にインポートされました</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d 取引は勘定 %2$s に正常にインポートされました</string>

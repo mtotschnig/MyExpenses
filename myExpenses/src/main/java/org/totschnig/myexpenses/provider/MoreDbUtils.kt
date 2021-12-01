@@ -119,8 +119,9 @@ fun mapPaymentMethodProjection(projection: Array<String>, ctx: Context): Array<S
     }.toTypedArray()
 }
 
-fun setupDefaultCategories(database: SQLiteDatabase, resources: Resources): Int {
-    var total = 0
+fun setupDefaultCategories(database: SQLiteDatabase, resources: Resources): Pair<Int, Int> {
+    var totalInserted = 0
+    var totalUpdated = 0
     var catIdMain: Long
     database.beginTransaction()
     val stmt = database.compileStatement(
@@ -160,7 +161,7 @@ fun setupDefaultCategories(database: SQLiteDatabase, resources: Resources): Int 
         val icons = resources.getStringArray(iconsResId)
         if (categories.size != icons.size) {
             CrashHandler.report("Inconsistent category definitions")
-            return 0
+            continue
         }
         val mainLabel = categories[0]
         val mainIcon = icons[0]
@@ -169,7 +170,7 @@ fun setupDefaultCategories(database: SQLiteDatabase, resources: Resources): Int 
             Timber.i("category with label %s already defined", mainLabel)
             stmtUpdateIcon.bindString(1, mainIcon)
             stmtUpdateIcon.bindLong(2, catIdMain)
-            total += stmtUpdateIcon.executeUpdateDelete()
+            totalUpdated += stmtUpdateIcon.executeUpdateDelete()
         } else {
             stmt.bindString(1, mainLabel)
             stmt.bindString(2, Utils.normalize(mainLabel))
@@ -178,7 +179,7 @@ fun setupDefaultCategories(database: SQLiteDatabase, resources: Resources): Int 
             stmt.bindString(5, mainIcon)
             catIdMain = stmt.executeInsert()
             if (catIdMain != -1L) {
-                total++
+                totalInserted++
             } else {
                 // this should not happen
                 Timber.w("could neither retrieve nor store main category %s", mainLabel)
@@ -195,7 +196,7 @@ fun setupDefaultCategories(database: SQLiteDatabase, resources: Resources): Int 
                 Timber.i("category with label %s already defined", subLabel)
                 stmtUpdateIcon.bindString(1, subIcon)
                 stmtUpdateIcon.bindLong(2, catIdSub)
-                total += stmtUpdateIcon.executeUpdateDelete()
+                totalUpdated += stmtUpdateIcon.executeUpdateDelete()
             } else {
                 stmt.bindString(1, subLabel)
                 stmt.bindString(2, Utils.normalize(subLabel))
@@ -204,7 +205,7 @@ fun setupDefaultCategories(database: SQLiteDatabase, resources: Resources): Int 
                 stmt.bindString(5, subIcon)
                 try {
                     if (stmt.executeInsert() != -1L) {
-                        total++
+                        totalInserted++
                     } else {
                         Timber.i("could not store sub category %s", subLabel)
                     }
@@ -218,13 +219,11 @@ fun setupDefaultCategories(database: SQLiteDatabase, resources: Resources): Int 
     stmtUpdateIcon.close()
     database.setTransactionSuccessful()
     database.endTransaction()
-    return total
+    return totalInserted to totalUpdated
 }
 
-private fun findSubCategory(database: SQLiteDatabase, parentId: Long, label: String): Long {
-    val selection = "$KEY_PARENTID = ? and $KEY_LABEL = ?"
-    val selectionArgs = arrayOf(parentId.toString(), label)
-    return database.query(
+private fun findCategory(database: SQLiteDatabase, selection: String, selectionArgs: Array<String>) =
+    database.query(
         TABLE_CATEGORIES,
         arrayOf(KEY_ROWID),
         selection,
@@ -239,27 +238,12 @@ private fun findSubCategory(database: SQLiteDatabase, parentId: Long, label: Str
             -1
         }
     }
-}
 
-private fun findMainCategory(database: SQLiteDatabase, label: String): Long {
-    val selection = "$KEY_PARENTID is null and $KEY_LABEL = ?"
-    val selectionArgs = arrayOf(label)
-    return database.query(
-        TABLE_CATEGORIES,
-        arrayOf(KEY_ROWID),
-        selection,
-        selectionArgs,
-        null,
-        null,
-        null
-    ).use {
-        if (it.moveToFirst()) {
-            it.getLong(0)
-        } else {
-            -1
-        }
-    }
-}
+private fun findSubCategory(database: SQLiteDatabase, parentId: Long, label: String) =
+    findCategory(database, "$KEY_PARENTID = ? and $KEY_LABEL = ?" , arrayOf(parentId.toString(), label))
+
+private fun findMainCategory(database: SQLiteDatabase, label: String) =
+    findCategory(database, "$KEY_PARENTID is null and $KEY_LABEL = ?" , arrayOf(label))
 
 val Cursor.asSequence: Sequence<Cursor>
     get() = generateSequence { takeIf { it.moveToNext() } }

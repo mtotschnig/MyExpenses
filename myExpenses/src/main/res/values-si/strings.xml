@@ -328,7 +328,7 @@
     <string name="warning_reset_account_all">ඔබ ඉදිරියට ගියහොත් සියලුම ගිණුම්%1$s ,ඇති  දත්ත ගබඩාවේ සියලුම ගනුදෙනු මකා  දැමෙන අතර නැවත පිහිටුවීමට නොහැකිය.</string>
     <string name="warning_restore">\"%1$s\" ලිපිගොනුවෙන් මනාප සහ දත්ත ගබඩාව නැවත පිහිටුවන අතර. දැනට පවතින දත්ත සියල්ල මකා දැමේ.</string>
     <string name="warning_splitpartcategory_context">බෙදිමක කොටස් වන ගනුදෙනු සංස්කරණය කල හැක්කේ බෙදීමෙහි සම්බන්දයක් ඇත්නම් පමණි </string>
-    <string name="import_categories_success">ප්‍රබේධ %1$d සාර්ථකල ලෙස ආනයනය කරන ලදී </string>
+    <string name="import_categories_success">ප්‍රබේධ %1$d සාර්ථකල ලෙස ආනයනය කරන ලදී.</string>
     <string name="import_parties_success">පක්ෂ %1$s සාර්ථකල ලෙස ආනයනය කරන ලදී </string>
     <string name="import_accounts_success">ගිණුම් %1$s  සාර්ථකල ලෙස ආනයනය කරන ලදී </string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">ගනුදෙනු %1$d සාර්ථකල ලෙස %2$s ගිණුමට ආනයනය කරන ලදී </string>

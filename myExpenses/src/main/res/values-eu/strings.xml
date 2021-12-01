@@ -434,7 +434,7 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Kopuruak eguneratzen ez badira, %d aldiz zatituta bistaratuko dira aldaketa eta gero.</string>
     <string name="warning_change_fraction_digits_3">Kopuruak eguneratzen badira, frakzioaren ataleko informazioa galduko duzu.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Eguneratu datu-baseko kopuruak</string>
-    <string name="import_categories_success">%1$d kategoria ondo inportatu dira</string>
+    <string name="import_categories_success">%1$d kategoria ondo inportatu dira.</string>
     <string name="import_parties_success">%1$s onuradun/ordaintzaile ondo inportatu dira</string>
     <string name="import_accounts_success">%1$s kontu ondo inportatu dira</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transakzio ondo inportatu dira %2$s kontura</string>

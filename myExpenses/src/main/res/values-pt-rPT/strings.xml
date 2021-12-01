@@ -416,7 +416,7 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Se as quantias não forem atualizadas, elas serão exibidos como multiplicadas por %d após o câmbio.</string>
     <string name="warning_change_fraction_digits_3">Se as quantias forem atualizadas, você perderá a informação acerca da sua parte fracionária.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Atualizar quantias no banco de dados</string>
-    <string name="import_categories_success">%1$d categorias importadas com sucesso</string>
+    <string name="import_categories_success">%1$d categorias importadas com sucesso.</string>
     <string name="import_parties_success">%1$s parceiros importados com sucesso</string>
     <string name="import_accounts_success">%1$s contas importadas com sucesso</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transações importadas com sucesso na conta %2$s</string>

@@ -473,7 +473,7 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">إذا لم يتم تحديث المبالغ، فسيتم عرضها على أنها مقسومة على %d بعد التغيير.</string>
     <string name="warning_change_fraction_digits_3">إذا تم تحديث المبالغ، فستفقد المعلومات حول الجزء الكسري.</string>
     <string name="warning_change_fraction_digits_checkbox_label">تحديث المبالغ في قاعدة البيانات</string>
-    <string name="import_categories_success">تم استيراد %1$d فئات بنجاح</string>
+    <string name="import_categories_success">تم استيراد %1$d فئات بنجاح.</string>
     <string name="import_parties_success">تم استيراد %1$s أطراف بنجاح</string>
     <string name="import_accounts_success">تم استيراد %1$s من الحسابات بنجاح</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">تم استيراد %1$d معاملة بنجاح إلى الحساب %2$s</string>

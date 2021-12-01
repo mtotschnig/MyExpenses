@@ -437,7 +437,7 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Si no se actualizan los importes, se mostrarán como divididos por %d después del cambio.</string>
     <string name="warning_change_fraction_digits_3">Si se actualizan los importes, se perderá la información de la parte fraccionaria.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Actualizar los importes en la base de datos</string>
-    <string name="import_categories_success">%1$d categorías han sido importadas con éxito</string>
+    <string name="import_categories_success">%1$d categorías han sido importadas con éxito.</string>
     <string name="import_parties_success">%1$s grupos han sido importados con éxito</string>
     <string name="import_accounts_success">%1$s cuentas han sido importadas con éxito</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transacciones importadas con éxito en la cuenta %2$s</string>
