@@ -1009,4 +1009,6 @@
     <string name="debt_I_owe">Eu devo para %s</string>
     <string name="debt">Dívida</string>
     <string name="title_activity_debt_overview">Visão geral da dívida</string>
+    <string name="pref_mlkit_script_title">Script para MlKit</string>
+    <string name="cb_label_merge_accounts">Fundir contas</string>
 </resources>
