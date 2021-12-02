@@ -975,4 +975,8 @@
     <string name="debt_owes_me">%s ನನಗೆ ಣಿಯಾಗಿದೆ</string>
     <string name="menu_new_debt">ಹೊಸ ಸಾಲ</string>
     <string name="dialog_title_warning_delete_party">ಪಾರ್ಟಿಯನ್ನು ಅಳಿಸುವುದೇ\?</string>
+    <string name="cb_label_merge_accounts">ಖಾತೆಗಳನ್ನು ವಿಲೀನಗೊಳಿಸಿ</string>
+    <string name="debt">ಸಾಲ</string>
+    <string name="pref_mlkit_script_title">MlKit ಗಾಗಿ ಸ್ಕ್ರಿಪ್ಟ್</string>
+    <string name="title_activity_debt_overview">ಸಾಲದ ಅವಲೋಕನ</string>
 </resources>
