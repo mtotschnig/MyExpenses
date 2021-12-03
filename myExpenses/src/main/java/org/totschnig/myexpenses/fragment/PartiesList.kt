@@ -93,7 +93,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                 this.isChecked = isChecked
             }
             binding.Debt.visibility = if (party.mappedDebts > 0) View.VISIBLE else View.GONE
-            binding.root.setOnClickListener(if (hasSelectMultiple()) null else this)
+            binding.root.setOnClickListener(if (mergeMode) null else this)
         }
     }
 
@@ -130,6 +130,10 @@ class PartiesList : Fragment(), OnDialogResultListener {
             get() = getSelected().size
 
         override fun onItemClick(view: View, position: Int) {
+            if (action == ACTION_SELECT_FILTER) {
+                doSingleSelection(getItem(position))
+                return
+            }
             val index2IdMap: MutableMap<Int, Long> = mutableMapOf()
             with(PopupMenu(requireContext(), view)) {
                 if (action == ACTION_SELECT_MAPPING) {
@@ -304,7 +308,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        viewModel = ViewModelProvider(this).get(PartyListViewModel::class.java)
+        viewModel = ViewModelProvider(this)[PartyListViewModel::class.java]
         (requireActivity().application as MyApplication).appComponent.inject(viewModel)
         viewModel.loadDebts()
         Icepick.restoreInstanceState(this, savedInstanceState)
@@ -377,8 +381,8 @@ class PartiesList : Fragment(), OnDialogResultListener {
             it.isChecked = mergeMode
         }
         prepareSearch(menu, filter)
-        menu.findItem(R.id.DEBT_COMMAND)?.let {
-            it.isVisible = adapter.currentList.any { it.mappedDebts > 0 }
+        menu.findItem(R.id.DEBT_COMMAND)?.let { menuItem ->
+            menuItem.isVisible = adapter.currentList.any { it.mappedDebts > 0 }
         }
     }
 
