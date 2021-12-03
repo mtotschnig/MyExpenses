@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ExpandableListView
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo
+import android.widget.ExpandableListView.OnChildClickListener
 import android.widget.ExpandableListView.OnGroupExpandListener
 import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
@@ -27,6 +28,7 @@ import org.totschnig.myexpenses.activity.ManageSyncBackends
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.adapter.SyncBackendAdapter
 import org.totschnig.myexpenses.databinding.SyncBackendsListBinding
+import org.totschnig.myexpenses.dialog.AccountMetaDataDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
@@ -40,11 +42,13 @@ import org.totschnig.myexpenses.sync.GenericAccountService.Companion.activateSyn
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccount
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.asResult
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.viewmodel.AbstractSyncBackendViewModel
 import javax.inject.Inject
 
-class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListener {
+class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListener,
+    OnChildClickListener {
     private var _binding: SyncBackendsListBinding? = null
     private val binding get() = _binding!!
     private lateinit var syncBackendAdapter: SyncBackendAdapter
@@ -69,7 +73,7 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
         appComponent.inject(this)
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        viewModel = ViewModelProvider(this).get(modelClass)
+        viewModel = ViewModelProvider(this)[modelClass]
         appComponent.inject(viewModel)
     }
 
@@ -84,6 +88,7 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
         binding.list.setAdapter(syncBackendAdapter)
         binding.list.emptyView = binding.empty
         binding.list.setOnGroupExpandListener(this)
+        binding.list.setOnChildClickListener(this)
         snackbar = Snackbar.make(
             binding.list,
             R.string.sync_loading_accounts_from_backend,
@@ -269,8 +274,8 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
                 if (metadataLoadingCount == 0) {
                     snackbar.dismiss()
                 }
-                result.onSuccess {
-                    syncBackendAdapter.setAccountMetadata(groupPosition, it)
+                result.onSuccess { list ->
+                    syncBackendAdapter.setAccountMetadata(groupPosition, list.map { it.asResult() })
                 }.onFailure { throwable ->
                     val activity = requireActivity() as ManageSyncBackends
                     if (Utils.getCause(throwable) is InvalidAccessTokenException) {
@@ -307,5 +312,18 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
 
     companion object {
         private const val DIALOG_INACTIVE_BACKEND = "inactive_backend"
+    }
+
+    override fun onChildClick(
+        parent: ExpandableListView?,
+        v: View?,
+        groupPosition: Int,
+        childPosition: Int,
+        id: Long
+    ): Boolean {
+        syncBackendAdapter.getMetaData(groupPosition, childPosition)?.let {
+            AccountMetaDataDialogFragment.newInstance(it).show(parentFragmentManager, "META_DATA")
+        }
+        return true
     }
 }
