@@ -33,6 +33,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -310,7 +311,11 @@ fun ColoredAmountText(
         fontWeight = fontWeight,
         textAlign = textAlign,
         text = amountFormatter(amount, currency),
-        color = if (amount > 0) LocalColors.current.income else LocalColors.current.income
+        color = when {
+            amount > 0 -> LocalColors.current.income
+            amount < 0 -> LocalColors.current.expense
+            else -> Color.Unspecified
+        }
     )
 }
 
@@ -323,20 +328,33 @@ fun TransactionRenderer(
     boldBalance: Boolean
 ) {
     Row(verticalAlignment = Alignment.CenterVertically) {
-        if (transaction.trend != 0) {
+
+        when {
+            transaction.runningTotal == 0L -> R.drawable.ic_check
+            transaction.trend > 0 -> R.drawable.ic_trending_up
+            transaction.trend < 0 -> R.drawable.ic_trending_down
+            else -> null
+        }?.also {
             Icon(
                 painter = painterResource(
-                    id = if (transaction.trend > 0) R.drawable.ic_trending_up else R.drawable.ic_trending_down
+                    id = when {
+                        transaction.runningTotal == 0L -> R.drawable.ic_check
+                        transaction.trend > 0 -> R.drawable.ic_trending_up
+                        transaction.trend < 0 -> R.drawable.ic_trending_down
+                        else -> throw IllegalStateException()
+                    }
                 ),
                 contentDescription = null
             )
-        } else {
+        } ?: run {
             Spacer(modifier = Modifier.size(24.dp))
         }
+
         Text(
             modifier = Modifier.padding(start = 4.dp),
             text = dateFormatter.format(transaction.date)
         )
+
         transaction.amount.takeIf { it != 0L }?.let {
             Text(
                 modifier = Modifier.weight(1F),
@@ -344,6 +362,7 @@ fun TransactionRenderer(
                 text = amountFormatter(it, currency)
             )
         }
+
         ColoredAmountText(
             amount = transaction.runningTotal,
             currency = currency,

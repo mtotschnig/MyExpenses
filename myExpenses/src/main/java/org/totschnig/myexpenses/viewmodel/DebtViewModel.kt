@@ -83,7 +83,7 @@ class DebtViewModel(application: Application) : ContentResolvingAndroidViewModel
                 val previousBalance = runningTotal
                 runningTotal -= amount
                 val trend =
-                    if (previousBalance.sign != runningTotal.sign)
+                    if (previousBalance.sign * runningTotal.sign == -1)
                         0
                     else
                         runningTotal.absoluteValue.compareTo(previousBalance.absoluteValue)

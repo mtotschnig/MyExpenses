@@ -36,7 +36,7 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.Debt
-import java.math.BigDecimal
+import kotlin.math.sign
 
 //Transaction or Split
 abstract class MainDelegate<T : ITransaction>(
@@ -268,7 +268,7 @@ abstract class MainDelegate<T : ITransaction>(
             add(" ")
             add(
                 currencyFormatter.formatMoney(money)
-                    .withAmountColor(viewBinding.root.context.resources, amount > 0)
+                    .withAmountColor(viewBinding.root.context.resources, amount.sign)
             )
         }
         val account = currentAccount()
@@ -276,10 +276,13 @@ abstract class MainDelegate<T : ITransaction>(
             val isForeignExchangeDebt = debt.currency != account.currency.code
 
             val installment = if (isForeignExchangeDebt)
-                with(validateAmountInput(viewBinding.EquivalentAmount,
-                    showToUser = false,
-                    ifPresent = false
-                )){
+                with(
+                    validateAmountInput(
+                        viewBinding.EquivalentAmount,
+                        showToUser = false,
+                        ifPresent = false
+                    )
+                ) {
                     if (isIncome) this else this?.negate()
                 }
             else
@@ -292,7 +295,7 @@ abstract class MainDelegate<T : ITransaction>(
                     currencyFormatter.formatMoney(Money(currencyUnit, futureBalance))
                         .withAmountColor(
                             viewBinding.root.context.resources,
-                            futureBalance > BigDecimal.ZERO
+                            futureBalance.signum()
                         )
                 )
             }

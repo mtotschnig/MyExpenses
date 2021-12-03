@@ -46,16 +46,17 @@ object TextUtils {
         return label?.replace('/', substitute)?.replace(':', substitute)
     }
 
-    fun String.withAmountColor(resources: Resources, isIncome: Boolean) =
-        SpannableString(this).apply {
-            setSpan(
-                ForegroundColorSpan(
-                    ResourcesCompat.getColor(
-                        resources,
-                        if (isIncome) R.color.colorIncome else R.color.colorExpense,
-                        null
-                    )
-                ), 0, length, 0
-            )
-        }
+    fun String.withAmountColor(resources: Resources, sign: Int): CharSequence =
+        if (sign == 0) this else
+            SpannableString(this).apply {
+                setSpan(
+                    ForegroundColorSpan(
+                        ResourcesCompat.getColor(
+                            resources,
+                            if (sign > 0) R.color.colorIncome else R.color.colorExpense,
+                            null
+                        )
+                    ), 0, length, 0
+                )
+            }
 }

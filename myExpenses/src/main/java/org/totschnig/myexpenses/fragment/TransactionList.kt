@@ -48,6 +48,7 @@ import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.viewmodel.KEY_ROW_IDS
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView
+import kotlin.math.sign
 
 const val KEY_REPLACE = "replace"
 
@@ -411,7 +412,7 @@ class TransactionList : BaseTransactionList() {
         }
     }
 
-    private fun setColor(text: String?) = text?.withAmountColor(resources, selectedTransactionSum > 0) ?: ""
+    private fun setColor(text: String?) = text?.withAmountColor(resources, selectedTransactionSum.sign) ?: ""
 
     override fun onSelectionChanged(position: Int, checked: Boolean) {
         if (mTransactionsCursor.moveToPosition(position)) {
