@@ -207,6 +207,7 @@ public class ManageSyncBackends extends SyncBackendSetupActivity implements Cont
 
   @Override
   public void onReceiveSyncAccountData(@NonNull SyncViewModel.SyncAccountData data) {
+    getListFragment().reloadAccountList();
     if (data.getLocalNotSynced() > 0) {
       showSelectUnsyncedAccount(data.getAccountName());
     }
