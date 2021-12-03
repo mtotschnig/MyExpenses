@@ -60,3 +60,12 @@ object TextUtils {
                 )
             }
 }
+
+fun getDisplayNameForScript(context: Context, script: String) =
+    getDisplayNameForScript(Utils.localeFromContext(context), script)
+
+fun getDisplayNameForScript(locale: Locale, script: String): String =
+    when(script) {
+        "Han" -> Locale.CHINESE.getDisplayLanguage(locale)
+        else -> Locale.Builder().setScript(script).build().getDisplayScript(locale)
+    }

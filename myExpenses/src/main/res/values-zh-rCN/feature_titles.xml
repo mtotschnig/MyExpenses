@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_mlkit_latn">ML Kit 拉丁文</string>
+    <string name="title_mlkit_han">ML Kit 中文</string>
+    <string name="title_mlkit_deva">ML Kit 天城文</string>
+    <string name="title_mlkit_jpan">ML Kit 日文</string>
+    <string name="title_mlkit_kore">ML Kit 韩文</string>
+</resources>

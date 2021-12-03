@@ -21,12 +21,16 @@ internal class TextUtilsTest {
     }
 
     private val ctx = mock(Context::class.java).also {
-        Mockito.`when`(it.getString(
-            ArgumentMatchers.eq(R.string.Main_1)
-        )).thenReturn("Main1")
-        Mockito.`when`(it.getString(
-            ArgumentMatchers.eq(R.string.Main_2)
-        )).thenReturn("Main2")
+        Mockito.`when`(
+            it.getString(
+                ArgumentMatchers.eq(R.string.Main_1)
+            )
+        ).thenReturn("Main1")
+        Mockito.`when`(
+            it.getString(
+                ArgumentMatchers.eq(R.string.Main_2)
+            )
+        ).thenReturn("Main2")
     }
     private val currency = CurrencyUnit("EUR", "€", 2, "Euro")
 
@@ -37,7 +41,14 @@ internal class TextUtilsTest {
 
     @Test
     fun concatResStrings() {
-        assertThat(concatResStrings(ctx, " ", R.string.Main_1, R.string.Main_2)).isEqualTo("Main1 Main2")
+        assertThat(
+            concatResStrings(
+                ctx,
+                " ",
+                R.string.Main_1,
+                R.string.Main_2
+            )
+        ).isEqualTo("Main1 Main2")
     }
 
     @Test
@@ -47,11 +58,39 @@ internal class TextUtilsTest {
 
     @Test
     fun appendCurrencyDescription() {
-        assertThat(appendCurrencyDescription(ctx, R.string.Main_1, currency)).isEqualTo("Main1 (Euro)")
+        assertThat(
+            appendCurrencyDescription(
+                ctx,
+                R.string.Main_1,
+                currency
+            )
+        ).isEqualTo("Main1 (Euro)")
     }
 
     @Test
     fun formatQifCategory() {
         assertThat(formatQifCategory("Main", "Sub")).isEqualTo("Main:Sub")
     }
+
+/*    @Test
+    fun getDisplayNameForScript() {
+        arrayOf("CN", "HK", "TW").forEach {
+        //arrayOf("ar", "bg", "ca", "cs", "da", "de", "el", "es", "eu", "fr", "hr", "hu", "it", "iw", "ja", "km", "kn", "ko", "ms", "pl", "pt", "ro", "ru", "si", "ta", "te", "tr", "uk", "vi").forEach {
+            val locale= Locale("zh", it)
+            //val locale = Locale(it)
+            println()
+            println(it)
+            println()
+            arrayOf("Latn", "Han", "Deva", "Jpan", "Kore").forEach {
+                println(
+                    "<string name=\"title_mlkit_${it.lowercase(Locale.ROOT)}\">ML Kit ${
+                        getDisplayNameForScript(
+                            locale,
+                            it
+                        )
+                    }</string>"
+                )
+            }
+        }
+    }*/
 }

@@ -13,7 +13,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.feature.Script
 import org.totschnig.myexpenses.feature.getUserConfiguredMlkitScript
 import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.getDisplayNameForScript
 import org.totschnig.ocr.Element
 import org.totschnig.ocr.Line
 import org.totschnig.ocr.Text
@@ -48,14 +48,9 @@ object Engine : org.totschnig.ocr.MlkitEngine {
 
     override fun getScriptArray(context: Context) =
         context.resources.getStringArray(R.array.pref_mlkit_script_values)
-            .map { getMlkitScriptDisplayName(context, it) }
+            .map { getDisplayNameForScript(context, it) }
             .toTypedArray()
 
-    private fun getMlkitScriptDisplayName(context: Context, script: String) =
-        when(script) {
-            "Han" -> Locale.CHINESE.displayLanguage
-            else -> Locale.Builder().setScript(script).build().getDisplayScript(Utils.localeFromContext(context))
-        }
 
     override suspend fun run(file: File, context: Context, prefHandler: PrefHandler): Text =
         withContext(Dispatchers.Default) {
@@ -75,7 +70,7 @@ object Engine : org.totschnig.ocr.MlkitEngine {
         }
 
     override fun info(context: Context, prefHandler: PrefHandler): CharSequence {
-        return "Ml Kit (${getMlkitScriptDisplayName(context, getUserConfiguredMlkitScript(context, prefHandler).name)})"
+        return "Ml Kit (${getDisplayNameForScript(context, getUserConfiguredMlkitScript(context, prefHandler).name)})"
     }
 }
 

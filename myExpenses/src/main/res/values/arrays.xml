@@ -524,7 +524,7 @@
     </string-array>
 
     <string-array name="versions">
-        <item>501;3.3.5</item>
+        <item>502;3.3.5</item>
         <item>498;3.3.4</item>
         <item>494;3.3.3</item>
         <item>491;3.3.2</item>
@@ -550,6 +550,11 @@
         <item>413;3.1.2</item>
         <item>409;3.1.1</item>
         <item>403;3.1.0</item>
+    </string-array>
+
+    <string-array name="contributors_335" tools:ignore="UnusedResources">
+        <item />
+        <item>arnaldotecadm</item>
     </string-array>
 
     <string-array name="contributors_313" tools:ignore="UnusedResources">

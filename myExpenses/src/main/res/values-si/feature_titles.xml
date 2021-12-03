@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_mlkit_latn">ML Kit ලතින්</string>
+    <string name="title_mlkit_han">ML Kit චීන</string>
+    <string name="title_mlkit_deva">ML Kit දේවනාගරී</string>
+    <string name="title_mlkit_jpan">ML Kit ජපන්</string>
+    <string name="title_mlkit_kore">ML Kit කොරියානු</string>
+</resources>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_mlkit_latn">ML Kit Latin</string>
+    <string name="title_mlkit_han">ML Kit Cina</string>
+    <string name="title_mlkit_deva">ML Kit Devanagari</string>
+    <string name="title_mlkit_jpan">ML Kit Jepun</string>
+    <string name="title_mlkit_kore">ML Kit Korea</string>
+</resources>
