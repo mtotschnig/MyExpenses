@@ -1009,4 +1009,6 @@
     <string name="dialog_title_warning_delete_party">Да изтрия ли тази страна\?</string>
     <string name="debt">Дълг</string>
     <string name="title_activity_debt_overview">Преглед на дълга</string>
+    <string name="cb_label_merge_accounts">Всичко в една сметка</string>
+    <string name="pref_mlkit_script_title">Скрипт за MlKit</string>
 </resources>
