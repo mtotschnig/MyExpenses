@@ -43,6 +43,7 @@ import org.totschnig.myexpenses.fragment.HistoryChart;
 import org.totschnig.myexpenses.fragment.OnBoardingPrivacyFragment;
 import org.totschnig.myexpenses.fragment.OnboardingDataFragment;
 import org.totschnig.myexpenses.fragment.OnboardingUiFragment;
+import org.totschnig.myexpenses.fragment.PartiesList;
 import org.totschnig.myexpenses.fragment.PlannerFragment;
 import org.totschnig.myexpenses.fragment.SettingsFragment;
 import org.totschnig.myexpenses.fragment.SplitPartList;
@@ -276,4 +277,6 @@ public interface AppComponent {
   void inject(TransferDelegate transactionDelegate);
 
   void inject(ExportTask exportTask);
+
+  void inject(PartiesList partiesList);
 }

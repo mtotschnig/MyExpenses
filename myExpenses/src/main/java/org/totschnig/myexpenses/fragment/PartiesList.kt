@@ -19,6 +19,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -54,18 +55,32 @@ import org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter
 import org.totschnig.myexpenses.databinding.PartiesListBinding
 import org.totschnig.myexpenses.databinding.PayeeRowBinding
 import org.totschnig.myexpenses.dialog.DebtDetailsDialogFragment
+import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.util.CurrencyFormatter
+import org.totschnig.myexpenses.util.TextUtils.withAmountColor
 import org.totschnig.myexpenses.util.configureSearch
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.prepareSearch
 import org.totschnig.myexpenses.viewmodel.PartyListViewModel
 import org.totschnig.myexpenses.viewmodel.data.Party
+import javax.inject.Inject
+import kotlin.math.sign
 
 class PartiesList : Fragment(), OnDialogResultListener {
+
+    @Inject
+    lateinit var currencyFormatter: CurrencyFormatter
+
+    @Inject
+    lateinit var currencyContext: CurrencyContext
+
     val manageParties: ManageParties
         get() = (activity as ManageParties)
 
@@ -86,13 +101,13 @@ class PartiesList : Fragment(), OnDialogResultListener {
             itemCallback.onCheckedChanged(isChecked, bindingAdapterPosition)
         }
 
-        fun bind(party: Party, isChecked: Boolean) {
-            binding.Payee.text = party.name
+        fun bind(party: PartyWrapper, isChecked: Boolean) {
+            binding.Payee.text = party.party.name
             with(binding.checkBox) {
                 visibility = if (hasSelectMultiple()) View.VISIBLE else View.GONE
                 this.isChecked = isChecked
             }
-            binding.Debt.visibility = if (party.mappedDebts > 0) View.VISIBLE else View.GONE
+            binding.Debt.visibility = if (party.hasOpenDebts) View.VISIBLE else View.GONE
             binding.root.setOnClickListener(if (mergeMode) null else this)
         }
     }
@@ -102,8 +117,12 @@ class PartiesList : Fragment(), OnDialogResultListener {
         fun onCheckedChanged(isChecked: Boolean, position: Int)
     }
 
+    inner class PartyWrapper(val party: Party) {
+        val hasOpenDebts = viewModel.getDebts(party.id)?.any { !it.isSealed && it.currentBalance != 0L } == true
+    }
+
     inner class PayeeAdapter :
-        ListAdapter<Party, ViewHolder>(DIFF_CALLBACK), ItemCallback {
+        ListAdapter<PartyWrapper, ViewHolder>(DIFF_CALLBACK), ItemCallback {
         private var checkStates: MutableSet<Long> = mutableSetOf()
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
@@ -111,27 +130,27 @@ class PartiesList : Fragment(), OnDialogResultListener {
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             with(getParty(position)) {
-                holder.bind(this, checkStates.contains(this.id))
+                holder.bind(this, checkStates.contains(this.party.id))
             }
         }
 
         override fun onCurrentListChanged(
-            previousList: MutableList<Party>,
-            currentList: MutableList<Party>
+            previousList: MutableList<PartyWrapper>,
+            currentList: MutableList<PartyWrapper>
         ) {
             updateFabEnabled()
         }
 
-        private fun getParty(position: Int): Party = getItem(position)
+        private fun getParty(position: Int): PartyWrapper = getItem(position)
 
-        fun getSelected(): List<Party> = currentList.filter { checkStates.contains(it.id) }
+        fun getSelected(): List<PartyWrapper> = currentList.filter { checkStates.contains(it.party.id) }
 
         val checkedCount: Int
             get() = getSelected().size
 
         override fun onItemClick(view: View, position: Int) {
             if (action == ACTION_SELECT_FILTER) {
-                doSingleSelection(getItem(position))
+                doSingleSelection(getItem(position).party)
                 return
             }
             val index2IdMap: MutableMap<Int, Long> = mutableMapOf()
@@ -145,13 +164,16 @@ class PartiesList : Fragment(), OnDialogResultListener {
                 menu.add(Menu.NONE, DELETE_COMMAND, Menu.NONE, R.string.menu_delete)
                     .setIcon(R.drawable.ic_menu_delete)
                 if (action == ACTION_MANAGE) {
-                    val debts = viewModel.getDebts(getItem(position).id)
+                    val debts = viewModel.getDebts(getItem(position).party.id)
                     val subMenu = if (debts?.size ?: 0 > 0)
                         menu.addSubMenu(Menu.NONE, DEBT_SUB_MENU, Menu.NONE, R.string.debts)
                             .setIcon(R.drawable.balance_scale) else menu
                     debts?.forEachIndexed { index, debt ->
                         index2IdMap[index] = debt.id
-                        val item = subMenu.add(Menu.NONE, index, Menu.NONE, debt.label)
+                        val currencyUnit = currencyContext[debt.currency]
+                        val menuTitle = TextUtils.concat(debt.label, " ", currencyFormatter.formatMoney(Money(currencyUnit, debt.currentBalance))
+                            .withAmountColor(resources, debt.currentBalance.sign))
+                        val item = subMenu.add(Menu.NONE, index, Menu.NONE, menuTitle)
                         if (debt.isSealed) {
                             item.setIcon(R.drawable.ic_lock)
                         }
@@ -161,7 +183,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                 }
 
                 setOnMenuItemClickListener { item ->
-                    val party = getItem(position)
+                    val party = getItem(position).party
                     when (item.itemId) {
                         EDIT_COMMAND -> {
                             SimpleInputDialog.build()
@@ -191,7 +213,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                                     )
                                 }
                                 manageParties.showSnackbar(message)
-                            } else if (party.mappedDebts > 0) {
+                            } else if (party.mappedDebts) {
                                 SimpleDialog.build()
                                     .title(R.string.dialog_title_warning_delete_party)
                                     .extra(Bundle().apply {
@@ -226,7 +248,8 @@ class PartiesList : Fragment(), OnDialogResultListener {
                         else -> {
                             index2IdMap[item.itemId]?.also {
                                 DebtDetailsDialogFragment.newInstance(it).show(
-                                    parentFragmentManager, DIALOG_DEBT_DETAILS)
+                                    parentFragmentManager, DIALOG_DEBT_DETAILS
+                                )
                             } ?: run {
                                 CrashHandler.report(IllegalStateException("debtId not found in map"))
                             }
@@ -241,10 +264,11 @@ class PartiesList : Fragment(), OnDialogResultListener {
         }
 
         override fun onCheckedChanged(isChecked: Boolean, position: Int) {
+            val party = getParty(position).party
             if (isChecked) {
-                checkStates.add(getParty(position).id)
+                checkStates.add(party.id)
             } else {
-                checkStates.remove(getParty(position).id)
+                checkStates.remove(party.id)
             }
             updateFabEnabled()
         }
@@ -309,8 +333,10 @@ class PartiesList : Fragment(), OnDialogResultListener {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
         viewModel = ViewModelProvider(this)[PartyListViewModel::class.java]
-        (requireActivity().application as MyApplication).appComponent.inject(viewModel)
-        viewModel.loadDebts()
+        with((requireActivity().application as MyApplication).appComponent) {
+            inject(this@PartiesList)
+            inject(viewModel)
+        }
         Icepick.restoreInstanceState(this, savedInstanceState)
     }
 
@@ -382,7 +408,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
         }
         prepareSearch(menu, filter)
         menu.findItem(R.id.DEBT_COMMAND)?.let { menuItem ->
-            menuItem.isVisible = adapter.currentList.any { it.mappedDebts > 0 }
+            menuItem.isVisible = adapter.currentList.any { it.party.mappedDebts }
         }
     }
 
@@ -424,24 +450,30 @@ class PartiesList : Fragment(), OnDialogResultListener {
         adapter = PayeeAdapter()
         savedInstanceState?.let { adapter.onRestoreInstanceState(it) }
         binding.list.adapter = adapter
-        viewModel.getParties().observe(viewLifecycleOwner, { parties: List<Party> ->
+        viewModel.getParties().observe(viewLifecycleOwner) { parties: List<Party> ->
+            activity?.invalidateOptionsMenu()
             if (action != ACTION_SELECT_FILTER) {
                 binding.empty.visibility = if (parties.isEmpty()) View.VISIBLE else View.GONE
                 binding.list.visibility = if (parties.isEmpty()) View.GONE else View.VISIBLE
             }
+            val elements = parties.map { PartyWrapper(it) }
             adapter.submitList(
                 if (action == ACTION_SELECT_FILTER)
                     listOf(
-                        Party(
+                        PartyWrapper(
+                            Party(
                             CategoryTreeBaseAdapter.NULL_ITEM_ID, getString(R.string.unmapped),
-                            mappedTransactions = false, mappedTemplates = false, mappedDebts = 0
+                            mappedTransactions = false, mappedTemplates = false, mappedDebts = false
                         )
-                    ).plus(parties)
+                        )
+                    ).plus(elements)
                 else
-                    parties
+                    elements
             )
-        })
-        loadParties()
+        }
+        viewModel.loadDebts().observe(viewLifecycleOwner) {
+            loadParties()
+        }
         return binding.root
     }
 
@@ -463,13 +495,13 @@ class PartiesList : Fragment(), OnDialogResultListener {
         const val DEBT_SUB_MENU = -5
         const val STATE_CHECK_STATES = "checkStates"
 
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Party>() {
-            override fun areItemsTheSame(oldItem: Party, newItem: Party): Boolean {
-                return oldItem.id == newItem.id
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<PartyWrapper>() {
+            override fun areItemsTheSame(oldItem: PartyWrapper, newItem: PartyWrapper): Boolean {
+                return oldItem.party.id == newItem.party.id
             }
 
-            override fun areContentsTheSame(oldItem: Party, newItem: Party): Boolean {
-                return oldItem == newItem
+            override fun areContentsTheSame(oldItem: PartyWrapper, newItem: PartyWrapper): Boolean {
+                return oldItem.party == newItem.party && oldItem.hasOpenDebts == newItem.hasOpenDebts
             }
         }
     }
@@ -496,7 +528,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                 DIALOG_MERGE_PARTY -> {
                     mergeMode = false
                     updateUiMergeMode()
-                    val selectedItemIds = adapter.getSelected().map { it.id }
+                    val selectedItemIds = adapter.getSelected().map { it.party.id }
                     viewModel.mergeParties(
                         selectedItemIds.toLongArray(),
                         selectedItemIds[extras.getInt(KEY_POSITION)]
@@ -514,7 +546,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
 
     fun dispatchFabClick() {
         if (action == ACTION_SELECT_FILTER) {
-            val selected = adapter.getSelected()
+            val selected = adapter.getSelected().map { it.party }
             val itemIds = selected.map { it.id }
             val labels = selected.map { it.name }
             if (itemIds.size != 1 && itemIds.contains(CategoryTreeBaseAdapter.NULL_ITEM_ID)) {
@@ -529,7 +561,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                 }
             }
         } else if (mergeMode) {
-            val selected = adapter.getSelected().map { it.name }.toTypedArray()
+            val selected = adapter.getSelected().map { it.party.name }.toTypedArray()
             SimpleFormDialog.build()
                 .fields(
                     Hint.plain(R.string.merge_parties_select),

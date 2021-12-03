@@ -85,15 +85,14 @@ class PartyListViewModel(application: Application) : ContentResolvingAndroidView
             }
     }
 
-    fun loadDebts() {
-        viewModelScope.launch {
-            contentResolver.observeQuery(DEBTS_URI, notifyForDescendants = true)
-                .mapToList {
-                    Debt.fromCursor(it)
-                }.collect { list ->
+    fun loadDebts(): LiveData<Unit> = liveData(context = coroutineContext()) {
+        contentResolver.observeQuery(DEBTS_URI, notifyForDescendants = true)
+            .mapToList {
+                Debt.fromCursor(it)
+            }.collect { list ->
                 this@PartyListViewModel.debts = list.groupBy { it.payeeId }
+                emit(Unit)
             }
-        }
     }
 
     fun deleteParty(id: Long): LiveData<Result<Int>> = liveData(context = coroutineContext()) {

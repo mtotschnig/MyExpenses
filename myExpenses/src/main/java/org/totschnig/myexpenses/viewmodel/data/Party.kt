@@ -11,7 +11,7 @@ data class Party(
     val id: Long, val name: String,
     val mappedTransactions: Boolean,
     val mappedTemplates: Boolean,
-    val mappedDebts: Int
+    val mappedDebts: Boolean
 ) {
     override fun toString() = name
 
@@ -21,7 +21,7 @@ data class Party(
             cursor.getString(cursor.getColumnIndexOrThrow(KEY_PAYEE_NAME)),
             cursor.getInt(cursor.getColumnIndexOrThrow(KEY_MAPPED_TRANSACTIONS)) > 0,
             cursor.getInt(cursor.getColumnIndexOrThrow(KEY_MAPPED_TEMPLATES)) > 0,
-            cursor.getInt(cursor.getColumnIndexOrThrow(KEY_MAPPED_DEBTS))
+            cursor.getInt(cursor.getColumnIndexOrThrow(KEY_MAPPED_DEBTS)) > 0
         )
     }
 }
