@@ -85,9 +85,8 @@ android {
             buildConfigField "String", "OPEN_EXCHANGE_RATES_API_KEY", "\"" + getPropertyIfDefined('OPEN_EXCHANGE_RATES_API_KEY', "") + "\""
         }
         beta {
-            initWith release
-            matchingFallbacks = ['release']
-            buildConfigField "String", "OPEN_EXCHANGE_RATES_API_KEY", "\"" + getPropertyIfDefined('OPEN_EXCHANGE_RATES_API_KEY', "") + "\""
+            initWith debug
+            matchingFallbacks = ['debug']
         }
     }
 
