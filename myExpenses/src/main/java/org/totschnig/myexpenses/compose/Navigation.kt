@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.compose
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
@@ -17,29 +18,31 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import org.totschnig.myexpenses.R
 
 @SuppressLint("PrivateResource")
 @Composable
 fun Navigation(
-    onNavigation: () -> Unit,
+    onNavigation: () -> Unit = {},
     title: @Composable () -> Unit,
     content: @Composable (PaddingValues) -> Unit
 ) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = title,
                 backgroundColor = colorResource(id = R.color.toolbarBackground),
-                navigationIcon = {
+            ) {
+                Row {
                     IconButton(onClick = onNavigation) {
                         Icon(
-                            painterResource(id = R.drawable.abc_ic_ab_back_material),
+                            painterResource(id = R.drawable.ic_menu_back),
                             contentDescription = stringResource(R.string.abc_action_bar_up_description)
                         )
                     }
                 }
-            )
+                title.invoke()
+            }
         },
         content = content
     )
@@ -72,4 +75,13 @@ fun OverFlowMenu(
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun Activity() {
+    Navigation(
+        title = { Text(text = "Mein Title")},
+        content = { Text(text = "Mein Content")}
+    )
 }

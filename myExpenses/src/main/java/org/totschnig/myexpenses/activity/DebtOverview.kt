@@ -101,7 +101,13 @@ class DebtOverview : DebtActivity() {
                                     .padding(end = dimensionResource(id = R.dimen.padding_form)),
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
-                                Text(stringResource(id = R.string.title_activity_debt_overview))
+                                Text(
+                                    text = stringResource(id = R.string.title_activity_debt_overview),
+                                    modifier = Modifier.weight(1f).padding(end = 4.dp),
+                                    overflow = TextOverflow.Ellipsis,
+                                    maxLines = 1,
+                                    style = MaterialTheme.typography.h6
+                                )
                                 ColoredAmountText(
                                     amount = debts.value.sumOf { it.currentBalance },
                                     currency = Utils.getHomeCurrency().code,
