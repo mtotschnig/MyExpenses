@@ -37,7 +37,7 @@ class CheckTransferAccountOfSplitPartsHandler(cr: ContentResolver) : AsyncQueryH
         } ?: kotlin.run {
             val error = Exception("Error while checking transfer account of split parts")
             CrashHandler.report(error)
-            (cookie as CheckSealedHandler.ResultListener).onResult(Result.failure(error))
+            (cookie as ResultListener).onResult(Result.failure(error))
         }
     }
 

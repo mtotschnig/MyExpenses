@@ -5,7 +5,7 @@ import android.content.ContentResolver
 import android.database.Cursor
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 
-class CheckSealedHandler(cr: ContentResolver) : AsyncQueryHandler(cr) {
+open class CheckSealedHandler(cr: ContentResolver) : AsyncQueryHandler(cr) {
     fun interface ResultListener {
         /**
          * @param result Pair of
@@ -15,7 +15,7 @@ class CheckSealedHandler(cr: ContentResolver) : AsyncQueryHandler(cr) {
         fun onResult(result: Result<Pair<Boolean, Boolean>>)
     }
 
-    fun check(itemIds: LongArray, listener: ResultListener) {
+    open fun check(itemIds: LongArray, listener: ResultListener) {
         startQuery(
             TOKEN,
             listener,

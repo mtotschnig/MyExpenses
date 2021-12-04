@@ -18,6 +18,7 @@ import icepick.State
 import org.totschnig.myexpenses.ACTION_SELECT_MAPPING
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
+import org.totschnig.myexpenses.activity.BaseMyExpenses
 import org.totschnig.myexpenses.activity.CONFIRM_MAP_TAG_REQUEST
 import org.totschnig.myexpenses.activity.MAP_ACCOUNT_REQUEST
 import org.totschnig.myexpenses.activity.MAP_CATEGORY_REQUEST
@@ -34,7 +35,6 @@ import org.totschnig.myexpenses.dialog.TransactionDetailFragment
 import org.totschnig.myexpenses.dialog.select.SelectSingleMethodDialogFragment
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CrStatus
-import org.totschnig.myexpenses.provider.CheckSealedHandler
 import org.totschnig.myexpenses.provider.CheckTransferAccountOfSplitPartsHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
@@ -135,7 +135,7 @@ class TransactionList : BaseTransactionList() {
     }
 
     override fun checkSealed(itemIds: LongArray, onChecked: Runnable) {
-        CheckSealedHandler(requireActivity().contentResolver).check(itemIds) { result ->
+        (requireActivity() as BaseMyExpenses).buildCheckSealedHander().check(itemIds) { result ->
             lifecycleScope.launchWhenResumed {
                 result.onSuccess {
                     if (it.first && it.second) {

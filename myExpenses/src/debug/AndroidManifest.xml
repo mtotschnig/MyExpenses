@@ -48,5 +48,10 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".activity.TestMyExpenses"
+            android:launchMode="singleTop"
+            android:theme="@style/MyTheme" />
     </application>
 </manifest>
