@@ -887,4 +887,8 @@
     <string name="debt">అప్పు</string>
     <string name="cb_label_merge_accounts">ఖాతాలను విలీనం చేయండి</string>
     <string name="pref_mlkit_script_title">MlKit కోసం స్క్రిప్ట్</string>
+    <plurals name="import_categories_icons_updated">
+        <item quantity="one">ఒక వర్గం చిహ్నంతో నవీకరించబడింది.</item>
+        <item quantity="other">%1$d వర్గాలు చిహ్నాలతో నవీకరించబడ్డాయి.</item>
+    </plurals>
 </resources>
