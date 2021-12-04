@@ -13,7 +13,10 @@ import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.CursorMatchers
 import androidx.test.espresso.matcher.RootMatchers
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import org.hamcrest.Matchers
 import org.junit.After
@@ -22,14 +25,17 @@ import org.junit.Rule
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.MyExpenses
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.fragment.PartiesList
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.Account
+import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.testutils.BaseUiTest
 import java.util.*
 
-class MyExpensesPayeeFilterTest: BaseUiTest() {
+class MyExpensesPayeeFilterTest: BaseUiTest<MyExpenses>() {
     @get:Rule
     var scenarioRule = ActivityScenarioRule(MyExpenses::class.java)
     private lateinit var account: Account
@@ -94,7 +100,7 @@ class MyExpensesPayeeFilterTest: BaseUiTest() {
         Account.delete(account.id)
     }
 
-    override val testScenario: ActivityScenario<out ProtectedFragmentActivity>
+    override val testScenario: ActivityScenario<MyExpenses>
         get() = scenarioRule.scenario
 
 }

@@ -25,7 +25,6 @@ import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.MyExpenses
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.adapter.IAccount
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.model.Account
@@ -46,7 +45,7 @@ import org.totschnig.myexpenses.testutils.withStatus
 import java.util.*
 
 
-class OrientationChangeTest : BaseUiTest() {
+class OrientationChangeTest : BaseUiTest<MyExpenses>() {
     private lateinit var activityScenario: ActivityScenario<MyExpenses>
     private val accountLabel1 = "Test label 1"
     private lateinit var account1: Account
@@ -187,6 +186,6 @@ class OrientationChangeTest : BaseUiTest() {
         rotate()
     }
 
-    override val testScenario: ActivityScenario<out ProtectedFragmentActivity>
+    override val testScenario: ActivityScenario<MyExpenses>
         get() = activityScenario
 }

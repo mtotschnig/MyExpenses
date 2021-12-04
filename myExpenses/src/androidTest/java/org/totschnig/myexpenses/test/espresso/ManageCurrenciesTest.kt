@@ -31,7 +31,7 @@ import java.math.BigDecimal
 import java.util.concurrent.atomic.AtomicReference
 
 
-class ManageCurrenciesTest : BaseUiTest() {
+class ManageCurrenciesTest : BaseUiTest<ManageCurrencies>() {
     @get:Rule
     var scenarioRule = ActivityScenarioRule(ManageCurrencies::class.java)
 
@@ -83,7 +83,7 @@ class ManageCurrenciesTest : BaseUiTest() {
         }
     }
 
-    override val testScenario: ActivityScenario<out ProtectedFragmentActivity?>
+    override val testScenario: ActivityScenario<ManageCurrencies>
         get() = scenarioRule.scenario
     override val listId: Int
         get() = android.R.id.list

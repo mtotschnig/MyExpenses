@@ -17,7 +17,6 @@ import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
 import org.totschnig.myexpenses.activity.MyExpenses;
 import org.totschnig.myexpenses.activity.MyPreferenceActivity;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.CurrencyUnit;
@@ -65,7 +64,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
-public final class MyExpensesTest extends BaseUiTest {
+public final class MyExpensesTest extends BaseUiTest<MyExpenses> {
   private Account account;
 
   private ActivityScenario<MyExpenses> activityScenario = null;
@@ -280,7 +279,7 @@ public final class MyExpensesTest extends BaseUiTest {
 
   @NonNull
   @Override
-  protected ActivityScenario<? extends ProtectedFragmentActivity> getTestScenario() {
+  protected ActivityScenario<MyExpenses> getTestScenario() {
     return Objects.requireNonNull(activityScenario);
   }
 }

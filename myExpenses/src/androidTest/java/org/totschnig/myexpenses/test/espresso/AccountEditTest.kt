@@ -14,17 +14,14 @@ import org.junit.After
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.AccountEdit
-import org.totschnig.myexpenses.activity.ExpenseEdit
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.testutils.BaseUiTest
 import java.util.*
 
-class AccountEditTest : BaseUiTest() {
+class AccountEditTest : BaseUiTest<AccountEdit>() {
     private lateinit var activityScenario: ActivityScenario<AccountEdit>
     @After
     @Throws(RemoteException::class, OperationApplicationException::class)
@@ -63,7 +60,7 @@ class AccountEditTest : BaseUiTest() {
         assertThat(account.uuid).isEqualTo(uuid)
     }
 
-    override val testScenario: ActivityScenario<out ProtectedFragmentActivity?>
+    override val testScenario: ActivityScenario<AccountEdit>
         get() = activityScenario
 
     companion object {

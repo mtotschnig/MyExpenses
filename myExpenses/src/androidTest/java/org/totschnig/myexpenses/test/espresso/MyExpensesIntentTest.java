@@ -9,7 +9,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.testutils.BaseUiTest;
 
@@ -28,7 +27,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
-public final class MyExpensesIntentTest extends BaseUiTest {
+public final class MyExpensesIntentTest extends BaseUiTest<MyExpenses> {
 
   private ActivityScenario<MyExpenses> activityScenario = null;
   private static String accountLabel1;
@@ -60,7 +59,7 @@ public final class MyExpensesIntentTest extends BaseUiTest {
 
   @NonNull
   @Override
-  protected ActivityScenario<? extends ProtectedFragmentActivity> getTestScenario() {
+  protected ActivityScenario<MyExpenses> getTestScenario() {
     return Objects.requireNonNull(activityScenario);
   }
 }

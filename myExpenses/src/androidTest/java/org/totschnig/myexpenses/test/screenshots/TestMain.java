@@ -11,7 +11,6 @@ import org.junit.Test;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.testutils.BaseUiTest;
 import org.totschnig.myexpenses.util.Utils;
@@ -46,7 +45,7 @@ import static org.totschnig.myexpenses.testutils.Matchers.first;
 /**
  * This test is meant to be run with FastLane Screengrab, but also works on its own.
  */
-public class TestMain extends BaseUiTest {
+public class TestMain extends BaseUiTest<MyExpenses> {
   @ClassRule
   public static final LocaleTestRule localeTestRule = new LocaleTestRule();
   private ActivityScenario<MyExpenses> activityScenario = null;
@@ -170,7 +169,7 @@ public class TestMain extends BaseUiTest {
 
   @NonNull
   @Override
-  protected ActivityScenario<? extends ProtectedFragmentActivity> getTestScenario() {
+  protected ActivityScenario<MyExpenses> getTestScenario() {
     return Objects.requireNonNull(activityScenario);
   }
 }

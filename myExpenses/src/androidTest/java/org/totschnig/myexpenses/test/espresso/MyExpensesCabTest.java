@@ -9,7 +9,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.activity.TestMyExpenses;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
@@ -27,7 +26,6 @@ import java.util.concurrent.TimeoutException;
 
 import androidx.annotation.NonNull;
 import androidx.test.core.app.ActivityScenario;
-import androidx.test.espresso.Espresso;
 import androidx.test.espresso.IdlingRegistry;
 import androidx.test.espresso.idling.CountingIdlingResource;
 import androidx.test.espresso.matcher.CursorMatchers;
@@ -52,7 +50,7 @@ import static org.hamcrest.Matchers.is;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.testutils.Matchers.withAdaptedData;
 
-public final class MyExpensesCabTest extends BaseUiTest {
+public final class MyExpensesCabTest extends BaseUiTest<TestMyExpenses> {
 
   private ActivityScenario<TestMyExpenses> activityScenario = null;
   private Account account;
@@ -75,7 +73,6 @@ public final class MyExpensesCabTest extends BaseUiTest {
     activityScenario = ActivityScenario.launch(i);
     activityScenario.onActivity(activity -> activity.decoratedCheckSealeHandler = new DecoratedCheckSealedHandler(activity.getContentResolver(), countingResource));
     IdlingRegistry.getInstance().register(countingResource);
-    Espresso.registerIdlingResources(countingResource);
   }
 
   @After
@@ -184,7 +181,7 @@ public final class MyExpensesCabTest extends BaseUiTest {
 
   @NonNull
   @Override
-  protected ActivityScenario<? extends ProtectedFragmentActivity> getTestScenario() {
+  protected ActivityScenario<TestMyExpenses> getTestScenario() {
     return Objects.requireNonNull(activityScenario);
   }
 }

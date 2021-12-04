@@ -9,7 +9,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.CurrencyUnit;
@@ -38,7 +37,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withSubstring;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.not;
 
-public final class MyExpensesAmountSearchFilterTest extends BaseUiTest {
+public final class MyExpensesAmountSearchFilterTest extends BaseUiTest<MyExpenses> {
 
   private static final long amount1 = -1200L;
   private static final long amount2 = -3400L;
@@ -95,7 +94,7 @@ public final class MyExpensesAmountSearchFilterTest extends BaseUiTest {
 
   @NonNull
   @Override
-  protected ActivityScenario<? extends ProtectedFragmentActivity> getTestScenario() {
+  protected ActivityScenario<MyExpenses> getTestScenario() {
     return scenarioRule.getScenario();
   }
 }

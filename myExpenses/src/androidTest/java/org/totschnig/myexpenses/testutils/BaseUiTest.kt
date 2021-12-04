@@ -36,7 +36,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView
 import java.util.*
 import java.util.concurrent.TimeoutException
 
-abstract class BaseUiTest {
+abstract class BaseUiTest<out A: ProtectedFragmentActivity> {
     private var isLarge = false
 
     val testContext: Context
@@ -107,7 +107,7 @@ abstract class BaseUiTest {
         }
     }
 
-    protected abstract val testScenario: ActivityScenario<out ProtectedFragmentActivity>
+    protected abstract val testScenario: ActivityScenario<out A>
 
     protected fun rotate() {
         testScenario.onActivity {

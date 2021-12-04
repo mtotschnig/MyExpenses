@@ -8,7 +8,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.CurrencyUnit;
@@ -25,7 +24,7 @@ import androidx.test.core.app.ActivityScenario;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 
-public class ForeignTransferEditTest extends BaseUiTest {
+public class ForeignTransferEditTest extends BaseUiTest<ExpenseEdit> {
 
   private ActivityScenario<ExpenseEdit> activityScenario = null;
   private Account account1;
@@ -64,7 +63,7 @@ public class ForeignTransferEditTest extends BaseUiTest {
 
   @NonNull
   @Override
-  protected ActivityScenario<? extends ProtectedFragmentActivity> getTestScenario() {
+  protected ActivityScenario<ExpenseEdit> getTestScenario() {
     return Objects.requireNonNull(activityScenario);
   }
 }

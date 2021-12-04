@@ -9,7 +9,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.CurrencyUnit;
@@ -36,17 +35,17 @@ import static org.totschnig.myexpenses.testutils.Espresso.withIdAndParent;
 /**
  * when converted to Kotlin tests fail with ": No activities found. Did you forget to launch the activity by calling getActivity() or startActivitySync or similar?"
  */
-public class ExpenseEditFlowTest extends BaseUiTest {
+public class ExpenseEditFlowTest extends BaseUiTest<ExpenseEdit> {
 
   @Rule
   public ActivityScenarioRule<ExpenseEdit> scenarioRule = new ActivityScenarioRule<>(ExpenseEdit.class);
-  private static String accountLabel1 = "Test label 1";
   private static Account account1;
-  private static CurrencyUnit currency1 = new CurrencyUnit(Currency.getInstance("USD"));
+  private static final CurrencyUnit currency1 = new CurrencyUnit(Currency.getInstance("USD"));
   private static PaymentMethod paymentMethod;
 
   @BeforeClass
   public static void fixture() {
+    String accountLabel1 = "Test label 1";
     account1 = new Account(accountLabel1, currency1, 0, "", AccountType.CASH, Account.DEFAULT_COLOR);
     assertNotNull(account1.save());
     paymentMethod = new PaymentMethod("TEST");
@@ -87,7 +86,7 @@ public class ExpenseEditFlowTest extends BaseUiTest {
 
   @NonNull
   @Override
-  protected ActivityScenario<? extends ProtectedFragmentActivity> getTestScenario() {
+  protected ActivityScenario<ExpenseEdit> getTestScenario() {
     return scenarioRule.getScenario();
   }
 }

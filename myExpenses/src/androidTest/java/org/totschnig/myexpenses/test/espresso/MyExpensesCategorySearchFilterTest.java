@@ -11,7 +11,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.MyExpenses;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Category;
@@ -43,7 +42,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.totschnig.myexpenses.testutils.Matchers.withCategoryLabel;
 
-public final class MyExpensesCategorySearchFilterTest extends BaseUiTest {
+public final class MyExpensesCategorySearchFilterTest extends BaseUiTest<MyExpenses> {
 
   @Rule
   public ActivityScenarioRule<MyExpenses> scenarioRule =
@@ -147,7 +146,7 @@ public final class MyExpensesCategorySearchFilterTest extends BaseUiTest {
 
   @NonNull
   @Override
-  protected ActivityScenario<? extends ProtectedFragmentActivity> getTestScenario() {
+  protected ActivityScenario<MyExpenses> getTestScenario() {
     return scenarioRule.getScenario();
   }
 }

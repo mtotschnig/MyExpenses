@@ -9,7 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.CurrencyUnit;
@@ -44,7 +43,7 @@ import static org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone;
 import static org.totschnig.myexpenses.testutils.Espresso.checkEffectiveVisible;
 import static org.totschnig.myexpenses.testutils.Espresso.withIdAndParent;
 
-public class ExpenseEditTest extends BaseUiTest {
+public class ExpenseEditTest extends BaseUiTest<ExpenseEdit> {
 
   private ActivityScenario<ExpenseEdit> activityScenario = null;
   private Account account1;
@@ -200,7 +199,7 @@ public class ExpenseEditTest extends BaseUiTest {
 
   @NonNull
   @Override
-  protected ActivityScenario<? extends ProtectedFragmentActivity> getTestScenario() {
+  protected ActivityScenario<ExpenseEdit> getTestScenario() {
     return Objects.requireNonNull(activityScenario);
   }
 }

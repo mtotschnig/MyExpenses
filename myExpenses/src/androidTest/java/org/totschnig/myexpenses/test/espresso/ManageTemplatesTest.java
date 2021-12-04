@@ -9,7 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
 import org.totschnig.myexpenses.activity.ManageTemplates;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.di.AppComponent;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
@@ -41,7 +40,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 
 //TODO test CAB actions
-public class ManageTemplatesTest extends BaseUiTest {
+public class ManageTemplatesTest extends BaseUiTest<ManageTemplates> {
 
   private ActivityScenario<ManageTemplates> activityScenario = null;
 
@@ -149,7 +148,7 @@ public class ManageTemplatesTest extends BaseUiTest {
 
   @NonNull
   @Override
-  protected ActivityScenario<? extends ProtectedFragmentActivity> getTestScenario() {
+  protected ActivityScenario<ManageTemplates> getTestScenario() {
     return Objects.requireNonNull(activityScenario);
   }
 }

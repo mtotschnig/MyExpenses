@@ -16,7 +16,6 @@ import org.totschnig.myexpenses.activity.ManageCurrencies;
 import org.totschnig.myexpenses.activity.ManageMethods;
 import org.totschnig.myexpenses.activity.ManageSyncBackends;
 import org.totschnig.myexpenses.activity.MyPreferenceActivity;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.activity.QifImport;
 import org.totschnig.myexpenses.activity.RoadmapVoteActivity;
 import org.totschnig.myexpenses.model.ContribFeature;
@@ -40,7 +39,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 
-public class SettingsTest extends BaseUiTest {
+public class SettingsTest extends BaseUiTest<MyPreferenceActivity> {
 
   @Rule
   public ActivityScenarioRule<MyPreferenceActivity> scenarioRule =
@@ -154,7 +153,7 @@ public class SettingsTest extends BaseUiTest {
 
   @NonNull
   @Override
-  protected ActivityScenario<? extends ProtectedFragmentActivity> getTestScenario() {
+  protected ActivityScenario<MyPreferenceActivity> getTestScenario() {
     return scenarioRule.getScenario();
   }
 }

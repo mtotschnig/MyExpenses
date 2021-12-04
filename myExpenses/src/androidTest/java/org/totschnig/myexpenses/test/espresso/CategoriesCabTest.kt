@@ -19,10 +19,8 @@ import org.hamcrest.CoreMatchers.containsString
 import org.hamcrest.Matchers
 import org.junit.After
 import org.junit.Test
-import java.time.LocalDate
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ManageCategories
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.AccountType
@@ -36,9 +34,10 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseUiTest
 import org.totschnig.myexpenses.viewmodel.data.Budget
+import java.time.LocalDate
 import java.util.*
 
-class CategoriesCabTest : BaseUiTest() {
+class CategoriesCabTest : BaseUiTest<ManageCategories>() {
     private lateinit var activityScenario: ActivityScenario<ManageCategories>
 
     private val contentResolver
@@ -147,6 +146,6 @@ class CategoriesCabTest : BaseUiTest() {
         assertThat(Category.countSub(categoryId)).isEqualTo(1)
     }
 
-    override val testScenario: ActivityScenario<out ProtectedFragmentActivity>
+    override val testScenario: ActivityScenario<ManageCategories>
         get() = activityScenario
 }

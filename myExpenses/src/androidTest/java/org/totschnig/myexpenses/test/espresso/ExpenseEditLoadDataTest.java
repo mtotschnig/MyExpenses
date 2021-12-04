@@ -15,7 +15,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.Category;
@@ -65,7 +64,7 @@ import static org.totschnig.myexpenses.testutils.Espresso.withIdAndAncestor;
 import static org.totschnig.myexpenses.testutils.Espresso.withIdAndParent;
 import static org.totschnig.myexpenses.testutils.MoreMatchersKt.toolbarTitle;
 
-public class ExpenseEditLoadDataTest extends BaseUiTest {
+public class ExpenseEditLoadDataTest extends BaseUiTest<ExpenseEdit> {
   private static CurrencyUnit currency, foreignCurrency;
   private ActivityScenario<ExpenseEdit> activityScenario = null;
   @Rule
@@ -307,7 +306,7 @@ public class ExpenseEditLoadDataTest extends BaseUiTest {
 
   @NonNull
   @Override
-  protected ActivityScenario<? extends ProtectedFragmentActivity> getTestScenario() {
+  protected ActivityScenario<ExpenseEdit> getTestScenario() {
     return Objects.requireNonNull(activityScenario);
   }
 }

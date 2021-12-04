@@ -25,7 +25,6 @@ import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.activity.TestExpenseEdit
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.model.Account
@@ -41,7 +40,7 @@ import org.totschnig.myexpenses.testutils.BaseUiTest
 import org.totschnig.myexpenses.testutils.Espresso.withIdAndParent
 import java.util.*
 
-class SplitEditTest : BaseUiTest() {
+class SplitEditTest : BaseUiTest<TestExpenseEdit>() {
     private lateinit var activityScenario: ActivityScenario<TestExpenseEdit>
     private val accountLabel1 = "Test label 1"
     lateinit var account1: Account
@@ -114,8 +113,8 @@ class SplitEditTest : BaseUiTest() {
         closeSoftKeyboard()
         scrollTo(R.id.list)
         onView(withId(R.id.list))
-            .perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()));
-        onView(withText(R.string.menu_edit)).perform(click());
+            .perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+        onView(withText(R.string.menu_edit)).perform(click())
         onView(withIdAndParent(R.id.AmountEditText, R.id.Amount)).perform(replaceText("150"))
         onView(withId(R.id.MANAGE_TEMPLATES_COMMAND)).check(doesNotExist())
         onView(withId(R.id.CREATE_TEMPLATE_COMMAND)).check(doesNotExist())
@@ -172,6 +171,6 @@ class SplitEditTest : BaseUiTest() {
         closeSoftKeyboard()
     }
 
-    override val testScenario: ActivityScenario<out ProtectedFragmentActivity>
+    override val testScenario: ActivityScenario<TestExpenseEdit>
         get() = activityScenario
 }
