@@ -367,4 +367,6 @@
     <string name="bug_fixes">දෝෂ නිවැරදි කිරීම්</string>
     <string name="account_types">ගිණුම් වර්ග</string>
     <string name="pref_news_title">පුවත්</string>
+    <string name="title_scan_receipt_feature">ස්කෑන් ලදුපත</string>
+    <string name="debt_managment">ණය කළමනාකරණය</string>
 </resources>
