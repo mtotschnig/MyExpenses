@@ -348,4 +348,6 @@
     <string name="bug_fixes">Correccions</string>
     <string name="new_version">Nova versió</string>
     <string name="pref_news_title">Notícies</string>
+    <string name="title_scan_receipt_feature">Escaneja el rebut</string>
+    <string name="debt_managment">Gestió del deute</string>
 </resources>
