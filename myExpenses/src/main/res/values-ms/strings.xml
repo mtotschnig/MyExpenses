@@ -811,4 +811,6 @@
     <string name="performance_enhancement">Penambahbaikan prestasi</string>
     <string name="stability_improvements">Penambahbaikan kestabilan</string>
     <string name="pref_news_title">Berita</string>
+    <string name="title_scan_receipt_feature">Imbas resit</string>
+    <string name="debt_managment">Pengurusan hutang</string>
 </resources>
