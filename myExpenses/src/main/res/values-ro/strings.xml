@@ -524,4 +524,6 @@
     <string name="bug_fixes">Bug fixat</string>
     <string name="new_version">Versiune nouă</string>
     <string name="pref_news_title">Știri</string>
+    <string name="debt_managment">Gestionarea datoriilor</string>
+    <string name="title_scan_receipt_feature">Scanați chitanța</string>
 </resources>

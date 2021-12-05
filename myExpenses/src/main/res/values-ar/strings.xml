@@ -1031,4 +1031,5 @@
     <string name="single_feature_info">بدلاً من ذلك ، يمكنك شراء وصول غير محدود إلى هذه الميزة فقط.</string>
     <string name="title_webui">واجهة مستخدم الويب</string>
     <string name="account_deleted">تم حذف الحساب</string>
+    <string name="debt_managment">إدارة الديون</string>
 </resources>

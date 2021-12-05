@@ -1004,4 +1004,5 @@
     <string name="bug_fixes">Opravy chyb</string>
     <string name="new_version">Nová verze</string>
     <string name="pref_news_title">Novinky</string>
+    <string name="debt_managment">Správa dluhů</string>
 </resources>

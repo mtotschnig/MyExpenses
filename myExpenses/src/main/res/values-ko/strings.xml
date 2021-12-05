@@ -507,4 +507,6 @@
     <string name="pref_acra_user_email_summary">만약 디버그를 도와주시거나 연락을 받고 싶으시면 이메일 주소를 입력해주세요.</string>
     <string name="new_version">새 버전</string>
     <string name="pref_news_title">뉴스</string>
+    <string name="title_scan_receipt_feature">영수증 스캔</string>
+    <string name="debt_managment">부채 관리</string>
 </resources>

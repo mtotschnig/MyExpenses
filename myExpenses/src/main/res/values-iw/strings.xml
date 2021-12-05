@@ -455,7 +455,7 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">אם הסכומים אינם מעודכנים, הם יוצגו בחלוקה ב- %d לאחר השינוי.</string>
     <string name="warning_change_fraction_digits_3">אם הסכומים מעודכנים, תאבד את המידע על החלק החלקי שלהם.</string>
     <string name="warning_change_fraction_digits_checkbox_label">עדכן סכומים במסד הנתונים</string>
-    <string name="import_categories_success">%1$d קטגוריות יובאו בהצלחה</string>
+    <string name="import_categories_success">%1$d קטגוריות יובאו בהצלחה.</string>
     <string name="import_parties_success">%1$sעסקעות יובאו בהצלחה</string>
     <string name="import_accounts_success">%1$s חשבונות יובאו בהצלחה</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d עסקעות יובאו בהצלחה לחשבון %2$s</string>
@@ -1039,4 +1039,10 @@
     <string name="title_activity_debt_overview">סקירת חוב</string>
     <string name="pref_mlkit_script_title">סקריפט ל־MlKit</string>
     <string name="cb_label_merge_accounts">מיזוג חשבונות</string>
+    <plurals name="import_categories_icons_updated">
+        <item quantity="one">קטגוריה עודכנה עם סמל.</item>
+        <item quantity="two">%1$d קטגוריות עודכנו עם סמלים.</item>
+        <item quantity="many">%1$d קטגוריות עודכנו עם סמלים.</item>
+        <item quantity="other">%1$d קטגוריות עודכנו עם סמלים.</item>
+    </plurals>
 </resources>

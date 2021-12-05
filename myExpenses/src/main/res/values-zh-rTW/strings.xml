@@ -965,4 +965,5 @@
     <string name="pref_acra_user_email_summary">若您願意幫助程式除錯，並允許我們與您聯絡，請輸入您的電子郵件地址。</string>
     <string name="new_version">新版本</string>
     <string name="pref_news_title">新聞</string>
+    <string name="debt_managment">债务管理</string>
 </resources>

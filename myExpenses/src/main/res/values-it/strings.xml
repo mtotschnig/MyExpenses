@@ -42,14 +42,14 @@
     <string name="confirmation_dialog_dont_show_again">Non mostrare nuovamente</string>
     <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Nessun annuncio</string>
     <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">Numero illimitato di conti</string>
-    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Allegare un\'immagine alla transazione</string>
+    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Allega un\'immagine alla transazione</string>
     <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Grafico a torta (Distribuzione per categoria)</string>
     <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">Numero illimitato di piani</string>
-    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Esportazione dell\'elenco delle transazioni in PDF</string>
+    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">Esportazione dell\'elenco delle transazioni in formato PDF</string>
     <string name="contrib_feature_template_widget_label" tools:ignore="UnusedResources">Widget modelli</string>
-    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Importazione CSV</string>
+    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">Importa CSV</string>
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Numero illimitato di modelli per operazioni frazionate</string>
-    <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources">&lt;b xmlns:tools=\"http://schemas.android.com/tools\"&gt;Assistenza per posta elettronica&lt;/b&gt; con risposta garantita entro 2 giorni lavorativi</string>
+    <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b> Supporto per e-mail </b> con risposta garantita entro 2 giorni lavorativi</string>
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Votare direttamente sulla <b>roadmap di sviluppo</b></string>
     <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Grafico storico</string>
     <string name="licence_status_free">Gratuito</string>
@@ -117,25 +117,25 @@
     <string name="expense">Spesa</string>
     <string name="export_expenses">Esportazione delle spese</string>
     <!-- 1$s is replaced with path to file, 2$s with error message -->
-    <string name="export_sdcard_failure">Esportazione a «%1$s» fallita: %2$s</string>
+    <string name="export_sdcard_failure">Esportazione a \"%1$s\" fallita: %2$s</string>
     <!-- 1$s is replaced with path to file -->
-    <string name="export_sdcard_success">I dati sono stati esportati correttamente nel file «%1$s»</string>
+    <string name="export_sdcard_success">I dati sono stati esportati correttamente nel file \"%1$s\"</string>
     <string name="external_storage_unavailable">Archiviazione esterna (Scheda SD) non disponibile</string>
     <string name="feedback">Commenti</string>
     <string name="ftp_uri_malformed">Sintassi errata URI %1$s</string>
-    <string name="grisbi_import_categories_loading">Importazione delle categorie dalla %1$s</string>
-    <string name="grisbi_import_parties_loading">Importazione dei beneficiari dalla %1$s</string>
-    <string name="grouping_day">giorno</string>
+    <string name="grisbi_import_categories_loading">Importazione delle categorie da %1$s</string>
+    <string name="grisbi_import_parties_loading">Importazione dei beneficiari da %1$s</string>
+    <string name="grouping_day">Giorno</string>
     <string name="grouping_last_week">La scorsa settimana</string>
-    <string name="grouping_month">mese</string>
+    <string name="grouping_month">Mese</string>
     <string name="grouping_none">Non raggruppati</string>
-    <string name="grouping_this_week">questa settimana</string>
-    <string name="grouping_today">oggi</string>
-    <string name="grouping_week">settimana</string>
-    <string name="grouping_year">anno</string>
-    <string name="grouping_yesterday">ieri</string>
+    <string name="grouping_this_week">Questa settimana</string>
+    <string name="grouping_today">Oggi</string>
+    <string name="grouping_week">Settimana</string>
+    <string name="grouping_year">Anno</string>
+    <string name="grouping_yesterday">Ieri</string>
     <string name="help_button_rate">Voto o recensione</string>
-    <string name="help_heading_credits">Generico</string>
+    <string name="help_heading_credits">Riconoscimenti</string>
     <string name="help_heading_license">Licenza</string>
     <string name="help_heading_whats_new">Novità</string>
     <string name="important_upgrade_information_heading">Informazioni importanti</string>
@@ -294,10 +294,10 @@
     <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">Se avete ricevuto una licenza, otterrete l\'accesso a funzionalità premium.</string>
     <string name="pref_enter_licence_title" tools:ignore="UnusedResources">Inserisci la licenza</string>
     <string name="pref_export_format_title">Formato dati</string>
-    <string name="pref_import_from_grisbi_summary">Importazione di categorie e beneficiari da file Grisbi XML</string>
-    <string name="pref_import_from_grisbi_title">Importazione dei dati Grisbi</string>
+    <string name="pref_import_from_grisbi_summary">Importa categorie e beneficiari da file Grisbi XML</string>
+    <string name="pref_import_from_grisbi_title">Importa da Grisbi</string>
     <!-- %s is replaced with QIF or CSV -->
-    <string name="pref_import_summary">Importazione di operazioni, categorie e beneficiari da %s</string>
+    <string name="pref_import_summary">Importa operazioni, categorie e beneficiari da %s</string>
     <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">Importazione %s</string>
     <string name="pref_manage_accounts_title">Conti</string>
@@ -310,7 +310,7 @@
     <string name="pref_manage_sync_backends_title">Back-end di sincronizzazione</string>
     <!-- %s will be replaced with list of backends -->
     <string name="pref_manage_sync_backends_summary">Aggiungi un back-end per la sincronizzazione dei conti (%s).</string>
-    <string name="pref_more_info_dialog_title">Licenza &amp; Generico</string>
+    <string name="pref_more_info_dialog_title">Licenza &amp; Riconoscimenti</string>
     <string name="pref_password_not_equal">Le password non corrispondono</string>
     <string name="pref_perform_protection_title">Sicurezza</string>
     <string name="pref_perform_share_title">Condividi esportazioni e backup</string>
@@ -355,7 +355,7 @@
     <string name="restore_db_failure">Ripristino del database non riuscito.</string>
     <string name="restore_db_success">Il database è stato ripristinato dal backup.</string>
     <string name="restore_preferences_failure">Ripristino delle preferenze non riuscito</string>
-    <string name="restore_backup_file_not_found">Nessun file %1$s trovato in archivio «%2$s»</string>
+    <string name="restore_backup_file_not_found">Nessun file %1$s trovato in archivio \"%2$s\"</string>
     <string name="restore_preferences_success">Le preferenze sono state ripristinate dal backup.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d piani sono stati ripristinati dal backup</string>
     <string name="save_transaction_and_new_success">Salvato con successo</string>
@@ -398,7 +398,7 @@
     <string name="unsplit_amount_greater_than_zero">C\'è ancora qualche importo non frazionato.</string>
     <string name="warning_backup">Il database e le preferenze verranno salvati su «%1$s».</string>
     <string name="continue_confirmation">Vuoi continuare?</string>
-    <string name="warning_delete_account">Il conto «%1$s» e tutte le sue transazioni saranno eliminati.</string>
+    <string name="warning_delete_account">Il conto \"%1$s\" e tutte le sue transazioni saranno eliminati.</string>
     <plurals name="warning_delete_main_category">
         <item quantity="one">La categoria selezionata ha sottocategorie, che verranno quindi cancellate.</item>
         <item quantity="other">%1$d categorie selezionate hanno sottocategorie, che verranno quindi cancellate.</item>
@@ -423,7 +423,7 @@
     <string name="warning_delete_reconciled">L\'eliminazione delle transazioni riconciliate causerà le registrazioni a differire dal conto bancario.</string>
     <string name="warning_balance_account">Si prega di confrontare il totale liquidato con il saldo finale nel tuo estratto conto bancario. Se si procede, le transazioni liquidate verranno contrassegnate come riconciliate.</string>
     <string name="warning_password_protected">App è protetto da password.</string>
-    <string name="warning_widget_disabled">È necessario abilitare questo widget nelle impostazioni app.</string>
+    <string name="warning_widget_disabled">È necessario abilitare questo widget nelle impostazioni dell\'app.</string>
     <string name="warning_instantiate_template_from_widget_password_protected">La creazione rapida di modelli da questo widget funziona solo se si consente l\'immissione di dati da widget senza password nelle impostazioni app.</string>
     <string name="warning_password_contrib">L\'impostazione di una domanda di sicurezza consente di sbloccare l\'applicazione, nel caso in cui si dimentichi la password.</string>
     <string name="warning_reset_account">Se si continua, tutte le transazioni di questo conto verranno eliminate dal database e non potranno essere ripristinate.</string>
@@ -508,7 +508,7 @@
     <string name="menu_undelete_transaction">Annullare l\'eliminazione</string>
     <string name="slash_forbidden_in_filename">Carattere / non consentito nei nomi dei file</string>
     <string name="io_error_unable_to_create_file">Impossibile creare il file %1$s nella cartella %2$s</string>
-    <string name="menu_categories_export">Esportare in QIF</string>
+    <string name="menu_categories_export">Esporta in formato QIF</string>
     <string name="pref_csv_import_delimiter">Delimitatore</string>
     <string name="csv_import_preview">Anteprima</string>
     <string name="menu_parse">Analisi</string>
@@ -556,7 +556,7 @@
     <string name="warning_cannot_move_split_transaction">Questa operazione frazionata non può essere spostato per %1$s perché ci sono frazionamenti che fanno riferimento a questo conto.</string>
     <string name="content_description_calculator_clear_button">Reinizializzare tutti</string>
     <string name="content_description_calculator_delete_button">Eliminare l\'ultima cifra</string>
-    <string name="paypal_callback_info">La transazione è stata completata e una ricevuta per l\'acquisto è stata inviata a voi per e-mail. Può accedere al suo account su www.paypal.com per visualizzare i dettagli di questa transazione.</string>
+    <string name="paypal_callback_info">La transazione è stata completata e una ricevuta per l\'acquisto le è stata inviata per e-mail. Può accedere al suo account su www.paypal.com per visualizzare i dettagli di questa transazione.</string>
     <string name="search_transfer">Ricerca per il trasferimento</string>
     <!-- Sort plans (recurring transactions) by the next instance  -->
     <string name="pref_sort_order_next_instance">Istanza successiva</string>
@@ -686,7 +686,7 @@
         <item quantity="one">Un oggetto è stato cancellato con successo.</item>
         <item quantity="other">%d oggetti sono stati eliminati con successo.</item>
     </plurals>
-    <string name="feature_deprecated">deprecato</string>
+    <string name="feature_deprecated">Deprecato</string>
     <string name="pref_protection_device_lock_screen_title">Schermata di blocco del dispositivo</string>
     <string name="pref_warning_only_one_protection">Prima di poter utilizzare la protezione con %1$s, è necessario disattivare la protezione con %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">La schermata di blocco del dispositivo sicuro non è stata configurata.</string>
@@ -780,7 +780,7 @@
     <!-- In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
     but we warn the user if he includes this special item in the selection.   -->
-    <string name="unmapped_filter_only_single">Il filtro per «Nessuna categoria» non può essere incluso nella selezione multipla</string>
+    <string name="unmapped_filter_only_single">Il filtro per \"Nessuna categoria\" non può essere incluso nella selezione multipla</string>
     <string name="upgrade_information_cloud_sync_storage_format">A parire dalla versione 2.9.8, il modo in cui i dati sono salvati sul back-end è cambiato. Per favore, aggiorna a questa versione tutti i dispositivi sincronizzati prima di inserire qualsiasi nuova voce su uno di essi.</string>
     <string name="pref_security_export_passphrase_title">Password per i backup</string>
     <string name="pref_security_export_passphrase_summary">I backup saranno crittografati con questa password</string>
@@ -846,7 +846,7 @@
     <string name="budget_filter_all_accounts">Tutti i conti</string>
     <string name="budget_form_label_filter">Filtro</string>
     <string name="dialog_title_warning_delete_budget">Elimina il budget?</string>
-    <string name="warning_delete_budget">Il budget «%1$s» verrà eliminato.</string>
+    <string name="warning_delete_budget">Il budget \"%1$s\" verrà eliminato.</string>
     <string name="menu_edit_budget">Modifica il budget</string>
     <string name="onboarding_privacy_title">I tuoi dati rimangono nelle tue mani</string>
     <string name="onboarding_privacy_intro">I tuoi dati finanziari non vengono inviati a nessun server, né gestiti da noi, né da terze parti.</string>
@@ -902,7 +902,7 @@
     <string name="feature_download_requested">É richiesta la funzione %s dal Google Play Store.</string>
     <string name="feature_downloaded">La funzione %s è stata installata.</string>
     <!-- If this mode is active, the action button will open the camera for scanning a receipt  -->
-    <string name="menu_scan_mode">Modalità scanner</string>
+    <string name="menu_scan_mode">Modalità scansione</string>
     <!-- Button that triggers the scan operation -->
     <string name="button_scan">Scansiona</string>
     <string name="pref_ocr_total_indicators_title">Indicatori dell\'importo totale</string>
@@ -1001,8 +1001,8 @@
         <item quantity="other">Il debito %1$s ha %2$d transazioni mappate.</item>
     </plurals>
     <string name="dialog_title_delete_debt">Cancellare il debito\?</string>
-    <string name="dialog_confirm_discard_new_debt">Scarta il nuovo debito\?</string>
-    <string name="dialog_title_warning_delete_party">Eliminare la partite\?</string>
+    <string name="dialog_confirm_discard_new_debt">Scartare il nuovo debito\?</string>
+    <string name="dialog_title_warning_delete_party">Eliminare la parte\?</string>
     <string name="warning_party_delete_debt">Quando si elimina questa parte, anche i debiti definiti per essa saranno eliminati.</string>
     <string name="debts">Debiti</string>
     <string name="debt_I_owe">Devo %s</string>
@@ -1012,4 +1012,8 @@
     <string name="title_activity_debt_overview">Panoramica dei Debiti</string>
     <string name="cb_label_merge_accounts">Unisci i conti</string>
     <string name="pref_mlkit_script_title">Sistema di scrittura per MlKit</string>
+    <plurals name="import_categories_icons_updated">
+        <item quantity="one">Una categoria è stata aggiornata con l\'icona.</item>
+        <item quantity="other">%1$d categorie sono state aggiornate con le icone.</item>
+    </plurals>
 </resources>
