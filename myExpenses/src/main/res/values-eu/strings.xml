@@ -709,4 +709,6 @@
     <string name="bug_fixes">Konpondutako akatsak</string>
     <string name="new_version">Bertsio berria</string>
     <string name="pref_news_title">Berriak</string>
+    <string name="debt_managment">Zorraren kudeaketa</string>
+    <string name="title_scan_receipt_feature">Eskaneatu ordainagiria</string>
 </resources>
