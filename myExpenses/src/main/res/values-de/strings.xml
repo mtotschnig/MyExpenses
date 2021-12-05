@@ -1011,4 +1011,8 @@
     <string name="title_activity_debt_overview">Schuldenübersicht</string>
     <string name="pref_mlkit_script_title">Skript für MlKit</string>
     <string name="cb_label_merge_accounts">Konten zusammenführen</string>
+    <plurals name="import_categories_icons_updated">
+        <item quantity="one">Eine Kategorie wurde mit Symbol aktualisiert.</item>
+        <item quantity="other">%1$d Kategorien wurden mit Symbolen aktualisiert.</item>
+    </plurals>
 </resources>
