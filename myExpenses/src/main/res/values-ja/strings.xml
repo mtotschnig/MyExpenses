@@ -894,4 +894,6 @@
     <string name="stability_improvements">安定性の向上</string>
     <string name="new_version">新バージョン</string>
     <string name="pref_news_title">ニュース</string>
+    <string name="title_scan_receipt_feature">レシートのスキャン</string>
+    <string name="debt_managment">債務管理</string>
 </resources>
