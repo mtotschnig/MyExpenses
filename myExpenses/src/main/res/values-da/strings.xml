@@ -481,4 +481,6 @@
     <string name="pref_acra_user_email_summary">Hvis du gerne vil hjælpe os ved debugging og er indforstået med at vi  tager kontakt til dig, skal du indtaste din e-mail adresse.</string>
     <string name="new_version">Ny version</string>
     <string name="pref_news_title">Nyheder</string>
+    <string name="title_scan_receipt_feature">Scan kvittering</string>
+    <string name="debt_managment">Forvaltning af gæld</string>
 </resources>
