@@ -763,4 +763,6 @@
     <string name="stability_improvements">Cải thiện độ ổn định</string>
     <string name="new_version">Phiên bản mới</string>
     <string name="pref_news_title">Tin tức</string>
+    <string name="title_scan_receipt_feature">Quét biên lai</string>
+    <string name="debt_managment">Quản lý nợ</string>
 </resources>
