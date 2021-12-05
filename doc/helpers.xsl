@@ -111,6 +111,30 @@
                 <xsl:apply-templates mode="unescape"
                     select="document($strings)/resources/string[@name='debt_managment']" />
             </xsl:when>
+            <xsl:when test="$version = '3.3.5'">
+                <xsl:if test="$itemize">
+                    <xsl-text>•&#032;</xsl-text>
+                </xsl:if>
+                <xsl:apply-templates mode="unescape"
+                    select="document($strings)/resources/string[@name='debt_managment']" />
+                <xsl:text> 2.0</xsl:text>
+                <xsl:value-of select="$separator" />
+                <xsl:apply-templates mode="unescape"
+                    select="document($strings)/resources/string[@name='pref_category_title_export']" />
+                <xsl:text>: JSON</xsl:text>
+                <xsl:value-of select="$separator" />
+                <xsl:apply-templates mode="unescape"
+                    select="document($strings)/resources/string[@name='title_scan_receipt_feature']" />
+                <xsl:text> (</xsl:text>
+                <xsl:value-of select="my:displayNameForScript('Han', $lang)" />
+                <xsl:text>, </xsl:text>
+                <xsl:value-of select="my:displayNameForScript('Deva', $lang)" />
+                <xsl:text>, </xsl:text>
+                <xsl:value-of select="my:displayNameForScript('Jpan', $lang)" />
+                <xsl:text>, </xsl:text>
+                <xsl:value-of select="my:displayNameForScript('Kore', $lang)" />
+                <xsl:text>)</xsl:text>
+            </xsl:when>
             <xsl:otherwise />
         </xsl:choose>
     </xsl:template>

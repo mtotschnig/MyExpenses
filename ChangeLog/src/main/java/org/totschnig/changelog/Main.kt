@@ -68,6 +68,37 @@ class Main {
             }
         }
 
+        var displayNameForScript: ExtensionFunction = object : ExtensionFunction {
+            override fun getName() =
+                QName("http://myexpenses.mobi/", "displayNameForScript")
+
+            override fun getResultType() = SequenceType.makeSequenceType(
+                ItemType.STRING, OccurrenceIndicator.ONE
+            )
+
+            override fun getArgumentTypes() = arrayOf(
+                SequenceType.makeSequenceType(
+                    ItemType.STRING, OccurrenceIndicator.ONE
+                ),
+                SequenceType.makeSequenceType(
+                    ItemType.STRING, OccurrenceIndicator.ONE
+                )
+            )
+
+            @Throws(SaxonApiException::class)
+            override fun call(arguments: Array<XdmValue>): XdmValue {
+                val script = (arguments[0].itemAt(0) as XdmAtomicValue).stringValue
+                val displayLanguage = (arguments[1].itemAt(0) as XdmAtomicValue).stringValue
+                return XdmAtomicValue(getDisplayNameForScript(Locale(displayLanguage), script))
+            }
+        }
+
+        private fun getDisplayNameForScript(locale: Locale, script: String): String =
+            when(script) {
+                "Han" -> Locale.CHINESE.getDisplayLanguage(locale)
+                else -> Locale.Builder().setScript(script).build().getDisplayScript(locale)
+            }
+
         @JvmStatic
         fun main(args: Array<String>) {
             Locale.setDefault(Locale("en"))
@@ -94,6 +125,7 @@ class Main {
             val processor = Processor(false)
             processor.registerExtensionFunction(displayNameForLanguage)
             processor.registerExtensionFunction(fileExists)
+            processor.registerExtensionFunction(displayNameForScript)
             val out: Serializer = outFile?.let { processor.newSerializer(File(it)) } ?: processor.newSerializer(System.out)
             val compiler: XsltCompiler = processor.newXsltCompiler()
             val stylesheet: XsltExecutable =
