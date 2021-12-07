@@ -1011,4 +1011,8 @@
     <string name="title_activity_debt_overview">Преглед на дълга</string>
     <string name="cb_label_merge_accounts">Всичко в една сметка</string>
     <string name="pref_mlkit_script_title">Скрипт за MlKit</string>
+    <plurals name="import_categories_icons_updated">
+        <item quantity="one">Една категория е обновена с икона.</item>
+        <item quantity="other">%1$d категории са обновени с икони.</item>
+    </plurals>
 </resources>
