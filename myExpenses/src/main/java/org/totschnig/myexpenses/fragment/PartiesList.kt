@@ -118,7 +118,8 @@ class PartiesList : Fragment(), OnDialogResultListener {
     }
 
     inner class PartyWrapper(val party: Party) {
-        val hasOpenDebts = viewModel.getDebts(party.id)?.any { !it.isSealed && it.currentBalance != 0L } == true
+        val hasOpenDebts =
+            viewModel.getDebts(party.id)?.any { !it.isSealed && it.currentBalance != 0L } == true
     }
 
     inner class PayeeAdapter :
@@ -143,7 +144,8 @@ class PartiesList : Fragment(), OnDialogResultListener {
 
         private fun getParty(position: Int): PartyWrapper = getItem(position)
 
-        fun getSelected(): List<PartyWrapper> = currentList.filter { checkStates.contains(it.party.id) }
+        fun getSelected(): List<PartyWrapper> =
+            currentList.filter { checkStates.contains(it.party.id) }
 
         val checkedCount: Int
             get() = getSelected().size
@@ -171,8 +173,12 @@ class PartiesList : Fragment(), OnDialogResultListener {
                     debts?.forEachIndexed { index, debt ->
                         index2IdMap[index] = debt.id
                         val currencyUnit = currencyContext[debt.currency]
-                        val menuTitle = TextUtils.concat(debt.label, " ", currencyFormatter.formatMoney(Money(currencyUnit, debt.currentBalance))
-                            .withAmountColor(resources, debt.currentBalance.sign))
+                        val menuTitle = TextUtils.concat(
+                            debt.label,
+                            " ",
+                            currencyFormatter.formatMoney(Money(currencyUnit, debt.currentBalance))
+                                .withAmountColor(resources, debt.currentBalance.sign)
+                        )
                         val item = subMenu.add(Menu.NONE, index, Menu.NONE, menuTitle)
                         if (debt.isSealed) {
                             item.setIcon(R.drawable.ic_lock)
@@ -396,7 +402,6 @@ class PartiesList : Fragment(), OnDialogResultListener {
     }
 
     private fun resetAdapter() {
-        //adapter.clearChecks()
         //noinspection NotifyDataSetChanged
         adapter.notifyDataSetChanged()
     }
@@ -413,9 +418,11 @@ class PartiesList : Fragment(), OnDialogResultListener {
     }
 
     private fun onQueryTextChange(newText: String): Boolean {
-        if (newText != filter) {
-            filter = newText
-            loadParties()
+        with(newText.takeIf { !it.isEmpty() }) {
+            if (this != filter) {
+                filter = this
+                loadParties()
+            }
         }
         return true
     }
@@ -451,7 +458,9 @@ class PartiesList : Fragment(), OnDialogResultListener {
         savedInstanceState?.let { adapter.onRestoreInstanceState(it) }
         binding.list.adapter = adapter
         viewModel.getParties().observe(viewLifecycleOwner) { parties: List<Party> ->
-            activity?.invalidateOptionsMenu()
+            if (filter.isNullOrEmpty()) {
+                activity?.invalidateOptionsMenu()
+            }
             if (action != ACTION_SELECT_FILTER) {
                 binding.empty.visibility = if (parties.isEmpty()) View.VISIBLE else View.GONE
                 binding.list.visibility = if (parties.isEmpty()) View.GONE else View.VISIBLE
@@ -462,9 +471,12 @@ class PartiesList : Fragment(), OnDialogResultListener {
                     listOf(
                         PartyWrapper(
                             Party(
-                            CategoryTreeBaseAdapter.NULL_ITEM_ID, getString(R.string.unmapped),
-                            mappedTransactions = false, mappedTemplates = false, mappedDebts = false
-                        )
+                                CategoryTreeBaseAdapter.NULL_ITEM_ID,
+                                getString(R.string.unmapped),
+                                mappedTransactions = false,
+                                mappedTemplates = false,
+                                mappedDebts = false
+                            )
                         )
                     ).plus(elements)
                 else

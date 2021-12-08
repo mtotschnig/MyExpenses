@@ -19,6 +19,8 @@ import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.testutils.BaseUiTest
+import org.totschnig.myexpenses.testutils.Espresso.wait
+import org.totschnig.myexpenses.testutils.Matchers.withListSize
 import java.util.*
 
 class AccountEditTest : BaseUiTest<AccountEdit>() {
@@ -37,7 +39,7 @@ class AccountEditTest : BaseUiTest<AccountEdit>() {
         val i = Intent(targetContext, AccountEdit::class.java)
         activityScenario = ActivityScenario.launch(i)
         Espresso.onView(ViewMatchers.withId(R.id.Currency)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.Currency)).perform(org.totschnig.myexpenses.testutils.Espresso.wait(org.totschnig.myexpenses.testutils.Matchers.withListSize(Matchers.greaterThan(0)), 1000))
+        Espresso.onView(ViewMatchers.withId(R.id.Currency)).perform(wait(withListSize(Matchers.greaterThan(0)), 1000))
         Espresso.onView(ViewMatchers.withId(R.id.Label)).perform(ViewActions.typeText(LABEL))
         Espresso.onView(ViewMatchers.withId(R.id.CREATE_COMMAND)).perform(ViewActions.click())
         assertFinishing()

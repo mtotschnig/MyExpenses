@@ -21,6 +21,7 @@ import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.RootMatchers
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.platform.app.InstrumentationRegistry
+import com.adevinta.android.barista.internal.matcher.HelperMatchers.menuIdMatcher
 import org.assertj.core.api.Assertions
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.instanceOf
@@ -83,7 +84,7 @@ abstract class BaseUiTest<out A: ProtectedFragmentActivity> {
             viewInteraction.perform(ViewActions.click())
         } catch (e: NoMatchingViewException) {
             Espresso.openActionBarOverflowMenu(isCab)
-            onData(Matchers.menuIdMatcher(menuItemId)).inRoot(RootMatchers.isPlatformPopup()).perform(ViewActions.click())
+            onData(menuIdMatcher(menuItemId)).inRoot(RootMatchers.isPlatformPopup()).perform(ViewActions.click())
         }
     }
 

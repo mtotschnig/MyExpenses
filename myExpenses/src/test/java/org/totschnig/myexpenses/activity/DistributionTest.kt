@@ -14,6 +14,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.adevinta.android.barista.internal.matcher.HelperMatchers.menuIdMatcher
 import org.assertj.core.api.Assertions.assertThat
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.containsString
@@ -30,7 +31,6 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import java.util.*
-
 
 @RunWith(AndroidJUnit4::class)
 class DistributionTest {
@@ -92,6 +92,6 @@ class DistributionTest {
     }
 
     private fun onContextMenu(menuItemId: Int): DataInteraction =
-            onData(org.totschnig.myexpenses.testutils.Matchers.menuIdMatcher(menuItemId))
+            onData(menuIdMatcher(menuItemId))
                     .inRoot(isPlatformPopup())
 }

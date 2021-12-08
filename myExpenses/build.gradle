@@ -110,14 +110,6 @@ android {
         beta.res.srcDirs += 'src/release/res'
 
         main.res.srcDirs += 'src/main/categoryIcons'
-
-        test {
-            java.srcDirs += "src/testShared/java"
-        }
-
-        androidTest {
-            java.srcDirs += "src/testShared/java"
-        }
     }
 
     lintOptions {
@@ -282,6 +274,10 @@ dependencies {
     androidTestImplementation "org.mockito:mockito-android:$mockitoVersion"
 
     androidTestImplementation('com.adevinta.android:barista:4.2.0') {
+        exclude group: 'org.jetbrains.kotlin' // Only if you already use Kotlin in your project
+    }
+
+    testImplementation('com.adevinta.android:barista:4.2.0') {
         exclude group: 'org.jetbrains.kotlin' // Only if you already use Kotlin in your project
     }
 
