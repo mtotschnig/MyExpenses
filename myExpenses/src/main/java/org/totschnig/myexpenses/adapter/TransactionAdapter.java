@@ -361,8 +361,9 @@ public class TransactionAdapter extends ResourceCursorAdapter {
 
     @OnClick(R.id.colorContainer)
     void toggleCrStatus(View v) {
-      if (onToggleCrStatus != null) {
-        onToggleCrStatus.toggle((Long) v.getTag());
+      Long id = (Long) v.getTag();
+      if (id != -1 && onToggleCrStatus != null) {
+        onToggleCrStatus.toggle(id);
       }
     }
   }
