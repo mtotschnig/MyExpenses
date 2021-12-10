@@ -31,7 +31,7 @@ allprojects {
 }
 
 ext {
-    versionCode = 502
+    versionCode = 503
     versionName = '3.3.5'
     compileSdkVersion = 31
     minSdkVersion = 21
