@@ -1011,4 +1011,8 @@
     <string name="title_activity_debt_overview">Visão geral da dívida</string>
     <string name="pref_mlkit_script_title">Script para MlKit</string>
     <string name="cb_label_merge_accounts">Fundir contas</string>
+    <plurals name="import_categories_icons_updated">
+        <item quantity="one">Uma categoria foi atualizada com ícone.</item>
+        <item quantity="other">%1$d categorias foram atualizadas com ícones.</item>
+    </plurals>
 </resources>
