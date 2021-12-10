@@ -29,7 +29,6 @@ import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.IdlingRegistry;
 import androidx.test.espresso.idling.CountingIdlingResource;
 import androidx.test.espresso.matcher.CursorMatchers;
-import androidx.test.filters.FlakyTest;
 
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onData;
@@ -82,7 +81,6 @@ public final class MyExpensesCabTest extends BaseUiTest<TestMyExpenses> {
   }
 
   @Test
-  @FlakyTest
   public void cloneCommandIncreasesListSize() throws TimeoutException {
     int origListSize = waitForAdapter().getCount();
     openCab();
@@ -92,7 +90,6 @@ public final class MyExpensesCabTest extends BaseUiTest<TestMyExpenses> {
   }
 
   @Test
-  @FlakyTest
   public void editCommandKeepsListSize() throws TimeoutException {
     int origListSize = waitForAdapter().getCount();
     openCab();

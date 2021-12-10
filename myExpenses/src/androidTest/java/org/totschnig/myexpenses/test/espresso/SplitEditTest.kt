@@ -17,6 +17,7 @@ import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.hasChildCount
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.filters.FlakyTest
 import com.adevinta.android.barista.interaction.BaristaScrollInteractions.scrollTo
 import com.adevinta.android.barista.internal.viewaction.NestedEnabledScrollToAction.nestedScrollToAction
 import org.assertj.core.api.Assertions.assertThat
@@ -150,6 +151,7 @@ class SplitEditTest : BaseUiTest<TestExpenseEdit>() {
     }
 
     @Test
+    @FlakyTest
     fun create_and_save() {
         activityScenario = ActivityScenario.launch(baseIntent)
         createParts(1)
