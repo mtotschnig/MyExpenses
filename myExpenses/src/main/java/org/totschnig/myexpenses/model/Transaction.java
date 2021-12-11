@@ -953,21 +953,22 @@ public class Transaction extends Model implements ITransaction {
   }
 
   protected void addOriginPlanInstance(ArrayList<ContentProviderOperation> ops) {
-    if (originPlanInstanceId != null && originTemplateId != null) {
-      ContentValues values = new ContentValues();
-      values.put(KEY_TEMPLATEID, originTemplateId);
-      values.put(KEY_INSTANCEID, originPlanInstanceId);
-      final ContentProviderOperation.Builder builder =
-          ContentProviderOperation.newInsert(TransactionProvider.PLAN_INSTANCE_STATUS_URI);
-      if (getId() == 0) {
-        builder.withValueBackReference(KEY_TRANSACTIONID, 0);
+    if (originPlanInstanceId != null) {
+      if (originTemplateId != null) {
+        ContentValues values = new ContentValues();
+        values.put(KEY_TEMPLATEID, originTemplateId);
+        values.put(KEY_INSTANCEID, originPlanInstanceId);
+        final ContentProviderOperation.Builder builder =
+            ContentProviderOperation.newInsert(TransactionProvider.PLAN_INSTANCE_STATUS_URI);
+        if (getId() == 0) {
+          builder.withValueBackReference(KEY_TRANSACTIONID, 0);
+        } else {
+          values.put(KEY_TRANSACTIONID, getId());
+        }
+        ops.add(builder.withValues(values).build());
       } else {
-        values.put(KEY_TRANSACTIONID, getId());
+        CrashHandler.report(new IllegalStateException("No originTemplateId provided"));
       }
-      ops.add(builder.withValues(values).build());
-    } else if (originPlanInstanceId != null || originTemplateId != null) {
-      //TODO check how this can happen (got 1 report via Crashlytics)
-      CrashHandler.report(new IllegalStateException(String.format("originPlanInstanceId/originTemplateId: %s/%s", originPlanInstanceId, originTemplateId)));
     }
   }
 
