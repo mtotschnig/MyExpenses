@@ -129,6 +129,134 @@ amazon:
   pt: "www.amazon.com.br"
 versions:
   -
+    - 3.3.5
+    - "2021-12-11"
+    -
+      ar: |
+        إدارة الديون 2.0. تصدير: JSON. مسح الإيصال ضوئياً (الصينية, الديفاناجاري, اليابانية, الكورية)
+      bg: |
+        Управление на задължения 2.0. Експортиране: JSON. Сканиране на касова бележка (китайски, деванагари, японска, корейска)
+      ca: |
+        Gestió del deute 2.0. Exportació: JSON. Escaneja el rebut (xinès, devanagari, japonès, coreà)
+      cs: |
+        Správa dluhů 2.0. Exportovat: JSON. Skenovat fakturu (čínština, dévanágarí, japonské, korejské)
+      da: |
+        Forvaltning af gæld 2.0. Eksporter: JSON. Scan kvittering (kinesisk, devanagari, japansk, koreansk)
+      de: |
+        Schuldenverwaltung 2.0. Export: JSON. Quittung scannen (Chinesisch, Devanagari, Japanisch, Koreanisch)
+      el: |
+        Διαχείριση χρέους 2.0. Εξαγωγή: JSON. Σάρωση απόδειξης (Κινεζικά, Ντεβαναγκάρι, Ιαπωνικό, Κορεατικό)
+      es: |
+        Gestión de la deuda 2.0. Exportar: JSON. Escanear recibo (chino, devanagari, japonés, coreano)
+      eu: |
+        Zorraren kudeaketa 2.0. Esportatu: JSON. Eskaneatu ordainagiria (txinera, devanagaria, japoniarra, korearra)
+      fr: |
+        Gestion des dettes 2.0. Export: JSON. Scanner le reçu (chinois, dévanagari, japonais, coréen)
+      hr: |
+        Upravljanje dugovima 2.0. Izvezi: JSON. Skeniraj potvrdu (kineski, devangari pismo, japansko pismo, korejsko pismo)
+      hu: |
+        Adósságkezelés 2.0. Export: JSON. Nyugta beolvasása (kínai, Devanagári, Japán, Koreai)
+      it: |
+        Gestione dei debiti 2.0. Esporta: JSON. Scansiona lo scontrino (cinese, devanagari, giapponese, coreano)
+      iw: |
+        ניהול חובות 2.0. יצוא: JSON. סריקת קבלה (סינית, דוואנגרי, יפני, קוריאני)
+      ja: |
+        債務管理 2.0. エクスポート: JSON. レシートのスキャン (中国語, デーバナーガリー文字, 日本語の文字, 韓国語の文字)
+      ms: |
+        Pengurusan hutang 2.0. Eksport: JSON. Imbas resit (Cina, Devanagari, Jepun, Korea)
+      km: |
+        ការគ្រប់គ្រងបំណុល 2.0. នាំចេញ: JSON. ស្កេនបង្កាន់ដៃ (ចិន, ដាវ៉ាន់ណាការិ, ជប៉ុន, កូរ៉េ)
+      kn: |
+        ಸಾಲ ನಿರ್ವಹಣೆ 2.0. ರಫ್ತು ಮಾಡಿ: JSON. ರಶೀದಿಯನ್ನು ಸ್ಕ್ಯಾನ್ ಮಾಡಿ (ಚೈನೀಸ್, ದೇವನಾಗರಿ, ಜಾಪನೀಸ್, ಕೊರಿಯನ್)
+      ko: |
+        부채 관리 2.0. 내보내기: JSON. 영수증 스캔 (중국어, 데바나가리 문자, 일본 문자, 한국어)
+      pl: |
+        Zarządzanie długiem 2.0. Eksport: JSON. Zeskanuj paragon (chiński, dewanagari, japońskie, koreańskie)
+      pt: |
+        Gestão de dívidas 2.0. Exportar: JSON. Digitalizar recibo (chinês, devanágari, japonês, coreano)
+      ro: |
+        Gestionarea datoriilor 2.0. Export: JSON. Scanați chitanța (chineză, devanagari, japoneză, coreeană)
+      ru: |
+        Управление долгом 2.0. Экспорт: JSON. Скан чека (китайский, деванагари, японская, корейская)
+      si: |
+        ණය කළමනාකරණය 2.0. අපනයනය : JSON. ස්කෑන් ලදුපත (චීන, දේවනාගරී, ජපන්, කොරියානු)
+      ta: |
+        கடன் மேலாண்மை 2.0. ஏற்றுமதி: JSON. ரசீது ஸ்கேன் (சீனம், தேவநாகரி, ஜப்பானியம், கொரியன்)
+      tr: |
+        Borç yönetimi 2.0. Dışa aktar: JSON. Makbuz tara (Çince, Devanagari, Japon, Kore)
+      vi: |
+        Quản lý nợ 2.0. Xuất dữ liệu: JSON. Quét biên lai (Tiếng Trung, Chữ Devanagari, Chữ Nhật Bản, Chữ Hàn Quốc)
+      zh: |
+        债务管理 2.0. 导出: JSON. 扫描收据 (中文, 天城文, 日文, 韩文)
+      zh-TW: |
+        债务管理 2.0. 匯出: JSON. 掃描收據 (Chinese, Devanagari, Japanese, Korean)
+      en: |
+        Debt management 2.0. Export: JSON. Scan receipt (Chinese, Devanagari, Japanese, Korean)
+  -
+    - 3.3.4
+    - "2021-09-25"
+    -
+      ar: |
+        إدارة الديون
+      bg: |
+        Управление на задължения
+      ca: |
+        Gestió del deute
+      cs: |
+        Správa dluhů
+      da: |
+        Forvaltning af gæld
+      de: |
+        Schuldenverwaltung
+      el: |
+        Διαχείριση χρέους
+      es: |
+        Gestión de la deuda
+      eu: |
+        Zorraren kudeaketa
+      fr: |
+        Gestion des dettes
+      hr: |
+        Upravljanje dugovima
+      hu: |
+        Adósságkezelés
+      it: |
+        Gestione dei debiti
+      iw: |
+        ניהול חובות
+      ja: |
+        債務管理
+      ms: |
+        Pengurusan hutang
+      km: |
+        ការគ្រប់គ្រងបំណុល
+      kn: |
+        ಸಾಲ ನಿರ್ವಹಣೆ
+      ko: |
+        부채 관리
+      pl: |
+        Zarządzanie długiem
+      pt: |
+        Gestão de dívidas
+      ro: |
+        Gestionarea datoriilor
+      ru: |
+        Управление долгом
+      si: |
+        ණය කළමනාකරණය
+      ta: |
+        கடன் மேலாண்மை
+      tr: |
+        Borç yönetimi
+      vi: |
+        Quản lý nợ
+      zh: |
+        债务管理
+      zh-TW: |
+        债务管理
+      en: |
+        Debt management
+  -
     - 3.3.3
     - "2021-07-09"
     -
