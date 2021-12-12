@@ -288,7 +288,6 @@
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">새 로컬 플래닝 캘린더 만들기</string>
     <string name="pref_planning_calendar_summary">향후의 재무 계획과 반복 거래가 저장될 캘린더 선택</string>
-    <string name="pref_planning_calendar_title">플래닝 캘린더</string>
     <string name="pref_protection_delay_seconds_summary">앱이 암호로 잠기기 전의 유휴 시간을 초 단위로 설정합니다.</string>
     <string name="pref_protection_delay_seconds_title">지연된 보안</string>
     <string name="pref_protection_enable_data_entry_from_widget_title">위젯과 바로가기로부터의 데이터 입력</string>

@@ -317,7 +317,6 @@
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">Neuen lokalen Planer anlegen</string>
     <string name="pref_planning_calendar_summary">Wählen Sie den Kalender aus, in dem Pläne für zukünftige und wiederkehrende Buchungen gespeichert werden sollen</string>
-    <string name="pref_planning_calendar_title">Planer</string>
     <string name="pref_protection_delay_seconds_summary">Anzahl untätiger Sekunden, bevor die App durch ein Passwort geschützt wird.</string>
     <string name="pref_protection_delay_seconds_title">Wartezeit für Passwortschutz</string>
     <string name="pref_protection_enable_data_entry_from_widget_title">Dateneingabe über Widgets und Verknüpfungen</string>

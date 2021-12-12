@@ -323,7 +323,6 @@
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">צור יומן תכנון מקומי חדש</string>
     <string name="pref_planning_calendar_summary">בחר את היומן שבו מאוחסנות תוכניות לעסקאות עתידיות וחוזרות</string>
-    <string name="pref_planning_calendar_title">תכנון לוח השנה</string>
     <string name="pref_protection_delay_seconds_summary">שניות ללא פעילות לפני שהיישום יינעל על ידי סיסמה.</string>
     <string name="pref_protection_delay_seconds_title">עיכוב ללא פעילות עד להגנה</string>
     <string name="pref_protection_enable_data_entry_from_widget_title">הזנת נתונים מווידג\'טים וקיצורי דרך</string>

@@ -22,5 +22,6 @@
     <string name="response_yes">"はい"</string>
     <string name="response_no">"いいえ"</string>
     <string name="add_widget">"ウィジェットを追加します"</string>
+    <string name="calendar">"カレンダー"</string>
 </resources>
 

@@ -316,7 +316,6 @@
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">ಹೊಸ ಸ್ಥಳೀಯ ಯೋಜನೆ ಕ್ಯಾಲೆಂಡರ್ ರಚಿಸಿ</string>
     <string name="pref_planning_calendar_summary">ಭವಿಷ್ಯದ ಮತ್ತು ಮರುಕಳಿಸುವ ವಹಿವಾಟಿನ ಯೋಜನೆಗಳನ್ನು ಸಂಗ್ರಹಿಸಿರುವ ಕ್ಯಾಲೆಂಡರ್ ಆಯ್ಕೆಮಾಡಿ</string>
-    <string name="pref_planning_calendar_title">ಯೋಜನೆ ಕ್ಯಾಲೆಂಡರ್</string>
     <string name="pref_protection_delay_seconds_summary">ಪಾಸ್ವರ್ಡ್ ಮೂಲಕ ಅಪ್ಲಿಕೇಶನ್ ಲಾಕ್ ಆಗುವ ಮೊದಲು ನಿಷ್ಕ್ರಿಯ ಸೆಕೆಂಡುಗಳು.</string>
     <string name="pref_protection_delay_seconds_title">ರಕ್ಷಣೆಯವರೆಗೆ ವಿಳಂಬ</string>
     <string name="pref_protection_enable_data_entry_from_widget_title">ವಿಜೆಟ್‌ಗಳು ಮತ್ತು ಶಾರ್ಟ್‌ಕಟ್‌ಗಳಿಂದ ಡೇಟಾ ನಮೂದು</string>

@@ -277,7 +277,6 @@
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">Opret ny lokal kalender</string>
     <string name="pref_planning_calendar_summary">Vælg den kalender, hvor der skal gemmes planer for tilbagevendende posteringer der skal bruges i fremtiden</string>
-    <string name="pref_planning_calendar_title">Planner</string>
     <string name="pref_protection_delay_seconds_summary">Antal sekunder før app\'en vil være sikret med password.</string>
     <string name="pref_protection_delay_seconds_title">Ventetid indtil beskyttelse virker</string>
     <string name="pref_protection_enable_data_entry_from_widget_title">Data fra widgets og genveje</string>

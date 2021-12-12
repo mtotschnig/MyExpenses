@@ -274,7 +274,6 @@
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">Stvori novi kalendar planiranja</string>
     <string name="pref_planning_calendar_summary">Odaberi kalendar gdje se spremaju planovi za buduće i ponavljajuće transakcije</string>
-    <string name="pref_planning_calendar_title">Kalendar planiranja</string>
     <string name="pref_protection_delay_seconds_summary">Vrijeme mirovanja u sekundama, nakon kojeg se program zaključava te zahtijeva lozinku za ponovno otključavanje.</string>
     <string name="pref_protection_delay_seconds_title">Odgoda do zaštite</string>
     <string name="pref_protection_enable_data_entry_from_widget_title">Unos podataka putem widgeta i prečaca</string>

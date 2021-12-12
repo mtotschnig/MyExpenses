@@ -312,7 +312,6 @@
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">Cipta kalendar perancangan setempat baharu</string>
     <string name="pref_planning_calendar_summary">Pilih kalendar yang mana plan untuk transaksi akan datang dan berulang disimpan</string>
-    <string name="pref_planning_calendar_title">Kalendar perancangan</string>
     <string name="pref_protection_delay_seconds_summary">Saat melahu sebelum apl akan dikunci oleh kata laluan.</string>
     <string name="pref_protection_delay_seconds_title">Lengahan sehingga dilindungi</string>
     <string name="pref_protection_enable_data_entry_from_widget_title">Masukan data dari widjet dan pintasan</string>

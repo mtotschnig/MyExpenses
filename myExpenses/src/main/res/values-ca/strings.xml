@@ -245,7 +245,6 @@
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">Nova agenda de planificació local</string>
     <string name="pref_planning_calendar_summary">Trieu el calendari per desar les planificacions d\'operacions futures i recurrents</string>
-    <string name="pref_planning_calendar_title">Agenda</string>
     <string name="pref_protection_delay_seconds_summary">Els segons d\'inactivitat que hauran de transcorre abans que l\'aplicació sigui blocada amb la contrasenya.</string>
     <string name="pref_protection_delay_seconds_title">Retard de la protecció</string>
     <string name="pref_qif_export_file_encoding_title">Codificació de caràcters</string>

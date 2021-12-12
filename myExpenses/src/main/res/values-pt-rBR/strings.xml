@@ -317,7 +317,6 @@
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">Criar nova agenda de planejamento local</string>
     <string name="pref_planning_calendar_summary">Selecione a agenda onde os planos para transações futuras e recorrentes serão armazenados</string>
-    <string name="pref_planning_calendar_title">Agenda de planejamento</string>
     <string name="pref_protection_delay_seconds_summary">Intervalo de segundos antes do app ser bloqueada por senha.</string>
     <string name="pref_protection_delay_seconds_title">Tempo até a proteção</string>
     <string name="pref_protection_enable_data_entry_from_widget_title">Entrada de dados a partir de widgets e atalhos</string>

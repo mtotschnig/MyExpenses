@@ -234,7 +234,6 @@
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">නව පරිස්ථානීය සැලසුම්  දින දර්ශනයක් නිර්මාණය කරන්න  </string>
     <string name="pref_planning_calendar_summary">අනාගත සැලසුම් සහ නැවත ඇතිවන ගනුදෙනු තැන්පත් කිරීම සදහා දින දර්ශනයක් තෝරාගන්න </string>
-    <string name="pref_planning_calendar_title">දින දර්ශනයක් සැලසුම් කිරීම </string>
     <string name="pref_protection_delay_seconds_summary">අක්‍රිය තත්පර ගණනකට  පෙර  ඇපය මුරපදයෙන් හිරවෙ </string>
     <string name="pref_protection_delay_seconds_title">ආරක්ෂාව එනතුරු පරක්කු කරන්න </string>
     <string name="pref_protection_enable_data_entry_from_widget_title">විජටයන්ගෙන් දත්ත ඇතුලත් කිරීම </string>

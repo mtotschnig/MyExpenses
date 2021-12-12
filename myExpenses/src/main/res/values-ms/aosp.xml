@@ -21,5 +21,6 @@
     <string name="response_yes">"Ya"</string>
     <string name="response_no">"Tidak"</string>
     <string name="add_widget">"Tambah widget"</string>
+    <string name="calendar">"Kalendar"</string>
 </resources>
 

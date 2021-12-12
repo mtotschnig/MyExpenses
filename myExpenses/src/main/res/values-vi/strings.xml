@@ -308,7 +308,6 @@
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">Tạo lịch kế hoạch trên máy</string>
     <string name="pref_planning_calendar_summary">Chọn lịch để lưu trữ các kế hoạch trong tương lai và các giao dịch lặp lại</string>
-    <string name="pref_planning_calendar_title">Lịch lên kế hoạch</string>
     <string name="pref_protection_delay_seconds_summary">Số giây hiển thị trước khi ứng dụng bị khóa bởi mật khẩu</string>
     <string name="pref_protection_delay_seconds_title">Độ trễ cho đến khi bật chế độ bảo vệ</string>
     <string name="pref_protection_enable_data_entry_from_widget_title">Các mục dữ liệu từ các tiện ích và phím tắt</string>

@@ -295,7 +295,6 @@
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">Creare calendar scadenţar local nou</string>
     <string name="pref_planning_calendar_summary">Selectaţi calendarul unde scadenţele pentru tranzacţiile viitoare si periodice sunt memorate</string>
-    <string name="pref_planning_calendar_title">Calendar scadenţar</string>
     <string name="pref_protection_delay_seconds_summary">Durata în secunde de inactivitate înaintea protejării app prin parolă.</string>
     <string name="pref_protection_delay_seconds_title">Întârziere până la protecţie</string>
     <string name="pref_protection_enable_data_entry_from_widget_title">Introducere date din widget-uri şi shortcut-uri</string>

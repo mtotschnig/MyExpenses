@@ -442,7 +442,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_title">విడ్జెట్‌లు మరియు సత్వరమార్గాల నుండి డేటా ఎంట్రీ</string>
     <string name="pref_protection_delay_seconds_title">రక్షణ వరకు ఆలస్యం</string>
     <string name="pref_protection_delay_seconds_summary">పాస్‌వర్డ్ ద్వారా అనువర్తనం లాక్ చేయబడుతుంది.</string>
-    <string name="pref_planning_calendar_title">ప్రణాళిక క్యాలెండర్</string>
     <string name="pref_planning_calendar_summary">భవిష్యత్ మరియు పునరావృత లావాదేవీల కోసం ప్రణాళికలు నిల్వ చేయబడిన క్యాలెండర్‌ను ఎంచుకోండి</string>
     <string name="pref_planning_calendar_create_local">క్రొత్త స్థానిక ప్రణాళిక క్యాలెండర్‌ను సృష్టించండి</string>
     <string name="pref_perform_share_title">ఎగుమతులు మరియు బ్యాకప్‌లను భాగస్వామ్యం చేయండి</string>

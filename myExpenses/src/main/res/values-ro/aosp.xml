@@ -22,5 +22,6 @@
     <string name="response_yes">"Da"</string>
     <string name="response_no">"Nu"</string>
     <string name="add_widget">"Adăugați un widget"</string>
+    <string name="calendar">"Calendar"</string>
 </resources>
 

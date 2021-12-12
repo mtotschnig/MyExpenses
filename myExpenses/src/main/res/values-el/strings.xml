@@ -315,7 +315,6 @@
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">Δημιουργήσετε νέο τοπικό ημερολόγιο προγραμματισμού</string>
     <string name="pref_planning_calendar_summary">Επιλέξτε το ημερολόγιο όπου αποθηκεύονται τα σχέδια για το μέλλον και επαναλαμβανόμενες συναλλαγές</string>
-    <string name="pref_planning_calendar_title">Ημερολόγιο προγραμματισμού</string>
     <string name="pref_protection_delay_seconds_summary">Δευτερόλεπτα αδράνειας  πριν app κλειδωθεί με τον κωδικό πρόσβασης.</string>
     <string name="pref_protection_delay_seconds_title">Καθυστέρηση μέχρι ενεργοποίηση προστασίας</string>
     <string name="pref_protection_enable_data_entry_from_widget_title">Καταχώρηση δεδομένων από γραφικά στοιχεία και συντομεύσεις</string>

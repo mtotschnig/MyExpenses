@@ -314,7 +314,6 @@
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">创建新的本地计划日历</string>
     <string name="pref_planning_calendar_summary">选择存储未来和定期交易计划的日历</string>
-    <string name="pref_planning_calendar_title">计划日历</string>
     <string name="pref_protection_delay_seconds_summary">在应用程序被密码锁定之前的闲置秒数。</string>
     <string name="pref_protection_delay_seconds_title">延迟保护</string>
     <string name="pref_protection_enable_data_entry_from_widget_title">从小部件和快捷方式输入数据</string>

@@ -317,7 +317,6 @@
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">Helyi terv-naptár létrehozása</string>
     <string name="pref_planning_calendar_summary">Válassza ki azt a naptárt, amelyben az ismétlődő tranzakciókat kívánja tárolni</string>
-    <string name="pref_planning_calendar_title">Tervnaptár</string>
     <string name="pref_protection_delay_seconds_summary">Várakozási idő (másodperc) a jelszóval feloldható zárolás előtt.</string>
     <string name="pref_protection_delay_seconds_title">Késleltetés a védelemig</string>
     <string name="pref_protection_enable_data_entry_from_widget_title">Adatbevitel widgetekből és hivatkozásokból</string>

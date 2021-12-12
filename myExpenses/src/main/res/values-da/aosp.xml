@@ -22,5 +22,6 @@
     <string name="response_yes">"Ja"</string>
     <string name="response_no">"Nej"</string>
     <string name="add_widget">"Tilføj widget."</string>
+    <string name="calendar">"Kalender"</string>
 </resources>
 

@@ -315,7 +315,6 @@
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">Sortu tokiko planifikazio egutegi berria</string>
     <string name="pref_planning_calendar_summary">Aukeratu etorkizuneko gastuak eta gastu errepikakorrak gordetzeko egutegia</string>
-    <string name="pref_planning_calendar_title">Planifikazio egutegia</string>
     <string name="pref_protection_delay_seconds_summary">Itxaronaldi segundoak aplikazioa pasahitz bidez blokeatu aurretik.</string>
     <string name="pref_protection_delay_seconds_title">Babes aurreko itxaronaldia</string>
     <string name="pref_protection_enable_data_entry_from_widget_title">Datuen sarrera trepeta eta laster-bideetatik</string>

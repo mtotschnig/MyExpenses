@@ -317,7 +317,6 @@
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">Yeni yerel planlama takvimi oluştur</string>
     <string name="pref_planning_calendar_summary">Gelecekteki ve tekrar eden muamelelerin saklanacağı takvimi seç</string>
-    <string name="pref_planning_calendar_title">Planlama takvimi</string>
     <string name="pref_protection_delay_seconds_summary">Uygulamanın parola ile kilitlenmesinden önce saniye cinsinden beklenecek süre.</string>
     <string name="pref_protection_delay_seconds_title">Korumanın başlamasından önceki süre</string>
     <string name="pref_protection_enable_data_entry_from_widget_title">Kısayollar ve wigdet\'lardan veri girişi</string>

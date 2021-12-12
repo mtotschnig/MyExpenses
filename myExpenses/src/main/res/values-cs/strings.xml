@@ -323,7 +323,6 @@
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">Vytvoření nového místního plánovacího kalendáře</string>
     <string name="pref_planning_calendar_summary">Vyberte kalendář, kde jsou uloženy plány pro budoucí a opakované transakce</string>
-    <string name="pref_planning_calendar_title">Plánovací kalendář</string>
     <string name="pref_protection_delay_seconds_summary">Doba nečinnosti v sekundá než bude aplikace uzamčena heslem.</string>
     <string name="pref_protection_delay_seconds_title">Odložit do ochránění</string>
     <string name="pref_protection_enable_data_entry_from_widget_title">Zadávání dat z widgetů a zástupců</string>

@@ -22,5 +22,6 @@
     <string name="response_yes">"Да"</string>
     <string name="response_no">"Не"</string>
     <string name="add_widget">"Добавяне на приспособление"</string>
+    <string name="calendar">"Календар"</string>
 </resources>
 

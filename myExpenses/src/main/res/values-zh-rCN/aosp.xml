@@ -21,5 +21,6 @@
     <string name="response_yes">"是"</string>
     <string name="response_no">"否"</string>
     <string name="add_widget">"添加微件"</string>
+    <string name="calendar">"日历"</string>
 </resources>
 

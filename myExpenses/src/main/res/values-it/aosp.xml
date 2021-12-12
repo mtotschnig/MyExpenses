@@ -21,5 +21,6 @@
     <string name="response_yes">"Sì"</string>
     <string name="response_no">"No"</string>
     <string name="add_widget">"Aggiungi widget"</string>
+    <string name="calendar">"Calendario"</string>
 </resources>
 

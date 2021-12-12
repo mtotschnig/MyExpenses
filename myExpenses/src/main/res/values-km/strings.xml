@@ -251,7 +251,6 @@
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">បង្កើតប្រតិទិន​ផែន​ការ​​មូលដ្ឋាន​ថ្មី</string>
     <string name="pref_planning_calendar_summary">ជ្រើស​រើស​ប្រតិទិន​ ដែល​មាន​ផែនការអនាគត និង​មាន​ប្រតិបត្តិការវិលជុំ ត្រូវបាន​ផ្ទុក</string>
-    <string name="pref_planning_calendar_title">​ប្រតិទិនផែនការ</string>
     <string name="pref_protection_delay_seconds_summary">ប៉ុន្មាននាទីមុនពេលកម្មវិធីទំនេរ​ នឹងត្រូវបានចាក់សោដោយពាក្យសម្ងាត់។</string>
     <string name="pref_protection_delay_seconds_title">ពន្យាពេលរហូតដល់ការការពារ</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">អនុញ្ញាតិ​ដោយ​មិនបាច់​មាន​ពាក្យសម្ងាត់។</string>

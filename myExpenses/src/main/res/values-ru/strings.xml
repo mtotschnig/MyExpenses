@@ -322,7 +322,6 @@
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">Создать новый локальный календарь планов</string>
     <string name="pref_planning_calendar_summary">Выберите календарь где хранятся планы на будущее и повторяющиеся операции</string>
-    <string name="pref_planning_calendar_title">Календарь планов</string>
     <string name="pref_protection_delay_seconds_summary">Секунд простоя, прежде чем приложение будет заблокировано паролем.</string>
     <string name="pref_protection_delay_seconds_title">Задержка до защиты</string>
     <string name="pref_protection_enable_data_entry_from_widget_title">Ввод данных из виджетов и ярлыков</string>

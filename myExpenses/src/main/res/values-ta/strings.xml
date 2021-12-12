@@ -317,7 +317,6 @@
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">புதிய உள் திட்டக் நாட்காட்டியை உருவாக்கவும்</string>
     <string name="pref_planning_calendar_summary">எதிர்காலத்திற்கான திட்டங்கள் மற்றும் மீண்டும் நிகழ்கின்ற பரிவர்த்தனைகள் சேமிக்கப்படும் நாட்காட்டியைத் தேர்ந்தெடுக்கவும்</string>
-    <string name="pref_planning_calendar_title">திட்டமிடல் நாட்காட்டி</string>
     <string name="pref_protection_delay_seconds_summary">கடவுச்சொல் மூலம் செயலி பூட்டப்படுவதற்கு முன் செயலற்று இருக்க வேண்டிய விநாடிகள் </string>
     <string name="pref_protection_delay_seconds_title">பாதுகாப்பிற்கு முன் இருக்க வேண்டிய தாமதம்</string>
     <string name="pref_protection_enable_data_entry_from_widget_title">நிரல் பலகைகள் மற்றும் குறுக்குவழிகளில் இருந்து தரவு உள்ளீடு</string>

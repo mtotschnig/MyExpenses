@@ -532,7 +532,7 @@
             android:title="@string/planner_notification_channel_name">
             <ListPreference
                 android:key="@string/pref_planner_calendar_id_key"
-                android:title="@string/pref_planning_calendar_title" />
+                android:title="@string/calendar" />
             <org.totschnig.myexpenses.preference.TimePreference
                 android:key="@string/pref_plan_executor_time_key"
                 android:title="@string/pref_plan_executor_time_title" />

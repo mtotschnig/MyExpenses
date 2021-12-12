@@ -317,7 +317,6 @@
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">Crear nuevo calendario de planificación local</string>
     <string name="pref_planning_calendar_summary">Seleccione el calendario que almacena los proyectos para transacciones futuras y recurrentes</string>
-    <string name="pref_planning_calendar_title">Calendario de planificación</string>
     <string name="pref_protection_delay_seconds_summary">Segundos de inactividad antes de que la aplicación sea protegida por contraseña.</string>
     <string name="pref_protection_delay_seconds_title">Demora hasta la protección por contraseña</string>
     <string name="pref_protection_enable_data_entry_from_widget_title">Entrada de datos desde widgets y accesos directos</string>

@@ -312,7 +312,6 @@
     <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">新しいローカル プランニング カレンダーを作成</string>
     <string name="pref_planning_calendar_summary">将来の計画および繰り返しの取引が保存されるカレンダーを選択します。</string>
-    <string name="pref_planning_calendar_title">プランニング カレンダー</string>
     <string name="pref_protection_delay_seconds_summary">アプリをパスワードでロックするまでの、アイドル秒数。</string>
     <string name="pref_protection_delay_seconds_title">保護までの遅延時間</string>
     <string name="pref_protection_enable_data_entry_from_widget_title">ウィジェットやショートカットからのデータエントリー</string>
