@@ -1,0 +1,5 @@
+• Zarządzanie długiem 2.0
+• Eksport: JSON
+• Zeskanuj paragon (chiński, dewanagari, japońskie, koreańskie)
+
+https://github.com/mtotschnig/MyExpenses/projects/58#column-16107025

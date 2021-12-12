@@ -1,0 +1,5 @@
+• Gestion des dettes 2.0
+• Export: JSON
+• Scanner le reçu (chinois, dévanagari, japonais, coréen)
+
+https://github.com/mtotschnig/MyExpenses/projects/58#column-16107025

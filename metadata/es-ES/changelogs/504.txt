@@ -1,0 +1,5 @@
+• Gestión de la deuda 2.0
+• Exportar: JSON
+• Escanear recibo (chino, devanagari, japonés, coreano)
+
+https://github.com/mtotschnig/MyExpenses/projects/58#column-16107025

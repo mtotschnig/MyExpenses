@@ -1,0 +1,5 @@
+• Schuldenverwaltung 2.0
+• Export: JSON
+• Quittung scannen (Chinesisch, Devanagari, Japanisch, Koreanisch)
+
+https://github.com/mtotschnig/MyExpenses/projects/58#column-16107025

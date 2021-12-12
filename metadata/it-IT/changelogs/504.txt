@@ -1,0 +1,5 @@
+• Gestione dei debiti 2.0
+• Esporta: JSON
+• Scansiona lo scontrino (cinese, devanagari, giapponese, coreano)
+
+https://github.com/mtotschnig/MyExpenses/projects/58#column-16107025

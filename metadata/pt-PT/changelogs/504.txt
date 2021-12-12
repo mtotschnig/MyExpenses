@@ -1,0 +1,5 @@
+• Gestão de dívidas 2.0
+• Exportar: JSON
+• Digitalizar recibo (chinês, devanágari, japonês, coreano)
+
+https://github.com/mtotschnig/MyExpenses/projects/58#column-16107025

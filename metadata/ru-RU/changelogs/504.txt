@@ -1,0 +1,5 @@
+• Управление долгом 2.0
+• Экспорт: JSON
+• Скан чека (китайский, деванагари, японская, корейская)
+
+https://github.com/mtotschnig/MyExpenses/projects/58#column-16107025

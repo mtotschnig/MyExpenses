@@ -1,0 +1,5 @@
+• Borç yönetimi 2.0
+• Dışa aktar: JSON
+• Makbuz tara (Çince, Devanagari, Japon, Kore)
+
+https://github.com/mtotschnig/MyExpenses/projects/58#column-16107025

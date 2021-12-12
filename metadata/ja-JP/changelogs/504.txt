@@ -1,0 +1,5 @@
+• 債務管理 2.0
+• エクスポート: JSON
+• レシートのスキャン (中国語, デーバナーガリー文字, 日本語の文字, 韓国語の文字)
+
+https://github.com/mtotschnig/MyExpenses/projects/58#column-16107025
