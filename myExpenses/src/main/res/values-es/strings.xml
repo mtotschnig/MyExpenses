@@ -928,7 +928,7 @@
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">Por favor, seleccione un paquete de licencia.</string>
     <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
-    <string name="discover_feature_fab_long_press">Pulse y mantenga pulsado el botón de acción flotante para abrir directamente el formulario para transferencias, división de transacciones o ingresos.</string>
+    <string name="discover_feature_fab_long_press">Mantenga pulsado el botón de acción flotante para abrir directamente el formulario de transferencias, transacciones divididas o ingresos.</string>
     <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
     <string name="advance_exexcution_in_days">Ejecución anticipada (en días)</string>
     <string name="warning_balance_account_delete">Si procede, todas las transacciones reconciliadas en esta cuenta se eliminarán de la base de datos y no podrá restaurarlas.</string>
@@ -992,4 +992,26 @@
     <string name="new_version">Nueva versión</string>
     <string name="pref_news_title">Novedades</string>
     <string name="debt_managment">Gestión de la deuda</string>
+    <string name="backup_save_to_sync_backend">Guardar como %s</string>
+    <string name="debt_I_owe">Yo debo %s</string>
+    <string name="debt_owes_me">Me deben %s</string>
+    <string name="debt">Deuda</string>
+    <string name="dialog_title_delete_debt">¿Eliminar deuda\?</string>
+    <plurals name="debt_mapped_transactions">
+        <item quantity="one">La deuda %1$s tiene %2$d transacción asociada.</item>
+        <item quantity="other">La deuda %1$s tiene %2$d transacciones asociadas.</item>
+    </plurals>
+    <string name="title_activity_debt_overview">Vista general de la deuda</string>
+    <plurals name="import_categories_icons_updated">
+        <item quantity="one">Se ha actualizado una categoría con un icono.</item>
+        <item quantity="other">Se han actualizado %1$d categoría con iconos.</item>
+    </plurals>
+    <string name="warning_party_delete_debt">Al eliminar esta cuenta, también se eliminarán las deudas asignadas a ella.</string>
+    <string name="dialog_confirm_discard_new_debt">¿Descartar nueva deuda\?</string>
+    <string name="object_sealed_debt">El objeto se refiere a una deuda cerrada.</string>
+    <string name="menu_new_debt">Nueva deuda</string>
+    <string name="cb_label_merge_accounts">Combinar cuentas</string>
+    <string name="debts">Deudas</string>
+    <string name="pref_mlkit_script_title">Guion para MlKit</string>
+    <string name="dialog_title_warning_delete_party">¿Borrar cuenta\?</string>
 </resources>
