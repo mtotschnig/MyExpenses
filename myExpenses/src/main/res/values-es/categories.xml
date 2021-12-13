@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources, InconsistentArrays">
     <!-- Main category -->
     <string name="Main_1">Otros ingresos</string>
@@ -239,7 +239,7 @@
     <!-- Main category -->
     <string name="Main_21">Transporte</string>
     <!-- Subcategory under "Transport" -->
-    <string name="Sub_21_1">Bus</string>
+    <string name="Sub_21_1">Autobús</string>
     <!-- Subcategory under "Transport" -->
     <string name="Sub_21_2">Metro</string>
     <!-- Subcategory under "Transport" -->
