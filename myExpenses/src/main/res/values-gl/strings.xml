@@ -216,9 +216,6 @@
     <string name="import_accounts_none">Ningunha conta importada</string>
     <string name="import_categories_none">Ningunha categoría importada</string>
     <string name="menu_create_folder">Novo cartafol</string>
-    <!-- This string is used for navigating up in the folder browser -->
-    <string name="menu_up">Arriba</string>
-    <string name="create_new_folder_fail">Erro ao crear o cartafol</string>
     <string name="widget_title_accounts">As miñas contas</string>
     <string name="widget_title_templates">Os meus modelos</string>
     <string name="app_dir_not_accessible">O cartafol seleccionado para copias de seguranza e exportacións (%1$s) non está accesible. Selecciona, por favor, un outro distinto.</string>

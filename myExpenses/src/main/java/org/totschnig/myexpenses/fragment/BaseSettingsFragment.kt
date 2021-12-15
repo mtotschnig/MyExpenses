@@ -47,6 +47,7 @@ import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
@@ -93,15 +94,15 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     val viewModel: SettingsViewModel by viewModels()
 
     //TODO: these settings need to be authoritatively stored in Database, instead of just mirrored
-    val storeInDatabaseChangeListener =
+    private val storeInDatabaseChangeListener =
         Preference.OnPreferenceChangeListener { preference, newValue ->
             (activity as? MyPreferenceActivity)?.let { activity ->
                 activity.showSnackbarIndefinite(R.string.saving)
                 viewModel.storeSetting(preference.key, newValue.toString())
-                    .observe(this@BaseSettingsFragment, { result ->
+                    .observe(this@BaseSettingsFragment) { result ->
                         activity.dismissSnackbar()
                         if ((!result)) activity.showSnackbar("ERROR")
-                    })
+                    }
                 true
             } ?: false
         }
@@ -186,7 +187,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
 
     fun activity() = activity as MyPreferenceActivity
 
-    fun configureUninstallPrefs() {
+    private fun configureUninstallPrefs() {
         configureMultiSelectListPref(
             PrefKey.FEATURE_UNINSTALL_FEATURES, featureManager.installedFeatures(),
             featureManager::uninstallFeatures
@@ -223,7 +224,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         }
     }
 
-    fun <T : Preference> findPreference(prefKey: PrefKey): T? =
+    private fun <T : Preference> findPreference(prefKey: PrefKey): T? =
         findPreference(prefHandler.getKey(prefKey))
 
     fun <T : Preference> requirePreference(prefKey: PrefKey): T {
@@ -231,7 +232,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             ?: throw IllegalStateException("Preference not found")
     }
 
-    fun getLocaleArray() =
+    private fun getLocaleArray() =
         requireContext().resources.getStringArray(R.array.pref_ui_language_values)
             .map(this::getLocaleDisplayName)
             .toTypedArray()
@@ -438,7 +439,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             }
             activity.invalidateHomeCurrency()
             activity.showSnackbarIndefinite(R.string.saving)
-            viewModel.resetEquivalentAmounts().observe(this, { integer ->
+            viewModel.resetEquivalentAmounts().observe(this) { integer ->
                 activity.dismissSnackbar()
                 if (integer != null) {
                     activity.showSnackbar(
@@ -450,7 +451,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 } else {
                     activity.showSnackbar("Equivalent amount reset failed")
                 }
-            })
+            }
         }
     }
 
@@ -530,208 +531,220 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         )
         unsetIconSpaceReservedRecursive(preferenceScreen)
 
-        if (rootKey == null) { //ROOT screen
-            requirePreference<Preference>(PrefKey.HOME_CURRENCY).onPreferenceChangeListener = this
-            requirePreference<Preference>(PrefKey.UI_WEB).onPreferenceChangeListener = this
+        when (rootKey) {
+            null -> { //ROOT screen
+                requirePreference<Preference>(PrefKey.HOME_CURRENCY).onPreferenceChangeListener = this
+                requirePreference<Preference>(PrefKey.UI_WEB).onPreferenceChangeListener = this
 
-            requirePreference<Preference>(PrefKey.RESTORE).title =
-                getString(R.string.pref_restore_title) + " (ZIP)"
+                requirePreference<Preference>(PrefKey.RESTORE).title =
+                    getString(R.string.pref_restore_title) + " (ZIP)"
 
-            this.requirePreference<LocalizedFormatEditTextPreference>(PrefKey.CUSTOM_DECIMAL_FORMAT).onValidationErrorListener =
-                this
+                this.requirePreference<LocalizedFormatEditTextPreference>(PrefKey.CUSTOM_DECIMAL_FORMAT).onValidationErrorListener =
+                    this
 
-            this.requirePreference<LocalizedFormatEditTextPreference>(PrefKey.CUSTOM_DATE_FORMAT).onValidationErrorListener =
-                this
+                this.requirePreference<LocalizedFormatEditTextPreference>(PrefKey.CUSTOM_DATE_FORMAT).onValidationErrorListener =
+                    this
 
-            loadAppDirSummary()
+                loadAppDirSummary()
 
-            val qifPref = requirePreference<Preference>(PrefKey.IMPORT_QIF)
-            qifPref.summary = getString(R.string.pref_import_summary, "QIF")
-            qifPref.title = getString(R.string.pref_import_title, "QIF")
-            val csvPref = requirePreference<Preference>(PrefKey.IMPORT_CSV)
-            csvPref.summary = getString(R.string.pref_import_summary, "CSV")
-            csvPref.title = getString(R.string.pref_import_title, "CSV")
+                val qifPref = requirePreference<Preference>(PrefKey.IMPORT_QIF)
+                qifPref.summary = getString(R.string.pref_import_summary, "QIF")
+                qifPref.title = getString(R.string.pref_import_title, "QIF")
+                val csvPref = requirePreference<Preference>(PrefKey.IMPORT_CSV)
+                csvPref.summary = getString(R.string.pref_import_summary, "CSV")
+                csvPref.title = getString(R.string.pref_import_title, "CSV")
 
-            viewModel.hasStaleImages.observe(this) { result ->
-                requirePreference<Preference>(PrefKey.MANAGE_STALE_IMAGES).isVisible = result
-            }
-
-            val privacyCategory = requirePreference<PreferenceCategory>(PrefKey.CATEGORY_PRIVACY)
-            if (!DistributionHelper.distribution.supportsTrackingAndCrashReporting) {
-                privacyCategory.removePreference(requirePreference(PrefKey.TRACKING))
-                privacyCategory.removePreference(requirePreference(PrefKey.CRASHREPORT_SCREEN))
-            }
-            if (adHandlerFactory.isAdDisabled || !adHandlerFactory.isRequestLocationInEeaOrUnknown) {
-                privacyCategory.removePreference(requirePreference(PrefKey.PERSONALIZED_AD_CONSENT))
-            }
-            if (privacyCategory.preferenceCount == 0) {
-                preferenceScreen.removePreference(privacyCategory)
-            }
-
-            val languagePref = requirePreference<ListPreference>(PrefKey.UI_LANGUAGE)
-            languagePref.entries = getLocaleArray()
-
-            currencyViewModel.getCurrencies().observe(this) { currencies ->
-                with(requirePreference<ListPreference>(PrefKey.HOME_CURRENCY)) {
-                    entries = currencies.map(Currency::toString).toTypedArray()
-                    entryValues = currencies.map { it.code }.toTypedArray()
-                    isEnabled = true
+                viewModel.hasStaleImages.observe(this) { result ->
+                    requirePreference<Preference>(PrefKey.MANAGE_STALE_IMAGES).isVisible = result
                 }
-            }
 
-            val translatorsArrayResId = getTranslatorsArrayResId()
-            if (translatorsArrayResId != 0) {
-                val translatorsArray = resources.getStringArray(translatorsArrayResId)
-                val translators = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-                    ListFormatter.getInstance().format(*translatorsArray) else join(
-                    ", ",
-                    translatorsArray
-                )
-                requirePreference<Preference>(PrefKey.TRANSLATION).summary =
-                    "${getString(R.string.translated_by)}: $translators"
-            }
+                val privacyCategory = requirePreference<PreferenceCategory>(PrefKey.CATEGORY_PRIVACY)
+                if (!DistributionHelper.distribution.supportsTrackingAndCrashReporting) {
+                    privacyCategory.removePreference(requirePreference(PrefKey.TRACKING))
+                    privacyCategory.removePreference(requirePreference(PrefKey.CRASHREPORT_SCREEN))
+                }
+                if (adHandlerFactory.isAdDisabled || !adHandlerFactory.isRequestLocationInEeaOrUnknown) {
+                    privacyCategory.removePreference(requirePreference(PrefKey.PERSONALIZED_AD_CONSENT))
+                }
+                if (privacyCategory.preferenceCount == 0) {
+                    preferenceScreen.removePreference(privacyCategory)
+                }
 
-            if (!featureManager.allowsUninstall()) {
-                requirePreference<Preference>(PrefKey.FEATURE_UNINSTALL).isVisible = false
-            }
-            requirePreference<Preference>(PrefKey.AUTO_BACKUP_CLOUD).onPreferenceChangeListener =
-                storeInDatabaseChangeListener
+                val languagePref = requirePreference<ListPreference>(PrefKey.UI_LANGUAGE)
+                languagePref.entries = getLocaleArray()
 
-            requirePreference<Preference>(PrefKey.NEWS).title =
-                "${getString(R.string.pref_news_title)} (Mastodon)"
-        } else if (rootKey == getKey(PrefKey.UI_HOME_SCREEN_SHORTCUTS)) {
-            val shortcutSplitPref = requirePreference<Preference>(PrefKey.SHORTCUT_CREATE_SPLIT)
-            shortcutSplitPref.isEnabled = licenceHandler.isContribEnabled
-            shortcutSplitPref.summary = (getString(R.string.pref_shortcut_summary) + " " +
-                    ContribFeature.SPLIT_TRANSACTION.buildRequiresString(requireActivity()))
+                currencyViewModel.getCurrencies().observe(this) { currencies ->
+                    with(requirePreference<ListPreference>(PrefKey.HOME_CURRENCY)) {
+                        entries = currencies.map(Currency::toString).toTypedArray()
+                        entryValues = currencies.map { it.code }.toTypedArray()
+                        isEnabled = true
+                    }
+                }
 
-        } else if (rootKey == getKey(PrefKey.PERFORM_PROTECTION_SCREEN)) {
-            setProtectionDependentsState()
-            val preferenceLegacy = requirePreference<Preference>(PrefKey.PROTECTION_LEGACY)
-            val preferenceSecurityQuestion =
-                requirePreference<Preference>(PrefKey.SECURITY_QUESTION)
-            val preferenceDeviceLock =
-                requirePreference<Preference>(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN)
-            val preferenceCategory = PreferenceCategory(requireContext())
-            preferenceCategory.setTitle(R.string.feature_deprecated)
-            preferenceScreen.addPreference(preferenceCategory)
-            preferenceScreen.removePreference(preferenceLegacy)
-            preferenceScreen.removePreference(preferenceSecurityQuestion)
-            preferenceCategory.addPreference(preferenceLegacy)
-            preferenceCategory.addPreference(preferenceSecurityQuestion)
-            preferenceDeviceLock.onPreferenceChangeListener = this
-        } else if (rootKey == getKey(PrefKey.PERFORM_SHARE)) {
-            val sharePref = requirePreference<Preference>(PrefKey.SHARE_TARGET)
+                val translatorsArrayResId = getTranslatorsArrayResId()
+                if (translatorsArrayResId != 0) {
+                    val translatorsArray = resources.getStringArray(translatorsArrayResId)
+                    val translators = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                        ListFormatter.getInstance().format(*translatorsArray) else join(
+                        ", ",
+                        translatorsArray
+                    )
+                    requirePreference<Preference>(PrefKey.TRANSLATION).summary =
+                        "${getString(R.string.translated_by)}: $translators"
+                }
 
-            sharePref.summary = (getString(R.string.pref_share_target_summary) + ":\n" +
-                    "ftp: \"ftp://login:password@my.example.org:port/my/directory/\"\n" +
-                    "mailto: \"mailto:john@my.example.com\"")
-            sharePref.onPreferenceChangeListener = this
-        } else if (rootKey == getKey(PrefKey.AUTO_BACKUP)) {
-            requirePreference<Preference>(PrefKey.AUTO_BACKUP_INFO).summary =
-                (getString(R.string.pref_auto_backup_summary) + " " +
-                        ContribFeature.AUTO_BACKUP.buildRequiresString(requireActivity()))
-        } else if (rootKey == getKey(PrefKey.GROUPING_START_SCREEN)) {
-            var startPref = requirePreference<ListPreference>(PrefKey.GROUP_WEEK_STARTS)
-            val locale = Locale.getDefault()
-            val dfs = DateFormatSymbols(locale)
-            val entries = arrayOfNulls<String>(7)
-            System.arraycopy(dfs.weekdays, 1, entries, 0, 7)
-            startPref.entries = entries
-            startPref.entryValues = arrayOf(
-                (Calendar.SUNDAY).toString(),
-                (Calendar.MONDAY).toString(),
-                (Calendar.TUESDAY).toString(),
-                (Calendar.WEDNESDAY).toString(),
-                (Calendar.THURSDAY).toString(),
-                (Calendar.FRIDAY).toString(),
-                (Calendar.SATURDAY).toString()
-            )
-            if (!prefHandler.isSet(PrefKey.GROUP_WEEK_STARTS)) {
-                startPref.value = (Utils.getFirstDayOfWeek(locale)).toString()
-            }
+                if (!featureManager.allowsUninstall()) {
+                    requirePreference<Preference>(PrefKey.FEATURE_UNINSTALL).isVisible = false
+                }
+                requirePreference<Preference>(PrefKey.AUTO_BACKUP_CLOUD).onPreferenceChangeListener =
+                    storeInDatabaseChangeListener
 
-            startPref = requirePreference(PrefKey.GROUP_MONTH_STARTS)
-            val daysEntries = arrayOfNulls<String>(31)
-            val daysValues = arrayOfNulls<String>(31)
-            for (i in 1..31) {
-                daysEntries[i - 1] = Utils.toLocalizedString(i)
-                daysValues[i - 1] = (i).toString()
+                requirePreference<Preference>(PrefKey.NEWS).title =
+                    "${getString(R.string.pref_news_title)} (Mastodon)"
             }
-            startPref.entries = daysEntries
-            startPref.entryValues = daysValues
-        } else if (rootKey == getKey(PrefKey.CRASHREPORT_SCREEN)) {
-            requirePreference<Preference>(PrefKey.ACRA_INFO).summary = Utils.getTextWithAppName(
-                context,
-                R.string.crash_reports_user_info
-            )
-            requirePreference<Preference>(PrefKey.CRASHREPORT_ENABLED).onPreferenceChangeListener =
-                this
-            requirePreference<Preference>(PrefKey.CRASHREPORT_USEREMAIL).onPreferenceChangeListener =
-                this
-        } else if (rootKey == getKey(PrefKey.OCR)) {
-            if ("" == prefHandler.getString(PrefKey.OCR_TOTAL_INDICATORS, "")) {
-                requirePreference<EditTextPreference>(PrefKey.OCR_TOTAL_INDICATORS).text =
-                    getString(R.string.pref_ocr_total_indicators_default)
+            getKey(PrefKey.UI_HOME_SCREEN_SHORTCUTS) -> {
+                val shortcutSplitPref = requirePreference<Preference>(PrefKey.SHORTCUT_CREATE_SPLIT)
+                shortcutSplitPref.isEnabled = licenceHandler.isContribEnabled
+                shortcutSplitPref.summary = (getString(R.string.pref_shortcut_summary) + " " +
+                        ContribFeature.SPLIT_TRANSACTION.buildRequiresString(requireActivity()))
+
             }
-            val ocrDatePref = requirePreference<EditTextPreference>(PrefKey.OCR_DATE_FORMATS)
-            ocrDatePref.onPreferenceChangeListener = this
-            if ("" == prefHandler.getString(PrefKey.OCR_DATE_FORMATS, "")) {
-                val shortFormat = DateTimeFormatterBuilder.getLocalizedDateTimePattern(
-                    FormatStyle.SHORT,
-                    null,
-                    IsoChronology.INSTANCE,
-                    userLocaleProvider.systemLocale
-                )
-                val mediumFormat = DateTimeFormatterBuilder.getLocalizedDateTimePattern(
-                    FormatStyle.MEDIUM,
-                    null,
-                    IsoChronology.INSTANCE,
-                    userLocaleProvider.systemLocale
-                )
-                ocrDatePref.text = shortFormat + "\n" + mediumFormat
+            getKey(PrefKey.PERFORM_PROTECTION_SCREEN) -> {
+                setProtectionDependentsState()
+                val preferenceLegacy = requirePreference<Preference>(PrefKey.PROTECTION_LEGACY)
+                val preferenceSecurityQuestion =
+                    requirePreference<Preference>(PrefKey.SECURITY_QUESTION)
+                val preferenceDeviceLock =
+                    requirePreference<Preference>(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN)
+                val preferenceCategory = PreferenceCategory(requireContext())
+                preferenceCategory.setTitle(R.string.feature_deprecated)
+                preferenceScreen.addPreference(preferenceCategory)
+                preferenceScreen.removePreference(preferenceLegacy)
+                preferenceScreen.removePreference(preferenceSecurityQuestion)
+                preferenceCategory.addPreference(preferenceLegacy)
+                preferenceCategory.addPreference(preferenceSecurityQuestion)
+                preferenceDeviceLock.onPreferenceChangeListener = this
             }
-            val ocrTimePref = requirePreference<EditTextPreference>(PrefKey.OCR_TIME_FORMATS)
-            ocrTimePref.onPreferenceChangeListener = this
-            if ("" == prefHandler.getString(PrefKey.OCR_TIME_FORMATS, "")) {
-                val shortFormat = DateTimeFormatterBuilder.getLocalizedDateTimePattern(
-                    null,
-                    FormatStyle.SHORT,
-                    IsoChronology.INSTANCE,
-                    userLocaleProvider.systemLocale
-                )
-                val mediumFormat = DateTimeFormatterBuilder.getLocalizedDateTimePattern(
-                    null,
-                    FormatStyle.MEDIUM,
-                    IsoChronology.INSTANCE,
-                    userLocaleProvider.systemLocale
-                )
-                ocrTimePref.text = shortFormat + "\n" + mediumFormat
+            getKey(PrefKey.PERFORM_SHARE) -> {
+                val sharePref = requirePreference<Preference>(PrefKey.SHARE_TARGET)
+
+                sharePref.summary = (getString(R.string.pref_share_target_summary) + ":\n" +
+                        "ftp: \"ftp://login:password@my.example.org:port/my/directory/\"\n" +
+                        "mailto: \"mailto:john@my.example.com\"")
+                sharePref.onPreferenceChangeListener = this
             }
-            this.requirePreference<ListPreference>(PrefKey.OCR_ENGINE).isVisible =
-                activity().ocrViewModel.shouldShowEngineSelection()
-            configureOcrEnginePrefs()
-        } else if (rootKey == getKey(PrefKey.SYNC)) {
-            requirePreference<Preference>(PrefKey.MANAGE_SYNC_BACKENDS).summary = (getString(
-                R.string.pref_manage_sync_backends_summary,
-                ServiceLoader.load(context).map { it.label }.joinToString()
-            ) +
-                    " " + ContribFeature.SYNCHRONIZATION.buildRequiresString(requireActivity()))
-            requirePreference<Preference>(PrefKey.SYNC_NOTIFICATION).onPreferenceChangeListener =
-                storeInDatabaseChangeListener
-            requirePreference<Preference>(PrefKey.SYNC_WIFI_ONLY).onPreferenceChangeListener =
-                storeInDatabaseChangeListener
-        } else if (rootKey == getKey(PrefKey.FEATURE_UNINSTALL)) {
-            configureUninstallPrefs()
-        } else if (rootKey == getKey(PrefKey.EXCHANGE_RATES)) {
-            requirePreference<Preference>(PrefKey.EXCHANGE_RATE_PROVIDER).onPreferenceChangeListener =
-                this
-            configureOpenExchangeRatesPreference(
-                prefHandler.requireString(
-                    PrefKey.EXCHANGE_RATE_PROVIDER,
-                    "EXCHANGE_RATE_HOST"
+            getKey(PrefKey.AUTO_BACKUP) -> {
+                requirePreference<Preference>(PrefKey.AUTO_BACKUP_INFO).summary =
+                    (getString(R.string.pref_auto_backup_summary) + " " +
+                            ContribFeature.AUTO_BACKUP.buildRequiresString(requireActivity()))
+            }
+            getKey(PrefKey.GROUPING_START_SCREEN) -> {
+                var startPref = requirePreference<ListPreference>(PrefKey.GROUP_WEEK_STARTS)
+                val locale = Locale.getDefault()
+                val dfs = DateFormatSymbols(locale)
+                val entries = arrayOfNulls<String>(7)
+                System.arraycopy(dfs.weekdays, 1, entries, 0, 7)
+                startPref.entries = entries
+                startPref.entryValues = arrayOf(
+                    (Calendar.SUNDAY).toString(),
+                    (Calendar.MONDAY).toString(),
+                    (Calendar.TUESDAY).toString(),
+                    (Calendar.WEDNESDAY).toString(),
+                    (Calendar.THURSDAY).toString(),
+                    (Calendar.FRIDAY).toString(),
+                    (Calendar.SATURDAY).toString()
                 )
-            )
+                if (!prefHandler.isSet(PrefKey.GROUP_WEEK_STARTS)) {
+                    startPref.value = (Utils.getFirstDayOfWeek(locale)).toString()
+                }
+
+                startPref = requirePreference(PrefKey.GROUP_MONTH_STARTS)
+                val daysEntries = arrayOfNulls<String>(31)
+                val daysValues = arrayOfNulls<String>(31)
+                for (i in 1..31) {
+                    daysEntries[i - 1] = Utils.toLocalizedString(i)
+                    daysValues[i - 1] = (i).toString()
+                }
+                startPref.entries = daysEntries
+                startPref.entryValues = daysValues
+            }
+            getKey(PrefKey.CRASHREPORT_SCREEN) -> {
+                requirePreference<Preference>(PrefKey.ACRA_INFO).summary = Utils.getTextWithAppName(
+                    context,
+                    R.string.crash_reports_user_info
+                )
+                requirePreference<Preference>(PrefKey.CRASHREPORT_ENABLED).onPreferenceChangeListener =
+                    this
+                requirePreference<Preference>(PrefKey.CRASHREPORT_USEREMAIL).onPreferenceChangeListener =
+                    this
+            }
+            getKey(PrefKey.OCR) -> {
+                if ("" == prefHandler.getString(PrefKey.OCR_TOTAL_INDICATORS, "")) {
+                    requirePreference<EditTextPreference>(PrefKey.OCR_TOTAL_INDICATORS).text =
+                        getString(R.string.pref_ocr_total_indicators_default)
+                }
+                val ocrDatePref = requirePreference<EditTextPreference>(PrefKey.OCR_DATE_FORMATS)
+                ocrDatePref.onPreferenceChangeListener = this
+                if ("" == prefHandler.getString(PrefKey.OCR_DATE_FORMATS, "")) {
+                    val shortFormat = DateTimeFormatterBuilder.getLocalizedDateTimePattern(
+                        FormatStyle.SHORT,
+                        null,
+                        IsoChronology.INSTANCE,
+                        userLocaleProvider.systemLocale
+                    )
+                    val mediumFormat = DateTimeFormatterBuilder.getLocalizedDateTimePattern(
+                        FormatStyle.MEDIUM,
+                        null,
+                        IsoChronology.INSTANCE,
+                        userLocaleProvider.systemLocale
+                    )
+                    ocrDatePref.text = shortFormat + "\n" + mediumFormat
+                }
+                val ocrTimePref = requirePreference<EditTextPreference>(PrefKey.OCR_TIME_FORMATS)
+                ocrTimePref.onPreferenceChangeListener = this
+                if ("" == prefHandler.getString(PrefKey.OCR_TIME_FORMATS, "")) {
+                    val shortFormat = DateTimeFormatterBuilder.getLocalizedDateTimePattern(
+                        null,
+                        FormatStyle.SHORT,
+                        IsoChronology.INSTANCE,
+                        userLocaleProvider.systemLocale
+                    )
+                    val mediumFormat = DateTimeFormatterBuilder.getLocalizedDateTimePattern(
+                        null,
+                        FormatStyle.MEDIUM,
+                        IsoChronology.INSTANCE,
+                        userLocaleProvider.systemLocale
+                    )
+                    ocrTimePref.text = shortFormat + "\n" + mediumFormat
+                }
+                this.requirePreference<ListPreference>(PrefKey.OCR_ENGINE).isVisible =
+                    activity().ocrViewModel.shouldShowEngineSelection()
+                configureOcrEnginePrefs()
+            }
+            getKey(PrefKey.SYNC) -> {
+                requirePreference<Preference>(PrefKey.MANAGE_SYNC_BACKENDS).summary = (getString(
+                    R.string.pref_manage_sync_backends_summary,
+                    ServiceLoader.load(context).joinToString { it.label }
+                ) +
+                        " " + ContribFeature.SYNCHRONIZATION.buildRequiresString(requireActivity()))
+                requirePreference<Preference>(PrefKey.SYNC_NOTIFICATION).onPreferenceChangeListener =
+                    storeInDatabaseChangeListener
+                requirePreference<Preference>(PrefKey.SYNC_WIFI_ONLY).onPreferenceChangeListener =
+                    storeInDatabaseChangeListener
+            }
+            getKey(PrefKey.FEATURE_UNINSTALL) -> {
+                configureUninstallPrefs()
+            }
+            getKey(PrefKey.EXCHANGE_RATES) -> {
+                requirePreference<Preference>(PrefKey.EXCHANGE_RATE_PROVIDER).onPreferenceChangeListener =
+                    this
+                configureOpenExchangeRatesPreference(
+                    prefHandler.requireString(
+                        PrefKey.EXCHANGE_RATE_PROVIDER,
+                        "EXCHANGE_RATE_HOST"
+                    )
+                )
+            }
         }
     }
 
@@ -843,5 +856,10 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         for (i in 0 until preferenceScreen.preferenceCount) {
             preferenceScreen.getPreference(i).isEnabled = enabled
         }
+    }
+
+    fun reportException(e: Exception) {
+        activity().showSnackbar(e.message ?: "ERROR")
+        CrashHandler.report(e)
     }
 }

@@ -256,8 +256,6 @@
     <string name="warning_password_protected">ऐप पासवर्ड संरक्षित है</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">कृपया %1$d और %2$d के बीच एक संख्या सेट करें</string>
     <string name="menu_create_folder">नया फोल्डर</string>
-    <!-- This string is used for navigating up in the folder browser -->
-    <string name="menu_up">ऊपर</string>
     <string name="widget_title_accounts">मेरे खाते</string>
     <string name="widget_title_templates">मेरे टेम्पलेट्स</string>
     <string name="search_date">तिथि के लिए खोजें</string>

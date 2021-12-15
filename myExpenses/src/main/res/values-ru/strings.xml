@@ -464,9 +464,6 @@
     <string name="import_source_select_error">Пожалуйста заполните тип файла %1$s</string>
     <string name="menu_categories_setup_default">Установить категории по умолчанию</string>
     <string name="menu_create_folder">Новый каталог</string>
-    <!-- This string is used for navigating up in the folder browser -->
-    <string name="menu_up">Вверх</string>
-    <string name="create_new_folder_fail">Ошибка создания каталога</string>
     <string name="widget_title_accounts">Мои счета</string>
     <string name="widget_title_templates">Мои шаблоны</string>
     <string name="app_dir_not_accessible">Текущая выбранная папка для резервного копирования и экспорта (%1$s) недоступна. Пожалуйста, выберите другую.</string>

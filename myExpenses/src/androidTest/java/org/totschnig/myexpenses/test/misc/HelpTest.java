@@ -27,7 +27,6 @@ import org.totschnig.myexpenses.activity.CsvImportActivity;
 import org.totschnig.myexpenses.activity.DebtEdit;
 import org.totschnig.myexpenses.activity.Distribution;
 import org.totschnig.myexpenses.activity.ExpenseEdit;
-import org.totschnig.myexpenses.activity.FolderBrowser;
 import org.totschnig.myexpenses.activity.HistoryActivity;
 import org.totschnig.myexpenses.activity.ManageBudgets;
 import org.totschnig.myexpenses.activity.ManageCategories;
@@ -78,7 +77,6 @@ public class HelpTest extends android.test.InstrumentationTestCase {
         DebtEdit.class,
         Distribution.class,
         ExpenseEdit.class,
-        FolderBrowser.class,
         HistoryActivity.class,
         ManageBudgets.class,
         ManageCategories.class,

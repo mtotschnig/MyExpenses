@@ -345,9 +345,6 @@
     <string name="import_transactions_none">هیچ تراکنشی به حساب %1$s درون‌ریزی نشد</string>
     <string name="import_source_select_error">لطفاً یک فایل از نوع %1$s ارائه دهید</string>
     <string name="menu_create_folder">پوشهٔ جدید</string>
-    <!-- This string is used for navigating up in the folder browser -->
-    <string name="menu_up">بالا</string>
-    <string name="create_new_folder_fail">ساخت پوشه شکست خورد</string>
     <string name="widget_title_accounts">حساب‌های من</string>
     <string name="widget_title_templates">قالب‌های من</string>
     <string name="app_dir_not_accessible">پوشهٔ فعلی انتخاب شده برای بک‌آپ و خروجی (%1$s) در دسترس نمی‌باشد. لطفاً یک پوشه دیگر انتخاب کنید</string>

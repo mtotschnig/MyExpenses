@@ -341,9 +341,6 @@
     <string name="import_source_select_error">សូមផ្តល់​ឯកសារមួយ​ក្នុងប្រភេទ %1$s</string>
     <string name="menu_categories_setup_default">ដាក់ប្រភេទលំនាំដើម</string>
     <string name="menu_create_folder">ថត​ថ្មី</string>
-    <!-- This string is used for navigating up in the folder browser -->
-    <string name="menu_up">ទៅលើ</string>
-    <string name="create_new_folder_fail">បរាជ័យ​ក្នុង​ការបង្កើតថតនេះ</string>
     <string name="widget_title_accounts">គណនីរបស់ខ្ញុំ</string>
     <string name="widget_title_templates">ពុម្ព​របស់ខ្ញុំ</string>
     <string name="search_amount">ស្វែង​រក​ទឹកប្រាក់</string>

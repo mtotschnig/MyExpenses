@@ -447,9 +447,6 @@
     <string name="import_source_select_error">Kérjük, adjon meg egy %1$s típusú fájlt</string>
     <string name="menu_categories_setup_default">Alapértelmezett kategóriák beállítása</string>
     <string name="menu_create_folder">Új mappa</string>
-    <!-- This string is used for navigating up in the folder browser -->
-    <string name="menu_up">Fel</string>
-    <string name="create_new_folder_fail">A mappa létrehozása sikertelen</string>
     <string name="widget_title_accounts">Saját fiókok</string>
     <string name="widget_title_templates">Saját sablonok</string>
     <string name="app_dir_not_accessible">A biztonsági mentésekre és exportálásokra kijelölt jelenlegi mappa (%1$s) nem érhető el. Válasszon egy másikat.</string>

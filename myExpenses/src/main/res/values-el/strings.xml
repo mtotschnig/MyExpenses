@@ -444,9 +444,6 @@
     <string name="import_source_select_error">Παρακαλείσθε να παράσχετε ένα αρχείο τύπου %1$s</string>
     <string name="menu_categories_setup_default">Εργοστασιακές ρυθμίσεις κατηγοριών</string>
     <string name="menu_create_folder">Νέος φάκελος</string>
-    <!-- This string is used for navigating up in the folder browser -->
-    <string name="menu_up">Πάνω</string>
-    <string name="create_new_folder_fail">Αποτυχία δημιουργίας του φακέλου</string>
     <string name="widget_title_accounts">Οι λογαριασμοί μου</string>
     <string name="widget_title_templates">Τα πρότυπά μου</string>
     <string name="app_dir_not_accessible">Ο τρέχων επιλεγμένος φάκελος για αντίγραφα ασφαλείας και εξαγωγές (%1$s) δεν είναι προσβάσιμος. παρακαλώ επιλέξτε έναν άλλο.</string>

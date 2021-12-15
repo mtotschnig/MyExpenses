@@ -438,9 +438,6 @@
     <string name="import_source_select_error">請提供 %1$s類型的檔案</string>
     <string name="menu_categories_setup_default">採用程式預設的類別</string>
     <string name="menu_create_folder">新增文件夾</string>
-    <!-- This string is used for navigating up in the folder browser -->
-    <string name="menu_up">往上一層</string>
-    <string name="create_new_folder_fail">新建檔案夾失敗</string>
     <string name="widget_title_accounts">我的帳戶</string>
     <string name="widget_title_templates">我的範本</string>
     <string name="app_dir_not_accessible">無法使用您所選的檔案夾(%1$s)，請選擇其他檔案夾。</string>

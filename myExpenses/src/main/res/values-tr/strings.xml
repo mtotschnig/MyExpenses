@@ -447,9 +447,6 @@
     <string name="import_source_select_error">Lütfen %1$s tipinde bir dosya verin</string>
     <string name="menu_categories_setup_default">Varsayılan kategorileri kur</string>
     <string name="menu_create_folder">Yeni klasör</string>
-    <!-- This string is used for navigating up in the folder browser -->
-    <string name="menu_up">Yukarı</string>
-    <string name="create_new_folder_fail">Klasör oluşturulamadı</string>
     <string name="widget_title_accounts">Hesaplarım</string>
     <string name="widget_title_templates">Şablonlarım</string>
     <string name="app_dir_not_accessible">Yedeklemeler ve dışa aktarmalar için güncel olarak seçilmiş klasöre (%1$s) erişilemiyor. Lütfen başka bir klasör seçin.</string>

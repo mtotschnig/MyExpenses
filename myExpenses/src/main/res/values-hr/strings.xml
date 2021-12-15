@@ -391,9 +391,6 @@
     <string name="import_source_select_error">Dokument mora biti vrste %1$s</string>
     <string name="menu_categories_setup_default">Postavi standardne kategorije</string>
     <string name="menu_create_folder">Nova mapa</string>
-    <!-- This string is used for navigating up in the folder browser -->
-    <string name="menu_up">Gore</string>
-    <string name="create_new_folder_fail">Neuspjelo generiranje mape</string>
     <string name="widget_title_accounts">Moji računi</string>
     <string name="widget_title_templates">Moji predlošci</string>
     <string name="search_amount">Traži iznos</string>

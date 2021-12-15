@@ -447,9 +447,6 @@
     <string name="import_source_select_error">தயவுசெய்து %1$s வகையில் ஒரு கோப்பை வழங்கவும்</string>
     <string name="menu_categories_setup_default">இயல்புநிலை வகைகளை அமைக்கவும்</string>
     <string name="menu_create_folder">புதிய கோப்புறை</string>
-    <!-- This string is used for navigating up in the folder browser -->
-    <string name="menu_up">மேலே</string>
-    <string name="create_new_folder_fail">கோப்புறையை உருவாக்க முடியவில்லை</string>
     <string name="widget_title_accounts">எனது கணக்குகள்</string>
     <string name="widget_title_templates">எனது வார்ப்புருக்கள்</string>
     <string name="app_dir_not_accessible">காப்புப்பிரதிக்கள் மற்றும் ஏற்றுமதிகளுக்காக தற்போது தேர்ந்தெடுக்கப்பட்டுள்ள கோப்புறையை (%1$s) அணுக முடியவில்லை. தயவு செய்து வேறொன்றைத் தேர்ந்தெடுக்கவும்.</string>

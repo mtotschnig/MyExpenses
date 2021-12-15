@@ -414,9 +414,6 @@
     <string name="import_source_select_error">Furnizaţi vă rog un fişier de tip %1$s</string>
     <string name="menu_categories_setup_default">Setare categorii implicite</string>
     <string name="menu_create_folder">Folder nou</string>
-    <!-- This string is used for navigating up in the folder browser -->
-    <string name="menu_up">Sus</string>
-    <string name="create_new_folder_fail">Eşec la crearea folderului</string>
     <string name="widget_title_accounts">Conturile mele</string>
     <string name="widget_title_templates">Şabloanele mele</string>
     <string name="search_amount">Caută o valoare</string>

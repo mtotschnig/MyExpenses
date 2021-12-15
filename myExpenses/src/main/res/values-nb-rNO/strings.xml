@@ -144,7 +144,6 @@
     <string name="search_amount">Søk etter beløp</string>
     <string name="widget_title_templates">Mine maler</string>
     <string name="widget_title_accounts">Mine kontoer</string>
-    <string name="menu_up">Oppover</string>
     <string name="menu_create_folder">Ny mappe</string>
     <string name="import_source_select_error">Angi en fil av typen %1$s</string>
     <string name="import_parties_none">Ingen parter importert</string>

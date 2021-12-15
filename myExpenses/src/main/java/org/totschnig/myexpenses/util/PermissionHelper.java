@@ -23,10 +23,11 @@ public class PermissionHelper {
   public static final int PERMISSIONS_REQUEST_WRITE_CALENDAR = 1;
   public static final int PERMISSIONS_REQUEST_STORAGE = 2;
 
-  private PermissionHelper() {}
+  private PermissionHelper() {
+  }
 
   public enum PermissionGroup {
-    STORAGE(externalReadPermissionCompat(), PrefKey.STORAGE_PERMISSION_REQUESTED, PERMISSIONS_REQUEST_STORAGE),
+    STORAGE(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PrefKey.STORAGE_PERMISSION_REQUESTED, PERMISSIONS_REQUEST_STORAGE),
     CALENDAR(new String[]{Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR}, PrefKey.CALENDAR_PERMISSION_REQUESTED, PERMISSIONS_REQUEST_WRITE_CALENDAR);
 
     public final String[] androidPermissions;
@@ -46,12 +47,10 @@ public class PermissionHelper {
     }
 
     /**
-     *
-     * @param context
      * @return true if all of our {@link #androidPermissions} are granted
      */
     public boolean hasPermission(Context context) {
-      for (String permission: androidPermissions) {
+      for (String permission : androidPermissions) {
         if (!PermissionHelper.hasPermission(context, permission)) {
           return false;
         }
@@ -60,13 +59,11 @@ public class PermissionHelper {
     }
 
     /**
-     *
-     * @param context
      * @return true if {@link ActivityCompat#shouldShowRequestPermissionRationale(Activity, String)}
      * returns true for any of our {@link #androidPermissions}
      */
     public boolean shouldShowRequestPermissionRationale(Activity context) {
-      for (String permission: androidPermissions) {
+      for (String permission : androidPermissions) {
         if (ActivityCompat.shouldShowRequestPermissionRationale(context, permission)) {
           return true;
         }
@@ -91,8 +88,6 @@ public class PermissionHelper {
    * Wrapper around {@link ContextCompat#checkSelfPermission(Context, String)}
    * Workaround for RuntimeException
    * See https://github.com/permissions-dispatcher/PermissionsDispatcher/pull/108/files
-   * @param context context
-   * @param permission permission
    * @return returns true if context has access to the given permission, false otherwise.
    */
   public static int getSelfPermissionSafe(Context context, String permission) {
@@ -101,10 +96,6 @@ public class PermissionHelper {
     } catch (RuntimeException t) {
       return PERMISSION_DENIED;
     }
-  }
-
-  public static String[] externalReadPermissionCompat() {
-    return new String[] {Manifest.permission.READ_EXTERNAL_STORAGE};
   }
 
   public static boolean canReadUri(Uri uri, Context context) {
@@ -136,7 +127,7 @@ public class PermissionHelper {
     if (grantResults.length == 0) {
       return false;
     }
-    for (int result: grantResults) {
+    for (int result : grantResults) {
       if (result != PackageManager.PERMISSION_GRANTED) {
         return false;
       }

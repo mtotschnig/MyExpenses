@@ -41,7 +41,6 @@
     <string name="date">දිනය </string>
     <string name="date_format">දින ආකෘතිය </string>
     <string name="date_format_illegal">අයුතු දින ආකෘතිය කි</string>
-    <string name="decimal_separator"/>
     <string name="description">සවිස්තරය</string>
     <string name="dialog_command_disabled_reset_account">නිර්යාත කිරීමට ගනුදෙනු නැත.</string>
     <string name="dialog_command_disabled_distribution">ප්‍රබේධ සදහා වෙන්කළ ගනුදෙනු මෙම ගිණුමෙහි නොමැත </string>
@@ -338,9 +337,6 @@
     <string name="import_source_select_error">කරුණකර  %1$s ලිපිගොනු වර්ගයක් යොදන්න </string>
     <string name="menu_categories_setup_default">මුල් ප්‍රබේධ පිහිටුවන්න </string>
     <string name="menu_create_folder">නව ගොනුව </string>
-    <!-- This string is used for navigating up in the folder browser -->
-    <string name="menu_up">ඉහල </string>
-    <string name="create_new_folder_fail">ගොනුව නිර්මාණය  කිරීම අසාර්ථකයි </string>
     <string name="widget_title_accounts">මගේ ගිණුම් </string>
     <string name="widget_title_templates">මගේ අච්චු </string>
     <string name="switch_on_text">සක්‍රියයි</string>

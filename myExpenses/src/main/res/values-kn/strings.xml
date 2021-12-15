@@ -446,9 +446,6 @@
     <string name="import_source_select_error">ದಯವಿಟ್ಟು %1$s ಪ್ರಕಾರದ ಫೈಲ್ ಅನ್ನು ಒದಗಿಸಿ</string>
     <string name="menu_categories_setup_default">ಡೀಫಾಲ್ಟ್ ವಿಭಾಗಗಳನ್ನು ಹೊಂದಿಸಿ</string>
     <string name="menu_create_folder">ಹೊಸ ಫೋಲ್ಡರ್</string>
-    <!-- This string is used for navigating up in the folder browser -->
-    <string name="menu_up">ಅಪ್</string>
-    <string name="create_new_folder_fail">ಫೋಲ್ಡರ್ ರಚಿಸಲು ವಿಫಲವಾಗಿದೆ</string>
     <string name="widget_title_accounts">ನನ್ನ ಖಾತೆಗಳು</string>
     <string name="widget_title_templates">ನನ್ನ ಟೆಂಪ್ಲೇಟ್‌ಗಳು</string>
     <string name="app_dir_not_accessible">ಬ್ಯಾಕಪ್‌ಗಳು ಮತ್ತು ರಫ್ತುಗಳಿಗಾಗಿ ಪ್ರಸ್ತುತ ಆಯ್ಕೆ ಮಾಡಲಾದ ಫೋಲ್ಡರ್ (%1$s) ಪ್ರವೇಶಿಸಲಾಗುವುದಿಲ್ಲ. ದಯವಿಟ್ಟು ಬೇರೆ ಒಂದನ್ನು ಆರಿಸಿ.</string>

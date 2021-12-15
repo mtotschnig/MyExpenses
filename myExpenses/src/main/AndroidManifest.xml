@@ -256,9 +256,6 @@
             android:exported="false"
             android:theme="@style/EditDialog" />
         <activity
-            android:name=".activity.FolderBrowser"
-            android:theme="@style/EditDialog" />
-        <activity
             android:name=".activity.CalculatorInput"
             android:theme="@style/Calculator">
             <intent-filter>

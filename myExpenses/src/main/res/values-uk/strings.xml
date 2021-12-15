@@ -452,9 +452,6 @@
     <string name="import_source_select_error">Будь ласка, виберіть файл типу %1$s</string>
     <string name="menu_categories_setup_default">Налаштувати категорії за замовчуванням</string>
     <string name="menu_create_folder">Нова тека</string>
-    <!-- This string is used for navigating up in the folder browser -->
-    <string name="menu_up">Вгору</string>
-    <string name="create_new_folder_fail">Не вдалося створити теку</string>
     <string name="widget_title_accounts">Мої рахунки</string>
     <string name="widget_title_templates">Мої шаблони</string>
     <string name="app_dir_not_accessible">Поточна тека для резервних копій та експорту (%1$s) недоступна. Будь ласка, виберіть іншу.</string>

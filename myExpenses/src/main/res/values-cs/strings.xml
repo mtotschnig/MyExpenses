@@ -465,9 +465,6 @@
     <string name="import_source_select_error">Poskytněte prosím soubor typu %1$s</string>
     <string name="menu_categories_setup_default">Nastavit výchozí kategorie</string>
     <string name="menu_create_folder">Nová složka</string>
-    <!-- This string is used for navigating up in the folder browser -->
-    <string name="menu_up">Nahoru</string>
-    <string name="create_new_folder_fail">Vytvoření složky selhalo</string>
     <string name="widget_title_accounts">Moje účty</string>
     <string name="widget_title_templates">Moje šablony</string>
     <string name="app_dir_not_accessible">Momentálně zvolená složka pro zálohy a exporty (%1$s) není přístupná. Zvolte prosím jinou.</string>

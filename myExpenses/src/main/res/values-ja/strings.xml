@@ -436,9 +436,6 @@
     <string name="import_source_select_error">種類 %1$s のファイルを入力してください</string>
     <string name="menu_categories_setup_default">デフォルトの分類をセットアップ</string>
     <string name="menu_create_folder">新しいフォルダー</string>
-    <!-- This string is used for navigating up in the folder browser -->
-    <string name="menu_up">上へ</string>
-    <string name="create_new_folder_fail">フォルダーの作成に失敗しました</string>
     <string name="widget_title_accounts">マイ勘定</string>
     <string name="widget_title_templates">マイ テンプレート</string>
     <string name="app_dir_not_accessible">現在、バックアップとエクスポート用に選択されているフォルダ (%1$s) にアクセスできません。別のフォルダを選択してください。</string>

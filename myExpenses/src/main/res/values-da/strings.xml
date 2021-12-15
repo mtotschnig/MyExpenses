@@ -392,9 +392,6 @@
     <string name="import_source_select_error">Angiv en fil af typen %1$s</string>
     <string name="menu_categories_setup_default">Opret standardkategorier</string>
     <string name="menu_create_folder">Ny mappe</string>
-    <!-- This string is used for navigating up in the folder browser -->
-    <string name="menu_up">Op</string>
-    <string name="create_new_folder_fail">Kunne ikke oprette mappen</string>
     <string name="widget_title_accounts">Mine konti</string>
     <string name="widget_title_templates">Mine skabeloner</string>
     <string name="search_amount">Find beløb</string>
