@@ -344,8 +344,6 @@ task echoPublishTag() {
     doLast {
         println "ChangeLog.install/bin/ChangeLog fdroid ${versionName} ${versionCode}"
         println "git add metadata/*/changelogs/${versionCode}.txt"
-        println "echo -e \"versionName=${versionName}\\nversionCode=${versionCode}\">docs/.well-known/fdroid-latest.txt"
-        println "git add docs/.well-known/fdroid-latest.txt"
         println "git commit -m \"Release ${versionName}\""
         println "git push"
         println "git tag r${versionCode}; git push origin r${versionCode}"
