@@ -314,7 +314,6 @@
     <string name="import_categories_success">%1$d categories s\'han importat correctament.</string>
     <string name="import_parties_success">%1$s tercers s\'han importat correctament.</string>
     <string name="import_accounts_none">No s\'ha importat cap compte!</string>
-    <string name="create_new_folder_fail">No s\'ha pogut crear la carpeta</string>
     <string name="learn_more">Més informació</string>
     <string name="pref_auto_backup_title">Permetre còpia de seguretat automàtica</string>
     <string name="pref_auto_backup_summary">Còpia de seguretat de base de dades diària a l\'hora especificada (només si les dades han canviat)</string>
