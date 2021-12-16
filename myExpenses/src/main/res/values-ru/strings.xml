@@ -1000,4 +1000,14 @@
     <string name="account_widget_configuration_sum">Тип отображаемой суммы</string>
     <string name="recurrence_last_day_of_month">Последний день</string>
     <string name="account_deleted">Счет удален</string>
+    <string name="debt">Дебет</string>
+    <string name="cb_label_merge_accounts">Слияние счетов</string>
+    <string name="pref_mlkit_script_title">Скрипт для MlKit</string>
+    <plurals name="import_categories_icons_updated">
+        <item quantity="one">В одной категории была обновлена иконка.</item>
+        <item quantity="few">В %1$d категориях была обновлена иконка.</item>
+        <item quantity="many">В %1$d категориях была обновлена иконка.</item>
+        <item quantity="other">В %1$d категориях была обновлена иконка.</item>
+    </plurals>
+    <string name="title_activity_debt_overview">Обзор дебета</string>
 </resources>
