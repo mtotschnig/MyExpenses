@@ -69,6 +69,7 @@ import timber.log.Timber
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
+import kotlin.math.sign
 
 class DebtOverview : DebtActivity() {
     val viewModel: DebtViewModel by viewModels()
@@ -103,7 +104,9 @@ class DebtOverview : DebtActivity() {
                             ) {
                                 Text(
                                     text = stringResource(id = R.string.title_activity_debt_overview),
-                                    modifier = Modifier.weight(1f).padding(end = 4.dp),
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .padding(end = 4.dp),
                                     overflow = TextOverflow.Ellipsis,
                                     maxLines = 1,
                                     style = MaterialTheme.typography.h6
@@ -219,7 +222,7 @@ fun DebtRenderer(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        val signum = debt.amount > 0
+                        val signum = debt.currentBalance.sign
                         if (expanded.value) {
                             Initials(
                                 name = debt.payeeName!!,
@@ -236,10 +239,11 @@ fun DebtRenderer(
 
                             if (!expanded.value) {
                                 Text(
-                                    text = stringResource(
-                                        id = if (signum) R.string.debt_owes_me else R.string.debt_I_owe,
-                                        debt.payeeName!!
-                                    ),
+                                    text = if (signum == 0) debt.payeeName!! else
+                                        stringResource(
+                                            id = if (signum == 1) R.string.debt_owes_me else R.string.debt_I_owe,
+                                            debt.payeeName!!
+                                        ),
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis
                                 )
