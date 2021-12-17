@@ -31,6 +31,8 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import javax.net.ssl.SSLException;
 import javax.net.ssl.SSLHandshakeException;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.X509TrustManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -88,7 +90,9 @@ public class WebDavClient {
     }
 
     if (trustedCertificate != null) {
-      builder.sslSocketFactory(CertificateHelper.createSocketFactory(trustedCertificate));
+      X509TrustManager trustManager = CertificateHelper.createTrustManager(trustedCertificate);
+      SSLSocketFactory sf = CertificateHelper.createSocketFactory(trustManager);
+      builder.sslSocketFactory(sf, trustManager);
 
       builder.hostnameVerifier((hostname, session) -> {
         try {
