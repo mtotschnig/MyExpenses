@@ -446,26 +446,26 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
 
     private fun loadTags() {
         if (!isSplitPart) {
-            viewModel.getTags().observe(this, { tags ->
+            viewModel.getTags().observe(this) { tags ->
                 if (::delegate.isInitialized) {
                     delegate.showTags(tags) { tag ->
                         viewModel.removeTag(tag)
                         setDirty()
                     }
                 }
-            })
+            }
         }
     }
 
     private fun loadTemplates() {
-        viewModel.getTemplates().observe(this, { templates ->
+        viewModel.getTemplates().observe(this) { templates ->
             menuItem2TemplateMap.clear()
             for (template in templates) {
                 val menuId = ViewCompat.generateViewId()
                 menuItem2TemplateMap[menuId] = template
                 invalidateOptionsMenu()
             }
-        })
+        }
     }
 
     private fun loadAccounts(fromSavedState: Boolean) {
