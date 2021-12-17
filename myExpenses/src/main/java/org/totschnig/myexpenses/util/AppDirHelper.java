@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.util;
 
-import android.Manifest;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
@@ -49,9 +48,7 @@ public class AppDirHelper {
     if (externalFilesDir != null) {
       return DocumentFile.fromFile(externalFilesDir);
     } else {
-      String permission = Manifest.permission.WRITE_EXTERNAL_STORAGE;
-      CrashHandler.report("getExternalFilesDir returned null; " + permission + " : " +
-              ContextCompat.checkSelfPermission(context, permission));
+      CrashHandler.report("getExternalFilesDir returned null");
       return null;
     }
   }
