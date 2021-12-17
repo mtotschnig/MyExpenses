@@ -148,8 +148,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
   public void showPreference(String prefKey) {
     final Preference preference = findPreference(prefKey);
     if (preference != null) {
-      //noinspection RestrictedApi
-      preference.performClick();
+      onDisplayPreferenceDialog(preference);
     }
   }
 
