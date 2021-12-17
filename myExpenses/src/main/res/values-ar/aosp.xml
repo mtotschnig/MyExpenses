@@ -22,5 +22,6 @@
     <string name="response_no">"لا"</string>
     <string name="add_widget">"إضافة أداة"</string>
     <string name="calendar">"التقويم"</string>
+    <string name="permissions_label">"الأذونات"</string>
 </resources>
 

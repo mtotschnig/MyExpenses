@@ -435,12 +435,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
         if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
             SettingsDialog.Builder(this)
+                .title(R.string.permissions_label)
                 .rationale(PermissionHelper.PermissionGroup.fromRequestCode(requestCode).permissionRequestRationale(this))
                 .build().show()
         }
-    }
-
-    override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
-        TODO("Not yet implemented")
     }
 }

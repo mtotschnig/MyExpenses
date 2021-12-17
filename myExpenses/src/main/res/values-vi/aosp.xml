@@ -22,5 +22,6 @@
     <string name="response_no">"Không"</string>
     <string name="add_widget">"Thêm tiện ích"</string>
     <string name="calendar">"Lịch"</string>
+    <string name="permissions_label">"Quyền"</string>
 </resources>
 

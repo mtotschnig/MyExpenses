@@ -22,5 +22,6 @@
     <string name="response_no">"否"</string>
     <string name="add_widget">"新增小工具"</string>
     <string name="calendar">"日曆"</string>
+    <string name="permissions_label">"權限"</string>
 </resources>
 

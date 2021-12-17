@@ -223,7 +223,11 @@ class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogLis
         val args = buildRestoreArgs(mUri, restorePlanStrategy)
         backupViewModel.isEncrypted(mUri).observe(this) {
             it.onFailure {
-                showSnackbar(it.message ?: "ERROR")
+                showDismissibleSnackbar(it.message ?: "ERROR", object : Snackbar.Callback() {
+                    override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                        finish()
+                    }
+                })
             }.onSuccess {
                 if (it) {
                     SimpleFormDialog.build().msg(R.string.backup_is_encrypted)

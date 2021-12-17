@@ -47,17 +47,6 @@ public class ImportFileResultHandler {
       } else {
         ((ProtectedFragmentActivity) context).requestStoragePermission();
       }
-
-/*      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && uri != null) {
-        final int takeFlags = data.getFlags()
-            & Intent.FLAG_GRANT_READ_URI_PERMISSION;
-        try {
-          //this probably will not succeed as long as we stick to ACTION_GET_CONTENT
-            context.getContentResolver().takePersistableUriPermission(uri, takeFlags);
-        } catch (SecurityException e) {
-          //Utils.reportToAcra(e);
-        }
-      }*/
     }
   }
 
@@ -74,7 +63,7 @@ public class ImportFileResultHandler {
 
   public static void maybePersistUri(FileNameHostFragment hostFragment, PrefHandler prefHandler) {
     if (!FileUtils.isDocumentUri(hostFragment.getContext(), hostFragment.getUri())) {
-     prefHandler.putString(hostFragment.getPrefKey(), hostFragment.getUri().toString());
+      prefHandler.putString(hostFragment.getPrefKey(), hostFragment.getUri().toString());
     }
   }
 
