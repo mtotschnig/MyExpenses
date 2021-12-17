@@ -19,7 +19,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
@@ -32,7 +31,6 @@ import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.color.SimpleColorDialog
 import icepick.State
 import org.apache.commons.lang3.ArrayUtils
-import java.time.LocalDate
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.CurrencyAdapter
@@ -61,9 +59,8 @@ import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.Currency.Companion.create
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import java.io.Serializable
-import java.lang.IllegalStateException
 import java.math.BigDecimal
-import java.util.*
+import java.time.LocalDate
 
 /**
  * Activity for editing an account
@@ -121,9 +118,9 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         setContentView(binding.root)
         setupToolbar()
         val viewModelProvider = ViewModelProvider(this)
-        currencyViewModel = viewModelProvider.get(CurrencyViewModel::class.java)
-        viewModel = viewModelProvider.get(AccountEditViewModel::class.java)
-        syncViewModel = viewModelProvider.get(SyncBackendViewModel::class.java)
+        currencyViewModel = viewModelProvider[CurrencyViewModel::class.java]
+        viewModel = viewModelProvider[AccountEditViewModel::class.java]
+        syncViewModel = viewModelProvider[SyncBackendViewModel::class.java]
         with((applicationContext as MyApplication).appComponent) {
             inject(viewModel)
             inject(currencyViewModel)
@@ -170,10 +167,17 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
 
     private fun setup() {
         configureSyncBackendAdapter()
-        currencyViewModel.getCurrencies().observe(this, { currencies: List<Currency?> ->
+        currencyViewModel.getCurrencies().observe(this) { currencies: List<Currency?> ->
             currencyAdapter.addAll(currencies)
-            currencySpinner.setSelection(currencyAdapter.getPosition(create(currencyUnit.code, this)))
-        })
+            currencySpinner.setSelection(
+                currencyAdapter.getPosition(
+                    create(
+                        currencyUnit.code,
+                        this
+                    )
+                )
+            )
+        }
         UiUtils.setBackgroundOnButton(binding.colorInput.ColorIndicator, color)
         setupListeners()
     }
@@ -328,8 +332,8 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
-        menu.add(Menu.NONE, R.id.EXCLUDE_FROM_TOTALS_COMMAND, 0, R.string.menu_exclude_from_totals)
-                .setCheckable(true)
+        menu.add(Menu.NONE, R.id.EXCLUDE_FROM_TOTALS_COMMAND, 0, R.string.menu_exclude_from_totals).isCheckable =
+            true
         return true
     }
 
