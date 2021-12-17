@@ -149,9 +149,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
         Icepick.restoreInstanceState(this, savedInstanceState)
         val appComponent = (requireActivity().application as MyApplication).appComponent
         appComponent.inject(this)
-        viewModel = ViewModelProvider(this).get(
-            TemplatesListViewModel::class.java
-        )
+        viewModel = ViewModelProvider(this)[TemplatesListViewModel::class.java]
         appComponent.inject(viewModel)
     }
 
@@ -247,7 +245,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
     }
 
     private val isCalendarPermissionGranted: Boolean
-        get() = PermissionGroup.CALENDAR.hasPermission(context)
+        get() = PermissionGroup.CALENDAR.hasPermission(requireContext())
 
     private fun bulkUpdateDefaultAction(
         itemIds: LongArray,
@@ -255,8 +253,8 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
         resultFeedBack: Int
     ) {
         viewModel.updateDefaultAction(itemIds, action).observe(
-            viewLifecycleOwner,
-            { result: Boolean -> showSnackbar(if (result) getString(resultFeedBack) else "Error while setting default action for template click") })
+            viewLifecycleOwner
+        ) { result: Boolean -> showSnackbar(if (result) getString(resultFeedBack) else "Error while setting default action for template click") }
     }
 
     override fun dispatchCommandMultiple(
@@ -369,7 +367,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
      * @param tag if tag holds a single long the new instance will be edited, if tag holds an array of longs
      * new instances will be immediately saved for each
      */
-    fun requestSplitTransaction(tag: Serializable?) {
+    private fun requestSplitTransaction(tag: Serializable?) {
         (requireActivity() as ProtectedFragmentActivity).contribFeatureRequested(
             ContribFeature.SPLIT_TRANSACTION,
             tag
@@ -382,16 +380,16 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
 
     private fun dispatchCreateInstanceSaveDo(vararg plans: PlanInstanceInfo) {
         viewModel.newFromTemplate(plans).observe(
-            viewLifecycleOwner,
-            { successCount: Int ->
-                showSnackbar(
-                    if (successCount == 0) getString(R.string.save_transaction_error) else resources.getQuantityString(
-                        R.plurals.save_transaction_from_template_success,
-                        successCount,
-                        successCount
-                    )
+            viewLifecycleOwner
+        ) { successCount: Int ->
+            showSnackbar(
+                if (successCount == 0) getString(R.string.save_transaction_error) else resources.getQuantityString(
+                    R.plurals.save_transaction_from_template_success,
+                    successCount,
+                    successCount
                 )
-            })
+            )
+        }
     }
 
     fun dispatchCreateInstanceEditDo(itemId: Long) {
@@ -401,7 +399,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
         startActivity(intent)
     }
 
-    fun dispatchCreateInstanceEdit(templateId: Long, instanceId: Long, date: Long) {
+    private fun dispatchCreateInstanceEdit(templateId: Long, instanceId: Long, date: Long) {
         val intent = Intent(requireActivity(), ExpenseEdit::class.java)
         intent.putExtra(DatabaseConstants.KEY_TEMPLATEID, templateId)
         intent.putExtra(DatabaseConstants.KEY_INSTANCEID, instanceId)
@@ -409,7 +407,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
         startActivity(intent)
     }
 
-    fun dispatchEditInstance(transactionId: Long?) {
+    private fun dispatchEditInstance(transactionId: Long?) {
         val intent = Intent(requireActivity(), ExpenseEdit::class.java)
         intent.putExtra(DatabaseConstants.KEY_ROWID, transactionId)
         startActivityForResult(intent, EDIT_REQUEST)
@@ -558,7 +556,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
             }
     }
 
-    fun confirmDeleteTransactionsForPlanInstances(
+    private fun confirmDeleteTransactionsForPlanInstances(
         planInstances: Array<out PlanInstanceInfo>, dialogTag: String, title: Int
     ) {
         SimpleDialog.build()
@@ -579,7 +577,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
             .show(this, dialogTag)
     }
 
-    fun dispatchCancelInstance(vararg planInstances: PlanInstanceInfo) {
+    private fun dispatchCancelInstance(vararg planInstances: PlanInstanceInfo) {
         val countInstantiated = planInstances.count { planInstanceInfo -> planInstanceInfo.transactionId?.takeIf { it != 0L } != null }
         if (countInstantiated > 0) {
             confirmDeleteTransactionsForPlanInstances(
@@ -592,7 +590,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
         }
     }
 
-    fun dispatchResetInstance(vararg planInstances: PlanInstanceInfo) {
+    private fun dispatchResetInstance(vararg planInstances: PlanInstanceInfo) {
         val countInstantiated = planInstances.count { planInstanceInfo -> planInstanceInfo.transactionId?.takeIf { it != 0L } != null }
         if (countInstantiated > 0) {
             confirmDeleteTransactionsForPlanInstances(

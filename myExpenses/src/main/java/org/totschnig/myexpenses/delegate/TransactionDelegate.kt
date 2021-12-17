@@ -15,10 +15,6 @@ import androidx.core.view.isVisible
 import com.squareup.picasso.Picasso
 import icepick.Icepick
 import icepick.State
-import java.time.LocalDate
-import java.time.LocalTime
-import java.time.ZoneId
-import java.time.ZonedDateTime
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
@@ -61,7 +57,10 @@ import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import java.math.BigDecimal
-import java.util.*
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
 import javax.inject.Inject
 
 abstract class TransactionDelegate<T : ITransaction>(
@@ -204,7 +203,6 @@ abstract class TransactionDelegate<T : ITransaction>(
 
     fun bindUnsafe(
         transaction: ITransaction?,
-        isCalendarPermissionPermanentlyDeclined: Boolean,
         newInstance: Boolean,
         savedInstanceState: Bundle?,
         recurrence: Plan.Recurrence?,
@@ -212,7 +210,6 @@ abstract class TransactionDelegate<T : ITransaction>(
     ) {
         bind(
             transaction as T?,
-            isCalendarPermissionPermanentlyDeclined,
             newInstance,
             savedInstanceState,
             recurrence,
@@ -222,7 +219,6 @@ abstract class TransactionDelegate<T : ITransaction>(
 
     open fun bind(
         transaction: T?,
-        isCalendarPermissionPermanentlyDeclined: Boolean,
         newInstance: Boolean,
         savedInstanceState: Bundle?,
         recurrence: Plan.Recurrence?,
@@ -257,35 +253,31 @@ abstract class TransactionDelegate<T : ITransaction>(
         if (isMainTemplate) {
             viewBinding.TitleRow.visibility = View.VISIBLE
             viewBinding.DefaultActionRow.visibility = View.VISIBLE
-            if (!isCalendarPermissionPermanentlyDeclined) { //if user has denied access and checked that he does not want to be asked again, we do not
-//bother him with a button that is not working
-                setPlannerRowVisibility(true)
-                val recurrenceAdapter = RecurrenceAdapter(context)
-                recurrenceSpinner.adapter = recurrenceAdapter
-                recurrenceSpinner.setOnItemSelectedListener(this)
-                planButton.setOnClickListener {
-                    planId?.let {
-                        host.launchPlanView(false, it)
-                    } ?: run {
-                        planButton.onClick()
-                    }
+            setPlannerRowVisibility(true)
+            val recurrenceAdapter = RecurrenceAdapter(context)
+            recurrenceSpinner.adapter = recurrenceAdapter
+            recurrenceSpinner.setOnItemSelectedListener(this)
+            planButton.setOnClickListener {
+                planId?.let {
+                    host.launchPlanView(false, it)
+                } ?: run {
+                    planButton.onClick()
                 }
             }
             viewBinding.AttachImage.visibility = View.GONE
         } else if (!isSplitPart) {
-            if (!isCalendarPermissionPermanentlyDeclined) { //we set adapter even if spinner is not immediately visible, since it might become visible
-//after SAVE_AND_NEW action
-                val recurrenceAdapter = RecurrenceAdapter(context)
-                recurrenceSpinner.adapter = recurrenceAdapter
-                if (missingRecurrenceFeature() == null) {
-                    recurrence?.let {
-                        recurrenceSpinner.setSelection(
-                            recurrenceAdapter.getPosition(it)
-                        )
-                    }
+            //we set adapter even if spinner is not immediately visible, since it might become visible
+            //after SAVE_AND_NEW action
+            val recurrenceAdapter = RecurrenceAdapter(context)
+            recurrenceSpinner.adapter = recurrenceAdapter
+            if (missingRecurrenceFeature() == null) {
+                recurrence?.let {
+                    recurrenceSpinner.setSelection(
+                        recurrenceAdapter.getPosition(it)
+                    )
                 }
-                recurrenceSpinner.setOnItemSelectedListener(this)
             }
+            recurrenceSpinner.setOnItemSelectedListener(this)
         }
         if (isSplitPart || isTemplate) {
             viewBinding.DateTimeRow.visibility = View.GONE
@@ -1031,9 +1023,6 @@ abstract class TransactionDelegate<T : ITransaction>(
             configureLastDayButton()
         } else {
             recurrenceSpinner.setSelection(0)
-            if (!PermissionHelper.PermissionGroup.CALENDAR.shouldShowRequestPermissionRationale(host)) {
-                setPlannerRowVisibility(false)
-            }
         }
     }
 
@@ -1064,11 +1053,10 @@ abstract class TransactionDelegate<T : ITransaction>(
     }
 
     fun setCreateTemplate(
-        createTemplate: Boolean,
-        isCalendarPermissionPermanentlyDeclined: Boolean
+        createTemplate: Boolean
     ) {
         setVisibility(viewBinding.TitleRow, createTemplate)
-        setPlannerRowVisibility(createTemplate && !isCalendarPermissionPermanentlyDeclined)
+        setPlannerRowVisibility(createTemplate)
     }
 
     data class OperationType(val type: Int) {

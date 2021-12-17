@@ -140,13 +140,6 @@ public class SettingsFragment extends BaseSettingsFragment implements
           prefHandler.getBoolean(PROTECTION_LEGACY, false) ? R.string.pref_protection_password_title :
               prefHandler.getBoolean(PROTECTION_DEVICE_LOCK_SCREEN, false) ? R.string.pref_protection_device_lock_screen_title :
                   R.string.switch_off_text));
-      Preference preference = requirePreference(PLANNER_CALENDAR_ID);
-      if (activity.isCalendarPermissionPermanentlyDeclined()) {
-        preference.setSummary(Utils.getTextWithAppName(getContext(),
-            R.string.calendar_permission_required));
-      } else {
-        preference.setSummary(R.string.pref_planning_calendar_summary);
-      }
       configureContribPrefs();
       loadSyncAccountData();
     }

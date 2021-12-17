@@ -258,6 +258,10 @@ dependencies {
 
     implementation 'com.afollestad.material-dialogs:core:3.3.0'
 
+    // dynamic feature module compilation fails with
+    //Cannot access 'com.vmadalin.easypermissions.EasyPermissions.PermissionCallbacks' which is a supertype of 'org.totschnig.myexpenses.activity.BaseActivity'
+    api 'com.vmadalin:easypermissions-ktx:1.0.0'
+
     androidTestImplementation 'tools.fastlane:screengrab:2.0.0'
     //Screengrab still references falcon 2.2.1 which is not on Jcenter
     androidTestImplementation 'com.jraska:falcon:2.2.0'

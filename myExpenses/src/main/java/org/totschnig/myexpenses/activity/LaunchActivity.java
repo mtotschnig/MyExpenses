@@ -4,6 +4,8 @@ import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.os.Bundle;
 
+import com.vmadalin.easypermissions.EasyPermissions;
+
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.dialog.ExtendProLicenceDialogFragment;
@@ -22,6 +24,7 @@ import org.totschnig.myexpenses.util.licence.LicenceStatus;
 import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -221,14 +224,10 @@ public abstract class LaunchActivity extends IapActivity {
   }
 
   @Override
-  public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR) {
-      if (!PermissionHelper.allGranted(grantResults)) {
-        if (!CALENDAR.shouldShowRequestPermissionRationale(this)) {
-          requireApplication().removePlanner();
-        }
-      }
+  public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
+    super.onPermissionsDenied(requestCode, perms);
+    if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR && EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+      requireApplication().removePlanner();
     }
   }
 

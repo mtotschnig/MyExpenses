@@ -40,7 +40,6 @@ class SplitDelegate(
 
     override fun bind(
         transaction: ISplit?,
-        isCalendarPermissionPermanentlyDeclined: Boolean,
         newInstance: Boolean,
         savedInstanceState: Bundle?,
         recurrence: Plan.Recurrence?,
@@ -48,7 +47,6 @@ class SplitDelegate(
     ) {
         super.bind(
             transaction,
-            isCalendarPermissionPermanentlyDeclined,
             newInstance,
             savedInstanceState,
             recurrence,

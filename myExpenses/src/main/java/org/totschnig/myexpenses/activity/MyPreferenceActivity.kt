@@ -39,11 +39,11 @@ import org.totschnig.myexpenses.fragment.SettingsFragment
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.task.TaskExecutionFragment
-import org.totschnig.myexpenses.util.distrib.DistributionHelper.getVersionInfo
 import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.Result
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.distrib.DistributionHelper.getVersionInfo
 import java.io.Serializable
 import java.util.*
 
@@ -205,13 +205,11 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace, Preferen
     }
 
     override fun contribFeatureNotCalled(feature: ContribFeature) {}
-    override fun onRequestPermissionsResult(requestCode: Int,
-                                            permissions: Array<String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when (requestCode) {
-            PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR -> if (PermissionHelper.allGranted(grantResults)) {
-                initialPrefToShow = prefHandler.getKey(PrefKey.PLANNER_CALENDAR_ID)
-            }
+
+    override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
+        super.onPermissionsGranted(requestCode, perms)
+        if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR) {
+            initialPrefToShow = prefHandler.getKey(PrefKey.PLANNER_CALENDAR_ID)
         }
     }
 

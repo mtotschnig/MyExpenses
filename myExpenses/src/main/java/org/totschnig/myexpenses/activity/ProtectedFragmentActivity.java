@@ -76,6 +76,7 @@ import org.totschnig.myexpenses.widget.AbstractWidgetKt;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -86,7 +87,6 @@ import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
 import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -740,62 +740,29 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
       floatingActionButton.setEnabled(true);
     }
     super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    boolean granted = PermissionHelper.allGranted(grantResults);
-    storePermissionRequested(requestCode);
-    if (granted) {
-      if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR) {
-        DailyScheduler.updatePlannerAlarms(this, false, true);
-      }
-    } else {
-      if (permissions.length > 0 && ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[0])) {
-        showSnackbar(PermissionHelper.permissionRequestRationale(this, requestCode));
-      }
+  }
+
+  @Override
+  public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
+    if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR) {
+      DailyScheduler.updatePlannerAlarms(this, false, true);
     }
-  }
-
-  private void storePermissionRequested(int requestCode) {
-    prefHandler.putBoolean(PermissionHelper.permissionRequestedKey(requestCode), true);
-  }
-
-  public boolean isCalendarPermissionPermanentlyDeclined() {
-    return isPermissionPermanentlyDeclined(PermissionHelper.PermissionGroup.CALENDAR);
-  }
-
-  private boolean isPermissionPermanentlyDeclined(PermissionGroup permissionGroup) {
-    if (prefHandler.getBoolean(permissionGroup.prefKey, false)) {
-      if (!permissionGroup.hasPermission(this)) {
-        return !permissionGroup.shouldShowRequestPermissionRationale(this);
-      }
-    }
-    return false;
   }
 
   public void requestCalendarPermission() {
-    requestPermissionOrStartApplicationDetailSettings(PermissionGroup.CALENDAR);
+    requestPermission(PermissionGroup.CALENDAR);
   }
 
   public void requestStoragePermission() {
-    requestPermissionOrStartApplicationDetailSettings(PermissionGroup.STORAGE);
+    requestPermission(PermissionGroup.STORAGE);
   }
 
-  private void requestPermissionOrStartApplicationDetailSettings(PermissionGroup permissionGroup) {
-    if (isPermissionPermanentlyDeclined(permissionGroup)) {
-      //noinspection InlinedApi
-      Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-      Uri uri = Uri.fromParts("package", getPackageName(), null);
-      intent.setData(uri);
-      startActivity(intent);
-    } else {
-      requestPermission(permissionGroup);
-    }
-  }
-
-  public void requestPermission(PermissionGroup permissionGroup) {
+  @Override
+  public void requestPermission(@NonNull PermissionGroup permissionGroup) {
     if (floatingActionButton != null) {
       floatingActionButton.setEnabled(false);
     }
-    ActivityCompat.requestPermissions(this, permissionGroup.androidPermissions,
-        permissionGroup.requestCode);
+    super.requestPermission(permissionGroup);
   }
 
   @Override

@@ -49,7 +49,6 @@ class CategoryDelegate(
 
     override fun bind(
         transaction: ITransaction?,
-        isCalendarPermissionPermanentlyDeclined: Boolean,
         newInstance: Boolean,
         savedInstanceState: Bundle?,
         recurrence: Plan.Recurrence?,
@@ -57,7 +56,6 @@ class CategoryDelegate(
     ) {
         super.bind(
             transaction,
-            isCalendarPermissionPermanentlyDeclined,
             newInstance,
             savedInstanceState,
             recurrence,

@@ -51,7 +51,7 @@ public class AppDirHelper {
     } else {
       String permission = Manifest.permission.WRITE_EXTERNAL_STORAGE;
       CrashHandler.report("getExternalFilesDir returned null; " + permission + " : " +
-          PermissionHelper.getSelfPermissionSafe(context, permission));
+              ContextCompat.checkSelfPermission(context, permission));
       return null;
     }
   }

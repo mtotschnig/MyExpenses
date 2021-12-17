@@ -56,7 +56,6 @@ abstract class MainDelegate<T : ITransaction>(
 
     override fun bind(
         transaction: T?,
-        isCalendarPermissionPermanentlyDeclined: Boolean,
         newInstance: Boolean,
         savedInstanceState: Bundle?,
         recurrence: Plan.Recurrence?,
@@ -64,7 +63,6 @@ abstract class MainDelegate<T : ITransaction>(
     ) {
         super.bind(
             transaction,
-            isCalendarPermissionPermanentlyDeclined,
             newInstance,
             savedInstanceState,
             recurrence,

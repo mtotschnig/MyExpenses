@@ -128,13 +128,10 @@ public class ManageTemplates extends ProtectedFragmentActivity implements
   }
 
   @Override
-  public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                         @NonNull int[] grantResults) {
-    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+  public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
+    super.onPermissionsGranted(requestCode, perms);
     if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR) {
-      if (PermissionHelper.allGranted(grantResults)) {
-        mListFragment.loadData();
-      }
+      mListFragment.loadData();
     }
   }
 

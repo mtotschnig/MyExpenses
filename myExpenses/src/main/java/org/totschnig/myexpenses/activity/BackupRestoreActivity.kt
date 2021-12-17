@@ -296,19 +296,12 @@ class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogLis
         abort()
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
+    override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
+        super.onPermissionsDenied(requestCode, perms)
         if (requestCode == PermissionHelper.PERMISSIONS_REQUEST_WRITE_CALENDAR) {
-            if (!PermissionHelper.allGranted(grantResults)) {
-                (supportFragmentManager.findFragmentByTag(FRAGMENT_TAG) as? CalendarRestoreStrategyChangedListener)
-                    ?.onCalendarPermissionDenied()
-            }
-            return
+            (supportFragmentManager.findFragmentByTag(FRAGMENT_TAG) as? CalendarRestoreStrategyChangedListener)
+                ?.onCalendarPermissionDenied()
         }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
     override fun getSnackbarContainerId(): Int {

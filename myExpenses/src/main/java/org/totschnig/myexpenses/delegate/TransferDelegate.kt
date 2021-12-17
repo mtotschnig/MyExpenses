@@ -67,7 +67,6 @@ class TransferDelegate(
 
     override fun bind(
         transaction: ITransfer?,
-        isCalendarPermissionPermanentlyDeclined: Boolean,
         newInstance: Boolean,
         savedInstanceState: Bundle?,
         recurrence: Plan.Recurrence?,
@@ -86,7 +85,6 @@ class TransferDelegate(
         viewBinding.AccountLabel.setText(R.string.transfer_from_account)
         super.bind(
             transaction,
-            isCalendarPermissionPermanentlyDeclined,
             newInstance,
             savedInstanceState,
             recurrence,
