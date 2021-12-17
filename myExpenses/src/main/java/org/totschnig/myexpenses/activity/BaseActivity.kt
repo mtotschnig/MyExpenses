@@ -27,9 +27,6 @@ import com.theartofdev.edmodo.cropper.CropImage
 import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.dialogs.SettingsDialog
 import icepick.State
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
@@ -60,23 +57,13 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     }
 
     fun copyToClipboard(text: String) {
-        lifecycleScope.launch {
-            showSnackbar(
-                withContext(Dispatchers.IO) {
-                    try {
-                        ContextCompat.getSystemService(
-                            this@BaseActivity,
-                            ClipboardManager::class.java
-                        )
-                            ?.setPrimaryClip(ClipData.newPlainText(null, text))
-                        "${getString(R.string.toast_text_copied)}: $text"
-                    } catch (e: RuntimeException) {
-                        Timber.e(e)
-                        e.message ?: "Error"
-                    }
-                }
-            )
-        }
+        showSnackbar(try {
+            ContextCompat.getSystemService(this, ClipboardManager::class.java)?.setPrimaryClip(ClipData.newPlainText(null, text))
+            "${getString(R.string.toast_text_copied)}: $text"
+        } catch (e: RuntimeException) {
+            Timber.e(e)
+            e.message ?: "Error"
+        })
     }
 
 
