@@ -945,4 +945,11 @@
     <string name="warning_party_delete_debt">Brisanjem ove strane brišu se i za nju definirani dugovi.</string>
     <string name="debt">Dug</string>
     <string name="title_activity_debt_overview">Pregled dugova</string>
+    <plurals name="import_categories_icons_updated">
+        <item quantity="one">%1$d kategorija je aktualizirana s ikonama.</item>
+        <item quantity="few">%1$d kategorije su aktualizirane s ikonama.</item>
+        <item quantity="other">%1$d kategorija je aktualizirano s ikonama.</item>
+    </plurals>
+    <string name="cb_label_merge_accounts">Spoji račune</string>
+    <string name="pref_mlkit_script_title">Skripta za MlKit</string>
 </resources>
