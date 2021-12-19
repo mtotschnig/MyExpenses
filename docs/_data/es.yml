@@ -86,8 +86,8 @@ es:
     one-time-payment: Pago único
     subscription: Suscripción
   store:
-    short_description: "Fácil de usar como gestor financiero personal: gran cantidad\
-      \ de funcionalidades y de código abierto"
+    short_description: "Gestión de Finanzas Personales: Fácil de usar, muchas funciones\
+      \ y Open Source"
     full_description_intro: "{app_name} permite el seguimiento de gastos e ingresos,\
       \ directamente desde tu teléfono o tablet."
     full_description_contrib: "Las características premium se desbloquean al comprar\
