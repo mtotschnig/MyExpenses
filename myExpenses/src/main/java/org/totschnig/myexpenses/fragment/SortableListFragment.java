@@ -5,11 +5,17 @@ import android.view.MenuItem;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.model.Sort;
+import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
+
+import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 
 public abstract class SortableListFragment extends ContextualActionBarFragment {
+
+  @Inject
+  PrefHandler prefHandler;
 
   @Override
   public void onPrepareOptionsMenu(@NonNull Menu menu) {
@@ -30,7 +36,7 @@ public abstract class SortableListFragment extends ContextualActionBarFragment {
   protected Sort getCurrentSortOrder() {
     Sort defaultSortOrder = getDefaultSortOrder();
     try {
-      return Sort.valueOf(getSortOrderPrefKey().getString(defaultSortOrder.name()));
+      return Sort.valueOf(prefHandler.getString(getSortOrderPrefKey(), defaultSortOrder.name()));
     } catch (IllegalArgumentException e) {
       return defaultSortOrder;
     }
@@ -40,8 +46,8 @@ public abstract class SortableListFragment extends ContextualActionBarFragment {
     Sort newSortOrder = Sort.fromCommandId(item.getItemId());
     if (newSortOrder != null) {
       if (!item.isChecked()) {
-        getSortOrderPrefKey().putString(newSortOrder.name());
-        getActivity().invalidateOptionsMenu();
+        prefHandler.putString(getSortOrderPrefKey(), newSortOrder.name());
+        requireActivity().invalidateOptionsMenu();
         loadData();
       }
       return true;

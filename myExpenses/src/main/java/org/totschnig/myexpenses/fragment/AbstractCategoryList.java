@@ -41,9 +41,7 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter;
 import org.totschnig.myexpenses.dialog.MessageDialogFragment;
 import org.totschnig.myexpenses.dialog.select.SelectMainCategoryDialogFragment;
-import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.Sort;
-import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
@@ -108,12 +106,9 @@ public abstract class AbstractCategoryList<ROW_BINDING extends ViewBinding> exte
 
   @Inject
   CurrencyFormatter currencyFormatter;
-  @Inject
-  PrefHandler prefHandler;
+
   @Inject
   BriteContentResolver briteContentResolver;
-  @Inject
-  CurrencyContext currencyContext;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {

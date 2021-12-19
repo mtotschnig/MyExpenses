@@ -290,26 +290,25 @@ abstract class DistributionBaseFragment<ROW_BINDING : ViewBinding?> :
             .show(parentFragmentManager, TransactionListDialogFragment::class.java.name)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem) =
+        if (accountInfoIsInitialized) when (item.itemId) {
             R.id.BACK_COMMAND -> {
                 back()
-                return true
+                true
             }
             R.id.FORWARD_COMMAND -> {
                 forward()
-                return true
+                true
             }
             R.id.TOGGLE_AGGREGATE_TYPES -> {
                 aggregateTypes = !aggregateTypes
                 prefHandler.putBoolean(prefKey, aggregateTypes)
                 requireActivity().invalidateOptionsMenu()
                 reset()
-                return true
+                true
             }
-            else -> return super.onOptionsItemSelected(item)
-        }
-    }
+            else -> super.onOptionsItemSelected(item)
+        } else false
 
     protected abstract val prefKey: PrefKey
 

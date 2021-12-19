@@ -133,9 +133,6 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
     @Inject
     lateinit var currencyContext: CurrencyContext
 
-    @Inject
-    lateinit var prefHandler: PrefHandler
-
     lateinit var viewModel: TemplatesListViewModel
 
     private var _binding: TemplatesListBinding? = null
