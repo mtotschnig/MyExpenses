@@ -107,9 +107,6 @@ fr:
       label: Agenda
       explanation: Les échéances d'opérations futures et périodiques seront stockées
         dans un calendrier local spécial ou dans celui que vous lui préciserez.
-    external-storage:
-      label: Stockage
-      explanation: Enregistrement des fichiers d'exportation QIF et CSV et des sauvegardes.
     internet:
       label: Internet
       explanation_usage_tracking: Suivi d'utilisation anonyme

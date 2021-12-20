@@ -99,9 +99,6 @@ tr:
       label: Takvim
       explanation: Gelecekteki ve tekrar eden muameleler için planlar ya özel bir
         yerel takvimde ya da atadığınız herhangi başka bir takvimde saklanır.
-    external-storage:
-      label: Depolama
-      explanation: QIF ve CSV dışa aktarmaları ve yedekleme dosyalarının saklanması.
     internet:
       label: Internet
       explanation_usage_tracking: Anonim kullanım takibi

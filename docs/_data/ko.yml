@@ -74,9 +74,6 @@ ko:
     calendar:
       label: 달력
       explanation: 향후 및 반복 거래에 대한 계획은 특수 로컬 캘린더 또는 귀하가 할당 한 다른 캘린더에 저장됩니다.
-    external-storage:
-      label: 저장
-      explanation: QIF 및 CSV 내보내기 및 백업 파일 저장
     internet:
       label: 인터넷
       explanation_usage_tracking: 익명의 사용 추적

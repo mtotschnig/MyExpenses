@@ -107,10 +107,6 @@ eu:
       explanation: Etorkizuneko eta errepikatutako transakzioetarako planak tokiko
         egutegi berezi batean edo esleitzen duzun beste edozein egutegitan gordetzen
         dira.
-    external-storage:
-      label: Biltegiratze
-      explanation: Biltegian gordetzen dira QIF eta CSV formatuan esportatutako fitxategiak,
-        eta babeskopien fitxategiak.
     internet:
       label: Internet
       explanation_usage_tracking: Erabilera jarraipen anonimoa

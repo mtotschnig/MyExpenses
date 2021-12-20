@@ -103,9 +103,6 @@ pt:
       label: Agenda
       explanation: Os planos para transações futuras e recorrentes são armazenados
         em uma agenda local especial ou em qualquer outra agenda que você escolher.
-    external-storage:
-      label: Armazenamento
-      explanation: Armazenamento de exportações QIF e CSV e arquivos de backup.
     internet:
       label: Internet
       explanation_usage_tracking: Rastreamento anônimo de uso

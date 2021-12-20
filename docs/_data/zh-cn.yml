@@ -74,9 +74,6 @@ zh-cn:
     calendar:
       label: 日历
       explanation: 未来和定期交易的计划存储在特殊的本地日历或您设置的任何其他日历中。
-    external-storage:
-      label: 存储空间
-      explanation: 存储导出和备份的QIF和CSV文件。
     internet:
       label: 互联网
       explanation_usage_tracking: 匿名使用情况跟踪

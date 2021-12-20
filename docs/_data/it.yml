@@ -108,9 +108,6 @@ it:
       label: Calendario
       explanation: Piani futuri e transazioni ricorrenti sono memorizzate o in un
         apposito calendario locale o in qualsiasi altro calendario venga assegnato.
-    external-storage:
-      label: Archiviazione
-      explanation: Stoccaggio di QIF e CSV esportazioni e file di backup.
     internet:
       label: Internet
       explanation_usage_tracking: Statistiche anonime sull'utilizzo

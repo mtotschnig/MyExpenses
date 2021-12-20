@@ -109,9 +109,6 @@ de:
       explanation: Pläne für zukünftige und wiederkehrenden Transaktionen werden entweder
         in einem speziellen lokalen Kalender oder in einem anderen Kalender, den Sie
         zuweisen, gespeichert.
-    external-storage:
-      label: Speicher
-      explanation: Speichern von QIF und CSV-Export und Backup-Dateien.
     internet:
       label: Internet
       explanation_usage_tracking: Anonyme Nutzungsverfolgung

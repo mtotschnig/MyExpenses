@@ -74,9 +74,6 @@ en:
     calendar:
       label: Calendar
       explanation: Plans for future and recurrent transactions are stored either in a special local calendar or in any other calendar you assign.
-    external-storage:
-      label: Storage
-      explanation: Storage of QIF and CSV exports and backup files.
     internet:
       label: Internet
       explanation_usage_tracking: Anonymous usage tracking

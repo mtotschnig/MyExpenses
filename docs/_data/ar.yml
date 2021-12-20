@@ -73,9 +73,6 @@ ar:
     calendar:
       label: التقويم
       explanation: يتم تخزين خطط المعاملات المستقبلية والمتكررة إما في تقويم محلي خاص أو في أي تقويم آخر تقوم بتعيينه.
-    external-storage:
-      label: تخزين
-      explanation: ' الملفات المختزنة ك QIF و CSV وملفات النسخ الاحتياطي.'
     internet:
       label: الإنترنت
       explanation_usage_tracking: تتبع الاستخدام بشكل مخفي

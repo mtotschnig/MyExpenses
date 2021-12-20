@@ -74,9 +74,6 @@ pl:
       label: Kalendarz
       explanation: Plany przyszłych i powtarzających się transakcji są przechowywane
         w specjalnym kalendarzu lokalnym lub w dowolnym innym kalendarzu, który przypisujesz.
-    external-storage:
-      label: Przechowywanie
-      explanation: Przechowywanie eksportów QIF i CSV oraz plików kopii zapasowych.
     internet:
       label: Internet
       explanation_usage_tracking: Anonimowe śledzenie użycia

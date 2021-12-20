@@ -75,9 +75,6 @@ permissions:
     explanation_crash_reporting: క్రాష్ నివేదికలు
     explanation_usage_tracking: అనామక వినియోగ ట్రాకింగ్
     label: అంతర్జాలం
-  external-storage:
-    explanation: QIF మరియు CSV ఎగుమతులు మరియు బ్యాకప్ ఫైళ్ళ నిల్వ.
-    label: నిల్వ
   calendar:
     explanation: భవిష్యత్ మరియు పునరావృత లావాదేవీల కోసం ప్రణాళికలు ప్రత్యేక స్థానిక
       క్యాలెండర్‌లో లేదా మీరు కేటాయించిన ఇతర క్యాలెండర్‌లో నిల్వ చేయబడతాయి.

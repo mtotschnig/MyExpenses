@@ -105,9 +105,6 @@ es:
       label: Calendario
       explanation: Los proyectos para las transacciones futuras y recurrentes se almacenarán
         en un calendario local especial o en cualquier otro calendario que asigne.
-    external-storage:
-      label: Almacenamiento
-      explanation: Almacenamiento para las exportaciones QIF, CSV y copias de seguridad.
     internet:
       label: Internet
       explanation_usage_tracking: Seguimiento de uso anónimo

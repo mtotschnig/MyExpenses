@@ -64,9 +64,6 @@ hr:
       explanation: Planovi budućih i ponavljajućih transakcija spremaju se u poseban
         lokalni kalendar ili u bilo koji drugi kalendar koji odrediš.
       label: Kalendar
-    external-storage:
-      explanation: Spremanje QIF i CSV izvoza i datoteka sigurnosnih kopija.
-      label: Spremanje
     heading: <i>{app_name}</i> zahtijeva sljedeće <u>dozvole</u>
   contrib-key: Contrib Ključ
   extended-key: Prošireni ključ

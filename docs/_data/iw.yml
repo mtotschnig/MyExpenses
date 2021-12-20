@@ -74,9 +74,6 @@ iw:
     calendar:
       label: יומן
       explanation: תוכניות לעסקאות עתידיות וחוזרות מאוחסנות ביומן מקומי מיוחד או בכל לוח שנה אחר שהוקצה לך.
-    external-storage:
-      label: אחסון
-      explanation: אחסון של QIF ו - CSV מייצא ומגבה קבצים.
     internet:
       label: אינטרנט
       explanation_usage_tracking: מעקב אנונימי אחר שימוש
