@@ -522,4 +522,6 @@
     <string name="pref_news_title">Știri</string>
     <string name="debt_managment">Gestionarea datoriilor</string>
     <string name="title_scan_receipt_feature">Scanați chitanța</string>
+    <string name="all_contrib_key_features">Toate caracteristicile Contrib Cheie</string>
+    <string name="all_extended_key_features">Toate caracteristicile Cheii Extinse</string>
 </resources>
