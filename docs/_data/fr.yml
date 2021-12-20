@@ -88,8 +88,8 @@ fr:
     one-time-payment: Paiement unique
     subscription: Abonnement
   store:
-    short_description: "Gestionnaire de finances personnelles : riche en fonctionnalités\
-      \ et à code source ouvert"
+    short_description: "Vos Finances : facile à utiliser, riche en fonctionnalités,\
+      \ code source ouvert"
     full_description_intro: "{app_name} enregistre vos dépenses et vos revenus, directement\
       \ sur votre smartphone et sur votre tablette."
     full_description_contrib: "Les fonctions Premium sont déverrouillées en achetant\

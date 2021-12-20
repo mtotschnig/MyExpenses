@@ -88,8 +88,8 @@ de:
     one-time-payment: Einmalige Zahlung
     subscription: Abonnement
   store:
-    short_description: "Einfach zu bedienender persönlicher Finanzverwaltungsprogramm:\
-      \ viele Funktionalitäten und quelloffen"
+    short_description: "Persönliches Finanz-Management: einfach zu bedienen und Open\
+      \ Source"
     full_description_intro: "{app_name} ist Ihr Haushaltsbuch: Verfolgen Sie Ihre\
       \ Ausgaben und Einnahmen direkt auf Ihrem Smartphone und auf Ihrem Tablet."
     full_description_contrib: "Premium-Funktionen werden durch den Kauf eines der\

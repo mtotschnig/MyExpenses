@@ -88,8 +88,8 @@ it:
     one-time-payment: Pagamento unico
     subscription: Sottoscrizione
   store:
-    short_description: "Gestore delle finanze personali facile da usare: ricche funzionalità\
-      \ e codice sorgente aperto"
+    short_description: "Finanze personali: facile da usare, ricche funzionalità, codice\
+      \ sorgente aperto"
     full_description_intro: "{app_name} tiene traccia delle tue spese e delle tue\
       \ entrate, direttamente sul tuo smartphone e sul tuo tablet."
     full_description_contrib: "Le funzionalità premium sono sbloccate con l'acquisto\
