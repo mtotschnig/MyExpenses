@@ -678,7 +678,6 @@
     <string name="pref_sync_notification_summary">قم بالإخطار حول تقدم المزامنة المُحرز</string>
     <string name="pref_debug_logging_summary">اكتب معلومات التصحيح في سجل النظام</string>
     <string name="plan_custom_recurrence_info">يُرجى حفظ النموذج أولاً. سيتم بعد ذلك فتح الخطة في تطبيق التقويم، حيث يمكنك تعيين تكرار مخصص.</string>
-    <string name="storage_permission_required">لا يمكن قراءة المصدر الذي حددته إلا إذا منحت الإذن بالقراءة من وحدة التخزين الخارجية.</string>
     <string name="picture">صورة</string>
     <string name="menu_create_template_for_split">نموذج مجزأ جديد</string>
     <string name="progress_validating_licence">جارِ التحقق من صحة الترخيص</string>

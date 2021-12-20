@@ -644,7 +644,6 @@
     <string name="pref_sync_notification_summary">Notifica sull\'avanzamento della sincronizzazione</string>
     <string name="pref_debug_logging_summary">Scrivi le informazioni di debug nel registro di sistema</string>
     <string name="plan_custom_recurrence_info">Dapprima si prega di salvare il modello. Il piano verrà quindi aperto nell\'app calendario, in cui sarà possibile impostare una ricorrenza personalizzata.</string>
-    <string name="storage_permission_required">La fonte che hai selezionato può essere letta solo se concedi il permesso di leggere dalla memoria esterna.</string>
     <string name="picture">Immagine</string>
     <string name="menu_create_template_for_split">Nuovo modello di operazione frazionata</string>
     <string name="progress_validating_licence">Convalida della licenza</string>

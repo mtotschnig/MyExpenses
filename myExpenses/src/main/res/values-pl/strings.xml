@@ -644,7 +644,6 @@
     <string name="pref_sync_notification_summary">Powiadamiaj o postępie synchronizacji</string>
     <string name="pref_debug_logging_summary">Zapisuj informacje debugowania w dzienniku systemowym</string>
     <string name="plan_custom_recurrence_info">Najpierw zapisz szablon. Plan zostanie otwarty w aplikacji kalendarza, w której możesz ustawić niestandardową powtarzalność.</string>
-    <string name="storage_permission_required">Wybrane źródło można odczytać tylko wtedy, gdy zezwolisz na odczyt z pamięci zewnętrznej.</string>
     <string name="picture">Obraz</string>
     <string name="menu_create_template_for_split">Nowy podzielony szablon</string>
     <string name="progress_validating_licence">Sprawdzanie poprawności licencji</string>

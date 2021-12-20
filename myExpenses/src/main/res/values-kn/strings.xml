@@ -641,7 +641,6 @@
     <string name="pref_sync_notification_summary">ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಪ್ರಗತಿಯ ಬಗ್ಗೆ ತಿಳಿಸಿ</string>
     <string name="pref_debug_logging_summary">ಡೀಬಗ್ ಮಾಡುವ ಮಾಹಿತಿಯನ್ನು ಸಿಸ್ಟಮ್ ಲಾಗ್‌ಗೆ ಬರೆಯಿರಿ</string>
     <string name="plan_custom_recurrence_info">ದಯವಿಟ್ಟು ಮೊದಲು ಟೆಂಪ್ಲೇಟ್ ಅನ್ನು ಉಳಿಸಿ. ನಂತರ ಕ್ಯಾಲೆಂಡರ್ ಅಪ್ಲಿಕೇಶನ್‌ನಲ್ಲಿ ಯೋಜನೆಯನ್ನು ತೆರೆಯಲಾಗುತ್ತದೆ, ಅಲ್ಲಿ ನೀವು ಕಸ್ಟಮ್ ಮರುಕಳಿಕೆಯನ್ನು ಹೊಂದಿಸಬಹುದು.</string>
-    <string name="storage_permission_required">ಬಾಹ್ಯ ಸಂಗ್ರಹಣೆಯಿಂದ ಓದಲು ನೀವು ಅನುಮತಿ ನೀಡಿದರೆ ಮಾತ್ರ ನೀವು ಆಯ್ಕೆ ಮಾಡಿದ ಮೂಲವನ್ನು ಓದಬಹುದು.</string>
     <string name="picture">ಚಿತ್ರ</string>
     <string name="menu_create_template_for_split">ಹೊಸ ವಿಭಜಿತ ಟೆಂಪ್ಲೇಟ್</string>
     <string name="progress_validating_licence">ಪರವಾನಗಿ ಮೌಲ್ಯೀಕರಿಸಲಾಗುತ್ತಿದೆ</string>

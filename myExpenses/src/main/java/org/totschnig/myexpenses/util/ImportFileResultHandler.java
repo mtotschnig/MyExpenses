@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.widget.EditText;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
 import org.totschnig.myexpenses.dialog.DialogUtils;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
@@ -45,7 +44,7 @@ public class ImportFileResultHandler {
           }
         }
       } else {
-        ((ProtectedFragmentActivity) context).requestStoragePermission();
+        handleError("Unable to read file. Please select from a different source.", fileNameEditText);
       }
     }
   }

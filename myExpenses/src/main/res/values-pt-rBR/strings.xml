@@ -643,7 +643,6 @@
     <string name="pref_sync_notification_summary">Notificar sobre o progresso da sincronização</string>
     <string name="pref_debug_logging_summary">Escreva informações de depuração no registro do sistema</string>
     <string name="plan_custom_recurrence_info">Por favor, salve o modelo antes. A partir daí, o plano será aberto no app de agenda, onde você pode configurar uma recorrência personalizada.</string>
-    <string name="storage_permission_required">A fonte que você selecionou só pode ser lida se você conceder a permissão para ler do armazenamento externo.</string>
     <string name="picture">Imagem</string>
     <string name="menu_create_template_for_split">Novo modelo de divisão</string>
     <string name="progress_validating_licence">Validando a licença</string>

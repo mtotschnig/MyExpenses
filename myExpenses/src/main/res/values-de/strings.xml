@@ -643,7 +643,6 @@
     <string name="pref_sync_notification_summary">Über Fortschritt der Synchronisierung benachrichtigen</string>
     <string name="pref_debug_logging_summary">Debugging-Informationen in das Systemprotokoll schreiben</string>
     <string name="plan_custom_recurrence_info">Bitte speichern Sie zunächst die Vorlage. Der Plan wird dann in der Kalender-App geöffnet, wo Sie eine benutzerdefinierte Wiederholung einstellen können.</string>
-    <string name="storage_permission_required">Die von Ihnen ausgewählte Quelle kann nur gelesen werden, wenn Sie die Berechtigung zum Lesen aus dem externen Speicher erteilen.</string>
     <string name="picture">Bild</string>
     <string name="menu_create_template_for_split">Neue geteilte Vorlage</string>
     <string name="progress_validating_licence">Lizenz wird validiert</string>

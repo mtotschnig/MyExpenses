@@ -661,7 +661,6 @@
     <string name="pref_sync_notification_summary">הודע על התקדמות הסנכרון</string>
     <string name="pref_debug_logging_summary">כתוב מידע לצורך פתרון באגים ביומן המערכת</string>
     <string name="plan_custom_recurrence_info">שמור תחילה את התבנית. לאחר מכן, התוכנית תיפתח באפליקציית היומן, שבה תוכל להגדיר הישנות מותאמת אישית.</string>
-    <string name="storage_permission_required">ניתן לקרוא את המקור שבחרת רק אם אתה מעניק את ההרשאה לקריאה מאחסון חיצוני.</string>
     <string name="picture">תמונה</string>
     <string name="menu_create_template_for_split">תבנית חדשה מפוצלת</string>
     <string name="progress_validating_licence">אימות רשיון</string>

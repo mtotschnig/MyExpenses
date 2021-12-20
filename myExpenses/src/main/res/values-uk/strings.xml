@@ -642,7 +642,6 @@
     <string name="pref_sync_notification_summary">Повідомляти про хід синхронізації</string>
     <string name="pref_debug_logging_summary">Записувати інформацію налагоджування в системний журнал</string>
     <string name="plan_custom_recurrence_info">Спочатку збережіть шаблон. План буде відкрито у програмі календаря, де Ви зможете встановити бажану частоту повторень.</string>
-    <string name="storage_permission_required">Вибране джерело можна прочитати, лише якщо Ви надасте дозвіл на читання із зовнішнього сховища пристрою.</string>
     <string name="picture">Зображення</string>
     <string name="menu_create_template_for_split">Новий шаблон поділу</string>
     <string name="progress_validating_licence">Перевірка ліцензії</string>

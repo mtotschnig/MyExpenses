@@ -13,13 +13,9 @@ import java.io.File
 
 object PermissionHelper {
     const val PERMISSIONS_REQUEST_WRITE_CALENDAR = 1
-    const val PERMISSIONS_REQUEST_STORAGE = 2
 
     @JvmStatic
     fun hasCalendarPermission(context: Context) = PermissionGroup.CALENDAR.hasPermission(context)
-
-    @JvmStatic
-    fun hasExternalReadPermission(context: Context) = PermissionGroup.STORAGE.hasPermission(context)
 
     @JvmStatic
     fun canReadUri(uri: Uri, context: Context): Boolean {
@@ -31,8 +27,7 @@ object PermissionHelper {
             }
             return false
         }
-        return AppDirHelper.getFileProviderAuthority() == uri.authority ||
-                hasExternalReadPermission(context) || context.checkUriPermission(
+        return AppDirHelper.getFileProviderAuthority() == uri.authority || context.checkUriPermission(
             uri, Binder.getCallingPid(), Binder.getCallingUid(),
             Intent.FLAG_GRANT_READ_URI_PERMISSION
         ) == PackageManager.PERMISSION_GRANTED
@@ -43,20 +38,14 @@ object PermissionHelper {
         val prefKey: PrefKey,
         val requestCode: Int
     ) {
-        STORAGE(
-            arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-            PrefKey.STORAGE_PERMISSION_REQUESTED,
-            PERMISSIONS_REQUEST_STORAGE
-        ),
         CALENDAR(
-            arrayOf(
-                Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR
-            ), PrefKey.CALENDAR_PERMISSION_REQUESTED, PERMISSIONS_REQUEST_WRITE_CALENDAR
+            arrayOf(Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR),
+            PrefKey.CALENDAR_PERMISSION_REQUESTED,
+            PERMISSIONS_REQUEST_WRITE_CALENDAR
         );
 
         fun permissionRequestRationale(context: Context): String {
             return when (this) {
-                STORAGE -> context.getString(R.string.storage_permission_required)
                 CALENDAR -> Utils.getTextWithAppName(
                     context,
                     R.string.calendar_permission_required
@@ -73,7 +62,6 @@ object PermissionHelper {
 
         companion object {
             fun fromRequestCode(requestCode: Int): PermissionGroup {
-                if (requestCode == STORAGE.requestCode) return STORAGE
                 if (requestCode == CALENDAR.requestCode) return CALENDAR
                 throw IllegalArgumentException("Undefined requestCode $requestCode")
             }

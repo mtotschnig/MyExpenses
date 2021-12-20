@@ -643,7 +643,6 @@
     <string name="pref_sync_notification_summary">Notificar sobre progreso de sincronización</string>
     <string name="pref_debug_logging_summary">Escribir información de depuración en el registro de sistema</string>
     <string name="plan_custom_recurrence_info">Por favor, guarde la plantilla primero. Se abrirá el proyecto en la aplicación de calendario, desde donde podrá configurar una reaparición personalizada.</string>
-    <string name="storage_permission_required">La fuente seleccionada sólo podrá leerse si da permiso de lectura desde un almacenamiento externo.</string>
     <string name="picture">Imagen</string>
     <string name="menu_create_template_for_split">Nueva plantilla dividida</string>
     <string name="progress_validating_licence">Validando licencia</string>

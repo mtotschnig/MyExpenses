@@ -618,7 +618,6 @@
     <string name="pref_sync_notification_summary">Ειδοποίηση σχετικά με την πρόοδο του συγχρονισμού</string>
     <string name="pref_debug_logging_summary">Εγγραφή πληροφοριών εντοπισμού σφαλμάτων στο αρχείο καταγραφής συστήματος</string>
     <string name="plan_custom_recurrence_info">Αποθηκεύστε πρώτα το πρότυπο. Στη συνέχεια, το σχέδιο θα ανοίξει στην εφαρμογή ημερολογίου, όπου μπορείτε να ορίσετε μια προσαρμοσμένη περιοδικότητα.</string>
-    <string name="storage_permission_required">Η προέλευση που επιλέξατε μπορεί να διαβαστεί μόνο εάν εκχωρήσετε το δικαίωμα ανάγνωσης από εξωτερικό χώρο αποθήκευσης.</string>
     <string name="picture">Εικόνα</string>
     <string name="menu_create_template_for_split">Νέο πρότυπο διαχωρισμού</string>
     <string name="progress_validating_licence">Επικύρωση Άδειας</string>

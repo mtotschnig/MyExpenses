@@ -618,7 +618,6 @@
     <string name="pref_sync_notification_summary">Thông báo về quá trình đồng bộ hoá</string>
     <string name="pref_debug_logging_summary">Ghi thông tin gỡ lỗi vào nhật ký hệ thống</string>
     <string name="plan_custom_recurrence_info">Vui lòng lưu bản mẫu trước. Bản kế hoạch sẽ được mở trong ứng dụng lịch, và trong đó bạn có thể đặt một lịch biểu lặp lại.</string>
-    <string name="storage_permission_required">Nguồn bạn chọn chỉ có thể được đọc nếu bạn cấp quyền đọc từ bộ nhớ ngoài.</string>
     <string name="picture">Ảnh</string>
     <string name="menu_create_template_for_split">Bản mẫu chia tách mới</string>
     <string name="progress_validating_licence">Đang xác minh bản quyền</string>

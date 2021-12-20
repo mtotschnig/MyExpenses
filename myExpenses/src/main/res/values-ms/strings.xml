@@ -627,7 +627,6 @@
     <string name="pref_sync_notification_summary">Makluman berkenaan kemajuan penyegerakan</string>
     <string name="pref_debug_logging_summary">Tuli maklumat penyahpepijatan ke dalam log sistem</string>
     <string name="plan_custom_recurrence_info">Sila simpan templat terlebih dahulu. Plan akan dibuka dalam apl kalendar, yang mana anda boleh tetapkan pengulangan suai.</string>
-    <string name="storage_permission_required">Sumber yang anda pilih hanya boleh dibaca jika anda beri keizinan untuk membaca dari storan luar.</string>
     <string name="picture">Gambar</string>
     <string name="menu_create_template_for_split">Templat pengasingan baharu</string>
     <string name="progress_validating_licence">Mengesahkan lesen</string>

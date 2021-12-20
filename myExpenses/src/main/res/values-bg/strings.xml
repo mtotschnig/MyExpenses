@@ -643,7 +643,6 @@
     <string name="pref_sync_notification_summary">Уведомяване за хода на синхронизацията</string>
     <string name="pref_debug_logging_summary">Запис на информация за отстраняване на грешки в системния дневник</string>
     <string name="plan_custom_recurrence_info">Моля, първо запишете шаблона. Планът ще бъде отворен в приложението Календар, където можете да персонализирате повторенията.</string>
-    <string name="storage_permission_required">Избраният източник може само да бъде четен ако предоставите разрешение само за четене от външното хранилище.</string>
     <string name="picture">Изображение</string>
     <string name="menu_create_template_for_split">Нов шаблон за разпределяне</string>
     <string name="progress_validating_licence">Валидиране на лиценза</string>

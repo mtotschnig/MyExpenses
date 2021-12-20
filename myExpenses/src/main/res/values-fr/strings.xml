@@ -643,7 +643,6 @@
     <string name="pref_sync_notification_summary">Notifier sur la progression de la synchronisation</string>
     <string name="pref_debug_logging_summary">Écrire des informations de débogage dans le journal du système</string>
     <string name="plan_custom_recurrence_info">Veuillez d\'abord enregistrer le modèle. L\'échéance sera alors ouverte dans l\'application de calendrier, où vous pouvez définir une répétition personnalisée.</string>
-    <string name="storage_permission_required">La source que vous avez sélectionnée ne peut être lue que si vous accordez l\'autorisation de lire le stockage externe.</string>
     <string name="picture">Image</string>
     <string name="menu_create_template_for_split">Nouveau modèle ventilé</string>
     <string name="progress_validating_licence">La licence est en cours de validation</string>

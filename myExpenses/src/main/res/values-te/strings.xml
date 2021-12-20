@@ -134,7 +134,6 @@
     <string name="progress_validating_licence">లైసెన్స్ ధృవీకరిస్తోంది</string>
     <string name="menu_create_template_for_split">క్రొత్త స్ప్లిట్ టెంప్లేట్</string>
     <string name="picture">చిత్రం</string>
-    <string name="storage_permission_required">బాహ్య నిల్వ నుండి చదవడానికి మీరు అనుమతి ఇస్తేనే మీరు ఎంచుకున్న మూలం చదవబడుతుంది.</string>
     <string name="plan_custom_recurrence_info">దయచేసి ముందుగా టెంప్లేట్‌ను సేవ్ చేయండి. అప్పుడు ప్లాన్ క్యాలెండర్ అనువర్తనంలో తెరవబడుతుంది, ఇక్కడ మీరు అనుకూల పునరావృతతను సెట్ చేయవచ్చు.</string>
     <string name="pref_debug_logging_summary">సిస్టమ్ లాగ్‌లో డీబగ్గింగ్ సమాచారాన్ని వ్రాయండి</string>
     <string name="pref_sync_notification_summary">సమకాలీకరణ పురోగతి గురించి తెలియజేయండి</string>

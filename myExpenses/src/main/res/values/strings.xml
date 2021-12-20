@@ -647,7 +647,6 @@
     <string name="pref_sync_notification_summary">Notify about synchronization progress</string>
     <string name="pref_debug_logging_summary">Write debugging information into system log</string>
     <string name="plan_custom_recurrence_info">Please save the template first. The plan will then be opened in the calendar app, where you can set a custom recurrence.</string>
-    <string name="storage_permission_required">The source you selected can only be read if you grant the permission to read from external storage.</string>
     <string name="picture">Picture</string>
     <string name="menu_create_template_for_split">New split template</string>
     <string name="progress_validating_licence">Validating licence</string>

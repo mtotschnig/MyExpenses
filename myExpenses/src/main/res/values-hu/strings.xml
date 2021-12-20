@@ -643,7 +643,6 @@
     <string name="pref_sync_notification_summary">Értesítés a szinkronizálás állapotáról</string>
     <string name="pref_debug_logging_summary">Írjon hibakeresési információt a rendszernaplóba</string>
     <string name="plan_custom_recurrence_info">Előbb mentse el a sablont. A terv ekkor megnyílik egy naptáralkalmazásban, ahol beállíthatja az egyéni ismétlődést.</string>
-    <string name="storage_permission_required">A kiválasztott forrás csak akkor olvasható, ha engedélyt ad a külső tárhelyről történő olvasásra.</string>
     <string name="picture">Kép</string>
     <string name="menu_create_template_for_split">Új osztott sablon</string>
     <string name="progress_validating_licence">Engedély érvényesítése</string>

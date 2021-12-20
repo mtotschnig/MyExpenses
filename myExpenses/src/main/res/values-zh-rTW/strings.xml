@@ -122,7 +122,7 @@
     <string name="external_storage_unavailable">外部儲存空間(SD卡)無法使用</string>
     <string name="feedback">回饋意見</string>
     <string name="ftp_uri_malformed">異常URI %1$s</string>
-    <string name="grisbi_import_categories_loading">從%1$s載入類別項目中...</string>
+    <string name="grisbi_import_categories_loading">從%1$s載入類別項目中…</string>
     <string name="grisbi_import_parties_loading">由 %1$s 載入交易對象</string>
     <string name="grouping_day">日</string>
     <string name="grouping_last_week">上週</string>
@@ -325,7 +325,7 @@
     <string name="pref_security_question_summary">如果您忘記密碼，貢獻 開支助手 可讓您解鎖應用程式。</string>
     <string name="pref_security_question_title">安全問題</string>
     <string name="pref_send_feedback_title">傳送回饋意見</string>
-    <string name="pref_share_target_summary">如果您要在應用程式（電子郵件、Dropbox、Google Docs...等）之間做選擇，請不要輸入任何數據、空置此處。或者，您需要輸入一個支援上傳方案的網址。</string>
+    <string name="pref_share_target_summary">如果您要在應用程式（電子郵件、Dropbox、Google Docs…等）之間做選擇，請不要輸入任何數據、空置此處。或者，您需要輸入一個支援上傳方案的網址。</string>
     <string name="pref_share_target_title">上傳網址</string>
     <string name="pref_shortcut_added">捷徑已被添加到主畫面</string>
     <string name="pref_shortcut_not_added">沒有可接受捷徑的主畫面或主畫面沒有空位了。</string>
@@ -340,9 +340,9 @@
     <string name="pref_ui_theme_title">背景主題</string>
     <string name="pref_visit_website_summary">活動日誌和常見問題</string>
     <string name="pref_visit_website_title">瀏覽官方網站</string>
-    <string name="progress_dialog_deleting">刪除物件中...</string>
-    <string name="progress_dialog_loading">從資料庫載入物件中...</string>
-    <string name="progress_dialog_printing">生成PDF檔案中...</string>
+    <string name="progress_dialog_deleting">刪除物件中…</string>
+    <string name="progress_dialog_loading">從資料庫載入物件中…</string>
+    <string name="progress_dialog_printing">生成PDF檔案中…</string>
     <string name="qif_parse_result">已解析：%1$s個帳戶； %2$s類別項目和%3$s交易對象</string>
     <string name="qif_parse_failure_found_multiple_accounts">在QIF檔案中找到多個帳戶。</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">無法將它們合併到現有帳戶中。</string>
@@ -539,7 +539,7 @@
     <string name="plan_instance_state_cancelled">已取消</string>
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">已套用</string>
-    <string name="progress_dialog_updating_split_parts">更新分割款項中...</string>
+    <string name="progress_dialog_updating_split_parts">更新分割款項中…</string>
     <string name="warning_cannot_move_split_transaction">此分割交易無法移動到帳戶%1$s中，因為有部分轉帳已經引用到此帳戶。</string>
     <string name="content_description_calculator_clear_button">全部重設</string>
     <string name="content_description_calculator_delete_button">刪除上一個數字</string>
@@ -635,17 +635,16 @@
     <string name="pref_sync_notification_summary">通知有關同步的進度</string>
     <string name="pref_debug_logging_summary">將偵錯資訊寫入系統日誌</string>
     <string name="plan_custom_recurrence_info">請您先將範本存檔。然後，該計畫將可以在日曆的應用程式中打開，您便能在其中自訂重複週期。</string>
-    <string name="storage_permission_required">只有當您授予從外部儲存空間存取的權限時，才能讀取所選的資料來源。</string>
     <string name="picture">圖片</string>
     <string name="menu_create_template_for_split">新增分割款項用的範本</string>
-    <string name="progress_validating_licence">許可證驗證中...</string>
+    <string name="progress_validating_licence">許可證驗證中…</string>
     <string name="licence_validation_error_expired">許可證已過期</string>
     <string name="licence_validation_error_device_limit_exceeded">超出裝置限制。請從其他裝置上刪除授權的許可證。</string>
     <string name="error">錯誤（%s）</string>
     <string name="button_validate">驗證</string>
     <string name="licence_key">許可證金鑰</string>
     <string name="licence_removal_information">如果您不再需要此裝置上的高級功能，則可以刪除授權許可金鑰。這樣可以釋放金鑰，以便在另一台裝置上啟用。該金鑰最多可以在%d台裝置上啟用。</string>
-    <string name="progress_removing_licence">許可證移除中...</string>
+    <string name="progress_removing_licence">許可證移除中…</string>
     <string name="licence_removal_success">授權許可金鑰已成功從此裝置釋放。</string>
     <string name="professional_key">專業版金鑰(Professional Key)</string>
     <string name="n_months">%d個月</string>

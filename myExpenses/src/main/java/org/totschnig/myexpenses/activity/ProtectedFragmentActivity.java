@@ -753,10 +753,6 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     requestPermission(PermissionGroup.CALENDAR);
   }
 
-  public void requestStoragePermission() {
-    requestPermission(PermissionGroup.STORAGE);
-  }
-
   @Override
   public void requestPermission(@NonNull PermissionGroup permissionGroup) {
     if (floatingActionButton != null) {

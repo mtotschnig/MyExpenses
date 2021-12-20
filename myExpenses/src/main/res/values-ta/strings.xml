@@ -643,7 +643,6 @@
     <string name="pref_sync_notification_summary">ஒத்திசைவின் முன்னேற்றம் பற்றி தெரிவிக்கவும்</string>
     <string name="pref_debug_logging_summary">கணினி குறிப்பில் பிழைத்திருத்த உதவும் தகவல்களை எழுதவும்</string>
     <string name="plan_custom_recurrence_info">முதலில் வார்ப்புருவை சேமியுங்கள். நாட்காட்டி செயலியில் திட்டம் திறக்கப்படும், அங்கு நீங்கள் தனி விருப்ப மறுநிகழ்வை அமைக்கலாம்.</string>
-    <string name="storage_permission_required">நீங்கள் வெளிப்புற சேமிப்பகத்திலிருந்து படிக்க அனுமதி வழங்கியிருந்தால் மட்டுமே தேர்ந்தெடுத்திருக்கும் மூலத்தைப் படிக்க முடியும்.</string>
     <string name="picture">படம்</string>
     <string name="menu_create_template_for_split">புதிய பிரிவு வார்ப்புரு</string>
     <string name="progress_validating_licence">உரிமம் சரிபார்க்கப்படுகிறது</string>

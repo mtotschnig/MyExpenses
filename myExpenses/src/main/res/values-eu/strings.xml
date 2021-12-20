@@ -637,7 +637,6 @@
     <string name="pref_sync_notification_summary">Jakinarazi sinkronizazioaren aurreratzeari buruz</string>
     <string name="pref_debug_logging_summary">Idatzi arazketa informazioa sistemaren egunkarian</string>
     <string name="plan_custom_recurrence_info">Gorde txantiloia aurrena. plana egutegi aplikazioan irekiko da, errepikatze pertsonalizatu bat ezartzen duzunean. </string>
-    <string name="storage_permission_required">Hautatu duzun iturria irakurtzeko kanpo biltegiratzea atzitzeko baimena behar da.</string>
     <string name="picture">Irudia</string>
     <string name="menu_create_template_for_split">Banaketa txantiloi berria</string>
     <string name="progress_validating_licence">Lizentzia balioesten</string>

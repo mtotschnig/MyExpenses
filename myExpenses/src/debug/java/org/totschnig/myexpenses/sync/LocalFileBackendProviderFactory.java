@@ -1,11 +1,14 @@
 package org.totschnig.myexpenses.sync;
 
+import android.Manifest;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.vmadalin.easypermissions.EasyPermissions;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageSyncBackends;
@@ -17,8 +20,6 @@ import java.io.Serializable;
 
 import androidx.annotation.NonNull;
 
-import static org.totschnig.myexpenses.util.PermissionHelper.hasExternalReadPermission;
-
 public class LocalFileBackendProviderFactory extends SyncBackendProviderFactory {
 
   public static final String LABEL = "Local";
@@ -26,7 +27,7 @@ public class LocalFileBackendProviderFactory extends SyncBackendProviderFactory 
   @NonNull
   @Override
   protected LocalFileBackendProvider fromAccount(Context context, Account account, AccountManager accountManager) {
-    if (!hasExternalReadPermission(context)) {
+    if (!EasyPermissions.hasPermissions(context, Manifest.permission.READ_EXTERNAL_STORAGE)) {
       throw new IllegalStateException("LocalFileBackendProvider needs READ_EXTERNAL_STORAGE permission");
     }
     return new LocalFileBackendProvider(context, accountManager.getUserData(account, GenericAccountService.KEY_SYNC_PROVIDER_URL));

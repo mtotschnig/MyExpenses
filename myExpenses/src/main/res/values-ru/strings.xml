@@ -659,7 +659,6 @@
     <string name="pref_sync_notification_summary">Уведомить о состоянии синхронизации</string>
     <string name="pref_debug_logging_summary">Записывать отладочную информацию в системный лог</string>
     <string name="plan_custom_recurrence_info">Пожалуйста, сначала сохраните шаблон. Затем план будет открыт в приложении календаря, где вы можете установить привычное повторение.</string>
-    <string name="storage_permission_required">Выбранный вами источник может быть прочитан, только если вы предоставите разрешение на чтение из внешнего хранилища.</string>
     <string name="picture">Изображение</string>
     <string name="menu_create_template_for_split">Новый разделенный шаблон</string>
     <string name="progress_validating_licence">Проверить лицензию</string>

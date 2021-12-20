@@ -631,7 +631,6 @@
     <string name="pref_sync_notification_summary">同期の進行状況を通知する</string>
     <string name="pref_debug_logging_summary">システムログにデバッグ情報を書き込む</string>
     <string name="plan_custom_recurrence_info">まずテンプレートを保存してください。 予定はその後カレンダーアプリで開かれ、カスタムの繰り返しを設定できます。</string>
-    <string name="storage_permission_required">選択したソースは、外部ストレージからの読み取りアクセス許可を付与した場合にのみ読み取りできます。</string>
     <string name="picture">写真</string>
     <string name="menu_create_template_for_split">新しい分割テンプレート</string>
     <string name="progress_validating_licence">ライセンスの検証中</string>

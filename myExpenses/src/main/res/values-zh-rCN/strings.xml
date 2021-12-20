@@ -634,7 +634,6 @@
     <string name="pref_sync_notification_summary">通知同步进度</string>
     <string name="pref_debug_logging_summary">将调试信息写入系统日志</string>
     <string name="plan_custom_recurrence_info">请先保存模板。然后，该计划将可以在日历应用程序中打开，您便能在其中设置自定义重复周期。</string>
-    <string name="storage_permission_required">仅当您授予从外部存储读取的权限时，才能读取所选的数据源。</string>
     <string name="picture">图片</string>
     <string name="menu_create_template_for_split">新建拆分款项用的模板</string>
     <string name="progress_validating_licence">验证许可证</string>
