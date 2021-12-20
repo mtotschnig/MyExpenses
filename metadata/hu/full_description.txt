@@ -1,0 +1,45 @@
+Kiadásaim nyomon követi a kiadásait és a bevételeit, közvetlenül az okostelefonján és a táblagépén.
+
+- Legfeljebb öt számla <b>átutalásokkal</b> (különböző pénznemek között is)
+- Korlátlan számú <b>sablon</b> és legfeljebb három terv <b>ismétlődő</b> tranzakciókhoz
+- <b>Exportálás</b> QIF és CSV formátumba. <b>Importálás</b> QIF-ből
+- Az adatokat <b>jelszóval</b> vagy eszközzel <b>záró képernyő</b> védheti
+- <b>Téma</b> (sötét és világos) és <b>betűméret</b> testre szabható
+- <b>Egyeztetés</b>: Könnyen összehasonlíthatja a tranzakciók állapotát a bankszámlakivonatokkal
+- Kezdőképernyő <b>widget</b> és <b>kurtívák</b> a gyors adatbevitelhez
+
+A prémium funkciók az alábbi licenckulcsok egyikének megvásárlásával oldhatók fel:
+
+<b>Contrib Kulcs</b>
+
+- <b>Nincs hirdetés</b>
+- Korlátlan számú <b>fiók</b>
+- Korlátlan számú terv a <b>ismétlődő</b> tranzakciókhoz
+- <b> Kördiagram </b>: A tranzakciók kategóriánkénti statisztikai eloszlásának szemléltetése különböző időszakokban (évek, hónapok, hetek, napok)
+- <b>Tranzakció szétválasztása</b>: Egy tranzakció több részre (kategóriákra és átutalásokra) osztható
+- <b>Nyomtassa ki</b> a tranzakciós listát egy PDF fájlba
+- <b>Képmelléklet</b>: Felvétel a kamerával vagy kiválasztás a galériából
+
+<b>Kiterjesztett Kulcs</b>
+
+- A Contrib kulcs összes funkciója
+- <b>felhőszinkronizálás</b>: Az adatok több eszköz között szinkronizálhatók (Webdav, Dropbox)
+- Napi <b>automatizált biztonsági mentés</b> opcionális feltöltéssel a felhőalapú tárolóba
+- Kifinomult, testreszabható <b>CSV import</b> (táblázatkezelő alkalmazások)
+
+<b>Szakmai kulcs</b>
+
+- A Bővített kulcs összes funkciója
+- <b>Budgetálás</b>: Hasonlítsa össze kiadásait a kategóriánként beállított korlátokkal napi, heti, havi vagy éves szinten.
+- <b>A történet diagram</b> (pénzforgalom)
+- <b>Bevételi bizonylatok szkennelése</b>: Automatikusan kivonja az összeget, a dátumot és a kedvezményezettet
+- <b>Webes felhasználói kezelőfelület</b>
+- Korlátlan számú <b>sablon és terv a megosztott tranzakciókhoz</b>
+- <b>Emailes támogatás</b> 2 munkanapon belüli garantált válasszal
+- Szavazási jog a <b>fejlesztési ütemtervre</b>
+
+<i>{app_név}</i> a következő <u>engedélyeket igényli</u>:
+
+- <i>Naptár</i>: A jövőbeni és ismétlődő tranzakciók terveit vagy egy speciális helyi naptárban, vagy bármely más, Ön által kijelölt naptárban tárolja.
+- <i>Internet</i>: Licenckulcs érvényesítés, Felhő szinkronizálás.
+- <i>Számlák</i>: Szinkronizálás az eszközök között felhőszolgáltatásokon keresztül.

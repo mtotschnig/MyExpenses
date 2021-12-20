@@ -41,6 +41,5 @@ Las características premium se desbloquean al comprar una de la siguientes llav
 <i>Mis gastos</i> requiere los siguientes <u>permisos</u>:
 
 - <i>Calendario</i>: Los proyectos para las transacciones futuras y recurrentes se almacenarán en un calendario local especial o en cualquier otro calendario que asigne.
-- <i>Almacenamiento</i>: Almacenamiento para las exportaciones QIF, CSV y copias de seguridad
 - <i>Internet</i>: Validación de la llave de licencia, Sincronización en la nube.
-- <i>Cuentas</i>: Sincronización entre varios dispositivos vía servicios en la nube
+- <i>Cuentas</i>: Sincronización entre varios dispositivos vía servicios en la nube.

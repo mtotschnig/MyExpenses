@@ -38,9 +38,8 @@ Premium işlevlerin kilidi aşağıdaki lisans anahtarlarının satın alınmas�
 - 2 iş günü sonrasında cevap garantili <b>e-posta desteği</b>
 - <b>Geliştirme yol haritası</b> hakkında oy verme hakkı
 
-<i>Harcamalarım</i> aşağıdaki <u>izinlere</u> ihtiyaç duyar::
+<i>Harcamalarım</i> aşağıdaki <u>izinlere</u> ihtiyaç duyar:
 
 - <i>Takvim</i>: Gelecekteki ve tekrar eden muameleler için planlar ya özel bir yerel takvimde ya da atadığınız herhangi başka bir takvimde saklanır.
-- <i>Depolama</i>: QIF ve CSV dışa aktarmaları ve yedekleme dosyalarının saklanması.
 - <i>Internet</i>: Lisans anahtarı teyidi, Bulut eşleşmesi.
 - <i>Hesaplar</i>: Cihazlar arası bulut hizmetleri ile eşleşme.

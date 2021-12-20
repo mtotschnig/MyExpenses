@@ -41,6 +41,5 @@ Funkcje premium są odblokowywane przez zakup jednego z następujących kluczy l
 <i>Moje Wydatki</i> wymaga następujących <u>uprawnień</u>:
 
 - <i>Kalendarz</i>: Plany przyszłych i powtarzających się transakcji są przechowywane w specjalnym kalendarzu lokalnym lub w dowolnym innym kalendarzu, który przypisujesz.
-- <i>Przechowywanie</i>: Przechowywanie eksportów QIF i CSV oraz plików kopii zapasowych.
 - <i>Internet</i>: Sprawdzenie klucza licencji, Synchronizacja w chmurze.
 - <i>Konta</i>: Synchronizacja między urządzeniami za pośrednictwem usług w chmurze.

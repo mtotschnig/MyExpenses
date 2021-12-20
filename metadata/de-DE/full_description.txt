@@ -6,7 +6,7 @@ Meine Ausgaben ist Ihr Haushaltsbuch: Verfolgen Sie Ihre Ausgaben und Einnahmen 
 - Daten können durch ein <b>Passwort</b> oder den <b>Sperrbildschirm des Gerätes</b> geschützt werden
 - <b>Stil</b> (dunkel und hell) und <b>Schriftgröße</b> können angepasst werden
 - <b>Abstimmung</b>: Einfacher Vergleich des Status der Buchungen mit Ihren Kontoauszügen
-- Widget und Verknüpfungen für den Startbildschirm zur schnellen Dateneingabe
+- <b>Widget</b> und <b>Verknüpfungen</b> für den Startbildschirm zur schnellen Dateneingabe
 
 Premium-Funktionen werden durch den Kauf eines der folgenden Lizenzschlüssel freigeschaltet:
 
@@ -41,6 +41,5 @@ Premium-Funktionen werden durch den Kauf eines der folgenden Lizenzschlüssel fr
 <i>Meine Ausgaben</i> verwendet folgende <u>Berechtigungen</u>:
 
 - <i>Kalender</i>: Pläne für zukünftige und wiederkehrenden Transaktionen werden entweder in einem speziellen lokalen Kalender oder in einem anderen Kalender, den Sie zuweisen, gespeichert.
-- <i>Speicher</i>: Speichern von QIF und CSV-Export und Backup-Dateien.
 - <i>Internet</i>: Lizenzschlüssel-Validierung, Cloud-Synchronisierung.
-- <i>Konten</i>: Synchronisierung zwischen mehreren Geräten über Cloud-Dienste
+- <i>Konten</i>: Synchronisierung zwischen mehreren Geräten über Cloud-Dienste.

@@ -3,34 +3,34 @@ Mes dépenses enregistre vos dépenses et vos revenus, directement sur votre sma
 - Jusqu'à cinq comptes avec <b>virements</b> (également entre différentes monnaies)
 - Nombre illimité de <b>modèles</b> et échéancier avec jusqu'à trois échéances pour les opérations <b>périodiques</b>
 - <b>Export</b> vers QIF et CSV. <b>Import</b> à partir de QIF
-- Les données peuvent être protégées par <b>mot de passe</b> ou par <b>l'écran de verrouillage</b> de l'appareil.
+- Les données peuvent être protégées par <b>mot de passe</b> ou par <b>l'écran de verrouillage</b> de l'appareil
 - <b>Thème</b> (sombre et clair) et <b>taille de police</b> peuvent être personnalisés
-- <b>Rapprochement</b>: comparez facilement l'état des opérations avec vos relevés bancaires
+- <b>Rapprochement</b> : comparez facilement l'état des opérations avec vos relevés bancaires
 - Sur l'écran d'accueil, <b>widget</b> et <b>raccourcis</b> permettent une saisie rapide des données
 
-Les fonctions Premium sont déverrouillées en achetant l'une des clés de licence suivantes:
+Les fonctions Premium sont déverrouillées en achetant l'une des clés de licence suivantes :
 
 <b>Clé Contrib</b>
 
 - <b>Sans publicité</b>
 - Nombre illimité de <b>comptes</b>
 - Nombre illimité d'échéances dans l'échéancier pour les opérations <b>périodiques</b>
-- <b>Diagramme circulaire</b>: Visualisez la distribution statistique des opérations par catégorie sur différentes périodes (années, mois, semaines, jours)
-- <b>Opération ventilée</b>: une seule opération peut être divisée en plusieurs parties (catégories et transferts)
+- <b>Diagramme circulaire</b> : Visualisez la distribution statistique des opérations par catégorie sur différentes périodes (années, mois, semaines, jours)
+- <b>Opération ventilée</b> : une seule opération peut être divisée en plusieurs parties (catégories et transferts)
 - <b>Imprimer</b> la liste des opérations dans un fichier PDF
-- <b>Image jointe</b>: Capture par caméra ou sélection dans la galerie
+- <b>Image jointe</b> : Capture par caméra ou sélection dans la galerie
 
 <b>Clé étendue</b>
 
 - Toutes les fonctions de la Clé Contrib
-- <b>Synchronisation dans le cloud</b>: les données peuvent être synchronisées entre plusieurs appareils (Webdav, Dropbox)
+- <b>Synchronisation dans le cloud</b> : les données peuvent être synchronisées entre plusieurs appareils (Webdav, Dropbox)
 - <b>Sauvegarde automatique</b> quotidienne avec téléchargement facultatif vers le stockage dans le cloud
 - <b>Import CSV</b> sophistiqué et personnalisable (applications tableur)
 
 <b>Clé professionnelle</b>
 
 - Toutes les fonctions de la Clé Étendue
-- <b>Budgétisation</b>: comparez vos dépenses aux limites que vous définissez par catégorie sur une base quotidienne, hebdomadaire, mensuelle ou annuelle.
+- <b>Budgétisation</b> : comparez vos dépenses aux limites que vous définissez par catégorie sur une base quotidienne, hebdomadaire, mensuelle ou annuelle.
 - <b>Graphique historique</b> (flux de trésorerie)
 - <b>Numériser les reçus</b> : extraire automatiquement le montant, la date et le bénéficiaire
 - <b>Interface utilisateur Web</b>
@@ -41,6 +41,5 @@ Les fonctions Premium sont déverrouillées en achetant l'une des clés de licen
 <i>Mes dépenses</i> demande les <u>permissions</u> suivantes:
 
 - <i>Agenda</i>: Les échéances d'opérations futures et périodiques seront stockées dans un calendrier local spécial ou dans celui que vous lui préciserez.
-- <i>Stockage</i>: Enregistrement des fichiers d'exportation QIF et CSV et des sauvegardes.
 - <i>Internet</i>: Validation de clé de licence, Synchronisation dans le cloud.
 - <i>Comptes</i>: Synchronisation entre les appareils via les services cloud.

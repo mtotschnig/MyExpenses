@@ -41,6 +41,5 @@ Fitur Premium berikut boleh dibuka dengan membeli salah satu kunci lesen berikut
 <i>Perbelanjaan Saya</i> memerlukan <u>keizinan</u> berikut:
 
 - <i>Kalendar</i>: Plan untuk transaksi akan datang dan semasa disimpan sama ada dalam kalendar setempat khas atau dalam mana-mana  kalendar lain yang anda umpukkan.
-- <i>Storan</i>: Storan untuk eksport fail QIF dan CSV serta fail sandar.
 - <i>Internet</i>: Pengesahan kunci lesen, Penyegerakan awan.
 - <i>Akaun</i>: Penyegerakan merentasi peranti melalui perkhidmatan awan.

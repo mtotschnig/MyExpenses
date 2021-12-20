@@ -41,6 +41,5 @@ Os recursos premium são desbloqueados pela compra de uma das seguintes chaves d
 <i>Minhas despesas</i> requer as seguintes <u>permissões</u>:
 
 - <i>Agenda</i>: Os planos para transações futuras e recorrentes são armazenados em uma agenda local especial ou em qualquer outra agenda que você escolher.
-- <i>Armazenamento</i>: Armazenamento de exportações QIF e CSV e arquivos de backup.
 - <i>Internet</i>: Validação da chave de licença, Sincronização na nuvem.
 - <i>Contas</i>: Sincronização entre dispositivos por meio de serviços em nuvem.

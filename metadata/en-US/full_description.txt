@@ -41,6 +41,5 @@ Premium features are unlocked by purchase of one of the following licence keys:
 <i>My Expenses</i> requires the following <u>permissions</u>:
 
 - <i>Calendar</i>: Plans for future and recurrent transactions are stored either in a special local calendar or in any other calendar you assign.
-- <i>Storage</i>: Storage of QIF and CSV exports and backup files.
 - <i>Internet</i>: Licence key validation, Cloud synchronization.
 - <i>Accounts</i>: Synchronization across devices via cloud services.

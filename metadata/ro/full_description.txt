@@ -1,0 +1,45 @@
+Cheltuielile Mele vă ține evidența cheltuielilor și a veniturilor, direct pe smartphone și pe tabletă.
+
+- Până la cinci conturi cu <b>transferuri</b> (și între diferite valute)
+- Număr nelimitat de <b>teme</b> și până la trei planuri pentru tranzacții <b>recurrente</b>
+- <b>Export</b> în QIF și CSV. <b>Import</b> din QIF
+- Datele pot fi protejate de <b>parolă</b> sau de dispozitivul <b>ecran de blocare</b>
+- <b>Theme</b> (întunecat și deschis) și <b>font size</b> pot fi personalizate
+- <b>Reconciliere</b>: Comparați cu ușurință starea tranzacțiilor cu extrasele bancare
+- Ecranul de pornire <b>widget</b> și <b>shortcut-uri</b> pentru introducerea rapidă a datelor
+
+Funcțiile premium sunt deblocate prin achiziționarea uneia dintre următoarele chei de licență:
+
+<b>Cheie Contrib</b>
+
+- <b>Nici o reclamă</b>
+- Număr nelimitat de <b>conturi</b>
+- Număr nelimitat de planuri pentru tranzacții <b>recurrente</b>
+- <b>Graficul de plăcintă</b>: Vizualizați distribuția statistică a tranzacțiilor pe categorii pe diferite perioade (ani, luni, săptămâni, zile)
+- <b>Split transaction</b>: O singură tranzacție poate fi divizată în mai multe părți (categorii și transferuri)
+- <b>Imprimați</b> lista de tranzacții într-un fișier PDF
+- <b>Arhivă atașată</b>: Capturați prin intermediul aparatului foto sau selectați din galerie
+
+<b>Cheie Extinse</b>
+
+- Toate caracteristicile Contrib Cheie
+- <b>Sincronizare în cloud</b>: Datele pot fi sincronizate între mai multe dispozitive (Webdav, Dropbox)
+- Copie de rezervă zilnică <b>automată</b> cu încărcare opțională în cloud storage
+- Import sofisticat și personalizabil <b>CSV</b> (aplicații de foi de calcul)
+
+<b>Cheie profesională</b>
+
+- Toate caracteristicile Cheii Extinse
+- <b>Bugetare</b>: Comparați cheltuielile dvs. cu limitele pe care le-ați stabilit pentru fiecare categorie în parte, zilnic, săptămânal, lunar sau anual.
+- <b>Grafic istoric</b> (Flux de numerar)
+- <b>Scanează chitanțele</b>: Extrageți automat suma, data și beneficiarul plății
+- <b>Interfață utilizator web</b>
+- Număr nelimitat de <b>șabloane și planuri pentru tranzacții divizate</b>
+- <b>Suport prin e-mail</b> cu răspuns garantat în 2 zile lucrătoare
+- Votul de dreapta pe <b>foaia de dezvoltare</b>
+
+<i>Cheltuielile Mele</i> necesită următoarele <u>permisiuni</u>:
+
+- <i>Calendar</i>: Planurile pentru tranzacțiile viitoare și recurente sunt stocate fie într-un calendar local special, fie în orice alt calendar pe care îl atribuiți.
+- <i>Internet</i>: Validarea cheii de licență, Sincronizare în cloud.
+- <i>Conturi</i>: Sincronizare între dispozitive prin intermediul serviciilor cloud.
