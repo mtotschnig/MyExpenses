@@ -119,18 +119,21 @@ private fun toLocalDate(timestamp: Long): LocalDate {
 
 fun configuration(prefHandler: @NotNull PrefHandler): Configuration {
     val default = ExchangeRateSource.EXCHANGE_RATE_HOST
-    return Configuration(
+    @Suppress("SpellCheckingInspection")
+    val preferenceValue = prefHandler.requireString(
+        PrefKey.EXCHANGE_RATE_PROVIDER,
+        default.name
+    ).takeIf { it != "RATESAPI" }
+    val source = preferenceValue?.let {
         try {
-            ExchangeRateSource.valueOf(
-                prefHandler.requireString(
-                    PrefKey.EXCHANGE_RATE_PROVIDER,
-                    default.name
-                )
-            )
+            ExchangeRateSource.valueOf(it)
         } catch (e: IllegalArgumentException) {
             CrashHandler.report(e)
-            default
-        }, prefHandler.requireString(PrefKey.OPEN_EXCHANGE_RATES_APP_ID, "")
+            null
+        }
+    } ?: default
+    return Configuration(
+        source, prefHandler.requireString(PrefKey.OPEN_EXCHANGE_RATES_APP_ID, "")
     )
 }
 }
