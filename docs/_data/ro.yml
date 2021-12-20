@@ -1,5 +1,5 @@
 ro:
-  imprint: Imprint
+  imprint: Imprima
   hero_main: "Manager finanţe personale pentru Android"
   hero_sub:
     use: "Uşor dr utilizat"
@@ -19,15 +19,67 @@ ro:
     links: Link-uri
   features:
     export: <b>Export</b> în QIF și CSV. <b>Import</b> din QIF
+    light_theme: <b>Theme</b> (întunecat și deschis) și <b>font size</b> pot fi personalizate
+    homescreen: Ecranul de pornire <b>widget</b> și <b>shortcut-uri</b> pentru introducerea
+      rapidă a datelor
+    reconciliation: '<b>Reconciliere</b>: Comparați cu ușurință starea tranzacțiilor
+      cu extrasele bancare'
+    manage_accounts: Până la cinci conturi cu <b>transferuri</b> (și între diferite
+      valute)
+    plans: Număr nelimitat de <b>teme</b> și până la trei planuri pentru tranzacții
+      <b>recurrente</b>
+    password: Datele pot fi protejate de <b>parolă</b> sau de dispozitivul <b>ecran
+      de blocare</b>
   contrib:
     thank_you: |
-        Contribuţia dumneavoastră sprijină dezvoltarea ulterioară a  Cheltuielile Mele. Vă mulţumesc!
+      Contribuţia dumneavoastră sprijină dezvoltarea ulterioară a Cheltuielile Mele. Vă mulţumesc!
+    feature:
+      distribution: '<b>Graficul de plăcintă</b>: Vizualizați distribuția statistică
+        a tranzacțiilor pe categorii pe diferite perioade (ani, luni, săptămâni, zile)'
+      attach_picture: '<b>Arhivă atașată</b>: Capturați prin intermediul aparatului
+        foto sau selectați din galerie'
+      email_support: <b>Suport prin e-mail</b> cu răspuns garantat în 2 zile lucrătoare
+      roadmap_voting: Votul de dreapta pe <b>foaia de dezvoltare</b>
+      history_chart: <b>Grafic istoric</b> (Flux de numerar)
+      scan_receipt: '<b>Scanează chitanțele</b>: Extrageți automat suma, data și beneficiarul
+        plății'
+      accounts_unlimited: Număr nelimitat de <b>conturi</b>
+      ad_free: <b>Nici o reclamă</b>
+      auto_backup: Copie de rezervă zilnică <b>automată</b> cu încărcare opțională
+        în cloud storage
+      print: <b>Imprimați</b> lista de tranzacții într-un fișier PDF
+      plans_unlimited: Număr nelimitat de planuri pentru tranzacții <b>recurrente</b>
+      split_transaction: '<b>Split transaction</b>: O singură tranzacție poate fi
+        divizată în mai multe părți (categorii și transferuri)'
+      csv_import: Import sofisticat și personalizabil <b>CSV</b> (aplicații de foi
+        de calcul)
+      cloud_sync: '<b>Sincronizare în cloud</b>: Datele pot fi sincronizate între
+        mai multe dispozitive'
+      split_template: Număr nelimitat de <b>șabloane și planuri pentru tranzacții
+        divizate</b>
+      budgeting: '<b>Bugetare</b>: Comparați cheltuielile dvs. cu limitele pe care
+        le-ați stabilit pentru fiecare categorie în parte, zilnic, săptămânal, lunar
+        sau anual.'
+      webui: <b>Interfață utilizator web</b>
+    one-time-payment: Plată unică
+    feature-list-title: 'Vă rugăm să contribuiți prin actualizarea <i>{app_name}</i>
+      și veți obține acces nelimitat la următoarele caracteristici:'
+    subscription: Abonament
   permissions:
     internet:
       explanation_crash_reporting: Rapoarte blocare
       explanation_cloud_sync: Sincronizare în cloud
+      label: Internet
+      explanation_usage_tracking: Urmărirea anonimă a utilizării
+      explanation_key_validation: Validarea cheii de licență
     accounts:
       label: Conturi
+      explanation: Sincronizare între dispozitive prin intermediul serviciilor cloud.
+    calendar:
+      label: Calendar
+      explanation: Planurile pentru tranzacțiile viitoare și recurente sunt stocate
+        fie într-un calendar local special, fie în orice alt calendar pe care îl atribuiți.
+    heading: <i>{app_name}</i> necesită următoarele <u>permisiuni</u>
   contrib-key: Cheie Contrib
   extended-key: Cheie Extinse
   professional-key: Cheie profesională
@@ -50,3 +102,39 @@ ro:
     history: Istoricul situației tale financiare
     export: Exportați în PDF, QIF și CSV
     sync: Sincronizare în cloud
+  screenshots:
+    summarize: Adunați toate conturile dumneavoastră (Manipulare sofisticată a cursurilor
+      de schimb pentru fiecare cont și pentru fiecare tranzacție)
+    history: Înțelegeți cum evoluează situația dumneavoastră financiară în timp
+    split: Împărțiți o tranzacție în mai multe categorii
+    budget: Definiți suma pe care intenționați să o cheltuiți în bugete anuale, lunare
+      sau săptămânale
+    export: Imprimați în format PDF și faceți schimb prin QIF și CSV.
+    sync: Sincronizați datele criptate ale contului pe mai multe dispozitive prin
+      intermediul serviciilor cloud private sau publice.
+    group: Grupați-vă tranzacțiile pe zile, săptămâni, luni și ani
+    distribution: Vizualizați distribuția pe categorii
+  all_contrib_key_features: Toate caracteristicile Contrib Cheie
+  privacy_policy_text: <i>{app_name}</i> nu accesează alte date de pe dispozitivul
+    dumneavoastră decât propria bază de date, propriul folder de pe cardul SD. Dacă
+    utilizați funcția de planuri pentru tranzacții viitoare și recurente, atribuiți
+    calendarul, unde sunt stocate aceste planuri.
+  imprint_text: Responsabil pentru conținutul acestui site web și pentru dezvoltarea,
+    întreținerea și distribuirea <i>{app_name}</i>
+  privacy_policy_heading: Politica de confidențialitate
+  store:
+    short_description: 'Finanțe personale: ușor de utilizat, bogat în funcționalități
+      și open source'
+    full_description_intro: '{app_name} vă ține evidența cheltuielilor și a veniturilor,
+      direct pe smartphone și pe tabletă.'
+    full_description_contrib: 'Funcțiile premium sunt deblocate prin achiziționarea
+      uneia dintre următoarele chei de licență:'
+    highlight_3: Rezumați situația dvs. financiară pe zi, săptămână, lună sau an
+    full_description_contrib_amazon: 'Multe caracteristici suplimentare sunt deblocate
+      prin achiziționarea uneia dintre cheile de licență, de exemplu:'
+    highlight_1: Țineți evidența cheltuielilor și a veniturilor dvs. cu mai multe
+      conturi, șabloane și categorii
+    highlight_2: Partajați-vă datele între mai multe telefoane și tablete prin WebDAV
+      și Google Drive
+  all_extended_key_features: Toate caracteristicile Cheii Extinse
+  customer_support: Asistență pentru clienți
