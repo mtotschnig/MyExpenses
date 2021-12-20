@@ -8,7 +8,7 @@ hu:
   menu_title:
     more_information: További információ
   sections:
-    features: Features
+    features: Funkciók
     premium: Válts a Prémium változatra
     participate: Támogatás
     faq: GYIK
@@ -51,9 +51,14 @@ hu:
   permissions:
     internet:
       explanation_cloud_sync: Felhő szinkronizálás
+      explanation_crash_reporting: Baleseti jelentések
+      label: Internet
+      explanation_usage_tracking: Névtelen használat nyomon követése
+      explanation_key_validation: Licenckulcs érvényesítés
     accounts:
       label: Számlák
-    heading: <i>{app_név}</i> a következő <u>engedélyeket igényli</u>.
+      explanation: Szinkronizálás az eszközök között felhőszolgáltatásokon keresztül.
+    heading: <i>{app_név}</i> a következő <u>engedélyeket igényli</u>
     calendar:
       label: Naptár
       explanation: A jövőbeni és ismétlődő tranzakciók terveit vagy egy speciális
@@ -90,7 +95,7 @@ hu:
     light_theme: <b>Téma</b> (sötét és világos) és <b>betűméret</b> testre szabható
     reconciliation: '<b>Egyeztetés</b>: Könnyen összehasonlíthatja a tranzakciók állapotát
       a bankszámlakivonatokkal'
-    homescreen: Kezdőképernyő <b>widget</b> és <b>kurtívák</b> a gyors adatbevitelhez.
+    homescreen: Kezdőképernyő <b>widget</b> és <b>kurtívák</b> a gyors adatbevitelhez
   privacy_policy_heading: Adatvédelmi szabályzat
   screenshots:
     budget: Határozza meg, hogy mennyit kíván költeni éves, havi vagy heti költségvetésben
@@ -117,11 +122,13 @@ hu:
     full_description_contrib_amazon: 'Számos további funkciót az egyik licenckulcs
       megvásárlásával lehet feloldani, pl.:'
     highlight_1: Nyomon követheti kiadásait és bevételeit több számla, sablon és kategória
-      segítségével.
+      segítségével
     highlight_2: Adatok megosztása több telefon és táblagép között WebDAV és Google
       Drive segítségével
     highlight_3: Összefoglalja pénzügyi helyzetét napra, hétre, hónapra vagy évre
-      lebontva.
+      lebontva
   imprint_text: Felelős a weboldal tartalmáért, valamint az <i>{app_name}</i> fejlesztéséért,
     karbantartásáért és terjesztéséért
   customer_support: Ügyfélszolgálat
+  all_contrib_key_features: A Contrib kulcs összes funkciója
+  all_extended_key_features: A Bővített kulcs összes funkciója
