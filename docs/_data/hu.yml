@@ -19,14 +19,45 @@ hu:
     links: Linkek
   contrib:
     thank_you: |
-        Köszönjük! Támogatásával nagyban segíti a Kiadásaim további fejlesztését!
+      Köszönjük! Támogatásával nagyban segíti a Kiadásaim további fejlesztését!
     feature:
       webui: <b>Webes felhasználói kezelőfelület</b>
+      roadmap_voting: Szavazási jog a <b>fejlesztési ütemtervre</b>
+      attach_picture: '<b>Képmelléklet</b>: Felvétel a kamerával vagy kiválasztás
+        a galériából'
+      csv_import: Kifinomult, testreszabható <b>CSV import</b> (táblázatkezelő alkalmazások)
+      distribution: '<b> Kördiagram </b>: A tranzakciók kategóriánkénti statisztikai
+        eloszlásának szemléltetése különböző időszakokban (évek, hónapok, hetek, napok)'
+      print: <b>Nyomtassa ki</b> a tranzakciós listát egy PDF fájlba
+      history_chart: <b>A történet diagram</b> (pénzforgalom)
+      budgeting: '<b>Budgetálás</b>: Hasonlítsa össze kiadásait a kategóriánként beállított
+        korlátokkal napi, heti, havi vagy éves szinten.'
+      plans_unlimited: Korlátlan számú terv a <b>ismétlődő</b> tranzakciókhoz
+      ad_free: <b>Nincs hirdetés</b>
+      accounts_unlimited: Korlátlan számú <b>fiók</b>
+      split_transaction: '<b>Tranzakció szétválasztása</b>: Egy tranzakció több részre
+        (kategóriákra és átutalásokra) osztható'
+      auto_backup: Napi <b>automatizált biztonsági mentés</b> opcionális feltöltéssel
+        a felhőalapú tárolóba
+      cloud_sync: '<b>felhőszinkronizálás</b>: Az adatok több eszköz között szinkronizálhatók'
+      split_template: Korlátlan számú <b>sablon és terv a megosztott tranzakciókhoz</b>
+      email_support: <b>Emailes támogatás</b> 2 munkanapon belüli garantált válasszal
+      scan_receipt: '<b>Bevételi bizonylatok szkennelése</b>: Automatikusan kivonja
+        az összeget, a dátumot és a kedvezményezettet'
+    feature-list-title: 'Kérjük, járuljon hozzá a <i>{app_name}</i> frissítésével,
+      és korlátlan hozzáférést kap a következő funkciókhoz:'
+    one-time-payment: Egyszeri fizetés
+    subscription: Előfizetés
   permissions:
     internet:
       explanation_cloud_sync: Felhő szinkronizálás
     accounts:
       label: Számlák
+    heading: <i>{app_név}</i> a következő <u>engedélyeket igényli</u>.
+    calendar:
+      label: Naptár
+      explanation: A jövőbeni és ismétlődő tranzakciók terveit vagy egy speciális
+        helyi naptárban, vagy bármely más, Ön által kijelölt naptárban tárolja.
   contrib-key: Contrib Kulcs
   extended-key: Kiterjesztett Kulcs
   professional-key: Szakmai kulcs
@@ -49,3 +80,48 @@ hu:
     history: Pénzügyi helyzetének története
     export: Exportálás PDF, QIF és CSV formátumba
     sync: Felhő szinkronizálás
+  features:
+    manage_accounts: Legfeljebb öt számla <b>átutalásokkal</b> (különböző pénznemek
+      között is)
+    plans: Korlátlan számú <b>sablon</b> és legfeljebb három terv <b>ismétlődő</b>
+      tranzakciókhoz
+    export: <b>Exportálás</b> QIF és CSV formátumba. <b>Importálás</b> QIF-ből
+    password: Az adatokat <b>jelszóval</b> vagy eszközzel <b>záró képernyő</b> védheti
+    light_theme: <b>Téma</b> (sötét és világos) és <b>betűméret</b> testre szabható
+    reconciliation: '<b>Egyeztetés</b>: Könnyen összehasonlíthatja a tranzakciók állapotát
+      a bankszámlakivonatokkal'
+    homescreen: Kezdőképernyő <b>widget</b> és <b>kurtívák</b> a gyors adatbevitelhez.
+  privacy_policy_heading: Adatvédelmi szabályzat
+  screenshots:
+    budget: Határozza meg, hogy mennyit kíván költeni éves, havi vagy heti költségvetésben
+    split: Egy tranzakció felosztása több kategóriára
+    distribution: A kategóriánkénti eloszlás vizualizálása
+    summarize: Összesíti az összes számláját (Számlánként és tranzakciónként az árfolyamok
+      kifinomult kezelése)
+    group: Csoportosítsa a tranzakciókat nap, hét, hónap és év szerint
+    history: Értse meg, hogyan alakul a pénzügyi helyzete az idő múlásával
+    export: Nyomtatás PDF-be, valamint QIF és CSV formátumú adatcsere.
+    sync: Titkosított fiókadatok szinkronizálása több eszközön magán- vagy nyilvános
+      felhőszolgáltatásokon keresztül.
+  privacy_policy_text: <i>{app_name}</i> a saját adatbázisán, az SD-kártyán lévő saját
+    mappáján kívül semmilyen adathoz nem fér hozzá a készülékén. Ha a jövőbeli és
+    ismétlődő tranzakciók terveinek funkcióját használja, akkor hozzárendeli a naptárat,
+    ahol ezeket a terveket tárolja.
+  store:
+    full_description_intro: '{app_name} nyomon követi a kiadásait és a bevételeit,
+      közvetlenül az okostelefonján és a táblagépén.'
+    short_description: 'Személyes pénzügyek: könnyen használható, funkciókban gazdag
+      és nyílt forráskódú'
+    full_description_contrib: 'A prémium funkciók az alábbi licenckulcsok egyikének
+      megvásárlásával oldhatók fel:'
+    full_description_contrib_amazon: 'Számos további funkciót az egyik licenckulcs
+      megvásárlásával lehet feloldani, pl.:'
+    highlight_1: Nyomon követheti kiadásait és bevételeit több számla, sablon és kategória
+      segítségével.
+    highlight_2: Adatok megosztása több telefon és táblagép között WebDAV és Google
+      Drive segítségével
+    highlight_3: Összefoglalja pénzügyi helyzetét napra, hétre, hónapra vagy évre
+      lebontva.
+  imprint_text: Felelős a weboldal tartalmáért, valamint az <i>{app_name}</i> fejlesztéséért,
+    karbantartásáért és terjesztéséért
+  customer_support: Ügyfélszolgálat
