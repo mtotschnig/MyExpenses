@@ -91,9 +91,7 @@ class TransferDelegate(
             withAutoFill
         )
         hideRowsSpecificToMain()
-        if (rowId != 0L) {
-            configureTransferDirection()
-        }
+        configureTransferDirection()
     }
 
     override fun populateFields(transaction: ITransfer, withAutoFill: Boolean) {

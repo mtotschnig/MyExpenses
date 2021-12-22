@@ -313,9 +313,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
             }
             // fetch the transaction or create a new instance
             if (task != null) {
-                viewModel.transaction(mRowId, task, isClone, true, extras).observe(this, {
+                viewModel.transaction(mRowId, task, isClone, true, extras).observe(this) {
                     populateFromTask(it, task)
-                })
+                }
             } else {
                 operationType =
                     intent.getIntExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
