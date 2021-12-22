@@ -66,9 +66,9 @@
  </target>
  
  <target name="copy_to_project">
- <copy file="_site/${locale_from}/metadata/full_description_fdroid.txt" tofile="../MyExpenses/metadata/${locale_to}/full_description.txt" 
+ <copy file="_site/${locale_from}/metadata/full_description_fdroid.txt" tofile="../metadata/${locale_to}/full_description.txt"
         overwrite="true" encoding="utf-8"/>
- <copy file="_site/${locale_from}/metadata/short_description.txt" tofile="../MyExpenses/metadata/${locale_to}/short_description.txt" 
+ <copy file="_site/${locale_from}/metadata/short_description.txt" tofile="../metadata/${locale_to}/short_description.txt"
         overwrite="true" encoding="utf-8"/>
  </target>
  

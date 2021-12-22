@@ -215,7 +215,7 @@
             <xsl:when test="$lang = 'pt'">pt-PT</xsl:when>
             <xsl:when test="$lang = 'ru'">ru-RU</xsl:when>
             <xsl:when test="$lang = 'tr'">tr-TR</xsl:when>
-            <xsl:when test="$lang = 'zh'">zh_Hans</xsl:when>
+            <xsl:when test="$lang = 'zh'">zh-Hans</xsl:when>
             <xsl:otherwise>
                 <xsl:value-of select="$lang" />
             </xsl:otherwise>

@@ -7,7 +7,7 @@
     <xsl:include href="helpers.xsl" />
     <xsl:param name="version" />
     <xsl:param name="versionCode" />
-    <xsl:param name="languages" select="'bg de en es fr it iw ja ms pl pt ru tr'" />
+    <xsl:param name="languages" select="'bg de en es fr hu it iw ja ko ms pl pt ro ru tr zh'" />
 
     <xsl:template match="/" name="main">
         <xsl:if test="$versionCode =''">
