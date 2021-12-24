@@ -518,4 +518,20 @@
     <string name="pref_acra_user_email">ایمیل کاربر در گزارش تصادف گنجانده شده است</string>
     <string name="pref_acra_user_email_summary">لطفا آدرس ایمیل خود را وارد کنید اگر مایل هستید که به اشکالزدایی کمک کنید و به ما اجازه دهید با شما تماس بگیریم</string>
     <string name="new_version">نسخه جدید</string>
+    <plurals name="dialog_title_warning_delete_account">
+        <item quantity="one">حساب حذف شود؟</item>
+        <item quantity="other">حساب ها حذف شوند؟</item>
+    </plurals>
+    <string name="menu_create_split_part_category">بخش جدید دسته بندی</string>
+    <string name="menu_create_split_part_transfer">بخش جدید انتقال</string>
+    <string name="menu_edit_party">ویرایش دسته</string>
+    <string name="menu_edit_split_part_category">ویرایش بخش دسته بندی</string>
+    <string name="menu_edit_split_part_transfer">ویرایش دسته انتقال</string>
+    <string name="menu_exclude_from_totals">از جمع کل حذف شود</string>
+    <string name="menu_forward">جلو</string>
+    <string name="no_methods">هیچ روش پرداختی وجود ندارد.</string>
+    <string name="image_capture_not_installed">هیچ برنامه‌ای برای گرفتن عکس پیدا نشد.</string>
+    <string name="no_mapped_transactions">در طول این دوره هیچ تراکنشی برای دسته ها انجام نشده است.</string>
+    <string name="no_parties">طرف معامله وجود ندارد.</string>
+    <string name="dialog_title_warning_delete_party">این فرد حذف شود؟</string>
 </resources>
