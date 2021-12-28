@@ -526,12 +526,55 @@
     <string name="menu_create_split_part_transfer">بخش جدید انتقال</string>
     <string name="menu_edit_party">ویرایش دسته</string>
     <string name="menu_edit_split_part_category">ویرایش بخش دسته بندی</string>
-    <string name="menu_edit_split_part_transfer">ویرایش دسته انتقال</string>
-    <string name="menu_exclude_from_totals">از جمع کل حذف شود</string>
-    <string name="menu_forward">جلو</string>
+    <string name="menu_edit_split_part_transfer">ویرایش دسته تسهیم</string>
+    <string name="menu_exclude_from_totals">حذف از مجموع کل</string>
+    <string name="menu_forward">پیش</string>
     <string name="no_methods">هیچ روش پرداختی وجود ندارد.</string>
     <string name="image_capture_not_installed">هیچ برنامه‌ای برای گرفتن عکس پیدا نشد.</string>
     <string name="no_mapped_transactions">در طول این دوره هیچ تراکنشی برای دسته ها انجام نشده است.</string>
     <string name="no_parties">طرف معامله وجود ندارد.</string>
-    <string name="dialog_title_warning_delete_party">این فرد حذف شود؟</string>
+    <string name="dialog_title_warning_delete_party">شخص حذف شود؟</string>
+    <plurals name="not_deletable_mapped_templates">
+        <item quantity="one">مورد انتخاب شده به یک الگو نگاشت می شود و نمی توان آن را حذف کرد.</item>
+        <item quantity="other">%1$d ‍مورد به چندین الگو نگاشت می شوند و نمی توان آن ها را حذف کرد.</item>
+    </plurals>
+    <string name="pref_protection_enable_data_entry_from_widget_title">ورود اطلاعات از ویجت ها و میانبرها</string>
+    <string name="pref_protection_enable_data_entry_from_widget_summary_on">بدون گذرواژه مجاز است.</string>
+    <string name="reference_number">شماره مرجع</string>
+    <string name="status_reconciled">تلفیق شده</string>
+    <string name="menu_edit_plan_instance">ویرایش تک طرح</string>
+    <string name="menu_split_transaction">تبدیل به تسهیم</string>
+    <string name="no_split_parts">دسته تسهیم وجود ندارد.</string>
+    <string name="numbered">شماره گذاری شده</string>
+    <string name="pref_contrib_purchase_summary">دسترسی به ویژگی های پریمیوم را خریداری کنید.</string>
+    <string name="pref_enter_licence_summary" tools:ignore="UnusedResources">در صورت دریافت کلید، به ویژگی‌های پریمیوم دسترسی پیدا می کنید.</string>
+    <string name="pref_import_from_grisbi_summary">وارد کردن دسته‌ها و اشخاص از فایل XML Grisbi</string>
+    <string name="pref_import_from_grisbi_title">وارد کردن از Grisbi</string>
+    <string name="pref_import_summary">وارد کردن تراکنش ها، دسته ها و اشخاص از فایل %s</string>
+    <string name="pref_news_title">اخبار</string>
+    <string name="pref_manage_parties_summary" tools:ignore="UnusedResources">اضافه کردن، ویرایش، حذف اشخاص (پرداخت کننده ها و گیرنده ها).</string>
+    <string name="pref_manage_sync_backends_summary">اضافه کردن سرور جهت همگام سازی حساب ها %s</string>
+    <string name="pref_manage_sync_backends_title">همگام سازی با سرور</string>
+    <string name="pref_more_info_dialog_title">مجوز و اعتبار</string>
+    <string name="pref_planning_calendar_summary">تقویمی را انتخاب کنید که در آن برنامه‌ها برای تراکنش‌های آتی و تکراری ذخیره می‌شوند</string>
+    <string name="pref_qif_export_file_encoding_title">کدگذاری حروف</string>
+    <string name="pref_share_target_summary">اگر می‌خواهید بین برنامه‌های مناسب (ایمیل، دراپباکس، گوگل داکس، ...) یکی را انتخاب کنید، یا URL را در یکی از طرح‌های پشتیبانی‌شده ارائه کنید، خالی بگذارید</string>
+    <string name="qif_parse_failure_found_multiple_accounts">چندین حساب در فایل QIF یافت شد.</string>
+    <string name="restore_backup_file_not_found">هیچ فایل %1$s در بایگانی \"%2$s\" یافت نشد</string>
+    <string name="save_transaction_error">ذخیره تراکنش های جدید از الگو ممکن نیست.</string>
+    <plurals name="not_deletable_mapped_transactions">
+        <item quantity="one">مورد انتخاب شده به یک تراکنش نگاشت می شود و نمی توان آن را حذف کرد.</item>
+        <item quantity="other">%1$d مورد به تراکنش ها نگاشت می شوند و نمی توان آنها را حذف کرد.</item>
+    </plurals>
+    <string name="pref_manage_parties_title">اشخاص</string>
+    <string name="split_parts_heading">بخش تسهیم</string>
+    <string name="pref_planning_calendar_create_local">ایجاد تقویم برنامه‌ریزی محلی جدید</string>
+    <plurals name="save_transaction_from_template_success">
+        <item quantity="one">تراکنش جدید از الگو با موفقیت ذخیره شد.</item>
+        <item quantity="other">%1$d تراکنش جدید از الگوها با موفقیت ذخیره شد.</item>
+    </plurals>
+    <string name="qif_parse_result">اجزا: %1$s حساب; %2$s دسته و %3$s شخص</string>
+    <string name="select_payee">پرداخت کننده/گیرنده را انتخاب کنید</string>
+    <string name="share_scheme_not_supported">طرح %1$s پشتیبانی نمی‌شود</string>
+    <string name="pref_sort_order_usages">تعداد موارد استفاده</string>
 </resources>
