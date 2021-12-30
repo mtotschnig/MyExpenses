@@ -20,6 +20,90 @@ zh-tw:
   permissions:
     internet:
       explanation_crash_reporting: 崩潰報告
+      explanation_usage_tracking: 匿名使用情況跟踪
+      explanation_cloud_sync: 云同步
+      label: 互聯網
+      explanation_key_validation: 許可證密鑰驗證
     accounts:
       label: 賬戶
+      explanation: 通過雲服務跨設備同步。
+    heading: <i>{app_name}</i>需要以下<u>權限</u>
+    calendar:
+      label: 日曆
+      explanation: 未來和定期交易的計劃存儲在特殊的本地日曆或您設置的任何其他日曆中。
   contrib-key: 貢獻密鑰
+  extended-key: 延伸版密鑰(Extended Key)
+  professional-key: 專業版密鑰(Professional Key)
+  all_contrib_key_features: 貢獻版密鑰的所有功能
+  all_extended_key_features: 延伸版密鑰的所有功能
+  customer_support: 客戶支持
+  screenshot_testdata:
+    account3Label: 銀行賬戶
+    tag_project: 未命名項目
+    account1Label: 我的錢包
+    account1Description: 每日支出
+    account2Label: 週末在巴黎
+    transaction4Payee: 海底撈
+    templatePayee: 張三
+    transaction2Comment: 水果蔬菜
+    account3Description: 美國銀行
+  screenshot_titles:
+    distribution: 餅圖展示
+    group: 按年、月或星期分組
+    split: 拆分為多個分類
+    summarize: 匯總所有賬戶
+    budget: 年度、月度和每週預算
+    history: 你的財務狀況歷史
+    export: 導出為 PDF、QIF 和 CSV
+    sync: 云同步
+  imprint_text: 負責本網站的內容以及<i>{app_name}</i>的開發、維護和配置
+  privacy_policy_heading: 隱私政策
+  privacy_policy_text: 除了應用程序自己的數據庫和SD卡上所屬的文件夾之外，<i>{app_name}</i>無法訪問您設備上其他的任何數據。如果您使用到未來和定期交易計劃的功能，應用程序會將這些計劃存儲在您指定的日曆中。
+  screenshots:
+    group: 對交易數據進行每天、每週、每月和每年的分組
+    summarize: 匯總所有賬戶（對每個賬戶和每個交易的匯率進行複雜的數據處理）
+    budget: 您可以自行定義每年、每月或每週的支出預算
+    split: 您可以將一筆交易分到多個類別
+    distribution: 您可視化每個類別的交易數據統計分佈
+    history: 了解您的財務狀況如何隨著時間變化
+    export: 可以將交易數據打印成PDF文件，和存儲為QIF或CSV文件。
+    sync: 通過私有或公共雲服務在多個設備上同步加密的賬戶數據。
+  features:
+    reconciliation: <b>對帳</b>：輕鬆地將交易狀態與銀行對帳單進行比較
+    homescreen: 可以從主屏幕的<b>小部件 widget</b>和<b>快捷方式</b>快速輸入交易數據
+    manage_accounts: 可創建最多五個可進行互相<b>轉賬</b>的賬戶（也可以在不同貨幣之間進行轉賬）
+    password: 可以通過<b>密碼</b>或設備的<b>鎖屏</b>保護數據
+    plans: 可創建無限數量的<b>模板</b>和最多三個<b>循環</b>交易
+    export: <b>导出</b>为QIF和CSV文件。从QIF文件<b>导入</b>
+    light_theme: 可自定義 <b>界面主題</b>（深色或淺色）與<b>字體大小</b>
+  contrib:
+    thank_you: "您的捐款贊助“開支助手”的進一步發展。謝謝您！\n"
+    feature-list-title: '請透過升級來贊助<i>{app_name}</i>，還可以解鎖得到以下更多的功能:'
+    feature:
+      accounts_unlimited: 可創建無限數量的<b>賬戶</b>
+      plans_unlimited: 可創建無限數量的<b>定期交易計劃</b>
+      distribution: <b>餅狀統計圖</b>：可視化不同時期（年、月、週、天）中，每個類別的交易統計分佈
+      split_transaction: <b>拆分交易</b>：單個交易可以拆分成多個部分（轉賬或分屬於不同的類別）
+      print: <b>打印</b>：可以將交易清單打印成PDF文件
+      attach_picture: <b>附加圖片</b>：通過相機拍攝或從圖庫中選擇圖片附件
+      ad_free: <b>無廣告</b>
+      csv_import: 可自定義復雜的<b>CSV導入文件</b>（電子表格應用程序）
+      auto_backup: 每日<b>自動備份</b>並上載到自選的雲盤/雲服務
+      split_template: 無限數量的<b>模板和拆分交易計劃</b>
+      email_support: <b>電子郵件支持</b>：保證在2個工作日內回复
+      roadmap_voting: 對<b>程序開發者的未來藍圖 </b>進行投票
+      history_chart: <b>收支歷史圖表</b>（可觀察現金流向）
+      budgeting: <b>預算</b>：將您的支出與每個類別 (每天、每週、每月或每年) 設置的限額進行比較。
+      scan_receipt: <b>掃描收據</b>：自動讀取金額、日期和收款人等數據
+      webui: <b>網絡的用戶界面</b>
+      cloud_sync: <b>云同步</b>：可以在多個設備之間同步數據
+    one-time-payment: 一次性支付
+    subscription: 訂閱
+  store:
+    short_description: 易於使用的個人理財管理工具 ：豐富的功能和開放源代碼
+    full_description_intro: '{app_name}可以直接在智能手機和平板電腦上跟踪您的支出和收入。'
+    full_description_contrib_amazon: 購買許可證密鑰，即可解鎖許多其他的功能，例如：
+    highlight_1: 通過多個賬戶、模板和類別跟踪您的支出和收入
+    highlight_3: 總結每天、每週、每月或每年的財務狀況
+    full_description_contrib: 購買以下許可證密鑰，即可解鎖不同的高級功能：
+    highlight_2: 通過 WebDAV 和 Google雲盤 在多部手機和平板電腦之間共享您的數據
