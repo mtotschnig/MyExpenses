@@ -592,8 +592,8 @@
     <string name="progress_dialog_checking_sync_backend">驗證後端</string>
     <string name="template">範本</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">雲端同步</string>
-    <string name="all_contrib_key_features">貢獻版金鑰(Contrib Key) 的所有功能</string>
-    <string name="all_extended_key_features">延伸版金鑰(Extended Key)的所有功能</string>
+    <string name="all_contrib_key_features">貢獻版密鑰的所有功能</string>
+    <string name="all_extended_key_features">延伸版密鑰的所有功能</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">購買升級</string>
     <string name="pref_backup_cloud_title">存儲在同步後端</string>
