@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="testData_account1Label">我的钱包</string>
+  <string name="testData_account1Description">日常开支</string>
+  <string name="testData_account2Label">在巴黎的周末</string>
+  <string name="testData_account3Label">银行帐户</string>
+  <string name="testData_account3Description">美國銀行</string>
+  <string name="testData_transaction2Comment">水果和蔬菜</string>
+  <string name="testData_transaction4Payee">好朋友们</string>
+  <string name="testData_templatePayee">张三</string>
+  <string name="testData_tag_project">无标题项目</string>
+</resources>

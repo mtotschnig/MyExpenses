@@ -4,8 +4,8 @@ app_package_name('org.totschnig.myexpenses.debug')
 
 use_tests_in_packages(['org.totschnig.myexpenses.test.screenshots'])
 
-app_apk_path('myExpenses/build/outputs/apk/Extern/debug/myExpenses-extern-debug.apk')
-tests_apk_path('myExpenses/build/outputs/apk/androidTest/Extern/debug/myExpenses-extern-debug-androidTest.apk')
+app_apk_path('myExpenses/build/outputs/apk/extern/debug/myExpenses-extern-debug.apk')
+tests_apk_path('myExpenses/build/outputs/apk/androidTest/extern/debug/myExpenses-extern-debug-androidTest.apk')
 
 locales([
     'ar-SA',

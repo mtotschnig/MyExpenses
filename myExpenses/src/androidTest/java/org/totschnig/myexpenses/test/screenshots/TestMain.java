@@ -4,7 +4,9 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
@@ -29,6 +31,7 @@ import androidx.test.espresso.contrib.DrawerActions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.rule.GrantPermissionRule;
 import tools.fastlane.screengrab.Screengrab;
+import tools.fastlane.screengrab.cleanstatusbar.CleanStatusBar;
 import tools.fastlane.screengrab.locale.LocaleTestRule;
 import tools.fastlane.screengrab.locale.LocaleUtil;
 
@@ -46,6 +49,17 @@ import static org.totschnig.myexpenses.testutils.Matchers.first;
  * This test is meant to be run with FastLane Screengrab, but also works on its own.
  */
 public class TestMain extends BaseUiTest<MyExpenses> {
+
+  @BeforeClass
+  public static void beforeAll() {
+    CleanStatusBar.enableWithDefaults();
+  }
+
+  @AfterClass
+  public static void afterAll() {
+    CleanStatusBar.disable();
+  }
+
   @ClassRule
   public static final LocaleTestRule localeTestRule = new LocaleTestRule();
   private ActivityScenario<MyExpenses> activityScenario = null;
@@ -133,7 +147,7 @@ public class TestMain extends BaseUiTest<MyExpenses> {
 
   private void loadFixture(@SuppressWarnings("SameParameterValue") boolean withPicture) {
     //LocaleTestRule only configure for app context, fixture loads resources from instrumentation context
-    final Locale testLocale = LocaleUtil.getTestLocale();
+    final Locale testLocale = LocaleUtil.localeFromString(LocaleUtil.getTestLocale());
     if (testLocale != null) {//if run from Android Studio and not via Screengrab
       configureLocale(testLocale);
     }

@@ -33,6 +33,7 @@ import org.totschnig.myexpenses.TestApp
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.debug.test.R as RT
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView
 import java.util.*
 import java.util.concurrent.TimeoutException
@@ -51,7 +52,7 @@ abstract class BaseUiTest<out A: ProtectedFragmentActivity> {
 
     @Before
     fun setUp() {
-        isLarge = testContext.resources.getBoolean(org.totschnig.myexpenses.debug.test.R.bool.isLarge)
+        isLarge = testContext.resources.getBoolean(RT.bool.isLarge)
     }
 
     protected fun closeKeyboardAndSave() {

@@ -10,7 +10,7 @@
   <string name="testData_account3Description">美國銀行</string>
   <!--the cats must exist in the categories of the locale-->
   <!--just an example of how one could describe by a comment a specific purchase-->
-  <string name="testData_transaction2Comment">水果 &amp; 蔬菜</string>
+  <string name="testData_transaction2Comment">水果和蔬菜</string>
   <!--should be the name of a typical restaurant-->
   <string name="testData_transaction4Payee">好朋友們</string>
   <!--a name typically used as example name-->
