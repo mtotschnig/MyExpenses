@@ -4,3 +4,4 @@ build
 *.iml
 local.properties
 fastlane
+ChangeLog.install
