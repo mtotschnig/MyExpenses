@@ -337,7 +337,7 @@
     <string name="warning_reset_account_matched">اگر ادامه بدهید، تراکنش‌های منطبق با این فیلتر از پایگاه داده حذف خواهند شد و قابل بازیابی نخواهند بود.</string>
     <string name="warning_restore">پایگاه داده و ترجیحات از فایل «%1$s» بازبابی خواهند شد. داده‌های فعلی حذف خواهند شد.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">لطفاً یک عدد از بین %1$d تا %2$d بگذارید</string>
-    <string name="import_categories_success">%1$d دسته‌بندی با موفقیت درون‌ریزی شد</string>
+    <string name="import_categories_success">%1$d دسته‌بندی با موفقیت درون‌ریزی شد.</string>
     <string name="import_accounts_success">%1$sحساب با موفقیت درون‌ریزی شد</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d تراکنش با موفقیت به حساب %2$s درون‌ریزی شد</string>
     <string name="import_accounts_none">هیچ حسابی درون‌ریزی نشد</string>
@@ -526,7 +526,7 @@
     <string name="menu_create_split_part_transfer">بخش جدید انتقال</string>
     <string name="menu_edit_party">ویرایش دسته</string>
     <string name="menu_edit_split_part_category">ویرایش بخش دسته بندی</string>
-    <string name="menu_edit_split_part_transfer">ویرایش دسته تسهیم</string>
+    <string name="menu_edit_split_part_transfer">ویرایش قسمت انتقال تسهیمی</string>
     <string name="menu_exclude_from_totals">حذف از مجموع کل</string>
     <string name="menu_forward">پیش</string>
     <string name="no_methods">هیچ روش پرداختی وجود ندارد.</string>
@@ -541,8 +541,8 @@
     <string name="pref_protection_enable_data_entry_from_widget_title">ورود اطلاعات از ویجت ها و میانبرها</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">بدون گذرواژه مجاز است.</string>
     <string name="reference_number">شماره مرجع</string>
-    <string name="status_reconciled">تلفیق شده</string>
-    <string name="menu_edit_plan_instance">ویرایش تک طرح</string>
+    <string name="status_reconciled">تطبیق یافته</string>
+    <string name="menu_edit_plan_instance">ویرایش برنامه واحد</string>
     <string name="menu_split_transaction">تبدیل به تسهیم</string>
     <string name="no_split_parts">دسته تسهیم وجود ندارد.</string>
     <string name="numbered">شماره گذاری شده</string>
@@ -553,11 +553,11 @@
     <string name="pref_import_summary">وارد کردن تراکنش ها، دسته ها و اشخاص از فایل %s</string>
     <string name="pref_news_title">اخبار</string>
     <string name="pref_manage_parties_summary" tools:ignore="UnusedResources">اضافه کردن، ویرایش، حذف اشخاص (پرداخت کننده ها و گیرنده ها).</string>
-    <string name="pref_manage_sync_backends_summary">اضافه کردن سرور جهت همگام سازی حساب ها %s</string>
+    <string name="pref_manage_sync_backends_summary">اضافه کردن سرور جهت همگام سازی حساب ها (%s).</string>
     <string name="pref_manage_sync_backends_title">همگام سازی با سرور</string>
     <string name="pref_more_info_dialog_title">مجوز و اعتبار</string>
     <string name="pref_planning_calendar_summary">تقویمی را انتخاب کنید که در آن برنامه‌ها برای تراکنش‌های آتی و تکراری ذخیره می‌شوند</string>
-    <string name="pref_qif_export_file_encoding_title">کدگذاری حروف</string>
+    <string name="pref_qif_export_file_encoding_title">کدبندی نویسه</string>
     <string name="pref_share_target_summary">اگر می‌خواهید بین برنامه‌های مناسب (ایمیل، دراپباکس، گوگل داکس، ...) یکی را انتخاب کنید، یا URL را در یکی از طرح‌های پشتیبانی‌شده ارائه کنید، خالی بگذارید</string>
     <string name="qif_parse_failure_found_multiple_accounts">چندین حساب در فایل QIF یافت شد.</string>
     <string name="restore_backup_file_not_found">هیچ فایل %1$s در بایگانی \"%2$s\" یافت نشد</string>
@@ -577,4 +577,91 @@
     <string name="select_payee">پرداخت کننده/گیرنده را انتخاب کنید</string>
     <string name="share_scheme_not_supported">طرح %1$s پشتیبانی نمی‌شود</string>
     <string name="pref_sort_order_usages">تعداد موارد استفاده</string>
+    <string name="csv_import_subcategory_requires_category">در صورت نگاشتن زیرشاخه، باید دسته بندی را نیز نگاشت کنید.</string>
+    <string name="status_uncreconciled">غیر قابل تطبیق</string>
+    <string name="warning_reset_account_all">اگر ادامه دهید، برای همه حساب‌های %1$s، تراکنش‌ها از پایگاه داده حذف می‌شوند و قابل بازیابی نیستند.</string>
+    <string name="warning_splitpartcategory_context">نقل و انتقالاتی که بخشی از یک تسهیم هستند فقط در زمینه تسهیم قابل ویرایش هستند.</string>
+    <string name="menu_categories_setup_default">دسته بندی های پیش فرض را تنظیم کنید</string>
+    <string name="app_dir_not_compatible_with_nougat">URI پیکربندی شده فعلی برای پشتیبان‌گیری و برون بری (%1$s) در اندروید نوقا پشتیبانی نمی‌شود. لطفاً دوباره یک پوشه را انتخاب کنید.</string>
+    <string name="restore_not_possible_target_calendar_missing">تقویم %s تنظیم شده در بایگانی پشتیبان به صورت محلی وجود ندارد. بازیابی متوقف شده است.</string>
+    <string name="pref_manage_stale_images_title">تصاویر قدیمی</string>
+    <string name="export_handle_deleted_update_balance">به روز رسانی موجودی افتتاحیه</string>
+    <string name="csv_import_field_mapped_more_than_once">%s بیش از یک بار نگاشته شده است.</string>
+    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d رکورد درون ریزی نشد.</string>
+    <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d رکورد کنار گذاشته شد.</string>
+    <string name="transform_subcategory_to_main">تبدیل به دسته بندی اصلی</string>
+    <string name="pref_sort_order_next_instance">نمونه بعدی</string>
+    <string name="paypal_callback_info">تراکنش شما تکمیل شده است و رسید خرید شما برای شما ایمیل شده است. برای مشاهده جزئیات این تراکنش می توانید وارد حساب کاربری خود در www.paypal.com شوید.</string>
+    <string name="synchronization_none">بدون همگام سازی</string>
+    <string name="description_webdav_trust_certificate">این وب سایت از گواهی‌ای استفاده می کند که مورد اعتماد اندروید نیست.</string>
+    <string name="hint_url">URL</string>
+    <string name="description_webdav_url">لطفاً URL را به یک پوشه خاص در سرور WebDAV خود وارد کنید. {app_name} داده‌های خود را در این پوشه ذخیره می‌کند، به چیزی خارج از آن دسترسی ندارد.</string>
+    <string name="dialog_confirm_sync_link_local">داده های روی سرور برای این حساب حذف خواهد شد. مطمئن شوید که هیچ دستگاه دیگری به آن متصل نیست.</string>
+    <string name="dialog_command_sync_link_remote">بارگیری از سرور</string>
+    <string name="dialog_command_sync_link_local">بارگذاری از داده های محلی</string>
+    <string name="dialog_confirm_sync_unlink">اگر پیوند این حساب را از %s لغو کنید، وضعیت همگام‌سازی از بین می‌رود. پیوند دادن مجدد آنها بعداً، نیاز به همگام سازی کامل دارد تا دوباره اجرا شود.</string>
+    <string name="pref_protection_delay_seconds_summary">با گذشت چند ثانیه از زمان بیکاری، کاره با رمز قفل خواهد شد.</string>
+    <plurals name="move_category_failure">
+        <item quantity="one">یک دسته منتقل نشد، زیرا همان برچسب در مقصد نیز وجود دارد.</item>
+        <item quantity="other">%d دسته منتقل نشد، زیرا همان برچسب در مقصد نیز وجود دارد.</item>
+    </plurals>
+    <string name="warning_instantiate_template_from_widget_password_protected">نمونه‌برداری سریع از الگوها از این ویجت تنها در صورتی کار می‌کند که اجازه ورود داده‌ها از ویجت‌ها بدون رمز عبور را در تنظیمات برنامه بدهید.</string>
+    <string name="import_parties_success">%1$s شخص با موفقیت درون ریزی شد</string>
+    <string name="warning_change_fraction_digits_1">مقادیر موجود در پایگاه داده باید به روز شوند تا با تعداد جدید ارقام کسری مطابقت داشته باشند.</string>
+    <string name="restore_calendar_handling">مدیریت داده های تقویم</string>
+    <string name="menu_parse">تجزیه</string>
+    <string name="dialog_synced_to_other">یک حساب با uuid %s از قبل در پایگاه داده محلی وجود دارد و به یک سرور دیگر پیوند داده شده است.</string>
+    <plurals name="warning_delete_main_category">
+        <item quantity="one">دسته انتخاب شده دارای زیرمجموعه هایی است که آن ها نیر حذف خواهند شد.</item>
+        <item quantity="other">%1$d دسته انتخاب شده دارای زیرمجموعه هایی هستند که آن ها نیز حذف خواهند شد.</item>
+    </plurals>
+    <plurals name="warning_delete_template">
+        <item quantity="one">الگوی انتخاب شده حذف خواهد شد.</item>
+        <item quantity="other">%1$d الگوی انتخاب شده حذف خواهند شد.</item>
+    </plurals>
+    <plurals name="move_category_success">
+        <item quantity="one">یک دسته با موفقیت جابجا شد.</item>
+        <item quantity="other">%d دسته با موفقیت جابجا شد.</item>
+    </plurals>
+    <string name="import_parties_none">هیچ شخصی درون ریزی نشد</string>
+    <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d حساب با واحد پول %2$s به روز شده است.</string>
+    <string name="restore_calendar_handling_configured">برنامه‌ها را به تقویم پیکربندی‌شده فعلی بازیابی کنید</string>
+    <string name="cvs_import_set_first_line_as_header">آیا خط اول باید به عنوان یک خط سربرگ در نظر گرفته شود؟</string>
+    <string name="csv_import_no_mapping_found_for_amount">لطفاً یک ستون را به مبلغ، درآمد یا هزینه اختصاص دهید.</string>
+    <string name="button_request_calendar_access" tools:ignore="UnusedResources">اجازه دسترسی</string>
+    <string name="search_transfer">جستجوی انتقال</string>
+    <string name="url_not_valid">URL معتبر نیست</string>
+    <string name="menu_create_sync_backend">همگام سازی جدید با سرور</string>
+    <string name="total_reconciled">مجموع تطبیق یافته</string>
+    <string name="warning_delete_reconciled">حذف تراکنش های تطبیق شده باعث می شود سوابق شما با صورت حساب بانکی متفاوت باشد.</string>
+    <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">اگر مقادیر به روز نشوند، پس از تغییر به صورت تقسیم بر %d نمایش داده می شوند.</string>
+    <string name="warning_change_fraction_digits_checkbox_label">به روز رسانی مقادیر در پایگاه داده</string>
+    <string name="status_void">تهی</string>
+    <string name="search_tag">جستجوی برچسب</string>
+    <string name="pref_csv_import_delimiter">جدا کننده</string>
+    <string name="total_cleared">مجموع پاک شد</string>
+    <string name="warning_delete_category_with_budget">حداقل برای یک دسته انتخاب شده، تخصیص بودجه وجود دارد که آن نیز حذف خواهد شد.</string>
+    <plurals name="warning_delete_transaction">
+        <item quantity="one">تراکنش انتخاب شده حذف خواهد شد.</item>
+        <item quantity="other">%1$d تراکنش انتخاب شده حذف خواهند شد.</item>
+    </plurals>
+    <string name="warning_balance_account">لطفاً مجموع تسویه شده را با مانده پایانی صورت حساب بانکی خود مقایسه کنید. اگر ادامه دهید، تراکنش‌های پاک‌شده به‌عنوان تطبیق‌شده علامت‌گذاری می‌شوند.</string>
+    <string name="warning_change_fraction_digits_3">اگر مقادیر به روز شوند، اطلاعات مربوط به بخش کسری آنها را از دست خواهید داد.</string>
+    <string name="hint_auto_fill">آیا داده ها باید به طور خودکار از آخرین تراکنش برای همان گیرنده یا پرداخت کننده پر شود؟ همیشه می توانید این رفتار را از تنظیمات تغییر دهید.</string>
+    <string name="restore_calendar_handling_backup">در صورت وجود، برنامه‌ها را به مجموعه تقویم در نسخه پشتیبان بازیابی کنید</string>
+    <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">اگر مقادیر به روز نشوند، پس از تغییر به صورت ضرب در %d نمایش داده خواهند شد.</string>
+    <string name="pref_manage_stale_images_summary">تصاویر باقی مانده از تراکنش های حذف شده را مدیریت کنید</string>
+    <string name="account_deleted">حساب حذف شده است</string>
+    <string name="pref_custom_decimal_format_summary">اگر از قالب پیش‌فرض برای منطقه خود راضی نیستید، آن را با نیازهای خود تطبیق دهید. برای بازیابی قالب پیش فرض خالی بگذارید.</string>
+    <string name="pref_grouping_periods">گروه بندی دوره ها</string>
+    <string name="progress_dialog_updating_split_parts">به روز رسانی بخش های تسهیم شده</string>
+    <string name="content_description_calculator_delete_button">حذف رقم آخر</string>
+    <string name="dialog_confirm_sync_remove_backend">ارتباط با سرور %s از بین خواهد رفت. این روی داده‌های ذخیره‌شده به صورت محلی یا سرور تأثیری نمی‌گذارد، اما وضعیت همگام‌سازی از بین می‌رود.</string>
+    <string name="crash_dialog_text">یک خطای غیرمنتظره روی داد که برنامه را مجبور به توقف کرد. لطفاً با ارسال داده های خطا به ما در رفع این مشکل کمک کنید، تنها کاری که باید انجام دهید این است که تأیید را کلیک کنید.</string>
+    <string name="no_sync_backends">عدم همگام سازی با سرور</string>
+    <string name="dialog_sync_link">یک حساب با uuid %s هم در پایگاه داده محلی و هم در سرور وجود دارد. هنگامی که هر دو را پیوند می دهید، باید تصمیم بگیرید که آیا در ابتدا می خواهید داده های محلی را در سرور بارگذاری کنید یا داده های سرور را در پایگاه داده محلی بارگیری کنید.</string>
+    <string name="warning_synchronization_folder_usage">این پوشه برای همگام سازی داده ها بین نصب های {app_name} در دستگاه های مختلف استفاده می شود. لطفاً هیچ یک از محتویات آن را به صورت دستی تغییر ندهید.</string>
+    <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">پوشه ای که انتخاب کرده اید مربوط به یکی از حساب های موجود روی سرور است. برای استفاده مجدد از این سرور، باید پوشه والد آن را انتخاب کنید.</string>
+    <string name="warning_cannot_move_split_transaction">این تراکنش تسهیمی را نمی‌توان به حساب %1$s منتقل کرد زیرا بخش‌های انتقالی وجود دارد که به این حساب اشاره می‌کنند.</string>
+    <string name="calendar_permission_required"><i>{app_name}</i> به اجازه دسترسی به تقویم شما نیاز دارد تا بتواند برای تراکنش‌های آتی و مکرر برنامه‌هایی ایجاد کند.</string>
 </resources>
