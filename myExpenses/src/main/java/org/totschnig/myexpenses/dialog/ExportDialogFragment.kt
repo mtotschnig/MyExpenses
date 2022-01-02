@@ -221,7 +221,7 @@ class ExportDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListen
             createHelperRadioButton.setOnClickListener(radioClickListener)
             if (savedInstanceState == null) {
                 handleDeletedAction = prefHandler.getInt(
-                    ExportTask.KEY_EXPORT_HANDLE_DELETED, Account.EXPORT_HANDLE_DELETED_DO_NOTHING
+                    ExportTask.KEY_EXPORT_HANDLE_DELETED, Account.EXPORT_HANDLE_DELETED_CREATE_HELPER
                 )
                 if (handleDeletedAction == Account.EXPORT_HANDLE_DELETED_UPDATE_BALANCE) {
                     updateBalanceRadioButton.isChecked = true
