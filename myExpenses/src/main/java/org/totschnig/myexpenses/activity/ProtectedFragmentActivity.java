@@ -399,7 +399,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
       i.setType("text/plain");
       i.putExtra(Intent.EXTRA_EMAIL, new String[]{MyApplication.FEEDBACK_EMAIL});
       i.putExtra(Intent.EXTRA_SUBJECT,
-          "[" + getString(R.string.app_name) + "] Feedback"
+          "[" + getString(R.string.app_name) + "] " + getString(R.string.feedback)
       );
       String messageBody = String.format(Locale.ROOT,
           "APP_VERSION:%s\nFIRST_INSTALL_VERSION:%d (DB_SCHEMA %d)\nANDROID_VERSION:%s\nBRAND:%s\nMODEL:%s\nCONFIGURATION:%s%s\n\n",
