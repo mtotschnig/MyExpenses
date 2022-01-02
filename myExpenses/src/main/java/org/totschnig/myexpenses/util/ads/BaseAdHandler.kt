@@ -11,7 +11,11 @@ import org.totschnig.myexpenses.util.tracking.Tracker
 import timber.log.Timber
 
 @Suppress("SameParameterValue")
-abstract class BaseAdHandler protected constructor(private val factory: AdHandlerFactory, protected val adContainer: ViewGroup, protected var activity: BaseActivity) : AdHandler {
+abstract class BaseAdHandler protected constructor(
+    private val factory: AdHandlerFactory,
+    protected val adContainer: ViewGroup,
+    protected var activity: BaseActivity
+) : AdHandler {
     val tracker: Tracker
         get() = activity.tracker
     val prefHandler: PrefHandler
@@ -43,9 +47,18 @@ abstract class BaseAdHandler protected constructor(private val factory: AdHandle
     protected abstract fun startBannerInternal()
 
     override fun maybeRequestNewInterstitial() {
-        val now = System.currentTimeMillis()
-        if (now - prefHandler.getLong(PrefKey.INTERSTITIAL_LAST_SHOWN, 0) > DateUtils.MINUTE_IN_MILLIS * 10 &&
-                prefHandler.getInt(PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL, 0) > INTERSTITIAL_MIN_INTERVAL) {
+        if (
+            prefHandler.getBoolean(PrefKey.DEBUG_ADS, false) || (
+                    System.currentTimeMillis() - prefHandler.getLong(
+                        PrefKey.INTERSTITIAL_LAST_SHOWN,
+                        0
+                    ) > DateUtils.MINUTE_IN_MILLIS * 10 &&
+                            prefHandler.getInt(
+                                PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL,
+                                0
+                            ) > INTERSTITIAL_MIN_INTERVAL
+                    )
+        ) {
             //last ad shown more than one hour and at least five expense entries ago,
             requestNewInterstitialDo()
         }
@@ -56,8 +69,10 @@ abstract class BaseAdHandler protected constructor(private val factory: AdHandle
         prefHandler.putInt(PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL, 0)
         true
     } else {
-        prefHandler.putInt(PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL,
-                prefHandler.getInt(PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL, 0) + 1)
+        prefHandler.putInt(
+            PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL,
+            prefHandler.getInt(PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL, 0) + 1
+        )
         maybeRequestNewInterstitial()
         false
     }
@@ -67,7 +82,9 @@ abstract class BaseAdHandler protected constructor(private val factory: AdHandle
     abstract fun requestNewInterstitialDo()
 
     fun shouldHideAd(): Boolean {
-        return factory.isAdDisabled || factory.isRequestLocationInEeaOrUnknown && !prefHandler.isSet(PrefKey.PERSONALIZED_AD_CONSENT)
+        return factory.isAdDisabled || factory.isRequestLocationInEeaOrUnknown && !prefHandler.isSet(
+            PrefKey.PERSONALIZED_AD_CONSENT
+        )
     }
 
     protected open fun onInterstitialFailed() {
