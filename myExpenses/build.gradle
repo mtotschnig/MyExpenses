@@ -44,7 +44,7 @@ android {
         testInstrumentationRunner "org.totschnig.myexpenses.MyTestRunner"
 
         vectorDrawables.useSupportLibrary = true
-        resConfigs "en", "ar", "bg", "ca", "cs", "da", "de", "el", "es", "eu", "fr", "hr", "hu", "it", "iw", "ja", "km", "kn", "ko", "ms", "pl", "pt_BR", "pt_PT", "ro", "ru", "si", "ta", "te", "tr", "uk", "vi", "zh_CN", "zh_HK", "zh_TW"
+        resConfigs 'en', 'ar', 'bg', 'ca', 'cs', 'da', 'de', 'el', 'es', 'eu', 'fr', 'hr', 'hu', 'it', 'iw', 'ja', 'km', 'kn', 'ko', 'ms', 'pl', 'pt_BR', 'pt_PT', 'ro', 'ru', 'si', 'ta', 'te', 'tr', 'uk', 'vi', 'zh_CN', 'zh_HK', 'zh_TW'
     }
 
     kotlinOptions {
@@ -112,23 +112,13 @@ android {
         main.res.srcDirs += 'src/main/categoryIcons'
     }
 
-    lintOptions {
-        checkDependencies true
-        //UsingOnClickInXml can be activated again with appcompat 1.4.0
-        disable 'InvalidPackage', 'MissingQuantity', 'MissingTranslation', 'ImpliedQuantity', 'UsingOnClickInXml'
-        abortOnError true
-    }
 
     packagingOptions {
-        exclude "**/attach_hotspot_windows.dll"
-        exclude "META-INF/licenses/**"
-        exclude "META-INF/AL2.0"
-        exclude "META-INF/LGPL2.1"
         resources {
-            excludes += ['/META-INF/{AL2.0,LGPL2.1}', 'META-INF/*']
+            excludes += ['/META-INF/{AL2.0,LGPL2.1}', 'META-INF/*', '**/attach_hotspot_windows.dll', 'META-INF/licenses/**', 'META-INF/AL2.0', 'META-INF/LGPL2.1']
         }
         jniLibs {
-            excludes += ['META-INF/*']
+            excludes += ['META-INF/*', 'META-INF/licenses/**']
         }
     }
 
@@ -156,9 +146,14 @@ android {
     //If you want to build intern variant, you need to include mlkit and/or tesseract module
     //dynamicFeatures = [':ocr', ':mlkit', ':tesseract']
     dynamicFeatures = [':ocr', ':webui']
-    //For mlkit also add at least one of ':mlkit_Latn', ':mlkit_Han', ':mlkit_Deva', ':mlkit_Jpan', ':mlkit_Kore'
+    //For mlkit also add at least one of ':mlkit_latn', ':mlkit_han', ':mlkit_deva', ':mlkit_jpan', ':mlkit_kore'
     composeOptions {
         kotlinCompilerExtensionVersion compose_version
+    }
+    lint {
+        abortOnError true
+        checkDependencies true
+        disable 'InvalidPackage', 'MissingQuantity', 'MissingTranslation', 'ImpliedQuantity'
     }
 }
 
