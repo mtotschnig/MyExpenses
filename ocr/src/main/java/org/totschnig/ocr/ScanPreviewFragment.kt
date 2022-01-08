@@ -59,8 +59,8 @@ class ScanPreviewFragment : BaseDialogFragment() {
             picasso.invalidate(it)
             val requestCreator = picasso.load(it)
             with(binding.imageView) {
-                if (width > 0 && height > 0) {
-                    requestCreator.resize(width, height)
+                if (width > 0 || height > 0) {
+                    requestCreator.resize(width, height).onlyScaleDown()
                 }
                 requestCreator.into(this)
             }
