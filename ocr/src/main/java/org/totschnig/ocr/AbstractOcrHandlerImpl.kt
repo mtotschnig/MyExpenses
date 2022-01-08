@@ -125,11 +125,11 @@ abstract class AbstractOcrHandlerImpl(val prefHandler: PrefHandler, userLocalePr
             false
         }.map { totalBlock ->
             //find amount in the total line itself and in the nearest line
-            listOf(extractAmount(totalBlock), lines.minus(totalBlock).minByOrNull { line ->
+            listOf(extractAmount(totalBlock), lines.minus(totalBlock).sortedBy { line ->
                 (line.bOr0() - totalBlock.bOr0()).absoluteValue.coerceAtMost((line.tOr0() - totalBlock.tOr0()).absoluteValue).also {
                     log("%s: distance %d", line.text, it)
                 }
-            }?.let {
+            }?.firstNotNullOfOrNull {
                 extractAmount(it)
             })
         }.flatten().filterNotNull()
