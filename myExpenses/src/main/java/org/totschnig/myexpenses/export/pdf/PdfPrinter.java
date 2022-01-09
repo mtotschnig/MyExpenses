@@ -1,9 +1,42 @@
 package org.totschnig.myexpenses.export.pdf;
 
 
+import static com.itextpdf.text.Chunk.GENERICTAG;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DAY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_SAME_CURRENCY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_MAIN;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_SUB;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MONTH;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSFERS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR_OF_WEEK_START;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
+import static org.totschnig.myexpenses.util.CurrencyFormatterKt.convAmount;
+import static org.totschnig.myexpenses.util.CurrencyFormatterKt.formatMoney;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+
+import androidx.documentfile.provider.DocumentFile;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
@@ -53,45 +86,13 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import androidx.documentfile.provider.DocumentFile;
 import timber.log.Timber;
-
-import static com.itextpdf.text.Chunk.GENERICTAG;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DAY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_SAME_CURRENCY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_MAIN;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_SUB;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MONTH;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSFERS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR_OF_WEEK_START;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
-import static org.totschnig.myexpenses.util.CurrencyFormatterKt.convAmount;
-import static org.totschnig.myexpenses.util.CurrencyFormatterKt.formatMoney;
 
 public class PdfPrinter {
   private static final String VOID_MARKER = "void";
-  private Account account;
-  private DocumentFile destDir;
-  private WhereFilter filter;
+  private final Account account;
+  private final DocumentFile destDir;
+  private final WhereFilter filter;
 
   @Inject
   CurrencyFormatter currencyFormatter;
@@ -300,6 +301,10 @@ public class PdfPrinter {
         table.setWidthPercentage(100f);
         PdfPCell cell = helper.printToCell(account.getGrouping().getDisplayTitle(ctx, year, second, DateInfo.fromCursor(transactionCursor), userLocaleProvider.getUserPreferredLocale()), FontType.HEADER);
         table.addCell(cell);
+        if (groupCursor.isAfterLast()) {
+          Timber.w("Grouping: %s, currentHeaderId; %d, prevHeaderId: %d", account.getGrouping(), currentHeaderId, prevHeaderId);
+          throw new IllegalStateException();
+        }
         long sumExpense = groupCursor.getLong(columnIndexGroupSumExpense);
         long sumIncome = groupCursor.getLong(columnIndexGroupSumIncome);
         long sumTransfer = groupCursor.getLong(columnIndexGroupSumTransfer);
