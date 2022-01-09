@@ -80,17 +80,17 @@ class TransactionDetailFragment : BaseDialogFragment(), DialogInterface.OnClickL
         val builder = initBuilderWithBinding {
             TransactionDetailBinding.inflate(materialLayoutInflater).also { _binding = it }
         }
-        viewModel = ViewModelProvider(this).get(TransactionDetailViewModel::class.java)
+        viewModel = ViewModelProvider(this)[TransactionDetailViewModel::class.java]
         (requireActivity().applicationContext as MyApplication).appComponent.inject(viewModel)
         val rowId = requireArguments().getLong(DatabaseConstants.KEY_ROWID)
-        viewModel.transaction(rowId).observe(this, { o -> fillData(o) })
-        viewModel.getTags().observe(this, { tags ->
+        viewModel.transaction(rowId).observe(this) { o -> fillData(o) }
+        viewModel.getTags().observe(this) { tags ->
             if (tags.isNotEmpty()) {
                 binding.TagGroup.addChipsBulk(tags, null)
             } else {
                 binding.TagRow.visibility = View.GONE
             }
-        })
+        }
         viewModel.loadOriginalTags(
             rowId,
             TransactionProvider.TRANSACTIONS_TAGS_URI,

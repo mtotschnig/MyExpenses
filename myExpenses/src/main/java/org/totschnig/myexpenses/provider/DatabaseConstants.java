@@ -390,7 +390,6 @@ public class DatabaseConstants {
           + " = " + VIEW_EXTENDED + "." + KEY_TRANSFER_PEER + ")";
 
   /**
-   *
    * @param view the view which is used in the outer table
    * @return column expression
    */
@@ -404,7 +403,6 @@ public class DatabaseConstants {
   }
 
   public static final String TRANSFER_CURRENCY = String.format("(select %1$s from %2$s where %3$s=%4$s) AS %5$s", KEY_CURRENCY, TABLE_ACCOUNTS, KEY_ROWID, KEY_TRANSFER_ACCOUNT, KEY_TRANSFER_CURRENCY);
-
 
   public static final String CATEGORY_ICON =
       "CASE WHEN " +

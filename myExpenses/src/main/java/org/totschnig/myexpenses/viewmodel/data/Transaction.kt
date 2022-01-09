@@ -4,19 +4,13 @@ import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
-import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.model.AccountType
-import org.totschnig.myexpenses.model.CrStatus
-import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.model.PaymentMethod
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.DEBT_LABEL_EXPRESSION
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.KEY_DEBT_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
-import org.totschnig.myexpenses.provider.DbUtils.getLongOr0L
-import org.totschnig.myexpenses.provider.DbUtils.getLongOrNull
-import org.totschnig.myexpenses.provider.DbUtils.getString
+import org.totschnig.myexpenses.provider.DbUtils.*
 import org.totschnig.myexpenses.provider.checkSealedWithAlias
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.util.AppDirHelper
@@ -84,6 +78,7 @@ data class Transaction(
             ) + " AS " + KEY_METHOD_LABEL,
             KEY_STATUS,
             TRANSFER_AMOUNT(VIEW_EXTENDED),
+            "$TRANSFER_PEER_PARENT AS $KEY_TRANSFER_PEER_PARENT",
             KEY_TEMPLATEID,
             KEY_UUID,
             KEY_ORIGINAL_AMOUNT,
@@ -187,9 +182,10 @@ data class Transaction(
                 } catch (ex: IllegalArgumentException) {
                     AccountType.CASH
                 },
-                hasTransferPeerParent = org.totschnig.myexpenses.model.Transaction.hasParent(
-                    transferPeer
-                ),
+                hasTransferPeerParent = getLongOrNull(
+                    cursor,
+                    KEY_TRANSFER_PEER_PARENT
+                ) != null,
                 debtLabel = cursor.getStringOrNull(KEY_DEBT_LABEL)
             )
         }
