@@ -532,6 +532,8 @@ public class MyApplication extends Application implements
         CrashHandler.report("Start of Web User Interface failed");
         prefHandler.putBoolean(UI_WEB, false);
       }
+    } else {
+      prefHandler.putBoolean(UI_WEB, false);
     }
   }
 
