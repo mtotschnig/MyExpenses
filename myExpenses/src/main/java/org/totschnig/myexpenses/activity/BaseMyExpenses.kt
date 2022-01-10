@@ -33,11 +33,7 @@ import org.totschnig.myexpenses.databinding.ActivityMainBinding
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment
-import org.totschnig.myexpenses.feature.Feature
-import org.totschnig.myexpenses.feature.OcrHost
-import org.totschnig.myexpenses.feature.OcrResult
-import org.totschnig.myexpenses.feature.OcrResultFlat
-import org.totschnig.myexpenses.feature.Payee
+import org.totschnig.myexpenses.feature.*
 import org.totschnig.myexpenses.fragment.BaseTransactionList
 import org.totschnig.myexpenses.fragment.TransactionList
 import org.totschnig.myexpenses.model.AggregateAccount
@@ -47,15 +43,14 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.CheckSealedHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
 import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.distrib.ReviewManager
 import org.totschnig.myexpenses.util.formatMoney
+import org.totschnig.myexpenses.viewmodel.AccountSealedException
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
 import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView
 import timber.log.Timber
@@ -229,11 +224,11 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             putExtra(ExpenseEdit.KEY_INCOME, isIncome)
             //if we are called from an aggregate cursor, we also hand over the currency
             if (accountId < 0) {
-                putExtra(DatabaseConstants.KEY_CURRENCY, currentCurrency)
+                putExtra(KEY_CURRENCY, currentCurrency)
                 putExtra(ExpenseEdit.KEY_AUTOFILL_MAY_SET_ACCOUNT, true)
             } else {
                 //if accountId is 0 ExpenseEdit will retrieve the first entry from the accounts table
-                putExtra(DatabaseConstants.KEY_ACCOUNTID, accountId)
+                putExtra(KEY_ACCOUNTID, accountId)
             }
         }
 
@@ -259,7 +254,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         startEdit(
             createRowIntent(Transactions.TYPE_TRANSACTION, false).apply {
                 putExtra(KEY_OCR_RESULT, result)
-                putExtra(DatabaseConstants.KEY_PICTURE_URI, Uri.fromFile(scanFile))
+                putExtra(KEY_PICTURE_URI, Uri.fromFile(scanFile))
             }
         )
     }
@@ -291,7 +286,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                                         currencyUnit,
                                                         cursor.getLong(
                                                             cursor.getColumnIndexOrThrow(
-                                                                DatabaseConstants.KEY_CURRENT_BALANCE
+                                                                KEY_CURRENT_BALANCE
                                                             )
                                                         )
                                                     ).amountMajor
@@ -307,25 +302,59 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         return false
     }
 
-    override fun dispatchCommand(command: Int, tag: Any?): Boolean {
+    override fun dispatchCommand(command: Int, tag: Any?) =
         if (super.dispatchCommand(command, tag)) {
-            return true
+            true
         }
-        if (command == R.id.OCR_DOWNLOAD_COMMAND) {
-            val intent = Intent(Intent.ACTION_VIEW).apply {
-                data = Uri.parse("market://details?id=org.totschnig.ocr.tesseract")
-            }
-            packageManager.queryIntentActivities(intent, 0)
-                .find { it.activityInfo.packageName == "org.fdroid.fdroid" }
-                ?.activityInfo?.let {
-                    intent.component = ComponentName(it.applicationInfo.packageName, it.name)
-                    startActivity(intent)
+        else when (command) {
+            R.id.OCR_DOWNLOAD_COMMAND -> {
+                val intent = Intent(Intent.ACTION_VIEW).apply {
+                    data = Uri.parse("market://details?id=org.totschnig.ocr.tesseract")
                 }
-                ?: run { Toast.makeText(this, "F-Droid not installed", Toast.LENGTH_LONG).show() }
-            return true
+                packageManager.queryIntentActivities(intent, 0)
+                    .find { it.activityInfo.packageName == "org.fdroid.fdroid" }
+                    ?.activityInfo?.let {
+                        intent.component = ComponentName(it.applicationInfo.packageName, it.name)
+                        startActivity(intent)
+                    }
+                    ?: run { Toast.makeText(this, "F-Droid not installed", Toast.LENGTH_LONG).show() }
+                true
+            }
+            R.id.DELETE_ACCOUNT_COMMAND_DO -> {
+                //reset mAccountId will prevent the now defunct account being used in an immediately following "new transaction"
+                val accountIds = tag as Array<Long>
+                if (accountIds.any { it == accountId }) {
+                    accountId = 0
+                }
+                val manageHiddenFragment =
+                    supportFragmentManager.findFragmentByTag(MANAGE_HIDDEN_FRAGMENT_TAG)
+                if (manageHiddenFragment != null) {
+                    supportFragmentManager.beginTransaction().remove(manageHiddenFragment).commit()
+                }
+                showSnackbarIndefinite(R.string.progress_dialog_deleting)
+                viewModel.deleteAccounts(accountIds).observe(
+                    this
+                ) { result ->
+                    result.onSuccess {
+                        showSnackbar(
+                            resources.getQuantityString(
+                                R.plurals.delete_success,
+                                accountIds.size,
+                                accountIds.size
+                            )
+                        )
+                    }.onFailure {
+                        if (it is AccountSealedException) {
+                            showSnackbar(R.string.object_sealed_debt)
+                        } else {
+                            showDeleteFailureFeedback(null)
+                        }
+                    }
+                }
+                true
+            }
+            else -> false
         }
-        return false
-    }
 
     fun setupFabSubMenu() {
         floatingActionButton?.setOnLongClickListener { fab ->
@@ -411,10 +440,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         accountsCursor?.let { cursor ->
             currentCurrencyUnit?.let { currencyUnit ->
                 val balance =
-                    cursor.getLong(cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_CURRENT_BALANCE))
+                    cursor.getLong(cursor.getColumnIndexOrThrow(KEY_CURRENT_BALANCE))
                 val label = cursor.getString(columnIndexLabel)
                 val isHome =
-                    cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_IS_AGGREGATE)) == AggregateAccount.AGGREGATE_HOME
+                    cursor.getInt(cursor.getColumnIndexOrThrow(KEY_IS_AGGREGATE)) == AggregateAccount.AGGREGATE_HOME
                 currentBalance = String.format(
                     Locale.getDefault(), "%s%s", if (isHome) " ≈ " else "",
                     currencyFormatter.formatMoney(Money(currencyUnit, balance))
@@ -470,16 +499,16 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     it.moveToPosition(currentPosition)
                     recordUsage(feature)
                     val i = Intent(this, Distribution::class.java)
-                    i.putExtra(DatabaseConstants.KEY_ACCOUNTID, accountId)
+                    i.putExtra(KEY_ACCOUNTID, accountId)
                     i.putExtra(
-                        DatabaseConstants.KEY_GROUPING,
+                        KEY_GROUPING,
                         it.getString(columnIndexGrouping)
                     )
                     if (tag != null) {
                         val year = ((tag as Long?)!! / 1000).toInt()
                         val groupingSecond = ((tag as Long?)!! % 1000).toInt()
-                        i.putExtra(DatabaseConstants.KEY_YEAR, year)
-                        i.putExtra(DatabaseConstants.KEY_SECOND_GROUP, groupingSecond)
+                        i.putExtra(KEY_YEAR, year)
+                        i.putExtra(KEY_SECOND_GROUP, groupingSecond)
                     }
                     startActivity(i)
                 }
@@ -489,9 +518,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                     recordUsage(feature)
                     it.moveToPosition(currentPosition)
                     val i = Intent(this, HistoryActivity::class.java)
-                    i.putExtra(DatabaseConstants.KEY_ACCOUNTID, accountId)
+                    i.putExtra(KEY_ACCOUNTID, accountId)
                     i.putExtra(
-                        DatabaseConstants.KEY_GROUPING,
+                        KEY_GROUPING,
                         it.getString(columnIndexGrouping)
                     )
                     startActivity(i)
@@ -530,7 +559,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         BaseTransactionList.KEY_FILTER,
                         it.filterCriteria
                     )
-                    args.putLong(DatabaseConstants.KEY_ROWID, accountId)
+                    args.putLong(KEY_ROWID, accountId)
                     if (!supportFragmentManager.isStateSaved) {
                         supportFragmentManager.beginTransaction()
                             .add(
@@ -557,8 +586,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
             ContribFeature.OCR -> {
                 if (featureViewModel.isFeatureAvailable(this, Feature.OCR)) {
                     if ((tag as Boolean)) {
-                        /*scanFile = new File("/sdcard/OCR_bg.jpg");
-                               ocrViewModel.startOcrFeature(scanFile, getSupportFragmentManager());*/
+                        /*scanFile = File("/sdcard/OCR_bg.jpg")
+                        ocrViewModel.startOcrFeature(scanFile!!, supportFragmentManager);*/
                         ocrViewModel.getScanFiles { pair ->
                             scanFile = pair.second
                             CropImage.activity()
@@ -635,4 +664,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
     }
 
     open fun  buildCheckSealedHander() = CheckSealedHandler(contentResolver)
+
+    companion object {
+        const val MANAGE_HIDDEN_FRAGMENT_TAG = "MANAGE_HIDDEN"
+    }
 }

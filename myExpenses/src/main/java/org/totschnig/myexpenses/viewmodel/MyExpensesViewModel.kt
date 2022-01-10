@@ -118,7 +118,7 @@ class MyExpensesViewModel(application: Application) :
         }
     }
 
-    fun deleteAccounts(accountIds: Array<Long>): LiveData<Boolean> =
+    fun deleteAccounts(accountIds: Array<Long>): LiveData<Result<Unit>> =
         liveData(context = coroutineContext()) {
             emit(deleteAccountsInternal(accountIds))
         }

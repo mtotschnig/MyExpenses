@@ -25,15 +25,14 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.io.IOException
 
 class SyncViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
-    fun syncLinkRemote(account: Account): LiveData<Boolean> =
+    fun syncLinkRemote(account: Account): LiveData<Result<Unit>> =
         liveData(context = coroutineContext()) {
             val accountId = Account.findByUuid(account.uuid)
-            if (deleteAccountsInternal(arrayOf(accountId))) {
-                account.save()
-                emit(true)
-            } else {
-                emit(false)
-            }
+            emit(deleteAccountsInternal(arrayOf(accountId)).also {
+                it.onSuccess {
+                    account.save()
+                }
+            })
         }
 
     fun createSyncAccount(args: Bundle): LiveData<Result<SyncAccountData>> =
@@ -72,7 +71,8 @@ class SyncViewModel(application: Application) : ContentResolvingAndroidViewModel
                 }.onFailure {
                     //we try to remove a failed account immediately, otherwise user would need to do it, before
                     //being able to try again
-                    @Suppress("DEPRECATION") val accountManagerFuture = accountManager.removeAccount(account, null, null)
+                    @Suppress("DEPRECATION") val accountManagerFuture =
+                        accountManager.removeAccount(account, null, null)
                     try {
                         accountManagerFuture.result
                     } catch (e: OperationCanceledException) {
@@ -128,16 +128,17 @@ class SyncViewModel(application: Application) : ContentResolvingAndroidViewModel
                 accountName
             ).onSuccess { syncBackendProvider ->
                 runCatching {
-                    val numberOfRestoredAccounts = syncBackendProvider.remoteAccountStream.asSequence()
-                        .filter(Exceptional<AccountMetaData>::isPresent)
-                        .map(Exceptional<AccountMetaData>::get)
-                        .filter { accountMetaData -> accountUuids.contains(accountMetaData.uuid()) }
-                        .map { accountMetaData -> accountMetaData.toAccount(getApplication<MyApplication>().appComponent.currencyContext()) }
-                        .sumOf {
-                            it.syncAccountName = accountName
-                            @Suppress("USELESS_CAST")
-                            (if (it.save() == null) 0  else 1) as Int
-                        }
+                    val numberOfRestoredAccounts =
+                        syncBackendProvider.remoteAccountStream.asSequence()
+                            .filter(Exceptional<AccountMetaData>::isPresent)
+                            .map(Exceptional<AccountMetaData>::get)
+                            .filter { accountMetaData -> accountUuids.contains(accountMetaData.uuid()) }
+                            .map { accountMetaData -> accountMetaData.toAccount(getApplication<MyApplication>().appComponent.currencyContext()) }
+                            .sumOf {
+                                it.syncAccountName = accountName
+                                @Suppress("USELESS_CAST")
+                                (if (it.save() == null) 0 else 1) as Int
+                            }
                     if (numberOfRestoredAccounts == 0) {
                         emit(Result.failure(Throwable("No accounts were restored")))
                     } else {

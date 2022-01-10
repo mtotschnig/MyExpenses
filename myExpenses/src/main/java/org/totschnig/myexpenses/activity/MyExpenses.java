@@ -145,7 +145,6 @@ public class MyExpenses extends BaseMyExpenses implements
   public static final int ACCOUNTS_CURSOR = -1;
   private static final String DIALOG_TAG_GROUPING = "GROUPING";
   private static final String DIALOG_TAG_SORTING = "SORTING";
-  private static final String MANAGE_HIDDEN_FRAGMENT_TAG = "MANAGE_HIDDEN";
 
   private LoaderManager mManager;
 
@@ -559,28 +558,7 @@ public class MyExpenses extends BaseMyExpenses implements
       }
       return true;
     } else if (command == R.id.DELETE_ACCOUNT_COMMAND_DO) {//reset mAccountId will prevent the now defunct account being used in an immediately following "new transaction"
-      final Long[] accountIds = (Long[]) tag;
-      if (Stream.of(accountIds).anyMatch(id -> id == accountId)) {
-        accountId = 0;
-      }
-      final Fragment manageHiddenFragment = getSupportFragmentManager().findFragmentByTag(MANAGE_HIDDEN_FRAGMENT_TAG);
-      if (manageHiddenFragment != null) {
-        getSupportFragmentManager().beginTransaction().remove(manageHiddenFragment).commit();
-      }
-      showSnackbarIndefinite(R.string.progress_dialog_deleting);
-      viewModel.deleteAccounts(accountIds).observe(this, result -> {
-        if (result) {
-          showSnackbar(
-              getResources().getQuantityString(
-                  R.plurals.delete_success,
-                  accountIds.length,
-                  accountIds.length
-              )
-          );
-        } else {
-          showSnackbar(R.string.object_sealed_debt);
-        }
-      });
+
       return true;
     } else if (command == R.id.SHARE_COMMAND) {
       i = new Intent();

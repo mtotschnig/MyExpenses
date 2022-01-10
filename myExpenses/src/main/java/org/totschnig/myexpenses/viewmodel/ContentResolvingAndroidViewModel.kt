@@ -17,6 +17,7 @@ import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
 import com.squareup.sqlbrite3.BriteContentResolver
 import io.reactivex.disposables.Disposable
+import io.reactivex.exceptions.CompositeException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.take
@@ -42,9 +43,12 @@ import org.totschnig.myexpenses.ui.ContextHelper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.AccountMinimal
 import org.totschnig.myexpenses.viewmodel.data.Debt
+import java.lang.IllegalStateException
 import javax.inject.Inject
 
 const val KEY_ROW_IDS = "rowIds"
+
+object AccountSealedException : IllegalStateException()
 
 abstract class ContentResolvingAndroidViewModel(application: Application) :
     AndroidViewModel(application) {
@@ -176,12 +180,20 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
                 it.getInt(0)
             } == 1
         ) {
-            false
+            Result.failure(AccountSealedException)
         } else {
+            var failures = mutableListOf<Exception>()
             for (accountId in accountIds) {
-                Account.delete(accountId)
+                try {
+                    Account.delete(accountId)
+                } catch (e: Exception) {
+                    failures.add(e)
+                }
             }
-            true
+            if (failures.isEmpty())
+                Result.success(Unit)
+            else
+                Result.failure(CompositeException(failures))
         }
 
     /**
