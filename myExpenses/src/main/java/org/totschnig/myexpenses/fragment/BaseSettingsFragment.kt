@@ -280,67 +280,83 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         sharedPreferences: SharedPreferences,
         key: String
     ) {
-        if (key == getKey(PrefKey.UI_LANGUAGE)) {
-            featureManager.requestLocale(activity())
-        } else if ((key == getKey(PrefKey.GROUP_MONTH_STARTS) ||
-                    key == getKey(PrefKey.GROUP_WEEK_STARTS) || key == getKey(PrefKey.CRITERION_FUTURE))
-        ) {
-            activity().rebuildDbConstants()
-        } else if (key == getKey(PrefKey.UI_FONTSIZE)) {
-            updateAllWidgets()
-            activity().recreate()
-        } else if (key == getKey(PrefKey.PROTECTION_LEGACY) || key == getKey(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN)) {
-            if (sharedPreferences.getBoolean(key, false)) {
-                activity().showSnackbar(R.string.pref_protection_screenshot_information)
-                if (prefHandler.getBoolean(PrefKey.AUTO_BACKUP, false)) {
+        when (key) {
+            getKey(PrefKey.UI_LANGUAGE) -> {
+                featureManager.requestLocale(activity())
+            }
+            getKey(PrefKey.GROUP_MONTH_STARTS), getKey(PrefKey.GROUP_WEEK_STARTS), getKey(PrefKey.CRITERION_FUTURE) -> {
+                activity().rebuildDbConstants()
+            }
+            getKey(PrefKey.DB_SAFE_MODE) -> {
+                activity().rebuildAccountProjection()
+            }
+            getKey(PrefKey.UI_FONTSIZE) -> {
+                updateAllWidgets()
+                activity().recreate()
+            }
+            getKey(PrefKey.PROTECTION_LEGACY), getKey(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN) -> {
+                if (sharedPreferences.getBoolean(key, false)) {
+                    activity().showSnackbar(R.string.pref_protection_screenshot_information)
+                    if (prefHandler.getBoolean(PrefKey.AUTO_BACKUP, false)) {
+                        activity().showUnencryptedBackupWarning()
+                    }
+                }
+                setProtectionDependentsState()
+                updateAllWidgets()
+            }
+            getKey(PrefKey.UI_THEME_KEY) -> {
+                setNightMode(prefHandler, requireContext())
+            }
+            getKey(PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET) -> {
+                //Log.d("DEBUG","shared preference changed: Account Widget");
+                updateWidgetsForClass(AccountWidget::class.java)
+            }
+            getKey(PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET) -> {
+                //Log.d("DEBUG","shared preference changed: Template Widget");
+                updateWidgetsForClass(TemplateWidget::class.java)
+            }
+            getKey(PrefKey.AUTO_BACKUP) -> {
+                if ((sharedPreferences.getBoolean(
+                        key,
+                        false
+                    ) && ((prefHandler.getBoolean(
+                        PrefKey.PROTECTION_LEGACY,
+                        false
+                    ) || prefHandler.getBoolean(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN, false))))
+                ) {
                     activity().showUnencryptedBackupWarning()
                 }
+                DailyScheduler.updateAutoBackupAlarms(activity())
             }
-            setProtectionDependentsState()
-            updateAllWidgets()
-        } else if (key == getKey(PrefKey.UI_THEME_KEY)) {
-            setNightMode(prefHandler, requireContext())
-        } else if (key == getKey(PrefKey.PROTECTION_ENABLE_ACCOUNT_WIDGET)) {
-            //Log.d("DEBUG","shared preference changed: Account Widget");
-            updateWidgetsForClass(AccountWidget::class.java)
-        } else if (key == getKey(PrefKey.PROTECTION_ENABLE_TEMPLATE_WIDGET)) {
-            //Log.d("DEBUG","shared preference changed: Template Widget");
-            updateWidgetsForClass(TemplateWidget::class.java)
-        } else if (key == getKey(PrefKey.AUTO_BACKUP)) {
-            if ((sharedPreferences.getBoolean(
-                    key,
-                    false
-                ) && ((prefHandler.getBoolean(
-                    PrefKey.PROTECTION_LEGACY,
-                    false
-                ) || prefHandler.getBoolean(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN, false))))
-            ) {
-                activity().showUnencryptedBackupWarning()
+            getKey(PrefKey.AUTO_BACKUP_TIME) -> {
+                DailyScheduler.updateAutoBackupAlarms(activity())
             }
-            DailyScheduler.updateAutoBackupAlarms(activity())
-        } else if (key == getKey(PrefKey.AUTO_BACKUP_TIME)) {
-            DailyScheduler.updateAutoBackupAlarms(activity())
-        } else if (key == getKey(PrefKey.SYNC_FREQUCENCY)) {
-            for (account in GenericAccountService.getAccounts(activity())) {
-                ContentResolver.addPeriodicSync(
-                    account, TransactionProvider.AUTHORITY, Bundle.EMPTY,
-                    prefHandler.getInt(
-                        PrefKey.SYNC_FREQUCENCY,
-                        GenericAccountService.DEFAULT_SYNC_FREQUENCY_HOURS
-                    ).toLong() * GenericAccountService.HOUR_IN_SECONDS
-                )
+            getKey(PrefKey.SYNC_FREQUCENCY) -> {
+                for (account in GenericAccountService.getAccounts(activity())) {
+                    ContentResolver.addPeriodicSync(
+                        account, TransactionProvider.AUTHORITY, Bundle.EMPTY,
+                        prefHandler.getInt(
+                            PrefKey.SYNC_FREQUCENCY,
+                            GenericAccountService.DEFAULT_SYNC_FREQUENCY_HOURS
+                        ).toLong() * GenericAccountService.HOUR_IN_SECONDS
+                    )
+                }
             }
-        } else if (key == getKey(PrefKey.TRACKING)) {
-            activity().setTrackingEnabled(sharedPreferences.getBoolean(key, false))
-        } else if (key == getKey(PrefKey.PLANNER_EXECUTION_TIME)) {
-            DailyScheduler.updatePlannerAlarms(activity(), false, false)
-        } else if (key == getKey(PrefKey.TESSERACT_LANGUAGE)) {
-            activity().checkTessDataDownload()
-        } else if (key == getKey(PrefKey.OCR_ENGINE)) {
-            if (!featureManager.isFeatureInstalled(Feature.OCR, activity())) {
-                featureManager.requestFeature(Feature.OCR, activity())
+            getKey(PrefKey.TRACKING) -> {
+                activity().setTrackingEnabled(sharedPreferences.getBoolean(key, false))
             }
-            configureOcrEnginePrefs()
+            getKey(PrefKey.PLANNER_EXECUTION_TIME) -> {
+                DailyScheduler.updatePlannerAlarms(activity(), false, false)
+            }
+            getKey(PrefKey.TESSERACT_LANGUAGE) -> {
+                activity().checkTessDataDownload()
+            }
+            getKey(PrefKey.OCR_ENGINE) -> {
+                if (!featureManager.isFeatureInstalled(Feature.OCR, activity())) {
+                    featureManager.requestFeature(Feature.OCR, activity())
+                }
+                configureOcrEnginePrefs()
+            }
         }
     }
 

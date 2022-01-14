@@ -247,12 +247,12 @@ class TransactionList : BaseTransactionList() {
         } else if (command == R.id.UNDELETE_COMMAND) {
             checkSealed(itemIds) {
                 viewModel.undeleteTransactions(itemIds).observe(
-                    viewLifecycleOwner,
-                    { result: Int ->
-                        if (result == 0) (requireActivity() as BaseActivity).showDeleteFailureFeedback(
-                            null
-                        )
-                    })
+                    viewLifecycleOwner
+                ) { result: Int ->
+                    if (result == 0) (requireActivity() as BaseActivity).showDeleteFailureFeedback(
+                        null
+                    )
+                }
             }
         } else if (command == R.id.REMAP_CATEGORY_COMMAND) {
             checkSealed(itemIds) {

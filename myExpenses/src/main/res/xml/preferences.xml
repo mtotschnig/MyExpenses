@@ -580,6 +580,10 @@
                 android:key="@string/pref_debug_show_ads_key"
                 android:summary="Ads"
                 my:isPreferenceVisible="@bool/pref_debug_show_ads_visible" />
+            <SwitchPreferenceCompat
+                android:key="@string/pref_db_safe_mode_key"
+                android:summary="Database Safe Mode (prevents integer overflow)" />
+
         </PreferenceScreen>
         <PreferenceScreen
             android:key="@string/pref_feature_uninstall_key"

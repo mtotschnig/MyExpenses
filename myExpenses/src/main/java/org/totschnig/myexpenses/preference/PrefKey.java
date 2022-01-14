@@ -154,7 +154,8 @@ public enum PrefKey {
   DATES_ARE_LINKED("dates_are_linked"),
   VOTE_REMINDER_LAST_CHECK("vote_reminder_last_check"),
   SAVE_TO_SYNC_BACKEND_CHECKED("save_to_sync_backend_checked"),
-  NEWS(R.string.pref_news_key)
+  NEWS(R.string.pref_news_key),
+  DB_SAFE_MODE(R.string.pref_db_safe_mode_key)
   ;
 
   int resId = 0;

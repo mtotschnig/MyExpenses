@@ -103,6 +103,7 @@ import static org.totschnig.myexpenses.activity.ConstantsKt.RESTORE_REQUEST;
 import static org.totschnig.myexpenses.activity.ContribInfoDialogActivity.KEY_FEATURE;
 import static org.totschnig.myexpenses.preference.PrefKey.CRITERION_FUTURE;
 import static org.totschnig.myexpenses.preference.PrefKey.CUSTOM_DATE_FORMAT;
+import static org.totschnig.myexpenses.preference.PrefKey.DB_SAFE_MODE;
 import static org.totschnig.myexpenses.preference.PrefKey.GROUP_MONTH_STARTS;
 import static org.totschnig.myexpenses.preference.PrefKey.GROUP_WEEK_STARTS;
 import static org.totschnig.myexpenses.preference.PrefKey.HOME_CURRENCY;
@@ -338,7 +339,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
                                         String key) {
-    if (prefHandler.matches(key, UI_LANGUAGE, UI_FONTSIZE, PROTECTION_LEGACY,
+    if (prefHandler.matches(key, UI_LANGUAGE, UI_FONTSIZE, PROTECTION_LEGACY, DB_SAFE_MODE,
         PROTECTION_DEVICE_LOCK_SCREEN, GROUP_MONTH_STARTS, GROUP_WEEK_STARTS, HOME_CURRENCY, CUSTOM_DATE_FORMAT, CRITERION_FUTURE)) {
       scheduledRestart = true;
     }
@@ -808,7 +809,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     currencyContext.invalidateHomeCurrency();
     currencyFormatter.invalidate(AggregateAccount.AGGREGATE_HOME_CURRENCY_CODE, getContentResolver());
     Transaction.buildProjection(this);
-    Account.buildProjection();
+    Account.buildProjection(prefHandler.getBoolean(PrefKey.DB_SAFE_MODE, false));
     getContentResolver().notifyChange(TransactionProvider.TRANSACTIONS_URI, null, false);
   }
 

@@ -16,12 +16,18 @@ package org.totschnig.myexpenses.model
 
 import java.io.Serializable
 import java.math.BigDecimal
+import java.math.RoundingMode
 import kotlin.math.pow
 
 data class Money(val currencyUnit: CurrencyUnit, val amountMinor: Long) : Serializable {
 
     @Throws(ArithmeticException::class)
-    constructor(currencyUnit: CurrencyUnit, amountMajor: BigDecimal) : this(currencyUnit, amountMajor.movePointRight(currencyUnit.fractionDigits).longValueExact())
+    constructor(currencyUnit: CurrencyUnit, amountMajor: BigDecimal) :
+            this(currencyUnit,
+                amountMajor
+                    .movePointRight(currencyUnit.fractionDigits)
+                    .setScale(0, RoundingMode.DOWN)
+                    .longValueExact())
 
     fun negate(): Money  = Money(currencyUnit, -amountMinor)
 

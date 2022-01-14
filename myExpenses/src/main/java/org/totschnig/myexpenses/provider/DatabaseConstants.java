@@ -429,15 +429,20 @@ public class DatabaseConstants {
   public static final String WHERE_TRANSFER =
       WHERE_NOT_SPLIT + " AND " + WHERE_NOT_VOID + " AND " + KEY_TRANSFER_PEER + " is not null";
 
-  public static final String TRANSFER_SUM =
-      "sum(CASE WHEN " + WHERE_TRANSFER + " THEN " + KEY_AMOUNT + " ELSE 0 END)";
+  public static final String getTransferSum(String aggregateFunction) {
+    return aggregateFunction + "(CASE WHEN " + WHERE_TRANSFER + " THEN " + KEY_AMOUNT + " ELSE 0 END)";
+  }
   public static final String HAS_CLEARED =
       "(SELECT EXISTS(SELECT 1 FROM " + TABLE_TRANSACTIONS + " WHERE "
           + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID + " AND " + KEY_CR_STATUS + " = '" + CrStatus.CLEARED.name() + "' LIMIT 1)) AS " + KEY_HAS_CLEARED;
-  public static final String SELECT_AMOUNT_SUM = "SELECT coalesce(sum(" + KEY_AMOUNT + "),0) FROM "
-      + VIEW_COMMITTED
-      + " WHERE " + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID
-      + " AND " + WHERE_NOT_VOID;
+
+  public static final String getSelectAmountSum(String aggregateFunction) {
+    return "SELECT coalesce(" + aggregateFunction + "(" + KEY_AMOUNT + "),0) FROM "
+            + VIEW_COMMITTED
+            + " WHERE " + KEY_ACCOUNTID + " = " + TABLE_ACCOUNTS + "." + KEY_ROWID
+            + " AND " + WHERE_NOT_VOID;
+  }
+
   //exclude split_catid
   public static final String MAPPED_CATEGORIES =
       "count(CASE WHEN  " + KEY_CATID + ">0 AND " + WHERE_NOT_VOID + " THEN 1 ELSE null END) as " + KEY_MAPPED_CATEGORIES;
@@ -567,19 +572,19 @@ public class DatabaseConstants {
     return forHome ? getAmountHomeEquivalent(VIEW_WITH_ACCOUNT) : KEY_AMOUNT;
   }
 
-  static String getInSum(boolean forHome) {
-    return "sum(CASE WHEN " + WHERE_IN + " THEN " + getAmountCalculation(forHome) + " ELSE 0 END) AS " + KEY_SUM_INCOME;
+  static String getInAggregate(boolean forHome, String aggregateFunction) {
+    return aggregateFunction + "CASE WHEN " + WHERE_IN + " THEN " + getAmountCalculation(forHome) + " ELSE 0 END) AS " + KEY_SUM_INCOME;
   }
 
-  static String getIncomeSum(boolean forHome) {
-    return "sum(CASE WHEN " + WHERE_INCOME + " THEN " + getAmountCalculation(forHome) + " ELSE 0 END) AS " + KEY_SUM_INCOME;
+  static String getIncomeAggregate(boolean forHome, String aggregateFunction) {
+    return aggregateFunction + "(CASE WHEN " + WHERE_INCOME + " THEN " + getAmountCalculation(forHome) + " ELSE 0 END) AS " + KEY_SUM_INCOME;
   }
 
-  static String getOutSum(boolean forHome) {
-    return "sum(CASE WHEN " + WHERE_OUT + " THEN " + getAmountCalculation(forHome) + " ELSE 0 END) AS " + KEY_SUM_EXPENSES;
+  static String getOutAggregate(boolean forHome, String aggregateFunction) {
+    return aggregateFunction + "(CASE WHEN " + WHERE_OUT + " THEN " + getAmountCalculation(forHome) + " ELSE 0 END) AS " + KEY_SUM_EXPENSES;
   }
 
-  static String getExpenseSum(boolean forHome) {
-    return "sum(CASE WHEN " + WHERE_EXPENSE + " THEN " + getAmountCalculation(forHome) + " ELSE 0 END) AS " + KEY_SUM_EXPENSES;
+  static String getExpenseAggregate(boolean forHome, String aggregateFunction) {
+    return aggregateFunction + "(CASE WHEN " + WHERE_EXPENSE + " THEN " + getAmountCalculation(forHome) + " ELSE 0 END) AS " + KEY_SUM_EXPENSES;
   }
 }

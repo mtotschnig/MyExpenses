@@ -90,7 +90,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_P
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.SELECT_AMOUNT_SUM;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_EXPORTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_HELPER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
@@ -99,6 +98,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_EXPENSE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_INCOME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT_PART;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_TRANSFER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.getSelectAmountSum;
 import static org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_TAGS_URI;
 
 /**
@@ -165,11 +165,12 @@ public class Account extends Model {
   public static String CURRENT_BALANCE_EXPR;
 
   static {
-    buildProjection();
+    buildProjection(PrefKey.DB_SAFE_MODE.getBoolean(false));
   }
 
-  public static void buildProjection() {
-    CURRENT_BALANCE_EXPR = KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM + " AND " + WHERE_NOT_SPLIT_PART
+  public static void buildProjection(boolean safeMode) {
+    String selectAccountSum = getSelectAmountSum(TransactionProvider.aggregateFunction(safeMode));
+    CURRENT_BALANCE_EXPR = KEY_OPENING_BALANCE + " + (" + selectAccountSum + " AND " + WHERE_NOT_SPLIT_PART
         + " AND " + DatabaseConstants.getWhereInPast() + " )";
     PROJECTION_BASE = new String[]{
         TABLE_ACCOUNTS + "." + KEY_ROWID + " AS " + KEY_ROWID,
@@ -193,22 +194,22 @@ public class Account extends Model {
     PROJECTION_FULL = new String[baseLength + 13];
     System.arraycopy(PROJECTION_BASE, 0, PROJECTION_FULL, 0, baseLength);
     PROJECTION_FULL[baseLength] = CURRENT_BALANCE_EXPR + " AS " + KEY_CURRENT_BALANCE;
-    PROJECTION_FULL[baseLength + 1] = "(" + SELECT_AMOUNT_SUM +
+    PROJECTION_FULL[baseLength + 1] = "(" + selectAccountSum +
         " AND " + WHERE_INCOME + ") AS " + KEY_SUM_INCOME;
-    PROJECTION_FULL[baseLength + 2] = "(" + SELECT_AMOUNT_SUM +
+    PROJECTION_FULL[baseLength + 2] = "(" + selectAccountSum +
         " AND " + WHERE_EXPENSE + ") AS " + KEY_SUM_EXPENSES;
-    PROJECTION_FULL[baseLength + 3] = "(" + SELECT_AMOUNT_SUM +
+    PROJECTION_FULL[baseLength + 3] = "(" + selectAccountSum +
         " AND " + WHERE_TRANSFER + ") AS " + KEY_SUM_TRANSFERS;
     PROJECTION_FULL[baseLength + 4] =
-        KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM + " AND " + WHERE_NOT_SPLIT_PART +
+        KEY_OPENING_BALANCE + " + (" + selectAccountSum + " AND " + WHERE_NOT_SPLIT_PART +
             " ) AS " + KEY_TOTAL;
     PROJECTION_FULL[baseLength + 5] =
-        KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM + " AND " + WHERE_NOT_SPLIT_PART +
+        KEY_OPENING_BALANCE + " + (" + selectAccountSum + " AND " + WHERE_NOT_SPLIT_PART +
             " AND " + KEY_CR_STATUS + " IN " +
             "('" + CrStatus.RECONCILED.name() + "','" + CrStatus.CLEARED.name() + "')" +
             " ) AS " + KEY_CLEARED_TOTAL;
     PROJECTION_FULL[baseLength + 6] =
-        KEY_OPENING_BALANCE + " + (" + SELECT_AMOUNT_SUM + " AND " + WHERE_NOT_SPLIT_PART +
+        KEY_OPENING_BALANCE + " + (" + selectAccountSum + " AND " + WHERE_NOT_SPLIT_PART +
             " AND " + KEY_CR_STATUS + " = '" + CrStatus.RECONCILED.name() + "'  ) AS " + KEY_RECONCILED_TOTAL;
     PROJECTION_FULL[baseLength + 7] = KEY_USAGES;
     PROJECTION_FULL[baseLength + 8] = "0 AS " + KEY_IS_AGGREGATE;//this is needed in the union with the aggregates to sort real accounts first

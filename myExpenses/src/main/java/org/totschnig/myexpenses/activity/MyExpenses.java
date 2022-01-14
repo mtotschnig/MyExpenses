@@ -32,7 +32,6 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 
-import com.annimon.stream.Stream;
 import com.google.android.material.snackbar.Snackbar;
 import com.theartofdev.edmodo.cropper.CropImage;
 
@@ -63,6 +62,7 @@ import org.totschnig.myexpenses.model.Sort;
 import org.totschnig.myexpenses.model.SortDirection;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.preference.PreferenceUtilsKt;
+import org.totschnig.myexpenses.provider.ProtectedCursorLoader;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.Criteria;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
@@ -95,7 +95,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.loader.app.LoaderManager;
-import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
 import androidx.viewpager.widget.ViewPager;
 import eltos.simpledialogfragment.list.MenuDialog;
@@ -734,7 +733,7 @@ public class MyExpenses extends BaseMyExpenses implements
     if (id == ACCOUNTS_CURSOR) {
       Uri.Builder builder = TransactionProvider.ACCOUNTS_URI.buildUpon();
       builder.appendQueryParameter(TransactionProvider.QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES, "1");
-      return new CursorLoader(this, builder.build(), null, KEY_HIDDEN + " = 0", null, null);
+      return new ProtectedCursorLoader(this, builder.build(), null, KEY_HIDDEN + " = 0", null, null);
     }
     throw new IllegalStateException("Unknown loader id " + id);
   }
@@ -763,13 +762,10 @@ public class MyExpenses extends BaseMyExpenses implements
   }
 
   @Override
-  public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor cursor) {
+  public void onLoadFinished(@NonNull Loader<Cursor> loader, @Nullable Cursor cursor) {
     if (loader.getId() == ACCOUNTS_CURSOR) {
       mAccountCount = 0;
       setAccountsCursor(cursor);
-      if (getAccountsCursor() == null) {
-        return;
-      }
 
       mDrawerListAdapter.setGrouping(accountGrouping);
       accountList().setCollapsedHeaderIds(PreferenceUtilsKt.getLongList(prefHandler, collapsedHeaderIdsPrefKey()));
@@ -779,7 +775,7 @@ public class MyExpenses extends BaseMyExpenses implements
       long cacheAccountId = accountId;
       setupViewPager(cursor);
       accountId = cacheAccountId;
-      if (!indexesCalculated) {
+      if (!indexesCalculated && cursor != null) {
         setColumnIndexRowId(cursor.getColumnIndex(KEY_ROWID));
         setColumnIndexColor(cursor.getColumnIndex(KEY_COLOR));
         setColumnIndexCurrency(cursor.getColumnIndex(KEY_CURRENCY));
@@ -790,6 +786,13 @@ public class MyExpenses extends BaseMyExpenses implements
       }
       moveToAccount();
       toolbar.setVisibility(View.VISIBLE);
+      if (cursor == null) {
+        showSnackbar("Data loading failed", Snackbar.LENGTH_INDEFINITE, new SnackbarAction(R.string.safe_mode, v -> {
+          prefHandler.putBoolean(PrefKey.DB_SAFE_MODE, true);
+          rebuildAccountProjection();
+          mManager.restartLoader(ACCOUNTS_CURSOR, null, this);
+        }));
+      }
     }
   }
 

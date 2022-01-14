@@ -294,7 +294,6 @@ public class TransactionProvider extends BaseTransactionProvider {
   @Inject
   CurrencyContext currencyContext;
   @Inject
-  @Deprecated
   PrefHandler prefHandler;
   @Inject
   UserLocaleProvider userLocaleProvider;
@@ -313,6 +312,10 @@ public class TransactionProvider extends BaseTransactionProvider {
     mOpenHelper = new TransactionDatabase(getContext(), databaseName);
   }
 
+  public static String aggregateFunction(boolean safeMode) {
+    return safeMode ? "total" : "sum";
+  }
+
   @Override
   public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection,
                       @Nullable String[] selectionArgs, @Nullable String sortOrder) {
@@ -326,6 +329,8 @@ public class TransactionProvider extends BaseTransactionProvider {
     String groupBy = uri.getQueryParameter(QUERY_PARAMETER_GROUP_BY);
     String having = null;
     String limit = null;
+
+    String aggregateFunction = aggregateFunction(prefHandler.getBoolean(PrefKey.DB_SAFE_MODE, false));
 
     String accountSelector;
     int uriMatch = URI_MATCHER.match(uri);
@@ -391,7 +396,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         } else {
           amountCalculation = DatabaseConstants.getAmountHomeEquivalent(VIEW_WITH_ACCOUNT);
         }
-        String sumExpression = "sum(" + amountCalculation + ")";
+        String sumExpression = aggregateFunction + "(" + amountCalculation + ")";
         if (groupByType) sumExpression = "abs(" + sumExpression + ")";
         final String sumColumn = sumExpression + " as  " + KEY_SUM;
         projection = groupByType ? new String[]{KEY_AMOUNT + " > 0 as " + KEY_TYPE, sumColumn} : new String[]{sumColumn};
@@ -473,12 +478,12 @@ public class TransactionProvider extends BaseTransactionProvider {
         projection[index++] = yearExpression + " AS " + KEY_YEAR;
         projection[index++] = secondDef + " AS " + KEY_SECOND_GROUP;
         if (!sectionsOnly) {
-          projection[index++] = includeTransfers ? getInSum(forHome) : getIncomeSum(forHome);
-          projection[index++] = includeTransfers ? getOutSum(forHome) : getExpenseSum(forHome);
+          projection[index++] = includeTransfers ? getInAggregate(forHome, aggregateFunction) : getIncomeAggregate(forHome, aggregateFunction);
+          projection[index++] = includeTransfers ? getOutAggregate(forHome, aggregateFunction) : getExpenseAggregate(forHome, aggregateFunction);
           if (!includeTransfers) {
             //for the Grand total account transfer calculation is neither possible (adding amounts in
             //different currencies) nor necessary (should result in 0)
-            projection[index++] = (forHome ? "0" : TRANSFER_SUM) + " AS " + KEY_SUM_TRANSFERS;
+            projection[index++] = (forHome ? "0" : getTransferSum(aggregateFunction)) + " AS " + KEY_SUM_TRANSFERS;
           }
           projection[index++] = MAPPED_CATEGORIES;
           if (withStart) {
@@ -539,6 +544,7 @@ public class TransactionProvider extends BaseTransactionProvider {
               .append(",")
               .append(KEY_CURRENCY);
           if (!minimal) {
+            String selectAccountSum = getSelectAmountSum(aggregateFunction);
             stringBuilder.append(",")
                 .append(KEY_GROUPING)
                 .append(",")
@@ -546,7 +552,7 @@ public class TransactionProvider extends BaseTransactionProvider {
                 .append(",")
                 .append(KEY_OPENING_BALANCE)
                 .append(" + (")
-                .append(SELECT_AMOUNT_SUM)
+                .append(selectAccountSum)
                 .append(" AND ")
                 .append(WHERE_NOT_SPLIT)
                 .append(" AND ")
@@ -556,27 +562,27 @@ public class TransactionProvider extends BaseTransactionProvider {
                 .append(", ")
                 .append(KEY_OPENING_BALANCE)
                 .append(" + (")
-                .append(SELECT_AMOUNT_SUM)
+                .append(selectAccountSum)
                 .append(" AND ")
                 .append(WHERE_NOT_SPLIT)
                 .append(" ) AS ")
                 .append(KEY_TOTAL).append(", ")
                 .append("(")
-                .append(SELECT_AMOUNT_SUM)
+                .append(selectAccountSum)
                 .append(" AND ")
                 .append(WHERE_EXPENSE)
                 .append(") AS ")
                 .append(KEY_SUM_EXPENSES)
                 .append(",")
                 .append("(")
-                .append(SELECT_AMOUNT_SUM)
+                .append(selectAccountSum)
                 .append(" AND ")
                 .append(WHERE_INCOME)
                 .append(") AS ")
                 .append(KEY_SUM_INCOME)
                 .append(", ")
                 .append("(")
-                .append(SELECT_AMOUNT_SUM)
+                .append(selectAccountSum)
                 .append(" AND ")
                 .append(WHERE_TRANSFER)
                 .append(") AS ")
@@ -623,7 +629,7 @@ public class TransactionProvider extends BaseTransactionProvider {
                 rowIdColumn,//we use negative ids for aggregate accounts
                 labelColumn,
                 "'' AS " + KEY_DESCRIPTION,
-                "sum(" + KEY_OPENING_BALANCE + ") AS " + KEY_OPENING_BALANCE,
+                aggregateFunction + "(" + KEY_OPENING_BALANCE + ") AS " + KEY_OPENING_BALANCE,
                 currencyColumn,
                 "-1 AS " + KEY_COLOR,
                 "t." + KEY_GROUPING,
@@ -636,11 +642,11 @@ public class TransactionProvider extends BaseTransactionProvider {
                 "1 AS " + KEY_EXCHANGE_RATE,
                 "0 AS " + KEY_CRITERION,
                 "0 AS " + KEY_SEALED,
-                "sum(" + KEY_CURRENT_BALANCE + ") AS " + KEY_CURRENT_BALANCE,
-                "sum(" + KEY_SUM_INCOME + ") AS " + KEY_SUM_INCOME,
-                "sum(" + KEY_SUM_EXPENSES + ") AS " + KEY_SUM_EXPENSES,
-                "sum(" + KEY_SUM_TRANSFERS + ") AS " + KEY_SUM_TRANSFERS,
-                "sum(" + KEY_TOTAL + ") AS " + KEY_TOTAL,
+                 aggregateFunction + "(" + KEY_CURRENT_BALANCE + ") AS " + KEY_CURRENT_BALANCE,
+                 aggregateFunction + "(" + KEY_SUM_INCOME + ") AS " + KEY_SUM_INCOME,
+                 aggregateFunction + "(" + KEY_SUM_EXPENSES + ") AS " + KEY_SUM_EXPENSES,
+                 aggregateFunction + "(" + KEY_SUM_TRANSFERS + ") AS " + KEY_SUM_TRANSFERS,
+                 aggregateFunction + "(" + KEY_TOTAL + ") AS " + KEY_TOTAL,
                 "0 AS " + KEY_CLEARED_TOTAL, //we do not calculate cleared and reconciled totals for aggregate accounts
                 "0 AS " + KEY_RECONCILED_TOTAL,
                 "0 AS " + KEY_USAGES,
@@ -662,7 +668,7 @@ public class TransactionProvider extends BaseTransactionProvider {
                 rowIdColumn,
                 labelColumn,
                 "'' AS " + KEY_DESCRIPTION,
-                "sum(" + KEY_OPENING_BALANCE + " * " + KEY_EXCHANGE_RATE + ") AS " + KEY_OPENING_BALANCE,
+                aggregateFunction + "(" + KEY_OPENING_BALANCE + " * " + KEY_EXCHANGE_RATE + ") AS " + KEY_OPENING_BALANCE,
                 currencyColumn,
                 "-1 AS " + KEY_COLOR,
                 "'" + grouping + "' AS " + KEY_GROUPING,
@@ -675,11 +681,11 @@ public class TransactionProvider extends BaseTransactionProvider {
                 "1 AS " + KEY_EXCHANGE_RATE,
                 "0 AS " + KEY_CRITERION,
                 "0 AS " + KEY_SEALED,
-                "sum(" + KEY_CURRENT_BALANCE + " * " + KEY_EXCHANGE_RATE + ") AS " + KEY_CURRENT_BALANCE,
-                "(SELECT " + getIncomeSum(true) + " FROM " + VIEW_WITH_ACCOUNT + " WHERE " + KEY_EXCLUDE_FROM_TOTALS + " = 0) AS " + KEY_SUM_INCOME,
-                "(SELECT " + getExpenseSum(true) + " FROM " + VIEW_WITH_ACCOUNT + " WHERE " + KEY_EXCLUDE_FROM_TOTALS + " = 0) AS " + KEY_SUM_EXPENSES,
+                aggregateFunction + "(" + KEY_CURRENT_BALANCE + " * " + KEY_EXCHANGE_RATE + ") AS " + KEY_CURRENT_BALANCE,
+                "(SELECT " + getIncomeAggregate(true, aggregateFunction) + " FROM " + VIEW_WITH_ACCOUNT + " WHERE " + KEY_EXCLUDE_FROM_TOTALS + " = 0) AS " + KEY_SUM_INCOME,
+                "(SELECT " + getExpenseAggregate(true, aggregateFunction) + " FROM " + VIEW_WITH_ACCOUNT + " WHERE " + KEY_EXCLUDE_FROM_TOTALS + " = 0) AS " + KEY_SUM_EXPENSES,
                 "0 AS " + KEY_SUM_TRANSFERS,
-                "sum(" + KEY_TOTAL + " * " + KEY_EXCHANGE_RATE + ") AS " + KEY_TOTAL,
+                aggregateFunction + "(" + KEY_TOTAL + " * " + KEY_EXCHANGE_RATE + ") AS " + KEY_TOTAL,
                 "0 AS " + KEY_CLEARED_TOTAL, //we do not calculate cleared and reconciled totals for aggregate accounts
                 "0 AS " + KEY_RECONCILED_TOTAL,
                 "0 AS " + KEY_USAGES,
@@ -735,7 +741,7 @@ public class TransactionProvider extends BaseTransactionProvider {
               Account.HOME_AGGREGATE_ID + " AS " + KEY_ROWID,
               "'' AS " + KEY_LABEL,
               "'' AS " + KEY_DESCRIPTION,
-              "sum(" + KEY_OPENING_BALANCE + " * " + DatabaseConstants.getExchangeRate(TABLE_ACCOUNTS, KEY_ROWID)
+              aggregateFunction + "(" + KEY_OPENING_BALANCE + " * " + DatabaseConstants.getExchangeRate(TABLE_ACCOUNTS, KEY_ROWID)
                   + ") AS " + KEY_OPENING_BALANCE,
               "'" + AGGREGATE_HOME_CURRENCY_CODE + "' AS " + KEY_CURRENCY,
               "-1 AS " + KEY_COLOR,
@@ -755,7 +761,7 @@ public class TransactionProvider extends BaseTransactionProvider {
               "0 - " + TABLE_CURRENCIES + "." + KEY_ROWID + "  AS " + KEY_ROWID,//we use negative ids for aggregate accounts
               KEY_CODE + " AS " + KEY_LABEL,
               "'' AS " + KEY_DESCRIPTION,
-              "(select sum(" + KEY_OPENING_BALANCE
+              "(select " + aggregateFunction + "(" + KEY_OPENING_BALANCE
                   + ") " + accountSelect + ") AS " + KEY_OPENING_BALANCE,
               KEY_CODE + " AS " + KEY_CURRENCY,
               "-1 AS " + KEY_COLOR,

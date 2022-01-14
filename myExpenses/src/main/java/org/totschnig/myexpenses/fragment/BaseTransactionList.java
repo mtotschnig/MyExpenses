@@ -88,6 +88,7 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.preference.PreferenceUtilsKt;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.DbUtils;
+import org.totschnig.myexpenses.provider.ProtectedCursorLoader;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.CategoryCriteria;
 import org.totschnig.myexpenses.provider.filter.CommentCriteria;
@@ -537,7 +538,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
           selection += " AND ";
         }
         selection += KEY_PARENTID + " is null";
-        cursorLoader = new CursorLoader(requireActivity(),
+        cursorLoader = new ProtectedCursorLoader(requireActivity(),
             mAccount.getExtendedUriForTransactionList(false),
             mAccount.getExtendedProjectionForTransactionList(),
             selection,
@@ -545,7 +546,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         break;
       //TODO: probably we can get rid of SUM_CURSOR, if we also aggregate unmapped transactions
       case SUM_CURSOR:
-        cursorLoader = new CursorLoader(requireActivity(),
+        cursorLoader = new ProtectedCursorLoader(requireActivity(),
             TransactionProvider.TRANSACTIONS_URI,
             new String[]{MAPPED_CATEGORIES, MAPPED_METHODS, MAPPED_PAYEES, HAS_TRANSFERS, MAPPED_TAGS},
             selection,
@@ -568,7 +569,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
           sortOrder = String.format("%1$s %3$s,%2$s %3$s",
               KEY_YEAR, KEY_SECOND_GROUP, mAccount.getSortDirection().name());
         }
-        cursorLoader = new CursorLoader(getActivity(),
+        cursorLoader = new ProtectedCursorLoader(getActivity(),
             builder.build(),
             null, selection, selectionArgs, sortOrder);
         break;
@@ -579,12 +580,12 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
 
   @Override
   public void onLoadFinished(@NonNull Loader<Cursor> arg0, Cursor c) {
-    final int count = c.getCount();
+    final int count = c == null ? 0 : c.getCount();
     switch (arg0.getId()) {
       case TRANSACTION_CURSOR:
         mTransactionsCursor = c;
         hasItems = count > 0;
-        if (!indexesCalculated) {
+        if (!indexesCalculated && c != null) {
           columnIndexYear = c.getColumnIndex(KEY_YEAR);
           columnIndexYearOfWeekStart = c.getColumnIndex(KEY_YEAR_OF_WEEK_START);
           columnIndexYearOfMonthStart = c.getColumnIndex(KEY_YEAR_OF_MONTH_START);
@@ -625,35 +626,40 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         invalidateCAB();
         break;
       case SUM_CURSOR:
-        c.moveToFirst();
-        mappedCategories = c.getInt(c.getColumnIndexOrThrow(KEY_MAPPED_CATEGORIES)) > 0;
-        mappedPayees = c.getInt(c.getColumnIndexOrThrow(KEY_MAPPED_PAYEES)) > 0;
-        mappedMethods = c.getInt(c.getColumnIndexOrThrow(KEY_MAPPED_METHODS)) > 0;
-        hasTransfers = c.getInt(c.getColumnIndexOrThrow(KEY_HAS_TRANSFERS)) > 0;
-        hasTags = c.getInt(c.getColumnIndexOrThrow(KEY_MAPPED_TAGS)) > 0;
-        requireActivity().invalidateOptionsMenu();
+        if (c != null) {
+          c.moveToFirst();
+          mappedCategories = c.getInt(c.getColumnIndexOrThrow(KEY_MAPPED_CATEGORIES)) > 0;
+          mappedPayees = c.getInt(c.getColumnIndexOrThrow(KEY_MAPPED_PAYEES)) > 0;
+          mappedMethods = c.getInt(c.getColumnIndexOrThrow(KEY_MAPPED_METHODS)) > 0;
+          hasTransfers = c.getInt(c.getColumnIndexOrThrow(KEY_HAS_TRANSFERS)) > 0;
+          hasTags = c.getInt(c.getColumnIndexOrThrow(KEY_MAPPED_TAGS)) > 0;
+          requireActivity().invalidateOptionsMenu();
+        }
         break;
       case GROUPING_CURSOR:
-        int columnIndexGroupYear = c.getColumnIndex(KEY_YEAR);
-        int columnIndexGroupSecond = c.getColumnIndex(KEY_SECOND_GROUP);
-        int columnIndexGroupSumIncome = c.getColumnIndex(KEY_SUM_INCOME);
-        int columnIndexGroupSumExpense = c.getColumnIndex(KEY_SUM_EXPENSES);
-        int columnIndexGroupSumTransfer = c.getColumnIndex(KEY_SUM_TRANSFERS);
-        int columnIndexGroupMappedCategories = c.getColumnIndex(KEY_MAPPED_CATEGORIES);
         headerData.clear();
-        if (c.moveToFirst()) {
-          long previousBalance = mAccount.openingBalance.getAmountMinor();
-          do {
-            long sumIncome = c.getLong(columnIndexGroupSumIncome);
-            long sumExpense = c.getLong(columnIndexGroupSumExpense);
-            long sumTransfer = c.getLong(columnIndexGroupSumTransfer);
-            long delta = sumIncome + sumExpense + sumTransfer;
-            long interimBalance = previousBalance + delta;
-            long mappedCategories = c.getLong(columnIndexGroupMappedCategories);
-            headerData.put(calculateHeaderId(c.getInt(columnIndexGroupYear), c.getInt(columnIndexGroupSecond)),
-                new Long[]{sumIncome, sumExpense, sumTransfer, previousBalance, delta, interimBalance, mappedCategories});
-            previousBalance = interimBalance;
-          } while (c.moveToNext());
+        if (c != null) {
+          int columnIndexGroupYear = c.getColumnIndex(KEY_YEAR);
+          int columnIndexGroupSecond = c.getColumnIndex(KEY_SECOND_GROUP);
+          int columnIndexGroupSumIncome = c.getColumnIndex(KEY_SUM_INCOME);
+          int columnIndexGroupSumExpense = c.getColumnIndex(KEY_SUM_EXPENSES);
+          int columnIndexGroupSumTransfer = c.getColumnIndex(KEY_SUM_TRANSFERS);
+          int columnIndexGroupMappedCategories = c.getColumnIndex(KEY_MAPPED_CATEGORIES);
+
+          if (c.moveToFirst()) {
+            long previousBalance = mAccount.openingBalance.getAmountMinor();
+            do {
+              long sumIncome = c.getLong(columnIndexGroupSumIncome);
+              long sumExpense = c.getLong(columnIndexGroupSumExpense);
+              long sumTransfer = c.getLong(columnIndexGroupSumTransfer);
+              long delta = sumIncome + sumExpense + sumTransfer;
+              long interimBalance = previousBalance + delta;
+              long mappedCategories = c.getLong(columnIndexGroupMappedCategories);
+              headerData.put(calculateHeaderId(c.getInt(columnIndexGroupYear), c.getInt(columnIndexGroupSecond)),
+                      new Long[]{sumIncome, sumExpense, sumTransfer, previousBalance, delta, interimBalance, mappedCategories});
+              previousBalance = interimBalance;
+            } while (c.moveToNext());
+          }
         }
         //if the transactionsCursor has been loaded before the grouping cursor, we need to refresh
         //in order to have accurate grouping values
@@ -664,7 +670,7 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
         sections = new String[count];
         sectionIds = new int[count];
         mSectionCache = new SparseIntArray(count);
-        if (c.moveToFirst()) {
+        if (c != null && c.moveToFirst()) {
           final Calendar cal = Calendar.getInstance();
           final SimpleDateFormat dateFormat = new SimpleDateFormat("MMM yy", userLocaleProvider.getUserPreferredLocale());
           do {

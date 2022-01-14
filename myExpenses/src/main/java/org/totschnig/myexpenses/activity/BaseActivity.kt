@@ -35,6 +35,7 @@ import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.ui.SnackbarAction
 import org.totschnig.myexpenses.util.PermissionHelper
@@ -381,7 +382,11 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     fun rebuildDbConstants() {
         DatabaseConstants.buildLocalized(userLocaleProvider.getUserPreferredLocale())
         Transaction.buildProjection(this)
-        Account.buildProjection()
+        rebuildAccountProjection()
+    }
+
+    fun rebuildAccountProjection() {
+        Account.buildProjection(prefHandler.getBoolean(PrefKey.DB_SAFE_MODE, false))
     }
 
     fun showMessage(resId: Int) {
