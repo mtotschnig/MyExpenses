@@ -29,14 +29,7 @@ import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
 import org.totschnig.myexpenses.di.AppComponent
-import org.totschnig.myexpenses.model.AccountType
-import org.totschnig.myexpenses.model.ContribFeature
-import org.totschnig.myexpenses.model.CrStatus
-import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.ITransaction
-import org.totschnig.myexpenses.model.Plan
-import org.totschnig.myexpenses.model.Template
+import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -56,6 +49,7 @@ import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import org.totschnig.myexpenses.viewmodel.data.Tag
+import java.lang.ArithmeticException
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.LocalTime
@@ -843,6 +837,27 @@ abstract class TransactionDelegate<T : ITransaction>(
     protected fun validateAmountInput(forSave: Boolean): BigDecimal? {
         return validateAmountInput(viewBinding.Amount, forSave, forSave)
     }
+
+    protected fun validateAmountInput(forSave: Boolean, currencyUnit: CurrencyUnit): Money? {
+        return validateAmountInput(viewBinding.Amount, forSave, forSave, currencyUnit)
+    }
+
+    protected open fun validateAmountInput(
+        input: AmountInput,
+        showToUser: Boolean,
+        ifPresent: Boolean,
+        currencyUnit: CurrencyUnit
+    ): Money? = input.getTypedValue(ifPresent, showToUser)?.let {
+        try {
+            Money(currencyUnit, it)
+        } catch (e: ArithmeticException) {
+            if (showToUser) {
+                input.setError("Number too large.")
+            }
+            null
+        }
+    }
+
 
     protected open fun validateAmountInput(
         input: AmountInput,

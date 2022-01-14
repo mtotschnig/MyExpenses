@@ -20,7 +20,10 @@ import kotlin.math.pow
 
 data class Money(val currencyUnit: CurrencyUnit, val amountMinor: Long) : Serializable {
 
-    constructor(currencyUnit: CurrencyUnit, amountMajor: BigDecimal) : this(currencyUnit, amountMajor.movePointRight(currencyUnit.fractionDigits).toLong())
+    @Throws(ArithmeticException::class)
+    constructor(currencyUnit: CurrencyUnit, amountMajor: BigDecimal) : this(currencyUnit, amountMajor.movePointRight(currencyUnit.fractionDigits).longValueExact())
+
+    fun negate(): Money  = Money(currencyUnit, -amountMinor)
 
     val amountMajor: BigDecimal
         get() = BigDecimal(amountMinor).movePointLeft(currencyUnit.fractionDigits)

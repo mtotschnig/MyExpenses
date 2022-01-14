@@ -14,7 +14,6 @@ import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
 import org.totschnig.myexpenses.model.ITransfer
-import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -276,42 +275,37 @@ class TransferDelegate(
         forSave: Boolean,
         accountId: Long
     ): ITransfer? {
-        val amount = validateAmountInput(forSave)
         val currentAccount = currentAccount()!!
         val transferAccount = transferAccount()!!
+        val amount = validateAmountInput(forSave, currentAccount.currency)
         val isSame = currentAccount.currency == transferAccount.currency
-        val transferAmount: BigDecimal? = if (isSame && amount != null) {
+        val transferAmount = if (isSame && amount != null) {
             amount.negate()
         } else {
-            validateAmountInput(viewBinding.TransferAmount, forSave, true)?.let {
+            validateAmountInput(viewBinding.TransferAmount, forSave, true, transferAccount.currency)?.let {
                 if (isIncome) it.negate() else it
             }
         }
         return if (isTemplate) {
             if (amount == null && transferAmount == null) {
-                return null
-            }
-            buildTemplate(accountId).apply {
+                null
+            } else buildTemplate(accountId).apply {
                 if (amount != null) {
-                    this.amount = Money(currentAccount.currency, amount)
+                    this.amount = amount
                     setTransferAccountId(transferAccount.id)
                 } else if (!isSame && transferAmount != null) {
                     this.accountId = transferAccount.id
                     setTransferAccountId(currentAccount.id)
-                    this.amount = Money(transferAccount.currency, transferAmount)
+                    this.amount = transferAmount
                     viewBinding.Amount.setError(null)
                 }
             }
         } else {
             if (amount == null || transferAmount == null) {
-                return null
-            }
-            Transfer(accountId, transferAccount.id, parentId).apply {
+                null
+            } else Transfer(accountId, transferAccount.id, parentId).apply {
                 transferPeer = this@TransferDelegate.transferPeer
-                setAmountAndTransferAmount(
-                    Money(currentAccount.currency, amount),
-                    Money(transferAccount.currency, transferAmount)
-                )
+                setAmountAndTransferAmount(amount, transferAmount)
             }
         }
     }

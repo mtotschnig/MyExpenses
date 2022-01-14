@@ -88,11 +88,11 @@ abstract class MainDelegate<T : ITransaction>(
         forSave: Boolean,
         accountId: Long
     ): T? {
-        val amount = validateAmountInput(forSave)
+        val amount = validateAmountInput(forSave, currentAccount()!!.currency)
             ?: //Snackbar is shown in validateAmountInput
             return null
         return buildMainTransaction(accountId).apply {
-            this.amount = Money(currentAccount()!!.currency, amount)
+            this.amount = amount
             payee = viewBinding.Payee.text.toString()
             this.debtId = this@MainDelegate.debtId
             this.methodId = this@MainDelegate.methodId
