@@ -608,7 +608,7 @@
     <string name="pref_backup_cloud_summary">காப்புப்பிரதி கோப்பை, கருவியில் உள்ள உள்சேமிப்புக்கு கூடுதலாக ஒரு தொலை பின்தளத்திற்கு நகலெடுத்துக் கொள்ளலாம்.</string>
     <string name="auto_backup_cloud_failure">காப்புப்பிரதி கோப்பு %1$s-ஐ, %2$s எனும் பின்தளத்தில் சேமிக்க முயற்சிக்கும் போது பிழை ஏற்பட்டது:</string>
     <string name="auto_backup_cloud_success">காப்புப்பிரதி கோப்பு %1$s, %2$s எனும் பின்தளத்தில் வெற்றிகரமாக சேமிக்கப்பட்டது.</string>
-    <string name="home_screen_shortcuts_nougate_info">முகப்பு திரையில் செயலியின் ஐகானை நீண்ட நேரம் தட்டுவதன் மூலம் குறுக்குவழிகளைச் சேர்க்கலாம்.</string>
+    <string name="home_screen_shortcuts_nougate_info">முகப்பு திரையில் செயலியின் சின்னத்தை நீண்ட நேரம் தட்டுவதன் மூலம் குறுக்குவழிகளைச் சேர்க்கலாம்.</string>
     <string name="currency_symbol">நாணய சின்னம்</string>
     <string name="number_of_fraction_digits">பின்ன இலக்கங்களின் எண்ணிக்கை</string>
     <string name="warning_auto_backup_deactivated">தன்னியக்க காப்புப்பிரதி எடுத்தல் செயலிழக்கப்பட்டது. சிக்கலைத் தீர்த்த பிறகு (எ.கா. காப்புப்பிரதிகளுக்காக வேறு கோப்புறையைத் தேர்ந்தெடுத்தல்) நீங்கள் அதை மீண்டும் அமைப்புகளிலிருந்து செயல்படச் செய்ய முடியும்.</string>
@@ -986,4 +986,28 @@
     <string name="stability_improvements">நிலைப்புத்தன்மை மேம்பாடுகள்</string>
     <string name="pref_news_title">செய்தி</string>
     <string name="debt_managment">கடன் மேலாண்மை</string>
+    <string name="debt">கடன்</string>
+    <string name="warning_party_delete_debt">இந்த தரப்பை நீக்கும்போது, அவருடன் தொடர்புடைய கடன்களும் நீக்கப்படும்.</string>
+    <string name="dialog_confirm_discard_new_debt">புதிய கடனை கைவிடவா\?</string>
+    <string name="dialog_title_delete_debt">கடனை நீக்கவா\?</string>
+    <string name="pref_mlkit_script_title">MlKit க்கான ஸ்கிரிப்ட்</string>
+    <plurals name="import_categories_icons_updated">
+        <item quantity="one">ஒரு வகை சின்னத்துடன் புதுப்பிக்கப்பட்டது.</item>
+        <item quantity="other">%1$d வகைகள் சின்னங்களுடன் புதுப்பிக்கப்பட்டன.</item>
+    </plurals>
+    <string name="debt_owes_me">%s எனக்கு கடன்பட்டிருக்கிறார்</string>
+    <string name="new_version">புதிய பதிப்பு</string>
+    <string name="object_sealed_debt">பொருள் ஒரு மூடப்பட்ட கணக்கைக் குறிக்கிறது.</string>
+    <string name="title_activity_debt_overview">கடன் கண்ணோட்டம்</string>
+    <string name="cb_label_merge_accounts">கணக்குகளை ஒன்றிணை</string>
+    <string name="dialog_title_warning_delete_party">தரப்பை நீக்கவா\?</string>
+    <string name="menu_new_debt">புதிய கடன்</string>
+    <string name="debts">கடன்கள்</string>
+    <string name="debt_I_owe">நான் %s-க்கு கடன்பட்டிருக்கிறேன்</string>
+    <string name="backup_save_to_sync_backend">%s இல் சேமி</string>
+    <plurals name="debt_mapped_transactions">
+        <item quantity="one">கடன் %1$s உடன் ஒரு பரிவர்த்தனை தொடற்பு படுத்தப்பட்டுள்ளது.</item>
+        <item quantity="other">கடன் %1$s உடன் %2$d பரிவர்த்தனைகள் தொடற்பு படுத்தப்பட்டுள்ளன.</item>
+    </plurals>
+    <string name="ui_refinement">பயனர் இடைமுகத்தை மெருகேற்றுதல்</string>
 </resources>
