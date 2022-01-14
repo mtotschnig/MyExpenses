@@ -129,7 +129,7 @@ abstract class AbstractOcrHandlerImpl(val prefHandler: PrefHandler, userLocalePr
                 (line.bOr0() - totalBlock.bOr0()).absoluteValue.coerceAtMost((line.tOr0() - totalBlock.tOr0()).absoluteValue).also {
                     log("%s: distance %d", line.text, it)
                 }
-            }?.firstNotNullOfOrNull {
+            }.firstNotNullOfOrNull {
                 extractAmount(it)
             })
         }.flatten().filterNotNull()

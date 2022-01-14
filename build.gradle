@@ -35,7 +35,7 @@ allprojects {
 ext {
     versionCode = 505
     versionName = '3.3.5.1'
-    compileSdkVersion = 32
+    compileSdkVersion = 31
     minSdkVersion = 21
     targetSdkVersion = 30
     espressoVersion = "3.4.0"
