@@ -252,8 +252,8 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         setupToolbar()
         mManager = LoaderManager.getInstance(this)
         val viewModelProvider = ViewModelProvider(this)
-        viewModel = viewModelProvider.get(TransactionEditViewModel::class.java)
-        currencyViewModel = viewModelProvider.get(CurrencyViewModel::class.java)
+        viewModel = viewModelProvider[TransactionEditViewModel::class.java]
+        currencyViewModel = viewModelProvider[CurrencyViewModel::class.java]
         with((applicationContext as MyApplication).appComponent) {
             inject(viewModel)
             inject(currencyViewModel)
@@ -345,7 +345,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
                         operationType,
                         accountId,
                         if (parentId != 0L) parentId else null
-                    ).observe(this, {
+                    ).observe(this) {
                         if (it != null) {
                             mRowId = it.id
                             it.defaultAction = getEnumFromPreferencesWithDefault(
@@ -355,7 +355,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
                             )
                         }
                         populateWithNewInstance(it)
-                    })
+                    }
                     isTemplate = true
                 } else {
                     when (operationType) {
@@ -369,9 +369,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
                             viewModel.newTransaction(
                                 accountId,
                                 if (parentId != 0L) parentId else null
-                            ).observe(this, {
+                            ).observe(this) {
                                 populateWithNewInstance(it)
-                            })
+                            }
                         }
                         TYPE_TRANSFER -> {
                             var transferAccountId = 0L
@@ -389,21 +389,21 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
                                 accountId,
                                 if (transferAccountId != 0L) transferAccountId else null,
                                 if (parentId != 0L) parentId else null
-                            ).observe(this, {
+                            ).observe(this) {
                                 populateWithNewInstance(it)
-                            })
+                            }
                         }
                         Transactions.TYPE_SPLIT -> {
                             if (accountId == 0L) {
                                 accountId =
                                     prefHandler.getLong(PrefKey.SPLIT_LAST_ACCOUNT_FROM_WIDGET, 0L)
                             }
-                            viewModel.newSplit(accountId).observe(this, {
+                            viewModel.newSplit(accountId).observe(this) {
                                 if (it != null) {
                                     mRowId = it.id
                                 }
                                 populateWithNewInstance(it)
-                            })
+                            }
                         }
                     }
                 }
@@ -417,11 +417,11 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
                 }
             }
         }
-        viewModel.getMethods().observe(this, { paymentMethods ->
+        viewModel.getMethods().observe(this) { paymentMethods ->
             if (::delegate.isInitialized) {
                 delegate.setMethods(paymentMethods)
             }
-        })
+        }
         viewModel.getDebts().observe(this) { debts ->
             (delegate as? MainDelegate)?.let {
                 it.setDebts(debts)
@@ -491,11 +491,11 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     }
 
     private fun loadCurrencies() {
-        currencyViewModel.getCurrencies().observe(this, { currencies ->
+        currencyViewModel.getCurrencies().observe(this) { currencies ->
             if (::delegate.isInitialized) {
                 delegate.setCurrencies(currencies)
             }
-        })
+        }
     }
 
     private fun abortWithMessage(message: String) {
@@ -669,8 +669,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         }
     }
 
-    @Suppress("unused")
-    fun toggleDateLink(view: View) {
+    fun toggleDateLink(@Suppress("UNUSED_PARAMETER") view: View) {
         areDatesLinked = !areDatesLinked
         prefHandler.putBoolean(PrefKey.DATES_ARE_LINKED, areDatesLinked)
         updateDateLink()
@@ -696,9 +695,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         if (shouldLoadMethods) {
             loadMethods(currentAccount)
         }
-        (delegate as? MainDelegate)?.let {
-            it.onAmountChanged()
-        }
+        (delegate as? MainDelegate)?.onAmountChanged()
         discoveryHelper.markDiscovered(DiscoveryHelper.Feature.expense_income_switch)
     }
 
@@ -775,10 +772,10 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
                 .setIcon(R.drawable.ic_menu_move)
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
         } else if (isMainTransaction) {
-            menu.add(Menu.NONE, R.id.ORIGINAL_AMOUNT_COMMAND, 0, R.string.menu_original_amount)
-                .setCheckable(true)
-            menu.add(Menu.NONE, R.id.EQUIVALENT_AMOUNT_COMMAND, 0, R.string.menu_equivalent_amount)
-                .setCheckable(true)
+            menu.add(Menu.NONE, R.id.ORIGINAL_AMOUNT_COMMAND, 0, R.string.menu_original_amount).isCheckable =
+                true
+            menu.add(Menu.NONE, R.id.EQUIVALENT_AMOUNT_COMMAND, 0, R.string.menu_equivalent_amount).isCheckable =
+                true
         }
         return true
     }
@@ -813,9 +810,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
             clone = false,
             forEdit = true,
             extras = null
-        ).observe(this, {
+        ).observe(this) {
             populateFromTask(it, TRANSACTION_FROM_TEMPLATE)
-        })
+        }
     }
 
     override fun doSave(andNew: Boolean) {
@@ -925,9 +922,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
                 if (planInstanceId > 0L) {
                     transaction.originPlanInstanceId = planInstanceId
                 }
-                viewModel.save(transaction).observe(this, {
+                viewModel.save(transaction).observe(this) {
                     onSaved(it, transaction)
-                })
+                }
                 if (intent.getBooleanExtra(EXTRA_START_FROM_WIDGET, false)) {
                     when (operationType) {
                         Transactions.TYPE_TRANSACTION -> prefHandler.putLong(
@@ -990,9 +987,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     private fun cleanup(onComplete: () -> Unit) {
         if (operationType == Transactions.TYPE_SPLIT && ::delegate.isInitialized) {
             delegate.rowId.let {
-                viewModel.cleanupSplit(it, isTemplate).observe(this, {
+                viewModel.cleanupSplit(it, isTemplate).observe(this) {
                     onComplete()
-                })
+                }
             }
         } else {
             onComplete()
@@ -1014,9 +1011,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
 
     private fun refreshPlanData() {
         delegate.planId?.let { planId ->
-            viewModel.plan(planId).observe(this, { plan ->
+            viewModel.plan(planId).observe(this) { plan ->
                 plan?.let { delegate.configurePlan(it) }
-            })
+            }
         }
     }
 
@@ -1416,9 +1413,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
 
     fun loadOriginTemplate(templateId: Long) {
         viewModel.transaction(templateId, TEMPLATE, clone = false, forEdit = false, extras = null)
-            .observe(this, { transaction ->
+            .observe(this) { transaction ->
                 (transaction as? Template)?.let { delegate.originTemplateLoaded(it) }
-            })
+            }
     }
 
     companion object {
