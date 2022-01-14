@@ -1,0 +1,44 @@
+plugins {
+    id 'com.android.dynamic-feature'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+}
+android {
+    compileSdk project.compileSdkVersion
+
+    defaultConfig {
+        missingDimensionStrategy 'textRecognition', 'extern'
+        minSdk 21
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation project(":myExpenses")
+    implementation "androidx.core:core-ktx:$ktxVersion"
+    implementation 'frankiesardo:icepick:3.2.0'
+    kapt 'frankiesardo:icepick-processor:3.2.0'
+    implementation 'com.annimon:stream:1.2.1'
+
+    implementation 'com.google.android.gms:play-services-auth:20.0.1'
+    implementation('com.google.http-client:google-http-client-gson:1.40.1')  {
+        exclude module: 'httpclient'
+        exclude module: 'commons-logging'
+    }
+    implementation('com.google.http-client:google-http-client-android:1.40.1') {
+        exclude group: 'org.apache.httpcomponents'
+    }
+    implementation('com.google.api-client:google-api-client-android:1.32.2') {
+        exclude group: 'org.apache.httpcomponents'
+    }
+    implementation('com.google.apis:google-api-services-drive:v3-rev20211107-1.32.1') {
+        exclude group: 'org.apache.httpcomponents'
+    }
+}

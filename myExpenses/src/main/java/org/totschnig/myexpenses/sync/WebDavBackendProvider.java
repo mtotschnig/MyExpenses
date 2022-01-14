@@ -52,8 +52,8 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   private final MediaType MIME_JSON = MediaType.parse(getMimeTypeForData() + "; charset=utf-8");
   private static final String FALLBACK_LOCK_FILENAME = ".lock";
 
-  private WebDavClient webDavClient;
-  private boolean fallbackToClass1 = false;
+  private final WebDavClient webDavClient;
+  private boolean fallbackToClass1;
 
   WebDavBackendProvider(Context context, android.accounts.Account account, AccountManager accountManager) throws SyncParseException {
     super(context);
@@ -183,16 +183,16 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   }
 
   private List<Pair<Integer, DavResource>> filterDavResources(SequenceNumber sequenceNumber) throws IOException {
-    LockableDavResource shardResource = sequenceNumber.shard == 0 ?
+    LockableDavResource shardResource = sequenceNumber.getShard() == 0 ?
         webDavClient.getCollection(accountUuid, (String[]) null) :
-        webDavClient.getCollection("_" + sequenceNumber.shard, accountUuid);
+        webDavClient.getCollection("_" + sequenceNumber.getShard(), accountUuid);
     if (!shardResource.exists()) {
       return new ArrayList<>();
     }
     List<Pair<Integer, DavResource>> result = Stream.of(webDavClient.getFolderMembers(shardResource))
-        .filter(davResource -> isNewerJsonFile(sequenceNumber.number, davResource.fileName()))
-        .map(davResource -> Pair.create(sequenceNumber.shard, davResource)).collect(Collectors.toList());
-    int nextShard = sequenceNumber.shard + 1;
+        .filter(davResource -> isNewerJsonFile(sequenceNumber.getNumber(), davResource.fileName()))
+        .map(davResource -> Pair.create(sequenceNumber.getShard(), davResource)).collect(Collectors.toList());
+    int nextShard = sequenceNumber.getShard() + 1;
     while(true) {
       final String nextShardFolder = "_" + nextShard;
       LockableDavResource nextShardResource = webDavClient.getCollection(nextShardFolder, accountUuid);
@@ -324,20 +324,20 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
     final Set<DavResource> mainMembers = webDavClient.getFolderMembers(accountUuid);
     Optional<DavResource> lastShardOptional =
         Stream.of(mainMembers)
-        .filter(davResource -> LockableDavResource.isCollection(davResource) && isAtLeastShardDir(start.shard, davResource.fileName()))
+        .filter(davResource -> LockableDavResource.isCollection(davResource) && isAtLeastShardDir(start.getShard(), davResource.fileName()))
         .max(resourceComparator);
     Set<DavResource> lastShard;
     int lastShardInt, reference;
     if (lastShardOptional.isPresent()) {
       final String lastShardName = lastShardOptional.get().fileName();
-      lastShard = webDavClient.getFolderMembers(new String[] {accountUuid, lastShardName});
+      lastShard = webDavClient.getFolderMembers(accountUuid, lastShardName);
       lastShardInt = getSequenceFromFileName(lastShardName);
-      reference = lastShardInt == start.shard ? start.number : 0;
+      reference = lastShardInt == start.getShard() ? start.getNumber() : 0;
     } else {
-      if (start.shard > 0) return start;
+      if (start.getShard() > 0) return start;
       lastShard = mainMembers;
       lastShardInt = 0;
-      reference = start.number;
+      reference = start.getNumber();
     }
     return Stream.of(lastShard)
         .filter(davResource -> isNewerJsonFile(reference, davResource.fileName()))
@@ -347,7 +347,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  void saveFileContentsToAccountDir(String folder, String fileName, String fileContents, String mimeType, boolean maybeEncrypt) throws IOException {
+  protected void saveFileContentsToAccountDir(String folder, String fileName, String fileContents, String mimeType, boolean maybeEncrypt) throws IOException {
     LockableDavResource base = webDavClient.getCollection(accountUuid, (String[]) null);
     LockableDavResource parent;
     if (folder != null) {
@@ -396,7 +396,7 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  void saveFileContentsToBase(String fileName, String fileContents, String mimeType, boolean maybeEncrypt) throws IOException {
+  protected void saveFileContentsToBase(String fileName, String fileContents, String mimeType, boolean maybeEncrypt) throws IOException {
     saveFileContents(fileName, fileContents, mimeType, maybeEncrypt, webDavClient.getBase());
   }
 

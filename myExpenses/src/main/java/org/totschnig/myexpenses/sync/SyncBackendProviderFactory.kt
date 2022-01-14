@@ -31,13 +31,13 @@ abstract class SyncBackendProviderFactory {
 
     @Throws(SyncParseException::class)
     protected abstract fun fromAccount(
-        context: Context?,
-        account: Account?,
-        accountManager: AccountManager?
+        context: Context,
+        account: Account,
+        accountManager: AccountManager
     ): SyncBackendProvider
 
     abstract val label: String
-    abstract fun startSetup(activity: ProtectedFragmentActivity?)
+    abstract fun startSetup(activity: ProtectedFragmentActivity)
 
     @SuppressWarnings("unused")
     open fun isEnabled(context: Context?): Boolean {
@@ -69,17 +69,15 @@ abstract class SyncBackendProviderFactory {
                     it.from(context, account, accountManager)
                 }
                 .firstOrNull()?.mapCatching {
-                    val result = it.setUp(
-                        accountManager.blockingGetAuthToken(
-                            account,
-                            GenericAccountService.AUTH_TOKEN_TYPE, true
-                        ),
-                        loadPassword(context.contentResolver, account.name), create
-                    )
-                    if (!result.isPresent) {
-                        throw result.exception
+                    it.also {
+                        it.setUp(
+                            accountManager.blockingGetAuthToken(
+                                account,
+                                GenericAccountService.AUTH_TOKEN_TYPE, true
+                            ),
+                            loadPassword(context.contentResolver, account.name), create
+                        ).orThrow
                     }
-                    it
                 } ?: Result.failure(SyncParseException("No Provider found for account $account"))
         }
     }

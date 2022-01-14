@@ -54,9 +54,9 @@ import timber.log.Timber;
 import static org.totschnig.myexpenses.sync.SyncAdapter.LOCK_TIMEOUT_MINUTES;
 import static org.totschnig.myexpenses.sync.json.Utils.getChanges;
 
-abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
-  static final String KEY_LOCK_TOKEN = "lockToken";
-  static final String BACKUP_FOLDER_NAME = "BACKUPS";
+public abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
+  public static final String KEY_LOCK_TOKEN = "lockToken";
+  public static final String BACKUP_FOLDER_NAME = "BACKUPS";
   private static final String MIME_TYPE_JSON = "application/json";
   private static final String ACCOUNT_METADATA_FILENAME = "metadata";
   protected static final Pattern FILE_PATTERN = Pattern.compile("_\\d+");
@@ -78,7 +78,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   @Nullable
   private String encryptionPassword;
 
-  AbstractSyncBackendProvider(Context context) {
+  public AbstractSyncBackendProvider(Context context) {
     this.context = context;
     gson = new GsonBuilder()
         .registerTypeAdapterFactory(AdapterFactory.create())
@@ -195,7 +195,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   }
 
   @NonNull
-  ChangeSet getChangeSetFromInputStream(SequenceNumber sequenceNumber, InputStream inputStream)
+  protected ChangeSet getChangeSetFromInputStream(SequenceNumber sequenceNumber, InputStream inputStream)
       throws IOException {
     List<TransactionChange> changes;
     try (BufferedReader reader = new BufferedReader(new InputStreamReader(maybeDecrypt(inputStream)))) {
@@ -246,7 +246,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
   @NonNull
   protected abstract InputStream getInputStreamForPicture(String relativeUri) throws IOException;
 
-  Exceptional<AccountMetaData> getAccountMetaDataFromInputStream(InputStream inputStream) {
+  protected Exceptional<AccountMetaData> getAccountMetaDataFromInputStream(InputStream inputStream) {
     try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(maybeDecrypt(inputStream)))) {
       final AccountMetaData accountMetaData = gson.fromJson(bufferedReader, AccountMetaData.class);
       if (accountMetaData == null) {
@@ -259,12 +259,12 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     }
   }
 
-  boolean isAtLeastShardDir(int shardNumber, String name) {
+  protected boolean isAtLeastShardDir(int shardNumber, String name) {
     return FILE_PATTERN.matcher(name).matches() &&
         Integer.parseInt(name.substring(1)) >= shardNumber;
   }
 
-  boolean isNewerJsonFile(int sequenceNumber, String name) {
+  protected boolean isNewerJsonFile(int sequenceNumber, String name) {
     String fileName = getNameWithoutExtension(name);
     String fileExtension = getFileExtension(name);
     return fileExtension.equals(getExtensionForData()) && FILE_PATTERN.matcher(fileName).matches() &&
@@ -275,7 +275,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
     return Stream.of(changeSetStream).reduce(ChangeSet::merge);
   }
 
-  int getSequenceFromFileName(String fileName) {
+  protected int getSequenceFromFileName(String fileName) {
     return Integer.parseInt(getNameWithoutExtension(fileName).substring(1));
   }
 
@@ -335,11 +335,11 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
       }
       changeSetMutable.set(i, mappedChange);
     }
-    String fileName = String.format(Locale.ROOT, "_%d.%s", nextSequence.number, getExtensionForData());
+    String fileName = String.format(Locale.ROOT, "_%d.%s", nextSequence.getNumber(), getExtensionForData());
     String fileContents = gson.toJson(changeSetMutable);
     log().i("Writing to %s", fileName);
     log().i(fileContents);
-    saveFileContentsToAccountDir(nextSequence.shard == 0 ? null : "_" + nextSequence.shard, fileName, fileContents, getMimeTypeForData(), true);
+    saveFileContentsToAccountDir(nextSequence.getShard() == 0 ? null : "_" + nextSequence.getShard(), fileName, fileContents, getMimeTypeForData(), true);
     return nextSequence;
   }
 
@@ -348,12 +348,12 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
    */
   protected abstract void saveUriToAccountDir(String fileName, Uri uri) throws IOException;
 
-  String buildMetadata(Account account) {
+  protected String buildMetadata(Account account) {
     return gson.toJson(AccountMetaData.from(account));
   }
 
   @NonNull
-  String getMimeType(String fileName) {
+  protected String getMimeType(String fileName) {
     String result = MimeTypeMap.getSingleton().getMimeTypeFromExtension(getFileExtension(fileName));
     return result != null ? result : MIME_TYPE_OCTET_STREAM;
   }
@@ -365,11 +365,11 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
 
   protected abstract SequenceNumber getLastSequence(SequenceNumber start) throws IOException;
 
-  abstract void saveFileContentsToAccountDir(@Nullable String folder, String fileName, String fileContents, String mimeType, boolean maybeEncrypt) throws IOException;
+  protected abstract void saveFileContentsToAccountDir(@Nullable String folder, String fileName, String fileContents, String mimeType, boolean maybeEncrypt) throws IOException;
 
-  abstract void saveFileContentsToBase(String fileName, String fileContents, String mimeType, boolean maybeEncrypt) throws IOException;
+  protected abstract void saveFileContentsToBase(String fileName, String fileContents, String mimeType, boolean maybeEncrypt) throws IOException;
 
-  void createWarningFile() {
+  protected void createWarningFile() {
     try {
       saveFileContentsToAccountDir(null, "IMPORTANT_INFORMATION.txt",
           Utils.getTextWithAppName(context, R.string.warning_synchronization_folder_usage).toString(),
@@ -429,7 +429,7 @@ abstract class AbstractSyncBackendProvider implements SyncBackendProvider {
         .putBoolean(accountPrefKey(KEY_OWNED_BY_US), ownedByUs).commit();
   }
 
-  Context getContext() {
+  protected Context getContext() {
     return context;
   }
 

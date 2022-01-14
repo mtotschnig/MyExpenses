@@ -7,4 +7,5 @@
     <string name="title_mlkit_deva">ML Kit Devanagari</string>
     <string name="title_mlkit_jpan">ML Kit Japanese</string>
     <string name="title_mlkit_kore">ML Kit Korean</string>
+    <string name="title_drive">Google Drive</string>
 </resources>

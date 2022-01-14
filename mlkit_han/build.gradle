@@ -3,7 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 android {
-    compileSdk 31
+    compileSdk project.compileSdkVersion
 
     defaultConfig {
         missingDimensionStrategy 'textRecognition', 'intern'
@@ -15,5 +15,5 @@ android {
 
 dependencies {
     implementation project(":mlkit")
-    implementation 'com.google.mlkit:text-recognition-chinese:16.0.0-beta1'
+    implementation "com.google.mlkit:text-recognition-chinese:$mlkitTextRecognition"
 }

@@ -724,7 +724,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             getKey(PrefKey.SYNC) -> {
                 requirePreference<Preference>(PrefKey.MANAGE_SYNC_BACKENDS).summary = (getString(
                     R.string.pref_manage_sync_backends_summary,
-                    ServiceLoader.load(context).joinToString { it.label }
+                    ServiceLoader.load(requireContext()).joinToString { it.label }
                 ) +
                         " " + ContribFeature.SYNCHRONIZATION.buildRequiresString(requireActivity()))
                 requirePreference<Preference>(PrefKey.SYNC_NOTIFICATION).onPreferenceChangeListener =

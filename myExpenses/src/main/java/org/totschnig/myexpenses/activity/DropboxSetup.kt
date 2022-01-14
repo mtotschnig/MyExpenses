@@ -21,7 +21,7 @@ class DropboxSetup : AbstractSyncBackup<DropboxSetupViewModel>() {
         }
     }
 
-    override fun instantiateViewModel() = ViewModelProvider(this).get(DropboxSetupViewModel::class.java)
+    override fun instantiateViewModel() = ViewModelProvider(this)[DropboxSetupViewModel::class.java]
 
     override fun onResume() {
         super.onResume()

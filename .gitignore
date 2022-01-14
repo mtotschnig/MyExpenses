@@ -5,3 +5,4 @@ build
 local.properties
 fastlane
 ChangeLog.install
+google-services.json

@@ -143,13 +143,14 @@ android {
         compose true
     }
     //It does not seem possible to define dynamicFeatures dependent on variant
-    //If you want to build intern variant, you need to include mlkit and/or tesseract module
-    //dynamicFeatures = [':ocr', ':mlkit', ':tesseract']
+    //If you want to build intern variant, you need to include mlkit (+ at least one of ':mlkit_latn', ':mlkit_han', ':mlkit_deva', ':mlkit_jpan', ':mlkit_kore') and/or tesseract module
+    //drive for Sync with Google Drive
     dynamicFeatures = [':ocr', ':webui']
-    //For mlkit also add at least one of ':mlkit_latn', ':mlkit_han', ':mlkit_deva', ':mlkit_jpan', ':mlkit_kore'
+
     composeOptions {
-        kotlinCompilerExtensionVersion compose_version
+        kotlinCompilerExtensionVersion compose_compiler_version
     }
+
     lint {
         abortOnError true
         checkDependencies true
@@ -167,7 +168,7 @@ dependencies {
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.0'
     implementation 'androidx.activity:activity-compose:1.4.0'
-    implementation "com.google.android.material:compose-theme-adapter:$compose_version"
+    implementation "com.google.android.material:compose-theme-adapter:1.1.2"
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
@@ -177,7 +178,7 @@ dependencies {
     compileOnly 'javax.annotation:jsr250-api:1.0'
     implementation 'frankiesardo:icepick:3.2.0'
     kapt 'frankiesardo:icepick-processor:3.2.0'
-    implementation 'com.google.code.gson:gson:2.8.8'
+    implementation 'com.google.code.gson:gson:2.8.9'
 
     api 'com.google.auto.value:auto-value-annotations:1.7.4'
     kapt 'com.google.auto.value:auto-value:1.7'
@@ -203,7 +204,7 @@ dependencies {
     implementation "com.squareup.picasso:picasso:$picassoVersion"
     implementation 'com.github.mtotschnig:MPAndroidChart:6fcf34d9d4'
     implementation 'com.github.mtotschnig:Caldroid:2fcb748f0e'
-    implementation 'com.github.eltos:simpledialogfragments:v3.3.2'
+    api 'com.github.eltos:simpledialogfragments:v3.3.2'
     implementation 'com.annimon:stream:1.2.1'
     implementation 'com.getkeepsafe.taptargetview:taptargetview:1.13.2'
 
@@ -220,7 +221,7 @@ dependencies {
 
     api "com.jakewharton.timber:timber:$timberVersion"
 
-    implementation 'org.slf4j:slf4j-api:1.7.30'
+    implementation 'org.slf4j:slf4j-api:1.7.32'
     implementation 'com.github.tony19:logback-android:2.0.0'
 
     implementation "androidx.appcompat:appcompat:$appcompatVersion"
@@ -261,7 +262,7 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxTextExtJunit"
     androidTestImplementation "androidx.test:runner:$androidSupportTestVersion"
-    androidTestUtil "androidx.test:orchestrator:$androidSupportTestVersion"
+    androidTestUtil "androidx.test:orchestrator:1.4.1"
     androidTestImplementation "androidx.test:rules:$androidSupportTestVersion"
     androidTestImplementation "androidx.test.espresso:espresso-intents:$espressoVersion"
     androidTestImplementation("androidx.test.espresso:espresso-contrib:$espressoVersion")
@@ -316,7 +317,8 @@ dependencies {
     //implementation "androidx.activity:activity-ktx:$activity_version"
     implementation "androidx.fragment:fragment-ktx:$fragmentVersion"
 
-    internImplementation "com.google.android.gms:play-services-base:18.0.0"
+    //Mlkit / Drive
+    //implementation "com.google.android.gms:play-services-base:18.0.1"
 
     //noinspection GradleDependency
     implementation 'com.github.mtotschnig:Android-Image-Cropper:cbea979d2a'
@@ -336,6 +338,9 @@ task copyFileForFixture(type: Files) {
         push "tests/script/screenshot.jpg", "/sdcard/Android/data/org.totschnig.myexpenses.fortest/files/screenshot.jpg"
     }
 }
+
+//For Drive
+//apply plugin: 'com.google.gms.google-services'
 
 task echoPublishTag() {
     doLast {

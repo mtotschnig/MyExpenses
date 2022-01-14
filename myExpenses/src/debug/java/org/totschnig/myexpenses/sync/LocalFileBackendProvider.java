@@ -32,8 +32,9 @@ import androidx.annotation.NonNull;
 import androidx.core.util.Pair;
 import dagger.internal.Preconditions;
 
-class LocalFileBackendProvider extends AbstractSyncBackendProvider {
-  private File baseDir, accountDir;
+public class LocalFileBackendProvider extends AbstractSyncBackendProvider {
+  private final File baseDir;
+  private File accountDir;
 
   LocalFileBackendProvider(Context context, String filePath) {
     super(context);
@@ -134,7 +135,7 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
 
   @NonNull
   @Override
-  public List<String> getStoredBackups() throws IOException {
+  public List<String> getStoredBackups() {
     String[] list = new File(baseDir, BACKUP_FOLDER_NAME).list();
     return list != null ? Arrays.asList(list) : new ArrayList<>();
   }
@@ -148,19 +149,19 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
   protected SequenceNumber getLastSequence(SequenceNumber start) {
     final Comparator<File> fileComparator = (o1, o2) -> Utils.compare(getSequenceFromFileName(o1.getName()), getSequenceFromFileName(o2.getName()));
     Optional<File> lastShardOptional = Stream.of(accountDir.listFiles(
-        file -> file.isDirectory() && isAtLeastShardDir(start.shard, file.getName())))
+        file -> file.isDirectory() && isAtLeastShardDir(start.getShard(), file.getName())))
         .max(fileComparator);
     File lastShard;
     int lastShardInt, reference;
     if (lastShardOptional.isPresent()) {
       lastShard = lastShardOptional.get();
       lastShardInt = getSequenceFromFileName(lastShard.getName());
-      reference = lastShardInt == start.shard ? start.number : 0;
+      reference = lastShardInt == start.getShard() ? start.getNumber() : 0;
     } else {
-      if (start.shard > 0) return start;
+      if (start.getShard() > 0) return start;
       lastShard = accountDir;
       lastShardInt = 0;
-      reference = start.number;
+      reference = start.getNumber();
     }
     return Stream.of(lastShard.listFiles(file -> isNewerJsonFile(reference, file.getName())))
         .max(fileComparator)
@@ -170,11 +171,11 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
 
   private List<Pair<Integer, File>> filterFiles(SequenceNumber sequenceNumber) {
     Preconditions.checkNotNull(accountDir);
-    File shardDir = sequenceNumber.shard == 0 ? accountDir : new File(accountDir, "_" +sequenceNumber.shard);
+    File shardDir = sequenceNumber.getShard() == 0 ? accountDir : new File(accountDir, "_" +sequenceNumber.getShard());
     if (!shardDir.isDirectory()) return new ArrayList<>();
-    List<Pair<Integer, File>> result = Stream.of(shardDir.listFiles(file -> isNewerJsonFile(sequenceNumber.number, file.getName())))
-        .map(file -> Pair.create(sequenceNumber.shard, file)).collect(Collectors.toList());
-    int nextShard = sequenceNumber.shard + 1;
+    List<Pair<Integer, File>> result = Stream.of(shardDir.listFiles(file -> isNewerJsonFile(sequenceNumber.getNumber(), file.getName())))
+        .map(file -> Pair.create(sequenceNumber.getShard(), file)).collect(Collectors.toList());
+    int nextShard = sequenceNumber.getShard() + 1;
     while(true) {
       File nextShardDir = new File(accountDir, "_" + nextShard);
       if (nextShardDir.isDirectory()) {
@@ -224,13 +225,14 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
   public void unlock() {
   }
 
+  @NonNull
   @Override
   public String toString() {
     return baseDir.toString();
   }
 
   @Override
-  void saveFileContentsToAccountDir(String folder, String fileName, String fileContents, String mimeType, boolean maybeEncrypt) throws IOException {
+  protected void saveFileContentsToAccountDir(String folder, String fileName, String fileContents, String mimeType, boolean maybeEncrypt) throws IOException {
     Preconditions.checkNotNull(accountDir);
     File dir = folder == null ? accountDir : new File(accountDir, folder);
     //noinspection ResultOfMethodCallIgnored
@@ -243,7 +245,7 @@ class LocalFileBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  void saveFileContentsToBase(String fileName, String fileContents, String mimeType, boolean maybeEncrypt) throws IOException {
+  protected void saveFileContentsToBase(String fileName, String fileContents, String mimeType, boolean maybeEncrypt) throws IOException {
     saveFileContents(new File(baseDir, fileName), fileContents, maybeEncrypt);
   }
 

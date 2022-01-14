@@ -63,11 +63,11 @@ public interface SyncBackendProvider {
   Exceptional<AccountMetaData> readAccountMetaData();
 
   class SyncParseException extends Exception {
-    SyncParseException(Exception e) {
+    public SyncParseException(Exception e) {
       super(e.getMessage(), e);
     }
 
-    SyncParseException(String message) {
+    public SyncParseException(String message) {
       super(message);
     }
   }

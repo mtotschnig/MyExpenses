@@ -40,7 +40,7 @@ import androidx.core.util.Pair;
 public class DropboxBackendProvider extends AbstractSyncBackendProvider {
   private static final String LOCK_FILE = ".lock";
   private DbxClientV2 mDbxClient;
-  private String basePath;
+  private final String basePath;
 
   DropboxBackendProvider(Context context, String folderName) {
     super(context);
@@ -218,12 +218,12 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
 
   private List<Pair<Integer, Metadata>> filterMetadata(SequenceNumber sequenceNumber) throws IOException {
     final String accountPath = getAccountPath();
-    String shardPath = sequenceNumber.shard == 0 ? accountPath : accountPath + "/_" + sequenceNumber.shard;
+    String shardPath = sequenceNumber.getShard() == 0 ? accountPath : accountPath + "/_" + sequenceNumber.getShard();
     try {
       final List<Pair<Integer, Metadata>> entries = Stream.of(mDbxClient.files().listFolder(shardPath).getEntries())
-          .filter(metadata -> isNewerJsonFile(sequenceNumber.number, metadata.getName()))
-          .map(metadata -> Pair.create(sequenceNumber.shard, metadata)).collect(Collectors.toList());
-      int nextShard = sequenceNumber.shard + 1;
+          .filter(metadata -> isNewerJsonFile(sequenceNumber.getNumber(), metadata.getName()))
+          .map(metadata -> Pair.create(sequenceNumber.getShard(), metadata)).collect(Collectors.toList());
+      int nextShard = sequenceNumber.getShard() + 1;
       while (true) {
         final String nextShardPath = accountPath + "/_" + nextShard;
         if (exists(nextShardPath)) {
@@ -282,7 +282,7 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
       final List<Metadata> mainEntries = mDbxClient.files().listFolder(accountPath).getEntries();
       Optional<Metadata> lastShardOptional =
           Stream.of(mainEntries)
-              .filter(metadata -> metadata instanceof FolderMetadata && isAtLeastShardDir(start.shard, metadata.getName()))
+              .filter(metadata -> metadata instanceof FolderMetadata && isAtLeastShardDir(start.getShard(), metadata.getName()))
               .max(resourceComparator);
       List<Metadata> lastShard;
       int lastShardInt, reference;
@@ -290,12 +290,12 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
         final String lastShardName = lastShardOptional.get().getName();
         lastShard = mDbxClient.files().listFolder(accountPath + "/" + lastShardName).getEntries();
         lastShardInt = getSequenceFromFileName(lastShardName);
-        reference = lastShardInt == start.shard ? start.number : 0;
+        reference = lastShardInt == start.getShard() ? start.getNumber() : 0;
       } else {
-        if (start.shard > 0) return start;
+        if (start.getShard() > 0) return start;
         lastShard = mainEntries;
         lastShardInt = 0;
-        reference = start.number;
+        reference = start.getNumber();
       }
       return Stream.of(lastShard)
           .filter(metadata -> isNewerJsonFile(reference, metadata.getName()))
@@ -308,7 +308,7 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  void saveFileContentsToAccountDir(String folder, String fileName, String fileContents, String mimeType, boolean maybeEncrypt) throws IOException {
+  protected void saveFileContentsToAccountDir(String folder, String fileName, String fileContents, String mimeType, boolean maybeEncrypt) throws IOException {
     String path;
     final String accountPath = getAccountPath();
     if (folder == null) {
@@ -321,7 +321,7 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
   }
 
   @Override
-  void saveFileContentsToBase(String fileName, String fileContents, String mimeType, boolean maybeEncrypt) throws IOException {
+  protected void saveFileContentsToBase(String fileName, String fileContents, String mimeType, boolean maybeEncrypt) throws IOException {
     saveInputStream(basePath + "/" + fileName, toInputStream(fileContents, maybeEncrypt));
   }
 
@@ -369,7 +369,7 @@ public class DropboxBackendProvider extends AbstractSyncBackendProvider {
 
   @NonNull
   @Override
-  public List<String> getStoredBackups() throws IOException {
+  public List<String> getStoredBackups() {
     try {
       return Stream.of(mDbxClient.files().listFolder(getBackupPath()).getEntries())
           .map(Metadata::getName)

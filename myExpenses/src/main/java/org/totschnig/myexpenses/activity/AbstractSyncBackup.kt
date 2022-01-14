@@ -31,26 +31,24 @@ abstract class AbstractSyncBackup<T : AbstractSetupViewModel> : ProtectedFragmen
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = instantiateViewModel()
-        viewModel.folderList.observe(this, {
+        viewModel.folderList.observe(this) {
             loadFinished = true
             if (it.isNotEmpty()) {
                 showSelectFolderDialog(it)
             } else {
                 showCreateFolderDialog()
             }
-        })
-        viewModel.folderCreateResult.observe(this, {
+        }
+        viewModel.folderCreateResult.observe(this) {
             success(it)
-        })
-        viewModel.error.observe(this, { exception ->
+        }
+        viewModel.error.observe(this) { exception ->
             if (!handleException(exception)) {
                 CrashHandler.report(exception)
-                exception.message?.let {
-                    Toast.makeText(this, it, Toast.LENGTH_LONG).show()
-                }
+                showSnackbar(exception.message ?: "ERROR")
                 finish()
             }
-        })
+        }
     }
 
     abstract fun handleException(exception: Exception): Boolean
