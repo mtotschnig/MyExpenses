@@ -505,8 +505,13 @@ class ExportTest {
         if (withAccountColumn) {
             sb.append('"').append(context.getString(R.string.account)).append('"').append(separator)
         }
-        for (res in resArray) {
-            sb.append('"').append(context.getString(res)).append('"').append(separator)
+        val iterator = resArray.iterator()
+        while (iterator.hasNext()) {
+            val res = iterator.next()
+            sb.append('"').append(context.getString(res)).append('"')
+            if (iterator.hasNext()) {
+                sb.append(separator)
+            }
         }
         return sb.toString()
     }

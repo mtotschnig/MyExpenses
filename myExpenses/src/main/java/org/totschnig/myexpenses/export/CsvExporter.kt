@@ -3,13 +3,11 @@ package org.totschnig.myexpenses.export
 import android.content.Context
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.model.SplitTransaction
 import org.totschnig.myexpenses.model.TransactionDTO
 import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.util.StringBuilderWrapper
-import java.math.BigDecimal
 
 /**
  * @param account          Account to print
@@ -57,8 +55,13 @@ class CsvExporter(
             if (withAccountColumn) {
                 appendQ(context.getString(R.string.account)).append(delimiter)
             }
-            for (column in columns) {
-                appendQ(context.getString(column)).append(delimiter)
+            val iterator = columns.iterator()
+            while (iterator.hasNext()) {
+                val column = iterator.next()
+                appendQ(context.getString(column))
+                if (iterator.hasNext()) {
+                    append(delimiter)
+                }
             }
             append("\n")
         }.toString()
