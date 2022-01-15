@@ -309,10 +309,12 @@ class CsvImportDataFragment : Fragment() {
                 columnToFieldMap[i] = fields[position].first
                 if (position > 0) {
                     header?.let {
-                        try {
-                            header2FieldMap.put(Utils.normalize(header[i]), fields[position].second)
-                        } catch (e: JSONException) {
-                            CrashHandler.report(e)
+                        if (header.isSet(i)) {
+                            try {
+                                header2FieldMap.put(Utils.normalize(header[i]), fields[position].second)
+                            } catch (e: JSONException) {
+                                CrashHandler.report(e)
+                            }
                         }
                     }
                 }
