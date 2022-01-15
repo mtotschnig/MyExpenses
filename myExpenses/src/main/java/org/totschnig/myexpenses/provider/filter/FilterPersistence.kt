@@ -12,43 +12,55 @@ class FilterPersistence(val prefHandler: PrefHandler, private val keyTemplate: S
     init {
         whereFilter = savedInstanceState?.getParcelableArrayList<Criteria>(KEY_FILTER)?.let {
             WhereFilter(it)
-        } ?: WhereFilter.empty().apply { if (restoreFromPreferences) restoreFromPreferences(this) }
+        } ?: WhereFilter.empty().apply { if (restoreFromPreferences) restoreFromPreferences() }
     }
 
-    private fun restoreFromPreferences(whereFilter: WhereFilter) {
-        prefHandler.getString(prefNameForCriteria(CategoryCriteria.COLUMN), null)?.let {
-            whereFilter.put(CategoryCriteria.fromStringExtra(it))
-        }
-        prefHandler.getString(prefNameForCriteria(AmountCriteria.COLUMN), null)?.let {
-            whereFilter.put(AmountCriteria.fromStringExtra(it))
-        }
-        prefHandler.getString(prefNameForCriteria(CommentCriteria.COLUMN), null)?.let {
-            whereFilter.put(CommentCriteria.fromStringExtra(it))
-        }
-        prefHandler.getString(prefNameForCriteria(CrStatusCriteria.COLUMN), null)?.let {
-            whereFilter.put(CrStatusCriteria.fromStringExtra(it))
-        }
-        prefHandler.getString(prefNameForCriteria(PayeeCriteria.COLUMN), null)?.let {
-            whereFilter.put(PayeeCriteria.fromStringExtra(it))
-        }
-        prefHandler.getString(prefNameForCriteria(MethodCriteria.COLUMN), null)?.let {
-            whereFilter.put(MethodCriteria.fromStringExtra(it))
-        }
-        prefHandler.getString(prefNameForCriteria(DateCriteria.COLUMN), null)?.let {
-            try {
-                whereFilter.put(DateCriteria.fromStringExtra(it))
-            } catch (e: DateTimeParseException) {
-                Timber.e(e)
+    private fun WhereFilter.restoreColumn(column: String, producer: (String) -> Criteria?) {
+        val prefNameForCriteria = prefNameForCriteria(column)
+        prefHandler.getString(prefNameForCriteria, null)?.let { prefValue ->
+            producer(prefValue)?.let {
+                put(it)
+            } ?: kotlin.run {
+                prefHandler.remove(prefNameForCriteria)
             }
         }
-        prefHandler.getString(prefNameForCriteria(TRANSFER_COLUMN), null)?.let {
-            whereFilter.put(TransferCriteria.fromStringExtra(it))
+    }
+
+    private fun WhereFilter.restoreFromPreferences() {
+        restoreColumn(CategoryCriteria.COLUMN) {
+            CategoryCriteria.fromStringExtra(it)
         }
-        prefHandler.getString(prefNameForCriteria(TAG_COLUMN), null)?.let {
-            whereFilter.put(TagCriteria.fromStringExtra(it))
+        restoreColumn(AmountCriteria.COLUMN) {
+            AmountCriteria.fromStringExtra(it)
         }
-        prefHandler.getString(prefNameForCriteria(ACCOUNT_COLUMN), null)?.let {
-            whereFilter.put(AccountCriteria.fromStringExtra(it))
+        restoreColumn(CommentCriteria.COLUMN) {
+            CommentCriteria.fromStringExtra(it)
+        }
+        restoreColumn(CrStatusCriteria.COLUMN) {
+            CrStatusCriteria.fromStringExtra(it)
+        }
+        restoreColumn(PayeeCriteria.COLUMN) {
+            PayeeCriteria.fromStringExtra(it)
+        }
+        restoreColumn(MethodCriteria.COLUMN) {
+            MethodCriteria.fromStringExtra(it)
+        }
+        restoreColumn(DateCriteria.COLUMN) {
+            try {
+                DateCriteria.fromStringExtra(it)
+            } catch (e: DateTimeParseException) {
+                Timber.e(e)
+                null
+            }
+        }
+        restoreColumn(TRANSFER_COLUMN) {
+            TransferCriteria.fromStringExtra(it)
+        }
+        restoreColumn(TAG_COLUMN) {
+            TagCriteria.fromStringExtra(it)
+        }
+        restoreColumn(ACCOUNT_COLUMN) {
+            AccountCriteria.fromStringExtra(it)
         }
     }
 
@@ -91,9 +103,9 @@ class FilterPersistence(val prefHandler: PrefHandler, private val keyTemplate: S
     }
 
     fun reloadFromPreferences() {
-        whereFilter.let {
-            it.clear()
-            restoreFromPreferences(it)
+        with(whereFilter) {
+            clear()
+            restoreFromPreferences()
         }
     }
 

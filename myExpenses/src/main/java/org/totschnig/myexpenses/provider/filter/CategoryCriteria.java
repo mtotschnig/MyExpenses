@@ -30,6 +30,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
 
+import androidx.annotation.Nullable;
+
 public class CategoryCriteria extends IdCriteria {
   static final String COLUMN = KEY_CATID;
 
@@ -86,6 +88,7 @@ public class CategoryCriteria extends IdCriteria {
     }
   };
 
+  @Nullable
   public static Criteria fromStringExtra(String extra) {
     return extra.equals("null") ? new CategoryCriteria() : IdCriteria.fromStringExtra(extra, CategoryCriteria.class);
   }
