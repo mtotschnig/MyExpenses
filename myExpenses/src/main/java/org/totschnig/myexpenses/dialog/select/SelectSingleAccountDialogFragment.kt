@@ -8,13 +8,12 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
 import org.totschnig.myexpenses.provider.TransactionProvider
 
 class SelectSingleAccountDialogFragment : SelectSingleDialogFragment() {
-    override fun getUri(): Uri = TransactionProvider.ACCOUNTS_URI
-
-    override fun getColumn() = DatabaseConstants.KEY_LABEL
-
-    override fun getSelection() = "$KEY_SEALED = 0 " + (arguments?.getLongArray(KEY_EXCLUDED_IDS)?.let {
-        "AND $KEY_ROWID NOT IN (${it.joinToString()})"
-    } ?: "")
+    override val uri: Uri = TransactionProvider.ACCOUNTS_URI
+    override val column: String = DatabaseConstants.KEY_LABEL
+    override val selection: String
+        get() = "$KEY_SEALED = 0 " + (arguments?.getLongArray(KEY_EXCLUDED_IDS)?.let {
+            "AND $KEY_ROWID NOT IN (${it.joinToString()})"
+        } ?: "")
 
     companion object {
         const val KEY_EXCLUDED_IDS = "excludedIds"

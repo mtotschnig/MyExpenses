@@ -3,7 +3,7 @@ package org.totschnig.myexpenses.dialog.select
 import android.database.Cursor
 import org.totschnig.myexpenses.provider.DatabaseConstants
 
-internal data class DataHolder(val id: Long, val label: String) {
+data class DataHolder(val id: Long, val label: String) {
     override fun toString(): String {
         return label
     }

@@ -36,15 +36,14 @@ public class SelectHiddenAccountDialogFragment extends SelectMultipleDialogFragm
 
   @NonNull
   @Override
-  Uri getUri() {
+  public Uri getUri() {
     return TransactionProvider.ACCOUNTS_URI;
   }
 
   @NonNull
   @Override
-  String getColumn() {
+  public String getColumn() {
     return DatabaseConstants.KEY_LABEL;
-
   }
 
   @Override
@@ -52,7 +51,7 @@ public class SelectHiddenAccountDialogFragment extends SelectMultipleDialogFragm
     switch (which) {
       case DialogInterface.BUTTON_POSITIVE:
         if (itemIds.length > 0) {
-          ((ProtectedFragmentActivity) getActivity()).startTaskExecution(TASK_SET_ACCOUNT_HIDDEN,
+          ((ProtectedFragmentActivity) requireActivity()).startTaskExecution(TASK_SET_ACCOUNT_HIDDEN,
               ArrayUtils.toObject(itemIds), false, 0);
         }
         return true;
@@ -94,4 +93,5 @@ public class SelectHiddenAccountDialogFragment extends SelectMultipleDialogFragm
   protected int getNegativeButton() {
     return 0;
   }
+
 }

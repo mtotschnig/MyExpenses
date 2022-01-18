@@ -22,9 +22,8 @@ abstract class SelectSingleDialogFragment : SelectFromTableDialogFragment(false)
         dismiss()
     }
 
-    override fun getDialogTitle(): Int {
-        return requireArguments().getInt(KEY_DIALOG_TITLE)
-    }
+    override val dialogTitle: Int
+        get() = requireArguments().getInt(KEY_DIALOG_TITLE)
 
     private fun buildExtras(): Bundle? {
         val listView = (dialog as AlertDialog).listView
@@ -37,7 +36,7 @@ abstract class SelectSingleDialogFragment : SelectFromTableDialogFragment(false)
         }
     }
 
-    override fun getChoiceMode() = AbsListView.CHOICE_MODE_SINGLE
+    override val choiceMode: Int = AbsListView.CHOICE_MODE_SINGLE
 
     companion object {
         internal fun buildArguments(dialogTitle: Int, emptyMessage: Int? = null) = Bundle().apply {

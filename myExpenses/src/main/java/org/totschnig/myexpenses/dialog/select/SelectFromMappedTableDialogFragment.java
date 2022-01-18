@@ -38,18 +38,18 @@ public abstract class SelectFromMappedTableDialogFragment extends SelectFilterDi
 
   @NonNull
   @Override
-  String getColumn() {
+  public String getColumn() {
     return KEY_LABEL;
   }
 
   @Override
   protected String getSelection() {
-    return accountSelection(getArguments().getLong(KEY_ROWID));
+    return accountSelection(requireArguments().getLong(KEY_ROWID));
   }
 
   @Override
   protected String[] getSelectionArgs() {
-    return accountSelectionArgs(getArguments().getLong(KEY_ROWID));
+    return accountSelectionArgs(requireArguments().getLong(KEY_ROWID));
   }
 
   protected void setArguments(long rowId) {

@@ -38,7 +38,7 @@ public class SelectTransferAccountDialogFragment extends SelectFromMappedTableDi
 
   @NonNull
   @Override
-  Uri getUri() {
+  public Uri getUri() {
     return TransactionProvider.MAPPED_TRANSFER_ACCOUNTS_URI;
   }
 

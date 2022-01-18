@@ -39,7 +39,7 @@ public class SelectMethodDialogFragment extends SelectFromMappedTableDialogFragm
 
   @NonNull
   @Override
-  Uri getUri() {
+  public Uri getUri() {
     return TransactionProvider.MAPPED_METHODS_URI;
   }
 

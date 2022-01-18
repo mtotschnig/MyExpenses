@@ -38,21 +38,21 @@ public class SelectUnSyncedAccountDialogFragment extends SelectMultipleDialogFra
 
   @NonNull
   @Override
-  Uri getUri() {
+  public Uri getUri() {
     return TransactionProvider.ACCOUNTS_URI;
   }
 
   @NonNull
   @Override
-  String getColumn() {
+  public String getColumn() {
     return DatabaseConstants.KEY_LABEL;
   }
 
   @Override
-  protected boolean onResult(List<String> labelList, long[] itemIds, int which) {
+  protected boolean onResult(@NonNull List<String> labelList, long[] itemIds, int which) {
     if (itemIds.length > 0) {
-      ((ProtectedFragmentActivity) getActivity()).startTaskExecution(TASK_SYNC_LINK_SAVE,
-          ArrayUtils.toObject(itemIds), getArguments().getString(KEY_SYNC_ACCOUNT_NAME), 0);
+      ((ProtectedFragmentActivity) requireActivity()).startTaskExecution(TASK_SYNC_LINK_SAVE,
+          ArrayUtils.toObject(itemIds), requireArguments().getString(KEY_SYNC_ACCOUNT_NAME), 0);
     }
     return true;
   }

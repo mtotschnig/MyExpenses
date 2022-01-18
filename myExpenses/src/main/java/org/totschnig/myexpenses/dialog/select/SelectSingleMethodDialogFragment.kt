@@ -1,17 +1,19 @@
 package org.totschnig.myexpenses.dialog.select
 
+import android.net.Uri
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 
 class SelectSingleMethodDialogFragment : SelectSingleDialogFragment() {
-    override fun getUri() = TransactionProvider.METHODS_URI.buildUpon()
+    override val uri: Uri
+        get() = TransactionProvider.METHODS_URI.buildUpon()
             .appendPath(TransactionProvider.URI_SEGMENT_TYPE_FILTER)
             .appendPath(arguments?.getString(KEY_SIGNUM))
             .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_ACCOUNTY_TYPE_LIST,
                     arguments?.getStringArray(KEY_ACCOUNT_TYPES)?.joinToString(separator = ";"))
             .build()
 
-    override fun getColumn() = DatabaseConstants.KEY_LABEL
+    override val column: String = DatabaseConstants.KEY_LABEL
 
     companion object {
         const val KEY_SIGNUM = "signum"
