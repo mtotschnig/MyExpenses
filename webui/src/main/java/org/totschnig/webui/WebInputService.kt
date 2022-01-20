@@ -6,9 +6,7 @@ import android.app.PendingIntent.FLAG_ONE_SHOT
 import android.app.Service
 import android.content.Context
 import android.content.Intent
-import android.net.wifi.WifiManager
 import android.os.IBinder
-import android.text.format.Formatter
 import androidx.annotation.StringRes
 import com.google.gson.Gson
 import com.google.gson.JsonDeserializer
@@ -51,6 +49,7 @@ import org.totschnig.myexpenses.ui.ContextHelper
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper.NOTIFICATION_WEB_UI
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.io.getWifiIpAddress
 import org.totschnig.myexpenses.util.locale.UserLocaleProvider
 import java.io.IOException
 import java.net.ServerSocket
@@ -115,13 +114,7 @@ class WebInputService : Service(), IWebInputService {
     }
 
     private val address: String
-        get() = "http://${
-            (applicationContext.getSystemService(WIFI_SERVICE) as WifiManager).connectionInfo.ipAddress.let {
-                Formatter.formatIpAddress(
-                    it
-                )
-            }
-        }:$port"
+        get() = "http://${getWifiIpAddress(this)}:$port"
 
 
     private fun readFromAssets(fileName: String) = assets.open(fileName).bufferedReader()

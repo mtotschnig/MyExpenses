@@ -229,8 +229,8 @@ public class SettingsFragment extends BaseSettingsFragment implements
       return true;
     } else if (matches(pref, UI_WEB)) {
       if ((Boolean) value) {
-        if (!NetworkUtilsKt.isNetworkConnected(requireContext())) {
-          activity().showSnackbar(R.string.no_network);
+        if (!NetworkUtilsKt.isConnectedWifi(requireContext())) {
+          activity().showSnackbar(getString(R.string.no_network) + " (WIFI)");
           return false;
         }
         if (licenceHandler.hasAccessTo(ContribFeature.WEB_UI) && activity().featureViewModel.isFeatureAvailable(activity(), Feature.WEBUI)) {

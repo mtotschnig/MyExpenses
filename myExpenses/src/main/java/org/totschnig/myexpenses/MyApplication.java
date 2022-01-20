@@ -158,7 +158,7 @@ public class MyApplication extends Application implements
     setupLogging();
     if (!syncService) {
       if (prefHandler.getBoolean(UI_WEB, false)) {
-        if (NetworkUtilsKt.isNetworkConnected(this)) {
+        if (NetworkUtilsKt.isConnectedWifi(this)) {
           controlWebUi(true);
         } else {
           prefHandler.putBoolean(UI_WEB, false);

@@ -45,6 +45,7 @@ import org.totschnig.myexpenses.util.NotificationBuilderWrapper;
 import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.util.io.NetworkUtilsKt;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -139,7 +140,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     shouldNotify = getBooleanSetting(provider, PrefKey.SYNC_NOTIFICATION, true);
 
-    if (getBooleanSetting(provider, PrefKey.SYNC_WIFI_ONLY, false) && !isConnectedWifi(getContext())) {
+    if (getBooleanSetting(provider, PrefKey.SYNC_WIFI_ONLY, false) &&
+            !NetworkUtilsKt.isConnectedWifi(getContext())) {
       final String message = getContext().getString(R.string.wifi_not_connected);
       log().i(message);
       if (extras.getBoolean(ContentResolver.SYNC_EXTRAS_MANUAL)) {
