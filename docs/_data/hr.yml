@@ -19,7 +19,7 @@ hr:
     links: Poveznice
   contrib:
     thank_you: |
-      Vaš doprinos omogućava daljnji razvoj My Expensesa. Hvala Vam!
+      Tvoj doprinos omogućava daljnji razvoj programa „Moji troškovi”. Hvala ti!
     feature:
       roadmap_voting: Pravo glasa na <b>razvojnom putu</b>
       webui: <b>Internetsko korisničko sučelje</b>
@@ -80,11 +80,11 @@ hr:
     tag_project: Projekt bez naslova
   screenshot_titles:
     group: Grupirajte se po godini, mjesecu ili tjednu
-    summarize: Zbrojite sve svoje račune
+    summarize: Zbroji sve tvoje račune
     budget: Godišnji, mjesečni i tjedni proračun
     split: Podijeli na više kategorija
     distribution: Dijagram dijagrama pita
-    history: Povijest vaše financijske situacije
+    history: Povijest tvoje financijske situacije
     export: Izvezi u PDF, QIF i CSV
     sync: Sinhronizacija u oblaku
   all_extended_key_features: Sve funkcije za prošireni ključ
