@@ -56,6 +56,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.retrofit.ExchangeRateService;
 import org.totschnig.myexpenses.service.AutoBackupService;
 import org.totschnig.myexpenses.service.PlanExecutor;
+import org.totschnig.myexpenses.service.SyncNotificationDismissHandler;
 import org.totschnig.myexpenses.sync.webdav.WebDavClient;
 import org.totschnig.myexpenses.task.ExportTask;
 import org.totschnig.myexpenses.task.LicenceApiTask;
@@ -203,6 +204,8 @@ public interface AppComponent {
   void inject(DonateDialogFragment donateDialogFragment);
 
   void inject(AutoBackupService autoBackupService);
+
+  void inject(SyncNotificationDismissHandler syncNotificationDismissHandler);
 
   void inject(SyncBackendList syncBackendList);
 

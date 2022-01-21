@@ -55,30 +55,42 @@ class GenericAccountService : Service() {
         return mAuthenticator.iBinder
     }
 
-    inner class Authenticator(private val mContext: Context) : AbstractAccountAuthenticator(mContext) {
-        override fun editProperties(accountAuthenticatorResponse: AccountAuthenticatorResponse,
-                                    s: String): Bundle {
+    inner class Authenticator(private val mContext: Context) :
+        AbstractAccountAuthenticator(mContext) {
+        override fun editProperties(
+            accountAuthenticatorResponse: AccountAuthenticatorResponse,
+            s: String
+        ): Bundle {
             throw UnsupportedOperationException()
         }
 
-        override fun addAccount(accountAuthenticatorResponse: AccountAuthenticatorResponse,
-                                s: String, s2: String, strings: Array<String>, bundle: Bundle): Bundle {
+        override fun addAccount(
+            accountAuthenticatorResponse: AccountAuthenticatorResponse,
+            s: String, s2: String, strings: Array<String>, bundle: Bundle
+        ): Bundle {
             return createManageSyncBackendIntentBundle()
         }
 
         private fun createManageSyncBackendIntentBundle(): Bundle {
             val result = Bundle()
-            result.putParcelable(AccountManager.KEY_INTENT, Intent(this@GenericAccountService, ManageSyncBackends::class.java))
+            result.putParcelable(
+                AccountManager.KEY_INTENT,
+                Intent(this@GenericAccountService, ManageSyncBackends::class.java)
+            )
             return result
         }
 
-        override fun confirmCredentials(accountAuthenticatorResponse: AccountAuthenticatorResponse,
-                                        account: Account, bundle: Bundle): Bundle? {
+        override fun confirmCredentials(
+            accountAuthenticatorResponse: AccountAuthenticatorResponse,
+            account: Account, bundle: Bundle
+        ): Bundle? {
             return null
         }
 
-        override fun getAuthToken(accountAuthenticatorResponse: AccountAuthenticatorResponse,
-                                  account: Account, authTokenType: String, bundle: Bundle): Bundle {
+        override fun getAuthToken(
+            accountAuthenticatorResponse: AccountAuthenticatorResponse,
+            account: Account, authTokenType: String, bundle: Bundle
+        ): Bundle {
             val accountManager = AccountManager.get(mContext)
             val authToken = accountManager.peekAuthToken(account, authTokenType)
             val result = Bundle()
@@ -92,17 +104,24 @@ class GenericAccountService : Service() {
             throw UnsupportedOperationException()
         }
 
-        override fun updateCredentials(accountAuthenticatorResponse: AccountAuthenticatorResponse,
-                                       account: Account, s: String, bundle: Bundle): Bundle {
+        override fun updateCredentials(
+            accountAuthenticatorResponse: AccountAuthenticatorResponse,
+            account: Account, s: String, bundle: Bundle
+        ): Bundle {
             throw UnsupportedOperationException()
         }
 
-        override fun hasFeatures(accountAuthenticatorResponse: AccountAuthenticatorResponse,
-                                 account: Account, strings: Array<String>): Bundle {
+        override fun hasFeatures(
+            accountAuthenticatorResponse: AccountAuthenticatorResponse,
+            account: Account, strings: Array<String>
+        ): Bundle {
             throw UnsupportedOperationException()
         }
 
-        override fun getAccountRemovalAllowed(response: AccountAuthenticatorResponse, account: Account): Bundle {
+        override fun getAccountRemovalAllowed(
+            response: AccountAuthenticatorResponse,
+            account: Account
+        ): Bundle {
             val result = Bundle()
             result.putBoolean(AccountManager.KEY_BOOLEAN_RESULT, true)
             return result
@@ -115,8 +134,8 @@ class GenericAccountService : Service() {
         const val KEY_SYNC_PROVIDER_URL = "sync_provider_url"
         const val KEY_SYNC_PROVIDER_USERNAME = "sync_provider_user_name"
         const val KEY_PASSWORD_ENCRYPTION = "passwordEncryption"
-        const val DEFAULT_SYNC_FREQUENCY_HOURS = 12
-        const val HOUR_IN_SECONDS = 3600
+        private const val DEFAULT_SYNC_FREQUENCY_HOURS = 12
+        private const val HOUR_IN_SECONDS = 3600L
         const val KEY_BROKEN = "broken"
         const val KEY_ENCRYPTED = "encrypted"
 
@@ -137,21 +156,37 @@ class GenericAccountService : Service() {
             return Account(accountName, ACCOUNT_TYPE)
         }
 
-        fun getSyncBackendProvider(context: Context, syncAccountName: String): Result<SyncBackendProvider> =
+        fun getSyncBackendProvider(
+            context: Context,
+            syncAccountName: String
+        ): Result<SyncBackendProvider> =
             SyncBackendProviderFactory[context, getAccount(syncAccountName), false].onFailure {
                 CrashHandler.report(it, "Provider", syncAccountName)
             }
 
         @Deprecated("temporary wrapper for legacy java code where kotlin.Result is not available")
-        fun getSyncBackendProviderLegacy(context: Context, syncAccountName: String): Exceptional<SyncBackendProvider> = getSyncBackendProvider(context, syncAccountName).asExceptional()
+        fun getSyncBackendProviderLegacy(
+            context: Context,
+            syncAccountName: String
+        ): Exceptional<SyncBackendProvider> =
+            getSyncBackendProvider(context, syncAccountName).asExceptional()
 
         fun getAccountNamesWithEncryption(context: Context): List<Pair<String, Boolean>> {
             return getAccounts(context)
-                    .map { account: Account -> Pair.create(account.name, AccountManager.get(context).getUserData(account, KEY_ENCRYPTED) != null) }
+                .map { account: Account ->
+                    Pair.create(
+                        account.name,
+                        AccountManager.get(context).getUserData(account, KEY_ENCRYPTED) != null
+                    )
+                }
         }
 
         @JvmStatic
-        fun storePassword(contentResolver: ContentResolver?, accountName: String, encryptionPassword: String?) {
+        fun storePassword(
+            contentResolver: ContentResolver?,
+            accountName: String,
+            encryptionPassword: String?
+        ) {
             DbUtils.storeSetting(contentResolver, getPasswordKey(accountName), encryptionPassword)
         }
 
@@ -164,18 +199,27 @@ class GenericAccountService : Service() {
             return "$accountName - $KEY_PASSWORD_ENCRYPTION"
         }
 
-        fun updateAccountsIsSyncable(context: MyApplication, licenceHandler: LicenceHandler, prefHandler: PrefHandler) {
+        fun updateAccountsIsSyncable(
+            context: MyApplication,
+            licenceHandler: LicenceHandler,
+            prefHandler: PrefHandler
+        ) {
             val isSyncable = licenceHandler.hasTrialAccessTo(ContribFeature.SYNCHRONIZATION)
             val accountManager = AccountManager.get(context)
             getAccounts(context)
-                    .filter { account: Account? -> accountManager.getUserData(account, KEY_BROKEN) == null }
-                    .forEach { account: Account? ->
-                        if (isSyncable) {
-                            activateSync(account, prefHandler)
-                        } else {
-                            deactivateSync(account)
-                        }
+                .filter { account ->
+                    accountManager.getUserData(
+                        account,
+                        KEY_BROKEN
+                    ) == null
+                }
+                .forEach { account ->
+                    if (isSyncable) {
+                        activateSync(account, prefHandler)
+                    } else {
+                        deactivateSync(account)
                     }
+                }
         }
 
         @JvmStatic
@@ -187,22 +231,41 @@ class GenericAccountService : Service() {
         }
 
         @JvmStatic
-        fun getAccountNames(context: Context): Array<String> = getAccounts(context).map { it.name }.toTypedArray()
+        fun getAccountNames(context: Context): Array<String> =
+            getAccounts(context).map { it.name }.toTypedArray()
 
         @JvmStatic
-        fun activateSync(account: Account?, prefHandler: PrefHandler) {
+        fun activateSync(account: Account, prefHandler: PrefHandler) {
             ContentResolver.setSyncAutomatically(account, TransactionProvider.AUTHORITY, true)
             ContentResolver.setIsSyncable(account, TransactionProvider.AUTHORITY, 1)
-            ContentResolver.addPeriodicSync(account, TransactionProvider.AUTHORITY, Bundle.EMPTY, (
-                    prefHandler.getInt(PrefKey.SYNC_FREQUCENCY, DEFAULT_SYNC_FREQUENCY_HOURS) * HOUR_IN_SECONDS).toLong())
+            addPeriodicSync(account, prefHandler)
         }
 
         @JvmStatic
-        fun deactivateSync(account: Account?) {
+        fun addPeriodicSync(account: Account, prefHandler: PrefHandler) {
+            ContentResolver.addPeriodicSync(
+                account, TransactionProvider.AUTHORITY, Bundle.EMPTY,
+                getSyncFrequency(prefHandler)
+            )
+        }
+
+        @JvmStatic
+        fun getSyncFrequency(prefHandler: PrefHandler) =
+            prefHandler.getInt(
+                PrefKey.SYNC_FREQUCENCY,
+                DEFAULT_SYNC_FREQUENCY_HOURS
+            ) * HOUR_IN_SECONDS
+
+        @JvmStatic
+        fun deactivateSync(account: Account) {
             if (ContentResolver.getIsSyncable(account, TransactionProvider.AUTHORITY) > 0) {
                 ContentResolver.cancelSync(account, TransactionProvider.AUTHORITY)
                 ContentResolver.setSyncAutomatically(account, TransactionProvider.AUTHORITY, false)
-                ContentResolver.removePeriodicSync(account, TransactionProvider.AUTHORITY, Bundle.EMPTY)
+                ContentResolver.removePeriodicSync(
+                    account,
+                    TransactionProvider.AUTHORITY,
+                    Bundle.EMPTY
+                )
                 ContentResolver.setIsSyncable(account, TransactionProvider.AUTHORITY, 0)
             }
         }

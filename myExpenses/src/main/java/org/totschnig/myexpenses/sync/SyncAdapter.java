@@ -84,6 +84,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   public static final String KEY_RESET_REMOTE_ACCOUNT = "reset_remote_account";
   public static final String KEY_UPLOAD_AUTO_BACKUP_URI = "upload_auto_backup_uri";
   public static final String KEY_UPLOAD_AUTO_BACKUP_NAME = "upload_auto_backup_name";
+  //we pass the delay to the next sync via this extra
   public static final String KEY_NOTIFICATION_CANCELLED = "notification_cancelled";
   private SyncDelegate syncDelegate;
   public static final int LOCK_TIMEOUT_MINUTES = BuildConfig.DEBUG ? 1 : 5;
@@ -109,6 +110,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     return "last_synced_local_" + accountId;
   }
 
+
   private static long getIoDefaultDelaySeconds() {
     return (System.currentTimeMillis() / 1000) + IO_DEFAULT_DELAY_SECONDS;
   }
@@ -127,7 +129,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   public void onPerformSync(Account account, Bundle extras, String authority,
                             ContentProviderClient provider, SyncResult syncResult) {
     log().i("onPerformSync %s", extras);
-    if (extras.getBoolean(KEY_NOTIFICATION_CANCELLED)) {
+    long canceledDelayUntil = extras.getLong(KEY_NOTIFICATION_CANCELLED);
+    if (canceledDelayUntil > 0L) {
+      syncResult.delayUntil = (System.currentTimeMillis() / 1000) + canceledDelayUntil;
       notificationContent.remove(account.hashCode());
       return;
     }

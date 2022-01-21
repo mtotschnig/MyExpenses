@@ -333,13 +333,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             }
             getKey(PrefKey.SYNC_FREQUCENCY) -> {
                 for (account in GenericAccountService.getAccounts(activity())) {
-                    ContentResolver.addPeriodicSync(
-                        account, TransactionProvider.AUTHORITY, Bundle.EMPTY,
-                        prefHandler.getInt(
-                            PrefKey.SYNC_FREQUCENCY,
-                            GenericAccountService.DEFAULT_SYNC_FREQUENCY_HOURS
-                        ).toLong() * GenericAccountService.HOUR_IN_SECONDS
-                    )
+                    GenericAccountService.addPeriodicSync(account, prefHandler)
                 }
             }
             getKey(PrefKey.TRACKING) -> {
