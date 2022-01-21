@@ -71,12 +71,11 @@ abstract class SyncBackendProviderFactory {
                 .firstOrNull()?.mapCatching {
                     it.also {
                         it.setUp(
-                            accountManager.blockingGetAuthToken(
-                                account,
-                                GenericAccountService.AUTH_TOKEN_TYPE, true
-                            ),
-                            loadPassword(context.contentResolver, account.name), create
-                        ).orThrow
+                            accountManager,
+                            account,
+                            loadPassword(context.contentResolver, account.name),
+                            create
+                        )
                     }
                 } ?: Result.failure(SyncParseException("No Provider found for account $account"))
         }

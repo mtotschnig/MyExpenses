@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.sync;
 
+import android.accounts.AccountManager;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -119,32 +120,27 @@ public abstract class AbstractSyncBackendProvider implements SyncBackendProvider
   }
 
   @Override
-  public Exceptional<Void> setUp(@Nullable String authToken, @Nullable String encryptionPassword, boolean create) {
+  public void setUp(AccountManager accountManager, android.accounts.Account account, @Nullable String encryptionPassword, boolean create) throws Exception {
     this.encryptionPassword = encryptionPassword;
-    try {
-      String encryptionToken = readEncryptionToken();
-      if (encryptionToken == null) {
-        if (encryptionPassword != null) {
-          if (create && isEmpty()) {
-            initEncryption();
-          } else {
-            return Exceptional.of(EncryptionException.notEncrypted(context));
-          }
-        }
-      } else {
-        if (encryptionPassword == null) {
-          return Exceptional.of(EncryptionException.encrypted(context));
+    String encryptionToken = readEncryptionToken();
+    if (encryptionToken == null) {
+      if (encryptionPassword != null) {
+        if (create && isEmpty()) {
+          initEncryption();
         } else {
-          try {
-            decrypt(encryptionToken);
-          } catch (GeneralSecurityException e) {
-            return Exceptional.of(EncryptionException.wrongPassphrase(context));
-          }
+          throw EncryptionException.notEncrypted(context);
         }
       }
-      return Exceptional.of(() -> null);
-    } catch (IOException | GeneralSecurityException e) {
-      return Exceptional.of(e);
+    } else {
+      if (encryptionPassword == null) {
+        throw EncryptionException.encrypted(context);
+      } else {
+        try {
+          decrypt(encryptionToken);
+        } catch (GeneralSecurityException e) {
+          throw EncryptionException.wrongPassphrase(context);
+        }
+      }
     }
   }
 
@@ -154,7 +150,7 @@ public abstract class AbstractSyncBackendProvider implements SyncBackendProvider
     return new String(EncryptionHelper.decrypt(Base64.decode(input, Base64.DEFAULT), encryptionPassword));
   }
 
-  protected abstract String readEncryptionToken() throws IOException;
+  protected abstract @Nullable String readEncryptionToken() throws IOException;
 
   protected String encrypt(byte[] plain) throws GeneralSecurityException {
     return Base64.encodeToString(EncryptionHelper.encrypt(plain, encryptionPassword), Base64.DEFAULT);
@@ -187,11 +183,6 @@ public abstract class AbstractSyncBackendProvider implements SyncBackendProvider
   protected InputStream toInputStream(String fileContents, boolean maybeEncrypt) throws IOException {
     final InputStream inputStream = new ByteArrayInputStream(fileContents.getBytes());
     return maybeEncrypt ? maybeEncrypt(inputStream) : inputStream;
-  }
-
-  @Override
-  public boolean isAuthException(Exception e) {
-    return false;
   }
 
   @NonNull
@@ -379,7 +370,7 @@ public abstract class AbstractSyncBackendProvider implements SyncBackendProvider
     }
   }
 
-  protected abstract String getExistingLockToken() throws IOException;
+  protected abstract @Nullable String getExistingLockToken() throws IOException;
 
   protected abstract void writeLockToken(String lockToken) throws IOException;
 

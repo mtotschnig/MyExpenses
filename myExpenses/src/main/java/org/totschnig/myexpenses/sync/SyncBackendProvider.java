@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.sync;
 
+import android.accounts.AccountManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.net.Uri;
@@ -41,7 +42,7 @@ public interface SyncBackendProvider {
   @NonNull
   Stream<Exceptional<AccountMetaData>> getRemoteAccountStream() throws IOException;
 
-  Exceptional<Void> setUp(@Nullable String authToken, @Nullable String encryptionPassword, boolean create);
+  void setUp(AccountManager accountManager, android.accounts.Account account, @Nullable String encryptionPassword, boolean create) throws Exception;
 
   void storeBackup(Uri uri, String fileName) throws IOException;
 
@@ -49,12 +50,6 @@ public interface SyncBackendProvider {
   List<String> getStoredBackups() throws IOException;
 
   InputStream getInputStreamForBackup(String backupFile) throws IOException;
-
-  /**
-   * @param e Exception thrown during sync operation
-   * @return true if exception is caused by invalid auth token
-   */
-  boolean isAuthException(Exception e);
 
   void initEncryption() throws GeneralSecurityException, IOException;
 
@@ -68,6 +63,17 @@ public interface SyncBackendProvider {
     }
 
     public SyncParseException(String message) {
+      super(message);
+    }
+  }
+
+  class AuthException extends IOException {
+
+    public AuthException(Throwable cause) {
+      super(cause);
+    }
+
+    public AuthException(String message) {
       super(message);
     }
   }

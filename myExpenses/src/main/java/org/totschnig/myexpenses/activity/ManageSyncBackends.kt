@@ -31,10 +31,6 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
 
     @JvmField
     @State
-    var dropBoxTokenRequestPendingForAccount: String? = null
-
-    @JvmField
-    @State
     var incomingAccountDeleted = false
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,26 +43,8 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
             }
             sanityCheck()
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (dropBoxTokenRequestPendingForAccount != null) {
-            val accessToken = Auth.getOAuth2Token()
-            if (accessToken != null) {
-                AccountManager.get(this).setAuthToken(
-                    getAccount(dropBoxTokenRequestPendingForAccount),
-                    GenericAccountService.AUTH_TOKEN_TYPE,
-                    accessToken
-                )
-            } else {
-                showSnackbar("Dropbox Oauth Token is null")
-            }
-            dropBoxTokenRequestPendingForAccount = null
-        } else {
-            if (ACTION_REFRESH_LOGIN == intent.action) {
-                requestDropboxAccess(intent.getStringExtra(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME))
-            }
+        if (ACTION_REFRESH_LOGIN == intent.action) {
+            requestDropboxAccess(intent.getStringExtra(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME))
         }
     }
 
@@ -329,9 +307,13 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
     }
 
     fun requestDropboxAccess(accountName: String?) {
-        dropBoxTokenRequestPendingForAccount = accountName
         //TODO generalize for other backends
-        getSyncBackendProviderFactoryByIdOrThrow(R.id.SYNC_BACKEND_DROPBOX).startSetup(this)
+        startActivity(
+            Intent(this, DropboxSetup::class.java).apply {
+                action = ACTION_RE_AUTHENTICATE
+                putExtra(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME, accountName)
+            }
+        )
     }
 
     companion object {

@@ -13,6 +13,8 @@ import org.totschnig.myexpenses.activity.SYNC_BACKEND_SETUP_REQUEST
 import org.totschnig.myexpenses.util.Result
 import java.io.Serializable
 
+const val KEY_DBX_CREDENTIAL = "DbxCredential"
+
 class DropboxProviderFactory : SyncBackendProviderFactory() {
     override fun fromAccount(
         context: Context,

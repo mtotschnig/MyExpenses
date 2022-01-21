@@ -178,6 +178,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             getManageSyncBackendsIntent());
       } else if (throwable instanceof SyncBackendProvider.ResolvableSetupException) {
         notifyWithResolution((SyncBackendProvider.ResolvableSetupException) throwable);
+      } else if (handleAuthException(throwable, account)) {
+        return;
       } else {
         if (throwable instanceof IOException) {
           log().i(throwable, "Error setting up account %s", account);
@@ -270,7 +272,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                   instanceFromDb.getLabel()), account, true);
             } catch (IOException e) {
               log().w(e);
-              if (handleAuthException(backend, e, account)) {
+              if (handleAuthException(e, account)) {
                 return;
               }
               syncResult.stats.numIoExceptions++;
@@ -284,7 +286,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             backend.withAccount(instanceFromDb);
           } catch (IOException e) {
             log().w(e);
-            if (handleAuthException(backend, e, account)) {
+            if (handleAuthException(e, account)) {
               return;
             }
             syncResult.stats.numIoExceptions++;
@@ -297,7 +299,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             backend.lock();
           } catch (IOException e) {
             log().w(e);
-            if (handleAuthException(backend, e, account)) {
+            if (handleAuthException(e, account)) {
               return;
             }
             notifyIoException(R.string.sync_io_exception_locking, account);
@@ -395,7 +397,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             completedWithoutError = true;
           } catch (IOException e) {
             log().w(e);
-            if (handleAuthException(backend, e, account)) {
+            if (handleAuthException(e, account)) {
               return;
             }
             syncResult.stats.numIoExceptions++;
@@ -418,7 +420,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
               backend.unlock();
             } catch (IOException e) {
               log().w(e);
-              if (!handleAuthException(backend, e, account)) {
+              if (!handleAuthException(e, account)) {
                 notifyIoException(R.string.sync_io_exception_unlocking, account);
                 syncResult.stats.numIoExceptions++;
                 syncResult.delayUntil = getIoLockDelaySeconds();
@@ -492,7 +494,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
               getContext().getString(R.string.auto_backup_cloud_success, fileName, account.name), null);
         } catch (Exception e) {
           report(e);
-          if (!handleAuthException(backend, e, account)) {
+          if (!handleAuthException(e, account)) {
             notifyUser(getContext().getString(R.string.pref_auto_backup_title),
                 getContext().getString(R.string.auto_backup_cloud_failure, fileName, account.name)
                     + " " + e.getMessage(), null, null);
@@ -502,8 +504,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
   }
 
-  private boolean handleAuthException(SyncBackendProvider backend, Exception e, Account account) {
-    if (backend.isAuthException(e)) {
+  private boolean handleAuthException(Throwable e, Account account) {
+    if (e instanceof SyncBackendProvider.AuthException) {
       Intent manageSyncBackendsIntent = getManageSyncBackendsIntent();
       manageSyncBackendsIntent.setAction(ManageSyncBackends.ACTION_REFRESH_LOGIN);
       manageSyncBackendsIntent.putExtra(KEY_SYNC_ACCOUNT_NAME, account.name);
@@ -672,13 +674,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       c.close();
     }
     return result;
-  }
-
-  private boolean isConnectedWifi(Context context) {
-    ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-    if (cm == null) return false;
-    NetworkInfo info = cm.getActiveNetworkInfo();
-    return (info != null && info.isConnected() && info.getType() == ConnectivityManager.TYPE_WIFI);
   }
 
   private boolean getBooleanSetting(ContentProviderClient provider, PrefKey prefKey, boolean defaultValue) {
