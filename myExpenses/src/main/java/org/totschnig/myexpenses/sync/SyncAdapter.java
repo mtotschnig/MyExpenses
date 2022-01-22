@@ -176,8 +176,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 throwable.getMessage()),
             null,
             getManageSyncBackendsIntent());
-      } else if (throwable instanceof SyncBackendProvider.ResolvableSetupException) {
-        notifyWithResolution((SyncBackendProvider.ResolvableSetupException) throwable);
       } else if (handleAuthException(throwable, account)) {
         return;
       } else {
@@ -506,11 +504,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
   private boolean handleAuthException(Throwable e, Account account) {
     if (e instanceof SyncBackendProvider.AuthException) {
-      Intent manageSyncBackendsIntent = getManageSyncBackendsIntent();
-      manageSyncBackendsIntent.setAction(ManageSyncBackends.ACTION_REFRESH_LOGIN);
-      manageSyncBackendsIntent.putExtra(KEY_SYNC_ACCOUNT_NAME, account.name);
-      notifyUser(getContext().getString(R.string.sync_auth_exception_login_again), null, null, manageSyncBackendsIntent);
-      return true;
+      Intent resolution = ((SyncBackendProvider.AuthException) e).resolution;
+      if (resolution != null) {
+        notifyUser(getContext().getString(R.string.sync_auth_exception_login_again), getContext().getString(R.string.sync_auth_exception_login_again), account, ((SyncBackendProvider.AuthException) e).resolution);
+        return true;
+      }
     }
     return false;
   }
@@ -572,19 +570,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     notification.flags = Notification.FLAG_AUTO_CANCEL;
     ((NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE)).notify(
         "SYNC", account != null ? account.hashCode() : 0, notification);
-  }
-
-  private void notifyWithResolution(SyncBackendProvider.ResolvableSetupException exception) {
-    final PendingIntent resolution = exception.getResolution();
-    if (resolution != null) {
-      NotificationBuilderWrapper builder = NotificationBuilderWrapper.bigTextStyleBuilder(
-          getContext(), NotificationBuilderWrapper.CHANNEL_ID_SYNC, getNotificationTitle(), exception.getMessage());
-      builder.setContentIntent(resolution);
-      Notification notification = builder.build();
-      notification.flags = Notification.FLAG_AUTO_CANCEL;
-      ((NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE)).notify(
-          "SYNC", 0, notification);
-    }
   }
 
   private void notifyIoException(int resId, Account account) {

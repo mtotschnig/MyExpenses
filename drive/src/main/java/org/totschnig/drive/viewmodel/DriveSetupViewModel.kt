@@ -4,7 +4,7 @@ import android.app.Application
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.totschnig.drive.sync.GoogleDriveBackendProvider
-import org.totschnig.myexpenses.sync.DriveServiceHelper
+import org.totschnig.drive.sync.DriveServiceHelper
 import org.totschnig.myexpenses.viewmodel.AbstractSetupViewModel
 
 class DriveSetupViewModel(application: Application) : AbstractSetupViewModel(application) {

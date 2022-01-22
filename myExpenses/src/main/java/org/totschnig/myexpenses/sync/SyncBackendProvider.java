@@ -1,8 +1,9 @@
 package org.totschnig.myexpenses.sync;
 
 import android.accounts.AccountManager;
-import android.app.PendingIntent;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 
 import com.annimon.stream.Exceptional;
@@ -68,29 +69,11 @@ public interface SyncBackendProvider {
   }
 
   class AuthException extends IOException {
+    public @Nullable Intent resolution;
 
-    public AuthException(Throwable cause) {
+    public AuthException(Throwable cause, @Nullable Intent intent) {
       super(cause);
-    }
-
-    public AuthException(String message) {
-      super(message);
-    }
-  }
-
-  class ResolvableSetupException extends Exception {
-
-    @Nullable
-    final PendingIntent resolution;
-
-    ResolvableSetupException(@Nullable PendingIntent resolution, @Nullable String errorMessage) {
-      super(errorMessage);
-      this.resolution = resolution;
-    }
-
-    @Nullable
-    public PendingIntent getResolution() {
-      return resolution;
+      this.resolution = intent;
     }
   }
 

@@ -1,6 +1,8 @@
 package org.totschnig.myexpenses.fragment
 
+import android.app.Activity.RESULT_OK
 import android.content.ContentResolver
+import android.content.Intent
 import android.os.Bundle
 import android.view.ContextMenu
 import android.view.ContextMenu.ContextMenuInfo
@@ -16,16 +18,18 @@ import android.widget.ExpandableListView.OnGroupExpandListener
 import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.dropbox.core.InvalidAccessTokenException
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
+import icepick.Icepick
+import icepick.State
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.activity.ManageSyncBackends
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
+import org.totschnig.myexpenses.activity.SyncBackendSetupActivity.Companion.REQUEST_CODE_RESOLUTION
 import org.totschnig.myexpenses.adapter.SyncBackendAdapter
 import org.totschnig.myexpenses.databinding.SyncBackendsListBinding
 import org.totschnig.myexpenses.dialog.AccountMetaDataDialogFragment
@@ -40,8 +44,8 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.activateSync
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccount
+import org.totschnig.myexpenses.sync.SyncBackendProvider
 import org.totschnig.myexpenses.util.UiUtils
-import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.asResult
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.viewmodel.AbstractSyncBackendViewModel
@@ -68,6 +72,10 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
     @Inject
     lateinit var licenceHandler: LicenceHandler
 
+    @JvmField
+    @State
+    var resolutionPendingForGroup = -1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val appComponent = (requireActivity().application as MyApplication).appComponent
         appComponent.inject(this)
@@ -75,6 +83,7 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
         setHasOptionsMenu(true)
         viewModel = ViewModelProvider(this)[modelClass]
         appComponent.inject(viewModel)
+        Icepick.restoreInstanceState(this, savedInstanceState)
     }
 
     override fun onCreateView(
@@ -278,14 +287,25 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
                     syncBackendAdapter.setAccountMetadata(groupPosition, list.map { it.asResult() })
                 }.onFailure { throwable ->
                     val activity = requireActivity() as ManageSyncBackends
-                    if (Utils.getCause(throwable) is InvalidAccessTokenException) {
-                        activity.requestDropboxAccess(backendLabel)
+                    if (handleAuthException(throwable)) {
+                        resolutionPendingForGroup = groupPosition
                     } else {
                         activity.showSnackbar(throwable.message ?: "ERROR", Snackbar.LENGTH_SHORT)
                     }
                 }
             }
         }
+    }
+
+    private fun handleAuthException(throwable: Throwable) =
+        (throwable as? SyncBackendProvider.AuthException)?.resolution?.let {
+            startActivityForResult(it, REQUEST_CODE_RESOLUTION)
+            true
+        } ?: false
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        Icepick.saveInstanceState(this, outState)
     }
 
     fun getAccountForSync(packedPosition: Long): Account? {
@@ -325,5 +345,15 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
             AccountMetaDataDialogFragment.newInstance(it).show(parentFragmentManager, "META_DATA")
         }
         return true
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE_RESOLUTION && resultCode == RESULT_OK) {
+            if (resolutionPendingForGroup != -1) {
+                onGroupExpand(resolutionPendingForGroup)
+                resolutionPendingForGroup = -1
+            }
+        }
     }
 }

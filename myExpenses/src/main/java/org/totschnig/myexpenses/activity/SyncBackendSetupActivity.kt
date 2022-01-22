@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.activity
 
 import android.accounts.AccountManager
 import android.content.Intent
-import android.content.IntentSender.SendIntentException
 import android.os.Build
 import android.os.Bundle
 import android.view.Menu
@@ -21,15 +20,9 @@ import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener
 import org.totschnig.myexpenses.dialog.SetupWebdavDialogFragment
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.sync.GenericAccountService
-import org.totschnig.myexpenses.sync.ServiceLoader
-import org.totschnig.myexpenses.sync.SyncBackendProvider.ResolvableSetupException
-import org.totschnig.myexpenses.sync.SyncBackendProviderFactory
-import org.totschnig.myexpenses.sync.WebDavBackendProvider
-import org.totschnig.myexpenses.sync.WebDavBackendProviderFactory
+import org.totschnig.myexpenses.sync.*
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.task.TaskExecutionFragment
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.SyncViewModel
 import org.totschnig.myexpenses.viewmodel.SyncViewModel.Companion.KEY_RETURN_REMOTE_DATA_LIST
 import java.io.File
@@ -49,7 +42,7 @@ abstract class SyncBackendSetupActivity : ProtectedFragmentActivity(), EditTextD
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         backendProviders = ServiceLoader.load(this)
-        viewModel = ViewModelProvider(this).get(SyncViewModel::class.java)
+        viewModel = ViewModelProvider(this)[SyncViewModel::class.java]
         (applicationContext as MyApplication).appComponent.inject(viewModel)
     }
 
@@ -140,9 +133,6 @@ abstract class SyncBackendSetupActivity : ProtectedFragmentActivity(), EditTextD
                 intent.getBundleExtra(AccountManager.KEY_USERDATA)
             )
         }
-        if (requestCode == REQUEST_CODE_RESOLUTION) {
-            showSnackbar("Please try again")
-        }
     }
 
     private fun createAccount(
@@ -171,32 +161,15 @@ abstract class SyncBackendSetupActivity : ProtectedFragmentActivity(), EditTextD
     }
 
     private fun createAccountDo(args: Bundle) {
-        viewModel.createSyncAccount(args).observe(this) {
-            it.onSuccess {
+        viewModel.createSyncAccount(args).observe(this) { result ->
+            result.onSuccess {
                 recordUsage(ContribFeature.SYNCHRONIZATION)
                 if ("xiaomi".equals(Build.MANUFACTURER, ignoreCase = true)) {
                     showMessage("On some Xiaomi devices, synchronization does not work without AutoStart permission. Visit <a href=\"https://github.com/mtotschnig/MyExpenses/wiki/FAQ:-Synchronization#q2\">MyExpenses FAQ</a> for more information.")
                 }
                 onReceiveSyncAccountData(it)
             }.onFailure { throwable ->
-                if (throwable is ResolvableSetupException) {
-                    throwable.resolution?.let {
-                        try {
-                            startIntentSenderForResult(
-                                it.intentSender,
-                                REQUEST_CODE_RESOLUTION,
-                                null,
-                                0,
-                                0,
-                                0
-                            )
-                        } catch (e: SendIntentException) {
-                            CrashHandler.report(e)
-                        }
-                    }
-                } else {
-                    showSnackbar("Unable to set up account: " + throwable.message)
-                }
+                showSnackbar("Unable to set up account: " + throwable.message)
             }
         }
     }
@@ -276,7 +249,7 @@ abstract class SyncBackendSetupActivity : ProtectedFragmentActivity(), EditTextD
 
     companion object {
         private const val DIALOG_TAG_PASSWORD = "password"
-        private const val REQUEST_CODE_RESOLUTION = 1
+        const val REQUEST_CODE_RESOLUTION = 1
         const val KEY_SYNC_PROVIDER_ID = "syncProviderId"
     }
 }

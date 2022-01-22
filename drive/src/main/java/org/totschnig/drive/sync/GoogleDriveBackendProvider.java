@@ -4,6 +4,9 @@ import android.accounts.AccountManager;
 import android.content.Context;
 import android.net.Uri;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.annimon.stream.Exceptional;
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
@@ -13,7 +16,6 @@ import com.google.api.services.drive.model.File;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.sync.AbstractSyncBackendProvider;
-import org.totschnig.myexpenses.sync.DriveServiceHelper;
 import org.totschnig.myexpenses.sync.GenericAccountService;
 import org.totschnig.myexpenses.sync.SequenceNumber;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
@@ -30,8 +32,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import timber.log.Timber;
 
 public class GoogleDriveBackendProvider extends AbstractSyncBackendProvider {
@@ -79,17 +79,12 @@ public class GoogleDriveBackendProvider extends AbstractSyncBackendProvider {
     }
   }
 
-  @Override
-  public Exceptional<Void> setUp(String authToken, String encryptionPassword, boolean create) {
-    final Exceptional<Void> result = super.setUp(authToken, encryptionPassword, create);
-    final Throwable exception = result.getException();
-    if (exception instanceof UserRecoverableAuthIOException) {
-      //User has been signed out from Google account, he needs to log in again
-      //Simply launching the intent provided by UserRecoverableAuthException,
-      //prompts user to sign in, but not to recreate the account
-      return Exceptional.of(new SyncParseException(((UserRecoverableAuthIOException) exception).getCause()));
+  public void setUp(AccountManager accountManager, android.accounts.Account account, String encryptionPassword, boolean create) throws Exception {
+    try {
+      super.setUp(accountManager, account, encryptionPassword, create);
+    } catch (UserRecoverableAuthIOException e) {
+      throw new AuthException(e, e.getIntent());
     }
-    return result;
   }
 
   @Override
@@ -405,4 +400,5 @@ public class GoogleDriveBackendProvider extends AbstractSyncBackendProvider {
       baseFolder = driveServiceHelper.getFile(folderId);
     }
   }
+
 }

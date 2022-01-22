@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.sync
 
 import android.accounts.AccountManager
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.text.TextUtils
 import androidx.core.util.Pair
@@ -18,8 +19,10 @@ import com.dropbox.core.v2.files.GetMetadataErrorException
 import com.dropbox.core.v2.files.Metadata
 import com.dropbox.core.v2.files.WriteMode
 import org.totschnig.myexpenses.BuildConfig
-import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.activity.ACTION_RE_AUTHENTICATE
+import org.totschnig.myexpenses.activity.DropboxSetup
 import org.totschnig.myexpenses.model.Account
+import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.sync.json.ChangeSet
 import org.totschnig.myexpenses.util.Preconditions
@@ -33,12 +36,15 @@ class DropboxBackendProvider internal constructor(context: Context?, folderName:
     AbstractSyncBackendProvider(context) {
     private lateinit var mDbxClient: DbxClientV2
     private val basePath: String = "/$folderName"
+    private lateinit var accountName: String
+
     override fun setUp(
         accountManager: AccountManager,
         account: android.accounts.Account,
         encryptionPassword: String?,
         create: Boolean
     ) {
+        this.accountName = account.name
         setupClient(accountManager, account)
         super.setUp(accountManager, account, encryptionPassword, create)
     }
@@ -62,7 +68,7 @@ class DropboxBackendProvider internal constructor(context: Context?, folderName:
 
         } else {
             val authToken = accountManager.peekAuthToken(account, GenericAccountService.AUTH_TOKEN_TYPE)
-                ?: throw SyncBackendProvider.AuthException("authToken is null")
+                ?: throw SyncBackendProvider.AuthException(NullPointerException("authToken is null"), reAuthenticationIntent())
             SyncAdapter.log().i("Authenticating with legacy access token")
             DbxClientV2(requestConfig, authToken)
         }
@@ -259,7 +265,7 @@ class DropboxBackendProvider internal constructor(context: Context?, folderName:
 
     @Throws(IOException::class)
     private fun saveUriToFolder(fileName: String, uri: Uri, folder: String, maybeEncrypt: Boolean) {
-        val `in` = MyApplication.getInstance().contentResolver.openInputStream(uri)
+        val `in` = context.contentResolver.openInputStream(uri)
             ?: throw IOException("Could not read $uri")
         val finalFileName = getLastFileNamePart(fileName)
         saveInputStream("$folder/$finalFileName", if (maybeEncrypt) maybeEncrypt(`in`) else `in`)
@@ -314,7 +320,7 @@ class DropboxBackendProvider internal constructor(context: Context?, folderName:
     private fun <T> tryWithWrappedException(block: () -> T): T = try {
         block()
     } catch(e: DbxException) {
-        throw (if (e is InvalidAccessTokenException) SyncBackendProvider.AuthException(e) else IOException(e) )
+        throw (if (e is InvalidAccessTokenException) SyncBackendProvider.AuthException(e, reAuthenticationIntent()) else IOException(e) )
     }
 
     @Throws(IOException::class)
@@ -398,6 +404,11 @@ class DropboxBackendProvider internal constructor(context: Context?, folderName:
 
     override fun getSharedPreferencesName(): String {
         return "webdav_backend"
+    }
+
+    private fun reAuthenticationIntent() = Intent(context, DropboxSetup::class.java).apply {
+        action = ACTION_RE_AUTHENTICATE
+        putExtra(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME, accountName)
     }
 
     companion object {
