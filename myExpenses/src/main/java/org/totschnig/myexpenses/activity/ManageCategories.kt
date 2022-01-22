@@ -173,7 +173,6 @@ class ManageCategories : CategoryActivity<CategoryList>(), OnDialogResultListene
         }
     }
 
-    @OptIn(ExperimentalStdlibApi::class)
     private fun observeImportCatResult() {
         viewModel.importCatResult?.observe(this) { pair ->
             operationInProgress = null
