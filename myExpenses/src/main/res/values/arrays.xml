@@ -526,8 +526,12 @@
     <string-array name="whats_new_3351">
         <item>@string/bug_fixes</item>
     </string-array>
+    <string-array name="whats_new_3352">
+        <item>@string/bug_fixes</item>
+    </string-array>
     
     <string-array name="versions">
+        <item>506;3.3.5.2</item>
         <item>505;3.3.5.1</item>
         <item>504;3.3.5</item>
         <item>498;3.3.4</item>
