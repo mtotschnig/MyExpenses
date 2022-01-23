@@ -39,7 +39,7 @@ class SplitPartListViewModel(application: Application) :
                     KEY_TRANSFER_ACCOUNT,
                     if (parentIsTemplate) "null" else BaseTransactionProvider.DEBT_LABEL_EXPRESSION
                 ),
-                selection = "${DatabaseConstants.KEY_PARENTID} = ?",
+                selection = "$KEY_PARENTID = ?",
                 selectionArgs = arrayOf(parentId.toString())
             ).cancellable().mapToList {
                 fromCursor(it)
