@@ -1,28 +1,5 @@
 package org.totschnig.myexpenses.test.espresso;
 
-import android.content.Intent;
-import android.content.OperationApplicationException;
-import android.os.RemoteException;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ExpenseEdit;
-import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.AccountType;
-import org.totschnig.myexpenses.model.CurrencyUnit;
-import org.totschnig.myexpenses.model.Template;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.testutils.BaseUiTest;
-
-import java.util.Currency;
-import java.util.Locale;
-import java.util.Objects;
-
-import androidx.annotation.NonNull;
-import androidx.test.core.app.ActivityScenario;
-
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
@@ -43,9 +20,30 @@ import static org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone;
 import static org.totschnig.myexpenses.testutils.Espresso.checkEffectiveVisible;
 import static org.totschnig.myexpenses.testutils.Espresso.withIdAndParent;
 
-public class ExpenseEditTest extends BaseUiTest<ExpenseEdit> {
+import android.content.Intent;
+import android.content.OperationApplicationException;
+import android.os.RemoteException;
 
-  private ActivityScenario<ExpenseEdit> activityScenario = null;
+import androidx.annotation.NonNull;
+import androidx.test.core.app.ActivityScenario;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.TestExpenseEdit;
+import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.CurrencyUnit;
+import org.totschnig.myexpenses.model.Template;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
+
+import java.util.Currency;
+import java.util.Locale;
+
+public class ExpenseEditTest extends BaseExpenseEditTest {
+
+  private ActivityScenario<TestExpenseEdit> activityScenario = null;
   private Account account1;
   private Account account2;
   private CurrencyUnit currency1;
@@ -73,7 +71,7 @@ public class ExpenseEditTest extends BaseUiTest<ExpenseEdit> {
 
   @Test
   public void formForTransactionIsPrepared() {
-    Intent i = new Intent(getTargetContext(), ExpenseEdit.class);
+    Intent i = getIntent();
     i.putExtra(OPERATION_TYPE, TYPE_TRANSACTION);
     activityScenario = ActivityScenario.launch(i);
     checkEffectiveVisible(R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
@@ -91,7 +89,7 @@ public class ExpenseEditTest extends BaseUiTest<ExpenseEdit> {
 
   @Test
   public void statusIsShownWhenBankAccountIsSelected() {
-    Intent i = new Intent(getTargetContext(), ExpenseEdit.class);
+    Intent i = getIntent();
     i.putExtra(OPERATION_TYPE, TYPE_TRANSACTION);
     i.putExtra(KEY_ACCOUNTID, account2.getId());
     activityScenario = ActivityScenario.launch(i);
@@ -100,7 +98,7 @@ public class ExpenseEditTest extends BaseUiTest<ExpenseEdit> {
 
   @Test
   public void formForTransferIsPrepared() {
-    Intent i = new Intent(getTargetContext(), ExpenseEdit.class);
+    Intent i = getIntent();
     i.putExtra(OPERATION_TYPE, TYPE_TRANSFER);
     activityScenario = ActivityScenario.launch(i);
     checkEffectiveVisible(R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.AccountRow,
@@ -113,7 +111,7 @@ public class ExpenseEditTest extends BaseUiTest<ExpenseEdit> {
 
   @Test
   public void formForSplitIsPrepared() {
-    Intent i = new Intent(getTargetContext(), ExpenseEdit.class);
+    Intent i = getIntent();
     i.putExtra(OPERATION_TYPE, TYPE_SPLIT);
     activityScenario = ActivityScenario.launch(i);
     checkEffectiveVisible(R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.SplitContainer,
@@ -126,7 +124,7 @@ public class ExpenseEditTest extends BaseUiTest<ExpenseEdit> {
 
   @Test
   public void formForTemplateIsPrepared() {
-    Intent i = new Intent(getTargetContext(), ExpenseEdit.class);
+    Intent i = getIntent();
     i.putExtra(OPERATION_TYPE, TYPE_TRANSACTION);
     i.putExtra(KEY_NEW_TEMPLATE, true);
     activityScenario = ActivityScenario.launch(i);
@@ -139,7 +137,7 @@ public class ExpenseEditTest extends BaseUiTest<ExpenseEdit> {
   public void accountIdInExtraShouldPopulateSpinner() {
     Account[] allAccounts = {account1, account2};
     for (Account a : allAccounts) {
-      Intent i = new Intent(getTargetContext(), ExpenseEdit.class);
+      Intent i = getIntent();
       i.putExtra(OPERATION_TYPE, TYPE_TRANSACTION);
       i.putExtra(DatabaseConstants.KEY_ACCOUNTID, a.getId());
       activityScenario = ActivityScenario.launch(i);
@@ -152,7 +150,7 @@ public class ExpenseEditTest extends BaseUiTest<ExpenseEdit> {
     CurrencyUnit[] allCurrencies = {currency1, currency2};
     for (CurrencyUnit c : allCurrencies) {
       //we assume that Fixture has set up the default account with id 1
-      Intent i = new Intent(getTargetContext(), ExpenseEdit.class);
+      Intent i = getIntent();
       i.putExtra(OPERATION_TYPE, TYPE_TRANSACTION);
       i.putExtra(DatabaseConstants.KEY_CURRENCY, c.getCode());
       activityScenario = ActivityScenario.launch(i);
@@ -163,7 +161,7 @@ public class ExpenseEditTest extends BaseUiTest<ExpenseEdit> {
 
   @Test
   public void saveAsNewWorksMultipleTimesInARow() {
-    Intent i = new Intent(getTargetContext(), ExpenseEdit.class);
+    Intent i = getIntent();
     i.putExtra(OPERATION_TYPE, TYPE_TRANSACTION);
     i.putExtra(DatabaseConstants.KEY_ACCOUNTID, account1.getId());
     activityScenario = ActivityScenario.launch(i);
@@ -186,7 +184,7 @@ public class ExpenseEditTest extends BaseUiTest<ExpenseEdit> {
     template.setTransferAccountId(account2.getId());
     template.setTitle("Test template");
     template.save();
-    Intent i = new Intent(getTargetContext(), ExpenseEdit.class);
+    Intent i = getIntent();
     i.putExtra(KEY_TEMPLATEID, template.getId());
     activityScenario = ActivityScenario.launch(i);
     int amount = 2;
@@ -199,7 +197,7 @@ public class ExpenseEditTest extends BaseUiTest<ExpenseEdit> {
 
   @NonNull
   @Override
-  protected ActivityScenario<ExpenseEdit> getTestScenario() {
-    return Objects.requireNonNull(activityScenario);
+  protected ActivityScenario<TestExpenseEdit> getTestScenario() {
+    return activityScenario;
   }
 }

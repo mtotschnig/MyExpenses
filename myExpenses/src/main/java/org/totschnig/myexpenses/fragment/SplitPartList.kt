@@ -76,7 +76,7 @@ class SplitPartList : Fragment() {
         }
         val appComponent = (requireActivity().application as MyApplication).appComponent
         appComponent.inject(this)
-        viewModel = ViewModelProvider(this).get(SplitPartListViewModel::class.java)
+        viewModel = ViewModelProvider(this)[SplitPartListViewModel::class.java]
         appComponent.inject(viewModel)
     }
 

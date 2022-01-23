@@ -1,32 +1,30 @@
 package org.totschnig.myexpenses.test.espresso;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+
 import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.os.RemoteException;
 
+import androidx.annotation.NonNull;
+import androidx.test.core.app.ActivityScenario;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.totschnig.myexpenses.activity.ExpenseEdit;
+import org.totschnig.myexpenses.activity.TestExpenseEdit;
 import org.totschnig.myexpenses.model.Account;
 import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.model.CurrencyUnit;
 import org.totschnig.myexpenses.model.Money;
 import org.totschnig.myexpenses.model.Transfer;
-import org.totschnig.myexpenses.testutils.BaseUiTest;
 
 import java.util.Currency;
-import java.util.Objects;
-
-import androidx.annotation.NonNull;
-import androidx.test.core.app.ActivityScenario;
-
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 
 
-public class ForeignTransferEditTest extends BaseUiTest<ExpenseEdit> {
+public class ForeignTransferEditTest extends BaseExpenseEditTest {
 
-  private ActivityScenario<ExpenseEdit> activityScenario = null;
+  private ActivityScenario<TestExpenseEdit> activityScenario = null;
   private Account account1;
   private Account account2;
   private Transfer transfer;
@@ -54,7 +52,7 @@ public class ForeignTransferEditTest extends BaseUiTest<ExpenseEdit> {
 
   @Test
   public void shouldSaveForeignTransfer() {
-    Intent i = new Intent(getTargetContext(), ExpenseEdit.class);
+    Intent i = getIntent();
     i.putExtra(KEY_ROWID, transfer.getId());
     activityScenario = ActivityScenario.launch(i);
     closeKeyboardAndSave();
@@ -63,7 +61,7 @@ public class ForeignTransferEditTest extends BaseUiTest<ExpenseEdit> {
 
   @NonNull
   @Override
-  protected ActivityScenario<ExpenseEdit> getTestScenario() {
-    return Objects.requireNonNull(activityScenario);
+  protected ActivityScenario<TestExpenseEdit> getTestScenario() {
+    return activityScenario;
   }
 }

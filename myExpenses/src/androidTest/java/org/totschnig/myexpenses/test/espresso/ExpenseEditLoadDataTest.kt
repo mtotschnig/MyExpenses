@@ -22,32 +22,20 @@ import org.junit.Rule
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
+import org.totschnig.myexpenses.activity.TestExpenseEdit
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
-import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.model.AccountType
-import org.totschnig.myexpenses.model.Category
-import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Plan
-import org.totschnig.myexpenses.model.SplitTransaction
-import org.totschnig.myexpenses.model.Template
-import org.totschnig.myexpenses.model.Transaction
-import org.totschnig.myexpenses.model.Transfer
+import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.testutils.BaseUiTest
-import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone
-import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveVisible
-import org.totschnig.myexpenses.testutils.Espresso.withIdAndAncestor
-import org.totschnig.myexpenses.testutils.Espresso.withIdAndParent
+import org.totschnig.myexpenses.testutils.Espresso.*
 import org.totschnig.myexpenses.testutils.toolbarTitle
 import org.totschnig.myexpenses.ui.AmountInput
 import java.text.DecimalFormat
 import java.time.LocalDate
 import java.util.*
 
-class ExpenseEditLoadDataTest : BaseUiTest<ExpenseEdit>() {
-    private lateinit var activityScenario: ActivityScenario<ExpenseEdit>
+class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
+    private lateinit var activityScenario: ActivityScenario<TestExpenseEdit>
 
     @get:Rule
     var grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
@@ -98,10 +86,8 @@ class ExpenseEditLoadDataTest : BaseUiTest<ExpenseEdit>() {
         //IdlingRegistry.getInstance().unregister(getIdlingResource());
     }
 
-    fun intent() = Intent(targetContext, ExpenseEdit::class.java)
-
     private fun load(id: Long) {
-        launchAndWait(intent().apply {
+        launchAndWait(intent.apply {
             putExtra(DatabaseConstants.KEY_ROWID, id)
         })
     }
@@ -252,7 +238,7 @@ class ExpenseEditLoadDataTest : BaseUiTest<ExpenseEdit>() {
     }
 
     private fun testTransferClone(loadFromPeer: Boolean) {
-        launchAndWait(intent().apply {
+        launchAndWait(intent.apply {
             putExtra(
                 DatabaseConstants.KEY_ROWID,
                 if (loadFromPeer) transfer.transferPeer else transfer.id
@@ -328,7 +314,7 @@ class ExpenseEditLoadDataTest : BaseUiTest<ExpenseEdit>() {
 
     @Test
     fun shouldPopulateWithSplitTemplateAndLoadParts() {
-        launchAndWait(intent().apply {
+        launchAndWait(intent.apply {
             putExtra(DatabaseConstants.KEY_TEMPLATEID, buildSplitTemplate())
         })
         activityScenario.onActivity { activity: ExpenseEdit ->
@@ -343,7 +329,7 @@ class ExpenseEditLoadDataTest : BaseUiTest<ExpenseEdit>() {
 
     @Test
     fun shouldPopulateFromSplitTemplateAndLoadParts() {
-        launchAndWait(intent().apply {
+        launchAndWait(intent.apply {
             putExtra(DatabaseConstants.KEY_TEMPLATEID, buildSplitTemplate())
             putExtra(DatabaseConstants.KEY_INSTANCEID, -1L)
         })
@@ -388,7 +374,7 @@ class ExpenseEditLoadDataTest : BaseUiTest<ExpenseEdit>() {
             plan.compileDescription(app)
         )
         plan.save()
-        launchAndWait(intent().apply {
+        launchAndWait(intent.apply {
             putExtra(DatabaseConstants.KEY_TEMPLATEID, plan.id)
         })
         checkEffectiveVisible(
@@ -420,7 +406,7 @@ class ExpenseEditLoadDataTest : BaseUiTest<ExpenseEdit>() {
         template!!.title = "Nothing but a plan"
         template.amount = Money(currency, 800L)
         template.save()
-        launchAndWait(intent().apply {
+        launchAndWait(intent.apply {
             putExtra(DatabaseConstants.KEY_TEMPLATEID, template.id)
             putExtra(DatabaseConstants.KEY_INSTANCEID, -1L)
         })
@@ -442,7 +428,7 @@ class ExpenseEditLoadDataTest : BaseUiTest<ExpenseEdit>() {
 
     @Test
     fun shouldPopulateFromIntent() {
-        launchAndWait(intent().apply {
+        launchAndWait(intent.apply {
             action = Intent.ACTION_INSERT
             putExtra(Transactions.ACCOUNT_LABEL, account1.label)
             putExtra(Transactions.AMOUNT_MICROS, 1230000L)
@@ -494,6 +480,6 @@ class ExpenseEditLoadDataTest : BaseUiTest<ExpenseEdit>() {
         Account.delete(sealedAccount.id)
     }
 
-    override val testScenario: ActivityScenario<ExpenseEdit>
+    override val testScenario: ActivityScenario<TestExpenseEdit>
         get() = activityScenario
 }

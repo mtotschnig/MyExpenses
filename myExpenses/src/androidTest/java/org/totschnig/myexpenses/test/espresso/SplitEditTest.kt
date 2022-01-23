@@ -14,9 +14,7 @@ import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
-import androidx.test.espresso.matcher.ViewMatchers.hasChildCount
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.filters.FlakyTest
 import com.adevinta.android.barista.interaction.BaristaScrollInteractions.scrollTo
 import com.adevinta.android.barista.internal.viewaction.NestedEnabledScrollToAction.nestedScrollToAction
@@ -28,20 +26,14 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.TestExpenseEdit
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
-import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.model.AccountType
-import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.SplitTransaction
-import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.model.*
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.testutils.BaseUiTest
 import org.totschnig.myexpenses.testutils.Espresso.withIdAndParent
 import java.util.*
 
-class SplitEditTest : BaseUiTest<TestExpenseEdit>() {
+class SplitEditTest : BaseExpenseEditTest() {
     private lateinit var activityScenario: ActivityScenario<TestExpenseEdit>
     private val accountLabel1 = "Test label 1"
     lateinit var account1: Account
@@ -151,7 +143,6 @@ class SplitEditTest : BaseUiTest<TestExpenseEdit>() {
     }
 
     @Test
-    @FlakyTest
     fun create_and_save() {
         activityScenario = ActivityScenario.launch(baseIntent)
         createParts(1)

@@ -70,7 +70,7 @@ public final class MyExpensesCabTest extends BaseUiTest<TestMyExpenses> {
     Intent i = new Intent(getTargetContext(), TestMyExpenses.class);
     i.putExtra(KEY_ROWID, account.getId());
     activityScenario = ActivityScenario.launch(i);
-    activityScenario.onActivity(activity -> activity.decoratedCheckSealeHandler = new DecoratedCheckSealedHandler(activity.getContentResolver(), countingResource));
+    activityScenario.onActivity(activity -> activity.decoratedCheckSealedHandler = new DecoratedCheckSealedHandler(activity.getContentResolver(), countingResource));
     IdlingRegistry.getInstance().register(countingResource);
   }
 

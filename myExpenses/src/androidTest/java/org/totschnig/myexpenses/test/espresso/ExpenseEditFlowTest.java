@@ -1,27 +1,5 @@
 package org.totschnig.myexpenses.test.espresso;
 
-import android.content.OperationApplicationException;
-import android.os.RemoteException;
-
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.Test;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.ExpenseEdit;
-import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.AccountType;
-import org.totschnig.myexpenses.model.CurrencyUnit;
-import org.totschnig.myexpenses.model.PaymentMethod;
-import org.totschnig.myexpenses.testutils.BaseUiTest;
-
-import java.util.Currency;
-
-import androidx.annotation.NonNull;
-import androidx.test.core.app.ActivityScenario;
-import androidx.test.espresso.Espresso;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
-
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -32,13 +10,34 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static junit.framework.Assert.assertNotNull;
 import static org.totschnig.myexpenses.testutils.Espresso.withIdAndParent;
 
+import android.content.OperationApplicationException;
+import android.os.RemoteException;
+
+import androidx.annotation.NonNull;
+import androidx.test.core.app.ActivityScenario;
+import androidx.test.espresso.Espresso;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Rule;
+import org.junit.Test;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.activity.TestExpenseEdit;
+import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.CurrencyUnit;
+import org.totschnig.myexpenses.model.PaymentMethod;
+
+import java.util.Currency;
+
 /**
  * when converted to Kotlin tests fail with ": No activities found. Did you forget to launch the activity by calling getActivity() or startActivitySync or similar?"
  */
-public class ExpenseEditFlowTest extends BaseUiTest<ExpenseEdit> {
+public class ExpenseEditFlowTest extends BaseExpenseEditTest {
 
   @Rule
-  public ActivityScenarioRule<ExpenseEdit> scenarioRule = new ActivityScenarioRule<>(ExpenseEdit.class);
+  public ActivityScenarioRule<TestExpenseEdit> scenarioRule = new ActivityScenarioRule<>(TestExpenseEdit.class);
   private static Account account1;
   private static final CurrencyUnit currency1 = new CurrencyUnit(Currency.getInstance("USD"));
   private static PaymentMethod paymentMethod;
@@ -86,7 +85,7 @@ public class ExpenseEditFlowTest extends BaseUiTest<ExpenseEdit> {
 
   @NonNull
   @Override
-  protected ActivityScenario<ExpenseEdit> getTestScenario() {
+  protected ActivityScenario<TestExpenseEdit> getTestScenario() {
     return scenarioRule.getScenario();
   }
 }

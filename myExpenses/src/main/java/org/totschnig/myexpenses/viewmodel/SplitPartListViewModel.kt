@@ -8,26 +8,26 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.cancellable
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.FULL_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.DbUtils.getLongOrNull
 import org.totschnig.myexpenses.provider.TransactionProvider
 
 class SplitPartListViewModel(application: Application) :
     ContentResolvingAndroidViewModel(application) {
     private val splitParts = MutableLiveData<List<Transaction>>()
+    private var loadJob: Job? = null
+
     fun getSplitParts(): LiveData<List<Transaction>> = splitParts
 
     fun loadSplitParts(parentId: Long, parentIsTemplate: Boolean) {
-        viewModelScope.launch {
+        loadJob?.cancel()
+        loadJob= viewModelScope.launch {
             contentResolver.observeQuery(
                 uri = if (parentIsTemplate) TransactionProvider.TEMPLATES_UNCOMMITTED_URI
                 else TransactionProvider.UNCOMMITTED_URI,
@@ -41,7 +41,7 @@ class SplitPartListViewModel(application: Application) :
                 ),
                 selection = "${DatabaseConstants.KEY_PARENTID} = ?",
                 selectionArgs = arrayOf(parentId.toString())
-            ).mapToList {
+            ).cancellable().mapToList {
                 fromCursor(it)
             }.collect { splitParts.postValue(it) }
         }

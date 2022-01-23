@@ -11,6 +11,9 @@ class TestExpenseEdit: ExpenseEdit() {
         if (savedInstanceState != null) {
             activityIsRecreated = true
         }
+        if (android.os.Build.VERSION.SDK_INT < 23) {
+            onEnterAnimationComplete()
+        }
     }
 
     override fun updateSplitPartList(account: Account, rowId: Long) {
@@ -21,4 +24,5 @@ class TestExpenseEdit: ExpenseEdit() {
             splitPartListUpdateCalled++
         }
     }
+
 }
