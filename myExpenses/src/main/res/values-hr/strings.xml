@@ -78,7 +78,7 @@
     <string name="dialog_security_question">Pitanje</string>
     <string name="dialog_title_information">Informacije</string>
     <!-- %1$s is replace with account label -->
-    <string name="dialog_title_balance_account">Uskladi saldo računa %1$s</string>
+    <string name="dialog_title_balance_account">Uskladi %1$s</string>
     <string name="dialog_title_contrib_feature">Premium opcija</string>
     <string name="dialog_title_warning_delete_template">Izbrisati predložak\?</string>
     <string name="dialog_title_warning_delete_transaction">Izbrisati transakciju\?</string>
@@ -119,7 +119,7 @@
     <string name="menu_back">Natrag</string>
     <string name="menu_backup">Sigurnosna kopija</string>
     <!-- Balance: compare cleared balance in app with balance on statement received from bank -->
-    <string name="menu_balance">Uskladi saldo računa</string>
+    <string name="menu_balance">Uskladi račun</string>
     <!-- Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction -->
     <string name="menu_cancel_plan_instance">Odustani</string>
     <string name="menu_clone_transaction">Dupliciraj</string>
@@ -340,8 +340,8 @@
     <string name="thank_you">Hvala na podršci!</string>
     <string name="time">Vrijeme</string>
     <string name="title">Naslov</string>
-    <string name="total_cleared">Ukupno odobreno</string>
-    <string name="total_reconciled">Ukupno usklađeno</string>
+    <string name="total_cleared">Odobreno ukupno</string>
+    <string name="total_reconciled">Usklađeno ukupno</string>
     <string name="transaction">Transakcija</string>
     <string name="transfer">Prijenos</string>
     <string name="transfer_from_account">Šalje</string>
@@ -369,7 +369,7 @@
         <item quantity="other">Izbrisat će se %1$d odabranih transakcija.</item>
     </plurals>
     <string name="warning_delete_reconciled">Brisanjem usklađenih transakcija tvoji će se zapisi razlikovati od bankovnog izvatka.</string>
-    <string name="warning_balance_account">Usporedi odobren ukupni iznos sa završnim saldom tvog bankovnog izvatka. Ako nastaviš, odobrene transakcije će se označiti kao usklađene.</string>
+    <string name="warning_balance_account">Usporedi iznos ukupno odobrenih sa završnim saldom tvog bankovnog izvatka. Ako nastaviš, odobrene transakcije će se označiti kao usklađene.</string>
     <string name="warning_password_protected">Program je zaštićen lozinkom.</string>
     <string name="warning_widget_disabled">Aktiviraj rad widgeta u postavkama programa.</string>
     <string name="warning_instantiate_template_from_widget_password_protected">Brza izrada predložaka iz ovog widgeta radi jedino ako u postavkama programa dozvoliš unos podataka iz widgeta bez lozinke.</string>
@@ -916,7 +916,7 @@
     <string name="pref_category_title_crash_reports">Izvještaji o prestanku rada aplikacije</string>
     <string name="pref_enable_acra">Omogući automatsko slanje izvještaja o prestanku rada aplikacije</string>
     <string name="pref_acra_user_email">Korisnički e-mail će biti sadržan u izvještaju o prestanku rada aplikacije</string>
-    <string name="pref_acra_user_email_summary">Molimo unesite vašu e-mail adresu ako želite pomoći u ispravljanju grešaka i dopustiti nam da vas kontaktiramo.</string>
+    <string name="pref_acra_user_email_summary">Upiši svoju e-mail adresu ako želiš pomoći u ispravljanju grešaka i dopustiti nam da te kontaktiramo.</string>
     <string name="bug_fixes">Popravci grešaka</string>
     <string name="new_version">Nova verzija</string>
     <string name="pref_news_title">Novosti</string>

@@ -147,7 +147,7 @@
     <string name="form_exchange_rate_help_text">您可以指定转入或转出的汇率。反向汇率和对应于汇率相关部分的金额会自动计算。</string>
     <string name="form_goal_or_limit_help_text">此字段允许指定数值为正的储蓄目标或数值为负的信用限额。无论是哪种情况，在帐户列表中会有进度指示器显示当前余额与目标或限额之间的距离。</string>
     <string name="menu_templates_help_text">打开菜单将所有模板列出，以便快速将模板加载至表单。</string>
-    <string name="form_AccountEdit_label_help_text">标签可标识帐户列表中的相应帐户。</string>
+    <string name="form_AccountEdit_label_help_text">标签用于标识帐户列表中的帐户。</string>
     <string name="form_AccountEdit_type_help_text_reconciliation">除现金账户外，其他所有账户都可以使用对账功能：该功能可在确认后将交易状态设置为已结算，并通过“余额账户”命令将整个账户与您的银行对账单进行对账。</string>
     <string name="form_AccountEdit_active_tags_help_text">您可以将一个或多个活动标签与每个帐户进行关联。当您创建一个新的交易时，基于所选的帐户自动对该交易进行标记。</string>
     <string name="menu_exclude_from_totals_help_text">如果选中此选项，该账户将不会被纳入按币种进行的合计。</string>
