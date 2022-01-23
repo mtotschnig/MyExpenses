@@ -67,6 +67,7 @@ import java.time.format.DateTimeFormatterBuilder
 import java.time.format.FormatStyle
 import java.util.*
 import javax.inject.Inject
+import kotlin.collections.HashSet
 
 abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationErrorListener,
     OnSharedPreferenceChangeListener, Preference.OnPreferenceClickListener {
@@ -189,7 +190,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
 
     private fun configureUninstallPrefs() {
         configureMultiSelectListPref(
-            PrefKey.FEATURE_UNINSTALL_FEATURES, featureManager.installedFeatures(),
+            PrefKey.FEATURE_UNINSTALL_FEATURES, featureManager.installedFeatures().filterTo(HashSet()) { it != "drive" },
             featureManager::uninstallFeatures
         ) { module ->
             Feature.fromModuleName(module)?.let { getString(it.labelResId) } ?: module
