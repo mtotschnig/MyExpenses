@@ -573,7 +573,7 @@ public class DatabaseConstants {
   }
 
   static String getInAggregate(boolean forHome, String aggregateFunction) {
-    return aggregateFunction + "CASE WHEN " + WHERE_IN + " THEN " + getAmountCalculation(forHome) + " ELSE 0 END) AS " + KEY_SUM_INCOME;
+    return aggregateFunction + "(CASE WHEN " + WHERE_IN + " THEN " + getAmountCalculation(forHome) + " ELSE 0 END) AS " + KEY_SUM_INCOME;
   }
 
   static String getIncomeAggregate(boolean forHome, String aggregateFunction) {
