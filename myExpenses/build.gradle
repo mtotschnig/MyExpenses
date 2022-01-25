@@ -214,9 +214,6 @@ dependencies {
     // Dropbox
     implementation 'com.dropbox.core:dropbox-core-sdk:5.1.1'
 
-    //noinspection GradleCompatible
-    implementation 'androidx.multidex:multidex:2.0.1'
-
     implementation 'org.apache.commons:commons-collections4:4.4'
 
     api "com.jakewharton.timber:timber:$timberVersion"
@@ -283,7 +280,6 @@ dependencies {
     testImplementation 'pl.pragmatists:JUnitParams:1.1.1'
     testImplementation "org.mockito:mockito-core:$mockitoVersion"
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
-    testImplementation "org.robolectric:shadows-multidex:$robolectricVersion"
     testImplementation "androidx.test:core:$androidSupportTestVersion"
     testImplementation "org.assertj:assertj-core:$assertjVersion"
     //noinspection GradleDependency
@@ -319,6 +315,7 @@ dependencies {
 
     //Mlkit / Drive
     //implementation "com.google.android.gms:play-services-base:18.0.1"
+    //implementation "com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava"
 
     //noinspection GradleDependency
     implementation 'com.github.mtotschnig:Android-Image-Cropper:cbea979d2a'

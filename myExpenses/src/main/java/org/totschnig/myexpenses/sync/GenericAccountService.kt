@@ -19,6 +19,7 @@ import android.accounts.AbstractAccountAuthenticator
 import android.accounts.Account
 import android.accounts.AccountAuthenticatorResponse
 import android.accounts.AccountManager
+import android.app.Application
 import android.app.Service
 import android.content.ContentResolver
 import android.content.Context
@@ -200,7 +201,7 @@ class GenericAccountService : Service() {
         }
 
         fun updateAccountsIsSyncable(
-            context: MyApplication,
+            context: Application,
             licenceHandler: LicenceHandler,
             prefHandler: PrefHandler
         ) {

@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.util.licence
 
 import android.app.Activity
+import android.app.Application
 import android.content.Context
 import android.net.Uri
 import android.os.Build
@@ -30,12 +31,12 @@ import timber.log.Timber
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-open class LicenceHandler(protected val context: MyApplication, var licenseStatusPrefs: PreferenceObfuscator, private val crashHandler: CrashHandler, protected val prefHandler: PrefHandler) {
+open class LicenceHandler(protected val context: Application, var licenseStatusPrefs: PreferenceObfuscator, private val crashHandler: CrashHandler, protected val prefHandler: PrefHandler) {
     private var hasOurLicence = false
     private val isSandbox = BuildConfig.DEBUG
     private val localBackend = false
     var licenceStatus: LicenceStatus? = null
-        @VisibleForTesting set(value) {
+        protected set(value) {
             crashHandler.putCustomData("Licence", value?.name ?: "null")
             field = value
         }
@@ -150,12 +151,6 @@ open class LicenceHandler(protected val context: MyApplication, var licenseStatu
 
     fun reset() {
         init()
-        update()
-    }
-
-    @RestrictTo(RestrictTo.Scope.TESTS)
-    fun setLockState(locked: Boolean) {
-        this.licenceStatus = if (locked) null else LicenceStatus.PROFESSIONAL
         update()
     }
 

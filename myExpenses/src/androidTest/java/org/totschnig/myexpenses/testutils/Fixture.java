@@ -36,6 +36,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+import kotlin.Pair;
 import timber.log.Timber;
 
 import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
@@ -282,9 +283,11 @@ public class Fixture {
   }
 
   private static void setUpCategories(Context appContext) {
-    Timber.d("Set up %d categories", appContext.getContentResolver()
-        .call(TransactionProvider.DUAL_URI, TransactionProvider.METHOD_SETUP_CATEGORIES, null, null)
-        .getInt(TransactionProvider.KEY_RESULT));
+    //noinspection unchecked
+    Pair<Integer, Integer> integerIntegerPair = (Pair<Integer, Integer>) appContext.getContentResolver()
+            .call(TransactionProvider.DUAL_URI, TransactionProvider.METHOD_SETUP_CATEGORIES, null, null)
+            .getSerializable(TransactionProvider.KEY_RESULT);
+    Timber.d("Set up %d categories", integerIntegerPair.getFirst());
   }
 
   private static long findCat(String label, Long parent) {

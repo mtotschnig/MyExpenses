@@ -18,6 +18,8 @@ import org.totschnig.myexpenses.model.Template;
 import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.testutils.BaseUiTest;
+import org.totschnig.myexpenses.testutils.MockLicenceHandler;
+import org.totschnig.myexpenses.util.licence.ContribStatusLicenceHandler;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
 
 import java.util.Currency;
@@ -142,7 +144,7 @@ public class ManageTemplatesTest extends BaseUiTest<ManageTemplates> {
 
   private void unlock() {
     final AppComponent appComponent = getApp().getAppComponent();
-    LicenceHandler licenceHandler = appComponent.licenceHandler();
+    MockLicenceHandler licenceHandler = ((MockLicenceHandler) appComponent.licenceHandler());
     licenceHandler.setLockState(false);
   }
 
