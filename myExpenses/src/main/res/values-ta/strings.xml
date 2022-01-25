@@ -674,7 +674,8 @@
     <string name="never">எப்போதும் இல்லை</string>
     <string name="always">எப்பொழுதும்</string>
     <string name="auto_fill_account_from_aggregate_only">மொத்த கணக்கிலிருந்து தொடங்கும்போது மட்டுமே.</string>
-    <string name="sync_auth_exception_login_again">அதிகாரமளிப்பு தோல்வியடைந்தது. தயவு செய்து மீண்டும் புகுபதிகை செய்க.</string>
+    <string name="sync_auth_exception">அதிகாரமளிப்பு தோல்வியடைந்தது.</string>
+    <string name="sync_login_again">தயவு செய்து மீண்டும் புகுபதிகை செய்க.</string>
     <string name="sync_loading_accounts_from_backend">பின்தளத்தில் இருக்கக்கூடிய கணக்குகளை ஏற்றுகிறது.</string>
     <plurals name="delete_success">
         <item quantity="one">ஒரு பொருள் வெற்றிகரமாக நீக்கப்பட்டது.</item>

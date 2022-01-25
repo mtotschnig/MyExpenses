@@ -673,7 +673,8 @@
     <string name="sort_direction_descending">malejąco</string>
     <string name="never">nigdy</string>
     <string name="always">zawsze</string>
-    <string name="sync_auth_exception_login_again">Autoryzacja się nie powiodła. Zaloguj się proszę ponowie.</string>
+    <string name="sync_auth_exception">Autoryzacja się nie powiodła.</string>
+    <string name="sync_login_again">Zaloguj się proszę ponowie.</string>
     <string name="sync_loading_accounts_from_backend">Wczytywanie dostępnych kont z zaplecza.</string>
     <plurals name="delete_success">
         <item quantity="one">Z powodzeniem usunięto jeden obiekt.</item>

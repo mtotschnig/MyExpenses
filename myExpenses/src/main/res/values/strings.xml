@@ -678,7 +678,8 @@
     <string name="never">never</string>
     <string name="always">always</string>
     <string name="auto_fill_account_from_aggregate_only">Only when started from aggregate account.</string>
-    <string name="sync_auth_exception_login_again">Authorization failed. Please log in again.</string>
+    <string name="sync_auth_exception">Authorization failed.</string>
+    <string name="sync_login_again">Please log in again.</string>
     <string name="sync_loading_accounts_from_backend">Loading available accounts from backend.</string>
     <plurals name="delete_success">
         <item quantity="one">One object was successfully deleted.</item>

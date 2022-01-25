@@ -506,7 +506,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     if (e instanceof SyncBackendProvider.AuthException) {
       Intent resolution = ((SyncBackendProvider.AuthException) e).resolution;
       if (resolution != null) {
-        notifyUser(getContext().getString(R.string.sync_auth_exception_login_again), getContext().getString(R.string.sync_auth_exception_login_again), account, ((SyncBackendProvider.AuthException) e).resolution);
+        notifyUser(getContext().getString(R.string.sync_auth_exception), getContext().getString(R.string.sync_login_again), account, ((SyncBackendProvider.AuthException) e).resolution);
         return true;
       }
     }

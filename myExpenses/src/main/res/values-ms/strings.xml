@@ -658,7 +658,8 @@
     <string name="never">tidak sesekali</string>
     <string name="always">sentiasa</string>
     <string name="auto_fill_account_from_aggregate_only">Hanya bermula dari akaun beragregat.</string>
-    <string name="sync_auth_exception_login_again">Pengesahihan gagal. Sila daftar masuk sekali lagi.</string>
+    <string name="sync_auth_exception">Pengesahihan gagal.</string>
+    <string name="sync_login_again">Sila daftar masuk sekali lagi.</string>
     <string name="sync_loading_accounts_from_backend">Memuatkan akaun tersedia dari bahagian belakang.</string>
     <plurals name="delete_success">
         <item quantity="other">%d objek berjaya dipadamkan.</item>

@@ -665,7 +665,8 @@
     <string name="never">从不</string>
     <string name="always">总是</string>
     <string name="auto_fill_account_from_aggregate_only">仅当从汇总账户启动时。</string>
-    <string name="sync_auth_exception_login_again">授权失败。请重新登录。</string>
+    <string name="sync_auth_exception">授权失败。</string>
+    <string name="sync_login_again">请重新登录。</string>
     <string name="sync_loading_accounts_from_backend">从后端加载可用账户中...</string>
     <plurals name="delete_success">
         <item quantity="other">已成功删除 %d 个对象。</item>

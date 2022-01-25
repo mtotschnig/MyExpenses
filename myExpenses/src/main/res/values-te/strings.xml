@@ -102,7 +102,8 @@
         <item quantity="other">%d వస్తువులు విజయవంతంగా తొలగించబడ్డాయి.</item>
     </plurals>
     <string name="sync_loading_accounts_from_backend">బ్యాకెండ్ నుండి అందుబాటులో ఉన్న ఖాతాలను లోడ్ చేస్తోంది.</string>
-    <string name="sync_auth_exception_login_again">ప్రామాణీకరణ విఫలమైంది. దయచేసి మళ్ళీ లాగిన్ అవ్వండి.</string>
+    <string name="sync_auth_exception">ప్రామాణీకరణ విఫలమైంది.</string>
+    <string name="sync_login_again">దయచేసి మళ్ళీ లాగిన్ అవ్వండి.</string>
     <string name="auto_fill_account_from_aggregate_only">మొత్తం ఖాతా నుండి ప్రారంభించినప్పుడు మాత్రమే.</string>
     <string name="always">ఎల్లప్పుడూ</string>
     <string name="never">ఎప్పుడు కాదు</string>

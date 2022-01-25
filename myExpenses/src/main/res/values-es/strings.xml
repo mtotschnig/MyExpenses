@@ -674,7 +674,8 @@
     <string name="never">Nunca</string>
     <string name="always">Siempre</string>
     <string name="auto_fill_account_from_aggregate_only">Sólo cuando se comience desde una cuenta agregada.</string>
-    <string name="sync_auth_exception_login_again">Autorización fallida. Por favor, inicie sesión de nuevo.</string>
+    <string name="sync_auth_exception">Autorización fallida.</string>
+    <string name="sync_login_again">Por favor, inicie sesión de nuevo.</string>
     <string name="sync_loading_accounts_from_backend">Cargando cuentas disponibles desde el servidor.</string>
     <plurals name="delete_success">
         <item quantity="one">Un objeto fue eliminado correctamente.</item>

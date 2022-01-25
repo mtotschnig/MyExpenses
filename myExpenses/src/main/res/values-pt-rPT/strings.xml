@@ -851,7 +851,8 @@
         <item quantity="other">%d objetos foram excluídos com sucesso.</item>
     </plurals>
     <string name="sync_loading_accounts_from_backend">Carregando contas disponíveis no destino.</string>
-    <string name="sync_auth_exception_login_again">Falha na autorização. Por favor, autentique-se novamente.</string>
+    <string name="sync_auth_exception">Falha na autorização.</string>
+    <string name="sync_login_again">Por favor, autentique-se novamente.</string>
     <string name="auto_fill_account_from_aggregate_only">Apenas quando iniciar de uma conta agregada.</string>
     <string name="always">sempre</string>
     <string name="never">nunca</string>

@@ -674,7 +674,8 @@
     <string name="never">asla</string>
     <string name="always">daima</string>
     <string name="auto_fill_account_from_aggregate_only">Sadece toplam (agrega) hesaptan başlatıldığında.</string>
-    <string name="sync_auth_exception_login_again">İzin verme başarısız oldu. Lütfen tekrar giriş yapın.</string>
+    <string name="sync_auth_exception">İzin verme başarısız oldu.</string>
+    <string name="sync_login_again">Lütfen tekrar giriş yapın.</string>
     <string name="sync_loading_accounts_from_backend">Mevcut hesaplar arka uçtan yükleniyor.</string>
     <plurals name="delete_success">
         <item quantity="one">Bir nesne başarıyla silindi.</item>

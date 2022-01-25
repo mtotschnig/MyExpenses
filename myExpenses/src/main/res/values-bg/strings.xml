@@ -674,7 +674,8 @@
     <string name="never">никога</string>
     <string name="always">винаги</string>
     <string name="auto_fill_account_from_aggregate_only">Само при започване от общата сметка.</string>
-    <string name="sync_auth_exception_login_again">Достъпът е отказан. Моля, влезте отново.</string>
+    <string name="sync_auth_exception">остъпът е отказан.</string>
+    <string name="sync_login_again">Моля, влезте отново.</string>
     <string name="sync_loading_accounts_from_backend">Зареждане на наличните сметки от отдалеченото хранилище.</string>
     <plurals name="delete_success">
         <item quantity="one">Един обект бе успешно изтрит.</item>

@@ -672,7 +672,8 @@
     <string name="never">ಎಂದಿಗೂ</string>
     <string name="always">ಯಾವಾಗಲೂ</string>
     <string name="auto_fill_account_from_aggregate_only">ಒಟ್ಟು ಖಾತೆಯಿಂದ ಪ್ರಾರಂಭಿಸಿದಾಗ ಮಾತ್ರ.</string>
-    <string name="sync_auth_exception_login_again">ಅಧಿಕಾರ ವಿಫಲವಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಲಾಗ್ ಇನ್ ಮಾಡಿ.</string>
+    <string name="sync_auth_exception">ಅಧಿಕಾರ ವಿಫಲವಾಗಿದೆ.</string>
+    <string name="sync_login_again">ದಯವಿಟ್ಟು ಮತ್ತೆ ಲಾಗ್ ಇನ್ ಮಾಡಿ.</string>
     <string name="sync_loading_accounts_from_backend">ಲಭ್ಯವಿರುವ ಖಾತೆಗಳನ್ನು ಬ್ಯಾಕೆಂಡ್‌ನಿಂದ ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ.</string>
     <plurals name="delete_success">
         <item quantity="one">ಒಂದು ವಸ್ತುವನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಅಳಿಸಲಾಗಿದೆ.</item>

@@ -673,7 +673,8 @@
     <string name="never">ніколи</string>
     <string name="always">завжди</string>
     <string name="auto_fill_account_from_aggregate_only">Лише коли розпочатий з об\'єднаного рахунку.</string>
-    <string name="sync_auth_exception_login_again">Помилка авторизації. Спробуйте знову.</string>
+    <string name="sync_auth_exception">Помилка авторизації.</string>
+    <string name="sync_login_again">Спробуйте знову.</string>
     <string name="sync_loading_accounts_from_backend">Завантаження доступних рахунків із сервера.</string>
     <plurals name="delete_success">
         <item quantity="one">Об\'єкт було успішно видалено.</item>
