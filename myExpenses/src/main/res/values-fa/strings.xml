@@ -583,12 +583,12 @@
     <string name="warning_splitpartcategory_context">نقل و انتقالاتی که بخشی از یک تسهیم هستند فقط در زمینه تسهیم قابل ویرایش هستند.</string>
     <string name="menu_categories_setup_default">دسته بندی های پیش فرض را تنظیم کنید</string>
     <string name="app_dir_not_compatible_with_nougat">URI پیکربندی شده فعلی برای پشتیبان‌گیری و برون بری (%1$s) در اندروید نوقا پشتیبانی نمی‌شود. لطفاً دوباره یک پوشه را انتخاب کنید.</string>
-    <string name="restore_not_possible_target_calendar_missing">تقویم %s تنظیم شده در بایگانی پشتیبان به صورت محلی وجود ندارد. بازیابی متوقف شده است.</string>
+    <string name="restore_not_possible_target_calendar_missing">تقویم %s که در بایگانی پشتیبان تنظیم شده است به صورت محلی وجود ندارد. بازیابی متوقف شده است.</string>
     <string name="pref_manage_stale_images_title">تصاویر قدیمی</string>
     <string name="export_handle_deleted_update_balance">به روز رسانی موجودی افتتاحیه</string>
     <string name="csv_import_field_mapped_more_than_once">%s بیش از یک بار نگاشته شده است.</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d رکورد درون ریزی نشد.</string>
-    <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d رکورد کنار گذاشته شد.</string>
+    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">"رکوردهای %d  نمی‌توانند وارد شوند."</string>
+    <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">"رکوردهای %d  اعمال نشدند."</string>
     <string name="transform_subcategory_to_main">تبدیل به دسته بندی اصلی</string>
     <string name="pref_sort_order_next_instance">نمونه بعدی</string>
     <string name="paypal_callback_info">تراکنش شما تکمیل شده است و رسید خرید شما برای شما ایمیل شده است. برای مشاهده جزئیات این تراکنش می توانید وارد حساب کاربری خود در www.paypal.com شوید.</string>
@@ -652,9 +652,9 @@
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">اگر مقادیر به روز نشوند، پس از تغییر به صورت ضرب در %d نمایش داده خواهند شد.</string>
     <string name="pref_manage_stale_images_summary">تصاویر باقی مانده از تراکنش های حذف شده را مدیریت کنید</string>
     <string name="account_deleted">حساب حذف شده است</string>
-    <string name="pref_custom_decimal_format_summary">اگر از قالب پیش‌فرض برای منطقه خود راضی نیستید، آن را با نیازهای خود تطبیق دهید. برای بازیابی قالب پیش فرض خالی بگذارید.</string>
+    <string name="pref_custom_decimal_format_summary">اگر از قالب پیش‌فرض برای منطقه خود راضی نیستید، آن رامتناسب با نیازهای خود تغییر دهید. برای بازیابی قالب پیش فرض آن را خالی بگذارید.</string>
     <string name="pref_grouping_periods">گروه بندی دوره ها</string>
-    <string name="progress_dialog_updating_split_parts">به روز رسانی بخش های تسهیم شده</string>
+    <string name="progress_dialog_updating_split_parts">در حال به‌روز رسانی بخش‌های تسهیم‌ شده</string>
     <string name="content_description_calculator_delete_button">حذف رقم آخر</string>
     <string name="dialog_confirm_sync_remove_backend">ارتباط با سرور %s از بین خواهد رفت. این روی داده‌های ذخیره‌شده به صورت محلی یا سرور تأثیری نمی‌گذارد، اما وضعیت همگام‌سازی از بین می‌رود.</string>
     <string name="crash_dialog_text">یک خطای غیرمنتظره روی داد که برنامه را مجبور به توقف کرد. لطفاً با ارسال داده های خطا به ما در رفع این مشکل کمک کنید، تنها کاری که باید انجام دهید این است که تأیید را کلیک کنید.</string>
@@ -663,7 +663,7 @@
     <string name="warning_synchronization_folder_usage">این پوشه برای همگام سازی داده ها بین نصب های {app_name} در دستگاه های مختلف استفاده می شود. لطفاً هیچ یک از محتویات آن را به صورت دستی تغییر ندهید.</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">پوشه ای که انتخاب کرده اید مربوط به یکی از حساب های موجود روی سرور است. برای استفاده مجدد از این سرور، باید پوشه والد آن را انتخاب کنید.</string>
     <string name="warning_cannot_move_split_transaction">این تراکنش تسهیمی را نمی‌توان به حساب %1$s منتقل کرد زیرا بخش‌های انتقالی وجود دارد که به این حساب اشاره می‌کنند.</string>
-    <string name="calendar_permission_required"><i>{app_name}</i> به اجازه دسترسی به تقویم شما نیاز دارد تا بتواند برای تراکنش‌های آتی و مکرر برنامه‌هایی ایجاد کند.</string>
+    <string name="calendar_permission_required"><i>{app_name}</i> به اجازه دسترسی به تقویم شما نیاز دارد تا بتواند برای تراکنش‌های آتی و مکرر رخدادهایی را ایجاد کند.</string>
     <string name="synchronization_start">شروع همگام سازی برای حساب %s.</string>
     <string name="sync_state_could_not_be_restored">وضعیت همگام‌سازی برای %d حساب بازیابی نشد.</string>
     <string name="sync_io_error_cannot_connect">اتصال به سرور همگام سازی امکان پذیر نیست.</string>
