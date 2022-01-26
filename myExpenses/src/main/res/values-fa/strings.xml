@@ -698,4 +698,8 @@
     <string name="auto_backup_cloud_success">فایل پشتیبان %1$s با موفقیت در سرور %2$s ذخیره شد.</string>
     <string name="onboarding_restore_from_local">فایل پشتیبان محلی را بازیابی کنید</string>
     <string name="synchronization_end_success">%1$d تغییر در سرور در پایگاه داده محلی نوشته شد. %2$d تغییرات محلی در سرور نوشته شد.</string>
+    <string name="dialog_button_add">اضافه</string>
+    <string name="button_validate">صحت سنجی</string>
+    <string name="feature_deprecated">منسوخ شده</string>
+    <string name="menu_history">تاریخچه</string>
 </resources>
