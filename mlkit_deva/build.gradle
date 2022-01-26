@@ -8,7 +8,6 @@ android {
     defaultConfig {
         missingDimensionStrategy 'textRecognition', 'intern'
         minSdkVersion project.minSdkVersion
-        targetSdkVersion project.targetSdkVersion
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 }

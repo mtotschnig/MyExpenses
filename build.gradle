@@ -11,7 +11,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.1.0-rc01'
+        classpath 'com.android.tools.build:gradle:7.1.0'
         //Drive
         //classpath 'com.google.gms:google-services:4.3.10'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
@@ -33,7 +33,7 @@ allprojects {
 }
 
 ext {
-    versionCode = 507
+    versionCode = 508
     versionName = '3.3.5.2'
     compileSdkVersion = 31
     minSdkVersion = 21

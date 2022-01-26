@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.provider
 import android.content.Context
 import android.database.Cursor
 import android.net.Uri
+import androidx.core.os.OperationCanceledException
 import androidx.loader.content.CursorLoader
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 
@@ -18,6 +19,7 @@ class ProtectedCursorLoader(
         return try {
             super.loadInBackground()
         } catch (e: Exception) {
+            if (e is OperationCanceledException) throw e
             CrashHandler.report(e)
             null
         }
