@@ -94,7 +94,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
         }
 
         override fun onClick(view: View) {
-            itemCallback.onItemClick(view, bindingAdapterPosition)
+            itemCallback.onItemClick(binding, bindingAdapterPosition)
         }
 
         override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
@@ -108,12 +108,12 @@ class PartiesList : Fragment(), OnDialogResultListener {
                 this.isChecked = isChecked
             }
             binding.Debt.visibility = if (party.hasOpenDebts) View.VISIBLE else View.GONE
-            binding.root.setOnClickListener(if (mergeMode) null else this)
+            binding.root.setOnClickListener(this)
         }
     }
 
     interface ItemCallback {
-        fun onItemClick(view: View, position: Int)
+        fun onItemClick(binding: PayeeRowBinding, position: Int)
         fun onCheckedChanged(isChecked: Boolean, position: Int)
     }
 
@@ -150,13 +150,13 @@ class PartiesList : Fragment(), OnDialogResultListener {
         val checkedCount: Int
             get() = getSelected().size
 
-        override fun onItemClick(view: View, position: Int) {
-            if (action == ACTION_SELECT_FILTER) {
-                doSingleSelection(getItem(position).party)
+        override fun onItemClick(binding: PayeeRowBinding, position: Int) {
+            if (hasSelectMultiple()) {
+                binding.checkBox.toggle()
                 return
             }
             val index2IdMap: MutableMap<Int, Long> = mutableMapOf()
-            with(PopupMenu(requireContext(), view)) {
+            with(PopupMenu(requireContext(), binding.root)) {
                 if (action == ACTION_SELECT_MAPPING) {
                     menu.add(Menu.NONE, SELECT_COMMAND, Menu.NONE, R.string.select)
                         .setIcon(R.drawable.ic_menu_done)
