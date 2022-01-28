@@ -37,7 +37,8 @@ class SplitPartListViewModel(application: Application) :
                     KEY_COMMENT,
                     FULL_LABEL,
                     KEY_TRANSFER_ACCOUNT,
-                    if (parentIsTemplate) "null" else BaseTransactionProvider.DEBT_LABEL_EXPRESSION
+                    if (parentIsTemplate) "null" else BaseTransactionProvider.DEBT_LABEL_EXPRESSION,
+                    KEY_TAGLIST
                 ),
                 selection = "$KEY_PARENTID = ?",
                 selectionArgs = arrayOf(parentId.toString())
@@ -53,7 +54,8 @@ class SplitPartListViewModel(application: Application) :
         override val comment: String?,
         override val label: String?,
         override val isTransfer: Boolean,
-        override val debtLabel: String?
+        override val debtLabel: String?,
+        override val tagList: String?
     ) : SplitPartRVAdapter.ITransaction
 
     companion object {
@@ -64,7 +66,8 @@ class SplitPartListViewModel(application: Application) :
                 cursor.getStringOrNull(2),
                 cursor.getStringOrNull(3),
                 getLongOrNull(cursor, 4) != null,
-                cursor.getStringOrNull(5)
+                cursor.getStringOrNull(5),
+                cursor.getString(6)
             )
     }
 }

@@ -43,7 +43,8 @@ data class Transaction(
     val isSealed: Boolean,
     val accountLabel: String,
     val accountType: AccountType,
-    override val debtLabel: String?
+    override val debtLabel: String?,
+    override val tagList: String? = null
 ) : SplitPartRVAdapter.ITransaction {
     val isSameCurrency: Boolean
         get() = transferAmount?.let { amount.currencyUnit == it.currencyUnit } ?: true
@@ -89,7 +90,8 @@ data class Transaction(
             getExchangeRate(VIEW_EXTENDED, KEY_ACCOUNTID) + " AS " + KEY_EXCHANGE_RATE,
             KEY_ACCOUNT_LABEL,
             KEY_ACCOUNT_TYPE,
-            DEBT_LABEL_EXPRESSION
+            DEBT_LABEL_EXPRESSION,
+            KEY_TAGLIST
         )
 
         fun fromCursor(cursor: Cursor, currencyContext: CurrencyContext): Transaction {
@@ -186,7 +188,8 @@ data class Transaction(
                     cursor,
                     KEY_TRANSFER_PEER_PARENT
                 ) != null,
-                debtLabel = cursor.getStringOrNull(KEY_DEBT_LABEL)
+                debtLabel = cursor.getStringOrNull(KEY_DEBT_LABEL),
+                tagList = cursor.getStringOrNull(KEY_TAGLIST)
             )
         }
     }

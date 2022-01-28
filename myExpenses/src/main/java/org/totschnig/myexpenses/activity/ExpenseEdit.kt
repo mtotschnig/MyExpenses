@@ -445,13 +445,11 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     }
 
     private fun loadTags() {
-        if (!isSplitPart) {
-            viewModel.getTags().observe(this) { tags ->
-                if (::delegate.isInitialized) {
-                    delegate.showTags(tags) { tag ->
-                        viewModel.removeTag(tag)
-                        setDirty()
-                    }
+        viewModel.getTags().observe(this) { tags ->
+            if (::delegate.isInitialized) {
+                delegate.showTags(tags) { tag ->
+                    viewModel.removeTag(tag)
+                    setDirty()
                 }
             }
         }

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
 import androidx.core.text.italic
 import androidx.core.text.underline
@@ -88,6 +89,12 @@ class SplitPartRVAdapter(
                         append(it)
                     }
                 }
+                transaction.tagList.takeIf { !it.isNullOrBlank() }?.let {
+                    append(" / ")
+                    bold {
+                        append(it)
+                    }
+                }
             }
         }
     }
@@ -111,6 +118,7 @@ class SplitPartRVAdapter(
         val id: Long
         val amountRaw: Long
         val debtLabel: String?
+        val tagList: String?
 
         override fun equals(other: Any?): Boolean
     }

@@ -25,7 +25,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
 
 import com.android.calendar.CalendarContractCompat.Events;
@@ -48,7 +47,6 @@ import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 import timber.log.Timber;
@@ -98,7 +96,16 @@ public class TransactionDatabase extends BaseTransactionDatabase {
   private static final String TRANSACTIONS_UUID_INDEX_CREATE = "CREATE UNIQUE INDEX transactions_account_uuid_index ON "
       + TABLE_TRANSACTIONS + "(" + KEY_ACCOUNTID + "," + KEY_UUID + "," + KEY_STATUS + ")";
 
-  private static String buildViewDefinition(String tableName) {
+  public static final String TAG_JOIN(String mainTable, String tagTable, String referenceColumn) {
+    return String.format(Locale.ROOT, " LEFT JOIN %1$s ON %1$s.%2$s = %3$s.%4$s LEFT JOIN %5$s ON %6$s= %5$s.%4$s",
+            tagTable, referenceColumn, mainTable, KEY_ROWID, TABLE_TAGS, KEY_TAGID);
+  }
+
+  public static final String TAG_GROUP_BY(String tableName) {
+    return String.format(Locale.ROOT, " GROUP BY %1$s.%2$s", tableName, KEY_ROWID);
+  }
+
+  private static String buildViewDefinition(String tableName, boolean withTags) {
     StringBuilder stringBuilder = new StringBuilder();
     stringBuilder.append(" AS SELECT ").append(tableName).append(".*, ").append(TABLE_PAYEES)
         .append(".").append(KEY_PAYEE_NAME).append(", ")
@@ -106,6 +113,10 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
     if (tableName.equals(TABLE_TRANSACTIONS)) {
       stringBuilder.append(", ").append(TABLE_PLAN_INSTANCE_STATUS).append(".").append(KEY_TEMPLATEID);
+    }
+
+    if (withTags) {
+      stringBuilder.append(", group_concat(").append(TABLE_TAGS).append(".").append(KEY_LABEL).append(", ', ') AS ").append(KEY_TAGLIST);
     }
 
     stringBuilder.append(" FROM ").append(tableName).append(" LEFT JOIN ").append(TABLE_PAYEES).append(" ON ")
@@ -2169,6 +2180,10 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       if (oldVersion < 120) {
         upgradeTo120(db);
       }
+      if (oldVersion < 121) {
+        createOrRefreshViews(db);
+        createOrRefreshTemplateViews(db);
+      }
       TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {
       throw new SQLiteUpgradeFailedException(oldVersion, newVersion, e);
@@ -2248,16 +2263,14 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     db.execSQL("DROP VIEW IF EXISTS " + VIEW_CHANGES_EXTENDED);
     db.execSQL("DROP VIEW IF EXISTS " + VIEW_WITH_ACCOUNT);
 
-    String viewTransactions = buildViewDefinition(TABLE_TRANSACTIONS);
     String viewExtended = buildViewDefinitionExtended(TABLE_TRANSACTIONS);
-    db.execSQL("CREATE VIEW " + VIEW_COMMITTED + viewTransactions + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
-    final String tagJoin = String.format(Locale.ROOT, " LEFT JOIN %1$s ON %1$s.%2$s = %3$s.%4$s LEFT JOIN %5$s ON %6$s= %5$s.%4$s",
-        TABLE_TRANSACTIONS_TAGS, KEY_TRANSACTIONID, TABLE_TRANSACTIONS, KEY_ROWID, TABLE_TAGS, KEY_TAGID);
-    final String tagGroupBy = String.format(Locale.ROOT, " GROUP BY %1$s.%2$s", TABLE_TRANSACTIONS, KEY_ROWID);
-    db.execSQL("CREATE VIEW " + VIEW_UNCOMMITTED + viewTransactions + " WHERE " + KEY_STATUS + " = " + STATUS_UNCOMMITTED + ";");
+    String tagJoin = TAG_JOIN(TABLE_TRANSACTIONS, TABLE_TRANSACTIONS_TAGS, KEY_TRANSACTIONID);
+    String tagGroupBy = TAG_GROUP_BY(TABLE_TRANSACTIONS);
+    db.execSQL("CREATE VIEW " + VIEW_COMMITTED + buildViewDefinition(TABLE_TRANSACTIONS, false) + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
+    db.execSQL("CREATE VIEW " + VIEW_UNCOMMITTED + buildViewDefinition(TABLE_TRANSACTIONS, true) + tagJoin + " WHERE " + KEY_STATUS + " = " + STATUS_UNCOMMITTED + tagGroupBy + ";");
     db.execSQL("CREATE VIEW " + VIEW_ALL + viewExtended + tagJoin + tagGroupBy);
     db.execSQL("CREATE VIEW " + VIEW_EXTENDED + viewExtended + tagJoin + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED +
-        tagGroupBy + ";");
+            tagGroupBy + ";");
 
     db.execSQL("CREATE VIEW " + VIEW_CHANGES_EXTENDED + buildViewDefinitionExtended(TABLE_CHANGES));
     db.execSQL("CREATE VIEW " + VIEW_WITH_ACCOUNT + buildViewWithAccount() + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
@@ -2270,9 +2283,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     db.execSQL("DROP VIEW IF EXISTS " + VIEW_TEMPLATES_EXTENDED);
     db.execSQL("DROP VIEW IF EXISTS " + VIEW_TEMPLATES_UNCOMMITTED);
 
-    String viewTemplates = buildViewDefinition(TABLE_TEMPLATES);
+    String viewTemplates = buildViewDefinition(TABLE_TEMPLATES, true);
     String viewTemplatesExtended = buildViewDefinitionExtended(TABLE_TEMPLATES);
-    db.execSQL("CREATE VIEW " + VIEW_TEMPLATES_UNCOMMITTED + viewTemplates + " WHERE " + KEY_STATUS + " = " + STATUS_UNCOMMITTED + ";");
+    db.execSQL("CREATE VIEW " + VIEW_TEMPLATES_UNCOMMITTED + viewTemplates + TAG_JOIN(TABLE_TEMPLATES, TABLE_TEMPLATES_TAGS, KEY_TEMPLATEID) + " WHERE " + KEY_STATUS + " = " + STATUS_UNCOMMITTED + TAG_GROUP_BY(TABLE_TEMPLATES) + ";");
     db.execSQL("CREATE VIEW " + VIEW_TEMPLATES_ALL + viewTemplatesExtended);
     db.execSQL("CREATE VIEW " + VIEW_TEMPLATES_EXTENDED + viewTemplatesExtended + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
   }

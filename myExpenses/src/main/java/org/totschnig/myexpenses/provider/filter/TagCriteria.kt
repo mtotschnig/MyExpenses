@@ -25,8 +25,6 @@ class TagCriteria(label: String, vararg ids: String) : IdCriteria(label, *ids) {
         parcel.writeStringArray(values)
     }
 
-    override fun shouldApplyToParts() = false
-
     companion object CREATOR : Parcelable.Creator<TagCriteria> {
         override fun createFromParcel(parcel: Parcel) = TagCriteria(parcel)
 

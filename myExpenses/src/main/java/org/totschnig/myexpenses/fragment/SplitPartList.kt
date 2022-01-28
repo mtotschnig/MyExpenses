@@ -99,14 +99,13 @@ class SplitPartList : Fragment() {
             currencyFormatter
         ) { view, _ -> requireActivity().openContextMenu(view) }
         binding.list.adapter = adapter
-        viewModel.getSplitParts().observe(
-            viewLifecycleOwner, { transactions ->
-                binding.empty.visibility = if (transactions.isEmpty()) View.VISIBLE else View.GONE
-                binding.list.visibility = if (transactions.isEmpty()) View.GONE else View.VISIBLE
-                transactionSum = transactions.sumOf { it.amountRaw }
-                adapter.submitList(transactions)
-                updateBalance()
-            })
+        viewModel.getSplitParts().observe(viewLifecycleOwner) { transactions ->
+            binding.empty.visibility = if (transactions.isEmpty()) View.VISIBLE else View.GONE
+            binding.list.visibility = if (transactions.isEmpty()) View.GONE else View.VISIBLE
+            transactionSum = transactions.sumOf { it.amountRaw }
+            adapter.submitList(transactions)
+            updateBalance()
+        }
         loadParts()
         registerForContextMenu(binding.list)
         binding.CREATEPARTCOMMAND.contentDescription = concatResStrings(

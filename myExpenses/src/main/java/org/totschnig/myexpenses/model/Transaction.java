@@ -54,6 +54,8 @@ import java.util.Locale;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
+
+import kotlin.Pair;
 import kotlin.Triple;
 import timber.log.Timber;
 
@@ -620,11 +622,13 @@ public class Transaction extends Model implements ITransaction {
       if (c != null) {
         c.moveToFirst();
         while (!c.isAfterLast()) {
-          Transaction part = Transaction.getInstanceFromTemplate(c.getLong(c.getColumnIndexOrThrow(KEY_ROWID)));
+          Pair<Transaction, List<Tag>> part = Transaction.getInstanceFromTemplateWithTags(c.getLong(c.getColumnIndexOrThrow(KEY_ROWID)));
           if (part != null) {
-            part.status = STATUS_UNCOMMITTED;
-            part.setParentId(tr.getId());
-            part.saveAsNew();
+            Transaction t = part.getFirst();
+            t.status = STATUS_UNCOMMITTED;
+            t.setParentId(tr.getId());
+            t.saveAsNew();
+            t.saveTags(part.getSecond());
           }
           c.moveToNext();
         }
@@ -647,11 +651,7 @@ public class Transaction extends Model implements ITransaction {
 
   @Nullable
   public List<Tag> loadTags() {
-    if (getParentId() == null) {
-      return ModelWithLinkedTagsKt.loadTags(linkedTagsUri(), linkColumn(), getId());
-    } else {
-      return null;
-    }
+    return ModelWithLinkedTagsKt.loadTags(linkedTagsUri(), linkColumn(), getId());
   }
 
   @Override
@@ -883,11 +883,13 @@ public class Transaction extends Model implements ITransaction {
       if (c != null) {
         c.moveToFirst();
         while (!c.isAfterLast()) {
-          Transaction part = getSplitPart(c.getLong(0));
+          Pair<Transaction, List<Tag>> part = getSplitPart(c.getLong(0));
           if (part != null) {
-            part.status = STATUS_UNCOMMITTED;
-            part.setParentId(getId());
-            part.saveAsNew();
+            Transaction t = part.getFirst();
+            t.status = STATUS_UNCOMMITTED;
+            t.setParentId(getId());
+            t.saveAsNew();
+            t.saveTags(part.getSecond());
           }
           c.moveToNext();
         }
@@ -899,8 +901,8 @@ public class Transaction extends Model implements ITransaction {
     }
   }
 
-  protected Transaction getSplitPart(long partId) {
-    return Transaction.getInstanceFromDb(partId);
+  protected Pair<Transaction, List<Tag>> getSplitPart(long partId) {
+    return Transaction.getInstanceFromDbWithTags(partId);
   }
 
   public Uri getContentUri() {

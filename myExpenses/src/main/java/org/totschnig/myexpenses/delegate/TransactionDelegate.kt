@@ -241,7 +241,6 @@ abstract class TransactionDelegate<T : ITransaction>(
         originTemplateId?.let { host.loadOriginTemplate(it) }
         if (isSplitPart) {
             disableAccountSpinner()
-            viewBinding.TagRow.root.visibility = View.GONE
         }
 
         if (isMainTemplate) {

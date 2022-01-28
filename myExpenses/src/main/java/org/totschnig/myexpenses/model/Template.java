@@ -82,6 +82,8 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PLAN_INS
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DbUtils.getLongOrNull;
 
+import kotlin.Pair;
+
 public class Template extends Transaction implements ITransfer, ISplit {
   public enum Action {
     SAVE, EDIT;
@@ -191,12 +193,13 @@ public class Template extends Transaction implements ITransfer, ISplit {
       if (c != null) {
         c.moveToFirst();
         while (!c.isAfterLast()) {
-          Transaction splitPart = t.getSplitPart(c.getLong(0));
+          Pair<Transaction, List<Tag>> splitPart = t.getSplitPart(c.getLong(0));
           if (splitPart != null) {
-            Template part = new Template(splitPart, title);
+            Template part = new Template(splitPart.getFirst(), title);
             part.setStatus(STATUS_UNCOMMITTED);
             part.setParentId(getId());
             part.save();
+            part.saveTags(splitPart.getSecond());
           }
           c.moveToNext();
         }
@@ -735,8 +738,8 @@ public class Template extends Transaction implements ITransfer, ISplit {
   }
 
   @Override
-  protected Transaction getSplitPart(long partId) {
-    return Template.getInstanceFromDb(partId);
+  protected Pair<Transaction, List<Tag>> getSplitPart(long partId) {
+    return Template.getInstanceFromDbWithTags(partId);
   }
 
   @Nullable
