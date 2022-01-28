@@ -17,7 +17,8 @@ class SelectMethodsAllDialogFragment : SelectFilterDialog(true) {
 
     override val uri: Uri = TransactionProvider.METHODS_URI
 
-    override val column: String = PaymentMethod.localizedLabelSqlColumn(context, KEY_LABEL)
+    override val column: String
+        get() = PaymentMethod.localizedLabelSqlColumn(context, KEY_LABEL)
 
     override val dialogTitle: Int = R.string.search_method
 
