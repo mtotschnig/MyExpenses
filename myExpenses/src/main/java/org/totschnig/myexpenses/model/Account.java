@@ -97,6 +97,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACT
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_EXPENSE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_INCOME;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT_PART;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_TRANSFER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.getSelectAmountSum;
 import static org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_TAGS_URI;
@@ -492,10 +493,10 @@ public class Account extends Model {
   }
 
   /**
-   * @return sum of all transcations
+   * @return sum of all transactions
    */
   public long getTransactionSum(WhereFilter filter) {
-    String selection = KEY_ACCOUNTID + " = ? AND " + WHERE_NOT_SPLIT_PART;
+    String selection = KEY_ACCOUNTID + " = ? AND " + WHERE_NOT_SPLIT_PART + " AND " + WHERE_NOT_VOID;
     String[] selectionArgs = new String[]{String.valueOf(getId())};
     if (filter != null && !filter.isEmpty()) {
       selection += " AND " + filter.getSelectionForParents(DatabaseConstants.VIEW_COMMITTED);
