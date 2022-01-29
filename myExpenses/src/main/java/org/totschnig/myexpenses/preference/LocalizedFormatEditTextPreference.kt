@@ -36,7 +36,7 @@ abstract class LocalizedFormatEditTextPreference constructor(context: Context, a
     }
 
     private fun voidValue() {
-        preferenceManager.sharedPreferences.edit()
+        preferenceManager.sharedPreferences!!.edit()
                 .remove(key)
                 .apply()
     }
