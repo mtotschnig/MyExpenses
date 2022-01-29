@@ -593,8 +593,8 @@
         <item>BTW</item>
     </string-array>
     <string-array name="comparison_operator_date_values">
-        <item>GTE</item>
-        <item>LTE</item>
+        <item>GT</item>
+        <item>LT</item>
         <item>BTW</item>
     </string-array>
 

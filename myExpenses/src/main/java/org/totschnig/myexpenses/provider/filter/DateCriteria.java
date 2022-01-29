@@ -41,7 +41,6 @@ public class DateCriteria extends Criteria {
    * filters transactions up to or from the provided value, depending on operation
    *
    * @param operation either {@link Operation#LTE} or {@link Operation#GTE}
-   * @param value1
    */
   public DateCriteria(Operation operation, LocalDate value1) {
     super(operation, value1.toString());
@@ -49,9 +48,6 @@ public class DateCriteria extends Criteria {
 
   /**
    * filters transaction between the provided values
-   *
-   * @param value1
-   * @param value2
    */
   public DateCriteria(LocalDate value1, LocalDate value2) {
     super(Operation.BTW, value1.toString(), value2.toString());
@@ -117,10 +113,12 @@ public class DateCriteria extends Criteria {
   public String[] getSelectionArgs() {
     switch (operation) {
       case GTE:
-        return new String[]{toStartOfDay(values[0])};
+        case LT:
+            return new String[]{toStartOfDay(values[0])};
       case LTE:
-        return new String[]{toEndOfDay(values[0])};
-      case BTW:
+        case GT:
+            return new String[]{toEndOfDay(values[0])};
+        case BTW:
         return new String[]{toStartOfDay(values[0]), toEndOfDay(values[1])};
       default:
         throw new IllegalStateException("Unexpected value: " + operation);
@@ -146,9 +144,11 @@ public class DateCriteria extends Criteria {
     String date1 = df.format(LocalDate.parse(values[0]));
     switch (operation) {
       case GTE:
+      case GT:
         result = context.getString(R.string.after, date1);
         break;
       case LTE:
+      case LT:
         result = context.getString(R.string.before, date1);
         break;
       case BTW:
