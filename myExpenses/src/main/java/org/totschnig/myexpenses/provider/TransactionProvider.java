@@ -1620,7 +1620,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           db.beginTransaction();
           try {
             db.delete(TABLE_CHANGES, KEY_ACCOUNTID + " = ?", accountIdBindArgs);
-            c = db.query(TABLE_TRANSACTIONS, new String[]{KEY_ROWID}, KEY_UUID + " IS NULL AND ("
+            c = db.query(TABLE_TRANSACTIONS, new String[]{KEY_ROWID}, "(" + KEY_UUID + " IS NULL OR (SELECT "+ KEY_UUID + " from "+ TABLE_TRANSACTIONS +  " peer where peer." + KEY_TRANSFER_PEER + " = "+ KEY_ROWID + ") is null ) AND ("
                 + KEY_TRANSFER_PEER + " IS NULL OR " + KEY_ROWID + " < " + KEY_TRANSFER_PEER + ")", null, null, null, null);
             if (c.moveToFirst()) {
               while (!c.isAfterLast()) {
