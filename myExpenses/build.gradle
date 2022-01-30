@@ -322,6 +322,7 @@ dependencies {
 
     //Mlkit / Drive
     //implementation "com.google.android.gms:play-services-base:18.0.1"
+    //implementation "com.google.mlkit:vision-interfaces:+"
     //implementation "com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava"
 
     //noinspection GradleDependency
