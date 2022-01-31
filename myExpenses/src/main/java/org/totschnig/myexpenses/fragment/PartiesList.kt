@@ -55,6 +55,7 @@ import org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter
 import org.totschnig.myexpenses.databinding.PartiesListBinding
 import org.totschnig.myexpenses.databinding.PayeeRowBinding
 import org.totschnig.myexpenses.dialog.DebtDetailsDialogFragment
+import org.totschnig.myexpenses.dialog.DebtDialogFragmentComposable
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
@@ -253,7 +254,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                         }
                         else -> {
                             index2IdMap[item.itemId]?.also {
-                                DebtDetailsDialogFragment.newInstance(it).show(
+                                DebtDialogFragmentComposable.newInstance(it).show(
                                     parentFragmentManager, DIALOG_DEBT_DETAILS
                                 )
                             } ?: run {
