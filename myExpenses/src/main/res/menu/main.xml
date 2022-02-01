@@ -15,7 +15,25 @@
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <item
+        android:id="@id/MANAGE_TEMPLATES_COMMAND"
+        android:icon="@drawable/ic_menu_template"
+        android:orderInCategory="11"
+        android:title="@string/menu_manage_plans"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@id/BUDGET_COMMAND"
+        android:icon="@drawable/ic_budget"
+        android:orderInCategory="12"
+        android:title="@string/menu_budget"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@id/MANAGE_PARTIES_COMMAND"
+        android:orderInCategory="15"
+        app:showAsAction="ifRoom"
+        tools:ignore="MenuTitle" />
     <item
         android:id="@id/SHARE_COMMAND"
         android:orderInCategory="40"

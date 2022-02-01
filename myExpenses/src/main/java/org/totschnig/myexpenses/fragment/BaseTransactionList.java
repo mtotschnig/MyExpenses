@@ -1165,7 +1165,6 @@ public abstract class BaseTransactionList extends ContextualActionBarFragment im
   @Override
   public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
     inflater.inflate(R.menu.expenses, menu);
-    menu.findItem(R.id.MANAGE_PARTIES_COMMAND).setTitle(getString(R.string.pref_manage_parties_title) + " / " + getString(R.string.debts));
     inflater.inflate(R.menu.grouping, menu);
   }
 

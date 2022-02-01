@@ -13,8 +13,7 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  -->
-<menu xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@id/SEARCH_COMMAND"
@@ -62,56 +61,39 @@
         </menu>
     </item>
     <item
-        android:id="@id/MANAGE_TEMPLATES_COMMAND"
-        android:icon="@drawable/ic_menu_template"
-        android:orderInCategory="10"
-        android:title="@string/menu_manage_plans"
-        app:showAsAction="ifRoom" />
-    <item
-        android:id="@id/BUDGET_COMMAND"
-        android:icon="@drawable/ic_budget"
-        android:orderInCategory="10"
-        android:title="@string/menu_budget"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@id/DISTRIBUTION_COMMAND"
         android:icon="@drawable/ic_menu_chart"
-        android:orderInCategory="10"
+        android:orderInCategory="13"
         android:title="@string/menu_distribution"
         app:showAsAction="ifRoom" />
     <item
         android:id="@id/HISTORY_COMMAND"
         android:icon="@drawable/ic_history"
-        android:orderInCategory="10"
+        android:orderInCategory="14"
         android:title="@string/menu_history"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@id/MANAGE_PARTIES_COMMAND"
-        android:orderInCategory="10"
-        app:showAsAction="ifRoom"
-        tools:ignore="MenuTitle" />
-    <item
         android:id="@+id/SCAN_MODE_COMMAND"
         android:checkable="true"
-        android:orderInCategory="10"
+        android:orderInCategory="16"
         android:title="@string/menu_scan_mode"
         app:showAsAction="never" />
     <item
         android:id="@id/RESET_COMMAND"
         android:icon="@drawable/ic_menu_download"
-        android:orderInCategory="10"
+        android:orderInCategory="17"
         android:title="@string/menu_reset"
         app:showAsAction="ifRoom" />
     <item
         android:id="@id/SYNC_COMMAND"
         android:icon="@drawable/ic_sync"
-        android:orderInCategory="10"
+        android:orderInCategory="18"
         android:title="@string/menu_sync_now"
         app:showAsAction="ifRoom" />
     <item
         android:id="@id/BALANCE_COMMAND"
         android:icon="@drawable/ic_action_balance"
-        android:orderInCategory="10"
+        android:orderInCategory="19"
         android:title="@string/menu_balance"
         app:showAsAction="ifRoom" />
     <item
