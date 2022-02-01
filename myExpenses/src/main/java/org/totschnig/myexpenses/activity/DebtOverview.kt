@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.activity
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -29,7 +28,6 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.util.getDateTimeFormatter
 import org.totschnig.myexpenses.util.localDate2Epoch
-import org.totschnig.myexpenses.viewmodel.DebtViewModel
 import org.totschnig.myexpenses.viewmodel.DebtViewModel.Transaction
 import org.totschnig.myexpenses.viewmodel.data.Debt
 import timber.log.Timber
@@ -37,12 +35,9 @@ import java.time.LocalDate
 
 class DebtOverview : DebtActivity() {
 
-    val viewModel: DebtViewModel by viewModels()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (applicationContext as MyApplication).appComponent.inject(viewModel)
-        viewModel.loadDebts()
+        debtViewModel.loadDebts()
         setContent {
             CompositionLocalProvider(
                 LocalColors provides Colors(
@@ -57,7 +52,7 @@ class DebtOverview : DebtActivity() {
                         },
                         LocalDateFormatter provides getDateTimeFormatter(this)
                     ) {
-                        val debts = viewModel.getDebts().observeAsState(emptyList())
+                        val debts = debtViewModel.getDebts().observeAsState(emptyList())
                         Navigation(
                             onNavigation = { finish() },
                             title = {
@@ -87,11 +82,12 @@ class DebtOverview : DebtActivity() {
                                 modifier = Modifier.padding(paddingValues = it),
                                 debts = debts,
                                 loadTransactionsForDebt = { debt ->
-                                    viewModel.loadTransactions(debt)
+                                    debtViewModel.loadTransactions(debt)
                                         .observeAsState(emptyList()).value
                                 },
                                 onEdit = this::editDebt,
-                                onDelete = this::deleteDebt
+                                onDelete = this::deleteDebt,
+                                onToggle = this::toggleDebt,
                             )
                         }
                     }
@@ -103,16 +99,6 @@ class DebtOverview : DebtActivity() {
     override fun injectDependencies() {
         (applicationContext as MyApplication).appComponent.inject(this)
     }
-
-    override fun deleteDebtDo(debtId: Long) {
-        viewModel.deleteDebt(debtId).observe(this) {
-            if (!it) {
-                lifecycleScope.launchWhenResumed {
-                    showSnackbar("ERROR", Snackbar.LENGTH_LONG, null)
-                }
-            }
-        }
-    }
 }
 
 @Composable
@@ -121,7 +107,8 @@ fun DebtList(
     debts: State<List<Debt>>,
     loadTransactionsForDebt: @Composable (Debt) -> List<Transaction>,
     onEdit: (Debt) -> Unit = {},
-    onDelete: (Debt, Int) -> Unit = { _, _ -> }
+    onDelete: (Debt, Int) -> Unit = { _, _ -> },
+    onToggle: (Debt) -> Unit = {}
 ) {
     LazyColumn(
         modifier = modifier
@@ -137,7 +124,8 @@ fun DebtList(
                 transactions = loadTransactionsForDebt(item),
                 expanded = expandedState,
                 onEdit = onEdit,
-                onDelete = onDelete
+                onDelete = onDelete,
+                onToggle = onToggle
             )
         }
     }
@@ -178,7 +166,7 @@ fun DebtListPreview() {
             },
             loadTransactionsForDebt = {
                emptyList()
-            }
+            },
         )
     }
 }

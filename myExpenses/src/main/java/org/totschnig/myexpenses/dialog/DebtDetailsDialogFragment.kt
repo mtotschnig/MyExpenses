@@ -22,7 +22,8 @@ import javax.inject.Inject
 
 class DebtDetailsDialogFragment : BaseDialogFragment() {
 
-    val viewModel: DebtViewModel by viewModels()
+    val viewModel: DebtViewModel
+        get() = (requireActivity() as DebtActivity).debtViewModel
 
     @Inject
     lateinit var currencyContext: CurrencyContext
@@ -34,7 +35,6 @@ class DebtDetailsDialogFragment : BaseDialogFragment() {
         super.onCreate(savedInstanceState)
         with((requireActivity().applicationContext as MyApplication).appComponent) {
             inject(this@DebtDetailsDialogFragment)
-            inject(viewModel)
         }
     }
 
@@ -57,7 +57,8 @@ class DebtDetailsDialogFragment : BaseDialogFragment() {
                                         transactions = transactions,
                                         expanded = true,
                                         onEdit = debtActivity::editDebt,
-                                        onDelete = debtActivity::deleteDebt
+                                        onDelete = debtActivity::deleteDebt,
+                                        onToggle = debtActivity::toggleDebt
                                     )
                                 }
                         }
@@ -66,16 +67,6 @@ class DebtDetailsDialogFragment : BaseDialogFragment() {
         })
             .setPositiveButton(android.R.string.ok, null)
             .create()
-    }
-
-    fun deleteDebtDo(debtId: Long) {
-        viewModel.deleteDebt(debtId).observe(this) {
-            if (it) {
-                dismiss()
-            } else {
-                showSnackbar("ERROR", Snackbar.LENGTH_LONG, null)
-            }
-        }
     }
 
     companion object {

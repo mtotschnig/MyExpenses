@@ -36,8 +36,9 @@ fun DebtCard(
     debt: Debt,
     transactions: List<DebtViewModel.Transaction>,
     expanded: MutableState<Boolean>,
-    onEdit: (Debt) -> Unit = {},
-    onDelete: (Debt, Int) -> Unit = { _, _ -> }
+    onEdit: (Debt) -> Unit,
+    onDelete: (Debt, Int) -> Unit,
+    onToggle: (Debt) -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -52,7 +53,8 @@ fun DebtCard(
             transactions,
             expanded.value,
             onEdit,
-            onDelete
+            onDelete,
+            onToggle
         )
     }
 }
@@ -63,7 +65,8 @@ fun DebtRenderer(
     transactions: List<DebtViewModel.Transaction>,
     expanded: Boolean,
     onEdit: (Debt) -> Unit = {},
-    onDelete: (Debt, Int) -> Unit = { _, _ -> }
+    onDelete: (Debt, Int) -> Unit = { _, _ -> },
+    onToggle: (Debt) -> Unit = {}
 ) {
     CompositionLocalProvider(
         LocalColors provides Colors(
@@ -87,6 +90,15 @@ fun DebtRenderer(
                         Initials(
                             name = debt.payeeName!!,
                             modifier = Modifier.padding(end = 4.dp)
+                        )
+                    }
+                    if (debt.isSealed) {
+                        Icon(
+                            modifier = Modifier.padding(end = 4.dp),
+                            painter = painterResource(id = R.drawable.ic_lock),
+                            contentDescription = stringResource(
+                                id = R.string.content_description_closed
+                            )
                         )
                     }
                     Column(modifier = Modifier.weight(1F)) {
@@ -145,15 +157,18 @@ fun DebtRenderer(
             if (expanded) {
                 Box(modifier = Modifier.align(Alignment.TopEnd)) {
                     OverFlowMenu(
-                        content = listOf(
-                            stringResource(id = R.string.menu_edit) to { onEdit(debt) },
-                            stringResource(id = R.string.menu_delete) to {
+                        content = buildList {
+                            if(!debt.isSealed) {
+                                add(stringResource(id = R.string.menu_edit) to { onEdit(debt) })
+                            }
+                            add(stringResource(id = if (debt.isSealed) R.string.menu_reopen else R.string.menu_close) to { onToggle(debt) })
+                            add(stringResource(id = R.string.menu_delete) to {
                                 onDelete(
                                     debt,
                                     transactions.size
                                 )
-                            }
-                        )
+                            })
+                        }
                     )
                 }
             }

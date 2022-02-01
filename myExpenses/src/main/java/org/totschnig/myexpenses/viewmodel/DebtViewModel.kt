@@ -107,10 +107,11 @@ class DebtViewModel(application: Application) : ContentResolvingAndroidViewModel
             emit(contentResolver.delete(singleDebtUri(debtId), null, null) == 1)
         }
 
-    fun closeDebt(debtId: Long): LiveData<Boolean> =
-        liveData(context = coroutineContext()) {
-            emit(updateSealed(debtId, 1) == 1)
+    fun closeDebt(debtId: Long) {
+        viewModelScope.launch(coroutineDispatcher) {
+            updateSealed(debtId, 1)
         }
+    }
 
     fun reopenDebt(debtId: Long) {
         viewModelScope.launch(coroutineDispatcher) {

@@ -79,11 +79,6 @@ class ManageParties : DebtActivity() {
         return false
     }
 
-    override fun deleteDebtDo(debtId: Long) {
-        (supportFragmentManager.findFragmentByTag(PartiesList.DIALOG_DEBT_DETAILS) as? DebtDetailsDialogFragment)
-            ?.deleteDebtDo(debtId)
-    }
-
     val action: String
         get() = intent.action ?: ACTION_MANAGE
 }
