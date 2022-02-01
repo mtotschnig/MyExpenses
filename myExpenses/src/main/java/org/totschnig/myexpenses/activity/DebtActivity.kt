@@ -6,7 +6,7 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.viewmodel.data.Debt
 
-abstract class DebtActivity: ProtectedFragmentActivity() {
+abstract class DebtActivity : ProtectedFragmentActivity() {
 
     fun editDebt(debt: Debt) {
         startActivity(Intent(this, DebtEdit::class.java).apply {
@@ -16,7 +16,7 @@ abstract class DebtActivity: ProtectedFragmentActivity() {
         })
     }
 
-    fun deleteDebt(debt:Debt, count: Int) {
+    fun deleteDebt(debt: Debt, count: Int) {
         MessageDialogFragment.newInstance(
             getString(R.string.dialog_title_delete_debt),
             "${
@@ -43,7 +43,7 @@ abstract class DebtActivity: ProtectedFragmentActivity() {
             return true
         }
         if (command == R.id.DELETE_DEBT_COMMAND) {
-                deleteDebtDo(tag as Long)
+            deleteDebtDo(tag as Long)
             return true
         }
         return false

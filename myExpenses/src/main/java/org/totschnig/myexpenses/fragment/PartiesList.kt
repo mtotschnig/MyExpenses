@@ -20,12 +20,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.text.TextUtils
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.CompoundButton
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
@@ -43,11 +38,7 @@ import eltos.simpledialogfragment.form.Spinner
 import eltos.simpledialogfragment.input.SimpleInputDialog
 import icepick.Icepick
 import icepick.State
-import org.totschnig.myexpenses.ACTION_MANAGE
-import org.totschnig.myexpenses.ACTION_SELECT_FILTER
-import org.totschnig.myexpenses.ACTION_SELECT_MAPPING
-import org.totschnig.myexpenses.MyApplication
-import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.*
 import org.totschnig.myexpenses.activity.DebtEdit
 import org.totschnig.myexpenses.activity.DebtOverview
 import org.totschnig.myexpenses.activity.ManageParties
@@ -55,14 +46,9 @@ import org.totschnig.myexpenses.adapter.CategoryTreeBaseAdapter
 import org.totschnig.myexpenses.databinding.PartiesListBinding
 import org.totschnig.myexpenses.databinding.PayeeRowBinding
 import org.totschnig.myexpenses.dialog.DebtDetailsDialogFragment
-import org.totschnig.myexpenses.dialog.DebtDialogFragmentComposable
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.TextUtils.withAmountColor
 import org.totschnig.myexpenses.util.configureSearch
@@ -254,7 +240,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                         }
                         else -> {
                             index2IdMap[item.itemId]?.also {
-                                DebtDialogFragmentComposable.newInstance(it).show(
+                                DebtDetailsDialogFragment.newInstance(it).show(
                                     parentFragmentManager, DIALOG_DEBT_DETAILS
                                 )
                             } ?: run {

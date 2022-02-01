@@ -134,8 +134,8 @@ fun DebtList(
             val expandedState = rememberSaveable { mutableStateOf(false) }
             DebtCard(
                 debt = item,
-                loadTransactionsForDebt(item),
-                expandedState,
+                transactions = loadTransactionsForDebt(item),
+                expanded = expandedState,
                 onEdit = onEdit,
                 onDelete = onDelete
             )

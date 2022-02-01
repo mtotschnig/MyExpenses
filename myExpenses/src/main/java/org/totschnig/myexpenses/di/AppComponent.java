@@ -2,6 +2,8 @@ package org.totschnig.myexpenses.di;
 
 import android.content.Context;
 
+import androidx.annotation.Nullable;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonDeserializer;
 import com.squareup.picasso.Picasso;
@@ -20,7 +22,6 @@ import org.totschnig.myexpenses.dialog.AmountFilterDialog;
 import org.totschnig.myexpenses.dialog.BaseDialogFragment;
 import org.totschnig.myexpenses.dialog.ContribDialogFragment;
 import org.totschnig.myexpenses.dialog.DebtDetailsDialogFragment;
-import org.totschnig.myexpenses.dialog.DebtDialogFragmentComposable;
 import org.totschnig.myexpenses.dialog.DonateDialogFragment;
 import org.totschnig.myexpenses.dialog.EditCurrencyDialog;
 import org.totschnig.myexpenses.dialog.ExtendProLicenceDialogFragment;
@@ -87,7 +88,6 @@ import java.util.Locale;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import androidx.annotation.Nullable;
 import dagger.BindsInstance;
 import dagger.Component;
 
@@ -273,8 +273,6 @@ public interface AppComponent {
   void inject(DebtViewModel debtViewModel);
 
   void inject(DebtDetailsDialogFragment debtDetailsDialogFragment);
-
-  void inject(DebtDialogFragmentComposable debtDetailsDialogFragment);
 
   void inject(CategoryDelegate transactionDelegate);
 
