@@ -676,8 +676,8 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_TEMPLATEID + " integer references " + TABLE_TEMPLATES + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
           + "primary key (" + KEY_TAGID + "," + KEY_TEMPLATEID + "));";
 
-  TransactionDatabase(Context context, String databaseName) {
-    super(context, databaseName);
+  TransactionDatabase(Context context, String databaseName, SQLiteDatabase.CursorFactory cursorFactory) {
+    super(context, databaseName, cursorFactory);
     mCtx = context;
     setWriteAheadLoggingEnabled(false);
   }

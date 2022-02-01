@@ -36,8 +36,12 @@ BEFORE DELETE ON $TABLE_TRANSACTIONS WHEN (SELECT $KEY_SEALED FROM $TABLE_DEBTS 
 BEGIN $RAISE_UPDATE_SEALED_DEBT END
 """
 
-abstract class BaseTransactionDatabase(context: Context, databaseName: String) :
-    SQLiteOpenHelper(context, databaseName, null, DATABASE_VERSION) {
+abstract class BaseTransactionDatabase(
+    context: Context,
+    databaseName: String,
+    cursorFactory: SQLiteDatabase.CursorFactory?
+) :
+    SQLiteOpenHelper(context, databaseName, cursorFactory, DATABASE_VERSION) {
 
     fun upgradeTo117(db: SQLiteDatabase) {
         migrateCurrency(db, "VEB", CurrencyEnum.VES)
