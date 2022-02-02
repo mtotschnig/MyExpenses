@@ -45,7 +45,7 @@ abstract class AbstractSyncBackup<T : AbstractSetupViewModel> : ProtectedFragmen
         viewModel.error.observe(this) { exception ->
             if (!handleException(exception)) {
                 CrashHandler.report(exception)
-                showSnackbar(exception.message ?: "ERROR")
+                showSnackBar(exception.message ?: "ERROR")
                 finish()
             }
         }

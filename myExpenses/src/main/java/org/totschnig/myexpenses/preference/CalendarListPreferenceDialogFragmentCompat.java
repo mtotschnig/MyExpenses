@@ -79,7 +79,7 @@ public class CalendarListPreferenceDialogFragmentCompat extends PreferenceDialog
               //TODO: use Async Task Strict Mode violation
               String plannerId = MyApplication.getInstance().createPlanner(false);
               boolean success = !plannerId.equals(MyApplication.INVALID_CALENDAR_ID);
-              ((ProtectedFragmentActivity) getActivity()).showSnackbar(
+              ((ProtectedFragmentActivity) getActivity()).showSnackBar(
                   success ? R.string.planner_create_calendar_success : R.string.planner_create_calendar_failure);
               if (success) {
                 preference.setValue(plannerId);

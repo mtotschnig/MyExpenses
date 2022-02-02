@@ -205,7 +205,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                                         R.plurals.not_deletable_mapped_templates, 1, 1
                                     )
                                 }
-                                manageParties.showSnackbar(message)
+                                manageParties.showSnackBar(message)
                             } else if (party.mappedDebts) {
                                 SimpleDialog.build()
                                     .title(R.string.dialog_title_warning_delete_party)
@@ -285,12 +285,12 @@ class PartiesList : Fragment(), OnDialogResultListener {
     }
 
     private fun doDelete(partyId: Long) {
-        manageParties.showSnackbar(R.string.progress_dialog_deleting)
+        manageParties.showSnackBar(R.string.progress_dialog_deleting)
         viewModel.deleteParty(partyId)
             .observe(viewLifecycleOwner) { result ->
                 result.onSuccess { count ->
                     manageParties.let {
-                        it.showSnackbar(
+                        it.showSnackBar(
                             it.resources.getQuantityString(
                                 R.plurals.delete_success,
                                 count,
@@ -515,7 +515,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                         name
                     ).observe(this) {
                         if (it == null)
-                            manageParties.showSnackbar(
+                            manageParties.showSnackBar(
                                 getString(
                                     R.string.already_defined,
                                     name
@@ -549,7 +549,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
             val itemIds = selected.map { it.id }
             val labels = selected.map { it.name }
             if (itemIds.size != 1 && itemIds.contains(CategoryTreeBaseAdapter.NULL_ITEM_ID)) {
-                manageParties.showSnackbar(R.string.unmapped_filter_only_single)
+                manageParties.showSnackBar(R.string.unmapped_filter_only_single)
             } else {
                 requireActivity().apply {
                     setResult(Activity.RESULT_FIRST_USER, Intent().apply {

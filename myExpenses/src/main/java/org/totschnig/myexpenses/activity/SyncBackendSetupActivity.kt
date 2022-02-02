@@ -51,7 +51,7 @@ abstract class SyncBackendSetupActivity : ProtectedFragmentActivity(), EditTextD
         val filePath = args.getString(EditTextDialog.KEY_RESULT)!!
         val baseFolder = File(filePath)
         if (!baseFolder.isDirectory) {
-            showSnackbar("No directory $filePath", Snackbar.LENGTH_SHORT)
+            showSnackBar("No directory $filePath", Snackbar.LENGTH_SHORT)
         } else {
             val accountName =
                 getSyncBackendProviderFactoryByIdOrThrow(R.id.SYNC_BACKEND_LOCAL).buildAccountName(
@@ -169,7 +169,7 @@ abstract class SyncBackendSetupActivity : ProtectedFragmentActivity(), EditTextD
                 }
                 onReceiveSyncAccountData(it)
             }.onFailure { throwable ->
-                showSnackbar("Unable to set up account: " + throwable.message)
+                showSnackBar("Unable to set up account: " + throwable.message)
             }
         }
     }
@@ -180,13 +180,13 @@ abstract class SyncBackendSetupActivity : ProtectedFragmentActivity(), EditTextD
         data.map(AccountMetaData::uuid).distinct().count() < data.count()
 
     fun fetchAccountData(accountName: String) {
-        showSnackbar(R.string.progress_dialog_fetching_data_from_sync_backend, Snackbar.LENGTH_INDEFINITE)
+        showSnackBar(R.string.progress_dialog_fetching_data_from_sync_backend, Snackbar.LENGTH_INDEFINITE)
         viewModel.fetchAccountData(accountName).observe(this) { result ->
-            dismissSnackbar()
+            dismissSnackBar()
             result.onSuccess {
                 onReceiveSyncAccountData(it)
             }.onFailure {
-                showSnackbar(it.message ?: "ERROR")
+                showSnackBar(it.message ?: "ERROR")
             }
         }
     }

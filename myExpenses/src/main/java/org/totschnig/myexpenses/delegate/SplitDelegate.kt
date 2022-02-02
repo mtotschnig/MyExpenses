@@ -100,7 +100,7 @@ class SplitDelegate(
                     break
                 }
             }
-            host.showSnackbar(
+            host.showSnackBar(
                 host.getString(
                     R.string.warning_cannot_move_split_transaction,
                     account.label

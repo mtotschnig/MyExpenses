@@ -169,12 +169,12 @@ public class SettingsFragment extends BaseSettingsFragment implements
       if (!target.equals("")) {
         uri = ShareUtils.parseUri(target);
         if (uri == null) {
-          activity().showSnackbar(getString(R.string.ftp_uri_malformed, target));
+          activity().showSnackBar(getString(R.string.ftp_uri_malformed, target));
           return false;
         }
         String scheme = uri.getScheme();
         if (!(scheme.equals("ftp") || scheme.equals("mailto"))) {
-          activity().showSnackbar(getString(R.string.share_scheme_not_supported, scheme));
+          activity().showSnackBar(getString(R.string.share_scheme_not_supported, scheme));
           return false;
         }
         Intent intent;
@@ -193,7 +193,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
     } else if (matches(pref, CRASHREPORT_USEREMAIL)) {
       crashHandler.setUserEmail((String) value);
     } else if (matches(pref, CRASHREPORT_ENABLED)) {
-      activity().showSnackbar(R.string.app_restart_required);
+      activity().showSnackBar(R.string.app_restart_required);
     } else if (matches(pref, OCR_DATE_FORMATS)) {
       if (!TextUtils.isEmpty((String) value)) {
         try {
@@ -201,7 +201,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
             LocalDate.now().format(DateTimeFormatter.ofPattern(line));
           }
         } catch (Exception e) {
-          activity().showSnackbar(R.string.date_format_illegal);
+          activity().showSnackBar(R.string.date_format_illegal);
           return false;
         }
       }
@@ -212,7 +212,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
             LocalTime.now().format(DateTimeFormatter.ofPattern(line));
           }
         } catch (Exception e) {
-          activity().showSnackbar(R.string.date_format_illegal);
+          activity().showSnackBar(R.string.date_format_illegal);
           return false;
         }
       }
@@ -230,7 +230,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
     } else if (matches(pref, UI_WEB)) {
       if ((Boolean) value) {
         if (!NetworkUtilsKt.isConnectedWifi(requireContext())) {
-          activity().showSnackbar(getString(R.string.no_network) + " (WIFI)");
+          activity().showSnackBar(getString(R.string.no_network) + " (WIFI)");
           return false;
         }
         if (licenceHandler.hasAccessTo(ContribFeature.WEB_UI) && activity().featureViewModel.isFeatureAvailable(activity(), Feature.WEBUI)) {
@@ -336,7 +336,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
     String passWord = getString(R.string.pref_protection_password_title);
     Object[] formatArgs = legacyProtectionByPasswordIsActive ? new String[]{lockScreen, passWord} : new String[]{passWord, lockScreen};
     //noinspection StringFormatMatches
-    activity().showSnackbar(getString(R.string.pref_warning_only_one_protection, formatArgs));
+    activity().showSnackBar(getString(R.string.pref_warning_only_one_protection, formatArgs));
   }
 
   private void contribBuyDo(Package selectedPackage, boolean shouldReplaceExisting) {
@@ -369,7 +369,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
       fragment = SecurityQuestionDialogFragmentCompat.newInstance(key);
     } else if (matches(preference, AUTO_BACKUP_CLOUD)) {
       if (((ListPreference) preference).getEntries().length == 1) {
-        activity().showSnackbar(R.string.no_sync_backends);
+        activity().showSnackBar(R.string.no_sync_backends);
         return;
       }
     } else if (preference instanceof SimplePasswordPreference) {

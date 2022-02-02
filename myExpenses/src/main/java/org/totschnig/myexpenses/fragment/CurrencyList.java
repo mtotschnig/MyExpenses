@@ -57,7 +57,7 @@ public class CurrencyList extends ListFragment {
     });
     currencyViewModel.getDeleteComplete().observe(this, success -> {
       if (success != null && !success) {
-        ((ProtectedFragmentActivity) getActivity()).showSnackbar(R.string.currency_still_used);
+        ((ProtectedFragmentActivity) getActivity()).showSnackBar(R.string.currency_still_used);
       }
     });
   }
@@ -109,7 +109,7 @@ public class CurrencyList extends ListFragment {
       currencyAdapter.notifyDataSetChanged();
       if (data != null) {
         int result = data.getIntExtra(KEY_RESULT, 0);
-        ((ProtectedFragmentActivity) getActivity()).showSnackbar(
+        ((ProtectedFragmentActivity) getActivity()).showSnackBar(
             getString(R.string.change_fraction_digits_result, result, data.getStringExtra(KEY_CURRENCY)));
       }
     }

@@ -218,7 +218,7 @@ public class ExchangeRateEdit extends ConstraintLayout {
 
   private void complain(String message) {
     Host host = getHost();
-    ((BaseActivity) host).showSnackbar(message, Snackbar.LENGTH_LONG);
+    ((BaseActivity) host).showSnackBar(message, Snackbar.LENGTH_LONG);
   }
 
   @NonNull

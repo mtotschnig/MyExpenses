@@ -142,7 +142,7 @@ class SplitPartList : Fragment() {
                 val resultObserver = Observer { result: Int ->
                     val activity = requireActivity() as EditActivity
                     if (result > 0) {
-                        activity.showSnackbar(
+                        activity.showSnackBar(
                             activity.resources.getQuantityString(
                                 R.plurals.delete_success,
                                 result,

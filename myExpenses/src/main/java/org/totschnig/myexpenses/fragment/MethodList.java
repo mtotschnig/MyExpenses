@@ -153,7 +153,7 @@ public class MethodList extends ContextualActionBarFragment implements LoaderMan
               R.plurals.not_deletable_mapped_templates,
               mappedTemplatesCount,
               mappedTemplatesCount);
-        activity.showSnackbar(message);
+        activity.showSnackBar(message);
       }
       return true;
     }

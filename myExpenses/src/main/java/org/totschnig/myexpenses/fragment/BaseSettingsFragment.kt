@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.fragment
 
 import android.appwidget.AppWidgetProvider
-import android.content.ContentResolver
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
@@ -38,7 +37,6 @@ import org.totschnig.myexpenses.preference.LocalizedFormatEditTextPreference.OnV
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.requireString
-import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.service.DailyScheduler
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.ServiceLoader
@@ -98,11 +96,11 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     private val storeInDatabaseChangeListener =
         Preference.OnPreferenceChangeListener { preference, newValue ->
             (activity as? MyPreferenceActivity)?.let { activity ->
-                activity.showSnackbarIndefinite(R.string.saving)
+                activity.showSnackBarIndefinite(R.string.saving)
                 viewModel.storeSetting(preference.key, newValue.toString())
                     .observe(this@BaseSettingsFragment) { result ->
-                        activity.dismissSnackbar()
-                        if ((!result)) activity.showSnackbar("ERROR")
+                        activity.dismissSnackBar()
+                        if ((!result)) activity.showSnackBar("ERROR")
                     }
                 true
             } ?: false
@@ -144,7 +142,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     }
                 }.onFailure {
                     if (preference.isChecked) preference.isChecked = false
-                    activity().showSnackbar(it.message ?: "ERROR")
+                    activity().showSnackBar(it.message ?: "ERROR")
                 }
             }
         }
@@ -183,7 +181,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     }
 
     override fun onValidationError(messageResId: Int) {
-        activity().showSnackbar(messageResId)
+        activity().showSnackBar(messageResId)
     }
 
     fun activity() = activity as MyPreferenceActivity
@@ -297,7 +295,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             }
             getKey(PrefKey.PROTECTION_LEGACY), getKey(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN) -> {
                 if (sharedPreferences.getBoolean(key, false)) {
-                    activity().showSnackbar(R.string.pref_protection_screenshot_information)
+                    activity().showSnackBar(R.string.pref_protection_screenshot_information)
                     if (prefHandler.getBoolean(PrefKey.AUTO_BACKUP, false)) {
                         activity().showUnencryptedBackupWarning()
                     }
@@ -449,18 +447,18 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                 prefHandler.putString(PrefKey.HOME_CURRENCY, currencyCode)
             }
             activity.invalidateHomeCurrency()
-            activity.showSnackbarIndefinite(R.string.saving)
+            activity.showSnackBarIndefinite(R.string.saving)
             viewModel.resetEquivalentAmounts().observe(this) { integer ->
-                activity.dismissSnackbar()
+                activity.dismissSnackBar()
                 if (integer != null) {
-                    activity.showSnackbar(
+                    activity.showSnackBar(
                         String.format(
                             resources.configuration.locale,
                             "%s (%d)", getString(R.string.reset_equivalent_amounts_success), integer
                         )
                     )
                 } else {
-                    activity.showSnackbar("Equivalent amount reset failed")
+                    activity.showSnackBar("Equivalent amount reset failed")
                 }
             }
         }
@@ -798,9 +796,9 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
 
         if (Utils.isIntentReceiverAvailable(requireActivity(), intent)) {
             requireActivity().sendBroadcast(intent)
-            activity().showSnackbar(getString(R.string.pref_shortcut_added))
+            activity().showSnackBar(getString(R.string.pref_shortcut_added))
         } else {
-            activity().showSnackbar(getString(R.string.pref_shortcut_not_added))
+            activity().showSnackBar(getString(R.string.pref_shortcut_not_added))
         }
     }
 
@@ -870,7 +868,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     }
 
     fun reportException(e: Exception) {
-        activity().showSnackbar(e.message ?: "ERROR")
+        activity().showSnackBar(e.message ?: "ERROR")
         CrashHandler.report(e)
     }
 }

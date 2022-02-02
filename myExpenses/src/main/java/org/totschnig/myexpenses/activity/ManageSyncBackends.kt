@@ -99,7 +99,7 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
                 viewModel.syncLinkRemote(account).observe(this) { result ->
                     result.onFailure {
                         if (it is AccountSealedException) {
-                            showSnackbar(R.string.object_sealed_debt)
+                            showSnackBar(R.string.object_sealed_debt)
                         }
                     }
                 }
@@ -193,7 +193,7 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
     override fun onPostExecute(result: Uri?) {
         super.onPostExecute(result)
         if (result == null) {
-            showSnackbar(String.format("There was an error saving account %s", newAccount!!.label))
+            showSnackBar(String.format("There was an error saving account %s", newAccount!!.label))
         }
     }
 
@@ -216,26 +216,26 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
             TaskExecutionFragment.TASK_SYNC_LINK_SAVE -> {
                 run {
                     val result = o as Result<*>?
-                    showDismissibleSnackbar(result!!.print(this))
+                    showDismissibleSnackBar(result!!.print(this))
                 }
                 run {
                     val result = o as Result<*>?
                     if (!result!!.isSuccess) {
-                        showSnackbar(result.print(this))
+                        showSnackBar(result.print(this))
                     }
                 }
             }
             TaskExecutionFragment.TASK_SYNC_LINK_LOCAL -> {
                 val result = o as Result<*>?
                 if (!result!!.isSuccess) {
-                    showSnackbar(result.print(this))
+                    showSnackBar(result.print(this))
                 }
             }
             TaskExecutionFragment.TASK_REPAIR_SYNC_BACKEND -> {
                 val result = o as Result<*>?
                 val resultPrintable = result!!.print(this)
                 if (result.isSuccess) {
-                    showSnackbar(resultPrintable)
+                    showSnackBar(resultPrintable)
                 } else {
                     val b = Bundle()
                     b.putString(ConfirmationDialogFragment.KEY_MESSAGE, resultPrintable)

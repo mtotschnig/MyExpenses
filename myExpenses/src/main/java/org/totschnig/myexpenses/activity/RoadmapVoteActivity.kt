@@ -113,13 +113,13 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
 
     private fun showIsLoading() {
         isLoading = true
-        showSnackbarIndefinite(R.string.roadmap_loading)
+        showSnackBarIndefinite(R.string.roadmap_loading)
     }
 
     private fun publishResult(message: String) {
         isLoading = false
-        dismissSnackbar()
-        showSnackbar(message)
+        dismissSnackBar()
+        showSnackBar(message)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -165,7 +165,7 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
             }
             R.id.ROADMAP_SUBMIT_VOTE -> {
                 if (lastVote?.let { it.vote == voteWeights && it.version == versionFromPref } == true) {
-                    showSnackbar("Modify your vote, before submitting it again.")
+                    showSnackBar("Modify your vote, before submitting it again.")
                 } else {
                     val emailIsKnown = email != null
                     val msg = if (emailIsKnown) R.string.roadmap_update_confirmation else R.string.roadmap_email_rationale
@@ -232,7 +232,7 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
                 }
                 dialog.show(this, DIALOG_TAG_ISSUE_VOTE)
             } else {
-                showSnackbar("You spent all your points on other issues.", Snackbar.LENGTH_SHORT)
+                showSnackBar("You spent all your points on other issues.", Snackbar.LENGTH_SHORT)
             }
             return true
         }
@@ -255,7 +255,7 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
                     return true
                 }
                 DIALOG_TAG_SUBMIT_VOTE -> {
-                    showSnackbarIndefinite(R.string.roadmap_submitting)
+                    showSnackBarIndefinite(R.string.roadmap_submitting)
                     isLoading = true
                     val vote = Vote(
                             lastVote?.key ?: licenceHandler.buildRoadmapVoteKey(),
@@ -309,7 +309,7 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
         val weightView: TextView = itemView.findViewById(R.id.weight)
     }
 
-    override fun getSnackbarContainerId(): Int {
+    override fun getSnackBarContainerId(): Int {
         return R.id.container
     }
 

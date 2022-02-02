@@ -186,7 +186,7 @@ public class BudgetFragment extends DistributionBaseFragment<BudgetRowBinding> i
       long allocatable = budgetAmount - allocated;
       final long maxLong = allocatable + category.getBudget();
       if (maxLong <= 0) {
-        ((ProtectedFragmentActivity) requireActivity()).showSnackbar(TextUtils.concatResStrings(getActivity(), " ",
+        ((ProtectedFragmentActivity) requireActivity()).showSnackBar(TextUtils.concatResStrings(getActivity(), " ",
             parentItem == null ? R.string.budget_exceeded_error_1_2 : R.string.sub_budget_exceeded_error_1_2,
             parentItem == null ? R.string.budget_exceeded_error_2 : R.string.sub_budget_exceeded_error_2));
         return;

@@ -21,7 +21,7 @@ public class SimpleToastActivity extends ProtectedFragmentActivity {
   }
 
   @Override
-  public void reportMissingSnackbarContainer() { /*is expected*/ }
+  public void reportMissingSnackBarContainer() { /*is expected*/ }
 
   @Override
   public void onMessageDialogDismissOrCancel() {

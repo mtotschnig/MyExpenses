@@ -11,6 +11,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -66,7 +67,8 @@ fun DebtRenderer(
     expanded: Boolean,
     onEdit: (Debt) -> Unit = {},
     onDelete: (Debt, Int) -> Unit = { _, _ -> },
-    onToggle: (Debt) -> Unit = {}
+    onToggle: (Debt) -> Unit = {},
+    onShare: (Debt) -> Unit = {}
 ) {
     CompositionLocalProvider(
         LocalColors provides Colors(
@@ -85,7 +87,6 @@ fun DebtRenderer(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    val signum = debt.currentBalance.sign
                     if (expanded) {
                         Initials(
                             name = debt.payeeName!!,
@@ -111,11 +112,7 @@ fun DebtRenderer(
 
                         if (!expanded) {
                             Text(
-                                text = if (signum == 0) debt.payeeName!! else
-                                    stringResource(
-                                        id = if (signum == 1) R.string.debt_owes_me else R.string.debt_I_owe,
-                                        debt.payeeName!!
-                                    ),
+                                text = debt.title(LocalContext.current),
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis
                             )
@@ -167,6 +164,9 @@ fun DebtRenderer(
                                     debt,
                                     transactions.size
                                 )
+                            })
+                            add(stringResource(id = R.string.button_label_share_file) to {
+                                onShare(debt)
                             })
                         }
                     )

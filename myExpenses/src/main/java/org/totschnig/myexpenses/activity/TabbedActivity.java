@@ -86,7 +86,7 @@ public abstract class TabbedActivity extends ProtectedFragmentActivity {
   }
 
   @Override
-  protected int getSnackbarContainerId() {
+  protected int getSnackBarContainerId() {
     return binding.viewPager.getId();
   }
 }

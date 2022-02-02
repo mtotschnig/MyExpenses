@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.core.app.ShareCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import org.totschnig.myexpenses.MyApplication
@@ -11,6 +12,7 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.viewmodel.DebtViewModel
 import org.totschnig.myexpenses.viewmodel.data.Debt
+
 
 abstract class DebtActivity : ProtectedFragmentActivity() {
 
@@ -32,7 +34,7 @@ abstract class DebtActivity : ProtectedFragmentActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         super.onActivityResult(requestCode, resultCode, intent)
         if (requestCode == DEBT_EDIT_REQUEST && resultCode == RESULT_FIRST_USER) {
-            showSnackbar(R.string.object_sealed_debt)
+            showSnackBar(R.string.object_sealed_debt)
         }
     }
 
@@ -41,6 +43,18 @@ abstract class DebtActivity : ProtectedFragmentActivity() {
             debtViewModel.reopenDebt(debt.id)
         } else {
             debtViewModel.closeDebt(debt.id)
+        }
+    }
+
+    fun onShare(debt: Debt) {
+        showProgressSnackBar(R.string.progress_dialog_printing)
+        debtViewModel.exportDebt(this, debt).observe(this) {
+            dismissSnackBar()
+            ShareCompat.IntentBuilder(this)
+                .setType("text/html")
+                .setSubject(debt.title(this))
+                .setStream(it)
+                .startChooser()
         }
     }
 
@@ -81,7 +95,7 @@ abstract class DebtActivity : ProtectedFragmentActivity() {
         debtViewModel.deleteDebt(debtId).observe(this) {
             if (!it) {
                 lifecycleScope.launchWhenResumed {
-                    showSnackbar("ERROR", Snackbar.LENGTH_LONG, null)
+                    showSnackBar("ERROR", Snackbar.LENGTH_LONG, null)
                 }
             }
         }

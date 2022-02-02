@@ -221,7 +221,7 @@ public class DialogUtils {
           callback.onPasswordDialogUnlocked();
           if (isInSecurityQuestion) {
             PrefKey.PROTECTION_LEGACY.putBoolean(false);
-            ctx.showDismissibleSnackbar(R.string.password_disabled_reenable);
+            ctx.showDismissibleSnackBar(R.string.password_disabled_reenable);
             dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setText(R.string.password_lost);
             dialog.setTitle(R.string.password_prompt);
             input.setTag(Boolean.FALSE);
@@ -319,9 +319,9 @@ public class DialogUtils {
     try {
       fragment.startActivityForResult(intent, IMPORT_FILENAME_REQUEST_CODE);
     } catch (ActivityNotFoundException e) {
-      ((ProtectedFragmentActivity) fragment.getActivity()).showSnackbar(R.string.no_filemanager_installed, Snackbar.LENGTH_SHORT);
+      ((ProtectedFragmentActivity) fragment.getActivity()).showSnackBar(R.string.no_filemanager_installed, Snackbar.LENGTH_SHORT);
     } catch (SecurityException ex) {
-      ((ProtectedFragmentActivity) fragment.getActivity()).showSnackbar(String.format(
+      ((ProtectedFragmentActivity) fragment.getActivity()).showSnackBar(String.format(
               "Sorry, this destination does not accept %s request. Please select a different one.", intent.getAction()),
           Snackbar.LENGTH_SHORT);
     }

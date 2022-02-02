@@ -20,7 +20,7 @@ val LocalAmountFormatter = staticCompositionLocalOf<AmountFormatter> {
     { amount, currency ->
         DebugCurrencyFormatter.convAmount(
             amount,
-            CurrencyUnit(currency, "€", 2)
+            CurrencyUnit(currency, currency, 2)
         )
     }
 }

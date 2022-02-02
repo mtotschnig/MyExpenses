@@ -117,7 +117,7 @@ public class ContribInfoDialogActivity extends IapActivity {
   }
 
   @Override
-  protected int getSnackbarContainerId() {
+  protected int getSnackBarContainerId() {
     return android.R.id.content;
   }
 

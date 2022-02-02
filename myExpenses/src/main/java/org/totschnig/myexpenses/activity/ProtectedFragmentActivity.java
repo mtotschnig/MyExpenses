@@ -313,7 +313,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
           startActivityForResult(intent, requestCode);
           requireApplication().setLocked(true);
         } catch (ActivityNotFoundException e) {
-          showSnackbar("No activity found for confirming device credentials");
+          showSnackBar("No activity found for confirming device credentials");
         }
       } else {
         showDeviceLockScreenWarning();
@@ -332,7 +332,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   }
 
   public void showDeviceLockScreenWarning() {
-    showSnackbar(
+    showSnackBar(
         concatResStrings(this, " ", R.string.warning_device_lock_screen_not_set_up_1, R.string.warning_device_lock_screen_not_set_up_2));
   }
 
@@ -615,7 +615,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     FragmentManager m = getSupportFragmentManager();
     final boolean result = m.findFragmentByTag(ASYNC_TAG) != null;
     if (result && shouldWarn) {
-      showSnackbar("Previous task still executing, please try again later");
+      showSnackBar("Previous task still executing, please try again later");
     }
     return result;
   }
@@ -712,7 +712,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
       if (target instanceof AmountInput) {
         ((AmountInput) target).setAmount(new BigDecimal(intent.getStringExtra(KEY_AMOUNT)), false);
       } else {
-        showSnackbar("CALCULATOR_REQUEST launched with incorrect EXTRA_KEY_INPUT_ID");
+        showSnackBar("CALCULATOR_REQUEST launched with incorrect EXTRA_KEY_INPUT_ID");
       }
     }
   }

@@ -817,7 +817,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
         if (operationType == Transactions.TYPE_SPLIT) {
             findSplitPartList()?.let {
                 if (!it.splitComplete) {
-                    showSnackbar(
+                    showSnackBar(
                         getString(R.string.unsplit_amount_greater_than_zero),
                         Snackbar.LENGTH_SHORT
                     )
@@ -884,7 +884,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
     private fun createRow() {
         val account = currentAccount
         if (account == null) {
-            showSnackbar(R.string.account_list_not_yet_loaded)
+            showSnackBar(R.string.account_list_not_yet_loaded)
             return
         }
         startActivityForResult(Intent(this, ExpenseEdit::class.java).apply {
@@ -1089,7 +1089,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
 
     private fun onSaved(result: Long, transaction: ITransaction) {
         if (result < 0L) {
-            showSnackbar(
+            showSnackBar(
                 when (result) {
                     ERROR_EXTERNAL_STORAGE_NOT_AVAILABLE -> getString(R.string.external_storage_unavailable)
                     ERROR_PICTURE_SAVE_UNKNOWN -> "Error while saving picture"
@@ -1115,7 +1115,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(),
                 delegate.prepareForNew()
                 mNewInstance = true
                 clearDirty()
-                showSnackbar(
+                showSnackBar(
                     getString(R.string.save_transaction_and_new_success),
                     Snackbar.LENGTH_SHORT
                 )
