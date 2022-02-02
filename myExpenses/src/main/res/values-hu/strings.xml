@@ -345,7 +345,7 @@
     <string name="pref_visit_website_title">Weboldal megtekintése</string>
     <string name="progress_dialog_deleting">Objektumok törlése</string>
     <string name="progress_dialog_loading">Elemek betöltése az adatbázisból</string>
-    <string name="progress_dialog_printing">PDF létrehozása</string>
+    <string name="progress_dialog_printing">%s létrehozása</string>
     <string name="qif_parse_result">Elemezve: %1$s fiók; %2$s kategória és %3$s fél</string>
     <string name="qif_parse_failure_found_multiple_accounts">Több fiók található a QIF fájlban.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Nem lehet egyesíteni őket egy meglévő fiókban.</string>

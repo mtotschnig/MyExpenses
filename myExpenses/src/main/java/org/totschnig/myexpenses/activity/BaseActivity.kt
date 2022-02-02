@@ -274,8 +274,6 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         CrashHandler.report(String.format("Class %s is unable to display snackBar", javaClass))
     }
 
-    fun showProgressSnackBar(message: Int) = showProgressSnackBar(getString(message))
-
     fun showProgressSnackBar(message: CharSequence, total: Int = 0, progress: Int = 0) {
         findViewById<View>(getSnackBarContainerId())?.let {
             val displayMessage = if (total > 0) "$message ($progress/$total)" else message

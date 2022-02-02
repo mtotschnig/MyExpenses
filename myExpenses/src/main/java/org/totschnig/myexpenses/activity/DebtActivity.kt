@@ -46,15 +46,25 @@ abstract class DebtActivity : ProtectedFragmentActivity() {
         }
     }
 
-    fun onShare(debt: Debt) {
-        showProgressSnackBar(R.string.progress_dialog_printing)
-        debtViewModel.exportDebt(this, debt).observe(this) {
-            dismissSnackBar()
-            ShareCompat.IntentBuilder(this)
-                .setType("text/html")
-                .setSubject(debt.title(this))
-                .setStream(it)
-                .startChooser()
+    fun onShare(debt: Debt, exportFormat: DebtViewModel.ExportFormat) {
+        showProgressSnackBar(getString(R.string.progress_dialog_printing, exportFormat.name))
+        when(exportFormat) {
+            DebtViewModel.ExportFormat.HTML -> debtViewModel.exportHtml(this, debt).observe(this) {
+                dismissSnackBar()
+                ShareCompat.IntentBuilder(this)
+                    .setType(exportFormat.mimeType)
+                    .setSubject(debt.title(this))
+                    .setStream(it)
+                    .startChooser()
+            }
+            DebtViewModel.ExportFormat.TXT -> debtViewModel.exportText(this, debt).observe(this) {
+                dismissSnackBar()
+                ShareCompat.IntentBuilder(this)
+                    .setType(exportFormat.mimeType)
+                    .setSubject(debt.title(this))
+                    .setText(it)
+                    .startChooser()
+            }
         }
     }
 

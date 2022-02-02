@@ -349,7 +349,8 @@
     <string name="pref_visit_website_title">Visit Website</string>
     <string name="progress_dialog_deleting">Deleting objects</string>
     <string name="progress_dialog_loading">Loading object from database</string>
-    <string name="progress_dialog_printing">Generating PDF</string>
+    <!-- %s is replaced with format (PDF, HTML) -->
+    <string name="progress_dialog_printing">Generating %s</string>
     <string name="qif_parse_result">Parsed: %1$s accounts; %2$s categories and %3$s parties</string>
     <string name="qif_parse_failure_found_multiple_accounts">Multiple accounts found in QIF file.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Cannot merge them into existing account.</string>

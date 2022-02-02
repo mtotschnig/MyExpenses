@@ -21,6 +21,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import arrow.core.Either
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.util.epoch2LocalDate
 import org.totschnig.myexpenses.util.localDate2Epoch
@@ -28,7 +29,6 @@ import org.totschnig.myexpenses.viewmodel.DebtViewModel
 import org.totschnig.myexpenses.viewmodel.data.Debt
 import timber.log.Timber
 import java.time.LocalDate
-import kotlin.math.sign
 
 typealias AmountFormatter = ((Long, String) -> String)
 
@@ -68,7 +68,7 @@ fun DebtRenderer(
     onEdit: (Debt) -> Unit = {},
     onDelete: (Debt, Int) -> Unit = { _, _ -> },
     onToggle: (Debt) -> Unit = {},
-    onShare: (Debt) -> Unit = {}
+    onShare: (Debt, DebtViewModel.ExportFormat) -> Unit = {_,_ -> }
 ) {
     CompositionLocalProvider(
         LocalColors provides Colors(
@@ -154,21 +154,29 @@ fun DebtRenderer(
             if (expanded) {
                 Box(modifier = Modifier.align(Alignment.TopEnd)) {
                     OverFlowMenu(
-                        content = buildList {
+                        menu = Menu(buildList {
                             if(!debt.isSealed) {
-                                add(stringResource(id = R.string.menu_edit) to { onEdit(debt) })
+                                add(MenuEntry(stringResource(id = R.string.menu_edit),  Either.Left {
+                                    onEdit(debt)
+                                }))
                             }
-                            add(stringResource(id = if (debt.isSealed) R.string.menu_reopen else R.string.menu_close) to { onToggle(debt) })
-                            add(stringResource(id = R.string.menu_delete) to {
-                                onDelete(
-                                    debt,
-                                    transactions.size
+                            add(MenuEntry(stringResource(id = if (debt.isSealed) R.string.menu_reopen else R.string.menu_close),  Either.Left {
+                                onToggle(debt)
+                            }))
+                            add(MenuEntry(stringResource(id = R.string.menu_delete),  Either.Left {
+                                onDelete(debt, transactions.size)
+                            }))
+                            add(
+                                MenuEntry(stringResource(id = R.string.button_label_share_file), Either.Right(
+                                Menu(
+                                    DebtViewModel.ExportFormat.values().map {
+                                        MenuEntry(it.name, Either.Left {
+                                            onShare(debt, it)
+                                        })
+                                    }
                                 )
-                            })
-                            add(stringResource(id = R.string.button_label_share_file) to {
-                                onShare(debt)
-                            })
-                        }
+                            )))
+                        })
                     )
                 }
             }

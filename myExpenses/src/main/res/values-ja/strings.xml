@@ -340,7 +340,7 @@
     <string name="pref_visit_website_title">Webサイトを訪問</string>
     <string name="progress_dialog_deleting">オブジェクトを削除中</string>
     <string name="progress_dialog_loading">データベースからオブジェクトをロード中</string>
-    <string name="progress_dialog_printing">PDF を生成中</string>
+    <string name="progress_dialog_printing">%s を生成中</string>
     <string name="qif_parse_result">解析しました: %1$s 勘定; %2$s 分類 および %3$s 取引先</string>
     <string name="qif_parse_failure_found_multiple_accounts">QIF ファイルに複数の勘定が見つかりました。</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">既存の勘定にそれをマージすることはできません。</string>

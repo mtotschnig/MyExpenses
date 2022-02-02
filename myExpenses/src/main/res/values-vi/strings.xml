@@ -336,7 +336,7 @@
     <string name="pref_visit_website_title">Truy cập Website</string>
     <string name="progress_dialog_deleting">Đang xóa mục</string>
     <string name="progress_dialog_loading">Đang tải đối tượng từ cơ sở dữ liệu</string>
-    <string name="progress_dialog_printing">Đang tạo tập tin PDF</string>
+    <string name="progress_dialog_printing">Đang tạo tập tin %s</string>
     <string name="qif_parse_result">Đã phân tích : %1$s tài khoản; %2$s danh mục và %3$s bên giao dịch</string>
     <string name="qif_parse_failure_found_multiple_accounts">Phát hiện nhiều tài khoản trong tập tin QIF.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Không thể ghép chúng vào tài khoản hiện có.</string>

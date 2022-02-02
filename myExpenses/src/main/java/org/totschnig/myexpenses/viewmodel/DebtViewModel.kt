@@ -5,16 +5,19 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
 import android.net.Uri
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
-import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.Transaction.EXTENDED_URI
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -59,7 +62,7 @@ class DebtViewModel(application: Application) : ContentResolvingAndroidViewModel
     }*/
 
     private fun transactionsFlow(debt: Debt): Flow<List<Transaction>> {
-        var runningTotal = debt.amount
+        var runningTotal: Long = 0
         val homeCurrency = Utils.getHomeCurrency().code
         val amountColumn = if (debt.currency == homeCurrency) {
             "CASE WHEN $KEY_CURRENCY = '$homeCurrency' THEN $KEY_AMOUNT ELSE ${
@@ -76,7 +79,9 @@ class DebtViewModel(application: Application) : ContentResolvingAndroidViewModel
             selection = "$KEY_DEBT_ID = ?",
             selectionArgs = arrayOf(debt.id.toString()),
             sortOrder = "$KEY_DATE ASC"
-        ).mapToList {
+        ).onEach {
+            runningTotal = debt.amount
+        }.mapToList {
             val amount = it.getLong(2)
             val previousBalance = runningTotal
             runningTotal -= amount
@@ -129,56 +134,72 @@ class DebtViewModel(application: Application) : ContentResolvingAndroidViewModel
         }, null, null
     )
 
-    fun exportDebt(context: Context, debt: Debt): LiveData<Uri> = liveData {
-        val file = File(context.cacheDir, "debt_" + debt.id + ".html")
-        file.writer().use { writer ->
-            val transactions = buildList<Transaction> {
-                add(Transaction(0, epoch2LocalDate(debt.date), 0, debt.amount))
-                transactionsFlow(debt).take(1).collect {
-                    addAll(it)
-                }
+    private suspend fun exportData(
+        context: Context,
+        debt: Debt
+    ): List<Triple<String, String, String>> {
+        val transactions = buildList {
+            add(Transaction(0, epoch2LocalDate(debt.date), 0, debt.amount))
+            transactionsFlow(debt).take(1).collect {
+                addAll(it)
             }
-            writer.appendHTML().html {
-                body {
-                    div {
-                        b {
-                            text(debt.label)
-                        }
-                        br
-                        text(debt.title(context))
-                        br
-                        text(debt.description)
-                    }
-                    table {
-                        val count = transactions.size
-                        val dateFormatter = getDateTimeFormatter(context)
+        }
+        val dateFormatter = getDateTimeFormatter(context)
+        val currency = currencyContext[debt.currency]
+        return transactions.map { transaction ->
+            Triple(
+                dateFormatter.format(transaction.date),
+                transaction.amount.takeIf { it != 0L }?.let {
+                    currencyFormatter.convAmount(it, currency)
+                } ?: "",
+                currencyFormatter.convAmount(transaction.runningTotal, currency)
+            )
+        }
+    }
 
-                        transactions.forEachIndexed { index, transaction ->
-                            tr {
-                                td {
-                                    text(dateFormatter.format(transaction.date))
-                                }
-                                td {
-                                    transaction.amount.takeIf { it != 0L }?.let {
-                                        text(
-                                            currencyFormatter.convAmount(
-                                                transaction.amount,
-                                                currencyContext[debt.currency]
-                                            )
-                                        )
-                                    }
-                                }
-                                td {
-                                    val balance = currencyFormatter.convAmount(
-                                        transaction.runningTotal,
-                                        currencyContext[debt.currency]
-                                    )
-                                    if (index == count - 1) {
-                                        b {
-                                            text(balance)
+    fun exportText(context: Context, debt: Debt): LiveData<String> =
+        liveData {
+            val stringBuilder = StringBuilder().appendLine(debt.label)
+                .appendLine(debt.title(context))
+                .appendLine(debt.description)
+                .appendLine()
+            exportData(context, debt).forEach {
+                stringBuilder.appendLine("${it.first} | ${it.second} | ${it.third}")
+            }
+            emit(stringBuilder.toString())
+        }
+
+    fun exportHtml(context: Context, debt: Debt): LiveData<Uri> =
+        liveData {
+            val file = File(context.cacheDir, "debt_${debt.id}.html")
+            file.writer().use { writer ->
+                val table = exportData(context, debt)
+                writer.appendHTML().html {
+                    body {
+                        div {
+                            b {
+                                text(debt.label)
+                            }
+                            br
+                            text(debt.title(context))
+                            br
+                            text(debt.description)
+                        }
+                        table {
+                            val count = table.size
+
+                            table.forEachIndexed { index, row ->
+                                tr {
+                                    td { text(row.first) }
+                                    td { text(row.second) }
+                                    td {
+                                        if (index == count - 1) {
+                                            b {
+                                                text(row.third)
+                                            }
+                                        } else {
+                                            text(row.third)
                                         }
-                                    } else {
-                                        text(balance)
                                     }
                                 }
                             }
@@ -186,9 +207,8 @@ class DebtViewModel(application: Application) : ContentResolvingAndroidViewModel
                     }
                 }
             }
+            emit(AppDirHelper.getContentUriForFile(file))
         }
-        emit(AppDirHelper.getContentUriForFile(file))
-    }
 
     data class Transaction(
         val id: Long,
@@ -197,4 +217,8 @@ class DebtViewModel(application: Application) : ContentResolvingAndroidViewModel
         val runningTotal: Long,
         val trend: Int = 0
     )
+
+    enum class ExportFormat(val mimeType: String) {
+        HTML("text/html"), TXT("text/plain")
+    }
 }

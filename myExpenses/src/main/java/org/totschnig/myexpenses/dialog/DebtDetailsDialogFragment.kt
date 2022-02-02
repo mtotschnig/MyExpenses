@@ -4,8 +4,6 @@ import android.os.Bundle
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.platform.ComposeView
-import androidx.fragment.app.viewModels
-import com.google.android.material.snackbar.Snackbar
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.activity.DebtActivity
 import org.totschnig.myexpenses.compose.DebtRenderer

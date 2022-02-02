@@ -185,7 +185,7 @@
     <string name="pref_ui_theme_title">Tema</string>
     <string name="pref_visit_website_summary">Rexistro de cambios e FAQ</string>
     <string name="pref_visit_website_title">Visitar o sitio web</string>
-    <string name="progress_dialog_printing">Xerando PDF</string>
+    <string name="progress_dialog_printing">Xerando %s</string>
     <string name="reference_number">Número de referencia</string>
     <string name="restore_db_failure">Erro ao restaurar a base de datos.</string>
     <string name="restore_db_success">A base de datos restaurouse desde a copia de seguranza.</string>

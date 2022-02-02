@@ -568,7 +568,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                 ), ProtectedFragmentActivity.ASYNC_TAG
                             )
                             .add(
-                                ProgressDialogFragment.newInstance(getString(R.string.progress_dialog_printing)),
+                                ProgressDialogFragment.newInstance(getString(R.string.progress_dialog_printing, "PDF")),
                                 ProtectedFragmentActivity.PROGRESS_TAG
                             )
                             .commit()

@@ -316,7 +316,7 @@
     <string name="pref_visit_website_title">웹사이트 방문</string>
     <string name="progress_dialog_deleting">항목 삭제하는 중</string>
     <string name="progress_dialog_loading">데이터베이스에서 항목 불러오는 중</string>
-    <string name="progress_dialog_printing">PDF 파일 만드는 중</string>
+    <string name="progress_dialog_printing">%s 파일 만드는 중</string>
     <string name="qif_parse_result">분석됨: %1$s 계좌; %2$s 카테고리와 %3$s 구성원</string>
     <string name="qif_parse_failure_found_multiple_accounts">QIF 파일에서 여러개의 계좌가 발견되었습니다.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">기존 계좌에 합칠 수 없습니다.</string>
