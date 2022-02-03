@@ -663,7 +663,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         return binding.accountPanel.expansionContent
     }
 
-    open fun  buildCheckSealedHander() = CheckSealedHandler(contentResolver)
+    open fun  buildCheckSealedHandler() = CheckSealedHandler(contentResolver)
 
     companion object {
         const val MANAGE_HIDDEN_FRAGMENT_TAG = "MANAGE_HIDDEN"

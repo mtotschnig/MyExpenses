@@ -5,5 +5,5 @@ import org.totschnig.myexpenses.provider.CheckSealedHandler
 class TestMyExpenses: MyExpenses() {
     lateinit var decoratedCheckSealedHandler: CheckSealedHandler
 
-    override fun buildCheckSealedHander() = decoratedCheckSealedHandler
+    override fun buildCheckSealedHandler() = decoratedCheckSealedHandler
 }

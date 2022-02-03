@@ -1,35 +1,5 @@
 package org.totschnig.myexpenses.test.espresso;
 
-import android.content.Intent;
-import android.content.OperationApplicationException;
-import android.database.Cursor;
-import android.os.RemoteException;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.activity.TestMyExpenses;
-import org.totschnig.myexpenses.model.Account;
-import org.totschnig.myexpenses.model.AccountType;
-import org.totschnig.myexpenses.model.ContribFeature;
-import org.totschnig.myexpenses.model.CurrencyUnit;
-import org.totschnig.myexpenses.model.Money;
-import org.totschnig.myexpenses.model.Transaction;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
-import org.totschnig.myexpenses.testutils.BaseUiTest;
-import org.totschnig.myexpenses.testutils.DecoratedCheckSealedHandler;
-
-import java.util.Currency;
-import java.util.Objects;
-import java.util.concurrent.TimeoutException;
-
-import androidx.annotation.NonNull;
-import androidx.test.core.app.ActivityScenario;
-import androidx.test.espresso.IdlingRegistry;
-import androidx.test.espresso.idling.CountingIdlingResource;
-import androidx.test.espresso.matcher.CursorMatchers;
-
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
@@ -46,14 +16,32 @@ import static org.hamcrest.Matchers.both;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.testutils.Matchers.withAdaptedData;
 
-public final class MyExpensesCabTest extends BaseUiTest<TestMyExpenses> {
+import android.content.OperationApplicationException;
+import android.database.Cursor;
+import android.os.RemoteException;
 
-  private ActivityScenario<TestMyExpenses> activityScenario = null;
+import androidx.test.espresso.matcher.CursorMatchers;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.totschnig.myexpenses.R;
+import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.model.AccountType;
+import org.totschnig.myexpenses.model.ContribFeature;
+import org.totschnig.myexpenses.model.CurrencyUnit;
+import org.totschnig.myexpenses.model.Money;
+import org.totschnig.myexpenses.model.Transaction;
+import org.totschnig.myexpenses.provider.DatabaseConstants;
+
+import java.util.Currency;
+import java.util.concurrent.TimeoutException;
+
+public final class MyExpensesCabTest extends BaseMyExpensesCabTest {
+
   private Account account;
-  private final CountingIdlingResource countingResource = new CountingIdlingResource("FooServerCalls");
 
   @Before
   public void fixture() {
@@ -67,17 +55,7 @@ public final class MyExpensesCabTest extends BaseUiTest<TestMyExpenses> {
     for (int i = 0; i < times; i++) {
       op0.saveAsNew();
     }
-    Intent i = new Intent(getTargetContext(), TestMyExpenses.class);
-    i.putExtra(KEY_ROWID, account.getId());
-    activityScenario = ActivityScenario.launch(i);
-    activityScenario.onActivity(activity -> activity.decoratedCheckSealedHandler = new DecoratedCheckSealedHandler(activity.getContentResolver(), countingResource));
-    IdlingRegistry.getInstance().register(countingResource);
-  }
-
-  @After
-  public void tearDown() throws RemoteException, OperationApplicationException {
-    IdlingRegistry.getInstance().unregister(countingResource);
-    Account.delete(account.getId());
+    launch(account.getId());
   }
 
   @Test
@@ -174,11 +152,5 @@ public final class MyExpensesCabTest extends BaseUiTest<TestMyExpenses> {
     openCab();
     rotate();
     onView(withId(R.id.action_mode_bar)).check(matches(isDisplayed()));
-  }
-
-  @NonNull
-  @Override
-  protected ActivityScenario<TestMyExpenses> getTestScenario() {
-    return Objects.requireNonNull(activityScenario);
   }
 }
