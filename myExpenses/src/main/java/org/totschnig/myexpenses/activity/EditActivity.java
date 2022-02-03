@@ -177,7 +177,7 @@ public abstract class EditActivity extends ProtectedFragmentActivity implements 
   }
 
   @Override
-  protected int getSnackbarContainerId() {
+  protected int getSnackBarContainerId() {
     return R.id.edit_container;
   }
 

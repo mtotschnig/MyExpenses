@@ -351,7 +351,7 @@
     <string name="pref_visit_website_title">Navštivte webové stránky</string>
     <string name="progress_dialog_deleting">Odstraňování objektů</string>
     <string name="progress_dialog_loading">Načítání objektů z databáze</string>
-    <string name="progress_dialog_printing">Vytváření souboru PDF</string>
+    <string name="progress_dialog_printing">Vytváření souboru %s</string>
     <string name="qif_parse_result">Zanalyzováno: %1$s účty, %2$s kategorie a %3$s strany</string>
     <string name="qif_parse_failure_found_multiple_accounts">V souboru QIF bylo nalezeno několik účtů.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Nelze sloučit do stávajícího účtu.</string>

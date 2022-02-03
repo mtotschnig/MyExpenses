@@ -345,7 +345,7 @@
     <string name="pref_visit_website_title">Website besuchen</string>
     <string name="progress_dialog_deleting">Objekte werden gelöscht</string>
     <string name="progress_dialog_loading">Buchung wird von Datenbank geladen</string>
-    <string name="progress_dialog_printing">Generierung von PDF</string>
+    <string name="progress_dialog_printing">Generierung von %s</string>
     <string name="qif_parse_result">Gefunden: %1$s Konten, %2$s Kategorien und %3$s parteien</string>
     <string name="qif_parse_failure_found_multiple_accounts">In der QIF Datei wurden mehrere Konten gefunden.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Diese konten nicht mit einem bestehendes Konto zusammengefügt werden.</string>

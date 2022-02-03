@@ -1,24 +1,18 @@
 package org.totschnig.myexpenses.viewmodel.data
 
 import android.content.ContentValues
+import android.content.Context
 import android.database.Cursor
 import android.net.Uri
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM
+import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.localDate2Epoch
 import java.math.BigDecimal
 import java.time.LocalDate
+import kotlin.math.sign
 
 data class Debt(
     val id: Long,
@@ -49,6 +43,14 @@ data class Debt(
         currency.code,
         localDate2Epoch(date)
     )
+
+    fun title(context: Context) = when (val signum = currentBalance.sign) {
+        0 -> payeeName!!
+        else -> context.getString(
+            if (signum == 1) R.string.debt_owes_me else R.string.debt_I_owe,
+            payeeName!!
+        )
+    }
 
     val currentBalance: Long
         get() = amount - sum

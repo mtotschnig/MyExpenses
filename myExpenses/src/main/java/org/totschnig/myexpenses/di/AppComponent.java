@@ -2,6 +2,8 @@ package org.totschnig.myexpenses.di;
 
 import android.content.Context;
 
+import androidx.annotation.Nullable;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonDeserializer;
 import com.squareup.picasso.Picasso;
@@ -86,7 +88,6 @@ import java.util.Locale;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import androidx.annotation.Nullable;
 import dagger.BindsInstance;
 import dagger.Component;
 

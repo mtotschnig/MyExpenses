@@ -218,7 +218,7 @@ public abstract class AbstractCategoryList<ROW_BINDING extends ViewBinding> exte
             }
             idList.add(c.getId());
           } else {
-            ctx.showSnackbar(getResources().getQuantityString(R.plurals.not_deletable_mapped_transactions,
+            ctx.showSnackBar(getResources().getQuantityString(R.plurals.not_deletable_mapped_transactions,
                 1, 1));
           }
         }
@@ -272,7 +272,7 @@ public abstract class AbstractCategoryList<ROW_BINDING extends ViewBinding> exte
         ctx.setResult(RESULT_FIRST_USER, intent);
         ctx.finish();
       } else {
-        ctx.showSnackbar(R.string.unmapped_filter_only_single);
+        ctx.showSnackBar(R.string.unmapped_filter_only_single);
       }
       return true;
     } else if (command == R.id.MOVE_COMMAND) {

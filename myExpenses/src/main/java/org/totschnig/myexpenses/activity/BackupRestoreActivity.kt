@@ -64,10 +64,10 @@ class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogLis
             }
             when (backupState) {
                 is Running -> {
-                    showSnackbarIndefinite(R.string.menu_backup)
+                    showSnackBarIndefinite(R.string.menu_backup)
                 }
                 is BackupState.Error -> {
-                    showDismissibleSnackbar(backupState.throwable.message!!, onDismissed)
+                    showDismissibleSnackBar(backupState.throwable.message!!, onDismissed)
                 }
                 is BackupState.Success -> {
                     var message = getString(R.string.backup_success, backupState.result.second)
@@ -83,7 +83,7 @@ class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogLis
                             message += " " + shareResult.print(this)
                         }
                     }
-                    showDismissibleSnackbar(message, onDismissed)
+                    showDismissibleSnackBar(message, onDismissed)
                 }
             }
         }
@@ -223,7 +223,7 @@ class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogLis
         val args = buildRestoreArgs(mUri, restorePlanStrategy)
         backupViewModel.isEncrypted(mUri).observe(this) {
             it.onFailure {
-                showDismissibleSnackbar(it.message ?: "ERROR", object : Snackbar.Callback() {
+                showDismissibleSnackBar(it.message ?: "ERROR", object : Snackbar.Callback() {
                     override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
                         finish()
                     }
@@ -308,7 +308,7 @@ class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogLis
         }
     }
 
-    override fun getSnackbarContainerId(): Int {
+    override fun getSnackBarContainerId(): Int {
         return android.R.id.content
     }
 

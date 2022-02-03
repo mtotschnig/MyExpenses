@@ -26,3 +26,4 @@ const val MAP_TAG_REQUEST = 24
 const val CONFIRM_MAP_TAG_REQUEST = 25
 const val FILTER_PAYEE_REQUEST = 26
 const val OCR_REQUEST = 27
+const val DEBT_EDIT_REQUEST = 28

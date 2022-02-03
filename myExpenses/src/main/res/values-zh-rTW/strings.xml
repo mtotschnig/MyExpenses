@@ -342,7 +342,7 @@
     <string name="pref_visit_website_title">瀏覽官方網站</string>
     <string name="progress_dialog_deleting">刪除物件中…</string>
     <string name="progress_dialog_loading">從資料庫載入物件中…</string>
-    <string name="progress_dialog_printing">生成PDF檔案中…</string>
+    <string name="progress_dialog_printing">生成%s檔案中</string>
     <string name="qif_parse_result">已解析：%1$s個帳戶； %2$s類別項目和%3$s交易對象</string>
     <string name="qif_parse_failure_found_multiple_accounts">在QIF檔案中找到多個帳戶。</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">無法將它們合併到現有帳戶中。</string>

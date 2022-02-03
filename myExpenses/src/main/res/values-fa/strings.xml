@@ -295,7 +295,7 @@
     <string name="pref_visit_website_title">دیدن وبسایت</string>
     <string name="progress_dialog_deleting">حذف کردن اشیاء</string>
     <string name="progress_dialog_loading">بارگیری شیٔ از پایگاه داده</string>
-    <string name="progress_dialog_printing">ساخت پی‌دی‌اف</string>
+    <string name="progress_dialog_printing">ساخت %s</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">نمی‌توان آن‌ها را در حساب موجود ادغام نمود.</string>
     <string name="restore_db_failure">بازیابی پایگاه داده شکست خورد.</string>
     <string name="restore_db_success">پایگاه داده از فایل بک‌آپ بازیابی شد.</string>

@@ -302,7 +302,7 @@
     <string name="pref_visit_website_title">Posjeti web stranicu</string>
     <string name="progress_dialog_deleting">Brisanje predmeta</string>
     <string name="progress_dialog_loading">Učitavanje predmeta iz baze podataka</string>
-    <string name="progress_dialog_printing">Generiranje PDF-a</string>
+    <string name="progress_dialog_printing">Generiranje %s-a</string>
     <string name="qif_parse_result">Obrađeno: %1$s računa; %2$s kategorije i %3$s stranke</string>
     <string name="qif_parse_failure_found_multiple_accounts">Pronađeno je više računa u QIF datoteci.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Ne mogu se sjediniti u postojeći račun.</string>

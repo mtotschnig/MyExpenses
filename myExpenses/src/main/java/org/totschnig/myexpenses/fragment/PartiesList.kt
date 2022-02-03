@@ -20,12 +20,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.text.TextUtils
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.CompoundButton
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
@@ -43,11 +38,7 @@ import eltos.simpledialogfragment.form.Spinner
 import eltos.simpledialogfragment.input.SimpleInputDialog
 import icepick.Icepick
 import icepick.State
-import org.totschnig.myexpenses.ACTION_MANAGE
-import org.totschnig.myexpenses.ACTION_SELECT_FILTER
-import org.totschnig.myexpenses.ACTION_SELECT_MAPPING
-import org.totschnig.myexpenses.MyApplication
-import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.*
 import org.totschnig.myexpenses.activity.DebtEdit
 import org.totschnig.myexpenses.activity.DebtOverview
 import org.totschnig.myexpenses.activity.ManageParties
@@ -57,11 +48,7 @@ import org.totschnig.myexpenses.databinding.PayeeRowBinding
 import org.totschnig.myexpenses.dialog.DebtDetailsDialogFragment
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.TextUtils.withAmountColor
 import org.totschnig.myexpenses.util.configureSearch
@@ -218,7 +205,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                                         R.plurals.not_deletable_mapped_templates, 1, 1
                                     )
                                 }
-                                manageParties.showSnackbar(message)
+                                manageParties.showSnackBar(message)
                             } else if (party.mappedDebts) {
                                 SimpleDialog.build()
                                     .title(R.string.dialog_title_warning_delete_party)
@@ -298,12 +285,12 @@ class PartiesList : Fragment(), OnDialogResultListener {
     }
 
     private fun doDelete(partyId: Long) {
-        manageParties.showSnackbar(R.string.progress_dialog_deleting)
+        manageParties.showSnackBar(R.string.progress_dialog_deleting)
         viewModel.deleteParty(partyId)
             .observe(viewLifecycleOwner) { result ->
                 result.onSuccess { count ->
                     manageParties.let {
-                        it.showSnackbar(
+                        it.showSnackBar(
                             it.resources.getQuantityString(
                                 R.plurals.delete_success,
                                 count,
@@ -528,7 +515,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                         name
                     ).observe(this) {
                         if (it == null)
-                            manageParties.showSnackbar(
+                            manageParties.showSnackBar(
                                 getString(
                                     R.string.already_defined,
                                     name
@@ -562,7 +549,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
             val itemIds = selected.map { it.id }
             val labels = selected.map { it.name }
             if (itemIds.size != 1 && itemIds.contains(CategoryTreeBaseAdapter.NULL_ITEM_ID)) {
-                manageParties.showSnackbar(R.string.unmapped_filter_only_single)
+                manageParties.showSnackBar(R.string.unmapped_filter_only_single)
             } else {
                 requireActivity().apply {
                     setResult(Activity.RESULT_FIRST_USER, Intent().apply {

@@ -357,7 +357,7 @@
     <string name="pref_visit_website_title">زيارة الموقع</string>
     <string name="progress_dialog_deleting">جارِ حذف الكائنات</string>
     <string name="progress_dialog_loading">جاري التحميل من قاعدة البيانات</string>
-    <string name="progress_dialog_printing">انشاء ملف PDF</string>
+    <string name="progress_dialog_printing">انشاء ملف %s</string>
     <string name="qif_parse_result">تم إيجاد: %1$s حسابات; %2$s تصنيفات و %3$s أطراف</string>
     <string name="qif_parse_failure_found_multiple_accounts">تم العثور على أكثر من حساب في ملف QIF.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">لا يمكن دمجهم لحساب موجود. </string>

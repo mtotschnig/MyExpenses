@@ -294,7 +294,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         }
         viewModel.save(account).observe(this) {
             if (it < 0) {
-                showSnackbar("ERROR")
+                showSnackBar("ERROR")
             } else {
                 account.requestSync()
                 intent.putExtra(DatabaseConstants.KEY_ROWID, it)
@@ -364,7 +364,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
                             syncSpinner.isEnabled = true
                             binding.SyncUnlink.visibility = View.GONE
                         }.onFailure {
-                            showSnackbar(it.message ?: "ERROR")
+                            showSnackBar(it.message ?: "ERROR")
                         }
                     }
                 }
@@ -401,7 +401,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
 
     override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
         if (!mNewInstance && syncSpinner.selectedItemPosition > 0) {
-            showSnackbar(R.string.progress_dialog_checking_sync_backend)
+            showSnackBar(R.string.progress_dialog_checking_sync_backend)
             uuid?.let { uuid ->
                 syncViewModel.syncCheck(uuid, syncSpinner.selectedItem as String).observe(this) { result ->
                     result.onFailure {

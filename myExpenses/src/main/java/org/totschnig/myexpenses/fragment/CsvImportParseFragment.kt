@@ -141,7 +141,7 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, LoaderManager.L
                     ImportFileResultHandler.handleFilenameRequestResult(this, uri)
                 } catch (throwable: Throwable) {
                     uri = null
-                    (requireActivity() as ProtectedFragmentActivity).showSnackbar(throwable.message!!)
+                    (requireActivity() as ProtectedFragmentActivity).showSnackBar(throwable.message!!)
                 }
             }
         }

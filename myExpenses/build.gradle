@@ -256,6 +256,9 @@ dependencies {
     //Cannot access 'com.vmadalin.easypermissions.EasyPermissions.PermissionCallbacks' which is a supertype of 'org.totschnig.myexpenses.activity.BaseActivity'
     api 'com.vmadalin:easypermissions-ktx:1.0.0'
 
+    implementation("org.jetbrains.kotlinx:kotlinx-html:0.7.3")
+    implementation("io.arrow-kt:arrow-core:1.0.1")
+
     androidTestImplementation 'tools.fastlane:screengrab:2.1.1'
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxTextExtJunit"

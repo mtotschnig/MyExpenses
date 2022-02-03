@@ -232,7 +232,7 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
             R.id.SHOW_PASSWORD_COMMAND -> {
                 viewModel.loadPassword(syncBackendAdapter.getSyncAccountName(packedPosition))
                     .observe(this) {
-                        (activity as? ProtectedFragmentActivity)?.showDismissibleSnackbar(
+                        (activity as? ProtectedFragmentActivity)?.showDismissibleSnackBar(
                             it ?: "Could not retrieve passphrase"
                         )
                     }
@@ -290,7 +290,7 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
                     if (handleAuthException(throwable)) {
                         resolutionPendingForGroup = groupPosition
                     } else {
-                        activity.showSnackbar(throwable.message ?: "ERROR", Snackbar.LENGTH_SHORT)
+                        activity.showSnackBar(throwable.message ?: "ERROR", Snackbar.LENGTH_SHORT)
                     }
                 }
             }
@@ -325,7 +325,7 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
     fun syncUnlink(uuid: String) {
         viewModel.syncUnlink(uuid).observe(this) { result ->
             result.onFailure {
-                (requireActivity() as ManageSyncBackends).showSnackbar(it.message ?: "ERROR")
+                (requireActivity() as ManageSyncBackends).showSnackBar(it.message ?: "ERROR")
             }
         }
     }

@@ -47,6 +47,10 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host {
             if (savedInstanceState == null) {
                 if (debtId != 0L) {
                     viewModel.loadDebt(debtId).observe(this) {
+                        if (it.isSealed) {
+                            setResult(RESULT_FIRST_USER)
+                            finish()
+                        }
                         binding.Label.setText(it.label)
                         binding.Description.setText(it.description)
                         binding.Amount.setSelectedCurrency(it.currency)
@@ -75,33 +79,6 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host {
         }
         binding.Amount.setTypeChangedListener {
             setTitle(it)
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        super.onCreateOptionsMenu(menu)
-        if (debtId != 0L) {
-            menuInflater.inflate(R.menu.debt_edit, menu)
-        }
-        return true
-    }
-
-    override fun dispatchCommand(command: Int, tag: Any?): Boolean {
-        if (super.dispatchCommand(command, tag)) {
-            return true
-        }
-        return when(command) {
-            R.id.CLOSE_DEBT_COMMAND -> {
-                viewModel.closeDebt(debtId).observe(this) {
-                    if (it) {
-                        finish()
-                    } else {
-                        showSnackbar("ERROR")
-                    }
-                }
-                true
-            }
-            else -> false
         }
     }
 

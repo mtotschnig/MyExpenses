@@ -2,64 +2,28 @@ package org.totschnig.myexpenses.activity
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
-import androidx.compose.animation.animateContentSize
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.composethemeadapter.MdcTheme
-import com.google.android.material.snackbar.Snackbar
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.compose.Colors
-import org.totschnig.myexpenses.compose.Initials
-import org.totschnig.myexpenses.compose.LocalColors
-import org.totschnig.myexpenses.compose.Navigation
-import org.totschnig.myexpenses.compose.OverFlowMenu
-import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.util.CurrencyFormatter
-import org.totschnig.myexpenses.util.DebugCurrencyFormatter
+import org.totschnig.myexpenses.compose.*
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.convAmount
-import org.totschnig.myexpenses.util.epoch2LocalDate
 import org.totschnig.myexpenses.util.getDateTimeFormatter
 import org.totschnig.myexpenses.util.localDate2Epoch
 import org.totschnig.myexpenses.viewmodel.DebtViewModel
@@ -67,20 +31,12 @@ import org.totschnig.myexpenses.viewmodel.DebtViewModel.Transaction
 import org.totschnig.myexpenses.viewmodel.data.Debt
 import timber.log.Timber
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import javax.inject.Inject
-import kotlin.math.sign
 
 class DebtOverview : DebtActivity() {
-    val viewModel: DebtViewModel by viewModels()
-
-    @Inject
-    lateinit var currencyFormatter: CurrencyFormatter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (applicationContext as MyApplication).appComponent.inject(viewModel)
-        viewModel.loadDebts()
+        debtViewModel.loadDebts()
         setContent {
             CompositionLocalProvider(
                 LocalColors provides Colors(
@@ -89,47 +45,51 @@ class DebtOverview : DebtActivity() {
                 )
             ) {
                 MdcTheme {
-                    val amountFormatter = { amount: Long, currency: String ->
-                        currencyFormatter.convAmount(amount, currencyContext[currency])
-                    }
-                    val debts = viewModel.getDebts().observeAsState(emptyList())
-                    Navigation(
-                        onNavigation = { finish() },
-                        title = {
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(end = dimensionResource(id = R.dimen.padding_form)),
-                                horizontalArrangement = Arrangement.SpaceBetween
-                            ) {
-                                Text(
-                                    text = stringResource(id = R.string.title_activity_debt_overview),
-                                    modifier = Modifier
-                                        .weight(1f)
-                                        .padding(end = 4.dp),
-                                    overflow = TextOverflow.Ellipsis,
-                                    maxLines = 1,
-                                    style = MaterialTheme.typography.h6
-                                )
-                                ColoredAmountText(
-                                    amount = debts.value.sumOf { it.currentBalance },
-                                    currency = Utils.getHomeCurrency().code,
-                                    amountFormatter = amountFormatter
-                                )
-                            }
-                        }
+                    CompositionLocalProvider(
+                        LocalAmountFormatter provides { amount, currency ->
+                            currencyFormatter.convAmount(amount, currencyContext[currency])
+                        },
+                        LocalDateFormatter provides getDateTimeFormatter(this)
                     ) {
-                        DebtList(
-                            modifier = Modifier.padding(paddingValues = it),
-                            debts = debts,
-                            loadTransactionsForDebt = { debt ->
-                                viewModel.loadTransactions(debt).observeAsState(emptyList())
-                            },
-                            amountFormatter = amountFormatter,
-                            dateFormatter = getDateTimeFormatter(this),
-                            onEdit = this::editDebt,
-                            onDelete = this::deleteDebt
-                        )
+                        val debts = debtViewModel.getDebts().observeAsState(emptyList())
+                        Navigation(
+                            onNavigation = { finish() },
+                            title = {
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(end = dimensionResource(id = R.dimen.padding_form)),
+                                    horizontalArrangement = Arrangement.SpaceBetween
+                                ) {
+                                    Text(
+                                        text = stringResource(id = R.string.title_activity_debt_overview),
+                                        modifier = Modifier
+                                            .weight(1f)
+                                            .padding(end = 4.dp),
+                                        overflow = TextOverflow.Ellipsis,
+                                        maxLines = 1,
+                                        style = MaterialTheme.typography.h6
+                                    )
+                                    ColoredAmountText(
+                                        amount = debts.value.sumOf { it.currentBalance },
+                                        currency = Utils.getHomeCurrency().code,
+                                    )
+                                }
+                            }
+                        ) {
+                            DebtList(
+                                modifier = Modifier.padding(paddingValues = it),
+                                debts = debts,
+                                loadTransactionsForDebt = { debt ->
+                                    debtViewModel.loadTransactions(debt)
+                                        .observeAsState(emptyList()).value
+                                },
+                                onEdit = this::editDebt,
+                                onDelete = this::deleteDebt,
+                                onToggle = this::toggleDebt,
+                                onShare = this::shareDebt
+                            )
+                        }
                     }
                 }
             }
@@ -139,27 +99,17 @@ class DebtOverview : DebtActivity() {
     override fun injectDependencies() {
         (applicationContext as MyApplication).appComponent.inject(this)
     }
-
-    override fun deleteDebtDo(debtId: Long) {
-        viewModel.deleteDebt(debtId).observe(this) {
-            if (!it) {
-                lifecycleScope.launchWhenResumed {
-                    showSnackbar("ERROR", Snackbar.LENGTH_LONG, null)
-                }
-            }
-        }
-    }
 }
 
 @Composable
 fun DebtList(
     modifier: Modifier = Modifier,
     debts: State<List<Debt>>,
-    loadTransactionsForDebt: @Composable (Debt) -> State<List<Transaction>>,
-    amountFormatter: ((Long, String) -> String)? = null,
-    dateFormatter: DateTimeFormatter? = null,
+    loadTransactionsForDebt: @Composable (Debt) -> List<Transaction>,
     onEdit: (Debt) -> Unit = {},
-    onDelete: (Debt, Int) -> Unit = { _, _ -> }
+    onDelete: (Debt, Int) -> Unit = { _, _ -> },
+    onToggle: (Debt) -> Unit = {},
+    onShare: (Debt, DebtViewModel.ExportFormat) -> Unit = { _, _ -> }
 ) {
     LazyColumn(
         modifier = modifier
@@ -170,260 +120,16 @@ fun DebtList(
         itemsIndexed(items = debts.value) { index, item ->
             Timber.d("rendering item $index")
             val expandedState = rememberSaveable { mutableStateOf(false) }
-            DebtRenderer(
+            DebtCard(
                 debt = item,
-                loadTransactionsForDebt(item),
-                amountFormatter,
-                dateFormatter,
-                expandedState,
+                transactions = loadTransactionsForDebt(item),
+                expanded = expandedState,
                 onEdit = onEdit,
-                onDelete = onDelete
+                onDelete = onDelete,
+                onToggle = onToggle,
+                onShare = onShare
             )
         }
-    }
-}
-
-@Composable
-fun DebtRenderer(
-    debt: Debt,
-    transactions: State<List<Transaction>>,
-    _amountFormatter: ((Long, String) -> String)? = null,
-    _dateFormatter: DateTimeFormatter? = null,
-    expanded: MutableState<Boolean>,
-    onEdit: (Debt) -> Unit = {},
-    onDelete: (Debt, Int) -> Unit = { _, _ -> }
-) {
-    val amountFormatter = _amountFormatter ?: { amount, currency ->
-        DebugCurrencyFormatter.convAmount(amount, CurrencyUnit(currency, "€", 2))
-    }
-    val dateFormatter = _dateFormatter ?: DateTimeFormatter.BASIC_ISO_DATE
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .animateContentSize(),
-        shape = RoundedCornerShape(8.dp),
-        backgroundColor = colorResource(id = R.color.cardBackground)
-    ) {
-        CompositionLocalProvider(
-            LocalColors provides Colors(
-                income = colorResource(id = R.color.colorIncomeOnCard),
-                expense = colorResource(id = R.color.colorExpenseOnCard)
-            )
-        ) {
-            Box(modifier = Modifier.fillMaxWidth()) {
-
-                Timber.d("rendering Card")
-                Column(
-                    modifier = Modifier
-                        .clickable(onClick = { expanded.value = !expanded.value })
-                        .padding(8.dp)
-                ) {
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        val signum = debt.currentBalance.sign
-                        if (expanded.value) {
-                            Initials(
-                                name = debt.payeeName!!,
-                                modifier = Modifier.padding(end = 4.dp)
-                            )
-                        }
-                        Column(modifier = Modifier.weight(1F)) {
-                            Text(
-                                style = MaterialTheme.typography.h6,
-                                text = debt.label,
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis
-                            )
-
-                            if (!expanded.value) {
-                                Text(
-                                    text = if (signum == 0) debt.payeeName!! else
-                                        stringResource(
-                                            id = if (signum == 1) R.string.debt_owes_me else R.string.debt_I_owe,
-                                            debt.payeeName!!
-                                        ),
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis
-                                )
-                            }
-                            debt.description.takeIf { it.isNotEmpty() }?.let {
-                                Text(
-                                    fontStyle = FontStyle.Italic,
-                                    text = debt.description,
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis
-                                )
-                            }
-                        }
-                        if (!expanded.value) {
-                            ColoredAmountText(
-                                debt.currentBalance,
-                                debt.currency,
-                                amountFormatter
-                            )
-                        }
-                    }
-                    if (expanded.value) {
-                        TransactionRenderer(
-                            transaction = Transaction(
-                                0, epoch2LocalDate(debt.date), 0, debt.amount
-                            ),
-                            debt.currency,
-                            amountFormatter,
-                            dateFormatter,
-                            false
-                        )
-                        val count = transactions.value.size
-                        transactions.value.forEachIndexed { index, transaction ->
-                            TransactionRenderer(
-                                transaction = transaction,
-                                debt.currency,
-                                amountFormatter,
-                                dateFormatter,
-                                index == count - 1
-                            )
-                        }
-                    }
-                }
-                if (expanded.value) {
-                    Box(modifier = Modifier.align(Alignment.TopEnd)) {
-                        OverFlowMenu(
-                            content = listOf(
-                                stringResource(id = R.string.menu_edit) to { onEdit(debt) },
-                                stringResource(id = R.string.menu_delete) to {
-                                    onDelete(
-                                        debt,
-                                        transactions.value.size
-                                    )
-                                }
-                            )
-                        )
-                    }
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun ColoredAmountText(
-    amount: Long,
-    currency: String,
-    amountFormatter: (Long, String) -> String,
-    modifier: Modifier = Modifier,
-    fontWeight: FontWeight? = null,
-    textAlign: TextAlign? = null
-) {
-    Text(
-        modifier = modifier,
-        fontWeight = fontWeight,
-        textAlign = textAlign,
-        text = amountFormatter(amount, currency),
-        color = when {
-            amount > 0 -> LocalColors.current.income
-            amount < 0 -> LocalColors.current.expense
-            else -> Color.Unspecified
-        }
-    )
-}
-
-@Composable
-fun TransactionRenderer(
-    transaction: Transaction,
-    currency: String,
-    amountFormatter: (Long, String) -> String,
-    dateFormatter: DateTimeFormatter,
-    boldBalance: Boolean
-) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
-
-        when {
-            transaction.runningTotal == 0L -> R.drawable.ic_check
-            transaction.trend > 0 -> R.drawable.ic_trending_up
-            transaction.trend < 0 -> R.drawable.ic_trending_down
-            else -> null
-        }?.also {
-            Icon(
-                painter = painterResource(
-                    id = when {
-                        transaction.runningTotal == 0L -> R.drawable.ic_check
-                        transaction.trend > 0 -> R.drawable.ic_trending_up
-                        transaction.trend < 0 -> R.drawable.ic_trending_down
-                        else -> throw IllegalStateException()
-                    }
-                ),
-                contentDescription = null
-            )
-        } ?: run {
-            Spacer(modifier = Modifier.size(24.dp))
-        }
-
-        Text(
-            modifier = Modifier.padding(start = 4.dp),
-            text = dateFormatter.format(transaction.date)
-        )
-
-        transaction.amount.takeIf { it != 0L }?.let {
-            Text(
-                modifier = Modifier.weight(1F),
-                textAlign = TextAlign.End,
-                text = amountFormatter(it, currency)
-            )
-        }
-
-        ColoredAmountText(
-            amount = transaction.runningTotal,
-            currency = currency,
-            amountFormatter = amountFormatter,
-            modifier = Modifier.weight(1F),
-            fontWeight = if (boldBalance) FontWeight.Bold else null,
-            textAlign = TextAlign.End
-        )
-    }
-}
-
-@Preview
-@Composable
-fun SingleDebtPreview() {
-    val debt = Debt(
-        id = 1,
-        label = "Debt 1",
-        description = "some long, very long, extremely long description",
-        payeeId = -1L,
-        amount = 4000,
-        currency = "EUR",
-        date = localDate2Epoch(LocalDate.now()),
-        payeeName = "Joe Doe"
-    )
-    val transactions = listOf(
-        Transaction(
-            1, LocalDate.now(), 100, 100, 1
-        ),
-        Transaction(
-            1, LocalDate.now(), 3000, 1000, 0
-        ),
-        Transaction(
-            1, LocalDate.now(), 10000, 10000, 1
-        )
-    )
-    Column(
-        modifier = Modifier
-            .width(350.dp)
-            .padding(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        DebtRenderer(
-            debt = debt,
-            transactions = remember { mutableStateOf(transactions) },
-            expanded = remember { mutableStateOf(false) }
-        )
-        DebtRenderer(
-            debt = debt,
-            transactions = remember { mutableStateOf(transactions) },
-            expanded = remember { mutableStateOf(true) }
-        )
     }
 }
 
@@ -461,10 +167,8 @@ fun DebtListPreview() {
                 )
             },
             loadTransactionsForDebt = {
-                remember {
-                    mutableStateOf(emptyList())
-                }
-            }
+               emptyList()
+            },
         )
     }
 }
