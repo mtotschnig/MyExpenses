@@ -39,7 +39,8 @@ fun DebtCard(
     expanded: MutableState<Boolean>,
     onEdit: (Debt) -> Unit,
     onDelete: (Debt, Int) -> Unit,
-    onToggle: (Debt) -> Unit
+    onToggle: (Debt) -> Unit,
+    onShare: (Debt, DebtViewModel.ExportFormat) -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -55,7 +56,8 @@ fun DebtCard(
             expanded.value,
             onEdit,
             onDelete,
-            onToggle
+            onToggle,
+            onShare
         )
     }
 }

@@ -47,7 +47,7 @@ abstract class DebtActivity : ProtectedFragmentActivity() {
         }
     }
 
-    fun onShare(debt: Debt, exportFormat: DebtViewModel.ExportFormat) {
+    fun shareDebt(debt: Debt, exportFormat: DebtViewModel.ExportFormat) {
         showProgressSnackBar(getString(R.string.progress_dialog_printing, exportFormat.name))
         when(exportFormat) {
             DebtViewModel.ExportFormat.HTML -> debtViewModel.exportHtml(this, debt).observe(this) { uri ->

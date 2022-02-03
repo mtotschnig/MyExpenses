@@ -18,9 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.composethemeadapter.MdcTheme
-import com.google.android.material.snackbar.Snackbar
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.*
@@ -28,6 +26,7 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.util.getDateTimeFormatter
 import org.totschnig.myexpenses.util.localDate2Epoch
+import org.totschnig.myexpenses.viewmodel.DebtViewModel
 import org.totschnig.myexpenses.viewmodel.DebtViewModel.Transaction
 import org.totschnig.myexpenses.viewmodel.data.Debt
 import timber.log.Timber
@@ -88,6 +87,7 @@ class DebtOverview : DebtActivity() {
                                 onEdit = this::editDebt,
                                 onDelete = this::deleteDebt,
                                 onToggle = this::toggleDebt,
+                                onShare = this::shareDebt
                             )
                         }
                     }
@@ -108,7 +108,8 @@ fun DebtList(
     loadTransactionsForDebt: @Composable (Debt) -> List<Transaction>,
     onEdit: (Debt) -> Unit = {},
     onDelete: (Debt, Int) -> Unit = { _, _ -> },
-    onToggle: (Debt) -> Unit = {}
+    onToggle: (Debt) -> Unit = {},
+    onShare: (Debt, DebtViewModel.ExportFormat) -> Unit = { _, _ -> }
 ) {
     LazyColumn(
         modifier = modifier
@@ -125,7 +126,8 @@ fun DebtList(
                 expanded = expandedState,
                 onEdit = onEdit,
                 onDelete = onDelete,
-                onToggle = onToggle
+                onToggle = onToggle,
+                onShare = onShare
             )
         }
     }

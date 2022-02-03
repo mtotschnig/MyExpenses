@@ -57,7 +57,7 @@ class DebtDetailsDialogFragment : BaseDialogFragment() {
                                         onEdit = debtActivity::editDebt,
                                         onDelete = debtActivity::deleteDebt,
                                         onToggle = debtActivity::toggleDebt,
-                                        onShare = debtActivity::onShare
+                                        onShare = debtActivity::shareDebt
                                     )
                                 }
                         }

@@ -161,8 +161,10 @@ class DebtViewModel(application: Application) : ContentResolvingAndroidViewModel
         liveData {
             val stringBuilder = StringBuilder().appendLine(debt.label)
                 .appendLine(debt.title(context))
-                .appendLine(debt.description)
-                .appendLine()
+            debt.description.takeIf { it.isNotBlank() }?.let {
+                stringBuilder.appendLine(it)
+            }
+            stringBuilder.appendLine()
             val exportData = exportData(context, debt)
             val columnWidths = exportData.fold(Triple(0, 0, 0)) { max, element ->
                 Triple(
@@ -201,6 +203,8 @@ class DebtViewModel(application: Application) : ContentResolvingAndroidViewModel
                                   text-align: end;
                                   padding: 5px;
                                 }
+                                div {
+                                  margin-bottom: 10px;
                                 """
                                 )
                             }
@@ -213,8 +217,10 @@ class DebtViewModel(application: Application) : ContentResolvingAndroidViewModel
                             }
                             br
                             text(debt.title(context))
-                            br
-                            text(debt.description)
+                            debt.description.takeIf { it.isNotBlank() }?.let {
+                                br
+                                text(debt.description)
+                            }
                         }
                         table {
                             val count = table.size
