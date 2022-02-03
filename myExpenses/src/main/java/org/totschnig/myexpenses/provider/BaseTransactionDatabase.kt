@@ -9,7 +9,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import timber.log.Timber
 
-const val DATABASE_VERSION = 121
+const val DATABASE_VERSION = 122
 const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 
 private const val DEBTS_SEALED_TRIGGER_CREATE = """
@@ -34,6 +34,14 @@ private const val TRANSACTIONS_SEALED_DEBT_DELETE_TRIGGER_CREATE = """
 CREATE TRIGGER sealed_debt_transaction_delete
 BEFORE DELETE ON $TABLE_TRANSACTIONS WHEN (SELECT $KEY_SEALED FROM $TABLE_DEBTS WHERE $KEY_ROWID = old.$KEY_DEBT_ID) = 1
 BEGIN $RAISE_UPDATE_SEALED_DEBT END
+"""
+
+const val ACCOUNT_REMAP_TRANSFER_TRIGGER_CREATE = """
+CREATE TRIGGER account_remap_transfer_transaction_update
+AFTER UPDATE on $TABLE_TRANSACTIONS WHEN new.$KEY_ACCOUNTID != old.$KEY_ACCOUNTID
+BEGIN
+    UPDATE $TABLE_TRANSACTIONS SET $KEY_TRANSFER_ACCOUNT = new.$KEY_ACCOUNTID WHERE _id = new.$KEY_TRANSFER_PEER;
+END
 """
 
 abstract class BaseTransactionDatabase(
@@ -81,6 +89,15 @@ abstract class BaseTransactionDatabase(
             execSQL("DROP TRIGGER IF EXISTS transaction_debt_insert")
             execSQL("DROP TRIGGER IF EXISTS transaction_debt_update")
         }
+    }
+
+    fun upgradeTo122(db: SQLiteDatabase) {
+        //repair transactions corrupted due to bug https://github.com/mtotschnig/MyExpenses/issues/921
+        db.execSQL(
+            "update transactions set transfer_account = (select account_id from transactions peer where _id = transactions.transfer_peer);"
+        )
+        db.execSQL("DROP TRIGGER IF EXISTS account_remap_transfer_transaction_update")
+        db.execSQL(ACCOUNT_REMAP_TRANSFER_TRIGGER_CREATE)
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
