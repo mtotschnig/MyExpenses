@@ -163,8 +163,20 @@ class DebtViewModel(application: Application) : ContentResolvingAndroidViewModel
                 .appendLine(debt.title(context))
                 .appendLine(debt.description)
                 .appendLine()
-            exportData(context, debt).forEach {
-                stringBuilder.appendLine("${it.first} | ${it.second} | ${it.third}")
+            val exportData = exportData(context, debt)
+            val columnWidths = exportData.fold(Triple(0, 0, 0)) { max, element ->
+                Triple(
+                    maxOf(max.first, element.first.length),
+                    maxOf(max.second, element.second.length),
+                    maxOf(max.third, element.third.length)
+                )
+            }
+            exportData.forEach {
+                stringBuilder.appendLine(
+                    it.first.padStart(columnWidths.first) + " | " +
+                            it.second.padStart(columnWidths.second) + " | " +
+                            it.third.padStart(columnWidths.third)
+                )
             }
             emit(stringBuilder.toString())
         }
@@ -175,6 +187,25 @@ class DebtViewModel(application: Application) : ContentResolvingAndroidViewModel
             file.writer().use { writer ->
                 val table = exportData(context, debt)
                 writer.appendHTML().html {
+                    head {
+                        meta(charset = "utf-8")
+                        style {
+                            unsafe {
+                                raw(
+                                    """
+                                 table, th, td {
+                                  border: 1px solid black;
+                                  border-collapse: collapse;
+                                }
+                                td {
+                                  text-align: end;
+                                  padding: 5px;
+                                }
+                                """
+                                )
+                            }
+                        }
+                    }
                     body {
                         div {
                             b {
