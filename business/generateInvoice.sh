@@ -1,4 +1,4 @@
-#!/usr/local/bin/bash
+#!/usr/bin/env bash
 function show_help() {
 cat >&2 << EOF
    Usage: ${0##*/} [-p PACKAGE] [-c COUNTRY] [-u USER]
@@ -58,19 +58,28 @@ fi
 
 : "${TEMPLATE:=Invoice.tmpl}"
 
+if command -v xdg-user-dir &> /dev/null
+then
+  DOCUMENT_ROOT=$(xdg-user-dir DOCUMENTS)
+else
+  DOCUMENT_ROOT=$HOME/Documents
+fi
+
 (
-cd /Users/michaeltotschnig/Documents/MyExpenses.business/invoices
+cd "$DOCUMENT_ROOT"/MyExpenses.business/invoices || exit
 YEAR=$(date +'%Y')
 MONTH=$(date +'%m')
 if test -f LATEST
   then
     LATEST=$(<LATEST)
+    # shellcheck disable=SC2206
     arrLATEST=(${LATEST//-/ })
     LATEST_MONTH=${arrLATEST[0]}
     LATEST_NUMBER=${arrLATEST[1]}
 
     if [ "$MONTH" == "${LATEST_MONTH}" ]
       then
+        # shellcheck disable=SC2219
         let LATEST_NUMBER+=1
       else
         LATEST_NUMBER=1
@@ -82,13 +91,18 @@ fi
 export NUMBER=${YEAR}-${MONTH}-${LATEST_NUMBER}
 
 FILENAME=Invoice-${NUMBER}
-TEXFILE=${FILENAME}.tex
-if test -f "$TEXFILE"; then
-    echo "$TEXFILE exists."
+TEX_FILE=${FILENAME}.tex
+if test -f "$TEX_FILE"; then
+    echo "$TEX_FILE exists."
     exit 1
 fi
-envsubst < $TEMPLATE > $TEXFILE
-pdflatex $TEXFILE
-echo ${MONTH}-${LATEST_NUMBER} >LATEST
-open ${FILENAME}.pdf
+envsubst < $TEMPLATE > "$TEX_FILE"
+pdflatex "$TEX_FILE"
+echo "${MONTH}"-${LATEST_NUMBER} >LATEST
+if command -v xdg-open &> /dev/null
+then
+  xdg-open "${FILENAME}".pdf
+else
+  open "${FILENAME}".pdf
+fi
 )
