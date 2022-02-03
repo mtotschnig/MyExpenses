@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.idling.CountingIdlingResource
+import org.junit.After
 import org.totschnig.myexpenses.activity.TestMyExpenses
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.testutils.BaseUiTest
@@ -30,5 +31,10 @@ abstract class BaseMyExpensesCabTest : BaseUiTest<TestMyExpenses>() {
                 DecoratedCheckSealedHandler(activity.contentResolver, countingResource)
         }
         IdlingRegistry.getInstance().register(countingResource)
+    }
+
+    @After
+    fun tearDown() {
+        IdlingRegistry.getInstance().unregister(countingResource)
     }
 }
