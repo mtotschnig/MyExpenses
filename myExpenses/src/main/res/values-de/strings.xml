@@ -1012,4 +1012,5 @@
         <item quantity="other">%1$d Kategorien wurden mit Symbolen aktualisiert.</item>
     </plurals>
     <string name="whats_new_336_1">Schuldenübersicht teilen</string>
+    <string name="whats_new_336_2">Schlagwörter für Teilbuchungen</string>
 </resources>
