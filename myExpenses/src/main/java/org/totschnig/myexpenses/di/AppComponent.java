@@ -59,7 +59,6 @@ import org.totschnig.myexpenses.retrofit.ExchangeRateService;
 import org.totschnig.myexpenses.service.AutoBackupService;
 import org.totschnig.myexpenses.service.PlanExecutor;
 import org.totschnig.myexpenses.service.SyncNotificationDismissHandler;
-import org.totschnig.myexpenses.sync.webdav.WebDavClient;
 import org.totschnig.myexpenses.task.ExportTask;
 import org.totschnig.myexpenses.task.LicenceApiTask;
 import org.totschnig.myexpenses.util.CurrencyFormatter;
@@ -90,6 +89,7 @@ import javax.inject.Singleton;
 
 import dagger.BindsInstance;
 import dagger.Component;
+import okhttp3.OkHttpClient;
 
 @Singleton
 @Component(modules = {AppModule.class, UiModule.class, NetworkModule.class, LicenceModule.class,
@@ -158,6 +158,8 @@ public interface AppComponent {
   @Nullable
   OcrFeature ocrFeature();
 
+  OkHttpClient.Builder okHttpClientBuilder();
+
   void inject(MyApplication application);
 
   void inject(ExpenseEdit expenseEdit);
@@ -195,8 +197,6 @@ public interface AppComponent {
   void inject(SettingsFragment settingsFragment);
 
   void inject(ContribDialogFragment contribDialogFragment);
-
-  void inject(WebDavClient webDavClient);
 
   void inject(RoadmapViewModel roadmapViewModel);
 

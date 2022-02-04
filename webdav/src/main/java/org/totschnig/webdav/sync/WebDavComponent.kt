@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Jan Kühle
+ * Copyright 2019 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,20 +12,19 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
-package org.totschnig.myexpenses.sync.webdav;
+package org.totschnig.webdav.sync
 
-import java.io.IOException;
-import java.security.cert.X509Certificate;
+import dagger.Component
+import org.totschnig.myexpenses.di.AppComponent
+import org.totschnig.myexpenses.di.FeatureScope
+import org.totschnig.webdav.sync.client.WebDavClient
 
-public class UntrustedCertificateException extends IOException {
-    private X509Certificate mCertificate;
-
-    public UntrustedCertificateException(X509Certificate certificate) {
-        mCertificate = certificate;
-    }
-
-    public X509Certificate getCertificate() {
-        return mCertificate;
-    }
+@FeatureScope
+@Component(
+        dependencies = [AppComponent::class]
+)
+interface WebDavComponent {
+    fun inject(webDavClient: WebDavClient)
 }

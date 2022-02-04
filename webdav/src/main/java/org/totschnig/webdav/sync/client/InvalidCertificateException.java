@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.totschnig.myexpenses.sync.webdav;
+package org.totschnig.webdav.sync.client;
 
 import java.io.IOException;
 import java.security.cert.X509Certificate;
 
 public class InvalidCertificateException extends IOException {
-    private X509Certificate mCertificate;
+    private final X509Certificate mCertificate;
 
     public InvalidCertificateException(X509Certificate certificate, Throwable innerException) {
         super(innerException);

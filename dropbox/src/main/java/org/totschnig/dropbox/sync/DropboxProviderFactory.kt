@@ -1,35 +1,44 @@
-package org.totschnig.myexpenses.sync
+package org.totschnig.dropbox.sync
 
 import android.accounts.Account
 import android.accounts.AccountManager
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import androidx.annotation.Keep
+import org.totschnig.dropbox.activity.DropboxSetup
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ManageSyncBackends
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
-import org.totschnig.myexpenses.dialog.SetupWebdavDialogFragment
-import org.totschnig.myexpenses.sync.SyncBackendProvider.SyncParseException
+import org.totschnig.myexpenses.activity.SYNC_BACKEND_SETUP_REQUEST
+import org.totschnig.myexpenses.sync.GenericAccountService
+import org.totschnig.myexpenses.sync.SyncBackendProviderFactory
 import org.totschnig.myexpenses.util.Result
 import java.io.Serializable
 
-class WebDavBackendProviderFactory : SyncBackendProviderFactory() {
-    @Throws(SyncParseException::class)
+const val KEY_DBX_CREDENTIAL = "DbxCredential"
+
+@Keep
+class DropboxProviderFactory : SyncBackendProviderFactory() {
     override fun fromAccount(
         context: Context,
         account: Account,
         accountManager: AccountManager
-    ) = WebDavBackendProvider(context, account, accountManager)
+    ) = DropboxBackendProvider(
+        context,
+        accountManager.getUserData(account, GenericAccountService.KEY_SYNC_PROVIDER_URL)
+    )
 
-    override val label = "WebDAV"
+    override val label = "Dropbox"
 
     override fun startSetup(activity: ProtectedFragmentActivity) {
-        val webdavDialogFragment = SetupWebdavDialogFragment()
-        webdavDialogFragment.isCancelable = false
-        webdavDialogFragment.show(activity.supportFragmentManager, WEBDAV_SETUP)
+        activity.startActivityForResult(
+            Intent(activity, DropboxSetup::class.java),
+            SYNC_BACKEND_SETUP_REQUEST
+        )
     }
 
-    override val id = R.id.SYNC_BACKEND_WEBDAV
+    override val id = R.id.SYNC_BACKEND_DROPBOX
 
     override fun getRepairIntent(activity: Activity?): Intent? = null
 
@@ -38,9 +47,4 @@ class WebDavBackendProviderFactory : SyncBackendProviderFactory() {
     override fun handleRepairTask(mExtra: Serializable?): Result<*>? = null
 
     override fun init() {}
-
-    companion object {
-        const val WEBDAV_SETUP = "WEBDAV_SETUP"
-    }
-
 }

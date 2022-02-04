@@ -1,15 +1,17 @@
-package org.totschnig.myexpenses.task;
+package org.totschnig.webdav.task;
+
+import static org.totschnig.webdav.sync.WebDavBackendProvider.KEY_ALLOW_UNVERIFIED;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.annimon.stream.Exceptional;
 
-import org.totschnig.myexpenses.sync.webdav.WebDavClient;
+import org.totschnig.myexpenses.task.TaskExecutionFragment;
+import org.totschnig.webdav.sync.client.WebDavClient;
 
 import java.security.cert.X509Certificate;
 
-import static org.totschnig.myexpenses.sync.WebDavBackendProvider.KEY_ALLOW_UNVERIFIED;
 
 public class TestLoginTask extends AsyncTask<Void, Void, Exceptional> {
   public static String KEY_URL = "url";
@@ -47,9 +49,9 @@ public class TestLoginTask extends AsyncTask<Void, Void, Exceptional> {
 
   @Override
   protected void onPostExecute(Exceptional result) {
-    if (this.taskExecutionFragment.mCallbacks != null) {
+    /*if (this.taskExecutionFragment.mCallbacks != null) {
       this.taskExecutionFragment.mCallbacks.onPostExecute(
           TaskExecutionFragment.TASK_WEBDAV_TEST_LOGIN, result);
-    }
+    }*/
   }
 }

@@ -1,4 +1,8 @@
-package org.totschnig.myexpenses.dialog;
+package org.totschnig.webdav.dialog;
+
+import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.ASYNC_TAG;
+import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.PROGRESS_TAG;
+import static org.totschnig.webdav.sync.WebDavBackendProvider.KEY_ALLOW_UNVERIFIED;
 
 import android.accounts.AccountManager;
 import android.app.Dialog;
@@ -12,36 +16,35 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+
 import com.annimon.stream.Exceptional;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.SyncBackendSetupActivity;
+import org.totschnig.myexpenses.dialog.BaseDialogFragment;
+import org.totschnig.myexpenses.dialog.ProgressDialogFragment;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.sync.GenericAccountService;
-import org.totschnig.myexpenses.sync.WebDavBackendProvider;
-import org.totschnig.myexpenses.sync.webdav.CertificateHelper;
-import org.totschnig.myexpenses.sync.webdav.InvalidCertificateException;
-import org.totschnig.myexpenses.sync.webdav.NotCompliantWebDavException;
-import org.totschnig.myexpenses.sync.webdav.UntrustedCertificateException;
 import org.totschnig.myexpenses.task.TaskExecutionFragment;
-import org.totschnig.myexpenses.task.TestLoginTask;
+import org.totschnig.webdav.sync.WebDavBackendProvider;
+import org.totschnig.webdav.task.TestLoginTask;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.form.AbstractFormFieldValidator;
 import org.totschnig.myexpenses.util.form.FormFieldNotEmptyValidator;
 import org.totschnig.myexpenses.util.form.FormValidator;
+import org.totschnig.webdav.sync.client.CertificateHelper;
+import org.totschnig.webdav.sync.client.InvalidCertificateException;
+import org.totschnig.webdav.sync.client.NotCompliantWebDavException;
+import org.totschnig.webdav.sync.client.UntrustedCertificateException;
 
 import java.io.FileNotFoundException;
 import java.security.cert.CertificateEncodingException;
 import java.security.cert.X509Certificate;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import okhttp3.HttpUrl;
-
-import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.ASYNC_TAG;
-import static org.totschnig.myexpenses.activity.ProtectedFragmentActivity.PROGRESS_TAG;
-import static org.totschnig.myexpenses.sync.WebDavBackendProvider.KEY_ALLOW_UNVERIFIED;
 
 public class SetupWebdavDialogFragment extends BaseDialogFragment {
 
@@ -167,7 +170,8 @@ public class SetupWebdavDialogFragment extends BaseDialogFragment {
   }
 
   private void finish(Bundle data) {
-    ((SyncBackendSetupActivity) getActivity()).onFinishWebDavSetup(data);
+    //TODO
+    //((SyncBackendSetupActivity) getActivity()).onFinishWebDavSetup(data);
     dismiss();
   }
 

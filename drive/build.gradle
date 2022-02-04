@@ -9,7 +9,6 @@ android {
     defaultConfig {
         missingDimensionStrategy 'textRecognition', 'extern'
         minSdk project.minSdkVersion
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 }
 

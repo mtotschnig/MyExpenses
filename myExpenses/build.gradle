@@ -145,7 +145,7 @@ android {
     //It does not seem possible to define dynamicFeatures dependent on variant
     //If you want to build intern variant, you need to include mlkit (+ at least one of ':mlkit_latn', ':mlkit_han', ':mlkit_deva', ':mlkit_jpan', ':mlkit_kore') and/or tesseract module
     //drive for Sync with Google Drive
-    dynamicFeatures = [':ocr', ':webui']
+    dynamicFeatures = [':ocr', ':webui', ':dropbox', ':webdav']
 
     composeOptions {
         kotlinCompilerExtensionVersion compose_compiler_version
@@ -194,7 +194,6 @@ dependencies {
     implementation 'com.github.mtotschnig:StickyListHeaders:2.8.0'
     implementation 'com.github.mtotschnig:MaterialSeekBarPreference:bc211774e5'
     implementation project(':PlayLicensingOrig')
-    implementation('com.gitlab.mtotschn:dav4android:2c26db1e24')
     implementation 'com.itextpdf:itextpdf:5.5.13.1'
     implementation "ch.acra:acra-mail:$acraVersion"
     implementation "ch.acra:acra-dialog:$acraVersion"
@@ -208,12 +207,6 @@ dependencies {
     //noinspection GradleDependency
     implementation 'com.annimon:stream:1.2.1'
     implementation 'com.getkeepsafe.taptargetview:taptargetview:1.13.2'
-
-    // WebDAV2
-    implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
-
-    // Dropbox
-    implementation 'com.dropbox.core:dropbox-core-sdk:5.1.1'
 
     implementation 'org.apache.commons:commons-collections4:4.4'
 

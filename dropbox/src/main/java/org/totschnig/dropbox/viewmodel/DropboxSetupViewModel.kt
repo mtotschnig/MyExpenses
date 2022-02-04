@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.viewmodel
+package org.totschnig.dropbox.viewmodel
 
 import android.app.Application
 import com.dropbox.core.DbxRequestConfig
@@ -7,7 +7,8 @@ import com.dropbox.core.v2.DbxClientV2
 import com.dropbox.core.v2.files.FolderMetadata
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.totschnig.myexpenses.BuildConfig
+import org.totschnig.dropbox.BuildConfig
+import org.totschnig.myexpenses.viewmodel.AbstractSetupViewModel
 import java.util.*
 
 

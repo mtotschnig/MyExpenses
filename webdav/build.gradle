@@ -1,0 +1,23 @@
+plugins {
+    id 'com.android.dynamic-feature'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+}
+android {
+    compileSdk project.compileSdkVersion
+
+    defaultConfig {
+        missingDimensionStrategy 'textRecognition', 'extern'
+        minSdk project.minSdkVersion
+    }
+}
+
+dependencies {
+    implementation project(":myExpenses")
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'com.annimon:stream:1.2.1'
+    implementation('com.gitlab.mtotschn:dav4android:2c26db1e24')
+    implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    implementation "com.google.dagger:dagger:$daggerVersion"
+}

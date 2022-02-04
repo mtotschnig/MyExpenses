@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.totschnig.myexpenses.sync.webdav
+package org.totschnig.webdav.sync.client
 
 import android.content.Context
 import android.text.TextUtils

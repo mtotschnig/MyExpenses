@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.SubMenu
 import androidx.lifecycle.ViewModelProvider
-import com.annimon.stream.Exceptional
 import com.google.android.material.snackbar.Snackbar
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.form.Input
@@ -17,10 +16,10 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.EditTextDialog
 import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener
-import org.totschnig.myexpenses.dialog.SetupWebdavDialogFragment
 import org.totschnig.myexpenses.model.ContribFeature
-import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.sync.*
+import org.totschnig.myexpenses.sync.GenericAccountService
+import org.totschnig.myexpenses.sync.ServiceLoader
+import org.totschnig.myexpenses.sync.SyncBackendProviderFactory
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.viewmodel.SyncViewModel
@@ -63,7 +62,7 @@ abstract class SyncBackendSetupActivity : ProtectedFragmentActivity(), EditTextD
         }
     }
 
-    //WebDav
+/*    //WebDav
     fun onFinishWebDavSetup(data: Bundle) {
         val userName = data.getString(AccountManager.KEY_ACCOUNT_NAME)
         val password = data.getString(AccountManager.KEY_PASSWORD)
@@ -86,7 +85,7 @@ abstract class SyncBackendSetupActivity : ProtectedFragmentActivity(), EditTextD
             bundle.putString(WebDavBackendProvider.KEY_ALLOW_UNVERIFIED, "true")
         }
         createAccount(accountName, password, null, bundle)
-    }
+    }*/
 
     override fun onResume() {
         super.onResume()
@@ -196,11 +195,12 @@ abstract class SyncBackendSetupActivity : ProtectedFragmentActivity(), EditTextD
     }
 
     override fun onCancelEditDialog() {}
+
     override fun onPostExecute(taskId: Int, o: Any?) {
         super.onPostExecute(taskId, o)
         when (taskId) {
             TaskExecutionFragment.TASK_WEBDAV_TEST_LOGIN -> {
-                webdavFragment!!.onTestLoginResult(o as Exceptional<Void?>?)
+                //webdavFragment!!.onTestLoginResult(o as Exceptional<Void?>?)
             }
         }
     }
@@ -228,11 +228,6 @@ abstract class SyncBackendSetupActivity : ProtectedFragmentActivity(), EditTextD
         }
         throw IllegalStateException()
     }
-
-    private val webdavFragment: SetupWebdavDialogFragment?
-        get() = supportFragmentManager.findFragmentByTag(
-            WebDavBackendProviderFactory.WEBDAV_SETUP
-        ) as SetupWebdavDialogFragment?
 
     override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
         if (DIALOG_TAG_PASSWORD == dialogTag) {

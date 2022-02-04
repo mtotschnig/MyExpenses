@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.activity
+package org.totschnig.dropbox.activity
 
 import android.accounts.AccountManager
 import android.content.Intent
@@ -8,11 +8,13 @@ import com.dropbox.core.DbxRequestConfig
 import com.dropbox.core.android.Auth
 import icepick.State
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.AbstractSyncBackup
+import org.totschnig.myexpenses.activity.SyncBackendSetupActivity
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.sync.GenericAccountService
-import org.totschnig.myexpenses.sync.KEY_DBX_CREDENTIAL
+import org.totschnig.dropbox.sync.KEY_DBX_CREDENTIAL
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
-import org.totschnig.myexpenses.viewmodel.DropboxSetupViewModel
+import org.totschnig.dropbox.viewmodel.DropboxSetupViewModel
 import timber.log.Timber
 
 const val APP_KEY = "09ctg08r5gnsh5c"

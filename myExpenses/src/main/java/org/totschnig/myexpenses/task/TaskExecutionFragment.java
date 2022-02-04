@@ -21,6 +21,7 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.model.CurrencyUnit;
@@ -219,8 +220,8 @@ public class TaskExecutionFragment<T> extends Fragment {
         new PrintTask(this, args).execute();
         break;
       case TASK_WEBDAV_TEST_LOGIN:
-        new TestLoginTask(this, args).execute();
-        break;
+        throw new RuntimeException("not implemented");
+        //new TestLoginTask(this, args).execute();
       case TASK_VALIDATE_LICENCE:
       case TASK_REMOVE_LICENCE:
         new LicenceApiTask(this, taskId).execute();

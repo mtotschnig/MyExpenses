@@ -10,12 +10,19 @@ import org.totschnig.myexpenses.util.distrib.DistributionHelper.isGithub
 object ServiceLoader {
     private const val GOOGLE = "org.totschnig.drive.sync.GoogleDriveBackendProviderFactory"
     private const val LOCAL = "org.totschnig.myexpenses.sync.LocalFileBackendProviderFactory"
+    private const val DROPBOX = "org.totschnig.dropbox.sync.DropboxProviderFactory"
+    private const val WEBDAV = "org.totschnig.webdav.sync.WebDavBackendProviderFactory"
 
     @JvmStatic
     fun load(context: Context) = buildList {
 
-        add(WebDavBackendProviderFactory())
-        add(DropboxProviderFactory())
+        tryToInstantiate(WEBDAV, context)?.let {
+            add(it)
+        }
+
+        tryToInstantiate(DROPBOX, context)?.let {
+            add(it)
+        }
 
         tryToInstantiate(LOCAL, context)?.let {
             add(it)

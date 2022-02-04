@@ -2,10 +2,11 @@ package at.bitfire.dav4android;
 
 import android.text.TextUtils;
 
-import java.io.IOException;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import java.io.IOException;
+
 import at.bitfire.dav4android.exception.HttpException;
 import at.bitfire.dav4android.property.GetETag;
 import at.bitfire.dav4android.property.ResourceType;
@@ -32,8 +33,6 @@ public class LockableDavResource extends DavResource {
   /**
    * @param body     content to be written to resource
    * @param ifHeader DAV compliant If header
-   * @throws IOException
-   * @throws HttpException
    */
   public void put(@NonNull RequestBody body, @Nullable String ifHeader) throws IOException, HttpException {
     Response response;
@@ -93,7 +92,6 @@ public class LockableDavResource extends DavResource {
    * if MKCOL request returned 405 which would indicate that folder already existed
    *
    * @param ifHeader DAV compliant If header
-   * @throws IOException
    */
   public void mkColWithLock(String ifHeader) throws IOException {
     if (!exists()) {
