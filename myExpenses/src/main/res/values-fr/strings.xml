@@ -1011,4 +1011,6 @@
         <item quantity="one">Une catégorie a été mise à jour avec une icône.</item>
         <item quantity="other">%1$d catégories ont été mises à jour avec une icône.</item>
     </plurals>
+    <string name="whats_new_336_1">Partager le résumé de la dette</string>
+    <string name="whats_new_336_2">Étiquettes pour les sous-opérations</string>
 </resources>
