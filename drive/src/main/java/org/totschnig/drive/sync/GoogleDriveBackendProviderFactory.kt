@@ -45,7 +45,7 @@ class GoogleDriveBackendProviderFactory : SyncBackendProviderFactory() {
                 googleApiAvailability.getErrorDialog(activity, result, 0)?.show()
             }
             else -> {
-                activity.showSnackbar(
+                activity.showSnackBar(
                     String.format(
                         Locale.ROOT,
                         "Google Play Services error %d",

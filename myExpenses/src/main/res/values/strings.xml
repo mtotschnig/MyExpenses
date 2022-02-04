@@ -1023,8 +1023,8 @@
         <item quantity="one">One category was updated with icon.</item>
         <item quantity="other">%1$d categories were updated with icons.</item>
     </plurals>
-    <!-- New feature in version 3.3.6 #1 -->
+    <!-- New feature in version 3.3.6 #1 (https://github.com/mtotschnig/MyExpenses/issues/870)-->
     <string name="whats_new_336_1">Share debt summary</string>
-    <!-- New feature in version 3.3.6 #2 -->
+    <!-- New feature in version 3.3.6 #2 (https://github.com/mtotschnig/MyExpenses/issues/889) -->
     <string name="whats_new_336_2">Tags for split parts</string>
 </resources>
