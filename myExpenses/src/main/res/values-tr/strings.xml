@@ -1011,4 +1011,6 @@
         <item quantity="one">Bir kategori simgesiyle güncellendi.</item>
         <item quantity="other">%1$d kategori simgesiyle güncellendi.</item>
     </plurals>
+    <string name="whats_new_336_1">Borç özetini paylaşın</string>
+    <string name="whats_new_336_2">Alt muameleler için etiketler</string>
 </resources>
