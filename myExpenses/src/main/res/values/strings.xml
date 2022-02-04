@@ -1023,4 +1023,6 @@
         <item quantity="one">One category was updated with icon.</item>
         <item quantity="other">%1$d categories were updated with icons.</item>
     </plurals>
+    <string name="whats_new_336_1">Share debt summary</string>
+    <string name="whats_new_336_2">Tags for split parts</string>
 </resources>

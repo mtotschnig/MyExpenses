@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Facebook -->
     <string name="version_more_info_310">793834357808329</string>
     <string name="version_more_info_311">2590210351240427</string>
@@ -53,6 +53,22 @@
     <string name="project_board_333">55#column-14888706</string>
     <string name="project_board_334">57#column-15356254</string>
     <string name="project_board_335">58#column-16107025</string>
-    <string name="project_board_3351">62#column-17265326</string>
-    <string name="project_board_3352">63#column-17551882</string>
+    <string name="project_board_336">61#column-17032814</string>
+
+    <string-array name="whats_new_314">
+        <item>@string/title_scan_receipt_feature</item>
+    </string-array>
+    <string-array name="whats_new_315" tools:ignore="InconsistentArrays">
+        <item>@string/ui_refinement</item>
+    </string-array>
+    <string-array name="whats_new_319">
+        <item>@string/ui_refinement</item>
+    </string-array>
+    <string-array name="whats_new_334">
+        <item>@string/debt_managment</item>
+    </string-array>
+    <string-array name="whats_new_336">
+        <item>@string/whats_new_336_1</item>
+        <item>@string/whats_new_336_2</item>
+    </string-array>
 </resources>
