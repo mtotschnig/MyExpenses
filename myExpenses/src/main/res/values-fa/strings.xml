@@ -53,8 +53,8 @@
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">حق رای دادن در <b> نقشه راه توسعه</b></string>
     <string name="contrib_feature_history_label" tools:ignore="UnusedResources">نمودار جریان</string>
     <string name="licence_status_free">آزاد</string>
-    <string name="contrib_key">Contrib Key</string>
-    <string name="extended_key">Extended Key</string>
+    <string name="contrib_key">لایسنس مشارکت</string>
+    <string name="extended_key">لایسنس توسعه یافته</string>
     <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
     <string name="contrib_key_requires">نیاز به %1$s.</string>
     <string name="currency">واحد پول</string>
@@ -441,14 +441,14 @@
     <string name="warning_trial_limit_reached">دورهٔ امتحانی تست کردن ویژگی %s تمام شده‌است.</string>
     <string name="template">قالب</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">همگام‌سازی ابری</string>
-    <string name="all_contrib_key_features">کلیهٔ قابلیت‌های کلید مشارکت</string>
-    <string name="all_extended_key_features">کلیهٔ قابلیت‌های کلید اکستندد</string>
+    <string name="all_contrib_key_features">کلیهٔ قابلیت‌های لایسنس مشارکت</string>
+    <string name="all_extended_key_features">کلیهٔ قابلیت‌های لایسنس توسعه یافته</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="upgrade_now">ارتقاء</string>
     <string name="currency_symbol">نماد واحد پول</string>
     <string name="pref_tracking_summary">اجازه دهید تا داده‌های الگوی مصرف به صورت ناشناس جمع‌آوری شود تا بتوانیم برای بهبود برنامه از آن‌ها کمک بگیریم.</string>
     <string name="picture">تصویر</string>
-    <string name="professional_key">Professional Key</string>
+    <string name="professional_key">لایسنس حرفه ای</string>
     <string name="valid_until">تا %s</string>
     <!-- %1$s date, %2$s price  -->
     <string name="extend_until">تا %1$s تمدید کنید برای %2$s</string>
@@ -521,7 +521,7 @@
     <string name="new_version">نسخه جدید</string>
     <plurals name="dialog_title_warning_delete_account">
         <item quantity="one">حساب حذف شود؟</item>
-        <item quantity="other">حساب ها حذف شوند؟</item>
+        <item quantity="other">%1$d حساب حذف شود؟</item>
     </plurals>
     <string name="menu_create_split_part_category">بخش جدید دسته بندی</string>
     <string name="menu_create_split_part_transfer">بخش جدید انتقال</string>
@@ -584,12 +584,12 @@
     <string name="warning_splitpartcategory_context">نقل و انتقالاتی که بخشی از یک تسهیم هستند فقط در زمینه تسهیم قابل ویرایش هستند.</string>
     <string name="menu_categories_setup_default">دسته بندی های پیش فرض را تنظیم کنید</string>
     <string name="app_dir_not_compatible_with_nougat">URI پیکربندی شده فعلی برای پشتیبان‌گیری و برون بری (%1$s) در اندروید نوقا پشتیبانی نمی‌شود. لطفاً دوباره یک پوشه را انتخاب کنید.</string>
-    <string name="restore_not_possible_target_calendar_missing">تقویم %s تنظیم شده در بایگانی پشتیبان به صورت محلی وجود ندارد. بازیابی متوقف شده است.</string>
+    <string name="restore_not_possible_target_calendar_missing">تقویم %s که در بایگانی پشتیبان تنظیم شده است به صورت محلی وجود ندارد. بازیابی متوقف شده است.</string>
     <string name="pref_manage_stale_images_title">تصاویر قدیمی</string>
     <string name="export_handle_deleted_update_balance">به روز رسانی موجودی افتتاحیه</string>
     <string name="csv_import_field_mapped_more_than_once">%s بیش از یک بار نگاشته شده است.</string>
-    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d رکورد درون ریزی نشد.</string>
-    <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d رکورد کنار گذاشته شد.</string>
+    <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">"رکوردهای %d  نمی‌توانند وارد شوند."</string>
+    <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">"رکوردهای %d  اعمال نشدند."</string>
     <string name="transform_subcategory_to_main">تبدیل به دسته بندی اصلی</string>
     <string name="pref_sort_order_next_instance">نمونه بعدی</string>
     <string name="paypal_callback_info">تراکنش شما تکمیل شده است و رسید خرید شما برای شما ایمیل شده است. برای مشاهده جزئیات این تراکنش می توانید وارد حساب کاربری خود در www.paypal.com شوید.</string>
@@ -653,9 +653,9 @@
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">اگر مقادیر به روز نشوند، پس از تغییر به صورت ضرب در %d نمایش داده خواهند شد.</string>
     <string name="pref_manage_stale_images_summary">تصاویر باقی مانده از تراکنش های حذف شده را مدیریت کنید</string>
     <string name="account_deleted">حساب حذف شده است</string>
-    <string name="pref_custom_decimal_format_summary">اگر از قالب پیش‌فرض برای منطقه خود راضی نیستید، آن را با نیازهای خود تطبیق دهید. برای بازیابی قالب پیش فرض خالی بگذارید.</string>
+    <string name="pref_custom_decimal_format_summary">اگر از قالب پیش‌فرض برای منطقه خود راضی نیستید، آن رامتناسب با نیازهای خود تغییر دهید. برای بازیابی قالب پیش فرض آن را خالی بگذارید.</string>
     <string name="pref_grouping_periods">گروه بندی دوره ها</string>
-    <string name="progress_dialog_updating_split_parts">به روز رسانی بخش های تسهیم شده</string>
+    <string name="progress_dialog_updating_split_parts">در حال به‌روز رسانی بخش‌های تسهیم‌ شده</string>
     <string name="content_description_calculator_delete_button">حذف رقم آخر</string>
     <string name="dialog_confirm_sync_remove_backend">ارتباط با سرور %s از بین خواهد رفت. این روی داده‌های ذخیره‌شده به صورت محلی یا سرور تأثیری نمی‌گذارد، اما وضعیت همگام‌سازی از بین می‌رود.</string>
     <string name="crash_dialog_text">یک خطای غیرمنتظره روی داد که برنامه را مجبور به توقف کرد. لطفاً با ارسال داده های خطا به ما در رفع این مشکل کمک کنید، تنها کاری که باید انجام دهید این است که تأیید را کلیک کنید.</string>
@@ -664,5 +664,43 @@
     <string name="warning_synchronization_folder_usage">این پوشه برای همگام سازی داده ها بین نصب های {app_name} در دستگاه های مختلف استفاده می شود. لطفاً هیچ یک از محتویات آن را به صورت دستی تغییر ندهید.</string>
     <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">پوشه ای که انتخاب کرده اید مربوط به یکی از حساب های موجود روی سرور است. برای استفاده مجدد از این سرور، باید پوشه والد آن را انتخاب کنید.</string>
     <string name="warning_cannot_move_split_transaction">این تراکنش تسهیمی را نمی‌توان به حساب %1$s منتقل کرد زیرا بخش‌های انتقالی وجود دارد که به این حساب اشاره می‌کنند.</string>
-    <string name="calendar_permission_required"><i>{app_name}</i> به اجازه دسترسی به تقویم شما نیاز دارد تا بتواند برای تراکنش‌های آتی و مکرر برنامه‌هایی ایجاد کند.</string>
+    <string name="calendar_permission_required"><i>{app_name}</i> به اجازه دسترسی به تقویم شما نیاز دارد تا بتواند برای تراکنش‌های آتی و مکرر رخدادهایی را ایجاد کند.</string>
+    <string name="synchronization_start">شروع همگام سازی برای حساب %s.</string>
+    <string name="sync_state_could_not_be_restored">وضعیت همگام‌سازی برای %d حساب بازیابی نشد.</string>
+    <string name="sync_io_error_cannot_connect">اتصال به سرور همگام سازی امکان پذیر نیست.</string>
+    <string name="sync_error_will_try_again_later">بعداً دوباره تلاش خواهد کرد.</string>
+    <string name="sync_io_exception_reset_account_data">خطا هنگام راه‌اندازی مجدد حساب سرور.</string>
+    <string name="sync_io_exception_setup_remote_account">خطا هنگام راه اندازی حساب سرور.</string>
+    <string name="sync_io_exception_locking">سرور قفل است یا نمی تواند قفل شود.</string>
+    <string name="sync_success_reset_account_data">داده های سرور برای حساب %s حذف شده است.</string>
+    <string name="onboarding_data_title">اجازه دهید اولین حساب شما را راه اندازی کنیم</string>
+    <string name="onboarding_get_started">شروع کنید</string>
+    <string name="onboarding_more_options">گزینه های بیشتر</string>
+    <string name="auto_backup_cloud_failure">هنگام تلاش برای ذخیره فایل پشتیبان %1$s در سرور %2$s خطایی روی داد:</string>
+    <string name="sync_io_exception_unlocking">خطا هنگام برداشتن قفل از سرور.</string>
+    <string name="sync_io_exception_syncing">خطا هنگام همگام سازی تغییرات با سرور.</string>
+    <string name="progress_dialog_checking_sync_backend">در خال تایید سرور</string>
+    <string name="sync_database_error">یک خطای پایگاه داده در حین همگام سازی رخ داد.</string>
+    <string name="synchronization_end_success_none">هیچ تغییری برای همگام سازی وجود ندارد.</string>
+    <string name="sync_state_restored">وضعیت همگام‌سازی برای %d حساب بازیابی شد.</string>
+    <string name="pref_webdav_timeout_title">وقفه WebDAV (در ثانیه)</string>
+    <string name="onboarding_restore_from_cloud">بازیابی از همگام سازی با سرور</string>
+    <string name="link_account_success" tools:ignore="PluralsCandidate">%d حساب برای همگام سازی با سرور پیکربندی شد.</string>
+    <string name="link_account_failure_3">تناقض را می توان به صورت دستی از منوی زمینه ورودی حل کرد.</string>
+    <string name="onboarding_restore_from_cloud_backup">پشتیبان گیری</string>
+    <string name="link_account_failure_2">یک حساب با uuid مشابه از قبل در سرور وجود دارد.</string>
+    <string name="home_screen_shortcuts_nougate_info">میانبرها را می توان با ضربه طولانی روی نماد برنامه در صفحه اصلی اضافه کرد.</string>
+    <string name="number_of_fraction_digits">تعداد ارقام کسری</string>
+    <string name="link_account_failure_1" tools:ignore="PluralsCandidate">%d حساب نمی تواند برای همگام سازی با سرور پیکربندی شود.</string>
+    <string name="select_unsynced_accounts">حساب ها را برای همگام سازی با این سرور انتخاب کنید</string>
+    <string name="warning_auto_backup_deactivated">پشتیبان گیری خودکار غیرفعال شده است. پس از حل مشکل (به عنوان مثال انتخاب پوشه دیگری برای پشتیبان گیری) می توانید آن را دوباره از تنظیمات روشن کنید.</string>
+    <string name="pref_backup_cloud_title">ذخیره در همگام سازی سرور</string>
+    <string name="pref_backup_cloud_summary">علاوه بر فضای ذخیره سازی محلی روی دستگاه، فایل پشتیبان را می توان در یک سرور کپی کرد.</string>
+    <string name="auto_backup_cloud_success">فایل پشتیبان %1$s با موفقیت در سرور %2$s ذخیره شد.</string>
+    <string name="onboarding_restore_from_local">فایل پشتیبان محلی را بازیابی کنید</string>
+    <string name="synchronization_end_success">%1$d تغییر در سرور در پایگاه داده محلی نوشته شد. %2$d تغییرات محلی در سرور نوشته شد.</string>
+    <string name="dialog_button_add">اضافه</string>
+    <string name="button_validate">صحت سنجی</string>
+    <string name="feature_deprecated">منسوخ شده</string>
+    <string name="menu_history">تاریخچه</string>
 </resources>
