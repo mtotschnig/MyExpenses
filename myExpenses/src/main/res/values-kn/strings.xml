@@ -979,4 +979,6 @@
         <item quantity="one">ಒಂದು ವರ್ಗವನ್ನು ಐಕಾನ್‌ನೊಂದಿಗೆ ನವೀಕರಿಸಲಾಗಿದೆ.</item>
         <item quantity="other">ಐಕಾನ್‌ಗಳೊಂದಿಗೆ %1$d ವರ್ಗಗಳನ್ನು ನವೀಕರಿಸಲಾಗಿದೆ.</item>
     </plurals>
+    <string name="whats_new_336_1">ಸಾಲದ ಸಾರಾಂಶವನ್ನು ಹಂಚಿಕೊಳ್ಳಿ</string>
+    <string name="whats_new_336_2">ವಿಭಜಿತ ಭಾಗಗಳಿಗೆ ಟ್ಯಾಗ್ಗಳು</string>
 </resources>

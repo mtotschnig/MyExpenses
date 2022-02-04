@@ -888,4 +888,6 @@
         <item quantity="one">ఒక వర్గం చిహ్నంతో నవీకరించబడింది.</item>
         <item quantity="other">%1$d వర్గాలు చిహ్నాలతో నవీకరించబడ్డాయి.</item>
     </plurals>
+    <string name="whats_new_336_2">విడిభాగాల కోసం ట్యాగ్‌లు</string>
+    <string name="whats_new_336_1">రుణ సారాంశాన్ని భాగస్వామ్యం చేయండి</string>
 </resources>
