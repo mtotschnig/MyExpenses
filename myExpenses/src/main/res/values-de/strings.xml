@@ -1011,4 +1011,5 @@
         <item quantity="one">Eine Kategorie wurde mit Symbol aktualisiert.</item>
         <item quantity="other">%1$d Kategorien wurden mit Symbolen aktualisiert.</item>
     </plurals>
+    <string name="whats_new_336_1">Schuldenübersicht teilen</string>
 </resources>
