@@ -18,13 +18,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.google.android.material.composethemeadapter.MdcTheme
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.*
 import org.totschnig.myexpenses.util.Utils
-import org.totschnig.myexpenses.util.convAmount
-import org.totschnig.myexpenses.util.getDateTimeFormatter
 import org.totschnig.myexpenses.util.localDate2Epoch
 import org.totschnig.myexpenses.viewmodel.DebtViewModel
 import org.totschnig.myexpenses.viewmodel.DebtViewModel.Transaction
@@ -44,52 +41,45 @@ class DebtOverview : DebtActivity() {
                     expense = colorResource(id = R.color.colorExpense)
                 )
             ) {
-                MdcTheme {
-                    CompositionLocalProvider(
-                        LocalAmountFormatter provides { amount, currency ->
-                            currencyFormatter.convAmount(amount, currencyContext[currency])
-                        },
-                        LocalDateFormatter provides getDateTimeFormatter(this)
-                    ) {
-                        val debts = debtViewModel.getDebts().observeAsState(emptyList())
-                        Navigation(
-                            onNavigation = { finish() },
-                            title = {
-                                Row(
+                AppTheme(this) {
+                    val debts = debtViewModel.getDebts().observeAsState(emptyList())
+                    Navigation(
+                        onNavigation = { finish() },
+                        title = {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(end = dimensionResource(id = R.dimen.padding_form)),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text(
+                                    text = stringResource(id = R.string.title_activity_debt_overview),
                                     modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(end = dimensionResource(id = R.dimen.padding_form)),
-                                    horizontalArrangement = Arrangement.SpaceBetween
-                                ) {
-                                    Text(
-                                        text = stringResource(id = R.string.title_activity_debt_overview),
-                                        modifier = Modifier
-                                            .weight(1f)
-                                            .padding(end = 4.dp),
-                                        overflow = TextOverflow.Ellipsis,
-                                        maxLines = 1,
-                                        style = MaterialTheme.typography.h6
-                                    )
-                                    ColoredAmountText(
-                                        amount = debts.value.sumOf { it.currentBalance },
-                                        currency = Utils.getHomeCurrency().code,
-                                    )
-                                }
+                                        .weight(1f)
+                                        .padding(end = 4.dp),
+                                    overflow = TextOverflow.Ellipsis,
+                                    maxLines = 1,
+                                    style = MaterialTheme.typography.h6
+                                )
+                                ColoredAmountText(
+                                    amount = debts.value.sumOf { it.currentBalance },
+                                    currency = Utils.getHomeCurrency().code,
+                                )
                             }
-                        ) {
-                            DebtList(
-                                modifier = Modifier.padding(paddingValues = it),
-                                debts = debts,
-                                loadTransactionsForDebt = { debt ->
-                                    debtViewModel.loadTransactions(debt)
-                                        .observeAsState(emptyList()).value
-                                },
-                                onEdit = this::editDebt,
-                                onDelete = this::deleteDebt,
-                                onToggle = this::toggleDebt,
-                                onShare = this::shareDebt
-                            )
                         }
+                    ) {
+                        DebtList(
+                            modifier = Modifier.padding(paddingValues = it),
+                            debts = debts,
+                            loadTransactionsForDebt = { debt ->
+                                debtViewModel.loadTransactions(debt)
+                                    .observeAsState(emptyList()).value
+                            },
+                            onEdit = this::editDebt,
+                            onDelete = this::deleteDebt,
+                            onToggle = this::toggleDebt,
+                            onShare = this::shareDebt
+                        )
                     }
                 }
             }
@@ -167,7 +157,7 @@ fun DebtListPreview() {
                 )
             },
             loadTransactionsForDebt = {
-               emptyList()
+                emptyList()
             },
         )
     }
