@@ -9,7 +9,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import timber.log.Timber
 
-const val DATABASE_VERSION = 122
+const val DATABASE_VERSION = 123
 const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 
 private const val DEBTS_SEALED_TRIGGER_CREATE = """
@@ -93,9 +93,11 @@ abstract class BaseTransactionDatabase(
 
     fun upgradeTo122(db: SQLiteDatabase) {
         //repair transactions corrupted due to bug https://github.com/mtotschnig/MyExpenses/issues/921
-        db.execSQL(
-            "update transactions set transfer_account = (select account_id from transactions peer where _id = transactions.transfer_peer);"
-        )
+        repairWithSealedAccounts(db) {
+            db.execSQL(
+                "update transactions set transfer_account = (select account_id from transactions peer where _id = transactions.transfer_peer);"
+            )
+        }
         db.execSQL("DROP TRIGGER IF EXISTS account_remap_transfer_transaction_update")
         db.execSQL(ACCOUNT_REMAP_TRANSFER_TRIGGER_CREATE)
     }
@@ -145,5 +147,11 @@ abstract class BaseTransactionDatabase(
             execSQL(TRANSACTIONS_SEALED_DEBT_UPDATE_TRIGGER_CREATE)
             execSQL(TRANSACTIONS_SEALED_DEBT_DELETE_TRIGGER_CREATE)
         }
+    }
+
+    fun repairWithSealedAccounts(db: SQLiteDatabase, run: Runnable) {
+        db.execSQL("update accounts set sealed = -1 where sealed = 1")
+        run.run()
+        db.execSQL("update accounts set sealed = 1 where sealed = -1")
     }
 }

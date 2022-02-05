@@ -378,7 +378,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
   private static final String TRANSACTIONS_SEALED_UPDATE_TRIGGER_CREATE =
       "CREATE TRIGGER sealed_account_transaction_update " +
           "BEFORE UPDATE ON " + TABLE_TRANSACTIONS + " " +
-          "WHEN (SELECT max(" + KEY_SEALED + ") FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " IN (new." + KEY_ACCOUNTID + ",old." + KEY_ACCOUNTID + ")) = 1 " +
+          "WHEN (SELECT max(" + KEY_SEALED + ") FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " IN (new." + KEY_ACCOUNTID + ",old." + KEY_ACCOUNTID + ",new." + KEY_TRANSFER_ACCOUNT + ",old." + KEY_TRANSFER_ACCOUNT  +")) = 1 " +
           String.format(Locale.ROOT, "BEGIN %s END", RAISE_UPDATE_SEALED_ACCOUNT);
 
   private static final String TRANSACTIONS_SEALED_DELETE_TRIGGER_CREATE =
@@ -2190,6 +2190,10 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       if (oldVersion < 122) {
         upgradeTo122(db);
       }
+      if (oldVersion < 123) {
+        db.execSQL("DROP TRIGGER IF EXISTS sealed_account_transaction_update");
+        db.execSQL(TRANSACTIONS_SEALED_UPDATE_TRIGGER_CREATE);
+      }
       TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {
       throw new SQLiteUpgradeFailedException(oldVersion, newVersion, e);
@@ -2202,12 +2206,6 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     } catch (SQLException e) {
       Timber.e(e);
     }
-  }
-
-  private void repairWithSealedAccounts(SQLiteDatabase db, Runnable run) {
-    db.execSQL("update accounts set sealed = -1 where sealed = 1");
-    run.run();
-    db.execSQL("update accounts set sealed = 1 where sealed = -1");
   }
 
   public void repairSplitPartDates(SQLiteDatabase db) {
