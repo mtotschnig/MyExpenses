@@ -58,23 +58,12 @@ class RemapAccountTest : BaseMyExpensesCabTest() {
         openCab()
         clickMenuItem(R.id.REMAP_PARENT, true)
         onView(allOf(withText(R.string.account))).perform(click())
-
+        onView(withText("K3")).perform(click())
         //Espresso recorder
-        Espresso.onData(Matchers.anything())
-            .inAdapterView(
-                Matchers.allOf(
-                    ViewMatchers.withId(R.id.select_dialog_listview),
-                    childAtPosition(
-                        ViewMatchers.withId(R.id.contentPanel),
-                        0
-                    )
-                )
-            )
-            .atPosition(0).perform(click())
 
         onView(
             Matchers.allOf(
-                ViewMatchers.withId(android.R.id.button1), withText("OK"),
+                ViewMatchers.withId(android.R.id.button1), withText(android.R.string.ok),
                 childAtPosition(
                     childAtPosition(
                         ViewMatchers.withId(R.id.buttonPanel),
@@ -87,7 +76,7 @@ class RemapAccountTest : BaseMyExpensesCabTest() {
 
         onView(
             Matchers.allOf(
-                ViewMatchers.withId(android.R.id.button1), withText("Neu zuordnen"),
+                ViewMatchers.withId(android.R.id.button1), withText(R.string.menu_remap),
                 childAtPosition(
                     childAtPosition(
                         ViewMatchers.withId(R.id.buttonPanel),
