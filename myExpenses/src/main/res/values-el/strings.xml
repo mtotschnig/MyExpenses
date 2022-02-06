@@ -506,7 +506,7 @@
     <string name="csv_import_field_mapped_more_than_once">%s έχει αντιστοιχιστεί πάνω από μία φορά.</string>
     <string name="csv_import_records_failed" tools:ignore="PluralsCandidate">%d εγγραφές δεν μπορούν να εισαχθούν.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d εγγραφές απορρίφθηκαν.</string>
-    <string name="csv_import_subcategory_requires_category"/>
+    <string name="csv_import_subcategory_requires_category">Εάν αντιστοιχίσετε την υποκατηγορία, πρέπει επίσης να αντιστοιχίσετε την κατηγορία.</string>
     <string name="cvs_import_set_first_line_as_header">Θα έπρεπε η πρώτη γραμμή να αντιμετωπίζεται ως επικεφαλίδα;</string>
     <string name="csv_import_delimiter_comma">Κόμμα</string>
     <string name="csv_import_delimiter_semicolon">Άνω τελεία</string>
@@ -544,7 +544,7 @@
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">εφαρμοσμένο</string>
     <string name="progress_dialog_updating_split_parts">Ενημέρωση διεσπασμένων μερών</string>
-    <string name="warning_cannot_move_split_transaction">Αυτή η διεσπασμένη συναλλαγή δεν μπορεί να μετακινηθεί στον λογαριασμό %1$s γιατί υπάρχει μέρη μεταφοράς που αναφέρονται σε αυτόν τον λογαριασμό,</string>
+    <string name="warning_cannot_move_split_transaction">Αυτή η διασπασμένη συναλλαγή δεν μπορεί να μετακινηθεί στον λογαριασμό %1$s επειδή υπάρχουν τμήματα μεταφοράς που αναφέρονται σε αυτόν το λογαριασμό.</string>
     <string name="content_description_calculator_clear_button">Επαναφορά όλων</string>
     <string name="content_description_calculator_delete_button">Διαγραφή τελευταίου ψηφίου</string>
     <string name="paypal_callback_info">Η συναλλαγή σας έχει ολοκληρωθεί, και μια απόδειξη για την αγορά σας έχει αποσταλεί με email. Μπορείτε να συνδεθείτε στο λογαριασμό σας στο www.paypal.com για να δείτε τις λεπτομέρειες της συναλλαγής.</string>
@@ -793,10 +793,63 @@
     <string name="crash_reports_user_info">\"{app_name}\" θα διαβιβάζουν εκθέσεις σχετικά με τα λάθη εφαρμογής αυτόματα στους προγραμματιστές, που τους επιτρέπει να διορθώσουν προβλήματα πιο γρήγορα.</string>
     <string name="pref_category_title_crash_reports">Αναφορές σφαλμάτων</string>
     <string name="pref_enable_acra">Επιτρέπεται η αυτόματη αποστολή των αναφορές σφαλμάτων</string>
-    <string name="pref_acra_user_email">Διεύθυνση ηλεκτρονικού ταχυδρομείου του χρήστη πρέπει να περιλαμβάνεται στην έκθεση σφάλματος.</string>
+    <string name="pref_acra_user_email">Διεύθυνση ηλεκτρονικού ταχυδρομείου του χρήστη που θα συμπεριληφθεί στην αναφορά σφαλμάτων</string>
     <string name="pref_acra_user_email_summary">Παρακαλούμε εισάγετε τη Διεύθυνση ηλεκτρονικού ταχυδρομείου σας, αν είστε πρόθυμοι να βοηθήσετε στον εντοπισμό σφαλμάτων και να μας επιτρέψετε να επικοινωνήσουμε μαζί σας.</string>
     <string name="bug_fixes">Διορθώσεις σφαλμάτων</string>
     <string name="new_version">Νέα έκδοση</string>
     <string name="pref_news_title">Νέα</string>
     <string name="debt_managment">Διαχείριση χρέους</string>
+    <string name="warning_party_delete_debt">Κατά τη διαγραφή αυτού του συμβαλλόμενου μέρους, θα διαγραφούν και οι οφειλές που έχουν οριστεί γι\' αυτό.</string>
+    <string name="pref_feature_uninstall_title">Αίτημα απεγκατάστασης λειτουργιών και γλωσσών</string>
+    <string name="pref_feature_uninstall_summary">Το Play Store προσπαθεί να αφαιρέσει αυτές τις ενότητες στο παρασκήνιο.</string>
+    <string name="account_deleted">Ο λογαριασμός έχει διαγραφεί</string>
+    <string name="licence_has_expired_n_days">Το επαγγελματικό σας κλειδί έχει λήξει πριν από %d ημέρες.</string>
+    <string name="wifi_not_connected">Η συσκευή δεν είναι συνδεδεμένη σε Wi-Fi. Ο συγχρονισμός αναβάλλεται.</string>
+    <string name="budget_exceeded_error_2">Αυξήστε το προϋπολογισμένο ποσό ή αφαιρέστε χρήματα από άλλες κατηγορίες.</string>
+    <string name="menu_new_debt">Νέο χρέος</string>
+    <plurals name="debt_mapped_transactions">
+        <item quantity="one">Το χρέος %1$s έχει %2$d αντιστοιχισμένη συναλλαγή.</item>
+        <item quantity="other">Το χρέος %1$s έχει %2$d αντιστοιχισμένες συναλλαγές.</item>
+    </plurals>
+    <string name="cb_label_merge_accounts">Συγχώνευση λογαριασμών</string>
+    <string name="scan_result_no_amount">Δεν βρέθηκε ποσό</string>
+    <string name="scan_result_no_date">Δεν βρέθηκε ημερομηνία</string>
+    <string name="scan_result_no_payee">Δεν βρέθηκε δικαιούχος</string>
+    <string name="debt_owes_me">%s μου χρωστάει</string>
+    <string name="warning_plan_instance_delete">Η συναλλαγή που δημιουργήθηκε για την επιλεγμένη ημερομηνία θα διαγραφεί.</string>
+    <string name="object_sealed_debt">Το αντικείμενο αναφέρεται σε κλειστό χρέος.</string>
+    <string name="debt_I_owe">Χρωστάω %s</string>
+    <string name="debts">Χρέη</string>
+    <string name="dialog_title_delete_debt">Διαγραφή χρέους;</string>
+    <string name="warning_delete_category_with_budget">Για τουλάχιστον μία επιλεγμένη κατηγορία, υπάρχουν πιστώσεις προϋπολογισμού, οι οποίες θα διαγραφούν επίσης.</string>
+    <string name="onboarding_ui_title">Το {app_name} προσαρμόζεται στις προτιμήσεις σας</string>
+    <string name="ungroup_split_transaction_failure">Κατά την κατάργηση της ομαδοποίησης των συναλλαγών, το %1$d από το %2$d απέτυχε.</string>
+    <string name="split_transaction_not_possible">Μόνο οι συναλλαγές που έχουν τον ίδιο λογαριασμό, δικαιούχο και κατάσταση μπορούν να ομαδοποιηθούν σε μία διαχωρισμένη συναλλαγή.</string>
+    <string name="licence_expires_tomorrow">Το επαγγελματικό σας κλειδί θα λήξει αύριο.</string>
+    <string name="licence_expires_today">Το επαγγελματικό σας κλειδί λήγει σήμερα.</string>
+    <string name="budget_exceeded_error_1_1">Όλα εκτός από %s του προϋπολογισμού σας έχουν διατεθεί σε άλλες κατηγορίες.</string>
+    <plurals name="import_categories_icons_updated">
+        <item quantity="one">Μια κατηγορία ενημερώθηκε με το εικονίδιο.</item>
+        <item quantity="other">%1$d κατηγορίες ενημερώθηκαν με τα εικονίδια.</item>
+    </plurals>
+    <string name="contributed_by">Συνεισφορά από %s</string>
+    <string name="pref_category_title_privacy">Απόρρητο</string>
+    <string name="pref_ad_consent_title">Εξατομικευμένες διαφημίσεις</string>
+    <string name="ad_consent_non_personalized">Μη εξατομικευμένες διαφημίσεις</string>
+    <string name="ui_refinement">Βελτίωση του περιβάλλοντος εργασίας χρήστη</string>
+    <string name="performance_enhancement" tools:ignore="UnusedResources">Βελτίωση απόδοσης</string>
+    <string name="stability_improvements" tools:ignore="UnusedResources">Βελτιώσεις σταθερότητας</string>
+    <string name="backup_save_to_sync_backend">Αποθήκευση στο %s</string>
+    <string name="split_transaction_group_success">%1$d συναλλαγές ομαδοποιήθηκαν επιτυχώς σε μία διαχωρισμένη συναλλαγή.</string>
+    <string name="licence_expires_n_days">Το επαγγελματικό σας κλειδί θα λήξει σε %d ημέρες.</string>
+    <string name="licence_expired_yesterday">Το επαγγελματικό σας κλειδί έληξε χθες.</string>
+    <string name="select_package">Επιλέξτε ένα πακέτο άδειας χρήσης.</string>
+    <string name="debt">Χρέος</string>
+    <string name="dialog_confirm_discard_new_debt">Απόρριψη νέου χρέους;</string>
+    <string name="whats_new_336_1">Μοιραστείτε την σύνοψη χρέους</string>
+    <string name="whats_new_336_2">Ετικέτες για χωρισμένα μέρη</string>
+    <string name="title_activity_debt_overview">Επισκόπηση χρέους</string>
+    <string name="gdpr_consent_message">Συνεργαζόμαστε με το {ad_provider} προκειμένου να διατηρήσουμε την υποστήριξη, τη συντήρηση και την ανάπτυξη του {app_name} προβάλλοντας διαφημίσεις. Θα θέλαμε να ζητήσουμε τη συγκατάθεσή σας. Εάν προτιμάτε να μην βλέπετε διαφημίσεις, πληρώστε για την έκδοση χωρίς διαφημίσεις.</string>
+    <string name="budget_exceeded_error_1_2">Όλος ο προϋπολογισμός σας έχει διατεθεί σε άλλες κατηγορίες.</string>
+    <string name="pref_scroll_to_current_date_summary">Κατά την έναρξη της εφαρμογής, μεταβείτε στη λίστα συναλλαγών στην τρέχουσα ημερομηνία</string>
 </resources>
