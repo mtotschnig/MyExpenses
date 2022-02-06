@@ -53,6 +53,7 @@
         android:title="@string/menu_undelete_transaction"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/REMAP_PARENT"
         android:orderInCategory="50"
         android:title="@string/menu_remap"
         app:showAsAction="never">

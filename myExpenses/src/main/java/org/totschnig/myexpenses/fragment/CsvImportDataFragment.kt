@@ -257,7 +257,7 @@ class CsvImportDataFragment : Fragment() {
                 cell.setSingleLine()
                 cell.ellipsize = TextUtils.TruncateAt.END
                 cell.isSelected = true
-                cell.setOnClickListener { v1: View -> (requireActivity() as ProtectedFragmentActivity).showSnackbar((v1 as TextView).text) }
+                cell.setOnClickListener { v1: View -> (requireActivity() as ProtectedFragmentActivity).showSnackBar((v1 as TextView).text) }
                 if (viewType == 0) {
                     cell.setTypeface(null, Typeface.BOLD)
                 }
@@ -343,20 +343,20 @@ class CsvImportDataFragment : Fragment() {
         for (field in columnToFieldMap) {
             if (field != R.string.discard) {
                 if (foundFields[field, false]) {
-                    activity.showSnackbar(getString(R.string.csv_import_field_mapped_more_than_once, getString(field)))
+                    activity.showSnackBar(getString(R.string.csv_import_field_mapped_more_than_once, getString(field)))
                     return false
                 }
                 foundFields.put(field, true)
             }
         }
         if (foundFields[R.string.subcategory, false] && !foundFields[R.string.category, false]) {
-            activity.showSnackbar(R.string.csv_import_subcategory_requires_category)
+            activity.showSnackBar(R.string.csv_import_subcategory_requires_category)
             return false
         }
         if (!(foundFields[R.string.amount, false] ||
                         foundFields[R.string.expense, false] ||
                         foundFields[R.string.income, false])) {
-            activity.showSnackbar(R.string.csv_import_no_mapping_found_for_amount)
+            activity.showSnackBar(R.string.csv_import_no_mapping_found_for_amount)
             return false
         }
         return true

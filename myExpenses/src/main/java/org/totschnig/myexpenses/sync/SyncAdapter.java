@@ -1,5 +1,24 @@
 package org.totschnig.myexpenses.sync;
 
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CRITERION;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_KEY;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
+
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Notification;
@@ -19,12 +38,14 @@ import android.content.SyncResult;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteException;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.util.SparseArray;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
 
 import com.annimon.stream.Exceptional;
 import com.annimon.stream.Optional;
@@ -55,29 +76,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.util.Pair;
 import timber.log.Timber;
-
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CRITERION;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_KEY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
   public static final int BATCH_SIZE = 100;
@@ -677,7 +676,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         }
         cursor.close();
       }
-    } catch (RemoteException ignored) {
+    } catch (RemoteException remoteException) {
+      CrashHandler.report(remoteException);
     }
     return result;
   }
@@ -685,7 +685,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
   private void removeSetting(ContentProviderClient provider, String prefKey) {
     try {
       provider.delete(TransactionProvider.SETTINGS_URI, KEY_KEY + " = ?", new String[]{prefKey});
-    } catch (RemoteException ignored) {
+    } catch (RemoteException remoteException) {
+      CrashHandler.report(remoteException);
     }
   }
 }

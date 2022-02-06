@@ -679,7 +679,7 @@ abstract class TransactionDelegate<T : ITransaction>(
 
     private fun showCustomRecurrenceInfo() {
         if (recurrenceSpinner.selectedItem === Plan.Recurrence.CUSTOM) {
-            (context as ExpenseEdit).showDismissibleSnackbar(R.string.plan_custom_recurrence_info)
+            (context as ExpenseEdit).showDismissibleSnackBar(R.string.plan_custom_recurrence_info)
         }
     }
 
@@ -799,11 +799,11 @@ abstract class TransactionDelegate<T : ITransaction>(
                         Template.Action.values()[viewBinding.DefaultAction.selectedItemPosition]
                     if (this.amount.amountMinor == 0L) {
                         if (plan == null && this.defaultAction == Template.Action.SAVE) {
-                            host.showSnackbar(context.getString(R.string.template_default_action_without_amount_hint))
+                            host.showSnackBar(context.getString(R.string.template_default_action_without_amount_hint))
                             return null
                         }
                         if (plan != null && this.isPlanExecutionAutomatic) {
-                            host.showSnackbar(context.getString(R.string.plan_automatic_without_amount_hint))
+                            host.showSnackBar(context.getString(R.string.plan_automatic_without_amount_hint))
                             return null
                         }
                     }

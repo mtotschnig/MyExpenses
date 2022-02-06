@@ -72,16 +72,18 @@ import static org.totschnig.myexpenses.util.CurrencyFormatterKt.convAmount;
 
 public class TransactionAdapter extends ResourceCursorAdapter {
   private int dateEms;
-  private boolean is24HourFormat;
+  private final boolean is24HourFormat;
   private boolean shouldShowTime;
   private Account mAccount;
-  private Grouping mGroupingOverride;
-  private DateFormat localizedTimeFormat, itemDateFormat;
-  private int colorExpense, colorIncome;
-  private ColorStateList textColorSecondary;
+  private final Grouping mGroupingOverride;
+  private final DateFormat localizedTimeFormat;
+  private DateFormat itemDateFormat;
+  private final int colorExpense;
+  private final int colorIncome;
+  private final ColorStateList textColorSecondary;
   private boolean insideFragment;
-  private int monthStart;
-  private CurrencyFormatter currencyFormatter;
+  private final int monthStart;
+  private final CurrencyFormatter currencyFormatter;
   private boolean indexesCalculated = false;
   private int columnIndexDate;
   private int columnIndexCurrency;
@@ -89,7 +91,7 @@ public class TransactionAdapter extends ResourceCursorAdapter {
   private int columnIndexColor;
   private int columnIndexLabelMain;
   private int columnIndexAccountLabel;
-  private int columIndexAccountType;
+  private int columnIndexAccountType;
   private int columnIndexStatus;
   private int columnIndexLabelSub;
   private int columnIndexReferenceNumber;
@@ -102,10 +104,10 @@ public class TransactionAdapter extends ResourceCursorAdapter {
   private int columnIndexEquivalentAmount;
   private int columnIndexTagList;
 
-  private CurrencyContext currencyContext;
-  private PrefHandler prefHandler;
+  private final CurrencyContext currencyContext;
+  private final PrefHandler prefHandler;
 
-  private Context context;
+  private final Context context;
 
   private long futureCriterion;
 
@@ -163,6 +165,7 @@ public class TransactionAdapter extends ResourceCursorAdapter {
     }
     viewHolder.date.setEms(dateEms);
     final long date = cursor.getLong(columnIndexDate);
+    //noinspection RedundantCast
     ((FrameLayout) view).setForeground(date  > futureCriterion ? new ColorDrawable(context.getResources().getColor(R.color.future_background)) : null);
     viewHolder.date.setText(itemDateFormat != null ?
         Utils.convDateTime(date, itemDateFormat) : null);
@@ -250,7 +253,7 @@ public class TransactionAdapter extends ResourceCursorAdapter {
       status = CrStatus.UNRECONCILED;
     }
 
-    if (onToggleCrStatus == null || cursor.getString(columIndexAccountType).equals(AccountType.CASH.name()) || status.equals(CrStatus.VOID)) {
+    if (onToggleCrStatus == null || cursor.getString(columnIndexAccountType).equals(AccountType.CASH.name()) || status.equals(CrStatus.VOID)) {
       viewHolder.colorContainer.setVisibility(View.GONE);
     } else {
       viewHolder.color1.setBackgroundColor(status.color);
@@ -323,7 +326,7 @@ public class TransactionAdapter extends ResourceCursorAdapter {
       columnIndexLabelMain = cursor.getColumnIndex(KEY_LABEL_MAIN);
       columnIndexTransferPeer = cursor.getColumnIndex(KEY_TRANSFER_PEER);
       columnIndexAccountLabel = cursor.getColumnIndex(KEY_ACCOUNT_LABEL);
-      columIndexAccountType = cursor.getColumnIndex(KEY_ACCOUNT_TYPE);
+      columnIndexAccountType = cursor.getColumnIndex(KEY_ACCOUNT_TYPE);
       columnIndexStatus = cursor.getColumnIndex(KEY_STATUS);
       columnIndexLabelSub = cursor.getColumnIndex(KEY_LABEL_SUB);
       columnIndexReferenceNumber = cursor.getColumnIndex(KEY_REFERENCE_NUMBER);

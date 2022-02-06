@@ -80,10 +80,10 @@ public class StaleImagesList extends ContextualActionBarFragment implements Load
     }
     BaseActivity activity = (BaseActivity) requireActivity();
     if (command == R.id.SAVE_COMMAND) {
-      activity.showSnackbar(R.string.saving);
+      activity.showSnackBar(R.string.saving);
       viewModel.saveImages(itemIds);
     } else if (command == R.id.DELETE_COMMAND) {
-      activity.showSnackbar(R.string.progress_dialog_deleting);
+      activity.showSnackBar(R.string.progress_dialog_deleting);
       viewModel.deleteImages(itemIds);
     }
     finishActionMode();
@@ -146,7 +146,7 @@ public class StaleImagesList extends ContextualActionBarFragment implements Load
       }
     };
     lv.setOnItemClickListener((parent, view, position, id) -> {
-      ((ProtectedFragmentActivity) requireActivity()).showSnackbar(
+      ((ProtectedFragmentActivity) requireActivity()).showSnackBar(
           FileUtils.getPath(requireContext(), uriAtPosition(position)));
     });
     LoaderManager.getInstance(this).initLoader(0, null, this);

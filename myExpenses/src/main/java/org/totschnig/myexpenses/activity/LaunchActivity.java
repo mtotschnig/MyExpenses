@@ -239,9 +239,9 @@ public abstract class LaunchActivity extends IapActivity {
   @Override
   public void onLicenceStatusSet(String newStatus) {
     if (newStatus != null) {
-      showSnackbar(getString(R.string.licence_validation_premium) + " (" + newStatus + ")");
+      showSnackBar(getString(R.string.licence_validation_premium) + " (" + newStatus + ")");
     } else {
-      showSnackbar(R.string.licence_validation_failure);
+      showSnackBar(R.string.licence_validation_failure);
     }
   }
 }

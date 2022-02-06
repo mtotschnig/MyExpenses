@@ -51,6 +51,7 @@ import java.util.Locale;
 
 import timber.log.Timber;
 
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.ACCOUNT_REMAP_TRANSFER_TRIGGER_CREATE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
@@ -377,7 +378,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
   private static final String TRANSACTIONS_SEALED_UPDATE_TRIGGER_CREATE =
       "CREATE TRIGGER sealed_account_transaction_update " +
           "BEFORE UPDATE ON " + TABLE_TRANSACTIONS + " " +
-          "WHEN (SELECT max(" + KEY_SEALED + ") FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " IN (new." + KEY_ACCOUNTID + ",old." + KEY_ACCOUNTID + ")) = 1 " +
+          "WHEN (SELECT max(" + KEY_SEALED + ") FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " IN (new." + KEY_ACCOUNTID + ",old." + KEY_ACCOUNTID + ",new." + KEY_TRANSFER_ACCOUNT + ",old." + KEY_TRANSFER_ACCOUNT  +")) = 1 " +
           String.format(Locale.ROOT, "BEGIN %s END", RAISE_UPDATE_SEALED_ACCOUNT);
 
   private static final String TRANSACTIONS_SEALED_DELETE_TRIGGER_CREATE =
@@ -676,8 +677,8 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_TEMPLATEID + " integer references " + TABLE_TEMPLATES + "(" + KEY_ROWID + ") ON DELETE CASCADE, "
           + "primary key (" + KEY_TAGID + "," + KEY_TEMPLATEID + "));";
 
-  TransactionDatabase(Context context, String databaseName) {
-    super(context, databaseName);
+  TransactionDatabase(Context context, String databaseName, SQLiteDatabase.CursorFactory cursorFactory) {
+    super(context, databaseName, cursorFactory);
     mCtx = context;
     setWriteAheadLoggingEnabled(false);
   }
@@ -779,6 +780,8 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
     db.execSQL(DEBT_CREATE);
     createOrRefreshTransactionDebtTriggers(db);
+
+    db.execSQL(ACCOUNT_REMAP_TRANSFER_TRIGGER_CREATE);
 
     //Views
     createOrRefreshViews(db);
@@ -2184,6 +2187,13 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         createOrRefreshViews(db);
         createOrRefreshTemplateViews(db);
       }
+      if (oldVersion < 122) {
+        upgradeTo122(db);
+      }
+      if (oldVersion < 123) {
+        db.execSQL("DROP TRIGGER IF EXISTS sealed_account_transaction_update");
+        db.execSQL(TRANSACTIONS_SEALED_UPDATE_TRIGGER_CREATE);
+      }
       TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {
       throw new SQLiteUpgradeFailedException(oldVersion, newVersion, e);
@@ -2196,12 +2206,6 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     } catch (SQLException e) {
       Timber.e(e);
     }
-  }
-
-  private void repairWithSealedAccounts(SQLiteDatabase db, Runnable run) {
-    db.execSQL("update accounts set sealed = -1 where sealed = 1");
-    run.run();
-    db.execSQL("update accounts set sealed = 1 where sealed = -1");
   }
 
   public void repairSplitPartDates(SQLiteDatabase db) {

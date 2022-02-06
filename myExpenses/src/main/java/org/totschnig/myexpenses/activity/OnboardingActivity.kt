@@ -84,7 +84,7 @@ class OnboardingActivity : SyncBackendSetupActivity() {
         } else {
             val message = "Unknown error while setting up account"
             CrashHandler.report(message)
-            showSnackbar(message)
+            showSnackBar(message)
         }
     }
 
@@ -107,13 +107,13 @@ class OnboardingActivity : SyncBackendSetupActivity() {
                 accountName = data.accountName
                 if (data.backups.isNotEmpty() || data.syncAccounts.isNotEmpty()) {
                     if (checkForDuplicateUuids(data.syncAccounts)) {
-                        showSnackbar("Found accounts with duplicate uuids")
+                        showSnackBar("Found accounts with duplicate uuids")
                     } else {
                         RestoreFromCloudDialogFragment.newInstance(data.backups, data.syncAccounts)
                             .show(supportFragmentManager, "RESTORE_FROM_CLOUD")
                     }
                 } else {
-                    showSnackbar("Neither backups nor sync accounts found")
+                    showSnackBar("Neither backups nor sync accounts found")
                 }
             }
         }
@@ -123,7 +123,7 @@ class OnboardingActivity : SyncBackendSetupActivity() {
         super.onPostRestoreTask(result)
         val msg = result.print(this)
         if (!TextUtils.isEmpty(msg)) {
-            showSnackbar(msg)
+            showSnackBar(msg)
         }
         if (result.isSuccess) {
             restartAfterRestore()
@@ -140,14 +140,14 @@ class OnboardingActivity : SyncBackendSetupActivity() {
     }
 
     fun setupFromSyncAccounts(syncAccounts: List<AccountMetaData>) {
-        showSnackbarIndefinite(R.string.progress_dialog_fetching_data_from_sync_backend)
+        showSnackBarIndefinite(R.string.progress_dialog_fetching_data_from_sync_backend)
         viewModel.setupFromSyncAccounts(syncAccounts.map { it.uuid() }, accountName!!)
             .observe(this) { result ->
-                dismissSnackbar()
+                dismissSnackBar()
                 result.onSuccess {
                     start()
                 }.onFailure {
-                    showDismissibleSnackbar(it.message ?: "ERROR")
+                    showDismissibleSnackBar(it.message ?: "ERROR")
                 }
             }
     }
@@ -182,7 +182,7 @@ class OnboardingActivity : SyncBackendSetupActivity() {
         dataFragment.editAccountColor()
     }
 
-    override fun getSnackbarContainerId(): Int {
+    override fun getSnackBarContainerId(): Int {
         return binding.viewPager.id
     }
 }

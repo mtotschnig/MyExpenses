@@ -52,81 +52,91 @@ class TransactionListViewModel(application: Application) : BudgetViewModel(appli
     }
 
     fun cloneAndRemap(transactionIds: LongArray, column: String, rowId: Long) {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                var successCount = 0
-                var failureCount = 0
-                for (id in transactionIds) {
-                    val transaction = Transaction.getInstanceFromDb(id)
-                    transaction.prepareForEdit(true, false)
-                    val ops = transaction.buildSaveOperations(true)
-                    val newUpdate = ContentProviderOperation.newUpdate(TRANSACTIONS_URI).withValue(column, rowId)
-                    if (transaction.isSplit) {
-                        newUpdate.withSelection("$KEY_ROWID = ?", arrayOf(transaction.id.toString()))
-                    } else {
-                        newUpdate.withSelection("$KEY_ROWID = ?", arrayOf(""))//replaced by back reference
-                                .withSelectionBackReference(0, 0)
-                    }
-                    ops.add(newUpdate.build())
-                    if (contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops).size == ops.size) {
-                        successCount++
-                    } else {
-                        failureCount++
-                    }
-                    cloneAndRemapProgressInternal.postValue(Pair(successCount, failureCount))
+        viewModelScope.launch(coroutineDispatcher) {
+            var successCount = 0
+            var failureCount = 0
+            for (id in transactionIds) {
+                val transaction = Transaction.getInstanceFromDb(id)
+                transaction.prepareForEdit(true, false)
+                val ops = transaction.buildSaveOperations(true)
+                val newUpdate =
+                    ContentProviderOperation.newUpdate(TRANSACTIONS_URI).withValue(column, rowId)
+                if (transaction.isSplit) {
+                    newUpdate.withSelection("$KEY_ROWID = ?", arrayOf(transaction.id.toString()))
+                } else {
+                    newUpdate.withSelection(
+                        "$KEY_ROWID = ?",
+                        arrayOf("")
+                    )//replaced by back reference
+                        .withSelectionBackReference(0, 0)
                 }
+                ops.add(newUpdate.build())
+                if (contentResolver.applyBatch(
+                        TransactionProvider.AUTHORITY,
+                        ops
+                    ).size == ops.size
+                ) {
+                    successCount++
+                } else {
+                    failureCount++
+                }
+                cloneAndRemapProgressInternal.postValue(Pair(successCount, failureCount))
             }
         }
     }
 
-    fun remap(transactionIds: LongArray, column: String, rowId: Long): LiveData<Int> = liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
-        emit(run {
-            val list = transactionIds.joinToString()
-            var selection = "$KEY_ROWID IN ($list)"
-            if (column == KEY_ACCOUNTID) {
-                selection += " OR $KEY_PARENTID IN ($list)"
-            }
-            contentResolver.update(TRANSACTIONS_URI,
+    fun remap(transactionIds: LongArray, column: String, rowId: Long): LiveData<Int> =
+        liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
+            emit(run {
+                val list = transactionIds.joinToString()
+                var selection = "$KEY_ROWID IN ($list)"
+                if (column == KEY_ACCOUNTID) {
+                    selection += " OR $KEY_PARENTID IN ($list)"
+                }
+                contentResolver.update(
+                    TRANSACTIONS_URI,
                     ContentValues().apply { put(column, rowId) },
                     selection,
-                    null)
-        })
-    }
+                    null
+                )
+            })
+        }
 
     fun tag(transactionIds: LongArray, tagList: ArrayList<Tag>, replace: Boolean) {
         val tagIds = tagList.map { tag -> tag.id }
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                val ops = ArrayList<ContentProviderOperation>()
-                for (id in transactionIds) {
-                    ops.addAll(saveTagLinks(tagIds, id, null, replace))
-                }
-                contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops)
+        viewModelScope.launch(coroutineDispatcher) {
+            val ops = ArrayList<ContentProviderOperation>()
+            for (id in transactionIds) {
+                ops.addAll(saveTagLinks(tagIds, id, null, replace))
             }
+            contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops)
         }
     }
 
-    fun undeleteTransactions(itemIds: LongArray): LiveData<Int> = liveData(context = coroutineContext()) {
-        emit(itemIds.sumBy {
-            try {
-                Transaction.undelete(it)
-                1
-            } catch (e: SQLiteConstraintException) {
-                CrashHandler.reportWithDbSchema(e)
-                0
-            }
-        })
-    }
+    fun undeleteTransactions(itemIds: LongArray): LiveData<Int> =
+        liveData(context = coroutineContext()) {
+            emit(itemIds.sumBy {
+                try {
+                    Transaction.undelete(it)
+                    1
+                } catch (e: SQLiteConstraintException) {
+                    CrashHandler.reportWithDbSchema(e)
+                    0
+                }
+            })
+        }
 
     fun toggleCrStatus(id: Long) {
-        contentResolver.update(
-            TRANSACTIONS_URI
-                .buildUpon()
-                .appendPath(id.toString())
-                .appendPath(TransactionProvider.URI_SEGMENT_TOGGLE_CRSTATUS)
-                .build(),
-            null, null, null
-        )
+        viewModelScope.launch(coroutineDispatcher) {
+            contentResolver.update(
+                TRANSACTIONS_URI
+                    .buildUpon()
+                    .appendPath(id.toString())
+                    .appendPath(TransactionProvider.URI_SEGMENT_TOGGLE_CRSTATUS)
+                    .build(),
+                null, null, null
+            )
+        }
     }
 
     companion object {

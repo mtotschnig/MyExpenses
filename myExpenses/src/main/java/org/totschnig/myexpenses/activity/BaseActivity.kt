@@ -50,7 +50,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.MessageDialogListener, EasyPermissions.PermissionCallbacks {
-    private var snackbar: Snackbar? = null
+    private var snackBar: Snackbar? = null
     private val downloadReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             onDownloadComplete()
@@ -58,7 +58,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     }
 
     fun copyToClipboard(text: String) {
-        showSnackbar(try {
+        showSnackBar(try {
             ContextCompat.getSystemService(this, ClipboardManager::class.java)?.setPrimaryClip(ClipData.newPlainText(null, text))
             "${getString(R.string.toast_text_copied)}: $text"
         } catch (e: RuntimeException) {
@@ -75,13 +75,13 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             else
                 startActivity(intent)
         } catch (e: ActivityNotFoundException) {
-            showSnackbar(notAvailableMessage)
+            showSnackBar(notAvailableMessage)
         }
     }
 
     private fun onDownloadComplete() {
         downloadPending?.let {
-            showSnackbar(getString(R.string.download_completed, it))
+            showSnackBar(getString(R.string.download_completed, it))
         }
         downloadPending = null
     }
@@ -128,7 +128,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         }
         featureViewModel.getFeatureState().observe(this, EventObserver { featureState ->
             when (featureState) {
-                is FeatureViewModel.FeatureState.FeatureLoading -> showSnackbar(
+                is FeatureViewModel.FeatureState.FeatureLoading -> showSnackBar(
                     getString(
                         R.string.feature_download_requested,
                         getString(featureState.feature.labelResId)
@@ -136,7 +136,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 )
                 is FeatureViewModel.FeatureState.FeatureAvailable -> {
                     Feature.values().find { featureState.modules.contains(it.moduleName) }?.let {
-                        showSnackbar(
+                        showSnackBar(
                             getString(
                                 R.string.feature_downloaded,
                                 getString(it.labelResId)
@@ -153,10 +153,10 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 is FeatureViewModel.FeatureState.Error -> {
                     with(featureState.throwable) {
                         CrashHandler.report(this)
-                        message?.let { showSnackbar(it) }
+                        message?.let { showSnackBar(it) }
                     }
                 }
-                is FeatureViewModel.FeatureState.LanguageLoading -> showSnackbar(
+                is FeatureViewModel.FeatureState.LanguageLoading -> showSnackBar(
                     getString(
                         R.string.language_download_requested,
                         featureState.language
@@ -228,59 +228,59 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
             val throwable = activityResult?.error ?: Throwable("ERROR")
             CrashHandler.report(throwable)
-            showSnackbar(if (throwable is ActivityNotFoundException) getString(R.string.image_capture_not_installed) else throwable.message ?: "ERROR")
+            showSnackBar(if (throwable is ActivityNotFoundException) getString(R.string.image_capture_not_installed) else throwable.message ?: "ERROR")
         }
     }
 
-    fun showDismissibleSnackbar(message: Int) {
-        showDismissibleSnackbar(getText(message))
+    fun showDismissibleSnackBar(message: Int) {
+        showDismissibleSnackBar(getText(message))
     }
 
     @JvmOverloads
-    fun showDismissibleSnackbar(message: CharSequence, callback: Snackbar.Callback? = null) {
-        showSnackbar(
+    fun showDismissibleSnackBar(message: CharSequence, callback: Snackbar.Callback? = null) {
+        showSnackBar(
             message, Snackbar.LENGTH_INDEFINITE,
-            SnackbarAction(R.string.dialog_dismiss) { snackbar?.dismiss() }, callback
+            SnackbarAction(R.string.dialog_dismiss) { snackBar?.dismiss() }, callback
         )
     }
 
-    fun showSnackbarIndefinite(message: Int) {
-        showSnackbar(message, Snackbar.LENGTH_INDEFINITE)
+    fun showSnackBarIndefinite(message: Int) {
+        showSnackBar(message, Snackbar.LENGTH_INDEFINITE)
     }
 
     @JvmOverloads
-    fun showSnackbar(message: Int, duration: Int = Snackbar.LENGTH_LONG) {
-        showSnackbar(getText(message), duration)
+    fun showSnackBar(message: Int, duration: Int = Snackbar.LENGTH_LONG) {
+        showSnackBar(getText(message), duration)
     }
 
     @JvmOverloads
-    fun showSnackbar(
+    fun showSnackBar(
         message: CharSequence,
         duration: Int = Snackbar.LENGTH_LONG,
-        snackbarAction: SnackbarAction? = null,
+        snackBarAction: SnackbarAction? = null,
         callback: Snackbar.Callback? = null
     ) {
-        findViewById<View>(getSnackbarContainerId())?.let {
-            showSnackbar(message, duration, snackbarAction, callback, it)
+        findViewById<View>(getSnackBarContainerId())?.let {
+            showSnackBar(message, duration, snackBarAction, callback, it)
         } ?: showSnackBarFallBack(message)
     }
 
     private fun showSnackBarFallBack(message: CharSequence) {
-        reportMissingSnackbarContainer()
+        reportMissingSnackBarContainer()
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 
-    open fun reportMissingSnackbarContainer() {
-        CrashHandler.report(String.format("Class %s is unable to display snackbar", javaClass))
+    open fun reportMissingSnackBarContainer() {
+        CrashHandler.report(String.format("Class %s is unable to display snackBar", javaClass))
     }
 
     fun showProgressSnackBar(message: CharSequence, total: Int = 0, progress: Int = 0) {
-        findViewById<View>(getSnackbarContainerId())?.let {
+        findViewById<View>(getSnackBarContainerId())?.let {
             val displayMessage = if (total > 0) "$message ($progress/$total)" else message
             if (progress > 0) {
-                snackbar?.setText(displayMessage)
+                snackBar?.setText(displayMessage)
             } else {
-                snackbar = Snackbar.make(it, displayMessage, Snackbar.LENGTH_INDEFINITE).apply {
+                snackBar = Snackbar.make(it, displayMessage, Snackbar.LENGTH_INDEFINITE).apply {
                     (view.findViewById<View>(com.google.android.material.R.id.snackbar_text).parent as ViewGroup)
                         .addView(
                             ProgressBar(
@@ -297,19 +297,19 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     }
 
     fun updateSnackBar(message: CharSequence) {
-        snackbar?.setText(message) ?: run {
-            CrashHandler.report("updateSnackBar called without snackbar being instantiated")
+        snackBar?.setText(message) ?: run {
+            CrashHandler.report("updateSnackBar called without snackBar being instantiated")
         }
     }
 
-    fun showSnackbar(
-        message: CharSequence, duration: Int, snackbarAction: SnackbarAction?,
+    fun showSnackBar(
+        message: CharSequence, duration: Int, snackBarAction: SnackbarAction?,
         callback: Snackbar.Callback?, container: View
     ) {
-        snackbar = Snackbar.make(container, message, duration).apply {
+        snackBar = Snackbar.make(container, message, duration).apply {
             UiUtils.increaseSnackbarMaxLines(this)
-            if (snackbarAction != null) {
-                setAction(snackbarAction.resId, snackbarAction.listener)
+            if (snackBarAction != null) {
+                setAction(snackBarAction.resId, snackBarAction.listener)
             }
             if (callback != null) {
                 addCallback(callback)
@@ -319,13 +319,13 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     }
 
-    fun dismissSnackbar() {
-        snackbar?.dismiss()
-        snackbar = null
+    fun dismissSnackBar() {
+        snackBar?.dismiss()
+        snackBar = null
     }
 
     @IdRes
-    protected open fun getSnackbarContainerId(): Int {
+    protected open fun getSnackBarContainerId(): Int {
         return R.id.fragment_container
     }
 
@@ -346,7 +346,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 data = Uri.parse(uri)
             })
         } catch (e: ActivityNotFoundException) {
-            showSnackbar("No activity found for opening $uri", Snackbar.LENGTH_LONG, null)
+            showSnackBar("No activity found for opening $uri", Snackbar.LENGTH_LONG, null)
         }
     }
 
@@ -394,7 +394,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     }
 
     fun showDeleteFailureFeedback(message: String? = null) {
-        showDismissibleSnackbar("There was an error deleting the object${message?.let { " ($it)" } ?: ""}. Please contact support@myexenses.mobi !")
+        showDismissibleSnackBar("There was an error deleting the object${message?.let { " ($it)" } ?: ""}. Please contact support@myexenses.mobi !")
     }
 
     fun getHelpVariant() = helpVariant?.name

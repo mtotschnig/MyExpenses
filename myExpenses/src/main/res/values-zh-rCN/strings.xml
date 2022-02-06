@@ -342,7 +342,7 @@
     <string name="pref_visit_website_title">浏览官方网站</string>
     <string name="progress_dialog_deleting">删除对象</string>
     <string name="progress_dialog_loading">从数据库加载对象</string>
-    <string name="progress_dialog_printing">生成PDF</string>
+    <string name="progress_dialog_printing">生成%s</string>
     <string name="qif_parse_result">已解析：%1$s 个账户； %2$s 个类别和 %3$s 个交易对象</string>
     <string name="qif_parse_failure_found_multiple_accounts">在QIF文件中找到多个账户。</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">无法将它们合并到现有账户中。</string>

@@ -1,8 +1,24 @@
 package org.totschnig.myexpenses.test.espresso;
 
+import static androidx.test.espresso.Espresso.onData;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT;
+import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
+import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
+
 import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.os.RemoteException;
+
+import androidx.annotation.NonNull;
+import androidx.test.core.app.ActivityScenario;
+import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.matcher.CursorMatchers;
 
 import org.junit.After;
 import org.junit.Before;
@@ -19,27 +35,9 @@ import org.totschnig.myexpenses.model.Transaction;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.testutils.BaseUiTest;
 import org.totschnig.myexpenses.testutils.MockLicenceHandler;
-import org.totschnig.myexpenses.util.licence.ContribStatusLicenceHandler;
-import org.totschnig.myexpenses.util.licence.LicenceHandler;
 
 import java.util.Currency;
 import java.util.Objects;
-
-import androidx.annotation.NonNull;
-import androidx.test.core.app.ActivityScenario;
-import androidx.test.espresso.intent.Intents;
-import androidx.test.espresso.matcher.CursorMatchers;
-
-import static androidx.test.espresso.Espresso.onData;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.intent.Intents.intended;
-import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT;
-import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION;
-import static org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
 
 //TODO test CAB actions
 public class ManageTemplatesTest extends BaseUiTest<ManageTemplates> {

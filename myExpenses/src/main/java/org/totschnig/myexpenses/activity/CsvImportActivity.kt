@@ -109,7 +109,7 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
     }
 
     private fun hideProgress() {
-        dismissSnackbar()
+        dismissSnackBar()
         idle = true
         invalidateOptionsMenu()
     }
@@ -130,10 +130,10 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
                         binding.viewPager.currentItem = 1
                     }
                 } else {
-                    showSnackbar(R.string.parse_error_no_data_found)
+                    showSnackBar(R.string.parse_error_no_data_found)
                 }
             }.onFailure {
-                showSnackbar(when (it) {
+                showSnackBar(when (it) {
                     is FileNotFoundException -> getString(R.string.parse_error_file_not_found, uri)
                     else -> getString(R.string.parse_error_other_exception, it.message)
                 })
@@ -178,7 +178,7 @@ class CsvImportActivity : TabbedActivity(), ConfirmationDialogListener {
                         neutral = MessageDialogFragment.nullButton(R.string.button_label_continue),
                         positive = MessageDialogFragment.Button(R.string.button_label_close, R.id.CLOSE_COMMAND, null))
             }.onFailure {
-                showSnackbar(it.message ?: it.javaClass.simpleName)
+                showSnackBar(it.message ?: it.javaClass.simpleName)
             }
         }
     }

@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.di
 
 import android.content.SharedPreferences
+import android.database.sqlite.SQLiteDatabase
 import androidx.preference.PreferenceManager
 import com.squareup.sqlbrite3.SqlBrite
 import dagger.Module
@@ -32,4 +33,8 @@ open class DataModule {
     @Singleton
     @Provides
     open fun provideSharedPreferences(application: MyApplication, @Named(AppComponent.DATABASE_NAME) databaseName: String): SharedPreferences = PreferenceManager.getDefaultSharedPreferences(application)
+
+    @Singleton
+    @Provides
+    open fun provideCursorFactory() : SQLiteDatabase.CursorFactory? = null //TrackingCursorFactory()
 }

@@ -301,6 +301,10 @@ public class TransactionProvider extends BaseTransactionProvider {
   @Named(AppComponent.DATABASE_NAME)
   String databaseName;
 
+  @Inject
+  @Nullable
+  SQLiteDatabase.CursorFactory cursorFactory;
+
   @Override
   public boolean onCreate() {
     MyApplication.getInstance().getAppComponent().inject(this);
@@ -309,7 +313,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   }
 
   private void initOpenHelper() {
-    mOpenHelper = new TransactionDatabase(getContext(), databaseName);
+    mOpenHelper = new TransactionDatabase(getContext(), databaseName, cursorFactory);
   }
 
   public static String aggregateFunction(boolean safeMode) {

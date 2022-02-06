@@ -173,7 +173,7 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace, Preferen
 
     private fun startValidationTask(taskId: Int, progressResId: Int) {
         startTaskExecution(taskId, arrayOf<String>(), null, 0)
-        showSnackbarIndefinite(progressResId)
+        showSnackBarIndefinite(progressResId)
     }
 
     override fun onFeatureAvailable(feature: Feature) {
@@ -232,7 +232,7 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace, Preferen
         if (key == prefHandler.getKey(PrefKey.UI_HOME_SCREEN_SHORTCUTS)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
                 //TODO on O we will be able to pin the shortcuts
-                showSnackbar(R.string.home_screen_shortcuts_nougate_info)
+                showSnackBar(R.string.home_screen_shortcuts_nougate_info)
                 return true
             }
         }
@@ -244,9 +244,9 @@ class MyPreferenceActivity : ProtectedFragmentActivity(), ContribIFace, Preferen
         super.onPostExecute(taskId, o)
         when (taskId) {
             TaskExecutionFragment.TASK_VALIDATE_LICENCE, TaskExecutionFragment.TASK_REMOVE_LICENCE -> {
-                dismissSnackbar()
+                dismissSnackBar()
                 if (o is Result<*>) {
-                    showSnackbar(o.print(this))
+                    showSnackBar(o.print(this))
                     fragment.setProtectionDependentsState()
                     fragment.configureContribPrefs()
                 }

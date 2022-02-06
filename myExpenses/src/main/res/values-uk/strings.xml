@@ -340,7 +340,7 @@
     <string name="pref_visit_website_title">Відвідати веб-сайт</string>
     <string name="progress_dialog_deleting">Видалення об\'єктів</string>
     <string name="progress_dialog_loading">Завантаження об\'єкта з бази даних</string>
-    <string name="progress_dialog_printing">Створення PDF-файлу</string>
+    <string name="progress_dialog_printing">Створення %s-файлу</string>
     <string name="qif_parse_result">Проаналізовано: %1$s рахунки; %2$s категорій і %3$s учасників</string>
     <string name="qif_parse_failure_found_multiple_accounts">Знайдено декілька рахунків у файлі QIF.</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Не вдається об\'єднати їх у існуючий рахунок.</string>

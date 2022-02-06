@@ -123,7 +123,7 @@ class ManageCategories : CategoryActivity<CategoryList>(), OnDialogResultListene
 
     private fun isTaskRunning(): Boolean {
         return if (operationInProgress != null) {
-            showSnackbar("Previous task still executing, please try again later")
+            showSnackBar("Previous task still executing, please try again later")
             true
         } else false
     }
@@ -140,7 +140,7 @@ class ManageCategories : CategoryActivity<CategoryList>(), OnDialogResultListene
             R.id.DELETE_COMMAND_DO -> {
                 if (!isTaskRunning()) {
                     finishActionMode()
-                    showSnackbarIndefinite(R.string.progress_dialog_deleting)
+                    showSnackBarIndefinite(R.string.progress_dialog_deleting)
                     operationInProgress = OperationInProgress.Delete
                     @Suppress("UNCHECKED_CAST")
                     viewModel.deleteCategories((tag as Array<Long>).toLongArray())
@@ -155,7 +155,7 @@ class ManageCategories : CategoryActivity<CategoryList>(), OnDialogResultListene
             }
             R.id.SETUP_CATEGORIES_DEFAULT_COMMAND -> {
                 if (!isTaskRunning()) {
-                    showSnackbarIndefinite(R.string.menu_categories_setup_default)
+                    showSnackBarIndefinite(R.string.menu_categories_setup_default)
                     viewModel.importCats()
                     observeImportCatResult()
                 }
@@ -176,7 +176,7 @@ class ManageCategories : CategoryActivity<CategoryList>(), OnDialogResultListene
     private fun observeImportCatResult() {
         viewModel.importCatResult?.observe(this) { pair ->
             operationInProgress = null
-            showSnackbar(
+            showSnackBar(
                 if (pair.first == 0 && pair.second == 0) {
                     getString(R.string.import_categories_none)
                 } else {
@@ -224,7 +224,7 @@ class ManageCategories : CategoryActivity<CategoryList>(), OnDialogResultListene
         viewModel.deleteResult?.observe(this) { result ->
             operationInProgress = null
             result.onSuccess {
-                showDismissibleSnackbar(it)
+                showDismissibleSnackBar(it)
             }.onFailure {
                 showDeleteFailureFeedback(it.message)
             }
@@ -233,7 +233,7 @@ class ManageCategories : CategoryActivity<CategoryList>(), OnDialogResultListene
 
     private fun exportCats(encoding: String) {
         if (!isTaskRunning()) {
-            showDismissibleSnackbar(R.string.menu_categories_export)
+            showDismissibleSnackBar(R.string.menu_categories_export)
             viewModel.exportCats(encoding)
             observeExportCatResult()
         }
@@ -274,7 +274,7 @@ class ManageCategories : CategoryActivity<CategoryList>(), OnDialogResultListene
 
     override fun onPostExecute(result: Uri?) {
         if (result == null) {
-            showSnackbar(
+            showSnackBar(
                 getString(
                     R.string.already_defined,
                     mCategory?.label ?: ""
@@ -295,7 +295,7 @@ class ManageCategories : CategoryActivity<CategoryList>(), OnDialogResultListene
             }
         }
         val print = result.print0(this)
-        print?.let { showSnackbar(it) }
+        print?.let { showSnackBar(it) }
     }
 
     override fun getObject(): Model {

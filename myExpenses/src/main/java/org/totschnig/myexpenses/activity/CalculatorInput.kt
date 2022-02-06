@@ -313,7 +313,7 @@ class CalculatorInput : ProtectedFragmentActivity(), View.OnClickListener {
         setDisplay(result)
     }
 
-    override fun getSnackbarContainerId(): Int {
+    override fun getSnackBarContainerId(): Int {
         return R.id.Calculator
     }
 

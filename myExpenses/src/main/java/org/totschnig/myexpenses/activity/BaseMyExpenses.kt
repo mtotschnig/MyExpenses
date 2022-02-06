@@ -42,7 +42,6 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.CheckSealedHandler
-import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.ui.DiscoveryHelper
@@ -331,12 +330,12 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 if (manageHiddenFragment != null) {
                     supportFragmentManager.beginTransaction().remove(manageHiddenFragment).commit()
                 }
-                showSnackbarIndefinite(R.string.progress_dialog_deleting)
+                showSnackBarIndefinite(R.string.progress_dialog_deleting)
                 viewModel.deleteAccounts(accountIds).observe(
                     this
                 ) { result ->
                     result.onSuccess {
-                        showSnackbar(
+                        showSnackBar(
                             resources.getQuantityString(
                                 R.plurals.delete_success,
                                 accountIds.size,
@@ -345,7 +344,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                         )
                     }.onFailure {
                         if (it is AccountSealedException) {
-                            showSnackbar(R.string.object_sealed_debt)
+                            showSnackBar(R.string.object_sealed_debt)
                         } else {
                             showDeleteFailureFeedback(null)
                         }
@@ -569,7 +568,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                                 ), ProtectedFragmentActivity.ASYNC_TAG
                             )
                             .add(
-                                ProgressDialogFragment.newInstance(getString(R.string.progress_dialog_printing)),
+                                ProgressDialogFragment.newInstance(getString(R.string.progress_dialog_printing, "PDF")),
                                 ProtectedFragmentActivity.PROGRESS_TAG
                             )
                             .commit()
@@ -638,7 +637,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
                 if (account.syncAccountName == null) {
                     viewModel.setSealed(accountId, true)
                 } else {
-                    showSnackbar(
+                    showSnackBar(
                         getString(R.string.warning_synced_account_cannot_be_closed),
                         Snackbar.LENGTH_LONG, null, null, accountList()
                     )
@@ -663,7 +662,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OcrHost, OnDialogResultListene
         return binding.accountPanel.expansionContent
     }
 
-    open fun  buildCheckSealedHander() = CheckSealedHandler(contentResolver)
+    open fun  buildCheckSealedHandler() = CheckSealedHandler(contentResolver)
 
     companion object {
         const val MANAGE_HIDDEN_FRAGMENT_TAG = "MANAGE_HIDDEN"

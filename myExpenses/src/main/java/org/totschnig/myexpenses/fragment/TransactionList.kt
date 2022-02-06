@@ -108,7 +108,7 @@ class TransactionList : BaseTransactionList() {
             if (it > 0) {
                 ctx.contribFeatureRequested(ContribFeature.DISTRIBUTION, headerId)
             } else {
-                ctx.showSnackbar(R.string.no_mapped_transactions)
+                ctx.showSnackBar(R.string.no_mapped_transactions)
             }
         }
         return true
@@ -125,7 +125,7 @@ class TransactionList : BaseTransactionList() {
         if (sealedDebt) {
             resIds.add(R.string.object_sealed_debt)
         }
-        (requireActivity() as ProtectedFragmentActivity).showSnackbar(
+        (requireActivity() as ProtectedFragmentActivity).showSnackBar(
             concatResStrings(
                 requireContext(),
                 " ",
@@ -135,7 +135,7 @@ class TransactionList : BaseTransactionList() {
     }
 
     override fun checkSealed(itemIds: LongArray, onChecked: Runnable) {
-        (requireActivity() as BaseMyExpenses).buildCheckSealedHander().check(itemIds) { result ->
+        (requireActivity() as BaseMyExpenses).buildCheckSealedHandler().check(itemIds) { result ->
             lifecycleScope.launchWhenResumed {
                 result.onSuccess {
                     if (it.first && it.second) {
@@ -149,7 +149,7 @@ class TransactionList : BaseTransactionList() {
     }
 
     val showFailure: (exception: Throwable) -> Unit = {
-        (requireActivity() as ProtectedFragmentActivity).showSnackbar(it.message!!)
+        (requireActivity() as ProtectedFragmentActivity).showSnackBar(it.message!!)
     }
 
     override fun dispatchCommandMultiple(

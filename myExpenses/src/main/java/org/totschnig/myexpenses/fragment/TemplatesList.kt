@@ -69,7 +69,6 @@ import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.model.Sort.Companion.preferredOrderByForTemplatesWithPlans
 import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Transfer
-import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DbUtils
@@ -191,7 +190,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
             if (mTemplatesCursor == null || !mTemplatesCursor!!.moveToPosition(position)) return@setOnItemClickListener
             val isSealed = mTemplatesCursor!!.getInt(columnIndexIsSealed) != 0
             if (isSealed) {
-                ctx.showSnackbar(R.string.object_sealed)
+                ctx.showSnackBar(R.string.object_sealed)
             }
             if (mTemplatesCursor!!.isNull(columnIndexPlanId)) {
                 if (!isSealed) {
@@ -482,7 +481,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
                     if (planMonthFragment != null) {
                         planMonthFragment.show(childFragmentManager, CALDROID_DIALOG_FRAGMENT_TAG)
                     } else {
-                        ctx.showSnackbar(R.string.save_transaction_template_deleted)
+                        ctx.showSnackBar(R.string.save_transaction_template_deleted)
                     }
                 }
                 //look for plans that we could possible relink
@@ -519,7 +518,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
     fun showSnackbar(msg: String) {
         (planMonthFragment ?: plannerFragment)?.also {
             showSnackbar(it, msg)
-        } ?: run { (activity as ProtectedFragmentActivity).showSnackbar(msg) }
+        } ?: run { (activity as ProtectedFragmentActivity).showSnackBar(msg) }
     }
 
     fun showSnackbar(dialogFragment: DialogFragment, msg: String) {
@@ -540,7 +539,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
             ) { result: Int ->
                 val activity = requireActivity() as BaseActivity
                 if (result > 0) {
-                    activity.showSnackbar(
+                    activity.showSnackBar(
                         activity.resources.getQuantityString(
                             R.plurals.delete_success,
                             result,

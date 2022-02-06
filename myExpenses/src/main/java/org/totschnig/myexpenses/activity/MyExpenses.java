@@ -362,7 +362,7 @@ public class MyExpenses extends BaseMyExpenses implements
     roadmapViewModel.getShouldShowVoteReminder().observe(this, shouldShow -> {
       if (shouldShow) {
         prefHandler.putLong(PrefKey.VOTE_REMINDER_LAST_CHECK, System.currentTimeMillis());
-        showSnackbar(getString(R.string.reminder_vote_update), Snackbar.LENGTH_INDEFINITE, new SnackbarAction(R.string.vote_reminder_action, v -> {
+        showSnackBar(getString(R.string.reminder_vote_update), Snackbar.LENGTH_INDEFINITE, new SnackbarAction(R.string.vote_reminder_action, v -> {
           Intent intent = new Intent(this, RoadmapVoteActivity.class);
           startActivity(intent);
         }));
@@ -485,7 +485,7 @@ public class MyExpenses extends BaseMyExpenses implements
       return true;
     } else if (command == R.id.CREATE_COMMAND) {
       if (mAccountCount == 0) {
-        showSnackbar(R.string.warning_no_account);
+        showSnackBar(R.string.warning_no_account);
       } else {
         if (isScanMode()) {
           contribFeatureRequested(ContribFeature.OCR, true);
@@ -525,7 +525,7 @@ public class MyExpenses extends BaseMyExpenses implements
           ExportDialogFragment.newInstance(accountId, tl.isFiltered())
               .show(this.getSupportFragmentManager(), "WARNING_RESET");
         } else {
-          showDismissibleSnackbar(appDirStatus.print(this));
+          showDismissibleSnackBar(appDirStatus.print(this));
         }
       } else {
         showExportDisabledCommand();
@@ -583,7 +583,7 @@ public class MyExpenses extends BaseMyExpenses implements
           getShareTarget(),
           "application/pdf");
       if (!shareResult.isSuccess()) {
-        showSnackbar(shareResult.print(this));
+        showSnackBar(shareResult.print(this));
       }
       return true;
     } else if (command == R.id.EDIT_ACCOUNT_COMMAND) {
@@ -671,7 +671,7 @@ public class MyExpenses extends BaseMyExpenses implements
   }
 
   private void complainAccountsNotLoaded() {
-    showSnackbar(R.string.account_list_not_yet_loaded);
+    showSnackBar(R.string.account_list_not_yet_loaded);
   }
 
   public void showExportDisabledCommand() {
@@ -724,6 +724,7 @@ public class MyExpenses extends BaseMyExpenses implements
     super.onCreateOptionsMenu(menu);
     MenuInflater inflater = getMenuInflater();
     inflater.inflate(R.menu.main, menu);
+    menu.findItem(R.id.MANAGE_PARTIES_COMMAND).setTitle(getString(R.string.pref_manage_parties_title) + " / " + getString(R.string.debts));
     return true;
   }
 
@@ -787,7 +788,7 @@ public class MyExpenses extends BaseMyExpenses implements
       moveToAccount();
       toolbar.setVisibility(View.VISIBLE);
       if (cursor == null) {
-        showSnackbar("Data loading failed", Snackbar.LENGTH_INDEFINITE, new SnackbarAction(R.string.safe_mode, v -> {
+        showSnackBar("Data loading failed", Snackbar.LENGTH_INDEFINITE, new SnackbarAction(R.string.safe_mode, v -> {
           prefHandler.putBoolean(PrefKey.DB_SAFE_MODE, true);
           rebuildAccountProjection();
           mManager.restartLoader(ACCOUNTS_CURSOR, null, this);
@@ -889,7 +890,7 @@ public class MyExpenses extends BaseMyExpenses implements
       case TASK_BALANCE: {
         Result result = (Result) o;
         if (!result.isSuccess()) {
-          showSnackbar(result.print(this));
+          showSnackBar(result.print(this));
         }
         break;
       }
@@ -898,12 +899,12 @@ public class MyExpenses extends BaseMyExpenses implements
         if (((Result) o).isSuccess()) {
           recordUsage(ContribFeature.SPLIT_TRANSACTION);
         }
-        showSnackbar(result.print(this));
+        showSnackBar(result.print(this));
         break;
       }
       case TASK_REVOKE_SPLIT: {
         Result result = (Result) o;
-        showSnackbar(result.print(this));
+        showSnackBar(result.print(this));
         break;
       }
       case TASK_EXPORT: {
@@ -913,7 +914,7 @@ public class MyExpenses extends BaseMyExpenses implements
               getShareTarget(),
               "text/" + result.first.name().toLowerCase(Locale.US));
           if (!shareResult.isSuccess()) {
-            showSnackbar(shareResult.print(this));
+            showSnackBar(shareResult.print(this));
           }
         }
         break;
@@ -928,7 +929,7 @@ public class MyExpenses extends BaseMyExpenses implements
               new MessageDialogFragment.Button(R.string.button_label_share_file, R.id.SHARE_PDF_COMMAND, result.getExtra().toString(), true),
               false);
         } else {
-          showSnackbar(result.print(this));
+          showSnackBar(result.print(this));
         }
         break;
       }
@@ -1003,11 +1004,11 @@ public class MyExpenses extends BaseMyExpenses implements
     int command = args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE);
     if (command == R.id.DELETE_COMMAND_DO) {
       finishActionMode();
-      showSnackbarIndefinite(R.string.progress_dialog_deleting);
+      showSnackBarIndefinite(R.string.progress_dialog_deleting);
       viewModel.deleteTransactions(args.getLongArray(KEY_ROW_IDS), checked).observe(this, result -> {
         if (result > 0) {
           if (!checked) {
-            showSnackbar(getResources().getQuantityString(R.plurals.delete_success, result, result));
+            showSnackBar(getResources().getQuantityString(R.plurals.delete_success, result, result));
           }
         } else {
           showDeleteFailureFeedback(null);

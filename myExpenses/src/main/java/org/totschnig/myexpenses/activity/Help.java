@@ -42,7 +42,7 @@ public class Help extends ProtectedFragmentActivity {
   }
 
   @Override
-  protected int getSnackbarContainerId() {
+  protected int getSnackBarContainerId() {
     return android.R.id.content;
   }
 }

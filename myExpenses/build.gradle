@@ -172,6 +172,7 @@ dependencies {
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+    implementation "androidx.compose.material:material-icons-extended:$compose_version"
     kapt "com.jakewharton:butterknife-compiler:$butterknifeVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
     implementation "com.google.dagger:dagger:$daggerVersion"
@@ -180,7 +181,7 @@ dependencies {
     kapt 'frankiesardo:icepick-processor:3.2.0'
     implementation 'com.google.code.gson:gson:2.8.9'
 
-    api 'com.google.auto.value:auto-value-annotations:1.7.4'
+    api 'com.google.auto.value:auto-value-annotations:1.8.1'
     kapt 'com.google.auto.value:auto-value:1.7'
 
     kapt 'com.ryanharter.auto.value:auto-value-gson:1.3.0'
@@ -205,6 +206,7 @@ dependencies {
     implementation 'com.github.mtotschnig:MPAndroidChart:6fcf34d9d4'
     implementation 'com.github.mtotschnig:Caldroid:2fcb748f0e'
     api 'com.github.eltos:simpledialogfragments:v3.3.2'
+    //noinspection GradleDependency
     implementation 'com.annimon:stream:1.2.1'
     implementation 'com.getkeepsafe.taptargetview:taptargetview:1.13.2'
 
@@ -227,11 +229,10 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     api "com.google.android.material:material:$materialComponents"
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
-    api 'androidx.preference:preference-ktx:1.1.1'
+    api 'androidx.preference:preference-ktx:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
 
-    // Revert to com.google.android:flexbox:2.0.1 when https://github.com/google/flexbox-layout/issues/566 is resolved
-    implementation("com.github.google:flexbox-layout:2.0.1")
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
 
     implementation project(path: ':setupwizard')
 
@@ -254,6 +255,9 @@ dependencies {
     // dynamic feature module compilation fails with
     //Cannot access 'com.vmadalin.easypermissions.EasyPermissions.PermissionCallbacks' which is a supertype of 'org.totschnig.myexpenses.activity.BaseActivity'
     api 'com.vmadalin:easypermissions-ktx:1.0.0'
+
+    implementation("org.jetbrains.kotlinx:kotlinx-html:0.7.3")
+    implementation("io.arrow-kt:arrow-core:1.0.1")
 
     androidTestImplementation 'tools.fastlane:screengrab:2.1.1'
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
@@ -290,8 +294,8 @@ dependencies {
     testImplementation "org.assertj:assertj-core:$assertjVersion"
     //noinspection GradleDependency
     androidTestImplementation "org.assertj:assertj-core:$assertjVersionAndroid"
-    androidTestImplementation "com.google.truth:truth:1.1.2"
-    testImplementation "com.google.truth:truth:1.1.2"
+    androidTestImplementation "com.google.truth:truth:$truthVersion"
+    testImplementation "com.google.truth:truth:$truthVersion"
     implementation "androidx.core:core-ktx:$ktxVersion"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     androidTestImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
@@ -321,7 +325,8 @@ dependencies {
 
     //Mlkit / Drive
     //implementation "com.google.android.gms:play-services-base:18.0.1"
-    //implementation "com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava"
+    //implementation "com.google.mlkit:vision-interfaces:+"
+    //implementation "com.google.guava:guava:30.1.1-android"
 
     //noinspection GradleDependency
     implementation 'com.github.mtotschnig:Android-Image-Cropper:cbea979d2a'
