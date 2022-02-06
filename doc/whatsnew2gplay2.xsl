@@ -46,7 +46,7 @@
                             <xsl:value-of select="$special-version-info" />
                         </xsl:when>
                         <xsl:otherwise>
-                            <xsl:apply-templates select="document($strings)/resources/string-array">
+                            <xsl:apply-templates select="document($strings)/resources/string">
                                 <xsl:with-param name="version" select="." />
                             </xsl:apply-templates>
                         </xsl:otherwise>
@@ -75,18 +75,14 @@
         </xsl:if>
     </xsl:template>
 
-    <xsl:template match="string-array">
+    <xsl:template match="string">
         <xsl:param name="version" />
-        <xsl:if test="@name=my:changeLogResourceName($version)">
-            <xsl:apply-templates select='item' />
-        </xsl:if>
-    </xsl:template>
-
-    <xsl:template match="item">
-        <xsl-text>•&#032;</xsl-text>
-        <xsl:apply-templates mode="unescape" select="." />
-        <xsl:if test="position() != last()">
-            <xsl:value-of select="$newline" />
+        <xsl:if test="starts-with(@name,my:changeLogResourceName($version))">
+            <xsl-text>•&#032;</xsl-text>
+            <xsl:apply-templates mode="unescape" select="." />
+            <xsl:if test="position() != last()">
+                <xsl:value-of select="$newline" />
+            </xsl:if>
         </xsl:if>
     </xsl:template>
 
