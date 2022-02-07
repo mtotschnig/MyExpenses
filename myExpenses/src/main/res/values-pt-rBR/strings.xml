@@ -1011,4 +1011,6 @@
         <item quantity="one">Uma categoria foi atualizada com ícone.</item>
         <item quantity="other">%1$d categorias foram atualizadas com ícones.</item>
     </plurals>
+    <string name="whats_new_336_2">Etiquetas para as partes da divisão</string>
+    <string name="whats_new_336_1">Compartilhar o resumo da dívida</string>
 </resources>

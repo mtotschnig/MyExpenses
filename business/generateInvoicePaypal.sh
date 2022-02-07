@@ -1,8 +1,8 @@
-#!/usr/local/bin/bash
+#!/usr/bin/env bash
 function show_help() {
 cat >&2 << EOF
    Usage: ${0##*/} [-g GROSS] [-t TX] [-p PACKAGE] [-c COUNTRY] [-u USER] [-e EMAIL] [-v VAT] [-d DATE] 
-   PACKAGE is Extended or Professional_6 or Professional_18 or Professional_30 or History or Budget or Ocr
+   PACKAGE is Extended or Professional_6 or Professional_18 or Professional_30 or History or Budget or Ocr or WebUi or SplitTemplate
    Generate invoice 
 EOF
 exit 1
@@ -12,7 +12,7 @@ while getopts "p:c:u:g:t:e:v:d:" opt; do
     case "$opt" in
         p) case "$OPTARG" in
                History)
-                 export KEY="Budgeting"
+                 export KEY="History Chart"
                  ;;
                Budget)
                  export KEY="Budgeting"
@@ -20,11 +20,14 @@ while getopts "p:c:u:g:t:e:v:d:" opt; do
                Ocr)
                  export KEY="Scan receipt"
                  ;;
+               WebUi)
+                 export KEY="Web User Interface"
+                 ;;
+               SplitTemplate)
+                 export KEY="Split Template"
+                 ;;
                Contrib)
                  export KEY="My Expenses Contrib Licence"
-                 ;;
-               Extended)
-                 export KEY="My Expenses Extended Licence"
                  ;;
                Extended)
                  export KEY="My Expenses Extended Licence"
@@ -78,5 +81,14 @@ if test -f "$TEXFILE"; then
     echo "$TEXFILE exists."
     exit 1
 fi
-envsubst < /Users/michaeltotschnig/Documents/MyExpenses.business/Paypal/$TEMPLATE > $TEXFILE
+
+if command -v xdg-user-dir &> /dev/null
+then
+  DOCUMENT_ROOT=$(xdg-user-dir DOCUMENTS)
+else
+  DOCUMENT_ROOT=$HOME/Documents
+fi
+
+
+envsubst < "$DOCUMENT_ROOT"/MyExpenses.business/Paypal/$TEMPLATE > $TEXFILE
 pdflatex $TEXFILE

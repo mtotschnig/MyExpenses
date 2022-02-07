@@ -12,31 +12,7 @@ import androidx.core.database.getStringOrNull
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.PaymentMethod
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TPYE_LIST
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_NORMALIZED
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTTYES_METHODS
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CHANGES
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_METHODS
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
+import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccount
 import org.totschnig.myexpenses.sync.SyncAdapter
 import org.totschnig.myexpenses.sync.json.TransactionChange
@@ -44,17 +20,25 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 
-fun safeUpdateWithSealedAccounts(db: SQLiteDatabase, runnable: Runnable) {
+fun safeUpdateWithSealed(db: SQLiteDatabase, runnable: Runnable) {
     db.beginTransaction()
     try {
         ContentValues(1).apply {
             put(KEY_SEALED, -1)
             db.update(TABLE_ACCOUNTS, this, "$KEY_SEALED= ?", arrayOf("1"))
         }
+        ContentValues(1).apply {
+            put(KEY_SEALED, -1)
+            db.update(TABLE_DEBTS, this, "$KEY_SEALED= ?", arrayOf("1"))
+        }
         runnable.run()
         ContentValues(1).apply {
             put(KEY_SEALED, 1)
             db.update(TABLE_ACCOUNTS, this, "$KEY_SEALED= ?", arrayOf("-1"))
+        }
+        ContentValues(1).apply {
+            put(KEY_SEALED, 1)
+            db.update(TABLE_DEBTS, this, "$KEY_SEALED= ?", arrayOf("-1"))
         }
         db.setTransactionSuccessful()
     } finally {

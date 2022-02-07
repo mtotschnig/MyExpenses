@@ -4,16 +4,12 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -53,16 +49,16 @@ fun Navigation(
 data class Menu(val entries: List<MenuEntry>)
 data class MenuEntry(val label: String, val content: Either<() -> Unit, Menu>)
 
-@SuppressLint("PrivateResource")
 @Composable
 fun OverFlowMenu(
     menu: Menu
 ) {
     val showMenu = remember { mutableStateOf(false) }
+
     IconButton(
         onClick = { showMenu.value = true }) {
         Icon(
-            painterResource(id = R.drawable.abc_ic_menu_overflow_material),
+            Icons.Filled.MoreVert,
             stringResource(id = R.string.abc_action_menu_overflow_description)
         )
     }
@@ -99,13 +95,26 @@ private fun EntryListRenderer(expanded: MutableState<Boolean>, menu: Menu, offse
                 Text(modifier = Modifier.padding(start = offset), text = entry.label)
             }
         }, ifRight = { submenu ->
+            var subMenuVisible by remember { mutableStateOf(false) }
             DropdownMenuItem(
-                enabled = false,
-                onClick = {}
+                onClick = { subMenuVisible = !subMenuVisible }
             ) {
-                Text(modifier = Modifier.alpha(0.5f), text = entry.label)
+                Text(
+                    modifier = Modifier
+                        .padding(end = 5.dp), text = entry.label
+                )
+                Icon(
+                    if (subMenuVisible) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
+                    stringResource(
+                        if (subMenuVisible) R.string.content_description_collapse
+                        else R.string.content_description_expand
+                    ),
+                    modifier = Modifier.size(24.dp)
+                )
             }
-            EntryListRenderer(expanded = expanded, menu = submenu, offset = offset + 5.dp)
+            if (subMenuVisible) {
+                EntryListRenderer(expanded = expanded, menu = submenu, offset = offset + 10.dp)
+            }
         })
     }
 }
@@ -115,7 +124,31 @@ private fun EntryListRenderer(expanded: MutableState<Boolean>, menu: Menu, offse
 @Composable
 fun Activity() {
     Navigation(
-        title = { Text(text = "Mein Title") },
-        content = { Text(text = "Mein Content") }
+        title = { Text(text = "Main Title") },
+        content = { Text(text = "Main Content") }
     )
 }
+
+@Preview
+@Composable
+fun Overflow() {
+    fun emptyEntry(label: String) = MenuEntry(label, Either.Left {})
+    OverFlowMenu(
+        menu = Menu(
+            entries = listOf(
+                emptyEntry("Option 1"),
+                MenuEntry(
+                    "Option 2", Either.Right(
+                        Menu(
+                            entries = listOf(
+                                emptyEntry("Option 2.1"),
+                                emptyEntry("Option 2.2"),
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+}
+

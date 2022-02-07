@@ -11,7 +11,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.1.0'
+        classpath 'com.android.tools.build:gradle:7.1.1'
         //Drive
         //classpath 'com.google.gms:google-services:4.3.10'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
@@ -33,7 +33,7 @@ allprojects {
 }
 
 ext {
-    versionCode = 509
+    versionCode = 511
     versionName = '3.3.6'
     compileSdkVersion = 31
     minSdkVersion = 21

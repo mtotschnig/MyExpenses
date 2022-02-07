@@ -1588,7 +1588,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           String operation = oldValue < newValue ? "*" : "/";
           int factor = (int) Math.pow(10, Math.abs(oldValue - newValue));
           if (count != 0) {
-            MoreDbUtilsKt.safeUpdateWithSealedAccounts(db, () -> {
+            MoreDbUtilsKt.safeUpdateWithSealed(db, () -> {
               db.execSQL("UPDATE " + TABLE_ACCOUNTS + " SET " + KEY_OPENING_BALANCE + "="
                       + KEY_OPENING_BALANCE + operation + factor + " WHERE " + KEY_CURRENCY + "=?",
                   bindArgs);
@@ -1901,7 +1901,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       case METHOD_RESET_EQUIVALENT_AMOUNTS: {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         Bundle result = new Bundle(1);
-        MoreDbUtilsKt.safeUpdateWithSealedAccounts(db, () -> {
+        MoreDbUtilsKt.safeUpdateWithSealed(db, () -> {
           ContentValues resetValues = new ContentValues(1);
           resetValues.putNull(KEY_EQUIVALENT_AMOUNT);
           result.putInt(KEY_RESULT, db.update(TABLE_TRANSACTIONS, resetValues, KEY_EQUIVALENT_AMOUNT + " IS NOT NULL", null));

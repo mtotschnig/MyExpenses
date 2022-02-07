@@ -842,6 +842,10 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     return currencyContext;
   }
 
+  public CurrencyFormatter getCurrencyFormatter() {
+    return currencyFormatter;
+  }
+
   @Override
   protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
     super.onRestoreInstanceState(savedInstanceState);
