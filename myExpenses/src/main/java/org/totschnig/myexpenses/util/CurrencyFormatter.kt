@@ -88,14 +88,14 @@ class CurrencyFormatter @Inject constructor(
                 numberFormat.currency = Currency.getInstance(currencyUnit.code)
             } catch (ignored: Exception) { /*Custom locale}*/
             }
-            if (fractionDigits <= 3) {
-                numberFormat.minimumFractionDigits = fractionDigits
-            }
-            numberFormat.maximumFractionDigits = fractionDigits
             val currencySymbol = currencyUnit.symbol
             val decimalFormatSymbols = (numberFormat as DecimalFormat).decimalFormatSymbols
             decimalFormatSymbols.currencySymbol = currencySymbol
             numberFormat.decimalFormatSymbols = decimalFormatSymbols
+            if (fractionDigits <= 3) {
+                numberFormat.minimumFractionDigits = fractionDigits
+            }
+            numberFormat.maximumFractionDigits = fractionDigits
             numberFormats[currencyUnit.code] = numberFormat
         }
         return numberFormat
