@@ -120,7 +120,7 @@ ro:
     utilizați funcția de planuri pentru tranzacții viitoare și recurente, atribuiți
     calendarul, unde sunt stocate aceste planuri.
   imprint_text: Responsabil pentru conținutul acestui site web și pentru dezvoltarea,
-    întreținerea și distribuirea <i>{app_name}</i>
+    întreținerea și distribuirea a <i>{app_name}</i>
   privacy_policy_heading: Politica de confidențialitate
   store:
     short_description: 'Finanțe personale: ușor de utilizat, bogat în funcționalități
