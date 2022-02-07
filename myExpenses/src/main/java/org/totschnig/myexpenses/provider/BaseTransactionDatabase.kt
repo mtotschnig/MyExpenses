@@ -93,7 +93,7 @@ abstract class BaseTransactionDatabase(
 
     fun upgradeTo122(db: SQLiteDatabase) {
         //repair transactions corrupted due to bug https://github.com/mtotschnig/MyExpenses/issues/921
-        repairWithSealedAccounts(db) {
+        repairWithSealedAccountsAndDebts(db) {
             db.execSQL(
                 "update transactions set transfer_account = (select account_id from transactions peer where _id = transactions.transfer_peer);"
             )
@@ -153,5 +153,13 @@ abstract class BaseTransactionDatabase(
         db.execSQL("update accounts set sealed = -1 where sealed = 1")
         run.run()
         db.execSQL("update accounts set sealed = 1 where sealed = -1")
+    }
+
+    fun repairWithSealedAccountsAndDebts(db: SQLiteDatabase, run: Runnable) {
+        db.execSQL("update accounts set sealed = -1 where sealed = 1")
+        db.execSQL("update debts set sealed = -1 where sealed = 1")
+        run.run()
+        db.execSQL("update accounts set sealed = 1 where sealed = -1")
+        db.execSQL("update debts set sealed = 1 where sealed = -1")
     }
 }
