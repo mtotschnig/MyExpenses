@@ -1,4 +1,4 @@
-#!/usr/local/bin/bash
+#!/usr/bin/env bash
 function show_help() {
 cat >&2 << EOF
    Usage: ${0##*/} [-g GROSS] [-t TX] [-p PACKAGE] [-c COUNTRY] [-u USER] [-e EMAIL] [-v VAT] [-d DATE] 
@@ -81,5 +81,14 @@ if test -f "$TEXFILE"; then
     echo "$TEXFILE exists."
     exit 1
 fi
-envsubst < /Users/michaeltotschnig/Documents/MyExpenses.business/Paypal/$TEMPLATE > $TEXFILE
+
+if command -v xdg-user-dir &> /dev/null
+then
+  DOCUMENT_ROOT=$(xdg-user-dir DOCUMENTS)
+else
+  DOCUMENT_ROOT=$HOME/Documents
+fi
+
+
+envsubst < "$DOCUMENT_ROOT"/MyExpenses.business/Paypal/$TEMPLATE > $TEXFILE
 pdflatex $TEXFILE
