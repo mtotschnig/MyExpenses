@@ -246,7 +246,7 @@ class ContribDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
             ctx.contribBuyDo(it)
             dismiss()
         } ?: run {
-            showSnackbar(R.string.select_package)
+            showSnackBar(R.string.select_package)
         }
     }
 

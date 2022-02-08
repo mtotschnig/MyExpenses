@@ -33,9 +33,7 @@ import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.viewmodel.data.VersionInfo
 import javax.inject.Inject
 
-class VersionDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListener {
-    private var _binding: VersiondialogBinding? = null
-    private val binding get() = _binding!!
+class VersionDialogFragment : DialogViewBinding<VersiondialogBinding>(), DialogInterface.OnClickListener {
 
     @Inject
     lateinit var licenceHandler: LicenceHandler
@@ -52,7 +50,7 @@ class VersionDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
             .takeWhile { parts -> parts[0].toInt() > from }
             .map { parts -> VersionInfo(parts[0].toInt(), parts[1]) }
         val builder = initBuilderWithBinding {
-            VersiondialogBinding.inflate(materialLayoutInflater).also { _binding = it }
+            VersiondialogBinding.inflate(it)
         }
         if (versions.isNotEmpty()) {
             binding.list.adapter = object : ArrayAdapter<VersionInfo>(
@@ -143,11 +141,6 @@ class VersionDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
             R.id.CONTRIB_INFO_COMMAND,
             null
         )
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     companion object {

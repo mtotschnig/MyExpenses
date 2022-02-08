@@ -42,7 +42,7 @@ public class AmountFilterDialog extends BaseDialogFragment implements OnClickLis
   @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    AlertDialog.Builder builder = initBuilderWithView(R.layout.filter_amount);
+    AlertDialog.Builder builder = initBuilderWithLayoutResource(R.layout.filter_amount);
     mOperatorSpinner = dialogView.findViewById(R.id.Operator);
     mAmount1Text = dialogView.findViewById(R.id.amount1);
     mAmount2Text = dialogView.findViewById(R.id.amount2);

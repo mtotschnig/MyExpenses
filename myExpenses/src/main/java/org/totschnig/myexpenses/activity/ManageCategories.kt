@@ -34,6 +34,7 @@ import org.totschnig.myexpenses.fragment.CategoryList
 import org.totschnig.myexpenses.model.Category
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.preference.requireString
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.util.Result
@@ -207,7 +208,7 @@ class ManageCategories : CategoryActivity<CategoryList>(), OnDialogResultListene
                 if (prefHandler.getBoolean(PrefKey.PERFORM_SHARE, false)) {
                     val shareResult = ShareUtils.share(
                         this, listOf(pair.first),
-                        prefHandler.getString(PrefKey.SHARE_TARGET, "")?.trim { it <= ' ' },
+                        prefHandler.requireString(PrefKey.SHARE_TARGET, "").trim(),
                         "text/qif"
                     )
                     if (!shareResult.isSuccess) {

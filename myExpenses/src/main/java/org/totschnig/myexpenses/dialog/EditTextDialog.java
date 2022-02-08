@@ -58,7 +58,7 @@ public class EditTextDialog extends BaseDialogFragment implements OnEditorAction
   @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    AlertDialog.Builder builder = initBuilderWithView(R.layout.edit_text_dialog);
+    AlertDialog.Builder builder = initBuilderWithLayoutResource(R.layout.edit_text_dialog);
     mEditText = ((EditText) dialogView.findViewById(R.id.EditTextDialogInput));
     Bundle args = getArguments();
     mEditText.setInputType(args.getInt(KEY_INPUT_TYPE, InputType.TYPE_CLASS_TEXT));
@@ -94,7 +94,7 @@ public class EditTextDialog extends BaseDialogFragment implements OnEditorAction
         Bundle args = getArguments();
         String result = mEditText.getText().toString();
         if (result.equals("")) {
-          showSnackbar(R.string.no_title_given);
+          showSnackBar(R.string.no_title_given);
         } else {
           args.putString(KEY_RESULT, result);
           activity.onFinishEditDialog(args);

@@ -55,10 +55,10 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
         supportActionBar?.setTitle(R.string.roadmap_vote)
         isPro = licenceHandler.hasAccessTo(ContribFeature.ROADMAP_VOTING)
         showIsLoading()
-        roadmapViewModel = ViewModelProvider(this).get(RoadmapViewModel::class.java)
+        roadmapViewModel = ViewModelProvider(this)[RoadmapViewModel::class.java]
         (applicationContext as MyApplication).appComponent.inject(roadmapViewModel)
         voteWeights = roadmapViewModel.restoreWeights()
-        roadmapViewModel.getData().observe(this, { data: List<Issue>? ->
+        roadmapViewModel.getData().observe(this) { data: List<Issue>? ->
             dataSet = data?.also {
                 publishResult(String.format(Locale.getDefault(), "%d issues found", it.size))
             }
@@ -67,8 +67,8 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
             } else {
                 validateAndUpdateUi()
             }
-        })
-        roadmapViewModel.getLastVote().observe(this, { result: Vote? ->
+        }
+        roadmapViewModel.getLastVote().observe(this) { result: Vote? ->
             if (result != null && result.isPro == isPro) {
                 lastVote = result
                 if (voteWeights.isEmpty()) {
@@ -77,7 +77,7 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
                 }
             }
             roadmapViewModel.loadData(RoadmapViewModel.EXPECTED_MINIMAL_VERSION > versionFromPref)
-        })
+        }
     }
 
     override fun onPause() {
@@ -143,7 +143,9 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
     private fun filterData() {
         dataSetFiltered = dataSet?.let { data ->
             query.takeIf { !it.isNullOrEmpty() }?.let {
-                data.filter { issue: Issue -> issue.title.toLowerCase(Locale.ROOT).contains(it.toLowerCase(Locale.ROOT)) }
+                data.filter { issue: Issue -> issue.title.lowercase(Locale.ROOT).contains(it.lowercase(
+                    Locale.ROOT
+                )) }
             } ?: data
         }
         roadmapAdapter.notifyDataSetChanged()
@@ -263,10 +265,10 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
                             isPro,
                             email ?: extras.getString(KEY_EMAIL)!!, versionFromPref)
                     roadmapViewModel.submitVote(vote
-                    ).observe(this, { result ->
+                    ).observe(this) { result ->
                         lastVote = vote
                         publishResult(getString(result))
-                    })
+                    }
                     return true
                 }
             }

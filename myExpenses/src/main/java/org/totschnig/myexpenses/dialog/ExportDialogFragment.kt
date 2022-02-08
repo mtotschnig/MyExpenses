@@ -54,12 +54,8 @@ import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ExportDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListener,
+class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(), DialogInterface.OnClickListener,
     CompoundButton.OnCheckedChangeListener {
-    private var _binding: ExportDialogBinding? = null
-
-    // This property is only valid between onCreateView and onDestroyView.
-    private val binding get() = _binding!!
 
     var currency: String? = null
     private var handleDeletedAction = Account.EXPORT_HANDLE_DELETED_DO_NOTHING
@@ -77,7 +73,7 @@ class ExportDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListen
         val now = SimpleDateFormat("yyyMMdd-HHmmss", Locale.US)
             .format(Date())
         val builder = initBuilderWithBinding {
-            ExportDialogBinding.inflate(materialLayoutInflater).also { _binding = it }
+            ExportDialogBinding.inflate(it)
         }
 
         //TODO Strict mode violation
@@ -276,11 +272,6 @@ class ExportDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListen
         return builder.create()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     private fun setFileNameLabel(oneFile: Boolean) {
         binding.fileNameLabel.setText(if (oneFile) R.string.file_name else R.string.folder_name)
     }
@@ -388,7 +379,7 @@ class ExportDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListen
                 putChar(ExportTask.KEY_DELIMITER, delimiter)
             })
         } else {
-            showSnackbar(appDirStatus.print(ctx), Snackbar.LENGTH_LONG, null)
+            showSnackBar(appDirStatus.print(ctx), Snackbar.LENGTH_LONG, null)
         }
     }
 

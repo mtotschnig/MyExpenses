@@ -39,7 +39,6 @@ android {
 dependencies {
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$desugarVersion"
     api project(':myExpenses')
-    implementation "androidx.core:core-ktx:$ktxVersion"
     implementation "androidx.appcompat:appcompat:$appcompatVersion"
     implementation "com.squareup.picasso:picasso:$picassoVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$archLifecycleVersion"

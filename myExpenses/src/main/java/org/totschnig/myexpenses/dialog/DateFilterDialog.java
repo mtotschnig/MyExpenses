@@ -32,7 +32,7 @@ public class DateFilterDialog extends BaseDialogFragment implements OnClickListe
   @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    AlertDialog.Builder builder = initBuilderWithView(R.layout.filter_date);
+    AlertDialog.Builder builder = initBuilderWithLayoutResource(R.layout.filter_date);
     mOperatorSpinner = dialogView.findViewById(R.id.Operator);
     final View date2And = dialogView.findViewById(R.id.Date2And);
     mOperatorSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {

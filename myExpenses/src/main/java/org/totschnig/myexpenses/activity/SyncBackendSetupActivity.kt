@@ -62,30 +62,18 @@ abstract class SyncBackendSetupActivity : ProtectedFragmentActivity(), EditTextD
         }
     }
 
-/*    //WebDav
-    fun onFinishWebDavSetup(data: Bundle) {
-        val userName = data.getString(AccountManager.KEY_ACCOUNT_NAME)
-        val password = data.getString(AccountManager.KEY_PASSWORD)
-        val url = data.getString(GenericAccountService.KEY_SYNC_PROVIDER_URL)
-        val certificate = data.getString(WebDavBackendProvider.KEY_WEB_DAV_CERTIFICATE)
-        val accountName =
+    //WebDav
+    fun onFinishWebDavSetup(
+        passWord: String,
+        url: String,
+        bundle: Bundle
+    ) {
+        createAccount(
             getSyncBackendProviderFactoryByIdOrThrow(R.id.SYNC_BACKEND_WEBDAV).buildAccountName(
-                url!!
-            )
-        val bundle = Bundle()
-        bundle.putString(GenericAccountService.KEY_SYNC_PROVIDER_URL, url)
-        bundle.putString(GenericAccountService.KEY_SYNC_PROVIDER_USERNAME, userName)
-        if (certificate != null) {
-            bundle.putString(WebDavBackendProvider.KEY_WEB_DAV_CERTIFICATE, certificate)
-        }
-        if (data.getBoolean(WebDavBackendProvider.KEY_WEB_DAV_FALLBACK_TO_CLASS1)) {
-            bundle.putString(WebDavBackendProvider.KEY_WEB_DAV_FALLBACK_TO_CLASS1, "1")
-        }
-        if (prefHandler.getBoolean(PrefKey.WEBDAV_ALLOW_UNVERIFIED_HOST, false)) {
-            bundle.putString(WebDavBackendProvider.KEY_ALLOW_UNVERIFIED, "true")
-        }
-        createAccount(accountName, password, null, bundle)
-    }*/
+                url
+            ), passWord, null, bundle
+        )
+    }
 
     override fun onResume() {
         super.onResume()

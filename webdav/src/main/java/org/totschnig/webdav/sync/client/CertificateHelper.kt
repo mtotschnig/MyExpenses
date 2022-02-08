@@ -63,11 +63,10 @@ object CertificateHelper {
         )
     }
 
-    @JvmStatic
     @Throws(CertificateEncodingException::class)
-    fun toString(certificate: X509Certificate): String {
+    fun X509Certificate.encode(): String {
         val header = "-----BEGIN CERTIFICATE-----\n"
-        val cert = Base64.encodeToString(certificate.encoded, Base64.DEFAULT)
+        val cert = Base64.encodeToString(encoded, Base64.DEFAULT)
         val footer = "-----END CERTIFICATE-----"
         return header + cert + footer
     }

@@ -25,15 +25,11 @@ import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.UiUtils
 import org.totschnig.myexpenses.util.postScrollToBottom
 
-class BalanceDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListener {
-    private var _binding: BalanceBinding? = null
-
-    // This property is only valid between onCreateView and onDestroyView.
-    private val binding get() = _binding!!
+class BalanceDialogFragment : DialogViewBinding<BalanceBinding>(), DialogInterface.OnClickListener {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder = initBuilderWithBinding {
-            BalanceBinding.inflate(materialLayoutInflater).also { _binding = it }
+        val builder = initBuilder {
+            BalanceBinding.inflate(it)
         }
         UiUtils.configureAmountTextViewForHebrew(binding.TotalReconciled)
         binding.TotalReconciled.text = requireArguments().getString(DatabaseConstants.KEY_RECONCILED_TOTAL)
@@ -57,11 +53,6 @@ class BalanceDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListe
         val ctx = activity as MyExpenses? ?: return
         requireArguments().putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.BALANCE_COMMAND_DO)
         ctx.onPositive(requireArguments(), binding.balanceDelete.isChecked)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     companion object {
