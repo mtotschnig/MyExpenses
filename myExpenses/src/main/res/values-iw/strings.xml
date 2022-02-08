@@ -1041,4 +1041,6 @@
         <item quantity="many">%1$d קטגוריות עודכנו עם סמלים.</item>
         <item quantity="other">%1$d קטגוריות עודכנו עם סמלים.</item>
     </plurals>
+    <string name="whats_new_336_1">שיתוף תקציר חוב</string>
+    <string name="whats_new_336_2">תגיות לחלקים המפוצלים</string>
 </resources>
