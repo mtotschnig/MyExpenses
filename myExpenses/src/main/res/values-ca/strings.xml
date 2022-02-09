@@ -348,4 +348,10 @@
     <string name="pref_news_title">Notícies</string>
     <string name="title_scan_receipt_feature">Escaneja el rebut</string>
     <string name="debt_managment">Gestió del deute</string>
+    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">Adjuntar imatge a la transacció</string>
+    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">Gràfic de sectors (Distribuïts per categories)</string>
+    <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Número il·limitat de plantilles dividides</string>
+    <string name="account_types">Tipus de comptes</string>
+    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">Sense anuncis</string>
+    <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Suport per correu</b> amb resposta garantit de 2 dies laborals</string>
 </resources>
