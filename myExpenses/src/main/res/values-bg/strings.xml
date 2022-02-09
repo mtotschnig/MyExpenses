@@ -1011,4 +1011,6 @@
         <item quantity="one">Една категория е обновена с икона.</item>
         <item quantity="other">%1$d категории са обновени с икони.</item>
     </plurals>
+    <string name="whats_new_336_2">Етикети на разпределените части</string>
+    <string name="whats_new_336_1">Споделяне на резюме на задълженията</string>
 </resources>
