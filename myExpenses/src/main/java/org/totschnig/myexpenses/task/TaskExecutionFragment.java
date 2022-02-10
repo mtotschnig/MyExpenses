@@ -78,7 +78,6 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_SYNC_REMOVE_BACKEND = 47;
   public static final int TASK_SYNC_LINK_SAVE = 48;
 
-  public static final int TASK_REPAIR_SYNC_BACKEND = 53;
   public static final int TASK_VALIDATE_LICENCE = 55;
   public static final int TASK_REMOVE_LICENCE = 56;
   public static final int TASK_BUILD_TRANSACTION_FROM_INTENT_EXTRAS = 57;

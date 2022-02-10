@@ -35,14 +35,6 @@ class WebDavBackendProviderFactory : SyncBackendProviderFactory() {
 
     override val id = R.id.SYNC_BACKEND_WEBDAV
 
-    override fun getRepairIntent(activity: Activity?): Intent? = null
-
-    override fun startRepairTask(activity: ManageSyncBackends?, data: Intent?) = false
-
-    override fun handleRepairTask(mExtra: Serializable?): Result<*>? = null
-
-    override fun init() {}
-
     companion object {
         const val WEBDAV_SETUP = "WEBDAV_SETUP"
     }

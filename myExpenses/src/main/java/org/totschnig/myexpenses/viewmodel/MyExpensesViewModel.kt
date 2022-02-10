@@ -37,9 +37,6 @@ class MyExpensesViewModel(application: Application) :
     }
 
     fun initialize(): LiveData<Int> = liveData(context = coroutineContext()) {
-        for (factory in ServiceLoader.load(getApplication())) {
-            factory.init()
-        }
         try {
             contentResolver.call(
                 TransactionProvider.DUAL_URI,

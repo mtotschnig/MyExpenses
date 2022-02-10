@@ -65,12 +65,4 @@ class GoogleDriveBackendProviderFactory : SyncBackendProviderFactory() {
     }
 
     override val id = R.id.SYNC_BACKEND_DRIVE
-
-    override fun getRepairIntent(activity: Activity?): Intent? = null
-
-    override fun startRepairTask(activity: ManageSyncBackends?, data: Intent?) = false
-
-    override fun handleRepairTask(mExtra: Serializable?): Result<*>? = null
-
-    override fun init() {}
 }

@@ -274,15 +274,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         }
         return requested == result ? Result.ofSuccess(message) : Result.ofFailure(message);
       }
-      case TaskExecutionFragment.TASK_REPAIR_SYNC_BACKEND: {
-        Optional<SyncBackendProviderFactory> syncBackendProviderFactoryOptional =
-            Stream.of(ServiceLoader.load(context)).filter(factory -> factory.getLabel().equals(ids[0])).findFirst();
-        if (syncBackendProviderFactoryOptional.isPresent()) {
-          return syncBackendProviderFactoryOptional.get().handleRepairTask(mExtra);
-        } else {
-          return Result.FAILURE;
-        }
-      }
       case TaskExecutionFragment.TASK_CATEGORY_COLOR: {
         return Category.updateColor((Long) ids[0], (Integer) mExtra) ? Result.SUCCESS :
             Result.ofFailure("Error while saving color for category");

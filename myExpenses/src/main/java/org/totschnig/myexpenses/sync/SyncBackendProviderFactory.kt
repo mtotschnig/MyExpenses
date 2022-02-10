@@ -45,10 +45,6 @@ abstract class SyncBackendProviderFactory {
     }
 
     abstract val id: Int
-    abstract fun getRepairIntent(activity: Activity?): Intent?
-    abstract fun startRepairTask(activity: ManageSyncBackends?, data: Intent?): Boolean
-    abstract fun handleRepairTask(mExtra: Serializable?): org.totschnig.myexpenses.util.Result<*>?
-    abstract fun init()
 
     companion object {
         @JvmStatic

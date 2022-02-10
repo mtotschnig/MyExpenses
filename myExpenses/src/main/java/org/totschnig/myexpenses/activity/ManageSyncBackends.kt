@@ -37,18 +37,6 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
             if (!licenceHandler.hasTrialAccessTo(ContribFeature.SYNCHRONIZATION)) {
                 contribFeatureRequested(ContribFeature.SYNCHRONIZATION, null)
             }
-            sanityCheck()
-        }
-    }
-
-    private fun sanityCheck() {
-        for (factory in backendProviders) {
-            val repairIntent = factory.getRepairIntent(this)
-            if (repairIntent != null) {
-                startActivityForResult(repairIntent, REQUEST_REPAIR_INTENT)
-                //for the moment we handle only one problem at one time
-                break
-            }
         }
     }
 
@@ -181,10 +169,6 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
                     .show(supportFragmentManager, "SYNC_LINK_REMOTE")
                 return true
             }
-            R.id.TRY_AGAIN_COMMAND -> {
-                sanityCheck()
-                return true
-            }
             else -> return false
         }
     }
@@ -231,26 +215,6 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
                     showSnackBar(result.print(this))
                 }
             }
-            TaskExecutionFragment.TASK_REPAIR_SYNC_BACKEND -> {
-                val result = o as Result<*>?
-                val resultPrintable = result!!.print(this)
-                if (result.isSuccess) {
-                    showSnackBar(resultPrintable)
-                } else {
-                    val b = Bundle()
-                    b.putString(ConfirmationDialogFragment.KEY_MESSAGE, resultPrintable)
-                    b.putInt(
-                        ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
-                        R.id.TRY_AGAIN_COMMAND
-                    )
-                    b.putInt(
-                        ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
-                        R.string.button_label_try_again
-                    )
-                    ConfirmationDialogFragment.newInstance(b)
-                        .show(supportFragmentManager, "REPAIR_SYNC_FAILURE")
-                }
-            }
         }
     }
 
@@ -294,21 +258,8 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
     }
 
     override fun contribFeatureNotCalled(feature: ContribFeature) {}
-    public override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
-        super.onActivityResult(requestCode, resultCode, intent)
-        if (resultCode == RESULT_OK) {
-            if (requestCode == REQUEST_REPAIR_INTENT) {
-                for (factory in backendProviders) {
-                    if (factory.startRepairTask(this, intent)) {
-                        break
-                    }
-                }
-            }
-        }
-    }
 
     companion object {
-        private const val REQUEST_REPAIR_INTENT = 1
         private const val KEY_ACCOUNT = "account"
     }
 }
