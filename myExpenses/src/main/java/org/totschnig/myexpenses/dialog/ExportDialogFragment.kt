@@ -72,7 +72,7 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(), DialogInt
         val fileName: String
         val now = SimpleDateFormat("yyyMMdd-HHmmss", Locale.US)
             .format(Date())
-        val builder = initBuilderWithBinding {
+        val builder = initBuilder {
             ExportDialogBinding.inflate(it)
         }
 

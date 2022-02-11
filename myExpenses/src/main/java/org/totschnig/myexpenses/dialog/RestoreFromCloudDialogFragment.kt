@@ -30,7 +30,7 @@ class RestoreFromCloudDialogFragment : DialogViewBinding<RestoreFromCloudBinding
     private var backupAdapter: ArrayAdapter<String>? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder = initBuilderWithBinding {
+        val builder = initBuilder {
             RestoreFromCloudBinding.inflate(it)
         }
         binding.passwordLayout.passwordLayout.hint = getString(R.string.input_label_passphrase)

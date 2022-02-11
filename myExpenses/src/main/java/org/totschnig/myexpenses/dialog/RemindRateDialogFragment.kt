@@ -47,7 +47,7 @@ class RemindRateDialogFragment : DialogViewBinding<RemindRateBinding>(), DialogI
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder = initBuilderWithBinding {
+        val builder = initBuilder {
             RemindRateBinding.inflate(it)
         }
         binding.ratingHowMany.text = Utils.getTextWithAppName(requireContext(), R.string.dialog_remind_rate_how_many_stars)

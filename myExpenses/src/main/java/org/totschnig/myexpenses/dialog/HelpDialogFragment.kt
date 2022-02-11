@@ -140,7 +140,7 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>(), ImageGetter {
         val args = arguments
         context = args!!.getString(KEY_CONTEXT)
         variant = args.getString(KEY_VARIANT)
-        val builder = initBuilderWithBinding {
+        val builder = initBuilder {
             HelpDialogBinding.inflate(it)
         }
         try {

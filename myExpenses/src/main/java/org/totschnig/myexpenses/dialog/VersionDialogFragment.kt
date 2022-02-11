@@ -49,7 +49,7 @@ class VersionDialogFragment : DialogViewBinding<VersiondialogBinding>(), DialogI
             .map { version: String -> version.split(";") }
             .takeWhile { parts -> parts[0].toInt() > from }
             .map { parts -> VersionInfo(parts[0].toInt(), parts[1]) }
-        val builder = initBuilderWithBinding {
+        val builder = initBuilder {
             VersiondialogBinding.inflate(it)
         }
         if (versions.isNotEmpty()) {

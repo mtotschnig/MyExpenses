@@ -40,11 +40,6 @@ abstract class BaseDialogFragment : DialogFragment() {
             materialLayoutInflater = LayoutInflater.from(it.context)
         }
 
-    protected fun initBuilderWithBinding(inflate: (LayoutInflater) -> ViewBinding) =
-        initBuilderWithView {
-            inflate(it).root
-        }
-
     protected fun initBuilderWithLayoutResource(layoutResourceId: Int) =
         initBuilderWithView {
             it.inflate(layoutResourceId, null)

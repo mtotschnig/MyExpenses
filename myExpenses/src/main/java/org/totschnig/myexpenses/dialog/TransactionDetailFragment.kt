@@ -73,7 +73,7 @@ class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(),
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder = initBuilderWithBinding {
+        val builder = initBuilder {
             TransactionDetailBinding.inflate(it)
         }
         viewModel = ViewModelProvider(this)[TransactionDetailViewModel::class.java]

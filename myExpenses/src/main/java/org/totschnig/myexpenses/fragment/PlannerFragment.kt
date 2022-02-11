@@ -102,7 +102,7 @@ class PlannerFragment : DialogViewBinding<PlannerFragmentBinding>() {
         get() = binding.recyclerView.adapter
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder = initBuilderWithBinding {
+        val builder = initBuilder {
             PlannerFragmentBinding.inflate(it)
         }
         val plannerAdapter = PlannerAdapter()
