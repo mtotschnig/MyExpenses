@@ -13,7 +13,7 @@ import org.totschnig.myexpenses.viewmodel.AccountWidgetConfigurationViewModel
 
 @Suppress("unused")
 class AccountWidgetConfigurationFragment : PreferenceFragmentCompat() {
-    val viewModel: AccountWidgetConfigurationViewModel by viewModels()
+    private val viewModel: AccountWidgetConfigurationViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (requireActivity().application as MyApplication).appComponent.inject(viewModel)

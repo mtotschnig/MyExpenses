@@ -13,7 +13,7 @@ abstract class SelectFilterDialog(withNullItem: Boolean) : SelectMultipleDialogF
                         makeCriteria(TextUtils.join(",", labelList), *itemIds))
                 true
             } else {
-                showSnackbar(R.string.unmapped_filter_only_single)
+                showSnackBar(R.string.unmapped_filter_only_single)
                 false
             }
 

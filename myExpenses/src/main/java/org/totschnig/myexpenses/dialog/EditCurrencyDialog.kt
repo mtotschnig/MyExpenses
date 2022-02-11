@@ -11,7 +11,7 @@ import android.text.InputFilter.LengthFilter
 import android.text.TextWatcher
 import android.view.View
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.EditCurrencyBinding
@@ -28,42 +28,31 @@ import java.util.*
 import javax.inject.Inject
 import kotlin.math.abs
 
-class EditCurrencyDialog : BaseDialogFragment() {
-    private var _binding: EditCurrencyBinding? = null
-
-    // This property is only valid between onCreateView and onDestroyView.
-    private val binding get() = _binding!!
-
+class EditCurrencyDialog : DialogViewBinding<EditCurrencyBinding>() {
     @Inject
     lateinit var currencyContext: CurrencyContext
 
-    private lateinit var editCurrencyViewModel: EditCurrencyViewModel
+    private val editCurrencyViewModel: EditCurrencyViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val appComponent = (requireActivity().application as MyApplication).appComponent
         appComponent.inject(this)
-        editCurrencyViewModel = ViewModelProvider(this)[EditCurrencyViewModel::class.java]
         appComponent.inject(editCurrencyViewModel)
         editCurrencyViewModel.updateComplete.observe(this) { result: Int? -> this.dismiss(result) }
         editCurrencyViewModel.insertComplete.observe(this) { success: Boolean? ->
             if (success != null && success) {
                 dismiss()
             } else {
-                showSnackbar(R.string.currency_code_already_definded)
+                showSnackBar(R.string.currency_code_already_definded)
                 setButtonState(true)
             }
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder = initBuilderWithBinding {
-            EditCurrencyBinding.inflate(materialLayoutInflater).also { _binding = it }
+        val builder = initBuilder {
+            EditCurrencyBinding.inflate(it)
         }
         val frameworkCurrency: Boolean
         var title: String? = null

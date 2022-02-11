@@ -32,7 +32,6 @@ android {
 dependencies {
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$desugarVersion"
     api project(":myExpenses")
-    implementation "androidx.core:core-ktx:$ktxVersion"
     implementation "androidx.lifecycle:lifecycle-service:$archLifecycleVersion"
     //at the moment, we need to stick with the last version that supports java 6
     //noinspection GradleDependency

@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.sync
+package org.totschnig.dropbox.sync
 
 import android.accounts.AccountManager
 import android.content.Context
@@ -18,11 +18,12 @@ import com.dropbox.core.v2.files.FolderMetadata
 import com.dropbox.core.v2.files.GetMetadataErrorException
 import com.dropbox.core.v2.files.Metadata
 import com.dropbox.core.v2.files.WriteMode
+import org.totschnig.dropbox.activity.ACTION_RE_AUTHENTICATE
+import org.totschnig.dropbox.activity.DropboxSetup
 import org.totschnig.myexpenses.BuildConfig
-import org.totschnig.myexpenses.activity.ACTION_RE_AUTHENTICATE
-import org.totschnig.myexpenses.activity.DropboxSetup
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.sync.*
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.sync.json.ChangeSet
 import org.totschnig.myexpenses.util.Preconditions
@@ -67,8 +68,13 @@ class DropboxBackendProvider internal constructor(context: Context?, folderName:
             DbxClientV2(requestConfig, DbxCredential.Reader.readFully(dbxCredential))
 
         } else {
-            val authToken = accountManager.peekAuthToken(account, GenericAccountService.AUTH_TOKEN_TYPE)
-                ?: throw SyncBackendProvider.AuthException(NullPointerException("authToken is null"), reAuthenticationIntent())
+            val authToken = accountManager.peekAuthToken(account,
+                GenericAccountService.AUTH_TOKEN_TYPE
+            )
+                ?: throw SyncBackendProvider.AuthException(
+                    NullPointerException("authToken is null"),
+                    reAuthenticationIntent()
+                )
             SyncAdapter.log().i("Authenticating with legacy access token")
             DbxClientV2(requestConfig, authToken)
         }
@@ -320,7 +326,10 @@ class DropboxBackendProvider internal constructor(context: Context?, folderName:
     private fun <T> tryWithWrappedException(block: () -> T): T = try {
         block()
     } catch(e: DbxException) {
-        throw (if (e is InvalidAccessTokenException) SyncBackendProvider.AuthException(e, reAuthenticationIntent()) else IOException(e) )
+        throw (if (e is InvalidAccessTokenException) SyncBackendProvider.AuthException(
+            e,
+            reAuthenticationIntent()
+        ) else IOException(e) )
     }
 
     @Throws(IOException::class)

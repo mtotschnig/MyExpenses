@@ -349,7 +349,7 @@ public abstract class AbstractSyncBackendProvider implements SyncBackendProvider
     return result != null ? result : MIME_TYPE_OCTET_STREAM;
   }
 
-  String getLastFileNamePart(String fileName) {
+  protected String getLastFileNamePart(String fileName) {
     return fileName.contains("/") ?
         StringUtils.substringAfterLast(fileName, "/") : fileName;
   }

@@ -23,9 +23,9 @@ import javax.inject.Inject
 abstract class BaseDialogFragment : DialogFragment() {
     @JvmField
     protected var dialogView: View? = null
-    lateinit var materialLayoutInflater: LayoutInflater
+    protected lateinit var materialLayoutInflater: LayoutInflater
 
-    private var snackbar: Snackbar? = null
+    private var snackBar: Snackbar? = null
 
     @Inject
     lateinit var prefHandler: PrefHandler
@@ -35,22 +35,25 @@ abstract class BaseDialogFragment : DialogFragment() {
         (requireActivity().application as MyApplication).appComponent.inject(this)
     }
 
-    protected fun initBuilder(): AlertDialog.Builder =
-            MaterialAlertDialogBuilder(requireContext()).also {
-                materialLayoutInflater = LayoutInflater.from(it.context)
-            }
+    fun initBuilder(): AlertDialog.Builder =
+        MaterialAlertDialogBuilder(requireContext()).also {
+            materialLayoutInflater = LayoutInflater.from(it.context)
+        }
 
-    protected fun initBuilderWithBinding(inflate: () -> ViewBinding): AlertDialog.Builder =
-            initBuilder().also {
-                dialogView = inflate().root
-                it.setView(dialogView)
-            }
+    protected fun initBuilderWithBinding(inflate: (LayoutInflater) -> ViewBinding) =
+        initBuilderWithView {
+            inflate(it).root
+        }
 
-    protected fun initBuilderWithView(layoutResourceId: Int): AlertDialog.Builder =
-            initBuilder().also {
-                dialogView = materialLayoutInflater.inflate(layoutResourceId, null)
-                it.setView(dialogView)
-            }
+    protected fun initBuilderWithLayoutResource(layoutResourceId: Int) =
+        initBuilderWithView {
+            it.inflate(layoutResourceId, null)
+        }
+
+    protected fun initBuilderWithView(inflate: (LayoutInflater) -> View) = initBuilder().also {
+        dialogView = inflate(materialLayoutInflater)
+        it.setView(dialogView)
+    }
 
     fun report(e: IllegalStateException?) {
         val activity = activity
@@ -70,22 +73,26 @@ abstract class BaseDialogFragment : DialogFragment() {
         }
     }
 
-    protected fun showSnackbar(resId: Int) {
-        showSnackbar(getString(resId))
+    protected fun showSnackBar(resId: Int) {
+        showSnackBar(getString(resId))
     }
 
-    fun showSnackbar(message: CharSequence, duration: Int = Snackbar.LENGTH_LONG, snackbarAction: SnackbarAction? = null) {
+    fun showSnackBar(
+        message: CharSequence,
+        duration: Int = Snackbar.LENGTH_LONG,
+        snackBarAction: SnackbarAction? = null
+    ) {
         val view = dialogView ?: dialog!!.window!!.decorView
-        snackbar = Snackbar.make(view, message, duration).also {
+        snackBar = Snackbar.make(view, message, duration).also {
             UiUtils.increaseSnackbarMaxLines(it)
-            if (snackbarAction != null) {
-                it.setAction(snackbarAction.resId, snackbarAction.listener)
+            if (snackBarAction != null) {
+                it.setAction(snackBarAction.resId, snackBarAction.listener)
             }
             it.show()
         }
     }
 
-    protected fun dismissSnackbar() {
-        snackbar?.dismiss()
+    protected fun dismissSnackBar() {
+        snackBar?.dismiss()
     }
 }

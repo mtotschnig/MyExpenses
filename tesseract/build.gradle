@@ -19,7 +19,6 @@ android {
 
 dependencies {
     implementation project(":ocr")
-    implementation "androidx.core:core-ktx:$ktxVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
     implementation 'com.github.adaptech-cz:tesseract4android:3.0.0'
 

@@ -21,6 +21,7 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.export.qif.QifDateFormat;
 import org.totschnig.myexpenses.model.CurrencyUnit;
@@ -72,12 +73,10 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_SWAP_SORT_KEY = 39;
   public static final int TASK_MOVE_UNCOMMITED_SPLIT_PARTS = 40;
   public static final int TASK_REPAIR_PLAN = 41;
-  public static final int TASK_WEBDAV_TEST_LOGIN = 42;
   public static final int TASK_SYNC_LINK_LOCAL = 45;
   public static final int TASK_SYNC_REMOVE_BACKEND = 47;
   public static final int TASK_SYNC_LINK_SAVE = 48;
 
-  public static final int TASK_REPAIR_SYNC_BACKEND = 53;
   public static final int TASK_VALIDATE_LICENCE = 55;
   public static final int TASK_REMOVE_LICENCE = 56;
   public static final int TASK_BUILD_TRANSACTION_FROM_INTENT_EXTRAS = 57;
@@ -217,9 +216,6 @@ public class TaskExecutionFragment<T> extends Fragment {
         break;
       case TASK_PRINT:
         new PrintTask(this, args).execute();
-        break;
-      case TASK_WEBDAV_TEST_LOGIN:
-        new TestLoginTask(this, args).execute();
         break;
       case TASK_VALIDATE_LICENCE:
       case TASK_REMOVE_LICENCE:

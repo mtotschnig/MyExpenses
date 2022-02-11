@@ -13,11 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.totschnig.myexpenses.sync.webdav;
+package org.totschnig.webdav.sync.client;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.webdav.sync.DaggerWebDavComponent;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -34,8 +38,6 @@ import javax.net.ssl.SSLHandshakeException;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.X509TrustManager;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import at.bitfire.dav4android.BasicDigestAuthHandler;
 import at.bitfire.dav4android.DavResource;
 import at.bitfire.dav4android.LockableDavResource;
@@ -60,15 +62,15 @@ public class WebDavClient {
   private final MediaType MIME_XML = MediaType.parse("application/xml; charset=utf-8");
   private static final String NS_WEBDAV = "DAV:";
 
-  private OkHttpClient httpClient;
-  private HttpUrl mBaseUri;
+  private final OkHttpClient httpClient;
+  private final HttpUrl mBaseUri;
   private String currentLockToken;
 
   @Inject
   OkHttpClient.Builder builder;
 
   public WebDavClient(@NonNull String baseUrl, String userName, String password, final X509Certificate trustedCertificate, boolean allowUnverified) throws InvalidCertificateException {
-    MyApplication.getInstance().getAppComponent().inject(this);
+    DaggerWebDavComponent.builder().appComponent(MyApplication.getInstance().getAppComponent()).build().inject(this);
 
     // Base URL needs to point to a directory.
     if (!baseUrl.endsWith("/")) {

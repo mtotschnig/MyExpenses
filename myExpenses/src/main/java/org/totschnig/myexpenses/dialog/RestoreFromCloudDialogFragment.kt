@@ -23,19 +23,15 @@ import org.totschnig.myexpenses.databinding.RestoreFromCloudBinding
 import org.totschnig.myexpenses.dialog.DialogUtils.CalendarRestoreStrategyChangedListener
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 
-class RestoreFromCloudDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListener,
+class RestoreFromCloudDialogFragment : DialogViewBinding<RestoreFromCloudBinding>(), DialogInterface.OnClickListener,
     OnItemClickListener, CalendarRestoreStrategyChangedListener {
     private lateinit var restorePlanStrategy: RadioGroup
     private lateinit var calendarRestoreButtonCheckedChangeListener: RadioGroup.OnCheckedChangeListener
     private var backupAdapter: ArrayAdapter<String>? = null
 
-    private var _binding: RestoreFromCloudBinding? = null
-    // This property is only valid between onCreateView and onDestroyView.
-    private val binding get() = _binding!!
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = initBuilderWithBinding {
-            RestoreFromCloudBinding.inflate(materialLayoutInflater).also { _binding = it }
+            RestoreFromCloudBinding.inflate(it)
         }
         binding.passwordLayout.passwordLayout.hint = getString(R.string.input_label_passphrase)
         binding.passwordLayout.passwordEdit.addTextChangedListener(object : TextWatcher {
@@ -186,11 +182,6 @@ class RestoreFromCloudDialogFragment : BaseDialogFragment(), DialogInterface.OnC
                 if (item.endsWith("enc") || item.endsWith("bin")) View.VISIBLE else View.GONE
         }
         configureSubmit()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onCheckedChanged() {

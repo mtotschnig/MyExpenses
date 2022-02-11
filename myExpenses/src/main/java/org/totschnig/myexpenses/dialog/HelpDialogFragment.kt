@@ -44,9 +44,7 @@ import java.util.*
  *
  * @author Michael Totschnig
  */
-class HelpDialogFragment : BaseDialogFragment(), ImageGetter {
-    private var _binding: HelpDialogBinding? = null
-    private val binding get() = _binding!!
+class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>(), ImageGetter {
 
     companion object {
         const val KEY_VARIANT = "variant"
@@ -143,7 +141,7 @@ class HelpDialogFragment : BaseDialogFragment(), ImageGetter {
         context = args!!.getString(KEY_CONTEXT)
         variant = args.getString(KEY_VARIANT)
         val builder = initBuilderWithBinding {
-            HelpDialogBinding.inflate(materialLayoutInflater).also { _binding = it }
+            HelpDialogBinding.inflate(it)
         }
         try {
             var resIdString = "help_" + context + "_info"
@@ -457,10 +455,5 @@ class HelpDialogFragment : BaseDialogFragment(), ImageGetter {
         } catch (e: Resources.NotFoundException) {
             null
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

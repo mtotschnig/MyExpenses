@@ -32,6 +32,7 @@ import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.dialog.DialogUtils.CalendarRestoreStrategyChangedListener
 import org.totschnig.myexpenses.preference.AccountPreference
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.preference.requireString
 import org.totschnig.myexpenses.task.RestoreTask
 import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.util.AppDirHelper
@@ -76,7 +77,7 @@ class BackupRestoreActivity : ProtectedFragmentActivity(), ConfirmationDialogLis
                         uris.add(backupState.result.first.uri)
                         val shareResult = ShareUtils.share(
                             this, uris,
-                            prefHandler.getString(PrefKey.SHARE_TARGET, "")!!.trim { it <= ' ' },
+                            prefHandler.requireString(PrefKey.SHARE_TARGET, "").trim(),
                             "application/zip"
                         )
                         if (!shareResult.isSuccess) {

@@ -19,7 +19,6 @@ android {
 
 dependencies {
     api project(":ocr")
-    implementation "androidx.core:core-ktx:$ktxVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxTextExtJunit"

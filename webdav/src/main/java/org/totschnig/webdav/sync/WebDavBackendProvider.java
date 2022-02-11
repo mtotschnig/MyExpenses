@@ -1,10 +1,14 @@
-package org.totschnig.myexpenses.sync;
+package org.totschnig.webdav.sync;
 
 import android.accounts.AccountManager;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.OpenableColumns;
+
+import androidx.annotation.NonNull;
+import androidx.core.util.Pair;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Exceptional;
@@ -12,12 +16,15 @@ import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.model.Account;
+import org.totschnig.myexpenses.sync.AbstractSyncBackendProvider;
+import org.totschnig.myexpenses.sync.GenericAccountService;
+import org.totschnig.myexpenses.sync.SequenceNumber;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.sync.json.ChangeSet;
-import org.totschnig.myexpenses.sync.webdav.CertificateHelper;
-import org.totschnig.myexpenses.sync.webdav.InvalidCertificateException;
-import org.totschnig.myexpenses.sync.webdav.WebDavClient;
 import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.webdav.sync.client.CertificateHelper;
+import org.totschnig.webdav.sync.client.InvalidCertificateException;
+import org.totschnig.webdav.sync.client.WebDavClient;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,8 +36,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
-import androidx.annotation.NonNull;
-import androidx.core.util.Pair;
 import at.bitfire.dav4android.DavResource;
 import at.bitfire.dav4android.LockableDavResource;
 import at.bitfire.dav4android.exception.DavException;
@@ -53,8 +58,9 @@ public class WebDavBackendProvider extends AbstractSyncBackendProvider {
   private static final String FALLBACK_LOCK_FILENAME = ".lock";
 
   private final WebDavClient webDavClient;
-  private boolean fallbackToClass1;
+  private final boolean fallbackToClass1;
 
+  @SuppressLint("MissingPermission")
   WebDavBackendProvider(Context context, android.accounts.Account account, AccountManager accountManager) throws SyncParseException {
     super(context);
     String url = accountManager.getUserData(account, GenericAccountService.KEY_SYNC_PROVIDER_URL);

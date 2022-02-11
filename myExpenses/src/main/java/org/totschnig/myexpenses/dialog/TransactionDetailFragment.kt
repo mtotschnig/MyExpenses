@@ -54,13 +54,9 @@ import org.totschnig.myexpenses.viewmodel.TransactionDetailViewModel
 import org.totschnig.myexpenses.viewmodel.data.Transaction
 import javax.inject.Inject
 
-class TransactionDetailFragment : BaseDialogFragment(), DialogInterface.OnClickListener {
+class TransactionDetailFragment : DialogViewBinding<TransactionDetailBinding>(), DialogInterface.OnClickListener {
     private var transactionData: List<Transaction>? = null
-    private var _binding: TransactionDetailBinding? = null
     private lateinit var viewModel: TransactionDetailViewModel
-
-    // This property is only valid between onCreateView and onDestroyView.
-    private val binding get() = _binding!!
 
     @Inject
     lateinit var imageViewIntentProvider: ImageViewIntentProvider
@@ -78,7 +74,7 @@ class TransactionDetailFragment : BaseDialogFragment(), DialogInterface.OnClickL
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = initBuilderWithBinding {
-            TransactionDetailBinding.inflate(materialLayoutInflater).also { _binding = it }
+            TransactionDetailBinding.inflate(it)
         }
         viewModel = ViewModelProvider(this)[TransactionDetailViewModel::class.java]
         (requireActivity().applicationContext as MyApplication).appComponent.inject(viewModel)
@@ -124,7 +120,7 @@ class TransactionDetailFragment : BaseDialogFragment(), DialogInterface.OnClickL
             when (which) {
                 AlertDialog.BUTTON_POSITIVE -> {
                     if (transaction.isTransfer && transaction.hasTransferPeerParent) {
-                        showSnackbar(R.string.warning_splitpartcategory_context)
+                        showSnackBar(R.string.warning_splitpartcategory_context)
                         return
                     }
                     dismiss()
@@ -153,12 +149,12 @@ class TransactionDetailFragment : BaseDialogFragment(), DialogInterface.OnClickL
                     doShowPicture = true
                     try {
                         if (!PictureDirHelper.doesPictureExist(transaction.pictureUri)) {
-                            showSnackbar(R.string.image_deleted)
+                            showSnackBar(R.string.image_deleted)
                             doShowPicture = false
                         }
                     } catch (e: IllegalArgumentException) {
                         CrashHandler.report(e)
-                        showSnackbar(
+                        showSnackBar(
                             "Unable to handle image: " + e.message,
                             Snackbar.LENGTH_LONG,
                             null
@@ -311,11 +307,6 @@ class TransactionDetailFragment : BaseDialogFragment(), DialogInterface.OnClickL
 
     private fun formatCurrencyAbs(money: Money?): String {
         return currencyFormatter.formatCurrency(money!!.amountMajor.abs(), money.currencyUnit)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     companion object {

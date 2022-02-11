@@ -68,7 +68,7 @@ public abstract class ImportSourceDialogFragment extends BaseDialogFragment
   @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    AlertDialog.Builder builder = initBuilderWithView(getLayoutId());
+    AlertDialog.Builder builder = initBuilderWithLayoutResource(getLayoutId());
     setupDialogView(dialogView);
     return builder.setTitle(getLayoutTitle())
         .setPositiveButton(android.R.string.ok, this)
@@ -97,7 +97,7 @@ public abstract class ImportSourceDialogFragment extends BaseDialogFragment
           ImportFileResultHandler.handleFilenameRequestResult(this, mUri);
         } catch (Throwable throwable) {
           mUri = null;
-          showSnackbar(throwable.getMessage(), Snackbar.LENGTH_LONG, null);
+          showSnackBar(throwable.getMessage(), Snackbar.LENGTH_LONG, null);
         }
       }
     }

@@ -30,7 +30,7 @@ class ScanPreviewFragment : BaseDialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = ScanPreviewBinding.inflate(LayoutInflater.from(requireContext()))
-        viewModel = ViewModelProvider(this).get(ScanPreviewViewModel::class.java)
+        viewModel = ViewModelProvider(this)[ScanPreviewViewModel::class.java]
         viewModel.getResult().observe(this) { result ->
             (activity as? OcrHost)?.processOcrResult(result)
             dismiss()
@@ -47,7 +47,7 @@ class ScanPreviewFragment : BaseDialogFragment() {
                     getButton(AlertDialog.BUTTON_POSITIVE)?.let {
                         it.isEnabled = false
                     }
-                    showSnackbar(getString(R.string.ocr_recognition_info, viewModel.getOcrInfo(requireContext())), Snackbar.LENGTH_INDEFINITE, null)
+                    showSnackBar(getString(R.string.ocr_recognition_info, viewModel.getOcrInfo(requireContext())), Snackbar.LENGTH_INDEFINITE, null)
                     activity?.let { viewModel.runTextRecognition(scanFile, it) }
                 }
             }
@@ -68,7 +68,7 @@ class ScanPreviewFragment : BaseDialogFragment() {
     }
 
     fun handleData(intent: Intent?) {
-        intent?.let { viewModel.handleData(it) } ?: run { dismissSnackbar() }
+        intent?.let { viewModel.handleData(it) } ?: run { dismissSnackBar() }
     }
 
     private val scanFile: File

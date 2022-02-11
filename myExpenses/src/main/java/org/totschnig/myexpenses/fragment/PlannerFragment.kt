@@ -22,7 +22,7 @@ import org.totschnig.myexpenses.activity.ManageTemplates
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.databinding.PlanInstanceBinding
 import org.totschnig.myexpenses.databinding.PlannerFragmentBinding
-import org.totschnig.myexpenses.dialog.BaseDialogFragment
+import org.totschnig.myexpenses.dialog.DialogViewBinding
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.CurrencyFormatter
@@ -30,11 +30,7 @@ import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.getDateTimeFormatter
 import org.totschnig.myexpenses.viewmodel.PlanInstanceInfo
 import org.totschnig.myexpenses.viewmodel.PlannerViewModel
-import org.totschnig.myexpenses.viewmodel.data.EventObserver
-import org.totschnig.myexpenses.viewmodel.data.PlanInstance
-import org.totschnig.myexpenses.viewmodel.data.PlanInstanceSet
-import org.totschnig.myexpenses.viewmodel.data.PlanInstanceState
-import org.totschnig.myexpenses.viewmodel.data.PlanInstanceUpdate
+import org.totschnig.myexpenses.viewmodel.data.*
 import timber.log.Timber
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
@@ -51,12 +47,7 @@ fun configureMenuInternalPlanInstances(menu: Menu, state: PlanInstanceState) {
     menu.findItem(R.id.EDIT_PLAN_INSTANCE_COMMAND).isVisible = state == PlanInstanceState.APPLIED
 }
 
-class PlannerFragment : BaseDialogFragment() {
-
-    private var _binding: PlannerFragmentBinding? = null
-
-    // This property is only valid between onCreateDialog and onDestroyView.
-    private val binding get() = _binding!!
+class PlannerFragment : DialogViewBinding<PlannerFragmentBinding>() {
 
     val viewModel: PlannerViewModel by viewModels()
 
@@ -108,11 +99,11 @@ class PlannerFragment : BaseDialogFragment() {
     }
 
     private val adapter
-        get() = _binding?.recyclerView?.adapter
+        get() = binding.recyclerView.adapter
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = initBuilderWithBinding {
-            PlannerFragmentBinding.inflate(materialLayoutInflater).also { _binding = it }
+            PlannerFragmentBinding.inflate(it)
         }
         val plannerAdapter = PlannerAdapter()
         binding.recyclerView.adapter = plannerAdapter
@@ -125,13 +116,13 @@ class PlannerFragment : BaseDialogFragment() {
                 binding.recyclerView.layoutManager?.scrollToPosition(if (list.first) itemCount - 1 else 0)
             }
         })
-        viewModel.getTitle().observe(this, { title ->
+        viewModel.getTitle().observe(this) { title ->
             binding.Title.text = title
-        })
-        viewModel.getUpdates().observe(this, { update ->
+        }
+        viewModel.getUpdates().observe(this) { update ->
             //Timber.d("Update posted")
             plannerAdapter.postUpdate(update)
-        })
+        }
         viewModel.getBulkCompleted().observe(this, EventObserver { list ->
             list.forEach { planInstance ->
                 viewModel.getUpdateFor(
@@ -159,11 +150,6 @@ class PlannerFragment : BaseDialogFragment() {
             )
         }
         return alertDialog
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun onBulkApply() {

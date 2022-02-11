@@ -1,10 +1,12 @@
 package org.totschnig.myexpenses.sync;
 
 import android.accounts.AccountManager;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.annimon.stream.Exceptional;
 import com.annimon.stream.Optional;
@@ -20,9 +22,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.GeneralSecurityException;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 public interface SyncBackendProvider {
 

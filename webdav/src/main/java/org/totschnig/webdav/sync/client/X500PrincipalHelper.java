@@ -11,13 +11,13 @@
  * Jan Kühle - changes to better fit in Car Report app
  *******************************************************************************/
 
-package org.totschnig.myexpenses.sync.webdav;
+package org.totschnig.webdav.sync.client;
+
+import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 
 import javax.security.auth.x500.X500Principal;
-
-import androidx.annotation.NonNull;
 
 /**
  * X500PrincipalHelper

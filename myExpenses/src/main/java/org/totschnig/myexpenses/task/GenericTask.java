@@ -18,7 +18,6 @@ import android.text.TextUtils;
 import com.android.calendar.CalendarContractCompat;
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Exceptional;
-import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;
 
 import org.totschnig.myexpenses.MyApplication;
@@ -33,10 +32,8 @@ import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
 import org.totschnig.myexpenses.provider.filter.WhereFilter;
 import org.totschnig.myexpenses.sync.GenericAccountService;
-import org.totschnig.myexpenses.sync.ServiceLoader;
 import org.totschnig.myexpenses.sync.SyncAdapter;
 import org.totschnig.myexpenses.sync.SyncBackendProvider;
-import org.totschnig.myexpenses.sync.SyncBackendProviderFactory;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.ui.ContextHelper;
 import org.totschnig.myexpenses.util.Result;
@@ -273,15 +270,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
               + " " + context.getString(R.string.link_account_failure_3);
         }
         return requested == result ? Result.ofSuccess(message) : Result.ofFailure(message);
-      }
-      case TaskExecutionFragment.TASK_REPAIR_SYNC_BACKEND: {
-        Optional<SyncBackendProviderFactory> syncBackendProviderFactoryOptional =
-            Stream.of(ServiceLoader.load(context)).filter(factory -> factory.getLabel().equals(ids[0])).findFirst();
-        if (syncBackendProviderFactoryOptional.isPresent()) {
-          return syncBackendProviderFactoryOptional.get().handleRepairTask(mExtra);
-        } else {
-          return Result.FAILURE;
-        }
       }
       case TaskExecutionFragment.TASK_CATEGORY_COLOR: {
         return Category.updateColor((Long) ids[0], (Integer) mExtra) ? Result.SUCCESS :

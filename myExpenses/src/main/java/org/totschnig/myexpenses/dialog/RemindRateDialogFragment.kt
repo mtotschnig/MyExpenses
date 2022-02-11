@@ -36,9 +36,7 @@ import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.util.tracking.Tracker
 import javax.inject.Inject
 
-class RemindRateDialogFragment : BaseDialogFragment(), DialogInterface.OnClickListener, OnRatingBarChangeListener {
-    private var _binding: RemindRateBinding? = null
-    private val binding get() = _binding!!
+class RemindRateDialogFragment : DialogViewBinding<RemindRateBinding>(), DialogInterface.OnClickListener, OnRatingBarChangeListener {
 
     @Inject
     lateinit var tracker: Tracker
@@ -50,7 +48,7 @@ class RemindRateDialogFragment : BaseDialogFragment(), DialogInterface.OnClickLi
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = initBuilderWithBinding {
-            RemindRateBinding.inflate(materialLayoutInflater).also { _binding = it }
+            RemindRateBinding.inflate(it)
         }
         binding.ratingHowMany.text = Utils.getTextWithAppName(requireContext(), R.string.dialog_remind_rate_how_many_stars)
         binding.rating.onRatingBarChangeListener = this

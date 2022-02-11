@@ -21,7 +21,6 @@ import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteUpgradeFailed
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
-import org.totschnig.myexpenses.sync.ServiceLoader
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 
 const val ERROR_INIT_DOWNGRADE = -1
@@ -37,9 +36,6 @@ class MyExpensesViewModel(application: Application) :
     }
 
     fun initialize(): LiveData<Int> = liveData(context = coroutineContext()) {
-        for (factory in ServiceLoader.load(getApplication())) {
-            factory.init()
-        }
         try {
             contentResolver.call(
                 TransactionProvider.DUAL_URI,

@@ -1,20 +1,19 @@
-package org.totschnig.myexpenses.sync
+package org.totschnig.dropbox.sync
 
 import android.accounts.Account
 import android.accounts.AccountManager
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.DropboxSetup
-import org.totschnig.myexpenses.activity.ManageSyncBackends
+import androidx.annotation.Keep
+import org.totschnig.dropbox.activity.DropboxSetup
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.activity.SYNC_BACKEND_SETUP_REQUEST
-import org.totschnig.myexpenses.util.Result
-import java.io.Serializable
+import org.totschnig.myexpenses.sync.GenericAccountService
+import org.totschnig.myexpenses.sync.SyncBackendProviderFactory
 
 const val KEY_DBX_CREDENTIAL = "DbxCredential"
 
+@Keep
 class DropboxProviderFactory : SyncBackendProviderFactory() {
     override fun fromAccount(
         context: Context,
@@ -25,8 +24,6 @@ class DropboxProviderFactory : SyncBackendProviderFactory() {
         accountManager.getUserData(account, GenericAccountService.KEY_SYNC_PROVIDER_URL)
     )
 
-    override val label = "Dropbox"
-
     override fun startSetup(activity: ProtectedFragmentActivity) {
         activity.startActivityForResult(
             Intent(activity, DropboxSetup::class.java),
@@ -34,13 +31,4 @@ class DropboxProviderFactory : SyncBackendProviderFactory() {
         )
     }
 
-    override val id = R.id.SYNC_BACKEND_DROPBOX
-
-    override fun getRepairIntent(activity: Activity?): Intent? = null
-
-    override fun startRepairTask(activity: ManageSyncBackends?, data: Intent?) = false
-
-    override fun handleRepairTask(mExtra: Serializable?): Result<*>? = null
-
-    override fun init() {}
 }
