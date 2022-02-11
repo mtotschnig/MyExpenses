@@ -141,7 +141,8 @@ fun DebtRenderer(
                             0, epoch2LocalDate(debt.date), 0, debt.amount
                         ),
                         debt.currency,
-                        false
+                        boldBalance = false,
+                        withIcon = false
                     )
                     val count = transactions.size
                     transactions.forEachIndexed { index, transaction ->
@@ -190,34 +191,15 @@ fun DebtRenderer(
 fun TransactionRenderer(
     transaction: DebtViewModel.Transaction,
     currency: String,
-    boldBalance: Boolean
+    boldBalance: Boolean,
+    withIcon: Boolean = true
 ) {
     Row(verticalAlignment = Alignment.CenterVertically) {
 
-        when {
-            transaction.runningTotal == 0L -> R.drawable.ic_check
-            transaction.trend > 0 -> R.drawable.ic_trending_up
-            transaction.trend < 0 -> R.drawable.ic_trending_down
-            else -> null
-        }?.also {
-            Icon(
-                painter = painterResource(
-                    id = when {
-                        transaction.runningTotal == 0L -> R.drawable.ic_check
-                        transaction.trend > 0 -> R.drawable.ic_trending_up
-                        transaction.trend < 0 -> R.drawable.ic_trending_down
-                        else -> throw IllegalStateException()
-                    }
-                ),
-                contentDescription = null
-            )
-        } ?: run {
-            Spacer(modifier = Modifier.size(24.dp))
-        }
-
         Text(
             modifier = Modifier.padding(start = 4.dp),
-            text = LocalDateFormatter.current.format(transaction.date)
+            text = LocalDateFormatter.current.format(transaction.date),
+            fontWeight = FontWeight.Light
         )
 
         transaction.amount.takeIf { it != 0L }?.let {
@@ -235,6 +217,21 @@ fun TransactionRenderer(
             fontWeight = if (boldBalance) FontWeight.Bold else null,
             textAlign = TextAlign.End
         )
+        if (withIcon) {
+            Icon(
+                painter = painterResource(
+                    id = when {
+                        transaction.runningTotal == 0L -> R.drawable.ic_check
+                        transaction.trend > 0 -> R.drawable.ic_debt_up
+                        transaction.trend < 0 -> R.drawable.ic_debt_down
+                        else -> R.drawable.ic_swap_vert
+                    }
+                ),
+                contentDescription = null
+            )
+        } else {
+            Spacer(modifier = Modifier.size(24.dp))
+        }
     }
 }
 
