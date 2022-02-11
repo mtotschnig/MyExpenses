@@ -3,33 +3,38 @@ package org.totschnig.myexpenses.sync
 import android.content.Context
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.isGithub
 
-enum class BackendService(private val className: String, val id: Int, val label: String) {
+enum class BackendService(private val className: String, val id: Int, val label: String, val feature: Feature?) {
     DRIVE(
         "org.totschnig.drive.sync.GoogleDriveBackendProviderFactory",
         R.id.SYNC_BACKEND_DRIVE,
-        "Drive"
+        "Drive",
+        Feature.DRIVE
     ) {
         override fun isAvailable(context: Context) = !isGithub
     },
     LOCAL(
         "org.totschnig.myexpenses.sync.LocalFileBackendProviderFactory",
         R.id.SYNC_BACKEND_LOCAL,
-        "Local"
+        "Local",
+        null
     ) {
         override fun isAvailable(context: Context) = BuildConfig.DEBUG
     },
     DROPBOX(
         "org.totschnig.dropbox.sync.DropboxProviderFactory",
         R.id.SYNC_BACKEND_DROPBOX,
-        "Dropbox"
+        "Dropbox",
+        Feature.DROPBOX
     ),
     WEBDAV(
         "org.totschnig.webdav.sync.WebDavBackendProviderFactory",
         R.id.SYNC_BACKEND_WEBDAV,
-        "WebDAV"
+        "WebDAV",
+        Feature.WEBDAV
     );
 
     open fun isAvailable(context: Context) = true

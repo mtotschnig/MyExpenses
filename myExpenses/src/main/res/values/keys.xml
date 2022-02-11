@@ -243,6 +243,4 @@
     <string name="uuid">UUID</string>
     <string name="pref_db_safe_mode_key">db_safe_mode</string>
     <string name="safe_mode">Safe mode</string>
-    <string name="title_dropbox">Dropbox</string>
-    <string name="title_webdav">WebDAV</string>
 </resources>

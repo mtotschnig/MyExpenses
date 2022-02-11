@@ -8,4 +8,6 @@
     <string name="title_mlkit_jpan">ML Kit Japanese</string>
     <string name="title_mlkit_kore">ML Kit Korean</string>
     <string name="title_drive">Google Drive</string>
+    <string name="title_dropbox">Dropbox</string>
+    <string name="title_webdav">WebDAV</string>
 </resources>

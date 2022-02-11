@@ -16,6 +16,7 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.EditTextDialog
 import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener
+import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.sync.BackendService
 import org.totschnig.myexpenses.sync.GenericAccountService
@@ -97,7 +98,17 @@ abstract class SyncBackendSetupActivity : ProtectedFragmentActivity(), EditTextD
     }
 
     private fun startSetupDo() {
-        getBackendServiceById(selectedFactoryId)?.instantiate()?.startSetup(this)
+        val backendService = getBackendServiceById(selectedFactoryId)
+        val feature = backendService?.feature
+        if (feature == null || featureManager.isFeatureInstalled(feature, this)) {
+            backendService?.instantiate()?.startSetup(this)
+        } else {
+            featureManager.requestFeature(feature, this)
+        }
+    }
+
+    override fun onFeatureAvailable(feature: Feature) {
+        startSetupDo()
     }
 
     //Google Drive & Dropbox
@@ -197,9 +208,9 @@ abstract class SyncBackendSetupActivity : ProtectedFragmentActivity(), EditTextD
 
     @Throws(IllegalStateException::class)
     fun getBackendServiceByIdOrThrow(id: Int): BackendService {
-        for (factory in backendProviders) {
-            if (factory.id == id) {
-                return factory
+        for (backendService in backendProviders) {
+            if (backendService.id == id) {
+                return backendService
             }
         }
         throw IllegalStateException()

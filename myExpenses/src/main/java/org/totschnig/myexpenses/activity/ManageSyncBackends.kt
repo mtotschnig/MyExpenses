@@ -252,7 +252,7 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
 
     override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
         if (tag is Int) {
-            startSetup((tag as Int?)!!)
+            startSetup(tag)
         }
     }
 

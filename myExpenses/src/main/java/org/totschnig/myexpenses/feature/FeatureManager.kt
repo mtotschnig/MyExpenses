@@ -20,7 +20,10 @@ enum class Feature(@StringRes val labelResId: Int) {
     MLKIT_HAN(R.string.title_mlkit_han),
     MLKIT_JPAN(R.string.title_mlkit_jpan),
     MLKIT_KORE(R.string.title_mlkit_kore),
-    MLKIT_LATN(R.string.title_mlkit_latn)
+    MLKIT_LATN(R.string.title_mlkit_latn),
+    DRIVE(R.string.title_drive),
+    DROPBOX(R.string.title_dropbox),
+    WEBDAV(R.string.title_webdav)
     ;
 
     val moduleName
