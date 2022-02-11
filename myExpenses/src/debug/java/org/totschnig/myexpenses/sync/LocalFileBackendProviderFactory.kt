@@ -3,18 +3,12 @@ package org.totschnig.myexpenses.sync
 import android.Manifest
 import android.accounts.Account
 import android.accounts.AccountManager
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.annotation.Keep
 import com.vmadalin.easypermissions.EasyPermissions.hasPermissions
-import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.ManageSyncBackends
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.dialog.EditTextDialog
-import org.totschnig.myexpenses.util.Result
-import java.io.Serializable
 
 @Keep
 class LocalFileBackendProviderFactory : SyncBackendProviderFactory() {
@@ -35,8 +29,6 @@ class LocalFileBackendProviderFactory : SyncBackendProviderFactory() {
         )
     }
 
-    override val label = "Local"
-
     override fun startSetup(activity: ProtectedFragmentActivity) {
         val args = Bundle()
         args.putString(EditTextDialog.KEY_DIALOG_TITLE, "Local backend: Directory path")
@@ -44,5 +36,4 @@ class LocalFileBackendProviderFactory : SyncBackendProviderFactory() {
             .show(activity.supportFragmentManager, "LOCAL_BACKEND_DIRECTORY_PATH")
     }
 
-    override val id = R.id.SYNC_BACKEND_LOCAL
 }

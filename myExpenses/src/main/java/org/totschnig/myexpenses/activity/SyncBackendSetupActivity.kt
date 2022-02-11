@@ -17,11 +17,9 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.EditTextDialog
 import org.totschnig.myexpenses.dialog.EditTextDialog.EditTextDialogListener
 import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.sync.BackendService
 import org.totschnig.myexpenses.sync.GenericAccountService
-import org.totschnig.myexpenses.sync.ServiceLoader
-import org.totschnig.myexpenses.sync.SyncBackendProviderFactory
 import org.totschnig.myexpenses.sync.json.AccountMetaData
-import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.viewmodel.SyncViewModel
 import org.totschnig.myexpenses.viewmodel.SyncViewModel.Companion.KEY_RETURN_REMOTE_DATA_LIST
 import java.io.File
@@ -29,7 +27,7 @@ import java.io.File
 abstract class SyncBackendSetupActivity : ProtectedFragmentActivity(), EditTextDialogListener,
     OnDialogResultListener {
 
-    protected lateinit var backendProviders: List<SyncBackendProviderFactory>
+    private lateinit var backendProviders: List<BackendService>
     protected lateinit var viewModel: SyncViewModel
     private var isResumed = false
     private var setupPending = false
@@ -40,7 +38,7 @@ abstract class SyncBackendSetupActivity : ProtectedFragmentActivity(), EditTextD
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        backendProviders = ServiceLoader.load(this)
+        backendProviders = BackendService.allAvailable(this)
         viewModel = ViewModelProvider(this)[SyncViewModel::class.java]
         (applicationContext as MyApplication).appComponent.inject(viewModel)
     }
@@ -53,7 +51,7 @@ abstract class SyncBackendSetupActivity : ProtectedFragmentActivity(), EditTextD
             showSnackBar("No directory $filePath", Snackbar.LENGTH_SHORT)
         } else {
             val accountName =
-                getSyncBackendProviderFactoryByIdOrThrow(R.id.SYNC_BACKEND_LOCAL).buildAccountName(
+                getBackendServiceByIdOrThrow(R.id.SYNC_BACKEND_LOCAL).buildAccountName(
                     filePath
                 )
             val bundle = Bundle(1)
@@ -69,7 +67,7 @@ abstract class SyncBackendSetupActivity : ProtectedFragmentActivity(), EditTextD
         bundle: Bundle
     ) {
         createAccount(
-            getSyncBackendProviderFactoryByIdOrThrow(R.id.SYNC_BACKEND_WEBDAV).buildAccountName(
+            getBackendServiceByIdOrThrow(R.id.SYNC_BACKEND_WEBDAV).buildAccountName(
                 url
             ), passWord, null, bundle
         )
@@ -99,15 +97,14 @@ abstract class SyncBackendSetupActivity : ProtectedFragmentActivity(), EditTextD
     }
 
     private fun startSetupDo() {
-        val syncBackendProviderFactory = getSyncBackendProviderFactoryById(selectedFactoryId)
-        syncBackendProviderFactory?.startSetup(this)
+        getBackendServiceById(selectedFactoryId)?.instantiate()?.startSetup(this)
     }
 
     //Google Drive & Dropbox
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         super.onActivityResult(requestCode, resultCode, intent)
         if (requestCode == SYNC_BACKEND_SETUP_REQUEST && resultCode == RESULT_OK && intent != null) {
-            val accountName = getSyncBackendProviderFactoryByIdOrThrow(
+            val accountName = getBackendServiceByIdOrThrow(
                 intent.getIntExtra(
                     KEY_SYNC_PROVIDER_ID, 0
                 )
@@ -184,31 +181,22 @@ abstract class SyncBackendSetupActivity : ProtectedFragmentActivity(), EditTextD
 
     override fun onCancelEditDialog() {}
 
-    override fun onPostExecute(taskId: Int, o: Any?) {
-        super.onPostExecute(taskId, o)
-        when (taskId) {
-            TaskExecutionFragment.TASK_WEBDAV_TEST_LOGIN -> {
-                //webdavFragment!!.onTestLoginResult(o as Exceptional<Void?>?)
-            }
-        }
-    }
-
     fun addSyncProviderMenuEntries(subMenu: SubMenu) {
         for (factory in backendProviders) {
             subMenu.add(Menu.NONE, factory.id, Menu.NONE, factory.label)
         }
     }
 
-    fun getSyncBackendProviderFactoryById(id: Int): SyncBackendProviderFactory? {
+    fun getBackendServiceById(id: Int): BackendService? {
         return try {
-            getSyncBackendProviderFactoryByIdOrThrow(id)
+            getBackendServiceByIdOrThrow(id)
         } catch (e: IllegalStateException) {
             null
         }
     }
 
     @Throws(IllegalStateException::class)
-    fun getSyncBackendProviderFactoryByIdOrThrow(id: Int): SyncBackendProviderFactory {
+    fun getBackendServiceByIdOrThrow(id: Int): BackendService {
         for (factory in backendProviders) {
             if (factory.id == id) {
                 return factory

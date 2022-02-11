@@ -73,7 +73,6 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_SWAP_SORT_KEY = 39;
   public static final int TASK_MOVE_UNCOMMITED_SPLIT_PARTS = 40;
   public static final int TASK_REPAIR_PLAN = 41;
-  public static final int TASK_WEBDAV_TEST_LOGIN = 42;
   public static final int TASK_SYNC_LINK_LOCAL = 45;
   public static final int TASK_SYNC_REMOVE_BACKEND = 47;
   public static final int TASK_SYNC_LINK_SAVE = 48;
@@ -218,9 +217,6 @@ public class TaskExecutionFragment<T> extends Fragment {
       case TASK_PRINT:
         new PrintTask(this, args).execute();
         break;
-      case TASK_WEBDAV_TEST_LOGIN:
-        throw new RuntimeException("not implemented");
-        //new TestLoginTask(this, args).execute();
       case TASK_VALIDATE_LICENCE:
       case TASK_REMOVE_LICENCE:
         new LicenceApiTask(this, taskId).execute();

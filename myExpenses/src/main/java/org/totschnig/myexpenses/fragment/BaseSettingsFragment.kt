@@ -39,7 +39,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.requireString
 import org.totschnig.myexpenses.service.DailyScheduler
 import org.totschnig.myexpenses.sync.GenericAccountService
-import org.totschnig.myexpenses.sync.ServiceLoader
+import org.totschnig.myexpenses.sync.BackendService
 import org.totschnig.myexpenses.util.ShortcutHelper
 import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.UiUtils
@@ -733,7 +733,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             getKey(PrefKey.SYNC) -> {
                 requirePreference<Preference>(PrefKey.MANAGE_SYNC_BACKENDS).summary = (getString(
                     R.string.pref_manage_sync_backends_summary,
-                    ServiceLoader.load(requireContext()).joinToString { it.label }
+                    BackendService.allAvailable(requireContext()).joinToString { it.label }
                 ) +
                         " " + ContribFeature.SYNCHRONIZATION.buildRequiresString(requireActivity()))
                 requirePreference<Preference>(PrefKey.SYNC_NOTIFICATION).onPreferenceChangeListener =

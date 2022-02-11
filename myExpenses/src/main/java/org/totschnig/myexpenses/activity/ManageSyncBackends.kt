@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.activity
 
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
@@ -47,7 +46,7 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (getSyncBackendProviderFactoryById(item.itemId) != null) {
+        if (getBackendServiceById(item.itemId) != null) {
             contribFeatureRequested(ContribFeature.SYNCHRONIZATION, item.itemId)
             return true
         }
