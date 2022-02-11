@@ -31,7 +31,6 @@ abstract class SyncBackendSetupActivity : ProtectedFragmentActivity(), EditTextD
     private lateinit var backendProviders: List<BackendService>
     protected lateinit var viewModel: SyncViewModel
     private var isResumed = false
-    private var setupPending = false
 
     @JvmField
     @State
@@ -77,9 +76,8 @@ abstract class SyncBackendSetupActivity : ProtectedFragmentActivity(), EditTextD
     override fun onResume() {
         super.onResume()
         isResumed = true
-        if (setupPending) {
+        if (selectedFactoryId != 0) {
             startSetupDo()
-            setupPending = false
         }
     }
 
@@ -92,8 +90,6 @@ abstract class SyncBackendSetupActivity : ProtectedFragmentActivity(), EditTextD
         selectedFactoryId = itemId
         if (isResumed) {
             startSetupDo()
-        } else {
-            setupPending = true
         }
     }
 
@@ -102,13 +98,16 @@ abstract class SyncBackendSetupActivity : ProtectedFragmentActivity(), EditTextD
         val feature = backendService?.feature
         if (feature == null || featureManager.isFeatureInstalled(feature, this)) {
             backendService?.instantiate()?.startSetup(this)
+            selectedFactoryId = 0
         } else {
             featureManager.requestFeature(feature, this)
         }
     }
 
     override fun onFeatureAvailable(feature: Feature) {
-        startSetupDo()
+        if (selectedFactoryId != 0 && getBackendServiceByIdOrThrow(selectedFactoryId).feature == feature) {
+            startSetupDo()
+        }
     }
 
     //Google Drive & Dropbox

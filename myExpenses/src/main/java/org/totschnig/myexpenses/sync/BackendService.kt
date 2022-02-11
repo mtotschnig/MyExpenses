@@ -51,6 +51,7 @@ enum class BackendService(private val className: String, val id: Int, val label:
     }
 
     companion object {
+        fun forAccount(account: String) = values().find { account.startsWith(it.label) }
         fun allAvailable(context: Context) = values().filter { it.isAvailable(context) }
     }
 }

@@ -1,16 +1,14 @@
 package org.totschnig.myexpenses.sync
 
-import android.content.ContentProviderClient
-import android.content.ContentProviderOperation
-import android.content.ContentUris
-import android.content.ContentValues
-import android.content.OperationApplicationException
+import android.content.*
 import android.net.Uri
 import android.os.RemoteException
 import androidx.annotation.VisibleForTesting
 import androidx.core.util.Pair
 import org.apache.commons.collections4.ListUtils
 import org.totschnig.myexpenses.export.CategoryInfo
+import org.totschnig.myexpenses.feature.Feature
+import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyContext
@@ -29,7 +27,7 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.util.*
 
-class SyncDelegate @JvmOverloads constructor(val currencyContext: CurrencyContext, val resolver: (accountId: Long, transactionUUid: String) -> Long = Transaction::findByAccountAndUuid) {
+class SyncDelegate @JvmOverloads constructor(val currencyContext: CurrencyContext, val featureManager: FeatureManager, val resolver: (accountId: Long, transactionUUid: String) -> Long = Transaction::findByAccountAndUuid) {
 
     private val categoryToId: MutableMap<String, Long> = HashMap()
     private val payeeToId: MutableMap<String, Long> = HashMap()
@@ -405,10 +403,20 @@ class SyncDelegate @JvmOverloads constructor(val currencyContext: CurrencyContex
             input.filter { value: TransactionChange -> value.type() != TransactionChange.Type.metadata }
 
     fun concat(contentBuilders: List<CharSequence>) =
-            contentBuilders.foldIndexed(StringBuilder(), { index, sum, element ->
+            contentBuilders.foldIndexed(StringBuilder()) { index, sum, element ->
                 if (index > 0) {
                     sum.append("\n")
                 }
                 sum.append(element)
-            })
+            }
+
+    fun requireFeatureForAccount(context: Context, name: String): Feature? {
+        BackendService.forAccount(name)?.feature?.let {
+            if (!featureManager.isFeatureInstalled(it, context)) {
+                featureManager.requestFeature(it, context)
+                return it
+            }
+        }
+        return null
+    }
 }

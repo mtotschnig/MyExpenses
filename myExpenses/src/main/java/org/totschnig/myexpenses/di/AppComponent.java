@@ -31,6 +31,7 @@ import org.totschnig.myexpenses.dialog.TransactionListDialogFragment;
 import org.totschnig.myexpenses.dialog.VersionDialogFragment;
 import org.totschnig.myexpenses.dialog.select.SelectFromTableDialogFragment;
 import org.totschnig.myexpenses.export.pdf.PdfPrinter;
+import org.totschnig.myexpenses.feature.FeatureManager;
 import org.totschnig.myexpenses.feature.OcrFeature;
 import org.totschnig.myexpenses.fragment.BaseSettingsFragment;
 import org.totschnig.myexpenses.fragment.BaseTransactionList;
@@ -159,6 +160,8 @@ public interface AppComponent {
   OcrFeature ocrFeature();
 
   OkHttpClient.Builder okHttpClientBuilder();
+
+  FeatureManager featureManager();
 
   void inject(MyApplication application);
 

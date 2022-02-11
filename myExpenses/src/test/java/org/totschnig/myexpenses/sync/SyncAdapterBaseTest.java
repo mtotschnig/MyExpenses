@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.sync;
 
 import org.junit.Before;
+import org.totschnig.myexpenses.feature.FeatureManager;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 
@@ -13,7 +14,7 @@ class SyncAdapterBaseTest {
 
   @Before
   public void setup() {
-    syncDelegate = new SyncDelegate(mock(CurrencyContext.class));
+    syncDelegate = new SyncDelegate(mock(CurrencyContext.class), mock(FeatureManager.class));
   }
 
   TransactionChange.Builder buildCreated() {

@@ -95,15 +95,13 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     //TODO: these settings need to be authoritatively stored in Database, instead of just mirrored
     private val storeInDatabaseChangeListener =
         Preference.OnPreferenceChangeListener { preference, newValue ->
-            (activity as? MyPreferenceActivity)?.let { activity ->
-                activity.showSnackBarIndefinite(R.string.saving)
-                viewModel.storeSetting(preference.key, newValue.toString())
-                    .observe(this@BaseSettingsFragment) { result ->
-                        activity.dismissSnackBar()
-                        if ((!result)) activity.showSnackBar("ERROR")
-                    }
-                true
-            } ?: false
+            preferenceActivity.showSnackBarIndefinite(R.string.saving)
+            viewModel.storeSetting(preference.key, newValue.toString())
+                .observe(this@BaseSettingsFragment) { result ->
+                    preferenceActivity.dismissSnackBar()
+                    if ((!result)) preferenceActivity.showSnackBar("ERROR")
+                }
+            true
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -142,7 +140,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     }
                 }.onFailure {
                     if (preference.isChecked) preference.isChecked = false
-                    activity().showSnackBar(it.message ?: "ERROR")
+                    preferenceActivity.showSnackBar(it.message ?: "ERROR")
                 }
             }
         }
@@ -181,10 +179,10 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     }
 
     override fun onValidationError(messageResId: Int) {
-        activity().showSnackBar(messageResId)
+        preferenceActivity.showSnackBar(messageResId)
     }
 
-    fun activity() = activity as MyPreferenceActivity
+    val preferenceActivity get() = requireActivity() as MyPreferenceActivity
 
     private fun configureUninstallPrefs() {
         configureMultiSelectListPref(
@@ -251,7 +249,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     fun configureOcrEnginePrefs() {
         val tesseract = requirePreference<ListPreference>(PrefKey.TESSERACT_LANGUAGE)
         val mlkit = requirePreference<ListPreference>(PrefKey.MLKIT_SCRIPT)
-        activity().ocrViewModel.configureOcrEnginePrefs(tesseract, mlkit)
+        preferenceActivity.ocrViewModel.configureOcrEnginePrefs(tesseract, mlkit)
     }
 
     fun requireApplication(): MyApplication {
@@ -261,9 +259,9 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     fun handleContrib(prefKey: PrefKey, feature: ContribFeature, preference: Preference) =
         if (matches(preference, prefKey)) {
             if (licenceHandler.hasAccessTo(feature)) {
-                activity().contribFeatureCalled(feature, null)
+                preferenceActivity.contribFeatureCalled(feature, null)
             } else {
-                activity().showContribDialog(feature, null)
+                preferenceActivity.showContribDialog(feature, null)
             }
             true
         } else false
@@ -281,23 +279,23 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     ) {
         when (key) {
             getKey(PrefKey.UI_LANGUAGE) -> {
-                featureManager.requestLocale(activity())
+                featureManager.requestLocale(preferenceActivity)
             }
             getKey(PrefKey.GROUP_MONTH_STARTS), getKey(PrefKey.GROUP_WEEK_STARTS), getKey(PrefKey.CRITERION_FUTURE) -> {
-                activity().rebuildDbConstants()
+                preferenceActivity.rebuildDbConstants()
             }
             getKey(PrefKey.DB_SAFE_MODE) -> {
-                activity().rebuildAccountProjection()
+                preferenceActivity.rebuildAccountProjection()
             }
             getKey(PrefKey.UI_FONTSIZE) -> {
                 updateAllWidgets()
-                activity().recreate()
+                preferenceActivity.recreate()
             }
             getKey(PrefKey.PROTECTION_LEGACY), getKey(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN) -> {
                 if (sharedPreferences.getBoolean(key, false)) {
-                    activity().showSnackBar(R.string.pref_protection_screenshot_information)
+                    preferenceActivity.showSnackBar(R.string.pref_protection_screenshot_information)
                     if (prefHandler.getBoolean(PrefKey.AUTO_BACKUP, false)) {
-                        activity().showUnencryptedBackupWarning()
+                        preferenceActivity.showUnencryptedBackupWarning()
                     }
                 }
                 setProtectionDependentsState()
@@ -323,30 +321,30 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                         false
                     ) || prefHandler.getBoolean(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN, false))))
                 ) {
-                    activity().showUnencryptedBackupWarning()
+                    preferenceActivity.showUnencryptedBackupWarning()
                 }
-                DailyScheduler.updateAutoBackupAlarms(activity())
+                DailyScheduler.updateAutoBackupAlarms(preferenceActivity)
             }
             getKey(PrefKey.AUTO_BACKUP_TIME) -> {
-                DailyScheduler.updateAutoBackupAlarms(activity())
+                DailyScheduler.updateAutoBackupAlarms(preferenceActivity)
             }
             getKey(PrefKey.SYNC_FREQUCENCY) -> {
-                for (account in GenericAccountService.getAccounts(activity())) {
+                for (account in GenericAccountService.getAccounts(preferenceActivity)) {
                     GenericAccountService.addPeriodicSync(account, prefHandler)
                 }
             }
             getKey(PrefKey.TRACKING) -> {
-                activity().setTrackingEnabled(sharedPreferences.getBoolean(key, false))
+                preferenceActivity.setTrackingEnabled(sharedPreferences.getBoolean(key, false))
             }
             getKey(PrefKey.PLANNER_EXECUTION_TIME) -> {
-                DailyScheduler.updatePlannerAlarms(activity(), false, false)
+                DailyScheduler.updatePlannerAlarms(preferenceActivity, false, false)
             }
             getKey(PrefKey.TESSERACT_LANGUAGE) -> {
-                activity().checkTessDataDownload()
+                preferenceActivity.checkTessDataDownload()
             }
             getKey(PrefKey.OCR_ENGINE) -> {
-                if (!featureManager.isFeatureInstalled(Feature.OCR, activity())) {
-                    featureManager.requestFeature(Feature.OCR, activity())
+                if (!featureManager.isFeatureInstalled(Feature.OCR, preferenceActivity)) {
+                    featureManager.requestFeature(Feature.OCR, preferenceActivity)
                 }
                 configureOcrEnginePrefs()
             }
@@ -359,7 +357,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     }
 
     private fun updateWidgetsForClass(provider: Class<out AppWidgetProvider>) {
-        updateWidgets(activity(), provider, WIDGET_CONTEXT_CHANGED)
+        updateWidgets(preferenceActivity, provider, WIDGET_CONTEXT_CHANGED)
     }
 
     fun setProtectionDependentsState() {
@@ -440,26 +438,24 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     }
 
     fun updateHomeCurrency(currencyCode: String) {
-        (activity as? MyPreferenceActivity)?.let { activity ->
-            findPreference<ListPreference>(PrefKey.HOME_CURRENCY)?.let {
-                it.value = currencyCode
-            } ?: run {
-                prefHandler.putString(PrefKey.HOME_CURRENCY, currencyCode)
-            }
-            activity.invalidateHomeCurrency()
-            activity.showSnackBarIndefinite(R.string.saving)
-            viewModel.resetEquivalentAmounts().observe(this) { integer ->
-                activity.dismissSnackBar()
-                if (integer != null) {
-                    activity.showSnackBar(
-                        String.format(
-                            resources.configuration.locale,
-                            "%s (%d)", getString(R.string.reset_equivalent_amounts_success), integer
-                        )
+        findPreference<ListPreference>(PrefKey.HOME_CURRENCY)?.let {
+            it.value = currencyCode
+        } ?: run {
+            prefHandler.putString(PrefKey.HOME_CURRENCY, currencyCode)
+        }
+        preferenceActivity.invalidateHomeCurrency()
+        preferenceActivity.showSnackBarIndefinite(R.string.saving)
+        viewModel.resetEquivalentAmounts().observe(this) { integer ->
+            preferenceActivity.dismissSnackBar()
+            if (integer != null) {
+                preferenceActivity.showSnackBar(
+                    String.format(
+                        resources.configuration.locale,
+                        "%s (%d)", getString(R.string.reset_equivalent_amounts_success), integer
                     )
-                } else {
-                    activity.showSnackBar("Equivalent amount reset failed")
-                }
+                )
+            } else {
+                preferenceActivity.showSnackBar("Equivalent amount reset failed")
             }
         }
     }
@@ -467,7 +463,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     fun trackPreferenceClick(preference: Preference) {
         val bundle = Bundle()
         bundle.putString(Tracker.EVENT_PARAM_ITEM_ID, preference.key)
-        activity().logEvent(Tracker.EVENT_PREFERENCE_CLICK, bundle)
+        preferenceActivity.logEvent(Tracker.EVENT_PREFERENCE_CLICK, bundle)
     }
 
     private fun setListenerRecursive(
@@ -727,7 +723,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     ocrTimePref.text = shortFormat + "\n" + mediumFormat
                 }
                 this.requirePreference<ListPreference>(PrefKey.OCR_ENGINE).isVisible =
-                    activity().ocrViewModel.shouldShowEngineSelection()
+                    preferenceActivity.ocrViewModel.shouldShowEngineSelection()
                 configureOcrEnginePrefs()
             }
             getKey(PrefKey.SYNC) -> {
@@ -761,7 +757,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
         val locale = Locale.getDefault()
         val language = locale.language.lowercase(Locale.US)
         val country = locale.country.lowercase(Locale.US)
-        return activity().getTranslatorsArrayResId(language, country)
+        return preferenceActivity.getTranslatorsArrayResId(language, country)
     }
 
     fun configureOpenExchangeRatesPreference(provider: String) {
@@ -791,14 +787,14 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
             putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent)
             putExtra(Intent.EXTRA_SHORTCUT_NAME, getString(nameId))
             putExtra(Intent.EXTRA_SHORTCUT_ICON, bitmap)
-            setAction("com.android.launcher.action.INSTALL_SHORTCUT")
+            action = "com.android.launcher.action.INSTALL_SHORTCUT"
         }
 
         if (Utils.isIntentReceiverAvailable(requireActivity(), intent)) {
             requireActivity().sendBroadcast(intent)
-            activity().showSnackBar(getString(R.string.pref_shortcut_added))
+            preferenceActivity.showSnackBar(getString(R.string.pref_shortcut_added))
         } else {
-            activity().showSnackBar(getString(R.string.pref_shortcut_not_added))
+            preferenceActivity.showSnackBar(getString(R.string.pref_shortcut_not_added))
         }
     }
 
@@ -812,7 +808,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
      */
     fun handleScreenWithMasterSwitch(prefKey: PrefKey): Boolean {
         if (matches(preferenceScreen, prefKey)) {
-            activity().supportActionBar?.let { actionBar ->
+            preferenceActivity.supportActionBar?.let { actionBar ->
                 val status = prefHandler.getBoolean(prefKey, false)
                 val actionBarSwitch = requireActivity().layoutInflater.inflate(
                     R.layout.pref_master_switch, null
@@ -827,12 +823,10 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
                     //TODO factor out to call site
                     if (prefKey == PrefKey.AUTO_BACKUP) {
                         if (isChecked && !licenceHandler.hasAccessTo(ContribFeature.AUTO_BACKUP)) {
-                            (activity as? MyPreferenceActivity)?.let {
-                                it.showContribDialog(ContribFeature.AUTO_BACKUP, null)
-                                if (ContribFeature.AUTO_BACKUP.usagesLeft(prefHandler) <= 0) {
-                                    buttonView.isChecked = false
-                                    return@setOnCheckedChangeListener
-                                }
+                            preferenceActivity.showContribDialog(ContribFeature.AUTO_BACKUP, null)
+                            if (ContribFeature.AUTO_BACKUP.usagesLeft(prefHandler) <= 0) {
+                                buttonView.isChecked = false
+                                return@setOnCheckedChangeListener
                             }
                         }
                     }
@@ -868,7 +862,7 @@ abstract class BaseSettingsFragment : PreferenceFragmentCompat(), OnValidationEr
     }
 
     fun reportException(e: Exception) {
-        activity().showSnackBar(e.message ?: "ERROR")
+        preferenceActivity.showSnackBar(e.message ?: "ERROR")
         CrashHandler.report(e)
     }
 }

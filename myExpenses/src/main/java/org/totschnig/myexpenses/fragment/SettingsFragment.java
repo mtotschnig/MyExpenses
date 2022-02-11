@@ -121,7 +121,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
   @Override
   public void onResume() {
     super.onResume();
-    final MyPreferenceActivity activity = activity();
+    final MyPreferenceActivity activity = getPreferenceActivity();
     final ActionBar actionBar = activity.getSupportActionBar();
     PreferenceScreen screen = getPreferenceScreen();
     boolean isRoot = matches(screen, ROOT_SCREEN);
@@ -169,12 +169,12 @@ public class SettingsFragment extends BaseSettingsFragment implements
       if (!target.equals("")) {
         uri = ShareUtils.parseUri(target);
         if (uri == null) {
-          activity().showSnackBar(getString(R.string.ftp_uri_malformed, target));
+          getPreferenceActivity().showSnackBar(getString(R.string.ftp_uri_malformed, target));
           return false;
         }
         String scheme = uri.getScheme();
         if (!(scheme.equals("ftp") || scheme.equals("mailto"))) {
-          activity().showSnackBar(getString(R.string.share_scheme_not_supported, scheme));
+          getPreferenceActivity().showSnackBar(getString(R.string.share_scheme_not_supported, scheme));
           return false;
         }
         Intent intent;
@@ -182,7 +182,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
           intent = new Intent(Intent.ACTION_SENDTO);
           intent.setData(android.net.Uri.parse(target));
           if (!Utils.isIntentAvailable(requireActivity(), intent)) {
-            getActivity().showDialog(R.id.FTP_DIALOG);
+            getPreferenceActivity().showDialog(R.id.FTP_DIALOG);
           }
         }
       }
@@ -193,7 +193,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
     } else if (matches(pref, CRASHREPORT_USEREMAIL)) {
       crashHandler.setUserEmail((String) value);
     } else if (matches(pref, CRASHREPORT_ENABLED)) {
-      activity().showSnackBar(R.string.app_restart_required);
+      getPreferenceActivity().showSnackBar(R.string.app_restart_required);
     } else if (matches(pref, OCR_DATE_FORMATS)) {
       if (!TextUtils.isEmpty((String) value)) {
         try {
@@ -201,7 +201,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
             LocalDate.now().format(DateTimeFormatter.ofPattern(line));
           }
         } catch (Exception e) {
-          activity().showSnackBar(R.string.date_format_illegal);
+          getPreferenceActivity().showSnackBar(R.string.date_format_illegal);
           return false;
         }
       }
@@ -212,14 +212,14 @@ public class SettingsFragment extends BaseSettingsFragment implements
             LocalTime.now().format(DateTimeFormatter.ofPattern(line));
           }
         } catch (Exception e) {
-          activity().showSnackBar(R.string.date_format_illegal);
+          getPreferenceActivity().showSnackBar(R.string.date_format_illegal);
           return false;
         }
       }
     } else if (matches(pref, PROTECTION_DEVICE_LOCK_SCREEN)) {
       if (((Boolean) value)) {
         if (!((KeyguardManager) requireContext().getSystemService(Context.KEYGUARD_SERVICE)).isKeyguardSecure()) {
-          activity().showDeviceLockScreenWarning();
+          getPreferenceActivity().showDeviceLockScreenWarning();
           return false;
         } else if (prefHandler.getBoolean(PROTECTION_LEGACY, false)) {
           showOnlyOneProtectionWarning(true);
@@ -230,13 +230,13 @@ public class SettingsFragment extends BaseSettingsFragment implements
     } else if (matches(pref, UI_WEB)) {
       if ((Boolean) value) {
         if (!NetworkUtilsKt.isConnectedWifi(requireContext())) {
-          activity().showSnackBar(getString(R.string.no_network) + " (WIFI)");
+          getPreferenceActivity().showSnackBar(getString(R.string.no_network) + " (WIFI)");
           return false;
         }
-        if (licenceHandler.hasAccessTo(ContribFeature.WEB_UI) && activity().featureViewModel.isFeatureAvailable(activity(), Feature.WEBUI)) {
+        if (licenceHandler.hasAccessTo(ContribFeature.WEB_UI) && getPreferenceActivity().featureViewModel.isFeatureAvailable(getPreferenceActivity(), Feature.WEBUI)) {
           return true;
         } else {
-          activity().contribFeatureRequested(ContribFeature.WEB_UI, null);
+          getPreferenceActivity().contribFeatureRequested(ContribFeature.WEB_UI, null);
           return false;
         }
       } else {
@@ -251,7 +251,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
     trackPreferenceClick(preference);
     if (matches(preference, CONTRIB_PURCHASE)) {
       if (licenceHandler.isUpgradeable()) {
-        Intent i = ContribInfoDialogActivity.getIntentFor(getActivity(), null);
+        Intent i = ContribInfoDialogActivity.getIntentFor(getPreferenceActivity(), null);
         if (DistributionHelper.isGithub()) {
           startActivityForResult(i, CONTRIB_PURCHASE_REQUEST);
         } else {
@@ -274,16 +274,16 @@ public class SettingsFragment extends BaseSettingsFragment implements
       return true;
     }
     if (matches(preference, SEND_FEEDBACK)) {
-      activity().dispatchCommand(R.id.FEEDBACK_COMMAND, null);
+      getPreferenceActivity().dispatchCommand(R.id.FEEDBACK_COMMAND, null);
       return true;
     }
     if (matches(preference, RATE)) {
       prefHandler.putLong(NEXT_REMINDER_RATE, -1);
-      activity().dispatchCommand(R.id.RATE_COMMAND, null);
+      getPreferenceActivity().dispatchCommand(R.id.RATE_COMMAND, null);
       return true;
     }
     if (matches(preference, MORE_INFO_DIALOG)) {
-      getActivity().showDialog(R.id.MORE_INFO_DIALOG);
+      getPreferenceActivity().showDialog(R.id.MORE_INFO_DIALOG);
       return true;
     }
     if (matches(preference, RESTORE)) {
@@ -325,7 +325,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
       return true;
     }
     if (matches(preference, PERSONALIZED_AD_CONSENT)) {
-      activity().checkGdprConsent(true);
+      getPreferenceActivity().checkGdprConsent(true);
       return true;
     }
     return false;
@@ -336,7 +336,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
     String passWord = getString(R.string.pref_protection_password_title);
     Object[] formatArgs = legacyProtectionByPasswordIsActive ? new String[]{lockScreen, passWord} : new String[]{passWord, lockScreen};
     //noinspection StringFormatMatches
-    activity().showSnackBar(getString(R.string.pref_warning_only_one_protection, formatArgs));
+    getPreferenceActivity().showSnackBar(getString(R.string.pref_warning_only_one_protection, formatArgs));
   }
 
   private void contribBuyDo(Package selectedPackage, boolean shouldReplaceExisting) {
@@ -351,7 +351,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
       if (CALENDAR.hasPermission(getContext())) {
         fragment = CalendarListPreferenceDialogFragmentCompat.newInstance(key);
       } else {
-        activity().requestCalendarPermission();
+        getPreferenceActivity().requestCalendarPermission();
         return;
       }
     } else if (preference instanceof FontSizeDialogPreference) {
@@ -369,7 +369,7 @@ public class SettingsFragment extends BaseSettingsFragment implements
       fragment = SecurityQuestionDialogFragmentCompat.newInstance(key);
     } else if (matches(preference, AUTO_BACKUP_CLOUD)) {
       if (((ListPreference) preference).getEntries().length == 1) {
-        activity().showSnackBar(R.string.no_sync_backends);
+        getPreferenceActivity().showSnackBar(R.string.no_sync_backends);
         return;
       }
     } else if (preference instanceof SimplePasswordPreference) {
@@ -414,12 +414,12 @@ public class SettingsFragment extends BaseSettingsFragment implements
       if (which == BUTTON_POSITIVE) {
         prefHandler.putString(NEW_LICENCE, extras.getString(KEY_KEY).trim());
         prefHandler.putString(LICENCE_EMAIL, extras.getString(KEY_EMAIL).trim());
-        activity().validateLicence();
+        getPreferenceActivity().validateLicence();
       }
     } else if (DIALOG_MANAGE_LICENCE.equals(dialogTag)) {
       switch (which) {
         case BUTTON_POSITIVE:
-          activity().validateLicence();
+          getPreferenceActivity().validateLicence();
           break;
         case BUTTON_NEGATIVE:
           Bundle b = new Bundle();

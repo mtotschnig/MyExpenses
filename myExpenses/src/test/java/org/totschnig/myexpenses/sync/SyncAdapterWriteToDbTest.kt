@@ -7,6 +7,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.RobolectricTestRunner
+import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -24,14 +25,17 @@ class SyncAdapterWriteToDbTest {
     }
 
     private fun setupSync() {
-        syncDelegate = SyncDelegate(Mockito.mock(CurrencyContext::class.java))
+        syncDelegate = SyncDelegate(currencyContext(), featureManager())
         syncDelegate.account = Account()
     }
 
     private fun setupSyncWithFakeResolver() {
-        syncDelegate = SyncDelegate(Mockito.mock(CurrencyContext::class.java)) { _, _ -> 1 }
+        syncDelegate = SyncDelegate(currencyContext(), featureManager()) { _, _ -> 1 }
         syncDelegate.account = Account()
     }
+
+    private fun currencyContext() = Mockito.mock(CurrencyContext::class.java)
+    private fun featureManager() = Mockito.mock(FeatureManager::class.java)
 
     @Test
     fun createdChangeShouldBeCollectedAsInsertOperation() {

@@ -54,6 +54,7 @@ import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageSyncBackends;
+import org.totschnig.myexpenses.feature.Feature;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.DatabaseConstants;
@@ -95,11 +96,19 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
   public SyncAdapter(Context context, boolean autoInitialize) {
     super(context, autoInitialize);
+    init();
   }
 
   public SyncAdapter(Context context, boolean autoInitialize, boolean allowParallelSyncs) {
     super(context, autoInitialize, allowParallelSyncs);
+    init();
   }
+
+  private void init() {
+    syncDelegate = new SyncDelegate(getCurrencyContext(),
+            ((MyApplication) getContext().getApplicationContext()).getAppComponent().featureManager());
+  }
+
 
   public static String KEY_LAST_SYNCED_REMOTE(long accountId) {
     return "last_synced_remote_" + accountId;
@@ -118,6 +127,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     return (System.currentTimeMillis() / 1000) + IO_LOCK_DELAY_SECONDS;
   }
 
+  private static long getFeatureLoadDelaySeconds() {
+    return (System.currentTimeMillis() / 1000) + 60;
+  }
+
   private String getUserDataWithDefault(AccountManager accountManager, Account account,
                                         String key, String defaultValue) {
     String value = accountManager.getUserData(account, key);
@@ -134,7 +147,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       notificationContent.remove(account.hashCode());
       return;
     }
-    syncDelegate = new SyncDelegate(getCurrencyConext());
     String uuidFromExtras = extras.getString(KEY_UUID);
     int notificationId = account.hashCode();
     if (notificationContent.get(notificationId) == null) {
@@ -154,6 +166,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
 
     AccountManager accountManager = AccountManager.get(getContext());
+
+    Feature missingFeature = syncDelegate.requireFeatureForAccount(getContext(), account.name);
+    if (missingFeature != null) {
+      syncResult.stats.numIoExceptions++;
+      syncResult.delayUntil = getFeatureLoadDelaySeconds();
+      appendToNotification(getContext().getString(R.string.feature_download_requested, getContext().getString(missingFeature.getLabelResId())), account, true);
+      return;
+    }
 
     Exceptional<SyncBackendProvider> backendProviderExceptional =
         SyncBackendProviderFactory.getLegacy(getContext(), account, false);
@@ -430,7 +450,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
   }
 
-  private CurrencyContext getCurrencyConext() {
+  private CurrencyContext getCurrencyContext() {
     return ((MyApplication) getContext().getApplicationContext()).getAppComponent().currencyContext();
   }
 
@@ -457,7 +477,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
       Uri uri = ContentUris.appendId(TransactionProvider.ACCOUNT_EXCHANGE_RATE_URI.buildUpon(), id)
           .appendEncodedPath(currency)
           .appendEncodedPath(homeCurrency).build();
-      int minorUnitDelta = Utils.getHomeCurrency().getFractionDigits() - getCurrencyConext().get(currency).getFractionDigits();
+      int minorUnitDelta = Utils.getHomeCurrency().getFractionDigits() - getCurrencyContext().get(currency).getFractionDigits();
       ops.add(ContentProviderOperation.newInsert(uri).withValue(KEY_EXCHANGE_RATE, exchangeRate * Math.pow(10, minorUnitDelta)).build());
     }
     ops.add(TransactionProvider.resumeChangeTrigger());

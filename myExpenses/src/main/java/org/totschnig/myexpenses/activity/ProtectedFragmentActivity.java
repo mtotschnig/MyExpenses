@@ -15,6 +15,28 @@
 
 package org.totschnig.myexpenses.activity;
 
+import static org.totschnig.myexpenses.activity.ConstantsKt.CALCULATOR_REQUEST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.CONFIRM_DEVICE_CREDENTIALS_UNLOCK_REQUEST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.CONTRIB_REQUEST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.PREFERENCES_REQUEST;
+import static org.totschnig.myexpenses.activity.ConstantsKt.RESTORE_REQUEST;
+import static org.totschnig.myexpenses.activity.ContribInfoDialogActivity.KEY_FEATURE;
+import static org.totschnig.myexpenses.preference.PrefKey.CRITERION_FUTURE;
+import static org.totschnig.myexpenses.preference.PrefKey.CUSTOM_DATE_FORMAT;
+import static org.totschnig.myexpenses.preference.PrefKey.DB_SAFE_MODE;
+import static org.totschnig.myexpenses.preference.PrefKey.GROUP_MONTH_STARTS;
+import static org.totschnig.myexpenses.preference.PrefKey.GROUP_WEEK_STARTS;
+import static org.totschnig.myexpenses.preference.PrefKey.HOME_CURRENCY;
+import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_DEVICE_LOCK_SCREEN;
+import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_LEGACY;
+import static org.totschnig.myexpenses.preference.PrefKey.UI_FONTSIZE;
+import static org.totschnig.myexpenses.preference.PrefKey.UI_LANGUAGE;
+import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_RESTORE;
+import static org.totschnig.myexpenses.util.TextUtils.concatResStrings;
+import static org.totschnig.myexpenses.util.distrib.DistributionHelper.getMarketSelfUri;
+import static org.totschnig.myexpenses.util.distrib.DistributionHelper.getVersionInfo;
+
 import android.app.KeyguardManager;
 import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
@@ -37,6 +59,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.util.Pair;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.annimon.stream.Optional;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -81,41 +115,8 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.VisibleForTesting;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.util.Pair;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import icepick.Icepick;
 import timber.log.Timber;
-
-import static org.totschnig.myexpenses.activity.ConstantsKt.CALCULATOR_REQUEST;
-import static org.totschnig.myexpenses.activity.ConstantsKt.CONFIRM_DEVICE_CREDENTIALS_UNLOCK_REQUEST;
-import static org.totschnig.myexpenses.activity.ConstantsKt.CONTRIB_REQUEST;
-import static org.totschnig.myexpenses.activity.ConstantsKt.PREFERENCES_REQUEST;
-import static org.totschnig.myexpenses.activity.ConstantsKt.RESTORE_REQUEST;
-import static org.totschnig.myexpenses.activity.ContribInfoDialogActivity.KEY_FEATURE;
-import static org.totschnig.myexpenses.preference.PrefKey.CRITERION_FUTURE;
-import static org.totschnig.myexpenses.preference.PrefKey.CUSTOM_DATE_FORMAT;
-import static org.totschnig.myexpenses.preference.PrefKey.DB_SAFE_MODE;
-import static org.totschnig.myexpenses.preference.PrefKey.GROUP_MONTH_STARTS;
-import static org.totschnig.myexpenses.preference.PrefKey.GROUP_WEEK_STARTS;
-import static org.totschnig.myexpenses.preference.PrefKey.HOME_CURRENCY;
-import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_DEVICE_LOCK_SCREEN;
-import static org.totschnig.myexpenses.preference.PrefKey.PROTECTION_LEGACY;
-import static org.totschnig.myexpenses.preference.PrefKey.UI_FONTSIZE;
-import static org.totschnig.myexpenses.preference.PrefKey.UI_LANGUAGE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
-import static org.totschnig.myexpenses.task.TaskExecutionFragment.TASK_RESTORE;
-import static org.totschnig.myexpenses.util.TextUtils.concatResStrings;
-import static org.totschnig.myexpenses.util.distrib.DistributionHelper.getMarketSelfUri;
-import static org.totschnig.myexpenses.util.distrib.DistributionHelper.getVersionInfo;
 
 public abstract class ProtectedFragmentActivity extends BaseActivity
     implements OnSharedPreferenceChangeListener,
@@ -593,7 +594,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
   public <T> void startTaskExecution(int taskId, T[] objectIds, Serializable extra,
                                      int progressMessage, boolean withButton) {
     FragmentManager m = getSupportFragmentManager();
-    if (hasPendingTask(true)) {
+    if (hasPendingTask()) {
       return;
     }
     if (m.isStateSaved()) {
@@ -611,10 +612,10 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
     ft.commit();
   }
 
-  private boolean hasPendingTask(boolean shouldWarn) {
+  private boolean hasPendingTask() {
     FragmentManager m = getSupportFragmentManager();
     final boolean result = m.findFragmentByTag(ASYNC_TAG) != null;
-    if (result && shouldWarn) {
+    if (result) {
       showSnackBar("Previous task still executing, please try again later");
     }
     return result;
@@ -622,7 +623,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
 
   public void startTaskExecution(int taskId, @NonNull Bundle extras, int progressMessage) {
     FragmentManager m = getSupportFragmentManager();
-    if (hasPendingTask(true)) {
+    if (hasPendingTask()) {
       return;
     }
     //noinspection AndroidLintCommitTransaction

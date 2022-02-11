@@ -432,4 +432,10 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 .build().show()
         }
     }
+
+    fun requireFeature(feature: Feature) {
+        featureViewModel.requireFeature(this, feature)
+    }
+
+    fun isFeatureAvailable(feature: Feature) = featureViewModel.isFeatureAvailable(this, feature)
 }

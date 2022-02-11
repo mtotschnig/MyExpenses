@@ -16,19 +16,17 @@ import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 
 class SyncBackendAdapter(
-    context: Context?,
-    currencyContext: CurrencyContext,
-    syncAccounts: List<Pair<String, Boolean>>
+    context: Context,
+    private val currencyContext: CurrencyContext,
+    private var syncAccounts: List<Pair<String, Boolean>>
 ) : BaseExpandableListAdapter() {
     enum class SyncState {
         SYNCED_TO_THIS, SYNCED_TO_OTHER, UNSYNCED, UNKNOWN, ERROR
     }
 
-    private var syncAccounts: List<Pair<String, Boolean>>
     private val accountMetaDataMap = SparseArray<List<Result<AccountMetaData>>?>()
     private val layoutInflater = LayoutInflater.from(context)
     private var localAccountInfo: Map<String, String?>? = null
-    private val currencyContext: CurrencyContext
 
     fun getMetaData(groupPosition: Int, childPosititon: Int) = getChild(groupPosition, childPosititon).getOrNull()
 
@@ -187,8 +185,4 @@ class SyncBackendAdapter(
         return getBackendLabel(groupPosition)
     }
 
-    init {
-        this.syncAccounts = syncAccounts
-        this.currencyContext = currencyContext
-    }
 }

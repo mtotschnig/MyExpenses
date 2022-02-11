@@ -113,9 +113,9 @@ abstract class FeatureManager {
         } else
             true
 
-    open fun requestFeature(feature: Feature, activity: BaseActivity) {
+    open fun requestFeature(feature: Feature, context: Context) {
         if (feature == Feature.OCR) {
-            ocrFeature?.offerInstall(activity)
+            (context as? BaseActivity)?.let { ocrFeature?.offerInstall(it) }
         }
     }
 

@@ -41,8 +41,7 @@ abstract class SyncBackendProviderFactory {
             create: Boolean
         ): Result<SyncBackendProvider> {
             val accountManager = AccountManager.get(context)
-            return BackendService.values()
-                .find { account.name.startsWith(it.label) }
+            return BackendService.forAccount(account.name)
                 ?.instantiate()
                 ?.from(context, account, accountManager)
                 ?.mapCatching {
