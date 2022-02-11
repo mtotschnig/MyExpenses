@@ -56,12 +56,15 @@
                     <xsl:when test="$special-version-info != ''">
                         <xsl:value-of select="$special-version-info" />
                     </xsl:when>
-                    <xsl:when test="my:fileExists($upgrade)">
-                        <xsl:apply-templates select="document($upgrade)/resources/string-array">
-                            <xsl:with-param name="version" select="$version" />
-                        </xsl:apply-templates>
-                    </xsl:when>
-                    <xsl:otherwise/>
+                    <xsl:otherwise>
+                        <xsl:for-each select="document($strings)/resources/string[starts-with(@name,my:changeLogResourceName($version))]">
+                            <xsl-text>•&#032;</xsl-text>
+                            <xsl:apply-templates mode="unescape" select="." />
+                            <xsl:if test="position() != last()">
+                                <xsl:value-of select="$newline" />
+                            </xsl:if>
+                        </xsl:for-each>
+                    </xsl:otherwise>
                 </xsl:choose>
             </xsl:variable>
             <xsl:if test="$entry != ''">
@@ -86,20 +89,5 @@
                 select="document($info)/resources/string[@name=my:githubBoardResourceName($version)]" />
             <xsl:value-of select="$newline" />
         </xsl:result-document>
-    </xsl:template>
-
-    <xsl:template match="string-array">
-        <xsl:param name="version" />
-        <xsl:if test="@name=my:changeLogResourceName($version)">
-            <xsl:apply-templates select='item' />
-        </xsl:if>
-    </xsl:template>
-
-    <xsl:template match="item">
-        <xsl-text>•&#032;</xsl-text>
-        <xsl:apply-templates mode="unescape" select="." />
-        <xsl:if test="position() != last()">
-            <xsl:value-of select="$newline" />
-        </xsl:if>
     </xsl:template>
 </xsl:stylesheet>

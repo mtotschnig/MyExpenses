@@ -39,10 +39,6 @@
                 <xsl:with-param name="lang" select="$lang" />
             </xsl:call-template>
         </xsl:variable>
-        <xsl:variable name="upgrade">
-            <xsl:value-of select="$dir" />
-            <xsl:text>/upgrade_legacy.xml</xsl:text>
-        </xsl:variable>
         <xsl:variable name="strings">
             <xsl:value-of select="$dir" />
             <xsl:text>/strings.xml</xsl:text>
@@ -67,8 +63,15 @@
                         <xsl:value-of select="$special-version-info" />
                     </xsl:when>
                     <xsl:otherwise>
-                        <xsl:apply-templates
-                            select="document($upgrade)/resources/string-array[@name=my:changeLogResourceName($version)]" />
+                        <xsl:for-each select="document($strings)/resources/string[starts-with(@name,my:changeLogResourceName($version))]">
+                            <xsl:apply-templates mode="unescape" select='.' />
+                            <xsl:if test="$appendDot">
+                                <xsl:text>.</xsl:text>
+                            </xsl:if>
+                            <xsl:if test="position() != last()">
+                                <xsl:text>&#032;</xsl:text>
+                            </xsl:if>
+                        </xsl:for-each>
                     </xsl:otherwise>
                 </xsl:choose>
             </xsl:for-each>
@@ -82,18 +85,6 @@
             <xsl:value-of select="str:padding(8, '&#032;')" />
             <xsl:value-of select="$changelog" />
         </xsl:if>
-    </xsl:template>
-
-    <xsl:template match="string-array">
-        <xsl:for-each select="item">
-            <xsl:apply-templates mode="unescape" select='.' />
-            <xsl:if test="$appendDot">
-                <xsl:text>.</xsl:text>
-            </xsl:if>
-            <xsl:if test="position() != last()">
-                <xsl:text>&#032;</xsl:text>
-            </xsl:if>
-        </xsl:for-each>
     </xsl:template>
 
     <xsl:function name="str:padding">
