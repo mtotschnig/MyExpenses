@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.activity
 
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -17,9 +18,11 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.task.TaskExecutionFragment
 import org.totschnig.myexpenses.util.Result
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.AccountSealedException
 import org.totschnig.myexpenses.viewmodel.SyncViewModel.SyncAccountData
 import java.io.Serializable
+import java.lang.IllegalStateException
 
 class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
     private var newAccount: Account? = null
@@ -60,8 +63,12 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
                 return
             }
             R.id.SYNC_REMOVE_BACKEND_COMMAND -> {
-                if (viewModel.removeBackend(args.getString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)!!)) {
-                    listFragment.reloadAccountList()
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                    if (viewModel.removeBackend(args.getString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)!!)) {
+                        listFragment.reloadAccountList()
+                    }
+                } else {
+                    CrashHandler.report(IllegalStateException("Remove backend not supported on API 21"))
                 }
                 return
             }

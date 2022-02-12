@@ -5,7 +5,9 @@ import android.accounts.AuthenticatorException
 import android.accounts.OperationCanceledException
 import android.app.Application
 import android.content.ContentResolver
+import android.os.Build
 import android.os.Bundle
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import org.totschnig.myexpenses.MyApplication
@@ -160,6 +162,7 @@ class SyncViewModel(application: Application) : ContentResolvingAndroidViewModel
             emit(buildResult(accountName, shouldReturnRemoteDataList = true, create = false))
         }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP_MR1)
     fun removeBackend(accountName: String) =
         AccountManager.get(getApplication()).removeAccountExplicitly(getAccount(accountName))
 

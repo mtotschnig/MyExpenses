@@ -36,7 +36,7 @@ ext {
     versionCode = 511
     versionName = '3.3.6'
     compileSdkVersion = 31
-    minSdkVersion = 22
+    minSdkVersion = 21
     targetSdkVersion = 30
     espressoVersion = "3.4.0"
     androidSupportTestVersion = "1.4.0"

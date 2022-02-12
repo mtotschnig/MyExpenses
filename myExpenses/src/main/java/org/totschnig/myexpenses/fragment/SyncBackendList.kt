@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.fragment
 import android.app.Activity.RESULT_OK
 import android.content.ContentResolver
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.*
 import android.view.ContextMenu.ContextMenuInfo
@@ -213,28 +214,33 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
                 return true
             }
             R.id.SYNC_REMOVE_BACKEND_COMMAND -> {
-                val syncAccountName = syncBackendAdapter.getSyncAccountName(packedPosition)
-                ConfirmationDialogFragment.newInstance(Bundle().apply {
-                    putString(
-                        ConfirmationDialogFragment.KEY_MESSAGE,
-                        (getString(R.string.dialog_confirm_sync_remove_backend, syncAccountName)
-                                + " " + getString(R.string.continue_confirmation))
-                    )
-                    putInt(
-                        ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
-                        R.id.SYNC_REMOVE_BACKEND_COMMAND
-                    )
-                    putInt(
-                        ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
-                        R.string.menu_remove
-                    )
-                    putInt(
-                        ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL,
-                        android.R.string.cancel
-                    )
-                    putString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME, syncAccountName)
-                })
-                    .show(parentFragmentManager, "SYNC_REMOVE_BACKEND")
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                    val syncAccountName = syncBackendAdapter.getSyncAccountName(packedPosition)
+                    ConfirmationDialogFragment.newInstance(Bundle().apply {
+                        putString(
+                            ConfirmationDialogFragment.KEY_MESSAGE,
+                            (getString(R.string.dialog_confirm_sync_remove_backend, syncAccountName)
+                                    + " " + getString(R.string.continue_confirmation))
+                        )
+                        putInt(
+                            ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+                            R.id.SYNC_REMOVE_BACKEND_COMMAND
+                        )
+                        putInt(
+                            ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
+                            R.string.menu_remove
+                        )
+                        putInt(
+                            ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL,
+                            android.R.string.cancel
+                        )
+                        putString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME, syncAccountName)
+                    })
+                        .show(parentFragmentManager, "SYNC_REMOVE_BACKEND")
+                } else {
+                    manageSyncBackends.showSnackBar("Account can be deleted from Android System Settings")
+                }
+                return true
             }
             R.id.SHOW_PASSWORD_COMMAND -> {
                 viewModel.loadPassword(syncBackendAdapter.getSyncAccountName(packedPosition))
@@ -243,6 +249,7 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
                             it ?: "Could not retrieve passphrase"
                         )
                     }
+                return true
             }
         }
         return super.onContextItemSelected(item)
