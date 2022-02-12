@@ -74,7 +74,6 @@ public class TaskExecutionFragment<T> extends Fragment {
   public static final int TASK_MOVE_UNCOMMITED_SPLIT_PARTS = 40;
   public static final int TASK_REPAIR_PLAN = 41;
   public static final int TASK_SYNC_LINK_LOCAL = 45;
-  public static final int TASK_SYNC_REMOVE_BACKEND = 47;
   public static final int TASK_SYNC_LINK_SAVE = 48;
 
   public static final int TASK_VALIDATE_LICENCE = 55;

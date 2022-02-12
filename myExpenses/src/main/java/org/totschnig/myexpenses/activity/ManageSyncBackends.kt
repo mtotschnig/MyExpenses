@@ -56,16 +56,13 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
     override fun onPositive(args: Bundle, checked: Boolean) {
         when (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)) {
             R.id.SYNC_UNLINK_COMMAND -> {
-                listFragment!!.syncUnlink(args.getString(DatabaseConstants.KEY_UUID)!!)
+                listFragment.syncUnlink(args.getString(DatabaseConstants.KEY_UUID)!!)
                 return
             }
             R.id.SYNC_REMOVE_BACKEND_COMMAND -> {
-                startTaskExecution(
-                    TaskExecutionFragment.TASK_SYNC_REMOVE_BACKEND,
-                    arrayOf(args.getString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)),
-                    null,
-                    0
-                )
+                if (viewModel.removeBackend(args.getString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)!!)) {
+                    listFragment.reloadAccountList()
+                }
                 return
             }
             R.id.SYNC_LINK_COMMAND_LOCAL_DO -> {
@@ -181,7 +178,7 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
     }
 
     override fun onReceiveSyncAccountData(data: SyncAccountData) {
-        listFragment!!.reloadAccountList()
+        listFragment.reloadAccountList()
         if (data.localNotSynced > 0) {
             showSelectUnsyncedAccount(data.accountName)
         }
@@ -190,12 +187,6 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
     override fun onPostExecute(taskId: Int, o: Any?) {
         super.onPostExecute(taskId, o)
         when (taskId) {
-            TaskExecutionFragment.TASK_SYNC_REMOVE_BACKEND -> {
-                val result = o as Result<*>?
-                if (result!!.isSuccess) {
-                    listFragment!!.reloadAccountList()
-                }
-            }
             TaskExecutionFragment.TASK_SYNC_LINK_SAVE -> {
                 run {
                     val result = o as Result<*>?
@@ -226,13 +217,13 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
         }
     }
 
-    private val listFragment: SyncBackendList?
-        get() = supportFragmentManager.findFragmentById(R.id.backend_list) as SyncBackendList?
+    private val listFragment: SyncBackendList
+        get() = supportFragmentManager.findFragmentById(R.id.backend_list) as SyncBackendList
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.SYNC_DOWNLOAD_COMMAND) {
             if (prefHandler.getBoolean(PrefKey.NEW_ACCOUNT_ENABLED, true)) {
-                newAccount = listFragment!!.getAccountForSync(
+                newAccount = listFragment.getAccountForSync(
                     (item.menuInfo as ExpandableListContextMenuInfo).packedPosition
                 )
                 if (newAccount != null) {

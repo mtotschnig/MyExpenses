@@ -160,6 +160,9 @@ class SyncViewModel(application: Application) : ContentResolvingAndroidViewModel
             emit(buildResult(accountName, shouldReturnRemoteDataList = true, create = false))
         }
 
+    fun removeBackend(accountName: String) =
+        AccountManager.get(getApplication()).removeAccountExplicitly(getAccount(accountName))
+
     companion object {
         const val KEY_RETURN_REMOTE_DATA_LIST = "returnRemoteDataList"
     }

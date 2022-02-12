@@ -214,22 +214,26 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
             }
             R.id.SYNC_REMOVE_BACKEND_COMMAND -> {
                 val syncAccountName = syncBackendAdapter.getSyncAccountName(packedPosition)
-                val b = Bundle()
-                val message =
-                    (getString(R.string.dialog_confirm_sync_remove_backend, syncAccountName)
-                            + " " + getString(R.string.continue_confirmation))
-                b.putString(ConfirmationDialogFragment.KEY_MESSAGE, message)
-                b.putInt(
-                    ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
-                    R.id.SYNC_REMOVE_BACKEND_COMMAND
-                )
-                b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.menu_remove)
-                b.putInt(
-                    ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL,
-                    android.R.string.cancel
-                )
-                b.putString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME, syncAccountName)
-                ConfirmationDialogFragment.newInstance(b)
+                ConfirmationDialogFragment.newInstance(Bundle().apply {
+                    putString(
+                        ConfirmationDialogFragment.KEY_MESSAGE,
+                        (getString(R.string.dialog_confirm_sync_remove_backend, syncAccountName)
+                                + " " + getString(R.string.continue_confirmation))
+                    )
+                    putInt(
+                        ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+                        R.id.SYNC_REMOVE_BACKEND_COMMAND
+                    )
+                    putInt(
+                        ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
+                        R.string.menu_remove
+                    )
+                    putInt(
+                        ConfirmationDialogFragment.KEY_NEGATIVE_BUTTON_LABEL,
+                        android.R.string.cancel
+                    )
+                    putString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME, syncAccountName)
+                })
                     .show(parentFragmentManager, "SYNC_REMOVE_BACKEND")
             }
             R.id.SHOW_PASSWORD_COMMAND -> {

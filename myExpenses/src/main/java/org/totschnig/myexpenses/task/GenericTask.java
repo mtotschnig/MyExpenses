@@ -209,16 +209,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         account.save();
         return Result.SUCCESS;
       }
-      case TaskExecutionFragment.TASK_SYNC_REMOVE_BACKEND: {
-        AccountManagerFuture<Boolean> accountManagerFuture = AccountManager.get(context).removeAccount(
-            GenericAccountService.getAccount((String) ids[0]), null, null);
-        try {
-          return accountManagerFuture.getResult() ? Result.SUCCESS : Result.FAILURE;
-        } catch (OperationCanceledException | AuthenticatorException | IOException e) {
-          CrashHandler.report(e);
-          return Result.ofFailure(e.getMessage());
-        }
-      }
       case TaskExecutionFragment.TASK_SYNC_LINK_SAVE: {
         //first get remote data for account
         String syncAccountName = ((String) mExtra);
