@@ -1,13 +1,20 @@
 package org.totschnig.myexpenses.sync
 
+import android.Manifest
 import android.content.Context
+import com.vmadalin.easypermissions.EasyPermissions
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.isGithub
 
-enum class BackendService(private val className: String, val id: Int, val label: String, val feature: Feature?) {
+enum class BackendService(
+    private val className: String,
+    val id: Int,
+    val label: String,
+    val feature: Feature?
+) {
     DRIVE(
         "org.totschnig.drive.sync.GoogleDriveBackendProviderFactory",
         R.id.SYNC_BACKEND_DRIVE,
@@ -22,7 +29,11 @@ enum class BackendService(private val className: String, val id: Int, val label:
         "Local",
         null
     ) {
-        override fun isAvailable(context: Context) = BuildConfig.DEBUG
+        override fun isAvailable(context: Context) =
+            BuildConfig.DEBUG && EasyPermissions.hasPermissions(
+                context,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
     },
     DROPBOX(
         "org.totschnig.dropbox.sync.DropboxProviderFactory",

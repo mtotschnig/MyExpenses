@@ -244,7 +244,7 @@ abstract class AbstractSyncBackendProvider(protected val context: Context) : Syn
     }
 
     protected fun merge(changeSetList: List<ChangeSet>): ChangeSet? {
-        return changeSetList.reduce { changeSet1: ChangeSet?, changeSet2: ChangeSet? ->
+        return changeSetList.reduceOrNull { changeSet1: ChangeSet?, changeSet2: ChangeSet? ->
             ChangeSet.merge(changeSet1, changeSet2)
         }
     }

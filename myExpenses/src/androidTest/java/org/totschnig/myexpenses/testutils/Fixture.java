@@ -50,20 +50,16 @@ public class Fixture {
   private Account account1, account2, account3, account4;
 
   public String getSyncAccount1() {
-    return SYNC_ACCOUNT_1;
+    return "Drive - " + appContext.getString(org.totschnig.myexpenses.R.string.content_description_encrypted);
   }
 
   public String getSyncAccount2() {
-    return SYNC_ACCOUNT_2;
+    return "Dropbox - " + testContext.getString(R.string.testData_sync_backend_2_name);
   }
 
   public String getSyncAccount3() {
-    return SYNC_ACCOUNT_3;
+    return "WebDAV - https://my.private.cloud/webdav/MyExpenses";
   }
-
-  private String SYNC_ACCOUNT_1;
-  private String SYNC_ACCOUNT_2;
-  private String SYNC_ACCOUNT_3;
 
   public Fixture(Instrumentation inst) {
     testContext = inst.getContext();
@@ -83,9 +79,6 @@ public class Fixture {
   }
 
   public void setup(boolean withPicture) {
-    SYNC_ACCOUNT_1 = "Drive - " + appContext.getString(org.totschnig.myexpenses.R.string.content_description_encrypted);
-    SYNC_ACCOUNT_2 = "Dropbox - " + testContext.getString(R.string.testData_sync_backend_2_name);
-    SYNC_ACCOUNT_3 = "WebDAV - https://my.private.cloud/webdav/MyExpenses";
     CurrencyUnit defaultCurrency = Utils.getHomeCurrency();
     CurrencyUnit foreignCurrency = appContext.getAppComponent().currencyContext().get(defaultCurrency.getCode().equals("EUR") ? "GBP" : "EUR");
 
@@ -94,7 +87,7 @@ public class Fixture {
         90000,
         testContext.getString(R.string.testData_account1Description));
     account1.setGrouping(Grouping.WEEK);
-    account1.setSyncAccountName(SYNC_ACCOUNT_1);
+    account1.setSyncAccountName(getSyncAccount1());
     account1.save();
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy");
@@ -104,7 +97,7 @@ public class Fixture {
         50000,
         formatter.format(LocalDate.now()), AccountType.CASH,
         testContext.getResources().getColor(R.color.material_red));
-    account2.setSyncAccountName(SYNC_ACCOUNT_2);
+    account2.setSyncAccountName(getSyncAccount2());
     account2.save();
 
     account3 = new Account(
@@ -114,7 +107,7 @@ public class Fixture {
         testContext.getString(R.string.testData_account3Description), AccountType.BANK,
         testContext.getResources().getColor(R.color.material_blue));
     account3.setGrouping(Grouping.DAY);
-    account3.setSyncAccountName(SYNC_ACCOUNT_3);
+    account3.setSyncAccountName(getSyncAccount3());
     account3.save();
 
     account4 = new Account(

@@ -13,11 +13,6 @@ import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 
 public class SyncAdapterMergeUpdatesTest extends SyncAdapterBaseTest {
-  private SyncDelegate syncDelegate;
-  @Before
-  public void setUp() {
-    syncDelegate = new SyncDelegate(mock(CurrencyContext.class));
-  }
 
   @Test
   public void shouldReturnSameElement() {
