@@ -83,10 +83,10 @@ abstract class AbstractSyncBackendViewModel(application: Application) :
     fun syncCheck(uuid: String, syncAccountName: String) = liveData(context = coroutineContext()) {
         emit(GenericAccountService.getSyncBackendProvider(getApplication(), syncAccountName)
             .mapCatching { syncBackendProvider ->
-                if (syncBackendProvider.remoteAccountStream
+                if (syncBackendProvider.remoteAccountList
                         .filter(Exceptional<AccountMetaData>::isPresent)
                         .map(Exceptional<AccountMetaData>::get)
-                        .anyMatch { it.uuid() == uuid }
+                        .any { it.uuid() == uuid }
                 ) {
                     throw Exception(
                         TextUtils.concatResStrings(

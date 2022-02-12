@@ -7,8 +7,6 @@ import android.net.Uri
 import android.text.TextUtils
 import androidx.core.util.Pair
 import com.annimon.stream.Exceptional
-import com.annimon.stream.Optional
-import com.annimon.stream.Stream
 import com.dropbox.core.DbxException
 import com.dropbox.core.DbxRequestConfig
 import com.dropbox.core.InvalidAccessTokenException
@@ -33,7 +31,7 @@ import java.io.IOException
 import java.io.InputStream
 import java.util.*
 
-class DropboxBackendProvider internal constructor(context: Context?, folderName: String) :
+class DropboxBackendProvider internal constructor(context: Context, folderName: String) :
     AbstractSyncBackendProvider(context) {
     private lateinit var mDbxClient: DbxClientV2
     private val basePath: String = "/$folderName"
@@ -50,12 +48,10 @@ class DropboxBackendProvider internal constructor(context: Context?, folderName:
         super.setUp(accountManager, account, encryptionPassword, create)
     }
 
-    @Throws(IOException::class)
-    override fun isEmpty(): Boolean {
-        return tryWithWrappedException {
+    override val isEmpty: Boolean
+        get() = tryWithWrappedException {
             mDbxClient.files().listFolder(basePath).entries.isEmpty()
         }
-    }
 
     private fun setupClient(accountManager: AccountManager, account: android.accounts.Account) {
         val userLocale = Locale.getDefault().toString()
@@ -68,7 +64,8 @@ class DropboxBackendProvider internal constructor(context: Context?, folderName:
             DbxClientV2(requestConfig, DbxCredential.Reader.readFully(dbxCredential))
 
         } else {
-            val authToken = accountManager.peekAuthToken(account,
+            val authToken = accountManager.peekAuthToken(
+                account,
                 GenericAccountService.AUTH_TOKEN_TYPE
             )
                 ?: throw SyncBackendProvider.AuthException(
@@ -163,9 +160,7 @@ class DropboxBackendProvider internal constructor(context: Context?, folderName:
     private val backupPath: String
         get() = "$basePath/$BACKUP_FOLDER_NAME"
 
-    private fun getResourcePath(resource: String): String {
-        return "$accountPath/$resource"
-    }
+    private fun getResourcePath(resource: String): String = "$accountPath/$resource"
 
     @Throws(IOException::class)
     override fun resetAccountData(uuid: String) {
@@ -176,13 +171,10 @@ class DropboxBackendProvider internal constructor(context: Context?, folderName:
         }
     }
 
-    @Throws(IOException::class)
-    override fun getExistingLockToken(): String? {
-        val lockFilePath = lockFilePath
-        return if (exists(lockFilePath)) {
+    override val existingLockToken: String?
+        get() = lockFilePath.takeIf { exists(it) }?.let {
             StreamReader(getInputStream(lockFilePath)).read()
-        } else null
-    }
+        }
 
     @Throws(IOException::class)
     private fun getInputStream(resourcePath: String) = tryWithWrappedException {
@@ -208,7 +200,7 @@ class DropboxBackendProvider internal constructor(context: Context?, folderName:
     override fun getChangeSetSince(
         sequenceNumber: SequenceNumber,
         context: Context
-    ): Optional<ChangeSet> {
+    ): ChangeSet? {
         val changeSetList: MutableList<ChangeSet> = ArrayList()
         for (integerMetadataPair in filterMetadata(sequenceNumber)) {
             changeSetList.add(getChangeSetFromMetadata(integerMetadataPair))
@@ -231,11 +223,17 @@ class DropboxBackendProvider internal constructor(context: Context?, folderName:
                 var nextShard = sequenceNumber.shard
                 var startNumber = sequenceNumber.number
                 while (true) {
-                    val nextShardPath = if (nextShard == 0) accountPath else "$accountPath/_$nextShard"
+                    val nextShardPath =
+                        if (nextShard == 0) accountPath else "$accountPath/_$nextShard"
                     if (exists(nextShardPath)) {
                         addAll(
                             mDbxClient.files().listFolder(nextShardPath).entries
-                                .filter { metadata: Metadata -> isNewerJsonFile(startNumber, metadata.name) }
+                                .filter { metadata: Metadata ->
+                                    isNewerJsonFile(
+                                        startNumber,
+                                        metadata.name
+                                    )
+                                }
                                 .map { metadata: Metadata -> Pair.create(nextShard, metadata) }
                         )
                         nextShard++
@@ -288,19 +286,19 @@ class DropboxBackendProvider internal constructor(context: Context?, folderName:
         return tryWithWrappedException {
             val accountPath = accountPath
             val mainEntries = mDbxClient.files().listFolder(accountPath).entries
-            val lastShardOptional = Stream.of(mainEntries)
+            val lastShardOptional = mainEntries
                 .filter { metadata: Metadata ->
                     metadata is FolderMetadata && isAtLeastShardDir(
                         start.shard,
                         metadata.getName()
                     )
                 }
-                .max(resourceComparator)
+                .maxWithOrNull(resourceComparator)
             val lastShard: List<Metadata>
             val lastShardInt: Int
             val reference: Int
-            if (lastShardOptional.isPresent) {
-                val lastShardName = lastShardOptional.get().name
+            if (lastShardOptional != null) {
+                val lastShardName = lastShardOptional.name
                 lastShard = mDbxClient.files().listFolder("$accountPath/$lastShardName").entries
                 lastShardInt = getSequenceFromFileName(lastShardName)
                 reference = if (lastShardInt == start.shard) start.number else 0
@@ -310,26 +308,25 @@ class DropboxBackendProvider internal constructor(context: Context?, folderName:
                 lastShardInt = 0
                 reference = start.number
             }
-            Stream.of(lastShard)
+            lastShard
                 .filter { metadata: Metadata -> isNewerJsonFile(reference, metadata.name) }
-                .max(resourceComparator)
-                .map { metadata: Metadata ->
+                .maxWithOrNull(resourceComparator)
+                ?.let { metadata: Metadata ->
                     SequenceNumber(
                         lastShardInt,
                         getSequenceFromFileName(metadata.name)
                     )
-                }
-                .orElse(start)
+                } ?: start
         }
     }
 
     private fun <T> tryWithWrappedException(block: () -> T): T = try {
         block()
-    } catch(e: DbxException) {
+    } catch (e: DbxException) {
         throw (if (e is InvalidAccessTokenException) SyncBackendProvider.AuthException(
             e,
             reAuthenticationIntent()
-        ) else IOException(e) )
+        ) else IOException(e))
     }
 
     @Throws(IOException::class)
@@ -370,11 +367,11 @@ class DropboxBackendProvider internal constructor(context: Context?, folderName:
         }
     }
 
-    @Throws(IOException::class)
-    override fun getRemoteAccountStream(): Stream<Exceptional<AccountMetaData>> {
-        return tryWithWrappedException {
-            Stream.of(mDbxClient.files().listFolder(basePath).entries)
-                .filter { metadata: Metadata? -> metadata is FolderMetadata }
+    override val remoteAccountList: List<Exceptional<AccountMetaData>>
+        get() = tryWithWrappedException {
+            mDbxClient.files().listFolder(basePath).entries
+                .asSequence()
+                .filterIsInstance<FolderMetadata>()
                 .filter { metadata: Metadata -> metadata.name != BACKUP_FOLDER_NAME }
                 .map { metadata: Metadata -> basePath + "/" + metadata.name + "/" + accountMetadataFilename }
                 .filter { accountMetadataPath: String? ->
@@ -386,8 +383,8 @@ class DropboxBackendProvider internal constructor(context: Context?, folderName:
                     }
                 }
                 .map { path: String -> getAccountMetaDataFromPath(path) }
+                .toList()
         }
-    }
 
     private fun getAccountMetaDataFromPath(path: String): Exceptional<AccountMetaData> {
         return try {
@@ -397,23 +394,18 @@ class DropboxBackendProvider internal constructor(context: Context?, folderName:
         }
     }
 
-    override fun getStoredBackups(): List<String> {
-        try {
-            return Stream.of(
-                mDbxClient.files().listFolder(
-                    backupPath
-                ).entries
-            )
+    override val storedBackups: List<String>
+        get() = try {
+            mDbxClient.files().listFolder(
+                backupPath
+            ).entries
                 .map { obj: Metadata -> obj.name }
-                .toList()
         } catch (ignored: DbxException) {
+            emptyList()
         }
-        return ArrayList()
-    }
 
-    override fun getSharedPreferencesName(): String {
-        return "webdav_backend"
-    }
+    override val sharedPreferencesName = "webdav_backend"
+
 
     private fun reAuthenticationIntent() = Intent(context, DropboxSetup::class.java).apply {
         action = ACTION_RE_AUTHENTICATE

@@ -48,7 +48,6 @@ import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
 
 import com.annimon.stream.Exceptional;
-import com.annimon.stream.Optional;
 
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.MyApplication;
@@ -328,12 +327,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
           boolean completedWithoutError = false;
           int successRemote2Local = 0, successLocal2Remote = 0;
           try {
-            Optional<ChangeSet> changeSetSince = backend.getChangeSetSince(lastSyncedRemote, getContext());
+            @Nullable
+            ChangeSet changeSetSince = backend.getChangeSetSince(lastSyncedRemote, getContext());
 
             List<TransactionChange> remoteChanges;
-            if (changeSetSince.isPresent()) {
-              lastSyncedRemote = changeSetSince.get().sequenceNumber;
-              remoteChanges = changeSetSince.get().changes;
+            if (changeSetSince != null) {
+              lastSyncedRemote = changeSetSince.getSequenceNumber();
+              remoteChanges = changeSetSince.getChanges();
             } else {
               remoteChanges = new ArrayList<>();
             }
@@ -523,9 +523,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
   private boolean handleAuthException(Throwable e, Account account) {
     if (e instanceof SyncBackendProvider.AuthException) {
-      Intent resolution = ((SyncBackendProvider.AuthException) e).resolution;
+      Intent resolution = ((SyncBackendProvider.AuthException) e).getResolution();
       if (resolution != null) {
-        notifyUser(getContext().getString(R.string.sync_auth_exception), getContext().getString(R.string.sync_login_again), account, ((SyncBackendProvider.AuthException) e).resolution);
+        notifyUser(getContext().getString(R.string.sync_auth_exception), getContext().getString(R.string.sync_login_again), account, ((SyncBackendProvider.AuthException) e).getResolution());
         return true;
       }
     }

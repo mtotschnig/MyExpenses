@@ -20,7 +20,6 @@ import org.totschnig.myexpenses.sync.SyncAdapter
 import org.totschnig.myexpenses.sync.SyncBackendProvider
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory
 import org.totschnig.myexpenses.sync.json.AccountMetaData
-import org.totschnig.myexpenses.util.asSequence
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.io.IOException
 
@@ -99,7 +98,7 @@ class SyncViewModel(application: Application) : ContentResolvingAndroidViewModel
         val account = getAccount(accountName)
         return SyncBackendProviderFactory[getApplication(), account, create].mapCatching { syncBackendProvider ->
             val syncAccounts =
-                if (shouldReturnRemoteDataList) syncBackendProvider.remoteAccountStream
+                if (shouldReturnRemoteDataList) syncBackendProvider.remoteAccountList
                     .filter { it.isPresent }
                     .map { it.get() }
                     .toList() else null
@@ -129,7 +128,8 @@ class SyncViewModel(application: Application) : ContentResolvingAndroidViewModel
             ).onSuccess { syncBackendProvider ->
                 runCatching {
                     val numberOfRestoredAccounts =
-                        syncBackendProvider.remoteAccountStream.asSequence()
+                        syncBackendProvider.remoteAccountList
+                            .asSequence()
                             .filter(Exceptional<AccountMetaData>::isPresent)
                             .map(Exceptional<AccountMetaData>::get)
                             .filter { accountMetaData -> accountUuids.contains(accountMetaData.uuid()) }
