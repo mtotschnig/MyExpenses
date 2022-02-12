@@ -11,7 +11,6 @@ import at.bitfire.dav4android.DavResource
 import at.bitfire.dav4android.LockableDavResource
 import at.bitfire.dav4android.exception.DavException
 import at.bitfire.dav4android.exception.HttpException
-import com.annimon.stream.Exceptional
 import okhttp3.HttpUrl
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
@@ -72,7 +71,7 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
         }
     }
 
-    override fun readAccountMetaData(): Exceptional<AccountMetaData> {
+    override fun readAccountMetaData(): Result<AccountMetaData> {
         return getAccountMetaDataFromDavResource(
             webDavClient.getResource(
                 accountMetadataFilename,
@@ -431,7 +430,7 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
     }
 
     @get:Throws(IOException::class)
-    override val remoteAccountList: List<Exceptional<AccountMetaData>>
+    override val remoteAccountList: List<Result<AccountMetaData>>
         get() = webDavClient.getFolderMembers()
             .asSequence()
             .filter { davResource: DavResource? -> LockableDavResource.isCollection(davResource) }
@@ -450,17 +449,8 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
             }
             .toList()
 
-    private fun getAccountMetaDataFromDavResource(lockableDavResource: LockableDavResource): Exceptional<AccountMetaData> {
-        return try {
-            getAccountMetaDataFromInputStream(lockableDavResource[mimeTypeForData].byteStream())
-        } catch (e: DavException) {
-            Exceptional.of(e)
-        } catch (e: HttpException) {
-            Exceptional.of(e)
-        } catch (e: IOException) {
-            Exceptional.of(e)
-        }
-    }
+    private fun getAccountMetaDataFromDavResource(lockableDavResource: LockableDavResource): Result<AccountMetaData> =
+        getAccountMetaDataFromInputStream(lockableDavResource[mimeTypeForData].byteStream())
 
     companion object {
         const val KEY_WEB_DAV_CERTIFICATE = "webDavCertificate"

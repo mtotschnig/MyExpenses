@@ -4,7 +4,6 @@ import android.accounts.Account
 import android.accounts.AccountManager
 import android.content.Context
 import android.net.Uri
-import com.annimon.stream.Exceptional
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException
 import com.google.api.services.drive.model.File
 import org.totschnig.myexpenses.model.AccountType
@@ -245,7 +244,7 @@ class GoogleDriveBackendProvider internal constructor(
         }
     }
 
-    override fun readAccountMetaData(): Exceptional<AccountMetaData> {
+    override fun readAccountMetaData(): Result<AccountMetaData> {
         return getAccountMetaDataFromDriveMetadata(accountFolder)
     }
 
@@ -302,7 +301,7 @@ class GoogleDriveBackendProvider internal constructor(
     }
 
     @get:Throws(IOException::class)
-    override val remoteAccountList: List<Exceptional<AccountMetaData>>
+    override val remoteAccountList: List<Result<AccountMetaData>>
         get() {
             val fileList = driveServiceHelper.listChildren(baseFolder)
             return fileList
@@ -315,30 +314,30 @@ class GoogleDriveBackendProvider internal constructor(
                 .map { metadata: File? -> getAccountMetaDataFromDriveMetadata(metadata) }
         }
 
-    private fun getAccountMetaDataFromDriveMetadata(metadata: File?): Exceptional<AccountMetaData> {
+    private fun getAccountMetaDataFromDriveMetadata(metadata: File?): Result<AccountMetaData> {
         val accountMetadata: File? = try {
             driveServiceHelper.getFileByNameAndParent(metadata!!, accountMetadataFilename)
         } catch (e: IOException) {
-            return Exceptional.of(e)
+            return Result.failure(e)
         }
         if (accountMetadata != null) {
             try {
                 driveServiceHelper.read(accountMetadata.id)
                     .use { inputStream -> return getAccountMetaDataFromInputStream(inputStream) }
             } catch (e: IOException) {
-                return Exceptional.of(e)
+                return Result.failure(e)
             }
         }
 
         //legacy
         val appProperties = metadata.appProperties
-            ?: return Exceptional.of(Exception("appProperties are null"))
+            ?: return Result.failure(Exception("appProperties are null"))
         val uuid = appProperties[ACCOUNT_METADATA_UUID_KEY]
         if (uuid == null) {
             Timber.d("UUID property not set")
-            return Exceptional.of(Exception("UUID property not set"))
+            return Result.failure(Exception("UUID property not set"))
         }
-        return Exceptional.of {
+        return kotlin.runCatching {
             AccountMetaData.builder()
                 .setType(
                     getPropertyWithDefault(

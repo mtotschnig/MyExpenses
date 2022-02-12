@@ -5,7 +5,6 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
-import com.annimon.stream.Exceptional
 import kotlinx.coroutines.Dispatchers
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory
@@ -16,7 +15,7 @@ class SyncBackendViewModel(application: Application) : AbstractSyncBackendViewMo
     override fun getAccounts(context: Context) =
         GenericAccountService.getAccountNamesWithEncryption(context)
 
-    override fun accountMetadata(accountName: String): LiveData<Result<List<Exceptional<AccountMetaData>>>> =
+    override fun accountMetadata(accountName: String): LiveData<Result<List<Result<AccountMetaData>>>> =
         liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
             emit(
                 SyncBackendProviderFactory[

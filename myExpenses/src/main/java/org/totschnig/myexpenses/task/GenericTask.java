@@ -36,6 +36,7 @@ import org.totschnig.myexpenses.sync.SyncAdapter;
 import org.totschnig.myexpenses.sync.SyncBackendProvider;
 import org.totschnig.myexpenses.sync.json.AccountMetaData;
 import org.totschnig.myexpenses.ui.ContextHelper;
+import org.totschnig.myexpenses.util.LegacyResultWrapperKt;
 import org.totschnig.myexpenses.util.Result;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
@@ -227,7 +228,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         }
         List<String> remoteUuidList;
         try {
-          Stream<AccountMetaData> remoteAccounts = Stream.of(syncBackendProvider.get().getRemoteAccountList())
+          Stream<AccountMetaData> remoteAccounts = Stream.of(LegacyResultWrapperKt.asExceptional(syncBackendProvider.get().getRemoteAccountList()))
               .filter(Exceptional::isPresent)
               .map(Exceptional::get);
           remoteUuidList = remoteAccounts

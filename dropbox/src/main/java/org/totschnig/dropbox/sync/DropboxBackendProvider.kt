@@ -6,7 +6,6 @@ import android.content.Intent
 import android.net.Uri
 import android.text.TextUtils
 import androidx.core.util.Pair
-import com.annimon.stream.Exceptional
 import com.dropbox.core.DbxException
 import com.dropbox.core.DbxRequestConfig
 import com.dropbox.core.InvalidAccessTokenException
@@ -124,7 +123,7 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
         }
     }
 
-    override fun readAccountMetaData(): Exceptional<AccountMetaData> {
+    override fun readAccountMetaData(): Result<AccountMetaData> {
         return getAccountMetaDataFromPath(getResourcePath(accountMetadataFilename))
     }
 
@@ -367,7 +366,7 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
         }
     }
 
-    override val remoteAccountList: List<Exceptional<AccountMetaData>>
+    override val remoteAccountList: List<Result<AccountMetaData>>
         get() = tryWithWrappedException {
             mDbxClient.files().listFolder(basePath).entries
                 .asSequence()
@@ -386,13 +385,8 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
                 .toList()
         }
 
-    private fun getAccountMetaDataFromPath(path: String): Exceptional<AccountMetaData> {
-        return try {
-            getAccountMetaDataFromInputStream(getInputStream(path))
-        } catch (e: IOException) {
-            Exceptional.of(e)
-        }
-    }
+    private fun getAccountMetaDataFromPath(path: String): Result<AccountMetaData> =
+        getAccountMetaDataFromInputStream(getInputStream(path))
 
     override val storedBackups: List<String>
         get() = try {

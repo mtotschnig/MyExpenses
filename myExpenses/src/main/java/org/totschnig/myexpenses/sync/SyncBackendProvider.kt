@@ -4,7 +4,6 @@ import android.accounts.AccountManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import com.annimon.stream.Exceptional
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.sync.json.AccountMetaData
@@ -37,7 +36,7 @@ interface SyncBackendProvider {
         context: Context
     ): SequenceNumber
 
-    val remoteAccountList: List<Exceptional<AccountMetaData>>
+    val remoteAccountList: List<Result<AccountMetaData>>
         @Throws(IOException::class) get
 
     @Throws(Exception::class)
@@ -63,7 +62,7 @@ interface SyncBackendProvider {
     @Throws(IOException::class)
     fun updateAccount(account: Account)
 
-    fun readAccountMetaData(): Exceptional<AccountMetaData>
+    fun readAccountMetaData(): Result<AccountMetaData>
 
     class SyncParseException : Exception {
         constructor(e: Exception) : super(e.message, e)

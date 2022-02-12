@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.sync
 import android.content.Context
 import android.net.Uri
 import androidx.core.util.Pair
-import com.annimon.stream.Exceptional
 import dagger.internal.Preconditions
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.sync.json.AccountMetaData
@@ -12,7 +11,6 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.io.FileCopyUtils
 import org.totschnig.myexpenses.util.io.StreamReader
 import java.io.*
-import java.util.*
 
 class LocalFileBackendProvider internal constructor(context: Context?, filePath: String) :
     AbstractSyncBackendProvider(
@@ -44,7 +42,7 @@ class LocalFileBackendProvider internal constructor(context: Context?, filePath:
         }
     }
 
-    override fun readAccountMetaData(): Exceptional<AccountMetaData> {
+    override fun readAccountMetaData(): Result<AccountMetaData> {
         return getAccountMetaDataFromFile(File(accountDir, accountMetadataFilename))
     }
 
@@ -198,13 +196,13 @@ class LocalFileBackendProvider internal constructor(context: Context?, filePath:
         )
     }
 
-    private fun getAccountMetaDataFromFile(file: File): Exceptional<AccountMetaData> {
+    private fun getAccountMetaDataFromFile(file: File): Result<AccountMetaData> {
         return try {
             val inputStream = FileInputStream(file)
             getAccountMetaDataFromInputStream(inputStream)
         } catch (e: IOException) {
             log().e(e)
-            Exceptional.of(e)
+            Result.failure(e)
         }
     }
 
@@ -256,7 +254,7 @@ class LocalFileBackendProvider internal constructor(context: Context?, filePath:
         out.close()
     }
 
-    override val remoteAccountList: List<Exceptional<AccountMetaData>>
+    override val remoteAccountList: List<Result<AccountMetaData>>
         get() = baseDir.listFiles { obj: File -> obj.isDirectory }
             ?.filter { directory: File -> directory.name != BACKUP_FOLDER_NAME }
             ?.map { directory: File? -> File(directory, accountMetadataFilename) }

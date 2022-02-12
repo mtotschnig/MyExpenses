@@ -8,7 +8,6 @@ import android.content.ContentResolver
 import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
-import com.annimon.stream.Exceptional
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -99,9 +98,8 @@ class SyncViewModel(application: Application) : ContentResolvingAndroidViewModel
         return SyncBackendProviderFactory[getApplication(), account, create].mapCatching { syncBackendProvider ->
             val syncAccounts =
                 if (shouldReturnRemoteDataList) syncBackendProvider.remoteAccountList
-                    .filter { it.isPresent }
-                    .map { it.get() }
-                    .toList() else null
+                    .mapNotNull { it.getOrNull() }
+                    else null
             val backups =
                 if (shouldReturnRemoteDataList) syncBackendProvider.storedBackups else null
             SyncAccountData(
@@ -130,8 +128,7 @@ class SyncViewModel(application: Application) : ContentResolvingAndroidViewModel
                     val numberOfRestoredAccounts =
                         syncBackendProvider.remoteAccountList
                             .asSequence()
-                            .filter(Exceptional<AccountMetaData>::isPresent)
-                            .map(Exceptional<AccountMetaData>::get)
+                            .mapNotNull { it.getOrNull() }
                             .filter { accountMetaData -> accountUuids.contains(accountMetaData.uuid()) }
                             .map { accountMetaData -> accountMetaData.toAccount(getApplication<MyApplication>().appComponent.currencyContext()) }
                             .sumOf {

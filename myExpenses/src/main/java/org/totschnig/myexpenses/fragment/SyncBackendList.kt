@@ -4,17 +4,10 @@ import android.app.Activity.RESULT_OK
 import android.content.ContentResolver
 import android.content.Intent
 import android.os.Bundle
-import android.view.ContextMenu
+import android.view.*
 import android.view.ContextMenu.ContextMenuInfo
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
 import android.widget.ExpandableListView
-import android.widget.ExpandableListView.ExpandableListContextMenuInfo
-import android.widget.ExpandableListView.OnChildClickListener
-import android.widget.ExpandableListView.OnGroupExpandListener
+import android.widget.ExpandableListView.*
 import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -26,7 +19,7 @@ import icepick.Icepick
 import icepick.State
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.*
+import org.totschnig.myexpenses.activity.ManageSyncBackends
 import org.totschnig.myexpenses.activity.SyncBackendSetupActivity.Companion.REQUEST_CODE_RESOLUTION
 import org.totschnig.myexpenses.adapter.SyncBackendAdapter
 import org.totschnig.myexpenses.databinding.SyncBackendsListBinding
@@ -46,7 +39,6 @@ import org.totschnig.myexpenses.sync.GenericAccountService.Companion.activateSyn
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccount
 import org.totschnig.myexpenses.sync.SyncBackendProvider
 import org.totschnig.myexpenses.util.UiUtils
-import org.totschnig.myexpenses.util.asResult
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.viewmodel.AbstractSyncBackendViewModel
 import javax.inject.Inject
@@ -300,7 +292,7 @@ class SyncBackendList : Fragment(), OnGroupExpandListener, OnDialogResultListene
                         snackbar.dismiss()
                     }
                     result.onSuccess { list ->
-                        syncBackendAdapter.setAccountMetadata(groupPosition, list.map { it.asResult() })
+                        syncBackendAdapter.setAccountMetadata(groupPosition, list)
                     }.onFailure { throwable ->
                         if (handleAuthException(throwable)) {
                             resolutionPendingForGroup = groupPosition

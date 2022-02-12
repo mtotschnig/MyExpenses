@@ -9,7 +9,6 @@ import android.provider.Settings
 import android.text.TextUtils
 import android.util.Base64
 import android.webkit.MimeTypeMap
-import com.annimon.stream.Exceptional
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.internal.Preconditions
@@ -22,7 +21,10 @@ import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.sync.SyncBackendProvider.EncryptionException.Companion.encrypted
 import org.totschnig.myexpenses.sync.SyncBackendProvider.EncryptionException.Companion.notEncrypted
 import org.totschnig.myexpenses.sync.SyncBackendProvider.EncryptionException.Companion.wrongPassphrase
-import org.totschnig.myexpenses.sync.json.*
+import org.totschnig.myexpenses.sync.json.AccountMetaData
+import org.totschnig.myexpenses.sync.json.AdapterFactory
+import org.totschnig.myexpenses.sync.json.ChangeSet
+import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crypt.EncryptionHelper
@@ -217,18 +219,17 @@ abstract class AbstractSyncBackendProvider(protected val context: Context) : Syn
     @Throws(IOException::class)
     protected abstract fun getInputStreamForPicture(relativeUri: String): InputStream
 
-    protected fun getAccountMetaDataFromInputStream(inputStream: InputStream?): Exceptional<AccountMetaData> {
+    protected fun getAccountMetaDataFromInputStream(inputStream: InputStream?): Result<AccountMetaData> =
         try {
             BufferedReader(InputStreamReader(maybeDecrypt(inputStream))).use { bufferedReader ->
                 val accountMetaData = gson.fromJson(bufferedReader, AccountMetaData::class.java)
                     ?: throw IOException("accountMetaData not found in input stream")
-                return Exceptional.of { accountMetaData }
+                Result.success(accountMetaData)
             }
         } catch (e: Exception) {
             log().e(e)
-            return Exceptional.of(e)
+            Result.failure(e)
         }
-    }
 
     protected fun isAtLeastShardDir(shardNumber: Int, name: String): Boolean {
         return FILE_PATTERN.matcher(name).matches() &&
