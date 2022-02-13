@@ -33,7 +33,7 @@ data class Currency(val code: String, val displayName: String, val usages: Int =
     }
 
     companion object {
-        fun create(code: String, context: Context?): Currency {
+        fun create(code: String, context: Context): Currency {
             return create(code, Utils.localeFromContext(context))
         }
 
