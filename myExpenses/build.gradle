@@ -158,6 +158,10 @@ android {
     }
 }
 
+configurations.all {
+    exclude group: "com.google.android.material", module: "material"
+}
+
 dependencies {
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$desugarVersion"
     implementation project(':transactionscontract')
@@ -219,7 +223,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation "androidx.recyclerview:recyclerview:$recyclerview"
     implementation 'androidx.cardview:cardview:1.0.0'
-    api "com.google.android.material:material:$materialComponents"
+    api 'com.github.mtotschnig:material-components-android:bug_1913_1.5-SNAPSHOT'
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
     api 'androidx.preference:preference-ktx:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'

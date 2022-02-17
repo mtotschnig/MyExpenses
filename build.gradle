@@ -57,7 +57,7 @@ ext {
     appcompatVersion = "1.4.1"
     picassoVersion = "2.71828"
     recyclerview = "1.2.1"
-    materialComponents = "1.4.0"
+    materialComponents = "1.5.0" //currently using patch
     junitVersion = "4.13.2"
     timberVersion = "5.0.1"
     assertjVersion = "3.19.0"
