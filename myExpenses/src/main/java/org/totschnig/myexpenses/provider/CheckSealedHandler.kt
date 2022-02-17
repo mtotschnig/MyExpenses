@@ -3,6 +3,8 @@ package org.totschnig.myexpenses.provider
 import android.content.AsyncQueryHandler
 import android.content.ContentResolver
 import android.database.Cursor
+import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
+import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 
 open class CheckSealedHandler(cr: ContentResolver) : AsyncQueryHandler(cr) {
@@ -22,10 +24,10 @@ open class CheckSealedHandler(cr: ContentResolver) : AsyncQueryHandler(cr) {
             TransactionProvider.TRANSACTIONS_URI,
             arrayOf(
                 "MAX(" + checkForSealedAccount(
-                    DatabaseConstants.VIEW_COMMITTED,
-                    DatabaseConstants.TABLE_TRANSACTIONS
+                    VIEW_COMMITTED,
+                    TABLE_TRANSACTIONS
                 ) + ")",
-                "MAX($checkForSealedDebt)"
+                "MAX(${checkForSealedDebt(VIEW_COMMITTED)})"
             ),
             "${DatabaseConstants.KEY_ROWID} IN (${itemIds.joinToString()})",
             null,

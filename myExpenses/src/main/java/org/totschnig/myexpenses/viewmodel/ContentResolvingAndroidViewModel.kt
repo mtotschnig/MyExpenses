@@ -32,10 +32,7 @@ import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.checkForSealedDebt
@@ -182,7 +179,7 @@ abstract class ContentResolvingAndroidViewModel(application: Application) :
         ) {
             Result.failure(AccountSealedException)
         } else {
-            var failures = mutableListOf<Exception>()
+            val failures = mutableListOf<Exception>()
             for (accountId in accountIds) {
                 try {
                     Account.delete(accountId)
