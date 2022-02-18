@@ -66,7 +66,7 @@ public abstract class  AccountMetaData implements Parcelable {
     return label() + " (" + currency() + ")";
   }
 
-  public Account toAccount(CurrencyContext currencyContext) {
+  public Account toAccount(CurrencyContext currencyContext, String syncAccount) {
     AccountType accountType;
     try {
       accountType = AccountType.valueOf(type());
@@ -85,6 +85,7 @@ public abstract class  AccountMetaData implements Parcelable {
     if (exchangeRate != null && homeCurrency != null && homeCurrency.equals(exchangeRateOtherCurrency())) {
       account.setExchangeRate(exchangeRate);
     }
+    account.setSyncAccountName(syncAccount);
     return account;
   }
 

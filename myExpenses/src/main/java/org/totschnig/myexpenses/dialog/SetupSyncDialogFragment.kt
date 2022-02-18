@@ -1,6 +1,8 @@
 package org.totschnig.myexpenses.dialog
 
 import android.annotation.SuppressLint
+import android.content.DialogInterface
+import android.content.DialogInterface.BUTTON_POSITIVE
 import android.os.Bundle
 import android.os.Parcelable
 import androidx.compose.foundation.clickable
@@ -20,17 +22,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModelProvider
 import eltos.simpledialogfragment.SimpleDialog
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.fragment.DELETE_TAG_DIALOG
-import org.totschnig.myexpenses.fragment.KEY_TAG
 import org.totschnig.myexpenses.viewmodel.SyncViewModel
 
-class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDialogResultListener {
+class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDialogResultListener, DialogInterface.OnClickListener {
 
     enum class SyncSource {
-        LOCAL, REMOTE
+        DEFAULT, LOCAL, REMOTE
     }
 
     @Parcelize
@@ -42,6 +43,8 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
     ): Parcelable
 
     private val dialogState: MutableMap<String, MutableState<SyncSource?>> = mutableMapOf()
+
+    private lateinit var viewModel: SyncViewModel
 
     fun SyncViewModel.SyncAccountData.prepare(): List<AccountRow> =
         buildList {
@@ -98,8 +101,13 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = ViewModelProvider(requireActivity())[SyncViewModel::class.java]
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?) =
-        initBuilder().setPositiveButton("Setup", null).create()
+        initBuilder().setPositiveButton("Setup", this).create()
 
     @Composable
     fun AccountRow(
@@ -114,8 +122,8 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
             if (item.isLocal) {
                 Icon(
                     modifier = cell(1),
-                    painter = painterResource(id = if (item.isRemote && linkState.value == SyncSource.REMOTE) R.drawable.ic_menu_delete else R.drawable.ic_menu_done),
-                    tint = if (item.isRemote && linkState.value == SyncSource.LOCAL) Color.Green else
+                    painter = painterResource(id = if (linkState.value == SyncSource.REMOTE) R.drawable.ic_menu_delete else R.drawable.ic_menu_done),
+                    tint = if (linkState.value == SyncSource.LOCAL) Color.Green else
                         LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
                     contentDescription = "Local"
                 )
@@ -138,9 +146,9 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
                                 .pos(R.string.dialog_command_sync_link_remote)
                                 .neut()
                                 .neg(R.string.dialog_command_sync_link_local)
-                                .show(this@SetupSyncDialogFragment, SYNC_DIALOG)
+                                .show(this@SetupSyncDialogFragment, SYNC_CONFLICT_DIALOG)
                         } else {
-                            linkState.value = if (item.isLocal) SyncSource.LOCAL else SyncSource.REMOTE
+                            linkState.value = SyncSource.DEFAULT
                         }
                     } else {
                         linkState.value = null
@@ -152,8 +160,8 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
             if (item.isRemote) {
                 Icon(
                     modifier = cell(3),
-                    painter = painterResource(id = if (item.isLocal && linkState.value == SyncSource.LOCAL) R.drawable.ic_menu_delete else R.drawable.ic_menu_done),
-                    tint = if (item.isLocal && linkState.value == SyncSource.REMOTE) Color.Green else
+                    painter = painterResource(id = if (linkState.value == SyncSource.LOCAL) R.drawable.ic_menu_delete else R.drawable.ic_menu_done),
+                    tint = if (linkState.value == SyncSource.REMOTE) Color.Green else
                         LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
                     contentDescription = "Remote"
                 )
@@ -168,7 +176,7 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
 
     companion object {
         private const val KEY_DATA = "data"
-        private const val SYNC_DIALOG = "syncDialog"
+        private const val SYNC_CONFLICT_DIALOG = "syncConflictDialog"
         fun newInstance(data: SyncViewModel.SyncAccountData) = SetupSyncDialogFragment().apply {
             arguments = Bundle().apply {
                 putParcelable(KEY_DATA, data)
@@ -177,7 +185,7 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
     }
 
     override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
-        if(dialogTag == SYNC_DIALOG) {
+        if(dialogTag == SYNC_CONFLICT_DIALOG) {
             val account = extras.getParcelable<AccountRow>(KEY_DATA)!!
             when(which) {
                 SimpleDialog.OnDialogResultListener.BUTTON_POSITIVE -> {
@@ -189,5 +197,14 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
             }
         }
         return true
+    }
+
+    override fun onClick(dialog: DialogInterface?, which: Int) {
+        if (which == BUTTON_POSITIVE) {
+            val data: SyncViewModel.SyncAccountData = requireArguments().getParcelable(KEY_DATA)!!
+
+
+            viewModel.setupSynchronization(data.accountName)
+        }
     }
 }

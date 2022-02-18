@@ -209,59 +209,6 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
         account.save();
         return Result.SUCCESS;
       }
-      case TaskExecutionFragment.TASK_SYNC_LINK_SAVE: {
-        //first get remote data for account
-        String syncAccountName = ((String) mExtra);
-        Exceptional<SyncBackendProvider> syncBackendProvider = getSyncBackendProviderFromExtra();
-        if (!syncBackendProvider.isPresent()) {
-          return Result.ofFailure(syncBackendProvider.getException().getMessage());
-        }
-        List<String> remoteUuidList;
-        try {
-          Stream<AccountMetaData> remoteAccounts = Stream.of(LegacyResultWrapperKt.asExceptional(syncBackendProvider.get().getRemoteAccountList()))
-              .filter(Exceptional::isPresent)
-              .map(Exceptional::get);
-          remoteUuidList = remoteAccounts
-              .map(AccountMetaData::uuid)
-              .collect(Collectors.toList());
-        } catch (IOException e) {
-          return Result.ofFailure(e.getMessage());
-        }
-        int requested = ids.length;
-        c = cr.query(TransactionProvider.ACCOUNTS_URI,
-            new String[]{KEY_ROWID},
-            KEY_ROWID + " " + WhereFilter.Operation.IN.getOp(requested) + " AND (" + KEY_UUID + " IS NULL OR NOT " +
-                KEY_UUID + " " + WhereFilter.Operation.IN.getOp(remoteUuidList.size()) + ")",
-            Stream.concat(
-                Stream.of(((Long[]) ids)).map(String::valueOf),
-                Stream.of(remoteUuidList))
-                .toArray(size -> new String[size]),
-            null);
-        if (c == null) {
-          return Result.ofFailure("Cursor is null");
-        }
-        int result = 0;
-        if (c.moveToFirst()) {
-          result = c.getCount();
-          while (!c.isAfterLast()) {
-            Account account = Account.getInstanceFromDb(c.getLong(0));
-            account.setSyncAccountName(syncAccountName);
-            account.save();
-            c.moveToNext();
-          }
-        }
-        c.close();
-        String message = "";
-        if (result > 0) {
-          message = context.getString(R.string.link_account_success, result);
-        }
-        if (requested > result) {
-          message += " " + context.getString(R.string.link_account_failure_1, requested - result)
-              + " " + context.getString(R.string.link_account_failure_2)
-              + " " + context.getString(R.string.link_account_failure_3);
-        }
-        return requested == result ? Result.ofSuccess(message) : Result.ofFailure(message);
-      }
       case TaskExecutionFragment.TASK_CATEGORY_COLOR: {
         return Category.updateColor((Long) ids[0], (Integer) mExtra) ? Result.SUCCESS :
             Result.ofFailure("Error while saving color for category");

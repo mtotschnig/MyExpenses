@@ -5,6 +5,8 @@ import android.accounts.AuthenticatorException
 import android.accounts.OperationCanceledException
 import android.app.Application
 import android.content.ContentResolver
+import android.content.ContentValues
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
@@ -13,10 +15,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.MyApplication
+import org.totschnig.myexpenses.dialog.SetupSyncDialogFragment
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
+import org.totschnig.myexpenses.provider.filter.WhereFilter
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccount
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getSyncBackendProvider
@@ -28,6 +32,28 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.io.IOException
 
 class SyncViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
+    fun setupSynchronization(accountName: String,
+                             localAccounts: List<LocalAccount>,
+                             remoteAccounts: List<AccountMetaData>,
+                             conflicts: List<Triple<LocalAccount, AccountMetaData, SetupSyncDialogFragment.SyncSource>>
+                             ) {
+
+
+        val syncLocalList = conflicts.filter { it.third == SetupSyncDialogFragment.SyncSource.LOCAL }
+        syncLocalList.forEach {
+            syncLinkLocal(accountName, it.first.uuid)
+        }
+        conflicts.filter { it.third == SetupSyncDialogFragment.SyncSource.REMOTE }.forEach { (local, remote, _) ->
+            deleteAccountsInternal(arrayOf(local.id)).onSuccess {
+                remote.toAccount(currencyContext, accountName).save()
+            }
+        }
+        remoteAccounts.map { it.toAccount(currencyContext, accountName) }.forEach {
+           it.save()
+        }
+        configureLocalAccountForSync(accountName, (localAccounts + syncLocalList.map { it.first }).map { it.id })
+    }
+
     fun syncLinkRemote(account: Account): LiveData<Result<Unit>> =
         liveData(context = coroutineContext()) {
             val accountId = Account.findByUuid(account.uuid)
@@ -37,6 +63,19 @@ class SyncViewModel(application: Application) : ContentResolvingAndroidViewModel
                 }
             })
         }
+
+    private fun syncLinkLocal(accountName: String, uuid: String) {
+        val bundle = Bundle().apply {
+            putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true)
+            putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true)
+            putString(KEY_UUID, uuid)
+            putBoolean(SyncAdapter.KEY_RESET_REMOTE_ACCOUNT, true)
+        }
+        ContentResolver.requestSync(
+            getAccount(accountName),
+            TransactionProvider.AUTHORITY, bundle
+        )
+    }
 
     fun createSyncAccount(args: Bundle): LiveData<Result<SyncAccountData>> =
         liveData(context = coroutineContext()) {
@@ -142,6 +181,17 @@ class SyncViewModel(application: Application) : ContentResolvingAndroidViewModel
         }
     }
 
+    private fun configureLocalAccountForSync(accountName: String, localAccountIds: List<Long>) {
+        contentResolver.update(
+            Account.CONTENT_URI,
+            ContentValues().apply {
+                put(KEY_SYNC_ACCOUNT_NAME, accountName)
+            },
+            KEY_ROWID + " " + WhereFilter.Operation.IN.getOp(localAccountIds.size),
+            localAccountIds.map(Long::toString).toTypedArray()
+        )
+    }
+
     fun setupFromSyncAccounts(
         accountUuids: List<String>,
         accountName: String
@@ -157,9 +207,8 @@ class SyncViewModel(application: Application) : ContentResolvingAndroidViewModel
                             .asSequence()
                             .mapNotNull { it.getOrNull() }
                             .filter { accountMetaData -> accountUuids.contains(accountMetaData.uuid()) }
-                            .map { accountMetaData -> accountMetaData.toAccount(getApplication<MyApplication>().appComponent.currencyContext()) }
+                            .map { accountMetaData -> accountMetaData.toAccount(getApplication<MyApplication>().appComponent.currencyContext(), accountName) }
                             .sumOf {
-                                it.syncAccountName = accountName
                                 @Suppress("USELESS_CAST")
                                 (if (it.save() == null) 0 else 1) as Int
                             }
@@ -190,6 +239,11 @@ class SyncViewModel(application: Application) : ContentResolvingAndroidViewModel
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP_MR1)
     fun removeBackend(accountName: String) =
         AccountManager.get(getApplication()).removeAccountExplicitly(getAccount(accountName))
+
+    fun save(account: Account): LiveData<Uri?> =
+        liveData(context = coroutineContext()) {
+            emit(account.save())
+        }
 
     companion object {
         const val KEY_RETURN_BACKUPS = "returnRemoteDataList"

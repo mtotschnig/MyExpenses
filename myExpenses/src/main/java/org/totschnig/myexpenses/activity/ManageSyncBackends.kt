@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.activity
 
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.Menu
@@ -13,7 +12,6 @@ import org.totschnig.myexpenses.dialog.SetupSyncDialogFragment
 import org.totschnig.myexpenses.fragment.SyncBackendList
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.ContribFeature
-import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.task.TaskExecutionFragment
@@ -22,10 +20,8 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.AccountSealedException
 import org.totschnig.myexpenses.viewmodel.SyncViewModel.SyncAccountData
 import java.io.Serializable
-import java.lang.IllegalStateException
 
 class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
-    private var newAccount: Account? = null
 
     @JvmField
     @State
@@ -176,13 +172,6 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
         }
     }
 
-    //DbWriteFragment
-    override fun onPostExecute(result: Uri?) {
-        super.onPostExecute(result)
-        if (result == null) {
-            showSnackBar(String.format("There was an error saving account %s", newAccount!!.label))
-        }
-    }
 
     override fun onReceiveSyncAccountData(data: SyncAccountData) {
         listFragment.reloadAccountList()
@@ -227,11 +216,14 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
     override fun onContextItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.SYNC_DOWNLOAD_COMMAND) {
             if (prefHandler.getBoolean(PrefKey.NEW_ACCOUNT_ENABLED, true)) {
-                newAccount = listFragment.getAccountForSync(
+                listFragment.getAccountForSync(
                     (item.menuInfo as ExpandableListContextMenuInfo).packedPosition
-                )
-                if (newAccount != null) {
-                    startDbWriteTask()
+                )?.let { account ->
+                    viewModel.save(account).observe(this) {
+                        if (it == null) {
+                            showSnackBar(String.format("There was an error saving account %s", account.label))
+                        }
+                    }
                 }
             } else {
                 contribFeatureRequested(ContribFeature.ACCOUNTS_UNLIMITED, null)
@@ -239,10 +231,6 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
             return true
         }
         return super.onContextItemSelected(item)
-    }
-
-    override fun getObject(): Model {
-        return newAccount!!
     }
 
     override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
