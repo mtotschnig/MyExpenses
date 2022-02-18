@@ -96,20 +96,20 @@ class OnboardingActivity : SyncBackendSetupActivity() {
         finish()
     }
 
-    override fun createAccountTaskShouldReturnDataList(): Boolean {
+    override fun createAccountTaskShouldReturnBackups(): Boolean {
         return true
     }
 
     override fun onReceiveSyncAccountData(data: SyncAccountData) {
         lifecycleScope.launchWhenResumed {
             dataFragment.setupMenu()
-            if (data.backups != null && data.syncAccounts != null) {
+            if (data.backups != null && data.remoteAccounts != null) {
                 accountName = data.accountName
-                if (data.backups.isNotEmpty() || data.syncAccounts.isNotEmpty()) {
-                    if (checkForDuplicateUuids(data.syncAccounts)) {
+                if (data.backups.isNotEmpty() || data.remoteAccounts.isNotEmpty()) {
+                    if (checkForDuplicateUuids(data.remoteAccounts)) {
                         showSnackBar("Found accounts with duplicate uuids")
                     } else {
-                        RestoreFromCloudDialogFragment.newInstance(data.backups, data.syncAccounts)
+                        RestoreFromCloudDialogFragment.newInstance(data.backups, data.remoteAccounts)
                             .show(supportFragmentManager, "RESTORE_FROM_CLOUD")
                     }
                 } else {

@@ -9,7 +9,7 @@ import android.widget.ExpandableListView.ExpandableListContextMenuInfo
 import icepick.State
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
-import org.totschnig.myexpenses.dialog.select.SelectUnSyncedAccountDialogFragment
+import org.totschnig.myexpenses.dialog.SetupSyncDialogFragment
 import org.totschnig.myexpenses.fragment.SyncBackendList
 import org.totschnig.myexpenses.model.Account
 import org.totschnig.myexpenses.model.ContribFeature
@@ -186,8 +186,14 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
 
     override fun onReceiveSyncAccountData(data: SyncAccountData) {
         listFragment.reloadAccountList()
-        if (data.localNotSynced > 0) {
-            showSelectUnsyncedAccount(data.accountName)
+        if (callingActivity == null && (data.localAccountsNotSynced.isNotEmpty() || !data.remoteAccounts.isNullOrEmpty())) {
+            //if we were called from AccountEdit, we do not show the setup account selection
+            //since we suppose that user wants to create one account for the account he is editing
+            if (callingActivity == null) {
+
+                SetupSyncDialogFragment.newInstance(data)
+                    .show(supportFragmentManager, "SETUP_SYNC")
+            }
         }
     }
 
@@ -212,15 +218,6 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
                     showSnackBar(result.print(this))
                 }
             }
-        }
-    }
-
-    private fun showSelectUnsyncedAccount(accountName: String?) {
-        //if we were called from AccountEdit, we do not show the unsynced account selection
-        //since we suppose that user wants to create one account for the account he is editing
-        if (callingActivity == null) {
-            SelectUnSyncedAccountDialogFragment.newInstance(accountName)
-                .show(supportFragmentManager, "SELECT_UNSYNCED")
         }
     }
 

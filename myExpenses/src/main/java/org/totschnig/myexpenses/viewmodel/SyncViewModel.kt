@@ -7,13 +7,16 @@ import android.app.Application
 import android.content.ContentResolver
 import android.os.Build
 import android.os.Bundle
+import android.os.Parcelable
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
+import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.model.Account
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.DatabaseConstants.*
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccount
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getSyncBackendProvider
@@ -41,8 +44,8 @@ class SyncViewModel(application: Application) : ContentResolvingAndroidViewModel
             val password = args.getString(AccountManager.KEY_PASSWORD)
             val userData = args.getBundle(AccountManager.KEY_USERDATA)
             val authToken = args.getString(AccountManager.KEY_AUTHTOKEN)
-            val shouldReturnRemoteDataList =
-                args.getBoolean(KEY_RETURN_REMOTE_DATA_LIST)
+            val shouldReturnBackups =
+                args.getBoolean(KEY_RETURN_BACKUPS)
             val encryptionPassword = args.getString(GenericAccountService.KEY_PASSWORD_ENCRYPTION)
             val accountManager = AccountManager.get(getApplication())
             val account = getAccount(accountName)
@@ -66,7 +69,7 @@ class SyncViewModel(application: Application) : ContentResolvingAndroidViewModel
                     accountName,
                     encryptionPassword
                 )
-                buildResult(accountName, shouldReturnRemoteDataList, true).onSuccess {
+                buildResult(accountName, shouldReturnBackups, true).onSuccess {
                     GenericAccountService.activateSync(account, prefHandler)
                 }.onFailure {
                     //we try to remove a failed account immediately, otherwise user would need to do it, before
@@ -88,27 +91,49 @@ class SyncViewModel(application: Application) : ContentResolvingAndroidViewModel
             })
         }
 
+    @Parcelize
+    data class LocalAccount(
+        val id: Long,
+        val label: String,
+        val uuid: String,
+        val isSynced: Boolean,
+        val isSealed: Boolean
+    ) : Parcelable
+
     private fun buildResult(
         accountName: String,
-        shouldReturnRemoteDataList: Boolean,
+        shouldReturnBackups: Boolean,
         create: Boolean
     ): Result<SyncAccountData> {
-        val localNotSynced = Account.count(
-            DatabaseConstants.KEY_SYNC_ACCOUNT_NAME + " IS NULL", null
-        )
+        val localAccounts = contentResolver.query(
+            Account.CONTENT_URI,
+            arrayOf(KEY_ROWID, KEY_LABEL, KEY_UUID, "$KEY_SYNC_ACCOUNT_NAME IS NULL", KEY_SEALED),
+            null, null, null
+        )?.use { cursor ->
+            cursor.asSequence.map {
+                LocalAccount(
+                    id = it.getLong(0),
+                    label = it.getString(1),
+                    uuid = it.getString(2),
+                    isSynced = it.getInt(3) == 0,
+                    isSealed = it.getInt(4) == 1
+                )
+            }.toList()
+        } ?: emptyList()
+
         val account = getAccount(accountName)
         return SyncBackendProviderFactory[getApplication(), account, create].mapCatching { syncBackendProvider ->
             val syncAccounts =
-                if (shouldReturnRemoteDataList) syncBackendProvider.remoteAccountList
+                syncBackendProvider.remoteAccountList
                     .mapNotNull { it.getOrNull() }
-                    else null
+                    .filter { remoteAccount -> !localAccounts.any { it.isSynced && it.uuid == remoteAccount.uuid() } }
             val backups =
-                if (shouldReturnRemoteDataList) syncBackendProvider.storedBackups else null
+                if (shouldReturnBackups) syncBackendProvider.storedBackups else null
             SyncAccountData(
                 accountName,
                 syncAccounts,
                 backups,
-                localNotSynced
+                localAccounts.filter { !it.isSynced && !it.isSealed }
             )
         }.onFailure { throwable ->
             if (!(throwable is IOException || throwable is SyncBackendProvider.EncryptionException)) {
@@ -159,7 +184,7 @@ class SyncViewModel(application: Application) : ContentResolvingAndroidViewModel
 
     fun fetchAccountData(accountName: String): LiveData<Result<SyncAccountData>> =
         liveData(context = coroutineContext()) {
-            emit(buildResult(accountName, shouldReturnRemoteDataList = true, create = false))
+            emit(buildResult(accountName, shouldReturnBackups = true, create = false))
         }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP_MR1)
@@ -167,13 +192,14 @@ class SyncViewModel(application: Application) : ContentResolvingAndroidViewModel
         AccountManager.get(getApplication()).removeAccountExplicitly(getAccount(accountName))
 
     companion object {
-        const val KEY_RETURN_REMOTE_DATA_LIST = "returnRemoteDataList"
+        const val KEY_RETURN_BACKUPS = "returnRemoteDataList"
     }
 
+    @Parcelize
     data class SyncAccountData(
         val accountName: String,
-        val syncAccounts: List<AccountMetaData>?,
+        val remoteAccounts: List<AccountMetaData>?,
         val backups: List<String>?,
-        val localNotSynced: Int
-    )
+        val localAccountsNotSynced: List<LocalAccount>
+    ) : Parcelable
 }

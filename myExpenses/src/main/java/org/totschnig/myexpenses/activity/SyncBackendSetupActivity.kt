@@ -22,7 +22,7 @@ import org.totschnig.myexpenses.sync.BackendService
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.viewmodel.SyncViewModel
-import org.totschnig.myexpenses.viewmodel.SyncViewModel.Companion.KEY_RETURN_REMOTE_DATA_LIST
+import org.totschnig.myexpenses.viewmodel.SyncViewModel.Companion.KEY_RETURN_BACKUPS
 import java.io.File
 
 abstract class SyncBackendSetupActivity : ProtectedFragmentActivity(), EditTextDialogListener,
@@ -141,8 +141,8 @@ abstract class SyncBackendSetupActivity : ProtectedFragmentActivity(), EditTextD
         args.putString(AccountManager.KEY_AUTHTOKEN, authToken)
         args.putParcelable(AccountManager.KEY_USERDATA, bundle)
         args.putBoolean(
-            KEY_RETURN_REMOTE_DATA_LIST,
-            createAccountTaskShouldReturnDataList()
+            KEY_RETURN_BACKUPS,
+            createAccountTaskShouldReturnBackups()
         )
         SimpleFormDialog.build().msg(R.string.passphrase_for_synchronization)
             .fields(
@@ -185,7 +185,7 @@ abstract class SyncBackendSetupActivity : ProtectedFragmentActivity(), EditTextD
         }
     }
 
-    protected open fun createAccountTaskShouldReturnDataList(): Boolean {
+    protected open fun createAccountTaskShouldReturnBackups(): Boolean {
         return false
     }
 

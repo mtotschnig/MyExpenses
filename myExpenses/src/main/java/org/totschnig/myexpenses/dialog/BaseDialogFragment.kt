@@ -35,7 +35,7 @@ abstract class BaseDialogFragment : DialogFragment() {
         (requireActivity().application as MyApplication).appComponent.inject(this)
     }
 
-    fun initBuilder(): AlertDialog.Builder =
+    open fun initBuilder(): AlertDialog.Builder =
         MaterialAlertDialogBuilder(requireContext()).also {
             materialLayoutInflater = LayoutInflater.from(it.context)
         }
