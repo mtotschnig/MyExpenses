@@ -2,32 +2,46 @@ package org.totschnig.myexpenses.dialog
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Parcelable
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
+import androidx.compose.material.LocalContentAlpha
+import androidx.compose.material.LocalContentColor
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import eltos.simpledialogfragment.SimpleDialog
+import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.fragment.DELETE_TAG_DIALOG
+import org.totschnig.myexpenses.fragment.KEY_TAG
 import org.totschnig.myexpenses.viewmodel.SyncViewModel
 
-class SetupSyncDialogFragment : ComposeBaseDialogFragment() {
+class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDialogResultListener {
 
+    enum class SyncSource {
+        LOCAL, REMOTE
+    }
+
+    @Parcelize
     data class AccountRow(
         val label: String,
         val uuid: String,
         val isLocal: Boolean,
         val isRemote: Boolean
-    )
+    ): Parcelable
+
+    private val dialogState: MutableMap<String, MutableState<SyncSource?>> = mutableMapOf()
 
     fun SyncViewModel.SyncAccountData.prepare(): List<AccountRow> =
         buildList {
@@ -75,7 +89,11 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment() {
                 Text(modifier = cell(3), text = "Remote")
             }
             data.prepare().forEach {
-                AccountRow(item = it, linkState = mutableStateOf(false))
+                val linkState: MutableState<SyncSource?> = rememberSaveable(it.uuid) {
+                    mutableStateOf(null)
+                }
+                dialogState.putIfAbsent(it.uuid, linkState)
+                AccountRow(item = it, linkState = linkState)
             }
         }
     }
@@ -86,7 +104,7 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment() {
     @Composable
     fun AccountRow(
         item: AccountRow,
-        linkState: MutableState<Boolean>
+        linkState: MutableState<SyncSource?>
     ) {
         Row {
             Column(modifier = cell(0)) {
@@ -96,7 +114,9 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment() {
             if (item.isLocal) {
                 Icon(
                     modifier = cell(1),
-                    painter = painterResource(id = R.drawable.ic_menu_done),
+                    painter = painterResource(id = if (item.isRemote && linkState.value == SyncSource.REMOTE) R.drawable.ic_menu_delete else R.drawable.ic_menu_done),
+                    tint = if (item.isRemote && linkState.value == SyncSource.LOCAL) Color.Green else
+                        LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
                     contentDescription = "Local"
                 )
             } else {
@@ -104,15 +124,37 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment() {
             }
             Icon(
                 modifier = cell(2).clickable {
-                    linkState.value = !linkState.value
+
+                    if (linkState.value == null) {
+                        if (item.isLocal && item.isRemote) {
+                            SimpleDialog.build()
+                                .title(R.string.menu_sync_link)
+                                .extra(Bundle().apply {
+                                    putParcelable(KEY_DATA, item)
+                                })
+                                .msg(
+                                    getString(R.string.dialog_sync_link, item.uuid)
+                                )
+                                .pos(R.string.dialog_command_sync_link_remote)
+                                .neut()
+                                .neg(R.string.dialog_command_sync_link_local)
+                                .show(this@SetupSyncDialogFragment, SYNC_DIALOG)
+                        } else {
+                            linkState.value = if (item.isLocal) SyncSource.LOCAL else SyncSource.REMOTE
+                        }
+                    } else {
+                        linkState.value = null
+                    }
                 },
-                painter = painterResource(id = if (linkState.value) R.drawable.ic_hchain else R.drawable.ic_hchain_broken),
+                painter = painterResource(id = if (linkState.value != null) R.drawable.ic_hchain else R.drawable.ic_hchain_broken),
                 contentDescription = stringResource(id = R.string.menu_sync_link)
             )
             if (item.isRemote) {
                 Icon(
                     modifier = cell(3),
-                    painter = painterResource(id = R.drawable.ic_menu_done),
+                    painter = painterResource(id = if (item.isLocal && linkState.value == SyncSource.LOCAL) R.drawable.ic_menu_delete else R.drawable.ic_menu_done),
+                    tint = if (item.isLocal && linkState.value == SyncSource.REMOTE) Color.Green else
+                        LocalContentColor.current.copy(alpha = LocalContentAlpha.current),
                     contentDescription = "Remote"
                 )
             } else {
@@ -126,10 +168,26 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment() {
 
     companion object {
         private const val KEY_DATA = "data"
+        private const val SYNC_DIALOG = "syncDialog"
         fun newInstance(data: SyncViewModel.SyncAccountData) = SetupSyncDialogFragment().apply {
             arguments = Bundle().apply {
                 putParcelable(KEY_DATA, data)
             }
         }
+    }
+
+    override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
+        if(dialogTag == SYNC_DIALOG) {
+            val account = extras.getParcelable<AccountRow>(KEY_DATA)!!
+            when(which) {
+                SimpleDialog.OnDialogResultListener.BUTTON_POSITIVE -> {
+                    dialogState[account.uuid]?.value = SyncSource.REMOTE
+                }
+                SimpleDialog.OnDialogResultListener.BUTTON_NEGATIVE -> {
+                    dialogState[account.uuid]?.value = SyncSource.LOCAL
+                }
+            }
+        }
+        return true
     }
 }
